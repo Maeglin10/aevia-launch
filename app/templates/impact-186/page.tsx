@@ -34,7 +34,41 @@ const SOINS = [
   { icon: Clock, title: "Urgences dentaires", desc: "Créneaux réservés urgences chaque matin dès 8h30. Douleur, fracture, dent cassée — on vous prend en charge le jour même." },
 ]
 
+
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
 export default function DrFontainePage() {
+  const [session, setSession] = useState<{
+    formData?: {
+      businessName?: string; businessType?: string; tagline?: string;
+      city?: string; mainService?: string; benefits?: string[];
+      priceRange?: string; targetAudience?: string; brandColor?: string;
+      email?: string; phone?: string; instagram?: string; linkedin?: string;
+    };
+    generatedContent?: {
+      heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
+      aboutText?: string; ctaText?: string; metaTitle?: string;
+      metaDescription?: string;
+      services?: { title?: string; description?: string }[];
+      testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
+    };
+  } | null>(null);
+
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(setSession)
+      .catch(() => {});
+  }, []);
+
+  fd = session?.formData;
+  c = session?.generatedContent;
+  brand = fd?.brandColor ?? null; // null = keep template's original color
+
   const heroRef = useRef(null)
   const [scrolled, setScrolled] = useState(false)
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] })
@@ -45,7 +79,55 @@ export default function DrFontainePage() {
   useEffect(() => {
     const h = () => setScrolled(window.scrollY > 60)
     window.addEventListener("scroll", h)
-    return () => window.removeEventListener("scroll", h)
+    
+  // Dynamic Services & Testimonials Mutation for Session Data
+  useEffect(() => {
+    if (c?.services) {
+      const services_arrays = [
+        typeof SERVICES !== 'undefined' ? SERVICES : null,
+        typeof features !== 'undefined' ? features : null,
+        typeof services !== 'undefined' ? services : null,
+        typeof FEATURES !== 'undefined' ? FEATURES : null,
+      ];
+      services_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((s, idx) => {
+            if (idx < 3 && c.services[idx]) {
+              if (s && typeof s === 'object') {
+                s.title = c.services[idx].title ?? s.title;
+                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
+                if ('description' in s) s.description = c.services[idx].description ?? s.description;
+              }
+            }
+          });
+        }
+      });
+    }
+    if (c?.testimonials) {
+      const testimonials_arrays = [
+        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
+        typeof testimonials !== 'undefined' ? testimonials : null,
+        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
+        typeof reviews !== 'undefined' ? reviews : null,
+      ];
+      testimonials_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((t, idx) => {
+            if (idx < 3 && c.testimonials[idx]) {
+              if (t && typeof t === 'object') {
+                t.name = c.testimonials[idx].name ?? t.name;
+                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
+                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
+                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
+                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
+              }
+            }
+          });
+        }
+      });
+    }
+  }, [c]);
+return () => window.removeEventListener("scroll", h)
   }, [])
 
   return (
@@ -63,7 +145,7 @@ export default function DrFontainePage() {
             ))}
           </div>
           <div className="flex items-center gap-3">
-            <a href="tel:0240567890" className="hidden md:flex items-center gap-2 text-[#1d6fa4] font-bold text-sm">
+            <a href={`tel:${fd?.phone ?? "0240567890"}`} className="hidden md:flex items-center gap-2 text-[#1d6fa4] font-bold text-sm">
               <Phone className="w-4 h-4" /> 02 40 56 78 90
             </a>
             <button className="hidden md:block px-5 py-2.5 bg-[#1d6fa4] text-white text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-[#155d8a] transition-colors rounded-xl">
@@ -74,7 +156,7 @@ export default function DrFontainePage() {
               <SheetContent side="right" className="bg-white border-slate-100 p-10">
                 <div className="flex flex-col gap-7 mt-16">
                   {["Soins", "L'équipe", "Urgences", "Contact"].map(l => <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="text-3xl font-bold text-[#1a2332] hover:text-[#1d6fa4] transition-colors">{l}</Link>)}
-                  <a href="tel:0240567890" className="flex items-center gap-3 text-[#1d6fa4] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> 02 40 56 78 90</a>
+                  <a href={`tel:${fd?.phone ?? "0240567890"}`} className="flex items-center gap-3 text-[#1d6fa4] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> 02 40 56 78 90</a>
                 </div>
               </SheetContent>
             </Sheet>
@@ -100,19 +182,19 @@ export default function DrFontainePage() {
           </motion.div>
 
           <motion.h1 initial={{ opacity: 0, y: 55 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.1, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
-            className="text-5xl md:text-7xl lg:text-8xl font-bold leading-[0.9] tracking-tight mb-7 text-white">
+            className="text-5xl md:text-7xl lg:text-8xl font-bold leading-[0.9] tracking-tight mb-7 text-white">{c?.heroHeadline ?? <>
             Votre sourire,<br /><span className="text-[#7bc3f5]">notre priorité.</span>
-          </motion.h1>
+          </>}</motion.h1>
 
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 0.72 }}
-            className="max-w-md text-sm text-white/35 leading-relaxed mb-10">
+            className="max-w-md text-sm text-white/35 leading-relaxed mb-10">{c?.heroSubline ?? fd?.tagline ?? <>
             Cabinet dentaire moderne à Nantes. Soins conservateurs, implants, esthétique et orthodontie. Équipement numérique dernière génération. Prise de RDV en ligne 24h/24.
-          </motion.p>
+          </>}</motion.p>
 
           <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.98 }} className="flex flex-wrap gap-3">
-            <button className="px-8 py-4 bg-[#1d6fa4] text-white font-bold text-[10px] uppercase tracking-[0.22em] hover:bg-[#155d8a] transition-colors rounded-xl">
+            <button className="px-8 py-4 bg-[#1d6fa4] text-white font-bold text-[10px] uppercase tracking-[0.22em] hover:bg-[#155d8a] transition-colors rounded-xl">{c?.ctaText ?? <>
               Prendre rendez-vous
-            </button>
+            </>}</button>
             <button className="flex items-center gap-3 px-8 py-4 border border-white/15 text-white font-bold text-[10px] uppercase tracking-widest hover:border-[#7bc3f5]/50 hover:text-[#7bc3f5] transition-all rounded-xl">
               <Phone className="w-4 h-4" /> 02 40 56 78 90
             </button>
@@ -178,7 +260,7 @@ export default function DrFontainePage() {
             <h2 className="text-2xl font-bold text-white">Douleur, fracture, chute de dent ?<br />Nous vous prenons en charge le jour même.</h2>
           </div>
           <div className="flex flex-col sm:flex-row gap-3 shrink-0">
-            <a href="tel:0240567890" className="flex items-center gap-3 px-7 py-4 bg-white text-[#1d6fa4] font-bold text-sm rounded-xl hover:bg-[#e8f4fd] transition-colors whitespace-nowrap">
+            <a href={`tel:${fd?.phone ?? "0240567890"}`} className="flex items-center gap-3 px-7 py-4 bg-white text-[#1d6fa4] font-bold text-sm rounded-xl hover:bg-[#e8f4fd] transition-colors whitespace-nowrap">
               <Phone className="w-4 h-4" /> 02 40 56 78 90
             </a>
             <div className="flex items-center gap-2 px-7 py-4 border border-white/20 text-white/60 text-sm rounded-xl whitespace-nowrap">
@@ -257,7 +339,7 @@ export default function DrFontainePage() {
               <button className="px-10 py-4 bg-[#1d6fa4] text-white font-bold text-[10px] uppercase tracking-[0.25em] hover:bg-[#155d8a] transition-colors rounded-xl">
                 Réserver en ligne
               </button>
-              <a href="tel:0240567890" className="flex items-center gap-3 px-10 py-4 border border-white/15 text-white font-bold text-[10px] uppercase tracking-widest hover:border-[#7bc3f5]/40 hover:text-[#7bc3f5] transition-all rounded-xl">
+              <a href={`tel:${fd?.phone ?? "0240567890"}`} className="flex items-center gap-3 px-10 py-4 border border-white/15 text-white font-bold text-[10px] uppercase tracking-widest hover:border-[#7bc3f5]/40 hover:text-[#7bc3f5] transition-all rounded-xl">
                 <Phone className="w-4 h-4" /> 02 40 56 78 90
               </a>
             </div>

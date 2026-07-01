@@ -53,7 +53,41 @@ const REALISATIONS = [
   { title: "Salle de bain PMR · Villa", tag: "Accessibilité handicap", img: "https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&q=80&w=1200" },
 ]
 
+
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
 export default function AquanovaPlomberiePage() {
+  const [session, setSession] = useState<{
+    formData?: {
+      businessName?: string; businessType?: string; tagline?: string;
+      city?: string; mainService?: string; benefits?: string[];
+      priceRange?: string; targetAudience?: string; brandColor?: string;
+      email?: string; phone?: string; instagram?: string; linkedin?: string;
+    };
+    generatedContent?: {
+      heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
+      aboutText?: string; ctaText?: string; metaTitle?: string;
+      metaDescription?: string;
+      services?: { title?: string; description?: string }[];
+      testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
+    };
+  } | null>(null);
+
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(setSession)
+      .catch(() => {});
+  }, []);
+
+  fd = session?.formData;
+  c = session?.generatedContent;
+  brand = fd?.brandColor ?? null; // null = keep template's original color
+
   const heroRef = useRef(null)
   const [scrolled, setScrolled] = useState(false)
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] })
@@ -64,7 +98,55 @@ export default function AquanovaPlomberiePage() {
   useEffect(() => {
     const h = () => setScrolled(window.scrollY > 60)
     window.addEventListener("scroll", h)
-    return () => window.removeEventListener("scroll", h)
+    
+  // Dynamic Services & Testimonials Mutation for Session Data
+  useEffect(() => {
+    if (c?.services) {
+      const services_arrays = [
+        typeof SERVICES !== 'undefined' ? SERVICES : null,
+        typeof features !== 'undefined' ? features : null,
+        typeof services !== 'undefined' ? services : null,
+        typeof FEATURES !== 'undefined' ? FEATURES : null,
+      ];
+      services_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((s, idx) => {
+            if (idx < 3 && c.services[idx]) {
+              if (s && typeof s === 'object') {
+                s.title = c.services[idx].title ?? s.title;
+                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
+                if ('description' in s) s.description = c.services[idx].description ?? s.description;
+              }
+            }
+          });
+        }
+      });
+    }
+    if (c?.testimonials) {
+      const testimonials_arrays = [
+        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
+        typeof testimonials !== 'undefined' ? testimonials : null,
+        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
+        typeof reviews !== 'undefined' ? reviews : null,
+      ];
+      testimonials_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((t, idx) => {
+            if (idx < 3 && c.testimonials[idx]) {
+              if (t && typeof t === 'object') {
+                t.name = c.testimonials[idx].name ?? t.name;
+                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
+                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
+                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
+                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
+              }
+            }
+          });
+        }
+      });
+    }
+  }, [c]);
+return () => window.removeEventListener("scroll", h)
   }, [])
 
   return (
@@ -84,7 +166,7 @@ export default function AquanovaPlomberiePage() {
             ))}
           </div>
           <div className="flex items-center gap-3">
-            <a href="tel:0478987654" className="hidden md:flex items-center gap-2 text-[#0369a1] font-bold text-sm">
+            <a href={`tel:${fd?.phone ?? "0478987654"}`} className="hidden md:flex items-center gap-2 text-[#0369a1] font-bold text-sm">
               <Phone className="w-4 h-4" /> 04 78 98 76 54
             </a>
             <button className="hidden md:block px-5 py-2.5 bg-[#0369a1] text-white text-[10px] font-bold uppercase tracking-[0.2em] rounded hover:bg-[#0284c7] transition-colors">
@@ -97,7 +179,7 @@ export default function AquanovaPlomberiePage() {
                   {["Services", "Réalisations", "Contact"].map(l => (
                     <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="text-3xl font-bold text-[#0f172a] hover:text-[#0369a1] transition-colors">{l}</Link>
                   ))}
-                  <a href="tel:0478987654" className="flex items-center gap-3 text-[#0369a1] font-bold text-xl mt-4">
+                  <a href={`tel:${fd?.phone ?? "0478987654"}`} className="flex items-center gap-3 text-[#0369a1] font-bold text-xl mt-4">
                     <Phone className="w-5 h-5" /> 04 78 98 76 54
                   </a>
                 </div>
@@ -124,20 +206,20 @@ export default function AquanovaPlomberiePage() {
           </motion.div>
 
           <motion.h1 initial={{ opacity: 0, y: 55 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.1, delay: 0.48, ease: [0.16, 1, 0.3, 1] }}
-            className="text-5xl md:text-7xl lg:text-8xl font-bold leading-[0.9] tracking-tight mb-8 text-white">
+            className="text-5xl md:text-7xl lg:text-8xl font-bold leading-[0.9] tracking-tight mb-8 text-white">{c?.heroHeadline ?? <>
             Votre plombier<br />de <span className="text-[#38bdf8]">confiance</span><br />à Lyon.
-          </motion.h1>
+          </>}</motion.h1>
 
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 0.75 }}
-            className="max-w-lg text-sm text-white/45 leading-relaxed mb-10">
+            className="max-w-lg text-sm text-white/45 leading-relaxed mb-10">{c?.heroSubline ?? fd?.tagline ?? <>
             Dépannage d'urgence, rénovation de salle de bain, détection de fuite. Artisan certifié RGE, devis gratuit sous 2h, garantie 2 ans sur tous les travaux.
-          </motion.p>
+          </>}</motion.p>
 
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 1.0 }} className="flex flex-wrap gap-3">
-            <button className="px-8 py-4 bg-[#0369a1] text-white font-bold text-[10px] uppercase tracking-[0.2em] rounded hover:bg-[#0284c7] transition-colors">
+            <button className="px-8 py-4 bg-[#0369a1] text-white font-bold text-[10px] uppercase tracking-[0.2em] rounded hover:bg-[#0284c7] transition-colors">{c?.ctaText ?? <>
               Devis gratuit sous 2h
-            </button>
-            <a href="tel:0478987654" className="flex items-center gap-3 px-8 py-4 bg-white/10 backdrop-blur border border-white/20 text-white font-bold text-[10px] uppercase tracking-[0.15em] rounded hover:bg-white/20 transition-all">
+            </>}</button>
+            <a href={`tel:${fd?.phone ?? "0478987654"}`} className="flex items-center gap-3 px-8 py-4 bg-white/10 backdrop-blur border border-white/20 text-white font-bold text-[10px] uppercase tracking-[0.15em] rounded hover:bg-white/20 transition-all">
               <Phone className="w-4 h-4" /> Urgence 24h/24
             </a>
           </motion.div>
@@ -157,7 +239,7 @@ export default function AquanovaPlomberiePage() {
           </div>
           <div className="flex items-center gap-6">
             <span className="flex items-center gap-2 text-white/80 text-sm font-semibold"><Clock className="w-4 h-4" /> &lt; 1h d'intervention</span>
-            <a href="tel:0478987654" className="bg-white text-[#0369a1] px-5 py-2 rounded font-bold text-sm hover:bg-[#f0f9ff] transition-colors">
+            <a href={`tel:${fd?.phone ?? "0478987654"}`} className="bg-white text-[#0369a1] px-5 py-2 rounded font-bold text-sm hover:bg-[#f0f9ff] transition-colors">
               04 78 98 76 54
             </a>
           </div>
@@ -298,7 +380,7 @@ export default function AquanovaPlomberiePage() {
               <button className="px-10 py-4 bg-[#0369a1] text-white font-bold text-[10px] uppercase tracking-[0.2em] rounded hover:bg-[#0284c7] transition-colors">
                 Demander un devis
               </button>
-              <a href="tel:0478987654" className="flex items-center gap-3 px-10 py-4 border border-white/15 text-white font-bold text-[10px] uppercase tracking-[0.15em] rounded hover:border-[#38bdf8]/50 hover:text-[#38bdf8] transition-all">
+              <a href={`tel:${fd?.phone ?? "0478987654"}`} className="flex items-center gap-3 px-10 py-4 border border-white/15 text-white font-bold text-[10px] uppercase tracking-[0.15em] rounded hover:border-[#38bdf8]/50 hover:text-[#38bdf8] transition-all">
                 <Phone className="w-4 h-4" /> 04 78 98 76 54
               </a>
             </div>

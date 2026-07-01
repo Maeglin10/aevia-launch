@@ -372,7 +372,41 @@ function CountUp({ target, suffix = "", duration = 2 }: { target: number; suffix
   return <span ref={ref}>{count.toLocaleString("fr-FR")}{suffix}</span>;
 }
 
+
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
 export default function Impact173Page() {
+  const [session, setSession] = useState<{
+    formData?: {
+      businessName?: string; businessType?: string; tagline?: string;
+      city?: string; mainService?: string; benefits?: string[];
+      priceRange?: string; targetAudience?: string; brandColor?: string;
+      email?: string; phone?: string; instagram?: string; linkedin?: string;
+    };
+    generatedContent?: {
+      heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
+      aboutText?: string; ctaText?: string; metaTitle?: string;
+      metaDescription?: string;
+      services?: { title?: string; description?: string }[];
+      testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
+    };
+  } | null>(null);
+
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(setSession)
+      .catch(() => {});
+  }, []);
+
+  fd = session?.formData;
+  c = session?.generatedContent;
+  brand = fd?.brandColor ?? null; // null = keep template's original color
+
   const containerRef = useRef(null);
   const heroRef = useRef(null);
   const { scrollYProgress } = useScroll({ target: containerRef });
@@ -402,7 +436,55 @@ export default function Impact173Page() {
 
   useEffect(() => {
     const unsub = scrollY.on("change", v => setNavScrolled(v > 60));
-    return () => unsub();
+    
+  // Dynamic Services & Testimonials Mutation for Session Data
+  useEffect(() => {
+    if (c?.services) {
+      const services_arrays = [
+        typeof SERVICES !== 'undefined' ? SERVICES : null,
+        typeof features !== 'undefined' ? features : null,
+        typeof services !== 'undefined' ? services : null,
+        typeof FEATURES !== 'undefined' ? FEATURES : null,
+      ];
+      services_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((s, idx) => {
+            if (idx < 3 && c.services[idx]) {
+              if (s && typeof s === 'object') {
+                s.title = c.services[idx].title ?? s.title;
+                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
+                if ('description' in s) s.description = c.services[idx].description ?? s.description;
+              }
+            }
+          });
+        }
+      });
+    }
+    if (c?.testimonials) {
+      const testimonials_arrays = [
+        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
+        typeof testimonials !== 'undefined' ? testimonials : null,
+        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
+        typeof reviews !== 'undefined' ? reviews : null,
+      ];
+      testimonials_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((t, idx) => {
+            if (idx < 3 && c.testimonials[idx]) {
+              if (t && typeof t === 'object') {
+                t.name = c.testimonials[idx].name ?? t.name;
+                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
+                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
+                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
+                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
+              }
+            }
+          });
+        }
+      });
+    }
+  }, [c]);
+return () => unsub();
   }, [scrollY]);
 
   const filteredProjects = activeFilter === "all"
@@ -452,9 +534,7 @@ export default function Impact173Page() {
             fontFamily: FONT_HEADING, fontWeight: 700, fontSize: 18, color: "#fff",
             letterSpacing: 1,
           }}>SB</div>
-          <div style={{ fontFamily: FONT_HEADING, fontWeight: 600, fontSize: 16, letterSpacing: 3, textTransform: "uppercase", color: C.text }}>
-            Structure Bâtisseurs
-          </div>
+          <div style={{ fontFamily: FONT_HEADING, fontWeight: 600, fontSize: 16, letterSpacing: 3, textTransform: "uppercase", color: C.text }}>{fd?.businessName ?? "Structure Bâtisseurs"}</div>
         </div>
         <div id="mb173-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      {NAV_LINKS.map(link => (
             <a key={link} href="#hero"
@@ -550,12 +630,12 @@ export default function Impact173Page() {
               textTransform: "uppercase",
               color: C.text,
               marginBottom: 0,
-            }}>
+            }}>{c?.heroHeadline ?? <>
               ON<br />
               <span style={{ WebkitTextStroke: `2px ${C.orange}`, WebkitTextFillColor: "transparent", color: "transparent" }}>
                 BÂTIT.
               </span>
-            </h1>
+            </>}</h1>
             <div style={{
               fontFamily: FONT_HEADING,
               fontSize: "clamp(72px, 11vw, 160px)",
@@ -572,9 +652,9 @@ export default function Impact173Page() {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.5, duration: 0.8 }}
               style={{ maxWidth: 520, fontSize: 16, color: C.textSub, lineHeight: 1.8, marginTop: 48, marginBottom: 56 }}
-            >
+            >{c?.heroSubline ?? fd?.tagline ?? <>
               Entreprise générale de construction depuis 35 ans. Gros œuvre, réhabilitation, promotion immobilière. Prix ferme, délais tenus, interlocuteur unique.
-            </motion.p>
+            </>}</motion.p>
 
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -820,10 +900,10 @@ export default function Impact173Page() {
               <h2 style={{
                 fontFamily: FONT_HEADING, fontSize: "clamp(36px, 5vw, 64px)",
                 fontWeight: 700, letterSpacing: -1, textTransform: "uppercase", lineHeight: 1, marginBottom: 32,
-              }}>CORPS DE<br />MÉTIERS</h2>
-              <p style={{ fontSize: 15, color: C.textSub, lineHeight: 1.9, marginBottom: 48, maxWidth: 440 }}>
+              }}>{c?.aboutTitle ?? fd?.businessName ?? <>CORPS DE<br />MÉTIERS</>}</h2>
+              <p style={{ fontSize: 15, color: C.textSub, lineHeight: 1.9, marginBottom: 48, maxWidth: 440 }}>{c?.aboutText ?? <>
                 Nos équipes internes couvrent l'intégralité des corps d'état. Zéro sous-traitance non maîtrisée — chaque intervenant est qualifié, formé, et coordonné par nos chefs de chantier.
-              </p>
+              </>}</p>
               <div style={{ display: "flex", gap: 24 }}>
                 <div style={{ textAlign: "center" }}>
                   <div style={{ fontFamily: FONT_HEADING, fontSize: 40, fontWeight: 700, color: C.orange }}>12</div>
@@ -1306,7 +1386,7 @@ export default function Impact173Page() {
                   display: "flex", alignItems: "center", justifyContent: "center",
                   fontFamily: FONT_HEADING, fontWeight: 700, fontSize: 15, color: "#fff",
                 }}>SB</div>
-                <div style={{ fontFamily: FONT_HEADING, fontWeight: 600, fontSize: 15, letterSpacing: 2, textTransform: "uppercase" }}>Structure Bâtisseurs</div>
+                <div style={{ fontFamily: FONT_HEADING, fontWeight: 600, fontSize: 15, letterSpacing: 2, textTransform: "uppercase" }}>{fd?.businessName ?? "Structure Bâtisseurs"}</div>
               </div>
               <p style={{ fontSize: 13, color: C.textMuted, lineHeight: 1.8, maxWidth: 300 }}>
                 Entreprise générale de construction fondée en 1989. 280 collaborateurs, 12 équipes terrain, 340+ projets livrés.

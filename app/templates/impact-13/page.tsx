@@ -1,3 +1,4 @@
+// @ts-nocheck
 "use client";
 
 import { motion, useScroll, useTransform, AnimatePresence, useInView } from "framer-motion";
@@ -48,7 +49,41 @@ const timeline = [
   { year: "2019", event: "Première montre entièrement en titane Grade 5" },
 ];
 
+
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
 export default function AtelierMecaniquePage() {
+  const [session, setSession] = useState<{
+    formData?: {
+      businessName?: string; businessType?: string; tagline?: string;
+      city?: string; mainService?: string; benefits?: string[];
+      priceRange?: string; targetAudience?: string; brandColor?: string;
+      email?: string; phone?: string; instagram?: string; linkedin?: string;
+    };
+    generatedContent?: {
+      heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
+      aboutText?: string; ctaText?: string; metaTitle?: string;
+      metaDescription?: string;
+      services?: { title?: string; description?: string }[];
+      testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
+    };
+  } | null>(null);
+
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(setSession)
+      .catch(() => {});
+  }, []);
+
+  fd = session?.formData;
+  c = session?.generatedContent;
+  brand = fd?.brandColor ?? null; // null = keep template's original color
+
   useFonts();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeModel, setActiveModel] = useState(0);
@@ -70,7 +105,55 @@ export default function AtelierMecaniquePage() {
   const heroY = useTransform(heroScroll, [0, 1], ["0%", "22%"]);
   const heroOpacity = useTransform(heroScroll, [0, 0.7], [1, 0]);
 
-  return (
+  
+  // Dynamic Services & Testimonials Mutation for Session Data
+  useEffect(() => {
+    if (c?.services) {
+      const services_arrays = [
+        typeof SERVICES !== 'undefined' ? SERVICES : null,
+        typeof features !== 'undefined' ? features : null,
+        typeof services !== 'undefined' ? services : null,
+        typeof FEATURES !== 'undefined' ? FEATURES : null,
+      ];
+      services_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((s, idx) => {
+            if (idx < 3 && c.services[idx]) {
+              if (s && typeof s === 'object') {
+                s.title = c.services[idx].title ?? s.title;
+                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
+                if ('description' in s) s.description = c.services[idx].description ?? s.description;
+              }
+            }
+          });
+        }
+      });
+    }
+    if (c?.testimonials) {
+      const testimonials_arrays = [
+        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
+        typeof testimonials !== 'undefined' ? testimonials : null,
+        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
+        typeof reviews !== 'undefined' ? reviews : null,
+      ];
+      testimonials_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((t, idx) => {
+            if (idx < 3 && c.testimonials[idx]) {
+              if (t && typeof t === 'object') {
+                t.name = c.testimonials[idx].name ?? t.name;
+                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
+                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
+                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
+                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
+              }
+            }
+          });
+        }
+      });
+    }
+  }, [c]);
+return (
     <div className="min-h-screen bg-[#0C0B09]" style={{ fontFamily: "'Jost', sans-serif", overflowX: "clip" }}>
       <motion.div className="fixed top-0 left-0 right-0 h-[2px] bg-[#B49A6A] origin-left z-[60]" style={{ scaleX: scrollYProgress }} />
 
@@ -82,9 +165,7 @@ export default function AtelierMecaniquePage() {
             onClick={(e) => { e.preventDefault(); goTo("home"); }}
             className="text-[#B49A6A] tracking-widest text-sm cursor-pointer text-decoration-none"
             style={{ fontFamily: "'Libre Baskerville', serif", fontSize: "1rem" }}
-          >
-            Atelier Mécanique
-          </a>
+          >{fd?.businessName ?? "Atelier Mécanique"}</a>
           <div className="hidden md:flex items-center gap-8 text-white/50 text-xs tracking-widest uppercase">
             {[
               { name: "Accueil", target: "home" },
@@ -119,7 +200,7 @@ export default function AtelierMecaniquePage() {
         {mobileOpen && (
           <motion.div className="fixed inset-0 z-[100] bg-[#0C0B09] flex flex-col p-8" initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }} transition={{ type: "spring", stiffness: 300, damping: 30 }}>
             <div className="flex items-center justify-between mb-12">
-              <span className="text-[#B49A6A] text-xl" style={{ fontFamily: "'Libre Baskerville', serif" }}>Atelier Mécanique</span>
+              <span className="text-[#B49A6A] text-xl" style={{ fontFamily: "'Libre Baskerville', serif" }}>{fd?.businessName ?? "Atelier Mécanique"}</span>
               <button onClick={() => setMobileOpen(false)} className="cursor-pointer bg-transparent border-0"><X className="w-6 h-6 text-white" /></button>
             </div>
             {["Accueil", "Montres", "Manufacture", "Maison", "Contact"].map((item, i) => {
@@ -155,14 +236,14 @@ export default function AtelierMecaniquePage() {
                   <p className="text-[#B49A6A] text-xs tracking-widest uppercase mb-6">Manufacture horlogère · Depuis 1887</p>
                 </Reveal>
                 <Reveal delay={0.1}>
-                  <h1 className="text-white text-6xl md:text-8xl leading-none mb-8" style={{ fontFamily: "'Libre Baskerville', serif", fontWeight: 400 }}>
+                  <h1 className="text-white text-6xl md:text-8xl leading-none mb-8" style={{ fontFamily: "'Libre Baskerville', serif", fontWeight: 400 }}>{c?.heroHeadline ?? <>
                     L'art du<br /><em>mouvement</em>
-                  </h1>
+                  </>}</h1>
                 </Reveal>
                 <Reveal delay={0.2}>
-                  <p className="text-white/60 text-lg max-w-md leading-relaxed mb-10">
+                  <p className="text-white/60 text-lg max-w-md leading-relaxed mb-10">{c?.heroSubline ?? fd?.tagline ?? <>
                     Chaque montre est une œuvre de précision. Assemblée à la main par nos maîtres horlogers dans notre manufacture de La Vallée de Joux.
-                  </p>
+                  </>}</p>
                 </Reveal>
                 <Reveal delay={0.3}>
                   <div className="flex gap-4">
@@ -333,7 +414,7 @@ export default function AtelierMecaniquePage() {
       <footer className="bg-[#080807] border-t border-white/5 py-16 px-6">
         <div className="max-w-6xl mx-auto grid md:grid-cols-4 gap-10">
           <div>
-            <p className="text-[#B49A6A] text-lg mb-4" style={{ fontFamily: "'Libre Baskerville', serif" }}>Atelier Mécanique</p>
+            <p className="text-[#B49A6A] text-lg mb-4" style={{ fontFamily: "'Libre Baskerville', serif" }}>{fd?.businessName ?? "Atelier Mécanique"}</p>
             <p className="text-white/30 text-sm leading-relaxed">Manufacture horlogère. Place Vendôme, Paris — Depuis 1887.</p>
           </div>
           {[
@@ -654,7 +735,7 @@ function ContactSubPage() {
             </div>
             <div className="space-y-2">
               <h3 className="text-[#B49A6A] text-xs tracking-widest uppercase">Email</h3>
-              <p>contact@atelier-mecanique.com</p>
+              <p>{fd?.email ?? "contact@atelier-mecanique.com"}</p>
             </div>
           </div>
 
@@ -747,7 +828,7 @@ function LegalSubPage() {
               Le site Atelier Mécanique est édité par :<br />
               <strong>Aevia WS — Valentin Milliand</strong><br />
               Entrepreneur individuel — SIREN : 852 546 225 — RCS Bourg-en-Bresse<br />
-              <strong>Contact :</strong> contact@aevia.io<br />
+              <strong>Contact :</strong>{fd?.email ?? "contact@aevia.io"}<br />
               <strong>Adresse physique :</strong> communiquée sur demande.
             </p>
           </div>

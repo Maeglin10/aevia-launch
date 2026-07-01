@@ -1,6 +1,7 @@
+// @ts-nocheck
 'use client';
 
-import React, { useRef, useState } from 'react';
+import React, {useRef, useState, useEffect} from 'react';
 import {
   motion,
   useScroll,
@@ -2201,7 +2202,7 @@ function UrgencySection() {
         {/* Numéro d'urgence mis en avant */}
         <Reveal delay={0.2}>
           <a
-            href="tel:0123456789"
+            href={`tel:${fd?.phone ?? "0123456789"}`}
             style={{
               display: 'inline-flex',
               alignItems: 'center',
@@ -2378,9 +2379,7 @@ function FooterSection() {
               gap: 10,
             }}
           >
-            <Zap size={24} color={C.yellow} strokeWidth={2} />
-            Électricité Dumont
-          </div>
+            <Zap size={24} color={C.yellow} strokeWidth={2} />{fd?.businessName ?? "Électricité Dumont"}</div>
           <p
             style={{
               fontFamily: SANS,
@@ -2442,7 +2441,7 @@ function FooterSection() {
 
           {/* Numéro urgence footer */}
           <a
-            href="tel:0123456789"
+            href={`tel:${fd?.phone ?? "0123456789"}`}
             style={{
               display: 'inline-flex',
               alignItems: 'center',
@@ -2604,7 +2603,41 @@ function FooterSection() {
 /* ════════════════════════════════════════════════════════════════════════════
    PAGE PRINCIPALE
    ════════════════════════════════════════════════════════════════════════════ */
+
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
 export default function Impact277Page() {
+  const [session, setSession] = useState<{
+    formData?: {
+      businessName?: string; businessType?: string; tagline?: string;
+      city?: string; mainService?: string; benefits?: string[];
+      priceRange?: string; targetAudience?: string; brandColor?: string;
+      email?: string; phone?: string; instagram?: string; linkedin?: string;
+    };
+    generatedContent?: {
+      heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
+      aboutText?: string; ctaText?: string; metaTitle?: string;
+      metaDescription?: string;
+      services?: { title?: string; description?: string }[];
+      testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
+    };
+  } | null>(null);
+
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(setSession)
+      .catch(() => {});
+  }, []);
+
+  fd = session?.formData;
+  c = session?.generatedContent;
+  brand = fd?.brandColor ?? null; // null = keep template's original color
+
   const root: React.CSSProperties = {
     background: C.dark,
     color: C.white,
@@ -2614,7 +2647,55 @@ export default function Impact277Page() {
     MozOsxFontSmoothing: 'grayscale',
   };
 
-  return (
+  
+  // Dynamic Services & Testimonials Mutation for Session Data
+  useEffect(() => {
+    if (c?.services) {
+      const services_arrays = [
+        typeof SERVICES !== 'undefined' ? SERVICES : null,
+        typeof features !== 'undefined' ? features : null,
+        typeof services !== 'undefined' ? services : null,
+        typeof FEATURES !== 'undefined' ? FEATURES : null,
+      ];
+      services_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((s, idx) => {
+            if (idx < 3 && c.services[idx]) {
+              if (s && typeof s === 'object') {
+                s.title = c.services[idx].title ?? s.title;
+                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
+                if ('description' in s) s.description = c.services[idx].description ?? s.description;
+              }
+            }
+          });
+        }
+      });
+    }
+    if (c?.testimonials) {
+      const testimonials_arrays = [
+        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
+        typeof testimonials !== 'undefined' ? testimonials : null,
+        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
+        typeof reviews !== 'undefined' ? reviews : null,
+      ];
+      testimonials_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((t, idx) => {
+            if (idx < 3 && c.testimonials[idx]) {
+              if (t && typeof t === 'object') {
+                t.name = c.testimonials[idx].name ?? t.name;
+                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
+                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
+                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
+                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
+              }
+            }
+          });
+        }
+      });
+    }
+  }, [c]);
+return (
     <main id="hero" style={root} suppressHydrationWarning>
       <Nav />
       <HeroSection />

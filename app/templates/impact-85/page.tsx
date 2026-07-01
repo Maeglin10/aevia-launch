@@ -1,3 +1,4 @@
+// @ts-nocheck
 "use client"
 
 import React, { useState, useEffect, useRef } from "react"
@@ -51,7 +52,41 @@ const FAQS = [
   { q: "Quelle est votre politique de livraison et de retour ?", a: "Nous livrons en France sous 48h (offerte dès 80 €). Si un produit ne convient pas à votre peau, vous disposez de 14 jours pour le retourner gratuitement et obtenir un remboursement complet." }
 ];
 
+
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
 export default function AetherLabsPage() {
+  const [session, setSession] = useState<{
+    formData?: {
+      businessName?: string; businessType?: string; tagline?: string;
+      city?: string; mainService?: string; benefits?: string[];
+      priceRange?: string; targetAudience?: string; brandColor?: string;
+      email?: string; phone?: string; instagram?: string; linkedin?: string;
+    };
+    generatedContent?: {
+      heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
+      aboutText?: string; ctaText?: string; metaTitle?: string;
+      metaDescription?: string;
+      services?: { title?: string; description?: string }[];
+      testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
+    };
+  } | null>(null);
+
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(setSession)
+      .catch(() => {});
+  }, []);
+
+  fd = session?.formData;
+  c = session?.generatedContent;
+  brand = fd?.brandColor ?? null; // null = keep template's original color
+
   useFonts()
   const [menuOpen, setMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
@@ -66,7 +101,55 @@ export default function AetherLabsPage() {
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40)
     window.addEventListener("scroll", onScroll, { passive: true })
-    return () => window.removeEventListener("scroll", onScroll)
+    
+  // Dynamic Services & Testimonials Mutation for Session Data
+  useEffect(() => {
+    if (c?.services) {
+      const services_arrays = [
+        typeof SERVICES !== 'undefined' ? SERVICES : null,
+        typeof features !== 'undefined' ? features : null,
+        typeof services !== 'undefined' ? services : null,
+        typeof FEATURES !== 'undefined' ? FEATURES : null,
+      ];
+      services_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((s, idx) => {
+            if (idx < 3 && c.services[idx]) {
+              if (s && typeof s === 'object') {
+                s.title = c.services[idx].title ?? s.title;
+                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
+                if ('description' in s) s.description = c.services[idx].description ?? s.description;
+              }
+            }
+          });
+        }
+      });
+    }
+    if (c?.testimonials) {
+      const testimonials_arrays = [
+        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
+        typeof testimonials !== 'undefined' ? testimonials : null,
+        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
+        typeof reviews !== 'undefined' ? reviews : null,
+      ];
+      testimonials_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((t, idx) => {
+            if (idx < 3 && c.testimonials[idx]) {
+              if (t && typeof t === 'object') {
+                t.name = c.testimonials[idx].name ?? t.name;
+                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
+                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
+                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
+                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
+              }
+            }
+          });
+        }
+      });
+    }
+  }, [c]);
+return () => window.removeEventListener("scroll", onScroll)
   }, [])
 
   return (
@@ -80,7 +163,7 @@ export default function AetherLabsPage() {
       >
         <div className="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
           <Link href="#contact" className="flex flex-col">
-            <span className="text-xl font-light tracking-widest" style={{ fontFamily: "'Cormorant Garamond', serif", letterSpacing: "0.15em" }}>Aether Labs</span>
+            <span className="text-xl font-light tracking-widest" style={{ fontFamily: "'Cormorant Garamond', serif", letterSpacing: "0.15em" }}>{fd?.businessName ?? "Aether Labs"}</span>
             <span className="text-[9px] tracking-[0.2em] uppercase text-[#8B7355]">Cosmétique scientifique</span>
           </Link>
           <div className="hidden md:flex items-center gap-8 text-sm font-light text-[#6B5A40]">
@@ -104,7 +187,7 @@ export default function AetherLabsPage() {
           <motion.div className="fixed inset-0 z-[200] bg-[#F8F6F2] flex flex-col"
             initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }} transition={{ type: "spring", stiffness: 280, damping: 28 }}>
             <div className="flex items-center justify-between px-6 py-5 border-b border-[#E4DDD4]">
-              <span style={{ fontFamily: "'Cormorant Garamond', serif" }} className="text-xl">Aether Labs</span>
+              <span style={{ fontFamily: "'Cormorant Garamond', serif" }} className="text-xl">{fd?.businessName ?? "Aether Labs"}</span>
               <button onClick={() => setMenuOpen(false)} className="p-2 cursor-pointer"><X className="w-5 h-5" /></button>
             </div>
             <div className="flex flex-col gap-8 p-10">
@@ -127,20 +210,20 @@ export default function AetherLabsPage() {
             <p className="text-xs tracking-[0.3em] uppercase text-[#8B7355] mb-8">Laboratoire cosmétique — Grasse, France</p>
           </Reveal>
           <Reveal delay={0.1}>
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-light leading-[1.0] mb-8" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-light leading-[1.0] mb-8" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{c?.heroHeadline ?? <>
               La peau<br />révélée par la<br /><em>science pure</em>
-            </h1>
+            </>}</h1>
           </Reveal>
           <Reveal delay={0.2}>
-            <p className="text-[#6B5A40] leading-relaxed max-w-md mb-10">
+            <p className="text-[#6B5A40] leading-relaxed max-w-md mb-10">{c?.heroSubline ?? fd?.tagline ?? <>
               Aether Labs formule des soins à l&apos;intersection de la chimie organique et de la cosmétique clinique. Chaque produit est développé en laboratoire, testé sous contrôle dermatologique.
-            </p>
+            </>}</p>
           </Reveal>
           <Reveal delay={0.3}>
             <div className="flex gap-5">
-              <Link href="#formules" className="px-8 py-4 bg-[#1C1814] text-[#F8F6F2] text-xs tracking-widest uppercase hover:bg-[#8B7355] transition-colors cursor-pointer">
+              <Link href="#formules" className="px-8 py-4 bg-[#1C1814] text-[#F8F6F2] text-xs tracking-widest uppercase hover:bg-[#8B7355] transition-colors cursor-pointer">{c?.ctaText ?? <>
                 Nos formules
-              </Link>
+              </>}</Link>
               <Link href="#science" className="px-8 py-4 border border-[#D4C9B0] text-[#1C1814] text-xs tracking-widests uppercase hover:border-[#1C1814] transition-colors cursor-pointer">
                 La science
               </Link>
@@ -159,7 +242,7 @@ export default function AetherLabsPage() {
         </div>
         <div className="relative overflow-hidden min-h-[50vh] md:min-h-0">
           <motion.div className="absolute inset-0" style={{ y: heroY }}>
-            <Image src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=1200&q=85" alt="Aether Labs" fill className="object-cover" />
+            <Image src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=1200&q=85" alt={fd?.businessName ?? "Aether Labs"} fill className="object-cover" />
           </motion.div>
         </div>
       </section>
@@ -237,14 +320,14 @@ export default function AetherLabsPage() {
           <div className="grid md:grid-cols-2 gap-20 mb-16">
             <Reveal>
               <p className="text-xs tracking-[0.25em] uppercase text-[#8B7355] mb-4">Ingrédients actifs</p>
-              <h2 className="text-4xl md:text-5xl font-light leading-tight" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+              <h2 className="text-4xl md:text-5xl font-light leading-tight" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{c?.aboutTitle ?? fd?.businessName ?? <>
                 La transparence<br />comme <em>éthique</em>
-              </h2>
+              </>}</h2>
             </Reveal>
             <Reveal delay={0.1}>
-              <p className="text-[#6B5A40] leading-relaxed mt-8 md:mt-0">
+              <p className="text-[#6B5A40] leading-relaxed mt-8 md:mt-0">{c?.aboutText ?? <>
                 Nous publions l&apos;origine de chaque ingrédient, sa concentration et les études cliniques qui le soutiennent. Notre liste INCI complète est disponible pour chaque produit.
-              </p>
+              </>}</p>
             </Reveal>
           </div>
           <div className="grid md:grid-cols-2 gap-px bg-[#3A3020]">
@@ -447,7 +530,7 @@ export default function AetherLabsPage() {
                   </div>
                   <div>
                     <div className="text-xs text-[#8A7860] uppercase tracking-wider">Email</div>
-                    <a href="mailto:contact@aetherlabs.fr" className="text-[#1C1814] hover:underline">contact@aetherlabs.fr</a>
+                    <a href={`mailto:${fd?.email ?? "contact@aetherlabs.fr"}`} className="text-[#1C1814] hover:underline">{fd?.email ?? "contact@aetherlabs.fr"}</a>
                   </div>
                 </div>
                 <div className="flex items-center gap-4">
@@ -456,7 +539,7 @@ export default function AetherLabsPage() {
                   </div>
                   <div>
                     <div className="text-xs text-[#8A7860] uppercase tracking-wider">Téléphone</div>
-                    <a href="tel:+33493000000" className="text-[#1C1814] hover:underline">+33 4 93 00 00 00</a>
+                    <a href={`tel:${fd?.phone ?? "+33493000000"}`} className="text-[#1C1814] hover:underline">+33 4 93 00 00 00</a>
                   </div>
                 </div>
                 <div className="flex items-center gap-4">
@@ -546,7 +629,7 @@ export default function AetherLabsPage() {
         <div className="max-w-7xl mx-auto">
           <div className="grid md:grid-cols-4 gap-10 mb-10">
             <div className="md:col-span-2">
-              <div className="text-[#F8F6F2] text-xl font-light mb-1" style={{ fontFamily: "'Cormorant Garamond', serif" }}>Aether Labs</div>
+              <div className="text-[#F8F6F2] text-xl font-light mb-1" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{fd?.businessName ?? "Aether Labs"}</div>
               <div className="text-xs text-[#8B7355] tracking-widests uppercase mb-4">Cosmétique scientifique · Grasse</div>
               <p className="text-sm leading-relaxed max-w-xs">Laboratoire fondé en 2012. Chaque formule est développée en interne, testée sous contrôle dermatologique et sourcée de façon éthique.</p>
             </div>

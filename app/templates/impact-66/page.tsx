@@ -1,7 +1,8 @@
+// @ts-nocheck
 "use client";
 
 import { motion, useScroll, useTransform } from "framer-motion";
-import { useState, useRef } from "react";
+import {useState, useRef, useEffect} from 'react';
 import Image from "next/image";
 import Link from "next/link";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
@@ -9,7 +10,41 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { ArrowRight, Sparkles, Heart, Search, Droplets, Zap, Flower2, Quote, Check, Star } from "lucide-react";
 import { SERVICES, REVIEWS, PROTOCOLS, Reveal, Counter, MagneticBtn } from "./shared";
 
+
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
 export default function AtelierBeautePage() {
+  const [session, setSession] = useState<{
+    formData?: {
+      businessName?: string; businessType?: string; tagline?: string;
+      city?: string; mainService?: string; benefits?: string[];
+      priceRange?: string; targetAudience?: string; brandColor?: string;
+      email?: string; phone?: string; instagram?: string; linkedin?: string;
+    };
+    generatedContent?: {
+      heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
+      aboutText?: string; ctaText?: string; metaTitle?: string;
+      metaDescription?: string;
+      services?: { title?: string; description?: string }[];
+      testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
+    };
+  } | null>(null);
+
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(setSession)
+      .catch(() => {});
+  }, []);
+
+  fd = session?.formData;
+  c = session?.generatedContent;
+  brand = fd?.brandColor ?? null; // null = keep template's original color
+
   const heroRef = useRef(null);
   const { scrollYProgress } = useScroll({
     target: heroRef,
@@ -22,7 +57,55 @@ export default function AtelierBeautePage() {
     window.dispatchEvent(new Event("open-atelier-booking"));
   };
 
-  return (
+  
+  // Dynamic Services & Testimonials Mutation for Session Data
+  useEffect(() => {
+    if (c?.services) {
+      const services_arrays = [
+        typeof SERVICES !== 'undefined' ? SERVICES : null,
+        typeof features !== 'undefined' ? features : null,
+        typeof services !== 'undefined' ? services : null,
+        typeof FEATURES !== 'undefined' ? FEATURES : null,
+      ];
+      services_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((s, idx) => {
+            if (idx < 3 && c.services[idx]) {
+              if (s && typeof s === 'object') {
+                s.title = c.services[idx].title ?? s.title;
+                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
+                if ('description' in s) s.description = c.services[idx].description ?? s.description;
+              }
+            }
+          });
+        }
+      });
+    }
+    if (c?.testimonials) {
+      const testimonials_arrays = [
+        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
+        typeof testimonials !== 'undefined' ? testimonials : null,
+        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
+        typeof reviews !== 'undefined' ? reviews : null,
+      ];
+      testimonials_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((t, idx) => {
+            if (idx < 3 && c.testimonials[idx]) {
+              if (t && typeof t === 'object') {
+                t.name = c.testimonials[idx].name ?? t.name;
+                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
+                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
+                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
+                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
+              }
+            }
+          });
+        }
+      });
+    }
+  }, [c]);
+return (
     <div className="premium-theme min-h-screen bg-[#faf9f6] text-[#1a1814] font-sans selection:bg-[#c9b7a1] selection:text-white overflow-x-hidden">
       {/* ==========================================
           1. HERO (Cinematic Beauty)
@@ -51,16 +134,16 @@ export default function AtelierBeautePage() {
               <Sparkles className="w-3.5 h-3.5 text-[#c9b7a1]" />
               L'Excellence du Soin Architectural
             </div>
-            <h1 className="text-7xl md:text-9xl lg:text-[11rem] font-light leading-[1.15] pb-4 tracking-tighter mb-12">
+            <h1 className="text-7xl md:text-9xl lg:text-[11rem] font-light leading-[1.15] pb-4 tracking-tighter mb-12">{c?.heroHeadline ?? <>
               The Art of <br />{" "}
               <span className="italic font-normal text-[#c9b7a1]">
                 Precision.
               </span>
-            </h1>
-            <p className="max-w-xl text-lg md:text-xl text-[#1a1814]/40 leading-relaxed font-light mb-12 italic">
+            </>}</h1>
+            <p className="max-w-xl text-lg md:text-xl text-[#1a1814]/40 leading-relaxed font-light mb-12 italic">{c?.heroSubline ?? fd?.tagline ?? <>
               Un sanctuaire dédié à la beauté structurelle. Onglerie, regard et
               rituels visage conçus comme des œuvres d'art.
-            </p>
+            </>}</p>
             <div className="flex flex-col sm:flex-row gap-6">
               <MagneticBtn
                 onClick={handleBook}
@@ -104,15 +187,15 @@ export default function AtelierBeautePage() {
               <span className="text-[10px] uppercase tracking-[0.5em] font-bold text-[#1a1814]/40 mb-6 block">
                 La Carte des Soins
               </span>
-              <h2 className="text-5xl md:text-8xl font-light tracking-tighter uppercase leading-[1.15] pb-4">
+              <h2 className="text-5xl md:text-8xl font-light tracking-tighter uppercase leading-[1.15] pb-4">{c?.aboutTitle ?? fd?.businessName ?? <>
                 The <br />{" "}
                 <span className="italic text-[#c9b7a1]">Signature Edit.</span>
-              </h2>
+              </>}</h2>
             </Reveal>
-            <p className="max-w-xs text-[10px] font-bold uppercase tracking-widest text-[#1a1814]/30 leading-relaxed italic text-right">
+            <p className="max-w-xs text-[10px] font-bold uppercase tracking-widest text-[#1a1814]/30 leading-relaxed italic text-right">{c?.aboutText ?? <>
               Chaque prestation est une immersion dans le détail. Nous utilisons
               exclusivement des produits bio-actifs et des techniques de pointe.
-            </p>
+            </>}</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">

@@ -47,7 +47,41 @@ const PRESTATIONS = [
   { icon: Sun, title: "Massifs & vivaces", desc: "Composition massifs 4 saisons, rocailles, prairie fleurie, plantes locales et résistantes. Entretien minimal garanti, floraison continue d'avril à octobre." },
 ]
 
+
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
 export default function JardinsVivantsPage() {
+  const [session, setSession] = useState<{
+    formData?: {
+      businessName?: string; businessType?: string; tagline?: string;
+      city?: string; mainService?: string; benefits?: string[];
+      priceRange?: string; targetAudience?: string; brandColor?: string;
+      email?: string; phone?: string; instagram?: string; linkedin?: string;
+    };
+    generatedContent?: {
+      heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
+      aboutText?: string; ctaText?: string; metaTitle?: string;
+      metaDescription?: string;
+      services?: { title?: string; description?: string }[];
+      testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
+    };
+  } | null>(null);
+
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(setSession)
+      .catch(() => {});
+  }, []);
+
+  fd = session?.formData;
+  c = session?.generatedContent;
+  brand = fd?.brandColor ?? null; // null = keep template's original color
+
   const heroRef = useRef(null)
   const [scrolled, setScrolled] = useState(false)
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] })
@@ -58,7 +92,55 @@ export default function JardinsVivantsPage() {
   useEffect(() => {
     const h = () => setScrolled(window.scrollY > 60)
     window.addEventListener("scroll", h)
-    return () => window.removeEventListener("scroll", h)
+    
+  // Dynamic Services & Testimonials Mutation for Session Data
+  useEffect(() => {
+    if (c?.services) {
+      const services_arrays = [
+        typeof SERVICES !== 'undefined' ? SERVICES : null,
+        typeof features !== 'undefined' ? features : null,
+        typeof services !== 'undefined' ? services : null,
+        typeof FEATURES !== 'undefined' ? FEATURES : null,
+      ];
+      services_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((s, idx) => {
+            if (idx < 3 && c.services[idx]) {
+              if (s && typeof s === 'object') {
+                s.title = c.services[idx].title ?? s.title;
+                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
+                if ('description' in s) s.description = c.services[idx].description ?? s.description;
+              }
+            }
+          });
+        }
+      });
+    }
+    if (c?.testimonials) {
+      const testimonials_arrays = [
+        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
+        typeof testimonials !== 'undefined' ? testimonials : null,
+        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
+        typeof reviews !== 'undefined' ? reviews : null,
+      ];
+      testimonials_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((t, idx) => {
+            if (idx < 3 && c.testimonials[idx]) {
+              if (t && typeof t === 'object') {
+                t.name = c.testimonials[idx].name ?? t.name;
+                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
+                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
+                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
+                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
+              }
+            }
+          });
+        }
+      });
+    }
+  }, [c]);
+return () => window.removeEventListener("scroll", h)
   }, [])
 
   return (
@@ -79,7 +161,7 @@ export default function JardinsVivantsPage() {
             ))}
           </div>
           <div className="flex items-center gap-3">
-            <a href="tel:0450123456" className="hidden md:flex items-center gap-2 text-[#2d5a27] font-bold text-sm">
+            <a href={`tel:${fd?.phone ?? "0450123456"}`} className="hidden md:flex items-center gap-2 text-[#2d5a27] font-bold text-sm">
               <Phone className="w-4 h-4" /> 04 50 12 34 56
             </a>
             <button className="hidden md:block px-5 py-2.5 bg-[#2d5a27] text-white text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-[#1f3e1b] transition-colors rounded-lg">
@@ -90,7 +172,7 @@ export default function JardinsVivantsPage() {
               <SheetContent side="right" className="bg-[#fafaf7] border-slate-100 p-10">
                 <div className="flex flex-col gap-7 mt-16">
                   {["Prestations", "Réalisations", "Contact"].map(l => <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="text-3xl font-bold text-[#1e2a1c] hover:text-[#2d5a27] transition-colors" style={{ fontFamily: "'Cardo', serif" }}>{l}</Link>)}
-                  <a href="tel:0450123456" className="flex items-center gap-3 text-[#2d5a27] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> 04 50 12 34 56</a>
+                  <a href={`tel:${fd?.phone ?? "0450123456"}`} className="flex items-center gap-3 text-[#2d5a27] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> 04 50 12 34 56</a>
                 </div>
               </SheetContent>
             </Sheet>
@@ -115,20 +197,20 @@ export default function JardinsVivantsPage() {
           </motion.div>
 
           <motion.h1 initial={{ opacity: 0, y: 60 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.2, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
-            className="text-5xl md:text-7xl lg:text-[88px] font-bold leading-[0.88] tracking-tight mb-8 text-white" style={{ fontFamily: "'Cardo', Georgia, serif" }}>
+            className="text-5xl md:text-7xl lg:text-[88px] font-bold leading-[0.88] tracking-tight mb-8 text-white" style={{ fontFamily: "'Cardo', Georgia, serif" }}>{c?.heroHeadline ?? <>
             Un jardin qui<br /><span className="text-[#a8d5a0] italic">vous ressemble.</span>
-          </motion.h1>
+          </>}</motion.h1>
 
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 0.75 }}
-            className="max-w-md text-sm text-white/33 leading-relaxed mb-10">
+            className="max-w-md text-sm text-white/33 leading-relaxed mb-10">{c?.heroSubline ?? fd?.tagline ?? <>
             Création et entretien de jardins en Haute-Savoie. Paysagiste qualifié, 100% local, devis gratuit sous 48h. De la terrasse au grand parc — chaque espace mérite de vivre.
-          </motion.p>
+          </>}</motion.p>
 
           <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 1.0 }} className="flex flex-wrap gap-4 mb-8">
-            <button className="px-9 py-4 bg-[#2d5a27] text-white font-bold text-[10px] uppercase tracking-[0.22em] hover:bg-[#1f3e1b] transition-colors rounded-lg">
+            <button className="px-9 py-4 bg-[#2d5a27] text-white font-bold text-[10px] uppercase tracking-[0.22em] hover:bg-[#1f3e1b] transition-colors rounded-lg">{c?.ctaText ?? <>
               Devis gratuit 48h
-            </button>
-            <a href="tel:0450123456" className="flex items-center gap-3 px-9 py-4 border border-white/12 text-white/45 font-bold text-[10px] uppercase tracking-widest hover:border-[#a8d5a0]/40 hover:text-[#a8d5a0] transition-all rounded-lg">
+            </>}</button>
+            <a href={`tel:${fd?.phone ?? "0450123456"}`} className="flex items-center gap-3 px-9 py-4 border border-white/12 text-white/45 font-bold text-[10px] uppercase tracking-widest hover:border-[#a8d5a0]/40 hover:text-[#a8d5a0] transition-all rounded-lg">
               <Phone className="w-4 h-4" /> 04 50 12 34 56
             </a>
           </motion.div>
@@ -254,7 +336,7 @@ export default function JardinsVivantsPage() {
               <button className="px-10 py-4 bg-white text-[#2d5a27] font-bold text-[10px] uppercase tracking-[0.25em] hover:bg-[#f0f7f0] transition-colors rounded-lg shadow-lg">
                 Demander un devis
               </button>
-              <a href="tel:0450123456" className="flex items-center gap-3 px-10 py-4 border border-white/25 text-white font-bold text-[10px] uppercase tracking-widest hover:bg-white/10 transition-all rounded-lg">
+              <a href={`tel:${fd?.phone ?? "0450123456"}`} className="flex items-center gap-3 px-10 py-4 border border-white/25 text-white font-bold text-[10px] uppercase tracking-widest hover:bg-white/10 transition-all rounded-lg">
                 <Phone className="w-4 h-4" /> 04 50 12 34 56
               </a>
             </div>

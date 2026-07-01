@@ -50,7 +50,41 @@ const TESTIMONIALS = [
   { text: "A masterful understanding of light and space. Our workspace redesign has drastically improved our team productivity and focus.", author: "Elena R.", project: "Bureau Lumière" },
 ]
 
+
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
 export default function AtelierInteriorPage() {
+  const [session, setSession] = useState<{
+    formData?: {
+      businessName?: string; businessType?: string; tagline?: string;
+      city?: string; mainService?: string; benefits?: string[];
+      priceRange?: string; targetAudience?: string; brandColor?: string;
+      email?: string; phone?: string; instagram?: string; linkedin?: string;
+    };
+    generatedContent?: {
+      heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
+      aboutText?: string; ctaText?: string; metaTitle?: string;
+      metaDescription?: string;
+      services?: { title?: string; description?: string }[];
+      testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
+    };
+  } | null>(null);
+
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(setSession)
+      .catch(() => {});
+  }, []);
+
+  fd = session?.formData;
+  c = session?.generatedContent;
+  brand = fd?.brandColor ?? null; // null = keep template's original color
+
   const [scrolled, setScrolled] = useState(false)
   const [contactSubmitted, setContactSubmitted] = useState(false)
 
@@ -61,7 +95,55 @@ export default function AtelierInteriorPage() {
   useEffect(() => {
     const h = () => setScrolled(window.scrollY > 60)
     window.addEventListener("scroll", h)
-    return () => window.removeEventListener("scroll", h)
+    
+  // Dynamic Services & Testimonials Mutation for Session Data
+  useEffect(() => {
+    if (c?.services) {
+      const services_arrays = [
+        typeof SERVICES !== 'undefined' ? SERVICES : null,
+        typeof features !== 'undefined' ? features : null,
+        typeof services !== 'undefined' ? services : null,
+        typeof FEATURES !== 'undefined' ? FEATURES : null,
+      ];
+      services_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((s, idx) => {
+            if (idx < 3 && c.services[idx]) {
+              if (s && typeof s === 'object') {
+                s.title = c.services[idx].title ?? s.title;
+                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
+                if ('description' in s) s.description = c.services[idx].description ?? s.description;
+              }
+            }
+          });
+        }
+      });
+    }
+    if (c?.testimonials) {
+      const testimonials_arrays = [
+        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
+        typeof testimonials !== 'undefined' ? testimonials : null,
+        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
+        typeof reviews !== 'undefined' ? reviews : null,
+      ];
+      testimonials_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((t, idx) => {
+            if (idx < 3 && c.testimonials[idx]) {
+              if (t && typeof t === 'object') {
+                t.name = c.testimonials[idx].name ?? t.name;
+                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
+                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
+                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
+                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
+              }
+            }
+          });
+        }
+      });
+    }
+  }, [c]);
+return () => window.removeEventListener("scroll", h)
   }, [])
 
   return (
@@ -109,14 +191,14 @@ export default function AtelierInteriorPage() {
               </div>
             </Reveal>
             <Reveal delay={0.15} y={70}>
-              <h1 className="text-6xl md:text-8xl lg:text-[9rem] font-light tracking-tighter leading-[0.85] mb-8" style={{ fontFamily: "Georgia, serif" }}>
+              <h1 className="text-6xl md:text-8xl lg:text-[9rem] font-light tracking-tighter leading-[0.85] mb-8" style={{ fontFamily: "Georgia, serif" }}>{c?.heroHeadline ?? <>
                 Spaces<br/>That <em className="text-[#8b7355]">Speak.</em>
-              </h1>
+              </>}</h1>
             </Reveal>
             <Reveal delay={0.3}>
-              <p className="max-w-lg text-lg text-[#2a2520]/50 font-light leading-relaxed mb-8">
+              <p className="max-w-lg text-lg text-[#2a2520]/50 font-light leading-relaxed mb-8">{c?.heroSubline ?? fd?.tagline ?? <>
                 Bespoke interior design for discerning clients. We create environments that elevate daily life into something extraordinary.
-              </p>
+              </>}</p>
               <button onClick={() => document.getElementById("contact")?.scrollIntoView({behavior:"smooth"})} className="px-8 py-4 bg-[#2a2520] text-[#f5f0eb] text-[10px] font-bold uppercase tracking-widest rounded-full hover:bg-[#8b7355] transition-colors">
                 Book Consultation
               </button>
@@ -246,10 +328,10 @@ export default function AtelierInteriorPage() {
               <div>
                 <Reveal delay={0.2}>
                   <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#8b7355] block mb-4">Our Philosophy</span>
-                  <h2 className="text-4xl md:text-5xl font-light tracking-tighter mb-6" style={{ fontFamily: "Georgia, serif" }}>Crafting Space With <em className="text-[#8b7355]">Intention.</em></h2>
-                  <p className="text-sm text-[#2a2520]/60 leading-relaxed mb-6">
+                  <h2 className="text-4xl md:text-5xl font-light tracking-tighter mb-6" style={{ fontFamily: "Georgia, serif" }}>{c?.aboutTitle ?? fd?.businessName ?? <>Crafting Space With <em className="text-[#8b7355]">Intention.</em></>}</h2>
+                  <p className="text-sm text-[#2a2520]/60 leading-relaxed mb-6">{c?.aboutText ?? <>
                     At Atelier Interior, we believe your home should be a physical manifestation of your journey. Founded in Paris in 2018, we work closely with local artisans to curate bespoke, tactile environments.
-                  </p>
+                  </>}</p>
                   <p className="text-sm text-[#2a2520]/60 leading-relaxed">
                     We select organic, sustainably sourced materials—travertine, brass, raw linen, and white oak—to construct spaces that age beautifully and feel deeply authentic.
                   </p>

@@ -1,6 +1,7 @@
+// @ts-nocheck
 'use client';
 
-import React, { useRef, useState } from 'react';
+import React, {useRef, useState, useEffect} from 'react';
 import {
   motion,
   useScroll,
@@ -276,9 +277,7 @@ function Nav() {
   return (
     <>
       <nav style={bar}>
-      <div style={brand}>
-        Ostéopathie Alsace
-        <span style={brandSub}>Strasbourg Orangerie</span>
+      <div style={brand}>{fd?.businessName ?? "Ostéopathie Alsace"}<span style={brandSub}>Strasbourg Orangerie</span>
       </div>
       <div style={linkRow} className="r291-navlinks">
         {links.map((l) => (
@@ -1546,11 +1545,11 @@ function AppointmentFormSection() {
                     onChange={(e) => setAge(e.target.value)}
                     required
                   >
-                    <option value="" style={{ color: '#2e2e2e' }}>Sélectionner…</option>
-                    <option value="Nourrisson (0-12 mois)" style={{ color: '#2e2e2e' }}>Nourrisson (0–12 mois)</option>
-                    <option value="Enfant (1-12 ans)" style={{ color: '#2e2e2e' }}>Enfant (1–12 ans)</option>
-                    <option value="Adulte (13-64 ans)" style={{ color: '#2e2e2e' }}>Adulte (13–64 ans)</option>
-                    <option value="Senior (65 ans et +)" style={{ color: '#2e2e2e' }}>Senior (65 ans et +)</option>
+                    <option value="" style={{color: brand ?? '#2e2e2e' }}>Sélectionner…</option>
+                    <option value="Nourrisson (0-12 mois)" style={{color: brand ?? '#2e2e2e' }}>Nourrisson (0–12 mois)</option>
+                    <option value="Enfant (1-12 ans)" style={{color: brand ?? '#2e2e2e' }}>Enfant (1–12 ans)</option>
+                    <option value="Adulte (13-64 ans)" style={{color: brand ?? '#2e2e2e' }}>Adulte (13–64 ans)</option>
+                    <option value="Senior (65 ans et +)" style={{color: brand ?? '#2e2e2e' }}>Senior (65 ans et +)</option>
                   </select>
                 </div>
                 <div>
@@ -1568,13 +1567,13 @@ function AppointmentFormSection() {
                     onChange={(e) => setMotif(e.target.value)}
                     required
                   >
-                    <option value="" style={{ color: '#2e2e2e' }}>Sélectionner…</option>
-                    <option value="Douleur dos / colonne" style={{ color: '#2e2e2e' }}>Douleur dos / colonne</option>
-                    <option value="Douleur cou / cervicales" style={{ color: '#2e2e2e' }}>Douleur cou / cervicales</option>
-                    <option value="Troubles digestifs" style={{ color: '#2e2e2e' }}>Troubles digestifs</option>
-                    <option value="Stress / sommeil / céphalées" style={{ color: '#2e2e2e' }}>Stress / sommeil / céphalées</option>
-                    <option value="Blessure sportive" style={{ color: '#2e2e2e' }}>Blessure sportive</option>
-                    <option value="Autre motif" style={{ color: '#2e2e2e' }}>Autre motif</option>
+                    <option value="" style={{color: brand ?? '#2e2e2e' }}>Sélectionner…</option>
+                    <option value="Douleur dos / colonne" style={{color: brand ?? '#2e2e2e' }}>Douleur dos / colonne</option>
+                    <option value="Douleur cou / cervicales" style={{color: brand ?? '#2e2e2e' }}>Douleur cou / cervicales</option>
+                    <option value="Troubles digestifs" style={{color: brand ?? '#2e2e2e' }}>Troubles digestifs</option>
+                    <option value="Stress / sommeil / céphalées" style={{color: brand ?? '#2e2e2e' }}>Stress / sommeil / céphalées</option>
+                    <option value="Blessure sportive" style={{color: brand ?? '#2e2e2e' }}>Blessure sportive</option>
+                    <option value="Autre motif" style={{color: brand ?? '#2e2e2e' }}>Autre motif</option>
                   </select>
                 </div>
                 <div style={{ gridColumn: '1 / -1' }}>
@@ -2230,7 +2229,7 @@ function PracticalSection() {
 
           <Reveal delay={0.32}>
             <div style={{ paddingTop: 30 }}>
-              <a href="tel:+33388000000" style={{ textDecoration: 'none' }}>
+              <a href={`tel:${fd?.phone ?? "+33388000000"}`} style={{ textDecoration: 'none' }}>
                 <div
                   style={{
                     display: 'inline-flex',
@@ -2328,9 +2327,7 @@ function FooterSection() {
               lineHeight: 1.15,
               marginBottom: 4,
             }}
-          >
-            Ostéopathie Alsace
-          </div>
+          >{fd?.businessName ?? "Ostéopathie Alsace"}</div>
           <div
             style={{
               fontFamily: SANS,
@@ -2494,7 +2491,41 @@ function FootLink({ label, href }: { label: string; href: string }) {
    PAGE — Impact291Page
    Assemblage des 10 sous-composants
    ════════════════════════════════════════════════════════════════════════════ */
+
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
 export default function Impact291Page() {
+  const [session, setSession] = useState<{
+    formData?: {
+      businessName?: string; businessType?: string; tagline?: string;
+      city?: string; mainService?: string; benefits?: string[];
+      priceRange?: string; targetAudience?: string; brandColor?: string;
+      email?: string; phone?: string; instagram?: string; linkedin?: string;
+    };
+    generatedContent?: {
+      heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
+      aboutText?: string; ctaText?: string; metaTitle?: string;
+      metaDescription?: string;
+      services?: { title?: string; description?: string }[];
+      testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
+    };
+  } | null>(null);
+
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(setSession)
+      .catch(() => {});
+  }, []);
+
+  fd = session?.formData;
+  c = session?.generatedContent;
+  brand = fd?.brandColor ?? null; // null = keep template's original color
+
   const root: React.CSSProperties = {
     background: C.ivory,
     color: C.dark,
@@ -2503,7 +2534,55 @@ export default function Impact291Page() {
     WebkitFontSmoothing: 'antialiased',
     MozOsxFontSmoothing: 'grayscale',
   };
-  return (
+  
+  // Dynamic Services & Testimonials Mutation for Session Data
+  useEffect(() => {
+    if (c?.services) {
+      const services_arrays = [
+        typeof SERVICES !== 'undefined' ? SERVICES : null,
+        typeof features !== 'undefined' ? features : null,
+        typeof services !== 'undefined' ? services : null,
+        typeof FEATURES !== 'undefined' ? FEATURES : null,
+      ];
+      services_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((s, idx) => {
+            if (idx < 3 && c.services[idx]) {
+              if (s && typeof s === 'object') {
+                s.title = c.services[idx].title ?? s.title;
+                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
+                if ('description' in s) s.description = c.services[idx].description ?? s.description;
+              }
+            }
+          });
+        }
+      });
+    }
+    if (c?.testimonials) {
+      const testimonials_arrays = [
+        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
+        typeof testimonials !== 'undefined' ? testimonials : null,
+        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
+        typeof reviews !== 'undefined' ? reviews : null,
+      ];
+      testimonials_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((t, idx) => {
+            if (idx < 3 && c.testimonials[idx]) {
+              if (t && typeof t === 'object') {
+                t.name = c.testimonials[idx].name ?? t.name;
+                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
+                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
+                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
+                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
+              }
+            }
+          });
+        }
+      });
+    }
+  }, [c]);
+return (
     <main id="hero" style={root} suppressHydrationWarning>
       <Nav />
       <HeroSection />

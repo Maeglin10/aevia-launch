@@ -115,7 +115,41 @@ function Reveal({ children, delay = 0, y = 40 }: { children: React.ReactNode; de
 
 // ─── Main ─────────────────────────────────────────────────────────────────────
 
+
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
 export default function Impact174Page() {
+  const [session, setSession] = useState<{
+    formData?: {
+      businessName?: string; businessType?: string; tagline?: string;
+      city?: string; mainService?: string; benefits?: string[];
+      priceRange?: string; targetAudience?: string; brandColor?: string;
+      email?: string; phone?: string; instagram?: string; linkedin?: string;
+    };
+    generatedContent?: {
+      heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
+      aboutText?: string; ctaText?: string; metaTitle?: string;
+      metaDescription?: string;
+      services?: { title?: string; description?: string }[];
+      testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
+    };
+  } | null>(null);
+
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(setSession)
+      .catch(() => {});
+  }, []);
+
+  fd = session?.formData;
+  c = session?.generatedContent;
+  brand = fd?.brandColor ?? null; // null = keep template's original color
+
   useFonts()
   const [menuOpen, setMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
@@ -126,7 +160,55 @@ export default function Impact174Page() {
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 60)
     window.addEventListener("scroll", fn, { passive: true })
-    return () => window.removeEventListener("scroll", fn)
+    
+  // Dynamic Services & Testimonials Mutation for Session Data
+  useEffect(() => {
+    if (c?.services) {
+      const services_arrays = [
+        typeof SERVICES !== 'undefined' ? SERVICES : null,
+        typeof features !== 'undefined' ? features : null,
+        typeof services !== 'undefined' ? services : null,
+        typeof FEATURES !== 'undefined' ? FEATURES : null,
+      ];
+      services_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((s, idx) => {
+            if (idx < 3 && c.services[idx]) {
+              if (s && typeof s === 'object') {
+                s.title = c.services[idx].title ?? s.title;
+                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
+                if ('description' in s) s.description = c.services[idx].description ?? s.description;
+              }
+            }
+          });
+        }
+      });
+    }
+    if (c?.testimonials) {
+      const testimonials_arrays = [
+        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
+        typeof testimonials !== 'undefined' ? testimonials : null,
+        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
+        typeof reviews !== 'undefined' ? reviews : null,
+      ];
+      testimonials_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((t, idx) => {
+            if (idx < 3 && c.testimonials[idx]) {
+              if (t && typeof t === 'object') {
+                t.name = c.testimonials[idx].name ?? t.name;
+                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
+                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
+                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
+                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
+              }
+            }
+          });
+        }
+      });
+    }
+  }, [c]);
+return () => window.removeEventListener("scroll", fn)
   }, [])
 
   const navLinks = ["Programs", "Schedule", "Coaches", "Membership"]
@@ -143,7 +225,7 @@ export default function Impact174Page() {
         <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Dumbbell className="w-6 h-6 text-[#84cc16]" />
-            <span className="text-2xl font-bold tracking-tighter text-white" style={{ fontFamily: "'Oswald', sans-serif" }}>FORGE</span>
+            <span className="text-2xl font-bold tracking-tighter text-white" style={{ fontFamily: "'Oswald', sans-serif" }}>{fd?.businessName ?? "FORGE"}</span>
           </div>
 
           <div className="hidden md:flex items-center gap-8">
@@ -189,16 +271,16 @@ export default function Impact174Page() {
             <span className="text-xs font-bold uppercase tracking-[0.5em] text-[#84cc16] block mb-6">Paris · Hautes-Performances</span>
           </Reveal>
           <Reveal delay={0.1}>
-            <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold leading-none text-white mb-8 uppercase tracking-tighter" style={{ fontFamily: "'Oswald', sans-serif" }}>
+            <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold leading-none text-white mb-8 uppercase tracking-tighter" style={{ fontFamily: "'Oswald', sans-serif" }}>{c?.heroHeadline ?? <>
               FORGEZ<br />
               <span className="text-[#84cc16]">VOTRE</span><br />
               CORPS.
-            </h1>
+            </>}</h1>
           </Reveal>
           <Reveal delay={0.2}>
-            <p className="text-[#f5f5f5]/50 text-lg leading-relaxed mb-10 max-w-md">
+            <p className="text-[#f5f5f5]/50 text-lg leading-relaxed mb-10 max-w-md">{c?.heroSubline ?? fd?.tagline ?? <>
               L'entraînement haute intensité rencontre la précision scientifique. Programmes sur-mesure, coachs d'élite, résultats mesurables.
-            </p>
+            </>}</p>
           </Reveal>
           <Reveal delay={0.3}>
             <div className="flex flex-wrap gap-4">
@@ -257,13 +339,13 @@ export default function Impact174Page() {
             <div className="flex flex-col md:flex-row md:items-end justify-between mb-14 gap-6">
               <div>
                 <span className="text-xs font-bold uppercase tracking-[0.5em] text-[#84cc16] block mb-4">Training</span>
-                <h2 className="text-5xl md:text-6xl font-bold uppercase tracking-tighter text-white leading-none" style={{ fontFamily: "'Oswald', sans-serif" }}>
+                <h2 className="text-5xl md:text-6xl font-bold uppercase tracking-tighter text-white leading-none" style={{ fontFamily: "'Oswald', sans-serif" }}>{c?.aboutTitle ?? fd?.businessName ?? <>
                   6 Programs.<br />1 Mission.
-                </h2>
+                </>}</h2>
               </div>
-              <p className="text-[#f5f5f5]/40 max-w-xs text-sm leading-relaxed">
+              <p className="text-[#f5f5f5]/40 max-w-xs text-sm leading-relaxed">{c?.aboutText ?? <>
                 Chaque programme est conçu par nos coachs certifiés pour des résultats mesurables en 8 semaines.
-              </p>
+              </>}</p>
             </div>
           </Reveal>
 
@@ -477,7 +559,7 @@ export default function Impact174Page() {
         <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="flex items-center gap-2">
             <Dumbbell className="w-5 h-5 text-[#84cc16]" />
-            <span className="text-xl font-bold uppercase tracking-tighter text-white" style={{ fontFamily: "'Oswald', sans-serif" }}>FORGE</span>
+            <span className="text-xl font-bold uppercase tracking-tighter text-white" style={{ fontFamily: "'Oswald', sans-serif" }}>{fd?.businessName ?? "FORGE"}</span>
           </div>
           <p className="text-xs text-[#f5f5f5]/30 uppercase tracking-widest">© 2026 FORGE Performance · Paris 11ème</p>
           <div className="flex gap-6">

@@ -60,7 +60,41 @@ const STEPS = [
   { num: "04", title: "CONSUEL & garantie", desc: "Attestation de conformité CONSUEL, garantie décennale, disponibilité en cas de question post-chantier." },
 ]
 
+
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
 export default function VoltProPage() {
+  const [session, setSession] = useState<{
+    formData?: {
+      businessName?: string; businessType?: string; tagline?: string;
+      city?: string; mainService?: string; benefits?: string[];
+      priceRange?: string; targetAudience?: string; brandColor?: string;
+      email?: string; phone?: string; instagram?: string; linkedin?: string;
+    };
+    generatedContent?: {
+      heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
+      aboutText?: string; ctaText?: string; metaTitle?: string;
+      metaDescription?: string;
+      services?: { title?: string; description?: string }[];
+      testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
+    };
+  } | null>(null);
+
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(setSession)
+      .catch(() => {});
+  }, []);
+
+  fd = session?.formData;
+  c = session?.generatedContent;
+  brand = fd?.brandColor ?? null; // null = keep template's original color
+
   const [scrolled, setScrolled] = useState(false)
   const { scrollYProgress } = useScroll()
   const heroY = useTransform(scrollYProgress, [0, 0.2], ["0%", "25%"])
@@ -69,7 +103,55 @@ export default function VoltProPage() {
   useEffect(() => {
     const h = () => setScrolled(window.scrollY > 60)
     window.addEventListener("scroll", h)
-    return () => window.removeEventListener("scroll", h)
+    
+  // Dynamic Services & Testimonials Mutation for Session Data
+  useEffect(() => {
+    if (c?.services) {
+      const services_arrays = [
+        typeof SERVICES !== 'undefined' ? SERVICES : null,
+        typeof features !== 'undefined' ? features : null,
+        typeof services !== 'undefined' ? services : null,
+        typeof FEATURES !== 'undefined' ? FEATURES : null,
+      ];
+      services_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((s, idx) => {
+            if (idx < 3 && c.services[idx]) {
+              if (s && typeof s === 'object') {
+                s.title = c.services[idx].title ?? s.title;
+                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
+                if ('description' in s) s.description = c.services[idx].description ?? s.description;
+              }
+            }
+          });
+        }
+      });
+    }
+    if (c?.testimonials) {
+      const testimonials_arrays = [
+        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
+        typeof testimonials !== 'undefined' ? testimonials : null,
+        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
+        typeof reviews !== 'undefined' ? reviews : null,
+      ];
+      testimonials_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((t, idx) => {
+            if (idx < 3 && c.testimonials[idx]) {
+              if (t && typeof t === 'object') {
+                t.name = c.testimonials[idx].name ?? t.name;
+                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
+                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
+                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
+                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
+              }
+            }
+          });
+        }
+      });
+    }
+  }, [c]);
+return () => window.removeEventListener("scroll", h)
   }, [])
 
   return (
@@ -96,7 +178,7 @@ export default function VoltProPage() {
             ))}
           </div>
           <div className="flex items-center gap-4">
-            <a href="tel:0612345678" className="hidden md:flex items-center gap-2 text-[10px] font-bold tracking-widest text-yellow-400 uppercase">
+            <a href={`tel:${fd?.phone ?? "0612345678"}`} className="hidden md:flex items-center gap-2 text-[10px] font-bold tracking-widest text-yellow-400 uppercase">
               <Phone className="w-3 h-3" /> 06 12 34 56 78
             </a>
             <button className="hidden md:block px-6 py-2.5 bg-yellow-400 text-black text-[10px] font-extrabold uppercase tracking-[0.2em] hover:bg-white transition-colors duration-300">
@@ -114,7 +196,7 @@ export default function VoltProPage() {
                   ].map(({ label, href }) => (
                     <Link key={label} href={href} className="text-3xl font-extrabold uppercase tracking-widest hover:text-yellow-400 transition-colors">{label}</Link>
                   ))}
-                  <a href="tel:0612345678" className="flex items-center gap-3 text-yellow-400 font-bold text-lg mt-4">
+                  <a href={`tel:${fd?.phone ?? "0612345678"}`} className="flex items-center gap-3 text-yellow-400 font-bold text-lg mt-4">
                     <Phone className="w-5 h-5" /> 06 12 34 56 78
                   </a>
                 </div>
@@ -148,21 +230,21 @@ export default function VoltProPage() {
               </div>
             </Reveal>
             <Reveal delay={0.12} y={60}>
-              <h1 className="text-6xl md:text-8xl lg:text-[9rem] font-extrabold tracking-tighter leading-[0.85] uppercase mb-8">
+              <h1 className="text-6xl md:text-8xl lg:text-[9rem] font-extrabold tracking-tighter leading-[0.85] uppercase mb-8">{c?.heroHeadline ?? <>
                 L'électricité<br />sans<br /><span className="text-yellow-400">compromis.</span>
-              </h1>
+              </>}</h1>
             </Reveal>
             <Reveal delay={0.28}>
-              <p className="max-w-xl text-base md:text-lg text-white/45 leading-relaxed mb-10" style={{ fontFamily: "'Space Mono', monospace", fontSize: "0.82rem" }}>
+              <p className="max-w-xl text-base md:text-lg text-white/45 leading-relaxed mb-10" style={{ fontFamily: "'Space Mono', monospace", fontSize: "0.82rem" }}>{c?.heroSubline ?? fd?.tagline ?? <>
                 Installation, mise en conformité, domotique et dépannage 7j/7. Devis gratuit sous 24h, intervention soignée, attestation CONSUEL garantie.
-              </p>
+              </>}</p>
             </Reveal>
             <Reveal delay={0.38}>
               <div className="flex flex-wrap gap-4">
-                <button className="px-8 py-4 bg-yellow-400 text-black font-extrabold uppercase tracking-[0.2em] text-[10px] hover:bg-white transition-colors duration-300">
+                <button className="px-8 py-4 bg-yellow-400 text-black font-extrabold uppercase tracking-[0.2em] text-[10px] hover:bg-white transition-colors duration-300">{c?.ctaText ?? <>
                   Devis Gratuit
-                </button>
-                <a href="tel:0612345678" className="flex items-center gap-3 px-8 py-4 border border-white/15 text-white/70 font-bold uppercase tracking-[0.15em] text-[10px] hover:border-yellow-400/50 hover:text-yellow-400 transition-all duration-300">
+                </>}</button>
+                <a href={`tel:${fd?.phone ?? "0612345678"}`} className="flex items-center gap-3 px-8 py-4 border border-white/15 text-white/70 font-bold uppercase tracking-[0.15em] text-[10px] hover:border-yellow-400/50 hover:text-yellow-400 transition-all duration-300">
                   <Phone className="w-4 h-4" /> Appeler maintenant
                 </a>
               </div>
@@ -187,7 +269,7 @@ export default function VoltProPage() {
               <div className="flex items-center gap-2 text-black font-bold text-sm">
                 <Clock className="w-4 h-4" /> Intervention &lt; 2h
               </div>
-              <a href="tel:0612345678" className="bg-black text-yellow-400 px-6 py-2 font-extrabold text-xs uppercase tracking-widest hover:bg-white hover:text-black transition-colors">
+              <a href={`tel:${fd?.phone ?? "0612345678"}`} className="bg-black text-yellow-400 px-6 py-2 font-extrabold text-xs uppercase tracking-widest hover:bg-white hover:text-black transition-colors">
                 06 12 34 56 78
               </a>
             </div>
@@ -373,10 +455,10 @@ export default function VoltProPage() {
             <Reveal className="flex-1">
               <div>
                 <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-yellow-400 block mb-4" style={{ fontFamily: "'Space Mono', monospace" }}>// Secteur géographique</span>
-                <h2 className="text-4xl md:text-5xl font-extrabold uppercase tracking-tighter mb-6">Zone d'<span className="text-yellow-400">intervention.</span></h2>
-                <p className="text-white/40 leading-relaxed mb-8 text-sm">
+                <h2 className="text-4xl md:text-5xl font-extrabold uppercase tracking-tighter mb-6">{c?.aboutTitle ?? fd?.businessName ?? <>Zone d'<span className="text-yellow-400">intervention.</span></>}</h2>
+                <p className="text-white/40 leading-relaxed mb-8 text-sm">{c?.aboutText ?? <>
                   VoltPro intervient sur Paris et toute l'Île-de-France — notamment les départements 75, 77, 78, 91, 92, 93, 94 et 95. Délai d'intervention habituel : 24h à 48h (dépannage urgent : &lt; 2h).
-                </p>
+                </>}</p>
                 <div className="flex flex-wrap gap-3">
                   {["Paris (75)", "Val-de-Marne (94)", "Seine-et-Marne (77)", "Hauts-de-Seine (92)", "Seine-Saint-Denis (93)", "Essonne (91)", "Yvelines (78)", "Val-d'Oise (95)"].map(z => (
                     <span key={z} className="px-4 py-2 border border-white/10 text-[10px] font-bold uppercase tracking-widest text-white/40 hover:border-yellow-400/30 hover:text-yellow-400/70 transition-colors cursor-default">
@@ -422,7 +504,7 @@ export default function VoltProPage() {
               <button className="px-10 py-5 bg-yellow-400 text-black font-extrabold uppercase tracking-[0.2em] text-[10px] hover:bg-white transition-colors duration-300">
                 Demander un devis
               </button>
-              <a href="tel:0612345678" className="flex items-center gap-3 px-10 py-5 border border-white/15 text-white font-bold uppercase tracking-[0.15em] text-[10px] hover:border-yellow-400/50 hover:text-yellow-400 transition-all">
+              <a href={`tel:${fd?.phone ?? "0612345678"}`} className="flex items-center gap-3 px-10 py-5 border border-white/15 text-white font-bold uppercase tracking-[0.15em] text-[10px] hover:border-yellow-400/50 hover:text-yellow-400 transition-all">
                 <Phone className="w-4 h-4" /> 06 12 34 56 78
               </a>
             </div>
@@ -443,7 +525,7 @@ export default function VoltProPage() {
             <p className="text-sm text-white/25 leading-relaxed mb-6">Électricien qualifié RGE · Île-de-France. Installation, conformité, domotique, dépannage urgent.</p>
             <div className="flex items-center gap-2 text-yellow-400 text-sm font-bold">
               <Phone className="w-4 h-4" />
-              <a href="tel:0612345678" className="hover:text-white transition-colors">06 12 34 56 78</a>
+              <a href={`tel:${fd?.phone ?? "0612345678"}`} className="hover:text-white transition-colors">06 12 34 56 78</a>
             </div>
           </div>
           {[

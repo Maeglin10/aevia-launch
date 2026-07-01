@@ -47,14 +47,96 @@ const PRODUCTS = [
   { name: "Void Pro", type: "Open-Back Headphones", price: "$1,850", img: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&q=80&w=1200", specs: "Planar magnetic drivers, aircraft-grade aluminum." },
 ]
 
+
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
 export default function AetherSoundPage() {
+  const [session, setSession] = useState<{
+    formData?: {
+      businessName?: string; businessType?: string; tagline?: string;
+      city?: string; mainService?: string; benefits?: string[];
+      priceRange?: string; targetAudience?: string; brandColor?: string;
+      email?: string; phone?: string; instagram?: string; linkedin?: string;
+    };
+    generatedContent?: {
+      heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
+      aboutText?: string; ctaText?: string; metaTitle?: string;
+      metaDescription?: string;
+      services?: { title?: string; description?: string }[];
+      testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
+    };
+  } | null>(null);
+
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(setSession)
+      .catch(() => {});
+  }, []);
+
+  fd = session?.formData;
+  c = session?.generatedContent;
+  brand = fd?.brandColor ?? null; // null = keep template's original color
+
   const [scrolled, setScrolled] = useState(false)
   const [isHovered, setIsHovered] = useState(false)
 
   useEffect(() => {
     const h = () => setScrolled(window.scrollY > 60)
     window.addEventListener("scroll", h)
-    return () => window.removeEventListener("scroll", h)
+    
+  // Dynamic Services & Testimonials Mutation for Session Data
+  useEffect(() => {
+    if (c?.services) {
+      const services_arrays = [
+        typeof SERVICES !== 'undefined' ? SERVICES : null,
+        typeof features !== 'undefined' ? features : null,
+        typeof services !== 'undefined' ? services : null,
+        typeof FEATURES !== 'undefined' ? FEATURES : null,
+      ];
+      services_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((s, idx) => {
+            if (idx < 3 && c.services[idx]) {
+              if (s && typeof s === 'object') {
+                s.title = c.services[idx].title ?? s.title;
+                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
+                if ('description' in s) s.description = c.services[idx].description ?? s.description;
+              }
+            }
+          });
+        }
+      });
+    }
+    if (c?.testimonials) {
+      const testimonials_arrays = [
+        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
+        typeof testimonials !== 'undefined' ? testimonials : null,
+        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
+        typeof reviews !== 'undefined' ? reviews : null,
+      ];
+      testimonials_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((t, idx) => {
+            if (idx < 3 && c.testimonials[idx]) {
+              if (t && typeof t === 'object') {
+                t.name = c.testimonials[idx].name ?? t.name;
+                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
+                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
+                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
+                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
+              }
+            }
+          });
+        }
+      });
+    }
+  }, [c]);
+return () => window.removeEventListener("scroll", h)
   }, [])
 
   return (
@@ -107,15 +189,15 @@ export default function AetherSoundPage() {
               </div>
             </Reveal>
             <Reveal delay={0.2} y={70}>
-              <h1 className="text-7xl md:text-[9rem] font-light tracking-tighter leading-[0.85] text-white mb-12 uppercase">
+              <h1 className="text-7xl md:text-[9rem] font-light tracking-tighter leading-[0.85] text-white mb-12 uppercase">{c?.heroHeadline ?? <>
                 Zero <br/> <span className="font-bold italic">Artifact.</span>
-              </h1>
+              </>}</h1>
             </Reveal>
             <Reveal delay={0.4}>
               <div className="flex flex-col items-center justify-center gap-12">
-                <p className="text-xl text-white/40 font-light max-w-xl leading-relaxed">
+                <p className="text-xl text-white/40 font-light max-w-xl leading-relaxed">{c?.heroSubline ?? fd?.tagline ?? <>
                   Luthier-grade acoustic engineering for the discerning audiophile. Experience the silence between the notes.
-                </p>
+                </>}</p>
                 <div className="flex flex-wrap justify-center gap-8">
                   <button className="px-12 py-5 bg-white text-black font-bold uppercase tracking-widest text-[10px] hover:bg-transparent hover:text-white border border-white transition-all duration-700">
                     Explore Instruments
@@ -296,12 +378,12 @@ export default function AetherSoundPage() {
         <section id="contact" className="py-40 bg-white text-black text-center">
           <div className="max-w-4xl mx-auto px-6">
             <Reveal>
-              <h2 className="text-6xl md:text-9xl font-light uppercase tracking-tighter leading-[0.8] mb-12">
+              <h2 className="text-6xl md:text-9xl font-light uppercase tracking-tighter leading-[0.8] mb-12">{c?.aboutTitle ?? fd?.businessName ?? <>
                 Hear The <br/> <span className="font-bold italic">Truth.</span>
-              </h2>
-              <p className="text-xl text-black/60 font-light mb-16 leading-relaxed">
+              </>}</h2>
+              <p className="text-xl text-black/60 font-light mb-16 leading-relaxed">{c?.aboutText ?? <>
                 Schedule a private acoustic audit at our Berlin or Tokyo studios. Experience the pinnacle of audio engineering.
-              </p>
+              </>}</p>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-8">
                 <button className="px-16 py-6 bg-black text-white font-bold uppercase tracking-widest text-[10px] hover:bg-transparent hover:text-black border border-black transition-all duration-700">
                   Book Private Audition

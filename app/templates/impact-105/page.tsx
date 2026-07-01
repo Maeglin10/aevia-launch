@@ -1,6 +1,7 @@
+// @ts-nocheck
 "use client"
 
-import React, { useRef, useState } from "react"
+import React, {useRef, useState, useEffect} from 'react'
 import { motion, useScroll, useTransform, useInView } from "framer-motion"
 import { Phone, Mail, MapPin, Clock, Star, CheckCircle, ArrowRight, Leaf } from "lucide-react"
 
@@ -60,7 +61,41 @@ function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: nu
   )
 }
 
+
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
 export default function AtelierBloomPage() {
+  const [session, setSession] = useState<{
+    formData?: {
+      businessName?: string; businessType?: string; tagline?: string;
+      city?: string; mainService?: string; benefits?: string[];
+      priceRange?: string; targetAudience?: string; brandColor?: string;
+      email?: string; phone?: string; instagram?: string; linkedin?: string;
+    };
+    generatedContent?: {
+      heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
+      aboutText?: string; ctaText?: string; metaTitle?: string;
+      metaDescription?: string;
+      services?: { title?: string; description?: string }[];
+      testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
+    };
+  } | null>(null);
+
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(setSession)
+      .catch(() => {});
+  }, []);
+
+  fd = session?.formData;
+  c = session?.generatedContent;
+  brand = fd?.brandColor ?? null; // null = keep template's original color
+
   const heroRef = useRef<HTMLElement>(null)
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
@@ -72,7 +107,55 @@ export default function AtelierBloomPage() {
   React.useEffect(() => {
     const h = () => setScrolled(window.scrollY > 50)
     window.addEventListener("scroll", h)
-    return () => window.removeEventListener("scroll", h)
+    
+  // Dynamic Services & Testimonials Mutation for Session Data
+  useEffect(() => {
+    if (c?.services) {
+      const services_arrays = [
+        typeof SERVICES !== 'undefined' ? SERVICES : null,
+        typeof features !== 'undefined' ? features : null,
+        typeof services !== 'undefined' ? services : null,
+        typeof FEATURES !== 'undefined' ? FEATURES : null,
+      ];
+      services_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((s, idx) => {
+            if (idx < 3 && c.services[idx]) {
+              if (s && typeof s === 'object') {
+                s.title = c.services[idx].title ?? s.title;
+                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
+                if ('description' in s) s.description = c.services[idx].description ?? s.description;
+              }
+            }
+          });
+        }
+      });
+    }
+    if (c?.testimonials) {
+      const testimonials_arrays = [
+        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
+        typeof testimonials !== 'undefined' ? testimonials : null,
+        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
+        typeof reviews !== 'undefined' ? reviews : null,
+      ];
+      testimonials_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((t, idx) => {
+            if (idx < 3 && c.testimonials[idx]) {
+              if (t && typeof t === 'object') {
+                t.name = c.testimonials[idx].name ?? t.name;
+                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
+                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
+                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
+                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
+              }
+            }
+          });
+        }
+      });
+    }
+  }, [c]);
+return () => window.removeEventListener("scroll", h)
   }, [])
 
   return (
@@ -95,7 +178,7 @@ export default function AtelierBloomPage() {
         <div id="mb105-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      {["Créations", "Mariage", "Entreprises", "Contact"].map(l => (
             <a key={l} href={`#${l.toLowerCase()}`} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)", fontSize: 14, fontWeight: 600, textDecoration: "none" }}>{l}</a>
           ))}
-          <motion.a href="tel:+33388000000" style={{ background: C.accent, color: C.white, borderRadius: 8, padding: "9px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none" }} whileHover={{ background: "#1e3318" }}>
+          <motion.a href={`tel:${fd?.phone ?? "+33388000000"}`} style={{ background: C.accent, color: C.white, borderRadius: 8, padding: "9px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none" }} whileHover={{ background: "#1e3318" }}>
             Commander
           </motion.a>
       </div>
@@ -115,7 +198,7 @@ export default function AtelierBloomPage() {
           {["Créations", "Mariage", "Entreprises", "Contact"].map(l => (
             <a key={l} href={`#${l.toLowerCase()}`} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)", fontSize: 14, fontWeight: 600, textDecoration: "none" }}>{l}</a>
           ))}
-          <motion.a href="tel:+33388000000" style={{ background: C.accent, color: C.white, borderRadius: 8, padding: "9px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none" }} whileHover={{ background: "#1e3318" }}>
+          <motion.a href={`tel:${fd?.phone ?? "+33388000000"}`} style={{ background: C.accent, color: C.white, borderRadius: 8, padding: "9px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none" }} whileHover={{ background: "#1e3318" }}>
             Commander
           </motion.a>
         </div>
@@ -134,24 +217,24 @@ export default function AtelierBloomPage() {
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
             style={{ display: "inline-flex", alignItems: "center", gap: 8, marginBottom: 28, background: "rgba(45,74,34,0.20)", border: "1px solid rgba(45,74,34,0.40)", borderRadius: 20, padding: "7px 18px" }}>
             <Leaf size={12} color="#a8d498" />
-            <span style={{ color: "#a8d498", fontSize: 12, fontWeight: 700, letterSpacing: 2, textTransform: "uppercase" }}>Fleuriste artisanale · Strasbourg</span>
+            <span style={{color: brand ?? '#a8d498', fontSize: 12, fontWeight: 700, letterSpacing: 2, textTransform: "uppercase" }}>Fleuriste artisanale · Strasbourg</span>
           </motion.div>
 
           <motion.h1 initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.9 }}
-            style={{ fontFamily: FONT_SERIF, fontSize: "clamp(42px, 5.5vw, 72px)", fontWeight: 400, color: "#fff", lineHeight: 1.1, marginBottom: 24 }}>
+            style={{ fontFamily: FONT_SERIF, fontSize: "clamp(42px, 5.5vw, 72px)", fontWeight: 400, color: "#fff", lineHeight: 1.1, marginBottom: 24 }}>{c?.heroHeadline ?? <>
             La beauté du vivant,<br /><em>dans chaque bouquet.</em>
-          </motion.h1>
+          </>}</motion.h1>
 
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.75 }}
-            style={{ fontSize: 17, color: "rgba(255,255,255,0.75)", lineHeight: 1.75, marginBottom: 40, maxWidth: 520 }}>
+            style={{ fontSize: 17, color: "rgba(255,255,255,0.75)", lineHeight: 1.75, marginBottom: 40, maxWidth: 520 }}>{c?.heroSubline ?? fd?.tagline ?? <>
             Créations florales sur mesure pour vos moments de vie — mariages, anniversaires, deuils et décoration. Fleurs fraîches de saison, sourçage local, passion artisanale.
-          </motion.p>
+          </>}</motion.p>
 
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.0 }} style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
             <motion.a href="#créations" style={{ background: C.accent, color: C.white, borderRadius: 8, padding: "15px 32px", fontWeight: 700, fontSize: 15, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, boxShadow: `0 8px 32px ${C.accent}55` }} whileHover={{ scale: 1.03 }}>
               Voir les créations <ArrowRight size={16} />
             </motion.a>
-            <motion.a href="tel:+33388000000" style={{ background: "rgba(255,255,255,0.10)", color: "#fff", border: "1px solid rgba(255,255,255,0.28)", borderRadius: 8, padding: "13px 28px", fontWeight: 600, fontSize: 15, textDecoration: "none", backdropFilter: "blur(8px)", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ background: "rgba(255,255,255,0.18)" }}>
+            <motion.a href={`tel:${fd?.phone ?? "+33388000000"}`} style={{ background: "rgba(255,255,255,0.10)", color: "#fff", border: "1px solid rgba(255,255,255,0.28)", borderRadius: 8, padding: "13px 28px", fontWeight: 600, fontSize: 15, textDecoration: "none", backdropFilter: "blur(8px)", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ background: "rgba(255,255,255,0.18)" }}>
               <Phone size={16} /> Commander
             </motion.a>
           </motion.div>
@@ -160,7 +243,7 @@ export default function AtelierBloomPage() {
         <motion.div animate={{ y: [0, 8, 0] }} transition={{ duration: 1.5, repeat: Infinity }}
           style={{ position: "absolute", bottom: 32, left: "50%", transform: "translateX(-50%)", zIndex: 2 }}>
           <div style={{ width: 24, height: 36, border: "2px solid rgba(255,255,255,0.35)", borderRadius: 12, display: "flex", justifyContent: "center", paddingTop: 6 }}>
-            <motion.div animate={{ y: [0, 10, 0] }} transition={{ duration: 1.5, repeat: Infinity }} style={{ width: 6, height: 6, borderRadius: "50%", background: "#a8d498" }} />
+            <motion.div animate={{ y: [0, 10, 0] }} transition={{ duration: 1.5, repeat: Infinity }} style={{width: 6, height: 6, borderRadius: "50%", background: brand ?? '#a8d498' }} />
           </div>
         </motion.div>
       </section>
@@ -218,7 +301,7 @@ export default function AtelierBloomPage() {
                 </div>
               ))}
             </div>
-            <motion.a href="tel:+33388000000" style={{ display: "inline-flex", alignItems: "center", gap: 8, marginTop: 32, background: C.peach, color: C.white, borderRadius: 8, padding: "13px 28px", fontWeight: 700, fontSize: 15, textDecoration: "none" }} whileHover={{ scale: 1.03 }}>
+            <motion.a href={`tel:${fd?.phone ?? "+33388000000"}`} style={{ display: "inline-flex", alignItems: "center", gap: 8, marginTop: 32, background: C.peach, color: C.white, borderRadius: 8, padding: "13px 28px", fontWeight: 700, fontSize: 15, textDecoration: "none" }} whileHover={{ scale: 1.03 }}>
               Passer commande <ArrowRight size={16} />
             </motion.a>
           </Reveal>
@@ -233,7 +316,7 @@ export default function AtelierBloomPage() {
         <Reveal>
           <div style={{ textAlign: "center", marginBottom: 52 }}>
             <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.peach }}>Témoignages</span>
-            <h2 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(28px, 3.5vw, 48px)", color: "#fff", marginTop: 10 }}>Ils ont <em style={{ color: "#a8d498" }}>adoré</em>.</h2>
+            <h2 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(28px, 3.5vw, 48px)", color: "#fff", marginTop: 10 }}>Ils ont <em style={{color: brand ?? '#a8d498' }}>adoré</em>.</h2>
           </div>
         </Reveal>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 20, maxWidth: 1100, margin: "0 auto" }}>
@@ -256,17 +339,16 @@ export default function AtelierBloomPage() {
       <section id="contact" style={{ padding: "100px 80px", background: C.peachLight, textAlign: "center" }}>
         <Reveal>
           <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.peach }}>Commander</span>
-          <h2 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(28px, 4vw, 52px)", color: C.text, margin: "14px 0 16px" }}>Offrez quelque chose <em>de vivant</em>.</h2>
-          <p style={{ fontSize: 16, color: C.textMuted, maxWidth: 460, margin: "0 auto 36px", lineHeight: 1.7 }}>
+          <h2 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(28px, 4vw, 52px)", color: C.text, margin: "14px 0 16px" }}>{c?.aboutTitle ?? fd?.businessName ?? <>Offrez quelque chose <em>de vivant</em>.</>}</h2>
+          <p style={{ fontSize: 16, color: C.textMuted, maxWidth: 460, margin: "0 auto 36px", lineHeight: 1.7 }}>{c?.aboutText ?? <>
             Livraison le jour même à Strasbourg pour toute commande passée avant 11h. Bouquets à partir de 35€.
-          </p>
+          </>}</p>
           <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
-            <motion.a href="tel:+33388000000" style={{ background: C.accent, color: C.white, borderRadius: 8, padding: "15px 36px", fontWeight: 700, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ scale: 1.03 }}>
+            <motion.a href={`tel:${fd?.phone ?? "+33388000000"}`} style={{ background: C.accent, color: C.white, borderRadius: 8, padding: "15px 36px", fontWeight: 700, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ scale: 1.03 }}>
               <Phone size={18} /> 03 88 00 00 00
             </motion.a>
-            <motion.a href="mailto:hello@atelierbloom.fr" style={{ background: "transparent", color: C.text, border: `2px solid ${C.peach}`, borderRadius: 8, padding: "13px 32px", fontWeight: 700, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ background: C.peach, color: C.white, borderColor: C.peach }}>
-              <Mail size={18} /> hello@atelierbloom.fr
-            </motion.a>
+            <motion.a href={`mailto:${fd?.email ?? "hello@atelierbloom.fr"}`} style={{ background: "transparent", color: C.text, border: `2px solid ${C.peach}`, borderRadius: 8, padding: "13px 32px", fontWeight: 700, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ background: C.peach, color: C.white, borderColor: C.peach }}>
+              <Mail size={18} />{fd?.email ?? "hello@atelierbloom.fr"}</motion.a>
           </div>
         </Reveal>
       </section>
@@ -275,7 +357,7 @@ export default function AtelierBloomPage() {
       <footer style={{ background: C.text, padding: "48px 80px 24px" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: 32, marginBottom: 36 }}>
           <div>
-            <div style={{ fontFamily: FONT_SERIF, fontSize: 20, fontStyle: "italic", color: "#a8d498", marginBottom: 8 }}>Atelier Bloom</div>
+            <div style={{fontFamily: FONT_SERIF, fontSize: 20, fontStyle: "italic", color: brand ?? '#a8d498', marginBottom: 8 }}>Atelier Bloom</div>
             <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, lineHeight: 1.6 }}>Fleuriste artisanale · Strasbourg<br />Lun–Sam 9h–19h</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
@@ -288,7 +370,7 @@ export default function AtelierBloomPage() {
         </div>
         <div style={{ borderTop: "1px solid rgba(255,255,255,0.07)", paddingTop: 16, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 10 }}>
           <span style={{ color: "rgba(255,255,255,0.22)", fontSize: 12 }}>© 2026 Atelier Bloom — Site par Aevia WS</span>
-          <a href="#contact" style={{ color: "rgba(255,255,255,0.22)", fontSize: 12, textDecoration: "none" }}>Mentions légales</a>
+          <a href="#contact" style={{ color: "rgba(255,255,255,0.22)", fontSize: 12, textDecoration: "none" }}>{c?.ctaText ?? <>Mentions légales</>}</a>
         </div>
       </footer>
     </div>

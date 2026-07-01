@@ -1,6 +1,7 @@
+// @ts-nocheck
 "use client";
 
-import React, { useRef } from "react";
+import React, {useRef, useState, useEffect} from 'react';
 import { motion, useScroll } from "framer-motion";
 import { ArrowUpRight, Check } from "lucide-react";
 import Link from "next/link";
@@ -13,14 +14,96 @@ import {
   TypewriterCode,
 } from "./shared";
 
+
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
 export default function Impact54Page() {
+  const [session, setSession] = useState<{
+    formData?: {
+      businessName?: string; businessType?: string; tagline?: string;
+      city?: string; mainService?: string; benefits?: string[];
+      priceRange?: string; targetAudience?: string; brandColor?: string;
+      email?: string; phone?: string; instagram?: string; linkedin?: string;
+    };
+    generatedContent?: {
+      heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
+      aboutText?: string; ctaText?: string; metaTitle?: string;
+      metaDescription?: string;
+      services?: { title?: string; description?: string }[];
+      testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
+    };
+  } | null>(null);
+
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(setSession)
+      .catch(() => {});
+  }, []);
+
+  fd = session?.formData;
+  c = session?.generatedContent;
+  brand = fd?.brandColor ?? null; // null = keep template's original color
+
   const pageRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: pageRef,
     offset: ["start start", "end end"],
   });
 
-  return (
+  
+  // Dynamic Services & Testimonials Mutation for Session Data
+  useEffect(() => {
+    if (c?.services) {
+      const services_arrays = [
+        typeof SERVICES !== 'undefined' ? SERVICES : null,
+        typeof features !== 'undefined' ? features : null,
+        typeof services !== 'undefined' ? services : null,
+        typeof FEATURES !== 'undefined' ? FEATURES : null,
+      ];
+      services_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((s, idx) => {
+            if (idx < 3 && c.services[idx]) {
+              if (s && typeof s === 'object') {
+                s.title = c.services[idx].title ?? s.title;
+                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
+                if ('description' in s) s.description = c.services[idx].description ?? s.description;
+              }
+            }
+          });
+        }
+      });
+    }
+    if (c?.testimonials) {
+      const testimonials_arrays = [
+        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
+        typeof testimonials !== 'undefined' ? testimonials : null,
+        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
+        typeof reviews !== 'undefined' ? reviews : null,
+      ];
+      testimonials_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((t, idx) => {
+            if (idx < 3 && c.testimonials[idx]) {
+              if (t && typeof t === 'object') {
+                t.name = c.testimonials[idx].name ?? t.name;
+                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
+                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
+                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
+                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
+              }
+            }
+          });
+        }
+      });
+    }
+  }, [c]);
+return (
     <div ref={pageRef} className="text-[#e8e8ff]">
       {/* ── 1. PARTICLE FIELD HERO ── */}
       <section
@@ -52,12 +135,11 @@ export default function Impact54Page() {
                 }}
               >
                 <span
-                  style={{
-                    fontSize: 11,
+                  style={{fontSize: 11,
                     fontWeight: 700,
                     textTransform: "uppercase",
                     letterSpacing: "0.05em",
-                    color: "#00ffd1",
+                    color: brand ?? '#00ffd1',
                   }}
                 >
                   Atelier v2.4 Release
@@ -79,10 +161,10 @@ export default function Impact54Page() {
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
                 }}
-              >
+              >{c?.heroHeadline ?? <>
                 Generative <br />
                 Art Pipelines
-              </h1>
+              </>}</h1>
             </Reveal>
 
             <Reveal delay={0.2}>
@@ -94,10 +176,10 @@ export default function Impact54Page() {
                   maxWidth: 480,
                   marginBottom: 40,
                 }}
-              >
+              >{c?.heroSubline ?? fd?.tagline ?? <>
                 Consolidate your rendering stack onto a direct GPU cluster.
                 Build, mutation, and deployment layered in mathematical vector spaces.
-              </p>
+              </>}</p>
             </Reveal>
 
             <Reveal delay={0.3}>
@@ -157,12 +239,11 @@ export default function Impact54Page() {
           <Reveal>
             <div style={{ marginBottom: 80, maxWidth: 560 }}>
               <span
-                style={{
-                  fontSize: 12,
+                style={{fontSize: 12,
                   fontWeight: 700,
                   textTransform: "uppercase",
                   letterSpacing: "0.1em",
-                  color: "#00ffd1",
+                  color: brand ?? '#00ffd1',
                   marginBottom: 12,
                   display: "block",
                 }}
@@ -276,13 +357,13 @@ export default function Impact54Page() {
                     letterSpacing: "-0.02em",
                     marginBottom: 24,
                   }}
-                >
+                >{c?.aboutTitle ?? fd?.businessName ?? <>
                   Synthesize directly from your terminal
-                </h2>
-                <p style={{ fontSize: 15, color: "rgba(232,232,255,0.45)", lineHeight: 1.7, marginBottom: 32 }}>
+                </>}</h2>
+                <p style={{ fontSize: 15, color: "rgba(232,232,255,0.45)", lineHeight: 1.7, marginBottom: 32 }}>{c?.aboutText ?? <>
                   GraphQL and REST engines with auto-generated TypeScript declarations.
                   Construct layered primitives with pure, structured JavaScript.
-                </p>
+                </>}</p>
                 <Link
                   href="/templates/impact-54/contact"
                   style={{
@@ -318,12 +399,11 @@ export default function Impact54Page() {
             <Reveal key={i} delay={i * 0.08}>
               <div style={{ textAlign: "center" }}>
                 <div
-                  style={{
-                    fontSize: "clamp(32px, 4.5vw, 56px)",
+                  style={{fontSize: "clamp(32px, 4.5vw, 56px)",
                     fontFamily: "'Syne', sans-serif",
                     fontWeight: 800,
                     letterSpacing: "-0.03em",
-                    color: "#00ffd1",
+                    color: brand ?? '#00ffd1',
                     marginBottom: 8,
                     textShadow: "0 0 20px rgba(0,255,209,0.3)",
                   }}
@@ -349,7 +429,7 @@ export default function Impact54Page() {
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
           <Reveal>
             <div style={{ marginBottom: 80, textAlign: "center" }}>
-              <span style={{ fontSize: 12, fontWeight: 700, textTransform: "uppercase" as const, letterSpacing: "0.1em", color: "#00ffd1", marginBottom: 12, display: "block" }}>
+              <span style={{fontSize: 12, fontWeight: 700, textTransform: "uppercase" as const, letterSpacing: "0.1em", color: brand ?? '#00ffd1', marginBottom: 12, display: "block" }}>
                 Pricing
               </span>
               <h2 style={{ fontSize: "clamp(28px, 3.5vw, 44px)", fontFamily: "'Syne', sans-serif", fontWeight: 700, lineHeight: 1.1, letterSpacing: "-0.02em" }}>
@@ -387,7 +467,7 @@ export default function Impact54Page() {
                   }}
                 >
                   {plan.highlight && (
-                    <div style={{ position: "absolute", top: -12, left: "50%", transform: "translateX(-50%)", background: "#00ffd1", color: "#050510", fontSize: 10, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase" as const, padding: "4px 16px", borderRadius: 100 }}>
+                    <div style={{position: "absolute", top: -12, left: "50%", transform: "translateX(-50%)", background: brand ?? '#00ffd1', color: "#050510", fontSize: 10, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase" as const, padding: "4px 16px", borderRadius: 100 }}>
                       Most Popular
                     </div>
                   )}
@@ -446,7 +526,7 @@ export default function Impact54Page() {
         <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", width: "600px", height: "400px", background: "radial-gradient(ellipse, rgba(124,58,237,0.1) 0%, transparent 70%)", pointerEvents: "none" }} />
         <div style={{ position: "relative", maxWidth: 700, margin: "0 auto" }}>
           <Reveal>
-            <span style={{ fontSize: 12, fontWeight: 700, textTransform: "uppercase" as const, letterSpacing: "0.1em", color: "#00ffd1", marginBottom: 12, display: "block" }}>
+            <span style={{fontSize: 12, fontWeight: 700, textTransform: "uppercase" as const, letterSpacing: "0.1em", color: brand ?? '#00ffd1', marginBottom: 12, display: "block" }}>
               Start rendering
             </span>
             <h2

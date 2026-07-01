@@ -85,13 +85,95 @@ const pipeline = createPipeline({
 
 await pipeline.start();`
 
+
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
 export default function WaveFXPage() {
+  const [session, setSession] = useState<{
+    formData?: {
+      businessName?: string; businessType?: string; tagline?: string;
+      city?: string; mainService?: string; benefits?: string[];
+      priceRange?: string; targetAudience?: string; brandColor?: string;
+      email?: string; phone?: string; instagram?: string; linkedin?: string;
+    };
+    generatedContent?: {
+      heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
+      aboutText?: string; ctaText?: string; metaTitle?: string;
+      metaDescription?: string;
+      services?: { title?: string; description?: string }[];
+      testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
+    };
+  } | null>(null);
+
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(setSession)
+      .catch(() => {});
+  }, []);
+
+  fd = session?.formData;
+  c = session?.generatedContent;
+  brand = fd?.brandColor ?? null; // null = keep template's original color
+
   const [scrolled, setScrolled] = useState(false)
 
   useEffect(() => {
     const h = () => setScrolled(window.scrollY > 60)
     window.addEventListener("scroll", h)
-    return () => window.removeEventListener("scroll", h)
+    
+  // Dynamic Services & Testimonials Mutation for Session Data
+  useEffect(() => {
+    if (c?.services) {
+      const services_arrays = [
+        typeof SERVICES !== 'undefined' ? SERVICES : null,
+        typeof features !== 'undefined' ? features : null,
+        typeof services !== 'undefined' ? services : null,
+        typeof FEATURES !== 'undefined' ? FEATURES : null,
+      ];
+      services_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((s, idx) => {
+            if (idx < 3 && c.services[idx]) {
+              if (s && typeof s === 'object') {
+                s.title = c.services[idx].title ?? s.title;
+                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
+                if ('description' in s) s.description = c.services[idx].description ?? s.description;
+              }
+            }
+          });
+        }
+      });
+    }
+    if (c?.testimonials) {
+      const testimonials_arrays = [
+        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
+        typeof testimonials !== 'undefined' ? testimonials : null,
+        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
+        typeof reviews !== 'undefined' ? reviews : null,
+      ];
+      testimonials_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((t, idx) => {
+            if (idx < 3 && c.testimonials[idx]) {
+              if (t && typeof t === 'object') {
+                t.name = c.testimonials[idx].name ?? t.name;
+                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
+                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
+                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
+                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
+              }
+            }
+          });
+        }
+      });
+    }
+  }, [c]);
+return () => window.removeEventListener("scroll", h)
   }, [])
 
   return (
@@ -147,14 +229,14 @@ export default function WaveFXPage() {
               </div>
             </Reveal>
             <Reveal delay={0.1} y={60}>
-              <h1 className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter leading-[0.9] mb-8">
+              <h1 className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter leading-[0.9] mb-8">{c?.heroHeadline ?? <>
                 Data Pipelines<br/><span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-blue-300 to-indigo-500">Without the Pain.</span>
-              </h1>
+              </>}</h1>
             </Reveal>
             <Reveal delay={0.2}>
-              <p className="text-xl text-white/40 font-light max-w-lg mx-auto leading-relaxed mb-10">
+              <p className="text-xl text-white/40 font-light max-w-lg mx-auto leading-relaxed mb-10">{c?.heroSubline ?? fd?.tagline ?? <>
                 The open-source framework for building real-time data pipelines. Type-safe, zero-copy, and absurdly fast.
-              </p>
+              </>}</p>
             </Reveal>
             <Reveal delay={0.3}>
               <div className="flex flex-wrap gap-4 justify-center mb-16">
@@ -193,12 +275,12 @@ export default function WaveFXPage() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
               <Reveal>
                 <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-indigo-400 block mb-4">Simple API</span>
-                <h2 className="text-4xl md:text-5xl font-black tracking-tighter mb-6">
+                <h2 className="text-4xl md:text-5xl font-black tracking-tighter mb-6">{c?.aboutTitle ?? fd?.businessName ?? <>
                   Build Pipelines<br/>in <span className="text-indigo-400">Minutes.</span>
-                </h2>
-                <p className="text-white/40 leading-relaxed mb-8">
+                </>}</h2>
+                <p className="text-white/40 leading-relaxed mb-8">{c?.aboutText ?? <>
                   Declarative pipeline definitions with full TypeScript support. Connect any source to any sink with composable transforms.
-                </p>
+                </>}</p>
                 <Link href="#contact" className="inline-flex items-center gap-2 text-indigo-400 text-[10px] font-bold uppercase tracking-widest hover:gap-4 transition-all">
                   Read the Docs <ArrowRight className="w-4 h-4" />
                 </Link>

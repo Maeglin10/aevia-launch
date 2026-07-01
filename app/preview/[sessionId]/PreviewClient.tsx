@@ -159,6 +159,7 @@ export default function PreviewClient({ sessionId }: { sessionId: string }) {
           } as SessionData)
         : prev
     );
+    setIframeKey((k) => k + 1);
   };
 
   const liveSession = editedSession ?? session;
@@ -236,7 +237,17 @@ export default function PreviewClient({ sessionId }: { sessionId: string }) {
           </div>
         </div>
 
-        <GeneratedSite session={liveSession} />
+        {liveSession.formData.template?.startsWith("impact-") ? (
+          <iframe
+            key={iframeKey}
+            src={`/templates/${liveSession.formData.template}?session=${sessionId}`}
+            className="w-full border-none block"
+            style={{ minHeight: "100vh" }}
+            title="Site preview"
+          />
+        ) : (
+          <GeneratedSite session={liveSession} />
+        )}
       </div>
 
       {/* Inline editor panel */}

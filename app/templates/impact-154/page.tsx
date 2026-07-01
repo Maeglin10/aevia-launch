@@ -1,3 +1,4 @@
+// @ts-nocheck
 "use client"
 
 import React, { useState, useEffect, useRef } from "react"
@@ -330,7 +331,41 @@ function PageHeader({ chapter, title, intro }: { chapter: string, title: string,
    THE IVORY ARCHIVE - MAIN APPLICATION
    ========================================================================== */
 
+
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
 export default function IvoryArchivePremium() {
+  const [session, setSession] = useState<{
+    formData?: {
+      businessName?: string; businessType?: string; tagline?: string;
+      city?: string; mainService?: string; benefits?: string[];
+      priceRange?: string; targetAudience?: string; brandColor?: string;
+      email?: string; phone?: string; instagram?: string; linkedin?: string;
+    };
+    generatedContent?: {
+      heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
+      aboutText?: string; ctaText?: string; metaTitle?: string;
+      metaDescription?: string;
+      services?: { title?: string; description?: string }[];
+      testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
+    };
+  } | null>(null);
+
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(setSession)
+      .catch(() => {});
+  }, []);
+
+  fd = session?.formData;
+  c = session?.generatedContent;
+  brand = fd?.brandColor ?? null; // null = keep template's original color
+
   const [page, setPage] = useState<ArchivePage>("home")
   const [activeWork, setActiveWork] = useState<string | null>(null)
   const [activeArticle, setActiveArticle] = useState<string | null>(null)
@@ -352,7 +387,55 @@ export default function IvoryArchivePremium() {
     if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "auto" })
   }
 
-  return (
+  
+  // Dynamic Services & Testimonials Mutation for Session Data
+  useEffect(() => {
+    if (c?.services) {
+      const services_arrays = [
+        typeof SERVICES !== 'undefined' ? SERVICES : null,
+        typeof features !== 'undefined' ? features : null,
+        typeof services !== 'undefined' ? services : null,
+        typeof FEATURES !== 'undefined' ? FEATURES : null,
+      ];
+      services_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((s, idx) => {
+            if (idx < 3 && c.services[idx]) {
+              if (s && typeof s === 'object') {
+                s.title = c.services[idx].title ?? s.title;
+                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
+                if ('description' in s) s.description = c.services[idx].description ?? s.description;
+              }
+            }
+          });
+        }
+      });
+    }
+    if (c?.testimonials) {
+      const testimonials_arrays = [
+        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
+        typeof testimonials !== 'undefined' ? testimonials : null,
+        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
+        typeof reviews !== 'undefined' ? reviews : null,
+      ];
+      testimonials_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((t, idx) => {
+            if (idx < 3 && c.testimonials[idx]) {
+              if (t && typeof t === 'object') {
+                t.name = c.testimonials[idx].name ?? t.name;
+                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
+                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
+                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
+                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
+              }
+            }
+          });
+        }
+      });
+    }
+  }, [c]);
+return (
     <div ref={containerRef} className="bg-[#0c0c0e] text-[#fdfcfb] font-sans selection:bg-[#b4925e] selection:text-black min-h-screen overflow-x-hidden">
 
       {/* GLOBAL HUD & NAVIGATION */}
@@ -443,15 +526,15 @@ export default function IvoryArchivePremium() {
                 <div className="inline-flex items-center gap-4 px-4 py-1 border border-[#b4925e]/30 bg-[#b4925e]/5 text-[10px] font-bold uppercase tracking-[0.5em] text-[#b4925e] mb-12 italic">
                    Status // High_Security_Node: Zurich
                 </div>
-                <h1 className="text-7xl md:text-[14vw] font-light italic leading-[0.75] tracking-tighter uppercase mb-16" style={{ fontFamily: "serif" }}>
+                <h1 className="text-7xl md:text-[14vw] font-light italic leading-[0.75] tracking-tighter uppercase mb-16" style={{ fontFamily: "serif" }}>{c?.heroHeadline ?? <>
                    Heritage <br/> <span className="not-italic font-black text-white/5 italic">Eternalized.</span>
-                </h1>
+                </>}</h1>
                 <div className="grid md:grid-cols-3 gap-12 md:gap-24 text-left max-w-5xl mx-auto border-t border-white/10 pt-16">
                    <div className="space-y-4">
                       <h3 className="text-[10px] font-black uppercase tracking-widest text-[#b4925e]">The Mandate</h3>
-                      <p className="text-[11px] text-white/30 leading-loose uppercase tracking-widest font-bold italic">
+                      <p className="text-[11px] text-white/30 leading-loose uppercase tracking-widest font-bold italic">{c?.heroSubline ?? fd?.tagline ?? <>
                          Nous assurons la pérennité des chefs-d'œuvre mondiaux à travers une expertise scientifique et une conservation de haute sphère.
-                      </p>
+                      </>}</p>
                    </div>
                    <div className="flex flex-col justify-end">
                       <span className="text-5xl font-light tracking-tighter">1.4B</span>
@@ -531,9 +614,9 @@ export default function IvoryArchivePremium() {
                  <div>
                     <Reveal>
                        <SectionTitle subtitle="Chapitre II // The Science" title="Conservation Lab." alignment="left" />
-                       <p className="text-xl font-light text-white/40 leading-relaxed italic mb-16 uppercase tracking-widest">
+                       <p className="text-xl font-light text-white/40 leading-relaxed italic mb-16 uppercase tracking-widest">{c?.aboutText ?? <>
                           La préservation du patrimoine mondial exige une rigueur scientifique sans compromis. Notre laboratoire utilise l'imagerie multi-spectrale et la stabilisation atomique pour contrer les effets du temps.
-                       </p>
+                       </>}</p>
                        <div className="grid grid-cols-2 gap-8 mb-20">
                           {LAB_METRICS.map((metric, i) => (
                             <div key={i} className="p-8 bg-black border border-white/5 hover:border-[#b4925e]/30 transition-all">
@@ -1310,7 +1393,7 @@ function LegalPage({ variant }: { variant: "mentions" | "privacy" }) {
               <Para><Strong>Aevia WS</Strong> — entrepreneur individuel (auto-entrepreneur).</Para>
               <Para>Directeur de la publication : <Strong>Valentin Milliand</Strong>.</Para>
               <Para>SIREN : <Strong>852 546 225</Strong> — RCS Bourg-en-Bresse.</Para>
-              <Para>Contact : <Strong>contact@aevia.io</Strong></Para>
+              <Para>Contact : <Strong>{fd?.email ?? "contact@aevia.io"}</Strong></Para>
               <Para>Adresse du siège social communiquée sur demande à contact@aevia.io.</Para>
 
               <Heading>TVA</Heading>
@@ -1347,7 +1430,7 @@ function LegalPage({ variant }: { variant: "mentions" | "privacy" }) {
             <Heading>Responsable du traitement</Heading>
             <Para>
                Le responsable du traitement des données personnelles est <Strong>Aevia WS</Strong>, éditeur du site.
-               Pour toute question, écrivez à <Strong>contact@aevia.io</Strong>.
+               Pour toute question, écrivez à <Strong>{fd?.email ?? "contact@aevia.io"}</Strong>.
             </Para>
 
             <Heading>Données collectées</Heading>

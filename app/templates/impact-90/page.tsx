@@ -1,3 +1,4 @@
+// @ts-nocheck
 "use client";
 
 import {
@@ -447,7 +448,7 @@ function ContactSection() {
             </p>
             <div style={{ display: "flex", flexDirection: "column", gap: 16, fontFamily: "'Cabin', sans-serif", fontSize: 14, color: C.brown }}>
               <p>📞 <strong>Téléphone :</strong> +33 4 78 28 00 00</p>
-              <p>✉ <strong>Email :</strong> contact@maisonlaval.fr</p>
+              <p>✉ <strong>Email :</strong>{fd?.email ?? "contact@maisonlaval.fr"}</p>
               <p>📍 <strong>Adresse :</strong> 47 Grande Rue de la Croix-Rousse, 69004 Lyon</p>
             </div>
           </div>
@@ -549,7 +550,41 @@ function ContactSection() {
 }
 
 /* ─── Page ───────────────────────────────────────────────────── */
+
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
 export default function Page() {
+  const [session, setSession] = useState<{
+    formData?: {
+      businessName?: string; businessType?: string; tagline?: string;
+      city?: string; mainService?: string; benefits?: string[];
+      priceRange?: string; targetAudience?: string; brandColor?: string;
+      email?: string; phone?: string; instagram?: string; linkedin?: string;
+    };
+    generatedContent?: {
+      heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
+      aboutText?: string; ctaText?: string; metaTitle?: string;
+      metaDescription?: string;
+      services?: { title?: string; description?: string }[];
+      testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
+    };
+  } | null>(null);
+
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(setSession)
+      .catch(() => {});
+  }, []);
+
+  fd = session?.formData;
+  c = session?.generatedContent;
+  brand = fd?.brandColor ?? null; // null = keep template's original color
+
   const [activeProcess, setActiveProcess] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const heroRef = useRef(null);
@@ -561,7 +596,55 @@ export default function Page() {
     const style = document.createElement("style");
     style.textContent = FONTS;
     document.head.appendChild(style);
-    return () => { document.head.removeChild(style); };
+    
+  // Dynamic Services & Testimonials Mutation for Session Data
+  useEffect(() => {
+    if (c?.services) {
+      const services_arrays = [
+        typeof SERVICES !== 'undefined' ? SERVICES : null,
+        typeof features !== 'undefined' ? features : null,
+        typeof services !== 'undefined' ? services : null,
+        typeof FEATURES !== 'undefined' ? FEATURES : null,
+      ];
+      services_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((s, idx) => {
+            if (idx < 3 && c.services[idx]) {
+              if (s && typeof s === 'object') {
+                s.title = c.services[idx].title ?? s.title;
+                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
+                if ('description' in s) s.description = c.services[idx].description ?? s.description;
+              }
+            }
+          });
+        }
+      });
+    }
+    if (c?.testimonials) {
+      const testimonials_arrays = [
+        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
+        typeof testimonials !== 'undefined' ? testimonials : null,
+        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
+        typeof reviews !== 'undefined' ? reviews : null,
+      ];
+      testimonials_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((t, idx) => {
+            if (idx < 3 && c.testimonials[idx]) {
+              if (t && typeof t === 'object') {
+                t.name = c.testimonials[idx].name ?? t.name;
+                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
+                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
+                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
+                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
+              }
+            }
+          });
+        }
+      });
+    }
+  }, [c]);
+return () => { document.head.removeChild(style); };
   }, []);
 
   return (
@@ -581,7 +664,7 @@ export default function Page() {
             ))}
           </svg>
           <div>
-            <p style={{ fontFamily: "'Playfair Display', serif", fontSize: 16, fontWeight: 700, color: C.brown, lineHeight: 1 }}>Maison Laval</p>
+            <p style={{ fontFamily: "'Playfair Display', serif", fontSize: 16, fontWeight: 700, color: C.brown, lineHeight: 1 }}>{fd?.businessName ?? "Maison Laval"}</p>
             <p style={{ fontFamily: "'Cabin', sans-serif", fontSize: 9, color: C.muted, letterSpacing: "0.2em", textTransform: "uppercase" }}>Boulangerie Artisanale</p>
           </div>
         </div>
@@ -653,20 +736,20 @@ export default function Page() {
             <div style={{ height: 1, width: 48, background: C.amber }} />
           </motion.div>
 
-          <h1 style={{ fontSize: "clamp(52px, 9vw, 112px)", fontWeight: 700, lineHeight: 0.92, letterSpacing: "-0.03em", marginBottom: 40, fontFamily: "'Playfair Display', serif" }}>
+          <h1 style={{ fontSize: "clamp(52px, 9vw, 112px)", fontWeight: 700, lineHeight: 0.92, letterSpacing: "-0.03em", marginBottom: 40, fontFamily: "'Playfair Display', serif" }}>{c?.heroHeadline ?? <>
             <TextReveal text="Le pain" delay={0.3} style={{ display: "block", color: C.brown }} />
             <TextReveal text="comme" delay={0.5} style={{ display: "block", fontStyle: "italic", color: C.terracotta }} />
             <TextReveal text="il se doit." delay={0.7} style={{ display: "block", color: C.brown }} />
-          </h1>
+          </>}</h1>
 
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 1.1 }}
             style={{ fontFamily: "'Cabin', sans-serif", fontSize: 16, color: C.muted, lineHeight: 1.75, maxWidth: 520, margin: "0 auto 48px", fontWeight: 400 }}
-          >
+          >{c?.heroSubline ?? fd?.tagline ?? <>
             Boulangerie artisanale à Lyon depuis 1987. Pains au levain, viennoiseries feuilletées, et ateliers de boulangerie. Tout est fait à la main, dans le respect du temps.
-          </motion.p>
+          </>}</motion.p>
 
           <motion.div
             initial={{ opacity: 0, y: 16 }}
@@ -737,13 +820,13 @@ export default function Page() {
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80 }}>
           <div>
             <p style={{ fontFamily: "'Playfair Display', serif", fontSize: 11, letterSpacing: "0.35em", color: C.terracotta, textTransform: "uppercase", marginBottom: 20 }}>Notre Méthode</p>
-            <h2 style={{ fontSize: "clamp(26px, 3.5vw, 42px)", fontWeight: 600, lineHeight: 1.15, letterSpacing: "-0.02em", color: C.brown, fontFamily: "'Playfair Display', serif", marginBottom: 40 }}>
+            <h2 style={{ fontSize: "clamp(26px, 3.5vw, 42px)", fontWeight: 600, lineHeight: 1.15, letterSpacing: "-0.02em", color: C.brown, fontFamily: "'Playfair Display', serif", marginBottom: 40 }}>{c?.aboutTitle ?? fd?.businessName ?? <>
               <TextReveal text="Chaque étape," />
               <TextReveal text="faite à la main." delay={0.15} style={{ fontStyle: "italic", color: C.terracotta }} />
-            </h2>
-            <p style={{ fontFamily: "'Cabin', sans-serif", fontSize: 14, color: C.muted, lineHeight: 1.8, marginBottom: 36 }}>
+            </>}</h2>
+            <p style={{ fontFamily: "'Cabin', sans-serif", fontSize: 14, color: C.muted, lineHeight: 1.8, marginBottom: 36 }}>{c?.aboutText ?? <>
               Il n'y a pas de raccourcis. La boulangerie artisanale prend du temps — c'est sa force. Chaque pain que vous achetez est le résultat de 36 à 48 heures de travail.
-            </p>
+            </>}</p>
             {/* Wheat illustration */}
             <svg width="160" height="200" viewBox="0 0 160 200" style={{ opacity: 0.6 }}>
               <line x1="80" y1="195" x2="80" y2="30" stroke={C.amber} strokeWidth="2" />
@@ -866,7 +949,7 @@ export default function Page() {
               <TextReveal text="Lyon 4e." delay={0.15} style={{ fontStyle: "italic" }} />
             </h2>
             <div style={{ background: C.bgCard, border: `1px solid ${C.border}`, borderRadius: 6, padding: "28px", marginBottom: 20 }}>
-              <p style={{ fontFamily: "'Cabin', sans-serif", fontSize: 16, color: C.brown, fontWeight: 600, marginBottom: 6 }}>Maison Laval</p>
+              <p style={{ fontFamily: "'Cabin', sans-serif", fontSize: 16, color: C.brown, fontWeight: 600, marginBottom: 6 }}>{fd?.businessName ?? "Maison Laval"}</p>
               <p style={{ fontFamily: "'Cabin', sans-serif", fontSize: 14, color: C.muted, lineHeight: 1.6 }}>47 Grande Rue de la Croix-Rousse<br />69004 Lyon, France</p>
             </div>
             <div style={{ display: "flex", gap: 12 }}>
@@ -896,9 +979,9 @@ export default function Page() {
           <p style={{ fontFamily: "'Playfair Display', serif", fontSize: 14, color: C.brown, fontStyle: "italic" }}>Maison Laval · depuis 1987</p>
           <p style={{ fontFamily: "'Cabin', sans-serif", fontSize: 11, color: C.muted, letterSpacing: "0.05em" }}>© 2025 — Boulangerie Artisanale</p>
           <div style={{ display: "flex", gap: 20 }}>
-            <Link href="#contact" style={{ fontFamily: "'Cabin', sans-serif", fontSize: 12, color: C.muted, textDecoration: "none" }}>
+            <Link href="#contact" style={{ fontFamily: "'Cabin', sans-serif", fontSize: 12, color: C.muted, textDecoration: "none" }}>{c?.ctaText ?? <>
               Mentions légales
-            </Link>
+            </>}</Link>
             <Link href="#contact" style={{ fontFamily: "'Cabin', sans-serif", fontSize: 12, color: C.muted, textDecoration: "none" }}>
                Confidentialité
             </Link>

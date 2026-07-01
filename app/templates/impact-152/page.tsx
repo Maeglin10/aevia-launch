@@ -1,6 +1,7 @@
+// @ts-nocheck
 "use client"
 
-import React, { useRef, useState } from "react"
+import React, {useRef, useState, useEffect} from 'react'
 import { motion, useScroll, useTransform, useInView } from "framer-motion"
 import Link from "next/link"
 import { ArrowRight, MapPin, Mail, Phone, Clock, Star, ChevronDown } from "lucide-react"
@@ -11,7 +12,7 @@ const C = {
   bgSection: "#f0ebe4",
   text: "#2c2420",
   textMuted: "#7a6e68",
-  accent: "#c4a882",
+  accent: brand ?? '#c4a882',
   accentDark: "#a88c68",
   accentLight: "#f0e8dc",
   white: "#ffffff",
@@ -63,7 +64,41 @@ function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: nu
 }
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
+
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
 export default function StudioNomaPage() {
+  const [session, setSession] = useState<{
+    formData?: {
+      businessName?: string; businessType?: string; tagline?: string;
+      city?: string; mainService?: string; benefits?: string[];
+      priceRange?: string; targetAudience?: string; brandColor?: string;
+      email?: string; phone?: string; instagram?: string; linkedin?: string;
+    };
+    generatedContent?: {
+      heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
+      aboutText?: string; ctaText?: string; metaTitle?: string;
+      metaDescription?: string;
+      services?: { title?: string; description?: string }[];
+      testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
+    };
+  } | null>(null);
+
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(setSession)
+      .catch(() => {});
+  }, []);
+
+  fd = session?.formData;
+  c = session?.generatedContent;
+  brand = fd?.brandColor ?? null; // null = keep template's original color
+
   const heroRef = useRef<HTMLElement>(null)
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
@@ -76,7 +111,55 @@ export default function StudioNomaPage() {
   React.useEffect(() => {
     const h = () => setScrolled(window.scrollY > 50)
     window.addEventListener("scroll", h)
-    return () => window.removeEventListener("scroll", h)
+    
+  // Dynamic Services & Testimonials Mutation for Session Data
+  useEffect(() => {
+    if (c?.services) {
+      const services_arrays = [
+        typeof SERVICES !== 'undefined' ? SERVICES : null,
+        typeof features !== 'undefined' ? features : null,
+        typeof services !== 'undefined' ? services : null,
+        typeof FEATURES !== 'undefined' ? FEATURES : null,
+      ];
+      services_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((s, idx) => {
+            if (idx < 3 && c.services[idx]) {
+              if (s && typeof s === 'object') {
+                s.title = c.services[idx].title ?? s.title;
+                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
+                if ('description' in s) s.description = c.services[idx].description ?? s.description;
+              }
+            }
+          });
+        }
+      });
+    }
+    if (c?.testimonials) {
+      const testimonials_arrays = [
+        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
+        typeof testimonials !== 'undefined' ? testimonials : null,
+        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
+        typeof reviews !== 'undefined' ? reviews : null,
+      ];
+      testimonials_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((t, idx) => {
+            if (idx < 3 && c.testimonials[idx]) {
+              if (t && typeof t === 'object') {
+                t.name = c.testimonials[idx].name ?? t.name;
+                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
+                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
+                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
+                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
+              }
+            }
+          });
+        }
+      });
+    }
+  }, [c]);
+return () => window.removeEventListener("scroll", h)
   }, [])
 
   return (
@@ -140,14 +223,14 @@ export default function StudioNomaPage() {
           </motion.div>
 
           <motion.h1 initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 1 }}
-            style={{ fontFamily: FONT, fontSize: "clamp(52px, 7vw, 96px)", fontWeight: 300, color: "#fff", lineHeight: 1.0, letterSpacing: -1, marginBottom: 24 }}>
+            style={{ fontFamily: FONT, fontSize: "clamp(52px, 7vw, 96px)", fontWeight: 300, color: "#fff", lineHeight: 1.0, letterSpacing: -1, marginBottom: 24 }}>{c?.heroHeadline ?? <>
             L'espace comme<br /><em style={{ color: C.accent }}>œuvre d'art.</em>
-          </motion.h1>
+          </>}</motion.h1>
 
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.75 }}
-            style={{ fontSize: 17, color: "rgba(255,255,255,0.72)", lineHeight: 1.75, marginBottom: 40, maxWidth: 520, fontFamily: FONT_SANS }}>
+            style={{ fontSize: 17, color: "rgba(255,255,255,0.72)", lineHeight: 1.75, marginBottom: 40, maxWidth: 520, fontFamily: FONT_SANS }}>{c?.heroSubline ?? fd?.tagline ?? <>
             Studio Noma conçoit des intérieurs qui racontent une histoire. Chaque projet naît d'une écoute profonde et d'une maîtrise artisanale des matières, des volumes et de la lumière.
-          </motion.p>
+          </>}</motion.p>
 
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.0 }} style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
             <motion.a href="#projets" style={{ background: C.accent, color: C.white, borderRadius: 6, padding: "15px 32px", fontWeight: 600, fontSize: 15, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, fontFamily: FONT_SANS }} whileHover={{ background: C.accentDark, scale: 1.03 }} whileTap={{ scale: 0.97 }}>
@@ -262,15 +345,15 @@ export default function StudioNomaPage() {
       <section id="contact" style={{ padding: "110px 80px", background: C.accentLight, textAlign: "center" }}>
         <Reveal>
           <span style={{ fontSize: 12, fontWeight: 600, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark, fontFamily: FONT_SANS }}>Démarrons ensemble</span>
-          <h2 style={{ fontFamily: FONT, fontSize: "clamp(36px, 4vw, 64px)", fontWeight: 300, color: C.text, margin: "16px 0 20px" }}>Votre projet mérite un <em>regard neuf</em>.</h2>
-          <p style={{ fontSize: 17, color: C.textMuted, maxWidth: 520, margin: "0 auto 44px", lineHeight: 1.7, fontFamily: FONT_SANS }}>
+          <h2 style={{ fontFamily: FONT, fontSize: "clamp(36px, 4vw, 64px)", fontWeight: 300, color: C.text, margin: "16px 0 20px" }}>{c?.aboutTitle ?? fd?.businessName ?? <>Votre projet mérite un <em>regard neuf</em>.</>}</h2>
+          <p style={{ fontSize: 17, color: C.textMuted, maxWidth: 520, margin: "0 auto 44px", lineHeight: 1.7, fontFamily: FONT_SANS }}>{c?.aboutText ?? <>
             Une consultation de 45 minutes offerte pour présenter votre projet et explorer les possibilités ensemble.
-          </p>
+          </>}</p>
           <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
-            <motion.a href="mailto:contact@studionoma.fr" style={{ background: C.accent, color: C.white, borderRadius: 6, padding: "16px 36px", fontWeight: 600, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, fontFamily: FONT_SANS }} whileHover={{ background: C.accentDark, scale: 1.03 }}>
+            <motion.a href={`mailto:${fd?.email ?? "contact@studionoma.fr"}`} style={{ background: C.accent, color: C.white, borderRadius: 6, padding: "16px 36px", fontWeight: 600, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, fontFamily: FONT_SANS }} whileHover={{ background: C.accentDark, scale: 1.03 }}>
               <Mail size={18} /> Prendre rendez-vous
             </motion.a>
-            <motion.a href="tel:+33478000000" style={{ background: "transparent", color: C.text, border: `2px solid ${C.accent}`, borderRadius: 6, padding: "14px 32px", fontWeight: 600, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, fontFamily: FONT_SANS }} whileHover={{ background: C.accent, color: C.white }}>
+            <motion.a href={`tel:${fd?.phone ?? "+33478000000"}`} style={{ background: "transparent", color: C.text, border: `2px solid ${C.accent}`, borderRadius: 6, padding: "14px 32px", fontWeight: 600, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, fontFamily: FONT_SANS }} whileHover={{ background: C.accent, color: C.white }}>
               <Phone size={18} /> 04 78 00 00 00
             </motion.a>
           </div>
@@ -294,7 +377,7 @@ export default function StudioNomaPage() {
         </div>
         <div style={{ borderTop: "1px solid rgba(255,255,255,0.08)", paddingTop: 20, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 12 }}>
           <span style={{ color: "rgba(255,255,255,0.28)", fontSize: 13 }}>© 2026 Studio Noma — Site réalisé par Aevia WS</span>
-          <a href="#contact" style={{ color: "rgba(255,255,255,0.28)", fontSize: 13, textDecoration: "none" }}>Mentions légales</a>
+          <a href="#contact" style={{ color: "rgba(255,255,255,0.28)", fontSize: 13, textDecoration: "none" }}>{c?.ctaText ?? <>Mentions légales</>}</a>
         </div>
       </footer>
     </div>

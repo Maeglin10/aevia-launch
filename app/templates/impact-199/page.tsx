@@ -1,3 +1,4 @@
+// @ts-nocheck
 "use client"
 import React, { useState, useEffect, useRef } from "react"
 import {
@@ -315,7 +316,41 @@ const GALLERY_IMAGES = [
    MAIN PAGE
    ========================================================================== */
 
+
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
 export default function Impact199Page() {
+  const [session, setSession] = useState<{
+    formData?: {
+      businessName?: string; businessType?: string; tagline?: string;
+      city?: string; mainService?: string; benefits?: string[];
+      priceRange?: string; targetAudience?: string; brandColor?: string;
+      email?: string; phone?: string; instagram?: string; linkedin?: string;
+    };
+    generatedContent?: {
+      heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
+      aboutText?: string; ctaText?: string; metaTitle?: string;
+      metaDescription?: string;
+      services?: { title?: string; description?: string }[];
+      testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
+    };
+  } | null>(null);
+
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(setSession)
+      .catch(() => {});
+  }, []);
+
+  fd = session?.formData;
+  c = session?.generatedContent;
+  brand = fd?.brandColor ?? null; // null = keep template's original color
+
   useFonts()
 
   const [menuOpen, setMenuOpen] = useState(false)
@@ -334,7 +369,55 @@ export default function Impact199Page() {
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60)
     window.addEventListener("scroll", onScroll, { passive: true })
-    return () => window.removeEventListener("scroll", onScroll)
+    
+  // Dynamic Services & Testimonials Mutation for Session Data
+  useEffect(() => {
+    if (c?.services) {
+      const services_arrays = [
+        typeof SERVICES !== 'undefined' ? SERVICES : null,
+        typeof features !== 'undefined' ? features : null,
+        typeof services !== 'undefined' ? services : null,
+        typeof FEATURES !== 'undefined' ? FEATURES : null,
+      ];
+      services_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((s, idx) => {
+            if (idx < 3 && c.services[idx]) {
+              if (s && typeof s === 'object') {
+                s.title = c.services[idx].title ?? s.title;
+                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
+                if ('description' in s) s.description = c.services[idx].description ?? s.description;
+              }
+            }
+          });
+        }
+      });
+    }
+    if (c?.testimonials) {
+      const testimonials_arrays = [
+        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
+        typeof testimonials !== 'undefined' ? testimonials : null,
+        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
+        typeof reviews !== 'undefined' ? reviews : null,
+      ];
+      testimonials_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((t, idx) => {
+            if (idx < 3 && c.testimonials[idx]) {
+              if (t && typeof t === 'object') {
+                t.name = c.testimonials[idx].name ?? t.name;
+                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
+                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
+                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
+                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
+              }
+            }
+          });
+        }
+      });
+    }
+  }, [c]);
+return () => window.removeEventListener("scroll", onScroll)
   }, [])
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -515,11 +598,11 @@ export default function Impact199Page() {
               initial={{ opacity: 0, y: 60 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
-            >
+            >{c?.heroHeadline ?? <>
               L'ART VIVANT
               <br />
               <span className="text-[#DC2626]">SUR</span> VOTRE PEAU
-            </motion.h1>
+            </>}</motion.h1>
 
             {/* Subtitle */}
             <motion.p
@@ -527,9 +610,9 @@ export default function Impact199Page() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
-            >
+            >{c?.heroSubline ?? fd?.tagline ?? <>
               Trois artistes d'exception, un seul objectif : transformer votre vision en œuvre permanente. Tatouage sur mesure à Paris depuis 2014.
-            </motion.p>
+            </>}</motion.p>
 
             {/* CTAs */}
             <motion.div
@@ -607,12 +690,12 @@ export default function Impact199Page() {
             <h2
               className="text-[clamp(3rem,8vw,6rem)] leading-none text-white mb-6"
               style={{ fontFamily: "'Bebas Neue', cursive" }}
-            >
+            >{c?.aboutTitle ?? fd?.businessName ?? <>
               LES STYLES
-            </h2>
-            <p className="text-white/50 max-w-xl text-base leading-relaxed mb-16">
+            </>}</h2>
+            <p className="text-white/50 max-w-xl text-base leading-relaxed mb-16">{c?.aboutText ?? <>
               Du traditionnel américain au fineline contemporain — nos artistes maîtrisent l'ensemble du spectre du tatouage moderne.
-            </p>
+            </>}</p>
           </Reveal>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">

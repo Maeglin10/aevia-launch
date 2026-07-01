@@ -45,7 +45,41 @@ const PROCESS = [
   { step: "04", title: "Ship", desc: "Roasted to order, shipped within 24 hours in fully compostable packaging.", icon: Droplets },
 ]
 
+
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
 export default function TorrefieCoffeePage() {
+  const [session, setSession] = useState<{
+    formData?: {
+      businessName?: string; businessType?: string; tagline?: string;
+      city?: string; mainService?: string; benefits?: string[];
+      priceRange?: string; targetAudience?: string; brandColor?: string;
+      email?: string; phone?: string; instagram?: string; linkedin?: string;
+    };
+    generatedContent?: {
+      heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
+      aboutText?: string; ctaText?: string; metaTitle?: string;
+      metaDescription?: string;
+      services?: { title?: string; description?: string }[];
+      testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
+    };
+  } | null>(null);
+
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(setSession)
+      .catch(() => {});
+  }, []);
+
+  fd = session?.formData;
+  c = session?.generatedContent;
+  brand = fd?.brandColor ?? null; // null = keep template's original color
+
   const [scrolled, setScrolled] = useState(false)
 
   const { scrollYProgress } = useScroll()
@@ -55,7 +89,55 @@ export default function TorrefieCoffeePage() {
   useEffect(() => {
     const h = () => setScrolled(window.scrollY > 60)
     window.addEventListener("scroll", h)
-    return () => window.removeEventListener("scroll", h)
+    
+  // Dynamic Services & Testimonials Mutation for Session Data
+  useEffect(() => {
+    if (c?.services) {
+      const services_arrays = [
+        typeof SERVICES !== 'undefined' ? SERVICES : null,
+        typeof features !== 'undefined' ? features : null,
+        typeof services !== 'undefined' ? services : null,
+        typeof FEATURES !== 'undefined' ? FEATURES : null,
+      ];
+      services_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((s, idx) => {
+            if (idx < 3 && c.services[idx]) {
+              if (s && typeof s === 'object') {
+                s.title = c.services[idx].title ?? s.title;
+                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
+                if ('description' in s) s.description = c.services[idx].description ?? s.description;
+              }
+            }
+          });
+        }
+      });
+    }
+    if (c?.testimonials) {
+      const testimonials_arrays = [
+        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
+        typeof testimonials !== 'undefined' ? testimonials : null,
+        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
+        typeof reviews !== 'undefined' ? reviews : null,
+      ];
+      testimonials_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((t, idx) => {
+            if (idx < 3 && c.testimonials[idx]) {
+              if (t && typeof t === 'object') {
+                t.name = c.testimonials[idx].name ?? t.name;
+                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
+                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
+                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
+                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
+              }
+            }
+          });
+        }
+      });
+    }
+  }, [c]);
+return () => window.removeEventListener("scroll", h)
   }, [])
 
   return (
@@ -109,14 +191,14 @@ export default function TorrefieCoffeePage() {
               </div>
             </Reveal>
             <Reveal delay={0.15} y={70}>
-              <h1 className="text-6xl md:text-8xl lg:text-[9rem] font-light tracking-tighter leading-[0.85] mb-8" style={{ fontFamily: "Georgia, serif" }}>
+              <h1 className="text-6xl md:text-8xl lg:text-[9rem] font-light tracking-tighter leading-[0.85] mb-8" style={{ fontFamily: "Georgia, serif" }}>{c?.heroHeadline ?? <>
                 From Seed<br/>To <em className="text-[#6b3a24]">Soul.</em>
-              </h1>
+              </>}</h1>
             </Reveal>
             <Reveal delay={0.3}>
-              <p className="max-w-lg text-lg text-[#2c1810]/50 font-light leading-relaxed mb-10">
+              <p className="max-w-lg text-lg text-[#2c1810]/50 font-light leading-relaxed mb-10">{c?.heroSubline ?? fd?.tagline ?? <>
                 Single-origin specialty coffee, roasted in small batches in our Bordeaux atelier. Direct trade, traceable, scored 85+.
-              </p>
+              </>}</p>
             </Reveal>
             <Reveal delay={0.4}>
               <div className="flex flex-wrap gap-4">
@@ -291,12 +373,12 @@ export default function TorrefieCoffeePage() {
           </div>
           <div className="relative z-10 text-center text-[#f5f0ea] px-6">
             <Reveal>
-              <h2 className="text-5xl md:text-7xl font-light tracking-tighter mb-6" style={{ fontFamily: "Georgia, serif" }}>
+              <h2 className="text-5xl md:text-7xl font-light tracking-tighter mb-6" style={{ fontFamily: "Georgia, serif" }}>{c?.aboutTitle ?? fd?.businessName ?? <>
                 Taste The<br/><em>Difference.</em>
-              </h2>
-              <p className="text-lg text-[#f5f0ea]/60 font-light max-w-md mx-auto mb-10">
+              </>}</h2>
+              <p className="text-lg text-[#f5f0ea]/60 font-light max-w-md mx-auto mb-10">{c?.aboutText ?? <>
                 Subscribe and receive freshly roasted single-origin coffee at your door every two weeks.
-              </p>
+              </>}</p>
               <button className="px-12 py-5 bg-[#f5f0ea] text-[#2c1810] font-bold rounded-full hover:bg-[#c48a5a] hover:text-white transition-all duration-500">
                 Start Your Subscription
               </button>

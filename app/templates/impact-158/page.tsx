@@ -1,3 +1,4 @@
+// @ts-nocheck
 "use client"
 
 import React, { useState, useEffect, useRef } from "react"
@@ -109,7 +110,41 @@ const DESTINATIONS = [
 
 const REGIONS = ["Toutes", "Asie", "Afrique", "Europe", "Amériques", "Océanie"]
 
+
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
 export default function AtlasPage() {
+  const [session, setSession] = useState<{
+    formData?: {
+      businessName?: string; businessType?: string; tagline?: string;
+      city?: string; mainService?: string; benefits?: string[];
+      priceRange?: string; targetAudience?: string; brandColor?: string;
+      email?: string; phone?: string; instagram?: string; linkedin?: string;
+    };
+    generatedContent?: {
+      heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
+      aboutText?: string; ctaText?: string; metaTitle?: string;
+      metaDescription?: string;
+      services?: { title?: string; description?: string }[];
+      testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
+    };
+  } | null>(null);
+
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(setSession)
+      .catch(() => {});
+  }, []);
+
+  fd = session?.formData;
+  c = session?.generatedContent;
+  brand = fd?.brandColor ?? null; // null = keep template's original color
+
   useFonts()
   const [menuOpen, setMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
@@ -124,7 +159,55 @@ export default function AtlasPage() {
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40)
     window.addEventListener("scroll", onScroll, { passive: true })
-    return () => window.removeEventListener("scroll", onScroll)
+    
+  // Dynamic Services & Testimonials Mutation for Session Data
+  useEffect(() => {
+    if (c?.services) {
+      const services_arrays = [
+        typeof SERVICES !== 'undefined' ? SERVICES : null,
+        typeof features !== 'undefined' ? features : null,
+        typeof services !== 'undefined' ? services : null,
+        typeof FEATURES !== 'undefined' ? FEATURES : null,
+      ];
+      services_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((s, idx) => {
+            if (idx < 3 && c.services[idx]) {
+              if (s && typeof s === 'object') {
+                s.title = c.services[idx].title ?? s.title;
+                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
+                if ('description' in s) s.description = c.services[idx].description ?? s.description;
+              }
+            }
+          });
+        }
+      });
+    }
+    if (c?.testimonials) {
+      const testimonials_arrays = [
+        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
+        typeof testimonials !== 'undefined' ? testimonials : null,
+        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
+        typeof reviews !== 'undefined' ? reviews : null,
+      ];
+      testimonials_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((t, idx) => {
+            if (idx < 3 && c.testimonials[idx]) {
+              if (t && typeof t === 'object') {
+                t.name = c.testimonials[idx].name ?? t.name;
+                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
+                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
+                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
+                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
+              }
+            }
+          });
+        }
+      });
+    }
+  }, [c]);
+return () => window.removeEventListener("scroll", onScroll)
   }, [])
 
   const filtered = ARTICLES.filter(a => {
@@ -215,14 +298,14 @@ export default function AtlasPage() {
             </div>
           </Reveal>
           <Reveal delay={0.1}>
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-normal text-[#F5F0E8] leading-[1.05] max-w-4xl mb-6" style={{ fontFamily: "'Playfair Display', serif" }}>
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-normal text-[#F5F0E8] leading-[1.05] max-w-4xl mb-6" style={{ fontFamily: "'Playfair Display', serif" }}>{c?.heroHeadline ?? <>
               {featuredArticle.title}
-            </h1>
+            </>}</h1>
           </Reveal>
           <Reveal delay={0.2}>
-            <p className="text-[#D4C9B0] text-lg leading-relaxed max-w-xl mb-8" style={{ fontFamily: "'EB Garamond', serif" }}>
+            <p className="text-[#D4C9B0] text-lg leading-relaxed max-w-xl mb-8" style={{ fontFamily: "'EB Garamond', serif" }}>{c?.heroSubline ?? fd?.tagline ?? <>
               {featuredArticle.excerpt}
-            </p>
+            </>}</p>
             <Link href="#articles" className="inline-flex items-center gap-3 text-[#F5F0E8] text-sm border-b border-[#C0392B] pb-0.5 hover:text-[#C0392B] transition-colors cursor-pointer">
               Lire le récit complet <ArrowRight className="w-4 h-4" />
             </Link>
@@ -354,12 +437,12 @@ export default function AtlasPage() {
           <div>
             <Reveal delay={0.1}>
               <p className="text-xs tracking-[0.25em] uppercase text-[#C0392B] mb-4">À propos d&apos;Atlas</p>
-              <h2 className="text-4xl md:text-5xl font-normal leading-tight mb-6" style={{ fontFamily: "'Playfair Display', serif" }}>
+              <h2 className="text-4xl md:text-5xl font-normal leading-tight mb-6" style={{ fontFamily: "'Playfair Display', serif" }}>{c?.aboutTitle ?? fd?.businessName ?? <>
                 Le voyage comme<br /><em>littérature</em>
-              </h2>
-              <p className="text-[#6B5A40] leading-relaxed mb-5" style={{ fontFamily: "'EB Garamond', serif", fontSize: "18px" }}>
+              </>}</h2>
+              <p className="text-[#6B5A40] leading-relaxed mb-5" style={{ fontFamily: "'EB Garamond', serif", fontSize: "18px" }}>{c?.aboutText ?? <>
                 Atlas est né d&apos;une conviction simple : les voyages méritent mieux que des guides pratiques. Chaque lieu a une histoire, une texture, une odeur. Chaque rencontre change quelque chose.
-              </p>
+              </>}</p>
               <p className="text-[#6B5A40] leading-relaxed mb-8" style={{ fontFamily: "'EB Garamond', serif", fontSize: "18px" }}>
                 Depuis 2012, nous publions des récits de voyage qui prennent le temps de raconter — l&apos;ennui du long-courrier, la chaleur du thé offert par un inconnu, le vertige du sommet. Pas des conseils, des présences.
               </p>

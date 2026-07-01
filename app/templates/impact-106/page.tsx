@@ -45,7 +45,41 @@ const CAPABILITIES = [
   { icon: Zap, title: "Motion & 3D", desc: "Animated logos, explainer videos, and three-dimensional brand worlds." },
 ]
 
+
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
 export default function StudioVersaPage() {
+  const [session, setSession] = useState<{
+    formData?: {
+      businessName?: string; businessType?: string; tagline?: string;
+      city?: string; mainService?: string; benefits?: string[];
+      priceRange?: string; targetAudience?: string; brandColor?: string;
+      email?: string; phone?: string; instagram?: string; linkedin?: string;
+    };
+    generatedContent?: {
+      heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
+      aboutText?: string; ctaText?: string; metaTitle?: string;
+      metaDescription?: string;
+      services?: { title?: string; description?: string }[];
+      testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
+    };
+  } | null>(null);
+
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(setSession)
+      .catch(() => {});
+  }, []);
+
+  fd = session?.formData;
+  c = session?.generatedContent;
+  brand = fd?.brandColor ?? null; // null = keep template's original color
+
   const [scrolled, setScrolled] = useState(false)
 
   const { scrollYProgress } = useScroll()
@@ -54,7 +88,55 @@ export default function StudioVersaPage() {
   useEffect(() => {
     const h = () => setScrolled(window.scrollY > 60)
     window.addEventListener("scroll", h)
-    return () => window.removeEventListener("scroll", h)
+    
+  // Dynamic Services & Testimonials Mutation for Session Data
+  useEffect(() => {
+    if (c?.services) {
+      const services_arrays = [
+        typeof SERVICES !== 'undefined' ? SERVICES : null,
+        typeof features !== 'undefined' ? features : null,
+        typeof services !== 'undefined' ? services : null,
+        typeof FEATURES !== 'undefined' ? FEATURES : null,
+      ];
+      services_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((s, idx) => {
+            if (idx < 3 && c.services[idx]) {
+              if (s && typeof s === 'object') {
+                s.title = c.services[idx].title ?? s.title;
+                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
+                if ('description' in s) s.description = c.services[idx].description ?? s.description;
+              }
+            }
+          });
+        }
+      });
+    }
+    if (c?.testimonials) {
+      const testimonials_arrays = [
+        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
+        typeof testimonials !== 'undefined' ? testimonials : null,
+        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
+        typeof reviews !== 'undefined' ? reviews : null,
+      ];
+      testimonials_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((t, idx) => {
+            if (idx < 3 && c.testimonials[idx]) {
+              if (t && typeof t === 'object') {
+                t.name = c.testimonials[idx].name ?? t.name;
+                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
+                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
+                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
+                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
+              }
+            }
+          });
+        }
+      });
+    }
+  }, [c]);
+return () => window.removeEventListener("scroll", h)
   }, [])
 
   return (
@@ -108,14 +190,14 @@ export default function StudioVersaPage() {
               </div>
             </Reveal>
             <Reveal delay={0.1} y={60}>
-              <h1 className="text-6xl md:text-8xl lg:text-[9rem] font-black tracking-tighter leading-[0.8] mb-8 max-w-4xl">
+              <h1 className="text-6xl md:text-8xl lg:text-[9rem] font-black tracking-tighter leading-[0.8] mb-8 max-w-4xl">{c?.heroHeadline ?? <>
                 Design<br/>With <span className="text-orange-500 italic">Intent.</span>
-              </h1>
+              </>}</h1>
             </Reveal>
             <Reveal delay={0.2}>
-              <p className="text-xl text-[#1a1a1a]/50 font-light max-w-lg leading-relaxed mb-10">
+              <p className="text-xl text-[#1a1a1a]/50 font-light max-w-lg leading-relaxed mb-10">{c?.heroSubline ?? fd?.tagline ?? <>
                 We craft brand identities, digital products, and visual stories for companies that want to matter.
-              </p>
+              </>}</p>
             </Reveal>
             <Reveal delay={0.3}>
               <div className="flex flex-wrap gap-6">
@@ -267,12 +349,12 @@ export default function StudioVersaPage() {
         <section id="contact" className="py-32 bg-[#faf5f0]">
           <div className="max-w-[800px] mx-auto px-6 text-center">
             <Reveal>
-              <h2 className="text-5xl md:text-7xl font-black tracking-tighter mb-6">
+              <h2 className="text-5xl md:text-7xl font-black tracking-tighter mb-6">{c?.aboutTitle ?? fd?.businessName ?? <>
                 Let's Make<br/><span className="text-orange-500 italic">Something.</span>
-              </h2>
-              <p className="text-lg text-[#1a1a1a]/40 font-light max-w-md mx-auto mb-10">
+              </>}</h2>
+              <p className="text-lg text-[#1a1a1a]/40 font-light max-w-md mx-auto mb-10">{c?.aboutText ?? <>
                 We're selective about the projects we take on. If you're serious about great design, we should talk.
-              </p>
+              </>}</p>
               <button className="px-12 py-5 bg-[#1a1a1a] text-white font-bold rounded-full hover:bg-orange-500 transition-colors duration-500">
                 Start a Conversation
               </button>

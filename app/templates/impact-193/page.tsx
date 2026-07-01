@@ -34,7 +34,41 @@ const PRISES_EN_CHARGE = [
   { icon: Calendar, title: "Sportifs & préparation physique", desc: "Bilan ostéo préventif avant saison, récupération post-blessure, optimisation mobilité articulaire. Suivi de sportifs amateurs et semi-professionnels." },
 ]
 
+
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
 export default function OsteoGaiaPage() {
+  const [session, setSession] = useState<{
+    formData?: {
+      businessName?: string; businessType?: string; tagline?: string;
+      city?: string; mainService?: string; benefits?: string[];
+      priceRange?: string; targetAudience?: string; brandColor?: string;
+      email?: string; phone?: string; instagram?: string; linkedin?: string;
+    };
+    generatedContent?: {
+      heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
+      aboutText?: string; ctaText?: string; metaTitle?: string;
+      metaDescription?: string;
+      services?: { title?: string; description?: string }[];
+      testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
+    };
+  } | null>(null);
+
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(setSession)
+      .catch(() => {});
+  }, []);
+
+  fd = session?.formData;
+  c = session?.generatedContent;
+  brand = fd?.brandColor ?? null; // null = keep template's original color
+
   const heroRef = useRef(null)
   const [scrolled, setScrolled] = useState(false)
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] })
@@ -45,7 +79,55 @@ export default function OsteoGaiaPage() {
   useEffect(() => {
     const h = () => setScrolled(window.scrollY > 60)
     window.addEventListener("scroll", h)
-    return () => window.removeEventListener("scroll", h)
+    
+  // Dynamic Services & Testimonials Mutation for Session Data
+  useEffect(() => {
+    if (c?.services) {
+      const services_arrays = [
+        typeof SERVICES !== 'undefined' ? SERVICES : null,
+        typeof features !== 'undefined' ? features : null,
+        typeof services !== 'undefined' ? services : null,
+        typeof FEATURES !== 'undefined' ? FEATURES : null,
+      ];
+      services_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((s, idx) => {
+            if (idx < 3 && c.services[idx]) {
+              if (s && typeof s === 'object') {
+                s.title = c.services[idx].title ?? s.title;
+                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
+                if ('description' in s) s.description = c.services[idx].description ?? s.description;
+              }
+            }
+          });
+        }
+      });
+    }
+    if (c?.testimonials) {
+      const testimonials_arrays = [
+        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
+        typeof testimonials !== 'undefined' ? testimonials : null,
+        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
+        typeof reviews !== 'undefined' ? reviews : null,
+      ];
+      testimonials_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((t, idx) => {
+            if (idx < 3 && c.testimonials[idx]) {
+              if (t && typeof t === 'object') {
+                t.name = c.testimonials[idx].name ?? t.name;
+                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
+                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
+                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
+                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
+              }
+            }
+          });
+        }
+      });
+    }
+  }, [c]);
+return () => window.removeEventListener("scroll", h)
   }, [])
 
   return (
@@ -63,7 +145,7 @@ export default function OsteoGaiaPage() {
             ))}
           </div>
           <div className="flex items-center gap-3">
-            <a href="tel:0467891234" className="hidden md:flex items-center gap-2 text-[#c26b4c] font-bold text-sm">
+            <a href={`tel:${fd?.phone ?? "0467891234"}`} className="hidden md:flex items-center gap-2 text-[#c26b4c] font-bold text-sm">
               <Phone className="w-4 h-4" /> 04 67 89 12 34
             </a>
             <button className="hidden md:block px-5 py-2.5 bg-[#c26b4c] text-white text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-[#a85a3c] transition-colors rounded-lg">
@@ -74,7 +156,7 @@ export default function OsteoGaiaPage() {
               <SheetContent side="right" className="bg-[#f5f0e8] border-slate-200 p-10">
                 <div className="flex flex-col gap-7 mt-16">
                   {["Soins", "L'approche", "Contact"].map(l => <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="text-3xl font-bold text-[#3a2e28] hover:text-[#c26b4c] transition-colors" style={{ fontFamily: "'Libre Baskerville', serif" }}>{l}</Link>)}
-                  <a href="tel:0467891234" className="flex items-center gap-3 text-[#c26b4c] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> 04 67 89 12 34</a>
+                  <a href={`tel:${fd?.phone ?? "0467891234"}`} className="flex items-center gap-3 text-[#c26b4c] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> 04 67 89 12 34</a>
                 </div>
               </SheetContent>
             </Sheet>
@@ -100,20 +182,20 @@ export default function OsteoGaiaPage() {
           </motion.div>
 
           <motion.h1 initial={{ opacity: 0, y: 55 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.2, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
-            className="text-5xl md:text-7xl lg:text-[84px] font-bold leading-[0.9] tracking-tight mb-7 text-[#f5f0e8]" style={{ fontFamily: "'Libre Baskerville', Georgia, serif" }}>
+            className="text-5xl md:text-7xl lg:text-[84px] font-bold leading-[0.9] tracking-tight mb-7 text-[#f5f0e8]" style={{ fontFamily: "'Libre Baskerville', Georgia, serif" }}>{c?.heroHeadline ?? <>
             Retrouvez l'équilibre<br /><span className="text-[#c26b4c] italic">de votre corps.</span>
-          </motion.h1>
+          </>}</motion.h1>
 
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 0.75 }}
-            className="max-w-md text-sm text-[#f5f0e8]/30 leading-relaxed mb-10">
+            className="max-w-md text-sm text-[#f5f0e8]/30 leading-relaxed mb-10">{c?.heroSubline ?? fd?.tagline ?? <>
             Cabinet d'ostéopathie à Montpellier. Douleurs du dos, nourrissons, sportifs, grossesse. Approche globale, douce et personnalisée. Prise en charge mutuelle partielle.
-          </motion.p>
+          </>}</motion.p>
 
           <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.98 }} className="flex flex-wrap gap-4">
-            <button className="px-9 py-4 bg-[#c26b4c] text-white font-bold text-[10px] uppercase tracking-[0.22em] hover:bg-[#a85a3c] transition-colors rounded-lg">
+            <button className="px-9 py-4 bg-[#c26b4c] text-white font-bold text-[10px] uppercase tracking-[0.22em] hover:bg-[#a85a3c] transition-colors rounded-lg">{c?.ctaText ?? <>
               Prendre rendez-vous
-            </button>
-            <a href="tel:0467891234" className="flex items-center gap-3 px-9 py-4 border border-[#f5f0e8]/12 text-[#f5f0e8]/40 font-bold text-[10px] uppercase tracking-widest hover:border-[#c26b4c]/40 hover:text-[#d4937a] transition-all rounded-lg">
+            </>}</button>
+            <a href={`tel:${fd?.phone ?? "0467891234"}`} className="flex items-center gap-3 px-9 py-4 border border-[#f5f0e8]/12 text-[#f5f0e8]/40 font-bold text-[10px] uppercase tracking-widest hover:border-[#c26b4c]/40 hover:text-[#d4937a] transition-all rounded-lg">
               <Phone className="w-4 h-4" /> 04 67 89 12 34
             </a>
           </motion.div>
@@ -171,12 +253,12 @@ export default function OsteoGaiaPage() {
           <Reveal>
             <div>
               <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#c26b4c]/60 mb-5">L'approche Gaïa</div>
-              <h2 className="text-4xl font-bold text-[#f5f0e8] mb-7" style={{ fontFamily: "'Libre Baskerville', serif" }}>
+              <h2 className="text-4xl font-bold text-[#f5f0e8] mb-7" style={{ fontFamily: "'Libre Baskerville', serif" }}>{c?.aboutTitle ?? fd?.businessName ?? <>
                 Traiter la cause,<br /><span className="text-[#c26b4c] italic">pas le symptôme.</span>
-              </h2>
-              <p className="text-[#f5f0e8]/40 leading-relaxed text-sm mb-6">
+              </>}</h2>
+              <p className="text-[#f5f0e8]/40 leading-relaxed text-sm mb-6">{c?.aboutText ?? <>
                 L'ostéopathie part du principe que le corps a la capacité de s'autoréguler. Mon rôle est d'identifier et de lever les restrictions qui l'en empêchent — qu'elles soient musculo-squelettiques, viscérales ou crânio-sacrées.
-              </p>
+              </>}</p>
               <p className="text-[#f5f0e8]/40 leading-relaxed text-sm mb-8">
                 Chaque consultation commence par une anamnèse complète et un bilan postural. Les techniques employées sont adaptées à votre sensibilité : jamais de geste brusque sans accord préalable.
               </p>
@@ -238,7 +320,7 @@ export default function OsteoGaiaPage() {
               <button className="px-10 py-4 bg-white text-[#c26b4c] font-bold text-[10px] uppercase tracking-[0.25em] hover:bg-[#f5f0e8] transition-colors rounded-lg shadow-lg">
                 Prendre rendez-vous
               </button>
-              <a href="tel:0467891234" className="flex items-center gap-3 px-10 py-4 border border-white/25 text-white font-bold text-[10px] uppercase tracking-widest hover:bg-white/10 transition-all rounded-lg">
+              <a href={`tel:${fd?.phone ?? "0467891234"}`} className="flex items-center gap-3 px-10 py-4 border border-white/25 text-white font-bold text-[10px] uppercase tracking-widest hover:bg-white/10 transition-all rounded-lg">
                 <Phone className="w-4 h-4" /> 04 67 89 12 34
               </a>
             </div>

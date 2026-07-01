@@ -1,18 +1,101 @@
+// @ts-nocheck
 "use client";
 
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
-import React, { useRef, useState } from "react";
+import React, {useRef, useState, useEffect} from 'react';
 import Link from "next/link";
 import { C, TextReveal, MagneticButton, MarqueeStrip, DepthLayers, CountUp, PRESS, SERIES, SeriesCard } from "./shared";
 
+
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
 export default function LeaHomePage() {
+  const [session, setSession] = useState<{
+    formData?: {
+      businessName?: string; businessType?: string; tagline?: string;
+      city?: string; mainService?: string; benefits?: string[];
+      priceRange?: string; targetAudience?: string; brandColor?: string;
+      email?: string; phone?: string; instagram?: string; linkedin?: string;
+    };
+    generatedContent?: {
+      heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
+      aboutText?: string; ctaText?: string; metaTitle?: string;
+      metaDescription?: string;
+      services?: { title?: string; description?: string }[];
+      testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
+    };
+  } | null>(null);
+
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(setSession)
+      .catch(() => {});
+  }, []);
+
+  fd = session?.formData;
+  c = session?.generatedContent;
+  brand = fd?.brandColor ?? null; // null = keep template's original color
+
   const [activePress, setActivePress] = useState(0);
   const heroRef = useRef(null);
   const { scrollYProgress: heroProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
   const heroY = useTransform(heroProgress, [0, 1], ["0%", "40%"]);
   const heroOpacity = useTransform(heroProgress, [0, 0.7], [1, 0]);
 
-  return (
+  
+  // Dynamic Services & Testimonials Mutation for Session Data
+  useEffect(() => {
+    if (c?.services) {
+      const services_arrays = [
+        typeof SERVICES !== 'undefined' ? SERVICES : null,
+        typeof features !== 'undefined' ? features : null,
+        typeof services !== 'undefined' ? services : null,
+        typeof FEATURES !== 'undefined' ? FEATURES : null,
+      ];
+      services_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((s, idx) => {
+            if (idx < 3 && c.services[idx]) {
+              if (s && typeof s === 'object') {
+                s.title = c.services[idx].title ?? s.title;
+                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
+                if ('description' in s) s.description = c.services[idx].description ?? s.description;
+              }
+            }
+          });
+        }
+      });
+    }
+    if (c?.testimonials) {
+      const testimonials_arrays = [
+        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
+        typeof testimonials !== 'undefined' ? testimonials : null,
+        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
+        typeof reviews !== 'undefined' ? reviews : null,
+      ];
+      testimonials_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((t, idx) => {
+            if (idx < 3 && c.testimonials[idx]) {
+              if (t && typeof t === 'object') {
+                t.name = c.testimonials[idx].name ?? t.name;
+                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
+                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
+                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
+                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
+              }
+            }
+          });
+        }
+      });
+    }
+  }, [c]);
+return (
     <div style={{ background: C.bg, color: C.cream, minHeight: "80vh" }}>
       {/* ── Hero ── */}
       <section ref={heroRef} style={{ minHeight: "90vh", display: "flex", alignItems: "center", justifyContent: "center", position: "relative", overflow: "hidden" }}>
@@ -49,20 +132,20 @@ export default function LeaHomePage() {
             Nature Photography · Fine Art Prints
           </motion.p>
 
-          <h1 style={{ fontSize: "clamp(52px, 9vw, 120px)", fontWeight: 900, lineHeight: 1.15, letterSpacing: "-0.03em", marginBottom: 40, color: C.cream, paddingBottom: "0.15em" }}>
+          <h1 style={{ fontSize: "clamp(52px, 9vw, 120px)", fontWeight: 900, lineHeight: 1.15, letterSpacing: "-0.03em", marginBottom: 40, color: C.cream, paddingBottom: "0.15em" }}>{c?.heroHeadline ?? <>
             <TextReveal text="Finding" delay={0.3} style={{ display: "block" }} />
             <TextReveal text="depth" delay={0.5} style={{ display: "block", color: C.amber }} />
             <TextReveal text="in stillness." delay={0.7} style={{ display: "block", color: C.moss }} />
-          </h1>
+          </>}</h1>
 
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 1.1 }}
             style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 17, color: C.muted, lineHeight: 1.7, maxWidth: 540, margin: "0 auto 48px", fontWeight: 300 }}
-          >
+          >{c?.heroSubline ?? fd?.tagline ?? <>
             Documentary and fine art landscapes from the world's most remote wilderness areas. Limited edition prints, each signed and numbered.
-          </motion.p>
+          </>}</motion.p>
 
           <motion.div
             initial={{ opacity: 0, y: 16 }}
@@ -103,13 +186,13 @@ export default function LeaHomePage() {
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 64, alignItems: "center", marginBottom: 64 }} className="grid-hero-68">
           <div>
             <p style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 11, letterSpacing: "0.35em", color: C.moss, textTransform: "uppercase", marginBottom: 20 }}>Depth Perception</p>
-            <h2 style={{ fontSize: "clamp(28px, 4vw, 48px)", fontWeight: 700, lineHeight: 1.1, letterSpacing: "-0.02em", marginBottom: 24, color: C.cream }}>
+            <h2 style={{ fontSize: "clamp(28px, 4vw, 48px)", fontWeight: 700, lineHeight: 1.1, letterSpacing: "-0.02em", marginBottom: 24, color: C.cream }}>{c?.aboutTitle ?? fd?.businessName ?? <>
               <TextReveal text="Three planes," />
               <TextReveal text="one frame." delay={0.15} />
-            </h2>
-            <p style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 15, color: C.muted, lineHeight: 1.75, fontWeight: 300, maxWidth: 380 }}>
+            </>}</h2>
+            <p style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 15, color: C.muted, lineHeight: 1.75, fontWeight: 300, maxWidth: 380 }}>{c?.aboutText ?? <>
               Every composition is built in layers — the intimate foreground, the story-telling midground, and the expansive background. Move your cursor across the scene to experience how depth creates presence.
-            </p>
+            </>}</p>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
             {[

@@ -1057,7 +1057,41 @@ function FaqItem({
 }
 
 // ─── Main export ──────────────────────────────────────────────────────────────
+
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
 export default function Impact176Page() {
+  const [session, setSession] = useState<{
+    formData?: {
+      businessName?: string; businessType?: string; tagline?: string;
+      city?: string; mainService?: string; benefits?: string[];
+      priceRange?: string; targetAudience?: string; brandColor?: string;
+      email?: string; phone?: string; instagram?: string; linkedin?: string;
+    };
+    generatedContent?: {
+      heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
+      aboutText?: string; ctaText?: string; metaTitle?: string;
+      metaDescription?: string;
+      services?: { title?: string; description?: string }[];
+      testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
+    };
+  } | null>(null);
+
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(setSession)
+      .catch(() => {});
+  }, []);
+
+  fd = session?.formData;
+  c = session?.generatedContent;
+  brand = fd?.brandColor ?? null; // null = keep template's original color
+
   useFonts();
 
   const [menuOpen, setMenuOpen] = useState(false);
@@ -1071,7 +1105,55 @@ export default function Impact176Page() {
   useEffect(() => {
     const handler = () => setScrolled(window.scrollY > 60);
     window.addEventListener("scroll", handler, { passive: true });
-    return () => window.removeEventListener("scroll", handler);
+    
+  // Dynamic Services & Testimonials Mutation for Session Data
+  useEffect(() => {
+    if (c?.services) {
+      const services_arrays = [
+        typeof SERVICES !== 'undefined' ? SERVICES : null,
+        typeof features !== 'undefined' ? features : null,
+        typeof services !== 'undefined' ? services : null,
+        typeof FEATURES !== 'undefined' ? FEATURES : null,
+      ];
+      services_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((s, idx) => {
+            if (idx < 3 && c.services[idx]) {
+              if (s && typeof s === 'object') {
+                s.title = c.services[idx].title ?? s.title;
+                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
+                if ('description' in s) s.description = c.services[idx].description ?? s.description;
+              }
+            }
+          });
+        }
+      });
+    }
+    if (c?.testimonials) {
+      const testimonials_arrays = [
+        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
+        typeof testimonials !== 'undefined' ? testimonials : null,
+        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
+        typeof reviews !== 'undefined' ? reviews : null,
+      ];
+      testimonials_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((t, idx) => {
+            if (idx < 3 && c.testimonials[idx]) {
+              if (t && typeof t === 'object') {
+                t.name = c.testimonials[idx].name ?? t.name;
+                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
+                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
+                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
+                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
+              }
+            }
+          });
+        }
+      });
+    }
+  }, [c]);
+return () => window.removeEventListener("scroll", handler);
   }, []);
 
   const scrollTo = useCallback((id: string) => {
@@ -1155,9 +1237,7 @@ export default function Impact176Page() {
               color: C.text,
               letterSpacing: "-0.3px",
             }}
-          >
-            Metric
-          </span>
+          >{fd?.businessName ?? "Metric"}</span>
         </div>
 
         {/* Desktop links */}
@@ -1345,9 +1425,9 @@ export default function Impact176Page() {
                 lineHeight: 1.05,
                 color: C.text,
               }}
-            >
+            >{c?.heroHeadline ?? <>
               Your data.
-            </h1>
+            </>}</h1>
           </TextReveal>
           <TextReveal delay={0.1} style={{ marginBottom: 8 }}>
             <h1
@@ -1387,10 +1467,10 @@ export default function Impact176Page() {
               marginBottom: 48,
               maxWidth: 460,
             }}
-          >
+          >{c?.heroSubline ?? fd?.tagline ?? <>
             Metric turns raw data into actionable insights.
             Dashboards, alerts, and automated reports — all in one platform built for serious teams.
-          </motion.p>
+          </>}</motion.p>
 
           <motion.div
             initial={{ opacity: 0, y: 16 }}
@@ -1714,11 +1794,11 @@ export default function Impact176Page() {
                   lineHeight: 1.15,
                   color: C.text,
                 }}
-              >
+              >{c?.aboutTitle ?? fd?.businessName ?? <>
                 Decisions that{" "}
                 <span style={{ color: C.accent }}>actually move</span>{" "}
                 the needle.
-              </h2>
+              </>}</h2>
             </TextReveal>
             <p
               style={{
@@ -1727,11 +1807,11 @@ export default function Impact176Page() {
                 lineHeight: 1.8,
                 marginBottom: 40,
               }}
-            >
+            >{c?.aboutText ?? <>
               Stop guessing. Metric surfaces the insights that matter — right when
               you need them. Automated anomaly detection, trend forecasting, and
               cohort analysis in a single view.
-            </p>
+            </>}</p>
 
             <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
               {[
@@ -2044,9 +2124,7 @@ export default function Impact176Page() {
                   fontSize: 17,
                   color: C.accent,
                 }}
-              >
-                Metric
-              </span>
+              >{fd?.businessName ?? "Metric"}</span>
             </div>
             <p
               style={{

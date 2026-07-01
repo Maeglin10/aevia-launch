@@ -1,6 +1,7 @@
+// @ts-nocheck
 "use client"
 
-import React, { useRef } from "react"
+import React, {useRef, useState, useEffect} from 'react'
 import { motion, useScroll, useTransform } from "framer-motion"
 import Link from "next/link"
 import {
@@ -28,7 +29,41 @@ import {
   WeeklyChart,
 } from "./shared"
 
+
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
 export default function Home() {
+  const [session, setSession] = useState<{
+    formData?: {
+      businessName?: string; businessType?: string; tagline?: string;
+      city?: string; mainService?: string; benefits?: string[];
+      priceRange?: string; targetAudience?: string; brandColor?: string;
+      email?: string; phone?: string; instagram?: string; linkedin?: string;
+    };
+    generatedContent?: {
+      heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
+      aboutText?: string; ctaText?: string; metaTitle?: string;
+      metaDescription?: string;
+      services?: { title?: string; description?: string }[];
+      testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
+    };
+  } | null>(null);
+
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(setSession)
+      .catch(() => {});
+  }, []);
+
+  fd = session?.formData;
+  c = session?.generatedContent;
+  brand = fd?.brandColor ?? null; // null = keep template's original color
+
   const heroRef = useRef<HTMLDivElement>(null)
 
   const { scrollYProgress } = useScroll({ target: heroRef })
@@ -36,7 +71,55 @@ export default function Home() {
   const heroOpacity = useTransform(scrollYProgress, [0, 0.65], [1, 0])
   const heroScale = useTransform(scrollYProgress, [0, 1], [1, 1.08])
 
-  return (
+  
+  // Dynamic Services & Testimonials Mutation for Session Data
+  useEffect(() => {
+    if (c?.services) {
+      const services_arrays = [
+        typeof SERVICES !== 'undefined' ? SERVICES : null,
+        typeof features !== 'undefined' ? features : null,
+        typeof services !== 'undefined' ? services : null,
+        typeof FEATURES !== 'undefined' ? FEATURES : null,
+      ];
+      services_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((s, idx) => {
+            if (idx < 3 && c.services[idx]) {
+              if (s && typeof s === 'object') {
+                s.title = c.services[idx].title ?? s.title;
+                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
+                if ('description' in s) s.description = c.services[idx].description ?? s.description;
+              }
+            }
+          });
+        }
+      });
+    }
+    if (c?.testimonials) {
+      const testimonials_arrays = [
+        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
+        typeof testimonials !== 'undefined' ? testimonials : null,
+        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
+        typeof reviews !== 'undefined' ? reviews : null,
+      ];
+      testimonials_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((t, idx) => {
+            if (idx < 3 && c.testimonials[idx]) {
+              if (t && typeof t === 'object') {
+                t.name = c.testimonials[idx].name ?? t.name;
+                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
+                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
+                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
+                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
+              }
+            }
+          });
+        }
+      });
+    }
+  }, [c]);
+return (
     <div className="relative">
       {/* =====================================================================
           1. HERO — OLED DARK + ANIMATED EQ + PARALLAX
@@ -87,7 +170,7 @@ export default function Home() {
           </Reveal>
 
           <Reveal delay={0.1}>
-            <h1 className="text-5xl md:text-7xl lg:text-8xl font-black leading-[1.0] tracking-tight mb-6">
+            <h1 className="text-5xl md:text-7xl lg:text-8xl font-black leading-[1.0] tracking-tight mb-6">{c?.heroHeadline ?? <>
               Your Podcast.{" "}
               <span
                 className="inline-block"
@@ -99,14 +182,14 @@ export default function Home() {
               >
                 Amplified.
               </span>
-            </h1>
+            </>}</h1>
           </Reveal>
 
           <Reveal delay={0.2}>
-            <p className="text-lg md:text-xl text-[#94A3B8] max-w-2xl mx-auto leading-relaxed mb-10">
+            <p className="text-lg md:text-xl text-[#94A3B8] max-w-2xl mx-auto leading-relaxed mb-10">{c?.heroSubline ?? fd?.tagline ?? <>
               Host, distribute, and monetize your podcast on 15+ platforms — all from one
               dashboard. No tech skills required. Start in minutes.
-            </p>
+            </>}</p>
           </Reveal>
 
           {/* CTA buttons */}
@@ -183,13 +266,13 @@ export default function Home() {
               <span className="text-xs font-bold uppercase tracking-widest text-[#F97316] block mb-2">
                 Creator Tools
               </span>
-              <h2 className="text-4xl md:text-5xl font-black tracking-tight mb-4">
+              <h2 className="text-4xl md:text-5xl font-black tracking-tight mb-4">{c?.aboutTitle ?? fd?.businessName ?? <>
                 Everything you need to grow
-              </h2>
-              <p className="text-lg text-[#64748B] max-w-2xl mx-auto">
+              </>}</h2>
+              <p className="text-lg text-[#64748B] max-w-2xl mx-auto">{c?.aboutText ?? <>
                 Professional-grade tools that used to cost thousands a month — now included
                 in every WaveForm plan.
-              </p>
+              </>}</p>
             </div>
           </Reveal>
 

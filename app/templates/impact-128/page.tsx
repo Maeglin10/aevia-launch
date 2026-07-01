@@ -44,7 +44,41 @@ const SERVICES = [
   { icon: Award, title: "Off-Market Access", desc: "Exclusive pre-market listings and pocket deals from our global broker network." },
 ]
 
+
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
 export default function HavenEstatesPage() {
+  const [session, setSession] = useState<{
+    formData?: {
+      businessName?: string; businessType?: string; tagline?: string;
+      city?: string; mainService?: string; benefits?: string[];
+      priceRange?: string; targetAudience?: string; brandColor?: string;
+      email?: string; phone?: string; instagram?: string; linkedin?: string;
+    };
+    generatedContent?: {
+      heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
+      aboutText?: string; ctaText?: string; metaTitle?: string;
+      metaDescription?: string;
+      services?: { title?: string; description?: string }[];
+      testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
+    };
+  } | null>(null);
+
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(setSession)
+      .catch(() => {});
+  }, []);
+
+  fd = session?.formData;
+  c = session?.generatedContent;
+  brand = fd?.brandColor ?? null; // null = keep template's original color
+
   const [scrolled, setScrolled] = useState(false)
 
   const { scrollYProgress } = useScroll()
@@ -54,7 +88,55 @@ export default function HavenEstatesPage() {
   useEffect(() => {
     const h = () => setScrolled(window.scrollY > 60)
     window.addEventListener("scroll", h)
-    return () => window.removeEventListener("scroll", h)
+    
+  // Dynamic Services & Testimonials Mutation for Session Data
+  useEffect(() => {
+    if (c?.services) {
+      const services_arrays = [
+        typeof SERVICES !== 'undefined' ? SERVICES : null,
+        typeof features !== 'undefined' ? features : null,
+        typeof services !== 'undefined' ? services : null,
+        typeof FEATURES !== 'undefined' ? FEATURES : null,
+      ];
+      services_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((s, idx) => {
+            if (idx < 3 && c.services[idx]) {
+              if (s && typeof s === 'object') {
+                s.title = c.services[idx].title ?? s.title;
+                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
+                if ('description' in s) s.description = c.services[idx].description ?? s.description;
+              }
+            }
+          });
+        }
+      });
+    }
+    if (c?.testimonials) {
+      const testimonials_arrays = [
+        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
+        typeof testimonials !== 'undefined' ? testimonials : null,
+        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
+        typeof reviews !== 'undefined' ? reviews : null,
+      ];
+      testimonials_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((t, idx) => {
+            if (idx < 3 && c.testimonials[idx]) {
+              if (t && typeof t === 'object') {
+                t.name = c.testimonials[idx].name ?? t.name;
+                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
+                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
+                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
+                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
+              }
+            }
+          });
+        }
+      });
+    }
+  }, [c]);
+return () => window.removeEventListener("scroll", h)
   }, [])
 
   return (
@@ -106,14 +188,14 @@ export default function HavenEstatesPage() {
               </div>
             </Reveal>
             <Reveal delay={0.15} y={70}>
-              <h1 className="text-6xl md:text-8xl lg:text-[9rem] font-light tracking-tighter leading-[0.85] mb-8" style={{ fontFamily: "Georgia, serif" }}>
+              <h1 className="text-6xl md:text-8xl lg:text-[9rem] font-light tracking-tighter leading-[0.85] mb-8" style={{ fontFamily: "Georgia, serif" }}>{c?.heroHeadline ?? <>
                 Exceptional<br/><em className="text-[#b8860b]">Residences.</em>
-              </h1>
+              </>}</h1>
             </Reveal>
             <Reveal delay={0.3}>
-              <p className="max-w-lg text-lg text-[#1a1a1a]/50 font-light leading-relaxed">
+              <p className="max-w-lg text-lg text-[#1a1a1a]/50 font-light leading-relaxed">{c?.heroSubline ?? fd?.tagline ?? <>
                 Curated trophy properties for discerning clients worldwide. Off-market access. Discretion guaranteed.
-              </p>
+              </>}</p>
             </Reveal>
           </motion.div>
         </section>
@@ -232,12 +314,12 @@ export default function HavenEstatesPage() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
               <Reveal>
                 <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#b8860b] block mb-4">Our Difference</span>
-                <h2 className="text-5xl md:text-6xl font-light tracking-tighter mb-8" style={{ fontFamily: "Georgia, serif" }}>
+                <h2 className="text-5xl md:text-6xl font-light tracking-tighter mb-8" style={{ fontFamily: "Georgia, serif" }}>{c?.aboutTitle ?? fd?.businessName ?? <>
                   The Haven <em className="text-[#b8860b]">Advantage.</em>
-                </h2>
-                <p className="text-lg text-white/40 font-light leading-relaxed max-w-md">
+                </>}</h2>
+                <p className="text-lg text-white/40 font-light leading-relaxed max-w-md">{c?.aboutText ?? <>
                   Founded by former principals at Sotheby&apos;s Realty and Christie&apos;s International, Haven Estates brings institutional expertise to private hands — with complete discretion.
-                </p>
+                </>}</p>
               </Reveal>
               <Reveal delay={0.15}>
                 <div className="grid grid-cols-2 gap-px bg-[#b8860b]/10">

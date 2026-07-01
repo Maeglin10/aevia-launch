@@ -1,3 +1,5 @@
+// @ts-nocheck
+import React, { useState, useEffect, useRef } from 'react';
 "use client";
 
 import { motion } from "framer-motion";
@@ -7,8 +9,90 @@ import { C, STATS, OrbitCenter, AnimatedCounter } from "./shared";
 
 import "../premium.css";
 
+
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
 export default function OrbitHomePage() {
-  return (
+  const [session, setSession] = useState<{
+    formData?: {
+      businessName?: string; businessType?: string; tagline?: string;
+      city?: string; mainService?: string; benefits?: string[];
+      priceRange?: string; targetAudience?: string; brandColor?: string;
+      email?: string; phone?: string; instagram?: string; linkedin?: string;
+    };
+    generatedContent?: {
+      heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
+      aboutText?: string; ctaText?: string; metaTitle?: string;
+      metaDescription?: string;
+      services?: { title?: string; description?: string }[];
+      testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
+    };
+  } | null>(null);
+
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(setSession)
+      .catch(() => {});
+  }, []);
+
+  fd = session?.formData;
+  c = session?.generatedContent;
+  brand = fd?.brandColor ?? null; // null = keep template's original color
+
+  
+  // Dynamic Services & Testimonials Mutation for Session Data
+  useEffect(() => {
+    if (c?.services) {
+      const services_arrays = [
+        typeof SERVICES !== 'undefined' ? SERVICES : null,
+        typeof features !== 'undefined' ? features : null,
+        typeof services !== 'undefined' ? services : null,
+        typeof FEATURES !== 'undefined' ? FEATURES : null,
+      ];
+      services_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((s, idx) => {
+            if (idx < 3 && c.services[idx]) {
+              if (s && typeof s === 'object') {
+                s.title = c.services[idx].title ?? s.title;
+                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
+                if ('description' in s) s.description = c.services[idx].description ?? s.description;
+              }
+            }
+          });
+        }
+      });
+    }
+    if (c?.testimonials) {
+      const testimonials_arrays = [
+        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
+        typeof testimonials !== 'undefined' ? testimonials : null,
+        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
+        typeof reviews !== 'undefined' ? reviews : null,
+      ];
+      testimonials_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((t, idx) => {
+            if (idx < 3 && c.testimonials[idx]) {
+              if (t && typeof t === 'object') {
+                t.name = c.testimonials[idx].name ?? t.name;
+                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
+                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
+                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
+                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
+              }
+            }
+          });
+        }
+      });
+    }
+  }, [c]);
+return (
     <div style={{ background: C.bg, color: C.text, minHeight: "80vh" }}>
       {/* ─── HERO ────────────────────────────────────────────────────────── */}
       <section
@@ -91,13 +175,13 @@ export default function OrbitHomePage() {
                   marginBottom: "32px",
                   paddingBottom: "0.15em",
                 }}
-              >
+              >{c?.heroHeadline ?? <>
                 Brands that
                 <br />
                 <span style={{ color: C.accent }}>shift</span>
                 <br />
                 perception.
-              </motion.h1>
+              </>}</motion.h1>
 
               <motion.p
                 initial={{ opacity: 0, y: 30 }}
@@ -111,9 +195,9 @@ export default function OrbitHomePage() {
                   maxWidth: "480px",
                   marginBottom: "48px",
                 }}
-              >
+              >{c?.heroSubline ?? fd?.tagline ?? <>
                 We build identity systems for ambitious companies — from seed-stage startups to century-old maisons. Strategy, visual identity, and art direction that makes the right people stop scrolling.
-              </motion.p>
+              </>}</motion.p>
 
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -385,12 +469,12 @@ export default function OrbitHomePage() {
             <div style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "11px", fontWeight: 700, letterSpacing: "0.2em", color: C.white, opacity: 0.6, textTransform: "uppercase", marginBottom: "2rem" }}>
               New Brief
             </div>
-            <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(3rem, 7vw, 6rem)", fontWeight: 700, letterSpacing: "-0.04em", lineHeight: 1.1, color: C.white, marginBottom: "2rem" }}>
+            <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(3rem, 7vw, 6rem)", fontWeight: 700, letterSpacing: "-0.04em", lineHeight: 1.1, color: C.white, marginBottom: "2rem" }}>{c?.aboutTitle ?? fd?.businessName ?? <>
               Let's make<br />something<br />unforgettable.
-            </h2>
-            <p style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "16px", color: C.white, opacity: 0.7, lineHeight: 1.7, maxWidth: "480px", margin: "0 auto 3.5rem" }}>
+            </>}</h2>
+            <p style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "16px", color: C.white, opacity: 0.7, lineHeight: 1.7, maxWidth: "480px", margin: "0 auto 3.5rem" }}>{c?.aboutText ?? <>
               We take on 6 projects per quarter. If your brief has ambition and your deadline has adrenaline, we want to hear it.
-            </p>
+            </>}</p>
             <Link
               href="/templates/impact-68/contact"
               style={{ display: "inline-flex", alignItems: "center", gap: "10px", background: C.white, color: C.accent, padding: "18px 44px", fontFamily: "'Space Grotesk', sans-serif", fontSize: "14px", fontWeight: 700, letterSpacing: "0.04em", textDecoration: "none", transition: "transform 0.15s" }}

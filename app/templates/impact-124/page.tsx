@@ -111,7 +111,41 @@ const MANIFEST = {
 
 // ─── MAIN PAGE ──────────────────────────────────────────────────────────────
 
+
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
 export default function MorphStudioPage() {
+  const [session, setSession] = useState<{
+    formData?: {
+      businessName?: string; businessType?: string; tagline?: string;
+      city?: string; mainService?: string; benefits?: string[];
+      priceRange?: string; targetAudience?: string; brandColor?: string;
+      email?: string; phone?: string; instagram?: string; linkedin?: string;
+    };
+    generatedContent?: {
+      heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
+      aboutText?: string; ctaText?: string; metaTitle?: string;
+      metaDescription?: string;
+      services?: { title?: string; description?: string }[];
+      testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
+    };
+  } | null>(null);
+
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(setSession)
+      .catch(() => {});
+  }, []);
+
+  fd = session?.formData;
+  c = session?.generatedContent;
+  brand = fd?.brandColor ?? null; // null = keep template's original color
+
   const [scrolled, setScrolled] = useState(false)
   const { scrollYProgress } = useScroll()
   
@@ -121,7 +155,55 @@ export default function MorphStudioPage() {
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50)
     window.addEventListener("scroll", handleScroll)
-    return () => window.removeEventListener("scroll", handleScroll)
+    
+  // Dynamic Services & Testimonials Mutation for Session Data
+  useEffect(() => {
+    if (c?.services) {
+      const services_arrays = [
+        typeof SERVICES !== 'undefined' ? SERVICES : null,
+        typeof features !== 'undefined' ? features : null,
+        typeof services !== 'undefined' ? services : null,
+        typeof FEATURES !== 'undefined' ? FEATURES : null,
+      ];
+      services_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((s, idx) => {
+            if (idx < 3 && c.services[idx]) {
+              if (s && typeof s === 'object') {
+                s.title = c.services[idx].title ?? s.title;
+                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
+                if ('description' in s) s.description = c.services[idx].description ?? s.description;
+              }
+            }
+          });
+        }
+      });
+    }
+    if (c?.testimonials) {
+      const testimonials_arrays = [
+        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
+        typeof testimonials !== 'undefined' ? testimonials : null,
+        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
+        typeof reviews !== 'undefined' ? reviews : null,
+      ];
+      testimonials_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((t, idx) => {
+            if (idx < 3 && c.testimonials[idx]) {
+              if (t && typeof t === 'object') {
+                t.name = c.testimonials[idx].name ?? t.name;
+                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
+                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
+                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
+                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
+              }
+            }
+          });
+        }
+      });
+    }
+  }, [c]);
+return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
   return (
@@ -182,16 +264,16 @@ export default function MorphStudioPage() {
                   <span className="text-xs font-bold uppercase tracking-[0.3em] text-cyan-400">{MANIFEST.hero.status}</span>
                 </div>
                 
-                <h1 className="text-6xl md:text-8xl lg:text-[7rem] font-black tracking-tighter leading-none text-white mb-8">
+                <h1 className="text-6xl md:text-8xl lg:text-[7rem] font-black tracking-tighter leading-none text-white mb-8">{c?.heroHeadline ?? <>
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-500">
                     MORPH
                   </span><br/>
                   STUDIO.
-                </h1>
+                </>}</h1>
                 
-                <p className="max-w-xl text-lg md:text-xl text-zinc-400 leading-relaxed mb-12">
+                <p className="max-w-xl text-lg md:text-xl text-zinc-400 leading-relaxed mb-12">{c?.heroSubline ?? fd?.tagline ?? <>
                   {MANIFEST.hero.desc}
-                </p>
+                </>}</p>
                 
                 <div className="flex flex-col sm:flex-row gap-6">
                   <button className="px-8 py-4 bg-white text-black text-xs font-bold uppercase tracking-widest rounded-full hover:bg-cyan-400 transition-colors flex items-center justify-center gap-3">
@@ -411,12 +493,12 @@ export default function MorphStudioPage() {
           
           <div className="max-w-[1200px] mx-auto px-6 relative z-10 text-center">
             <Reveal>
-              <h2 className="text-6xl md:text-9xl font-black tracking-tighter uppercase mb-8">
+              <h2 className="text-6xl md:text-9xl font-black tracking-tighter uppercase mb-8">{c?.aboutTitle ?? fd?.businessName ?? <>
                 Ready to <br/> <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-500">Morph?</span>
-              </h2>
-              <p className="text-xl text-zinc-400 max-w-2xl mx-auto mb-12">
+              </>}</h2>
+              <p className="text-xl text-zinc-400 max-w-2xl mx-auto mb-12">{c?.aboutText ?? <>
                 Initiate a secure connection with our lead engineers to discuss your spatial computing requirements.
-              </p>
+              </>}</p>
               <button className="px-12 py-5 bg-white text-black text-xs font-bold uppercase tracking-widest rounded-full hover:bg-cyan-400 transition-all shadow-[0_0_40px_rgba(34,211,238,0.2)]">
                 Establish Connection
               </button>

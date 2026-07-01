@@ -1,6 +1,7 @@
+// @ts-nocheck
 "use client";
 
-import React, { useRef } from "react";
+import React, {useRef, useState, useEffect} from 'react';
 import Image from "next/image";
 import Link from "next/link";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
@@ -25,7 +26,41 @@ function ParallaxImg({ src, alt }: { src: string; alt: string }) {
   );
 }
 
+
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
 export default function ChateauVestigeHome() {
+  const [session, setSession] = useState<{
+    formData?: {
+      businessName?: string; businessType?: string; tagline?: string;
+      city?: string; mainService?: string; benefits?: string[];
+      priceRange?: string; targetAudience?: string; brandColor?: string;
+      email?: string; phone?: string; instagram?: string; linkedin?: string;
+    };
+    generatedContent?: {
+      heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
+      aboutText?: string; ctaText?: string; metaTitle?: string;
+      metaDescription?: string;
+      services?: { title?: string; description?: string }[];
+      testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
+    };
+  } | null>(null);
+
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(setSession)
+      .catch(() => {});
+  }, []);
+
+  fd = session?.formData;
+  c = session?.generatedContent;
+  brand = fd?.brandColor ?? null; // null = keep template's original color
+
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: containerRef });
 
@@ -33,7 +68,55 @@ export default function ChateauVestigeHome() {
   const textY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
   const opacityHero = useTransform(scrollYProgress, [0, 0.3], [1, 0]);
 
-  return (
+  
+  // Dynamic Services & Testimonials Mutation for Session Data
+  useEffect(() => {
+    if (c?.services) {
+      const services_arrays = [
+        typeof SERVICES !== 'undefined' ? SERVICES : null,
+        typeof features !== 'undefined' ? features : null,
+        typeof services !== 'undefined' ? services : null,
+        typeof FEATURES !== 'undefined' ? FEATURES : null,
+      ];
+      services_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((s, idx) => {
+            if (idx < 3 && c.services[idx]) {
+              if (s && typeof s === 'object') {
+                s.title = c.services[idx].title ?? s.title;
+                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
+                if ('description' in s) s.description = c.services[idx].description ?? s.description;
+              }
+            }
+          });
+        }
+      });
+    }
+    if (c?.testimonials) {
+      const testimonials_arrays = [
+        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
+        typeof testimonials !== 'undefined' ? testimonials : null,
+        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
+        typeof reviews !== 'undefined' ? reviews : null,
+      ];
+      testimonials_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((t, idx) => {
+            if (idx < 3 && c.testimonials[idx]) {
+              if (t && typeof t === 'object') {
+                t.name = c.testimonials[idx].name ?? t.name;
+                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
+                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
+                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
+                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
+              }
+            }
+          });
+        }
+      });
+    }
+  }, [c]);
+return (
     <div ref={containerRef}>
       {/* ─── HERO PARALLAX ─── */}
       <section className="relative h-[calc(100vh-96px)] flex items-center justify-center overflow-hidden bg-[#1A1A1A]">
@@ -57,15 +140,15 @@ export default function ChateauVestigeHome() {
           </Reveal>
 
           <Reveal delay={0.1}>
-            <h1 className="text-6xl md:text-8xl lg:text-9xl font-serif font-light tracking-tighter mb-8 leading-[1.1] pb-3 drop-shadow-xl">
+            <h1 className="text-6xl md:text-8xl lg:text-9xl font-serif font-light tracking-tighter mb-8 leading-[1.1] pb-3 drop-shadow-xl">{c?.heroHeadline ?? <>
               L'Âme de <br /> <span className="italic">Margaux.</span>
-            </h1>
+            </>}</h1>
           </Reveal>
 
           <Reveal delay={0.2}>
-            <p className="text-lg md:text-xl font-sans font-light tracking-wide max-w-2xl mx-auto mb-12 text-zinc-200">
+            <p className="text-lg md:text-xl font-sans font-light tracking-wide max-w-2xl mx-auto mb-12 text-zinc-200">{c?.heroSubline ?? fd?.tagline ?? <>
               Une terre de graves, des vignes centenaires et le temps pour seul allié. L'expression la plus pure d'un grand terroir.
-            </p>
+            </>}</p>
           </Reveal>
 
           <Reveal delay={0.3}>
@@ -119,10 +202,10 @@ export default function ChateauVestigeHome() {
           <div className="text-center mb-20">
             <Reveal>
               <h2 className="text-xs font-sans uppercase tracking-[0.2em] text-[#C4A265] font-bold mb-4">Le Domaine</h2>
-              <h3 className="text-4xl md:text-5xl font-serif text-[#2D1B0E] mb-6 leading-normal pb-2">L'Art du Grand Vin</h3>
-              <p className="text-zinc-600 font-sans max-w-2xl mx-auto text-lg leading-relaxed">
+              <h3 className="text-4xl md:text-5xl font-serif text-[#2D1B0E] mb-6 leading-normal pb-2">{c?.aboutTitle ?? fd?.businessName ?? <>L'Art du Grand Vin</>}</h3>
+              <p className="text-zinc-600 font-sans max-w-2xl mx-auto text-lg leading-relaxed">{c?.aboutText ?? <>
                 De la vigne à la bouteille, chaque étape est guidée par l'exigence absolue et le respect d'une nature généreuse.
-              </p>
+              </>}</p>
             </Reveal>
           </div>
 

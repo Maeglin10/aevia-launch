@@ -122,7 +122,41 @@ const MANIFEST = {
 
 // ─── MAIN PAGE ──────────────────────────────────────────────────────────────
 
+
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
 export default function ChronicleEditorialPage() {
+  const [session, setSession] = useState<{
+    formData?: {
+      businessName?: string; businessType?: string; tagline?: string;
+      city?: string; mainService?: string; benefits?: string[];
+      priceRange?: string; targetAudience?: string; brandColor?: string;
+      email?: string; phone?: string; instagram?: string; linkedin?: string;
+    };
+    generatedContent?: {
+      heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
+      aboutText?: string; ctaText?: string; metaTitle?: string;
+      metaDescription?: string;
+      services?: { title?: string; description?: string }[];
+      testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
+    };
+  } | null>(null);
+
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(setSession)
+      .catch(() => {});
+  }, []);
+
+  fd = session?.formData;
+  c = session?.generatedContent;
+  brand = fd?.brandColor ?? null; // null = keep template's original color
+
   const [scrolled, setScrolled] = useState(false)
   const { scrollYProgress } = useScroll()
   
@@ -132,7 +166,55 @@ export default function ChronicleEditorialPage() {
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50)
     window.addEventListener("scroll", handleScroll)
-    return () => window.removeEventListener("scroll", handleScroll)
+    
+  // Dynamic Services & Testimonials Mutation for Session Data
+  useEffect(() => {
+    if (c?.services) {
+      const services_arrays = [
+        typeof SERVICES !== 'undefined' ? SERVICES : null,
+        typeof features !== 'undefined' ? features : null,
+        typeof services !== 'undefined' ? services : null,
+        typeof FEATURES !== 'undefined' ? FEATURES : null,
+      ];
+      services_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((s, idx) => {
+            if (idx < 3 && c.services[idx]) {
+              if (s && typeof s === 'object') {
+                s.title = c.services[idx].title ?? s.title;
+                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
+                if ('description' in s) s.description = c.services[idx].description ?? s.description;
+              }
+            }
+          });
+        }
+      });
+    }
+    if (c?.testimonials) {
+      const testimonials_arrays = [
+        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
+        typeof testimonials !== 'undefined' ? testimonials : null,
+        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
+        typeof reviews !== 'undefined' ? reviews : null,
+      ];
+      testimonials_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((t, idx) => {
+            if (idx < 3 && c.testimonials[idx]) {
+              if (t && typeof t === 'object') {
+                t.name = c.testimonials[idx].name ?? t.name;
+                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
+                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
+                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
+                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
+              }
+            }
+          });
+        }
+      });
+    }
+  }, [c]);
+return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
   return (
@@ -169,9 +251,9 @@ export default function ChronicleEditorialPage() {
           </div>
 
           <Link href="#hero" className="absolute left-1/2 -translate-x-1/2 flex flex-col items-center">
-            <h1 className="text-3xl md:text-5xl font-black uppercase tracking-tighter" style={{ fontFamily: "Georgia, serif" }}>
+            <h1 className="text-3xl md:text-5xl font-black uppercase tracking-tighter" style={{ fontFamily: "Georgia, serif" }}>{c?.heroHeadline ?? <>
               Chronicle.
-            </h1>
+            </>}</h1>
             {!scrolled && <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-[#1a1814]/50 mt-1">Est. 1924</span>}
           </Link>
 
@@ -227,10 +309,10 @@ export default function ChronicleEditorialPage() {
               <div className="mt-8 p-6 bg-[#f0eee9] border border-[#1a1814]/10">
                 <Newspaper className="w-8 h-8 text-[#d64000] mb-4" />
                 <h4 className="font-serif italic text-xl mb-2">Morning Briefing</h4>
-                <p className="text-sm text-[#1a1814]/60 mb-4 leading-relaxed">Start your day with what you need to know.</p>
-                <button className="w-full py-2 bg-[#1a1814] text-white text-xs font-bold uppercase tracking-widest hover:bg-[#d64000] transition-colors">
+                <p className="text-sm text-[#1a1814]/60 mb-4 leading-relaxed">{c?.heroSubline ?? fd?.tagline ?? <>Start your day with what you need to know.</>}</p>
+                <button className="w-full py-2 bg-[#1a1814] text-white text-xs font-bold uppercase tracking-widest hover:bg-[#d64000] transition-colors">{c?.ctaText ?? <>
                   Sign Up
-                </button>
+                </>}</button>
               </div>
             </div>
 
@@ -330,12 +412,12 @@ export default function ChronicleEditorialPage() {
             <div className="order-2 lg:order-1">
               <Reveal>
                 <div className="w-16 h-[2px] bg-[#d64000] mb-8" />
-                <h2 className="text-4xl md:text-6xl font-serif leading-tight mb-8">
+                <h2 className="text-4xl md:text-6xl font-serif leading-tight mb-8">{c?.aboutTitle ?? fd?.businessName ?? <>
                   The <br/><span className="italic">Sunday</span> Essays.
-                </h2>
-                <p className="text-lg text-[#1a1814]/70 leading-relaxed mb-12 max-w-md">
+                </>}</h2>
+                <p className="text-lg text-[#1a1814]/70 leading-relaxed mb-12 max-w-md">{c?.aboutText ?? <>
                   Long-form reflections on culture, society, and the human condition. Designed for slow reading and deep thought.
-                </p>
+                </>}</p>
                 <div className="flex flex-col border-t border-[#1a1814]/10">
                   {MANIFEST.essays.map((essay, i) => (
                     <Link key={i} href="#subscribe" className="group flex items-center justify-between py-6 border-b border-[#1a1814]/10 hover:bg-[#f2efe9] transition-colors -mx-6 px-6">

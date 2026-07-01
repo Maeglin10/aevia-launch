@@ -34,7 +34,41 @@ const SERVICES = [
   { icon: AlertTriangle, title: "Dépannage & remorquage", desc: "Intervention 7j/7 en Ille-et-Vilaine. Crevaison, panne, accident. Dépanneuse disponible sous 45 min. Convoyage vers atelier inclus." },
 ]
 
+
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
 export default function AutoExpertPage() {
+  const [session, setSession] = useState<{
+    formData?: {
+      businessName?: string; businessType?: string; tagline?: string;
+      city?: string; mainService?: string; benefits?: string[];
+      priceRange?: string; targetAudience?: string; brandColor?: string;
+      email?: string; phone?: string; instagram?: string; linkedin?: string;
+    };
+    generatedContent?: {
+      heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
+      aboutText?: string; ctaText?: string; metaTitle?: string;
+      metaDescription?: string;
+      services?: { title?: string; description?: string }[];
+      testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
+    };
+  } | null>(null);
+
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(setSession)
+      .catch(() => {});
+  }, []);
+
+  fd = session?.formData;
+  c = session?.generatedContent;
+  brand = fd?.brandColor ?? null; // null = keep template's original color
+
   const heroRef = useRef(null)
   const [scrolled, setScrolled] = useState(false)
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] })
@@ -45,7 +79,55 @@ export default function AutoExpertPage() {
   useEffect(() => {
     const h = () => setScrolled(window.scrollY > 60)
     window.addEventListener("scroll", h)
-    return () => window.removeEventListener("scroll", h)
+    
+  // Dynamic Services & Testimonials Mutation for Session Data
+  useEffect(() => {
+    if (c?.services) {
+      const services_arrays = [
+        typeof SERVICES !== 'undefined' ? SERVICES : null,
+        typeof features !== 'undefined' ? features : null,
+        typeof services !== 'undefined' ? services : null,
+        typeof FEATURES !== 'undefined' ? FEATURES : null,
+      ];
+      services_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((s, idx) => {
+            if (idx < 3 && c.services[idx]) {
+              if (s && typeof s === 'object') {
+                s.title = c.services[idx].title ?? s.title;
+                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
+                if ('description' in s) s.description = c.services[idx].description ?? s.description;
+              }
+            }
+          });
+        }
+      });
+    }
+    if (c?.testimonials) {
+      const testimonials_arrays = [
+        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
+        typeof testimonials !== 'undefined' ? testimonials : null,
+        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
+        typeof reviews !== 'undefined' ? reviews : null,
+      ];
+      testimonials_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((t, idx) => {
+            if (idx < 3 && c.testimonials[idx]) {
+              if (t && typeof t === 'object') {
+                t.name = c.testimonials[idx].name ?? t.name;
+                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
+                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
+                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
+                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
+              }
+            }
+          });
+        }
+      });
+    }
+  }, [c]);
+return () => window.removeEventListener("scroll", h)
   }, [])
 
   return (
@@ -65,7 +147,7 @@ export default function AutoExpertPage() {
             ))}
           </div>
           <div className="flex items-center gap-3">
-            <a href="tel:0299345678" className="hidden md:flex items-center gap-2 text-[#dc2626] font-bold text-sm">
+            <a href={`tel:${fd?.phone ?? "0299345678"}`} className="hidden md:flex items-center gap-2 text-[#dc2626] font-bold text-sm">
               <Phone className="w-4 h-4" /> 02 99 34 56 78
             </a>
             <button className="hidden md:block px-5 py-2.5 bg-[#dc2626] text-white text-[10px] font-bold uppercase tracking-[0.22em] hover:bg-[#c01f1f] transition-colors">
@@ -76,7 +158,7 @@ export default function AutoExpertPage() {
               <SheetContent side="right" className="bg-[#141820] border-[#dc2626]/10 p-10">
                 <div className="flex flex-col gap-7 mt-16">
                   {["Services", "Devis rapide", "Contact"].map(l => <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="text-3xl font-bold text-[#f1f3f5] hover:text-[#dc2626] transition-colors">{l}</Link>)}
-                  <a href="tel:0299345678" className="flex items-center gap-3 text-[#dc2626] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> 02 99 34 56 78</a>
+                  <a href={`tel:${fd?.phone ?? "0299345678"}`} className="flex items-center gap-3 text-[#dc2626] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> 02 99 34 56 78</a>
                 </div>
               </SheetContent>
             </Sheet>
@@ -103,20 +185,20 @@ export default function AutoExpertPage() {
           </motion.div>
 
           <motion.h1 initial={{ opacity: 0, y: 60 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.1, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
-            className="text-5xl md:text-7xl lg:text-[88px] font-bold leading-[0.88] tracking-tight mb-8 text-[#f1f3f5]">
+            className="text-5xl md:text-7xl lg:text-[88px] font-bold leading-[0.88] tracking-tight mb-8 text-[#f1f3f5]">{c?.heroHeadline ?? <>
             Votre voiture<br />entre <span className="text-[#dc2626]">de bonnes mains.</span>
-          </motion.h1>
+          </>}</motion.h1>
 
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 0.72 }}
-            className="max-w-md text-sm text-[#f1f3f5]/30 leading-relaxed mb-10">
+            className="max-w-md text-sm text-[#f1f3f5]/30 leading-relaxed mb-10">{c?.heroSubline ?? fd?.tagline ?? <>
             Garage multimarque à Rennes. Entretien, carrosserie, diagnostic électronique, VE & hybrides. Devis gratuit sous 30 min. Prise en charge assurance directe.
-          </motion.p>
+          </>}</motion.p>
 
           <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.98 }} className="flex flex-wrap gap-4 mb-8">
-            <button className="px-9 py-4 bg-[#dc2626] text-white font-bold text-[10px] uppercase tracking-[0.25em] hover:bg-[#c01f1f] transition-colors">
+            <button className="px-9 py-4 bg-[#dc2626] text-white font-bold text-[10px] uppercase tracking-[0.25em] hover:bg-[#c01f1f] transition-colors">{c?.ctaText ?? <>
               Devis gratuit 30 min
-            </button>
-            <a href="tel:0299345678" className="flex items-center gap-3 px-9 py-4 border border-[#f1f3f5]/10 text-[#f1f3f5]/40 font-bold text-[10px] uppercase tracking-widest hover:border-[#dc2626]/40 hover:text-[#dc2626] transition-all">
+            </>}</button>
+            <a href={`tel:${fd?.phone ?? "0299345678"}`} className="flex items-center gap-3 px-9 py-4 border border-[#f1f3f5]/10 text-[#f1f3f5]/40 font-bold text-[10px] uppercase tracking-widest hover:border-[#dc2626]/40 hover:text-[#dc2626] transition-all">
               <Phone className="w-4 h-4" /> 02 99 34 56 78
             </a>
           </motion.div>
@@ -191,7 +273,7 @@ export default function AutoExpertPage() {
             <button className="px-7 py-3.5 bg-white text-[#dc2626] font-bold text-[10px] uppercase tracking-[0.22em] hover:bg-[#f1f3f5] transition-colors whitespace-nowrap">
               Demander un devis
             </button>
-            <a href="tel:0299345678" className="flex items-center gap-2 px-7 py-3.5 border-2 border-white/30 text-white font-bold text-[10px] uppercase tracking-widest hover:border-white transition-all whitespace-nowrap">
+            <a href={`tel:${fd?.phone ?? "0299345678"}`} className="flex items-center gap-2 px-7 py-3.5 border-2 border-white/30 text-white font-bold text-[10px] uppercase tracking-widest hover:border-white transition-all whitespace-nowrap">
               <Phone className="w-4 h-4" /> Appeler
             </a>
           </div>
@@ -241,7 +323,7 @@ export default function AutoExpertPage() {
               <button className="px-10 py-4 bg-[#dc2626] text-white font-bold text-[10px] uppercase tracking-[0.25em] hover:bg-[#c01f1f] transition-colors">
                 Devis gratuit maintenant
               </button>
-              <a href="tel:0299345678" className="flex items-center gap-3 px-10 py-4 border border-[#f1f3f5]/10 text-[#f1f3f5]/35 font-bold text-[10px] uppercase tracking-widest hover:border-[#dc2626]/40 hover:text-[#dc2626] transition-all">
+              <a href={`tel:${fd?.phone ?? "0299345678"}`} className="flex items-center gap-3 px-10 py-4 border border-[#f1f3f5]/10 text-[#f1f3f5]/35 font-bold text-[10px] uppercase tracking-widest hover:border-[#dc2626]/40 hover:text-[#dc2626] transition-all">
                 <Phone className="w-4 h-4" /> 02 99 34 56 78
               </a>
             </div>

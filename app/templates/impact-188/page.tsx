@@ -34,7 +34,41 @@ const SOINS = [
   { icon: Cat, title: "Imagerie & analyses", desc: "Radio numérique, échographie en cabinet. Analyses sanguines et urinaires en labo partenaire avec résultats sous 2h–24h." },
 ]
 
+
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
 export default function CliniqueBoisVertPage() {
+  const [session, setSession] = useState<{
+    formData?: {
+      businessName?: string; businessType?: string; tagline?: string;
+      city?: string; mainService?: string; benefits?: string[];
+      priceRange?: string; targetAudience?: string; brandColor?: string;
+      email?: string; phone?: string; instagram?: string; linkedin?: string;
+    };
+    generatedContent?: {
+      heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
+      aboutText?: string; ctaText?: string; metaTitle?: string;
+      metaDescription?: string;
+      services?: { title?: string; description?: string }[];
+      testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
+    };
+  } | null>(null);
+
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(setSession)
+      .catch(() => {});
+  }, []);
+
+  fd = session?.formData;
+  c = session?.generatedContent;
+  brand = fd?.brandColor ?? null; // null = keep template's original color
+
   const heroRef = useRef(null)
   const [scrolled, setScrolled] = useState(false)
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] })
@@ -45,7 +79,55 @@ export default function CliniqueBoisVertPage() {
   useEffect(() => {
     const h = () => setScrolled(window.scrollY > 60)
     window.addEventListener("scroll", h)
-    return () => window.removeEventListener("scroll", h)
+    
+  // Dynamic Services & Testimonials Mutation for Session Data
+  useEffect(() => {
+    if (c?.services) {
+      const services_arrays = [
+        typeof SERVICES !== 'undefined' ? SERVICES : null,
+        typeof features !== 'undefined' ? features : null,
+        typeof services !== 'undefined' ? services : null,
+        typeof FEATURES !== 'undefined' ? FEATURES : null,
+      ];
+      services_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((s, idx) => {
+            if (idx < 3 && c.services[idx]) {
+              if (s && typeof s === 'object') {
+                s.title = c.services[idx].title ?? s.title;
+                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
+                if ('description' in s) s.description = c.services[idx].description ?? s.description;
+              }
+            }
+          });
+        }
+      });
+    }
+    if (c?.testimonials) {
+      const testimonials_arrays = [
+        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
+        typeof testimonials !== 'undefined' ? testimonials : null,
+        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
+        typeof reviews !== 'undefined' ? reviews : null,
+      ];
+      testimonials_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((t, idx) => {
+            if (idx < 3 && c.testimonials[idx]) {
+              if (t && typeof t === 'object') {
+                t.name = c.testimonials[idx].name ?? t.name;
+                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
+                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
+                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
+                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
+              }
+            }
+          });
+        }
+      });
+    }
+  }, [c]);
+return () => window.removeEventListener("scroll", h)
   }, [])
 
   return (
@@ -68,7 +150,7 @@ export default function CliniqueBoisVertPage() {
             ))}
           </div>
           <div className="flex items-center gap-3">
-            <a href="tel:0561789012" className="hidden md:flex items-center gap-2 text-[#3a7d44] font-bold text-sm">
+            <a href={`tel:${fd?.phone ?? "0561789012"}`} className="hidden md:flex items-center gap-2 text-[#3a7d44] font-bold text-sm">
               <Phone className="w-4 h-4" /> 05 61 78 90 12
             </a>
             <button className="hidden md:block px-5 py-2.5 bg-[#3a7d44] text-white text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-[#2e6337] transition-colors rounded-xl">
@@ -79,7 +161,7 @@ export default function CliniqueBoisVertPage() {
               <SheetContent side="right" className="bg-[#fdfaf6] border-slate-100 p-10">
                 <div className="flex flex-col gap-7 mt-16">
                   {["Soins", "L'équipe", "Urgences"].map(l => <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="text-3xl font-bold text-[#2d2318] hover:text-[#3a7d44] transition-colors" style={{ fontFamily: "'Lora', serif" }}>{l}</Link>)}
-                  <a href="tel:0561789012" className="flex items-center gap-3 text-[#3a7d44] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> 05 61 78 90 12</a>
+                  <a href={`tel:${fd?.phone ?? "0561789012"}`} className="flex items-center gap-3 text-[#3a7d44] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> 05 61 78 90 12</a>
                 </div>
               </SheetContent>
             </Sheet>
@@ -105,20 +187,20 @@ export default function CliniqueBoisVertPage() {
           </motion.div>
 
           <motion.h1 initial={{ opacity: 0, y: 55 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.1, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
-            className="text-5xl md:text-7xl lg:text-8xl font-bold leading-[0.9] tracking-tight mb-7 text-white" style={{ fontFamily: "'Lora', Georgia, serif" }}>
+            className="text-5xl md:text-7xl lg:text-8xl font-bold leading-[0.9] tracking-tight mb-7 text-white" style={{ fontFamily: "'Lora', Georgia, serif" }}>{c?.heroHeadline ?? <>
             Prendre soin<br />de ceux qu'ils <span className="text-[#6bbf78] italic">aiment.</span>
-          </motion.h1>
+          </>}</motion.h1>
 
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 0.72 }}
-            className="max-w-md text-sm text-white/35 leading-relaxed mb-10">
+            className="max-w-md text-sm text-white/35 leading-relaxed mb-10">{c?.heroSubline ?? fd?.tagline ?? <>
             Clinique vétérinaire à Toulouse. Consultations, chirurgie, urgences 7j/7 jusqu'à 20h. Une équipe bienveillante pour vos compagnons chats, chiens et NAC.
-          </motion.p>
+          </>}</motion.p>
 
           <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.98 }} className="flex flex-wrap gap-3 mb-8">
-            <button className="px-8 py-4 bg-[#3a7d44] text-white font-bold text-[10px] uppercase tracking-[0.22em] hover:bg-[#2e6337] transition-colors rounded-xl">
+            <button className="px-8 py-4 bg-[#3a7d44] text-white font-bold text-[10px] uppercase tracking-[0.22em] hover:bg-[#2e6337] transition-colors rounded-xl">{c?.ctaText ?? <>
               Prendre rendez-vous
-            </button>
-            <a href="tel:0561789012" className="flex items-center gap-3 px-8 py-4 border border-white/15 text-white font-bold text-[10px] uppercase tracking-widest hover:border-[#6bbf78]/50 hover:text-[#6bbf78] transition-all rounded-xl">
+            </>}</button>
+            <a href={`tel:${fd?.phone ?? "0561789012"}`} className="flex items-center gap-3 px-8 py-4 border border-white/15 text-white font-bold text-[10px] uppercase tracking-widest hover:border-[#6bbf78]/50 hover:text-[#6bbf78] transition-all rounded-xl">
               <Phone className="w-4 h-4" /> 05 61 78 90 12
             </a>
           </motion.div>
@@ -145,7 +227,7 @@ export default function CliniqueBoisVertPage() {
             <Clock className="w-5 h-5 text-white/70 shrink-0" />
             <span className="font-bold text-sm">Urgences vétérinaires 7j/7 — Lun-Sam jusqu'à 20h, Dim jusqu'à 18h</span>
           </div>
-          <a href="tel:0561789012" className="flex items-center gap-2 px-6 py-2.5 bg-white text-[#3a7d44] font-bold text-sm rounded-xl hover:bg-[#f0f9f1] transition-colors whitespace-nowrap">
+          <a href={`tel:${fd?.phone ?? "0561789012"}`} className="flex items-center gap-2 px-6 py-2.5 bg-white text-[#3a7d44] font-bold text-sm rounded-xl hover:bg-[#f0f9f1] transition-colors whitespace-nowrap">
             <Phone className="w-4 h-4" /> 05 61 78 90 12
           </a>
         </div>
@@ -240,7 +322,7 @@ export default function CliniqueBoisVertPage() {
               <button className="px-10 py-4 bg-white text-[#3a7d44] font-bold text-[10px] uppercase tracking-[0.25em] hover:bg-[#f0f9f1] transition-colors rounded-xl shadow-lg">
                 Prendre rendez-vous
               </button>
-              <a href="tel:0561789012" className="flex items-center gap-3 px-10 py-4 border border-white/25 text-white font-bold text-[10px] uppercase tracking-widest hover:bg-white/10 transition-all rounded-xl">
+              <a href={`tel:${fd?.phone ?? "0561789012"}`} className="flex items-center gap-3 px-10 py-4 border border-white/25 text-white font-bold text-[10px] uppercase tracking-widest hover:bg-white/10 transition-all rounded-xl">
                 <Phone className="w-4 h-4" /> 05 61 78 90 12
               </a>
             </div>

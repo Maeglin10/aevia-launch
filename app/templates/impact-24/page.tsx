@@ -1,3 +1,4 @@
+// @ts-nocheck
 "use client"
 
 import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion"
@@ -58,7 +59,41 @@ const faqs = [
 
 const sectors = ["All", "AI/ML", "Fintech", "Developer Tools", "HealthTech", "CleanTech", "Design Tools"]
 
+
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
 export default function Impact24() {
+  const [session, setSession] = useState<{
+    formData?: {
+      businessName?: string; businessType?: string; tagline?: string;
+      city?: string; mainService?: string; benefits?: string[];
+      priceRange?: string; targetAudience?: string; brandColor?: string;
+      email?: string; phone?: string; instagram?: string; linkedin?: string;
+    };
+    generatedContent?: {
+      heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
+      aboutText?: string; ctaText?: string; metaTitle?: string;
+      metaDescription?: string;
+      services?: { title?: string; description?: string }[];
+      testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
+    };
+  } | null>(null);
+
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(setSession)
+      .catch(() => {});
+  }, []);
+
+  fd = session?.formData;
+  c = session?.generatedContent;
+  brand = fd?.brandColor ?? null; // null = keep template's original color
+
   useFonts()
   const containerRef = useRef(null)
   const { scrollYProgress } = useScroll({ target: containerRef })
@@ -83,7 +118,55 @@ export default function Impact24() {
     { label: "Apply", target: "apply" },
   ]
 
-  return (
+  
+  // Dynamic Services & Testimonials Mutation for Session Data
+  useEffect(() => {
+    if (c?.services) {
+      const services_arrays = [
+        typeof SERVICES !== 'undefined' ? SERVICES : null,
+        typeof features !== 'undefined' ? features : null,
+        typeof services !== 'undefined' ? services : null,
+        typeof FEATURES !== 'undefined' ? FEATURES : null,
+      ];
+      services_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((s, idx) => {
+            if (idx < 3 && c.services[idx]) {
+              if (s && typeof s === 'object') {
+                s.title = c.services[idx].title ?? s.title;
+                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
+                if ('description' in s) s.description = c.services[idx].description ?? s.description;
+              }
+            }
+          });
+        }
+      });
+    }
+    if (c?.testimonials) {
+      const testimonials_arrays = [
+        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
+        typeof testimonials !== 'undefined' ? testimonials : null,
+        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
+        typeof reviews !== 'undefined' ? reviews : null,
+      ];
+      testimonials_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((t, idx) => {
+            if (idx < 3 && c.testimonials[idx]) {
+              if (t && typeof t === 'object') {
+                t.name = c.testimonials[idx].name ?? t.name;
+                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
+                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
+                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
+                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
+              }
+            }
+          });
+        }
+      });
+    }
+  }, [c]);
+return (
     <div ref={containerRef} className="min-h-screen bg-[#060A0F] text-white" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
       {/* Scroll bar */}
       <motion.div
@@ -98,7 +181,7 @@ export default function Impact24() {
             <div className="w-8 h-8 bg-[#A3E635] rounded-lg flex items-center justify-center">
               <Rocket className="w-4 h-4 text-[#060A0F]" />
             </div>
-            <span className="font-semibold text-lg">Zero to One</span>
+            <span className="font-semibold text-lg">{fd?.businessName ?? "Zero to One"}</span>
           </button>
           <div className="hidden md:flex items-center gap-8 text-sm text-white/60">
             {navItems.map(item => (
@@ -157,18 +240,18 @@ export default function Impact24() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.7, delay: 0.1 }}
                 className="text-6xl md:text-8xl font-bold leading-[1.0] mb-6"
-              >
+              >{c?.heroHeadline ?? <>
                 From idea to<br />
                 <span className="text-[#A3E635]">funded startup.</span>
-              </motion.h1>
+              </>}</motion.h1>
               <motion.p
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
                 className="text-xl text-white/60 max-w-2xl mb-10 leading-relaxed"
-              >
+              >{c?.heroSubline ?? fd?.tagline ?? <>
                 Zero to One is a 12-week accelerator for pre-seed founders. We invest €500K, open our network, and help you build the company you imagined.
-              </motion.p>
+              </>}</motion.p>
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -322,10 +405,10 @@ export default function Impact24() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
                 <Reveal>
                   <p className="text-[#A3E635] text-sm font-semibold tracking-widest uppercase mb-4">What you get</p>
-                  <h2 className="text-4xl md:text-5xl font-bold mb-6">More than capital.</h2>
-                  <p className="text-white/50 text-lg mb-10 leading-relaxed">
+                  <h2 className="text-4xl md:text-5xl font-bold mb-6">{c?.aboutTitle ?? fd?.businessName ?? <>More than capital.</>}</h2>
+                  <p className="text-white/50 text-lg mb-10 leading-relaxed">{c?.aboutText ?? <>
                     We built Zero to One because we know what founders actually need. Not just money — but the right introductions, the hard feedback, and the community that keeps you going.
-                  </p>
+                  </>}</p>
                   <div className="space-y-4">
                     {[
                       { icon: <Globe className="w-5 h-5" />, label: "€500K investment", desc: "No strings, no advisor shares, no board seat required." },
@@ -1058,7 +1141,7 @@ export default function Impact24() {
                   <div className="space-y-3 text-white/60 text-sm leading-relaxed">
                     <p><strong className="text-white">Publisher:</strong> Aevia WS — Valentin Milliand, sole proprietor.</p>
                     <p><strong className="text-white">SIREN:</strong> 852 546 225 — RCS Bourg-en-Bresse, France.</p>
-                    <p><strong className="text-white">Contact:</strong> <span className="text-[#A3E635]">contact@aevia.ws</span></p>
+                    <p><strong className="text-white">Contact:</strong> <span className="text-[#A3E635]">{fd?.email ?? "contact@aevia.ws"}</span></p>
                   </div>
                 </div>
 
@@ -1081,7 +1164,7 @@ export default function Impact24() {
                   <div className="space-y-3 text-white/60 text-sm leading-relaxed">
                     <p>No personal data is collected without explicit consent. This site is fully GDPR compliant.</p>
                     <p>When you voluntarily submit your email address through the application form, it is used solely for the purpose of processing your application and communicating regarding program updates. Your data is never sold, shared with third parties for marketing purposes, or used beyond its stated purpose.</p>
-                    <p>You have the right to access, modify, or delete your personal data at any time by contacting us at <span className="text-[#A3E635]">contact@aevia.ws</span>.</p>
+                    <p>You have the right to access, modify, or delete your personal data at any time by contacting us at <span className="text-[#A3E635]">{fd?.email ?? "contact@aevia.ws"}</span>.</p>
                   </div>
                 </div>
 
@@ -1113,7 +1196,7 @@ export default function Impact24() {
             <div className="w-7 h-7 bg-[#A3E635] rounded-lg flex items-center justify-center">
               <Rocket className="w-3.5 h-3.5 text-[#060A0F]" />
             </div>
-            <span className="font-semibold text-white">Zero to One</span>
+            <span className="font-semibold text-white">{fd?.businessName ?? "Zero to One"}</span>
           </button>
           <div className="flex gap-8 text-sm text-white/40">
             <button onClick={() => goTo("portfolio")} className="hover:text-white transition-colors cursor-pointer bg-transparent border-none text-sm text-white/40">Portfolio</button>

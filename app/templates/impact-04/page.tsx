@@ -170,7 +170,41 @@ const FAQS = [
   { q: "What is the nearest parking?", a: "We have a partnership with Parking de l'Élysée on Avenue de Marigny (3-minute walk). Valet parking is also available Thursday through Saturday evenings from 19h." },
 ]
 
+
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
 export default function LEtoileRestaurant() {
+  const [session, setSession] = useState<{
+    formData?: {
+      businessName?: string; businessType?: string; tagline?: string;
+      city?: string; mainService?: string; benefits?: string[];
+      priceRange?: string; targetAudience?: string; brandColor?: string;
+      email?: string; phone?: string; instagram?: string; linkedin?: string;
+    };
+    generatedContent?: {
+      heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
+      aboutText?: string; ctaText?: string; metaTitle?: string;
+      metaDescription?: string;
+      services?: { title?: string; description?: string }[];
+      testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
+    };
+  } | null>(null);
+
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(setSession)
+      .catch(() => {});
+  }, []);
+
+  fd = session?.formData;
+  c = session?.generatedContent;
+  brand = fd?.brandColor ?? null; // null = keep template's original color
+
   const [reservationOpen, setReservationOpen] = useState(false)
   const [guests, setGuests] = useState(2)
   const heroRef = useRef(null)
@@ -185,7 +219,55 @@ export default function LEtoileRestaurant() {
     if (typeof window !== 'undefined') window.scrollTo({ top: 0, behavior: 'auto' });
   };
 
-  return (
+  
+  // Dynamic Services & Testimonials Mutation for Session Data
+  useEffect(() => {
+    if (c?.services) {
+      const services_arrays = [
+        typeof SERVICES !== 'undefined' ? SERVICES : null,
+        typeof features !== 'undefined' ? features : null,
+        typeof services !== 'undefined' ? services : null,
+        typeof FEATURES !== 'undefined' ? FEATURES : null,
+      ];
+      services_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((s, idx) => {
+            if (idx < 3 && c.services[idx]) {
+              if (s && typeof s === 'object') {
+                s.title = c.services[idx].title ?? s.title;
+                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
+                if ('description' in s) s.description = c.services[idx].description ?? s.description;
+              }
+            }
+          });
+        }
+      });
+    }
+    if (c?.testimonials) {
+      const testimonials_arrays = [
+        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
+        typeof testimonials !== 'undefined' ? testimonials : null,
+        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
+        typeof reviews !== 'undefined' ? reviews : null,
+      ];
+      testimonials_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((t, idx) => {
+            if (idx < 3 && c.testimonials[idx]) {
+              if (t && typeof t === 'object') {
+                t.name = c.testimonials[idx].name ?? t.name;
+                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
+                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
+                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
+                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
+              }
+            }
+          });
+        }
+      });
+    }
+  }, [c]);
+return (
     <div className="bg-[#0c0a08] text-[#f5efe6] min-h-screen selection:bg-amber-700 selection:text-white" style={{ fontFamily: "'Georgia', 'Times New Roman', serif", overflowX: "clip" }}>
       
       {/* ── NAVBAR ── */}
@@ -253,14 +335,12 @@ export default function LEtoileRestaurant() {
           </motion.div>
 
           <div className="overflow-hidden mb-4">
-            <motion.h1 initial={{ y: "100%" }} animate={{ y: 0 }} transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1], delay: 0.6 }} className="text-7xl sm:text-8xl md:text-9xl lg:text-[10rem] font-light tracking-[-0.02em] leading-[0.85] text-[#f5efe6]">
-              L&apos;Étoile
-            </motion.h1>
+            <motion.h1 initial={{ y: "100%" }} animate={{ y: 0 }} transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1], delay: 0.6 }} className="text-7xl sm:text-8xl md:text-9xl lg:text-[10rem] font-light tracking-[-0.02em] leading-[0.85] text-[#f5efe6]">{c?.heroHeadline ?? <>{fd?.businessName ?? "L'Étoile Restaurant"}</>}</motion.h1>
           </div>
           <div className="overflow-hidden mb-12">
-            <motion.p initial={{ y: "100%" }} animate={{ y: 0 }} transition={{ duration: 0.9, delay: 0.85 }} className="text-xl md:text-2xl text-[#f5efe6]/35 font-light italic">
+            <motion.p initial={{ y: "100%" }} animate={{ y: 0 }} transition={{ duration: 0.9, delay: 0.85 }} className="text-xl md:text-2xl text-[#f5efe6]/35 font-light italic">{c?.heroSubline ?? fd?.tagline ?? <>
               Where every dish tells a story
-            </motion.p>
+            </>}</motion.p>
           </div>
 
           <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.3, duration: 0.7 }} className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
@@ -320,12 +400,12 @@ export default function LEtoileRestaurant() {
           <Reveal>
             <div className="text-center mb-16">
               <span className="text-amber-500 text-[10px] uppercase tracking-[0.5em] font-sans font-semibold mb-4 block">La Carte · Saison 2026</span>
-              <h2 className="text-5xl md:text-7xl font-light">
+              <h2 className="text-5xl md:text-7xl font-light">{c?.aboutTitle ?? fd?.businessName ?? <>
                 Our <span className="italic">Menu</span>
-              </h2>
-              <p className="mt-4 text-[#f5efe6]/40 font-sans text-sm max-w-xl mx-auto leading-relaxed">
+              </>}</h2>
+              <p className="mt-4 text-[#f5efe6]/40 font-sans text-sm max-w-xl mx-auto leading-relaxed">{c?.aboutText ?? <>
                 Each dish is composed around the finest seasonal ingredients, sourced from trusted suppliers across France and Europe.
-              </p>
+              </>}</p>
             </div>
           </Reveal>
 
@@ -400,7 +480,7 @@ export default function LEtoileRestaurant() {
                 <span className="text-amber-500 text-[10px] uppercase tracking-[0.4em] font-sans font-semibold mb-4 block">Ambiance</span>
                 <h2 className="text-4xl md:text-6xl font-light">A <span className="italic">Sensory</span> Journey</h2>
               </div>
-              <a href="https://instagram.com/letoile.paris" className="text-sm font-sans text-amber-500 flex items-center gap-2 hover:gap-4 transition-all duration-200 cursor-pointer">
+              <a href={`https://instagram.com/${fd?.instagram ?? "letoile.paris"}`} className="text-sm font-sans text-amber-500 flex items-center gap-2 hover:gap-4 transition-all duration-200 cursor-pointer">
                 <Globe className="w-4 h-4" /> @letoile.paris
               </a>
             </div>
@@ -612,7 +692,7 @@ export default function LEtoileRestaurant() {
               <button onClick={() => setReservationOpen(true)} className="px-12 py-5 bg-amber-700 hover:bg-amber-600 text-[11px] uppercase tracking-[0.3em] font-sans font-bold transition-all duration-200 inline-flex items-center gap-3 cursor-pointer">
                 <CalendarDays className="w-4 h-4" /> Make a Reservation
               </button>
-              <a href="tel:+33142651516" className="px-12 py-5 border border-white/10 hover:border-amber-700/40 text-[11px] uppercase tracking-[0.3em] font-sans font-semibold transition-all duration-200 inline-flex items-center gap-3 cursor-pointer">
+              <a href={`tel:${fd?.phone ?? "+33142651516"}`} className="px-12 py-5 border border-white/10 hover:border-amber-700/40 text-[11px] uppercase tracking-[0.3em] font-sans font-semibold transition-all duration-200 inline-flex items-center gap-3 cursor-pointer">
                 <Phone className="w-4 h-4" /> Call Us
               </a>
             </div>
@@ -948,9 +1028,7 @@ function LegalPage({ variant }: { variant: 'mentions' | 'privacy' }) {
                 Aevia WS — Valentin Milliand<br />
                 Entrepreneur individuel<br />
                 SIREN 852 546 225<br />
-                RCS Bourg-en-Bresse<br />
-                contact@aevia.io
-              </p>
+                RCS Bourg-en-Bresse<br />{fd?.email ?? "contact@aevia.io"}</p>
             </div>
             <div>
               <h2 style={{ fontFamily: "'Georgia', serif", fontSize: 18, fontWeight: 300, color: 'rgb(217, 119, 6)', marginBottom: 12 }} className="text-amber-500">Hébergeur</h2>

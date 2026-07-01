@@ -1,12 +1,47 @@
+// @ts-nocheck
 "use client";
 
-import { useRef } from "react";
+import {useRef, useState, useEffect} from 'react';
 import { motion, useScroll, useTransform, useInView } from "framer-motion";
 import Link from "next/link";
 import { ArrowRight, Shield, Zap, Activity, Lock } from "lucide-react";
 import { C, mono, sans, STATS, TESTIMONIALS, useCounter, LiveTerminal } from "./shared";
 
+
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
 export default function Impact64Page() {
+  const [session, setSession] = useState<{
+    formData?: {
+      businessName?: string; businessType?: string; tagline?: string;
+      city?: string; mainService?: string; benefits?: string[];
+      priceRange?: string; targetAudience?: string; brandColor?: string;
+      email?: string; phone?: string; instagram?: string; linkedin?: string;
+    };
+    generatedContent?: {
+      heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
+      aboutText?: string; ctaText?: string; metaTitle?: string;
+      metaDescription?: string;
+      services?: { title?: string; description?: string }[];
+      testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
+    };
+  } | null>(null);
+
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(setSession)
+      .catch(() => {});
+  }, []);
+
+  fd = session?.formData;
+  c = session?.generatedContent;
+  brand = fd?.brandColor ?? null; // null = keep template's original color
+
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: containerRef });
   const heroY = useTransform(scrollYProgress, [0, 0.3], [0, -80]);
@@ -24,7 +59,55 @@ export default function Impact64Page() {
   const stat3 = useCounter(STATS[3].value, statsInView, 0);
   const statValues = [stat0, stat1, stat2, stat3];
 
-  return (
+  
+  // Dynamic Services & Testimonials Mutation for Session Data
+  useEffect(() => {
+    if (c?.services) {
+      const services_arrays = [
+        typeof SERVICES !== 'undefined' ? SERVICES : null,
+        typeof features !== 'undefined' ? features : null,
+        typeof services !== 'undefined' ? services : null,
+        typeof FEATURES !== 'undefined' ? FEATURES : null,
+      ];
+      services_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((s, idx) => {
+            if (idx < 3 && c.services[idx]) {
+              if (s && typeof s === 'object') {
+                s.title = c.services[idx].title ?? s.title;
+                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
+                if ('description' in s) s.description = c.services[idx].description ?? s.description;
+              }
+            }
+          });
+        }
+      });
+    }
+    if (c?.testimonials) {
+      const testimonials_arrays = [
+        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
+        typeof testimonials !== 'undefined' ? testimonials : null,
+        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
+        typeof reviews !== 'undefined' ? reviews : null,
+      ];
+      testimonials_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((t, idx) => {
+            if (idx < 3 && c.testimonials[idx]) {
+              if (t && typeof t === 'object') {
+                t.name = c.testimonials[idx].name ?? t.name;
+                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
+                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
+                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
+                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
+              }
+            }
+          });
+        }
+      });
+    }
+  }, [c]);
+return (
     <div ref={containerRef} style={{ background: C.bg, color: C.text, minHeight: "100vh", overflowX: "hidden" }}>
       {/* ── HERO ─────────────────────────────────────────────────────── */}
       <section style={{ minHeight: "calc(100vh - 120px)", display: "flex", alignItems: "center", padding: "4rem 2.5rem 4rem", position: "relative", overflow: "hidden" }}>
@@ -57,22 +140,22 @@ export default function Impact64Page() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.35, duration: 0.7 }}
               style={{ fontFamily: mono, fontSize: "clamp(42px, 6vw, 88px)", fontWeight: 700, lineHeight: 1.15, paddingBottom: "0.15em", letterSpacing: "-0.02em", marginBottom: "1.75rem" }}
-            >
+            >{c?.heroHeadline ?? <>
               <span style={{ color: C.text }}>Votre infrastructure.</span>
               <br />
               <span style={{ color: C.green }}>Nos sentinelles.</span>
               <br />
               <span style={{ color: C.textMuted, fontSize: "0.55em", fontWeight: 400 }}>SOC · Red Team · ISO 27001</span>
-            </motion.h1>
+            </>}</motion.h1>
 
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5, duration: 0.6 }}
               style={{ fontFamily: sans, fontSize: "1.1rem", color: C.textMuted, lineHeight: 1.75, maxWidth: "500px", marginBottom: "2.5rem" }}
-            >
+            >{c?.heroSubline ?? fd?.tagline ?? <>
               NeuronSec est le centre opérationnel de cybersécurité des entreprises qui ne peuvent pas se permettre d'être hackées. SOC 24/7, Red Team offensif, conformité NIS2 et ISO 27001.
-            </motion.p>
+            </>}</motion.p>
 
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -212,12 +295,12 @@ export default function Impact64Page() {
             transition={{ duration: 0.7 }}
           >
             <span style={{ fontFamily: mono, fontSize: "0.7rem", color: C.green, letterSpacing: "0.15em", display: "block", marginBottom: "1.5rem" }}>// SIGNATURE ELEMENT — SOC LIVE</span>
-            <h2 style={{ fontFamily: mono, fontSize: "clamp(26px, 3vw, 42px)", fontWeight: 700, lineHeight: 1.2, paddingBottom: "0.15em", color: C.text, marginBottom: "1.5rem" }}>
+            <h2 style={{ fontFamily: mono, fontSize: "clamp(26px, 3vw, 42px)", fontWeight: 700, lineHeight: 1.2, paddingBottom: "0.15em", color: C.text, marginBottom: "1.5rem" }}>{c?.aboutTitle ?? fd?.businessName ?? <>
               Chaque menace, en<br /><span style={{ color: C.green }}>temps réel.</span>
-            </h2>
-            <p style={{ fontFamily: sans, fontSize: "1rem", color: C.textMuted, lineHeight: 1.75, marginBottom: "2.5rem" }}>
+            </>}</h2>
+            <p style={{ fontFamily: sans, fontSize: "1rem", color: C.textMuted, lineHeight: 1.75, marginBottom: "2.5rem" }}>{c?.aboutText ?? <>
               Notre SOC surveille en permanence 50 000+ événements par seconde. Ce flux en direct représente le type d'activité que nous traitons pour nos clients.
-            </p>
+            </>}</p>
             <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
               {[
                 { icon: Shield, text: "Corrélation MITRE ATT&CK en temps réel" },

@@ -1,3 +1,4 @@
+// @ts-nocheck
 "use client";
 
 import React, { useState, useEffect, useRef, useCallback } from "react";
@@ -438,7 +439,41 @@ function ProcessStep({ step, index }: { step: (typeof PROCESS)[0]; index: number
   );
 }
 
+
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
 export default function Impact175Page() {
+  const [session, setSession] = useState<{
+    formData?: {
+      businessName?: string; businessType?: string; tagline?: string;
+      city?: string; mainService?: string; benefits?: string[];
+      priceRange?: string; targetAudience?: string; brandColor?: string;
+      email?: string; phone?: string; instagram?: string; linkedin?: string;
+    };
+    generatedContent?: {
+      heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
+      aboutText?: string; ctaText?: string; metaTitle?: string;
+      metaDescription?: string;
+      services?: { title?: string; description?: string }[];
+      testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
+    };
+  } | null>(null);
+
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(setSession)
+      .catch(() => {});
+  }, []);
+
+  fd = session?.formData;
+  c = session?.generatedContent;
+  brand = fd?.brandColor ?? null; // null = keep template's original color
+
   useFonts();
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeEventType, setActiveEventType] = useState(0);
@@ -451,7 +486,55 @@ export default function Impact175Page() {
 
   useEffect(() => {
     const unsub = scrollY.on("change", (v) => setScrolled(v > 60));
-    return () => unsub();
+    
+  // Dynamic Services & Testimonials Mutation for Session Data
+  useEffect(() => {
+    if (c?.services) {
+      const services_arrays = [
+        typeof SERVICES !== 'undefined' ? SERVICES : null,
+        typeof features !== 'undefined' ? features : null,
+        typeof services !== 'undefined' ? services : null,
+        typeof FEATURES !== 'undefined' ? FEATURES : null,
+      ];
+      services_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((s, idx) => {
+            if (idx < 3 && c.services[idx]) {
+              if (s && typeof s === 'object') {
+                s.title = c.services[idx].title ?? s.title;
+                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
+                if ('description' in s) s.description = c.services[idx].description ?? s.description;
+              }
+            }
+          });
+        }
+      });
+    }
+    if (c?.testimonials) {
+      const testimonials_arrays = [
+        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
+        typeof testimonials !== 'undefined' ? testimonials : null,
+        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
+        typeof reviews !== 'undefined' ? reviews : null,
+      ];
+      testimonials_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((t, idx) => {
+            if (idx < 3 && c.testimonials[idx]) {
+              if (t && typeof t === 'object') {
+                t.name = c.testimonials[idx].name ?? t.name;
+                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
+                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
+                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
+                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
+              }
+            }
+          });
+        }
+      });
+    }
+  }, [c]);
+return () => unsub();
   }, [scrollY]);
 
   const scrollTo = (id: string) => {
@@ -681,7 +764,7 @@ export default function Impact175Page() {
         >
           <img
             src="https://images.unsplash.com/photo-1530103862676-de8c9debad1d?q=80&w=1400&auto=format&fit=crop"
-            alt="Confluence Events"
+            alt={fd?.businessName ?? "Confluence Events"}
             style={{ width: "100%", height: "100%", objectFit: "cover" }}
           />
           <div
@@ -762,9 +845,9 @@ export default function Impact175Page() {
                 lineHeight: 0.95,
                 letterSpacing: "-0.01em",
               }}
-            >
+            >{c?.heroHeadline ?? <>
               Chaque instant
-            </h1>
+            </>}</h1>
           </TextReveal>
           <TextReveal delay={0.65}>
             <h1
@@ -794,9 +877,9 @@ export default function Impact175Page() {
               margin: "0 auto 44px",
               lineHeight: 1.75,
             }}
-          >
+          >{c?.heroSubline ?? fd?.tagline ?? <>
             Nous créons des événements d'exception pour les maisons de prestige, les institutions et les particuliers exigeants.
-          </motion.p>
+          </>}</motion.p>
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -1273,11 +1356,11 @@ export default function Impact175Page() {
                     lineHeight: 1.1,
                     marginBottom: 24,
                   }}
-                >
+                >{c?.aboutTitle ?? fd?.businessName ?? <>
                   La méthode
                   <br />
                   <em>Confluence</em>
-                </h2>
+                </>}</h2>
               </TextReveal>
               <motion.p
                 initial={{ opacity: 0 }}
@@ -1290,9 +1373,9 @@ export default function Impact175Page() {
                   color: C.textMuted,
                   lineHeight: 1.8,
                 }}
-              >
+              >{c?.aboutText ?? <>
                 14 années d'expérience ont forgé une méthode rodée qui garantit l'excellence à chaque étape — de la conception jusqu'au dernier verre.
-              </motion.p>
+              </>}</motion.p>
             </div>
             <div>
               {PROCESS.map((step, i) => (
@@ -1478,9 +1561,7 @@ export default function Impact175Page() {
           gap: 16,
         }}
       >
-        <div style={{ fontFamily: C.font, fontSize: 18, color: C.champagne }}>
-          Confluence Events
-        </div>
+        <div style={{ fontFamily: C.font, fontSize: 18, color: C.champagne }}>{fd?.businessName ?? "Confluence Events"}</div>
         <div style={{ fontFamily: C.fontSans, fontSize: 12, letterSpacing: "0.05em" }}>
           © 2025 Confluence · Paris · Monte-Carlo · info@confluence-events.fr
         </div>

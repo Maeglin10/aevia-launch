@@ -40,7 +40,41 @@ const TEMOIGNAGES = [
   { q: "Barbier de confiance, propre, précis, discret. Le genre d'endroit où on revient pas pour l'ambiance (bien qu'elle soit top) mais pour le résultat.", n: "Karim T.", l: "Pessac" },
 ]
 
+
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
 export default function GentlemansCutPage() {
+  const [session, setSession] = useState<{
+    formData?: {
+      businessName?: string; businessType?: string; tagline?: string;
+      city?: string; mainService?: string; benefits?: string[];
+      priceRange?: string; targetAudience?: string; brandColor?: string;
+      email?: string; phone?: string; instagram?: string; linkedin?: string;
+    };
+    generatedContent?: {
+      heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
+      aboutText?: string; ctaText?: string; metaTitle?: string;
+      metaDescription?: string;
+      services?: { title?: string; description?: string }[];
+      testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
+    };
+  } | null>(null);
+
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(setSession)
+      .catch(() => {});
+  }, []);
+
+  fd = session?.formData;
+  c = session?.generatedContent;
+  brand = fd?.brandColor ?? null; // null = keep template's original color
+
   const heroRef = useRef(null)
   const [scrolled, setScrolled] = useState(false)
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] })
@@ -51,7 +85,55 @@ export default function GentlemansCutPage() {
   useEffect(() => {
     const h = () => setScrolled(window.scrollY > 60)
     window.addEventListener("scroll", h)
-    return () => window.removeEventListener("scroll", h)
+    
+  // Dynamic Services & Testimonials Mutation for Session Data
+  useEffect(() => {
+    if (c?.services) {
+      const services_arrays = [
+        typeof SERVICES !== 'undefined' ? SERVICES : null,
+        typeof features !== 'undefined' ? features : null,
+        typeof services !== 'undefined' ? services : null,
+        typeof FEATURES !== 'undefined' ? FEATURES : null,
+      ];
+      services_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((s, idx) => {
+            if (idx < 3 && c.services[idx]) {
+              if (s && typeof s === 'object') {
+                s.title = c.services[idx].title ?? s.title;
+                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
+                if ('description' in s) s.description = c.services[idx].description ?? s.description;
+              }
+            }
+          });
+        }
+      });
+    }
+    if (c?.testimonials) {
+      const testimonials_arrays = [
+        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
+        typeof testimonials !== 'undefined' ? testimonials : null,
+        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
+        typeof reviews !== 'undefined' ? reviews : null,
+      ];
+      testimonials_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((t, idx) => {
+            if (idx < 3 && c.testimonials[idx]) {
+              if (t && typeof t === 'object') {
+                t.name = c.testimonials[idx].name ?? t.name;
+                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
+                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
+                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
+                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
+              }
+            }
+          });
+        }
+      });
+    }
+  }, [c]);
+return () => window.removeEventListener("scroll", h)
   }, [])
 
   return (
@@ -69,7 +151,7 @@ export default function GentlemansCutPage() {
             ))}
           </div>
           <div className="flex items-center gap-3">
-            <a href="tel:0556789012" className="hidden md:flex items-center gap-2 text-[#c9a84c] font-bold text-sm" style={{ fontFamily: "'DM Mono', monospace" }}>
+            <a href={`tel:${fd?.phone ?? "0556789012"}`} className="hidden md:flex items-center gap-2 text-[#c9a84c] font-bold text-sm" style={{ fontFamily: "'DM Mono', monospace" }}>
               <Phone className="w-4 h-4" /> 05 56 78 90 12
             </a>
             <button className="hidden md:block px-5 py-2.5 border border-[#c9a84c] text-[#c9a84c] text-[10px] font-bold uppercase tracking-[0.25em] hover:bg-[#c9a84c] hover:text-[#0a0908] transition-all" style={{ fontFamily: "'DM Mono', monospace" }}>
@@ -80,7 +162,7 @@ export default function GentlemansCutPage() {
               <SheetContent side="right" className="bg-[#0f0e0c] border-[#c9a84c]/10 p-10">
                 <div className="flex flex-col gap-7 mt-16">
                   {["Services", "Tarifs", "Réservation"].map(l => <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="text-3xl font-bold text-[#f5f0e8] hover:text-[#c9a84c] transition-colors">{l}</Link>)}
-                  <a href="tel:0556789012" className="flex items-center gap-3 text-[#c9a84c] font-bold text-lg mt-4"><Phone className="w-5 h-5" /> 05 56 78 90 12</a>
+                  <a href={`tel:${fd?.phone ?? "0556789012"}`} className="flex items-center gap-3 text-[#c9a84c] font-bold text-lg mt-4"><Phone className="w-5 h-5" /> 05 56 78 90 12</a>
                 </div>
               </SheetContent>
             </Sheet>
@@ -108,24 +190,24 @@ export default function GentlemansCutPage() {
           </motion.div>
 
           <motion.h1 initial={{ opacity: 0, y: 70 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.2, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
-            className="text-6xl md:text-8xl lg:text-[96px] font-bold leading-[0.85] tracking-tight mb-3 text-[#f5f0e8]">
+            className="text-6xl md:text-8xl lg:text-[96px] font-bold leading-[0.85] tracking-tight mb-3 text-[#f5f0e8]">{c?.heroHeadline ?? <>
             The Art
-          </motion.h1>
+          </>}</motion.h1>
           <motion.h1 initial={{ opacity: 0, y: 70 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.2, delay: 0.55, ease: [0.16, 1, 0.3, 1] }}
             className="text-6xl md:text-8xl lg:text-[96px] font-bold italic leading-[0.85] tracking-tight mb-10 text-[#c9a84c]">
             of Grooming.
           </motion.h1>
 
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 0.78 }}
-            className="max-w-sm text-sm text-[#f5f0e8]/30 leading-relaxed mb-12" style={{ fontFamily: "'DM Mono', monospace", fontStyle: "normal" }}>
+            className="max-w-sm text-sm text-[#f5f0e8]/30 leading-relaxed mb-12" style={{ fontFamily: "'DM Mono', monospace", fontStyle: "normal" }}>{c?.heroSubline ?? fd?.tagline ?? <>
             Coupe au ciseau, rasage droit, taille de barbe. Techniques ancestrales, produits artisanaux, précision chirurgicale.
-          </motion.p>
+          </>}</motion.p>
 
           <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 1.0 }} className="flex flex-wrap gap-4">
-            <button className="px-9 py-4 bg-[#c9a84c] text-[#0a0908] font-bold text-[10px] uppercase tracking-[0.3em]  hover:bg-[#b8973d] transition-colors" style={{ fontFamily: "'DM Mono', monospace" }}>
+            <button className="px-9 py-4 bg-[#c9a84c] text-[#0a0908] font-bold text-[10px] uppercase tracking-[0.3em]  hover:bg-[#b8973d] transition-colors" style={{ fontFamily: "'DM Mono', monospace" }}>{c?.ctaText ?? <>
               Prendre rendez-vous
-            </button>
-            <a href="tel:0556789012" className="flex items-center gap-3 px-9 py-4 border border-[#f5f0e8]/12 text-[#f5f0e8]/50 font-bold text-[10px] uppercase tracking-widest hover:border-[#c9a84c]/40 hover:text-[#c9a84c] transition-all" style={{ fontFamily: "'DM Mono', monospace" }}>
+            </>}</button>
+            <a href={`tel:${fd?.phone ?? "0556789012"}`} className="flex items-center gap-3 px-9 py-4 border border-[#f5f0e8]/12 text-[#f5f0e8]/50 font-bold text-[10px] uppercase tracking-widest hover:border-[#c9a84c]/40 hover:text-[#c9a84c] transition-all" style={{ fontFamily: "'DM Mono', monospace" }}>
               <Phone className="w-4 h-4" /> 05 56 78 90 12
             </a>
           </motion.div>
@@ -182,10 +264,10 @@ export default function GentlemansCutPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
               <div>
                 <div className="text-[9px] font-bold uppercase tracking-[0.5em] text-[#c9a84c]/50 mb-5" style={{ fontFamily: "'DM Mono', monospace" }}>Réservation</div>
-                <h2 className="text-4xl font-bold text-[#f5f0e8] mb-6">Votre prochain<br /><span className="text-[#c9a84c] italic">rendez-vous.</span></h2>
-                <p className="text-sm text-[#f5f0e8]/25 leading-relaxed mb-8" style={{ fontFamily: "'DM Mono', monospace" }}>
+                <h2 className="text-4xl font-bold text-[#f5f0e8] mb-6">{c?.aboutTitle ?? fd?.businessName ?? <>Votre prochain<br /><span className="text-[#c9a84c] italic">rendez-vous.</span></>}</h2>
+                <p className="text-sm text-[#f5f0e8]/25 leading-relaxed mb-8" style={{ fontFamily: "'DM Mono', monospace" }}>{c?.aboutText ?? <>
                   Réservez en ligne en moins de 2 minutes. Confirmation SMS immédiate. Annulation gratuite jusqu'à 2h avant.
-                </p>
+                </>}</p>
                 <div className="space-y-4">
                   {[
                     { icon: Clock, t: "Mar-Sam · 9h–19h" },
@@ -253,7 +335,7 @@ export default function GentlemansCutPage() {
               <button className="px-10 py-4 bg-[#c9a84c] text-[#0a0908] font-bold text-[10px] uppercase tracking-[0.3em] hover:bg-[#b8973d] transition-colors" style={{ fontFamily: "'DM Mono', monospace" }}>
                 Réserver maintenant
               </button>
-              <a href="tel:0556789012" className="flex items-center gap-3 px-10 py-4 border border-[#f5f0e8]/10 text-[#f5f0e8]/35 font-bold text-[10px] uppercase tracking-widest hover:border-[#c9a84c]/40 hover:text-[#c9a84c] transition-all" style={{ fontFamily: "'DM Mono', monospace" }}>
+              <a href={`tel:${fd?.phone ?? "0556789012"}`} className="flex items-center gap-3 px-10 py-4 border border-[#f5f0e8]/10 text-[#f5f0e8]/35 font-bold text-[10px] uppercase tracking-widest hover:border-[#c9a84c]/40 hover:text-[#c9a84c] transition-all" style={{ fontFamily: "'DM Mono', monospace" }}>
                 <Phone className="w-4 h-4" /> Appeler
               </a>
             </div>

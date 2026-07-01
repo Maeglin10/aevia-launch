@@ -16,7 +16,7 @@ const C = {
   text: "#0A2540",
   textMuted: "#6B7B8D",
   textLight: "rgba(10,37,64,0.55)",
-  accent: "#C9A96E",
+  accent: brand ?? '#c9a96e',
   accentDark: "#9E7A45",
   accentLight: "#F0E6D3",
   marine: "#0A2540",
@@ -341,7 +341,41 @@ function RevealSection({ children, delay = 0, direction = "up" }: { children: Re
 
 type ActivePage = "home" | "destinations" | "concept" | "formules" | "legal";
 
+
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
 export default function EvasionDoree() {
+  const [session, setSession] = useState<{
+    formData?: {
+      businessName?: string; businessType?: string; tagline?: string;
+      city?: string; mainService?: string; benefits?: string[];
+      priceRange?: string; targetAudience?: string; brandColor?: string;
+      email?: string; phone?: string; instagram?: string; linkedin?: string;
+    };
+    generatedContent?: {
+      heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
+      aboutText?: string; ctaText?: string; metaTitle?: string;
+      metaDescription?: string;
+      services?: { title?: string; description?: string }[];
+      testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
+    };
+  } | null>(null);
+
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(setSession)
+      .catch(() => {});
+  }, []);
+
+  fd = session?.formData;
+  c = session?.generatedContent;
+  brand = fd?.brandColor ?? null; // null = keep template's original color
+
   const [page, setPage] = useState<ActivePage>("home");
   const goTo = (p: ActivePage) => {
     setPage(p);
@@ -362,7 +396,55 @@ export default function EvasionDoree() {
   const heroScale = useTransform(scrollYProgress, [0, 1], [1, 1.08]);
 
   const NAV_LINKS = ["Destinations", "Services", "Processus", "Avis", "Tarifs"];
-  return (
+  
+  // Dynamic Services & Testimonials Mutation for Session Data
+  useEffect(() => {
+    if (c?.services) {
+      const services_arrays = [
+        typeof SERVICES !== 'undefined' ? SERVICES : null,
+        typeof features !== 'undefined' ? features : null,
+        typeof services !== 'undefined' ? services : null,
+        typeof FEATURES !== 'undefined' ? FEATURES : null,
+      ];
+      services_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((s, idx) => {
+            if (idx < 3 && c.services[idx]) {
+              if (s && typeof s === 'object') {
+                s.title = c.services[idx].title ?? s.title;
+                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
+                if ('description' in s) s.description = c.services[idx].description ?? s.description;
+              }
+            }
+          });
+        }
+      });
+    }
+    if (c?.testimonials) {
+      const testimonials_arrays = [
+        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
+        typeof testimonials !== 'undefined' ? testimonials : null,
+        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
+        typeof reviews !== 'undefined' ? reviews : null,
+      ];
+      testimonials_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((t, idx) => {
+            if (idx < 3 && c.testimonials[idx]) {
+              if (t && typeof t === 'object') {
+                t.name = c.testimonials[idx].name ?? t.name;
+                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
+                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
+                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
+                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
+              }
+            }
+          });
+        }
+      });
+    }
+  }, [c]);
+return (
     <div ref={containerRef} style={{ background: C.bg, color: C.text, minHeight: "100vh", fontFamily: "'Cormorant Garamond', Georgia, serif", overflowX: "hidden" }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,600&display=swap');
@@ -387,7 +469,7 @@ export default function EvasionDoree() {
         <div style={{ maxWidth: 1320, margin: "0 auto", padding: "0 40px", height: 72, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <div onClick={(e) => { e.preventDefault(); goTo("home"); }} style={{ display: "flex", alignItems: "center", gap: 10, cursor: "pointer" }}>
             <Compass size={22} color={C.accent} />
-            <span style={{ fontSize: 22, fontWeight: 400, letterSpacing: "0.08em", color: C.marine }}>Évasion Dorée</span>
+            <span style={{ fontSize: 22, fontWeight: 400, letterSpacing: "0.08em", color: C.marine }}>{fd?.businessName ?? "Évasion Dorée"}</span>
           </div>
           <div style={{ display: "flex", gap: 32, alignItems: "center" }}>
             {[
@@ -465,19 +547,19 @@ export default function EvasionDoree() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
             style={{ fontSize: "clamp(48px, 7.5vw, 110px)", fontWeight: 300, lineHeight: 1.0, letterSpacing: "-0.02em", color: C.white, marginBottom: 28, maxWidth: 800 }}
-          >
+          >{c?.heroHeadline ?? <>
             Le monde<br />
             <em style={{ color: C.accent, fontStyle: "italic" }}>autrement.</em>
-          </motion.h1>
+          </>}</motion.h1>
 
           <motion.p
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.5 }}
             style={{ fontSize: "clamp(16px, 2vw, 20px)", color: "rgba(255,255,255,0.65)", fontFamily: "system-ui", lineHeight: 1.8, marginBottom: 48, maxWidth: 520, fontWeight: 300 }}
-          >
+          >{c?.heroSubline ?? fd?.tagline ?? <>
             Voyages sur mesure en classe affaires et première. Expériences exclusives inaccessibles au grand public. Conciergerie 24h/24 sur tous les continents.
-          </motion.p>
+          </>}</motion.p>
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -652,12 +734,12 @@ export default function EvasionDoree() {
                 <span style={{ fontSize: 11, color: C.accent, fontFamily: "system-ui", letterSpacing: "0.14em", fontWeight: 600 }}>CARTE DES DESTINATIONS</span>
                 <div style={{ width: 24, height: 1, background: C.accent }} />
               </div>
-              <h2 style={{ fontSize: "clamp(28px, 4vw, 52px)", fontWeight: 300, color: C.marine, marginBottom: 16 }}>
+              <h2 style={{ fontSize: "clamp(28px, 4vw, 52px)", fontWeight: 300, color: C.marine, marginBottom: 16 }}>{c?.aboutTitle ?? fd?.businessName ?? <>
                 Votre monde,<br /><em style={{ color: C.accent, fontStyle: "italic" }}>cartographié</em>
-              </h2>
-              <p style={{ fontSize: 15, color: C.textMuted, fontFamily: "system-ui", maxWidth: 480, margin: "0 auto", lineHeight: 1.7 }}>
+              </>}</h2>
+              <p style={{ fontSize: 15, color: C.textMuted, fontFamily: "system-ui", maxWidth: 480, margin: "0 auto", lineHeight: 1.7 }}>{c?.aboutText ?? <>
                 Survolez la carte pour explorer nos destinations signature. 87 expériences uniques sur 6 continents.
-              </p>
+              </>}</p>
             </div>
           </RevealSection>
 
@@ -763,7 +845,7 @@ export default function EvasionDoree() {
                 <span style={{ fontSize: 11, color: C.accent, fontFamily: "system-ui", letterSpacing: "0.14em", fontWeight: 600 }}>AVIS VOYAGEURS</span>
               </div>
               <h2 style={{ fontSize: "clamp(32px, 4.5vw, 60px)", fontWeight: 300, color: C.marine, letterSpacing: "-0.02em", maxWidth: 540 }}>
-                Ils ont voyagé avec<br /><em style={{ color: C.accent, fontStyle: "italic" }}>Évasion Dorée</em>
+                Ils ont voyagé avec<br /><em style={{ color: C.accent, fontStyle: "italic" }}>{fd?.businessName ?? "Évasion Dorée"}</em>
               </h2>
             </div>
           </RevealSection>
@@ -970,7 +1052,7 @@ export default function EvasionDoree() {
             <div>
               <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 20 }}>
                 <Compass size={20} color={C.accent} />
-                <span style={{ fontSize: 20, fontWeight: 400, color: C.white, letterSpacing: "0.08em" }}>Évasion Dorée</span>
+                <span style={{ fontSize: 20, fontWeight: 400, color: C.white, letterSpacing: "0.08em" }}>{fd?.businessName ?? "Évasion Dorée"}</span>
               </div>
               <p style={{ fontSize: 13, color: "rgba(255,255,255,0.3)", fontFamily: "system-ui", lineHeight: 1.8, maxWidth: 280, marginBottom: 24 }}>
                 Agence de voyages de luxe sur mesure depuis 2006. Paris · Genève · Monaco. IATA 88-2-0456.
@@ -1279,7 +1361,7 @@ function LegalPage() {
             <p>
               <strong>Éditeur :</strong> Aevia WS — Valentin Milliand<br />
               Entrepreneur individuel — SIREN 852 546 225 — RCS Bourg-en-Bresse<br />
-              <strong>Contact :</strong> contact@aevia.io<br />
+              <strong>Contact :</strong>{fd?.email ?? "contact@aevia.io"}<br />
               <strong>Hébergeur :</strong> Vercel Inc., 650 2nd St, San Francisco, CA 94107, USA.<br />
               <strong>Adresse physique :</strong> communiquée sur demande.
             </p>

@@ -47,7 +47,41 @@ const PRESTATIONS = [
   { title: "Consultation capillaire", price: "Offerte", desc: "Diagnostic état de la fibre, rythme colorimétrique, soins adaptés. En amont de chaque nouveau service, sur demande." },
 ]
 
+
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
 export default function AtelierLeoniePage() {
+  const [session, setSession] = useState<{
+    formData?: {
+      businessName?: string; businessType?: string; tagline?: string;
+      city?: string; mainService?: string; benefits?: string[];
+      priceRange?: string; targetAudience?: string; brandColor?: string;
+      email?: string; phone?: string; instagram?: string; linkedin?: string;
+    };
+    generatedContent?: {
+      heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
+      aboutText?: string; ctaText?: string; metaTitle?: string;
+      metaDescription?: string;
+      services?: { title?: string; description?: string }[];
+      testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
+    };
+  } | null>(null);
+
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(setSession)
+      .catch(() => {});
+  }, []);
+
+  fd = session?.formData;
+  c = session?.generatedContent;
+  brand = fd?.brandColor ?? null; // null = keep template's original color
+
   const heroRef = useRef(null)
   const [scrolled, setScrolled] = useState(false)
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] })
@@ -58,7 +92,55 @@ export default function AtelierLeoniePage() {
   useEffect(() => {
     const h = () => setScrolled(window.scrollY > 60)
     window.addEventListener("scroll", h)
-    return () => window.removeEventListener("scroll", h)
+    
+  // Dynamic Services & Testimonials Mutation for Session Data
+  useEffect(() => {
+    if (c?.services) {
+      const services_arrays = [
+        typeof SERVICES !== 'undefined' ? SERVICES : null,
+        typeof features !== 'undefined' ? features : null,
+        typeof services !== 'undefined' ? services : null,
+        typeof FEATURES !== 'undefined' ? FEATURES : null,
+      ];
+      services_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((s, idx) => {
+            if (idx < 3 && c.services[idx]) {
+              if (s && typeof s === 'object') {
+                s.title = c.services[idx].title ?? s.title;
+                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
+                if ('description' in s) s.description = c.services[idx].description ?? s.description;
+              }
+            }
+          });
+        }
+      });
+    }
+    if (c?.testimonials) {
+      const testimonials_arrays = [
+        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
+        typeof testimonials !== 'undefined' ? testimonials : null,
+        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
+        typeof reviews !== 'undefined' ? reviews : null,
+      ];
+      testimonials_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((t, idx) => {
+            if (idx < 3 && c.testimonials[idx]) {
+              if (t && typeof t === 'object') {
+                t.name = c.testimonials[idx].name ?? t.name;
+                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
+                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
+                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
+                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
+              }
+            }
+          });
+        }
+      });
+    }
+  }, [c]);
+return () => window.removeEventListener("scroll", h)
   }, [])
 
   return (
@@ -76,7 +158,7 @@ export default function AtelierLeoniePage() {
             ))}
           </div>
           <div className="flex items-center gap-3">
-            <a href="tel:0145678901" className="hidden md:flex items-center gap-2 text-[#c97b7b] font-bold text-sm">
+            <a href={`tel:${fd?.phone ?? "0145678901"}`} className="hidden md:flex items-center gap-2 text-[#c97b7b] font-bold text-sm">
               <Phone className="w-4 h-4" /> 01 45 67 89 01
             </a>
             <button className="hidden md:block px-5 py-2.5 bg-[#c97b7b] text-white text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-[#b56868] transition-colors">
@@ -87,7 +169,7 @@ export default function AtelierLeoniePage() {
               <SheetContent side="right" className="bg-[#faf6f1] border-slate-100 p-10">
                 <div className="flex flex-col gap-7 mt-16">
                   {["Prestations", "Tarifs", "Contact"].map(l => <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="text-3xl font-bold text-[#1a1218] hover:text-[#c97b7b] transition-colors" style={{ fontFamily: "'Bodoni Moda', serif" }}>{l}</Link>)}
-                  <a href="tel:0145678901" className="flex items-center gap-3 text-[#c97b7b] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> 01 45 67 89 01</a>
+                  <a href={`tel:${fd?.phone ?? "0145678901"}`} className="flex items-center gap-3 text-[#c97b7b] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> 01 45 67 89 01</a>
                 </div>
               </SheetContent>
             </Sheet>
@@ -118,24 +200,24 @@ export default function AtelierLeoniePage() {
           </motion.div>
 
           <motion.h1 initial={{ opacity: 0, y: 60 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.2, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
-            className="text-5xl md:text-7xl lg:text-[88px] font-bold leading-[0.88] tracking-tight mb-4 text-white" style={{ fontFamily: "'Bodoni Moda', Georgia, serif" }}>
+            className="text-5xl md:text-7xl lg:text-[88px] font-bold leading-[0.88] tracking-tight mb-4 text-white" style={{ fontFamily: "'Bodoni Moda', Georgia, serif" }}>{c?.heroHeadline ?? <>
             L'art de la
-          </motion.h1>
+          </>}</motion.h1>
           <motion.h1 initial={{ opacity: 0, y: 60 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.2, delay: 0.55, ease: [0.16, 1, 0.3, 1] }}
             className="text-5xl md:text-7xl lg:text-[88px] font-bold italic leading-[0.88] tracking-tight mb-10 text-[#c97b7b]" style={{ fontFamily: "'Bodoni Moda', Georgia, serif" }}>
             coiffure.
           </motion.h1>
 
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 0.78 }}
-            className="max-w-sm text-sm text-white/32 leading-relaxed mb-10">
+            className="max-w-sm text-sm text-white/32 leading-relaxed mb-10">{c?.heroSubline ?? fd?.tagline ?? <>
             Salon de coiffure premium à Paris 16e. Coupe, couleur, soins, extensions, coiffure de mariée. Stylistes passionnées, produits haut de gamme, résultat sur mesure.
-          </motion.p>
+          </>}</motion.p>
 
           <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 1.0 }} className="flex flex-wrap gap-4">
-            <button className="px-9 py-4 bg-[#c97b7b] text-white font-bold text-[10px] uppercase tracking-[0.25em] hover:bg-[#b56868] transition-colors">
+            <button className="px-9 py-4 bg-[#c97b7b] text-white font-bold text-[10px] uppercase tracking-[0.25em] hover:bg-[#b56868] transition-colors">{c?.ctaText ?? <>
               Prendre rendez-vous
-            </button>
-            <a href="tel:0145678901" className="flex items-center gap-3 px-9 py-4 border border-white/12 text-white/50 font-bold text-[10px] uppercase tracking-widest hover:border-[#c97b7b]/40 hover:text-[#d4a5a5] transition-all">
+            </>}</button>
+            <a href={`tel:${fd?.phone ?? "0145678901"}`} className="flex items-center gap-3 px-9 py-4 border border-white/12 text-white/50 font-bold text-[10px] uppercase tracking-widest hover:border-[#c97b7b]/40 hover:text-[#d4a5a5] transition-all">
               <Phone className="w-4 h-4" /> 01 45 67 89 01
             </a>
           </motion.div>
@@ -255,7 +337,7 @@ export default function AtelierLeoniePage() {
               <button className="px-10 py-4 bg-[#c97b7b] text-white font-bold text-[10px] uppercase tracking-[0.25em] hover:bg-[#b56868] transition-colors">
                 Réserver maintenant
               </button>
-              <a href="tel:0145678901" className="flex items-center gap-3 px-10 py-4 border border-white/12 text-white/40 font-bold text-[10px] uppercase tracking-widest hover:border-[#c97b7b]/40 hover:text-[#d4a5a5] transition-all">
+              <a href={`tel:${fd?.phone ?? "0145678901"}`} className="flex items-center gap-3 px-10 py-4 border border-white/12 text-white/40 font-bold text-[10px] uppercase tracking-widest hover:border-[#c97b7b]/40 hover:text-[#d4a5a5] transition-all">
                 <Phone className="w-4 h-4" /> 01 45 67 89 01
               </a>
             </div>

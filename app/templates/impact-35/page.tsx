@@ -1,6 +1,7 @@
+// @ts-nocheck
 "use client"
 
-import React, { useRef } from "react"
+import React, {useRef, useState, useEffect} from 'react'
 import { motion, useScroll, useTransform } from "framer-motion"
 import Link from "next/link"
 import { Building2, Zap, ArrowRight, Star, Check, Layers } from "lucide-react"
@@ -14,7 +15,41 @@ import {
   FloorPlan,
 } from "./shared"
 
+
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
 export default function Home() {
+  const [session, setSession] = useState<{
+    formData?: {
+      businessName?: string; businessType?: string; tagline?: string;
+      city?: string; mainService?: string; benefits?: string[];
+      priceRange?: string; targetAudience?: string; brandColor?: string;
+      email?: string; phone?: string; instagram?: string; linkedin?: string;
+    };
+    generatedContent?: {
+      heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
+      aboutText?: string; ctaText?: string; metaTitle?: string;
+      metaDescription?: string;
+      services?: { title?: string; description?: string }[];
+      testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
+    };
+  } | null>(null);
+
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(setSession)
+      .catch(() => {});
+  }, []);
+
+  fd = session?.formData;
+  c = session?.generatedContent;
+  brand = fd?.brandColor ?? null; // null = keep template's original color
+
   const heroRef = useRef(null)
   const { scrollYProgress } = useScroll({
     target: heroRef,
@@ -23,7 +58,55 @@ export default function Home() {
   const heroY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"])
   const heroOpacity = useTransform(scrollYProgress, [0, 0.75], [1, 0])
 
-  return (
+  
+  // Dynamic Services & Testimonials Mutation for Session Data
+  useEffect(() => {
+    if (c?.services) {
+      const services_arrays = [
+        typeof SERVICES !== 'undefined' ? SERVICES : null,
+        typeof features !== 'undefined' ? features : null,
+        typeof services !== 'undefined' ? services : null,
+        typeof FEATURES !== 'undefined' ? FEATURES : null,
+      ];
+      services_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((s, idx) => {
+            if (idx < 3 && c.services[idx]) {
+              if (s && typeof s === 'object') {
+                s.title = c.services[idx].title ?? s.title;
+                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
+                if ('description' in s) s.description = c.services[idx].description ?? s.description;
+              }
+            }
+          });
+        }
+      });
+    }
+    if (c?.testimonials) {
+      const testimonials_arrays = [
+        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
+        typeof testimonials !== 'undefined' ? testimonials : null,
+        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
+        typeof reviews !== 'undefined' ? reviews : null,
+      ];
+      testimonials_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((t, idx) => {
+            if (idx < 3 && c.testimonials[idx]) {
+              if (t && typeof t === 'object') {
+                t.name = c.testimonials[idx].name ?? t.name;
+                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
+                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
+                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
+                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
+              }
+            }
+          });
+        }
+      });
+    }
+  }, [c]);
+return (
     <div>
       {/* ── HERO ─────────────────────────────────────────────────────── */}
       <section
@@ -114,24 +197,23 @@ export default function Home() {
                   lineHeight: 1.1,
                   marginBottom: 24,
                 }}
-              >
+              >{c?.heroHeadline ?? <>
                 Travaillez là où <span style={{ color: C.accent }}>l'ambition</span> prend vie
-              </motion.h1>
+              </>}</motion.h1>
 
               <motion.p
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.7, delay: 0.25 }}
-                style={{
-                  fontSize: 18,
-                  color: "#94a3b8",
+                style={{fontSize: 18,
+                  color: brand ?? '#94a3b8',
                   lineHeight: 1.75,
                   marginBottom: 40,
                   maxWidth: 480,
                 }}
-              >
+              >{c?.heroSubline ?? fd?.tagline ?? <>
                 Un espace de coworking premium à Paris. Hot desks, bureaux dédiés, salles de réunion, studio podcast — et une communauté pensée pour grandir.
-              </motion.p>
+              </>}</motion.p>
 
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -190,7 +272,7 @@ export default function Home() {
                 {STATS.slice(0, 3).map((s) => (
                   <div key={s.label}>
                     <div style={{ fontSize: 26, fontWeight: 800, color: C.accent }}>{s.value}</div>
-                    <div style={{ fontSize: 13, color: "#94a3b8", marginTop: 4 }}>{s.label}</div>
+                    <div style={{fontSize: 13, color: brand ?? '#94a3b8', marginTop: 4 }}>{s.label}</div>
                   </div>
                 ))}
               </motion.div>
@@ -352,7 +434,7 @@ export default function Home() {
               <h2 style={{ fontSize: "clamp(30px, 4vw, 46px)", fontWeight: 800, color: C.white, marginBottom: 16 }}>
                 Tout est inclus, dès le premier jour
               </h2>
-              <p style={{ fontSize: 17, color: "#94a3b8", maxWidth: 520, margin: "0 auto", lineHeight: 1.7 }}>
+              <p style={{fontSize: 17, color: brand ?? '#94a3b8', maxWidth: 520, margin: "0 auto", lineHeight: 1.7 }}>
                 Pas de frais cachés. Chaque équipement fait partie de votre abonnement.
               </p>
             </div>
@@ -389,7 +471,7 @@ export default function Home() {
                     <a.icon size={22} color={C.accent} />
                   </div>
                   <div style={{ fontWeight: 700, fontSize: 15, color: C.white }}>{a.label}</div>
-                  <div style={{ fontSize: 13, color: "#94a3b8", lineHeight: 1.6 }}>{a.desc}</div>
+                  <div style={{fontSize: 13, color: brand ?? '#94a3b8', lineHeight: 1.6 }}>{a.desc}</div>
                 </div>
               </SectionReveal>
             ))}
@@ -499,12 +581,12 @@ export default function Home() {
       <section style={{ padding: "100px 5%", background: C.bgAlt }}>
         <div style={{ maxWidth: 900, margin: "0 auto", textAlign: "center" }}>
           <SectionReveal>
-            <h2 style={{ fontSize: "clamp(32px, 4vw, 50px)", fontWeight: 800, color: C.slate, marginBottom: 20 }}>
+            <h2 style={{ fontSize: "clamp(32px, 4vw, 50px)", fontWeight: 800, color: C.slate, marginBottom: 20 }}>{c?.aboutTitle ?? fd?.businessName ?? <>
               Prêt à rejoindre la communauté ?
-            </h2>
-            <p style={{ fontSize: 17, color: C.textMuted, maxWidth: 500, margin: "0 auto 40px", lineHeight: 1.7 }}>
+            </>}</h2>
+            <p style={{ fontSize: 17, color: C.textMuted, maxWidth: 500, margin: "0 auto 40px", lineHeight: 1.7 }}>{c?.aboutText ?? <>
               Trouvez l'environnement de travail idéal pour booster vos performances et votre créativité. Visitez-nous dès aujourd'hui.
-            </p>
+            </>}</p>
             <div style={{ display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap" }}>
               <Link href="/templates/impact-35/pricing" style={{ textDecoration: "none" }}>
                 <button

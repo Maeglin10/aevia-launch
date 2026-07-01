@@ -1,3 +1,4 @@
+// @ts-nocheck
 "use client";
 
 import {
@@ -165,7 +166,41 @@ function MagneticBtn({
    MAIN PAGE COMPONENT
    ========================================================================= */
 
+
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
 export default function SkylineConciergePage() {
+  const [session, setSession] = useState<{
+    formData?: {
+      businessName?: string; businessType?: string; tagline?: string;
+      city?: string; mainService?: string; benefits?: string[];
+      priceRange?: string; targetAudience?: string; brandColor?: string;
+      email?: string; phone?: string; instagram?: string; linkedin?: string;
+    };
+    generatedContent?: {
+      heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
+      aboutText?: string; ctaText?: string; metaTitle?: string;
+      metaDescription?: string;
+      services?: { title?: string; description?: string }[];
+      testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
+    };
+  } | null>(null);
+
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(setSession)
+      .catch(() => {});
+  }, []);
+
+  fd = session?.formData;
+  c = session?.generatedContent;
+  brand = fd?.brandColor ?? null; // null = keep template's original color
+
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeListing, setActiveListing] = useState<number | null>(null);
@@ -174,7 +209,55 @@ export default function SkylineConciergePage() {
   useEffect(() => {
     const h = () => setScrolled(window.scrollY > 50);
     window.addEventListener("scroll", h);
-    return () => window.removeEventListener("scroll", h);
+    
+  // Dynamic Services & Testimonials Mutation for Session Data
+  useEffect(() => {
+    if (c?.services) {
+      const services_arrays = [
+        typeof SERVICES !== 'undefined' ? SERVICES : null,
+        typeof features !== 'undefined' ? features : null,
+        typeof services !== 'undefined' ? services : null,
+        typeof FEATURES !== 'undefined' ? FEATURES : null,
+      ];
+      services_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((s, idx) => {
+            if (idx < 3 && c.services[idx]) {
+              if (s && typeof s === 'object') {
+                s.title = c.services[idx].title ?? s.title;
+                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
+                if ('description' in s) s.description = c.services[idx].description ?? s.description;
+              }
+            }
+          });
+        }
+      });
+    }
+    if (c?.testimonials) {
+      const testimonials_arrays = [
+        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
+        typeof testimonials !== 'undefined' ? testimonials : null,
+        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
+        typeof reviews !== 'undefined' ? reviews : null,
+      ];
+      testimonials_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((t, idx) => {
+            if (idx < 3 && c.testimonials[idx]) {
+              if (t && typeof t === 'object') {
+                t.name = c.testimonials[idx].name ?? t.name;
+                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
+                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
+                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
+                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
+              }
+            }
+          });
+        }
+      });
+    }
+  }, [c]);
+return () => window.removeEventListener("scroll", h);
   }, []);
 
   return (
@@ -279,17 +362,17 @@ export default function SkylineConciergePage() {
             <Badge className="bg-[#c9a96e]/10 text-[#c9a96e] border border-[#c9a96e]/20 text-[10px] font-bold uppercase tracking-[0.5em] mb-10 px-4 py-1.5 rounded-sm">
               Private Advisory // Global Access
             </Badge>
-            <h1 className="text-6xl md:text-[8rem] font-black leading-[0.85] tracking-tighter mb-10 uppercase">
+            <h1 className="text-6xl md:text-[8rem] font-black leading-[0.85] tracking-tighter mb-10 uppercase">{c?.heroHeadline ?? <>
               The Standard of <br />{" "}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#c9a96e] via-[#ffffff] to-[#c9a96e]">
                 Absolute Luxury.
               </span>
-            </h1>
-            <p className="max-w-2xl text-lg text-white/40 leading-relaxed font-light italic mb-12">
+            </>}</h1>
+            <p className="max-w-2xl text-lg text-white/40 leading-relaxed font-light italic mb-12">{c?.heroSubline ?? fd?.tagline ?? <>
               Confidential brokerage and lifestyle management for the world's
               most discerning families. From off-market penthouses to global
               asset security.
-            </p>
+            </>}</p>
             <div className="flex flex-col sm:flex-row gap-6">
               <Link href="#contact">
                 <MagneticBtn className="px-12 py-5 bg-[#c9a96e] text-black text-[10px] font-bold uppercase tracking-[0.3em] rounded-sm hover:bg-white transition-all cursor-pointer shadow-2xl shadow-[#c9a96e]/20">
@@ -371,13 +454,13 @@ export default function SkylineConciergePage() {
             <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#c9a96e] mb-8 block">
               Our Creed
             </span>
-            <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase italic mb-8">
+            <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase italic mb-8">{c?.aboutTitle ?? fd?.businessName ?? <>
               The Philosophy of <br />
               <span className="not-italic font-thin text-white">Absolute Discretion.</span>
-            </h2>
-            <p className="text-white/40 text-lg leading-relaxed mb-8 font-light italic">
+            </>}</h2>
+            <p className="text-white/40 text-lg leading-relaxed mb-8 font-light italic">{c?.aboutText ?? <>
               At Skyline Concierge Group, we operate at the unique intersection of wealth infrastructure, private security, and lifestyle orchestration.
-            </p>
+            </>}</p>
             <p className="text-white/30 text-sm leading-relaxed mb-12 font-light">
               Our mission is to create a seamless operational environment for the world's most discerning individuals. By managing the complexities of luxury asset coordination, physical security detail, and private travel logistics, we restore the ultimate luxury: absolute freedom.
             </p>
@@ -683,7 +766,7 @@ export default function SkylineConciergePage() {
                 </div>
                 <div>
                   <div className="text-[8px] font-bold uppercase tracking-widest text-white/30">EMAIL DESK</div>
-                  <div className="text-sm font-bold">advisory@skylineconcierge.com</div>
+                  <div className="text-sm font-bold">{fd?.email ?? "advisory@skylineconcierge.com"}</div>
                 </div>
               </div>
               <div className="flex items-center gap-6">
