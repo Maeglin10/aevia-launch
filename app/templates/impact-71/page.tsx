@@ -2,13 +2,47 @@
 "use client";
 
 import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef, useEffect } from "react";
+import {useRef, useEffect, useState} from 'react';
 import Image from "next/image";
 import Link from "next/link";
 import { Leaf, Sun, Wind, Activity, Sparkles } from "lucide-react";
 import { Reveal, Counter, MagneticBtn } from "./shared";
 
+
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
 export default function ZenSpaceHome() {
+  const [session, setSession] = useState<{
+    formData?: {
+      businessName?: string; businessType?: string; tagline?: string;
+      city?: string; mainService?: string; benefits?: string[];
+      priceRange?: string; targetAudience?: string; brandColor?: string;
+      email?: string; phone?: string; instagram?: string; linkedin?: string;
+    };
+    generatedContent?: {
+      heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
+      aboutText?: string; ctaText?: string; metaTitle?: string;
+      metaDescription?: string;
+      services?: { title?: string; description?: string }[];
+      testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
+    };
+  } | null>(null);
+
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(setSession)
+      .catch(() => {});
+  }, []);
+
+  fd = session?.formData;
+  c = session?.generatedContent;
+  brand = fd?.brandColor ?? null; // null = keep template's original color
+
   const heroRef = useRef(null);
   const { scrollYProgress } = useScroll({
     target: heroRef,
@@ -21,7 +55,55 @@ export default function ZenSpaceHome() {
     window.dispatchEvent(new CustomEvent("open-zenspace-booking"));
   };
 
-  return (
+  
+  // Dynamic Services & Testimonials Mutation for Session Data
+  useEffect(() => {
+    if (c?.services) {
+      const services_arrays = [
+        typeof SERVICES !== 'undefined' ? SERVICES : null,
+        typeof features !== 'undefined' ? features : null,
+        typeof services !== 'undefined' ? services : null,
+        typeof FEATURES !== 'undefined' ? FEATURES : null,
+      ];
+      services_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((s, idx) => {
+            if (idx < 3 && c.services[idx]) {
+              if (s && typeof s === 'object') {
+                s.title = c.services[idx].title ?? s.title;
+                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
+                if ('description' in s) s.description = c.services[idx].description ?? s.description;
+              }
+            }
+          });
+        }
+      });
+    }
+    if (c?.testimonials) {
+      const testimonials_arrays = [
+        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
+        typeof testimonials !== 'undefined' ? testimonials : null,
+        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
+        typeof reviews !== 'undefined' ? reviews : null,
+      ];
+      testimonials_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((t, idx) => {
+            if (idx < 3 && c.testimonials[idx]) {
+              if (t && typeof t === 'object') {
+                t.name = c.testimonials[idx].name ?? t.name;
+                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
+                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
+                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
+                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
+              }
+            }
+          });
+        }
+      });
+    }
+  }, [c]);
+return (
     <div className="w-full">
       {/* ==========================================
           1. HERO (Minimal Zen)
@@ -54,14 +136,14 @@ export default function ZenSpaceHome() {
               <Leaf className="w-3.5 h-3.5 text-[#c9a84c]" />
               Silence is the Language of the Soul
             </div>
-            <h1 className="text-7xl md:text-9xl lg:text-[11rem] font-light leading-[1.15] tracking-tighter mb-12 uppercase italic text-[#33302c] pb-6">
+            <h1 className="text-7xl md:text-9xl lg:text-[11rem] font-light leading-[1.15] tracking-tighter mb-12 uppercase italic text-[#33302c] pb-6">{c?.heroHeadline ?? <>
               Find Your <br />{" "}
               <span className="text-[#c9a84c]">Stillness.</span>
-            </h1>
-            <p className="max-w-xl text-lg md:text-xl text-stone-400 leading-relaxed font-light mb-12 italic tracking-tight">
+            </>}</h1>
+            <p className="max-w-xl text-lg md:text-xl text-stone-400 leading-relaxed font-light mb-12 italic tracking-tight">{c?.heroSubline ?? fd?.tagline ?? <>
               An architectural sanctuary in the heart of the city. We provide the
               space, the breath, and the ancient wisdom for modern evolution.
-            </p>
+            </>}</p>
             <div className="flex flex-col sm:flex-row gap-6">
               <Link href="/templates/impact-71/practices" className="no-underline">
                 <MagneticBtn className="px-12 py-5 bg-[#33302c] text-[#faf9f6] text-[10px] font-bold uppercase tracking-[0.4em] rounded-full hover:bg-[#c9a84c] transition-all cursor-pointer shadow-2xl border-none">
@@ -104,15 +186,15 @@ export default function ZenSpaceHome() {
                 <span className="text-[10px] uppercase tracking-[0.4em] font-bold text-[#c9a84c] mb-6 block">
                   The Zen Method
                 </span>
-                <h2 className="text-5xl md:text-7xl font-light tracking-tighter leading-[1.15] mb-12 text-[#33302c] uppercase italic pb-4">
+                <h2 className="text-5xl md:text-7xl font-light tracking-tighter leading-[1.15] mb-12 text-[#33302c] uppercase italic pb-4">{c?.aboutTitle ?? fd?.businessName ?? <>
                   Breath <br />{" "}
                   <span className="text-[#c9a84c] not-italic">As Alchemy.</span>
-                </h2>
-                <p className="text-lg text-stone-400 leading-relaxed font-light mb-16 uppercase tracking-tight italic">
+                </>}</h2>
+                <p className="text-lg text-stone-400 leading-relaxed font-light mb-16 uppercase tracking-tight italic">{c?.aboutText ?? <>
                   Nous fusionnons les asanas traditionnels avec une approche
                   neurologique contemporaine pour réinitialiser votre système
                   nerveux en 60 minutes.
-                </p>
+                </>}</p>
 
                 <div className="space-y-10">
                   {[

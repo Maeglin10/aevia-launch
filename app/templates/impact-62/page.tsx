@@ -1,6 +1,7 @@
+// @ts-nocheck
 "use client";
 
-import React, { useRef } from "react";
+import React, {useRef, useState, useEffect} from 'react';
 import Image from "next/image";
 import Link from "next/link";
 import { motion, useScroll, useTransform, useInView } from "framer-motion";
@@ -31,7 +32,41 @@ const TESTIMONIALS = [
   },
 ];
 
+
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
 export default function SatoriHomePage() {
+  const [session, setSession] = useState<{
+    formData?: {
+      businessName?: string; businessType?: string; tagline?: string;
+      city?: string; mainService?: string; benefits?: string[];
+      priceRange?: string; targetAudience?: string; brandColor?: string;
+      email?: string; phone?: string; instagram?: string; linkedin?: string;
+    };
+    generatedContent?: {
+      heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
+      aboutText?: string; ctaText?: string; metaTitle?: string;
+      metaDescription?: string;
+      services?: { title?: string; description?: string }[];
+      testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
+    };
+  } | null>(null);
+
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(setSession)
+      .catch(() => {});
+  }, []);
+
+  fd = session?.formData;
+  c = session?.generatedContent;
+  brand = fd?.brandColor ?? null; // null = keep template's original color
+
   const heroRef = useRef(null);
   const { scrollYProgress } = useScroll({
     target: heroRef,
@@ -40,7 +75,55 @@ export default function SatoriHomePage() {
   const heroY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
   const heroOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
 
-  return (
+  
+  // Dynamic Services & Testimonials Mutation for Session Data
+  useEffect(() => {
+    if (c?.services) {
+      const services_arrays = [
+        typeof SERVICES !== 'undefined' ? SERVICES : null,
+        typeof features !== 'undefined' ? features : null,
+        typeof services !== 'undefined' ? services : null,
+        typeof FEATURES !== 'undefined' ? FEATURES : null,
+      ];
+      services_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((s, idx) => {
+            if (idx < 3 && c.services[idx]) {
+              if (s && typeof s === 'object') {
+                s.title = c.services[idx].title ?? s.title;
+                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
+                if ('description' in s) s.description = c.services[idx].description ?? s.description;
+              }
+            }
+          });
+        }
+      });
+    }
+    if (c?.testimonials) {
+      const testimonials_arrays = [
+        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
+        typeof testimonials !== 'undefined' ? testimonials : null,
+        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
+        typeof reviews !== 'undefined' ? reviews : null,
+      ];
+      testimonials_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((t, idx) => {
+            if (idx < 3 && c.testimonials[idx]) {
+              if (t && typeof t === 'object') {
+                t.name = c.testimonials[idx].name ?? t.name;
+                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
+                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
+                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
+                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
+              }
+            }
+          });
+        }
+      });
+    }
+  }, [c]);
+return (
     <div className="bg-[#0f0d0b] text-[#f5efe0]">
       {/* ── HERO ──────────────────── */}
       <section
@@ -63,16 +146,16 @@ export default function SatoriHomePage() {
 
         <div className="relative z-10 max-w-[1400px] mx-auto px-6 md:px-12 w-full">
           <Reveal>
-            <h1 className="text-7xl md:text-9xl lg:text-[11rem] font-light leading-[1.15] pb-4 tracking-tighter mb-12 uppercase text-white">
+            <h1 className="text-7xl md:text-9xl lg:text-[11rem] font-light leading-[1.15] pb-4 tracking-tighter mb-12 uppercase text-white">{c?.heroHeadline ?? <>
               Surrender <br />{" "}
               <span className="italic font-normal text-[#b8860b]">
                 to fire.
               </span>
-            </h1>
-            <p className="max-w-xl text-lg md:text-xl text-[#f5efe0]/40 leading-relaxed font-light mb-12 italic">
+            </>}</h1>
+            <p className="max-w-xl text-lg md:text-xl text-[#f5efe0]/40 leading-relaxed font-light mb-12 italic">{c?.heroSubline ?? fd?.tagline ?? <>
               Chef Anatol Voss transforms memory, season, and flame into a
               dining experience that transcends cuisine.
-            </p>
+            </>}</p>
             <div className="flex flex-col sm:flex-row gap-6">
               <Link href="/templates/impact-62/contact" style={{ textDecoration: "none" }}>
                 <MagneticBtn
@@ -187,17 +270,17 @@ export default function SatoriHomePage() {
                 <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#b8860b]">
                   Sommellerie
                 </span>
-                <h2 className="text-5xl md:text-7xl font-light mt-4 tracking-tight uppercase">
+                <h2 className="text-5xl md:text-7xl font-light mt-4 tracking-tight uppercase">{c?.aboutTitle ?? fd?.businessName ?? <>
                   Cave
                   <br />
                   <span className="italic text-[#f5efe0]/40">à Vins</span>
-                </h2>
+                </>}</h2>
               </div>
-              <p className="max-w-sm text-sm text-[#f5efe0]/40 leading-relaxed font-light italic">
+              <p className="max-w-sm text-sm text-[#f5efe0]/40 leading-relaxed font-light italic">{c?.aboutText ?? <>
                 Notre sommelière Lucie Arnaud sélectionne pour chaque accord
                 des flacons qui prolongent et subliment les émotions de
                 l'assiette.
-              </p>
+              </>}</p>
             </div>
           </Reveal>
 
@@ -410,7 +493,7 @@ export default function SatoriHomePage() {
                 </MagneticBtn>
               </Link>
               <a
-                href="tel:+33142000000"
+                href={`tel:${fd?.phone ?? "+33142000000"}`}
                 className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#f5efe0]/30 hover:text-[#f5efe0] transition-colors"
                 style={{ textDecoration: "none" }}
               >

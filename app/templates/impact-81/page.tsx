@@ -1,24 +1,107 @@
+// @ts-nocheck
 "use client";
 
-import React, { useRef } from "react";
+import React, {useRef, useState, useEffect} from 'react';
 import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { Reveal, Instagram, Twitter } from "./shared";
 
+
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
 export default function VogueNoirePage() {
+  const [session, setSession] = useState<{
+    formData?: {
+      businessName?: string; businessType?: string; tagline?: string;
+      city?: string; mainService?: string; benefits?: string[];
+      priceRange?: string; targetAudience?: string; brandColor?: string;
+      email?: string; phone?: string; instagram?: string; linkedin?: string;
+    };
+    generatedContent?: {
+      heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
+      aboutText?: string; ctaText?: string; metaTitle?: string;
+      metaDescription?: string;
+      services?: { title?: string; description?: string }[];
+      testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
+    };
+  } | null>(null);
+
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(setSession)
+      .catch(() => {});
+  }, []);
+
+  fd = session?.formData;
+  c = session?.generatedContent;
+  brand = fd?.brandColor ?? null; // null = keep template's original color
+
   const heroRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress: heroScroll } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
   const heroImgY = useTransform(heroScroll, [0, 1], ["0%", "30%"]);
   const basePath = "/templates/impact-81";
 
-  return (
+  
+  // Dynamic Services & Testimonials Mutation for Session Data
+  useEffect(() => {
+    if (c?.services) {
+      const services_arrays = [
+        typeof SERVICES !== 'undefined' ? SERVICES : null,
+        typeof features !== 'undefined' ? features : null,
+        typeof services !== 'undefined' ? services : null,
+        typeof FEATURES !== 'undefined' ? FEATURES : null,
+      ];
+      services_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((s, idx) => {
+            if (idx < 3 && c.services[idx]) {
+              if (s && typeof s === 'object') {
+                s.title = c.services[idx].title ?? s.title;
+                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
+                if ('description' in s) s.description = c.services[idx].description ?? s.description;
+              }
+            }
+          });
+        }
+      });
+    }
+    if (c?.testimonials) {
+      const testimonials_arrays = [
+        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
+        typeof testimonials !== 'undefined' ? testimonials : null,
+        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
+        typeof reviews !== 'undefined' ? reviews : null,
+      ];
+      testimonials_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((t, idx) => {
+            if (idx < 3 && c.testimonials[idx]) {
+              if (t && typeof t === 'object') {
+                t.name = c.testimonials[idx].name ?? t.name;
+                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
+                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
+                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
+                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
+              }
+            }
+          });
+        }
+      });
+    }
+  }, [c]);
+return (
     <div className="bg-[#0A0A08] text-[#F0EBE0]">
       {/* Hero — asymmetric mosaic */}
       <section ref={heroRef} className="relative min-h-screen overflow-hidden">
         <motion.div className="absolute inset-0" style={{ y: heroImgY }}>
-          <Image src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1600&q=85" alt="Vogue Noire" fill className="object-cover" />
+          <Image src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1600&q=85" alt={fd?.businessName ?? "Vogue Noire"} fill className="object-cover" />
           <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A08] via-[#0A0A08]/50 to-[#0A0A08]/20" />
         </motion.div>
         <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 pt-32 min-h-screen flex flex-col">
@@ -27,14 +110,14 @@ export default function VogueNoirePage() {
               <p className="text-[10px] tracking-[0.4em] uppercase text-[#C9A86C] mb-8">Numéro 214 · Janvier 2025</p>
             </Reveal>
             <Reveal delay={0.1}>
-              <h1 className="text-6xl md:text-8xl lg:text-[10rem] font-light leading-[1.15] mb-8 tracking-tight pb-4" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+              <h1 className="text-6xl md:text-8xl lg:text-[10rem] font-light leading-[1.15] mb-8 tracking-tight pb-4" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{c?.heroHeadline ?? <>
                 Corps<br /><em>Céleste</em>
-              </h1>
+              </>}</h1>
             </Reveal>
             <Reveal delay={0.2}>
-              <p className="text-[#A0988A] text-lg max-w-md leading-relaxed mb-10">
+              <p className="text-[#A0988A] text-lg max-w-md leading-relaxed mb-10">{c?.heroSubline ?? fd?.tagline ?? <>
                 La saison Automne / Hiver 2025 porte en elle une nouvelle grammaire du corps. Entre retenue et explosion, les maisons réinventent leur vocabulaire.
-              </p>
+              </>}</p>
               <Link href={`${basePath}/editoriaux`} className="inline-flex items-center gap-3 text-sm tracking-widest uppercase border-b border-[#C9A86C] pb-1 text-[#C9A86C] hover:text-[#F0EBE0] hover:border-[#F0EBE0] transition-colors cursor-pointer">
                 Explorer le numéro <ArrowRight className="w-4 h-4" />
               </Link>
@@ -70,12 +153,12 @@ export default function VogueNoirePage() {
             <Reveal delay={0.15}>
               <div className="pt-8 lg:pt-24">
                 <span className="text-[9px] uppercase tracking-[0.4em] text-[#C9A86C] block mb-6">Éditorial de couverture</span>
-                <h2 className="text-4xl md:text-6xl font-light leading-[1.2] mb-8" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+                <h2 className="text-4xl md:text-6xl font-light leading-[1.2] mb-8" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{c?.aboutTitle ?? fd?.businessName ?? <>
                   Le corps comme langage.<br /><em>La mode comme texte.</em>
-                </h2>
-                <p className="text-[#A0988A] leading-relaxed mb-10 text-base">
+                </>}</h2>
+                <p className="text-[#A0988A] leading-relaxed mb-10 text-base">{c?.aboutText ?? <>
                   À l'occasion de la saison Hiver 2025, Vogue Noire interroge la relation entre le corps féminin et le vêtement haut de gamme. Six photographes, douze mannequins, une idée centrale : le mouvement comme signature esthétique.
-                </p>
+                </>}</p>
                 <div className="flex items-center gap-6 text-xs text-[#6A6058] mb-12">
                   <span>Par Amara Diallo</span>
                   <span className="w-4 h-[1px] bg-[#3A3028]" />

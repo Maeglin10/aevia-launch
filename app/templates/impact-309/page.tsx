@@ -1,6 +1,7 @@
+// @ts-nocheck
 'use client';
 
-import React, { useRef, useState } from 'react';
+import React, {useRef, useState, useEffect} from 'react';
 import {
   motion,
   useScroll,
@@ -77,7 +78,7 @@ const C = {
   bgCard: "#ffffff",
   text: "#0d0508",
   textMuted: "#8a7880",
-  accent: "#0d0508",
+  accent: brand ?? '#0d0508',
   white: "#ffffff",
   black: "#000000",
 } as const;
@@ -204,7 +205,41 @@ function Button({
    MAIN PAGE COMPONENTS
    ════════════════════════════════════════════════════════════════════════════ */
 
+
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
 export default function Page() {
+  const [session, setSession] = useState<{
+    formData?: {
+      businessName?: string; businessType?: string; tagline?: string;
+      city?: string; mainService?: string; benefits?: string[];
+      priceRange?: string; targetAudience?: string; brandColor?: string;
+      email?: string; phone?: string; instagram?: string; linkedin?: string;
+    };
+    generatedContent?: {
+      heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
+      aboutText?: string; ctaText?: string; metaTitle?: string;
+      metaDescription?: string;
+      services?: { title?: string; description?: string }[];
+      testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
+    };
+  } | null>(null);
+
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(setSession)
+      .catch(() => {});
+  }, []);
+
+  fd = session?.formData;
+  c = session?.generatedContent;
+  brand = fd?.brandColor ?? null; // null = keep template's original color
+
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeCategory, setActiveCategory] = useState("Tous");
   const [expandedFaq, setExpandedFaq] = useState<number | null>(null);
@@ -231,7 +266,55 @@ export default function Page() {
     }
   };
 
-  return (
+  
+  // Dynamic Services & Testimonials Mutation for Session Data
+  useEffect(() => {
+    if (c?.services) {
+      const services_arrays = [
+        typeof SERVICES !== 'undefined' ? SERVICES : null,
+        typeof features !== 'undefined' ? features : null,
+        typeof services !== 'undefined' ? services : null,
+        typeof FEATURES !== 'undefined' ? FEATURES : null,
+      ];
+      services_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((s, idx) => {
+            if (idx < 3 && c.services[idx]) {
+              if (s && typeof s === 'object') {
+                s.title = c.services[idx].title ?? s.title;
+                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
+                if ('description' in s) s.description = c.services[idx].description ?? s.description;
+              }
+            }
+          });
+        }
+      });
+    }
+    if (c?.testimonials) {
+      const testimonials_arrays = [
+        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
+        typeof testimonials !== 'undefined' ? testimonials : null,
+        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
+        typeof reviews !== 'undefined' ? reviews : null,
+      ];
+      testimonials_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((t, idx) => {
+            if (idx < 3 && c.testimonials[idx]) {
+              if (t && typeof t === 'object') {
+                t.name = c.testimonials[idx].name ?? t.name;
+                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
+                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
+                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
+                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
+              }
+            }
+          });
+        }
+      });
+    }
+  }, [c]);
+return (
     <div style={{
       background: C.bg,
       color: C.text,
@@ -266,9 +349,7 @@ export default function Page() {
             color: C.primary,
             textDecoration: 'none',
             letterSpacing: '0.05em'
-          }}>
-            Encre Délicate
-          </a>
+          }}>{fd?.businessName ?? "Encre Délicate"}</a>
 
           {/* Desktop links */}
           <div style={{ display: 'flex', gap: 28, alignItems: 'center' }} className="hidden md:flex">
@@ -425,9 +506,9 @@ export default function Page() {
               color: '#ffffff',
               marginBottom: 20,
               textShadow: '0 4px 20px rgba(0,0,0,0.5)'
-            }}>
+            }}>{c?.heroHeadline ?? <>
               Tatouage Fineline\n& Aquarelle
-            </h1>
+            </>}</h1>
           </Reveal>
 
           <Reveal delay={0.4}>
@@ -438,9 +519,9 @@ export default function Page() {
               maxWidth: 650,
               margin: '0 auto 36px',
               textShadow: '0 2px 10px rgba(0,0,0,0.3)'
-            }}>
+            }}>{c?.heroSubline ?? fd?.tagline ?? <>
               Studio féminin sur rendez-vous. Fineline, aquarelle, tatouages délicats et durables. Bordeaux.
-            </p>
+            </>}</p>
           </Reveal>
 
           <Reveal delay={0.55}>
@@ -555,7 +636,7 @@ export default function Page() {
 
             <div>
               <Reveal delay={0.15}>
-                <Eyebrow>Encre Délicate</Eyebrow>
+                <Eyebrow>{fd?.businessName ?? "Encre Délicate"}</Eyebrow>
                 <h2 style={{
                   fontFamily: SERIF,
                   fontSize: 'clamp(28px, 4vw, 48px)',
@@ -563,17 +644,17 @@ export default function Page() {
                   color: C.primary,
                   marginBottom: 24,
                   fontWeight: 700
-                }}>
+                }}>{c?.aboutTitle ?? fd?.businessName ?? <>
                   L'Art du Trait Fin
-                </h2>
+                </>}</h2>
                 <p style={{
                   fontSize: 15,
                   lineHeight: 1.7,
                   color: C.textMuted,
                   marginBottom: 20
-                }}>
+                }}>{c?.aboutText ?? <>
                   Encre Délicate est un studio féminin spécialisé dans le tatouage fineline et aquarelle. Chaque pièce est dessinée sur mesure, adaptée à votre anatomie et à votre sensibilité.
-                </p>
+                </>}</p>
                 <p style={{
                   fontSize: 15,
                   lineHeight: 1.7,
@@ -1000,7 +1081,7 @@ export default function Page() {
                     </div>
                     <div>
                       <div style={{ fontSize: 11, letterSpacing: '0.05em', textTransform: 'uppercase', color: C.textMuted }}>Téléphone</div>
-                      <a href="tel:+33500000000" style={{ fontSize: 15, color: C.text, fontWeight: 700, textDecoration: 'none' }}>+33 (0)5 00 00 00 00</a>
+                      <a href={`tel:${fd?.phone ?? "+33500000000"}`} style={{ fontSize: 15, color: C.text, fontWeight: 700, textDecoration: 'none' }}>+33 (0)5 00 00 00 00</a>
                     </div>
                   </div>
 
@@ -1020,7 +1101,7 @@ export default function Page() {
                     </div>
                     <div>
                       <div style={{ fontSize: 11, letterSpacing: '0.05em', textTransform: 'uppercase', color: C.textMuted }}>Adresse E-mail</div>
-                      <a href="mailto:contact@mysite.com" style={{ fontSize: 15, color: C.text, fontWeight: 700, textDecoration: 'none' }}>contact@encredélicate.com</a>
+                      <a href={`mailto:${fd?.email ?? "contact@mysite.com"}`} style={{ fontSize: 15, color: C.text, fontWeight: 700, textDecoration: 'none' }}>contact@encredélicate.com</a>
                     </div>
                   </div>
 
@@ -1157,9 +1238,7 @@ export default function Page() {
             marginBottom: 64
           }}>
             <div>
-              <h4 style={{ fontFamily: SERIF, fontSize: 18, color: C.primary, marginBottom: 16, fontWeight: 700 }}>
-                Encre Délicate
-              </h4>
+              <h4 style={{ fontFamily: SERIF, fontSize: 18, color: C.primary, marginBottom: 16, fontWeight: 700 }}>{fd?.businessName ?? "Encre Délicate"}</h4>
               <p style={{ lineHeight: 1.6 }}>
                 Studio tatouage fineline Bordeaux
               </p>

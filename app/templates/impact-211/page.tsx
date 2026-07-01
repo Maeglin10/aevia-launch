@@ -348,7 +348,41 @@ function CourseCard({ course, index }: { course: typeof COURSES[0]; index: numbe
 }
 
 // ─── Main Page ─────────────────────────────────────────────────────────────────
+
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
 export default function Impact211Page() {
+  const [session, setSession] = useState<{
+    formData?: {
+      businessName?: string; businessType?: string; tagline?: string;
+      city?: string; mainService?: string; benefits?: string[];
+      priceRange?: string; targetAudience?: string; brandColor?: string;
+      email?: string; phone?: string; instagram?: string; linkedin?: string;
+    };
+    generatedContent?: {
+      heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
+      aboutText?: string; ctaText?: string; metaTitle?: string;
+      metaDescription?: string;
+      services?: { title?: string; description?: string }[];
+      testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
+    };
+  } | null>(null);
+
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(setSession)
+      .catch(() => {});
+  }, []);
+
+  fd = session?.formData;
+  c = session?.generatedContent;
+  brand = fd?.brandColor ?? null; // null = keep template's original color
+
   const [activeMapDot, setActiveMapDot] = useState<string | null>(null)
   const [chefHovered, setChefHovered] = useState(false)
   const [reservationLoading, setReservationLoading] = useState(false)
@@ -369,7 +403,55 @@ export default function Impact211Page() {
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 60)
     window.addEventListener("scroll", handleScroll, { passive: true })
-    return () => window.removeEventListener("scroll", handleScroll)
+    
+  // Dynamic Services & Testimonials Mutation for Session Data
+  useEffect(() => {
+    if (c?.services) {
+      const services_arrays = [
+        typeof SERVICES !== 'undefined' ? SERVICES : null,
+        typeof features !== 'undefined' ? features : null,
+        typeof services !== 'undefined' ? services : null,
+        typeof FEATURES !== 'undefined' ? FEATURES : null,
+      ];
+      services_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((s, idx) => {
+            if (idx < 3 && c.services[idx]) {
+              if (s && typeof s === 'object') {
+                s.title = c.services[idx].title ?? s.title;
+                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
+                if ('description' in s) s.description = c.services[idx].description ?? s.description;
+              }
+            }
+          });
+        }
+      });
+    }
+    if (c?.testimonials) {
+      const testimonials_arrays = [
+        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
+        typeof testimonials !== 'undefined' ? testimonials : null,
+        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
+        typeof reviews !== 'undefined' ? reviews : null,
+      ];
+      testimonials_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((t, idx) => {
+            if (idx < 3 && c.testimonials[idx]) {
+              if (t && typeof t === 'object') {
+                t.name = c.testimonials[idx].name ?? t.name;
+                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
+                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
+                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
+                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
+              }
+            }
+          });
+        }
+      });
+    }
+  }, [c]);
+return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
   const handleReservation = useCallback((e: React.FormEvent) => {
@@ -455,9 +537,7 @@ export default function Impact211Page() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
             style={{ fontFamily: font.serif, fontSize: "1.6rem", fontStyle: "italic", letterSpacing: "0.06em", color: C.cream }}
-          >
-            Maison Éclat
-          </motion.div>
+          >{fd?.businessName ?? "Maison Éclat"}</motion.div>
 
           <nav style={{ display: "flex", gap: "2.5rem", alignItems: "center" }}>
             {["Histoire", "Menu", "Terroir", "Chef", "Réservation"].map((item, i) => (
@@ -735,9 +815,9 @@ export default function Impact211Page() {
             textAlign: "center",
             lineHeight: 1.1,
             letterSpacing: "-0.01em",
-          }}>
+          }}>{c?.heroHeadline ?? <>
             Une expérience<br />hors du temps
-          </h1>
+          </>}</h1>
         </motion.div>
 
         {/* Initial hero text */}
@@ -762,9 +842,7 @@ export default function Impact211Page() {
             fontWeight: 300,
             color: C.cream,
             marginBottom: "0.5rem",
-          }}>
-            Maison Éclat
-          </p>
+          }}>{c?.heroSubline ?? fd?.tagline ?? <>{fd?.businessName ?? "Maison Éclat"}</>}</p>
           <p style={{ ...eyebrowStyle, textAlign: "center", marginBottom: "2rem" }}>
             7ème arrondissement · Paris
           </p>
@@ -829,13 +907,13 @@ export default function Impact211Page() {
             transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
           >
             <span style={eyebrowStyle}>Notre histoire</span>
-            <h2 style={sectionTitleStyle}>
+            <h2 style={sectionTitleStyle}>{c?.aboutTitle ?? fd?.businessName ?? <>
               L&apos;art de<br />la table française
-            </h2>
+            </>}</h2>
             <GoldLine delay={0.2} />
-            <p style={{ ...bodyStyle, marginBottom: "1.5rem" }}>
+            <p style={{ ...bodyStyle, marginBottom: "1.5rem" }}>{c?.aboutText ?? <>
               Fondée en 1978 par le chef Jean-Pierre Mercier dans le 7ème arrondissement de Paris, la Maison Éclat incarne quatre décennies d&apos;excellence gastronomique. Nichée à deux pas du Musée d&apos;Orsay, notre maison cultive une philosophie singulière : honorer les produits d&apos;exception en leur donnant la parole.
-            </p>
+            </>}</p>
             <p style={bodyStyle}>
               Aujourd&apos;hui portée par Adrien Mercier, fils du fondateur et formé chez Robuchon et Pierre Gagnaire, la Maison Éclat reçoit deux étoiles Michelin depuis 2019. Chaque assiette est une conversation entre la mémoire familiale et l&apos;audace contemporaine.
             </p>
@@ -884,7 +962,7 @@ export default function Impact211Page() {
                 <line x1="30" y1="200" x2="270" y2="200" stroke={C.gold} strokeWidth="0.3" opacity="0.4" />
                 <line x1="150" y1="30" x2="150" y2="370" stroke={C.gold} strokeWidth="0.3" opacity="0.4" />
                 <path d="M 70 120 Q 150 80 230 120 Q 270 200 230 280 Q 150 320 70 280 Q 30 200 70 120 Z" fill="none" stroke={C.gold} strokeWidth="0.5" />
-                <text x="150" y="205" textAnchor="middle" fill={C.gold} fontSize="12" fontFamily={font.serif} fontStyle="italic" opacity="0.8">Maison Éclat</text>
+                <text x="150" y="205" textAnchor="middle" fill={C.gold} fontSize="12" fontFamily={font.serif} fontStyle="italic" opacity="0.8">{fd?.businessName ?? "Maison Éclat"}</text>
                 <text x="150" y="222" textAnchor="middle" fill={C.creamMuted} fontSize="7" fontFamily={font.sans} opacity="0.6" letterSpacing="3">PARIS · MMXXVI</text>
               </svg>
 
@@ -1193,10 +1271,9 @@ export default function Impact211Page() {
                     transform: "translateX(-50%)",
                   }} />
                   {/* Chef hat */}
-                  <div style={{
-                    width: 100,
+                  <div style={{width: 100,
                     height: 70,
-                    background: "#f5f0e4",
+                    background: brand ?? '#f5f0e4',
                     borderRadius: "8px 8px 2px 2px",
                     position: "absolute",
                     top: "6%",
@@ -1537,9 +1614,7 @@ export default function Impact211Page() {
             <style>{`@media (max-width: 768px) { .footer-grid { grid-template-columns: 1fr !important; gap: 2rem !important; } }`}</style>
 
             <div>
-              <div style={{ fontFamily: font.serif, fontSize: "2rem", fontStyle: "italic", color: C.cream, marginBottom: "1.2rem" }}>
-                Maison Éclat
-              </div>
+              <div style={{ fontFamily: font.serif, fontSize: "2rem", fontStyle: "italic", color: C.cream, marginBottom: "1.2rem" }}>{fd?.businessName ?? "Maison Éclat"}</div>
               <p style={{ ...bodyStyle, marginBottom: "1.5rem", maxWidth: 320 }}>
                 Un restaurant gastronomique parisien au cœur du 7ème arrondissement, entre tradition et innovation, produit et émotion.
               </p>

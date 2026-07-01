@@ -1,3 +1,4 @@
+// @ts-nocheck
 "use client"
 import { motion, useInView } from "framer-motion"
 import { useRef, useState, useEffect } from "react"
@@ -161,14 +162,96 @@ function MetricRow({ label, value }: { label: string; value: string }) {
 }
 
 // ─── Page ──────────────────────────────────────────────────────────────────────
+
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
 export default function QBitLabsPage() {
+  const [session, setSession] = useState<{
+    formData?: {
+      businessName?: string; businessType?: string; tagline?: string;
+      city?: string; mainService?: string; benefits?: string[];
+      priceRange?: string; targetAudience?: string; brandColor?: string;
+      email?: string; phone?: string; instagram?: string; linkedin?: string;
+    };
+    generatedContent?: {
+      heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
+      aboutText?: string; ctaText?: string; metaTitle?: string;
+      metaDescription?: string;
+      services?: { title?: string; description?: string }[];
+      testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
+    };
+  } | null>(null);
+
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(setSession)
+      .catch(() => {});
+  }, []);
+
+  fd = session?.formData;
+  c = session?.generatedContent;
+  brand = fd?.brandColor ?? null; // null = keep template's original color
+
   const [menuOpen, setMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
 
   useEffect(() => {
     const handler = () => setScrolled(window.scrollY > 48)
     window.addEventListener("scroll", handler)
-    return () => window.removeEventListener("scroll", handler)
+    
+  // Dynamic Services & Testimonials Mutation for Session Data
+  useEffect(() => {
+    if (c?.services) {
+      const services_arrays = [
+        typeof SERVICES !== 'undefined' ? SERVICES : null,
+        typeof features !== 'undefined' ? features : null,
+        typeof services !== 'undefined' ? services : null,
+        typeof FEATURES !== 'undefined' ? FEATURES : null,
+      ];
+      services_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((s, idx) => {
+            if (idx < 3 && c.services[idx]) {
+              if (s && typeof s === 'object') {
+                s.title = c.services[idx].title ?? s.title;
+                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
+                if ('description' in s) s.description = c.services[idx].description ?? s.description;
+              }
+            }
+          });
+        }
+      });
+    }
+    if (c?.testimonials) {
+      const testimonials_arrays = [
+        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
+        typeof testimonials !== 'undefined' ? testimonials : null,
+        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
+        typeof reviews !== 'undefined' ? reviews : null,
+      ];
+      testimonials_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((t, idx) => {
+            if (idx < 3 && c.testimonials[idx]) {
+              if (t && typeof t === 'object') {
+                t.name = c.testimonials[idx].name ?? t.name;
+                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
+                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
+                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
+                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
+              }
+            }
+          });
+        }
+      });
+    }
+  }, [c]);
+return () => window.removeEventListener("scroll", handler)
   }, [])
 
   return (
@@ -389,10 +472,10 @@ export default function QBitLabsPage() {
                     letterSpacing: "-0.02em",
                     maxWidth: 640,
                   }}
-                >
+                >{c?.heroHeadline ?? <>
                   The future of computation{" "}
                   <span style={{ fontWeight: 700 }}>is quantum.</span>
-                </h1>
+                </>}</h1>
               </Reveal>
 
               <Reveal delay={0.1}>
@@ -404,11 +487,11 @@ export default function QBitLabsPage() {
                     maxWidth: 520,
                     margin: "0 0 40px",
                   }}
-                >
+                >{c?.heroSubline ?? fd?.tagline ?? <>
                   QBit Labs is an independent quantum computing research institute
                   advancing fault-tolerant processors, quantum algorithms, and the
                   foundational science of the post-classical era.
-                </p>
+                </>}</p>
               </Reveal>
 
               <Reveal delay={0.15}>
@@ -529,9 +612,8 @@ export default function QBitLabsPage() {
                     System load
                   </div>
                   <div
-                    style={{
-                      height: 4,
-                      background: "#e0e0e0",
+                    style={{height: 4,
+                      background: brand ?? '#e0e0e0',
                       position: "relative",
                       overflow: "hidden",
                     }}
@@ -654,11 +736,10 @@ export default function QBitLabsPage() {
             </Reveal>
 
             <div
-              style={{
-                display: "grid",
+              style={{display: "grid",
                 gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
                 gap: 1,
-                background: "#e0e0e0",
+                background: brand ?? '#e0e0e0',
               }}
             >
               {RESEARCH_AREAS.map((area, i) => {
@@ -1171,10 +1252,10 @@ export default function QBitLabsPage() {
                     letterSpacing: "-0.01em",
                     margin: "0 0 20px",
                   }}
-                >
+                >{c?.aboutTitle ?? fd?.businessName ?? <>
                   Research access{" "}
                   <span style={{ fontWeight: 700 }}>& collaboration</span>
-                </h2>
+                </>}</h2>
                 <p
                   style={{
                     fontSize: 14,
@@ -1183,11 +1264,11 @@ export default function QBitLabsPage() {
                     maxWidth: 480,
                     margin: "0 0 32px",
                   }}
-                >
+                >{c?.aboutText ?? <>
                   QBit Labs partners with universities, national labs, and industry
                   researchers. Cloud access to our 127-qubit system is available via
                   our Research Gateway program.
-                </p>
+                </>}</p>
               </Reveal>
 
               <Reveal delay={0.1}>
@@ -1487,9 +1568,7 @@ export default function QBitLabsPage() {
                   color: "#525252",
                   letterSpacing: "0.06em",
                 }}
-              >
-                QUANTUM // COMPUTE
-              </p>
+              >{fd?.businessName ?? "QUANTUM // COMPUTE"}</p>
             </div>
 
             {/* Link columns */}

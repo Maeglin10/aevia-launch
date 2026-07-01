@@ -54,7 +54,41 @@ const COULEURS = [
   { name: "Crème Douce", hex: "#f5ede3", desc: "Intemporel & lumineux" },
 ]
 
+
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
 export default function CouleursCOPage() {
+  const [session, setSession] = useState<{
+    formData?: {
+      businessName?: string; businessType?: string; tagline?: string;
+      city?: string; mainService?: string; benefits?: string[];
+      priceRange?: string; targetAudience?: string; brandColor?: string;
+      email?: string; phone?: string; instagram?: string; linkedin?: string;
+    };
+    generatedContent?: {
+      heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
+      aboutText?: string; ctaText?: string; metaTitle?: string;
+      metaDescription?: string;
+      services?: { title?: string; description?: string }[];
+      testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
+    };
+  } | null>(null);
+
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(setSession)
+      .catch(() => {});
+  }, []);
+
+  fd = session?.formData;
+  c = session?.generatedContent;
+  brand = fd?.brandColor ?? null; // null = keep template's original color
+
   const heroRef = useRef(null)
   const [scrolled, setScrolled] = useState(false)
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] })
@@ -65,7 +99,55 @@ export default function CouleursCOPage() {
   useEffect(() => {
     const h = () => setScrolled(window.scrollY > 60)
     window.addEventListener("scroll", h)
-    return () => window.removeEventListener("scroll", h)
+    
+  // Dynamic Services & Testimonials Mutation for Session Data
+  useEffect(() => {
+    if (c?.services) {
+      const services_arrays = [
+        typeof SERVICES !== 'undefined' ? SERVICES : null,
+        typeof features !== 'undefined' ? features : null,
+        typeof services !== 'undefined' ? services : null,
+        typeof FEATURES !== 'undefined' ? FEATURES : null,
+      ];
+      services_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((s, idx) => {
+            if (idx < 3 && c.services[idx]) {
+              if (s && typeof s === 'object') {
+                s.title = c.services[idx].title ?? s.title;
+                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
+                if ('description' in s) s.description = c.services[idx].description ?? s.description;
+              }
+            }
+          });
+        }
+      });
+    }
+    if (c?.testimonials) {
+      const testimonials_arrays = [
+        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
+        typeof testimonials !== 'undefined' ? testimonials : null,
+        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
+        typeof reviews !== 'undefined' ? reviews : null,
+      ];
+      testimonials_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((t, idx) => {
+            if (idx < 3 && c.testimonials[idx]) {
+              if (t && typeof t === 'object') {
+                t.name = c.testimonials[idx].name ?? t.name;
+                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
+                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
+                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
+                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
+              }
+            }
+          });
+        }
+      });
+    }
+  }, [c]);
+return () => window.removeEventListener("scroll", h)
   }, [])
 
   return (
@@ -83,7 +165,7 @@ export default function CouleursCOPage() {
             ))}
           </div>
           <div className="flex items-center gap-3">
-            <a href="tel:0320456789" className="hidden md:flex items-center gap-2 text-[#4d7c5f] font-bold text-sm">
+            <a href={`tel:${fd?.phone ?? "0320456789"}`} className="hidden md:flex items-center gap-2 text-[#4d7c5f] font-bold text-sm">
               <Phone className="w-4 h-4" /> 03 20 45 67 89
             </a>
             <button className="hidden md:block px-5 py-2.5 bg-[#4d7c5f] text-white text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-[#3d6b50] transition-colors rounded-sm">
@@ -94,7 +176,7 @@ export default function CouleursCOPage() {
               <SheetContent side="right" className="bg-white border-slate-100 p-10">
                 <div className="flex flex-col gap-7 mt-16">
                   {["Services", "Réalisations", "Contact"].map(l => <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="text-3xl font-bold text-[#1a1a2e] hover:text-[#4d7c5f] transition-colors">{l}</Link>)}
-                  <a href="tel:0320456789" className="flex items-center gap-3 text-[#4d7c5f] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> 03 20 45 67 89</a>
+                  <a href={`tel:${fd?.phone ?? "0320456789"}`} className="flex items-center gap-3 text-[#4d7c5f] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> 03 20 45 67 89</a>
                 </div>
               </SheetContent>
             </Sheet>
@@ -119,20 +201,20 @@ export default function CouleursCOPage() {
           </motion.div>
 
           <motion.h1 initial={{ opacity: 0, y: 55 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.1, delay: 0.48, ease: [0.16, 1, 0.3, 1] }}
-            className="text-5xl md:text-7xl lg:text-8xl font-bold leading-[0.9] tracking-tight mb-8 text-white">
+            className="text-5xl md:text-7xl lg:text-8xl font-bold leading-[0.9] tracking-tight mb-8 text-white">{c?.heroHeadline ?? <>
             La couleur<br />qui change <span className="text-[#7db88f]">tout.</span>
-          </motion.h1>
+          </>}</motion.h1>
 
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 0.75 }}
-            className="max-w-lg text-sm text-white/40 leading-relaxed mb-10" style={{ fontFamily: "'Nunito', sans-serif" }}>
+            className="max-w-lg text-sm text-white/40 leading-relaxed mb-10" style={{ fontFamily: "'Nunito', sans-serif" }}>{c?.heroSubline ?? fd?.tagline ?? <>
             Peinture intérieure et extérieure, revêtements muraux, décorations. Artisan qualifié, conseils couleur personnalisés, préparation impeccable des supports. Devis gratuit sous 24h.
-          </motion.p>
+          </>}</motion.p>
 
           <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 1.0 }} className="flex flex-wrap gap-3">
             <button className="px-8 py-4 bg-[#4d7c5f] text-white font-bold text-[10px] uppercase tracking-[0.2em] hover:bg-[#3d6b50] transition-colors rounded-sm">
               Devis gratuit sous 24h
             </button>
-            <a href="tel:0320456789" className="flex items-center gap-3 px-8 py-4 border border-white/20 text-white font-bold text-[10px] uppercase tracking-widest hover:border-[#7db88f]/50 hover:text-[#7db88f] transition-all">
+            <a href={`tel:${fd?.phone ?? "0320456789"}`} className="flex items-center gap-3 px-8 py-4 border border-white/20 text-white font-bold text-[10px] uppercase tracking-widest hover:border-[#7db88f]/50 hover:text-[#7db88f] transition-all">
               <Phone className="w-4 h-4" /> 03 20 45 67 89
             </a>
           </motion.div>
@@ -208,9 +290,9 @@ export default function CouleursCOPage() {
             ))}
           </div>
           <Reveal delay={0.3}>
-            <p className="mt-8 text-sm text-[#1a1a2e]/40 leading-relaxed" style={{ fontFamily: "'Nunito', sans-serif" }}>
+            <p className="mt-8 text-sm text-[#1a1a2e]/40 leading-relaxed" style={{ fontFamily: "'Nunito', sans-serif" }}>{c?.aboutText ?? <>
               Nous proposons un service de conseil couleur gratuit. Apportez vos photos, votre mobilier, vos envies — on trouve ensemble la teinte parfaite.
-            </p>
+            </>}</p>
           </Reveal>
         </div>
       </section>
@@ -256,7 +338,7 @@ export default function CouleursCOPage() {
               <button className="px-10 py-4 bg-white text-[#4d7c5f] font-bold text-[10px] uppercase tracking-[0.25em] hover:bg-[#f0f7f3] transition-colors">
                 Demander un devis
               </button>
-              <a href="tel:0320456789" className="flex items-center gap-3 px-10 py-4 border border-white/30 text-white font-bold text-[10px] uppercase tracking-widest hover:bg-white/10 transition-all">
+              <a href={`tel:${fd?.phone ?? "0320456789"}`} className="flex items-center gap-3 px-10 py-4 border border-white/30 text-white font-bold text-[10px] uppercase tracking-widest hover:bg-white/10 transition-all">
                 <Phone className="w-4 h-4" /> 03 20 45 67 89
               </a>
             </div>

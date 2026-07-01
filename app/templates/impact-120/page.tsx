@@ -165,7 +165,41 @@ const MANIFEST = {
 
 // ─── MAIN PAGE ──────────────────────────────────────────────────────────────
 
+
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
 export default function EclatLuxuryPage() {
+  const [session, setSession] = useState<{
+    formData?: {
+      businessName?: string; businessType?: string; tagline?: string;
+      city?: string; mainService?: string; benefits?: string[];
+      priceRange?: string; targetAudience?: string; brandColor?: string;
+      email?: string; phone?: string; instagram?: string; linkedin?: string;
+    };
+    generatedContent?: {
+      heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
+      aboutText?: string; ctaText?: string; metaTitle?: string;
+      metaDescription?: string;
+      services?: { title?: string; description?: string }[];
+      testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
+    };
+  } | null>(null);
+
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(setSession)
+      .catch(() => {});
+  }, []);
+
+  fd = session?.formData;
+  c = session?.generatedContent;
+  brand = fd?.brandColor ?? null; // null = keep template's original color
+
   const [scrolled, setScrolled] = useState(false);
   const { scrollYProgress } = useScroll();
   const heroY = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
@@ -175,7 +209,55 @@ export default function EclatLuxuryPage() {
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
     window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    
+  // Dynamic Services & Testimonials Mutation for Session Data
+  useEffect(() => {
+    if (c?.services) {
+      const services_arrays = [
+        typeof SERVICES !== 'undefined' ? SERVICES : null,
+        typeof features !== 'undefined' ? features : null,
+        typeof services !== 'undefined' ? services : null,
+        typeof FEATURES !== 'undefined' ? FEATURES : null,
+      ];
+      services_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((s, idx) => {
+            if (idx < 3 && c.services[idx]) {
+              if (s && typeof s === 'object') {
+                s.title = c.services[idx].title ?? s.title;
+                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
+                if ('description' in s) s.description = c.services[idx].description ?? s.description;
+              }
+            }
+          });
+        }
+      });
+    }
+    if (c?.testimonials) {
+      const testimonials_arrays = [
+        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
+        typeof testimonials !== 'undefined' ? testimonials : null,
+        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
+        typeof reviews !== 'undefined' ? reviews : null,
+      ];
+      testimonials_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((t, idx) => {
+            if (idx < 3 && c.testimonials[idx]) {
+              if (t && typeof t === 'object') {
+                t.name = c.testimonials[idx].name ?? t.name;
+                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
+                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
+                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
+                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
+              }
+            }
+          });
+        }
+      });
+    }
+  }, [c]);
+return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
@@ -263,19 +345,19 @@ export default function EclatLuxuryPage() {
               transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1], delay: 0.4 }}
               className="text-7xl md:text-9xl lg:text-[12rem] leading-[0.8] tracking-tighter text-white mb-12"
               style={{ fontFamily: "Georgia, serif" }}
-            >
+            >{c?.heroHeadline ?? <>
               ÉCLAT <br/>
               <span className="text-zinc-600 italic font-light">ABSOLU</span>
-            </motion.h1>
+            </>}</motion.h1>
 
             <motion.p 
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 1, delay: 1 }}
               className="max-w-2xl mx-auto text-lg md:text-xl text-zinc-400 font-light italic tracking-wide"
-            >
+            >{c?.heroSubline ?? fd?.tagline ?? <>
               Architectural scent structures crafted in Grasse. Where botanical rarity meets quantum precision.
-            </motion.p>
+            </>}</motion.p>
           </div>
 
           <motion.div 
@@ -434,12 +516,12 @@ export default function EclatLuxuryPage() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-20">
               <div className="lg:sticky lg:top-40 h-fit">
                 <Reveal>
-                  <h2 className="text-5xl md:text-7xl font-light text-white tracking-tight uppercase mb-8" style={{ fontFamily: "Georgia, serif" }}>
+                  <h2 className="text-5xl md:text-7xl font-light text-white tracking-tight uppercase mb-8" style={{ fontFamily: "Georgia, serif" }}>{c?.aboutTitle ?? fd?.businessName ?? <>
                     The <span className="italic text-zinc-500">Atelier</span>
-                  </h2>
-                  <p className="text-zinc-400 max-w-md text-lg tracking-wide italic font-light leading-relaxed mb-12">
+                  </>}</h2>
+                  <p className="text-zinc-400 max-w-md text-lg tracking-wide italic font-light leading-relaxed mb-12">{c?.aboutText ?? <>
                     A meticulous orchestration of time, temperature, and absolute precision. The creation of an Éclat fragrance takes no less than two years.
-                  </p>
+                  </>}</p>
                 </Reveal>
               </div>
               <div className="space-y-32 pt-20">

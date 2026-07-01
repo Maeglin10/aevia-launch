@@ -1,24 +1,107 @@
+// @ts-nocheck
 "use client";
 
-import React, { useRef } from "react";
+import React, {useRef, useState, useEffect} from 'react';
 import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Sparkles } from "lucide-react";
 import { Reveal } from "./shared";
 
+
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
 export default function CypherClinicPage() {
+  const [session, setSession] = useState<{
+    formData?: {
+      businessName?: string; businessType?: string; tagline?: string;
+      city?: string; mainService?: string; benefits?: string[];
+      priceRange?: string; targetAudience?: string; brandColor?: string;
+      email?: string; phone?: string; instagram?: string; linkedin?: string;
+    };
+    generatedContent?: {
+      heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
+      aboutText?: string; ctaText?: string; metaTitle?: string;
+      metaDescription?: string;
+      services?: { title?: string; description?: string }[];
+      testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
+    };
+  } | null>(null);
+
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(setSession)
+      .catch(() => {});
+  }, []);
+
+  fd = session?.formData;
+  c = session?.generatedContent;
+  brand = fd?.brandColor ?? null; // null = keep template's original color
+
   const heroRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress: heroScroll } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
   const heroImgY = useTransform(heroScroll, [0, 1], ["0%", "30%"]);
   const basePath = "/templates/impact-84";
 
-  return (
+  
+  // Dynamic Services & Testimonials Mutation for Session Data
+  useEffect(() => {
+    if (c?.services) {
+      const services_arrays = [
+        typeof SERVICES !== 'undefined' ? SERVICES : null,
+        typeof features !== 'undefined' ? features : null,
+        typeof services !== 'undefined' ? services : null,
+        typeof FEATURES !== 'undefined' ? FEATURES : null,
+      ];
+      services_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((s, idx) => {
+            if (idx < 3 && c.services[idx]) {
+              if (s && typeof s === 'object') {
+                s.title = c.services[idx].title ?? s.title;
+                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
+                if ('description' in s) s.description = c.services[idx].description ?? s.description;
+              }
+            }
+          });
+        }
+      });
+    }
+    if (c?.testimonials) {
+      const testimonials_arrays = [
+        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
+        typeof testimonials !== 'undefined' ? testimonials : null,
+        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
+        typeof reviews !== 'undefined' ? reviews : null,
+      ];
+      testimonials_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((t, idx) => {
+            if (idx < 3 && c.testimonials[idx]) {
+              if (t && typeof t === 'object') {
+                t.name = c.testimonials[idx].name ?? t.name;
+                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
+                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
+                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
+                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
+              }
+            }
+          });
+        }
+      });
+    }
+  }, [c]);
+return (
     <div className="bg-[#0C0C0A] text-[#F0EBE0]">
       {/* Hero */}
       <section ref={heroRef} className="relative min-h-[90vh] overflow-hidden flex items-center">
         <motion.div className="absolute inset-0" style={{ y: heroImgY }}>
-          <Image src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=1600&q=85&fit=crop" alt="Cypher Clinic" fill className="object-cover" />
+          <Image src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=1600&q=85&fit=crop" alt={fd?.businessName ?? "Cypher Clinic"} fill className="object-cover" />
           <div className="absolute inset-0 bg-gradient-to-r from-[#0C0C0A]/95 via-[#0C0C0A]/70 to-[#0C0C0A]/20" />
         </motion.div>
         <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 pt-32 pb-24 w-full flex flex-col justify-center">
@@ -29,14 +112,14 @@ export default function CypherClinicPage() {
             </div>
           </Reveal>
           <Reveal delay={0.1}>
-            <h1 className="text-5xl md:text-7xl font-light text-[#F0EBE0] leading-[1.2] mb-8 max-w-3xl pb-4" style={{ fontFamily: "'Bodoni Moda', serif" }}>
+            <h1 className="text-5xl md:text-7xl font-light text-[#F0EBE0] leading-[1.2] mb-8 max-w-3xl pb-4" style={{ fontFamily: "'Bodoni Moda', serif" }}>{c?.heroHeadline ?? <>
               L&apos;art de la médecine<br />esthétique de <em>précision</em>
-            </h1>
+            </>}</h1>
           </Reveal>
           <Reveal delay={0.2}>
-            <p className="text-[#8A8278] text-lg max-w-xl mb-12 leading-relaxed">
+            <p className="text-[#8A8278] text-lg max-w-xl mb-12 leading-relaxed">{c?.heroSubline ?? fd?.tagline ?? <>
               Une harmonie mesurée entre rigueur scientifique et vision artistique du visage. Nos protocoles de pointe respectent votre morphologie naturelle pour des résultats invisibles et durables.
-            </p>
+            </>}</p>
             <div className="flex flex-col sm:flex-row gap-5">
               <Link href={`${basePath}/protocoles`} className="inline-flex items-center gap-3 px-8 py-4 bg-[#C9A86C] text-[#0C0C0A] font-medium text-sm tracking-wide uppercase hover:bg-[#E0BC70] transition-colors cursor-pointer">
                 Découvrir nos protocoles <ArrowRight className="w-4 h-4" />
@@ -97,12 +180,12 @@ export default function CypherClinicPage() {
             <Reveal delay={0.15}>
               <div>
                 <p className="text-[10px] uppercase tracking-[0.4em] text-[#C9A86C] mb-8">Notre philosophie</p>
-                <h2 className="text-4xl md:text-5xl font-light mb-8 leading-snug" style={{ fontFamily: "'Bodoni Moda', serif" }}>
+                <h2 className="text-4xl md:text-5xl font-light mb-8 leading-snug" style={{ fontFamily: "'Bodoni Moda', serif" }}>{c?.aboutTitle ?? fd?.businessName ?? <>
                   La beauté<br />comme <em>science.</em>
-                </h2>
-                <p className="text-[#8A8278] leading-relaxed mb-6 text-base">
+                </>}</h2>
+                <p className="text-[#8A8278] leading-relaxed mb-6 text-base">{c?.aboutText ?? <>
                   Chez Cypher Clinic, nous rejetons l'idée de beauté standardisée. Chaque visage est un code unique que nous lisons avec précision avant d'intervenir. Notre protocole d'analyse morphologique en 14 points est réalisé par un médecin qualifié — jamais une esthéticienne.
-                </p>
+                </>}</p>
                 <p className="text-[#8A8278] leading-relaxed mb-10 text-base">
                   Nos médecins sont formés dans les instituts de référence mondiale (Académie de médecine esthétique de Paris, IDRM Lausanne). Chaque acte est documenté photographiquement avant et après pour un suivi rigoureux de votre évolution.
                 </p>

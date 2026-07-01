@@ -1,20 +1,103 @@
+// @ts-nocheck
 "use client"
 
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion"
-import { useRef, useState } from "react"
+import {useRef, useState, useEffect} from 'react'
 import Link from "next/link"
 import { ArrowRight, Terminal, GitBranch, ExternalLink, ChevronRight, Code2, Star, Zap, Shield, BookOpen, Users, ArrowUpRight } from "lucide-react"
 import Image from "next/image"
 import { Reveal, ScrollImage, projects, skills, timeline, stats, services, process, testimonials, clients } from "./shared"
 
+
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
 export default function Home() {
+  const [session, setSession] = useState<{
+    formData?: {
+      businessName?: string; businessType?: string; tagline?: string;
+      city?: string; mainService?: string; benefits?: string[];
+      priceRange?: string; targetAudience?: string; brandColor?: string;
+      email?: string; phone?: string; instagram?: string; linkedin?: string;
+    };
+    generatedContent?: {
+      heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
+      aboutText?: string; ctaText?: string; metaTitle?: string;
+      metaDescription?: string;
+      services?: { title?: string; description?: string }[];
+      testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
+    };
+  } | null>(null);
+
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(setSession)
+      .catch(() => {});
+  }, []);
+
+  fd = session?.formData;
+  c = session?.generatedContent;
+  brand = fd?.brandColor ?? null; // null = keep template's original color
+
   const containerRef = useRef(null)
   const { scrollYProgress } = useScroll({ target: containerRef })
   const [activeProject, setActiveProject] = useState(0)
 
   const heroY = useTransform(scrollYProgress, [0, 0.25], [0, -40])
 
-  return (
+  
+  // Dynamic Services & Testimonials Mutation for Session Data
+  useEffect(() => {
+    if (c?.services) {
+      const services_arrays = [
+        typeof SERVICES !== 'undefined' ? SERVICES : null,
+        typeof features !== 'undefined' ? features : null,
+        typeof services !== 'undefined' ? services : null,
+        typeof FEATURES !== 'undefined' ? FEATURES : null,
+      ];
+      services_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((s, idx) => {
+            if (idx < 3 && c.services[idx]) {
+              if (s && typeof s === 'object') {
+                s.title = c.services[idx].title ?? s.title;
+                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
+                if ('description' in s) s.description = c.services[idx].description ?? s.description;
+              }
+            }
+          });
+        }
+      });
+    }
+    if (c?.testimonials) {
+      const testimonials_arrays = [
+        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
+        typeof testimonials !== 'undefined' ? testimonials : null,
+        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
+        typeof reviews !== 'undefined' ? reviews : null,
+      ];
+      testimonials_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((t, idx) => {
+            if (idx < 3 && c.testimonials[idx]) {
+              if (t && typeof t === 'object') {
+                t.name = c.testimonials[idx].name ?? t.name;
+                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
+                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
+                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
+                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
+              }
+            }
+          });
+        }
+      });
+    }
+  }, [c]);
+return (
     <div ref={containerRef} className="relative w-full overflow-hidden">
       {/* Hero */}
       <section className="min-h-screen flex items-center relative overflow-hidden pt-20">
@@ -35,9 +118,9 @@ export default function Home() {
             transition={{ duration: 0.7, delay: 0.1 }}
             className="font-bold leading-[1.1] mb-6"
             style={{ fontSize: "clamp(42px, 8vw, 96px)" }}
-          >
+          >{c?.heroHeadline ?? <>
             // Raphaël Genet
-          </motion.h1>
+          </>}</motion.h1>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -144,7 +227,7 @@ export default function Home() {
                   <h3 className="text-2xl font-bold text-[#00F5D4]">{projects[activeProject].name}</h3>
                   <div className="text-yellow-400 text-sm">★ {projects[activeProject].stars}</div>
                 </div>
-                <p className="text-[#94A3B8] mb-6 leading-relaxed">{projects[activeProject].desc}</p>
+                <p className="text-[#94A3B8] mb-6 leading-relaxed">{c?.heroSubline ?? fd?.tagline ?? <>{projects[activeProject].desc}</>}</p>
                 <div className="flex flex-wrap gap-2 mb-8">
                   {projects[activeProject].stack.map(s => (
                     <span key={s} className="border border-[#00F5D4]/20 text-[#00F5D4] text-xs px-3 py-1.5">{s}</span>
@@ -458,12 +541,12 @@ export default function Home() {
         <div className="max-w-4xl mx-auto text-center relative">
           <Reveal>
             <div className="text-[#00F5D4] text-xs mb-4"><span className="text-[#475569]">// </span>next_step</div>
-            <h2 className="font-bold leading-tight mb-6" style={{ fontSize: "clamp(32px, 6vw, 72px)" }}>
+            <h2 className="font-bold leading-tight mb-6" style={{ fontSize: "clamp(32px, 6vw, 72px)" }}>{c?.aboutTitle ?? fd?.businessName ?? <>
               Ready to ship something great?
-            </h2>
-            <p className="text-[#94A3B8] text-lg mb-10 leading-relaxed max-w-xl mx-auto">
+            </>}</h2>
+            <p className="text-[#94A3B8] text-lg mb-10 leading-relaxed max-w-xl mx-auto">{c?.aboutText ?? <>
               I take on 1–2 focused engagements per quarter. If your timeline fits, let's figure out if we're a match.
-            </p>
+            </>}</p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <Link
                 href="/templates/impact-29/contact"
@@ -495,7 +578,7 @@ export default function Home() {
               Available for staff/principal engineering contracts, technical advisory, and open source. Based in Paris, remote-first.
             </p>
             <div className="space-y-4">
-              <a href="mailto:hello@aevia.ws" className="block w-full bg-[#00F5D4] text-[#0A0E1A] font-bold text-sm py-4 hover:bg-[#00E5C4] transition-colors cursor-pointer text-center">
+              <a href={`mailto:${fd?.email ?? "hello@aevia.ws"}`} className="block w-full bg-[#00F5D4] text-[#0A0E1A] font-bold text-sm py-4 hover:bg-[#00E5C4] transition-colors cursor-pointer text-center">
                 hello@aevia.ws →
               </a>
               <div className="grid grid-cols-2 gap-4">

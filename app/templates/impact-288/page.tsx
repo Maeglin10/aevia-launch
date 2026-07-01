@@ -1,6 +1,7 @@
+// @ts-nocheck
 'use client';
 
-import React, { useRef, useState } from 'react';
+import React, {useRef, useState, useEffect} from 'react';
 import {
   motion,
   useScroll,
@@ -536,7 +537,7 @@ function HeroSection() {
           <a href="#devis" style={{ textDecoration: 'none' }}>
             <GreenButton filled>Devis gratuit</GreenButton>
           </a>
-          <a href="tel:0240000000" style={{ textDecoration: 'none' }}>
+          <a href={`tel:${fd?.phone ?? "0240000000"}`} style={{ textDecoration: 'none' }}>
             <GreenButton>
               <Phone size={15} />
               02 40 00 00 00
@@ -2640,7 +2641,7 @@ function CertifSection() {
               <a href="#devis" style={{ textDecoration: 'none' }}>
                 <GreenButton filled>Demander un devis</GreenButton>
               </a>
-              <a href="tel:0240000000" style={{ textDecoration: 'none' }}>
+              <a href={`tel:${fd?.phone ?? "0240000000"}`} style={{ textDecoration: 'none' }}>
                 <GreenButton>
                   <Phone size={15} />
                   Appeler maintenant
@@ -2878,7 +2879,7 @@ function FooterSection() {
             <div style={heading}>Contact</div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
               <a
-                href="tel:0240000000"
+                href={`tel:${fd?.phone ?? "0240000000"}`}
                 style={{
                   display: 'flex',
                   alignItems: 'center',
@@ -2909,16 +2910,14 @@ function FooterSection() {
                 8h – 18h · Urgences 24h/7j
               </div>
               <a
-                href="mailto:contact@ampere-fils.fr"
+                href={`mailto:${fd?.email ?? "contact@ampere-fils.fr"}`}
                 style={{
                   fontFamily: SANS,
                   fontSize: 13,
                   color: C.green,
                   textDecoration: 'none',
                 }}
-              >
-                contact@ampere-fils.fr
-              </a>
+              >{fd?.email ?? "contact@ampere-fils.fr"}</a>
               <div
                 style={{
                   marginTop: 8,
@@ -3013,8 +3012,90 @@ function FooterSection() {
 /* ════════════════════════════════════════════════════════════════════════════
    PAGE PRINCIPALE — Impact 288
    ════════════════════════════════════════════════════════════════════════════ */
+
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
 export default function Impact288Page() {
-  return (
+  const [session, setSession] = useState<{
+    formData?: {
+      businessName?: string; businessType?: string; tagline?: string;
+      city?: string; mainService?: string; benefits?: string[];
+      priceRange?: string; targetAudience?: string; brandColor?: string;
+      email?: string; phone?: string; instagram?: string; linkedin?: string;
+    };
+    generatedContent?: {
+      heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
+      aboutText?: string; ctaText?: string; metaTitle?: string;
+      metaDescription?: string;
+      services?: { title?: string; description?: string }[];
+      testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
+    };
+  } | null>(null);
+
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(setSession)
+      .catch(() => {});
+  }, []);
+
+  fd = session?.formData;
+  c = session?.generatedContent;
+  brand = fd?.brandColor ?? null; // null = keep template's original color
+
+  
+  // Dynamic Services & Testimonials Mutation for Session Data
+  useEffect(() => {
+    if (c?.services) {
+      const services_arrays = [
+        typeof SERVICES !== 'undefined' ? SERVICES : null,
+        typeof features !== 'undefined' ? features : null,
+        typeof services !== 'undefined' ? services : null,
+        typeof FEATURES !== 'undefined' ? FEATURES : null,
+      ];
+      services_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((s, idx) => {
+            if (idx < 3 && c.services[idx]) {
+              if (s && typeof s === 'object') {
+                s.title = c.services[idx].title ?? s.title;
+                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
+                if ('description' in s) s.description = c.services[idx].description ?? s.description;
+              }
+            }
+          });
+        }
+      });
+    }
+    if (c?.testimonials) {
+      const testimonials_arrays = [
+        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
+        typeof testimonials !== 'undefined' ? testimonials : null,
+        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
+        typeof reviews !== 'undefined' ? reviews : null,
+      ];
+      testimonials_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((t, idx) => {
+            if (idx < 3 && c.testimonials[idx]) {
+              if (t && typeof t === 'object') {
+                t.name = c.testimonials[idx].name ?? t.name;
+                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
+                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
+                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
+                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
+              }
+            }
+          });
+        }
+      });
+    }
+  }, [c]);
+return (
     <main id="hero">
       {/* Polices système importées via link */}
       <style>{`

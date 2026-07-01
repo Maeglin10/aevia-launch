@@ -56,7 +56,41 @@ const TESTIMONIALS = [
   { text: "Working with Kinetic felt like having the best creative team in-house. Except they're actually good.", author: "Sarah Laurent", role: "Founder, Maison Versa" },
 ]
 
+
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
 export default function KineticMarqueePage() {
+  const [session, setSession] = useState<{
+    formData?: {
+      businessName?: string; businessType?: string; tagline?: string;
+      city?: string; mainService?: string; benefits?: string[];
+      priceRange?: string; targetAudience?: string; brandColor?: string;
+      email?: string; phone?: string; instagram?: string; linkedin?: string;
+    };
+    generatedContent?: {
+      heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
+      aboutText?: string; ctaText?: string; metaTitle?: string;
+      metaDescription?: string;
+      services?: { title?: string; description?: string }[];
+      testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
+    };
+  } | null>(null);
+
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(setSession)
+      .catch(() => {});
+  }, []);
+
+  fd = session?.formData;
+  c = session?.generatedContent;
+  brand = fd?.brandColor ?? null; // null = keep template's original color
+
   const [scrolled, setScrolled] = useState(false)
   const [contactSubmitted, setContactSubmitted] = useState(false)
 
@@ -66,7 +100,55 @@ export default function KineticMarqueePage() {
   useEffect(() => {
     const h = () => setScrolled(window.scrollY > 60)
     window.addEventListener("scroll", h)
-    return () => window.removeEventListener("scroll", h)
+    
+  // Dynamic Services & Testimonials Mutation for Session Data
+  useEffect(() => {
+    if (c?.services) {
+      const services_arrays = [
+        typeof SERVICES !== 'undefined' ? SERVICES : null,
+        typeof features !== 'undefined' ? features : null,
+        typeof services !== 'undefined' ? services : null,
+        typeof FEATURES !== 'undefined' ? FEATURES : null,
+      ];
+      services_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((s, idx) => {
+            if (idx < 3 && c.services[idx]) {
+              if (s && typeof s === 'object') {
+                s.title = c.services[idx].title ?? s.title;
+                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
+                if ('description' in s) s.description = c.services[idx].description ?? s.description;
+              }
+            }
+          });
+        }
+      });
+    }
+    if (c?.testimonials) {
+      const testimonials_arrays = [
+        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
+        typeof testimonials !== 'undefined' ? testimonials : null,
+        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
+        typeof reviews !== 'undefined' ? reviews : null,
+      ];
+      testimonials_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((t, idx) => {
+            if (idx < 3 && c.testimonials[idx]) {
+              if (t && typeof t === 'object') {
+                t.name = c.testimonials[idx].name ?? t.name;
+                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
+                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
+                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
+                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
+              }
+            }
+          });
+        }
+      });
+    }
+  }, [c]);
+return () => window.removeEventListener("scroll", h)
   }, [])
 
   return (
@@ -121,14 +203,14 @@ export default function KineticMarqueePage() {
               </div>
             </Reveal>
             <Reveal delay={0.1} y={60}>
-              <h1 className="text-7xl md:text-[8rem] lg:text-[11rem] font-black tracking-tighter leading-[0.8] mb-10 uppercase">
+              <h1 className="text-7xl md:text-[8rem] lg:text-[11rem] font-black tracking-tighter leading-[0.8] mb-10 uppercase">{c?.heroHeadline ?? <>
                 We Make<br/>It <span className="text-orange-500 italic">Move.</span>
-              </h1>
+              </>}</h1>
             </Reveal>
             <Reveal delay={0.25}>
-              <p className="text-xl text-white/40 font-light max-w-lg leading-relaxed">
+              <p className="text-xl text-white/40 font-light max-w-lg leading-relaxed">{c?.heroSubline ?? fd?.tagline ?? <>
                 Brand identity, web experiences, and motion design for companies that refuse to stand still.
-              </p>
+              </>}</p>
             </Reveal>
           </motion.div>
 
@@ -225,12 +307,12 @@ export default function KineticMarqueePage() {
             <Reveal>
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 mb-24">
                 <div>
-                  <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase mb-8">
+                  <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase mb-8">{c?.aboutTitle ?? fd?.businessName ?? <>
                     Moving <span className="text-orange-500 italic">Forward.</span>
-                  </h2>
-                  <p className="text-lg text-white/50 leading-relaxed font-light">
+                  </>}</h2>
+                  <p className="text-lg text-white/50 leading-relaxed font-light">{c?.aboutText ?? <>
                     Kinetic is a collective of designers, developers, and strategists obsessed with motion. We believe brands shouldn't just exist — they should move, engage, and inspire. By blending motion design with cutting-edge technology, we craft digital experiences that capture attention and refuse to let go.
-                  </p>
+                  </>}</p>
                 </div>
                 <div className="flex flex-col justify-center gap-6">
                   <div className="border-l-2 border-orange-500 pl-6">

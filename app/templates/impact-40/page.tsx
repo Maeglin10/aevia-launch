@@ -35,7 +35,7 @@ const C = {
   text: "#1a2e08",
   textLight: "#5a6e48",
   textMuted: "#8a9a78",
-  accent: "#f0c040",
+  accent: brand ?? '#f0c040',
   accentDark: "#c8a020",
   earth: "#8b5e3c",
   earthLight: "#b8845a",
@@ -319,7 +319,41 @@ function SectionReveal({ children, delay = 0 }: { children: React.ReactNode; del
 }
 
 // ─── Main page ─────────────────────────────────────────────────────────────────
+
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
 export default function TerreVivantePage() {
+  const [session, setSession] = useState<{
+    formData?: {
+      businessName?: string; businessType?: string; tagline?: string;
+      city?: string; mainService?: string; benefits?: string[];
+      priceRange?: string; targetAudience?: string; brandColor?: string;
+      email?: string; phone?: string; instagram?: string; linkedin?: string;
+    };
+    generatedContent?: {
+      heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
+      aboutText?: string; ctaText?: string; metaTitle?: string;
+      metaDescription?: string;
+      services?: { title?: string; description?: string }[];
+      testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
+    };
+  } | null>(null);
+
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(setSession)
+      .catch(() => {});
+  }, []);
+
+  fd = session?.formData;
+  c = session?.generatedContent;
+  brand = fd?.brandColor ?? null; // null = keep template's original color
+
   const [activeSeason, setActiveSeason] = useState<Season>("spring");
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -333,7 +367,55 @@ export default function TerreVivantePage() {
   useEffect(() => {
     const handler = () => setScrolled(window.scrollY > 50);
     window.addEventListener("scroll", handler, { passive: true });
-    return () => window.removeEventListener("scroll", handler);
+    
+  // Dynamic Services & Testimonials Mutation for Session Data
+  useEffect(() => {
+    if (c?.services) {
+      const services_arrays = [
+        typeof SERVICES !== 'undefined' ? SERVICES : null,
+        typeof features !== 'undefined' ? features : null,
+        typeof services !== 'undefined' ? services : null,
+        typeof FEATURES !== 'undefined' ? FEATURES : null,
+      ];
+      services_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((s, idx) => {
+            if (idx < 3 && c.services[idx]) {
+              if (s && typeof s === 'object') {
+                s.title = c.services[idx].title ?? s.title;
+                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
+                if ('description' in s) s.description = c.services[idx].description ?? s.description;
+              }
+            }
+          });
+        }
+      });
+    }
+    if (c?.testimonials) {
+      const testimonials_arrays = [
+        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
+        typeof testimonials !== 'undefined' ? testimonials : null,
+        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
+        typeof reviews !== 'undefined' ? reviews : null,
+      ];
+      testimonials_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((t, idx) => {
+            if (idx < 3 && c.testimonials[idx]) {
+              if (t && typeof t === 'object') {
+                t.name = c.testimonials[idx].name ?? t.name;
+                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
+                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
+                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
+                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
+              }
+            }
+          });
+        }
+      });
+    }
+  }, [c]);
+return () => window.removeEventListener("scroll", handler);
   }, []);
 
   const navLinks = [
@@ -376,9 +458,7 @@ export default function TerreVivantePage() {
           >
             <Leaf size={18} color={C.accent} />
           </div>
-          <span style={{ fontFamily: C.headingFont, fontSize: "1.4rem", fontWeight: 700, color: scrolled ? C.bgDark : C.bg }}>
-            Terre Vivante
-          </span>
+          <span style={{ fontFamily: C.headingFont, fontSize: "1.4rem", fontWeight: 700, color: scrolled ? C.bgDark : C.bg }}>{fd?.businessName ?? "Terre Vivante"}</span>
         </div>
 
         {/* Desktop links */}
@@ -554,10 +634,10 @@ export default function TerreVivantePage() {
               lineHeight: 1.08,
               marginBottom: "1.5rem",
             }}
-          >
+          >{c?.heroHeadline ?? <>
             De nos champs<br />
             <span style={{ color: C.accent }}>à votre table</span>
-          </motion.h1>
+          </>}</motion.h1>
 
           <motion.p
             initial={{ opacity: 0, y: 34 }}
@@ -571,9 +651,9 @@ export default function TerreVivantePage() {
               margin: "0 auto 2.75rem",
               lineHeight: 1.8,
             }}
-          >
+          >{c?.heroSubline ?? fd?.tagline ?? <>
             Terre Vivante cultive 85 variétés de légumes, fruits et herbes dans le Beaujolais. Chaque panier raconte la saison, cueilli le matin même.
-          </motion.p>
+          </>}</motion.p>
 
           <motion.div
             initial={{ opacity: 0, y: 34 }}
@@ -659,12 +739,12 @@ export default function TerreVivantePage() {
               <span style={{ fontFamily: C.bodyFont, fontSize: "0.8rem", fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: C.earth }}>
                 Nos saisons
               </span>
-              <h2 style={{ fontFamily: C.headingFont, fontSize: "clamp(2rem, 4vw, 3rem)", color: C.text, marginTop: "0.6rem", marginBottom: "1rem", fontWeight: 700 }}>
+              <h2 style={{ fontFamily: C.headingFont, fontSize: "clamp(2rem, 4vw, 3rem)", color: C.text, marginTop: "0.6rem", marginBottom: "1rem", fontWeight: 700 }}>{c?.aboutTitle ?? fd?.businessName ?? <>
                 Produits du moment
-              </h2>
-              <p style={{ fontFamily: C.bodyFont, color: C.textLight, fontSize: "1rem", maxWidth: 520, margin: "0 auto", lineHeight: 1.75 }}>
+              </>}</h2>
+              <p style={{ fontFamily: C.bodyFont, color: C.textLight, fontSize: "1rem", maxWidth: 520, margin: "0 auto", lineHeight: 1.75 }}>{c?.aboutText ?? <>
                 Nous cultivons en harmonie avec les cycles naturels. Découvrez ce que la terre offre aujourd'hui.
-              </p>
+              </>}</p>
             </div>
           </SectionReveal>
 
@@ -1079,7 +1159,7 @@ export default function TerreVivantePage() {
                 >
                   <Leaf size={18} color={C.accent} />
                 </div>
-                <span style={{ fontFamily: C.headingFont, fontSize: "1.25rem", color: C.bg, fontWeight: 700 }}>Terre Vivante</span>
+                <span style={{ fontFamily: C.headingFont, fontSize: "1.25rem", color: C.bg, fontWeight: 700 }}>{fd?.businessName ?? "Terre Vivante"}</span>
               </div>
               <p style={{ fontFamily: C.bodyFont, fontSize: "0.86rem", color: "rgba(253,249,238,0.5)", lineHeight: 1.8, maxWidth: 290 }}>
                 Ferme biologique familiale dans le Beaujolais depuis 1998. Nous cultivons la terre avec amour et la partageons avec notre communauté.

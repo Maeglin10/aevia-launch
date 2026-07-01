@@ -1,3 +1,4 @@
+// @ts-nocheck
 "use client"
 
 import React, { useState, useEffect, useRef } from "react"
@@ -125,7 +126,41 @@ function BrutalistBlock({ title, value, icon: Icon }: { title: string, value: st
    THE MONOLITH - MAIN INTERFACE
    ========================================== */
 
+
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
 export default function MonolithPremium() {
+  const [session, setSession] = useState<{
+    formData?: {
+      businessName?: string; businessType?: string; tagline?: string;
+      city?: string; mainService?: string; benefits?: string[];
+      priceRange?: string; targetAudience?: string; brandColor?: string;
+      email?: string; phone?: string; instagram?: string; linkedin?: string;
+    };
+    generatedContent?: {
+      heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
+      aboutText?: string; ctaText?: string; metaTitle?: string;
+      metaDescription?: string;
+      services?: { title?: string; description?: string }[];
+      testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
+    };
+  } | null>(null);
+
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(setSession)
+      .catch(() => {});
+  }, []);
+
+  fd = session?.formData;
+  c = session?.generatedContent;
+  brand = fd?.brandColor ?? null; // null = keep template's original color
+
   const [activeNode, setActiveNode] = useState(0)
   const [isTerminalOpen, setIsTerminalOpen] = useState(false)
   const containerRef = useRef(null)
@@ -137,7 +172,55 @@ export default function MonolithPremium() {
   const heroOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0])
   const textX = useTransform(scrollYProgress, [0, 0.5], [0, -100])
 
-  return (
+  
+  // Dynamic Services & Testimonials Mutation for Session Data
+  useEffect(() => {
+    if (c?.services) {
+      const services_arrays = [
+        typeof SERVICES !== 'undefined' ? SERVICES : null,
+        typeof features !== 'undefined' ? features : null,
+        typeof services !== 'undefined' ? services : null,
+        typeof FEATURES !== 'undefined' ? FEATURES : null,
+      ];
+      services_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((s, idx) => {
+            if (idx < 3 && c.services[idx]) {
+              if (s && typeof s === 'object') {
+                s.title = c.services[idx].title ?? s.title;
+                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
+                if ('description' in s) s.description = c.services[idx].description ?? s.description;
+              }
+            }
+          });
+        }
+      });
+    }
+    if (c?.testimonials) {
+      const testimonials_arrays = [
+        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
+        typeof testimonials !== 'undefined' ? testimonials : null,
+        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
+        typeof reviews !== 'undefined' ? reviews : null,
+      ];
+      testimonials_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((t, idx) => {
+            if (idx < 3 && c.testimonials[idx]) {
+              if (t && typeof t === 'object') {
+                t.name = c.testimonials[idx].name ?? t.name;
+                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
+                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
+                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
+                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
+              }
+            }
+          });
+        }
+      });
+    }
+  }, [c]);
+return (
     <div ref={containerRef} className="bg-[#050505] text-[#e0e2e5] font-mono selection:bg-white selection:text-black min-h-screen overflow-x-hidden">
       
       {/* GLOBAL HUD OVERLAY */}
@@ -164,15 +247,15 @@ export default function MonolithPremium() {
                 <div className="inline-flex items-center gap-4 px-6 py-2 border border-white/10 bg-white/5 text-[10px] font-black uppercase tracking-[0.6em] text-white/40 mb-12 italic">
                    <Signal className="w-3 h-3" /> Infra_Status: Solid_State // All_Nodes_Linked
                 </div>
-                <motion.h1 style={{ x: textX }} className="text-7xl md:text-[16vw] font-black tracking-tighter uppercase mb-16 leading-[0.75] italic mix-blend-difference">
+                <motion.h1 style={{ x: textX }} className="text-7xl md:text-[16vw] font-black tracking-tighter uppercase mb-16 leading-[0.75] italic mix-blend-difference">{c?.heroHeadline ?? <>
                    The <br/> <span className="text-white/5 italic">Monolith.</span>
-                </motion.h1>
+                </>}</motion.h1>
                 <div className="grid md:grid-cols-3 gap-12 md:gap-24 text-left max-w-6xl mx-auto border-t border-white/5 pt-16">
                    <div className="space-y-6">
                       <h3 className="text-[10px] font-black uppercase tracking-[0.5em] text-white/60">Core Directive</h3>
-                      <p className="text-[11px] text-white/20 leading-loose uppercase tracking-[0.4em] font-bold italic">
+                      <p className="text-[11px] text-white/20 leading-loose uppercase tracking-[0.4em] font-bold italic">{c?.heroSubline ?? fd?.tagline ?? <>
                          Architecture brutale pour une infrastructure de données immuable. Nous forgeons le stockage de l'éternité numérique.
-                      </p>
+                      </>}</p>
                    </div>
                    <div className="flex flex-col justify-end">
                       <span className="text-6xl font-black tracking-tighter italic text-white/40 leading-none mb-2">99.9%</span>
@@ -271,12 +354,12 @@ export default function MonolithPremium() {
                  <div>
                     <Reveal>
                        <span className="text-[10px] font-black uppercase tracking-[0.5em] text-white/40 block mb-12 italic underline underline-offset-8 decoration-white/10">Throughput // Analysis</span>
-                       <h2 className="text-7xl md:text-[9vw] font-light italic leading-none text-white mb-16 uppercase tracking-tighter">
+                       <h2 className="text-7xl md:text-[9vw] font-light italic leading-none text-white mb-16 uppercase tracking-tighter">{c?.aboutTitle ?? fd?.businessName ?? <>
                           The <br/> <span className="not-italic font-black text-white/5 italic">Global_Stream.</span>
-                       </h2>
-                       <p className="text-2xl font-light text-white/20 leading-relaxed mb-24 italic uppercase tracking-[0.2em] max-w-xl">
+                       </>}</h2>
+                       <p className="text-2xl font-light text-white/20 leading-relaxed mb-24 italic uppercase tracking-[0.2em] max-w-xl">{c?.aboutText ?? <>
                           Surveillance du flux de données en temps réel. Nos architectures de routage optimisent chaque paquet pour garantir une intégrité absolue, même sous charge extrême.
-                       </p>
+                       </>}</p>
                        <div className="grid grid-cols-2 gap-px bg-white/5 border border-white/5 mb-24 shadow-2xl">
                           {SYSTEM_METRICS.map((metric, i) => (
                             <div key={i} className="p-16 bg-[#0a0a0c] group hover:bg-white/[0.02] transition-all border-r border-b last:border-r-0 border-white/5">

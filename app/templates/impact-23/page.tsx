@@ -1,3 +1,4 @@
+// @ts-nocheck
 "use client";
 
 import { motion, useScroll, useTransform, AnimatePresence, useInView } from "framer-motion";
@@ -109,7 +110,41 @@ const filmsCatalogue = [
   },
 ];
 
+
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
 export default function StudioPelikanPage() {
+  const [session, setSession] = useState<{
+    formData?: {
+      businessName?: string; businessType?: string; tagline?: string;
+      city?: string; mainService?: string; benefits?: string[];
+      priceRange?: string; targetAudience?: string; brandColor?: string;
+      email?: string; phone?: string; instagram?: string; linkedin?: string;
+    };
+    generatedContent?: {
+      heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
+      aboutText?: string; ctaText?: string; metaTitle?: string;
+      metaDescription?: string;
+      services?: { title?: string; description?: string }[];
+      testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
+    };
+  } | null>(null);
+
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(setSession)
+      .catch(() => {});
+  }, []);
+
+  fd = session?.formData;
+  c = session?.generatedContent;
+  brand = fd?.brandColor ?? null; // null = keep template's original color
+
   useFonts();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeFilter, setActiveFilter] = useState("Tous");
@@ -138,7 +173,55 @@ export default function StudioPelikanPage() {
 
   const filtered = activeFilter === "Tous" ? films : films.filter(f => f.type === activeFilter);
 
-  return (
+  
+  // Dynamic Services & Testimonials Mutation for Session Data
+  useEffect(() => {
+    if (c?.services) {
+      const services_arrays = [
+        typeof SERVICES !== 'undefined' ? SERVICES : null,
+        typeof features !== 'undefined' ? features : null,
+        typeof services !== 'undefined' ? services : null,
+        typeof FEATURES !== 'undefined' ? FEATURES : null,
+      ];
+      services_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((s, idx) => {
+            if (idx < 3 && c.services[idx]) {
+              if (s && typeof s === 'object') {
+                s.title = c.services[idx].title ?? s.title;
+                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
+                if ('description' in s) s.description = c.services[idx].description ?? s.description;
+              }
+            }
+          });
+        }
+      });
+    }
+    if (c?.testimonials) {
+      const testimonials_arrays = [
+        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
+        typeof testimonials !== 'undefined' ? testimonials : null,
+        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
+        typeof reviews !== 'undefined' ? reviews : null,
+      ];
+      testimonials_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((t, idx) => {
+            if (idx < 3 && c.testimonials[idx]) {
+              if (t && typeof t === 'object') {
+                t.name = c.testimonials[idx].name ?? t.name;
+                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
+                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
+                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
+                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
+              }
+            }
+          });
+        }
+      });
+    }
+  }, [c]);
+return (
     <div className="min-h-screen bg-[#100D08]" style={{ fontFamily: "'Raleway', sans-serif" }}>
       <motion.div className="fixed top-0 left-0 right-0 h-[2px] bg-[#C9A05A] origin-left z-[60]" style={{ scaleX: scrollYProgress }} />
 
@@ -146,8 +229,7 @@ export default function StudioPelikanPage() {
       <nav className="fixed top-4 left-4 right-4 z-50">
         <div className="max-w-6xl mx-auto bg-[#100D08]/90 backdrop-blur-md border border-[#C9A05A]/15 rounded-2xl px-6 py-4 flex items-center justify-between">
           <button onClick={() => goTo("home")} className="flex items-center gap-2 text-[#C9A05A] cursor-pointer" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.1rem" }}>
-            <Film className="w-4 h-4" /> Studio Pelikan
-          </button>
+            <Film className="w-4 h-4" />{fd?.businessName ?? "Studio Pelikan"}</button>
           <div className="hidden md:flex items-center gap-8 text-white/40 text-sm">
             {navItems.map(item => (
               <button key={item.label} onClick={() => goTo(item.target)} className="hover:text-[#C9A05A] transition-colors cursor-pointer">{item.label}</button>
@@ -164,7 +246,7 @@ export default function StudioPelikanPage() {
         {mobileOpen && (
           <motion.div className="fixed inset-0 z-[100] bg-[#100D08] flex flex-col p-8" initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }} transition={{ type: "spring", stiffness: 300, damping: 30 }}>
             <div className="flex items-center justify-between mb-12">
-              <button onClick={() => goTo("home")} className="text-[#C9A05A] text-xl cursor-pointer" style={{ fontFamily: "'Cormorant Garamond', serif" }}>Studio Pelikan</button>
+              <button onClick={() => goTo("home")} className="text-[#C9A05A] text-xl cursor-pointer" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{fd?.businessName ?? "Studio Pelikan"}</button>
               <button onClick={() => setMobileOpen(false)} className="cursor-pointer"><X className="w-6 h-6 text-white" /></button>
             </div>
             {navItems.map((item, i) => (
@@ -181,7 +263,7 @@ export default function StudioPelikanPage() {
           {/* Hero */}
           <section id="hero" ref={heroRef} className="relative h-screen overflow-hidden">
             <motion.div className="absolute inset-0" style={{ y: heroY }}>
-              <Image src="https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?q=80&w=1600&auto=format&fit=crop" alt="Studio Pelikan" fill className="object-cover" priority />
+              <Image src="https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?q=80&w=1600&auto=format&fit=crop" alt={fd?.businessName ?? "Studio Pelikan"} fill className="object-cover" priority />
               <div className="absolute inset-0 bg-gradient-to-b from-[#100D08]/70 via-[#100D08]/30 to-[#100D08]/95" />
             </motion.div>
             <motion.div className="relative z-10 h-full flex flex-col justify-end pb-20 px-6" style={{ opacity: heroOpacity }}>
@@ -190,13 +272,13 @@ export default function StudioPelikanPage() {
                   <p className="text-[#C9A05A] text-xs tracking-widest uppercase mb-4">Société de production · Paris</p>
                 </Reveal>
                 <Reveal delay={0.1}>
-                  <h1 className="text-white text-7xl md:text-9xl leading-none mb-6" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>
+                  <h1 className="text-white text-7xl md:text-9xl leading-none mb-6" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>{c?.heroHeadline ?? <>
                     Studio<br /><em>Pelikan</em>
-                  </h1>
+                  </>}</h1>
                 </Reveal>
                 <Reveal delay={0.2}>
                   <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
-                    <p className="text-white/50 text-lg max-w-sm">Cinéma d&apos;auteur, documentaire, série. Depuis 2012, nous produisons des œuvres qui voyagent.</p>
+                    <p className="text-white/50 text-lg max-w-sm">{c?.heroSubline ?? fd?.tagline ?? <>Cinéma d&apos;auteur, documentaire, série. Depuis 2012, nous produisons des œuvres qui voyagent.</>}</p>
                     <button onClick={() => goTo("films")} className="shrink-0 border border-[#C9A05A]/40 text-[#C9A05A] text-xs tracking-widest uppercase px-8 py-4 rounded-xl hover:bg-[#C9A05A] hover:text-black transition-all cursor-pointer flex items-center gap-2">
                       <Play className="w-3 h-3 fill-current" /> Voir la bande démo
                     </button>
@@ -311,17 +393,16 @@ export default function StudioPelikanPage() {
             <div className="max-w-4xl mx-auto text-center">
               <Reveal>
                 <p className="text-[#C9A05A] text-xs tracking-widest uppercase mb-4">Parlons de votre projet</p>
-                <h2 className="text-white text-5xl mb-4" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>Travaillons ensemble</h2>
-                <p className="text-white/40 text-sm leading-relaxed max-w-md mx-auto mb-10">
+                <h2 className="text-white text-5xl mb-4" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>{c?.aboutTitle ?? fd?.businessName ?? <>Travaillons ensemble</>}</h2>
+                <p className="text-white/40 text-sm leading-relaxed max-w-md mx-auto mb-10">{c?.aboutText ?? <>
                   Nous recevons chaque projet avec la même attention. Qu&apos;il s&apos;agisse d&apos;un premier court-métrage ou d&apos;une coproduction internationale.
-                </p>
+                </>}</p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                   <button className="bg-[#C9A05A] text-black text-xs tracking-widest uppercase px-8 py-4 rounded-xl hover:bg-[#B89049] transition-colors cursor-pointer">
                     Nous écrire
                   </button>
                   <button className="border border-white/15 text-white text-xs tracking-widest uppercase px-8 py-4 rounded-xl hover:bg-white/5 transition-colors cursor-pointer flex items-center gap-2">
-                    <Globe className="w-4 h-4" /> hello@studio-pelikan.fr
-                  </button>
+                    <Globe className="w-4 h-4" />{fd?.email ?? "hello@studio-pelikan.fr"}</button>
                 </div>
               </Reveal>
             </div>

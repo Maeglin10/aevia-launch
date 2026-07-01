@@ -171,7 +171,41 @@ function Reveal({
    MAIN PAGE COMPONENT
    ========================================================================== */
 
+
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
 export default function TextRevealPage() {
+  const [session, setSession] = useState<{
+    formData?: {
+      businessName?: string; businessType?: string; tagline?: string;
+      city?: string; mainService?: string; benefits?: string[];
+      priceRange?: string; targetAudience?: string; brandColor?: string;
+      email?: string; phone?: string; instagram?: string; linkedin?: string;
+    };
+    generatedContent?: {
+      heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
+      aboutText?: string; ctaText?: string; metaTitle?: string;
+      metaDescription?: string;
+      services?: { title?: string; description?: string }[];
+      testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
+    };
+  } | null>(null);
+
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(setSession)
+      .catch(() => {});
+  }, []);
+
+  fd = session?.formData;
+  c = session?.generatedContent;
+  brand = fd?.brandColor ?? null; // null = keep template's original color
+
   const [scrolled, setScrolled] = useState(false);
   const [hoveredWork, setHoveredWork] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -199,7 +233,55 @@ export default function TextRevealPage() {
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
     window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    
+  // Dynamic Services & Testimonials Mutation for Session Data
+  useEffect(() => {
+    if (c?.services) {
+      const services_arrays = [
+        typeof SERVICES !== 'undefined' ? SERVICES : null,
+        typeof features !== 'undefined' ? features : null,
+        typeof services !== 'undefined' ? services : null,
+        typeof FEATURES !== 'undefined' ? FEATURES : null,
+      ];
+      services_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((s, idx) => {
+            if (idx < 3 && c.services[idx]) {
+              if (s && typeof s === 'object') {
+                s.title = c.services[idx].title ?? s.title;
+                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
+                if ('description' in s) s.description = c.services[idx].description ?? s.description;
+              }
+            }
+          });
+        }
+      });
+    }
+    if (c?.testimonials) {
+      const testimonials_arrays = [
+        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
+        typeof testimonials !== 'undefined' ? testimonials : null,
+        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
+        typeof reviews !== 'undefined' ? reviews : null,
+      ];
+      testimonials_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((t, idx) => {
+            if (idx < 3 && c.testimonials[idx]) {
+              if (t && typeof t === 'object') {
+                t.name = c.testimonials[idx].name ?? t.name;
+                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
+                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
+                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
+                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
+              }
+            }
+          });
+        }
+      });
+    }
+  }, [c]);
+return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
@@ -282,11 +364,11 @@ export default function TextRevealPage() {
           >
             {/* The white background with black text creates the mask effect via mix-blend-multiply */}
             <div className="w-full h-full bg-white flex items-center justify-center">
-              <h1 className="text-[15vw] font-black tracking-tighter text-black leading-none text-center">
+              <h1 className="text-[15vw] font-black tracking-tighter text-black leading-none text-center">{c?.heroHeadline ?? <>
                 DIGITAL
                 <br />
                 REALITY
-              </h1>
+              </>}</h1>
             </div>
           </motion.div>
 
@@ -325,19 +407,19 @@ export default function TextRevealPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 text-zinc-400 text-xl font-light leading-relaxed">
             <Reveal delay={0.2}>
-              <p>
+              <p>{c?.heroSubline ?? fd?.tagline ?? <>
                 In a sea of templates and infinite scrolling, user attention is
                 the most valuable currency. We believe that true digital luxury
                 isn't about minimalism—it's about intentional friction and
                 memorable interactions.
-              </p>
+              </>}</p>
             </Reveal>
             <Reveal delay={0.4}>
-              <p>
+              <p>{c?.aboutText ?? <>
                 By combining brutalist architectural principles with hyper-fluid
                 WebGL rendering, we construct platforms that don't just inform
                 users; they make them feel something.
-              </p>
+              </>}</p>
             </Reveal>
           </div>
         </div>

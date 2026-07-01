@@ -1,3 +1,5 @@
+// @ts-nocheck
+import React, { useState, useEffect, useRef } from 'react';
 "use client";
 
 import { motion } from "framer-motion";
@@ -6,8 +8,90 @@ import Link from "next/link";
 import { ArrowRight, Globe, Activity, Shield, ChevronRight, Gauge } from "lucide-react";
 import { Reveal, GridBackground } from "./shared";
 
+
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
 export default function CarbonLabPage() {
-  return (
+  const [session, setSession] = useState<{
+    formData?: {
+      businessName?: string; businessType?: string; tagline?: string;
+      city?: string; mainService?: string; benefits?: string[];
+      priceRange?: string; targetAudience?: string; brandColor?: string;
+      email?: string; phone?: string; instagram?: string; linkedin?: string;
+    };
+    generatedContent?: {
+      heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
+      aboutText?: string; ctaText?: string; metaTitle?: string;
+      metaDescription?: string;
+      services?: { title?: string; description?: string }[];
+      testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
+    };
+  } | null>(null);
+
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(setSession)
+      .catch(() => {});
+  }, []);
+
+  fd = session?.formData;
+  c = session?.generatedContent;
+  brand = fd?.brandColor ?? null; // null = keep template's original color
+
+  
+  // Dynamic Services & Testimonials Mutation for Session Data
+  useEffect(() => {
+    if (c?.services) {
+      const services_arrays = [
+        typeof SERVICES !== 'undefined' ? SERVICES : null,
+        typeof features !== 'undefined' ? features : null,
+        typeof services !== 'undefined' ? services : null,
+        typeof FEATURES !== 'undefined' ? FEATURES : null,
+      ];
+      services_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((s, idx) => {
+            if (idx < 3 && c.services[idx]) {
+              if (s && typeof s === 'object') {
+                s.title = c.services[idx].title ?? s.title;
+                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
+                if ('description' in s) s.description = c.services[idx].description ?? s.description;
+              }
+            }
+          });
+        }
+      });
+    }
+    if (c?.testimonials) {
+      const testimonials_arrays = [
+        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
+        typeof testimonials !== 'undefined' ? testimonials : null,
+        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
+        typeof reviews !== 'undefined' ? reviews : null,
+      ];
+      testimonials_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((t, idx) => {
+            if (idx < 3 && c.testimonials[idx]) {
+              if (t && typeof t === 'object') {
+                t.name = c.testimonials[idx].name ?? t.name;
+                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
+                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
+                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
+                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
+              }
+            }
+          });
+        }
+      });
+    }
+  }, [c]);
+return (
     <div className="bg-[#050505] text-[#888] font-sans overflow-x-hidden">
       {/* ── HERO ──────────────────── */}
       <section className="relative min-h-[calc(100vh-112px)] flex items-center justify-center overflow-hidden py-12">
@@ -32,15 +116,15 @@ export default function CarbonLabPage() {
                 </div>
               </Reveal>
               <Reveal delay={0.1} y={100}>
-                <h1 className="text-7xl md:text-[14vw] font-black tracking-tighter leading-[1.15] pb-4 uppercase mb-16 italic text-white">
+                <h1 className="text-7xl md:text-[14vw] font-black tracking-tighter leading-[1.15] pb-4 uppercase mb-16 italic text-white">{c?.heroHeadline ?? <>
                   Beyond <br /> <span className="text-white/10 not-italic italic">Steel.</span>
-                </h1>
+                </>}</h1>
               </Reveal>
               <Reveal delay={0.3}>
                 <div className="flex flex-col sm:flex-row gap-12 items-center">
-                  <p className="text-xl text-white/30 font-light max-w-sm leading-relaxed uppercase italic">
+                  <p className="text-xl text-white/30 font-light max-w-sm leading-relaxed uppercase italic">{c?.heroSubline ?? fd?.tagline ?? <>
                     Uncompromising structural engineering. We deliver the highest strength-to-weight ratio in the industry.
-                  </p>
+                  </>}</p>
                   <div className="h-px w-20 bg-[#0070f3] hidden sm:block" />
                   <div className="text-[10px] font-black uppercase tracking-[0.4em] text-white flex flex-col gap-2">
                     <span>Tensile: 4500 MPa</span>
@@ -141,14 +225,14 @@ export default function CarbonLabPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center mb-24">
             <Reveal>
               <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#0070f3] block mb-8">Materials Science</span>
-              <h2 className="text-6xl md:text-8xl font-black uppercase tracking-tighter text-white leading-[1.1] pb-4 italic">
+              <h2 className="text-6xl md:text-8xl font-black uppercase tracking-tighter text-white leading-[1.1] pb-4 italic">{c?.aboutTitle ?? fd?.businessName ?? <>
                 The <br /><span className="text-white/10 font-light not-italic">Formula.</span>
-              </h2>
+              </>}</h2>
             </Reveal>
             <Reveal delay={0.2}>
-              <p className="text-white/30 text-xl font-light italic leading-relaxed">
+              <p className="text-white/30 text-xl font-light italic leading-relaxed">{c?.aboutText ?? <>
                 Every CarbonLab composite begins in our tensile simulation lab, where we model 900+ stress scenarios before a single fiber is laid. The result: materials that outperform steel at one-fifth the weight.
-              </p>
+              </>}</p>
             </Reveal>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-white/5">

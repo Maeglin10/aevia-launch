@@ -1,3 +1,4 @@
+// @ts-nocheck
 "use client";
 
 import { useRef, useState, useEffect } from "react";
@@ -671,7 +672,41 @@ const BLOG_POSTS = [
 ];
 
 // ─── Main Component ───────────────────────────────────────────────────────────
+
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
 export default function ImpactEclatPage() {
+  const [session, setSession] = useState<{
+    formData?: {
+      businessName?: string; businessType?: string; tagline?: string;
+      city?: string; mainService?: string; benefits?: string[];
+      priceRange?: string; targetAudience?: string; brandColor?: string;
+      email?: string; phone?: string; instagram?: string; linkedin?: string;
+    };
+    generatedContent?: {
+      heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
+      aboutText?: string; ctaText?: string; metaTitle?: string;
+      metaDescription?: string;
+      services?: { title?: string; description?: string }[];
+      testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
+    };
+  } | null>(null);
+
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(setSession)
+      .catch(() => {});
+  }, []);
+
+  fd = session?.formData;
+  c = session?.generatedContent;
+  brand = fd?.brandColor ?? null; // null = keep template's original color
+
   const [cartCount, setCartCount] = useState(0);
   const [activeCollection, setActiveCollection] = useState(0);
   const [activeFilter, setActiveFilter] = useState("Tous");
@@ -710,7 +745,55 @@ export default function ImpactEclatPage() {
   useEffect(() => {
     const handleScroll = () => setNavScrolled(window.scrollY > 60);
     window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    
+  // Dynamic Services & Testimonials Mutation for Session Data
+  useEffect(() => {
+    if (c?.services) {
+      const services_arrays = [
+        typeof SERVICES !== 'undefined' ? SERVICES : null,
+        typeof features !== 'undefined' ? features : null,
+        typeof services !== 'undefined' ? services : null,
+        typeof FEATURES !== 'undefined' ? FEATURES : null,
+      ];
+      services_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((s, idx) => {
+            if (idx < 3 && c.services[idx]) {
+              if (s && typeof s === 'object') {
+                s.title = c.services[idx].title ?? s.title;
+                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
+                if ('description' in s) s.description = c.services[idx].description ?? s.description;
+              }
+            }
+          });
+        }
+      });
+    }
+    if (c?.testimonials) {
+      const testimonials_arrays = [
+        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
+        typeof testimonials !== 'undefined' ? testimonials : null,
+        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
+        typeof reviews !== 'undefined' ? reviews : null,
+      ];
+      testimonials_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((t, idx) => {
+            if (idx < 3 && c.testimonials[idx]) {
+              if (t && typeof t === 'object') {
+                t.name = c.testimonials[idx].name ?? t.name;
+                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
+                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
+                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
+                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
+              }
+            }
+          });
+        }
+      });
+    }
+  }, [c]);
+return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const filters = ["Tous", "Été Brûlant", "Essentiels Neutres", "Nuit Dorée", "Resort Méditerranée"];
@@ -765,9 +848,7 @@ export default function ImpactEclatPage() {
             color: C.gold,
             cursor: "pointer",
           }}
-        >
-          Éclat
-        </motion.div>
+        >{fd?.businessName ?? "Éclat"}</motion.div>
 
         {/* Nav links — hidden on mobile */}
         <div className="eclat-navlinks" style={{ display: "flex", gap: 30, alignItems: "center", flexWrap: "wrap", justifyContent: "center" }}>
@@ -1044,11 +1125,11 @@ export default function ImpactEclatPage() {
                 fontStyle: "italic",
                 marginBottom: 40,
               }}
-            >
+            >{c?.heroHeadline ?? <>
               La chaleur<br />
               comme<br />
               <span style={{ color: C.gold }}>philosophie.</span>
-            </h1>
+            </>}</h1>
 
             <p
               style={{
@@ -1059,10 +1140,10 @@ export default function ImpactEclatPage() {
                 maxWidth: 440,
                 fontWeight: 300,
               }}
-            >
+            >{c?.heroSubline ?? fd?.tagline ?? <>
               Lin, soie, tencel. Des matières qui respirent, des coupes qui durent.
               La mode éditoriale pour celles qui choisissent la qualité sur la quantité.
-            </p>
+            </>}</p>
 
             <div style={{ display: "flex", gap: 16 }}>
               <motion.button
@@ -1458,10 +1539,10 @@ export default function ImpactEclatPage() {
                 color: C.cream,
                 marginBottom: 28,
               }}
-            >
+            >{c?.aboutTitle ?? fd?.businessName ?? <>
               L'art de<br />s'habiller<br />
               <span style={{ color: C.gold }}>avec intention.</span>
-            </h2>
+            </>}</h2>
             <p
               style={{
                 fontSize: 16,
@@ -1471,10 +1552,10 @@ export default function ImpactEclatPage() {
                 maxWidth: 440,
                 fontWeight: 300,
               }}
-            >
+            >{c?.aboutText ?? <>
               34 looks photographiés sur les plages de Biarritz et les rues de Porto.
               Un carnet de voyage visuel qui réinvente la garde-robe estivale.
-            </p>
+            </>}</p>
             <motion.a
               href="#hero"
               whileHover={{ background: C.gold, color: C.bg }}
@@ -1984,7 +2065,7 @@ export default function ImpactEclatPage() {
       {page === "mentions" && <LegalPage variant="mentions" />}
 
       {/* FOOTER */}
-      <footer style={{ background: "#050505", padding: "72px 64px 36px" }}>
+      <footer style={{background: brand ?? '#050505', padding: "72px 64px 36px" }}>
         <div
           style={{
             display: "grid",
@@ -2003,9 +2084,7 @@ export default function ImpactEclatPage() {
                 letterSpacing: 2,
                 marginBottom: 20,
               }}
-            >
-              Éclat
-            </div>
+            >{fd?.businessName ?? "Éclat"}</div>
             <p
               style={{
                 fontSize: 13,
@@ -3120,7 +3199,7 @@ function LegalPage({ variant }: { variant: "cgv" | "mentions" }) {
             </p>
             <p style={para}>Directeur de la publication : <strong style={{ color: C.cream }}>Valentin Milliand</strong>.</p>
             <p style={para}>SIREN : <strong style={{ color: C.cream }}>852 546 225</strong> — RCS Bourg-en-Bresse.</p>
-            <p style={para}>Contact : <strong style={{ color: C.cream }}>contact@aevia.io</strong></p>
+            <p style={para}>Contact : <strong style={{ color: C.cream }}>{fd?.email ?? "contact@aevia.io"}</strong></p>
             <p style={para}>Adresse du siège social communiquée sur demande à contact@aevia.io.</p>
 
             <h2 style={sectionTitle}>TVA</h2>

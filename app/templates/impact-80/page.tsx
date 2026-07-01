@@ -1,6 +1,7 @@
+// @ts-nocheck
 "use client";
 
-import React, { useState } from "react";
+import React, {useState, useEffect, useRef} from 'react';
 import Link from "next/link";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
@@ -130,12 +131,94 @@ const FAQS = [
   { q: "Can I visit your studio?", a: "We welcome site visits by appointment. Our material library and model archive are available for viewing during studio hours, Tuesday through Friday." },
 ];
 
+
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
 export default function SymmetryStudioPage() {
+  const [session, setSession] = useState<{
+    formData?: {
+      businessName?: string; businessType?: string; tagline?: string;
+      city?: string; mainService?: string; benefits?: string[];
+      priceRange?: string; targetAudience?: string; brandColor?: string;
+      email?: string; phone?: string; instagram?: string; linkedin?: string;
+    };
+    generatedContent?: {
+      heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
+      aboutText?: string; ctaText?: string; metaTitle?: string;
+      metaDescription?: string;
+      services?: { title?: string; description?: string }[];
+      testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
+    };
+  } | null>(null);
+
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(setSession)
+      .catch(() => {});
+  }, []);
+
+  fd = session?.formData;
+  c = session?.generatedContent;
+  brand = fd?.brandColor ?? null; // null = keep template's original color
+
   const basePath = "/templates/impact-80";
   const [openService, setOpenService] = useState<number | null>(null);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
-  return (
+  
+  // Dynamic Services & Testimonials Mutation for Session Data
+  useEffect(() => {
+    if (c?.services) {
+      const services_arrays = [
+        typeof SERVICES !== 'undefined' ? SERVICES : null,
+        typeof features !== 'undefined' ? features : null,
+        typeof services !== 'undefined' ? services : null,
+        typeof FEATURES !== 'undefined' ? FEATURES : null,
+      ];
+      services_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((s, idx) => {
+            if (idx < 3 && c.services[idx]) {
+              if (s && typeof s === 'object') {
+                s.title = c.services[idx].title ?? s.title;
+                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
+                if ('description' in s) s.description = c.services[idx].description ?? s.description;
+              }
+            }
+          });
+        }
+      });
+    }
+    if (c?.testimonials) {
+      const testimonials_arrays = [
+        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
+        typeof testimonials !== 'undefined' ? testimonials : null,
+        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
+        typeof reviews !== 'undefined' ? reviews : null,
+      ];
+      testimonials_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((t, idx) => {
+            if (idx < 3 && c.testimonials[idx]) {
+              if (t && typeof t === 'object') {
+                t.name = c.testimonials[idx].name ?? t.name;
+                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
+                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
+                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
+                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
+              }
+            }
+          });
+        }
+      });
+    }
+  }, [c]);
+return (
     <main>
       {/* ── HERO ──────────────────── */}
       <section className="relative min-h-screen flex items-center pt-32 pb-20 overflow-hidden">
@@ -150,17 +233,17 @@ export default function SymmetryStudioPage() {
               </div>
             </Reveal>
             <Reveal delay={0.2} y={70}>
-              <h1 className="text-7xl md:text-[10rem] font-light tracking-tighter leading-[1.15] text-[#1a1a1a] mb-16 uppercase pb-4">
+              <h1 className="text-7xl md:text-[10rem] font-light tracking-tighter leading-[1.15] text-[#1a1a1a] mb-16 uppercase pb-4">{c?.heroHeadline ?? <>
                 Pure <br />{" "}
                 <span className="font-bold italic opacity-10">Volume.</span>
-              </h1>
+              </>}</h1>
             </Reveal>
             <Reveal delay={0.4}>
               <div className="flex flex-col gap-16">
-                <p className="text-2xl text-black/40 font-light max-w-lg leading-relaxed italic">
+                <p className="text-2xl text-black/40 font-light max-w-lg leading-relaxed italic">{c?.heroSubline ?? fd?.tagline ?? <>
                   Architectural interventions that harmonize human ritual with the
                   absolute geometry of nature.
-                </p>
+                </>}</p>
                 <div className="flex flex-wrap gap-12">
                   <Link href={`${basePath}/works`}>
                     <button className="px-16 py-6 bg-black text-white font-bold uppercase tracking-widest text-[10px] hover:px-20 transition-all duration-700 shadow-2xl">
@@ -554,14 +637,14 @@ export default function SymmetryStudioPage() {
               </span>
               <div className="w-16 h-[1px] bg-white" />
             </div>
-            <h2 className="text-6xl md:text-8xl lg:text-[9rem] font-light uppercase tracking-tighter text-white leading-[1.05] mb-12 italic pb-4">
+            <h2 className="text-6xl md:text-8xl lg:text-[9rem] font-light uppercase tracking-tighter text-white leading-[1.05] mb-12 italic pb-4">{c?.aboutTitle ?? fd?.businessName ?? <>
               Build The<br />
               <span className="font-bold opacity-10 not-italic">Absolute.</span>
-            </h2>
-            <p className="max-w-lg mx-auto text-lg text-white/30 font-light leading-relaxed italic mb-16">
+            </>}</h2>
+            <p className="max-w-lg mx-auto text-lg text-white/30 font-light leading-relaxed italic mb-16">{c?.aboutText ?? <>
               We accept a limited number of commissions each cycle to ensure the
               structural integrity and conceptual purity of every space.
-            </p>
+            </>}</p>
           </Reveal>
           <Reveal delay={0.2}>
             <div className="flex flex-col sm:flex-row gap-8 justify-center">

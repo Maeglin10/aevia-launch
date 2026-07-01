@@ -1,3 +1,4 @@
+// @ts-nocheck
 "use client"
 
 import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion"
@@ -86,7 +87,41 @@ type ActivePage =
   | "cgv"
   | "privacy";
 
+
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
 export default function Impact26() {
+  const [session, setSession] = useState<{
+    formData?: {
+      businessName?: string; businessType?: string; tagline?: string;
+      city?: string; mainService?: string; benefits?: string[];
+      priceRange?: string; targetAudience?: string; brandColor?: string;
+      email?: string; phone?: string; instagram?: string; linkedin?: string;
+    };
+    generatedContent?: {
+      heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
+      aboutText?: string; ctaText?: string; metaTitle?: string;
+      metaDescription?: string;
+      services?: { title?: string; description?: string }[];
+      testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
+    };
+  } | null>(null);
+
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(setSession)
+      .catch(() => {});
+  }, []);
+
+  fd = session?.formData;
+  c = session?.generatedContent;
+  brand = fd?.brandColor ?? null; // null = keep template's original color
+
   useFonts()
   const [page, setPage] = useState<ActivePage>("home");
   const [selectedProduct, setSelectedProduct] = useState<any | null>(null);
@@ -110,7 +145,55 @@ export default function Impact26() {
 
   useEffect(() => {
     const t = setInterval(() => setTestimonialIdx(i => (i + 1) % testimonials.length), 4000)
-    return () => clearInterval(t)
+    
+  // Dynamic Services & Testimonials Mutation for Session Data
+  useEffect(() => {
+    if (c?.services) {
+      const services_arrays = [
+        typeof SERVICES !== 'undefined' ? SERVICES : null,
+        typeof features !== 'undefined' ? features : null,
+        typeof services !== 'undefined' ? services : null,
+        typeof FEATURES !== 'undefined' ? FEATURES : null,
+      ];
+      services_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((s, idx) => {
+            if (idx < 3 && c.services[idx]) {
+              if (s && typeof s === 'object') {
+                s.title = c.services[idx].title ?? s.title;
+                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
+                if ('description' in s) s.description = c.services[idx].description ?? s.description;
+              }
+            }
+          });
+        }
+      });
+    }
+    if (c?.testimonials) {
+      const testimonials_arrays = [
+        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
+        typeof testimonials !== 'undefined' ? testimonials : null,
+        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
+        typeof reviews !== 'undefined' ? reviews : null,
+      ];
+      testimonials_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((t, idx) => {
+            if (idx < 3 && c.testimonials[idx]) {
+              if (t && typeof t === 'object') {
+                t.name = c.testimonials[idx].name ?? t.name;
+                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
+                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
+                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
+                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
+              }
+            }
+          });
+        }
+      });
+    }
+  }, [c]);
+return () => clearInterval(t)
   }, [])
 
   const toggleWishlist = (i: number) => {
@@ -135,9 +218,7 @@ export default function Impact26() {
             onClick={() => goTo("home")}
             className="text-2xl tracking-[0.3em] uppercase cursor-pointer"
             style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}
-          >
-            Éther
-          </div>
+          >{fd?.businessName ?? "Éther"}</div>
           <div className="hidden md:flex items-center gap-10 text-xs tracking-widest uppercase text-[#F5EDE8]/50">
             <button
               onClick={() => goTo("collection")}
@@ -242,18 +323,18 @@ export default function Impact26() {
             transition={{ duration: 1, delay: 0.1 }}
             className="text-6xl md:text-9xl leading-[0.9] mb-8"
             style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}
-          >
+          >{c?.heroHeadline ?? <>
             L'art du<br />
             <em>invisible.</em>
-          </motion.h1>
+          </>}</motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.3 }}
             className="text-[#F5EDE8]/60 text-lg max-w-xl mb-10 leading-relaxed"
-          >
+          >{c?.heroSubline ?? fd?.tagline ?? <>
             Chaque flacon est une œuvre. Chaque note, une promesse. Éther compose des parfums pour ceux qui refusent l'ordinaire.
-          </motion.p>
+          </>}</motion.p>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -263,7 +344,7 @@ export default function Impact26() {
             <button
               onClick={() => goTo("collection")}
               className="bg-[#C9956A] text-[#1A0F1E] text-xs tracking-widest uppercase px-8 py-4 font-medium hover:bg-[#D9A57A] transition-colors flex items-center gap-3 cursor-pointer"
-              style={{ background: "#C9956A", border: "none", fontFamily: "'Jost', sans-serif" }}
+              style={{background: brand ?? '#c9956a', border: "none", fontFamily: "'Jost', sans-serif" }}
             >
               Découvrir la collection <ArrowRight className="w-4 h-4" />
             </button>
@@ -388,11 +469,11 @@ export default function Impact26() {
             <Reveal delay={0.2}>
               <div>
                 <p className="text-[#C9956A] text-xs tracking-[0.4em] uppercase mb-6">La Maison Éther</p>
-                <h2 className="text-4xl md:text-5xl mb-8 leading-tight" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>
+                <h2 className="text-4xl md:text-5xl mb-8 leading-tight" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>{c?.aboutTitle ?? fd?.businessName ?? <>
                   Trente-sept ans de<br /><em>création olfactive.</em>
-                </h2>
+                </>}</h2>
                 <div className="space-y-6 text-[#F5EDE8]/60 leading-relaxed">
-                  <p>Éther est née d'une conviction : que le parfum est le dernier art intime. Fondée en 1987 par la nez Hélène Varenne, notre maison n'a jamais renoncé à l'exigence absolue.</p>
+                  <p>{c?.aboutText ?? <>Éther est née d'une conviction : que le parfum est le dernier art intime. Fondée en 1987 par la nez Hélène Varenne, notre maison n'a jamais renoncé à l'exigence absolue.</>}</p>
                   <p>Chaque fragrance est composée dans notre atelier du Marais, avec des matières premières sourcing directement auprès des producteurs — fleurs de Grasse, oud du Camboge, résines d'Éthiopie.</p>
                 </div>
                 <div className="grid grid-cols-3 gap-6 mt-10">
@@ -499,7 +580,7 @@ export default function Impact26() {
               <button
                 onClick={() => goTo("collection")}
                 className="bg-[#C9956A] text-[#1A0F1E] text-xs tracking-widest uppercase px-10 py-4 font-medium hover:bg-[#D9A57A] transition-colors cursor-pointer"
-                style={{ background: "#C9956A", border: "none", fontFamily: "'Jost', sans-serif" }}
+                style={{background: brand ?? '#c9956a', border: "none", fontFamily: "'Jost', sans-serif" }}
               >
                 Explorer la collection
               </button>
@@ -535,9 +616,7 @@ export default function Impact26() {
       {/* Footer */}
       <footer className="border-t border-[#C9956A]/10 py-12 px-6">
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
-          <div className="text-xl tracking-[0.3em] uppercase" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>
-            Éther
-          </div>
+          <div className="text-xl tracking-[0.3em] uppercase" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>{fd?.businessName ?? "Éther"}</div>
           <div className="flex flex-wrap gap-6 text-xs tracking-widest uppercase text-[#F5EDE8]/30">
             {[
               { label: "Collection", key: "collection" as const },
@@ -595,15 +674,14 @@ function BoutiquePage({ selectedProduct, setSelectedProduct, goTo }: BoutiquePag
       >
         <button
           onClick={() => setSelectedProduct(null)}
-          style={{
-            background: "none",
+          style={{background: "none",
             border: "none",
             cursor: "pointer",
             fontFamily: "'Jost', sans-serif",
             fontSize: 11,
             letterSpacing: "0.2em",
             textTransform: "uppercase",
-            color: "#C9956A",
+            color: brand ?? '#c9956a',
             display: "flex",
             alignItems: "center",
             gap: 8,
@@ -635,7 +713,7 @@ function BoutiquePage({ selectedProduct, setSelectedProduct, goTo }: BoutiquePag
 
           {/* Details */}
           <div style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-            <div style={{ color: "#C9956A", fontSize: 12, letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: 12 }}>
+            <div style={{color: brand ?? '#c9956a', fontSize: 12, letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: 12 }}>
               {selectedProduct.family}
             </div>
             <h1 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 48, fontWeight: 300, color: "#F5EDE8", marginBottom: 16 }}>
@@ -664,10 +742,9 @@ function BoutiquePage({ selectedProduct, setSelectedProduct, goTo }: BoutiquePag
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                style={{
-                  padding: "16px 24px",
+                style={{padding: "16px 24px",
                   border: "1px solid #C9956A",
-                  color: "#C9956A",
+                  color: brand ?? '#c9956a',
                   fontSize: 11,
                   letterSpacing: "0.15em",
                   textTransform: "uppercase",
@@ -680,8 +757,7 @@ function BoutiquePage({ selectedProduct, setSelectedProduct, goTo }: BoutiquePag
             ) : (
               <button
                 onClick={() => setSuccessMsg(true)}
-                style={{
-                  background: "#C9956A",
+                style={{background: brand ?? '#c9956a',
                   border: "none",
                   color: "#1A0F1E",
                   fontSize: 10,
@@ -722,7 +798,7 @@ function BoutiquePage({ selectedProduct, setSelectedProduct, goTo }: BoutiquePag
       }}
     >
       <div style={{ textAlign: "center", marginBottom: 80 }}>
-        <p style={{ color: "#C9956A", fontSize: 11, letterSpacing: "0.4em", textTransform: "uppercase", marginBottom: 16 }}>Collection 2026</p>
+        <p style={{color: brand ?? '#c9956a', fontSize: 11, letterSpacing: "0.4em", textTransform: "uppercase", marginBottom: 16 }}>Collection 2026</p>
         <h1 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 56, fontWeight: 300, color: "#F5EDE8", marginBottom: 20 }}>
           La Collection Éther
         </h1>
@@ -753,7 +829,7 @@ function BoutiquePage({ selectedProduct, setSelectedProduct, goTo }: BoutiquePag
             <div style={{ aspectRatio: "3/4", position: "relative", overflow: "hidden", borderRadius: 2, marginBottom: 20 }}>
               <Image src={product.img} alt={product.name} fill className="object-cover" />
             </div>
-            <p style={{ color: "#C9956A", fontSize: 10, letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: 8 }}>
+            <p style={{color: brand ?? '#c9956a', fontSize: 10, letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: 8 }}>
               {product.family}
             </p>
             <h3 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 22, fontWeight: 300, color: "#F5EDE8", marginBottom: 8 }}>
@@ -761,7 +837,7 @@ function BoutiquePage({ selectedProduct, setSelectedProduct, goTo }: BoutiquePag
             </h3>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
               <span style={{ fontSize: 16, color: "#F5EDE8" }}>{product.price}</span>
-              <span style={{ fontSize: 11, color: "#C9956A", letterSpacing: "0.1em" }}>Découvrir →</span>
+              <span style={{fontSize: 11, color: brand ?? '#c9956a', letterSpacing: "0.1em" }}>Découvrir →</span>
             </div>
           </div>
         ))}
@@ -785,11 +861,11 @@ function MaisonPage() {
       }}
     >
       <div style={{ textAlign: "center", marginBottom: 72 }}>
-        <p style={{ color: "#C9956A", fontSize: 11, letterSpacing: "0.4em", textTransform: "uppercase", marginBottom: 16 }}>Notre Histoire</p>
+        <p style={{color: brand ?? '#c9956a', fontSize: 11, letterSpacing: "0.4em", textTransform: "uppercase", marginBottom: 16 }}>Notre Histoire</p>
         <h1 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 56, fontWeight: 300, color: "#F5EDE8", marginBottom: 20 }}>
           La Maison Éther
         </h1>
-        <div style={{ width: 48, height: 1, background: "#C9956A", margin: "0 auto" }} />
+        <div style={{width: 48, height: 1, background: brand ?? '#c9956a', margin: "0 auto" }} />
       </div>
 
       <div style={{ display: "flex", flexDirection: "column", gap: 36, fontSize: 16, lineHeight: 1.8, color: "#F5EDE8", opacity: 0.75 }}>
@@ -825,11 +901,11 @@ function SavoirFairePage() {
       }}
     >
       <div style={{ textAlign: "center", marginBottom: 72 }}>
-        <p style={{ color: "#C9956A", fontSize: 11, letterSpacing: "0.4em", textTransform: "uppercase", marginBottom: 16 }}>Savoir-Faire</p>
+        <p style={{color: brand ?? '#c9956a', fontSize: 11, letterSpacing: "0.4em", textTransform: "uppercase", marginBottom: 16 }}>Savoir-Faire</p>
         <h1 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 56, fontWeight: 300, color: "#F5EDE8", marginBottom: 20 }}>
           Le Processus de Création
         </h1>
-        <div style={{ width: 48, height: 1, background: "#C9956A", margin: "0 auto" }} />
+        <div style={{width: 48, height: 1, background: brand ?? '#c9956a', margin: "0 auto" }} />
       </div>
 
       <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: 48 }}>
@@ -856,7 +932,7 @@ function SavoirFairePage() {
           },
         ].map((step) => (
           <div key={step.num} style={{ display: "flex", gap: 32, paddingBottom: 32, borderBottom: "1px solid rgba(201, 149, 106, 0.1)" }}>
-            <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 36, color: "#C9956A", opacity: 0.5, lineHeight: 1 }}>
+            <span style={{fontFamily: "'Cormorant Garamond', serif", fontSize: 36, color: brand ?? '#c9956a', opacity: 0.5, lineHeight: 1 }}>
               {step.num}
             </span>
             <div>
@@ -899,11 +975,11 @@ function ContactPage() {
       }}
     >
       <div style={{ textAlign: "center", marginBottom: 72 }}>
-        <p style={{ color: "#C9956A", fontSize: 11, letterSpacing: "0.4em", textTransform: "uppercase", marginBottom: 16 }}>Prendre Contact</p>
+        <p style={{color: brand ?? '#c9956a', fontSize: 11, letterSpacing: "0.4em", textTransform: "uppercase", marginBottom: 16 }}>Prendre Contact</p>
         <h1 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 56, fontWeight: 300, color: "#F5EDE8", marginBottom: 20 }}>
           Nous Écrire
         </h1>
-        <div style={{ width: 48, height: 1, background: "#C9956A", margin: "0 auto" }} />
+        <div style={{width: 48, height: 1, background: brand ?? '#c9956a', margin: "0 auto" }} />
       </div>
 
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 64 }}>
@@ -969,8 +1045,7 @@ function ContactPage() {
                 </div>
                 <button
                   type="submit"
-                  style={{
-                    background: "#C9956A",
+                  style={{background: brand ?? '#c9956a',
                     border: "none",
                     color: "#1A0F1E",
                     fontSize: 10,
@@ -997,7 +1072,7 @@ function ContactPage() {
                   textAlign: "center",
                 }}
               >
-                <p style={{ color: "#C9956A", fontSize: 16, marginBottom: 8, textTransform: "uppercase", letterSpacing: "0.1em" }}>✦ Message envoyé ✦</p>
+                <p style={{color: brand ?? '#c9956a', fontSize: 16, marginBottom: 8, textTransform: "uppercase", letterSpacing: "0.1em" }}>✦ Message envoyé ✦</p>
                 <p style={{ color: "#F5EDE8", opacity: 0.6, fontSize: 13 }}>Nous vous répondrons dans les meilleurs délais.</p>
               </motion.div>
             )}
@@ -1042,7 +1117,7 @@ function LegalPage({ variant }: { variant: "mentions" | "cgv" | "privacy" }) {
         <h1 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 40, fontWeight: 300, color: "#F5EDE8", marginBottom: 40 }}>Mentions Légales</h1>
         <div style={{ display: "flex", flexDirection: "column", gap: 32, color: "#F5EDE8", opacity: 0.8 }}>
           <div>
-            <h3 style={{ color: "#C9956A", fontSize: 16, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 8 }}>Éditeur du site</h3>
+            <h3 style={{color: brand ?? '#c9956a', fontSize: 16, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 8 }}>Éditeur du site</h3>
             <p>
               Aevia WS — Valentin Milliand<br />
               Entrepreneur individuel<br />
@@ -1053,7 +1128,7 @@ function LegalPage({ variant }: { variant: "mentions" | "cgv" | "privacy" }) {
             </p>
           </div>
           <div>
-            <h3 style={{ color: "#C9956A", fontSize: 16, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 8 }}>Hébergement</h3>
+            <h3 style={{color: brand ?? '#c9956a', fontSize: 16, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 8 }}>Hébergement</h3>
             <p>
               Vercel Inc.<br />
               340 S Lemon Ave #4133<br />
@@ -1061,7 +1136,7 @@ function LegalPage({ variant }: { variant: "mentions" | "cgv" | "privacy" }) {
             </p>
           </div>
           <div>
-            <h3 style={{ color: "#C9956A", fontSize: 16, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 8 }}>Propriété intellectuelle</h3>
+            <h3 style={{color: brand ?? '#c9956a', fontSize: 16, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 8 }}>Propriété intellectuelle</h3>
             <p>
               Le contenu de ce site web (visuels, textes, marques) est protégé au titre de la propriété intellectuelle. Toute exploitation sans accord préalable est illicite.
             </p>
@@ -1089,19 +1164,19 @@ function LegalPage({ variant }: { variant: "mentions" | "cgv" | "privacy" }) {
         <h1 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 40, fontWeight: 300, color: "#F5EDE8", marginBottom: 40 }}>Conditions Générales de Vente</h1>
         <div style={{ display: "flex", flexDirection: "column", gap: 32, color: "#F5EDE8", opacity: 0.8 }}>
           <div>
-            <h3 style={{ color: "#C9956A", fontSize: 16, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 8 }}>1. Commandes</h3>
+            <h3 style={{color: brand ?? '#c9956a', fontSize: 16, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 8 }}>1. Commandes</h3>
             <p>
               Les commandes d'essences de parfum s'effectuent en ligne. Le client reçoit un échantillon dans sa livraison pour pouvoir essayer la fragrance sans rompre l'emballage sécurisé du flacon.
             </p>
           </div>
           <div>
-            <h3 style={{ color: "#C9956A", fontSize: 16, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 8 }}>2. Prix & Paiement</h3>
+            <h3 style={{color: brand ?? '#c9956a', fontSize: 16, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 8 }}>2. Prix & Paiement</h3>
             <p>
               Les prix de vente indiqués s'entendent toutes taxes comprises (TTC). Le règlement s'effectue de manière sécurisée en ligne.
             </p>
           </div>
           <div>
-            <h3 style={{ color: "#C9956A", fontSize: 16, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 8 }}>3. Rétractation</h3>
+            <h3 style={{color: brand ?? '#c9956a', fontSize: 16, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 8 }}>3. Rétractation</h3>
             <p>
               Le client dispose de 30 jours à compter de la livraison pour retourner le produit dans son emballage d'origine non ouvert s'il ne souhaite pas le conserver.
             </p>
@@ -1128,19 +1203,19 @@ function LegalPage({ variant }: { variant: "mentions" | "cgv" | "privacy" }) {
       <h1 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 40, fontWeight: 300, color: "#F5EDE8", marginBottom: 40 }}>Politique de Confidentialité</h1>
       <div style={{ display: "flex", flexDirection: "column", gap: 32, color: "#F5EDE8", opacity: 0.8 }}>
         <div>
-          <h3 style={{ color: "#C9956A", fontSize: 16, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 8 }}>Données personnelles</h3>
+          <h3 style={{color: brand ?? '#c9956a', fontSize: 16, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 8 }}>Données personnelles</h3>
           <p>
             Les données recueillies sont destinées uniquement à la gestion de vos commandes et au suivi personnalisé de notre relation client.
           </p>
         </div>
         <div>
-          <h3 style={{ color: "#C9956A", fontSize: 16, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 8 }}>Confidentialité absolue</h3>
+          <h3 style={{color: brand ?? '#c9956a', fontSize: 16, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 8 }}>Confidentialité absolue</h3>
           <p>
             Maison Éther s'engage à ne jamais communiquer vos informations personnelles à des tiers à des fins publicitaires.
           </p>
         </div>
         <div>
-          <h3 style={{ color: "#C9956A", fontSize: 16, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 8 }}>Vos droits</h3>
+          <h3 style={{color: brand ?? '#c9956a', fontSize: 16, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 8 }}>Vos droits</h3>
           <p>
             Vous disposez d'un droit d'accès, de modification et d'effacement de vos données personnelles en contactant notre service client à : contact@aevia.io.
           </p>

@@ -28,13 +28,95 @@ function BreathingCircle() {
   )
 }
 
+
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
 export default function AetherWellnessPage() {
+  const [session, setSession] = useState<{
+    formData?: {
+      businessName?: string; businessType?: string; tagline?: string;
+      city?: string; mainService?: string; benefits?: string[];
+      priceRange?: string; targetAudience?: string; brandColor?: string;
+      email?: string; phone?: string; instagram?: string; linkedin?: string;
+    };
+    generatedContent?: {
+      heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
+      aboutText?: string; ctaText?: string; metaTitle?: string;
+      metaDescription?: string;
+      services?: { title?: string; description?: string }[];
+      testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
+    };
+  } | null>(null);
+
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(setSession)
+      .catch(() => {});
+  }, []);
+
+  fd = session?.formData;
+  c = session?.generatedContent;
+  brand = fd?.brandColor ?? null; // null = keep template's original color
+
   const [scrolled, setScrolled] = useState(false)
 
   useEffect(() => {
     const h = () => setScrolled(window.scrollY > 60)
     window.addEventListener("scroll", h)
-    return () => window.removeEventListener("scroll", h)
+    
+  // Dynamic Services & Testimonials Mutation for Session Data
+  useEffect(() => {
+    if (c?.services) {
+      const services_arrays = [
+        typeof SERVICES !== 'undefined' ? SERVICES : null,
+        typeof features !== 'undefined' ? features : null,
+        typeof services !== 'undefined' ? services : null,
+        typeof FEATURES !== 'undefined' ? FEATURES : null,
+      ];
+      services_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((s, idx) => {
+            if (idx < 3 && c.services[idx]) {
+              if (s && typeof s === 'object') {
+                s.title = c.services[idx].title ?? s.title;
+                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
+                if ('description' in s) s.description = c.services[idx].description ?? s.description;
+              }
+            }
+          });
+        }
+      });
+    }
+    if (c?.testimonials) {
+      const testimonials_arrays = [
+        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
+        typeof testimonials !== 'undefined' ? testimonials : null,
+        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
+        typeof reviews !== 'undefined' ? reviews : null,
+      ];
+      testimonials_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((t, idx) => {
+            if (idx < 3 && c.testimonials[idx]) {
+              if (t && typeof t === 'object') {
+                t.name = c.testimonials[idx].name ?? t.name;
+                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
+                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
+                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
+                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
+              }
+            }
+          });
+        }
+      });
+    }
+  }, [c]);
+return () => window.removeEventListener("scroll", h)
   }, [])
 
   return (
@@ -87,15 +169,15 @@ export default function AetherWellnessPage() {
               </div>
             </Reveal>
             <Reveal delay={0.2} y={70}>
-              <h1 className="text-7xl md:text-[10rem] font-light tracking-tighter leading-[0.85] text-[#1a1a1a] mb-12 uppercase" style={{ fontFamily: "serif" }}>
+              <h1 className="text-7xl md:text-[10rem] font-light tracking-tighter leading-[0.85] text-[#1a1a1a] mb-12 uppercase" style={{ fontFamily: "serif" }}>{c?.heroHeadline ?? <>
                 Pure <br/> <span className="italic">Presence.</span>
-              </h1>
+              </>}</h1>
             </Reveal>
             <Reveal delay={0.4}>
               <div className="flex flex-col items-center justify-center gap-12">
-                <p className="text-xl text-black/40 font-light max-w-xl leading-relaxed italic">
+                <p className="text-xl text-black/40 font-light max-w-xl leading-relaxed italic">{c?.heroSubline ?? fd?.tagline ?? <>
                   A high-fidelity sanctuary for spiritual and physical restoration. Reconnect with the rhythm of the self through artisanal wellness.
-                </p>
+                </>}</p>
                 <div className="flex flex-wrap justify-center gap-10">
                   <button className="px-16 py-6 bg-[#1a1a1a] text-white font-bold uppercase tracking-widest text-[10px] rounded-full hover:px-20 transition-all duration-700">
                     Discover The Sanctuary
@@ -161,10 +243,10 @@ export default function AetherWellnessPage() {
                  </Reveal>
                  <div className="flex flex-col justify-center space-y-12">
                     <Reveal delay={0.2}>
-                       <h3 className="text-4xl md:text-6xl font-light uppercase text-[#1a1a1a] italic" style={{ fontFamily: "serif" }}>A Space <br/> To <span className="not-italic font-bold opacity-20">Be.</span></h3>
-                       <p className="text-xl text-black/40 font-light leading-relaxed italic max-w-md">
+                       <h3 className="text-4xl md:text-6xl font-light uppercase text-[#1a1a1a] italic" style={{ fontFamily: "serif" }}>{c?.aboutTitle ?? fd?.businessName ?? <>A Space <br/> To <span className="not-italic font-bold opacity-20">Be.</span></>}</h3>
+                       <p className="text-xl text-black/40 font-light leading-relaxed italic max-w-md">{c?.aboutText ?? <>
                           Designed by award-winning architects, our sanctuary uses local stone and recycled timber to create a seamless transition between the self and nature.
-                       </p>
+                       </>}</p>
                     </Reveal>
                     <Reveal delay={0.3}>
                        <div className="grid grid-cols-2 gap-16 pt-12 border-t border-black/5">

@@ -212,7 +212,41 @@ const LOGOS = [
   { name: "GitHub", img: "https://images.unsplash.com/photo-1618401471353-b98afee0b2eb?w=120&q=80" },
 ]
 
+
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
 export default function NovaPlatformSaaS() {
+  const [session, setSession] = useState<{
+    formData?: {
+      businessName?: string; businessType?: string; tagline?: string;
+      city?: string; mainService?: string; benefits?: string[];
+      priceRange?: string; targetAudience?: string; brandColor?: string;
+      email?: string; phone?: string; instagram?: string; linkedin?: string;
+    };
+    generatedContent?: {
+      heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
+      aboutText?: string; ctaText?: string; metaTitle?: string;
+      metaDescription?: string;
+      services?: { title?: string; description?: string }[];
+      testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
+    };
+  } | null>(null);
+
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(setSession)
+      .catch(() => {});
+  }, []);
+
+  fd = session?.formData;
+  c = session?.generatedContent;
+  brand = fd?.brandColor ?? null; // null = keep template's original color
+
   const [billingAnnual, setBillingAnnual] = useState(true)
   const [demoOpen, setDemoOpen] = useState(false)
 
@@ -232,7 +266,55 @@ export default function NovaPlatformSaaS() {
     my.set((e.clientY - rect.top - rect.height / 2) * 0.015)
   }
 
-  return (
+  
+  // Dynamic Services & Testimonials Mutation for Session Data
+  useEffect(() => {
+    if (c?.services) {
+      const services_arrays = [
+        typeof SERVICES !== 'undefined' ? SERVICES : null,
+        typeof features !== 'undefined' ? features : null,
+        typeof services !== 'undefined' ? services : null,
+        typeof FEATURES !== 'undefined' ? FEATURES : null,
+      ];
+      services_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((s, idx) => {
+            if (idx < 3 && c.services[idx]) {
+              if (s && typeof s === 'object') {
+                s.title = c.services[idx].title ?? s.title;
+                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
+                if ('description' in s) s.description = c.services[idx].description ?? s.description;
+              }
+            }
+          });
+        }
+      });
+    }
+    if (c?.testimonials) {
+      const testimonials_arrays = [
+        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
+        typeof testimonials !== 'undefined' ? testimonials : null,
+        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
+        typeof reviews !== 'undefined' ? reviews : null,
+      ];
+      testimonials_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((t, idx) => {
+            if (idx < 3 && c.testimonials[idx]) {
+              if (t && typeof t === 'object') {
+                t.name = c.testimonials[idx].name ?? t.name;
+                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
+                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
+                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
+                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
+              }
+            }
+          });
+        }
+      });
+    }
+  }, [c]);
+return (
     <div style={{ overflowX: "hidden", scrollBehavior: "smooth" }} className="bg-[#09090b] text-white min-h-screen selection:bg-violet-500 font-sans">
 
       {/* ── NAVBAR ── */}
@@ -242,7 +324,7 @@ export default function NovaPlatformSaaS() {
             <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-violet-500 to-fuchsia-500 flex items-center justify-center">
               <Zap className="w-4 h-4 text-white" />
             </div>
-            <span className="text-lg font-bold tracking-tight">NovaPlatform</span>
+            <span className="text-lg font-bold tracking-tight">{fd?.businessName ?? "NovaPlatform SaaS"}</span>
           </Link>
 
           <div className="hidden lg:flex items-center gap-8">
@@ -266,7 +348,7 @@ export default function NovaPlatformSaaS() {
                 <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-violet-500 to-fuchsia-500 flex items-center justify-center">
                   <Zap className="w-3.5 h-3.5" />
                 </div>
-                <span className="font-bold">NovaPlatform</span>
+                <span className="font-bold">{fd?.businessName ?? "NovaPlatform SaaS"}</span>
               </div>
               <div className="flex flex-col gap-6">
                 {(["Features", "Pricing", "FAQ", "Contact"] as const).map((item, i) => {
@@ -304,9 +386,9 @@ export default function NovaPlatformSaaS() {
           </motion.div>
 
           <div className="overflow-hidden mb-3">
-            <motion.h1 initial={{ y: "100%" }} animate={{ y: 0 }} transition={{ duration: 1, ease: [0.22, 1, 0.36, 1], delay: 0.5 }} className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tight leading-[0.88]">
+            <motion.h1 initial={{ y: "100%" }} animate={{ y: 0 }} transition={{ duration: 1, ease: [0.22, 1, 0.36, 1], delay: 0.5 }} className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tight leading-[0.88]">{c?.heroHeadline ?? <>
               Ship faster.
-            </motion.h1>
+            </>}</motion.h1>
           </div>
           <div className="overflow-hidden mb-10">
             <motion.h1 initial={{ y: "100%" }} animate={{ y: 0 }} transition={{ duration: 1, ease: [0.22, 1, 0.36, 1], delay: 0.65 }} className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tight leading-[0.88]">
@@ -314,9 +396,9 @@ export default function NovaPlatformSaaS() {
             </motion.h1>
           </div>
 
-          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.1 }} className="text-lg md:text-xl text-zinc-400 max-w-2xl mx-auto mb-10 leading-relaxed">
+          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.1 }} className="text-lg md:text-xl text-zinc-400 max-w-2xl mx-auto mb-10 leading-relaxed">{c?.heroSubline ?? fd?.tagline ?? <>
             The all-in-one platform that replaces your entire infrastructure toolkit. Build, deploy, and scale to millions of users without changing your workflow.
-          </motion.p>
+          </>}</motion.p>
 
           <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.3 }} className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-14">
             <button onClick={() => document.getElementById("pricing")?.scrollIntoView({behavior:"smooth"})} className="group px-8 py-4 bg-violet-600 hover:bg-violet-500 rounded-full text-sm font-bold transition-all duration-200 flex items-center gap-2 cursor-pointer">
@@ -341,7 +423,7 @@ export default function NovaPlatformSaaS() {
                 </Avatar>
               ))}
             </div>
-            <p className="text-sm text-zinc-500">Trusted by <span className="text-white font-semibold">14,200+</span> companies · <span className="text-amber-400 font-semibold">4.9/5</span> on G2</p>
+            <p className="text-sm text-zinc-500">{c?.aboutText ?? <>Trusted by <span className="text-white font-semibold">14,200+</span> companies · <span className="text-amber-400 font-semibold">4.9/5</span> on G2</>}</p>
           </motion.div>
         </motion.div>
 
@@ -693,7 +775,7 @@ export default function NovaPlatformSaaS() {
               <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-violet-500 to-fuchsia-500 flex items-center justify-center">
                 <Zap className="w-4 h-4" />
               </div>
-              <span className="text-lg font-bold">NovaPlatform</span>
+              <span className="text-lg font-bold">{fd?.businessName ?? "NovaPlatform SaaS"}</span>
             </div>
             <p className="text-sm text-zinc-500 leading-relaxed max-w-xs mb-5">The all-in-one platform for modern engineering teams. Build, deploy, and scale without limits.</p>
             <div className="flex gap-3">

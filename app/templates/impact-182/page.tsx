@@ -53,7 +53,41 @@ const REALISATIONS = [
   { title: "Construction garage + dalle béton", tag: "Gros œuvre & dallage", img: "https://images.unsplash.com/photo-1581244277943-fe4a9c777189?auto=format&fit=crop&q=80&w=1200" },
 ]
 
+
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
 export default function BatirSolidePage() {
+  const [session, setSession] = useState<{
+    formData?: {
+      businessName?: string; businessType?: string; tagline?: string;
+      city?: string; mainService?: string; benefits?: string[];
+      priceRange?: string; targetAudience?: string; brandColor?: string;
+      email?: string; phone?: string; instagram?: string; linkedin?: string;
+    };
+    generatedContent?: {
+      heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
+      aboutText?: string; ctaText?: string; metaTitle?: string;
+      metaDescription?: string;
+      services?: { title?: string; description?: string }[];
+      testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
+    };
+  } | null>(null);
+
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(setSession)
+      .catch(() => {});
+  }, []);
+
+  fd = session?.formData;
+  c = session?.generatedContent;
+  brand = fd?.brandColor ?? null; // null = keep template's original color
+
   const heroRef = useRef(null)
   const [scrolled, setScrolled] = useState(false)
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] })
@@ -64,7 +98,55 @@ export default function BatirSolidePage() {
   useEffect(() => {
     const h = () => setScrolled(window.scrollY > 60)
     window.addEventListener("scroll", h)
-    return () => window.removeEventListener("scroll", h)
+    
+  // Dynamic Services & Testimonials Mutation for Session Data
+  useEffect(() => {
+    if (c?.services) {
+      const services_arrays = [
+        typeof SERVICES !== 'undefined' ? SERVICES : null,
+        typeof features !== 'undefined' ? features : null,
+        typeof services !== 'undefined' ? services : null,
+        typeof FEATURES !== 'undefined' ? FEATURES : null,
+      ];
+      services_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((s, idx) => {
+            if (idx < 3 && c.services[idx]) {
+              if (s && typeof s === 'object') {
+                s.title = c.services[idx].title ?? s.title;
+                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
+                if ('description' in s) s.description = c.services[idx].description ?? s.description;
+              }
+            }
+          });
+        }
+      });
+    }
+    if (c?.testimonials) {
+      const testimonials_arrays = [
+        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
+        typeof testimonials !== 'undefined' ? testimonials : null,
+        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
+        typeof reviews !== 'undefined' ? reviews : null,
+      ];
+      testimonials_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((t, idx) => {
+            if (idx < 3 && c.testimonials[idx]) {
+              if (t && typeof t === 'object') {
+                t.name = c.testimonials[idx].name ?? t.name;
+                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
+                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
+                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
+                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
+              }
+            }
+          });
+        }
+      });
+    }
+  }, [c]);
+return () => window.removeEventListener("scroll", h)
   }, [])
 
   return (
@@ -82,7 +164,7 @@ export default function BatirSolidePage() {
             ))}
           </div>
           <div className="flex items-center gap-3">
-            <a href="tel:0491234567" className="hidden md:flex items-center gap-2 text-[#d4a96a] font-bold text-sm">
+            <a href={`tel:${fd?.phone ?? "0491234567"}`} className="hidden md:flex items-center gap-2 text-[#d4a96a] font-bold text-sm">
               <Phone className="w-4 h-4" /> 04 91 23 45 67
             </a>
             <button className="hidden md:block px-5 py-2.5 bg-[#d4a96a] text-[#1a1008] text-[10px] font-black uppercase tracking-[0.2em] hover:bg-[#e8bf85] transition-colors">
@@ -93,7 +175,7 @@ export default function BatirSolidePage() {
               <SheetContent side="right" className="bg-[#1a1008] border-[#d4a96a]/10 p-10">
                 <div className="flex flex-col gap-7 mt-16">
                   {["Savoir-faire", "Chantiers", "Contact"].map(l => <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="text-3xl font-black uppercase text-white hover:text-[#d4a96a] transition-colors">{l}</Link>)}
-                  <a href="tel:0491234567" className="flex items-center gap-3 text-[#d4a96a] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> 04 91 23 45 67</a>
+                  <a href={`tel:${fd?.phone ?? "0491234567"}`} className="flex items-center gap-3 text-[#d4a96a] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> 04 91 23 45 67</a>
                 </div>
               </SheetContent>
             </Sheet>
@@ -118,20 +200,20 @@ export default function BatirSolidePage() {
           </motion.div>
 
           <motion.h1 initial={{ opacity: 0, y: 55 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.1, delay: 0.48, ease: [0.16, 1, 0.3, 1] }}
-            className="text-6xl md:text-8xl lg:text-[9rem] font-black leading-[0.85] tracking-tighter mb-9 uppercase text-white">
+            className="text-6xl md:text-8xl lg:text-[9rem] font-black leading-[0.85] tracking-tighter mb-9 uppercase text-white">{c?.heroHeadline ?? <>
             On construit<br />pour <span className="text-[#d4a96a]">durer.</span>
-          </motion.h1>
+          </>}</motion.h1>
 
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 0.75 }}
-            className="max-w-lg text-sm text-white/40 leading-relaxed mb-10">
+            className="max-w-lg text-sm text-white/40 leading-relaxed mb-10">{c?.heroSubline ?? fd?.tagline ?? <>
             Gros œuvre, extensions, ravalement, fondations. Artisan maçon qualifié Qualibat, 25 ans d'expérience sur la région PACA. Garantie décennale, devis gratuit sous 48h.
-          </motion.p>
+          </>}</motion.p>
 
           <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 1.0 }} className="flex flex-wrap gap-3">
             <button className="px-9 py-4 bg-[#d4a96a] text-[#1a1008] font-black text-[10px] uppercase tracking-[0.25em] hover:bg-[#e8bf85] transition-colors">
               Devis gratuit sous 48h
             </button>
-            <a href="tel:0491234567" className="flex items-center gap-3 px-9 py-4 border border-white/15 text-white font-bold text-[10px] uppercase tracking-widest hover:border-[#d4a96a]/50 hover:text-[#d4a96a] transition-all">
+            <a href={`tel:${fd?.phone ?? "0491234567"}`} className="flex items-center gap-3 px-9 py-4 border border-white/15 text-white font-bold text-[10px] uppercase tracking-widest hover:border-[#d4a96a]/50 hover:text-[#d4a96a] transition-all">
               <Phone className="w-4 h-4" /> 04 91 23 45 67
             </a>
           </motion.div>
@@ -251,7 +333,7 @@ export default function BatirSolidePage() {
               <button className="px-10 py-4 bg-[#d4a96a] text-[#1a1008] font-black text-[10px] uppercase tracking-[0.25em] hover:bg-[#e8bf85] transition-colors">
                 Demander un devis
               </button>
-              <a href="tel:0491234567" className="flex items-center gap-3 px-10 py-4 border border-white/15 text-white font-bold text-[10px] uppercase tracking-widest hover:border-[#d4a96a]/50 hover:text-[#d4a96a] transition-all">
+              <a href={`tel:${fd?.phone ?? "0491234567"}`} className="flex items-center gap-3 px-10 py-4 border border-white/15 text-white font-bold text-[10px] uppercase tracking-widest hover:border-[#d4a96a]/50 hover:text-[#d4a96a] transition-all">
                 <Phone className="w-4 h-4" /> 04 91 23 45 67
               </a>
             </div>

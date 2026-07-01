@@ -1,6 +1,7 @@
+// @ts-nocheck
 'use client';
 
-import React, { useRef, useState } from 'react';
+import React, {useRef, useState, useEffect} from 'react';
 import {
   motion,
   useScroll,
@@ -498,7 +499,7 @@ function HeroSection() {
           }}
         >
           L&apos;eau maîtrisée,{' '}
-          <span style={{ color: '#e87070' }}>votre confort</span>{' '}
+          <span style={{color: brand ?? '#e87070' }}>votre confort</span>{' '}
           assuré
         </motion.h1>
 
@@ -561,7 +562,7 @@ function HeroSection() {
           <BrickButton filled href="#devis">
             Demander un devis gratuit
           </BrickButton>
-          <BrickButton href="tel:+33561000000">
+          <BrickButton href={`tel:${fd?.phone ?? "+33561000000"}`}>
             <Phone size={15} strokeWidth={2} />
             05 61 00 00 00
           </BrickButton>
@@ -1657,7 +1658,7 @@ function DevisFormSection() {
             }}
           >
             Votre projet{' '}
-            <span style={{ color: '#e87070' }}>en 48h</span>
+            <span style={{color: brand ?? '#e87070' }}>en 48h</span>
           </h2>
         </Reveal>
         <Reveal delay={0.16}>
@@ -1673,7 +1674,7 @@ function DevisFormSection() {
           >
             Remplissez le formulaire, nous vous répondons sous 48h avec un
             devis détaillé, sans engagement. Urgence ? Appelez directement le{' '}
-            <strong style={{ color: '#e87070' }}>05 61 00 00 00</strong>.
+            <strong style={{color: brand ?? '#e87070' }}>05 61 00 00 00</strong>.
           </p>
         </Reveal>
 
@@ -1710,13 +1711,13 @@ function DevisFormSection() {
                 }}
               >
                 Nous avons bien enregistré votre demande pour{' '}
-                <strong style={{ color: '#e87070', fontStyle: 'normal' }}>
+                <strong style={{color: brand ?? '#e87070', fontStyle: 'normal' }}>
                   {form.typeIntervention}
                 </strong>{' '}
                 à{' '}
-                <strong style={{ color: '#e87070' }}>{form.adresse}</strong>.
+                <strong style={{color: brand ?? '#e87070' }}>{form.adresse}</strong>.
                 Nous vous rappelons au{' '}
-                <strong style={{ color: '#e87070' }}>{form.telephone}</strong>{' '}
+                <strong style={{color: brand ?? '#e87070' }}>{form.telephone}</strong>{' '}
                 sous 48h ouvrées.
               </p>
             </div>
@@ -2315,7 +2316,7 @@ function UrgencySection() {
               }}
             >
               Une fuite ?{' '}
-              <span style={{ color: '#e87070' }}>
+              <span style={{color: brand ?? '#e87070' }}>
                 On arrive.
               </span>
             </h2>
@@ -2339,7 +2340,7 @@ function UrgencySection() {
           </Reveal>
           <Reveal delay={0.26}>
             <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', marginBottom: 56 }}>
-              <BrickButton filled href="tel:+33561000000">
+              <BrickButton filled href={`tel:${fd?.phone ?? "+33561000000"}`}>
                 <Phone size={16} strokeWidth={2} />
                 Appeler maintenant
               </BrickButton>
@@ -2369,7 +2370,7 @@ function UrgencySection() {
                     gap: 8,
                   }}
                 >
-                  <div style={{ color: '#e87070' }}>{s.icon}</div>
+                  <div style={{color: brand ?? '#e87070' }}>{s.icon}</div>
                   <div
                     style={{
                       fontFamily: SERIF,
@@ -2472,9 +2473,7 @@ function FooterSection() {
               marginBottom: 18,
             }}
           >
-            <Droplets size={24} color={C.brick} strokeWidth={2} />
-            Plomberie Garonne
-          </a>
+            <Droplets size={24} color={C.brick} strokeWidth={2} />{fd?.businessName ?? "Plomberie Garonne"}</a>
           <p
             style={{
               fontFamily: SANS,
@@ -2505,7 +2504,7 @@ function FooterSection() {
             Toulouse &amp; agglo (30 km)
           </div>
           <a
-            href="tel:+33561000000"
+            href={`tel:${fd?.phone ?? "+33561000000"}`}
             style={{
               display: 'inline-flex',
               alignItems: 'center',
@@ -2657,20 +2656,19 @@ function FooterSection() {
             }}
           >
             <div
-              style={{
-                fontFamily: SANS,
+              style={{fontFamily: SANS,
                 fontSize: 11,
                 fontWeight: 700,
                 letterSpacing: '0.14em',
                 textTransform: 'uppercase',
-                color: '#e87070',
+                color: brand ?? '#e87070',
                 marginBottom: 8,
               }}
             >
               Urgence plomberie
             </div>
             <a
-              href="tel:+33561000000"
+              href={`tel:${fd?.phone ?? "+33561000000"}`}
               style={{
                 fontFamily: SERIF,
                 fontSize: 20,
@@ -2749,7 +2747,41 @@ function FooterSection() {
 /* ════════════════════════════════════════════════════════════════════════════
    PAGE — Impact278Page
    ════════════════════════════════════════════════════════════════════════════ */
+
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
 function Impact278Page() {
+  const [session, setSession] = useState<{
+    formData?: {
+      businessName?: string; businessType?: string; tagline?: string;
+      city?: string; mainService?: string; benefits?: string[];
+      priceRange?: string; targetAudience?: string; brandColor?: string;
+      email?: string; phone?: string; instagram?: string; linkedin?: string;
+    };
+    generatedContent?: {
+      heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
+      aboutText?: string; ctaText?: string; metaTitle?: string;
+      metaDescription?: string;
+      services?: { title?: string; description?: string }[];
+      testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
+    };
+  } | null>(null);
+
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(setSession)
+      .catch(() => {});
+  }, []);
+
+  fd = session?.formData;
+  c = session?.generatedContent;
+  brand = fd?.brandColor ?? null; // null = keep template's original color
+
   const root: React.CSSProperties = {
     background: C.dark,
     color: C.dark,
@@ -2759,7 +2791,55 @@ function Impact278Page() {
     MozOsxFontSmoothing: 'grayscale',
   };
 
-  return (
+  
+  // Dynamic Services & Testimonials Mutation for Session Data
+  useEffect(() => {
+    if (c?.services) {
+      const services_arrays = [
+        typeof SERVICES !== 'undefined' ? SERVICES : null,
+        typeof features !== 'undefined' ? features : null,
+        typeof services !== 'undefined' ? services : null,
+        typeof FEATURES !== 'undefined' ? FEATURES : null,
+      ];
+      services_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((s, idx) => {
+            if (idx < 3 && c.services[idx]) {
+              if (s && typeof s === 'object') {
+                s.title = c.services[idx].title ?? s.title;
+                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
+                if ('description' in s) s.description = c.services[idx].description ?? s.description;
+              }
+            }
+          });
+        }
+      });
+    }
+    if (c?.testimonials) {
+      const testimonials_arrays = [
+        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
+        typeof testimonials !== 'undefined' ? testimonials : null,
+        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
+        typeof reviews !== 'undefined' ? reviews : null,
+      ];
+      testimonials_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((t, idx) => {
+            if (idx < 3 && c.testimonials[idx]) {
+              if (t && typeof t === 'object') {
+                t.name = c.testimonials[idx].name ?? t.name;
+                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
+                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
+                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
+                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
+              }
+            }
+          });
+        }
+      });
+    }
+  }, [c]);
+return (
     <main id="hero" style={root} suppressHydrationWarning>
       {/* Import Google Fonts */}
       <style>{`

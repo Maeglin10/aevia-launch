@@ -1300,9 +1300,7 @@ function MobileNavDrawer({
             }}
           >
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '2rem' }}>
-              <span style={{ color: C.text, fontFamily: 'Playfair Display, serif', fontSize: '1.3rem', fontWeight: 700 }}>
-                Flamme & Co
-              </span>
+              <span style={{ color: C.text, fontFamily: 'Playfair Display, serif', fontSize: '1.3rem', fontWeight: 700 }}>{fd?.businessName ?? "Flamme & Co"}</span>
               <motion.button
                 whileTap={{ scale: 0.9 }}
                 onClick={onClose}
@@ -1598,7 +1596,41 @@ function PromoBanner() {
 }
 
 // ─── Main Page Component ───────────────────────────────────────────────────────
+
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
 export default function FlammeEtCoPage() {
+  const [session, setSession] = useState<{
+    formData?: {
+      businessName?: string; businessType?: string; tagline?: string;
+      city?: string; mainService?: string; benefits?: string[];
+      priceRange?: string; targetAudience?: string; brandColor?: string;
+      email?: string; phone?: string; instagram?: string; linkedin?: string;
+    };
+    generatedContent?: {
+      heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
+      aboutText?: string; ctaText?: string; metaTitle?: string;
+      metaDescription?: string;
+      services?: { title?: string; description?: string }[];
+      testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
+    };
+  } | null>(null);
+
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(setSession)
+      .catch(() => {});
+  }, []);
+
+  fd = session?.formData;
+  c = session?.generatedContent;
+  brand = fd?.brandColor ?? null; // null = keep template's original color
+
   const [cartItems,    setCartItems]    = useState<CartItem[]>([]);
   const [cartOpen,     setCartOpen]     = useState(false);
   const [navOpen,      setNavOpen]      = useState(false);
@@ -1611,7 +1643,55 @@ export default function FlammeEtCoPage() {
   // Nav darkening on scroll
   useEffect(() => {
     const unsub = scrollY.on('change', v => setScrolled(v > 60));
-    return () => unsub();
+    
+  // Dynamic Services & Testimonials Mutation for Session Data
+  useEffect(() => {
+    if (c?.services) {
+      const services_arrays = [
+        typeof SERVICES !== 'undefined' ? SERVICES : null,
+        typeof features !== 'undefined' ? features : null,
+        typeof services !== 'undefined' ? services : null,
+        typeof FEATURES !== 'undefined' ? FEATURES : null,
+      ];
+      services_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((s, idx) => {
+            if (idx < 3 && c.services[idx]) {
+              if (s && typeof s === 'object') {
+                s.title = c.services[idx].title ?? s.title;
+                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
+                if ('description' in s) s.description = c.services[idx].description ?? s.description;
+              }
+            }
+          });
+        }
+      });
+    }
+    if (c?.testimonials) {
+      const testimonials_arrays = [
+        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
+        typeof testimonials !== 'undefined' ? testimonials : null,
+        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
+        typeof reviews !== 'undefined' ? reviews : null,
+      ];
+      testimonials_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((t, idx) => {
+            if (idx < 3 && c.testimonials[idx]) {
+              if (t && typeof t === 'object') {
+                t.name = c.testimonials[idx].name ?? t.name;
+                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
+                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
+                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
+                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
+              }
+            }
+          });
+        }
+      });
+    }
+  }, [c]);
+return () => unsub();
   }, [scrollY]);
 
   const navLinks = [
@@ -1930,7 +2010,7 @@ export default function FlammeEtCoPage() {
                 lineHeight: 1.12,
                 marginBottom: '1.25rem',
               }}
-            >
+            >{c?.heroHeadline ?? <>
               Réchauffez{' '}
               <span style={{
                 background: `linear-gradient(135deg, ${C.accent}, ${C.goldLight})`,
@@ -1939,7 +2019,7 @@ export default function FlammeEtCoPage() {
               }}>
                 votre intérieur
               </span>
-            </motion.h1>
+            </>}</motion.h1>
 
             <motion.p
               initial={{ opacity: 0, y: 20 }}
@@ -1955,10 +2035,10 @@ export default function FlammeEtCoPage() {
                 maxWidth: '620px',
                 margin: '0 auto 2.5rem',
               }}
-            >
+            >{c?.heroSubline ?? fd?.tagline ?? <>
               Découvrez notre sélection de poêles à bois, poêles à granulés et cheminées design. 
               Expédition rapide, installation professionnelle, service après-vente réactif.
-            </motion.p>
+            </>}</motion.p>
 
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -2119,12 +2199,12 @@ export default function FlammeEtCoPage() {
               <p style={{ color: C.accentLight, fontFamily: 'Inter, sans-serif', fontSize: '0.78rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.14em', marginBottom: '0.65rem' }}>
                 Explorer par catégorie
               </p>
-              <h2 style={{ color: C.text, fontFamily: 'Playfair Display, serif', fontSize: 'clamp(1.7rem, 4vw, 2.5rem)', fontWeight: 800, marginBottom: '0.75rem' }}>
+              <h2 style={{ color: C.text, fontFamily: 'Playfair Display, serif', fontSize: 'clamp(1.7rem, 4vw, 2.5rem)', fontWeight: 800, marginBottom: '0.75rem' }}>{c?.aboutTitle ?? fd?.businessName ?? <>
                 Trouvez votre appareil idéal
-              </h2>
-              <p style={{ color: C.textMuted, fontFamily: 'Inter, sans-serif', fontSize: '1rem', maxWidth: '500px', margin: '0 auto', lineHeight: 1.65 }}>
+              </>}</h2>
+              <p style={{ color: C.textMuted, fontFamily: 'Inter, sans-serif', fontSize: '1rem', maxWidth: '500px', margin: '0 auto', lineHeight: 1.65 }}>{c?.aboutText ?? <>
                 Chaque catégorie regroupe nos meilleures références sélectionnées pour leur rendement, leur design et leur fiabilité.
-              </p>
+              </>}</p>
             </div>
             <div className="fc-grid-4">
               {CATEGORIES.map((c, i) => (
@@ -2303,7 +2383,7 @@ export default function FlammeEtCoPage() {
                 Vous ne trouvez pas votre réponse ?
               </p>
               <motion.a
-                href="mailto:contact@flammeetco.fr"
+                href={`mailto:${fd?.email ?? "contact@flammeetco.fr"}`}
                 whileHover={{ scale: 1.04 }}
                 whileTap={{ scale: 0.97 }}
                 style={{

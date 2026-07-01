@@ -184,7 +184,41 @@ function HUD_Sidebar({ page, goTo }: { page: ActivePage, goTo: (p: ActivePage) =
    )
 }
 
+
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
 export default function AstrumReachPremium() {
+  const [session, setSession] = useState<{
+    formData?: {
+      businessName?: string; businessType?: string; tagline?: string;
+      city?: string; mainService?: string; benefits?: string[];
+      priceRange?: string; targetAudience?: string; brandColor?: string;
+      email?: string; phone?: string; instagram?: string; linkedin?: string;
+    };
+    generatedContent?: {
+      heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
+      aboutText?: string; ctaText?: string; metaTitle?: string;
+      metaDescription?: string;
+      services?: { title?: string; description?: string }[];
+      testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
+    };
+  } | null>(null);
+
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(setSession)
+      .catch(() => {});
+  }, []);
+
+  fd = session?.formData;
+  c = session?.generatedContent;
+  brand = fd?.brandColor ?? null; // null = keep template's original color
+
   const [page, setPage] = useState<ActivePage>("home")
   const containerRef = useRef(null)
   const { scrollYProgress } = useScroll({ target: containerRef })
@@ -201,7 +235,55 @@ export default function AstrumReachPremium() {
   const shipY = useTransform(scrollYProgress, [0, 1], [0, -400])
   const textScale = useTransform(scrollYProgress, [0, 0.2], [1, 1.2])
 
-  return (
+  
+  // Dynamic Services & Testimonials Mutation for Session Data
+  useEffect(() => {
+    if (c?.services) {
+      const services_arrays = [
+        typeof SERVICES !== 'undefined' ? SERVICES : null,
+        typeof features !== 'undefined' ? features : null,
+        typeof services !== 'undefined' ? services : null,
+        typeof FEATURES !== 'undefined' ? FEATURES : null,
+      ];
+      services_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((s, idx) => {
+            if (idx < 3 && c.services[idx]) {
+              if (s && typeof s === 'object') {
+                s.title = c.services[idx].title ?? s.title;
+                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
+                if ('description' in s) s.description = c.services[idx].description ?? s.description;
+              }
+            }
+          });
+        }
+      });
+    }
+    if (c?.testimonials) {
+      const testimonials_arrays = [
+        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
+        typeof testimonials !== 'undefined' ? testimonials : null,
+        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
+        typeof reviews !== 'undefined' ? reviews : null,
+      ];
+      testimonials_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((t, idx) => {
+            if (idx < 3 && c.testimonials[idx]) {
+              if (t && typeof t === 'object') {
+                t.name = c.testimonials[idx].name ?? t.name;
+                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
+                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
+                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
+                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
+              }
+            }
+          });
+        }
+      });
+    }
+  }, [c]);
+return (
     <div ref={containerRef} className="bg-[#020205] text-[#f0f0f0] font-sans selection:bg-indigo-500/40 selection:text-white min-h-screen overflow-x-clip">
       
       <StarfieldBackground />
@@ -285,15 +367,15 @@ export default function AstrumReachPremium() {
                      <motion.h1 
                         style={{ scale: textScale }}
                         className="text-8xl md:text-[15vw] font-black tracking-tighter uppercase mb-16 leading-[0.7] italic flex flex-col"
-                     >
+                     >{c?.heroHeadline ?? <>
                         <span>Reach the</span>
                         <span className="text-transparent" style={{ WebkitTextStroke: "2px white" }}>Beyond.</span>
-                     </motion.h1>
+                     </>}</motion.h1>
                      
                      <div className="grid grid-cols-1 md:grid-cols-2 gap-24 items-end text-left max-w-5xl">
-                        <p className="text-lg md:text-xl text-white/40 leading-relaxed font-light italic uppercase tracking-widest">
+                        <p className="text-lg md:text-xl text-white/40 leading-relaxed font-light italic uppercase tracking-widest">{c?.heroSubline ?? fd?.tagline ?? <>
                            Nous maîtrisons le transit orbital commercial. Conçu pour l'élite évolutive, notre service assure une sécurité absolue vers les destinations lointaines.
-                        </p>
+                        </>}</p>
                         <div className="flex flex-col sm:flex-row gap-8 justify-end">
                            <button onClick={() => goTo("manifest")} className="px-14 py-8 bg-indigo-600 text-white text-[10px] font-black uppercase tracking-widest hover:bg-white hover:text-black transition-all shadow-[0_0_50px_rgba(99,102,241,0.4)] flex items-center gap-4 italic group">
                               [ Start Mission ] <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
@@ -446,12 +528,12 @@ export default function AstrumReachPremium() {
                      <div className="grid grid-cols-1 lg:grid-cols-2 gap-32 items-center">
                         <div>
                            <div className="text-[10px] font-black uppercase tracking-[0.5em] text-indigo-600 mb-8 font-mono">Ground_Control</div>
-                           <h2 className="text-7xl md:text-9xl font-black uppercase tracking-tighter leading-[0.8] mb-12 italic">
+                           <h2 className="text-7xl md:text-9xl font-black uppercase tracking-tighter leading-[0.8] mb-12 italic">{c?.aboutTitle ?? fd?.businessName ?? <>
                               Real-time <br/> <span className="opacity-20">Link.</span>
-                           </h2>
-                           <p className="text-lg font-bold italic text-black/40 leading-relaxed uppercase tracking-[0.1em] max-w-md">
+                           </>}</h2>
+                           <p className="text-lg font-bold italic text-black/40 leading-relaxed uppercase tracking-[0.1em] max-w-md">{c?.aboutText ?? <>
                               Suivez chaque paramètre de vol en temps réel via notre liaison satellite chiffrée. Une transparence totale pour une sérénité maximale.
-                           </p>
+                           </>}</p>
                         </div>
                         
                         <div className="bg-black text-[#00ff88] p-12 border-8 border-black/10 rounded-2xl font-mono text-xs overflow-hidden shadow-2xl">

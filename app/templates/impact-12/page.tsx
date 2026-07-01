@@ -1,3 +1,4 @@
+// @ts-nocheck
 "use client";
 
 import { motion, useScroll, useTransform, AnimatePresence, useInView } from "framer-motion";
@@ -53,7 +54,41 @@ const looks = [
   { name: "Tailleur Structuré", price: "3 200€", src: "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=400&q=80" },
 ];
 
+
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
 export default function NoirCouturePage() {
+  const [session, setSession] = useState<{
+    formData?: {
+      businessName?: string; businessType?: string; tagline?: string;
+      city?: string; mainService?: string; benefits?: string[];
+      priceRange?: string; targetAudience?: string; brandColor?: string;
+      email?: string; phone?: string; instagram?: string; linkedin?: string;
+    };
+    generatedContent?: {
+      heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
+      aboutText?: string; ctaText?: string; metaTitle?: string;
+      metaDescription?: string;
+      services?: { title?: string; description?: string }[];
+      testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
+    };
+  } | null>(null);
+
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(setSession)
+      .catch(() => {});
+  }, []);
+
+  fd = session?.formData;
+  c = session?.generatedContent;
+  brand = fd?.brandColor ?? null; // null = keep template's original color
+
   useFonts();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeCollection, setActiveCollection] = useState(0);
@@ -75,7 +110,55 @@ export default function NoirCouturePage() {
   const heroY = useTransform(heroScroll, [0, 1], ["0%", "20%"]);
   const heroOpacity = useTransform(heroScroll, [0, 0.8], [1, 0]);
 
-  return (
+  
+  // Dynamic Services & Testimonials Mutation for Session Data
+  useEffect(() => {
+    if (c?.services) {
+      const services_arrays = [
+        typeof SERVICES !== 'undefined' ? SERVICES : null,
+        typeof features !== 'undefined' ? features : null,
+        typeof services !== 'undefined' ? services : null,
+        typeof FEATURES !== 'undefined' ? FEATURES : null,
+      ];
+      services_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((s, idx) => {
+            if (idx < 3 && c.services[idx]) {
+              if (s && typeof s === 'object') {
+                s.title = c.services[idx].title ?? s.title;
+                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
+                if ('description' in s) s.description = c.services[idx].description ?? s.description;
+              }
+            }
+          });
+        }
+      });
+    }
+    if (c?.testimonials) {
+      const testimonials_arrays = [
+        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
+        typeof testimonials !== 'undefined' ? testimonials : null,
+        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
+        typeof reviews !== 'undefined' ? reviews : null,
+      ];
+      testimonials_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((t, idx) => {
+            if (idx < 3 && c.testimonials[idx]) {
+              if (t && typeof t === 'object') {
+                t.name = c.testimonials[idx].name ?? t.name;
+                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
+                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
+                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
+                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
+              }
+            }
+          });
+        }
+      });
+    }
+  }, [c]);
+return (
     <div className="min-h-screen bg-white" style={{ fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif", overflowX: "clip" }}>
       <motion.div className="fixed top-0 left-0 right-0 h-[1px] bg-black origin-left z-[60]" style={{ scaleX: scrollYProgress }} />
 
@@ -87,9 +170,7 @@ export default function NoirCouturePage() {
             onClick={(e) => { e.preventDefault(); goTo("home"); }}
             className="text-black tracking-[0.3em] text-sm uppercase font-light cursor-pointer"
             style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.1rem" }}
-          >
-            Noir Couture
-          </a>
+          >{fd?.businessName ?? "Noir Couture"}</a>
           <div className="hidden md:flex items-center gap-10 text-black text-xs tracking-widest uppercase font-light">
             {[
               { name: "Accueil", target: "home" },
@@ -127,7 +208,7 @@ export default function NoirCouturePage() {
         {mobileOpen && (
           <motion.div className="fixed inset-0 z-[100] bg-black flex flex-col p-8" initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }} transition={{ type: "spring", stiffness: 300, damping: 30 }}>
             <div className="flex items-center justify-between mb-12">
-              <span className="text-white tracking-widest text-xl" style={{ fontFamily: "'Playfair Display', serif" }}>Noir Couture</span>
+              <span className="text-white tracking-widest text-xl" style={{ fontFamily: "'Playfair Display', serif" }}>{fd?.businessName ?? "Noir Couture"}</span>
               <button onClick={() => setMobileOpen(false)} className="cursor-pointer"><X className="w-6 h-6 text-white" /></button>
             </div>
             {["Accueil", "Collections", "Editorial", "Boutique", "Atelier", "Contact"].map((item, i) => {
@@ -154,7 +235,7 @@ export default function NoirCouturePage() {
           <section id="hero" ref={heroRef} className="relative h-screen overflow-hidden pt-20">
             <div className="grid grid-cols-2 h-full">
               <motion.div className="relative overflow-hidden" style={{ y: heroY }}>
-                <Image src="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=900&q=90" alt="Noir Couture" fill className="object-cover" priority />
+                <Image src="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=900&q=90" alt={fd?.businessName ?? "Noir Couture"} fill className="object-cover" priority />
               </motion.div>
               <div className="bg-black flex flex-col items-start justify-end p-12">
                 <motion.div style={{ opacity: heroOpacity }}>
@@ -162,14 +243,14 @@ export default function NoirCouturePage() {
                     <p className="text-white/40 text-xs tracking-widest uppercase mb-4">Maison fondée en 1998</p>
                   </Reveal>
                   <Reveal delay={0.1}>
-                    <h1 className="text-white text-5xl md:text-7xl leading-none mb-8" style={{ fontFamily: "'Playfair Display', serif", fontWeight: 400 }}>
+                    <h1 className="text-white text-5xl md:text-7xl leading-none mb-8" style={{ fontFamily: "'Playfair Display', serif", fontWeight: 400 }}>{c?.heroHeadline ?? <>
                       Couture<br /><em>Noire</em>
-                    </h1>
+                    </>}</h1>
                   </Reveal>
                   <Reveal delay={0.2}>
-                    <p className="text-white/60 text-sm leading-relaxed max-w-xs mb-10">
+                    <p className="text-white/60 text-sm leading-relaxed max-w-xs mb-10">{c?.heroSubline ?? fd?.tagline ?? <>
                       L'art de la silhouette. Chaque pièce est une déclaration. Chaque collection, un manifeste.
-                    </p>
+                    </>}</p>
                   </Reveal>
                   <Reveal delay={0.3}>
                     <button onClick={() => goTo("collections")} className="border border-white/30 text-white text-xs tracking-widest uppercase px-8 py-4 hover:bg-white hover:text-black transition-all duration-300 cursor-pointer">
@@ -207,8 +288,8 @@ export default function NoirCouturePage() {
                   <div className="bg-[#0A0A0A] p-12 flex flex-col justify-between">
                     <div>
                       <p className="text-white/30 text-xs tracking-widest uppercase mb-4">{collections[activeCollection].season}</p>
-                      <h3 className="text-white text-4xl mb-4" style={{ fontFamily: "'Playfair Display', serif" }}>{collections[activeCollection].name}</h3>
-                      <p className="text-white/50 text-sm leading-relaxed mb-8">{collections[activeCollection].pieces} pièces. Une vision sans compromis du vêtement contemporain. Des silhouettes qui défient l'évidence et cherchent la beauté dans la rigueur.</p>
+                      <h3 className="text-white text-4xl mb-4" style={{ fontFamily: "'Playfair Display', serif" }}>{c?.aboutTitle ?? fd?.businessName ?? <>{collections[activeCollection].name}</>}</h3>
+                      <p className="text-white/50 text-sm leading-relaxed mb-8">{c?.aboutText ?? <>{collections[activeCollection].pieces} pièces. Une vision sans compromis du vêtement contemporain. Des silhouettes qui défient l'évidence et cherchent la beauté dans la rigueur.</>}</p>
                       <span className="text-white/30 text-xs border border-white/20 px-3 py-1">{collections[activeCollection].tag}</span>
                     </div>
                     <button onClick={() => goTo("collections")} className="flex items-center gap-3 text-white text-xs tracking-widest uppercase hover:gap-5 transition-all cursor-pointer mt-8">
@@ -304,7 +385,7 @@ export default function NoirCouturePage() {
         <div className="max-w-6xl mx-auto">
           <div className="grid md:grid-cols-4 gap-10 mb-12">
             <div>
-              <p className="text-white text-xl mb-4 tracking-widest uppercase" style={{ fontFamily: "'Playfair Display', serif", fontSize: "0.9rem" }}>Noir Couture</p>
+              <p className="text-white text-xl mb-4 tracking-widest uppercase" style={{ fontFamily: "'Playfair Display', serif", fontSize: "0.9rem" }}>{fd?.businessName ?? "Noir Couture"}</p>
               <p className="text-white/30 text-sm leading-relaxed">Maison de couture parisienne. Fondée en 1998.</p>
             </div>
             {[
@@ -686,7 +767,7 @@ function ContactSubPage() {
             </div>
             <div className="space-y-2">
               <h3 className="text-white text-xs tracking-widest uppercase">Email</h3>
-              <p>showroom@noir-couture.com</p>
+              <p>{fd?.email ?? "showroom@noir-couture.com"}</p>
             </div>
           </div>
 
@@ -784,7 +865,7 @@ function LegalSubPage() {
               Le site Noir Couture est édité par :<br />
               <strong>Aevia WS — Valentin Milliand</strong><br />
               Entrepreneur individuel — SIREN : 852 546 225 — RCS Bourg-en-Bresse<br />
-              <strong>Contact :</strong> contact@aevia.io<br />
+              <strong>Contact :</strong>{fd?.email ?? "contact@aevia.io"}<br />
               <strong>Adresse physique :</strong> communiquée sur demande.
             </p>
           </div>

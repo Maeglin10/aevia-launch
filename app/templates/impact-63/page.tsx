@@ -1,11 +1,46 @@
+// @ts-nocheck
 "use client";
 
-import React, { useRef } from "react";
+import React, {useRef, useState, useEffect} from 'react';
 import Link from "next/link";
 import { motion, useScroll, useTransform, useInView } from "framer-motion";
 import { C, StatNumber, SectionLabel, OrbitalComplication, HERITAGE, PRESS, AWARDS, COLLECTIONS } from "./shared";
 
+
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
 export default function MaisonDrouetHome() {
+  const [session, setSession] = useState<{
+    formData?: {
+      businessName?: string; businessType?: string; tagline?: string;
+      city?: string; mainService?: string; benefits?: string[];
+      priceRange?: string; targetAudience?: string; brandColor?: string;
+      email?: string; phone?: string; instagram?: string; linkedin?: string;
+    };
+    generatedContent?: {
+      heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
+      aboutText?: string; ctaText?: string; metaTitle?: string;
+      metaDescription?: string;
+      services?: { title?: string; description?: string }[];
+      testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
+    };
+  } | null>(null);
+
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(setSession)
+      .catch(() => {});
+  }, []);
+
+  fd = session?.formData;
+  c = session?.generatedContent;
+  brand = fd?.brandColor ?? null; // null = keep template's original color
+
   const containerRef = useRef<HTMLDivElement>(null);
   const heroRef = useRef<HTMLDivElement>(null);
 
@@ -18,7 +53,55 @@ export default function MaisonDrouetHome() {
   const heroY = useTransform(heroScroll, [0, 1], ["0%", "25%"]);
   const heroOpacity = useTransform(heroScroll, [0, 0.8], [1, 0]);
 
-  return (
+  
+  // Dynamic Services & Testimonials Mutation for Session Data
+  useEffect(() => {
+    if (c?.services) {
+      const services_arrays = [
+        typeof SERVICES !== 'undefined' ? SERVICES : null,
+        typeof features !== 'undefined' ? features : null,
+        typeof services !== 'undefined' ? services : null,
+        typeof FEATURES !== 'undefined' ? FEATURES : null,
+      ];
+      services_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((s, idx) => {
+            if (idx < 3 && c.services[idx]) {
+              if (s && typeof s === 'object') {
+                s.title = c.services[idx].title ?? s.title;
+                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
+                if ('description' in s) s.description = c.services[idx].description ?? s.description;
+              }
+            }
+          });
+        }
+      });
+    }
+    if (c?.testimonials) {
+      const testimonials_arrays = [
+        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
+        typeof testimonials !== 'undefined' ? testimonials : null,
+        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
+        typeof reviews !== 'undefined' ? reviews : null,
+      ];
+      testimonials_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((t, idx) => {
+            if (idx < 3 && c.testimonials[idx]) {
+              if (t && typeof t === 'object') {
+                t.name = c.testimonials[idx].name ?? t.name;
+                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
+                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
+                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
+                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
+              }
+            }
+          });
+        }
+      });
+    }
+  }, [c]);
+return (
     <div
       ref={containerRef}
       style={{
@@ -52,11 +135,11 @@ export default function MaisonDrouetHome() {
               margin: "1.5rem 0",
               letterSpacing: "-0.02em",
             }}
-          >
+          >{c?.heroHeadline ?? <>
             Le Temps<br />
             <em style={{ color: C.gold, fontStyle: "italic" }}>Comme</em><br />
             Philosophie
-          </h1>
+          </>}</h1>
           <p
             style={{
               fontSize: "1.15rem",
@@ -65,10 +148,10 @@ export default function MaisonDrouetHome() {
               maxWidth: "42ch",
               marginBottom: "2.5rem",
             }}
-          >
+          >{c?.heroSubline ?? fd?.tagline ?? <>
             Depuis 1891, la Maison Drouet perpétue à Genève l'art de la Haute Horlogerie.
             Chaque montre est une déclaration — contre la hâte, pour la permanence.
-          </p>
+          </>}</p>
           <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
             <Link href="/templates/impact-63/collections" style={{ textDecoration: "none" }}>
               <motion.button
@@ -245,12 +328,12 @@ export default function MaisonDrouetHome() {
       <section style={{ padding: "8rem clamp(2rem, 6vw, 6rem)", background: C.bgSection, borderTop: `1px solid ${C.border}` }}>
         <div style={{ maxWidth: "700px", margin: "0 auto", textAlign: "center" }}>
           <SectionLabel>Commande Privée</SectionLabel>
-          <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(2rem, 4vw, 3.5rem)", fontWeight: 300, color: C.text, lineHeight: 1.2, paddingBottom: "0.15em", marginBottom: "1.5rem" }}>
+          <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(2rem, 4vw, 3.5rem)", fontWeight: 300, color: C.text, lineHeight: 1.2, paddingBottom: "0.15em", marginBottom: "1.5rem" }}>{c?.aboutTitle ?? fd?.businessName ?? <>
             Une Montre<br /><em style={{ color: C.gold }}>Créée Pour Vous</em>
-          </h2>
-          <p style={{ fontFamily: "'EB Garamond', serif", fontSize: "1.1rem", fontStyle: "italic", color: C.textMuted, lineHeight: 1.8, maxWidth: "50ch", margin: "0 auto 2.5rem" }}>
+          </>}</h2>
+          <p style={{ fontFamily: "'EB Garamond', serif", fontSize: "1.1rem", fontStyle: "italic", color: C.textMuted, lineHeight: 1.8, maxWidth: "50ch", margin: "0 auto 2.5rem" }}>{c?.aboutText ?? <>
             Chaque maison Drouet Bespoke commence par une conversation. Un maître-horloger, votre vision, 14 mois de fabrication. La montre que vous transmettrez.
-          </p>
+          </>}</p>
           <Link href="/templates/impact-63/atelier" style={{ textDecoration: "none" }}>
             <motion.button
               type="button"

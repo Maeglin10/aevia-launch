@@ -1,6 +1,7 @@
+// @ts-nocheck
 "use client";
 
-import React, { useRef } from "react";
+import React, {useRef, useState, useEffect} from 'react';
 import Image from "next/image";
 import Link from "next/link";
 import { motion, useScroll, useTransform } from "framer-motion";
@@ -14,7 +15,41 @@ import {
   StyleInjector,
 } from "./shared";
 
+
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
 export default function LuminalHome() {
+  const [session, setSession] = useState<{
+    formData?: {
+      businessName?: string; businessType?: string; tagline?: string;
+      city?: string; mainService?: string; benefits?: string[];
+      priceRange?: string; targetAudience?: string; brandColor?: string;
+      email?: string; phone?: string; instagram?: string; linkedin?: string;
+    };
+    generatedContent?: {
+      heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
+      aboutText?: string; ctaText?: string; metaTitle?: string;
+      metaDescription?: string;
+      services?: { title?: string; description?: string }[];
+      testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
+    };
+  } | null>(null);
+
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(setSession)
+      .catch(() => {});
+  }, []);
+
+  fd = session?.formData;
+  c = session?.generatedContent;
+  brand = fd?.brandColor ?? null; // null = keep template's original color
+
   const heroRef = useRef(null);
   const { scrollYProgress } = useScroll({
     target: heroRef,
@@ -23,7 +58,55 @@ export default function LuminalHome() {
   const heroY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
   const heroOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
 
-  return (
+  
+  // Dynamic Services & Testimonials Mutation for Session Data
+  useEffect(() => {
+    if (c?.services) {
+      const services_arrays = [
+        typeof SERVICES !== 'undefined' ? SERVICES : null,
+        typeof features !== 'undefined' ? features : null,
+        typeof services !== 'undefined' ? services : null,
+        typeof FEATURES !== 'undefined' ? FEATURES : null,
+      ];
+      services_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((s, idx) => {
+            if (idx < 3 && c.services[idx]) {
+              if (s && typeof s === 'object') {
+                s.title = c.services[idx].title ?? s.title;
+                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
+                if ('description' in s) s.description = c.services[idx].description ?? s.description;
+              }
+            }
+          });
+        }
+      });
+    }
+    if (c?.testimonials) {
+      const testimonials_arrays = [
+        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
+        typeof testimonials !== 'undefined' ? testimonials : null,
+        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
+        typeof reviews !== 'undefined' ? reviews : null,
+      ];
+      testimonials_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((t, idx) => {
+            if (idx < 3 && c.testimonials[idx]) {
+              if (t && typeof t === 'object') {
+                t.name = c.testimonials[idx].name ?? t.name;
+                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
+                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
+                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
+                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
+              }
+            }
+          });
+        }
+      });
+    }
+  }, [c]);
+return (
     <div>
       <StyleInjector />
 
@@ -53,15 +136,15 @@ export default function LuminalHome() {
             <span className="text-[10px] md:text-[12px] uppercase tracking-[0.4em] font-bold text-[#3d7a5e] mb-8 block font-sans">
               Maximum 9 Participants · No Devices
             </span>
-            <h1 className="text-6xl md:text-8xl lg:text-[10rem] font-bold leading-[1.15] pb-4 tracking-tighter mb-12 uppercase font-serif">
+            <h1 className="text-6xl md:text-8xl lg:text-[10rem] font-bold leading-[1.15] pb-4 tracking-tighter mb-12 uppercase font-serif">{c?.heroHeadline ?? <>
               Rest is <br />{" "}
               <span className="italic font-light">the work.</span>
-            </h1>
-            <p className="max-w-xl text-lg md:text-xl text-black/50 leading-relaxed font-light mb-12">
+            </>}</h1>
+            <p className="max-w-xl text-lg md:text-xl text-black/50 leading-relaxed font-light mb-12">{c?.heroSubline ?? fd?.tagline ?? <>
               Luminal designs profound retreat experiences in the world&apos;s most
               transformative landscapes. We create the conditions for genuine
               rest through carefully calibrated stillness.
-            </p>
+            </>}</p>
             <div className="flex flex-col sm:flex-row gap-6 font-sans">
               <Link href="/templates/impact-59/retreats" className="px-12 py-5 bg-black text-white text-[10px] uppercase tracking-[0.4em] font-bold rounded-full hover:bg-[#3d7a5e] transition-all cursor-pointer shadow-xl text-center" style={{ textDecoration: "none" }}>
                 Explore 2026 Programme
@@ -190,19 +273,19 @@ export default function LuminalHome() {
                 <h2
                   className="text-4xl md:text-5xl font-bold uppercase tracking-tight mb-8 text-[#f8f5f0]"
                   style={{ fontFamily: "Cinzel, Georgia, serif" }}
-                >
+                >{c?.aboutTitle ?? fd?.businessName ?? <>
                   La Méthode
                   <br />
                   <span className="font-light italic" style={{ fontFamily: "Lora, Georgia, serif" }}>
                     Luminale
                   </span>
-                </h2>
+                </>}</h2>
                 <p
                   className="text-[#f8f5f0]/70 text-lg leading-relaxed mb-6"
                   style={{ fontFamily: "Lora, Georgia, serif" }}
-                >
+                >{c?.aboutText ?? <>
                   Développée par le Dr. Clara Metz après une décennie de recherche clinique sur le burnout, la Méthode Luminale intègre les dernières découvertes en neurosciences avec des pratiques contemplatives éprouvées.
-                </p>
+                </>}</p>
                 <p
                   className="text-[#f8f5f0]/50 text-base leading-relaxed mb-12"
                   style={{ fontFamily: "Lora, Georgia, serif" }}

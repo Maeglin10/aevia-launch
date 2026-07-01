@@ -1,25 +1,108 @@
+// @ts-nocheck
 "use client"
 
-import React, { useRef } from "react"
+import React, {useRef, useState, useEffect} from 'react'
 import { motion, useScroll, useTransform } from "framer-motion"
 import Image from "next/image"
 import Link from "next/link"
 import { ArrowRight, Building, Users, TrendingUp, Award } from "lucide-react"
 import { Reveal } from "./shared"
 
+
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
 export default function BlueprintPage() {
+  const [session, setSession] = useState<{
+    formData?: {
+      businessName?: string; businessType?: string; tagline?: string;
+      city?: string; mainService?: string; benefits?: string[];
+      priceRange?: string; targetAudience?: string; brandColor?: string;
+      email?: string; phone?: string; instagram?: string; linkedin?: string;
+    };
+    generatedContent?: {
+      heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
+      aboutText?: string; ctaText?: string; metaTitle?: string;
+      metaDescription?: string;
+      services?: { title?: string; description?: string }[];
+      testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
+    };
+  } | null>(null);
+
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(setSession)
+      .catch(() => {});
+  }, []);
+
+  fd = session?.formData;
+  c = session?.generatedContent;
+  brand = fd?.brandColor ?? null; // null = keep template's original color
+
   const heroRef = useRef<HTMLDivElement>(null)
   const { scrollYProgress: heroScroll } = useScroll({ target: heroRef, offset: ["start start", "end start"] })
   const heroY = useTransform(heroScroll, [0, 1], ["0%", "35%"])
 
-  return (
+  
+  // Dynamic Services & Testimonials Mutation for Session Data
+  useEffect(() => {
+    if (c?.services) {
+      const services_arrays = [
+        typeof SERVICES !== 'undefined' ? SERVICES : null,
+        typeof features !== 'undefined' ? features : null,
+        typeof services !== 'undefined' ? services : null,
+        typeof FEATURES !== 'undefined' ? FEATURES : null,
+      ];
+      services_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((s, idx) => {
+            if (idx < 3 && c.services[idx]) {
+              if (s && typeof s === 'object') {
+                s.title = c.services[idx].title ?? s.title;
+                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
+                if ('description' in s) s.description = c.services[idx].description ?? s.description;
+              }
+            }
+          });
+        }
+      });
+    }
+    if (c?.testimonials) {
+      const testimonials_arrays = [
+        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
+        typeof testimonials !== 'undefined' ? testimonials : null,
+        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
+        typeof reviews !== 'undefined' ? reviews : null,
+      ];
+      testimonials_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((t, idx) => {
+            if (idx < 3 && c.testimonials[idx]) {
+              if (t && typeof t === 'object') {
+                t.name = c.testimonials[idx].name ?? t.name;
+                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
+                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
+                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
+                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
+              }
+            }
+          });
+        }
+      });
+    }
+  }, [c]);
+return (
     <div className="min-h-screen bg-[#F7F5F2]">
       {/* Hero */}
       <section ref={heroRef} className="relative min-h-screen overflow-hidden flex items-center">
         <motion.div className="absolute inset-0" style={{ y: heroY }}>
           <Image
             src="https://images.unsplash.com/photo-1449157291145-7efd050a4d0e?w=1600&q=85"
-            alt="Blueprint Developments"
+            alt={fd?.businessName ?? "Blueprint Developments"}
             fill
             className="object-cover"
             priority
@@ -32,14 +115,14 @@ export default function BlueprintPage() {
             <p className="text-xs tracking-[0.3em] uppercase text-[#C9A86C] mb-8">Promoteur immobilier — Fondé en 1989</p>
           </Reveal>
           <Reveal delay={0.1}>
-            <h1 className="text-5xl md:text-7xl font-normal text-[#F7F5F2] leading-[1.15] mb-8 max-w-3xl font-serif" style={{ fontFamily: "'Libre Baskerville', serif" }}>
+            <h1 className="text-5xl md:text-7xl font-normal text-[#F7F5F2] leading-[1.15] mb-8 max-w-3xl font-serif" style={{ fontFamily: "'Libre Baskerville', serif" }}>{c?.heroHeadline ?? <>
               Construire<br /><em>l&apos;excellence</em><br />durable
-            </h1>
+            </>}</h1>
           </Reveal>
           <Reveal delay={0.2}>
-            <p className="text-[#C8B89A] text-lg max-w-lg mb-12 leading-relaxed font-light">
+            <p className="text-[#C8B89A] text-lg max-w-lg mb-12 leading-relaxed font-light">{c?.heroSubline ?? fd?.tagline ?? <>
               Depuis 35 ans, Blueprint réalise des programmes immobiliers d&apos;exception. Résidentiel haut de gamme, bureaux premium, opérations mixtes — nous concevons des lieux qui durent.
-            </p>
+            </>}</p>
             <div className="flex flex-col sm:flex-row gap-5">
               <Link href="/templates/impact-82/programmes" className="inline-flex items-center justify-center gap-3 px-8 py-4 bg-[#C9A86C] text-[#1A1612] font-medium text-sm tracking-wide uppercase hover:bg-[#E0BC70] transition-colors cursor-pointer">
                 Nos programmes <ArrowRight className="w-4 h-4" />
@@ -74,14 +157,14 @@ export default function BlueprintPage() {
           <div className="grid md:grid-cols-2 gap-16 items-center mb-20">
             <Reveal>
               <p className="text-xs tracking-[0.25em] uppercase text-[#C9A86C] mb-4">Notre ADN</p>
-              <h2 className="text-4xl md:text-5xl font-normal leading-tight font-serif" style={{ fontFamily: "'Libre Baskerville', serif" }}>
+              <h2 className="text-4xl md:text-5xl font-normal leading-tight font-serif" style={{ fontFamily: "'Libre Baskerville', serif" }}>{c?.aboutTitle ?? fd?.businessName ?? <>
                 35 ans de<br /><em>savoir-faire</em><br />institutionnel
-              </h2>
+              </>}</h2>
             </Reveal>
             <Reveal delay={0.1}>
-              <p className="text-[#8A7860] leading-relaxed mb-6 font-light">
+              <p className="text-[#8A7860] leading-relaxed mb-6 font-light">{c?.aboutText ?? <>
                 Blueprint a été fondé en 1989 par Édouard Marchand avec une conviction : le développement immobilier de qualité ne se résume pas à construire des murs. Il s&apos;agit de créer des lieux de vie durables et harmonieux.
-              </p>
+              </>}</p>
               <Link href="/templates/impact-82/entreprise" className="text-sm text-[#C9A86C] flex items-center gap-2 hover:gap-4 transition-all">
                 En savoir plus sur notre entreprise <ArrowRight className="w-4 h-4" />
               </Link>

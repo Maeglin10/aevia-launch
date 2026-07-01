@@ -2,7 +2,7 @@
 "use client";
 
 import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
+import {useRef, useState, useEffect} from 'react';
 import Image from "next/image";
 import Link from "next/link";
 import { Compass, ArrowUpRight, Mail } from "lucide-react";
@@ -97,7 +97,41 @@ const TEAM = [
   },
 ];
 
+
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
 export default function StructuraArchPage() {
+  const [session, setSession] = useState<{
+    formData?: {
+      businessName?: string; businessType?: string; tagline?: string;
+      city?: string; mainService?: string; benefits?: string[];
+      priceRange?: string; targetAudience?: string; brandColor?: string;
+      email?: string; phone?: string; instagram?: string; linkedin?: string;
+    };
+    generatedContent?: {
+      heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
+      aboutText?: string; ctaText?: string; metaTitle?: string;
+      metaDescription?: string;
+      services?: { title?: string; description?: string }[];
+      testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
+    };
+  } | null>(null);
+
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(setSession)
+      .catch(() => {});
+  }, []);
+
+  fd = session?.formData;
+  c = session?.generatedContent;
+  brand = fd?.brandColor ?? null; // null = keep template's original color
+
   const heroRef = useRef(null);
   const { scrollYProgress } = useScroll({
     target: heroRef,
@@ -106,7 +140,55 @@ export default function StructuraArchPage() {
   const heroY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
   const heroOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
 
-  return (
+  
+  // Dynamic Services & Testimonials Mutation for Session Data
+  useEffect(() => {
+    if (c?.services) {
+      const services_arrays = [
+        typeof SERVICES !== 'undefined' ? SERVICES : null,
+        typeof features !== 'undefined' ? features : null,
+        typeof services !== 'undefined' ? services : null,
+        typeof FEATURES !== 'undefined' ? FEATURES : null,
+      ];
+      services_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((s, idx) => {
+            if (idx < 3 && c.services[idx]) {
+              if (s && typeof s === 'object') {
+                s.title = c.services[idx].title ?? s.title;
+                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
+                if ('description' in s) s.description = c.services[idx].description ?? s.description;
+              }
+            }
+          });
+        }
+      });
+    }
+    if (c?.testimonials) {
+      const testimonials_arrays = [
+        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
+        typeof testimonials !== 'undefined' ? testimonials : null,
+        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
+        typeof reviews !== 'undefined' ? reviews : null,
+      ];
+      testimonials_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((t, idx) => {
+            if (idx < 3 && c.testimonials[idx]) {
+              if (t && typeof t === 'object') {
+                t.name = c.testimonials[idx].name ?? t.name;
+                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
+                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
+                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
+                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
+              }
+            }
+          });
+        }
+      });
+    }
+  }, [c]);
+return (
     <div className="relative w-full">
       {/* ==========================================
           1. HERO (Architecture Cinematic)
@@ -149,14 +231,14 @@ export default function StructuraArchPage() {
               <Compass className="w-3.5 h-3.5" />
               Structural Intelligence // Generative Design
             </div>
-            <h1 className="text-7xl md:text-9xl lg:text-[11rem] font-black leading-[1.15] tracking-tighter mb-12 uppercase pb-6">
+            <h1 className="text-7xl md:text-9xl lg:text-[11rem] font-black leading-[1.15] tracking-tighter mb-12 uppercase pb-6">{c?.heroHeadline ?? <>
               Void & <br />{" "}
               <span className="text-stone-500 italic">Volume.</span>
-            </h1>
-            <p className="max-w-xl text-lg md:text-xl text-white/20 leading-relaxed font-bold mb-12 uppercase tracking-tight italic">
+            </>}</h1>
+            <p className="max-w-xl text-lg md:text-xl text-white/20 leading-relaxed font-bold mb-12 uppercase tracking-tight italic">{c?.heroSubline ?? fd?.tagline ?? <>
               Redefining the relationship between structure and environment.
               Pushing the limits of computational architecture.
-            </p>
+            </>}</p>
             <div className="flex flex-col sm:flex-row gap-6">
               <Link href="/templates/impact-76/archive">
                 <MagneticBtn className="px-12 py-5 bg-white text-black text-[10px] font-bold uppercase tracking-[0.4em] rounded-none hover:bg-stone-200 transition-all cursor-pointer shadow-2xl">
@@ -482,13 +564,13 @@ export default function StructuraArchPage() {
             <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-stone-500 mb-8 block">
               INITIATE_SEQUENCE // NEW_PROJECT
             </span>
-            <h2 className="text-6xl md:text-8xl lg:text-[10rem] font-black uppercase italic tracking-tighter text-white leading-[1.05] mb-12 pb-4">
+            <h2 className="text-6xl md:text-8xl lg:text-[10rem] font-black uppercase italic tracking-tighter text-white leading-[1.05] mb-12 pb-4">{c?.aboutTitle ?? fd?.businessName ?? <>
               Build<br />
               <span className="text-stone-500">with us.</span>
-            </h2>
-            <p className="max-w-lg mx-auto text-sm text-white/20 uppercase tracking-widest leading-relaxed font-bold italic mb-16">
+            </>}</h2>
+            <p className="max-w-lg mx-auto text-sm text-white/20 uppercase tracking-widest leading-relaxed font-bold italic mb-16">{c?.aboutText ?? <>
               We accept a limited number of commissions each cycle. Submit your site parameters and volumetric objectives.
-            </p>
+            </>}</p>
           </Reveal>
           <Reveal delay={0.2}>
             <div className="flex flex-col sm:flex-row gap-6 justify-center">

@@ -47,7 +47,41 @@ const SERVICES = [
   { icon: Flame, title: "VMC & ventilation", desc: "VMC simple et double flux, DRV, traitement de l'air. Bilan aéraulique, pose, entretien. Labels QualAir et RGE." },
 ]
 
+
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
 export default function ThermotekChauffagePage() {
+  const [session, setSession] = useState<{
+    formData?: {
+      businessName?: string; businessType?: string; tagline?: string;
+      city?: string; mainService?: string; benefits?: string[];
+      priceRange?: string; targetAudience?: string; brandColor?: string;
+      email?: string; phone?: string; instagram?: string; linkedin?: string;
+    };
+    generatedContent?: {
+      heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
+      aboutText?: string; ctaText?: string; metaTitle?: string;
+      metaDescription?: string;
+      services?: { title?: string; description?: string }[];
+      testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
+    };
+  } | null>(null);
+
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(setSession)
+      .catch(() => {});
+  }, []);
+
+  fd = session?.formData;
+  c = session?.generatedContent;
+  brand = fd?.brandColor ?? null; // null = keep template's original color
+
   const heroRef = useRef(null)
   const [scrolled, setScrolled] = useState(false)
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] })
@@ -58,7 +92,55 @@ export default function ThermotekChauffagePage() {
   useEffect(() => {
     const h = () => setScrolled(window.scrollY > 60)
     window.addEventListener("scroll", h)
-    return () => window.removeEventListener("scroll", h)
+    
+  // Dynamic Services & Testimonials Mutation for Session Data
+  useEffect(() => {
+    if (c?.services) {
+      const services_arrays = [
+        typeof SERVICES !== 'undefined' ? SERVICES : null,
+        typeof features !== 'undefined' ? features : null,
+        typeof services !== 'undefined' ? services : null,
+        typeof FEATURES !== 'undefined' ? FEATURES : null,
+      ];
+      services_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((s, idx) => {
+            if (idx < 3 && c.services[idx]) {
+              if (s && typeof s === 'object') {
+                s.title = c.services[idx].title ?? s.title;
+                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
+                if ('description' in s) s.description = c.services[idx].description ?? s.description;
+              }
+            }
+          });
+        }
+      });
+    }
+    if (c?.testimonials) {
+      const testimonials_arrays = [
+        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
+        typeof testimonials !== 'undefined' ? testimonials : null,
+        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
+        typeof reviews !== 'undefined' ? reviews : null,
+      ];
+      testimonials_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((t, idx) => {
+            if (idx < 3 && c.testimonials[idx]) {
+              if (t && typeof t === 'object') {
+                t.name = c.testimonials[idx].name ?? t.name;
+                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
+                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
+                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
+                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
+              }
+            }
+          });
+        }
+      });
+    }
+  }, [c]);
+return () => window.removeEventListener("scroll", h)
   }, [])
 
   return (
@@ -76,7 +158,7 @@ export default function ThermotekChauffagePage() {
             ))}
           </div>
           <div className="flex items-center gap-3">
-            <a href="tel:0556123456" className="hidden md:flex items-center gap-2 text-[#ea580c] font-bold text-sm">
+            <a href={`tel:${fd?.phone ?? "0556123456"}`} className="hidden md:flex items-center gap-2 text-[#ea580c] font-bold text-sm">
               <Phone className="w-4 h-4" /> 05 56 12 34 56
             </a>
             <button className="hidden md:block px-5 py-2.5 bg-[#ea580c] text-white text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-[#f97316] transition-colors">
@@ -87,7 +169,7 @@ export default function ThermotekChauffagePage() {
               <SheetContent side="right" className="bg-[#0a0906] border-[#ea580c]/10 p-10">
                 <div className="flex flex-col gap-7 mt-16">
                   {["Services", "Contact"].map(l => <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="text-3xl font-bold hover:text-[#ea580c] transition-colors">{l}</Link>)}
-                  <a href="tel:0556123456" className="flex items-center gap-3 text-[#ea580c] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> 05 56 12 34 56</a>
+                  <a href={`tel:${fd?.phone ?? "0556123456"}`} className="flex items-center gap-3 text-[#ea580c] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> 05 56 12 34 56</a>
                 </div>
               </SheetContent>
             </Sheet>
@@ -113,20 +195,20 @@ export default function ThermotekChauffagePage() {
           </motion.div>
 
           <motion.h1 initial={{ opacity: 0, y: 55 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.1, delay: 0.48, ease: [0.16, 1, 0.3, 1] }}
-            className="text-5xl md:text-7xl lg:text-8xl font-bold leading-[0.88] tracking-tight mb-9">
+            className="text-5xl md:text-7xl lg:text-8xl font-bold leading-[0.88] tracking-tight mb-9">{c?.heroHeadline ?? <>
             Votre confort<br />thermique,<br /><span className="text-[#ea580c]">notre priorité.</span>
-          </motion.h1>
+          </>}</motion.h1>
 
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 0.75 }}
-            className="max-w-lg text-sm text-white/40 leading-relaxed mb-10">
+            className="max-w-lg text-sm text-white/40 leading-relaxed mb-10">{c?.heroSubline ?? fd?.tagline ?? <>
             Installation, entretien et dépannage de chaudières, pompes à chaleur et planchers chauffants. Certifié RGE, éligible aides MaPrimeRénov'. Intervention d'urgence sous 4h.
-          </motion.p>
+          </>}</motion.p>
 
           <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 1.0 }} className="flex flex-wrap gap-3">
-            <button className="px-8 py-4 bg-[#ea580c] text-white font-bold text-[10px] uppercase tracking-[0.2em] hover:bg-[#f97316] transition-colors">
+            <button className="px-8 py-4 bg-[#ea580c] text-white font-bold text-[10px] uppercase tracking-[0.2em] hover:bg-[#f97316] transition-colors">{c?.ctaText ?? <>
               Devis gratuit
-            </button>
-            <a href="tel:0556123456" className="flex items-center gap-3 px-8 py-4 border border-white/15 text-white font-bold text-[10px] uppercase tracking-widest hover:border-[#ea580c]/50 hover:text-[#ea580c] transition-all">
+            </>}</button>
+            <a href={`tel:${fd?.phone ?? "0556123456"}`} className="flex items-center gap-3 px-8 py-4 border border-white/15 text-white font-bold text-[10px] uppercase tracking-widest hover:border-[#ea580c]/50 hover:text-[#ea580c] transition-all">
               <Phone className="w-4 h-4" /> Urgence 4h
             </a>
           </motion.div>
@@ -143,7 +225,7 @@ export default function ThermotekChauffagePage() {
           <span className="font-bold text-sm text-white">Panne de chauffage ? Astreinte 7j/7 de novembre à mars</span>
           <div className="flex items-center gap-5">
             <span className="flex items-center gap-2 text-white/85 font-semibold text-sm"><Clock className="w-4 h-4" /> &lt; 4h d'intervention</span>
-            <a href="tel:0556123456" className="bg-white text-[#ea580c] px-5 py-2 font-bold text-sm hover:bg-orange-50 transition-colors">05 56 12 34 56</a>
+            <a href={`tel:${fd?.phone ?? "0556123456"}`} className="bg-white text-[#ea580c] px-5 py-2 font-bold text-sm hover:bg-orange-50 transition-colors">05 56 12 34 56</a>
           </div>
         </div>
       </section>
@@ -235,7 +317,7 @@ export default function ThermotekChauffagePage() {
               <button className="px-10 py-4 bg-white text-[#ea580c] font-bold text-[10px] uppercase tracking-[0.25em] hover:bg-orange-50 transition-colors">
                 Demander un devis
               </button>
-              <a href="tel:0556123456" className="flex items-center gap-3 px-10 py-4 border border-white/30 text-white font-bold text-[10px] uppercase tracking-widest hover:bg-white/10 transition-all">
+              <a href={`tel:${fd?.phone ?? "0556123456"}`} className="flex items-center gap-3 px-10 py-4 border border-white/30 text-white font-bold text-[10px] uppercase tracking-widest hover:bg-white/10 transition-all">
                 <Phone className="w-4 h-4" /> 05 56 12 34 56
               </a>
             </div>

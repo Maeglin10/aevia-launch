@@ -137,7 +137,41 @@ const REVIEWS = [
 const TIME_SLOTS = ["12h00", "12h30", "14h00", "14h30", "19h30", "20h00", "21h00", "21h30"];
 const GUEST_OPTIONS = ["1 personne", "2 personnes", "3 personnes", "4 personnes", "5 personnes", "6+ personnes"];
 
+
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
 export default function AeviaKitchenPage() {
+  const [session, setSession] = useState<{
+    formData?: {
+      businessName?: string; businessType?: string; tagline?: string;
+      city?: string; mainService?: string; benefits?: string[];
+      priceRange?: string; targetAudience?: string; brandColor?: string;
+      email?: string; phone?: string; instagram?: string; linkedin?: string;
+    };
+    generatedContent?: {
+      heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
+      aboutText?: string; ctaText?: string; metaTitle?: string;
+      metaDescription?: string;
+      services?: { title?: string; description?: string }[];
+      testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
+    };
+  } | null>(null);
+
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(setSession)
+      .catch(() => {});
+  }, []);
+
+  fd = session?.formData;
+  c = session?.generatedContent;
+  brand = fd?.brandColor ?? null; // null = keep template's original color
+
   const heroRef = useRef(null);
   const [activeMenu, setActiveMenu] = useState(0)
   const [mobileOpen, setMobileOpen] = useState(false);;
@@ -157,7 +191,55 @@ export default function AeviaKitchenPage() {
   useEffect(() => {
     const h = () => setScrolled(window.scrollY > 60);
     window.addEventListener("scroll", h);
-    return () => window.removeEventListener("scroll", h);
+    
+  // Dynamic Services & Testimonials Mutation for Session Data
+  useEffect(() => {
+    if (c?.services) {
+      const services_arrays = [
+        typeof SERVICES !== 'undefined' ? SERVICES : null,
+        typeof features !== 'undefined' ? features : null,
+        typeof services !== 'undefined' ? services : null,
+        typeof FEATURES !== 'undefined' ? FEATURES : null,
+      ];
+      services_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((s, idx) => {
+            if (idx < 3 && c.services[idx]) {
+              if (s && typeof s === 'object') {
+                s.title = c.services[idx].title ?? s.title;
+                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
+                if ('description' in s) s.description = c.services[idx].description ?? s.description;
+              }
+            }
+          });
+        }
+      });
+    }
+    if (c?.testimonials) {
+      const testimonials_arrays = [
+        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
+        typeof testimonials !== 'undefined' ? testimonials : null,
+        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
+        typeof reviews !== 'undefined' ? reviews : null,
+      ];
+      testimonials_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((t, idx) => {
+            if (idx < 3 && c.testimonials[idx]) {
+              if (t && typeof t === 'object') {
+                t.name = c.testimonials[idx].name ?? t.name;
+                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
+                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
+                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
+                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
+              }
+            }
+          });
+        }
+      });
+    }
+  }, [c]);
+return () => window.removeEventListener("scroll", h);
   }, []);
 
   return (
@@ -165,7 +247,7 @@ export default function AeviaKitchenPage() {
       {/* ── NAVBAR ── */}
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#11182a]/95 backdrop-blur-xl py-4 border-b border-[#c9a855]/10" : "bg-transparent py-8"}`}>
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex items-center justify-between">
-          <span className="font-serif text-xl text-white tracking-wide italic">Aevia Kitchen</span>
+          <span className="font-serif text-xl text-white tracking-wide italic">{fd?.businessName ?? "Aevia Kitchen"}</span>
           <div className="hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-white/40">
             {["La carte", "Expériences", "Réserver", "Cave à vins", "À propos"].map(l => (
               <Link key={l} href="#menus" className="hover:text-[#c9a855] transition-colors">{l}</Link>
@@ -243,19 +325,19 @@ export default function AeviaKitchenPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.1, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
             className="font-serif text-6xl md:text-8xl lg:text-[9.5rem] leading-[0.92] tracking-tight mb-10 text-white"
-          >
+          >{c?.heroHeadline ?? <>
             L&apos;art de la<br />
             <em className="text-[#c9a855]">table française.</em>
-          </motion.h1>
+          </>}</motion.h1>
 
           <motion.p
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, delay: 0.75, ease: [0.16, 1, 0.3, 1] }}
             className="max-w-xl text-base md:text-lg text-white/45 leading-relaxed mb-12 font-light"
-          >
+          >{c?.heroSubline ?? fd?.tagline ?? <>
             Une cuisine de saison ancrée dans la tradition, portée par l&apos;excellence du produit et la passion de l&apos;artisanat culinaire. Table étoilée — 12 couverts par service.
-          </motion.p>
+          </>}</motion.p>
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -394,17 +476,17 @@ export default function AeviaKitchenPage() {
                 <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#c9a855] mb-6">
                   La Maison
                 </p>
-                <h2 className="font-serif text-4xl md:text-5xl text-white mb-8 leading-tight">
+                <h2 className="font-serif text-4xl md:text-5xl text-white mb-8 leading-tight">{c?.aboutTitle ?? fd?.businessName ?? <>
                   Le Chef <br />
                   <em>Thomas Mercier</em>
-                </h2>
+                </>}</h2>
                 <div className="space-y-4 text-white/50 leading-relaxed text-sm">
-                  <p>
+                  <p>{c?.aboutText ?? <>
                     Formé auprès de Joël Robuchon et de Pierre Gagnaire, Thomas Mercier
                     a fondé Aevia Kitchen en 2018 après quinze ans passés dans les plus
                     grandes maisons d&apos;Europe. Sa philosophie est simple : laisser le
                     produit parler.
-                  </p>
+                  </>}</p>
                   <p>
                     Chaque matin, il sélectionne personnellement ses ingrédients sur les
                     marchés parisiens et auprès de producteurs de confiance — maraîchers

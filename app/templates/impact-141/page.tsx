@@ -131,7 +131,41 @@ function Reveal({
    MAIN PAGE COMPONENT
    ========================================================================== */
 
+
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
 export default function SonicPlayerPage() {
+  const [session, setSession] = useState<{
+    formData?: {
+      businessName?: string; businessType?: string; tagline?: string;
+      city?: string; mainService?: string; benefits?: string[];
+      priceRange?: string; targetAudience?: string; brandColor?: string;
+      email?: string; phone?: string; instagram?: string; linkedin?: string;
+    };
+    generatedContent?: {
+      heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
+      aboutText?: string; ctaText?: string; metaTitle?: string;
+      metaDescription?: string;
+      services?: { title?: string; description?: string }[];
+      testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
+    };
+  } | null>(null);
+
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(setSession)
+      .catch(() => {});
+  }, []);
+
+  fd = session?.formData;
+  c = session?.generatedContent;
+  brand = fd?.brandColor ?? null; // null = keep template's original color
+
   const [isPlaying, setIsPlaying] = useState(false);
   const [activeRelease, setActiveRelease] = useState(0);
   const [progress, setProgress] = useState(35); // simulated percentage
@@ -141,7 +175,55 @@ export default function SonicPlayerPage() {
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
     window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    
+  // Dynamic Services & Testimonials Mutation for Session Data
+  useEffect(() => {
+    if (c?.services) {
+      const services_arrays = [
+        typeof SERVICES !== 'undefined' ? SERVICES : null,
+        typeof features !== 'undefined' ? features : null,
+        typeof services !== 'undefined' ? services : null,
+        typeof FEATURES !== 'undefined' ? FEATURES : null,
+      ];
+      services_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((s, idx) => {
+            if (idx < 3 && c.services[idx]) {
+              if (s && typeof s === 'object') {
+                s.title = c.services[idx].title ?? s.title;
+                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
+                if ('description' in s) s.description = c.services[idx].description ?? s.description;
+              }
+            }
+          });
+        }
+      });
+    }
+    if (c?.testimonials) {
+      const testimonials_arrays = [
+        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
+        typeof testimonials !== 'undefined' ? testimonials : null,
+        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
+        typeof reviews !== 'undefined' ? reviews : null,
+      ];
+      testimonials_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((t, idx) => {
+            if (idx < 3 && c.testimonials[idx]) {
+              if (t && typeof t === 'object') {
+                t.name = c.testimonials[idx].name ?? t.name;
+                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
+                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
+                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
+                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
+              }
+            }
+          });
+        }
+      });
+    }
+  }, [c]);
+return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   // Simulate progress bar movement if playing
@@ -255,9 +337,9 @@ export default function SonicPlayerPage() {
                 Release
               </div>
 
-              <h1 className="text-5xl md:text-7xl font-black tracking-tighter mb-2">
+              <h1 className="text-5xl md:text-7xl font-black tracking-tighter mb-2">{c?.heroHeadline ?? <>
                 {RELEASES[activeRelease].title}
-              </h1>
+              </>}</h1>
               <h2 className="text-2xl md:text-3xl font-light text-slate-400 mb-12">
                 {RELEASES[activeRelease].artist}
               </h2>
@@ -396,12 +478,12 @@ export default function SonicPlayerPage() {
               <h3 className="text-3xl font-bold mb-6">
                 A Journey Through Synthetic Soundscapes.
               </h3>
-              <p className="text-slate-400 text-sm leading-relaxed mb-8">
+              <p className="text-slate-400 text-sm leading-relaxed mb-8">{c?.heroSubline ?? fd?.tagline ?? <>
                 The highly anticipated sophomore album fuses vintage analog
                 synthesis with cutting-edge spatial audio production. It's a
                 cinematic experience designed for late-night drives and
                 introspective coding sessions.
-              </p>
+              </>}</p>
               <div className="flex flex-col gap-4">
                 <button className="w-full py-4 bg-white/5 border border-white/10 text-[10px] uppercase tracking-widest font-bold hover:bg-white hover:text-black transition-colors rounded-sm">
                   Pre-save on Spotify
@@ -521,11 +603,11 @@ export default function SonicPlayerPage() {
             >
               <div className="text-center p-8">
                 <Mic2 className="w-12 h-12 text-slate-500 mx-auto mb-6" />
-                <h3 className="text-xl font-bold mb-2">Neon Records</h3>
-                <p className="text-sm text-slate-400">
+                <h3 className="text-xl font-bold mb-2">{c?.aboutTitle ?? fd?.businessName ?? <>Neon Records</>}</h3>
+                <p className="text-sm text-slate-400">{c?.aboutText ?? <>
                   Independent label pushing the boundaries of electronic music
                   since 2018.
-                </p>
+                </>}</p>
                 <button className="mt-6 text-[10px] uppercase tracking-widest font-bold text-purple-400 hover:text-white transition-colors pb-1 border-b border-purple-500/30 hover:border-white">
                   Read Manifesto
                 </button>

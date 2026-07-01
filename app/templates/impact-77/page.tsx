@@ -113,7 +113,41 @@ const SERVICES = [
 
 const CLIENTS = ["Vogue", "Wallpaper*", "Dezeen", "Monocle", "Dior"];
 
+
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
 export default function HorologsLuxePage() {
+  const [session, setSession] = useState<{
+    formData?: {
+      businessName?: string; businessType?: string; tagline?: string;
+      city?: string; mainService?: string; benefits?: string[];
+      priceRange?: string; targetAudience?: string; brandColor?: string;
+      email?: string; phone?: string; instagram?: string; linkedin?: string;
+    };
+    generatedContent?: {
+      heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
+      aboutText?: string; ctaText?: string; metaTitle?: string;
+      metaDescription?: string;
+      services?: { title?: string; description?: string }[];
+      testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
+    };
+  } | null>(null);
+
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(setSession)
+      .catch(() => {});
+  }, []);
+
+  fd = session?.formData;
+  c = session?.generatedContent;
+  brand = fd?.brandColor ?? null; // null = keep template's original color
+
   const heroRef = useRef(null);
   const [activeCategory, setActiveCategory] = useState("All");
   const [scrolled, setScrolled] = useState(false);
@@ -129,7 +163,55 @@ export default function HorologsLuxePage() {
   useEffect(() => {
     const h = () => setScrolled(window.scrollY > 60);
     window.addEventListener("scroll", h);
-    return () => window.removeEventListener("scroll", h);
+    
+  // Dynamic Services & Testimonials Mutation for Session Data
+  useEffect(() => {
+    if (c?.services) {
+      const services_arrays = [
+        typeof SERVICES !== 'undefined' ? SERVICES : null,
+        typeof features !== 'undefined' ? features : null,
+        typeof services !== 'undefined' ? services : null,
+        typeof FEATURES !== 'undefined' ? FEATURES : null,
+      ];
+      services_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((s, idx) => {
+            if (idx < 3 && c.services[idx]) {
+              if (s && typeof s === 'object') {
+                s.title = c.services[idx].title ?? s.title;
+                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
+                if ('description' in s) s.description = c.services[idx].description ?? s.description;
+              }
+            }
+          });
+        }
+      });
+    }
+    if (c?.testimonials) {
+      const testimonials_arrays = [
+        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
+        typeof testimonials !== 'undefined' ? testimonials : null,
+        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
+        typeof reviews !== 'undefined' ? reviews : null,
+      ];
+      testimonials_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((t, idx) => {
+            if (idx < 3 && c.testimonials[idx]) {
+              if (t && typeof t === 'object') {
+                t.name = c.testimonials[idx].name ?? t.name;
+                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
+                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
+                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
+                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
+              }
+            }
+          });
+        }
+      });
+    }
+  }, [c]);
+return () => window.removeEventListener("scroll", h);
   }, []);
 
   const filtered =
@@ -178,10 +260,10 @@ export default function HorologsLuxePage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.2, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
             className="text-7xl md:text-9xl lg:text-[10.5rem] font-black leading-[0.88] tracking-tighter mb-10 uppercase"
-          >
+          >{c?.heroHeadline ?? <>
             Mastery of<br />
             <span className="text-stone-600 italic">Duration.</span>
-          </motion.h1>
+          </>}</motion.h1>
 
           <motion.p
             initial={{ opacity: 0, y: 30 }}
@@ -189,10 +271,10 @@ export default function HorologsLuxePage() {
             transition={{ duration: 0.9, delay: 0.78, ease: [0.16, 1, 0.3, 1] }}
             className="max-w-xl text-base text-white/30 leading-relaxed font-light mb-12 uppercase tracking-widest italic"
             style={{ fontSize: "0.82rem" }}
-          >
+          >{c?.heroSubline ?? fd?.tagline ?? <>
             Advanced visual storytelling for the discerning collector.
             Editorial, commercial, fine art — calibrated to perfection.
-          </motion.p>
+          </>}</motion.p>
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -323,13 +405,13 @@ export default function HorologsLuxePage() {
                 <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-stone-600 mb-8 block">
                   THE_PHOTOGRAPHER // ABOUT
                 </span>
-                <h2 className="text-5xl md:text-6xl font-black uppercase tracking-tighter italic text-white mb-10 leading-[1.1] pb-2">
+                <h2 className="text-5xl md:text-6xl font-black uppercase tracking-tighter italic text-white mb-10 leading-[1.1] pb-2">{c?.aboutTitle ?? fd?.businessName ?? <>
                   Luca<br />
                   <span className="text-stone-600">Arantes.</span>
-                </h2>
+                </>}</h2>
               </Reveal>
               <Reveal delay={0.15}>
-                <p className="text-base text-white/30 font-bold uppercase tracking-widest leading-relaxed italic mb-10">
+                <p className="text-base text-white/30 font-bold uppercase tracking-widest leading-relaxed italic mb-10">{c?.aboutText ?? <>
                   Based between Geneva and Tokyo, Luca Arantes built his practice
                   on the precision of mechanical time — transposing the watchmaker's
                   obsession with detail into the photographic frame. Every composition
@@ -337,7 +419,7 @@ export default function HorologsLuxePage() {
                   intelligence. Working exclusively on medium format, his images have
                   appeared in Vogue, Wallpaper*, and Dezeen, and hang in private
                   collections across 12 countries.
-                </p>
+                </>}</p>
               </Reveal>
               <Reveal delay={0.25}>
                 <div className="grid grid-cols-3 gap-8 pt-10 border-t border-white/5">

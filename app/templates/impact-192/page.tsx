@@ -34,7 +34,41 @@ const SERVICES = [
   { icon: Wrench, title: "Coffre-fort & sécurité", desc: "Fourniture, scellement et ouverture de coffres-forts. Gamme domestique et professionnelle. Expertise assurance incluse." },
 ]
 
+
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
 export default function SecurFastPage() {
+  const [session, setSession] = useState<{
+    formData?: {
+      businessName?: string; businessType?: string; tagline?: string;
+      city?: string; mainService?: string; benefits?: string[];
+      priceRange?: string; targetAudience?: string; brandColor?: string;
+      email?: string; phone?: string; instagram?: string; linkedin?: string;
+    };
+    generatedContent?: {
+      heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
+      aboutText?: string; ctaText?: string; metaTitle?: string;
+      metaDescription?: string;
+      services?: { title?: string; description?: string }[];
+      testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
+    };
+  } | null>(null);
+
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(setSession)
+      .catch(() => {});
+  }, []);
+
+  fd = session?.formData;
+  c = session?.generatedContent;
+  brand = fd?.brandColor ?? null; // null = keep template's original color
+
   const heroRef = useRef(null)
   const [scrolled, setScrolled] = useState(false)
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] })
@@ -45,7 +79,55 @@ export default function SecurFastPage() {
   useEffect(() => {
     const h = () => setScrolled(window.scrollY > 60)
     window.addEventListener("scroll", h)
-    return () => window.removeEventListener("scroll", h)
+    
+  // Dynamic Services & Testimonials Mutation for Session Data
+  useEffect(() => {
+    if (c?.services) {
+      const services_arrays = [
+        typeof SERVICES !== 'undefined' ? SERVICES : null,
+        typeof features !== 'undefined' ? features : null,
+        typeof services !== 'undefined' ? services : null,
+        typeof FEATURES !== 'undefined' ? FEATURES : null,
+      ];
+      services_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((s, idx) => {
+            if (idx < 3 && c.services[idx]) {
+              if (s && typeof s === 'object') {
+                s.title = c.services[idx].title ?? s.title;
+                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
+                if ('description' in s) s.description = c.services[idx].description ?? s.description;
+              }
+            }
+          });
+        }
+      });
+    }
+    if (c?.testimonials) {
+      const testimonials_arrays = [
+        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
+        typeof testimonials !== 'undefined' ? testimonials : null,
+        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
+        typeof reviews !== 'undefined' ? reviews : null,
+      ];
+      testimonials_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((t, idx) => {
+            if (idx < 3 && c.testimonials[idx]) {
+              if (t && typeof t === 'object') {
+                t.name = c.testimonials[idx].name ?? t.name;
+                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
+                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
+                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
+                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
+              }
+            }
+          });
+        }
+      });
+    }
+  }, [c]);
+return () => window.removeEventListener("scroll", h)
   }, [])
 
   return (
@@ -63,7 +145,7 @@ export default function SecurFastPage() {
             ))}
           </div>
           <div className="flex items-center gap-3">
-            <a href="tel:0388234567" className="hidden md:flex items-center gap-2 text-[#2563eb] font-bold text-sm">
+            <a href={`tel:${fd?.phone ?? "0388234567"}`} className="hidden md:flex items-center gap-2 text-[#2563eb] font-bold text-sm">
               <Phone className="w-4 h-4" /> 03 88 23 45 67
             </a>
             <button className="hidden md:block px-5 py-2.5 bg-[#2563eb] text-white text-[10px] font-bold uppercase tracking-[0.22em] hover:bg-[#1d4ed8] transition-colors">
@@ -74,7 +156,7 @@ export default function SecurFastPage() {
               <SheetContent side="right" className="bg-[#111d30] border-[#2563eb]/10 p-10">
                 <div className="flex flex-col gap-7 mt-16">
                   {["Services", "Urgences", "Contact"].map(l => <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="text-3xl font-bold text-[#f0f4ff] hover:text-[#2563eb] transition-colors">{l}</Link>)}
-                  <a href="tel:0388234567" className="flex items-center gap-3 text-[#2563eb] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> 03 88 23 45 67</a>
+                  <a href={`tel:${fd?.phone ?? "0388234567"}`} className="flex items-center gap-3 text-[#2563eb] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> 03 88 23 45 67</a>
                 </div>
               </SheetContent>
             </Sheet>
@@ -87,7 +169,7 @@ export default function SecurFastPage() {
         <div className="bg-[#2563eb] py-2.5 text-center text-[10px] font-bold uppercase tracking-[0.3em] text-white flex items-center justify-center gap-4">
           <Zap className="w-3.5 h-3.5" />
           Disponible 24h/24 — 7j/7 — Intervention sous 30 min à Strasbourg
-          <a href="tel:0388234567" className="underline ml-2">03 88 23 45 67</a>
+          <a href={`tel:${fd?.phone ?? "0388234567"}`} className="underline ml-2">03 88 23 45 67</a>
         </div>
       </div>
 
@@ -110,17 +192,17 @@ export default function SecurFastPage() {
           </motion.div>
 
           <motion.h1 initial={{ opacity: 0, y: 60 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.1, delay: 0.43, ease: [0.16, 1, 0.3, 1] }}
-            className="text-5xl md:text-7xl lg:text-[88px] font-bold leading-[0.88] tracking-tight mb-7 text-[#f0f4ff]">
+            className="text-5xl md:text-7xl lg:text-[88px] font-bold leading-[0.88] tracking-tight mb-7 text-[#f0f4ff]">{c?.heroHeadline ?? <>
             Bloqué dehors ?<br /><span className="text-[#2563eb]">On arrive.</span>
-          </motion.h1>
+          </>}</motion.h1>
 
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 0.72 }}
-            className="max-w-md text-sm text-[#f0f4ff]/28 leading-relaxed mb-10">
+            className="max-w-md text-sm text-[#f0f4ff]/28 leading-relaxed mb-10">{c?.heroSubline ?? fd?.tagline ?? <>
             Serrurier professionnel à Strasbourg. Urgences 24h/24, 7j/7. Ouverture de porte, changement de serrure, porte blindée. Intervention sous 30 min. Devis avant intervention.
-          </motion.p>
+          </>}</motion.p>
 
           <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.98 }} className="flex flex-wrap gap-4 mb-8">
-            <a href="tel:0388234567" className="flex items-center gap-3 px-9 py-4 bg-[#2563eb] text-white font-bold text-sm uppercase tracking-[0.1em] hover:bg-[#1d4ed8] transition-colors">
+            <a href={`tel:${fd?.phone ?? "0388234567"}`} className="flex items-center gap-3 px-9 py-4 bg-[#2563eb] text-white font-bold text-sm uppercase tracking-[0.1em] hover:bg-[#1d4ed8] transition-colors">
               <Phone className="w-4 h-4" /> 03 88 23 45 67
             </a>
             <button className="px-9 py-4 border border-[#f0f4ff]/12 text-[#f0f4ff]/40 font-bold text-[10px] uppercase tracking-widest hover:border-[#2563eb]/40 hover:text-[#2563eb] transition-all">
@@ -225,7 +307,7 @@ export default function SecurFastPage() {
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-5">Un appel suffit.<br />On s'occupe du reste.</h2>
             <p className="text-white/55 mb-10 text-sm">Intervention sous 30 min · Strasbourg & Bas-Rhin · Devis avant travaux</p>
             <div className="flex flex-wrap gap-4 justify-center">
-              <a href="tel:0388234567" className="flex items-center gap-3 px-10 py-4 bg-white text-[#2563eb] font-bold text-sm hover:bg-[#f0f4ff] transition-colors shadow-lg">
+              <a href={`tel:${fd?.phone ?? "0388234567"}`} className="flex items-center gap-3 px-10 py-4 bg-white text-[#2563eb] font-bold text-sm hover:bg-[#f0f4ff] transition-colors shadow-lg">
                 <Phone className="w-5 h-5" /> 03 88 23 45 67
               </a>
               <button className="px-10 py-4 border-2 border-white/30 text-white font-bold text-[10px] uppercase tracking-widest hover:border-white/60 transition-all">

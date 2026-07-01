@@ -34,7 +34,41 @@ const PRESTATIONS = [
   { icon: Utensils, title: "Cuisine du monde & thème", desc: "Cuisine lyonnaise, méditerranéenne, asiatique, sud-américaine. Plancha, wok, live cooking, atelier dégustation. Décor de table thématique inclus." },
 ]
 
+
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
 export default function TableExceptionPage() {
+  const [session, setSession] = useState<{
+    formData?: {
+      businessName?: string; businessType?: string; tagline?: string;
+      city?: string; mainService?: string; benefits?: string[];
+      priceRange?: string; targetAudience?: string; brandColor?: string;
+      email?: string; phone?: string; instagram?: string; linkedin?: string;
+    };
+    generatedContent?: {
+      heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
+      aboutText?: string; ctaText?: string; metaTitle?: string;
+      metaDescription?: string;
+      services?: { title?: string; description?: string }[];
+      testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
+    };
+  } | null>(null);
+
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(setSession)
+      .catch(() => {});
+  }, []);
+
+  fd = session?.formData;
+  c = session?.generatedContent;
+  brand = fd?.brandColor ?? null; // null = keep template's original color
+
   const heroRef = useRef(null)
   const [scrolled, setScrolled] = useState(false)
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] })
@@ -45,7 +79,55 @@ export default function TableExceptionPage() {
   useEffect(() => {
     const h = () => setScrolled(window.scrollY > 60)
     window.addEventListener("scroll", h)
-    return () => window.removeEventListener("scroll", h)
+    
+  // Dynamic Services & Testimonials Mutation for Session Data
+  useEffect(() => {
+    if (c?.services) {
+      const services_arrays = [
+        typeof SERVICES !== 'undefined' ? SERVICES : null,
+        typeof features !== 'undefined' ? features : null,
+        typeof services !== 'undefined' ? services : null,
+        typeof FEATURES !== 'undefined' ? FEATURES : null,
+      ];
+      services_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((s, idx) => {
+            if (idx < 3 && c.services[idx]) {
+              if (s && typeof s === 'object') {
+                s.title = c.services[idx].title ?? s.title;
+                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
+                if ('description' in s) s.description = c.services[idx].description ?? s.description;
+              }
+            }
+          });
+        }
+      });
+    }
+    if (c?.testimonials) {
+      const testimonials_arrays = [
+        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
+        typeof testimonials !== 'undefined' ? testimonials : null,
+        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
+        typeof reviews !== 'undefined' ? reviews : null,
+      ];
+      testimonials_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((t, idx) => {
+            if (idx < 3 && c.testimonials[idx]) {
+              if (t && typeof t === 'object') {
+                t.name = c.testimonials[idx].name ?? t.name;
+                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
+                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
+                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
+                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
+              }
+            }
+          });
+        }
+      });
+    }
+  }, [c]);
+return () => window.removeEventListener("scroll", h)
   }, [])
 
   return (
@@ -63,7 +145,7 @@ export default function TableExceptionPage() {
             ))}
           </div>
           <div className="flex items-center gap-3">
-            <a href="tel:0478345678" className="hidden md:flex items-center gap-2 text-[#d4a853] font-bold text-sm">
+            <a href={`tel:${fd?.phone ?? "0478345678"}`} className="hidden md:flex items-center gap-2 text-[#d4a853] font-bold text-sm">
               <Phone className="w-4 h-4" /> 04 78 34 56 78
             </a>
             <button className="hidden md:block px-5 py-2.5 bg-[#d4a853] text-white text-[10px] font-bold uppercase tracking-[0.22em] hover:bg-[#ba9040] transition-colors">
@@ -74,7 +156,7 @@ export default function TableExceptionPage() {
               <SheetContent side="right" className="bg-[#fefcf8] border-slate-100 p-10">
                 <div className="flex flex-col gap-7 mt-16">
                   {["Formules", "Réalisations", "Contact"].map(l => <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="text-3xl font-bold text-[#1f1d1a] hover:text-[#d4a853] transition-colors" style={{ fontFamily: "'Playfair Display', serif" }}>{l}</Link>)}
-                  <a href="tel:0478345678" className="flex items-center gap-3 text-[#d4a853] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> 04 78 34 56 78</a>
+                  <a href={`tel:${fd?.phone ?? "0478345678"}`} className="flex items-center gap-3 text-[#d4a853] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> 04 78 34 56 78</a>
                 </div>
               </SheetContent>
             </Sheet>
@@ -99,24 +181,24 @@ export default function TableExceptionPage() {
           </motion.div>
 
           <motion.h1 initial={{ opacity: 0, y: 60 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.2, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
-            className="text-5xl md:text-7xl lg:text-[90px] font-bold leading-[0.88] tracking-tight mb-4 text-[#fefcf8]" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>
+            className="text-5xl md:text-7xl lg:text-[90px] font-bold leading-[0.88] tracking-tight mb-4 text-[#fefcf8]" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>{c?.heroHeadline ?? <>
             L'art de recevoir
-          </motion.h1>
+          </>}</motion.h1>
           <motion.h1 initial={{ opacity: 0, y: 60 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.2, delay: 0.56, ease: [0.16, 1, 0.3, 1] }}
             className="text-5xl md:text-7xl lg:text-[90px] font-bold italic leading-[0.88] tracking-tight mb-10 text-[#d4a853]" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>
             à la lyonnaise.
           </motion.h1>
 
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 0.78 }}
-            className="max-w-md text-sm text-[#fefcf8]/28 leading-relaxed mb-10">
+            className="max-w-md text-sm text-[#fefcf8]/28 leading-relaxed mb-10">{c?.heroSubline ?? fd?.tagline ?? <>
             Traiteur événementiel à Lyon. Mariages, séminaires, cocktails, repas gastronomiques. Chef et équipe complète. Devis personnalisé sous 24h.
-          </motion.p>
+          </>}</motion.p>
 
           <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 1.0 }} className="flex flex-wrap gap-4 mb-8">
-            <button className="px-9 py-4 bg-[#d4a853] text-white font-bold text-[10px] uppercase tracking-[0.25em] hover:bg-[#ba9040] transition-colors">
+            <button className="px-9 py-4 bg-[#d4a853] text-white font-bold text-[10px] uppercase tracking-[0.25em] hover:bg-[#ba9040] transition-colors">{c?.ctaText ?? <>
               Devis personnalisé
-            </button>
-            <a href="tel:0478345678" className="flex items-center gap-3 px-9 py-4 border border-[#fefcf8]/12 text-[#fefcf8]/38 font-bold text-[10px] uppercase tracking-widest hover:border-[#d4a853]/40 hover:text-[#d4a853] transition-all">
+            </>}</button>
+            <a href={`tel:${fd?.phone ?? "0478345678"}`} className="flex items-center gap-3 px-9 py-4 border border-[#fefcf8]/12 text-[#fefcf8]/38 font-bold text-[10px] uppercase tracking-widest hover:border-[#d4a853]/40 hover:text-[#d4a853] transition-all">
               <Phone className="w-4 h-4" /> 04 78 34 56 78
             </a>
           </motion.div>
@@ -227,7 +309,7 @@ export default function TableExceptionPage() {
               <button className="px-10 py-4 bg-white text-[#7c2d3e] font-bold text-[10px] uppercase tracking-[0.25em] hover:bg-[#fefcf8] transition-colors shadow-lg">
                 Demander un devis
               </button>
-              <a href="tel:0478345678" className="flex items-center gap-3 px-10 py-4 border border-white/25 text-white font-bold text-[10px] uppercase tracking-widest hover:bg-white/10 transition-all">
+              <a href={`tel:${fd?.phone ?? "0478345678"}`} className="flex items-center gap-3 px-10 py-4 border border-white/25 text-white font-bold text-[10px] uppercase tracking-widest hover:bg-white/10 transition-all">
                 <Phone className="w-4 h-4" /> 04 78 34 56 78
               </a>
             </div>

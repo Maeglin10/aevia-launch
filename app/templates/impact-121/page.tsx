@@ -158,7 +158,41 @@ const MANIFEST = {
 
 // ─── MAIN PAGE ──────────────────────────────────────────────────────────────
 
+
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
 export default function FolioStudioPage() {
+  const [session, setSession] = useState<{
+    formData?: {
+      businessName?: string; businessType?: string; tagline?: string;
+      city?: string; mainService?: string; benefits?: string[];
+      priceRange?: string; targetAudience?: string; brandColor?: string;
+      email?: string; phone?: string; instagram?: string; linkedin?: string;
+    };
+    generatedContent?: {
+      heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
+      aboutText?: string; ctaText?: string; metaTitle?: string;
+      metaDescription?: string;
+      services?: { title?: string; description?: string }[];
+      testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
+    };
+  } | null>(null);
+
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(setSession)
+      .catch(() => {});
+  }, []);
+
+  fd = session?.formData;
+  c = session?.generatedContent;
+  brand = fd?.brandColor ?? null; // null = keep template's original color
+
   const [scrolled, setScrolled] = useState(false)
   const [hoveredProject, setHoveredProject] = useState<number | null>(null)
   const { scrollYProgress } = useScroll()
@@ -169,7 +203,55 @@ export default function FolioStudioPage() {
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50)
     window.addEventListener("scroll", handleScroll)
-    return () => window.removeEventListener("scroll", handleScroll)
+    
+  // Dynamic Services & Testimonials Mutation for Session Data
+  useEffect(() => {
+    if (c?.services) {
+      const services_arrays = [
+        typeof SERVICES !== 'undefined' ? SERVICES : null,
+        typeof features !== 'undefined' ? features : null,
+        typeof services !== 'undefined' ? services : null,
+        typeof FEATURES !== 'undefined' ? FEATURES : null,
+      ];
+      services_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((s, idx) => {
+            if (idx < 3 && c.services[idx]) {
+              if (s && typeof s === 'object') {
+                s.title = c.services[idx].title ?? s.title;
+                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
+                if ('description' in s) s.description = c.services[idx].description ?? s.description;
+              }
+            }
+          });
+        }
+      });
+    }
+    if (c?.testimonials) {
+      const testimonials_arrays = [
+        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
+        typeof testimonials !== 'undefined' ? testimonials : null,
+        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
+        typeof reviews !== 'undefined' ? reviews : null,
+      ];
+      testimonials_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((t, idx) => {
+            if (idx < 3 && c.testimonials[idx]) {
+              if (t && typeof t === 'object') {
+                t.name = c.testimonials[idx].name ?? t.name;
+                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
+                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
+                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
+                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
+              }
+            }
+          });
+        }
+      });
+    }
+  }, [c]);
+return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
   return (
@@ -227,17 +309,17 @@ export default function FolioStudioPage() {
         <section id="hero" className="relative pt-40 md:pt-60 pb-20 px-6 md:px-12 max-w-[1800px] mx-auto min-h-[90vh] flex flex-col justify-center">
           <motion.div style={{ y: heroY, opacity: heroOpacity }} className="max-w-[1400px]">
             <Reveal>
-              <h1 className="text-6xl md:text-8xl lg:text-[10rem] font-medium tracking-tighter leading-[0.9] mb-12">
+              <h1 className="text-6xl md:text-8xl lg:text-[10rem] font-medium tracking-tighter leading-[0.9] mb-12">{c?.heroHeadline ?? <>
                 Digital craft <br />
                 <span className="text-zinc-400">for ambitious brands.</span>
-              </h1>
+              </>}</h1>
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-24 items-end">
               <div className="md:col-span-5 md:col-start-8">
                 <Reveal delay={0.2}>
-                  <p className="text-xl md:text-2xl text-zinc-600 leading-normal mb-10">
+                  <p className="text-xl md:text-2xl text-zinc-600 leading-normal mb-10">{c?.heroSubline ?? fd?.tagline ?? <>
                     {MANIFEST.hero.sub}
-                  </p>
+                  </>}</p>
                   <div className="flex items-center gap-6">
                     <Magnetic>
                       <button className="w-24 h-24 bg-zinc-900 text-white rounded-full flex items-center justify-center hover:scale-105 transition-transform duration-300">
@@ -355,12 +437,12 @@ export default function FolioStudioPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-20">
             <div>
               <Reveal>
-                <h2 className="text-6xl md:text-8xl font-medium tracking-tighter mb-10 leading-none">
+                <h2 className="text-6xl md:text-8xl font-medium tracking-tighter mb-10 leading-none">{c?.aboutTitle ?? fd?.businessName ?? <>
                   Global <br /> Recognition.
-                </h2>
-                <p className="text-xl text-zinc-500 max-w-md">
+                </>}</h2>
+                <p className="text-xl text-zinc-500 max-w-md">{c?.aboutText ?? <>
                   Our work doesn't just meet industry standards—it sets them. Recognized by the most prestigious digital awarding bodies.
-                </p>
+                </>}</p>
               </Reveal>
             </div>
             <div className="space-y-6">
@@ -526,7 +608,7 @@ export default function FolioStudioPage() {
               </h2>
               <div className="flex justify-center mb-24">
                 <Magnetic strength={0.3}>
-                  <Link href="mailto:hello@foliostudio.com" className="group flex items-center justify-center w-40 h-40 md:w-48 md:h-48 bg-white text-zinc-900 rounded-full text-xl font-medium hover:scale-110 transition-transform duration-500 shadow-2xl">
+                  <Link href={`mailto:${fd?.email ?? "hello@foliostudio.com"}`} className="group flex items-center justify-center w-40 h-40 md:w-48 md:h-48 bg-white text-zinc-900 rounded-full text-xl font-medium hover:scale-110 transition-transform duration-500 shadow-2xl">
                     Get in touch
                   </Link>
                 </Magnetic>
@@ -561,9 +643,7 @@ export default function FolioStudioPage() {
                   111 43 Stockholm<br />
                   Sweden
                 </address>
-                <div className="mt-6 text-lg font-medium">
-                  hello@foliostudio.com
-                </div>
+                <div className="mt-6 text-lg font-medium">{fd?.email ?? "hello@foliostudio.com"}</div>
               </div>
             </div>
 

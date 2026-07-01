@@ -47,7 +47,41 @@ const FORMULES = [
   { icon: Calendar, title: "Événements corporate & privés", desc: "Cocktail d'entreprise, anniversaire élaboré, soirée gala. Budget 5 000 à 200 000€. Expérience événementielle globale." },
 ]
 
+
+// Global state variables for subpage compatibility
+let fd: any = null;
+let c: any = null;
+let brand: any = null;
 export default function MaisonElisePage() {
+  const [session, setSession] = useState<{
+    formData?: {
+      businessName?: string; businessType?: string; tagline?: string;
+      city?: string; mainService?: string; benefits?: string[];
+      priceRange?: string; targetAudience?: string; brandColor?: string;
+      email?: string; phone?: string; instagram?: string; linkedin?: string;
+    };
+    generatedContent?: {
+      heroHeadline?: string; heroSubline?: string; aboutTitle?: string;
+      aboutText?: string; ctaText?: string; metaTitle?: string;
+      metaDescription?: string;
+      services?: { title?: string; description?: string }[];
+      testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
+    };
+  } | null>(null);
+
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(setSession)
+      .catch(() => {});
+  }, []);
+
+  fd = session?.formData;
+  c = session?.generatedContent;
+  brand = fd?.brandColor ?? null; // null = keep template's original color
+
   const heroRef = useRef(null)
   const [scrolled, setScrolled] = useState(false)
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] })
@@ -58,7 +92,55 @@ export default function MaisonElisePage() {
   useEffect(() => {
     const h = () => setScrolled(window.scrollY > 60)
     window.addEventListener("scroll", h)
-    return () => window.removeEventListener("scroll", h)
+    
+  // Dynamic Services & Testimonials Mutation for Session Data
+  useEffect(() => {
+    if (c?.services) {
+      const services_arrays = [
+        typeof SERVICES !== 'undefined' ? SERVICES : null,
+        typeof features !== 'undefined' ? features : null,
+        typeof services !== 'undefined' ? services : null,
+        typeof FEATURES !== 'undefined' ? FEATURES : null,
+      ];
+      services_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((s, idx) => {
+            if (idx < 3 && c.services[idx]) {
+              if (s && typeof s === 'object') {
+                s.title = c.services[idx].title ?? s.title;
+                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
+                if ('description' in s) s.description = c.services[idx].description ?? s.description;
+              }
+            }
+          });
+        }
+      });
+    }
+    if (c?.testimonials) {
+      const testimonials_arrays = [
+        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
+        typeof testimonials !== 'undefined' ? testimonials : null,
+        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
+        typeof reviews !== 'undefined' ? reviews : null,
+      ];
+      testimonials_arrays.forEach(arr => {
+        if (arr && Array.isArray(arr)) {
+          arr.forEach((t, idx) => {
+            if (idx < 3 && c.testimonials[idx]) {
+              if (t && typeof t === 'object') {
+                t.name = c.testimonials[idx].name ?? t.name;
+                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
+                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
+                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
+                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
+              }
+            }
+          });
+        }
+      });
+    }
+  }, [c]);
+return () => window.removeEventListener("scroll", h)
   }, [])
 
   return (
@@ -76,7 +158,7 @@ export default function MaisonElisePage() {
             ))}
           </div>
           <div className="flex items-center gap-3">
-            <a href="tel:0493567890" className="hidden md:flex items-center gap-2 text-[#c4a06a] font-bold text-sm">
+            <a href={`tel:${fd?.phone ?? "0493567890"}`} className="hidden md:flex items-center gap-2 text-[#c4a06a] font-bold text-sm">
               <Phone className="w-4 h-4" /> 04 93 56 78 90
             </a>
             <button className="hidden md:block px-5 py-2.5 bg-[#c4a06a] text-white text-[10px] font-bold uppercase tracking-[0.25em] hover:bg-[#a88550] transition-colors">
@@ -87,7 +169,7 @@ export default function MaisonElisePage() {
               <SheetContent side="right" className="bg-[#fdfaf7] border-slate-100 p-10">
                 <div className="flex flex-col gap-7 mt-16">
                   {["Formules", "Portfolio", "Contact"].map(l => <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="text-3xl font-bold text-[#1a1018] hover:text-[#c4a06a] transition-colors" style={{ fontFamily: "'Lora', serif" }}>{l}</Link>)}
-                  <a href="tel:0493567890" className="flex items-center gap-3 text-[#c4a06a] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> 04 93 56 78 90</a>
+                  <a href={`tel:${fd?.phone ?? "0493567890"}`} className="flex items-center gap-3 text-[#c4a06a] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> 04 93 56 78 90</a>
                 </div>
               </SheetContent>
             </Sheet>
@@ -120,9 +202,9 @@ export default function MaisonElisePage() {
           </motion.div>
 
           <motion.div initial={{ opacity: 0, y: 65 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.2, delay: 0.44, ease: [0.16, 1, 0.3, 1] }}>
-            <h1 className="font-bold leading-[0.88] tracking-tight mb-4 text-[#fdfaf7]" style={{ fontFamily: "'Lora', Georgia, serif", fontSize: "clamp(52px,7.5vw,96px)" }}>
+            <h1 className="font-bold leading-[0.88] tracking-tight mb-4 text-[#fdfaf7]" style={{ fontFamily: "'Lora', Georgia, serif", fontSize: "clamp(52px,7.5vw,96px)" }}>{c?.heroHeadline ?? <>
               Votre plus beau
-            </h1>
+            </>}</h1>
           </motion.div>
           <motion.div initial={{ opacity: 0, y: 65 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.2, delay: 0.55, ease: [0.16, 1, 0.3, 1] }}>
             <h1 className="font-bold italic leading-[0.88] tracking-tight mb-10 text-[#c4a06a]" style={{ fontFamily: "'Lora', Georgia, serif", fontSize: "clamp(52px,7.5vw,96px)" }}>
@@ -131,15 +213,15 @@ export default function MaisonElisePage() {
           </motion.div>
 
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 0.78 }}
-            className="max-w-sm text-sm text-[#fdfaf7]/28 leading-relaxed mb-12">
+            className="max-w-sm text-sm text-[#fdfaf7]/28 leading-relaxed mb-12">{c?.heroSubline ?? fd?.tagline ?? <>
             Wedding planner sur la Côte d'Azur. Coordination jour J, organisation clé en main, déco florale, corporate. Chaque événement mérite d'être extraordinaire.
-          </motion.p>
+          </>}</motion.p>
 
           <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 1.0 }} className="flex flex-wrap gap-4">
-            <button className="px-9 py-4 bg-[#c4a06a] text-white font-bold text-[10px] uppercase tracking-[0.28em] hover:bg-[#a88550] transition-colors">
+            <button className="px-9 py-4 bg-[#c4a06a] text-white font-bold text-[10px] uppercase tracking-[0.28em] hover:bg-[#a88550] transition-colors">{c?.ctaText ?? <>
               Consultation gratuite
-            </button>
-            <a href="tel:0493567890" className="flex items-center gap-3 px-9 py-4 border border-[#fdfaf7]/12 text-[#fdfaf7]/38 font-bold text-[10px] uppercase tracking-widest hover:border-[#c4a06a]/40 hover:text-[#c4a06a] transition-all">
+            </>}</button>
+            <a href={`tel:${fd?.phone ?? "0493567890"}`} className="flex items-center gap-3 px-9 py-4 border border-[#fdfaf7]/12 text-[#fdfaf7]/38 font-bold text-[10px] uppercase tracking-widest hover:border-[#c4a06a]/40 hover:text-[#c4a06a] transition-all">
               <Phone className="w-4 h-4" /> 04 93 56 78 90
             </a>
           </motion.div>
@@ -260,7 +342,7 @@ export default function MaisonElisePage() {
               <button className="px-10 py-4 bg-[#c4a06a] text-white font-bold text-[10px] uppercase tracking-[0.28em] hover:bg-[#a88550] transition-colors">
                 Consultation gratuite
               </button>
-              <a href="tel:0493567890" className="flex items-center gap-3 px-10 py-4 border border-[#fdfaf7]/12 text-[#fdfaf7]/35 font-bold text-[10px] uppercase tracking-widest hover:border-[#c4a06a]/40 hover:text-[#c4a06a] transition-all">
+              <a href={`tel:${fd?.phone ?? "0493567890"}`} className="flex items-center gap-3 px-10 py-4 border border-[#fdfaf7]/12 text-[#fdfaf7]/35 font-bold text-[10px] uppercase tracking-widest hover:border-[#c4a06a]/40 hover:text-[#c4a06a] transition-all">
                 <Phone className="w-4 h-4" /> 04 93 56 78 90
               </a>
             </div>
