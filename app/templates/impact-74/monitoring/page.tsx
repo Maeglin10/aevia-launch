@@ -1,5 +1,5 @@
-// @ts-nocheck
 "use client";
+// @ts-nocheck
 
 import { Globe, Terminal, Database } from "lucide-react";
 import { THREATS, Reveal } from "../shared";

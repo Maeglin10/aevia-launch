@@ -1,5 +1,5 @@
-// @ts-nocheck
 "use client";
+// @ts-nocheck
 
 import Image from "next/image";
 import { Zap, Globe } from "lucide-react";

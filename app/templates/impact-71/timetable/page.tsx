@@ -1,5 +1,5 @@
-// @ts-nocheck
 "use client";
+// @ts-nocheck
 
 import { Badge } from "@/components/ui/badge";
 import { SCHEDULE, Reveal } from "../shared";

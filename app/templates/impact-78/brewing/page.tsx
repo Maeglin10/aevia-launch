@@ -1,5 +1,5 @@
-// @ts-nocheck
 "use client";
+// @ts-nocheck
 
 import { Thermometer, CupSoda } from "lucide-react";
 import { BREW_METHODS, Reveal, Counter } from "../shared";

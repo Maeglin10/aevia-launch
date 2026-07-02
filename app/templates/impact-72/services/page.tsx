@@ -1,5 +1,5 @@
-// @ts-nocheck
 "use client";
+// @ts-nocheck
 
 import React from "react";
 import { C, SERVICES, TextReveal, ServiceCard } from "../shared";

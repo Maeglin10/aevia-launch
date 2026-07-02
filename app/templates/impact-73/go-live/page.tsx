@@ -1,5 +1,5 @@
-// @ts-nocheck
 "use client";
+// @ts-nocheck
 
 import { useState } from "react";
 import { Radio, Shield, Terminal, Zap, Check } from "lucide-react";

@@ -1,5 +1,5 @@
-// @ts-nocheck
 "use client";
+// @ts-nocheck
 
 import { ArrowRight } from "lucide-react";
 import { NODES, Reveal } from "../shared";

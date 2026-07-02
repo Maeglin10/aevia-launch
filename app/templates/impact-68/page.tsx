@@ -1,6 +1,6 @@
+"use client";
 // @ts-nocheck
 import React, { useState, useEffect, useRef } from 'react';
-"use client";
 
 import { motion } from "framer-motion";
 import Link from "next/link";

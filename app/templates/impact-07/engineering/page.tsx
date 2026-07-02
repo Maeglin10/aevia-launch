@@ -1,5 +1,5 @@
+"use client";
 // @ts-nocheck
-"use client"
 
 import { motion } from "framer-motion"
 import { ArrowLeft, Volume2, Speaker, Waves, Activity } from "lucide-react"

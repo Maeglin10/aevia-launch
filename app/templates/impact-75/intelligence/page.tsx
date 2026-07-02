@@ -1,5 +1,5 @@
-// @ts-nocheck
 "use client";
+// @ts-nocheck
 
 import { Activity, Globe, Shield, ChevronRight } from "lucide-react";
 import Link from "next/link";

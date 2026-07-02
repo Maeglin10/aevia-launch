@@ -1,5 +1,5 @@
-// @ts-nocheck
 "use client";
+// @ts-nocheck
 
 import { ShieldCheck, Terminal } from "lucide-react";
 import { AUDIT_LOGS, Reveal, Counter } from "../shared";

@@ -1,5 +1,5 @@
-// @ts-nocheck
 "use client";
+// @ts-nocheck
 
 import { motion } from "framer-motion";
 import { Radio, Shield, Globe, Terminal } from "lucide-react";
