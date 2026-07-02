@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://launch.aevia.services/sitemap.xml
+
+# AI-readable content index
+# See https://llmstxt.org for the standard
+X-Robots-LLM: /llms.txt
