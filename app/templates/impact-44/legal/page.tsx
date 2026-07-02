@@ -32,8 +32,8 @@ export default function LegalPage() {
             <h2 style={{ fontSize: 16, color: C.green, letterSpacing: "0.1em", marginBottom: 12 }}>// WEBSITE PUBLISHER</h2>
             <p style={{ margin: 0 }}>This website is published by: <strong>Valentin Milliand</strong>, owner of Aevia WS.</p>
             <p style={{ margin: "8px 0 0 0" }}>Registration: <strong>SIREN 852 546 225</strong>, registered with the Registry of Commerce and Companies (RCS) of Bourg-en-Bresse.</p>
-            <p style={{ margin: "8px 0 0 0" }}>Physical Headquarters: Physical address withheld for security reasons (address provided upon request at contact@aevia.io).</p>
-            <p style={{ margin: "8px 0 0 0" }}>Contact: <strong>contact@aevia.io</strong></p>
+            <p style={{ margin: "8px 0 0 0" }}>Physical Headquarters: Physical address withheld for security reasons (address provided upon request at valentinmilliand@aevia.services).</p>
+            <p style={{ margin: "8px 0 0 0" }}>Contact: <strong>valentinmilliand@aevia.services</strong></p>
           </section>
 
           <section style={{ marginBottom: 32 }}>
@@ -43,7 +43,7 @@ export default function LegalPage() {
 
           <section>
             <h2 style={{ fontSize: 16, color: C.green, letterSpacing: "0.1em", marginBottom: 12 }}>// PRIVACY & COOKIES</h2>
-            <p style={{ margin: 0 }}>All personal information submitted via the tryout application form (such as handle, email, region, and clips) is used exclusively for recruitment evaluation. It is never sold, shared, or distributed. You may request data access or deletion at contact@aevia.io.</p>
+            <p style={{ margin: 0 }}>All personal information submitted via the tryout application form (such as handle, email, region, and clips) is used exclusively for recruitment evaluation. It is never sold, shared, or distributed. You may request data access or deletion at valentinmilliand@aevia.services.</p>
           </section>
         </div>
       </div>

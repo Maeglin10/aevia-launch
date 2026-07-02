@@ -29,7 +29,7 @@ export default function Contact() {
           {/* Info */}
           <div>
             {[
-              { Icon: Mail, label: "Email", value: "contact@aevia.io" },
+              { Icon: Mail, label: "Email", value: "valentinmilliand@aevia.services" },
               { Icon: MapPin, label: "Cabinet", value: "Paris, France" },
               { Icon: Clock, label: "Horaires", value: "Lun – Ven · 9h – 19h" },
               { Icon: Shield, label: "Confidentialité", value: "Secret professionnel garanti" },

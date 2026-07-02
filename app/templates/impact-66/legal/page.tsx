@@ -30,10 +30,10 @@ export default function LegalPage() {
               <strong>SIREN :</strong> 852 546 225<br />
               <strong>RCS :</strong> Bourg-en-Bresse<br />
               <strong>Régime :</strong> Micro-entrepreneur (TVA non applicable, art. 293 B du CGI)<br />
-              <strong>Contact :</strong> contact@aevia.io
+              <strong>Contact :</strong> valentinmilliand@aevia.services
             </p>
             <p className="mt-4 text-xs italic text-[#1a1814]/40">
-              Adresse physique communiquée sur simple demande à contact@aevia.io (Valentin Milliand, SIREN 852 546 225, RCS Bourg-en-Bresse).
+              Adresse physique communiquée sur simple demande à valentinmilliand@aevia.services (Valentin Milliand, SIREN 852 546 225, RCS Bourg-en-Bresse).
             </p>
           </div>
 
@@ -54,7 +54,7 @@ export default function LegalPage() {
           <div>
             <h2 className="text-base font-black uppercase tracking-wider text-[#1a1814] mb-4">Données Personnelles & CGU</h2>
             <p>
-              Les informations collectées dans l'espace de réservation de soin et les formulaires sont destinées uniquement au traitement de vos rendez-vous et ne sont en aucun cas vendues ou partagées avec des tiers. Conformément au règlement général sur la protection des données (RGPD), vous disposez d'un droit d'accès et d'effacement en contactant contact@aevia.io.
+              Les informations collectées dans l'espace de réservation de soin et les formulaires sont destinées uniquement au traitement de vos rendez-vous et ne sont en aucun cas vendues ou partagées avec des tiers. Conformément au règlement général sur la protection des données (RGPD), vous disposez d'un droit d'accès et d'effacement en contactant valentinmilliand@aevia.services.
             </p>
           </div>
         </div>

@@ -20,7 +20,7 @@ export default function LegalPage() {
               Le site vitrine SEGMENT ARCHITECTES est édité par Valentin Milliand, micro-entrepreneur.<br />
               SIREN : 852 546 225<br />
               RCS : Bourg-en-Bresse<br />
-              Adresse : Valentin Milliand, SIREN 852 546 225, RCS Bourg-en-Bresse (adresse physique communiquée sur simple demande à contact@aevia.io).
+              Adresse : Valentin Milliand, SIREN 852 546 225, RCS Bourg-en-Bresse (adresse physique communiquée sur simple demande à valentinmilliand@aevia.services).
             </p>
           </div>
 
@@ -47,7 +47,7 @@ export default function LegalPage() {
               4. CONTACT
             </h3>
             <p style={{ paddingLeft: "1.5rem", borderLeft: `1px solid ${C.gold}` }}>
-              Pour toute question ou demande de renseignements complémentaires, vous pouvez nous contacter par courrier électronique à l'adresse suivante : contact@aevia.io.
+              Pour toute question ou demande de renseignements complémentaires, vous pouvez nous contacter par courrier électronique à l'adresse suivante : valentinmilliand@aevia.services.
             </p>
           </div>
         </div>

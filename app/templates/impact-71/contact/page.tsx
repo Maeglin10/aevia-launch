@@ -123,7 +123,7 @@ export default function ContactPage() {
                 <Mail className="w-5 h-5 text-[#c9a84c]" />
                 <div>
                   <h4 className="text-[9px] text-stone-300">Direct Message</h4>
-                  <a href="mailto:contact@aevia.io" className="text-[#33302c] hover:text-[#c9a84c] transition-colors">contact@aevia.io</a>
+                  <a href="mailto:valentinmilliand@aevia.services" className="text-[#33302c] hover:text-[#c9a84c] transition-colors">valentinmilliand@aevia.services</a>
                 </div>
               </div>
               <div className="flex items-center gap-4 p-4 bg-white border border-stone-200/50 rounded-2xl">

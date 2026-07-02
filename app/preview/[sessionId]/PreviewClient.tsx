@@ -130,7 +130,7 @@ export default function PreviewClient({ sessionId }: { sessionId: string }) {
   const handleOrder = () => {
     const previewLink = window.location.href;
     const body = t.mailBody.replace("{{link}}", previewLink);
-    window.location.href = `mailto:contact@aevia.io?subject=${encodeURIComponent(t.mailSubject)}&body=${encodeURIComponent(body)}`;
+    window.location.href = `mailto:valentinmilliand@aevia.services?subject=${encodeURIComponent(t.mailSubject)}&body=${encodeURIComponent(body)}`;
   };
 
   const handleEditChange = (data: EditableData) => {

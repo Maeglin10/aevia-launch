@@ -21,10 +21,10 @@ export default function Legal() {
         <div style={{ maxWidth: 760, margin: "0 auto" }}>
           <h2 style={{ ...sectionTitle, marginTop: 0 }}>Éditeur du site</h2>
           <p style={para}>
-            <span style={strong}>Valentin Milliand</span>, SIREN 852 546 225, RCS Bourg-en-Bresse (adresse communiquée sur demande à contact@aevia.io).
+            <span style={strong}>Valentin Milliand</span>, SIREN 852 546 225, RCS Bourg-en-Bresse (adresse communiquée sur demande à valentinmilliand@aevia.services).
           </p>
           <p style={para}>Directeur de la publication : <span style={strong}>Valentin Milliand</span>.</p>
-          <p style={para}>Contact : <span style={strong}>contact@aevia.io</span></p>
+          <p style={para}>Contact : <span style={strong}>valentinmilliand@aevia.services</span></p>
 
           <h2 style={sectionTitle}>TVA</h2>
           <p style={para}>TVA non applicable, art. 293 B du CGI.</p>

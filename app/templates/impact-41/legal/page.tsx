@@ -96,13 +96,13 @@ function LegalContent() {
                   <br />
                   RCS : Bourg-en-Bresse
                   <br />
-                  Siège social : Valentin Milliand, SIREN 852 546 225, RCS Bourg-en-Bresse (adresse communiquée sur demande à <a href="mailto:contact@aevia.io" style={{ color: scene.accent, textDecoration: 'none' }}>contact@aevia.io</a>).
+                  Siège social : Valentin Milliand, SIREN 852 546 225, RCS Bourg-en-Bresse (adresse communiquée sur demande à <a href="mailto:valentinmilliand@aevia.services" style={{ color: scene.accent, textDecoration: 'none' }}>valentinmilliand@aevia.services</a>).
                 </p>
               </div>
 
               <div>
                 <h2 style={{ color: scene.textPrimary, fontSize: '1.5rem', fontWeight: 400, marginBottom: '0.5rem' }}>Directeur de la Publication</h2>
-                <p>Valentin Milliand — contact@aevia.io</p>
+                <p>Valentin Milliand — valentinmilliand@aevia.services</p>
               </div>
 
               <div>
@@ -124,7 +124,7 @@ function LegalContent() {
               <div>
                 <h2 style={{ color: scene.textPrimary, fontSize: '1.5rem', fontWeight: 400, marginBottom: '0.5rem' }}>Data Controller</h2>
                 <p>
-                  The data controller for information collected on this website is <strong>Valentin Milliand</strong> (Aevia WS). For any requests or questions regarding your personal data, please contact us at <a href="mailto:contact@aevia.io" style={{ color: scene.accent, textDecoration: 'none' }}>contact@aevia.io</a>.
+                  The data controller for information collected on this website is <strong>Valentin Milliand</strong> (Aevia WS). For any requests or questions regarding your personal data, please contact us at <a href="mailto:valentinmilliand@aevia.services" style={{ color: scene.accent, textDecoration: 'none' }}>valentinmilliand@aevia.services</a>.
                 </p>
               </div>
 
@@ -145,7 +145,7 @@ function LegalContent() {
               <div>
                 <h2 style={{ color: scene.textPrimary, fontSize: '1.5rem', fontWeight: 400, marginBottom: '0.5rem' }}>Your Rights</h2>
                 <p>
-                  In accordance with the General Data Protection Regulation (GDPR), you have the right to access, rectify, delete, or request the portability of your personal data. To exercise these rights, please email us at contact@aevia.io.
+                  In accordance with the General Data Protection Regulation (GDPR), you have the right to access, rectify, delete, or request the portability of your personal data. To exercise these rights, please email us at valentinmilliand@aevia.services.
                 </p>
               </div>
             </div>

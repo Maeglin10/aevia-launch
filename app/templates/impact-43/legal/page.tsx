@@ -33,10 +33,10 @@ export default function LegalPage() {
               <strong>Immatriculation :</strong> SIREN 852 546 225, enregistré au Registre du Commerce et des Sociétés (RCS) de Bourg-en-Bresse.
             </p>
             <p style={{ marginBottom: 12 }}>
-              <strong>Siège social :</strong> Adresse physique non publiée pour des raisons de confidentialité (adresse communiquée sur demande à contact@aevia.io).
+              <strong>Siège social :</strong> Adresse physique non publiée pour des raisons de confidentialité (adresse communiquée sur demande à valentinmilliand@aevia.services).
             </p>
             <p style={{ marginBottom: 12 }}>
-              <strong>Contact :</strong> contact@aevia.io
+              <strong>Contact :</strong> valentinmilliand@aevia.services
             </p>
             <p style={{ marginBottom: 12 }}>
               <strong>Hébergeur :</strong> Google Firebase App Hosting (Google Cloud LLC, 1600 Amphitheatre Parkway, Mountain View, CA 94043, USA).
@@ -55,10 +55,10 @@ export default function LegalPage() {
               <strong>Registration:</strong> SIREN 852 546 225, registered with the Registry of Commerce and Companies (RCS) of Bourg-en-Bresse.
             </p>
             <p style={{ marginBottom: 12 }}>
-              <strong>Physical Address:</strong> Private address withheld for security reasons (address provided upon request at contact@aevia.io).
+              <strong>Physical Address:</strong> Private address withheld for security reasons (address provided upon request at valentinmilliand@aevia.services).
             </p>
             <p style={{ marginBottom: 12 }}>
-              <strong>Contact Email:</strong> contact@aevia.io
+              <strong>Contact Email:</strong> valentinmilliand@aevia.services
             </p>
             <p style={{ marginBottom: 12 }}>
               <strong>Hosting Provider:</strong> Google Firebase App Hosting (Google Cloud LLC, 1600 Amphitheatre Parkway, Mountain View, CA 94043, USA).
@@ -74,7 +74,7 @@ export default function LegalPage() {
               We respect your privacy. All reservation request data (such as name, email, phone number, and special request details) are collected solely to process your inquiry and are never shared with third parties.
             </p>
             <p style={{ marginBottom: 12 }}>
-              You have the right to access, rectify, or request the deletion of your personal data by contacting contact@aevia.io.
+              You have the right to access, rectify, or request the deletion of your personal data by contacting valentinmilliand@aevia.services.
             </p>
           </section>
         </div>

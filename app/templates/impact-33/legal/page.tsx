@@ -23,8 +23,8 @@ export default function LegalPage() {
             <p style={{ marginTop: 10 }}>
               <strong>Propriétaire & Éditeur :</strong> Valentin Milliand.<br />
               <strong>Immatriculation :</strong> SIREN 852 546 225, inscrit au Registre du Commerce et des Sociétés (RCS) de Bourg-en-Bresse.<br />
-              <strong>Contact :</strong> <a href="mailto:contact@aevia.io" style={{ color: C.accent }}>contact@aevia.io</a><br />
-              <strong>Siège social :</strong> Adresse communiquée sur demande à contact@aevia.io.
+              <strong>Contact :</strong> <a href="mailto:valentinmilliand@aevia.services" style={{ color: C.accent }}>valentinmilliand@aevia.services</a><br />
+              <strong>Siège social :</strong> Adresse communiquée sur demande à valentinmilliand@aevia.services.
             </p>
             <p style={{ marginTop: 10 }}>
               <strong>Hébergement :</strong> Vercel Inc. — 440 N Barranca Ave #4133, Covina, CA 91723, États-Unis — <a href="https://vercel.com" style={{ color: C.accent }}>vercel.com</a>.
@@ -35,7 +35,7 @@ export default function LegalPage() {
           <div>
             <h2 style={{ fontFamily: FONT_HEADING, fontSize: 22, fontWeight: 700, color: C.text, marginBottom: 12 }}>Politique de confidentialité</h2>
             <p>
-              <strong>Responsable du traitement :</strong> Aevia WS — <a href="mailto:contact@aevia.io" style={{ color: C.accent }}>contact@aevia.io</a>
+              <strong>Responsable du traitement :</strong> Aevia WS — <a href="mailto:valentinmilliand@aevia.services" style={{ color: C.accent }}>valentinmilliand@aevia.services</a>
             </p>
             <p style={{ marginTop: 10 }}>
               <strong>Données collectées :</strong> Dans le cadre de l'utilisation de ce site de démonstration, nous sommes susceptibles de collecter les données suivantes : nom et prénom, adresse e-mail, numéro de téléphone. Ces données sont collectées uniquement lors de votre soumission de formulaires (commandes, contact).
@@ -44,7 +44,7 @@ export default function LegalPage() {
               <strong>Durée de conservation :</strong> Vos données sont conservées pendant une durée maximale de 3 ans à compter de votre dernière interaction avec notre site, conformément aux obligations légales.
             </p>
             <p style={{ marginTop: 10 }}>
-              <strong>Vos droits :</strong> Conformément au RGPD et à la loi Informatique et Libertés, vous disposez d'un droit d'accès, de rectification, d'effacement et de portabilité de vos données. Pour exercer ces droits, contactez-nous à <a href="mailto:contact@aevia.io" style={{ color: C.accent }}>contact@aevia.io</a>.
+              <strong>Vos droits :</strong> Conformément au RGPD et à la loi Informatique et Libertés, vous disposez d'un droit d'accès, de rectification, d'effacement et de portabilité de vos données. Pour exercer ces droits, contactez-nous à <a href="mailto:valentinmilliand@aevia.services" style={{ color: C.accent }}>valentinmilliand@aevia.services</a>.
             </p>
           </div>
 

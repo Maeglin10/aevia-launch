@@ -21,7 +21,7 @@ export default function LegalPage() {
               Le site vitrine GHOST_SHELL est édité par Valentin Milliand, micro-entrepreneur.<br />
               SIREN : 852 546 225<br />
               RCS : Bourg-en-Bresse<br />
-              Adresse : Valentin Milliand, SIREN 852 546 225, RCS Bourg-en-Bresse (adresse physique communiquée sur simple demande à contact@aevia.io).
+              Adresse : Valentin Milliand, SIREN 852 546 225, RCS Bourg-en-Bresse (adresse physique communiquée sur simple demande à valentinmilliand@aevia.services).
             </p>
 
             <p style={{ marginBottom: "16px", fontWeight: "bold" }}># 2. HÉBERGEMENT</p>
@@ -36,7 +36,7 @@ export default function LegalPage() {
 
             <p style={{ marginBottom: "16px", fontWeight: "bold" }}># 4. CONTACT</p>
             <p style={{ marginBottom: "0px", paddingLeft: "16px" }}>
-              Pour toute question réglementaire ou technique, veuillez initier une connexion à l&apos;adresse suivante : contact@aevia.io.
+              Pour toute question réglementaire ou technique, veuillez initier une connexion à l&apos;adresse suivante : valentinmilliand@aevia.services.
             </p>
           </div>
         </TerminalWindow>

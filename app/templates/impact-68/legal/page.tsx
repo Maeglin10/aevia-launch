@@ -63,7 +63,7 @@ export default function LegalPage() {
             <div>
               <p style={{ fontWeight: 700, color: C.text, marginBottom: "8px" }}>VALENTIN MILLIAND</p>
               <p>Propriétaire et éditeur de la plateforme Aevia WS.</p>
-              <p style={{ marginTop: "8px", fontStyle: "italic", fontSize: "12px" }}>L'adresse physique du propriétaire est communiquée sur simple demande à contact@aevia.io.</p>
+              <p style={{ marginTop: "8px", fontStyle: "italic", fontSize: "12px" }}>L'adresse physique du propriétaire est communiquée sur simple demande à valentinmilliand@aevia.services.</p>
             </div>
           </div>
 
@@ -88,7 +88,7 @@ export default function LegalPage() {
             <div style={{ fontWeight: 700, color: C.accent, fontSize: "11px", letterSpacing: "0.1em", textTransform: "uppercase" }}>04 // CONTACT</div>
             <div>
               <p style={{ marginBottom: "8px" }}>Pour toute communication administrative ou légale :</p>
-              <p style={{ fontWeight: 700, color: C.text }}>contact@aevia.io</p>
+              <p style={{ fontWeight: 700, color: C.text }}>valentinmilliand@aevia.services</p>
             </div>
           </div>
         </div>

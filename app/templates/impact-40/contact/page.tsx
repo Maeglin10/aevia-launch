@@ -31,10 +31,10 @@ export default function ContactPage() {
                   {
                     icon: <MapPin size={18} />,
                     label: "Adresse",
-                    value: "Valentin Milliand, SIREN 852 546 225, RCS Bourg-en-Bresse (adresse communiquée sur demande à contact@aevia.io) — Beaujolais, France"
+                    value: "Valentin Milliand, SIREN 852 546 225, RCS Bourg-en-Bresse (adresse communiquée sur demande à valentinmilliand@aevia.services) — Beaujolais, France"
                   },
                   { icon: <Phone size={18} />, label: "Téléphone", value: "+33 4 74 XX XX XX" },
-                  { icon: <Mail size={18} />, label: "Email", value: "contact@aevia.io" },
+                  { icon: <Mail size={18} />, label: "Email", value: "valentinmilliand@aevia.services" },
                 ].map((item, i) => (
                   <div key={i} style={{ display: "flex", gap: "1rem", alignItems: "flex-start" }}>
                     <div

@@ -75,7 +75,7 @@ export default function LegalPage() {
                 SIREN 852 546 225 — RCS Bourg-en-Bresse
               </LegalBlock>
               <LegalBlock title="Contact">
-                contact@aevia.io (adresse du siège social communiquée sur demande)
+                valentinmilliand@aevia.services (adresse du siège social communiquée sur demande)
               </LegalBlock>
               <LegalBlock title="Hébergeur">
                 Vercel Inc. — 340 Pine Street, Suite 701, San Francisco, CA 94104, USA.
@@ -104,7 +104,7 @@ export default function LegalPage() {
             </h2>
             <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
               <LegalBlock title="Responsable du traitement">
-                Aevia WS, représentée par Valentin Milliand, est responsable du traitement des données collectées sur ce site. Contact : contact@aevia.io.
+                Aevia WS, représentée par Valentin Milliand, est responsable du traitement des données collectées sur ce site. Contact : valentinmilliand@aevia.services.
               </LegalBlock>
               <LegalBlock title="Données collectées">
                 Nous collectons uniquement les données nécessaires à l'établissement d'un devis et à la prestation de services de déménagement : nom, email, téléphone, adresses de départ et d'arrivée.
@@ -113,7 +113,7 @@ export default function LegalPage() {
                 Vos données sont conservées pendant 3 ans à compter du dernier contact, puis supprimées.
               </LegalBlock>
               <LegalBlock title="Vos droits">
-                Conformément au RGPD, vous disposez d'un droit d'accès, de rectification, d'effacement et de portabilité. Pour exercer ces droits, écrivez à contact@aevia.io.
+                Conformément au RGPD, vous disposez d'un droit d'accès, de rectification, d'effacement et de portabilité. Pour exercer ces droits, écrivez à valentinmilliand@aevia.services.
               </LegalBlock>
               <LegalBlock title="Cookies">
                 Ce site n'utilise que des cookies strictement nécessaires à son fonctionnement. Aucun traceur publicitaire n'est déposé sans votre consentement.

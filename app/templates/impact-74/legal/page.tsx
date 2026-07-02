@@ -25,7 +25,7 @@ export default function LegalPage() {
                 RCS: Bourg-en-Bresse
               </p>
               <p>
-                Physical Address: Valentin Milliand, SIREN 852 546 225, RCS Bourg-en-Bresse (physical address provided upon simple request at <a href="mailto:contact@aevia.io" className="text-emerald-400 hover:underline">contact@aevia.io</a>).
+                Physical Address: Valentin Milliand, SIREN 852 546 225, RCS Bourg-en-Bresse (physical address provided upon simple request at <a href="mailto:valentinmilliand@aevia.services" className="text-emerald-400 hover:underline">valentinmilliand@aevia.services</a>).
               </p>
               <p>
                 Status: Micro-entrepreneur (VAT not applicable, art. 293 B of the CGI).
@@ -35,7 +35,7 @@ export default function LegalPage() {
             <section className="space-y-4">
               <h3 className="text-sm text-emerald-500 font-black">2. Contact</h3>
               <p>
-                For any inquiry regarding this service, please contact us at: <a href="mailto:contact@aevia.io" className="text-emerald-400 hover:underline">contact@aevia.io</a>
+                For any inquiry regarding this service, please contact us at: <a href="mailto:valentinmilliand@aevia.services" className="text-emerald-400 hover:underline">valentinmilliand@aevia.services</a>
               </p>
             </section>
 

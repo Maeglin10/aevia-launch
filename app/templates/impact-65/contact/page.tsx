@@ -118,7 +118,7 @@ export default function ContactPage() {
                   75010 Paris, France.
                 </p>
                 <p className="text-xs font-light italic leading-relaxed mt-4 opacity-50">
-                  Adresse physique communiquée sur simple demande à contact@aevia.io.
+                  Adresse physique communiquée sur simple demande à valentinmilliand@aevia.services.
                 </p>
               </div>
             </div>

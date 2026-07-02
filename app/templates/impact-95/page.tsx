@@ -579,7 +579,7 @@ function ContactSection() {
                   </div>
                   <div>
                     <div className="text-xs tracking-widest uppercase text-[#8A8278] mb-1">Email</div>
-                    <a href={`mailto:${fd?.email ?? "contact@aevia.io"}`} className="text-sm text-[#181410] hover:text-[#3A8080] transition-colors">{fd?.email ?? "contact@aevia.io"}</a>
+                    <a href={`mailto:${fd?.email ?? "valentinmilliand@aevia.services"}`} className="text-sm text-[#181410] hover:text-[#3A8080] transition-colors">{fd?.email ?? "valentinmilliand@aevia.services"}</a>
                   </div>
                 </div>
                 <div className="flex items-start gap-4">
@@ -979,7 +979,7 @@ return () => window.removeEventListener("scroll", onScroll)
             <div>
               <p className="text-[#FAFAF8] text-xs tracking-widest uppercase mb-5">Contact</p>
               <p className="text-sm mb-2">Adresse sur demande</p>
-              <a href={`mailto:${fd?.email ?? "contact@aevia.io"}`} className="text-sm mb-2 block hover:text-[#FAFAF8] transition-colors">{fd?.email ?? "contact@aevia.io"}</a>
+              <a href={`mailto:${fd?.email ?? "valentinmilliand@aevia.services"}`} className="text-sm mb-2 block hover:text-[#FAFAF8] transition-colors">{fd?.email ?? "valentinmilliand@aevia.services"}</a>
               <a href={`tel:${fd?.phone ?? "+33145729830"}`} className="text-sm mb-2 block hover:text-[#FAFAF8] transition-colors">+33 1 45 72 98 30</a>
               <p className="text-sm text-[#3A8080] mt-4 text-xs">Lun–Ven 9h–18h · Sam 9h–13h</p>
             </div>

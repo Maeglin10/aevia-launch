@@ -44,8 +44,8 @@ export default function LegalPage() {
                 </li>
                 <li>
                   <strong>Contact Email:</strong>{" "}
-                  <a href="mailto:contact@aevia.io" className="text-[#F97316] hover:underline font-semibold">
-                    contact@aevia.io
+                  <a href="mailto:valentinmilliand@aevia.services" className="text-[#F97316] hover:underline font-semibold">
+                    valentinmilliand@aevia.services
                   </a>
                 </li>
               </ul>
@@ -84,8 +84,8 @@ export default function LegalPage() {
               </p>
               <p>
                 You have the right to access, rectify, or request the deletion of your personal data at any time by contacting us at{" "}
-                <a href="mailto:contact@aevia.io" className="text-[#F97316] hover:underline font-semibold">
-                  contact@aevia.io
+                <a href="mailto:valentinmilliand@aevia.services" className="text-[#F97316] hover:underline font-semibold">
+                  valentinmilliand@aevia.services
                 </a>.
               </p>
             </div>

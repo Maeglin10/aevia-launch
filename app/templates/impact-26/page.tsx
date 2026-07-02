@@ -1124,7 +1124,7 @@ function LegalPage({ variant }: { variant: "mentions" | "cgv" | "privacy" }) {
               SIREN : 852 546 225<br />
               RCS : Bourg-en-Bresse<br />
               Adresse : communiquée sur demande<br />
-              E-mail : contact@aevia.io
+              E-mail : valentinmilliand@aevia.services
             </p>
           </div>
           <div>
@@ -1217,7 +1217,7 @@ function LegalPage({ variant }: { variant: "mentions" | "cgv" | "privacy" }) {
         <div>
           <h3 style={{color: brand ?? '#c9956a', fontSize: 16, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 8 }}>Vos droits</h3>
           <p>
-            Vous disposez d'un droit d'accès, de modification et d'effacement de vos données personnelles en contactant notre service client à : contact@aevia.io.
+            Vous disposez d'un droit d'accès, de modification et d'effacement de vos données personnelles en contactant notre service client à : valentinmilliand@aevia.services.
           </p>
         </div>
       </div>

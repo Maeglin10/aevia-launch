@@ -828,7 +828,7 @@ function LegalSubPage() {
               Le site Atelier Mécanique est édité par :<br />
               <strong>Aevia WS — Valentin Milliand</strong><br />
               Entrepreneur individuel — SIREN : 852 546 225 — RCS Bourg-en-Bresse<br />
-              <strong>Contact :</strong>{fd?.email ?? "contact@aevia.io"}<br />
+              <strong>Contact :</strong>{fd?.email ?? "valentinmilliand@aevia.services"}<br />
               <strong>Adresse physique :</strong> communiquée sur demande.
             </p>
           </div>
@@ -853,7 +853,7 @@ function LegalSubPage() {
           <div>
             <h3 className="text-black font-semibold text-base mb-2">Données personnelles</h3>
             <p>
-              Conformément à la réglementation sur la protection des données personnelles (RGPD), vous disposez d'un droit d'accès, de rectification et d'opposition aux données vous concernant. Vous pouvez exercer ce droit en nous écrivant à contact@aevia.io.
+              Conformément à la réglementation sur la protection des données personnelles (RGPD), vous disposez d'un droit d'accès, de rectification et d'opposition aux données vous concernant. Vous pouvez exercer ce droit en nous écrivant à valentinmilliand@aevia.services.
             </p>
           </div>
         </div>

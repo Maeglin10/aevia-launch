@@ -42,9 +42,9 @@ export default function ContactPage() {
           <div>
             <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem", marginBottom: "2.5rem" }}>
               {[
-                { icon: <MapPin size={20} color={C.accent} />, label: "Adresse", value: "Adresse communiquée sur demande", sub: "Contactez-nous à contact@aevia.io" },
+                { icon: <MapPin size={20} color={C.accent} />, label: "Adresse", value: "Adresse communiquée sur demande", sub: "Contactez-nous à valentinmilliand@aevia.services" },
                 { icon: <Phone size={20} color={C.accent} />, label: "Téléphone", value: "+33 1 43 57 88 00", sub: "Lun–Dim, 10h–23h" },
-                { icon: <Mail size={20} color={C.accent} />, label: "Email", value: "contact@aevia.io", sub: "Réponse sous 2h ouvrées" },
+                { icon: <Mail size={20} color={C.accent} />, label: "Email", value: "valentinmilliand@aevia.services", sub: "Réponse sous 2h ouvrées" },
                 { icon: <Clock size={20} color={C.accent} />, label: "Horaires", value: "Lundi – Dimanche", sub: "10h00 – 23h00" },
               ].map((item) => (
                 <div key={item.label} style={{ display: "flex", gap: "1rem", alignItems: "flex-start", backgroundColor: C.bgCard, border: `1px solid ${C.border}`, borderRadius: "10px", padding: "1.25rem" }}>

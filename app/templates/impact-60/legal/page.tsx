@@ -27,7 +27,7 @@ export default function LegalPage() {
                 Le site vitrine ZENITH WATCH est édité par Valentin Milliand, micro-entrepreneur.<br />
                 SIREN : 852 546 225<br />
                 RCS : Bourg-en-Bresse<br />
-                Adresse : Valentin Milliand, SIREN 852 546 225, RCS Bourg-en-Bresse (adresse physique communiquée sur simple demande à contact@aevia.io).
+                Adresse : Valentin Milliand, SIREN 852 546 225, RCS Bourg-en-Bresse (adresse physique communiquée sur simple demande à valentinmilliand@aevia.services).
               </p>
             </div>
           </Reveal>
@@ -60,7 +60,7 @@ export default function LegalPage() {
                 4. Contact
               </h3>
               <p className="pl-6 border-l border-white/5">
-                Pour toute question ou demande de renseignements complémentaires, vous pouvez nous contacter par courrier électronique à l&apos;adresse suivante : contact@aevia.io.
+                Pour toute question ou demande de renseignements complémentaires, vous pouvez nous contacter par courrier électronique à l&apos;adresse suivante : valentinmilliand@aevia.services.
               </p>
             </div>
           </Reveal>

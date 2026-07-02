@@ -15,7 +15,7 @@ export default function LegalPage() {
         {[
           {
             title: "1. Éditeur du site",
-            content: "Le site vitrine MAISON DROUET est édité par Valentin Milliand, micro-entrepreneur.\nSIREN : 852 546 225\nRCS : Bourg-en-Bresse\nAdresse : Valentin Milliand, SIREN 852 546 225, RCS Bourg-en-Bresse (adresse physique communiquée sur simple demande à contact@aevia.io).",
+            content: "Le site vitrine MAISON DROUET est édité par Valentin Milliand, micro-entrepreneur.\nSIREN : 852 546 225\nRCS : Bourg-en-Bresse\nAdresse : Valentin Milliand, SIREN 852 546 225, RCS Bourg-en-Bresse (adresse physique communiquée sur simple demande à valentinmilliand@aevia.services).",
           },
           {
             title: "2. Hébergement",
@@ -27,7 +27,7 @@ export default function LegalPage() {
           },
           {
             title: "4. Contact",
-            content: "Pour toute question ou demande de renseignements complémentaires, vous pouvez nous contacter par courrier électronique à l'adresse suivante : contact@aevia.io.",
+            content: "Pour toute question ou demande de renseignements complémentaires, vous pouvez nous contacter par courrier électronique à l'adresse suivante : valentinmilliand@aevia.services.",
           },
         ].map((section) => (
           <div key={section.title} style={{ marginBottom: "2.5rem" }}>

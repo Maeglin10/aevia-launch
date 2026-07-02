@@ -57,7 +57,7 @@ export default function Page() {
                 <strong>Éditeur :</strong> Aevia WS — Valentin Milliand<br />
                 Entrepreneur Individuel<br />
                 SIREN : 852 546 225 — RCS Bourg-en-Bresse<br />
-                <strong>Email :</strong> contact@aevia.io<br />
+                <strong>Email :</strong> valentinmilliand@aevia.services<br />
                 <strong>Adresse :</strong> communiquée sur demande<br />
                 <strong>Hébergeur :</strong> Vercel Inc.
               </p>

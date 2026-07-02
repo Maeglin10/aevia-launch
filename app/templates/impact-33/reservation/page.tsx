@@ -166,14 +166,14 @@ export default function ReservationPage() {
           <div style={{ background: C.bgSection, borderRadius: 18, height: 200, marginBottom: 28, display: "flex", alignItems: "center", justifyContent: "center", border: `1px solid ${C.border}`, flexDirection: "column", gap: 10 }}>
             <MapPin size={32} color={C.accent} />
             <span style={{ fontSize: 14, color: C.textMuted, fontWeight: 600 }}>Paris, Île-de-France</span>
-            <span style={{ fontSize: 13, color: C.textMuted }}>Adresse communiquée sur demande à contact@aevia.io</span>
+            <span style={{ fontSize: 13, color: C.textMuted }}>Adresse communiquée sur demande à valentinmilliand@aevia.services</span>
           </div>
 
           <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
             {[
-              { icon: <MapPin size={18} />, label: "Adresse", text: "Siège social sur demande à contact@aevia.io" },
+              { icon: <MapPin size={18} />, label: "Adresse", text: "Siège social sur demande à valentinmilliand@aevia.services" },
               { icon: <Phone size={18} />, label: "Téléphone", text: "01 43 55 67 89" },
-              { icon: <Mail size={18} />, label: "Email", text: "contact@aevia.io" },
+              { icon: <Mail size={18} />, label: "Email", text: "valentinmilliand@aevia.services" },
               { icon: <Clock size={18} />, label: "Horaires", text: "Mar–Sam 7h–19h | Dim 7h–13h" }
             ].map((item, i) => (
               <div key={i} style={{ display: "flex", gap: 16, alignItems: "flex-start" }}>

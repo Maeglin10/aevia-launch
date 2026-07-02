@@ -6,7 +6,7 @@ import { C, TextReveal, MagneticButton } from "../shared";
 
 export default function AboutPage() {
   const handleEmailClick = () => {
-    window.location.href = "mailto:contact@aevia.io";
+    window.location.href = "mailto:valentinmilliand@aevia.services";
   };
 
   return (
@@ -88,7 +88,7 @@ export default function AboutPage() {
           For editorial licensing, commercial usage, or private commissions, get in touch directly. For print enquiries, visit the shop.
         </p>
         <MagneticButton onClick={handleEmailClick} style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 14, color: C.bg, background: C.cream, padding: "18px 48px", borderRadius: 2, letterSpacing: "0.12em", textTransform: "uppercase", fontWeight: 700 }}>
-          contact@aevia.io
+          valentinmilliand@aevia.services
         </MagneticButton>
       </section>
     </div>

@@ -32,12 +32,12 @@ export default function ContactPage() {
               <div style={{ display: "flex", flexDirection: "column", gap: "2rem" }}>
                 <div style={{ padding: "1.75rem", background: C.bgCard, border: `1px solid ${C.border}` }}>
                   <div style={{ fontFamily: "'Cormorant SC', serif", fontSize: "0.55rem", letterSpacing: "0.2em", color: C.textDim, marginBottom: "0.5rem" }}>ADRESSE</div>
-                  <div style={{ fontSize: "1rem", color: C.textMuted, lineHeight: 1.65 }}>Adresse communiquée sur demande à<br /><span style={{ color: C.gold }}>contact@aevia.io</span></div>
+                  <div style={{ fontSize: "1rem", color: C.textMuted, lineHeight: 1.65 }}>Adresse communiquée sur demande à<br /><span style={{ color: C.gold }}>valentinmilliand@aevia.services</span></div>
                 </div>
 
                 <div style={{ padding: "1.75rem", background: C.bgCard, border: `1px solid ${C.border}` }}>
                   <div style={{ fontFamily: "'Cormorant SC', serif", fontSize: "0.55rem", letterSpacing: "0.2em", color: C.textDim, marginBottom: "0.5rem" }}>EMAIL</div>
-                  <a href="mailto:contact@aevia.io" style={{ fontSize: "1rem", color: C.gold, textDecoration: "none" }}>contact@aevia.io</a>
+                  <a href="mailto:valentinmilliand@aevia.services" style={{ fontSize: "1rem", color: C.gold, textDecoration: "none" }}>valentinmilliand@aevia.services</a>
                 </div>
 
                 <div style={{ padding: "1.75rem", background: C.bgCard, border: `1px solid ${C.border}` }}>

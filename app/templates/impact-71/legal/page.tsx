@@ -26,8 +26,8 @@ export default function LegalPage() {
                 <li>Régime : <span className="text-[#33302c]">Micro-entrepreneur (TVA non applicable, art. 293 B du CGI)</span></li>
                 <li>SIREN : <span className="text-[#33302c]">852 546 225</span></li>
                 <li>RCS : <span className="text-[#33302c]">Bourg-en-Bresse</span></li>
-                <li>Adresse : <span className="text-[#33302c] italic">Adresse physique communiquée sur simple demande à contact@aevia.io</span></li>
-                <li>Contact : <a href="mailto:contact@aevia.io" className="text-[#c9a84c] hover:underline">contact@aevia.io</a></li>
+                <li>Adresse : <span className="text-[#33302c] italic">Adresse physique communiquée sur simple demande à valentinmilliand@aevia.services</span></li>
+                <li>Contact : <a href="mailto:valentinmilliand@aevia.services" className="text-[#c9a84c] hover:underline">valentinmilliand@aevia.services</a></li>
               </ul>
             </section>
 

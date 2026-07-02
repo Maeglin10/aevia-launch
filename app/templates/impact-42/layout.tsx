@@ -171,7 +171,7 @@ export default function EchoChamberLayout({ children }: { children: React.ReactN
               </p>
               <div style={{ marginTop: "1.75rem", display: "flex", flexDirection: "column", gap: "0.55rem" }}>
                 {[
-                  { icon: <Mail size={13} />, text: "contact@aevia.io" },
+                  { icon: <Mail size={13} />, text: "valentinmilliand@aevia.services" },
                   { icon: <Clock size={13} />, text: "Lun–Dim : 10h–23h" },
                 ].map((item) => (
                   <div key={item.text} style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>

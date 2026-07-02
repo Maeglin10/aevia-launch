@@ -79,7 +79,7 @@ export default function LegalPage() {
                 SIREN 852 546 225 — RCS Bourg-en-Bresse
               </LegalBlock>
               <LegalBlock title="Contact">
-                contact@aevia.io (adresse du siège social communiquée sur demande)
+                valentinmilliand@aevia.services (adresse du siège social communiquée sur demande)
               </LegalBlock>
               <LegalBlock title="Hébergement">
                 Vercel Inc. — 340 Pine Street, Suite 701, San Francisco, CA 94104, USA.
@@ -109,7 +109,7 @@ export default function LegalPage() {
             </h2>
             <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
               <LegalBlock title="Responsable du traitement">
-                Aevia WS, représentée par Valentin Milliand, est responsable du traitement des données collectées sur ce site. Contact : contact@aevia.io.
+                Aevia WS, représentée par Valentin Milliand, est responsable du traitement des données collectées sur ce site. Contact : valentinmilliand@aevia.services.
               </LegalBlock>
               <LegalBlock title="Données collectées">
                 Dans le cadre de la prise de réservation en ligne, nous collectons les données suivantes : nom et prénom, adresse email, numéro de téléphone, date et heure souhaitées, nombre de convives, informations relatives à l'occasion et aux régimes alimentaires.
@@ -118,7 +118,7 @@ export default function LegalPage() {
                 Ces données sont utilisées exclusivement pour la gestion et la confirmation de votre réservation, et pour vous contacter en cas de nécessité. Elles ne sont ni revendues ni transmises à des tiers.
               </LegalBlock>
               <LegalBlock title="Conservation & droits">
-                Les données sont conservées pour une durée maximale de 3 ans à compter de votre dernière interaction. Conformément au RGPD, vous disposez d'un droit d'accès, de rectification, d'effacement et de portabilité de vos données. Pour exercer ces droits, écrivez à contact@aevia.io.
+                Les données sont conservées pour une durée maximale de 3 ans à compter de votre dernière interaction. Conformément au RGPD, vous disposez d'un droit d'accès, de rectification, d'effacement et de portabilité de vos données. Pour exercer ces droits, écrivez à valentinmilliand@aevia.services.
               </LegalBlock>
               <LegalBlock title="Cookies">
                 Ce site n'utilise pas de cookies tiers à des fins publicitaires ou de suivi. Des cookies techniques essentiels peuvent être utilisés pour assurer le bon fonctionnement du site.

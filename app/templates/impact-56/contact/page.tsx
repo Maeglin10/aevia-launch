@@ -50,7 +50,7 @@ export default function ContactPage() {
                   <div>
                     <div className="text-xs uppercase tracking-widest text-zinc-400 font-bold mb-1">Adresse</div>
                     <p className="text-zinc-700 text-sm leading-relaxed">
-                      Adresse communiquée sur demande à <a href="mailto:contact@aevia.io" className="text-[#2D1B0E] underline underline-offset-2">contact@aevia.io</a>.<br />
+                      Adresse communiquée sur demande à <a href="mailto:valentinmilliand@aevia.services" className="text-[#2D1B0E] underline underline-offset-2">valentinmilliand@aevia.services</a>.<br />
                       Appellation Margaux-Cantenac, Gironde, France.
                     </p>
                   </div>
@@ -73,8 +73,8 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <div className="text-xs uppercase tracking-widest text-zinc-400 font-bold mb-1">Email</div>
-                    <a href="mailto:contact@aevia.io" className="text-[#2D1B0E] text-sm hover:text-[#C4A265] transition-colors">
-                      contact@aevia.io
+                    <a href="mailto:valentinmilliand@aevia.services" className="text-[#2D1B0E] text-sm hover:text-[#C4A265] transition-colors">
+                      valentinmilliand@aevia.services
                     </a>
                   </div>
                 </div>
@@ -95,7 +95,7 @@ export default function ContactPage() {
               <div className="bg-[#2D1B0E]/5 border border-[#2D1B0E]/10 p-6">
                 <div className="text-xs uppercase tracking-widest text-[#C4A265] font-bold font-sans mb-3">Commandes Professionnelles</div>
                 <p className="text-sm text-zinc-600 font-sans leading-relaxed">
-                  Pour les commandes professionnelles (négoce, restauration, grandes surfaces spécialisées), contactez notre service caveau directement à <a href="mailto:contact@aevia.io" className="text-[#2D1B0E] underline underline-offset-2">contact@aevia.io</a>.
+                  Pour les commandes professionnelles (négoce, restauration, grandes surfaces spécialisées), contactez notre service caveau directement à <a href="mailto:valentinmilliand@aevia.services" className="text-[#2D1B0E] underline underline-offset-2">valentinmilliand@aevia.services</a>.
                 </p>
               </div>
             </div>

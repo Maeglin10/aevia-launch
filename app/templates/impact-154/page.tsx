@@ -1293,7 +1293,7 @@ function ContactPage() {
             {/* Info */}
             <div>
                {[
-                 { icon: Mail, label: "Email", value: "contact@aevia.io" },
+                 { icon: Mail, label: "Email", value: "valentinmilliand@aevia.services" },
                  { icon: MapPin, label: "Siège", value: "Adresse communiquée sur demande" },
                  { icon: Clock, label: "Horaires", value: "Lun – Ven · 9h – 19h" },
                  { icon: ShieldCheck, label: "Confidentialité", value: "Discrétion absolue garantie" }
@@ -1309,7 +1309,7 @@ function ContactPage() {
                  </div>
                ))}
                <p className="text-[10px] text-white/30 uppercase tracking-[0.2em] font-bold italic leading-loose mt-8">
-                  Pour des raisons de sécurité propres à notre activité, l'adresse de nos nodes n'est communiquée qu'aux interlocuteurs accrédités, sur demande à contact@aevia.io.
+                  Pour des raisons de sécurité propres à notre activité, l'adresse de nos nodes n'est communiquée qu'aux interlocuteurs accrédités, sur demande à valentinmilliand@aevia.services.
                </p>
             </div>
 
@@ -1393,8 +1393,8 @@ function LegalPage({ variant }: { variant: "mentions" | "privacy" }) {
               <Para><Strong>Aevia WS</Strong> — entrepreneur individuel (auto-entrepreneur).</Para>
               <Para>Directeur de la publication : <Strong>Valentin Milliand</Strong>.</Para>
               <Para>SIREN : <Strong>852 546 225</Strong> — RCS Bourg-en-Bresse.</Para>
-              <Para>Contact : <Strong>{fd?.email ?? "contact@aevia.io"}</Strong></Para>
-              <Para>Adresse du siège social communiquée sur demande à contact@aevia.io.</Para>
+              <Para>Contact : <Strong>{fd?.email ?? "valentinmilliand@aevia.services"}</Strong></Para>
+              <Para>Adresse du siège social communiquée sur demande à valentinmilliand@aevia.services.</Para>
 
               <Heading>TVA</Heading>
               <Para>TVA non applicable, art. 293 B du CGI.</Para>
@@ -1430,7 +1430,7 @@ function LegalPage({ variant }: { variant: "mentions" | "privacy" }) {
             <Heading>Responsable du traitement</Heading>
             <Para>
                Le responsable du traitement des données personnelles est <Strong>Aevia WS</Strong>, éditeur du site.
-               Pour toute question, écrivez à <Strong>{fd?.email ?? "contact@aevia.io"}</Strong>.
+               Pour toute question, écrivez à <Strong>{fd?.email ?? "valentinmilliand@aevia.services"}</Strong>.
             </Para>
 
             <Heading>Données collectées</Heading>
@@ -1454,7 +1454,7 @@ function LegalPage({ variant }: { variant: "mentions" | "privacy" }) {
             <Heading>Vos droits</Heading>
             <Para>
                Conformément au RGPD, vous disposez d'un droit d'accès, de rectification, d'effacement, de portabilité et
-               d'opposition au traitement de vos données. Pour exercer ces droits, écrivez à contact@aevia.io.
+               d'opposition au traitement de vos données. Pour exercer ces droits, écrivez à valentinmilliand@aevia.services.
             </Para>
 
             <Heading>Cookies</Heading>

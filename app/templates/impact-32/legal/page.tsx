@@ -22,8 +22,8 @@ export default function LegalPage() {
             <p style={{ marginTop: 10 }}>
               <strong>Propriétaire & Éditeur :</strong> Valentin Milliand.<br />
               <strong>Immatriculation :</strong> SIREN 852 546 225, inscrit au Registre du Commerce et des Sociétés (RCS) de Bourg-en-Bresse.<br />
-              <strong>Contact :</strong> <a href="mailto:contact@aevia.io" style={{ color: C.accent }}>contact@aevia.io</a><br />
-              <strong>Siège social :</strong> Adresse communiquée sur demande à <a href="mailto:contact@aevia.io" style={{ color: C.accent }}>contact@aevia.io</a>.<br />
+              <strong>Contact :</strong> <a href="mailto:valentinmilliand@aevia.services" style={{ color: C.accent }}>valentinmilliand@aevia.services</a><br />
+              <strong>Siège social :</strong> Adresse communiquée sur demande à <a href="mailto:valentinmilliand@aevia.services" style={{ color: C.accent }}>valentinmilliand@aevia.services</a>.<br />
               <strong>Réglementation professionnelle :</strong> Clinique vétérinaire soumise aux règles de déontologie édictées par l'Ordre National des Vétérinaires (CNOV).
             </p>
             <p style={{ marginTop: 10 }}>
@@ -35,7 +35,7 @@ export default function LegalPage() {
           <div>
             <h2 style={{ fontSize: 20, fontWeight: 800, color: C.text, marginBottom: 12 }}>2. Politique de Confidentialité</h2>
             <p>
-              <strong>Responsable du traitement :</strong> Aevia WS — <a href="mailto:contact@aevia.io" style={{ color: C.accent }}>contact@aevia.io</a>
+              <strong>Responsable du traitement :</strong> Aevia WS — <a href="mailto:valentinmilliand@aevia.services" style={{ color: C.accent }}>valentinmilliand@aevia.services</a>
             </p>
             <p style={{ marginTop: 10 }}>
               <strong>Données collectées :</strong> Ce site collecte uniquement les données fournies volontairement via les formulaires de prise de rendez-vous : nom, e-mail, informations relatives à votre animal. Ces données sont utilisées exclusivement pour traiter votre demande opérationnelle.
@@ -44,7 +44,7 @@ export default function LegalPage() {
               <strong>Durée de conservation :</strong> Vos données sont conservées le temps nécessaire au traitement de votre demande, et au maximum 3 ans conformément aux recommandations de la CNIL.
             </p>
             <p style={{ marginTop: 10 }}>
-              <strong>Vos droits :</strong> Conformément au RGPD (UE 2016/679), vous disposez d'un droit d'accès, de rectification, de suppression et de portabilité de vos données. Pour exercer ces droits, contactez-nous à <a href="mailto:contact@aevia.io" style={{ color: C.accent }}>contact@aevia.io</a>.
+              <strong>Vos droits :</strong> Conformément au RGPD (UE 2016/679), vous disposez d'un droit d'accès, de rectification, de suppression et de portabilité de vos données. Pour exercer ces droits, contactez-nous à <a href="mailto:valentinmilliand@aevia.services" style={{ color: C.accent }}>valentinmilliand@aevia.services</a>.
             </p>
           </div>
 

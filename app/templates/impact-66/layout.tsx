@@ -211,7 +211,7 @@ export default function AtelierLayout({
                 </li>
                 <li>
                   <Link href="/templates/impact-66/contact" className="hover:text-[#c9b7a1] transition-colors flex items-center gap-3" style={{ textDecoration: "none", color: "inherit" }}>
-                    <Mail className="w-3 h-3" /> contact@aevia.io
+                    <Mail className="w-3 h-3" /> valentinmilliand@aevia.services
                   </Link>
                 </li>
               </ul>

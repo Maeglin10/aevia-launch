@@ -887,7 +887,7 @@ function LegalPage() {
             <p className="space-y-1">
               <strong>Publisher:</strong> Aevia WS — Valentin Milliand<br />
               Sole Proprietorship — SIREN 852 546 225 — RCS Bourg-en-Bresse<br />
-              <strong>Email:</strong>{fd?.email ?? "contact@aevia.io"}<br />
+              <strong>Email:</strong>{fd?.email ?? "valentinmilliand@aevia.services"}<br />
               <strong>Address:</strong> communicated upon request<br />
               <strong>Host:</strong> Vercel Inc.
             </p>

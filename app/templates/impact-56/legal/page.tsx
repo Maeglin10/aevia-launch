@@ -38,8 +38,8 @@ export default function LegalPage() {
                   Le site Château Vestige est édité par <strong className="text-[#2D1B0E]">Valentin Milliand</strong>, micro-entrepreneur.<br />
                   <strong>SIREN :</strong> 852 546 225<br />
                   <strong>RCS :</strong> Bourg-en-Bresse<br />
-                  <strong>Contact :</strong> <a href="mailto:contact@aevia.io" className="text-[#2D1B0E] underline underline-offset-2">contact@aevia.io</a><br />
-                  <strong>Adresse du siège social :</strong> Valentin Milliand, SIREN 852 546 225, RCS Bourg-en-Bresse (adresse physique communiquée sur simple demande à contact@aevia.io).
+                  <strong>Contact :</strong> <a href="mailto:valentinmilliand@aevia.services" className="text-[#2D1B0E] underline underline-offset-2">valentinmilliand@aevia.services</a><br />
+                  <strong>Adresse du siège social :</strong> Valentin Milliand, SIREN 852 546 225, RCS Bourg-en-Bresse (adresse physique communiquée sur simple demande à valentinmilliand@aevia.services).
                 </p>
               </div>
 
@@ -81,7 +81,7 @@ export default function LegalPage() {
                 <h2 className="text-xl font-serif text-[#2D1B0E] mb-4 font-bold leading-snug">Responsable du traitement</h2>
                 <p className="text-sm leading-relaxed">
                   <strong>Valentin Milliand</strong> — SIREN 852 546 225<br />
-                  Contact DPO : <a href="mailto:contact@aevia.io" className="text-[#2D1B0E] underline underline-offset-2">contact@aevia.io</a>
+                  Contact DPO : <a href="mailto:valentinmilliand@aevia.services" className="text-[#2D1B0E] underline underline-offset-2">valentinmilliand@aevia.services</a>
                 </p>
               </div>
 
@@ -115,7 +115,7 @@ export default function LegalPage() {
               <div>
                 <h2 className="text-xl font-serif text-[#2D1B0E] mb-4 font-bold leading-snug">Vos droits</h2>
                 <p className="text-sm leading-relaxed">
-                  Conformément au RGPD, vous disposez d&apos;un droit d&apos;accès, de rectification, d&apos;effacement, de limitation et d&apos;opposition au traitement de vos données. Pour exercer ces droits, contactez-nous à <a href="mailto:contact@aevia.io" className="text-[#2D1B0E] underline underline-offset-2">contact@aevia.io</a>. En cas de litige, vous pouvez saisir la CNIL (cnil.fr).
+                  Conformément au RGPD, vous disposez d&apos;un droit d&apos;accès, de rectification, d&apos;effacement, de limitation et d&apos;opposition au traitement de vos données. Pour exercer ces droits, contactez-nous à <a href="mailto:valentinmilliand@aevia.services" className="text-[#2D1B0E] underline underline-offset-2">valentinmilliand@aevia.services</a>. En cas de litige, vous pouvez saisir la CNIL (cnil.fr).
                 </p>
               </div>
 

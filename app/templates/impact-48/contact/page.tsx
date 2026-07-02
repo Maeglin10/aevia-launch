@@ -70,7 +70,7 @@ export default function Contact() {
               {[
                 { label: 'Studio Paris', val: '14 Rue du Dragon, 75006 Paris' },
                 { label: 'Bureau Genève', val: '12 Quai du Mont-Blanc, 1201 Genève' },
-                { label: 'Email', val: 'contact@aevia.io' },
+                { label: 'Email', val: 'valentinmilliand@aevia.services' },
                 { label: 'Horaires', val: 'Lun – Ven · 9h – 19h' },
               ].map((item) => (
                 <div

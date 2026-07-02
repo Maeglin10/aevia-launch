@@ -33,7 +33,7 @@ export default function ContactPage() {
               COORDONNÉES
             </div>
             <p style={{ fontSize: "0.85rem", color: C.textMuted, lineHeight: 1.6 }}>
-              Email : <a href="mailto:contact@aevia.io" style={{ color: C.text, textDecoration: "none" }}>contact@aevia.io</a><br />
+              Email : <a href="mailto:valentinmilliand@aevia.services" style={{ color: C.text, textDecoration: "none" }}>valentinmilliand@aevia.services</a><br />
               HQ : Bourg-en-Bresse, France<br />
               SPI N° 852 546 225
             </p>

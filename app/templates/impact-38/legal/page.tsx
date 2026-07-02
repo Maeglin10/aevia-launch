@@ -76,7 +76,7 @@ export default function LegalPage() {
                 SIREN 852 546 225 — RCS Bourg-en-Bresse
               </LegalBlock>
               <LegalBlock title="Contact">
-                contact@aevia.io (adresse du siège social communiquée sur demande)
+                valentinmilliand@aevia.services (adresse du siège social communiquée sur demande)
               </LegalBlock>
               <LegalBlock title="TVA">
                 TVA non applicable, art. 293 B du CGI
@@ -105,7 +105,7 @@ export default function LegalPage() {
               <LegalBlock title="Responsable du traitement">
                 Aevia WS, représentée par Valentin Milliand, est responsable du
                 traitement des données collectées sur ce site. Contact :
-                contact@aevia.io.
+                valentinmilliand@aevia.services.
               </LegalBlock>
               <LegalBlock title="Données collectées">
                 Les informations transmises via les formulaires de réservation et de
@@ -121,7 +121,7 @@ export default function LegalPage() {
               <LegalBlock title="Vos droits">
                 Conformément au RGPD, vous disposez d'un droit d'accès, de
                 rectification, d'effacement et d'opposition sur vos données. Pour
-                l'exercer, écrivez à contact@aevia.io.
+                l'exercer, écrivez à valentinmilliand@aevia.services.
               </LegalBlock>
               <LegalBlock title="Cookies">
                 Ce site n'utilise que des cookies strictement nécessaires à son

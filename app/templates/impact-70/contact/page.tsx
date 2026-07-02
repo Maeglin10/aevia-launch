@@ -29,7 +29,7 @@ export default function ContactPage() {
                   <Mail className="w-5 h-5 text-[#ff00ff] flex-shrink-0" />
                   <div>
                     <div className="text-[9px] font-bold uppercase tracking-widest text-white/30">Secure Routing Address</div>
-                    <div className="text-sm font-bold text-white/70 mt-1">contact@aevia.io</div>
+                    <div className="text-sm font-bold text-white/70 mt-1">valentinmilliand@aevia.services</div>
                   </div>
                 </div>
                 <div className="flex gap-6 items-center pl-6 border-l border-white/5 hover:border-[#ff00ff] transition-all">

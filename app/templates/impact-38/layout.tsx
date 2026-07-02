@@ -185,7 +185,7 @@ export default function OriginRoastLayout({ children }: { children: React.ReactN
                 Contact
               </h4>
               <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-                <a href="mailto:contact@aevia.io" style={{ fontSize: 13, color: "#7a5c3a", textDecoration: "none", fontWeight: 300 }}>contact@aevia.io</a>
+                <a href="mailto:valentinmilliand@aevia.services" style={{ fontSize: 13, color: "#7a5c3a", textDecoration: "none", fontWeight: 300 }}>valentinmilliand@aevia.services</a>
                 <Link href="/templates/impact-38/contact"
                   style={{ textDecoration: "none", fontSize: 13, color: "#7a5c3a", textAlign: "left", padding: 0, fontWeight: 300 }}>
                   Nous écrire

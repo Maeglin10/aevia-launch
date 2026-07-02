@@ -2382,7 +2382,7 @@ function ContactSection() {
                 {[
                   { label: 'Paris Studio', val: '14 Rue du Dragon, 75006 Paris' },
                   { label: 'Geneva Office', val: '12 Quai du Mont-Blanc, 1201 Geneva' },
-                  { label: 'Email', val: 'contact@aevia.io' },
+                  { label: 'Email', val: 'valentinmilliand@aevia.services' },
                   { label: 'Horaires', val: 'Lun – Ven · 9h – 19h' },
                 ].map((item) => (
                   <div key={item.label} style={{ display: 'flex', gap: 20 }}>

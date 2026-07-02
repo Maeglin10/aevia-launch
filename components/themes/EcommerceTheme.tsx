@@ -1290,7 +1290,7 @@ function CgvPage({ brand, businessName }: { brand: string; businessName: string 
       </LegalBlock>
 
       <LegalBlock heading="Article 9 — Données personnelles">
-        <p>Les données personnelles collectées font l&apos;objet d&apos;un traitement informatique nécessaire au traitement de la commande. Conformément au RGPD, le client dispose d&apos;un droit d&apos;accès, de rectification et de suppression des données le concernant en écrivant à contact@aevia.io.</p>
+        <p>Les données personnelles collectées font l&apos;objet d&apos;un traitement informatique nécessaire au traitement de la commande. Conformément au RGPD, le client dispose d&apos;un droit d&apos;accès, de rectification et de suppression des données le concernant en écrivant à valentinmilliand@aevia.services.</p>
       </LegalBlock>
 
       <LegalBlock heading="Article 10 — Droit applicable et litiges">
@@ -1312,11 +1312,11 @@ function MentionsPage({ brand }: { brand: string }) {
         <p><strong className="text-zinc-900">Aevia WS</strong> — entrepreneur individuel (auto-entrepreneur).</p>
         <p>Directeur de la publication : <strong className="text-zinc-900">Valentin Milliand</strong>.</p>
         <p>SIREN : <strong className="text-zinc-900">852 546 225</strong> — RCS Bourg-en-Bresse.</p>
-        <p>Adresse du siège social communiquée sur demande à contact@aevia.io.</p>
+        <p>Adresse du siège social communiquée sur demande à valentinmilliand@aevia.services.</p>
       </LegalBlock>
 
       <LegalBlock heading="Contact">
-        <p>Email : <a href="mailto:contact@aevia.io" className="font-bold underline decoration-2 underline-offset-2" style={{ color: brand }}>contact@aevia.io</a></p>
+        <p>Email : <a href="mailto:valentinmilliand@aevia.services" className="font-bold underline decoration-2 underline-offset-2" style={{ color: brand }}>valentinmilliand@aevia.services</a></p>
       </LegalBlock>
 
       <LegalBlock heading="TVA">
@@ -1333,7 +1333,7 @@ function MentionsPage({ brand }: { brand: string }) {
       </LegalBlock>
 
       <LegalBlock heading="Données personnelles">
-        <p>Conformément au Règlement Général sur la Protection des Données (RGPD), vous disposez d&apos;un droit d&apos;accès, de rectification et de suppression des données vous concernant. Pour exercer ce droit, adressez votre demande à contact@aevia.io.</p>
+        <p>Conformément au Règlement Général sur la Protection des Données (RGPD), vous disposez d&apos;un droit d&apos;accès, de rectification et de suppression des données vous concernant. Pour exercer ce droit, adressez votre demande à valentinmilliand@aevia.services.</p>
       </LegalBlock>
     </LegalShell>
   );

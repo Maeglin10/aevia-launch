@@ -23,7 +23,7 @@ export default function LegalPage() {
               <div className="md:col-span-2">
                 <p className="font-bold text-white uppercase mb-2 not-italic">Valentin Milliand</p>
                 <p>Propriétaire du service Aevia WS.</p>
-                <p className="mt-2 text-white/20">Adresse physique communiquée sur simple demande à contact@aevia.io.</p>
+                <p className="mt-2 text-white/20">Adresse physique communiquée sur simple demande à valentinmilliand@aevia.services.</p>
               </div>
             </div>
 
@@ -48,7 +48,7 @@ export default function LegalPage() {
               <div className="text-[10px] font-bold uppercase tracking-widest text-[#ff00ff]">04 // Contact</div>
               <div className="md:col-span-2">
                 <p className="mb-2">Pour toute question ou réclamation relative au site :</p>
-                <p className="font-bold text-white not-italic">contact@aevia.io</p>
+                <p className="font-bold text-white not-italic">valentinmilliand@aevia.services</p>
               </div>
             </div>
           </div>

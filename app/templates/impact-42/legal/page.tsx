@@ -65,7 +65,7 @@ function LegalContent() {
             {[
               {
                 title: "Éditeur du site",
-                content: "Ce site internet est édité par Valentin Milliand, exerçant sous le nom commercial Aevia WS.\nSIREN : 852 546 225\nRCS : Bourg-en-Bresse\nEmail : contact@aevia.io\nSiège social : Valentin Milliand, SIREN 852 546 225, RCS Bourg-en-Bresse (adresse communiquée sur demande à contact@aevia.io)."
+                content: "Ce site internet est édité par Valentin Milliand, exerçant sous le nom commercial Aevia WS.\nSIREN : 852 546 225\nRCS : Bourg-en-Bresse\nEmail : valentinmilliand@aevia.services\nSiège social : Valentin Milliand, SIREN 852 546 225, RCS Bourg-en-Bresse (adresse communiquée sur demande à valentinmilliand@aevia.services)."
               },
               {
                 title: "Hébergement",
@@ -73,7 +73,7 @@ function LegalContent() {
               },
               {
                 title: "Directeur de publication",
-                content: "Le directeur de la publication est Valentin Milliand — contact@aevia.io."
+                content: "Le directeur de la publication est Valentin Milliand — valentinmilliand@aevia.services."
               },
               {
                 title: "Propriété intellectuelle",
@@ -96,9 +96,9 @@ function LegalContent() {
               { title: "Collecte des données", content: "Nous collectons uniquement les données que vous nous fournissez volontairement via nos formulaires de contact et de réservation (nom, email, téléphone, informations de projet). Ces données sont utilisées exclusivement pour traiter vos demandes." },
               { title: "Utilisation des données", content: "Vos données personnelles sont utilisées pour :\n• Traiter vos demandes de réservation\n• Vous recontacter dans le cadre de votre projet\n• Améliorer nos services\n\nNous ne vendons, ne louons ni ne partageons vos données avec des tiers à des fins commerciales." },
               { title: "Conservation des données", content: "Vos données sont conservées pendant la durée nécessaire au traitement de votre demande et, le cas échéant, pour une durée de 3 ans à des fins de prospection commerciale, conformément à la réglementation RGPD." },
-              { title: "Vos droits", content: "Conformément au RGPD, vous disposez des droits suivants :\n• Droit d'accès à vos données\n• Droit de rectification\n• Droit à l'effacement\n• Droit à la portabilité\n• Droit d'opposition\n\nPour exercer ces droits : contact@aevia.io" },
+              { title: "Vos droits", content: "Conformément au RGPD, vous disposez des droits suivants :\n• Droit d'accès à vos données\n• Droit de rectification\n• Droit à l'effacement\n• Droit à la portabilité\n• Droit d'opposition\n\nPour exercer ces droits : valentinmilliand@aevia.services" },
               { title: "Cookies", content: "Ce site utilise des cookies techniques nécessaires à son bon fonctionnement. Aucun cookie de tracking tiers n'est utilisé sans votre consentement explicite." },
-              { title: "Contact DPO", content: "Pour toute question relative à la protection de vos données : contact@aevia.io\nAevia WS — SIREN : 852 546 225" },
+              { title: "Contact DPO", content: "Pour toute question relative à la protection de vos données : valentinmilliand@aevia.services\nAevia WS — SIREN : 852 546 225" },
             ].map((section) => (
               <div key={section.title} style={{ borderBottom: `1px solid ${C.border}`, paddingBottom: "1.75rem" }}>
                 <h2 style={{ fontFamily: C.headingFont, fontSize: "1.4rem", color: C.accent, letterSpacing: "0.06em", marginBottom: "0.75rem" }}>{section.title}</h2>

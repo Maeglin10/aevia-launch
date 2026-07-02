@@ -1,6 +1,6 @@
-# AeviaLaunch — Sites web professionnels en 7 jours
+# AeviaLaunch — Sites web professionnels en 2h à 7j
 
-> Créez votre site professionnel en 7 jours, sans compétences techniques.
+> Créez votre site professionnel en 2h à 7 jours selon le plan, sans compétences techniques.
 
 AeviaLaunch est un service de création de sites web pour entrepreneurs et TPE/PME. Plus de 100 thèmes disponibles par secteur d'activité (restaurants, coachs, artisans, e-commerce, vitrines). Le site est livré optimisé SEO, mobile-first, avec hébergement inclus. Intégration de prise de commande en ligne via HubRise pour les restaurants.
 
@@ -17,8 +17,8 @@ AeviaLaunch est un service de création de sites web pour entrepreneurs et TPE/P
 
 ## Key Information
 
-- Délai de livraison: 7 jours ouvrés
+- Délai de livraison: entre 2h et 7j selon le plan
 - Hébergement: inclus (Vercel)
 - SEO: optimisé dès la création (sitemap, schema.org, meta tags)
-- Support: contact@aevia.io
+- Support: valentinmilliand@aevia.services
 - Langues disponibles: fr, en, es, pt

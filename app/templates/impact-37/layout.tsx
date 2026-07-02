@@ -362,7 +362,7 @@ export default function ClosDuSoirLayout({ children }: { children: React.ReactNo
                   <Phone size={14} color={C.gold} /> +33 1 42 60 80 20
                 </div>
                 <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                  <Mail size={14} color={C.gold} /> contact@aevia.io
+                  <Mail size={14} color={C.gold} /> valentinmilliand@aevia.services
                 </div>
                 <div style={{ display: "flex", alignItems: "flex-start", gap: 8 }}>
                   <MapPin size={14} color={C.gold} style={{ flexShrink: 0, marginTop: 2 }} />

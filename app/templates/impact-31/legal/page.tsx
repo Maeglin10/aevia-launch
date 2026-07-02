@@ -31,8 +31,8 @@ export default function LegalPage() {
             <p style={{ marginTop: 10 }}>
               <strong>Propriétaire & Éditeur :</strong> Valentin Milliand, exerçant sous le nom commercial Aevia WS.<br />
               <strong>Immatriculation :</strong> SIREN 852 546 225, inscrit au Registre du Commerce et des Sociétés (RCS) de Bourg-en-Bresse.<br />
-              <strong>Contact :</strong> <a href="mailto:contact@aevia.io" style={{ color: C.accent }}>contact@aevia.io</a><br />
-              <strong>Siège social :</strong> Adresse communiquée sur demande à contact@aevia.io conformément aux dispositions légales sur la protection de la vie privée.
+              <strong>Contact :</strong> <a href="mailto:valentinmilliand@aevia.services" style={{ color: C.accent }}>valentinmilliand@aevia.services</a><br />
+              <strong>Siège social :</strong> Adresse communiquée sur demande à valentinmilliand@aevia.services conformément aux dispositions légales sur la protection de la vie privée.
             </p>
             <p style={{ marginTop: 10 }}>
               <strong>Hébergeur du site :</strong> Vercel Inc. — 440 N Barranca Ave #4133, Covina, CA 91723, États-Unis — <a href="https://vercel.com" target="_blank" rel="noopener noreferrer" style={{ color: C.accent }}>vercel.com</a>.
@@ -48,10 +48,10 @@ export default function LegalPage() {
               Nous accordons une importance primordiale à la protection de vos données personnelles. Les informations recueillies sur ce site de démonstration (ex. formulaires de contact, de réservation) proviennent de vos soumissions volontaires.
             </p>
             <p style={{ marginTop: 10 }}>
-              <strong>Responsable du traitement :</strong> Aevia WS — <a href="mailto:contact@aevia.io" style={{ color: C.accent }}>contact@aevia.io</a><br />
+              <strong>Responsable du traitement :</strong> Aevia WS — <a href="mailto:valentinmilliand@aevia.services" style={{ color: C.accent }}>valentinmilliand@aevia.services</a><br />
               <strong>Données collectées :</strong> Nom, adresse e-mail, numéro de téléphone, préférences de cours. Ces données sont destinées uniquement à la simulation opérationnelle et commerciale de l'activité du studio.<br />
               <strong>Durée de conservation :</strong> Les données collectées sont supprimées ou anonymisées sous un délai de 3 ans.<br />
-              <strong>Vos droits :</strong> Conformément au RGPD et à la loi Informatique et Libertés, vous disposez d'un droit d'accès, de rectification, de portabilité et de suppression de vos données personnelles en contactant <a href="mailto:contact@aevia.io" style={{ color: C.accent }}>contact@aevia.io</a>.
+              <strong>Vos droits :</strong> Conformément au RGPD et à la loi Informatique et Libertés, vous disposez d'un droit d'accès, de rectification, de portabilité et de suppression de vos données personnelles en contactant <a href="mailto:valentinmilliand@aevia.services" style={{ color: C.accent }}>valentinmilliand@aevia.services</a>.
             </p>
           </div>
 

@@ -83,7 +83,7 @@ export default function ContactPage() {
               style={{ display: "flex", gap: "16px", flexWrap: "wrap", alignItems: "center" }}
             >
               <a
-                href="mailto:contact@aevia.io"
+                href="mailto:valentinmilliand@aevia.services"
                 style={{
                   fontFamily: "'Space Grotesk', sans-serif",
                   fontSize: "15px",
@@ -109,7 +109,7 @@ export default function ContactPage() {
                 }}
               >
                 <Mail size={16} />
-                contact@aevia.io
+                valentinmilliand@aevia.services
               </a>
               <div
                 style={{

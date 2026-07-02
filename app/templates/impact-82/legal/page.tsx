@@ -39,14 +39,14 @@ export default function LegalPage() {
                 </p>
                 <p>
                   <strong className="text-[#1A1612] font-semibold">Adresse physique :</strong> adresse physique communiquée sur simple demande à{" "}
-                  <a href="mailto:contact@aevia.io" className="text-[#C9A86C] underline hover:text-[#1A1612] transition-colors">
-                    contact@aevia.io
+                  <a href="mailto:valentinmilliand@aevia.services" className="text-[#C9A86C] underline hover:text-[#1A1612] transition-colors">
+                    valentinmilliand@aevia.services
                   </a>.
                 </p>
                 <p>
                   <strong className="text-[#1A1612] font-semibold">Contact :</strong>{" "}
-                  <a href="mailto:contact@aevia.io" className="text-[#C9A86C] underline hover:text-[#1A1612] transition-colors">
-                    contact@aevia.io
+                  <a href="mailto:valentinmilliand@aevia.services" className="text-[#C9A86C] underline hover:text-[#1A1612] transition-colors">
+                    valentinmilliand@aevia.services
                   </a>
                 </p>
               </div>
@@ -108,8 +108,8 @@ export default function LegalPage() {
                 </p>
                 <p>
                   Pour toute réclamation, demande d&apos;autorisation ou question relative à l&apos;utilisation de nos contenus, merci de nous écrire directement à{" "}
-                  <a href="mailto:contact@aevia.io" className="text-[#C9A86C] underline hover:text-[#1A1612] transition-colors">
-                    contact@aevia.io
+                  <a href="mailto:valentinmilliand@aevia.services" className="text-[#C9A86C] underline hover:text-[#1A1612] transition-colors">
+                    valentinmilliand@aevia.services
                   </a>.
                 </p>
               </div>

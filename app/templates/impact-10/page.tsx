@@ -2275,8 +2275,8 @@ function LegalPage({ variant }: { variant: 'mentions' | 'privacy' }) {
             <p style={para}><span style={strong}>Aevia WS</span> — sole trader (auto-entrepreneur).</p>
             <p style={para}>Publication director: <span style={strong}>Valentin Milliand</span>.</p>
             <p style={para}>SIREN: <span style={strong}>852 546 225</span> — RCS Bourg-en-Bresse.</p>
-            <p style={para}>Contact: <span style={strong}>{fd?.email ?? "contact@aevia.io"}</span></p>
-            <p style={para}>Registered office address provided on request at contact@aevia.io.</p>
+            <p style={para}>Contact: <span style={strong}>{fd?.email ?? "valentinmilliand@aevia.services"}</span></p>
+            <p style={para}>Registered office address provided on request at valentinmilliand@aevia.services.</p>
 
             <h2 style={sectionTitle}>VAT</h2>
             <p style={para}>VAT not applicable, art. 293 B of the French Tax Code (CGI).</p>
@@ -2315,7 +2315,7 @@ function LegalPage({ variant }: { variant: 'mentions' | 'privacy' }) {
           <h2 style={{ ...sectionTitle, marginTop: '1.5rem' }}>Data controller</h2>
           <p style={para}>
             The controller of personal data is <span style={strong}>Aevia WS</span>, publisher of the site. For any
-            question, write to <span style={strong}>{fd?.email ?? "contact@aevia.io"}</span>.
+            question, write to <span style={strong}>{fd?.email ?? "valentinmilliand@aevia.services"}</span>.
           </p>
 
           <h2 style={sectionTitle}>Data collected</h2>
@@ -2339,7 +2339,7 @@ function LegalPage({ variant }: { variant: 'mentions' | 'privacy' }) {
           <h2 style={sectionTitle}>Your rights</h2>
           <p style={para}>
             In accordance with the GDPR, you have the right to access, rectify, erase, port and object to the processing of
-            your data. To exercise these rights, write to contact@aevia.io.
+            your data. To exercise these rights, write to valentinmilliand@aevia.services.
           </p>
 
           <h2 style={sectionTitle}>Cookies</h2>

@@ -26,7 +26,7 @@ export default function ContactPage() {
             <Reveal delay={0.1}>
               <div className="space-y-5 mb-10">
                 {[
-                  { Icon: Mail, label: "Adresse", text: "Adresse physique communiquée sur simple demande à contact@aevia.io" },
+                  { Icon: Mail, label: "Adresse", text: "Adresse physique communiquée sur simple demande à valentinmilliand@aevia.services" },
                   { Icon: Phone, label: "Téléphone", text: "+33 1 45 01 82 00" },
                   { Icon: Mail, label: "Email", text: "rdv@cypherclinic.fr" },
                   { Icon: Clock, label: "Horaires", text: "Lun – Ven : 9h – 19h · Sam : 9h – 16h" },

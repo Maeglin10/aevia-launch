@@ -42,8 +42,8 @@ export default function LegalPage() {
                   </li>
                   <li>
                     <strong>Contact Email:</strong>{" "}
-                    <a href="mailto:contact@aevia.io" style={{ color: C.accent, fontWeight: 600, textDecoration: "none" }}>
-                      contact@aevia.io
+                    <a href="mailto:valentinmilliand@aevia.services" style={{ color: C.accent, fontWeight: 600, textDecoration: "none" }}>
+                      valentinmilliand@aevia.services
                     </a>
                   </li>
                 </ul>
@@ -81,7 +81,7 @@ export default function LegalPage() {
                   <strong>Personal Data:</strong> Any mock job descriptions, company profiles, resumes, or email addresses uploaded or filled out on this showcase website are processed strictly to simulate recruitment workflows. No data is stored permanently or sold to third parties.
                 </p>
                 <p>
-                  You may contact Aevia WS at <a href="mailto:contact@aevia.io" style={{ color: C.accent, fontWeight: 600, textDecoration: "none" }}>contact@aevia.io</a> to request details rectifications or full profile removal.
+                  You may contact Aevia WS at <a href="mailto:valentinmilliand@aevia.services" style={{ color: C.accent, fontWeight: 600, textDecoration: "none" }}>valentinmilliand@aevia.services</a> to request details rectifications or full profile removal.
                 </p>
               </div>
             </div>

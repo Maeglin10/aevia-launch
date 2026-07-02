@@ -24,9 +24,9 @@ export default function LegalPage() {
                 <br />
                 RCS : Bourg-en-Bresse
                 <br />
-                Adresse physique : Valentin Milliand, SIREN 852 546 225, RCS Bourg-en-Bresse (adresse physique communiquée sur simple demande à contact@aevia.io)
+                Adresse physique : Valentin Milliand, SIREN 852 546 225, RCS Bourg-en-Bresse (adresse physique communiquée sur simple demande à valentinmilliand@aevia.services)
                 <br />
-                Email : contact@aevia.io
+                Email : valentinmilliand@aevia.services
               </p>
             </div>
 

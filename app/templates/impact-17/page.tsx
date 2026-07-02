@@ -657,7 +657,7 @@ function LegalPage() {
               Entrepreneur individuel<br />
               SIREN : 852 546 225<br />
               RCS : Bourg-en-Bresse<br />
-              Email : contact@aevia.io<br />
+              Email : valentinmilliand@aevia.services<br />
               Adresse : Communiquée sur demande
             </p>
           </div>

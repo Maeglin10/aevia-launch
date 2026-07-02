@@ -47,10 +47,10 @@ export default function ContactPage() {
                 {
                   Icon: MapPin,
                   label: "Adresse",
-                  value: "Adresse communiquée sur demande à contact@aevia.io",
+                  value: "Adresse communiquée sur demande à valentinmilliand@aevia.services",
                 },
                 { Icon: Phone, label: "Téléphone", value: "+33 1 42 60 80 20" },
-                { Icon: Mail, label: "Email", value: "contact@aevia.io" },
+                { Icon: Mail, label: "Email", value: "valentinmilliand@aevia.services" },
                 { Icon: Clock, label: "Horaires", value: "Mardi – Dimanche · 18h30 – 23h30" },
               ].map(({ Icon, label, value }) => (
                 <div key={label}>

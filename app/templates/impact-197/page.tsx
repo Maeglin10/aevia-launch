@@ -1361,7 +1361,7 @@ function LegalPage() {
             <p>
               <strong>Éditeur :</strong> Aevia WS — Valentin Milliand<br />
               Entrepreneur individuel — SIREN 852 546 225 — RCS Bourg-en-Bresse<br />
-              <strong>Contact :</strong>{fd?.email ?? "contact@aevia.io"}<br />
+              <strong>Contact :</strong>{fd?.email ?? "valentinmilliand@aevia.services"}<br />
               <strong>Hébergeur :</strong> Vercel Inc., 650 2nd St, San Francisco, CA 94107, USA.<br />
               <strong>Adresse physique :</strong> communiquée sur demande.
             </p>

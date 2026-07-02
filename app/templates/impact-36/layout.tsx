@@ -336,7 +336,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 Contact
               </h4>
               <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-                <a href="mailto:contact@aevia.io" style={{ fontSize: 14, color: "#64748b", textDecoration: "none" }}>contact@aevia.io</a>
+                <a href="mailto:valentinmilliand@aevia.services" style={{ fontSize: 14, color: "#64748b", textDecoration: "none" }}>valentinmilliand@aevia.services</a>
                 <span style={{ fontSize: 14, color: "#64748b" }}>+1 212 555 0190</span>
                 <span style={{ fontSize: 14, color: "#64748b" }}>New York, NY 10022</span>
                 <span style={{ fontSize: 14, color: "#64748b" }}>Mon-Fri 8am-7pm ET</span>

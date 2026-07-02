@@ -72,7 +72,7 @@ export default function ContactPage() {
                       required
                       type="email"
                       className="w-full bg-black/5 border border-black/10 rounded-none px-6 py-4 text-xs font-bold outline-none focus:border-cyan-500 text-black transition-all uppercase tracking-widest"
-                      placeholder="e.g. contact@aevia.io"
+                      placeholder="e.g. valentinmilliand@aevia.services"
                     />
                   </div>
                 </div>

@@ -3615,7 +3615,7 @@ function ContactPage() {
             <p style={{ color: "rgba(240,236,224,0.7)", fontSize: 15, lineHeight: 1.8, fontStyle: "italic" }}>
               Place Vendôme, 75001 Paris (sur rendez-vous uniquement)<br />
               Téléphone : +33 1 42 60 00 00<br />
-              E-mail : contact@aevia.io
+              E-mail : valentinmilliand@aevia.services
             </p>
           </div>
 
@@ -3699,7 +3699,7 @@ function LegalPage({ variant }: { variant: "mentions" | "cgv" | "privacy" }) {
               SIREN : 852 546 225<br />
               RCS : Bourg-en-Bresse<br />
               Adresse : communiquée sur demande<br />
-              E-mail : contact@aevia.io
+              E-mail : valentinmilliand@aevia.services
             </p>
           </div>
           <div>
@@ -3799,7 +3799,7 @@ function LegalPage({ variant }: { variant: "mentions" | "cgv" | "privacy" }) {
         <div>
           <h3 style={{color: brand ?? '#d4af6b', fontSize: 18, fontStyle: "italic", marginBottom: 12, fontWeight: 400 }}>Vos Droits</h3>
           <p>
-            Conformément au RGPD, vous disposez d'un droit d'accès, de rectification et de suppression des données vous concernant. Vous pouvez exercer ce droit à tout moment par e-mail à : contact@aevia.io.
+            Conformément au RGPD, vous disposez d'un droit d'accès, de rectification et de suppression des données vous concernant. Vous pouvez exercer ce droit à tout moment par e-mail à : valentinmilliand@aevia.services.
           </p>
         </div>
       </div>

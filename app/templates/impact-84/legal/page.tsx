@@ -16,8 +16,8 @@ export default function LegalPage() {
             <div>
               <h2 className="text-lg font-light text-[#F0EBE0] mb-4" style={{ fontFamily: "'Bodoni Moda', serif" }}>Éditeur du site</h2>
               <p>Ce site est édité par <strong className="text-[#C9A86C]">Valentin Milliand</strong> (propriétaire de l&apos;enseigne Aevia WS), auto-entrepreneur immatriculé au registre du commerce et des sociétés de Bourg-en-Bresse sous le numéro SIREN <strong className="text-[#C9A86C]">852 546 225</strong>.</p>
-              <p className="mt-3">Email de contact : <a href="mailto:contact@aevia.io" className="text-[#C9A86C] hover:text-[#F0EBE0] transition-colors">contact@aevia.io</a></p>
-              <p className="mt-1">Adresse du siège social : Valentin Milliand, SIREN 852 546 225, RCS Bourg-en-Bresse (adresse physique communiquée sur simple demande à contact@aevia.io).</p>
+              <p className="mt-3">Email de contact : <a href="mailto:valentinmilliand@aevia.services" className="text-[#C9A86C] hover:text-[#F0EBE0] transition-colors">valentinmilliand@aevia.services</a></p>
+              <p className="mt-1">Adresse du siège social : Valentin Milliand, SIREN 852 546 225, RCS Bourg-en-Bresse (adresse physique communiquée sur simple demande à valentinmilliand@aevia.services).</p>
             </div>
             
             <div>

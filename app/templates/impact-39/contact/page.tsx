@@ -35,10 +35,10 @@ export default function ContactPage() {
                 {
                   icon: MapPin,
                   title: "Zone d'intervention",
-                  content: "Île-de-France + France entière\nValentin Milliand, SIREN 852 546 225, RCS Bourg-en-Bresse\n(adresse communiquée sur demande à contact@aevia.io)"
+                  content: "Île-de-France + France entière\nValentin Milliand, SIREN 852 546 225, RCS Bourg-en-Bresse\n(adresse communiquée sur demande à valentinmilliand@aevia.services)"
                 },
                 { icon: Phone, title: "Téléphone", content: "+33 1 XX XX XX XX" },
-                { icon: Mail, title: "Email", content: "contact@aevia.io" },
+                { icon: Mail, title: "Email", content: "valentinmilliand@aevia.services" },
                 { icon: Clock, title: "Horaires", content: "Lundi – Samedi : 8 h – 19 h\nDimanche : fermé" },
               ].map(({ icon: Icon, title, content }) => (
                 <SectionReveal key={title}>

@@ -59,7 +59,7 @@ export default function MentionsPage() {
               Entrepreneur individuel<br />
               SIREN 852 546 225<br />
               RCS Bourg-en-Bresse<br />
-              contact@aevia.io
+              valentinmilliand@aevia.services
             </p>
           </div>
           <div>

@@ -188,7 +188,7 @@ export const FAQS = [
   },
   {
     q: "Y a-t-il un essai gratuit ?",
-    a: "Oui ! Nous offrons 1 journée d'essai gratuite sur présentation de votre projet. Contactez-nous à contact@aevia.io pour en bénéficier.",
+    a: "Oui ! Nous offrons 1 journée d'essai gratuite sur présentation de votre projet. Contactez-nous à valentinmilliand@aevia.services pour en bénéficier.",
   },
 ]
 

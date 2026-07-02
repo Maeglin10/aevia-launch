@@ -24,7 +24,7 @@ export default function Privacy() {
           <h2 style={{ ...sectionTitle, marginTop: 24 }}>Responsable du traitement</h2>
           <p style={para}>
             Le responsable du traitement des données personnelles est <span style={strong}>Valentin Milliand</span>.
-            Pour toute question, écrivez à <span style={strong}>contact@aevia.io</span>.
+            Pour toute question, écrivez à <span style={strong}>valentinmilliand@aevia.services</span>.
           </p>
 
           <h2 style={sectionTitle}>Données collectées</h2>
@@ -48,7 +48,7 @@ export default function Privacy() {
           <h2 style={sectionTitle}>Vos droits</h2>
           <p style={para}>
             Conformément au RGPD, vous disposez d'un droit d'accès, de rectification, d'effacement, de portabilité et
-            d'opposition au traitement de vos données. Pour exercer ces droits, écrivez à contact@aevia.io.
+            d'opposition au traitement de vos données. Pour exercer ces droits, écrivez à valentinmilliand@aevia.services.
           </p>
 
           <h2 style={sectionTitle}>Cookies</h2>

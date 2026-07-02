@@ -241,7 +241,7 @@ export default function GastronomyLayout({ children }: { children: React.ReactNo
                 </div>
                 <div style={{ display: "flex", gap: "0.5rem" }}>
                   <Mail size={15} color={C.accent} />
-                  <span>contact@aevia.io</span>
+                  <span>valentinmilliand@aevia.services</span>
                 </div>
               </div>
             </div>

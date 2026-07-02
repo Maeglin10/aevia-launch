@@ -59,7 +59,7 @@ export default function LegalPage() {
                 {
                   title: "Éditeur du site",
                   content:
-                    "Aevia WS — SIREN 852 546 225\nAuto-entrepreneur\nEmail : contact@aevia.io\nAdresse du siège social communiquée sur demande.",
+                    "Aevia WS — SIREN 852 546 225\nAuto-entrepreneur\nEmail : valentinmilliand@aevia.services\nAdresse du siège social communiquée sur demande.",
                 },
                 {
                   title: "Hébergement",
@@ -67,7 +67,7 @@ export default function LegalPage() {
                 },
                 {
                   title: "Responsable de publication",
-                  content: "Le responsable de publication est le gérant d'Aevia WS. Pour tout contact : contact@aevia.io",
+                  content: "Le responsable de publication est le gérant d'Aevia WS. Pour tout contact : valentinmilliand@aevia.services",
                 },
                 {
                   title: "Propriété intellectuelle",
@@ -120,7 +120,7 @@ export default function LegalPage() {
                 {
                   title: "Vos droits",
                   content:
-                    "Conformément au RGPD, vous disposez d'un droit d'accès, de rectification, de suppression et de portabilité de vos données. Pour exercer ces droits : contact@aevia.io",
+                    "Conformément au RGPD, vous disposez d'un droit d'accès, de rectification, de suppression et de portabilité de vos données. Pour exercer ces droits : valentinmilliand@aevia.services",
                 },
                 {
                   title: "Cookies",

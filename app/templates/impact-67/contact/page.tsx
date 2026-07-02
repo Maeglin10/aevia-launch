@@ -36,7 +36,7 @@ export default function ContactPage() {
 
               <div className="space-y-8">
                 {[
-                  { label: "Secure Email", val: "contact@aevia.io", icon: <Mail className="w-4 h-4 text-rose-600" /> },
+                  { label: "Secure Email", val: "valentinmilliand@aevia.services", icon: <Mail className="w-4 h-4 text-rose-600" /> },
                   { label: "Secure Line", val: "+33 1 XX XX XX XX", icon: <Phone className="w-4 h-4 text-rose-600" /> },
                   { label: "Central Node", val: "Bourg-en-Bresse, France", icon: <MapPin className="w-4 h-4 text-rose-600" /> },
                 ].map((item, i) => (

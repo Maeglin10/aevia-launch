@@ -29,8 +29,8 @@ export default function LegalPage() {
             <h2 style={{ fontSize: 18, fontFamily: "'Cinzel', serif", color: C.white, marginBottom: 12 }}>ÉDITEUR</h2>
             <p style={{ margin: 0 }}>Ce site web est édité par : <strong>Valentin Milliand</strong>, propriétaire d'Aevia WS.</p>
             <p style={{ margin: "8px 0 0 0" }}>Immatriculation : <strong>SIREN 852 546 225</strong>, enregistré au Registre du Commerce et des Sociétés (RCS) de Bourg-en-Bresse.</p>
-            <p style={{ margin: "8px 0 0 0" }}>Siège Social : Adresse physique non communiquée pour des raisons de confidentialité (adresse communiquée sur demande à contact@aevia.io).</p>
-            <p style={{ margin: "8px 0 0 0" }}>Contact : <strong>contact@aevia.io</strong></p>
+            <p style={{ margin: "8px 0 0 0" }}>Siège Social : Adresse physique non communiquée pour des raisons de confidentialité (adresse communiquée sur demande à valentinmilliand@aevia.services).</p>
+            <p style={{ margin: "8px 0 0 0" }}>Contact : <strong>valentinmilliand@aevia.services</strong></p>
           </section>
 
           <section style={{ marginBottom: 32 }}>
@@ -40,7 +40,7 @@ export default function LegalPage() {
 
           <section>
             <h2 style={{ fontSize: 18, fontFamily: "'Cinzel', serif", color: C.white, marginBottom: 12 }}>CONFIDENTIALITÉ & DONNÉES</h2>
-            <p style={{ margin: 0 }}>Toutes les données recueillies via le formulaire de contact (nom, e-mail, artiste sélectionné et description du projet) sont utilisées exclusivement pour traiter votre demande de consultation. Elles ne sont jamais partagées ou revendues. Conformément aux lois en vigueur, vous disposez d'un droit d'accès et de suppression de vos données sur simple demande par e-mail à contact@aevia.io.</p>
+            <p style={{ margin: 0 }}>Toutes les données recueillies via le formulaire de contact (nom, e-mail, artiste sélectionné et description du projet) sont utilisées exclusivement pour traiter votre demande de consultation. Elles ne sont jamais partagées ou revendues. Conformément aux lois en vigueur, vous disposez d'un droit d'accès et de suppression de vos données sur simple demande par e-mail à valentinmilliand@aevia.services.</p>
           </section>
         </div>
       </div>
