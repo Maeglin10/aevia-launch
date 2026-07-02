@@ -1,11 +1,11 @@
 import { NextResponse } from 'next/server'
 
-const CONTENT = `# Aevia Launch
+const CONTENT = `# AeviaLaunch — Sites web professionnels en 2h à 7j
 
-> Déploiement de sites web professionnels responsive, sécurisés et optimisés SEO. Wizard 5 étapes, prévisualisation instantanée, mise en ligne en 2 heures. Sans compétences design ou technique.
+> Créez votre site professionnel entre 2h et 7j selon le plan, sans compétences techniques.
 
 ## À propos
-Aevia Launch est un service SaaS qui déploie des sites web professionnels de haute qualité responsive et sécurisés. L'utilisateur choisit un thème adapté parmi 290+ designs optimisés SEO avec connexion Google Search Console et Google Analytics native, le site est livré en 2 heures.
+AeviaLaunch est un service SaaS de création de sites web pour entrepreneurs, TPE et PME. Plus de 290 thèmes optimisés SEO disponibles par secteur d'activité (restaurants, coachs, artisans, e-commerce, vitrines). Le site est livré mobile-first, avec hébergement inclus et connexion Google Search Console native. Intégration HubRise pour les restaurants.
 
 ## Cas d'usage
 Restaurants, coachs, artisans, e-commerce, consultants, portfolios, agences, SaaS, hôtels, cliniques, associations, startups, professions libérales.
@@ -14,6 +14,9 @@ Restaurants, coachs, artisans, e-commerce, consultants, portfolios, agences, Saa
 - Essentiel : 599 € — site vitrine livré en 2 à 4 heures
 - Pro : 899 € — site multi-sections, blog intégré, analytics
 - Premium : 1 499 € — e-commerce, effets 3D, intégration Stripe
+
+## Délai de livraison
+Entre 2h et 7j selon le plan choisi.
 
 ## Pages clés
 - [Accueil](https://launch.aevia.services)
@@ -24,13 +27,13 @@ Restaurants, coachs, artisans, e-commerce, consultants, portfolios, agences, Saa
 
 ## Contact
 - Société : Aevia (auto-entrepreneur — SIREN 852 546 225)
-- Email : contact@aevia.services
+- Email : valentinmilliand@aevia.services
 - Site : https://aevia.services
 
 ## Produits Aevia
-- [Aevia Launch](https://launch.aevia.services) — création de sites web professionnels
-- [Aevia Inbox](https://inbox.aevia.services) — agents IA multi-canaux (WhatsApp, email, voix)
-- [Aevia Security](https://security.aevia.services) — audit de sécurité et performance web
+- [AeviaLaunch](https://launch.aevia.services) — création de sites web professionnels
+- [AeviaInbox](https://inbox.aevia.services) — agents IA multi-canaux (WhatsApp, email, voix)
+- [AeviaSecurity](https://security.aevia.services) — audit de sécurité et performance web
 `
 
 export async function GET() {
