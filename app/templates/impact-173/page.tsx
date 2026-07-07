@@ -355,7 +355,6 @@ const PARTENAIRES = [
 
 function CountUp({ target, suffix = "", duration = 2 }: { target: number; suffix?: string; duration?: number }) {
   const [count, setCount] = useState(0);
-  const [mobileOpen, setMobileOpen] = useState(false)
   const ref = useRef<HTMLSpanElement>(null);
   const inView = useInView(ref, { once: true });
   useEffect(() => {
@@ -378,6 +377,7 @@ let fd: any = null;
 let c: any = null;
 let brand: any = null;
 export default function Impact173Page() {
+  const [mobileOpen, setMobileOpen] = useState(false)
   const [session, setSession] = useState<{
     formData?: {
       businessName?: string; businessType?: string; tagline?: string;

@@ -1,7 +1,7 @@
 "use client";
 // @ts-nocheck
 
-import React from "react"
+import React, { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import Link from "next/link"
 import { ArrowRight, Star, Target, Briefcase, Award, Globe, CheckCircle } from "lucide-react"
