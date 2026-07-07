@@ -12,6 +12,10 @@ import {
 import { TemplateIcon } from '@/components/TemplateIcon'
 import { MapPin } from 'lucide-react'
 
+// Hoisted above the design tokens: several templates read `brand` in a
+// module-level const — declaring it lower caused a TDZ ReferenceError (500).
+let brand: any = null;
+
 // ─── Design Tokens ─────────────────────────────────────────────────────────────
 const BG = '#faf8f5'
 const DARK = '#1a1209'
@@ -939,7 +943,6 @@ function SectionHeading({ eyebrow, title, subtitle }: { eyebrow: string; title: 
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
-let brand: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
     formData?: {

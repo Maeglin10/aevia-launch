@@ -9,6 +9,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Badge } from "@/components/ui/badge";
 
+// Hoisted above the design tokens: several templates read `brand` in a
+// module-level const — declaring it lower caused a TDZ ReferenceError (500).
+let brand: any = null;
+
 const C = {
   bg: "#FBF7EF",
   bgDark: "#0A2540",
@@ -345,7 +349,6 @@ type ActivePage = "home" | "destinations" | "concept" | "formules" | "legal";
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
-let brand: any = null;
 export default function EvasionDoree() {
   const [session, setSession] = useState<{
     formData?: {

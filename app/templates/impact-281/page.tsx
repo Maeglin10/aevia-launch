@@ -20,6 +20,10 @@ import {
   Star,
 } from 'lucide-react';
 
+// Hoisted above the design tokens: several templates read `brand` in a
+// module-level const — declaring it lower caused a TDZ ReferenceError (500).
+let brand: any = null;
+
 /* ════════════════════════════════════════════════════════════════════════════
    MAISON CÉLESTE — Couture sur mesure & retouches luxe · Paris 8e (Madeleine)
    Photographie Unsplash réelle + chorégraphie éditoriale au défilement.
@@ -2487,7 +2491,6 @@ function FooterSection() {
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
-let brand: any = null;
 export default function Impact281Page() {
   const [session, setSession] = useState<{
     formData?: {

@@ -23,6 +23,10 @@ import {
   Star,
 } from 'lucide-react';
 
+// Hoisted above the design tokens: several templates read `brand` in a
+// module-level const — declaring it lower caused a TDZ ReferenceError (500).
+let brand: any = null;
+
 /* ════════════════════════════════════════════════════════════════════════════
    OSTÉOPATHIE ALSACE — Ostéopathe D.O., Strasbourg Orangerie
    Template premium Skylaunch impact-291
@@ -2495,7 +2499,6 @@ function FootLink({ label, href }: { label: string; href: string }) {
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
-let brand: any = null;
 export default function Impact291Page() {
   const [session, setSession] = useState<{
     formData?: {

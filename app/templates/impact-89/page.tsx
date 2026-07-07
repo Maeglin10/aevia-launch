@@ -364,7 +364,6 @@ const FAQS = [
 
 function AnimatedCounter({ target, suffix = "" }: { target: number; suffix?: string }) {
   const [count, setCount] = useState(0);
-  const [mobileOpen, setMobileOpen] = useState(false)
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true });
 
@@ -493,6 +492,9 @@ let fd: any = null;
 let c: any = null;
 let brand: any = null;
 export default function Impact89Page() {
+  // Mobile menu state — was mistakenly declared inside AnimatedCounter
+  // (different component), leaving it undefined here and 500ing every render.
+  const [mobileOpen, setMobileOpen] = useState(false);
   const [session, setSession] = useState<{
     formData?: {
       businessName?: string; businessType?: string; tagline?: string;

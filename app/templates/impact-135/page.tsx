@@ -5,6 +5,10 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 import { motion, useScroll, useTransform, useInView, useMotionValue, useSpring, AnimatePresence } from "framer-motion";
 import { TemplateIcon } from '@/components/TemplateIcon';
 
+// Hoisted above the design tokens: several templates read `brand` in a
+// module-level const — declaring it lower caused a TDZ ReferenceError (500).
+let brand: any = null;
+
 // ─── Design tokens ───────────────────────────────────────────────────────────
 const C = {
   bg:        "#0a0b0d",
@@ -965,7 +969,6 @@ function HudScanline() {
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
-let brand: any = null;
 export default function Impact135Page() {
   const [session, setSession] = useState<{
     formData?: {

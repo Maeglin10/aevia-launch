@@ -34,6 +34,10 @@ import {
   Globe,
 } from 'lucide-react';
 
+// Hoisted above the design tokens: several templates read `brand` in a
+// module-level const — declaring it lower caused a TDZ ReferenceError (500).
+let brand: any = null;
+
 /* ════════════════════════════════════════════════════════════════════════════
    LUMYX — Premium Electric Urban Mobility
    Real-photography scroll choreography
@@ -1027,7 +1031,6 @@ function Footer() {
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
-let brand: any = null;
 export default function LumyxPage() {
   const [session, setSession] = useState<{
     formData?: {

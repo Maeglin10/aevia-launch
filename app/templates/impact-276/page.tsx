@@ -1134,9 +1134,10 @@ function ProgramsSection() {
                       color: C.white,
                       lineHeight: 0.92,
                       margin: '0 0 20px',
+                      whiteSpace: 'pre-line',
                     }}
                   >
-                    {prog.headline.replace('\n', '\n')}
+                    {prog.headline}
                   </h3>
 
                   {/* Description */}

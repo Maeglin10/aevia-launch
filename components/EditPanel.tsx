@@ -213,7 +213,9 @@ export function EditPanel({ session, onClose, onChange, onSave }: EditPanelProps
                 <label className="block text-[11px] font-semibold text-zinc-400 uppercase tracking-wider mb-1">
                   Image principale
                 </label>
-                {heroImageUrl && !imgError && (
+                {/* Only preview http(s) URLs — the field is free text, and a
+                    javascript:/data: URL must never reach an active sink. */}
+                {heroImageUrl && /^https?:\/\//i.test(heroImageUrl) && !imgError && (
                   <div className="mb-2 rounded-lg overflow-hidden border border-zinc-700 aspect-video bg-zinc-800">
                     <img
                       src={heroImageUrl}

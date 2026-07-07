@@ -292,7 +292,6 @@ const FAQS = [
 // Counter animé
 function Counter({ target, suffix = "" }: { target: number; suffix?: string }) {
   const [count, setCount] = useState(0);
-  const [mb130Open, setMb130Open] = useState(false);
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true });
   useEffect(() => {
@@ -538,6 +537,9 @@ let fd: any = null;
 let c: any = null;
 let brand: any = null;
 export default function Impact130Page() {
+  // Mobile menu state — was mistakenly declared inside Counter (different
+  // component), leaving it undefined here and 500ing every SSR render.
+  const [mb130Open, setMb130Open] = useState(false);
   const [session, setSession] = useState<{
     formData?: {
       businessName?: string; businessType?: string; tagline?: string;

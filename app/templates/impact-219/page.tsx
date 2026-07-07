@@ -19,6 +19,10 @@ import {
   Sparkles,
 } from 'lucide-react';
 
+// Hoisted above the design tokens: several templates read `brand` in a
+// module-level const — declaring it lower caused a TDZ ReferenceError (500).
+let brand: any = null;
+
 /* ════════════════════════════════════════════════════════════════════════════
    NovaSaaS — Clean, light SaaS landing page (violet/indigo)
    ════════════════════════════════════════════════════════════════════════════ */
@@ -111,20 +115,32 @@ function Nav() {
         }}
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
-          <div
-            style={{
-              width: 30,
-              height: 30,
-              borderRadius: 9,
-              background: `linear-gradient(135deg, ${C.primary}, ${C.indigo})`,
-              display: 'grid',
-              placeItems: 'center',
-              color: '#fff',
-            }}
-          >
-            <Sparkles size={17} />
-          </div>
-          <span style={{ fontWeight: 800, fontSize: 19, letterSpacing: '-0.02em' }}>{fd?.businessName ?? "NovaSaaS"}</span>
+          {fd?.logoBase64 ? (
+            // Client logo (uploaded in the brief) replaces the placeholder mark —
+            // essential for the client to recognise their brand in the render.
+            <img
+              src={fd.logoBase64}
+              alt={fd?.businessName ?? 'logo'}
+              style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+            />
+          ) : (
+            <>
+              <div
+                style={{
+                  width: 30,
+                  height: 30,
+                  borderRadius: 9,
+                  background: `linear-gradient(135deg, ${C.primary}, ${C.indigo})`,
+                  display: 'grid',
+                  placeItems: 'center',
+                  color: '#fff',
+                }}
+              >
+                <Sparkles size={17} />
+              </div>
+              <span style={{ fontWeight: 800, fontSize: 19, letterSpacing: '-0.02em' }}>{fd?.businessName ?? "NovaSaaS"}</span>
+            </>
+          )}
         </div>
 
         <nav className="ns-nav" style={{ display: 'flex', gap: 30 }}>
@@ -1181,7 +1197,6 @@ function Footer() {
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
-let brand: any = null;
 export default function Impact219Page() {
   const [session, setSession] = useState<{
     formData?: {

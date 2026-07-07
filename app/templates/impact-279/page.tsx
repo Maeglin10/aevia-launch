@@ -26,6 +26,10 @@ import {
   ExternalLink,
 } from 'lucide-react';
 
+// Hoisted above the design tokens: several templates read `brand` in a
+// module-level const — declaring it lower caused a TDZ ReferenceError (500).
+let brand: any = null;
+
 /* ════════════════════════════════════════════════════════════════════════════
    CABINET SOLER — Ostéopathe D.O., Lyon 6e · Brotteaux
    Template premium holistique. Palette forêt × beige lin × terracotta.
@@ -2490,7 +2494,6 @@ function FooterSection() {
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
-let brand: any = null;
 export default function Impact279Page() {
   const [session, setSession] = useState<{
     formData?: {

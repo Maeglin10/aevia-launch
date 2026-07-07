@@ -27,14 +27,24 @@ export default async function PreviewPage({ params }: { params: Promise<{ sessio
   const session = await getSessionFromBlob(sessionId);
   const localBusinessSchema = session ? buildLocalBusinessSchema(session) : null;
 
-  const ga4Id = session?.formData?.ga4Id;
+  // The schema is built from client-supplied form data and JSON.stringify does
+  // NOT escape "</script>" — a crafted businessName could break out of the
+  // JSON-LD block (XSS). Escaping "<" keeps the JSON valid and inert.
+  const schemaJson = localBusinessSchema
+    ? JSON.stringify(localBusinessSchema).replace(/</g, "\\u003c")
+    : null;
+
+  // Client-supplied — only ever use it if it looks like a real GA4 measurement
+  // id, otherwise it gets interpolated into an inline <script> (XSS).
+  const rawGa4 = session?.formData?.ga4Id;
+  const ga4Id = rawGa4 && /^G-[A-Z0-9]{4,20}$/.test(rawGa4) ? rawGa4 : null;
 
   return (
     <>
-      {localBusinessSchema && (
+      {schemaJson && (
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
+          dangerouslySetInnerHTML={{ __html: schemaJson }}
         />
       )}
       {ga4Id && (

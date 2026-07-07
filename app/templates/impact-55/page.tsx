@@ -175,7 +175,7 @@ return () => window.removeEventListener("scroll", h)
           <span style={{ fontSize: 13, color: scrolled ? C.textMuted : "rgba(255,255,255,0.65)", marginLeft: 6 }}>& Associés</span>
         </div>
         <div id="mb55-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      {["Domaines", "L'équipe", "Honoraires", "Contact"].map(l => (
-            <a key={l} href={`#${l.toLowerCase().replace("'", "").replace("é", "e")}`} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)", fontSize: 14, fontWeight: 600, textDecoration: "none" }}>{l}</a>
+            <a key={l} href={`#${l.toLowerCase().replace(/'/g, "").replace(/é/g, "e")}`} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)", fontSize: 14, fontWeight: 600, textDecoration: "none" }}>{l}</a>
           ))}
           <motion.a href={`tel:${fd?.phone ?? "+33144000001"}`} style={{ background: C.gold, color: C.text, borderRadius: 4, padding: "9px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none" }} whileHover={{ background: "#b8952e" }}>
             Consultation
@@ -195,7 +195,7 @@ return () => window.removeEventListener("scroll", h)
       {mobileOpen && (
         <div style={{ position: "fixed", top: 72, left: 0, right: 0, zIndex: 99, background: "rgba(255,255,255,0.98)", borderBottom: "1px solid #e5e5e5", padding: "24px 32px", display: "flex", flexDirection: "column", gap: 20, backdropFilter: "blur(12px)" }}>
           {["Domaines", "L'équipe", "Honoraires", "Contact"].map(l => (
-            <a key={l} href={`#${l.toLowerCase().replace("'", "").replace("é", "e")}`} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)", fontSize: 14, fontWeight: 600, textDecoration: "none" }}>{l}</a>
+            <a key={l} href={`#${l.toLowerCase().replace(/'/g, "").replace(/é/g, "e")}`} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)", fontSize: 14, fontWeight: 600, textDecoration: "none" }}>{l}</a>
           ))}
           <motion.a href={`tel:${fd?.phone ?? "+33144000001"}`} style={{ background: C.gold, color: C.text, borderRadius: 4, padding: "9px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none" }} whileHover={{ background: "#b8952e" }}>
             Consultation

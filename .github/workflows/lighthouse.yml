@@ -1,5 +1,9 @@
 name: Lighthouse
 
+# Least-privilege: jobs only read the repo; nothing here writes back.
+permissions:
+  contents: read
+
 on:
   pull_request:
     branches: [main]

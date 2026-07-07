@@ -14,6 +14,10 @@ import {
 import { TemplateIcon } from '@/components/TemplateIcon';
 import { Flame } from 'lucide-react';
 
+// Hoisted above the design tokens: several templates read `brand` in a
+// module-level const — declaring it lower caused a TDZ ReferenceError (500).
+let brand: any = null;
+
 // ─── Design Tokens ────────────────────────────────────────────────────────────
 const C = {
   bg: '#0a0c10',
@@ -619,7 +623,6 @@ function SectionHeading({ eyebrow, title, accent, subtitle }: { eyebrow: string;
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
-let brand: any = null;
 export default function ThermaProPage() {
   const [session, setSession] = useState<{
     formData?: {

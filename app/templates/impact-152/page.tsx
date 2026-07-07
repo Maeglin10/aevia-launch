@@ -6,6 +6,10 @@ import { motion, useScroll, useTransform, useInView } from "framer-motion"
 import Link from "next/link"
 import { ArrowRight, MapPin, Mail, Phone, Clock, Star, ChevronDown } from "lucide-react"
 
+// Hoisted above the design tokens: several templates read `brand` in a
+// module-level const — declaring it lower caused a TDZ ReferenceError (500).
+let brand: any = null;
+
 // ─── Design tokens ────────────────────────────────────────────────────────────
 const C = {
   bg: "#f7f3ef",
@@ -68,7 +72,6 @@ function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: nu
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
-let brand: any = null;
 export default function StudioNomaPage() {
   const [session, setSession] = useState<{
     formData?: {

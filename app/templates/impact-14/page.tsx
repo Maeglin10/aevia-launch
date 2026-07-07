@@ -24,6 +24,10 @@ import {
   Wind,
 } from "lucide-react";
 
+// Hoisted above the design tokens: several templates read `brand` in a
+// module-level const — declaring it lower caused a TDZ ReferenceError (500).
+let brand: any = null;
+
 /* ─────────────────────────────────────────────
    GLOBAL KEYFRAME STYLES
 ───────────────────────────────────────────── */
@@ -779,7 +783,6 @@ type ActivePage = "home" | "fleet" | "destinations" | "experience" | "contact" |
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
-let brand: any = null;
 export default function HorizonMaritimePage() {
   const [session, setSession] = useState<{
     formData?: {

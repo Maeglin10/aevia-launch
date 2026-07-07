@@ -19,6 +19,10 @@ import {
   MotionValue,
 } from "framer-motion"
 
+// Hoisted above the design tokens: several templates read `brand` in a
+// module-level const — declaring it lower caused a TDZ ReferenceError (500).
+let brand: any = null;
+
 /* ==========================================================================
    GLOBAL KEYFRAMES (injected once)
    ========================================================================== */
@@ -1976,7 +1980,6 @@ function Footer() {
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
-let brand: any = null;
 export default function SmartTextilesPremium() {
   const [session, setSession] = useState<{
     formData?: {

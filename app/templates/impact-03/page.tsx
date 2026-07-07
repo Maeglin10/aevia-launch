@@ -13,6 +13,10 @@ import {
 } from 'framer-motion';
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 
+// Hoisted above the design tokens: several templates read `brand` in a
+// module-level const — declaring it lower caused a TDZ ReferenceError (500).
+let brand: any = null;
+
 /* ─────────────────────────────────────────────────────────────────────────────
    DATA
 ───────────────────────────────────────────────────────────────────────────── */
@@ -655,7 +659,6 @@ function Reveal({
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
-let brand: any = null;
 export default function FashionEditorialTemplate() {
   const [session, setSession] = useState<{
     formData?: {

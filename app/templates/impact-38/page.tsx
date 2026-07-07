@@ -21,6 +21,10 @@ import {
   SectionReveal,
 } from "./shared";
 
+// Hoisted above the design tokens: several templates read `brand` in a
+// module-level const — declaring it lower caused a TDZ ReferenceError (500).
+let brand: any = null;
+
 // ─── Additional page-level constants ──────────────────────────────────────────
 
 const TICKER_ORIGINS = [
@@ -697,7 +701,6 @@ function ImpactMetric({ stat, index }: { stat: typeof IMPACT_STATS[0]; index: nu
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
-let brand: any = null;
 export default function OriginRoastPage() {
   const [session, setSession] = useState<{
     formData?: {
