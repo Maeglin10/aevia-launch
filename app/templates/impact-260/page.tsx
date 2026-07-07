@@ -416,10 +416,22 @@ function Nav() {
     <>
       <nav style={bar}>
       <div style={brand}>
-        <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
-          <circle cx="13" cy="13" r="12" stroke={C.accent} strokeWidth="1.5" />
-          <path d="M13 7v6l4 3" stroke={C.accentLight} strokeWidth="1.5" strokeLinecap="round" />
-        </svg>{fd?.businessName ?? "Aqua Confort"}</div>
+        {fd?.logoBase64 ? (
+          // Client logo (uploaded in the brief) replaces the placeholder mark —
+          // essential for the client to recognise their brand in the render.
+          <img
+            src={fd.logoBase64}
+            alt={fd?.businessName ?? 'logo'}
+            style={{ height: 28, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+          />
+        ) : (
+          <>
+            <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
+              <circle cx="13" cy="13" r="12" stroke={C.accent} strokeWidth="1.5" />
+              <path d="M13 7v6l4 3" stroke={C.accentLight} strokeWidth="1.5" strokeLinecap="round" />
+            </svg>{fd?.businessName ?? "Aqua Confort"}
+          </>
+        )}</div>
       <div style={{ display: 'flex', alignItems: 'center', gap: 'clamp(16px,2.2vw,34px)' }} className="ac-navlinks">
         {links.map((l) => (
           <NavLink key={l.label} label={l.label} href={l.href} />

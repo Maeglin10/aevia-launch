@@ -350,7 +350,15 @@ return (
             textDecoration: 'none',
             letterSpacing: '0.05em'
           }}>
-            KinéPro Sport Lyon
+            {fd?.logoBase64 ? (
+              <img
+                src={fd.logoBase64}
+                alt={fd?.businessName ?? 'logo'}
+                style={{ height: 30, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+              />
+            ) : (
+              "KinéPro Sport Lyon"
+            )}
           </a>
 
           {/* Desktop links */}

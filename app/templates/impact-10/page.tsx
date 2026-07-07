@@ -443,7 +443,11 @@ function NavBar({ scrolled, page, goTo }: { scrolled: boolean; page: HotelPage; 
         <button
           onClick={() => goTo('home')}
           style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer', fontFamily: SERIF, fontSize: '1.5rem', color: scrolled ? DARK : CREAM, letterSpacing: '0.08em', fontWeight: 300 }}
-        >{fd?.businessName ?? "Grand Palais"}</button>
+        >{fd?.logoBase64 ? (
+          <img src={fd.logoBase64} alt={fd?.businessName ?? 'logo'} style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }} />
+        ) : (
+          fd?.businessName ?? "Grand Palais"
+        )}</button>
 
         {/* Desktop links */}
         <div className="gp-nav-desktop" style={{ display: 'flex', alignItems: 'center', gap: '2.5rem' }}>

@@ -339,16 +339,29 @@ function Nav() {
           alignItems: 'center',
           gap: 10,
         }}
-      >{fd?.businessName ?? "Villa Émeraude"}<span
-          style={{
-            width: 6,
-            height: 6,
-            borderRadius: '50%',
-            background: C.accent,
-            display: 'inline-block',
-            flexShrink: 0,
-          }}
-        />
+      >
+        {fd?.logoBase64 ? (
+          // Client logo (uploaded in the brief) replaces the placeholder mark —
+          // essential for the client to recognise their brand in the render.
+          <img
+            src={fd.logoBase64}
+            alt={fd?.businessName ?? 'logo'}
+            style={{ height: 28, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+          />
+        ) : (
+          <>
+            {fd?.businessName ?? "Villa Émeraude"}<span
+              style={{
+                width: 6,
+                height: 6,
+                borderRadius: '50%',
+                background: C.accent,
+                display: 'inline-block',
+                flexShrink: 0,
+              }}
+            />
+          </>
+        )}
       </div>
 
       {/* Links */}

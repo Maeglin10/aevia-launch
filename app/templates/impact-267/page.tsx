@@ -403,8 +403,20 @@ function Nav() {
     <>
       <nav style={bar}>
       <a href="#hero" style={brand}>
-        <PenLine size={18} color={C.accent} strokeWidth={1.5} />
-        Atelier Encre Vivante
+        {fd?.logoBase64 ? (
+          // Client logo (uploaded in the brief) replaces the placeholder mark —
+          // essential for the client to recognise their brand in the render.
+          <img
+            src={fd.logoBase64}
+            alt={fd?.businessName ?? 'logo'}
+            style={{ height: 28, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+          />
+        ) : (
+          <>
+            <PenLine size={18} color={C.accent} strokeWidth={1.5} />
+            Atelier Encre Vivante
+          </>
+        )}
       </a>
       <div style={linkRow} className="ev-navlinks">
         {navLinks.map((l) => (

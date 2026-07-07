@@ -144,8 +144,20 @@ return () => window.removeEventListener("scroll", h) }, [])
 
       <motion.nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, height: 72, display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 64px", background: scrolled ? "rgba(245,247,242,0.97)" : "transparent", backdropFilter: scrolled ? "blur(12px)" : "none", borderBottom: scrolled ? `1px solid ${C.border}` : "none", transition: "all 0.4s ease" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          <Sprout size={18} color={scrolled ? C.accent : "#fff"} />
-          <span style={{ fontFamily: FONT, fontSize: 19, color: scrolled ? C.text : "#fff" }}>Vert <em>Nature</em></span>
+          {fd?.logoBase64 ? (
+            // Client logo (uploaded in the brief) replaces the placeholder mark —
+            // essential for the client to recognise their brand in the render.
+            <img
+              src={fd.logoBase64}
+              alt={fd?.businessName ?? 'logo'}
+              style={{ height: 30, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+            />
+          ) : (
+            <>
+              <Sprout size={18} color={scrolled ? C.accent : "#fff"} />
+              <span style={{ fontFamily: FONT, fontSize: 19, color: scrolled ? C.text : "#fff" }}>Vert <em>Nature</em></span>
+            </>
+          )}
         </div>
         <div id="mb232-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      {["Prestations", "Notre approche", "Réalisations", "Contact"].map(l => (
             <a key={l} href={`#${l.toLowerCase().replace(/\s/g, "-")}`} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)", fontSize: 14, fontWeight: 500, textDecoration: "none" }}>{l}</a>

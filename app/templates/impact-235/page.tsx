@@ -270,17 +270,29 @@ function Nav() {
           textDecoration: 'none',
         }}
       >
-        <Scissors size={16} color={C.gold} strokeWidth={1.4} />
-        <span
-          style={{
-            fontFamily: SERIF,
-            fontWeight: 400,
-            fontSize: 18,
-            letterSpacing: '0.12em',
-            color: C.ecru,
-            whiteSpace: 'nowrap',
-          }}
-        >{fd?.businessName ?? "Atelier Voss"}</span>
+        {fd?.logoBase64 ? (
+          // Client logo (uploaded in the brief) replaces the placeholder mark —
+          // essential for the client to recognise their brand in the render.
+          <img
+            src={fd.logoBase64}
+            alt={fd?.businessName ?? 'logo'}
+            style={{ height: 30, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+          />
+        ) : (
+          <>
+            <Scissors size={16} color={C.gold} strokeWidth={1.4} />
+            <span
+              style={{
+                fontFamily: SERIF,
+                fontWeight: 400,
+                fontSize: 18,
+                letterSpacing: '0.12em',
+                color: C.ecru,
+                whiteSpace: 'nowrap',
+              }}
+            >{fd?.businessName ?? "Atelier Voss"}</span>
+          </>
+        )}
       </div>
 
       {/* Links */}

@@ -350,7 +350,15 @@ return (
             textDecoration: 'none',
             letterSpacing: '0.05em'
           }}>
-            Dr. Estelle Blanc
+            {fd?.logoBase64 ? (
+              <img
+                src={fd.logoBase64}
+                alt={fd?.businessName ?? 'logo'}
+                style={{ height: 30, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+              />
+            ) : (
+              "Dr. Estelle Blanc"
+            )}
           </a>
 
           {/* Desktop links */}

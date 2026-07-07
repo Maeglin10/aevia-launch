@@ -371,7 +371,17 @@ function Nav() {
           userSelect: 'none',
         }}
       >
-        Vaillant &amp; Associés
+        {fd?.logoBase64 ? (
+          // Client logo (uploaded in the brief) replaces the placeholder mark —
+          // essential for the client to recognise their brand in the render.
+          <img
+            src={fd.logoBase64}
+            alt={fd?.businessName ?? 'logo'}
+            style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+          />
+        ) : (
+          <>Vaillant &amp; Associés</>
+        )}
       </div>
 
       {/* Links */}

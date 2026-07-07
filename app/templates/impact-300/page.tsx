@@ -353,7 +353,15 @@ return (
             textDecoration: 'none',
             letterSpacing: '0.05em'
           }}>
-            Ostéo Périnatal Nice
+            {fd?.logoBase64 ? (
+              <img
+                src={fd.logoBase64}
+                alt={fd?.businessName ?? 'logo'}
+                style={{ height: 30, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+              />
+            ) : (
+              "Ostéo Périnatal Nice"
+            )}
           </a>
 
           {/* Desktop links */}

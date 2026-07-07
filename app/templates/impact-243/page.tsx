@@ -384,8 +384,20 @@ function Nav() {
       <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       <link href={FONT_LINK} rel="stylesheet" />
       <a href="#accueil" style={brand}>
-        <Heart size={18} color={C.accent} strokeWidth={2} fill={C.accent} />
-        Dr.&nbsp;Beaumont
+        {fd?.logoBase64 ? (
+          // Client logo (uploaded in the brief) replaces the placeholder mark —
+          // essential for the client to recognise their brand in the render.
+          <img
+            src={fd.logoBase64}
+            alt={fd?.businessName ?? 'logo'}
+            style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+          />
+        ) : (
+          <>
+            <Heart size={18} color={C.accent} strokeWidth={2} fill={C.accent} />
+            Dr.&nbsp;Beaumont
+          </>
+        )}
       </a>
       <div style={linkRow} className="eb-navlinks">
         {navLinks.map((l) => (

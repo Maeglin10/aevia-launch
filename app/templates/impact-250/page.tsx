@@ -376,8 +376,20 @@ function Nav() {
     <>
       <nav style={bar}>
       <a href="#realisations" style={brand}>
-        <Leaf size={18} color={C.accent} strokeWidth={1.5} />
-        Atelier Terra
+        {fd?.logoBase64 ? (
+          // Client logo (uploaded in the brief) replaces the placeholder mark —
+          // essential for the client to recognise their brand in the render.
+          <img
+            src={fd.logoBase64}
+            alt={fd?.businessName ?? 'logo'}
+            style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+          />
+        ) : (
+          <>
+            <Leaf size={18} color={C.accent} strokeWidth={1.5} />
+            Atelier Terra
+          </>
+        )}
       </a>
       <div style={linkRow} className="at-navlinks">
         {navLinks.map((l) => (

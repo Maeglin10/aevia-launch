@@ -450,7 +450,20 @@ function Nav() {
     <>
       <nav style={bar}>
       <a href="#realisations" style={brand}>
-        <Zap size={18} color={C.accent} fill={C.accent} strokeWidth={0} />{fd?.businessName ?? "ÉlectroPro"}</a>
+        {fd?.logoBase64 ? (
+          // Client logo (uploaded in the brief) replaces the placeholder mark —
+          // essential for the client to recognise their brand in the render.
+          <img
+            src={fd.logoBase64}
+            alt={fd?.businessName ?? 'logo'}
+            style={{ height: 30, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+          />
+        ) : (
+          <>
+            <Zap size={18} color={C.accent} fill={C.accent} strokeWidth={0} />{fd?.businessName ?? "ÉlectroPro"}
+          </>
+        )}
+      </a>
       <div style={linkRow} className="ep-navlinks">
         {LINKS.map((l) => (
           <NavLink key={l.label} label={l.label} href={l.href} />

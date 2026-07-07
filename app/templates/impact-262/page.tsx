@@ -408,7 +408,19 @@ function Nav() {
   return (
     <>
       <nav style={bar}>
-      <a href="#hero" style={brand}>{fd?.businessName ?? "Studio Noir Absolu"}</a>
+      <a href="#hero" style={brand}>
+        {fd?.logoBase64 ? (
+          // Client logo (uploaded in the brief) replaces the placeholder mark —
+          // essential for the client to recognise their brand in the render.
+          <img
+            src={fd.logoBase64}
+            alt={fd?.businessName ?? 'logo'}
+            style={{ height: 28, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+          />
+        ) : (
+          fd?.businessName ?? "Studio Noir Absolu"
+        )}
+      </a>
       <div style={linkRow} className="sna-navlinks">
         {navLinks.map((l) => (
           <NavLink key={l.label} label={l.label} href={l.href} />

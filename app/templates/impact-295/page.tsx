@@ -352,7 +352,15 @@ return (
             color: C.primary,
             textDecoration: 'none',
             letterSpacing: '0.05em'
-          }}>{fd?.businessName ?? "Wok Master"}</a>
+          }}>{fd?.logoBase64 ? (
+            <img
+              src={fd.logoBase64}
+              alt={fd?.businessName ?? 'logo'}
+              style={{ height: 30, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+            />
+          ) : (
+            fd?.businessName ?? "Wok Master"
+          )}</a>
 
           {/* Desktop links */}
           <div style={{ display: 'flex', gap: 28, alignItems: 'center' }} className="hidden md:flex">

@@ -292,7 +292,19 @@ function Nav() {
           fontWeight: 700,
           lineHeight: 1,
         }}
-      >{fd?.businessName ?? "Maison Brûlot"}</a>
+      >
+        {fd?.logoBase64 ? (
+          // Client logo (uploaded in the brief) replaces the placeholder mark —
+          // essential for the client to recognise their brand in the render.
+          <img
+            src={fd.logoBase64}
+            alt={fd?.businessName ?? 'logo'}
+            style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+          />
+        ) : (
+          fd?.businessName ?? "Maison Brûlot"
+        )}
+      </a>
 
       {/* Links */}
       <div

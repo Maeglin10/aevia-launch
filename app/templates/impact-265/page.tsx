@@ -403,7 +403,17 @@ function Nav() {
     <>
       <nav style={bar}>
       <a href="#hero" style={brand}>
-        L&rsquo;Atelier Soie
+        {fd?.logoBase64 ? (
+          // Client logo (uploaded in the brief) replaces the placeholder mark —
+          // essential for the client to recognise their brand in the render.
+          <img
+            src={fd.logoBase64}
+            alt={fd?.businessName ?? 'logo'}
+            style={{ height: 28, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+          />
+        ) : (
+          <>L&rsquo;Atelier Soie</>
+        )}
       </a>
       <div style={linkRow} className="as-navlinks">
         {links.map((l) => (

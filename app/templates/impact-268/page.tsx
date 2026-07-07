@@ -393,8 +393,20 @@ function Nav() {
     <>
       <nav style={bar}>
       <div style={brand}>
-        <Leaf size={18} color={C.accent} strokeWidth={1.6} />
-        Vert&nbsp;Horizon
+        {fd?.logoBase64 ? (
+          // Client logo (uploaded in the brief) replaces the placeholder mark —
+          // essential for the client to recognise their brand in the render.
+          <img
+            src={fd.logoBase64}
+            alt={fd?.businessName ?? 'logo'}
+            style={{ height: 28, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+          />
+        ) : (
+          <>
+            <Leaf size={18} color={C.accent} strokeWidth={1.6} />
+            Vert&nbsp;Horizon
+          </>
+        )}
       </div>
       <div style={linkRow} className="vh-navlinks">
         {links.map((l) => (

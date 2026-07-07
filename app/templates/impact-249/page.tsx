@@ -392,7 +392,19 @@ function Nav() {
   return (
     <>
       <nav style={bar}>
-      <a href="#styles" style={brand}>{fd?.businessName ?? "Dermis Studio"}</a>
+      <a href="#styles" style={brand}>
+        {fd?.logoBase64 ? (
+          // Client logo (uploaded in the brief) replaces the placeholder mark —
+          // essential for the client to recognise their brand in the render.
+          <img
+            src={fd.logoBase64}
+            alt={fd?.businessName ?? 'logo'}
+            style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+          />
+        ) : (
+          fd?.businessName ?? "Dermis Studio"
+        )}
+      </a>
       <div style={linkRow} className="ds-navlinks">
         {links.map((l) => (
           <NavLink key={l.label} label={l.label} href={l.href} />

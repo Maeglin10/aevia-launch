@@ -420,10 +420,22 @@ function Nav() {
     <>
       <nav style={bar}>
       <a href="#hero" style={brand}>
-        Le Fournil<br />
-        <span style={{ fontStyle: 'italic', fontSize: '0.78em', color: 'rgba(240,221,184,0.7)', letterSpacing: '0.04em' }}>
-          du Parlement
-        </span>
+        {fd?.logoBase64 ? (
+          // Client logo (uploaded in the brief) replaces the placeholder mark —
+          // essential for the client to recognise their brand in the render.
+          <img
+            src={fd.logoBase64}
+            alt={fd?.businessName ?? 'logo'}
+            style={{ height: 30, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+          />
+        ) : (
+          <>
+            Le Fournil<br />
+            <span style={{ fontStyle: 'italic', fontSize: '0.78em', color: 'rgba(240,221,184,0.7)', letterSpacing: '0.04em' }}>
+              du Parlement
+            </span>
+          </>
+        )}
       </a>
 
       <div className="fp-navlinks" style={{ display: 'flex', alignItems: 'center', gap: 'clamp(18px,2.2vw,36px)' }}>

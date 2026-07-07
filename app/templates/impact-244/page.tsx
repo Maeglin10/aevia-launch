@@ -416,7 +416,20 @@ function Nav() {
   return (
     <>
       <nav style={bar}>
-      <a href="#apropos" style={brand}>{fd?.businessName ?? "Atelier Céleste"}<span style={dot} />
+      <a href="#apropos" style={brand}>
+        {fd?.logoBase64 ? (
+          // Client logo (uploaded in the brief) replaces the placeholder mark —
+          // essential for the client to recognise their brand in the render.
+          <img
+            src={fd.logoBase64}
+            alt={fd?.businessName ?? 'logo'}
+            style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+          />
+        ) : (
+          <>
+            {fd?.businessName ?? "Atelier Céleste"}<span style={dot} />
+          </>
+        )}
       </a>
 
       <div style={{ display: 'flex', alignItems: 'center', gap: 'clamp(18px,2.4vw,36px)' }} className="ac-navlinks">

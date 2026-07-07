@@ -1940,15 +1940,25 @@ function Nav() {
     >
       {/* Logo */}
       <a href="#hero" style={{ textDecoration: 'none' }}>
-        <div style={{
-          fontFamily: FONT_HEADING,
-          fontWeight: 800,
-          fontSize: '1.1rem',
-          color: C.cream,
-          letterSpacing: '-0.02em',
-        }}>
-          FERRETTI <span style={{ color: C.yellow }}>▲</span>
-        </div>
+        {fd?.logoBase64 ? (
+          // Client logo (uploaded in the brief) replaces the placeholder mark —
+          // essential for the client to recognise their brand in the render.
+          <img
+            src={fd.logoBase64}
+            alt={fd?.businessName ?? 'logo'}
+            style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+          />
+        ) : (
+          <div style={{
+            fontFamily: FONT_HEADING,
+            fontWeight: 800,
+            fontSize: '1.1rem',
+            color: C.cream,
+            letterSpacing: '-0.02em',
+          }}>
+            FERRETTI <span style={{ color: C.yellow }}>▲</span>
+          </div>
+        )}
       </a>
 
       {/* Desktop links */}

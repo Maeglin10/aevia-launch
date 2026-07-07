@@ -209,26 +209,38 @@ function Navbar() {
     >
       {/* Logo */}
       <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-        <div
-          style={{
-            width: 32,
-            height: 32,
-            background: T.accent,
-            borderRadius: 3,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-            <path d="M2 13 L8 5 L14 9 L18 3" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
-            <circle cx="2" cy="13" r="1.5" fill="white"/>
-            <circle cx="18" cy="3" r="1.5" fill="white"/>
-          </svg>
-        </div>
-        <span style={{ fontWeight: 800, fontSize: 20, color: T.text, letterSpacing: "-0.02em" }}>
-          NEXUS<span style={{ color: T.accent }}>FREIGHT</span>
-        </span>
+        {fd?.logoBase64 ? (
+          // Client logo (uploaded in the brief) replaces the placeholder mark —
+          // essential for the client to recognise their brand in the render.
+          <img
+            src={fd.logoBase64}
+            alt={fd?.businessName ?? 'logo'}
+            style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+          />
+        ) : (
+          <>
+            <div
+              style={{
+                width: 32,
+                height: 32,
+                background: T.accent,
+                borderRadius: 3,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                <path d="M2 13 L8 5 L14 9 L18 3" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+                <circle cx="2" cy="13" r="1.5" fill="white"/>
+                <circle cx="18" cy="3" r="1.5" fill="white"/>
+              </svg>
+            </div>
+            <span style={{ fontWeight: 800, fontSize: 20, color: T.text, letterSpacing: "-0.02em" }}>
+              NEXUS<span style={{ color: T.accent }}>FREIGHT</span>
+            </span>
+          </>
+        )}
       </div>
 
       {/* Desktop links */}

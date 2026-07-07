@@ -430,7 +430,17 @@ function Nav() {
     <>
       <nav style={bar} aria-label="Navigation principale">
       <a href="#haut" style={brand}>
-        Ostéo&nbsp;République
+        {fd?.logoBase64 ? (
+          // Client logo (uploaded in the brief) replaces the placeholder mark —
+          // essential for the client to recognise their brand in the render.
+          <img
+            src={fd.logoBase64}
+            alt={fd?.businessName ?? 'logo'}
+            style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+          />
+        ) : (
+          <>Ostéo&nbsp;République</>
+        )}
       </a>
       <div style={linkRow} className="or-navlinks">
         {links.map((l) => (

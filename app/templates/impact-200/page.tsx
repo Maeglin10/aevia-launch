@@ -546,11 +546,23 @@ return () => window.removeEventListener("scroll", onScroll)
         <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
           {/* Logo */}
           <Link href="#hero" className="flex items-center gap-3">
-            <Heart className="w-5 h-5 text-[#DB2777]" fill="currentColor" />
-            <span
-              className="text-4xl text-[#831843]"
-              style={{ fontFamily: "'Great Vibes', cursive" }}
-            >{fd?.businessName ?? "Cérémonie"}</span>
+            {fd?.logoBase64 ? (
+              // Client logo (uploaded in the brief) replaces the placeholder mark —
+              // essential for the client to recognise their brand in the render.
+              <img
+                src={fd.logoBase64}
+                alt={fd?.businessName ?? 'logo'}
+                style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+              />
+            ) : (
+              <>
+                <Heart className="w-5 h-5 text-[#DB2777]" fill="currentColor" />
+                <span
+                  className="text-4xl text-[#831843]"
+                  style={{ fontFamily: "'Great Vibes', cursive" }}
+                >{fd?.businessName ?? "Cérémonie"}</span>
+              </>
+            )}
           </Link>
 
           {/* Desktop Links */}
@@ -599,10 +611,20 @@ return () => window.removeEventListener("scroll", onScroll)
             transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
           >
             <div className="px-6 h-20 flex items-center justify-between border-b border-[#DB2777]/10">
-              <span
-                className="text-4xl text-[#831843]"
-                style={{ fontFamily: "'Great Vibes', cursive" }}
-              >{fd?.businessName ?? "Cérémonie"}</span>
+              {fd?.logoBase64 ? (
+                // Client logo (uploaded in the brief) replaces the placeholder mark —
+                // essential for the client to recognise their brand in the render.
+                <img
+                  src={fd.logoBase64}
+                  alt={fd?.businessName ?? 'logo'}
+                  style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+                />
+              ) : (
+                <span
+                  className="text-4xl text-[#831843]"
+                  style={{ fontFamily: "'Great Vibes', cursive" }}
+                >{fd?.businessName ?? "Cérémonie"}</span>
+              )}
               <button onClick={() => setMenuOpen(false)} className="p-2 text-[#831843]">
                 <X className="w-6 h-6" />
               </button>

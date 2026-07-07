@@ -254,12 +254,18 @@ return () => window.removeEventListener("scroll", handleScroll);
             href="#hero"
             className="group flex items-center gap-3 text-xl font-black tracking-tighter"
           >
-            <div className="w-8 h-8 bg-gradient-to-br from-[#00f2ff] to-[#7000ff] rounded flex items-center justify-center text-black">
-              <Box className="w-5 h-5" />
-            </div>
-            <span className="group-hover:text-[#00f2ff] transition-colors">
-              BLOCK // <span className="text-white/40">BASE</span>
-            </span>
+            {fd?.logoBase64 ? (
+              <img src={fd.logoBase64} alt={fd?.businessName ?? 'logo'} style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }} />
+            ) : (
+              <>
+                <div className="w-8 h-8 bg-gradient-to-br from-[#00f2ff] to-[#7000ff] rounded flex items-center justify-center text-black">
+                  <Box className="w-5 h-5" />
+                </div>
+                <span className="group-hover:text-[#00f2ff] transition-colors">
+                  BLOCK // <span className="text-white/40">BASE</span>
+                </span>
+              </>
+            )}
           </Link>
 
           <div className="hidden lg:flex items-center gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-white/40">

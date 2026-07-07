@@ -442,8 +442,20 @@ function Nav() {
     <>
       <nav style={bar}>
       <a href="#hero" style={brand}>
-        <Leaf size={18} color={C.accent} strokeWidth={1.5} />
-        Dr.&nbsp;Moulin
+        {fd?.logoBase64 ? (
+          // Client logo (uploaded in the brief) replaces the placeholder mark —
+          // essential for the client to recognise their brand in the render.
+          <img
+            src={fd.logoBase64}
+            alt={fd?.businessName ?? 'logo'}
+            style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+          />
+        ) : (
+          <>
+            <Leaf size={18} color={C.accent} strokeWidth={1.5} />
+            Dr.&nbsp;Moulin
+          </>
+        )}
       </a>
       <div style={linkRow} className="am-navlinks">
         {links.map((l) => (

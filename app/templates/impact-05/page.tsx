@@ -321,10 +321,16 @@ return (
       <nav className="fixed top-0 left-0 w-full z-50 bg-[#09090b]/80 backdrop-blur-xl border-b border-white/5">
         <div className="max-w-7xl mx-auto px-6 md:px-12 py-4 flex justify-between items-center">
           <Link href="#hero" className="flex items-center gap-2 cursor-pointer">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-violet-500 to-fuchsia-500 flex items-center justify-center">
-              <Zap className="w-4 h-4 text-white" />
-            </div>
-            <span className="text-lg font-bold tracking-tight">{fd?.businessName ?? "NovaPlatform SaaS"}</span>
+            {fd?.logoBase64 ? (
+              <img src={fd.logoBase64} alt={fd?.businessName ?? 'logo'} style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }} />
+            ) : (
+              <>
+                <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-violet-500 to-fuchsia-500 flex items-center justify-center">
+                  <Zap className="w-4 h-4 text-white" />
+                </div>
+                <span className="text-lg font-bold tracking-tight">{fd?.businessName ?? "NovaPlatform SaaS"}</span>
+              </>
+            )}
           </Link>
 
           <div className="hidden lg:flex items-center gap-8">
@@ -345,10 +351,16 @@ return (
             <SheetTrigger className="lg:hidden cursor-pointer"><Menu className="w-5 h-5" /></SheetTrigger>
             <SheetContent side="right" className="bg-[#09090b] border-white/10 text-white">
               <div className="flex items-center gap-2 mb-10 mt-2">
-                <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-violet-500 to-fuchsia-500 flex items-center justify-center">
-                  <Zap className="w-3.5 h-3.5" />
-                </div>
-                <span className="font-bold">{fd?.businessName ?? "NovaPlatform SaaS"}</span>
+                {fd?.logoBase64 ? (
+                  <img src={fd.logoBase64} alt={fd?.businessName ?? 'logo'} style={{ height: 28, maxWidth: 160, objectFit: 'contain', display: 'block' }} />
+                ) : (
+                  <>
+                    <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-violet-500 to-fuchsia-500 flex items-center justify-center">
+                      <Zap className="w-3.5 h-3.5" />
+                    </div>
+                    <span className="font-bold">{fd?.businessName ?? "NovaPlatform SaaS"}</span>
+                  </>
+                )}
               </div>
               <div className="flex flex-col gap-6">
                 {(["Features", "Pricing", "FAQ", "Contact"] as const).map((item, i) => {

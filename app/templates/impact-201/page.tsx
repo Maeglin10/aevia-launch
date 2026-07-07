@@ -803,28 +803,40 @@ return (
               gap: 12,
             }}
           >
-            <div
-              style={{
-                width: 32,
-                height: 32,
-                borderRadius: "50%",
-                border: `1px solid ${C.gold}`,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <span style={{ fontSize: 14 }}>✦</span>
-            </div>
-            <span
-              style={{
-                fontFamily: C.font,
-                fontSize: 20,
-                fontWeight: 400,
-                color: C.cream,
-                letterSpacing: "0.08em",
-              }}
-            >{fd?.businessName ?? "Maison Saveur"}</span>
+            {fd?.logoBase64 ? (
+              // Client logo (uploaded in the brief) replaces the placeholder mark —
+              // essential for the client to recognise their brand in the render.
+              <img
+                src={fd.logoBase64}
+                alt={fd?.businessName ?? 'logo'}
+                style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+              />
+            ) : (
+              <>
+                <div
+                  style={{
+                    width: 32,
+                    height: 32,
+                    borderRadius: "50%",
+                    border: `1px solid ${C.gold}`,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <span style={{ fontSize: 14 }}>✦</span>
+                </div>
+                <span
+                  style={{
+                    fontFamily: C.font,
+                    fontSize: 20,
+                    fontWeight: 400,
+                    color: C.cream,
+                    letterSpacing: "0.08em",
+                  }}
+                >{fd?.businessName ?? "Maison Saveur"}</span>
+              </>
+            )}
           </button>
 
           {/* Desktop links */}

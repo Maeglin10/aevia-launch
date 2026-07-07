@@ -170,7 +170,19 @@ return () => window.removeEventListener("scroll", h)
         borderBottom: scrolled ? `1px solid ${C.border}` : "none",
         transition: "all 0.4s ease",
       }}>
-        <div style={{ fontFamily: FONT, fontSize: 22, color: C.accent }}>Encre <span style={{ fontStyle: "italic" }}>Noire</span></div>
+        <div style={{ fontFamily: FONT, fontSize: 22, color: C.accent }}>
+          {fd?.logoBase64 ? (
+            // Client logo (uploaded in the brief) replaces the placeholder mark —
+            // essential for the client to recognise their brand in the render.
+            <img
+              src={fd.logoBase64}
+              alt={fd?.businessName ?? 'logo'}
+              style={{ height: 30, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+            />
+          ) : (
+            <>Encre <span style={{ fontStyle: "italic" }}>Noire</span></>
+          )}
+        </div>
         <div id="mb226-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      {["Styles", "Galerie", "Tarifs", "Contact"].map(l => (
             <a key={l} href={`#${l.toLowerCase()}`} style={{ color: C.textMuted, fontSize: 14, fontWeight: 500, textDecoration: "none" }}>{l}</a>
           ))}

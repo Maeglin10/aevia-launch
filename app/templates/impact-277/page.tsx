@@ -277,8 +277,20 @@ function Nav() {
     <>
       <nav style={bar}>
       <div style={brand}>
-        <Zap size={22} color={C.yellow} strokeWidth={2} />
-        Électricité&nbsp;Dumont
+        {fd?.logoBase64 ? (
+          // Client logo (uploaded in the brief) replaces the placeholder mark —
+          // essential for the client to recognise their brand in the render.
+          <img
+            src={fd.logoBase64}
+            alt={fd?.businessName ?? 'logo'}
+            style={{ height: 28, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+          />
+        ) : (
+          <>
+            <Zap size={22} color={C.yellow} strokeWidth={2} />
+            Électricité&nbsp;Dumont
+          </>
+        )}
       </div>
       <div
         style={{ display: 'flex', alignItems: 'center', gap: 'clamp(16px,2.2vw,34px)' }}

@@ -209,8 +209,14 @@ return () => window.removeEventListener("scroll", h);
       <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-700 ${scrolled ? "bg-[#020204]/90 backdrop-blur-3xl py-4 border-b border-white/5" : "bg-transparent py-8"}`}>
         <div className="max-w-[1600px] mx-auto px-6 md:px-12 flex items-center justify-between">
           <Link href="#hero" className="group flex flex-col items-center">
-             <span className="text-3xl font-black tracking-[-0.05em] uppercase leading-none">{fd?.businessName ?? "Neuralis"}</span>
-             <span className="text-[8px] font-bold uppercase tracking-[0.5em] text-[#00f2ff] -mt-1 ml-1">Augmentation Lab</span>
+             {fd?.logoBase64 ? (
+               <img src={fd.logoBase64} alt={fd?.businessName ?? 'logo'} style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }} />
+             ) : (
+               <>
+                 <span className="text-3xl font-black tracking-[-0.05em] uppercase leading-none">{fd?.businessName ?? "Neuralis"}</span>
+                 <span className="text-[8px] font-bold uppercase tracking-[0.5em] text-[#00f2ff] -mt-1 ml-1">Augmentation Lab</span>
+               </>
+             )}
           </Link>
 
           <div className="hidden lg:flex items-center gap-12 text-[10px] font-bold uppercase tracking-[0.3em] text-white/40">

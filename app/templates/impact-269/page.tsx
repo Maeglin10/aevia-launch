@@ -426,7 +426,19 @@ function Nav() {
   return (
     <>
       <nav style={bar}>
-      <div style={brand}>Boulangerie des Chartrons</div>
+      <div style={brand}>
+        {fd?.logoBase64 ? (
+          // Client logo (uploaded in the brief) replaces the placeholder mark —
+          // essential for the client to recognise their brand in the render.
+          <img
+            src={fd.logoBase64}
+            alt={fd?.businessName ?? 'logo'}
+            style={{ height: 28, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+          />
+        ) : (
+          "Boulangerie des Chartrons"
+        )}
+      </div>
       <div style={linkRow} className="bc-navlinks">
         {links.map((l) => (
           <NavLink key={l.label} label={l.label} href={l.href} />

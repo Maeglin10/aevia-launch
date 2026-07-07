@@ -255,12 +255,18 @@ return () => window.removeEventListener("scroll", h);
       >
         <div className="max-w-[1600px] mx-auto px-6 md:px-12 flex items-center justify-between">
           <Link href="#hero" className="group flex flex-col items-center">
-            <span className="text-3xl font-light tracking-[0.3em] uppercase leading-none">
-              Nova
-            </span>
-            <span className="text-[7px] font-bold uppercase tracking-[0.8em] text-black/30 -mt-1 ml-1">
-              Spatial Design
-            </span>
+            {fd?.logoBase64 ? (
+              <img src={fd.logoBase64} alt={fd?.businessName ?? 'logo'} style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }} />
+            ) : (
+              <>
+                <span className="text-3xl font-light tracking-[0.3em] uppercase leading-none">
+                  Nova
+                </span>
+                <span className="text-[7px] font-bold uppercase tracking-[0.8em] text-black/30 -mt-1 ml-1">
+                  Spatial Design
+                </span>
+              </>
+            )}
           </Link>
 
           <div className="hidden lg:flex items-center gap-12 text-[9px] font-bold uppercase tracking-[0.4em] text-black/40">

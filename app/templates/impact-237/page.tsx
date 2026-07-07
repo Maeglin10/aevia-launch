@@ -469,8 +469,20 @@ function Nav() {
     <>
       <nav style={bar}>
       <a href="#soins" style={brand}>
-        <span style={{ color: C.accent, fontSize: 22 }}>◉</span>
-        Sorrento
+        {fd?.logoBase64 ? (
+          // Client logo (uploaded in the brief) replaces the placeholder mark —
+          // essential for the client to recognise their brand in the render.
+          <img
+            src={fd.logoBase64}
+            alt={fd?.businessName ?? 'logo'}
+            style={{ height: 30, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+          />
+        ) : (
+          <>
+            <span style={{ color: C.accent, fontSize: 22 }}>◉</span>
+            Sorrento
+          </>
+        )}
       </a>
       <div style={linkRow} className="cs-navlinks">
         {links.map((l) => (

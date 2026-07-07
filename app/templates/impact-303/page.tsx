@@ -350,7 +350,15 @@ return (
             textDecoration: 'none',
             letterSpacing: '0.05em'
           }}>
-            Studio Peak Performance
+            {fd?.logoBase64 ? (
+              <img
+                src={fd.logoBase64}
+                alt={fd?.businessName ?? 'logo'}
+                style={{ height: 30, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+              />
+            ) : (
+              "Studio Peak Performance"
+            )}
           </a>
 
           {/* Desktop links */}

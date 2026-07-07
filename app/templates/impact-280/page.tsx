@@ -271,8 +271,20 @@ function Nav() {
     <>
       <nav style={bar}>
       <div style={brand}>
-        <Heart size={18} color={C.rose} strokeWidth={1.4} fill={C.rose} />
-        Les Épousailles d&apos;Alsace
+        {fd?.logoBase64 ? (
+          // Client logo (uploaded in the brief) replaces the placeholder mark —
+          // essential for the client to recognise their brand in the render.
+          <img
+            src={fd.logoBase64}
+            alt={fd?.businessName ?? 'logo'}
+            style={{ height: 28, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+          />
+        ) : (
+          <>
+            <Heart size={18} color={C.rose} strokeWidth={1.4} fill={C.rose} />
+            Les Épousailles d&apos;Alsace
+          </>
+        )}
       </div>
       <div style={linkRow} className="r280-navlinks">
         {links.map((l) => (

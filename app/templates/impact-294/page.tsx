@@ -350,7 +350,15 @@ return (
             textDecoration: 'none',
             letterSpacing: '0.05em'
           }}>
-            Sultan Kebab & Grill
+            {fd?.logoBase64 ? (
+              <img
+                src={fd.logoBase64}
+                alt={fd?.businessName ?? 'logo'}
+                style={{ height: 30, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+              />
+            ) : (
+              "Sultan Kebab & Grill"
+            )}
           </a>
 
           {/* Desktop links */}

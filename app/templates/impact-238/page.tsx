@@ -418,7 +418,20 @@ function Nav() {
     <>
       <nav style={bar} role="navigation" aria-label="Navigation principale">
       <a href="#accueil" style={brand}>
-        <Leaf size={20} color={C.accentLight} strokeWidth={1.6} />{fd?.businessName ?? "Kiné Atlantique"}</a>
+        {fd?.logoBase64 ? (
+          // Client logo (uploaded in the brief) replaces the placeholder mark —
+          // essential for the client to recognise their brand in the render.
+          <img
+            src={fd.logoBase64}
+            alt={fd?.businessName ?? 'logo'}
+            style={{ height: 30, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+          />
+        ) : (
+          <>
+            <Leaf size={20} color={C.accentLight} strokeWidth={1.6} />{fd?.businessName ?? "Kiné Atlantique"}
+          </>
+        )}
+      </a>
 
       <div style={{ display: 'flex', alignItems: 'center', gap: 'clamp(18px,2.2vw,36px)' }} className="ka-navlinks">
         {NAV_LINKS.map((l) => (

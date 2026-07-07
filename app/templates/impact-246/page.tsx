@@ -466,9 +466,21 @@ function Nav() {
           letterSpacing: '0.01em',
         }}
       >
-        <Wrench size={20} color={C.accent} strokeWidth={2} />
-        ThermoFix&nbsp;<span style={{ color: C.accent }}>Pro</span>
-        <span style={{ width: 6, height: 6, borderRadius: '50%', background: C.accent, display: 'inline-block', marginLeft: 2 }} />
+        {fd?.logoBase64 ? (
+          // Client logo (uploaded in the brief) replaces the placeholder mark —
+          // essential for the client to recognise their brand in the render.
+          <img
+            src={fd.logoBase64}
+            alt={fd?.businessName ?? 'logo'}
+            style={{ height: 30, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+          />
+        ) : (
+          <>
+            <Wrench size={20} color={C.accent} strokeWidth={2} />
+            ThermoFix&nbsp;<span style={{ color: C.accent }}>Pro</span>
+            <span style={{ width: 6, height: 6, borderRadius: '50%', background: C.accent, display: 'inline-block', marginLeft: 2 }} />
+          </>
+        )}
       </div>
 
       {/* Links */}

@@ -272,8 +272,20 @@ function Nav() {
       `}</style>
       <nav style={bar}>
         <a href="#domotique" style={brand}>
-          <Zap size={20} color={C.yellow} strokeWidth={2.5} fill={C.yellow} />
-          Volt &amp; Lux
+          {fd?.logoBase64 ? (
+            // Client logo (uploaded in the brief) replaces the placeholder mark —
+            // essential for the client to recognise their brand in the render.
+            <img
+              src={fd.logoBase64}
+              alt={fd?.businessName ?? 'logo'}
+              style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+            />
+          ) : (
+            <>
+              <Zap size={20} color={C.yellow} strokeWidth={2.5} fill={C.yellow} />
+              Volt &amp; Lux
+            </>
+          )}
         </a>
         <div style={linkRow} className="vl-navlinks">
           {links.map((l) => (

@@ -437,8 +437,20 @@ function Nav() {
     <>
       <nav style={bar}>
       <div style={brand}>
-        <Dumbbell size={20} color={C.accent} strokeWidth={2} />
-        <span>FORCE<span style={brandAccent}> BRUTE</span></span>
+        {fd?.logoBase64 ? (
+          // Client logo (uploaded in the brief) replaces the placeholder mark —
+          // essential for the client to recognise their brand in the render.
+          <img
+            src={fd.logoBase64}
+            alt={fd?.businessName ?? 'logo'}
+            style={{ height: 34, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+          />
+        ) : (
+          <>
+            <Dumbbell size={20} color={C.accent} strokeWidth={2} />
+            <span>FORCE<span style={brandAccent}> BRUTE</span></span>
+          </>
+        )}
       </div>
       <div style={linkRow} className="fb-navlinks">
         {links.map((l) => (

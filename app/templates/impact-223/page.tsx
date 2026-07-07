@@ -161,10 +161,22 @@ return () => window.removeEventListener("scroll", h)
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#080a0c]/95 backdrop-blur-xl border-b border-yellow-400/10 py-3" : "bg-transparent py-7"}`}>
         <div className="max-w-[1600px] mx-auto px-6 md:px-12 flex items-center justify-between">
           <Link href="#hero" className="flex items-center gap-3">
-            <div className="w-8 h-8 bg-yellow-400 flex items-center justify-center">
-              <Zap className="w-4 h-4 text-black fill-black" />
-            </div>
-            <span className="text-lg font-extrabold tracking-[0.15em] uppercase">VoltPro</span>
+            {fd?.logoBase64 ? (
+              // Client logo (uploaded in the brief) replaces the placeholder mark —
+              // essential for the client to recognise their brand in the render.
+              <img
+                src={fd.logoBase64}
+                alt={fd?.businessName ?? 'logo'}
+                style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+              />
+            ) : (
+              <>
+                <div className="w-8 h-8 bg-yellow-400 flex items-center justify-center">
+                  <Zap className="w-4 h-4 text-black fill-black" />
+                </div>
+                <span className="text-lg font-extrabold tracking-[0.15em] uppercase">VoltPro</span>
+              </>
+            )}
           </Link>
           <div className="hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.25em] text-white/40">
             {[
