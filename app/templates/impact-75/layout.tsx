@@ -13,6 +13,17 @@ export default function OrbitAILayout({
 }: {
   children: React.ReactNode;
 }) {
+  const [__layoutSession, __setLayoutSession] = useState<any>(null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(__setLayoutSession)
+      .catch(() => {});
+  }, []);
+  const fd = __layoutSession?.formData;
+
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
 
@@ -50,13 +61,22 @@ export default function OrbitAILayout({
         >
           <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex items-center justify-between">
             <Link href="/templates/impact-75" className="flex items-center gap-4 group">
+          {fd?.logoBase64 ? (
+            <img
+              src={fd.logoBase64}
+              alt={fd?.businessName ?? 'logo'}
+              style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+            />
+          ) : (
+            <>
               <div className="w-10 h-10 bg-cyan-500 flex items-center justify-center group-hover:rotate-90 transition-transform duration-500 shadow-[0_0_20px_rgba(6,182,212,0.3)]">
                 <Satellite className="w-6 h-6 text-black" />
               </div>
               <span className="text-xl font-bold tracking-tighter uppercase text-white italic">
                 Orbit<span className="text-cyan-500">AI</span>
               </span>
-            </Link>
+            </>
+          )}</Link>
             <div className="hidden lg:flex gap-12 text-[10px] font-bold uppercase tracking-[0.4em]">
               {navLinks.map((link) => (
                 <Link

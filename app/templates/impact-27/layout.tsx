@@ -1,12 +1,23 @@
 "use client"
 
 import { useScroll, motion, AnimatePresence } from "framer-motion"
-import { useRef, useState } from "react"
+import { useRef, useState, useEffect } from "react";
 import Link from "next/link"
 import { Box } from "lucide-react"
 import { useFonts } from "./shared"
 
 export default function Layout({ children }: { children: React.ReactNode }) {
+  const [__layoutSession, __setLayoutSession] = useState<any>(null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(__setLayoutSession)
+      .catch(() => {});
+  }, []);
+  const fd = __layoutSession?.formData;
+
   useFonts()
   const containerRef = useRef(null)
   const { scrollYProgress } = useScroll({ target: containerRef })
@@ -23,11 +34,20 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <nav className="fixed top-4 left-4 right-4 z-40">
         <div className="max-w-6xl mx-auto bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl px-6 py-3 flex items-center justify-between">
           <Link href="/templates/impact-27" className="flex items-center gap-2 text-white hover:opacity-90">
+          {fd?.logoBase64 ? (
+            <img
+              src={fd.logoBase64}
+              alt={fd?.businessName ?? 'logo'}
+              style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+            />
+          ) : (
+            <>
             <div className="w-8 h-8 bg-[#9B5CF6] rounded-xl flex items-center justify-center">
               <Box className="w-4 h-4 text-white" />
             </div>
             <span className="font-bold text-lg tracking-tight">Vertex Studio</span>
-          </Link>
+          </>
+          )}</Link>
           <div className="hidden md:flex items-center gap-8 text-sm text-white/55">
             <Link href="/templates/impact-27/work" className="hover:text-white transition-colors text-sm font-medium">Work</Link>
             <Link href="/templates/impact-27/services" className="hover:text-white transition-colors text-sm font-medium">Services</Link>

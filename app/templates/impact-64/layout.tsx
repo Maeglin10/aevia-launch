@@ -12,6 +12,17 @@ export default function NeuronSecLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const [__layoutSession, __setLayoutSession] = useState<any>(null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(__setLayoutSession)
+      .catch(() => {});
+  }, []);
+  const fd = __layoutSession?.formData;
+
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false)
@@ -64,9 +75,17 @@ export default function NeuronSecLayout({
           transition: "all 0.3s",
         }}>
           <Link href="/templates/impact-64" style={{ textDecoration: "none" }}>
-            <span style={{ fontFamily: mono, fontSize: "0.9rem", fontWeight: 700, color: C.green, letterSpacing: "0.05em" }}>
+            {fd?.logoBase64 ? (
+              <img
+                src={fd.logoBase64}
+                alt={fd?.businessName ?? 'logo'}
+                style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+              />
+            ) : (
+              <><span style={{ fontFamily: mono, fontSize: "0.9rem", fontWeight: 700, color: C.green, letterSpacing: "0.05em" }}>
               NEURON<span style={{ color: C.text }}>SEC</span>
-            </span>
+            </span></>
+            )}
           </Link>
           <div id="mb64-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      {navLinks.map((l) => (
               <Link

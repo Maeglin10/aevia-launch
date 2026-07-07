@@ -8,6 +8,17 @@ import { Radio, Headphones, Play, Pause, Menu, X } from "lucide-react"
 import { C, FONT, NAV_LINKS, FOOTER_LINKS, ScrollProgressBar, GlassCard } from "./shared"
 
 export default function Layout({ children }: { children: React.ReactNode }) {
+  const [__layoutSession, __setLayoutSession] = useState<any>(null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(__setLayoutSession)
+      .catch(() => {});
+  }, []);
+  const fd = __layoutSession?.formData;
+
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [isPlaying, setIsPlaying] = useState(false)
@@ -53,6 +64,14 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
           {/* Logo */}
           <Link href="/templates/impact-34" className="flex items-center gap-3">
+          {fd?.logoBase64 ? (
+            <img
+              src={fd.logoBase64}
+              alt={fd?.businessName ?? 'logo'}
+              style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+            />
+          ) : (
+            <>
             <div className="relative flex items-center gap-1.5">
               <Radio className="w-5 h-5 text-[#F97316]" />
               <span className="text-lg font-black tracking-tight text-white">WAVEFORM</span>
@@ -62,7 +81,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-[#F97316]" />
               </span>
             </div>
-          </Link>
+          </>
+          )}</Link>
 
           {/* Desktop links */}
           <div className="hidden md:flex items-center gap-8">

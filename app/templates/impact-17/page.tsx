@@ -171,7 +171,17 @@ return (
       {/* Nav */}
       <nav className="fixed top-4 left-4 right-4 z-50">
         <div className="max-w-6xl mx-auto bg-[#F5F2ED]/92 backdrop-blur-md border border-[#C46A3E]/20 rounded-2xl px-6 py-4 flex items-center justify-between shadow-sm">
-          <div onClick={() => goTo("home")} className="text-[#1A1510] tracking-wide text-lg font-medium cursor-pointer" style={{ fontFamily: "'Libre Baskerville', serif" }}>{fd?.businessName ?? "Kéops"}</div>
+          <div onClick={() => goTo("home")} className="cursor-pointer">
+            {fd?.logoBase64 ? (
+              <img
+                src={fd.logoBase64}
+                alt={fd?.businessName ?? 'logo'}
+                style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+              />
+            ) : (
+              <span className="text-[#1A1510] tracking-wide text-lg font-medium" style={{ fontFamily: "'Libre Baskerville', serif" }}>{fd?.businessName ?? "Kéops"}</span>
+            )}
+          </div>
           <div className="hidden md:flex items-center gap-8 text-[#1A1510]/60 text-sm font-medium">
             {[
               { name: "Projets", key: "projets" },
@@ -201,7 +211,15 @@ return (
         {mobileOpen && (
           <motion.div className="fixed inset-0 z-[100] bg-[#F5F2ED] flex flex-col p-8" initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }} transition={{ type: "spring", stiffness: 300, damping: 30 }}>
             <div className="flex items-center justify-between mb-12">
-              <span className="text-[#1A1510] text-xl font-medium" style={{ fontFamily: "'Libre Baskerville', serif" }}>{fd?.businessName ?? "Kéops"}</span>
+              {fd?.logoBase64 ? (
+                <img
+                  src={fd.logoBase64}
+                  alt={fd?.businessName ?? 'logo'}
+                  style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+                />
+              ) : (
+                <span className="text-[#1A1510] text-xl font-medium" style={{ fontFamily: "'Libre Baskerville', serif" }}>{fd?.businessName ?? "Kéops"}</span>
+              )}
               <button onClick={() => setMobileOpen(false)} className="cursor-pointer"><X className="w-6 h-6 text-[#1A1510]" /></button>
             </div>
             {[

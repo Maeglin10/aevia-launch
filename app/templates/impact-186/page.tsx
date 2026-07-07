@@ -136,8 +136,18 @@ return () => window.removeEventListener("scroll", h)
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-white/98 backdrop-blur-xl py-3 shadow-sm border-b border-[#1d6fa4]/10" : "bg-white/95 backdrop-blur-md py-5 border-b border-[#1d6fa4]/5"}`}>
         <div className="max-w-[1300px] mx-auto px-6 md:px-12 flex items-center justify-between">
           <div>
-            <div className="font-bold text-[#1a2332] text-sm leading-tight">Dr. Léa Fontaine</div>
-            <div className="text-[9px] font-bold uppercase tracking-[0.3em] text-[#1d6fa4]/60">Chirurgien-dentiste · Nantes</div>
+            {fd?.logoBase64 ? (
+              <img
+                src={fd.logoBase64}
+                alt={fd?.businessName ?? 'logo'}
+                style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+              />
+            ) : (
+              <>
+                <div className="font-bold text-[#1a2332] text-sm leading-tight">Dr. Léa Fontaine</div>
+                <div className="text-[9px] font-bold uppercase tracking-[0.3em] text-[#1d6fa4]/60">Chirurgien-dentiste · Nantes</div>
+              </>
+            )}
           </div>
           <div className="hidden lg:flex gap-9 text-[10px] font-bold uppercase tracking-[0.2em] text-[#1a2332]/30">
             {["Soins", "L'équipe", "Urgences", "Tarifs", "Contact"].map(l => (

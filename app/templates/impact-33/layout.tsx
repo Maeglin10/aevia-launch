@@ -9,6 +9,17 @@ import { TemplateIcon } from "@/components/TemplateIcon";
 import { C, FONT_HEADING, FONT_BODY } from "./shared";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
+  const [__layoutSession, __setLayoutSession] = useState<any>(null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(__setLayoutSession)
+      .catch(() => {});
+  }, []);
+  const fd = __layoutSession?.formData;
+
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
@@ -49,7 +60,14 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         }}
       >
         <Link href="/templates/impact-33" style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: 10 }}>
-          <motion.div
+          {fd?.logoBase64 ? (
+            <img
+              src={fd.logoBase64}
+              alt={fd?.businessName ?? 'logo'}
+              style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+            />
+          ) : (
+            <><motion.div
             style={{ display: "flex", alignItems: "center", gap: 10 }}
             whileHover={{ scale: 1.03 }}
           >
@@ -60,7 +78,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               <div style={{ fontFamily: FONT_HEADING, fontWeight: 700, fontSize: 20, color: C.text, lineHeight: 1 }}>La Fournée</div>
               <div style={{ fontSize: 10, color: C.textMuted, letterSpacing: 1.5, textTransform: "uppercase" }}>Artisan Boulanger</div>
             </div>
-          </motion.div>
+          </motion.div></>
+          )}
         </Link>
 
         {/* Desktop Links */}

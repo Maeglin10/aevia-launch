@@ -186,8 +186,20 @@ return (
       <nav className="fixed top-4 left-4 right-4 z-50">
         <div className="max-w-6xl mx-auto bg-[#060B16]/90 backdrop-blur-md border border-white/10 rounded-2xl px-6 py-4 flex items-center justify-between">
           <button onClick={() => goTo("home")} className="flex items-center gap-2 cursor-pointer">
-            <div className="w-8 h-8 bg-gradient-to-br from-[#06B6D4] to-[#8B5CF6] rounded-lg flex items-center justify-center"><Cloud className="w-4 h-4 text-white" /></div>
-            <span className="text-white font-bold text-lg">{fd?.businessName ?? "NimbusAI"}</span>
+            {fd?.logoBase64 ? (
+              // Client logo (uploaded in the brief) replaces the placeholder mark —
+              // essential for the client to recognise their brand in the render.
+              <img
+                src={fd.logoBase64}
+                alt={fd?.businessName ?? 'logo'}
+                style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+              />
+            ) : (
+              <>
+                <div className="w-8 h-8 bg-gradient-to-br from-[#06B6D4] to-[#8B5CF6] rounded-lg flex items-center justify-center"><Cloud className="w-4 h-4 text-white" /></div>
+                <span className="text-white font-bold text-lg">{fd?.businessName ?? "NimbusAI"}</span>
+              </>
+            )}
           </button>
           <div className="hidden md:flex items-center gap-8 text-gray-400 text-sm font-medium">
             {["Modèles", "Pricing", "Docs", "Status", "Blog"].map(item => (
@@ -206,7 +218,15 @@ return (
         {mobileOpen && (
           <motion.div className="fixed inset-0 z-[100] bg-[#060B16] flex flex-col p-8" initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }} transition={{ type: "spring", stiffness: 300, damping: 30 }}>
             <div className="flex items-center justify-between mb-12">
-              <span className="text-white font-bold text-xl">{fd?.businessName ?? "NimbusAI"}</span>
+              {fd?.logoBase64 ? (
+                <img
+                  src={fd.logoBase64}
+                  alt={fd?.businessName ?? 'logo'}
+                  style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+                />
+              ) : (
+                <span className="text-white font-bold text-xl">{fd?.businessName ?? "NimbusAI"}</span>
+              )}
               <button onClick={() => setMobileOpen(false)} className="cursor-pointer"><X className="w-6 h-6 text-white" /></button>
             </div>
             {["Modèles", "Pricing", "Docs", "Status", "Blog"].map((item, i) => (

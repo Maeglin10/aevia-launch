@@ -680,29 +680,37 @@ return () => window.removeEventListener("scroll", onScroll);
         }}
       >
         {/* Logo */}
-        <div
-          style={{
-            fontFamily: C.font,
-            fontSize: 22,
-            fontWeight: 600,
-            color: C.green,
-            display: "flex",
-            alignItems: "center",
-            gap: 10,
-            letterSpacing: "0.06em",
-          }}
-        >
-          <svg width={22} height={26} viewBox="0 0 22 26" fill="none">
-            <path
-              d="M11 2 C7 2 2 8 2 15 C2 20 6 24 11 24 C16 24 20 20 20 15 C20 8 15 2 11 2Z"
-              fill={C.green}
-            />
-            <line x1="11" y1="24" x2="11" y2="9" stroke={C.bg} strokeWidth="1.2" />
-            <line x1="11" y1="17" x2="7" y2="14" stroke={C.bg} strokeWidth="0.8" />
-            <line x1="11" y1="13" x2="15" y2="10" stroke={C.bg} strokeWidth="0.8" />
-          </svg>
-          Rostova Studio
-        </div>
+        {fd?.logoBase64 ? (
+          <img
+            src={fd.logoBase64}
+            alt={fd?.businessName ?? 'logo'}
+            style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+          />
+        ) : (
+          <div
+            style={{
+              fontFamily: C.font,
+              fontSize: 22,
+              fontWeight: 600,
+              color: C.green,
+              display: "flex",
+              alignItems: "center",
+              gap: 10,
+              letterSpacing: "0.06em",
+            }}
+          >
+            <svg width={22} height={26} viewBox="0 0 22 26" fill="none">
+              <path
+                d="M11 2 C7 2 2 8 2 15 C2 20 6 24 11 24 C16 24 20 20 20 15 C20 8 15 2 11 2Z"
+                fill={C.green}
+              />
+              <line x1="11" y1="24" x2="11" y2="9" stroke={C.bg} strokeWidth="1.2" />
+              <line x1="11" y1="17" x2="7" y2="14" stroke={C.bg} strokeWidth="0.8" />
+              <line x1="11" y1="13" x2="15" y2="10" stroke={C.bg} strokeWidth="0.8" />
+            </svg>
+            Rostova Studio
+          </div>
+        )}
 
         {/* Desktop links */}
         <div

@@ -1,12 +1,23 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X, MessageSquare, Link2, Wine, Phone, Mail, MapPin } from "lucide-react";
 import { C, SERIF, SANS } from "./shared";
 
 export default function ClosDuSoirLayout({ children }: { children: React.ReactNode }) {
+  const [__layoutSession, __setLayoutSession] = useState<any>(null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(__setLayoutSession)
+      .catch(() => {});
+  }, []);
+  const fd = __layoutSession?.formData;
+
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
 
@@ -69,7 +80,14 @@ export default function ClosDuSoirLayout({ children }: { children: React.ReactNo
               gap: 12,
             }}
           >
-            <span
+            {fd?.logoBase64 ? (
+              <img
+                src={fd.logoBase64}
+                alt={fd?.businessName ?? 'logo'}
+                style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+              />
+            ) : (
+              <><span
               style={{
                 fontFamily: SERIF,
                 fontWeight: 700,
@@ -79,7 +97,8 @@ export default function ClosDuSoirLayout({ children }: { children: React.ReactNo
               }}
             >
               Clos du Soir
-            </span>
+            </span></>
+            )}
           </Link>
 
           <div style={{ flex: 1 }} />

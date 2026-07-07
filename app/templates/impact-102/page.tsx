@@ -299,28 +299,38 @@ return () => window.removeEventListener("scroll", handler)
               textDecoration: "none",
             }}
           >
-            <div
-              style={{
-                width: 28,
-                height: 28,
-                background: "#0f62fe",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <Atom style={{ width: 16, height: 16, color: "#ffffff" }} />
-            </div>
-            <span
-              style={{
-                fontSize: 15,
-                fontWeight: 600,
-                color: "#161616",
-                letterSpacing: "-0.01em",
-              }}
-            >
-              QBit <span style={{ color: "#0f62fe" }}>Labs</span>
-            </span>
+            {fd?.logoBase64 ? (
+              <img
+                src={fd.logoBase64}
+                alt={fd?.businessName ?? 'logo'}
+                style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+              />
+            ) : (
+              <>
+                <div
+                  style={{
+                    width: 28,
+                    height: 28,
+                    background: "#0f62fe",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Atom style={{ width: 16, height: 16, color: "#ffffff" }} />
+                </div>
+                <span
+                  style={{
+                    fontSize: 15,
+                    fontWeight: 600,
+                    color: "#161616",
+                    letterSpacing: "-0.01em",
+                  }}
+                >
+                  QBit <span style={{ color: "#0f62fe" }}>Labs</span>
+                </span>
+              </>
+            )}
           </Link>
 
           {/* Desktop nav */}

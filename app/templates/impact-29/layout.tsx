@@ -1,13 +1,24 @@
 "use client"
 
 import { useScroll, motion, AnimatePresence } from "framer-motion"
-import { useRef, useState } from "react"
+import { useRef, useState, useEffect } from "react";
 import Link from "next/link"
 import { Terminal, ArrowRight } from "lucide-react"
 import { useFonts } from "./shared"
 import { usePathname } from "next/navigation"
 
 export default function Layout({ children }: { children: React.ReactNode }) {
+  const [__layoutSession, __setLayoutSession] = useState<any>(null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(__setLayoutSession)
+      .catch(() => {});
+  }, []);
+  const fd = __layoutSession?.formData;
+
   useFonts()
   const containerRef = useRef(null)
   const { scrollYProgress } = useScroll({ target: containerRef })
@@ -24,10 +35,19 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <nav className="fixed top-0 left-0 right-0 z-40 bg-[#0A0E1A]/90 backdrop-blur-md border-b border-[#00F5D4]/10">
         <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
           <Link href="/templates/impact-29" className="flex items-center gap-3 cursor-pointer">
+          {fd?.logoBase64 ? (
+            <img
+              src={fd.logoBase64}
+              alt={fd?.businessName ?? 'logo'}
+              style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+            />
+          ) : (
+            <>
             <Terminal className="w-5 h-5 text-[#00F5D4]" />
             <span className="font-bold text-[#00F5D4]">glitch</span>
             <span className="text-[#475569]">.dev</span>
-          </Link>
+          </>
+          )}</Link>
           <div className="hidden md:flex items-center gap-8 text-sm text-[#475569]">
             <Link href="/templates/impact-29/work" className={`hover:text-[#00F5D4] transition-colors cursor-pointer ${isActive('/templates/impact-29/work') ? 'text-[#00F5D4]' : ''}`}>
               <span className="text-[#00F5D4]">// </span>work

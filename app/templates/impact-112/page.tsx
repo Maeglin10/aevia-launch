@@ -644,56 +644,64 @@ return (
         }}
       >
         <Link href="#hero" style={{ textDecoration: "none" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-            {/* Potter wheel icon */}
-            <div
-              style={{
-                width: 34,
-                height: 34,
-                borderRadius: "50%",
-                border: `1.5px solid ${C.terracotta}`,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                background: C.terracottaSoft,
-              }}
-            >
+          {fd?.logoBase64 ? (
+            <img
+              src={fd.logoBase64}
+              alt={fd?.businessName ?? 'logo'}
+              style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+            />
+          ) : (
+            <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+              {/* Potter wheel icon */}
               <div
                 style={{
-                  width: 12,
-                  height: 12,
+                  width: 34,
+                  height: 34,
                   borderRadius: "50%",
-                  background: C.terracotta,
-                  opacity: 0.6,
-                }}
-              />
-            </div>
-            <div>
-              <div
-                style={{
-                  fontFamily: FONT,
-                  fontWeight: 800,
-                  fontSize: "1rem",
-                  color: C.text,
-                  letterSpacing: "-0.02em",
-                  lineHeight: 1,
+                  border: `1.5px solid ${C.terracotta}`,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  background: C.terracottaSoft,
                 }}
               >
-                Terre & Geste
+                <div
+                  style={{
+                    width: 12,
+                    height: 12,
+                    borderRadius: "50%",
+                    background: C.terracotta,
+                    opacity: 0.6,
+                  }}
+                />
               </div>
-              <div
-                style={{
-                  fontSize: "0.52rem",
-                  color: C.muted,
-                  letterSpacing: "0.12em",
-                  textTransform: "uppercase",
-                  marginTop: 2,
-                }}
-              >
-                Céramique artisanale · Bourgogne
+              <div>
+                <div
+                  style={{
+                    fontFamily: FONT,
+                    fontWeight: 800,
+                    fontSize: "1rem",
+                    color: C.text,
+                    letterSpacing: "-0.02em",
+                    lineHeight: 1,
+                  }}
+                >
+                  Terre & Geste
+                </div>
+                <div
+                  style={{
+                    fontSize: "0.52rem",
+                    color: C.muted,
+                    letterSpacing: "0.12em",
+                    textTransform: "uppercase",
+                    marginTop: 2,
+                  }}
+                >
+                  Céramique artisanale · Bourgogne
+                </div>
               </div>
             </div>
-          </div>
+          )}
         </Link>
 
         <div id="mb112-nav" style={{ display: "flex", alignItems: "center", gap: 32 }}>

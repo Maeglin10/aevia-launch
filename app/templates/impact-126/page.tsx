@@ -607,40 +607,50 @@ return (
               gap: 2,
             }}
           >
-            {/* Terracotta logomark circle */}
-            <div
-              style={{
-                width: 8,
-                height: 8,
-                borderRadius: "50%",
-                background: C.terracotta,
-                marginBottom: 4,
-              }}
-            />
-            <span
-              style={{
-                fontFamily: C.fontDisplay,
-                fontSize: "clamp(18px, 2vw, 24px)",
-                fontWeight: 600,
-                letterSpacing: "0.28em",
-                textTransform: "uppercase",
-                color: C.dark,
-              }}
-            >
-              Aureliano
-            </span>
-            <span
-              style={{
-                fontFamily: C.fontSans,
-                fontSize: 9,
-                fontWeight: 500,
-                letterSpacing: "0.35em",
-                textTransform: "uppercase",
-                color: C.terracotta,
-              }}
-            >
-              Roma
-            </span>
+            {fd?.logoBase64 ? (
+              <img
+                src={fd.logoBase64}
+                alt={fd?.businessName ?? 'logo'}
+                style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+              />
+            ) : (
+              <>
+                {/* Terracotta logomark circle */}
+                <div
+                  style={{
+                    width: 8,
+                    height: 8,
+                    borderRadius: "50%",
+                    background: C.terracotta,
+                    marginBottom: 4,
+                  }}
+                />
+                <span
+                  style={{
+                    fontFamily: C.fontDisplay,
+                    fontSize: "clamp(18px, 2vw, 24px)",
+                    fontWeight: 600,
+                    letterSpacing: "0.28em",
+                    textTransform: "uppercase",
+                    color: C.dark,
+                  }}
+                >
+                  Aureliano
+                </span>
+                <span
+                  style={{
+                    fontFamily: C.fontSans,
+                    fontSize: 9,
+                    fontWeight: 500,
+                    letterSpacing: "0.35em",
+                    textTransform: "uppercase",
+                    color: C.terracotta,
+                  }}
+                >
+                  Roma
+                </span>
+              </>
+            )}
           </div>
 
           {/* Right CTA */}

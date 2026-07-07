@@ -626,17 +626,25 @@ return (
         }}
       >
         <Link href="#hero" style={{ textDecoration: "none" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-            <div style={{
-              width: 36, height: 36,
-              background: C.accent,
-              display: "flex", alignItems: "center", justifyContent: "center",
-              clipPath: "polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)",
-            }}>
-              <span style={{ fontFamily: FONT_HEADING, fontSize: 14, color: C.white, letterSpacing: 1 }}>I</span>
+          {fd?.logoBase64 ? (
+            <img
+              src={fd.logoBase64}
+              alt={fd?.businessName ?? 'logo'}
+              style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+            />
+          ) : (
+            <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+              <div style={{
+                width: 36, height: 36,
+                background: C.accent,
+                display: "flex", alignItems: "center", justifyContent: "center",
+                clipPath: "polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)",
+              }}>
+                <span style={{ fontFamily: FONT_HEADING, fontSize: 14, color: C.white, letterSpacing: 1 }}>I</span>
+              </div>
+              <span style={{ fontFamily: FONT_HEADING, fontSize: 20, letterSpacing: 4, color: C.white }}>INK & IRON</span>
             </div>
-            <span style={{ fontFamily: FONT_HEADING, fontSize: 20, letterSpacing: 4, color: C.white }}>INK & IRON</span>
-          </div>
+          )}
         </Link>
 
         <div id="mb89-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      {NAV_LINKS.map((link) => (

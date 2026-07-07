@@ -272,8 +272,18 @@ return () => window.removeEventListener("scroll", handleScroll);
             href="#hero"
             className="text-2xl font-black tracking-tighter uppercase flex items-center gap-2"
           >
-            <Disc3 className="w-6 h-6 animate-spin-slow" />
-            SONIC<span className="font-light text-slate-500">WAVE</span>
+            {fd?.logoBase64 ? (
+              <img
+                src={fd.logoBase64}
+                alt={fd?.businessName ?? 'logo'}
+                style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+              />
+            ) : (
+              <>
+                <Disc3 className="w-6 h-6 animate-spin-slow" />
+                SONIC<span className="font-light text-slate-500">WAVE</span>
+              </>
+            )}
           </Link>
 
           <div className="hidden lg:flex items-center gap-10 text-[11px] font-bold uppercase tracking-widest">

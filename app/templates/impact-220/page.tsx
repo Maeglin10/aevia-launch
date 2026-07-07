@@ -174,29 +174,41 @@ function Nav() {
       >
         {/* Logo */}
         <div style={{ display: 'flex', flexDirection: 'column', lineHeight: 1 }}>
-          <span
-            style={{
-              fontFamily: "'Cormorant Garamond', serif",
-              fontSize: '22px',
-              fontWeight: 600,
-              letterSpacing: '0.15em',
-              color: T.cream,
-            }}
-          >
-            HORA VIVA
-          </span>
-          <span
-            style={{
-              fontFamily: "'Jost', sans-serif",
-              fontSize: '8px',
-              fontWeight: 200,
-              letterSpacing: '0.35em',
-              color: T.gold,
-              marginTop: '2px',
-            }}
-          >
-            GENÈVE · EST. 1834
-          </span>
+          {fd?.logoBase64 ? (
+            // Client logo (uploaded in the brief) replaces the placeholder mark —
+            // essential for the client to recognise their brand in the render.
+            <img
+              src={fd.logoBase64}
+              alt={fd?.businessName ?? 'logo'}
+              style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+            />
+          ) : (
+            <>
+              <span
+                style={{
+                  fontFamily: "'Cormorant Garamond', serif",
+                  fontSize: '22px',
+                  fontWeight: 600,
+                  letterSpacing: '0.15em',
+                  color: T.cream,
+                }}
+              >
+                HORA VIVA
+              </span>
+              <span
+                style={{
+                  fontFamily: "'Jost', sans-serif",
+                  fontSize: '8px',
+                  fontWeight: 200,
+                  letterSpacing: '0.35em',
+                  color: T.gold,
+                  marginTop: '2px',
+                }}
+              >
+                GENÈVE · EST. 1834
+              </span>
+            </>
+          )}
         </div>
 
         {/* Desktop links */}

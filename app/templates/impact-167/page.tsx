@@ -889,20 +889,31 @@ return () => window.removeEventListener("scroll", handleScroll);
         }}
       >
         <div
-          style={{
-            fontFamily: C.font,
-            fontSize: 22,
-            fontWeight: 400,
-            color: C.white,
-            letterSpacing: "0.06em",
-            cursor: "pointer",
-            fontStyle: "italic",
-          }}
+          style={{ cursor: "pointer" }}
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
         >
-          Rive Gauche
-          <span style={{ color: C.gold }}> · </span>
-          Immobilier
+          {fd?.logoBase64 ? (
+            <img
+              src={fd.logoBase64}
+              alt={fd?.businessName ?? 'logo'}
+              style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+            />
+          ) : (
+            <span
+              style={{
+                fontFamily: C.font,
+                fontSize: 22,
+                fontWeight: 400,
+                color: C.white,
+                letterSpacing: "0.06em",
+                fontStyle: "italic",
+              }}
+            >
+              Rive Gauche
+              <span style={{ color: C.gold }}> · </span>
+              Immobilier
+            </span>
+          )}
         </div>
 
         <div id="mb167-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      {NAV_LINKS.map((link) => (

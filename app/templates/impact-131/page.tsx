@@ -711,24 +711,32 @@ return (
           height: 72,
         }}
       >
-        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          <svg width={24} height={24} viewBox="0 0 24 24" fill="none">
-            <path d="M12 2C8 2 5 6 5 10c0 3 1.5 5.5 4 7v3h6v-3c2.5-1.5 4-4 4-7 0-4-3-8-7-8z" stroke={C.burgundy} strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" />
-            <path d="M9 20h6" stroke={C.burgundy} strokeWidth={1.5} strokeLinecap="round" />
-          </svg>
-          <span
-            style={{
-              fontFamily: C.fontSerif,
-              fontSize: 20,
-              fontWeight: 700,
-              color: C.burgundy,
-              letterSpacing: "0.06em",
-              lineHeight: 1,
-            }}
-          >
-            Château de Valroc
-          </span>
-        </div>
+        {fd?.logoBase64 ? (
+          <img
+            src={fd.logoBase64}
+            alt={fd?.businessName ?? 'logo'}
+            style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+          />
+        ) : (
+          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+            <svg width={24} height={24} viewBox="0 0 24 24" fill="none">
+              <path d="M12 2C8 2 5 6 5 10c0 3 1.5 5.5 4 7v3h6v-3c2.5-1.5 4-4 4-7 0-4-3-8-7-8z" stroke={C.burgundy} strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" />
+              <path d="M9 20h6" stroke={C.burgundy} strokeWidth={1.5} strokeLinecap="round" />
+            </svg>
+            <span
+              style={{
+                fontFamily: C.fontSerif,
+                fontSize: 20,
+                fontWeight: 700,
+                color: C.burgundy,
+                letterSpacing: "0.06em",
+                lineHeight: 1,
+              }}
+            >
+              Château de Valroc
+            </span>
+          </div>
+        )}
 
         <div id="mb131-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      {["Vins", "Terroir", "Visites", "Contact"].map((item) => (
             <button

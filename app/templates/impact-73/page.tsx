@@ -172,10 +172,18 @@ return () => window.removeEventListener("scroll", h)
         borderBottom: scrolled ? `1px solid ${C.border}` : "none",
         transition: "all 0.4s ease",
       }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          <Music size={20} color={scrolled ? C.amber : "#fff"} />
-          <span style={{ fontFamily: FONT, fontSize: 18, fontStyle: "italic", color: scrolled ? C.text : "#fff" }}>Conservatoire<span style={{ color: C.amber }}> Accord</span></span>
-        </div>
+        {fd?.logoBase64 ? (
+          <img
+            src={fd.logoBase64}
+            alt={fd?.businessName ?? 'logo'}
+            style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+          />
+        ) : (
+          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+            <Music size={20} color={scrolled ? C.amber : "#fff"} />
+            <span style={{ fontFamily: FONT, fontSize: 18, fontStyle: "italic", color: scrolled ? C.text : "#fff" }}>Conservatoire<span style={{ color: C.amber }}> Accord</span></span>
+          </div>
+        )}
         <div id="mb73-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      {["Cours", "Professeurs", "Tarifs", "Contact"].map(l => (
             <a key={l} href={`#${l.toLowerCase()}`} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)", fontSize: 14, fontWeight: 500, textDecoration: "none" }}>{l}</a>
           ))}

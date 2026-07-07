@@ -597,17 +597,28 @@ return () => unsub();
         }}
       >
         <div
-          style={{
-            fontFamily: C.font,
-            fontSize: 20,
-            fontWeight: 400,
-            color: C.champagne,
-            letterSpacing: "0.08em",
-            cursor: "pointer",
-          }}
+          style={{ cursor: "pointer" }}
           onClick={() => scrollTo("hero")}
         >
-          Confluence
+          {fd?.logoBase64 ? (
+            <img
+              src={fd.logoBase64}
+              alt={fd?.businessName ?? 'logo'}
+              style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+            />
+          ) : (
+            <span
+              style={{
+                fontFamily: C.font,
+                fontSize: 20,
+                fontWeight: 400,
+                color: C.champagne,
+                letterSpacing: "0.08em",
+              }}
+            >
+              Confluence
+            </span>
+          )}
         </div>
 
         <div style={{ display: "flex", gap: 36, alignItems: "center" }} className="desktop-nav">

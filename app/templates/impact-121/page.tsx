@@ -264,8 +264,18 @@ return () => window.removeEventListener("scroll", handleScroll)
       >
         <div className="max-w-[1800px] mx-auto px-6 md:px-12 flex items-center justify-between">
           <Link href="#hero" className="text-xl font-bold tracking-tight flex items-center gap-2 group">
-            <div className="w-6 h-6 bg-zinc-900 rounded-sm group-hover:rotate-45 transition-transform duration-500" />
-            FOLIO
+            {fd?.logoBase64 ? (
+              <img
+                src={fd.logoBase64}
+                alt={fd?.businessName ?? 'logo'}
+                style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+              />
+            ) : (
+              <>
+                <div className="w-6 h-6 bg-zinc-900 rounded-sm group-hover:rotate-45 transition-transform duration-500" />
+                FOLIO
+              </>
+            )}
           </Link>
 
           <div className="hidden lg:flex items-center gap-8 text-sm font-medium">

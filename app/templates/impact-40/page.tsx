@@ -451,17 +451,23 @@ return () => window.removeEventListener("scroll", handler);
       >
         {/* Logo */}
         <div style={{ display: "flex", alignItems: "center", gap: "0.65rem" }}>
-          <div
-            style={{
-              width: 38, height: 38,
-              borderRadius: "50%",
-              backgroundColor: C.bgDark,
-              display: "flex", alignItems: "center", justifyContent: "center",
-            }}
-          >
-            <Leaf size={18} color={C.accent} />
-          </div>
-          <span style={{ fontFamily: C.headingFont, fontSize: "1.4rem", fontWeight: 700, color: scrolled ? C.bgDark : C.bg }}>{fd?.businessName ?? "Terre Vivante"}</span>
+          {fd?.logoBase64 ? (
+            <img src={fd.logoBase64} alt={fd?.businessName ?? 'logo'} style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }} />
+          ) : (
+            <>
+              <div
+                style={{
+                  width: 38, height: 38,
+                  borderRadius: "50%",
+                  backgroundColor: C.bgDark,
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                }}
+              >
+                <Leaf size={18} color={C.accent} />
+              </div>
+              <span style={{ fontFamily: C.headingFont, fontSize: "1.4rem", fontWeight: 700, color: scrolled ? C.bgDark : C.bg }}>{fd?.businessName ?? "Terre Vivante"}</span>
+            </>
+          )}
         </div>
 
         {/* Desktop links */}

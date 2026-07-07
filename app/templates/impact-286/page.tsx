@@ -255,8 +255,20 @@ function Nav() {
     <>
       <nav style={bar}>
       <div style={brand}>
-        <Scale size={18} color={C.gold} strokeWidth={1.4} />
-        Cabinet&nbsp;Vidal
+        {fd?.logoBase64 ? (
+          // Client logo (uploaded in the brief) replaces the placeholder mark —
+          // essential for the client to recognise their brand in the render.
+          <img
+            src={fd.logoBase64}
+            alt={fd?.businessName ?? 'logo'}
+            style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+          />
+        ) : (
+          <>
+            <Scale size={18} color={C.gold} strokeWidth={1.4} />
+            Cabinet&nbsp;Vidal
+          </>
+        )}
       </div>
       <div style={linkRow} className="r286-navlinks">
         {links.map((l) => (

@@ -149,8 +149,18 @@ return () => window.removeEventListener("scroll", h)
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#fdfaf7]/97 backdrop-blur-xl py-3 shadow-sm border-b border-[#c4a06a]/12" : "bg-transparent py-7"}`}>
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex items-center justify-between">
           <div>
-            <div className="font-bold tracking-[0.2em] text-[#1a1018] text-sm uppercase" style={{ fontFamily: "'Lora', Georgia, serif" }}>Maison Élise</div>
-            <div className="text-[8px] font-bold uppercase tracking-[0.4em] text-[#c4a06a]/60">Wedding Planner · Nice & Riviera</div>
+            {fd?.logoBase64 ? (
+              <img
+                src={fd.logoBase64}
+                alt={fd?.businessName ?? 'logo'}
+                style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+              />
+            ) : (
+              <>
+                <div className="font-bold tracking-[0.2em] text-[#1a1018] text-sm uppercase" style={{ fontFamily: "'Lora', Georgia, serif" }}>Maison Élise</div>
+                <div className="text-[8px] font-bold uppercase tracking-[0.4em] text-[#c4a06a]/60">Wedding Planner · Nice & Riviera</div>
+              </>
+            )}
           </div>
           <div className="hidden lg:flex gap-9 text-[10px] font-bold uppercase tracking-[0.22em] text-[#1a1018]/28">
             {["Formules", "Portfolio", "L'équipe", "Blog", "Contact"].map(l => (

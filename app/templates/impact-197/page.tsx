@@ -471,8 +471,18 @@ return (
       >
         <div style={{ maxWidth: 1320, margin: "0 auto", padding: "0 40px", height: 72, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <div onClick={(e) => { e.preventDefault(); goTo("home"); }} style={{ display: "flex", alignItems: "center", gap: 10, cursor: "pointer" }}>
+            {fd?.logoBase64 ? (
+              <img
+                src={fd.logoBase64}
+                alt={fd?.businessName ?? 'logo'}
+                style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+              />
+            ) : (
+              <>
             <Compass size={22} color={C.accent} />
             <span style={{ fontSize: 22, fontWeight: 400, letterSpacing: "0.08em", color: C.marine }}>{fd?.businessName ?? "Évasion Dorée"}</span>
+              </>
+            )}
           </div>
           <div style={{ display: "flex", gap: 32, alignItems: "center" }}>
             {[

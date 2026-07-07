@@ -11,6 +11,17 @@ export default function CypherClinicLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const [__layoutSession, __setLayoutSession] = useState<any>(null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(__setLayoutSession)
+      .catch(() => {});
+  }, []);
+  const fd = __layoutSession?.formData;
+
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
@@ -43,11 +54,20 @@ export default function CypherClinicLayout({
       >
         <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
           <Link href={basePath} className="flex flex-col">
+            {fd?.logoBase64 ? (
+              <img
+                src={fd.logoBase64}
+                alt={fd?.businessName ?? 'logo'}
+                style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+              />
+            ) : (
+              <>
             <span className="text-xl font-light tracking-[0.25em] uppercase" style={{ fontFamily: "'Bodoni Moda', serif" }}>
               Cypher Clinic
             </span>
             <span className="text-[8px] tracking-[0.4em] uppercase text-[#C9A86C] mt-0.5">Médecine Esthétique & Lasers</span>
-          </Link>
+          </>
+            )}</Link>
           <div className="hidden md:flex items-center gap-10 text-xs tracking-[0.2em] uppercase text-[#8A8278]">
             {links.map((link) => {
               const isActive = pathname === link.href;

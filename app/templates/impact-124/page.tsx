@@ -218,8 +218,18 @@ return () => window.removeEventListener("scroll", handleScroll)
       >
         <div className="max-w-[1600px] mx-auto px-6 md:px-12 flex items-center justify-between">
           <Link href="#hero" className="flex items-center gap-3 group">
-            <Orbit className="w-8 h-8 text-cyan-400 group-hover:rotate-180 transition-transform duration-1000" />
-            <span className="text-xl font-bold tracking-widest text-white uppercase">MORPH</span>
+            {fd?.logoBase64 ? (
+              <img
+                src={fd.logoBase64}
+                alt={fd?.businessName ?? 'logo'}
+                style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+              />
+            ) : (
+              <>
+                <Orbit className="w-8 h-8 text-cyan-400 group-hover:rotate-180 transition-transform duration-1000" />
+                <span className="text-xl font-bold tracking-widest text-white uppercase">MORPH</span>
+              </>
+            )}
           </Link>
 
           <div className="hidden lg:flex items-center gap-8 text-xs font-bold tracking-[0.2em] uppercase">

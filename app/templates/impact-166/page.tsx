@@ -898,16 +898,27 @@ return (
         }}
       >
         <div
-          style={{
-            fontFamily: C.font,
-            fontSize: 22,
-            fontWeight: 500,
-            letterSpacing: "0.08em",
-            color: C.text,
-            cursor: "pointer",
-          }}
+          style={{ cursor: "pointer" }}
           onClick={() => scrollTo("hero")}
-        >{fd?.businessName ?? "Iris Studio"}</div>
+        >
+          {fd?.logoBase64 ? (
+            <img
+              src={fd.logoBase64}
+              alt={fd?.businessName ?? 'logo'}
+              style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+            />
+          ) : (
+            <span
+              style={{
+                fontFamily: C.font,
+                fontSize: 22,
+                fontWeight: 500,
+                letterSpacing: "0.08em",
+                color: C.text,
+              }}
+            >{fd?.businessName ?? "Iris Studio"}</span>
+          )}
+        </div>
 
         {/* Desktop nav */}
         <div

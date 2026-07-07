@@ -12,6 +12,17 @@ export default function Impact53Layout({
 }: {
   children: React.ReactNode;
 }) {
+  const [__layoutSession, __setLayoutSession] = useState<any>(null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(__setLayoutSession)
+      .catch(() => {});
+  }, []);
+  const fd = __layoutSession?.formData;
+
   useFonts();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -76,8 +87,17 @@ export default function Impact53Layout({
             userSelect: "none",
           }}
         >
+          {fd?.logoBase64 ? (
+            <img
+              src={fd.logoBase64}
+              alt={fd?.businessName ?? 'logo'}
+              style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+            />
+          ) : (
+            <>
           MESH<span style={{ color: C.red }}>·</span>WARP
-        </Link>
+        </>
+          )}</Link>
 
         {/* Desktop menu */}
         <div

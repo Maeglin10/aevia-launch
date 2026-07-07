@@ -270,8 +270,20 @@ function Nav() {
     <>
       <nav style={bar}>
       <div style={brand}>
-        <Stethoscope size={20} color={C.salmon} strokeWidth={1.8} />
-        Dr.&nbsp;Lecomte
+        {fd?.logoBase64 ? (
+          // Client logo (uploaded in the brief) replaces the placeholder mark —
+          // essential for the client to recognise their brand in the render.
+          <img
+            src={fd.logoBase64}
+            alt={fd?.businessName ?? 'logo'}
+            style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+          />
+        ) : (
+          <>
+            <Stethoscope size={20} color={C.salmon} strokeWidth={1.8} />
+            Dr.&nbsp;Lecomte
+          </>
+        )}
       </div>
       <div style={linkRow} className="r285-navlinks">
         {links.map((l) => (

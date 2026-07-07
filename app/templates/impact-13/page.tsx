@@ -165,7 +165,13 @@ return (
             onClick={(e) => { e.preventDefault(); goTo("home"); }}
             className="text-[#B49A6A] tracking-widest text-sm cursor-pointer text-decoration-none"
             style={{ fontFamily: "'Libre Baskerville', serif", fontSize: "1rem" }}
-          >{fd?.businessName ?? "Atelier Mécanique"}</a>
+          >{fd?.logoBase64 ? (
+            <img
+              src={fd.logoBase64}
+              alt={fd?.businessName ?? 'logo'}
+              style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+            />
+          ) : (fd?.businessName ?? "Atelier Mécanique")}</a>
           <div className="hidden md:flex items-center gap-8 text-white/50 text-xs tracking-widest uppercase">
             {[
               { name: "Accueil", target: "home" },
@@ -200,7 +206,15 @@ return (
         {mobileOpen && (
           <motion.div className="fixed inset-0 z-[100] bg-[#0C0B09] flex flex-col p-8" initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }} transition={{ type: "spring", stiffness: 300, damping: 30 }}>
             <div className="flex items-center justify-between mb-12">
-              <span className="text-[#B49A6A] text-xl" style={{ fontFamily: "'Libre Baskerville', serif" }}>{fd?.businessName ?? "Atelier Mécanique"}</span>
+              {fd?.logoBase64 ? (
+                <img
+                  src={fd.logoBase64}
+                  alt={fd?.businessName ?? 'logo'}
+                  style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+                />
+              ) : (
+                <span className="text-[#B49A6A] text-xl" style={{ fontFamily: "'Libre Baskerville', serif" }}>{fd?.businessName ?? "Atelier Mécanique"}</span>
+              )}
               <button onClick={() => setMobileOpen(false)} className="cursor-pointer bg-transparent border-0"><X className="w-6 h-6 text-white" /></button>
             </div>
             {["Accueil", "Montres", "Manufacture", "Maison", "Contact"].map((item, i) => {

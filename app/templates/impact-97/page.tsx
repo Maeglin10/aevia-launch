@@ -263,17 +263,27 @@ return () => window.removeEventListener("scroll", h);
       >
         <div className="max-w-[1600px] mx-auto px-6 md:px-12 flex items-center justify-between">
           <Link href="#hero" className="group flex items-center gap-4">
-            <div className="w-12 h-12 border border-[#c5a059] rounded-full flex items-center justify-center text-[#c5a059] group-hover:bg-[#c5a059] group-hover:text-[#020a13] transition-all duration-500">
-              <Compass className="w-6 h-6" />
-            </div>
-            <div className="flex flex-col">
-              <span className="text-2xl font-black tracking-tighter uppercase leading-none italic">
-                Horizon
-              </span>
-              <span className="text-[8px] font-bold uppercase tracking-[0.5em] text-[#c5a059] -mt-1 ml-1">
-                Maritime Group
-              </span>
-            </div>
+            {fd?.logoBase64 ? (
+              <img
+                src={fd.logoBase64}
+                alt={fd?.businessName ?? 'logo'}
+                style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+              />
+            ) : (
+              <>
+                <div className="w-12 h-12 border border-[#c5a059] rounded-full flex items-center justify-center text-[#c5a059] group-hover:bg-[#c5a059] group-hover:text-[#020a13] transition-all duration-500">
+                  <Compass className="w-6 h-6" />
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-2xl font-black tracking-tighter uppercase leading-none italic">
+                    Horizon
+                  </span>
+                  <span className="text-[8px] font-bold uppercase tracking-[0.5em] text-[#c5a059] -mt-1 ml-1">
+                    Maritime Group
+                  </span>
+                </div>
+              </>
+            )}
           </Link>
 
           <div className="hidden lg:flex items-center gap-12 text-[10px] font-bold uppercase tracking-[0.3em] text-white/40">

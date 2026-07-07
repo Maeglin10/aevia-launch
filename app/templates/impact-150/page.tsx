@@ -362,6 +362,9 @@ function Navigation() {
       }}
     >
       {/* Wordmark */}
+      {fd?.logoBase64 ? (
+        <img src={fd.logoBase64} alt={fd?.businessName ?? 'logo'} style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }} />
+      ) : (
       <div style={{ display: "flex", alignItems: "baseline", gap: 10 }}>
         <span
           style={{
@@ -387,6 +390,7 @@ function Navigation() {
           LLP
         </span>
       </div>
+      )}
 
       {/* Nav links */}
       <div

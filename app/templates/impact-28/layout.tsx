@@ -1,12 +1,23 @@
 "use client"
 
 import { useScroll, motion, AnimatePresence } from "framer-motion"
-import { useRef, useState } from "react"
+import { useRef, useState, useEffect } from "react";
 import Link from "next/link"
 import { useFonts } from "./shared"
 import { usePathname } from "next/navigation"
 
 export default function Layout({ children }: { children: React.ReactNode }) {
+  const [__layoutSession, __setLayoutSession] = useState<any>(null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(__setLayoutSession)
+      .catch(() => {});
+  }, []);
+  const fd = __layoutSession?.formData;
+
   useFonts()
   const containerRef = useRef(null)
   const { scrollYProgress } = useScroll({ target: containerRef })
@@ -27,8 +38,17 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             className="font-black text-xl tracking-[0.15em] uppercase cursor-pointer transition-transform hover:-translate-y-[2px]" 
             style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "1.4rem", letterSpacing: "0.2em" }}
           >
+          {fd?.logoBase64 ? (
+            <img
+              src={fd.logoBase64}
+              alt={fd?.businessName ?? 'logo'}
+              style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+            />
+          ) : (
+            <>
             BRUTCO
-          </Link>
+          </>
+          )}</Link>
           <div className="hidden md:flex items-center gap-10 text-sm font-semibold uppercase tracking-widest">
             <Link href="/templates/impact-28/work" className={`hover:underline hover:underline-offset-4 transition-all cursor-pointer ${isActive('/templates/impact-28/work') ? 'underline underline-offset-4' : ''}`}>Work</Link>
             <Link href="/templates/impact-28/services" className={`hover:underline hover:underline-offset-4 transition-all cursor-pointer ${isActive('/templates/impact-28/services') ? 'underline underline-offset-4' : ''}`}>Services</Link>

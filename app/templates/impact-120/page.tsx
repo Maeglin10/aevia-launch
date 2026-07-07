@@ -278,10 +278,20 @@ return () => window.removeEventListener("scroll", handleScroll);
       >
         <div className="max-w-[1600px] mx-auto px-6 md:px-12 flex items-center justify-between">
           <Link href="#hero" className="flex items-center gap-4 group">
-            <div className="w-10 h-10 rounded-full border border-fuchsia-900/50 flex items-center justify-center bg-fuchsia-900/10 group-hover:bg-fuchsia-900/30 transition-all duration-500">
-              <FlaskConical className="w-4 h-4 text-fuchsia-300" />
-            </div>
-            <span className="text-xl tracking-[0.3em] font-light text-white uppercase">ÉCLAT</span>
+            {fd?.logoBase64 ? (
+              <img
+                src={fd.logoBase64}
+                alt={fd?.businessName ?? 'logo'}
+                style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+              />
+            ) : (
+              <>
+                <div className="w-10 h-10 rounded-full border border-fuchsia-900/50 flex items-center justify-center bg-fuchsia-900/10 group-hover:bg-fuchsia-900/30 transition-all duration-500">
+                  <FlaskConical className="w-4 h-4 text-fuchsia-300" />
+                </div>
+                <span className="text-xl tracking-[0.3em] font-light text-white uppercase">ÉCLAT</span>
+              </>
+            )}
           </Link>
 
           <div className="hidden lg:flex items-center gap-12 text-xs font-medium tracking-[0.2em] uppercase">

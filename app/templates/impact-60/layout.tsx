@@ -12,6 +12,17 @@ export default function ZenithLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const [__layoutSession, __setLayoutSession] = useState<any>(null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(__setLayoutSession)
+      .catch(() => {});
+  }, []);
+  const fd = __layoutSession?.formData;
+
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
 
@@ -34,11 +45,20 @@ export default function ZenithLayout({
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-1000 ${scrolled ? "bg-[#0a0c10]/95 backdrop-blur-xl border-b border-white/5 py-4" : "bg-transparent py-10"}`}>
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex items-center justify-between">
           <Link href="/templates/impact-60" className="flex items-center gap-4 group" style={{ textDecoration: "none" }}>
+          {fd?.logoBase64 ? (
+            <img
+              src={fd.logoBase64}
+              alt={fd?.businessName ?? 'logo'}
+              style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+            />
+          ) : (
+            <>
             <div className="w-10 h-10 border border-[#c9a96e]/30 flex items-center justify-center group-hover:border-[#c9a96e] transition-all duration-700">
               <Watch className="w-5 h-5 text-[#c9a96e]" />
             </div>
             <span className="text-xl font-light tracking-[0.4em] uppercase text-white">Zenith <span className="font-bold">Watch</span></span>
-          </Link>
+          </>
+          )}</Link>
           <div className="hidden lg:flex gap-12 text-[10px] font-bold uppercase tracking-[0.5em] text-white/30">
             {NAV_LINKS.map(l => (
               <Link key={l.href} href={l.href} className="hover:text-white transition-colors" style={{ textDecoration: "none", color: isActive(l.href) ? "white" : "inherit" }}>{l.label}</Link>

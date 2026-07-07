@@ -1,0 +1,53 @@
+# Logo rollout batch C
+
+Applying the fd?.logoBase64 nav pattern (reference: impact-219) to 58 templates.
+
+- impact-216/page.tsx | fait — nav wordmark "MeridianFreight" (icon+text) wrapped in fd?.logoBase64 conditional
+- impact-217/page.tsx | fait — nav already read fd?.businessName next to Zap icon; wrapped both in logo conditional
+- impact-218/page.tsx | fait — nav hardcoded "Domaine Miroir" wordmark (Grape icon) wrapped in logo conditional
+- impact-22/page.tsx | fait — desktop nav (Cloud icon + fd?.businessName) AND mobile drawer header both wrapped in logo conditional
+- impact-220/page.tsx | fait — nav hardcoded "HORA VIVA / GENÈVE · EST. 1834" two-line wordmark wrapped in logo conditional
+- impact-221/page.tsx | fait — nav hardcoded "LUMYX" wordmark (Zap icon, diamond clip-path mark) wrapped in logo conditional
+- impact-222/page.tsx | fait — nav hardcoded "Solis / Immobilier" two-line wordmark (Building2 icon) wrapped in logo conditional
+- impact-23/page.tsx | fait — desktop nav (Film icon + fd?.businessName) AND mobile drawer header both wrapped in logo conditional
+- impact-239/page.tsx | fait — nav already read fd?.businessName next to Scale icon; wrapped in logo conditional
+- impact-24/page.tsx | fait — desktop nav (Rocket icon + fd?.businessName) wrapped in logo conditional; footer instance left untouched
+- impact-240/page.tsx | fait — nav hardcoded "▶ STUDIO ATHLETIC" wordmark wrapped in logo conditional
+- impact-241/page.tsx | fait — nav already read fd?.businessName next to Home icon; wrapped in logo conditional
+- impact-242/page.tsx | fait — nav hardcoded "Marchand & Partners" wordmark (BarChart2 icon) wrapped in logo conditional
+- impact-25/page.tsx | fait — nav hardcoded "PixelRepublic" wordmark (Code2 icon square) wrapped in logo conditional
+- impact-26/page.tsx | fait — nav already read fd?.businessName ("Éther") plain text; wrapped in logo conditional. Footer duplicate at old L619 left untouched
+- impact-27/page.tsx | skippé — template has NO nav/header element at all (default export `Home()` returns straight into the Hero `<section>`, no `<nav>`/fixed top bar anywhere in file); nothing to wrap
+- impact-270/page.tsx | fait — nav hardcoded "Peau & Plume" wordmark (Feather icon) wrapped in logo conditional
+- impact-271/page.tsx | fait — nav already read fd?.businessName next to Leaf icon; wrapped in logo conditional
+- impact-272/page.tsx | fait — nav hardcoded "KinéPédiatrie Bordeaux" wordmark (Heart icon) wrapped in logo conditional
+- impact-273/page.tsx | fait — nav already read fd?.businessName ("Cabinet Rosenfeld") plain text; wrapped in logo conditional
+- impact-274/page.tsx | fait — nav hardcoded "Dr. S. Renard" wordmark (Heart icon) wrapped in logo conditional
+- impact-275/page.tsx | fait — nav two-line brand (Scale icon + fd?.businessName + "Avocate · Marseille" subtitle) wrapped in logo conditional; logo replaces both lines, subtitle kept in fallback branch
+- impact-276/page.tsx | fait — nav hardcoded "TLCoach" wordmark wrapped in logo conditional
+- impact-28/page.tsx | skippé — template has NO nav/header element at all (no `<nav>`, no fixed top bar anywhere in file); nothing to wrap
+- impact-281/page.tsx | fait — nav hardcoded "Maison Céleste" wordmark (Scissors icon) wrapped in logo conditional
+- impact-282/page.tsx | fait — nav hardcoded "Boulangerie du Beffroi" wordmark (Wheat icon) wrapped in logo conditional
+- impact-283/page.tsx | fait — nav already read fd?.businessName next to Activity icon; wrapped in logo conditional
+- impact-284/page.tsx | fait — nav hardcoded italic "Dent'Or" wordmark wrapped in logo conditional
+- impact-285/page.tsx | fait — nav hardcoded "Dr. Lecomte" wordmark (Stethoscope icon) wrapped in logo conditional
+- impact-286/page.tsx | fait — nav hardcoded "Cabinet Vidal" wordmark (Scale icon) wrapped in logo conditional
+- impact-287/page.tsx | fait — nav already read fd?.businessName next to Sun icon; wrapped in logo conditional
+- impact-288/page.tsx | fait — nav hardcoded "Ampère & Fils" wordmark (Zap icon) wrapped in logo conditional
+- impact-289/page.tsx | fait — nav icon + two-line (fd?.businessName + "Expert-comptable · Strasbourg" subtitle) wrapped in logo conditional; logo replaces both lines
+- impact-29/page.tsx | skippé — template has NO nav/header element at all; nothing to wrap
+- impact-290/page.tsx | fait — nav icon (Droplets) + two-line "Eau & Habitat Bretagne / Plombier-chauffagiste · RGE" wrapped in logo conditional
+- impact-291/page.tsx | fait — nav two-line (fd?.businessName + "Strasbourg Orangerie" subtitle) wrapped in logo conditional
+- impact-292/page.tsx | fait — nav already read fd?.businessName ("BurgerCo") plain text; wrapped in logo conditional
+- impact-293/page.tsx | fait — nav hardcoded "Pizza Napoli Express" text wrapped in logo conditional
+- impact-296/page.tsx | fait — nav already read fd?.businessName ("Caliente Tacos") plain text; wrapped in logo conditional
+- impact-30/page.tsx | fait — Navbar() icon (Smile) + fd?.businessName + "Studio" suffix wrapped in logo conditional
+- impact-301/page.tsx | fait — nav already read fd?.businessName ("Dubois & Partenaires") plain text; wrapped in logo conditional
+- impact-302/page.tsx | fait — nav already read fd?.businessName ("Nexus Compta") plain text; wrapped in logo conditional
+- impact-306/page.tsx | fait — nav already read fd?.businessName ("La Miette Heureuse") plain text; wrapped in logo conditional
+- impact-308/page.tsx | fait — nav already read fd?.businessName ("Re-Thread Studio") plain text; wrapped in logo conditional
+- impact-309/page.tsx | fait — nav already read fd?.businessName ("Encre Délicate") plain text; wrapped in logo conditional
+- impact-31/page.tsx | fait — Navbar() icon (Leaf) + hardcoded "AnandaFlow" wordmark wrapped in logo conditional
+- impact-310/page.tsx | fait — nav already read fd?.businessName ("Jardins de l'Hérault") plain text; wrapped in logo conditional
+- impact-32/page.tsx | fait — Navbar() icon (🐾 emoji) + hardcoded "PawCare" wordmark wrapped in logo conditional; footer instance (already fd?.businessName) left untouched
+

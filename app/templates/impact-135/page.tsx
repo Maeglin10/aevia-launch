@@ -1123,38 +1123,48 @@ return () => window.removeEventListener("scroll", handler);
           }}
           onClick={() => scrollTo("hero")}
         >
-          <div
-            style={{
-              width: 32,
-              height: 32,
-              background: C.accent,
-              borderRadius: 6,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-              <path
-                d="M1 11 L4 7 L7 9 L10 4 L13 6 L15 3"
-                stroke={C.bg}
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </div>
-          <span
-            style={{
-              fontFamily: C.fontMono,
-              fontWeight: 700,
-              fontSize: 16,
-              color: C.text,
-              letterSpacing: "0.05em",
-            }}
-          >
-            TRADE<span style={{ color: C.accent }}>OS</span>
-          </span>
+          {fd?.logoBase64 ? (
+            <img
+              src={fd.logoBase64}
+              alt={fd?.businessName ?? 'logo'}
+              style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+            />
+          ) : (
+            <>
+              <div
+                style={{
+                  width: 32,
+                  height: 32,
+                  background: C.accent,
+                  borderRadius: 6,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <path
+                    d="M1 11 L4 7 L7 9 L10 4 L13 6 L15 3"
+                    stroke={C.bg}
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </div>
+              <span
+                style={{
+                  fontFamily: C.fontMono,
+                  fontWeight: 700,
+                  fontSize: 16,
+                  color: C.text,
+                  letterSpacing: "0.05em",
+                }}
+              >
+                TRADE<span style={{ color: C.accent }}>OS</span>
+              </span>
+            </>
+          )}
         </div>
 
         {/* Desktop links */}

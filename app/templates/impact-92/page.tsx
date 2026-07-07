@@ -268,17 +268,27 @@ return () => window.removeEventListener("scroll", h);
       >
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex items-center justify-between">
           <Link href="#hero" className="group flex items-center gap-3">
-            <div className="w-10 h-10 bg-gradient-to-br from-[#c9a96e] to-[#8c7246] rounded-sm flex items-center justify-center rotate-45 group-hover:rotate-0 transition-transform duration-500">
-              <Building2 className="w-5 h-5 text-black -rotate-45 group-hover:rotate-0 transition-transform duration-500" />
-            </div>
-            <div className="flex flex-col">
-              <span className="text-xl font-black tracking-tighter uppercase leading-none">
-                Skyline
-              </span>
-              <span className="text-[8px] font-bold uppercase tracking-[0.4em] text-[#c9a96e] -mt-1">
-                Concierge Group
-              </span>
-            </div>
+            {fd?.logoBase64 ? (
+              <img
+                src={fd.logoBase64}
+                alt={fd?.businessName ?? 'logo'}
+                style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+              />
+            ) : (
+              <>
+                <div className="w-10 h-10 bg-gradient-to-br from-[#c9a96e] to-[#8c7246] rounded-sm flex items-center justify-center rotate-45 group-hover:rotate-0 transition-transform duration-500">
+                  <Building2 className="w-5 h-5 text-black -rotate-45 group-hover:rotate-0 transition-transform duration-500" />
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-xl font-black tracking-tighter uppercase leading-none">
+                    Skyline
+                  </span>
+                  <span className="text-[8px] font-bold uppercase tracking-[0.4em] text-[#c9a96e] -mt-1">
+                    Concierge Group
+                  </span>
+                </div>
+              </>
+            )}
           </Link>
 
           <div className="hidden lg:flex items-center gap-12 text-[10px] font-bold uppercase tracking-[0.3em] text-white/40">

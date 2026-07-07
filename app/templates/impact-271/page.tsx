@@ -394,7 +394,20 @@ function Nav() {
     <>
       <nav style={bar} suppressHydrationWarning>
       <a href="/templates/impact-271" style={brand}>
-        <Leaf size={19} color={C.accent} strokeWidth={1.6} />{fd?.businessName ?? "Jardins d'Alsace"}</a>
+        {fd?.logoBase64 ? (
+          // Client logo (uploaded in the brief) replaces the placeholder mark —
+          // essential for the client to recognise their brand in the render.
+          <img
+            src={fd.logoBase64}
+            alt={fd?.businessName ?? 'logo'}
+            style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+          />
+        ) : (
+          <>
+            <Leaf size={19} color={C.accent} strokeWidth={1.6} />{fd?.businessName ?? "Jardins d'Alsace"}
+          </>
+        )}
+      </a>
       <div style={linkRow} className="ja-navlinks">
         {LINKS.map((l) => (
           <NavLink key={l.label} label={l.label} href={l.href} />

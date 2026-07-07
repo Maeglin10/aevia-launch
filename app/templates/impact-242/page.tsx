@@ -402,8 +402,20 @@ function Nav() {
     <>
       <nav style={bar}>
       <a href="#services" style={brand}>
-        <BarChart2 size={20} color={C.accent} strokeWidth={2} />
-        Marchand &amp; Partners
+        {fd?.logoBase64 ? (
+          // Client logo (uploaded in the brief) replaces the placeholder mark —
+          // essential for the client to recognise their brand in the render.
+          <img
+            src={fd.logoBase64}
+            alt={fd?.businessName ?? 'logo'}
+            style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+          />
+        ) : (
+          <>
+            <BarChart2 size={20} color={C.accent} strokeWidth={2} />
+            Marchand &amp; Partners
+          </>
+        )}
       </a>
       <div style={linkRow} className="fm-navlinks">
         {links.map((l) => (

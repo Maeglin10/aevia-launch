@@ -8,6 +8,17 @@ import { Leaf, Phone, Mail, MapPin, Clock, Menu, X, Calendar } from "lucide-reac
 import { C, FONT_HEADING, FONT_BODY } from "./shared";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
+  const [__layoutSession, __setLayoutSession] = useState<any>(null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(__setLayoutSession)
+      .catch(() => {});
+  }, []);
+  const fd = __layoutSession?.formData;
+
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
@@ -57,14 +68,22 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         }}
       >
         <Link href="/templates/impact-31" style={{ textDecoration: "none" }}>
-          <motion.div style={{ display: "flex", alignItems: "center", gap: 10 }} whileHover={{ scale: 1.03 }}>
+          {fd?.logoBase64 ? (
+            <img
+              src={fd.logoBase64}
+              alt={fd?.businessName ?? 'logo'}
+              style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+            />
+          ) : (
+            <><motion.div style={{ display: "flex", alignItems: "center", gap: 10 }} whileHover={{ scale: 1.03 }}>
             <div style={{ width: 38, height: 38, background: C.accent, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>
               <Leaf size={20} color={C.white} />
             </div>
             <span style={{ fontWeight: 700, fontSize: 21, color: C.text, fontFamily: FONT_HEADING, letterSpacing: -0.3 }}>
               Ananda<span style={{ color: C.accent }}>Flow</span>
             </span>
-          </motion.div>
+          </motion.div></>
+          )}
         </Link>
 
         {/* Desktop links */}

@@ -7,6 +7,17 @@ import { motion, AnimatePresence } from "framer-motion";
 import { C, NAV_LINKS, MagneticButton } from "./shared";
 
 export default function SereneRetreatLayout({ children }: { children: React.ReactNode }) {
+  const [__layoutSession, __setLayoutSession] = useState<any>(null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(__setLayoutSession)
+      .catch(() => {});
+  }, []);
+  const fd = __layoutSession?.formData;
+
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
@@ -90,8 +101,17 @@ export default function SereneRetreatLayout({ children }: { children: React.Reac
             textDecoration: "none",
           }}
         >
+          {fd?.logoBase64 ? (
+            <img
+              src={fd.logoBase64}
+              alt={fd?.businessName ?? 'logo'}
+              style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+            />
+          ) : (
+            <>
           Serene Retreat
-        </Link>
+        </>
+          )}</Link>
 
         <div style={{ display: "flex", gap: 36, alignItems: "center" }}>
           <div style={{ display: "flex", gap: 36 }} className="hidden lg:flex">

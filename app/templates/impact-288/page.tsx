@@ -274,8 +274,20 @@ function Nav() {
     <>
       <nav style={bar}>
       <a href="#hero" style={brand}>
-        <Zap size={20} color={C.green} strokeWidth={2.5} />
-        Ampère&nbsp;&amp;&nbsp;Fils
+        {fd?.logoBase64 ? (
+          // Client logo (uploaded in the brief) replaces the placeholder mark —
+          // essential for the client to recognise their brand in the render.
+          <img
+            src={fd.logoBase64}
+            alt={fd?.businessName ?? 'logo'}
+            style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+          />
+        ) : (
+          <>
+            <Zap size={20} color={C.green} strokeWidth={2.5} />
+            Ampère&nbsp;&amp;&nbsp;Fils
+          </>
+        )}
       </a>
       <div style={linkRow} className="r288-navlinks">
         {links.map((l) => (

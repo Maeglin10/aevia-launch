@@ -177,8 +177,18 @@ return () => window.removeEventListener("scroll", onScroll)
       >
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           <Link href="#galerie" className="flex items-center gap-2.5">
-            <Coffee className="w-5 h-5 text-[#8B5E3C]" />
-            <span className="text-xl font-normal" style={{ fontFamily: "'Playfair Display', serif" }}>Le Matin Doré</span>
+            {fd?.logoBase64 ? (
+              <img
+                src={fd.logoBase64}
+                alt={fd?.businessName ?? 'logo'}
+                style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+              />
+            ) : (
+              <>
+                <Coffee className="w-5 h-5 text-[#8B5E3C]" />
+                <span className="text-xl font-normal" style={{ fontFamily: "'Playfair Display', serif" }}>Le Matin Doré</span>
+              </>
+            )}
           </Link>
           <div className="hidden md:flex items-center gap-8 text-sm text-[#6B5A40] font-light">
             {["Menu", "Notre histoire", "Galerie", "Nous trouver"].map(l => (
@@ -201,8 +211,18 @@ return () => window.removeEventListener("scroll", onScroll)
             initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }} transition={{ type: "spring", stiffness: 280, damping: 28 }}>
             <div className="flex items-center justify-between px-6 py-4 border-b border-[#4A3520]">
               <div className="flex items-center gap-2">
-                <Coffee className="w-5 h-5 text-[#C9A86C]" />
-                <span style={{ fontFamily: "'Playfair Display', serif" }}>Le Matin Doré</span>
+                {fd?.logoBase64 ? (
+                  <img
+                    src={fd.logoBase64}
+                    alt={fd?.businessName ?? 'logo'}
+                    style={{ height: 28, maxWidth: 140, objectFit: 'contain', display: 'block' }}
+                  />
+                ) : (
+                  <>
+                    <Coffee className="w-5 h-5 text-[#C9A86C]" />
+                    <span style={{ fontFamily: "'Playfair Display', serif" }}>Le Matin Doré</span>
+                  </>
+                )}
               </div>
               <button onClick={() => setMenuOpen(false)} className="p-2 cursor-pointer"><X className="w-5 h-5" /></button>
             </div>

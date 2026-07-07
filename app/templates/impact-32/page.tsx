@@ -265,12 +265,24 @@ function Navbar() {
         }}
       >
         <motion.div style={{ display: "flex", alignItems: "center", gap: 10, cursor: "pointer" }} whileHover={{ scale: 1.03 }}>
-          <div style={{ width: 38, height: 38, background: C.accent, borderRadius: 12, display: "flex", alignItems: "center", justifyContent: "center" }}>
-            <TemplateIcon emoji="🐾" size={20} color="#fff" />
-          </div>
-          <span style={{ fontWeight: 800, fontSize: 20, color: C.text, letterSpacing: -0.5 }}>
-            Paw<span style={{ color: C.accent }}>Care</span>
-          </span>
+          {fd?.logoBase64 ? (
+            // Client logo (uploaded in the brief) replaces the placeholder mark —
+            // essential for the client to recognise their brand in the render.
+            <img
+              src={fd.logoBase64}
+              alt={fd?.businessName ?? 'logo'}
+              style={{ height: 32, maxWidth: 160, objectFit: "contain", display: "block" }}
+            />
+          ) : (
+            <>
+              <div style={{ width: 38, height: 38, background: C.accent, borderRadius: 12, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                <TemplateIcon emoji="🐾" size={20} color="#fff" />
+              </div>
+              <span style={{ fontWeight: 800, fontSize: 20, color: C.text, letterSpacing: -0.5 }}>
+                Paw<span style={{ color: C.accent }}>Care</span>
+              </span>
+            </>
+          )}
         </motion.div>
 
         <div style={{ display: "flex", gap: 32, alignItems: "center" }}>

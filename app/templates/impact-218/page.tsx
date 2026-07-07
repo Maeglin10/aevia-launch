@@ -247,8 +247,20 @@ function Nav() {
     <>
       <nav style={bar}>
       <div style={brand}>
-        <Grape size={20} color={C.gold} strokeWidth={1.4} />
-        Domaine&nbsp;Miroir
+        {fd?.logoBase64 ? (
+          // Client logo (uploaded in the brief) replaces the placeholder mark —
+          // essential for the client to recognise their brand in the render.
+          <img
+            src={fd.logoBase64}
+            alt={fd?.businessName ?? 'logo'}
+            style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+          />
+        ) : (
+          <>
+            <Grape size={20} color={C.gold} strokeWidth={1.4} />
+            Domaine&nbsp;Miroir
+          </>
+        )}
       </div>
       <div style={linkRow} className="dm-navlinks">
         {links.map((l) => (

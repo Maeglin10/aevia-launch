@@ -432,10 +432,20 @@ return () => clearInterval(t);
         <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 40px", display: "flex", alignItems: "center", height: 58 }}>
           {/* Logo */}
           <div style={{ display: "flex", alignItems: "center", gap: 12, marginRight: 48 }}>
-            <div style={{ width: 28, height: 28, background: C.accent, display: "flex", alignItems: "center", justifyContent: "center" }}>
-              <BookOpen size={14} color="#fff" />
-            </div>
-            <span style={{ fontSize: 16, fontWeight: 800, color: C.bg, fontFamily: C.serif, fontStyle: "italic", letterSpacing: "0.02em" }}>{fd?.businessName ?? "L'Essentiel"}</span>
+            {fd?.logoBase64 ? (
+              <img
+                src={fd.logoBase64}
+                alt={fd?.businessName ?? 'logo'}
+                style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+              />
+            ) : (
+              <>
+                <div style={{ width: 28, height: 28, background: C.accent, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                  <BookOpen size={14} color="#fff" />
+                </div>
+                <span style={{ fontSize: 16, fontWeight: 800, color: C.bg, fontFamily: C.serif, fontStyle: "italic", letterSpacing: "0.02em" }}>{fd?.businessName ?? "L'Essentiel"}</span>
+              </>
+            )}
           </div>
 
           {/* Categories nav */}

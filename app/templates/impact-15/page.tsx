@@ -171,10 +171,20 @@ return () => window.removeEventListener("scroll", h)
         transition: "all 0.4s ease",
       }}>
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+          {fd?.logoBase64 ? (
+            <img
+              src={fd.logoBase64}
+              alt={fd?.businessName ?? 'logo'}
+              style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+            />
+          ) : (
+            <>
           <div style={{ background: C.accent, borderRadius: 8, padding: 8, display: "flex" }}>
             <Zap size={18} color="#fff" />
           </div>
           <span style={{ fontSize: 18, fontWeight: 700, color: scrolled ? C.dark : "#fff" }}>Volt<span style={{ color: C.accent }}>Expert</span></span>
+            </>
+          )}
         </div>
         <div id="mb15-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      {["Services", "Réalisations", "Tarifs", "Contact"].map(l => (
             <a key={l} href={`#${l.toLowerCase()}`} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)", fontSize: 14, fontWeight: 600, textDecoration: "none" }}>{l}</a>

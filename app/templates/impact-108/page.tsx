@@ -142,17 +142,25 @@ return () => window.removeEventListener("scroll", onScroll);
           transition: "background 0.3s, border-color 0.3s",
         }}
       >
-        <div
-          style={{
-            fontFamily: FONT,
-            fontWeight: 700,
-            fontSize: 18,
-            letterSpacing: -0.3,
-            color: scrolled ? C.accent : C.white,
-          }}
-        >
-          Ledger <span style={{ fontWeight: 400, opacity: 0.7 }}>&amp; Associés</span>
-        </div>
+        {fd?.logoBase64 ? (
+          <img
+            src={fd.logoBase64}
+            alt={fd?.businessName ?? 'logo'}
+            style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+          />
+        ) : (
+          <div
+            style={{
+              fontFamily: FONT,
+              fontWeight: 700,
+              fontSize: 18,
+              letterSpacing: -0.3,
+              color: scrolled ? C.accent : C.white,
+            }}
+          >
+            Ledger <span style={{ fontWeight: 400, opacity: 0.7 }}>&amp; Associés</span>
+          </div>
+        )}
         <div style={{ display: "flex", alignItems: "center", gap: 32 }} className="nav-links-desktop">
           {navLinks.map((link) => (
             <a

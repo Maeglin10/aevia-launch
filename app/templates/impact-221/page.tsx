@@ -154,12 +154,24 @@ function Nav() {
       <nav style={navStyle}>
         {/* Logo */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }}>
-          <div style={logoMarkStyle}>
-            <Zap size={16} color={C.bg} fill={C.bg} />
-          </div>
-          <span style={{ fontWeight: 900, fontSize: '1.4rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, color: C.white }}>
-            LU<span style={{ color: C.blue }}>M</span>YX
-          </span>
+          {fd?.logoBase64 ? (
+            // Client logo (uploaded in the brief) replaces the placeholder mark —
+            // essential for the client to recognise their brand in the render.
+            <img
+              src={fd.logoBase64}
+              alt={fd?.businessName ?? 'logo'}
+              style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+            />
+          ) : (
+            <>
+              <div style={logoMarkStyle}>
+                <Zap size={16} color={C.bg} fill={C.bg} />
+              </div>
+              <span style={{ fontWeight: 900, fontSize: '1.4rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, color: C.white }}>
+                LU<span style={{ color: C.blue }}>M</span>YX
+              </span>
+            </>
+          )}
         </div>
 
         {/* Desktop links */}

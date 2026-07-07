@@ -1,7 +1,7 @@
 // @ts-nocheck
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { motion, useScroll, useTransform } from "framer-motion";
@@ -18,6 +18,17 @@ export default function StackUnitLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const [__layoutSession, __setLayoutSession] = useState<any>(null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(__setLayoutSession)
+      .catch(() => {});
+  }, []);
+  const fd = __layoutSession?.formData;
+
   const pathname = usePathname();
   const router = useRouter();
   const { scrollYProgress } = useScroll();
@@ -62,7 +73,14 @@ export default function StackUnitLayout({
         }}
       >
         <Link href="/templates/impact-72" style={{ textDecoration: "none" }}>
-          <div>
+          {fd?.logoBase64 ? (
+            <img
+              src={fd.logoBase64}
+              alt={fd?.businessName ?? 'logo'}
+              style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+            />
+          ) : (
+            <><div>
             <span style={{ fontFamily: "'Archivo', sans-serif", fontSize: "0.9rem", fontWeight: 900, letterSpacing: "0.08em", color: C.text }}>
               STACK
             </span>
@@ -70,7 +88,8 @@ export default function StackUnitLayout({
             <span style={{ fontFamily: "'Archivo', sans-serif", fontSize: "0.9rem", fontWeight: 300, letterSpacing: "0.08em", color: C.text }}>
               UNIT
             </span>
-          </div>
+          </div></>
+          )}
         </Link>
         <div id="mb72-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      {navLinks.map(({ label, href }) => (
             <Link

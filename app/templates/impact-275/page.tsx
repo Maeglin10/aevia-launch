@@ -286,9 +286,21 @@ function Nav() {
     <>
       <nav style={bar}>
       <div style={{ display: 'flex', flexDirection: 'column' }}>
-        <span style={brand}>
-          <Scale size={18} color={C.gold} strokeWidth={1.4} />{fd?.businessName ?? "Cabinet Faure"}</span>
-        <span style={sub}>Avocate · Marseille</span>
+        {fd?.logoBase64 ? (
+          // Client logo (uploaded in the brief) replaces the placeholder mark —
+          // essential for the client to recognise their brand in the render.
+          <img
+            src={fd.logoBase64}
+            alt={fd?.businessName ?? 'logo'}
+            style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+          />
+        ) : (
+          <>
+            <span style={brand}>
+              <Scale size={18} color={C.gold} strokeWidth={1.4} />{fd?.businessName ?? "Cabinet Faure"}</span>
+            <span style={sub}>Avocate · Marseille</span>
+          </>
+        )}
       </div>
       <div style={linkRow} className="r275-navlinks">
         {links.map((l) => (

@@ -218,7 +218,19 @@ return () => clearInterval(t)
             onClick={() => goTo("home")}
             className="text-2xl tracking-[0.3em] uppercase cursor-pointer"
             style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}
-          >{fd?.businessName ?? "Éther"}</div>
+          >
+            {fd?.logoBase64 ? (
+              // Client logo (uploaded in the brief) replaces the placeholder mark —
+              // essential for the client to recognise their brand in the render.
+              <img
+                src={fd.logoBase64}
+                alt={fd?.businessName ?? 'logo'}
+                style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+              />
+            ) : (
+              fd?.businessName ?? "Éther"
+            )}
+          </div>
           <div className="hidden md:flex items-center gap-10 text-xs tracking-widest uppercase text-[#F5EDE8]/50">
             <button
               onClick={() => goTo("collection")}

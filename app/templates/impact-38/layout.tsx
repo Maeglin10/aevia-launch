@@ -1,12 +1,23 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X, Camera, MessageSquare, Link2, Coffee } from "lucide-react";
 import { C, SERIF, SANS } from "./shared";
 
 export default function OriginRoastLayout({ children }: { children: React.ReactNode }) {
+  const [__layoutSession, __setLayoutSession] = useState<any>(null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(__setLayoutSession)
+      .catch(() => {});
+  }, []);
+  const fd = __layoutSession?.formData;
+
   const [mobileOpen, setMobileOpen] = useState(false);
   const pathname = usePathname();
 
@@ -44,12 +55,22 @@ export default function OriginRoastLayout({ children }: { children: React.ReactN
             href="/templates/impact-38"
             style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: 10 }}
           >
+            {fd?.logoBase64 ? (
+              <img
+                src={fd.logoBase64}
+                alt={fd?.businessName ?? 'logo'}
+                style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+              />
+            ) : (
+              <>
             <div style={{ width: 32, height: 32, background: C.caramel, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>
               <Coffee size={16} color={C.espresso} />
             </div>
             <span style={{ fontFamily: SERIF, fontWeight: 700, fontSize: 20, color: C.cream }}>
               Origin Roast
             </span>
+              </>
+            )}
           </Link>
 
           <div style={{ flex: 1 }} />

@@ -129,13 +129,19 @@ function Navbar() {
         }}
       >
         <motion.div style={{ display: "flex", alignItems: "center", gap: 10, cursor: "pointer" }} whileHover={{ scale: 1.03 }}>
-          <div style={{ width: 40, height: 40, background: C.accent, borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center" }}>
-            <TemplateIcon emoji="🥖" size={20} color="#fff" />
-          </div>
-          <div>
-            <div style={{ fontFamily: FONT_HEADING, fontWeight: 700, fontSize: 20, color: C.text, lineHeight: 1 }}>{fd?.businessName ?? "La Fournée"}</div>
-            <div style={{ fontSize: 10, color: C.textMuted, letterSpacing: 1.5, textTransform: "uppercase" }}>Artisan Boulanger</div>
-          </div>
+          {fd?.logoBase64 ? (
+            <img src={fd.logoBase64} alt={fd?.businessName ?? 'logo'} style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }} />
+          ) : (
+            <>
+              <div style={{ width: 40, height: 40, background: C.accent, borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                <TemplateIcon emoji="🥖" size={20} color="#fff" />
+              </div>
+              <div>
+                <div style={{ fontFamily: FONT_HEADING, fontWeight: 700, fontSize: 20, color: C.text, lineHeight: 1 }}>{fd?.businessName ?? "La Fournée"}</div>
+                <div style={{ fontSize: 10, color: C.textMuted, letterSpacing: 1.5, textTransform: "uppercase" }}>Artisan Boulanger</div>
+              </div>
+            </>
+          )}
         </motion.div>
 
         <div style={{ display: "flex", gap: 32, alignItems: "center" }}>

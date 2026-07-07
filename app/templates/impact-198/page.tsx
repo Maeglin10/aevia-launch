@@ -858,7 +858,15 @@ return () => unsub();
             cursor: "pointer",
           }}
           onClick={() => scrollTo("hero")}
-        >{fd?.businessName ?? "Lumière Beauty"}</div>
+        >{fd?.logoBase64 ? (
+            <img
+              src={fd.logoBase64}
+              alt={fd?.businessName ?? 'logo'}
+              style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+            />
+          ) : (
+            <>{fd?.businessName ?? "Lumière Beauty"}</>
+          )}</div>
 
         {/* Desktop links */}
         <div

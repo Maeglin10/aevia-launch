@@ -12,6 +12,17 @@ export default function Impact51Layout({
 }: {
   children: React.ReactNode;
 }) {
+  const [__layoutSession, __setLayoutSession] = useState<any>(null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(__setLayoutSession)
+      .catch(() => {});
+  }, []);
+  const fd = __layoutSession?.formData;
+
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const pathname = usePathname();
@@ -58,6 +69,14 @@ export default function Impact51Layout({
       >
         {/* Logo */}
         <Link href="/templates/impact-51" className="flex items-center gap-2.5">
+          {fd?.logoBase64 ? (
+            <img
+              src={fd.logoBase64}
+              alt={fd?.businessName ?? 'logo'}
+              style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+            />
+          ) : (
+            <>
           <div className="w-[34px] h-[34px] rounded-lg bg-[#6366f1] flex items-center justify-center">
             <Zap className="w-[18px] h-[18px] text-white" />
           </div>
@@ -67,7 +86,8 @@ export default function Impact51Layout({
           >
             Nexus
           </span>
-        </Link>
+        </>
+          )}</Link>
 
         {/* Desktop Links */}
         <div className="hidden md:flex items-center gap-8">

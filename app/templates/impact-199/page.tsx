@@ -448,15 +448,21 @@ return () => window.removeEventListener("scroll", onScroll)
         <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
           {/* Logo */}
           <Link href="#hero" className="flex items-center gap-3">
-            <div className="w-8 h-8 bg-[#DC2626] flex items-center justify-center">
-              <Pen className="w-4 h-4 text-white" />
-            </div>
-            <span
-              className="text-3xl tracking-widest text-white"
-              style={{ fontFamily: "'Bebas Neue', cursive" }}
-            >
-              ENCRE & ÂME
-            </span>
+            {fd?.logoBase64 ? (
+              <img src={fd.logoBase64} alt={fd?.businessName ?? 'logo'} style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }} />
+            ) : (
+              <>
+                <div className="w-8 h-8 bg-[#DC2626] flex items-center justify-center">
+                  <Pen className="w-4 h-4 text-white" />
+                </div>
+                <span
+                  className="text-3xl tracking-widest text-white"
+                  style={{ fontFamily: "'Bebas Neue', cursive" }}
+                >
+                  ENCRE & ÂME
+                </span>
+              </>
+            )}
           </Link>
 
           {/* Desktop Links */}

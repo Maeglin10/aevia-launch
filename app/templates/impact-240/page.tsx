@@ -411,8 +411,20 @@ function Nav() {
     <>
       <nav style={bar}>
       <div style={brand}>
-        <span style={{ color: C.accent }}>▶</span>
-        STUDIO ATHLETIC
+        {fd?.logoBase64 ? (
+          // Client logo (uploaded in the brief) replaces the placeholder mark —
+          // essential for the client to recognise their brand in the render.
+          <img
+            src={fd.logoBase64}
+            alt={fd?.businessName ?? 'logo'}
+            style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+          />
+        ) : (
+          <>
+            <span style={{ color: C.accent }}>▶</span>
+            STUDIO ATHLETIC
+          </>
+        )}
       </div>
       <div style={linkRow} className="sa-navlinks">
         {links.map((l) => (

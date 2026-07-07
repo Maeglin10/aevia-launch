@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, useScroll, useTransform } from "framer-motion";
@@ -11,6 +11,17 @@ export default function SkewLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const [__layoutSession, __setLayoutSession] = useState<any>(null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(__setLayoutSession)
+      .catch(() => {});
+  }, []);
+  const fd = __layoutSession?.formData;
+
   const containerRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
   const { scrollYProgress } = useScroll({ target: containerRef });
@@ -46,8 +57,17 @@ export default function SkewLayout({
         }}
       >
         <Link href="/templates/impact-58" style={{ textDecoration: "none", color: C.text, fontFamily: "'Syne', sans-serif", fontSize: "0.85rem", fontWeight: 800, letterSpacing: "0.05em" }}>
+          {fd?.logoBase64 ? (
+            <img
+              src={fd.logoBase64}
+              alt={fd?.businessName ?? 'logo'}
+              style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+            />
+          ) : (
+            <>
           SKEW<span style={{ color: C.violet }}>.</span>
-        </Link>
+        </>
+          )}</Link>
         <div id="mb58-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      {NAV_LINKS.map((item) => (
             <Link
               key={item.href}

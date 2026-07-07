@@ -13,6 +13,17 @@ function FloristLayoutContent({ children }: { children: React.ReactNode }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
 
+  const [__layoutSession, __setLayoutSession] = useState<any>(null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(__setLayoutSession)
+      .catch(() => {});
+  }, []);
+  const fd = __layoutSession?.formData;
+
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 40);
     window.addEventListener("scroll", fn);
@@ -79,7 +90,14 @@ function FloristLayoutContent({ children }: { children: React.ReactNode }) {
       }}>
         <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px", display: "flex", alignItems: "center", justifyContent: "space-between", height: 72 }}>
           <Link href="/templates/impact-47" style={{ textDecoration: "none" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+            {fd?.logoBase64 ? (
+              <img
+                src={fd.logoBase64}
+                alt={fd?.businessName ?? 'logo'}
+                style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+              />
+            ) : (
+              <><div style={{ display: "flex", alignItems: "center", gap: 10 }}>
               <div style={{ width: 28, height: 28, display: "flex", alignItems: "center", justifyContent: "center" }}>
                 <svg viewBox="0 0 28 28" style={{ width: 28, height: 28 }}>
                   <circle cx="14" cy="14" r="5" fill={C.accent} />
@@ -92,7 +110,8 @@ function FloristLayoutContent({ children }: { children: React.ReactNode }) {
                 <div style={{ fontFamily: "'Libre Baskerville', Georgia, serif", fontSize: 17, fontWeight: 700, color: C.accent, letterSpacing: "0.02em" }}>Pétales & Co</div>
                 <div style={{ fontFamily: "'Poppins', system-ui", fontSize: 9, color: C.sage, letterSpacing: "0.18em", textTransform: "uppercase" as const }}>Artisan Florist</div>
               </div>
-            </div>
+            </div></>
+            )}
           </Link>
 
           {/* Desktop nav */}

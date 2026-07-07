@@ -170,7 +170,13 @@ return (
             onClick={(e) => { e.preventDefault(); goTo("home"); }}
             className="text-black tracking-[0.3em] text-sm uppercase font-light cursor-pointer"
             style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.1rem" }}
-          >{fd?.businessName ?? "Noir Couture"}</a>
+          >{fd?.logoBase64 ? (
+            <img
+              src={fd.logoBase64}
+              alt={fd?.businessName ?? 'logo'}
+              style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+            />
+          ) : (fd?.businessName ?? "Noir Couture")}</a>
           <div className="hidden md:flex items-center gap-10 text-black text-xs tracking-widest uppercase font-light">
             {[
               { name: "Accueil", target: "home" },
@@ -208,7 +214,15 @@ return (
         {mobileOpen && (
           <motion.div className="fixed inset-0 z-[100] bg-black flex flex-col p-8" initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }} transition={{ type: "spring", stiffness: 300, damping: 30 }}>
             <div className="flex items-center justify-between mb-12">
-              <span className="text-white tracking-widest text-xl" style={{ fontFamily: "'Playfair Display', serif" }}>{fd?.businessName ?? "Noir Couture"}</span>
+              {fd?.logoBase64 ? (
+                <img
+                  src={fd.logoBase64}
+                  alt={fd?.businessName ?? 'logo'}
+                  style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+                />
+              ) : (
+                <span className="text-white tracking-widest text-xl" style={{ fontFamily: "'Playfair Display', serif" }}>{fd?.businessName ?? "Noir Couture"}</span>
+              )}
               <button onClick={() => setMobileOpen(false)} className="cursor-pointer"><X className="w-6 h-6 text-white" /></button>
             </div>
             {["Accueil", "Collections", "Editorial", "Boutique", "Atelier", "Contact"].map((item, i) => {

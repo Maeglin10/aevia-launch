@@ -7,6 +7,17 @@ import { motion } from 'framer-motion';
 import { SCENES } from './shared';
 
 export default function VMMaisonLayout({ children }: { children: React.ReactNode }) {
+  const [__layoutSession, __setLayoutSession] = useState<any>(null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(__setLayoutSession)
+      .catch(() => {});
+  }, []);
+  const fd = __layoutSession?.formData;
+
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const pathname = usePathname();
@@ -77,7 +88,15 @@ export default function VMMaisonLayout({ children }: { children: React.ReactNode
             textDecoration: 'none',
           }}
         >
-          VM Maison
+          {fd?.logoBase64 ? (
+            <img
+              src={fd.logoBase64}
+              alt={fd?.businessName ?? 'logo'}
+              style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+            />
+          ) : (
+            <>VM Maison</>
+          )}
         </Link>
 
         {/* Nav Links */}

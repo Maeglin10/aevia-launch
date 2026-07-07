@@ -16,6 +16,17 @@ export default function AtelierLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const [__layoutSession, __setLayoutSession] = useState<any>(null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(__setLayoutSession)
+      .catch(() => {});
+  }, []);
+  const fd = __layoutSession?.formData;
+
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -57,13 +68,22 @@ export default function AtelierLayout({
       >
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex items-center justify-between">
           <Link href="/templates/impact-66" className="flex flex-col items-center" style={{ textDecoration: "none" }}>
+          {fd?.logoBase64 ? (
+            <img
+              src={fd.logoBase64}
+              alt={fd?.businessName ?? 'logo'}
+              style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+            />
+          ) : (
+            <>
             <span className="text-[10px] md:text-[12px] font-light uppercase tracking-[0.6em] text-[#1a1814]/40 mb-1">
               L'Atelier
             </span>
             <span className="text-xl md:text-2xl font-light tracking-[0.5em] uppercase text-[#1a1814]">
               BEAUTÉ
             </span>
-          </Link>
+          </>
+          )}</Link>
 
           <div className="hidden lg:flex items-center gap-12 text-[10px] font-bold uppercase tracking-[0.3em] text-[#1a1814]/30">
             {navLinks.map((link) => (

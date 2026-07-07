@@ -8,6 +8,17 @@ import { C, FONT } from "./shared";
 import { usePathname } from "next/navigation";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
+  const [__layoutSession, __setLayoutSession] = useState<any>(null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(__setLayoutSession)
+      .catch(() => {});
+  }, []);
+  const fd = __layoutSession?.formData;
+
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
@@ -57,6 +68,14 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       >
         {/* Logo */}
         <Link href="/templates/impact-30" className="flex items-center gap-2.5 hover:opacity-90 transition-opacity">
+          {fd?.logoBase64 ? (
+            <img
+              src={fd.logoBase64}
+              alt={fd?.businessName ?? 'logo'}
+              style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+            />
+          ) : (
+            <>
           <div
             style={{
               width: 38,
@@ -73,7 +92,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <span style={{ fontWeight: 800, fontSize: 20, color: C.text, letterSpacing: -0.5 }}>
             Smile<span style={{ color: C.accent }}>Studio</span>
           </span>
-        </Link>
+        </>
+          )}</Link>
 
         {/* Desktop links */}
         <div style={{ display: "flex", gap: 32, alignItems: "center" }} className="hidden md:flex">

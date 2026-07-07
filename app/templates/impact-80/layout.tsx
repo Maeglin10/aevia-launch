@@ -11,6 +11,17 @@ export default function SymmetryStudioLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const [__layoutSession, __setLayoutSession] = useState<any>(null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(__setLayoutSession)
+      .catch(() => {});
+  }, []);
+  const fd = __layoutSession?.formData;
+
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
@@ -50,13 +61,22 @@ export default function SymmetryStudioLayout({
       >
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex items-center justify-between">
           <Link href={basePath} className="flex items-center gap-4 group">
+            {fd?.logoBase64 ? (
+              <img
+                src={fd.logoBase64}
+                alt={fd?.businessName ?? 'logo'}
+                style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+              />
+            ) : (
+              <>
             <div className="w-10 h-10 border border-black/10 flex items-center justify-center group-hover:bg-black transition-all duration-700">
               <Maximize2 className="w-5 h-5 group-hover:text-white transition-colors" />
             </div>
             <span className="text-xl font-light tracking-[0.4em] uppercase">
               Symmetry <span className="font-bold">Studio</span>
             </span>
-          </Link>
+          </>
+            )}</Link>
           <div className="hidden lg:flex gap-12 text-[10px] font-bold uppercase tracking-[0.5em] text-black/20">
             {links.map((link) => {
               const isActive = pathname === link.href;

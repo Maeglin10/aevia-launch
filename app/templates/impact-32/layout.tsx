@@ -9,6 +9,17 @@ import { TemplateIcon } from "@/components/TemplateIcon";
 import { C, FONT } from "./shared";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
+  const [__layoutSession, __setLayoutSession] = useState<any>(null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(__setLayoutSession)
+      .catch(() => {});
+  }, []);
+  const fd = __layoutSession?.formData;
+
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
@@ -57,6 +68,14 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         }}
       >
         <Link href="/templates/impact-32" style={{ textDecoration: "none" }}>
+          {fd?.logoBase64 ? (
+            <img
+              src={fd.logoBase64}
+              alt={fd?.businessName ?? 'logo'}
+              style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+            />
+          ) : (
+            <>
           <motion.div style={{ display: "flex", alignItems: "center", gap: 10 }} whileHover={{ scale: 1.03 }}>
             <div style={{ width: 38, height: 38, background: C.accent, borderRadius: 12, display: "flex", alignItems: "center", justifyContent: "center" }}>
               <TemplateIcon emoji="🐾" size={20} color="#fff" />
@@ -65,7 +84,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               Paw<span style={{ color: C.accent }}>Care</span>
             </span>
           </motion.div>
-        </Link>
+        </>
+          )}</Link>
 
         {/* Desktop Links */}
         <div style={{ display: "flex", gap: 32, alignItems: "center" }} className="hidden md:flex">

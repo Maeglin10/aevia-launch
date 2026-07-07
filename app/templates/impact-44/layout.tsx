@@ -7,6 +7,17 @@ import { motion, useScroll } from "framer-motion";
 import { C, NAV_LINKS } from "./shared";
 
 export default function GhostProtocolLayout({ children }: { children: React.ReactNode }) {
+  const [__layoutSession, __setLayoutSession] = useState<any>(null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(__setLayoutSession)
+      .catch(() => {});
+  }, []);
+  const fd = __layoutSession?.formData;
+
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false)
   const pathname = usePathname();
@@ -210,8 +221,17 @@ export default function GhostProtocolLayout({ children }: { children: React.Reac
             textDecoration: "none",
           }}
         >
+          {fd?.logoBase64 ? (
+            <img
+              src={fd.logoBase64}
+              alt={fd?.businessName ?? 'logo'}
+              style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+            />
+          ) : (
+            <>
           GHOST<span style={{ color: C.white }}>PROTOCOL</span>
-        </Link>
+        </>
+          )}</Link>
         <div id="mb44-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      {NAV_LINKS.map((link) => {
             const active = pathname === link.href;
             return (

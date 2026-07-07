@@ -836,8 +836,18 @@ return () => window.removeEventListener("scroll", onScroll)
       >
         <div className="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
           <button type="button" onClick={() => scrollToSection("hero")} className="flex flex-col text-left cursor-pointer">
-            <span className="text-xl tracking-widest font-light" style={{ fontFamily: "'Cormorant Garamond', serif", letterSpacing: "0.1em" }}>{fd?.businessName ?? "Lumière Clinic"}</span>
-            <span className="text-[9px] tracking-[0.25em] uppercase text-[#3A8080]">Médecine esthétique médicale</span>
+            {fd?.logoBase64 ? (
+              <img
+                src={fd.logoBase64}
+                alt={fd?.businessName ?? 'logo'}
+                style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+              />
+            ) : (
+              <>
+                <span className="text-xl tracking-widest font-light" style={{ fontFamily: "'Cormorant Garamond', serif", letterSpacing: "0.1em" }}>{fd?.businessName ?? "Lumière Clinic"}</span>
+                <span className="text-[9px] tracking-[0.25em] uppercase text-[#3A8080]">Médecine esthétique médicale</span>
+              </>
+            )}
           </button>
           <div className="hidden md:flex items-center gap-8 text-sm font-light text-[#6B6560]">
             {NAV_LINKS.map(l => (
@@ -863,7 +873,15 @@ return () => window.removeEventListener("scroll", onScroll)
           <motion.div className="fixed inset-0 z-[200] bg-[#FAFAF8] flex flex-col"
             initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }} transition={{ type: "spring", stiffness: 280, damping: 28 }}>
             <div className="flex items-center justify-between px-6 py-5 border-b border-[#E8E4DE]">
-              <span style={{ fontFamily: "'Cormorant Garamond', serif" }} className="text-xl">{fd?.businessName ?? "Lumière Clinic"}</span>
+              {fd?.logoBase64 ? (
+                <img
+                  src={fd.logoBase64}
+                  alt={fd?.businessName ?? 'logo'}
+                  style={{ height: 28, maxWidth: 140, objectFit: 'contain', display: 'block' }}
+                />
+              ) : (
+                <span style={{ fontFamily: "'Cormorant Garamond', serif" }} className="text-xl">{fd?.businessName ?? "Lumière Clinic"}</span>
+              )}
               <button type="button" onClick={() => setMenuOpen(false)} className="p-2 cursor-pointer"><X className="w-5 h-5" /></button>
             </div>
             <div className="flex flex-col gap-8 p-10">

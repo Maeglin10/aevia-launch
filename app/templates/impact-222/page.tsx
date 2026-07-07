@@ -246,47 +246,59 @@ const Nav: React.FC = () => {
             textDecoration: 'none',
           }}
         >
-          <span
-            style={{
-              width: 38,
-              height: 38,
-              borderRadius: 2,
-              background: C.gold,
-              display: 'grid',
-              placeItems: 'center',
-              boxShadow: '0 4px 18px rgba(184,148,74,0.4)',
-            }}
-          >
-            <Building2 size={20} color={C.navy} strokeWidth={2.2} />
-          </span>
-          <span style={{ lineHeight: 1 }}>
-            <span
-              style={{
-                display: 'block',
-                fontFamily: C.serif,
-                fontSize: 22,
-                fontWeight: 600,
-                color: C.white,
-                letterSpacing: '0.02em',
-              }}
-            >
-              Solis
-            </span>
-            <span
-              style={{
-                display: 'block',
-                fontFamily: C.font,
-                fontSize: 9.5,
-                fontWeight: 600,
-                letterSpacing: '0.34em',
-                textTransform: 'uppercase',
-                color: C.goldSoft,
-                marginTop: 2,
-              }}
-            >
-              Immobilier
-            </span>
-          </span>
+          {fd?.logoBase64 ? (
+            // Client logo (uploaded in the brief) replaces the placeholder mark —
+            // essential for the client to recognise their brand in the render.
+            <img
+              src={fd.logoBase64}
+              alt={fd?.businessName ?? 'logo'}
+              style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+            />
+          ) : (
+            <>
+              <span
+                style={{
+                  width: 38,
+                  height: 38,
+                  borderRadius: 2,
+                  background: C.gold,
+                  display: 'grid',
+                  placeItems: 'center',
+                  boxShadow: '0 4px 18px rgba(184,148,74,0.4)',
+                }}
+              >
+                <Building2 size={20} color={C.navy} strokeWidth={2.2} />
+              </span>
+              <span style={{ lineHeight: 1 }}>
+                <span
+                  style={{
+                    display: 'block',
+                    fontFamily: C.serif,
+                    fontSize: 22,
+                    fontWeight: 600,
+                    color: C.white,
+                    letterSpacing: '0.02em',
+                  }}
+                >
+                  Solis
+                </span>
+                <span
+                  style={{
+                    display: 'block',
+                    fontFamily: C.font,
+                    fontSize: 9.5,
+                    fontWeight: 600,
+                    letterSpacing: '0.34em',
+                    textTransform: 'uppercase',
+                    color: C.goldSoft,
+                    marginTop: 2,
+                  }}
+                >
+                  Immobilier
+                </span>
+              </span>
+            </>
+          )}
         </a>
 
         {/* Desktop links */}

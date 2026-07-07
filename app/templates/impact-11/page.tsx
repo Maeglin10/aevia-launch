@@ -155,10 +155,20 @@ return (
       <nav className="fixed top-4 left-4 right-4 z-50">
         <div className="max-w-6xl mx-auto bg-white/90 backdrop-blur-md border border-gray-100 shadow-lg rounded-2xl px-6 py-4 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-[#7C3AED] rounded-lg flex items-center justify-center">
-              <BookOpen className="w-4 h-4 text-white" />
-            </div>
-            <span className="text-gray-900 font-bold text-lg">{fd?.businessName ?? "EduPath"}</span>
+            {fd?.logoBase64 ? (
+              <img
+                src={fd.logoBase64}
+                alt={fd?.businessName ?? 'logo'}
+                style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+              />
+            ) : (
+              <>
+                <div className="w-8 h-8 bg-[#7C3AED] rounded-lg flex items-center justify-center">
+                  <BookOpen className="w-4 h-4 text-white" />
+                </div>
+                <span className="text-gray-900 font-bold text-lg">{fd?.businessName ?? "EduPath"}</span>
+              </>
+            )}
           </Link>
           <div className="hidden md:flex items-center gap-8 text-gray-600 text-sm font-medium">
             {["Cours", "Mentoring", "Certifications", "Entreprises", "Tarifs"].map(item => (
@@ -177,7 +187,15 @@ return (
         {mobileOpen && (
           <motion.div className="fixed inset-0 z-[100] bg-white flex flex-col p-8" initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }} transition={{ type: "spring", stiffness: 300, damping: 30 }}>
             <div className="flex items-center justify-between mb-12">
-              <span className="text-gray-900 font-bold text-xl">{fd?.businessName ?? "EduPath"}</span>
+              {fd?.logoBase64 ? (
+                <img
+                  src={fd.logoBase64}
+                  alt={fd?.businessName ?? 'logo'}
+                  style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+                />
+              ) : (
+                <span className="text-gray-900 font-bold text-xl">{fd?.businessName ?? "EduPath"}</span>
+              )}
               <button onClick={() => setMobileOpen(false)} className="cursor-pointer"><X className="w-6 h-6" /></button>
             </div>
             {["Cours", "Mentoring", "Certifications", "Entreprises", "Tarifs"].map((item, i) => (

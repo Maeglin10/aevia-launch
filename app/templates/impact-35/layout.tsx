@@ -1,12 +1,23 @@
 "use client"
 
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react";
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { Building2, Menu, X, MessageSquare, Link2, Camera } from "lucide-react"
 import { C, FONT } from "./shared"
 
 export default function Layout({ children }: { children: React.ReactNode }) {
+  const [__layoutSession, __setLayoutSession] = useState<any>(null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(__setLayoutSession)
+      .catch(() => {});
+  }, []);
+  const fd = __layoutSession?.formData;
+
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const pathname = usePathname()
 
@@ -69,6 +80,14 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               textDecoration: "none",
             }}
           >
+          {fd?.logoBase64 ? (
+            <img
+              src={fd.logoBase64}
+              alt={fd?.businessName ?? 'logo'}
+              style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+            />
+          ) : (
+            <>
             <div
               style={{
                 width: 36,
@@ -83,7 +102,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               <Building2 size={20} color={C.white} />
             </div>
             <span style={{ fontWeight: 700, fontSize: 20, color: C.slate }}>Nexus Hub</span>
-          </Link>
+          </>
+          )}</Link>
 
           {/* Desktop nav */}
           <div style={{ display: "flex", gap: 28, alignItems: "center" }} className="hidden md:flex">

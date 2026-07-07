@@ -331,12 +331,22 @@ return () => window.removeEventListener("scroll", handleScroll);
       >
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex items-center justify-between">
           <Link href="#collection" className="flex flex-col items-start">
-            <span className="text-[10px] font-bold uppercase tracking-[0.6em] text-stone-600 mb-1">
-              Artisanal.
-            </span>
-            <span className="text-xl md:text-2xl font-black tracking-tighter uppercase text-white">
-              BOULANGERIE<span className="text-stone-800">.NOIRE</span>
-            </span>
+            {fd?.logoBase64 ? (
+              <img
+                src={fd.logoBase64}
+                alt={fd?.businessName ?? 'logo'}
+                style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+              />
+            ) : (
+              <>
+                <span className="text-[10px] font-bold uppercase tracking-[0.6em] text-stone-600 mb-1">
+                  Artisanal.
+                </span>
+                <span className="text-xl md:text-2xl font-black tracking-tighter uppercase text-white">
+                  BOULANGERIE<span className="text-stone-800">.NOIRE</span>
+                </span>
+              </>
+            )}
           </Link>
 
           <div className="hidden lg:flex items-center gap-12 text-[10px] font-bold uppercase tracking-[0.3em] text-white/20">

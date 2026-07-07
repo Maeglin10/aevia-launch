@@ -142,10 +142,20 @@ return () => window.removeEventListener("scroll", h)
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-1000 ${scrolled ? "bg-[#f2f0eb]/90 backdrop-blur-xl border-b border-[#3d3a35]/5 py-4" : "bg-transparent py-8"}`}>
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex items-center justify-between">
           <Link href="#hero" className="flex items-center gap-4 group">
-            <div className="w-10 h-10 bg-[#3d3a35] flex items-center justify-center group-hover:rotate-90 transition-transform duration-700">
-              <Ruler className="w-5 h-5 text-[#f2f0eb]" />
-            </div>
-            <span className="text-xl font-bold tracking-[0.1em] uppercase">Terra <span className="font-light italic text-[#3d3a35]/60">Studio</span></span>
+            {fd?.logoBase64 ? (
+              <img
+                src={fd.logoBase64}
+                alt={fd?.businessName ?? 'logo'}
+                style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+              />
+            ) : (
+              <>
+                <div className="w-10 h-10 bg-[#3d3a35] flex items-center justify-center group-hover:rotate-90 transition-transform duration-700">
+                  <Ruler className="w-5 h-5 text-[#f2f0eb]" />
+                </div>
+                <span className="text-xl font-bold tracking-[0.1em] uppercase">Terra <span className="font-light italic text-[#3d3a35]/60">Studio</span></span>
+              </>
+            )}
           </Link>
           <div className="hidden lg:flex gap-12 text-[10px] font-bold uppercase tracking-[0.3em] text-[#3d3a35]/40">
             {["Work", "Philosophy", "Process", "Team"].map(l => (

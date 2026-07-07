@@ -362,8 +362,18 @@ return (
       {/* 1. NAVIGATION (HUD STYLE) */}
       <nav className="fixed top-0 left-0 right-0 z-50 flex justify-between items-center px-8 py-6 border-b border-white/5 bg-black/80 backdrop-blur-md">
          <div onClick={() => goTo("home")} className="flex flex-col cursor-pointer">
+            {fd?.logoBase64 ? (
+              <img
+                src={fd.logoBase64}
+                alt={fd?.businessName ?? 'logo'}
+                style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+              />
+            ) : (
+              <>
             <span className="text-2xl font-black tracking-[-0.05em] uppercase leading-none italic">Vulcan</span>
             <span className="text-[8px] font-bold uppercase tracking-[0.5em] text-blue-500 -mt-1 ml-1">Motor Group Modena</span>
+              </>
+            )}
          </div>
          <div className="hidden md:flex gap-10 text-[10px] font-black uppercase tracking-widest text-white/40">
             {[

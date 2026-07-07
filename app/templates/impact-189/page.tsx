@@ -149,8 +149,18 @@ return () => window.removeEventListener("scroll", h)
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#faf6f1]/98 backdrop-blur-xl py-3 shadow-sm border-b border-[#c97b7b]/10" : "bg-transparent py-7"}`}>
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex items-center justify-between">
           <div>
-            <div className="font-bold text-[#1a1218] tracking-widest text-sm" style={{ fontFamily: "'Bodoni Moda', 'Georgia', serif" }}>ATELIER LÉONIE</div>
-            <div className="text-[8px] font-bold uppercase tracking-[0.4em] text-[#c97b7b]/60">Salon de coiffure · Paris 16e</div>
+            {fd?.logoBase64 ? (
+              <img
+                src={fd.logoBase64}
+                alt={fd?.businessName ?? 'logo'}
+                style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+              />
+            ) : (
+              <>
+                <div className="font-bold text-[#1a1218] tracking-widest text-sm" style={{ fontFamily: "'Bodoni Moda', 'Georgia', serif" }}>ATELIER LÉONIE</div>
+                <div className="text-[8px] font-bold uppercase tracking-[0.4em] text-[#c97b7b]/60">Salon de coiffure · Paris 16e</div>
+              </>
+            )}
           </div>
           <div className="hidden lg:flex gap-9 text-[10px] font-bold uppercase tracking-[0.22em] text-[#1a1218]/30">
             {["Prestations", "Tarifs", "Équipe", "Galerie", "Contact"].map(l => (

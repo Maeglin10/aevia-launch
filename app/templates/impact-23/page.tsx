@@ -229,7 +229,20 @@ return (
       <nav className="fixed top-4 left-4 right-4 z-50">
         <div className="max-w-6xl mx-auto bg-[#100D08]/90 backdrop-blur-md border border-[#C9A05A]/15 rounded-2xl px-6 py-4 flex items-center justify-between">
           <button onClick={() => goTo("home")} className="flex items-center gap-2 text-[#C9A05A] cursor-pointer" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.1rem" }}>
-            <Film className="w-4 h-4" />{fd?.businessName ?? "Studio Pelikan"}</button>
+            {fd?.logoBase64 ? (
+              // Client logo (uploaded in the brief) replaces the placeholder mark —
+              // essential for the client to recognise their brand in the render.
+              <img
+                src={fd.logoBase64}
+                alt={fd?.businessName ?? 'logo'}
+                style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+              />
+            ) : (
+              <>
+                <Film className="w-4 h-4" />{fd?.businessName ?? "Studio Pelikan"}
+              </>
+            )}
+          </button>
           <div className="hidden md:flex items-center gap-8 text-white/40 text-sm">
             {navItems.map(item => (
               <button key={item.label} onClick={() => goTo(item.target)} className="hover:text-[#C9A05A] transition-colors cursor-pointer">{item.label}</button>
@@ -246,7 +259,15 @@ return (
         {mobileOpen && (
           <motion.div className="fixed inset-0 z-[100] bg-[#100D08] flex flex-col p-8" initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }} transition={{ type: "spring", stiffness: 300, damping: 30 }}>
             <div className="flex items-center justify-between mb-12">
-              <button onClick={() => goTo("home")} className="text-[#C9A05A] text-xl cursor-pointer" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{fd?.businessName ?? "Studio Pelikan"}</button>
+              {fd?.logoBase64 ? (
+                <img
+                  src={fd.logoBase64}
+                  alt={fd?.businessName ?? 'logo'}
+                  style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+                />
+              ) : (
+                <button onClick={() => goTo("home")} className="text-[#C9A05A] text-xl cursor-pointer" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{fd?.businessName ?? "Studio Pelikan"}</button>
+              )}
               <button onClick={() => setMobileOpen(false)} className="cursor-pointer"><X className="w-6 h-6 text-white" /></button>
             </div>
             {navItems.map((item, i) => (

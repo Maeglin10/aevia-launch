@@ -163,8 +163,18 @@ return () => window.removeEventListener("scroll", onScroll)
       >
         <div className="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
           <Link href="#contact" className="flex flex-col">
-            <span className="text-xl font-light tracking-widest" style={{ fontFamily: "'Cormorant Garamond', serif", letterSpacing: "0.15em" }}>{fd?.businessName ?? "Aether Labs"}</span>
-            <span className="text-[9px] tracking-[0.2em] uppercase text-[#8B7355]">Cosmétique scientifique</span>
+            {fd?.logoBase64 ? (
+              <img
+                src={fd.logoBase64}
+                alt={fd?.businessName ?? 'logo'}
+                style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+              />
+            ) : (
+              <>
+                <span className="text-xl font-light tracking-widest" style={{ fontFamily: "'Cormorant Garamond', serif", letterSpacing: "0.15em" }}>{fd?.businessName ?? "Aether Labs"}</span>
+                <span className="text-[9px] tracking-[0.2em] uppercase text-[#8B7355]">Cosmétique scientifique</span>
+              </>
+            )}
           </Link>
           <div className="hidden md:flex items-center gap-8 text-sm font-light text-[#6B5A40]">
             {["Formules", "Science", "Rituels", "Journal", "FAQ", "Contact"].map(l => (
@@ -187,7 +197,15 @@ return () => window.removeEventListener("scroll", onScroll)
           <motion.div className="fixed inset-0 z-[200] bg-[#F8F6F2] flex flex-col"
             initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }} transition={{ type: "spring", stiffness: 280, damping: 28 }}>
             <div className="flex items-center justify-between px-6 py-5 border-b border-[#E4DDD4]">
-              <span style={{ fontFamily: "'Cormorant Garamond', serif" }} className="text-xl">{fd?.businessName ?? "Aether Labs"}</span>
+              {fd?.logoBase64 ? (
+                <img
+                  src={fd.logoBase64}
+                  alt={fd?.businessName ?? 'logo'}
+                  style={{ height: 28, maxWidth: 140, objectFit: 'contain', display: 'block' }}
+                />
+              ) : (
+                <span style={{ fontFamily: "'Cormorant Garamond', serif" }} className="text-xl">{fd?.businessName ?? "Aether Labs"}</span>
+              )}
               <button onClick={() => setMenuOpen(false)} className="p-2 cursor-pointer"><X className="w-5 h-5" /></button>
             </div>
             <div className="flex flex-col gap-8 p-10">

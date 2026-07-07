@@ -266,8 +266,20 @@ function Nav() {
     <>
       <nav style={bar}>
       <div style={brand}>
-        <Wheat size={22} color={C.wheat} strokeWidth={1.4} />
-        Boulangerie&nbsp;du&nbsp;Beffroi
+        {fd?.logoBase64 ? (
+          // Client logo (uploaded in the brief) replaces the placeholder mark —
+          // essential for the client to recognise their brand in the render.
+          <img
+            src={fd.logoBase64}
+            alt={fd?.businessName ?? 'logo'}
+            style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+          />
+        ) : (
+          <>
+            <Wheat size={22} color={C.wheat} strokeWidth={1.4} />
+            Boulangerie&nbsp;du&nbsp;Beffroi
+          </>
+        )}
       </div>
       <div style={linkRow} className="r282-navlinks">
         {links.map((l) => (

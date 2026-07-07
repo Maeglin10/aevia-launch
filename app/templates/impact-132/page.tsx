@@ -561,29 +561,37 @@ return (
           height: 64,
         }}>
           {/* Wordmark */}
-          <div style={{ display: "flex", alignItems: "baseline", gap: 10 }}>
-            <span style={{
-              fontFamily: C.serif,
-              fontWeight: 700,
-              fontSize: 26,
-              color: C.white,
-              letterSpacing: "-0.02em",
-              lineHeight: 1,
-            }}>
-              The Review
-            </span>
-            <span style={{
-              fontFamily: C.sans,
-              fontSize: 11,
-              fontWeight: 500,
-              color: C.accent,
-              letterSpacing: "0.14em",
-              textTransform: "uppercase",
-              paddingBottom: 2,
-            }}>
-              Magazine
-            </span>
-          </div>
+          {fd?.logoBase64 ? (
+            <img
+              src={fd.logoBase64}
+              alt={fd?.businessName ?? 'logo'}
+              style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+            />
+          ) : (
+            <div style={{ display: "flex", alignItems: "baseline", gap: 10 }}>
+              <span style={{
+                fontFamily: C.serif,
+                fontWeight: 700,
+                fontSize: 26,
+                color: C.white,
+                letterSpacing: "-0.02em",
+                lineHeight: 1,
+              }}>
+                The Review
+              </span>
+              <span style={{
+                fontFamily: C.sans,
+                fontSize: 11,
+                fontWeight: 500,
+                color: C.accent,
+                letterSpacing: "0.14em",
+                textTransform: "uppercase",
+                paddingBottom: 2,
+              }}>
+                Magazine
+              </span>
+            </div>
+          )}
 
           {/* Nav links */}
           <nav id="mb132-nav" style={{ display: "flex", gap: 36, alignItems: "center" }}>

@@ -3002,45 +3002,57 @@ function Nav290() {
     <>
       <nav style={bar}>
       <a href="#hero" style={brand}>
-        <div
-          style={{
-            width: 36,
-            height: 36,
-            borderRadius: 8,
-            background: C.forest,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
-          <Droplets size={18} color={C.white} strokeWidth={2} />
-        </div>
-        <div>
-          <div
-            style={{
-              fontFamily: SERIF,
-              fontSize: 15,
-              fontWeight: 700,
-              color: C.white,
-              lineHeight: 1.1,
-              letterSpacing: '-0.01em',
-            }}
-          >
-            Eau &amp; Habitat Bretagne
-          </div>
-          <div
-            style={{
-              fontFamily: SANS,
-              fontSize: 10,
-              color: 'rgba(255,255,255,0.50)',
-              letterSpacing: '0.18em',
-              textTransform: 'uppercase',
-              fontWeight: 600,
-            }}
-          >
-            Plombier-chauffagiste · RGE
-          </div>
-        </div>
+        {fd?.logoBase64 ? (
+          // Client logo (uploaded in the brief) replaces the placeholder mark —
+          // essential for the client to recognise their brand in the render.
+          <img
+            src={fd.logoBase64}
+            alt={fd?.businessName ?? 'logo'}
+            style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+          />
+        ) : (
+          <>
+            <div
+              style={{
+                width: 36,
+                height: 36,
+                borderRadius: 8,
+                background: C.forest,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <Droplets size={18} color={C.white} strokeWidth={2} />
+            </div>
+            <div>
+              <div
+                style={{
+                  fontFamily: SERIF,
+                  fontSize: 15,
+                  fontWeight: 700,
+                  color: C.white,
+                  lineHeight: 1.1,
+                  letterSpacing: '-0.01em',
+                }}
+              >
+                Eau &amp; Habitat Bretagne
+              </div>
+              <div
+                style={{
+                  fontFamily: SANS,
+                  fontSize: 10,
+                  color: 'rgba(255,255,255,0.50)',
+                  letterSpacing: '0.18em',
+                  textTransform: 'uppercase',
+                  fontWeight: 600,
+                }}
+              >
+                Plombier-chauffagiste · RGE
+              </div>
+            </div>
+          </>
+        )}
       </a>
 
       <div

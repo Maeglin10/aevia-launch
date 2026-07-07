@@ -294,9 +294,19 @@ function Nav() {
         }
       `}</style>
       <nav style={navStyle}>
-        <span style={logoStyle}>
-          TL<span style={{ color: C.orange }}>Coach</span>
-        </span>
+        {fd?.logoBase64 ? (
+          // Client logo (uploaded in the brief) replaces the placeholder mark —
+          // essential for the client to recognise their brand in the render.
+          <img
+            src={fd.logoBase64}
+            alt={fd?.businessName ?? 'logo'}
+            style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+          />
+        ) : (
+          <span style={logoStyle}>
+            TL<span style={{ color: C.orange }}>Coach</span>
+          </span>
+        )}
         <div className="r276-nav-links">
           {links.map((l) => (
             <button

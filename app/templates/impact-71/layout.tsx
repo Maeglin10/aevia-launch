@@ -16,6 +16,17 @@ export default function ZenSpaceLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const [__layoutSession, __setLayoutSession] = useState<any>(null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(__setLayoutSession)
+      .catch(() => {});
+  }, []);
+  const fd = __layoutSession?.formData;
+
   const pathname = usePathname();
   const router = useRouter();
   const [scrolled, setScrolled] = useState(false);
@@ -73,13 +84,22 @@ export default function ZenSpaceLayout({
       >
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex items-center justify-between">
           <Link href="/templates/impact-71" className="flex flex-col items-center group" style={{ textDecoration: "none" }}>
+            {fd?.logoBase64 ? (
+              <img
+                src={fd.logoBase64}
+                alt={fd?.businessName ?? 'logo'}
+                style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+              />
+            ) : (
+              <>
             <span className="text-[10px] font-bold uppercase tracking-[0.6em] text-stone-400 mb-1 group-hover:text-[#c9a84c] transition-colors">
               Sanctuary.
             </span>
             <span className="text-xl md:text-2xl font-light tracking-[0.4em] uppercase text-[#33302c]">
               ZEN<span className="text-[#c9a84c]">SPACE</span>
             </span>
-          </Link>
+          </>
+            )}</Link>
 
           <div className="hidden lg:flex items-center gap-12 text-[10px] font-bold uppercase tracking-[0.3em] text-stone-400">
             {navLinks.map((link) => (

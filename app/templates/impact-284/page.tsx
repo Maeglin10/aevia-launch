@@ -261,7 +261,17 @@ function NavBar() {
     <>
       <nav style={bar}>
       <a href="#hero" style={brand}>
-        <span style={{ color: C.gold, fontStyle: 'italic' }}>Dent&apos;Or</span>
+        {fd?.logoBase64 ? (
+          // Client logo (uploaded in the brief) replaces the placeholder mark —
+          // essential for the client to recognise their brand in the render.
+          <img
+            src={fd.logoBase64}
+            alt={fd?.businessName ?? 'logo'}
+            style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+          />
+        ) : (
+          <span style={{ color: C.gold, fontStyle: 'italic' }}>Dent&apos;Or</span>
+        )}
       </a>
       <div style={linkRow} className="r284-navlinks">
         {links.map((l) => (

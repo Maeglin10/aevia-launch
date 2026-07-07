@@ -256,21 +256,33 @@ function Navbar() {
           style={{ display: "flex", alignItems: "center", gap: 10, cursor: "pointer" }}
           whileHover={{ scale: 1.03 }}
         >
-          <div
-            style={{
-              width: 38,
-              height: 38,
-              background: C.accent,
-              borderRadius: 10,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <Smile size={22} color={C.white} />
-          </div>
-          <span style={{ fontWeight: 800, fontSize: 20, color: C.text, letterSpacing: -0.5 }}>{fd?.businessName ?? "Smile Studio"}<span style={{ color: C.accent }}>Studio</span>
-          </span>
+          {fd?.logoBase64 ? (
+            // Client logo (uploaded in the brief) replaces the placeholder mark —
+            // essential for the client to recognise their brand in the render.
+            <img
+              src={fd.logoBase64}
+              alt={fd?.businessName ?? 'logo'}
+              style={{ height: 32, maxWidth: 160, objectFit: "contain", display: "block" }}
+            />
+          ) : (
+            <>
+              <div
+                style={{
+                  width: 38,
+                  height: 38,
+                  background: C.accent,
+                  borderRadius: 10,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <Smile size={22} color={C.white} />
+              </div>
+              <span style={{ fontWeight: 800, fontSize: 20, color: C.text, letterSpacing: -0.5 }}>{fd?.businessName ?? "Smile Studio"}<span style={{ color: C.accent }}>Studio</span>
+              </span>
+            </>
+          )}
         </motion.div>
 
         {/* Desktop links */}

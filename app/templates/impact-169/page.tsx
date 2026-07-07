@@ -569,15 +569,26 @@ return () => window.removeEventListener("scroll", onScroll);
           <motion.div
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
-            style={{
-              fontFamily: C.serif,
-              fontSize: 30,
-              fontWeight: 900,
-              letterSpacing: -1,
-              color: C.red,
-              lineHeight: 1,
-            }}
-          >{fd?.businessName ?? "Fréquence"}</motion.div>
+          >
+            {fd?.logoBase64 ? (
+              <img
+                src={fd.logoBase64}
+                alt={fd?.businessName ?? 'logo'}
+                style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+              />
+            ) : (
+              <span
+                style={{
+                  fontFamily: C.serif,
+                  fontSize: 30,
+                  fontWeight: 900,
+                  letterSpacing: -1,
+                  color: C.red,
+                  lineHeight: 1,
+                }}
+              >{fd?.businessName ?? "Fréquence"}</span>
+            )}
+          </motion.div>
 
           {/* Nav links — hidden on mobile */}
           <div className="freq-navlinks" style={{ display: "flex", gap: 36, alignItems: "center" }}>

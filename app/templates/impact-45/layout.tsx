@@ -7,6 +7,17 @@ import { Menu, X, Phone, Mail, MapPin, Clock, MessageSquare } from "lucide-react
 import { C, navLinks } from "./shared";
 
 export default function TattooStudioLayout({ children }: { children: React.ReactNode }) {
+  const [__layoutSession, __setLayoutSession] = useState<any>(null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(__setLayoutSession)
+      .catch(() => {});
+  }, []);
+  const fd = __layoutSession?.formData;
+
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
@@ -42,13 +53,22 @@ export default function TattooStudioLayout({ children }: { children: React.React
       }}>
         <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px", display: "flex", alignItems: "center", justifyContent: "space-between", height: 72 }}>
           <Link href="/templates/impact-45" style={{ textDecoration: "none" }}>
+          {fd?.logoBase64 ? (
+            <img
+              src={fd.logoBase64}
+              alt={fd?.businessName ?? 'logo'}
+              style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+            />
+          ) : (
+            <>
             <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
               <div style={{ width: 32, height: 32, background: C.accent, display: "flex", alignItems: "center", justifyContent: "center" }}>
                 <span style={{ color: C.white, fontSize: 16, fontFamily: "'Cinzel', serif", fontWeight: 700 }}>N</span>
               </div>
               <span style={{ fontFamily: "'Cinzel', serif", fontSize: 18, fontWeight: 700, color: C.white, letterSpacing: "0.12em" }}>NOIR INK</span>
             </div>
-          </Link>
+          </>
+          )}</Link>
 
           {/* Desktop Nav */}
           <div style={{ display: "flex", gap: 36, alignItems: "center" }} className="hidden md:flex">

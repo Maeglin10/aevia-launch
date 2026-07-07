@@ -247,7 +247,15 @@ return () => window.removeEventListener("scroll", h);
       {/* ── NAVBAR ── */}
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#11182a]/95 backdrop-blur-xl py-4 border-b border-[#c9a855]/10" : "bg-transparent py-8"}`}>
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex items-center justify-between">
-          <span className="font-serif text-xl text-white tracking-wide italic">{fd?.businessName ?? "Aevia Kitchen"}</span>
+          {fd?.logoBase64 ? (
+            <img
+              src={fd.logoBase64}
+              alt={fd?.businessName ?? 'logo'}
+              style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+            />
+          ) : (
+            <span className="font-serif text-xl text-white tracking-wide italic">{fd?.businessName ?? "Aevia Kitchen"}</span>
+          )}
           <div className="hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-white/40">
             {["La carte", "Expériences", "Réserver", "Cave à vins", "À propos"].map(l => (
               <Link key={l} href="#menus" className="hover:text-[#c9a855] transition-colors">{l}</Link>

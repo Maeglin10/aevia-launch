@@ -840,15 +840,26 @@ return () => window.removeEventListener("scroll", handleScroll);
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           onClick={() => goTo("home")}
-          style={{
-            fontFamily: C.serif,
-            fontSize: 26,
-            letterSpacing: 4,
-            fontStyle: "italic",
-            color: C.gold,
-            cursor: "pointer",
-          }}
-        >{fd?.businessName ?? "Éclat"}</motion.div>
+          style={{ cursor: "pointer" }}
+        >
+          {fd?.logoBase64 ? (
+            <img
+              src={fd.logoBase64}
+              alt={fd?.businessName ?? 'logo'}
+              style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+            />
+          ) : (
+            <span
+              style={{
+                fontFamily: C.serif,
+                fontSize: 26,
+                letterSpacing: 4,
+                fontStyle: "italic",
+                color: C.gold,
+              }}
+            >{fd?.businessName ?? "Éclat"}</span>
+          )}
+        </motion.div>
 
         {/* Nav links — hidden on mobile */}
         <div className="eclat-navlinks" style={{ display: "flex", gap: 30, alignItems: "center", flexWrap: "wrap", justifyContent: "center" }}>

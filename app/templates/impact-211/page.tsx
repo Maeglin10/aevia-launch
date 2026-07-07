@@ -537,7 +537,15 @@ return () => window.removeEventListener("scroll", handleScroll)
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
             style={{ fontFamily: font.serif, fontSize: "1.6rem", fontStyle: "italic", letterSpacing: "0.06em", color: C.cream }}
-          >{fd?.businessName ?? "Maison Éclat"}</motion.div>
+          >{fd?.logoBase64 ? (
+            <img
+              src={fd.logoBase64}
+              alt={fd?.businessName ?? 'logo'}
+              style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+            />
+          ) : (
+            <>{fd?.businessName ?? "Maison Éclat"}</>
+          )}</motion.div>
 
           <nav style={{ display: "flex", gap: "2.5rem", alignItems: "center" }}>
             {["Histoire", "Menu", "Terroir", "Chef", "Réservation"].map((item, i) => (

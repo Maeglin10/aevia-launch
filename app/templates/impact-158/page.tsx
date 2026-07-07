@@ -229,8 +229,18 @@ return () => window.removeEventListener("scroll", onScroll)
       >
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           <Link href="#apropos" className="flex items-center gap-3">
-            <Globe className="w-5 h-5 text-[#C0392B]" />
-            <span className="text-xl font-bold tracking-wide" style={{ fontFamily: "'Playfair Display', serif" }}>Atlas</span>
+            {fd?.logoBase64 ? (
+              <img
+                src={fd.logoBase64}
+                alt={fd?.businessName ?? 'logo'}
+                style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+              />
+            ) : (
+              <>
+                <Globe className="w-5 h-5 text-[#C0392B]" />
+                <span className="text-xl font-bold tracking-wide" style={{ fontFamily: "'Playfair Display', serif" }}>Atlas</span>
+              </>
+            )}
           </Link>
           <div className="hidden md:flex items-center gap-8 text-sm text-[#6B5A40]">
             {["Articles", "Destinations", "À propos", "Newsletter"].map(l => {
@@ -253,7 +263,15 @@ return () => window.removeEventListener("scroll", onScroll)
           <motion.div className="fixed inset-0 z-[200] bg-[#2C1F0E] text-[#F5F0E8] flex flex-col"
             initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }} transition={{ type: "spring", stiffness: 280, damping: 28 }}>
             <div className="flex items-center justify-between px-6 py-4 border-b border-[#4A3520]">
-              <span className="text-xl font-bold" style={{ fontFamily: "'Playfair Display', serif" }}>Atlas</span>
+              {fd?.logoBase64 ? (
+                <img
+                  src={fd.logoBase64}
+                  alt={fd?.businessName ?? 'logo'}
+                  style={{ height: 28, maxWidth: 140, objectFit: 'contain', display: 'block' }}
+                />
+              ) : (
+                <span className="text-xl font-bold" style={{ fontFamily: "'Playfair Display', serif" }}>Atlas</span>
+              )}
               <button onClick={() => setMenuOpen(false)} className="p-2 cursor-pointer"><X className="w-5 h-5" /></button>
             </div>
             <div className="flex flex-col gap-8 p-10">

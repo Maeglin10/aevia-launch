@@ -281,19 +281,29 @@ function Nav() {
         <div className="max-w-[1280px] mx-auto px-6 lg:px-10 h-[68px] flex items-center justify-between">
           {/* Logo */}
           <Link href="#hero" className="flex items-center gap-2.5">
-            <Sparkles className="w-5 h-5 text-[#EC4899]" />
-            <span
-              className="text-[22px] font-[500] italic text-[#831843] tracking-wide"
-              style={{ fontFamily: "'Playfair Display', serif" }}
-            >
-              VELVET
-            </span>
-            <span
-              className="text-[10px] font-[600] uppercase tracking-[0.3em] text-[#BE185D] mt-1"
-              style={{ fontFamily: "'Inter', sans-serif" }}
-            >
-              Nails
-            </span>
+            {fd?.logoBase64 ? (
+              <img
+                src={fd.logoBase64}
+                alt={fd?.businessName ?? 'logo'}
+                style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+              />
+            ) : (
+              <>
+                <Sparkles className="w-5 h-5 text-[#EC4899]" />
+                <span
+                  className="text-[22px] font-[500] italic text-[#831843] tracking-wide"
+                  style={{ fontFamily: "'Playfair Display', serif" }}
+                >
+                  VELVET
+                </span>
+                <span
+                  className="text-[10px] font-[600] uppercase tracking-[0.3em] text-[#BE185D] mt-1"
+                  style={{ fontFamily: "'Inter', sans-serif" }}
+                >
+                  Nails
+                </span>
+              </>
+            )}
           </Link>
 
           {/* Desktop links */}

@@ -349,7 +349,19 @@ return (
             color: C.primary,
             textDecoration: 'none',
             letterSpacing: '0.05em'
-          }}>{fd?.businessName ?? "Caliente Tacos"}</a>
+          }}>
+            {fd?.logoBase64 ? (
+              // Client logo (uploaded in the brief) replaces the placeholder mark —
+              // essential for the client to recognise their brand in the render.
+              <img
+                src={fd.logoBase64}
+                alt={fd?.businessName ?? 'logo'}
+                style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+              />
+            ) : (
+              fd?.businessName ?? "Caliente Tacos"
+            )}
+          </a>
 
           {/* Desktop links */}
           <div style={{ display: 'flex', gap: 28, alignItems: 'center' }} className="hidden md:flex">

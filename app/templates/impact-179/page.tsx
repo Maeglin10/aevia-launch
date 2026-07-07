@@ -155,10 +155,20 @@ return () => window.removeEventListener("scroll", h)
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-white/97 backdrop-blur-xl py-3 shadow-sm border-b border-slate-100" : "bg-transparent py-6"}`}>
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex items-center justify-between">
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 bg-[#0369a1] flex items-center justify-center rounded">
-              <Droplets className="w-4 h-4 text-white" />
-            </div>
-            <span className="text-lg font-bold tracking-tight text-[#0f172a]">AquaNova <span className="text-[#0369a1]">Plomberie</span></span>
+            {fd?.logoBase64 ? (
+              <img
+                src={fd.logoBase64}
+                alt={fd?.businessName ?? 'logo'}
+                style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+              />
+            ) : (
+              <>
+                <div className="w-8 h-8 bg-[#0369a1] flex items-center justify-center rounded">
+                  <Droplets className="w-4 h-4 text-white" />
+                </div>
+                <span className="text-lg font-bold tracking-tight text-[#0f172a]">AquaNova <span className="text-[#0369a1]">Plomberie</span></span>
+              </>
+            )}
           </div>
           <div className="hidden lg:flex gap-9 text-[10px] font-bold uppercase tracking-[0.2em] text-[#0f172a]/40">
             {["Services", "Réalisations", "Tarifs", "Zone intervention", "Contact"].map(l => (

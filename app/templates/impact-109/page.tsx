@@ -146,10 +146,20 @@ return () => window.removeEventListener("scroll", h)
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-1000 ${scrolled ? "bg-black/90 backdrop-blur-xl border-b border-white/5 py-4" : "bg-transparent py-8"}`}>
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex items-center justify-between">
           <Link href="#hero" className="flex items-center gap-3 group">
-            <div className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center group-hover:border-white transition-all duration-700">
-              <Volume2 className="w-5 h-5 text-white" />
-            </div>
-            <span className="text-xl font-bold tracking-[0.2em] uppercase">Aether <span className="font-light text-white/40">Sound</span></span>
+            {fd?.logoBase64 ? (
+              <img
+                src={fd.logoBase64}
+                alt={fd?.businessName ?? 'logo'}
+                style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+              />
+            ) : (
+              <>
+                <div className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center group-hover:border-white transition-all duration-700">
+                  <Volume2 className="w-5 h-5 text-white" />
+                </div>
+                <span className="text-xl font-bold tracking-[0.2em] uppercase">Aether <span className="font-light text-white/40">Sound</span></span>
+              </>
+            )}
           </Link>
           <div className="hidden lg:flex gap-12 text-[10px] font-bold uppercase tracking-[0.4em] text-white/40">
             {["Acoustics", "Manifesto", "Instruments", "Journal"].map(l => (

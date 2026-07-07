@@ -1,12 +1,23 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X, Phone, Truck, MessageSquare, Link2, Camera } from "lucide-react";
 import { C, SANS } from "./shared";
 
 export default function SwiftMoveLayout({ children }: { children: React.ReactNode }) {
+  const [__layoutSession, __setLayoutSession] = useState<any>(null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(__setLayoutSession)
+      .catch(() => {});
+  }, []);
+  const fd = __layoutSession?.formData;
+
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const pathname = usePathname();
 
@@ -45,10 +56,20 @@ export default function SwiftMoveLayout({ children }: { children: React.ReactNod
             href="/templates/impact-39"
             style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: 10 }}
           >
+            {fd?.logoBase64 ? (
+              <img
+                src={fd.logoBase64}
+                alt={fd?.businessName ?? 'logo'}
+                style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+              />
+            ) : (
+              <>
             <div style={{ width: 38, height: 38, background: C.orange, borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
               <Truck size={22} color={C.white} />
             </div>
             <span style={{ fontWeight: 800, fontSize: 20, color: C.navy }}>Swift Move</span>
+              </>
+            )}
           </Link>
 
           <div style={{ flex: 1 }} />

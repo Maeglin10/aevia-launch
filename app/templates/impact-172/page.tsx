@@ -193,8 +193,18 @@ return () => window.removeEventListener("scroll", onScroll)
       >
         <div className="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
           <Link href="#contact" className="flex flex-col">
-            <span className="text-lg font-bold tracking-wide" style={{ fontFamily: "'Libre Baskerville', serif" }}>{fd?.businessName ?? "Legrand & Associés"}</span>
-            <span className="text-[10px] tracking-[0.2em] uppercase text-[#C9A855]">Avocats au Barreau de Paris</span>
+            {fd?.logoBase64 ? (
+              <img
+                src={fd.logoBase64}
+                alt={fd?.businessName ?? 'logo'}
+                style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+              />
+            ) : (
+              <>
+                <span className="text-lg font-bold tracking-wide" style={{ fontFamily: "'Libre Baskerville', serif" }}>{fd?.businessName ?? "Legrand & Associés"}</span>
+                <span className="text-[10px] tracking-[0.2em] uppercase text-[#C9A855]">Avocats au Barreau de Paris</span>
+              </>
+            )}
           </Link>
           <div className="hidden md:flex items-center gap-10 text-sm text-[#5A5040]">
             {["Domaines", "Associés", "Cabinet", "Références", "Contact"].map(l => (
@@ -216,7 +226,15 @@ return () => window.removeEventListener("scroll", onScroll)
           <motion.div className="fixed inset-0 z-[200] bg-[#1A1510] text-[#F9F6F0] flex flex-col"
             initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }} transition={{ type: "spring", stiffness: 280, damping: 28 }}>
             <div className="flex items-center justify-between px-6 py-5 border-b border-[#3A3020]">
-              <span style={{ fontFamily: "'Libre Baskerville', serif" }}>{fd?.businessName ?? "Legrand & Associés"}</span>
+              {fd?.logoBase64 ? (
+                <img
+                  src={fd.logoBase64}
+                  alt={fd?.businessName ?? 'logo'}
+                  style={{ height: 28, maxWidth: 140, objectFit: 'contain', display: 'block' }}
+                />
+              ) : (
+                <span style={{ fontFamily: "'Libre Baskerville', serif" }}>{fd?.businessName ?? "Legrand & Associés"}</span>
+              )}
               <button onClick={() => setMenuOpen(false)} className="p-2 cursor-pointer"><X className="w-5 h-5" /></button>
             </div>
             <div className="flex flex-col gap-8 p-10">

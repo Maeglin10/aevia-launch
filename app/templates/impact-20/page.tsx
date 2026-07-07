@@ -1018,22 +1018,30 @@ return () => window.removeEventListener("scroll", onScroll);
           }}
         >
           {/* Logo */}
-          <div
-            onClick={() => goTo("home")}
-            style={{color: brand ?? '#d4af6b',
-              fontSize: 22,
-              fontFamily: "Georgia, serif",
-              letterSpacing: "0.22em",
-              fontStyle: "italic",
-              background: "linear-gradient(90deg, #d4af6b, #f5e6b8, #d4af6b)",
-              backgroundSize: "200% auto",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              animation: "shimmer 4s linear infinite",
-              cursor: "pointer",
-            }}
-          >
-            MAISON ÉLARA
+          <div onClick={() => goTo("home")} style={{ cursor: "pointer" }}>
+            {fd?.logoBase64 ? (
+              <img
+                src={fd.logoBase64}
+                alt={fd?.businessName ?? 'logo'}
+                style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+              />
+            ) : (
+              <span
+                style={{color: brand ?? '#d4af6b',
+                  fontSize: 22,
+                  fontFamily: "Georgia, serif",
+                  letterSpacing: "0.22em",
+                  fontStyle: "italic",
+                  background: "linear-gradient(90deg, #d4af6b, #f5e6b8, #d4af6b)",
+                  backgroundSize: "200% auto",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  animation: "shimmer 4s linear infinite",
+                }}
+              >
+                MAISON ÉLARA
+              </span>
+            )}
           </div>
 
           {/* Desktop nav */}
@@ -1161,15 +1169,26 @@ return () => window.removeEventListener("scroll", onScroll);
                   setMobileOpen(false);
                   goTo("home");
                 }}
-                style={{color: brand ?? '#d4af6b',
-                  fontSize: 20,
-                  fontFamily: "Georgia, serif",
-                  fontStyle: "italic",
-                  letterSpacing: "0.18em",
-                  cursor: "pointer",
-                }}
+                style={{ cursor: "pointer" }}
               >
-                MAISON ÉLARA
+                {fd?.logoBase64 ? (
+                  <img
+                    src={fd.logoBase64}
+                    alt={fd?.businessName ?? 'logo'}
+                    style={{ height: 28, maxWidth: 140, objectFit: 'contain', display: 'block' }}
+                  />
+                ) : (
+                  <span
+                    style={{color: brand ?? '#d4af6b',
+                      fontSize: 20,
+                      fontFamily: "Georgia, serif",
+                      fontStyle: "italic",
+                      letterSpacing: "0.18em",
+                    }}
+                  >
+                    MAISON ÉLARA
+                  </span>
+                )}
               </span>
               <button
                 onClick={() => setMobileOpen(false)}

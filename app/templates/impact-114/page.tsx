@@ -656,13 +656,23 @@ return () => window.removeEventListener("scroll", onScroll)
         <div className="max-w-[1400px] mx-auto px-6 md:px-10 h-16 flex items-center justify-between">
           {/* Logo */}
           <Link href="#hero" className="flex items-center gap-2 group">
-            <Leaf className="w-4 h-4 text-[#3d5a3e] group-hover:rotate-12 transition-transform" />
-            <span
-              className="text-2xl tracking-[0.15em] text-[#2d1b0e]"
-              style={{ fontFamily: "'Playfair Display', serif", fontStyle: "italic", fontWeight: 500 }}
-            >
-              TERRA
-            </span>
+            {fd?.logoBase64 ? (
+              <img
+                src={fd.logoBase64}
+                alt={fd?.businessName ?? 'logo'}
+                style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+              />
+            ) : (
+              <>
+                <Leaf className="w-4 h-4 text-[#3d5a3e] group-hover:rotate-12 transition-transform" />
+                <span
+                  className="text-2xl tracking-[0.15em] text-[#2d1b0e]"
+                  style={{ fontFamily: "'Playfair Display', serif", fontStyle: "italic", fontWeight: 500 }}
+                >
+                  TERRA
+                </span>
+              </>
+            )}
           </Link>
 
           {/* Desktop links */}

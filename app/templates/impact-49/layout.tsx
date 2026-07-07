@@ -18,6 +18,17 @@ export default function Impact49Layout({
 }: {
   children: React.ReactNode;
 }) {
+  const [__layoutSession, __setLayoutSession] = useState<any>(null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(__setLayoutSession)
+      .catch(() => {});
+  }, []);
+  const fd = __layoutSession?.formData;
+
   useFonts();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const pathname = usePathname();
@@ -48,13 +59,22 @@ export default function Impact49Layout({
       <nav className="sticky top-0 left-0 right-0 z-50 bg-[#F5F3FF]/80 backdrop-blur-lg border-b border-[#E0E7FF] py-5 px-6">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <Link href="/templates/impact-49" className="flex items-center gap-2">
+          {fd?.logoBase64 ? (
+            <img
+              src={fd.logoBase64}
+              alt={fd?.businessName ?? 'logo'}
+              style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+            />
+          ) : (
+            <>
             <div className="w-8 h-8 rounded-lg bg-[#6366F1] flex items-center justify-center">
               <BookOpen className="w-4 h-4 text-white" />
             </div>
             <span className="text-lg font-extrabold text-[#1E1B4B]">
               SKILLBRIDGE
             </span>
-          </Link>
+          </>
+          )}</Link>
 
           {/* Desktop Nav */}
           <div className="hidden md:flex items-center gap-8">

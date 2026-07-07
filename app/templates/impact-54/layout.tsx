@@ -12,6 +12,17 @@ export default function Impact54Layout({
 }: {
   children: React.ReactNode;
 }) {
+  const [__layoutSession, __setLayoutSession] = useState<any>(null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(__setLayoutSession)
+      .catch(() => {});
+  }, []);
+  const fd = __layoutSession?.formData;
+
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
@@ -71,6 +82,14 @@ export default function Impact54Layout({
       >
         {/* Logo */}
         <Link href="/templates/impact-54" style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none" }}>
+          {fd?.logoBase64 ? (
+            <img
+              src={fd.logoBase64}
+              alt={fd?.businessName ?? 'logo'}
+              style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+            />
+          ) : (
+            <>
           <div
             style={{
               width: 32,
@@ -95,7 +114,8 @@ export default function Impact54Layout({
           >
             ARTGEN
           </span>
-        </Link>
+        </>
+          )}</Link>
 
         {/* Links */}
         <div

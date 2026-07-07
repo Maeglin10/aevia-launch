@@ -7,6 +7,17 @@ import { usePathname } from "next/navigation"
 import { Menu, X, MapPin, Phone, Mail } from "lucide-react"
 
 export default function BlueprintLayout({ children }: { children: React.ReactNode }) {
+  const [__layoutSession, __setLayoutSession] = useState<any>(null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(__setLayoutSession)
+      .catch(() => {});
+  }, []);
+  const fd = __layoutSession?.formData;
+
   const [menuOpen, setMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const pathname = usePathname()
@@ -49,8 +60,18 @@ export default function BlueprintLayout({ children }: { children: React.ReactNod
       >
         <div className="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
           <Link href="/templates/impact-82" className="flex flex-col select-none">
+            {fd?.logoBase64 ? (
+              <img
+                src={fd.logoBase64}
+                alt={fd?.businessName ?? 'logo'}
+                style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+              />
+            ) : (
+              <>
             <span className="text-xl font-bold tracking-wide" style={{ fontFamily: "'Libre Baskerville', serif" }}>Blueprint</span>
             <span className="text-[9px] tracking-[0.2em] uppercase text-[#C9A86C]">Développements Immobiliers</span>
+              </>
+            )}
           </Link>
           <div className="hidden md:flex items-center gap-10 text-sm font-light text-[#6B5A40]">
             {NAV_LINKS.map(link => (

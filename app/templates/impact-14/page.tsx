@@ -970,48 +970,58 @@ return () => clearInterval(t);
             onClick={(e) => { e.preventDefault(); goTo("home"); }}
             style={{ display: "flex", alignItems: "center", gap: "0.75rem", textDecoration: "none", cursor: "pointer" }}
           >
-            <div
-              style={{
-                width: 36,
-                height: 36,
-                border: "1px solid rgba(201,168,76,0.5)",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                transform: "rotate(45deg)",
-              }}
-            >
-              <Anchor
-                size={14}
-                style={{color: brand ?? '#c9a84c', transform: "rotate(-45deg)" }}
+            {fd?.logoBase64 ? (
+              <img
+                src={fd.logoBase64}
+                alt={fd?.businessName ?? 'logo'}
+                style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
               />
-            </div>
-            <div>
-              <p
-                style={{
-                  fontFamily: "Cormorant Garamond, Georgia, serif",
-                  fontSize: "1.2rem",
-                  fontWeight: 400,
-                  color: "#f0ece0",
-                  letterSpacing: 2,
-                  textTransform: "uppercase",
-                  lineHeight: 1,
-                }}
-              >
-                Horizon
-              </p>
-              <p
-                style={{fontFamily: "Montserrat, sans-serif",
-                  fontSize: 8,
-                  fontWeight: 500,
-                  color: brand ?? '#c9a84c',
-                  letterSpacing: 4,
-                  textTransform: "uppercase",
-                }}
-              >
-                Maritime
-              </p>
-            </div>
+            ) : (
+              <>
+                <div
+                  style={{
+                    width: 36,
+                    height: 36,
+                    border: "1px solid rgba(201,168,76,0.5)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    transform: "rotate(45deg)",
+                  }}
+                >
+                  <Anchor
+                    size={14}
+                    style={{color: brand ?? '#c9a84c', transform: "rotate(-45deg)" }}
+                  />
+                </div>
+                <div>
+                  <p
+                    style={{
+                      fontFamily: "Cormorant Garamond, Georgia, serif",
+                      fontSize: "1.2rem",
+                      fontWeight: 400,
+                      color: "#f0ece0",
+                      letterSpacing: 2,
+                      textTransform: "uppercase",
+                      lineHeight: 1,
+                    }}
+                  >
+                    Horizon
+                  </p>
+                  <p
+                    style={{fontFamily: "Montserrat, sans-serif",
+                      fontSize: 8,
+                      fontWeight: 500,
+                      color: brand ?? '#c9a84c',
+                      letterSpacing: 4,
+                      textTransform: "uppercase",
+                    }}
+                  >
+                    Maritime
+                  </p>
+                </div>
+              </>
+            )}
           </div>
 
           {/* Desktop nav */}

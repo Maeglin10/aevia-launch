@@ -14,6 +14,17 @@ export default function VelvetLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const [__layoutSession, __setLayoutSession] = useState<any>(null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(__setLayoutSession)
+      .catch(() => {});
+  }, []);
+  const fd = __layoutSession?.formData;
+
   const pathname = usePathname();
   const router = useRouter();
   const [scrolled, setScrolled] = useState(false);
@@ -53,11 +64,20 @@ export default function VelvetLayout({
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-1000 ${scrolled ? "bg-black/80 backdrop-blur-2xl border-b border-white/5 py-4" : "bg-transparent py-10"}`}>
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex items-center justify-between">
           <Link href="/templates/impact-70" className="flex items-center gap-4 group" style={{ textDecoration: "none" }}>
+            {fd?.logoBase64 ? (
+              <img
+                src={fd.logoBase64}
+                alt={fd?.businessName ?? 'logo'}
+                style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+              />
+            ) : (
+              <>
             <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-[#ff00ff] to-[#4b0082] flex items-center justify-center group-hover:rotate-180 transition-all duration-700 shadow-[0_0_20px_rgba(255,0,255,0.3)]">
               <Moon className="w-5 h-5 text-white" />
             </div>
             <span className="text-xl font-light tracking-[0.4em] uppercase text-white">Velvet <span className="font-bold">Night</span></span>
-          </Link>
+          </>
+            )}</Link>
 
           <div className="hidden lg:flex gap-12 text-[10px] font-bold uppercase tracking-[0.5em] text-white/30">
             {navLinks.map((link) => (

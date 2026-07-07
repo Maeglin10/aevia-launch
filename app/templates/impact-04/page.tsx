@@ -274,7 +274,15 @@ return (
       <nav className="fixed top-0 left-0 w-full z-50 bg-[#0c0a08]/80 backdrop-blur-xl border-b border-white/5">
         <div className="max-w-7xl mx-auto px-6 md:px-12 py-5 flex justify-between items-center">
           <button onClick={() => goTo('home')} className="bg-transparent border-none text-[#f5efe6] text-left cursor-pointer">
-            <span className="text-2xl tracking-wide"><span className="font-light">L&apos;</span><span className="italic">Étoile</span></span>
+            {fd?.logoBase64 ? (
+              <img
+                src={fd.logoBase64}
+                alt={fd?.businessName ?? 'logo'}
+                style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+              />
+            ) : (
+              <><span className="text-2xl tracking-wide"><span className="font-light">L&apos;</span><span className="italic">Étoile</span></span></>
+            )}
           </button>
 
           <div className="hidden lg:flex items-center gap-10">

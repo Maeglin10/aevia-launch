@@ -1969,11 +1969,17 @@ function Navigation() {
             gap:           10,
           }}
         >
-          <svg viewBox="0 0 32 32" style={{ width: 28, height: 28 }} fill="none">
-            <polygon points="16,4 28,26 4,26" fill={C.accent} />
-            <polygon points="16,10 24,26 8,26" fill={C.bg} />
-          </svg>
-          ATLAS<span style={{ color: C.accent }}>EXP</span>
+          {fd?.logoBase64 ? (
+            <img src={fd.logoBase64} alt={fd?.businessName ?? 'logo'} style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }} />
+          ) : (
+            <>
+              <svg viewBox="0 0 32 32" style={{ width: 28, height: 28 }} fill="none">
+                <polygon points="16,4 28,26 4,26" fill={C.accent} />
+                <polygon points="16,10 24,26 8,26" fill={C.bg} />
+              </svg>
+              ATLAS<span style={{ color: C.accent }}>EXP</span>
+            </>
+          )}
         </Link>
 
         {/* Desktop links */}

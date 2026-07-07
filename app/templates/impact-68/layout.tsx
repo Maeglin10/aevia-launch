@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
@@ -14,6 +14,17 @@ export default function OrbitLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const [__layoutSession, __setLayoutSession] = useState<any>(null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(__setLayoutSession)
+      .catch(() => {});
+  }, []);
+  const fd = __layoutSession?.formData;
+
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -65,6 +76,14 @@ export default function OrbitLayout({
       >
         {/* Logo */}
         <Link href="/templates/impact-68" style={{ display: "flex", alignItems: "center", gap: "12px", textDecoration: "none" }}>
+          {fd?.logoBase64 ? (
+            <img
+              src={fd.logoBase64}
+              alt={fd?.businessName ?? 'logo'}
+              style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+            />
+          ) : (
+            <>
           <div
             style={{
               width: "32px",
@@ -97,7 +116,8 @@ export default function OrbitLayout({
           >
             Orbit<span style={{ color: C.accent }}>.</span>
           </span>
-        </Link>
+        </>
+          )}</Link>
 
         {/* Desktop nav */}
         <div

@@ -136,8 +136,18 @@ return () => window.removeEventListener("scroll", h)
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#fefcf8]/98 backdrop-blur-xl py-3 shadow-sm border-b border-[#d4a853]/12" : "bg-transparent py-7"}`}>
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex items-center justify-between">
           <div>
-            <div className="font-bold tracking-wide text-[#1f1d1a] text-sm" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>Table d'Exception</div>
-            <div className="text-[8px] font-bold uppercase tracking-[0.35em] text-[#d4a853]/60">Traiteur · Lyon & Rhône-Alpes</div>
+            {fd?.logoBase64 ? (
+              <img
+                src={fd.logoBase64}
+                alt={fd?.businessName ?? 'logo'}
+                style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+              />
+            ) : (
+              <>
+                <div className="font-bold tracking-wide text-[#1f1d1a] text-sm" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>Table d'Exception</div>
+                <div className="text-[8px] font-bold uppercase tracking-[0.35em] text-[#d4a853]/60">Traiteur · Lyon & Rhône-Alpes</div>
+              </>
+            )}
           </div>
           <div className="hidden lg:flex gap-9 text-[10px] font-bold uppercase tracking-[0.22em] text-[#1f1d1a]/28">
             {["Formules", "Réalisations", "Devis", "Menu", "Contact"].map(l => (

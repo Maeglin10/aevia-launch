@@ -172,10 +172,20 @@ return () => window.removeEventListener("scroll", h)
         transition: "all 0.4s ease",
       }}>
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          <div style={{ background: C.cyan, borderRadius: 8, padding: "7px 9px", display: "flex" }}>
-            <Eye size={18} color="#fff" />
-          </div>
-          <span style={{ fontSize: 18, fontWeight: 800, color: scrolled ? C.accent : "#fff" }}>Vision<span style={{ color: C.cyan }}>Claire</span></span>
+          {fd?.logoBase64 ? (
+            <img
+              src={fd.logoBase64}
+              alt={fd?.businessName ?? 'logo'}
+              style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+            />
+          ) : (
+            <>
+              <div style={{ background: C.cyan, borderRadius: 8, padding: "7px 9px", display: "flex" }}>
+                <Eye size={18} color="#fff" />
+              </div>
+              <span style={{ fontSize: 18, fontWeight: 800, color: scrolled ? C.accent : "#fff" }}>Vision<span style={{ color: C.cyan }}>Claire</span></span>
+            </>
+          )}
         </div>
         <div id="mb138-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      {["Offres", "Bilan visuel", "Lentilles", "Contact"].map(l => (
             <a key={l} href={`#${l.toLowerCase().replace(" ", "-")}`} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)", fontSize: 14, fontWeight: 700, textDecoration: "none" }}>{l}</a>

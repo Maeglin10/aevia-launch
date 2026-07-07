@@ -213,10 +213,20 @@ return () => window.removeEventListener("scroll", onScroll)
       >
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-[#6366F1] rounded-lg flex items-center justify-center">
-              <Zap className="w-4 h-4 text-white" />
-            </div>
-            <span className="text-lg font-700 font-bold">Pulse</span>
+            {fd?.logoBase64 ? (
+              <img
+                src={fd.logoBase64}
+                alt={fd?.businessName ?? 'logo'}
+                style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+              />
+            ) : (
+              <>
+                <div className="w-8 h-8 bg-[#6366F1] rounded-lg flex items-center justify-center">
+                  <Zap className="w-4 h-4 text-white" />
+                </div>
+                <span className="text-lg font-700 font-bold">Pulse</span>
+              </>
+            )}
           </div>
           <div className="hidden md:flex items-center gap-8 text-sm font-medium text-[#4B4570]">
             {["Fonctionnalités", "Tarifs", "Blog", "Docs"].map(l => (
@@ -240,8 +250,18 @@ return () => window.removeEventListener("scroll", onScroll)
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
             <div className="flex items-center justify-between px-6 py-4 border-b border-[#E8E5FF]">
               <div className="flex items-center gap-2">
-                <div className="w-8 h-8 bg-[#6366F1] rounded-lg flex items-center justify-center"><Zap className="w-4 h-4 text-white" /></div>
-                <span className="text-lg font-bold">Pulse</span>
+                {fd?.logoBase64 ? (
+                  <img
+                    src={fd.logoBase64}
+                    alt={fd?.businessName ?? 'logo'}
+                    style={{ height: 28, maxWidth: 140, objectFit: 'contain', display: 'block' }}
+                  />
+                ) : (
+                  <>
+                    <div className="w-8 h-8 bg-[#6366F1] rounded-lg flex items-center justify-center"><Zap className="w-4 h-4 text-white" /></div>
+                    <span className="text-lg font-bold">Pulse</span>
+                  </>
+                )}
               </div>
               <button onClick={() => setMenuOpen(false)} className="p-2 cursor-pointer"><X className="w-5 h-5" /></button>
             </div>

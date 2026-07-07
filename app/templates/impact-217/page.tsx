@@ -353,7 +353,20 @@ function Nav({ cartCount }: NavProps) {
           gap: 8,
         }}
       >
-        <Zap size={20} color={C.accent} fill={C.accent} strokeWidth={1} />{fd?.businessName ?? "AirForge"}</div>
+        {fd?.logoBase64 ? (
+          // Client logo (uploaded in the brief) replaces the placeholder mark —
+          // essential for the client to recognise their brand in the render.
+          <img
+            src={fd.logoBase64}
+            alt={fd?.businessName ?? 'logo'}
+            style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+          />
+        ) : (
+          <>
+            <Zap size={20} color={C.accent} fill={C.accent} strokeWidth={1} />{fd?.businessName ?? "AirForge"}
+          </>
+        )}
+      </div>
 
       <div
         style={{

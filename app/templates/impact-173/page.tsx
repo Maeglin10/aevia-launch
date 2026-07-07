@@ -528,13 +528,23 @@ return () => unsub();
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-          <div style={{
-            width: 38, height: 38, background: C.orange,
-            display: "flex", alignItems: "center", justifyContent: "center",
-            fontFamily: FONT_HEADING, fontWeight: 700, fontSize: 18, color: "#fff",
-            letterSpacing: 1,
-          }}>SB</div>
-          <div style={{ fontFamily: FONT_HEADING, fontWeight: 600, fontSize: 16, letterSpacing: 3, textTransform: "uppercase", color: C.text }}>{fd?.businessName ?? "Structure Bâtisseurs"}</div>
+          {fd?.logoBase64 ? (
+            <img
+              src={fd.logoBase64}
+              alt={fd?.businessName ?? 'logo'}
+              style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+            />
+          ) : (
+            <>
+              <div style={{
+                width: 38, height: 38, background: C.orange,
+                display: "flex", alignItems: "center", justifyContent: "center",
+                fontFamily: FONT_HEADING, fontWeight: 700, fontSize: 18, color: "#fff",
+                letterSpacing: 1,
+              }}>SB</div>
+              <div style={{ fontFamily: FONT_HEADING, fontWeight: 600, fontSize: 16, letterSpacing: 3, textTransform: "uppercase", color: C.text }}>{fd?.businessName ?? "Structure Bâtisseurs"}</div>
+            </>
+          )}
         </div>
         <div id="mb173-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      {NAV_LINKS.map(link => (
             <a key={link} href="#hero"

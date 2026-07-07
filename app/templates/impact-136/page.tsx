@@ -297,7 +297,17 @@ return () => window.removeEventListener("scroll", handleScroll);
             href="#hero"
             className="text-xl md:text-2xl font-bold tracking-tighter uppercase flex items-center gap-2"
           >
-            <Sparkles className="w-5 h-5" /> REVEAL
+            {fd?.logoBase64 ? (
+              <img
+                src={fd.logoBase64}
+                alt={fd?.businessName ?? 'logo'}
+                style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+              />
+            ) : (
+              <>
+                <Sparkles className="w-5 h-5" /> REVEAL
+              </>
+            )}
           </Link>
 
           <div className="hidden md:flex items-center gap-8 text-[11px] font-bold uppercase tracking-widest">

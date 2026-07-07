@@ -248,17 +248,25 @@ function Nav({ scrolled }: { scrolled: boolean }) {
         <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-16 flex items-center justify-between h-[72px]">
           {/* Logo */}
           <Link href="#collections" className="flex items-center gap-3">
-            <span
-              className="text-[28px] tracking-[0.12em]"
-              style={{
-                fontFamily: "'Cormorant Garamond', serif",
-                fontStyle: "italic",
-                fontWeight: 600,
-                color: scrolled ? C.navyDeep : C.cream,
-              }}
-            >
-              AURELIA
-            </span>
+            {fd?.logoBase64 ? (
+              <img
+                src={fd.logoBase64}
+                alt={fd?.businessName ?? 'logo'}
+                style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+              />
+            ) : (
+              <span
+                className="text-[28px] tracking-[0.12em]"
+                style={{
+                  fontFamily: "'Cormorant Garamond', serif",
+                  fontStyle: "italic",
+                  fontWeight: 600,
+                  color: scrolled ? C.navyDeep : C.cream,
+                }}
+              >
+                AURELIA
+              </span>
+            )}
           </Link>
 
           {/* Desktop links */}

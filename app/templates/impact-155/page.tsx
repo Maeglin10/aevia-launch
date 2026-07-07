@@ -177,8 +177,18 @@ return () => window.removeEventListener("scroll", h)
         transition: "all 0.4s ease",
       }}>
         <div>
-          <span style={{ fontFamily: FONT_SERIF, fontSize: 20, color: scrolled ? C.text : "#fff" }}>Pierre</span>
-          <span style={{ fontSize: 12, color: C.accent, fontWeight: 700, letterSpacing: 2, marginLeft: 6 }}>&amp; CO</span>
+          {fd?.logoBase64 ? (
+            <img
+              src={fd.logoBase64}
+              alt={fd?.businessName ?? 'logo'}
+              style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+            />
+          ) : (
+            <>
+              <span style={{ fontFamily: FONT_SERIF, fontSize: 20, color: scrolled ? C.text : "#fff" }}>Pierre</span>
+              <span style={{ fontSize: 12, color: C.accent, fontWeight: 700, letterSpacing: 2, marginLeft: 6 }}>&amp; CO</span>
+            </>
+          )}
         </div>
         <div style={{ display: "flex", gap: 32, alignItems: "center" }} className="hidden md:flex">
           {["Biens", "Services", "Estimation", "Contact"].map(l => (

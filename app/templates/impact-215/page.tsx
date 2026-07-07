@@ -1300,7 +1300,11 @@ function MobileNavDrawer({
             }}
           >
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '2rem' }}>
-              <span style={{ color: C.text, fontFamily: 'Playfair Display, serif', fontSize: '1.3rem', fontWeight: 700 }}>{fd?.businessName ?? "Flamme & Co"}</span>
+              {fd?.logoBase64 ? (
+                <img src={fd.logoBase64} alt={fd?.businessName ?? 'logo'} style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }} />
+              ) : (
+                <span style={{ color: C.text, fontFamily: 'Playfair Display, serif', fontSize: '1.3rem', fontWeight: 700 }}>{fd?.businessName ?? "Flamme & Co"}</span>
+              )}
               <motion.button
                 whileTap={{ scale: 0.9 }}
                 onClick={onClose}

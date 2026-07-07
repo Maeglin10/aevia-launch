@@ -279,7 +279,20 @@ function Nav() {
     <>
       <nav style={bar}>
       <a href="#hero" style={brand}>
-        <Sun size={22} color={C.coral} strokeWidth={2} />{fd?.businessName ?? "Côte d'Azur Coaching"}</a>
+        {fd?.logoBase64 ? (
+          // Client logo (uploaded in the brief) replaces the placeholder mark —
+          // essential for the client to recognise their brand in the render.
+          <img
+            src={fd.logoBase64}
+            alt={fd?.businessName ?? 'logo'}
+            style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+          />
+        ) : (
+          <>
+            <Sun size={22} color={C.coral} strokeWidth={2} />{fd?.businessName ?? "Côte d'Azur Coaching"}
+          </>
+        )}
+      </a>
       <div style={linkRow} className="r287-navlinks">
         {links.map((l) => (
           <NavLink key={l.label} label={l.label} href={l.href} />

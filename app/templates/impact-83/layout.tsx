@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useScroll, useTransform, motion } from "framer-motion";
@@ -12,6 +12,17 @@ export default function AureliusHeritageLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const [__layoutSession, __setLayoutSession] = useState<any>(null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(__setLayoutSession)
+      .catch(() => {});
+  }, []);
+  const fd = __layoutSession?.formData;
+
   const pathname = usePathname();
   const basePath = "/templates/impact-83";
   const { scrollY } = useScroll();
@@ -98,12 +109,22 @@ export default function AureliusHeritageLayout({
         }}
       >
         <Link href={basePath} style={{ display: "flex", flexDirection: "column", textDecoration: "none" }}>
+          {fd?.logoBase64 ? (
+            <img
+              src={fd.logoBase64}
+              alt={fd?.businessName ?? 'logo'}
+              style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+            />
+          ) : (
+            <>
           <span style={{ fontFamily: FONT_HEADING, fontSize: 22, fontWeight: 300, color: C.accent, letterSpacing: "0.12em" }}>
             AURELIUS
           </span>
           <span style={{ fontFamily: FONT_LABEL, fontSize: 9, letterSpacing: "0.35em", color: C.textMuted, textTransform: "uppercase" }}>
             Heritage · Est. 1887
           </span>
+            </>
+          )}
         </Link>
 
         <div id="mb83-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      {links.map((link) => {

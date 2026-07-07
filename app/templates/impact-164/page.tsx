@@ -406,9 +406,17 @@ return (
         display: "flex", alignItems: "center", justifyContent: "space-between",
         padding: "0 48px", height: 60,
       }}>
-        <span style={{ fontFamily: C.mono, fontSize: 14, letterSpacing: 4, textTransform: "uppercase", color: C.white, fontWeight: 700 }}>
-          BUREAU
-        </span>
+        {fd?.logoBase64 ? (
+          <img
+            src={fd.logoBase64}
+            alt={fd?.businessName ?? 'logo'}
+            style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+          />
+        ) : (
+          <span style={{ fontFamily: C.mono, fontSize: 14, letterSpacing: 4, textTransform: "uppercase", color: C.white, fontWeight: 700 }}>
+            BUREAU
+          </span>
+        )}
         <div id="mb164-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      {[
             { label: "Services", href: "#services" },
             { label: "Travaux", href: "#travaux" },

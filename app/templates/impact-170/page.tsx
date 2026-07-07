@@ -1098,6 +1098,14 @@ return () => observer.disconnect();
           }}
           onClick={() => scrollTo("hero")}
         >
+          {fd?.logoBase64 ? (
+            <img
+              src={fd.logoBase64}
+              alt={fd?.businessName ?? 'logo'}
+              style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+            />
+          ) : (
+            <>
           rafael.moreau<span style={{ opacity: 0.5 }}>@dev</span>
           <motion.span
             animate={{ opacity: [1, 0, 1] }}
@@ -1105,6 +1113,8 @@ return () => observer.disconnect();
           >
             _
           </motion.span>
+            </>
+          )}
         </div>
 
         <div id="mb170-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      {NAV_LINKS.map((link) => (

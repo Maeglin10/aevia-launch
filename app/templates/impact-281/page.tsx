@@ -314,8 +314,20 @@ function Nav() {
     <>
       <nav style={bar} aria-label="Navigation principale">
       <div style={brand}>
-        <Scissors size={18} color={C.gold} strokeWidth={1.3} />
-        Maison&nbsp;Céleste
+        {fd?.logoBase64 ? (
+          // Client logo (uploaded in the brief) replaces the placeholder mark —
+          // essential for the client to recognise their brand in the render.
+          <img
+            src={fd.logoBase64}
+            alt={fd?.businessName ?? 'logo'}
+            style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+          />
+        ) : (
+          <>
+            <Scissors size={18} color={C.gold} strokeWidth={1.3} />
+            Maison&nbsp;Céleste
+          </>
+        )}
       </div>
       <div style={linkRow} className="r281-navlinks">
         {links.map((l) => (

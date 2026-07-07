@@ -11,6 +11,17 @@ export default function CarbonLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const [__layoutSession, __setLayoutSession] = useState<any>(null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(__setLayoutSession)
+      .catch(() => {});
+  }, []);
+  const fd = __layoutSession?.formData;
+
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
 
@@ -41,11 +52,20 @@ export default function CarbonLayout({
       <nav className={`fixed top-0 left-0 right-0 z-[60] transition-all duration-700 ${scrolled ? "bg-black/90 backdrop-blur-xl border-b border-white/5 py-4" : "bg-transparent py-10"}`}>
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex items-center justify-between">
           <Link href="/templates/impact-65" className="flex items-center gap-4 group">
+          {fd?.logoBase64 ? (
+            <img
+              src={fd.logoBase64}
+              alt={fd?.businessName ?? 'logo'}
+              style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+            />
+          ) : (
+            <>
             <div className="w-10 h-10 bg-[#0070f3] flex items-center justify-center group-hover:-skew-x-12 transition-transform duration-500">
               <Layers className="w-6 h-6 text-white" />
             </div>
             <span className="text-2xl font-black tracking-tighter uppercase italic text-white">Carbon<span className="text-[#0070f3]">Lab</span></span>
-          </Link>
+          </>
+          )}</Link>
           <div className="hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-white/40">
             {navLinks.map(l => (
               <Link key={l.href} href={l.href} className={`hover:text-[#0070f3] transition-colors ${isActive(l.href) ? "text-[#0070f3]" : "text-white/40"}`}>

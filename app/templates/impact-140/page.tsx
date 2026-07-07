@@ -253,7 +253,17 @@ return () => window.removeEventListener("scroll", handleScroll);
             href="#hero"
             className="text-xl md:text-2xl font-bold tracking-tighter uppercase flex items-center gap-2"
           >
-            Wander<span className="text-amber-500">Lust.</span>
+            {fd?.logoBase64 ? (
+              <img
+                src={fd.logoBase64}
+                alt={fd?.businessName ?? 'logo'}
+                style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+              />
+            ) : (
+              <>
+                Wander<span className="text-amber-500">Lust.</span>
+              </>
+            )}
           </Link>
 
           <div className="hidden lg:flex items-center gap-10 text-[11px] font-bold uppercase tracking-widest">

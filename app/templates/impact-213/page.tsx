@@ -263,40 +263,46 @@ function Nav() {
       >
         {/* Logo */}
         <a href="#accueil" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 12 }}>
-          <div
-            style={{
-              width: 38,
-              height: 38,
-              background: C.accent,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontFamily: 'Oswald, sans-serif',
-              fontWeight: 700,
-              fontSize: 18,
-              color: C.bg,
-              letterSpacing: 1,
-              flexShrink: 0,
-            }}
-          >
-            BD
-          </div>
-          <div>
-            <div
-              style={{
-                fontFamily: 'Oswald, sans-serif',
-                fontSize: 17,
-                fontWeight: 600,
-                color: C.text,
-                letterSpacing: 2,
-                lineHeight: 1.1,
-                textTransform: 'uppercase',
-              }}
-            >{fd?.businessName ?? "Bâtisseurs Durand"}</div>
-            <div style={{ fontSize: 10, color: C.textMuted, letterSpacing: 3, textTransform: 'uppercase' }}>
-              Maçonnerie · BTP · Lyon
-            </div>
-          </div>
+          {fd?.logoBase64 ? (
+            <img src={fd.logoBase64} alt={fd?.businessName ?? 'logo'} style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }} />
+          ) : (
+            <>
+              <div
+                style={{
+                  width: 38,
+                  height: 38,
+                  background: C.accent,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontFamily: 'Oswald, sans-serif',
+                  fontWeight: 700,
+                  fontSize: 18,
+                  color: C.bg,
+                  letterSpacing: 1,
+                  flexShrink: 0,
+                }}
+              >
+                BD
+              </div>
+              <div>
+                <div
+                  style={{
+                    fontFamily: 'Oswald, sans-serif',
+                    fontSize: 17,
+                    fontWeight: 600,
+                    color: C.text,
+                    letterSpacing: 2,
+                    lineHeight: 1.1,
+                    textTransform: 'uppercase',
+                  }}
+                >{fd?.businessName ?? "Bâtisseurs Durand"}</div>
+                <div style={{ fontSize: 10, color: C.textMuted, letterSpacing: 3, textTransform: 'uppercase' }}>
+                  Maçonnerie · BTP · Lyon
+                </div>
+              </div>
+            </>
+          )}
         </a>
 
         {/* Desktop Links */}

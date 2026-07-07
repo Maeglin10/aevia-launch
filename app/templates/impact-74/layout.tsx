@@ -14,6 +14,17 @@ export default function CyberSecurityLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const [__layoutSession, __setLayoutSession] = useState<any>(null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(__setLayoutSession)
+      .catch(() => {});
+  }, []);
+  const fd = __layoutSession?.formData;
+
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [systemHealth, setSystemHealth] = useState(99);
@@ -63,13 +74,22 @@ export default function CyberSecurityLayout({
         >
           <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex items-center justify-between">
             <Link href="/templates/impact-74" className="flex flex-col items-start">
+              {fd?.logoBase64 ? (
+                <img
+                  src={fd.logoBase64}
+                  alt={fd?.businessName ?? 'logo'}
+                  style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+                />
+              ) : (
+                <>
               <span className="text-[10px] font-bold uppercase tracking-[0.6em] text-emerald-500/40 mb-1">
                 Defensive.
               </span>
               <span className="text-xl md:text-2xl font-black tracking-tighter uppercase text-white">
                 AEVIA<span className="text-emerald-500">CYBER.</span>
               </span>
-            </Link>
+            </>
+              )}</Link>
 
             <div className="hidden lg:flex items-center gap-12 text-[10px] font-bold uppercase tracking-[0.3em]">
               {navLinks.map((link) => (

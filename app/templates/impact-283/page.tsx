@@ -286,7 +286,20 @@ function NavSection() {
     <>
       <nav style={bar}>
       <a href="#hero" style={brand}>
-        <Activity size={20} color={C.turq} strokeWidth={2} />{fd?.businessName ?? "Kinésithérapie du Languedoc"}</a>
+        {fd?.logoBase64 ? (
+          // Client logo (uploaded in the brief) replaces the placeholder mark —
+          // essential for the client to recognise their brand in the render.
+          <img
+            src={fd.logoBase64}
+            alt={fd?.businessName ?? 'logo'}
+            style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+          />
+        ) : (
+          <>
+            <Activity size={20} color={C.turq} strokeWidth={2} />{fd?.businessName ?? "Kinésithérapie du Languedoc"}
+          </>
+        )}
+      </a>
       <div style={linkRow} className="r283-navlinks">
         {links.map((l) => (
           <NavLink283 key={l.label} label={l.label} href={l.href} />

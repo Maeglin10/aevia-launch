@@ -136,8 +136,18 @@ return () => window.removeEventListener("scroll", h)
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#f5f0e8]/98 backdrop-blur-xl py-3 shadow-sm border-b border-[#c26b4c]/10" : "bg-transparent py-7"}`}>
         <div className="max-w-[1300px] mx-auto px-6 md:px-12 flex items-center justify-between">
           <div>
-            <div className="font-bold text-[#3a2e28] text-sm" style={{ fontFamily: "'Libre Baskerville', Georgia, serif" }}>Ostéo Gaïa</div>
-            <div className="text-[8px] font-bold uppercase tracking-[0.35em] text-[#c26b4c]/60">Ostéopathe D.O. · Montpellier</div>
+            {fd?.logoBase64 ? (
+              <img
+                src={fd.logoBase64}
+                alt={fd?.businessName ?? 'logo'}
+                style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+              />
+            ) : (
+              <>
+                <div className="font-bold text-[#3a2e28] text-sm" style={{ fontFamily: "'Libre Baskerville', Georgia, serif" }}>Ostéo Gaïa</div>
+                <div className="text-[8px] font-bold uppercase tracking-[0.35em] text-[#c26b4c]/60">Ostéopathe D.O. · Montpellier</div>
+              </>
+            )}
           </div>
           <div className="hidden lg:flex gap-9 text-[10px] font-bold uppercase tracking-[0.22em] text-[#3a2e28]/30">
             {["Soins", "L'approche", "Tarifs", "Agenda", "Contact"].map(l => (

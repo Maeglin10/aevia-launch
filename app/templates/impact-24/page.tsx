@@ -178,10 +178,22 @@ return (
       <nav className="fixed top-4 left-4 right-4 z-40">
         <div className="max-w-6xl mx-auto bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl px-6 py-3 flex items-center justify-between">
           <button onClick={() => goTo("home")} className="flex items-center gap-2 cursor-pointer">
-            <div className="w-8 h-8 bg-[#A3E635] rounded-lg flex items-center justify-center">
-              <Rocket className="w-4 h-4 text-[#060A0F]" />
-            </div>
-            <span className="font-semibold text-lg">{fd?.businessName ?? "Zero to One"}</span>
+            {fd?.logoBase64 ? (
+              // Client logo (uploaded in the brief) replaces the placeholder mark —
+              // essential for the client to recognise their brand in the render.
+              <img
+                src={fd.logoBase64}
+                alt={fd?.businessName ?? 'logo'}
+                style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+              />
+            ) : (
+              <>
+                <div className="w-8 h-8 bg-[#A3E635] rounded-lg flex items-center justify-center">
+                  <Rocket className="w-4 h-4 text-[#060A0F]" />
+                </div>
+                <span className="font-semibold text-lg">{fd?.businessName ?? "Zero to One"}</span>
+              </>
+            )}
           </button>
           <div className="hidden md:flex items-center gap-8 text-sm text-white/60">
             {navItems.map(item => (

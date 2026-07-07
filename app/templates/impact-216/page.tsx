@@ -336,14 +336,26 @@ function Nav() {
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 70 }}>
             {/* Logo */}
             <a href="#hero" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 10 }}>
-              <div style={{
-                width: 36, height: 36, borderRadius: 8,
-                background: `linear-gradient(135deg, ${C.accent}, ${C.accentDark})`,
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-              }}><TemplateIcon emoji="🚚" size={18} color="#fff" /></div>
-              <span style={{ fontFamily: C.fontDisplay, fontWeight: 800, fontSize: 18, color: C.text }}>
-                Meridian<span style={{ color: C.accent }}>Freight</span>
-              </span>
+              {fd?.logoBase64 ? (
+                // Client logo (uploaded in the brief) replaces the placeholder mark —
+                // essential for the client to recognise their brand in the render.
+                <img
+                  src={fd.logoBase64}
+                  alt={fd?.businessName ?? 'logo'}
+                  style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+                />
+              ) : (
+                <>
+                  <div style={{
+                    width: 36, height: 36, borderRadius: 8,
+                    background: `linear-gradient(135deg, ${C.accent}, ${C.accentDark})`,
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  }}><TemplateIcon emoji="🚚" size={18} color="#fff" /></div>
+                  <span style={{ fontFamily: C.fontDisplay, fontWeight: 800, fontSize: 18, color: C.text }}>
+                    Meridian<span style={{ color: C.accent }}>Freight</span>
+                  </span>
+                </>
+              )}
             </a>
 
             {/* Desktop links */}

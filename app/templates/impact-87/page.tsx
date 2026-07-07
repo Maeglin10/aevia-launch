@@ -142,9 +142,17 @@ return () => window.removeEventListener("scroll", onScroll);
           transition: "background 0.3s, border-color 0.3s",
         }}
       >
-        <div style={{ fontFamily: FONT, fontWeight: 900, fontSize: 24, letterSpacing: 1, color: scrolled ? C.text : C.white }}>
-          IRON <span style={{ color: C.accent }}>CLUB</span>
-        </div>
+        {fd?.logoBase64 ? (
+          <img
+            src={fd.logoBase64}
+            alt={fd?.businessName ?? 'logo'}
+            style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+          />
+        ) : (
+          <div style={{ fontFamily: FONT, fontWeight: 900, fontSize: 24, letterSpacing: 1, color: scrolled ? C.text : C.white }}>
+            IRON <span style={{ color: C.accent }}>CLUB</span>
+          </div>
+        )}
         <div style={{ display: "flex", alignItems: "center", gap: 32 }} className="nav-links-desktop">
           {navLinks.map((link) => (
             <a

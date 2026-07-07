@@ -476,17 +476,27 @@ return (
         }}
       >
         {/* Logo */}
-        <div
-          style={{
-            fontFamily: FONT_HEADING,
-            fontSize: 26,
-            letterSpacing: 6,
-            color: C.gold,
-            fontStyle: "italic",
-            fontWeight: 300,
-          }}
-        >
-          AURUM
+        <div>
+          {fd?.logoBase64 ? (
+            <img
+              src={fd.logoBase64}
+              alt={fd?.businessName ?? 'logo'}
+              style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+            />
+          ) : (
+            <span
+              style={{
+                fontFamily: FONT_HEADING,
+                fontSize: 26,
+                letterSpacing: 6,
+                color: C.gold,
+                fontStyle: "italic",
+                fontWeight: 300,
+              }}
+            >
+              AURUM
+            </span>
+          )}
         </div>
 
         {/* Nav links — hidden on mobile */}

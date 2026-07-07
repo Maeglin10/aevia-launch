@@ -484,8 +484,18 @@ return () => clearInterval(timer);
       <nav className="fixed top-4 left-4 right-4 z-50">
         <div className="max-w-6xl mx-auto bg-[#F6F3EE]/90 backdrop-blur-md border border-[#D8D0C4] rounded-2xl px-6 py-4 flex items-center justify-between">
           <Link href="#about" className="flex items-center gap-2 cursor-pointer">
-            <Leaf className="w-5 h-5 text-[#7C9E87]" />
-            <span className="text-[#2C2820] tracking-widest text-sm uppercase" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.1rem" }}>{fd?.businessName ?? "Aura Wellness"}</span>
+            {fd?.logoBase64 ? (
+              <img
+                src={fd.logoBase64}
+                alt={fd?.businessName ?? 'logo'}
+                style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+              />
+            ) : (
+              <>
+                <Leaf className="w-5 h-5 text-[#7C9E87]" />
+                <span className="text-[#2C2820] tracking-widest text-sm uppercase" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.1rem" }}>{fd?.businessName ?? "Aura Wellness"}</span>
+              </>
+            )}
           </Link>
           <div className="hidden md:flex items-center gap-8 text-[#2C2820]/70 text-sm tracking-wide">
             {navItems.map((item) => (
@@ -524,7 +534,15 @@ return () => clearInterval(timer);
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
           >
             <div className="flex items-center justify-between border-b border-[#D8D0C4] pb-4">
-              <span className="text-[#2C2820] tracking-widest text-sm uppercase" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.1rem" }}>{fd?.businessName ?? "Aura Wellness"}</span>
+              {fd?.logoBase64 ? (
+                <img
+                  src={fd.logoBase64}
+                  alt={fd?.businessName ?? 'logo'}
+                  style={{ height: 28, maxWidth: 140, objectFit: 'contain', display: 'block' }}
+                />
+              ) : (
+                <span className="text-[#2C2820] tracking-widest text-sm uppercase" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.1rem" }}>{fd?.businessName ?? "Aura Wellness"}</span>
+              )}
               <button onClick={() => setMobileOpen(false)} className="text-[#2C2820] cursor-pointer"><X className="w-5 h-5" /></button>
             </div>
             <div className="flex flex-col gap-6 pt-10">

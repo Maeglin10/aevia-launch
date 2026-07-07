@@ -1302,35 +1302,41 @@ return () => window.removeEventListener('scroll', handleScroll);
       >
         {/* Logo */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
-          <div
-            style={{
-              width: '36px',
-              height: '36px',
-              borderRadius: '10px',
-              background: `linear-gradient(135deg, ${C.accentDark}, ${C.accent})`,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            <Droplets style={{ width: 20, height: 20 }} />
-          </div>
-          <div>
-            <div
-              style={{
-                fontFamily: "'Barlow Condensed', sans-serif",
-                fontSize: '1.3rem',
-                fontWeight: 900,
-                color: C.white,
-                letterSpacing: '0.05em',
-                textTransform: 'uppercase',
-                lineHeight: 1,
-              }}
-            >{fd?.businessName ?? "Aqua Prestige"}</div>
-            <div style={{ fontSize: '0.62rem', color: C.textMuted, letterSpacing: '0.12em', textTransform: 'uppercase' }}>
-              Plomberie & Sanitaire
-            </div>
-          </div>
+          {fd?.logoBase64 ? (
+            <img src={fd.logoBase64} alt={fd?.businessName ?? 'logo'} style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }} />
+          ) : (
+            <>
+              <div
+                style={{
+                  width: '36px',
+                  height: '36px',
+                  borderRadius: '10px',
+                  background: `linear-gradient(135deg, ${C.accentDark}, ${C.accent})`,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
+                <Droplets style={{ width: 20, height: 20 }} />
+              </div>
+              <div>
+                <div
+                  style={{
+                    fontFamily: "'Barlow Condensed', sans-serif",
+                    fontSize: '1.3rem',
+                    fontWeight: 900,
+                    color: C.white,
+                    letterSpacing: '0.05em',
+                    textTransform: 'uppercase',
+                    lineHeight: 1,
+                  }}
+                >{fd?.businessName ?? "Aqua Prestige"}</div>
+                <div style={{ fontSize: '0.62rem', color: C.textMuted, letterSpacing: '0.12em', textTransform: 'uppercase' }}>
+                  Plomberie & Sanitaire
+                </div>
+              </div>
+            </>
+          )}
         </div>
 
         {/* Desktop Links */}

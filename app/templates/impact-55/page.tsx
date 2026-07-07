@@ -170,10 +170,18 @@ return () => window.removeEventListener("scroll", h)
         borderBottom: scrolled ? `1px solid ${C.border}` : "none",
         transition: "all 0.4s ease",
       }}>
-        <div>
-          <span style={{ fontFamily: FONT, fontSize: 16, fontStyle: "italic", color: scrolled ? C.text : "#fff" }}>Maître Renard</span>
-          <span style={{ fontSize: 13, color: scrolled ? C.textMuted : "rgba(255,255,255,0.65)", marginLeft: 6 }}>& Associés</span>
-        </div>
+        {fd?.logoBase64 ? (
+          <img
+            src={fd.logoBase64}
+            alt={fd?.businessName ?? 'logo'}
+            style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+          />
+        ) : (
+          <div>
+            <span style={{ fontFamily: FONT, fontSize: 16, fontStyle: "italic", color: scrolled ? C.text : "#fff" }}>Maître Renard</span>
+            <span style={{ fontSize: 13, color: scrolled ? C.textMuted : "rgba(255,255,255,0.65)", marginLeft: 6 }}>& Associés</span>
+          </div>
+        )}
         <div id="mb55-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      {["Domaines", "L'équipe", "Honoraires", "Contact"].map(l => (
             <a key={l} href={`#${l.toLowerCase().replace(/'/g, "").replace(/é/g, "e")}`} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)", fontSize: 14, fontWeight: 600, textDecoration: "none" }}>{l}</a>
           ))}

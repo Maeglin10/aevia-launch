@@ -7,6 +7,17 @@ import { Menu, X, UtensilsCrossed, MapPin, Phone, Mail } from "lucide-react";
 import { C } from "./shared";
 
 export default function GastronomyLayout({ children }: { children: React.ReactNode }) {
+  const [__layoutSession, __setLayoutSession] = useState<any>(null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(__setLayoutSession)
+      .catch(() => {});
+  }, []);
+  const fd = __layoutSession?.formData;
+
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
@@ -73,6 +84,14 @@ export default function GastronomyLayout({ children }: { children: React.ReactNo
           href="/templates/impact-40"
           style={{ display: "flex", alignItems: "center", gap: "0.65rem", textDecoration: "none" }}
         >
+          {fd?.logoBase64 ? (
+            <img
+              src={fd.logoBase64}
+              alt={fd?.businessName ?? 'logo'}
+              style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+            />
+          ) : (
+            <>
           <div
             style={{
               width: 38, height: 38,
@@ -86,6 +105,8 @@ export default function GastronomyLayout({ children }: { children: React.ReactNo
           <span style={{ fontFamily: C.headingFont, fontSize: "1.4rem", fontWeight: 700, color: logoColor, transition: "color 0.3s" }}>
             Gabriel Renaud
           </span>
+            </>
+          )}
         </Link>
 
         {/* Desktop links */}

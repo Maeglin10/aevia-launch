@@ -177,8 +177,18 @@ return () => window.removeEventListener("scroll", h)
         transition: "all 0.4s ease",
       }}>
         <div>
-          <span style={{ fontSize: 18, fontWeight: 800, color: scrolled ? C.accent : "#fff" }}>Kiné</span>
-          <span style={{ fontSize: 18, fontWeight: 300, color: scrolled ? C.text : "rgba(255,255,255,0.85)" }}> Mouvement</span>
+          {fd?.logoBase64 ? (
+            <img
+              src={fd.logoBase64}
+              alt={fd?.businessName ?? 'logo'}
+              style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+            />
+          ) : (
+            <>
+              <span style={{ fontSize: 18, fontWeight: 800, color: scrolled ? C.accent : "#fff" }}>Kiné</span>
+              <span style={{ fontSize: 18, fontWeight: 300, color: scrolled ? C.text : "rgba(255,255,255,0.85)" }}> Mouvement</span>
+            </>
+          )}
         </div>
         <div style={{ display: "flex", gap: 32, alignItems: "center" }} className="hidden md:flex">
           {["Spécialités", "L'équipe", "Tarifs", "Contact"].map(l => {

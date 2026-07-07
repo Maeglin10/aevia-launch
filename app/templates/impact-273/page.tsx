@@ -424,7 +424,19 @@ function Nav() {
           .cr-navcta { display: none !important; }
         }
       `}</style>
-      <a href="/templates/impact-273" style={brand}>{fd?.businessName ?? "Cabinet Rosenfeld"}</a>
+      <a href="/templates/impact-273" style={brand}>
+        {fd?.logoBase64 ? (
+          // Client logo (uploaded in the brief) replaces the placeholder mark —
+          // essential for the client to recognise their brand in the render.
+          <img
+            src={fd.logoBase64}
+            alt={fd?.businessName ?? 'logo'}
+            style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+          />
+        ) : (
+          fd?.businessName ?? "Cabinet Rosenfeld"
+        )}
+      </a>
       <div style={linkRow} className="cr-navlinks">
         {links.map((l) => (
           <NavLink key={l.label} label={l.label} href={l.href} />

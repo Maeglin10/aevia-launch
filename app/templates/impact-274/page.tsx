@@ -277,8 +277,20 @@ function Nav() {
     <>
       <nav style={bar} aria-label="Navigation principale">
       <div style={brand}>
-        <Heart size={18} color={C.sage} strokeWidth={1.8} />
-        Dr. S. Renard
+        {fd?.logoBase64 ? (
+          // Client logo (uploaded in the brief) replaces the placeholder mark —
+          // essential for the client to recognise their brand in the render.
+          <img
+            src={fd.logoBase64}
+            alt={fd?.businessName ?? 'logo'}
+            style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+          />
+        ) : (
+          <>
+            <Heart size={18} color={C.sage} strokeWidth={1.8} />
+            Dr. S. Renard
+          </>
+        )}
       </div>
       <div style={linkRow} className="r274-navlinks">
         {links.map((l) => (

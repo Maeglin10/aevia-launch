@@ -1117,12 +1117,22 @@ return () => window.removeEventListener("scroll", h);
             onClick={() => goTo("home")}
             className="group flex flex-col items-center cursor-pointer"
           >
-            <span className="text-3xl font-black tracking-[-0.05em] uppercase leading-none italic text-white">
-              Ember
-            </span>
-            <span className="text-[8px] font-bold uppercase tracking-[0.5em] text-[#ff4d00] -mt-1 ml-1">
-              Grill & Cellar
-            </span>
+            {fd?.logoBase64 ? (
+              <img
+                src={fd.logoBase64}
+                alt={fd?.businessName ?? 'logo'}
+                style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+              />
+            ) : (
+              <>
+                <span className="text-3xl font-black tracking-[-0.05em] uppercase leading-none italic text-white">
+                  Ember
+                </span>
+                <span className="text-[8px] font-bold uppercase tracking-[0.5em] text-[#ff4d00] -mt-1 ml-1">
+                  Grill & Cellar
+                </span>
+              </>
+            )}
           </button>
 
           <div className="hidden lg:flex items-center gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-white/40">

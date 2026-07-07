@@ -205,12 +205,24 @@ function Navbar() {
         }}
       >
         <motion.div style={{ display: "flex", alignItems: "center", gap: 10, cursor: "pointer" }} whileHover={{ scale: 1.03 }}>
-          <div style={{ width: 38, height: 38, background: C.accent, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>
-            <Leaf size={20} color={C.white} />
-          </div>
-          <span style={{ fontWeight: 700, fontSize: 21, color: C.text, fontFamily: FONT_HEADING, letterSpacing: -0.3 }}>
-            Ananda<span style={{ color: C.accent }}>Flow</span>
-          </span>
+          {fd?.logoBase64 ? (
+            // Client logo (uploaded in the brief) replaces the placeholder mark —
+            // essential for the client to recognise their brand in the render.
+            <img
+              src={fd.logoBase64}
+              alt={fd?.businessName ?? 'logo'}
+              style={{ height: 32, maxWidth: 160, objectFit: "contain", display: "block" }}
+            />
+          ) : (
+            <>
+              <div style={{ width: 38, height: 38, background: C.accent, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                <Leaf size={20} color={C.white} />
+              </div>
+              <span style={{ fontWeight: 700, fontSize: 21, color: C.text, fontFamily: FONT_HEADING, letterSpacing: -0.3 }}>
+                Ananda<span style={{ color: C.accent }}>Flow</span>
+              </span>
+            </>
+          )}
         </motion.div>
 
         <div style={{ display: "flex", gap: 32, alignItems: "center" }}>

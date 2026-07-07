@@ -8,6 +8,17 @@ import { Mic2, Menu, X, Mail, Clock } from "lucide-react";
 import { C } from "./shared";
 
 export default function EchoChamberLayout({ children }: { children: React.ReactNode }) {
+  const [__layoutSession, __setLayoutSession] = useState<any>(null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(__setLayoutSession)
+      .catch(() => {});
+  }, []);
+  const fd = __layoutSession?.formData;
+
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
@@ -67,10 +78,20 @@ export default function EchoChamberLayout({ children }: { children: React.ReactN
           href="/templates/impact-42"
           style={{ display: "flex", alignItems: "center", gap: "0.7rem", textDecoration: "none", background: "none", border: "none", cursor: "pointer", padding: 0 }}
         >
+          {fd?.logoBase64 ? (
+            <img
+              src={fd.logoBase64}
+              alt={fd?.businessName ?? 'logo'}
+              style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+            />
+          ) : (
+            <>
           <div style={{ width: 36, height: 36, borderRadius: "8px", backgroundColor: C.accent, display: "flex", alignItems: "center", justifyContent: "center", boxShadow: `0 0 16px ${C.accentGlow}` }}>
             <Mic2 size={18} color={C.white} />
           </div>
           <span style={{ fontFamily: C.headingFont, fontSize: "1.6rem", letterSpacing: "0.08em", color: C.white }}>ECHO CHAMBER</span>
+            </>
+          )}
         </Link>
 
         {/* Desktop Nav */}

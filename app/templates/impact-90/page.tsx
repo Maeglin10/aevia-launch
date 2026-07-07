@@ -652,22 +652,30 @@ return () => { document.head.removeChild(style); };
 
       {/* ── Nav ── */}
       <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 50, padding: "0 40px", height: 64, display: "flex", alignItems: "center", justifyContent: "space-between", background: "rgba(250,246,239,0.94)", backdropFilter: "blur(16px)", borderBottom: `1px solid ${C.border}` }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          {/* Wheat SVG mark */}
-          <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-            <line x1="14" y1="26" x2="14" y2="6" stroke={C.amber} strokeWidth="1.5" />
-            {[8, 11, 14, 17, 20].map((y, i) => (
-              <g key={i}>
-                <ellipse cx={9} cy={y} rx={4} ry={2.5} fill={C.amber} opacity={0.8} transform={`rotate(-25,9,${y})`} />
-                <ellipse cx={19} cy={y} rx={4} ry={2.5} fill={C.amber} opacity={0.8} transform={`rotate(25,19,${y})`} />
-              </g>
-            ))}
-          </svg>
-          <div>
-            <p style={{ fontFamily: "'Playfair Display', serif", fontSize: 16, fontWeight: 700, color: C.brown, lineHeight: 1 }}>{fd?.businessName ?? "Maison Laval"}</p>
-            <p style={{ fontFamily: "'Cabin', sans-serif", fontSize: 9, color: C.muted, letterSpacing: "0.2em", textTransform: "uppercase" }}>Boulangerie Artisanale</p>
+        {fd?.logoBase64 ? (
+          <img
+            src={fd.logoBase64}
+            alt={fd?.businessName ?? 'logo'}
+            style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+          />
+        ) : (
+          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+            {/* Wheat SVG mark */}
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+              <line x1="14" y1="26" x2="14" y2="6" stroke={C.amber} strokeWidth="1.5" />
+              {[8, 11, 14, 17, 20].map((y, i) => (
+                <g key={i}>
+                  <ellipse cx={9} cy={y} rx={4} ry={2.5} fill={C.amber} opacity={0.8} transform={`rotate(-25,9,${y})`} />
+                  <ellipse cx={19} cy={y} rx={4} ry={2.5} fill={C.amber} opacity={0.8} transform={`rotate(25,19,${y})`} />
+                </g>
+              ))}
+            </svg>
+            <div>
+              <p style={{ fontFamily: "'Playfair Display', serif", fontSize: 16, fontWeight: 700, color: C.brown, lineHeight: 1 }}>{fd?.businessName ?? "Maison Laval"}</p>
+              <p style={{ fontFamily: "'Cabin', sans-serif", fontSize: 9, color: C.muted, letterSpacing: "0.2em", textTransform: "uppercase" }}>Boulangerie Artisanale</p>
+            </div>
           </div>
-        </div>
+        )}
         <div className="ml90-navlinks" style={{ display: "flex", gap: 28, alignItems: "center" }}>
           {NAV_LINKS.map(link => (
             <Link key={link.label} href={link.href} style={{ fontFamily: "'Cabin', sans-serif", fontSize: 13, color: C.muted, textDecoration: "none", transition: "color 0.2s" }}

@@ -910,22 +910,28 @@ return (
         }}>
           {/* Logo */}
           <a href="#hero" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 10 }}>
-            <div style={{
-              width: 38, height: 38, borderRadius: 10,
-              background: `linear-gradient(135deg, ${C.accent}, ${C.accentDark})`,
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              boxShadow: `0 4px 14px ${C.accent}44`,
-            }}><Flame style={{ width: 20, height: 20 }} /></div>
-            <div>
-              <div style={{
-                fontFamily: "'Barlow Condensed', sans-serif",
-                fontSize: 'clamp(18px, 3vw, 22px)',
-                fontWeight: 800, color: C.white, letterSpacing: '0.04em', lineHeight: 1,
-              }}>THERMA PRO</div>
-              <div style={{ color: C.accent, fontSize: 9.5, fontWeight: 600, letterSpacing: '0.12em' }}>
-                CHAUFFAGE · CLIMATISATION
-              </div>
-            </div>
+            {fd?.logoBase64 ? (
+              <img src={fd.logoBase64} alt={fd?.businessName ?? 'logo'} style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }} />
+            ) : (
+              <>
+                <div style={{
+                  width: 38, height: 38, borderRadius: 10,
+                  background: `linear-gradient(135deg, ${C.accent}, ${C.accentDark})`,
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  boxShadow: `0 4px 14px ${C.accent}44`,
+                }}><Flame style={{ width: 20, height: 20 }} /></div>
+                <div>
+                  <div style={{
+                    fontFamily: "'Barlow Condensed', sans-serif",
+                    fontSize: 'clamp(18px, 3vw, 22px)',
+                    fontWeight: 800, color: C.white, letterSpacing: '0.04em', lineHeight: 1,
+                  }}>THERMA PRO</div>
+                  <div style={{ color: C.accent, fontSize: 9.5, fontWeight: 600, letterSpacing: '0.12em' }}>
+                    CHAUFFAGE · CLIMATISATION
+                  </div>
+                </div>
+              </>
+            )}
           </a>
 
           {/* Desktop links */}

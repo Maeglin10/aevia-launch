@@ -12,6 +12,17 @@ export default function VogueNoireLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const [__layoutSession, __setLayoutSession] = useState<any>(null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(__setLayoutSession)
+      .catch(() => {});
+  }, []);
+  const fd = __layoutSession?.formData;
+
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
@@ -46,7 +57,15 @@ export default function VogueNoireLayout({
       >
         <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
           <Link href={basePath} className="text-2xl font-light tracking-[0.2em] uppercase" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
-            Vogue Noire
+            {fd?.logoBase64 ? (
+              <img
+                src={fd.logoBase64}
+                alt={fd?.businessName ?? 'logo'}
+                style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+              />
+            ) : (
+              <>Vogue Noire</>
+            )}
           </Link>
           <div className="hidden md:flex items-center gap-10 text-xs tracking-[0.15em] uppercase text-[#A0988A]">
             {links.map((link) => {

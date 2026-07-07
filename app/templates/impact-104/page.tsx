@@ -143,18 +143,26 @@ return () => window.removeEventListener("scroll", onScroll);
           transition: "background 0.4s, border-color 0.4s",
         }}
       >
-        <div
-          style={{
-            fontFamily: FONT,
-            fontWeight: 400,
-            fontStyle: "italic",
-            fontSize: 22,
-            letterSpacing: 1,
-            color: scrolled ? C.text : C.white,
-          }}
-        >
-          Studio Lumière Dorée
-        </div>
+        {fd?.logoBase64 ? (
+          <img
+            src={fd.logoBase64}
+            alt={fd?.businessName ?? 'logo'}
+            style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+          />
+        ) : (
+          <div
+            style={{
+              fontFamily: FONT,
+              fontWeight: 400,
+              fontStyle: "italic",
+              fontSize: 22,
+              letterSpacing: 1,
+              color: scrolled ? C.text : C.white,
+            }}
+          >
+            Studio Lumière Dorée
+          </div>
+        )}
         <div style={{ display: "flex", alignItems: "center", gap: 36 }} className="nav-links-desktop">
           {navLinks.map((link) => (
             <a

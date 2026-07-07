@@ -505,13 +505,23 @@ return () => window.removeEventListener("scroll", onScroll)
       >
         {/* Logo */}
         <Link href="#hero" className="flex items-center gap-3 group">
-          <Flower className="w-5 h-5 text-[#CA8A04] group-hover:rotate-45 transition-transform duration-500" />
-          <span
-            className="text-xl font-normal tracking-[0.25em] uppercase text-[#0C0A09]"
-            style={{ fontFamily: "'Bodoni Moda', serif" }}
-          >
-            Botanica
-          </span>
+          {fd?.logoBase64 ? (
+            <img
+              src={fd.logoBase64}
+              alt={fd?.businessName ?? 'logo'}
+              style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+            />
+          ) : (
+            <>
+              <Flower className="w-5 h-5 text-[#CA8A04] group-hover:rotate-45 transition-transform duration-500" />
+              <span
+                className="text-xl font-normal tracking-[0.25em] uppercase text-[#0C0A09]"
+                style={{ fontFamily: "'Bodoni Moda', serif" }}
+              >
+                Botanica
+              </span>
+            </>
+          )}
         </Link>
 
         {/* Desktop Nav */}

@@ -424,7 +424,20 @@ function Nav() {
     <>
       <nav style={bar}>
       <div style={brand}>
-        <Home size={18} color={C.accent} strokeWidth={1.4} />{fd?.businessName ?? "Clé de Voûte"}</div>
+        {fd?.logoBase64 ? (
+          // Client logo (uploaded in the brief) replaces the placeholder mark —
+          // essential for the client to recognise their brand in the render.
+          <img
+            src={fd.logoBase64}
+            alt={fd?.businessName ?? 'logo'}
+            style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+          />
+        ) : (
+          <>
+            <Home size={18} color={C.accent} strokeWidth={1.4} />{fd?.businessName ?? "Clé de Voûte"}
+          </>
+        )}
+      </div>
       <div style={linkRow} className="cdv-navlinks">
         {links.map((l) => (
           <NavLink key={l.label} label={l.label} href={l.href} />

@@ -136,13 +136,23 @@ return () => window.removeEventListener("scroll", h)
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#fdfaf6]/98 backdrop-blur-xl py-3 shadow-sm border-b border-[#3a7d44]/10" : "bg-[#fdfaf6]/95 backdrop-blur-md py-5 border-b border-[#3a7d44]/5"}`}>
         <div className="max-w-[1300px] mx-auto px-6 md:px-12 flex items-center justify-between">
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 bg-[#3a7d44] rounded-full flex items-center justify-center">
-              <Heart className="w-4 h-4 text-white" />
-            </div>
-            <div>
-              <div className="font-bold text-[#2d2318] text-sm leading-tight" style={{ fontFamily: "'Lora', Georgia, serif" }}>Clinique du Bois Vert</div>
-              <div className="text-[8px] font-bold uppercase tracking-[0.3em] text-[#3a7d44]/60">Vétérinaire · Toulouse</div>
-            </div>
+            {fd?.logoBase64 ? (
+              <img
+                src={fd.logoBase64}
+                alt={fd?.businessName ?? 'logo'}
+                style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+              />
+            ) : (
+              <>
+                <div className="w-8 h-8 bg-[#3a7d44] rounded-full flex items-center justify-center">
+                  <Heart className="w-4 h-4 text-white" />
+                </div>
+                <div>
+                  <div className="font-bold text-[#2d2318] text-sm leading-tight" style={{ fontFamily: "'Lora', Georgia, serif" }}>Clinique du Bois Vert</div>
+                  <div className="text-[8px] font-bold uppercase tracking-[0.3em] text-[#3a7d44]/60">Vétérinaire · Toulouse</div>
+                </div>
+              </>
+            )}
           </div>
           <div className="hidden lg:flex gap-9 text-[10px] font-bold uppercase tracking-[0.2em] text-[#2d2318]/30">
             {["Soins", "L'équipe", "Urgences", "Tarifs", "Nous trouver"].map(l => (

@@ -1070,6 +1070,9 @@ return () => {
         }}
       >
         {/* Logo */}
+        {fd?.logoBase64 ? (
+          <img src={fd.logoBase64} alt={fd?.businessName ?? 'logo'} style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }} />
+        ) : (
         <div>
           <span style={{ ...headingFont, fontSize: '20px', color: DARK, letterSpacing: '0.06em' }}>
             L'Atelier
@@ -1078,6 +1081,7 @@ return () => {
             Coiffure & Beauté
           </span>
         </div>
+        )}
 
         {/* Desktop links */}
         <div style={{ display: 'flex', gap: '36px', alignItems: 'center' }}>

@@ -448,8 +448,20 @@ function Nav() {
     <>
       <nav style={bar} suppressHydrationWarning>
       <a href="#hero" style={brand}>
-        <Heart size={18} color={C.accentLight} strokeWidth={2} />
-        KinéPédiatrie Bordeaux
+        {fd?.logoBase64 ? (
+          // Client logo (uploaded in the brief) replaces the placeholder mark —
+          // essential for the client to recognise their brand in the render.
+          <img
+            src={fd.logoBase64}
+            alt={fd?.businessName ?? 'logo'}
+            style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+          />
+        ) : (
+          <>
+            <Heart size={18} color={C.accentLight} strokeWidth={2} />
+            KinéPédiatrie Bordeaux
+          </>
+        )}
       </a>
       <div style={linkRow} className="kp-navlinks">
         {links.map((l) => (

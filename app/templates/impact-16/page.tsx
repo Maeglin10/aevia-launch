@@ -173,7 +173,17 @@ return (
       {/* Nav */}
       <nav className="fixed top-4 left-4 right-4 z-50">
         <div className="max-w-6xl mx-auto bg-[#0A0806]/90 backdrop-blur-md border border-[#C9A86C]/15 rounded-2xl px-6 py-4 flex items-center justify-between shadow-xl">
-          <div onClick={() => goTo("home")} className="text-[#C9A86C] tracking-widest cursor-pointer" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.2rem" }}>{fd?.businessName ?? "Obscura"}</div>
+          <div onClick={() => goTo("home")} className="cursor-pointer">
+            {fd?.logoBase64 ? (
+              <img
+                src={fd.logoBase64}
+                alt={fd?.businessName ?? 'logo'}
+                style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+              />
+            ) : (
+              <span className="text-[#C9A86C] tracking-widest" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.2rem" }}>{fd?.businessName ?? "Obscura"}</span>
+            )}
+          </div>
           <div className="hidden md:flex items-center gap-8 text-white/40 text-sm">
             {[
               { name: "Portfolio", key: "portfolio" },
@@ -197,7 +207,15 @@ return (
             <SheetTrigger className="md:hidden text-white cursor-pointer"><Menu className="w-5 h-5" /></SheetTrigger>
             <SheetContent side="right" className="bg-[#0A0806] border-[#C9A86C]/10 text-white p-8">
                <div className="flex items-center justify-between mb-12">
-                  <span className="text-[#C9A86C] text-xl" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{fd?.businessName ?? "Obscura"}</span>
+                  {fd?.logoBase64 ? (
+                    <img
+                      src={fd.logoBase64}
+                      alt={fd?.businessName ?? 'logo'}
+                      style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+                    />
+                  ) : (
+                    <span className="text-[#C9A86C] text-xl" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{fd?.businessName ?? "Obscura"}</span>
+                  )}
                </div>
                <div className="flex flex-col gap-6 font-medium">
                   {[

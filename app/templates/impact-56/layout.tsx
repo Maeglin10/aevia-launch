@@ -13,6 +13,17 @@ export default function ChateauVestigeLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const [__layoutSession, __setLayoutSession] = useState<any>(null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(__setLayoutSession)
+      .catch(() => {});
+  }, []);
+  const fd = __layoutSession?.formData;
+
   const [mobileOpen, setMobileOpen] = useState(false);
   const pathname = usePathname();
 
@@ -42,11 +53,20 @@ export default function ChateauVestigeLayout({
             className="flex flex-col items-center group cursor-pointer"
             style={{ textDecoration: "none" }}
           >
+          {fd?.logoBase64 ? (
+            <img
+              src={fd.logoBase64}
+              alt={fd?.businessName ?? 'logo'}
+              style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+            />
+          ) : (
+            <>
             <span className="text-2xl font-serif tracking-[0.2em] uppercase text-[#2D1B0E]">
               Château Vestige
             </span>
             <span className="text-[10px] tracking-widest uppercase text-zinc-500 mt-1 font-sans">Margaux</span>
-          </Link>
+          </>
+          )}</Link>
 
           {/* Desktop Nav */}
           <div className="hidden md:flex items-center gap-10">

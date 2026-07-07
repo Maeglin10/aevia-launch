@@ -579,36 +579,44 @@ function Nav() {
         }}
       >
         {/* Logo mark */}
-        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-          <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-            <polygon
-              points="16,2 30,10 30,22 16,30 2,22 2,10"
-              stroke={C.violet}
-              strokeWidth="1.5"
-              fill="none"
-            />
-            <polygon
-              points="16,8 24,13 24,20 16,24 8,20 8,13"
-              fill={C.violet}
-              fillOpacity="0.18"
-              stroke={C.violet}
-              strokeWidth="1"
-            />
-            <circle cx="16" cy="16" r="3" fill={C.violet} />
-          </svg>
-          <span
-            style={{
-              fontFamily: C.fontSans,
-              fontWeight: 800,
-              fontSize: 18,
-              letterSpacing: "0.06em",
-              color: C.cream,
-            }}
-          >
-            FORMA
-            <span style={{ color: C.violet }}>.STUDIO</span>
-          </span>
-        </div>
+        {fd?.logoBase64 ? (
+          <img
+            src={fd.logoBase64}
+            alt={fd?.businessName ?? 'logo'}
+            style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+          />
+        ) : (
+          <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+              <polygon
+                points="16,2 30,10 30,22 16,30 2,22 2,10"
+                stroke={C.violet}
+                strokeWidth="1.5"
+                fill="none"
+              />
+              <polygon
+                points="16,8 24,13 24,20 16,24 8,20 8,13"
+                fill={C.violet}
+                fillOpacity="0.18"
+                stroke={C.violet}
+                strokeWidth="1"
+              />
+              <circle cx="16" cy="16" r="3" fill={C.violet} />
+            </svg>
+            <span
+              style={{
+                fontFamily: C.fontSans,
+                fontWeight: 800,
+                fontSize: 18,
+                letterSpacing: "0.06em",
+                color: C.cream,
+              }}
+            >
+              FORMA
+              <span style={{ color: C.violet }}>.STUDIO</span>
+            </span>
+          </div>
+        )}
 
         {/* Nav links — hidden on mobile */}
         <div

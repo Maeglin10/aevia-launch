@@ -1215,29 +1215,39 @@ return () => window.removeEventListener("scroll", handler);
           }}
           onClick={() => scrollTo("hero")}
         >
-          <div
-            style={{
-              width: 32,
-              height: 32,
-              background: `linear-gradient(135deg, ${C.accent}, ${C.accentHi})`,
-              borderRadius: 8,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.5">
-              <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
-            </svg>
-          </div>
-          <span
-            style={{
-              fontWeight: 800,
-              fontSize: 18,
-              color: C.text,
-              letterSpacing: "-0.3px",
-            }}
-          >{fd?.businessName ?? "Metric"}</span>
+          {fd?.logoBase64 ? (
+            <img
+              src={fd.logoBase64}
+              alt={fd?.businessName ?? 'logo'}
+              style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+            />
+          ) : (
+            <>
+              <div
+                style={{
+                  width: 32,
+                  height: 32,
+                  background: `linear-gradient(135deg, ${C.accent}, ${C.accentHi})`,
+                  borderRadius: 8,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.5">
+                  <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+                </svg>
+              </div>
+              <span
+                style={{
+                  fontWeight: 800,
+                  fontSize: 18,
+                  color: C.text,
+                  letterSpacing: "-0.3px",
+                }}
+              >{fd?.businessName ?? "Metric"}</span>
+            </>
+          )}
         </div>
 
         {/* Desktop links */}

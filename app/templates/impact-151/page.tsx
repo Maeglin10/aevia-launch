@@ -208,9 +208,18 @@ return (
       <nav className="fixed top-0 left-0 w-full h-24 z-[100] px-8 md:px-20 flex items-center justify-between pointer-events-none">
          <div className="pointer-events-auto">
             <Link href="#hero" className="flex flex-col group">
+            {fd?.logoBase64 ? (
+              <img
+                src={fd.logoBase64}
+                alt={fd?.businessName ?? 'logo'}
+                style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+              />
+            ) : (
+              <>
                <span className="text-3xl font-light tracking-[0.4em] uppercase text-white group-hover:text-[#c4a661] transition-colors">AETHELGARD</span>
                <span className="text-[8px] font-black tracking-[0.6em] text-[#c4a661]/40 uppercase italic">The Estate & Spirits Group</span>
-            </Link>
+            </>
+            )}</Link>
          </div>
 
          <div className="flex items-center gap-12 pointer-events-auto">

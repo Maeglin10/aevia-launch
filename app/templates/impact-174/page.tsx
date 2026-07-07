@@ -224,8 +224,18 @@ return () => window.removeEventListener("scroll", fn)
       <nav className={`fixed top-0 left-0 right-0 z-[200] transition-all duration-300 ${scrolled ? "bg-[#0a0a0a]/95 backdrop-blur-lg border-b border-[#84cc16]/10 py-3" : "bg-transparent py-5"}`}>
         <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <Dumbbell className="w-6 h-6 text-[#84cc16]" />
-            <span className="text-2xl font-bold tracking-tighter text-white" style={{ fontFamily: "'Oswald', sans-serif" }}>{fd?.businessName ?? "FORGE"}</span>
+            {fd?.logoBase64 ? (
+              <img
+                src={fd.logoBase64}
+                alt={fd?.businessName ?? 'logo'}
+                style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+              />
+            ) : (
+              <>
+                <Dumbbell className="w-6 h-6 text-[#84cc16]" />
+                <span className="text-2xl font-bold tracking-tighter text-white" style={{ fontFamily: "'Oswald', sans-serif" }}>{fd?.businessName ?? "FORGE"}</span>
+              </>
+            )}
           </div>
 
           <div className="hidden md:flex items-center gap-8">

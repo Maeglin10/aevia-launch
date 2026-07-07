@@ -251,10 +251,20 @@ return () => window.removeEventListener("scroll", handleScroll)
           </div>
 
           <Link href="#hero" className="absolute left-1/2 -translate-x-1/2 flex flex-col items-center">
-            <h1 className="text-3xl md:text-5xl font-black uppercase tracking-tighter" style={{ fontFamily: "Georgia, serif" }}>{c?.heroHeadline ?? <>
-              Chronicle.
-            </>}</h1>
-            {!scrolled && <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-[#1a1814]/50 mt-1">Est. 1924</span>}
+            {fd?.logoBase64 ? (
+              <img
+                src={fd.logoBase64}
+                alt={fd?.businessName ?? 'logo'}
+                style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+              />
+            ) : (
+              <>
+                <h1 className="text-3xl md:text-5xl font-black uppercase tracking-tighter" style={{ fontFamily: "Georgia, serif" }}>{c?.heroHeadline ?? <>
+                  Chronicle.
+                </>}</h1>
+                {!scrolled && <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-[#1a1814]/50 mt-1">Est. 1924</span>}
+              </>
+            )}
           </Link>
 
           <div className="flex items-center gap-6">

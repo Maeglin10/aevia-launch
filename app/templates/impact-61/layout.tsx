@@ -11,6 +11,17 @@ export default function SegmentLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const [__layoutSession, __setLayoutSession] = useState<any>(null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(__setLayoutSession)
+      .catch(() => {});
+  }, []);
+  const fd = __layoutSession?.formData;
+
   const pathname = usePathname();
   const { scrollYProgress } = useScroll();
   const navBg = useTransform(scrollYProgress, [0, 0.04], ["rgba(255,255,255,0)", "rgba(255,255,255,0.97)"]);
@@ -50,8 +61,17 @@ export default function SegmentLayout({
         }}
       >
         <Link href="/templates/impact-61" style={{ fontFamily: "'Archivo', sans-serif", fontSize: "0.9rem", fontWeight: 700, letterSpacing: "0.12em", color: C.text, textDecoration: "none" }}>
+          {fd?.logoBase64 ? (
+            <img
+              src={fd.logoBase64}
+              alt={fd?.businessName ?? 'logo'}
+              style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+            />
+          ) : (
+            <>
           SEGMENT
-        </Link>
+        </>
+          )}</Link>
         <div id="mb61-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      {navLinks.map((link) => (
             <Link
               key={link.href}

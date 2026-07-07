@@ -425,7 +425,20 @@ function Nav() {
     <>
       <nav style={bar}>
       <a href="#hero" style={brand}>
-        <Scale size={20} color={C.accent} strokeWidth={1.4} />{fd?.businessName ?? "Moreau Delacroix"}</a>
+        {fd?.logoBase64 ? (
+          // Client logo (uploaded in the brief) replaces the placeholder mark —
+          // essential for the client to recognise their brand in the render.
+          <img
+            src={fd.logoBase64}
+            alt={fd?.businessName ?? 'logo'}
+            style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+          />
+        ) : (
+          <>
+            <Scale size={20} color={C.accent} strokeWidth={1.4} />{fd?.businessName ?? "Moreau Delacroix"}
+          </>
+        )}
+      </a>
       <div style={linkRow} className="mda-navlinks">
         {links.map((l) => (
           <NavLink key={l.label} label={l.label} href={l.href} />

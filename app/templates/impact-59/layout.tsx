@@ -13,6 +13,17 @@ export default function LuminalLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const [__layoutSession, __setLayoutSession] = useState<any>(null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(__setLayoutSession)
+      .catch(() => {});
+  }, []);
+  const fd = __layoutSession?.formData;
+
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
@@ -51,11 +62,20 @@ export default function LuminalLayout({
             className="text-xl md:text-2xl font-bold tracking-[0.2em] uppercase flex items-center gap-3"
             style={{ textDecoration: "none", color: "inherit" }}
           >
+          {fd?.logoBase64 ? (
+            <img
+              src={fd.logoBase64}
+              alt={fd?.businessName ?? 'logo'}
+              style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+            />
+          ) : (
+            <>
             <div className="w-8 h-8 rounded-full bg-[#3d7a5e] flex items-center justify-center text-white">
               <Leaf className="w-4 h-4" />
             </div>
             LUMINAL
-          </Link>
+          </>
+          )}</Link>
 
           <div className="hidden lg:flex items-center gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-black/40">
             {NAV_LINKS.map(link => (

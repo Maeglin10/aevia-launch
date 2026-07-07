@@ -7,6 +7,17 @@ import { Menu, X, Scale, MessageSquare, Mail, Clock } from "lucide-react";
 import { C, navLinks } from "./shared";
 
 export default function LawFirmLayout({ children }: { children: React.ReactNode }) {
+  const [__layoutSession, __setLayoutSession] = useState<any>(null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(__setLayoutSession)
+      .catch(() => {});
+  }, []);
+  const fd = __layoutSession?.formData;
+
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
@@ -71,7 +82,14 @@ export default function LawFirmLayout({ children }: { children: React.ReactNode 
       }}>
         <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 32px", display: "flex", alignItems: "center", justifyContent: "space-between", height: 76, flexWrap: "wrap" as const, gap: 12 }}>
           <Link href="/templates/impact-46" style={{ textDecoration: "none" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+            {fd?.logoBase64 ? (
+              <img
+                src={fd.logoBase64}
+                alt={fd?.businessName ?? 'logo'}
+                style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+              />
+            ) : (
+              <><div style={{ display: "flex", alignItems: "center", gap: 14 }}>
               <div style={{ width: 36, height: 36, border: `1.5px solid ${C.accent}`, display: "flex", alignItems: "center", justifyContent: "center" }}>
                 <Scale size={18} color={C.accent} />
               </div>
@@ -79,7 +97,8 @@ export default function LawFirmLayout({ children }: { children: React.ReactNode 
                 <div style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: 17, fontWeight: 700, color: C.white, letterSpacing: "0.04em" }}>Dumont & Associates</div>
                 <div style={{ fontFamily: "'Source Sans Pro', system-ui", fontSize: 10, color: C.accent, letterSpacing: "0.16em", textTransform: "uppercase" as const }}>Avocats au Barreau de Paris</div>
               </div>
-            </div>
+            </div></>
+            )}
           </Link>
 
           {/* Desktop Nav Links */}

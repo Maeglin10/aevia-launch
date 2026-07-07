@@ -256,9 +256,19 @@ return () => window.removeEventListener("mousemove", handle);
       <nav className="fixed top-0 left-0 w-full z-50 mix-blend-difference">
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 py-8 flex justify-between items-center">
           <Link href="#hero" className="relative z-50 group">
+            {fd?.logoBase64 ? (
+              <img
+                src={fd.logoBase64}
+                alt={fd?.businessName ?? 'logo'}
+                style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+              />
+            ) : (
+              <>
             <span className="text-lg font-light tracking-[0.3em] uppercase transition-colors group-hover:text-amber-400">
               Elena<span className="font-black">Korr</span>
             </span>
+              </>
+            )}
           </Link>
 
           <div className="hidden lg:flex items-center gap-10">

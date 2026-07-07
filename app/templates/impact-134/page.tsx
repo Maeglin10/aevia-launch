@@ -430,18 +430,28 @@ function Nav({ scrolled }: { scrolled: boolean }) {
         <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-16 flex items-center justify-between h-[72px]">
           {/* Logo */}
           <Link href="#collections" className="flex items-center gap-2">
-            <Sparkles size={18} color={C.primary} />
-            <span
-              className="text-[26px] tracking-[0.06em]"
-              style={{
-                fontFamily: "'Playfair Display', serif",
-                fontStyle: "italic",
-                fontWeight: 600,
-                color: scrolled ? C.text : C.text,
-              }}
-            >
-              LUMIÈRE
-            </span>
+            {fd?.logoBase64 ? (
+              <img
+                src={fd.logoBase64}
+                alt={fd?.businessName ?? 'logo'}
+                style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+              />
+            ) : (
+              <>
+                <Sparkles size={18} color={C.primary} />
+                <span
+                  className="text-[26px] tracking-[0.06em]"
+                  style={{
+                    fontFamily: "'Playfair Display', serif",
+                    fontStyle: "italic",
+                    fontWeight: 600,
+                    color: scrolled ? C.text : C.text,
+                  }}
+                >
+                  LUMIÈRE
+                </span>
+              </>
+            )}
           </Link>
 
           {/* Desktop links */}

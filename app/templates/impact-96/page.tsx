@@ -546,58 +546,66 @@ return (
       >
         {/* Logo */}
         <Link href="#hero" style={{ textDecoration: "none" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-            {/* Film gate icon */}
-            <div
-              style={{
-                width: 38,
-                height: 38,
-                background: C.amberSoft,
-                border: `1.5px solid ${C.borderMid}`,
-                borderRadius: 4,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                flexDirection: "column",
-                gap: 3,
-              }}
-            >
-              {[0, 1, 2].map((i) => (
-                <div
-                  key={i}
-                  style={{
-                    width: 18,
-                    height: 3,
-                    background: i === 1 ? C.amber : "rgba(200,150,30,0.35)",
-                    borderRadius: 1,
-                  }}
-                />
-              ))}
-            </div>
-            <div>
+          {fd?.logoBase64 ? (
+            <img
+              src={fd.logoBase64}
+              alt={fd?.businessName ?? 'logo'}
+              style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+            />
+          ) : (
+            <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+              {/* Film gate icon */}
               <div
                 style={{
-                  fontFamily: FONT_DISPLAY,
-                  fontWeight: 700,
-                  fontSize: "1.05rem",
-                  color: C.text,
-                  letterSpacing: "-0.01em",
-                  lineHeight: 1,
-                }}
-              >{fd?.businessName ?? "Urban Pulse"}</div>
-              <div
-                style={{
-                  fontSize: "0.55rem",
-                  color: C.muted,
-                  letterSpacing: "0.14em",
-                  textTransform: "uppercase",
-                  marginTop: 2,
+                  width: 38,
+                  height: 38,
+                  background: C.amberSoft,
+                  border: `1.5px solid ${C.borderMid}`,
+                  borderRadius: 4,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  flexDirection: "column",
+                  gap: 3,
                 }}
               >
-                Studio Cinéma · Paris
+                {[0, 1, 2].map((i) => (
+                  <div
+                    key={i}
+                    style={{
+                      width: 18,
+                      height: 3,
+                      background: i === 1 ? C.amber : "rgba(200,150,30,0.35)",
+                      borderRadius: 1,
+                    }}
+                  />
+                ))}
+              </div>
+              <div>
+                <div
+                  style={{
+                    fontFamily: FONT_DISPLAY,
+                    fontWeight: 700,
+                    fontSize: "1.05rem",
+                    color: C.text,
+                    letterSpacing: "-0.01em",
+                    lineHeight: 1,
+                  }}
+                >{fd?.businessName ?? "Urban Pulse"}</div>
+                <div
+                  style={{
+                    fontSize: "0.55rem",
+                    color: C.muted,
+                    letterSpacing: "0.14em",
+                    textTransform: "uppercase",
+                    marginTop: 2,
+                  }}
+                >
+                  Studio Cinéma · Paris
+                </div>
               </div>
             </div>
-          </div>
+          )}
         </Link>
 
         {/* Desktop nav */}

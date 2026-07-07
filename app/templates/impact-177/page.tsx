@@ -165,7 +165,15 @@ return () => window.removeEventListener("scroll", h)
       {/* ── NAVBAR ── */}
       <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 50, transition: "all 0.6s", background: scrolled ? "rgba(250,248,244,0.95)" : "transparent", backdropFilter: scrolled ? "blur(12px)" : "none", borderBottom: scrolled ? `1px solid ${C.line}` : "none", padding: scrolled ? "1rem 0" : "1.75rem 0" }}>
         <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 2.5rem", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          <span style={{ fontFamily: C.serif, fontSize: "1.4rem", fontWeight: 600, letterSpacing: "0.02em", fontStyle: "italic", color: C.dark }}>Maëlle Dumas</span>
+          {fd?.logoBase64 ? (
+            <img
+              src={fd.logoBase64}
+              alt={fd?.businessName ?? 'logo'}
+              style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+            />
+          ) : (
+            <span style={{ fontFamily: C.serif, fontSize: "1.4rem", fontWeight: 600, letterSpacing: "0.02em", fontStyle: "italic", color: C.dark }}>Maëlle Dumas</span>
+          )}
           <div style={{ display: "flex", gap: "3rem" }} className="hidden lg:flex">
             {["Projets", "Prestations", "À propos", "Contact"].map(l => (
               <Link key={l} href="#contact" style={{ fontFamily: C.sans, fontSize: "0.7rem", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.15em", color: C.muted, textDecoration: "none", transition: "color 0.3s" }}

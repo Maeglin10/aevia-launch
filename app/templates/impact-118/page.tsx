@@ -152,10 +152,20 @@ return () => window.removeEventListener("scroll", h)
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-1000 ${scrolled ? "bg-[#050505]/95 backdrop-blur-xl border-b border-[#d4af37]/10 py-4" : "bg-transparent py-8"}`}>
         <div className="max-w-[1600px] mx-auto px-6 md:px-12 flex items-center justify-between">
           <div onClick={(e) => { e.preventDefault(); goTo("home"); }} className="flex items-center gap-3 group cursor-pointer">
-            <div className="w-10 h-10 border border-[#d4af37]/30 flex items-center justify-center group-hover:rotate-45 transition-transform duration-700">
-              <Watch className="w-5 h-5 text-[#d4af37]" />
-            </div>
-            <span className="text-xl font-light tracking-[0.4em] uppercase text-white">Chronos</span>
+            {fd?.logoBase64 ? (
+              <img
+                src={fd.logoBase64}
+                alt={fd?.businessName ?? 'logo'}
+                style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+              />
+            ) : (
+              <>
+                <div className="w-10 h-10 border border-[#d4af37]/30 flex items-center justify-center group-hover:rotate-45 transition-transform duration-700">
+                  <Watch className="w-5 h-5 text-[#d4af37]" />
+                </div>
+                <span className="text-xl font-light tracking-[0.4em] uppercase text-white">Chronos</span>
+              </>
+            )}
           </div>
           <div className="hidden lg:flex gap-10 text-[9px] font-bold uppercase tracking-[0.4em] text-[#d4af37]/40">
             {[

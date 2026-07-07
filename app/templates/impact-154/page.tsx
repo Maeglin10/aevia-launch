@@ -441,11 +441,21 @@ return (
       {/* GLOBAL HUD & NAVIGATION */}
       <nav className="fixed top-0 left-0 w-full z-[100] px-8 md:px-20 flex items-center justify-between border-b border-white/5 bg-[#0c0c0e]/80 backdrop-blur-xl py-5">
          <button onClick={() => goTo("home")} className="flex flex-col group text-left">
+            {fd?.logoBase64 ? (
+              <img
+                src={fd.logoBase64}
+                alt={fd?.businessName ?? 'logo'}
+                style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+              />
+            ) : (
+              <>
             <span className="text-2xl md:text-3xl font-light tracking-[0.2em] uppercase text-white flex items-center gap-4">
                <Landmark className="w-7 h-7 md:w-8 md:h-8 text-[#b4925e]" />
                IVORY<span className="text-[#b4925e] font-black italic">.ARCHIVE</span>
             </span>
             <span className="text-[8px] font-black tracking-[0.6em] text-white/20 uppercase italic hidden md:block">Elite Art Conservation & Private Registry</span>
+              </>
+            )}
          </button>
 
          <div className="hidden lg:flex items-center gap-12">

@@ -312,16 +312,22 @@ function Nav({ accentColor }: { accentColor: string }) {
     >
       {/* Logo */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-        <TemplateIcon emoji="💅" size={22} />
-        <span
-          style={{
-            fontFamily: 'Syne, sans-serif',
-            fontWeight: 700,
-            fontSize: 20,
-            color: accentColor,
-            letterSpacing: '-0.02em',
-          }}
-        >{fd?.businessName ?? "Studio Nail"}</span>
+        {fd?.logoBase64 ? (
+          <img src={fd.logoBase64} alt={fd?.businessName ?? 'logo'} style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }} />
+        ) : (
+          <>
+            <TemplateIcon emoji="💅" size={22} />
+            <span
+              style={{
+                fontFamily: 'Syne, sans-serif',
+                fontWeight: 700,
+                fontSize: 20,
+                color: accentColor,
+                letterSpacing: '-0.02em',
+              }}
+            >{fd?.businessName ?? "Studio Nail"}</span>
+          </>
+        )}
       </div>
 
       {/* Desktop links */}

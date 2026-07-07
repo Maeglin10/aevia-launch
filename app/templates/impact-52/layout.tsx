@@ -18,6 +18,17 @@ export default function Impact52Layout({
 }: {
   children: React.ReactNode;
 }) {
+  const [__layoutSession, __setLayoutSession] = useState<any>(null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(__setLayoutSession)
+      .catch(() => {});
+  }, []);
+  const fd = __layoutSession?.formData;
+
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const pathname = usePathname();
 
@@ -51,6 +62,14 @@ export default function Impact52Layout({
         className="fixed top-0 left-0 right-0 z-50 bg-[#06000f]/90 backdrop-blur-xl border-b border-[#ff2d78]/20 py-5 px-6 md:px-10 flex items-center justify-between"
       >
         <Link href="/templates/impact-52" className="flex items-center gap-2">
+          {fd?.logoBase64 ? (
+            <img
+              src={fd.logoBase64}
+              alt={fd?.businessName ?? 'logo'}
+              style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+            />
+          ) : (
+            <>
           <Zap
             size={20}
             style={{ color: C.PINK, filter: `drop-shadow(0 0 8px ${C.PINK})` }}
@@ -66,7 +85,8 @@ export default function Impact52Layout({
           >
             PARTICLE<span style={{ color: `${C.PINK}66` }}> // </span>FIELD
           </span>
-        </Link>
+        </>
+          )}</Link>
 
         {/* Desktop Links */}
         <div className="hidden md:flex items-center gap-8">

@@ -178,8 +178,18 @@ return () => window.removeEventListener("scroll", h)
         transition: "all 0.4s ease",
       }}>
         <div>
-          <span style={{ fontFamily: FONT_SERIF, fontSize: 18, fontStyle: "italic", color: scrolled ? C.accent : "#fff" }}>Lumière</span>
-          <span style={{ fontSize: 13, letterSpacing: 4, fontWeight: 600, color: scrolled ? C.text : "rgba(255,255,255,0.8)", marginLeft: 8, textTransform: "uppercase" }}>Yoga Studio</span>
+          {fd?.logoBase64 ? (
+            <img
+              src={fd.logoBase64}
+              alt={fd?.businessName ?? 'logo'}
+              style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+            />
+          ) : (
+            <>
+              <span style={{ fontFamily: FONT_SERIF, fontSize: 18, fontStyle: "italic", color: scrolled ? C.accent : "#fff" }}>Lumière</span>
+              <span style={{ fontSize: 13, letterSpacing: 4, fontWeight: 600, color: scrolled ? C.text : "rgba(255,255,255,0.8)", marginLeft: 8, textTransform: "uppercase" }}>Yoga Studio</span>
+            </>
+          )}
         </div>
         <div style={{ display: "flex", gap: 32, alignItems: "center" }} className="hidden md:flex">
           {["Cours", "Planning", "Tarifs", "Contact"].map(l => (

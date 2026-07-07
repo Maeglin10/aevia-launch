@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, useScroll, useTransform } from "framer-motion";
@@ -11,6 +11,17 @@ export default function MaisonDrouetLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const [__layoutSession, __setLayoutSession] = useState<any>(null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(__setLayoutSession)
+      .catch(() => {});
+  }, []);
+  const fd = __layoutSession?.formData;
+
   const pathname = usePathname();
   const { scrollYProgress } = useScroll();
   const navBg = useTransform(scrollYProgress, [0, 0.05], ["rgba(14,12,10,0)", "rgba(14,12,10,0.95)"]);
@@ -81,12 +92,21 @@ export default function MaisonDrouetLayout({
 
         {/* Logo center */}
         <Link href="/templates/impact-63" style={{ textAlign: "center", flex: 1, textDecoration: "none", cursor: "pointer" }}>
+            {fd?.logoBase64 ? (
+              <img
+                src={fd.logoBase64}
+                alt={fd?.businessName ?? 'logo'}
+                style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block', margin: '0 auto' }}
+              />
+            ) : (
+              <>
           <div style={{ fontFamily: "'Cormorant SC', serif", fontSize: "0.6rem", letterSpacing: "0.3em", color: C.goldDim }}>MAISON</div>
           <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.4rem", fontWeight: 400, letterSpacing: "0.15em", color: C.text, lineHeight: 1 }}>
             DROUET
           </div>
           <div style={{ fontFamily: "'Cormorant SC', serif", fontSize: "0.5rem", letterSpacing: "0.3em", color: C.textDim }}>GENÈVE · 1891</div>
-        </Link>
+        </>
+            )}</Link>
 
         {/* Right nav links */}
         <div id="mb63-right" style={{ display: "flex", gap: "2rem", flex: 1, justifyContent: "flex-end" }}>

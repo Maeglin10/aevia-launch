@@ -136,10 +136,20 @@ return () => window.removeEventListener("scroll", h)
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#0e1117]/97 backdrop-blur-xl py-3 border-b border-[#dc2626]/10" : "bg-transparent py-7"}`}>
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-7 h-7 bg-[#dc2626] flex items-center justify-center">
-              <Wrench className="w-4 h-4 text-white" />
-            </div>
-            <span className="font-bold text-[#f1f3f5] tracking-wide text-sm">AUTO<span className="text-[#dc2626]">EXPERT</span></span>
+            {fd?.logoBase64 ? (
+              <img
+                src={fd.logoBase64}
+                alt={fd?.businessName ?? 'logo'}
+                style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+              />
+            ) : (
+              <>
+                <div className="w-7 h-7 bg-[#dc2626] flex items-center justify-center">
+                  <Wrench className="w-4 h-4 text-white" />
+                </div>
+                <span className="font-bold text-[#f1f3f5] tracking-wide text-sm">AUTO<span className="text-[#dc2626]">EXPERT</span></span>
+              </>
+            )}
           </div>
           <div className="hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.25em] text-[#f1f3f5]/25">
             {["Services", "Devis rapide", "Véhicules élec.", "Équipe", "Contact"].map(l => (
