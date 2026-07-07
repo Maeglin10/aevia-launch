@@ -129,6 +129,14 @@ const globalStyles = `
     0%, 100% { transform: translateY(0); opacity: 1; }
     50%       { transform: translateY(8px); opacity: 0.5; }
   }
+
+  /* Mobile fallback for the inline rigid destination grid — stylesheet
+     !important beats inline styles, so this is the lightest fix that
+     doesn't touch the desktop rendering at all. */
+  @media (max-width: 700px) {
+    .i14-dest-grid { grid-template-columns: 1fr !important; grid-template-rows: auto !important; }
+    .i14-dest-span { grid-column: 1 / -1 !important; grid-row: auto !important; }
+  }
 `;
 
 /* ─────────────────────────────────────────────
@@ -1461,7 +1469,7 @@ return () => clearInterval(t);
             maxWidth: 1280,
             margin: "0 auto",
             display: "grid",
-            gridTemplateColumns: "repeat(4, 1fr)",
+            gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
             gap: "2rem",
           }}
         >
@@ -1519,6 +1527,7 @@ return () => clearInterval(t);
 
           {/* Destination grid */}
           <div
+            className="i14-dest-grid"
             style={{
               display: "grid",
               gridTemplateColumns: "repeat(3, 1fr)",
@@ -1527,11 +1536,11 @@ return () => clearInterval(t);
             }}
           >
             {/* Large card */}
-            <div style={{ gridColumn: "1 / 3", gridRow: "1 / 2", minHeight: 500 }}>
+            <div className="i14-dest-span" style={{ gridColumn: "1 / 3", gridRow: "1 / 2", minHeight: 500 }}>
               <DestinationCard dest={destinations[0]} index={0} />
             </div>
             {/* Tall right */}
-            <div style={{ gridColumn: "3 / 4", gridRow: "1 / 3", minHeight: 500 }}>
+            <div className="i14-dest-span" style={{ gridColumn: "3 / 4", gridRow: "1 / 3", minHeight: 500 }}>
               <DestinationCard dest={destinations[1]} index={1} />
             </div>
             {/* Bottom left 3 */}

@@ -246,7 +246,7 @@ return () => window.removeEventListener("scroll", h)
 
       {/* ── STATS ── */}
       <section style={{ padding: "4rem 0", borderBottom: `1px solid ${C.line}` }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 2.5rem", display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "2rem" }} className="grid grid-cols-2 md:grid-cols-4">
+        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 2.5rem", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "2rem" }} className="grid grid-cols-2 md:grid-cols-4">
           {[
             { v: "12+", l: "Années d'exercice" },
             { v: "180+", l: "Projets livrés" },

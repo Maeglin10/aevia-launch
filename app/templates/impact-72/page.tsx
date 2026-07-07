@@ -375,7 +375,7 @@ return (
           </motion.div>
 
           {/* Steps grid — 4 columns desktop */}
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "0" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: "0" }}>
             {PROCESS_STEPS.map((step, i) => (
               <motion.div
                 key={step.num}

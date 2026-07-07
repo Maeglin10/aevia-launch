@@ -352,7 +352,7 @@ return () => clearInterval(timer);
 
       {/* ── STATS ───────────────────────────────────────────────────────── */}
       <section style={{ padding: "5rem 2rem", background: C.bgAlt, borderTop: `1px solid ${C.border}` }}>
-        <div style={{ maxWidth: 1300, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: "1px", background: C.border }}>
+        <div style={{ maxWidth: 1300, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(280px,1fr))", gap: "1px", background: C.border }}>
           {STATS.map((s, i) => (
             <Reveal key={i} delay={i * 0.08}>
               <div style={{ background: C.bgAlt, padding: "3rem 2rem", textAlign: "center" }}>

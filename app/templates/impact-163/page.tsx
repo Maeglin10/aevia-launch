@@ -903,7 +903,7 @@ return () => clearInterval(t);
             </div>
           </Reveal>
 
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 2 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 2 }}>
             {AUTHORS.map((author, i) => (
               <Reveal key={i} delay={i * 0.1}>
                 <motion.div
@@ -994,7 +994,7 @@ return () => clearInterval(t);
             </div>
           </Reveal>
 
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 2 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(380px, 1fr))", gap: 2 }}>
             {[TESTIMONIALS[testimonialIdx], TESTIMONIALS[(testimonialIdx + 1) % TESTIMONIALS.length], TESTIMONIALS[(testimonialIdx + 2) % TESTIMONIALS.length]].map((t, i) => (
               <Reveal key={`${testimonialIdx}-${i}`} delay={i * 0.1}>
                 <div style={{ padding: "32px 28px", border: `1px solid ${C.border}`, background: C.bg }}>
@@ -1056,7 +1056,7 @@ return () => clearInterval(t);
             </div>
           </Reveal>
 
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 0, border: `2px solid ${C.bgDark}` }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: 0, border: `2px solid ${C.bgDark}` }}>
             {PLANS.map((plan, i) => (
               <Reveal key={i} delay={i * 0.1}>
                 <div style={{
@@ -1197,7 +1197,7 @@ return () => clearInterval(t);
                 ))}
               </div>
             </div>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 40 }}>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 40 }}>
               {[
                 { title: "Catégories", links: ["Stratégie", "Product", "Marketing", "IA & Tech", "Financement"] },
                 { title: "L'Essentiel", links: ["À propos", "Notre équipe", "Partenariats", "Publicité"] },

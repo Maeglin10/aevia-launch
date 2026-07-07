@@ -657,7 +657,7 @@ return () => window.removeEventListener("scroll", handler)
               maxWidth: 1280,
               margin: "0 auto",
               display: "grid",
-              gridTemplateColumns: "repeat(4, 1fr)",
+              gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
             }}
           >
             {STATS.map((s, i) => (

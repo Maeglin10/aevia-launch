@@ -1478,7 +1478,7 @@ return () => {
             </h2>
           </motion.div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '3px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: '3px' }}>
             {Array.from({ length: 6 }).map((_, i) => (
               <GalleryTile key={i} index={i} />
             ))}

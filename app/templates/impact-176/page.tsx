@@ -477,7 +477,7 @@ function DashboardMockup() {
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(4, 1fr)",
+          gridTemplateColumns: "repeat(auto-fit, minmax(120px, 1fr))",
           gap: 0,
           padding: "20px 20px 0",
           gap: 10,
@@ -1563,7 +1563,7 @@ return () => window.removeEventListener("scroll", handler);
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(4, 1fr)",
+            gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
             maxWidth: 1200,
             margin: "0 auto",
           }}
@@ -1640,7 +1640,7 @@ return () => window.removeEventListener("scroll", handler);
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(3, 1fr)",
+            gridTemplateColumns: "repeat(auto-fit, minmax(340px, 1fr))",
             gap: 16,
           }}
         >
@@ -1902,7 +1902,7 @@ return () => window.removeEventListener("scroll", handler);
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(3, 1fr)",
+            gridTemplateColumns: "repeat(auto-fit, minmax(340px, 1fr))",
             gap: 24,
           }}
         >
@@ -1944,7 +1944,7 @@ return () => window.removeEventListener("scroll", handler);
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(3, 1fr)",
+              gridTemplateColumns: "repeat(auto-fit, minmax(340px, 1fr))",
               gap: 20,
               alignItems: "center",
             }}

@@ -840,7 +840,7 @@ function ProjectsSection() {
             className="three-col"
             style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(3, 1fr)',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))',
               gap: 2,
             }}
           >
@@ -1788,7 +1788,7 @@ function StatsSection() {
           className="four-col"
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(4, 1fr)',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
             borderTop: '1px solid rgba(255,255,255,0.06)',
           }}
         >
@@ -2085,7 +2085,7 @@ function TeamSection() {
           className="three-col"
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(3, 1fr)',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))',
             gap: 2,
             background: C.border,
           }}

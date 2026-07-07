@@ -1424,6 +1424,7 @@ function GallerySection({ accentColor }: { accentColor: string }) {
 
         {/* Masonry grid */}
         <div
+          className="i210-masonry"
           style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(4, 1fr)',
@@ -1434,6 +1435,7 @@ function GallerySection({ accentColor }: { accentColor: string }) {
           {GALLERY_ITEMS.map((item, i) => (
             <motion.div
               key={item.id}
+              className="i210-gallery-item"
               initial={{ opacity: 0, scale: 0.85 }}
               animate={inView ? { opacity: 1, scale: 1 } : {}}
               transition={{ duration: 0.6, delay: i * 0.08 }}
@@ -2206,6 +2208,12 @@ return () => {
         transition: 'background 0.5s ease',
       }}
     >
+      <style>{`
+        @media (max-width: 700px) {
+          .i210-masonry { grid-template-columns: 1fr !important; grid-auto-rows: 160px !important; }
+          .i210-gallery-item { grid-column: 1 / -1 !important; grid-row: span 1 !important; }
+        }
+      `}</style>
       <Nav accentColor={accentColor} />
 
       <main>

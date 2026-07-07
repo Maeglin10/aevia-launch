@@ -1878,7 +1878,7 @@ return (
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(4, 1fr)",
+            gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
             gap: 20,
           }}
         >
@@ -1967,7 +1967,7 @@ return (
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(4, 1fr)",
+              gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
               gap: 20,
             }}
           >
@@ -2124,7 +2124,7 @@ return (
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(3, 1fr)",
+            gridTemplateColumns: "repeat(auto-fit, minmax(340px, 1fr))",
             gap: 20,
             marginBottom: 16,
           }}

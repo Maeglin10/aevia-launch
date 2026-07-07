@@ -486,7 +486,7 @@ return (
             maxWidth: 1200,
             margin: "0 auto",
             display: "grid",
-            gridTemplateColumns: "repeat(4, 1fr)",
+            gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
             gap: 40,
           }}
         >

@@ -329,7 +329,7 @@ return (
             margin: "0 auto",
             padding: "80px 40px",
             display: "grid",
-            gridTemplateColumns: "repeat(4, 1fr)",
+            gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
             gap: "0",
           }}
           className="grid-stats-68"

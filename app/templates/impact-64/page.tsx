@@ -109,6 +109,12 @@ export default function Impact64Page() {
   }, [c]);
 return (
     <div ref={containerRef} style={{ background: C.bg, color: C.text, minHeight: "100vh", overflowX: "hidden" }}>
+      <style>{`
+        @media (max-width: 700px) {
+          .i64-process-grid { grid-template-columns: 1fr !important; row-gap: 2.5rem !important; }
+          .i64-process-line { display: none !important; }
+        }
+      `}</style>
       {/* ── HERO ─────────────────────────────────────────────────────── */}
       <section style={{ minHeight: "calc(100vh - 120px)", display: "flex", alignItems: "center", padding: "4rem 2.5rem 4rem", position: "relative", overflow: "hidden" }}>
         <div style={{
@@ -214,7 +220,7 @@ return (
 
       {/* ── STATS ─────────────────────────────────────────────────────── */}
       <section ref={statsRef} style={{ padding: "8rem 2.5rem", background: C.bg }}>
-        <div style={{ maxWidth: "1200px", margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "2px" }}>
+        <div style={{ maxWidth: "1200px", margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: "2px" }}>
           {STATS.map((stat, i) => (
             <motion.div
               key={i}
@@ -252,8 +258,8 @@ return (
               Opérationnel en <span style={{ color: C.green }}>5 à 15 jours.</span>
             </h2>
           </motion.div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: "0", position: "relative" }}>
-            <div style={{ position: "absolute", top: "28px", left: "10%", right: "10%", height: "1px", background: C.greenBorder, zIndex: 0 }} />
+          <div className="i64-process-grid" style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: "0", position: "relative" }}>
+            <div className="i64-process-line" style={{ position: "absolute", top: "28px", left: "10%", right: "10%", height: "1px", background: C.greenBorder, zIndex: 0 }} />
             {[
               { step: "01", title: "Audit SI", desc: "Cartographie de votre infrastructure, inventaire des assets et identification des risques critiques." },
               { step: "02", title: "Gap Analysis", desc: "Analyse d'écart vis-à-vis de ISO 27001, NIS2 et des best practices CIS Benchmarks." },
@@ -347,7 +353,7 @@ return (
             <span style={{ fontFamily: mono, fontSize: "0.7rem", color: C.green, letterSpacing: "0.15em", display: "block", marginBottom: "1rem" }}>// CLIENTS</span>
             <h2 style={{ fontFamily: mono, fontSize: "clamp(26px, 3vw, 42px)", fontWeight: 700, lineHeight: 1.2, paddingBottom: "0.15em", color: C.text }}>Ils nous font confiance.</h2>
           </motion.div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "1px", background: C.greenBorder }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(360px, 1fr))", gap: "1px", background: C.greenBorder }}>
             {TESTIMONIALS.slice(0, 3).map((t, i) => (
               <motion.div
                 key={i}

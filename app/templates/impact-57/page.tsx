@@ -540,7 +540,7 @@ function TestimonialsSection() {
           </h2>
         </Reveal>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '2rem' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: '2rem' }}>
           {TESTIMONIALS.map((t, i) => (
             <Reveal key={i} delay={i * 0.12}>
               <div

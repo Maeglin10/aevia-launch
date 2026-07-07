@@ -634,6 +634,12 @@ return () => window.removeEventListener("scroll", onScroll);
         overflowX: "hidden",
       }}
     >
+      <style>{`
+        @media (max-width: 700px) {
+          .i115-projects-grid { grid-template-columns: 1fr !important; }
+          .i115-project-wide { grid-column: span 1 !important; }
+        }
+      `}</style>
       {/* Scroll progress bar — top */}
       <motion.div
         style={{
@@ -1275,6 +1281,7 @@ return () => window.removeEventListener("scroll", onScroll);
 
           {/* Projects grid */}
           <div
+            className="i115-projects-grid"
             style={{
               display: "grid",
               gridTemplateColumns: "repeat(3, 1fr)",
@@ -1345,7 +1352,7 @@ return () => window.removeEventListener("scroll", onScroll);
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(3, 1fr)",
+              gridTemplateColumns: "repeat(auto-fit, minmax(380px, 1fr))",
               gap: 2,
             }}
           >
@@ -2108,6 +2115,7 @@ function ProjectCard({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.7, delay: index * 0.1 }}
+      className={isWide ? "i115-project-wide" : undefined}
       style={{
         gridColumn: isWide ? "span 2" : "span 1",
       }}

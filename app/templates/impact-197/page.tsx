@@ -620,7 +620,7 @@ return (
 
       {/* STATS BAND */}
       <section style={{ background: C.marine, padding: "56px 40px" }}>
-        <div style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 32 }}>
+        <div style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 32 }}>
           {STATS.map((stat, i) => (
             <RevealSection key={i} delay={i * 0.12}>
               <div style={{ textAlign: "center" }}>
@@ -651,7 +651,7 @@ return (
             </div>
           </RevealSection>
 
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 24, marginBottom: 80 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(380px, 1fr))", gap: 24, marginBottom: 80 }}>
             {DESTINATIONS.map((dest, i) => (
               <RevealSection key={i} delay={i * 0.08}>
                 <motion.div
@@ -818,7 +818,7 @@ return (
             {/* Connecting line */}
             <div style={{ position: "absolute", top: 32, left: "calc(12.5% + 16px)", right: "calc(12.5% + 16px)", height: 1, background: `linear-gradient(90deg, ${C.accent} 0%, rgba(201,169,110,0.2) 100%)`, display: "none" }} />
 
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 32 }}>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 32 }}>
               {PROCESS_STEPS.map((step, i) => (
                 <RevealSection key={i} delay={i * 0.12}>
                   <div style={{ textAlign: "center" }}>
@@ -850,7 +850,7 @@ return (
             </div>
           </RevealSection>
 
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 24 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(340px, 1fr))", gap: 24 }}>
             {TESTIMONIALS.slice(0, 6).map((t, i) => (
               <RevealSection key={i} delay={i * 0.08}>
                 <motion.div
@@ -904,7 +904,7 @@ return (
             </div>
           </RevealSection>
 
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 24 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: 24 }}>
             {PACKAGES.map((pkg, i) => (
               <RevealSection key={i} delay={i * 0.1}>
                 <motion.div

@@ -641,7 +641,7 @@ return (
           <div
             style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(4, 1fr)',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
             }}
           >
             {STATS.map((stat, i) => (
@@ -705,7 +705,7 @@ return (
           <div
             style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(3, 1fr)',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
               border: `1px solid ${C.border}`,
             }}
           >

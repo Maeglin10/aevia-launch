@@ -1493,7 +1493,7 @@ return () => window.removeEventListener("scroll", handler);
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(4, 1fr)",
+            gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
             maxWidth: 1200,
             margin: "0 auto",
           }}
@@ -1578,7 +1578,7 @@ return () => window.removeEventListener("scroll", handler);
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(3, 1fr)",
+            gridTemplateColumns: "repeat(auto-fit, minmax(340px, 1fr))",
             gap: 16,
           }}
         >
@@ -1807,7 +1807,7 @@ return () => window.removeEventListener("scroll", handler);
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(3, 1fr)",
+            gridTemplateColumns: "repeat(auto-fit, minmax(340px, 1fr))",
             gap: 16,
           }}
         >
@@ -1850,7 +1850,7 @@ return () => window.removeEventListener("scroll", handler);
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(3, 1fr)",
+              gridTemplateColumns: "repeat(auto-fit, minmax(340px, 1fr))",
               gap: 24,
             }}
           >
@@ -1894,7 +1894,7 @@ return () => window.removeEventListener("scroll", handler);
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(3, 1fr)",
+            gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
             gap: 20,
             maxWidth: 1100,
             margin: "0 auto",

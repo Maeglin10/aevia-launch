@@ -224,7 +224,7 @@ return (
             All Series →
           </Link>
         </div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(340px, 1fr))", gap: 16 }}>
           {SERIES.map((s) => (
             <SeriesCard key={s.id} series={s} />
           ))}
