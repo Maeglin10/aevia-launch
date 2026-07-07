@@ -233,8 +233,8 @@ export function AeviaHeader() {
           </div>
 
           <Link
-            href="/galerie"
-            className={`px-3 py-1.5 rounded-md text-sm transition-colors ${pathname === "/galerie" ? "text-white bg-zinc-800" : "text-zinc-400 hover:text-white hover:bg-zinc-800/60"}`}
+            href="/themes"
+            className={`px-3 py-1.5 rounded-md text-sm transition-colors ${pathname === "/themes" ? "text-white bg-zinc-800" : "text-zinc-400 hover:text-white hover:bg-zinc-800/60"}`}
           >
             {t.templates}
           </Link>
@@ -266,7 +266,7 @@ export function AeviaHeader() {
       {/* Mobile */}
       {mobileOpen && (
         <div className="sm:hidden border-t border-zinc-800 bg-[#09090b] px-6 py-4 flex flex-col gap-1">
-          <Link href="/galerie" onClick={() => setMobileOpen(false)} className="px-3 py-2.5 rounded-md text-sm text-zinc-400 hover:text-white">{t.templates}</Link>
+          <Link href="/themes" onClick={() => setMobileOpen(false)} className="px-3 py-2.5 rounded-md text-sm text-zinc-400 hover:text-white">{t.templates}</Link>
           <Link href="/pricing" onClick={() => setMobileOpen(false)} className="px-3 py-2.5 rounded-md text-sm text-zinc-400 hover:text-white">{t.pricing}</Link>
 
           <div className="mt-2 pt-2 border-t border-zinc-800 flex flex-col gap-1">
