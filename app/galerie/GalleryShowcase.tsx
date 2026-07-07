@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect, useMemo } from "react";
+import { useState, useRef, useEffect, useMemo, useCallback } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence, useInView } from "framer-motion";
 import { ArrowRight, Sparkles, Search, Star, ExternalLink, ArrowUpRight } from "lucide-react";
@@ -253,10 +253,10 @@ export default function GalleryShowcase() {
   };
 
   // Translate specialty labels dynamically
-  const getSpecialtyLabel = (spec: typeof INDUSTRIES[0]["specialties"][0]) => {
+  const getSpecialtyLabel = useCallback((spec: typeof INDUSTRIES[0]["specialties"][0]) => {
     if (locale === "fr") return spec.label;
     return spec.labels[locale as keyof typeof spec.labels] || spec.label;
-  };
+  }, [locale]);
 
   // Helper mappings
   const templateToSpecialty = useMemo(() => {
@@ -320,7 +320,7 @@ export default function GalleryShowcase() {
     }
 
     return templates;
-  }, [templateToSpecialty, specialtyToIndustry, locale]);
+  }, [templateToSpecialty, specialtyToIndustry, getSpecialtyLabel]);
 
   // Filter templates list based on active categories, specialties, and search query
   const filteredTemplates = useMemo(() => {

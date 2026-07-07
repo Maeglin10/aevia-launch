@@ -40,6 +40,37 @@ const PRESET_COLORS = [
   "#db2777", "#0891b2", "#7c2d12", "#1e3a5f", "#14532d",
 ];
 
+function SectionHeader({
+  id,
+  openSection,
+  setOpenSection,
+}: {
+  id: Section;
+  openSection: Section;
+  setOpenSection: (s: Section) => void;
+}) {
+  const Icon = SECTION_ICONS[id];
+  const isOpen = openSection === id;
+  return (
+    <button
+      type="button"
+      onClick={() => setOpenSection(isOpen ? id : id)}
+      className="w-full flex items-center justify-between py-2.5 text-left group"
+      aria-expanded={isOpen}
+    >
+      <div className="flex items-center gap-2">
+        <Icon size={13} className={isOpen ? "text-violet-400" : "text-zinc-500"} />
+        <span className={`text-xs font-bold uppercase tracking-widest ${isOpen ? "text-violet-400" : "text-zinc-400"}`}>
+          {SECTION_LABELS[id]}
+        </span>
+      </div>
+      {isOpen
+        ? <ChevronDown size={13} className="text-zinc-500" />
+        : <ChevronRight size={13} className="text-zinc-600" />}
+    </button>
+  );
+}
+
 export function EditPanel({ session, onClose, onChange, onSave }: EditPanelProps) {
   const gc = session.generatedContent;
   const fd = session.formData;
@@ -162,29 +193,6 @@ export function EditPanel({ session, onClose, onChange, onSave }: EditPanelProps
     setTimeout(() => setSaveState("idle"), 2500);
   }
 
-  function SectionHeader({ id }: { id: Section }) {
-    const Icon = SECTION_ICONS[id];
-    const isOpen = openSection === id;
-    return (
-      <button
-        type="button"
-        onClick={() => setOpenSection(isOpen ? id : id)}
-        className="w-full flex items-center justify-between py-2.5 text-left group"
-        aria-expanded={isOpen}
-      >
-        <div className="flex items-center gap-2">
-          <Icon size={13} className={isOpen ? "text-violet-400" : "text-zinc-500"} />
-          <span className={`text-xs font-bold uppercase tracking-widest ${isOpen ? "text-violet-400" : "text-zinc-400"}`}>
-            {SECTION_LABELS[id]}
-          </span>
-        </div>
-        {isOpen
-          ? <ChevronDown size={13} className="text-zinc-500" />
-          : <ChevronRight size={13} className="text-zinc-600" />}
-      </button>
-    );
-  }
-
   return (
     <div className="fixed top-0 right-0 h-full w-80 bg-zinc-950 border-l border-zinc-800 z-[60] flex flex-col shadow-2xl">
       {/* Header */}
@@ -200,7 +208,7 @@ export function EditPanel({ session, onClose, onChange, onSave }: EditPanelProps
 
         {/* ── HERO ── */}
         <div className="border-b border-zinc-800 pb-1 mb-1">
-          <SectionHeader id="hero" />
+          <SectionHeader id="hero" openSection={openSection} setOpenSection={setOpenSection} />
           {openSection === "hero" && (
             <div className="pb-4">
               {field("Titre principal", heroHeadline, setHeroHeadline, false, undefined, "Ex: Votre expert comptable à Paris")}
@@ -241,7 +249,7 @@ export function EditPanel({ session, onClose, onChange, onSave }: EditPanelProps
 
         {/* ── ABOUT ── */}
         <div className="border-b border-zinc-800 pb-1 mb-1">
-          <SectionHeader id="about" />
+          <SectionHeader id="about" openSection={openSection} setOpenSection={setOpenSection} />
           {openSection === "about" && (
             <div className="pb-4">
               {field("Titre À propos", aboutTitle, setAboutTitle, false, undefined, "Ex: Pourquoi nous choisir ?")}
@@ -252,7 +260,7 @@ export function EditPanel({ session, onClose, onChange, onSave }: EditPanelProps
 
         {/* ── SERVICES ── */}
         <div className="border-b border-zinc-800 pb-1 mb-1">
-          <SectionHeader id="services" />
+          <SectionHeader id="services" openSection={openSection} setOpenSection={setOpenSection} />
           {openSection === "services" && (
             <div className="pb-4">
               {field("Service principal", mainService, setMainService, false, undefined, "Ex: Expertise comptable")}
@@ -314,7 +322,7 @@ export function EditPanel({ session, onClose, onChange, onSave }: EditPanelProps
 
         {/* ── CONTACT & SOCIAL ── */}
         <div className="border-b border-zinc-800 pb-1 mb-1">
-          <SectionHeader id="contact" />
+          <SectionHeader id="contact" openSection={openSection} setOpenSection={setOpenSection} />
           {openSection === "contact" && (
             <div className="pb-4">
               {field("Téléphone", phone, setPhone, false, undefined, "+33 6 00 00 00 00")}
@@ -328,7 +336,7 @@ export function EditPanel({ session, onClose, onChange, onSave }: EditPanelProps
 
         {/* ── BRAND ── */}
         <div className="pb-1 mb-1">
-          <SectionHeader id="brand" />
+          <SectionHeader id="brand" openSection={openSection} setOpenSection={setOpenSection} />
           {openSection === "brand" && (
             <div className="pb-4">
               <label className="block text-[11px] font-semibold text-zinc-400 uppercase tracking-wider mb-2">
