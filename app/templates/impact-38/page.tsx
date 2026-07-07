@@ -878,7 +878,7 @@ return (
               </h2>
             </div>
           </SectionReveal>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gap: 16 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))", gap: 16 }}>
             {IMPACT_STATS.map((stat, i) => (
               <ImpactMetric key={stat.label} stat={stat} index={i} />
             ))}

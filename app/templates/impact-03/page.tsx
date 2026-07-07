@@ -830,6 +830,17 @@ return (
         fontFamily: "'Georgia', 'Times New Roman', serif",
       }}
     >
+      {/* Mobile fallback for the inline rigid grids below — stylesheet
+          !important beats inline styles, so this is the lightest fix that
+          doesn't touch the desktop rendering at all. */}
+      <style>{`
+        @media (max-width: 700px) {
+          .i03-grid-3 { grid-template-columns: 1fr !important; }
+          .i03-grid-4 { grid-template-columns: repeat(2, 1fr) !important; }
+          .i03-timeline { grid-template-columns: 1fr !important; }
+          .i03-timeline-line { display: none !important; }
+        }
+      `}</style>
       {/* ─── NAVIGATION ─────────────────────────────────────────────────── */}
       <nav
         style={{
@@ -1228,6 +1239,7 @@ return (
         </Reveal>
 
         <div
+          className="i03-grid-3"
           style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(3, 1fr)',
@@ -1747,6 +1759,7 @@ return (
 
         {/* Stats row */}
         <div
+          className="i03-grid-3"
           style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(3, 1fr)',
@@ -1805,6 +1818,7 @@ return (
         {/* Timeline / process */}
         <Reveal style={{ marginTop: 96 }}>
           <div
+            className="i03-timeline"
             style={{
               display: 'grid',
               gridTemplateColumns: 'repeat(4, 1fr)',
@@ -1814,6 +1828,7 @@ return (
           >
             {/* Connecting line */}
             <div
+              className="i03-timeline-line"
               style={{
                 position: 'absolute',
                 top: 20,
@@ -1897,6 +1912,7 @@ return (
           </Reveal>
 
           <div
+            className="i03-grid-4"
             style={{
               display: 'grid',
               gridTemplateColumns: 'repeat(4, 1fr)',

@@ -169,7 +169,7 @@ return () => window.removeEventListener("scroll", h)
       {/* Navbar */}
       <motion.nav style={{
         position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, height: 72,
-        display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 64px",
+        display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 clamp(20px, 5vw, 64px)",
         background: scrolled ? "rgba(247,243,239,0.96)" : "transparent",
         backdropFilter: scrolled ? "blur(12px)" : "none",
         borderBottom: scrolled ? `1px solid ${C.border}` : "none",
@@ -215,7 +215,7 @@ return () => window.removeEventListener("scroll", h)
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(20,12,8,0.90) 0%, rgba(20,12,8,0.42) 45%, rgba(20,12,8,0.08) 100%)" }} />
         <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to right, ${C.accent}18 0%, transparent 55%)` }} />
 
-        <motion.div style={{ position: "relative", zIndex: 1, padding: "0 80px 90px", maxWidth: 820, y: heroTextY, opacity: heroOpacity }}>
+        <motion.div style={{ position: "relative", zIndex: 1, padding: "0 clamp(24px, 6vw, 80px) 90px", maxWidth: 820, y: heroTextY, opacity: heroOpacity }}>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
             style={{ display: "inline-flex", alignItems: "center", gap: 10, marginBottom: 28 }}>
             <div style={{ width: 32, height: 1, background: C.accent }} />
@@ -252,7 +252,7 @@ return () => window.removeEventListener("scroll", h)
 
       {/* Stats */}
       <section id="realisations" style={{ background: C.text, padding: "0 80px", fontFamily: FONT_SANS }}>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", maxWidth: 1100, margin: "0 auto" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", maxWidth: 1100, margin: "0 auto" }}>
           {STATS.map((s, i) => (
             <Reveal key={s.label} delay={i * 0.08}>
               <div style={{ padding: "36px 0", textAlign: "center", borderRight: i < 3 ? "1px solid rgba(255,255,255,0.08)" : "none" }}>

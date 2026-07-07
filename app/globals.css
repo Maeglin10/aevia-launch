@@ -145,3 +145,10 @@
     @apply font-sans;
   }
 }
+/* Safety net: a single overflowing element (long brand name, rigid grid…)
+   must never give the whole site a horizontal scroll on mobile. */
+html,
+body {
+  overflow-x: hidden;
+  max-width: 100vw;
+}

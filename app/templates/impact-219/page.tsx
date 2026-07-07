@@ -12,6 +12,8 @@ import {
   Globe,
   Check,
   ChevronDown,
+  Menu,
+  X,
   ArrowRight,
   Star,
   Sparkles,
@@ -150,7 +152,7 @@ function Nav() {
             onClick={() => setOpen((v) => !v)}
             style={{ display: 'none', background: 'none', border: 'none', cursor: 'pointer', color: C.ink }}
           >
-            <ChevronDown size={22} />
+            {open ? <X size={22} /> : <Menu size={22} />}
           </button>
         </div>
       </div>

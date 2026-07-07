@@ -61,7 +61,9 @@ export function ThemeWrapper({
       {/* Navigation */}
       <nav className={`fixed top-0 left-0 w-full z-[100] transition-all duration-300 backdrop-blur-xl border-b ${dark ? 'bg-black/80' : 'bg-white/80'}`} style={{ borderColor }}>
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-          <div className="text-xl font-bold tracking-tight shrink-0">
+          {/* max-w + truncate: a long business name must never push the nav
+              past the viewport on mobile (shared by all 27 themes). */}
+          <div className="text-base sm:text-xl font-bold tracking-tight shrink-0 max-w-[45vw] truncate">
             {formData.logoBase64 ? (
               <img src={formData.logoBase64} alt={formData.businessName} className="h-8 object-contain" />
             ) : (
