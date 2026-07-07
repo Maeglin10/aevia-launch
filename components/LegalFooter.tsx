@@ -7,7 +7,7 @@ interface LegalFooterProps {
 export function LegalFooter({ variant = "dark" }: LegalFooterProps) {
   const isDark = variant === "dark";
   const wrapperCls = isDark
-    ? "border-t border-white/5 bg-[#080808] text-white/40"
+    ? "border-t border-white/5 bg-[#080808] text-white/70"
     : "border-t border-zinc-200 bg-white text-zinc-500";
   const linkCls = isDark
     ? "hover:text-white/80 transition-colors"
@@ -22,9 +22,9 @@ export function LegalFooter({ variant = "dark" }: LegalFooterProps) {
           <div>
             <p className="text-sm font-semibold mb-1">
               <span className={isDark ? "text-white" : "text-zinc-900"}>Aevia Launch</span>
-              <span className="text-xs ml-2 opacity-60">par Aevia</span>
+              <span className="text-xs ml-2">par Aevia</span>
             </p>
-            <p className="text-xs opacity-70">
+            <p className="text-xs">
               © {year} Aevia. Tous droits réservés.
             </p>
           </div>
@@ -52,7 +52,7 @@ export function LegalFooter({ variant = "dark" }: LegalFooterProps) {
         </div>
 
         <div className="mt-6 pt-6 border-t border-white/5">
-          <p className="text-xs opacity-70 mb-2">
+          <p className="text-xs mb-2">
             Découvrez l&apos;écosystème Aevia :
           </p>
           <nav className="flex flex-wrap items-center gap-x-5 gap-y-2 text-xs">
@@ -68,7 +68,7 @@ export function LegalFooter({ variant = "dark" }: LegalFooterProps) {
           </nav>
         </div>
 
-        <p className="text-[10px] opacity-50 mt-6 leading-relaxed">
+        <p className="text-[10px] mt-6 leading-relaxed">
           Paiement sécurisé par Stripe. Livraison de l&apos;aperçu sous 2 heures.
           Site web livré en 2 à 4 heures après validation du brief.
           Maintenance optionnelle facturée mensuellement, résiliable à tout moment.

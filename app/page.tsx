@@ -521,7 +521,7 @@ function NicheCard({ niche, index }: { niche: typeof NICHES[0]; index: number })
         <div className="p-4 flex-1 flex flex-col justify-between">
           <div>
             <div className="font-bold text-white text-sm mb-1 group-hover:text-white transition-colors">{niche.label[lk]}</div>
-            <div className="text-[11px] text-zinc-500 leading-relaxed">{niche.desc[lk]}</div>
+            <div className="text-[11px] text-zinc-400 leading-relaxed">{niche.desc[lk]}</div>
           </div>
         </div>
       </Link>
@@ -548,7 +548,7 @@ function MergedDiscoverySection() {
         >
           <div>
             <h2 className="text-3xl sm:text-4xl font-black text-white mb-2" style={{ letterSpacing: "-0.02em" }}>{nt.title}</h2>
-            <p className="text-zinc-500 text-sm sm:text-base max-w-xl">{nt.sub}</p>
+            <p className="text-zinc-400 text-sm sm:text-base max-w-xl">{nt.sub}</p>
           </div>
           <div className="flex gap-6 shrink-0">
             {[
@@ -578,7 +578,7 @@ function MergedDiscoverySection() {
           transition={{ duration: 0.5, delay: 0.2 }}
           className="mb-6"
         >
-          <p className="text-xs font-bold text-zinc-500 uppercase tracking-widest mb-5">{ht.choose}</p>
+          <p className="text-xs font-bold text-zinc-400 uppercase tracking-widest mb-5">{ht.choose}</p>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
             {TYPE_CATS.map((cat, i) => (
               <TypeCard key={cat.cat} cat={cat} index={i} />
@@ -594,7 +594,7 @@ function MergedDiscoverySection() {
           className="mb-12"
         >
           <div className="flex items-center justify-between mb-4">
-            <p className="text-xs font-bold text-zinc-500 uppercase tracking-widest">{ht.spotlight}</p>
+            <p className="text-xs font-bold text-zinc-400 uppercase tracking-widest">{ht.spotlight}</p>
             <Link href="/themes" className="text-xs text-violet-400 hover:text-violet-300 transition-colors">
               {ht.seeAll}
             </Link>
@@ -693,7 +693,7 @@ function TypeCard({ cat, index }: { cat: typeof TYPE_CATS[0]; index: number }) {
         <div className="p-4 flex-1 flex items-start justify-between gap-3">
           <div>
             <div className="font-bold text-white text-sm mb-0.5 group-hover:text-white transition-colors">{label}</div>
-            <div className="text-xs text-zinc-500 leading-relaxed">{desc}</div>
+            <div className="text-xs text-zinc-400 leading-relaxed">{desc}</div>
           </div>
           <div
             className="w-7 h-7 rounded-full flex items-center justify-center shrink-0 mt-0.5 opacity-0 group-hover:opacity-100 transition-all duration-300 -translate-x-2 group-hover:translate-x-0"
@@ -740,7 +740,7 @@ function SpotlightCard({ template, index }: { template: typeof TEMPLATES_REGISTR
           </div>
           <div className="p-4 flex-1 flex flex-col justify-between">
             <div>
-              <div className="text-xs text-zinc-500 uppercase tracking-widest mb-1">{template.category}</div>
+              <div className="text-xs text-zinc-400 uppercase tracking-widest mb-1">{template.category}</div>
               <div className="text-sm font-bold text-white">{template.name}</div>
             </div>
           </div>
@@ -754,7 +754,7 @@ function SpotlightCard({ template, index }: { template: typeof TEMPLATES_REGISTR
 function IntegrationBadges() {
   return (
     <div className="flex items-center gap-4 mt-8 flex-wrap">
-      <span className="text-zinc-500 text-xs font-semibold tracking-wider uppercase">Intégration Native :</span>
+      <span className="text-zinc-400 text-xs font-semibold tracking-wider uppercase">Intégration Native :</span>
       <div className="flex gap-3">
         {/* GSC Badge */}
         <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-zinc-900 border border-zinc-800 text-zinc-300 text-xs font-medium hover:border-zinc-700 transition-colors">
@@ -894,7 +894,7 @@ function HeroSection() {
                   <div className="w-3 h-3 rounded-full bg-amber-400/70" />
                   <div className="w-3 h-3 rounded-full bg-emerald-400/70" />
                 </div>
-                <div className="flex-1 mx-3 bg-zinc-700/50 rounded-md px-3 py-1 text-[10px] font-mono text-zinc-500 truncate">
+                <div className="flex-1 mx-3 bg-zinc-700/50 rounded-md px-3 py-1 text-[10px] font-mono text-zinc-400 truncate">
                   launch.aevia.services
                 </div>
               </div>
@@ -1048,7 +1048,7 @@ function FaqSection() {
             >
               <summary className="font-medium text-white cursor-pointer list-none flex items-center justify-between gap-4">
                 <span>{item.q[lang]}</span>
-                <span className="text-zinc-500 group-open:rotate-180 transition-transform shrink-0 text-lg leading-none">▾</span>
+                <span className="text-zinc-400 group-open:rotate-180 transition-transform shrink-0 text-lg leading-none">▾</span>
               </summary>
               <p className="text-zinc-400 text-sm mt-3 leading-relaxed">{item.a[lang]}</p>
             </motion.details>
@@ -1098,7 +1098,7 @@ function TestimonialsSection() {
                 </div>
                 <div>
                   <div className="text-sm font-semibold text-white">{item.name}</div>
-                  <div className="text-xs text-zinc-500">{item.role[lang]}</div>
+                  <div className="text-xs text-zinc-400">{item.role[lang]}</div>
                 </div>
               </div>
             </motion.div>
