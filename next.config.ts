@@ -60,6 +60,29 @@ const nextConfig: NextConfig = {
           },
         ],
       },
+      {
+        // Template pages are embedded same-origin in an <iframe> by /preview/[sessionId] —
+        // the blanket 'none' above blocks that, so allow same-origin framing here only.
+        source: "/templates/:path*",
+        headers: [
+          { key: "X-Frame-Options", value: "SAMEORIGIN" },
+          {
+            key: "Content-Security-Policy",
+            value: [
+              "default-src 'self'",
+              scriptSrc,
+              "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+              "font-src 'self' https://fonts.gstatic.com",
+              "img-src 'self' data: blob: https://images.unsplash.com https://picsum.photos https://*.public.blob.vercel-storage.com https://www.google-analytics.com https://www.googletagmanager.com",
+              connectSrc,
+              "frame-src https://js.stripe.com",
+              "frame-ancestors 'self'",
+              "base-uri 'self'",
+              "form-action 'self'",
+            ].join("; "),
+          },
+        ],
+      },
     ];
   },
 };
