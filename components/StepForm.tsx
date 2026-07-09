@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  ArrowRight, ArrowLeft, Loader2, Check, ExternalLink, Upload, X, Plus, Image as ImageIcon, CheckCircle2, Sparkles,
+  ArrowRight, ArrowLeft, Loader2, Check, ExternalLink, Upload, X, Plus, Image as ImageIcon,
 } from "lucide-react";
 import { useLang } from "@/lib/LangContext";
 import { INDUSTRIES, SECTORS, SECTOR_TEMPLATES, TEMPLATE_CITY_LABELS } from "@/lib/templates/sectors";
@@ -232,6 +232,25 @@ const initial: FormState = {
   logoUrl: "",
   photoUrls: [],
 };
+
+// Thumbnail for a theme row in step 2 — falls back to a color swatch if the
+// static screenshot (public/thumbnails/{id}.webp) is missing or fails to load.
+function ThemeThumb({ tid, fallbackColor }: { tid: string; fallbackColor: string }) {
+  const [failed, setFailed] = useState(false);
+  if (failed) {
+    return <div className="w-16 h-16 rounded-lg shrink-0 mt-0.5" style={{ background: fallbackColor }} />;
+  }
+  return (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      src={`/thumbnails/${tid}.webp`}
+      alt=""
+      loading="lazy"
+      className="w-16 h-16 rounded-lg shrink-0 mt-0.5 object-cover object-top border border-zinc-800"
+      onError={() => setFailed(true)}
+    />
+  );
+}
 
 export function StepForm() {
   const router = useRouter();
@@ -553,82 +572,6 @@ export function StepForm() {
           {/* STEP 2 — Template choice for selected sector */}
           {step === 2 && (
             <>
-              {/* Sector-based theme recommendations */}
-              {(() => {
-                const recommendedIds = SECTOR_TEMPLATES[form.sector];
-                if (!recommendedIds || recommendedIds.length === 0) return null;
-                
-                return (
-                  <div className="space-y-3 pb-5 border-b border-zinc-800 mb-5">
-                    <div className="flex items-center gap-2 text-violet-400 font-bold text-sm">
-                      <Sparkles className="w-4 h-4 text-violet-400 shrink-0" />
-                      <span>Thèmes recommandés pour votre secteur</span>
-                    </div>
-                    <div className="flex gap-3 overflow-x-auto pb-3 snap-x scrollbar-thin scrollbar-thumb-zinc-800 scrollbar-track-transparent">
-                      {recommendedIds.slice(0, 5).map((tid) => {
-                        const template = REGISTRY_BY_ID[tid] as typeof TEMPLATES_REGISTRY[0] | undefined;
-                        if (!template) return null;
-                        const cityLabel = TEMPLATE_CITY_LABELS[tid] ?? template.name;
-                        const isSelected = form.template === tid;
-                        
-                        let bgClass = "bg-zinc-900 text-white border border-zinc-800/80";
-                        let badgeClass = "bg-zinc-800 text-zinc-400 border border-zinc-700";
-                        if (template.style === "Light") {
-                          bgClass = "bg-white text-zinc-900 border border-zinc-200";
-                          badgeClass = "bg-zinc-100 text-zinc-600 border border-zinc-200";
-                        } else if (template.style === "Vibrant") {
-                          bgClass = "bg-gradient-to-br from-violet-900/90 to-indigo-950 text-white border border-violet-800/60";
-                          badgeClass = "bg-violet-950/40 text-violet-300 border border-violet-900/30";
-                        } else if (template.style === "Brutalist") {
-                          bgClass = "bg-yellow-50 text-black border-2 border-black rounded-none shadow-[2px_2px_0px_#000]";
-                          badgeClass = "bg-yellow-300 text-black border border-black font-bold uppercase";
-                        }
-
-                        return (
-                          <motion.button
-                            key={tid}
-                            type="button"
-                            onClick={() => set("template", tid)}
-                            whileHover={{ scale: 1.02 }}
-                            whileTap={{ scale: 0.98 }}
-                            className={`flex-shrink-0 w-[240px] text-left p-4 rounded-xl flex flex-col justify-between transition-all snap-start cursor-pointer relative ${bgClass} ${
-                              isSelected 
-                                ? template.style === "Brutalist"
-                                  ? "border-violet-600 ring-2 ring-violet-500"
-                                  : "border-violet-500 ring-2 ring-violet-500/30"
-                                : ""
-                            }`}
-                          >
-                            <div className="w-full">
-                              <div className="flex justify-between items-start gap-2 mb-2">
-                                <span className={`text-[9px] font-extrabold px-1.5 py-0.5 rounded uppercase tracking-wider ${badgeClass}`}>
-                                  {template.style}
-                                </span>
-                                {isSelected && (
-                                  <CheckCircle2 className="w-4 h-4 text-violet-500 shrink-0" />
-                                )}
-                              </div>
-                              <h4 className="font-bold text-sm leading-snug line-clamp-1">
-                                {cityLabel}
-                              </h4>
-                              <p className={`text-[11px] mt-1.5 line-clamp-2 leading-relaxed ${
-                                template.style === "Light" ? "text-zinc-500" : "text-zinc-400"
-                              }`}>
-                                {template.description}
-                              </p>
-                            </div>
-
-                            <div className="mt-4 pt-3 border-t border-current/10 w-full flex items-center justify-between text-xs font-semibold">
-                              <span>Choisir ce thème</span>
-                              <ArrowRight className="w-3.5 h-3.5" />
-                            </div>
-                          </motion.button>
-                        );
-                      })}
-                    </div>
-                  </div>
-                );
-              })()}
               <h2 className="text-xl font-bold text-white">{t.s2Title}</h2>
               <p className="text-zinc-400 text-base -mt-2">{t.s2Sub}</p>
               {errFor("template") && <p className="text-red-400 text-base">{errFor("template")}</p>}
@@ -654,10 +597,9 @@ export function StepForm() {
                           isSelected ? "border-violet-600 bg-violet-600/10" : "border-zinc-700 hover:border-zinc-500"
                         }`}
                       >
-                        {/* Color accent swatch */}
-                        <div
-                          className="w-12 h-12 rounded-lg shrink-0 mt-0.5"
-                          style={{ background: SECTORS.find((s) => s.id === form.sector)?.accentColor ?? "#333" }}
+                        <ThemeThumb
+                          tid={tid}
+                          fallbackColor={SECTORS.find((s) => s.id === form.sector)?.accentColor ?? "#333"}
                         />
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center justify-between gap-2">
