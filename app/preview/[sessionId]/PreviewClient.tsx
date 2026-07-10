@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { ArrowLeft, Copy, Check, Rocket, Loader2, Globe, ChevronDown, Pencil } from "lucide-react";
+import { ArrowLeft, Copy, Check, Rocket, Loader2, Globe, ChevronDown, Pencil, Sparkles, X } from "lucide-react";
 import GeneratedSite from "@/components/GeneratedSite";
 import { EditPanel } from "@/components/EditPanel";
 import type { SessionData, GeneratedContent, FormData } from "@/lib/sessions";
@@ -24,6 +24,12 @@ const T = {
     yourLink: "Votre lien d'aperçu :",
     mailSubject: "Commande de site — AeviaLaunch",
     mailBody: "Bonjour,\n\nJe suis intéressé(e) par le site que vous avez généré pour moi.\nLien d'aperçu : {{link}}\n\nMerci de me recontacter.",
+    connectGoogle: "Connecter Google", googleConnecting: "Connexion à Google…",
+    googleConnected: "Google Analytics et Search Console sont configurés automatiquement.",
+    googlePartial: "Partiellement connecté — un des deux services n'a pas pu être configuré automatiquement, réessayez ou remplissez le champ manuellement à l'étape 6 du configurateur.",
+    googleFailed: "La connexion Google a échoué, réessayez.",
+    googleNoGa4Account: "Aucun compte Google Analytics trouvé sur ce compte Google. Créez-en un sur analytics.google.com puis reconnectez-vous.",
+    googleError: "Une erreur est survenue pendant la connexion Google.",
   },
   en: {
     notFound: "Session not found.", startOver: "Start over →", edit: "Edit",
@@ -35,6 +41,12 @@ const T = {
     yourLink: "Your preview link:",
     mailSubject: "Site order — AeviaLaunch",
     mailBody: "Hello,\n\nI am interested in the site you generated for me.\nPreview link: {{link}}\n\nPlease get back to me.",
+    connectGoogle: "Connect Google", googleConnecting: "Connecting to Google…",
+    googleConnected: "Google Analytics and Search Console are set up automatically.",
+    googlePartial: "Partially connected — one of the two services couldn't be set up automatically, try again or fill it in manually in step 6 of the wizard.",
+    googleFailed: "Google connection failed, please try again.",
+    googleNoGa4Account: "No Google Analytics account found on this Google account. Create one at analytics.google.com then reconnect.",
+    googleError: "Something went wrong connecting to Google.",
   },
   es: {
     notFound: "Sesión no encontrada.", startOver: "Empezar de nuevo →", edit: "Editar",
@@ -46,6 +58,12 @@ const T = {
     yourLink: "Tu enlace de vista previa:",
     mailSubject: "Pedido de sitio — AeviaLaunch",
     mailBody: "Hola,\n\nEstoy interesado/a en el sitio que generaron para mí.\nEnlace de vista previa: {{link}}\n\nPor favor contáctenme.",
+    connectGoogle: "Conectar Google", googleConnecting: "Conectando con Google…",
+    googleConnected: "Google Analytics y Search Console están configurados automáticamente.",
+    googlePartial: "Parcialmente conectado — uno de los dos servicios no se pudo configurar automáticamente, inténtalo de nuevo o complétalo manualmente en el paso 6 del asistente.",
+    googleFailed: "La conexión con Google falló, inténtalo de nuevo.",
+    googleNoGa4Account: "No se encontró ninguna cuenta de Google Analytics en esta cuenta de Google. Crea una en analytics.google.com y vuelve a conectarte.",
+    googleError: "Ocurrió un error al conectar con Google.",
   },
   de: {
     notFound: "Sitzung nicht gefunden.", startOver: "Neu starten →", edit: "Bearbeiten",
@@ -57,6 +75,12 @@ const T = {
     yourLink: "Ihr Vorschau-Link:",
     mailSubject: "Website-Bestellung — AeviaLaunch",
     mailBody: "Hallo,\n\nIch bin an der für mich generierten Website interessiert.\nVorschau-Link: {{link}}\n\nBitte melden Sie sich bei mir.",
+    connectGoogle: "Google verbinden", googleConnecting: "Verbindung zu Google…",
+    googleConnected: "Google Analytics und Search Console sind automatisch eingerichtet.",
+    googlePartial: "Teilweise verbunden — einer der beiden Dienste konnte nicht automatisch eingerichtet werden, versuchen Sie es erneut oder tragen Sie es manuell in Schritt 6 des Assistenten ein.",
+    googleFailed: "Die Google-Verbindung ist fehlgeschlagen, bitte erneut versuchen.",
+    googleNoGa4Account: "Kein Google-Analytics-Konto für dieses Google-Konto gefunden. Erstellen Sie eines auf analytics.google.com und verbinden Sie sich erneut.",
+    googleError: "Beim Verbinden mit Google ist ein Fehler aufgetreten.",
   },
   pt: {
     notFound: "Sessão não encontrada.", startOver: "Recomeçar →", edit: "Editar",
@@ -68,6 +92,12 @@ const T = {
     yourLink: "O seu link de pré-visualização:",
     mailSubject: "Pedido de site — AeviaLaunch",
     mailBody: "Olá,\n\nEstou interessado/a no site que geraram para mim.\nLink de pré-visualização: {{link}}\n\nPor favor contactem-me.",
+    connectGoogle: "Ligar ao Google", googleConnecting: "A ligar ao Google…",
+    googleConnected: "O Google Analytics e a Search Console estão configurados automaticamente.",
+    googlePartial: "Ligação parcial — um dos dois serviços não pôde ser configurado automaticamente, tente novamente ou preencha manualmente no passo 6 do assistente.",
+    googleFailed: "A ligação ao Google falhou, tente novamente.",
+    googleNoGa4Account: "Nenhuma conta do Google Analytics encontrada nesta conta Google. Crie uma em analytics.google.com e ligue-se novamente.",
+    googleError: "Ocorreu um erro ao ligar ao Google.",
   },
 };
 
@@ -113,6 +143,8 @@ export default function PreviewClient({ sessionId }: { sessionId: string }) {
   const [isEditing, setIsEditing] = useState(false);
   const [editedSession, setEditedSession] = useState<SessionData | null>(null);
   const [iframeKey, setIframeKey] = useState(0);
+  const [googleStatus, setGoogleStatus] = useState<"connected" | "partial" | "failed" | "error" | null>(null);
+  const [googleNoAccount, setGoogleNoAccount] = useState(false);
 
   useEffect(() => {
     fetch(`/api/sessions?id=${sessionId}`)
@@ -120,6 +152,22 @@ export default function PreviewClient({ sessionId }: { sessionId: string }) {
       .then((data) => { setSession(data); setLoading(false); })
       .catch(() => setLoading(false));
   }, [sessionId]);
+
+  // Read the ?google=connected|partial|failed|error result left by the OAuth
+  // callback redirect, then strip it from the URL so a refresh doesn't
+  // re-show the banner.
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const status = params.get("google");
+    if (status === "connected" || status === "partial" || status === "failed" || status === "error") {
+      setGoogleStatus(status);
+      setGoogleNoAccount(params.get("ga4_reason") === "no_account");
+      params.delete("google");
+      params.delete("ga4_reason");
+      const qs = params.toString();
+      window.history.replaceState(null, "", qs ? `${window.location.pathname}?${qs}` : window.location.pathname);
+    }
+  }, []);
 
   const handleCopy = () => {
     navigator.clipboard.writeText(window.location.href);
@@ -206,6 +254,16 @@ export default function PreviewClient({ sessionId }: { sessionId: string }) {
             {t.editContent}
           </button>
 
+          {!(liveSession?.formData.ga4Id && liveSession?.formData.gscVerification) && (
+            <a
+              href={`/api/google/connect?session=${sessionId}`}
+              className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-zinc-700 text-zinc-300 hover:text-white text-sm transition-colors"
+            >
+              <Sparkles className="w-3.5 h-3.5" />
+              {t.connectGoogle}
+            </a>
+          )}
+
           <button
             onClick={handleCopy}
             className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-zinc-700 text-zinc-300 hover:text-white text-sm transition-colors"
@@ -224,8 +282,34 @@ export default function PreviewClient({ sessionId }: { sessionId: string }) {
         </div>
       </div>
 
+      {/* Google connect result banner */}
+      {googleStatus && (
+        <div className="pt-14">
+          <div
+            className={`mx-6 mt-3 flex items-start gap-3 rounded-xl border px-4 py-3 text-sm ${
+              googleStatus === "connected"
+                ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-300"
+                : googleStatus === "partial"
+                  ? "border-amber-500/30 bg-amber-500/10 text-amber-300"
+                  : "border-red-500/30 bg-red-500/10 text-red-300"
+            }`}
+          >
+            <Sparkles className="w-4 h-4 shrink-0 mt-0.5" />
+            <span className="flex-1">
+              {googleStatus === "connected" && t.googleConnected}
+              {googleStatus === "partial" && (googleNoAccount ? t.googleNoGa4Account : t.googlePartial)}
+              {googleStatus === "failed" && t.googleFailed}
+              {googleStatus === "error" && t.googleError}
+            </span>
+            <button onClick={() => setGoogleStatus(null)} aria-label="Fermer" className="shrink-0 opacity-70 hover:opacity-100">
+              <X className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* Preview frame */}
-      <div className={`pt-14 transition-all duration-300 ${isEditing ? "mr-80" : ""}`}>
+      <div className={`${googleStatus ? "" : "pt-14"} transition-all duration-300 ${isEditing ? "mr-80" : ""}`}>
         <div className="bg-zinc-900 border-b border-zinc-800 px-6 py-2 flex items-center gap-3">
           <div className="flex gap-1.5">
             <div className="w-3 h-3 rounded-full bg-red-500/60" />
