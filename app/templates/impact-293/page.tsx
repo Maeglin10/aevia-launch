@@ -73,8 +73,18 @@ const Instagram = ({ size = 24, ...props }: React.ComponentProps<'svg'> & { size
    Fichier auto-suffisant premium généré par Antigravity.
    ════════════════════════════════════════════════════════════════════════════ */
 
-const C = {
-  primary: brand ?? '#c0392b',
+function shadeColor(hex: string, percent: number): string {
+  const num = parseInt(hex.replace('#', ''), 16);
+  if (isNaN(num)) return hex;
+  const amt = Math.round(2.55 * percent);
+  const r = Math.max(0, Math.min(255, (num >> 16) + amt));
+  const g = Math.max(0, Math.min(255, ((num >> 8) & 0x00ff) + amt));
+  const b = Math.max(0, Math.min(255, (num & 0x0000ff) + amt));
+  return `#${(0x1000000 + r * 0x10000 + g * 0x100 + b).toString(16).slice(1)}`;
+}
+
+let C: Record<string, string> = {
+  primary: "#c0392b",
   primaryLight: "#e05c4a",
   primaryDark: "#922b21",
   bg: "#faf7f0",
@@ -85,7 +95,7 @@ const C = {
   accent: "#2d6a2d",
   white: "#ffffff",
   black: "#000000",
-} as const;
+};
 
 const SERIF = "'Cormorant Garamond', serif" as const;
 const SANS = "'Nunito', sans-serif" as const;
@@ -242,6 +252,9 @@ export default function Page() {
   fd = session?.formData;
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
+  if (brand) {
+    C = { ...C, primary: brand, primaryLight: shadeColor(brand, 25), primaryDark: shadeColor(brand, -20) };
+  }
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeCategory, setActiveCategory] = useState("Tous");
@@ -258,9 +271,17 @@ export default function Page() {
   const heroY = useTransform(heroProgress, [0, 1], ['0%', '8%']);
   const heroOpacity = useTransform(heroProgress, [0, 0.8], [1, 0]);
 
+  // Real menu from the client's wizard input (c.menuItems) takes priority;
+  // falls back to the template's demo dishes only when none was provided.
+  const menuItemsAll: { name: string; category: string; desc: string; price: string }[] = (c?.menuItems && c.menuItems.length > 0)
+    ? c.menuItems.map((item: { name: string; category?: string; description?: string; price: string }) => ({
+        name: item.name, category: item.category || "Menu",
+        desc: item.description || "", price: item.price,
+      }))
+    : [{"name": "Margherita", "category": "Pizzas", "desc": "Tomates San Marzano, mozzarella di bufala, basilic frais, huile d'olive.", "price": "11,00 €"}, {"name": "Diavola", "category": "Pizzas", "desc": "Tomates San Marzano, mozzarella, salame piccante, basilic.", "price": "13,50 €"}, {"name": "Parma", "category": "Pizzas", "desc": "Tomates San Marzano, mozzarella, jambon de Parme 24 mois, roquette.", "price": "15,00 €"}, {"name": "Focaccia", "category": "Entrées", "desc": "Pain de pizza, romarin, fleur de sel, huile d'olive.", "price": "5,00 €"}, {"name": "Tiramisu Classic", "category": "Desserts", "desc": "Tiramisu maison au café et mascarpone.", "price": "6,00 €"}];
   const menuItemsFiltered = activeCategory === "Tous"
-    ? [{"name": "Margherita", "category": "Pizzas", "desc": "Tomates San Marzano, mozzarella di bufala, basilic frais, huile d'olive.", "price": "11,00 €"}, {"name": "Diavola", "category": "Pizzas", "desc": "Tomates San Marzano, mozzarella, salame piccante, basilic.", "price": "13,50 €"}, {"name": "Parma", "category": "Pizzas", "desc": "Tomates San Marzano, mozzarella, jambon de Parme 24 mois, roquette.", "price": "15,00 €"}, {"name": "Focaccia", "category": "Entrées", "desc": "Pain de pizza, romarin, fleur de sel, huile d'olive.", "price": "5,00 €"}, {"name": "Tiramisu Classic", "category": "Desserts", "desc": "Tiramisu maison au café et mascarpone.", "price": "6,00 €"}]
-    : [{"name": "Margherita", "category": "Pizzas", "desc": "Tomates San Marzano, mozzarella di bufala, basilic frais, huile d'olive.", "price": "11,00 €"}, {"name": "Diavola", "category": "Pizzas", "desc": "Tomates San Marzano, mozzarella, salame piccante, basilic.", "price": "13,50 €"}, {"name": "Parma", "category": "Pizzas", "desc": "Tomates San Marzano, mozzarella, jambon de Parme 24 mois, roquette.", "price": "15,00 €"}, {"name": "Focaccia", "category": "Entrées", "desc": "Pain de pizza, romarin, fleur de sel, huile d'olive.", "price": "5,00 €"}, {"name": "Tiramisu Classic", "category": "Desserts", "desc": "Tiramisu maison au café et mascarpone.", "price": "6,00 €"}].filter(item => item.category === activeCategory);
+    ? menuItemsAll
+    : menuItemsAll.filter(item => item.category === activeCategory);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -799,7 +820,10 @@ return (
                 maxWidth: 550,
                 margin: '0 auto'
               }}>
-                {["Tous","Classiques","Premium","Boissons"].map((tab, i) => (
+                {(c?.menuItems && c.menuItems.length > 0
+                  ? ["Tous", ...Array.from(new Set(menuItemsAll.map((i) => i.category)))]
+                  : ["Tous","Classiques","Premium","Boissons"]
+                ).map((tab: string, i: number) => (
                   <button
                     key={i}
                     onClick={() => setActiveCategory(tab)}

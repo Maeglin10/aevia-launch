@@ -270,9 +270,17 @@ export default function Page() {
   const heroY = useTransform(heroProgress, [0, 1], ['0%', '8%']);
   const heroOpacity = useTransform(heroProgress, [0, 0.8], [1, 0]);
 
+  // Real menu from the client's wizard input (c.menuItems) takes priority;
+  // falls back to the template's demo dishes only when none was provided.
+  const menuItemsAll: { name: string; category: string; desc: string; price: string }[] = (c?.menuItems && c.menuItems.length > 0)
+    ? c.menuItems.map((item: { name: string; category?: string; description?: string; price: string }) => ({
+        name: item.name, category: item.category || "Menu",
+        desc: item.description || "", price: item.price,
+      }))
+    : [{"name": "Tacos Barbacoa", "category": "Tacos", "desc": "Bœuf effiloché mariné, coriandre, oignons, salsa verde sur tortilla de maïs.", "price": "9,50 €"}, {"name": "Burrito Tinga Pollo", "category": "Burritos", "desc": "Grande tortilla de blé, poulet effiloché pimenté, haricots noirs, riz, avocat.", "price": "11,50 €"}, {"name": "Nachos Con Queso", "category": "Accompagnements", "desc": "Nachos croustillants, guacamole maison, fromage fondu, piments jalapeños.", "price": "6,50 €"}, {"name": "Churros Maison", "category": "Accompagnements", "desc": "Churros croustillants saupoudrés de sucre et cannelle, sauce chocolat.", "price": "4,50 €"}];
   const menuItemsFiltered = activeCategory === "Tous"
-    ? [{"name": "Tacos Barbacoa", "category": "Tacos", "desc": "Bœuf effiloché mariné, coriandre, oignons, salsa verde sur tortilla de maïs.", "price": "9,50 €"}, {"name": "Burrito Tinga Pollo", "category": "Burritos", "desc": "Grande tortilla de blé, poulet effiloché pimenté, haricots noirs, riz, avocat.", "price": "11,50 €"}, {"name": "Nachos Con Queso", "category": "Accompagnements", "desc": "Nachos croustillants, guacamole maison, fromage fondu, piments jalapeños.", "price": "6,50 €"}, {"name": "Churros Maison", "category": "Accompagnements", "desc": "Churros croustillants saupoudrés de sucre et cannelle, sauce chocolat.", "price": "4,50 €"}]
-    : [{"name": "Tacos Barbacoa", "category": "Tacos", "desc": "Bœuf effiloché mariné, coriandre, oignons, salsa verde sur tortilla de maïs.", "price": "9,50 €"}, {"name": "Burrito Tinga Pollo", "category": "Burritos", "desc": "Grande tortilla de blé, poulet effiloché pimenté, haricots noirs, riz, avocat.", "price": "11,50 €"}, {"name": "Nachos Con Queso", "category": "Accompagnements", "desc": "Nachos croustillants, guacamole maison, fromage fondu, piments jalapeños.", "price": "6,50 €"}, {"name": "Churros Maison", "category": "Accompagnements", "desc": "Churros croustillants saupoudrés de sucre et cannelle, sauce chocolat.", "price": "4,50 €"}].filter(item => item.category === activeCategory);
+    ? menuItemsAll
+    : menuItemsAll.filter(item => item.category === activeCategory);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -811,7 +819,10 @@ return (
                 maxWidth: 550,
                 margin: '0 auto'
               }}>
-                {["Tous","Tacos","Burritos","Sides"].map((tab, i) => (
+                {(c?.menuItems && c.menuItems.length > 0
+                  ? ["Tous", ...Array.from(new Set(menuItemsAll.map((i) => i.category)))]
+                  : ["Tous","Tacos","Burritos","Sides"]
+                ).map((tab: string, i: number) => (
                   <button
                     key={i}
                     onClick={() => setActiveCategory(tab)}

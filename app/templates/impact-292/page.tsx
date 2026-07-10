@@ -270,9 +270,17 @@ export default function Page() {
   const heroY = useTransform(heroProgress, [0, 1], ['0%', '8%']);
   const heroOpacity = useTransform(heroProgress, [0, 0.8], [1, 0]);
 
+  // Real menu from the client's wizard input (c.menuItems) takes priority;
+  // falls back to the template's demo dishes only when none was provided.
+  const menuItemsAll: { name: string; category: string; desc: string; price: string }[] = (c?.menuItems && c.menuItems.length > 0)
+    ? c.menuItems.map((item: { name: string; category?: string; description?: string; price: string }) => ({
+        name: item.name, category: item.category || "Menu",
+        desc: item.description || "", price: item.price,
+      }))
+    : [{"name": "Classique Burger", "category": "Burgers", "desc": "Pain brioché, steak Aubrac 150g, cheddar affiné, cornichons, sauce maison.", "price": "12,00 €"}, {"name": "L'Ardent", "category": "Burgers", "desc": "Pain brioché, steak Aubrac 150g, piment d'Espelette, bacon grillé, oignons confits.", "price": "13,50 €"}, {"name": "Le Savoyard", "category": "Burgers", "desc": "Pain brioché, steak Aubrac 150g, reblochon fermier, oignons caramélisés.", "price": "14,00 €"}, {"name": "Frites Maison", "category": "Accompagnements", "desc": "Frites fraîches maison double cuisson, sel de Guérande.", "price": "4,00 €"}, {"name": "Cookie Chocolat", "category": "Desserts", "desc": "Cookie généreux aux pépites de chocolat noir et fleur de sel.", "price": "3,50 €"}];
   const menuItemsFiltered = activeCategory === "Tous"
-    ? [{"name": "Classique Burger", "category": "Burgers", "desc": "Pain brioché, steak Aubrac 150g, cheddar affiné, cornichons, sauce maison.", "price": "12,00 €"}, {"name": "L'Ardent", "category": "Burgers", "desc": "Pain brioché, steak Aubrac 150g, piment d'Espelette, bacon grillé, oignons confits.", "price": "13,50 €"}, {"name": "Le Savoyard", "category": "Burgers", "desc": "Pain brioché, steak Aubrac 150g, reblochon fermier, oignons caramélisés.", "price": "14,00 €"}, {"name": "Frites Maison", "category": "Accompagnements", "desc": "Frites fraîches maison double cuisson, sel de Guérande.", "price": "4,00 €"}, {"name": "Cookie Chocolat", "category": "Desserts", "desc": "Cookie généreux aux pépites de chocolat noir et fleur de sel.", "price": "3,50 €"}]
-    : [{"name": "Classique Burger", "category": "Burgers", "desc": "Pain brioché, steak Aubrac 150g, cheddar affiné, cornichons, sauce maison.", "price": "12,00 €"}, {"name": "L'Ardent", "category": "Burgers", "desc": "Pain brioché, steak Aubrac 150g, piment d'Espelette, bacon grillé, oignons confits.", "price": "13,50 €"}, {"name": "Le Savoyard", "category": "Burgers", "desc": "Pain brioché, steak Aubrac 150g, reblochon fermier, oignons caramélisés.", "price": "14,00 €"}, {"name": "Frites Maison", "category": "Accompagnements", "desc": "Frites fraîches maison double cuisson, sel de Guérande.", "price": "4,00 €"}, {"name": "Cookie Chocolat", "category": "Desserts", "desc": "Cookie généreux aux pépites de chocolat noir et fleur de sel.", "price": "3,50 €"}].filter(item => item.category === activeCategory);
+    ? menuItemsAll
+    : menuItemsAll.filter(item => item.category === activeCategory);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -811,7 +819,10 @@ return (
                 maxWidth: 550,
                 margin: '0 auto'
               }}>
-                {["Tous","Burgers","Accompagnements","Desserts"].map((tab, i) => (
+                {(c?.menuItems && c.menuItems.length > 0
+                  ? ["Tous", ...Array.from(new Set(menuItemsAll.map((i) => i.category)))]
+                  : ["Tous","Burgers","Accompagnements","Desserts"]
+                ).map((tab: string, i: number) => (
                   <button
                     key={i}
                     onClick={() => setActiveCategory(tab)}

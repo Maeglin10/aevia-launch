@@ -188,6 +188,7 @@ function buildPrompt(formData: FormData): string {
   const sectorLines = sectorExtras && Object.keys(sectorExtras).length > 0
     ? Object.entries(sectorExtras).map(([k, v]) => `- ${k}: ${v}`).join("\n")
     : "";
+  const rawMenu = sectorExtras?.menuItems?.trim();
 
   return `Tu es un copywriter web expert. Génère le contenu d'un site pour ce business en français professionnel et percutant.
 - Nom: ${formData.businessName}
@@ -203,6 +204,11 @@ function buildPrompt(formData: FormData): string {
 ${sectorLines ? `- Infos secteur:\n${sectorLines}` : ""}
 
 IMPORTANT: Tout le contenu doit être 100% spécifique à ce business. Aucun contenu générique. Les services doivent refléter exactement le métier "${formData.businessType}". Les témoignages doivent être crédibles pour ce secteur.
+${rawMenu ? `
+Le client a fourni son VRAI menu ci-dessous. Extrais-en une liste structurée de plats — nom et prix EXACTEMENT comme fournis, ne modifie JAMAIS un prix, n'invente AUCUN plat qui n'y figure pas. Description courte optionnelle si le nom seul est ambigu, sinon laisse vide. Menu fourni :
+"""
+${rawMenu}
+"""` : ""}
 
 Réponds UNIQUEMENT avec un objet JSON valide (pas de \`\`\`json wrapper, pas d'explication) avec exactement ces clés:
 {
@@ -214,6 +220,7 @@ Réponds UNIQUEMENT avec un objet JSON valide (pas de \`\`\`json wrapper, pas d'
   "testimonials": [{"name":"prénom + initiale","role":"contexte court","text":"avis 25-40 mots","rating":5},{"name":"...","role":"...","text":"...","rating":5},{"name":"...","role":"...","text":"...","rating":5}],
   "ctaText": "appel à action 4-7 mots",
   "metaTitle": "titre SEO 50-60 chars axé sur le SEO local avec la ville",
-  "metaDescription": "méta description SEO 140-160 chars axée sur la qualité des prestations, le SEO local et la connexion Google Search Console & Analytics native"
+  "metaDescription": "méta description SEO 140-160 chars axée sur la qualité des prestations, le SEO local et la connexion Google Search Console & Analytics native"${rawMenu ? `,
+  "menuItems": [{"name":"nom exact du plat","price":"prix exact tel que fourni","description":"courte description ou vide","category":"catégorie si déductible sinon vide"}]` : ""}
 }`;
 }

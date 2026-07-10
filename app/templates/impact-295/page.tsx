@@ -73,7 +73,17 @@ const Instagram = ({ size = 24, ...props }: React.ComponentProps<'svg'> & { size
    Fichier auto-suffisant premium généré par Antigravity.
    ════════════════════════════════════════════════════════════════════════════ */
 
-const C = {
+function shadeColor(hex: string, percent: number): string {
+  const num = parseInt(hex.replace('#', ''), 16);
+  if (isNaN(num)) return hex;
+  const amt = Math.round(2.55 * percent);
+  const r = Math.max(0, Math.min(255, (num >> 16) + amt));
+  const g = Math.max(0, Math.min(255, ((num >> 8) & 0x00ff) + amt));
+  const b = Math.max(0, Math.min(255, (num & 0x0000ff) + amt));
+  return `#${(0x1000000 + r * 0x10000 + g * 0x100 + b).toString(16).slice(1)}`;
+}
+
+let C: Record<string, string> = {
   primary: "#c0111f",
   primaryLight: "#e02030",
   primaryDark: "#8c0d17",
@@ -82,10 +92,10 @@ const C = {
   bgCard: "#242424",
   text: "#f8f5f0",
   textMuted: "#a09890",
-  accent: brand ?? '#d4a843',
+  accent: "#d4a843",
   white: "#ffffff",
   black: "#000000",
-} as const;
+};
 
 const SERIF = "'Noto Serif JP', serif" as const;
 const SANS = "'DM Sans', sans-serif" as const;
@@ -242,6 +252,9 @@ export default function Page() {
   fd = session?.formData;
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
+  if (brand) {
+    C = { ...C, accent: brand };
+  }
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeCategory, setActiveCategory] = useState("Tous");
@@ -258,9 +271,17 @@ export default function Page() {
   const heroY = useTransform(heroProgress, [0, 1], ['0%', '8%']);
   const heroOpacity = useTransform(heroProgress, [0, 0.8], [1, 0]);
 
+  // Real menu from the client's wizard input (c.menuItems) takes priority;
+  // falls back to the template's demo dishes only when none was provided.
+  const menuItemsAll: { name: string; category: string; desc: string; price: string }[] = (c?.menuItems && c.menuItems.length > 0)
+    ? c.menuItems.map((item: { name: string; category?: string; description?: string; price: string }) => ({
+        name: item.name, category: item.category || "Menu",
+        desc: item.description || "", price: item.price,
+      }))
+    : [{"name": "Pad Thai Poulet", "category": "Woks", "desc": "Nouilles de riz sautées au poulet, cacahuètes, œuf, germes de soja.", "price": "12,50 €"}, {"name": "Ramen Tonkotsu", "category": "Ramens", "desc": "Bouillon mijoté 8h, nouilles fraîches, porc chashu, œuf mollet.", "price": "14,50 €"}, {"name": "Maki Salmon Roll", "category": "Sushis", "desc": "8 pièces de maki saumon frais, avocat, cream cheese.", "price": "9,00 €"}, {"name": "Gyozas Légumes", "category": "Woks", "desc": "5 raviolis japonais grillés aux légumes de saison.", "price": "6,00 €"}];
   const menuItemsFiltered = activeCategory === "Tous"
-    ? [{"name": "Pad Thai Poulet", "category": "Woks", "desc": "Nouilles de riz sautées au poulet, cacahuètes, œuf, germes de soja.", "price": "12,50 €"}, {"name": "Ramen Tonkotsu", "category": "Ramens", "desc": "Bouillon mijoté 8h, nouilles fraîches, porc chashu, œuf mollet.", "price": "14,50 €"}, {"name": "Maki Salmon Roll", "category": "Sushis", "desc": "8 pièces de maki saumon frais, avocat, cream cheese.", "price": "9,00 €"}, {"name": "Gyozas Légumes", "category": "Woks", "desc": "5 raviolis japonais grillés aux légumes de saison.", "price": "6,00 €"}]
-    : [{"name": "Pad Thai Poulet", "category": "Woks", "desc": "Nouilles de riz sautées au poulet, cacahuètes, œuf, germes de soja.", "price": "12,50 €"}, {"name": "Ramen Tonkotsu", "category": "Ramens", "desc": "Bouillon mijoté 8h, nouilles fraîches, porc chashu, œuf mollet.", "price": "14,50 €"}, {"name": "Maki Salmon Roll", "category": "Sushis", "desc": "8 pièces de maki saumon frais, avocat, cream cheese.", "price": "9,00 €"}, {"name": "Gyozas Légumes", "category": "Woks", "desc": "5 raviolis japonais grillés aux légumes de saison.", "price": "6,00 €"}].filter(item => item.category === activeCategory);
+    ? menuItemsAll
+    : menuItemsAll.filter(item => item.category === activeCategory);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -795,7 +816,10 @@ return (
                 maxWidth: 550,
                 margin: '0 auto'
               }}>
-                {["Tous","Woks","Ramen","Sushis"].map((tab, i) => (
+                {(c?.menuItems && c.menuItems.length > 0
+                  ? ["Tous", ...Array.from(new Set(menuItemsAll.map((i) => i.category)))]
+                  : ["Tous","Woks","Ramen","Sushis"]
+                ).map((tab: string, i: number) => (
                   <button
                     key={i}
                     onClick={() => setActiveCategory(tab)}

@@ -270,9 +270,17 @@ export default function Page() {
   const heroY = useTransform(heroProgress, [0, 1], ['0%', '8%']);
   const heroOpacity = useTransform(heroProgress, [0, 0.8], [1, 0]);
 
+  // Real menu from the client's wizard input (c.menuItems) takes priority;
+  // falls back to the template's demo dishes only when none was provided.
+  const menuItemsAll: { name: string; category: string; desc: string; price: string }[] = (c?.menuItems && c.menuItems.length > 0)
+    ? c.menuItems.map((item: { name: string; category?: string; description?: string; price: string }) => ({
+        name: item.name, category: item.category || "Menu",
+        desc: item.description || "", price: item.price,
+      }))
+    : [{"name": "Assiette Kebab", "category": "Grillades", "desc": "Viande de kebab grillée sur broche tournante, taboulé, houmous, frites.", "price": "12,00 €"}, {"name": "Brochettes de Poulet", "category": "Grillades", "desc": "Brochettes de poulet marinées aux épices douces et cuites au grill.", "price": "11,50 €"}, {"name": "Assiette de Mezzes", "category": "Mezzes", "desc": "Houmous, moutabal, taboulé, falafels, pain pita.", "price": "10,00 €"}, {"name": "Baklava", "category": "Desserts", "desc": "Feuilleté aux pistaches et sirop de miel maison.", "price": "4,50 €"}];
   const menuItemsFiltered = activeCategory === "Tous"
-    ? [{"name": "Assiette Kebab", "category": "Grillades", "desc": "Viande de kebab grillée sur broche tournante, taboulé, houmous, frites.", "price": "12,00 €"}, {"name": "Brochettes de Poulet", "category": "Grillades", "desc": "Brochettes de poulet marinées aux épices douces et cuites au grill.", "price": "11,50 €"}, {"name": "Assiette de Mezzes", "category": "Mezzes", "desc": "Houmous, moutabal, taboulé, falafels, pain pita.", "price": "10,00 €"}, {"name": "Baklava", "category": "Desserts", "desc": "Feuilleté aux pistaches et sirop de miel maison.", "price": "4,50 €"}]
-    : [{"name": "Assiette Kebab", "category": "Grillades", "desc": "Viande de kebab grillée sur broche tournante, taboulé, houmous, frites.", "price": "12,00 €"}, {"name": "Brochettes de Poulet", "category": "Grillades", "desc": "Brochettes de poulet marinées aux épices douces et cuites au grill.", "price": "11,50 €"}, {"name": "Assiette de Mezzes", "category": "Mezzes", "desc": "Houmous, moutabal, taboulé, falafels, pain pita.", "price": "10,00 €"}, {"name": "Baklava", "category": "Desserts", "desc": "Feuilleté aux pistaches et sirop de miel maison.", "price": "4,50 €"}].filter(item => item.category === activeCategory);
+    ? menuItemsAll
+    : menuItemsAll.filter(item => item.category === activeCategory);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -809,7 +817,10 @@ return (
                 maxWidth: 550,
                 margin: '0 auto'
               }}>
-                {["Tous","Kebabs","Grillades","Mezzes"].map((tab, i) => (
+                {(c?.menuItems && c.menuItems.length > 0
+                  ? ["Tous", ...Array.from(new Set(menuItemsAll.map((i) => i.category)))]
+                  : ["Tous","Kebabs","Grillades","Mezzes"]
+                ).map((tab: string, i: number) => (
                   <button
                     key={i}
                     onClick={() => setActiveCategory(tab)}
