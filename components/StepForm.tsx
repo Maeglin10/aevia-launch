@@ -394,7 +394,7 @@ export function StepForm() {
         ...(form.ga4Id && { ga4Id: form.ga4Id }),
         ...(form.gscVerification && { gscVerification: form.gscVerification }),
         ...(Object.keys(form.sectorData).length > 0 && { sectorData: form.sectorData }),
-        ...(form.logoUrl && { logoUrl: form.logoUrl }),
+        ...(form.logoUrl && { logoUrl: form.logoUrl, logoBase64: form.logoUrl }),
         ...(form.photoUrls.length > 0 && { photoUrls: form.photoUrls }),
       };
 
