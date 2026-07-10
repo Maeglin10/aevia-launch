@@ -41,6 +41,9 @@ export interface GeneratedContent {
   ctaText: string;
   metaTitle: string;
   metaDescription: string;
+  // Only present for restaurant/fast-food sectors when the client pasted a
+  // real menu (sectorData.menuItems) — extracted verbatim, never invented.
+  menuItems?: { name: string; price: string; description?: string; category?: string }[];
 }
 
 export interface SessionData {

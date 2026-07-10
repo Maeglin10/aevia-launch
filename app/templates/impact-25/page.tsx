@@ -5,7 +5,19 @@ import React, {useRef, useState, useEffect} from 'react'
 import { motion, useScroll, useTransform, useInView } from "framer-motion"
 import { Code2, Phone, Mail, MapPin, Star, CheckCircle, ArrowRight, Layers, Sparkles, Globe } from "lucide-react"
 
-const C = {
+// Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
+// used to derive light/dark shades from the client's brand color.
+function shadeColor(hex: string, percent: number): string {
+  const num = parseInt(hex.replace('#', ''), 16);
+  if (isNaN(num)) return hex;
+  const amt = Math.round(2.55 * percent);
+  const r = Math.max(0, Math.min(255, (num >> 16) + amt));
+  const g = Math.max(0, Math.min(255, ((num >> 8) & 0x00ff) + amt));
+  const b = Math.max(0, Math.min(255, (num & 0x0000ff) + amt));
+  return `#${(0x1000000 + r * 0x10000 + g * 0x100 + b).toString(16).slice(1)}`;
+}
+
+let C: Record<string, string> = {
   bg: "#f8fafc",
   bgDark: "#0f172a",
   bgSection: "#f1f5f9",
@@ -19,8 +31,7 @@ const C = {
   border: "#e2e8f0",
   shadow: "0 2px 12px rgba(15,23,42,0.07)",
   shadowLg: "0 16px 48px rgba(99,102,241,0.18)",
-}
-const FONT = "'Space Grotesk', system-ui, sans-serif"
+};const FONT = "'Space Grotesk', system-ui, sans-serif"
 const FONT_BODY = "'Inter', system-ui, sans-serif"
 
 const STATS = [
@@ -102,6 +113,9 @@ export default function PixelRepublicPage() {
   fd = session?.formData;
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
+  if (brand) {
+    C = { ...C, accent: brand };
+  }
 
   const heroRef = useRef<HTMLElement>(null)
   const [scrolled, setScrolled] = useState(false)

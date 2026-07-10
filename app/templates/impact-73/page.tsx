@@ -5,7 +5,19 @@ import React, {useRef, useState, useEffect} from 'react'
 import { motion, useScroll, useTransform, useInView } from "framer-motion"
 import { Music, Phone, Mail, MapPin, Clock, Star, CheckCircle, ArrowRight, Guitar } from "lucide-react"
 
-const C = {
+// Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
+// used to derive light/dark shades from the client's brand color.
+function shadeColor(hex: string, percent: number): string {
+  const num = parseInt(hex.replace('#', ''), 16);
+  if (isNaN(num)) return hex;
+  const amt = Math.round(2.55 * percent);
+  const r = Math.max(0, Math.min(255, (num >> 16) + amt));
+  const g = Math.max(0, Math.min(255, ((num >> 8) & 0x00ff) + amt));
+  const b = Math.max(0, Math.min(255, (num & 0x0000ff) + amt));
+  return `#${(0x1000000 + r * 0x10000 + g * 0x100 + b).toString(16).slice(1)}`;
+}
+
+let C: Record<string, string> = {
   bg: "#fdf8f0",
   bgSection: "#f5eddc",
   text: "#1a0a3d",
@@ -19,8 +31,7 @@ const C = {
   border: "#e0d5c0",
   shadow: "0 2px 14px rgba(26,10,61,0.08)",
   shadowLg: "0 16px 48px rgba(230,124,59,0.18)",
-}
-const FONT = "'Spectral', Georgia, serif"
+};const FONT = "'Spectral', Georgia, serif"
 const FONT_BODY = "'Poppins', system-ui, sans-serif"
 
 const STATS = [
@@ -96,6 +107,9 @@ export default function ConservatoireAccordPage() {
   fd = session?.formData;
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
+  if (brand) {
+    C = { ...C, amber: brand };
+  }
 
   const heroRef = useRef<HTMLElement>(null)
   const [scrolled, setScrolled] = useState(false)

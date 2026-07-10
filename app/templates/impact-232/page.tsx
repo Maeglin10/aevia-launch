@@ -5,15 +5,26 @@ import React, {useRef, useState, useEffect} from 'react'
 import { motion, useScroll, useTransform, useInView } from "framer-motion"
 import { Phone, Mail, MapPin, Clock, Star, CheckCircle, ArrowRight, Sprout } from "lucide-react"
 
-const C = {
+// Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
+// used to derive light/dark shades from the client's brand color.
+function shadeColor(hex: string, percent: number): string {
+  const num = parseInt(hex.replace('#', ''), 16);
+  if (isNaN(num)) return hex;
+  const amt = Math.round(2.55 * percent);
+  const r = Math.max(0, Math.min(255, (num >> 16) + amt));
+  const g = Math.max(0, Math.min(255, ((num >> 8) & 0x00ff) + amt));
+  const b = Math.max(0, Math.min(255, (num & 0x0000ff) + amt));
+  return `#${(0x1000000 + r * 0x10000 + g * 0x100 + b).toString(16).slice(1)}`;
+}
+
+let C: Record<string, string> = {
   bg: "#f5f7f2", bgSection: "#e8ede0", bgDark: "#121a08",
   text: "#121a08", textMuted: "#5a6b46",
   accent: "#4a7a28", accentDark: "#365a1e", accentLight: "#d4e8c0",
   earth: "#8b6530", sand: "#b8c870",
   white: "#ffffff", border: "#c8d8b0",
   shadow: "0 2px 14px rgba(18,26,8,0.07)", shadowLg: "0 16px 48px rgba(74,122,40,0.15)",
-}
-const FONT = "'Playfair Display', Georgia, serif"
+};const FONT = "'Playfair Display', Georgia, serif"
 const FONT_BODY = "'Lato', system-ui, sans-serif"
 
 const STATS = [{ value: "15 ans", label: "D'expertise" }, { value: "350+", label: "Jardins réalisés" }, { value: "0", label: "Pesticides" }, { value: "94%", label: "Clients satisfaits" }]
@@ -80,6 +91,9 @@ export default function VertNaturePage() {
   fd = session?.formData;
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
+  if (brand) {
+    C = { ...C, accent: brand };
+  }
 
   const heroRef = useRef<HTMLElement>(null)
   const [scrolled, setScrolled] = useState(false)

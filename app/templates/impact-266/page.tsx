@@ -23,7 +23,19 @@ const FONTS = `
 `;
 
 /* ── Palette ──────────────────────────────────────────────────────────────── */
-const C = {
+// Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
+// used to derive light/dark shades from the client's brand color.
+function shadeColor(hex: string, percent: number): string {
+  const num = parseInt(hex.replace('#', ''), 16);
+  if (isNaN(num)) return hex;
+  const amt = Math.round(2.55 * percent);
+  const r = Math.max(0, Math.min(255, (num >> 16) + amt));
+  const g = Math.max(0, Math.min(255, ((num >> 8) & 0x00ff) + amt));
+  const b = Math.max(0, Math.min(255, (num & 0x0000ff) + amt));
+  return `#${(0x1000000 + r * 0x10000 + g * 0x100 + b).toString(16).slice(1)}`;
+}
+
+let C: Record<string, string> = {
   bg: '#faf8f4',
   bgAlt: '#f2ede4',
   bgDark: '#0e0c08',
@@ -39,7 +51,7 @@ const C = {
   border: '#e0d4b8',
   borderDark: 'rgba(200,160,64,0.2)',
   azure: '#3a7ab8',
-} as const;
+};
 
 const SERIF = "'Marcellus', Georgia, serif" as const;
 const SANS = "'Raleway', system-ui, sans-serif" as const;
@@ -2155,6 +2167,9 @@ export default function Page() {
   fd = session?.formData;
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
+  if (brand) {
+    C = { ...C, accent: brand };
+  }
 
   
   // Dynamic Services & Testimonials Mutation for Session Data

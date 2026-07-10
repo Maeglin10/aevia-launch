@@ -5,15 +5,26 @@ import React, {useRef, useState, useEffect} from 'react'
 import { motion, useScroll, useTransform, useInView } from "framer-motion"
 import { Flame, Phone, Mail, MapPin, Clock, Star, CheckCircle, AlertTriangle } from "lucide-react"
 
-const C = {
+// Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
+// used to derive light/dark shades from the client's brand color.
+function shadeColor(hex: string, percent: number): string {
+  const num = parseInt(hex.replace('#', ''), 16);
+  if (isNaN(num)) return hex;
+  const amt = Math.round(2.55 * percent);
+  const r = Math.max(0, Math.min(255, (num >> 16) + amt));
+  const g = Math.max(0, Math.min(255, ((num >> 8) & 0x00ff) + amt));
+  const b = Math.max(0, Math.min(255, (num & 0x0000ff) + amt));
+  return `#${(0x1000000 + r * 0x10000 + g * 0x100 + b).toString(16).slice(1)}`;
+}
+
+let C: Record<string, string> = {
   bg: "#f6f4f1", bgSection: "#ede9e2", bgDark: "#1a1208",
   text: "#1a1208", textMuted: "#6b5e4a",
   accent: "#e06c00", accentDark: "#b85800", accentLight: "#fdebd3",
   slate: "#2d3748",
   white: "#ffffff", border: "#ddd0be",
   shadow: "0 2px 12px rgba(26,18,8,0.08)", shadowLg: "0 16px 48px rgba(224,108,0,0.18)",
-}
-const FONT = "'Bebas Neue', system-ui, sans-serif"
+};const FONT = "'Bebas Neue', system-ui, sans-serif"
 const FONT_BODY = "'Work Sans', system-ui, sans-serif"
 
 const STATS = [{ value: "16 ans", label: "D'expérience" }, { value: "5 000+", label: "Interventions" }, { value: "1h", label: "Délai urgence" }, { value: "24h/7j", label: "Disponibilité" }]
@@ -80,6 +91,9 @@ export default function AquaThermPage() {
   fd = session?.formData;
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
+  if (brand) {
+    C = { ...C, accent: brand };
+  }
 
   const heroRef = useRef<HTMLElement>(null)
   const [scrolled, setScrolled] = useState(false)

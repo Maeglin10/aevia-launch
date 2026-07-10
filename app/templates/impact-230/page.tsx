@@ -5,15 +5,26 @@ import React, {useRef, useState, useEffect} from 'react'
 import { motion, useScroll, useTransform, useInView } from "framer-motion"
 import { Phone, Mail, MapPin, Clock, Star, CheckCircle, ArrowRight, Hammer } from "lucide-react"
 
-const C = {
+// Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
+// used to derive light/dark shades from the client's brand color.
+function shadeColor(hex: string, percent: number): string {
+  const num = parseInt(hex.replace('#', ''), 16);
+  if (isNaN(num)) return hex;
+  const amt = Math.round(2.55 * percent);
+  const r = Math.max(0, Math.min(255, (num >> 16) + amt));
+  const g = Math.max(0, Math.min(255, ((num >> 8) & 0x00ff) + amt));
+  const b = Math.max(0, Math.min(255, (num & 0x0000ff) + amt));
+  return `#${(0x1000000 + r * 0x10000 + g * 0x100 + b).toString(16).slice(1)}`;
+}
+
+let C: Record<string, string> = {
   bg: "#faf7f2", bgSection: "#f0e9de", bgDark: "#1a1108",
   text: "#1a1108", textMuted: "#7a6545",
   accent: "#8b5e1a", accentDark: "#6b4710", accentLight: "#f5e6cc",
   sand: "#c4a05a", sandLight: "#fdf3e0",
   white: "#ffffff", border: "#ddd0bb",
   shadow: "0 2px 14px rgba(26,17,8,0.08)", shadowLg: "0 16px 48px rgba(139,94,26,0.18)",
-}
-const FONT = "'Libre Baskerville', Georgia, serif"
+};const FONT = "'Libre Baskerville', Georgia, serif"
 const FONT_BODY = "'Cabin', system-ui, sans-serif"
 
 const STATS = [{ value: "20 ans", label: "D'ébénisterie" }, { value: "600+", label: "Pièces créées" }, { value: "100%", label: "Bois sourcé France" }, { value: "3 ans", label: "Garantie pièces" }]
@@ -80,6 +91,9 @@ export default function AtelierDuBoisPage() {
   fd = session?.formData;
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
+  if (brand) {
+    C = { ...C, accent: brand };
+  }
 
   const heroRef = useRef<HTMLElement>(null)
   const [scrolled, setScrolled] = useState(false)
