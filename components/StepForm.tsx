@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  ArrowRight, ArrowLeft, Loader2, Check, ExternalLink, Upload, X, Plus, Image as ImageIcon,
+  ArrowRight, ArrowLeft, Loader2, Check, ExternalLink, Upload, X, Plus, Image as ImageIcon, Info,
 } from "lucide-react";
 import { useLang } from "@/lib/LangContext";
 import { INDUSTRIES, SECTORS, SECTOR_TEMPLATES, TEMPLATE_CITY_LABELS } from "@/lib/templates/sectors";
@@ -40,8 +40,8 @@ type StepFormStrings = {
   fEmail: string; fPhone: string;
   fInstagram: string; phInstagram: string;
   fLinkedin: string; phLinkedin: string;
-  fGa4Id: string; phGa4Id: string;
-  fGsc: string; phGsc: string;
+  fGa4Id: string; phGa4Id: string; hGa4Id: string;
+  fGsc: string; phGsc: string; hGsc: string;
   phBusinessName: string; phWhatYouDo: string; phCity: string; phMainService: string;
   phBenefit: string; required: string; optional: string;
   phPriceRange: string; phEmail: string; phPhone: string;
@@ -72,7 +72,9 @@ const STEPFORM_T: Record<string, StepFormStrings> = {
     fInstagram: "Instagram (optionnel)", phInstagram: "@votrecompte",
     fLinkedin: "LinkedIn (optionnel)", phLinkedin: "linkedin.com/company/votre-entreprise",
     fGa4Id: "Google Analytics (optionnel)", phGa4Id: "G-XXXXXXXXXX",
+    hGa4Id: "Sur analytics.google.com : Admin → Flux de données → votre site web → l'ID commence par « G- ». Pas encore de compte ? Laissez vide, on peut le configurer plus tard.",
     fGsc: "Google Search Console (optionnel)", phGsc: "Code de vérification GSC",
+    hGsc: "Sur search.google.com/search-console : ajoutez votre propriété → méthode « balise HTML » → copiez juste le code après content=\"...\" (sans les guillemets). Pas encore de compte ? Laissez vide, on peut le configurer plus tard.",
     phBusinessName: "Cabinet Dupont", phWhatYouDo: "Nous accompagnons nos patients / clients depuis 2010…", phCity: "Lyon, France", phMainService: "Consultation & suivi personnalisé",
     phBenefit: "Avantage", required: "(requis)", optional: "(optionnel)",
     phPriceRange: "À partir de 50 € / consultation", phEmail: "vous@exemple.com", phPhone: "+33 6 00 00 00 00",
@@ -101,7 +103,9 @@ const STEPFORM_T: Record<string, StepFormStrings> = {
     fInstagram: "Instagram (optional)", phInstagram: "@yourhandle",
     fLinkedin: "LinkedIn (optional)", phLinkedin: "linkedin.com/company/your-company",
     fGa4Id: "Google Analytics (optional)", phGa4Id: "G-XXXXXXXXXX",
+    hGa4Id: "On analytics.google.com: Admin → Data Streams → your website → the ID starts with \"G-\". No account yet? Leave it blank, we can set it up later.",
     fGsc: "Google Search Console (optional)", phGsc: "GSC verification code",
+    hGsc: "On search.google.com/search-console: add your property → \"HTML tag\" method → copy just the code after content=\"...\" (without the quotes). No account yet? Leave it blank, we can set it up later.",
     phBusinessName: "Dupont Practice", phWhatYouDo: "We've been helping our patients / clients since 2010…", phCity: "London, UK", phMainService: "Consultation & personalised care",
     phBenefit: "Benefit", required: "(required)", optional: "(optional)",
     phPriceRange: "From €50 / session", phEmail: "you@example.com", phPhone: "+44 7700 000000",
@@ -130,7 +134,9 @@ const STEPFORM_T: Record<string, StepFormStrings> = {
     fInstagram: "Instagram (opcional)", phInstagram: "@tucuenta",
     fLinkedin: "LinkedIn (opcional)", phLinkedin: "linkedin.com/company/tu-empresa",
     fGa4Id: "Google Analytics (opcional)", phGa4Id: "G-XXXXXXXXXX",
+    hGa4Id: "En analytics.google.com: Admin → Flujos de datos → tu sitio web → el ID empieza por \"G-\". ¿Aún no tienes cuenta? Déjalo en blanco, podemos configurarlo más tarde.",
     fGsc: "Google Search Console (opcional)", phGsc: "Código de verificación GSC",
+    hGsc: "En search.google.com/search-console: añade tu propiedad → método \"etiqueta HTML\" → copia solo el código después de content=\"...\" (sin las comillas). ¿Aún no tienes cuenta? Déjalo en blanco.",
     phBusinessName: "Clínica Dupont", phWhatYouDo: "Ayudamos a nuestros pacientes desde 2010…", phCity: "Madrid, España", phMainService: "Consulta y seguimiento personalizado",
     phBenefit: "Beneficio", required: "(obligatorio)", optional: "(opcional)",
     phPriceRange: "Desde 50 € / consulta", phEmail: "tu@ejemplo.com", phPhone: "+34 600 00 00 00",
@@ -159,7 +165,9 @@ const STEPFORM_T: Record<string, StepFormStrings> = {
     fInstagram: "Instagram (optional)", phInstagram: "@ihrprofil",
     fLinkedin: "LinkedIn (optional)", phLinkedin: "linkedin.com/company/ihr-unternehmen",
     fGa4Id: "Google Analytics (optional)", phGa4Id: "G-XXXXXXXXXX",
+    hGa4Id: "Auf analytics.google.com: Verwaltung → Datenströme → Ihre Website → die ID beginnt mit \"G-\". Noch kein Konto? Feld leer lassen, wir richten es später ein.",
     fGsc: "Google Search Console (optional)", phGsc: "GSC-Bestätigungscode",
+    hGsc: "Auf search.google.com/search-console: Property hinzufügen → Methode \"HTML-Tag\" → nur den Code nach content=\"...\" kopieren (ohne Anführungszeichen). Noch kein Konto? Feld leer lassen.",
     phBusinessName: "Praxis Dupont", phWhatYouDo: "Wir betreuen unsere Patienten seit 2010…", phCity: "Berlin, Deutschland", phMainService: "Beratung & persönliche Betreuung",
     phBenefit: "Vorteil", required: "(erforderlich)", optional: "(optional)",
     phPriceRange: "Ab 50 € / Termin", phEmail: "sie@beispiel.com", phPhone: "+49 151 00000000",
@@ -188,7 +196,9 @@ const STEPFORM_T: Record<string, StepFormStrings> = {
     fInstagram: "Instagram (opcional)", phInstagram: "@suaconta",
     fLinkedin: "LinkedIn (opcional)", phLinkedin: "linkedin.com/company/a-sua-empresa",
     fGa4Id: "Google Analytics (opcional)", phGa4Id: "G-XXXXXXXXXX",
+    hGa4Id: "Em analytics.google.com: Administração → Fluxos de dados → o seu site → o ID começa com \"G-\". Ainda não tem conta? Deixe em branco, configuramos mais tarde.",
     fGsc: "Google Search Console (opcional)", phGsc: "Código de verificação GSC",
+    hGsc: "Em search.google.com/search-console: adicione a sua propriedade → método \"tag HTML\" → copie apenas o código após content=\"...\" (sem as aspas). Ainda não tem conta? Deixe em branco.",
     phBusinessName: "Clínica Dupont", phWhatYouDo: "Ajudamos os nossos pacientes desde 2010…", phCity: "Lisboa, Portugal", phMainService: "Consulta e acompanhamento personalizado",
     phBenefit: "Benefício", required: "(obrigatório)", optional: "(opcional)",
     phPriceRange: "A partir de 50 € / consulta", phEmail: "voce@exemplo.com", phPhone: "+351 900 000 000",
@@ -827,7 +837,7 @@ export function StepForm() {
               <Field label={t.fLinkedin}>
                 <input className={input} value={form.linkedin} onChange={(e) => set("linkedin", e.target.value)} placeholder={t.phLinkedin} />
               </Field>
-              <Field label={t.fGa4Id}>
+              <Field label={t.fGa4Id} hint={t.hGa4Id}>
                 <input
                   className={input}
                   value={form.ga4Id}
@@ -836,7 +846,7 @@ export function StepForm() {
                   pattern="G-[A-Z0-9]+"
                 />
               </Field>
-              <Field label={t.fGsc}>
+              <Field label={t.fGsc} hint={t.hGsc}>
                 <input
                   className={input}
                   value={form.gscVerification}
@@ -904,19 +914,38 @@ function Field({
   label,
   required,
   error,
+  hint,
   children,
 }: {
   label: string;
   required?: boolean;
   error?: string;
+  hint?: string;
   children: React.ReactNode;
 }) {
+  const [showHint, setShowHint] = useState(false);
   return (
     <div className="space-y-1.5">
-      <label className="block text-lg font-medium text-zinc-300">
+      <label className="flex items-center gap-1.5 text-lg font-medium text-zinc-300">
         {label}
         {required && <span className="text-red-400 ml-0.5" aria-hidden="true">*</span>}
+        {hint && (
+          <button
+            type="button"
+            onClick={() => setShowHint((v) => !v)}
+            className="text-zinc-500 hover:text-violet-400 transition-colors"
+            aria-label="Aide"
+            aria-expanded={showHint}
+          >
+            <Info className="w-4 h-4" />
+          </button>
+        )}
       </label>
+      {hint && showHint && (
+        <p className="text-sm text-zinc-400 bg-zinc-800/60 border border-zinc-700 rounded-lg px-3 py-2 leading-relaxed">
+          {hint}
+        </p>
+      )}
       {children}
       {error && (
         <p className="text-red-400 text-base" role="alert">
