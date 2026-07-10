@@ -514,6 +514,12 @@ export const SECTOR_EXTRA_QUESTIONS: Record<string, SectorQuestion[]> = {
 
   restaurant: [
     {
+      key: 'menuItems',
+      type: 'textarea',
+      label: { fr: 'Votre menu (plats et prix)', en: 'Your menu (dishes and prices)', es: 'Tu menú (platos y precios)', de: 'Ihre Speisekarte (Gerichte und Preise)', pt: 'O seu menu (pratos e preços)' },
+      placeholder: { fr: 'Collez votre menu tel quel, un plat par ligne — ex :\nSalade César — 13€\nMagret de canard, purée maison — 24€\nTiramisu — 8€', en: 'Paste your menu as-is, one dish per line — e.g.:\nCaesar Salad — €13\nDuck breast, homemade mash — €24\nTiramisu — €8', es: 'Pega tu menú tal cual, un plato por línea', de: 'Fügen Sie Ihre Speisekarte ein, ein Gericht pro Zeile', pt: 'Cole o seu menu tal como está, um prato por linha' },
+    },
+    {
       key: 'cuisineType',
       type: 'text',
       label: { fr: 'Type de cuisine', en: 'Cuisine type', es: 'Tipo de cocina', de: 'Küchenstil', pt: 'Tipo de cozinha' },
@@ -552,6 +558,12 @@ export const SECTOR_EXTRA_QUESTIONS: Record<string, SectorQuestion[]> = {
   ],
 
   restauration_rapide: [
+    {
+      key: 'menuItems',
+      type: 'textarea',
+      label: { fr: 'Votre menu (plats et prix)', en: 'Your menu (dishes and prices)', es: 'Tu menú (platos y precios)', de: 'Ihre Speisekarte (Gerichte und Preise)', pt: 'O seu menu (pratos e preços)' },
+      placeholder: { fr: 'Collez votre menu tel quel, un plat par ligne — ex :\nBurger Classique — 9,50€\nMenu Frites + Boisson — 12€\nTiramisu — 4,50€', en: 'Paste your menu as-is, one item per line — e.g.:\nClassic Burger — €9.50\nFries + Drink Meal — €12\nTiramisu — €4.50', es: 'Pega tu menú tal cual, un plato por línea', de: 'Fügen Sie Ihre Speisekarte ein, ein Gericht pro Zeile', pt: 'Cole o seu menu tal como está, um prato por linha' },
+    },
     {
       key: 'cuisineType',
       type: 'text',
