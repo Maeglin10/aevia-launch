@@ -61,7 +61,19 @@ function useFonts() {
 /* ==========================================================================
    DESIGN TOKENS
    ========================================================================== */
-const C = {
+// Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
+// used to derive primaryLight/primaryDark from the client's brand color.
+function shadeColor(hex: string, percent: number): string {
+  const num = parseInt(hex.replace('#', ''), 16);
+  if (isNaN(num)) return hex;
+  const amt = Math.round(2.55 * percent);
+  const r = Math.max(0, Math.min(255, (num >> 16) + amt));
+  const g = Math.max(0, Math.min(255, ((num >> 8) & 0x00ff) + amt));
+  const b = Math.max(0, Math.min(255, (num & 0x0000ff) + amt));
+  return `#${(0x1000000 + r * 0x10000 + g * 0x100 + b).toString(16).slice(1)}`;
+}
+
+let C: Record<string, string> = {
   bg:        "#FDF2F8",
   bgCard:    "#FFF0F6",
   bgDeep:    "#FCE7F3",
@@ -75,8 +87,7 @@ const C = {
   borderSoft:"rgba(139,92,246,0.12)",
   white:     "#FFFFFF",
   shadow:    "rgba(236,72,153,0.12)",
-}
-
+};
 /* ==========================================================================
    DATA
    ========================================================================== */
@@ -1543,6 +1554,9 @@ export default function Impact88Page() {
   fd = session?.formData;
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
+  if (brand) {
+    C = { ...C, primary: brand, primaryLight: shadeColor(brand, 25), primaryDark: shadeColor(brand, -20) };
+  }
 
   useFonts()
 
