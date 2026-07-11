@@ -52,6 +52,7 @@ type StepFormStrings = {
   sectorOther: string;
   fLogo: string; fLogoHint: string; fPhotos: string; fPhotosHint: string; fPhotosAdd: string;
   fSectorDetails: string; skip: string;
+  menuFromPhoto: string; menuExtracting: string; menuExtractError: string;
 };
 
 const STEPFORM_T: Record<string, StepFormStrings> = {
@@ -85,6 +86,7 @@ const STEPFORM_T: Record<string, StepFormStrings> = {
     sectorOther: "Autre activité",
     fLogo: "Logo", fLogoHint: "PNG, SVG ou JPG — fond transparent recommandé", fPhotos: "Photos (optionnel)", fPhotosHint: "Extérieur, intérieur, produits, équipe… Vos propres photos.", fPhotosAdd: "Ajouter une photo",
     fSectorDetails: "Infos spécifiques à votre activité", skip: "Passer cette étape →",
+    menuFromPhoto: "📷 Extraire depuis une photo", menuExtracting: "Lecture en cours…", menuExtractError: "Extraction impossible — saisissez le menu à la main.",
   },
   en: {
     s1Title: "Your business type", s1Sub: "Pick your sector — we'll show the designs built for you.",
@@ -116,6 +118,7 @@ const STEPFORM_T: Record<string, StepFormStrings> = {
     sectorOther: "Other",
     fLogo: "Logo", fLogoHint: "PNG, SVG or JPG — transparent background recommended", fPhotos: "Photos (optional)", fPhotosHint: "Exterior, interior, products, team… Your own photos.", fPhotosAdd: "Add a photo",
     fSectorDetails: "Specific info about your business", skip: "Skip this step →",
+    menuFromPhoto: "📷 Extract from a photo", menuExtracting: "Reading…", menuExtractError: "Extraction failed — enter the menu manually.",
   },
   es: {
     s1Title: "Tu actividad", s1Sub: "Elige tu sector — te mostramos los diseños hechos para ti.",
@@ -147,6 +150,7 @@ const STEPFORM_T: Record<string, StepFormStrings> = {
     sectorOther: "Otro",
     fLogo: "Logotipo", fLogoHint: "PNG, SVG o JPG — fondo transparente recomendado", fPhotos: "Fotos (opcional)", fPhotosHint: "Exterior, interior, productos, equipo… Tus propias fotos.", fPhotosAdd: "Añadir una foto",
     fSectorDetails: "Información específica de tu negocio", skip: "Saltar este paso →",
+    menuFromPhoto: "📷 Extraer desde una foto", menuExtracting: "Leyendo…", menuExtractError: "Extracción fallida — introduce el menú manualmente.",
   },
   de: {
     s1Title: "Ihre Branche", s1Sub: "Wählen Sie Ihren Sektor — wir zeigen die Designs für Sie.",
@@ -178,6 +182,7 @@ const STEPFORM_T: Record<string, StepFormStrings> = {
     sectorOther: "Andere",
     fLogo: "Logo", fLogoHint: "PNG, SVG oder JPG — transparenter Hintergrund empfohlen", fPhotos: "Fotos (optional)", fPhotosHint: "Außen, Innen, Produkte, Team… Eigene Fotos.", fPhotosAdd: "Foto hinzufügen",
     fSectorDetails: "Spezifische Infos zu Ihrem Unternehmen", skip: "Diesen Schritt überspringen →",
+    menuFromPhoto: "📷 Aus einem Foto extrahieren", menuExtracting: "Wird gelesen…", menuExtractError: "Extraktion fehlgeschlagen — Menü manuell eingeben.",
   },
   pt: {
     s1Title: "A sua atividade", s1Sub: "Escolha o seu setor — mostramos os designs feitos para si.",
@@ -209,6 +214,7 @@ const STEPFORM_T: Record<string, StepFormStrings> = {
     sectorOther: "Outro",
     fLogo: "Logotipo", fLogoHint: "PNG, SVG ou JPG — fundo transparente recomendado", fPhotos: "Fotos (opcional)", fPhotosHint: "Exterior, interior, produtos, equipa… As suas próprias fotos.", fPhotosAdd: "Adicionar uma foto",
     fSectorDetails: "Informação específica do seu negócio", skip: "Saltar este passo →",
+    menuFromPhoto: "📷 Extrair de uma foto", menuExtracting: "A ler…", menuExtractError: "Extração falhou — introduza o menu manualmente.",
   },
 };
 
@@ -329,6 +335,49 @@ export function StepForm() {
       }
     } finally {
       setUploading(false);
+    }
+  };
+
+  // Photo → OCR menu extraction (restaurant). Uploads the image, asks Gemini
+  // vision to read it, and prefills the menu textarea. The client then
+  // validates/edits — we never keep an unverified price.
+  const [extracting, setExtracting] = useState(false);
+  const [extractError, setExtractError] = useState(false);
+
+  const handleExtractMenu = async (file: File, questionKey: string) => {
+    setExtracting(true);
+    setExtractError(false);
+    try {
+      const fd = new FormData();
+      fd.append("file", file);
+      const up = await fetch("/api/upload", { method: "POST", body: fd });
+      if (!up.ok) throw new Error("upload");
+      const { url } = (await up.json()) as { url: string };
+
+      const ex = await fetch("/api/extract-menu", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ imageUrl: url }),
+      });
+      if (!ex.ok) throw new Error("extract");
+      const { items } = (await ex.json()) as {
+        items: { name: string; price: string; category?: string }[];
+      };
+      if (!items?.length) throw new Error("empty");
+
+      // Prefill the textarea as readable lines the client can correct.
+      const lines = items
+        .map((i) => (i.price ? `${i.name} — ${i.price}` : i.name))
+        .join("\n");
+      const existing = form.sectorData[questionKey] ?? "";
+      set("sectorData", {
+        ...form.sectorData,
+        [questionKey]: existing ? `${existing}\n${lines}` : lines,
+      });
+    } catch {
+      setExtractError(true);
+    } finally {
+      setExtracting(false);
     }
   };
 
@@ -689,13 +738,36 @@ export function StepForm() {
                           ))}
                         </select>
                       ) : q.type === "textarea" ? (
-                        <textarea
-                          value={form.sectorData[q.key] ?? ""}
-                          onChange={(e) => set("sectorData", { ...form.sectorData, [q.key]: e.target.value })}
-                          className={`${input} resize-none`}
-                          rows={3}
-                          placeholder={q.placeholder?.[locale] ?? q.placeholder?.fr ?? ""}
-                        />
+                        <>
+                          {q.key === "menuItems" && (
+                            <div className="mb-2">
+                              <label className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-violet-500/40 text-violet-300 text-sm cursor-pointer hover:bg-violet-500/10 transition-colors">
+                                {extracting ? t.menuExtracting : t.menuFromPhoto}
+                                <input
+                                  type="file"
+                                  accept="image/png,image/jpeg,image/webp"
+                                  className="hidden"
+                                  disabled={extracting}
+                                  onChange={(e) => {
+                                    const f = e.target.files?.[0];
+                                    if (f) void handleExtractMenu(f, q.key);
+                                    e.target.value = "";
+                                  }}
+                                />
+                              </label>
+                              {extractError && (
+                                <p className="text-amber-400 text-xs mt-1">{t.menuExtractError}</p>
+                              )}
+                            </div>
+                          )}
+                          <textarea
+                            value={form.sectorData[q.key] ?? ""}
+                            onChange={(e) => set("sectorData", { ...form.sectorData, [q.key]: e.target.value })}
+                            className={`${input} resize-none`}
+                            rows={3}
+                            placeholder={q.placeholder?.[locale] ?? q.placeholder?.fr ?? ""}
+                          />
+                        </>
                       ) : (
                         <input
                           value={form.sectorData[q.key] ?? ""}
