@@ -377,7 +377,7 @@ return (
           </a>
 
           {/* Desktop links */}
-          <div style={{ display: 'flex', gap: 28, alignItems: 'center' }} className="hidden md:flex">
+          <div style={{ gap: 28, alignItems: 'center' }} className="hidden md:flex">
             <a href="#about" style={{ textDecoration: 'none', color: C.text, fontSize: 13, letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 500 }}>À Propos</a>
             <a href="#menu" style={{ textDecoration: 'none', color: C.text, fontSize: 13, letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 500 }}>
               Nos Tarifs

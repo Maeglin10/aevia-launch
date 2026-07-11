@@ -251,7 +251,7 @@ export default function PreviewClient({ sessionId }: { sessionId: string }) {
             }`}
           >
             <Pencil className="w-3.5 h-3.5" />
-            {t.editContent}
+            <span className="hidden sm:inline">{t.editContent}</span>
           </button>
 
           {!(liveSession?.formData.ga4Id && liveSession?.formData.gscVerification) && (
@@ -260,7 +260,7 @@ export default function PreviewClient({ sessionId }: { sessionId: string }) {
               className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-zinc-700 text-zinc-300 hover:text-white text-sm transition-colors"
             >
               <Sparkles className="w-3.5 h-3.5" />
-              {t.connectGoogle}
+              <span className="hidden sm:inline">{t.connectGoogle}</span>
             </a>
           )}
 
@@ -269,7 +269,7 @@ export default function PreviewClient({ sessionId }: { sessionId: string }) {
             className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-zinc-700 text-zinc-300 hover:text-white text-sm transition-colors"
           >
             {copied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
-            {copied ? t.copied : t.shareLink}
+            <span className="hidden sm:inline">{copied ? t.copied : t.shareLink}</span>
           </button>
 
           <button
@@ -277,7 +277,7 @@ export default function PreviewClient({ sessionId }: { sessionId: string }) {
             className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-violet-600 hover:bg-violet-500 text-white text-sm font-semibold transition-colors"
           >
             <Rocket className="w-3.5 h-3.5" />
-            {t.launch}
+            <span className="hidden sm:inline">{t.launch}</span>
           </button>
         </div>
       </div>
@@ -309,7 +309,7 @@ export default function PreviewClient({ sessionId }: { sessionId: string }) {
       )}
 
       {/* Preview frame */}
-      <div className={`${googleStatus ? "" : "pt-14"} transition-all duration-300 ${isEditing ? "mr-80" : ""}`}>
+      <div className={`${googleStatus ? "" : "pt-14"} transition-all duration-300 ${isEditing ? "md:mr-80" : ""}`}>
         <div className="bg-zinc-900 border-b border-zinc-800 px-6 py-2 flex items-center gap-3">
           <div className="flex gap-1.5">
             <div className="w-3 h-3 rounded-full bg-red-500/60" />

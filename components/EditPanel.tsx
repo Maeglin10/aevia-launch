@@ -194,7 +194,7 @@ export function EditPanel({ session, onClose, onChange, onSave }: EditPanelProps
   }
 
   return (
-    <div className="fixed top-0 right-0 h-full w-80 bg-zinc-950 border-l border-zinc-800 z-[60] flex flex-col shadow-2xl">
+    <div className="fixed top-0 right-0 h-full w-full sm:w-80 bg-zinc-950 border-l border-zinc-800 z-[60] flex flex-col shadow-2xl">
       {/* Header */}
       <div className="flex items-center justify-between px-5 py-4 border-b border-zinc-800 shrink-0">
         <h2 className="text-sm font-bold text-white">Personnaliser</h2>
