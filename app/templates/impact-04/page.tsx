@@ -58,6 +58,20 @@ const MENU_ITEMS: Record<string, { name: string; desc: string; price: string; ta
   ],
 }
 
+// Real menu from the client's wizard input (c?.menuItems) takes priority over
+// the demo dishes above. Categories are derived from the items' `category`
+// field (fallback "Menu"); prices are kept EXACTLY as provided (already strings).
+function buildMenuRecord(items: { name: string; price: string; description?: string; category?: string }[]): Record<string, { name: string; desc: string; price: string; tag?: string; allergens?: string }[]> {
+  const record: Record<string, { name: string; desc: string; price: string; tag?: string; allergens?: string }[]> = {};
+  for (const item of items) {
+    const cat = item.category || "Menu";
+    (record[cat] = record[cat] || []).push({ name: item.name, desc: item.description || "", price: item.price });
+  }
+  return record;
+}
+
+const MENU_TAB_ICONS = [Leaf, Flame, Utensils, Wine];
+
 const STATS = [
   { value: "2★", label: "Michelin Stars", icon: <Award className="w-5 h-5" /> },
   { value: "98/100", label: "Wine Spectator", icon: <Wine className="w-5 h-5" /> },
@@ -204,6 +218,21 @@ export default function LEtoileRestaurant() {
   fd = session?.formData;
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
+
+  // Real client menu (from the wizard) or template demo dishes.
+  const hasRealMenu = !!(c?.menuItems && c.menuItems.length > 0);
+  const menuData = hasRealMenu ? buildMenuRecord(c.menuItems) : MENU_ITEMS;
+  const menuTabs = hasRealMenu
+    ? Object.keys(menuData).map((cat, i) => {
+        const TabIcon = MENU_TAB_ICONS[i % MENU_TAB_ICONS.length];
+        return { id: cat, label: cat, icon: <TabIcon className="w-4 h-4" /> };
+      })
+    : [
+        { id: "starters", label: "Starters", icon: <Leaf className="w-4 h-4" /> },
+        { id: "mains", label: "Main Courses", icon: <Flame className="w-4 h-4" /> },
+        { id: "desserts", label: "Desserts", icon: <Utensils className="w-4 h-4" /> },
+        { id: "wines", label: "Wine List", icon: <Wine className="w-4 h-4" /> },
+      ];
 
   const [reservationOpen, setReservationOpen] = useState(false)
   const [guests, setGuests] = useState(2)
@@ -417,21 +446,16 @@ return (
             </div>
           </Reveal>
 
-          <Tabs defaultValue="starters" className="w-full">
+          <Tabs key={hasRealMenu ? "real-menu" : "demo-menu"} defaultValue={menuTabs[0]?.id ?? "starters"} className="w-full">
             <TabsList className="flex flex-wrap justify-center gap-2 h-auto bg-transparent mb-12">
-              {[
-                { id: "starters", label: "Starters", icon: <Leaf className="w-4 h-4" /> },
-                { id: "mains", label: "Main Courses", icon: <Flame className="w-4 h-4" /> },
-                { id: "desserts", label: "Desserts", icon: <Utensils className="w-4 h-4" /> },
-                { id: "wines", label: "Wine List", icon: <Wine className="w-4 h-4" /> },
-              ].map(cat => (
+              {menuTabs.map(cat => (
                 <TabsTrigger key={cat.id} value={cat.id} className="flex items-center gap-2 px-6 py-3 rounded-full font-sans text-[11px] uppercase tracking-wider font-semibold data-[state=active]:bg-amber-700 data-[state=active]:text-white text-[#f5efe6]/40 border border-white/10 hover:text-[#f5efe6] hover:border-white/30 transition-all duration-200 cursor-pointer">
                   {cat.icon}{cat.label}
                 </TabsTrigger>
               ))}
             </TabsList>
 
-            {Object.entries(MENU_ITEMS).map(([category, items]) => (
+            {Object.entries(menuData).map(([category, items]) => (
               <TabsContent key={category} value={category}>
                 <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }} className="space-y-0">
                   {items.map((item, i) => (
@@ -448,7 +472,7 @@ return (
                       </div>
                       <div className="flex items-center gap-3 ml-8 shrink-0 pt-1">
                         <div className="hidden md:block h-px w-10 bg-white/5 group-hover:bg-amber-700/30 transition-colors duration-200" />
-                        <span className="text-xl font-light text-amber-500">{item.price}€</span>
+                        <span className="text-xl font-light text-amber-500">{hasRealMenu ? item.price : `${item.price}€`}</span>
                       </div>
                     </motion.div>
                   ))}
@@ -834,6 +858,9 @@ return (
    SUB-PAGE: MENU
 ───────────────────────────────────────────────────────────────────────────── */
 function MenuPage() {
+  // Real client menu (from the wizard) or template demo dishes.
+  const hasRealMenu = !!(c?.menuItems && c.menuItems.length > 0);
+  const menuData = hasRealMenu ? buildMenuRecord(c.menuItems) : MENU_ITEMS;
   return (
     <div style={{ padding: '120px 24px 100px', maxWidth: 1000, margin: '0 auto', fontFamily: "'Georgia', serif" }}>
       <div style={{ textAlign: 'center', marginBottom: 80 }}>
@@ -847,10 +874,10 @@ function MenuPage() {
       </div>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 64 }}>
-        {Object.entries(MENU_ITEMS).map(([category, items]) => (
+        {Object.entries(menuData).map(([category, items]) => (
           <div key={category}>
             <h2 className="text-2xl font-light text-amber-500 mb-8 border-b border-white/10 pb-2 uppercase tracking-widest font-sans text-xs">
-              {category === 'starters' ? 'Starters' : category === 'mains' ? 'Main Courses' : category === 'desserts' ? 'Desserts' : 'Wine List'}
+              {hasRealMenu ? category : category === 'starters' ? 'Starters' : category === 'mains' ? 'Main Courses' : category === 'desserts' ? 'Desserts' : 'Wine List'}
             </h2>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
               {items.map((item, i) => (
@@ -864,7 +891,7 @@ function MenuPage() {
                     {item.allergens && <p className="text-[9px] font-sans text-[#f5efe6]/15 uppercase tracking-wider mt-1">Contains: {item.allergens}</p>}
                   </div>
                   <div style={{ marginLeft: 32, fontSize: 20, color: 'text-amber-500', fontWeight: 300, alignSelf: 'center' }}>
-                    <span className="text-amber-500">{item.price}€</span>
+                    <span className="text-amber-500">{hasRealMenu ? item.price : `${item.price}€`}</span>
                   </div>
                 </div>
               ))}

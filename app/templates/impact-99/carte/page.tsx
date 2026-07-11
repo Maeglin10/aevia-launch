@@ -167,6 +167,29 @@ const CARTE_SECTIONS = [
   },
 ];
 
+// Real menu from the client's wizard input (c?.menuItems) takes priority over
+// the demo CARTE_SECTIONS above. Categories are derived from the items'
+// `category` field (fallback "Menu"); prices are kept EXACTLY as provided
+// (already strings, may include "€"). Icons cycle through a themed set since
+// real menu items don't carry an icon.
+const CARTE_ICONS = [UtensilsCrossed, Beef, Flame, Wine];
+function buildCarteSections(items: { name: string; price: string; description?: string; category?: string }[]) {
+  const order: string[] = [];
+  const grouped: Record<string, { name: string; price: string; desc: string }[]> = {};
+  for (const item of items) {
+    const cat = item.category || "Menu";
+    if (!grouped[cat]) { grouped[cat] = []; order.push(cat); }
+    grouped[cat].push({ name: item.name, price: item.price, desc: item.description || "" });
+  }
+  return order.map((cat, i) => ({
+    id: cat.toLowerCase().replace(/[^a-z0-9]+/g, "-") || `cat-${i}`,
+    label: cat,
+    icon: CARTE_ICONS[i % CARTE_ICONS.length],
+    note: "",
+    items: grouped[cat],
+  }));
+}
+
 /* ── BLOG — mock FR articles ─────────────────────────────────────────────── */
 
 const BLOG_POSTS = [
@@ -327,6 +350,9 @@ const LABEL_CLASS =
    ========================================================================= */
 
 function CartePage() {
+  // Real client menu (from the wizard) or template demo dishes.
+  const hasRealMenu = !!(c?.menuItems && c.menuItems.length > 0);
+  const carteSections = hasRealMenu ? buildCarteSections(c.menuItems) : CARTE_SECTIONS;
   return (
     <section id="hero" className="pt-44 pb-32 px-6 md:px-12 min-h-screen">
       <div className="max-w-[1600px] mx-auto">
@@ -338,7 +364,7 @@ function CartePage() {
         />
 
         <div className="space-y-32">
-          {CARTE_SECTIONS.map((sec, si) => (
+          {carteSections.map((sec, si) => (
             <Reveal key={sec.id} delay={si * 0.05}>
               <div>
                 <div className="flex items-end justify-between mb-14 gap-8 border-b border-white/5 pb-8">
@@ -350,9 +376,11 @@ function CartePage() {
                       {sec.label}
                     </h2>
                   </div>
-                  <span className="hidden md:block text-white/20 text-[10px] font-bold uppercase tracking-[0.4em]">
-                    {sec.note}
-                  </span>
+                  {sec.note && (
+                    <span className="hidden md:block text-white/20 text-[10px] font-bold uppercase tracking-[0.4em]">
+                      {sec.note}
+                    </span>
+                  )}
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-20 gap-y-12">
@@ -1007,8 +1035,28 @@ function LegalBlock({
 
 import { useRouter } from "next/navigation";
 
+// Global state variable for CartePage() compatibility (menu wiring only)
+let c: any = null;
+
 export default function EmberGrillPage() {
   const router = useRouter();
+  const [session, setSession] = useState<{
+    generatedContent?: {
+      menuItems?: { name: string; price: string; description?: string; category?: string }[];
+    };
+  } | null>(null);
+
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(setSession)
+      .catch(() => {});
+  }, []);
+
+  c = session?.generatedContent;
+
   const [page, setPage] = useState<EmberPage>("carte");
   const [blogSlug, setBlogSlug] = useState<string | null>(null);
   const [scrolled, setScrolled] = useState(false);
