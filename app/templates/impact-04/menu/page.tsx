@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import Link from "next/link"
 import { motion } from "framer-motion"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
@@ -36,6 +36,18 @@ const MENU_ITEMS = {
     { name: "Dom Pérignon Rosé", desc: "Vintage Champagne · Épernay, France · 2013 — Raspberry, toast, exceptional mousse", price: "390", tag: "Prestige", allergens: "Sulfites" },
     { name: "Pétrus", desc: "Pomerol AOC · Bordeaux, France · 2015 — Truffles, dark plum, iron — the pinnacle", price: "980", allergens: "Sulfites" },
   ],
+}
+
+// Real menu from the client's wizard input (c?.menuItems) takes priority over
+// the demo dishes above. Categories are derived from the items' `category`
+// field (fallback "Menu"); prices are kept EXACTLY as provided (already strings).
+function buildMenuRecord(items: { name: string; price: string; description?: string; category?: string }[]): Record<string, { name: string; desc: string; price: string; tag?: string; allergens?: string }[]> {
+  const record: Record<string, { name: string; desc: string; price: string; tag?: string; allergens?: string }[]> = {};
+  for (const item of items) {
+    const cat = item.category || "Menu";
+    (record[cat] = record[cat] || []).push({ name: item.name, desc: item.description || "", price: item.price });
+  }
+  return record;
 }
 
 const LINKS = [
@@ -135,6 +147,26 @@ function Footer() {
 }
 
 export default function MenuPage() {
+  const [session, setSession] = useState<{
+    generatedContent?: {
+      menuItems?: { name: string; price: string; description?: string; category?: string }[];
+    };
+  } | null>(null);
+
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(setSession)
+      .catch(() => {});
+  }, []);
+
+  const c = session?.generatedContent;
+  // Real client menu (from the wizard) or template demo dishes.
+  const realMenuItems = c?.menuItems && c.menuItems.length > 0 ? c.menuItems : null;
+  const menuData = realMenuItems ? buildMenuRecord(realMenuItems) : MENU_ITEMS;
+
   return (
     <div className="bg-[#0c0a08] text-[#f5efe6] min-h-screen selection:bg-amber-700 selection:text-white" style={{ fontFamily: "'Georgia', 'Times New Roman', serif" }}>
       <Navbar currentPage="menu" />
@@ -150,10 +182,10 @@ export default function MenuPage() {
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 64 }}>
-          {Object.entries(MENU_ITEMS).map(([category, items]) => (
+          {Object.entries(menuData).map(([category, items]) => (
             <div key={category}>
               <h2 className="text-2xl font-light text-amber-500 mb-8 border-b border-white/10 pb-2 uppercase tracking-widest font-sans text-xs">
-                {category === 'starters' ? 'Starters' : category === 'mains' ? 'Main Courses' : category === 'desserts' ? 'Desserts' : 'Wine List'}
+                {realMenuItems ? category : category === 'starters' ? 'Starters' : category === 'mains' ? 'Main Courses' : category === 'desserts' ? 'Desserts' : 'Wine List'}
               </h2>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
                 {items.map((item, i) => (
@@ -167,7 +199,7 @@ export default function MenuPage() {
                       {item.allergens && <p className="text-[9px] font-sans text-[#f5efe6]/15 uppercase tracking-wider mt-1">Contains: {item.allergens}</p>}
                     </div>
                     <div style={{ marginLeft: 32, fontSize: 20, color: 'text-amber-500', fontWeight: 300, alignSelf: 'center' }}>
-                      <span className="text-amber-500">{item.price}€</span>
+                      <span className="text-amber-500">{realMenuItems ? item.price : `${item.price}€`}</span>
                     </div>
                   </div>
                 ))}

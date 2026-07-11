@@ -91,6 +91,23 @@ const COURSES = [
   },
 ]
 
+// Real menu from the client's wizard input (c?.menuItems) takes priority over
+// the demo COURSES above. Categories are derived from the items' `category`
+// field (fallback "Menu"); prices are kept EXACTLY as provided (already
+// strings, may include "€") and shown next to each dish — the fixed-price
+// tasting-menu badges only make sense for the demo COURSES, so they're
+// hidden when a real (per-dish-priced) menu is present.
+function buildCourses(items: { name: string; price: string; description?: string; category?: string }[]) {
+  const order: string[] = [];
+  const grouped: Record<string, { name: string; note: string; price: string }[]> = {};
+  for (const item of items) {
+    const cat = item.category || "Menu";
+    if (!grouped[cat]) { grouped[cat] = []; order.push(cat); }
+    grouped[cat].push({ name: item.name, note: item.description || "", price: item.price });
+  }
+  return order.map((cat) => ({ label: cat, title: cat, items: grouped[cat] }));
+}
+
 // ─── Events ───────────────────────────────────────────────────────────────────
 const EVENTS = [
   { date: "14 Juin 2026", title: "Dîner des Vignerons", desc: "Un voyage gustatif à travers les grands crus de Bourgogne, en présence du domaine Leflaive.", seats: "12 couverts" },
@@ -318,18 +335,32 @@ function CourseCard({ course, index }: { course: typeof COURSES[0]; index: numbe
         />
       </div>
 
-      {course.items.map((item, i) => (
+      {course.items.map((item: any, i) => (
         <div key={i} style={{ marginBottom: "1.4rem", paddingLeft: "1.5rem", borderLeft: `1px solid ${C.border}` }}>
-          <p style={{
-            fontFamily: font.serif,
-            fontSize: "clamp(1rem, 1.5vw, 1.15rem)",
-            fontStyle: "italic",
-            fontWeight: 400,
-            color: C.cream,
-            margin: "0 0 0.3rem 0",
-          }}>
-            {item.name}
-          </p>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: "1rem" }}>
+            <p style={{
+              fontFamily: font.serif,
+              fontSize: "clamp(1rem, 1.5vw, 1.15rem)",
+              fontStyle: "italic",
+              fontWeight: 400,
+              color: C.cream,
+              margin: "0 0 0.3rem 0",
+            }}>
+              {item.name}
+            </p>
+            {item.price && (
+              <span style={{
+                fontFamily: font.sans,
+                fontSize: "0.78rem",
+                fontWeight: 300,
+                letterSpacing: "0.04em",
+                color: C.gold,
+                whiteSpace: "nowrap",
+              }}>
+                {item.price}
+              </span>
+            )}
+          </div>
           <p style={{
             fontFamily: font.sans,
             fontSize: "0.8rem",
@@ -382,6 +413,10 @@ export default function Impact211Page() {
   fd = session?.formData;
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
+
+  // Real client menu (from the wizard) or template demo tasting-menu courses.
+  const hasRealMenu = !!(c?.menuItems && c.menuItems.length > 0);
+  const courses = hasRealMenu ? buildCourses(c.menuItems) : COURSES;
 
   const [activeMapDot, setActiveMapDot] = useState<string | null>(null)
   const [chefHovered, setChefHovered] = useState(false)
@@ -1045,33 +1080,35 @@ return () => window.removeEventListener("scroll", handleScroll)
               Un voyage en sept actes, composé selon les arrivages du marché et l&apos;inspiration du moment. Allergènes et régimes spéciaux sur demande.
             </motion.p>
 
-            <div style={{ display: "flex", gap: "2rem", justifyContent: "center", flexWrap: "wrap" }}>
-              {["Menu Éclat — 195 €", "Accord mets & vins — 135 €"].map((item, i) => (
-                <motion.div
-                  key={item}
-                  initial={{ opacity: 0, y: 10 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: 0.3 + i * 0.1 }}
-                  style={{
-                    fontFamily: font.sans,
-                    fontSize: "0.78rem",
-                    fontWeight: 300,
-                    letterSpacing: "0.12em",
-                    color: C.gold,
-                    border: `1px solid ${C.border}`,
-                    padding: "0.6rem 1.4rem",
-                  }}
-                >
-                  {item}
-                </motion.div>
-              ))}
-            </div>
+            {!hasRealMenu && (
+              <div style={{ display: "flex", gap: "2rem", justifyContent: "center", flexWrap: "wrap" }}>
+                {["Menu Éclat — 195 €", "Accord mets & vins — 135 €"].map((item, i) => (
+                  <motion.div
+                    key={item}
+                    initial={{ opacity: 0, y: 10 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: 0.3 + i * 0.1 }}
+                    style={{
+                      fontFamily: font.sans,
+                      fontSize: "0.78rem",
+                      fontWeight: 300,
+                      letterSpacing: "0.12em",
+                      color: C.gold,
+                      border: `1px solid ${C.border}`,
+                      padding: "0.6rem 1.4rem",
+                    }}
+                  >
+                    {item}
+                  </motion.div>
+                ))}
+              </div>
+            )}
           </div>
 
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0 5rem" }}>
             <style>{`@media (max-width: 700px) { .menu-grid { grid-template-columns: 1fr !important; } }`}</style>
-            {COURSES.map((course, i) => (
+            {courses.map((course, i) => (
               <CourseCard key={course.label} course={course} index={i} />
             ))}
           </div>
