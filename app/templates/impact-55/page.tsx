@@ -120,7 +120,9 @@ export default function CabinetRenardPage() {
   React.useEffect(() => {
     const h = () => setScrolled(window.scrollY > 50)
     window.addEventListener("scroll", h)
-    
+    return () => window.removeEventListener("scroll", h)
+  }, []);
+
   // Dynamic Services & Testimonials Mutation for Session Data
   useEffect(() => {
     if (c?.services) {
@@ -167,11 +169,7 @@ export default function CabinetRenardPage() {
         }
       });
     }
-  }, [c]);
-return () => window.removeEventListener("scroll", h)
-  }, [])
-
-  return (
+  }, [c]);return (
     <div style={{ background: C.bg, fontFamily: FONT_BODY, overflowX: "hidden" }}>
       <style jsx global>{`@import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Source+Sans+3:wght@300;400;600;700&display=swap');`}</style>
 

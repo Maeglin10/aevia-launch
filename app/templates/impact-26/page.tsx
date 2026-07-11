@@ -145,7 +145,9 @@ export default function Impact26() {
 
   useEffect(() => {
     const t = setInterval(() => setTestimonialIdx(i => (i + 1) % testimonials.length), 4000)
-    
+    return () => clearInterval(t)
+  }, []);
+
   // Dynamic Services & Testimonials Mutation for Session Data
   useEffect(() => {
     if (c?.services) {
@@ -192,11 +194,7 @@ export default function Impact26() {
         }
       });
     }
-  }, [c]);
-return () => clearInterval(t)
-  }, [])
-
-  const toggleWishlist = (i: number) => {
+  }, [c]);const toggleWishlist = (i: number) => {
     setWishlist(prev => {
       const next = new Set(prev)
       next.has(i) ? next.delete(i) : next.add(i)

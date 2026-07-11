@@ -58,7 +58,9 @@ export default function Impact52Page() {
 
   useEffect(() => {
     const id = setInterval(() => setTick((t) => t + 1), 80);
-    
+    return () => clearInterval(id);
+  }, []);
+
   // Dynamic Services & Testimonials Mutation for Session Data
   useEffect(() => {
     if (c?.services) {
@@ -106,8 +108,6 @@ export default function Impact52Page() {
       });
     }
   }, [c]);
-return () => clearInterval(id);
-  }, []);
 
   const glitchChars = "!@#$%^&*<>?/|\\[]{}";
   const heroWord = "PARTICLE";

@@ -160,7 +160,9 @@ export default function Impact174Page() {
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 60)
     window.addEventListener("scroll", fn, { passive: true })
-    
+    return () => window.removeEventListener("scroll", fn)
+  }, []);
+
   // Dynamic Services & Testimonials Mutation for Session Data
   useEffect(() => {
     if (c?.services) {
@@ -207,11 +209,7 @@ export default function Impact174Page() {
         }
       });
     }
-  }, [c]);
-return () => window.removeEventListener("scroll", fn)
-  }, [])
-
-  const navLinks = ["Programs", "Schedule", "Coaches", "Membership"]
+  }, [c]);const navLinks = ["Programs", "Schedule", "Coaches", "Membership"]
 
   return (
     <div className="min-h-screen overflow-x-hidden bg-[#0a0a0a] text-[#f5f5f5]" style={{ fontFamily: "'Inter', sans-serif" }}>

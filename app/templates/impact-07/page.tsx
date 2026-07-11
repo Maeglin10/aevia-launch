@@ -151,7 +151,9 @@ export default function AetherSoundPage() {
   useEffect(() => {
     const h = () => setScrolled(window.scrollY > 50);
     window.addEventListener("scroll", h);
-    
+    return () => window.removeEventListener("scroll", h);
+  }, []);
+
   // Dynamic Services & Testimonials Mutation for Session Data
   useEffect(() => {
     if (c?.services) {
@@ -199,8 +201,6 @@ export default function AetherSoundPage() {
       });
     }
   }, [c]);
-return () => window.removeEventListener("scroll", h);
-  }, []);
 
   return (
     <div className="premium-theme min-h-screen bg-[#080808] text-[#d4d4d4] font-sans selection:bg-[#c9a84c] selection:text-black overflow-x-hidden">

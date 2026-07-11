@@ -745,7 +745,9 @@ export default function ImpactEclatPage() {
   useEffect(() => {
     const handleScroll = () => setNavScrolled(window.scrollY > 60);
     window.addEventListener("scroll", handleScroll);
-    
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   // Dynamic Services & Testimonials Mutation for Session Data
   useEffect(() => {
     if (c?.services) {
@@ -793,8 +795,6 @@ export default function ImpactEclatPage() {
       });
     }
   }, [c]);
-return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   const filters = ["Tous", "Été Brûlant", "Essentiels Neutres", "Nuit Dorée", "Resort Méditerranée"];
   const filteredProducts =

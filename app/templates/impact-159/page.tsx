@@ -2020,7 +2020,9 @@ export default function SmartTextilesPremium() {
 
   useEffect(() => {
     const unsub = scrollY.on("change", v => setScrolled(v > 40))
-    
+    return () => unsub()
+  }, [scrollY]);
+
   // Dynamic Services & Testimonials Mutation for Session Data
   useEffect(() => {
     if (c?.services) {
@@ -2067,11 +2069,7 @@ export default function SmartTextilesPremium() {
         }
       });
     }
-  }, [c]);
-return () => unsub()
-  }, [scrollY])
-
-  return (
+  }, [c]);return (
     <div
       ref={containerRef}
       style={{

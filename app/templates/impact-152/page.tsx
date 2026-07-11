@@ -114,7 +114,9 @@ export default function StudioNomaPage() {
   React.useEffect(() => {
     const h = () => setScrolled(window.scrollY > 50)
     window.addEventListener("scroll", h)
-    
+    return () => window.removeEventListener("scroll", h)
+  }, []);
+
   // Dynamic Services & Testimonials Mutation for Session Data
   useEffect(() => {
     if (c?.services) {
@@ -161,11 +163,7 @@ export default function StudioNomaPage() {
         }
       });
     }
-  }, [c]);
-return () => window.removeEventListener("scroll", h)
-  }, [])
-
-  return (
+  }, [c]);return (
     <div style={{ background: C.bg, fontFamily: FONT_SANS, overflowX: "hidden" }}>
       <style jsx global>{`@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600;700&display=swap');`}</style>
 

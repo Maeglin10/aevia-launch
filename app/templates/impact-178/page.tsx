@@ -95,7 +95,9 @@ export default function AltaTransactionsPage() {
   useEffect(() => {
     const h = () => setScrolled(window.scrollY > 60)
     window.addEventListener("scroll", h)
-    
+    return () => window.removeEventListener("scroll", h)
+  }, []);
+
   // Dynamic Services & Testimonials Mutation for Session Data
   useEffect(() => {
     if (c?.services) {
@@ -142,11 +144,7 @@ export default function AltaTransactionsPage() {
         }
       });
     }
-  }, [c]);
-return () => window.removeEventListener("scroll", h)
-  }, [])
-
-  return (
+  }, [c]);return (
     <div className="bg-[#fefdfb] text-[#11182a] overflow-x-hidden" style={{ fontFamily: "'Inter', system-ui, sans-serif" }}>
       {/* ── NAVBAR ── */}
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#11182a]/97 backdrop-blur-xl py-4 border-b border-[#b8944a]/15" : "bg-transparent py-7"}`}>

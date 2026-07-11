@@ -1647,7 +1647,9 @@ export default function FlammeEtCoPage() {
   // Nav darkening on scroll
   useEffect(() => {
     const unsub = scrollY.on('change', v => setScrolled(v > 60));
-    
+    return () => unsub();
+  }, [scrollY]);
+
   // Dynamic Services & Testimonials Mutation for Session Data
   useEffect(() => {
     if (c?.services) {
@@ -1695,8 +1697,6 @@ export default function FlammeEtCoPage() {
       });
     }
   }, [c]);
-return () => unsub();
-  }, [scrollY]);
 
   const navLinks = [
     { label: 'Poêles à bois',      href: '#categories' },

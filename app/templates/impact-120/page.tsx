@@ -209,7 +209,9 @@ export default function EclatLuxuryPage() {
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
     window.addEventListener("scroll", handleScroll);
-    
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   // Dynamic Services & Testimonials Mutation for Session Data
   useEffect(() => {
     if (c?.services) {
@@ -257,8 +259,6 @@ export default function EclatLuxuryPage() {
       });
     }
   }, [c]);
-return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   return (
     <div className="bg-[#050308] text-zinc-300 font-sans min-h-screen selection:bg-fuchsia-900 selection:text-white" style={{ overflowX: "hidden" }}>

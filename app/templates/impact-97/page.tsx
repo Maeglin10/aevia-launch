@@ -204,7 +204,9 @@ export default function HorizonYachtPage() {
   useEffect(() => {
     const h = () => setScrolled(window.scrollY > 50);
     window.addEventListener("scroll", h);
-    
+    return () => window.removeEventListener("scroll", h);
+  }, []);
+
   // Dynamic Services & Testimonials Mutation for Session Data
   useEffect(() => {
     if (c?.services) {
@@ -252,8 +254,6 @@ export default function HorizonYachtPage() {
       });
     }
   }, [c]);
-return () => window.removeEventListener("scroll", h);
-  }, []);
 
   return (
     <div className="premium-theme min-h-screen bg-[#020a13] text-[#f4f4f4] font-sans selection:bg-[#c5a059] selection:text-white overflow-x-hidden">

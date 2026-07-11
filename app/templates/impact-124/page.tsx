@@ -155,7 +155,9 @@ export default function MorphStudioPage() {
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50)
     window.addEventListener("scroll", handleScroll)
-    
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, []);
+
   // Dynamic Services & Testimonials Mutation for Session Data
   useEffect(() => {
     if (c?.services) {
@@ -202,11 +204,7 @@ export default function MorphStudioPage() {
         }
       });
     }
-  }, [c]);
-return () => window.removeEventListener("scroll", handleScroll)
-  }, [])
-
-  return (
+  }, [c]);return (
     <div className="bg-[#050505] text-[#e0e0e0] font-mono min-h-screen selection:bg-cyan-500/30 selection:text-cyan-200 overflow-x-hidden">
       
       <GridBackground />

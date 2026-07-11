@@ -79,7 +79,9 @@ export default function DrFontainePage() {
   useEffect(() => {
     const h = () => setScrolled(window.scrollY > 60)
     window.addEventListener("scroll", h)
-    
+    return () => window.removeEventListener("scroll", h)
+  }, []);
+
   // Dynamic Services & Testimonials Mutation for Session Data
   useEffect(() => {
     if (c?.services) {
@@ -126,11 +128,7 @@ export default function DrFontainePage() {
         }
       });
     }
-  }, [c]);
-return () => window.removeEventListener("scroll", h)
-  }, [])
-
-  return (
+  }, [c]);return (
     <div className="bg-white text-[#1a2332] overflow-x-hidden" style={{ fontFamily: "'Nunito', 'Inter', system-ui, sans-serif" }}>
       {/* ── NAVBAR ── */}
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-white/98 backdrop-blur-xl py-3 shadow-sm border-b border-[#1d6fa4]/10" : "bg-white/95 backdrop-blur-md py-5 border-b border-[#1d6fa4]/5"}`}>

@@ -233,7 +233,9 @@ export default function TextRevealPage() {
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
     window.addEventListener("scroll", handleScroll);
-    
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   // Dynamic Services & Testimonials Mutation for Session Data
   useEffect(() => {
     if (c?.services) {
@@ -281,8 +283,6 @@ export default function TextRevealPage() {
       });
     }
   }, [c]);
-return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   return (
     <div className="premium-theme min-h-screen bg-[#0a0a0a] text-zinc-100 font-sans selection:bg-white selection:text-black">

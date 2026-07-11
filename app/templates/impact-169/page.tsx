@@ -471,7 +471,9 @@ export default function ImpactFrequencePage() {
   useEffect(() => {
     const onScroll = () => setIsScrolled(window.scrollY > 60);
     window.addEventListener("scroll", onScroll);
-    
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   // Dynamic Services & Testimonials Mutation for Session Data
   useEffect(() => {
     if (c?.services) {
@@ -519,8 +521,6 @@ export default function ImpactFrequencePage() {
       });
     }
   }, [c]);
-return () => window.removeEventListener("scroll", onScroll);
-  }, []);
 
   return (
     <div

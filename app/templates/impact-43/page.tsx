@@ -75,7 +75,9 @@ export default function SereneRetreatHome() {
     const interval = setInterval(() => {
       setActiveTestimonial((prev) => (prev + 1) % TESTIMONIALS.length);
     }, 5000);
-    
+    return () => clearInterval(interval);
+  }, []);
+
   // Dynamic Services & Testimonials Mutation for Session Data
   useEffect(() => {
     if (c?.services) {
@@ -123,8 +125,6 @@ export default function SereneRetreatHome() {
       });
     }
   }, [c]);
-return () => clearInterval(interval);
-  }, []);
 
   return (
     <div ref={containerRef} style={{ background: C.cream, minHeight: "100vh" }}>

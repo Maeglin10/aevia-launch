@@ -118,7 +118,9 @@ export default function EssentialSaaSPage() {
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40)
     window.addEventListener("scroll", onScroll, { passive: true })
-    
+    return () => window.removeEventListener("scroll", onScroll)
+  }, []);
+
   // Dynamic Services & Testimonials Mutation for Session Data
   useEffect(() => {
     if (c?.services) {
@@ -165,11 +167,7 @@ export default function EssentialSaaSPage() {
         }
       });
     }
-  }, [c]);
-return () => window.removeEventListener("scroll", onScroll)
-  }, [])
-
-  return (
+  }, [c]);return (
     <div className="min-h-screen bg-white text-[#0F172A]" style={{ fontFamily: "'Inter', sans-serif" }}>
       <motion.div className="fixed top-0 left-0 h-[3px] bg-[#6366F1] z-[1000] origin-left" style={{ scaleX: scrollYProgress }} />
 

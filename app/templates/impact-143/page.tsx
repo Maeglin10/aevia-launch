@@ -95,7 +95,9 @@ export default function AtelierInteriorPage() {
   useEffect(() => {
     const h = () => setScrolled(window.scrollY > 60)
     window.addEventListener("scroll", h)
-    
+    return () => window.removeEventListener("scroll", h)
+  }, []);
+
   // Dynamic Services & Testimonials Mutation for Session Data
   useEffect(() => {
     if (c?.services) {
@@ -142,11 +144,7 @@ export default function AtelierInteriorPage() {
         }
       });
     }
-  }, [c]);
-return () => window.removeEventListener("scroll", h)
-  }, [])
-
-  return (
+  }, [c]);return (
     <div className="bg-[#f5f0eb] text-[#2a2520] font-sans min-h-screen selection:bg-[#8b7355] selection:text-white overflow-x-hidden">
 
       {/* ── NAVBAR ─────────────── */}

@@ -236,7 +236,9 @@ export default function Impact171Page() {
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 60)
     window.addEventListener("scroll", fn, { passive: true })
-    
+    return () => window.removeEventListener("scroll", fn)
+  }, []);
+
   // Dynamic Services & Testimonials Mutation for Session Data
   useEffect(() => {
     if (c?.services) {
@@ -283,11 +285,7 @@ export default function Impact171Page() {
         }
       });
     }
-  }, [c]);
-return () => window.removeEventListener("scroll", fn)
-  }, [])
-
-  const navLinks = ["Spécialités", "Médecins", "Protocoles", "Science", "Tarifs", "Contact"]
+  }, [c]);const navLinks = ["Spécialités", "Médecins", "Protocoles", "Science", "Tarifs", "Contact"]
   const activeSpecData = SPECIALTIES.find(s => s.id === activeSpec)!
 
   return (

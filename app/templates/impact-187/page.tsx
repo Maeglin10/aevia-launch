@@ -79,7 +79,9 @@ export default function MaxPerformancePage() {
   useEffect(() => {
     const h = () => setScrolled(window.scrollY > 60)
     window.addEventListener("scroll", h)
-    
+    return () => window.removeEventListener("scroll", h)
+  }, []);
+
   // Dynamic Services & Testimonials Mutation for Session Data
   useEffect(() => {
     if (c?.services) {
@@ -126,11 +128,7 @@ export default function MaxPerformancePage() {
         }
       });
     }
-  }, [c]);
-return () => window.removeEventListener("scroll", h)
-  }, [])
-
-  return (
+  }, [c]);return (
     <div className="bg-[#0a0a0a] text-[#f8f5f0] overflow-x-hidden" style={{ fontFamily: "'Geist', 'Inter', system-ui, sans-serif" }}>
       {/* ── NAVBAR ── */}
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#0a0a0a]/97 backdrop-blur-xl py-3 border-b border-[#f97316]/10" : "bg-transparent py-7"}`}>

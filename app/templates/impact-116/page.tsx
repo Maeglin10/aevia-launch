@@ -162,7 +162,9 @@ export default function KineticStudio() {
     const interval = setInterval(() => {
       setReel((prev) => (prev + 1) % REELTHUMB.length)
     }, 3000)
-    
+    return () => clearInterval(interval)
+  }, []);
+
   // Dynamic Services & Testimonials Mutation for Session Data
   useEffect(() => {
     if (c?.services) {
@@ -209,11 +211,7 @@ export default function KineticStudio() {
         }
       });
     }
-  }, [c]);
-return () => clearInterval(interval)
-  }, [])
-
-  return (
+  }, [c]);return (
     <div className="min-h-screen bg-[#06060a] text-white">
       <motion.section style={{ y: heroY }} className="relative h-screen flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-[#1a1a2e] via-[#06060a] to-[#06060a]" />

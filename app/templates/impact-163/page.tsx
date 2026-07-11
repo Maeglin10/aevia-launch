@@ -371,7 +371,9 @@ export default function EssentialBlogPage() {
   // Auto-rotate testimonials
   useEffect(() => {
     const t = setInterval(() => setTestimonialIdx(i => (i + 1) % TESTIMONIALS.length), 4000);
-    
+    return () => clearInterval(t);
+  }, []);
+
   // Dynamic Services & Testimonials Mutation for Session Data
   useEffect(() => {
     if (c?.services) {
@@ -419,8 +421,6 @@ export default function EssentialBlogPage() {
       });
     }
   }, [c]);
-return () => clearInterval(t);
-  }, []);
 
   return (
     <div ref={containerRef} style={{ background: C.bg, color: C.text, fontFamily: C.sans, overflowX: "hidden" }}>

@@ -203,7 +203,9 @@ export default function FolioStudioPage() {
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50)
     window.addEventListener("scroll", handleScroll)
-    
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, []);
+
   // Dynamic Services & Testimonials Mutation for Session Data
   useEffect(() => {
     if (c?.services) {
@@ -250,11 +252,7 @@ export default function FolioStudioPage() {
         }
       });
     }
-  }, [c]);
-return () => window.removeEventListener("scroll", handleScroll)
-  }, [])
-
-  return (
+  }, [c]);return (
     <div className="bg-white text-zinc-900 font-sans min-h-screen selection:bg-zinc-900 selection:text-white overflow-x-hidden">
       
       {/* ─── NAVBAR ────────────────────────────────────────────────────── */}

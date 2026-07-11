@@ -230,7 +230,9 @@ export default function NexusSaaSPage() {
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
     window.addEventListener("scroll", handleScroll);
-    
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   // Dynamic Services & Testimonials Mutation for Session Data
   useEffect(() => {
     if (c?.services) {
@@ -278,8 +280,6 @@ export default function NexusSaaSPage() {
       });
     }
   }, [c]);
-return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   return (
     <div className="premium-theme min-h-screen bg-[#05050a] text-white selection:bg-violet-500/30 font-sans overflow-x-hidden">

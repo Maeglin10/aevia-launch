@@ -785,7 +785,9 @@ export default function Impact167Page() {
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 60);
     window.addEventListener("scroll", handleScroll, { passive: true });
-    
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   // Dynamic Services & Testimonials Mutation for Session Data
   useEffect(() => {
     if (c?.services) {
@@ -833,8 +835,6 @@ export default function Impact167Page() {
       });
     }
   }, [c]);
-return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {

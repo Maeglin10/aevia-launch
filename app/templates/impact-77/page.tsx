@@ -163,7 +163,9 @@ export default function HorologsLuxePage() {
   useEffect(() => {
     const h = () => setScrolled(window.scrollY > 60);
     window.addEventListener("scroll", h);
-    
+    return () => window.removeEventListener("scroll", h);
+  }, []);
+
   // Dynamic Services & Testimonials Mutation for Session Data
   useEffect(() => {
     if (c?.services) {
@@ -211,8 +213,6 @@ export default function HorologsLuxePage() {
       });
     }
   }, [c]);
-return () => window.removeEventListener("scroll", h);
-  }, []);
 
   const filtered =
     activeCategory === "All"

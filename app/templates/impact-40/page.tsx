@@ -370,7 +370,9 @@ export default function TerreVivantePage() {
   useEffect(() => {
     const handler = () => setScrolled(window.scrollY > 50);
     window.addEventListener("scroll", handler, { passive: true });
-    
+    return () => window.removeEventListener("scroll", handler);
+  }, []);
+
   // Dynamic Services & Testimonials Mutation for Session Data
   useEffect(() => {
     if (c?.services) {
@@ -418,8 +420,6 @@ export default function TerreVivantePage() {
       });
     }
   }, [c]);
-return () => window.removeEventListener("scroll", handler);
-  }, []);
 
   const navLinks = [
     { label: "Produits", href: "#produits" },

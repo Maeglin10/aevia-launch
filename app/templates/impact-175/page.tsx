@@ -501,7 +501,9 @@ export default function Impact175Page() {
 
   useEffect(() => {
     const unsub = scrollY.on("change", (v) => setScrolled(v > 60));
-    
+    return () => unsub();
+  }, [scrollY]);
+
   // Dynamic Services & Testimonials Mutation for Session Data
   useEffect(() => {
     if (c?.services) {
@@ -549,8 +551,6 @@ export default function Impact175Page() {
       });
     }
   }, [c]);
-return () => unsub();
-  }, [scrollY]);
 
   const scrollTo = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });

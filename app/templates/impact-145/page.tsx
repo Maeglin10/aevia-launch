@@ -77,7 +77,9 @@ export default function ArcaneRealtyPage() {
   useEffect(() => {
     const h = () => setScrolled(window.scrollY > 60)
     window.addEventListener("scroll", h)
-    
+    return () => window.removeEventListener("scroll", h)
+  }, []);
+
   // Dynamic Services & Testimonials Mutation for Session Data
   useEffect(() => {
     if (c?.services) {
@@ -124,11 +126,7 @@ export default function ArcaneRealtyPage() {
         }
       });
     }
-  }, [c]);
-return () => window.removeEventListener("scroll", h)
-  }, [])
-
-  return (
+  }, [c]);return (
     <div className="bg-[#0a0a0a] text-white font-sans min-h-screen selection:bg-white selection:text-black overflow-x-hidden">
       
       {/* ── NAVBAR ────────────────── */}

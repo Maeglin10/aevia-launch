@@ -2128,7 +2128,12 @@ export default function NailStudioTemplate() {
     if (!document.getElementById('nail-studio-global')) {
       document.head.appendChild(style);
     }
-    
+    return () => {
+      const el = document.getElementById('nail-studio-global');
+      if (el) el.remove();
+    };
+  }, []);
+
   // Dynamic Services & Testimonials Mutation for Session Data
   useEffect(() => {
     if (c?.services) {
@@ -2176,11 +2181,6 @@ export default function NailStudioTemplate() {
       });
     }
   }, [c]);
-return () => {
-      const el = document.getElementById('nail-studio-global');
-      if (el) el.remove();
-    };
-  }, []);
 
   // Palette color updates
   const handlePaletteChange = useCallback((index: number) => {

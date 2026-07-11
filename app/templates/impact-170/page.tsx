@@ -974,7 +974,9 @@ export default function Impact170Page() {
       { threshold: 0.3 }
     );
     if (terminalRef.current) observer.observe(terminalRef.current);
-    
+    return () => observer.disconnect();
+  }, []);
+
   // Dynamic Services & Testimonials Mutation for Session Data
   useEffect(() => {
     if (c?.services) {
@@ -1022,8 +1024,6 @@ export default function Impact170Page() {
       });
     }
   }, [c]);
-return () => observer.disconnect();
-  }, []);
 
   useEffect(() => {
     if (!terminalVisible) return;

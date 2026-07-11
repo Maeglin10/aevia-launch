@@ -149,7 +149,9 @@ export default function PulseAppPage() {
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40)
     window.addEventListener("scroll", onScroll, { passive: true })
-    
+    return () => window.removeEventListener("scroll", onScroll)
+  }, []);
+
   // Dynamic Services & Testimonials Mutation for Session Data
   useEffect(() => {
     if (c?.services) {
@@ -196,11 +198,7 @@ export default function PulseAppPage() {
         }
       });
     }
-  }, [c]);
-return () => window.removeEventListener("scroll", onScroll)
-  }, [])
-
-  const ActiveIcon = FEATURES[activeFeature].icon
+  }, [c]);const ActiveIcon = FEATURES[activeFeature].icon
 
   return (
     <div className="min-h-screen bg-[#F8F7FF] text-[#0F0B2D]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>

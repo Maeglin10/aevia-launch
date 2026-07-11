@@ -166,7 +166,9 @@ export default function ChronicleEditorialPage() {
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50)
     window.addEventListener("scroll", handleScroll)
-    
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, []);
+
   // Dynamic Services & Testimonials Mutation for Session Data
   useEffect(() => {
     if (c?.services) {
@@ -213,11 +215,7 @@ export default function ChronicleEditorialPage() {
         }
       });
     }
-  }, [c]);
-return () => window.removeEventListener("scroll", handleScroll)
-  }, [])
-
-  return (
+  }, [c]);return (
     <div className="bg-[#fcfaf7] text-[#1a1814] min-h-screen selection:bg-[#d64000] selection:text-white overflow-x-hidden font-sans">
       
       {/* ─── READING PROGRESS BAR ──────────────────────────────────────── */}

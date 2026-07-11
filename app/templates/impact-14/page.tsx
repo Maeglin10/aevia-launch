@@ -841,7 +841,9 @@ export default function HorizonMaritimePage() {
     const t = setInterval(() => {
       setActiveTestimonial((p) => (p + 1) % testimonials.length);
     }, 5000);
-    
+    return () => clearInterval(t);
+  }, []);
+
   // Dynamic Services & Testimonials Mutation for Session Data
   useEffect(() => {
     if (c?.services) {
@@ -889,8 +891,6 @@ export default function HorizonMaritimePage() {
       });
     }
   }, [c]);
-return () => clearInterval(t);
-  }, []);
 
   // Timeline scroll tracking
   useEffect(() => {

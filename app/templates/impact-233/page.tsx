@@ -88,7 +88,11 @@ export default function CabinetOsteopathiePage() {
   const heroY = useTransform(scrollYProgress, [0, 1], [0, 170])
   const heroTextY = useTransform(scrollYProgress, [0, 1], [0, -65])
   const heroOpacity = useTransform(scrollYProgress, [0, 0.65], [1, 0])
-  React.useEffect(() => { const h = () => setScrolled(window.scrollY > 50); window.addEventListener("scroll", h); 
+  React.useEffect(() => {
+    const h = () => setScrolled(window.scrollY > 50); window.addEventListener("scroll", h);
+    return () => window.removeEventListener("scroll", h)
+  }, []);
+
   // Dynamic Services & Testimonials Mutation for Session Data
   useEffect(() => {
     if (c?.services) {
@@ -135,10 +139,7 @@ export default function CabinetOsteopathiePage() {
         }
       });
     }
-  }, [c]);
-return () => window.removeEventListener("scroll", h) }, [])
-
-  return (
+  }, [c]);return (
     <div style={{ background: C.bg, fontFamily: FONT_BODY, overflowX: "hidden" }}>
       <style jsx global>{`@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Source+Sans+3:wght@300;400;600;700&display=swap');`}</style>
 

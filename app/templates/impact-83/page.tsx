@@ -60,7 +60,9 @@ export default function Impact83Page() {
       i = (i + 1) % gems.length;
       setHeroGem(gems[i]);
     }, 3500);
-    
+    return () => clearInterval(timer);
+  }, []);
+
   // Dynamic Services & Testimonials Mutation for Session Data
   useEffect(() => {
     if (c?.services) {
@@ -108,8 +110,6 @@ export default function Impact83Page() {
       });
     }
   }, [c]);
-return () => clearInterval(timer);
-  }, []);
 
   return (
     <div ref={containerRef}>

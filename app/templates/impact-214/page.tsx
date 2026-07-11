@@ -1111,7 +1111,9 @@ export default function AquaPrestigePage() {
   useEffect(() => {
     const handleScroll = () => setNavScrolled(window.scrollY > 40);
     window.addEventListener('scroll', handleScroll, { passive: true });
-    
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   // Dynamic Services & Testimonials Mutation for Session Data
   useEffect(() => {
     if (c?.services) {
@@ -1159,8 +1161,6 @@ export default function AquaPrestigePage() {
       });
     }
   }, [c]);
-return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   const handleNavClick = useCallback((e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();

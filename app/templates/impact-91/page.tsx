@@ -1751,7 +1751,9 @@ export default function Impact91Page() {
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll, { passive: true })
-    
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [handleScroll]);
+
   // Dynamic Services & Testimonials Mutation for Session Data
   useEffect(() => {
     if (c?.services) {
@@ -1798,11 +1800,7 @@ export default function Impact91Page() {
         }
       });
     }
-  }, [c]);
-return () => window.removeEventListener("scroll", handleScroll)
-  }, [handleScroll])
-
-  return (
+  }, [c]);return (
     <div style={{ backgroundColor: C.cream, fontFamily: "'Montserrat', sans-serif" }}>
       <ScrollProgressBar />
       <Nav scrolled={scrolled} />

@@ -2338,7 +2338,12 @@ export default function HoraVivaPage() {
       el.textContent = GLOBAL_CSS;
       document.head.appendChild(el);
     }
-    
+    return () => {
+      const el = document.getElementById(id);
+      if (el) el.remove();
+    };
+  }, []);
+
   // Dynamic Services & Testimonials Mutation for Session Data
   useEffect(() => {
     if (c?.services) {
@@ -2386,11 +2391,6 @@ export default function HoraVivaPage() {
       });
     }
   }, [c]);
-return () => {
-      const el = document.getElementById(id);
-      if (el) el.remove();
-    };
-  }, []);
 
   return (
     <main

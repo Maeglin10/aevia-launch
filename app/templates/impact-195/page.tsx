@@ -92,7 +92,9 @@ export default function MaisonElisePage() {
   useEffect(() => {
     const h = () => setScrolled(window.scrollY > 60)
     window.addEventListener("scroll", h)
-    
+    return () => window.removeEventListener("scroll", h)
+  }, []);
+
   // Dynamic Services & Testimonials Mutation for Session Data
   useEffect(() => {
     if (c?.services) {
@@ -139,11 +141,7 @@ export default function MaisonElisePage() {
         }
       });
     }
-  }, [c]);
-return () => window.removeEventListener("scroll", h)
-  }, [])
-
-  return (
+  }, [c]);return (
     <div className="bg-[#fdfaf7] text-[#1a1018] overflow-x-hidden" style={{ fontFamily: "'Didact Gothic', 'Inter', system-ui, sans-serif" }}>
       {/* ── NAVBAR ── */}
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#fdfaf7]/97 backdrop-blur-xl py-3 shadow-sm border-b border-[#c4a06a]/12" : "bg-transparent py-7"}`}>

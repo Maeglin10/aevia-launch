@@ -611,7 +611,9 @@ export default function Page() {
     const style = document.createElement("style");
     style.textContent = FONTS;
     document.head.appendChild(style);
-    
+    return () => { document.head.removeChild(style); };
+  }, []);
+
   // Dynamic Services & Testimonials Mutation for Session Data
   useEffect(() => {
     if (c?.services) {
@@ -659,8 +661,6 @@ export default function Page() {
       });
     }
   }, [c]);
-return () => { document.head.removeChild(style); };
-  }, []);
 
   return (
     <main style={{ background: C.bg, color: C.brown, minHeight: "100vh", fontFamily: "'Cabin', sans-serif", overflowX: "hidden" }}>

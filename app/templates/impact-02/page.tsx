@@ -183,7 +183,9 @@ export default function CreativePortfolioSPA() {
       mouseY.set(e.clientY);
     };
     window.addEventListener("mousemove", handle);
-    
+    return () => window.removeEventListener("mousemove", handle);
+  }, [mouseX, mouseY]);
+
   // Dynamic Services & Testimonials Mutation for Session Data
   useEffect(() => {
     if (c?.services) {
@@ -231,8 +233,6 @@ export default function CreativePortfolioSPA() {
       });
     }
   }, [c]);
-return () => window.removeEventListener("mousemove", handle);
-  }, [mouseX, mouseY]);
 
   const filtered = activeFilter === "All" ? PROJECTS : PROJECTS.filter(p => p.category === activeFilter);
 

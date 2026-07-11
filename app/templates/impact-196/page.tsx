@@ -126,7 +126,9 @@ export default function CabinetKinePage() {
   React.useEffect(() => {
     const h = () => setScrolled(window.scrollY > 50)
     window.addEventListener("scroll", h)
-    
+    return () => window.removeEventListener("scroll", h)
+  }, []);
+
   // Dynamic Services & Testimonials Mutation for Session Data
   useEffect(() => {
     if (c?.services) {
@@ -173,11 +175,7 @@ export default function CabinetKinePage() {
         }
       });
     }
-  }, [c]);
-return () => window.removeEventListener("scroll", h)
-  }, [])
-
-  return (
+  }, [c]);return (
     <div style={{ background: C.bg, fontFamily: FONT, overflowX: "hidden" }}>
       <style jsx global>{`@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&family=Merriweather:ital,wght@0,300;0,400;1,300&display=swap');`}</style>
 

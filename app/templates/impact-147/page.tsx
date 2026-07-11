@@ -65,7 +65,9 @@ export default function VanguardLegalPage() {
   useEffect(() => {
     const h = () => setScrolled(window.scrollY > 60)
     window.addEventListener("scroll", h)
-    
+    return () => window.removeEventListener("scroll", h)
+  }, []);
+
   // Dynamic Services & Testimonials Mutation for Session Data
   useEffect(() => {
     if (c?.services) {
@@ -112,11 +114,7 @@ export default function VanguardLegalPage() {
         }
       });
     }
-  }, [c]);
-return () => window.removeEventListener("scroll", h)
-  }, [])
-
-  return (
+  }, [c]);return (
     <div className="bg-[#02040a] text-white font-mono min-h-screen selection:bg-[#00ff41] selection:text-black overflow-x-hidden">
       
       {/* ── NAVBAR ────────────────── */}

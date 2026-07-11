@@ -159,7 +159,9 @@ export default function AtlasPage() {
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40)
     window.addEventListener("scroll", onScroll, { passive: true })
-    
+    return () => window.removeEventListener("scroll", onScroll)
+  }, []);
+
   // Dynamic Services & Testimonials Mutation for Session Data
   useEffect(() => {
     if (c?.services) {
@@ -206,11 +208,7 @@ export default function AtlasPage() {
         }
       });
     }
-  }, [c]);
-return () => window.removeEventListener("scroll", onScroll)
-  }, [])
-
-  const filtered = ARTICLES.filter(a => {
+  }, [c]);const filtered = ARTICLES.filter(a => {
     const matchRegion = activeRegion === "Toutes" || a.region.toLowerCase().includes(activeRegion.toLowerCase())
     const matchSearch = !searchQuery || a.title.toLowerCase().includes(searchQuery.toLowerCase()) || a.country.toLowerCase().includes(searchQuery.toLowerCase())
     return matchRegion && matchSearch

@@ -84,7 +84,9 @@ export default function TerraArchitecturePage() {
   useEffect(() => {
     const h = () => setScrolled(window.scrollY > 60)
     window.addEventListener("scroll", h)
-    
+    return () => window.removeEventListener("scroll", h)
+  }, []);
+
   // Dynamic Services & Testimonials Mutation for Session Data
   useEffect(() => {
     if (c?.services) {
@@ -131,11 +133,7 @@ export default function TerraArchitecturePage() {
         }
       });
     }
-  }, [c]);
-return () => window.removeEventListener("scroll", h)
-  }, [])
-
-  return (
+  }, [c]);return (
     <div className="bg-[#f2f0eb] text-[#3d3a35] font-sans min-h-screen selection:bg-[#c4b5a2] selection:text-white overflow-x-hidden">
       
       {/* ── NAVBAR ────────────────── */}

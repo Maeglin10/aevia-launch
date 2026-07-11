@@ -763,7 +763,9 @@ export default function LumiereCliniquePage() {
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40)
     window.addEventListener("scroll", onScroll, { passive: true })
-    
+    return () => window.removeEventListener("scroll", onScroll)
+  }, []);
+
   // Dynamic Services & Testimonials Mutation for Session Data
   useEffect(() => {
     if (c?.services) {
@@ -810,11 +812,7 @@ export default function LumiereCliniquePage() {
         }
       });
     }
-  }, [c]);
-return () => window.removeEventListener("scroll", onScroll)
-  }, [])
-
-  const ActiveIcon = TREATMENTS[activeTreatment].icon
+  }, [c]);const ActiveIcon = TREATMENTS[activeTreatment].icon
 
   const NAV_LINKS = [
     { label: "Traitements", id: "traitements" },

@@ -53,7 +53,9 @@ export default function IronClubPage() {
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 50);
     window.addEventListener("scroll", onScroll, { passive: true });
-    
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   // Dynamic Services & Testimonials Mutation for Session Data
   useEffect(() => {
     if (c?.services) {
@@ -101,8 +103,6 @@ export default function IronClubPage() {
       });
     }
   }, [c]);
-return () => window.removeEventListener("scroll", onScroll);
-  }, []);
 
   const BASE = "/templates/impact-87";
   const navLinks = [

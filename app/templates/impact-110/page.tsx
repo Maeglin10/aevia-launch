@@ -84,7 +84,9 @@ export default function OasisWellnessPage() {
   useEffect(() => {
     const h = () => setScrolled(window.scrollY > 60)
     window.addEventListener("scroll", h)
-    
+    return () => window.removeEventListener("scroll", h)
+  }, []);
+
   // Dynamic Services & Testimonials Mutation for Session Data
   useEffect(() => {
     if (c?.services) {
@@ -131,11 +133,7 @@ export default function OasisWellnessPage() {
         }
       });
     }
-  }, [c]);
-return () => window.removeEventListener("scroll", h)
-  }, [])
-
-  return (
+  }, [c]);return (
     <div className="bg-[#faf9f6] text-[#2c3e2d] font-sans min-h-screen selection:bg-[#d4e2d4] selection:text-[#2c3e2d] overflow-x-hidden">
       
       {/* ── NAVBAR ────────────────── */}

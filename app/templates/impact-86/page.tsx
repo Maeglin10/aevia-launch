@@ -410,7 +410,9 @@ export default function AuraWellnessPage() {
     const timer = setInterval(() => {
       setActiveTestimonial((p) => (p + 1) % testimonials.length);
     }, 5000);
-    
+    return () => clearInterval(timer);
+  }, []);
+
   // Dynamic Services & Testimonials Mutation for Session Data
   useEffect(() => {
     if (c?.services) {
@@ -458,8 +460,6 @@ export default function AuraWellnessPage() {
       });
     }
   }, [c]);
-return () => clearInterval(timer);
-  }, []);
 
   const navItems = [
     { label: "Accueil", href: "#hero" },

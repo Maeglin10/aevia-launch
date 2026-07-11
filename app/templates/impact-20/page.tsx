@@ -905,7 +905,9 @@ export default function LuxuryJewelryTemplate() {
       }
     };
     window.addEventListener("scroll", onScroll, { passive: true });
-    
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   // Dynamic Services & Testimonials Mutation for Session Data
   useEffect(() => {
     if (c?.services) {
@@ -953,8 +955,6 @@ export default function LuxuryJewelryTemplate() {
       });
     }
   }, [c]);
-return () => window.removeEventListener("scroll", onScroll);
-  }, []);
 
   const handleEmailSubmit = (e: React.FormEvent) => {
     e.preventDefault();

@@ -191,7 +191,9 @@ export default function AeviaKitchenPage() {
   useEffect(() => {
     const h = () => setScrolled(window.scrollY > 60);
     window.addEventListener("scroll", h);
-    
+    return () => window.removeEventListener("scroll", h);
+  }, []);
+
   // Dynamic Services & Testimonials Mutation for Session Data
   useEffect(() => {
     if (c?.services) {
@@ -239,8 +241,6 @@ export default function AeviaKitchenPage() {
       });
     }
   }, [c]);
-return () => window.removeEventListener("scroll", h);
-  }, []);
 
   return (
     <div className="relative w-full bg-[#faf8f5]">

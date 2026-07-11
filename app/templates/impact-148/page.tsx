@@ -64,7 +64,9 @@ export default function NeonPulsePage() {
   useEffect(() => {
     const h = () => setScrolled(window.scrollY > 60)
     window.addEventListener("scroll", h)
-    
+    return () => window.removeEventListener("scroll", h)
+  }, []);
+
   // Dynamic Services & Testimonials Mutation for Session Data
   useEffect(() => {
     if (c?.services) {
@@ -111,11 +113,7 @@ export default function NeonPulsePage() {
         }
       });
     }
-  }, [c]);
-return () => window.removeEventListener("scroll", h)
-  }, [])
-
-  return (
+  }, [c]);return (
     <div className="bg-[#050505] text-white font-sans min-h-screen selection:bg-purple-500 selection:text-white overflow-x-hidden">
       
       {/* ── GRADIENT BACKGROUND ───── */}

@@ -196,7 +196,9 @@ export default function NovaSpacesPage() {
   useEffect(() => {
     const h = () => setScrolled(window.scrollY > 50);
     window.addEventListener("scroll", h);
-    
+    return () => window.removeEventListener("scroll", h);
+  }, []);
+
   // Dynamic Services & Testimonials Mutation for Session Data
   useEffect(() => {
     if (c?.services) {
@@ -244,8 +246,6 @@ export default function NovaSpacesPage() {
       });
     }
   }, [c]);
-return () => window.removeEventListener("scroll", h);
-  }, []);
 
   return (
     <div className="premium-theme min-h-screen bg-[#f7f7f7] text-[#1a1a1a] font-sans selection:bg-[#1a1a1a] selection:text-white overflow-x-hidden">

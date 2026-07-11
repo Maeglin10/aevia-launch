@@ -203,7 +203,9 @@ export default function QBitLabsPage() {
   useEffect(() => {
     const handler = () => setScrolled(window.scrollY > 48)
     window.addEventListener("scroll", handler)
-    
+    return () => window.removeEventListener("scroll", handler)
+  }, []);
+
   // Dynamic Services & Testimonials Mutation for Session Data
   useEffect(() => {
     if (c?.services) {
@@ -250,11 +252,7 @@ export default function QBitLabsPage() {
         }
       });
     }
-  }, [c]);
-return () => window.removeEventListener("scroll", handler)
-  }, [])
-
-  return (
+  }, [c]);return (
     <div
       style={{
         background: "#f4f4f4",

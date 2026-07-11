@@ -68,7 +68,9 @@ export default function AetherWellnessPage() {
   useEffect(() => {
     const h = () => setScrolled(window.scrollY > 60)
     window.addEventListener("scroll", h)
-    
+    return () => window.removeEventListener("scroll", h)
+  }, []);
+
   // Dynamic Services & Testimonials Mutation for Session Data
   useEffect(() => {
     if (c?.services) {
@@ -115,11 +117,7 @@ export default function AetherWellnessPage() {
         }
       });
     }
-  }, [c]);
-return () => window.removeEventListener("scroll", h)
-  }, [])
-
-  return (
+  }, [c]);return (
     <div className="bg-[#faf9f6] text-[#3d3d3d] font-sans min-h-screen selection:bg-[#e5e7eb] selection:text-[#1a1a1a] overflow-x-hidden">
       
       {/* ── NAVBAR ────────────────── */}

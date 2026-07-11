@@ -123,7 +123,9 @@ export default function MaelleDumasPage() {
   useEffect(() => {
     const h = () => setScrolled(window.scrollY > 60)
     window.addEventListener("scroll", h)
-    
+    return () => window.removeEventListener("scroll", h)
+  }, []);
+
   // Dynamic Services & Testimonials Mutation for Session Data
   useEffect(() => {
     if (c?.services) {
@@ -170,11 +172,7 @@ export default function MaelleDumasPage() {
         }
       });
     }
-  }, [c]);
-return () => window.removeEventListener("scroll", h)
-  }, [])
-
-  return (
+  }, [c]);return (
     <div style={{ background: C.bg, color: C.dark, fontFamily: C.sans }}>
       {/* ── NAVBAR ── */}
       <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 50, transition: "all 0.6s", background: scrolled ? "rgba(250,248,244,0.95)" : "transparent", backdropFilter: scrolled ? "blur(12px)" : "none", borderBottom: scrolled ? `1px solid ${C.line}` : "none", padding: scrolled ? "1rem 0" : "1.75rem 0" }}>

@@ -179,7 +179,9 @@ export default function BlockBasePage() {
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
     window.addEventListener("scroll", handleScroll);
-    
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   // Dynamic Services & Testimonials Mutation for Session Data
   useEffect(() => {
     if (c?.services) {
@@ -227,8 +229,6 @@ export default function BlockBasePage() {
       });
     }
   }, [c]);
-return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   return (
     <div className="premium-theme min-h-screen bg-[#050507] text-white font-mono selection:bg-[#00f2ff] selection:text-black overflow-x-hidden">

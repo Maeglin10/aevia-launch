@@ -95,7 +95,9 @@ export default function VerdantImpactPage() {
   useEffect(() => {
     const h = () => setScrolled(window.scrollY > 60)
     window.addEventListener("scroll", h)
-    
+    return () => window.removeEventListener("scroll", h)
+  }, []);
+
   // Dynamic Services & Testimonials Mutation for Session Data
   useEffect(() => {
     if (c?.services) {
@@ -142,11 +144,7 @@ export default function VerdantImpactPage() {
         }
       });
     }
-  }, [c]);
-return () => window.removeEventListener("scroll", h)
-  }, [])
-
-  return (
+  }, [c]);return (
     <div className="bg-[#f6faf4] text-[#1a2e1a] font-sans min-h-screen selection:bg-emerald-500 selection:text-white overflow-x-hidden">
 
       {/* ── NAVBAR ────────── */}

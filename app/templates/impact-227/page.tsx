@@ -108,7 +108,9 @@ export default function LeBarberClubPage() {
   React.useEffect(() => {
     const h = () => setScrolled(window.scrollY > 50)
     window.addEventListener("scroll", h)
-    
+    return () => window.removeEventListener("scroll", h)
+  }, []);
+
   // Dynamic Services & Testimonials Mutation for Session Data
   useEffect(() => {
     if (c?.services) {
@@ -155,11 +157,7 @@ export default function LeBarberClubPage() {
         }
       });
     }
-  }, [c]);
-return () => window.removeEventListener("scroll", h)
-  }, [])
-
-  return (
+  }, [c]);return (
     <div style={{ background: C.bg, fontFamily: FONT_BODY, overflowX: "hidden" }}>
       <style jsx global>{`@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Raleway:wght@300;400;500;600;700&display=swap');`}</style>
 

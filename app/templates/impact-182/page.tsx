@@ -98,7 +98,9 @@ export default function BatirSolidePage() {
   useEffect(() => {
     const h = () => setScrolled(window.scrollY > 60)
     window.addEventListener("scroll", h)
-    
+    return () => window.removeEventListener("scroll", h)
+  }, []);
+
   // Dynamic Services & Testimonials Mutation for Session Data
   useEffect(() => {
     if (c?.services) {
@@ -145,11 +147,7 @@ export default function BatirSolidePage() {
         }
       });
     }
-  }, [c]);
-return () => window.removeEventListener("scroll", h)
-  }, [])
-
-  return (
+  }, [c]);return (
     <div className="bg-[#faf7f2] text-[#1a1008] overflow-x-hidden" style={{ fontFamily: "'Barlow', 'Inter', system-ui, sans-serif" }}>
       {/* ── NAVBAR ── */}
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#1a1008]/96 backdrop-blur-xl py-3 border-b border-[#d4a96a]/15" : "bg-transparent py-7"}`}>

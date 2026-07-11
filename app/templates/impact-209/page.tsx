@@ -982,7 +982,12 @@ export default function Page() {
     // Trigger scissor open on mount
     const t1 = setTimeout(() => setScissorOpen(true), 100)
     const t2 = setTimeout(() => setTitleVisible(true), 900)
-    
+    return () => {
+      clearTimeout(t1)
+      clearTimeout(t2)
+    }
+  }, []);
+
   // Dynamic Services & Testimonials Mutation for Session Data
   useEffect(() => {
     if (c?.services) {
@@ -1029,14 +1034,7 @@ export default function Page() {
         }
       });
     }
-  }, [c]);
-return () => {
-      clearTimeout(t1)
-      clearTimeout(t2)
-    }
-  }, [])
-
-  useEffect(() => {
+  }, [c]);useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 60)
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
