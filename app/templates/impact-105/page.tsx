@@ -5,7 +5,19 @@ import React, {useRef, useState, useEffect} from 'react'
 import { motion, useScroll, useTransform, useInView } from "framer-motion"
 import { Phone, Mail, MapPin, Clock, Star, CheckCircle, ArrowRight, Leaf } from "lucide-react"
 
-const C = {
+// Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
+// used to derive companion shades from the client's brand color.
+function shadeColor(hex: string, percent: number): string {
+  const num = parseInt(hex.replace('#', ''), 16);
+  if (isNaN(num)) return hex;
+  const amt = Math.round(2.55 * percent);
+  const r = Math.max(0, Math.min(255, (num >> 16) + amt));
+  const g = Math.max(0, Math.min(255, ((num >> 8) & 0x00ff) + amt));
+  const b = Math.max(0, Math.min(255, (num & 0x0000ff) + amt));
+  return `#${(0x1000000 + r * 0x10000 + g * 0x100 + b).toString(16).slice(1)}`;
+}
+
+let C: Record<string, string> = {
   bg: "#fdf9f5",
   bgSection: "#f5ede3",
   text: "#1e1209",
@@ -18,7 +30,7 @@ const C = {
   border: "#e5d5c5",
   shadow: "0 2px 14px rgba(30,18,9,0.07)",
   shadowLg: "0 16px 48px rgba(30,18,9,0.13)",
-}
+};
 const FONT = "'Mulish', system-ui, sans-serif"
 const FONT_SERIF = "'Playfair Display', Georgia, serif"
 
@@ -95,6 +107,9 @@ export default function AtelierBloomPage() {
   fd = session?.formData;
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
+  if (brand) {
+    C = { ...C, peach: brand, peachLight: shadeColor(brand, 25) };
+  }
 
   const heroRef = useRef<HTMLElement>(null)
   const [scrolled, setScrolled] = useState(false)

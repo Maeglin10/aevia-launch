@@ -23,7 +23,19 @@ const FONTS_URL =
   'https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Work+Sans:wght@300;400;500;600&display=swap';
 
 /* ── Palette ─────────────────────────────────────────────────────────────── */
-const C = {
+// Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
+// used to derive companion shades from the client's brand color.
+function shadeColor(hex: string, percent: number): string {
+  const num = parseInt(hex.replace('#', ''), 16);
+  if (isNaN(num)) return hex;
+  const amt = Math.round(2.55 * percent);
+  const r = Math.max(0, Math.min(255, (num >> 16) + amt));
+  const g = Math.max(0, Math.min(255, ((num >> 8) & 0x00ff) + amt));
+  const b = Math.max(0, Math.min(255, (num & 0x0000ff) + amt));
+  return `#${(0x1000000 + r * 0x10000 + g * 0x100 + b).toString(16).slice(1)}`;
+}
+
+let C: Record<string, string> = {
   bg: '#f2f5ee',
   bgAlt: '#e4eade',
   bgDark: '#0c1a08',
@@ -39,7 +51,7 @@ const C = {
   border: '#bcd4b4',
   borderDark: 'rgba(56,108,46,0.2)',
   earth: '#7a5c38',
-} as const;
+};
 
 const SERIF = "'Cormorant Garamond', Georgia, serif" as const;
 const SANS = "'Work Sans', system-ui, sans-serif" as const;
@@ -2123,6 +2135,9 @@ export default function Page() {
   fd = session?.formData;
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
+  if (brand) {
+    C = { ...C, accent: brand, accentLight: shadeColor(brand, 25), accentDark: shadeColor(brand, -20) };
+  }
 
   const root: React.CSSProperties = {
     background: C.bgDark,

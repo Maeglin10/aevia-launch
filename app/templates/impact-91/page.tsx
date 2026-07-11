@@ -35,7 +35,20 @@ import {
 /* ==========================================================================
    AURELIA JEWELS — Design Tokens
    ========================================================================== */
-const C = {
+
+// Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
+// used to derive companion shades from the client's brand color.
+function shadeColor(hex: string, percent: number): string {
+  const num = parseInt(hex.replace('#', ''), 16);
+  if (isNaN(num)) return hex;
+  const amt = Math.round(2.55 * percent);
+  const r = Math.max(0, Math.min(255, (num >> 16) + amt));
+  const g = Math.max(0, Math.min(255, ((num >> 8) & 0x00ff) + amt));
+  const b = Math.max(0, Math.min(255, (num & 0x0000ff) + amt));
+  return `#${(0x1000000 + r * 0x10000 + g * 0x100 + b).toString(16).slice(1)}`;
+}
+
+let C: Record<string, string> = {
   cream:     "#FAFAF9",
   creamSoft: "#F5F4F0",
   gold:      "#CA8A04",
@@ -49,7 +62,7 @@ const C = {
   textMuted: "#78716C",
   textLight: "#A8A29E",
   border:    "rgba(28,25,23,0.08)",
-}
+};
 
 const FONTS = `@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Montserrat:wght@300;400;500;600&display=swap');`
 
@@ -1741,6 +1754,14 @@ export default function Impact91Page() {
   fd = session?.formData;
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
+
+  if (brand) {
+    C = {
+      ...C,
+      gold: brand,
+      goldLight: shadeColor(brand, 25),
+    };
+  }
 
   useFonts()
   const [scrolled, setScrolled] = useState(false)

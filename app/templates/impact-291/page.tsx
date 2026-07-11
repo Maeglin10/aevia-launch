@@ -34,7 +34,19 @@ let brand: any = null;
    ════════════════════════════════════════════════════════════════════════════ */
 
 /* ── Palette ─────────────────────────────────────────────────────────────── */
-const C = {
+// Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
+// used to derive companion shades from the client's brand color.
+function shadeColor(hex: string, percent: number): string {
+  const num = parseInt(hex.replace('#', ''), 16);
+  if (isNaN(num)) return hex;
+  const amt = Math.round(2.55 * percent);
+  const r = Math.max(0, Math.min(255, (num >> 16) + amt));
+  const g = Math.max(0, Math.min(255, ((num >> 8) & 0x00ff) + amt));
+  const b = Math.max(0, Math.min(255, (num & 0x0000ff) + amt));
+  return `#${(0x1000000 + r * 0x10000 + g * 0x100 + b).toString(16).slice(1)}`;
+}
+
+let C: Record<string, string> = {
   terra: '#c4634a',
   terraLight: '#d4836e',
   terraDark: '#a04e39',
@@ -47,7 +59,7 @@ const C = {
   darkMid: '#4a4a4a',
   darkLight: '#6a6a6a',
   white: '#ffffff',
-} as const;
+};
 
 /* ── Typographie ─────────────────────────────────────────────────────────── */
 const SERIF = "'Playfair Display', Georgia, serif" as const;
@@ -2541,6 +2553,9 @@ export default function Impact291Page() {
   fd = session?.formData;
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
+  if (brand) {
+    C = { ...C, terra: brand, terraLight: shadeColor(brand, 25), terraDark: shadeColor(brand, -20) };
+  }
 
   const root: React.CSSProperties = {
     background: C.ivory,

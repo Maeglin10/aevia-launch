@@ -27,14 +27,26 @@ let brand: any = null;
    NovaSaaS — Clean, light SaaS landing page (violet/indigo)
    ════════════════════════════════════════════════════════════════════════════ */
 
-const C = {
+// Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
+// used to derive companion shades from the client's brand color.
+function shadeColor(hex: string, percent: number): string {
+  const num = parseInt(hex.replace('#', ''), 16);
+  if (isNaN(num)) return hex;
+  const amt = Math.round(2.55 * percent);
+  const r = Math.max(0, Math.min(255, (num >> 16) + amt));
+  const g = Math.max(0, Math.min(255, ((num >> 8) & 0x00ff) + amt));
+  const b = Math.max(0, Math.min(255, (num & 0x0000ff) + amt));
+  return `#${(0x1000000 + r * 0x10000 + g * 0x100 + b).toString(16).slice(1)}`;
+}
+
+let C: Record<string, string> = {
   bg: '#ffffff',
   bgSoft: '#f7f7fc',
   bgViolet: '#f3f0ff',
   card: '#ffffff',
   border: '#e8e6f2',
   borderStrong: '#d8d4ec',
-  primary: brand ?? '#6d4aff',
+  primary: '#6d4aff',
   primaryDark: '#5a37e0',
   primaryLight: '#8b6dff',
   indigo: '#4338ca',
@@ -44,7 +56,7 @@ const C = {
   faint: '#b4b1c6',
   green: '#16a34a',
   font: "'Inter', system-ui, -apple-system, sans-serif",
-} as const;
+};
 
 const pageStyle: React.CSSProperties = {
   background: C.bg,
@@ -1226,6 +1238,9 @@ export default function Impact219Page() {
   fd = session?.formData;
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
+  if (brand) {
+    C = { ...C, primary: brand, primaryLight: shadeColor(brand, 25), primaryDark: shadeColor(brand, -20) };
+  }
 
   
   // Dynamic Services & Testimonials Mutation for Session Data

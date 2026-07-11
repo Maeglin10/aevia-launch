@@ -40,7 +40,19 @@ let brand: any = null;
    ════════════════════════════════════════════════════════════════════════════ */
 
 /* ── Palette ─────────────────────────────────────────────────────────────── */
-const C = {
+// Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
+// used to derive companion shades from the client's brand color.
+function shadeColor(hex: string, percent: number): string {
+  const num = parseInt(hex.replace('#', ''), 16);
+  if (isNaN(num)) return hex;
+  const amt = Math.round(2.55 * percent);
+  const r = Math.max(0, Math.min(255, (num >> 16) + amt));
+  const g = Math.max(0, Math.min(255, ((num >> 8) & 0x00ff) + amt));
+  const b = Math.max(0, Math.min(255, (num & 0x0000ff) + amt));
+  return `#${(0x1000000 + r * 0x10000 + g * 0x100 + b).toString(16).slice(1)}`;
+}
+
+let C: Record<string, string> = {
   brick: '#8b2020',
   brickDeep: '#6a1818',
   brickMid: '#a52828',
@@ -52,7 +64,7 @@ const C = {
   darkMid: '#3d3d3d',
   darkLight: '#555555',
   overlay: 'rgba(44,44,44,0.88)',
-} as const;
+};
 
 /* ── Typographie ─────────────────────────────────────────────────────────── */
 const SERIF = "'Montserrat', system-ui, sans-serif" as const;
@@ -2796,6 +2808,9 @@ function Impact278Page() {
   fd = session?.formData;
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
+  if (brand) {
+    C = { ...C, brick: brand, brickLight: shadeColor(brand, 25) };
+  }
 
   const root: React.CSSProperties = {
     background: C.dark,

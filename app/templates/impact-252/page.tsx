@@ -23,7 +23,19 @@ const FONTS_URL =
   'https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,300;0,400;0,600;0,700;1,300&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap';
 
 /* ── Palette ─────────────────────────────────────────────────────────────── */
-const C = {
+// Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
+// used to derive companion shades from the client's brand color.
+function shadeColor(hex: string, percent: number): string {
+  const num = parseInt(hex.replace('#', ''), 16);
+  if (isNaN(num)) return hex;
+  const amt = Math.round(2.55 * percent);
+  const r = Math.max(0, Math.min(255, (num >> 16) + amt));
+  const g = Math.max(0, Math.min(255, ((num >> 8) & 0x00ff) + amt));
+  const b = Math.max(0, Math.min(255, (num & 0x0000ff) + amt));
+  return `#${(0x1000000 + r * 0x10000 + g * 0x100 + b).toString(16).slice(1)}`;
+}
+
+let C: Record<string, string> = {
   bg: '#f8fafb',
   bgAlt: '#edf4f8',
   bgDark: '#081420',
@@ -39,7 +51,7 @@ const C = {
   border: '#c0dae4',
   borderDark: 'rgba(26,138,154,0.2)',
   gold: '#c8a84c',
-} as const;
+};
 
 const SERIF = "'Crimson Pro', Georgia, serif" as const;
 const SANS = "'Josefin Sans', system-ui, sans-serif" as const;
@@ -2013,6 +2025,9 @@ export default function Page() {
   fd = session?.formData;
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
+  if (brand) {
+    C = { ...C, accent: brand, accentLight: shadeColor(brand, 25), accentDark: shadeColor(brand, -20) };
+  }
 
   const root: React.CSSProperties = {
     background: C.bg,

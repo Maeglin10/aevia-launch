@@ -5,14 +5,26 @@ import React, {useRef, useState, useEffect} from 'react'
 import { motion, useScroll, useTransform, useInView } from "framer-motion"
 import { Phone, Mail, MapPin, Clock, Star, CheckCircle, ArrowRight, Zap } from "lucide-react"
 
-const C = {
+// Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
+// used to derive companion shades from the client's brand color.
+function shadeColor(hex: string, percent: number): string {
+  const num = parseInt(hex.replace('#', ''), 16);
+  if (isNaN(num)) return hex;
+  const amt = Math.round(2.55 * percent);
+  const r = Math.max(0, Math.min(255, (num >> 16) + amt));
+  const g = Math.max(0, Math.min(255, ((num >> 8) & 0x00ff) + amt));
+  const b = Math.max(0, Math.min(255, (num & 0x0000ff) + amt));
+  return `#${(0x1000000 + r * 0x10000 + g * 0x100 + b).toString(16).slice(1)}`;
+}
+
+let C: Record<string, string> = {
   bg: "#f8f6f3", bgSection: "#ede9e3", bgDark: "#130f0a",
   text: "#130f0a", textMuted: "#7a6e60",
   accent: "#2d6b8a", accentDark: "#1e4d66", accentLight: "#d0e8f5",
   warm: "#c4783c", warmLight: "#fdf0e6",
   white: "#ffffff", border: "#ddd5c8",
   shadow: "0 2px 14px rgba(19,15,10,0.07)", shadowLg: "0 16px 48px rgba(45,107,138,0.15)",
-}
+};
 const FONT = "'Cormorant Garamond', Georgia, serif"
 const FONT_BODY = "'Source Sans 3', system-ui, sans-serif"
 
@@ -80,6 +92,9 @@ export default function CabinetOsteopathiePage() {
   fd = session?.formData;
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
+  if (brand) {
+    C = { ...C, accent: brand };
+  }
 
   const heroRef = useRef<HTMLElement>(null)
   const [scrolled, setScrolled] = useState(false)

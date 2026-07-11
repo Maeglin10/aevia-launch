@@ -73,7 +73,19 @@ const Instagram = ({ size = 24, ...props }: React.ComponentProps<'svg'> & { size
    Fichier auto-suffisant premium généré par Antigravity.
    ════════════════════════════════════════════════════════════════════════════ */
 
-const C = {
+// Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
+// used to derive companion shades from the client's brand color.
+function shadeColor(hex: string, percent: number): string {
+  const num = parseInt(hex.replace('#', ''), 16);
+  if (isNaN(num)) return hex;
+  const amt = Math.round(2.55 * percent);
+  const r = Math.max(0, Math.min(255, (num >> 16) + amt));
+  const g = Math.max(0, Math.min(255, ((num >> 8) & 0x00ff) + amt));
+  const b = Math.max(0, Math.min(255, (num & 0x0000ff) + amt));
+  return `#${(0x1000000 + r * 0x10000 + g * 0x100 + b).toString(16).slice(1)}`;
+}
+
+let C: Record<string, string> = {
   primary: "#d4828a",
   primaryLight: "#e89da4",
   primaryDark: "#b06070",
@@ -82,10 +94,10 @@ const C = {
   bgCard: "#ffffff",
   text: "#2a1015",
   textMuted: "#8a6068",
-  accent: brand ?? '#7a9e7e',
+  accent: '#7a9e7e',
   white: "#ffffff",
   black: "#000000",
-} as const;
+};
 
 const SERIF = "'Merriweather', serif" as const;
 const SANS = "'Lato', sans-serif" as const;
@@ -242,6 +254,9 @@ export default function Page() {
   fd = session?.formData;
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
+  if (brand) {
+    C = { ...C, primary: brand, primaryLight: shadeColor(brand, 25), primaryDark: shadeColor(brand, -20) };
+  }
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeCategory, setActiveCategory] = useState("Tous");

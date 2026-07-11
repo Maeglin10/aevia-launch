@@ -31,7 +31,19 @@ import {
    ════════════════════════════════════════════════════════════════════════════ */
 
 /* ── Palette ─────────────────────────────────────────────────────────────── */
-const C = {
+// Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
+// used to derive companion shades from the client's brand color.
+function shadeColor(hex: string, percent: number): string {
+  const num = parseInt(hex.replace('#', ''), 16);
+  if (isNaN(num)) return hex;
+  const amt = Math.round(2.55 * percent);
+  const r = Math.max(0, Math.min(255, (num >> 16) + amt));
+  const g = Math.max(0, Math.min(255, ((num >> 8) & 0x00ff) + amt));
+  const b = Math.max(0, Math.min(255, (num & 0x0000ff) + amt));
+  return `#${(0x1000000 + r * 0x10000 + g * 0x100 + b).toString(16).slice(1)}`;
+}
+
+let C: Record<string, string> = {
   rose: '#d4a5a5',
   roseDark: '#b8847e',
   roseLight: '#e8cece',
@@ -46,7 +58,7 @@ const C = {
   taupeLight: '#b0a8a3',
   ink: '#2e2825',
   white: '#ffffff',
-} as const;
+};
 
 const SERIF = "'Cormorant Garamond', Georgia, serif" as const;
 const SANS = "'Jost', system-ui, sans-serif" as const;
@@ -3222,6 +3234,9 @@ export default function Impact280Page() {
   fd = session?.formData;
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
+  if (brand) {
+    C = { ...C, rose: brand, roseLight: shadeColor(brand, 25), roseDark: shadeColor(brand, -20) };
+  }
 
   
   // Dynamic Services & Testimonials Mutation for Session Data

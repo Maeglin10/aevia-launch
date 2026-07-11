@@ -30,7 +30,19 @@ import {
    ════════════════════════════════════════════════════════════════════════════ */
 
 /* ── Palette ─────────────────────────────────────────────────────────────── */
-const C = {
+// Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
+// used to derive companion shades from the client's brand color.
+function shadeColor(hex: string, percent: number): string {
+  const num = parseInt(hex.replace('#', ''), 16);
+  if (isNaN(num)) return hex;
+  const amt = Math.round(2.55 * percent);
+  const r = Math.max(0, Math.min(255, (num >> 16) + amt));
+  const g = Math.max(0, Math.min(255, ((num >> 8) & 0x00ff) + amt));
+  const b = Math.max(0, Math.min(255, (num & 0x0000ff) + amt));
+  return `#${(0x1000000 + r * 0x10000 + g * 0x100 + b).toString(16).slice(1)}`;
+}
+
+let C: Record<string, string> = {
   blue: '#1c3f6e',
   blueDeep: '#142d50',
   blueMid: '#254f8a',
@@ -43,7 +55,7 @@ const C = {
   redLight: '#c43232',
   ink: '#111827',
   muted: 'rgba(17,24,39,0.62)',
-} as const;
+};
 
 /* ── Typographies ──────────────────────────────────────────────────────────── */
 const SERIF = "'Libre Baskerville', Georgia, serif" as const;
@@ -2557,6 +2569,9 @@ export default function Impact289Page() {
   fd = session?.formData;
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
+  if (brand) {
+    C = { ...C, blue: brand };
+  }
 
   const root: React.CSSProperties = {
     background: C.blueDeep,

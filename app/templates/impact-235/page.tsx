@@ -1796,8 +1796,12 @@ export default function AtlierMargueriteVossPage() {
   fd = session?.formData;
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
+
   if (brand) {
-    C = { ...C, gold: brand };
+    C = {
+      ...C,
+      gold: brand,
+    };
   }
 
   

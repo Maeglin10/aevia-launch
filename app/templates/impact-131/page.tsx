@@ -630,8 +630,12 @@ export default function WineryTemplate() {
   fd = session?.formData;
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
+
   if (brand) {
-    C = { ...C, burgundy: brand };
+    C = {
+      ...C,
+      burgundy: brand,
+    };
   }
 
   useFonts();

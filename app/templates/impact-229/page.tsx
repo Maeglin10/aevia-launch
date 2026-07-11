@@ -5,7 +5,19 @@ import React, {useRef, useState, useEffect} from 'react'
 import { motion, useScroll, useTransform, useInView } from "framer-motion"
 import { Sparkles, Phone, Mail, MapPin, Clock, Star, CheckCircle, ArrowRight, Heart } from "lucide-react"
 
-const C = {
+// Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
+// used to derive companion shades from the client's brand color.
+function shadeColor(hex: string, percent: number): string {
+  const num = parseInt(hex.replace('#', ''), 16);
+  if (isNaN(num)) return hex;
+  const amt = Math.round(2.55 * percent);
+  const r = Math.max(0, Math.min(255, (num >> 16) + amt));
+  const g = Math.max(0, Math.min(255, ((num >> 8) & 0x00ff) + amt));
+  const b = Math.max(0, Math.min(255, (num & 0x0000ff) + amt));
+  return `#${(0x1000000 + r * 0x10000 + g * 0x100 + b).toString(16).slice(1)}`;
+}
+
+let C: Record<string, string> = {
   bg: "#fdf8f5", bgSection: "#f6ede5", bgDark: "#1e0f08",
   text: "#1e0f08", textMuted: "#8a6450",
   accent: "#c4634a", accentDark: "#a8482f", accentLight: "#fce8e2",
@@ -13,7 +25,7 @@ const C = {
   gold: "#c9a07a",
   white: "#ffffff", border: "#edd8cc",
   shadow: "0 2px 14px rgba(30,15,8,0.07)", shadowLg: "0 16px 48px rgba(196,99,74,0.18)",
-}
+};
 const FONT = "'Cormorant Garamond', Georgia, serif"
 const FONT_BODY = "'Karla', system-ui, sans-serif"
 
@@ -81,6 +93,9 @@ export default function EclatSpaPage() {
   fd = session?.formData;
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
+  if (brand) {
+    C = { ...C, accent: brand };
+  }
 
   const heroRef = useRef<HTMLElement>(null)
   const [scrolled, setScrolled] = useState(false)
