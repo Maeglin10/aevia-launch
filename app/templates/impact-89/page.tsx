@@ -535,8 +535,14 @@ export default function Impact89Page() {
   fd = session?.formData;
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
+
   if (brand) {
-    C = { ...C, accent: brand };
+    C = {
+      ...C,
+      accent: brand,
+      accentHover: shadeColor(brand, -20),
+      accentBright: shadeColor(brand, 25),
+    };
   }
 
   const containerRef = useRef(null);

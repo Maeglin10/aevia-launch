@@ -927,8 +927,12 @@ export default function Impact170Page() {
   fd = session?.formData;
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
+
   if (brand) {
-    C = { ...C, green: brand };
+    C = {
+      ...C,
+      green: brand,
+    };
   }
 
   useFonts();

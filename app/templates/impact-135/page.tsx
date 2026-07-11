@@ -10,13 +10,25 @@ import { TemplateIcon } from '@/components/TemplateIcon';
 let brand: any = null;
 
 // ─── Design tokens ───────────────────────────────────────────────────────────
-const C = {
+// Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
+// used to derive companion shades from the client's brand color.
+function shadeColor(hex: string, percent: number): string {
+  const num = parseInt(hex.replace('#', ''), 16);
+  if (isNaN(num)) return hex;
+  const amt = Math.round(2.55 * percent);
+  const r = Math.max(0, Math.min(255, (num >> 16) + amt));
+  const g = Math.max(0, Math.min(255, ((num >> 8) & 0x00ff) + amt));
+  const b = Math.max(0, Math.min(255, (num & 0x0000ff) + amt));
+  return `#${(0x1000000 + r * 0x10000 + g * 0x100 + b).toString(16).slice(1)}`;
+}
+
+let C: Record<string, string> = {
   bg:        "#0a0b0d",
   surface:   "#0f1114",
   card:      "#131619",
   border:    "#1e2328",
   borderHi:  "#2a3038",
-  accent: brand ?? '#00ff88',
+  accent: '#00ff88',
   accentDim: "#00cc6a",
   accentGlow:"rgba(0,255,136,0.12)",
   red:       "#ff4040",
@@ -998,6 +1010,9 @@ export default function Impact135Page() {
   fd = session?.formData;
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
+  if (brand) {
+    C = { ...C, accent: brand };
+  }
 
   useFonts();
 

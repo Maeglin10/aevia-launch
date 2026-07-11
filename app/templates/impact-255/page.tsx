@@ -24,7 +24,20 @@ const FONTS_HREF =
   'https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap';
 
 /* ── Palette ─────────────────────────────────────────────────────────────── */
-const C = {
+
+// Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
+// used to derive companion shades from the client's brand color.
+function shadeColor(hex: string, percent: number): string {
+  const num = parseInt(hex.replace('#', ''), 16);
+  if (isNaN(num)) return hex;
+  const amt = Math.round(2.55 * percent);
+  const r = Math.max(0, Math.min(255, (num >> 16) + amt));
+  const g = Math.max(0, Math.min(255, ((num >> 8) & 0x00ff) + amt));
+  const b = Math.max(0, Math.min(255, (num & 0x0000ff) + amt));
+  return `#${(0x1000000 + r * 0x10000 + g * 0x100 + b).toString(16).slice(1)}`;
+}
+
+let C: Record<string, string> = {
   bg: '#f7f5f0',
   bgAlt: '#ece9e0',
   bgDark: '#100e08',
@@ -40,7 +53,7 @@ const C = {
   border: '#ddd8c8',
   borderDark: 'rgba(140,108,44,0.2)',
   ink2: '#2c2418',
-} as const;
+};
 
 const SERIF = "'Spectral', Georgia, serif" as const;
 const SANS = "'Inter', system-ui, sans-serif" as const;
@@ -2046,6 +2059,14 @@ export default function Page() {
   fd = session?.formData;
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
+
+  if (brand) {
+    C = {
+      ...C,
+      accent: brand,
+      accentDark: shadeColor(brand, -20),
+    };
+  }
 
   const root: React.CSSProperties = {
     background: C.bgDark,

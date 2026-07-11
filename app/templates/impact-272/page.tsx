@@ -23,7 +23,19 @@ const FONTS_HREF =
   'https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Merriweather:ital,wght@0,300;0,400;1,300;1,400&display=swap';
 
 /* ── Palette ─────────────────────────────────────────────────────────────── */
-const C = {
+// Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
+// used to derive companion shades from the client's brand color.
+function shadeColor(hex: string, percent: number): string {
+  const num = parseInt(hex.replace('#', ''), 16);
+  if (isNaN(num)) return hex;
+  const amt = Math.round(2.55 * percent);
+  const r = Math.max(0, Math.min(255, (num >> 16) + amt));
+  const g = Math.max(0, Math.min(255, ((num >> 8) & 0x00ff) + amt));
+  const b = Math.max(0, Math.min(255, (num & 0x0000ff) + amt));
+  return `#${(0x1000000 + r * 0x10000 + g * 0x100 + b).toString(16).slice(1)}`;
+}
+
+let C: Record<string, string> = {
   bg: '#f4f8fc',
   bgAlt: '#e4f0f8',
   bgDark: '#081428',
@@ -39,7 +51,7 @@ const C = {
   border: '#b8d4ec',
   borderDark: 'rgba(40,120,192,0.2)',
   peach: '#e08060',
-} as const;
+};
 
 const SERIF = "'Merriweather', Georgia, serif" as const;
 const SANS = "'Nunito', system-ui, sans-serif" as const;
@@ -2171,6 +2183,9 @@ export default function Page() {
   fd = session?.formData;
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
+  if (brand) {
+    C = { ...C, accent: brand, accentLight: shadeColor(brand, 25), accentDark: shadeColor(brand, -20) };
+  }
 
   
   // Dynamic Services & Testimonials Mutation for Session Data

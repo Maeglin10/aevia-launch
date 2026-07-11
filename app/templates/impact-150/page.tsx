@@ -22,7 +22,20 @@ import {
    DESIGN TOKENS — Ultra-Prestigious Law Firm
    ========================================================================== */
 
-const COLORS = {
+
+// Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
+// used to derive companion shades from the client's brand color.
+function shadeColor(hex: string, percent: number): string {
+  const num = parseInt(hex.replace('#', ''), 16);
+  if (isNaN(num)) return hex;
+  const amt = Math.round(2.55 * percent);
+  const r = Math.max(0, Math.min(255, (num >> 16) + amt));
+  const g = Math.max(0, Math.min(255, ((num >> 8) & 0x00ff) + amt));
+  const b = Math.max(0, Math.min(255, (num & 0x0000ff) + amt));
+  return `#${(0x1000000 + r * 0x10000 + g * 0x100 + b).toString(16).slice(1)}`;
+}
+
+let COLORS: Record<string, string> = {
   cream:   "#f8f6f0",
   ink:     "#1a1208",
   bronze:  "#8b7355",
@@ -31,9 +44,7 @@ const COLORS = {
   mist:    "#ede9e1",
   charcoal:"#3d3528",
   fog:     "#9e9486",
-} as const
-
-/* ==========================================================================
+};/* ==========================================================================
    GOOGLE FONTS INJECTION — Cormorant Garamond
    ========================================================================== */
 
@@ -2104,6 +2115,13 @@ export default function LegalFirmTemplate() {
   fd = session?.formData;
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
+
+  if (brand) {
+    COLORS = {
+      ...COLORS,
+      bronze: brand,
+    };
+  }
 
   
   // Dynamic Services & Testimonials Mutation for Session Data

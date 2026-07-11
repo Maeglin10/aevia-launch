@@ -31,7 +31,20 @@ import {
 
 /* ─────────────────────────── DESIGN TOKENS ─────────────────────────── */
 
-const C = {
+
+// Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
+// used to derive companion shades from the client's brand color.
+function shadeColor(hex: string, percent: number): string {
+  const num = parseInt(hex.replace('#', ''), 16);
+  if (isNaN(num)) return hex;
+  const amt = Math.round(2.55 * percent);
+  const r = Math.max(0, Math.min(255, (num >> 16) + amt));
+  const g = Math.max(0, Math.min(255, ((num >> 8) & 0x00ff) + amt));
+  const b = Math.max(0, Math.min(255, (num & 0x0000ff) + amt));
+  return `#${(0x1000000 + r * 0x10000 + g * 0x100 + b).toString(16).slice(1)}`;
+}
+
+let C: Record<string, string> = {
   bg: '#faf9f6',
   bgSoft: '#f2f0ea',
   bgCard: '#ffffff',
@@ -50,7 +63,7 @@ const C = {
   font: "'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif",
   serif:
     "'Cormorant Garamond', 'Playfair Display', Georgia, 'Times New Roman', serif",
-} as const;
+};
 
 /* Pre-verified Unsplash photo ids (return 200). Only w/q/fit altered. */
 const PHOTO = {
@@ -2417,6 +2430,14 @@ export default function ImpactTemplate(): React.ReactElement {
   fd = session?.formData;
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
+
+  if (brand) {
+    C = {
+      ...C,
+      gold: brand,
+      goldSoft: shadeColor(brand, 25),
+    };
+  }
 
   
   // Dynamic Services & Testimonials Mutation for Session Data
