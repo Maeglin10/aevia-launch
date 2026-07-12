@@ -100,7 +100,14 @@ export async function POST(req: NextRequest) {
           ],
         },
       ],
-      generationConfig: { temperature: 0, responseMimeType: "application/json" },
+      generationConfig: {
+        temperature: 0,
+        maxOutputTokens: 8192,
+        responseMimeType: "application/json",
+        // Disable gemini-2.5-flash's default thinking — it eats the output budget
+        // and truncates the JSON on long menus (finishReason=MAX_TOKENS).
+        thinkingConfig: { thinkingBudget: 0 },
+      },
     }),
   });
 

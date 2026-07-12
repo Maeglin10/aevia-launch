@@ -195,8 +195,8 @@ export interface ExtractedMenuItem {
   category?: string;
 }
 
-const MENU_EXTRACT_PROMPT = `Tu extrais un menu de restaurant en JSON. Recopie nom et prix EXACTEMENT comme fournis — ne corrige, n'arrondis, n'invente JAMAIS un prix. Si une section est visible (Entrées, Burgers, Sides…), mets-la en category. Si un plat a deux prix (ex: 7,90 € / 10,90 €), garde le premier (le plus bas). N'invente AUCUN plat absent du texte.
-Réponds UNIQUEMENT avec: {"items":[{"name":"...","price":"...","category":"...","description":""}]}
+const MENU_EXTRACT_PROMPT = `Tu extrais un menu de restaurant en JSON. Recopie nom et prix EXACTEMENT comme fournis — ne corrige, n'arrondis, n'invente JAMAIS un prix. Si une section est visible (Entrées, Burgers, Sides…), mets-la en category. Si un plat a deux prix (ex: 7,90 € / 10,90 €), garde le premier (le plus bas). N'invente AUCUN plat absent du texte. Laisse "description" VIDE (chaîne vide) pour garder la réponse courte.
+Réponds UNIQUEMENT avec: {"items":[{"name":"...","price":"...","category":"","description":""}]}
 Menu:
 """
 `;
@@ -216,7 +216,15 @@ export async function extractMenuItems(rawMenu: string): Promise<ExtractedMenuIt
       headers: { "content-type": "application/json" },
       body: JSON.stringify({
         contents: [{ role: "user", parts: [{ text: `${MENU_EXTRACT_PROMPT}${menu}\n"""` }] }],
-        generationConfig: { temperature: 0, maxOutputTokens: 4096, responseMimeType: "application/json" },
+        generationConfig: {
+          temperature: 0,
+          maxOutputTokens: 8192,
+          responseMimeType: "application/json",
+          // gemini-2.5-flash thinks by default and that reasoning eats the output
+          // budget — on a long menu it truncated the JSON (finishReason=MAX_TOKENS)
+          // → parse failed → no menu. Disable thinking: extraction needs none.
+          thinkingConfig: { thinkingBudget: 0 },
+        },
       }),
     });
     if (!res.ok) return null;
