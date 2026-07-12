@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { saveSession, saveSessionToBlob, getSession, getSessionFromBlob, type FormData, type GeneratedContent } from "@/lib/sessions";
 import { generateMockContent } from "@/lib/mockContent";
-import { generateWithFreeProviders } from "@/lib/llmProviders";
+import { generateWithFreeProviders, extractMenuItems } from "@/lib/llmProviders";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -67,6 +67,19 @@ export async function POST(req: NextRequest) {
         JSON.stringify(llmOutcome.attempts),
       );
       generatedContent = generateMockContent(formData);
+    }
+
+    // A pasted menu is often dropped by the big generation call (it prioritises
+    // copywriting over verbatim extraction, especially on long menus). If a menu
+    // was provided but didn't come back, extract it in a focused, reliable call.
+    const rawMenu = (
+      (formData as unknown as { sectorData?: Record<string, string> }).sectorData?.menuItems ?? ""
+    ).trim();
+    if (rawMenu && !(generatedContent.menuItems && generatedContent.menuItems.length > 0)) {
+      const menuItems = await extractMenuItems(rawMenu);
+      if (menuItems && menuItems.length > 0) {
+        generatedContent = { ...generatedContent, menuItems };
+      }
     }
 
     // Save or update session — persist to Blob so the preview page (running

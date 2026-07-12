@@ -182,6 +182,64 @@ function parseJsonResponse(rawText: string): GeneratedContent | null {
   }
 }
 
+// ─── Dedicated menu extraction ────────────────────────────────────────────────
+// Extracting a pasted menu is a DIFFERENT job from copywriting. Bundled into the
+// one big generation call, the model prioritises the creative task and silently
+// drops menuItems on long/complex menus (observed on real 1700-char menus). A
+// focused, low-temperature call that does ONLY extraction is reliable. Called as
+// a fallback by the generate route whenever a menu was pasted but came back empty.
+export interface ExtractedMenuItem {
+  name: string;
+  price: string;
+  description?: string;
+  category?: string;
+}
+
+const MENU_EXTRACT_PROMPT = `Tu extrais un menu de restaurant en JSON. Recopie nom et prix EXACTEMENT comme fournis — ne corrige, n'arrondis, n'invente JAMAIS un prix. Si une section est visible (Entrées, Burgers, Sides…), mets-la en category. Si un plat a deux prix (ex: 7,90 € / 10,90 €), garde le premier (le plus bas). N'invente AUCUN plat absent du texte.
+Réponds UNIQUEMENT avec: {"items":[{"name":"...","price":"...","category":"...","description":""}]}
+Menu:
+"""
+`;
+
+export async function extractMenuItems(rawMenu: string): Promise<ExtractedMenuItem[] | null> {
+  const menu = rawMenu.trim();
+  if (!menu) return null;
+  const key = process.env.GEMINI_API_KEY;
+  if (!key) return null;
+
+  const url =
+    "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=" +
+    encodeURIComponent(key);
+  try {
+    const res = await fetch(url, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({
+        contents: [{ role: "user", parts: [{ text: `${MENU_EXTRACT_PROMPT}${menu}\n"""` }] }],
+        generationConfig: { temperature: 0, maxOutputTokens: 4096, responseMimeType: "application/json" },
+      }),
+    });
+    if (!res.ok) return null;
+    const data = (await res.json()) as {
+      candidates?: Array<{ content?: { parts?: Array<{ text?: string }> } }>;
+    };
+    const text = data.candidates?.[0]?.content?.parts?.[0]?.text ?? "";
+    const parsed = parseJsonResponse(text) as unknown as { items?: ExtractedMenuItem[] } | null;
+    const items = parsed?.items;
+    if (!Array.isArray(items)) return null;
+    return items
+      .filter((i) => i && typeof i.name === "string" && i.name.trim())
+      .map((i) => ({
+        name: String(i.name).trim(),
+        price: String(i.price ?? "").trim(),
+        category: i.category ? String(i.category).trim() : "",
+        description: i.description ? String(i.description).trim() : "",
+      }));
+  } catch {
+    return null;
+  }
+}
+
 // ─── Shared prompt builder ───────────────────────────────────────────────────
 function buildPrompt(formData: FormData): string {
   const sectorExtras = (formData as unknown as Record<string, unknown>).sectorData as Record<string, string> | undefined;
