@@ -189,7 +189,7 @@ return (
                 <p className="text-[#8A8278] leading-relaxed mb-10 text-base">
                   Nos médecins sont formés dans les instituts de référence mondiale (Académie de médecine esthétique de Paris, IDRM Lausanne). Chaque acte est documenté photographiquement avant et après pour un suivi rigoureux de votre évolution.
                 </p>
-                <div className="grid grid-cols-3 gap-6 border-t border-[#2A2820] pt-10">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 border-t border-[#2A2820] pt-10">
                   {[{ v: "+2400", l: "Patients traités" }, { v: "14", l: "Points d'analyse" }, { v: "9 ans", l: "D'expertise" }].map((s, i) => (
                     <div key={i}>
                       <div className="text-2xl font-light text-[#C9A86C] mb-1" style={{ fontFamily: "'Bodoni Moda', serif" }}>{s.v}</div>

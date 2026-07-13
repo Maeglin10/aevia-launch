@@ -417,7 +417,7 @@ export default function LegrandPage() {
                 </p>
               </Reveal>
               <Reveal delay={0.1}>
-                <div className="grid grid-cols-3 gap-6 pt-8 border-t border-[#E8E0D0]">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 pt-8 border-t border-[#E8E0D0]">
                   {[{ Icon: Award, text: "Tier 1 Legal 500" }, { Icon: Globe, text: "15 pays couverts" }, { Icon: Briefcase, text: "500+ dossiers/an" }].map(({ Icon, text }) => (
                     <div key={text} className="text-center">
                       <Icon className="w-6 h-6 text-[#C9A855] mx-auto mb-2" />
@@ -522,7 +522,7 @@ export default function LegrandPage() {
             </div>
             <Reveal delay={0.1}>
               <form className="space-y-6" onSubmit={e => e.preventDefault()}>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {["Prénom", "Nom"].map(f => (
                     <div key={f}>
                       <label className="block text-xs tracking-widest uppercase text-[#5A5040] mb-2">{f}</label>

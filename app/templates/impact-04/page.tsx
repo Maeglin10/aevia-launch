@@ -564,7 +564,7 @@ return (
               The first Michelin star arrived in 2020. The second followed in 2022. Today, L'Étoile holds a permanent position among France's most coveted dining destinations — a place where classical French technique and contemporary sensitivity produce something entirely its own.
             </p>
 
-            <div className="grid grid-cols-3 gap-6 border-t border-white/5 pt-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 border-t border-white/5 pt-8">
               {[
                 { value: "2018", label: "Founded" },
                 { value: "★★", label: "Michelin" },
@@ -811,7 +811,7 @@ return (
           </DialogHeader>
           <p className="text-sm font-sans text-[#f5efe6]/35 mb-6">Complete the form below and we will confirm within 24 hours.</p>
           <form className="space-y-5">
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="text-[9px] uppercase tracking-widest font-sans text-[#f5efe6]/30 font-semibold mb-1.5 block">Date</label>
                 <input type="date" className="w-full bg-white/5 border border-white/10 px-4 py-3 text-sm font-sans focus:border-amber-600 focus:outline-none transition-all duration-200 rounded-lg text-[#f5efe6] cursor-pointer" />

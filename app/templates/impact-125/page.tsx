@@ -304,7 +304,7 @@ export default function AstrumReachPage() {
                          <h3 className="text-3xl font-bold uppercase tracking-widest text-white">{f.name}</h3>
                       </div>
                     </div>
-                    <div className="grid grid-cols-2 gap-8 border-t border-white/10 pt-8">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 border-t border-white/10 pt-8">
                        <div>
                           <div className="text-[8px] font-bold uppercase text-white/30 mb-1">Payload Capacity</div>
                           <div className="text-lg font-bold italic uppercase">{f.capacity}</div>

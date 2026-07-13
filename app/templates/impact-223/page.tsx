@@ -479,7 +479,7 @@ export default function VoltProPage() {
               </div>
             </Reveal>
             <Reveal delay={0.15} className="flex-shrink-0">
-              <div className="grid grid-cols-2 gap-4 text-center">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-center">
                 {[
                   { v: "< 2h", l: "Urgences" },
                   { v: "24/48h", l: "Standard" },

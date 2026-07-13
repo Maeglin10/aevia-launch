@@ -563,7 +563,7 @@ export default function NovaSpacesPage() {
               Beyond decoration. We re-engineer the fundamental structure of
               living, creating environments that align with the human cadence.
             </>}</p>
-            <div className="grid grid-cols-2 gap-12">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
               {[
                 {
                   icon: Compass,

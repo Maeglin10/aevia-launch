@@ -330,7 +330,7 @@ export default function HavenEstatesPage() {
                 </>}</p>
               </Reveal>
               <Reveal delay={0.15}>
-                <div className="grid grid-cols-2 gap-px bg-[#b8860b]/10">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-[#b8860b]/10">
                   {[
                     { v: "$4.2B+", l: "In Transactions" },
                     { v: "280+", l: "Trophy Properties" },

@@ -290,7 +290,7 @@ return (
                       <div className="flex gap-1.5"><div className="w-3 h-3 rounded-full bg-red-500/70" /><div className="w-3 h-3 rounded-full bg-yellow-500/70" /><div className="w-3 h-3 rounded-full bg-green-500/70" /></div>
                       <span className="text-gray-500 text-xs">streamline — Vue Kanban</span>
                     </div>
-                    <div className="grid grid-cols-4 gap-4 overflow-x-auto">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 overflow-x-auto">
                       {kanban.map(col => (
                         <div key={col.col} className="min-w-[150px]">
                           <div className="flex items-center gap-2 mb-3">

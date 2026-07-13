@@ -428,7 +428,7 @@ export default function NeuralisPage() {
                <p className="text-white/40 text-xl leading-relaxed mb-16 font-light uppercase tracking-wide italic">{c?.aboutText ?? <>
                  Beyond the interface. We design biological extensions that merge the raw power of synthetic processing with the elegant complexity of human neurology.
                </>}</p>
-               <div className="grid grid-cols-2 gap-12">
+               <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
                   {[
                     { icon: Brain, label: "Neuro_Mapping", desc: "1:1 Synapse match" },
                     { icon: ShieldCheck, label: "Bio_Safe", desc: "Zero systemic residue" },
@@ -496,7 +496,7 @@ export default function NeuralisPage() {
               <p className="text-white/40 text-xl leading-relaxed mb-16 font-light uppercase tracking-wide italic leading-loose">
                 Your brain is the final frontier of privacy. Our Neural Security layer implements hardware-level encryption that physically disconnects the bridge if any external intrusion is detected. No cloud, no backdoors, no exceptions.
               </p>
-              <div className="grid grid-cols-2 gap-12">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
                  {[
                    { label: "Encryption", val: "Quantum-Air" },
                    { label: "Fail-Safe", val: "Hardware Kill" },
@@ -591,7 +591,7 @@ export default function NeuralisPage() {
                           Every Neuralis bridge is certified by the Global Augmentation Council (GAC) for Safety Class-S integration.
                        </p>
                     </div>
-                    <div className="grid grid-cols-2 gap-8">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                        <div className="space-y-2">
                           <span className="text-[9px] font-bold uppercase tracking-[0.4em] text-white/20">Audit Status</span>
                           <span className="text-sm font-black text-[#00f2ff] uppercase tracking-widest block">Clean // 2024</span>

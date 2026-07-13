@@ -1432,7 +1432,7 @@ export default function Impact200Page() {
                       </p>
                     </div>
 
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
                         <label className="text-[#831843]/50 text-xs tracking-wider uppercase block mb-2">
                           Vos prénoms
@@ -1477,7 +1477,7 @@ export default function Impact200Page() {
                       />
                     </div>
 
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
                         <label className="text-[#831843]/50 text-xs tracking-wider uppercase block mb-2">
                           Date envisagée

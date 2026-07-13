@@ -484,7 +484,7 @@ function ProposPage() {
             <p className="text-white/40 text-sm leading-relaxed mb-8 font-sans font-light">
                Mon travail est régulièrement exposé dans des galeries parisiennes et publié dans des magazines de mode internationaux. Nous assurons la production de A à Z (casting, stylisme, repérages).
             </p>
-            <div className="grid grid-cols-2 gap-4 font-mono text-xs text-[#C9A86C]">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 font-mono text-xs text-[#C9A86C]">
               {CLIENTS.map((c, i) => (
                 <div key={i} className="flex items-center gap-2">
                   <div className="w-1.5 h-1.5 rounded-full bg-[#C9A86C]" />

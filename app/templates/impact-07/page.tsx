@@ -419,7 +419,7 @@ export default function AetherSoundPage() {
                <p className="text-white/40 text-xl leading-relaxed mb-16 font-light uppercase tracking-wide italic">{c?.aboutText ?? <>
                  Beyond the measurement. We design sonic instruments that merge the mathematical precision of modern electronics with the emotional warmth of vintage analog philosophy.
                </>}</p>
-               <div className="grid grid-cols-2 gap-12">
+               <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
                   {[
                     { icon: Mic2, label: "Studio_Reference", desc: "1:1 Accuracy" },
                     { icon: Radio, label: "Analog_Warmth", desc: "Zero phase drift" },

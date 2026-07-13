@@ -293,7 +293,7 @@ export default function MaisonElisePage() {
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#c4a06a] mb-4">Portfolio</div>
             <h2 className="text-4xl font-bold text-[#1a1018]" style={{ fontFamily: "'Lora', serif" }}>Des instants <span className="italic text-[#c4a06a]">inoubliables.</span></h2>
           </div></Reveal>
-          <div className="grid grid-cols-3 gap-3 h-[65vh] min-h-[420px]">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 h-[65vh] min-h-[420px]">
             <div className="relative overflow-hidden"><ParallaxImg src="https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?auto=format&fit=crop&q=85&w=600" alt="Mariage" /></div>
             <div className="row-span-2 relative overflow-hidden"><ParallaxImg src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&q=85&w=800" alt="Décoration florale" /></div>
             <div className="relative overflow-hidden"><ParallaxImg src="https://images.unsplash.com/photo-1532712938310-34cb3982ef74?auto=format&fit=crop&q=85&w=600" alt="Couple" /></div>

@@ -890,7 +890,7 @@ function SavoirFaireSection() {
           </div>
 
           {/* Right: stats grid */}
-          <div className="grid grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {STATS.map((stat, i) => (
               <Reveal key={stat.label} delay={i * 0.1}>
                 <div

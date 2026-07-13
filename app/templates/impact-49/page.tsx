@@ -600,7 +600,7 @@ return (
 
             <Reveal delay={0.2}>
               <div>
-                <div className="grid grid-cols-2 gap-4 mb-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
                   {[
                     {
                       value: "200+",
@@ -630,7 +630,7 @@ return (
                   <p className="text-xs font-semibold text-[#9CA3AF] uppercase tracking-widest mb-4 text-center">
                     Ils nous font confiance
                   </p>
-                  <div className="grid grid-cols-4 gap-3">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
                     {COMPANY_LOGOS.slice(0, 4).map((logo) => (
                       <div
                         key={logo}

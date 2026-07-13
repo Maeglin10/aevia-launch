@@ -342,7 +342,7 @@ function RdvSection() {
             {/* Type de visite */}
             <div>
               <label className="block text-xs tracking-widest uppercase text-[#8A8278] mb-3">Type de visite</label>
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 {[["premiere", "Première visite"], ["suivi", "Suivi / retour"]].map(([val, label]) => (
                   <button key={val} type="button"
                     onClick={() => setFirstVisit(val as "premiere" | "suivi")}
@@ -364,7 +364,7 @@ function RdvSection() {
             </div>
 
             {/* Date & heure */}
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-xs tracking-widest uppercase text-[#8A8278] mb-2">Date souhaitée</label>
                 <input required type="date" className="w-full bg-transparent border border-[#D8D0C8] px-4 py-3 text-sm focus:outline-none focus:border-[#181410] transition-colors" />
@@ -382,7 +382,7 @@ function RdvSection() {
             </div>
 
             {/* Identité */}
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {["Prénom", "Nom"].map(f => (
                 <div key={f}>
                   <label className="block text-xs tracking-widest uppercase text-[#8A8278] mb-2">{f}</label>
@@ -398,7 +398,7 @@ function RdvSection() {
             </div>
 
             {/* Contact */}
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-xs tracking-widest uppercase text-[#8A8278] mb-2">Email</label>
                 <input required type="email" className="w-full bg-transparent border border-[#D8D0C8] px-4 py-3 text-sm focus:outline-none focus:border-[#181410] transition-colors" placeholder="votre@email.fr" />
@@ -615,7 +615,7 @@ function ContactSection() {
               </motion.div>
             ) : (
               <form className="space-y-5" onSubmit={e => { e.preventDefault(); setSubmitted(true) }}>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {["Prénom", "Nom"].map(f => (
                     <div key={f}>
                       <label className="block text-xs tracking-widest uppercase text-[#8A8278] mb-2">{f}</label>

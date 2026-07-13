@@ -273,7 +273,7 @@ export default function VoltLogisticsPage() {
                     <div className="absolute inset-0 p-10 flex flex-col justify-end">
                       <div className="text-[10px] font-bold uppercase tracking-widest text-[#ffb400] mb-2">{f.type}</div>
                       <h3 className="text-4xl font-black italic uppercase mb-6">{f.name}</h3>
-                      <div className="grid grid-cols-2 gap-4 border-t border-white/20 pt-6">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 border-t border-white/20 pt-6">
                          <div>
                             <div className="text-[8px] font-bold uppercase text-white/40 mb-1">Range</div>
                             <div className="text-lg font-bold italic uppercase">{f.range}</div>

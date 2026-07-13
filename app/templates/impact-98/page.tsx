@@ -587,7 +587,7 @@ export default function ZenithWatchesPage() {
               We don't sell watches. We sell the mastery over the fourth
               dimension. A Zenith is a perpetual heartbeat on your wrist.
             </>}</p>
-            <div className="grid grid-cols-2 gap-12">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
               {[
                 {
                   icon: Compass,

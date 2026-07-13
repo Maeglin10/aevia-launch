@@ -581,7 +581,7 @@ return (
               <a href={`mailto:${fd?.email ?? "hello@aevia.ws"}`} className="block w-full bg-[#00F5D4] text-[#0A0E1A] font-bold text-sm py-4 hover:bg-[#00E5C4] transition-colors cursor-pointer text-center">
                 hello@aevia.ws →
               </a>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="border border-[#00F5D4]/20 text-[#00F5D4] text-sm py-4 hover:bg-[#00F5D4]/10 transition-colors cursor-pointer flex items-center justify-center gap-2">
                   <GitBranch className="w-4 h-4" /> GitHub
                 </a>

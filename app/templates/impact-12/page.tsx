@@ -247,7 +247,7 @@ return (
         <>
           {/* Hero — B&W split */}
           <section id="hero" ref={heroRef} className="relative h-screen overflow-hidden pt-20">
-            <div className="grid grid-cols-2 h-full">
+            <div className="grid grid-cols-1 md:grid-cols-2 h-full">
               <motion.div className="relative overflow-hidden" style={{ y: heroY }}>
                 <Image src="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=900&q=90" alt={fd?.businessName ?? "Noir Couture"} fill className="object-cover" priority />
               </motion.div>
@@ -798,7 +798,7 @@ function ContactSubPage() {
                 onSubmit={(e) => { e.preventDefault(); setSubmitted(true); }}
                 className="space-y-6"
               >
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-[10px] text-white/40 uppercase tracking-widest mb-2">Nom complet</label>
                     <input
@@ -819,7 +819,7 @@ function ContactSubPage() {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-[10px] text-white/40 uppercase tracking-widest mb-2">Date souhaitée</label>
                     <input

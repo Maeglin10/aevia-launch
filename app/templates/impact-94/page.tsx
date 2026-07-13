@@ -820,7 +820,7 @@ export default function Impact94Page() {
             </Reveal>
 
             <Reveal delay={0.3}>
-              <div className="grid grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {[
                   { label: "Fleurs françaises", value: "80%" },
                   { label: "Cultures locales", value: "45 fermes" },
@@ -1158,7 +1158,7 @@ export default function Impact94Page() {
                   setContactSubmitted(true);
                 }}
               >
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-[10px] uppercase tracking-[0.2em] text-[#0C0A09]/50 mb-2">
                       Prénom

@@ -226,7 +226,7 @@ function VehicleCard({ vehicle, goTo }: { vehicle: any, goTo: (p: ActivePage) =>
              <p className="max-w-xl text-sm text-white/40 leading-relaxed font-medium uppercase italic mb-8">
                 {vehicle.desc}
              </p>
-             <div className="grid grid-cols-3 gap-8 border-t border-white/10 pt-8">
+             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 border-t border-white/10 pt-8">
                 <div>
                    <div className="text-[8px] text-white/20 uppercase mb-2">Top Speed</div>
                    <div className="text-lg font-bold italic">{vehicle.topSpeed}</div>
@@ -537,7 +537,7 @@ return (
                            Advanced <br/> <span className="opacity-20">Dynamics.</span>
                         </h2>
                         
-                        <div className="grid grid-cols-2 gap-4">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                            {PERFORMANCE_METRICS.map((metric, i) => (
                               <div key={metric.label} className="border border-white/5 bg-white/[0.02] p-10 backdrop-blur-sm group hover:border-blue-500/50 transition-colors cursor-pointer" onClick={() => goTo("engineering")}>
                                  <div className="flex justify-between items-start mb-8">
@@ -624,7 +624,7 @@ return (
                      </Reveal>
                   </div>
 
-                  <div className="lg:col-span-7 grid grid-cols-2 gap-4">
+                  <div className="lg:col-span-7 grid grid-cols-1 md:grid-cols-2 gap-4">
                      <Reveal delay={0.2} scale={0.9}>
                         <div onClick={() => goTo("atelier")} className="aspect-[4/5] bg-zinc-900 border border-white/5 relative overflow-hidden group cursor-pointer">
                            <img src="https://images.unsplash.com/photo-1590362891991-f776e747a588?w=800&q=80" className="w-full h-full object-cover grayscale opacity-40 group-hover:grayscale-0 group-hover:scale-110 transition-all duration-1000" alt="Material" />
@@ -678,7 +678,7 @@ return (
                   </Reveal>
                </div>
 
-               <div className="lg:col-span-5 grid grid-cols-2 gap-16">
+               <div className="lg:col-span-5 grid grid-cols-1 md:grid-cols-2 gap-16">
                   <div className="space-y-12">
                      <h4 className="text-[10px] font-black uppercase tracking-[0.5em] text-blue-500 border-b border-blue-500/20 pb-4">The_Fleet</h4>
                      <ul className="space-y-6 text-xs font-black uppercase tracking-widest text-white/30">
@@ -761,7 +761,7 @@ function FleetPage({ goTo }: { goTo: (p: ActivePage) => void }) {
                 <h3 className="text-4xl md:text-5xl font-black uppercase italic tracking-tighter mb-6">{vehicle.name}</h3>
                 <p className="text-sm text-white/40 leading-relaxed font-light uppercase italic mb-8">{vehicle.desc}</p>
                 
-                <div className="grid grid-cols-2 gap-6 border-y border-white/10 py-6 mb-8 font-mono text-xs">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 border-y border-white/10 py-6 mb-8 font-mono text-xs">
                   <div className="flex justify-between border-r border-white/10 pr-6"><span className="text-white/20">POWER</span><span className="font-bold">{vehicle.power}</span></div>
                   <div className="flex justify-between pl-6"><span className="text-white/20">TORQUE</span><span className="font-bold">{vehicle.torque}</span></div>
                   <div className="flex justify-between border-r border-white/10 pr-6"><span className="text-white/20">SPEED</span><span className="font-bold">{vehicle.topSpeed}</span></div>
@@ -825,7 +825,7 @@ function EngineeringPage() {
             <p className="text-sm text-white/40 leading-relaxed uppercase italic font-light mb-8">
               En optimisant les flux sous le châssis via un effet de sol venturi actif, nous avons éliminé la nécessité d'un aileron arrière massif permanent sur le Tyrant GT, préservant ses lignes sculpturales tout en garantissant une stabilité absolue à plus de 380 km/h.
             </p>
-            <div className="grid grid-cols-3 gap-4 font-mono text-xs">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 font-mono text-xs">
               <div><span className="text-white/20 block">AIR_RESISTANCE</span><span className="text-white font-bold">0.24 Cd</span></div>
               <div><span className="text-white/20 block">DOWNFORCE</span><span className="text-white font-bold">850 KG</span></div>
               <div><span className="text-white/20 block">VORTEX_FLOW</span><span className="text-green-500 font-bold">NOMINAL</span></div>

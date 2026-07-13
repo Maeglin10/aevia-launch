@@ -627,7 +627,7 @@ return (
                        <p className="text-xl font-light text-white/40 leading-relaxed italic mb-16 uppercase tracking-widest">{c?.aboutText ?? <>
                           La préservation du patrimoine mondial exige une rigueur scientifique sans compromis. Notre laboratoire utilise l'imagerie multi-spectrale et la stabilisation atomique pour contrer les effets du temps.
                        </>}</p>
-                       <div className="grid grid-cols-2 gap-8 mb-20">
+                       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-20">
                           {LAB_METRICS.map((metric, i) => (
                             <div key={i} className="p-8 bg-black border border-white/5 hover:border-[#b4925e]/30 transition-all">
                                <div className="text-[8px] font-black uppercase text-[#b4925e] mb-2 tracking-[0.3em]">{metric.label}</div>
@@ -1018,7 +1018,7 @@ function CollectionDetail({ id, onBack, onContact }: { id: string, onBack: () =>
                    {art.title}
                 </h1>
 
-                <div className="grid grid-cols-2 gap-px bg-white/5 border border-white/5 mb-12">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-white/5 border border-white/5 mb-12">
                    {[
                      { label: "Statut", value: art.status },
                      { label: "Node", value: art.location },
@@ -1248,7 +1248,7 @@ function AboutPage({ onContact }: { onContact: () => void }) {
                </div>
             </div>
             <Reveal delay={0.2} x={30}>
-               <div className="grid grid-cols-2 gap-px bg-white/5 border border-white/5">
+               <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-white/5 border border-white/5">
                   {NODES.map((node, i) => (
                     <div key={i} className="bg-black p-10 hover:bg-[#0c0c0e] transition-colors">
                        <Globe2 className="w-5 h-5 text-[#b4925e] mb-6" />

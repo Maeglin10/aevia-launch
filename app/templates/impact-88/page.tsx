@@ -1340,7 +1340,7 @@ function AboutSection() {
               >
                 Nous travaillons uniquement avec des marques certifiées respectueuses de la santé de vos ongles (sans composants toxiques) et formons continuellement nos artistes aux dernières techniques de nail art de précision.
               </p>
-              <div className="grid grid-cols-2 gap-6 pt-6 border-t border-[rgba(236,72,153,0.1)]">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-6 border-t border-[rgba(236,72,153,0.1)]">
                 <div>
                   <h4 className="text-[18px] font-[600] italic text-[#831843] mb-1" style={{ fontFamily: "'Playfair Display', serif" }}>Produits Clean</h4>
                   <p className="text-[12px] text-[#BE185D] leading-relaxed" style={{ fontFamily: "'Inter', sans-serif" }}>Sans composants nocifs pour préserver vos ongles.</p>

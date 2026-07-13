@@ -1300,7 +1300,7 @@ export default function Impact199Page() {
                       VOTRE PROJET
                     </h3>
 
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
                         <label className="text-white/40 text-xs tracking-widest uppercase block mb-2">
                           Nom complet
