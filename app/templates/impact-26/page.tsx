@@ -57,7 +57,7 @@ const fragrances = [
     family: "Boisé",
     ml: "50ml",
     price: "€265",
-    img: "https://images.unsplash.com/photo-1541643600914-78b084683702?w=400&h=600&fit=crop&crop=center",
+    img: "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=400&h=600&fit=crop&crop=center",
     notes: ["Cèdre", "Vétiver", "Mousse"],
   },
   {

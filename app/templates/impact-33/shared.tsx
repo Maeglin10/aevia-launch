@@ -125,7 +125,7 @@ export const BOUTIQUE_PRODUCTS = [
     emoji: "🥐",
     items: [
       { name: "Croissant pur beurre", price: "1,80 €", desc: "Feuilletage 27 couches, beurre AOP Poitou-Charentes, doré au four chaque matin.", img: "photo-1555507036-ab1f4038808a" },
-      { name: "Pain au chocolat", price: "2,10 €", desc: "Deux barres Valrhona 70 %, pâte feuilletée maison, fondant garanti.", img: "photo-1604882737254-ed4abb408b44" },
+      { name: "Pain au chocolat", price: "2,10 €", desc: "Deux barres Valrhona 70 %, pâte feuilletée maison, fondant garanti.", img: "photo-1565299585323-38d6b0865b47" },
       { name: "Kouign-amann", price: "3,20 €", desc: "Spécialité bretonne, caramélisé minute, croustillant en surface.", img: "photo-1509440159596-0249088772ff" },
       { name: "Brioche tressée", price: "5,90 €", desc: "Pur beurre, sucre perlé, vanille Bourbon de Madagascar.", img: "photo-1606890658317-7d14490b76fd" },
     ],
@@ -156,7 +156,7 @@ export const TARTES_DATA = [
     subtitle: "L'équilibre parfait",
     price: "4,50 € la part · 26 € entière",
     desc: "Cette tarte est le résultat de 30 années de perfectionnement. La crème citron est préparée avec des citrons jaunes de Menton, leur zeste râpé à la minute, et des œufs de plein air. La meringue italienne — réalisée au sirop de sucre chaud versé sur les blancs montés — garantit une texture soyeuse en surface et un cœur aérien. Légèrement flambée à la torche, dorée à souhait.",
-    img: "photo-1462009006923-605686e02fd7",
+    img: "photo-1509440159596-0249088772ff",
     badge: "Coup de cœur",
   },
   {

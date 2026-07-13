@@ -35,7 +35,7 @@ const VINTAGES = [
     notes: ["Blackberry", "Leather", "Graphite"],
     score: "98 pts",
     stock: "Limited",
-    image: "https://images.unsplash.com/photo-1510850473394-d236d1e3d0cd?q=80&w=1200&auto=format&fit=crop"
+    image: "https://images.unsplash.com/photo-1504275107627-0c2ba7a43dba?q=80&w=1200&auto=format&fit=crop"
   },
   {
     id: "v-2024",
@@ -44,7 +44,7 @@ const VINTAGES = [
     notes: ["Citrus", "Wet Stone", "Elderflower"],
     score: "96 pts",
     stock: "Pre-order",
-    image: "https://images.unsplash.com/photo-1559156155-573549723223?q=80&w=1200&auto=format&fit=crop"
+    image: "https://images.unsplash.com/photo-1504275107627-0c2ba7a43dba?q=80&w=1200&auto=format&fit=crop"
   },
   {
     id: "s-spirit",
@@ -53,7 +53,7 @@ const VINTAGES = [
     notes: ["Peat Smoke", "Sea Salt", "Dark Toffee"],
     score: "Platinum",
     stock: "In-Vault",
-    image: "https://images.unsplash.com/photo-1527281021233-ad0376ce21f5?q=80&w=1200&auto=format&fit=crop"
+    image: "https://images.unsplash.com/photo-1504275107627-0c2ba7a43dba?q=80&w=1200&auto=format&fit=crop"
   }
 ]
 
@@ -401,7 +401,7 @@ return (
                  <div className="order-1 lg:order-2 relative aspect-square">
                     <Reveal delay={0.3}>
                        <Image 
-                          src="https://images.unsplash.com/photo-1527281021233-ad0376ce21f5?q=80&w=1200&auto=format&fit=crop" 
+                          src="https://images.unsplash.com/photo-1504275107627-0c2ba7a43dba?q=80&w=1200&auto=format&fit=crop" 
                           alt="Copper Still" 
                           fill 
                           className="object-cover grayscale"

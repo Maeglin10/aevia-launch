@@ -109,7 +109,7 @@ const COLLECTIONS = [
     category: "Bespoke",
     desc: "Créations uniques — votre vision, notre savoir-faire. Consultation gratuite.",
     from: "Sur devis",
-    img: "https://images.unsplash.com/photo-1601121141461-9d6647bef0a1?w=600&q=80",
+    img: "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=600&q=80",
     tag: "Exclusif",
     pieces: 0,
   },
@@ -1861,7 +1861,7 @@ return (
           style={{
             position: "absolute",
             inset: 0,
-            background: `url(https://images.unsplash.com/photo-1601121141461-9d6647bef0a1?w=1600&q=80) center/cover no-repeat`,
+            background: `url(https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=1600&q=80) center/cover no-repeat`,
             opacity: 0.08,
           }}
         />

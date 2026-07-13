@@ -107,21 +107,21 @@ interface TechItem {
 const PHASES: Treatment[] = [
   {
     id: 'preventif',
-    src: 'https://images.unsplash.com/photo-1598300402640-cf52ea77e6da?q=80&w=1600&auto=format&fit=crop',
+    src: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?q=80&w=1600&auto=format&fit=crop',
     numeral: 'I',
     title: 'SOINS PRÉVENTIFS',
     body: 'Détartrage ultrason, scellement de sillons, fluoration professionnelle — prévenir pour ne pas avoir à soigner.',
   },
   {
     id: 'esthetique',
-    src: 'https://images.unsplash.com/photo-1606811671440-28c0f2b8b3c4?q=80&w=1600&auto=format&fit=crop',
+    src: 'https://images.unsplash.com/photo-1629909613654-28e377c37b09?q=80&w=1600&auto=format&fit=crop',
     numeral: 'II',
     title: 'DENTISTERIE ESTHÉTIQUE',
     body: 'Blanchiment Phillips Zoom, facettes composites directes, couronne céramique — le sourire qui correspond à votre visage.',
   },
   {
     id: 'implantologie',
-    src: 'https://images.unsplash.com/photo-1588776814546-daab0f1cdc02?q=80&w=1600&auto=format&fit=crop',
+    src: 'https://images.unsplash.com/photo-1609840114035-3c981b782dfe?q=80&w=1600&auto=format&fit=crop',
     numeral: 'III',
     title: 'IMPLANTOLOGIE',
     body: 'Implants Nobel Biocare, all-on-4, bridge implanto-porté — retrouver une dentition complète sans compromis.',
@@ -571,7 +571,7 @@ function Hero() {
         }}
       >
         <img
-          src="https://images.unsplash.com/photo-1598300402640-cf52ea77e6da?q=80&w=2000&auto=format&fit=crop"
+          src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?q=80&w=2000&auto=format&fit=crop"
           alt="Cabinet dentaire Rosenfeld Strasbourg"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
@@ -1323,7 +1323,7 @@ function TechPanel() {
             }}
           >
             <img
-              src="https://images.unsplash.com/photo-1588776814546-daab0f1cdc02?q=80&w=900&auto=format&fit=crop"
+              src="https://images.unsplash.com/photo-1609840114035-3c981b782dfe?q=80&w=900&auto=format&fit=crop"
               alt="Technologies de pointe Cabinet Rosenfeld"
               loading="lazy"
               style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
@@ -1610,7 +1610,7 @@ function AppointmentForm() {
     <section style={sec} id="contact">
       {/* Fond photo fantôme */}
       <img
-        src="https://images.unsplash.com/photo-1598300402640-cf52ea77e6da?q=80&w=1600&auto=format&fit=crop"
+        src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?q=80&w=1600&auto=format&fit=crop"
         alt="Image de présentation"
         aria-hidden="true"
         loading="lazy"

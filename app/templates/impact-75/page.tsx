@@ -103,7 +103,7 @@ const PRODUCTS = [
     name: "Onyx Perpetual",
     price: "€24 500",
     isNew: false,
-    img: "https://images.unsplash.com/photo-1542496658-e33a6d0d655f?q=80&w=800&auto=format&fit=crop",
+    img: "https://images.unsplash.com/photo-1523170335258-f5ed11844a49?q=80&w=800&auto=format&fit=crop",
     category: "Grande Complication",
   },
 ];
@@ -163,7 +163,7 @@ const BESTSELLERS = [
   {
     name: "Onyx Perpetual",
     price: "€24 500",
-    img: "https://images.unsplash.com/photo-1542496658-e33a6d0d655f?q=80&w=800&auto=format&fit=crop",
+    img: "https://images.unsplash.com/photo-1523170335258-f5ed11844a49?q=80&w=800&auto=format&fit=crop",
     specs: [
       { label: "Mouvement", val: "Calendrier Perpétuel maison" },
       { label: "Complications", val: "Quantième perpétuel, Chrono" },

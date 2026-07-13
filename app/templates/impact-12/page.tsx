@@ -50,7 +50,7 @@ const editorials = [
 
 const looks = [
   { name: "Manteau Asymétrique", price: "2 400€", src: "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=400&q=80" },
-  { name: "Robe Colonne", price: "1 800€", src: "https://images.unsplash.com/photo-1566479179817-e4067b2c1a83?w=400&q=80" },
+  { name: "Robe Colonne", price: "1 800€", src: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=400&q=80" },
   { name: "Tailleur Structuré", price: "3 200€", src: "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=400&q=80" },
 ];
 
@@ -595,7 +595,7 @@ function EditorialSubPage() {
 function BoutiqueSubPage({ cartCount, setCartCount }: { cartCount: number; setCartCount: React.Dispatch<React.SetStateAction<number>> }) {
   const shopItems = [
     { name: "Manteau Asymétrique", price: "2 400€", category: "Prêt-à-porter", src: "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=600&q=80", desc: "Coupe décontractée asymétrique en laine bouillie italienne. Entièrement doublé soie." },
-    { name: "Robe Colonne", price: "1 800€", category: "Prêt-à-porter", src: "https://images.unsplash.com/photo-1566479179817-e4067b2c1a83?w=600&q=80", desc: "Robe longue en crêpe de soie noir mat. Dos nu architectural et fente latérale." },
+    { name: "Robe Colonne", price: "1 800€", category: "Prêt-à-porter", src: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=600&q=80", desc: "Robe longue en crêpe de soie noir mat. Dos nu architectural et fente latérale." },
     { name: "Tailleur Structuré", price: "3 200€", category: "Prêt-à-porter", src: "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=600&q=80", desc: "Veste épaulée à double boutonnage et pantalon droit assorti en laine vierge." },
     { name: "Sac Seau en Cuir", price: "1 200€", category: "Accessoires", src: "https://images.unsplash.com/photo-1547996160-81dfa63595aa?w=600&q=80", desc: "Cuir de veau tannage végétal noir profond. Détails métalliques gravés Noir Couture." },
     { name: "Veste Couture Déstructurée", price: "2 900€", category: "Prêt-à-porter", src: "https://images.unsplash.com/photo-1534126416832-a88fdf2911c2?w=600&q=80", desc: "Veste d'atelier déstructurée en cachemire mélangé noir charbon." },

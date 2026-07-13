@@ -173,7 +173,7 @@ return (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
             <Reveal>
               <div className="relative aspect-[4/5] overflow-hidden">
-                <Image src="https://images.unsplash.com/photo-1551290464-ad4e7cd5abd8?w=1200&q=85" alt="Clinique Cypher" fill className="object-cover" />
+                <Image src="https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=1200&q=85" alt="Clinique Cypher" fill className="object-cover" />
                 <div className="absolute inset-0 bg-[#0C0C0A]/20" />
               </div>
             </Reveal>

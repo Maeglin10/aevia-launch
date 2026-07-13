@@ -70,11 +70,11 @@ const PHOTO = {
   courthouseSm:
     'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?q=80&w=800&auto=format&fit=crop',
   library:
-    'https://images.unsplash.com/photo-1521587760698-8c06e6f9ebce?q=80&w=1600&auto=format&fit=crop',
+    'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?q=80&w=1600&auto=format&fit=crop',
   librarySm:
-    'https://images.unsplash.com/photo-1521587760698-8c06e6f9ebce?q=80&w=800&auto=format&fit=crop',
+    'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?q=80&w=800&auto=format&fit=crop',
   handshake:
-    'https://images.unsplash.com/photo-1575505586569-646b2ca898af?q=80&w=1600&auto=format&fit=crop',
+    'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?q=80&w=1600&auto=format&fit=crop',
   stickyPanel:
     'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?q=80&w=900&auto=format&fit=crop',
 } as const;

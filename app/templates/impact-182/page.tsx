@@ -48,8 +48,8 @@ const SERVICES = [
 ]
 
 const REALISATIONS = [
-  { title: "Extension 45 m² · Villa provençale", tag: "Extension gros œuvre", img: "https://images.unsplash.com/photo-1590725138916-85f5af01fc2e?auto=format&fit=crop&q=80&w=1200" },
-  { title: "Ravalement ITE · Immeuble R+4", tag: "Isolation thermique extérieure", img: "https://images.unsplash.com/photo-1504662955545-b8d7b98bef0b?auto=format&fit=crop&q=80&w=1200" },
+  { title: "Extension 45 m² · Villa provençale", tag: "Extension gros œuvre", img: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&q=80&w=1200" },
+  { title: "Ravalement ITE · Immeuble R+4", tag: "Isolation thermique extérieure", img: "https://images.unsplash.com/photo-1581244277943-fe4a9c777189?auto=format&fit=crop&q=80&w=1200" },
   { title: "Construction garage + dalle béton", tag: "Gros œuvre & dallage", img: "https://images.unsplash.com/photo-1581244277943-fe4a9c777189?auto=format&fit=crop&q=80&w=1200" },
 ]
 

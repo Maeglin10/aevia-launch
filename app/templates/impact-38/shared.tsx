@@ -219,7 +219,7 @@ export const WORKSHOPS = [
     duration: "3h",
     price: "75",
     unit: "pers",
-    image: "https://images.unsplash.com/photo-1620905770869-ccaabc65b9b0?w=800&q=80&fit=crop",
+    image: "https://images.unsplash.com/photo-1447933601403-0c6688de566e?w=800&q=80&fit=crop",
     description:
       "Maîtrisez l'extraction espresso et les bases du latte art lors d'une session intensive derrière le comptoir de notre café.",
     whatYouLearn: [

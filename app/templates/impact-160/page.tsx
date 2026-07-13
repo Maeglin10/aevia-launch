@@ -432,7 +432,7 @@ return (
               <div className="grid lg:grid-cols-2 gap-40 items-center">
                  <div className="relative aspect-[3/4] overflow-hidden group border border-white/5 shadow-2xl">
                     <Image 
-                       src="https://images.unsplash.com/photo-1558494949-ef010968d264?q=80&w=1200&auto=format&fit=crop" 
+                       src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?q=80&w=1200&auto=format&fit=crop" 
                        alt="Server Room Corridor" 
                        fill 
                        className="object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-[2000ms]"

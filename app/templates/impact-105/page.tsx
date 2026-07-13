@@ -327,7 +327,7 @@ export default function AtelierBloomPage() {
             </motion.a>
           </Reveal>
           <Reveal>
-            <img src="https://images.unsplash.com/photo-1558618047-f95b53536c01?w=800&q=80" alt="Fleurs saisonnières artisanales" style={{ width: "100%", borderRadius: 16, aspectRatio: "4/3", objectFit: "cover" }} />
+            <img src="https://images.unsplash.com/photo-1487530811176-3780de880c2d?w=800&q=80" alt="Fleurs saisonnières artisanales" style={{ width: "100%", borderRadius: 16, aspectRatio: "4/3", objectFit: "cover" }} />
           </Reveal>
         </div>
       </section>

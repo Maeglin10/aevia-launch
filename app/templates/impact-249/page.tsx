@@ -60,11 +60,11 @@ const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 /* ── Photos Unsplash ─────────────────────────────────────────────────────── */
 const PHOTO = {
-  blackwork: 'https://images.unsplash.com/photo-1611501579-4d7dc8532cc1?q=80&w=1600&auto=format&fit=crop',
-  realism: 'https://images.unsplash.com/photo-1567401893-56e3d64e7b2c?q=80&w=1600&auto=format&fit=crop',
-  watercolor: 'https://images.unsplash.com/photo-1547036967-23136a0f3b86?q=80&w=1600&auto=format&fit=crop',
-  heroWide: 'https://images.unsplash.com/photo-1611501579-4d7dc8532cc1?q=80&w=2000&auto=format&fit=crop',
-  safetyLeft: 'https://images.unsplash.com/photo-1567401893-56e3d64e7b2c?q=80&w=900&auto=format&fit=crop',
+  blackwork: 'https://images.unsplash.com/photo-1611501275019-9b5cda994e8d?q=80&w=1600&auto=format&fit=crop',
+  realism: 'https://images.unsplash.com/photo-1565058379802-bbe93b2f703a?q=80&w=1600&auto=format&fit=crop',
+  watercolor: 'https://images.unsplash.com/photo-1598371839696-5c5bb00bdc28?q=80&w=1600&auto=format&fit=crop',
+  heroWide: 'https://images.unsplash.com/photo-1611501275019-9b5cda994e8d?q=80&w=2000&auto=format&fit=crop',
+  safetyLeft: 'https://images.unsplash.com/photo-1565058379802-bbe93b2f703a?q=80&w=900&auto=format&fit=crop',
 } as const;
 
 /* ════════════════════════════════════════════════════════════════════════════
@@ -164,7 +164,7 @@ const ARTISTS: Artist[] = [
 const EDIT_ROWS: EditRow[] = [
   {
     eyebrow: 'Notre philosophie',
-    img: 'https://images.unsplash.com/photo-1611501579-4d7dc8532cc1?q=80&w=800&auto=format&fit=crop',
+    img: 'https://images.unsplash.com/photo-1611501275019-9b5cda994e8d?q=80&w=800&auto=format&fit=crop',
     imgAlt: 'Artiste au travail dans le studio Dermis',
     titleLine1: 'Un tatouage,',
     titleLine2: 'c\'est pour la vie.',
@@ -173,7 +173,7 @@ const EDIT_ROWS: EditRow[] = [
   },
   {
     eyebrow: 'Le studio',
-    img: 'https://images.unsplash.com/photo-1547036967-23136a0f3b86?q=80&w=800&auto=format&fit=crop',
+    img: 'https://images.unsplash.com/photo-1598371839696-5c5bb00bdc28?q=80&w=800&auto=format&fit=crop',
     imgAlt: 'Intérieur lumineux du studio Dermis à Montpellier',
     titleLine1: 'Montpellier',
     titleLine2: 'Écusson.',

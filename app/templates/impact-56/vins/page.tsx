@@ -15,7 +15,7 @@ export default function VinsPage() {
       {/* Hero */}
       <section className="relative h-72 flex items-end bg-[#2D1B0E]">
         <Image
-          src="https://images.unsplash.com/photo-1474623809196-26b4a6764487?w=1600&q=80&fit=crop"
+          src="https://images.unsplash.com/photo-1559131397-f94da358f7ca?w=1600&q=80&fit=crop"
           alt="Cave à vins"
           fill
           className="object-cover brightness-40"

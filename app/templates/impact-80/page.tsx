@@ -31,7 +31,7 @@ const PROJECTS = [
     type: "Cultural",
     year: "2023",
     area: "1 100 m²",
-    img: "https://images.unsplash.com/photo-1503387762-592cd5804557?q=80&w=1200&auto=format&fit=crop",
+    img: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1200&auto=format&fit=crop",
   },
   {
     name: "Meridian House",

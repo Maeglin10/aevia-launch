@@ -20,7 +20,7 @@ function Reveal({ children, delay = 0, y = 40 }: { children: React.ReactNode; de
 
 const FLEET = [
   { name: "V1 Courier", range: "350km", payload: "1.5 Tons", type: "Electric Van", img: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&q=80&w=1200" },
-  { name: "V2 Hauler", range: "800km", payload: "18 Tons", type: "Semi-Truck", img: "https://images.unsplash.com/photo-1591768793355-74d7c1d1055e?auto=format&fit=crop&q=80&w=1200" },
+  { name: "V2 Hauler", range: "800km", payload: "18 Tons", type: "Semi-Truck", img: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&q=80&w=1200" },
   { name: "V-Drone X", range: "40km", payload: "25kg", type: "Autonomous Drone", img: "https://images.unsplash.com/photo-1508614589041-895b88991e3e?auto=format&fit=crop&q=80&w=1200" },
 ]
 

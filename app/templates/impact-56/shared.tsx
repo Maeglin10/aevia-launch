@@ -42,7 +42,7 @@ export const FEATURES = [
       "Micro-climat exceptionnel",
       "Rendements naturellement limités"
     ],
-    image: "https://images.unsplash.com/photo-1474623809196-26b4a6764487?w=800&q=80&fit=crop"
+    image: "https://images.unsplash.com/photo-1559131397-f94da358f7ca?w=800&q=80&fit=crop"
   },
   {
     id: "vinification",
@@ -68,7 +68,7 @@ export const FEATURES = [
       "Soutirage traditionnel à la bougie",
       "Collage au blanc d'œuf frais"
     ],
-    image: "https://images.unsplash.com/photo-1596404495574-8b15d9a941ea?w=800&q=80&fit=crop"
+    image: "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?w=800&q=80&fit=crop"
   }
 ];
 
@@ -149,7 +149,7 @@ export const WINES = [
     bouche: "Tanins soyeux et précis, finale longue et minérale",
     service: "17–18°C",
     garde: "20–25 ans et au-delà",
-    image: "https://images.unsplash.com/photo-1474623809196-26b4a6764487?w=800&q=80&fit=crop",
+    image: "https://images.unsplash.com/photo-1559131397-f94da358f7ca?w=800&q=80&fit=crop",
     badge: "Signature"
   },
   {

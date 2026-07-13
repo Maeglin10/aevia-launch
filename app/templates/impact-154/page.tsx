@@ -37,7 +37,7 @@ const COLLECTIONS = [
     status: "Private_Vault",
     location: "Zurich Node",
     desc: "Une étude rare attribuée au cercle de Vinci, conservée dans des conditions atmosphériques contrôlées.",
-    image: "https://images.unsplash.com/photo-1578321272176-b7bbc067985c?q=80&w=1200&auto=format&fit=crop"
+    image: "https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?q=80&w=1200&auto=format&fit=crop"
   },
   {
     id: "art-02",
@@ -691,7 +691,7 @@ return (
               <div className="grid lg:grid-cols-2 gap-32 items-center">
                  <div className="relative aspect-[4/5] overflow-hidden group">
                     <Image
-                       src="https://images.unsplash.com/photo-1510850473394-d236d1e3d0cd?q=80&w=1200&auto=format&fit=crop"
+                       src="https://images.unsplash.com/photo-1504275107627-0c2ba7a43dba?q=80&w=1200&auto=format&fit=crop"
                        alt="Art Restorer Working"
                        fill
                        className="object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000"

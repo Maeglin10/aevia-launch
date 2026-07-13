@@ -26,7 +26,7 @@ export default function RealisationsPage() {
       location: "Lyon",
       size: "12 500 m²",
       status: "Livré 2022",
-      image: "https://images.unsplash.com/photo-1504297366397-6f685459b9f9?w=800&q=80"
+      image: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80"
     },
     {
       name: "Les Terrasses de l'Océan",

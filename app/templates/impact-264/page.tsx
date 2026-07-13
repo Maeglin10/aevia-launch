@@ -534,7 +534,7 @@ function Hero() {
         }}
       >
         <img
-          src={`https://images.unsplash.com/photo-1544367745-a81e18eb7be2?q=80&w=2000&auto=format&fit=crop`}
+          src={`https://images.unsplash.com/photo-1600334129128-685c5582fd35?q=80&w=2000&auto=format&fit=crop`}
           alt="Cabinet Ostéo Atlantique — salle de soin lumineuse"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
@@ -1257,7 +1257,7 @@ function PrinciplesPanel() {
             }}
           >
             <img
-              src={`https://images.unsplash.com/photo-1570295999-41bbf40f8fb5?q=80&w=900&auto=format&fit=crop`}
+              src={`https://images.unsplash.com/photo-1519824145371-296894a0daa9?q=80&w=900&auto=format&fit=crop`}
               alt="Soin ostéopathique doux — Ostéo Atlantique"
               loading="lazy"
               style={{
@@ -1566,7 +1566,7 @@ function BookingForm() {
     <section style={sec} id="reserver">
       {/* Background image subtle */}
       <img
-        src={`https://images.unsplash.com/photo-1570295999-41bbf40f8fb5?q=80&w=1600&auto=format&fit=crop`}
+        src={`https://images.unsplash.com/photo-1519824145371-296894a0daa9?q=80&w=1600&auto=format&fit=crop`}
         alt="Image de présentation"
         aria-hidden="true"
         loading="lazy"

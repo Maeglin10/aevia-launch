@@ -97,7 +97,7 @@ const SERVICES = [
 ];
 
 const INGREDIENTS = [
-  { name: "Rose de Damas", origin: "Bulgarie", benefit: "Éclat & Hydratation", img: "photo-1490750967868-88df5691cc2c" },
+  { name: "Rose de Damas", origin: "Bulgarie", benefit: "Éclat & Hydratation", img: "photo-1608248597279-f99d160bfcbc" },
   { name: "Huile d'Argan", origin: "Maroc", benefit: "Nutrition profonde", img: "photo-1608248597279-f99d160bfcbc" },
   { name: "Argile Rose", origin: "France", benefit: "Purification douce", img: "photo-1556228578-8c89e6adf883" },
   { name: "Beurre de Karité", origin: "Ghana", benefit: "Protection & Douceur", img: "photo-1620916566398-39f1143ab7be" },

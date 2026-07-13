@@ -2458,7 +2458,7 @@ function FleetPage({ goTo }: { goTo: (p: ActivePage) => void }) {
       crew: 6,
       speed: "12 knots",
       price: "€160,000",
-      img: "https://images.unsplash.com/photo-1505080856163-267d49b3026a?auto=format&fit=crop&q=80&w=1200",
+      img: "https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?auto=format&fit=crop&q=80&w=1200",
       desc: "High-performance sailing meets ultimate comfort. Carbon rigging, minimalist Italian interior, and direct ocean access.",
     },
     {

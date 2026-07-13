@@ -61,13 +61,13 @@ const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 /* ── Photos Unsplash ─────────────────────────────────────────────────────── */
 const PHOTO = {
-  weights: 'https://images.unsplash.com/photo-1517836357-f423604fae7c?q=80&w=2000&auto=format&fit=crop',
-  weightsCard: 'https://images.unsplash.com/photo-1517836357-f423604fae7c?q=80&w=1600&auto=format&fit=crop',
-  weightsEdit: 'https://images.unsplash.com/photo-1517836357-f423604fae7c?q=80&w=800&auto=format&fit=crop',
-  hiit: 'https://images.unsplash.com/photo-1559113263-5d5d2a90ea34?q=80&w=1600&auto=format&fit=crop',
-  hiitSticky: 'https://images.unsplash.com/photo-1559113263-5d5d2a90ea34?q=80&w=900&auto=format&fit=crop',
-  outdoor: 'https://images.unsplash.com/photo-1506126613-423d21668e8b?q=80&w=1600&auto=format&fit=crop',
-  outdoorEdit: 'https://images.unsplash.com/photo-1506126613-423d21668e8b?q=80&w=800&auto=format&fit=crop',
+  weights: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=2000&auto=format&fit=crop',
+  weightsCard: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1600&auto=format&fit=crop',
+  weightsEdit: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=800&auto=format&fit=crop',
+  hiit: 'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=1600&auto=format&fit=crop',
+  hiitSticky: 'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=900&auto=format&fit=crop',
+  outdoor: 'https://images.unsplash.com/photo-1571902943202-507ec2618e8f?q=80&w=1600&auto=format&fit=crop',
+  outdoorEdit: 'https://images.unsplash.com/photo-1571902943202-507ec2618e8f?q=80&w=800&auto=format&fit=crop',
 } as const;
 
 /* ════════════════════════════════════════════════════════════════════════════

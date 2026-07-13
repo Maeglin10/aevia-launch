@@ -70,13 +70,13 @@ const P = {
   doctorMd:
     'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=800&auto=format&fit=crop',
   wellness:
-    'https://images.unsplash.com/photo-1498804103-78838778a06b?q=80&w=1600&auto=format&fit=crop',
+    'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=1600&auto=format&fit=crop',
   wellnessMd:
-    'https://images.unsplash.com/photo-1498804103-78838778a06b?q=80&w=800&auto=format&fit=crop',
+    'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=800&auto=format&fit=crop',
   functional:
-    'https://images.unsplash.com/photo-1544367745-a81e18eb7be2?q=80&w=1600&auto=format&fit=crop',
+    'https://images.unsplash.com/photo-1600334129128-685c5582fd35?q=80&w=1600&auto=format&fit=crop',
   functionalMd:
-    'https://images.unsplash.com/photo-1544367745-a81e18eb7be2?q=80&w=900&auto=format&fit=crop',
+    'https://images.unsplash.com/photo-1600334129128-685c5582fd35?q=80&w=900&auto=format&fit=crop',
 } as const;
 
 /* ── Easing ──────────────────────────────────────────────────────────────── */

@@ -145,7 +145,7 @@ export const TEAM = [
     name: "Ingrid Halvorsen",
     role: "Lead Holistic Therapist",
     bio: "Trained in Norway, Bali, and Kerala. Fifteen years of practice in somatic bodywork and botanical medicine.",
-    image: "https://images.unsplash.com/photo-1494790108755-2616b612b77c?q=80&w=1400&auto=format&fit=crop",
+    image: "https://images.unsplash.com/photo-1540555700478-4be289fbecef?q=80&w=1400&auto=format&fit=crop",
     specialties: ["Somatic Bodywork", "Botanical Medicine", "Pranayama"],
   },
   {

@@ -31,7 +31,7 @@ export const BEANS = [
     notes: ["Earthy", "Spicy", "Tobacco"],
     roast: "Dark",
     process: "Giling Basah",
-    img: "https://images.unsplash.com/photo-1497933321188-91189e3f7f77?w=800&q=80",
+    img: "https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=800&q=80",
   },
 ];
 

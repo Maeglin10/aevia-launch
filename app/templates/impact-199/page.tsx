@@ -149,7 +149,7 @@ const STYLES = [
   {
     name: "Fineline",
     desc: "Précision chirurgicale, aiguilles fines, résultats d'une délicatesse époustouflante.",
-    image: "https://images.unsplash.com/photo-1590246814883-55516d5d75e1?w=600&q=80",
+    image: "https://images.unsplash.com/photo-1598452963314-b09f397a5c48?w=600&q=80",
     tag: "Délicat",
   },
   {
@@ -305,9 +305,9 @@ const GALLERY_IMAGES = [
   "https://images.unsplash.com/photo-1611501275019-9b5cda994e8d?w=800&q=80",
   "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&q=80",
   "https://images.unsplash.com/photo-1568515387631-8b650bbcdb90?w=800&q=80",
-  "https://images.unsplash.com/photo-1590246814883-55516d5d75e1?w=800&q=80",
+  "https://images.unsplash.com/photo-1598452963314-b09f397a5c48?w=800&q=80",
   "https://images.unsplash.com/photo-1605902711622-cfb43c4437b5?w=800&q=80",
-  "https://images.unsplash.com/photo-1590246814883-55516d5d75e1?w=800&q=80",
+  "https://images.unsplash.com/photo-1598452963314-b09f397a5c48?w=800&q=80",
   "https://images.unsplash.com/photo-1598452963314-b09f397a5c48?w=800&q=80",
   "https://images.unsplash.com/photo-1611501275019-9b5cda994e8d?w=800&q=80",
 ]

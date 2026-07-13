@@ -105,12 +105,12 @@ const SANS = "'DM Mono', monospace" as const;
 const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 const PHOTO = {
-  hero: "https://images.unsplash.com/photo-1590246814883-57f5114cbd94?q=80&w=1600&auto=format&fit=crop",
+  hero: "https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?q=80&w=1600&auto=format&fit=crop",
   about: "https://images.unsplash.com/photo-1598257006458-087169a1f08d?q=80&w=1600&auto=format&fit=crop",
-  special: "https://images.unsplash.com/photo-1611501579-4d7dc8532cc1?q=80&w=1600&auto=format&fit=crop",
-  gallery1: "https://images.unsplash.com/photo-1560707303-4e980c87f92e?q=80&w=800&auto=format&fit=crop",
+  special: "https://images.unsplash.com/photo-1611501275019-9b5cda994e8d?q=80&w=1600&auto=format&fit=crop",
+  gallery1: "https://images.unsplash.com/photo-1598257006458-087169a1f08d?q=80&w=800&auto=format&fit=crop",
   gallery2: "https://images.unsplash.com/photo-1598257006458-087169a1f08d?q=80&w=800&auto=format&fit=crop",
-  gallery3: "https://images.unsplash.com/photo-1611501579-4d7dc8532cc1?q=80&w=800&auto=format&fit=crop",
+  gallery3: "https://images.unsplash.com/photo-1611501275019-9b5cda994e8d?q=80&w=800&auto=format&fit=crop",
   gallery4: "https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?q=80&w=800&auto=format&fit=crop"
 } as const;
 

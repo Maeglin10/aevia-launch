@@ -48,7 +48,7 @@ const FLEET = [
     guests: 18,
     price: "From €1.2M/week",
     desc: "The pinnacle of luxury with a three-deck spa, underwater lounge, and Michelin-star culinary team.",
-    img: "https://images.unsplash.com/photo-1605281317010-fe5ffe798156?w=1200&q=80",
+    img: "https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?w=1200&q=80",
   },
   {
     id: 3,
@@ -574,7 +574,7 @@ export default function HorizonYachtPage() {
           <Reveal>
             <div className="relative aspect-square rounded-sm overflow-hidden group border border-white/5">
               <Image
-                src="https://images.unsplash.com/photo-1605281317010-fe5ffe798156?w=1200&q=80"
+                src="https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?w=1200&q=80"
                 alt="Destination"
                 fill
                 className="object-cover group-hover:scale-110 transition-all duration-[3s] grayscale hover:grayscale-0 transition-all duration-1000"

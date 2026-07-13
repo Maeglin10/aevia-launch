@@ -102,9 +102,9 @@ const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 const PHOTO = {
   hero: "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?q=80&w=1600&auto=format&fit=crop",
-  about: "https://images.unsplash.com/photo-1582231375626-24111fa06890?q=80&w=1600&auto=format&fit=crop",
+  about: "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?q=80&w=1600&auto=format&fit=crop",
   special: "https://images.unsplash.com/photo-1513456852971-30c0b8199d4d?q=80&w=1600&auto=format&fit=crop",
-  gallery1: "https://images.unsplash.com/photo-1626700051175-6518c4793f4f?q=80&w=800&auto=format&fit=crop",
+  gallery1: "https://images.unsplash.com/photo-1513456852971-30c0b8199d4d?q=80&w=800&auto=format&fit=crop",
   gallery2: "https://images.unsplash.com/photo-1540420773420-3366772f4999?q=80&w=800&auto=format&fit=crop",
   gallery3: "https://images.unsplash.com/photo-1513584684374-8bab748fbf90?q=80&w=800&auto=format&fit=crop",
   gallery4: "https://images.unsplash.com/photo-1600271886742-f049cd451bba?q=80&w=800&auto=format&fit=crop"

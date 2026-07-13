@@ -49,7 +49,7 @@ const FLEET = [
     range: "7,500 nm",
     pax: "16",
     speed: "Mach 0.90",
-    img: "https://images.unsplash.com/photo-1626245914562-68a392911c70?w=800&q=80",
+    img: "https://images.unsplash.com/photo-1540962351504-03099e0a754b?w=800&q=80",
     desc: "Speed and range redefined. The industry standard for international executive travel.",
   },
   {
@@ -59,7 +59,7 @@ const FLEET = [
     range: "3,500 nm",
     pax: "12",
     speed: "Mach 0.84",
-    img: "https://images.unsplash.com/photo-1521111998-1549419b44c3?w=800&q=80",
+    img: "https://images.unsplash.com/photo-1540962351504-03099e0a754b?w=800&q=80",
     desc: "Revolutionary comfort with the lowest cabin altitude in its class.",
   },
 ];

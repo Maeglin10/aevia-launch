@@ -595,7 +595,7 @@ function Hero() {
         }}
       >
         <img
-          src={`https://images.unsplash.com/photo-1519225421783-bda591ac3db3?q=80&w=2000&auto=format&fit=crop`}
+          src={`https://images.unsplash.com/photo-1478146896981-b80fe463b330?q=80&w=2000&auto=format&fit=crop`}
           alt="Cérémonie de mariage romantique fleurie"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
@@ -1611,7 +1611,7 @@ function ContactForm() {
     >
       {/* Texture de fond subtile */}
       <img
-        src={`https://images.unsplash.com/photo-1519225421783-bda591ac3db3?q=80&w=1600&auto=format&fit=crop`}
+        src={`https://images.unsplash.com/photo-1478146896981-b80fe463b330?q=80&w=1600&auto=format&fit=crop`}
         alt="Image de présentation"
         aria-hidden="true"
         loading="lazy"

@@ -46,7 +46,7 @@ const WORKS = [
     year: "2024",
     desc: "Real-time browser-based car configurator utilizing WebGPU for photorealistic ray tracing.",
     image:
-      "https://images.unsplash.com/photo-1618361853818-a6d1a92e1066?q=80&w=1200&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1556228578-0d85b1a4d571?q=80&w=1200&auto=format&fit=crop",
   },
   {
     id: "04",

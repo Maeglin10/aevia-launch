@@ -102,12 +102,12 @@ const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 const PHOTO = {
   hero: "https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?q=80&w=1600&auto=format&fit=crop",
-  about: "https://images.unsplash.com/photo-1592417817098-8f3d6eb19675?q=80&w=1600&auto=format&fit=crop",
+  about: "https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=1600&auto=format&fit=crop",
   special: "https://images.unsplash.com/photo-1599599810769-bcde5a160d32?q=80&w=1600&auto=format&fit=crop",
   gallery1: "https://images.unsplash.com/photo-1600585154526-990dced4db0d?q=80&w=800&auto=format&fit=crop",
   gallery2: "https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?q=80&w=800&auto=format&fit=crop",
   gallery3: "https://images.unsplash.com/photo-1508849789987-4e5333c12b78?q=80&w=800&auto=format&fit=crop",
-  gallery4: "https://images.unsplash.com/photo-1592417817098-8f3d6eb19675?q=80&w=800&auto=format&fit=crop"
+  gallery4: "https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=800&auto=format&fit=crop"
 } as const;
 
 /* ── Primitives Reutilisables ─────────────────────────────────────────────── */

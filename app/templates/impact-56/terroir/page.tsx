@@ -35,7 +35,7 @@ export default function TerroirPage() {
             <Reveal>
               <div className="relative aspect-[4/3] overflow-hidden">
                 <Image
-                  src="https://images.unsplash.com/photo-1474623809196-26b4a6764487?w=800&q=80&fit=crop"
+                  src="https://images.unsplash.com/photo-1559131397-f94da358f7ca?w=800&q=80&fit=crop"
                   alt="Sol de graves garonnaises"
                   fill
                   className="object-cover"
@@ -126,7 +126,7 @@ export default function TerroirPage() {
             <Reveal>
               <div className="relative aspect-[4/3] overflow-hidden">
                 <Image
-                  src="https://images.unsplash.com/photo-1596404495574-8b15d9a941ea?w=800&q=80&fit=crop"
+                  src="https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?w=800&q=80&fit=crop"
                   alt="Chai de vinification"
                   fill
                   className="object-cover"

@@ -47,7 +47,7 @@ const ARCHIVE_PROJECTS = [
     location: "Seoul, KR",
     year: "2022",
     type: "Commercial",
-    img: "https://images.unsplash.com/photo-1503387762-592cd5804557?q=80&w=1200&auto=format&fit=crop",
+    img: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1200&auto=format&fit=crop",
   },
 ];
 

@@ -5,7 +5,7 @@ import { motion, useScroll, useTransform, useInView } from "framer-motion";
 import Image from "next/image";
 
 export const EVENTS = [
-  { id: "01", name: "Neon Masquerade", cat: "Exclusive Event", img: "https://images.unsplash.com/photo-1514525253361-bee8a48790c3?auto=format&fit=crop&q=80&w=1200" },
+  { id: "01", name: "Neon Masquerade", cat: "Exclusive Event", img: "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&q=80&w=1200" },
   { id: "02", name: "Midnight Solace", cat: "Rooftop Party", img: "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&q=80&w=1200" },
   { id: "03", name: "Ethereal Beats", cat: "Private Club", img: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&q=80&w=1200" },
 ];

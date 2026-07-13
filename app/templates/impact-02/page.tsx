@@ -17,7 +17,7 @@ const PROJECTS = [
   { id: 2, title: "Tokyo Neon", category: "Street", year: "2025", image: "https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?q=80&w=1200&auto=format&fit=crop", color: "#f43f5e", desc: "A nocturnal exploration of Shinjuku's electric veins — where neon bleeds into rain-slicked asphalt and human stories unfold in 1/125th of a second.", role: "Street Photographer", client: "Personal Project", duration: "6 Weeks" },
   { id: 3, title: "Concrete Poetry", category: "Architecture", year: "2025", image: "https://images.unsplash.com/photo-1486325212027-8081e485255e?q=80&w=1200&auto=format&fit=crop", color: "#10b981", desc: "Brutalist structures reimagined as sculptural poems. Exploring the tension between mass and void in post-war European architecture.", role: "Architecture Photographer", client: "Wallpaper Magazine", duration: "4 Months" },
   { id: 4, title: "Skin & Silk", category: "Fashion", year: "2024", image: "https://images.unsplash.com/photo-1509631179647-0177331693ae?q=80&w=1200&auto=format&fit=crop", color: "#d97706", desc: "Editorial series for Maison Lumière's haute couture collection. Merging classical portraiture with contemporary fashion storytelling.", role: "Fashion Photographer", client: "Maison Lumière", duration: "2 Months" },
-  { id: 5, title: "Volcanic Silence", category: "Landscape", year: "2024", image: "https://images.unsplash.com/photo-1462275646964-a0e3c11f18a6?q=80&w=1200&auto=format&fit=crop", color: "#8b5cf6", desc: "The aftermath of eruption — where destruction creates a canvas more beautiful than any human could conceive. Shot over three expeditions.", role: "Documentary Photographer", client: "BBC Earth", duration: "8 Months" },
+  { id: 5, title: "Volcanic Silence", category: "Landscape", year: "2024", image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=1200&auto=format&fit=crop", color: "#8b5cf6", desc: "The aftermath of eruption — where destruction creates a canvas more beautiful than any human could conceive. Shot over three expeditions.", role: "Documentary Photographer", client: "BBC Earth", duration: "8 Months" },
   { id: 6, title: "Human Form", category: "Portrait", year: "2026", image: "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?q=80&w=1200&auto=format&fit=crop", color: "#ec4899", desc: "An intimate portrait series celebrating the raw beauty of the human form — unretouched, unfiltered, unapologetically real.", role: "Portrait Photographer", client: "Vogue Italia", duration: "5 Weeks" },
   { id: 7, title: "Desert Shadows", category: "Landscape", year: "2025", image: "https://images.unsplash.com/photo-1473580044384-7ba9967e16a0?q=80&w=1200&auto=format&fit=crop", color: "#f59e0b", desc: "A minimalist approach to the Sahara. Using harsh midday light to create striking geometric compositions out of shifting dunes.", role: "Photographer", client: "Condé Nast Traveler", duration: "4 Weeks" },
   { id: 8, title: "Urban Pulse", category: "Street", year: "2023", image: "https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=1200&auto=format&fit=crop", color: "#3b82f6", desc: "The chaos of New York City distilled into frozen moments. A monochrome series focusing on the isolation within the crowd.", role: "Street Photographer", client: "The New Yorker", duration: "3 Months" },
@@ -38,7 +38,7 @@ const SERVICES = [
     title: "Art Direction",
     desc: "Comprehensive visual strategy from concept to final execution, ensuring cohesive brand identity.",
     colSpan: "lg:col-span-4",
-    bgImage: "https://images.unsplash.com/photo-1600607688066-890987febe51?q=80&w=800&auto=format&fit=crop",
+    bgImage: "https://images.unsplash.com/photo-1473580044384-7ba9967e16a0?q=80&w=800&auto=format&fit=crop",
   },
   {
     id: "03",
@@ -307,7 +307,7 @@ export default function CreativePortfolioSPA() {
           ========================================== */}
       <section id="hero" className="relative h-screen w-full flex items-center justify-center overflow-hidden">
         <motion.div style={{ y: heroY, scale: scaleProgress }} className="absolute inset-0 z-0 origin-bottom">
-          <Image src="https://images.unsplash.com/photo-1542744094-3a31f103e35f?q=80&w=1600&auto=format&fit=crop" fill className="object-cover" alt="Hero" priority />
+          <Image src="https://images.unsplash.com/photo-1509631179647-0177331693ae?q=80&w=1600&auto=format&fit=crop" fill className="object-cover" alt="Hero" priority />
           <div className="absolute inset-0 bg-black/50" />
           <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-[#0a0a0a]/60" />
         </motion.div>
