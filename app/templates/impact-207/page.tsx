@@ -108,6 +108,9 @@ function GlobalStyles() {
       html { scroll-behavior: smooth; }
       body { background: ${T.bg}; color: ${T.text}; font-family: ${T.font}; overflow-x: hidden; }
 
+      /* Mobile header fix: collapse the desktop nav on phones so it can't overlap the logo */
+      @media (max-width: 900px){ .sky-desktop-nav{ display: none !important; } }
+
       .n207-btn-primary {
         display: inline-flex; align-items: center; gap: 8px;
         background: ${T.accent}; color: #fff; border: none; cursor: pointer;
@@ -244,7 +247,7 @@ function Navbar() {
       </div>
 
       {/* Desktop links */}
-      <div style={{ display: "flex", gap: 36, alignItems: "center" }}>
+      <div className="sky-desktop-nav" style={{ display: "flex", gap: 36, alignItems: "center" }}>
         {links.map((l) => (
           <a
             key={l.href}

@@ -471,6 +471,8 @@ return (
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: ${C.sandDark}; }
         ::-webkit-scrollbar-thumb { background: ${C.accent}; border-radius: 3px; }
+        /* Mobile header fix: collapse the desktop nav on phones so it can't overlap the logo */
+        @media (max-width: 900px){ .sky-desktop-nav{ display: none !important; } }
       `}</style>
 
       {/* NAV */}
@@ -499,7 +501,7 @@ return (
               </>
             )}
           </div>
-          <div style={{ display: "flex", gap: 32, alignItems: "center" }}>
+          <div className="sky-desktop-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>
             {[
               { name: "Accueil", page: "home" },
               { name: "Destinations", page: "destinations" },

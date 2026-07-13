@@ -429,6 +429,8 @@ export default function EssentialBlogPage() {
         * { box-sizing: border-box; margin: 0; padding: 0; }
         html { scroll-behavior: smooth; }
         ::selection { background: ${C.accentLight}; color: ${C.accent}; }
+        /* Mobile header fix: collapse the inline category nav on phones so it can't overlap the logo */
+        @media (max-width: 900px){ .sky-desktop-nav{ display: none !important; } }
       `}</style>
 
       {/* READING PROGRESS BAR */}
@@ -464,7 +466,7 @@ export default function EssentialBlogPage() {
           </div>
 
           {/* Categories nav */}
-          <div style={{ display: "flex", gap: 28, flex: 1, alignItems: "center" }}>
+          <div className="sky-desktop-nav" style={{ display: "flex", gap: 28, flex: 1, alignItems: "center" }}>
             {CATEGORIES.slice(0, 5).map(cat => (
               <motion.button
                 key={cat.name}

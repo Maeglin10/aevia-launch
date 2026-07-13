@@ -140,6 +140,8 @@ const globalStyles = `
   @media (max-width: 700px) {
     .i14-dest-grid { grid-template-columns: 1fr !important; grid-template-rows: auto !important; }
     .i14-dest-span { grid-column: 1 / -1 !important; grid-row: auto !important; }
+    /* Mobile header fix: hide the desktop nav links so they can't overlap the logo */
+    .hidden-mobile { display: none !important; }
   }
 `;
 
