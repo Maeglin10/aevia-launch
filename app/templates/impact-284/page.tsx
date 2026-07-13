@@ -66,9 +66,9 @@ const SANS = "'Lato', system-ui, sans-serif" as const;
 /* ── Photos Unsplash (IDs réels — ne pas modifier) ──────────────────────── */
 const PHOTO = {
   dentiste:
-    'https://images.unsplash.com/photo-1606811841689-23dfddce3e66?q=80&w=1600&auto=format&fit=crop',
+    'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?q=80&w=1600&auto=format&fit=crop',
   cabinet:
-    'https://images.unsplash.com/photo-1588776814546-1ffbb172ef46?q=80&w=1600&auto=format&fit=crop',
+    'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?q=80&w=1600&auto=format&fit=crop',
   sourire:
     'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?q=80&w=1600&auto=format&fit=crop',
   traitement:

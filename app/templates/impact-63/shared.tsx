@@ -86,7 +86,7 @@ export const COLLECTIONS = [
     case: "Acier 316L poli — Ø 38mm",
     water: "100m",
     accent: "#C9A96E",
-    image: "https://images.unsplash.com/photo-1553968448-d1bcbcf51a1f?w=800&q=80&fit=crop",
+    image: "https://images.unsplash.com/photo-1612817288484-6f916006741a?w=800&q=80&fit=crop",
   },
   {
     id: "grand-complication",

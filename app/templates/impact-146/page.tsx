@@ -262,7 +262,7 @@ export default function KuroOmakasePage() {
                  {[
                    { t: "Bluefin Otoro", s: "Oma Coast", d: "Triple-marbled belly cut, cured for 48 hours in house-made shoyu.", img: "https://images.unsplash.com/photo-1591814468924-caf88d1232e1?auto=format&fit=crop&q=80&w=1200" },
                    { t: "Hokkaido Uni", s: "Uchiura Bay", d: "Pure, oceanic creaminess harvested daily and served at body temperature.", img: "https://images.unsplash.com/photo-1625944525533-473f1a3d54e7?auto=format&fit=crop&q=80&w=1200" },
-                   { t: "Rare Abalone", s: "Mie Prefecture", d: "Slow-steamed for 6 hours in sake and kelp dashi for optimal texture.", img: "https://images.unsplash.com/photo-1534422298391-e4f8c170db06?auto=format&fit=crop&q=80&w=1200" }
+                   { t: "Rare Abalone", s: "Mie Prefecture", d: "Slow-steamed for 6 hours in sake and kelp dashi for optimal texture.", img: "https://images.unsplash.com/photo-1579871494447-9811cf80d66c?auto=format&fit=crop&q=80&w=1200" }
                  ].map((item, i) => (
                    <Reveal key={i} delay={i * 0.15}>
                       <div className="group cursor-pointer">

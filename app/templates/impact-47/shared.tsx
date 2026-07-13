@@ -88,9 +88,9 @@ export const seasons = [
     accent: C.sage,
     desc: "Tulips, peonies, ranunculus, and cherry blossom — the season of fresh beginnings.",
     arrangements: [
-      { name: "Jardin de Printemps", price: "€65", desc: "Peonies, tulipes, and garden roses in blush and cream.", image: "https://images.unsplash.com/photo-1490750967868-88df5691cc17?w=400&h=400&fit=crop&q=80" },
+      { name: "Jardin de Printemps", price: "€65", desc: "Peonies, tulipes, and garden roses in blush and cream.", image: "https://images.unsplash.com/photo-1531525645387-7f14be1bdbbd?w=400&h=400&fit=crop&q=80" },
       { name: "Blossom Drift", price: "€85", desc: "Cherry blossom stems with delicate sweet peas and freesia.", image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=400&fit=crop&q=80" },
-      { name: "Green Awakening", price: "€55", desc: "Eucalyptus, ferns, and seasonal greens with white blooms.", image: "https://images.unsplash.com/photo-1487530811015-2780cf3b336f?w=400&h=400&fit=crop&q=80" },
+      { name: "Green Awakening", price: "€55", desc: "Eucalyptus, ferns, and seasonal greens with white blooms.", image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=400&fit=crop&q=80" },
     ],
   },
   {
@@ -102,7 +102,7 @@ export const seasons = [
     arrangements: [
       { name: "Soleil de Provence", price: "€70", desc: "Sunflowers, lavender, and golden dahlias in warm abundance.", image: "https://images.unsplash.com/photo-1531525645387-7f14be1bdbbd?w=400&h=400&fit=crop&q=80" },
       { name: "Rose Vif", price: "€95", desc: "Garden roses in deep coral and orange with jasmine vine.", image: "https://images.unsplash.com/photo-1518895312237-a9e23508077d?w=400&h=400&fit=crop&q=80" },
-      { name: "Tropical Luxe", price: "€120", desc: "Birds of paradise, proteas, and tropical foliage statement piece.", image: "https://images.unsplash.com/photo-1544991936-9464fa57a7cf?w=400&h=400&fit=crop&q=80" },
+      { name: "Tropical Luxe", price: "€120", desc: "Birds of paradise, proteas, and tropical foliage statement piece.", image: "https://images.unsplash.com/photo-1518895312237-a9e23508077d?w=400&h=400&fit=crop&q=80" },
     ],
   },
   {
@@ -114,7 +114,7 @@ export const seasons = [
     arrangements: [
       { name: "Automne Doré", price: "€75", desc: "Rust dahlias, orange chrysanthemums, and dried wheat stems.", image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&q=80" },
       { name: "Dried Luxe", price: "€90", desc: "Pampas, lunaria, preserved botanicals in sculptural composition.", image: "https://images.unsplash.com/photo-1606041011872-596597976b25?w=400&h=400&fit=crop&q=80" },
-      { name: "Forest Floor", price: "€60", desc: "Wild mushrooms, moss, pine branches, and seasonal berries.", image: "https://images.unsplash.com/photo-1601796913936-5f659e5d2936?w=400&h=400&fit=crop&q=80" },
+      { name: "Forest Floor", price: "€60", desc: "Wild mushrooms, moss, pine branches, and seasonal berries.", image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&q=80" },
     ],
   },
   {
@@ -239,7 +239,7 @@ export const PRODUCTS = [
     colors: [C.rose, C.blush, "#f8bbd0"],
     rating: 4.9,
     reviews: 142,
-    image: "https://images.unsplash.com/photo-1490750967868-88df5691cc17?w=600&h=600&fit=crop&q=80",
+    image: "https://images.unsplash.com/photo-1531525645387-7f14be1bdbbd?w=600&h=600&fit=crop&q=80",
   },
   {
     name: "Soleil de Provence",
@@ -323,7 +323,7 @@ export const PRODUCTS = [
     colors: [C.sageMid, "#aed581", C.rose],
     rating: 4.8,
     reviews: 73,
-    image: "https://images.unsplash.com/photo-1487530811015-2780cf3b336f?w=600&h=600&fit=crop&q=80",
+    image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&h=600&fit=crop&q=80",
   },
   {
     name: "Plante d'Intérieur Apaisante",
@@ -337,7 +337,7 @@ export const PRODUCTS = [
     colors: [C.sage, C.sageMid, "#a5d6a7"],
     rating: 4.9,
     reviews: 110,
-    image: "https://images.unsplash.com/photo-1544991936-9464fa57a7cf?w=600&h=600&fit=crop&q=80",
+    image: "https://images.unsplash.com/photo-1518895312237-a9e23508077d?w=600&h=600&fit=crop&q=80",
   },
 ];
 
@@ -350,7 +350,7 @@ export const BLOG_POSTS = [
     excerpt:
       "Plus fraîches, plus durables et plus belles : les raisons pour lesquelles nous composons exclusivement avec les fleurs du moment.",
     cover: C.rose,
-    coverImage: "https://images.unsplash.com/photo-1490750967868-88df5691cc17?w=1200&h=600&fit=crop&q=80",
+    coverImage: "https://images.unsplash.com/photo-1531525645387-7f14be1bdbbd?w=1200&h=600&fit=crop&q=80",
     body: [
       "Une fleur de saison est cueillie à maturité, au plus près de sa floraison naturelle. Elle tient plus longtemps en vase, dégage un parfum plus intense et affiche des couleurs que les variétés forcées hors saison n'égalent jamais.",
       "Travailler avec les saisons, c'est aussi soutenir les producteurs locaux et réduire l'empreinte du transport réfrigéré. Chez Pétales & Co, nous privilégions les petits cultivateurs français dès que la saison le permet.",

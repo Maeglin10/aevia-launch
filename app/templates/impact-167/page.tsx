@@ -106,14 +106,14 @@ const NEIGHBORHOODS = [
     arrondissement: "IVe",
     character: "Renaissance hôtels particuliers, contemporary galleries, and the best falafel in Europe. History layered on history.",
     priceRange: "€ 12 000 – 18 000 / m²",
-    image: "https://images.unsplash.com/photo-1499856871958-5b9357976b82?q=80&w=1400&auto=format&fit=crop",
+    image: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=1400&auto=format&fit=crop",
   },
   {
     name: "Trocadéro",
     arrondissement: "XVIe",
     character: "Monumental Haussmann architecture, the finest views of the Eiffel Tower, and quiet residential streets that feel like a village.",
     priceRange: "€ 13 000 – 20 000 / m²",
-    image: "https://images.unsplash.com/photo-1543349689-9a4d426bee8e?q=80&w=1400&auto=format&fit=crop",
+    image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=1400&auto=format&fit=crop",
   },
   {
     name: "Île Saint-Louis",

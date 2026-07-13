@@ -32,7 +32,7 @@ function ParallaxImg({ src, alt }: { src: string; alt: string }) {
 }
 
 const PROJECTS = [
-  { title: "Flux Identity", client: "Flux Labs", type: "Brand System", img: "https://images.unsplash.com/photo-1558618666-fcd25c85f82e?auto=format&fit=crop&q=80&w=1200", year: "2024" },
+  { title: "Flux Identity", client: "Flux Labs", type: "Brand System", img: "https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&q=80&w=1200", year: "2024" },
   { title: "Prism Launch", client: "Prism Analytics", type: "Product Design", img: "https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&q=80&w=1200", year: "2024" },
   { title: "Ember Editorial", client: "Ember Magazine", type: "Editorial + Web", img: "https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&q=80&w=1200", year: "2023" },
   { title: "Vertex Motion", client: "Vertex Films", type: "Motion Design", img: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=1200", year: "2023" },
@@ -186,7 +186,7 @@ export default function StudioVersaPage() {
         {/* ── HERO ─────────────────── */}
         <section id="hero" className="relative min-h-[90vh] flex items-center pt-40 pb-20 overflow-hidden">
           <div className="absolute top-0 right-0 w-[50vw] h-full hidden lg:block">
-            <ParallaxImg src="https://images.unsplash.com/photo-1558618666-fcd25c85f82e?auto=format&fit=crop&q=80&w=1600" alt="Studio" />
+            <ParallaxImg src="https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&q=80&w=1600" alt="Studio" />
             <div className="absolute inset-0 bg-gradient-to-r from-[#faf5f0] via-[#faf5f0]/40 to-transparent" />
           </div>
 

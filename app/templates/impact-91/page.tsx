@@ -86,7 +86,7 @@ const COLLECTIONS = [
     description: "Inspirée des nuits polaires et des constellations boréales.",
     pieces: [
       { name: "Collier Polaris", material: "Or blanc 18K, Diamants", price: "4 800 €", img: "photo-1515562141207-7a88fb7ce338" },
-      { name: "Bague Aurore", material: "Or 18K, Saphir de Ceylan", price: "3 200 €", img: "photo-1601121141461-9d6647bef0a0" },
+      { name: "Bague Aurore", material: "Or 18K, Saphir de Ceylan", price: "3 200 €", img: "photo-1515562141207-7a88fb7ce338" },
       { name: "Bracelet Céleste", material: "Platine 950, Diamants taille brillant", price: "6 500 €", img: "photo-1611591437281-460bfbe1220a" },
     ],
   },
@@ -97,7 +97,7 @@ const COLLECTIONS = [
     description: "La chaleur dorée de la Méditerranée capturée dans chaque pièce.",
     pieces: [
       { name: "Pendentif Soleil", material: "Or jaune 18K, Rubis de Birmanie", price: "5 200 €", img: "photo-1515562141207-7a88fb7ce338" },
-      { name: "Boucles Ibiza", material: "Or 18K, Émeraudes de Colombie", price: "4 100 €", img: "photo-1601121141461-9d6647bef0a0" },
+      { name: "Boucles Ibiza", material: "Or 18K, Émeraudes de Colombie", price: "4 100 €", img: "photo-1515562141207-7a88fb7ce338" },
       { name: "Parure Capri", material: "Or rose 18K, Tanzanite", price: "8 900 €", img: "photo-1611591437281-460bfbe1220a" },
     ],
   },
@@ -108,7 +108,7 @@ const COLLECTIONS = [
     description: "Les teintes ambrées de l'automne sublimées en métal précieux.",
     pieces: [
       { name: "Collier Ambre", material: "Or 18K, Citrine naturelle", price: "2 900 €", img: "photo-1515562141207-7a88fb7ce338" },
-      { name: "Chevalière Doré", material: "Or jaune 18K massif", price: "1 800 €", img: "photo-1601121141461-9d6647bef0a0" },
+      { name: "Chevalière Doré", material: "Or jaune 18K massif", price: "1 800 €", img: "photo-1515562141207-7a88fb7ce338" },
       { name: "Bracelet Feuille", material: "Or 18K, Grenat Rhodolite", price: "3 600 €", img: "photo-1611591437281-460bfbe1220a" },
     ],
   },
@@ -942,7 +942,7 @@ function AteliersSection() {
           <Reveal x={-40} y={0}>
             <div className="relative aspect-[4/5] overflow-hidden">
               <Image
-                src="https://images.unsplash.com/photo-1601121141461-9d6647bef0a0?q=80&w=800&auto=format&fit=crop"
+                src="https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?q=80&w=800&auto=format&fit=crop"
                 alt="Atelier Aurelia"
                 fill
                 className="object-cover"

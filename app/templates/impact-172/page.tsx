@@ -430,7 +430,7 @@ export default function LegrandPage() {
             <Reveal delay={0.1}>
               <div className="relative">
                 <div className="aspect-[4/5] relative overflow-hidden">
-                  <Image src="https://images.unsplash.com/photo-1521791055366-0d553872952f?w=800&q=80" alt="Cabinet Legrand" fill className="object-cover" />
+                  <Image src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=800&q=80" alt="Cabinet Legrand" fill className="object-cover" />
                 </div>
                 <div className="absolute -bottom-6 -left-6 bg-[#C9A855] text-[#1A1510] p-6">
                   <div className="text-3xl font-light mb-1" style={{ fontFamily: "'Libre Baskerville', serif" }}>1991</div>

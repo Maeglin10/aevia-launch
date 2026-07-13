@@ -41,7 +41,7 @@ const PRODUCTS = [
     category: "Optics", 
     price: "$1,800",
     desc: "Retinal projection system with 32k resolution and integrated neural eye-tracking.",
-    img: "https://images.unsplash.com/photo-1614729939124-03290b5609ce?w=1200&q=80"
+    img: "https://images.unsplash.com/photo-1535223289827-42f1e9919769?w=1200&q=80"
   },
 ];
 

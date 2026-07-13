@@ -109,7 +109,7 @@ const PHASES: Service[] = [
     num: '01',
     caption: 'COMPTABILITÉ & FISCALITÉ',
     sub: 'Tenue comptable, déclarations TVA, liasses fiscales, optimisation IS — accompagnement complet pour TPE et PME.',
-    img: 'https://images.unsplash.com/photo-1554224155-8d04cb38fc7?q=80&w=1600&auto=format&fit=crop',
+    img: 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=1600&auto=format&fit=crop',
     alt: 'Expert-comptable analysant des liasses fiscales',
   },
   {
@@ -583,7 +583,7 @@ function Hero() {
         }}
       >
         <img
-          src="https://images.unsplash.com/photo-1554224155-8d04cb38fc7?q=80&w=2000&auto=format&fit=crop"
+          src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=2000&auto=format&fit=crop"
           alt="Cabinet expert-comptable Marchand & Partners Nantes"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />

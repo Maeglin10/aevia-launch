@@ -165,7 +165,7 @@ const SERVICES: Service[] = [
 const EDIT_ROWS: EditRow[] = [
   {
     eyebrow: 'Notre territoire',
-    img: `https://images.unsplash.com/photo-1519225421783-bda591ac3db3?q=80&w=800&auto=format&fit=crop`,
+    img: `https://images.unsplash.com/photo-1478146896981-b80fe463b330?q=80&w=800&auto=format&fit=crop`,
     title: (
       <>
         Côte d'Azur /{' '}
@@ -177,7 +177,7 @@ const EDIT_ROWS: EditRow[] = [
   },
   {
     eyebrow: 'Notre signature',
-    img: `https://images.unsplash.com/photo-1511285560929-f9bf7f036830?q=80&w=800&auto=format&fit=crop`,
+    img: `https://images.unsplash.com/photo-1478146896981-b80fe463b330?q=80&w=800&auto=format&fit=crop`,
     title: (
       <>
         Jamais / deux fois / <span style={{ fontStyle: 'italic' }}>pareil.</span>
@@ -559,7 +559,7 @@ function Hero() {
         }}
       >
         <img
-          src={`https://images.unsplash.com/photo-1519225421783-bda591ac3db3?q=80&w=2000&auto=format&fit=crop`}
+          src={`https://images.unsplash.com/photo-1478146896981-b80fe463b330?q=80&w=2000&auto=format&fit=crop`}
           alt="Villa Belle Époque sur la Côte d'Azur"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />

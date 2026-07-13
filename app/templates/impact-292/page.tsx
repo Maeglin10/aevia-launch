@@ -107,7 +107,7 @@ const PHOTO = {
   gallery1: "https://images.unsplash.com/photo-1573080496219-bb080dd4f877?q=80&w=800&auto=format&fit=crop",
   gallery2: "https://images.unsplash.com/photo-1460306855393-0410f61241c7?q=80&w=800&auto=format&fit=crop",
   gallery3: "https://images.unsplash.com/photo-1552566626-52f8b828add9?q=80&w=800&auto=format&fit=crop",
-  gallery4: "https://images.unsplash.com/photo-1526367790999-015078648c7e?q=80&w=800&auto=format&fit=crop"
+  gallery4: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=800&auto=format&fit=crop"
 } as const;
 
 /* ── Primitives Reutilisables ─────────────────────────────────────────────── */

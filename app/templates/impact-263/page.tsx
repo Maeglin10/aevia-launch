@@ -104,14 +104,14 @@ interface EcoItem {
 const PROJECTS: Project[] = [
   {
     id: 'proj-1',
-    src: 'https://images.unsplash.com/photo-1558618047-b62e0e6e8517?q=80&w=1600&auto=format&fit=crop',
+    src: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?q=80&w=1600&auto=format&fit=crop',
     index: 'I',
     title: 'JARDINS PRIVATIFS',
     sub: 'Du plan 3D à la dernière pierre — jardins contemporains, anglais ou méditerranéens selon votre vision et votre sol.',
   },
   {
     id: 'proj-2',
-    src: 'https://images.unsplash.com/photo-1416879347-58da7a5ecbb7?q=80&w=1600&auto=format&fit=crop',
+    src: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?q=80&w=1600&auto=format&fit=crop',
     index: 'II',
     title: 'POTAGER & PERMACULTURE',
     sub: 'Buttes de culture, association de plantes, compost intégré — produire chez soi intelligemment et durablement.',
@@ -554,7 +554,7 @@ function Hero() {
         }}
       >
         <img
-          src="https://images.unsplash.com/photo-1558618047-b62e0e6e8517?q=80&w=2000&auto=format&fit=crop"
+          src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?q=80&w=2000&auto=format&fit=crop"
           alt="Jardin paysager réalisé par Jardins Vivants à Bordeaux"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
           priority-fetch="high"
@@ -1603,7 +1603,7 @@ function QuoteForm() {
     <section style={sec} id="devis">
       {/* Image de fond subtile */}
       <img
-        src="https://images.unsplash.com/photo-1416879347-58da7a5ecbb7?q=80&w=1600&auto=format&fit=crop"
+        src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?q=80&w=1600&auto=format&fit=crop"
         alt="Image de présentation"
         aria-hidden="true"
         loading="lazy"

@@ -81,7 +81,7 @@ const EXPERIENCES = [
     label: 'Espace Étoile',
     sub: 'Spa & Thermal Circuit',
     desc: 'Seven treatment rooms, a Roman hammam, and a 25m heated pool. Every ritual is bespoke, every moment restorative.',
-    img: 'https://images.unsplash.com/photo-1540541338537-1220059a0de6?w=1000&q=85',
+    img: 'https://images.unsplash.com/photo-1618773928121-c32242e63f39?w=1000&q=85',
   },
   {
     label: 'Bar Lumière',
@@ -218,7 +218,7 @@ const SERVICES = [
     label: 'Espace Étoile',
     sub: 'Spa & Thermal Circuit',
     desc: 'Seven treatment rooms, a Roman hammam and a 25-metre heated pool. Every ritual is bespoke, every moment restorative.',
-    img: 'https://images.unsplash.com/photo-1540541338537-1220059a0de6?w=1000&q=85',
+    img: 'https://images.unsplash.com/photo-1618773928121-c32242e63f39?w=1000&q=85',
     points: ['Roman hammam & sauna', '25 m heated pool', 'Bespoke signature treatments', '24-hour fitness suite'],
   },
   {
@@ -317,7 +317,7 @@ const BLOG_POSTS = [
     category: 'Art of Living',
     excerpt:
       'Roman hammam, warm-oil massage and a herbal tea room: discover the treatment journey our spa reserves for the cold season.',
-    img: 'https://images.unsplash.com/photo-1540541338537-1220059a0de6?w=1200&q=85',
+    img: 'https://images.unsplash.com/photo-1618773928121-c32242e63f39?w=1200&q=85',
     body: [
       'When the city turns grey, Espace Étoile becomes a cocoon. For winter, our spa has designed a treatment journey conceived as an inner voyage, from the first breath of steam to the last sip of herbal tea.',
       'The ritual opens with the Roman hammam, whose moist heat prepares the skin and soothes the mind. Then comes a mineral-salt scrub, followed by a full-body massage with warm oils whose fragrances change with the season.',
@@ -2003,7 +2003,7 @@ function ServicesPage({ goTo }: { goTo: (p: HotelPage) => void }) {
         eyebrow="The Experience"
         title="Services & Experiences"
         subtitle="Spa, gastronomy, concierge: every service at the Grand Palais is designed so that everything feels simple and natural."
-        img="https://images.unsplash.com/photo-1540541338537-1220059a0de6?w=1800&q=85"
+        img="https://images.unsplash.com/photo-1618773928121-c32242e63f39?w=1800&q=85"
       />
       <section style={{ background: DARK, padding: '7rem 0' }}>
         <div style={{ maxWidth: '75rem', margin: '0 auto', padding: '0 3rem' }}>

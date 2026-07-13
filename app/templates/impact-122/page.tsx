@@ -87,7 +87,7 @@ const MANIFEST = {
       title: "The Deep Sea Mining Rush",
       excerpt: "A new gold rush is happening miles beneath the ocean surface, threatening ecosystems we barely understand.",
       author: "Sarah Jenkins",
-      img: "https://images.unsplash.com/photo-1582967169287-6e9f2ee1a70c?w=800&q=80"
+      img: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=800&q=80"
     },
     {
       id: "culinary",
@@ -445,7 +445,7 @@ export default function ChronicleEditorialPage() {
             <div className="order-1 lg:order-2">
               <Reveal delay={0.2}>
                 <div className="relative w-full aspect-[3/4] bg-[#e5e3de] p-8 md:p-12 flex flex-col justify-end overflow-hidden group">
-                  <Image src="https://images.unsplash.com/photo-1455390582262-044cdead27d8?w=800&q=80" alt="Writing" fill className="object-cover opacity-80 mix-blend-multiply group-hover:scale-105 transition-transform duration-1000" />
+                  <Image src="https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?w=800&q=80" alt="Writing" fill className="object-cover opacity-80 mix-blend-multiply group-hover:scale-105 transition-transform duration-1000" />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#1a1814]/90 via-[#1a1814]/20 to-transparent" />
                   <div className="relative z-10 text-white">
                     <div className="text-[10px] font-black uppercase tracking-widest text-[#d64000] mb-4">Featured Essay</div>

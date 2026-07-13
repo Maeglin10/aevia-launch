@@ -54,7 +54,7 @@ const PRODUCTS = [
     category: "Sourdough",
     price: "€8.50",
     desc: "48-hour fermentation. Charcoal-infused crust. Ancient grain blend.",
-    img: "https://images.unsplash.com/photo-1509440159258-1c1c3e5f3f5b?q=80&w=800&auto=format&fit=crop",
+    img: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=800&auto=format&fit=crop",
   },
   {
     id: 2,
@@ -70,7 +70,7 @@ const PRODUCTS = [
     category: "Tradition",
     price: "€2.80",
     desc: "High hydration. Stone-baked. Intense caramelization.",
-    img: "https://images.unsplash.com/photo-1586444248902-2f64eddf13cf?w=800&q=80",
+    img: "https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=800&q=80",
   },
   {
     id: 4,

@@ -70,7 +70,7 @@ const PHOTO = {
   tribunal:
     'https://images.unsplash.com/photo-1589829085413-56de8ae18c73?q=80&w=1600&auto=format&fit=crop',
   bureau:
-    'https://images.unsplash.com/photo-1521791055366-0d553872952f?q=80&w=1600&auto=format&fit=crop',
+    'https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=1600&auto=format&fit=crop',
   reunion:
     'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=1600&auto=format&fit=crop',
   avocate:

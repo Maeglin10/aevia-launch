@@ -69,7 +69,7 @@ const ARRANGEMENTS = [
     season: "Printemps",
     price: "245€",
     description: "Bouquet monochrome de pivoines Sarah Bernhardt aux pétales soyeux et au parfum enivrant.",
-    image: "https://images.unsplash.com/photo-1490750967868-88df5691cc17?w=800&q=80",
+    image: "https://images.unsplash.com/photo-1531525645387-7f14be1bdbbd?w=800&q=80",
     tag: "Best-seller",
   },
   {
@@ -78,7 +78,7 @@ const ARRANGEMENTS = [
     season: "Automne",
     price: "175€",
     description: "Composition aux teintes profondes : dahlias café, chrysanthèmes bordeaux et branches de baies.",
-    image: "https://images.unsplash.com/photo-1431209006258-2c92bf9cefca?w=800&q=80",
+    image: "https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=800&q=80",
     tag: "Saisonnier",
   },
   {
@@ -96,7 +96,7 @@ const ARRANGEMENTS = [
     season: "Printemps",
     price: "185€",
     description: "Bouquet aérien de jasmin frais, gardénias et muguet — le souvenir olfactif du sud.",
-    image: "https://images.unsplash.com/photo-1490750967868-88df5691cc17?w=800&q=80",
+    image: "https://images.unsplash.com/photo-1531525645387-7f14be1bdbbd?w=800&q=80",
     tag: "Parfumé",
   },
   {
@@ -105,7 +105,7 @@ const ARRANGEMENTS = [
     season: "Hiver",
     price: "165€",
     description: "Anémones sauvages de nos jardins provençaux, iris noirs et renoncules bicolores.",
-    image: "https://images.unsplash.com/photo-1431209006258-2c92bf9cefca?w=800&q=80",
+    image: "https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=800&q=80",
     tag: "Hivernal",
   },
 ]
@@ -848,7 +848,7 @@ export default function Impact94Page() {
             <div className="relative">
               <div className="relative h-[700px] overflow-hidden">
                 <Image
-                  src="https://images.unsplash.com/photo-1490750967868-88df5691cc17?w=1000&q=90"
+                  src="https://images.unsplash.com/photo-1531525645387-7f14be1bdbbd?w=1000&q=90"
                   alt="Atelier Botanica — Art botanique"
                   fill
                   className="object-cover"
@@ -929,7 +929,7 @@ export default function Impact94Page() {
               <div className="relative">
                 <div className="relative h-[500px] overflow-hidden">
                   <Image
-                    src="https://images.unsplash.com/photo-1431209006258-2c92bf9cefca?w=1000&q=90"
+                    src="https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=1000&q=90"
                     alt="Atelier Botanica — Savoir-faire artisanal"
                     fill
                     className="object-cover"

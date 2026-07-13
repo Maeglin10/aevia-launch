@@ -105,8 +105,8 @@ const PHOTO = {
   about: "https://images.unsplash.com/photo-1450133064473-71024230f91b?q=80&w=1600&auto=format&fit=crop",
   special: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=1600&auto=format&fit=crop",
   gallery1: "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=800&auto=format&fit=crop",
-  gallery2: "https://images.unsplash.com/photo-1505664194779-8bebcb95c557?q=80&w=800&auto=format&fit=crop",
-  gallery3: "https://images.unsplash.com/photo-1521791136364-7065939d9590?q=80&w=800&auto=format&fit=crop",
+  gallery2: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?q=80&w=800&auto=format&fit=crop",
+  gallery3: "https://images.unsplash.com/photo-1450133064473-71024230f91b?q=80&w=800&auto=format&fit=crop",
   gallery4: "https://images.unsplash.com/photo-1557804506-669a67965ba0?q=80&w=800&auto=format&fit=crop"
 } as const;
 

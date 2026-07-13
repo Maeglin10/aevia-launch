@@ -601,7 +601,7 @@ function Hero() {
         }}
       >
         <img
-          src={`https://images.unsplash.com/photo-1509440159258-1c1c3e5f3f5b?q=80&w=2000&auto=format&fit=crop`}
+          src={`https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=2000&auto=format&fit=crop`}
           alt="Fournil du Parlement — pains au levain en boulangerie artisanale"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
           priority-fetch="high"
@@ -1675,7 +1675,7 @@ function ReservationForm() {
     <section style={sec} id="reservation">
       {/* Photo fantôme en fond */}
       <img
-        src="https://images.unsplash.com/photo-1509440159258-1c1c3e5f3f5b?q=80&w=2000&auto=format&fit=crop"
+        src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=2000&auto=format&fit=crop"
         alt="Image de présentation"
         aria-hidden="true"
         loading="lazy"

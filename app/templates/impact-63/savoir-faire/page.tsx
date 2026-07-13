@@ -11,7 +11,7 @@ export default function SavoirFairePage() {
       title: "L'Ébauche",
       subtitle: "La platine-mère",
       desc: "Tout commence par l'ébauche — la platine qui recevra chaque composant. Usinée dans notre manufacture du Plan-les-Ouates, elle est mesurée au micron avant d'accueillir les premiers rouages. 847 composants pour le calibre MD-TB01.",
-      image: "https://images.unsplash.com/photo-1490750967868-88df5691cc7b?w=800&q=80&fit=crop",
+      image: "https://images.unsplash.com/photo-1523170335258-f5ed11844a49?w=800&q=80&fit=crop",
       stat: "847 composants",
     },
     {

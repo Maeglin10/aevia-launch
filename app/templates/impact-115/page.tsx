@@ -86,7 +86,7 @@ const PROJECTS = [
     location: "Vals, Switzerland",
     year: "2026",
     desc: "Carved into the mountainside and clad in local quartzite, these baths harness geothermal energy to maintain perfect temperatures year-round — zero combustion.",
-    image: "https://images.unsplash.com/photo-1542314831-c6a4d14faaf2?q=80&w=1400&auto=format&fit=crop",
+    image: "https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?q=80&w=1400&auto=format&fit=crop",
   },
   {
     id: "p5",

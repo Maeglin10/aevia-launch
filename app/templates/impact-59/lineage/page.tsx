@@ -26,7 +26,7 @@ const GUIDE_EXTENDED = [
     quote:
       "Le silence n'est pas l'absence de son. C'est l'espace dans lequel chaque chose peut enfin s'entendre elle-même.",
     image:
-      "https://images.unsplash.com/photo-1540555700478-4be709347c63?q=80&w=1200&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1545205597-3d9d02c29597?q=80&w=1200&auto=format&fit=crop",
     bio_extended:
       "Né à Kyoto, Maître Nakano a été ordonné moine à l'âge de 17 ans au temple Myōshin-ji. Après 30 ans de pratique rigoureuse dans la tradition Rinzai, il transmet aujourd'hui l'essence des séquences de marche contemplative et des pratiques de présence silencieuse qui constituent le cœur des retraites Luminal. Sa pédagogie est fondée sur la transmission directe — sans concept, sans effort, par simple présence partagée.",
   },
@@ -37,7 +37,7 @@ const GUIDE_EXTENDED = [
     quote:
       "Le corps sait déjà comment guérir. Notre travail est de créer les conditions pour qu'il s'en souvienne.",
     image:
-      "https://images.unsplash.com/photo-1571017853234-0b220809f68a?q=80&w=1200&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=1200&auto=format&fit=crop",
     bio_extended:
       "Formée à l'Institut Hakomi et au Somatic Experiencing Trauma Institute, Elena Rossi travaille depuis 15 ans avec des entrepreneurs, des athlètes et des dirigeants sur la régulation du système nerveux autonome. Ses sessions individuelles sont au cœur de chaque retraite Luminal. Avant de rejoindre Luminal, Elena a travaillé avec des équipes de soins intensifs hospitaliers pour développer des protocoles de prévention du burnout soignant.",
   },

@@ -5,9 +5,9 @@ import { motion, useScroll, useTransform, useInView } from "framer-motion";
 import Image from "next/image";
 
 export const PROJECTS = [
-  { name: "The Obsidian Villa", loc: "Malibu, CA", img: "https://images.unsplash.com/photo-1600585154340-be6199f7d009?auto=format&fit=crop&q=80&w=1200" },
+  { name: "The Obsidian Villa", loc: "Malibu, CA", img: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=1200" },
   { name: "Glass Monolith", loc: "Berlin, DE", img: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=1200" },
-  { name: "Serene Heights", loc: "Kyoto, JP", img: "https://images.unsplash.com/photo-1503387762-592cd5804557?auto=format&fit=crop&q=80&w=1200" },
+  { name: "Serene Heights", loc: "Kyoto, JP", img: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=1200" },
 ];
 
 export function Reveal({ children, delay = 0, y = 30, className = "" }: { children: React.ReactNode; delay?: number; y?: number; className?: string }) {

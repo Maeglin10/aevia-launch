@@ -495,7 +495,7 @@ export default function EclatLuxuryPage() {
                   >
                     <div className="aspect-square relative rounded-2xl overflow-hidden border border-white/10 bg-[#111]">
                       <Image 
-                        src={`https://images.unsplash.com/photo-1596462502278-27bf85033e5a?w=800&q=80`}
+                        src={`https://images.unsplash.com/photo-1616401784845-180882ba9ba8?w=800&q=80`}
                         alt={ing.name} fill className="object-cover opacity-60 mix-blend-luminosity hover:mix-blend-normal hover:opacity-100 transition-all duration-1000"
                       />
                     </div>

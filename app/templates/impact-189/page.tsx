@@ -295,8 +295,8 @@ export default function AtelierLeoniePage() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 h-[60vh] min-h-[400px]">
             <div className="col-span-2 row-span-2 relative overflow-hidden"><ParallaxImg src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&q=85&w=800" alt="Coiffure femme" /></div>
             <div className="relative overflow-hidden"><ParallaxImg src="https://images.unsplash.com/photo-1620331311520-246422fd82f9?auto=format&fit=crop&q=85&w=600" alt="Couleur cheveux" /></div>
-            <div className="relative overflow-hidden"><ParallaxImg src="https://images.unsplash.com/photo-1582095133179-bfd08e2fb6b8?auto=format&fit=crop&q=85&w=600" alt="Balayage" /></div>
-            <div className="relative overflow-hidden"><ParallaxImg src="https://images.unsplash.com/photo-1487412947147-5cebf100d7fb?auto=format&fit=crop&q=85&w=600" alt="Maquillage brushing" /></div>
+            <div className="relative overflow-hidden"><ParallaxImg src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&q=85&w=600" alt="Balayage" /></div>
+            <div className="relative overflow-hidden"><ParallaxImg src="https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&q=85&w=600" alt="Maquillage brushing" /></div>
             <div className="relative overflow-hidden"><ParallaxImg src="https://images.unsplash.com/photo-1554519515-242161756769?auto=format&fit=crop&q=85&w=600" alt="Coiffure updo" /></div>
           </div>
         </div>

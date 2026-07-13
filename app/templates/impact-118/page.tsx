@@ -35,7 +35,7 @@ function ParallaxImg({ src, alt }: { src: string; alt: string }) {
 const COLLECTION = [
   { name: "Horology One", series: "Precision Series", price: "€14,500", img: "https://images.unsplash.com/photo-1524592094714-0f0654e20314?auto=format&fit=crop&q=80&w=1200", desc: "Brushed titanium case with a 72-hour power reserve and sapphire crystal." },
   { name: "Deep Sea", series: "Oceanic Series", price: "€18,200", img: "https://images.unsplash.com/photo-1547996160-81dfa63595aa?auto=format&fit=crop&q=80&w=1200", desc: "Professional diver's watch water resistant to 1000m with helium escape valve." },
-  { name: "Lunar Phase", series: "Astral Series", price: "€22,900", img: "https://images.unsplash.com/photo-1522337360744-47309047ffcf?auto=format&fit=crop&q=80&w=1200", desc: "Perpetual moon phase complication with 18k rose gold hand-engraved dial." },
+  { name: "Lunar Phase", series: "Astral Series", price: "€22,900", img: "https://images.unsplash.com/photo-1524592094714-0f0654e20314?auto=format&fit=crop&q=80&w=1200", desc: "Perpetual moon phase complication with 18k rose gold hand-engraved dial." },
 ]
 
 const CRAFT = [
@@ -299,7 +299,7 @@ export default function ChronosLuxuryPage() {
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
                   <Reveal>
                     <div className="relative aspect-square">
-                      <ParallaxImg src="https://images.unsplash.com/photo-1522337360744-47309047ffcf?auto=format&fit=crop&q=80&w=1200" alt="Atelier Detail" />
+                      <ParallaxImg src="https://images.unsplash.com/photo-1524592094714-0f0654e20314?auto=format&fit=crop&q=80&w=1200" alt="Atelier Detail" />
                       <div className="absolute -bottom-12 -left-12 p-8 bg-[#050505] border border-white/5 w-64 hidden md:block">
                          <div className="text-3xl font-bold mb-2 text-white">100%</div>
                          <div className="text-[9px] font-bold uppercase tracking-widest text-[#d4af37]">In-House Calibre</div>
@@ -453,7 +453,7 @@ function AtelierPage() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center mb-32">
           <div className="relative aspect-[4/3] border border-white/10 p-2">
-            <img src="https://images.unsplash.com/photo-1522337360744-47309047ffcf?auto=format&fit=crop&q=80&w=1200" alt="Watchmaker hands" className="w-full h-full object-cover" />
+            <img src="https://images.unsplash.com/photo-1524592094714-0f0654e20314?auto=format&fit=crop&q=80&w=1200" alt="Watchmaker hands" className="w-full h-full object-cover" />
           </div>
           <div>
             <h2 className="text-3xl font-extralight text-white uppercase tracking-widest mb-6" style={{ fontFamily: "serif" }}>
@@ -489,7 +489,7 @@ function CollectionPage({ goTo }: { goTo: (p: ActivePage) => void }) {
   const collectionList = [
     { name: "Horology One", series: "Precision Series", price: "€14,500", img: "https://images.unsplash.com/photo-1524592094714-0f0654e20314?auto=format&fit=crop&q=80&w=1200", calibre: "CH-01 Manual", power: "72 Hours", case: "Titanium Grade 5", water: "50m", desc: "Brushed titanium case with a 72-hour power reserve and sapphire crystal." },
     { name: "Deep Sea", series: "Oceanic Series", price: "€18,200", img: "https://images.unsplash.com/photo-1547996160-81dfa63595aa?auto=format&fit=crop&q=80&w=1200", calibre: "CH-09 Auto", power: "60 Hours", case: "Stainless Steel 904L", water: "1000m", desc: "Professional diver's watch water resistant to 1000m with helium escape valve." },
-    { name: "Lunar Phase", series: "Astral Series", price: "€22,900", img: "https://images.unsplash.com/photo-1522337360744-47309047ffcf?auto=format&fit=crop&q=80&w=1200", calibre: "CH-12 Lunar", power: "65 Hours", case: "18k Rose Gold", water: "30m", desc: "Perpetual moon phase complication with 18k rose gold hand-engraved dial." },
+    { name: "Lunar Phase", series: "Astral Series", price: "€22,900", img: "https://images.unsplash.com/photo-1524592094714-0f0654e20314?auto=format&fit=crop&q=80&w=1200", calibre: "CH-12 Lunar", power: "65 Hours", case: "18k Rose Gold", water: "30m", desc: "Perpetual moon phase complication with 18k rose gold hand-engraved dial." },
     { name: "Tourbillon Prestige", series: "Grand Complication", price: "€85,000", img: "https://images.unsplash.com/photo-1547996160-81dfa63595aa?auto=format&fit=crop&q=80&w=1200", calibre: "CH-50 Tourbillon", power: "80 Hours", case: "Platinum 950", water: "30m", desc: "Flying tourbillon with manual winding, hand-beveled titanium cage, and power reserve indicator." }
   ];
 
@@ -556,7 +556,7 @@ function CraftsmanshipPage() {
               num: "01",
               title: "Guillochage & Dial Artistry",
               desc: "Our solid gold and silver dials are hand-engraved using mechanical rose engine lathes dating back to the early 20th century. This precise art form requires intense concentration, where a single slip of the wrist can ruin days of precision labor.",
-              img: "https://images.unsplash.com/photo-1522337360744-47309047ffcf?auto=format&fit=crop&q=80&w=1200"
+              img: "https://images.unsplash.com/photo-1524592094714-0f0654e20314?auto=format&fit=crop&q=80&w=1200"
             },
             {
               num: "02",
@@ -715,7 +715,7 @@ function JournalPage() {
       cat: "Craftsmanship",
       date: "May 14, 2026",
       desc: "An exploration of the technique of hand-polishing sharp edges in high watchmaking.",
-      img: "https://images.unsplash.com/photo-1522337360744-47309047ffcf?auto=format&fit=crop&q=80&w=1200"
+      img: "https://images.unsplash.com/photo-1524592094714-0f0654e20314?auto=format&fit=crop&q=80&w=1200"
     },
     {
       title: "Helium Escape Valves: Deep Oceanic Design",

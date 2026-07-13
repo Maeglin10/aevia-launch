@@ -74,9 +74,9 @@ const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 /* ── Photos Unsplash ─────────────────────────────────────────────────────── */
 const PHOTO = {
   plumber:
-    'https://images.unsplash.com/photo-1581578485-dea47a32cc3f?q=80&w=2000&auto=format&fit=crop',
+    'https://images.unsplash.com/photo-1585771724684-38269d6639fd?q=80&w=2000&auto=format&fit=crop',
   plumberMd:
-    'https://images.unsplash.com/photo-1581578485-dea47a32cc3f?q=80&w=800&auto=format&fit=crop',
+    'https://images.unsplash.com/photo-1585771724684-38269d6639fd?q=80&w=800&auto=format&fit=crop',
   heating:
     'https://images.unsplash.com/photo-1585771724684-38269d6639fd?q=80&w=1600&auto=format&fit=crop',
   heatingMd:

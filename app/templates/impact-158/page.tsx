@@ -94,7 +94,7 @@ const ARTICLES = [
     excerpt: "Comment des hommes du XIIe siècle ont-ils pu creuser onze cathédrales dans la roche basaltique ? Une question qui obsède.",
     date: "14 juin 2024",
     readTime: "12 min",
-    image: "https://images.unsplash.com/photo-1543749679-3d4e66d3b9f3?w=800&q=80",
+    image: "https://images.unsplash.com/photo-1545569341-9eb8b30979d9?w=800&q=80",
     tag: "Patrimoine",
   },
 ]
@@ -104,7 +104,7 @@ const DESTINATIONS = [
   { name: "Pérou", articles: 8, image: "https://images.unsplash.com/photo-1580502304784-8985b7eb7260?w=400&q=80" },
   { name: "Islande", articles: 6, image: "https://images.unsplash.com/photo-1504893524553-b855bce32c67?w=400&q=80" },
   { name: "Maroc", articles: 9, image: "https://images.unsplash.com/photo-1597212618440-806262de4f6b?w=400&q=80" },
-  { name: "Éthiopie", articles: 5, image: "https://images.unsplash.com/photo-1568996508071-7f3d4b0bb2c0?w=400&q=80" },
+  { name: "Éthiopie", articles: 5, image: "https://images.unsplash.com/photo-1493246507139-91e8fad9978e?w=400&q=80" },
   { name: "Australie", articles: 7, image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&q=80" },
 ]
 

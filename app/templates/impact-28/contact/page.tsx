@@ -23,7 +23,7 @@ const offices = [
     phone: "+33 4 72 41 88 60",
     email: "lyon@brutco-architecture.com",
     hours: "Mon – Fri, 09:00 – 18:00",
-    img: "https://images.unsplash.com/photo-1512470359936-06c27eb03b54?w=800&h=500&fit=crop&crop=center",
+    img: "https://images.unsplash.com/photo-1486325212027-8081e485255e?w=800&h=500&fit=crop&crop=center",
   },
   {
     city: "Marseille",

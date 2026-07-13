@@ -575,7 +575,7 @@ function Hero() {
         }}
       >
         <img
-          src={`https://images.unsplash.com/photo-1558618047-b62e0e6e8517?q=80&w=2000&auto=format&fit=crop`}
+          src={`https://images.unsplash.com/photo-1578662996442-48f60103fc96?q=80&w=2000&auto=format&fit=crop`}
           alt="Jardin alsacien fleuri par Jardins d'Alsace"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
@@ -1598,7 +1598,7 @@ function QuoteForm() {
     <section style={sec} id="devis">
       {/* Arrière-plan subtil */}
       <img
-        src={`https://images.unsplash.com/photo-1558618047-b62e0e6e8517?q=80&w=1600&auto=format&fit=crop`}
+        src={`https://images.unsplash.com/photo-1578662996442-48f60103fc96?q=80&w=1600&auto=format&fit=crop`}
         alt="Image de présentation"
         aria-hidden="true"
         loading="lazy"

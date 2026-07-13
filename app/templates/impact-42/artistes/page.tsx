@@ -12,7 +12,7 @@ export default function ArtistesPage() {
     { name: "MIRA", genre: "Electro / Pop", albums: 1, achievement: "Netflix · Canal+", desc: "Synchronisations sur Netflix et Canal+. Electro-pop aérienne avec des arrangements sophistiqués.", tags: ["Electro", "Pop", "Sync"], img: "https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=800&q=80&fit=crop" },
     { name: "Les Frères Vidal", genre: "Jazz", albums: 4, achievement: "Victoires de la Musique", desc: "Nominés aux Victoires de la Musique. Quartet jazz moderne, live en Studio A avec grand piano Steinway D.", tags: ["Jazz", "Acoustic", "Live"], img: "https://images.unsplash.com/photo-1571330735066-03aaa9429d89?w=800&q=80&fit=crop" },
     { name: "Lucie Mercer", genre: "Folk / Indie", albums: 1, achievement: "Coup de cœur Fnac", desc: "Coup de cœur Fnac pour son premier album. Folk intime enregistré en Studio B, arrangements cordes sur Studio A.", tags: ["Folk", "Indie", "Acoustic"], img: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=800&q=80&fit=crop" },
-    { name: "BLOC", genre: "Metal / Rock", albums: 2, achievement: "Tournée Européenne", desc: "Tournée européenne 2025. Metal alt-rock, drum live room Studio A, guitares et mix en Studio B.", tags: ["Metal", "Rock", "Live"], img: "https://images.unsplash.com/photo-1578944032637-f09897c5a4b6?w=800&q=80&fit=crop" },
+    { name: "BLOC", genre: "Metal / Rock", albums: 2, achievement: "Tournée Européenne", desc: "Tournée européenne 2025. Metal alt-rock, drum live room Studio A, guitares et mix en Studio B.", tags: ["Metal", "Rock", "Live"], img: "https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=800&q=80&fit=crop" },
   ];
 
   return (

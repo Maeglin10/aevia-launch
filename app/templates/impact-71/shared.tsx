@@ -42,7 +42,7 @@ export const CLASSES = [
     level: "All Levels",
     duration: "60 min",
     intensity: "Low",
-    img: "https://images.unsplash.com/photo-1510894347713-fc3ad69df939?w=800&q=80",
+    img: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=800&q=80",
     desc: "Foundational postures held longer to align the body and quiet the central nervous system.",
   },
 ];

@@ -35,7 +35,7 @@ const ALL_PROJECTS = [
     year: "2023",
     area: "1 100 m²",
     status: "Completed",
-    img: "https://images.unsplash.com/photo-1503387762-592cd5804557?q=80&w=1200&auto=format&fit=crop",
+    img: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1200&auto=format&fit=crop",
     desc: "A cultural pavilion designed around the choreography of visitor movement. Light changes the space every hour.",
   },
   {

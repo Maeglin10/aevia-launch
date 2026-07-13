@@ -106,7 +106,7 @@ const PHOTO = {
   special: "https://images.unsplash.com/photo-1490645935967-10de6ba17061?q=80&w=1600&auto=format&fit=crop",
   gallery1: "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?q=80&w=800&auto=format&fit=crop",
   gallery2: "https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?q=80&w=800&auto=format&fit=crop",
-  gallery3: "https://images.unsplash.com/photo-1510017808662-99f36f60bbb1?q=80&w=800&auto=format&fit=crop",
+  gallery3: "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?q=80&w=800&auto=format&fit=crop",
   gallery4: "https://images.unsplash.com/photo-1505576399279-565b52d4ac71?q=80&w=800&auto=format&fit=crop"
 } as const;
 

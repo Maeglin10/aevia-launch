@@ -66,7 +66,7 @@ const IMG = {
   seq2: u('1490481560344-2c2de11cb0e7', 1600, 80),
   seq3: u('1515372534613-5d720f7da6b1', 1600, 80),
   atelier: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1600&q=80&auto=format&fit=crop',
-  fabric: 'https://images.unsplash.com/photo-1594938298603-c8148c4b4e28?w=1600&q=80&auto=format&fit=crop',
+  fabric: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1600&q=80&auto=format&fit=crop',
   sticky: u('1490481560344-2c2de11cb0e7', 1400, 85),
 } as const;
 

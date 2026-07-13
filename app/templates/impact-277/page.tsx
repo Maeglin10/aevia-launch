@@ -80,7 +80,7 @@ const PHOTO = {
   domotique:
     'https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?q=80&w=1600&auto=format&fit=crop',
   worker:
-    'https://images.unsplash.com/photo-1581091870622-1c3bd5571a1d?q=80&w=1600&auto=format&fit=crop',
+    'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?q=80&w=1600&auto=format&fit=crop',
   haussmann:
     'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?q=80&w=1600&auto=format&fit=crop',
   villa:

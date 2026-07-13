@@ -557,7 +557,7 @@ function Hero() {
         }}
       >
         <img
-          src={`https://images.unsplash.com/photo-1483985985-e99f93b85d2a?q=80&w=2000&auto=format&fit=crop`}
+          src={`https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?q=80&w=2000&auto=format&fit=crop`}
           alt="Détail de couture — Maison Solal Marseille"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
@@ -1293,7 +1293,7 @@ function AtélierPanel() {
             }}
           >
             <img
-              src={`https://images.unsplash.com/photo-1469334031925-4650d4192253?q=80&w=900&auto=format&fit=crop`}
+              src={`https://images.unsplash.com/photo-1595777457583-95e059d581b8?q=80&w=900&auto=format&fit=crop`}
               alt="L'atelier Maison Solal — Le Panier, Marseille"
               loading="lazy"
               style={{
@@ -1588,7 +1588,7 @@ function OrderForm() {
     <section style={sec} id="contact">
       {/* Fond photo fantôme */}
       <img
-        src={`https://images.unsplash.com/photo-1483985985-e99f93b85d2a?q=80&w=1600&auto=format&fit=crop`}
+        src={`https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?q=80&w=1600&auto=format&fit=crop`}
         alt="Image de présentation"
         aria-hidden="true"
         loading="lazy"
