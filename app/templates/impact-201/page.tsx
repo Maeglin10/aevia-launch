@@ -856,6 +856,7 @@ return (
 
           {/* Desktop links */}
           <div
+            className="sky-desktop-nav"
             style={{
               display: "flex",
               gap: 36,
@@ -952,6 +953,7 @@ return (
             />
           </button>
         </div>
+        <style>{`@media (max-width: 900px){.sky-desktop-nav{display:none !important}.mobile-menu-btn{display:flex !important}}`}</style>
 
         {/* Mobile drawer */}
         <AnimatePresence>
