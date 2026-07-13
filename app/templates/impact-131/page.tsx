@@ -857,7 +857,12 @@ return (
           </MagneticButton>
         </div>
       )}
-      <style>{`@media (max-width: 900px) { #mb131-nav { display: none !important; } .mb131-burger { display: flex !important; } }`}</style>
+      <style>{`@media (max-width: 900px) { #mb131-nav { display: none !important; } .mb131-burger { display: flex !important; } }
+        /* mobile: stack 2-col grids to single column (added by responsive fix) */
+        @media (max-width: 768px) {
+          .imx-mobstack { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
 
       {/* ====================================================================
           2. HERO
@@ -1029,7 +1034,7 @@ return (
       {/* ====================================================================
           4. VINE GROWTH — SIGNATURE ELEMENT
           ==================================================================== */}
-      <section
+      <section className="imx-mobstack"
         style={{
           padding: "120px 48px",
           maxWidth: 1200,
@@ -1336,7 +1341,7 @@ return (
           </div>
 
           <AnimatePresence mode="wait">
-            <motion.div
+            <motion.div className="imx-mobstack"
               key={terroirTab}
               initial={{ opacity: 0, x: 24 }}
               animate={{ opacity: 1, x: 0 }}
@@ -1485,7 +1490,7 @@ return (
           borderTop: `1px solid ${C.border}`,
         }}
       >
-        <div
+        <div className="imx-mobstack"
           style={{
             maxWidth: 1100,
             margin: "0 auto",
@@ -1797,7 +1802,7 @@ return (
         }}
       >
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-          <div
+          <div className="imx-mobstack"
             style={{
               display: "grid",
               gridTemplateColumns: "1.2fr 1fr",

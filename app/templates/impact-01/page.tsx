@@ -1355,7 +1355,7 @@ return (
       {/* ══════════════════════════════════════════════════
           ABOUT
           ══════════════════════════════════════════════════ */}
-      <section
+      <section className="imx-mobstack"
         id="about"
         style={{
           padding: "140px 48px",
@@ -1427,7 +1427,7 @@ return (
               excellence with measurable business impact because beautiful
               work that doesn&apos;t convert is just decoration.
             </p>
-            <div
+            <div className="imx-mobstack"
               style={{
                 display: "grid",
                 gridTemplateColumns: "1fr 1fr",
@@ -1610,7 +1610,7 @@ return (
               overflow: "hidden",
             }}
           >
-            <div
+            <div className="imx-mobstack"
               style={{
                 maxWidth: 1200,
                 width: "100%",
@@ -2088,6 +2088,11 @@ return (
         }
         @media (max-width: 480px) {
           .footer-cols { grid-template-columns: 1fr !important; }
+        }
+      
+        /* mobile: stack 2-col grids to single column (added by responsive fix) */
+        @media (max-width: 768px) {
+          .imx-mobstack { grid-template-columns: 1fr !important; }
         }
       `}</style>
     </div>

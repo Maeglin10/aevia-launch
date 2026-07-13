@@ -215,6 +215,12 @@ export default function TattooStudioHome() {
   }, [c]);
 return (
     <main style={{ background: C.bg, minHeight: "100vh" }}>
+      <style>{`
+        /* mobile: stack 2-col grids to single column (added by responsive fix) */
+        @media (max-width: 768px) {
+          .imx-mobstack { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
       <HeroSection />
 
       {/* Artists Section */}
@@ -231,7 +237,7 @@ return (
               Paris's finest fine-line and blackwork artists, each with a decade-plus of mastery.
             </p>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24 }}>
+          <div className="imx-mobstack" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24 }}>
             {artists.map((artist, i) => (
               <motion.div
                 key={artist.name}
@@ -347,7 +353,7 @@ return (
           <div style={{ marginBottom: 64, textAlign: "center" }}>
             <h2 style={{ fontFamily: "'Cinzel', serif", fontSize: "clamp(32px, 4vw, 52px)", color: C.white, margin: 0, fontWeight: 700 }}>Client Testimonials</h2>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }} className="two-col">
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }} className="two-col imx-mobstack">
             {testimonials.slice(0, 2).map((t) => (
               <div key={t.name} style={{ background: C.bgCard, padding: 40, border: `1px solid ${C.border}` }}>
                 <div style={{ display: "flex", gap: 2, marginBottom: 20 }}>

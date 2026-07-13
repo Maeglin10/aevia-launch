@@ -94,6 +94,12 @@ export default function SegmentOS() {
   }, [c]);
 return (
     <div style={{ background: C.bg, color: C.text }}>
+      <style>{`
+        /* mobile: stack 2-col grids to single column (added by responsive fix) */
+        @media (max-width: 768px) {
+          .imx-mobstack { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
       {/* ── Hero ───────────────────────────────────────────────────────── */}
       <section style={{ minHeight: "90vh", display: "flex", flexDirection: "column", justifyContent: "flex-end", padding: "3rem", paddingTop: "7rem", position: "relative" }}>
         {/* Giant number background */}
@@ -135,7 +141,7 @@ return (
             <TextReveal delay={0.5}>VIDES</TextReveal>
           </div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "4rem", marginTop: "4rem", paddingTop: "3rem", borderTop: `1px solid ${C.border}` }}>
+          <div className="imx-mobstack" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "4rem", marginTop: "4rem", paddingTop: "3rem", borderTop: `1px solid ${C.border}` }}>
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -243,7 +249,7 @@ return (
               VOIR TOUT →
             </Link>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "2px", background: C.border }}>
+          <div className="imx-mobstack" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "2px", background: C.border }}>
             {[
               { num: "01", name: "Maison C.", type: "Résidentiel privé", loc: "Paris 6e", year: "2024", img: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80" },
               { num: "02", name: "Médiathèque Évry", type: "Équipement culturel", loc: "Évry-Courcouronnes", year: "2024", img: "https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=800&q=80" },

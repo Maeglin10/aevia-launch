@@ -1022,6 +1022,11 @@ export default function Impact198Page() {
           .desktop-nav { display: none !important; }
           .hamburger { display: flex !important; }
         }
+      
+        /* mobile: stack 2-col grids to single column (added by responsive fix) */
+        @media (max-width: 768px) {
+          .imx-mobstack { grid-template-columns: 1fr !important; }
+        }
       `}</style>
 
       {/* Hero */}
@@ -1279,7 +1284,7 @@ export default function Impact198Page() {
         }}
       >
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-          <div
+          <div className="imx-mobstack"
             style={{
               display: "grid",
               gridTemplateColumns: "1fr 1fr",
@@ -1421,7 +1426,7 @@ export default function Impact198Page() {
           </div>
 
           <AnimatePresence mode="wait">
-            <motion.div
+            <motion.div className="imx-mobstack"
               key={activeTeam}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}

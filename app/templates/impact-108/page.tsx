@@ -118,6 +118,11 @@ export default function LedgerPage() {
         @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Lato:wght@300;400;700&display=swap');
         * { box-sizing: border-box; margin: 0; padding: 0; }
         html { scroll-behavior: smooth; }
+      
+        /* mobile: stack 2-col grids to single column (added by responsive fix) */
+        @media (max-width: 768px) {
+          .imx-mobstack { grid-template-columns: 1fr !important; }
+        }
       `}</style>
 
       {/* NAVBAR */}
@@ -581,7 +586,7 @@ export default function LedgerPage() {
       </section>
 
       {/* APPROCHE — split */}
-      <section
+      <section className="imx-mobstack"
         id="approche"
         style={{
           display: "grid",

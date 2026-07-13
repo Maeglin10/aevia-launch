@@ -635,6 +635,11 @@ return (
         html { scroll-behavior: smooth; }
         ::-webkit-scrollbar { width: 4px; background: ${C.bg}; }
         ::-webkit-scrollbar-thumb { background: ${C.sandDark}; }
+      
+        /* mobile: stack 2-col grids to single column (added by responsive fix) */
+        @media (max-width: 768px) {
+          .imx-mobstack { grid-template-columns: 1fr !important; }
+        }
       `}</style>
 
       {/* ── 1. NAVBAR ─────────────────────────────────────────────── */}
@@ -825,7 +830,7 @@ return (
         <motion.div
           style={{ y: heroY, opacity: heroOpacity, position: "relative", zIndex: 2 }}
         >
-          <div
+          <div className="imx-mobstack"
             style={{
               maxWidth: 1280,
               margin: "0 auto",

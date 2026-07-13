@@ -215,7 +215,7 @@ function ServicesSection() {
       }}
     >
       <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: '4rem', marginBottom: '4rem' }}>
+        <div className="imx-mobstack" style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: '4rem', marginBottom: '4rem' }}>
           <Reveal>
             <span
               style={{
@@ -395,7 +395,7 @@ function ProcessSection() {
           </h2>
         </Reveal>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '2px' }}>
+        <div className="imx-mobstack" style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '2px' }}>
           {PROCESS_STEPS.map((step, i) => (
             <Reveal key={step.n} delay={i * 0.1}>
               <div
@@ -624,7 +624,7 @@ function StudioTeaser() {
         borderTop: `1px solid ${C.border}`,
       }}
     >
-      <div
+      <div className="imx-mobstack"
         style={{
           maxWidth: '1200px',
           margin: '0 auto',
@@ -967,6 +967,12 @@ export default function MaskUnitHome() {
   }, [c]);
 return (
     <div style={{ background: C.bg, minHeight: '100vh' }}>
+      <style>{`
+        /* mobile: stack 2-col grids to single column (added by responsive fix) */
+        @media (max-width: 768px) {
+          .imx-mobstack { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
       <CustomCursor />
       <StyleInjector />
 
@@ -1052,7 +1058,7 @@ return (
 
         {/* Bottom content */}
         <motion.div style={{ position: 'relative', zIndex: 1, opacity: heroOpacity }}>
-          <div
+          <div className="imx-mobstack"
             style={{
               display: 'grid',
               gridTemplateColumns: '1fr 1fr',

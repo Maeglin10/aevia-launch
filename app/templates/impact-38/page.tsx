@@ -359,7 +359,12 @@ function OriginTicker() {
           </span>
         ))}
       </div>
-      <style>{`@keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }`}</style>
+      <style>{`@keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+        /* mobile: stack 2-col grids to single column (added by responsive fix) */
+        @media (max-width: 768px) {
+          .imx-mobstack { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
     </div>
   );
 }
@@ -808,7 +813,7 @@ return (
         <ParticleField />
 
         <motion.div style={{ position: "relative", zIndex: 2, maxWidth: 1200, margin: "0 auto", padding: "80px 5%", width: "100%", opacity: heroOpacity, y: heroY }}>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr auto", gap: 80, alignItems: "center" }}>
+          <div className="imx-mobstack" style={{ display: "grid", gridTemplateColumns: "1fr auto", gap: 80, alignItems: "center" }}>
             <div>
               <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}
                 style={{ fontFamily: SERIF, fontSize: 13, letterSpacing: "0.2em", textTransform: "uppercase", color: C.caramel, marginBottom: 20 }}>
@@ -1139,7 +1144,7 @@ return (
       {/* ─── TASTING NOTES ────────────────────────────────────────────────── */}
       <section style={{ padding: "100px 5%", background: C.bg }}>
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "start" }}>
+          <div className="imx-mobstack" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "start" }}>
             <SectionReveal>
               <div>
                 <div style={{ fontFamily: SERIF, fontSize: 13, letterSpacing: "0.18em", textTransform: "uppercase", color: C.caramel, marginBottom: 16 }}>

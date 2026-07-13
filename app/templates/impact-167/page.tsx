@@ -618,7 +618,7 @@ function NeighborhoodTab({
   return (
     <AnimatePresence mode="wait">
       {isActive && (
-        <motion.div
+        <motion.div className="imx-mobstack"
           key={neighborhood.name}
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
@@ -1095,7 +1095,12 @@ export default function Impact167Page() {
           </button>
         </div>
       )}
-      <style>{`@media (max-width: 900px) { #mb167-nav { display: none !important; } .mb167-burger { display: flex !important; } }`}</style>
+      <style>{`@media (max-width: 900px) { #mb167-nav { display: none !important; } .mb167-burger { display: flex !important; } }
+        /* mobile: stack 2-col grids to single column (added by responsive fix) */
+        @media (max-width: 768px) {
+          .imx-mobstack { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
 
       {/* Mobile Menu */}
       <AnimatePresence>
@@ -1144,7 +1149,7 @@ export default function Impact167Page() {
       </AnimatePresence>
 
       {/* Hero — Split Layout */}
-      <section
+      <section className="imx-mobstack"
         id="hero"
         ref={heroRef}
         style={{
@@ -1592,7 +1597,7 @@ export default function Impact167Page() {
       {/* Process */}
       <section id="process" style={{ padding: "120px 80px", background: C.ivory }}>
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-          <div
+          <div className="imx-mobstack"
             style={{
               display: "grid",
               gridTemplateColumns: "1fr 2fr",
@@ -1834,7 +1839,7 @@ export default function Impact167Page() {
       {/* Contact Section */}
       <section id="contact" style={{ padding: "120px 80px", background: C.ivory }}>
         <div style={{ maxWidth: 1000, margin: "0 auto" }}>
-          <div
+          <div className="imx-mobstack"
             style={{
               display: "grid",
               gridTemplateColumns: "1fr 1fr",

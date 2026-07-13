@@ -668,7 +668,12 @@ return (
           ))}
         </div>
       )}
-      <style>{`@media (max-width: 900px) { #mb132-nav { display: none !important; } .mb132-cta { display: none !important; } .mb132-burger { display: flex !important; } }`}</style>
+      <style>{`@media (max-width: 900px) { #mb132-nav { display: none !important; } .mb132-cta { display: none !important; } .mb132-burger { display: flex !important; } }
+        /* mobile: stack 2-col grids to single column (added by responsive fix) */
+        @media (max-width: 768px) {
+          .imx-mobstack { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
 
       {/* ── SECTION 2: Hero with TypewriterHeadline ─────────────────────────── */}
       <section id="hero"
@@ -853,7 +858,7 @@ return (
           </div>
         </TextReveal>
 
-        <motion.div
+        <motion.div className="imx-mobstack"
           whileHover={{ y: -2 }}
           transition={{ duration: 0.3 }}
           style={{
@@ -987,7 +992,7 @@ return (
         </div>
 
         {/* Row 2: two mediums */}
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24 }}>
+        <div className="imx-mobstack" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24 }}>
           {ARTICLES.slice(3, 5).map((article, i) => (
             <ArticleCard key={article.id} article={article} index={i + 3} />
           ))}
@@ -1295,7 +1300,7 @@ return (
           pointerEvents: "none",
         }} />
 
-        <div style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 96, alignItems: "center" }}>
+        <div className="imx-mobstack" style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 96, alignItems: "center" }}>
           <div>
             <TextReveal>
               <span style={{

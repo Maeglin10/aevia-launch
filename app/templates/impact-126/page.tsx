@@ -742,7 +742,12 @@ return (
             </MagneticButton>
         </div>
       )}
-      <style>{`@media (max-width: 900px) { #mb126-nav { display: none !important; } .mb126-burger { display: flex !important; } }`}</style>
+      <style>{`@media (max-width: 900px) { #mb126-nav { display: none !important; } .mb126-burger { display: flex !important; } }
+        /* mobile: stack 2-col grids to single column (added by responsive fix) */
+        @media (max-width: 768px) {
+          .imx-mobstack { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
 
       {/* Mobile menu overlay */}
       <AnimatePresence>
@@ -1019,7 +1024,7 @@ return (
           overflow: "hidden",
         }}
       >
-        <div
+        <div className="imx-mobstack"
           style={{
             maxWidth: 1240,
             margin: "0 auto",
@@ -1255,7 +1260,7 @@ return (
         style={{ background: C.bgDark, padding: "100px 32px", overflow: "hidden" }}
       >
         <div style={{ maxWidth: 1240, margin: "0 auto" }}>
-          <div
+          <div className="imx-mobstack"
             style={{
               display: "grid",
               gridTemplateColumns: "1fr 1.4fr",
@@ -1422,7 +1427,7 @@ return (
         id="chef"
         style={{ background: C.bg, padding: "100px 32px" }}
       >
-        <div
+        <div className="imx-mobstack"
           style={{
             maxWidth: 1240,
             margin: "0 auto",
@@ -2128,7 +2133,7 @@ return (
                 onSubmit={(e) => { e.preventDefault(); setReservationOpen(false); }}
                 style={{ display: "flex", flexDirection: "column", gap: 20 }}
               >
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+                <div className="imx-mobstack" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
                   {[
                     { label: "Data", type: "date" },
                     { label: "Ora", type: "time" },

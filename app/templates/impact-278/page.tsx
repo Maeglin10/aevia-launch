@@ -351,6 +351,11 @@ function Nav() {
           .r278-burger { display: flex !important; flex-direction: column; }
           .r278-navcta{ display:none !important; }
         }
+      
+        /* mobile: stack 2-col grids to single column (added by responsive fix) */
+        @media (max-width: 768px) {
+          .imx-mobstack { grid-template-columns: 1fr !important; }
+        }
       `}</style>
     </nav>
       {mobileOpen && (
@@ -1259,7 +1264,7 @@ function ProcessSection() {
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             {PROCESS_STEPS.map((step, i) => (
               <Reveal key={step.num} delay={0.06 * i}>
-                <div
+                <div className="imx-mobstack"
                   style={{
                     padding: 'clamp(28px,4vw,40px) 0',
                     borderTop: `2px solid ${C.beigeDeep}`,

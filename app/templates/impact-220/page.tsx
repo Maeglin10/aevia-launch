@@ -358,6 +358,11 @@ function Nav() {
           .nav-links-desktop { display: none !important; }
           .nav-burger { display: flex !important; flex-direction: column; }
         }
+      
+        /* mobile: stack 2-col grids to single column (added by responsive fix) */
+        @media (max-width: 768px) {
+          .imx-mobstack { grid-template-columns: 1fr !important; }
+        }
       `}</style>
     </nav>
   );
@@ -784,7 +789,7 @@ function StickyCrossfade() {
         </div>
 
         {/* Content panel */}
-        <div
+        <div className="imx-mobstack"
           style={{
             position: 'relative',
             zIndex: 2,
@@ -1187,7 +1192,7 @@ function EditorialRow({
   const isLeft = row.side === 'left';
 
   return (
-    <motion.div
+    <motion.div className="imx-mobstack"
       ref={ref}
       initial={{ opacity: 0, x: isLeft ? -40 : 40 }}
       animate={inView ? { opacity: 1, x: 0 } : {}}
@@ -1344,7 +1349,7 @@ function StickySpecs() {
           </div>
         </FadeUp>
 
-        <div
+        <div className="imx-mobstack"
           ref={containerRef}
           style={{
             display: 'grid',
@@ -1396,7 +1401,7 @@ function StickySpecs() {
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0' }}>
             {SPECS.map((spec, i) => (
               <FadeUp key={spec.label} delay={i * 0.06}>
-                <div
+                <div className="imx-mobstack"
                   style={{
                     padding: '24px 0',
                     borderBottom: `1px solid ${T.border}`,
@@ -1494,7 +1499,7 @@ function Heritage() {
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0' }}>
             {TIMELINE.map((item, i) => (
               <FadeUp key={item.year} delay={i * 0.1}>
-                <div
+                <div className="imx-mobstack"
                   style={{
                     display: 'grid',
                     gridTemplateColumns: '160px 1fr',
@@ -1839,7 +1844,7 @@ function AppointmentForm() {
                 onSubmit={handleSubmit}
                 style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}
               >
-                <div
+                <div className="imx-mobstack"
                   style={{
                     display: 'grid',
                     gridTemplateColumns: '1fr 1fr',

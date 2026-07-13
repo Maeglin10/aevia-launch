@@ -828,6 +828,11 @@ export default function ImpactEclatPage() {
         html { scroll-behavior: smooth; }
         input::placeholder { color: rgba(245,240,232,0.3); }
         textarea::placeholder { color: rgba(245,240,232,0.3); }
+      
+        /* mobile: stack 2-col grids to single column (added by responsive fix) */
+        @media (max-width: 768px) {
+          .imx-mobstack { grid-template-columns: 1fr !important; }
+        }
       `}</style>
 
       {/* ANNOUNCEMENT BAR */}
@@ -1526,7 +1531,7 @@ export default function ImpactEclatPage() {
           background: "#0A0A0A",
         }}
       >
-        <div
+        <div className="imx-mobstack"
           style={{
             display: "grid",
             gridTemplateColumns: "1fr 1fr",
@@ -1607,7 +1612,7 @@ export default function ImpactEclatPage() {
           </motion.div>
 
           {/* Lookbook mosaic */}
-          <motion.div
+          <motion.div className="imx-mobstack"
             initial={{ opacity: 0, x: 40 }}
             animate={lookbookInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.2 }}
@@ -3079,7 +3084,7 @@ function AboutPage({ goTo }: { goTo: (p: EclatPage) => void }) {
               Découvrir nos pièces <ArrowRight size={14} />
             </motion.button>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
+          <div className="imx-mobstack" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
             {[{ h: 240, c: "#C9A87C" }, { h: 180, c: "#D4896A" }, { h: 180, c: "#B5C4B1" }, { h: 240, c: "#7A9BB0" }].map((it, i) => (
               <div key={i} style={{ height: it.h, background: `linear-gradient(160deg, ${it.c}44, ${it.c}22)`, border: `1px solid ${it.c}33` }} />
             ))}

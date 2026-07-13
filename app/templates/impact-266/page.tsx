@@ -441,6 +441,11 @@ function Nav() {
           .ve-burger { display: flex !important; flex-direction: column; }
           .ve-navcta { display: none !important; }
         }
+      
+        /* mobile: stack 2-col grids to single column (added by responsive fix) */
+        @media (max-width: 768px) {
+          .imx-mobstack { grid-template-columns: 1fr !important; }
+        }
       `}</style>
     </nav>
       {mobileOpen && (
@@ -1174,7 +1179,7 @@ function EditorialRow({ row, num }: { row: EditRow; num: number }) {
         {numStr}
       </span>
 
-      <div
+      <div className="imx-mobstack"
         style={{
           display: 'grid',
           gridTemplateColumns: '1fr 1fr',

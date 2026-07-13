@@ -882,6 +882,12 @@ return (
         overflowX: "hidden",
       }}
     >
+      <style>{`
+        /* mobile: stack 2-col grids to single column (added by responsive fix) */
+        @media (max-width: 768px) {
+          .imx-mobstack { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
       <GrainOverlay />
 
       {/* ── Scroll progress bar ── */}
@@ -1349,7 +1355,7 @@ return (
           borderBottom: `1px solid ${C.border}`,
         }}
       >
-        <div
+        <div className="imx-mobstack"
           style={{
             maxWidth: 1200,
             margin: "0 auto",
@@ -1549,7 +1555,7 @@ return (
           margin: "0 auto",
         }}
       >
-        <div
+        <div className="imx-mobstack"
           style={{
             display: "grid",
             gridTemplateColumns: "1fr 2fr",
@@ -1706,7 +1712,7 @@ return (
           margin: "0 auto",
         }}
       >
-        <div
+        <div className="imx-mobstack"
           style={{
             display: "grid",
             gridTemplateColumns: "1fr 1fr",

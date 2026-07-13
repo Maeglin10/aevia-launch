@@ -772,7 +772,7 @@ function BookingForm() {
                   Vos coordonnées
                 </p>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
+                  <div className="imx-mobstack" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
                     <div>
                       <label style={{ ...bodyFont, fontSize: '11px', color: GRAY_MID, letterSpacing: '0.1em', textTransform: 'uppercase', display: 'block', marginBottom: '6px' }}>Prénom</label>
                       <input type="text" placeholder="Marie" style={inputStyle} />
@@ -1044,6 +1044,12 @@ export default function Page() {
 
   return (
     <div style={{ background: BG, color: DARK, minHeight: '100vh', overflowX: 'hidden' }}>
+      <style>{`
+        /* mobile: stack 2-col grids to single column (added by responsive fix) */
+        @media (max-width: 768px) {
+          .imx-mobstack { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
 
       {/* ── NAVIGATION ──────────────────────────────────────────────────────── */}
       <motion.nav
@@ -1402,7 +1408,7 @@ export default function Page() {
 
       {/* ── PHILOSOPHY ──────────────────────────────────────────────────────── */}
       <section style={{ padding: '120px 40px', background: GOLD_PALE }}>
-        <div style={{ maxWidth: '900px', margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '80px', alignItems: 'center' }}>
+        <div className="imx-mobstack" style={{ maxWidth: '900px', margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '80px', alignItems: 'center' }}>
           <motion.div
             initial={{ opacity: 0, x: -40 }}
             whileInView={{ opacity: 1, x: 0 }}

@@ -172,7 +172,12 @@ export default function EncreNoirePage() {
     }
   }, [c]);return (
     <div style={{ background: C.bg, fontFamily: FONT_BODY, overflowX: "hidden" }}>
-      <style jsx global>{`@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600;700&display=swap');`}</style>
+      <style jsx global>{`@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600;700&display=swap');
+        /* mobile: stack 2-col grids to single column (added by responsive fix) */
+        @media (max-width: 768px) {
+          .imx-mobstack { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
 
       <motion.nav style={{
         position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, height: 72,
@@ -297,7 +302,7 @@ export default function EncreNoirePage() {
       </section>
 
       <section style={{ padding: "100px 80px", background: C.bgSection }}>
-        <div style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "center" }}>
+        <div className="imx-mobstack" style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "center" }}>
           <Reveal>
             <img src="https://images.unsplash.com/photo-1562962230-16e4623d36e6?w=800&q=80" alt="Artiste tatoueur au travail" style={{ width: "100%", borderRadius: 8, aspectRatio: "4/3", objectFit: "cover" }} />
           </Reveal>

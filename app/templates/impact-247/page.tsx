@@ -269,6 +269,11 @@ function Nav() {
           .vl-burger { display: flex !important; flex-direction: column; }
           .vl-navcta{ display:none !important; }
         }
+      
+        /* mobile: stack 2-col grids to single column (added by responsive fix) */
+        @media (max-width: 768px) {
+          .imx-mobstack { grid-template-columns: 1fr !important; }
+        }
       `}</style>
       <nav style={bar}>
         <a href="#domotique" style={brand}>
@@ -1342,7 +1347,7 @@ function CertPanel() {
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             {CERTS.map((c, i) => (
               <Reveal key={c.num} delay={0.06 * i}>
-                <div
+                <div className="imx-mobstack"
                   style={{
                     padding: 'clamp(28px,3.5vw,42px) 0',
                     borderTop: `1px solid rgba(61,90,254,0.28)`,

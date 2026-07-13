@@ -118,6 +118,11 @@ export default function IronClubPage() {
         @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Inter:wght@400;500;600&display=swap');
         * { box-sizing: border-box; margin: 0; padding: 0; }
         html { scroll-behavior: smooth; }
+      
+        /* mobile: stack 2-col grids to single column (added by responsive fix) */
+        @media (max-width: 768px) {
+          .imx-mobstack { grid-template-columns: 1fr !important; }
+        }
       `}</style>
 
       {/* NAVBAR */}
@@ -588,7 +593,7 @@ export default function IronClubPage() {
       </section>
 
       {/* PHILOSOPHIE — split photo + texte */}
-      <section
+      <section className="imx-mobstack"
         style={{
           background: C.bgDark,
           display: "grid",

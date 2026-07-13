@@ -548,6 +548,11 @@ export default function Impact211Page() {
         select option { background: ${C.bgAlt}; color: ${C.cream}; }
         @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Inter:wght@300;400&display=swap');
         @keyframes fadeIn { from { opacity: 0 } to { opacity: 1 } }
+      
+        /* mobile: stack 2-col grids to single column (added by responsive fix) */
+        @media (max-width: 768px) {
+          .imx-mobstack { grid-template-columns: 1fr !important; }
+        }
       `}</style>
 
       {/* ── Navigation ──────────────────────────────────────────────────────── */}
@@ -933,7 +938,7 @@ export default function Impact211Page() {
           SECTION 2 — HISTOIRE
       ════════════════════════════════════════════════════════════════════════ */}
       <section id="histoire" style={{ padding: "8rem 0" }}>
-        <div style={{ ...sectionStyle, display: "grid", gridTemplateColumns: "1fr 1fr", gap: "6rem", alignItems: "center" }}>
+        <div className="imx-mobstack" style={{ ...sectionStyle, display: "grid", gridTemplateColumns: "1fr 1fr", gap: "6rem", alignItems: "center" }}>
           <style>{`
             @media (max-width: 768px) {
               .histoire-grid { grid-template-columns: 1fr !important; }
@@ -1104,7 +1109,7 @@ export default function Impact211Page() {
             )}
           </div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0 5rem" }}>
+          <div className="imx-mobstack" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0 5rem" }}>
             <style>{`@media (max-width: 700px) { .menu-grid { grid-template-columns: 1fr !important; } }`}</style>
             {courses.map((course, i) => (
               <CourseCard key={course.label} course={course} index={i} />
@@ -1118,7 +1123,7 @@ export default function Impact211Page() {
       ════════════════════════════════════════════════════════════════════════ */}
       <section id="terroir" style={{ padding: "8rem 0" }}>
         <div style={sectionStyle}>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "5rem", alignItems: "center" }}>
+          <div className="imx-mobstack" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "5rem", alignItems: "center" }}>
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -1254,7 +1259,7 @@ export default function Impact211Page() {
       ════════════════════════════════════════════════════════════════════════ */}
       <section id="chef" style={{ padding: "8rem 0", background: C.bgAlt, borderTop: `1px solid ${C.border}`, borderBottom: `1px solid ${C.border}` }}>
         <div style={sectionStyle}>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "6rem", alignItems: "center" }}>
+          <div className="imx-mobstack" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "6rem", alignItems: "center" }}>
 
             {/* Chef portrait with hover zoom + signature */}
             <motion.div
@@ -1568,14 +1573,14 @@ export default function Impact211Page() {
                 animate={{ opacity: 1 }}
                 onSubmit={handleReservation}
               >
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0 3rem" }}>
+                <div className="imx-mobstack" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0 3rem" }}>
                   <style>{`@media (max-width: 600px) { .form-grid { grid-template-columns: 1fr !important; } }`}</style>
                   <ElegantField label="Prénom" />
                   <ElegantField label="Nom" />
                 </div>
                 <ElegantField label="Adresse e-mail" type="email" />
                 <ElegantField label="Téléphone" type="tel" />
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0 3rem" }}>
+                <div className="imx-mobstack" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0 3rem" }}>
                   <ElegantField label="Date souhaitée" type="date" />
                   <ElegantField label="Heure" type="select">
                     <option value="">—</option>

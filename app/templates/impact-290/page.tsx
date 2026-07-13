@@ -817,6 +817,11 @@ function ServicesSection() {
         @media (max-width: 860px) {
           .r290-services-grid { grid-template-columns: 1fr !important; }
         }
+      
+        /* mobile: stack 2-col grids to single column (added by responsive fix) */
+        @media (max-width: 768px) {
+          .imx-mobstack { grid-template-columns: 1fr !important; }
+        }
       `}</style>
     </section>
   );
@@ -2168,7 +2173,7 @@ function EcologieSection() {
           </div>
 
           {/* Colonne droite — 4 engagements */}
-          <div
+          <div className="imx-mobstack"
             style={{
               display: 'grid',
               gridTemplateColumns: '1fr 1fr',
