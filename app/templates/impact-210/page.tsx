@@ -331,7 +331,7 @@ function Nav({ accentColor }: { accentColor: string }) {
       </div>
 
       {/* Desktop links */}
-      <div style={{ display: 'flex', gap: 36, alignItems: 'center' }}>
+      <div className="sky-desktop-nav" style={{ display: 'flex', gap: 36, alignItems: 'center' }}>
         {links.map((link) => (
           <a
             key={link}
@@ -376,6 +376,8 @@ function Nav({ accentColor }: { accentColor: string }) {
           Réserver
         </a>
       </div>
+      {/* Mobile header fix: collapse the desktop nav on phones so it can't overlap the logo */}
+      <style>{`@media (max-width: 900px){.sky-desktop-nav{display:none !important}}`}</style>
     </motion.nav>
   );
 }
