@@ -237,7 +237,7 @@ function Navbar() {
           )}
         </motion.div>
 
-        <div style={{ display: "flex", gap: 32, alignItems: "center" }}>
+        <div className="sky-desktop-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>
           {links.map((link) => (
             <motion.a
               key={link}
@@ -269,12 +269,14 @@ function Navbar() {
         </div>
 
         <motion.button
+          className="sky-mobile-burger"
           onClick={() => setMenuOpen(!menuOpen)}
           style={{ display: "none", background: "none", border: "none", cursor: "pointer", color: C.text }}
           whileTap={{ scale: 0.9 }}
         >
           {menuOpen ? <X size={24} /> : <Menu size={24} />}
         </motion.button>
+        <style>{`@media (max-width: 900px){.sky-desktop-nav{display:none !important}.sky-mobile-burger{display:flex !important}}`}</style>
       </motion.nav>
 
       <AnimatePresence>

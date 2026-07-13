@@ -297,7 +297,7 @@ function Navbar() {
           )}
         </motion.div>
 
-        <div style={{ display: "flex", gap: 32, alignItems: "center" }}>
+        <div className="sky-desktop-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>
           {links.map((link) => (
             <motion.a key={link} href="/templates/impact-32" style={{ color: C.text, fontWeight: 600, fontSize: 15, textDecoration: "none" }} whileHover={{ color: C.accent }} transition={{ duration: 0.15 }}>
               {link}
@@ -313,11 +313,13 @@ function Navbar() {
         </div>
 
         <motion.button
+          className="sky-mobile-burger"
           onClick={() => setMenuOpen(!menuOpen)}
           style={{ display: "none", background: "none", border: "none", cursor: "pointer", color: C.text }}
         >
           {menuOpen ? <X size={24} /> : <Menu size={24} />}
         </motion.button>
+        <style>{`@media (max-width: 900px){.sky-desktop-nav{display:none !important}.sky-mobile-burger{display:flex !important}}`}</style>
       </motion.nav>
 
       <AnimatePresence>

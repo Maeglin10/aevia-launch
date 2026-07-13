@@ -298,7 +298,7 @@ function Navbar() {
         </motion.div>
 
         {/* Desktop links */}
-        <div style={{ display: "flex", gap: 32, alignItems: "center" }}>
+        <div className="sky-desktop-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>
           {links.map((link) => (
             <motion.a
               key={link.label}
@@ -341,6 +341,7 @@ function Navbar() {
 
         {/* Mobile toggle */}
         <motion.button
+          className="sky-mobile-burger"
           onClick={() => setMenuOpen(!menuOpen)}
           style={{
             display: "none",
@@ -353,6 +354,8 @@ function Navbar() {
         >
           {menuOpen ? <X size={24} /> : <Menu size={24} />}
         </motion.button>
+        {/* Mobile header fix: collapse desktop links, reveal burger on small screens */}
+        <style>{`@media (max-width: 900px){.sky-desktop-nav{display:none !important}.sky-mobile-burger{display:flex !important}}`}</style>
       </motion.nav>
 
       {/* Mobile menu */}
