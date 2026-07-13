@@ -200,7 +200,7 @@ export default function StudioNomaPage() {
           ) : (
             <><span style={{ fontFamily: FONT, fontSize: 22, fontWeight: 600, color: scrolled ? C.text : "#fff", letterSpacing: 1 }}>Studio <em>Noma</em></span></>
           )}
-        <div style={{ display: "flex", gap: 32, alignItems: "center" }} className="hidden md:flex">
+        <div style={{ gap: 32, alignItems: "center" }} className="hidden md:flex">
           {["Projets", "Services", "Atelier", "Contact"].map(l => (
             <a key={l} href={`#${l.toLowerCase()}`} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.75)", fontSize: 14, fontWeight: 500, textDecoration: "none", transition: "color 0.2s", fontFamily: FONT_SANS }}>{l}</a>
           ))}

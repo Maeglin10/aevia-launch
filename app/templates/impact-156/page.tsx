@@ -203,7 +203,7 @@ export default function LumiereYogaPage() {
             </>
           )}
         </div>
-        <div style={{ display: "flex", gap: 32, alignItems: "center" }} className="hidden md:flex">
+        <div style={{ gap: 32, alignItems: "center" }} className="hidden md:flex">
           {["Cours", "Planning", "Tarifs", "Contact"].map(l => (
             <a key={l} href={`#${l.toLowerCase()}`} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.72)", fontSize: 13, fontWeight: 500, textDecoration: "none", letterSpacing: 1, textTransform: "uppercase" }}>{l}</a>
           ))}

@@ -202,7 +202,7 @@ export default function PierreCoPage() {
             </>
           )}
         </div>
-        <div style={{ display: "flex", gap: 32, alignItems: "center" }} className="hidden md:flex">
+        <div style={{ gap: 32, alignItems: "center" }} className="hidden md:flex">
           {["Biens", "Services", "Estimation", "Contact"].map(l => (
             <a key={l} href={`#${l.toLowerCase()}`} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.75)", fontSize: 14, fontWeight: 500, textDecoration: "none" }}>{l}</a>
           ))}
