@@ -1190,6 +1190,7 @@ export default function Impact135Page() {
 
         {/* Desktop links */}
         <div
+          className="sky-desktop-nav"
           style={{
             display: "flex",
             alignItems: "center",
@@ -1239,6 +1240,7 @@ export default function Impact135Page() {
 
         {/* Mobile hamburger */}
         <button
+          className="sky-mobile-burger"
           onClick={() => setMenuOpen((o) => !o)}
           style={{
             display: "none",
@@ -1259,6 +1261,7 @@ export default function Impact135Page() {
           <div style={{ width: 22, height: 2, background: C.text, marginBottom: 5 }} />
           <div style={{ width: 16, height: 2, background: C.accent }} />
         </button>
+        <style>{`@media (max-width: 900px){.sky-desktop-nav{display:none !important}.sky-mobile-burger{display:flex !important}}`}</style>
       </nav>
 
       {/* Mobile nav overlay */}

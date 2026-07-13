@@ -1142,6 +1142,8 @@ export default function LuxuryJewelryTemplate() {
           </div>
         </div>
       </nav>
+      {/* Mobile header fix: hide desktop nav links on phones so they can't overlap the logo (hamburger stays) */}
+      <style>{`@media (max-width: 768px){.hidden-mobile{display:none !important}}`}</style>
 
       {/* Mobile Menu */}
       <AnimatePresence>

@@ -1973,7 +1973,7 @@ function Nav() {
       </a>
 
       {/* Desktop links */}
-      <div style={{
+      <div className="sky-desktop-nav" style={{
         display: 'flex',
         gap: 36,
         alignItems: 'center',
@@ -2016,6 +2016,8 @@ function Nav() {
           Nous contacter
         </a>
       </div>
+      {/* Mobile header fix: collapse the desktop nav on phones so it can't overlap the logo */}
+      <style>{`@media (max-width: 900px){.sky-desktop-nav{display:none !important}}`}</style>
     </motion.nav>
   )
 }

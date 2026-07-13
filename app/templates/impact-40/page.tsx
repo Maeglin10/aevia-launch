@@ -486,7 +486,7 @@ export default function TerreVivantePage() {
         </div>
 
         {/* Desktop links */}
-        <div style={{ display: "flex", gap: "2rem", alignItems: "center" }}>
+        <div className="sky-desktop-nav" style={{ display: "flex", gap: "2rem", alignItems: "center" }}>
           {navLinks.map((l) => (
             <a
               key={l.href}
@@ -523,12 +523,14 @@ export default function TerreVivantePage() {
 
         {/* Mobile burger */}
         <button
+          className="sky-mobile-burger"
           onClick={() => setMenuOpen(!menuOpen)}
           style={{ background: "none", border: "none", cursor: "pointer", padding: 4, display: "none" }}
           aria-label="Menu"
         >
           {menuOpen ? <X color={scrolled ? C.bgDark : C.bg} size={24} /> : <Menu color={scrolled ? C.bgDark : C.bg} size={24} />}
         </button>
+        <style>{`@media (max-width: 900px){.sky-desktop-nav{display:none !important}.sky-mobile-burger{display:flex !important}}`}</style>
       </motion.nav>
 
       {/* Mobile drawer */}

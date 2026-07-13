@@ -734,6 +734,7 @@ export default function Impact115Page() {
 
         {/* Desktop links */}
         <div
+          className="sky-desktop-nav"
           style={{
             display: "flex",
             gap: 44,
@@ -779,6 +780,7 @@ export default function Impact115Page() {
 
         {/* Mobile menu toggle */}
         <motion.button
+          className="sky-mobile-burger"
           onClick={() => setMenuOpen((v) => !v)}
           style={{
             display: "none",
@@ -804,6 +806,7 @@ export default function Impact115Page() {
             )}
           </svg>
         </motion.button>
+        <style>{`@media (max-width: 900px){.sky-desktop-nav{display:none !important}.sky-mobile-burger{display:flex !important}}`}</style>
       </motion.nav>
 
       {/* Mobile menu overlay */}

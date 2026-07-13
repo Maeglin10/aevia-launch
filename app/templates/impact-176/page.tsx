@@ -1272,7 +1272,7 @@ export default function Impact176Page() {
         </div>
 
         {/* Desktop links */}
-        <div style={{ display: "flex", alignItems: "center", gap: 40 }}>
+        <div className="sky-desktop-nav" style={{ display: "flex", alignItems: "center", gap: 40 }}>
           {NAV_LINKS.map((link) => (
             <button
               key={link}
@@ -1330,6 +1330,7 @@ export default function Impact176Page() {
 
         {/* Mobile hamburger */}
         <button
+          className="sky-mobile-burger"
           onClick={() => setMenuOpen((o) => !o)}
           style={{
             background: "none",
@@ -1344,6 +1345,7 @@ export default function Impact176Page() {
           <div style={{ width: 22, height: 2, background: C.text, marginBottom: 5 }} />
           <div style={{ width: 16, height: 2, background: C.accent }} />
         </button>
+        <style>{`@media (max-width: 900px){.sky-desktop-nav{display:none !important}.sky-mobile-burger{display:flex !important}}`}</style>
       </nav>
 
       {/* Mobile nav overlay */}

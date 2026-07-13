@@ -207,7 +207,7 @@ export default function CabinetKinePage() {
             </>
           )}
         </div>
-        <div style={{ display: "flex", gap: 32, alignItems: "center" }} className="hidden md:flex">
+        <div style={{ gap: 32, alignItems: "center" }} className="hidden md:flex">
           {["Spécialités", "L'équipe", "Tarifs", "Contact"].map(l => {
             const href = l === "Spécialités" ? "#spécialités" : l === "L'équipe" ? "#approche" : "#contact";
             return (

@@ -1088,7 +1088,7 @@ export default function Page() {
         )}
 
         {/* Desktop links */}
-        <div style={{ display: 'flex', gap: '36px', alignItems: 'center' }}>
+        <div className="sky-desktop-nav" style={{ display: 'flex', gap: '36px', alignItems: 'center' }}>
           {navLinks.map((link) => (
             <a
               key={link}
@@ -1117,6 +1117,8 @@ export default function Page() {
             Réserver
           </a>
         </div>
+        {/* Mobile header fix: collapse the desktop nav on phones so it can't overlap the logo */}
+        <style>{`@media (max-width: 900px){.sky-desktop-nav{display:none !important}}`}</style>
       </motion.nav>
 
       {/* ── HERO — SCISSOR REVEAL ───────────────────────────────────────────── */}

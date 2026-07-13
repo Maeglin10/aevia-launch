@@ -187,7 +187,7 @@ function Nav() {
         </div>
 
         {/* Desktop links */}
-        <div style={{ display: 'flex', gap: '2.5rem', alignItems: 'center' }}>
+        <div className="sky-desktop-nav" style={{ display: 'flex', gap: '2.5rem', alignItems: 'center' }}>
           {links.map((l) => (
             <a
               key={l}
@@ -220,6 +220,7 @@ function Nav() {
             <Menu size={24} />
           </button>
         </div>
+        <style>{`@media (max-width: 900px){.sky-desktop-nav{display:none !important}}`}</style>
       </nav>
 
       {/* Mobile overlay menu */}
