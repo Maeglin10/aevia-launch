@@ -71,7 +71,7 @@ export default function TattooStudioLayout({ children }: { children: React.React
           )}</Link>
 
           {/* Desktop Nav */}
-          <div style={{ display: "flex", gap: 36, alignItems: "center" }} className="hidden md:flex">
+          <div style={{ gap: 36, alignItems: "center" }} className="hidden md:flex">
             {navLinks.map((l) => {
               const active = pathname === l.href;
               return (

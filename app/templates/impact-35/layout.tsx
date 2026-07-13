@@ -106,7 +106,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           )}</Link>
 
           {/* Desktop nav */}
-          <div style={{ display: "flex", gap: 28, alignItems: "center" }} className="hidden md:flex">
+          <div style={{ gap: 28, alignItems: "center" }} className="hidden md:flex">
             <Link
               href="/templates/impact-35"
               style={{

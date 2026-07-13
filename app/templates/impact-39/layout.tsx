@@ -75,7 +75,7 @@ export default function SwiftMoveLayout({ children }: { children: React.ReactNod
           <div style={{ flex: 1 }} />
 
           {/* Desktop nav */}
-          <div style={{ display: "flex", gap: 24, alignItems: "center" }} className="hidden md:flex">
+          <div style={{ gap: 24, alignItems: "center" }} className="hidden md:flex">
             {NAV_LINKS.map((link) => (
               <Link
                 key={link.href}
@@ -97,7 +97,7 @@ export default function SwiftMoveLayout({ children }: { children: React.ReactNod
           </div>
 
           {/* CTA */}
-          <div style={{ display: "flex", gap: 12, alignItems: "center" }} className="hidden md:flex">
+          <div style={{ gap: 12, alignItems: "center" }} className="hidden md:flex">
             <a href="tel:+33100000000" style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 14, fontWeight: 700, color: C.navy, textDecoration: "none" }}>
               <Phone size={15} color={C.orange} />
               +33 1 XX XX XX XX

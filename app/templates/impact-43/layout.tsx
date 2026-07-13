@@ -114,7 +114,7 @@ export default function SereneRetreatLayout({ children }: { children: React.Reac
           )}</Link>
 
         <div style={{ display: "flex", gap: 36, alignItems: "center" }}>
-          <div style={{ display: "flex", gap: 36 }} className="hidden lg:flex">
+          <div style={{ gap: 36 }} className="hidden lg:flex">
             {NAV_LINKS.map((link) => {
               const active = pathname === link.href;
               return (

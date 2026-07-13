@@ -95,7 +95,7 @@ export default function EchoChamberLayout({ children }: { children: React.ReactN
         </Link>
 
         {/* Desktop Nav */}
-        <div style={{ display: "flex", gap: "2rem", alignItems: "center" }} className="hidden md:flex">
+        <div style={{ gap: "2rem", alignItems: "center" }} className="hidden md:flex">
           {navLinks.map((l) => {
             const isActive = pathname === l.href;
             return (

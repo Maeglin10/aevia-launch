@@ -106,7 +106,6 @@ export default function ClosDuSoirLayout({ children }: { children: React.ReactNo
           {/* Desktop Navigation */}
           <div
             style={{
-              display: "flex",
               gap: 30,
               alignItems: "center",
             }}

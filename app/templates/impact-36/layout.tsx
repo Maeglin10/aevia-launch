@@ -113,7 +113,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           {/* Desktop Links */}
           <div
             style={{
-              display: "flex",
               gap: 32,
               alignItems: "center",
             }}
@@ -147,7 +146,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           </div>
 
           {/* CTA Buttons */}
-          <div style={{ display: "flex", gap: 12 }} className="hidden md:flex">
+          <div style={{ gap: 12 }} className="hidden md:flex">
             <Link href="/templates/impact-36/services#contact-form" style={{ textDecoration: "none" }}>
               <button
                 style={{

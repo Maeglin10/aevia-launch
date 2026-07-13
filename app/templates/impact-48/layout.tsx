@@ -149,7 +149,6 @@ export default function ArchitectureLayout({ children }: { children: React.React
           {/* Desktop Nav links */}
           <div
             style={{
-              display: 'flex',
               gap: 28,
               alignItems: 'center',
             }}

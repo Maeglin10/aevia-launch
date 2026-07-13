@@ -110,7 +110,7 @@ export default function GastronomyLayout({ children }: { children: React.ReactNo
         </Link>
 
         {/* Desktop links */}
-        <div style={{ display: "flex", gap: "2rem", alignItems: "center" }} className="hidden md:flex">
+        <div style={{ gap: "2rem", alignItems: "center" }} className="hidden md:flex">
           {navLinks.map((l) => (
             <Link
               key={l.href}

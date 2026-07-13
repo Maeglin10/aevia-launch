@@ -102,7 +102,7 @@ export default function LawFirmLayout({ children }: { children: React.ReactNode 
           </Link>
 
           {/* Desktop Nav Links */}
-          <div style={{ display: "flex", gap: 26, alignItems: "center" }} className="hidden md:flex">
+          <div style={{ gap: 26, alignItems: "center" }} className="hidden md:flex">
             {navLinks.map((l) => {
               const active = pathname === l.href;
               return (

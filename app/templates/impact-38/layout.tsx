@@ -76,7 +76,7 @@ export default function OriginRoastLayout({ children }: { children: React.ReactN
           <div style={{ flex: 1 }} />
 
           {/* Desktop nav */}
-          <div style={{ display: "flex", gap: 28, alignItems: "center" }} className="hidden md:flex">
+          <div style={{ gap: 28, alignItems: "center" }} className="hidden md:flex">
             {NAV_LINKS.map((link) => (
               <Link
                 key={link.href}

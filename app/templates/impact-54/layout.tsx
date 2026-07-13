@@ -121,7 +121,6 @@ export default function Impact54Layout({
         <div
           className="hidden md:flex"
           style={{
-            display: "flex",
             alignItems: "center",
             gap: 36,
             fontSize: 13,

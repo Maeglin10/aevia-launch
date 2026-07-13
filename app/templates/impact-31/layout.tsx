@@ -87,7 +87,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         </Link>
 
         {/* Desktop links */}
-        <div style={{ display: "flex", gap: 32, alignItems: "center" }} className="hidden md:flex">
+        <div style={{ gap: 32, alignItems: "center" }} className="hidden md:flex">
           {links.map((link) => (
             <Link
               key={link.href}
