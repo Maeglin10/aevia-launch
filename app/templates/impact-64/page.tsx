@@ -114,6 +114,11 @@ return (
           .i64-process-grid { grid-template-columns: 1fr !important; row-gap: 2.5rem !important; }
           .i64-process-line { display: none !important; }
         }
+      
+        /* mobile: stack 2-col grids to single column (added by responsive fix) */
+        @media (max-width: 768px) {
+          .imx-mobstack { grid-template-columns: 1fr !important; }
+        }
       `}</style>
       {/* ── HERO ─────────────────────────────────────────────────────── */}
       <section style={{ minHeight: "calc(100vh - 120px)", display: "flex", alignItems: "center", padding: "4rem 2.5rem 4rem", position: "relative", overflow: "hidden" }}>
@@ -129,7 +134,7 @@ return (
           pointerEvents: "none",
         }} />
 
-        <motion.div style={{ y: heroY, opacity: heroOpacity, maxWidth: "1400px", margin: "0 auto", width: "100%", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "4rem", alignItems: "center" }}>
+        <motion.div className="imx-mobstack" style={{ y: heroY, opacity: heroOpacity, maxWidth: "1400px", margin: "0 auto", width: "100%", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "4rem", alignItems: "center" }}>
           <div>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -294,7 +299,7 @@ return (
 
       {/* ── LIVE THREAT SECTION ───────────────────────────────────────── */}
       <section ref={terminalRef} style={{ padding: "8rem 2.5rem", background: C.bg }}>
-        <div style={{ maxWidth: "1200px", margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "5rem", alignItems: "center" }}>
+        <div className="imx-mobstack" style={{ maxWidth: "1200px", margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "5rem", alignItems: "center" }}>
           <motion.div
             initial={{ opacity: 0, x: -40 }}
             animate={terminalInView ? { opacity: 1, x: 0 } : {}}
@@ -376,7 +381,7 @@ return (
               </motion.div>
             ))}
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "1px", background: C.greenBorder, marginTop: "1px" }}>
+          <div className="imx-mobstack" style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "1px", background: C.greenBorder, marginTop: "1px" }}>
             {TESTIMONIALS.slice(3).map((t, i) => (
               <motion.div
                 key={i}

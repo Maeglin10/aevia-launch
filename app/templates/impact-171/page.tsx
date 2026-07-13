@@ -754,7 +754,7 @@ export default function Impact171Page() {
 
             <Reveal delay={0.2}>
               <form className="space-y-4" onSubmit={e => e.preventDefault()}>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <input type="text" placeholder="Prénom" className="w-full px-4 py-3 bg-[#F0FDFA] border border-[#0891B2]/20 rounded-xl text-[#134E4A] placeholder-[#134E4A]/40 focus:outline-none focus:border-[#0891B2] text-sm" />
                   <input type="text" placeholder="Nom" className="w-full px-4 py-3 bg-[#F0FDFA] border border-[#0891B2]/20 rounded-xl text-[#134E4A] placeholder-[#134E4A]/40 focus:outline-none focus:border-[#0891B2] text-sm" />
                 </div>

@@ -256,7 +256,7 @@ export default function AetherWellnessPage() {
                        </>}</p>
                     </Reveal>
                     <Reveal delay={0.3}>
-                       <div className="grid grid-cols-2 gap-16 pt-12 border-t border-black/5">
+                       <div className="grid grid-cols-1 md:grid-cols-2 gap-16 pt-12 border-t border-black/5">
                           <div>
                              <div className="text-4xl font-bold text-[#1a1a1a] mb-2 italic">12</div>
                              <div className="text-[9px] font-bold uppercase tracking-widest text-black/30">Private Chambers</div>

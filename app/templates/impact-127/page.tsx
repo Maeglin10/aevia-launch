@@ -344,7 +344,7 @@ export default function PulseEventsPage() {
                   </div>
                 </div>
               </Reveal>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {[
                   { val: "120+", label: "Events per year", icon: <Calendar className="w-5 h-5 text-pink-500" /> },
                   { val: "38", label: "Cities covered", icon: <MapPin className="w-5 h-5 text-pink-500" /> },

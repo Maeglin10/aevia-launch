@@ -118,6 +118,12 @@ export default function EchoChamberPage() {
   }, [c]);
 return (
     <div style={{ fontFamily: C.bodyFont, backgroundColor: C.bg, color: C.text, overflowX: "clip" }}>
+      <style>{`
+        /* mobile: stack 2-col grids to single column (added by responsive fix) */
+        @media (max-width: 768px) {
+          .imx-mobstack { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
       {/* HERO */}
       <section
         ref={heroRef}
@@ -236,7 +242,7 @@ return (
                   </button>
                 </Link>
               </div>
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.75rem" }}>
+              <div className="imx-mobstack" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.75rem" }}>
                 {homeStudios[activeStudio].features.map((feat) => (
                   <div key={feat} style={{ backgroundColor: C.bgCard, border: `1px solid ${C.border}`, borderRadius: "8px", padding: "0.8rem 1rem", display: "flex", alignItems: "center", gap: "0.6rem" }}>
                     <div style={{ width: 6, height: 6, borderRadius: "50%", backgroundColor: homeStudios[activeStudio].color, flexShrink: 0 }} />

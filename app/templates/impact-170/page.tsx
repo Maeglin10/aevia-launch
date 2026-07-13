@@ -1250,7 +1250,12 @@ export default function Impact170Page() {
           </MagneticButton>
         </div>
       )}
-      <style>{`@media (max-width: 900px) { #mb170-nav { display: none !important; } .mb170-burger { display: flex !important; } }`}</style>
+      <style>{`@media (max-width: 900px) { #mb170-nav { display: none !important; } .mb170-burger { display: flex !important; } }
+        /* mobile: stack 2-col grids to single column (added by responsive fix) */
+        @media (max-width: 768px) {
+          .imx-mobstack { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
 
       {/* Mobile menu */}
       <AnimatePresence>
@@ -1338,7 +1343,7 @@ export default function Impact170Page() {
           }}
         />
 
-        <div
+        <div className="imx-mobstack"
           style={{
             position: "relative",
             zIndex: 2,
@@ -1558,7 +1563,7 @@ export default function Impact170Page() {
           margin: "0 auto",
         }}
       >
-        <div
+        <div className="imx-mobstack"
           style={{
             display: "grid",
             gridTemplateColumns: "1fr 2fr",
@@ -1752,7 +1757,7 @@ export default function Impact170Page() {
           </TextReveal>
         </div>
 
-        <div
+        <div className="imx-mobstack"
           style={{
             display: "grid",
             gridTemplateColumns: "repeat(2, 1fr)",
@@ -1880,7 +1885,7 @@ export default function Impact170Page() {
           margin: "0 auto",
         }}
       >
-        <div
+        <div className="imx-mobstack"
           style={{
             display: "grid",
             gridTemplateColumns: "1fr 1fr",

@@ -421,7 +421,7 @@ function Story() {
 
   return (
     <section ref={ref} style={{ padding: "100px 80px", background: C.bgSection, fontFamily: FONT_BODY }}>
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "center", maxWidth: 1100, margin: "0 auto" }}>
+      <div className="imx-mobstack" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "center", maxWidth: 1100, margin: "0 auto" }}>
         <motion.div initial={{ opacity: 0, x: -40 }} animate={isInView ? { opacity: 1, x: 0 } : {}} transition={{ duration: 0.7 }}>
           <div style={{ display: "inline-block", background: C.accentLight, color: C.accent, borderRadius: 20, padding: "6px 18px", fontSize: 13, fontWeight: 700, marginBottom: 24, textTransform: "uppercase", letterSpacing: 0.8 }}>
             Notre histoire
@@ -449,7 +449,7 @@ function Story() {
           </div>
         </motion.div>
 
-        <motion.div
+        <motion.div className="imx-mobstack"
           initial={{ opacity: 0, x: 40 }}
           animate={isInView ? { opacity: 1, x: 0 } : {}}
           transition={{ duration: 0.7, delay: 0.15 }}
@@ -626,7 +626,7 @@ function HorairesContact() {
 
   return (
     <section ref={ref} id="contact" style={{ padding: "100px 80px", background: C.bg, fontFamily: FONT_BODY }}>
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, maxWidth: 1000, margin: "0 auto" }}>
+      <div className="imx-mobstack" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, maxWidth: 1000, margin: "0 auto" }}>
         {/* Horaires */}
         <motion.div initial={{ opacity: 0, x: -30 }} animate={isInView ? { opacity: 1, x: 0 } : {}} transition={{ duration: 0.6 }}>
           <div style={{ display: "inline-block", background: C.accentLight, color: C.accent, borderRadius: 20, padding: "6px 18px", fontSize: 13, fontWeight: 700, marginBottom: 24, textTransform: "uppercase", letterSpacing: 0.8 }}>
@@ -894,6 +894,12 @@ export default function Impact33() {
   }, [c]);
 return (
     <main style={{ background: C.bg, overflowX: "hidden" }}>
+      <style>{`
+        /* mobile: stack 2-col grids to single column (added by responsive fix) */
+        @media (max-width: 768px) {
+          .imx-mobstack { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
       <Navbar />
       <Hero />
       <MarqueeSection />

@@ -97,6 +97,12 @@ export default function LeaHomePage() {
   }, [c]);
 return (
     <div style={{ background: C.bg, color: C.cream, minHeight: "80vh" }}>
+      <style>{`
+        /* mobile: stack 2-col grids to single column (added by responsive fix) */
+        @media (max-width: 768px) {
+          .imx-mobstack { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
       {/* ── Hero ── */}
       <section ref={heroRef} style={{ minHeight: "90vh", display: "flex", alignItems: "center", justifyContent: "center", position: "relative", overflow: "hidden" }}>
         {/* Parallax bg */}
@@ -183,7 +189,7 @@ return (
 
       {/* ── Depth Layers — Signature Element ── */}
       <section style={{ padding: "80px 0", maxWidth: 1200, margin: "0 auto", paddingInline: 32 }}>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 64, alignItems: "center", marginBottom: 64 }} className="grid-hero-68">
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 64, alignItems: "center", marginBottom: 64 }} className="grid-hero-68 imx-mobstack">
           <div>
             <p style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 11, letterSpacing: "0.35em", color: C.moss, textTransform: "uppercase", marginBottom: 20 }}>Depth Perception</p>
             <h2 style={{ fontSize: "clamp(28px, 4vw, 48px)", fontWeight: 700, lineHeight: 1.1, letterSpacing: "-0.02em", marginBottom: 24, color: C.cream }}>{c?.aboutTitle ?? fd?.businessName ?? <>
@@ -194,7 +200,7 @@ return (
               Every composition is built in layers — the intimate foreground, the story-telling midground, and the expansive background. Move your cursor across the scene to experience how depth creates presence.
             </>}</p>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+          <div className="imx-mobstack" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
             {[
               { label: "Years active", val: 12, suffix: "" },
               { label: "Countries", val: 34, suffix: "+" },
@@ -233,7 +239,7 @@ return (
 
       {/* ── Prints Shop ── */}
       <section style={{ padding: "80px 32px", borderTop: `1px solid ${C.border}`, borderBottom: `1px solid ${C.border}`, background: C.bgCard }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "center" }}>
+        <div className="imx-mobstack" style={{ maxWidth: 1200, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "center" }}>
           <div>
             <p style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 11, letterSpacing: "0.35em", color: C.amber, textTransform: "uppercase", marginBottom: 20 }}>Limited Edition Prints</p>
             <h2 style={{ fontSize: "clamp(28px, 4vw, 48px)", fontWeight: 900, lineHeight: 1.05, letterSpacing: "-0.03em", color: C.cream, marginBottom: 24 }}>Bring the wilderness home.</h2>
@@ -262,7 +268,7 @@ return (
               </MagneticButton>
             </Link>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+          <div className="imx-mobstack" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
             {[
               { bg: SERIES[0].bg, accent: SERIES[0].accent, title: SERIES[0].title, price: "CHF 480", prints: `Ed. ${SERIES[0].prints}` },
               { bg: SERIES[2].bg, accent: SERIES[2].accent, title: SERIES[2].title, price: "CHF 360", prints: `Ed. ${SERIES[2].prints}` },

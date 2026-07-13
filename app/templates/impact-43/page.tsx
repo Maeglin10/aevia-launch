@@ -128,6 +128,12 @@ export default function SereneRetreatHome() {
 
   return (
     <div ref={containerRef} style={{ background: C.cream, minHeight: "100vh" }}>
+      <style>{`
+        /* mobile: stack 2-col grids to single column (added by responsive fix) */
+        @media (max-width: 768px) {
+          .imx-mobstack { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
       {/* Hero Section */}
       <section
         id="hero"
@@ -410,7 +416,7 @@ export default function SereneRetreatHome() {
 
       {/* Thermal Circuit Section */}
       <section id="circuit" style={{ padding: "120px 80px", background: C.forest }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 96, alignItems: "start" }} className="two-col">
+        <div style={{ maxWidth: 1200, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 96, alignItems: "start" }} className="two-col imx-mobstack">
           <div>
             <TextReveal>
               <div
@@ -637,7 +643,7 @@ export default function SereneRetreatHome() {
         />
 
         <div style={{ maxWidth: 960, margin: "0 auto", position: "relative", zIndex: 1 }}>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 2fr", gap: 80, alignItems: "center" }} className="two-col">
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 2fr", gap: 80, alignItems: "center" }} className="two-col imx-mobstack">
             <div>
               <TextReveal>
                 <div

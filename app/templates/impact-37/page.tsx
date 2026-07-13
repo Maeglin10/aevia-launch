@@ -114,6 +114,12 @@ export default function ClosDuSoirPage() {
   }, [c]);
 return (
     <div style={{ overflowX: "clip", background: C.bg }}>
+      <style>{`
+        /* mobile: stack 2-col grids to single column (added by responsive fix) */
+        @media (max-width: 768px) {
+          .imx-mobstack { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
       {/* HERO — dark full-bleed */}
       <section
         ref={heroRef}
@@ -181,7 +187,7 @@ return (
               gap: 80,
               alignItems: "center",
             }}
-            className="grid-cols-1 md:grid-cols-[1fr_auto]"
+            className="grid-cols-1 md:grid-cols-[1fr_auto] imx-mobstack"
           >
             {/* Left: Text */}
             <motion.div style={{ y: heroTextY, opacity: heroOpacity }}>

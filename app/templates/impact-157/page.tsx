@@ -470,6 +470,11 @@ return (
         @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap');
         * { box-sizing: border-box; margin: 0; padding: 0; }
         html { scroll-behavior: smooth; }
+      
+        /* mobile: stack 2-col grids to single column (added by responsive fix) */
+        @media (max-width: 768px) {
+          .imx-mobstack { grid-template-columns: 1fr !important; }
+        }
       `}</style>
 
       {/* ── NAV ─────────────────────────────────────────────────────────────── */}
@@ -608,7 +613,7 @@ return (
       </div>
 
       {/* ── HERO ─────────────────────────────────────────────────────────────── */}
-      <section id="hero"
+      <section className="imx-mobstack" id="hero"
         style={{
           minHeight: "94vh",
           display: "grid",
@@ -1172,7 +1177,7 @@ return (
           borderTop: `1px solid ${C.border}`,
         }}
       >
-        <div
+        <div className="imx-mobstack"
           style={{
             display: "grid",
             gridTemplateColumns: "1fr 1fr",

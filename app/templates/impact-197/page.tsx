@@ -471,6 +471,11 @@ return (
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: ${C.sandDark}; }
         ::-webkit-scrollbar-thumb { background: ${C.accent}; border-radius: 3px; }
+      
+        /* mobile: stack 2-col grids to single column (added by responsive fix) */
+        @media (max-width: 768px) {
+          .imx-mobstack { grid-template-columns: 1fr !important; }
+        }
       `}</style>
 
       {/* NAV */}
@@ -778,7 +783,7 @@ return (
       {/* SERVICES */}
       <section id="services" style={{ padding: "140px 40px", background: C.bg }}>
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "center" }}>
+          <div className="imx-mobstack" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "center" }}>
             <RevealSection direction="left">
               <div>
                 <div style={{ display: "inline-flex", alignItems: "center", gap: 8, marginBottom: 24 }}>
@@ -802,7 +807,7 @@ return (
             </RevealSection>
 
             <RevealSection direction="right">
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+              <div className="imx-mobstack" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
                 {SERVICES_DETAIL.map((service, i) => (
                   <motion.div
                     key={i}
@@ -1272,7 +1277,7 @@ function ConceptPage({ goTo }: { goTo: (p: ActivePage) => void }) {
             </p>
           </div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 32 }}>
+          <div className="imx-mobstack" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 32 }}>
             <div style={{ background: C.white, border: `1px solid ${C.borderLight}`, padding: 32, borderRadius: 16 }}>
               <h4 style={{ fontSize: 18, color: C.marine, marginBottom: 12, fontFamily: "'Cormorant Garamond', Georgia, serif" }}>Conciergerie 24h/24</h4>
               <p style={{ fontSize: 14 }}>
@@ -1325,7 +1330,7 @@ function FormulesPage() {
         </div>
 
         <form onSubmit={(e) => e.preventDefault()} style={{ background: C.white, border: `1px solid ${C.borderLight}`, padding: 40, borderRadius: 16, display: "flex", flexDirection: "column", gap: 24 }}>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24 }}>
+          <div className="imx-mobstack" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24 }}>
             <div>
               <label style={{ display: "block", fontSize: 11, fontWeight: 600, color: C.marine, fontFamily: "system-ui", marginBottom: 8, letterSpacing: "0.04em" }}>NOM COMPLET</label>
               <input type="text" placeholder="Votre nom" style={{ width: "100%", padding: "12px 16px", border: `1px solid ${C.borderLight}`, borderRadius: 4, fontSize: 14, fontFamily: "system-ui", outline: "none" }} />
@@ -1336,7 +1341,7 @@ function FormulesPage() {
             </div>
           </div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24 }}>
+          <div className="imx-mobstack" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24 }}>
             <div>
               <label style={{ display: "block", fontSize: 11, fontWeight: 600, color: C.marine, fontFamily: "system-ui", marginBottom: 8, letterSpacing: "0.04em" }}>DESTINATION SOUHAITÉE</label>
               <input type="text" placeholder="Ex: Maldives, Japon..." style={{ width: "100%", padding: "12px 16px", border: `1px solid ${C.borderLight}`, borderRadius: 4, fontSize: 14, fontFamily: "system-ui", outline: "none" }} />

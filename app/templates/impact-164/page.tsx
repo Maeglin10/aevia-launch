@@ -412,6 +412,11 @@ return (
         * { box-sizing: border-box; margin: 0; padding: 0; }
         html { scroll-behavior: smooth; }
         @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap');
+      
+        /* mobile: stack 2-col grids to single column (added by responsive fix) */
+        @media (max-width: 768px) {
+          .imx-mobstack { grid-template-columns: 1fr !important; }
+        }
       `}</style>
 
       {/* NAV */}
@@ -495,7 +500,7 @@ return (
       <style>{`@media (max-width: 900px) { #mb164-nav { display: none !important; } .mb164-burger { display: flex !important; } }`}</style>
 
       {/* HERO — full viewport, split asymmetric */}
-      <section id="hero" style={{ minHeight: "100vh", paddingTop: 60, display: "grid", gridTemplateColumns: "1fr 1fr", borderBottom: `2px solid ${C.bgDark}` }}>
+      <section className="imx-mobstack" id="hero" style={{ minHeight: "100vh", paddingTop: 60, display: "grid", gridTemplateColumns: "1fr 1fr", borderBottom: `2px solid ${C.bgDark}` }}>
         {/* Left: oversized headline */}
         <div style={{ borderRight: `2px solid ${C.bgDark}`, display: "flex", flexDirection: "column", justifyContent: "space-between", padding: "80px 64px" }}>
           <div style={{ fontFamily: C.mono, fontSize: 11, letterSpacing: 4, color: C.textMuted, textTransform: "uppercase" }}>
@@ -663,7 +668,7 @@ return (
           </div>
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: "360px 1fr" }}>
+        <div className="imx-mobstack" style={{ display: "grid", gridTemplateColumns: "360px 1fr" }}>
           {/* Left: case list */}
           <div style={{ borderRight: `2px solid ${C.bgDark}` }}>
             {CASES.map((c, i) => (
@@ -734,7 +739,7 @@ return (
       {/* MANIFESTE */}
       <section id="manifeste" style={{ background: C.bgDark, borderBottom: `2px solid ${C.borderLight}`, padding: "80px 64px" }}>
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-          <div style={{ display: "grid", gridTemplateColumns: "240px 1fr", gap: 80, alignItems: "start" }}>
+          <div className="imx-mobstack" style={{ display: "grid", gridTemplateColumns: "240px 1fr", gap: 80, alignItems: "start" }}>
             <div>
               <div style={{ fontFamily: C.mono, fontSize: 10, letterSpacing: 5, color: "rgba(245,245,240,0.3)", textTransform: "uppercase", marginBottom: 20 }}>Notre manifeste</div>
               <div style={{ fontSize: "clamp(28px, 3.5vw, 48px)", fontWeight: 900, color: C.white, letterSpacing: "-1px", lineHeight: 1.1 }}>
@@ -767,7 +772,7 @@ return (
           </Reveal>
           <div style={{ fontFamily: C.mono, fontSize: 10, letterSpacing: 3, color: C.textMuted, textTransform: "uppercase" }}>04 avis vérifiés</div>
         </div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 2 }}>
+        <div className="imx-mobstack" style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 2 }}>
           {TESTIMONIALS.map((t, i) => (
             <Reveal key={i} delay={i * 0.1}>
               <motion.div
@@ -892,7 +897,7 @@ return (
       </section>
 
       {/* CTA CONTACT */}
-      <section id="contact" style={{ borderBottom: `2px solid ${C.bgDark}`, display: "grid", gridTemplateColumns: "1fr 1fr" }}>
+      <section className="imx-mobstack" id="contact" style={{ borderBottom: `2px solid ${C.bgDark}`, display: "grid", gridTemplateColumns: "1fr 1fr" }}>
         <div style={{ borderRight: `2px solid ${C.bgDark}`, padding: "80px 64px" }}>
           <div style={{ fontFamily: C.mono, fontSize: 10, letterSpacing: 4, color: C.accent, marginBottom: 24, textTransform: "uppercase" }}>
             → On prend 5 nouveaux clients par trimestre

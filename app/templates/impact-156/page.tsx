@@ -178,7 +178,12 @@ export default function LumiereYogaPage() {
     }
   }, [c]);return (
     <div style={{ background: C.bg, fontFamily: FONT, overflowX: "hidden" }}>
-      <style jsx global>{`@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,500;1,400&display=swap');`}</style>
+      <style jsx global>{`@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,500;1,400&display=swap');
+        /* mobile: stack 2-col grids to single column (added by responsive fix) */
+        @media (max-width: 768px) {
+          .imx-mobstack { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
 
       {/* Navbar */}
       <motion.nav style={{
@@ -322,7 +327,7 @@ export default function LumiereYogaPage() {
 
       {/* Approche */}
       <section style={{ padding: "100px 80px", background: C.bgSection }}>
-        <div style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "center" }} className="grid-cols-1 md:grid-cols-2">
+        <div style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "center" }} className="grid-cols-1 md:grid-cols-2 imx-mobstack">
           <Reveal>
             <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Notre philosophie</span>
             <h2 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(28px, 3.5vw, 48px)", fontWeight: 400, color: C.text, margin: "12px 0 32px", lineHeight: 1.15 }}>

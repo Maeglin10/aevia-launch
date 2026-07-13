@@ -572,7 +572,7 @@ function MontresSubPage({ goTo, activeModel, setActiveModel }: { goTo: (p: any) 
             <div className="relative h-[480px] bg-[#181610] rounded-2xl overflow-hidden border border-[#B49A6A]/20">
               <Image src="https://images.unsplash.com/photo-1619134778706-7015533a6150?w=800&q=80" alt={watchModels[activeModel].name} fill className="object-cover opacity-80" />
             </div>
-            <div className="grid grid-cols-4 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
               {watchModels.map((m, idx) => (
                 <button
                   key={m.name}
@@ -763,7 +763,7 @@ function ContactSubPage() {
               </div>
             ) : (
               <form onSubmit={(e) => { e.preventDefault(); setSubmitted(true); }} className="space-y-6">
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-[10px] text-white/40 uppercase tracking-widest mb-2">Nom complet</label>
                     <input
@@ -784,7 +784,7 @@ function ContactSubPage() {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-[10px] text-white/40 uppercase tracking-widest mb-2">Lieu souhaité</label>
                     <select className="w-full bg-[#0C0B09] border border-white/10 text-white p-3 text-xs outline-none focus:border-[#B49A6A] transition-all rounded-lg">

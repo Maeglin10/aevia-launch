@@ -158,7 +158,12 @@ function GlobalStyles() {
       ::-webkit-scrollbar { width: 6px; }
       ::-webkit-scrollbar-track { background: ${T.bg}; }
       ::-webkit-scrollbar-thumb { background: ${T.border}; border-radius: 3px; }
-    `}</style>
+    
+        /* mobile: stack 2-col grids to single column (added by responsive fix) */
+        @media (max-width: 768px) {
+          .imx-mobstack { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
   )
 }
 
@@ -1265,7 +1270,7 @@ function DeliveryTimeline() {
         }}
       >
         <div className="n207-container" style={{ width: "100%" }}>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "center" }}>
+          <div className="imx-mobstack" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "center" }}>
             {/* Left: stage info */}
             <div>
               <div className="n207-label">Delivery Journey</div>
@@ -1656,7 +1661,7 @@ function ContactSection() {
   return (
     <section id="contact" className="n207-section" style={{ background: T.bg }}>
       <div className="n207-container">
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1.4fr", gap: 80, alignItems: "start" }}>
+        <div className="imx-mobstack" style={{ display: "grid", gridTemplateColumns: "1fr 1.4fr", gap: 80, alignItems: "start" }}>
           {/* Left info */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
@@ -1747,7 +1752,7 @@ function ContactSection() {
                   </h3>
 
                   {/* Two-column grid for name fields */}
-                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 16 }}>
+                  <div className="imx-mobstack" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 16 }}>
                     <div>
                       <label style={labelStyle}>Company *</label>
                       <input
@@ -1776,7 +1781,7 @@ function ContactSection() {
                     </div>
                   </div>
 
-                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 16 }}>
+                  <div className="imx-mobstack" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 16 }}>
                     <div>
                       <label style={labelStyle}>Email *</label>
                       <input
@@ -1806,7 +1811,7 @@ function ContactSection() {
                     </div>
                   </div>
 
-                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 16 }}>
+                  <div className="imx-mobstack" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 16 }}>
                     <div>
                       <label style={labelStyle}>Origin City / Country *</label>
                       <input
@@ -1835,7 +1840,7 @@ function ContactSection() {
                     </div>
                   </div>
 
-                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 16 }}>
+                  <div className="imx-mobstack" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 16 }}>
                     <div>
                       <label style={labelStyle}>Transport Mode *</label>
                       <select

@@ -2064,7 +2064,7 @@ const Contact: React.FC = () => {
                 </p>
               </div>
             ) : (
-              <form
+              <form className="imx-mobstack"
                 onSubmit={onSubmit}
                 style={{
                   display: 'grid',
@@ -2391,7 +2391,12 @@ const ResponsiveStyles: React.FC = () => (
     @media (max-width: 560px) {
       .solis-footer-grid { grid-template-columns: 1fr !important; }
     }
-  `}</style>
+  
+        /* mobile: stack 2-col grids to single column (added by responsive fix) */
+        @media (max-width: 768px) {
+          .imx-mobstack { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
 );
 
 /* ─────────────────────────── PAGE ─────────────────────────── */

@@ -107,6 +107,11 @@ function GoldParticles({ scrollY }: { scrollY: number }) {
           0%, 100% { box-shadow: 0 0 20px #d4af6b22; }
           50% { box-shadow: 0 0 40px #d4af6b44, 0 0 80px #d4af6b11; }
         }
+      
+        /* mobile: stack 2-col grids to single column (added by responsive fix) */
+        @media (max-width: 768px) {
+          .imx-mobstack { grid-template-columns: 1fr !important; }
+        }
       `}</style>
     </div>
   );
@@ -1955,7 +1960,7 @@ export default function LuxuryJewelryTemplate() {
           }}
         />
         <div style={{ maxWidth: 1280, margin: "0 auto" }}>
-          <div
+          <div className="imx-mobstack"
             style={{
               display: "grid",
               gridTemplateColumns: "1fr 1fr",

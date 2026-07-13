@@ -543,7 +543,7 @@ export default function AeviaKitchenPage() {
             </div>
           </Reveal>
 
-          <div className="grid grid-cols-3 grid-rows-2 gap-3 h-[500px] md:h-[600px]">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 grid-rows-2 gap-3 h-[500px] md:h-[600px]">
             {GALLERY_PHOTOS.map((photo, i) => (
               <Reveal key={i} delay={i * 0.07}>
                 <div className={`relative overflow-hidden rounded-lg h-full ${photo.className} group cursor-pointer`}>
@@ -852,7 +852,7 @@ export default function AeviaKitchenPage() {
                       Votre réservation
                     </h3>
 
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
                         <label className="block text-[9px] text-white/30 uppercase tracking-widest font-bold mb-2">
                           Date

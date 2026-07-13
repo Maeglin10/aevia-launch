@@ -429,6 +429,11 @@ export default function EssentialBlogPage() {
         * { box-sizing: border-box; margin: 0; padding: 0; }
         html { scroll-behavior: smooth; }
         ::selection { background: ${C.accentLight}; color: ${C.accent}; }
+      
+        /* mobile: stack 2-col grids to single column (added by responsive fix) */
+        @media (max-width: 768px) {
+          .imx-mobstack { grid-template-columns: 1fr !important; }
+        }
       `}</style>
 
       {/* READING PROGRESS BAR */}
@@ -567,7 +572,7 @@ export default function EssentialBlogPage() {
 
         {/* Featured story */}
         <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 48px 0" }}>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 420px", gap: 64, alignItems: "stretch", borderBottom: "1px solid rgba(255,255,255,0.08)", paddingBottom: 56 }}>
+          <div className="imx-mobstack" style={{ display: "grid", gridTemplateColumns: "1fr 420px", gap: 64, alignItems: "stretch", borderBottom: "1px solid rgba(255,255,255,0.08)", paddingBottom: 56 }}>
             {/* Left: article content */}
             <div style={{ paddingTop: 48 }}>
               <motion.div
@@ -679,7 +684,7 @@ export default function EssentialBlogPage() {
       </section>
 
       {/* MAIN CONTENT — 2 column layout with sidebar */}
-      <section style={{ maxWidth: 1400, margin: "0 auto", padding: "72px 48px", display: "grid", gridTemplateColumns: "1fr 300px", gap: 72 }}>
+      <section className="imx-mobstack" style={{ maxWidth: 1400, margin: "0 auto", padding: "72px 48px", display: "grid", gridTemplateColumns: "1fr 300px", gap: 72 }}>
         {/* Articles grid */}
         <div>
           {/* Section header with category filter */}
@@ -756,7 +761,7 @@ export default function EssentialBlogPage() {
           </Reveal>
 
           {/* Grid of smaller articles */}
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 2, marginTop: 2 }}>
+          <div className="imx-mobstack" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 2, marginTop: 2 }}>
             {ARTICLES.slice(1).map((article, i) => (
               <Reveal key={i} delay={i * 0.08}>
                 <motion.div
@@ -953,7 +958,7 @@ export default function EssentialBlogPage() {
 
       {/* NEWSLETTER CTA — bold split */}
       <section style={{ background: C.bgDark, padding: "96px 48px" }}>
-        <div style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 100, alignItems: "center" }}>
+        <div className="imx-mobstack" style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 100, alignItems: "center" }}>
           <Reveal direction="left">
             <div>
               {/* Oversized number */}
@@ -1200,7 +1205,7 @@ export default function EssentialBlogPage() {
       {/* FOOTER */}
       <footer style={{ background: C.bgDark, padding: "56px 48px 32px" }}>
         <div style={{ maxWidth: 1400, margin: "0 auto" }}>
-          <div style={{ display: "grid", gridTemplateColumns: "280px 1fr", gap: 80, marginBottom: 56, paddingBottom: 56, borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
+          <div className="imx-mobstack" style={{ display: "grid", gridTemplateColumns: "280px 1fr", gap: 80, marginBottom: 56, paddingBottom: 56, borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
             <div>
               <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 16 }}>
                 <div style={{ width: 24, height: 24, background: C.accent, display: "flex", alignItems: "center", justifyContent: "center" }}>

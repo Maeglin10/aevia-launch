@@ -1188,6 +1188,12 @@ export default function Impact176Page() {
         minHeight: "100vh",
       }}
     >
+      <style>{`
+        /* mobile: stack 2-col grids to single column (added by responsive fix) */
+        @media (max-width: 768px) {
+          .imx-mobstack { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
       {/* Scroll progress bar */}
       <motion.div
         style={{
@@ -1383,7 +1389,7 @@ export default function Impact176Page() {
       </AnimatePresence>
 
       {/* ── HERO ── */}
-      <section
+      <section className="imx-mobstack"
         id="hero"
         style={{
           minHeight: "100vh",
@@ -1712,7 +1718,7 @@ export default function Impact176Page() {
           borderBottom: `1px solid ${C.border}`,
         }}
       >
-        <div
+        <div className="imx-mobstack"
           style={{
             maxWidth: 1200,
             margin: "0 auto",

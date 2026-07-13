@@ -298,6 +298,12 @@ export default function LEtoileRestaurant() {
   }, [c]);
 return (
     <div className="bg-[#0c0a08] text-[#f5efe6] min-h-screen selection:bg-amber-700 selection:text-white" style={{ fontFamily: "'Georgia', 'Times New Roman', serif", overflowX: "clip" }}>
+      <style>{`
+        /* mobile: stack 2-col grids to single column (added by responsive fix) */
+        @media (max-width: 768px) {
+          .imx-mobstack { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
       
       {/* ── NAVBAR ── */}
       <nav className="fixed top-0 left-0 w-full z-50 bg-[#0c0a08]/80 backdrop-blur-xl border-b border-white/5">
@@ -564,7 +570,7 @@ return (
               The first Michelin star arrived in 2020. The second followed in 2022. Today, L'Étoile holds a permanent position among France's most coveted dining destinations — a place where classical French technique and contemporary sensitivity produce something entirely its own.
             </p>
 
-            <div className="grid grid-cols-3 gap-6 border-t border-white/5 pt-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 border-t border-white/5 pt-8">
               {[
                 { value: "2018", label: "Founded" },
                 { value: "★★", label: "Michelin" },
@@ -811,7 +817,7 @@ return (
           </DialogHeader>
           <p className="text-sm font-sans text-[#f5efe6]/35 mb-6">Complete the form below and we will confirm within 24 hours.</p>
           <form className="space-y-5">
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="text-[9px] uppercase tracking-widest font-sans text-[#f5efe6]/30 font-semibold mb-1.5 block">Date</label>
                 <input type="date" className="w-full bg-white/5 border border-white/10 px-4 py-3 text-sm font-sans focus:border-amber-600 focus:outline-none transition-all duration-200 rounded-lg text-[#f5efe6] cursor-pointer" />
@@ -923,7 +929,7 @@ function ReservationPage({ guests, setGuests }: { guests: number; setGuests: (n:
 
       {!submitted ? (
         <form onSubmit={(e) => { e.preventDefault(); setSubmitted(true); }} style={{ display: 'flex', flexDirection: 'column', gap: 24 }} className="bg-white/[0.02] border border-white/5 p-8 rounded-2xl">
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+          <div className="imx-mobstack" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
             <div>
               <label style={{ fontSize: 9, letterSpacing: '0.2em', color: '#f5efe6/30', fontWeight: 600, marginBottom: 8, display: 'block' }} className="uppercase">Date</label>
               <input required type="date" style={{ width: '100%', border: '1px solid rgba(255,255,255,0.1)', padding: '12px', fontSize: 13, background: 'rgba(255,255,255,0.05)', color: '#f5efe6', outline: 'none' }} />

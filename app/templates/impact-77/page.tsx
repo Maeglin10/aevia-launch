@@ -422,7 +422,7 @@ export default function HorologsLuxePage() {
                 </>}</p>
               </Reveal>
               <Reveal delay={0.25}>
-                <div className="grid grid-cols-3 gap-8 pt-10 border-t border-white/5">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 pt-10 border-t border-white/5">
                   {[
                     { v: 340, s: "+", label: "Publications" },
                     { v: 12, s: "", label: "Countries" },

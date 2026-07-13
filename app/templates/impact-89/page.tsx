@@ -405,7 +405,7 @@ function AboutSection() {
   return (
     <section id="philosophy" style={{ padding: "120px 40px", background: C.bgAlt, borderBottom: `1px solid ${C.border}` }}>
       <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1.2fr", gap: 80, alignItems: "center" }}>
+        <div className="imx-mobstack" style={{ display: "grid", gridTemplateColumns: "1fr 1.2fr", gap: 80, alignItems: "center" }}>
           <div style={{ position: "relative" }}>
             <div style={{
               width: "100%",
@@ -436,7 +436,7 @@ function AboutSection() {
             <p style={{ fontFamily: FONT_BODY, fontSize: 16, color: C.textMuted, lineHeight: 1.8, fontWeight: 300, marginBottom: 32 }}>
               Chaque pièce est une création sur-mesure unique, dessinée en étroite collaboration avec vous. Nous appliquons les standards d'hygiène les plus stricts de l'industrie (matériel à usage unique, stérilisation médicale) pour vous offrir une expérience d'exception en toute sécurité.
             </p>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 32 }}>
+            <div className="imx-mobstack" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 32 }}>
               <div>
                 <div style={{ fontFamily: FONT_MONO, fontSize: 12, color: C.white, marginBottom: 8 }}>HYGIÈNE MÉDICALE</div>
                 <p style={{ fontFamily: FONT_BODY, fontSize: 13, color: C.textMuted, lineHeight: 1.6 }}>Matériel stérile à usage unique ouvert devant vous, charte sanitaire stricte.</p>
@@ -623,6 +623,11 @@ return (
         ::-webkit-scrollbar-track { background: ${C.bg}; }
         ::-webkit-scrollbar-thumb { background: ${C.accent}; }
         ::selection { background: ${C.accent}; color: ${C.white}; }
+      
+        /* mobile: stack 2-col grids to single column (added by responsive fix) */
+        @media (max-width: 768px) {
+          .imx-mobstack { grid-template-columns: 1fr !important; }
+        }
       `}</style>
 
       {/* NAV */}
@@ -1494,7 +1499,7 @@ return (
 
             <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
               {PROCESS.map((step, i) => (
-                <motion.div
+                <motion.div className="imx-mobstack"
                   key={step.step}
                   initial={{ opacity: 0, x: -30 }}
                   whileInView={{ opacity: 1, x: 0 }}
@@ -1607,7 +1612,7 @@ return (
 
       {/* HYGIENE SECTION */}
       <section style={{ padding: "100px 40px", background: C.bg }}>
-        <div style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "center" }}>
+        <div className="imx-mobstack" style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "center" }}>
           <motion.div
             initial={{ opacity: 0, x: -40 }}
             whileInView={{ opacity: 1, x: 0 }}

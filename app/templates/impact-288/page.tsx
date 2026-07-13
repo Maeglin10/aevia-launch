@@ -337,6 +337,11 @@ function Nav() {
           .r288-burger { display: flex !important; flex-direction: column; }
           .r288-navcta{ display:none !important; }
         }
+      
+        /* mobile: stack 2-col grids to single column (added by responsive fix) */
+        @media (max-width: 768px) {
+          .imx-mobstack { grid-template-columns: 1fr !important; }
+        }
       `}</style>
     </nav>
       {mobileOpen && (
@@ -2328,7 +2333,7 @@ function SolaireSection() {
 
             {/* Grille de stats */}
             <Reveal delay={0.18}>
-              <div
+              <div className="imx-mobstack"
                 style={{
                   display: 'grid',
                   gridTemplateColumns: '1fr 1fr',

@@ -536,6 +536,11 @@ return (
         @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
         * { box-sizing: border-box; margin: 0; padding: 0; }
         html { scroll-behavior: smooth; }
+      
+        /* mobile: stack 2-col grids to single column (added by responsive fix) */
+        @media (max-width: 768px) {
+          .imx-mobstack { grid-template-columns: 1fr !important; }
+        }
       `}</style>
 
       {/* ── 1. NAVBAR ─────────────────────────────────────────────── */}
@@ -1327,7 +1332,7 @@ return (
           </div>
 
           <AnimatePresence mode="wait">
-            <motion.div
+            <motion.div className="imx-mobstack"
               key={activeService}
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
@@ -1607,7 +1612,7 @@ return (
             </h2>
           </motion.div>
 
-          <div
+          <div className="imx-mobstack"
             style={{
               display: "grid",
               gridTemplateColumns: "1fr 320px",

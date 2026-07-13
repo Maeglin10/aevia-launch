@@ -113,6 +113,12 @@ export default function Impact83Page() {
 
   return (
     <div ref={containerRef}>
+      <style>{`
+        /* mobile: stack 2-col grids to single column (added by responsive fix) */
+        @media (max-width: 768px) {
+          .imx-mobstack { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
       {/* ── HERO ────────────────────────────────────────────────────────── */}
       <section
         ref={heroRef}
@@ -315,7 +321,7 @@ export default function Impact83Page() {
 
       {/* ── SAVOIR-FAIRE ────────────────────────────────────────────────── */}
       <section style={{ padding: "8rem 2rem", background: C.bg, borderTop: `1px solid ${C.border}` }}>
-        <div style={{ maxWidth: 1300, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "5rem", alignItems: "center" }}>
+        <div className="imx-mobstack" style={{ maxWidth: 1300, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "5rem", alignItems: "center" }}>
           <Reveal>
             <div>
               <p style={{ fontFamily: FONT_LABEL, fontSize: 10, letterSpacing: "0.35em", textTransform: "uppercase", color: C.accent, marginBottom: 16 }}>Savoir-faire</p>
@@ -328,7 +334,7 @@ export default function Impact83Page() {
               <p style={{ fontFamily: FONT_HEADING, fontSize: "1.1rem", color: C.textMuted, lineHeight: 1.8, marginBottom: "3rem", fontStyle: "italic" }}>
                 Notre maison collabore avec les plus grandes manufactures horlogères suisses (Patek Philippe, A. Lange & Söhne) pour les complications horlogères de nos montres de collection.
               </p>
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "2rem", borderTop: `1px solid ${C.border}`, paddingTop: "2rem" }}>
+              <div className="imx-mobstack" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "2rem", borderTop: `1px solid ${C.border}`, paddingTop: "2rem" }}>
                 {[{ v: "1887", l: "Année de fondation" }, { v: "14", l: "Maîtres artisans" }, { v: "3 200+", l: "Pièces créées" }, { v: "28", l: "Pays de collectionneurs" }].map((s) => (
                   <div key={s.l}>
                     <div style={{ fontFamily: FONT_HEADING, fontSize: "2rem", fontWeight: 300, color: C.accent }}>{s.v}</div>
@@ -339,7 +345,7 @@ export default function Impact83Page() {
             </div>
           </Reveal>
           <Reveal delay={0.15}>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.75rem" }}>
+            <div className="imx-mobstack" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.75rem" }}>
               {["https://images.unsplash.com/photo-1611652022419-a9419f74343d?w=600&q=85","https://images.unsplash.com/photo-1617038220319-276d3cfab638?w=600&q=85","https://images.unsplash.com/photo-1596944924616-7b38e7cfac36?w=600&q=85","https://images.unsplash.com/photo-1618085222099-6f52a1f3f4c9?w=600&q=85"].map((src, i) => (
                 <div key={i} style={{ aspectRatio: "1", overflow: "hidden", border: `1px solid ${C.border}` }}>
                   <img src={src} alt="Atelier" style={{ width: "100%", height: "100%", objectFit: "cover", filter: "sepia(0.3)" }} />

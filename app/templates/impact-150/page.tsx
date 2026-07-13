@@ -468,7 +468,12 @@ function Navigation() {
           ))}
         </div>
       )}
-      <style>{`@media (max-width: 900px) { #mb150-nav { display: none !important; } .mb150-burger { display: flex !important; } }`}</style>
+      <style>{`@media (max-width: 900px) { #mb150-nav { display: none !important; } .mb150-burger { display: flex !important; } }
+        /* mobile: stack 2-col grids to single column (added by responsive fix) */
+        @media (max-width: 768px) {
+          .imx-mobstack { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
     </motion.nav>
   )
 }
@@ -828,7 +833,7 @@ function PracticeAreasSection() {
     >
       <div style={{ maxWidth: 1200, margin: "0 auto" }}>
         {/* Section header */}
-        <div
+        <div className="imx-mobstack"
           style={{
             display: "grid",
             gridTemplateColumns: "1fr 1fr",
@@ -1298,7 +1303,7 @@ function CaseTimelineSection() {
       }}
     >
       <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-        <div
+        <div className="imx-mobstack"
           style={{
             display: "grid",
             gridTemplateColumns: "1fr 2fr",
@@ -1927,7 +1932,7 @@ function Footer() {
     >
       <div style={{ maxWidth: 1200, margin: "0 auto" }}>
         {/* Top row */}
-        <div
+        <div className="imx-mobstack"
           style={{
             display: "grid",
             gridTemplateColumns: "280px 1fr",

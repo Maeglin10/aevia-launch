@@ -291,7 +291,7 @@ export default function JardinsVivantsPage() {
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#2d5a27] mb-4">Portfolio</div>
             <h2 className="text-4xl font-bold text-[#1e2a1c]" style={{ fontFamily: "'Cardo', serif" }}>Nos <span className="text-[#2d5a27] italic">créations.</span></h2>
           </div></Reveal>
-          <div className="grid grid-cols-3 gap-3 h-[65vh] min-h-[420px]">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 h-[65vh] min-h-[420px]">
             <div className="col-span-2 relative overflow-hidden rounded-xl"><ParallaxImg src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&q=85&w=1200" alt="Jardin créé" /></div>
             <div className="flex flex-col gap-3">
               <div className="flex-1 relative overflow-hidden rounded-xl"><ParallaxImg src="https://images.unsplash.com/photo-1500993855538-c6a99f437aa7?auto=format&fit=crop&q=85&w=600" alt="Potager" /></div>

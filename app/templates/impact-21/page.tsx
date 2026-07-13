@@ -359,7 +359,7 @@ return (
                   </button>
                 </div>
               </Reveal>
-              <div className="grid grid-cols-3 gap-8 mt-16 max-w-sm">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 mt-16 max-w-sm">
                 {[["50+", "Produits lancés"], ["12 ans", "D'expérience"], ["18", "Récompenses design"]].map(([n, l]) => (
                   <Reveal key={l}>
                     <div>
@@ -871,7 +871,7 @@ return (
                 </p>
               </Reveal>
               <Reveal delay={0.2}>
-                <div className="grid grid-cols-3 gap-8 max-w-lg mx-auto">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 max-w-lg mx-auto">
                   {[["100%", "Matériaux tracés"], ["–40%", "Empreinte carbone"], ["0", "Matériaux vierges"]].map(([n, l]) => (
                     <div key={l}>
                       <p className="text-[#F97316] text-3xl font-bold">{n}</p>
@@ -914,7 +914,7 @@ return (
                   <Reveal>
                     <h2 className="text-gray-900 text-2xl font-bold mb-8">Décrivez votre projet</h2>
                     <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
-                      <div className="grid grid-cols-2 gap-4">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                           <label className="text-gray-600 text-sm font-medium mb-2 block">Nom complet</label>
                           <input type="text" placeholder="Jean Dupont" className="w-full px-4 py-3 rounded-xl border border-gray-200 text-gray-900 placeholder:text-gray-300 focus:outline-none focus:border-[#F97316] transition-colors" />

@@ -610,7 +610,7 @@ function BuildingSection() {
         position: 'relative',
       }}
     >
-      <div style={{
+      <div className="imx-mobstack" style={{
         maxWidth: 1200,
         margin: '0 auto',
         display: 'grid',
@@ -1228,7 +1228,7 @@ function ProjectTiltCard({
               maxHeight: 160,
             }}>
               {/* Floors grid */}
-              <div style={{
+              <div className="imx-mobstack" style={{
                 position: 'absolute',
                 inset: 0,
                 display: 'grid',
@@ -1568,7 +1568,7 @@ function ContactSection() {
       }}
     >
       <div style={{ maxWidth: 1100, margin: '0 auto' }}>
-        <div style={{
+        <div className="imx-mobstack" style={{
           display: 'grid',
           gridTemplateColumns: '1fr 1fr',
           gap: 80,
@@ -2112,6 +2112,12 @@ export default function Page() {
   }, [c]);
 return (
     <main style={{ background: C.bg, overflowX: 'hidden' }}>
+      <style>{`
+        /* mobile: stack 2-col grids to single column (added by responsive fix) */
+        @media (max-width: 768px) {
+          .imx-mobstack { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
       <Nav />
       <BlueprintHero />
       <ServicesSection />

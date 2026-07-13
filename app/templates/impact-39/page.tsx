@@ -110,6 +110,12 @@ export default function SwiftMovePage() {
   }, [c]);
 return (
     <div style={{ background: C.bg, color: C.text }}>
+      <style>{`
+        /* mobile: stack 2-col grids to single column (added by responsive fix) */
+        @media (max-width: 768px) {
+          .imx-mobstack { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
       {/* HERO */}
       <section ref={heroRef} style={{ position: "relative", minHeight: "100vh", display: "flex", alignItems: "center", background: C.navy, overflow: "hidden" }}>
         <motion.div style={{
@@ -129,7 +135,7 @@ return (
         <TruckSVG truckX={truckX} />
 
         <motion.div style={{ position: "relative", zIndex: 2, maxWidth: 1200, margin: "0 auto", padding: "60px 5% 140px", width: "100%", opacity: heroOpacity }}>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "center" }} className="grid md:grid-cols-1">
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "center" }} className="grid md:grid-cols-1 imx-mobstack">
             {/* Left copy */}
             <div>
               <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}

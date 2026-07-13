@@ -295,7 +295,7 @@ export default function OasisWellnessPage() {
                   </>}</p>
                 </Reveal>
                 <Reveal delay={0.3}>
-                  <div className="grid grid-cols-2 gap-12 pt-8 border-t border-[#2c3e2d]/5">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-12 pt-8 border-t border-[#2c3e2d]/5">
                     <div>
                       <div className="text-4xl font-bold text-[#2c3e2d] mb-1">12</div>
                       <div className="text-[10px] font-bold uppercase tracking-widest text-[#2c3e2d]/40">Private Suites</div>

@@ -480,7 +480,7 @@ export default function VelocityJetsPage() {
             <p className="text-white/30 text-sm leading-relaxed mb-12 font-light">{c?.aboutText ?? <>
               By combining machine-learning flight dispatch systems with an elite fleet of modern business jets, we bypass the bottlenecks of modern commercial terminals. We operate on your schedule, coordinating flight paths to 5,000+ global airstrips, ensuring you land closer to your destination, securely and ahead of time.
             </>}</p>
-            <div className="grid grid-cols-3 gap-6 pt-8 border-t border-white/10">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 pt-8 border-t border-white/10">
               <div>
                 <div className="text-2xl font-black text-[#00f2ff] font-mono italic">04 HRS</div>
                 <div className="text-[8px] font-bold uppercase tracking-widest text-white/30">DISPATCH READY</div>
@@ -569,7 +569,7 @@ export default function VelocityJetsPage() {
                           exit={{ opacity: 0, y: 20 }}
                           className="space-y-8 pt-8 border-t border-white/10"
                         >
-                          <div className="grid grid-cols-2 gap-6">
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
                               <div className="text-[8px] font-bold uppercase tracking-widest text-white/30 mb-1">
                                 Max_Speed
@@ -725,7 +725,7 @@ export default function VelocityJetsPage() {
                   <Gauge className="w-32 h-32 text-[#00f2ff] opacity-20 group-hover:opacity-100 group-hover:scale-110 transition-all duration-1000" />
                 </div>
 
-                <div className="grid grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                   {[...Array(3)].map((_, i) => (
                     <div key={i} className="h-1 bg-white/5 overflow-hidden">
                       <motion.div

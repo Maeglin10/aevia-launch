@@ -538,6 +538,11 @@ export default function ImpactFrequencePage() {
         * { box-sizing: border-box; margin: 0; padding: 0; }
         html { scroll-behavior: smooth; }
         input::placeholder { color: #A0A0A0; }
+      
+        /* mobile: stack 2-col grids to single column (added by responsive fix) */
+        @media (max-width: 768px) {
+          .imx-mobstack { grid-template-columns: 1fr !important; }
+        }
       `}</style>
 
       {/* TOP BAR — newspaper date line */}
@@ -725,7 +730,7 @@ export default function ImpactFrequencePage() {
       `}</style>
 
       {/* HERO — featured article newspaper layout */}
-      <section id="hero"
+      <section className="imx-mobstack" id="hero"
         ref={heroRef}
         style={{
           display: "grid",
@@ -799,7 +804,7 @@ export default function ImpactFrequencePage() {
               </>}</motion.h1>
 
               {/* Body columns */}
-              <div
+              <div className="imx-mobstack"
                 style={{
                   display: "grid",
                   gridTemplateColumns: "1fr 1fr",
@@ -1044,7 +1049,7 @@ export default function ImpactFrequencePage() {
       </section>
 
       {/* ARTICLES LIST */}
-      <section style={{ display: "grid", gridTemplateColumns: "1fr 320px", borderBottom: `2px solid ${C.text}` }}>
+      <section className="imx-mobstack" style={{ display: "grid", gridTemplateColumns: "1fr 320px", borderBottom: `2px solid ${C.text}` }}>
         {/* Main articles */}
         <div style={{ borderRight: `1px solid ${C.border}`, padding: "60px 64px" }}>
           <div
@@ -1729,7 +1734,7 @@ export default function ImpactFrequencePage() {
       </section>
 
       {/* BIG NEWSLETTER CTA */}
-      <section id="contact"
+      <section className="imx-mobstack" id="contact"
         style={{
           display: "grid",
           gridTemplateColumns: "1fr 1fr",

@@ -502,7 +502,7 @@ export default function EclatLuxuryPage() {
                     <div>
                       <h3 className="text-4xl text-white font-light uppercase tracking-widest mb-6" style={{ fontFamily: "Georgia, serif" }}>{ing.name}</h3>
                       <p className="text-lg text-zinc-400 font-light italic mb-10 leading-relaxed">"{ing.desc}"</p>
-                      <div className="grid grid-cols-2 gap-8">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div>
                           <div className="text-[10px] text-zinc-500 uppercase tracking-widest font-bold mb-2">Origin</div>
                           <div className="text-white text-sm tracking-wider uppercase">{ing.origin}</div>

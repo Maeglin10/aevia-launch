@@ -297,7 +297,7 @@ export default function KuroOmakasePage() {
                           Every element of the menu changes with the lunar calendar. What you taste tonight has never been served before, and will never be served again.
                        </p>
                     </div>
-                    <div className="mt-16 grid grid-cols-3 gap-px bg-white/5">
+                    <div className="mt-16 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-px bg-white/5">
                        {[{ v: "21yr", l: "Training" }, { v: "3★", l: "Michelin" }, { v: "12", l: "Seasons" }].map(s => (
                           <div key={s.l} className="bg-[#050505] p-8 text-center">
                              <div className="text-3xl font-black text-white italic">{s.v}</div>

@@ -564,7 +564,7 @@ export default function SkylineConciergePage() {
                             <span>{item.sqft} SQ.FT</span>
                             <span className="text-white">{item.price}</span>
                           </div>
-                          <ul className="grid grid-cols-2 gap-2">
+                          <ul className="grid grid-cols-1 md:grid-cols-2 gap-2">
                             {item.features.map((f, j) => (
                               <li
                                 key={j}
@@ -663,7 +663,7 @@ export default function SkylineConciergePage() {
               seamless lifestyle continuity and asset security for clients in
               transit.
             </p>
-            <div className="grid grid-cols-2 gap-12">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
               {[
                 { city: "New York", focus: "Fin_District" },
                 { city: "London", focus: "Mayfair" },

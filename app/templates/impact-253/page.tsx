@@ -465,6 +465,11 @@ function Nav() {
           .ks-burger { display: flex !important; flex-direction: column; }
           .ks-navcta{ display:none !important; }
         }
+      
+        /* mobile: stack 2-col grids to single column (added by responsive fix) */
+        @media (max-width: 768px) {
+          .imx-mobstack { grid-template-columns: 1fr !important; }
+        }
       `}</style>
     </nav>
       {mobileOpen && (
@@ -1385,7 +1390,7 @@ function MethodPanel() {
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             {METHOD_ITEMS.map((item, i) => (
               <Reveal key={item.number} delay={i * 0.06}>
-                <div
+                <div className="imx-mobstack"
                   style={{
                     padding: 'clamp(26px,3vw,40px) 0',
                     borderTop: `1px solid rgba(45,122,74,0.35)`,

@@ -105,6 +105,12 @@ export default function Impact54Page() {
   }, [c]);
 return (
     <div ref={pageRef} className="text-[#e8e8ff]">
+      <style>{`
+        /* mobile: stack 2-col grids to single column (added by responsive fix) */
+        @media (max-width: 768px) {
+          .imx-mobstack { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
       {/* ── 1. PARTICLE FIELD HERO ── */}
       <section
         style={{
@@ -119,7 +125,7 @@ return (
       >
         <ParticleField />
 
-        <div style={{ maxWidth: 1200, margin: "0 auto", width: "100%", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "center" }} className="grid grid-cols-1 lg:grid-cols-2">
+        <div style={{ maxWidth: 1200, margin: "0 auto", width: "100%", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "center" }} className="grid grid-cols-1 lg:grid-cols-2 imx-mobstack">
           <div>
             <Reveal>
               <div
@@ -330,7 +336,7 @@ return (
           borderTop: "1px solid rgba(124,58,237,0.12)",
         }}
       >
-        <div style={{ maxWidth: 1200, margin: "0 auto", display: "grid", gridTemplateColumns: "1.2fr 1fr", gap: 80, alignItems: "center" }} className="grid grid-cols-1 lg:grid-cols-2">
+        <div style={{ maxWidth: 1200, margin: "0 auto", display: "grid", gridTemplateColumns: "1.2fr 1fr", gap: 80, alignItems: "center" }} className="grid grid-cols-1 lg:grid-cols-2 imx-mobstack">
           <TypewriterCode />
           <div>
             <Reveal>

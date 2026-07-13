@@ -871,7 +871,7 @@ function Configurator() {
             <p style={{ color: C.textMuted, fontFamily: 'Inter, sans-serif', fontSize: '0.9rem', textAlign: 'center', marginBottom: '2rem' }}>
               Choisissez le type d'appareil qui correspond à votre projet.
             </p>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+            <div className="imx-mobstack" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
               {stoveTypes.map(t => (
                 <motion.button
                   key={t.id}
@@ -1795,6 +1795,11 @@ export default function FlammeEtCoPage() {
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: ${C.bg}; }
         ::-webkit-scrollbar-thumb { background: ${C.border}; border-radius: 3px; }
+      
+        /* mobile: stack 2-col grids to single column (added by responsive fix) */
+        @media (max-width: 768px) {
+          .imx-mobstack { grid-template-columns: 1fr !important; }
+        }
       `}</style>
 
       <div style={{ minHeight: '100vh', background: C.bg, fontFamily: 'Inter, sans-serif' }}>

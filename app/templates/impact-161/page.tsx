@@ -283,7 +283,7 @@ export default function EssentialSaaSPage() {
               </div>
               <div className="bg-[#F8F9FF] p-6">
                 {/* Mock dashboard */}
-                <div className="grid grid-cols-4 gap-4 mb-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
                   {[["€128k", "Revenus ce mois", "+14%"], ["2,847", "Utilisateurs actifs", "+8%"], ["98.7%", "Uptime", ""], ["4.2h", "Temps moyen session", "+12%"]].map(([val, label, change]) => (
                     <div key={label} className="bg-white rounded-xl p-4 shadow-sm">
                       <div className="text-2xl font-bold mb-1">{val}</div>
@@ -292,7 +292,7 @@ export default function EssentialSaaSPage() {
                     </div>
                   ))}
                 </div>
-                <div className="grid grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                   <div className="col-span-2 bg-white rounded-xl p-4 shadow-sm">
                     <div className="text-sm font-semibold mb-4">Croissance mensuelle</div>
                     <div className="flex items-end gap-2 h-24">

@@ -1093,6 +1093,12 @@ export default function Impact135Page() {
         minHeight: "100vh",
       }}
     >
+      <style>{`
+        /* mobile: stack 2-col grids to single column (added by responsive fix) */
+        @media (max-width: 768px) {
+          .imx-mobstack { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
       {/* Scroll progress bar */}
       <motion.div
         style={{
@@ -1626,7 +1632,7 @@ export default function Impact135Page() {
           padding: "100px 48px",
         }}
       >
-        <div
+        <div className="imx-mobstack"
           style={{
             maxWidth: 1200,
             margin: "0 auto",
@@ -1676,7 +1682,7 @@ export default function Impact135Page() {
             </>}</p>
 
             {/* Mini stats */}
-            <div
+            <div className="imx-mobstack"
               style={{
                 display: "grid",
                 gridTemplateColumns: "1fr 1fr",

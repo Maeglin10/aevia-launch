@@ -293,7 +293,7 @@ function HeroSection() {
           gap: 80,
           alignItems: 'center',
         }}
-        className="two-col"
+        className="two-col imx-mobstack"
       >
         {/* Left: copy */}
         <div>
@@ -557,7 +557,7 @@ function PhilosophySection() {
     >
       <div style={{ maxWidth: 1400, margin: '0 auto' }}>
         <div
-          className="two-col"
+          className="two-col imx-mobstack"
           style={{
             display: 'grid',
             gridTemplateColumns: '1fr 1fr',
@@ -1011,7 +1011,7 @@ function ProjectsSection() {
                 />
 
                 {/* Expanded card */}
-                <motion.div
+                <motion.div className="imx-mobstack"
                   key={`expanded-${selectedId}`}
                   layoutId={`project-card-${selectedId}`}
                   style={{
@@ -1260,7 +1260,7 @@ function FloorPlanSection() {
       <div style={{ maxWidth: 1400, margin: '0 auto' }}>
         {/* Heading */}
         <div
-          className="two-col"
+          className="two-col imx-mobstack"
           style={{
             display: 'grid',
             gridTemplateColumns: '1fr 1fr',
@@ -2187,7 +2187,7 @@ function TeamSection() {
                 {member.bio}
               </p>
 
-              <div
+              <div className="imx-mobstack"
                 style={{
                   display: 'grid',
                   gridTemplateColumns: '1fr 1fr',
@@ -2306,7 +2306,7 @@ function ContactSection() {
     >
       <div style={{ maxWidth: 1400, margin: '0 auto' }}>
         <div
-          className="two-col"
+          className="two-col imx-mobstack"
           style={{
             display: 'grid',
             gridTemplateColumns: '1fr 1fr',
@@ -2446,7 +2446,7 @@ function ContactSection() {
                     gap: 20,
                   }}
                 >
-                  <div
+                  <div className="imx-mobstack"
                     style={{
                       display: 'grid',
                       gridTemplateColumns: '1fr 1fr',
@@ -2657,6 +2657,12 @@ export default function ArchitectureTemplate() {
   }, [c]);
 return (
     <>
+      <style>{`
+        /* mobile: stack 2-col grids to single column (added by responsive fix) */
+        @media (max-width: 768px) {
+          .imx-mobstack { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
       <HeroSection />
       <PhilosophySection />
       <ProjectsSection />

@@ -246,7 +246,7 @@ return (
               </div>
             </Reveal>
           </div>
-          <div className="grid grid-cols-3 gap-6 mt-16 max-w-md">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mt-16 max-w-md">
             {[["250k+", "Apprenants actifs"], ["500+", "Cours disponibles"], ["92%", "Taux d'emploi"]].map(([n, l]) => (
               <Reveal key={l}>
                 <div className="text-center">

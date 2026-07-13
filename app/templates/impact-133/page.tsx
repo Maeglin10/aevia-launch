@@ -719,6 +719,11 @@ function Nav() {
           .forma-burger { display: flex !important; }
           .forma-mobile-menu { display: block !important; background: rgba(5,5,8,0.97); border-top: 1px solid rgba(255,255,255,0.08); }
         }
+      
+        /* mobile: stack 2-col grids to single column (added by responsive fix) */
+        @media (max-width: 768px) {
+          .imx-mobstack { grid-template-columns: 1fr !important; }
+        }
       `}</style>
     </nav>
   );
@@ -1007,7 +1012,7 @@ function ParametricSection() {
         overflow: "hidden",
       }}
     >
-      <div
+      <div className="imx-mobstack"
         style={{
           maxWidth: 1440,
           margin: "0 auto",
@@ -1234,7 +1239,7 @@ function ProjectsSection() {
         </div>
 
         {/* Project cards grid */}
-        <div
+        <div className="imx-mobstack"
           style={{
             display: "grid",
             gridTemplateColumns: "repeat(2, 1fr)",
@@ -1702,7 +1707,7 @@ function TechnologySection() {
       style={{ background: C.bgMid, padding: "120px 0", position: "relative" }}
     >
       <div style={{ maxWidth: 1440, margin: "0 auto", padding: "0 40px" }}>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 100, alignItems: "start" }}>
+        <div className="imx-mobstack" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 100, alignItems: "start" }}>
           {/* Left */}
           <div>
             <motion.span

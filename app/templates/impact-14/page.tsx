@@ -924,6 +924,12 @@ export default function HorizonMaritimePage() {
         overflowX: "clip",
       }}
     >
+      <style>{`
+        /* mobile: stack 2-col grids to single column (added by responsive fix) */
+        @media (max-width: 768px) {
+          .imx-mobstack { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
       {/* Global styles */}
       <style dangerouslySetInnerHTML={{ __html: globalStyles }} />
 
@@ -1620,7 +1626,7 @@ export default function HorizonMaritimePage() {
         </svg>
 
         <div style={{ maxWidth: 1280, margin: "0 auto", position: "relative", zIndex: 1 }}>
-          <div
+          <div className="imx-mobstack"
             style={{
               display: "grid",
               gridTemplateColumns: "1fr 1fr",
@@ -2068,7 +2074,7 @@ export default function HorizonMaritimePage() {
                 padding: "3.5rem",
               }}
             >
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1.5rem", marginBottom: "1.5rem" }}>
+              <div className="imx-mobstack" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1.5rem", marginBottom: "1.5rem" }}>
                 {[
                   { label: "Full Name", placeholder: "Your name", type: "text" },
                   { label: "Email Address", placeholder: "your@email.com", type: "email" },
@@ -2592,7 +2598,7 @@ function FleetPage({ goTo }: { goTo: (p: ActivePage) => void }) {
                 </p>
 
                 {/* Specs */}
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem", borderTop: "1px solid rgba(201,168,76,0.1)", paddingTop: "1.5rem", marginBottom: "1.5rem" }}>
+                <div className="imx-mobstack" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem", borderTop: "1px solid rgba(201,168,76,0.1)", paddingTop: "1.5rem", marginBottom: "1.5rem" }}>
                   <div>
                     <p style={{ fontFamily: "Montserrat, sans-serif", fontSize: 8, color: "rgba(240,236,224,0.4)", letterSpacing: 1, textTransform: "uppercase", marginBottom: 2 }}>Guests / Cabins</p>
                     <p style={{ fontFamily: "Montserrat, sans-serif", fontSize: 11, color: "#f0ece0", fontWeight: 500 }}>{yacht.guests} guests in {yacht.cabins} cabins</p>
@@ -2915,7 +2921,7 @@ function ContactPage() {
           </p>
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1.2fr", gap: "4rem", flexWrap: "wrap", alignItems: "flex-start" }}>
+        <div className="imx-mobstack" style={{ display: "grid", gridTemplateColumns: "1fr 1.2fr", gap: "4rem", flexWrap: "wrap", alignItems: "flex-start" }}>
           {/* Office coordinates */}
           <div style={{ display: "flex", flexDirection: "column", gap: "2rem" }}>
             <h3 style={{ fontFamily: "Cormorant Garamond, Georgia, serif", fontSize: "2rem", fontWeight: 300, color: "#f0ece0", borderBottom: "1px solid rgba(201,168,76,0.2)", paddingBottom: "1rem" }}>
@@ -2962,7 +2968,7 @@ function ContactPage() {
               Private Enquiry
             </h3>
             <form style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1.5rem" }}>
+              <div className="imx-mobstack" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1.5rem" }}>
                 <div>
                   <label style={{ display: "block", fontFamily: "Montserrat, sans-serif", fontSize: 9, color: "rgba(240,236,224,0.5)", textTransform: "uppercase", letterSpacing: 2, marginBottom: 6 }}>Full Name</label>
                   <input type="text" placeholder="Your name" style={{ width: "100%", background: "rgba(255,255,255,0.03)", border: "1px solid rgba(201,168,76,0.15)", padding: "0.75rem 1rem", fontFamily: "Montserrat, sans-serif", fontSize: 12, color: "#f0ece0", outline: "none" }} />
@@ -2972,7 +2978,7 @@ function ContactPage() {
                   <input type="email" placeholder="your@email.com" style={{ width: "100%", background: "rgba(255,255,255,0.03)", border: "1px solid rgba(201,168,76,0.15)", padding: "0.75rem 1rem", fontFamily: "Montserrat, sans-serif", fontSize: 12, color: "#f0ece0", outline: "none" }} />
                 </div>
               </div>
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1.5rem" }}>
+              <div className="imx-mobstack" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1.5rem" }}>
                 <div>
                   <label style={{ display: "block", fontFamily: "Montserrat, sans-serif", fontSize: 9, color: "rgba(240,236,224,0.5)", textTransform: "uppercase", letterSpacing: 2, marginBottom: 6 }}>Destination</label>
                   <input type="text" placeholder="e.g. Mediterranean" style={{ width: "100%", background: "rgba(255,255,255,0.03)", border: "1px solid rgba(201,168,76,0.15)", padding: "0.75rem 1rem", fontFamily: "Montserrat, sans-serif", fontSize: 12, color: "#f0ece0", outline: "none" }} />

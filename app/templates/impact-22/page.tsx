@@ -272,7 +272,7 @@ return (
                 </button>
               </Reveal>
               <Reveal delay={0.4} className="mt-16">
-                <div className="grid grid-cols-3 gap-6 max-w-lg mx-auto">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 max-w-lg mx-auto">
                   {[["< 100ms", "Latence P99"], ["99.99%", "SLA uptime"], ["80%", "vs AWS Bedrock"]].map(([n, l]) => (
                     <div key={l} className="text-center">
                       <p className="text-white font-bold text-2xl">{n}</p>

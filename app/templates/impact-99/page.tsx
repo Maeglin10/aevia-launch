@@ -1469,7 +1469,7 @@ export default function EmberGrillPage() {
                   primal intensity of wood-smoke with the delicate complexity of
                   world-class viticulture.
                 </>}</p>
-                <div className="grid grid-cols-2 gap-12">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
                   {[
                     { icon: Wine, label: "Cellar_Master", desc: "Rare vintages" },
                     {

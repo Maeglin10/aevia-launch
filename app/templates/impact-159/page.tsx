@@ -767,7 +767,12 @@ function Nav({ scrolled }: { scrolled: boolean }) {
         ))}
       </div>
     )}
-    <style>{`@media (max-width: 900px) { #mb159-nav { display: none !important; } .mb159-cta { display: none !important; } .mb159-burger { display: flex !important; } }`}</style>
+    <style>{`@media (max-width: 900px) { #mb159-nav { display: none !important; } .mb159-cta { display: none !important; } .mb159-burger { display: flex !important; } }
+        /* mobile: stack 2-col grids to single column (added by responsive fix) */
+        @media (max-width: 768px) {
+          .imx-mobstack { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
   </>
   )
 }
@@ -1493,7 +1498,7 @@ function SpecDeepDive() {
         </div>
 
         <AnimatePresence mode="wait">
-          <motion.div
+          <motion.div className="imx-mobstack"
             key={activeTab}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}

@@ -843,6 +843,11 @@ return (
           .i03-timeline { grid-template-columns: 1fr !important; }
           .i03-timeline-line { display: none !important; }
         }
+      
+        /* mobile: stack 2-col grids to single column (added by responsive fix) */
+        @media (max-width: 768px) {
+          .imx-mobstack { grid-template-columns: 1fr !important; }
+        }
       `}</style>
       {/* ─── NAVIGATION ─────────────────────────────────────────────────── */}
       <nav
@@ -986,7 +991,7 @@ return (
       {/* ─────────────────────────────────────────────────────────────────────
           SECTION 1: EDITORIAL HERO — scroll-spin product + line reveal
       ───────────────────────────────────────────────────────────────────── */}
-      <section
+      <section className="imx-mobstack"
         id="hero"
         ref={heroRef}
         style={{
@@ -2352,7 +2357,7 @@ function BoutiquePage({
           Back to boutique
         </button>
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: 64 }}>
+        <div className="imx-mobstack" style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: 64 }}>
           {/* Visual wrapper */}
           <div
             style={{

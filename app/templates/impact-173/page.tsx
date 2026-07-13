@@ -528,6 +528,11 @@ export default function Impact173Page() {
         html { scroll-behavior: smooth; }
         ::selection { background: ${C.orange}; color: #fff; }
         input, textarea, select { font-family: inherit; }
+      
+        /* mobile: stack 2-col grids to single column (added by responsive fix) */
+        @media (max-width: 768px) {
+          .imx-mobstack { grid-template-columns: 1fr !important; }
+        }
       `}</style>
 
       {/* ── NAV ─────────────────────────────────────────────────── */}
@@ -919,7 +924,7 @@ export default function Impact173Page() {
       {/* ── CORPS DE MÉTIERS ────────────────────────────────────── */}
       <section style={{ background: C.bgAlt, padding: "120px 60px", borderBottom: `1px solid ${C.border}` }}>
         <div style={{ maxWidth: 1400, margin: "0 auto" }}>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "start" }}>
+          <div className="imx-mobstack" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "start" }}>
             <div>
               <div style={{ fontSize: 11, letterSpacing: 4, color: C.orange, textTransform: "uppercase", marginBottom: 16 }}>Savoir-faire</div>
               <h2 style={{
@@ -946,7 +951,7 @@ export default function Impact173Page() {
                 </div>
               </div>
             </div>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 0 }}>
+            <div className="imx-mobstack" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 0 }}>
               {CORPS_METIERS.map((m, i) => (
                 <motion.div
                   key={i}
@@ -1280,7 +1285,7 @@ export default function Impact173Page() {
 
       {/* ── DEVIS FORM / CTA ────────────────────────────────────── */}
       <section id="contact" style={{ background: C.orange, padding: "120px 60px" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "start" }}>
+        <div className="imx-mobstack" style={{ maxWidth: 1200, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "start" }}>
           <div>
             <div style={{ fontSize: 11, letterSpacing: 4, color: "rgba(255,255,255,0.7)", textTransform: "uppercase", marginBottom: 20 }}>Devis gratuit · Réponse sous 48h</div>
             <h2 style={{

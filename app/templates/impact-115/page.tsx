@@ -654,6 +654,11 @@ export default function Impact115Page() {
           .i115-projects-grid { grid-template-columns: 1fr !important; }
           .i115-project-wide { grid-column: span 1 !important; }
         }
+      
+        /* mobile: stack 2-col grids to single column (added by responsive fix) */
+        @media (max-width: 768px) {
+          .imx-mobstack { grid-template-columns: 1fr !important; }
+        }
       `}</style>
       {/* Scroll progress bar — top */}
       <motion.div
@@ -1086,7 +1091,7 @@ export default function Impact115Page() {
           paddingRight: 60,
         }}
       >
-        <div
+        <div className="imx-mobstack"
           style={{
             maxWidth: 1280,
             margin: "0 auto",
@@ -1155,7 +1160,7 @@ export default function Impact115Page() {
             </>}</motion.p>
 
             {/* Stats grid */}
-            <div
+            <div className="imx-mobstack"
               style={{
                 display: "grid",
                 gridTemplateColumns: "1fr 1fr",
@@ -1556,7 +1561,7 @@ export default function Impact115Page() {
             </TextReveal>
           </div>
 
-          <div
+          <div className="imx-mobstack"
             style={{
               display: "grid",
               gridTemplateColumns: "1fr 1fr",
@@ -1665,7 +1670,7 @@ export default function Impact115Page() {
         }}
       >
         <div style={{ maxWidth: 1280, margin: "0 auto" }}>
-          <div
+          <div className="imx-mobstack"
             style={{
               display: "grid",
               gridTemplateColumns: "1fr 1fr",

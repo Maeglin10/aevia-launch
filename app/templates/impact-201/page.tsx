@@ -777,6 +777,12 @@ return (
         fontFamily: C.fontSans,
       }}
     >
+      <style>{`
+        /* mobile: stack 2-col grids to single column (added by responsive fix) */
+        @media (max-width: 768px) {
+          .imx-mobstack { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
       <ScrollProgressBar />
 
       {/* ─── NAV ─────────────────────────────────────────────────────────── */}
@@ -1279,7 +1285,7 @@ return (
       />
 
       {/* ─── CHEF / ABOUT ─────────────────────────────────────────────────── */}
-      <section
+      <section className="imx-mobstack"
         id="chef"
         style={{
           maxWidth: 1280,
@@ -1445,7 +1451,7 @@ return (
             </p>
           </TextReveal>
           <TextReveal delay={0.4}>
-            <div
+            <div className="imx-mobstack"
               style={{
                 display: "grid",
                 gridTemplateColumns: "1fr 1fr",
@@ -1643,7 +1649,7 @@ return (
               </div>
 
               {currentMenus[activeMenuIdx] && (
-                <div
+                <div className="imx-mobstack"
                   style={{
                     display: "grid",
                     gridTemplateColumns: "1fr 1fr",
@@ -1926,7 +1932,7 @@ return (
         }}
       >
         <div style={{ maxWidth: 1280, margin: "0 auto" }}>
-          <div
+          <div className="imx-mobstack"
             style={{
               display: "grid",
               gridTemplateColumns: "1fr 1fr",
@@ -2166,7 +2172,7 @@ return (
             />
           ))}
         </div>
-        <div
+        <div className="imx-mobstack"
           style={{
             display: "grid",
             gridTemplateColumns: "repeat(2, 1fr)",
@@ -2195,7 +2201,7 @@ return (
           padding: "120px 60px",
         }}
       >
-        <div
+        <div className="imx-mobstack"
           style={{
             maxWidth: 1280,
             margin: "0 auto",

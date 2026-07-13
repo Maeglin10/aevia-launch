@@ -341,7 +341,7 @@ export default function PulseAppPage() {
                       </div>
                     </div>
                     {/* Metric cards */}
-                    <div className="grid grid-cols-2 gap-3 mb-5">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-5">
                       {[["Revenus", "€48.2k", "+12.4%", true], ["Utilisateurs", "2,847", "+8.1%", false]].map(([label, val, change, green]) => (
                         <div key={label as string} className="bg-[#252150] rounded-2xl p-3">
                           <p className="text-[10px] text-[#8B87B0] mb-1">{label as string}</p>

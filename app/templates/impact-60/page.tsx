@@ -325,7 +325,7 @@ return (
                     </div>
                   ))}
                 </div>
-                <div className="mt-14 grid grid-cols-3 gap-px bg-white/5">
+                <div className="mt-14 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-px bg-white/5">
                   {[{ v: "1/24", l: "Units" }, { v: "2,400h", l: "Assembly" }, { v: "47yr", l: "Crafting" }].map(s => (
                     <div key={s.l} className="bg-black p-8 text-center">
                       <div className="text-2xl font-black italic text-[#c9a96e]">{s.v}</div>

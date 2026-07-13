@@ -360,7 +360,7 @@ return (
                        <p className="text-2xl font-light text-white/20 leading-relaxed mb-24 italic uppercase tracking-[0.2em] max-w-xl">{c?.aboutText ?? <>
                           Surveillance du flux de données en temps réel. Nos architectures de routage optimisent chaque paquet pour garantir une intégrité absolue, même sous charge extrême.
                        </>}</p>
-                       <div className="grid grid-cols-2 gap-px bg-white/5 border border-white/5 mb-24 shadow-2xl">
+                       <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-white/5 border border-white/5 mb-24 shadow-2xl">
                           {SYSTEM_METRICS.map((metric, i) => (
                             <div key={i} className="p-16 bg-[#0a0a0c] group hover:bg-white/[0.02] transition-all border-r border-b last:border-r-0 border-white/5">
                                <div className="text-[10px] font-black uppercase text-white/20 mb-6 tracking-[0.4em]">{metric.label}</div>

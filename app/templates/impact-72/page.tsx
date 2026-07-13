@@ -135,6 +135,12 @@ export default function StackUnitHome() {
   }, [c]);
 return (
     <div ref={containerRef} style={{ background: C.bg, color: C.text, minHeight: "100vh" }}>
+      <style>{`
+        /* mobile: stack 2-col grids to single column (added by responsive fix) */
+        @media (max-width: 768px) {
+          .imx-mobstack { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
       {/* ── Hero ───────────────────────────────────────────────────────── */}
       <section style={{ minHeight: "calc(100vh - 60px)", display: "flex", flexDirection: "column", justifyContent: "center", padding: "3rem", position: "relative", overflow: "hidden" }}>
         {/* Glow effect */}
@@ -164,7 +170,7 @@ return (
             MAISON DE PRODUCTION INDÉPENDANTE · PARIS · EST. 2001
           </motion.div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "4rem", alignItems: "center" }}>
+          <div className="imx-mobstack" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "4rem", alignItems: "center" }}>
             <div>
               <div style={{ fontFamily: "'Archivo', sans-serif", fontSize: "clamp(3.5rem, 9vw, 8rem)", fontWeight: 900, lineHeight: 1.15, letterSpacing: "-0.04em", color: C.text, paddingBottom: "0.15em" }}>
                 <TextReveal delay={0.3} style={{ paddingBottom: "0.15em" }}>L'ART</TextReveal>
@@ -226,7 +232,7 @@ return (
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, delay: 0.8 }}
             >
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1px", background: C.border }}>
+              <div className="imx-mobstack" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1px", background: C.border }}>
                 {[
                   { n: "62", label: "films produits" },
                   { n: "23", label: "ans d'existence" },
@@ -279,7 +285,7 @@ return (
       {/* ── Section 1 : Filmographie / StackedCards ────────────────────── */}
       <section ref={filmographieRef} style={{ padding: "8rem 3rem", background: C.bgCard }}>
         <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "6rem", alignItems: "center" }}>
+          <div className="imx-mobstack" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "6rem", alignItems: "center" }}>
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               animate={filmographieInView ? { opacity: 1, x: 0 } : {}}

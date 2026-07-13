@@ -173,7 +173,12 @@ export default function ConservatoireAccordPage() {
     }
   }, [c]);return (
     <div style={{ background: C.bg, fontFamily: FONT_BODY, overflowX: "hidden" }}>
-      <style jsx global>{`@import url('https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Poppins:wght@300;400;500;600;700&display=swap');`}</style>
+      <style jsx global>{`@import url('https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Poppins:wght@300;400;500;600;700&display=swap');
+        /* mobile: stack 2-col grids to single column (added by responsive fix) */
+        @media (max-width: 768px) {
+          .imx-mobstack { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
 
       {/* Navbar */}
       <motion.nav style={{
@@ -308,7 +313,7 @@ export default function ConservatoireAccordPage() {
 
       {/* Points forts */}
       <section style={{ padding: "100px 80px", background: C.bgSection }}>
-        <div style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "center" }}>
+        <div className="imx-mobstack" style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "center" }}>
           <Reveal delay={0.1}>
             <span style={{ fontSize: 12, fontWeight: 600, letterSpacing: 4, textTransform: "uppercase", color: C.amber }}>Notre pédagogie</span>
             <h2 style={{ fontFamily: FONT, fontSize: "clamp(26px, 3vw, 44px)", fontWeight: 300, color: C.text, margin: "12px 0 28px", lineHeight: 1.2 }}>

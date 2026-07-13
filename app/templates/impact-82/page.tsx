@@ -225,7 +225,7 @@ return (
                   <div>
                     <p className="text-xs text-[#C9A86C] uppercase tracking-widest mb-2">{p.loc} · {p.type}</p>
                     <h3 className="text-xl font-normal mb-3 group-hover:text-[#C9A86C] transition-colors" style={{ fontFamily: "'Libre Baskerville', serif" }}>{p.name}</h3>
-                    <div className="grid grid-cols-2 gap-2 text-xs text-[#8A7860] mb-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs text-[#8A7860] mb-4">
                       <span>{p.units}</span>
                       <span>Livraison {p.delivery}</span>
                     </div>

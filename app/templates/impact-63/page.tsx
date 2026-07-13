@@ -110,8 +110,14 @@ return (
         minHeight: "100vh",
       }}
     >
+      <style>{`
+        /* mobile: stack 2-col grids to single column (added by responsive fix) */
+        @media (max-width: 768px) {
+          .imx-mobstack { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
       {/* Hero */}
-      <section
+      <section className="imx-mobstack"
         ref={heroRef}
         style={{
           minHeight: "90vh",

@@ -548,6 +548,11 @@ function NavBar({ scrolled, page, goTo }: { scrolled: boolean; page: HotelPage; 
           .gp-nav-desktop { display: none !important; }
           .gp-nav-burger { display: inline-flex !important; }
         }
+      
+        /* mobile: stack 2-col grids to single column (added by responsive fix) */
+        @media (max-width: 768px) {
+          .imx-mobstack { grid-template-columns: 1fr !important; }
+        }
       `}</style>
     </>
   );
@@ -1034,7 +1039,7 @@ function ExperienceRow({ exp, index }: { exp: typeof EXPERIENCES[0]; index: numb
   const isEven = index % 2 === 0;
 
   return (
-    <motion.div
+    <motion.div className="imx-mobstack"
       ref={rowRef}
       style={{
         display: 'grid',
@@ -1186,7 +1191,7 @@ function DiningSection() {
       />
 
       <div style={{ maxWidth: '75rem', margin: '0 auto', padding: '0 3rem', position: 'relative', zIndex: 2 }}>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '6rem', alignItems: 'center' }}>
+        <div className="imx-mobstack" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '6rem', alignItems: 'center' }}>
           <BlurReveal>
             <div>
               <p style={{ fontFamily: SANS, fontSize: '0.62rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: GOLD, marginBottom: '1rem' }}>
@@ -1273,7 +1278,7 @@ function LocationSection() {
   return (
     <section style={{ background: MID, padding: '9rem 0' }}>
       <div style={{ maxWidth: '75rem', margin: '0 auto', padding: '0 3rem' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '6rem', alignItems: 'start' }}>
+        <div className="imx-mobstack" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '6rem', alignItems: 'start' }}>
           <BlurReveal>
             <div>
               <p style={{ fontFamily: SANS, fontSize: '0.62rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: GOLD, marginBottom: '1rem' }}>
@@ -1339,7 +1344,7 @@ function LocationSection() {
               >
                 <div style={{ position: 'absolute', inset: 0, background: 'rgba(26,18,8,0.2)' }} />
               </div>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
+              <div className="imx-mobstack" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
                 {[
                   { label: 'Opéra Garnier', dist: '5 min' },
                   { label: 'Louvre', dist: '15 min' },
@@ -1883,7 +1888,7 @@ function RoomDetail({ room, setRoomSlug, goTo }: { room: RoomFull; setRoomSlug: 
                   <p style={{ fontFamily: SANS, fontSize: '0.6rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: `${DARK}60`, marginBottom: '1rem' }}>
                     Amenities
                   </p>
-                  <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 2.5rem', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.7rem' }}>
+                  <ul className="imx-mobstack" style={{ listStyle: 'none', padding: 0, margin: '0 0 2.5rem', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.7rem' }}>
                     {room.amenities.map((a) => (
                       <li key={a} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.6rem', fontFamily: SERIF, fontSize: '0.95rem', color: `${DARK}80` }}>
                         <span style={{ color: GOLD, flexShrink: 0 }}>✦</span>
@@ -2222,7 +2227,7 @@ function ContactPage() {
                 <input style={inputStyle} type="text" placeholder="Your name" required />
                 <label style={labelStyle}>Email</label>
                 <input style={inputStyle} type="email" placeholder="you@email.com" required />
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                <div className="imx-mobstack" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
                   <div>
                     <label style={labelStyle}>Arrival</label>
                     <input style={inputStyle} type="text" placeholder="DD / MM / YYYY" />

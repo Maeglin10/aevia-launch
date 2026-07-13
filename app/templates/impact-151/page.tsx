@@ -286,7 +286,7 @@ return (
               <SectionTitle subtitle="Chapitre I // La Terre" title="The Terroir Analysis." alignment="left" />
               
               <div className="grid lg:grid-cols-2 gap-32 items-center">
-                 <div className="grid grid-cols-2 gap-px bg-white/5 border border-white/5">
+                 <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-white/5 border border-white/5">
                     {TERROIR_DATA.map((data, i) => (
                       <Reveal key={i} delay={i * 0.1}>
                          <div className="bg-black/20 backdrop-blur-3xl p-12 hover:bg-[#c4a661] hover:text-black transition-all group">
@@ -383,7 +383,7 @@ return (
                        <p className="text-xl font-light text-white/40 leading-relaxed italic mb-16 uppercase tracking-widest">
                           Le temps n'est pas un ennemi, c'est notre principal allié. Nos spiritueux sont élevés en fûts de chêne séculaires, capturant l'essence même de la patience.
                        </p>
-                       <div className="grid grid-cols-2 gap-8">
+                       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                           {[
                             { label: "Distillation", value: "Triple Copper Pot" },
                             { label: "Aging", value: "Minimum 12 Years" },

@@ -688,7 +688,7 @@ function ManifestPage({ goTo }: { goTo: (p: ActivePage) => void }) {
                 <h3 className="text-4xl md:text-5xl font-black uppercase italic tracking-tighter mb-6 text-white">{mission.name}</h3>
                 <p className="text-sm text-white/40 leading-relaxed font-light uppercase italic mb-8 font-sans">{mission.desc}</p>
                 
-                <div className="grid grid-cols-2 gap-6 border-y border-white/10 py-6 mb-8 text-xs">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 border-y border-white/10 py-6 mb-8 text-xs">
                   <div className="flex justify-between border-r border-white/10 pr-6"><span className="text-white/20">TARGET</span><span className="font-bold text-white">{mission.target.split(" // ")[0]}</span></div>
                   <div className="flex justify-between pl-6"><span className="text-white/20">PAYLOAD</span><span className="font-bold text-white">{mission.payload}</span></div>
                   <div className="flex justify-between border-r border-white/10 pr-6"><span className="text-white/20">DURATION</span><span className="font-bold text-white">{mission.duration}</span></div>
@@ -752,7 +752,7 @@ function EngineeringPage() {
             <p className="text-sm text-white/40 leading-relaxed uppercase italic font-sans mb-8">
               En superposant des matrices de nanotubes de carbone et des polymères auto-cicatrisants, la coque externe d'Astrum résiste aux impacts de micrométéorites de taille inférieure à 5mm à des vitesses relatives de 28 km/s.
             </p>
-            <div className="grid grid-cols-3 gap-4 text-xs">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 text-xs">
               <div><span className="text-white/20 block">SHIELD_STATUS</span><span className="text-[#00ff88] font-bold">100% OK</span></div>
               <div><span className="text-white/20 block">AIR_REST</span><span className="text-white font-bold">1.2G NOM</span></div>
               <div><span className="text-white/20 block">TEMP_SHIELD</span><span className="text-white font-bold">STABLE</span></div>

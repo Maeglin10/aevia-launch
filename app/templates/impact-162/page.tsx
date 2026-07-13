@@ -512,7 +512,7 @@ export default function EssentialCafePage() {
               <div className="bg-white p-8 border border-[#E8DED0]">
                 <p className="text-xs tracking-widest uppercase text-[#8A7560] mb-6">Réserver une table</p>
                 <form className="space-y-4" onSubmit={e => e.preventDefault()}>
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {["Prénom", "Nom"].map(f => (
                       <div key={f}>
                         <label className="block text-xs text-[#8A7560] mb-2">{f}</label>
@@ -524,7 +524,7 @@ export default function EssentialCafePage() {
                     <label className="block text-xs text-[#8A7560] mb-2">Email</label>
                     <input type="email" className="w-full bg-transparent border border-[#D4C9B0] px-4 py-3 text-sm focus:outline-none focus:border-[#8B5E3C] transition-colors" placeholder="votre@email.fr" />
                   </div>
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                       <label className="block text-xs text-[#8A7560] mb-2">Date</label>
                       <input type="date" className="w-full bg-transparent border border-[#D4C9B0] px-4 py-3 text-sm focus:outline-none focus:border-[#8B5E3C] transition-colors" />

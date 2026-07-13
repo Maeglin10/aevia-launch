@@ -486,7 +486,7 @@ export default function Impact26() {
                   <p>{c?.aboutText ?? <>Éther est née d'une conviction : que le parfum est le dernier art intime. Fondée en 1987 par la nez Hélène Varenne, notre maison n'a jamais renoncé à l'exigence absolue.</>}</p>
                   <p>Chaque fragrance est composée dans notre atelier du Marais, avec des matières premières sourcing directement auprès des producteurs — fleurs de Grasse, oud du Camboge, résines d'Éthiopie.</p>
                 </div>
-                <div className="grid grid-cols-3 gap-6 mt-10">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mt-10">
                   {[
                     { icon: <Leaf className="w-5 h-5" />, label: "Ingrédients naturels", val: "93%" },
                     { icon: <Droplets className="w-5 h-5" />, label: "Concentrés parfum", val: "25–30%" },

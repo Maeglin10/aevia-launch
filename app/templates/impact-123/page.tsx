@@ -279,7 +279,7 @@ export default function VulcanMotorsPage() {
                     <div className="absolute inset-0 p-10 flex flex-col justify-end">
                       <div className="text-[10px] font-bold uppercase tracking-widest text-red-600 mb-2">{m.year} Production</div>
                       <h3 className="text-4xl font-black italic uppercase mb-8">{m.name}</h3>
-                      <div className="grid grid-cols-2 gap-8 border-t border-white/20 pt-8 opacity-0 group-hover:opacity-100 transition-all duration-700 translate-y-4 group-hover:translate-y-0">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 border-t border-white/20 pt-8 opacity-0 group-hover:opacity-100 transition-all duration-700 translate-y-4 group-hover:translate-y-0">
                          <div>
                             <div className="text-[8px] font-bold uppercase text-white/40 mb-1">Top Speed</div>
                             <div className="text-xl font-bold italic uppercase">{m.topSpeed}</div>

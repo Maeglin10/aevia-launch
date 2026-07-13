@@ -512,6 +512,11 @@ function Nav() {
           .ep-burger { display: flex !important; flex-direction: column; }
           .ep-navcta { display: none !important; }
         }
+      
+        /* mobile: stack 2-col grids to single column (added by responsive fix) */
+        @media (max-width: 768px) {
+          .imx-mobstack { grid-template-columns: 1fr !important; }
+        }
       `}</style>
     </nav>
       {mobileOpen && (
@@ -1416,7 +1421,7 @@ function TechPanel() {
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             {SPECS.map((spec, i) => (
               <Reveal key={spec.key} delay={0.06 * i}>
-                <div
+                <div className="imx-mobstack"
                   style={{
                     padding: 'clamp(28px,3.5vw,40px) 0',
                     borderTop: `1px solid ${C.border}`,
