@@ -459,6 +459,11 @@ function Nav() {
           .ja-burger { display: flex !important; flex-direction: column; }
           .ja-navcta{ display:none !important; }
         }
+      
+        /* mobile: stack 2-col grids to single column (added by responsive fix) */
+        @media (max-width: 768px) {
+          .imx-mobstack { grid-template-columns: 1fr !important; }
+        }
       `}</style>
     </nav>
       {mobileOpen && (
@@ -1197,7 +1202,7 @@ function EditRowBlock({ row, num }: { row: EditRow; num: number }) {
   return (
     <div style={{ position: 'relative' }} className="ja-editrow">
       <div style={ghost}>{num}</div>
-      <div style={wrap}>
+      <div className="imx-mobstack" style={wrap}>
         <Reveal y={50} style={imgWrap}>
           <ParallaxImg
             src={row.img}
