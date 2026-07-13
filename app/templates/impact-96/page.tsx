@@ -635,6 +635,7 @@ return (
             <a
               key={l}
               href="#n"
+              className="sky-desktop-nav"
               style={{
                 color: C.muted,
                 textDecoration: "none",
@@ -651,6 +652,7 @@ return (
             </a>
           ))}
           <motion.button onClick={() => document.getElementById("contact")?.scrollIntoView({behavior:"smooth"})}
+            className="sky-desktop-nav"
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
             style={{
@@ -676,6 +678,7 @@ return (
           </motion.button>
           {/* Burger mobile */}
           <button
+            className="sky-mobile-burger"
             onClick={() => setMenuOpen(true)}
             style={{
               background: "none",
@@ -695,6 +698,7 @@ return (
             </svg>
           </button>
         </div>
+        <style>{`@media (max-width: 900px){.sky-desktop-nav{display:none !important}.sky-mobile-burger{display:flex !important}}`}</style>
       </motion.nav>
 
       {/* Mobile menu overlay */}

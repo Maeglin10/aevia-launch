@@ -398,6 +398,7 @@ export default function QBitLabsPage() {
             </button>
           </div>
         </div>
+        <style>{`@media (max-width: 900px){.hidden-mobile{display:none !important}.show-mobile{display:flex !important}}`}</style>
 
         {/* Mobile menu */}
         {menuOpen && (

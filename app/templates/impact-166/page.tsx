@@ -998,6 +998,7 @@ return (
 
         {/* Hamburger */}
         <button
+          className="sky-mobile-burger"
           onClick={() => setMenuOpen(!menuOpen)}
           style={{
             background: "none",
@@ -1039,6 +1040,7 @@ return (
             }}
           />
         </button>
+        <style>{`@media (max-width: 900px){.desktop-nav{display:none !important}.sky-mobile-burger{display:flex !important}}`}</style>
       </motion.nav>
 
       {/* Mobile menu */}
