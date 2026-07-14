@@ -848,6 +848,16 @@ return (
         @media (max-width: 768px) {
           .imx-mobstack { grid-template-columns: 1fr !important; }
         }
+
+        /* mobile: the scroll-driven horizontal gallery becomes a native
+           touch-swipe strip — no 300vh dead scroll, drag works with a finger.
+           Desktop keeps the sticky scrolly-telling untouched. */
+        @media (max-width: 768px) {
+          .an-scrolly-section { height: auto !important; }
+          .an-scrolly-sticky { position: static !important; height: auto !important; overflow: visible !important; padding: 48px 0; }
+          .an-scrolly-track-wrap { overflow-x: auto !important; -webkit-overflow-scrolling: touch; padding-left: 24px !important; padding-right: 24px; }
+          .an-scrolly-track { transform: none !important; }
+        }
       `}</style>
       {/* ─── NAVIGATION ─────────────────────────────────────────────────── */}
       <nav
@@ -1272,12 +1282,14 @@ return (
       <section
         id="gallery"
         ref={galleryRef}
+        className="an-scrolly-section"
         style={{
           height: '300vh',
           position: 'relative',
         }}
       >
         <div
+          className="an-scrolly-sticky"
           style={{
             position: 'sticky',
             top: 0,
@@ -1345,12 +1357,14 @@ return (
 
           {/* Horizontal track — REQUIREMENT 3 */}
           <div
+            className="an-scrolly-track-wrap"
             style={{
               paddingLeft: 64,
               overflow: 'visible',
             }}
           >
             <motion.div
+              className="an-scrolly-track"
               style={{
                 display: 'flex',
                 gap: 24,
