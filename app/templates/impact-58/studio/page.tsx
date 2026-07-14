@@ -186,7 +186,7 @@ export default function StudioPage() {
   return (
     <>
       <StyleInjector />
-      <div style={{ background: C.bg, minHeight: '100vh', color: C.text }}>
+      <div style={{ background: C.bg, minHeight: '100dvh', color: C.text }}>
 
         {/* Back link */}
         <div style={{ padding: '2rem 3rem 0' }}>

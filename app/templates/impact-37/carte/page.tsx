@@ -11,7 +11,7 @@ import {
 
 export default function CartePage() {
   return (
-    <section style={{ padding: "140px 5% 100px", background: C.bg, minHeight: "100vh" }}>
+    <section style={{ padding: "140px 5% 100px", background: C.bg, minHeight: "100dvh" }}>
       <div style={{ maxWidth: 1100, margin: "0 auto" }}>
         <PageHeader
           kicker="La Carte des Vins"

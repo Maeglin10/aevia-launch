@@ -436,7 +436,7 @@ export default function IvoryArchivePremium() {
     }
   }, [c]);
 return (
-    <div ref={containerRef} className="bg-[#0c0c0e] text-[#fdfcfb] font-sans selection:bg-[#b4925e] selection:text-black min-h-screen overflow-x-hidden">
+    <div ref={containerRef} className="bg-[#0c0c0e] text-[#fdfcfb] font-sans selection:bg-[#b4925e] selection:text-black min-h-dvh overflow-x-hidden">
 
       {/* GLOBAL HUD & NAVIGATION */}
       <nav className="fixed top-0 left-0 w-full z-[100] px-8 md:px-20 flex items-center justify-between border-b border-white/5 bg-[#0c0c0e]/80 backdrop-blur-xl py-5">
@@ -519,7 +519,7 @@ return (
         {/* ==========================================
             1. THE PROLOGUE (HERO)
             ========================================== */}
-        <section className="relative h-screen flex items-center justify-center overflow-hidden">
+        <section className="relative h-dvh flex items-center justify-center overflow-hidden">
           <motion.div style={{ opacity: heroOpacity, scale: heroScale }} className="absolute inset-0 z-0">
              <Image
                 src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=1600&q=80"

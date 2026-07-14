@@ -285,7 +285,7 @@ export default function TextRevealPage() {
   }, [c]);
 
   return (
-    <div className="premium-theme min-h-screen bg-[#0a0a0a] text-zinc-100 font-sans selection:bg-white selection:text-black">
+    <div className="premium-theme min-h-dvh bg-[#0a0a0a] text-zinc-100 font-sans selection:bg-white selection:text-black">
       {/* ==========================================
           NAVIGATION
           ========================================== */}
@@ -351,7 +351,7 @@ export default function TextRevealPage() {
           1. TEXT MASK SCROLL HERO
           ========================================== */}
       <section id="hero" ref={containerRef} className="relative w-full h-[200vh]">
-        <div className="sticky top-0 w-full h-screen overflow-hidden bg-[#0a0a0a] flex items-center justify-center">
+        <div className="sticky top-0 w-full h-dvh overflow-hidden bg-[#0a0a0a] flex items-center justify-center">
           {/* Background Image that reveals */}
           <motion.div
             style={{ scale: bgScale }}

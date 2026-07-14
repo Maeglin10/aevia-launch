@@ -1090,7 +1090,7 @@ export default function Impact135Page() {
         color: C.text,
         fontFamily: C.font,
         overflowX: "hidden",
-        minHeight: "100vh",
+        minHeight: "100dvh",
       }}
     >
       <style>{`
@@ -1311,7 +1311,7 @@ export default function Impact135Page() {
       <section
         id="hero"
         style={{
-          minHeight: "100vh",
+          minHeight: "100dvh",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",

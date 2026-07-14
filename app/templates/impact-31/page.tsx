@@ -316,7 +316,7 @@ function Hero() {
     <section
       ref={ref}
       style={{
-        minHeight: "100vh",
+        minHeight: "100dvh",
         background: `linear-gradient(160deg, ${C.bg} 0%, ${C.bgLight} 60%, ${C.sageLight} 100%)`,
         display: "flex",
         alignItems: "center",

@@ -14,7 +14,7 @@ function HeroSection() {
   const opacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
 
   return (
-    <section ref={ref} id="hero" style={{ position: "relative", minHeight: "100vh", background: C.bg, display: "flex", alignItems: "center", overflow: "hidden" }}>
+    <section ref={ref} id="hero" style={{ position: "relative", minHeight: "100dvh", background: C.bg, display: "flex", alignItems: "center", overflow: "hidden" }}>
       <NeedleAnimation />
 
       <div style={{ position: "absolute", left: 0, top: 0, width: 3, height: "100%", background: `linear-gradient(to bottom, transparent, ${C.accent}, transparent)` }} />
@@ -214,7 +214,7 @@ export default function TattooStudioHome() {
     }
   }, [c]);
 return (
-    <main style={{ background: C.bg, minHeight: "100vh" }}>
+    <main style={{ background: C.bg, minHeight: "100dvh" }}>
       <style>{`
         /* mobile: stack 2-col grids to single column (added by responsive fix) */
         @media (max-width: 768px) {

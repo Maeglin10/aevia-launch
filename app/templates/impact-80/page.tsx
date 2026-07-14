@@ -221,7 +221,7 @@ export default function SymmetryStudioPage() {
 return (
     <main>
       {/* ── HERO ──────────────────── */}
-      <section className="relative min-h-screen flex items-center pt-32 pb-20 overflow-hidden">
+      <section className="relative min-h-dvh flex items-center pt-32 pb-20 overflow-hidden">
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 w-full grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
           <div className="relative z-10">
             <Reveal>

@@ -1524,7 +1524,7 @@ export default function AquaPrestigePage() {
       <section id="hero"
         ref={heroRef}
         style={{
-          minHeight: '100vh',
+          minHeight: '100dvh',
           position: 'relative',
           display: 'flex',
           alignItems: 'center',

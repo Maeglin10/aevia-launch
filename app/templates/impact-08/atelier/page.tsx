@@ -118,7 +118,7 @@ export default function AtelierPage() {
   ];
 
   return (
-    <div ref={containerRef} className="bg-[#050505] text-[#f0f0f0] font-sans selection:bg-blue-500/40 selection:text-white min-h-screen overflow-x-clip">
+    <div ref={containerRef} className="bg-[#050505] text-[#f0f0f0] font-sans selection:bg-blue-500/40 selection:text-white min-h-dvh overflow-x-clip">
       <HUD_Telemetry />
       
       <nav className="fixed top-0 left-0 right-0 z-50 flex justify-between items-center px-8 py-6 border-b border-white/5 bg-black/80 backdrop-blur-md">

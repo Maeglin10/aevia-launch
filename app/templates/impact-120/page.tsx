@@ -261,7 +261,7 @@ export default function EclatLuxuryPage() {
   }, [c]);
 
   return (
-    <div className="bg-[#050308] text-zinc-300 font-sans min-h-screen selection:bg-fuchsia-900 selection:text-white" style={{ overflowX: "hidden" }}>
+    <div className="bg-[#050308] text-zinc-300 font-sans min-h-dvh selection:bg-fuchsia-900 selection:text-white" style={{ overflowX: "hidden" }}>
       {/* ─── BACKGROUND MESH & PARTICLES ───────────────────────────────── */}
       <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
         <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] rounded-full bg-fuchsia-900/10 blur-[150px] mix-blend-screen" />

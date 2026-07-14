@@ -7,7 +7,7 @@ import { ArrowRight } from "lucide-react"
 
 export default function StudioPage() {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-dvh">
 
     {/* ─── STUDIO HERO ──────────────────────────────────────────────────────── */}
     <div className="pt-[72px] relative overflow-hidden min-h-[55vh] flex items-end bg-black">

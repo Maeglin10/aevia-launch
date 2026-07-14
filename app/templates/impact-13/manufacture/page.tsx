@@ -123,9 +123,9 @@ export default function ManufacturePage() {
   useFonts();
 
   return (
-    <div className="min-h-screen bg-[#0C0B09]" style={{ fontFamily: "'Jost', sans-serif", overflowX: "clip" }}>
+    <div className="min-h-dvh bg-[#0C0B09]" style={{ fontFamily: "'Jost', sans-serif", overflowX: "clip" }}>
       <Navbar />
-      <section id="about" className="py-32 px-6 bg-[#0F0E0C] text-white min-h-screen">
+      <section id="about" className="py-32 px-6 bg-[#0F0E0C] text-white min-h-dvh">
         <div className="max-w-5xl mx-auto space-y-16">
           <Reveal>
             <div className="text-center space-y-4">

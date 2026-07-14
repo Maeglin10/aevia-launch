@@ -44,7 +44,7 @@ export default function Impact49Layout({
 
   return (
     <div
-      className="min-h-screen text-[#4B5563]"
+      className="min-h-dvh text-[#4B5563]"
       style={{
         backgroundColor: C.bg,
         fontFamily: "'Plus Jakarta Sans', sans-serif",

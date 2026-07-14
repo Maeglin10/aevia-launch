@@ -201,7 +201,7 @@ export default function PulseAppPage() {
   }, [c]);const ActiveIcon = FEATURES[activeFeature].icon
 
   return (
-    <div className="min-h-screen bg-[#F8F7FF] text-[#0F0B2D]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+    <div className="min-h-dvh bg-[#F8F7FF] text-[#0F0B2D]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
       <motion.div className="fixed top-0 left-0 h-[3px] bg-[#6366F1] z-[1000] origin-left" style={{ scaleX: scrollYProgress }} />
 
       {/* Nav */}

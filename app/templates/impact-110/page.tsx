@@ -134,7 +134,7 @@ export default function OasisWellnessPage() {
       });
     }
   }, [c]);return (
-    <div className="bg-[#faf9f6] text-[#2c3e2d] font-sans min-h-screen selection:bg-[#d4e2d4] selection:text-[#2c3e2d] overflow-x-hidden">
+    <div className="bg-[#faf9f6] text-[#2c3e2d] font-sans min-h-dvh selection:bg-[#d4e2d4] selection:text-[#2c3e2d] overflow-x-hidden">
       
       {/* ── NAVBAR ────────────────── */}
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-1000 ${scrolled ? "bg-[#faf9f6]/90 backdrop-blur-xl border-b border-[#2c3e2d]/5 py-4" : "bg-transparent py-8"}`}>

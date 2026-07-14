@@ -108,7 +108,7 @@ export default function Impact64Page() {
     }
   }, [c]);
 return (
-    <div ref={containerRef} style={{ background: C.bg, color: C.text, minHeight: "100vh", overflowX: "hidden" }}>
+    <div ref={containerRef} style={{ background: C.bg, color: C.text, minHeight: "100dvh", overflowX: "hidden" }}>
       <style>{`
         @media (max-width: 700px) {
           .i64-process-grid { grid-template-columns: 1fr !important; row-gap: 2.5rem !important; }

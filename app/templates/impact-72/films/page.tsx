@@ -7,7 +7,7 @@ import { C, FILMS, TextReveal, StackedCards } from "../shared";
 
 export default function FilmsPage() {
   return (
-    <div style={{ background: C.bgCard, color: C.text, minHeight: "100vh", padding: "7rem 3rem" }}>
+    <div style={{ background: C.bgCard, color: C.text, minHeight: "100dvh", padding: "7rem 3rem" }}>
       <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1.2fr", gap: "6rem", alignItems: "start" }}>
           <div>

@@ -263,7 +263,7 @@ export default function WorkPage() {
       : PROJECTS.filter((p) => p.tags.includes(activeFilter));
 
   return (
-    <div style={{ background: C.bg, minHeight: '100vh' }}>
+    <div style={{ background: C.bg, minHeight: '100dvh' }}>
       <CustomCursor />
       <StyleInjector />
 

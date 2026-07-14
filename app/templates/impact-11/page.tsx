@@ -148,7 +148,7 @@ export default function EduPathPage() {
     }
   }, [c]);
 return (
-    <div className="min-h-screen bg-white" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+    <div className="min-h-dvh bg-white" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
       <motion.div className="fixed top-0 left-0 right-0 h-[3px] bg-[#7C3AED] origin-left z-[60]" style={{ scaleX: scrollYProgress }} />
 
       {/* Nav */}
@@ -208,7 +208,7 @@ return (
       </AnimatePresence>
 
       {/* Hero */}
-      <section ref={heroRef} className="relative min-h-screen overflow-hidden bg-gradient-to-br from-[#F5F3FF] via-white to-[#EFF6FF] pt-32 pb-24 px-6">
+      <section ref={heroRef} className="relative min-h-dvh overflow-hidden bg-gradient-to-br from-[#F5F3FF] via-white to-[#EFF6FF] pt-32 pb-24 px-6">
         <motion.div className="absolute inset-0 pointer-events-none" style={{ y: heroY }}>
           <div className="absolute top-20 right-10 w-96 h-96 bg-[#7C3AED]/8 rounded-full blur-3xl" />
           <div className="absolute bottom-20 left-10 w-80 h-80 bg-[#0EA5E9]/8 rounded-full blur-3xl" />

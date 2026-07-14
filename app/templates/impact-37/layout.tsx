@@ -38,7 +38,7 @@ export default function ClosDuSoirLayout({ children }: { children: React.ReactNo
         fontFamily: SANS,
         background: C.bg,
         color: C.text,
-        minHeight: "100vh",
+        minHeight: "100dvh",
         display: "flex",
         flexDirection: "column",
         overflowX: "clip",

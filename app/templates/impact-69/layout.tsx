@@ -40,7 +40,7 @@ export default function LeaLayout({
   const [mobileOpen, setMobileOpen] = useState(false)
 
   return (
-    <div style={{ background: C.bg, color: C.cream, minHeight: "100vh", fontFamily: "'Archivo', sans-serif", overflowX: "hidden" }}>
+    <div style={{ background: C.bg, color: C.cream, minHeight: "100dvh", fontFamily: "'Archivo', sans-serif", overflowX: "hidden" }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Archivo:wght@300;400;500;600;700;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
         * { box-sizing: border-box; margin: 0; padding: 0; }

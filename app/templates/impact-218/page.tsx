@@ -402,7 +402,7 @@ function Hero() {
 
   const section: React.CSSProperties = {
     position: 'relative',
-    height: '100vh',
+    height: '100dvh',
     minHeight: 640,
     overflow: 'hidden',
     background: C.burgundyDeep,
@@ -774,7 +774,7 @@ function ChapteredCrossfade() {
 
   return (
     <section id="contact"
-      style={{ height: '100vh', overflow: 'hidden', position: 'relative', background: C.burgundyDeep }}
+      style={{ height: '100dvh', overflow: 'hidden', position: 'relative', background: C.burgundyDeep }}
     >
       <div
         style={{

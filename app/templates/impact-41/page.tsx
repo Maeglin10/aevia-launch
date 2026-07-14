@@ -142,7 +142,7 @@ return (
       {/* ── HERO — SVG Monogram ──────────────────────────────────────────────── */}
       <section
         style={{
-          minHeight: '100vh',
+          minHeight: '100dvh',
           backgroundColor: SCENES[0].bg,
           display: 'flex',
           flexDirection: 'column',
@@ -296,7 +296,7 @@ return (
           style={{
             position: 'sticky',
             top: 0,
-            height: '100vh',
+            height: '100dvh',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',

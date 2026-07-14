@@ -56,7 +56,7 @@ export default function VisionLayout({
 
   return (
     <div
-      className="premium-theme min-h-screen bg-[#050505] text-white font-mono selection:bg-rose-600 selection:text-white overflow-x-hidden relative"
+      className="premium-theme min-h-dvh bg-[#050505] text-white font-mono selection:bg-rose-600 selection:text-white overflow-x-hidden relative"
       style={{ scrollBehavior: "smooth" }}
     >
       <style>{`::-webkit-scrollbar{width:4px;background:#050505}::-webkit-scrollbar-thumb{background:rgba(225,29,72,0.2)}`}</style>

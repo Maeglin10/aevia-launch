@@ -6,7 +6,7 @@ import { Reveal } from "../shared";
 
 export default function IdentityPage() {
   return (
-    <section className="py-32 bg-white min-h-screen flex flex-col justify-center">
+    <section className="py-32 bg-white min-h-dvh flex flex-col justify-center">
       <div className="max-w-[1400px] mx-auto px-6 md:px-12 mb-20 text-center lg:text-left">
         <Reveal>
           <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-black/30 block mb-6">

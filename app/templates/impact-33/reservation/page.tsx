@@ -46,7 +46,7 @@ export default function ReservationPage() {
   const inputStyle: React.CSSProperties = { width: "100%", padding: "12px 16px", borderRadius: 10, border: `1.5px solid ${C.border}`, fontSize: 15, fontFamily: FONT_BODY, color: C.text, background: C.white, outline: "none", boxSizing: "border-box" };
 
   return (
-    <section style={{ padding: "80px 80px 120px", background: C.bg, fontFamily: FONT_BODY, minHeight: "100vh" }}>
+    <section style={{ padding: "80px 80px 120px", background: C.bg, fontFamily: FONT_BODY, minHeight: "100dvh" }}>
       <div style={{ display: "grid", gridTemplateColumns: "1.2fr 1fr", gap: 60, maxWidth: 1100, margin: "0 auto", alignItems: "start" }}>
         
         {/* Reservation / Order Form */}

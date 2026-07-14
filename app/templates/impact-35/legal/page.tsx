@@ -8,7 +8,7 @@ export default function LegalPage() {
   const [tab, setTab] = useState<"mentions" | "privacy">("mentions")
 
   return (
-    <div style={{ padding: "60px 5%", background: C.bg, minHeight: "100vh" }}>
+    <div style={{ padding: "60px 5%", background: C.bg, minHeight: "100dvh" }}>
       <div style={{ maxWidth: 760, margin: "0 auto" }}>
         {/* Toggle between tabs */}
         <SectionReveal>

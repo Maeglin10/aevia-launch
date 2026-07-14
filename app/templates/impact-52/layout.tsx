@@ -43,7 +43,7 @@ export default function Impact52Layout({
 
   return (
     <div
-      className="min-h-screen text-white overflow-x-hidden selection:bg-pink-500 selection:text-white"
+      className="min-h-dvh text-white overflow-x-hidden selection:bg-pink-500 selection:text-white"
       style={{
         backgroundColor: C.BG,
         fontFamily: "'Courier New', monospace",

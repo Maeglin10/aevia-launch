@@ -122,7 +122,7 @@ return (
         ref={heroRef}
         style={{
           position: "relative",
-          minHeight: "100vh",
+          minHeight: "100dvh",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",

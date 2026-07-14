@@ -387,7 +387,7 @@ function Hero() {
       ref={ref}
       style={{
         position: 'relative',
-        height: '100vh',
+        height: '100dvh',
         minHeight: '700px',
         overflow: 'hidden',
         display: 'flex',
@@ -744,7 +744,7 @@ function StickyCrossfade() {
   return (
     <section
       id="manufacture"
-      style={{ height: '100vh', overflow: 'hidden', position: 'relative' }}
+      style={{ height: '100dvh', overflow: 'hidden', position: 'relative' }}
     >
       <div
         style={{
@@ -2400,7 +2400,7 @@ export default function HoraVivaPage() {
   return (
     <main
       suppressHydrationWarning
-      style={{ background: T.navy, minHeight: '100vh' }}
+      style={{ background: T.navy, minHeight: '100dvh' }}
     >
       <Nav />
       <Hero />

@@ -754,7 +754,7 @@ function HeroSection() {
       ref={ref}
       style={{
         position: "relative",
-        minHeight: "100vh",
+        minHeight: "100dvh",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
@@ -2272,7 +2272,7 @@ return (
         background: C.bg,
         color: C.cream,
         fontFamily: C.fontSans,
-        minHeight: "100vh",
+        minHeight: "100dvh",
         overflowX: "hidden",
       }}
     >

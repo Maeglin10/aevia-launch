@@ -11,7 +11,7 @@ export default function ConseilsPage() {
     const article = ARTICLES.find((a) => a.id === openArticle)!;
     const paragraphs = article.full.split("\n\n");
     return (
-      <div style={{ background: C.bg, minHeight: "100vh" }}>
+      <div style={{ background: C.bg, minHeight: "100dvh" }}>
         <div style={{ maxWidth: 760, margin: "0 auto", padding: "60px 5% 80px" }}>
           <button
             type="button"

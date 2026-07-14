@@ -663,7 +663,7 @@ export default function Page() {
   }, [c]);
 
   return (
-    <main style={{ background: C.bg, color: C.brown, minHeight: "100vh", fontFamily: "'Cabin', sans-serif", overflowX: "hidden" }}>
+    <main style={{ background: C.bg, color: C.brown, minHeight: "100dvh", fontFamily: "'Cabin', sans-serif", overflowX: "hidden" }}>
       <style>{`
         /* mobile: stack 2-col grids to single column (added by responsive fix) */
         @media (max-width: 768px) {
@@ -733,7 +733,7 @@ export default function Page() {
       )}
 
       {/* ── Hero ── */}
-      <section ref={heroRef} style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", position: "relative", paddingTop: 64, overflow: "hidden", background: C.bgWarm }}>
+      <section ref={heroRef} style={{ minHeight: "100dvh", display: "flex", alignItems: "center", justifyContent: "center", position: "relative", paddingTop: 64, overflow: "hidden", background: C.bgWarm }}>
         {/* Warm ambient */}
         <motion.div style={{ y: heroY, position: "absolute", inset: 0 }}>
           <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse 80% 60% at 50% 35%, rgba(196,122,53,0.12) 0%, transparent 65%)" }} />

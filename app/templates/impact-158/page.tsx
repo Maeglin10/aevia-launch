@@ -217,7 +217,7 @@ export default function AtlasPage() {
   const featuredArticle = ARTICLES[0]
 
   return (
-    <div className="min-h-screen text-[#2C1F0E]" style={{ fontFamily: "'Inter', sans-serif", background: "#F5F0E8" }}>
+    <div className="min-h-dvh text-[#2C1F0E]" style={{ fontFamily: "'Inter', sans-serif", background: "#F5F0E8" }}>
       <motion.div className="fixed top-0 left-0 h-[2px] bg-[#C0392B] z-[1000] origin-left" style={{ scaleX: scrollYProgress }} />
 
       {/* Nav */}
@@ -286,7 +286,7 @@ export default function AtlasPage() {
       </AnimatePresence>
 
       {/* Hero — Featured article */}
-      <section id="hero" ref={heroRef} className="relative min-h-screen overflow-hidden flex items-end">
+      <section id="hero" ref={heroRef} className="relative min-h-dvh overflow-hidden flex items-end">
         <motion.div className="absolute inset-0" style={{ y: heroImgY }}>
           <Image src={featuredArticle.image} alt={featuredArticle.title} fill className="object-cover" />
           <div className="absolute inset-0 bg-gradient-to-t from-[#1A0E05]/95 via-[#1A0E05]/40 to-transparent" />

@@ -134,7 +134,7 @@ export default function StackUnitHome() {
     }
   }, [c]);
 return (
-    <div ref={containerRef} style={{ background: C.bg, color: C.text, minHeight: "100vh" }}>
+    <div ref={containerRef} style={{ background: C.bg, color: C.text, minHeight: "100dvh" }}>
       <style>{`
         /* mobile: stack 2-col grids to single column (added by responsive fix) */
         @media (max-width: 768px) {

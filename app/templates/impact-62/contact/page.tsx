@@ -14,7 +14,7 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="bg-[#0f0d0b] text-[#f5efe0] min-h-screen pb-24">
+    <div className="bg-[#0f0d0b] text-[#f5efe0] min-h-dvh pb-24">
       {/* ── ARTISANS PARTNERS ── */}
       <section className="py-20 bg-white text-black">
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 text-center">

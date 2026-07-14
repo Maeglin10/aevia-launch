@@ -440,7 +440,7 @@ function HeroSection() {
 
   const section: React.CSSProperties = {
     position: 'relative',
-    height: '100vh',
+    height: '100dvh',
     minHeight: 640,
     overflow: 'hidden',
     background: C.blueDeep,
@@ -682,7 +682,7 @@ const n = 3;
   const opacities = [opacity0, opacity1, opacity2];
 
   return (
-    <div style={{ height: '100vh', overflow: 'hidden', position: 'relative' }}>
+    <div style={{ height: '100dvh', overflow: 'hidden', position: 'relative' }}>
       <div
         style={{
           position: 'relative',

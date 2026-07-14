@@ -167,7 +167,7 @@ export default function StreamlinePage() {
     }
   }, [c]);
 return (
-    <div className="min-h-screen bg-[#0D1117] text-white overflow-x-clip flex flex-col" style={{ fontFamily: "'Inter', sans-serif" }}>
+    <div className="min-h-dvh bg-[#0D1117] text-white overflow-x-clip flex flex-col" style={{ fontFamily: "'Inter', sans-serif" }}>
       <motion.div className="fixed top-0 left-0 right-0 h-[3px] bg-[#3B82F6] origin-left z-[60]" style={{ scaleX: scrollYProgress }} />
 
       {/* Nav */}
@@ -255,7 +255,7 @@ return (
         {page === "home" && (
           <>
             {/* Hero */}
-            <section id="hero" className="relative min-h-screen flex items-center pt-32 pb-20 px-6 overflow-hidden">
+            <section id="hero" className="relative min-h-dvh flex items-center pt-32 pb-20 px-6 overflow-hidden">
               <div className="absolute inset-0 pointer-events-none">
                 <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#3B82F6]/10 rounded-full blur-3xl" />
                 <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-[#8B5CF6]/10 rounded-full blur-3xl" />

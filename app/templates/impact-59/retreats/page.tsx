@@ -17,7 +17,7 @@ export default function RetreatsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#f8f5f0]">
+    <div className="min-h-dvh bg-[#f8f5f0]">
       <StyleInjector />
 
       {/* ==========================================

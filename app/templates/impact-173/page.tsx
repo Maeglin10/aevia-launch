@@ -521,7 +521,7 @@ export default function Impact173Page() {
   ];
 
   return (
-    <div ref={containerRef} style={{ background: C.bg, color: C.text, minHeight: "100vh", fontFamily: FONT_BODY, overflowX: "hidden" }}>
+    <div ref={containerRef} style={{ background: C.bg, color: C.text, minHeight: "100dvh", fontFamily: FONT_BODY, overflowX: "hidden" }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -619,7 +619,7 @@ export default function Impact173Page() {
       <style>{`@media (max-width: 900px) { #mb173-nav { display: none !important; } .mb173-burger { display: flex !important; } }`}</style>
 
       {/* ── HERO ────────────────────────────────────────────────── */}
-      <section id="hero" ref={heroRef} style={{ minHeight: "100vh", position: "relative", overflow: "hidden", display: "flex", alignItems: "center" }}>
+      <section id="hero" ref={heroRef} style={{ minHeight: "100dvh", position: "relative", overflow: "hidden", display: "flex", alignItems: "center" }}>
         {/* Diagonal orange panel — signature element */}
         <motion.div style={{
           position: "absolute", top: 0, right: 0,

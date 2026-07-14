@@ -8,7 +8,7 @@ export default function SolutionsPage() {
   const [hoveredService, setHoveredService] = useState<number | null>(null);
 
   return (
-    <div style={{ background: C.bg, color: C.text, minHeight: "100vh", padding: "6rem 2.5rem" }}>
+    <div style={{ background: C.bg, color: C.text, minHeight: "100dvh", padding: "6rem 2.5rem" }}>
       <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
         <motion.div
           initial={{ opacity: 0, y: 30 }}

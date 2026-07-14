@@ -147,7 +147,7 @@ return (
       <section
         id="hero"
         ref={heroRef}
-        className="relative min-h-screen flex flex-col justify-center items-center overflow-hidden pt-16"
+        className="relative min-h-dvh flex flex-col justify-center items-center overflow-hidden pt-16"
       >
         {/* Parallax background blobs */}
         <motion.div

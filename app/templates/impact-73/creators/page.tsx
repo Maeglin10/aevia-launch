@@ -7,7 +7,7 @@ import { CREATORS, Reveal, Counter } from "../shared";
 
 export default function CreatorsPage() {
   return (
-    <div className="py-20 bg-[#08080c] min-h-screen">
+    <div className="py-20 bg-[#08080c] min-h-dvh">
       <div className="max-w-[1400px] mx-auto px-6 md:px-12">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 md:gap-32 items-center mb-32">
           <div className="lg:col-span-5">

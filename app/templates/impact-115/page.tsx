@@ -645,7 +645,7 @@ export default function Impact115Page() {
         background: C.bg,
         color: C.dark,
         fontFamily: C.fontSans,
-        minHeight: "100vh",
+        minHeight: "100dvh",
         overflowX: "hidden",
       }}
     >

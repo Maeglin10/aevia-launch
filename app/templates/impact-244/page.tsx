@@ -578,7 +578,7 @@ function Hero() {
       ref={ref}
       style={{
         position: 'relative',
-        height: '100vh',
+        height: '100dvh',
         minHeight: 640,
         overflow: 'hidden',
         background: C.bgDark,
@@ -947,11 +947,11 @@ function CelebrationSequence() {
 
   return (
     <section
-      style={{ height: '100vh', overflow: 'hidden', position: 'relative', background: C.bgDark }}
+      style={{ height: '100dvh', overflow: 'hidden', position: 'relative', background: C.bgDark }}
       id="mariage"
     >
       <div
-        style={{ position: 'sticky', top: 0, height: '100vh', overflow: 'hidden' }}
+        style={{ position: 'sticky', top: 0, height: '100dvh', overflow: 'hidden' }}
       >
         {/* Phase images */}
         {PHASES.map((p, i) => (

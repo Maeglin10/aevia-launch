@@ -233,7 +233,7 @@ function HeroSection() {
       id="hero"
       style={{
         position: 'relative',
-        minHeight: '100vh',
+        minHeight: '100dvh',
         background: C.bgDark,
         display: 'flex',
         alignItems: 'center',

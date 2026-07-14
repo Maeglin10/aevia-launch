@@ -5,7 +5,7 @@ import { SCENES, LookbookGrid, FabricSection } from '../shared';
 
 export default function LookbookPage() {
   return (
-    <div style={{ minHeight: '100vh', backgroundColor: SCENES[2].bg }}>
+    <div style={{ minHeight: '100dvh', backgroundColor: SCENES[2].bg }}>
       <FabricSection pattern="grid" scene={SCENES[2]}>
         <div style={{ padding: '6rem 5rem 3rem' }}>
           <div style={{ marginBottom: '4rem' }}>

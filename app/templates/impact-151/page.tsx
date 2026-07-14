@@ -199,7 +199,7 @@ return (
     <motion.div 
       ref={containerRef} 
       style={{ backgroundColor: bgTransition }}
-      className="text-[#f8f9fa] font-sans selection:bg-[#c4a661] selection:text-white min-h-screen overflow-x-hidden transition-colors duration-1000"
+      className="text-[#f8f9fa] font-sans selection:bg-[#c4a661] selection:text-white min-h-dvh overflow-x-hidden transition-colors duration-1000"
     >
       
       {/* ==========================================
@@ -242,7 +242,7 @@ return (
         {/* ==========================================
             1. THE PROLOGUE (HERO)
             ========================================== */}
-        <section id="hero" className="relative h-screen flex items-center justify-center overflow-hidden">
+        <section id="hero" className="relative h-dvh flex items-center justify-center overflow-hidden">
           <motion.div style={{ opacity: heroOpacity, scale: heroScale }} className="absolute inset-0 z-0">
              <Image 
                 src="https://images.unsplash.com/photo-1504275107627-0c2ba7a43dba?q=80&w=2400&auto=format&fit=crop" 

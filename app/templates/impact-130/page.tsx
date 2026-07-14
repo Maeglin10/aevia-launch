@@ -346,7 +346,7 @@ function SplitRevealHero() {
       ref={containerRef}
       style={{
         position: "relative",
-        height: "100vh",
+        height: "100dvh",
         display: "flex",
         overflow: "hidden",
         background: C.bg,
@@ -649,7 +649,7 @@ export default function Impact130Page() {
     }
   }, [c]);
 return (
-    <div style={{ background: C.bg, color: C.text, minHeight: "100vh", fontFamily: "'DM Sans', system-ui, sans-serif" }}>
+    <div style={{ background: C.bg, color: C.text, minHeight: "100dvh", fontFamily: "'DM Sans', system-ui, sans-serif" }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300;1,9..40,400&display=swap');
         * { box-sizing: border-box; margin: 0; padding: 0; }

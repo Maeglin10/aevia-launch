@@ -47,7 +47,7 @@ export default function HorologsLayout({
 
   return (
     <div
-      className="premium-theme min-h-screen bg-[#050505] text-[#d4d4d8] font-mono selection:bg-stone-500 selection:text-white overflow-x-hidden flex flex-col justify-between"
+      className="premium-theme min-h-dvh bg-[#050505] text-[#d4d4d8] font-mono selection:bg-stone-500 selection:text-white overflow-x-hidden flex flex-col justify-between"
       style={{ scrollBehavior: "smooth" }}
     >
       <div>

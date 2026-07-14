@@ -98,7 +98,7 @@ export default function CartePage() {
   );
 
   return (
-    <div style={{ minHeight: "100vh", backgroundColor: C.bg, paddingTop: "8rem", paddingBottom: "5rem" }}>
+    <div style={{ minHeight: "100dvh", backgroundColor: C.bg, paddingTop: "8rem", paddingBottom: "5rem" }}>
       <div style={{ maxWidth: 820, margin: "0 auto", padding: "0 1.5rem" }}>
         <SectionReveal>
           <div style={{ textAlign: "center", marginBottom: "3.5rem" }}>

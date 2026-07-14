@@ -102,7 +102,7 @@ export default function TravauxPage() {
   };
 
   return (
-    <div className="min-h-screen bg-white" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+    <div className="min-h-dvh bg-white" style={{ fontFamily: "'DM Sans', sans-serif" }}>
       {/* Nav */}
       <nav className="fixed top-4 left-4 right-4 z-50">
         <div className="max-w-6xl mx-auto bg-white/92 backdrop-blur-md border border-gray-200 shadow-sm rounded-2xl px-6 py-4 flex items-center justify-between">

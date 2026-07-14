@@ -138,7 +138,7 @@ export default function StudioVersaPage() {
       });
     }
   }, [c]);return (
-    <div className="bg-[#faf5f0] text-[#1a1a1a] font-sans min-h-screen selection:bg-orange-500 selection:text-white overflow-x-hidden">
+    <div className="bg-[#faf5f0] text-[#1a1a1a] font-sans min-h-dvh selection:bg-orange-500 selection:text-white overflow-x-hidden">
 
       {/* ── NAVBAR ─────────────────── */}
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#faf5f0]/90 backdrop-blur-xl border-b border-orange-500/10 py-4" : "bg-transparent py-8"}`}>

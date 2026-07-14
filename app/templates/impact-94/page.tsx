@@ -482,7 +482,7 @@ export default function Impact94Page() {
     }
   }, [c]);return (
     <div
-      className="bg-[#FAFAF9] text-[#0C0A09] min-h-screen overflow-x-hidden"
+      className="bg-[#FAFAF9] text-[#0C0A09] min-h-dvh overflow-x-hidden"
       style={{ fontFamily: "'Jost', sans-serif" }}
     >
       {/* ── Scroll Progress Bar ── */}
@@ -610,7 +610,7 @@ export default function Impact94Page() {
       <section
         id="hero"
         ref={heroRef}
-        className="relative h-screen flex flex-col items-center justify-center overflow-hidden"
+        className="relative h-dvh flex flex-col items-center justify-center overflow-hidden"
       >
         {/* Parallax Image */}
         <motion.div className="absolute inset-0" style={{ y: heroY }}>

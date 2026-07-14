@@ -7,7 +7,7 @@ export default function ContactPage() {
   const [submitted, setSubmitted] = useState(false);
 
   return (
-    <section className="py-24 bg-white text-[#1a1a1a] min-h-screen relative overflow-hidden">
+    <section className="py-24 bg-white text-[#1a1a1a] min-h-dvh relative overflow-hidden">
       <div className="max-w-4xl mx-auto px-6 relative z-10">
         <Reveal>
           <div className="w-20 h-20 mx-auto mb-16 border-4 border-black flex items-center justify-center font-black text-3xl">

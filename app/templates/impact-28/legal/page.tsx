@@ -4,7 +4,7 @@ import { Reveal } from "../shared"
 
 export default function LegalPage() {
   return (
-    <div className="pt-32 min-h-screen px-6 pb-24 max-w-3xl mx-auto">
+    <div className="pt-32 min-h-dvh px-6 pb-24 max-w-3xl mx-auto">
       <div className="border-4 border-black p-8 md:p-12 bg-white">
         <h1 className="font-black text-4xl md:text-6xl uppercase mb-8" style={{ fontFamily: "'Barlow Condensed', sans-serif" }}>
           LEGAL NOTICE

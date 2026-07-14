@@ -33,7 +33,7 @@ export default function SereneRetreatLayout({ children }: { children: React.Reac
   const solidNav = scrolled || !isHome;
 
   return (
-    <div style={{ background: C.cream, minHeight: "100vh", fontFamily: C.fontSans, display: "flex", flexDirection: "column" }}>
+    <div style={{ background: C.cream, minHeight: "100dvh", fontFamily: C.fontSans, display: "flex", flexDirection: "column" }}>
       {/* Global CSS Injector */}
       <style dangerouslySetInnerHTML={{__html: `
         @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap');

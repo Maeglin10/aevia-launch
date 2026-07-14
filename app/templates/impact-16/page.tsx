@@ -167,7 +167,7 @@ export default function ObscuraPage() {
     }
   }, [c]);
 return (
-    <div className="min-h-screen bg-[#0A0806] text-white selection:bg-[#C9A86C]/20 selection:text-[#C9A86C] overflow-x-clip" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+    <div className="min-h-dvh bg-[#0A0806] text-white selection:bg-[#C9A86C]/20 selection:text-[#C9A86C] overflow-x-clip" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
       <motion.div className="fixed top-0 left-0 right-0 h-[2px] bg-[#C9A86C] origin-left z-[60]" style={{ scaleX: scrollYProgress }} />
 
       {/* Nav */}
@@ -245,7 +245,7 @@ return (
         {page === "home" && (
           <>
             {/* Hero */}
-            <section id="hero" ref={heroRef} className="relative h-screen overflow-hidden">
+            <section id="hero" ref={heroRef} className="relative h-dvh overflow-hidden">
               <motion.div className="absolute inset-0" style={{ y: heroY }}>
                 <Image src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=1600&q=85" alt="Obscura Photography" fill className="object-cover" priority />
                 <div className="absolute inset-0 bg-gradient-to-b from-[#0A0806]/70 via-[#0A0806]/20 to-[#0A0806]/90" />

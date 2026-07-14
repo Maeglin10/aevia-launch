@@ -222,7 +222,7 @@ export default function StudioPelikanPage() {
     }
   }, [c]);
 return (
-    <div className="min-h-screen bg-[#100D08]" style={{ fontFamily: "'Raleway', sans-serif" }}>
+    <div className="min-h-dvh bg-[#100D08]" style={{ fontFamily: "'Raleway', sans-serif" }}>
       <motion.div className="fixed top-0 left-0 right-0 h-[2px] bg-[#C9A05A] origin-left z-[60]" style={{ scaleX: scrollYProgress }} />
 
       {/* Nav */}
@@ -282,7 +282,7 @@ return (
       {/* ====== HOME PAGE ====== */}
       <div style={{ display: page === "home" ? "block" : "none" }}>
           {/* Hero */}
-          <section id="hero" ref={heroRef} className="relative h-screen overflow-hidden">
+          <section id="hero" ref={heroRef} className="relative h-dvh overflow-hidden">
             <motion.div className="absolute inset-0" style={{ y: heroY }}>
               <Image src="https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?q=80&w=1600&auto=format&fit=crop" alt={fd?.businessName ?? "Studio Pelikan"} fill className="object-cover" priority />
               <div className="absolute inset-0 bg-gradient-to-b from-[#100D08]/70 via-[#100D08]/30 to-[#100D08]/95" />

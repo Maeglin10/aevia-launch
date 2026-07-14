@@ -564,7 +564,7 @@ function Hero() {
 
   const section: React.CSSProperties = {
     position: 'relative',
-    height: '100vh',
+    height: '100dvh',
     minHeight: 660,
     overflow: 'hidden',
     background: C.bg,
@@ -914,7 +914,7 @@ function ProgramSequence() {
   return (
     <section
       id="programmes"
-      style={{ height: '100vh', overflow: 'hidden', position: 'relative', background: C.bg }}
+      style={{ height: '100dvh', overflow: 'hidden', position: 'relative', background: C.bg }}
     >
       <div
         style={{

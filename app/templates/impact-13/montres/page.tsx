@@ -178,9 +178,9 @@ export default function MontresPage() {
   const filteredList = filter === "Tout" ? watchModels : watchModels.filter(m => m.category === filter);
 
   return (
-    <div className="min-h-screen bg-[#0C0B09]" style={{ fontFamily: "'Jost', sans-serif", overflowX: "clip" }}>
+    <div className="min-h-dvh bg-[#0C0B09]" style={{ fontFamily: "'Jost', sans-serif", overflowX: "clip" }}>
       <Navbar />
-      <section className="py-32 px-6 bg-[#0C0B09] text-white min-h-screen">
+      <section className="py-32 px-6 bg-[#0C0B09] text-white min-h-dvh">
         <div className="max-w-6xl mx-auto">
           <Reveal>
             <div className="flex flex-col md:flex-row md:items-end justify-between mb-16">

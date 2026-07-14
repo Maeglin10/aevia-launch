@@ -920,7 +920,7 @@ export default function HorizonMaritimePage() {
     <div
       className="font-sans"
       style={{
-        minHeight: "100vh",
+        minHeight: "100dvh",
         background: "#0d1b2a",
         color: "#f0ece0",
         overflowX: "clip",
@@ -1190,7 +1190,7 @@ export default function HorizonMaritimePage() {
         ref={heroRef}
         style={{
           position: "relative",
-          height: "100vh",
+          height: "100dvh",
           overflow: "hidden",
           display: "flex",
           alignItems: "center",
@@ -2513,7 +2513,7 @@ function FleetPage({ goTo }: { goTo: (p: ActivePage) => void }) {
   const filteredYachts = filter === "all" ? fleetYachts : fleetYachts.filter((y) => y.type === filter);
 
   return (
-    <section style={{ background: "#0a1520", padding: "10rem 2rem 6rem", minHeight: "100vh" }}>
+    <section style={{ background: "#0a1520", padding: "10rem 2rem 6rem", minHeight: "100dvh" }}>
       <div style={{ maxWidth: 1280, margin: "0 auto" }}>
         {/* Title */}
         <div style={{ textAlign: "center", marginBottom: "4rem" }}>
@@ -2704,7 +2704,7 @@ function DestinationsPage({ goTo }: { goTo: (p: ActivePage) => void }) {
   ];
 
   return (
-    <section style={{ background: "#0a1520", padding: "10rem 2rem 6rem", minHeight: "100vh" }}>
+    <section style={{ background: "#0a1520", padding: "10rem 2rem 6rem", minHeight: "100dvh" }}>
       <div style={{ maxWidth: 1280, margin: "0 auto" }}>
         {/* Title */}
         <div style={{ textAlign: "center", marginBottom: "5rem" }}>
@@ -2818,7 +2818,7 @@ function ExperiencePage({ goTo }: { goTo: (p: ActivePage) => void }) {
   ];
 
   return (
-    <section style={{ background: "#0a1520", padding: "10rem 2rem 6rem", minHeight: "100vh" }}>
+    <section style={{ background: "#0a1520", padding: "10rem 2rem 6rem", minHeight: "100dvh" }}>
       <div style={{ maxWidth: 1280, margin: "0 auto" }}>
         {/* Title */}
         <div style={{ textAlign: "center", marginBottom: "6rem" }}>
@@ -2904,7 +2904,7 @@ function ContactPage() {
   ];
 
   return (
-    <section style={{ background: "#0a1520", padding: "10rem 2rem 6rem", minHeight: "100vh" }}>
+    <section style={{ background: "#0a1520", padding: "10rem 2rem 6rem", minHeight: "100dvh" }}>
       <div style={{ maxWidth: 1280, margin: "0 auto" }}>
         {/* Title */}
         <div style={{ textAlign: "center", marginBottom: "5rem" }}>
@@ -3023,7 +3023,7 @@ function ContactPage() {
 
 function LegalPage() {
   return (
-    <section id="contact" style={{ background: "#0a1520", padding: "10rem 2rem 6rem", minHeight: "100vh" }}>
+    <section id="contact" style={{ background: "#0a1520", padding: "10rem 2rem 6rem", minHeight: "100dvh" }}>
       <div style={{ maxWidth: 800, margin: "0 auto", fontFamily: "Montserrat, sans-serif" }}>
         <h1 style={{ fontFamily: "Cormorant Garamond, Georgia, serif", fontSize: "3rem", fontWeight: 300, color: "#f0ece0", borderBottom: "1px solid rgba(201,168,76,0.2)", paddingBottom: "1.5rem", marginBottom: "2.5rem" }}>
           Legal Mentions & Terms

@@ -7,7 +7,7 @@ import { C, PRESS, TextReveal } from "../shared";
 
 export default function StudioPage() {
   return (
-    <div style={{ background: C.bgCard, color: C.text, minHeight: "100vh", padding: "7rem 3rem" }}>
+    <div style={{ background: C.bgCard, color: C.text, minHeight: "100dvh", padding: "7rem 3rem" }}>
       <div style={{ maxWidth: "1000px", margin: "0 auto" }}>
         {/* History / Intro */}
         <div style={{ marginBottom: "6rem" }}>

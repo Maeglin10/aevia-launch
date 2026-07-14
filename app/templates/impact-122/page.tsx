@@ -216,7 +216,7 @@ export default function ChronicleEditorialPage() {
       });
     }
   }, [c]);return (
-    <div className="bg-[#fcfaf7] text-[#1a1814] min-h-screen selection:bg-[#d64000] selection:text-white overflow-x-hidden font-sans">
+    <div className="bg-[#fcfaf7] text-[#1a1814] min-h-dvh selection:bg-[#d64000] selection:text-white overflow-x-hidden font-sans">
       
       {/* ─── READING PROGRESS BAR ──────────────────────────────────────── */}
       <motion.div 

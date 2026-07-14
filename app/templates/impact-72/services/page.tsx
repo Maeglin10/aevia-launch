@@ -6,7 +6,7 @@ import { C, SERVICES, TextReveal, ServiceCard } from "../shared";
 
 export default function ServicesPage() {
   return (
-    <div style={{ background: C.bg, color: C.text, minHeight: "100vh", padding: "7rem 3rem" }}>
+    <div style={{ background: C.bg, color: C.text, minHeight: "100dvh", padding: "7rem 3rem" }}>
       <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
         <div style={{ marginBottom: "4rem" }}>
           <div style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "0.65rem", letterSpacing: "0.3em", color: C.amber, marginBottom: "1rem" }}>

@@ -427,7 +427,7 @@ function HeroSection() {
 
   const section: React.CSSProperties = {
     position: 'relative',
-    height: '100vh',
+    height: '100dvh',
     minHeight: 660,
     overflow: 'hidden',
     background: C.taupeDark,
@@ -678,7 +678,7 @@ const n = panels.length;
   const opacities = [op0, op1, op2];
 
   return (
-    <div style={{ height: '100vh', overflow: 'hidden', position: 'relative' }}>
+    <div style={{ height: '100dvh', overflow: 'hidden', position: 'relative' }}>
       {/* Bloc sticky */}
       <div
         style={{

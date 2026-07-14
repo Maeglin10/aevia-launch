@@ -5,7 +5,7 @@ import { C, TEAM, TherapistCard, TextReveal } from "../shared";
 
 export default function TeamPage() {
   return (
-    <div style={{ background: C.cream, minHeight: "100vh", padding: "80px 5% 120px" }}>
+    <div style={{ background: C.cream, minHeight: "100dvh", padding: "80px 5% 120px" }}>
       <div style={{ maxWidth: 1200, margin: "0 auto" }}>
         <div style={{ textAlign: "center", marginBottom: 72 }}>
           <TextReveal>

@@ -866,7 +866,7 @@ export default function Impact167Page() {
   return (
     <div
       ref={containerRef}
-      style={{ background: C.ivory, minHeight: "100vh", fontFamily: C.fontSans }}
+      style={{ background: C.ivory, minHeight: "100dvh", fontFamily: C.fontSans }}
     >
       {/* Scroll Progress */}
       <motion.div
@@ -1154,7 +1154,7 @@ export default function Impact167Page() {
         ref={heroRef}
         style={{
           position: "relative",
-          height: "100vh",
+          height: "100dvh",
           display: "grid",
           gridTemplateColumns: "55% 45%",
           overflow: "hidden",

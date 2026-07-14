@@ -108,7 +108,7 @@ export default function ReservationPage() {
   const [submitted, setSubmitted] = useState(false);
 
   return (
-    <div className="bg-[#0c0a08] text-[#f5efe6] min-h-screen selection:bg-amber-700 selection:text-white" style={{ fontFamily: "'Georgia', 'Times New Roman', serif" }}>
+    <div className="bg-[#0c0a08] text-[#f5efe6] min-h-dvh selection:bg-amber-700 selection:text-white" style={{ fontFamily: "'Georgia', 'Times New Roman', serif" }}>
       <Navbar currentPage="reservation" />
       <main style={{ padding: '120px 24px 100px', maxWidth: 600, margin: '0 auto', fontFamily: 'system-ui, sans-serif' }}>
         <div style={{ textAlign: 'center', marginBottom: 60 }}>

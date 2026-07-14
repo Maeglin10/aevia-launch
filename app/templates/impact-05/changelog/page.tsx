@@ -6,7 +6,7 @@ import { Zap, ArrowLeft, Shield, Cpu } from "lucide-react";
 
 export default function ChangelogPage() {
   return (
-    <div className="bg-[#09090b] text-white min-h-screen selection:bg-violet-500 font-sans">
+    <div className="bg-[#09090b] text-white min-h-dvh selection:bg-violet-500 font-sans">
       {/* Navbar */}
       <nav className="fixed top-0 left-0 w-full z-50 bg-[#09090b]/80 backdrop-blur-xl border-b border-white/5">
         <div className="max-w-7xl mx-auto px-6 md:px-12 py-4 flex justify-between items-center">

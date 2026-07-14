@@ -41,7 +41,7 @@ export default function SymmetryStudioLayout({
   ];
 
   return (
-    <div className="bg-[#fcfcfc] text-[#1a1a1a] font-sans min-h-screen selection:bg-[#1a1a1a] selection:text-white overflow-x-hidden relative">
+    <div className="bg-[#fcfcfc] text-[#1a1a1a] font-sans min-h-dvh selection:bg-[#1a1a1a] selection:text-white overflow-x-hidden relative">
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap');
       `}</style>

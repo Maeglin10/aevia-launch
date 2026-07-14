@@ -14,7 +14,7 @@ const POSTS = [
 
 export default function JournalPage() {
   return (
-    <div className="premium-theme bg-[#0a0a0a] text-white min-h-screen selection:bg-amber-400 selection:text-black overflow-x-hidden font-sans">
+    <div className="premium-theme bg-[#0a0a0a] text-white min-h-dvh selection:bg-amber-400 selection:text-black overflow-x-hidden font-sans">
       <nav className="fixed top-0 left-0 w-full z-50 mix-blend-difference bg-black/50 backdrop-blur-md">
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 py-8 flex justify-between items-center">
           <Link href="/templates/impact-02" className="relative z-50 group">

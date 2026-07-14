@@ -24,7 +24,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const [menuOpen, setMenuOpen] = useState(false)
 
   return (
-    <div ref={containerRef} className="min-h-screen bg-[#0C0712] text-white selection:bg-[#9B5CF6]/30 selection:text-white" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+    <div ref={containerRef} className="min-h-dvh bg-[#0C0712] text-white selection:bg-[#9B5CF6]/30 selection:text-white" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
       <motion.div
         className="fixed top-0 left-0 right-0 h-0.5 bg-[#9B5CF6] origin-left z-50"
         style={{ scaleX: scrollYProgress }}
@@ -84,7 +84,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       </nav>
 
       {/* Main Content */}
-      <main className="min-h-screen">
+      <main className="min-h-dvh">
         {children}
       </main>
 

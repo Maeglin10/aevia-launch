@@ -823,7 +823,7 @@ export default function Impact198Page() {
         background: C.bg,
         color: C.dark,
         fontFamily: C.fontSans,
-        minHeight: "100vh",
+        minHeight: "100dvh",
         overflowX: "hidden",
       }}
     >
@@ -1035,7 +1035,7 @@ export default function Impact198Page() {
         ref={heroRef}
         style={{
           position: "relative",
-          height: "100vh",
+          height: "100dvh",
           minHeight: 700,
           overflow: "hidden",
           display: "flex",

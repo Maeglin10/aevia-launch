@@ -72,7 +72,7 @@ export default function ApplyPage() {
     "block text-[10px] uppercase tracking-[0.35em] text-black/40 font-bold mb-2 font-sans";
 
   return (
-    <div className="min-h-screen bg-[#f8f5f0]">
+    <div className="min-h-dvh bg-[#f8f5f0]">
       <StyleInjector />
 
       {/* ==========================================

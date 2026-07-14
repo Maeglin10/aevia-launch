@@ -22,7 +22,7 @@ export default function IntegrationsPage() {
   const integrations = ["Slack", "Salesforce", "HubSpot", "Notion", "GitHub", "Figma", "Stripe", "Zapier", "Linear", "Intercom"];
 
   return (
-    <div className="min-h-screen bg-[#0D1117] text-white overflow-x-clip flex flex-col" style={{ fontFamily: "'Inter', sans-serif" }}>
+    <div className="min-h-dvh bg-[#0D1117] text-white overflow-x-clip flex flex-col" style={{ fontFamily: "'Inter', sans-serif" }}>
       <nav className="fixed top-4 left-4 right-4 z-50">
         <div className="max-w-6xl mx-auto bg-[#0D1117]/90 backdrop-blur-md border border-white/10 rounded-2xl px-6 py-4 flex items-center justify-between">
           <Link href="/templates/impact-18" className="flex items-center gap-2 cursor-pointer">

@@ -44,7 +44,7 @@ export default function MaisonDrouetLayout({
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <div style={{ background: C.bg, color: C.text, fontFamily: "'EB Garamond', serif", minHeight: "100vh", overflowX: "clip" }}>
+    <div style={{ background: C.bg, color: C.text, fontFamily: "'EB Garamond', serif", minHeight: "100dvh", overflowX: "clip" }}>
       <StyleInjector />
 
       {/* ── Navigation ─────────────────────────────────────────────────────── */}

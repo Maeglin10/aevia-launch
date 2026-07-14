@@ -168,7 +168,7 @@ export default function EssentialSaaSPage() {
       });
     }
   }, [c]);return (
-    <div className="min-h-screen bg-white text-[#0F172A]" style={{ fontFamily: "'Inter', sans-serif" }}>
+    <div className="min-h-dvh bg-white text-[#0F172A]" style={{ fontFamily: "'Inter', sans-serif" }}>
       <motion.div className="fixed top-0 left-0 h-[3px] bg-[#6366F1] z-[1000] origin-left" style={{ scaleX: scrollYProgress }} />
 
       {/* Nav */}

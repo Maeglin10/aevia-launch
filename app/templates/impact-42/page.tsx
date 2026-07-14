@@ -127,7 +127,7 @@ return (
       {/* HERO */}
       <section
         ref={heroRef}
-        style={{ minHeight: "100vh", backgroundColor: C.bg, display: "flex", alignItems: "center", justifyContent: "center", position: "relative", overflow: "hidden", paddingTop: "5rem" }}
+        style={{ minHeight: "100dvh", backgroundColor: C.bg, display: "flex", alignItems: "center", justifyContent: "center", position: "relative", overflow: "hidden", paddingTop: "5rem" }}
       >
         <div style={{ position: "absolute", inset: 0, backgroundImage: "repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.012) 2px, rgba(255,255,255,0.012) 4px)", pointerEvents: "none", zIndex: 1 }} />
         <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", width: 700, height: 700, borderRadius: "50%", backgroundColor: C.accent, filter: "blur(180px)", opacity: 0.06, pointerEvents: "none" }} />

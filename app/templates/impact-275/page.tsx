@@ -448,7 +448,7 @@ function HeroSection() {
 
   const heroWrap: React.CSSProperties = {
     position: 'relative',
-    height: '100vh',
+    height: '100dvh',
     minHeight: 680,
     overflow: 'hidden',
     background: C.marineDark,
@@ -753,14 +753,14 @@ const n = 3;
 
   const wrapStyle: React.CSSProperties = {
     position: 'relative',
-    height: '100vh', overflow: 'hidden',
+    height: '100dvh', overflow: 'hidden',
     background: C.marineDark,
   };
 
   const sticky: React.CSSProperties = {
     position: 'sticky',
     top: 0,
-    height: '100vh',
+    height: '100dvh',
     overflow: 'hidden',
   };
 

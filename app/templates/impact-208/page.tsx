@@ -207,7 +207,7 @@ function BlueprintHero() {
       id="hero"
       style={{
         position: 'relative',
-        minHeight: '100vh',
+        minHeight: '100dvh',
         background: C.blueprint,
         display: 'flex',
         flexDirection: 'column',

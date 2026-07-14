@@ -282,7 +282,7 @@ export default function NexusSaaSPage() {
   }, [c]);
 
   return (
-    <div className="premium-theme min-h-screen bg-[#05050a] text-white selection:bg-violet-500/30 font-sans overflow-x-hidden">
+    <div className="premium-theme min-h-dvh bg-[#05050a] text-white selection:bg-violet-500/30 font-sans overflow-x-hidden">
       {/* Background Gradients */}
       <div className="fixed top-[-20%] left-[-10%] w-[50%] h-[50%] rounded-full bg-violet-600/20 blur-[150px] pointer-events-none z-0" />
       <div className="fixed bottom-[-20%] right-[-10%] w-[50%] h-[50%] rounded-full bg-blue-600/10 blur-[150px] pointer-events-none z-0" />

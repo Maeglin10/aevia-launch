@@ -473,7 +473,7 @@ export default function AuraWellnessPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#F6F3EE]" style={{ fontFamily: "'Jost', sans-serif" }}>
+    <div className="min-h-dvh bg-[#F6F3EE]" style={{ fontFamily: "'Jost', sans-serif" }}>
       {/* Scroll progress */}
       <motion.div
         className="fixed top-0 left-0 right-0 h-[2px] bg-[#7C9E87] origin-left z-[60]"
@@ -564,7 +564,7 @@ export default function AuraWellnessPage() {
       </AnimatePresence>
 
       {/* Hero */}
-      <section id="hero" ref={heroRef} className="relative h-screen overflow-hidden">
+      <section id="hero" ref={heroRef} className="relative h-dvh overflow-hidden">
         <motion.div className="absolute inset-0" style={{ y: heroY }}>
           <Image
             src="https://images.unsplash.com/photo-1600334089648-b0d9d3028eb2?w=1600&q=85"

@@ -7,7 +7,7 @@ import "../../premium.css";
 
 export default function Page() {
   return (
-    <div className="premium-theme min-h-screen bg-[#0a0a0a] text-[#ffffff] font-sans selection:bg-[#c9a96e] selection:text-black overflow-x-hidden">
+    <div className="premium-theme min-h-dvh bg-[#0a0a0a] text-[#ffffff] font-sans selection:bg-[#c9a96e] selection:text-black overflow-x-hidden">
       {/* ── NAVIGATION ── */}
       <nav className="fixed top-0 left-0 w-full z-50 bg-black/90 backdrop-blur-xl py-4 border-b border-white/5">
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex items-center justify-between">
@@ -31,7 +31,7 @@ export default function Page() {
       </nav>
 
       {/* ── CONTENT ── */}
-      <main className="pt-32 pb-24 px-6 md:px-12 min-h-screen flex items-center">
+      <main className="pt-32 pb-24 px-6 md:px-12 min-h-dvh flex items-center">
         <div className="max-w-[800px] mx-auto w-full">
           <motion.div
             initial={{ opacity: 0, y: 20 }}

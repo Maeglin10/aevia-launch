@@ -44,7 +44,7 @@ export default function Impact51Layout({
 
   return (
     <div
-      className="min-h-screen selection:bg-indigo-500 selection:text-white"
+      className="min-h-dvh selection:bg-indigo-500 selection:text-white"
       style={{
         backgroundColor: T.bg,
         color: T.text,

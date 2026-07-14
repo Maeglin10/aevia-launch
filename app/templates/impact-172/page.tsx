@@ -181,7 +181,7 @@ export default function LegrandPage() {
   }, [c]);const ActiveDomainIcon = DOMAINS[activeDomain].icon
 
   return (
-    <div className="min-h-screen bg-[#F9F6F0] text-[#1A1510]" style={{ fontFamily: "'Inter', sans-serif" }}>
+    <div className="min-h-dvh bg-[#F9F6F0] text-[#1A1510]" style={{ fontFamily: "'Inter', sans-serif" }}>
       <motion.div className="fixed top-0 left-0 h-[2px] bg-[#C9A855] z-[1000] origin-left" style={{ scaleX: scrollYProgress }} />
 
       {/* Nav */}
@@ -249,7 +249,7 @@ export default function LegrandPage() {
       </AnimatePresence>
 
       {/* Hero */}
-      <section id="hero" ref={heroRef} className="relative min-h-screen overflow-hidden flex items-end">
+      <section id="hero" ref={heroRef} className="relative min-h-dvh overflow-hidden flex items-end">
         <motion.div className="absolute inset-0" style={{ y: heroY }}>
           <Image src="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=1600&q=85" alt="Palais de justice" fill className="object-cover" />
           <div className="absolute inset-0 bg-gradient-to-t from-[#0E0A06] via-[#0E0A06]/60 to-transparent" />

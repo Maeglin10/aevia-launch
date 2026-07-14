@@ -5,7 +5,7 @@ import { C, mono, sans } from "../shared";
 
 export default function LegalPage() {
   return (
-    <div style={{ background: C.bg, color: C.text, minHeight: "100vh", padding: "6rem 2.5rem" }}>
+    <div style={{ background: C.bg, color: C.text, minHeight: "100dvh", padding: "6rem 2.5rem" }}>
       <div style={{ maxWidth: "800px", margin: "0 auto", fontFamily: sans }}>
         <h1 style={{ fontFamily: mono, fontSize: "2.5rem", fontWeight: 700, color: C.green, marginBottom: "3rem" }}>
           Mentions Légales

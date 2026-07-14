@@ -5,7 +5,7 @@ import { Reveal, GridBackground } from "../shared";
 
 export default function LegalPage() {
   return (
-    <div className="bg-[#050505] text-[#888] font-sans min-h-screen py-24 px-6 relative">
+    <div className="bg-[#050505] text-[#888] font-sans min-h-dvh py-24 px-6 relative">
       <GridBackground />
       <div className="max-w-[800px] mx-auto relative z-10">
         

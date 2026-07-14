@@ -165,7 +165,7 @@ export default function KeopsPage() {
     }
   }, [c]);
 return (
-    <div className="min-h-screen bg-[#F5F2ED] text-[#1A1510] overflow-x-clip flex flex-col" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+    <div className="min-h-dvh bg-[#F5F2ED] text-[#1A1510] overflow-x-clip flex flex-col" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
       <motion.div className="fixed top-0 left-0 right-0 h-[2px] bg-[#C46A3E] origin-left z-[60]" style={{ scaleX: scrollYProgress }} />
 
       {/* Nav */}
@@ -250,7 +250,7 @@ return (
         {page === "home" && (
           <>
             {/* Hero */}
-            <section id="hero" ref={heroRef} className="relative h-screen overflow-hidden">
+            <section id="hero" ref={heroRef} className="relative h-dvh overflow-hidden">
               <motion.div className="absolute inset-0" style={{ y: heroY }}>
                 <Image src="https://images.unsplash.com/photo-1518005020951-eccb494ad742?w=1600&q=85" alt="Kéops Architecture" fill className="object-cover" priority />
                 <div className="absolute inset-0 bg-gradient-to-b from-[#1A1510]/50 to-[#F5F2ED]/80" />

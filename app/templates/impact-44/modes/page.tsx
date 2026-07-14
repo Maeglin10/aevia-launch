@@ -8,7 +8,7 @@ export default function GameModesPage() {
   const [activeMode, setActiveMode] = useState(0);
 
   return (
-    <div style={{ background: C.bg, color: C.white, minHeight: "100vh", padding: "80px 40px 120px", fontFamily: "'Courier New', monospace", display: "flex", alignItems: "center", justifyContent: "center", position: "relative" }}>
+    <div style={{ background: C.bg, color: C.white, minHeight: "100dvh", padding: "80px 40px 120px", fontFamily: "'Courier New', monospace", display: "flex", alignItems: "center", justifyContent: "center", position: "relative" }}>
       {/* Section label */}
       <div style={{
         position: 'absolute',

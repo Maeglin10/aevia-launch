@@ -205,7 +205,7 @@ export default function MorphStudioPage() {
       });
     }
   }, [c]);return (
-    <div className="bg-[#050505] text-[#e0e0e0] font-mono min-h-screen selection:bg-cyan-500/30 selection:text-cyan-200 overflow-x-hidden">
+    <div className="bg-[#050505] text-[#e0e0e0] font-mono min-h-dvh selection:bg-cyan-500/30 selection:text-cyan-200 overflow-x-hidden">
       
       <GridBackground />
 
@@ -262,7 +262,7 @@ export default function MorphStudioPage() {
 
       <main className="relative z-10">
         {/* ─── HERO ──────────────────────────────────────────────────────── */}
-        <section id="hero" className="relative h-screen min-h-[800px] flex items-center pt-20">
+        <section id="hero" className="relative h-dvh min-h-[800px] flex items-center pt-20">
           <div className="max-w-[1600px] mx-auto px-6 md:px-12 w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             
             <div className="relative z-10">

@@ -127,7 +127,7 @@ export default function SereneRetreatHome() {
   }, [c]);
 
   return (
-    <div ref={containerRef} style={{ background: C.cream, minHeight: "100vh" }}>
+    <div ref={containerRef} style={{ background: C.cream, minHeight: "100dvh" }}>
       <style>{`
         /* mobile: stack 2-col grids to single column (added by responsive fix) */
         @media (max-width: 768px) {
@@ -140,7 +140,7 @@ export default function SereneRetreatHome() {
         ref={heroRef}
         style={{
           position: "relative",
-          height: "100vh",
+          height: "100dvh",
           overflow: "hidden",
           display: "flex",
           alignItems: "center",

@@ -150,7 +150,7 @@ export default function KineticMarqueePage() {
       });
     }
   }, [c]);return (
-    <div className="bg-[#0a0506] text-white font-sans min-h-screen selection:bg-orange-500 selection:text-white overflow-x-hidden">
+    <div className="bg-[#0a0506] text-white font-sans min-h-dvh selection:bg-orange-500 selection:text-white overflow-x-hidden">
 
       {/* ── NAVBAR ──────── */}
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#0a0506]/90 backdrop-blur-xl border-b border-orange-500/10 py-4" : "bg-transparent py-8"}`}>
@@ -201,7 +201,7 @@ export default function KineticMarqueePage() {
 
       <main>
         {/* ── HERO + MARQUEE ──── */}
-        <section id="hero" className="relative min-h-screen flex flex-col justify-center pt-32 pb-20 overflow-hidden">
+        <section id="hero" className="relative min-h-dvh flex flex-col justify-center pt-32 pb-20 overflow-hidden">
           <motion.div style={{ opacity: heroOpacity }} className="max-w-[1600px] mx-auto px-6 md:px-12 w-full mb-20">
             <Reveal>
               <div className="flex items-center gap-4 mb-8">

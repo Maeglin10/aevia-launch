@@ -134,7 +134,7 @@ export default function VulcanMotorsPage() {
       });
     }
   }, [c]);return (
-    <div className="bg-[#050505] text-white font-sans min-h-screen selection:bg-[#ff3b30] selection:text-white overflow-x-hidden">
+    <div className="bg-[#050505] text-white font-sans min-h-dvh selection:bg-[#ff3b30] selection:text-white overflow-x-hidden">
       
       {/* ── NAVBAR ────────────────── */}
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-black/90 backdrop-blur-xl border-b border-red-600/20 py-4" : "bg-transparent py-8"}`}>
@@ -179,7 +179,7 @@ export default function VulcanMotorsPage() {
 
       <main>
         {/* ── HERO ──────────────────── */}
-        <section id="hero" className="relative h-screen flex items-center pt-32 pb-20 overflow-hidden">
+        <section id="hero" className="relative h-dvh flex items-center pt-32 pb-20 overflow-hidden">
           <div className="absolute inset-0">
             <Image src="https://images.unsplash.com/photo-1614164185128-e4ec99c436d7?auto=format&fit=crop&q=80&w=2400" alt="Hypercar Detail" fill className="object-cover opacity-60 grayscale hover:grayscale-0 transition-all duration-1000" priority />
             <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/20 to-transparent" />

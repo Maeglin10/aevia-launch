@@ -796,7 +796,7 @@ export default function Home() {
 return (
     <div ref={containerRef} className="relative w-full overflow-hidden">
       {/* ── Hero ───────────────────────────────────────────────────────────── */}
-      <section className="min-h-screen flex items-center relative overflow-hidden pt-24">
+      <section className="min-h-dvh flex items-center relative overflow-hidden pt-24">
         <div className="absolute inset-0">
           <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-[#9B5CF6]/10 rounded-full blur-3xl" />
           <div className="absolute bottom-1/4 left-0 w-96 h-96 bg-[#6D28D9]/15 rounded-full blur-3xl" />

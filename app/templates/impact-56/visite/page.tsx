@@ -70,7 +70,7 @@ export default function VisitePage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#FDFBF7]">
+    <div className="min-h-dvh bg-[#FDFBF7]">
       {/* Hero */}
       <section className="relative h-72 flex items-end bg-[#2D1B0E]">
         <Image

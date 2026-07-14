@@ -1026,7 +1026,7 @@ return (
         ref={heroRef}
         id="hero"
         style={{
-          position: 'relative', minHeight: '100vh',
+          position: 'relative', minHeight: '100dvh',
           display: 'flex', alignItems: 'center',
           overflow: 'hidden', background: C.bg,
         }}

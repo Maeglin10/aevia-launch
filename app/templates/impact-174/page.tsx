@@ -212,7 +212,7 @@ export default function Impact174Page() {
   }, [c]);const navLinks = ["Programs", "Schedule", "Coaches", "Membership"]
 
   return (
-    <div className="min-h-screen overflow-x-hidden bg-[#0a0a0a] text-[#f5f5f5]" style={{ fontFamily: "'Inter', sans-serif" }}>
+    <div className="min-h-dvh overflow-x-hidden bg-[#0a0a0a] text-[#f5f5f5]" style={{ fontFamily: "'Inter', sans-serif" }}>
 
       {/* Progress bar */}
       <motion.div className="fixed top-0 left-0 h-[2px] bg-[#84cc16] z-[1000] origin-left"
@@ -272,7 +272,7 @@ export default function Impact174Page() {
       </nav>
 
       {/* ── HERO — 50/50 split ─────────────────────────────────────────── */}
-      <section id="hero" className="relative h-screen flex overflow-hidden">
+      <section id="hero" className="relative h-dvh flex overflow-hidden">
         {/* Left — text */}
         <div className="relative z-10 w-full lg:w-1/2 flex flex-col justify-center px-10 md:px-16 bg-[#0a0a0a]">
           <Reveal>

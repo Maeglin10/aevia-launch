@@ -1043,7 +1043,7 @@ export default function Page() {
   const navLinks = ['Services', 'Avant/Après', 'Équipe', 'Galerie', 'Réservation']
 
   return (
-    <div style={{ background: BG, color: DARK, minHeight: '100vh', overflowX: 'hidden' }}>
+    <div style={{ background: BG, color: DARK, minHeight: '100dvh', overflowX: 'hidden' }}>
       <style>{`
         /* mobile: stack 2-col grids to single column (added by responsive fix) */
         @media (max-width: 768px) {
@@ -1125,7 +1125,7 @@ export default function Page() {
       <section id="hero"
         style={{
           position: 'relative',
-          minHeight: '100vh',
+          minHeight: '100dvh',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',

@@ -320,7 +320,7 @@ export default function BoulangerieNoirePage() {
 
   return (
     <div
-      className="premium-theme min-h-screen bg-[#0a0a0a] text-[#d6d3d1] font-mono selection:bg-stone-800 selection:text-white overflow-x-hidden"
+      className="premium-theme min-h-dvh bg-[#0a0a0a] text-[#d6d3d1] font-mono selection:bg-stone-800 selection:text-white overflow-x-hidden"
       style={{ scrollBehavior: "smooth" }}
     >
       {/* ==========================================

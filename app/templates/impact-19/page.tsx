@@ -165,7 +165,7 @@ export default function SummitCapitalPage() {
     }
   }, [c]);
 return (
-    <div className="min-h-screen bg-[#09090B] text-white overflow-x-clip flex flex-col" style={{ fontFamily: "'Barlow', sans-serif" }}>
+    <div className="min-h-dvh bg-[#09090B] text-white overflow-x-clip flex flex-col" style={{ fontFamily: "'Barlow', sans-serif" }}>
       <motion.div className="fixed top-0 left-0 right-0 h-[2px] bg-[#C9A86C] origin-left z-[60]" style={{ scaleX: scrollYProgress }} />
 
       {/* Nav */}
@@ -250,7 +250,7 @@ return (
         {page === "home" && (
           <>
             {/* Hero */}
-            <section id="hero" ref={heroRef} className="relative h-screen overflow-hidden flex items-center">
+            <section id="hero" ref={heroRef} className="relative h-dvh overflow-hidden flex items-center">
               <motion.div className="absolute inset-0 pointer-events-none" style={{ y: heroY }}>
                 <Image src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1600&q=85" alt={fd?.businessName ?? "Summit Capital"} fill className="object-cover opacity-30" priority />
                 <div className="absolute inset-0 bg-gradient-to-br from-[#09090B] via-[#09090B]/80 to-[#09090B]" />

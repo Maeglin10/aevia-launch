@@ -500,7 +500,7 @@ return (
       <style>{`@media (max-width: 900px) { #mb164-nav { display: none !important; } .mb164-burger { display: flex !important; } }`}</style>
 
       {/* HERO — full viewport, split asymmetric */}
-      <section className="imx-mobstack" id="hero" style={{ minHeight: "100vh", paddingTop: 60, display: "grid", gridTemplateColumns: "1fr 1fr", borderBottom: `2px solid ${C.bgDark}` }}>
+      <section className="imx-mobstack" id="hero" style={{ minHeight: "100dvh", paddingTop: 60, display: "grid", gridTemplateColumns: "1fr 1fr", borderBottom: `2px solid ${C.bgDark}` }}>
         {/* Left: oversized headline */}
         <div style={{ borderRight: `2px solid ${C.bgDark}`, display: "flex", flexDirection: "column", justifyContent: "space-between", padding: "80px 64px" }}>
           <div style={{ fontFamily: C.mono, fontSize: 11, letterSpacing: 4, color: C.textMuted, textTransform: "uppercase" }}>

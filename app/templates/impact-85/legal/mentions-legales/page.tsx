@@ -33,7 +33,7 @@ export default function MentionsLegales() {
   const [menuOpen, setMenuOpen] = useState(false)
 
   return (
-    <div className="min-h-screen bg-[#F8F6F2] text-[#1C1814]" style={{ fontFamily: "'Inter', sans-serif" }}>
+    <div className="min-h-dvh bg-[#F8F6F2] text-[#1C1814]" style={{ fontFamily: "'Inter', sans-serif" }}>
       {/* Nav */}
       <motion.nav
         className="fixed top-0 left-0 right-0 z-50 bg-[#F8F6F2]/95 backdrop-blur-md border-b border-[#E4DDD4]"

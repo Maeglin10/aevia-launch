@@ -316,7 +316,7 @@ function RouteMapHero() {
       id="hero"
       style={{
         position: "relative",
-        minHeight: "100vh",
+        minHeight: "100dvh",
         overflow: "hidden",
         background: `linear-gradient(160deg, #0a0f1e 0%, #0d1835 40%, #0a1520 100%)`,
         display: "flex",
@@ -1264,7 +1264,7 @@ function DeliveryTimeline() {
         style={{
           position: "sticky",
           top: 0,
-          height: "100vh",
+          height: "100dvh",
           overflow: "hidden",
           display: "flex",
           alignItems: "center",

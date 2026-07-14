@@ -45,7 +45,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
   return (
     <div
-      className="bg-[#0F0F23] text-[#F8FAFC] min-h-screen flex flex-col overflow-x-hidden"
+      className="bg-[#0F0F23] text-[#F8FAFC] min-h-dvh flex flex-col overflow-x-hidden"
       style={{ fontFamily: FONT }}
     >
       {/* Load Inter Font */}

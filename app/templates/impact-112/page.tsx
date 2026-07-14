@@ -626,7 +626,7 @@ return (
         color: C.text,
         fontFamily: FONT,
         overflowX: "hidden",
-        minHeight: "100vh",
+        minHeight: "100dvh",
       }}
     >
       <style>{`
@@ -790,7 +790,7 @@ return (
       {/* ── 2. HERO ───────────────────────────────────────────────── */}
       <section id="hero"
         style={{
-          minHeight: "100vh",
+          minHeight: "100dvh",
           display: "flex",
           alignItems: "center",
           paddingTop: 68,

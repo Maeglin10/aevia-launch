@@ -507,7 +507,7 @@ function Hero() {
       ref={ref}
       style={{
         position: 'relative',
-        height: '100vh',
+        height: '100dvh',
         minHeight: 640,
         overflow: 'hidden',
         background: C.bg,
@@ -871,7 +871,7 @@ function CrossfadeSequence() {
 
   return (
     <section
-      style={{ position: 'relative', height: '100vh', overflow: 'hidden', background: C.bg }}
+      style={{ position: 'relative', height: '100dvh', overflow: 'hidden', background: C.bg }}
     >
       <div
         style={{

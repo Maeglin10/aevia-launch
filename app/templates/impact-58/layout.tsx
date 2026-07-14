@@ -35,7 +35,7 @@ export default function SkewLayout({
   const [mobileOpen, setMobileOpen] = useState(false)
 
   return (
-    <div ref={containerRef} style={{ background: C.bg, color: C.text, fontFamily: "'DM Sans', sans-serif", minHeight: "100vh", overflowX: "hidden", position: "relative" }}>
+    <div ref={containerRef} style={{ background: C.bg, color: C.text, fontFamily: "'DM Sans', sans-serif", minHeight: "100dvh", overflowX: "hidden", position: "relative" }}>
       <StyleInjector />
 
       {/* Scroll progress */}

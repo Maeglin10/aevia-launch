@@ -99,7 +99,7 @@ export default function WorksPage() {
   const filtered = activeType === "All" ? ALL_PROJECTS : ALL_PROJECTS.filter((p) => p.type === activeType);
 
   return (
-    <main className="min-h-screen bg-[#fcfcfc]">
+    <main className="min-h-dvh bg-[#fcfcfc]">
       {/* Header */}
       <section className="py-32 border-b border-black/5">
         <div className="max-w-[1400px] mx-auto px-6 md:px-12">

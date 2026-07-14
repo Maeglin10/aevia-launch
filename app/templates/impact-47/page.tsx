@@ -26,7 +26,7 @@ function HeroSection() {
   const opacity = useTransform(scrollYProgress, [0, 0.65], [1, 0]);
 
   return (
-    <section ref={ref} id="hero" style={{ position: "relative", minHeight: "100vh", background: C.bgPink, display: "flex", alignItems: "center", overflow: "hidden" }}>
+    <section ref={ref} id="hero" style={{ position: "relative", minHeight: "100dvh", background: C.bgPink, display: "flex", alignItems: "center", overflow: "hidden" }}>
       {/* Falling petals */}
       {petalPaths.map((_, i) => (
         <FallingPetal key={i} index={i} />
@@ -549,7 +549,7 @@ export default function FloristHome() {
     }
   }, [c]);
 return (
-    <div style={{ background: C.bg, minHeight: "100vh" }}>
+    <div style={{ background: C.bg, minHeight: "100dvh" }}>
       <style>{`
         /* mobile: stack 2-col grids to single column (added by responsive fix) */
         @media (max-width: 768px) {

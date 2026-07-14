@@ -211,7 +211,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       </AnimatePresence>
 
       {/* Main Content */}
-      <main className="min-h-screen">
+      <main className="min-h-dvh">
         {children}
       </main>
 

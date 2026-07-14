@@ -443,7 +443,7 @@ function Hero() {
   return (
     <section id="hero"
       ref={ref}
-      className="relative min-h-screen flex items-center justify-center overflow-hidden"
+      className="relative min-h-dvh flex items-center justify-center overflow-hidden"
       style={{ backgroundColor: C.navyDeep }}
     >
       {/* Parallax image */}

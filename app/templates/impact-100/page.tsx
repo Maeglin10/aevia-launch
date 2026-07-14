@@ -248,7 +248,7 @@ export default function NovaSpacesPage() {
   }, [c]);
 
   return (
-    <div className="premium-theme min-h-screen bg-[#f7f7f7] text-[#1a1a1a] font-sans selection:bg-[#1a1a1a] selection:text-white overflow-x-hidden">
+    <div className="premium-theme min-h-dvh bg-[#f7f7f7] text-[#1a1a1a] font-sans selection:bg-[#1a1a1a] selection:text-white overflow-x-hidden">
       {/* ── NAVIGATION ── */}
       <nav
         className={`fixed top-0 left-0 w-full z-50 transition-all duration-700 ${scrolled ? "bg-white/90 backdrop-blur-2xl py-4 border-b border-black/5" : "bg-transparent py-8"}`}

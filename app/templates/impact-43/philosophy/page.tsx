@@ -5,7 +5,7 @@ import { C, TextReveal } from "../shared";
 
 export default function PhilosophyPage() {
   return (
-    <div style={{ background: C.charcoal, color: C.white, minHeight: "100vh", padding: "80px 5% 120px" }}>
+    <div style={{ background: C.charcoal, color: C.white, minHeight: "100dvh", padding: "80px 5% 120px" }}>
       <div style={{ maxWidth: 960, margin: "0 auto" }}>
         <div style={{ textAlign: "center", marginBottom: 80 }}>
           <TextReveal>

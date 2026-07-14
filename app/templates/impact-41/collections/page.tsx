@@ -5,7 +5,7 @@ import { SCENES, RunwayCarousel, FabricSection } from '../shared';
 
 export default function CollectionsPage() {
   return (
-    <div style={{ minHeight: '100vh', backgroundColor: SCENES[1].bg }}>
+    <div style={{ minHeight: '100dvh', backgroundColor: SCENES[1].bg }}>
       <FabricSection pattern="herringbone" scene={SCENES[1]}>
         <div style={{ padding: '6rem 5rem 0' }}>
           <div

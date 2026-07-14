@@ -165,7 +165,7 @@ export default function EssentialCafePage() {
       });
     }
   }, [c]);return (
-    <div className="min-h-screen bg-[#FDFAF5] text-[#2A1F0E]" style={{ fontFamily: "'Lato', sans-serif" }}>
+    <div className="min-h-dvh bg-[#FDFAF5] text-[#2A1F0E]" style={{ fontFamily: "'Lato', sans-serif" }}>
       <motion.div className="fixed top-0 left-0 h-[2px] bg-[#8B5E3C] z-[1000] origin-left" style={{ scaleX: scrollYProgress }} />
 
       {/* Nav */}
@@ -238,7 +238,7 @@ export default function EssentialCafePage() {
       </AnimatePresence>
 
       {/* Hero */}
-      <section id="hero" ref={heroRef} className="relative min-h-screen overflow-hidden flex items-end">
+      <section id="hero" ref={heroRef} className="relative min-h-dvh overflow-hidden flex items-end">
         <motion.div className="absolute inset-0" style={{ y: heroY }}>
           <Image src="https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=1600&q=85" alt="Le Matin Doré" fill className="object-cover" />
           <div className="absolute inset-0 bg-gradient-to-t from-[#1A0E05]/90 via-[#1A0E05]/30 to-transparent" />

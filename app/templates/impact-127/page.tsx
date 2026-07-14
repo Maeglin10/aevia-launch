@@ -141,7 +141,7 @@ export default function PulseEventsPage() {
       });
     }
   }, [c]);return (
-    <div className="bg-[#08050a] text-white font-sans min-h-screen selection:bg-pink-500 selection:text-white overflow-x-hidden">
+    <div className="bg-[#08050a] text-white font-sans min-h-dvh selection:bg-pink-500 selection:text-white overflow-x-hidden">
 
       {/* ── NAVBAR ─────────────────────── */}
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#08050a]/90 backdrop-blur-xl border-b border-pink-500/10 py-4" : "bg-transparent py-8"}`}>

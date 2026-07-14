@@ -878,7 +878,7 @@ return (
         background: C.bg,
         color: C.text,
         fontFamily: C.fontSans,
-        minHeight: "100vh",
+        minHeight: "100dvh",
         overflowX: "hidden",
       }}
     >
@@ -1100,7 +1100,7 @@ return (
         ref={heroRef}
         style={{
           position: "relative",
-          height: "100vh",
+          height: "100dvh",
           minHeight: 680,
           display: "flex",
           alignItems: "center",

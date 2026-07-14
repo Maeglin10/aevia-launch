@@ -121,7 +121,7 @@ export default function KuroOmakasePage() {
       });
     }
   }, [c]);return (
-    <div className="bg-[#050505] text-[#d1d1d1] font-sans min-h-screen selection:bg-white selection:text-black overflow-x-hidden">
+    <div className="bg-[#050505] text-[#d1d1d1] font-sans min-h-dvh selection:bg-white selection:text-black overflow-x-hidden">
       
       {/* ── NAVBAR ────────────────── */}
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-1000 ${scrolled ? "bg-black/95 backdrop-blur-xl border-b border-white/5 py-4" : "bg-transparent py-8"}`}>
@@ -164,7 +164,7 @@ export default function KuroOmakasePage() {
 
       <main>
         {/* ── HERO ──────────────────── */}
-        <section id="hero" className="relative h-screen flex items-center justify-center overflow-hidden">
+        <section id="hero" className="relative h-dvh flex items-center justify-center overflow-hidden">
           <div className="absolute inset-0">
              <Image src="https://images.unsplash.com/photo-1579871494447-9811cf80d66c?auto=format&fit=crop&q=80&w=2400" alt="Chef Hands" fill className="object-cover opacity-60 grayscale hover:grayscale-0 transition-all duration-[2000ms] scale-105" priority />
              <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-transparent" />

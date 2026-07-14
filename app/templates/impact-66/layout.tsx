@@ -57,7 +57,7 @@ export default function AtelierLayout({
 
   return (
     <div
-      className="premium-theme min-h-screen bg-[#faf9f6] text-[#1a1814] font-sans selection:bg-[#c9b7a1] selection:text-white overflow-x-hidden relative"
+      className="premium-theme min-h-dvh bg-[#faf9f6] text-[#1a1814] font-sans selection:bg-[#c9b7a1] selection:text-white overflow-x-hidden relative"
       style={{ scrollBehavior: "smooth" }}
     >
       <style>{`::-webkit-scrollbar{width:4px;background:#faf9f6}::-webkit-scrollbar-thumb{background:#c9b7a140}`}</style>

@@ -7,7 +7,7 @@ export default function SubscribePage() {
   const [submitted, setSubmitted] = useState(false);
 
   return (
-    <section className="py-24 bg-[#0A0A08] min-h-screen">
+    <section className="py-24 bg-[#0A0A08] min-h-dvh">
       <div className="max-w-4xl mx-auto px-6 text-center">
         <Reveal>
           <p className="text-[10px] tracking-[0.4em] uppercase text-[#C9A86C] mb-4">S&apos;abonner</p>

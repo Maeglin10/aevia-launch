@@ -23,7 +23,7 @@ export default function ContactPage() {
   }
 
   return (
-    <div className="bg-[#F7F5F2] pt-32 pb-24 min-h-screen">
+    <div className="bg-[#F7F5F2] pt-32 pb-24 min-h-dvh">
       <div className="max-w-7xl mx-auto px-6 md:px-12">
         <div className="grid md:grid-cols-[1fr_1.2fr] gap-16">
           {/* Left: Info */}

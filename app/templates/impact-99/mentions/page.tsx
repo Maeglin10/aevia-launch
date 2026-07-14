@@ -328,7 +328,7 @@ const LABEL_CLASS =
 
 function CartePage() {
   return (
-    <section id="hero" className="pt-44 pb-32 px-6 md:px-12 min-h-screen">
+    <section id="hero" className="pt-44 pb-32 px-6 md:px-12 min-h-dvh">
       <div className="max-w-[1600px] mx-auto">
         <PageHeader
           kicker="Manifeste Saisonnier // Été 2026"
@@ -396,7 +396,7 @@ function ReservationPage() {
   const [sent, setSent] = useState(false);
 
   return (
-    <section className="pt-44 pb-32 px-6 md:px-12 min-h-screen">
+    <section className="pt-44 pb-32 px-6 md:px-12 min-h-dvh">
       <div className="max-w-[1600px] mx-auto">
         <PageHeader
           kicker="Réserver une table"
@@ -580,7 +580,7 @@ function BlogPage({
 
   if (post) {
     return (
-      <article className="pt-44 pb-32 px-6 md:px-12 min-h-screen">
+      <article className="pt-44 pb-32 px-6 md:px-12 min-h-dvh">
         <div className="max-w-[900px] mx-auto">
           <Reveal>
             <button
@@ -623,7 +623,7 @@ function BlogPage({
   }
 
   return (
-    <section className="pt-44 pb-32 px-6 md:px-12 min-h-screen">
+    <section className="pt-44 pb-32 px-6 md:px-12 min-h-dvh">
       <div className="max-w-[1600px] mx-auto">
         <PageHeader
           kicker="Le Journal Ember"
@@ -682,7 +682,7 @@ function BlogPage({
 
 function AboutPage({ goTo }: { goTo: (p: EmberPage) => void }) {
   return (
-    <section className="pt-44 pb-32 px-6 md:px-12 min-h-screen">
+    <section className="pt-44 pb-32 px-6 md:px-12 min-h-dvh">
       <div className="max-w-[1600px] mx-auto">
         <PageHeader
           kicker="La Maison"
@@ -777,7 +777,7 @@ function ContactPage() {
   const [sent, setSent] = useState(false);
 
   return (
-    <section className="pt-44 pb-32 px-6 md:px-12 min-h-screen">
+    <section className="pt-44 pb-32 px-6 md:px-12 min-h-dvh">
       <div className="max-w-[1600px] mx-auto">
         <PageHeader
           kicker="Nous Joindre"
@@ -913,7 +913,7 @@ function ContactPage() {
 function LegalPage({ variant }: { variant: "mentions" | "privacy" }) {
   const isMentions = variant === "mentions";
   return (
-    <section className="pt-44 pb-32 px-6 md:px-12 min-h-screen">
+    <section className="pt-44 pb-32 px-6 md:px-12 min-h-dvh">
       <div className="max-w-[900px] mx-auto">
         <PageHeader
           kicker="Informations Légales"
@@ -1031,7 +1031,7 @@ export default function EmberGrillPage() {
   }, []);
 
   return (
-    <div className="premium-theme min-h-screen bg-[#050505] text-[#dcdcdc] font-sans selection:bg-[#ff4d00] selection:text-white overflow-x-hidden">
+    <div className="premium-theme min-h-dvh bg-[#050505] text-[#dcdcdc] font-sans selection:bg-[#ff4d00] selection:text-white overflow-x-hidden">
       {/* ── NAVIGATION ── */}
       <nav
         className={`fixed top-0 left-0 w-full z-50 transition-all duration-700 ${scrolled || page !== "home" ? "bg-[#050505]/95 backdrop-blur-2xl py-4 border-b border-white/5" : "bg-transparent py-8"}`}

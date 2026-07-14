@@ -311,7 +311,7 @@ return (
       {/* ── HERO ──────────────────── */}
       <section
         ref={heroRef}
-        className="relative h-screen flex items-center justify-center overflow-hidden bg-[#050810]"
+        className="relative h-dvh flex items-center justify-center overflow-hidden bg-[#050810]"
       >
         <GridBackground />
         <motion.div

@@ -808,7 +808,7 @@ function HeroSection({
       id="hero"
       style={{
         position: "relative",
-        minHeight: "100vh",
+        minHeight: "100dvh",
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
@@ -2080,7 +2080,7 @@ export default function SmartTextilesPremium() {
       style={{
         background: "#030307",
         color: "#f0eeff",
-        minHeight: "100vh",
+        minHeight: "100dvh",
         overflowX: "hidden",
         fontFamily: "'Inter', sans-serif",
       }}

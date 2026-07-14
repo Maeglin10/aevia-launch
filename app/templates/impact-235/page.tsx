@@ -444,7 +444,7 @@ function Hero() {
       id="maison"
       style={{
         position: 'relative',
-        height: '100vh',
+        height: '100dvh',
         minHeight: 680,
         overflow: 'hidden',
         background: C.ink,
@@ -818,7 +818,7 @@ function CollectionSequence() {
   return (
     <section
       id="collections"
-      style={{ position: 'relative', height: '100vh', overflow: 'hidden', background: C.ink }}
+      style={{ position: 'relative', height: '100dvh', overflow: 'hidden', background: C.ink }}
     >
       <div
         style={{
@@ -1068,7 +1068,7 @@ function MaterialsPanel() {
             position: 'sticky',
             top: 0,
             width: '48%',
-            height: '100vh',
+            height: '100dvh',
             overflow: 'hidden',
             flexShrink: 0,
           }}

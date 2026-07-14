@@ -400,7 +400,7 @@ function Hero() {
   return (
     <section id="hero"
       ref={heroRef}
-      className="relative min-h-screen flex items-center justify-center overflow-hidden"
+      className="relative min-h-dvh flex items-center justify-center overflow-hidden"
     >
       {/* Parallax gradient bg */}
       <motion.div
@@ -1609,7 +1609,7 @@ export default function Impact88Page() {
     }
   }, [c]);
 return (
-    <main className="bg-[#FDF2F8] text-[#831843] min-h-screen overflow-x-hidden">
+    <main className="bg-[#FDF2F8] text-[#831843] min-h-dvh overflow-x-hidden">
       <ScrollProgressBar />
       <Nav />
       <Hero />

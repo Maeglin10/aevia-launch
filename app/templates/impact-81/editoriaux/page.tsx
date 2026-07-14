@@ -12,7 +12,7 @@ export default function EditoriauxPage() {
   const filtered = activeFilter === "Tous" ? EDITORIALS : EDITORIALS.filter(e => e.tag === activeFilter);
 
   return (
-    <section className="py-24 bg-[#0E0E0C] min-h-screen">
+    <section className="py-24 bg-[#0E0E0C] min-h-dvh">
       <div className="max-w-7xl mx-auto px-6 md:px-12">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-12">
           <Reveal>

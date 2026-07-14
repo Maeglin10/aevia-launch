@@ -441,7 +441,7 @@ function Hero({ accentColor, particles }: { accentColor: string; particles: Part
       ref={ref}
       id="hero"
       style={{
-        minHeight: '100vh',
+        minHeight: '100dvh',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -2213,7 +2213,7 @@ export default function NailStudioTemplate() {
   return (
     <div
       style={{
-        minHeight: '100vh',
+        minHeight: '100dvh',
         background: '#fff9f7',
         fontFamily: 'Inter, sans-serif',
         transition: 'background 0.5s ease',

@@ -124,7 +124,7 @@ export default function NebulaCloudPage() {
       });
     }
   }, [c]);return (
-    <div className="bg-[#020617] text-white font-sans min-h-screen selection:bg-blue-500 selection:text-white overflow-x-hidden">
+    <div className="bg-[#020617] text-white font-sans min-h-dvh selection:bg-blue-500 selection:text-white overflow-x-hidden">
       
       {/* ── NAVBAR ────────────────── */}
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#020617]/80 backdrop-blur-2xl border-b border-blue-500/10 py-4" : "bg-transparent py-8"}`}>
@@ -169,7 +169,7 @@ export default function NebulaCloudPage() {
 
       <main>
         {/* ── HERO ──────────────────── */}
-        <section id="hero" className="relative min-h-screen flex items-center pt-32 pb-20 overflow-hidden">
+        <section id="hero" className="relative min-h-dvh flex items-center pt-32 pb-20 overflow-hidden">
           {/* Animated Background */}
           <div className="absolute inset-0">
             <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-blue-600/10 blur-[120px] rounded-full animate-pulse" />

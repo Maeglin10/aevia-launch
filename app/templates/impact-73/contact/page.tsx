@@ -9,7 +9,7 @@ export default function ContactPage() {
   const [formSubmitted, setFormSubmitted] = useState(false);
 
   return (
-    <div className="py-20 bg-[#08080c] min-h-screen">
+    <div className="py-20 bg-[#08080c] min-h-dvh">
       <div className="max-w-[1400px] mx-auto px-6 md:px-12">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
           {/* Info Col */}

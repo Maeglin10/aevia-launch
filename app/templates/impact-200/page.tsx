@@ -521,7 +521,7 @@ export default function Impact200Page() {
 
   return (
     <div
-      className="min-h-screen overflow-x-hidden bg-[#FDF2F8] text-[#831843]"
+      className="min-h-dvh overflow-x-hidden bg-[#FDF2F8] text-[#831843]"
       style={{ fontFamily: "'Cormorant Infant', serif" }}
     >
       {/* ── Scroll Progress Bar ──────────────────────────────────── */}
@@ -662,7 +662,7 @@ export default function Impact200Page() {
       <section
         ref={heroRef}
         id="hero"
-        className="relative h-screen min-h-[700px] flex items-center overflow-hidden"
+        className="relative h-dvh min-h-[700px] flex items-center overflow-hidden"
       >
         {/* Soft pink overlay base */}
         <div className="absolute inset-0 bg-gradient-to-br from-[#FDF2F8] via-[#FDF2F8]/80 to-[#FDF2F8]/60 z-10" />

@@ -139,7 +139,7 @@ export default function TorrefieCoffeePage() {
       });
     }
   }, [c]);return (
-    <div className="bg-[#f5f0ea] text-[#2c1810] font-sans min-h-screen selection:bg-[#6b3a24] selection:text-white overflow-x-hidden">
+    <div className="bg-[#f5f0ea] text-[#2c1810] font-sans min-h-dvh selection:bg-[#6b3a24] selection:text-white overflow-x-hidden">
 
       {/* ── NAVBAR ────────────────────────────── */}
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#f5f0ea]/90 backdrop-blur-xl border-b border-[#6b3a24]/10 py-4" : "bg-transparent py-8"}`}>

@@ -7,7 +7,7 @@ import { motion } from "framer-motion";
 
 export default function CGU() {
   return (
-    <div className="premium-theme min-h-screen bg-[#050505] text-[#ffffff] font-sans selection:bg-[#00f2ff] selection:text-black">
+    <div className="premium-theme min-h-dvh bg-[#050505] text-[#ffffff] font-sans selection:bg-[#00f2ff] selection:text-black">
       {/* ── NAVIGATION ── */}
       <nav className="fixed top-0 left-0 w-full z-50 bg-black/80 backdrop-blur-xl py-4 border-b border-white/5">
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex items-center justify-between">

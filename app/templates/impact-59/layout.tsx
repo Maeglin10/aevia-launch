@@ -45,7 +45,7 @@ export default function LuminalLayout({
 
   return (
     <div
-      className="premium-theme min-h-screen bg-[#f8f5f0] text-[#2a2a2a] overflow-x-hidden selection:bg-[#3d7a5e] selection:text-white"
+      className="premium-theme min-h-dvh bg-[#f8f5f0] text-[#2a2a2a] overflow-x-hidden selection:bg-[#3d7a5e] selection:text-white"
       style={{ scrollBehavior: "smooth" }}
     >
       <StyleInjector />

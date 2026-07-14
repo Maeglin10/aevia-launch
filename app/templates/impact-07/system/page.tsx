@@ -8,7 +8,7 @@ import "../../premium.css"
 
 export default function SystemPage() {
   return (
-    <div className="premium-theme min-h-screen bg-[#080808] text-[#d4d4d4] font-sans selection:bg-[#c9a84c] selection:text-black overflow-x-hidden">
+    <div className="premium-theme min-h-dvh bg-[#080808] text-[#d4d4d4] font-sans selection:bg-[#c9a84c] selection:text-black overflow-x-hidden">
       
       {/* ── NAVIGATION ── */}
       <nav className="fixed top-0 left-0 w-full z-50 transition-all duration-700 bg-black/90 backdrop-blur-2xl py-4 border-b border-white/5">

@@ -23,7 +23,7 @@ const FONT = "'Outfit', system-ui, sans-serif"
 
 export default function MentionsLegales() {
   return (
-    <div style={{ background: C.bg, fontFamily: FONT, color: C.text, minHeight: "100vh", display: "flex", flexDirection: "column" }}>
+    <div style={{ background: C.bg, fontFamily: FONT, color: C.text, minHeight: "100dvh", display: "flex", flexDirection: "column" }}>
       <style jsx global>{`@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');`}</style>
 
       {/* Header */}

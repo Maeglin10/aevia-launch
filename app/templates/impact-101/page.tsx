@@ -231,7 +231,7 @@ export default function BlockBasePage() {
   }, [c]);
 
   return (
-    <div className="premium-theme min-h-screen bg-[#050507] text-white font-mono selection:bg-[#00f2ff] selection:text-black overflow-x-hidden">
+    <div className="premium-theme min-h-dvh bg-[#050507] text-white font-mono selection:bg-[#00f2ff] selection:text-black overflow-x-hidden">
       {/* ── BACKGROUND ARCHITECTURE ── */}
       <div className="fixed inset-0 pointer-events-none z-0">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,#111118_0%,transparent_50%)]" />
@@ -328,7 +328,7 @@ export default function BlockBasePage() {
       </AnimatePresence>
 
       {/* ── HERO SECTION ── */}
-      <section id="hero" className="relative h-screen flex flex-col justify-center pt-20">
+      <section id="hero" className="relative h-dvh flex flex-col justify-center pt-20">
         <div className="max-w-[1500px] mx-auto px-6 md:px-12 w-full">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
             <div className="lg:col-span-7">

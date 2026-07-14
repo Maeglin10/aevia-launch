@@ -14,7 +14,7 @@ export default function RecruitPage() {
   };
 
   return (
-    <div style={{ background: C.bg, color: C.white, minHeight: "100vh", padding: "80px 40px 120px", fontFamily: "'Courier New', monospace", position: "relative", overflow: "hidden" }}>
+    <div style={{ background: C.bg, color: C.white, minHeight: "100dvh", padding: "80px 40px 120px", fontFamily: "'Courier New', monospace", position: "relative", overflow: "hidden" }}>
       <div style={{ maxWidth: 800, margin: '0 auto', position: 'relative', zIndex: 1 }}>
         <div style={{ textAlign: 'center', marginBottom: 64 }}>
           <div style={{ fontSize: 11, color: C.textDim, letterSpacing: '0.5em', marginBottom: 16 }}>

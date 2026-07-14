@@ -279,7 +279,7 @@ export default function AnnexPage() {
   }, [handleScroll])
 
   return (
-    <div style={{ backgroundColor: C.cream, fontFamily: "'Montserrat', sans-serif", minHeight: "100vh", display: "flex", flexDirection: "column" }}>
+    <div style={{ backgroundColor: C.cream, fontFamily: "'Montserrat', sans-serif", minHeight: "100dvh", display: "flex", flexDirection: "column" }}>
       <Nav scrolled={scrolled} />
       
       <main className="flex-1 pt-32 pb-20">

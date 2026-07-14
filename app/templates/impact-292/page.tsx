@@ -342,7 +342,7 @@ return (
       background: C.bg,
       color: C.text,
       fontFamily: SANS,
-      minHeight: '100vh',
+      minHeight: '100dvh',
       overflowX: 'hidden'
     }}>
       {/* Fonts Google (chargement via style tag pour autonomie totale) */}

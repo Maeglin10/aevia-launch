@@ -88,7 +88,7 @@ const SERVICES_DATA = [
 
 export default function ServicesPage() {
   return (
-    <div style={{ padding: "60px 5%", background: C.bg, minHeight: "100vh" }}>
+    <div style={{ padding: "60px 5%", background: C.bg, minHeight: "100dvh" }}>
       <div style={{ maxWidth: 1200, margin: "0 auto" }}>
         {/* Title */}
         <SectionReveal>

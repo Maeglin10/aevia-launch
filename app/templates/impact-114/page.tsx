@@ -363,7 +363,7 @@ function CurtainSlider() {
   const prevSlide = prev !== null ? SLIDES[prev] : null
 
   return (
-    <div id="hero" className="relative w-full h-screen overflow-hidden bg-[#1a1a1a]">
+    <div id="hero" className="relative w-full h-dvh overflow-hidden bg-[#1a1a1a]">
       {/* Previous slide — stays underneath */}
       {prevSlide && (
         <div className="absolute inset-0 z-0">
@@ -630,7 +630,7 @@ export default function Impact114Page() {
   }, [c]);return (
     <div
       ref={containerRef}
-      className="bg-[#faf8f3] text-[#2d1b0e] overflow-x-hidden min-h-screen selection:bg-[#3d5a3e]/15 selection:text-[#2d1b0e]"
+      className="bg-[#faf8f3] text-[#2d1b0e] overflow-x-hidden min-h-dvh selection:bg-[#3d5a3e]/15 selection:text-[#2d1b0e]"
       style={{ fontFamily: "'Source Serif 4', serif" }}
     >
       {/* SCROLL PROGRESS BAR */}

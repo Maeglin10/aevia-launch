@@ -203,7 +203,7 @@ export default function NeuralisPage() {
   }, [c]);
 
   return (
-    <div className="premium-theme min-h-screen bg-[#020204] text-[#e0e0e0] font-sans selection:bg-[#00f2ff] selection:text-black overflow-x-hidden">
+    <div className="premium-theme min-h-dvh bg-[#020204] text-[#e0e0e0] font-sans selection:bg-[#00f2ff] selection:text-black overflow-x-hidden">
 
       {/* ── NAVIGATION ── */}
       <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-700 ${scrolled ? "bg-[#020204]/90 backdrop-blur-3xl py-4 border-b border-white/5" : "bg-transparent py-8"}`}>

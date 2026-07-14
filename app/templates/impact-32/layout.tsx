@@ -40,7 +40,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   ];
 
   return (
-    <div style={{ background: C.bg, fontFamily: FONT, overflowX: "clip", minHeight: "100vh", display: "flex", flexDirection: "column" }}>
+    <div style={{ background: C.bg, fontFamily: FONT, overflowX: "clip", minHeight: "100dvh", display: "flex", flexDirection: "column" }}>
       {/* Google fonts loader */}
       <style jsx global>{`
         @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800;900&display=swap');

@@ -133,7 +133,7 @@ export default function LuminaLawPage() {
       });
     }
   }, [c]);return (
-    <div className="bg-[#fafafa] text-[#1a1a1a] font-sans min-h-screen selection:bg-[#1a365d] selection:text-white overflow-x-hidden">
+    <div className="bg-[#fafafa] text-[#1a1a1a] font-sans min-h-dvh selection:bg-[#1a365d] selection:text-white overflow-x-hidden">
       
       {/* ── NAVBAR ────────────────── */}
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-white/95 backdrop-blur-xl border-b border-black/5 py-4" : "bg-transparent py-8"}`}>
@@ -178,7 +178,7 @@ export default function LuminaLawPage() {
 
       <main>
         {/* ── HERO ──────────────────── */}
-        <section id="hero" className="relative min-h-screen flex items-center pt-32 pb-20 overflow-hidden">
+        <section id="hero" className="relative min-h-dvh flex items-center pt-32 pb-20 overflow-hidden">
           <div className="max-w-[1400px] mx-auto px-6 md:px-12 w-full">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
               <div>

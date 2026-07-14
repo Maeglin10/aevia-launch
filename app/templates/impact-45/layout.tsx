@@ -32,7 +32,7 @@ export default function TattooStudioLayout({ children }: { children: React.React
   const solidNav = scrolled || !isHome;
 
   return (
-    <div style={{ background: C.bg, color: C.text, minHeight: "100vh", display: "flex", flexDirection: "column" }}>
+    <div style={{ background: C.bg, color: C.text, minHeight: "100dvh", display: "flex", flexDirection: "column" }}>
       {/* Global CSS for Google Fonts */}
       <style dangerouslySetInnerHTML={{__html: `
         @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Barlow:wght@300;400;500;600;700&display=swap');

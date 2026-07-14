@@ -588,7 +588,7 @@ function HeroSection() {
       ref={heroRef}
       style={{
         position: 'relative',
-        height: '100vh',
+        height: '100dvh',
         overflow: 'hidden',
         background: DARK,
       }}
@@ -2469,7 +2469,7 @@ export default function GrandPalaisPage() {
   return (
     <div
       style={{
-        minHeight: '100vh',
+        minHeight: '100dvh',
         background: CREAM,
         fontFamily: SANS,
         color: DARK,

@@ -7,7 +7,7 @@ import "../../premium.css";
 
 export default function Page() {
   return (
-    <div className="premium-theme min-h-screen bg-[#f7f7f7] text-[#1a1a1a] font-sans selection:bg-[#1a1a1a] selection:text-white overflow-x-hidden">
+    <div className="premium-theme min-h-dvh bg-[#f7f7f7] text-[#1a1a1a] font-sans selection:bg-[#1a1a1a] selection:text-white overflow-x-hidden">
       <nav className="fixed top-0 left-0 w-full z-50 bg-white/90 backdrop-blur-2xl py-4 border-b border-black/5">
         <div className="max-w-[1600px] mx-auto px-6 md:px-12 flex items-center justify-between">
           <Link href="/templates/impact-100" className="group flex items-center gap-4">

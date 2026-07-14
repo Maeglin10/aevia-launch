@@ -115,7 +115,7 @@ export default function VanguardLegalPage() {
       });
     }
   }, [c]);return (
-    <div className="bg-[#02040a] text-white font-mono min-h-screen selection:bg-[#00ff41] selection:text-black overflow-x-hidden">
+    <div className="bg-[#02040a] text-white font-mono min-h-dvh selection:bg-[#00ff41] selection:text-black overflow-x-hidden">
       
       {/* ── NAVBAR ────────────────── */}
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#02040a]/95 backdrop-blur-xl border-b border-white/5 py-4" : "bg-transparent py-10"}`}>
@@ -161,7 +161,7 @@ export default function VanguardLegalPage() {
         <GridBackground />
         
         {/* ── HERO ──────────────────── */}
-        <section id="hero" className="relative min-h-screen flex items-center pt-32 pb-20">
+        <section id="hero" className="relative min-h-dvh flex items-center pt-32 pb-20">
           <div className="max-w-[1400px] mx-auto px-6 md:px-12 w-full">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
               <div>

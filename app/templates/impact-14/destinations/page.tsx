@@ -51,7 +51,7 @@ const ALL_DESTINATIONS = [
 
 export default function DestinationsPage() {
   return (
-    <div style={{ minHeight: "100vh", background: "#0a1520", color: "#f0ece0", fontFamily: "'Montserrat', sans-serif", padding: "120px 24px" }}>
+    <div style={{ minHeight: "100dvh", background: "#0a1520", color: "#f0ece0", fontFamily: "'Montserrat', sans-serif", padding: "120px 24px" }}>
       <div style={{ maxWidth: 1280, margin: "0 auto" }}>
         <Link 
           href="/templates/impact-14"

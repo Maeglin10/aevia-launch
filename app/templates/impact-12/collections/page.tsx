@@ -63,7 +63,7 @@ function CollectionsSubPage({ activeCol, setActiveCol }: { activeCol: number; se
   ];
 
   return (
-    <section className="py-32 px-6 bg-black text-white min-h-screen">
+    <section className="py-32 px-6 bg-black text-white min-h-dvh">
       <div className="max-w-6xl mx-auto">
         <Reveal>
           <p className="text-white/40 text-xs tracking-widest uppercase mb-4">Les Collections</p>
@@ -128,7 +128,7 @@ export default function Page() {
   const { scrollYProgress } = useScroll();
 
   return (
-    <div className="min-h-screen bg-white" style={{ fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif", overflowX: "clip" }}>
+    <div className="min-h-dvh bg-white" style={{ fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif", overflowX: "clip" }}>
       <motion.div className="fixed top-0 left-0 right-0 h-[1px] bg-black origin-left z-[60]" style={{ scaleX: scrollYProgress }} />
 
       <nav className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-b border-black/5">

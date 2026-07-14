@@ -289,7 +289,7 @@ export default function Impact171Page() {
   const activeSpecData = SPECIALTIES.find(s => s.id === activeSpec)!
 
   return (
-    <div className="min-h-screen overflow-x-hidden bg-[#F0FDFA] text-[#134E4A]" style={{ fontFamily: "'Noto Sans', sans-serif" }}>
+    <div className="min-h-dvh overflow-x-hidden bg-[#F0FDFA] text-[#134E4A]" style={{ fontFamily: "'Noto Sans', sans-serif" }}>
 
       {/* Progress bar */}
       <motion.div className="fixed top-0 left-0 h-[2px] bg-[#0891B2] z-[1000] origin-left"
@@ -350,7 +350,7 @@ export default function Impact171Page() {
       </nav>
 
       {/* ── HERO ────────────────────────────────────────────────────────── */}
-      <section id="hero" className="relative min-h-screen pt-24 pb-16 flex items-center overflow-hidden">
+      <section id="hero" className="relative min-h-dvh pt-24 pb-16 flex items-center overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-[#F0FDFA] via-[#ccfbf1] to-[#F0FDFA] z-0" />
         <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-12 items-center relative z-10">
           {/* Left */}

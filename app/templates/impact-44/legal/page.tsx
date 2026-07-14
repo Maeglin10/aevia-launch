@@ -5,7 +5,7 @@ import { C } from "../shared";
 
 export default function LegalPage() {
   return (
-    <div style={{ background: C.bg, color: C.white, minHeight: "100vh", padding: "80px 40px 120px", fontFamily: "'Courier New', monospace" }}>
+    <div style={{ background: C.bg, color: C.white, minHeight: "100dvh", padding: "80px 40px 120px", fontFamily: "'Courier New', monospace" }}>
       <div style={{ maxWidth: 800, margin: '0 auto', lineHeight: 1.8 }}>
         <div style={{ marginBottom: 60, textAlign: "center" }}>
           <div style={{ fontSize: 11, color: C.textDim, letterSpacing: '0.5em', marginBottom: 16 }}>

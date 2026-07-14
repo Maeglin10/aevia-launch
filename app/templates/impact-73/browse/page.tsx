@@ -12,7 +12,7 @@ export default function BrowsePage() {
   const [activeStream, setActiveStream] = useState<number | null>(null);
 
   return (
-    <div className="py-20 bg-[#08080c] min-h-screen">
+    <div className="py-20 bg-[#08080c] min-h-dvh">
       <div className="max-w-[1400px] mx-auto px-6 md:px-12">
         <div className="flex flex-col md:flex-row justify-between items-end mb-24 gap-12">
           <Reveal>

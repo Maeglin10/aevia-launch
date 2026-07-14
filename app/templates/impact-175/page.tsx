@@ -571,7 +571,7 @@ export default function Impact175Page() {
         background: C.bg,
         color: C.text,
         fontFamily: C.fontSans,
-        minHeight: "100vh",
+        minHeight: "100dvh",
         overflowX: "hidden",
       }}
     >
@@ -777,7 +777,7 @@ export default function Impact175Page() {
         id="hero"
         style={{
           position: "relative",
-          height: "100vh",
+          height: "100dvh",
           minHeight: 700,
           overflow: "hidden",
           display: "flex",

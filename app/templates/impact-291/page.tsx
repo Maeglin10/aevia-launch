@@ -437,7 +437,7 @@ function HeroSection() {
 
   const section: React.CSSProperties = {
     position: 'relative',
-    height: '100vh',
+    height: '100dvh',
     minHeight: 620,
     overflow: 'hidden',
     background: C.ivoryDeep,
@@ -783,7 +783,7 @@ function ScrollCrossfade() {
   return (
     <section
       id="soins"
-      style={{ height: '100vh', overflow: 'hidden', position: 'relative', background: C.dark }}
+      style={{ height: '100dvh', overflow: 'hidden', position: 'relative', background: C.dark }}
     >
       <div
         style={{

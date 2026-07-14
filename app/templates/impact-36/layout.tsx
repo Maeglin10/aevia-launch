@@ -35,7 +35,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         fontFamily: FONT,
         background: C.bg,
         color: C.text,
-        minHeight: "100vh",
+        minHeight: "100dvh",
         display: "flex",
         flexDirection: "column",
         overflowX: "hidden",

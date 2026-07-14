@@ -17,7 +17,7 @@ export default function BlogPage() {
 
   if (post) {
     return (
-      <article style={{ padding: "140px 5% 100px", background: C.bg, minHeight: "100vh" }}>
+      <article style={{ padding: "140px 5% 100px", background: C.bg, minHeight: "100dvh" }}>
         <div style={{ maxWidth: 760, margin: "0 auto" }}>
           <SectionReveal>
             <button
@@ -89,7 +89,7 @@ export default function BlogPage() {
   }
 
   return (
-    <section style={{ padding: "140px 5% 100px", background: C.bg, minHeight: "100vh" }}>
+    <section style={{ padding: "140px 5% 100px", background: C.bg, minHeight: "100dvh" }}>
       <div style={{ maxWidth: 1100, margin: "0 auto" }}>
         <PageHeader
           kicker="Le Journal"

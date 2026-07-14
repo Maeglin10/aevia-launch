@@ -6,7 +6,7 @@ import { C, SectionReveal } from "../shared"
 
 export default function LegalPage() {
   return (
-    <div style={{ padding: "60px 5%", background: C.bg, minHeight: "100vh" }}>
+    <div style={{ padding: "60px 5%", background: C.bg, minHeight: "100dvh" }}>
       <div style={{ maxWidth: 800, margin: "0 auto" }}>
         {/* Title */}
         <SectionReveal>

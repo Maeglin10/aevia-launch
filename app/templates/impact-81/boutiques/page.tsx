@@ -6,7 +6,7 @@ import { BOUTIQUES, Reveal } from "../shared";
 
 export default function BoutiquesPage() {
   return (
-    <section className="py-24 bg-[#0A0A08] min-h-screen">
+    <section className="py-24 bg-[#0A0A08] min-h-dvh">
       <div className="max-w-7xl mx-auto px-6 md:px-12">
         <div className="grid md:grid-cols-2 gap-16 items-start">
           <Reveal>

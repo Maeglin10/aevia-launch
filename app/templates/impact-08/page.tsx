@@ -355,7 +355,7 @@ export default function VulcanMotorPremium() {
     }
   }, [c]);
 return (
-    <div ref={containerRef} className="bg-[#050505] text-[#f0f0f0] font-sans selection:bg-blue-500/40 selection:text-white min-h-screen overflow-x-clip">
+    <div ref={containerRef} className="bg-[#050505] text-[#f0f0f0] font-sans selection:bg-blue-500/40 selection:text-white min-h-dvh overflow-x-clip">
       
       <HUD_Telemetry />
       
@@ -435,7 +435,7 @@ return (
         {page === "home" && (
           <>
             {/* 2. AERODYNAMIC IGNITION (HERO) */}
-            <section id="hero" className="relative h-screen flex flex-col justify-center items-center px-8 md:px-24 overflow-hidden pt-20">
+            <section id="hero" className="relative h-dvh flex flex-col justify-center items-center px-8 md:px-24 overflow-hidden pt-20">
               <FluidAeroVisualizer />
               
               <motion.div 

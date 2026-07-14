@@ -44,7 +44,7 @@ function LegalBlock({
 
 export default function LegalPage() {
   return (
-    <section style={{ padding: "120px 5% 100px", background: C.bg, minHeight: "100vh" }}>
+    <section style={{ padding: "120px 5% 100px", background: C.bg, minHeight: "100dvh" }}>
       <div style={{ maxWidth: 760, margin: "0 auto" }}>
         <SectionReveal>
           <h1 style={{ fontFamily: C.headingFont, fontSize: "2.5rem", fontWeight: 700, color: C.text, marginBottom: "0.75rem" }}>

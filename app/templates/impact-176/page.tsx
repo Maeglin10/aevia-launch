@@ -1185,7 +1185,7 @@ export default function Impact176Page() {
         color: C.text,
         fontFamily: C.font,
         overflowX: "hidden",
-        minHeight: "100vh",
+        minHeight: "100dvh",
       }}
     >
       <style>{`
@@ -1394,7 +1394,7 @@ export default function Impact176Page() {
       <section className="imx-mobstack"
         id="hero"
         style={{
-          minHeight: "100vh",
+          minHeight: "100dvh",
           display: "grid",
           gridTemplateColumns: "1fr 1.1fr",
           alignItems: "center",

@@ -5,7 +5,7 @@ import { Reveal, ParallaxImg } from "../shared";
 
 export default function MaterialsPage() {
   return (
-    <section className="py-24 bg-white min-h-screen">
+    <section className="py-24 bg-white min-h-dvh">
       <div className="max-w-[1400px] mx-auto px-6 md:px-12">
         <Reveal>
           <div className="max-w-2xl mb-20">

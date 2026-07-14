@@ -212,8 +212,8 @@ export default function KineticStudio() {
       });
     }
   }, [c]);return (
-    <div className="min-h-screen bg-[#06060a] text-white">
-      <motion.section style={{ y: heroY }} className="relative h-screen flex items-center justify-center overflow-hidden">
+    <div className="min-h-dvh bg-[#06060a] text-white">
+      <motion.section style={{ y: heroY }} className="relative h-dvh flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-[#1a1a2e] via-[#06060a] to-[#06060a]" />
         <div className="absolute inset-0 opacity-20">
           {REELTHUMB.map((thumb, idx) => (

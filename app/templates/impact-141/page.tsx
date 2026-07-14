@@ -252,7 +252,7 @@ export default function SonicPlayerPage() {
   };
 
   return (
-    <div className="premium-theme min-h-screen bg-[#030014] text-slate-200 font-sans selection:bg-purple-500/30 selection:text-white overflow-x-hidden">
+    <div className="premium-theme min-h-dvh bg-[#030014] text-slate-200 font-sans selection:bg-purple-500/30 selection:text-white overflow-x-hidden">
       {/* Global Background Glow reflecting active release */}
       <div
         className="fixed inset-0 pointer-events-none transition-colors duration-1000 opacity-20"
@@ -331,7 +331,7 @@ export default function SonicPlayerPage() {
       {/* ==========================================
           1. IMMERSIVE PLAYER HERO
           ========================================== */}
-      <section id="hero" className="relative w-full min-h-screen flex items-center pt-24 pb-12">
+      <section id="hero" className="relative w-full min-h-dvh flex items-center pt-24 pb-12">
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 w-full z-10 grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
           {/* Left: Interactive Player UI */}
           <div className="lg:col-span-5 order-2 lg:order-1 flex flex-col items-center lg:items-start">

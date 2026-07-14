@@ -536,7 +536,7 @@ export default function Impact211Page() {
   }
 
   return (
-    <div style={{ background: C.bg, color: C.cream, minHeight: "100vh", overflowX: "hidden" }}>
+    <div style={{ background: C.bg, color: C.cream, minHeight: "100dvh", overflowX: "hidden" }}>
 
       {/* ── Global Styles ───────────────────────────────────────────────────── */}
       <style>{`

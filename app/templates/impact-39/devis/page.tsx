@@ -23,7 +23,7 @@ export default function DevisPage() {
 
   if (submitted) {
     return (
-      <div style={{ minHeight: "100vh", background: C.bgAlt, display: "flex", alignItems: "center", justifyContent: "center", padding: "40px 5%" }}>
+      <div style={{ minHeight: "100dvh", background: C.bgAlt, display: "flex", alignItems: "center", justifyContent: "center", padding: "40px 5%" }}>
         <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} style={{ background: C.white, borderRadius: 24, padding: "64px 48px", maxWidth: 520, textAlign: "center", boxShadow: "0 24px 80px rgba(30,58,95,0.10)" }}>
           <div style={{ width: 72, height: 72, background: C.orangeLight, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 24px" }}>
             <CheckCircle size={36} color={C.orange} />
@@ -38,7 +38,7 @@ export default function DevisPage() {
   }
 
   return (
-    <div style={{ minHeight: "100vh", background: C.bgAlt }}>
+    <div style={{ minHeight: "100dvh", background: C.bgAlt }}>
       <div style={{ background: C.navy, padding: "60px 5% 56px" }}>
         <div style={{ maxWidth: 720, margin: "0 auto" }}>
           <h1 style={{ fontSize: "clamp(30px, 4vw, 48px)", fontWeight: 900, color: C.white, marginBottom: 12 }}>

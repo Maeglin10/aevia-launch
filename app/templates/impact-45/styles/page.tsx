@@ -5,7 +5,7 @@ import { C, styleGuide } from "../shared";
 
 export default function StylesPage() {
   return (
-    <div style={{ background: C.bgAlt, minHeight: "100vh", padding: "80px 24px 120px" }}>
+    <div style={{ background: C.bgAlt, minHeight: "100dvh", padding: "80px 24px 120px" }}>
       <div style={{ maxWidth: 1200, margin: "0 auto" }}>
         <div style={{ marginBottom: 64, textAlign: "center" }}>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 12, marginBottom: 20 }}>

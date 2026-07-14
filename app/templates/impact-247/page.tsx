@@ -393,7 +393,7 @@ function Hero() {
 
   const section: React.CSSProperties = {
     position: 'relative',
-    height: '100vh',
+    height: '100dvh',
     minHeight: 640,
     overflow: 'hidden',
     background: C.bgDark,
@@ -811,9 +811,9 @@ function WorkSequence() {
   return (
     <section
       id="domotique"
-      style={{ height: '100vh', overflow: 'hidden', position: 'relative', background: C.bgDark }}
+      style={{ height: '100dvh', overflow: 'hidden', position: 'relative', background: C.bgDark }}
     >
-      <div style={{ position: 'sticky', top: 0, height: '100vh', overflow: 'hidden' }}>
+      <div style={{ position: 'sticky', top: 0, height: '100dvh', overflow: 'hidden' }}>
         {PHASES.map((p, i) => (
           <PhaseImage
             key={p.title}

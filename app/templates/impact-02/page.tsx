@@ -244,7 +244,7 @@ export default function CreativePortfolioSPA() {
   const selected = selectedProject !== null ? PROJECTS.find(p => p.id === selectedProject) : null;
 
   return (
-    <div className="premium-theme bg-[#0a0a0a] text-white min-h-screen selection:bg-amber-400 selection:text-black overflow-x-hidden font-sans">
+    <div className="premium-theme bg-[#0a0a0a] text-white min-h-dvh selection:bg-amber-400 selection:text-black overflow-x-hidden font-sans">
       
       {/* Custom Cursor */}
       <motion.div
@@ -305,7 +305,7 @@ export default function CreativePortfolioSPA() {
       {/* ==========================================
           1. HERO SECTION
           ========================================== */}
-      <section id="hero" className="relative h-screen w-full flex items-center justify-center overflow-hidden">
+      <section id="hero" className="relative h-dvh w-full flex items-center justify-center overflow-hidden">
         <motion.div style={{ y: heroY, scale: scaleProgress }} className="absolute inset-0 z-0 origin-bottom">
           <Image src="https://images.unsplash.com/photo-1509631179647-0177331693ae?q=80&w=1600&auto=format&fit=crop" fill className="object-cover" alt="Hero" priority />
           <div className="absolute inset-0 bg-black/50" />

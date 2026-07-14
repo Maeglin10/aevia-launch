@@ -438,7 +438,7 @@ function Hero() {
 
   return (
     <section id="hero" style={{
-      minHeight: '100vh', display: 'flex', alignItems: 'center',
+      minHeight: '100dvh', display: 'flex', alignItems: 'center',
       position: 'relative', overflow: 'hidden',
       background: `radial-gradient(ellipse at 60% 40%, ${C.accent}12 0%, transparent 60%), ${C.bg}`,
     }}>
@@ -1781,7 +1781,7 @@ return (
     <>
       <FontLoader />
       <GlobalStyles />
-      <main style={{ background: C.bg, minHeight: '100vh' }}>
+      <main style={{ background: C.bg, minHeight: '100dvh' }}>
         <Nav />
         <Hero />
         <TrackerSection />

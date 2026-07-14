@@ -466,7 +466,7 @@ const Hero: React.FC = () => {
       id="top"
       style={{
         position: 'relative',
-        height: '100vh',
+        height: '100dvh',
         minHeight: 640,
         overflow: 'hidden',
         background: C.navy,
@@ -1308,7 +1308,7 @@ const SignatureCrossfade: React.FC = () => {
       id="signature"
       style={{
         position: 'relative',
-        height: '100vh',
+        height: '100dvh',
         overflow: 'hidden',
         background: C.navy,
       }}

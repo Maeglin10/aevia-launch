@@ -315,7 +315,7 @@ export default function NovaPlatformSaaS() {
     }
   }, [c]);
 return (
-    <div style={{ overflowX: "hidden", scrollBehavior: "smooth" }} className="bg-[#09090b] text-white min-h-screen selection:bg-violet-500 font-sans">
+    <div style={{ overflowX: "hidden", scrollBehavior: "smooth" }} className="bg-[#09090b] text-white min-h-dvh selection:bg-violet-500 font-sans">
 
       {/* ── NAVBAR ── */}
       <nav className="fixed top-0 left-0 w-full z-50 bg-[#09090b]/80 backdrop-blur-xl border-b border-white/5">
@@ -376,7 +376,7 @@ return (
       </nav>
 
       {/* ── HERO ── */}
-      <section id="hero" ref={heroRef} onMouseMove={handleMouseMove} className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
+      <section id="hero" ref={heroRef} onMouseMove={handleMouseMove} className="relative min-h-dvh flex items-center justify-center overflow-hidden pt-20">
         {/* Gradient mesh background */}
         <div className="absolute inset-0 z-0">
           <motion.div animate={{ x: [0, 40, 0], y: [0, -25, 0] }} transition={{ duration: 20, repeat: Infinity, ease: "linear" }}

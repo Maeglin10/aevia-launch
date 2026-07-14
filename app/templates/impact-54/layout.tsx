@@ -44,7 +44,7 @@ export default function Impact54Layout({
 
   return (
     <div
-      className="min-h-screen text-[#e8e8ff] overflow-x-hidden selection:bg-purple-600 selection:text-white"
+      className="min-h-dvh text-[#e8e8ff] overflow-x-hidden selection:bg-purple-600 selection:text-white"
       style={{
         backgroundColor: "#050510",
         fontFamily: "'Inter', sans-serif",

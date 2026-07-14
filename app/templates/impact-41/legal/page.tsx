@@ -158,7 +158,7 @@ function LegalContent() {
 
 export default function LegalPage() {
   return (
-    <Suspense fallback={<div style={{ minHeight: '100vh', backgroundColor: SCENES[0].bg }} />}>
+    <Suspense fallback={<div style={{ minHeight: '100dvh', backgroundColor: SCENES[0].bg }} />}>
       <LegalContent />
     </Suspense>
   );

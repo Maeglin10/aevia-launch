@@ -106,7 +106,7 @@ export default function AtelierBeautePage() {
     }
   }, [c]);
 return (
-    <div className="premium-theme min-h-screen bg-[#faf9f6] text-[#1a1814] font-sans selection:bg-[#c9b7a1] selection:text-white overflow-x-hidden">
+    <div className="premium-theme min-h-dvh bg-[#faf9f6] text-[#1a1814] font-sans selection:bg-[#c9b7a1] selection:text-white overflow-x-hidden">
       {/* ==========================================
           1. HERO (Cinematic Beauty)
           ========================================== */}

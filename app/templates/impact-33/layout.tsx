@@ -40,7 +40,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   ];
 
   return (
-    <div style={{ background: C.bg, color: C.text, fontFamily: FONT_BODY, minHeight: "100vh", display: "flex", flexDirection: "column" }}>
+    <div style={{ background: C.bg, color: C.text, fontFamily: FONT_BODY, minHeight: "100dvh", display: "flex", flexDirection: "column" }}>
       {/* Google Fonts */}
       <style jsx global>{`
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400&family=Source+Sans+Pro:wght@300;400;600;700;900&display=swap');

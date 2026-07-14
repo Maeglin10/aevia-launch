@@ -130,7 +130,7 @@ export default function ContactPage() {
   }
 
   return (
-    <div className="min-h-screen pt-[72px]">
+    <div className="min-h-dvh pt-[72px]">
 
       {/* ─── HERO BAR ─────────────────────────────────────────────────────────── */}
       <div className="bg-black text-white py-20 px-6">

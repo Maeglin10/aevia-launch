@@ -46,7 +46,7 @@ export default function SatoriLayout({
   ] as const;
 
   return (
-    <div className="min-h-screen bg-[#0f0d0b] text-[#f5efe0] font-sans selection:bg-[#b8860b] selection:text-black overflow-x-hidden relative" style={{ scrollBehavior: "smooth" }}>
+    <div className="min-h-dvh bg-[#0f0d0b] text-[#f5efe0] font-sans selection:bg-[#b8860b] selection:text-black overflow-x-hidden relative" style={{ scrollBehavior: "smooth" }}>
       {/* ── NAVIGATION ─────────────────────────────────────────────────── */}
       <nav
         className={`fixed top-0 left-0 w-full z-50 transition-all duration-1000 ${scrolled ? "bg-[#0f0d0b]/95 backdrop-blur-md py-4 border-b border-[#b8860b]/10" : "bg-transparent py-10"}`}

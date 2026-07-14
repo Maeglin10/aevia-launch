@@ -43,7 +43,7 @@ export default function CarbonLayout({
   ];
 
   return (
-    <div className="bg-[#050505] text-[#888] font-sans min-h-screen selection:bg-[#0070f3] selection:text-white overflow-x-hidden relative">
+    <div className="bg-[#050505] text-[#888] font-sans min-h-dvh selection:bg-[#0070f3] selection:text-white overflow-x-hidden relative">
       
       {/* ── CARBON TEXTURE OVERLAY ── */}
       <div className="fixed inset-0 pointer-events-none opacity-[0.02] z-50 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]" />

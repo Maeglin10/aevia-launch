@@ -6,7 +6,7 @@ import { C, FONT, SectionBadge } from "../shared";
 
 export default function LegalPage() {
   return (
-    <div style={{ padding: "80px 80px 120px", fontFamily: FONT, background: C.bg, minHeight: "100vh" }}>
+    <div style={{ padding: "80px 80px 120px", fontFamily: FONT, background: C.bg, minHeight: "100dvh" }}>
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35 }} style={{ maxWidth: 820, margin: "0 auto" }}>
         <SectionBadge label="Légal" />
         

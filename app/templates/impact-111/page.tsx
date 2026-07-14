@@ -134,7 +134,7 @@ export default function TerraArchitecturePage() {
       });
     }
   }, [c]);return (
-    <div className="bg-[#f2f0eb] text-[#3d3a35] font-sans min-h-screen selection:bg-[#c4b5a2] selection:text-white overflow-x-hidden">
+    <div className="bg-[#f2f0eb] text-[#3d3a35] font-sans min-h-dvh selection:bg-[#c4b5a2] selection:text-white overflow-x-hidden">
       
       {/* ── NAVBAR ────────────────── */}
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-1000 ${scrolled ? "bg-[#f2f0eb]/90 backdrop-blur-xl border-b border-[#3d3a35]/5 py-4" : "bg-transparent py-8"}`}>
@@ -178,7 +178,7 @@ export default function TerraArchitecturePage() {
 
       <main>
         {/* ── HERO ──────────────────── */}
-        <section id="hero" className="relative min-h-screen flex items-center pt-32 pb-20 overflow-hidden">
+        <section id="hero" className="relative min-h-dvh flex items-center pt-32 pb-20 overflow-hidden">
           <div className="max-w-[1400px] mx-auto px-6 md:px-12 w-full">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
               <div>

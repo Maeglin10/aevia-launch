@@ -24,7 +24,7 @@ export default function CGU() {
   useFonts()
 
   return (
-    <main className="bg-[#FDF2F8] text-[#831843] min-h-screen overflow-x-hidden pt-20 pb-20">
+    <main className="bg-[#FDF2F8] text-[#831843] min-h-dvh overflow-x-hidden pt-20 pb-20">
       <div className="max-w-[800px] mx-auto px-6 lg:px-10">
         <Link
           href="/templates/impact-88"

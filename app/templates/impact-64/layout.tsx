@@ -47,7 +47,7 @@ export default function NeuronSecLayout({
   ];
 
   return (
-    <div style={{ background: C.bg, color: C.text, minHeight: "100vh", fontFamily: sans, overflowX: "hidden" }}>
+    <div style={{ background: C.bg, color: C.text, minHeight: "100dvh", fontFamily: sans, overflowX: "hidden" }}>
       <StyleInjector />
 
       {/* ── NAVBAR ─────────────────────────────────────────────────────── */}

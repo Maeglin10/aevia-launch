@@ -49,7 +49,7 @@ export default function VelvetLayout({
   ];
 
   return (
-    <div className="bg-[#050005] text-[#d1d1d1] font-sans min-h-screen selection:bg-[#ff00ff] selection:text-white overflow-x-hidden relative">
+    <div className="bg-[#050005] text-[#d1d1d1] font-sans min-h-dvh selection:bg-[#ff00ff] selection:text-white overflow-x-hidden relative">
       <style>{`
         ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-track { background: #050005; }

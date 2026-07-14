@@ -30,7 +30,7 @@ export default function Page() {
   }, []);
 
   return (
-    <main style={{ background: C.bg, color: C.brown, minHeight: "100vh", fontFamily: "'Cabin', sans-serif", overflowX: "hidden" }}>
+    <main style={{ background: C.bg, color: C.brown, minHeight: "100dvh", fontFamily: "'Cabin', sans-serif", overflowX: "hidden" }}>
       
       {/* ── Nav ── */}
       <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 50, padding: "0 40px", height: 64, display: "flex", alignItems: "center", justifyContent: "space-between", background: "rgba(250,246,239,0.94)", backdropFilter: "blur(16px)", borderBottom: `1px solid ${C.border}` }}>
@@ -57,7 +57,7 @@ export default function Page() {
       </nav>
 
       {/* ── Hero Content ── */}
-      <section style={{ minHeight: "100vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", position: "relative", paddingTop: 64, overflow: "hidden", background: C.bgWarm }}>
+      <section style={{ minHeight: "100dvh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", position: "relative", paddingTop: 64, overflow: "hidden", background: C.bgWarm }}>
         
         <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse 80% 60% at 50% 35%, rgba(196,122,53,0.12) 0%, transparent 65%)" }} />
         

@@ -10,7 +10,7 @@ export default function EquipePage() {
   const basePath = "/templates/impact-84";
 
   return (
-    <div className="min-h-screen bg-[#0C0C0A] py-24">
+    <div className="min-h-dvh bg-[#0C0C0A] py-24">
       <div className="max-w-7xl mx-auto px-6 md:px-12">
         <Reveal>
           <p className="text-[10px] tracking-[0.4em] uppercase text-[#C9A86C] mb-4">L&apos;équipe médicale</p>

@@ -29,7 +29,7 @@ const FONT_MONO = "'JetBrains Mono', monospace";
 
 export default function Confidentialite() {
   return (
-    <div style={{ background: C.bg, color: C.text, minHeight: "100vh", fontFamily: FONT_BODY }}>
+    <div style={{ background: C.bg, color: C.text, minHeight: "100dvh", fontFamily: FONT_BODY }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Anton&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }

@@ -10,7 +10,7 @@ export default function ContactPage() {
   const basePath = "/templates/impact-84";
 
   return (
-    <div className="min-h-screen bg-[#0C0C0A] py-24">
+    <div className="min-h-dvh bg-[#0C0C0A] py-24">
       <div className="max-w-7xl mx-auto px-6 md:px-12">
         <div className="grid md:grid-cols-2 gap-20">
           <div>

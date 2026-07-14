@@ -25,7 +25,7 @@ function HeroSection() {
   const opacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
 
   return (
-    <section ref={ref} id="hero" style={{ position: "relative", minHeight: "100vh", background: C.navy, display: "flex", alignItems: "center", overflow: "hidden" }}>
+    <section ref={ref} id="hero" style={{ position: "relative", minHeight: "100dvh", background: C.navy, display: "flex", alignItems: "center", overflow: "hidden" }}>
       {/* Background pattern */}
       <div style={{ position: "absolute", inset: 0, backgroundImage: `radial-gradient(circle at 80% 50%, rgba(184,149,42,0.06) 0%, transparent 60%), radial-gradient(circle at 20% 80%, rgba(184,149,42,0.04) 0%, transparent 40%)`, pointerEvents: "none" }} />
 
@@ -511,7 +511,7 @@ export default function LawFirmHome() {
     }
   }, [c]);
 return (
-    <div style={{ background: C.bg, minHeight: "100vh" }}>
+    <div style={{ background: C.bg, minHeight: "100dvh" }}>
       <style>{`
         /* mobile: stack 2-col grids to single column (added by responsive fix) */
         @media (max-width: 768px) {

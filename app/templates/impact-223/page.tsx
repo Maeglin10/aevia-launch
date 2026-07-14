@@ -153,7 +153,7 @@ export default function VoltProPage() {
       });
     }
   }, [c]);return (
-    <div className="bg-[#080a0c] text-white min-h-screen overflow-x-hidden" style={{ fontFamily: "'Syne', system-ui, sans-serif" }}>
+    <div className="bg-[#080a0c] text-white min-h-dvh overflow-x-hidden" style={{ fontFamily: "'Syne', system-ui, sans-serif" }}>
 
       {/* ── NAVBAR ── */}
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#080a0c]/95 backdrop-blur-xl border-b border-yellow-400/10 py-3" : "bg-transparent py-7"}`}>

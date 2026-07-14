@@ -430,7 +430,7 @@ function HeroSection() {
         id="hero"
         style={{
           position: 'relative',
-          height: '100vh',
+          height: '100dvh',
           minHeight: 640,
           overflow: 'hidden',
           background: C.blackDeep,
@@ -861,13 +861,13 @@ function ScrollCrossfade() {
       `}</style>
       <section
         id="crossfade"
-        style={{ height: '100vh', overflow: 'hidden', position: 'relative', background: C.blackDeep }}
+        style={{ height: '100dvh', overflow: 'hidden', position: 'relative', background: C.blackDeep }}
       >
         <div
           style={{
             position: 'sticky',
             top: 0,
-            height: '100vh',
+            height: '100dvh',
             overflow: 'hidden',
           }}
         >
@@ -1302,12 +1302,12 @@ function MethodSection() {
         .r276-method-wrap {
           display: grid;
           grid-template-columns: 1fr 1fr;
-          min-height: 100vh;
+          min-height: 100dvh;
         }
         .r276-method-sticky {
           position: sticky;
           top: 0;
-          height: 100vh;
+          height: 100dvh;
           overflow: hidden;
         }
         .r276-method-steps {

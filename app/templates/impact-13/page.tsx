@@ -154,7 +154,7 @@ export default function AtelierMecaniquePage() {
     }
   }, [c]);
 return (
-    <div className="min-h-screen bg-[#0C0B09]" style={{ fontFamily: "'Jost', sans-serif", overflowX: "clip" }}>
+    <div className="min-h-dvh bg-[#0C0B09]" style={{ fontFamily: "'Jost', sans-serif", overflowX: "clip" }}>
       <motion.div className="fixed top-0 left-0 right-0 h-[2px] bg-[#B49A6A] origin-left z-[60]" style={{ scaleX: scrollYProgress }} />
 
       {/* Nav */}
@@ -239,7 +239,7 @@ return (
       {page === "home" && (
         <>
           {/* Hero */}
-          <section id="hero" ref={heroRef} className="relative h-screen overflow-hidden">
+          <section id="hero" ref={heroRef} className="relative h-dvh overflow-hidden">
             <motion.div className="absolute inset-0" style={{ y: heroY }}>
               <Image src="https://images.unsplash.com/photo-1547996160-81dfa63595aa?w=1600&q=85" alt="Atelier Mécanique — Horlogerie de prestige" fill className="object-cover" priority />
               <div className="absolute inset-0 bg-gradient-to-r from-[#0C0B09]/90 via-[#0C0B09]/50 to-transparent" />
@@ -541,7 +541,7 @@ function MontresSubPage({ goTo, activeModel, setActiveModel }: { goTo: (p: any) 
   const filteredList = filter === "Tout" ? watchModels : watchModels.filter(m => m.category === filter);
 
   return (
-    <section className="py-32 px-6 bg-[#0C0B09] text-white min-h-screen">
+    <section className="py-32 px-6 bg-[#0C0B09] text-white min-h-dvh">
       <div className="max-w-6xl mx-auto">
         <Reveal>
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-16">
@@ -619,7 +619,7 @@ function MontresSubPage({ goTo, activeModel, setActiveModel }: { goTo: (p: any) 
 
 function ManufactureSubPage({ goTo }: { goTo: (p: any) => void }) {
   return (
-    <section id="about" className="py-32 px-6 bg-[#0F0E0C] text-white min-h-screen">
+    <section id="about" className="py-32 px-6 bg-[#0F0E0C] text-white min-h-dvh">
       <div className="max-w-5xl mx-auto space-y-16">
         <Reveal>
           <div className="text-center space-y-4">
@@ -684,7 +684,7 @@ function MaisonSubPage() {
   ];
 
   return (
-    <section className="py-32 px-6 bg-[#0C0B09] text-white min-h-screen">
+    <section className="py-32 px-6 bg-[#0C0B09] text-white min-h-dvh">
       <div className="max-w-4xl mx-auto space-y-16">
         <Reveal>
           <div className="text-center space-y-4">
@@ -719,7 +719,7 @@ function MaisonSubPage() {
 function ContactSubPage() {
   const [submitted, setSubmitted] = useState(false);
   return (
-    <section className="py-32 px-6 bg-[#0F0E0C] text-white min-h-screen">
+    <section className="py-32 px-6 bg-[#0F0E0C] text-white min-h-dvh">
       <div className="max-w-4xl mx-auto">
         <Reveal>
           <div className="text-center mb-16 space-y-4">
@@ -829,7 +829,7 @@ function ContactSubPage() {
 
 function LegalSubPage() {
   return (
-    <section id="contact" className="py-32 px-6 bg-white text-black min-h-screen">
+    <section id="contact" className="py-32 px-6 bg-white text-black min-h-dvh">
       <div className="max-w-3xl mx-auto space-y-8" style={{ fontFamily: "system-ui, -apple-system, sans-serif" }}>
         <h1 className="text-4xl font-light mb-8" style={{ fontFamily: "'Libre Baskerville', serif" }}>
           Mentions <em>Légales</em>

@@ -221,7 +221,7 @@ export default function MonolithPremium() {
     }
   }, [c]);
 return (
-    <div ref={containerRef} className="bg-[#050505] text-[#e0e2e5] font-mono selection:bg-white selection:text-black min-h-screen overflow-x-hidden">
+    <div ref={containerRef} className="bg-[#050505] text-[#e0e2e5] font-mono selection:bg-white selection:text-black min-h-dvh overflow-x-hidden">
       
       {/* GLOBAL HUD OVERLAY */}
       <HUD_Overlay isTerminalOpen={isTerminalOpen} />
@@ -230,7 +230,7 @@ return (
         {/* ==========================================
             1. BRUTALIST IGNITION (HERO)
             ========================================== */}
-        <section id="hero" className="relative h-screen flex flex-col justify-center items-center px-8 md:px-24 overflow-hidden pt-20">
+        <section id="hero" className="relative h-dvh flex flex-col justify-center items-center px-8 md:px-24 overflow-hidden pt-20">
           <GridBackground />
           
           <motion.div style={{ scale: monolithScale, rotate: monolithRotate, opacity: heroOpacity }} className="absolute z-0 pointer-events-none">

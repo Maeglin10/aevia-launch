@@ -203,7 +203,7 @@ export default function Impact26() {
   }
 
   return (
-    <div ref={containerRef} className="min-h-screen bg-[#1A0F1E] text-[#F5EDE8]" style={{ fontFamily: "'Jost', sans-serif", overflowX: "clip" }}>
+    <div ref={containerRef} className="min-h-dvh bg-[#1A0F1E] text-[#F5EDE8]" style={{ fontFamily: "'Jost', sans-serif", overflowX: "clip" }}>
       <motion.div
         className="fixed top-0 left-0 right-0 h-px bg-[#C9956A] origin-left z-50"
         style={{ scaleX: scrollYProgress }}
@@ -308,7 +308,7 @@ export default function Impact26() {
       {page === "home" && (
         <>
           {/* Hero */}
-          <section id="hero" className="min-h-screen flex items-end relative overflow-hidden pt-20">
+          <section id="hero" className="min-h-dvh flex items-end relative overflow-hidden pt-20">
         <motion.div style={{ y: heroY, opacity: heroOpacity }} className="absolute inset-0">
           <Image
             src="https://images.unsplash.com/photo-1590736704728-f4730bb30770?w=1600&h=900&fit=crop&crop=center"

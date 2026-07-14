@@ -64,7 +64,7 @@ function FloristLayoutContent({ children }: { children: React.ReactNode }) {
   ];
 
   return (
-    <div style={{ background: C.bg, color: C.text, minHeight: "100vh", display: "flex", flexDirection: "column" }}>
+    <div style={{ background: C.bg, color: C.text, minHeight: "100dvh", display: "flex", flexDirection: "column" }}>
       {/* Global CSS for Fonts & Mobile Responsiveness */}
       <style dangerouslySetInnerHTML={{__html: `
         @import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Poppins:wght@300;400;500;600;700&display=swap');

@@ -114,7 +114,7 @@ export default function NeonPulsePage() {
       });
     }
   }, [c]);return (
-    <div className="bg-[#050505] text-white font-sans min-h-screen selection:bg-purple-500 selection:text-white overflow-x-hidden">
+    <div className="bg-[#050505] text-white font-sans min-h-dvh selection:bg-purple-500 selection:text-white overflow-x-hidden">
       
       {/* ── GRADIENT BACKGROUND ───── */}
       <div className="fixed inset-0 pointer-events-none">

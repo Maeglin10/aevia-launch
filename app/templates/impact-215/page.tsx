@@ -1802,7 +1802,7 @@ export default function FlammeEtCoPage() {
         }
       `}</style>
 
-      <div style={{ minHeight: '100vh', background: C.bg, fontFamily: 'Inter, sans-serif' }}>
+      <div style={{ minHeight: '100dvh', background: C.bg, fontFamily: 'Inter, sans-serif' }}>
 
         {/* ── Promo Banner ──────────────────────────────────────────────────── */}
         <PromoBanner />
@@ -1964,7 +1964,7 @@ export default function FlammeEtCoPage() {
         <section
           id="hero"
           style={{
-            minHeight: '100vh',
+            minHeight: '100dvh',
             position: 'relative',
             display: 'flex',
             alignItems: 'center',

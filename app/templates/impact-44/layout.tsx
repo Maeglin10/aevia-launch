@@ -32,7 +32,7 @@ export default function GhostProtocolLayout({ children }: { children: React.Reac
   const solidNav = scrolled || !isHome;
 
   return (
-    <div style={{ background: C.bg, color: C.white, minHeight: "100vh", fontFamily: "'Courier New', monospace", display: "flex", flexDirection: "column" }}>
+    <div style={{ background: C.bg, color: C.white, minHeight: "100dvh", fontFamily: "'Courier New', monospace", display: "flex", flexDirection: "column" }}>
       {/* Global Glitch and Cyberpunk CSS */}
       <style dangerouslySetInnerHTML={{__html: `
         @keyframes glitch-clip-1 {

@@ -523,7 +523,7 @@ return (
       ref={containerRef}
       style={{
         background: C.bg,
-        minHeight: "100vh",
+        minHeight: "100dvh",
         overflowX: "hidden",
         fontFamily: C.sans,
         color: C.dark,
@@ -679,7 +679,7 @@ return (
       <section id="hero"
         ref={heroRef}
         style={{
-          minHeight: "100vh",
+          minHeight: "100dvh",
           display: "flex",
           flexDirection: "column",
           justifyContent: "flex-end",

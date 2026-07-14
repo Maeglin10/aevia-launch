@@ -5,7 +5,7 @@ import { Reveal } from "../shared";
 
 export default function LegalPage() {
   return (
-    <div className="min-h-screen bg-[#f8f5f0] pb-24">
+    <div className="min-h-dvh bg-[#f8f5f0] pb-24">
       <section className="py-20 max-w-3xl mx-auto px-6">
         <Reveal>
           <span className="text-[10px] uppercase tracking-[0.5em] font-black text-[#3d7a5e] mb-6 block font-sans">

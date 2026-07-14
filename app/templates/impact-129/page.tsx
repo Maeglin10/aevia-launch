@@ -175,7 +175,7 @@ export default function WaveFXPage() {
       });
     }
   }, [c]);return (
-    <div className="bg-[#070a10] text-white font-sans min-h-screen selection:bg-indigo-500 selection:text-white overflow-x-hidden">
+    <div className="bg-[#070a10] text-white font-sans min-h-dvh selection:bg-indigo-500 selection:text-white overflow-x-hidden">
 
       {/* ── NAVBAR ────── */}
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#070a10]/90 backdrop-blur-xl border-b border-indigo-500/10 py-4" : "bg-transparent py-8"}`}>
@@ -224,7 +224,7 @@ export default function WaveFXPage() {
 
       <main>
         {/* ── HERO ────── */}
-        <section id="hero" className="relative min-h-screen flex items-center pt-32 pb-20 overflow-hidden">
+        <section id="hero" className="relative min-h-dvh flex items-center pt-32 pb-20 overflow-hidden">
           <div className="absolute inset-0">
             <div className="absolute inset-0 bg-[linear-gradient(rgba(99,102,241,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(99,102,241,0.03)_1px,transparent_1px)] bg-[size:4rem_4rem]" />
             <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-indigo-500/8 blur-[200px] rounded-full" />

@@ -78,7 +78,7 @@ export default function ContactPage() {
     focusedField === field ? C.accent : C.border;
 
   return (
-    <div style={{ background: C.bg, minHeight: '100vh' }}>
+    <div style={{ background: C.bg, minHeight: '100dvh' }}>
       <CustomCursor />
       <StyleInjector />
 

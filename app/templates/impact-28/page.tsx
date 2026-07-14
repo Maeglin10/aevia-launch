@@ -140,7 +140,7 @@ export default function Home() {
 return (
     <div ref={containerRef} className="relative w-full overflow-hidden">
       {/* Hero */}
-      <section className="min-h-screen flex flex-col relative pt-[72px] overflow-hidden">
+      <section className="min-h-dvh flex flex-col relative pt-[72px] overflow-hidden">
         <div className="flex-1 relative overflow-hidden">
           <motion.div style={{ y: heroY, scale: heroScale }} className="absolute inset-0">
             <Image

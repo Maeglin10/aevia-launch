@@ -124,7 +124,7 @@ return (
       <section
         ref={heroRef}
         style={{
-          minHeight: "100vh",
+          minHeight: "100dvh",
           background: "#ffffff",
           display: "flex",
           flexDirection: "column",

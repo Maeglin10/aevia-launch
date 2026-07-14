@@ -159,7 +159,7 @@ export default function NoirCouturePage() {
     }
   }, [c]);
 return (
-    <div className="min-h-screen bg-white" style={{ fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif", overflowX: "clip" }}>
+    <div className="min-h-dvh bg-white" style={{ fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif", overflowX: "clip" }}>
       <motion.div className="fixed top-0 left-0 right-0 h-[1px] bg-black origin-left z-[60]" style={{ scaleX: scrollYProgress }} />
 
       {/* Nav */}
@@ -246,7 +246,7 @@ return (
       {page === "home" && (
         <>
           {/* Hero — B&W split */}
-          <section id="hero" ref={heroRef} className="relative h-screen overflow-hidden pt-20">
+          <section id="hero" ref={heroRef} className="relative h-dvh overflow-hidden pt-20">
             <div className="grid grid-cols-1 md:grid-cols-2 h-full">
               <motion.div className="relative overflow-hidden" style={{ y: heroY }}>
                 <Image src="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=900&q=90" alt={fd?.businessName ?? "Noir Couture"} fill className="object-cover" priority />
@@ -491,7 +491,7 @@ function CollectionsSubPage({ goTo, activeCol, setActiveCol }: { goTo: (p: any) 
   ];
 
   return (
-    <section className="py-32 px-6 bg-black text-white min-h-screen">
+    <section className="py-32 px-6 bg-black text-white min-h-dvh">
       <div className="max-w-6xl mx-auto">
         <Reveal>
           <p className="text-white/40 text-xs tracking-widest uppercase mb-4">Les Collections</p>
@@ -556,7 +556,7 @@ function EditorialSubPage() {
   ];
 
   return (
-    <section className="py-32 px-6 bg-white text-black min-h-screen">
+    <section className="py-32 px-6 bg-white text-black min-h-dvh">
       <div className="max-w-6xl mx-auto">
         <Reveal>
           <p className="text-black/40 text-xs tracking-widest uppercase mb-4">Editorial</p>
@@ -615,7 +615,7 @@ function BoutiqueSubPage({ cartCount, setCartCount }: { cartCount: number; setCa
   };
 
   return (
-    <section className="py-32 px-6 bg-[#0A0A0A] text-white min-h-screen">
+    <section className="py-32 px-6 bg-[#0A0A0A] text-white min-h-dvh">
       <div className="max-w-6xl mx-auto">
         <Reveal>
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-16">
@@ -678,7 +678,7 @@ function BoutiqueSubPage({ cartCount, setCartCount }: { cartCount: number; setCa
 
 function AtelierSubPage({ goTo }: { goTo: (p: any) => void }) {
   return (
-    <section id="about" className="py-32 px-6 bg-white text-black min-h-screen">
+    <section id="about" className="py-32 px-6 bg-white text-black min-h-dvh">
       <div className="max-w-5xl mx-auto space-y-16">
         <Reveal>
           <div className="text-center space-y-4">
@@ -751,7 +751,7 @@ function AtelierSubPage({ goTo }: { goTo: (p: any) => void }) {
 function ContactSubPage() {
   const [submitted, setSubmitted] = useState(false);
   return (
-    <section className="py-32 px-6 bg-black text-white min-h-screen">
+    <section className="py-32 px-6 bg-black text-white min-h-dvh">
       <div className="max-w-4xl mx-auto">
         <Reveal>
           <div className="text-center mb-16 space-y-4">
@@ -866,7 +866,7 @@ function ContactSubPage() {
 
 function LegalSubPage() {
   return (
-    <section id="contact" className="py-32 px-6 bg-white text-black min-h-screen">
+    <section id="contact" className="py-32 px-6 bg-white text-black min-h-dvh">
       <div className="max-w-3xl mx-auto space-y-8" style={{ fontFamily: "system-ui, -apple-system, sans-serif" }}>
         <h1 className="text-4xl font-light mb-8" style={{ fontFamily: "'Playfair Display', serif" }}>
           Mentions <em>Légales</em>

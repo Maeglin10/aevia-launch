@@ -43,7 +43,7 @@ export default function OrbitAILayout({
   ];
 
   return (
-    <div className="bg-[#050810] text-[#a0a0a0] font-mono min-h-screen selection:bg-cyan-500 selection:text-white overflow-x-hidden flex flex-col justify-between">
+    <div className="bg-[#050810] text-[#a0a0a0] font-mono min-h-dvh selection:bg-cyan-500 selection:text-white overflow-x-hidden flex flex-col justify-between">
       <div>
         {/* ── MISSION CONTROL OVERLAY ── */}
         <div className="fixed inset-0 pointer-events-none z-[60] border-[40px] border-[#050810] opacity-40 md:opacity-100" />

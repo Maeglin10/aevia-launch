@@ -45,7 +45,7 @@ export default function EchoChamberLayout({ children }: { children: React.ReactN
         fontFamily: C.bodyFont,
         backgroundColor: C.bg,
         color: C.text,
-        minHeight: "100vh",
+        minHeight: "100dvh",
         display: "flex",
         flexDirection: "column",
         overflowX: "clip",

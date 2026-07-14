@@ -37,7 +37,7 @@ export default function OriginRoastLayout({ children }: { children: React.ReactN
         fontFamily: SANS,
         background: C.bg,
         color: C.text,
-        minHeight: "100vh",
+        minHeight: "100dvh",
         display: "flex",
         flexDirection: "column",
         overflowX: "clip",

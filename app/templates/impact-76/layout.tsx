@@ -47,7 +47,7 @@ export default function StructuraArchLayout({
 
   return (
     <div
-      className="premium-theme min-h-screen bg-[#0a0a0c] text-white font-mono selection:bg-white selection:text-black overflow-x-hidden flex flex-col justify-between"
+      className="premium-theme min-h-dvh bg-[#0a0a0c] text-white font-mono selection:bg-white selection:text-black overflow-x-hidden flex flex-col justify-between"
       style={{ scrollBehavior: "smooth" }}
     >
       <div>

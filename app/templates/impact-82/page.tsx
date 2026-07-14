@@ -96,9 +96,9 @@ export default function BlueprintPage() {
     }
   }, [c]);
 return (
-    <div className="min-h-screen bg-[#F7F5F2]">
+    <div className="min-h-dvh bg-[#F7F5F2]">
       {/* Hero */}
-      <section ref={heroRef} className="relative min-h-screen overflow-hidden flex items-center">
+      <section ref={heroRef} className="relative min-h-dvh overflow-hidden flex items-center">
         <motion.div className="absolute inset-0" style={{ y: heroY }}>
           <Image
             src="https://images.unsplash.com/photo-1449157291145-7efd050a4d0e?w=1600&q=85"

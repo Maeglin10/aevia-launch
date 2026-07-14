@@ -585,7 +585,7 @@ export default function TerreVivantePage() {
       <section
         ref={heroRef}
         style={{
-          minHeight: "100vh",
+          minHeight: "100dvh",
           backgroundColor: C.bgDark,
           display: "flex",
           alignItems: "center",

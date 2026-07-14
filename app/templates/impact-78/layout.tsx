@@ -47,7 +47,7 @@ export default function AetherRoastLayout({
 
   return (
     <div
-      className="premium-theme min-h-screen bg-[#0c0a09] text-[#e7e5e4] font-mono selection:bg-orange-900 selection:text-white overflow-x-hidden flex flex-col justify-between"
+      className="premium-theme min-h-dvh bg-[#0c0a09] text-[#e7e5e4] font-mono selection:bg-orange-900 selection:text-white overflow-x-hidden flex flex-col justify-between"
       style={{ scrollBehavior: "smooth" }}
     >
       <div>

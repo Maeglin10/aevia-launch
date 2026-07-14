@@ -971,7 +971,7 @@ export default function LuxuryJewelryTemplate() {
   return (
     <div
       style={{
-        minHeight: "100vh",
+        minHeight: "100dvh",
         background: "#0a0806",
         color: "#f0ece0",
         fontFamily: "Georgia, 'Times New Roman', serif",
@@ -1274,7 +1274,7 @@ export default function LuxuryJewelryTemplate() {
             ref={heroRef}
         style={{
           position: "relative",
-          height: "100vh",
+          height: "100dvh",
           display: "flex",
           alignItems: "center",
           overflow: "hidden",

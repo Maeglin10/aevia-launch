@@ -536,7 +536,7 @@ return (
         fontFamily: C.fontSans,
         background: C.bg,
         color: C.dark,
-        minHeight: "100vh",
+        minHeight: "100dvh",
         overflowX: "hidden",
       }}
     >

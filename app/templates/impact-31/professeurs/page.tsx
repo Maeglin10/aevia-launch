@@ -9,7 +9,7 @@ export default function ProfesseursPage() {
   const isInView = useInView(ref, { once: true, margin: "-60px" });
 
   return (
-    <section ref={ref} style={{ padding: "80px 80px 120px", background: C.bg, fontFamily: FONT_BODY, minHeight: "100vh" }}>
+    <section ref={ref} style={{ padding: "80px 80px 120px", background: C.bg, fontFamily: FONT_BODY, minHeight: "100dvh" }}>
       <motion.div
         initial={{ opacity: 0, y: 32 }}
         animate={{ opacity: 1, y: 0 }}

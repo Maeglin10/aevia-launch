@@ -6,7 +6,7 @@ import { C, TEAM_STATS, ROSTER, NeonStatCounter } from "../shared";
 
 export default function TeamPage() {
   return (
-    <div style={{ background: C.bg, color: C.white, minHeight: "100vh", padding: "80px 40px 120px", fontFamily: "'Courier New', monospace" }}>
+    <div style={{ background: C.bg, color: C.white, minHeight: "100dvh", padding: "80px 40px 120px", fontFamily: "'Courier New', monospace" }}>
       <div style={{ maxWidth: 1200, margin: '0 auto' }}>
         <div style={{ textAlign: 'center', marginBottom: 80 }}>
           <div style={{ fontSize: 11, color: C.textDim, letterSpacing: '0.5em', marginBottom: 16 }}>

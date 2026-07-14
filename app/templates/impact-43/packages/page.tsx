@@ -7,7 +7,7 @@ export default function PackagesPage() {
   const [selectedPackage, setSelectedPackage] = useState(1);
 
   return (
-    <div style={{ background: C.cream, minHeight: "100vh", padding: "80px 5% 120px" }}>
+    <div style={{ background: C.cream, minHeight: "100dvh", padding: "80px 5% 120px" }}>
       <div style={{ maxWidth: 1200, margin: "0 auto" }}>
         <div style={{ textAlign: "center", marginBottom: 72 }}>
           <TextReveal>

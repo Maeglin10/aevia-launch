@@ -6,7 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function LegalPage() {
   return (
-    <div className="min-h-screen bg-[#FDFBF7]">
+    <div className="min-h-dvh bg-[#FDFBF7]">
       <section className="relative h-48 flex items-end bg-[#2D1B0E]">
         <div className="relative z-10 max-w-7xl mx-auto px-6 pb-10 w-full">
           <h1 className="text-4xl font-serif text-white leading-none pb-2">Informations Réglementaires</h1>

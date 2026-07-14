@@ -5,7 +5,7 @@ import { Reveal } from "../shared";
 
 export default function LegalPage() {
   return (
-    <section className="py-24 bg-[#0C0C0A] min-h-screen text-[#6A6058] font-sans">
+    <section className="py-24 bg-[#0C0C0A] min-h-dvh text-[#6A6058] font-sans">
       <div className="max-w-3xl mx-auto px-6">
         <Reveal>
           <h1 className="text-3xl md:text-4xl font-light mb-12 text-[#F0EBE0]" style={{ fontFamily: "'Bodoni Moda', serif" }}>

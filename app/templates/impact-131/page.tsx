@@ -708,7 +708,7 @@ export default function WineryTemplate() {
     }
   }, [c]);
 return (
-    <div style={{ background: C.bg, minHeight: "100vh", fontFamily: C.fontSans, overflowX: "hidden" }}>
+    <div style={{ background: C.bg, minHeight: "100dvh", fontFamily: C.fontSans, overflowX: "hidden" }}>
 
       {/* ====================================================================
           1. NAV
@@ -870,7 +870,7 @@ return (
       <section id="hero"
         ref={heroRef}
         style={{
-          minHeight: "100vh",
+          minHeight: "100dvh",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",

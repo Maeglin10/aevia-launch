@@ -425,7 +425,7 @@ export default function Impact199Page() {
 
   return (
     <div
-      className="min-h-screen overflow-x-hidden bg-[#000000] text-[#FAFAFA]"
+      className="min-h-dvh overflow-x-hidden bg-[#000000] text-[#FAFAFA]"
       style={{ fontFamily: "'Space Grotesk', sans-serif" }}
     >
       {/* ── Scroll Progress Bar ──────────────────────────────────── */}
@@ -552,7 +552,7 @@ export default function Impact199Page() {
       <section
         ref={heroRef}
         id="hero"
-        className="relative h-screen min-h-[700px] flex items-center overflow-hidden"
+        className="relative h-dvh min-h-[700px] flex items-center overflow-hidden"
       >
         {/* Parallax Image */}
         <motion.div className="absolute inset-0 z-0" style={{ y: heroY, opacity: heroOpacity }}>

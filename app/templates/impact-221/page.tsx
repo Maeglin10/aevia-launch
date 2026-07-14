@@ -268,7 +268,7 @@ function Hero() {
   return (
     <section id="hero"
       ref={ref}
-      style={{ position: 'relative', height: '100vh', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }}
+      style={{ position: 'relative', height: '100dvh', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }}
     >
       {/* Parallax photo */}
       <motion.div style={{ position: 'absolute', inset: '-12%', scale: imgScale, y: imgY }}>
@@ -431,7 +431,7 @@ function StickyCrossfade() {
   };
 
   return (
-    <div id="about" style={{ height: '100vh', overflow: 'hidden', position: 'relative' }}>
+    <div id="about" style={{ height: '100dvh', overflow: 'hidden', position: 'relative' }}>
       <div style={{ position: 'relative', height: '100%', overflow: 'hidden' }}>
         {/* Carousel navigation */}
         <button

@@ -138,7 +138,7 @@ export default function AetherSoundPage() {
       });
     }
   }, [c]);return (
-    <div className="bg-[#050505] text-white font-sans min-h-screen selection:bg-white selection:text-black overflow-x-hidden">
+    <div className="bg-[#050505] text-white font-sans min-h-dvh selection:bg-white selection:text-black overflow-x-hidden">
       
       {/* ── NAVBAR ────────────────── */}
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-1000 ${scrolled ? "bg-black/90 backdrop-blur-xl border-b border-white/5 py-4" : "bg-transparent py-8"}`}>
@@ -183,7 +183,7 @@ export default function AetherSoundPage() {
 
       <main>
         {/* ── HERO ──────────────────── */}
-        <section id="hero" className="relative h-screen flex items-center justify-center overflow-hidden">
+        <section id="hero" className="relative h-dvh flex items-center justify-center overflow-hidden">
           <div className="absolute inset-0">
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-[radial-gradient(circle,rgba(255,255,255,0.05)_0%,transparent_70%)]" />
           </div>

@@ -461,7 +461,7 @@ return (
       style={{
         background: C.bg,
         color: C.text,
-        minHeight: "100vh",
+        minHeight: "100dvh",
         fontFamily: FONT_BODY,
         overflowX: "hidden",
       }}

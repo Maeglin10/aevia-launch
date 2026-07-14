@@ -64,7 +64,7 @@ function HeroSection() {
       <div style={{
         position: "sticky",
         top: 0,
-        height: "100vh",
+        height: "100dvh",
         overflow: "hidden",
         background: C.bg,
       }}>
@@ -360,7 +360,7 @@ return (
         style={{
           background: C.bg,
           color: C.white,
-          minHeight: "100vh",
+          minHeight: "100dvh",
           overflowX: "hidden",
         }}
       >

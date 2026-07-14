@@ -238,7 +238,7 @@ return (
         }
       `}</style>
       <StyleInjector />
-      <div style={{ background: C.bg, minHeight: '100vh', color: C.text }}>
+      <div style={{ background: C.bg, minHeight: '100dvh', color: C.text }}>
 
         {/* ── Hero (preserved) ──────────────────────────────────────────── */}
         <section

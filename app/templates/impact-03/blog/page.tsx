@@ -40,7 +40,7 @@ export default function BlogPage() {
       style={{
         background: '#fafafa',
         color: '#0a0a0a',
-        minHeight: '100vh',
+        minHeight: '100dvh',
         fontFamily: "'Georgia', 'Times New Roman', serif",
         paddingTop: 80,
       }}

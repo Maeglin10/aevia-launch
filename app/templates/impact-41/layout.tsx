@@ -43,7 +43,7 @@ export default function VMMaisonLayout({ children }: { children: React.ReactNode
         fontFamily: "'Cormorant Garamond', 'Playfair Display', Georgia, serif",
         backgroundColor: SCENES[0].bg,
         color: SCENES[0].textPrimary,
-        minHeight: '100vh',
+        minHeight: '100dvh',
         display: 'flex',
         flexDirection: 'column',
         overflowX: 'hidden',

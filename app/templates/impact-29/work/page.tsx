@@ -5,7 +5,7 @@ import { GitBranch } from "lucide-react"
 
 export default function WorkPage() {
   return (
-    <div className="pt-32 min-h-screen px-6 pb-24 max-w-6xl mx-auto">
+    <div className="pt-32 min-h-dvh px-6 pb-24 max-w-6xl mx-auto">
       <div className="border-b border-[#00F5D4]/10 pb-6 mb-12">
         <span className="text-xs text-[#00F5D4] font-bold block mb-1">/usr/bin/git-log</span>
         <h1 className="text-4xl md:text-6xl font-bold uppercase tracking-tight text-white">PROJECT_CATALOGUE</h1>

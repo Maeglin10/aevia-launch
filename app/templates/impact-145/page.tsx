@@ -127,7 +127,7 @@ export default function ArcaneRealtyPage() {
       });
     }
   }, [c]);return (
-    <div className="bg-[#0a0a0a] text-white font-sans min-h-screen selection:bg-white selection:text-black overflow-x-hidden">
+    <div className="bg-[#0a0a0a] text-white font-sans min-h-dvh selection:bg-white selection:text-black overflow-x-hidden">
       
       {/* ── NAVBAR ────────────────── */}
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-1000 ${scrolled ? "bg-black/90 backdrop-blur-xl border-b border-white/5 py-4" : "bg-transparent py-8"}`}>
@@ -171,7 +171,7 @@ export default function ArcaneRealtyPage() {
 
       <main>
         {/* ── HERO ──────────────────── */}
-        <section id="hero" className="relative h-screen flex items-center justify-center overflow-hidden">
+        <section id="hero" className="relative h-dvh flex items-center justify-center overflow-hidden">
           <div className="absolute inset-0">
              <Image src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&q=80&w=2400" alt="Luxury Property" fill className="object-cover opacity-50 scale-105" priority />
              <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent" />

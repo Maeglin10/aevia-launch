@@ -59,7 +59,7 @@ export default function CollectionsPage() {
   return (
     <div
       style={{
-        minHeight: "100vh",
+        minHeight: "100dvh",
         background: "#0a0806",
         color: "#f0ece0",
         fontFamily: "Georgia, 'Times New Roman', serif",

@@ -824,7 +824,7 @@ export default function LumiereCliniquePage() {
   ]
 
   return (
-    <div className="min-h-screen bg-[#FAFAF8] text-[#181410]" style={{ fontFamily: "'Inter', sans-serif", overflowX: "clip" }}>
+    <div className="min-h-dvh bg-[#FAFAF8] text-[#181410]" style={{ fontFamily: "'Inter', sans-serif", overflowX: "clip" }}>
       <motion.div className="fixed top-0 left-0 h-[2px] bg-[#3A8080] z-[1000] origin-left" style={{ scaleX: scrollYProgress }} />
 
       {/* ── Nav ── */}

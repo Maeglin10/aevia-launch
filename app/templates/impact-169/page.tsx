@@ -528,7 +528,7 @@ export default function ImpactFrequencePage() {
       style={{
         background: C.bg,
         color: C.text,
-        minHeight: "100vh",
+        minHeight: "100dvh",
         fontFamily: C.sans,
         overflowX: "hidden",
       }}

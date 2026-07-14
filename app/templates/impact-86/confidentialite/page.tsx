@@ -19,7 +19,7 @@ export default function ConfidentialitePage() {
   useFonts();
 
   return (
-    <div className="min-h-screen bg-[#F6F3EE]" style={{ fontFamily: "'Jost', sans-serif" }}>
+    <div className="min-h-dvh bg-[#F6F3EE]" style={{ fontFamily: "'Jost', sans-serif" }}>
       {/* Nav */}
       <nav className="fixed top-4 left-4 right-4 z-50">
         <div className="max-w-6xl mx-auto bg-[#F6F3EE]/90 backdrop-blur-md border border-[#D8D0C4] rounded-2xl px-6 py-4 flex items-center justify-between">

@@ -16,7 +16,7 @@ export default function WorkPage() {
   const featured = projects[0]
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-dvh">
 
       {/* ─── FEATURED PROJECT HERO ──────────────────────────────────────────── */}
       <div className="pt-[72px] relative overflow-hidden min-h-[60vh] flex items-end">

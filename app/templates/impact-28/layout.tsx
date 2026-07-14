@@ -27,7 +27,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const isActive = (path: string) => pathname === path
 
   return (
-    <div ref={containerRef} className="min-h-screen bg-white text-black select-none selection:bg-black selection:text-white" style={{ fontFamily: "'Barlow', sans-serif" }}>
+    <div ref={containerRef} className="min-h-dvh bg-white text-black select-none selection:bg-black selection:text-white" style={{ fontFamily: "'Barlow', sans-serif" }}>
       <motion.div className="fixed top-0 left-0 right-0 h-1 bg-black origin-left z-50" style={{ scaleX: scrollYProgress }} />
 
       {/* Nav */}
@@ -86,7 +86,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       </nav>
 
       {/* Main Content */}
-      <main className="min-h-screen">
+      <main className="min-h-dvh">
         {children}
       </main>
 

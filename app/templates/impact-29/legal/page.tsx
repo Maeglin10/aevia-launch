@@ -2,7 +2,7 @@
 
 export default function LegalPage() {
   return (
-    <div className="pt-32 min-h-screen px-6 pb-24 max-w-3xl mx-auto">
+    <div className="pt-32 min-h-dvh px-6 pb-24 max-w-3xl mx-auto">
       <div className="border border-[#00F5D4]/20 bg-[#0D1323] p-8 md:p-12">
         <h1 className="text-3xl md:text-5xl font-bold text-[#00F5D4] mb-8 uppercase tracking-tight">
           // LEGAL_NOTICE

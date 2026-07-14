@@ -966,7 +966,7 @@ export default function MaskUnitHome() {
     }
   }, [c]);
 return (
-    <div style={{ background: C.bg, minHeight: '100vh' }}>
+    <div style={{ background: C.bg, minHeight: '100dvh' }}>
       <style>{`
         /* mobile: stack 2-col grids to single column (added by responsive fix) */
         @media (max-width: 768px) {

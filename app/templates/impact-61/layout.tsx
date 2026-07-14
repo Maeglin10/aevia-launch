@@ -40,7 +40,7 @@ export default function SegmentLayout({
   const [mobileOpen, setMobileOpen] = useState(false)
 
   return (
-    <div style={{ background: C.bg, color: C.text, fontFamily: "'Space Grotesk', sans-serif", minHeight: "100vh", overflowX: "hidden", position: "relative" }}>
+    <div style={{ background: C.bg, color: C.text, fontFamily: "'Space Grotesk', sans-serif", minHeight: "100dvh", overflowX: "hidden", position: "relative" }}>
       <StyleInjector />
 
       {/* Progress bar */}

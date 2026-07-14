@@ -614,7 +614,7 @@ export default function Impact89Page() {
     }
   }, [c]);
 return (
-    <div ref={containerRef} style={{ background: C.bg, color: C.text, minHeight: "100vh", fontFamily: FONT_BODY, overflowX: "hidden" }}>
+    <div ref={containerRef} style={{ background: C.bg, color: C.text, minHeight: "100dvh", fontFamily: FONT_BODY, overflowX: "hidden" }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Anton&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -773,7 +773,7 @@ return (
       <section id="hero"
         style={{
           position: "relative",
-          height: "100vh",
+          height: "100dvh",
           minHeight: 700,
           display: "flex",
           alignItems: "center",

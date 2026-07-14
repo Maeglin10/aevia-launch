@@ -274,7 +274,7 @@ function StudioTimeline() {
 
 export default function StudioPage() {
   return (
-    <div className="relative min-h-screen">
+    <div className="relative min-h-dvh">
       {/* Background grid */}
       <div className="fixed inset-0 opacity-[0.025] pointer-events-none" style={gridOverlay} />
 

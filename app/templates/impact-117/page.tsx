@@ -120,7 +120,7 @@ export default function VoltLogisticsPage() {
       });
     }
   }, [c]);return (
-    <div className="bg-[#0a0a0a] text-white font-sans min-h-screen selection:bg-[#ffb400] selection:text-black overflow-x-hidden">
+    <div className="bg-[#0a0a0a] text-white font-sans min-h-dvh selection:bg-[#ffb400] selection:text-black overflow-x-hidden">
       
       {/* ── NAVBAR ────────────────── */}
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? "bg-[#0a0a0a]/90 backdrop-blur-md border-b border-white/5 py-4" : "bg-transparent py-8"}`}>
@@ -165,7 +165,7 @@ export default function VoltLogisticsPage() {
 
       <main>
         {/* ── HERO ──────────────────── */}
-        <section id="hero" className="relative min-h-screen flex items-center pt-32 pb-20 overflow-hidden">
+        <section id="hero" className="relative min-h-dvh flex items-center pt-32 pb-20 overflow-hidden">
           {/* Grid Pattern */}
           <div className="absolute inset-0 opacity-20" 
                style={{ backgroundImage: `linear-gradient(#ffb4001a 1px, transparent 1px), linear-gradient(90deg, #ffb4001a 1px, transparent 1px)`, backgroundSize: '60px 60px' }} />

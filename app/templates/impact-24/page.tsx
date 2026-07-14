@@ -167,7 +167,7 @@ export default function Impact24() {
     }
   }, [c]);
 return (
-    <div ref={containerRef} className="min-h-screen bg-[#060A0F] text-white" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+    <div ref={containerRef} className="min-h-dvh bg-[#060A0F] text-white" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
       {/* Scroll bar */}
       <motion.div
         className="fixed top-0 left-0 right-0 h-0.5 bg-[#A3E635] origin-left z-50"
@@ -232,7 +232,7 @@ return (
       {/* === HOME PAGE === */}
       <div style={{ display: page === "home" ? "block" : "none" }}>
           {/* Hero */}
-          <section id="hero" className="min-h-screen flex items-center relative overflow-hidden pt-24 pb-16">
+          <section id="hero" className="min-h-dvh flex items-center relative overflow-hidden pt-24 pb-16">
             <div className="absolute inset-0">
               <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#A3E635]/10 rounded-full blur-3xl" />
               <div className="absolute bottom-1/4 right-1/4 w-72 h-72 bg-[#3B82F6]/10 rounded-full blur-3xl" />

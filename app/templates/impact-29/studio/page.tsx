@@ -121,7 +121,7 @@ const env = [
 
 export default function StudioPage() {
   return (
-    <div className="pt-28 min-h-screen">
+    <div className="pt-28 min-h-dvh">
 
       {/* Header */}
       <section className="py-20 px-6 border-b border-[#00F5D4]/10 relative overflow-hidden">

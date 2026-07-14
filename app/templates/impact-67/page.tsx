@@ -105,7 +105,7 @@ export default function VisionHomePage() {
     }
   }, [c]);
 return (
-    <div className="bg-[#050505] text-white font-mono min-h-screen">
+    <div className="bg-[#050505] text-white font-mono min-h-dvh">
       {/* ==========================================
           1. HERO (Cyber HUD Real Estate)
           ========================================== */}

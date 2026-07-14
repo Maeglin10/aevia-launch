@@ -206,7 +206,7 @@ function Hero() {
     <section
       ref={ref}
       style={{
-        minHeight: "100vh",
+        minHeight: "100dvh",
         position: "relative",
         overflow: "hidden",
         display: "flex",

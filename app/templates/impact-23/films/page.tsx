@@ -98,7 +98,7 @@ export default function Impact23FilmsPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#100D08]" style={{ fontFamily: "'Raleway', sans-serif" }}>
+    <div className="min-h-dvh bg-[#100D08]" style={{ fontFamily: "'Raleway', sans-serif" }}>
       <motion.div className="fixed top-0 left-0 right-0 h-[2px] bg-[#C9A05A] origin-left z-[60]" style={{ scaleX: scrollYProgress }} />
 
       <nav className="fixed top-4 left-4 right-4 z-50">

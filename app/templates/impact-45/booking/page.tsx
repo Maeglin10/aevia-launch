@@ -14,7 +14,7 @@ export default function BookingPage() {
   };
 
   return (
-    <div style={{ background: C.bgAlt, minHeight: "100vh", padding: "80px 24px 120px", fontFamily: "'Barlow', system-ui" }}>
+    <div style={{ background: C.bgAlt, minHeight: "100dvh", padding: "80px 24px 120px", fontFamily: "'Barlow', system-ui" }}>
       <div style={{ maxWidth: 1200, margin: "0 auto" }}>
         <div style={{ textAlign: "center", marginBottom: 64 }}>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 12, marginBottom: 20 }}>

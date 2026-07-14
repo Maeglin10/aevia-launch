@@ -47,7 +47,7 @@ export default function Impact53Layout({
 
   return (
     <div
-      className="min-h-screen text-white overflow-x-hidden selection:bg-red-500 selection:text-white"
+      className="min-h-dvh text-white overflow-x-hidden selection:bg-red-500 selection:text-white"
       style={{
         backgroundColor: C.black,
         fontFamily: FONT_SYNE,

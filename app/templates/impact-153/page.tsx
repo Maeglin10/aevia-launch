@@ -283,7 +283,7 @@ function ParallaxMountainHero() {
       ref={heroRef}
       style={{
         position:   "relative",
-        height:     "100vh",
+        height:     "100dvh",
         minHeight:  700,
         overflow:   "hidden",
         display:    "flex",
@@ -1258,7 +1258,7 @@ function GearScrollSection() {
           style={{
             position:   "sticky",
             top:        0,
-            height:     "100vh",
+            height:     "100dvh",
             display:    "flex",
             alignItems: "center",
             overflow:   "hidden",
@@ -2396,7 +2396,7 @@ return (
           fontFamily: "'Inter', sans-serif",
           background: C.bg,
           color:      C.text,
-          minHeight:  "100vh",
+          minHeight:  "100dvh",
           overflowX:  "hidden",
         }}
       >

@@ -7,7 +7,7 @@ import { TEAM, Reveal } from "../shared"
 
 export default function EntreprisePage() {
   return (
-    <div className="bg-[#F7F5F2] pt-32 pb-24 min-h-screen">
+    <div className="bg-[#F7F5F2] pt-32 pb-24 min-h-dvh">
       <div className="max-w-7xl mx-auto px-6 md:px-12">
         {/* Section 1: History & Introduction */}
         <div className="grid md:grid-cols-2 gap-16 items-center mb-28">

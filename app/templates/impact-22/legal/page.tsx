@@ -96,7 +96,7 @@ export default function NimbusAILegalPage() {
   const { scrollYProgress } = useScroll();
 
   return (
-    <div className="min-h-screen bg-[#060B16]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+    <div className="min-h-dvh bg-[#060B16]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
       <motion.div className="fixed top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[#06B6D4] to-[#8B5CF6] origin-left z-[60]" style={{ scaleX: scrollYProgress }} />
 
       {/* Nav */}

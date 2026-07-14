@@ -58,7 +58,7 @@ export default function CyberSecurityLayout({
 
   return (
     <div
-      className="premium-theme min-h-screen bg-[#05060a] text-white font-mono selection:bg-emerald-500 selection:text-white overflow-x-hidden flex flex-col justify-between"
+      className="premium-theme min-h-dvh bg-[#05060a] text-white font-mono selection:bg-emerald-500 selection:text-white overflow-x-hidden flex flex-col justify-between"
       style={{ scrollBehavior: "smooth" }}
     >
       <div>

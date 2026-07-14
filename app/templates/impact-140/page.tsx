@@ -241,7 +241,7 @@ export default function WanderlustPage() {
     );
 
   return (
-    <div className="premium-theme min-h-screen bg-[#0c0a09] text-stone-100 font-sans selection:bg-amber-500/30 selection:text-white">
+    <div className="premium-theme min-h-dvh bg-[#0c0a09] text-stone-100 font-sans selection:bg-amber-500/30 selection:text-white">
       {/* ==========================================
           NAVIGATION
           ========================================== */}

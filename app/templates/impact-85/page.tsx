@@ -151,7 +151,7 @@ export default function AetherLabsPage() {
       });
     }
   }, [c]);return (
-    <div className="min-h-screen bg-[#F8F6F2] text-[#1C1814]" style={{ fontFamily: "'Inter', sans-serif" }}>
+    <div className="min-h-dvh bg-[#F8F6F2] text-[#1C1814]" style={{ fontFamily: "'Inter', sans-serif" }}>
       <motion.div className="fixed top-0 left-0 h-[2px] bg-[#8B7355] z-[1000] origin-left" style={{ scaleX: scrollYProgress }} />
 
       {/* Nav */}
@@ -220,7 +220,7 @@ export default function AetherLabsPage() {
       </AnimatePresence>
 
       {/* Hero */}
-      <section id="hero" ref={heroRef} className="relative min-h-screen overflow-hidden grid md:grid-cols-2">
+      <section id="hero" ref={heroRef} className="relative min-h-dvh overflow-hidden grid md:grid-cols-2">
         <div className="flex flex-col justify-center px-8 md:px-16 lg:px-24 pt-28 pb-16 md:py-0">
           <Reveal>
             <p className="text-xs tracking-[0.3em] uppercase text-[#8B7355] mb-8">Laboratoire cosmétique — Grasse, France</p>

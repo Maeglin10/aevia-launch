@@ -258,7 +258,7 @@ export default function QBitLabsPage() {
         background: "#f4f4f4",
         color: "#161616",
         fontFamily: "'IBM Plex Sans', system-ui, -apple-system, sans-serif",
-        minHeight: "100vh",
+        minHeight: "100dvh",
         overflowX: "hidden",
       }}
     >

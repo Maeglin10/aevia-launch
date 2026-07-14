@@ -133,7 +133,7 @@ export default function AstrumReachPage() {
       });
     }
   }, [c]);return (
-    <div className="bg-[#02040a] text-white font-sans min-h-screen selection:bg-cyan-500 selection:text-white overflow-x-hidden">
+    <div className="bg-[#02040a] text-white font-sans min-h-dvh selection:bg-cyan-500 selection:text-white overflow-x-hidden">
       
       {/* ── NAVBAR ────────────────── */}
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#02040a]/90 backdrop-blur-xl border-b border-cyan-500/20 py-4" : "bg-transparent py-8"}`}>
@@ -178,7 +178,7 @@ export default function AstrumReachPage() {
 
       <main>
         {/* ── HERO ──────────────────── */}
-        <section id="hero" className="relative min-h-screen flex items-center pt-32 pb-20 overflow-hidden">
+        <section id="hero" className="relative min-h-dvh flex items-center pt-32 pb-20 overflow-hidden">
           {/* Star Field Background */}
           <div className="absolute inset-0 opacity-40">
              <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] bg-repeat" />

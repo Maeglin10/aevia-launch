@@ -63,7 +63,7 @@ export default function BookingPage() {
 
   if (submitted) {
     return (
-      <div style={{ minHeight: "100vh", backgroundColor: C.bg, paddingTop: "4rem", display: "flex", alignItems: "center", justifyContent: "center" }}>
+      <div style={{ minHeight: "100dvh", backgroundColor: C.bg, paddingTop: "4rem", display: "flex", alignItems: "center", justifyContent: "center" }}>
         <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} style={{ textAlign: "center", maxWidth: 520, padding: "3rem 2rem" }}>
           <div style={{ width: 72, height: 72, borderRadius: "50%", backgroundColor: `${C.accent}22`, border: `2px solid ${C.accent}`, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 1.75rem" }}>
             <Check size={32} color={C.accent} />
@@ -81,7 +81,7 @@ export default function BookingPage() {
   }
 
   return (
-    <div style={{ minHeight: "100vh", backgroundColor: C.bg, paddingTop: "4rem" }}>
+    <div style={{ minHeight: "100dvh", backgroundColor: C.bg, paddingTop: "4rem" }}>
       <div style={{ maxWidth: 820, margin: "0 auto", padding: "3rem 2rem 5rem" }}>
         <span style={{ fontFamily: C.bodyFont, fontSize: "0.75rem", fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", color: C.accent }}>Réservation</span>
         <h1 style={{ fontFamily: C.headingFont, fontSize: "clamp(3rem, 7vw, 5rem)", color: C.white, letterSpacing: "0.04em", margin: "0.4rem 0 0.5rem", lineHeight: 1 }}>RÉSERVER</h1>

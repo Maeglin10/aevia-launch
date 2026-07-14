@@ -6,7 +6,7 @@ import { ArrowLeft } from "lucide-react"
 
 export default function Page() {
   return (
-    <div className="bg-[#0a0906] min-h-screen text-[#ea580c] font-sans selection:bg-white/10">
+    <div className="bg-[#0a0906] min-h-dvh text-[#ea580c] font-sans selection:bg-white/10">
       <header className="fixed top-0 left-0 right-0 z-50 px-8 py-6 bg-black/40 backdrop-blur-md border-b border-white/10">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <Link href="/templates/impact-180" className="flex items-center gap-2 text-xs tracking-widest uppercase hover:opacity-80 transition-opacity">

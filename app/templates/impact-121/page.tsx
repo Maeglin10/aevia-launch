@@ -253,7 +253,7 @@ export default function FolioStudioPage() {
       });
     }
   }, [c]);return (
-    <div className="bg-white text-zinc-900 font-sans min-h-screen selection:bg-zinc-900 selection:text-white overflow-x-hidden">
+    <div className="bg-white text-zinc-900 font-sans min-h-dvh selection:bg-zinc-900 selection:text-white overflow-x-hidden">
       
       {/* ─── NAVBAR ────────────────────────────────────────────────────── */}
       <motion.nav 

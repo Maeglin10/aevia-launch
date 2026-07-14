@@ -17,7 +17,7 @@ export default function MaisonsPage() {
   ];
 
   return (
-    <section className="py-24 bg-[#0E0E0C] min-h-screen">
+    <section className="py-24 bg-[#0E0E0C] min-h-dvh">
       <div className="max-w-7xl mx-auto px-6 md:px-12">
         <Reveal>
           <p className="text-[10px] tracking-[0.4em] uppercase text-[#C9A86C] mb-3">Répertoire</p>

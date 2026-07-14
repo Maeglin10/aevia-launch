@@ -10,7 +10,7 @@ export default function MenuPage() {
   const [activeMenuTab, setActiveMenuTab] = useState(0);
 
   return (
-    <div className="bg-[#0f0d0b] text-[#f5efe0] min-h-screen pb-24">
+    <div className="bg-[#0f0d0b] text-[#f5efe0] min-h-dvh pb-24">
       {/* ── À LA CARTE SECTION ── */}
       <section className="py-20 max-w-[1400px] mx-auto px-6 md:px-12">
         <div className="flex flex-col md:flex-row justify-between items-end mb-24 gap-12">

@@ -7,7 +7,7 @@ import { C, FONT, SectionBadge, TEAM_DATA } from "../shared";
 
 export default function EquipePage() {
   return (
-    <div style={{ padding: "80px 80px 120px", fontFamily: FONT, background: C.bg, minHeight: "100vh" }}>
+    <div style={{ padding: "80px 80px 120px", fontFamily: FONT, background: C.bg, minHeight: "100dvh" }}>
       <div style={{ textAlign: "center", marginBottom: 64 }}>
         <SectionBadge label="Notre équipe" />
         <h1 style={{ fontSize: "clamp(32px, 4vw, 52px)", fontWeight: 800, color: C.text, letterSpacing: -1.5, marginBottom: 18 }}>Des vétérinaires passionnés</h1>

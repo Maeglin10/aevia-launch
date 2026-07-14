@@ -8,7 +8,7 @@ import { Reveal } from "../shared"
 
 export default function InvestisseursPage() {
   return (
-    <div className="bg-[#F7F5F2] pt-32 pb-24 min-h-screen">
+    <div className="bg-[#F7F5F2] pt-32 pb-24 min-h-dvh">
       <div className="max-w-7xl mx-auto px-6 md:px-12">
         {/* Section 1: Introduction & Rating */}
         <div className="grid md:grid-cols-[1.2fr_1fr] gap-16 items-center mb-28">

@@ -8,7 +8,7 @@ export default function MerchPage() {
   const [cartCount, setCartCount] = useState(0);
 
   return (
-    <div style={{ background: C.bg, color: C.white, minHeight: "100vh", padding: "80px 40px 120px", fontFamily: "'Courier New', monospace" }}>
+    <div style={{ background: C.bg, color: C.white, minHeight: "100dvh", padding: "80px 40px 120px", fontFamily: "'Courier New', monospace" }}>
       <div style={{ maxWidth: 1200, margin: '0 auto' }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 60, flexWrap: "wrap", gap: 24 }}>
           <div>

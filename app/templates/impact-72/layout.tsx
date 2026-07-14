@@ -48,7 +48,7 @@ export default function StackUnitLayout({
   const [mobileOpen, setMobileOpen] = useState(false)
 
   return (
-    <div style={{ background: C.bg, color: C.text, fontFamily: "'Space Grotesk', sans-serif", minHeight: "100vh", overflowX: "hidden", position: "relative" }}>
+    <div style={{ background: C.bg, color: C.text, fontFamily: "'Space Grotesk', sans-serif", minHeight: "100dvh", overflowX: "hidden", position: "relative" }}>
       <style>{FONT}</style>
       <style>{`
         ::-webkit-scrollbar { width: 4px; background: #0A0A14; }

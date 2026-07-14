@@ -64,7 +64,7 @@ const TESTIMONIALS_DATA = [
 
 export default function CommunityPage() {
   return (
-    <div style={{ padding: "60px 5%", background: C.bg, minHeight: "100vh" }}>
+    <div style={{ padding: "60px 5%", background: C.bg, minHeight: "100dvh" }}>
       <div style={{ maxWidth: 1200, margin: "0 auto" }}>
         {/* Header */}
         <SectionReveal>

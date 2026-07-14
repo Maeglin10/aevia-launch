@@ -5,7 +5,7 @@ import { C, CIRCUIT_STEPS, CircuitStep, TextReveal } from "../shared";
 
 export default function CircuitPage() {
   return (
-    <div style={{ background: C.forest, minHeight: "100vh", padding: "80px 5% 120px" }}>
+    <div style={{ background: C.forest, minHeight: "100dvh", padding: "80px 5% 120px" }}>
       <div style={{ maxWidth: 1000, margin: "0 auto" }}>
         <div style={{ textAlign: "center", marginBottom: 80 }}>
           <TextReveal>

@@ -18,7 +18,7 @@ function LegalContent() {
   }, [searchParams]);
 
   return (
-    <div style={{ minHeight: "100vh", backgroundColor: C.bg, paddingTop: "4rem" }}>
+    <div style={{ minHeight: "100dvh", backgroundColor: C.bg, paddingTop: "4rem" }}>
       <div style={{ maxWidth: 760, margin: "0 auto", padding: "3rem 2rem 5rem" }}>
         {/* Tabs */}
         <div style={{ display: "flex", gap: "2.5rem", borderBottom: `1px solid ${C.border}`, marginBottom: "2.5rem" }}>
@@ -114,7 +114,7 @@ function LegalContent() {
 
 export default function LegalPage() {
   return (
-    <Suspense fallback={<div style={{ minHeight: "100vh", backgroundColor: C.bg }} />}>
+    <Suspense fallback={<div style={{ minHeight: "100dvh", backgroundColor: C.bg }} />}>
       <LegalContent />
     </Suspense>
   );

@@ -220,7 +220,7 @@ function AwardRow({
 // ── Studio Page ───────────────────────────────────────────────────────────────
 export default function StudioPage() {
   return (
-    <div style={{ background: C.bg, minHeight: '100vh' }}>
+    <div style={{ background: C.bg, minHeight: '100dvh' }}>
       <CustomCursor />
       <StyleInjector />
 

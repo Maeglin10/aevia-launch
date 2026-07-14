@@ -179,7 +179,7 @@ export default function NimbusAIPage() {
     }
   }, [c]);
 return (
-    <div className="min-h-screen bg-[#060B16]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+    <div className="min-h-dvh bg-[#060B16]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
       <motion.div className="fixed top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[#06B6D4] to-[#8B5CF6] origin-left z-[60]" style={{ scaleX: scrollYProgress }} />
 
       {/* Nav */}
@@ -241,7 +241,7 @@ return (
       {/* ============================== HOME ============================== */}
       <div>
           {/* Hero */}
-          <section id="hero" className="relative min-h-screen flex items-center pt-32 pb-20 px-6 overflow-hidden">
+          <section id="hero" className="relative min-h-dvh flex items-center pt-32 pb-20 px-6 overflow-hidden">
             <div className="absolute inset-0 pointer-events-none">
               <div className="absolute top-1/3 left-1/3 w-[600px] h-[600px] bg-[#06B6D4]/5 rounded-full blur-3xl" />
               <div className="absolute top-1/2 right-1/4 w-[400px] h-[400px] bg-[#8B5CF6]/8 rounded-full blur-3xl" />

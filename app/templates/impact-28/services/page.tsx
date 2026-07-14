@@ -38,7 +38,7 @@ export default function ServicesPage() {
   const est = getTimelineEstimates(calcType, calcArea)
 
   return (
-    <div className="pt-32 min-h-screen px-6 pb-24 max-w-7xl mx-auto">
+    <div className="pt-32 min-h-dvh px-6 pb-24 max-w-7xl mx-auto">
       {/* Header */}
       <div className="border-b-4 border-black pb-8 mb-12">
         <div className="text-xs font-bold tracking-[0.4em] uppercase text-gray-400 mb-2">Our Capabilities</div>

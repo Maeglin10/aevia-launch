@@ -68,7 +68,7 @@ export default function ZenSpaceLayout({
 
   return (
     <div
-      className="premium-theme min-h-screen bg-[#faf9f6] text-[#33302c] font-sans selection:bg-[#e8e4db] selection:text-[#33302c] overflow-x-hidden relative"
+      className="premium-theme min-h-dvh bg-[#faf9f6] text-[#33302c] font-sans selection:bg-[#e8e4db] selection:text-[#33302c] overflow-x-hidden relative"
       style={{ scrollBehavior: "smooth" }}
     >
       <style>{`

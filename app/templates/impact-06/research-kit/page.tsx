@@ -6,7 +6,7 @@ import { ArrowLeft, Brain, Scan } from "lucide-react"
 
 export default function Page() {
   return (
-    <div className="premium-theme min-h-screen bg-[#020204] text-[#e0e0e0] font-sans selection:bg-[#00f2ff] selection:text-black overflow-x-hidden flex flex-col">
+    <div className="premium-theme min-h-dvh bg-[#020204] text-[#e0e0e0] font-sans selection:bg-[#00f2ff] selection:text-black overflow-x-hidden flex flex-col">
       <nav className="w-full py-8 border-b border-white/5 bg-transparent">
         <div className="max-w-[1600px] mx-auto px-6 md:px-12 flex items-center justify-between">
           <Link href="/templates/impact-06" className="group flex flex-col items-center">

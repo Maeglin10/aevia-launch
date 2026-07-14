@@ -105,7 +105,7 @@ function Footer() {
 
 export default function AboutPage() {
   return (
-    <div className="bg-[#0c0a08] text-[#f5efe6] min-h-screen selection:bg-amber-700 selection:text-white" style={{ fontFamily: "'Georgia', 'Times New Roman', serif" }}>
+    <div className="bg-[#0c0a08] text-[#f5efe6] min-h-dvh selection:bg-amber-700 selection:text-white" style={{ fontFamily: "'Georgia', 'Times New Roman', serif" }}>
       <Navbar currentPage="about" />
       <main style={{ padding: '120px 24px 100px', maxWidth: 800, margin: '0 auto', fontFamily: 'system-ui, sans-serif' }}>
         <div style={{ textAlign: 'center', marginBottom: 80 }}>

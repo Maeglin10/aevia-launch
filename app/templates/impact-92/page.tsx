@@ -261,7 +261,7 @@ export default function SkylineConciergePage() {
   }, [c]);
 
   return (
-    <div className="premium-theme min-h-screen bg-[#0a0a0a] text-[#ffffff] font-sans selection:bg-[#c9a96e] selection:text-black overflow-x-hidden">
+    <div className="premium-theme min-h-dvh bg-[#0a0a0a] text-[#ffffff] font-sans selection:bg-[#c9a96e] selection:text-black overflow-x-hidden">
       {/* ── NAVIGATION ── */}
       <nav
         className={`fixed top-0 left-0 w-full z-50 transition-all duration-700 ${scrolled ? "bg-black/90 backdrop-blur-xl py-4 border-b border-white/5" : "bg-transparent py-8"}`}

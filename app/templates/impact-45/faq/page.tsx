@@ -8,7 +8,7 @@ export default function FAQPage() {
   const [openIdx, setOpenIdx] = useState<number | null>(null);
 
   return (
-    <div style={{ background: C.bg, minHeight: "100vh", padding: "80px 24px 120px" }}>
+    <div style={{ background: C.bg, minHeight: "100dvh", padding: "80px 24px 120px" }}>
       <div style={{ maxWidth: 800, margin: "0 auto" }}>
         <div style={{ marginBottom: 64, textAlign: "center" }}>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 12, marginBottom: 20 }}>

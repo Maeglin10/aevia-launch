@@ -337,7 +337,7 @@ return (
       background: C.bg,
       color: C.text,
       fontFamily: SANS,
-      minHeight: '100vh',
+      minHeight: '100dvh',
       overflowX: 'hidden'
     }}>
       

@@ -117,7 +117,7 @@ return (
         }
       `}</style>
       {/* HERO */}
-      <section ref={heroRef} style={{ position: "relative", minHeight: "100vh", display: "flex", alignItems: "center", background: C.navy, overflow: "hidden" }}>
+      <section ref={heroRef} style={{ position: "relative", minHeight: "100dvh", display: "flex", alignItems: "center", background: C.navy, overflow: "hidden" }}>
         <motion.div style={{
           position: "absolute", inset: 0, y: heroY,
           backgroundImage: `linear-gradient(rgba(234,88,12,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(234,88,12,0.06) 1px, transparent 1px)`,

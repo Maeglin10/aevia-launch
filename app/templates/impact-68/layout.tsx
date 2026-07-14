@@ -42,7 +42,7 @@ export default function OrbitLayout({
   ];
 
   return (
-    <div style={{ background: C.bg, color: C.text, minHeight: "100vh", overflowX: "hidden" }}>
+    <div style={{ background: C.bg, color: C.text, minHeight: "100dvh", overflowX: "hidden" }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
         * { box-sizing: border-box; margin: 0; padding: 0; }

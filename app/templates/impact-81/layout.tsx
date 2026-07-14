@@ -43,7 +43,7 @@ export default function VogueNoireLayout({
   ];
 
   return (
-    <div className="min-h-screen bg-[#0A0A08] text-[#F0EBE0]" style={{ fontFamily: "'Inter', sans-serif" }}>
+    <div className="min-h-dvh bg-[#0A0A08] text-[#F0EBE0]" style={{ fontFamily: "'Inter', sans-serif" }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@300;400;500&display=swap');
       `}</style>

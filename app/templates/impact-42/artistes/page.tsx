@@ -16,7 +16,7 @@ export default function ArtistesPage() {
   ];
 
   return (
-    <div style={{ minHeight: "100vh", backgroundColor: C.bg, paddingTop: "4rem" }}>
+    <div style={{ minHeight: "100dvh", backgroundColor: C.bg, paddingTop: "4rem" }}>
       <div style={{ maxWidth: 1140, margin: "0 auto", padding: "3rem 2rem 2rem" }}>
         <span style={{ fontFamily: C.bodyFont, fontSize: "0.75rem", fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", color: C.accent }}>Ils ont enregistré ici</span>
         <h1 style={{ fontFamily: C.headingFont, fontSize: "clamp(3rem, 7vw, 5.5rem)", color: C.white, letterSpacing: "0.04em", margin: "0.4rem 0 0.5rem", lineHeight: 1 }}>ARTISTES</h1>

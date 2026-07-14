@@ -6,7 +6,7 @@ import { Reveal } from "../shared"
 
 export default function LegalPage() {
   return (
-    <div className="bg-[#F7F5F2] pt-32 pb-24 min-h-screen">
+    <div className="bg-[#F7F5F2] pt-32 pb-24 min-h-dvh">
       <div className="max-w-4xl mx-auto px-6 md:px-12">
         <Reveal>
           <div className="mb-12 border-b border-[#E0D8CC] pb-8">

@@ -42,7 +42,7 @@ export default function CypherClinicLayout({
   ];
 
   return (
-    <div className="min-h-screen bg-[#0C0C0A] text-[#F0EBE0]" style={{ fontFamily: "'Inter', sans-serif" }}>
+    <div className="min-h-dvh bg-[#0C0C0A] text-[#F0EBE0]" style={{ fontFamily: "'Inter', sans-serif" }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500;600&display=swap');
       `}</style>

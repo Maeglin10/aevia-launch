@@ -118,7 +118,7 @@ export default function AetherWellnessPage() {
       });
     }
   }, [c]);return (
-    <div className="bg-[#faf9f6] text-[#3d3d3d] font-sans min-h-screen selection:bg-[#e5e7eb] selection:text-[#1a1a1a] overflow-x-hidden">
+    <div className="bg-[#faf9f6] text-[#3d3d3d] font-sans min-h-dvh selection:bg-[#e5e7eb] selection:text-[#1a1a1a] overflow-x-hidden">
       
       {/* ── NAVBAR ────────────────── */}
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-1000 ${scrolled ? "bg-white/80 backdrop-blur-xl border-b border-black/5 py-4" : "bg-transparent py-10"}`}>
@@ -162,7 +162,7 @@ export default function AetherWellnessPage() {
 
       <main>
         {/* ── HERO ──────────────────── */}
-        <section id="hero" className="relative h-screen flex items-center justify-center overflow-hidden">
+        <section id="hero" className="relative h-dvh flex items-center justify-center overflow-hidden">
           <div className="absolute inset-0 flex items-center justify-center">
              <BreathingCircle />
           </div>

@@ -45,7 +45,7 @@ export default function BlueprintLayout({ children }: { children: React.ReactNod
   const isLinkActive = (href: string) => pathname === href
 
   return (
-    <div className="min-h-screen bg-[#F7F5F2] text-[#1A1612] flex flex-col" style={{ fontFamily: "'Inter', sans-serif" }}>
+    <div className="min-h-dvh bg-[#F7F5F2] text-[#1A1612] flex flex-col" style={{ fontFamily: "'Inter', sans-serif" }}>
       {/* Load Google Fonts */}
       <style dangerouslySetInnerHTML={{__html: `
         @import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap');

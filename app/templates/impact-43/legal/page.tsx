@@ -5,7 +5,7 @@ import { C, TextReveal } from "../shared";
 
 export default function LegalPage() {
   return (
-    <div style={{ background: C.cream, minHeight: "100vh", padding: "80px 5% 120px" }}>
+    <div style={{ background: C.cream, minHeight: "100dvh", padding: "80px 5% 120px" }}>
       <div style={{ maxWidth: 800, margin: "0 auto", fontFamily: C.fontSans, color: C.charcoal }}>
         <div style={{ textAlign: "center", marginBottom: 64 }}>
           <TextReveal>

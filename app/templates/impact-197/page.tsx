@@ -463,7 +463,7 @@ export default function EvasionDoree() {
     }
   }, [c]);
 return (
-    <div ref={containerRef} style={{ background: C.bg, color: C.text, minHeight: "100vh", fontFamily: "'Cormorant Garamond', Georgia, serif", overflowX: "hidden" }}>
+    <div ref={containerRef} style={{ background: C.bg, color: C.text, minHeight: "100dvh", fontFamily: "'Cormorant Garamond', Georgia, serif", overflowX: "hidden" }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,600&display=swap');
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -547,7 +547,7 @@ return (
           {/* HERO */}
       <section id="hero"
         ref={heroRef}
-        style={{ position: "relative", height: "100vh", minHeight: 700, overflow: "hidden", display: "flex", alignItems: "center" }}
+        style={{ position: "relative", height: "100dvh", minHeight: 700, overflow: "hidden", display: "flex", alignItems: "center" }}
       >
         <motion.div style={{ position: "absolute", inset: 0, y: heroY, scale: heroScale }}>
           <div
@@ -1184,7 +1184,7 @@ function DestinationsPage({ goTo }: { goTo: (p: ActivePage) => void }) {
   ];
 
   return (
-    <section id="realisations" style={{ padding: "140px 40px", background: C.bg, minHeight: "100vh" }}>
+    <section id="realisations" style={{ padding: "140px 40px", background: C.bg, minHeight: "100dvh" }}>
       <div style={{ maxWidth: 1200, margin: "0 auto" }}>
         <div style={{ textAlign: "center", marginBottom: 80 }}>
           <div style={{ display: "inline-flex", alignItems: "center", gap: 8, marginBottom: 20 }}>
@@ -1256,7 +1256,7 @@ function DestinationsPage({ goTo }: { goTo: (p: ActivePage) => void }) {
 
 function ConceptPage({ goTo }: { goTo: (p: ActivePage) => void }) {
   return (
-    <section id="about" style={{ padding: "140px 40px", background: C.bg, minHeight: "100vh" }}>
+    <section id="about" style={{ padding: "140px 40px", background: C.bg, minHeight: "100dvh" }}>
       <div style={{ maxWidth: 900, margin: "0 auto" }}>
         <div style={{ textAlign: "center", marginBottom: 80 }}>
           <div style={{ display: "inline-flex", alignItems: "center", gap: 8, marginBottom: 20 }}>
@@ -1315,7 +1315,7 @@ function ConceptPage({ goTo }: { goTo: (p: ActivePage) => void }) {
 
 function FormulesPage() {
   return (
-    <section style={{ padding: "140px 40px", background: C.bg, minHeight: "100vh" }}>
+    <section style={{ padding: "140px 40px", background: C.bg, minHeight: "100dvh" }}>
       <div style={{ maxWidth: 800, margin: "0 auto" }}>
         <div style={{ textAlign: "center", marginBottom: 64 }}>
           <div style={{ display: "inline-flex", alignItems: "center", gap: 8, marginBottom: 20 }}>
@@ -1382,7 +1382,7 @@ function FormulesPage() {
 
 function LegalPage() {
   return (
-    <section id="contact" style={{ padding: "140px 40px", background: C.bg, minHeight: "100vh" }}>
+    <section id="contact" style={{ padding: "140px 40px", background: C.bg, minHeight: "100dvh" }}>
       <div style={{ maxWidth: 800, margin: "0 auto", fontFamily: "system-ui" }}>
         <h1 style={{ fontSize: "clamp(32px, 4.5vw, 52px)", fontWeight: 300, color: C.marine, marginBottom: 40, fontFamily: "'Cormorant Garamond', Georgia, serif" }}>
           Mentions <em style={{ color: C.accent, fontStyle: "italic" }}>Légales</em>

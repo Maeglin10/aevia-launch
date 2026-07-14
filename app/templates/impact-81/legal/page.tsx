@@ -5,7 +5,7 @@ import { Reveal } from "../shared";
 
 export default function LegalPage() {
   return (
-    <section className="py-24 bg-[#0A0A08] min-h-screen text-[#6A6058] font-sans">
+    <section className="py-24 bg-[#0A0A08] min-h-dvh text-[#6A6058] font-sans">
       <div className="max-w-3xl mx-auto px-6">
         <Reveal>
           <h1 className="text-4xl md:text-5xl font-light tracking-tighter uppercase leading-[1.15] text-[#F0EBE0] italic mb-12 pb-4" style={{ fontFamily: "'Cormorant Garamond', serif" }}>

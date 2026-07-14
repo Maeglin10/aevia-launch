@@ -202,7 +202,7 @@ export default function AstrumReachPremiumLegal() {
   const textScale = useTransform(scrollYProgress, [0, 0.2], [1, 1.2])
 
   return (
-    <div ref={containerRef} className="bg-[#020205] text-[#f0f0f0] font-sans selection:bg-indigo-500/40 selection:text-white min-h-screen overflow-x-clip">
+    <div ref={containerRef} className="bg-[#020205] text-[#f0f0f0] font-sans selection:bg-indigo-500/40 selection:text-white min-h-dvh overflow-x-clip">
       
       <StarfieldBackground />
       <HUD_Sidebar page={page} goTo={goTo} />
@@ -274,7 +274,7 @@ export default function AstrumReachPremiumLegal() {
         {page === "home" && (
           <>
             {/* 2. LAUNCH IGNITION (HERO / SPACEMAN STYLE) */}
-            <section id="hero" className="relative h-screen flex flex-col justify-center items-center px-12 pt-32 overflow-hidden">
+            <section id="hero" className="relative h-dvh flex flex-col justify-center items-center px-12 pt-32 overflow-hidden">
                <OrbitVisualizer />
                
                <div className="relative z-10 w-full max-w-7xl flex flex-col items-center text-center">

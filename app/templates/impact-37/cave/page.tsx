@@ -13,7 +13,7 @@ import {
 
 export default function CavePage() {
   return (
-    <section style={{ padding: "140px 5% 100px", background: C.bgAlt, minHeight: "100vh" }}>
+    <section style={{ padding: "140px 5% 100px", background: C.bgAlt, minHeight: "100dvh" }}>
       <div style={{ maxWidth: 1200, margin: "0 auto" }}>
         <PageHeader
           kicker="La Cave à Emporter"

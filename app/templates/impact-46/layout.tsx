@@ -61,7 +61,7 @@ export default function LawFirmLayout({ children }: { children: React.ReactNode 
   ];
 
   return (
-    <div style={{ background: C.bg, color: C.text, minHeight: "100vh", display: "flex", flexDirection: "column" }}>
+    <div style={{ background: C.bg, color: C.text, minHeight: "100dvh", display: "flex", flexDirection: "column" }}>
       {/* Global CSS for Google Fonts */}
       <style dangerouslySetInnerHTML={{__html: `
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Source+Sans+Pro:wght@300;400;600;700&display=swap');

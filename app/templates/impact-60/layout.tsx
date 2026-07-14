@@ -38,7 +38,7 @@ export default function ZenithLayout({
   };
 
   return (
-    <div className="bg-[#0a0c10] text-[#a0a0a0] font-sans min-h-screen selection:bg-[#c9a96e] selection:text-black overflow-x-hidden relative">
+    <div className="bg-[#0a0c10] text-[#a0a0a0] font-sans min-h-dvh selection:bg-[#c9a96e] selection:text-black overflow-x-hidden relative">
       <StyleInjector />
 
       {/* ── NAVBAR ────────────────── */}
