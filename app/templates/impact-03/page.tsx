@@ -284,10 +284,12 @@ function EditorialHeading({
             overflow: 'hidden',
             lineHeight: 1,
             // Compensated padding: lineHeight:1 clips descenders (g/j/q/y) at
-            // the overflow:hidden edge — this gives the glyphs room without
-            // shifting the visible line spacing (margin absorbs the padding).
-            paddingBottom: '0.14em',
-            marginBottom: 'calc(0.08em - 0.14em)',
+            // the overflow:hidden edge. `em` here resolves against THIS div's
+            // OWN font-size (inherited default, not the 72px+ heading set on
+            // the child below) — so the padding must be computed from the
+            // `fontSize` prop in px, not a same-element em value.
+            paddingBottom: fontSize * 0.22,
+            marginBottom: fontSize * 0.08 - fontSize * 0.22,
           }}
         >
           <motion.div
