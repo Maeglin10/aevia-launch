@@ -283,7 +283,11 @@ function EditorialHeading({
           style={{
             overflow: 'hidden',
             lineHeight: 1,
-            marginBottom: '0.08em',
+            // Compensated padding: lineHeight:1 clips descenders (g/j/q/y) at
+            // the overflow:hidden edge — this gives the glyphs room without
+            // shifting the visible line spacing (margin absorbs the padding).
+            paddingBottom: '0.14em',
+            marginBottom: 'calc(0.08em - 0.14em)',
           }}
         >
           <motion.div
@@ -828,7 +832,7 @@ return (
       style={{
         background: '#fafafa',
         color: '#0a0a0a',
-        minHeight: '100vh',
+        minHeight: '100dvh',
         overflowX: 'clip',
         fontFamily: "'Georgia', 'Times New Roman', serif",
       }}
@@ -1005,7 +1009,7 @@ return (
         id="hero"
         ref={heroRef}
         style={{
-          minHeight: '100vh',
+          minHeight: '100dvh',
           display: 'grid',
           gridTemplateColumns: '1fr 1fr',
           alignItems: 'stretch',
@@ -1293,7 +1297,7 @@ return (
           style={{
             position: 'sticky',
             top: 0,
-            height: '100vh',
+            height: '100dvh',
             overflow: 'hidden',
             display: 'flex',
             flexDirection: 'column',

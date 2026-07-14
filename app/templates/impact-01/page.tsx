@@ -886,7 +886,7 @@ return (
         // container and broke the `position: sticky` PROCESS section (it scrolled
         // away early, leaving a large black gap before the Stats section).
         overflowX: "clip",
-        minHeight: "100vh",
+        minHeight: "100dvh",
       }}
     >
       <FontLoader />
@@ -1179,7 +1179,7 @@ return (
           </motion.div>
 
           {/* Headline — slides up from bottom on load */}
-          <div style={{ overflow: "hidden", marginBottom: 12 }}>
+          <div style={{ overflow: "hidden", paddingBottom: 16, marginBottom: -4 }}>
             <motion.h1
               initial={{ y: "105%" }}
               animate={{ y: 0 }}
@@ -1202,7 +1202,7 @@ return (
             </>}</motion.h1>
           </div>
 
-          <div style={{ overflow: "hidden", marginBottom: 32 }}>
+          <div style={{ overflow: "hidden", paddingBottom: 16, marginBottom: 16 }}>
             <motion.h1
               initial={{ y: "105%" }}
               animate={{ y: 0 }}
@@ -1603,7 +1603,7 @@ return (
             style={{
               position: "sticky",
               top: 0,
-              height: "100vh",
+              height: "100dvh",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
