@@ -2081,13 +2081,19 @@ return (
           section[id="process"] > div:last-child > div > div > div {
             grid-template-columns: 1fr !important;
           }
-          .subpage-grid-3 { grid-template-columns: 1fr !important; }
-          .subpage-grid-2 { grid-template-columns: 1fr !important; }
-          .subpage-contact { grid-template-columns: 1fr !important; }
+          .subpage-grid-3 { grid-template-columns: minmax(0, 1fr) !important; }
+          .subpage-grid-2 { grid-template-columns: minmax(0, 1fr) !important; }
+          .subpage-contact { grid-template-columns: minmax(0, 1fr) !important; }
+          .subpage-contact { overflow-wrap: anywhere; }
           .footer-cols { grid-template-columns: 1fr 1fr !important; }
+          /* header rows (title + "All projects/services" link) wrap instead of pushing off-screen */
+          section[id="work"] > div > div:first-child,
+          section[id="services"] > div > div:first-child { flex-wrap: wrap; }
         }
         @media (max-width: 480px) {
           .footer-cols { grid-template-columns: 1fr !important; }
+          /* hero H1: the word "internet's" at the 3.6rem clamp floor is ~404px wide (> small phones) */
+          section[id="hero"] h1 { font-size: clamp(2.4rem, 11.5vw, 3.4rem) !important; }
         }
       
         /* mobile: stack 2-col grids to single column (added by responsive fix) */
