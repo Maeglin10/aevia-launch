@@ -164,7 +164,7 @@ export default function KuroOmakasePage() {
 
       <main>
         {/* ── HERO ──────────────────── */}
-        <section id="hero" className="relative h-dvh flex items-center justify-center overflow-hidden">
+        <section id="hero" className="relative h-dvh flex items-center justify-center overflow-hidden pt-24 md:pt-0">
           <div className="absolute inset-0">
              <Image src="https://images.unsplash.com/photo-1579871494447-9811cf80d66c?auto=format&fit=crop&q=80&w=2400" alt="Chef Hands" fill className="object-cover opacity-60 grayscale hover:grayscale-0 transition-all duration-[2000ms] scale-105" priority />
              <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-transparent" />

@@ -354,7 +354,7 @@ export default function SkylineConciergePage() {
       </AnimatePresence>
 
       {/* ── HERO ── */}
-      <section id="hero" className="relative h-[100svh] flex items-center overflow-hidden">
+      <section id="hero" className="relative h-[100svh] flex items-center overflow-hidden pt-24 md:pt-0">
         <div className="absolute inset-0">
           <Image
             src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1600&q=80"

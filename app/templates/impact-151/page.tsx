@@ -242,7 +242,7 @@ return (
         {/* ==========================================
             1. THE PROLOGUE (HERO)
             ========================================== */}
-        <section id="hero" className="relative h-dvh flex items-center justify-center overflow-hidden">
+        <section id="hero" className="relative h-dvh flex items-center justify-center overflow-hidden pt-24 md:pt-0">
           <motion.div style={{ opacity: heroOpacity, scale: heroScale }} className="absolute inset-0 z-0">
              <Image 
                 src="https://images.unsplash.com/photo-1504275107627-0c2ba7a43dba?q=80&w=2400&auto=format&fit=crop" 

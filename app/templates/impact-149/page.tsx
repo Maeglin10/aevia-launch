@@ -162,7 +162,7 @@ export default function AetherWellnessPage() {
 
       <main>
         {/* ── HERO ──────────────────── */}
-        <section id="hero" className="relative h-dvh flex items-center justify-center overflow-hidden">
+        <section id="hero" className="relative h-dvh flex items-center justify-center overflow-hidden pt-24 md:pt-0">
           <div className="absolute inset-0 flex items-center justify-center">
              <BreathingCircle />
           </div>

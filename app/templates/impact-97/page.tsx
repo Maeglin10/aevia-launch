@@ -355,7 +355,7 @@ export default function HorizonYachtPage() {
       </AnimatePresence>
 
       {/* ── HERO ── */}
-      <section id="hero" className="relative h-[100svh] flex items-center overflow-hidden">
+      <section id="hero" className="relative h-[100svh] flex items-center overflow-hidden pt-24 md:pt-0">
         <div className="absolute inset-0">
           <Image
             src="https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?w=1600&q=80"
