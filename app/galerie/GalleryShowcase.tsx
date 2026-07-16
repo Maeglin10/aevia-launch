@@ -36,7 +36,7 @@ const INDUSTRY_COLOR: Record<string, string> = {
   services: "#f59e0b",
   droit_finance: "#3b82f6",
   restauration: "#ef4444",
-  sport_coaching: "#8b5cf6",
+  sport_coaching: "#ef4444",
   art_creation: "#ec4899",
   evenementiel: "#10b981",
 };
@@ -96,13 +96,13 @@ function TemplateCard({ template, index }: { template: GalleryTemplate; index: n
         };
       case "Vibrant":
         return {
-          wrapper: "bg-[#0a0717] border border-violet-950/40 rounded-2xl",
-          hover: "group-hover:border-violet-500/40 group-hover:shadow-[0_0_35px_rgba(139,92,246,0.18)]",
-          textTitle: "text-violet-50",
-          textMuted: "text-violet-400/50",
-          styleBadge: "bg-violet-950/40 text-violet-300 border border-violet-900/30",
-          ctaPrimary: "bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white",
-          ctaSecondary: "bg-violet-950/20 border border-violet-900/40 text-violet-200 hover:bg-violet-900/30",
+          wrapper: "bg-[#0a0717] border border-red-950/40 rounded-2xl",
+          hover: "group-hover:border-red-500/40 group-hover:shadow-[0_0_35px_rgba(239,68,68,0.18)]",
+          textTitle: "text-red-50",
+          textMuted: "text-red-400/50",
+          styleBadge: "bg-red-950/40 text-red-300 border border-red-900/30",
+          ctaPrimary: "bg-gradient-to-r from-red-600 to-indigo-600 hover:from-red-500 hover:to-indigo-500 text-white",
+          ctaSecondary: "bg-red-950/20 border border-red-900/40 text-red-200 hover:bg-red-900/30",
         };
       case "Brutalist":
         return {
@@ -188,11 +188,11 @@ function TemplateCard({ template, index }: { template: GalleryTemplate; index: n
               }`}
               style={{
                 backgroundColor: "rgba(0,0,0,0.75)",
-                color: "#a78bfa",
-                border: "1px solid rgba(167,139,250,0.3)"
+                color: "#f87171",
+                border: "1px solid rgba(248,113,113,0.3)"
               }}
             >
-              <span className="w-1.5 h-1.5 rounded-full bg-violet-400 animate-pulse" />
+              <span className="w-1.5 h-1.5 rounded-full bg-red-400 animate-pulse" />
               Aperçu live
             </div>
           )}
@@ -357,15 +357,15 @@ export default function GalleryShowcase() {
           
           {/* Header section with radial background glow */}
           <div className="relative mb-16 text-center max-w-3xl mx-auto z-10">
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-violet-600/10 rounded-full filter blur-[80px] pointer-events-none -z-10" />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-red-600/10 rounded-full filter blur-[80px] pointer-events-none -z-10" />
             
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.5 }}
-              className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-violet-500/10 border border-violet-500/20 text-xs font-bold text-violet-400 mb-6 uppercase tracking-wider"
+              className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-500/10 border border-red-500/20 text-xs font-bold text-red-400 mb-6 uppercase tracking-wider"
             >
-              <Sparkles size={12} className="text-violet-400" />
+              <Sparkles size={12} className="text-red-400" />
               Vitrine de Thèmes Professionnels
             </motion.div>
 
@@ -375,7 +375,7 @@ export default function GalleryShowcase() {
               transition={{ duration: 0.5, delay: 0.1 }}
               className="text-4xl sm:text-5xl md:text-6xl font-black text-white tracking-tight mb-6 leading-[1.05]"
             >
-              Le site idéal pour votre <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 via-indigo-300 to-cyan-400">activité</span>
+              Le site idéal pour votre <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-400 via-indigo-300 to-cyan-400">activité</span>
             </motion.h1>
 
             <motion.p
@@ -399,7 +399,7 @@ export default function GalleryShowcase() {
                 placeholder="Rechercher un modèle par nom, spécialité, ville..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-11 pr-4 py-3 bg-zinc-900/60 border border-zinc-800 focus:border-violet-500/50 focus:ring-1 focus:ring-violet-500/30 rounded-xl text-sm placeholder-zinc-500 text-white outline-none transition-all"
+                className="w-full pl-11 pr-4 py-3 bg-zinc-900/60 border border-zinc-800 focus:border-red-500/50 focus:ring-1 focus:ring-red-500/30 rounded-xl text-sm placeholder-zinc-500 text-white outline-none transition-all"
               />
               {searchQuery && (
                 <button
@@ -537,12 +537,12 @@ export default function GalleryShowcase() {
           {/* Bottom Onboarding CTA Section */}
           <div className="mt-24 relative rounded-3xl overflow-hidden border border-white/5 bg-gradient-to-br from-[#0d0a1c] to-[#050506] p-8 sm:p-12 text-center">
             {/* Background elements */}
-            <div className="absolute top-0 right-0 w-[400px] h-[300px] bg-violet-600/5 rounded-full filter blur-[100px] pointer-events-none" />
+            <div className="absolute top-0 right-0 w-[400px] h-[300px] bg-red-600/5 rounded-full filter blur-[100px] pointer-events-none" />
             <div className="absolute bottom-0 left-0 w-[400px] h-[300px] bg-cyan-600/5 rounded-full filter blur-[100px] pointer-events-none" />
             
             <div className="relative max-w-2xl mx-auto z-10">
-              <div className="w-12 h-12 rounded-2xl bg-violet-500/10 border border-violet-500/20 flex items-center justify-center mx-auto mb-6">
-                <Sparkles size={24} className="text-violet-400" />
+              <div className="w-12 h-12 rounded-2xl bg-red-500/10 border border-red-500/20 flex items-center justify-center mx-auto mb-6">
+                <Sparkles size={24} className="text-red-400" />
               </div>
               
               <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight mb-4 leading-tight">

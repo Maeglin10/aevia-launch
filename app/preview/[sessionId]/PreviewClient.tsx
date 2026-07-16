@@ -124,7 +124,7 @@ function PreviewLangSwitcher() {
               className={`w-full flex items-center gap-2 px-3 py-2 text-sm transition-colors hover:bg-zinc-800 ${l.code === locale ? "text-white font-semibold" : "text-zinc-400"}`}
             >
               <span>{l.flag}</span><span>{l.label}</span>
-              {l.code === locale && <span className="ml-auto w-1.5 h-1.5 rounded-full bg-violet-400" />}
+              {l.code === locale && <span className="ml-auto w-1.5 h-1.5 rounded-full bg-red-400" />}
             </button>
           ))}
         </div>
@@ -215,7 +215,7 @@ export default function PreviewClient({ sessionId }: { sessionId: string }) {
   if (loading) {
     return (
       <div className="min-h-screen bg-[#09090b] flex items-center justify-center">
-        <Loader2 className="w-8 h-8 text-violet-400 animate-spin" />
+        <Loader2 className="w-8 h-8 text-red-400 animate-spin" />
       </div>
     );
   }
@@ -225,7 +225,7 @@ export default function PreviewClient({ sessionId }: { sessionId: string }) {
       <div className="min-h-screen bg-[#09090b] flex items-center justify-center text-white">
         <div className="text-center">
           <p className="text-zinc-400 mb-4">{t.notFound}</p>
-          <Link href="/configure" className="text-violet-400 hover:underline">{t.startOver}</Link>
+          <Link href="/configure" className="text-red-400 hover:underline">{t.startOver}</Link>
         </div>
       </div>
     );
@@ -246,7 +246,7 @@ export default function PreviewClient({ sessionId }: { sessionId: string }) {
             onClick={() => setIsEditing((v) => !v)}
             className={`flex items-center gap-2 px-3 py-1.5 rounded-full border text-sm transition-colors ${
               isEditing
-                ? "border-violet-500 text-violet-300 bg-violet-500/10"
+                ? "border-red-500 text-red-300 bg-red-500/10"
                 : "border-zinc-700 text-zinc-300 hover:text-white"
             }`}
           >
@@ -274,7 +274,7 @@ export default function PreviewClient({ sessionId }: { sessionId: string }) {
 
           <button
             onClick={() => setShowModal(true)}
-            className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-violet-600 hover:bg-violet-500 text-white text-sm font-semibold transition-colors"
+            className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-red-600 hover:bg-red-500 text-white text-sm font-semibold transition-colors"
           >
             <Rocket className="w-3.5 h-3.5" />
             <span className="hidden sm:inline">{t.launch}</span>
@@ -348,8 +348,8 @@ export default function PreviewClient({ sessionId }: { sessionId: string }) {
       {showModal && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/70 backdrop-blur-sm px-4">
           <div className="bg-zinc-900 border border-zinc-700 rounded-2xl p-8 max-w-md w-full text-center">
-            <div className="w-14 h-14 rounded-full bg-violet-600/20 flex items-center justify-center mx-auto mb-5">
-              <Rocket className="w-7 h-7 text-violet-400" />
+            <div className="w-14 h-14 rounded-full bg-red-600/20 flex items-center justify-center mx-auto mb-5">
+              <Rocket className="w-7 h-7 text-red-400" />
             </div>
             <h2 className="text-xl font-bold text-white mb-3">{t.ready}</h2>
             <p className="text-zinc-400 text-sm leading-relaxed mb-6">{t.orderIntro}</p>
@@ -365,7 +365,7 @@ export default function PreviewClient({ sessionId }: { sessionId: string }) {
               </button>
               <button
                 onClick={handleOrder}
-                className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-full bg-violet-600 hover:bg-violet-500 text-white text-sm font-semibold transition-colors"
+                className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-full bg-red-600 hover:bg-red-500 text-white text-sm font-semibold transition-colors"
               >
                 {t.orderBtn}
               </button>

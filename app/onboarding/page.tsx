@@ -34,7 +34,7 @@ function OnboardingLangSwitcher() {
               className={`w-full flex items-center gap-2 px-3 py-2 text-sm transition-colors hover:bg-zinc-800 ${l.code === locale ? "text-white font-semibold" : "text-zinc-400"}`}
             >
               <span>{l.flag}</span><span>{l.label}</span>
-              {l.code === locale && <span className="ml-auto w-1.5 h-1.5 rounded-full bg-violet-400" />}
+              {l.code === locale && <span className="ml-auto w-1.5 h-1.5 rounded-full bg-red-400" />}
             </button>
           ))}
         </div>
@@ -122,7 +122,7 @@ function Input({ value, onChange, placeholder, type = "text" }: {
       value={value}
       onChange={(e) => onChange(e.target.value)}
       placeholder={placeholder}
-      className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-white/20 focus:outline-none focus:border-violet-500 transition-colors text-sm"
+      className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-white/20 focus:outline-none focus:border-red-500 transition-colors text-sm"
     />
   );
 }
@@ -136,7 +136,7 @@ function Textarea({ value, onChange, placeholder, rows = 4 }: {
       onChange={(e) => onChange(e.target.value)}
       placeholder={placeholder}
       rows={rows}
-      className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-white/20 focus:outline-none focus:border-violet-500 transition-colors text-sm resize-none"
+      className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-white/20 focus:outline-none focus:border-red-500 transition-colors text-sm resize-none"
     />
   );
 }
@@ -164,7 +164,7 @@ function ImageUploader({ url, onUpload, label, className = "" }: {
     <button
       type="button"
       onClick={() => inputRef.current?.click()}
-      className={`relative flex flex-col items-center justify-center gap-2 border-2 border-dashed rounded-2xl transition-all cursor-pointer overflow-hidden ${url ? "border-violet-500" : "border-white/10 hover:border-white/30"} ${className}`}
+      className={`relative flex flex-col items-center justify-center gap-2 border-2 border-dashed rounded-2xl transition-all cursor-pointer overflow-hidden ${url ? "border-red-500" : "border-white/10 hover:border-white/30"} ${className}`}
     >
       <input
         ref={inputRef}
@@ -176,7 +176,7 @@ function ImageUploader({ url, onUpload, label, className = "" }: {
       {url ? (
         <Image src={url} alt={label} fill className="object-cover" />
       ) : loading ? (
-        <Loader2 size={20} className="text-violet-400 animate-spin" />
+        <Loader2 size={20} className="text-red-400 animate-spin" />
       ) : (
         <>
           <Upload size={18} className="text-white/30" />
@@ -199,7 +199,7 @@ function Step1({ data, onChange }: { data: BriefData; onChange: (d: Partial<Brie
         <select
           value={data.industry}
           onChange={(e) => onChange({ industry: e.target.value })}
-          className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-violet-500 transition-colors text-sm appearance-none cursor-pointer"
+          className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-red-500 transition-colors text-sm appearance-none cursor-pointer"
         >
           <option value="" className="bg-gray-900">Choisir un secteur...</option>
           {INDUSTRIES.map((i) => <option key={i} value={i} className="bg-gray-900">{i}</option>)}
@@ -296,7 +296,7 @@ function Step2({ data, onChange }: { data: BriefData; onChange: (d: Partial<Brie
                 className="sr-only"
                 onChange={(e) => { if (e.target.files) void handlePhotos(e.target.files); }}
               />
-              {uploading ? <Loader2 size={16} className="text-violet-400 animate-spin" /> : <Plus size={16} className="text-white/30" />}
+              {uploading ? <Loader2 size={16} className="text-red-400 animate-spin" /> : <Plus size={16} className="text-white/30" />}
               <span className="text-[10px] text-white/30">Ajouter</span>
             </button>
           )}
@@ -359,7 +359,7 @@ function Step3({ data, onChange }: { data: BriefData; onChange: (d: Partial<Brie
             </div>
           ))}
           {data.services.length < 6 && (
-            <button type="button" onClick={addService} className="flex items-center gap-2 text-xs text-violet-400 hover:text-violet-300 transition-colors mt-1">
+            <button type="button" onClick={addService} className="flex items-center gap-2 text-xs text-red-400 hover:text-red-300 transition-colors mt-1">
               <Plus size={14} /> Ajouter un service
             </button>
           )}
@@ -562,8 +562,8 @@ function OnboardingContent() {
           {STEPS.map((label, i) => (
             <div key={i} className="flex items-center gap-2">
               <div className={`flex items-center justify-center w-7 h-7 rounded-full text-xs font-bold transition-all ${
-                i < step ? "bg-violet-500 text-white" :
-                i === step ? "bg-violet-500/20 border border-violet-500 text-violet-400" :
+                i < step ? "bg-red-500 text-white" :
+                i === step ? "bg-red-500/20 border border-red-500 text-red-400" :
                 "bg-white/5 text-white/20"
               }`}>
                 {i < step ? <Check size={12} /> : i + 1}
@@ -591,7 +591,7 @@ function OnboardingContent() {
               transition={{ duration: 0.25, ease: "easeInOut" }}
             >
               <div className="mb-8">
-                <p className="text-xs text-violet-400 font-semibold tracking-widest uppercase mb-2">Étape {step + 1} / {STEPS.length}</p>
+                <p className="text-xs text-red-400 font-semibold tracking-widest uppercase mb-2">Étape {step + 1} / {STEPS.length}</p>
                 <h1 className="text-3xl font-black">{STEPS[step]}</h1>
               </div>
 
@@ -605,7 +605,7 @@ function OnboardingContent() {
           {step === STEPS.length - 1 && (
             <div className="mt-8 rounded-2xl border border-white/10 bg-white/[0.02] p-5 space-y-4">
               <div>
-                <p className="text-xs font-semibold tracking-widest text-violet-400 uppercase mb-3">Récapitulatif</p>
+                <p className="text-xs font-semibold tracking-widest text-red-400 uppercase mb-3">Récapitulatif</p>
                 <div className="space-y-2 text-sm">
                   <div className="flex items-center justify-between">
                     <span className="text-white/60">{(SITE_PRICES[type] ?? SITE_PRICES["landing"]).label}</span>
@@ -635,15 +635,15 @@ function OnboardingContent() {
                   type="checkbox"
                   checked={acceptedCgv}
                   onChange={(e) => setAcceptedCgv(e.target.checked)}
-                  className="mt-0.5 w-4 h-4 rounded border-white/20 bg-white/5 text-violet-500 focus:ring-violet-500 cursor-pointer accent-violet-500"
+                  className="mt-0.5 w-4 h-4 rounded border-white/20 bg-white/5 text-red-500 focus:ring-red-500 cursor-pointer accent-red-500"
                 />
                 <span className="text-xs text-white/60 leading-relaxed">
                   J&apos;accepte les{" "}
-                  <a href="/legal/cgu" target="_blank" rel="noopener noreferrer" className="text-violet-400 underline hover:text-violet-300">
+                  <a href="/legal/cgu" target="_blank" rel="noopener noreferrer" className="text-red-400 underline hover:text-red-300">
                     Conditions générales de vente
                   </a>{" "}
                   et la{" "}
-                  <a href="/legal/confidentialite" target="_blank" rel="noopener noreferrer" className="text-violet-400 underline hover:text-violet-300">
+                  <a href="/legal/confidentialite" target="_blank" rel="noopener noreferrer" className="text-red-400 underline hover:text-red-300">
                     politique de confidentialité
                   </a>
                   . Je confirme que le paiement est définitif après livraison de l&apos;aperçu.
@@ -669,7 +669,7 @@ function OnboardingContent() {
               <button
                 onClick={goNext}
                 disabled={!canNext()}
-                className="flex items-center gap-2 bg-violet-600 hover:bg-violet-500 disabled:bg-white/5 disabled:text-white/20 text-white text-sm font-semibold px-6 py-3 rounded-full transition-all cursor-pointer disabled:cursor-not-allowed"
+                className="flex items-center gap-2 bg-red-600 hover:bg-red-500 disabled:bg-white/5 disabled:text-white/20 text-white text-sm font-semibold px-6 py-3 rounded-full transition-all cursor-pointer disabled:cursor-not-allowed"
               >
                 Continuer <ChevronRight size={16} />
               </button>
@@ -677,7 +677,7 @@ function OnboardingContent() {
               <button
                 onClick={() => void handleSubmit()}
                 disabled={submitting || !canNext()}
-                className="flex items-center gap-2 bg-violet-600 hover:bg-violet-500 disabled:bg-white/5 disabled:text-white/20 text-white text-sm font-semibold px-8 py-3 rounded-full transition-all cursor-pointer disabled:cursor-not-allowed"
+                className="flex items-center gap-2 bg-red-600 hover:bg-red-500 disabled:bg-white/5 disabled:text-white/20 text-white text-sm font-semibold px-8 py-3 rounded-full transition-all cursor-pointer disabled:cursor-not-allowed"
               >
                 {submitting ? <Loader2 size={16} className="animate-spin" /> : null}
                 {submitting ? "Redirection..." : "Procéder au paiement →"}
@@ -692,7 +692,7 @@ function OnboardingContent() {
 
 export default function OnboardingPage() {
   return (
-    <Suspense fallback={<div className="min-h-screen bg-zinc-950 flex items-center justify-center"><div className="w-8 h-8 border-2 border-violet-500 border-t-transparent rounded-full animate-spin" /></div>}>
+    <Suspense fallback={<div className="min-h-screen bg-zinc-950 flex items-center justify-center"><div className="w-8 h-8 border-2 border-red-500 border-t-transparent rounded-full animate-spin" /></div>}>
       <OnboardingContent />
     </Suspense>
   );

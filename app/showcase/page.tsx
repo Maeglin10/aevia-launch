@@ -235,7 +235,7 @@ function SpotlightCard({ template, index }: { template: typeof TEMPLATES_REGISTR
                 onError={() => setThumbOk(false)}
               />
             ) : (
-              <div className="w-full h-full bg-gradient-to-br from-violet-900/30 to-zinc-900" />
+              <div className="w-full h-full bg-gradient-to-br from-red-900/30 to-zinc-900" />
             )}
           </div>
           <div className="p-4">
@@ -273,8 +273,8 @@ export default function ShowcasePage() {
           className="mb-14"
         >
           <div className="flex items-center gap-2 mb-4">
-            <Sparkles className="w-4 h-4 text-violet-400" />
-            <span className="text-xs font-bold text-violet-400 uppercase tracking-widest">{t.badge}</span>
+            <Sparkles className="w-4 h-4 text-red-400" />
+            <span className="text-xs font-bold text-red-400 uppercase tracking-widest">{t.badge}</span>
           </div>
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
             <div>
@@ -285,7 +285,7 @@ export default function ShowcasePage() {
             </div>
             <Link
               href="/themes"
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-zinc-700 hover:border-violet-500/60 text-zinc-300 hover:text-white text-sm font-semibold transition-all shrink-0"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-zinc-700 hover:border-red-500/60 text-zinc-300 hover:text-white text-sm font-semibold transition-all shrink-0"
             >
               {t.seeAll} <ArrowRight className="w-4 h-4" />
             </Link>
@@ -306,7 +306,7 @@ export default function ShowcasePage() {
               <h2 className="text-xl font-bold text-white">{t.spotlight}</h2>
               <p className="text-zinc-500 text-sm mt-1">{t.spotlightSub}</p>
             </div>
-            <Link href="/themes" className="text-sm text-violet-400 hover:text-violet-300 transition-colors font-medium">
+            <Link href="/themes" className="text-sm text-red-400 hover:text-red-300 transition-colors font-medium">
               {t.seeAll} →
             </Link>
           </div>
@@ -327,7 +327,7 @@ export default function ShowcasePage() {
         >
           <Link
             href="/configure"
-            className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-violet-600 hover:bg-violet-500 text-white font-bold text-base transition-all duration-200 hover:scale-[1.03] shadow-lg shadow-violet-600/30"
+            className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-red-600 hover:bg-red-500 text-white font-bold text-base transition-all duration-200 hover:scale-[1.03] shadow-lg shadow-red-600/30"
           >
             {t.cta} <ArrowRight className="w-5 h-5" />
           </Link>

@@ -46,7 +46,7 @@ function PreviewLangSwitcher() {
               className={`w-full flex items-center gap-2 px-3 py-2 text-sm transition-colors hover:bg-zinc-800 ${l.code === locale ? "text-white font-semibold" : "text-zinc-400"}`}
             >
               <span>{l.flag}</span><span>{l.label}</span>
-              {l.code === locale && <span className="ml-auto w-1.5 h-1.5 rounded-full bg-violet-400" />}
+              {l.code === locale && <span className="ml-auto w-1.5 h-1.5 rounded-full bg-red-400" />}
             </button>
           ))}
         </div>
@@ -63,7 +63,7 @@ const GeneratedSite = dynamic(
     loading: () => (
       <div className="flex items-center justify-center min-h-[60vh] text-zinc-600">
         <div className="text-center">
-          <div className="animate-spin w-8 h-8 border-2 border-violet-500 border-t-transparent rounded-full mx-auto mb-3" />
+          <div className="animate-spin w-8 h-8 border-2 border-red-500 border-t-transparent rounded-full mx-auto mb-3" />
           <p className="text-sm">Loading preview…</p>
         </div>
       </div>
@@ -269,7 +269,7 @@ export default function ThemePreviewPage({ params }: { params: Promise<{ id: str
           <PreviewLangSwitcher />
           <Link
             href={`/configure?template=${id}`}
-            className="flex items-center gap-1.5 px-4 py-2 rounded-full bg-violet-600 hover:bg-violet-500 text-white text-sm font-semibold transition-colors shrink-0"
+            className="flex items-center gap-1.5 px-4 py-2 rounded-full bg-red-600 hover:bg-red-500 text-white text-sm font-semibold transition-colors shrink-0"
           >
             <span className="hidden sm:inline">{t.useTheme}</span>
             <ArrowRight className="w-3.5 h-3.5" />
@@ -309,7 +309,7 @@ export default function ThemePreviewPage({ params }: { params: Promise<{ id: str
           </div>
           <Link
             href={`/configure?template=${id}`}
-            className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-violet-600 hover:bg-violet-500 text-white text-sm font-bold transition-colors shrink-0"
+            className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-red-600 hover:bg-red-500 text-white text-sm font-bold transition-colors shrink-0"
           >
             {t.buildWith}
             <ArrowRight className="w-4 h-4" />

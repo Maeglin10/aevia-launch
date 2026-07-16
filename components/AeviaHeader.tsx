@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X, Shield, MessageSquare, Sparkles, ChevronDown, ExternalLink, Globe, User, LogOut } from "lucide-react";
@@ -9,28 +10,16 @@ import { useLang, LOCALE_META, type Locale } from "@/lib/LangContext";
 // ── Logo ──────────────────────────────────────────────────────────────────────
 function AeviaProductLogo() {
   return (
-    <div className="flex items-center gap-3">
-      <svg width="36" height="32" viewBox="0 0 36 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <linearGradient id="silver-launch" x1="0" y1="0" x2="36" y2="32" gradientUnits="userSpaceOnUse">
-            <stop offset="0%" stopColor="#ffffff" />
-            <stop offset="50%" stopColor="#c0c8d8" />
-            <stop offset="100%" stopColor="#8896aa" />
-          </linearGradient>
-        </defs>
-        <path d="M8 16L13 9L14.5 10.5L10.5 16L14.5 21.5L13 23L8 16Z" fill="url(#silver-launch)" />
-        <path d="M4 16L10 8L11.5 9.5L7 16L11.5 22.5L10 24L4 16Z" fill="url(#silver-launch)" opacity="0.7" />
-        <path d="M28 16L23 9L21.5 10.5L25.5 16L21.5 21.5L23 23L28 16Z" fill="url(#silver-launch)" />
-        <path d="M32 16L26 8L24.5 9.5L29 16L24.5 22.5L26 24L32 16Z" fill="url(#silver-launch)" opacity="0.7" />
-        <path d="M18 4L23 16H20.5L18 10.5L15.5 16H13L18 4Z" fill="url(#silver-launch)" />
-        <path d="M14.5 17.5H21.5L22.5 20H13.5L14.5 17.5Z" fill="url(#silver-launch)" opacity="0.6" />
-        <path d="M13.5 20H15.5L16.5 24H13L13.5 20Z" fill="url(#silver-launch)" opacity="0.8" />
-        <path d="M22.5 20H20.5L19.5 24H23L22.5 20Z" fill="url(#silver-launch)" opacity="0.8" />
-      </svg>
-      <div>
-        <div className="text-white font-bold text-xl tracking-[0.15em] leading-none">AEVIA</div>
-        <div className="text-zinc-400 text-[9px] tracking-[0.2em] uppercase mt-0.5 leading-none">Launch</div>
-      </div>
+    <div className="flex items-center gap-2">
+      <Image
+        src="/brand/aevia-logo.png"
+        alt="Aevia"
+        width={122}
+        height={36}
+        className="h-9 w-auto"
+        priority
+      />
+      <span className="text-zinc-400 text-[9px] tracking-[0.2em] uppercase leading-none self-end pb-1">Launch</span>
     </div>
   );
 }
@@ -72,7 +61,7 @@ function LangSwitcher() {
             >
               <span>{l.flag}</span>
               <span>{l.label}</span>
-              {l.code === locale && <span className="ml-auto w-1.5 h-1.5 rounded-full bg-violet-400" />}
+              {l.code === locale && <span className="ml-auto w-1.5 h-1.5 rounded-full bg-red-400" />}
             </button>
           ))}
         </div>
@@ -198,12 +187,12 @@ export function AeviaHeader() {
                   {allProducts.map((p) => {
                     const Icon = p.icon;
                     return p.current ? (
-                      <div key={p.name} className="flex gap-3 items-start p-2.5 rounded-lg bg-violet-500/10 ring-1 ring-violet-500/20">
-                        <Icon className="w-5 h-5 text-violet-400 shrink-0 mt-0.5" />
+                      <div key={p.name} className="flex gap-3 items-start p-2.5 rounded-lg bg-red-500/10 ring-1 ring-red-500/20">
+                        <Icon className="w-5 h-5 text-red-400 shrink-0 mt-0.5" />
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2 mb-0.5">
                             <span className="font-semibold text-white text-sm">{p.name}</span>
-                            <span className="bg-violet-500/20 text-violet-300 text-[10px] px-1.5 py-0.5 rounded-full font-medium">{t.current}</span>
+                            <span className="bg-red-500/20 text-red-300 text-[10px] px-1.5 py-0.5 rounded-full font-medium">{t.current}</span>
                           </div>
                           <p className="text-xs text-zinc-500">{t[p.descKey]}</p>
                         </div>
@@ -216,10 +205,10 @@ export function AeviaHeader() {
                         rel="noopener noreferrer"
                         className="flex gap-3 items-start p-2.5 rounded-lg hover:bg-zinc-800/60 transition-colors group"
                       >
-                        <Icon className="w-5 h-5 text-violet-400 shrink-0 mt-0.5" />
+                        <Icon className="w-5 h-5 text-red-400 shrink-0 mt-0.5" />
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2 mb-0.5">
-                            <span className="font-semibold text-white text-sm group-hover:text-violet-300 transition-colors">{p.name}</span>
+                            <span className="font-semibold text-white text-sm group-hover:text-red-300 transition-colors">{p.name}</span>
                             <ExternalLink className="w-3 h-3 text-zinc-600 group-hover:text-zinc-400 transition-colors" />
                           </div>
                           <p className="text-xs text-zinc-500">{t[p.descKey]}</p>
@@ -251,7 +240,7 @@ export function AeviaHeader() {
           {!isConfigurePage && (
             <Link
               href="/configure"
-              className="ml-2 px-4 py-1.5 rounded-full bg-violet-600 hover:bg-violet-500 text-white text-sm font-semibold transition-colors"
+              className="ml-2 px-4 py-1.5 rounded-full bg-red-600 hover:bg-red-500 text-white text-sm font-semibold transition-colors"
             >
               {t.cta}
             </Link>
@@ -275,7 +264,7 @@ export function AeviaHeader() {
               p.current ? (
                 <div key={p.name} className="flex items-center justify-between px-3 py-2.5 rounded-md text-sm text-zinc-400">
                   <span>{p.name}</span>
-                  <span className="bg-violet-500/20 text-violet-300 text-[10px] px-1.5 py-0.5 rounded-full">{t.current}</span>
+                  <span className="bg-red-500/20 text-red-300 text-[10px] px-1.5 py-0.5 rounded-full">{t.current}</span>
                 </div>
               ) : (
                 <a key={p.name} href={p.href} target="_blank" rel="noopener noreferrer" onClick={() => setMobileOpen(false)}
@@ -298,7 +287,7 @@ export function AeviaHeader() {
           {!isConfigurePage && (
             <div className="mt-3 pt-3 border-t border-zinc-800">
               <Link href="/configure" onClick={() => setMobileOpen(false)}
-                className="block w-full text-center px-4 py-2.5 rounded-full bg-violet-600 hover:bg-violet-500 text-white text-sm font-semibold transition-colors">
+                className="block w-full text-center px-4 py-2.5 rounded-full bg-red-600 hover:bg-red-500 text-white text-sm font-semibold transition-colors">
                 {t.cta}
               </Link>
             </div>

@@ -115,7 +115,7 @@ const T = {
 } as const;
 
 const rowLabel = "text-zinc-500";
-const link = "text-violet-600 hover:text-violet-700 transition-colors";
+const link = "text-red-600 hover:text-red-700 transition-colors";
 
 /**
  * Publisher / data-controller identity block.

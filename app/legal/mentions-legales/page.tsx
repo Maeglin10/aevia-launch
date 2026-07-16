@@ -161,7 +161,7 @@ export default function MentionsLegalesPage() {
             <p className="text-zinc-900 font-semibold mb-2">Pour toute question ou réclamation :</p>
             <p className="text-zinc-700">
               <span className="text-zinc-900">Email :</span>{" "}
-              <a href={`mailto:${LEGAL_FACTS.contactEmail}`} className="text-violet-600 hover:text-violet-700 transition-colors">
+              <a href={`mailto:${LEGAL_FACTS.contactEmail}`} className="text-red-600 hover:text-red-700 transition-colors">
                 {LEGAL_FACTS.contactEmail}
               </a>
             </p>
@@ -170,13 +170,13 @@ export default function MentionsLegalesPage() {
             </p>
             <p className="text-zinc-700">
               <span className="text-zinc-900">Politique de confidentialité :</span>{" "}
-              <a href="/legal/confidentialite" className="text-violet-600 hover:text-violet-700 transition-colors">
+              <a href="/legal/confidentialite" className="text-red-600 hover:text-red-700 transition-colors">
                 /legal/confidentialite
               </a>
             </p>
             <p className="text-zinc-700">
               <span className="text-zinc-900">CGU :</span>{" "}
-              <a href="/legal/cgu" className="text-violet-600 hover:text-violet-700 transition-colors">
+              <a href="/legal/cgu" className="text-red-600 hover:text-red-700 transition-colors">
                 /legal/cgu
               </a>
             </p>

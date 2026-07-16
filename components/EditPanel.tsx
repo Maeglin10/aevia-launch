@@ -59,8 +59,8 @@ function SectionHeader({
       aria-expanded={isOpen}
     >
       <div className="flex items-center gap-2">
-        <Icon size={13} className={isOpen ? "text-violet-400" : "text-zinc-500"} />
-        <span className={`text-xs font-bold uppercase tracking-widest ${isOpen ? "text-violet-400" : "text-zinc-400"}`}>
+        <Icon size={13} className={isOpen ? "text-red-400" : "text-zinc-500"} />
+        <span className={`text-xs font-bold uppercase tracking-widest ${isOpen ? "text-red-400" : "text-zinc-400"}`}>
           {SECTION_LABELS[id]}
         </span>
       </div>
@@ -145,7 +145,7 @@ export function EditPanel({ session, onClose, onChange, onSave }: EditPanelProps
             value={value}
             rows={3}
             placeholder={placeholder}
-            className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-sm text-white placeholder-zinc-600 focus:outline-none focus:border-violet-500 resize-none transition-colors"
+            className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-sm text-white placeholder-zinc-600 focus:outline-none focus:border-red-500 resize-none transition-colors"
             onChange={(e) => { setter(e.target.value); notify(); }}
           />
         ) : (
@@ -153,7 +153,7 @@ export function EditPanel({ session, onClose, onChange, onSave }: EditPanelProps
             type="text"
             value={value}
             placeholder={placeholder}
-            className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-sm text-white placeholder-zinc-600 focus:outline-none focus:border-violet-500 transition-colors"
+            className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-sm text-white placeholder-zinc-600 focus:outline-none focus:border-red-500 transition-colors"
             onChange={(e) => { setter(e.target.value); notify(); }}
           />
         )}
@@ -238,7 +238,7 @@ export function EditPanel({ session, onClose, onChange, onSave }: EditPanelProps
                   type="url"
                   value={heroImageUrl}
                   placeholder="https://images.unsplash.com/..."
-                  className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-sm text-white placeholder-zinc-600 focus:outline-none focus:border-violet-500 transition-colors"
+                  className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-sm text-white placeholder-zinc-600 focus:outline-none focus:border-red-500 transition-colors"
                   onChange={(e) => { setHeroImageUrl(e.target.value); setImgError(false); notify(); }}
                 />
                 <p className="text-[11px] text-zinc-600 mt-1">URL directe d'une image (Unsplash, etc.)</p>
@@ -275,7 +275,7 @@ export function EditPanel({ session, onClose, onChange, onSave }: EditPanelProps
                     type="text"
                     value={benefits[i]}
                     placeholder={["Qualité", "Rapidité", "Fiabilité"][i]}
-                    className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-sm text-white placeholder-zinc-600 focus:outline-none focus:border-violet-500 transition-colors mb-2"
+                    className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-sm text-white placeholder-zinc-600 focus:outline-none focus:border-red-500 transition-colors mb-2"
                     onChange={(e) => updateBenefit(i, e.target.value)}
                   />
                 ))}
@@ -296,14 +296,14 @@ export function EditPanel({ session, onClose, onChange, onSave }: EditPanelProps
                     type="text"
                     value={s.title}
                     placeholder="Titre du service"
-                    className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-1.5 text-sm text-white mb-2 focus:outline-none focus:border-violet-500 transition-colors"
+                    className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-1.5 text-sm text-white mb-2 focus:outline-none focus:border-red-500 transition-colors"
                     onChange={(e) => updateService(i, "title", e.target.value)}
                   />
                   <textarea
                     value={s.description}
                     placeholder="Description"
                     rows={2}
-                    className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-1.5 text-sm text-white resize-none focus:outline-none focus:border-violet-500 transition-colors"
+                    className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-1.5 text-sm text-white resize-none focus:outline-none focus:border-red-500 transition-colors"
                     onChange={(e) => updateService(i, "description", e.target.value)}
                   />
                 </div>
@@ -311,7 +311,7 @@ export function EditPanel({ session, onClose, onChange, onSave }: EditPanelProps
               {services.length < 8 && (
                 <button
                   onClick={addService}
-                  className="flex items-center gap-2 text-sm text-violet-400 hover:text-violet-300 transition-colors"
+                  className="flex items-center gap-2 text-sm text-red-400 hover:text-red-300 transition-colors"
                 >
                   <Plus size={13} /> Ajouter un service
                 </button>
@@ -356,7 +356,7 @@ export function EditPanel({ session, onClose, onChange, onSave }: EditPanelProps
                   value={brandColor}
                   maxLength={7}
                   placeholder="#7c3aed"
-                  className="flex-1 bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-sm text-white font-mono placeholder-zinc-600 focus:outline-none focus:border-violet-500 transition-colors"
+                  className="flex-1 bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-sm text-white font-mono placeholder-zinc-600 focus:outline-none focus:border-red-500 transition-colors"
                   onChange={(e) => {
                     const v = e.target.value;
                     setBrandColor(v);
@@ -404,7 +404,7 @@ export function EditPanel({ session, onClose, onChange, onSave }: EditPanelProps
         <button
           onClick={handleSave}
           disabled={saveState === "saving"}
-          className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-violet-600 hover:bg-violet-500 disabled:opacity-60 text-white font-semibold text-sm transition-colors"
+          className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-red-600 hover:bg-red-500 disabled:opacity-60 text-white font-semibold text-sm transition-colors"
         >
           {saveState === "saving" && <Loader2 size={15} className="animate-spin" />}
           {saveState === "saved" && <Check size={15} />}

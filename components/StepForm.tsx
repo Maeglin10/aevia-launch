@@ -486,11 +486,11 @@ export function StepForm() {
     <div className="w-full max-w-xl">
       {/* Template pre-selection banner */}
       {form.template && TEMPLATE_CITY_LABELS[form.template] && (
-        <div className="mb-6 flex items-center gap-3 px-4 py-3 rounded-xl bg-violet-500/10 border border-violet-500/20">
-          <div className="w-7 h-7 rounded-full bg-violet-600 flex items-center justify-center text-white text-xs font-bold">✓</div>
+        <div className="mb-6 flex items-center gap-3 px-4 py-3 rounded-xl bg-red-500/10 border border-red-500/20">
+          <div className="w-7 h-7 rounded-full bg-red-600 flex items-center justify-center text-white text-xs font-bold">✓</div>
           <div className="flex-1 min-w-0">
             <div className="text-white text-sm font-semibold">{TEMPLATE_CITY_LABELS[form.template]}</div>
-            <div className="text-violet-400 text-xs">{form.template}</div>
+            <div className="text-red-400 text-xs">{form.template}</div>
           </div>
           <Link href="/themes" className="text-zinc-400 hover:text-white text-xs transition-colors shrink-0">Changer →</Link>
         </div>
@@ -503,16 +503,16 @@ export function StepForm() {
             <div
               className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold transition-all ${
                 i + 1 < step
-                  ? "bg-violet-600 text-white"
+                  ? "bg-red-600 text-white"
                   : i + 1 === step
-                  ? "bg-violet-600 text-white ring-4 ring-violet-600/20"
+                  ? "bg-red-600 text-white ring-4 ring-red-600/20"
                   : "bg-zinc-800 text-zinc-500"
               }`}
             >
               {i + 1 < step ? <Check className="w-3.5 h-3.5" /> : i + 1}
             </div>
             {i < TOTAL_STEPS - 1 && (
-              <div className={`flex-1 h-0.5 rounded ${i + 1 < step ? "bg-violet-600" : "bg-zinc-800"}`} />
+              <div className={`flex-1 h-0.5 rounded ${i + 1 < step ? "bg-red-600" : "bg-zinc-800"}`} />
             )}
           </div>
         ))}
@@ -555,7 +555,7 @@ export function StepForm() {
                         }}
                         className={`flex items-center gap-3 px-3 py-3 rounded-xl border text-left transition-all ${
                           form.industry === ind.id
-                            ? "border-violet-600 bg-violet-600/10 text-white"
+                            ? "border-red-600 bg-red-600/10 text-white"
                             : "border-zinc-700 text-zinc-400 hover:border-zinc-500 hover:text-white"
                         }`}
                       >
@@ -584,7 +584,7 @@ export function StepForm() {
                   <button
                     type="button"
                     onClick={() => { setIndustryPhase("industry"); set("sector", ""); set("template", ""); }}
-                    className="text-violet-400 hover:text-violet-300 text-sm mb-4 transition-colors"
+                    className="text-red-400 hover:text-red-300 text-sm mb-4 transition-colors"
                   >
                     {t.s1ChangeIndustry}
                   </button>
@@ -593,7 +593,7 @@ export function StepForm() {
                   {form.industry === "other" ? (
                     <div className="py-4 text-center">
                       <p className="text-zinc-300 text-base mb-4">{t.s2Other}</p>
-                      <Link href="/themes" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-violet-600 hover:bg-violet-500 text-white text-base font-semibold transition-all">
+                      <Link href="/themes" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-red-600 hover:bg-red-500 text-white text-base font-semibold transition-all">
                         Voir tous les thèmes <ExternalLink className="w-4 h-4" />
                       </Link>
                     </div>
@@ -611,13 +611,13 @@ export function StepForm() {
                           }}
                           className={`flex items-center gap-3 px-3 py-3 rounded-xl border text-left transition-all ${
                             form.sector === s.id
-                              ? "border-violet-600 bg-violet-600/10 text-white"
+                              ? "border-red-600 bg-red-600/10 text-white"
                               : "border-zinc-700 text-zinc-400 hover:border-zinc-500 hover:text-white"
                           }`}
                         >
                           <span className="text-xl">{s.emoji}</span>
                           <span className="text-base font-medium leading-tight">{s.labels?.[locale] ?? s.label}</span>
-                          {form.sector === s.id && <Check className="w-4 h-4 text-violet-400 ml-auto shrink-0" />}
+                          {form.sector === s.id && <Check className="w-4 h-4 text-red-400 ml-auto shrink-0" />}
                         </button>
                       ))}
                     </div>
@@ -637,7 +637,7 @@ export function StepForm() {
               {form.sector === "other" ? (
                 <div className="py-4 text-center">
                   <p className="text-zinc-300 text-base mb-4">{t.s2Other}</p>
-                  <Link href="/themes" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-violet-600 hover:bg-violet-500 text-white text-base font-semibold transition-all">
+                  <Link href="/themes" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-red-600 hover:bg-red-500 text-white text-base font-semibold transition-all">
                     Voir tous les thèmes <ExternalLink className="w-4 h-4" />
                   </Link>
                 </div>
@@ -653,7 +653,7 @@ export function StepForm() {
                         type="button"
                         onClick={() => set("template", tid)}
                         className={`w-full flex items-start gap-4 p-4 rounded-xl border text-left transition-all ${
-                          isSelected ? "border-violet-600 bg-violet-600/10" : "border-zinc-700 hover:border-zinc-500"
+                          isSelected ? "border-red-600 bg-red-600/10" : "border-zinc-700 hover:border-zinc-500"
                         }`}
                       >
                         <ThemeThumb
@@ -663,7 +663,7 @@ export function StepForm() {
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center justify-between gap-2">
                             <div className="text-white font-semibold text-base leading-snug">{cityLabel}</div>
-                            {isSelected && <Check className="w-4 h-4 text-violet-400 shrink-0" />}
+                            {isSelected && <Check className="w-4 h-4 text-red-400 shrink-0" />}
                           </div>
                           {meta && (
                             <div className="text-zinc-500 text-sm mt-0.5 leading-snug line-clamp-2">{meta.description}</div>
@@ -673,7 +673,7 @@ export function StepForm() {
                             target="_blank"
                             rel="noopener noreferrer"
                             onClick={(e) => e.stopPropagation()}
-                            className="inline-flex items-center gap-1 text-violet-400 hover:text-violet-300 text-sm mt-2 transition-colors"
+                            className="inline-flex items-center gap-1 text-red-400 hover:text-red-300 text-sm mt-2 transition-colors"
                           >
                             {t.s2Preview} <ExternalLink className="w-3.5 h-3.5" />
                           </a>
@@ -741,7 +741,7 @@ export function StepForm() {
                         <>
                           {q.key === "menuItems" && (
                             <div className="mb-2">
-                              <label className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-violet-500/40 text-violet-300 text-sm cursor-pointer hover:bg-violet-500/10 transition-colors">
+                              <label className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-red-500/40 text-red-300 text-sm cursor-pointer hover:bg-red-500/10 transition-colors">
                                 {extracting ? t.menuExtracting : t.menuFromPhoto}
                                 <input
                                   type="file"
@@ -839,7 +839,7 @@ export function StepForm() {
                     </button>
                   </div>
                 ) : (
-                  <label className="flex flex-col items-center justify-center gap-2 border-2 border-dashed border-zinc-700 rounded-xl p-6 cursor-pointer hover:border-violet-500 transition-colors">
+                  <label className="flex flex-col items-center justify-center gap-2 border-2 border-dashed border-zinc-700 rounded-xl p-6 cursor-pointer hover:border-red-500 transition-colors">
                     <Upload className="w-6 h-6 text-zinc-500" />
                     <span className="text-sm text-zinc-400">{t.fLogoHint}</span>
                     <input
@@ -851,7 +851,7 @@ export function StepForm() {
                         if (f) handleUpload(f, "logo");
                       }}
                     />
-                    {uploading && <Loader2 className="w-4 h-4 animate-spin text-violet-400" />}
+                    {uploading && <Loader2 className="w-4 h-4 animate-spin text-red-400" />}
                   </label>
                 )}
               </Field>
@@ -874,8 +874,8 @@ export function StepForm() {
                     </div>
                   ))}
                   {form.photoUrls.length < 6 && (
-                    <label className="aspect-square flex flex-col items-center justify-center gap-1 border-2 border-dashed border-zinc-700 rounded-lg cursor-pointer hover:border-violet-500 transition-colors">
-                      {uploading ? <Loader2 className="w-5 h-5 animate-spin text-violet-400" /> : <Plus className="w-5 h-5 text-zinc-500" />}
+                    <label className="aspect-square flex flex-col items-center justify-center gap-1 border-2 border-dashed border-zinc-700 rounded-lg cursor-pointer hover:border-red-500 transition-colors">
+                      {uploading ? <Loader2 className="w-5 h-5 animate-spin text-red-400" /> : <Plus className="w-5 h-5 text-zinc-500" />}
                       <span className="text-xs text-zinc-500">{t.fPhotosAdd}</span>
                       <input
                         type="file"
@@ -958,7 +958,7 @@ export function StepForm() {
           <button
             onClick={goNext}
             aria-disabled={!canNext()}
-            className={`flex items-center gap-2 px-5 py-2.5 rounded-full bg-violet-600 hover:bg-violet-500 text-white text-base font-semibold transition-all ${
+            className={`flex items-center gap-2 px-5 py-2.5 rounded-full bg-red-600 hover:bg-red-500 text-white text-base font-semibold transition-all ${
               canNext() ? "" : "opacity-50"
             }`}
           >
@@ -970,7 +970,7 @@ export function StepForm() {
             onClick={handleGenerate}
             disabled={loading}
             aria-disabled={!canNext()}
-            className={`flex items-center gap-2 px-5 py-2.5 rounded-full bg-violet-600 hover:bg-violet-500 disabled:opacity-40 text-white text-base font-semibold transition-all ${
+            className={`flex items-center gap-2 px-5 py-2.5 rounded-full bg-red-600 hover:bg-red-500 disabled:opacity-40 text-white text-base font-semibold transition-all ${
               canNext() || loading ? "" : "opacity-50"
             }`}
           >
@@ -1005,7 +1005,7 @@ function Field({
           <button
             type="button"
             onClick={() => setShowHint((v) => !v)}
-            className="text-zinc-500 hover:text-violet-400 transition-colors"
+            className="text-zinc-500 hover:text-red-400 transition-colors"
             aria-label="Aide"
             aria-expanded={showHint}
           >
@@ -1030,6 +1030,6 @@ function Field({
 
 // Base input style: text-base === 16px to avoid iOS Safari focus auto-zoom and
 // meet the accessibility font-size floor on all form fields.
-const input = "w-full px-4 py-2.5 rounded-xl border border-zinc-700 bg-zinc-800 text-white placeholder:text-zinc-600 text-base focus:outline-none focus:border-violet-500 transition-colors";
+const input = "w-full px-4 py-2.5 rounded-xl border border-zinc-700 bg-zinc-800 text-white placeholder:text-zinc-600 text-base focus:outline-none focus:border-red-500 transition-colors";
 // Applied additionally when a required field is invalid after a submit attempt.
 const inputError = "border-red-500 focus:border-red-500";

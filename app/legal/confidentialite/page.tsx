@@ -295,7 +295,7 @@ export default function ConfidentialitePage() {
             <p className="text-zinc-900 font-semibold mb-2">Comment exercer vos droits</p>
             <p className="text-zinc-700 leading-relaxed">
               Envoyez votre demande à{" "}
-              <a href="mailto:privacy@aevia.io" className="text-violet-600 hover:text-violet-700 transition-colors">
+              <a href="mailto:privacy@aevia.io" className="text-red-600 hover:text-red-700 transition-colors">
                 privacy@aevia.io
               </a>{" "}
               en précisant votre nom et adresse email. Nous répondrons dans un délai d&apos;un mois.
@@ -312,7 +312,7 @@ export default function ConfidentialitePage() {
                 href="https://www.cnil.fr"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-violet-600 hover:text-violet-700 transition-colors"
+                className="text-red-600 hover:text-red-700 transition-colors"
               >
                 CNIL
               </a>{" "}
@@ -351,13 +351,13 @@ export default function ConfidentialitePage() {
             <p className="text-zinc-900 font-semibold mb-2">Pour toute question relative à cette politique :</p>
             <p className="text-zinc-700">
               <span className="text-zinc-900">Email :</span>{" "}
-              <a href="mailto:privacy@aevia.io" className="text-violet-600 hover:text-violet-700 transition-colors">
+              <a href="mailto:privacy@aevia.io" className="text-red-600 hover:text-red-700 transition-colors">
                 privacy@aevia.io
               </a>
             </p>
             <p className="text-zinc-700">
               <span className="text-zinc-900">Email général :</span>{" "}
-              <a href={`mailto:${LEGAL_FACTS.contactEmail}`} className="text-violet-600 hover:text-violet-700 transition-colors">
+              <a href={`mailto:${LEGAL_FACTS.contactEmail}`} className="text-red-600 hover:text-red-700 transition-colors">
                 {LEGAL_FACTS.contactEmail}
               </a>
             </p>

@@ -62,8 +62,8 @@ function Toggle({ checked, onChange, disabled }: { checked: boolean; onChange?: 
       aria-checked={checked}
       disabled={disabled}
       onClick={() => !disabled && onChange?.(!checked)}
-      className={`relative w-11 h-6 rounded-full transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-400 ${
-        checked ? "bg-violet-500" : "bg-zinc-600"
+      className={`relative w-11 h-6 rounded-full transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-400 ${
+        checked ? "bg-red-500" : "bg-zinc-600"
       } ${disabled ? "opacity-60 cursor-not-allowed" : "cursor-pointer"}`}
     >
       <span className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform ${checked ? "translate-x-5" : "translate-x-0"}`} />
@@ -108,7 +108,7 @@ export function CookieBanner() {
                 <p className="flex-1 text-zinc-300 text-sm leading-relaxed">
                   {t.text}{" "}
                   <a href="https://aevia.services/fr/legal/cookies" target="_blank" rel="noopener noreferrer"
-                    className="text-violet-400 hover:text-violet-300 underline underline-offset-2 transition-colors">
+                    className="text-red-400 hover:text-red-300 underline underline-offset-2 transition-colors">
                     {t.more}
                   </a>
                 </p>
@@ -118,11 +118,11 @@ export function CookieBanner() {
                     {t.reject}
                   </button>
                   <button onClick={() => setMode("customize")}
-                    className="px-4 py-2 rounded-full border border-violet-500/40 text-violet-400 hover:bg-violet-500/10 text-sm font-medium transition-colors">
+                    className="px-4 py-2 rounded-full border border-red-500/40 text-red-400 hover:bg-red-500/10 text-sm font-medium transition-colors">
                     {t.customize}
                   </button>
                   <button onClick={() => save({ analytics: true, marketing: true })}
-                    className="px-4 py-2 rounded-full bg-violet-600 hover:bg-violet-500 text-white text-sm font-semibold transition-colors">
+                    className="px-4 py-2 rounded-full bg-red-600 hover:bg-red-500 text-white text-sm font-semibold transition-colors">
                     {t.accept}
                   </button>
                 </div>
@@ -154,11 +154,11 @@ export function CookieBanner() {
                     {t.reject}
                   </button>
                   <button onClick={() => save({ analytics, marketing })}
-                    className="px-4 py-2 rounded-full border border-violet-500/40 text-violet-400 hover:bg-violet-500/10 text-sm font-medium transition-colors">
+                    className="px-4 py-2 rounded-full border border-red-500/40 text-red-400 hover:bg-red-500/10 text-sm font-medium transition-colors">
                     {t.save}
                   </button>
                   <button onClick={() => save({ analytics: true, marketing: true })}
-                    className="px-4 py-2 rounded-full bg-violet-600 hover:bg-violet-500 text-white text-sm font-semibold transition-colors">
+                    className="px-4 py-2 rounded-full bg-red-600 hover:bg-red-500 text-white text-sm font-semibold transition-colors">
                     {t.accept}
                   </button>
                 </div>

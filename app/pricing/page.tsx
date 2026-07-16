@@ -56,8 +56,8 @@ const T = {
         price: "899",
         desc: "Restaurant, immobilier, PME, association. Le site qui convertit vos visiteurs en clients.",
         icon: Star,
-        color: "border-violet-500",
-        bg: "bg-violet-950/30",
+        color: "border-red-500",
+        bg: "bg-red-950/30",
         popular: true,
         features: [
           "Tout Essentiel, plus :",
@@ -69,7 +69,7 @@ const T = {
           "Maintenance 3 mois offerte",
         ],
         cta: "Lancer mon site Pro",
-        ctaStyle: "bg-violet-600 hover:bg-violet-500 text-white",
+        ctaStyle: "bg-red-600 hover:bg-red-500 text-white",
       },
       {
         name: "Premium",
@@ -162,8 +162,8 @@ const T = {
         price: "899",
         desc: "Restaurant, real estate, SMB, association. The site that turns visitors into clients.",
         icon: Star,
-        color: "border-violet-500",
-        bg: "bg-violet-950/30",
+        color: "border-red-500",
+        bg: "bg-red-950/30",
         popular: true,
         features: [
           "Everything in Essential, plus:",
@@ -175,7 +175,7 @@ const T = {
           "3 months free maintenance",
         ],
         cta: "Launch my Pro site",
-        ctaStyle: "bg-violet-600 hover:bg-violet-500 text-white",
+        ctaStyle: "bg-red-600 hover:bg-red-500 text-white",
       },
       {
         name: "Premium",
@@ -268,8 +268,8 @@ const T = {
         price: "899",
         desc: "Restaurante, inmobiliaria, pyme, asociación. El sitio que convierte visitantes en clientes.",
         icon: Star,
-        color: "border-violet-500",
-        bg: "bg-violet-950/30",
+        color: "border-red-500",
+        bg: "bg-red-950/30",
         popular: true,
         features: [
           "Todo lo de Esencial, más:",
@@ -281,7 +281,7 @@ const T = {
           "3 meses de mantenimiento gratis",
         ],
         cta: "Lanzar mi sitio Pro",
-        ctaStyle: "bg-violet-600 hover:bg-violet-500 text-white",
+        ctaStyle: "bg-red-600 hover:bg-red-500 text-white",
       },
       {
         name: "Premium",
@@ -374,8 +374,8 @@ const T = {
         price: "899",
         desc: "Restaurant, Immobilien, KMU, Verein. Die Website, die Besucher zu Kunden macht.",
         icon: Star,
-        color: "border-violet-500",
-        bg: "bg-violet-950/30",
+        color: "border-red-500",
+        bg: "bg-red-950/30",
         popular: true,
         features: [
           "Alles aus Essenziell, plus:",
@@ -387,7 +387,7 @@ const T = {
           "3 Monate Wartung gratis",
         ],
         cta: "Pro-Website starten",
-        ctaStyle: "bg-violet-600 hover:bg-violet-500 text-white",
+        ctaStyle: "bg-red-600 hover:bg-red-500 text-white",
       },
       {
         name: "Premium",
@@ -480,8 +480,8 @@ const T = {
         price: "899",
         desc: "Restaurante, imobiliária, PME, associação. O site que transforma visitantes em clientes.",
         icon: Star,
-        color: "border-violet-500",
-        bg: "bg-violet-950/30",
+        color: "border-red-500",
+        bg: "bg-red-950/30",
         popular: true,
         features: [
           "Tudo do Essencial, mais:",
@@ -493,7 +493,7 @@ const T = {
           "3 meses de manutenção grátis",
         ],
         cta: "Lançar meu site Pro",
-        ctaStyle: "bg-violet-600 hover:bg-violet-500 text-white",
+        ctaStyle: "bg-red-600 hover:bg-red-500 text-white",
       },
       {
         name: "Premium",
@@ -553,7 +553,7 @@ export default function PricingPage() {
         <div className="text-center max-w-3xl mx-auto mb-20">
           <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight leading-tight mb-4">
             {t.title}{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-fuchsia-400">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-400 to-red-600">
               {t.titleAccent}
             </span>
           </h1>
@@ -573,7 +573,7 @@ export default function PricingPage() {
                 className={`relative rounded-2xl border-2 p-8 flex flex-col ${tier.color} ${tier.bg}`}
               >
                 {"popular" in tier && tier.popular && (
-                  <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-violet-500 text-white text-xs font-bold uppercase tracking-wider whitespace-nowrap">
+                  <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-red-500 text-white text-xs font-bold uppercase tracking-wider whitespace-nowrap">
                     {t.mostPopular}
                   </div>
                 )}
@@ -581,7 +581,7 @@ export default function PricingPage() {
                 <div className="mb-6">
                   <div className="flex items-center gap-3 mb-3">
                     <div className="p-2 rounded-xl bg-white/5">
-                      <Icon size={18} className="text-violet-400" />
+                      <Icon size={18} className="text-red-400" />
                     </div>
                     <h2 className="text-xl font-bold">{tier.name}</h2>
                   </div>
@@ -598,7 +598,7 @@ export default function PricingPage() {
                 <ul className="space-y-3 mb-8 flex-1">
                   {tier.features.map((feat, fi) => (
                     <li key={fi} className="flex items-start gap-2.5 text-sm text-zinc-300">
-                      <Check size={15} className="text-violet-400 shrink-0 mt-0.5" />
+                      <Check size={15} className="text-red-400 shrink-0 mt-0.5" />
                       <span>{feat}</span>
                     </li>
                   ))}
@@ -629,7 +629,7 @@ export default function PricingPage() {
               >
                 <summary className="flex items-center justify-between p-5 cursor-pointer font-medium text-white/90 hover:text-white list-none">
                   {faq.q}
-                  <span className="text-violet-400 group-open:rotate-45 transition-transform text-xl">+</span>
+                  <span className="text-red-400 group-open:rotate-45 transition-transform text-xl">+</span>
                 </summary>
                 <p className="px-5 pb-5 text-zinc-400 text-sm leading-relaxed">{faq.a}</p>
               </motion.details>
@@ -638,10 +638,10 @@ export default function PricingPage() {
         </div>
 
         {/* CTA band */}
-        <div className="max-w-4xl mx-auto rounded-2xl border border-white/10 bg-gradient-to-br from-violet-950/40 to-fuchsia-950/30 p-10 flex flex-col md:flex-row items-center justify-between gap-8">
+        <div className="max-w-4xl mx-auto rounded-2xl border border-white/10 bg-gradient-to-br from-red-950/40 to-red-950/30 p-10 flex flex-col md:flex-row items-center justify-between gap-8">
           <div className="flex gap-5 items-start">
-            <div className="p-3 rounded-2xl bg-violet-500/15 shrink-0">
-              <MessageSquare className="w-7 h-7 text-violet-400" />
+            <div className="p-3 rounded-2xl bg-red-500/15 shrink-0">
+              <MessageSquare className="w-7 h-7 text-red-400" />
             </div>
             <div>
               <h3 className="text-xl font-bold mb-1">{t.ctaBand}</h3>
@@ -650,7 +650,7 @@ export default function PricingPage() {
           </div>
           <a
             href="https://aevia.services/contact"
-            className="whitespace-nowrap px-7 py-3.5 rounded-xl bg-violet-600 hover:bg-violet-500 text-white font-semibold text-sm transition-all shadow-lg shadow-violet-500/20"
+            className="whitespace-nowrap px-7 py-3.5 rounded-xl bg-red-600 hover:bg-red-500 text-white font-semibold text-sm transition-all shadow-lg shadow-red-500/20"
           >
             {t.ctaBandBtn}
           </a>

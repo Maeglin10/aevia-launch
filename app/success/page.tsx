@@ -95,8 +95,8 @@ interface Particle {
 }
 
 const COLORS = [
-  "#7c3aed", "#a855f7", "#c084fc",
-  "#06b6d4", "#818cf8", "#e879f9",
+  "#dc2626", "#a855f7", "#c084fc",
+  "#06b6d4", "#818cf8", "#f87171",
   "#34d399", "#f472b6",
 ];
 
@@ -167,10 +167,10 @@ function AnimatedCheck() {
         initial={{ scale: 0.6, opacity: 0 }}
         animate={{ scale: 1.15, opacity: 0 }}
         transition={{ delay: 0.5, duration: 0.8, ease: "easeOut" }}
-        className="absolute w-24 h-24 rounded-full bg-violet-500/30"
+        className="absolute w-24 h-24 rounded-full bg-red-500/30"
       />
       {/* Circle */}
-      <div className="w-20 h-20 rounded-full bg-violet-600/20 border-2 border-violet-500 flex items-center justify-center">
+      <div className="w-20 h-20 rounded-full bg-red-600/20 border-2 border-red-500 flex items-center justify-center">
         <svg
           viewBox="0 0 52 52"
           fill="none"
@@ -181,7 +181,7 @@ function AnimatedCheck() {
             cx="26"
             cy="26"
             r="24"
-            stroke="#7c3aed"
+            stroke="#dc2626"
             strokeWidth="2"
             strokeLinecap="round"
             fill="none"
@@ -293,7 +293,7 @@ function SuccessContent() {
         className="relative z-10 w-full max-w-md bg-zinc-900 border border-zinc-800 rounded-2xl overflow-hidden shadow-2xl shadow-black/50"
       >
         {/* Top accent line */}
-        <div className="h-0.5 w-full bg-gradient-to-r from-transparent via-violet-500 to-transparent" />
+        <div className="h-0.5 w-full bg-gradient-to-r from-transparent via-red-500 to-transparent" />
 
         <div className="px-8 py-10 flex flex-col items-center text-center gap-0">
 
@@ -319,7 +319,7 @@ function SuccessContent() {
               className="text-zinc-300 text-sm leading-relaxed max-w-xs"
             >
               {t.thanks}{" "}
-              <span className="text-violet-400 font-semibold">{name}</span>
+              <span className="text-red-400 font-semibold">{name}</span>
               {t.yourSite}{" "}
               <span className="text-white font-medium">{typeLabel}</span>{" "}
               {t.inPrep}
@@ -347,13 +347,13 @@ function SuccessContent() {
               className="w-full mb-5 bg-zinc-950 border border-zinc-800 rounded-xl p-4 text-left"
             >
               <p className="text-xs text-zinc-500 uppercase tracking-widest mb-2">Votre site est en ligne :</p>
-              <p className="text-violet-400 font-mono text-xs break-all mb-3">{previewUrl}</p>
+              <p className="text-red-400 font-mono text-xs break-all mb-3">{previewUrl}</p>
               <div className="flex gap-2">
                 <a
                   href={previewUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex-1 flex items-center justify-center gap-1.5 py-2 bg-violet-600 hover:bg-violet-500 text-white font-semibold text-xs rounded-lg transition-colors"
+                  className="flex-1 flex items-center justify-center gap-1.5 py-2 bg-red-600 hover:bg-red-500 text-white font-semibold text-xs rounded-lg transition-colors"
                 >
                   <ExternalLink className="w-3.5 h-3.5" /> Voir mon site
                 </a>
@@ -402,7 +402,7 @@ function SuccessContent() {
           >
             <Link
               href="/"
-              className="w-full flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-violet-600 hover:bg-violet-500 text-white font-semibold text-sm transition-colors shadow-lg shadow-violet-900/30"
+              className="w-full flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-red-600 hover:bg-red-500 text-white font-semibold text-sm transition-colors shadow-lg shadow-red-900/30"
             >
               {t.backHome}
             </Link>

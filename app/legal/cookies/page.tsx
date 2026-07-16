@@ -270,7 +270,7 @@ export default function CookiesPage() {
             </p>
             <p className="text-zinc-700">
               <span className="text-zinc-900">Email :</span>{" "}
-              <a href="mailto:privacy@aevia.io" className="text-violet-600 hover:text-violet-700 transition-colors">
+              <a href="mailto:privacy@aevia.io" className="text-red-600 hover:text-red-700 transition-colors">
                 privacy@aevia.io
               </a>
             </p>

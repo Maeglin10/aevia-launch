@@ -141,7 +141,7 @@ const CAT_COLOR: Record<string, string> = {
   "E-Commerce":  "#ec4899",
   Health:        "#14b8a6",
   Hospitality:   "#f43f5e",
-  Services:      "#8b5cf6",
+  Services:      "#ef4444",
   Education:     "#3b82f6",
   Finance:       "#22c55e",
   "Food & Drink":"#fb923c",
@@ -170,7 +170,7 @@ function ThumbCard({ item, index }: { item: ThemeItem; index: number }) {
   const ref = useRef<HTMLDivElement>(null);
   const imgRef = useRef<HTMLImageElement>(null);
   const inView = useInView(ref, { once: true, margin: "-40px" });
-  const accent = CAT_COLOR[item.category] ?? "#7c3aed";
+  const accent = CAT_COLOR[item.category] ?? "#dc2626";
   const [thumbFailed, setThumbFailed] = useState(false);
   const [thumbLoaded, setThumbLoaded] = useState(false);
   const [hovered, setHovered] = useState(false);
@@ -364,9 +364,9 @@ function ThemesContent() {
               <span 
                 className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold border"
                 style={{
-                  background: `${CAT_COLOR[cat] ?? "#7c3aed"}15`,
-                  borderColor: `${CAT_COLOR[cat] ?? "#7c3aed"}35`,
-                  color: CAT_COLOR[cat] ?? "#7c3aed"
+                  background: `${CAT_COLOR[cat] ?? "#dc2626"}15`,
+                  borderColor: `${CAT_COLOR[cat] ?? "#dc2626"}35`,
+                  color: CAT_COLOR[cat] ?? "#dc2626"
                 }}
               >
                 <span className="w-1.5 h-1.5 rounded-full bg-current" />
@@ -374,7 +374,7 @@ function ThemesContent() {
               </span>
               <button
                 onClick={() => setCat("All")}
-                className="text-xs text-violet-400 hover:text-violet-300 underline cursor-pointer ml-1 font-semibold"
+                className="text-xs text-red-400 hover:text-red-300 underline cursor-pointer ml-1 font-semibold"
               >
                 Voir tous
               </button>
@@ -394,7 +394,7 @@ function ThemesContent() {
                 value={search}
                 onChange={e => setSearch(e.target.value)}
                 placeholder={t.search}
-                className="w-full pl-9 pr-4 py-2 rounded-lg text-xs bg-white/5 border border-white/10 text-white placeholder:text-zinc-500 outline-none focus:border-violet-500/50 transition-colors"
+                className="w-full pl-9 pr-4 py-2 rounded-lg text-xs bg-white/5 border border-white/10 text-white placeholder:text-zinc-500 outline-none focus:border-red-500/50 transition-colors"
               />
             </div>
 
@@ -404,7 +404,7 @@ function ThemesContent() {
               {(cat !== "All" || search) && (
                 <button
                   onClick={() => { setCat("All"); setSearch(""); }}
-                  className="text-[10px] text-violet-400 hover:text-violet-300 transition-colors uppercase tracking-wider"
+                  className="text-[10px] text-red-400 hover:text-red-300 transition-colors uppercase tracking-wider"
                 >
                   {t.clear}
                 </button>
@@ -415,7 +415,7 @@ function ThemesContent() {
               {CATS.map(c => {
                 const count = c === "All" ? allThemes.length : (catCounts[c] ?? 0);
                 const active = cat === c;
-                const color = CAT_COLOR[c] ?? "#7c3aed";
+                const color = CAT_COLOR[c] ?? "#dc2626";
                 return (
                   <button
                     key={c}
@@ -448,7 +448,7 @@ function ThemesContent() {
             <div className="mt-6 pt-6 border-t border-white/5">
               <Link
                 href="/configure"
-                className="flex items-center justify-center gap-1.5 w-full px-4 py-2.5 rounded-full bg-violet-600 hover:bg-violet-500 text-white text-xs font-semibold transition-colors whitespace-nowrap"
+                className="flex items-center justify-center gap-1.5 w-full px-4 py-2.5 rounded-full bg-red-600 hover:bg-red-500 text-white text-xs font-semibold transition-colors whitespace-nowrap"
               >
                 {t.cta} <ArrowRight className="w-3 h-3" />
               </Link>
@@ -518,7 +518,7 @@ function ThemesContent() {
                     <p className="text-sm">{t.noMatch} &ldquo;{search}&rdquo;</p>
                     <button
                       onClick={() => { setSearch(""); setCat("All"); }}
-                      className="mt-4 text-xs text-violet-400 hover:text-violet-300 underline cursor-pointer"
+                      className="mt-4 text-xs text-red-400 hover:text-red-300 underline cursor-pointer"
                     >
                       {t.clearFilters}
                     </button>
@@ -555,7 +555,7 @@ function ThemesContent() {
                   </p>
                   <Link
                     href="/configure"
-                    className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-violet-600 hover:bg-violet-500 text-white font-bold text-base transition-all duration-200 hover:scale-[1.03] cursor-pointer"
+                    className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-red-600 hover:bg-red-500 text-white font-bold text-base transition-all duration-200 hover:scale-[1.03] cursor-pointer"
                   >
                     {t.startBuilding} <ArrowRight className="w-5 h-5" />
                   </Link>
@@ -576,7 +576,7 @@ export default function ThemesGallery() {
     <Suspense
       fallback={
         <div className="min-h-screen bg-[#080809] flex items-center justify-center">
-          <div className="animate-spin w-8 h-8 border-2 border-violet-500 border-t-transparent rounded-full" />
+          <div className="animate-spin w-8 h-8 border-2 border-red-500 border-t-transparent rounded-full" />
         </div>
       }
     >

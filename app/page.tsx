@@ -202,7 +202,7 @@ const TESTIMONIALS_T = {
       name: "Elena V.",
       role: { fr: "Coach de vie, Paris", en: "Life coach, Paris", es: "Coach de vida, París", de: "Life Coach, Paris", pt: "Coach de vida, Paris" },
       avatar: "E",
-      color: "#8b5cf6",
+      color: "#ef4444",
     },
   ],
 };
@@ -552,7 +552,7 @@ function MergedDiscoverySection() {
           </div>
           <div className="flex gap-6 shrink-0">
             {[
-              { val: nt.stat1, label: nt.stat1Label, color: "#a78bfa" },
+              { val: nt.stat1, label: nt.stat1Label, color: "#f87171" },
               { val: nt.stat2, label: nt.stat2Label, color: "#34d399" },
               { val: nt.stat3, label: nt.stat3Label, color: "#60a5fa" },
             ].map((s) => (
@@ -595,7 +595,7 @@ function MergedDiscoverySection() {
         >
           <div className="flex items-center justify-between mb-4">
             <p className="text-xs font-bold text-zinc-400 uppercase tracking-widest">{ht.spotlight}</p>
-            <Link href="/themes" className="text-xs text-violet-400 hover:text-violet-300 transition-colors">
+            <Link href="/themes" className="text-xs text-red-400 hover:text-red-300 transition-colors">
               {ht.seeAll}
             </Link>
           </div>
@@ -615,14 +615,14 @@ function MergedDiscoverySection() {
         >
           <Link
             href="/configure"
-            className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-violet-600 hover:bg-violet-500 text-white font-bold text-sm transition-all duration-200 hover:scale-[1.03] shadow-lg shadow-violet-600/30"
+            className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-red-600 hover:bg-red-500 text-white font-bold text-sm transition-all duration-200 hover:scale-[1.03] shadow-lg shadow-red-600/30"
           >
             <Sparkles className="w-4 h-4" />
             {nt.cta.replace(" →", "")}
           </Link>
           <Link
             href="/themes"
-            className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full border border-zinc-700 hover:border-violet-500/60 text-zinc-300 hover:text-white font-semibold text-sm transition-all"
+            className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full border border-zinc-700 hover:border-red-500/60 text-zinc-300 hover:text-white font-semibold text-sm transition-all"
           >
             {ht.explore} <ArrowRight className="w-4 h-4" />
           </Link>
@@ -735,7 +735,7 @@ function SpotlightCard({ template, index }: { template: typeof TEMPLATES_REGISTR
                 onError={() => setThumbOk(false)}
               />
             ) : (
-              <div className="w-full h-full bg-gradient-to-br from-violet-900/30 to-zinc-900" />
+              <div className="w-full h-full bg-gradient-to-br from-red-900/30 to-zinc-900" />
             )}
           </div>
           <div className="p-4 flex-1 flex flex-col justify-between">
@@ -805,7 +805,7 @@ function HeroSection() {
     <section className="relative min-h-[calc(100vh-56px)] flex flex-col justify-center overflow-hidden pt-24 pb-12 px-6">
       {/* Background */}
       <div className="absolute inset-0 -z-10 overflow-hidden">
-        <div className="absolute -top-40 left-1/3 w-[680px] h-[680px] rounded-full bg-violet-600/18 blur-[110px] animate-blob" />
+        <div className="absolute -top-40 left-1/3 w-[680px] h-[680px] rounded-full bg-red-600/18 blur-[110px] animate-blob" />
         <div className="absolute top-1/4 right-[-100px] w-[520px] h-[520px] rounded-full bg-blue-600/12 blur-[130px] animate-blob animation-delay-2000" />
         <div className="absolute bottom-[-80px] left-[-60px] w-[440px] h-[440px] rounded-full bg-indigo-600/10 blur-[100px] animate-blob animation-delay-4000" />
         <div className="absolute inset-0" style={{ backgroundImage: "radial-gradient(circle, rgba(255,255,255,0.03) 1px, transparent 1px)", backgroundSize: "32px 32px" }} />
@@ -831,7 +831,7 @@ function HeroSection() {
                     exit={{ y: "-115%", opacity: 0 }}
                     transition={{ duration: 0.38, ease: [0.4, 0, 0.2, 1] }}
                     className="absolute inset-0 flex items-center whitespace-nowrap text-transparent bg-clip-text"
-                    style={{ backgroundImage: "linear-gradient(135deg, #a78bfa 0%, #e879f9 50%, #60a5fa 100%)", lineHeight: 1.35 }}
+                    style={{ backgroundImage: "linear-gradient(135deg, #f87171 0%, #dc2626 50%, #60a5fa 100%)", lineHeight: 1.35 }}
                   >
                     {t.rotate[idx]}
                   </motion.span>
@@ -853,13 +853,13 @@ function HeroSection() {
             >
               <Link
                 href="/configure"
-                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-violet-600 hover:bg-violet-500 text-white font-bold text-base transition-all duration-200 hover:scale-[1.03] shadow-lg shadow-violet-600/30"
+                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-red-600 hover:bg-red-500 text-white font-bold text-base transition-all duration-200 hover:scale-[1.03] shadow-lg shadow-red-600/30"
               >
                 {t.cta1} <ArrowRight className="w-5 h-5" />
               </Link>
               <Link
                 href="/themes"
-                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full border border-zinc-700 hover:border-violet-500/60 text-zinc-300 hover:text-white font-semibold text-base transition-all"
+                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full border border-zinc-700 hover:border-red-500/60 text-zinc-300 hover:text-white font-semibold text-base transition-all"
               >
                 {t.cta2}
               </Link>
@@ -881,7 +881,7 @@ function HeroSection() {
             transition={{ duration: 0.75, delay: 0.25, ease: [0.4, 0, 0.2, 1] }}
             className="hidden lg:block relative"
           >
-            <div className="absolute inset-[-20px] bg-violet-600/15 blur-3xl rounded-3xl -z-10" />
+            <div className="absolute inset-[-20px] bg-red-600/15 blur-3xl rounded-3xl -z-10" />
             <motion.div
               animate={{ y: [0, -10, 0] }}
               transition={{ duration: 5.5, repeat: Infinity, ease: "easeInOut" }}
@@ -921,7 +921,7 @@ function HeroSection() {
                   className="absolute flex items-center gap-2 px-3 py-2 rounded-xl bg-zinc-900/95 border border-white/10 backdrop-blur-md shadow-xl text-xs font-semibold text-white whitespace-nowrap"
                   style={card.style}
                 >
-                  <MetricIcon className="w-3.5 h-3.5 text-violet-400" />
+                  <MetricIcon className="w-3.5 h-3.5 text-red-400" />
                   {card.label}
                 </motion.div>
               );
@@ -937,7 +937,7 @@ function HeroSection() {
           <div className="flex gap-12 animate-marquee whitespace-nowrap">
             {[...trust, ...trust].map((item, i) => (
               <div key={i} className="flex items-center gap-2 text-zinc-600 text-sm shrink-0">
-                <CheckCircle2 className="w-4 h-4 text-violet-600/60" />
+                <CheckCircle2 className="w-4 h-4 text-red-600/60" />
                 {item}
               </div>
             ))}
@@ -963,10 +963,10 @@ function StepsSection() {
           {steps.map((s, i) => (
             <motion.div key={i} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 * i, duration: 0.4 }}
               className="p-6 rounded-2xl border border-zinc-800 bg-zinc-900/40">
-              <div className="w-12 h-12 rounded-xl bg-violet-600/15 flex items-center justify-center text-violet-400 mb-4">
+              <div className="w-12 h-12 rounded-xl bg-red-600/15 flex items-center justify-center text-red-400 mb-4">
                 {icons[i]}
               </div>
-              <div className="text-xs font-bold text-violet-400 mb-2">Step {i + 1}</div>
+              <div className="text-xs font-bold text-red-400 mb-2">Step {i + 1}</div>
               <h3 className="text-white font-semibold mb-2">{s.title}</h3>
               <p className="text-zinc-400 text-sm leading-relaxed">{s.desc}</p>
             </motion.div>
@@ -989,7 +989,7 @@ function CtaSection() {
         <p className="text-zinc-400 mb-8">{t.readySub}</p>
         <div className="flex flex-wrap items-center justify-center gap-4">
           <Link href="/configure"
-            className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-violet-600 hover:bg-violet-500 text-white font-bold text-lg transition-all duration-200 hover:scale-105">
+            className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-red-600 hover:bg-red-500 text-white font-bold text-lg transition-all duration-200 hover:scale-105">
             {t.startFree} <ArrowRight className="w-5 h-5" />
           </Link>
           <Link href="/themes"

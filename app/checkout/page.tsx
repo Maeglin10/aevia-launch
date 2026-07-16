@@ -158,16 +158,16 @@ function CheckoutContent() {
   return (
     <main className="min-h-screen bg-zinc-950 text-white flex flex-col items-center justify-center px-4">
       <div className="flex flex-col items-center gap-6">
-        {/* Spinning violet ring */}
+        {/* Spinning red ring */}
         <div className="relative w-16 h-16">
           <div className="absolute inset-0 rounded-full border-4 border-zinc-800" />
           <div
-            className="absolute inset-0 rounded-full border-4 border-transparent border-t-violet-500 animate-spin"
+            className="absolute inset-0 rounded-full border-4 border-transparent border-t-red-500 animate-spin"
             style={{ animationDuration: "800ms" }}
           />
           {/* Inner dot */}
           <div className="absolute inset-0 flex items-center justify-center">
-            <div className="w-3 h-3 rounded-full bg-violet-600 animate-pulse" />
+            <div className="w-3 h-3 rounded-full bg-red-600 animate-pulse" />
           </div>
         </div>
 

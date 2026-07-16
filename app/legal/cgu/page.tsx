@@ -268,7 +268,7 @@ export default function CGUPage() {
             <p className="text-zinc-900 font-semibold mb-2">Pour toute question relative aux CGU :</p>
             <p className="text-zinc-700">
               <span className="text-zinc-900">Email :</span>{" "}
-              <a href={`mailto:${LEGAL_FACTS.contactEmail}`} className="text-violet-600 hover:text-violet-700 transition-colors">
+              <a href={`mailto:${LEGAL_FACTS.contactEmail}`} className="text-red-600 hover:text-red-700 transition-colors">
                 {LEGAL_FACTS.contactEmail}
               </a>
             </p>
