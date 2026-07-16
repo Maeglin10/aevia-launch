@@ -1,38 +1,45 @@
 import { NextResponse } from 'next/server'
 
-const CONTENT = `# AeviaLaunch — Sites web professionnels en 2h à 7j
+const CONTENT = `# AeviaLaunch — Sites web professionnels livrés en 2h à 7 jours
 
-> Créez votre site professionnel entre 2h et 7j selon le plan, sans compétences techniques.
+> Créez un site web professionnel, optimisé SEO et mobile-first, livré en 2h à 7 jours selon le plan, sans écrire une ligne de code. Plus de 100 thèmes par secteur d'activité.
 
 ## À propos
-AeviaLaunch est un service SaaS de création de sites web pour entrepreneurs, TPE et PME. Plus de 290 thèmes optimisés SEO disponibles par secteur d'activité (restaurants, coachs, artisans, e-commerce, vitrines). Le site est livré mobile-first, avec hébergement inclus et connexion Google Search Console native. Intégration HubRise pour les restaurants.
+AeviaLaunch est un service de création de sites web pour entrepreneurs, commerçants et TPE/PME. On choisit un thème adapté à son secteur, on renseigne ses informations via un assistant guidé, et le site est livré prêt à l'emploi : hébergement inclus, référencement optimisé dès la mise en ligne, adapté au mobile. Pour les restaurants, la prise de commande en ligne est intégrée via HubRise (compatible caisses comme Popina). AeviaLaunch fait partie de la plateforme Aevia, aux côtés d'AeviaInbox (service client IA) et d'AeviaSecurity (audit de sécurité).
 
 ## Cas d'usage
-Restaurants, coachs, artisans, e-commerce, consultants, portfolios, agences, SaaS, hôtels, cliniques, associations, startups, professions libérales.
+Restaurants et food-trucks, coachs, artisans, e-commerce, consultants, portfolios, agences, hôtels, cliniques et cabinets, associations, professions libérales, immobilier.
 
-## Tarifs
-- Essentiel : 599 € — site vitrine livré en 2 à 4 heures
-- Pro : 899 € — site multi-sections, blog intégré, analytics
-- Premium : 1 499 € — e-commerce, effets 3D, intégration Stripe
+## Tarifs (paiement unique, hébergement inclus)
+- Landing : 399 € — une page unique et percutante, idéale pour valider une idée ou lancer un produit.
+- Essentiel : 599 € — site vitrine complet multi-sections.
+- Pro : 899 € — site avancé (blog, pages secteur, intégrations, analytics).
+- Premium : 1 499 € — site sur-mesure, multi-pages, intégrations spécifiques.
 
 ## Délai de livraison
-Entre 2h et 7j selon le plan choisi.
+Entre 2h et 7 jours selon le plan choisi.
+
+## Questions fréquentes
+- Combien de temps pour avoir mon site ? De 2 heures à 7 jours selon la formule.
+- Dois-je savoir coder ? Non, tout se fait via un assistant guidé.
+- L'hébergement est-il compris ? Oui, inclus dans le prix.
+- Le site est-il optimisé pour Google ? Oui : SEO technique, données structurées et mobile-first dès la livraison.
+- Puis-je prendre des commandes en ligne ? Oui, notamment pour les restaurants via HubRise.
 
 ## Pages clés
 - [Accueil](https://launch.aevia.services)
 - [Tarifs](https://launch.aevia.services/pricing)
-- [Thèmes disponibles](https://launch.aevia.services/themes)
+- [Thèmes disponibles](https://launch.aevia.services/templates)
 - [Créer mon site](https://launch.aevia.services/configure)
-- [Mentions légales](https://launch.aevia.services/legal)
 
 ## Contact
-- Société : Aevia (auto-entrepreneur — SIREN 852 546 225)
+- Société : Aevia (SIREN 852 546 225)
 - Email : valentinmilliand@aevia.services
 - Site : https://aevia.services
 
 ## Produits Aevia
 - [AeviaLaunch](https://launch.aevia.services) — création de sites web professionnels
-- [AeviaInbox](https://inbox.aevia.services) — agents IA multi-canaux (WhatsApp, email, voix)
+- [AeviaInbox](https://inbox.aevia.services) — standard téléphonique IA + service client multicanal (téléphone, WhatsApp, Instagram, email)
 - [AeviaSecurity](https://security.aevia.services) — audit de sécurité et performance web
 `
 

@@ -1,24 +1,36 @@
-# AeviaLaunch — Sites web professionnels en 2h à 7j
+# AeviaLaunch — Sites web professionnels livrés en 2h à 7 jours
 
-> Créez votre site professionnel en 2h à 7 jours selon le plan, sans compétences techniques.
+> Créez un site web professionnel, optimisé SEO et mobile-first, livré en 2h à 7 jours selon le plan, sans écrire une ligne de code. Plus de 100 thèmes par secteur d'activité.
 
-AeviaLaunch est un service de création de sites web pour entrepreneurs et TPE/PME. Plus de 100 thèmes disponibles par secteur d'activité (restaurants, coachs, artisans, e-commerce, vitrines). Le site est livré optimisé SEO, mobile-first, avec hébergement inclus. Intégration de prise de commande en ligne via HubRise pour les restaurants.
+AeviaLaunch est un service de création de sites web pour entrepreneurs, commerçants et TPE/PME. On choisit un thème adapté à son secteur (restaurant, coach, artisan, e-commerce, vitrine, santé, immobilier…), on renseigne ses informations via un assistant guidé, et le site est livré prêt à l'emploi : hébergement inclus, référencement optimisé dès la mise en ligne, adapté au mobile. Pour les restaurants, la prise de commande en ligne est intégrée via HubRise. AeviaLaunch fait partie de la plateforme Aevia (https://aevia.services), aux côtés d'AeviaInbox (service client IA) et d'AeviaSecurity (audit de sécurité).
 
 ## Pages
 
-- [Accueil](https://launch.aevia.services): Présentation et démarrage du wizard de création
-- [Pricing](https://launch.aevia.services/pricing): Tarifs et formules disponibles
-- [Thèmes](https://launch.aevia.services/themes): Galerie des 100+ thèmes par secteur
+- [Accueil](https://launch.aevia.services) : Présentation et démarrage de l'assistant de création
+- [Tarifs](https://launch.aevia.services/pricing) : Formules et prix
+- [Thèmes](https://launch.aevia.services/templates) : Galerie des 100+ thèmes par secteur
 
-## Tarifs
+## Tarifs (paiement unique, hébergement inclus)
 
-- Site vitrine basique: à partir de 297€ (paiement unique)
-- Site avec e-commerce: formules mensuelles disponibles
+- **Landing — 399€** : une page unique et percutante, idéale pour valider une idée ou lancer un produit.
+- **Essentiel — 599€** : site vitrine complet multi-sections.
+- **Pro — 899€** : site avancé avec fonctionnalités supplémentaires (blog, pages secteur, intégrations).
+- **Premium — 1499€** : site sur-mesure, multi-pages, intégrations spécifiques.
 
-## Key Information
+## Informations clés
 
-- Délai de livraison: entre 2h et 7j selon le plan
-- Hébergement: inclus (Vercel)
-- SEO: optimisé dès la création (sitemap, schema.org, meta tags)
-- Support: valentinmilliand@aevia.services
-- Langues disponibles: fr, en, es, pt
+- Délai de livraison : entre 2h et 7 jours selon le plan.
+- Hébergement inclus.
+- SEO optimisé dès la création : sitemap, données structurées schema.org, balises meta, mobile-first.
+- Plus de 100 thèmes par secteur, tous responsives.
+- Prise de commande en ligne pour restaurants via HubRise (compatible caisses comme Popina).
+- Langues disponibles : fr, en, es, pt.
+- Support : valentinmilliand@aevia.services
+
+## Questions fréquentes
+
+- **Combien de temps pour avoir mon site ?** De 2 heures à 7 jours selon la formule choisie.
+- **Dois-je savoir coder ?** Non, tout se fait via un assistant guidé.
+- **L'hébergement est-il compris ?** Oui, il est inclus dans le prix.
+- **Le site est-il optimisé pour Google ?** Oui : SEO technique, données structurées et mobile-first sont configurés dès la livraison.
+- **Puis-je vendre ou prendre des commandes en ligne ?** Oui, notamment pour les restaurants via l'intégration HubRise.
