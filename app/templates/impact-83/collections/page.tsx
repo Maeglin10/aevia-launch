@@ -50,7 +50,7 @@ export default function CollectionsPage() {
         </div>
 
         {/* Pieces Grid */}
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 30 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: 30 }}>
           {currentCollection.pieces.map((piece, i) => (
             <Reveal key={piece.name} delay={i * 0.1}>
               <div

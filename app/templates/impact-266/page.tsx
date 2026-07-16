@@ -1120,7 +1120,7 @@ function ServiceCards() {
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(280px, 100%), 1fr))',
             gap: 'clamp(18px,2.4vw,32px)',
           }}
         >
@@ -1470,7 +1470,7 @@ function Testimonials() {
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(320px, 100%), 1fr))',
             gap: 'clamp(28px,3.5vw,52px)',
           }}
         >

@@ -1021,7 +1021,7 @@ function IndicationsSection() {
   };
   const grid: React.CSSProperties = {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(290px, 1fr))',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(min(290px, 100%), 1fr))',
     gap: 'clamp(24px,3vw,40px)',
     maxWidth: 1240,
     margin: '0 auto',
@@ -1305,7 +1305,7 @@ function TestimonialsSection() {
   };
   const grid: React.CSSProperties = {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(min(300px, 100%), 1fr))',
     gap: 'clamp(28px,3.5vw,52px)',
     maxWidth: 1240,
     margin: '0 auto',
@@ -1807,7 +1807,7 @@ function PhilosophySection() {
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(280px, 100%), 1fr))',
             gap: 'clamp(32px,4vw,60px)',
           }}
         >
@@ -2176,7 +2176,7 @@ function PracticalSection() {
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(240px, 100%), 1fr))',
             gap: 'clamp(20px,2.5vw,36px)',
           }}
         >

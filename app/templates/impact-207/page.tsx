@@ -1510,7 +1510,7 @@ function TestimonialsSection() {
           <h2 className="n207-h2">Trusted by supply chain leaders</h2>
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: 24 }}>
           {TESTIMONIALS.map((t, i) => (
             <motion.div
               key={i}

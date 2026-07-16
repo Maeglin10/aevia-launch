@@ -43,7 +43,7 @@ export default function PricingPage() {
           </div>
         </Reveal>
 
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: 32, alignItems: "stretch" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(320px, 100%), 1fr))", gap: 32, alignItems: "stretch" }}>
           {PRICING.map((plan, idx) => (
             <Reveal key={idx} delay={idx * 0.1}>
               <div

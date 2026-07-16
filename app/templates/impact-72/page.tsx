@@ -328,7 +328,7 @@ return (
           <h2 style={{ fontFamily: "'Archivo', sans-serif", fontSize: "clamp(2rem, 4vw, 3.5rem)", fontWeight: 900, letterSpacing: "-0.03em", color: C.text, lineHeight: 1.15, marginBottom: "4rem", paddingBottom: "0.15em" }}>
             De l'idée à l'écran.
           </h2>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))", gap: "1px", background: C.border }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(250px, 100%), 1fr))", gap: "1px", background: C.border }}>
             {SERVICES.map((svc, i) => <ServiceCard key={svc.code} svc={svc} index={i} />)}
           </div>
         </div>
@@ -381,7 +381,7 @@ return (
           </motion.div>
 
           {/* Steps grid — 4 columns desktop */}
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: "0" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(260px, 100%), 1fr))", gap: "0" }}>
             {PROCESS_STEPS.map((step, i) => (
               <motion.div
                 key={step.num}

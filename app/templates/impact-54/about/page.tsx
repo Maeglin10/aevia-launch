@@ -158,7 +158,7 @@ export default function AboutPage() {
           >
             Core Engineering Tenets
           </h2>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 24 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(220px, 100%), 1fr))", gap: 24 }}>
             {VALUES.map((val, idx) => (
               <Reveal key={idx} delay={idx * 0.08}>
                 <div

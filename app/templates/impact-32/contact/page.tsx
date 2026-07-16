@@ -938,7 +938,7 @@ function EmergencyGuide() {
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
+          gridTemplateColumns: "repeat(auto-fit, minmax(min(240px, 100%), 1fr))",
           gap: 20,
           maxWidth: 1100,
           margin: "0 auto 64px",
@@ -995,7 +995,7 @@ function EmergencyGuide() {
         <h3 style={{ fontSize: 22, fontWeight: 800, color: C.text, marginBottom: 24, textAlign: "center" }}>
           Signes nécessitant une consultation
         </h3>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 10 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(260px, 100%), 1fr))", gap: 10 }}>
           {EMERGENCY_SIGNS.map((sign) => (
             <div
               key={sign.label}
@@ -1071,7 +1071,7 @@ function GuardTeam() {
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+          gridTemplateColumns: "repeat(auto-fit, minmax(min(280px, 100%), 1fr))",
           gap: 24,
           maxWidth: 1000,
           margin: "0 auto 48px",

@@ -852,7 +852,7 @@ function RoomsSection({ goTo }: { goTo: (p: HotelPage) => void }) {
             position: 'relative',
             zIndex: 1,
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(300px, 100%), 1fr))',
             gap: '2rem',
           }}
         >
@@ -1666,7 +1666,7 @@ function Footer({ goTo }: { goTo: (p: HotelPage) => void }) {
   return (
     <footer style={{ background: '#0f0b06', borderTop: `1px solid ${GOLD}25`, padding: '5rem 3rem 3rem' }}>
       <div style={{ maxWidth: '75rem', margin: '0 auto' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '3rem', marginBottom: '4rem' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(180px, 100%), 1fr))', gap: '3rem', marginBottom: '4rem' }}>
           <div>
             <button
               onClick={() => goTo('home')}
@@ -1944,7 +1944,7 @@ function ChambresPage({ roomSlug, setRoomSlug, goTo }: { roomSlug: string | null
       />
       <section style={{ background: CREAM, padding: '7rem 0' }}>
         <div style={{ maxWidth: '75rem', margin: '0 auto', padding: '0 3rem' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(300px, 100%), 1fr))', gap: '2rem' }}>
             {ROOMS_FULL.map((r, i) => (
               <motion.div
                 key={r.slug}
@@ -2011,7 +2011,7 @@ function ServicesPage({ goTo }: { goTo: (p: HotelPage) => void }) {
       />
       <section style={{ background: DARK, padding: '7rem 0' }}>
         <div style={{ maxWidth: '75rem', margin: '0 auto', padding: '0 3rem' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(300px, 100%), 1fr))', gap: '2rem' }}>
             {SERVICES.map((s, i) => (
               <motion.div
                 key={s.label}
@@ -2125,7 +2125,7 @@ function BlogPage({ blogSlug, setBlogSlug }: { blogSlug: string | null; setBlogS
       />
       <section style={{ background: CREAM, padding: '7rem 0' }}>
         <div style={{ maxWidth: '75rem', margin: '0 auto', padding: '0 3rem' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '2rem' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(300px, 100%), 1fr))', gap: '2rem' }}>
             {BLOG_POSTS.map((p, i) => (
               <motion.article
                 key={p.slug}

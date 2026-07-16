@@ -1110,7 +1110,7 @@ function OfferCards() {
 
   const grid: React.CSSProperties = {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(min(280px, 100%), 1fr))',
     gap: 'clamp(16px,2vw,28px)',
     maxWidth: 1280,
     margin: '0 auto',
@@ -1570,7 +1570,7 @@ function Transformations() {
 
   const grid: React.CSSProperties = {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(min(280px, 100%), 1fr))',
     gap: 'clamp(16px,2.5vw,32px)',
     maxWidth: 1280,
     margin: '0 auto',

@@ -1178,7 +1178,7 @@ function SpecialtyCards() {
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(290px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(290px, 100%), 1fr))',
             gap: 'clamp(18px,2.5vw,32px)',
           }}
         >
@@ -1639,7 +1639,7 @@ function Reviews() {
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(300px, 100%), 1fr))',
             gap: 'clamp(20px,2.8vw,36px)',
           }}
         >

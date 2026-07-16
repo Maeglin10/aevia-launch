@@ -272,7 +272,7 @@ function ServicesGrid() {
 
   return (
     <section ref={ref} style={{ padding: "80px 80px 60px", background: C.bg, fontFamily: FONT }}>
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: 32, maxWidth: 1200, margin: "0 auto" }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(320px, 100%), 1fr))", gap: 32, maxWidth: 1200, margin: "0 auto" }}>
         {FULL_SERVICES.map((s, i) => (
           <motion.div
             key={s.title}
@@ -363,7 +363,7 @@ function ProcessSection() {
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+          gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))",
           gap: 28,
           maxWidth: 1100,
           margin: "0 auto",
@@ -695,7 +695,7 @@ function EquipmentSection() {
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
+          gridTemplateColumns: "repeat(auto-fit, minmax(min(260px, 100%), 1fr))",
           gap: 24,
           maxWidth: 1100,
           margin: "0 auto",

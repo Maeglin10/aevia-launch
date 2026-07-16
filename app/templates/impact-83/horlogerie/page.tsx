@@ -26,7 +26,7 @@ export default function HorlogeriePage() {
         </Reveal>
 
         {/* Pieces Grid */}
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 30 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: 30 }}>
           {timepieces.map((piece, i) => (
             <Reveal key={piece.name} delay={i * 0.1}>
               <div

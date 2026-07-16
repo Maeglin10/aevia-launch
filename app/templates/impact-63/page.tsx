@@ -219,7 +219,7 @@ return (
 
       {/* Stats */}
       <section style={{ padding: "5rem clamp(2rem, 6vw, 6rem)", borderTop: `1px solid ${C.border}`, borderBottom: `1px solid ${C.border}`, background: C.bgSection }}>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "2rem", maxWidth: "1000px", margin: "0 auto" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(200px, 100%), 1fr))", gap: "2rem", maxWidth: "1000px", margin: "0 auto" }}>
           <StatNumber value="133" label="Années d'histoire" />
           <StatNumber value="23" label="Maîtres-horlogers" />
           <StatNumber value="4,200" label="Pièces par an" />
@@ -276,7 +276,7 @@ return (
               Les Collections<br /><em style={{ color: C.gold }}>Maison Drouet</em>
             </h2>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(360px, 1fr))", gap: "2px", background: C.border }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(360px, 100%), 1fr))", gap: "2px", background: C.border }}>
             {COLLECTIONS.map((col, i) => {
               const ref = useRef<HTMLDivElement>(null);
               const inView = useInView(ref, { once: true });
@@ -362,7 +362,7 @@ return (
               Ce Que l'On Dit<br /><em style={{ color: C.gold }}>de Drouet</em>
             </h2>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(360px, 1fr))", gap: "2px", background: C.border, marginBottom: "4rem" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(360px, 100%), 1fr))", gap: "2px", background: C.border, marginBottom: "4rem" }}>
             {PRESS.map((item, i) => {
               const ref = useRef<HTMLDivElement>(null);
               const inView = useInView(ref, { once: true });

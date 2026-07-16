@@ -313,7 +313,7 @@ return (
               View All →
             </Link>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(360px, 1fr))", gap: 4 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(360px, 100%), 1fr))", gap: 4 }}>
             {portfolioItems.map((item, i) => (
               <motion.div
                 key={item.id}

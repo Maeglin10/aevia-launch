@@ -133,20 +133,6 @@ function AnimatedPaw() {
       >
         Urgences 24h/7j
       </motion.div>
-      <motion.div
-        style={{
-          position: "absolute", bottom: 36, left: 0,
-          background: C.white, border: `1px solid ${C.border}`,
-          borderRadius: 12, padding: "9px 17px",
-          fontSize: 13, fontWeight: 700, fontFamily: FONT,
-          color: C.text, boxShadow: C.shadow, zIndex: 2,
-        }}
-        initial={{ opacity: 0, x: -20 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ delay: 1.6, duration: 0.5 }}
-      >
-        4.8 / 5 — 2 400+ avis
-      </motion.div>
     </motion.div>
   );
 }
@@ -219,7 +205,7 @@ function PetTabs() {
           transition={{ duration: 0.3 }}
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
+            gridTemplateColumns: "repeat(auto-fit, minmax(min(180px, 100%), 1fr))",
             gap: 14,
             maxWidth: 800,
             margin: "0 auto",
@@ -451,7 +437,7 @@ function Services() {
         </p>
       </motion.div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 24, maxWidth: 1100, margin: "0 auto 60px" }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(280px, 100%), 1fr))", gap: 24, maxWidth: 1100, margin: "0 auto 60px" }}>
         {SERVICES.map((s, i) => (
           <motion.div
             key={s.title}
@@ -507,7 +493,7 @@ function Stats() {
       ref={ref}
       style={{ padding: "90px 80px", background: `linear-gradient(135deg, ${C.accent} 0%, ${C.accentDark} 100%)`, fontFamily: FONT }}
     >
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: 40, maxWidth: 960, margin: "0 auto" }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(180px, 100%), 1fr))", gap: 40, maxWidth: 960, margin: "0 auto" }}>
         {stats.map((s, i) => (
           <motion.div
             key={s.label}
@@ -548,7 +534,7 @@ function Team() {
         </h2>
       </motion.div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 28, maxWidth: 960, margin: "0 auto" }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(280px, 100%), 1fr))", gap: 28, maxWidth: 960, margin: "0 auto" }}>
         {TEAM.map((doc, i) => (
           <motion.div
             key={doc.name}
@@ -596,7 +582,7 @@ function Testimonials() {
         </h2>
       </motion.div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 24, maxWidth: 1000, margin: "0 auto" }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(280px, 100%), 1fr))", gap: 24, maxWidth: 1000, margin: "0 auto" }}>
         {TESTIMONIALS.map((t, i) => (
           <motion.div
             key={t.name}
@@ -667,7 +653,7 @@ function Pricing() {
         <p style={{ color: C.textMuted, fontSize: 16 }}>Remboursement assurance animaux partenaires — Sans engagement</p>
       </motion.div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 28, maxWidth: 980, margin: "0 auto", alignItems: "start" }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(280px, 100%), 1fr))", gap: 28, maxWidth: 980, margin: "0 auto", alignItems: "start" }}>
         {PLANS.map((p, i) => (
           <motion.div
             key={p.name}

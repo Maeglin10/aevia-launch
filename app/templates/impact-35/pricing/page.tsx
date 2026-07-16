@@ -206,7 +206,7 @@ export default function PricingPage() {
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
+            gridTemplateColumns: "repeat(auto-fit, minmax(min(240px, 100%), 1fr))",
             gap: 20,
             marginBottom: 72,
           }}
@@ -305,7 +305,7 @@ export default function PricingPage() {
         <SectionReveal delay={0.1}>
           <div style={{ marginBottom: 72 }}>
             <h2 style={{ fontSize: 24, fontWeight: 800, color: C.slate, marginBottom: 24 }}>Salles de Réunion — Tarifs à la carte</h2>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))", gap: 16 }}>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(250px, 100%), 1fr))", gap: 16 }}>
               {[
                 { label: "À l'heure", price: `${meetingRoom.heure}€/h`, desc: "Réservation flexible, disponibilité en temps réel" },
                 { label: "Demi-journée", price: `${meetingRoom.demiJournee}€`, desc: "4 heures consécutives, café et thé inclus" },

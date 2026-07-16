@@ -1076,7 +1076,7 @@ function SoinsSection() {
   };
   const grid: React.CSSProperties = {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(min(300px, 100%), 1fr))',
     gap: 'clamp(22px,3vw,40px)',
     maxWidth: 1260,
     margin: '0 auto',
@@ -1409,7 +1409,7 @@ function TestimonialsSection() {
   };
   const grid: React.CSSProperties = {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(min(300px, 100%), 1fr))',
     gap: 'clamp(24px,3vw,40px)',
     maxWidth: 1260,
     margin: '0 auto',
@@ -1894,7 +1894,7 @@ function FinancementSection() {
   };
   const grid: React.CSSProperties = {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(min(260px, 100%), 1fr))',
     gap: 'clamp(20px,2.8vw,36px)',
     maxWidth: 1260,
     margin: '0 auto',
@@ -2134,7 +2134,7 @@ function TechnoSection() {
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(270px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(270px, 100%), 1fr))',
             gap: 'clamp(18px,2.5vw,32px)',
           }}
         >
@@ -2365,7 +2365,7 @@ function EquipeSection() {
   };
   const grid: React.CSSProperties = {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(min(300px, 100%), 1fr))',
     gap: 'clamp(22px,3vw,38px)',
     maxWidth: 1260,
     margin: '0 auto',

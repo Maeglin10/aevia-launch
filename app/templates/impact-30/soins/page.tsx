@@ -116,7 +116,7 @@ export default function SoinsPage() {
                 </p>
 
                 <h4 style={{ fontSize: 14, fontWeight: 700, textTransform: "uppercase", letterSpacing: 0.5, color: C.text, marginBottom: 12 }}>Avantages Clés</h4>
-                <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 12 }}>
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(220px, 100%), 1fr))", gap: 12 }}>
                   {s.advantages.map((adv) => (
                     <div key={adv} style={{ display: "flex", gap: 8, alignItems: "start", fontSize: 13, color: C.text, fontWeight: 500 }}>
                       <CheckCircle size={16} color={C.accent} style={{ marginTop: 2, flexShrink: 0 }} />

@@ -152,7 +152,7 @@ return (
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
+              gridTemplateColumns: "repeat(auto-fit, minmax(min(320px, 100%), 1fr))",
               gap: 80,
               alignItems: "center",
             }}
@@ -419,7 +419,7 @@ return (
             </div>
           </SectionReveal>
 
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 28 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(280px, 100%), 1fr))", gap: 28 }}>
             {SERVICES.map((service, i) => (
               <SectionReveal key={service.name} delay={i * 0.12}>
                 <div
@@ -494,7 +494,7 @@ return (
             </div>
           </SectionReveal>
 
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 40 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(200px, 100%), 1fr))", gap: 40 }}>
             {STATS.map((s, i) => (
               <Counter key={s.label} end={s.end} suffix={s.suffix} label={s.label} delay={i * 0.15} />
             ))}
@@ -513,7 +513,7 @@ return (
             </div>
           </SectionReveal>
 
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: 24 }}>
             {CASE_STUDIES.map((cs, i) => (
               <SectionReveal key={cs.company} delay={i * 0.1}>
                 <div
@@ -609,7 +609,7 @@ return (
               </h2>
             </div>
           </SectionReveal>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: 24 }}>
             {TESTIMONIALS.map((t, i) => (
               <SectionReveal key={t.name} delay={i * 0.1}>
                 <div

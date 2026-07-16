@@ -334,8 +334,8 @@ export default function Impact26() {
             className="text-6xl md:text-9xl leading-[0.9] mb-8"
             style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}
           >{c?.heroHeadline ?? <>
-            L'art du<br />
-            <em>invisible.</em>
+            L'art de<br />
+            <em>l'invisible.</em>
           </>}</motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -702,7 +702,7 @@ function BoutiquePage({ selectedProduct, setSelectedProduct, goTo }: BoutiquePag
           ← Retour à la collection
         </button>
 
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 64 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(280px, 100%), 1fr))", gap: 64 }}>
           {/* Visual wrapper */}
           <div
             style={{
@@ -817,7 +817,7 @@ function BoutiquePage({ selectedProduct, setSelectedProduct, goTo }: BoutiquePag
         </p>
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(250px, 1fr))", gap: 32 }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(min(250px, 100%), 1fr))", gap: 32 }}>
         {products.map((product) => (
           <div
             key={product.name}
@@ -992,7 +992,7 @@ function ContactPage() {
         <div style={{width: 48, height: 1, background: brand ?? '#c9956a', margin: "0 auto" }} />
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 64 }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(280px, 100%), 1fr))", gap: 64 }}>
         {/* Form */}
         <div>
           <AnimatePresence mode="wait">

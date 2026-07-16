@@ -526,7 +526,7 @@ function ServicesSection() {
 
         <div style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(min(260px, 100%), 1fr))',
           gap: 2,
         }}>
           {SERVICES.map((service, i) => (
@@ -843,7 +843,7 @@ function StatsSection() {
       <div style={{ maxWidth: 1200, margin: '0 auto' }}>
         <div style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(min(220px, 100%), 1fr))',
           gap: 0,
         }}>
           {STATS.map((stat, i) => (
@@ -953,7 +953,7 @@ function MaterialsSection() {
 
         <div style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(min(260px, 100%), 1fr))',
           gap: 16,
         }}>
           {MATERIALS.map((mat, i) => (
@@ -1107,7 +1107,7 @@ function ProjectsSection() {
 
         <div style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(min(280px, 100%), 1fr))',
           gap: 24,
         }}>
           {PROJECTS.map((project, i) => (
@@ -1403,7 +1403,7 @@ function TeamSection() {
 
         <div style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(min(260px, 100%), 1fr))',
           gap: 2,
         }}>
           {TEAM.map((member, i) => (

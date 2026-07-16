@@ -33,7 +33,7 @@ export default function BoutiquePage() {
             <TemplateIcon emoji={cat.emoji} size={32} />
             <h2 style={{ fontFamily: FONT_HEADING, fontSize: 28, fontWeight: 700, color: C.text }}>{cat.title}</h2>
           </motion.div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 22 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(260px, 100%), 1fr))", gap: 22 }}>
             {cat.items.map((item, i) => (
               <motion.div
                 key={item.name}

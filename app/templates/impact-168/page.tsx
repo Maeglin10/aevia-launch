@@ -2455,7 +2455,7 @@ function BoutiquePage({
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))",
+            gridTemplateColumns: "repeat(auto-fill, minmax(min(240px, 100%), 1fr))",
             gap: 16,
           }}
         >
@@ -2670,7 +2670,7 @@ function ProductDetail({
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
+          gridTemplateColumns: "repeat(auto-fit, minmax(min(320px, 100%), 1fr))",
           gap: "clamp(32px, 5vw, 72px)",
           alignItems: "start",
         }}
@@ -2947,7 +2947,7 @@ function BlogPage({
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
+            gridTemplateColumns: "repeat(auto-fill, minmax(min(300px, 100%), 1fr))",
             gap: 24,
           }}
         >
@@ -3030,7 +3030,7 @@ function AboutPage({ goTo }: { goTo: (p: EclatPage) => void }) {
       </section>
 
       <section style={{ padding: "0 clamp(20px, 6vw, 64px) clamp(48px, 7vw, 80px)" }}>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 2, maxWidth: 1000, margin: "0 auto" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(260px, 100%), 1fr))", gap: 2, maxWidth: 1000, margin: "0 auto" }}>
           {values.map((v, i) => (
             <motion.div
               key={v.title}
@@ -3049,7 +3049,7 @@ function AboutPage({ goTo }: { goTo: (p: EclatPage) => void }) {
       </section>
 
       <section style={{ padding: "clamp(64px, 9vw, 100px) clamp(20px, 6vw, 64px)", background: "#0A0A0A", borderTop: `1px solid ${C.border}`, borderBottom: `1px solid ${C.border}` }}>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "clamp(32px, 5vw, 80px)", alignItems: "center", maxWidth: 1100, margin: "0 auto" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: "clamp(32px, 5vw, 80px)", alignItems: "center", maxWidth: 1100, margin: "0 auto" }}>
           <div>
             <div style={{ fontSize: 10, letterSpacing: 4, color: C.gold, textTransform: "uppercase", marginBottom: 16, fontFamily: C.sans }}>
               L'atelier
@@ -3126,7 +3126,7 @@ function ContactPage() {
         subtitle="Une question sur une commande, une taille ou nos matières ? Notre équipe vous répond sous 24h ouvrées."
       />
       <section style={{ padding: "clamp(40px, 6vw, 72px) clamp(20px, 6vw, 64px) clamp(72px, 9vw, 100px)" }}>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "clamp(32px, 5vw, 64px)", maxWidth: 1000, margin: "0 auto" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(280px, 100%), 1fr))", gap: "clamp(32px, 5vw, 64px)", maxWidth: 1000, margin: "0 auto" }}>
           <div>
             {[
               { label: "Email", value: "valentinmilliand@aevia.services" },

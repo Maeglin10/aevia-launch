@@ -26,7 +26,7 @@ export default function OriginsPage() {
             </div>
           </SectionReveal>
 
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: 32 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(320px, 100%), 1fr))", gap: 32 }}>
             {ORIGINS.map((coffee, i) => (
               <SectionReveal key={coffee.name} delay={i * 0.1}>
                 <div style={{ background: C.white, borderRadius: 16, overflow: "hidden", border: `1px solid ${C.border}`, display: "flex", flexDirection: "column", height: "100%" }}>

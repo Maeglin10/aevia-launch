@@ -158,7 +158,7 @@ return (
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
+              gridTemplateColumns: "repeat(auto-fit, minmax(min(320px, 100%), 1fr))",
               gap: 80,
               alignItems: "center",
             }}
@@ -336,7 +336,7 @@ return (
             </div>
           </SectionReveal>
 
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 28 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(280px, 100%), 1fr))", gap: 28 }}>
             {SPACE_TYPES.map((space, i) => (
               <SectionReveal key={space.name} delay={i * 0.12}>
                 <div
@@ -440,7 +440,7 @@ return (
             </div>
           </SectionReveal>
 
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 20 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(220px, 100%), 1fr))", gap: 20 }}>
             {AMENITIES.map((a, i) => (
               <SectionReveal key={a.label} delay={i * 0.08}>
                 <div
@@ -486,7 +486,7 @@ return (
             maxWidth: 1200,
             margin: "0 auto",
             display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
+            gridTemplateColumns: "repeat(auto-fit, minmax(min(240px, 100%), 1fr))",
             gap: 40,
           }}
         >
@@ -526,7 +526,7 @@ return (
             </div>
           </SectionReveal>
 
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 28 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: 28 }}>
             {TESTIMONIALS.map((t, i) => (
               <SectionReveal key={t.name} delay={i * 0.1}>
                 <div

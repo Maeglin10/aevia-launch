@@ -20,7 +20,7 @@ export default function Contact() {
     <div>
       <PageHero eyebrow="Restons en contact" title="Nous contacter" subtitle="Une question sur une commande, un mariage ou un atelier ? Notre équipe vous répond sous 24h ouvrées." />
       <section style={{ background: C.bg, padding: "72px 24px 100px" }}>
-        <div style={{ maxWidth: 1000, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "clamp(32px, 5vw, 64px)" }}>
+        <div style={{ maxWidth: 1000, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(280px, 100%), 1fr))", gap: "clamp(32px, 5vw, 64px)" }}>
           <div>
             {[
               { Icon: Mail, label: "Email", value: "valentinmilliand@aevia.services" },

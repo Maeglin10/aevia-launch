@@ -979,7 +979,7 @@ function MotifSection() {
   };
   const grid: React.CSSProperties = {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(min(280px, 100%), 1fr))',
     gap: 'clamp(22px, 3vw, 38px)',
     maxWidth: 1240,
     margin: '0 auto',
@@ -1251,7 +1251,7 @@ function TestimonialsSection() {
   };
   const grid: React.CSSProperties = {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(min(300px, 100%), 1fr))',
     gap: 'clamp(24px,3vw,40px)',
     maxWidth: 1240,
     margin: '0 auto',

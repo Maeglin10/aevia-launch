@@ -1068,7 +1068,7 @@ function Vintages() {
   };
   const grid: React.CSSProperties = {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(290px, 1fr))',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(min(290px, 100%), 1fr))',
     gap: 'clamp(24px, 3vw, 44px)',
     maxWidth: 1240,
     margin: '0 auto',
@@ -1584,7 +1584,7 @@ function Testimonials() {
   };
   const grid: React.CSSProperties = {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(min(320px, 100%), 1fr))',
     gap: 'clamp(32px,4vw,64px)',
     maxWidth: 1180,
     margin: '0 auto',

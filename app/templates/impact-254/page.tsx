@@ -1123,7 +1123,7 @@ function ServiceCards() {
           maxWidth: 1240,
           margin: '0 auto',
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(min(300px, 100%), 1fr))',
           gap: 'clamp(20px,2.4vw,36px)',
         }}
       >
@@ -1460,7 +1460,7 @@ function Testimonials() {
           maxWidth: 1180,
           margin: '0 auto',
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(min(320px, 100%), 1fr))',
           gap: 'clamp(28px,3.6vw,52px)',
         }}
       >

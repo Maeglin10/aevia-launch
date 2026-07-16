@@ -277,7 +277,7 @@ export default function PierreCoPage() {
 
       {/* Stats */}
       <section style={{ background: C.navy, padding: "0 80px" }}>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", maxWidth: 1100, margin: "0 auto" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(150px, 100%), 1fr))", maxWidth: 1100, margin: "0 auto" }}>
           {STATS.map((s, i) => (
             <Reveal key={s.label} delay={i * 0.08}>
               <div style={{ padding: "36px 0", textAlign: "center", borderRight: i < 3 ? "1px solid rgba(255,255,255,0.08)" : "none" }}>
@@ -299,7 +299,7 @@ export default function PierreCoPage() {
             </h2>
           </div>
         </Reveal>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(330px, 1fr))", gap: 24, maxWidth: 1200, margin: "0 auto" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(330px, 100%), 1fr))", gap: 24, maxWidth: 1200, margin: "0 auto" }}>
           {BIENS.map((b, i) => (
             <Reveal key={b.titre} delay={i * 0.07}>
               <motion.div whileHover={{ y: -6 }} style={{ borderRadius: 12, overflow: "hidden", background: C.white, boxShadow: C.shadow, cursor: "pointer" }}>
@@ -333,7 +333,7 @@ export default function PierreCoPage() {
             <h2 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(30px, 3.5vw, 50px)", fontWeight: 400, color: C.text, marginTop: 12 }}>Un accompagnement <em>sans faille</em>.</h2>
           </div>
         </Reveal>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 28, maxWidth: 1000, margin: "0 auto" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(280px, 100%), 1fr))", gap: 28, maxWidth: 1000, margin: "0 auto" }}>
           {SERVICES.map((s, i) => (
             <Reveal key={s.titre} delay={i * 0.1}>
               <div style={{ background: C.white, borderRadius: 14, padding: "36px 32px", boxShadow: C.shadow, border: `1px solid ${C.border}` }}>
@@ -354,7 +354,7 @@ export default function PierreCoPage() {
             <h2 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(30px, 3.5vw, 50px)", fontWeight: 400, color: "#fff", marginTop: 12 }}>La confiance, notre <em style={{ color: C.accent }}>meilleure référence</em>.</h2>
           </div>
         </Reveal>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24, maxWidth: 1100, margin: "0 auto" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: 24, maxWidth: 1100, margin: "0 auto" }}>
           {TEMOIGNAGES.map((t, i) => (
             <Reveal key={t.auteur} delay={i * 0.1}>
               <div style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.09)", borderRadius: 14, padding: "32px 28px" }}>

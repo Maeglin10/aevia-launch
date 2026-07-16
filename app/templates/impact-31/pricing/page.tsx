@@ -25,7 +25,7 @@ export default function PricingPage() {
         <p style={{ color: C.textMuted, fontSize: 16 }}>Premier cours d'essai toujours gratuit — Sans engagement</p>
       </motion.div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 32, maxWidth: 1050, margin: "0 auto", alignItems: "start" }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: 32, maxWidth: 1050, margin: "0 auto", alignItems: "start" }}>
         {PLANS.map((p, i) => (
           <motion.div
             key={p.name}

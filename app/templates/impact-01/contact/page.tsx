@@ -39,7 +39,7 @@ export default function ContactPage() {
           </p>
         </motion.div>
 
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 60 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: 60 }}>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.1 }}>
             <form style={{ display: "flex", flexDirection: "column", gap: 24 }} onSubmit={(e) => e.preventDefault()}>
               <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>

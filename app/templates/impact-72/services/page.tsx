@@ -16,7 +16,7 @@ export default function ServicesPage() {
             Ce Que Nous Faisons
           </TextReveal>
         </div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: "1px", background: C.border }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(260px, 100%), 1fr))", gap: "1px", background: C.border }}>
           {SERVICES.map((svc, i) => (
             <ServiceCard key={svc.code} svc={svc} index={i} />
           ))}

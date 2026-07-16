@@ -1068,7 +1068,7 @@ function ServicesSection() {
   };
   const grid: React.CSSProperties = {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(290px, 1fr))',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(min(290px, 100%), 1fr))',
     gap: 'clamp(20px, 2.8vw, 36px)',
     maxWidth: 1240,
     margin: '0 auto',
@@ -1461,7 +1461,7 @@ function TestimonialsSection() {
   };
   const grid: React.CSSProperties = {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(min(300px, 100%), 1fr))',
     gap: 'clamp(20px, 2.8vw, 32px)',
     maxWidth: 1240,
     margin: '0 auto',
@@ -1899,7 +1899,7 @@ function CertificationsSection() {
   };
   const grid: React.CSSProperties = {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(min(220px, 100%), 1fr))',
     gap: 'clamp(16px,2.4vw,28px)',
     maxWidth: 1200,
     margin: '0 auto',
@@ -2102,7 +2102,7 @@ function ProjectsSection() {
   };
   const grid: React.CSSProperties = {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(min(300px, 100%), 1fr))',
     gap: 'clamp(20px, 2.8vw, 32px)',
     maxWidth: 1240,
     margin: '0 auto',

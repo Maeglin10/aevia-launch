@@ -1264,7 +1264,7 @@ export default function Impact198Page() {
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))",
+              gridTemplateColumns: "repeat(auto-fill, minmax(min(320px, 100%), 1fr))",
               gap: 24,
             }}
           >
@@ -1343,7 +1343,7 @@ export default function Impact198Page() {
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))",
+              gridTemplateColumns: "repeat(auto-fill, minmax(min(220px, 100%), 1fr))",
               gap: 24,
             }}
           >

@@ -48,7 +48,7 @@ export default function Blog() {
     <div>
       <PageHero eyebrow="Le journal" title="Le Blog de l'atelier" subtitle="Conseils d'entretien, fleurs de saison, inspirations mariage et culture florale, par nos fleuristes." />
       <section style={{ background: C.bg, padding: "72px 24px 100px" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: 24 }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(min(300px, 100%), 1fr))", gap: 24 }}>
           {BLOG_POSTS.map((post, i) => (
             <motion.article key={post.slug}
               initial={{ opacity: 0, y: 26 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: (i % 3) * 0.08 }}

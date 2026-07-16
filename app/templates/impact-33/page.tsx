@@ -393,7 +393,7 @@ function MenuSection() {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}
           transition={{ duration: 0.3 }}
-          style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 20, maxWidth: 1100, margin: "0 auto" }}
+          style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(260px, 100%), 1fr))", gap: 20, maxWidth: 1100, margin: "0 auto" }}
         >
           {CATEGORIES[activeCategory].items.map((item, i) => (
             <motion.div
@@ -497,7 +497,7 @@ function Stats() {
       ref={ref}
       style={{ padding: "90px 80px", background: C.text, fontFamily: FONT_BODY }}
     >
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: 40, maxWidth: 960, margin: "0 auto" }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(180px, 100%), 1fr))", gap: 40, maxWidth: 960, margin: "0 auto" }}>
         {stats.map((s, i) => (
           <motion.div
             key={s.label}
@@ -539,7 +539,7 @@ function ProductsShowcase() {
         </h2>
       </motion.div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 24, maxWidth: 1100, margin: "0 auto" }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(260px, 100%), 1fr))", gap: 24, maxWidth: 1100, margin: "0 auto" }}>
         {products.map((p, i) => (
           <motion.div
             key={p.name}
@@ -592,7 +592,7 @@ function Testimonials() {
         </h2>
       </motion.div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 24, maxWidth: 1000, margin: "0 auto" }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(280px, 100%), 1fr))", gap: 24, maxWidth: 1000, margin: "0 auto" }}>
         {TESTIMONIALS.map((t, i) => (
           <motion.div
             key={t.name}

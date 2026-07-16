@@ -16,7 +16,7 @@ export default function ServicesPage() {
             Ce Que Nous Faisons
           </h2>
         </div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: "1px", background: C.border }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(320px, 100%), 1fr))", gap: "1px", background: C.border }}>
           {SERVICES.map((svc, i) => {
             const ref = useRef<HTMLDivElement>(null);
             const inView = useInView(ref, { once: true });

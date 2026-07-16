@@ -97,7 +97,7 @@ export default function CommunityPage() {
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+              gridTemplateColumns: "repeat(auto-fit, minmax(min(200px, 100%), 1fr))",
               gap: 20,
               marginBottom: 72,
             }}
@@ -124,7 +124,7 @@ export default function CommunityPage() {
         <SectionReveal delay={0.1}>
           <div style={{ marginBottom: 72 }}>
             <h2 style={{ fontSize: 26, fontWeight: 800, color: C.slate, marginBottom: 24 }}>Membres à la une</h2>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 20 }}>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(280px, 100%), 1fr))", gap: 20 }}>
               {MEMBERS_DATA.map((m) => (
                 <div
                   key={m.name}
@@ -170,7 +170,7 @@ export default function CommunityPage() {
         <SectionReveal delay={0.15}>
           <div style={{ marginBottom: 72 }}>
             <h2 style={{ fontSize: 26, fontWeight: 800, color: C.slate, marginBottom: 24 }}>Prochains événements</h2>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 20 }}>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(280px, 100%), 1fr))", gap: 20 }}>
               {EVENTS_DATA.map((ev) => (
                 <div
                   key={ev.title}
@@ -215,7 +215,7 @@ export default function CommunityPage() {
         <SectionReveal delay={0.2}>
           <div style={{ marginBottom: 64 }}>
             <h2 style={{ fontSize: 26, fontWeight: 800, color: C.slate, marginBottom: 24 }}>Ils en parlent</h2>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 20 }}>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: 20 }}>
               {TESTIMONIALS_DATA.map((t) => (
                 <div
                   key={t.name}

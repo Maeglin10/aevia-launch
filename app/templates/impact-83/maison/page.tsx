@@ -12,7 +12,7 @@ export default function MaisonPage() {
       <div style={{ maxWidth: 1200, margin: "0 auto" }}>
         
         {/* Stats */}
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 30, marginBottom: 100 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(200px, 100%), 1fr))", gap: 30, marginBottom: 100 }}>
           {STATS.map((stat, i) => (
             <Reveal key={i} delay={i * 0.1}>
               <div style={{ background: C.bgCard, border: `1px solid ${C.border}`, padding: 40, textAlign: "center" }}>
@@ -28,7 +28,7 @@ export default function MaisonPage() {
         </div>
 
         {/* Story */}
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 60, marginBottom: 100, alignItems: "center" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: 60, marginBottom: 100, alignItems: "center" }}>
           <Reveal>
             <span style={{ fontFamily: FONT_LABEL, fontSize: 10, letterSpacing: "0.3em", color: C.accent, textTransform: "uppercase" }}>
               Manufacture Historique
@@ -58,7 +58,7 @@ export default function MaisonPage() {
               Le Conseil de la <em>Maison</em>
             </h2>
           </Reveal>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))", gap: 30 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(250px, 100%), 1fr))", gap: 30 }}>
             {TEAM.map((member, idx) => (
               <Reveal key={idx} delay={idx * 0.1}>
                 <div style={{ background: C.bgCard, border: `1px solid ${C.border}`, padding: 30, height: "100%" }}>

@@ -288,7 +288,7 @@ export default function EncreNoirePage() {
             <h2 style={{ fontFamily: FONT, fontSize: "clamp(30px, 4vw, 52px)", color: C.text, marginTop: 10, lineHeight: 1.1 }}>Chaque style,<br /><em>une signature propre.</em></h2>
           </div>
         </Reveal>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 18, maxWidth: 1200, margin: "0 auto" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: 18, maxWidth: 1200, margin: "0 auto" }}>
           {STYLES.map((s, i) => (
             <Reveal key={s.titre} delay={i * 0.07}>
               <motion.div whileHover={{ y: -4, borderColor: C.accent }} style={{ background: C.bgSection, borderRadius: 8, padding: "26px 24px", border: `1px solid ${C.border}` }}>
@@ -327,7 +327,7 @@ export default function EncreNoirePage() {
           <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Avis clients</span>
           <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 3.5vw, 48px)", color: C.text, marginTop: 10 }}>Ils portent <em style={{ color: C.accent }}>nos œuvres.</em></h2>
         </div></Reveal>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 18, maxWidth: 1100, margin: "0 auto" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: 18, maxWidth: 1100, margin: "0 auto" }}>
           {AVIS.map((a, i) => (
             <Reveal key={a.auteur} delay={i * 0.1}>
               <div style={{ background: C.bgSection, border: `1px solid ${C.border}`, borderRadius: 8, padding: "28px 24px" }}>

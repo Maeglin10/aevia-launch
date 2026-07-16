@@ -252,7 +252,7 @@ export default function NeuralisPage() {
       </AnimatePresence>
 
       {/* ── HERO ── */}
-      <section id="hero" className="relative h-[100svh] flex items-center overflow-hidden">
+      <section id="hero" className="relative h-[100svh] flex items-center overflow-hidden pt-24 md:pt-0">
         <div className="absolute inset-0">
           <Image src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=1600&q=80" alt="Cyber Grid" fill className="object-cover opacity-20 mix-blend-screen" priority />
           <div className="absolute inset-0 bg-gradient-to-b from-[#020204] via-transparent to-[#020204]" />

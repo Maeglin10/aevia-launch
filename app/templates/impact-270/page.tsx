@@ -1124,7 +1124,7 @@ function ArtistCards() {
   };
   const grid: React.CSSProperties = {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(min(240px, 100%), 1fr))',
     gap: 'clamp(20px,2.8vw,36px)',
     maxWidth: 1240,
     margin: '0 auto',
@@ -1473,7 +1473,7 @@ function Testimonials() {
   };
   const grid: React.CSSProperties = {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(min(320px, 100%), 1fr))',
     gap: 'clamp(28px,4vw,56px)',
     maxWidth: 1180,
     margin: '0 auto',

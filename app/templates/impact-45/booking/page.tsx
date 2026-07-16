@@ -26,7 +26,7 @@ export default function BookingPage() {
           <p style={{ fontSize: 17, color: C.textMuted, maxWidth: 520, margin: "0 auto" }}>Every session begins with a free consultation. We quote before we begin — no surprises.</p>
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 24, marginBottom: 80 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(260px, 100%), 1fr))", gap: 24, marginBottom: 80 }}>
           {bookingTiers.map((tier) => (
             <div
               key={tier.name}

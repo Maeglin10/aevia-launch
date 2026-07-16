@@ -209,7 +209,7 @@ return (
 
       {/* ── Stats strip ─────────────────────────────────────────────────── */}
       <section style={{ borderTop: `1px solid ${C.border}`, borderBottom: `1px solid ${C.border}` }}>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(220px, 100%), 1fr))" }}>
           {[
             { n: 23, suffix: "", label: "années d'exercice" },
             { n: 85, suffix: "+", label: "projets réalisés" },
@@ -292,7 +292,7 @@ return (
               Typologies
             </h2>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: "2px", background: C.border }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(260px, 100%), 1fr))", gap: "2px", background: C.border }}>
             {[
               { num: "01", title: "Résidentiel", desc: "Maisons particulières et ensembles résidentiels, du studio à la villa — attention portée à chaque plan de vie." },
               { num: "02", title: "Tertiaire", desc: "Immeubles de bureaux, hôtels et complexes mixtes. Architecture de représentation, technicité constructive." },

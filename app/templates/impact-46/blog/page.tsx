@@ -51,7 +51,7 @@ export default function Blog() {
       />
       <section style={{ background: C.bg, padding: "100px 32px" }}>
         <div style={{ maxWidth: 1280, margin: "0 auto" }}>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: 24 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(min(300px, 100%), 1fr))", gap: 24 }}>
             {blogPosts.map((p, i) => (
               <motion.article
                 key={p.slug}

@@ -1010,7 +1010,7 @@ function SpecialitesSection() {
   };
   const grid: React.CSSProperties = {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(290px, 1fr))',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(min(290px, 100%), 1fr))',
     gap: 'clamp(22px,2.8vw,38px)',
     maxWidth: 1200,
     margin: '0 auto',
@@ -1391,7 +1391,7 @@ function TestimonialsSection() {
   };
   const grid: React.CSSProperties = {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(min(300px, 100%), 1fr))',
     gap: 'clamp(26px,3.2vw,44px)',
     maxWidth: 1220,
     margin: '0 auto',
@@ -1977,7 +1977,7 @@ function VoyageSection() {
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(260px, 100%), 1fr))',
             gap: 'clamp(18px,2.4vw,30px)',
             marginBottom: 70,
           }}
@@ -1992,7 +1992,7 @@ function VoyageSection() {
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(280px, 100%), 1fr))',
             gap: 'clamp(20px,2.8vw,36px)',
           }}
           className="r285-conseilsgrid"
@@ -2110,7 +2110,7 @@ function InfoSection() {
   };
   const grid: React.CSSProperties = {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(min(280px, 100%), 1fr))',
     gap: 'clamp(22px,2.6vw,36px)',
     maxWidth: 1200,
     margin: '0 auto',
@@ -2362,7 +2362,7 @@ function TeamSection() {
   };
   const grid: React.CSSProperties = {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(min(300px, 100%), 1fr))',
     gap: 'clamp(24px,3vw,42px)',
     maxWidth: 1220,
     margin: '0 auto',

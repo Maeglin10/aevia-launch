@@ -208,7 +208,7 @@ export default function ChronosLuxuryPage() {
         {page === "home" && (
           <>
             {/* ── HERO ──────────────────── */}
-            <section id="hero" className="relative h-dvh flex items-center justify-center overflow-hidden">
+            <section id="hero" className="relative h-dvh flex items-center justify-center overflow-hidden pt-24 md:pt-0">
               <div className="absolute inset-0">
                 <Image src="https://images.unsplash.com/photo-1547996160-81dfa63595aa?auto=format&fit=crop&q=80&w=2400" alt="Chronos Watch" fill className="object-cover opacity-40 scale-105" priority />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-transparent" />

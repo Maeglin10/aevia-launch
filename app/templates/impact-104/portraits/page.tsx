@@ -42,7 +42,7 @@ export default function Page() {
         </div>
 
         {/* Gallery Grid */}
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))", gap: 32 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(min(320px, 100%), 1fr))", gap: 32 }}>
             <div 
 
               style={{

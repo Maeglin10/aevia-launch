@@ -576,7 +576,7 @@ return (
           <div
             style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(min(340px, 100%), 1fr))',
               gap: '1px',
               background: C.border,
             }}
@@ -647,7 +647,7 @@ return (
           <div
             style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(min(220px, 100%), 1fr))',
             }}
           >
             {STATS.map((stat, i) => (
@@ -711,7 +711,7 @@ return (
           <div
             style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(min(220px, 100%), 1fr))',
               border: `1px solid ${C.border}`,
             }}
           >
@@ -820,7 +820,7 @@ return (
                 Les Architectes<br /><span style={{ fontWeight: 300, fontStyle: 'italic', color: C.textMuted }}>du Mouvement</span>
               </h2>
             </Reveal>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '4rem' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(300px, 100%), 1fr))', gap: '4rem' }}>
               {[
                 { name: 'Léa Duval', role: 'Directrice Créative & Fondatrice', since: '2014', bio: 'Ancienne DOP chez Partizan, Léa a fondé le studio après 8 ans à diriger la photographie pour des marques comme Dior et Nike. Elle supervise toutes les directions artistiques.' },
                 { name: 'Marcus Stein', role: 'Directeur Technique / VFX Lead', since: '2015', bio: 'Formé au FxPhD, Marcus a développé le pipeline de rendu propriétaire du studio. Il a reçu deux prix AICP pour ses travaux sur la simulation de particules et de fluides.' },
@@ -850,7 +850,7 @@ return (
               <p style={{ fontFamily: "'Syne', sans-serif", fontSize: '0.65rem', fontWeight: 800, letterSpacing: '0.4em', color: C.violet, textTransform: 'uppercase', marginBottom: '1.5rem' }}>Process · Méthode</p>
               <h2 style={{ fontFamily: "'Syne', sans-serif", fontWeight: 900, fontSize: 'clamp(2rem, 4vw, 4rem)', color: C.text, textTransform: 'uppercase', lineHeight: 1, marginBottom: '5rem' }}>Comment on crée.</h2>
             </Reveal>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '0', borderTop: `1px solid ${C.border}` }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(280px, 100%), 1fr))', gap: '0', borderTop: `1px solid ${C.border}` }}>
               {[
                 { num: '01', label: 'Brief Déconstruit', desc: 'Chaque projet commence par une session de 2h où nous défaisons activement le brief. Nous cherchons ce que la marque ne sait pas encore qu\'elle veut dire.' },
                 { num: '02', label: 'Concept Cinétique', desc: 'Livraison de 3 concepts de mouvement sous forme de storyboards animatiques. Pas de moodboards statiques — seul le mouvement révèle le vrai potentiel.' },

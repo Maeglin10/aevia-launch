@@ -87,7 +87,7 @@ export default function DestinationsPage() {
         </div>
 
         {/* Catalog Grid */}
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(360px, 1fr))", gap: 32 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(min(360px, 100%), 1fr))", gap: 32 }}>
           {ALL_DESTINATIONS.map((item, i) => (
             <div 
               key={item.name}

@@ -1335,7 +1335,7 @@ export default function Page() {
           title="Prestations sur Mesure"
           subtitle="Chaque soin est pensé comme un rituel. Nos tarifs incluent le diagnostic, le soin, et le brushing de finition."
         />
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '2px', background: GRAY_LIGHT }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(320px, 100%), 1fr))', gap: '2px', background: GRAY_LIGHT }}>
           {SERVICES.map((service, i) => (
             <div key={service.name} style={{ background: BG }}>
               <ServiceCard service={service} index={i} />
@@ -1464,7 +1464,7 @@ export default function Page() {
           title="Nos Artisans Coiffeurs"
           subtitle="Des professionnels passionnés, formés dans les plus grandes maisons parisiennes."
         />
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '2px', background: GRAY_LIGHT }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(240px, 100%), 1fr))', gap: '2px', background: GRAY_LIGHT }}>
           {STYLISTS.map((stylist) => (
             <div key={stylist.name} style={{ background: BG, position: 'relative', overflow: 'hidden', minHeight: '340px' }}>
               <StylistCard stylist={stylist} />
@@ -1491,7 +1491,7 @@ export default function Page() {
             </h2>
           </motion.div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: '3px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(340px, 100%), 1fr))', gap: '3px' }}>
             {Array.from({ length: 6 }).map((_, i) => (
               <GalleryTile key={i} index={i} />
             ))}
@@ -1506,7 +1506,7 @@ export default function Page() {
             eyebrow="Témoignages"
             title="Ce que disent nos clientes"
           />
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '24px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(280px, 100%), 1fr))', gap: '24px' }}>
             {[
               { name: 'Sophie M.', text: 'Le meilleur balayage que j\'aie jamais eu. Camille a su exactement ce que je voulais sans que j\'aie à l\'expliquer deux fois. Je reviens depuis 4 ans.', rating: 5 },
               { name: 'Clara R.', text: 'L\'ambiance est feutrée et luxueuse, le café offert, et Hugo m\'a donné une coupe qui a changé ma vie. Je ne vais nulle part ailleurs.', rating: 5 },
@@ -1586,7 +1586,7 @@ export default function Page() {
             </h2>
           </motion.div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '40px', marginBottom: '60px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(200px, 100%), 1fr))', gap: '40px', marginBottom: '60px' }}>
             {[
               { icon: '📍', label: 'Adresse', lines: ['14 rue de Varenne', '75007 Paris'] },
               { icon: '📞', label: 'Téléphone', lines: ['+33 1 42 22 33 44'] },

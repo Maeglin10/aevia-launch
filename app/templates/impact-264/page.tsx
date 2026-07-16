@@ -1045,7 +1045,7 @@ function SpecialtyCards() {
   };
   const grid: React.CSSProperties = {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(min(280px, 100%), 1fr))',
     gap: 'clamp(16px,2vw,28px)',
     maxWidth: 1200,
     margin: '0 auto',
@@ -1409,7 +1409,7 @@ function Testimonials() {
   };
   const grid: React.CSSProperties = {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(min(300px, 100%), 1fr))',
     gap: 'clamp(28px,4vw,56px)',
     maxWidth: 1160,
     margin: '0 auto',

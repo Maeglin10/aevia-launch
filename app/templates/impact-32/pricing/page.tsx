@@ -32,7 +32,7 @@ export default function PricingPage() {
           <h2 style={{ fontSize: "clamp(28px, 3vw, 44px)", fontWeight: 800, color: C.text, letterSpacing: -1, marginBottom: 14 }}>Plans de soins transparents</h2>
           <p style={{ color: C.textMuted, fontSize: 16 }}>Remboursement assurance animaux partenaires — Sans engagement</p>
         </div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 28, maxWidth: 980, margin: "0 auto", alignItems: "start" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(280px, 100%), 1fr))", gap: 28, maxWidth: 980, margin: "0 auto", alignItems: "start" }}>
           {PLANS.map((p, i) => (
             <div key={p.name}
               style={{ background: p.highlight ? C.text : C.bgSection, borderRadius: 24, padding: "38px 32px", border: p.highlight ? "none" : `1.5px solid ${C.border}`, boxShadow: p.highlight ? C.shadowLg : C.shadow, position: "relative", overflow: "hidden" }}>

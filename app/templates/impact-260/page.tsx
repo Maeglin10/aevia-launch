@@ -1225,7 +1225,7 @@ function ServiceCards() {
   };
   const grid: React.CSSProperties = {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(min(280px, 100%), 1fr))',
     gap: 'clamp(16px,2.4vw,32px)',
     maxWidth: 1280,
     margin: '0 auto',
@@ -1549,7 +1549,7 @@ function Testimonials() {
   };
   const grid: React.CSSProperties = {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(min(320px, 100%), 1fr))',
     gap: 'clamp(24px,3.5vw,48px)',
     maxWidth: 1280,
     margin: '0 auto',

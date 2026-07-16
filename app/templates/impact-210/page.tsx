@@ -949,7 +949,7 @@ function ServicesSection({ accentColor }: { accentColor: string }) {
       <div
         style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
+          gridTemplateColumns: 'repeat(auto-fill, minmax(min(280px, 100%), 1fr))',
           gap: 24,
         }}
       >
@@ -1807,7 +1807,7 @@ function TestimonialsSection({ accentColor }: { accentColor: string }) {
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(min(300px, 100%), 1fr))',
             gap: 24,
           }}
         >
@@ -1913,7 +1913,7 @@ function ContactSection({ accentColor }: { accentColor: string }) {
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(min(240px, 100%), 1fr))',
             gap: 24,
             marginBottom: 56,
           }}

@@ -726,7 +726,7 @@ const StatsBand: React.FC = () => (
     <div
       style={{
         display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(min(200px, 100%), 1fr))',
         gap: 'clamp(28px, 4vw, 48px)',
       }}
     >
@@ -1029,7 +1029,7 @@ const Selection: React.FC = () => (
     <div
       style={{
         display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(min(300px, 100%), 1fr))',
         gap: 'clamp(24px, 3vw, 36px)',
       }}
     >
@@ -1706,7 +1706,7 @@ const Testimonials: React.FC = () => (
     <div
       style={{
         display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(min(320px, 100%), 1fr))',
         gap: 'clamp(24px, 3vw, 40px)',
       }}
     >

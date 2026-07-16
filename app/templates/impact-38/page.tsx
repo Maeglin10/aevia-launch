@@ -886,7 +886,7 @@ return (
               </h2>
             </div>
           </SectionReveal>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))", gap: 16 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(140px, 100%), 1fr))", gap: 16 }}>
             {IMPACT_STATS.map((stat, i) => (
               <ImpactMetric key={stat.label} stat={stat} index={i} />
             ))}
@@ -963,7 +963,7 @@ return (
             </div>
           </SectionReveal>
 
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: 24 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(min(300px, 100%), 1fr))", gap: 24 }}>
             {filteredProducts.map((product, i) => (
               <ProductCard key={product.id} product={product} index={i} />
             ))}

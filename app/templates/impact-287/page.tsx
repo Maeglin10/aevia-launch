@@ -1184,7 +1184,7 @@ function ProgramsSection() {
   };
   const grid: React.CSSProperties = {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(min(300px, 100%), 1fr))',
     gap: 'clamp(22px, 3vw, 42px)',
     maxWidth: 1240,
     margin: '0 auto',
@@ -1510,7 +1510,7 @@ function TransformationSection() {
   };
   const grid: React.CSSProperties = {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(min(300px, 100%), 1fr))',
     gap: 'clamp(22px, 3vw, 40px)',
     maxWidth: 1240,
     margin: '0 auto',
@@ -2476,7 +2476,7 @@ function OutdoorSection() {
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(260px, 100%), 1fr))',
             gap: 'clamp(18px, 2.5vw, 32px)',
           }}
           className="r287-outdoor-grid"

@@ -20,7 +20,7 @@ export default function ContactPage() {
           </div>
         </SectionReveal>
 
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: "2.5rem", marginBottom: "2.5rem" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(320px, 100%), 1fr))", gap: "2.5rem", marginBottom: "2.5rem" }}>
           <SectionReveal>
             <div style={{ backgroundColor: C.bgDark, borderRadius: "1.75rem", padding: "2.5rem", height: "100%" }}>
               <h2 style={{ fontFamily: C.headingFont, fontSize: "1.3rem", fontWeight: 700, color: C.bg, marginBottom: "1.75rem" }}>

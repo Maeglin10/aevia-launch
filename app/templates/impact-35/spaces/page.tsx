@@ -110,7 +110,7 @@ export default function SpacesPage() {
               padding: 40,
               marginBottom: 72,
               display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+              gridTemplateColumns: "repeat(auto-fit, minmax(min(280px, 100%), 1fr))",
               gap: 48,
               alignItems: "center",
             }}
@@ -154,7 +154,7 @@ export default function SpacesPage() {
                   overflow: "hidden",
                   border: `1px solid ${C.border}`,
                   display: "grid",
-                  gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+                  gridTemplateColumns: "repeat(auto-fit, minmax(min(280px, 100%), 1fr))",
                 }}
               >
                 <div style={{ order: i % 2 === 0 ? 1 : 2 }}>

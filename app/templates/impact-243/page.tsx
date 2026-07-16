@@ -1127,7 +1127,7 @@ function ConsultationCards() {
   };
   const grid: React.CSSProperties = {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(min(280px, 100%), 1fr))',
     gap: 'clamp(20px,2.6vw,36px)',
     maxWidth: 1240,
     margin: '0 auto',

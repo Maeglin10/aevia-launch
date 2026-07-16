@@ -253,7 +253,7 @@ return (
             </div>
           </SectionReveal>
 
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 20 }} className="grid lg:grid-cols-2 md:grid-cols-1">
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(260px, 100%), 1fr))", gap: 20 }} className="grid lg:grid-cols-2 md:grid-cols-1">
             {SERVICES_DATA.slice(0, 4).map((service, i) => (
               <SectionReveal key={service.name} delay={i * 0.1}>
                 <Link href="/templates/impact-39/services" style={{ textDecoration: "none" }}>
@@ -308,7 +308,7 @@ return (
 
       {/* STATS */}
       <section style={{ padding: "80px 5%", background: C.navy }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))", gap: 40 }} className="grid sm:grid-cols-2">
+        <div style={{ maxWidth: 1200, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(250px, 100%), 1fr))", gap: 40 }} className="grid sm:grid-cols-2">
           {STATS.map((s, i) => <StatCard key={s.label} stat={s} delay={i * 0.1} />)}
         </div>
       </section>
@@ -325,7 +325,7 @@ return (
               <h2 style={{ fontSize: "clamp(30px, 4vw, 46px)", fontWeight: 900, color: C.navy, marginBottom: 12 }}>18 400+ déménagements réussis</h2>
             </div>
           </SectionReveal>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(360px, 1fr))", gap: 24 }} className="grid md:grid-cols-1">
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(360px, 100%), 1fr))", gap: 24 }} className="grid md:grid-cols-1">
             {TESTIMONIALS.map((t, i) => (
               <SectionReveal key={t.name} delay={i * 0.1}>
                 <div style={{ background: C.bgAlt, borderRadius: 16, padding: 32, border: `1px solid ${C.border}`, display: "flex", flexDirection: "column", gap: 18 }}>
@@ -358,7 +358,7 @@ return (
               <p style={{ fontSize: 17, color: C.textMuted, maxWidth: 480, margin: "0 auto" }}>Estimation ferme uniquement. Ce que nous annonçons, vous payez. Pas de surprise.</p>
             </div>
           </SectionReveal>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 24, maxWidth: 900, margin: "0 auto" }} className="grid md:grid-cols-1">
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(260px, 100%), 1fr))", gap: 24, maxWidth: 900, margin: "0 auto" }} className="grid md:grid-cols-1">
             {PRICING_CARDS.map((plan, i) => (
               <SectionReveal key={plan.name} delay={i * 0.12}>
                 <div style={{ background: plan.highlight ? C.navy : C.white, borderRadius: 16, padding: 32, border: plan.highlight ? `2px solid ${C.orange}` : `1px solid ${C.border}`, display: "flex", flexDirection: "column", position: "relative", height: "100%" }}>

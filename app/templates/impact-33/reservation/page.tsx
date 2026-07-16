@@ -81,7 +81,7 @@ export default function ReservationPage() {
               {/* Product selector */}
               <div style={{ marginBottom: 28 }}>
                 <label style={{ fontSize: 14, fontWeight: 700, color: C.text, display: "block", marginBottom: 10, textTransform: "uppercase", letterSpacing: 0.5 }}>1. Choisissez vos produits</label>
-                <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 10 }}>
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(200px, 100%), 1fr))", gap: 10 }}>
                   {availableProducts.map((p) => (
                     <button
                       key={p}

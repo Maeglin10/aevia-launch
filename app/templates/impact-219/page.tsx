@@ -348,7 +348,7 @@ function Hero() {
         style={{
           ...maxw,
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(min(340px, 100%), 1fr))',
           gap: 56,
           alignItems: 'center',
         }}
@@ -503,7 +503,7 @@ function Benefits() {
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(280px, 100%), 1fr))',
             gap: 22,
           }}
         >
@@ -567,7 +567,7 @@ function HowItWorks() {
           </h2>
         </div>
 
-        <div style={{ position: 'relative', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 36 }}>
+        <div style={{ position: 'relative', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(260px, 100%), 1fr))', gap: 36 }}>
           {/* connecting line */}
           <div
             className="ns-howline"
@@ -683,7 +683,7 @@ function Pricing() {
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(280px, 100%), 1fr))',
             gap: 24,
             alignItems: 'stretch',
           }}
@@ -807,7 +807,7 @@ function Testimonials() {
           </h2>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 22 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(300px, 100%), 1fr))', gap: 22 }}>
           {TESTIS.map((t, i) => (
             <motion.div
               key={t.name}
@@ -1143,7 +1143,7 @@ function Footer() {
   return (
     <footer style={{ ...pad, paddingBlock: 64, borderTop: `1px solid ${C.border}`, background: C.bgSoft }}>
       <div style={{ ...maxw }}>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: 40 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(150px, 100%), 1fr))', gap: 40 }}>
           <div style={{ minWidth: 200 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 9, marginBottom: 14 }}>
               <div

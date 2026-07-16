@@ -16,7 +16,7 @@ export default function Services() {
       />
       <section style={{ background: C.bg, padding: "100px 32px" }}>
         <div style={{ maxWidth: 1280, margin: "0 auto" }}>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: 1, background: C.border }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(320px, 100%), 1fr))", gap: 1, background: C.border }}>
             {serviceDetails.map((area, i) => (
               <motion.div
                 key={area.title}

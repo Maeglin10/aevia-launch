@@ -25,7 +25,7 @@ export default function Contact() {
         subtitle="Un premier rendez-vous de 45 minutes vous est offert. Nous évaluons votre dossier, identifions la bonne équipe et vous proposons une structure d'honoraires claire."
       />
       <section style={{ background: C.bg, padding: "100px 32px" }}>
-        <div style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "clamp(40px, 5vw, 72px)" }}>
+        <div style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: "clamp(40px, 5vw, 72px)" }}>
           {/* Info */}
           <div>
             {[

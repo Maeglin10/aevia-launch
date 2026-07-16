@@ -568,7 +568,7 @@ function ContactFAQ() {
         </h2>
       </motion.div>
 
-      <div style={{ maxWidth: 800, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(340px, 1fr))", gap: 12, alignItems: "start" }}>
+      <div style={{ maxWidth: 800, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(340px, 100%), 1fr))", gap: 12, alignItems: "start" }}>
         {CONTACT_FAQS.map((faq, i) => (
           <motion.div
             key={i}

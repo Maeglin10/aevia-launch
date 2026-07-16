@@ -276,7 +276,7 @@ export default function StudioNomaPage() {
 
       {/* Stats */}
       <section id="realisations" style={{ background: C.text, padding: "0 80px", fontFamily: FONT_SANS }}>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", maxWidth: 1100, margin: "0 auto" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(150px, 100%), 1fr))", maxWidth: 1100, margin: "0 auto" }}>
           {STATS.map((s, i) => (
             <Reveal key={s.label} delay={i * 0.08}>
               <div style={{ padding: "36px 0", textAlign: "center", borderRight: i < 3 ? "1px solid rgba(255,255,255,0.08)" : "none" }}>
@@ -298,7 +298,7 @@ export default function StudioNomaPage() {
             </h2>
           </div>
         </Reveal>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: 24, maxWidth: 1200, margin: "0 auto" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(320px, 100%), 1fr))", gap: 24, maxWidth: 1200, margin: "0 auto" }}>
           {PROJETS.map((p, i) => (
             <Reveal key={p.titre} delay={i * 0.07}>
               <motion.div whileHover={{ y: -6 }} style={{ borderRadius: 12, overflow: "hidden", background: C.white, boxShadow: C.shadow, cursor: "pointer" }}>
@@ -328,7 +328,7 @@ export default function StudioNomaPage() {
             <h2 style={{ fontFamily: FONT, fontSize: "clamp(32px, 3.5vw, 52px)", fontWeight: 300, color: C.text, marginTop: 12 }}>Un accompagnement <em>sur-mesure</em>.</h2>
           </div>
         </Reveal>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 28, maxWidth: 1000, margin: "0 auto" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(280px, 100%), 1fr))", gap: 28, maxWidth: 1000, margin: "0 auto" }}>
           {SERVICES.map((s, i) => (
             <Reveal key={s.titre} delay={i * 0.1}>
               <div style={{ background: C.white, borderRadius: 16, padding: "40px 36px", boxShadow: C.shadow, border: `1px solid ${C.border}` }}>
@@ -349,7 +349,7 @@ export default function StudioNomaPage() {
             <h2 style={{ fontFamily: FONT, fontSize: "clamp(32px, 3.5vw, 52px)", fontWeight: 300, color: "#fff", marginTop: 12 }}>La confiance de nos <em style={{ color: C.accent }}>clients</em>.</h2>
           </div>
         </Reveal>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24, maxWidth: 1100, margin: "0 auto" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: 24, maxWidth: 1100, margin: "0 auto" }}>
           {TEMOIGNAGES.map((t, i) => (
             <Reveal key={t.auteur} delay={i * 0.1}>
               <div style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.10)", borderRadius: 16, padding: "32px 28px" }}>

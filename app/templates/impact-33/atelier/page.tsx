@@ -44,7 +44,7 @@ export default function AtelierPage() {
         </div>
       </motion.div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 32, maxWidth: 1060, margin: "0 auto 60px" }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: 32, maxWidth: 1060, margin: "0 auto 60px" }}>
         {WORKSHOPS.map((ws, i) => (
           <motion.div
             key={ws.title}

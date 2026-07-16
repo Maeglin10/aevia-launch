@@ -30,7 +30,7 @@ export default function ChefPage() {
         </SectionReveal>
 
         {/* Chef profile */}
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: "4rem", alignItems: "start", marginBottom: "5rem" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(320px, 100%), 1fr))", gap: "4rem", alignItems: "start", marginBottom: "5rem" }}>
           <SectionReveal>
             <div
               style={{

@@ -335,7 +335,7 @@ return (
             margin: "0 auto",
             padding: "80px 40px",
             display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
+            gridTemplateColumns: "repeat(auto-fit, minmax(min(260px, 100%), 1fr))",
             gap: "0",
           }}
           className="grid-stats-68"
@@ -447,7 +447,7 @@ return (
               What we do<br />and <span style={{ color: C.accent }}>how we do it.</span>
             </h2>
           </motion.div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "2px", background: C.border }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(280px, 100%), 1fr))", gap: "2px", background: C.border }}>
             {[
               { num: "01", title: "Brand Strategy", desc: "Positioning, naming, messaging architecture, and competitive landscaping. We build the logic before the aesthetics." },
               { num: "02", title: "Visual Identity", desc: "Logo, type system, color, motion principles, and brand guidelines that hold up from a business card to a stadium banner." },

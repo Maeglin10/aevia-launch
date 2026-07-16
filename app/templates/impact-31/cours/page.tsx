@@ -27,7 +27,7 @@ export default function CoursPage() {
         </p>
       </motion.div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: 24, maxWidth: 1100, margin: "0 auto" }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(320px, 100%), 1fr))", gap: 24, maxWidth: 1100, margin: "0 auto" }}>
         {CLASSES.map((c, i) => (
           <motion.div
             key={`${c.day}-${c.time}`}

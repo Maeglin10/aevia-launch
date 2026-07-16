@@ -99,7 +99,7 @@ export default function SectorsPage() {
         </SectionReveal>
 
         {/* Sectors Grid */}
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 24, marginBottom: 64 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(280px, 100%), 1fr))", gap: 24, marginBottom: 64 }}>
           {SECTORS_DETAIL.map((sector, i) => (
             <SectionReveal key={sector.name} delay={i * 0.05}>
               <div

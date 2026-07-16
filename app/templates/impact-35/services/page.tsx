@@ -117,7 +117,7 @@ export default function ServicesPage() {
         </SectionReveal>
 
         {/* Services grid */}
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: 24 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(320px, 100%), 1fr))", gap: 24 }}>
           {SERVICES_DATA.map((service, i) => {
             const Icon = service.icon
             return (

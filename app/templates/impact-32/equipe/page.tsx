@@ -14,7 +14,7 @@ export default function EquipePage() {
         <p style={{ fontSize: 17, color: C.textMuted, maxWidth: 560, margin: "0 auto" }}>Une équipe pluridisciplinaire unie par l'amour des animaux et l'exigence des meilleurs soins.</p>
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 32, maxWidth: 1100, margin: "0 auto 64px" }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: 32, maxWidth: 1100, margin: "0 auto 64px" }}>
         {TEAM_DATA.map((doc, i) => (
           <motion.div key={doc.name} initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }} whileHover={{ y: -6, boxShadow: C.shadowLg }}
             style={{ background: C.white, borderRadius: 24, overflow: "hidden", border: `1px solid ${C.border}`, boxShadow: C.shadow }}>

@@ -225,7 +225,7 @@ return (
 
       {/* ── STATS ─────────────────────────────────────────────────────── */}
       <section ref={statsRef} style={{ padding: "8rem 2.5rem", background: C.bg }}>
-        <div style={{ maxWidth: "1200px", margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: "2px" }}>
+        <div style={{ maxWidth: "1200px", margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(260px, 100%), 1fr))", gap: "2px" }}>
           {STATS.map((stat, i) => (
             <motion.div
               key={i}
@@ -358,7 +358,7 @@ return (
             <span style={{ fontFamily: mono, fontSize: "0.7rem", color: C.green, letterSpacing: "0.15em", display: "block", marginBottom: "1rem" }}>// CLIENTS</span>
             <h2 style={{ fontFamily: mono, fontSize: "clamp(26px, 3vw, 42px)", fontWeight: 700, lineHeight: 1.2, paddingBottom: "0.15em", color: C.text }}>Ils nous font confiance.</h2>
           </motion.div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(360px, 1fr))", gap: "1px", background: C.greenBorder }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(360px, 100%), 1fr))", gap: "1px", background: C.greenBorder }}>
             {TESTIMONIALS.slice(0, 3).map((t, i) => (
               <motion.div
                 key={i}

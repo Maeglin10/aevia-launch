@@ -59,7 +59,7 @@ export default function AboutPage() {
 
         <div style={{ marginTop: 80 }}>
           <h2 style={{ fontFamily: FONT_HEADING, fontSize: "2rem", fontWeight: 700, margin: "0 0 40px 0" }}>Our Values</h2>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 32 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: 32 }}>
             {VALUES.map((val, idx) => (
               <motion.div
                 key={idx}

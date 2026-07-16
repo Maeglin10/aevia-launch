@@ -682,7 +682,7 @@ function AltitudeStatsSection() {
         <div
           style={{
             display:             "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+            gridTemplateColumns: "repeat(auto-fit, minmax(min(280px, 100%), 1fr))",
             gap:                 "1px",
             background:          C.borderFaint,
             border:              `1px solid ${C.borderFaint}`,
@@ -1533,7 +1533,7 @@ function WeatherTicker() {
               transition={{ duration: 0.4 }}
               style={{
                 display:             "grid",
-                gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))",
+                gridTemplateColumns: "repeat(auto-fit, minmax(min(160px, 100%), 1fr))",
                 gap:                 "1px",
                 background:          C.borderFaint,
                 border:              `1px solid ${C.borderFaint}`,

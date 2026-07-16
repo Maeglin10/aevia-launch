@@ -64,7 +64,7 @@ export default function WorkPage() {
           </p>
         </motion.div>
 
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(350px, 1fr))", gap: 32 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(min(350px, 100%), 1fr))", gap: 32 }}>
           {PROJECTS.map((project, idx) => (
             <motion.div
               key={idx}

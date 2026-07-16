@@ -479,7 +479,7 @@ function ServicesSection() {
           </p>
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))", gap: 24 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(250px, 100%), 1fr))", gap: 24 }}>
           {SERVICES_89.map((svc, idx) => (
             <div key={idx} style={{ background: C.bgCard, border: `1px solid ${C.border}`, padding: 32, display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
               <div>

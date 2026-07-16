@@ -815,7 +815,7 @@ export default function TerreVivantePage() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -12 }}
               transition={{ duration: 0.38 }}
-              style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(270px, 1fr))", gap: "1.25rem" }}
+              style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(270px, 100%), 1fr))", gap: "1.25rem" }}
             >
               {seasonData[activeSeason].items.map((item, i) => (
                 <motion.div
@@ -854,7 +854,7 @@ export default function TerreVivantePage() {
       {/* ── OUR STORY ── */}
       <section id="histoire" style={{ padding: "7rem 2rem", backgroundColor: C.bgAlt }}>
         <div style={{ maxWidth: 1140, margin: "0 auto" }}>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(340px, 1fr))", gap: "5rem", alignItems: "center" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(340px, 100%), 1fr))", gap: "5rem", alignItems: "center" }}>
             <SectionReveal>
               <div
                 style={{
@@ -951,7 +951,7 @@ export default function TerreVivantePage() {
             </div>
           </SectionReveal>
 
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))", gap: "1.5rem" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(250px, 100%), 1fr))", gap: "1.5rem" }}>
             {[
               { icon: <Leaf size={22} />, title: "Légumes de saison", desc: "5 à 10 variétés, récoltées le matin de la livraison", accent: "#7bb85a" },
               { icon: <Sun size={22} />, title: "Fruits frais", desc: "500 g à 2 kg selon la saison et le panier choisi", accent: C.accent },
@@ -995,7 +995,7 @@ export default function TerreVivantePage() {
             </div>
           </SectionReveal>
 
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "1.75rem" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: "1.75rem" }}>
             {testimonials.map((t, i) => (
               <SectionReveal key={t.name} delay={i * 0.1}>
                 <div
@@ -1063,7 +1063,7 @@ export default function TerreVivantePage() {
             </div>
           </SectionReveal>
 
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "1.75rem", alignItems: "start" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: "1.75rem", alignItems: "start" }}>
             {plans.map((plan, i) => (
               <SectionReveal key={plan.name} delay={i * 0.1}>
                 <div

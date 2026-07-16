@@ -70,7 +70,7 @@ function ProductDetail({ p, onBack, onAddToCart }: { p: typeof PRODUCTS[0]; onBa
           onMouseEnter={e => (e.currentTarget.style.color = C.accent)}
           onMouseLeave={e => (e.currentTarget.style.color = C.textMuted)}
         ><ChevronLeft size={16} /> Retour à la boutique</button>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: "clamp(32px, 5vw, 72px)", alignItems: "start" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(320px, 100%), 1fr))", gap: "clamp(32px, 5vw, 72px)", alignItems: "start" }}>
           <motion.div
             initial={{ opacity: 0, x: -30 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6 }}
             style={{ height: "clamp(380px, 56vw, 560px)", border: `1px solid ${C.border}`, position: "relative", overflow: "hidden" }}
@@ -142,7 +142,7 @@ export default function Boutique() {
         subtitle="Compositions de saison, plantes et créations sur mesure, façonnées à la main dans notre atelier parisien. Cliquez sur une création pour découvrir sa fiche."
       />
       <section style={{ background: C.bg, padding: "72px 24px 100px" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))", gap: 24 }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(min(260px, 100%), 1fr))", gap: 24 }}>
           {PRODUCTS.map((p, i) => (
             <ShopCard key={p.name} p={p} i={i} onOpen={() => {
               setProductDetail(i);

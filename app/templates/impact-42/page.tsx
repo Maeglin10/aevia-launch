@@ -226,7 +226,7 @@ return (
 
           <AnimatePresence mode="wait">
             <motion.div key={activeStudio} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.35 }}
-              style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: "2.5rem", alignItems: "start" }}
+              style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(320px, 100%), 1fr))", gap: "2.5rem", alignItems: "start" }}
             >
               <div>
                 <div style={{ display: "flex", alignItems: "baseline", gap: "1rem", marginBottom: "1rem" }}>
@@ -278,7 +278,7 @@ return (
               <h2 style={{ fontFamily: C.headingFont, fontSize: "clamp(2.5rem, 6vw, 4rem)", color: C.white, margin: "0.4rem 0 0", letterSpacing: "0.04em" }}>NOTRE ARSENAL</h2>
             </div>
           </SectionReveal>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "1.25rem" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(280px, 100%), 1fr))", gap: "1.25rem" }}>
             {gear.map((g, i) => (
               <SectionReveal key={g.category} delay={i * 0.07}>
                 <div style={{ backgroundColor: C.bgCard, border: `1px solid ${C.border}`, borderRadius: "10px", padding: "1.75rem" }}>
@@ -307,7 +307,7 @@ return (
               <h2 style={{ fontFamily: C.headingFont, fontSize: "clamp(2.5rem, 6vw, 4rem)", color: C.white, margin: "0.4rem 0 0", letterSpacing: "0.04em" }}>ILS EN PARLENT</h2>
             </div>
           </SectionReveal>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "1.75rem" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: "1.75rem" }}>
             {testimonials.map((t, i) => (
               <SectionReveal key={t.name} delay={i * 0.1}>
                 <div style={{ backgroundColor: C.bgCard, border: `1px solid ${C.border}`, borderRadius: "12px", padding: "2.25rem", height: "100%", display: "flex", flexDirection: "column" }}>
@@ -340,7 +340,7 @@ return (
               <h2 style={{ fontFamily: C.headingFont, fontSize: "clamp(2.5rem, 6vw, 4rem)", color: C.white, margin: "0.4rem 0 0", letterSpacing: "0.04em" }}>CHOISISSEZ VOTRE SESSION</h2>
             </div>
           </SectionReveal>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "1.5rem", alignItems: "start" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: "1.5rem", alignItems: "start" }}>
             {packages.map((pkg, i) => (
               <SectionReveal key={pkg.name} delay={i * 0.1}>
                 <div style={{ backgroundColor: pkg.popular ? C.accent : pkg.color, border: `1px solid ${pkg.border}`, borderRadius: "12px", padding: "2.25rem", position: "relative", display: "flex", flexDirection: "column" }}>

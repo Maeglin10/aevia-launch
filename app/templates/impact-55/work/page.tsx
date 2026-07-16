@@ -19,7 +19,7 @@ export default function WorkPage() {
             $ ls -1 /etc/ghost_shell/modules/
           </div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: "24px" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(320px, 100%), 1fr))", gap: "24px" }}>
             {MODULES.map((mod) => (
               <TerminalWindow key={mod.id} title={mod.id}>
                 <div style={{ marginBottom: "16px", display: "flex", alignItems: "center", gap: "12px" }}>

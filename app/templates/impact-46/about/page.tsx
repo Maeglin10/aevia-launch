@@ -37,7 +37,7 @@ export default function About() {
             </div>
             <h2 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: "clamp(32px, 4vw, 50px)", color: C.white, margin: 0, fontWeight: 700 }}>Excellence. Discrétion. Résultats.</h2>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 2 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(260px, 100%), 1fr))", gap: 2 }}>
             {firmValues.map((v, i) => (
               <motion.div
                 key={v.title}
@@ -68,7 +68,7 @@ export default function About() {
             </div>
             <h2 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: "clamp(32px, 4vw, 50px)", color: C.navy, margin: 0, fontWeight: 700 }}>Les associés</h2>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 24 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(280px, 100%), 1fr))", gap: 24 }}>
             {attorneys.map((atty, i) => (
               <motion.div
                 key={atty.name}

@@ -195,29 +195,6 @@ function AnimatedTooth() {
         ISO Certified
       </motion.div>
 
-      {/* Rating badge */}
-      <motion.div
-        style={{
-          position: "absolute",
-          bottom: 42,
-          left: 0,
-          background: C.white,
-          border: `1px solid ${C.border}`,
-          borderRadius: 12,
-          padding: "9px 17px",
-          fontSize: 13,
-          fontWeight: 600,
-          fontFamily: FONT,
-          color: C.text,
-          boxShadow: C.shadow,
-          zIndex: 2,
-        }}
-        initial={{ opacity: 0, x: -20 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ delay: 2.3, duration: 0.5 }}
-      >
-        4.9 / 5 — 1 200+ avis
-      </motion.div>
     </motion.div>
   );
 }
@@ -291,8 +268,7 @@ function Navbar() {
               >
                 <Smile size={22} color={C.white} />
               </div>
-              <span style={{ fontWeight: 800, fontSize: 20, color: C.text, letterSpacing: -0.5 }}>{fd?.businessName ?? "Smile Studio"}<span style={{ color: C.accent }}>Studio</span>
-              </span>
+              <span style={{ fontWeight: 800, fontSize: 20, color: C.text, letterSpacing: -0.5 }}>{fd?.businessName ?? "Smile Studio"}</span>
             </>
           )}
         </motion.div>
@@ -673,7 +649,7 @@ function Services() {
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
+          gridTemplateColumns: "repeat(auto-fit, minmax(min(250px, 100%), 1fr))",
           gap: 28,
           maxWidth: 1100,
           margin: "0 auto",
@@ -765,7 +741,7 @@ function Stats() {
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(190px, 1fr))",
+          gridTemplateColumns: "repeat(auto-fit, minmax(min(190px, 100%), 1fr))",
           gap: 40,
           maxWidth: 1000,
           margin: "0 auto",
@@ -885,7 +861,7 @@ function Testimonials() {
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+          gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))",
           gap: 28,
           maxWidth: 1100,
           margin: "0 auto",
@@ -990,7 +966,7 @@ function Team() {
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+          gridTemplateColumns: "repeat(auto-fit, minmax(min(280px, 100%), 1fr))",
           gap: 28,
           maxWidth: 920,
           margin: "0 auto",
@@ -1126,7 +1102,7 @@ function Pricing() {
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+          gridTemplateColumns: "repeat(auto-fit, minmax(min(280px, 100%), 1fr))",
           gap: 28,
           maxWidth: 980,
           margin: "0 auto",

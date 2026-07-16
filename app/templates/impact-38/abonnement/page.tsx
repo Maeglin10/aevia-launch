@@ -326,7 +326,7 @@ export default function AbonnementPage() {
           </SectionReveal>
 
           {/* Plans grid */}
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: 28, marginBottom: 48 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(320px, 100%), 1fr))", gap: 28, marginBottom: 48 }}>
             {ABONNEMENT_PLANS.map((plan, i) => (
               <SectionReveal key={plan.name} delay={i * 0.1}>
                 <div style={{

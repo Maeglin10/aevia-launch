@@ -24,7 +24,7 @@ export default function ArtistesPage() {
           200+ artistes et producteurs ont fait confiance à Echo Chamber depuis notre ouverture. Voici quelques-uns de ceux qui ont gravé leur son entre ces murs.
         </p>
 
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: "1.75rem" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(320px, 100%), 1fr))", gap: "1.75rem" }}>
           {artistRoster.map((artist, i) => (
             <SectionReveal key={artist.name} delay={i * 0.08}>
               <div

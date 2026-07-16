@@ -1,5 +1,8 @@
 # CLAUDE.md — Aevia Launch (skylaunch)
 
+## Language
+Respond only in French or English — match the user's current language. Never Portuguese or any other language, even mid-conversation.
+
 ## Deploy
 ```bash
 export VERCEL_API_TOKEN=$(grep '^VERCEL_API_TOKEN=' ~/skybot-inbox/.env | cut -d= -f2)

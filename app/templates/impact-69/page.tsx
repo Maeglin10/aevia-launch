@@ -230,7 +230,7 @@ return (
             All Series →
           </Link>
         </div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(340px, 1fr))", gap: 16 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(340px, 100%), 1fr))", gap: 16 }}>
           {SERIES.map((s) => (
             <SeriesCard key={s.id} series={s} />
           ))}
@@ -296,7 +296,7 @@ return (
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
           <p style={{ fontFamily: "'Archivo', sans-serif", fontSize: 10, letterSpacing: "0.35em", color: C.moss, textTransform: "uppercase", marginBottom: 16 }}>Collectors</p>
           <h2 style={{ fontSize: "clamp(28px, 5vw, 56px)", fontWeight: 900, lineHeight: 1, letterSpacing: "-0.03em", color: C.cream, marginBottom: 56 }}>What they say.</h2>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 1, background: C.border }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(280px, 100%), 1fr))", gap: 1, background: C.border }}>
             {[
               { quote: "I've collected fine art photography for 15 years. Lea's work is the first I've bought solely based on an emotional reaction — not investment. That's rare.", name: "D. Laurent", origin: "Paris · Collector" },
               { quote: "The Boreal Silence series hangs in my studio. Every morning it changes the way I think about light. That's worth more than the print.", name: "M. Björn", origin: "Stockholm · Architect" },
@@ -319,7 +319,7 @@ return (
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
           <p style={{ fontFamily: "'Archivo', sans-serif", fontSize: 10, letterSpacing: "0.35em", color: C.moss, textTransform: "uppercase", marginBottom: 16 }}>Behind each print</p>
           <h2 style={{ fontSize: "clamp(28px, 5vw, 56px)", fontWeight: 900, lineHeight: 1, letterSpacing: "-0.03em", color: C.cream, marginBottom: 56 }}>The process.</h2>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 1, background: C.border }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(240px, 100%), 1fr))", gap: 1, background: C.border }}>
             {[
               { step: "01", title: "The Expedition", desc: "Each series begins with weeks in the field. I travel alone, no schedule, no shot list — only the landscape and the right light." },
               { step: "02", title: "The Edit", desc: "From thousands of frames, I select at most 12 per series. The ones that survive are the ones I can't explain — only feel." },

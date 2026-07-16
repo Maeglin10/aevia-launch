@@ -328,7 +328,7 @@ export default function BlockBasePage() {
       </AnimatePresence>
 
       {/* ── HERO SECTION ── */}
-      <section id="hero" className="relative h-dvh flex flex-col justify-center pt-20">
+      <section id="hero" className="relative h-dvh flex flex-col justify-center pt-32 md:pt-20">
         <div className="max-w-[1500px] mx-auto px-6 md:px-12 w-full">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
             <div className="lg:col-span-7">

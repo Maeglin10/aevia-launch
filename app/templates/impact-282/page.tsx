@@ -968,7 +968,7 @@ function SpecialitesSection() {
   };
   const grid: React.CSSProperties = {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(290px, 1fr))',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(min(290px, 100%), 1fr))',
     gap: 'clamp(20px,2.5vw,36px)',
     maxWidth: 1240,
     margin: '0 auto',
@@ -1374,7 +1374,7 @@ function TestimonialsSection() {
   };
   const grid: React.CSSProperties = {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(min(300px, 100%), 1fr))',
     gap: 'clamp(24px,3vw,44px)',
     maxWidth: 1200,
     margin: '0 auto',
@@ -1873,7 +1873,7 @@ function MenuSection() {
   };
   const grid: React.CSSProperties = {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(min(320px, 100%), 1fr))',
     gap: 'clamp(48px,6vw,80px)',
     maxWidth: 1240,
     margin: '0 auto',
@@ -2070,7 +2070,7 @@ function AgriculteurSection() {
   };
   const grid: React.CSSProperties = {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(min(300px, 100%), 1fr))',
     gap: 'clamp(20px,2.5vw,36px)',
     maxWidth: 1240,
     margin: '0 auto',

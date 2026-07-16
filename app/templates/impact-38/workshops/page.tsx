@@ -23,7 +23,7 @@ export default function WorkshopsPage() {
       />
       <div style={{ padding: "80px 5%", background: C.bg }}>
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(340px, 1fr))", gap: 32, marginBottom: 80 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(340px, 100%), 1fr))", gap: 32, marginBottom: 80 }}>
             {WORKSHOPS.map((ws, i) => (
               <SectionReveal key={ws.title} delay={i * 0.1}>
                 <div style={{ background: C.white, borderRadius: 16, overflow: "hidden", border: `1px solid ${C.border}`, display: "flex", flexDirection: "column", height: "100%" }}>

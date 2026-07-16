@@ -26,7 +26,7 @@ export default function ProfesseursPage() {
         </p>
       </motion.div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 32, maxWidth: 1000, margin: "0 auto" }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: 32, maxWidth: 1000, margin: "0 auto" }}>
         {TEACHERS.map((t, i) => (
           <motion.div
             key={t.name}

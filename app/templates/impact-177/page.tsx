@@ -266,7 +266,7 @@ export default function MaelleDumasPage() {
 
       {/* ── STATS ── */}
       <section style={{ padding: "4rem 0", borderBottom: `1px solid ${C.line}` }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 2.5rem", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "2rem" }} className="grid grid-cols-2 md:grid-cols-4">
+        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 2.5rem", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(220px, 100%), 1fr))", gap: "2rem" }} className="grid grid-cols-2 md:grid-cols-4">
           {[
             { v: "12+", l: "Années d'exercice" },
             { v: "180+", l: "Projets livrés" },
@@ -292,7 +292,7 @@ export default function MaelleDumasPage() {
               <h2 style={{ fontFamily: C.serif, fontSize: "clamp(2.5rem,5vw,5rem)", fontWeight: 400, color: C.dark, fontStyle: "italic", lineHeight: 1 }}>Projets récents.</h2>
             </div>
           </Reveal>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: "2rem" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(320px, 100%), 1fr))", gap: "2rem" }}>
             {PROJECTS.map((p, i) => (
               <Reveal key={i} delay={i * 0.1}>
                 <div style={{ cursor: "pointer" }} className="group">
@@ -330,7 +330,7 @@ export default function MaelleDumasPage() {
               <h2 style={{ fontFamily: C.serif, fontSize: "clamp(2rem,4vw,4rem)", fontWeight: 400, color: C.dark, fontStyle: "italic" }}>Comment je travaille.</h2>
             </div>
           </Reveal>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: "0" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(260px, 100%), 1fr))", gap: "0" }}>
             {SERVICES.map((s, i) => (
               <Reveal key={i} delay={i * 0.08}>
                 <div style={{ padding: "2.5rem", borderLeft: `1px solid ${C.line}`, borderBottom: `1px solid ${C.line}` }}>
@@ -353,7 +353,7 @@ export default function MaelleDumasPage() {
               <h2 style={{ fontFamily: C.serif, fontSize: "clamp(2rem,4vw,4rem)", fontWeight: 400, color: C.dark, fontStyle: "italic" }}>Ce que disent mes clients.</h2>
             </div>
           </Reveal>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "2rem" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: "2rem" }}>
             {[
               { quote: "Maëlle a su transformer notre appartement haussmannien en un espace lumineux et moderne, tout en conservant l'âme du bâtiment. Un vrai talent.", name: "Claire & Antoine R.", loc: "Lyon 6ème" },
               { quote: "Écoute parfaite, respect du budget, délais tenus. Notre loft Croix-Rousse est devenu la maison dont on rêvait depuis des années.", name: "Thomas M.", loc: "Lyon 4ème" },
@@ -399,7 +399,7 @@ export default function MaelleDumasPage() {
 
       {/* ── FOOTER ── */}
       <footer style={{ background: "#141210", padding: "4rem 2.5rem 2rem", borderTop: `1px solid rgba(255,255,255,0.05)` }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "3rem", marginBottom: "3rem" }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(200px, 100%), 1fr))", gap: "3rem", marginBottom: "3rem" }}>
           <div>
             <div style={{ fontFamily: C.serif, fontSize: "1.2rem", fontStyle: "italic", color: "#fff", marginBottom: "1rem" }}>Maëlle Dumas</div>
             <p style={{ fontFamily: C.sans, fontSize: "0.75rem", color: "rgba(255,255,255,0.3)", lineHeight: 1.7 }}>Architecte d'intérieur CFAI. Conception et rénovation d'espaces en Auvergne-Rhône-Alpes.</p>

@@ -10,7 +10,7 @@ export default function ContactPage() {
   return (
     <section style={{ padding: "100px 24px", background: C.bgAlt }} id="contact">
       <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 60 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: 60 }}>
           
           {/* Coordinates */}
           <div>

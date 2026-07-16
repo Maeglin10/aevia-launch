@@ -1490,7 +1490,7 @@ export default function HorizonMaritimePage() {
             maxWidth: 1280,
             margin: "0 auto",
             display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
+            gridTemplateColumns: "repeat(auto-fit, minmax(min(260px, 100%), 1fr))",
             gap: "2rem",
           }}
         >
@@ -2558,7 +2558,7 @@ function FleetPage({ goTo }: { goTo: (p: ActivePage) => void }) {
         </div>
 
         {/* Grid */}
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(360px, 1fr))", gap: "2.5rem" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(360px, 100%), 1fr))", gap: "2.5rem" }}>
           {filteredYachts.map((yacht) => (
             <div
               key={yacht.name}
@@ -2724,7 +2724,7 @@ function DestinationsPage({ goTo }: { goTo: (p: ActivePage) => void }) {
         </div>
 
         {/* Grid */}
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(360px, 1fr))", gap: "3rem" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(360px, 100%), 1fr))", gap: "3rem" }}>
           {allDestinations.map((dest) => (
             <div
               key={dest.name}

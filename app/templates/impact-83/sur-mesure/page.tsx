@@ -30,7 +30,7 @@ export default function SurMesurePage() {
         </Reveal>
 
         {/* Pieces Grid */}
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 30, marginBottom: 80 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: 30, marginBottom: 80 }}>
           {bespoke.map((piece, i) => (
             <Reveal key={piece.name} delay={i * 0.1}>
               <div
@@ -119,7 +119,7 @@ export default function SurMesurePage() {
               Le Processus de <em>Création</em>
             </h2>
           </Reveal>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 30 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(200px, 100%), 1fr))", gap: 30 }}>
             {steps.map((step, idx) => (
               <Reveal key={idx} delay={idx * 0.1}>
                 <div style={{ background: C.bgAlt, padding: 30, border: `1px solid ${C.border}`, height: "100%" }}>

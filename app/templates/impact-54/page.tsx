@@ -270,7 +270,7 @@ return (
             </div>
           </Reveal>
 
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: 32 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(320px, 100%), 1fr))", gap: 32 }}>
             {FEATURES.map((feat, i) => {
               const Icon = feat.icon;
               return (
@@ -400,7 +400,7 @@ return (
           borderBottom: "1px solid rgba(124,58,237,0.12)",
         }}
       >
-        <div style={{ maxWidth: 1200, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 40 }} className="grid grid-cols-2 md:grid-cols-4">
+        <div style={{ maxWidth: 1200, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(200px, 100%), 1fr))", gap: 40 }} className="grid grid-cols-2 md:grid-cols-4">
           {STATS.map((stat, i) => (
             <Reveal key={i} delay={i * 0.08}>
               <div style={{ textAlign: "center" }}>
@@ -443,7 +443,7 @@ return (
               </h2>
             </div>
           </Reveal>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: 24 }}>
             {[
               {
                 name: "Builder", price: "$79", period: "/mo", highlight: false,
