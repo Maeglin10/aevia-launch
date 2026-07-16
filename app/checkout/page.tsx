@@ -110,7 +110,7 @@ function CheckoutContent() {
 
   if (error) {
     return (
-      <main className="min-h-screen bg-zinc-950 text-white flex flex-col items-center justify-center px-4">
+      <main className="font-aevia-body min-h-screen bg-zinc-950 text-white flex flex-col items-center justify-center px-4">
         <div className="w-full max-w-sm bg-zinc-900 border border-zinc-800 rounded-2xl p-8 text-center shadow-2xl shadow-black/40">
           <div className="w-12 h-12 rounded-full bg-red-500/15 flex items-center justify-center mx-auto mb-4">
             <svg

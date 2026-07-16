@@ -141,7 +141,7 @@ export default function OrderClient(props: OrderClientProps) {
   };
 
   return (
-    <main className="min-h-screen bg-zinc-950 text-white flex flex-col items-center px-4 pt-16 pb-0">
+    <main className="font-aevia-body min-h-screen bg-zinc-950 text-white flex flex-col items-center px-4 pt-16 pb-0">
       <AeviaHeader />
       {/* Back link + currency selector */}
       <div className="w-full max-w-lg mb-6 mt-0 flex items-center justify-between">

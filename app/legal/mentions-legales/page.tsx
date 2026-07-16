@@ -4,7 +4,7 @@ import { LegalEditeur, LegalHebergeur, LEGAL_FACTS } from "@/components/LegalIde
 export default function MentionsLegalesPage() {
   return (
     <>
-      <main className="max-w-4xl mx-auto px-4 sm:px-6 py-20 text-zinc-700 bg-white">
+      <main className="font-aevia-body max-w-4xl mx-auto px-4 sm:px-6 py-20 text-zinc-700 bg-white">
         <p className="text-xs text-zinc-500 mb-2">Dernière mise à jour : 17 mai 2026</p>
         <h1 className="text-3xl font-bold text-zinc-900 mb-3 tracking-tight">
           Mentions Légales

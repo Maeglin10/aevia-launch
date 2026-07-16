@@ -269,7 +269,7 @@ function SuccessContent() {
   };
 
   return (
-    <main className="relative min-h-screen bg-zinc-950 text-white flex flex-col items-center justify-center px-4 overflow-hidden">
+    <main className="font-aevia-body relative min-h-screen bg-zinc-950 text-white flex flex-col items-center justify-center px-4 overflow-hidden">
       <AeviaHeader />
       {/* Confetti burst */}
       {showConfetti && <Confetti />}

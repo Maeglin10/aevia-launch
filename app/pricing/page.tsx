@@ -545,13 +545,13 @@ export default function PricingPage() {
   const t = T[locale as keyof typeof T] ?? T.fr;
 
   return (
-    <div className="min-h-screen bg-[#080810] text-white">
+    <div className="font-aevia-body min-h-screen bg-[#080810] text-white">
       <AeviaHeader />
 
       <main id="main-content" className="pt-28 pb-24 px-4">
         {/* Hero */}
         <div className="text-center max-w-3xl mx-auto mb-20">
-          <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight leading-tight mb-4">
+          <h1 className="font-aevia-display text-4xl sm:text-5xl font-extrabold tracking-tight leading-tight mb-4">
             {t.title}{" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-400 to-red-600">
               {t.titleAccent}

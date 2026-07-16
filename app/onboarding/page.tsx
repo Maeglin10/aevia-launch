@@ -553,7 +553,7 @@ function OnboardingContent() {
   const goPrev = () => { setDir(-1); setStep(s => s - 1); };
 
   return (
-    <div className="min-h-screen bg-[#080808] text-white flex flex-col">
+    <div className="font-aevia-body min-h-screen bg-[#080808] text-white flex flex-col">
       {/* Header */}
       <div className="flex items-center justify-between px-6 py-5 border-b border-white/5">
         <span className="font-black text-lg tracking-tight">skylaunch</span>
@@ -592,7 +592,7 @@ function OnboardingContent() {
             >
               <div className="mb-8">
                 <p className="text-xs text-red-400 font-semibold tracking-widest uppercase mb-2">Étape {step + 1} / {STEPS.length}</p>
-                <h1 className="text-3xl font-black">{STEPS[step]}</h1>
+                <h1 className="font-aevia-display text-3xl font-black">{STEPS[step]}</h1>
               </div>
 
               {step === 0 && <Step1 data={data} onChange={update} />}

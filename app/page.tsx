@@ -819,7 +819,7 @@ function HeroSection() {
           <div>
             <motion.h1
               initial={{ opacity: 0, y: 28 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.65, delay: 0.1 }}
-              className="text-5xl sm:text-6xl xl:text-[5.5rem] font-black tracking-tight leading-[1.0] mb-6"
+              className="font-aevia-display text-5xl sm:text-6xl xl:text-[5.5rem] font-black tracking-tight leading-[1.0] mb-6"
             >
               <span className="text-white">{t.pre}</span>
               <span className="block relative overflow-hidden" style={{ height: "1.35em", lineHeight: 1.35, paddingTop: "0.12em", paddingBottom: "0.12em" }}>
@@ -1112,7 +1112,7 @@ function TestimonialsSection() {
 /* ─── Page ───────────────────────────────────────────────────── */
 export default function HomePage() {
   return (
-    <div id="main-content" className="min-h-screen bg-[#09090b] text-white">
+    <div id="main-content" className="font-aevia-body min-h-screen bg-[#09090b] text-white">
       <AeviaHeader />
       <HeroSection />
       <StepsSection />

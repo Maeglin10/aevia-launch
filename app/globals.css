@@ -11,6 +11,12 @@
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   --font-heading: var(--font-sans);
+  /* Aevia brand chrome only — applied explicitly via .font-aevia-body /
+     .font-aevia-display, never wired into --font-sans/--font-heading above,
+     so app/templates/ (which consumes font-sans/font-heading through shared
+     components/ui/{card,dialog,sheet}.tsx) is unaffected. */
+  --font-aevia-body: var(--font-inter);
+  --font-aevia-display: var(--font-space-grotesk);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);

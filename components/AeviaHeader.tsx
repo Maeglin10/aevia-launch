@@ -163,7 +163,7 @@ export function AeviaHeader() {
   }, []);
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 border-b border-zinc-800/60 bg-[#09090b]/80 backdrop-blur-md">
+    <header className="font-aevia-body fixed top-0 left-0 right-0 z-50 border-b border-zinc-800/60 bg-[#09090b]/80 backdrop-blur-md">
       <div className="mx-auto max-w-5xl px-6 h-14 flex items-center justify-between">
         <a href="https://aevia.services" className="hover:opacity-80 transition-opacity">
           <AeviaProductLogo />

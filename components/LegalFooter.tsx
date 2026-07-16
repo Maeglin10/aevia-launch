@@ -16,7 +16,7 @@ export function LegalFooter({ variant = "dark" }: LegalFooterProps) {
   const year = new Date().getFullYear();
 
   return (
-    <footer className={wrapperCls}>
+    <footer className={`font-aevia-body ${wrapperCls}`}>
       <div className="mx-auto max-w-6xl px-6 py-10">
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
           <div>

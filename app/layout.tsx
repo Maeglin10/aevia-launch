@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Inter, Space_Grotesk } from "next/font/google";
 import { LangProvider } from "@/lib/LangContext";
 import { CookieBanner } from "@/components/CookieBanner";
 import { ConsentAwareAnalytics } from "@/components/ConsentAwareAnalytics";
@@ -14,6 +14,29 @@ const geistSans = Geist({
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
+  subsets: ["latin"],
+  display: "swap",
+});
+
+// Aevia brand typography — free lookalikes for the (commercially restricted)
+// Montaser Arabic / Helvetica Now Display specified in the brand manual.
+// Named --font-inter / --font-space-grotesk (not the generic --font-body /
+// --font-display) because several client templates under app/templates/
+// already declare their own local `--font-body` / `--font-display` CSS
+// variables (e.g. app/templates/premium.css, app/templates/impact-210) —
+// reusing those names risks a real custom-property collision on shared
+// routes. These variables are only ever consumed by the `.font-aevia-body`
+// / `.font-aevia-display` utilities below, which are applied explicitly to
+// Skylaunch's own chrome — never on <html>/<body>, and never referenced by
+// app/templates/ code, so they stay fully inert everywhere else.
+const inter = Inter({
+  variable: "--font-inter",
+  subsets: ["latin"],
+  display: "swap",
+});
+
+const spaceGrotesk = Space_Grotesk({
+  variable: "--font-space-grotesk",
   subsets: ["latin"],
   display: "swap",
 });
@@ -162,7 +185,7 @@ export default function RootLayout({
   return (
     <html
       lang="fr"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} ${spaceGrotesk.variable} h-full antialiased`}
     >
       <head>
         {process.env.NEXT_PUBLIC_GSC_VERIFICATION && (
