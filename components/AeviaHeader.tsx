@@ -19,7 +19,9 @@ function AeviaProductLogo() {
         className="h-9 w-auto"
         priority
       />
-      <span className="text-zinc-400 text-[9px] tracking-[0.2em] uppercase leading-none self-end pb-1">Launch</span>
+      <span className="text-zinc-400 text-[9px] tracking-[0.2em] uppercase leading-none border-l border-zinc-700/80 pl-2.5 self-stretch flex items-center">
+        Launch
+      </span>
     </div>
   );
 }
