@@ -532,7 +532,7 @@ return (
               marginBottom: 20,
               textShadow: '0 4px 20px rgba(0,0,0,0.5)'
             }}>{c?.heroHeadline ?? <>
-              Performance\n& Récupération
+              Performance<br />& Récupération
             </>}</h1>
           </Reveal>
 

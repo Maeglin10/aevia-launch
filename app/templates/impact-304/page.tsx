@@ -532,7 +532,7 @@ return (
               marginBottom: 20,
               textShadow: '0 4px 20px rgba(0,0,0,0.5)'
             }}>{c?.heroHeadline ?? <>
-              Urgences 24h/7j\nÎle-de-France
+              Urgences 24h/7j<br />Île-de-France
             </>}</h1>
           </Reveal>
 
