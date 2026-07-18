@@ -4,8 +4,35 @@
 import React, { useRef, useState, useEffect, useLayoutEffect } from 'react';
 import { motion, useScroll, useTransform, useInView, AnimatePresence } from 'framer-motion';
 import {
-  Calendar, MapPin, ArrowRight, ChevronRight, Menu, X, CheckCircle2, PlayCircle, Star, Quote, Mail, Phone, ExternalLink, Camera, Globe, Briefcase, Send, ChevronDown, Clock, Users, Zap, Shield, Ticket, Mic, Radio, Target, Cpu, Code
+  Calendar,
+  MapPin,
+  ArrowRight,
+  ChevronRight,
+  Menu,
+  X,
+  CheckCircle2,
+  PlayCircle,
+  Star,
+  Quote,
+  Mail,
+  Phone,
+  ExternalLink,
+  ChevronDown,
+  Clock,
+  Users,
+  Zap,
+  Globe,
+  Shield,
+  Ticket,
+  Radio,
+  Target,
+  Cpu,
+  Code
 } from 'lucide-react';
+const Twitter = ({ size = 24, color = 'currentColor', ...p }: any) => (<svg xmlns='http://www.w3.org/2000/svg' width={size} height={size} viewBox='0 0 24 24' fill='none' stroke={color} strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' {...p}><circle cx='12' cy='12' r='10'/></svg>);
+const Instagram = ({ size = 24, color = 'currentColor', ...p }: any) => (<svg xmlns='http://www.w3.org/2000/svg' width={size} height={size} viewBox='0 0 24 24' fill='none' stroke={color} strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' {...p}><circle cx='12' cy='12' r='10'/></svg>);
+const Linkedin = ({ size = 24, color = 'currentColor', ...p }: any) => (<svg xmlns='http://www.w3.org/2000/svg' width={size} height={size} viewBox='0 0 24 24' fill='none' stroke={color} strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' {...p}><circle cx='12' cy='12' r='10'/></svg>);
+const Microphone = ({ size = 24, color = 'currentColor', ...p }: any) => (<svg xmlns='http://www.w3.org/2000/svg' width={size} height={size} viewBox='0 0 24 24' fill='none' stroke={color} strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' {...p}><circle cx='12' cy='12' r='10'/></svg>);
 
 /* 
  * ==========================================
@@ -89,7 +116,7 @@ const PHOTOS = {
 // --- UTILS & COMPONENTS ---
 const Reveal = ({ children, delay = 0, y = 20, style = {}, threshold = 0.2, duration = 0.8 }) => {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: \`-\${threshold * 100}%\` });
+  const isInView = useInView(ref, { once: true, margin: `-${threshold * 100}%` });
 
   return (
     <motion.div
@@ -136,7 +163,7 @@ const Button = ({ children, href, primary, icon: Icon, onClick, style = {} }) =>
     fontWeight: 600,
     letterSpacing: '0.5px',
     textDecoration: 'none',
-    border: \`1px solid \${primary ? C.primary : 'rgba(255,255,255,0.2)'}\`,
+    border: `1px solid ${primary ? C.primary : 'rgba(255,255,255,0.2)'}`,
     backgroundColor: primary ? (hover ? C.primaryLight : C.primary) : (hover ? 'rgba(255,255,255,0.05)' : 'transparent'),
     color: primary ? C.bgDeep : C.white,
     transition: 'all 0.3s ease',
@@ -175,10 +202,10 @@ const CyberGrid = () => (
   <div style={{
     position: 'absolute',
     top: 0, left: 0, right: 0, bottom: 0,
-    backgroundImage: \`
+    backgroundImage: `
       linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px),
       linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px)
-    \`,
+    `,
     backgroundSize: '4rem 4rem',
     pointerEvents: 'none',
     zIndex: 0
@@ -192,7 +219,7 @@ const GlowOrb = ({ color, top, left, right, bottom, size = "40vw", opacity = 0.1
     width: size,
     height: size,
     borderRadius: '50%',
-    background: \`radial-gradient(circle, \${color} 0%, transparent 70%)\`,
+    background: `radial-gradient(circle, ${color} 0%, transparent 70%)`,
     opacity,
     pointerEvents: 'none',
     filter: 'blur(60px)',
@@ -216,7 +243,7 @@ export default function AIHorizonsTemplate() {
         const urlParams = new URLSearchParams(window.location.search);
         const sessionId = urlParams.get('sessionId');
         if (sessionId) {
-          const res = await fetch(\`/api/session/\${sessionId}\`);
+          const res = await fetch(`/api/session/${sessionId}`);
           if (res.ok) {
             const data = await res.json();
             setSession(data);
@@ -387,29 +414,29 @@ export default function AIHorizonsTemplate() {
       overflowX: 'hidden'
     }}>
       {/* GLOBAL STYLES */}
-      <style dangerouslySetInnerHTML={{__html: \`
+      <style dangerouslySetInnerHTML={{__html: `
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@400;500;700;900&display=swap');
         
         html { scroll-behavior: smooth; }
-        body { margin: 0; padding: 0; background-color: \${C.bgDeep}; }
+        body { margin: 0; padding: 0; background-color: ${C.bgDeep}; }
         * { box-sizing: border-box; }
         
         ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: \${C.bgDeep}; }
+        ::-webkit-scrollbar-track { background: ${C.bgDeep}; }
         ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: \${C.primary}; }
+        ::-webkit-scrollbar-thumb:hover { background: ${C.primary}; }
         
         .nav-link {
           position: relative;
-          color: \${C.text};
+          color: ${C.text};
           text-decoration: none;
-          font-family: \${SANS};
+          font-family: ${SANS};
           font-size: 14px;
           font-weight: 500;
           letter-spacing: 0.5px;
           transition: color 0.3s ease;
         }
-        .nav-link:hover { color: \${C.primary}; }
+        .nav-link:hover { color: ${C.primary}; }
         .nav-link::after {
           content: '';
           position: absolute;
@@ -417,7 +444,7 @@ export default function AIHorizonsTemplate() {
           height: 2px;
           bottom: -4px;
           left: 0;
-          background-color: \${C.primary};
+          background-color: ${C.primary};
           transition: width 0.3s ease;
         }
         .nav-link:hover::after { width: 100%; }
@@ -441,17 +468,17 @@ export default function AIHorizonsTemplate() {
           border-radius: 8px;
         }
         .countdown-num {
-          font-family: \${SERIF};
+          font-family: ${SERIF};
           font-size: clamp(24px, 3vw, 36px);
           font-weight: 700;
-          color: \${C.primary};
+          color: ${C.primary};
           line-height: 1;
         }
         .countdown-label {
           font-size: 12px;
           text-transform: uppercase;
           letter-spacing: 1px;
-          color: \${C.textMuted};
+          color: ${C.textMuted};
           margin-top: 4px;
         }
 
@@ -463,7 +490,7 @@ export default function AIHorizonsTemplate() {
         }
 
         .title-display {
-          font-family: \${SERIF};
+          font-family: ${SERIF};
           font-size: clamp(32px, 6vw, 72px);
           font-weight: 900;
           line-height: 1.1;
@@ -472,7 +499,7 @@ export default function AIHorizonsTemplate() {
           margin-bottom: 24px;
         }
         .title-section {
-          font-family: \${SERIF};
+          font-family: ${SERIF};
           font-size: clamp(28px, 4vw, 48px);
           font-weight: 700;
           line-height: 1.2;
@@ -480,16 +507,16 @@ export default function AIHorizonsTemplate() {
         }
 
         .gradient-text {
-          background: linear-gradient(to right, #fff, \${C.textMuted});
+          background: linear-gradient(to right, #fff, ${C.textMuted});
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
         }
         .gradient-text-primary {
-          background: linear-gradient(to right, \${C.primary}, \${C.primaryLight});
+          background: linear-gradient(to right, ${C.primary}, ${C.primaryLight});
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
         }
-      \`}} />
+      `}} />
 
       {/* HEADER NAVIGATION */}
       <header style={{
@@ -541,13 +568,13 @@ export default function AIHorizonsTemplate() {
           {mobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
         </button>
 
-        <style dangerouslySetInnerHTML={{__html:\`
+        <style dangerouslySetInnerHTML={{__html:`
           @media (min-width: 992px) {
             .mobile-toggle { display: none !important; }
             .desktop-nav { display: flex !important; }
             .desktop-btn { display: block !important; }
           }
-        \`}} />
+        `}} />
       </header>
 
       {/* MOBILE MENU OVERLAY */}
@@ -615,7 +642,7 @@ export default function AIHorizonsTemplate() {
         <div style={{
           position: 'absolute',
           top: 0, left: 0, right: 0, bottom: 0,
-          backgroundImage: \`url('\${PHOTOS.hero}')\`,
+          backgroundImage: `url('${PHOTOS.hero}')`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           opacity: 0.3,
@@ -624,7 +651,7 @@ export default function AIHorizonsTemplate() {
         <div style={{
           position: 'absolute',
           top: 0, left: 0, right: 0, bottom: 0,
-          background: \`linear-gradient(to bottom, \${C.bgDeep}00 0%, \${C.bgDeep} 100%)\`,
+          background: `linear-gradient(to bottom, ${C.bgDeep}00 0%, ${C.bgDeep} 100%)`,
           zIndex: -1
         }} />
         <CyberGrid />
@@ -638,10 +665,10 @@ export default function AIHorizonsTemplate() {
                 display: 'inline-flex', alignItems: 'center', gap: '8px', 
                 padding: '8px 16px', borderRadius: '30px', 
                 backgroundColor: 'rgba(6, 182, 212, 0.1)',
-                border: \`1px solid rgba(6, 182, 212, 0.3)\`,
+                border: `1px solid rgba(6, 182, 212, 0.3)`,
                 marginBottom: '32px'
               }}>
-                <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: C.primary, boxShadow: \`0 0 10px \${C.primary}\` }} />
+                <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: C.primary, boxShadow: `0 0 10px ${C.primary}` }} />
                 <span style={{ fontFamily: SANS, fontSize: '13px', fontWeight: 600, color: C.primary, letterSpacing: '1px', textTransform: 'uppercase' }}>
                   Édition 2026 Officielle
                 </span>
@@ -792,7 +819,7 @@ export default function AIHorizonsTemplate() {
             <div style={{ flex: '1 1 min(500px, 100%)', position: 'relative' }}>
               <Reveal delay={0.4}>
                 <div style={{ position: 'relative' }}>
-                  <div style={{ position: 'absolute', inset: '-20px', background: \`linear-gradient(45deg, \${C.primary}, \${C.accent})\`, opacity: 0.2, filter: 'blur(30px)', borderRadius: '24px' }} />
+                  <div style={{ position: 'absolute', inset: '-20px', background: `linear-gradient(45deg, ${C.primary}, ${C.accent})`, opacity: 0.2, filter: 'blur(30px)', borderRadius: '24px' }} />
                   <img 
                     src={PHOTOS.about} 
                     alt="AI Conference" 
@@ -865,8 +892,8 @@ export default function AIHorizonsTemplate() {
                     <p style={{ margin: 0, color: C.primary, fontSize: '14px', fontWeight: 500 }}>{speaker.role}</p>
                     
                     <div style={{ display: 'flex', gap: '16px', marginTop: '20px' }}>
-                      <a href="#" style={{ color: C.textMuted, transition: 'color 0.2s' }} onMouseEnter={e=>e.currentTarget.style.color=C.white} onMouseLeave={e=>e.currentTarget.style.color=C.textMuted}><Briefcase size={18} /></a>
-                      <a href="#" style={{ color: C.textMuted, transition: 'color 0.2s' }} onMouseEnter={e=>e.currentTarget.style.color=C.white} onMouseLeave={e=>e.currentTarget.style.color=C.textMuted}><Send size={18} /></a>
+                      <a href="#" style={{ color: C.textMuted, transition: 'color 0.2s' }} onMouseEnter={e=>e.currentTarget.style.color=C.white} onMouseLeave={e=>e.currentTarget.style.color=C.textMuted}><Linkedin size={18} /></a>
+                      <a href="#" style={{ color: C.textMuted, transition: 'color 0.2s' }} onMouseEnter={e=>e.currentTarget.style.color=C.white} onMouseLeave={e=>e.currentTarget.style.color=C.textMuted}><Twitter size={18} /></a>
                     </div>
                   </div>
                 </div>
@@ -901,7 +928,7 @@ export default function AIHorizonsTemplate() {
                 style={{
                   background: activeTab === i ? C.primary : 'transparent',
                   color: activeTab === i ? C.bgDeep : C.white,
-                  border: \`1px solid \${activeTab === i ? C.primary : 'rgba(255,255,255,0.2)'}\`,
+                  border: `1px solid ${activeTab === i ? C.primary : 'rgba(255,255,255,0.2)'}`,
                   padding: '16px 32px',
                   borderRadius: '30px',
                   fontFamily: SANS,
@@ -940,7 +967,7 @@ export default function AIHorizonsTemplate() {
                       padding: '24px',
                       backgroundColor: 'rgba(255,255,255,0.02)',
                       borderRadius: '12px',
-                      borderLeft: \`4px solid \${C.primary}\`
+                      borderLeft: `4px solid ${C.primary}`
                     }}>
                       <div style={{ flex: '0 0 150px', color: C.primary, fontFamily: SERIF, fontWeight: 700, fontSize: '18px' }}>
                         {session.time}
@@ -951,7 +978,7 @@ export default function AIHorizonsTemplate() {
                         </div>
                         <h4 style={{ margin: '0 0 12px 0', fontSize: '20px' }}>{session.title}</h4>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: C.textMuted }}>
-                          <Mic size={16} />
+                          <Microphone size={16} />
                           <span style={{ fontSize: '14px' }}>{session.speaker}</span>
                         </div>
                       </div>
@@ -1020,13 +1047,13 @@ export default function AIHorizonsTemplate() {
               <Reveal key={i} delay={i * 0.1} y={40}>
                 <div style={{
                   backgroundColor: ticket.primary ? 'rgba(6, 182, 212, 0.05)' : C.bgCard,
-                  border: ticket.primary ? \`2px solid \${C.primary}\` : '1px solid rgba(255,255,255,0.05)',
+                  border: ticket.primary ? `2px solid ${C.primary}` : '1px solid rgba(255,255,255,0.05)',
                   borderRadius: '16px',
                   padding: '40px',
                   position: 'relative',
                   transform: ticket.primary ? 'scale(1.05)' : 'scale(1)',
                   zIndex: ticket.primary ? 10 : 1,
-                  boxShadow: ticket.primary ? \`0 20px 40px rgba(0,0,0,0.4), 0 0 20px rgba(6, 182, 212, 0.2)\` : 'none'
+                  boxShadow: ticket.primary ? `0 20px 40px rgba(0,0,0,0.4), 0 0 20px rgba(6, 182, 212, 0.2)` : 'none'
                 }}>
                   {ticket.primary && (
                     <div style={{ position: 'absolute', top: 0, left: '50%', transform: 'translate(-50%, -50%)', backgroundColor: C.primary, color: C.bgDeep, padding: '8px 24px', borderRadius: '30px', fontSize: '12px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px' }}>
@@ -1147,9 +1174,9 @@ export default function AIHorizonsTemplate() {
               L'événement européen de référence pour les professionnels de l'Intelligence Artificielle.
             </p>
             <div style={{ display: 'flex', gap: '16px' }}>
-              <a href="#" style={{ color: C.textMuted }}><Send size={20} /></a>
-              <a href="#" style={{ color: C.textMuted }}><Briefcase size={20} /></a>
-              <a href="#" style={{ color: C.textMuted }}><Camera size={20} /></a>
+              <a href="#" style={{ color: C.textMuted }}><Twitter size={20} /></a>
+              <a href="#" style={{ color: C.textMuted }}><Linkedin size={20} /></a>
+              <a href="#" style={{ color: C.textMuted }}><Instagram size={20} /></a>
             </div>
           </div>
 

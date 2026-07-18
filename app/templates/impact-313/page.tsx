@@ -16,19 +16,19 @@ import {
   useInView, 
   AnimatePresence 
 } from "framer-motion";
-import { 
-  PhoneCall, 
-  AlertTriangle, 
-  Clock, 
-  Wrench, 
-  Droplet, 
-  ShieldCheck, 
-  ChevronRight, 
-  ChevronDown, 
-  MapPin, 
-  Mail, 
-  CheckCircle2, 
-  Star, 
+import {
+  PhoneCall,
+  AlertTriangle,
+  Clock,
+  Wrench,
+  Droplet,
+  ShieldCheck,
+  ChevronRight,
+  ChevronDown,
+  MapPin,
+  Mail,
+  CheckCircle2,
+  Star,
   MessageSquare,
   ArrowRight,
   Menu,
@@ -76,6 +76,9 @@ const DEFAULT_C = {
   black: "#000000"
 };
 
+// Antigravity referenced `C` throughout but only defined DEFAULT_C — alias it.
+const C = DEFAULT_C;
+
 const SERIF = "'Barlow Condensed', sans-serif";
 const SANS = "'Roboto', sans-serif";
 const EASE = [0.16, 1, 0.3, 1];
@@ -96,7 +99,7 @@ const PHOTO = {
   ]
 };
 
-const Camera = ({ size = 24, color = "currentColor" }) => (
+const InstagramIcon = ({ size = 24, color = "currentColor" }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width={size}
@@ -1274,7 +1277,7 @@ export default function PlumberDarkUrgent() {
               </p>
               <div style={{ display: "flex", gap: "1rem" }}>
                 <a href="#" style={{ color: C.textMuted, transition: "color 0.3s ease" }} onMouseOver={e=>e.target.style.color=C.primary} onMouseOut={e=>e.target.style.color=C.textMuted}>
-                  <Camera size={20} />
+                  <InstagramIcon size={20} />
                 </a>
               </div>
             </div>

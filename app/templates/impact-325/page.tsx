@@ -2,11 +2,30 @@
 // @ts-nocheck
 import React, { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion";
-import { 
-  Building, Calendar, MapPin, Search, ShoppingCart, 
-  X, ChevronRight, ChevronLeft, Menu, Star, Check, 
-  Camera, Briefcase, Award, Clock, ArrowRight, User, Mail, CreditCard, FileText, ChevronDown, Briefcase, Send
+import {
+  Building,
+  Calendar,
+  MapPin,
+  Search,
+  ShoppingCart,
+  X,
+  ChevronRight,
+  ChevronLeft,
+  Menu,
+  Star,
+  Check,
+  Briefcase,
+  Award,
+  Clock,
+  ArrowRight,
+  User,
+  Mail,
+  CreditCard,
+  FileText,
+  ChevronDown
 } from "lucide-react";
+const Twitter = ({ size = 24, color = 'currentColor', ...p }: any) => (<svg xmlns='http://www.w3.org/2000/svg' width={size} height={size} viewBox='0 0 24 24' fill='none' stroke={color} strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' {...p}><circle cx='12' cy='12' r='10'/></svg>);
+const Linkedin = ({ size = 24, color = 'currentColor', ...p }: any) => (<svg xmlns='http://www.w3.org/2000/svg' width={size} height={size} viewBox='0 0 24 24' fill='none' stroke={color} strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' {...p}><circle cx='12' cy='12' r='10'/></svg>);
 
 /**
  * ==========================================
@@ -667,8 +686,8 @@ export default function Impact325SeminarHub({ session }) {
                 Empowering leaders and organizations through world-class seminars, strategic insights, and global networking opportunities.
               </p>
               <div style={{ display: "flex", gap: "16px" }}>
-                <a href="#" style={{ color: "rgba(255,255,255,0.6)", transition: "color 0.2s" }}><Briefcase size={20} /></a>
-                <a href="#" style={{ color: "rgba(255,255,255,0.6)", transition: "color 0.2s" }}><Send size={20} /></a>
+                <a href="#" style={{ color: "rgba(255,255,255,0.6)", transition: "color 0.2s" }}><Linkedin size={20} /></a>
+                <a href="#" style={{ color: "rgba(255,255,255,0.6)", transition: "color 0.2s" }}><Twitter size={20} /></a>
               </div>
             </div>
             

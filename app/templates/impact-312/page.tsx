@@ -2,7 +2,36 @@
 // @ts-nocheck
 import React, { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion";
-import { Wrench, Shield, Clock, Star, Phone, Mail, MapPin, ChevronRight, CheckCircle2, ArrowRight, Menu, X, Camera, Globe, Send, Settings, PenTool, Wrench, Layers, Zap, Info, MessageSquare, Briefcase, Users, Heart, Camera, Globe, Search, Award } from "lucide-react";
+import {
+  Wrench,
+  Shield,
+  Clock,
+  Star,
+  Phone,
+  Mail,
+  MapPin,
+  ChevronRight,
+  CheckCircle2,
+  ArrowRight,
+  Menu,
+  X,
+  Settings,
+  PenTool,
+  Layers,
+  Zap,
+  Info,
+  MessageSquare,
+  Briefcase,
+  Users,
+  Heart,
+  Camera,
+  Globe,
+  Search,
+  Award
+} from "lucide-react";
+const Facebook = ({ size = 24, color = 'currentColor', ...p }: any) => (<svg xmlns='http://www.w3.org/2000/svg' width={size} height={size} viewBox='0 0 24 24' fill='none' stroke={color} strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' {...p}><circle cx='12' cy='12' r='10'/></svg>);
+const Twitter = ({ size = 24, color = 'currentColor', ...p }: any) => (<svg xmlns='http://www.w3.org/2000/svg' width={size} height={size} viewBox='0 0 24 24' fill='none' stroke={color} strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' {...p}><circle cx='12' cy='12' r='10'/></svg>);
+const Instagram = ({ size = 24, color = 'currentColor', ...p }: any) => (<svg xmlns='http://www.w3.org/2000/svg' width={size} height={size} viewBox='0 0 24 24' fill='none' stroke={color} strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' {...p}><circle cx='12' cy='12' r='10'/></svg>);
 
 /*
   Template Name: Garage Minimalist (Garage - Light Clean)
@@ -356,8 +385,8 @@ export default function GarageMinimalistTemplate() {
                 Prendre Rendez-vous
               </Button>
               <div style={{ marginTop: "2rem", display: "flex", gap: "1rem", color: C.textMuted }}>
-                <a href="#" style={{ color: "inherit" }}><Camera size={24} /></a>
-                <a href="#" style={{ color: "inherit" }}><Globe size={24} /></a>
+                <a href="#" style={{ color: "inherit" }}><Instagram size={24} /></a>
+                <a href="#" style={{ color: "inherit" }}><Facebook size={24} /></a>
               </div>
             </div>
           </motion.div>
@@ -567,7 +596,7 @@ export default function GarageMinimalistTemplate() {
                 onMouseOut={e => e.currentTarget.style.opacity = 0}
               >
                 <div style={{ width: "50px", height: "50px", backgroundColor: C.primary, color: C.white, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                  <Camera size={24} />
+                  <Instagram size={24} />
                 </div>
               </div>
             </Reveal>
@@ -777,9 +806,9 @@ export default function GarageMinimalistTemplate() {
                 L'expertise mécanique à votre service. Transparence, qualité et satisfaction garantie pour l'entretien et la réparation de votre véhicule.
               </p>
               <div style={{ display: "flex", gap: "1rem" }}>
-                <a href="#" style={{ color: "#9ca3af", transition: "color 0.3s" }} onMouseOver={e=>e.currentTarget.style.color=C.primary} onMouseOut={e=>e.currentTarget.style.color="#9ca3af"}><Globe size={20} /></a>
+                <a href="#" style={{ color: "#9ca3af", transition: "color 0.3s" }} onMouseOver={e=>e.currentTarget.style.color=C.primary} onMouseOut={e=>e.currentTarget.style.color="#9ca3af"}><Facebook size={20} /></a>
                 <a href="#" style={{ color: "#9ca3af", transition: "color 0.3s" }} onMouseOver={e=>e.currentTarget.style.color=C.primary} onMouseOut={e=>e.currentTarget.style.color="#9ca3af"}><CustomInstagramIcon size={20} /></a>
-                <a href="#" style={{ color: "#9ca3af", transition: "color 0.3s" }} onMouseOver={e=>e.currentTarget.style.color=C.primary} onMouseOut={e=>e.currentTarget.style.color="#9ca3af"}><Send size={20} /></a>
+                <a href="#" style={{ color: "#9ca3af", transition: "color 0.3s" }} onMouseOver={e=>e.currentTarget.style.color=C.primary} onMouseOut={e=>e.currentTarget.style.color="#9ca3af"}><Twitter size={20} /></a>
               </div>
             </div>
 

@@ -15,20 +15,17 @@
 
 import React, { useRef, useState, useEffect, FormEvent } from "react";
 import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion";
-import { 
-  ArrowRight, 
-  MapPin, 
-  Phone, 
-  Mail, 
-  ChevronRight, 
-  Check, 
-  Menu, 
+import {
+  ArrowRight,
+  MapPin,
+  Phone,
+  Mail,
+  ChevronRight,
+  Check,
+  Menu,
   X,
   Star,
   Quote,
-  Camera,
-  Globe,
-  Briefcase,
   ChevronDown,
   Calendar,
   Users,
@@ -42,6 +39,8 @@ import {
   GlassWater,
   Briefcase
 } from "lucide-react";
+const Instagram = ({ size = 24, color = 'currentColor', ...p }: any) => (<svg xmlns='http://www.w3.org/2000/svg' width={size} height={size} viewBox='0 0 24 24' fill='none' stroke={color} strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' {...p}><circle cx='12' cy='12' r='10'/></svg>);
+const Linkedin = ({ size = 24, color = 'currentColor', ...p }: any) => (<svg xmlns='http://www.w3.org/2000/svg' width={size} height={size} viewBox='0 0 24 24' fill='none' stroke={color} strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' {...p}><circle cx='12' cy='12' r='10'/></svg>);
 
 // --- HELPERS ---
 function shadeColor(color: string, percent: number) {
@@ -747,10 +746,10 @@ export default function Impact322() {
               </p>
               <div className="flex gap-4">
                 <a href="#" className="w-10 h-10 rounded-full border flex items-center justify-center transition-colors hover:bg-white hover:text-black" style={{ borderColor: 'rgba(255,255,255,0.1)' }}>
-                  <Camera size={18} />
+                  <Instagram size={18} />
                 </a>
                 <a href="#" className="w-10 h-10 rounded-full border flex items-center justify-center transition-colors hover:bg-white hover:text-black" style={{ borderColor: 'rgba(255,255,255,0.1)' }}>
-                  <Briefcase size={18} />
+                  <Linkedin size={18} />
                 </a>
               </div>
             </div>

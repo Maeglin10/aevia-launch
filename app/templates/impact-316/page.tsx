@@ -10,10 +10,36 @@ import {
   AnimatePresence,
 } from 'framer-motion';
 import {
-  ArrowRight, Award, Building2, Calendar, Check, CheckCircle, ChevronDown, Clock, ClipboardCheck, FileText, Gem, Globe, Layers, Mail, MapPin, Menu, Phone, Quote, Shield, ShieldCheck, Sparkles, Star, Target, TrendingUp, Users, X, Zap
+  ArrowRight,
+  Award,
+  Building2,
+  Calendar,
+  Check,
+  CheckCircle,
+  ChevronDown,
+  Clock,
+  ClipboardCheck,
+  FileText,
+  Gem,
+  Globe,
+  Layers,
+  Mail,
+  MapPin,
+  Menu,
+  Phone,
+  Quote,
+  Shield,
+  ShieldCheck,
+  Sparkles,
+  Star,
+  Target,
+  TrendingUp,
+  Users,
+  X,
+  Zap
 } from 'lucide-react';
 
-const Camera = ({ size = 24, ...props }: React.ComponentProps<'svg'> & { size?: number }) => (
+const Instagram = ({ size = 24, ...props }: React.ComponentProps<'svg'> & { size?: number }) => (
   <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
     <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
     <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
@@ -584,7 +610,7 @@ export default function Page() {
               <h4 style={{ fontFamily: SERIF, fontSize: 18, color: C.primary, marginBottom: 16, fontWeight: 700 }}>PRO-NETTOYAGE SERVICES</h4>
               <p style={{ lineHeight: 1.6 }}>Nettoyage professionnel B2B</p>
               <div style={{ display: 'flex', gap: 16, marginTop: 24 }}>
-                <a href={fd?.instagram ?? "https://instagram.com"} target="_blank" rel="noreferrer" style={{ color: C.primary, opacity: 0.7 }}><Camera size={18} /></a>
+                <a href={fd?.instagram ?? "https://instagram.com"} target="_blank" rel="noreferrer" style={{ color: C.primary, opacity: 0.7 }}><Instagram size={18} /></a>
               </div>
             </div>
             <div>

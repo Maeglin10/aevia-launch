@@ -3,8 +3,29 @@
 import React, { useRef, useState, useEffect, FormEvent } from 'react';
 import { motion, useScroll, useTransform, useInView, AnimatePresence } from 'framer-motion';
 import {
-  ArrowRight, CheckCircle2, ChevronRight, Play, Star, MapPin, Phone, Mail, Clock, Camera, Globe, Send, Zap, Settings, Wrench, Shield, Award, ChevronDown, ChevronUp, Cpu, Activity, BatteryCharging, Gauge
+  ArrowRight,
+  CheckCircle2,
+  ChevronRight,
+  Play,
+  Star,
+  MapPin,
+  Phone,
+  Mail,
+  Clock,
+  Zap,
+  Settings,
+  Wrench,
+  Shield,
+  Award,
+  ChevronDown,
+  ChevronUp,
+  Cpu,
+  Activity,
+  BatteryCharging,
+  Gauge
 } from 'lucide-react';
+const Facebook = ({ size = 24, color = 'currentColor', ...p }: any) => (<svg xmlns='http://www.w3.org/2000/svg' width={size} height={size} viewBox='0 0 24 24' fill='none' stroke={color} strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' {...p}><circle cx='12' cy='12' r='10'/></svg>);
+const Twitter = ({ size = 24, color = 'currentColor', ...p }: any) => (<svg xmlns='http://www.w3.org/2000/svg' width={size} height={size} viewBox='0 0 24 24' fill='none' stroke={color} strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' {...p}><circle cx='12' cy='12' r='10'/></svg>);
 
 /*
  * ========================================================
@@ -82,7 +103,7 @@ const PHOTO = {
 // 2. INLINE ICONS & COMPONENTS
 // ==========================================
 
-const Camera = ({ size = 24, color = "currentColor" }) => (
+const InstagramIcon = ({ size = 24, color = "currentColor" }) => (
   <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
     <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
@@ -1069,9 +1090,9 @@ export default function AtelierPerformanceTemplate() {
                 L'expert de la reprogrammation moteur et de la préparation sur mesure. Libérez le potentiel de votre véhicule avec des professionnels passionnés.
               </p>
               <div style={{ display: 'flex', gap: '1rem' }}>
-                <SocialLink icon={<Camera size={20} />} themeColor={themeColor} />
-                <SocialLink icon={<Globe size={20} />} themeColor={themeColor} />
-                <SocialLink icon={<Send size={20} />} themeColor={themeColor} />
+                <SocialLink icon={<InstagramIcon size={20} />} themeColor={themeColor} />
+                <SocialLink icon={<Facebook size={20} />} themeColor={themeColor} />
+                <SocialLink icon={<Twitter size={20} />} themeColor={themeColor} />
               </div>
             </div>
 

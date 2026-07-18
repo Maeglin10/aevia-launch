@@ -2,11 +2,30 @@
 // @ts-nocheck
 import React, { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion";
-import { 
-  Ticket, Calendar, MapPin, Search, ShoppingCart, 
-  X, ChevronRight, ChevronLeft, Menu, Star, Check, 
-  Camera, Music, Zap, Clock, ArrowRight, User, Mail, CreditCard, ChevronDown, Globe, Send
+import {
+  Ticket,
+  Calendar,
+  MapPin,
+  Search,
+  ShoppingCart,
+  X,
+  ChevronRight,
+  ChevronLeft,
+  Menu,
+  Star,
+  Check,
+  Music,
+  Zap,
+  Clock,
+  ArrowRight,
+  User,
+  Mail,
+  CreditCard,
+  ChevronDown
 } from "lucide-react";
+const Facebook = ({ size = 24, color = 'currentColor', ...p }: any) => (<svg xmlns='http://www.w3.org/2000/svg' width={size} height={size} viewBox='0 0 24 24' fill='none' stroke={color} strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' {...p}><circle cx='12' cy='12' r='10'/></svg>);
+const Twitter = ({ size = 24, color = 'currentColor', ...p }: any) => (<svg xmlns='http://www.w3.org/2000/svg' width={size} height={size} viewBox='0 0 24 24' fill='none' stroke={color} strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' {...p}><circle cx='12' cy='12' r='10'/></svg>);
+const Instagram = ({ size = 24, color = 'currentColor', ...p }: any) => (<svg xmlns='http://www.w3.org/2000/svg' width={size} height={size} viewBox='0 0 24 24' fill='none' stroke={color} strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' {...p}><circle cx='12' cy='12' r='10'/></svg>);
 
 /**
  * ==========================================
@@ -710,9 +729,9 @@ export default function Impact324TicketStore({ session }) {
                 Your ultimate destination for live music, concerts, and exclusive event experiences.
               </p>
               <div style={{ display: "flex", gap: "16px" }}>
-                <a href="#" style={{ color: C.textMuted }}><Globe size={20} /></a>
-                <a href="#" style={{ color: C.textMuted }}><Send size={20} /></a>
-                <a href="#" style={{ color: C.textMuted }}><Camera size={20} /></a>
+                <a href="#" style={{ color: C.textMuted }}><Facebook size={20} /></a>
+                <a href="#" style={{ color: C.textMuted }}><Twitter size={20} /></a>
+                <a href="#" style={{ color: C.textMuted }}><Instagram size={20} /></a>
               </div>
             </div>
             

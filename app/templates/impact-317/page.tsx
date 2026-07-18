@@ -35,14 +35,14 @@ import {
   Home as HomeIcon,
   Menu,
   X,
-  Camera as Camera,
-  Globe,
-  Send,
   CalendarDays,
   Calculator,
   User,
-  Zap,
+  Zap
 } from "lucide-react";
+const Facebook = ({ size = 24, color = 'currentColor', ...p }: any) => (<svg xmlns='http://www.w3.org/2000/svg' width={size} height={size} viewBox='0 0 24 24' fill='none' stroke={color} strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' {...p}><circle cx='12' cy='12' r='10'/></svg>);
+const Twitter = ({ size = 24, color = 'currentColor', ...p }: any) => (<svg xmlns='http://www.w3.org/2000/svg' width={size} height={size} viewBox='0 0 24 24' fill='none' stroke={color} strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' {...p}><circle cx='12' cy='12' r='10'/></svg>);
+const InstagramIcon = ({ size = 24, color = 'currentColor', ...p }: any) => (<svg xmlns='http://www.w3.org/2000/svg' width={size} height={size} viewBox='0 0 24 24' fill='none' stroke={color} strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' {...p}><circle cx='12' cy='12' r='10'/></svg>);
 
 // --- Helpers ---
 function shadeColor(color: string, percent: number) {
@@ -89,7 +89,7 @@ const PHOTO = {
   ],
 };
 
-const Camera = ({ size = 24, color = "currentColor", style = {} }) => (
+const Instagram = ({ size = 24, color = "currentColor", style = {} }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width={size}
@@ -1052,9 +1052,9 @@ export default function TemplatePage({ session }: { session: any }) {
                 {tagline}
               </p>
               <div style={{ display: "flex", gap: "16px" }}>
-                <Camera size={24} color="#94a3b8" style={{ cursor: "pointer" }} />
-                <Globe size={24} color="#94a3b8" style={{ cursor: "pointer" }} />
-                <Send size={24} color="#94a3b8" style={{ cursor: "pointer" }} />
+                <InstagramIcon size={24} color="#94a3b8" style={{ cursor: "pointer" }} />
+                <Facebook size={24} color="#94a3b8" style={{ cursor: "pointer" }} />
+                <Twitter size={24} color="#94a3b8" style={{ cursor: "pointer" }} />
               </div>
             </div>
 

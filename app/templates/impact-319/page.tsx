@@ -33,11 +33,11 @@ import {
   Quote,
   ArrowRight,
   Menu,
-  X,
-  Camera,
-  Globe,
-  Send,
+  X
 } from "lucide-react";
+const Facebook = ({ size = 24, color = 'currentColor', ...p }: any) => (<svg xmlns='http://www.w3.org/2000/svg' width={size} height={size} viewBox='0 0 24 24' fill='none' stroke={color} strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' {...p}><circle cx='12' cy='12' r='10'/></svg>);
+const Twitter = ({ size = 24, color = 'currentColor', ...p }: any) => (<svg xmlns='http://www.w3.org/2000/svg' width={size} height={size} viewBox='0 0 24 24' fill='none' stroke={color} strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' {...p}><circle cx='12' cy='12' r='10'/></svg>);
+const Instagram = ({ size = 24, color = 'currentColor', ...p }: any) => (<svg xmlns='http://www.w3.org/2000/svg' width={size} height={size} viewBox='0 0 24 24' fill='none' stroke={color} strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' {...p}><circle cx='12' cy='12' r='10'/></svg>);
 
 // --- Helper Functions ---
 
@@ -373,18 +373,18 @@ export default function Template({ session }: { session: any }) {
   // Global Styles injecting
   useEffect(() => {
     const style = document.createElement('style');
-    style.innerHTML = \`
+    style.innerHTML = `
       @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;400;500;600&family=Inter:wght@300;400;500;600&display=swap');
       
       * { box-sizing: border-box; }
-      body, html { margin: 0; padding: 0; overflow-x: hidden; background-color: \${C.bg}; color: \${C.text}; font-family: \${SANS}; }
+      body, html { margin: 0; padding: 0; overflow-x: hidden; background-color: ${C.bg}; color: ${C.text}; font-family: ${SANS}; }
       
       /* Hide scrollbar */
       ::-webkit-scrollbar { width: 8px; }
-      ::-webkit-scrollbar-track { background: \${C.bgDeep}; }
-      ::-webkit-scrollbar-thumb { background: \${C.border}; border-radius: 4px; }
-      ::-webkit-scrollbar-thumb:hover { background: \${C.primaryLight}; }
-    \`;
+      ::-webkit-scrollbar-track { background: ${C.bgDeep}; }
+      ::-webkit-scrollbar-thumb { background: ${C.border}; border-radius: 4px; }
+      ::-webkit-scrollbar-thumb:hover { background: ${C.primaryLight}; }
+    `;
     document.head.appendChild(style);
     return () => { document.head.removeChild(style); };
   }, [C]);
@@ -939,9 +939,9 @@ export default function Template({ session }: { session: any }) {
                 Votre partenaire de confiance pour un intérieur impeccable, sain et respectueux de l'environnement.
               </p>
               <div style={{ display: "flex", gap: "15px" }}>
-                <a href="#" style={{ color: C.white, opacity: 0.8, transition: "opacity 0.3s" }} onMouseEnter={(e) => e.currentTarget.style.opacity="1"} onMouseLeave={(e) => e.currentTarget.style.opacity="0.8"}><Camera size={20} /></a>
-                <a href="#" style={{ color: C.white, opacity: 0.8, transition: "opacity 0.3s" }} onMouseEnter={(e) => e.currentTarget.style.opacity="1"} onMouseLeave={(e) => e.currentTarget.style.opacity="0.8"}><Globe size={20} /></a>
-                <a href="#" style={{ color: C.white, opacity: 0.8, transition: "opacity 0.3s" }} onMouseEnter={(e) => e.currentTarget.style.opacity="1"} onMouseLeave={(e) => e.currentTarget.style.opacity="0.8"}><Send size={20} /></a>
+                <a href="#" style={{ color: C.white, opacity: 0.8, transition: "opacity 0.3s" }} onMouseEnter={(e) => e.currentTarget.style.opacity="1"} onMouseLeave={(e) => e.currentTarget.style.opacity="0.8"}><Instagram size={20} /></a>
+                <a href="#" style={{ color: C.white, opacity: 0.8, transition: "opacity 0.3s" }} onMouseEnter={(e) => e.currentTarget.style.opacity="1"} onMouseLeave={(e) => e.currentTarget.style.opacity="0.8"}><Facebook size={20} /></a>
+                <a href="#" style={{ color: C.white, opacity: 0.8, transition: "opacity 0.3s" }} onMouseEnter={(e) => e.currentTarget.style.opacity="1"} onMouseLeave={(e) => e.currentTarget.style.opacity="0.8"}><Twitter size={20} /></a>
               </div>
             </div>
 

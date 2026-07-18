@@ -3,11 +3,32 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion";
-import { 
-  Menu, X, Phone, Mail, MapPin, CheckCircle2, ChevronRight, 
-  Star, ArrowRight, Droplet, Flame, PenTool, Home, Shield, 
-  Clock, ThumbsUp, Wrench, Droplets, ArrowUpRight, Globe, Send, Check, Plus, Minus
+import {
+  Menu,
+  X,
+  Phone,
+  Mail,
+  MapPin,
+  CheckCircle2,
+  ChevronRight,
+  Star,
+  ArrowRight,
+  Droplet,
+  Flame,
+  PenTool,
+  Home,
+  Shield,
+  Clock,
+  ThumbsUp,
+  Wrench,
+  Droplets,
+  ArrowUpRight,
+  Check,
+  Plus,
+  Minus
 } from "lucide-react";
+const Facebook = ({ size = 24, color = 'currentColor', ...p }: any) => (<svg xmlns='http://www.w3.org/2000/svg' width={size} height={size} viewBox='0 0 24 24' fill='none' stroke={color} strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' {...p}><circle cx='12' cy='12' r='10'/></svg>);
+const Twitter = ({ size = 24, color = 'currentColor', ...p }: any) => (<svg xmlns='http://www.w3.org/2000/svg' width={size} height={size} viewBox='0 0 24 24' fill='none' stroke={color} strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' {...p}><circle cx='12' cy='12' r='10'/></svg>);
 
 /*
  * BUSINESS NAME: Plomberie & Confort
@@ -43,7 +64,7 @@ function shadeColor(color, percent) {
 }
 
 // --- INSTAGRAM ICON ---
-const Camera = ({ size = 24, color = "currentColor", ...props }) => (
+const InstagramIcon = ({ size = 24, color = "currentColor", ...props }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
     <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
     <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
@@ -135,7 +156,7 @@ const Button = ({ children, variant = "primary", href = "#", className = "", sty
         borderRadius: "99px",
         backgroundColor: isPrimary ? C.primary : "transparent",
         color: isPrimary ? C.white : C.primary,
-        border: \`2px solid \${C.primary}\`,
+        border: `2px solid ${C.primary}`,
         fontFamily: SANS,
         fontWeight: 600,
         fontSize: "16px",
@@ -306,7 +327,7 @@ export default function Page({ session }) {
           zIndex: 100,
           backgroundColor: isScrolled ? "rgba(255,255,255,0.95)" : "transparent",
           backdropFilter: isScrolled ? "blur(10px)" : "none",
-          borderBottom: isScrolled ? \`1px solid \${C.border}\` : "1px solid rgba(255,255,255,0.1)",
+          borderBottom: isScrolled ? `1px solid ${C.border}` : "1px solid rgba(255,255,255,0.1)",
           transition: "all 0.3s ease",
           padding: isScrolled ? "16px 0" : "24px 0"
         }}
@@ -343,7 +364,7 @@ export default function Page({ session }) {
             {["Services", "À Propos", "Réalisations", "Avis", "Contact"].map((item) => (
               <a 
                 key={item}
-                href={\`#\${item.toLowerCase().normalize("NFD").replace(/[\\u0300-\\u036f]/g, "")}\`}
+                href={`#${item.toLowerCase().normalize("NFD").replace(/[\\u0300-\\u036f]/g, "")}`}
                 style={{
                   fontFamily: SANS,
                   fontWeight: 500,
@@ -406,7 +427,7 @@ export default function Page({ session }) {
             {["Services", "À Propos", "Réalisations", "Avis", "Contact"].map((item) => (
               <a 
                 key={item}
-                href={\`#\${item.toLowerCase().normalize("NFD").replace(/[\\u0300-\\u036f]/g, "")}\`}
+                href={`#${item.toLowerCase().normalize("NFD").replace(/[\\u0300-\\u036f]/g, "")}`}
                 onClick={() => setMobileMenuOpen(false)}
                 style={{
                   fontFamily: SERIF,
@@ -558,7 +579,7 @@ export default function Page({ session }) {
                       borderRadius: "24px",
                       padding: "40px 32px",
                       boxShadow: "0 20px 40px rgba(0,0,0,0.04)",
-                      border: \`1px solid \${C.border}\`,
+                      border: `1px solid ${C.border}`,
                       height: "100%",
                       display: "flex",
                       flexDirection: "column"
@@ -821,7 +842,7 @@ export default function Page({ session }) {
                       style={{
                         backgroundColor: C.bgCard,
                         borderRadius: "16px",
-                        border: \`1px solid \${C.border}\`,
+                        border: `1px solid ${C.border}`,
                         overflow: "hidden"
                       }}
                     >
@@ -924,15 +945,15 @@ export default function Page({ session }) {
                     <h3 style={{ fontFamily: SERIF, fontSize: "24px", fontWeight: 700, color: C.text, marginBottom: "8px" }}>Envoyez un message</h3>
                     <div>
                       <label style={{ display: "block", fontFamily: SANS, fontSize: "14px", fontWeight: 500, color: C.text, marginBottom: "8px" }}>Nom</label>
-                      <input type="text" placeholder="Votre nom" style={{ width: "100%", padding: "12px 16px", borderRadius: "8px", border: \`1px solid \${C.border}\`, fontFamily: SANS, fontSize: "16px", outline: "none" }} />
+                      <input type="text" placeholder="Votre nom" style={{ width: "100%", padding: "12px 16px", borderRadius: "8px", border: `1px solid ${C.border}`, fontFamily: SANS, fontSize: "16px", outline: "none" }} />
                     </div>
                     <div>
                       <label style={{ display: "block", fontFamily: SANS, fontSize: "14px", fontWeight: 500, color: C.text, marginBottom: "8px" }}>Téléphone</label>
-                      <input type="tel" placeholder="Votre téléphone" style={{ width: "100%", padding: "12px 16px", borderRadius: "8px", border: \`1px solid \${C.border}\`, fontFamily: SANS, fontSize: "16px", outline: "none" }} />
+                      <input type="tel" placeholder="Votre téléphone" style={{ width: "100%", padding: "12px 16px", borderRadius: "8px", border: `1px solid ${C.border}`, fontFamily: SANS, fontSize: "16px", outline: "none" }} />
                     </div>
                     <div>
                       <label style={{ display: "block", fontFamily: SANS, fontSize: "14px", fontWeight: 500, color: C.text, marginBottom: "8px" }}>Message</label>
-                      <textarea placeholder="Votre besoin..." rows={4} style={{ width: "100%", padding: "12px 16px", borderRadius: "8px", border: \`1px solid \${C.border}\`, fontFamily: SANS, fontSize: "16px", outline: "none", resize: "vertical" }} />
+                      <textarea placeholder="Votre besoin..." rows={4} style={{ width: "100%", padding: "12px 16px", borderRadius: "8px", border: `1px solid ${C.border}`, fontFamily: SANS, fontSize: "16px", outline: "none", resize: "vertical" }} />
                     </div>
                     <Button variant="primary" C={C} style={{ width: "100%", marginTop: "8px" }}>
                       Envoyer la demande
@@ -965,9 +986,9 @@ export default function Page({ session }) {
                 Votre expert en plomberie et chauffage. Qualité, réactivité et professionnalisme à votre service.
               </p>
               <div style={{ display: "flex", gap: "16px" }}>
-                <a href="#" style={{ color: "#f8fafc", opacity: 0.7, transition: "opacity 0.2s" }} onMouseEnter={e => e.currentTarget.style.opacity = 1} onMouseLeave={e => e.currentTarget.style.opacity = 0.7}><Globe size={20} /></a>
-                <a href="#" style={{ color: "#f8fafc", opacity: 0.7, transition: "opacity 0.2s" }} onMouseEnter={e => e.currentTarget.style.opacity = 1} onMouseLeave={e => e.currentTarget.style.opacity = 0.7}><Camera size={20} /></a>
-                <a href="#" style={{ color: "#f8fafc", opacity: 0.7, transition: "opacity 0.2s" }} onMouseEnter={e => e.currentTarget.style.opacity = 1} onMouseLeave={e => e.currentTarget.style.opacity = 0.7}><Send size={20} /></a>
+                <a href="#" style={{ color: "#f8fafc", opacity: 0.7, transition: "opacity 0.2s" }} onMouseEnter={e => e.currentTarget.style.opacity = 1} onMouseLeave={e => e.currentTarget.style.opacity = 0.7}><Facebook size={20} /></a>
+                <a href="#" style={{ color: "#f8fafc", opacity: 0.7, transition: "opacity 0.2s" }} onMouseEnter={e => e.currentTarget.style.opacity = 1} onMouseLeave={e => e.currentTarget.style.opacity = 0.7}><InstagramIcon size={20} /></a>
+                <a href="#" style={{ color: "#f8fafc", opacity: 0.7, transition: "opacity 0.2s" }} onMouseEnter={e => e.currentTarget.style.opacity = 1} onMouseLeave={e => e.currentTarget.style.opacity = 0.7}><Twitter size={20} /></a>
               </div>
             </div>
 
