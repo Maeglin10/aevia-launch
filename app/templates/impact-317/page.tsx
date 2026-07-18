@@ -35,9 +35,9 @@ import {
   Home as HomeIcon,
   Menu,
   X,
-  Instagram as InstagramIcon,
-  Facebook,
-  Twitter,
+  Camera as Camera,
+  Globe,
+  Send,
   CalendarDays,
   Calculator,
   User,
@@ -89,7 +89,7 @@ const PHOTO = {
   ],
 };
 
-const Instagram = ({ size = 24, color = "currentColor", style = {} }) => (
+const Camera = ({ size = 24, color = "currentColor", style = {} }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width={size}
@@ -1052,9 +1052,9 @@ export default function TemplatePage({ session }: { session: any }) {
                 {tagline}
               </p>
               <div style={{ display: "flex", gap: "16px" }}>
-                <InstagramIcon size={24} color="#94a3b8" style={{ cursor: "pointer" }} />
-                <Facebook size={24} color="#94a3b8" style={{ cursor: "pointer" }} />
-                <Twitter size={24} color="#94a3b8" style={{ cursor: "pointer" }} />
+                <Camera size={24} color="#94a3b8" style={{ cursor: "pointer" }} />
+                <Globe size={24} color="#94a3b8" style={{ cursor: "pointer" }} />
+                <Send size={24} color="#94a3b8" style={{ cursor: "pointer" }} />
               </div>
             </div>
 

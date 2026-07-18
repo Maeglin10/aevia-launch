@@ -6,7 +6,7 @@ import { motion, useScroll, useTransform, useInView, AnimatePresence } from "fra
 import { 
   Menu, X, Phone, Mail, MapPin, CheckCircle2, ChevronRight, 
   Star, ArrowRight, Droplet, Flame, PenTool, Home, Shield, 
-  Clock, ThumbsUp, Wrench, Droplets, ArrowUpRight, Facebook, Twitter, Check, Plus, Minus
+  Clock, ThumbsUp, Wrench, Droplets, ArrowUpRight, Globe, Send, Check, Plus, Minus
 } from "lucide-react";
 
 /*
@@ -43,7 +43,7 @@ function shadeColor(color, percent) {
 }
 
 // --- INSTAGRAM ICON ---
-const InstagramIcon = ({ size = 24, color = "currentColor", ...props }) => (
+const Camera = ({ size = 24, color = "currentColor", ...props }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
     <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
     <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
@@ -965,9 +965,9 @@ export default function Page({ session }) {
                 Votre expert en plomberie et chauffage. Qualité, réactivité et professionnalisme à votre service.
               </p>
               <div style={{ display: "flex", gap: "16px" }}>
-                <a href="#" style={{ color: "#f8fafc", opacity: 0.7, transition: "opacity 0.2s" }} onMouseEnter={e => e.currentTarget.style.opacity = 1} onMouseLeave={e => e.currentTarget.style.opacity = 0.7}><Facebook size={20} /></a>
-                <a href="#" style={{ color: "#f8fafc", opacity: 0.7, transition: "opacity 0.2s" }} onMouseEnter={e => e.currentTarget.style.opacity = 1} onMouseLeave={e => e.currentTarget.style.opacity = 0.7}><InstagramIcon size={20} /></a>
-                <a href="#" style={{ color: "#f8fafc", opacity: 0.7, transition: "opacity 0.2s" }} onMouseEnter={e => e.currentTarget.style.opacity = 1} onMouseLeave={e => e.currentTarget.style.opacity = 0.7}><Twitter size={20} /></a>
+                <a href="#" style={{ color: "#f8fafc", opacity: 0.7, transition: "opacity 0.2s" }} onMouseEnter={e => e.currentTarget.style.opacity = 1} onMouseLeave={e => e.currentTarget.style.opacity = 0.7}><Globe size={20} /></a>
+                <a href="#" style={{ color: "#f8fafc", opacity: 0.7, transition: "opacity 0.2s" }} onMouseEnter={e => e.currentTarget.style.opacity = 1} onMouseLeave={e => e.currentTarget.style.opacity = 0.7}><Camera size={20} /></a>
+                <a href="#" style={{ color: "#f8fafc", opacity: 0.7, transition: "opacity 0.2s" }} onMouseEnter={e => e.currentTarget.style.opacity = 1} onMouseLeave={e => e.currentTarget.style.opacity = 0.7}><Send size={20} /></a>
               </div>
             </div>
 

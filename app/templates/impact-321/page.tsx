@@ -3,11 +3,8 @@
 
 import React, { useRef, useState, useEffect, useLayoutEffect } from 'react';
 import { motion, useScroll, useTransform, useInView, AnimatePresence } from 'framer-motion';
-import { 
-  Calendar, MapPin, ArrowRight, ChevronRight, Menu, X, CheckCircle2, 
-  PlayCircle, Star, Quote, Mail, Phone, ExternalLink, Instagram, Facebook, 
-  Linkedin, Twitter, ChevronDown, Clock, Users, Zap, Globe, Shield, Ticket,
-  Microphone, Radio, Target, Cpu, Code
+import {
+  Calendar, MapPin, ArrowRight, ChevronRight, Menu, X, CheckCircle2, PlayCircle, Star, Quote, Mail, Phone, ExternalLink, Camera, Globe, Briefcase, Send, ChevronDown, Clock, Users, Zap, Shield, Ticket, Mic, Radio, Target, Cpu, Code
 } from 'lucide-react';
 
 /* 
@@ -868,8 +865,8 @@ export default function AIHorizonsTemplate() {
                     <p style={{ margin: 0, color: C.primary, fontSize: '14px', fontWeight: 500 }}>{speaker.role}</p>
                     
                     <div style={{ display: 'flex', gap: '16px', marginTop: '20px' }}>
-                      <a href="#" style={{ color: C.textMuted, transition: 'color 0.2s' }} onMouseEnter={e=>e.currentTarget.style.color=C.white} onMouseLeave={e=>e.currentTarget.style.color=C.textMuted}><Linkedin size={18} /></a>
-                      <a href="#" style={{ color: C.textMuted, transition: 'color 0.2s' }} onMouseEnter={e=>e.currentTarget.style.color=C.white} onMouseLeave={e=>e.currentTarget.style.color=C.textMuted}><Twitter size={18} /></a>
+                      <a href="#" style={{ color: C.textMuted, transition: 'color 0.2s' }} onMouseEnter={e=>e.currentTarget.style.color=C.white} onMouseLeave={e=>e.currentTarget.style.color=C.textMuted}><Briefcase size={18} /></a>
+                      <a href="#" style={{ color: C.textMuted, transition: 'color 0.2s' }} onMouseEnter={e=>e.currentTarget.style.color=C.white} onMouseLeave={e=>e.currentTarget.style.color=C.textMuted}><Send size={18} /></a>
                     </div>
                   </div>
                 </div>
@@ -954,7 +951,7 @@ export default function AIHorizonsTemplate() {
                         </div>
                         <h4 style={{ margin: '0 0 12px 0', fontSize: '20px' }}>{session.title}</h4>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: C.textMuted }}>
-                          <Microphone size={16} />
+                          <Mic size={16} />
                           <span style={{ fontSize: '14px' }}>{session.speaker}</span>
                         </div>
                       </div>
@@ -1150,9 +1147,9 @@ export default function AIHorizonsTemplate() {
               L'événement européen de référence pour les professionnels de l'Intelligence Artificielle.
             </p>
             <div style={{ display: 'flex', gap: '16px' }}>
-              <a href="#" style={{ color: C.textMuted }}><Twitter size={20} /></a>
-              <a href="#" style={{ color: C.textMuted }}><Linkedin size={20} /></a>
-              <a href="#" style={{ color: C.textMuted }}><Instagram size={20} /></a>
+              <a href="#" style={{ color: C.textMuted }}><Send size={20} /></a>
+              <a href="#" style={{ color: C.textMuted }}><Briefcase size={20} /></a>
+              <a href="#" style={{ color: C.textMuted }}><Camera size={20} /></a>
             </div>
           </div>
 

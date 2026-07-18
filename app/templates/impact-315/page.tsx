@@ -10,36 +10,11 @@ import {
   AnimatePresence,
 } from 'framer-motion';
 import {
-  ArrowRight,
-  Award,
-  Calendar,
-  Check,
-  CheckCircle,
-  ChevronDown,
-  Clock,
-  Droplets,
-  Heart,
-  Home,
-  Leaf,
-  Mail,
-  MapPin,
-  Menu,
-  Phone,
-  Quote,
-  Repeat,
-  Shield,
-  ShoppingBag,
-  Sparkles,
-  Star,
-  ThumbsUp,
-  Users,
-  Wind,
-  X,
-  Zap,
+  ArrowRight, Award, Calendar, Check, CheckCircle, ChevronDown, Clock, Droplets, Heart, Home, Leaf, Mail, MapPin, Menu, Phone, Quote, Repeat, Shield, ShoppingBag, Sparkles, Star, ThumbsUp, Users, Wind, X, Zap
 } from 'lucide-react';
 
-// Custom Instagram icon component for compatibility
-const Instagram = ({ size = 24, ...props }: React.ComponentProps<'svg'> & { size?: number }) => (
+// Custom Camera icon component for compatibility
+const Camera = ({ size = 24, ...props }: React.ComponentProps<'svg'> & { size?: number }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width={size}
@@ -1296,7 +1271,7 @@ export default function Page() {
                 Ménage professionnel à domicile
               </p>
               <div style={{ display: 'flex', gap: 16, marginTop: 24 }}>
-                <a href={fd?.instagram ?? "https://instagram.com"} target="_blank" rel="noreferrer" style={{ color: C.primary, opacity: 0.7 }}><Instagram size={18} /></a>
+                <a href={fd?.instagram ?? "https://instagram.com"} target="_blank" rel="noreferrer" style={{ color: C.primary, opacity: 0.7 }}><Camera size={18} /></a>
               </div>
             </div>
 

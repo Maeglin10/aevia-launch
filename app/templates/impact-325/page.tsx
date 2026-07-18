@@ -5,7 +5,7 @@ import { motion, useScroll, useTransform, useInView, AnimatePresence } from "fra
 import { 
   Building, Calendar, MapPin, Search, ShoppingCart, 
   X, ChevronRight, ChevronLeft, Menu, Star, Check, 
-  Instagram, Briefcase, Award, Clock, ArrowRight, User, Mail, CreditCard, FileText, ChevronDown, Linkedin, Twitter
+  Camera, Briefcase, Award, Clock, ArrowRight, User, Mail, CreditCard, FileText, ChevronDown, Briefcase, Send
 } from "lucide-react";
 
 /**
@@ -667,8 +667,8 @@ export default function Impact325SeminarHub({ session }) {
                 Empowering leaders and organizations through world-class seminars, strategic insights, and global networking opportunities.
               </p>
               <div style={{ display: "flex", gap: "16px" }}>
-                <a href="#" style={{ color: "rgba(255,255,255,0.6)", transition: "color 0.2s" }}><Linkedin size={20} /></a>
-                <a href="#" style={{ color: "rgba(255,255,255,0.6)", transition: "color 0.2s" }}><Twitter size={20} /></a>
+                <a href="#" style={{ color: "rgba(255,255,255,0.6)", transition: "color 0.2s" }}><Briefcase size={20} /></a>
+                <a href="#" style={{ color: "rgba(255,255,255,0.6)", transition: "color 0.2s" }}><Send size={20} /></a>
               </div>
             </div>
             

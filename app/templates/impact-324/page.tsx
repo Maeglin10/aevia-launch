@@ -5,7 +5,7 @@ import { motion, useScroll, useTransform, useInView, AnimatePresence } from "fra
 import { 
   Ticket, Calendar, MapPin, Search, ShoppingCart, 
   X, ChevronRight, ChevronLeft, Menu, Star, Check, 
-  Instagram, Music, Zap, Clock, ArrowRight, User, Mail, CreditCard, ChevronDown, Facebook, Twitter
+  Camera, Music, Zap, Clock, ArrowRight, User, Mail, CreditCard, ChevronDown, Globe, Send
 } from "lucide-react";
 
 /**
@@ -710,9 +710,9 @@ export default function Impact324TicketStore({ session }) {
                 Your ultimate destination for live music, concerts, and exclusive event experiences.
               </p>
               <div style={{ display: "flex", gap: "16px" }}>
-                <a href="#" style={{ color: C.textMuted }}><Facebook size={20} /></a>
-                <a href="#" style={{ color: C.textMuted }}><Twitter size={20} /></a>
-                <a href="#" style={{ color: C.textMuted }}><Instagram size={20} /></a>
+                <a href="#" style={{ color: C.textMuted }}><Globe size={20} /></a>
+                <a href="#" style={{ color: C.textMuted }}><Send size={20} /></a>
+                <a href="#" style={{ color: C.textMuted }}><Camera size={20} /></a>
               </div>
             </div>
             

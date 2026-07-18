@@ -26,9 +26,9 @@ import {
   X,
   Star,
   Quote,
-  Instagram,
-  Facebook,
-  Linkedin,
+  Camera,
+  Globe,
+  Briefcase,
   ChevronDown,
   Calendar,
   Users,
@@ -747,10 +747,10 @@ export default function Impact322() {
               </p>
               <div className="flex gap-4">
                 <a href="#" className="w-10 h-10 rounded-full border flex items-center justify-center transition-colors hover:bg-white hover:text-black" style={{ borderColor: 'rgba(255,255,255,0.1)' }}>
-                  <Instagram size={18} />
+                  <Camera size={18} />
                 </a>
                 <a href="#" className="w-10 h-10 rounded-full border flex items-center justify-center transition-colors hover:bg-white hover:text-black" style={{ borderColor: 'rgba(255,255,255,0.1)' }}>
-                  <Linkedin size={18} />
+                  <Briefcase size={18} />
                 </a>
               </div>
             </div>

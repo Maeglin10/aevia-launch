@@ -34,9 +34,9 @@ import {
   ArrowRight,
   Menu,
   X,
-  Instagram,
-  Facebook,
-  Twitter,
+  Camera,
+  Globe,
+  Send,
 } from "lucide-react";
 
 // --- Helper Functions ---
@@ -939,9 +939,9 @@ export default function Template({ session }: { session: any }) {
                 Votre partenaire de confiance pour un intérieur impeccable, sain et respectueux de l'environnement.
               </p>
               <div style={{ display: "flex", gap: "15px" }}>
-                <a href="#" style={{ color: C.white, opacity: 0.8, transition: "opacity 0.3s" }} onMouseEnter={(e) => e.currentTarget.style.opacity="1"} onMouseLeave={(e) => e.currentTarget.style.opacity="0.8"}><Instagram size={20} /></a>
-                <a href="#" style={{ color: C.white, opacity: 0.8, transition: "opacity 0.3s" }} onMouseEnter={(e) => e.currentTarget.style.opacity="1"} onMouseLeave={(e) => e.currentTarget.style.opacity="0.8"}><Facebook size={20} /></a>
-                <a href="#" style={{ color: C.white, opacity: 0.8, transition: "opacity 0.3s" }} onMouseEnter={(e) => e.currentTarget.style.opacity="1"} onMouseLeave={(e) => e.currentTarget.style.opacity="0.8"}><Twitter size={20} /></a>
+                <a href="#" style={{ color: C.white, opacity: 0.8, transition: "opacity 0.3s" }} onMouseEnter={(e) => e.currentTarget.style.opacity="1"} onMouseLeave={(e) => e.currentTarget.style.opacity="0.8"}><Camera size={20} /></a>
+                <a href="#" style={{ color: C.white, opacity: 0.8, transition: "opacity 0.3s" }} onMouseEnter={(e) => e.currentTarget.style.opacity="1"} onMouseLeave={(e) => e.currentTarget.style.opacity="0.8"}><Globe size={20} /></a>
+                <a href="#" style={{ color: C.white, opacity: 0.8, transition: "opacity 0.3s" }} onMouseEnter={(e) => e.currentTarget.style.opacity="1"} onMouseLeave={(e) => e.currentTarget.style.opacity="0.8"}><Send size={20} /></a>
               </div>
             </div>
 

@@ -96,7 +96,7 @@ const PHOTO = {
   ]
 };
 
-const InstagramIcon = ({ size = 24, color = "currentColor" }) => (
+const Camera = ({ size = 24, color = "currentColor" }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width={size}
@@ -1274,7 +1274,7 @@ export default function PlumberDarkUrgent() {
               </p>
               <div style={{ display: "flex", gap: "1rem" }}>
                 <a href="#" style={{ color: C.textMuted, transition: "color 0.3s ease" }} onMouseOver={e=>e.target.style.color=C.primary} onMouseOut={e=>e.target.style.color=C.textMuted}>
-                  <InstagramIcon size={20} />
+                  <Camera size={20} />
                 </a>
               </div>
             </div>
