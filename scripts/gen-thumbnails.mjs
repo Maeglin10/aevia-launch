@@ -50,7 +50,17 @@ async function main() {
   await fs.mkdir(THUMBNAILS_DIR, { recursive: true });
 
   const ids = await getTemplateIds();
-  const target = process.argv[2] ? [process.argv[2]] : ids;
+  const arg = process.argv[2];
+  let target;
+  if (arg === '--missing') {
+    // Only templates that don't yet have a thumbnail file.
+    const existing = new Set((await fs.readdir(THUMBNAILS_DIR)).map((f) => f.replace(/\.\w+$/, '')));
+    target = ids.filter((id) => !existing.has(id));
+  } else if (arg) {
+    target = [arg];
+  } else {
+    target = ids;
+  }
   console.log(`Capturing ${target.length} templates on ${BASE_URL}`);
 
   const browser = await chromium.launch({ headless: true });

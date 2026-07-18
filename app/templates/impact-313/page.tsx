@@ -160,7 +160,7 @@ const Eyebrow = ({ children, color }) => (
   </div>
 );
 
-const Button = ({ children, variant = "primary", href = "#", C, className = "", icon = null }) => {
+const Button = ({ children, variant = "primary", href = "#", className = "", icon = null }) => {
   const [isHovered, setIsHovered] = useState(false);
   
   const baseStyle = {
