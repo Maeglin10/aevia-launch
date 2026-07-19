@@ -138,6 +138,71 @@ const Reveal = ({
   );
 };
 
+// Extracted so useState is called once per component instance, not once per
+// .map() iteration inside the parent render (that violates Rules of Hooks —
+// React saw a different hook count between renders and threw in dev).
+const FaqItem = ({
+  faq,
+  index,
+  colors,
+}: {
+  faq: { question: string; answer: string };
+  index: number;
+  colors: Record<string, string>;
+}) => {
+  const [isOpen, setIsOpen] = useState(false);
+  return (
+    <Reveal delay={index * 0.1}>
+      <div
+        style={{
+          backgroundColor: colors.bgCard,
+          borderRadius: "12px",
+          overflow: "hidden",
+          border: `1px solid ${colors.border}50`,
+        }}
+      >
+        <button
+          onClick={() => setIsOpen(!isOpen)}
+          style={{
+            width: "100%",
+            padding: "24px",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            background: "none",
+            border: "none",
+            cursor: "pointer",
+            textAlign: "left",
+            fontFamily: SANS,
+            fontSize: "16px",
+            fontWeight: 500,
+            color: colors.black,
+          }}
+        >
+          {faq.question}
+          <motion.div animate={{ rotate: isOpen ? 180 : 0 }} transition={{ duration: 0.3 }}>
+            <ChevronDown size={20} color={colors.primary} />
+          </motion.div>
+        </button>
+        <AnimatePresence>
+          {isOpen && (
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              <div style={{ padding: "0 24px 24px 24px", fontFamily: SANS, fontSize: "15px", color: colors.textMuted, lineHeight: 1.6 }}>
+                {faq.answer}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+    </Reveal>
+  );
+};
+
 const Eyebrow = ({ text, color }: { text: string; color: string }) => (
   <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "20px" }}>
     <div style={{ width: "30px", height: "1px", backgroundColor: color }} />
@@ -782,59 +847,9 @@ export default function Template({ session }: { session: any }) {
           </div>
 
           <div style={{ display: "flex", flexDirection: "column", gap: "15px" }}>
-            {faqs.map((faq, i) => {
-              const [isOpen, setIsOpen] = useState(false);
-              return (
-                <Reveal key={i} delay={i * 0.1}>
-                  <div 
-                    style={{ 
-                      backgroundColor: C.bgCard, 
-                      borderRadius: "12px", 
-                      overflow: "hidden",
-                      border: `1px solid ${C.border}50`,
-                    }}
-                  >
-                    <button
-                      onClick={() => setIsOpen(!isOpen)}
-                      style={{
-                        width: "100%",
-                        padding: "24px",
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                        background: "none",
-                        border: "none",
-                        cursor: "pointer",
-                        textAlign: "left",
-                        fontFamily: SANS,
-                        fontSize: "16px",
-                        fontWeight: 500,
-                        color: C.black,
-                      }}
-                    >
-                      {faq.question}
-                      <motion.div animate={{ rotate: isOpen ? 180 : 0 }} transition={{ duration: 0.3 }}>
-                        <ChevronDown size={20} color={C.primary} />
-                      </motion.div>
-                    </button>
-                    <AnimatePresence>
-                      {isOpen && (
-                        <motion.div
-                          initial={{ height: 0, opacity: 0 }}
-                          animate={{ height: "auto", opacity: 1 }}
-                          exit={{ height: 0, opacity: 0 }}
-                          transition={{ duration: 0.3 }}
-                        >
-                          <div style={{ padding: "0 24px 24px 24px", fontFamily: SANS, fontSize: "15px", color: C.textMuted, lineHeight: 1.6 }}>
-                            {faq.answer}
-                          </div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </div>
-                </Reveal>
-              );
-            })}
+            {faqs.map((faq, i) => (
+              <FaqItem key={i} faq={faq} index={i} colors={C} />
+            ))}
           </div>
         </div>
       </section>
