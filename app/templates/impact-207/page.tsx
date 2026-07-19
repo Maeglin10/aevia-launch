@@ -60,10 +60,14 @@ const T = {
 /* --------------------------------------------------------------------------
    WORLD MAP SVG DATA — simplified continental outlines
    -------------------------------------------------------------------------- */
-// Hub city coordinates [cx, cy] in SVG viewBox 0 0 1000 500
-const HUBS: Record<string, { x: number; y: number; label: string }> = {
-  paris: { x: 472, y: 148, label: "Paris" },
-  rotterdam: { x: 479, y: 138, label: "Rotterdam" },
+// Hub city coordinates [cx, cy] in SVG viewBox 0 0 1000 500.
+// Paris/Rotterdam sit dead-center (Western Europe), which is exactly where
+// the hero headline renders — their text labels bled through the headline.
+// hideLabel keeps the pulsing dot marker (subtle) but drops the <text> that
+// was colliding; the other hubs sit clear of the headline's footprint.
+const HUBS: Record<string, { x: number; y: number; label: string; hideLabel?: boolean }> = {
+  paris: { x: 472, y: 148, label: "Paris", hideLabel: true },
+  rotterdam: { x: 479, y: 138, label: "Rotterdam", hideLabel: true },
   dubai: { x: 580, y: 200, label: "Dubai" },
   singapore: { x: 720, y: 265, label: "Singapore" },
   chicago: { x: 200, y: 170, label: "Chicago" },
@@ -446,18 +450,20 @@ function RouteMapHero() {
               {/* Inner dot */}
               <circle cx={hub.x} cy={hub.y} r={3.5} fill={T.accent} />
               {/* Label */}
-              <text
-                x={hub.x}
-                y={hub.y - 15}
-                textAnchor="middle"
-                fill={T.text}
-                fontSize="10"
-                fontFamily="Inter, sans-serif"
-                fontWeight="600"
-                letterSpacing="0.05em"
-              >
-                {hub.label}
-              </text>
+              {!hub.hideLabel && (
+                <text
+                  x={hub.x}
+                  y={hub.y - 15}
+                  textAnchor="middle"
+                  fill={T.text}
+                  fontSize="10"
+                  fontFamily="Inter, sans-serif"
+                  fontWeight="600"
+                  letterSpacing="0.05em"
+                >
+                  {hub.label}
+                </text>
+              )}
             </g>
           ))}
         </svg>
