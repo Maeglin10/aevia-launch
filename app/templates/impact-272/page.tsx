@@ -1041,6 +1041,7 @@ function SpecialtySequence() {
               progress={progress}
             />
           ))}
+        </div>
         {/* Carousel navigation */}
         <button
           onClick={() => goTo((active - 1 + n) % n)}
@@ -1056,7 +1057,6 @@ function SpecialtySequence() {
           {Array.from({ length: n }, (_, i) => (
             <button key={i} onClick={() => goTo(i)} aria-label={`Slide ${i + 1}`} style={{ width: 8, height: 8, borderRadius: '50%', background: active === i ? '#fff' : 'rgba(255,255,255,0.35)', border: 'none', cursor: 'pointer', padding: 0, transition: 'background 0.3s' }} />
           ))}
-        </div>
         </div>
       </div>
     </section>
