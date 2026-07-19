@@ -399,7 +399,10 @@ export default function SkylineConciergePage() {
           </Reveal>
         </div>
 
-        <div className="absolute bottom-12 left-12 flex flex-col gap-4">
+        {/* Anchored bottom-RIGHT: the hero copy is left-aligned and can reach the
+            bottom on short viewports — keeping stats on the left made them overlap
+            the paragraph/CTA. Hidden on mobile where no free column exists. */}
+        <div className="absolute bottom-12 right-12 hidden md:flex flex-col gap-4">
           {STATS.map((stat, i) => (
             <div key={i} className="flex items-center gap-4 group">
               <div className="w-1 h-8 bg-[#c9a96e]/20 group-hover:bg-[#c9a96e] transition-all" />

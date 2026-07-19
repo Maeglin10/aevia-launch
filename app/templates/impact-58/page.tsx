@@ -264,7 +264,9 @@ return (
               position: 'relative',
               zIndex: 1,
               display: 'grid',
-              gridTemplateColumns: '1fr auto',
+              // minmax(0,1fr) lets the huge clamp() title shrink instead of
+              // crushing the right column to one-word-per-line / clipping the CTA
+              gridTemplateColumns: 'minmax(0, 1fr) minmax(240px, 300px)',
               gap: '3rem',
               alignItems: 'flex-end',
             }}
