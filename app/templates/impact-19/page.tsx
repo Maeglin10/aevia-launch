@@ -65,6 +65,11 @@ type ActivePage = "home" | "theses" | "portefeuille" | "equipe" | "blog" | "cont
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+// Client-uploaded photo at index i, falling back to the template's stock
+// photo when the client did not upload one for that slot.
+function photo(i: number, fallback: string): string {
+  return fd?.photoUrls?.[i] || fallback;
+}
 export default function SummitCapitalPage() {
   const [session, setSession] = useState<{
     formData?: {
@@ -252,7 +257,7 @@ return (
             {/* Hero */}
             <section id="hero" ref={heroRef} className="relative h-dvh overflow-hidden flex items-center">
               <motion.div className="absolute inset-0 pointer-events-none" style={{ y: heroY }}>
-                <Image src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1600&q=85" alt={fd?.businessName ?? "Summit Capital"} fill className="object-cover opacity-30" priority />
+                <Image src={photo(0, "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1600&q=85")} alt={fd?.businessName ?? "Summit Capital"} fill className="object-cover opacity-30" priority />
                 <div className="absolute inset-0 bg-gradient-to-br from-[#09090B] via-[#09090B]/80 to-[#09090B]" />
               </motion.div>
               <motion.div className="relative z-10 max-w-6xl mx-auto px-6 w-full" style={{ opacity: heroOpacity }}>

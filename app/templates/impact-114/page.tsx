@@ -522,6 +522,11 @@ function CurtainSlider() {
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+// Client-uploaded photo at index i, falling back to the template's stock
+// photo when the client did not upload one for that slot.
+function photo(i: number, fallback: string): string {
+  return fd?.photoUrls?.[i] || fallback;
+}
 export default function Impact114Page() {
   const [session, setSession] = useState<{
     formData?: {
@@ -1030,7 +1035,7 @@ export default function Impact114Page() {
                 style={{ top: "-60px", bottom: "-60px", left: 0, right: 0, y: aboutImgY }}
               >
                 <Image
-                  src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=900&q=85&auto=format&fit=crop"
+                  src={photo(0, "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=900&q=85&auto=format&fit=crop")}
                   alt="Julien Moreau photographe"
                   fill
                   className="object-cover"

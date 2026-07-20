@@ -39,6 +39,11 @@ const SOINS = [
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+// Client-uploaded photo at index i, falling back to the template's stock
+// photo when the client did not upload one for that slot.
+function photo(i: number, fallback: string): string {
+  return fd?.photoUrls?.[i] || fallback;
+}
 export default function CliniqueBoisVertPage() {
   const [session, setSession] = useState<{
     formData?: {
@@ -181,7 +186,7 @@ export default function CliniqueBoisVertPage() {
       {/* ── HERO ── */}
       <section id="hero" ref={heroRef} className="relative h-[110vh] min-h-[820px] flex items-end overflow-hidden">
         <motion.div style={{ y: heroY }} className="absolute inset-0">
-          <Image src="https://images.unsplash.com/photo-1559190394-df5a28aab5c5?auto=format&fit=crop&q=85&w=2400" alt="Vétérinaire avec animal" fill className="object-cover object-center" priority style={{ filter: "brightness(0.4)" }} />
+          <Image src={photo(0, "https://images.unsplash.com/photo-1559190394-df5a28aab5c5?auto=format&fit=crop&q=85&w=2400")} alt="Vétérinaire avec animal" fill className="object-cover object-center" priority style={{ filter: "brightness(0.4)" }} />
           <div className="absolute inset-0 bg-gradient-to-t from-[#1a2a1c] via-[#1a2a1c]/45 to-transparent" />
           <div className="absolute inset-0 bg-gradient-to-r from-[#1a2a1c]/70 to-transparent" />
         </motion.div>

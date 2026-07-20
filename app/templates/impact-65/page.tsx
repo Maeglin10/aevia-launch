@@ -13,6 +13,11 @@ import { Reveal, GridBackground } from "./shared";
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+// Client-uploaded photo at index i, falling back to the template's stock
+// photo when the client did not upload one for that slot.
+function photo(i: number, fallback: string): string {
+  return fd?.photoUrls?.[i] || fallback;
+}
 export default function CarbonLabPage() {
   const [session, setSession] = useState<{
     formData?: {
@@ -98,7 +103,7 @@ return (
         <GridBackground />
         <div className="absolute inset-0">
           <Image
-            src="https://images.unsplash.com/photo-1542281286-9e0a16bb7366?auto=format&fit=crop&q=80&w=2400"
+            src={photo(0, "https://images.unsplash.com/photo-1542281286-9e0a16bb7366?auto=format&fit=crop&q=80&w=2400")}
             alt="High Performance Car"
             fill
             className="object-cover opacity-10 scale-110"
@@ -137,7 +142,7 @@ return (
             <Reveal delay={0.5} y={0}>
               <div className="relative aspect-square md:aspect-video bg-white/5 border border-white/10 overflow-hidden group">
                 <Image
-                  src="https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&q=80&w=1200"
+                  src={photo(1, "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&q=80&w=1200")}
                   alt="Racing Detail"
                   fill
                   className="object-cover grayscale group-hover:grayscale-0 transition-all duration-1000 scale-105 group-hover:scale-100"

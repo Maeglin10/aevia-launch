@@ -716,6 +716,11 @@ function FaqSection() {
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+// Client-uploaded photo at index i, falling back to the template's stock
+// photo when the client did not upload one for that slot.
+function photo(i: number, fallback: string): string {
+  return fd?.photoUrls?.[i] || fallback;
+}
 export default function LumiereCliniquePage() {
   const [session, setSession] = useState<{
     formData?: {
@@ -900,7 +905,7 @@ export default function LumiereCliniquePage() {
         {/* Hero */}
         <section id="hero" ref={heroRef} className="relative min-h-[calc(100vh-80px)] overflow-hidden">
           <motion.div className="absolute inset-0" style={{ y: heroY }}>
-            <Image src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=1600&q=85&fit=crop" alt={fd?.businessName ?? "Lumière Clinic"} fill className="object-cover" loading="lazy" />
+            <Image src={photo(0, "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=1600&q=85&fit=crop")} alt={fd?.businessName ?? "Lumière Clinic"} fill className="object-cover" loading="lazy" />
             <div className="absolute inset-0 bg-gradient-to-r from-[#FAFAF8]/95 via-[#FAFAF8]/70 to-[#FAFAF8]/20" />
           </motion.div>
           <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 pt-24 pb-24 min-h-[calc(100vh-80px)] flex flex-col justify-center">

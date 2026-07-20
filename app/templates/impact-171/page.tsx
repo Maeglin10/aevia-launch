@@ -195,6 +195,11 @@ function StatCard({ value, label, delay }: { value: string; label: string; delay
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+// Client-uploaded photo at index i, falling back to the template's stock
+// photo when the client did not upload one for that slot.
+function photo(i: number, fallback: string): string {
+  return fd?.photoUrls?.[i] || fallback;
+}
 export default function Impact171Page() {
   const [session, setSession] = useState<{
     formData?: {
@@ -405,7 +410,7 @@ export default function Impact171Page() {
             <Reveal delay={0.2}>
               <div className="relative h-[500px] rounded-3xl overflow-hidden shadow-2xl">
                 <motion.div style={{ y: heroY }} className="absolute inset-0">
-                  <Image src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?q=80&w=1200&auto=format&fit=crop"
+                  <Image src={photo(0, "https://images.unsplash.com/photo-1579684385127-1ef15d508118?q=80&w=1200&auto=format&fit=crop")}
                     alt="Cabinet médical" fill className="object-cover" />
                 </motion.div>
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0f172a]/40 to-transparent" />
@@ -488,7 +493,7 @@ export default function Impact171Page() {
                 </div>
               </div>
               <div className="relative h-64 rounded-2xl overflow-hidden">
-                <Image src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=800&auto=format&fit=crop"
+                <Image src={photo(1, "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=800&auto=format&fit=crop")}
                   alt={activeSpecData.label} fill className="object-cover" />
               </div>
             </motion.div>

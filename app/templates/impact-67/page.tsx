@@ -14,6 +14,11 @@ import "../premium.css";
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+// Client-uploaded photo at index i, falling back to the template's stock
+// photo when the client did not upload one for that slot.
+function photo(i: number, fallback: string): string {
+  return fd?.photoUrls?.[i] || fallback;
+}
 export default function VisionHomePage() {
   const [session, setSession] = useState<{
     formData?: {
@@ -118,7 +123,7 @@ return (
           className="absolute inset-0 z-0"
         >
           <Image
-            src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1600&q=80"
+            src={photo(0, "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1600&q=80")}
             alt="Vision Hero"
             fill
             className="object-cover brightness-[0.4] grayscale-[80%]"
@@ -349,9 +354,9 @@ return (
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-white/5">
             {[
-              { id: "PRJ-0047", name: "Penthouse Trinity", loc: "Paris 8e", type: "Résidentiel", size: "340 m²", pts: "2.8B pts", img: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&q=80" },
-              { id: "PRJ-0031", name: "HQ Montparnasse", loc: "Paris 14e", type: "Commercial", size: "4 200 m²", pts: "18.4B pts", img: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80" },
-              { id: "PRJ-0018", name: "Villa Antibes", loc: "Côte d'Azur", type: "Prestige", size: "820 m²", pts: "6.1B pts", img: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&q=80" },
+              { id: "PRJ-0047", name: "Penthouse Trinity", loc: "Paris 8e", type: "Résidentiel", size: "340 m²", pts: "2.8B pts", img: photo(1, "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&q=80") },
+              { id: "PRJ-0031", name: "HQ Montparnasse", loc: "Paris 14e", type: "Commercial", size: "4 200 m²", pts: "18.4B pts", img: photo(2, "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80") },
+              { id: "PRJ-0018", name: "Villa Antibes", loc: "Côte d'Azur", type: "Prestige", size: "820 m²", pts: "6.1B pts", img: photo(3, "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&q=80") },
             ].map((p, i) => (
               <Reveal key={p.id} delay={i * 0.08}>
                 <div className="bg-[#050505] group overflow-hidden">

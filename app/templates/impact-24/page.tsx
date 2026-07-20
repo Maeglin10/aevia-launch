@@ -64,6 +64,11 @@ const sectors = ["All", "AI/ML", "Fintech", "Developer Tools", "HealthTech", "Cl
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+// Client-uploaded photo at index i, falling back to the template's stock
+// photo when the client did not upload one for that slot.
+function photo(i: number, fallback: string): string {
+  return fd?.photoUrls?.[i] || fallback;
+}
 export default function Impact24() {
   const [session, setSession] = useState<{
     formData?: {
@@ -444,7 +449,7 @@ return (
                   <div className="relative">
                     <div className="rounded-2xl overflow-hidden aspect-[4/5]">
                       <Image
-                        src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&h=1000&fit=crop&crop=center"
+                        src={photo(0, "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&h=1000&fit=crop&crop=center")}
                         alt="Founders at Zero to One"
                         width={800}
                         height={1000}

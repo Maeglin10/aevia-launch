@@ -163,6 +163,11 @@ const MANIFEST = {
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+// Client-uploaded photo at index i, falling back to the template's stock
+// photo when the client did not upload one for that slot.
+function photo(i: number, fallback: string): string {
+  return fd?.photoUrls?.[i] || fallback;
+}
 export default function FolioStudioPage() {
   const [session, setSession] = useState<{
     formData?: {
@@ -407,7 +412,7 @@ export default function FolioStudioPage() {
 
         {/* ─── FULL WIDTH IMAGE PARALLAX ─────────────────────────────────── */}
         <section className="py-20">
-          <ParallaxImg src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=1600&q=80" alt="Office" className="h-[60vh] md:h-[80vh] w-full" />
+          <ParallaxImg src={photo(0, "https://images.unsplash.com/photo-1497366216548-37526070297c?w=1600&q=80")} alt="Office" className="h-[60vh] md:h-[80vh] w-full" />
         </section>
 
         {/* ─── SERVICES GRID ─────────────────────────────────────────────── */}

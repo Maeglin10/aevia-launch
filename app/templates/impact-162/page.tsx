@@ -73,6 +73,11 @@ const HOURS = [
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+// Client-uploaded photo at index i, falling back to the template's stock
+// photo when the client did not upload one for that slot.
+function photo(i: number, fallback: string): string {
+  return fd?.photoUrls?.[i] || fallback;
+}
 export default function EssentialCafePage() {
   const [session, setSession] = useState<{
     formData?: {
@@ -240,7 +245,7 @@ export default function EssentialCafePage() {
       {/* Hero */}
       <section id="hero" ref={heroRef} className="relative min-h-dvh overflow-hidden flex items-end">
         <motion.div className="absolute inset-0" style={{ y: heroY }}>
-          <Image src="https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=1600&q=85" alt="Le Matin Doré" fill className="object-cover" />
+          <Image src={photo(0, "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=1600&q=85")} alt="Le Matin Doré" fill className="object-cover" />
           <div className="absolute inset-0 bg-gradient-to-t from-[#1A0E05]/90 via-[#1A0E05]/30 to-transparent" />
         </motion.div>
         <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 pb-24 pt-32 w-full">
@@ -350,7 +355,7 @@ export default function EssentialCafePage() {
             <div className="relative">
               <Reveal>
                 <div className="aspect-[4/5] relative overflow-hidden">
-                  <Image src="https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=800&q=80" alt="Notre histoire" fill className="object-cover" />
+                  <Image src={photo(1, "https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=800&q=80")} alt="Notre histoire" fill className="object-cover" />
                 </div>
                 <div className="absolute -bottom-6 -right-6 bg-[#8B5E3C] text-white p-6">
                   <div className="text-3xl font-light mb-1" style={{ fontFamily: "'Playfair Display', serif" }}>2018</div>
@@ -399,14 +404,14 @@ export default function EssentialCafePage() {
           </Reveal>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             {[
-              "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&q=80",
-              "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=400&q=80",
-              "https://images.unsplash.com/photo-1464979681340-bdd28a61699e?w=400&q=80",
-              "https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=400&q=80",
-              "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80",
-              "https://images.unsplash.com/photo-1498804103079-a6351b050096?w=400&q=80",
-              "https://images.unsplash.com/photo-1511920170033-f8396924c348?w=400&q=80",
-              "https://images.unsplash.com/photo-1516743619420-154b70a65fea?w=400&q=80",
+              photo(2, "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&q=80"),
+              photo(3, "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=400&q=80"),
+              photo(4, "https://images.unsplash.com/photo-1464979681340-bdd28a61699e?w=400&q=80"),
+              photo(5, "https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=400&q=80"),
+              photo(6, "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80"),
+              photo(7, "https://images.unsplash.com/photo-1498804103079-a6351b050096?w=400&q=80"),
+              photo(8, "https://images.unsplash.com/photo-1511920170033-f8396924c348?w=400&q=80"),
+              photo(9, "https://images.unsplash.com/photo-1516743619420-154b70a65fea?w=400&q=80"),
             ].map((src, i) => (
               <Reveal key={i} delay={i * 0.04}>
                 <div className="relative aspect-square overflow-hidden group cursor-pointer">

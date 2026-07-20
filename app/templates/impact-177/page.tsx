@@ -79,6 +79,11 @@ const SERVICES = [
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+// Client-uploaded photo at index i, falling back to the template's stock
+// photo when the client did not upload one for that slot.
+function photo(i: number, fallback: string): string {
+  return fd?.photoUrls?.[i] || fallback;
+}
 export default function MaelleDumasPage() {
   const [session, setSession] = useState<{
     formData?: {
@@ -222,7 +227,7 @@ export default function MaelleDumasPage() {
       {/* ── HERO ── */}
       <section id="hero" ref={heroRef} style={{ position: "relative", height: "110vh", minHeight: 900, overflow: "hidden", display: "flex", alignItems: "flex-end" }}>
         <motion.div style={{ y: heroY, position: "absolute", inset: 0 }}>
-          <Image src="https://images.unsplash.com/photo-1618219908412-a29a1bb7b86e?auto=format&fit=crop&q=85&w=2400" alt="Architecture intérieure Maëlle Dumas" fill className="object-cover" priority style={{ filter: "brightness(0.75)" }} />
+          <Image src={photo(0, "https://images.unsplash.com/photo-1618219908412-a29a1bb7b86e?auto=format&fit=crop&q=85&w=2400")} alt="Architecture intérieure Maëlle Dumas" fill className="object-cover" priority style={{ filter: "brightness(0.75)" }} />
           <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to top, ${C.dark} 0%, rgba(28,26,24,0.3) 50%, transparent 100%)` }} />
           <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to right, rgba(28,26,24,0.5) 0%, transparent 60%)` }} />
         </motion.div>

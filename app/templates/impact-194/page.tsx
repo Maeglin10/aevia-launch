@@ -39,6 +39,11 @@ const PRESTATIONS = [
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+// Client-uploaded photo at index i, falling back to the template's stock
+// photo when the client did not upload one for that slot.
+function photo(i: number, fallback: string): string {
+  return fd?.photoUrls?.[i] || fallback;
+}
 export default function TableExceptionPage() {
   const [session, setSession] = useState<{
     formData?: {
@@ -175,7 +180,7 @@ export default function TableExceptionPage() {
       {/* ── HERO ── */}
       <section id="hero" ref={heroRef} className="relative h-[115vh] min-h-[900px] flex items-end overflow-hidden">
         <motion.div style={{ y: heroY }} className="absolute inset-0">
-          <Image src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&q=88&w=2400" alt="Table gastronomique traiteur" fill className="object-cover object-center" priority style={{ filter: "brightness(0.38)" }} />
+          <Image src={photo(0, "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&q=88&w=2400")} alt="Table gastronomique traiteur" fill className="object-cover object-center" priority style={{ filter: "brightness(0.38)" }} />
           <div className="absolute inset-0 bg-gradient-to-t from-[#140f0a] via-[#140f0a]/45 to-transparent" />
           <div className="absolute inset-0 bg-gradient-to-r from-[#140f0a]/70 to-transparent" />
         </motion.div>

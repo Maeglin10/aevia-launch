@@ -176,6 +176,11 @@ function Reveal({
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+// Client-uploaded photo at index i, falling back to the template's stock
+// photo when the client did not upload one for that slot.
+function photo(i: number, fallback: string): string {
+  return fd?.photoUrls?.[i] || fallback;
+}
 export default function TextRevealPage() {
   const [session, setSession] = useState<{
     formData?: {
@@ -358,7 +363,7 @@ export default function TextRevealPage() {
             className="absolute inset-0 z-0"
           >
             <Image
-              src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2000&auto=format&fit=crop"
+              src={photo(0, "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2000&auto=format&fit=crop")}
               alt="Abstract background"
               fill
               className="object-cover"
@@ -566,7 +571,7 @@ export default function TextRevealPage() {
             <div className="flex flex-col items-center gap-4">
               <div className="w-16 h-16 rounded-full overflow-hidden relative">
                 <Image
-                  src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200&auto=format&fit=crop"
+                  src={photo(1, "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200&auto=format&fit=crop")}
                   alt="Founder"
                   fill
                   className="object-cover grayscale"

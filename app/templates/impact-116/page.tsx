@@ -121,6 +121,11 @@ const REELTHUMB = [
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+// Client-uploaded photo at index i, falling back to the template's stock
+// photo when the client did not upload one for that slot.
+function photo(i: number, fallback: string): string {
+  return fd?.photoUrls?.[i] || fallback;
+}
 export default function KineticStudio() {
   const [session, setSession] = useState<{
     formData?: {
@@ -424,7 +429,7 @@ export default function KineticStudio() {
             <DialogTitle className="text-3xl text-white">Showreel 2025</DialogTitle>
           </DialogHeader>
           <div className="aspect-video bg-black relative rounded-lg overflow-hidden">
-            <Image src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=1600&q=80" alt="Showreel" fill className="object-cover" />
+            <Image src={photo(0, "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=1600&q=80")} alt="Showreel" fill className="object-cover" />
             <div className="absolute inset-0 flex items-center justify-center bg-black/30">
               <button className="text-white text-6xl hover:scale-110 transition-transform">{c?.ctaText ?? <>▶</>}</button>
             </div>

@@ -78,6 +78,11 @@ function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: nu
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+// Client-uploaded photo at index i, falling back to the template's stock
+// photo when the client did not upload one for that slot.
+function photo(i: number, fallback: string): string {
+  return fd?.photoUrls?.[i] || fallback;
+}
 export default function VisionClairePage() {
   const [session, setSession] = useState<{
     formData?: {
@@ -238,7 +243,7 @@ export default function VisionClairePage() {
       {/* Hero */}
       <section id="hero" ref={heroRef} style={{ height: "115vh", minHeight: "900px", position: "relative", display: "flex", alignItems: "flex-end", overflow: "hidden" }}>
         <motion.div style={{ y: heroY, position: "absolute", inset: 0 }}>
-          <img src="https://images.unsplash.com/photo-1574258495973-f010dfbb5371?w=1920&q=80" alt="Opticien Vision Claire Nantes" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+          <img src={photo(0, "https://images.unsplash.com/photo-1574258495973-f010dfbb5371?w=1920&q=80")} alt="Opticien Vision Claire Nantes" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
         </motion.div>
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(5,18,40,0.92) 0%, rgba(5,18,40,0.42) 45%, rgba(5,18,40,0.08) 100%)" }} />
         <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to right, ${C.accent}20 0%, transparent 55%)` }} />
@@ -319,7 +324,7 @@ export default function VisionClairePage() {
       <section style={{ padding: "100px 80px", background: C.bgSection }}>
         <div className="imx-mobstack" style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "center" }}>
           <Reveal>
-            <img src="https://images.unsplash.com/photo-1516826957135-700dedea698c?w=800&q=80" alt="Opticien conseil lunettes" style={{ width: "100%", borderRadius: 16, aspectRatio: "4/3", objectFit: "cover" }} />
+            <img src={photo(1, "https://images.unsplash.com/photo-1516826957135-700dedea698c?w=800&q=80")} alt="Opticien conseil lunettes" style={{ width: "100%", borderRadius: 16, aspectRatio: "4/3", objectFit: "cover" }} />
           </Reveal>
           <Reveal delay={0.15}>
             <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.cyan }}>Nos engagements</span>

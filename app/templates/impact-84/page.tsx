@@ -13,6 +13,11 @@ import { Reveal } from "./shared";
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+// Client-uploaded photo at index i, falling back to the template's stock
+// photo when the client did not upload one for that slot.
+function photo(i: number, fallback: string): string {
+  return fd?.photoUrls?.[i] || fallback;
+}
 export default function CypherClinicPage() {
   const [session, setSession] = useState<{
     formData?: {
@@ -101,7 +106,7 @@ return (
       {/* Hero */}
       <section ref={heroRef} className="relative min-h-[90vh] overflow-hidden flex items-center">
         <motion.div className="absolute inset-0" style={{ y: heroImgY }}>
-          <Image src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=1600&q=85&fit=crop" alt={fd?.businessName ?? "Cypher Clinic"} fill className="object-cover" />
+          <Image src={photo(0, "https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=1600&q=85&fit=crop")} alt={fd?.businessName ?? "Cypher Clinic"} fill className="object-cover" />
           <div className="absolute inset-0 bg-gradient-to-r from-[#0C0C0A]/95 via-[#0C0C0A]/70 to-[#0C0C0A]/20" />
         </motion.div>
         <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 pt-32 pb-24 w-full flex flex-col justify-center">
@@ -173,7 +178,7 @@ return (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
             <Reveal>
               <div className="relative aspect-[4/5] overflow-hidden">
-                <Image src="https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=1200&q=85" alt="Clinique Cypher" fill className="object-cover" />
+                <Image src={photo(1, "https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=1200&q=85")} alt="Clinique Cypher" fill className="object-cover" />
                 <div className="absolute inset-0 bg-[#0C0C0A]/20" />
               </div>
             </Reveal>

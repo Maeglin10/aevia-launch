@@ -78,6 +78,11 @@ function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: nu
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+// Client-uploaded photo at index i, falling back to the template's stock
+// photo when the client did not upload one for that slot.
+function photo(i: number, fallback: string): string {
+  return fd?.photoUrls?.[i] || fallback;
+}
 export default function AtelierBloomPage() {
   const [session, setSession] = useState<{
     formData?: {
@@ -234,7 +239,7 @@ export default function AtelierBloomPage() {
       {/* Hero */}
       <section id="hero" ref={heroRef} style={{ height: "115vh", minHeight: "900px", position: "relative", display: "flex", alignItems: "flex-end", overflow: "hidden" }}>
         <motion.div style={{ y: heroY, position: "absolute", inset: 0 }}>
-          <img src="https://images.unsplash.com/photo-1487530811176-3780de880c2d?w=1920&q=80" alt="Atelier Bloom fleuriste Strasbourg" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+          <img src={photo(0, "https://images.unsplash.com/photo-1487530811176-3780de880c2d?w=1920&q=80")} alt="Atelier Bloom fleuriste Strasbourg" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
         </motion.div>
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(10,20,5,0.90) 0%, rgba(10,20,5,0.35) 45%, rgba(10,20,5,0.05) 100%)" }} />
         <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to right, ${C.accent}22 0%, transparent 60%)` }} />
@@ -332,7 +337,7 @@ export default function AtelierBloomPage() {
             </motion.a>
           </Reveal>
           <Reveal>
-            <img src="https://images.unsplash.com/photo-1487530811176-3780de880c2d?w=800&q=80" alt="Fleurs saisonnières artisanales" style={{ width: "100%", borderRadius: 16, aspectRatio: "4/3", objectFit: "cover" }} />
+            <img src={photo(1, "https://images.unsplash.com/photo-1487530811176-3780de880c2d?w=800&q=80")} alt="Fleurs saisonnières artisanales" style={{ width: "100%", borderRadius: 16, aspectRatio: "4/3", objectFit: "cover" }} />
           </Reveal>
         </div>
       </section>

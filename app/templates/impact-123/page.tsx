@@ -49,6 +49,11 @@ const SPECS = [
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+// Client-uploaded photo at index i, falling back to the template's stock
+// photo when the client did not upload one for that slot.
+function photo(i: number, fallback: string): string {
+  return fd?.photoUrls?.[i] || fallback;
+}
 export default function VulcanMotorsPage() {
   const [session, setSession] = useState<{
     formData?: {
@@ -181,7 +186,7 @@ export default function VulcanMotorsPage() {
         {/* ── HERO ──────────────────── */}
         <section id="hero" className="relative h-dvh flex items-center pt-32 pb-20 overflow-hidden">
           <div className="absolute inset-0">
-            <Image src="https://images.unsplash.com/photo-1614164185128-e4ec99c436d7?auto=format&fit=crop&q=80&w=2400" alt="Hypercar Detail" fill className="object-cover opacity-60 grayscale hover:grayscale-0 transition-all duration-1000" priority />
+            <Image src={photo(0, "https://images.unsplash.com/photo-1614164185128-e4ec99c436d7?auto=format&fit=crop&q=80&w=2400")} alt="Hypercar Detail" fill className="object-cover opacity-60 grayscale hover:grayscale-0 transition-all duration-1000" priority />
             <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/20 to-transparent" />
             <div className="absolute inset-0 bg-black/40" />
           </div>
@@ -247,7 +252,7 @@ export default function VulcanMotorsPage() {
               </div>
               <Reveal delay={0.2}>
                 <div className="aspect-square relative grayscale hover:grayscale-0 transition-all duration-1000 border border-white/5 p-4 bg-white/[0.02]">
-                   <ParallaxImg src="https://images.unsplash.com/photo-1544636331-e26879cd4d9b?auto=format&fit=crop&q=80&w=1200" alt="Engine Detail" />
+                   <ParallaxImg src={photo(1, "https://images.unsplash.com/photo-1544636331-e26879cd4d9b?auto=format&fit=crop&q=80&w=1200")} alt="Engine Detail" />
                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[1px] bg-red-600/20 rotate-45 pointer-events-none" />
                 </div>
               </Reveal>
@@ -370,7 +375,7 @@ export default function VulcanMotorsPage() {
               </Reveal>
               <Reveal delay={0.2}>
                 <div className="relative aspect-square grayscale hover:grayscale-0 transition-all duration-[2000ms]">
-                  <ParallaxImg src="https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?auto=format&fit=crop&q=80&w=1200" alt="Track" />
+                  <ParallaxImg src={photo(2, "https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?auto=format&fit=crop&q=80&w=1200")} alt="Track" />
                   <div className="absolute inset-0 bg-gradient-to-tr from-red-600/20 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-1000" />
                 </div>
               </Reveal>

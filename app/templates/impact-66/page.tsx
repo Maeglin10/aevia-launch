@@ -15,6 +15,11 @@ import { SERVICES, REVIEWS, PROTOCOLS, Reveal, Counter, MagneticBtn } from "./sh
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+// Client-uploaded photo at index i, falling back to the template's stock
+// photo when the client did not upload one for that slot.
+function photo(i: number, fallback: string): string {
+  return fd?.photoUrls?.[i] || fallback;
+}
 export default function AtelierBeautePage() {
   const [session, setSession] = useState<{
     formData?: {
@@ -119,7 +124,7 @@ return (
           className="absolute inset-0 z-0"
         >
           <Image
-            src="https://images.unsplash.com/photo-1560750588-73207b1ef5b8?w=1600&q=80"
+            src={photo(0, "https://images.unsplash.com/photo-1560750588-73207b1ef5b8?w=1600&q=80")}
             alt="Beauty Hero"
             fill
             className="object-cover brightness-95"
@@ -290,7 +295,7 @@ return (
             <div className="lg:col-span-7">
               <Reveal className="relative aspect-square md:aspect-[16/10] rounded-2xl overflow-hidden shadow-2xl group">
                 <Image
-                  src="https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=1200&q=80"
+                  src={photo(1, "https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=1200&q=80")}
                   alt="Beauty Protocol"
                   fill
                   className="object-cover"
@@ -343,7 +348,7 @@ return (
                 </p>
                 <div className="flex items-center gap-6">
                   <Avatar className="w-16 h-16 border-2 border-[#c9b7a1]/20">
-                    <AvatarImage src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&q=80" />
+                    <AvatarImage src={photo(2, "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&q=80")} />
                     <AvatarFallback>SL</AvatarFallback>
                   </Avatar>
                   <div>
@@ -360,7 +365,7 @@ return (
 
             <Reveal className="relative aspect-[3/4] rounded-2xl overflow-hidden shadow-2xl">
               <Image
-                src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?q=80&w=1200&auto=format&fit=crop"
+                src={photo(3, "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?q=80&w=1200&auto=format&fit=crop")}
                 alt="Atelier Detail"
                 fill
                 className="object-cover grayscale hover:grayscale-0 transition-all duration-1000"

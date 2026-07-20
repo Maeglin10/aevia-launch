@@ -118,6 +118,11 @@ const CLIENTS = ["Vogue", "Wallpaper*", "Dezeen", "Monocle", "Dior"];
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+// Client-uploaded photo at index i, falling back to the template's stock
+// photo when the client did not upload one for that slot.
+function photo(i: number, fallback: string): string {
+  return fd?.photoUrls?.[i] || fallback;
+}
 export default function HorologsLuxePage() {
   const [session, setSession] = useState<{
     formData?: {
@@ -230,7 +235,7 @@ export default function HorologsLuxePage() {
       >
         <motion.div style={{ y: heroY }} className="absolute inset-0 z-0">
           <Image
-            src="https://images.unsplash.com/photo-1547996160-81dfa63595aa?q=85&w=2400&auto=format&fit=crop"
+            src={photo(0, "https://images.unsplash.com/photo-1547996160-81dfa63595aa?q=85&w=2400&auto=format&fit=crop")}
             alt="Horologs — Luxury Photography Studio"
             fill
             className="object-cover brightness-[0.45] grayscale-[0.3]"
@@ -386,7 +391,7 @@ export default function HorologsLuxePage() {
             <Reveal>
               <div className="relative aspect-[3/4] overflow-hidden">
                 <Image
-                  src="https://images.unsplash.com/photo-1504257432389-52343af06ae3?q=80&w=800&auto=format&fit=crop"
+                  src={photo(1, "https://images.unsplash.com/photo-1504257432389-52343af06ae3?q=80&w=800&auto=format&fit=crop")}
                   alt="Photographer portrait"
                   fill
                   className="object-cover grayscale-[0.4] brightness-70"

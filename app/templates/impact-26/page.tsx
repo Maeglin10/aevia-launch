@@ -92,6 +92,11 @@ type ActivePage =
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+// Client-uploaded photo at index i, falling back to the template's stock
+// photo when the client did not upload one for that slot.
+function photo(i: number, fallback: string): string {
+  return fd?.photoUrls?.[i] || fallback;
+}
 export default function Impact26() {
   const [session, setSession] = useState<{
     formData?: {
@@ -311,7 +316,7 @@ export default function Impact26() {
           <section id="hero" className="min-h-dvh flex items-end relative overflow-hidden pt-20">
         <motion.div style={{ y: heroY, opacity: heroOpacity }} className="absolute inset-0">
           <Image
-            src="https://images.unsplash.com/photo-1590736704728-f4730bb30770?w=1600&h=900&fit=crop&crop=center"
+            src={photo(0, "https://images.unsplash.com/photo-1590736704728-f4730bb30770?w=1600&h=900&fit=crop&crop=center")}
             alt="Éther Parfums"
             fill
             className="object-cover opacity-40"
@@ -463,7 +468,7 @@ export default function Impact26() {
               <div className="relative">
                 <div className="aspect-[4/5] overflow-hidden rounded-sm">
                   <Image
-                    src="https://images.unsplash.com/photo-1556228720-195a672e8a03?w=600&h=750&fit=crop&crop=center"
+                    src={photo(1, "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=600&h=750&fit=crop&crop=center")}
                     alt="Atelier Éther"
                     width={600}
                     height={750}

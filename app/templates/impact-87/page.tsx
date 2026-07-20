@@ -11,6 +11,11 @@ import { C, FONT, FONT_BODY, STATS, COURS, AVIS, Reveal } from "./shared";
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+// Client-uploaded photo at index i, falling back to the template's stock
+// photo when the client did not upload one for that slot.
+function photo(i: number, fallback: string): string {
+  return fd?.photoUrls?.[i] || fallback;
+}
 export default function IronClubPage() {
   const [session, setSession] = useState<{
     formData?: {
@@ -297,7 +302,7 @@ export default function IronClubPage() {
       >
         <motion.div style={{ y: heroY, position: "absolute", inset: 0 }}>
           <img
-            src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=1920&q=80"
+            src={photo(0, "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=1920&q=80")}
             alt="Salle CrossFit Iron Club Lyon"
             style={{ width: "100%", height: "100%", objectFit: "cover" }}
           />
@@ -603,7 +608,7 @@ export default function IronClubPage() {
       >
         <div style={{ overflow: "hidden" }}>
           <img
-            src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&q=80"
+            src={photo(1, "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&q=80")}
             alt="Entraînement CrossFit"
             style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
           />

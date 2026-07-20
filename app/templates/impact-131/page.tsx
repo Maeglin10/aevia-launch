@@ -601,6 +601,11 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+// Client-uploaded photo at index i, falling back to the template's stock
+// photo when the client did not upload one for that slot.
+function photo(i: number, fallback: string): string {
+  return fd?.photoUrls?.[i] || fallback;
+}
 export default function WineryTemplate() {
   const [session, setSession] = useState<{
     formData?: {
@@ -1516,7 +1521,7 @@ return (
               }}
             >
               <img
-                src="https://images.unsplash.com/photo-1560493676-04071c5f467b?w=800&q=80"
+                src={photo(0, "https://images.unsplash.com/photo-1560493676-04071c5f467b?w=800&q=80")}
                 alt="Jean-Pierre Valroc"
                 style={{ width: "100%", height: "100%", objectFit: "cover" }}
               />

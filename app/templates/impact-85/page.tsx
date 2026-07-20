@@ -57,6 +57,11 @@ const FAQS = [
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+// Client-uploaded photo at index i, falling back to the template's stock
+// photo when the client did not upload one for that slot.
+function photo(i: number, fallback: string): string {
+  return fd?.photoUrls?.[i] || fallback;
+}
 export default function AetherLabsPage() {
   const [session, setSession] = useState<{
     formData?: {
@@ -258,7 +263,7 @@ export default function AetherLabsPage() {
         </div>
         <div className="relative overflow-hidden min-h-[50vh] md:min-h-0">
           <motion.div className="absolute inset-0" style={{ y: heroY }}>
-            <Image src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=1200&q=85" alt={fd?.businessName ?? "Aether Labs"} fill className="object-cover" />
+            <Image src={photo(0, "https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=1200&q=85")} alt={fd?.businessName ?? "Aether Labs"} fill className="object-cover" />
           </motion.div>
         </div>
       </section>

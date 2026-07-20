@@ -503,6 +503,11 @@ function ServicesSection() {
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+// Client-uploaded photo at index i, falling back to the template's stock
+// photo when the client did not upload one for that slot.
+function photo(i: number, fallback: string): string {
+  return fd?.photoUrls?.[i] || fallback;
+}
 export default function Impact89Page() {
   // Mobile menu state — was mistakenly declared inside AnimatedCounter
   // (different component), leaving it undefined here and 500ing every render.
@@ -786,7 +791,7 @@ return (
           style={{
             position: "absolute",
             inset: 0,
-            backgroundImage: `url("https://images.unsplash.com/photo-1568515387631-8b650bbcdb90?w=1600&q=60")`,
+            backgroundImage: `url(photo(0, "https://images.unsplash.com/photo-1568515387631-8b650bbcdb90?w=1600&q=60"))`,
             backgroundSize: "cover",
             backgroundPosition: "center",
             scale: heroScale,

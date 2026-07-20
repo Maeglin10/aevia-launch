@@ -13,6 +13,11 @@ import { Reveal } from "./shared"
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+// Client-uploaded photo at index i, falling back to the template's stock
+// photo when the client did not upload one for that slot.
+function photo(i: number, fallback: string): string {
+  return fd?.photoUrls?.[i] || fallback;
+}
 export default function BlueprintPage() {
   const [session, setSession] = useState<{
     formData?: {
@@ -101,7 +106,7 @@ return (
       <section ref={heroRef} className="relative min-h-dvh overflow-hidden flex items-center">
         <motion.div className="absolute inset-0" style={{ y: heroY }}>
           <Image
-            src="https://images.unsplash.com/photo-1449157291145-7efd050a4d0e?w=1600&q=85"
+            src={photo(0, "https://images.unsplash.com/photo-1449157291145-7efd050a4d0e?w=1600&q=85")}
             alt={fd?.businessName ?? "Blueprint Developments"}
             fill
             className="object-cover"
@@ -211,9 +216,9 @@ return (
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
-              { name: "Résidence Ithaque", loc: "Paris 16e", type: "Résidentiel premium", units: "28 appartements", delivery: "T2 2026", price: "À partir de 1,4 M€", img: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&q=85", badge: "Commercialisation" },
-              { name: "Le Domaine de Chambord", loc: "Neuilly-sur-Seine", type: "Résidentiel de prestige", units: "42 appartements", delivery: "T4 2026", price: "À partir de 920 k€", img: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&q=85", badge: "Pré-vente" },
-              { name: "Horizon Business Center", loc: "La Défense", type: "Bureaux class A", units: "8 500 m² de bureaux", delivery: "T1 2027", price: "Sur demande", img: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=85", badge: "Investisseurs" },
+              { name: "Résidence Ithaque", loc: "Paris 16e", type: "Résidentiel premium", units: "28 appartements", delivery: "T2 2026", price: "À partir de 1,4 M€", img: photo(1, "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&q=85"), badge: "Commercialisation" },
+              { name: "Le Domaine de Chambord", loc: "Neuilly-sur-Seine", type: "Résidentiel de prestige", units: "42 appartements", delivery: "T4 2026", price: "À partir de 920 k€", img: photo(2, "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&q=85"), badge: "Pré-vente" },
+              { name: "Horizon Business Center", loc: "La Défense", type: "Bureaux class A", units: "8 500 m² de bureaux", delivery: "T1 2027", price: "Sur demande", img: photo(3, "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=85"), badge: "Investisseurs" },
             ].map((p, i) => (
               <Reveal key={p.name} delay={i * 0.1}>
                 <div className="group cursor-pointer">
@@ -249,10 +254,10 @@ return (
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             {[
-              { name: "Édouard Marchand", role: "Président Fondateur", bio: "35 ans d'immobilier. Fondateur de Blueprint en 1989, il a piloté plus de 2,4 Md€ de réalisations.", img: "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=600&q=80" },
-              { name: "Claire Fontaine", role: "DGA — Développement", bio: "15 ans dans le foncier grand Paris. En charge de l'acquisition et du montage de tous les programmes.", img: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=600&q=80" },
-              { name: "Thomas Renard", role: "Directeur Financier", bio: "Ex-Goldman Sachs Real Estate. Pilote la relation investisseurs et la structuration des fonds.", img: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=600&q=80" },
-              { name: "Sophie Leroux", role: "Directrice Commerciale", bio: "Spécialiste résidentiel de prestige. A lancé 18 programmes depuis 2015, avec un taux de vente VEFA de 94%.", img: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=600&q=80" },
+              { name: "Édouard Marchand", role: "Président Fondateur", bio: "35 ans d'immobilier. Fondateur de Blueprint en 1989, il a piloté plus de 2,4 Md€ de réalisations.", img: photo(4, "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=600&q=80") },
+              { name: "Claire Fontaine", role: "DGA — Développement", bio: "15 ans dans le foncier grand Paris. En charge de l'acquisition et du montage de tous les programmes.", img: photo(5, "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=600&q=80") },
+              { name: "Thomas Renard", role: "Directeur Financier", bio: "Ex-Goldman Sachs Real Estate. Pilote la relation investisseurs et la structuration des fonds.", img: photo(6, "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=600&q=80") },
+              { name: "Sophie Leroux", role: "Directrice Commerciale", bio: "Spécialiste résidentiel de prestige. A lancé 18 programmes depuis 2015, avec un taux de vente VEFA de 94%.", img: photo(7, "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=600&q=80") },
             ].map((m, i) => (
               <Reveal key={m.name} delay={i * 0.1}>
                 <div>

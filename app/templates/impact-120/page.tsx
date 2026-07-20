@@ -170,6 +170,11 @@ const MANIFEST = {
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+// Client-uploaded photo at index i, falling back to the template's stock
+// photo when the client did not upload one for that slot.
+function photo(i: number, fallback: string): string {
+  return fd?.photoUrls?.[i] || fallback;
+}
 export default function EclatLuxuryPage() {
   const [session, setSession] = useState<{
     formData?: {
@@ -418,7 +423,7 @@ export default function EclatLuxuryPage() {
                     <Reveal delay={i * 0.1}>
                       <div className="group relative h-[600px] rounded-2xl overflow-hidden cursor-pointer border border-white/5 bg-[#0a0710]">
                         <div className={`absolute inset-0 bg-gradient-to-br ${perfume.color} opacity-40 group-hover:opacity-80 transition-opacity duration-700`} />
-                        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1616401784845-180882ba9ba8?w=800&q=80')] bg-cover bg-center opacity-10 mix-blend-overlay group-hover:scale-105 transition-transform duration-1000" />
+                        <div className="absolute inset-0 bg-[url(photo(0, 'https://images.unsplash.com/photo-1616401784845-180882ba9ba8?w=800&q=80'))] bg-cover bg-center opacity-10 mix-blend-overlay group-hover:scale-105 transition-transform duration-1000" />
                         
                         <div className="relative h-full p-10 flex flex-col justify-between z-10">
                           <div>
@@ -652,7 +657,7 @@ export default function EclatLuxuryPage() {
         {/* ─── CTA BANNER ────────────────────────────────────────────────── */}
         <section id="contact" className="py-40 relative overflow-hidden">
           <div className="absolute inset-0 bg-fuchsia-950/20" />
-          <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1616401784845-180882ba9ba8?w=1600&q=80')] bg-cover bg-center opacity-20 mix-blend-luminosity" />
+          <div className="absolute inset-0 bg-[url(photo(1, 'https://images.unsplash.com/photo-1616401784845-180882ba9ba8?w=1600&q=80'))] bg-cover bg-center opacity-20 mix-blend-luminosity" />
           <div className="absolute inset-0 bg-gradient-to-t from-[#050308] via-transparent to-[#050308]" />
           
           <div className="max-w-[1200px] mx-auto px-6 relative z-10 text-center">

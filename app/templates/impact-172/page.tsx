@@ -87,6 +87,11 @@ const REFERENCES = [
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+// Client-uploaded photo at index i, falling back to the template's stock
+// photo when the client did not upload one for that slot.
+function photo(i: number, fallback: string): string {
+  return fd?.photoUrls?.[i] || fallback;
+}
 export default function LegrandPage() {
   const [session, setSession] = useState<{
     formData?: {
@@ -251,7 +256,7 @@ export default function LegrandPage() {
       {/* Hero */}
       <section id="hero" ref={heroRef} className="relative min-h-dvh overflow-hidden flex items-end">
         <motion.div className="absolute inset-0" style={{ y: heroY }}>
-          <Image src="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=1600&q=85" alt="Palais de justice" fill className="object-cover" />
+          <Image src={photo(0, "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=1600&q=85")} alt="Palais de justice" fill className="object-cover" />
           <div className="absolute inset-0 bg-gradient-to-t from-[#0E0A06] via-[#0E0A06]/60 to-transparent" />
         </motion.div>
         <div className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-12 pb-24 pt-32">
@@ -430,7 +435,7 @@ export default function LegrandPage() {
             <Reveal delay={0.1}>
               <div className="relative">
                 <div className="aspect-[4/5] relative overflow-hidden">
-                  <Image src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=800&q=80" alt="Cabinet Legrand" fill className="object-cover" />
+                  <Image src={photo(1, "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=800&q=80")} alt="Cabinet Legrand" fill className="object-cover" />
                 </div>
                 <div className="absolute -bottom-6 -left-6 bg-[#C9A855] text-[#1A1510] p-6">
                   <div className="text-3xl font-light mb-1" style={{ fontFamily: "'Libre Baskerville', serif" }}>1991</div>

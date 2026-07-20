@@ -48,6 +48,11 @@ const PARTNERS = [
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+// Client-uploaded photo at index i, falling back to the template's stock
+// photo when the client did not upload one for that slot.
+function photo(i: number, fallback: string): string {
+  return fd?.photoUrls?.[i] || fallback;
+}
 export default function LuminaLawPage() {
   const [session, setSession] = useState<{
     formData?: {
@@ -214,7 +219,7 @@ export default function LuminaLawPage() {
                  <div className="relative">
                     <div className="absolute -inset-10 bg-[#1a365d]/5 blur-[100px] rounded-full" />
                     <div className="relative aspect-[4/5] bg-white border border-black/5 p-3 rounded-sm shadow-2xl">
-                       <ParallaxImg src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=1200" alt="Law Office" />
+                       <ParallaxImg src={photo(0, "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=1200")} alt="Law Office" />
                        <div className="absolute bottom-10 left-10 p-10 bg-white border border-black/5 w-72 hidden md:block shadow-xl">
                           <Quote className="w-8 h-8 mb-6 text-[#1a365d]/20" />
                           <p className="text-sm italic font-light leading-relaxed mb-4" style={{ fontFamily: "serif" }}>"Integrity is the only foundation upon which true victory can be built."</p>
@@ -316,7 +321,7 @@ export default function LuminaLawPage() {
                  </div>
                  <Reveal delay={0.3}>
                     <div className="aspect-[4/5] relative border border-black/5 p-4 bg-[#fafafa]">
-                       <ParallaxImg src="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&q=80&w=1200" alt="Legal Gavel" />
+                       <ParallaxImg src={photo(1, "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&q=80&w=1200")} alt="Legal Gavel" />
                        <div className="absolute -top-10 -right-10 w-40 h-40 bg-[#1a365d] flex items-center justify-center text-white p-8 text-center rounded-sm shadow-2xl">
                           <div className="text-[9px] font-bold uppercase tracking-[0.3em]">Established 1984</div>
                        </div>

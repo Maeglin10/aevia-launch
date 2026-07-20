@@ -59,6 +59,11 @@ const looks = [
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+// Client-uploaded photo at index i, falling back to the template's stock
+// photo when the client did not upload one for that slot.
+function photo(i: number, fallback: string): string {
+  return fd?.photoUrls?.[i] || fallback;
+}
 export default function NoirCouturePage() {
   const [session, setSession] = useState<{
     formData?: {
@@ -249,7 +254,7 @@ return (
           <section id="hero" ref={heroRef} className="relative h-dvh overflow-hidden pt-20">
             <div className="grid grid-cols-1 md:grid-cols-2 h-full">
               <motion.div className="relative overflow-hidden" style={{ y: heroY }}>
-                <Image src="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=900&q=90" alt={fd?.businessName ?? "Noir Couture"} fill className="object-cover" priority />
+                <Image src={photo(0, "https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=900&q=90")} alt={fd?.businessName ?? "Noir Couture"} fill className="object-cover" priority />
               </motion.div>
               <div className="bg-black flex flex-col items-start justify-end p-12">
                 <motion.div style={{ opacity: heroOpacity }}>
@@ -470,7 +475,7 @@ function CollectionsSubPage({ goTo, activeCol, setActiveCol }: { goTo: (p: any) 
       desc: "Une exploration de la silhouette monochrome structurée. Des matières lourdes qui défient la gravité, des coupes asymétriques et des finitions à bords francs.",
       inspiration: "L'architecture brutaliste parisienne et la poésie des ombres portées.",
       piecesCount: "24 pièces exclusives",
-      image: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=800&q=80",
+      image: photo(1, "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=800&q=80"),
     },
     {
       name: "L'Invisible",
@@ -478,7 +483,7 @@ function CollectionsSubPage({ goTo, activeCol, setActiveCol }: { goTo: (p: any) 
       desc: "Travailler la transparence et le vide. Organza de soie doublé, découpes laser ultra-précises et superpositions de noir et d'anthracite.",
       inspiration: "Les brumes d'automne sur la Seine et le travail des volumes de Cristobal Balenciaga.",
       piecesCount: "18 pièces d'archives",
-      image: "https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=800&q=80",
+      image: photo(2, "https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=800&q=80"),
     },
     {
       name: "Monochrome",
@@ -486,7 +491,7 @@ function CollectionsSubPage({ goTo, activeCol, setActiveCol }: { goTo: (p: any) 
       desc: "L'élégance du voyage sans effort. Des silhouettes fluides en crêpe de soie, des manteaux de voyage en cachemire ultra-léger et des finitions satinées.",
       inspiration: "La lumière de la mer Égée en hiver et le minimalisme des années 90.",
       piecesCount: "12 pièces limitées",
-      image: "https://images.unsplash.com/photo-1509631179647-0177331693ae?w=800&q=80",
+      image: photo(3, "https://images.unsplash.com/photo-1509631179647-0177331693ae?w=800&q=80"),
     }
   ];
 
@@ -549,10 +554,10 @@ function CollectionsSubPage({ goTo, activeCol, setActiveCol }: { goTo: (p: any) 
 
 function EditorialSubPage() {
   const editorialItems = [
-    { title: "La nuit appartient aux audacieuses", category: "Editorial / SS 2026", src: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=800&q=80", text: "Une campagne photographiée à minuit dans les rues désertes du Quartier Latin. Une célébration de la silhouette structurée sous la lumière artificielle des lampadaires parisiens." },
-    { title: "Silences et structures", category: "Fashion / AW 2025", src: "https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=800&q=80", text: "L'art de sculpter le vide. Ce projet explore la tension entre le corps et le tissu rigide, créant des drapés volumineux et géométriques." },
-    { title: "L'héritage revisité", category: "Interview", src: "https://images.unsplash.com/photo-1509631179647-0177331693ae?w=800&q=80", text: "Entretien exclusif avec notre directeur artistique sur l'importance du noir absolu dans la garde-robe moderne et le refus des tendances éphémères." },
-    { title: "Noir absolu, texture absolue", category: "Campaign", src: "https://images.unsplash.com/photo-1534126416832-a88fdf2911c2?w=800&q=80", text: "Macro-photographie de matières premières : laines bouillies, cuirs de veau pleine fleur patinés, et organza de soie brut. La matière comme origine du dessin." },
+    { title: "La nuit appartient aux audacieuses", category: "Editorial / SS 2026", src: photo(4, "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=800&q=80"), text: "Une campagne photographiée à minuit dans les rues désertes du Quartier Latin. Une célébration de la silhouette structurée sous la lumière artificielle des lampadaires parisiens." },
+    { title: "Silences et structures", category: "Fashion / AW 2025", src: photo(5, "https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=800&q=80"), text: "L'art de sculpter le vide. Ce projet explore la tension entre le corps et le tissu rigide, créant des drapés volumineux et géométriques." },
+    { title: "L'héritage revisité", category: "Interview", src: photo(6, "https://images.unsplash.com/photo-1509631179647-0177331693ae?w=800&q=80"), text: "Entretien exclusif avec notre directeur artistique sur l'importance du noir absolu dans la garde-robe moderne et le refus des tendances éphémères." },
+    { title: "Noir absolu, texture absolue", category: "Campaign", src: photo(7, "https://images.unsplash.com/photo-1534126416832-a88fdf2911c2?w=800&q=80"), text: "Macro-photographie de matières premières : laines bouillies, cuirs de veau pleine fleur patinés, et organza de soie brut. La matière comme origine du dessin." },
   ];
 
   return (
@@ -594,12 +599,12 @@ function EditorialSubPage() {
 
 function BoutiqueSubPage({ cartCount, setCartCount }: { cartCount: number; setCartCount: React.Dispatch<React.SetStateAction<number>> }) {
   const shopItems = [
-    { name: "Manteau Asymétrique", price: "2 400€", category: "Prêt-à-porter", src: "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=600&q=80", desc: "Coupe décontractée asymétrique en laine bouillie italienne. Entièrement doublé soie." },
-    { name: "Robe Colonne", price: "1 800€", category: "Prêt-à-porter", src: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=600&q=80", desc: "Robe longue en crêpe de soie noir mat. Dos nu architectural et fente latérale." },
-    { name: "Tailleur Structuré", price: "3 200€", category: "Prêt-à-porter", src: "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=600&q=80", desc: "Veste épaulée à double boutonnage et pantalon droit assorti en laine vierge." },
-    { name: "Sac Seau en Cuir", price: "1 200€", category: "Accessoires", src: "https://images.unsplash.com/photo-1547996160-81dfa63595aa?w=600&q=80", desc: "Cuir de veau tannage végétal noir profond. Détails métalliques gravés Noir Couture." },
-    { name: "Veste Couture Déstructurée", price: "2 900€", category: "Prêt-à-porter", src: "https://images.unsplash.com/photo-1534126416832-a88fdf2911c2?w=600&q=80", desc: "Veste d'atelier déstructurée en cachemire mélangé noir charbon." },
-    { name: "Pantalon Fluide Noir", price: "950€", category: "Prêt-à-porter", src: "https://images.unsplash.com/photo-1509631179647-0177331693ae?w=600&q=80", desc: "Pantalon ample fluide en satin de soie. Ceinture ajustable intégrée." }
+    { name: "Manteau Asymétrique", price: "2 400€", category: "Prêt-à-porter", src: photo(8, "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=600&q=80"), desc: "Coupe décontractée asymétrique en laine bouillie italienne. Entièrement doublé soie." },
+    { name: "Robe Colonne", price: "1 800€", category: "Prêt-à-porter", src: photo(9, "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=600&q=80"), desc: "Robe longue en crêpe de soie noir mat. Dos nu architectural et fente latérale." },
+    { name: "Tailleur Structuré", price: "3 200€", category: "Prêt-à-porter", src: photo(10, "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=600&q=80"), desc: "Veste épaulée à double boutonnage et pantalon droit assorti en laine vierge." },
+    { name: "Sac Seau en Cuir", price: "1 200€", category: "Accessoires", src: photo(11, "https://images.unsplash.com/photo-1547996160-81dfa63595aa?w=600&q=80"), desc: "Cuir de veau tannage végétal noir profond. Détails métalliques gravés Noir Couture." },
+    { name: "Veste Couture Déstructurée", price: "2 900€", category: "Prêt-à-porter", src: photo(12, "https://images.unsplash.com/photo-1534126416832-a88fdf2911c2?w=600&q=80"), desc: "Veste d'atelier déstructurée en cachemire mélangé noir charbon." },
+    { name: "Pantalon Fluide Noir", price: "950€", category: "Prêt-à-porter", src: photo(13, "https://images.unsplash.com/photo-1509631179647-0177331693ae?w=600&q=80"), desc: "Pantalon ample fluide en satin de soie. Ceinture ajustable intégrée." }
   ];
 
   const [filter, setFilter] = useState("Tout");
@@ -695,7 +700,7 @@ function AtelierSubPage({ goTo }: { goTo: (p: any) => void }) {
         <div className="grid md:grid-cols-2 gap-12 items-center">
           <div className="relative h-[450px] overflow-hidden">
             <img
-              src="https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=800&q=80"
+              src={photo(14, "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=800&q=80")}
               alt="Atelier couture"
               className="w-full h-full object-cover filter grayscale"
             />

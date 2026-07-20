@@ -77,6 +77,11 @@ function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: nu
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+// Client-uploaded photo at index i, falling back to the template's stock
+// photo when the client did not upload one for that slot.
+function photo(i: number, fallback: string): string {
+  return fd?.photoUrls?.[i] || fallback;
+}
 export default function EncreNoirePage() {
   const [session, setSession] = useState<{
     formData?: {
@@ -232,7 +237,7 @@ export default function EncreNoirePage() {
 
       <section id="hero" ref={heroRef} style={{ height: "115vh", minHeight: "900px", position: "relative", display: "flex", alignItems: "flex-end", overflow: "hidden" }}>
         <motion.div style={{ y: heroY, position: "absolute", inset: 0 }}>
-          <img src="https://images.unsplash.com/photo-1598371839696-5c5bb00bdc28?w=1920&q=80" alt="Studio tatouage Encre Noire Paris" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+          <img src={photo(0, "https://images.unsplash.com/photo-1598371839696-5c5bb00bdc28?w=1920&q=80")} alt="Studio tatouage Encre Noire Paris" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
         </motion.div>
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(0,0,0,0.96) 0%, rgba(0,0,0,0.52) 45%, rgba(0,0,0,0.12) 100%)" }} />
         <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to right, ${C.accent}10 0%, transparent 55%)` }} />
@@ -304,7 +309,7 @@ export default function EncreNoirePage() {
       <section style={{ padding: "100px 80px", background: C.bgSection }}>
         <div className="imx-mobstack" style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "center" }}>
           <Reveal>
-            <img src="https://images.unsplash.com/photo-1562962230-16e4623d36e6?w=800&q=80" alt="Artiste tatoueur au travail" style={{ width: "100%", borderRadius: 8, aspectRatio: "4/3", objectFit: "cover" }} />
+            <img src={photo(1, "https://images.unsplash.com/photo-1562962230-16e4623d36e6?w=800&q=80")} alt="Artiste tatoueur au travail" style={{ width: "100%", borderRadius: 8, aspectRatio: "4/3", objectFit: "cover" }} />
           </Reveal>
           <Reveal delay={0.15}>
             <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Notre hygiène</span>

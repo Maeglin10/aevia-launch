@@ -136,6 +136,11 @@ function Reveal({
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+// Client-uploaded photo at index i, falling back to the template's stock
+// photo when the client did not upload one for that slot.
+function photo(i: number, fallback: string): string {
+  return fd?.photoUrls?.[i] || fallback;
+}
 export default function SonicPlayerPage() {
   const [session, setSession] = useState<{
     formData?: {
@@ -572,7 +577,7 @@ export default function SonicPlayerPage() {
             {/* Main Artist */}
             <Reveal className="md:col-span-2 relative rounded-2xl overflow-hidden group">
               <Image
-                src="https://images.unsplash.com/photo-1557672172-298e090bd0f1?q=80&w=1200&auto=format&fit=crop"
+                src={photo(0, "https://images.unsplash.com/photo-1557672172-298e090bd0f1?q=80&w=1200&auto=format&fit=crop")}
                 alt="Artist"
                 fill
                 className="object-cover group-hover:scale-105 transition-transform duration-700"
@@ -592,7 +597,7 @@ export default function SonicPlayerPage() {
               className="relative rounded-2xl overflow-hidden group"
             >
               <Image
-                src="https://images.unsplash.com/photo-1614613535308-eb5fbd3d2c17?q=80&w=800&auto=format&fit=crop"
+                src={photo(1, "https://images.unsplash.com/photo-1614613535308-eb5fbd3d2c17?q=80&w=800&auto=format&fit=crop")}
                 alt="Artist"
                 fill
                 className="object-cover group-hover:scale-105 transition-transform duration-700"
@@ -630,7 +635,7 @@ export default function SonicPlayerPage() {
               className="md:col-span-2 relative rounded-2xl overflow-hidden group"
             >
               <Image
-                src="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=1200&auto=format&fit=crop"
+                src={photo(2, "https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=1200&auto=format&fit=crop")}
                 alt="Artist"
                 fill
                 className="object-cover group-hover:scale-105 transition-transform duration-700"

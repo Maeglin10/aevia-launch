@@ -35,6 +35,11 @@ const FEATURES = [
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+// Client-uploaded photo at index i, falling back to the template's stock
+// photo when the client did not upload one for that slot.
+function photo(i: number, fallback: string): string {
+  return fd?.photoUrls?.[i] || fallback;
+}
 export default function VoltLogisticsPage() {
   const [session, setSession] = useState<{
     formData?: {
@@ -205,7 +210,7 @@ export default function VoltLogisticsPage() {
                   <div className="absolute -inset-10 bg-[#ffb400]/10 blur-[100px] rounded-full" />
                   <div className="relative bg-white/5 border border-white/10 p-1 rounded-2xl overflow-hidden backdrop-blur-sm">
                     <div className="aspect-[4/3] relative">
-                      <Image src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&q=80&w=1200" alt="E-Mobility" fill className="object-cover opacity-70 group-hover:scale-110 transition-transform duration-700" />
+                      <Image src={photo(0, "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&q=80&w=1200")} alt="E-Mobility" fill className="object-cover opacity-70 group-hover:scale-110 transition-transform duration-700" />
                       <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] to-transparent" />
                       <div className="absolute bottom-8 left-8 right-8">
                         <div className="flex justify-between items-end">

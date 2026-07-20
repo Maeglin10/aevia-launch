@@ -1074,6 +1074,11 @@ function FaqItem({
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+// Client-uploaded photo at index i, falling back to the template's stock
+// photo when the client did not upload one for that slot.
+function photo(i: number, fallback: string): string {
+  return fd?.photoUrls?.[i] || fallback;
+}
 export default function Impact176Page() {
   const [session, setSession] = useState<{
     formData?: {
@@ -1738,7 +1743,7 @@ export default function Impact176Page() {
             style={{ borderRadius: 20, overflow: "hidden", position: "relative" }}
           >
             <img
-              src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1400&auto=format&fit=crop"
+              src={photo(0, "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1400&auto=format&fit=crop")}
               alt="Analytics dashboard"
               style={{
                 width: "100%",

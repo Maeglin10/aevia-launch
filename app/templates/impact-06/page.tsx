@@ -114,6 +114,11 @@ function MagneticBtn({ children, className = "", onClick }: { children: React.Re
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+// Client-uploaded photo at index i, falling back to the template's stock
+// photo when the client did not upload one for that slot.
+function photo(i: number, fallback: string): string {
+  return fd?.photoUrls?.[i] || fallback;
+}
 export default function NeuralisPage() {
   const [session, setSession] = useState<{
     formData?: {
@@ -254,7 +259,7 @@ export default function NeuralisPage() {
       {/* ── HERO ── */}
       <section id="hero" className="relative h-[100svh] flex items-center overflow-hidden pt-24 md:pt-0">
         <div className="absolute inset-0">
-          <Image src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=1600&q=80" alt="Cyber Grid" fill className="object-cover opacity-20 mix-blend-screen" priority />
+          <Image src={photo(0, "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=1600&q=80")} alt="Cyber Grid" fill className="object-cover opacity-20 mix-blend-screen" priority />
           <div className="absolute inset-0 bg-gradient-to-b from-[#020204] via-transparent to-[#020204]" />
         </div>
 
@@ -411,7 +416,7 @@ export default function NeuralisPage() {
          <div className="max-w-[1600px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-32 items-center">
             <Reveal>
                <div className="relative aspect-square rounded-sm overflow-hidden group border border-white/5">
-                  <Image src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=1200&q=80" alt="Bio Lab" fill className="object-cover group-hover:scale-110 transition-all duration-[3s] mix-blend-screen opacity-60" />
+                  <Image src={photo(1, "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=1200&q=80")} alt="Bio Lab" fill className="object-cover group-hover:scale-110 transition-all duration-[3s] mix-blend-screen opacity-60" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent" />
                   <div className="absolute bottom-16 left-16 text-white">
                      <span className="text-[10px] font-bold uppercase tracking-[0.4em] mb-4 block text-[#00f2ff]">The Atelier</span>
@@ -481,7 +486,7 @@ export default function NeuralisPage() {
         <div className="max-w-[1600px] mx-auto px-6 md:px-12 grid grid-cols-1 lg:grid-cols-2 gap-32 items-center">
            <Reveal>
               <div className="relative aspect-video rounded-sm overflow-hidden border border-white/5 group">
-                 <Image src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=1200&q=80" alt="Security" fill className="object-cover opacity-40 group-hover:scale-110 transition-transform duration-[3s]" />
+                 <Image src={photo(2, "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=1200&q=80")} alt="Security" fill className="object-cover opacity-40 group-hover:scale-110 transition-transform duration-[3s]" />
                  <div className="absolute inset-0 bg-[#00f2ff]/5 animate-pulse" />
                  <div className="absolute inset-0 flex items-center justify-center">
                     <ShieldCheck className="w-24 h-24 text-[#00f2ff]" />
@@ -661,8 +666,8 @@ export default function NeuralisPage() {
 
            <div className="grid grid-cols-1 md:grid-cols-2 gap-32">
               {[
-                { name: "Soren Kvist", role: "Quantum Architect", text: "The Neural Link didn't just improve my workflow; it changed my perception of mathematical structures. I'm no longer visualizing data—I'm inhabiting it.", img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80" },
-                { name: "Emi Nakamura", role: "Synthetic Biologist", text: "Oxy-Flow is the first augmentation that feels truly native. The focus is sustained, clinical, and entirely without the jitters of chemical stimulants.", img: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&q=80" },
+                { name: "Soren Kvist", role: "Quantum Architect", text: "The Neural Link didn't just improve my workflow; it changed my perception of mathematical structures. I'm no longer visualizing data—I'm inhabiting it.", img: photo(3, "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80") },
+                { name: "Emi Nakamura", role: "Synthetic Biologist", text: "Oxy-Flow is the first augmentation that feels truly native. The focus is sustained, clinical, and entirely without the jitters of chemical stimulants.", img: photo(4, "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&q=80") },
               ].map((item, i) => (
                 <Reveal key={i} delay={i * 0.2}>
                    <div className="space-y-12">

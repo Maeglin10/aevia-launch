@@ -261,6 +261,11 @@ function VehicleCard({ vehicle, goTo }: { vehicle: any, goTo: (p: ActivePage) =>
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+// Client-uploaded photo at index i, falling back to the template's stock
+// photo when the client did not upload one for that slot.
+function photo(i: number, fallback: string): string {
+  return fd?.photoUrls?.[i] || fallback;
+}
 export default function VulcanMotorPremium() {
   const [session, setSession] = useState<{
     formData?: {
@@ -627,7 +632,7 @@ return (
                   <div className="lg:col-span-7 grid grid-cols-1 md:grid-cols-2 gap-4">
                      <Reveal delay={0.2} scale={0.9}>
                         <div onClick={() => goTo("atelier")} className="aspect-[4/5] bg-zinc-900 border border-white/5 relative overflow-hidden group cursor-pointer">
-                           <img src="https://images.unsplash.com/photo-1590362891991-f776e747a588?w=800&q=80" className="w-full h-full object-cover grayscale opacity-40 group-hover:grayscale-0 group-hover:scale-110 transition-all duration-1000" alt="Material" />
+                           <img src={photo(0, "https://images.unsplash.com/photo-1590362891991-f776e747a588?w=800&q=80")} className="w-full h-full object-cover grayscale opacity-40 group-hover:grayscale-0 group-hover:scale-110 transition-all duration-1000" alt="Material" />
                            <div className="absolute inset-0 flex items-end p-8 bg-gradient-to-t from-black/80 to-transparent">
                               <span className="text-[10px] font-black uppercase tracking-widest italic">Anodized_Alloy</span>
                            </div>
@@ -635,7 +640,7 @@ return (
                      </Reveal>
                      <Reveal delay={0.4} scale={0.9} y={100}>
                         <div onClick={() => goTo("atelier")} className="aspect-[4/5] bg-zinc-900 border border-white/5 relative overflow-hidden group mt-12 cursor-pointer">
-                           <img src="https://images.unsplash.com/photo-1542282088-fe8426682b8f?w=800&q=80" className="w-full h-full object-cover grayscale opacity-40 group-hover:grayscale-0 group-hover:scale-110 transition-all duration-1000" alt="Interior" />
+                           <img src={photo(1, "https://images.unsplash.com/photo-1542282088-fe8426682b8f?w=800&q=80")} className="w-full h-full object-cover grayscale opacity-40 group-hover:grayscale-0 group-hover:scale-110 transition-all duration-1000" alt="Interior" />
                            <div className="absolute inset-0 flex items-end p-8 bg-gradient-to-t from-black/80 to-transparent">
                               <span className="text-[10px] font-black uppercase tracking-widest italic">Alcantara_Grey</span>
                            </div>
@@ -816,7 +821,7 @@ function EngineeringPage() {
 
         <div className="border border-white/5 bg-zinc-950 p-12 flex flex-col lg:flex-row items-center gap-12">
           <div className="w-full lg:w-1/2 aspect-video relative">
-            <img src="https://images.unsplash.com/photo-1611605645802-c21be743c321?w=800&q=80" alt="Aerodynamics tunnel" className="w-full h-full object-cover grayscale" />
+            <img src={photo(2, "https://images.unsplash.com/photo-1611605645802-c21be743c321?w=800&q=80")} alt="Aerodynamics tunnel" className="w-full h-full object-cover grayscale" />
             <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-transparent pointer-events-none" />
           </div>
           <div className="w-full lg:w-1/2">
@@ -874,7 +879,7 @@ function AtelierPage() {
             </div>
           </div>
           <div className="aspect-[4/5] bg-zinc-900 border border-white/5 relative overflow-hidden">
-            <img src="https://images.unsplash.com/photo-1590362891991-f776e747a588?w=800&q=80" alt="Design sketch" className="w-full h-full object-cover grayscale opacity-50" />
+            <img src={photo(3, "https://images.unsplash.com/photo-1590362891991-f776e747a588?w=800&q=80")} alt="Design sketch" className="w-full h-full object-cover grayscale opacity-50" />
             <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent p-12 flex flex-col justify-end">
               <span className="text-[10px] font-black text-blue-500 uppercase tracking-widest mb-2">Modena_Atelier_Registry</span>
               <h4 className="text-2xl font-black uppercase italic tracking-tighter text-white">4,200+ Combinations</h4>

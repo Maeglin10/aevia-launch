@@ -14,6 +14,11 @@ import { Reveal, EVENTS, ParallaxImg } from "./shared";
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+// Client-uploaded photo at index i, falling back to the template's stock
+// photo when the client did not upload one for that slot.
+function photo(i: number, fallback: string): string {
+  return fd?.photoUrls?.[i] || fallback;
+}
 export default function VelvetHomePage() {
   const [session, setSession] = useState<{
     formData?: {
@@ -101,7 +106,7 @@ return (
         <section className="relative h-[85vh] flex items-center justify-center overflow-hidden">
           <div className="absolute inset-0">
             <Image
-              src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&q=80&w=2400"
+              src={photo(0, "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&q=80&w=2400")}
               alt="Club Atmosphere"
               fill
               className="object-cover opacity-20 scale-105"

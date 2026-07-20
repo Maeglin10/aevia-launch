@@ -136,6 +136,11 @@ const FAQS = [
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+// Client-uploaded photo at index i, falling back to the template's stock
+// photo when the client did not upload one for that slot.
+function photo(i: number, fallback: string): string {
+  return fd?.photoUrls?.[i] || fallback;
+}
 export default function SymmetryStudioPage() {
   const [session, setSession] = useState<{
     formData?: {
@@ -263,7 +268,7 @@ return (
           <Reveal delay={0.5} y={0}>
             <div className="relative aspect-[4/5] overflow-hidden group">
               <ParallaxImg
-                src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=1400&auto=format&fit=crop"
+                src={photo(0, "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=1400&auto=format&fit=crop")}
                 alt="Architectural Minimal"
               />
               <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-all duration-1000" />

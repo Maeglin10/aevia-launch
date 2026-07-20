@@ -49,6 +49,11 @@ const CHAPTERS = [
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+// Client-uploaded photo at index i, falling back to the template's stock
+// photo when the client did not upload one for that slot.
+function photo(i: number, fallback: string): string {
+  return fd?.photoUrls?.[i] || fallback;
+}
 export default function MeridianJourneyPage() {
   const [session, setSession] = useState<{
     formData?: {
@@ -184,7 +189,7 @@ export default function MeridianJourneyPage() {
         {/* ── HERO ──────────────────────────── */}
         <section id="hero" className="relative h-[120vh] min-h-[900px] flex items-end overflow-hidden">
           <motion.div style={{ y: heroY }} className="absolute inset-0">
-            <Image src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&q=80&w=2400" alt="Mountains" fill className="object-cover opacity-70" priority />
+            <Image src={photo(0, "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&q=80&w=2400")} alt="Mountains" fill className="object-cover opacity-70" priority />
             <div className="absolute inset-0 bg-gradient-to-t from-[#0d1210] via-[#0d1210]/30 to-transparent" />
           </motion.div>
 
@@ -372,7 +377,7 @@ export default function MeridianJourneyPage() {
         {/* ── CTA ─────────────────────────── */}
         <section id="contact" className="relative h-[80vh] flex items-center justify-center overflow-hidden">
           <div className="absolute inset-0">
-            <Image src="https://images.unsplash.com/photo-1509316785289-025f5b846b35?auto=format&fit=crop&q=80&w=2400" alt="CTA" fill className="object-cover" />
+            <Image src={photo(1, "https://images.unsplash.com/photo-1509316785289-025f5b846b35?auto=format&fit=crop&q=80&w=2400")} alt="CTA" fill className="object-cover" />
             <div className="absolute inset-0 bg-[#0d1210]/70" />
           </div>
           <div className="relative z-10 text-center px-6">

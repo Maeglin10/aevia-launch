@@ -27,6 +27,11 @@ import {
 // Hoisted above the design tokens: several templates read `brand` in a
 // module-level const — declaring it lower caused a TDZ ReferenceError (500).
 let brand: any = null;
+// Client-uploaded photo at index i, falling back to the template's stock
+// photo when the client did not upload one for that slot.
+function photo(i: number, fallback: string): string {
+  return fd?.photoUrls?.[i] || fallback;
+}
 
 /* ─────────────────────────────────────────────
    GLOBAL KEYFRAME STYLES
@@ -2453,7 +2458,7 @@ function FleetPage({ goTo }: { goTo: (p: ActivePage) => void }) {
       crew: 14,
       speed: "16 knots",
       price: "€380,000",
-      img: "https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?auto=format&fit=crop&q=80&w=1200",
+      img: photo(0, "https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?auto=format&fit=crop&q=80&w=1200"),
       desc: "An icon of contemporary luxury. Featuring a glass-bottom pool, private owner's deck, and an expansive beach club.",
     },
     {
@@ -2466,7 +2471,7 @@ function FleetPage({ goTo }: { goTo: (p: ActivePage) => void }) {
       crew: 6,
       speed: "12 knots",
       price: "€160,000",
-      img: "https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?auto=format&fit=crop&q=80&w=1200",
+      img: photo(1, "https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?auto=format&fit=crop&q=80&w=1200"),
       desc: "High-performance sailing meets ultimate comfort. Carbon rigging, minimalist Italian interior, and direct ocean access.",
     },
     {
@@ -2479,7 +2484,7 @@ function FleetPage({ goTo }: { goTo: (p: ActivePage) => void }) {
       crew: 22,
       speed: "18 knots",
       price: "€650,000",
-      img: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&q=80&w=1200",
+      img: photo(2, "https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&q=80&w=1200"),
       desc: "Unrivaled scale and sophistication. Features a certified helipad, onboard cinema, wellness spa, and two Michelin chefs.",
     },
     {
@@ -2492,7 +2497,7 @@ function FleetPage({ goTo }: { goTo: (p: ActivePage) => void }) {
       crew: 28,
       speed: "15 knots",
       price: "€800,000",
-      img: "https://images.unsplash.com/photo-1569263979104-865ab7cd8d13?auto=format&fit=crop&q=80&w=1200",
+      img: photo(3, "https://images.unsplash.com/photo-1569263979104-865ab7cd8d13?auto=format&fit=crop&q=80&w=1200"),
       desc: "Ice-class explorer designed for global expeditions. Complete with private submarine, heli-hangar, and science lab.",
     },
     {
@@ -2505,7 +2510,7 @@ function FleetPage({ goTo }: { goTo: (p: ActivePage) => void }) {
       crew: 8,
       speed: "14 knots",
       price: "€240,000",
-      img: "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&q=80&w=1200",
+      img: photo(4, "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&q=80&w=1200"),
       desc: "Classic lines with modern naval architecture. Hand-finished teak decks, mahogany salon, and state-of-the-art rigging.",
     },
   ];
@@ -2659,7 +2664,7 @@ function DestinationsPage({ goTo }: { goTo: (p: ActivePage) => void }) {
       desc: "Sail the glamour capital of Europe. Drop anchor off St. Tropez, cruise Monaco's Port Hercules, and dine cliffside in Eze.",
       bestTime: "May — September",
       yacht: "M/Y Lumière",
-      img: "https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&q=80&w=1200",
+      img: photo(5, "https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&q=80&w=1200"),
     },
     {
       name: "Santorini & Cyclades",
@@ -2667,7 +2672,7 @@ function DestinationsPage({ goTo }: { goTo: (p: ActivePage) => void }) {
       desc: "Discover white-washed villages draped over volcanic cliffs. Cruise private coves in Folegandros and catch caldera sunsets from your deck.",
       bestTime: "June — October",
       yacht: "S/Y Ariel",
-      img: "https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?auto=format&fit=crop&q=80&w=1200",
+      img: photo(6, "https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?auto=format&fit=crop&q=80&w=1200"),
     },
     {
       name: "Maldives Atolls",
@@ -2675,7 +2680,7 @@ function DestinationsPage({ goTo }: { goTo: (p: ActivePage) => void }) {
       desc: "Turquoise lagoons of utter stillness. Access shallow reefs by tender, enjoy private beach dinners on sandbanks, and sleep beneath starlight.",
       bestTime: "November — April",
       yacht: "M/Y Odyssey",
-      img: "https://images.unsplash.com/photo-1514282401047-d79a71a590e8?auto=format&fit=crop&q=80&w=1200",
+      img: photo(7, "https://images.unsplash.com/photo-1514282401047-d79a71a590e8?auto=format&fit=crop&q=80&w=1200"),
     },
     {
       name: "Amalfi Coast & Capri",
@@ -2683,7 +2688,7 @@ function DestinationsPage({ goTo }: { goTo: (p: ActivePage) => void }) {
       desc: "Vibrant towns clinging to cliffs. Explore the Blue Grotto at dawn, anchor off Positano at midnight, and experience legendary Italian hospitality.",
       bestTime: "May — September",
       yacht: "M/Y Étoile",
-      img: "https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&q=80&w=1200",
+      img: photo(8, "https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&q=80&w=1200"),
     },
     {
       name: "St. Barts & Grenadines",
@@ -2691,7 +2696,7 @@ function DestinationsPage({ goTo }: { goTo: (p: ActivePage) => void }) {
       desc: "Pristine white sand bays reserved for the few. Crystal clear waters, luxury shopping, and sunset sailing in constant trade winds.",
       bestTime: "December — April",
       yacht: "S/Y Chronos",
-      img: "https://images.unsplash.com/photo-1548574505-5e239809ee19?auto=format&fit=crop&q=80&w=1200",
+      img: photo(9, "https://images.unsplash.com/photo-1548574505-5e239809ee19?auto=format&fit=crop&q=80&w=1200"),
     },
     {
       name: "Svalbard & Fjords",
@@ -2699,7 +2704,7 @@ function DestinationsPage({ goTo }: { goTo: (p: ActivePage) => void }) {
       desc: "For the true explorer. Navigate through towering glaciers, witness polar wildlife in silence, and experience the midnight sun.",
       bestTime: "June — August",
       yacht: "M/Y Odyssey",
-      img: "https://images.unsplash.com/photo-1517760444937-f6397edcbbcd?auto=format&fit=crop&q=80&w=1200",
+      img: photo(10, "https://images.unsplash.com/photo-1517760444937-f6397edcbbcd?auto=format&fit=crop&q=80&w=1200"),
     },
   ];
 
@@ -2798,22 +2803,22 @@ function ExperiencePage({ goTo }: { goTo: (p: ActivePage) => void }) {
     {
       title: "Bespoke Cuisine",
       desc: "Our onboard culinary program features Michelin-starred chefs who tailor menus around your personal preferences and locally sourced ingredients at every anchorage.",
-      img: "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&q=80&w=1200",
+      img: photo(11, "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&q=80&w=1200"),
     },
     {
       title: "Private Aviation",
       desc: "Avoid the friction of public airports. We coordinate seamless private jet charters and helicopter transfers directly to your yacht's helipad.",
-      img: "https://images.unsplash.com/photo-1540962351504-03099e0a754b?auto=format&fit=crop&q=80&w=1200",
+      img: photo(12, "https://images.unsplash.com/photo-1540962351504-03099e0a754b?auto=format&fit=crop&q=80&w=1200"),
     },
     {
       title: "Toys & Tenders",
       desc: "Every vessel carries a premium selection of watersports equipment, from personal submarines and fast tenders to jet skis, foil boards, and diving gear.",
-      img: "https://images.unsplash.com/photo-1569263979104-865ab7cd8d13?auto=format&fit=crop&q=80&w=1200",
+      img: photo(13, "https://images.unsplash.com/photo-1569263979104-865ab7cd8d13?auto=format&fit=crop&q=80&w=1200"),
     },
     {
       title: "Voyage Architects",
       desc: "Your dedicated voyage architect designs every element of your cruise, handling port clearances, exclusive shore excursions, and private bookings months in advance.",
-      img: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&q=80&w=1200",
+      img: photo(14, "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&q=80&w=1200"),
     },
   ];
 

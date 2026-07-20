@@ -55,6 +55,11 @@ const PLANS = [
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+// Client-uploaded photo at index i, falling back to the template's stock
+// photo when the client did not upload one for that slot.
+function photo(i: number, fallback: string): string {
+  return fd?.photoUrls?.[i] || fallback;
+}
 export default function VerdantImpactPage() {
   const [session, setSession] = useState<{
     formData?: {
@@ -191,7 +196,7 @@ export default function VerdantImpactPage() {
         {/* ── HERO ────────── */}
         <section id="hero" className="relative h-[110vh] min-h-[800px] flex items-end overflow-hidden">
           <motion.div style={{ y: heroY }} className="absolute inset-0">
-            <Image src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&q=80&w=2400" alt="Forest" fill className="object-cover" priority />
+            <Image src={photo(0, "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&q=80&w=2400")} alt="Forest" fill className="object-cover" priority />
             <div className="absolute inset-0 bg-gradient-to-t from-[#f6faf4] via-[#f6faf4]/20 to-transparent" />
           </motion.div>
           <motion.div style={{ opacity: heroOpacity }} className="relative z-10 max-w-[1400px] w-full mx-auto px-6 md:px-12 pb-24">
@@ -301,7 +306,7 @@ export default function VerdantImpactPage() {
         {/* ── CTA ──────────── */}
         <section className="relative h-[70vh] flex items-center justify-center overflow-hidden">
           <div className="absolute inset-0">
-            <Image src="https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&q=80&w=2400" alt="CTA" fill className="object-cover" />
+            <Image src={photo(1, "https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&q=80&w=2400")} alt="CTA" fill className="object-cover" />
             <div className="absolute inset-0 bg-emerald-900/60" />
           </div>
           <div className="relative z-10 text-center text-white px-6">
@@ -322,7 +327,7 @@ export default function VerdantImpactPage() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
               <Reveal>
                 <div className="relative aspect-[4/3] overflow-hidden rounded-2xl">
-                  <ParallaxImg src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&q=80&w=1200" alt="Sustainability work" />
+                  <ParallaxImg src={photo(2, "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&q=80&w=1200")} alt="Sustainability work" />
                 </div>
               </Reveal>
               <div>

@@ -707,6 +707,11 @@ function PackageCard({ pkg }: { pkg: (typeof PACKAGES)[0] }) {
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+// Client-uploaded photo at index i, falling back to the template's stock
+// photo when the client did not upload one for that slot.
+function photo(i: number, fallback: string): string {
+  return fd?.photoUrls?.[i] || fallback;
+}
 export default function Impact198Page() {
   const [session, setSession] = useState<{
     formData?: {
@@ -1052,7 +1057,7 @@ export default function Impact198Page() {
           }}
         >
           <img
-            src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?q=80&w=1400&auto=format&fit=crop"
+            src={photo(0, "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?q=80&w=1400&auto=format&fit=crop")}
             alt="Lumière Beauty salon"
             style={{ width: "100%", height: "100%", objectFit: "cover" }}
           />

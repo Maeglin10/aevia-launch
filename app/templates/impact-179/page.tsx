@@ -58,6 +58,11 @@ const REALISATIONS = [
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+// Client-uploaded photo at index i, falling back to the template's stock
+// photo when the client did not upload one for that slot.
+function photo(i: number, fallback: string): string {
+  return fd?.photoUrls?.[i] || fallback;
+}
 export default function AquanovaPlomberiePage() {
   const [session, setSession] = useState<{
     formData?: {
@@ -200,7 +205,7 @@ export default function AquanovaPlomberiePage() {
       {/* ── HERO ── */}
       <section id="hero" ref={heroRef} className="relative h-[110vh] min-h-[820px] flex items-end overflow-hidden">
         <motion.div style={{ y: heroY }} className="absolute inset-0">
-          <Image src="https://images.unsplash.com/photo-1581244277943-fe4a9c777189?auto=format&fit=crop&q=85&w=2400" alt="Plombier au travail" fill className="object-cover" priority style={{ filter: "brightness(0.6)" }} />
+          <Image src={photo(0, "https://images.unsplash.com/photo-1581244277943-fe4a9c777189?auto=format&fit=crop&q=85&w=2400")} alt="Plombier au travail" fill className="object-cover" priority style={{ filter: "brightness(0.6)" }} />
           <div className="absolute inset-0 bg-gradient-to-t from-[#0f172a] via-[#0f172a]/40 to-transparent" />
           <div className="absolute inset-0 bg-gradient-to-r from-[#0f172a]/55 to-transparent" />
         </motion.div>

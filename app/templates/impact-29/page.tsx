@@ -13,6 +13,11 @@ import { Reveal, ScrollImage, projects, skills, timeline, stats, services, proce
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+// Client-uploaded photo at index i, falling back to the template's stock
+// photo when the client did not upload one for that slot.
+function photo(i: number, fallback: string): string {
+  return fd?.photoUrls?.[i] || fallback;
+}
 export default function Home() {
   const [session, setSession] = useState<{
     formData?: {
@@ -289,9 +294,9 @@ return (
             <h2 className="font-bold text-3xl">Work Environment</h2>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <ScrollImage src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=600&h=400&fit=crop&crop=center" alt="Code" width={600} height={400} className="w-full aspect-video" dir={-1} yRange={40} />
-            <ScrollImage src="https://images.unsplash.com/photo-1537432376769-00f5c2f4c8d2?w=600&h=400&fit=crop&crop=center" alt="Terminal" width={600} height={400} className="w-full aspect-video mt-8" dir={1} yRange={40} />
-            <ScrollImage src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop&crop=center" alt="Monitor" width={600} height={400} className="w-full aspect-video" dir={-1} yRange={40} />
+            <ScrollImage src={photo(0, "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=600&h=400&fit=crop&crop=center")} alt="Code" width={600} height={400} className="w-full aspect-video" dir={-1} yRange={40} />
+            <ScrollImage src={photo(1, "https://images.unsplash.com/photo-1537432376769-00f5c2f4c8d2?w=600&h=400&fit=crop&crop=center")} alt="Terminal" width={600} height={400} className="w-full aspect-video mt-8" dir={1} yRange={40} />
+            <ScrollImage src={photo(2, "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop&crop=center")} alt="Monitor" width={600} height={400} className="w-full aspect-video" dir={-1} yRange={40} />
           </div>
         </div>
       </section>
@@ -485,21 +490,21 @@ return (
                 name: "vaultkey",
                 year: "2023",
                 category: "Security",
-                img: "https://images.unsplash.com/photo-1614064641938-3bbee52942c7?w=600&h=400&fit=crop&crop=center",
+                img: photo(3, "https://images.unsplash.com/photo-1614064641938-3bbee52942c7?w=600&h=400&fit=crop&crop=center"),
                 stars: "3.4k",
               },
               {
                 name: "noctua.dev",
                 year: "2024",
                 category: "Collaboration",
-                img: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=600&h=400&fit=crop&crop=center",
+                img: photo(4, "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=600&h=400&fit=crop&crop=center"),
                 stars: "2.1k",
               },
               {
                 name: "axon-query",
                 year: "2023",
                 category: "Infrastructure",
-                img: "https://images.unsplash.com/photo-1544383835-bda2bc66a55d?w=600&h=400&fit=crop&crop=center",
+                img: photo(5, "https://images.unsplash.com/photo-1544383835-bda2bc66a55d?w=600&h=400&fit=crop&crop=center"),
                 stars: "1.2k",
               },
             ].map((p, i) => (

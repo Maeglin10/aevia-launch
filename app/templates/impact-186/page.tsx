@@ -39,6 +39,11 @@ const SOINS = [
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+// Client-uploaded photo at index i, falling back to the template's stock
+// photo when the client did not upload one for that slot.
+function photo(i: number, fallback: string): string {
+  return fd?.photoUrls?.[i] || fallback;
+}
 export default function DrFontainePage() {
   const [session, setSession] = useState<{
     formData?: {
@@ -176,7 +181,7 @@ export default function DrFontainePage() {
       {/* ── HERO ── */}
       <section id="hero" ref={heroRef} className="relative h-[110vh] min-h-[820px] flex items-end overflow-hidden">
         <motion.div style={{ y: heroY }} className="absolute inset-0">
-          <Image src="https://images.unsplash.com/photo-1609840114035-3c981b782dfe?auto=format&fit=crop&q=85&w=2400" alt="Cabinet dentaire moderne lumineux" fill className="object-cover object-center" priority style={{ filter: "brightness(0.42)" }} />
+          <Image src={photo(0, "https://images.unsplash.com/photo-1609840114035-3c981b782dfe?auto=format&fit=crop&q=85&w=2400")} alt="Cabinet dentaire moderne lumineux" fill className="object-cover object-center" priority style={{ filter: "brightness(0.42)" }} />
           <div className="absolute inset-0 bg-gradient-to-t from-[#0e1620] via-[#0e1620]/45 to-transparent" />
           <div className="absolute inset-0 bg-gradient-to-r from-[#0e1620]/65 to-transparent" />
         </motion.div>

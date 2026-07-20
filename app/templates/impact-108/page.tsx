@@ -11,6 +11,11 @@ import { C, FONT, FONT_BODY, STATS, MISSIONS, TEMOIGNAGES, Reveal } from "./shar
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+// Client-uploaded photo at index i, falling back to the template's stock
+// photo when the client did not upload one for that slot.
+function photo(i: number, fallback: string): string {
+  return fd?.photoUrls?.[i] || fallback;
+}
 export default function LedgerPage() {
   const [session, setSession] = useState<{
     formData?: {
@@ -296,7 +301,7 @@ export default function LedgerPage() {
       >
         <motion.div style={{ y: heroY, position: "absolute", inset: 0 }}>
           <img
-            src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=1920&q=80"
+            src={photo(0, "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=1920&q=80")}
             alt="Cabinet Ledger & Associés Bordeaux"
             style={{ width: "100%", height: "100%", objectFit: "cover" }}
           />
@@ -597,7 +602,7 @@ export default function LedgerPage() {
       >
         <div style={{ overflow: "hidden" }}>
           <img
-            src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=800&q=80"
+            src={photo(1, "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=800&q=80")}
             alt="Expert-comptable Bordeaux"
             style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
           />

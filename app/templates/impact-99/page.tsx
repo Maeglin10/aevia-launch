@@ -1036,6 +1036,11 @@ function LegalBlock({
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+// Client-uploaded photo at index i, falling back to the template's stock
+// photo when the client did not upload one for that slot.
+function photo(i: number, fallback: string): string {
+  return fd?.photoUrls?.[i] || fallback;
+}
 export default function EmberGrillPage() {
   const [session, setSession] = useState<{
     formData?: {
@@ -1240,7 +1245,7 @@ export default function EmberGrillPage() {
           <section id="about" className="relative h-[100svh] flex items-center overflow-hidden">
             <div className="absolute inset-0">
               <Image
-                src="https://images.unsplash.com/photo-1544025162-d76694265947?w=1600&q=80"
+                src={photo(0, "https://images.unsplash.com/photo-1544025162-d76694265947?w=1600&q=80")}
                 alt="Fire & Smoke"
                 fill
                 className="object-cover opacity-50 contrast-125"
@@ -1439,7 +1444,7 @@ export default function EmberGrillPage() {
               <Reveal>
                 <div className="relative aspect-square rounded-sm overflow-hidden group border border-white/5">
                   <Image
-                    src="https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=1200&q=80"
+                    src={photo(1, "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=1200&q=80")}
                     alt="Wine Cellar"
                     fill
                     className="object-cover group-hover:scale-110 transition-all duration-[2s] contrast-125 grayscale hover:grayscale-0"

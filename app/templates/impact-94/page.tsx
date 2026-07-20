@@ -377,6 +377,11 @@ function FaqSection() {
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+// Client-uploaded photo at index i, falling back to the template's stock
+// photo when the client did not upload one for that slot.
+function photo(i: number, fallback: string): string {
+  return fd?.photoUrls?.[i] || fallback;
+}
 export default function Impact94Page() {
   const [session, setSession] = useState<{
     formData?: {
@@ -615,7 +620,7 @@ export default function Impact94Page() {
         {/* Parallax Image */}
         <motion.div className="absolute inset-0" style={{ y: heroY }}>
           <Image
-            src="https://images.unsplash.com/photo-1547887537-6158d64c35b3?w=1600&q=80"
+            src={photo(0, "https://images.unsplash.com/photo-1547887537-6158d64c35b3?w=1600&q=80")}
             alt="Bouquet de fleurs botanica"
             fill
             className="object-cover"
@@ -848,7 +853,7 @@ export default function Impact94Page() {
             <div className="relative">
               <div className="relative h-[700px] overflow-hidden">
                 <Image
-                  src="https://images.unsplash.com/photo-1531525645387-7f14be1bdbbd?w=1000&q=90"
+                  src={photo(1, "https://images.unsplash.com/photo-1531525645387-7f14be1bdbbd?w=1000&q=90")}
                   alt="Atelier Botanica — Art botanique"
                   fill
                   className="object-cover"
@@ -929,7 +934,7 @@ export default function Impact94Page() {
               <div className="relative">
                 <div className="relative h-[500px] overflow-hidden">
                   <Image
-                    src="https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=1000&q=90"
+                    src={photo(2, "https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=1000&q=90")}
                     alt="Atelier Botanica — Savoir-faire artisanal"
                     fill
                     className="object-cover"
@@ -937,7 +942,7 @@ export default function Impact94Page() {
                 </div>
                 <div className="absolute -bottom-8 -right-8 w-56 h-56 overflow-hidden border-4 border-[#FAFAF9]">
                   <Image
-                    src="https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=800&q=80"
+                    src={photo(3, "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=800&q=80")}
                     alt="Détail floral"
                     fill
                     className="object-cover"

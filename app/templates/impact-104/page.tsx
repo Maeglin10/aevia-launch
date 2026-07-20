@@ -11,6 +11,11 @@ import { C, FONT, FONT_BODY, STATS, PRESTATIONS, TEMOIGNAGES, GALERIE, Reveal, C
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+// Client-uploaded photo at index i, falling back to the template's stock
+// photo when the client did not upload one for that slot.
+function photo(i: number, fallback: string): string {
+  return fd?.photoUrls?.[i] || fallback;
+}
 export default function LumiereDoreePage() {
   const [session, setSession] = useState<{
     formData?: {
@@ -296,7 +301,7 @@ export default function LumiereDoreePage() {
       >
         <motion.div style={{ y: heroY, position: "absolute", inset: 0 }}>
           <img
-            src="https://images.unsplash.com/photo-1519741497674-611481863552?w=1920&q=80"
+            src={photo(0, "https://images.unsplash.com/photo-1519741497674-611481863552?w=1920&q=80")}
             alt="Cérémonie de mariage"
             style={{ width: "100%", height: "100%", objectFit: "cover" }}
           />

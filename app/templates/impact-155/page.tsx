@@ -81,6 +81,11 @@ function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: nu
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+// Client-uploaded photo at index i, falling back to the template's stock
+// photo when the client did not upload one for that slot.
+function photo(i: number, fallback: string): string {
+  return fd?.photoUrls?.[i] || fallback;
+}
 export default function PierreCoPage() {
   const [session, setSession] = useState<{
     formData?: {
@@ -236,7 +241,7 @@ export default function PierreCoPage() {
       {/* Hero */}
       <section id="hero" ref={heroRef} style={{ height: "115vh", minHeight: "900px", position: "relative", display: "flex", alignItems: "flex-end", overflow: "hidden" }}>
         <motion.div style={{ y: heroY, position: "absolute", inset: 0 }}>
-          <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=1920&q=80" alt="Immobilier de prestige Pierre & Co" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+          <img src={photo(0, "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=1920&q=80")} alt="Immobilier de prestige Pierre & Co" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
         </motion.div>
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(15,25,45,0.93) 0%, rgba(15,25,45,0.45) 45%, rgba(15,25,45,0.08) 100%)" }} />
         <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to right, ${C.accent}15 0%, transparent 55%)` }} />

@@ -127,6 +127,11 @@ const MANIFEST = {
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+// Client-uploaded photo at index i, falling back to the template's stock
+// photo when the client did not upload one for that slot.
+function photo(i: number, fallback: string): string {
+  return fd?.photoUrls?.[i] || fallback;
+}
 export default function ChronicleEditorialPage() {
   const [session, setSession] = useState<{
     formData?: {
@@ -330,7 +335,7 @@ export default function ChronicleEditorialPage() {
                 <Link href="#subscribe" className="group block">
                   <div className="relative w-full aspect-[16/9] md:aspect-[2/1] bg-[#e5e3de] mb-8 overflow-hidden">
                     <Image 
-                      src="https://images.unsplash.com/photo-1513694203232-719a280e022f?w=1600&q=80" 
+                      src={photo(0, "https://images.unsplash.com/photo-1513694203232-719a280e022f?w=1600&q=80")} 
                       alt="Architecture" 
                       fill 
                       className="object-cover group-hover:scale-105 transition-transform duration-1000 ease-out"
@@ -354,7 +359,7 @@ export default function ChronicleEditorialPage() {
                     <div className="flex flex-col sm:flex-row items-center justify-between py-4 border-y border-[#1a1814]/10">
                       <div className="flex items-center gap-4 mb-4 sm:mb-0">
                         <Avatar className="w-10 h-10 border border-[#1a1814]/10">
-                          <AvatarImage src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100&q=80" />
+                          <AvatarImage src={photo(1, "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100&q=80")} />
                           <AvatarFallback>ER</AvatarFallback>
                         </Avatar>
                         <div className="text-left">
@@ -445,7 +450,7 @@ export default function ChronicleEditorialPage() {
             <div className="order-1 lg:order-2">
               <Reveal delay={0.2}>
                 <div className="relative w-full aspect-[3/4] bg-[#e5e3de] p-8 md:p-12 flex flex-col justify-end overflow-hidden group">
-                  <Image src="https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?w=800&q=80" alt="Writing" fill className="object-cover opacity-80 mix-blend-multiply group-hover:scale-105 transition-transform duration-1000" />
+                  <Image src={photo(2, "https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?w=800&q=80")} alt="Writing" fill className="object-cover opacity-80 mix-blend-multiply group-hover:scale-105 transition-transform duration-1000" />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#1a1814]/90 via-[#1a1814]/20 to-transparent" />
                   <div className="relative z-10 text-white">
                     <div className="text-[10px] font-black uppercase tracking-widest text-[#d64000] mb-4">Featured Essay</div>

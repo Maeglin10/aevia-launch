@@ -162,6 +162,11 @@ const pricingTiers = [
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+// Client-uploaded photo at index i, falling back to the template's stock
+// photo when the client did not upload one for that slot.
+function photo(i: number, fallback: string): string {
+  return fd?.photoUrls?.[i] || fallback;
+}
 export default function FormeStudioPage() {
   const [session, setSession] = useState<{
     formData?: {
@@ -329,7 +334,7 @@ return (
           <section id="hero" ref={heroRef} className="relative min-h-dvh flex items-center pt-32 pb-16 px-6 overflow-hidden bg-[#F8F4F0]">
             <motion.div className="absolute inset-0 pointer-events-none" style={{ y: heroY }}>
               <div className="absolute top-20 right-0 w-1/2 h-full opacity-20">
-                <Image src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&q=80" alt="bg" fill className="object-cover" priority />
+                <Image src={photo(0, "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&q=80")} alt="bg" fill className="object-cover" priority />
               </div>
             </motion.div>
             <div className="max-w-6xl mx-auto w-full relative z-10">

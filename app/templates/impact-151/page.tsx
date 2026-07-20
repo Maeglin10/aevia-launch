@@ -107,6 +107,11 @@ function SectionTitle({ subtitle, title, alignment = "center" }: { subtitle: str
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+// Client-uploaded photo at index i, falling back to the template's stock
+// photo when the client did not upload one for that slot.
+function photo(i: number, fallback: string): string {
+  return fd?.photoUrls?.[i] || fallback;
+}
 export default function AethelgardEstatePremium() {
   const [session, setSession] = useState<{
     formData?: {
@@ -245,7 +250,7 @@ return (
         <section id="hero" className="relative h-dvh flex items-center justify-center overflow-hidden pt-24 md:pt-0">
           <motion.div style={{ opacity: heroOpacity, scale: heroScale }} className="absolute inset-0 z-0">
              <Image 
-                src="https://images.unsplash.com/photo-1504275107627-0c2ba7a43dba?q=80&w=2400&auto=format&fit=crop" 
+                src={photo(0, "https://images.unsplash.com/photo-1504275107627-0c2ba7a43dba?q=80&w=2400&auto=format&fit=crop")} 
                 alt="Morning Mist over Vineyards" 
                 fill 
                 className="object-cover opacity-30 grayscale"
@@ -401,7 +406,7 @@ return (
                  <div className="order-1 lg:order-2 relative aspect-square">
                     <Reveal delay={0.3}>
                        <Image 
-                          src="https://images.unsplash.com/photo-1504275107627-0c2ba7a43dba?q=80&w=1200&auto=format&fit=crop" 
+                          src={photo(1, "https://images.unsplash.com/photo-1504275107627-0c2ba7a43dba?q=80&w=1200&auto=format&fit=crop")} 
                           alt="Copper Still" 
                           fill 
                           className="object-cover grayscale"

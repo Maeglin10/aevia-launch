@@ -61,6 +61,11 @@ const TESTIMONIALS = [
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+// Client-uploaded photo at index i, falling back to the template's stock
+// photo when the client did not upload one for that slot.
+function photo(i: number, fallback: string): string {
+  return fd?.photoUrls?.[i] || fallback;
+}
 export default function KineticMarqueePage() {
   const [session, setSession] = useState<{
     formData?: {
@@ -334,9 +339,9 @@ export default function KineticMarqueePage() {
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {[
-                { name: "Aki Sato", role: "Creative Director", img: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=600" },
-                { name: "Leo Croft", role: "Lead Motion Designer", img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=600" },
-                { name: "Zoë Vane", role: "Head of Brand Strategy", img: "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&q=80&w=600" }
+                { name: "Aki Sato", role: "Creative Director", img: photo(0, "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=600") },
+                { name: "Leo Croft", role: "Lead Motion Designer", img: photo(1, "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=600") },
+                { name: "Zoë Vane", role: "Head of Brand Strategy", img: photo(2, "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&q=80&w=600") }
               ].map((member, i) => (
                 <Reveal key={i} delay={i * 0.1}>
                   <div className="group">

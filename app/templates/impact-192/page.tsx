@@ -39,6 +39,11 @@ const SERVICES = [
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+// Client-uploaded photo at index i, falling back to the template's stock
+// photo when the client did not upload one for that slot.
+function photo(i: number, fallback: string): string {
+  return fd?.photoUrls?.[i] || fallback;
+}
 export default function SecurFastPage() {
   const [session, setSession] = useState<{
     formData?: {
@@ -184,7 +189,7 @@ export default function SecurFastPage() {
       {/* ── HERO ── */}
       <section id="hero" ref={heroRef} className="relative h-[110vh] min-h-[820px] flex items-end overflow-hidden pt-16">
         <motion.div style={{ y: heroY }} className="absolute inset-0">
-          <Image src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&q=85&w=2400" alt="Serrurier professionnel sécurité" fill className="object-cover object-center" priority style={{ filter: "brightness(0.22) saturate(0.6)" }} />
+          <Image src={photo(0, "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&q=85&w=2400")} alt="Serrurier professionnel sécurité" fill className="object-cover object-center" priority style={{ filter: "brightness(0.22) saturate(0.6)" }} />
           <div className="absolute inset-0 bg-gradient-to-t from-[#0d1524] via-[#0d1524]/60 to-transparent" />
           <div className="absolute inset-0 bg-gradient-to-r from-[#0d1524]/90 to-transparent" />
           {/* Scan line effect */}

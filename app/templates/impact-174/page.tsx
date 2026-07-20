@@ -120,6 +120,11 @@ function Reveal({ children, delay = 0, y = 40 }: { children: React.ReactNode; de
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+// Client-uploaded photo at index i, falling back to the template's stock
+// photo when the client did not upload one for that slot.
+function photo(i: number, fallback: string): string {
+  return fd?.photoUrls?.[i] || fallback;
+}
 export default function Impact174Page() {
   const [session, setSession] = useState<{
     formData?: {
@@ -317,7 +322,7 @@ export default function Impact174Page() {
         {/* Right — athlete image */}
         <div className="hidden lg:block w-1/2 relative overflow-hidden">
           <motion.div style={{ y: heroImageY }} className="absolute inset-0">
-            <Image src="https://images.unsplash.com/photo-1581009137042-c552e485697a?q=80&w=1200&auto=format&fit=crop"
+            <Image src={photo(0, "https://images.unsplash.com/photo-1581009137042-c552e485697a?q=80&w=1200&auto=format&fit=crop")}
               alt="FORGE athlete" fill className="object-cover" />
           </motion.div>
           <div className="absolute inset-0 bg-gradient-to-r from-[#0a0a0a] to-transparent z-10" />

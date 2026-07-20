@@ -48,6 +48,11 @@ const FLEET = [
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+// Client-uploaded photo at index i, falling back to the template's stock
+// photo when the client did not upload one for that slot.
+function photo(i: number, fallback: string): string {
+  return fd?.photoUrls?.[i] || fallback;
+}
 export default function AstrumReachPage() {
   const [session, setSession] = useState<{
     formData?: {
@@ -219,7 +224,7 @@ export default function AstrumReachPage() {
                  <div className="relative">
                     <div className="absolute -inset-10 bg-cyan-500/5 blur-[120px] rounded-full" />
                     <div className="relative aspect-square border border-white/5 p-2 bg-white/[0.02] rounded-full overflow-hidden">
-                       <Image src="https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&q=80&w=1200" alt="Orbital View" fill className="object-cover opacity-60 rounded-full" />
+                       <Image src={photo(0, "https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&q=80&w=1200")} alt="Orbital View" fill className="object-cover opacity-60 rounded-full" />
                        <div className="absolute inset-0 bg-gradient-to-t from-[#02040a] via-transparent to-transparent opacity-80" />
                        {/* Overlay HUD */}
                        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">

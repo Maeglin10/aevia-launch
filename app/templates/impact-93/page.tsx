@@ -179,6 +179,11 @@ function MagneticBtn({
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+// Client-uploaded photo at index i, falling back to the template's stock
+// photo when the client did not upload one for that slot.
+function photo(i: number, fallback: string): string {
+  return fd?.photoUrls?.[i] || fallback;
+}
 export default function VelocityJetsPage() {
   const [session, setSession] = useState<{
     formData?: {
@@ -366,7 +371,7 @@ export default function VelocityJetsPage() {
       <section id="hero" className="relative h-[100svh] flex items-center overflow-hidden pt-24 md:pt-0">
         <div className="absolute inset-0">
           <Image
-            src="https://images.unsplash.com/photo-1540962351504-03099e0a754b?w=1600&q=80"
+            src={photo(0, "https://images.unsplash.com/photo-1540962351504-03099e0a754b?w=1600&q=80")}
             alt="Private Jet"
             fill
             className="object-cover opacity-60"
@@ -498,7 +503,7 @@ export default function VelocityJetsPage() {
           <Reveal delay={0.2}>
             <div className="relative aspect-video lg:aspect-[4/3] bg-neutral-950 border border-white/5">
               <Image
-                src="https://images.unsplash.com/photo-1540962351504-03099e0a754b?w=800&q=80"
+                src={photo(1, "https://images.unsplash.com/photo-1540962351504-03099e0a754b?w=800&q=80")}
                 alt="Velocity Jet Hangar"
                 fill
                 className="object-cover opacity-60"

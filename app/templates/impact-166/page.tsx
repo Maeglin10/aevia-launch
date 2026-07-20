@@ -740,6 +740,11 @@ function TestimonialCard({
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+// Client-uploaded photo at index i, falling back to the template's stock
+// photo when the client did not upload one for that slot.
+function photo(i: number, fallback: string): string {
+  return fd?.photoUrls?.[i] || fallback;
+}
 export default function Impact166Page() {
   const [session, setSession] = useState<{
     formData?: {
@@ -1117,7 +1122,7 @@ return (
           }}
         >
           <img
-            src="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=1400&auto=format&fit=crop"
+            src={photo(0, "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=1400&auto=format&fit=crop")}
             alt="Iris Studio hero"
             style={{
               width: "100%",
@@ -1489,7 +1494,7 @@ return (
             style={{ position: "relative" }}
           >
             <img
-              src="https://images.unsplash.com/photo-1504257432389-52343af06ae3?q=80&w=1400&auto=format&fit=crop"
+              src={photo(1, "https://images.unsplash.com/photo-1504257432389-52343af06ae3?q=80&w=1400&auto=format&fit=crop")}
               alt="Iris Beaumont"
               style={{
                 width: "100%",

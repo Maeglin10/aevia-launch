@@ -142,6 +142,11 @@ const GUEST_OPTIONS = ["1 personne", "2 personnes", "3 personnes", "4 personnes"
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+// Client-uploaded photo at index i, falling back to the template's stock
+// photo when the client did not upload one for that slot.
+function photo(i: number, fallback: string): string {
+  return fd?.photoUrls?.[i] || fallback;
+}
 export default function AeviaKitchenPage() {
   const [session, setSession] = useState<{
     formData?: {
@@ -301,7 +306,7 @@ export default function AeviaKitchenPage() {
           className="absolute inset-0 z-0"
         >
           <Image
-            src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=2400&auto=format&fit=crop"
+            src={photo(0, "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=2400&auto=format&fit=crop")}
             alt="Salle gastronomique Aevia Kitchen"
             fill
             className="object-cover brightness-[0.55]"
@@ -463,7 +468,7 @@ export default function AeviaKitchenPage() {
               <div className="relative">
                 <div className="relative aspect-[4/5] overflow-hidden rounded-lg">
                   <Image
-                    src="https://images.unsplash.com/photo-1577219491135-ce391730fb2c?q=80&w=1200&auto=format&fit=crop"
+                    src={photo(1, "https://images.unsplash.com/photo-1577219491135-ce391730fb2c?q=80&w=1200&auto=format&fit=crop")}
                     alt="Chef exécutif Aevia Kitchen"
                     fill
                     className="object-cover object-center"

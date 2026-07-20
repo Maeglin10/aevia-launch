@@ -336,6 +336,11 @@ function PageHeader({ chapter, title, intro }: { chapter: string, title: string,
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+// Client-uploaded photo at index i, falling back to the template's stock
+// photo when the client did not upload one for that slot.
+function photo(i: number, fallback: string): string {
+  return fd?.photoUrls?.[i] || fallback;
+}
 export default function IvoryArchivePremium() {
   const [session, setSession] = useState<{
     formData?: {
@@ -522,7 +527,7 @@ return (
         <section className="relative h-dvh flex items-center justify-center overflow-hidden">
           <motion.div style={{ opacity: heroOpacity, scale: heroScale }} className="absolute inset-0 z-0">
              <Image
-                src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=1600&q=80"
+                src={photo(0, "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=1600&q=80")}
                 alt="Classical Sculpture in Museum"
                 fill
                 className="object-cover opacity-20 grayscale"
@@ -691,7 +696,7 @@ return (
               <div className="grid lg:grid-cols-2 gap-32 items-center">
                  <div className="relative aspect-[4/5] overflow-hidden group">
                     <Image
-                       src="https://images.unsplash.com/photo-1504275107627-0c2ba7a43dba?q=80&w=1200&auto=format&fit=crop"
+                       src={photo(1, "https://images.unsplash.com/photo-1504275107627-0c2ba7a43dba?q=80&w=1200&auto=format&fit=crop")}
                        alt="Art Restorer Working"
                        fill
                        className="object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000"

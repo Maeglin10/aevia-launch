@@ -62,6 +62,11 @@ function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: nu
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+// Client-uploaded photo at index i, falling back to the template's stock
+// photo when the client did not upload one for that slot.
+function photo(i: number, fallback: string): string {
+  return fd?.photoUrls?.[i] || fallback;
+}
 export default function AquaThermPage() {
   const [session, setSession] = useState<{
     formData?: {
@@ -211,7 +216,7 @@ export default function AquaThermPage() {
 
       <section id="hero" ref={heroRef} style={{ height: "115vh", minHeight: "900px", position: "relative", display: "flex", alignItems: "flex-end", overflow: "hidden" }}>
         <motion.div style={{ y: heroY, position: "absolute", inset: 0 }}>
-          <img src="https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=1920&q=80" alt="Plombier chauffagiste AquaTherm Lille" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+          <img src={photo(0, "https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=1920&q=80")} alt="Plombier chauffagiste AquaTherm Lille" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
         </motion.div>
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(10,6,0,0.93) 0%, rgba(10,6,0,0.42) 45%, rgba(10,6,0,0.08) 100%)" }} />
         <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to right, ${C.accent}18 0%, transparent 55%)` }} />
@@ -278,7 +283,7 @@ export default function AquaThermPage() {
 
       <section style={{ padding: "100px 80px", background: C.bgSection }}>
         <div className="imx-mobstack" style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "center" }}>
-          <Reveal><img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80" alt="Artisan plombier certifié" style={{ width: "100%", borderRadius: 8, aspectRatio: "4/3", objectFit: "cover" }} /></Reveal>
+          <Reveal><img src={photo(1, "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80")} alt="Artisan plombier certifié" style={{ width: "100%", borderRadius: 8, aspectRatio: "4/3", objectFit: "cover" }} /></Reveal>
           <Reveal delay={0.15}><div>
             <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Garanties</span>
             <h2 style={{ fontFamily: FONT, fontSize: "clamp(30px, 3vw, 48px)", letterSpacing: 0.5, color: C.text, margin: "10px 0 26px", lineHeight: 1.1 }}>RGE, QUALIGAZ,<br />ASSURÉS.</h2>

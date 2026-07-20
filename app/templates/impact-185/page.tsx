@@ -45,6 +45,11 @@ const TEMOIGNAGES = [
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+// Client-uploaded photo at index i, falling back to the template's stock
+// photo when the client did not upload one for that slot.
+function photo(i: number, fallback: string): string {
+  return fd?.photoUrls?.[i] || fallback;
+}
 export default function GentlemansCutPage() {
   const [session, setSession] = useState<{
     formData?: {
@@ -181,7 +186,7 @@ export default function GentlemansCutPage() {
       {/* ── HERO ── */}
       <section id="hero" ref={heroRef} className="relative h-[115vh] min-h-[900px] flex items-end overflow-hidden">
         <motion.div style={{ y: heroY }} className="absolute inset-0">
-          <Image src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&q=88&w=2400" alt="Barbier rasage traditionnel" fill className="object-cover object-top" priority style={{ filter: "brightness(0.35) contrast(1.05)" }} />
+          <Image src={photo(0, "https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&q=88&w=2400")} alt="Barbier rasage traditionnel" fill className="object-cover object-top" priority style={{ filter: "brightness(0.35) contrast(1.05)" }} />
           <div className="absolute inset-0 bg-gradient-to-t from-[#0a0908] via-[#0a0908]/55 to-transparent" />
           <div className="absolute inset-0 bg-gradient-to-r from-[#0a0908]/70 via-[#0a0908]/20 to-transparent" />
         </motion.div>
@@ -290,7 +295,7 @@ export default function GentlemansCutPage() {
                 </div>
               </div>
               <div className="relative aspect-[4/3] overflow-hidden">
-                <Image src="https://images.unsplash.com/photo-1621605815971-fbc98d665033?auto=format&fit=crop&q=85&w=900" alt="Intérieur barbier vintage" fill className="object-cover" style={{ filter: "brightness(0.6) sepia(0.15)" }} />
+                <Image src={photo(1, "https://images.unsplash.com/photo-1621605815971-fbc98d665033?auto=format&fit=crop&q=85&w=900")} alt="Intérieur barbier vintage" fill className="object-cover" style={{ filter: "brightness(0.6) sepia(0.15)" }} />
                 <div className="absolute inset-0 border border-[#c9a84c]/15" />
               </div>
             </div>

@@ -129,6 +129,11 @@ function AccordionItem({ item, isOpen, onClick }: { item: typeof FAQS[0]; isOpen
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+// Client-uploaded photo at index i, falling back to the template's stock
+// photo when the client did not upload one for that slot.
+function photo(i: number, fallback: string): string {
+  return fd?.photoUrls?.[i] || fallback;
+}
 export default function CreativePortfolioSPA() {
   const [session, setSession] = useState<{
     formData?: {
@@ -307,7 +312,7 @@ export default function CreativePortfolioSPA() {
           ========================================== */}
       <section id="hero" className="relative h-dvh w-full flex items-center justify-center overflow-hidden">
         <motion.div style={{ y: heroY, scale: scaleProgress }} className="absolute inset-0 z-0 origin-bottom">
-          <Image src="https://images.unsplash.com/photo-1509631179647-0177331693ae?q=80&w=1600&auto=format&fit=crop" fill className="object-cover" alt="Hero" priority />
+          <Image src={photo(0, "https://images.unsplash.com/photo-1509631179647-0177331693ae?q=80&w=1600&auto=format&fit=crop")} fill className="object-cover" alt="Hero" priority />
           <div className="absolute inset-0 bg-black/50" />
           <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-[#0a0a0a]/60" />
         </motion.div>
@@ -447,7 +452,7 @@ export default function CreativePortfolioSPA() {
           <Reveal className="lg:col-span-5">
             <div className="relative">
               <div className="relative aspect-[3/4] rounded-3xl overflow-hidden bg-white/5">
-                <Image src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=800&auto=format&fit=crop" alt={fd?.businessName ?? "Elena Korr Portfolio"} fill className="object-cover grayscale hover:grayscale-0 transition-all duration-[2s]" />
+                <Image src={photo(1, "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=800&auto=format&fit=crop")} alt={fd?.businessName ?? "Elena Korr Portfolio"} fill className="object-cover grayscale hover:grayscale-0 transition-all duration-[2s]" />
               </div>
               <motion.div animate={{ y: [0, -15, 0] }} transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }} className="absolute -bottom-8 -right-8 w-32 h-32 rounded-full bg-amber-400 text-black flex items-center justify-center text-center shadow-[0_0_40px_rgba(251,191,36,0.3)] backdrop-blur-md">
                 <div>
@@ -615,7 +620,7 @@ export default function CreativePortfolioSPA() {
           9. CONTACT / CTA
           ========================================== */}
       <section id="contact" className="py-32 md:py-40 px-6 md:px-12 relative overflow-hidden bg-amber-400 text-black">
-        <div className="absolute inset-0 opacity-10 mix-blend-overlay pointer-events-none" style={{ backgroundImage: 'url("https://images.unsplash.com/photo-1557672172-298e090bd0f1?q=80&w=800&auto=format&fit=crop")', backgroundSize: 'cover' }} />
+        <div className="absolute inset-0 opacity-10 mix-blend-overlay pointer-events-none" style={{ backgroundImage: 'url(photo(2, "https://images.unsplash.com/photo-1557672172-298e090bd0f1?q=80&w=800&auto=format&fit=crop"))', backgroundSize: 'cover' }} />
         
         <div className="max-w-[1400px] mx-auto relative z-10 flex flex-col items-center text-center">
           <Reveal>

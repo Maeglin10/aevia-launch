@@ -401,6 +401,11 @@ const MARQUEE_ITEMS = [
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+// Client-uploaded photo at index i, falling back to the template's stock
+// photo when the client did not upload one for that slot.
+function photo(i: number, fallback: string): string {
+  return fd?.photoUrls?.[i] || fallback;
+}
 export default function Impact200Page() {
   const [session, setSession] = useState<{
     formData?: {
@@ -670,7 +675,7 @@ export default function Impact200Page() {
         {/* Parallax Image */}
         <motion.div className="absolute inset-0 z-0" style={{ y: heroY, opacity: heroOpacity }}>
           <Image
-            src="https://images.unsplash.com/photo-1519741497674-611481863552?w=1920&q=90"
+            src={photo(0, "https://images.unsplash.com/photo-1519741497674-611481863552?w=1920&q=90")}
             alt="Mariage de rêve"
             fill
             className="object-cover"
@@ -790,7 +795,7 @@ export default function Impact200Page() {
               <div className="relative w-full max-w-sm mx-auto">
                 <div className="aspect-[4/5] relative rounded-3xl overflow-hidden shadow-2xl shadow-[#DB2777]/20">
                   <Image
-                    src="https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=600&q=80"
+                    src={photo(1, "https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=600&q=80")}
                     alt="Mariage romantique"
                     fill
                     className="object-cover"

@@ -141,6 +141,11 @@ function Reveal({
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+// Client-uploaded photo at index i, falling back to the template's stock
+// photo when the client did not upload one for that slot.
+function photo(i: number, fallback: string): string {
+  return fd?.photoUrls?.[i] || fallback;
+}
 export default function WanderlustPage() {
   const [session, setSession] = useState<{
     formData?: {
@@ -524,7 +529,7 @@ export default function WanderlustPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <Reveal className="relative aspect-[4/5] rounded-2xl overflow-hidden order-2 lg:order-1">
               <Image
-                src="https://images.unsplash.com/photo-1518548419970-58e3b4079ab2?q=80&w=1200&auto=format&fit=crop"
+                src={photo(0, "https://images.unsplash.com/photo-1518548419970-58e3b4079ab2?q=80&w=1200&auto=format&fit=crop")}
                 alt="Safari"
                 fill
                 className="object-cover hover:scale-105 transition-transform duration-[2s]"

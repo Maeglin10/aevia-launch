@@ -219,6 +219,11 @@ function MagneticBtn({
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+// Client-uploaded photo at index i, falling back to the template's stock
+// photo when the client did not upload one for that slot.
+function photo(i: number, fallback: string): string {
+  return fd?.photoUrls?.[i] || fallback;
+}
 export default function BoulangerieNoirePage() {
   const [session, setSession] = useState<{
     formData?: {
@@ -438,7 +443,7 @@ export default function BoulangerieNoirePage() {
           className="absolute inset-0 z-0"
         >
           <Image
-            src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?q=80&w=1600&auto=format&fit=crop"
+            src={photo(0, "https://images.unsplash.com/photo-1555507036-ab1f4038808a?q=80&w=1600&auto=format&fit=crop")}
             alt="Bakery Hero"
             fill
             className="object-cover brightness-50 contrast-125 grayscale-[0.5]"

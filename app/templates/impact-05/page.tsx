@@ -217,6 +217,11 @@ const LOGOS = [
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+// Client-uploaded photo at index i, falling back to the template's stock
+// photo when the client did not upload one for that slot.
+function photo(i: number, fallback: string): string {
+  return fd?.photoUrls?.[i] || fallback;
+}
 export default function NovaPlatformSaaS() {
   const [session, setSession] = useState<{
     formData?: {
@@ -424,11 +429,11 @@ return (
           {/* Social proof */}
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.6 }} className="flex flex-col items-center gap-4">
             <div className="flex -space-x-2">
-              {["https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=60&q=80",
-                "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=60&q=80",
-                "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=60&q=80",
-                "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=60&q=80",
-                "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=60&q=80"].map((src, i) => (
+              {[photo(0, "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=60&q=80"),
+                photo(1, "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=60&q=80"),
+                photo(2, "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=60&q=80"),
+                photo(3, "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=60&q=80"),
+                photo(4, "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=60&q=80")].map((src, i) => (
                 <Avatar key={i} className="w-8 h-8 border-2 border-[#09090b]">
                   <AvatarImage src={src} />
                   <AvatarFallback className="bg-violet-600 text-[10px]">U</AvatarFallback>

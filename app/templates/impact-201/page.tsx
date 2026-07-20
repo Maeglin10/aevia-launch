@@ -664,6 +664,11 @@ function ExperienceCard({
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+// Client-uploaded photo at index i, falling back to the template's stock
+// photo when the client did not upload one for that slot.
+function photo(i: number, fallback: string): string {
+  return fd?.photoUrls?.[i] || fallback;
+}
 export default function Impact201Page() {
   const [session, setSession] = useState<{
     formData?: {
@@ -1031,7 +1036,7 @@ return (
           }}
         >
           <img
-            src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=1400&auto=format&fit=crop"
+            src={photo(0, "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=1400&auto=format&fit=crop")}
             alt="Gastronomie"
             style={{
               width: "100%",
@@ -1316,7 +1321,7 @@ return (
             }}
           >
             <img
-              src="https://images.unsplash.com/photo-1551218808-94e220e084d2?q=80&w=800&auto=format&fit=crop"
+              src={photo(1, "https://images.unsplash.com/photo-1551218808-94e220e084d2?q=80&w=800&auto=format&fit=crop")}
               alt="Chef Antoine Lefèvre"
               style={{
                 width: "100%",

@@ -65,6 +65,11 @@ const STEPS = [
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+// Client-uploaded photo at index i, falling back to the template's stock
+// photo when the client did not upload one for that slot.
+function photo(i: number, fallback: string): string {
+  return fd?.photoUrls?.[i] || fallback;
+}
 export default function VoltProPage() {
   const [session, setSession] = useState<{
     formData?: {
@@ -221,7 +226,7 @@ export default function VoltProPage() {
         <section id="hero" className="relative h-[110vh] min-h-[800px] flex items-end overflow-hidden">
           <motion.div style={{ y: heroY }} className="absolute inset-0">
             <Image
-              src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&q=85&w=2400"
+              src={photo(0, "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&q=85&w=2400")}
               alt="Électricien au travail sur tableau électrique"
               fill className="object-cover opacity-50" priority
             />
@@ -499,7 +504,7 @@ export default function VoltProPage() {
         {/* ── CTA ── */}
         <section id="contact" className="relative py-48 flex items-center justify-center overflow-hidden">
           <div className="absolute inset-0">
-            <Image src="https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&q=80&w=2400" alt="Câblage électrique moderne" fill className="object-cover opacity-30" />
+            <Image src={photo(1, "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&q=80&w=2400")} alt="Câblage électrique moderne" fill className="object-cover opacity-30" />
             <div className="absolute inset-0 bg-[#080a0c]/80" />
           </div>
           <Reveal className="relative z-10 text-center px-6">

@@ -31,6 +31,11 @@ function ParallaxImg({ src, alt }: { src: string; alt: string }) {
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+// Client-uploaded photo at index i, falling back to the template's stock
+// photo when the client did not upload one for that slot.
+function photo(i: number, fallback: string): string {
+  return fd?.photoUrls?.[i] || fallback;
+}
 export default function ChateauVestigeHome() {
   const [session, setSession] = useState<{
     formData?: {
@@ -122,7 +127,7 @@ return (
       <section className="relative h-[calc(100vh-96px)] flex items-center justify-center overflow-hidden bg-[#1A1A1A]">
         <motion.div style={{ y: heroY, opacity: opacityHero }} className="absolute inset-0 z-0">
           <Image
-            src="https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?w=2000&q=80&fit=crop"
+            src={photo(0, "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?w=2000&q=80&fit=crop")}
             alt="Vignoble de Margaux au lever du soleil"
             fill
             className="object-cover brightness-50"
@@ -351,7 +356,7 @@ return (
       <section className="py-24 px-6 relative z-10 bg-white">
         <Reveal>
           <div className="max-w-6xl mx-auto bg-[#2D1B0E] text-white p-12 md:p-24 text-center relative overflow-hidden group shadow-2xl">
-            <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?w=1600&q=80')] bg-cover bg-center opacity-20 group-hover:opacity-30 transition-opacity duration-1000 mix-blend-luminosity" />
+            <div className="absolute inset-0 bg-[url(photo(1, 'https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?w=1600&q=80'))] bg-cover bg-center opacity-20 group-hover:opacity-30 transition-opacity duration-1000 mix-blend-luminosity" />
             <div className="relative z-10 font-sans">
               <div className="w-16 h-px bg-[#C4A265] mx-auto mb-8" />
               <h2 className="text-4xl md:text-6xl font-serif mb-8 leading-snug pb-2">Vivez l'expérience Vestige</h2>

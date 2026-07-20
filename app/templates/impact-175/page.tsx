@@ -456,6 +456,11 @@ function ProcessStep({ step, index }: { step: (typeof PROCESS)[0]; index: number
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+// Client-uploaded photo at index i, falling back to the template's stock
+// photo when the client did not upload one for that slot.
+function photo(i: number, fallback: string): string {
+  return fd?.photoUrls?.[i] || fallback;
+}
 export default function Impact175Page() {
   const [session, setSession] = useState<{
     formData?: {
@@ -794,7 +799,7 @@ export default function Impact175Page() {
           }}
         >
           <img
-            src="https://images.unsplash.com/photo-1530103862676-de8c9debad1d?q=80&w=1400&auto=format&fit=crop"
+            src={photo(0, "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?q=80&w=1400&auto=format&fit=crop")}
             alt={fd?.businessName ?? "Confluence Events"}
             style={{ width: "100%", height: "100%", objectFit: "cover" }}
           />

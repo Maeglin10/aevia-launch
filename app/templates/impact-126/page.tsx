@@ -432,6 +432,11 @@ function MenuItem({
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+// Client-uploaded photo at index i, falling back to the template's stock
+// photo when the client did not upload one for that slot.
+function photo(i: number, fallback: string): string {
+  return fd?.photoUrls?.[i] || fallback;
+}
 export default function ImpactRestaurantPage() {
   const [session, setSession] = useState<{
     formData?: {
@@ -830,7 +835,7 @@ return (
             y: heroParallaxY,
             opacity: heroOpacity,
             backgroundImage:
-              "url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=2200&auto=format&fit=crop')",
+              "url(photo(0, 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=2200&auto=format&fit=crop'))",
             backgroundSize: "cover",
             backgroundPosition: "center",
           }}
@@ -851,7 +856,7 @@ return (
         />
 
         {/* SVG pasta watermark */}
-        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=800&q=80" alt="Portrait" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+        <img src={photo(1, "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=800&q=80")} alt="Portrait" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
 
         {/* Hero content */}
         <div
@@ -1444,7 +1449,7 @@ return (
                 position: "absolute",
                 inset: 0,
                 backgroundImage:
-                  "url('https://images.unsplash.com/photo-1577219491135-ce391730fb2c?q=80&w=1200&auto=format&fit=crop')",
+                  "url(photo(2, 'https://images.unsplash.com/photo-1577219491135-ce391730fb2c?q=80&w=1200&auto=format&fit=crop'))",
                 backgroundSize: "cover",
                 backgroundPosition: "center top",
                 borderRadius: 2,

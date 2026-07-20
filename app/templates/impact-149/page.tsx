@@ -33,6 +33,11 @@ function BreathingCircle() {
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+// Client-uploaded photo at index i, falling back to the template's stock
+// photo when the client did not upload one for that slot.
+function photo(i: number, fallback: string): string {
+  return fd?.photoUrls?.[i] || fallback;
+}
 export default function AetherWellnessPage() {
   const [session, setSession] = useState<{
     formData?: {
@@ -244,7 +249,7 @@ export default function AetherWellnessPage() {
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
                  <Reveal>
                     <div className="relative aspect-[16/10] overflow-hidden rounded-[2.5rem]">
-                       <Image src="https://images.unsplash.com/photo-1544161515-4ab6ce6db874?auto=format&fit=crop&q=80&w=1200" alt="Spa Detail" fill className="object-cover hover:scale-105 transition-transform duration-[2000ms]" />
+                       <Image src={photo(0, "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?auto=format&fit=crop&q=80&w=1200")} alt="Spa Detail" fill className="object-cover hover:scale-105 transition-transform duration-[2000ms]" />
                        <div className="absolute inset-0 bg-black/5" />
                     </div>
                  </Reveal>

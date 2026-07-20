@@ -27,6 +27,11 @@ import {
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+// Client-uploaded photo at index i, falling back to the template's stock
+// photo when the client did not upload one for that slot.
+function photo(i: number, fallback: string): string {
+  return fd?.photoUrls?.[i] || fallback;
+}
 export default function SereneRetreatHome() {
   const [session, setSession] = useState<{
     formData?: {
@@ -148,7 +153,7 @@ export default function SereneRetreatHome() {
         }}
       >
         <motion.img
-          src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?q=80&w=1400&auto=format&fit=crop"
+          src={photo(0, "https://images.unsplash.com/photo-1540555700478-4be289fbecef?q=80&w=1400&auto=format&fit=crop")}
           alt="Serene spa landscape"
           style={{
             position: "absolute",
@@ -467,7 +472,7 @@ export default function SereneRetreatHome() {
               }}
             >
               <img
-                src="https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?q=80&w=1400&auto=format&fit=crop"
+                src={photo(1, "https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?q=80&w=1400&auto=format&fit=crop")}
                 alt="Thermal circuit"
                 style={{ width: "100%", height: "100%", objectFit: "cover" }}
               />

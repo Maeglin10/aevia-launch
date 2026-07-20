@@ -51,6 +51,11 @@ type ActivePage = "home" | "atelier" | "collection" | "concierge" | "legal" | "c
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+// Client-uploaded photo at index i, falling back to the template's stock
+// photo when the client did not upload one for that slot.
+function photo(i: number, fallback: string): string {
+  return fd?.photoUrls?.[i] || fallback;
+}
 export default function ChronosLuxuryPage() {
   const [session, setSession] = useState<{
     formData?: {
@@ -210,7 +215,7 @@ export default function ChronosLuxuryPage() {
             {/* ── HERO ──────────────────── */}
             <section id="hero" className="relative h-dvh flex items-center justify-center overflow-hidden pt-24 md:pt-0">
               <div className="absolute inset-0">
-                <Image src="https://images.unsplash.com/photo-1547996160-81dfa63595aa?auto=format&fit=crop&q=80&w=2400" alt="Chronos Watch" fill className="object-cover opacity-40 scale-105" priority />
+                <Image src={photo(0, "https://images.unsplash.com/photo-1547996160-81dfa63595aa?auto=format&fit=crop&q=80&w=2400")} alt="Chronos Watch" fill className="object-cover opacity-40 scale-105" priority />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-transparent" />
                 <div className="absolute inset-0 bg-black/40" />
               </div>
@@ -299,7 +304,7 @@ export default function ChronosLuxuryPage() {
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
                   <Reveal>
                     <div className="relative aspect-square">
-                      <ParallaxImg src="https://images.unsplash.com/photo-1524592094714-0f0654e20314?auto=format&fit=crop&q=80&w=1200" alt="Atelier Detail" />
+                      <ParallaxImg src={photo(1, "https://images.unsplash.com/photo-1524592094714-0f0654e20314?auto=format&fit=crop&q=80&w=1200")} alt="Atelier Detail" />
                       <div className="absolute -bottom-12 -left-12 p-8 bg-[#050505] border border-white/5 w-64 hidden md:block">
                          <div className="text-3xl font-bold mb-2 text-white">100%</div>
                          <div className="text-[9px] font-bold uppercase tracking-widest text-[#d4af37]">In-House Calibre</div>
@@ -453,7 +458,7 @@ function AtelierPage() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center mb-32">
           <div className="relative aspect-[4/3] border border-white/10 p-2">
-            <img src="https://images.unsplash.com/photo-1524592094714-0f0654e20314?auto=format&fit=crop&q=80&w=1200" alt="Watchmaker hands" className="w-full h-full object-cover" />
+            <img src={photo(2, "https://images.unsplash.com/photo-1524592094714-0f0654e20314?auto=format&fit=crop&q=80&w=1200")} alt="Watchmaker hands" className="w-full h-full object-cover" />
           </div>
           <div>
             <h2 className="text-3xl font-extralight text-white uppercase tracking-widest mb-6" style={{ fontFamily: "serif" }}>
@@ -487,10 +492,10 @@ function AtelierPage() {
 
 function CollectionPage({ goTo }: { goTo: (p: ActivePage) => void }) {
   const collectionList = [
-    { name: "Horology One", series: "Precision Series", price: "€14,500", img: "https://images.unsplash.com/photo-1524592094714-0f0654e20314?auto=format&fit=crop&q=80&w=1200", calibre: "CH-01 Manual", power: "72 Hours", case: "Titanium Grade 5", water: "50m", desc: "Brushed titanium case with a 72-hour power reserve and sapphire crystal." },
-    { name: "Deep Sea", series: "Oceanic Series", price: "€18,200", img: "https://images.unsplash.com/photo-1547996160-81dfa63595aa?auto=format&fit=crop&q=80&w=1200", calibre: "CH-09 Auto", power: "60 Hours", case: "Stainless Steel 904L", water: "1000m", desc: "Professional diver's watch water resistant to 1000m with helium escape valve." },
-    { name: "Lunar Phase", series: "Astral Series", price: "€22,900", img: "https://images.unsplash.com/photo-1524592094714-0f0654e20314?auto=format&fit=crop&q=80&w=1200", calibre: "CH-12 Lunar", power: "65 Hours", case: "18k Rose Gold", water: "30m", desc: "Perpetual moon phase complication with 18k rose gold hand-engraved dial." },
-    { name: "Tourbillon Prestige", series: "Grand Complication", price: "€85,000", img: "https://images.unsplash.com/photo-1547996160-81dfa63595aa?auto=format&fit=crop&q=80&w=1200", calibre: "CH-50 Tourbillon", power: "80 Hours", case: "Platinum 950", water: "30m", desc: "Flying tourbillon with manual winding, hand-beveled titanium cage, and power reserve indicator." }
+    { name: "Horology One", series: "Precision Series", price: "€14,500", img: photo(3, "https://images.unsplash.com/photo-1524592094714-0f0654e20314?auto=format&fit=crop&q=80&w=1200"), calibre: "CH-01 Manual", power: "72 Hours", case: "Titanium Grade 5", water: "50m", desc: "Brushed titanium case with a 72-hour power reserve and sapphire crystal." },
+    { name: "Deep Sea", series: "Oceanic Series", price: "€18,200", img: photo(4, "https://images.unsplash.com/photo-1547996160-81dfa63595aa?auto=format&fit=crop&q=80&w=1200"), calibre: "CH-09 Auto", power: "60 Hours", case: "Stainless Steel 904L", water: "1000m", desc: "Professional diver's watch water resistant to 1000m with helium escape valve." },
+    { name: "Lunar Phase", series: "Astral Series", price: "€22,900", img: photo(5, "https://images.unsplash.com/photo-1524592094714-0f0654e20314?auto=format&fit=crop&q=80&w=1200"), calibre: "CH-12 Lunar", power: "65 Hours", case: "18k Rose Gold", water: "30m", desc: "Perpetual moon phase complication with 18k rose gold hand-engraved dial." },
+    { name: "Tourbillon Prestige", series: "Grand Complication", price: "€85,000", img: photo(6, "https://images.unsplash.com/photo-1547996160-81dfa63595aa?auto=format&fit=crop&q=80&w=1200"), calibre: "CH-50 Tourbillon", power: "80 Hours", case: "Platinum 950", water: "30m", desc: "Flying tourbillon with manual winding, hand-beveled titanium cage, and power reserve indicator." }
   ];
 
   return (
@@ -556,19 +561,19 @@ function CraftsmanshipPage() {
               num: "01",
               title: "Guillochage & Dial Artistry",
               desc: "Our solid gold and silver dials are hand-engraved using mechanical rose engine lathes dating back to the early 20th century. This precise art form requires intense concentration, where a single slip of the wrist can ruin days of precision labor.",
-              img: "https://images.unsplash.com/photo-1524592094714-0f0654e20314?auto=format&fit=crop&q=80&w=1200"
+              img: photo(7, "https://images.unsplash.com/photo-1524592094714-0f0654e20314?auto=format&fit=crop&q=80&w=1200")
             },
             {
               num: "02",
               title: "Anglage & Decorative Finishing",
               desc: "Bridges, plates, and steel parts undergo meticulous hand-beveling (anglage). Using boxwood pegs and diamond paste, our craftsmen polish every internal angle until it reflects light flawlessly, creating a striking contrast with the circular-grained mainplate.",
-              img: "https://images.unsplash.com/photo-1547996160-81dfa63595aa?auto=format&fit=crop&q=80&w=1200"
+              img: photo(8, "https://images.unsplash.com/photo-1547996160-81dfa63595aa?auto=format&fit=crop&q=80&w=1200")
             },
             {
               num: "03",
               title: "Dynamic Chronometer Calibration",
               desc: "Before a watch leaves our atelier, it is tested in five different positions at temperatures ranging from 8°C to 38°C. This dynamic testing simulates real-world movements and pressure, ensuring the timepiece maintains steady rate stability.",
-              img: "https://images.unsplash.com/photo-1524592094714-0f0654e20314?auto=format&fit=crop&q=80&w=1200"
+              img: photo(9, "https://images.unsplash.com/photo-1524592094714-0f0654e20314?auto=format&fit=crop&q=80&w=1200")
             }
           ].map((item, idx) => (
             <div key={idx} className={`flex flex-col lg:flex-row gap-16 items-center ${idx % 2 === 1 ? "lg:flex-row-reverse" : ""}`}>
@@ -684,7 +689,7 @@ function InnovationPage() {
 
         <div className="mt-24 border border-white/5 p-12 bg-[#0c0c0c] flex flex-col md:flex-row items-center gap-12">
           <div className="w-full md:w-1/3 aspect-square relative">
-            <img src="https://images.unsplash.com/photo-1547996160-81dfa63595aa?auto=format&fit=crop&q=80&w=1200" alt="Innovation Detail" className="w-full h-full object-cover" />
+            <img src={photo(10, "https://images.unsplash.com/photo-1547996160-81dfa63595aa?auto=format&fit=crop&q=80&w=1200")} alt="Innovation Detail" className="w-full h-full object-cover" />
           </div>
           <div className="w-full md:w-2/3">
             <h3 className="text-3xl font-extralight uppercase text-[#d4af37] mb-6" style={{ fontFamily: "serif" }}>Dynamic Pressure Chambers</h3>
@@ -715,21 +720,21 @@ function JournalPage() {
       cat: "Craftsmanship",
       date: "May 14, 2026",
       desc: "An exploration of the technique of hand-polishing sharp edges in high watchmaking.",
-      img: "https://images.unsplash.com/photo-1524592094714-0f0654e20314?auto=format&fit=crop&q=80&w=1200"
+      img: photo(11, "https://images.unsplash.com/photo-1524592094714-0f0654e20314?auto=format&fit=crop&q=80&w=1200")
     },
     {
       title: "Helium Escape Valves: Deep Oceanic Design",
       cat: "Engineering",
       date: "April 28, 2026",
       desc: "How our watches survive the decompression phase of professional saturation diving.",
-      img: "https://images.unsplash.com/photo-1547996160-81dfa63595aa?auto=format&fit=crop&q=80&w=1200"
+      img: photo(12, "https://images.unsplash.com/photo-1547996160-81dfa63595aa?auto=format&fit=crop&q=80&w=1200")
     },
     {
       title: "Restoring a 1930 Perpetual Calendar",
       cat: "Restoration",
       date: "March 10, 2026",
       desc: "A behind-the-scenes look at reviving one of Leo Aris's early lunar complications.",
-      img: "https://images.unsplash.com/photo-1524592094714-0f0654e20314?auto=format&fit=crop&q=80&w=1200"
+      img: photo(13, "https://images.unsplash.com/photo-1524592094714-0f0654e20314?auto=format&fit=crop&q=80&w=1200")
     }
   ];
 

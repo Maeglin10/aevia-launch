@@ -115,6 +115,11 @@ const filmsCatalogue = [
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+// Client-uploaded photo at index i, falling back to the template's stock
+// photo when the client did not upload one for that slot.
+function photo(i: number, fallback: string): string {
+  return fd?.photoUrls?.[i] || fallback;
+}
 export default function StudioPelikanPage() {
   const [session, setSession] = useState<{
     formData?: {
@@ -284,7 +289,7 @@ return (
           {/* Hero */}
           <section id="hero" ref={heroRef} className="relative h-dvh overflow-hidden">
             <motion.div className="absolute inset-0" style={{ y: heroY }}>
-              <Image src="https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?q=80&w=1600&auto=format&fit=crop" alt={fd?.businessName ?? "Studio Pelikan"} fill className="object-cover" priority />
+              <Image src={photo(0, "https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?q=80&w=1600&auto=format&fit=crop")} alt={fd?.businessName ?? "Studio Pelikan"} fill className="object-cover" priority />
               <div className="absolute inset-0 bg-gradient-to-b from-[#100D08]/70 via-[#100D08]/30 to-[#100D08]/95" />
             </motion.div>
             <motion.div className="relative z-10 h-full flex flex-col justify-end pb-20 px-6" style={{ opacity: heroOpacity }}>
@@ -567,7 +572,7 @@ return (
               </Reveal>
               <Reveal delay={0.2}>
                 <div className="relative overflow-hidden rounded-2xl" style={{ aspectRatio: "4/3" }}>
-                  <Image src="https://images.unsplash.com/photo-1455390582262-044cdead277a?w=600&q=80" alt="Écriture" fill className="object-cover" />
+                  <Image src={photo(1, "https://images.unsplash.com/photo-1455390582262-044cdead277a?w=600&q=80")} alt="Écriture" fill className="object-cover" />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#150F09]/80 to-transparent" />
                 </div>
               </Reveal>
@@ -579,7 +584,7 @@ return (
             <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
               <Reveal delay={0.1}>
                 <div className="relative overflow-hidden rounded-2xl order-2 lg:order-1" style={{ aspectRatio: "4/3" }}>
-                  <Image src="https://images.unsplash.com/photo-1598899134739-24c46f58b8c0?w=600&q=80" alt="Tournage" fill className="object-cover" />
+                  <Image src={photo(2, "https://images.unsplash.com/photo-1598899134739-24c46f58b8c0?w=600&q=80")} alt="Tournage" fill className="object-cover" />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#100D08]/80 to-transparent" />
                 </div>
               </Reveal>
@@ -635,7 +640,7 @@ return (
               </Reveal>
               <Reveal delay={0.2}>
                 <div className="relative overflow-hidden rounded-2xl" style={{ aspectRatio: "4/3" }}>
-                  <Image src="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=600&q=80" alt="Post-production" fill className="object-cover" />
+                  <Image src={photo(3, "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=600&q=80")} alt="Post-production" fill className="object-cover" />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#150F09]/80 to-transparent" />
                 </div>
               </Reveal>
@@ -647,7 +652,7 @@ return (
             <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
               <Reveal delay={0.1}>
                 <div className="relative overflow-hidden rounded-2xl" style={{ aspectRatio: "4/3" }}>
-                  <Image src="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=600&q=80" alt="Brand Content" fill className="object-cover" />
+                  <Image src={photo(4, "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=600&q=80")} alt="Brand Content" fill className="object-cover" />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#100D08]/80 to-transparent" />
                 </div>
               </Reveal>
@@ -790,7 +795,7 @@ return (
               </Reveal>
               <Reveal delay={0.2}>
                 <div className="relative overflow-hidden rounded-2xl" style={{ aspectRatio: "4/3" }}>
-                  <Image src="https://images.unsplash.com/photo-1478720568477-152d9b164e26?w=600&q=80" alt="Studio Pelikan Paris" fill className="object-cover" />
+                  <Image src={photo(5, "https://images.unsplash.com/photo-1478720568477-152d9b164e26?w=600&q=80")} alt="Studio Pelikan Paris" fill className="object-cover" />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#150F09]/80 to-transparent" />
                 </div>
               </Reveal>

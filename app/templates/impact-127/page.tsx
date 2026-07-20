@@ -51,6 +51,11 @@ const EVENTS = [
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+// Client-uploaded photo at index i, falling back to the template's stock
+// photo when the client did not upload one for that slot.
+function photo(i: number, fallback: string): string {
+  return fd?.photoUrls?.[i] || fallback;
+}
 export default function PulseEventsPage() {
   const [session, setSession] = useState<{
     formData?: {
@@ -190,7 +195,7 @@ export default function PulseEventsPage() {
         {/* ── HERO ─────────────────────── */}
         <section id="hero" className="relative h-[110vh] min-h-[800px] flex items-center overflow-hidden">
           <motion.div style={{ y: heroY }} className="absolute inset-0">
-            <Image src="https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?auto=format&fit=crop&q=80&w=2400" alt="Concert" fill className="object-cover opacity-50" priority />
+            <Image src={photo(0, "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?auto=format&fit=crop&q=80&w=2400")} alt="Concert" fill className="object-cover opacity-50" priority />
             <div className="absolute inset-0 bg-gradient-to-r from-[#08050a] via-[#08050a]/40 to-transparent" />
             <div className="absolute inset-0 bg-gradient-to-t from-[#08050a] to-transparent" />
           </motion.div>
@@ -277,10 +282,10 @@ export default function PulseEventsPage() {
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
               {[
-                { name: "Nova Collective", genre: "Electronic", origin: "Berlin", img: "https://images.unsplash.com/photo-1493676304819-0d7a8d026dcf?w=600&q=80", events: 3, followers: "182K" },
-                { name: "The Archivists", genre: "Orchestral", origin: "London", img: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=600&q=80", events: 2, followers: "94K" },
-                { name: "Drift Engine", genre: "Techno", origin: "London", img: "https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?w=600&q=80", events: 4, followers: "312K" },
-                { name: "Pale Waves", genre: "Indie", origin: "Manchester", img: "https://images.unsplash.com/photo-1501386761578-eac5c94b800a?w=600&q=80", events: 2, followers: "280K" },
+                { name: "Nova Collective", genre: "Electronic", origin: "Berlin", img: photo(1, "https://images.unsplash.com/photo-1493676304819-0d7a8d026dcf?w=600&q=80"), events: 3, followers: "182K" },
+                { name: "The Archivists", genre: "Orchestral", origin: "London", img: photo(2, "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=600&q=80"), events: 2, followers: "94K" },
+                { name: "Drift Engine", genre: "Techno", origin: "London", img: photo(3, "https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?w=600&q=80"), events: 4, followers: "312K" },
+                { name: "Pale Waves", genre: "Indie", origin: "Manchester", img: photo(4, "https://images.unsplash.com/photo-1501386761578-eac5c94b800a?w=600&q=80"), events: 2, followers: "280K" },
               ].map((artist, i) => (
                 <Reveal key={artist.name} delay={i * 0.08}>
                   <motion.div
@@ -367,7 +372,7 @@ export default function PulseEventsPage() {
         {/* ── CTA ────────────────────── */}
         <section id="contact" className="relative h-[70vh] flex items-center justify-center overflow-hidden">
           <div className="absolute inset-0">
-            <Image src="https://images.unsplash.com/photo-1501386761578-eac5c94b800a?auto=format&fit=crop&q=80&w=2400" alt="CTA" fill className="object-cover" />
+            <Image src={photo(5, "https://images.unsplash.com/photo-1501386761578-eac5c94b800a?auto=format&fit=crop&q=80&w=2400")} alt="CTA" fill className="object-cover" />
             <div className="absolute inset-0 bg-pink-900/60 mix-blend-multiply" />
             <div className="absolute inset-0 bg-black/40" />
           </div>

@@ -135,6 +135,11 @@ function HeroSection() {
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+// Client-uploaded photo at index i, falling back to the template's stock
+// photo when the client did not upload one for that slot.
+function photo(i: number, fallback: string): string {
+  return fd?.photoUrls?.[i] || fallback;
+}
 export default function TattooStudioHome() {
   const [session, setSession] = useState<{
     formData?: {
@@ -250,8 +255,8 @@ return (
                 <div style={{ aspectRatio: "3/2", overflow: "hidden", background: "#1a1a1a", position: "relative" }}>
                   <img
                     src={i === 0
-                      ? "https://images.unsplash.com/photo-1604881991720-f91add269bed?w=800&q=80"
-                      : "https://images.unsplash.com/photo-1570168007204-dfb528c6958f?w=800&q=80"
+                      ? photo(0, "https://images.unsplash.com/photo-1604881991720-f91add269bed?w=800&q=80")
+                      : photo(1, "https://images.unsplash.com/photo-1570168007204-dfb528c6958f?w=800&q=80")
                     }
                     alt={artist.name}
                     style={{ width: "100%", height: "100%", objectFit: "cover", filter: "grayscale(1) brightness(0.7)", transition: "filter 0.6s" }}
@@ -325,12 +330,12 @@ return (
               >
                 <img
                   src={[
-                    "https://images.unsplash.com/photo-1604881991720-f91add269bed?w=600&q=80",
-                    "https://images.unsplash.com/photo-1550537687-c91072c4792d?w=600&q=80",
-                    "https://images.unsplash.com/photo-1520209759809-a9bcb6cb3241?w=600&q=80",
-                    "https://images.unsplash.com/photo-1579869847514-7c1a19d2d2ad?w=600&q=80",
-                    "https://images.unsplash.com/photo-1570168007204-dfb528c6958f?w=600&q=80",
-                    "https://images.unsplash.com/photo-1542332213-9b5a5a3fad35?w=600&q=80",
+                    photo(2, "https://images.unsplash.com/photo-1604881991720-f91add269bed?w=600&q=80"),
+                    photo(3, "https://images.unsplash.com/photo-1550537687-c91072c4792d?w=600&q=80"),
+                    photo(4, "https://images.unsplash.com/photo-1520209759809-a9bcb6cb3241?w=600&q=80"),
+                    photo(5, "https://images.unsplash.com/photo-1579869847514-7c1a19d2d2ad?w=600&q=80"),
+                    photo(6, "https://images.unsplash.com/photo-1570168007204-dfb528c6958f?w=600&q=80"),
+                    photo(7, "https://images.unsplash.com/photo-1542332213-9b5a5a3fad35?w=600&q=80"),
                   ][i]}
                   alt={item.title}
                   style={{ width: "100%", height: "100%", objectFit: "cover", filter: "grayscale(1) brightness(0.6)", transition: "all 0.5s" }}

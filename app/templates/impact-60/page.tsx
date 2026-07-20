@@ -12,6 +12,11 @@ import { Reveal, ParallaxImg, MODELS } from "./shared";
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+// Client-uploaded photo at index i, falling back to the template's stock
+// photo when the client did not upload one for that slot.
+function photo(i: number, fallback: string): string {
+  return fd?.photoUrls?.[i] || fallback;
+}
 export default function ZenithWatchPage() {
   const [session, setSession] = useState<{
     formData?: {
@@ -97,7 +102,7 @@ return (
         <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden py-20">
           <div className="absolute inset-0">
             <Image
-              src="https://images.unsplash.com/photo-1614164185128-e4ec99c436d7?auto=format&fit=crop&q=80&w=2400"
+              src={photo(0, "https://images.unsplash.com/photo-1614164185128-e4ec99c436d7?auto=format&fit=crop&q=80&w=2400")}
               alt="Watch Macro"
               fill
               className="object-cover opacity-20 scale-105"
@@ -162,7 +167,7 @@ return (
               <Reveal>
                 <div className="relative aspect-square p-2 bg-white/[0.02] border border-white/5 group overflow-hidden">
                   <ParallaxImg
-                    src="https://images.unsplash.com/photo-1547996160-81dfa63595aa?auto=format&fit=crop&q=80&w=1200"
+                    src={photo(1, "https://images.unsplash.com/photo-1547996160-81dfa63595aa?auto=format&fit=crop&q=80&w=1200")}
                     alt="Watch Gears"
                   />
                   <div className="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-all duration-1000" />
@@ -336,7 +341,7 @@ return (
               </Reveal>
               <Reveal delay={0.2}>
                 <div className="relative aspect-[3/4] overflow-hidden grayscale hover:grayscale-0 transition-all duration-[2000ms] border border-white/5">
-                  <ParallaxImg src="https://images.unsplash.com/photo-1509048191080-d2984bad6ae5?auto=format&fit=crop&q=80&w=1200" alt="Atelier" />
+                  <ParallaxImg src={photo(2, "https://images.unsplash.com/photo-1509048191080-d2984bad6ae5?auto=format&fit=crop&q=80&w=1200")} alt="Atelier" />
                 </div>
               </Reveal>
             </div>

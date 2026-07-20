@@ -167,6 +167,11 @@ function MagneticBtn({
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+// Client-uploaded photo at index i, falling back to the template's stock
+// photo when the client did not upload one for that slot.
+function photo(i: number, fallback: string): string {
+  return fd?.photoUrls?.[i] || fallback;
+}
 export default function HorizonYachtPage() {
   const [session, setSession] = useState<{
     formData?: {
@@ -358,7 +363,7 @@ export default function HorizonYachtPage() {
       <section id="hero" className="relative h-[100svh] flex items-center overflow-hidden pt-24 md:pt-0">
         <div className="absolute inset-0">
           <Image
-            src="https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?w=1600&q=80"
+            src={photo(0, "https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?w=1600&q=80")}
             alt="Yacht Deck"
             fill
             className="object-cover opacity-60 contrast-110"
@@ -574,7 +579,7 @@ export default function HorizonYachtPage() {
           <Reveal>
             <div className="relative aspect-square rounded-sm overflow-hidden group border border-white/5">
               <Image
-                src="https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?w=1200&q=80"
+                src={photo(1, "https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?w=1200&q=80")}
                 alt="Destination"
                 fill
                 className="object-cover group-hover:scale-110 transition-all duration-[3s] grayscale hover:grayscale-0 transition-all duration-1000"

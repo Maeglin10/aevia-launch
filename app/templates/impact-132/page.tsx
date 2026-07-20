@@ -406,6 +406,11 @@ function ArticleCard({ article, index }: { article: typeof ARTICLES[0]; index: n
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+// Client-uploaded photo at index i, falling back to the template's stock
+// photo when the client did not upload one for that slot.
+function photo(i: number, fallback: string): string {
+  return fd?.photoUrls?.[i] || fallback;
+}
 export default function Impact132() {
   const [session, setSession] = useState<{
     formData?: {
@@ -697,7 +702,7 @@ return (
           }}
         >
           <img
-            src="https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=1800&q=85"
+            src={photo(0, "https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=1800&q=85")}
             alt="Hero"
             style={{ width: "100%", height: "110%", objectFit: "cover", display: "block" }}
           />

@@ -36,6 +36,11 @@ function ParallaxImg({ src, alt }: { src: string; alt: string }) {
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+// Client-uploaded photo at index i, falling back to the template's stock
+// photo when the client did not upload one for that slot.
+function photo(i: number, fallback: string): string {
+  return fd?.photoUrls?.[i] || fallback;
+}
 export default function KuroOmakasePage() {
   const [session, setSession] = useState<{
     formData?: {
@@ -166,7 +171,7 @@ export default function KuroOmakasePage() {
         {/* ── HERO ──────────────────── */}
         <section id="hero" className="relative h-dvh flex items-center justify-center overflow-hidden pt-24 md:pt-0">
           <div className="absolute inset-0">
-             <Image src="https://images.unsplash.com/photo-1579871494447-9811cf80d66c?auto=format&fit=crop&q=80&w=2400" alt="Chef Hands" fill className="object-cover opacity-60 grayscale hover:grayscale-0 transition-all duration-[2000ms] scale-105" priority />
+             <Image src={photo(0, "https://images.unsplash.com/photo-1579871494447-9811cf80d66c?auto=format&fit=crop&q=80&w=2400")} alt="Chef Hands" fill className="object-cover opacity-60 grayscale hover:grayscale-0 transition-all duration-[2000ms] scale-105" priority />
              <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-transparent" />
              <div className="absolute inset-0 bg-black/40" />
           </div>
@@ -213,7 +218,7 @@ export default function KuroOmakasePage() {
              <div className="grid grid-cols-1 lg:grid-cols-2 gap-32 items-center">
                 <Reveal>
                    <div className="relative aspect-[4/5] p-2 bg-white/[0.02] border border-white/5 overflow-hidden">
-                      <ParallaxImg src="https://images.unsplash.com/photo-1591814468924-caf88d1232e1?auto=format&fit=crop&q=80&w=1200" alt="Sushi Close-up" />
+                      <ParallaxImg src={photo(1, "https://images.unsplash.com/photo-1591814468924-caf88d1232e1?auto=format&fit=crop&q=80&w=1200")} alt="Sushi Close-up" />
                       <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-all duration-1000" />
                    </div>
                 </Reveal>
@@ -260,9 +265,9 @@ export default function KuroOmakasePage() {
 
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
                  {[
-                   { t: "Bluefin Otoro", s: "Oma Coast", d: "Triple-marbled belly cut, cured for 48 hours in house-made shoyu.", img: "https://images.unsplash.com/photo-1591814468924-caf88d1232e1?auto=format&fit=crop&q=80&w=1200" },
-                   { t: "Hokkaido Uni", s: "Uchiura Bay", d: "Pure, oceanic creaminess harvested daily and served at body temperature.", img: "https://images.unsplash.com/photo-1625944525533-473f1a3d54e7?auto=format&fit=crop&q=80&w=1200" },
-                   { t: "Rare Abalone", s: "Mie Prefecture", d: "Slow-steamed for 6 hours in sake and kelp dashi for optimal texture.", img: "https://images.unsplash.com/photo-1579871494447-9811cf80d66c?auto=format&fit=crop&q=80&w=1200" }
+                   { t: "Bluefin Otoro", s: "Oma Coast", d: "Triple-marbled belly cut, cured for 48 hours in house-made shoyu.", img: photo(2, "https://images.unsplash.com/photo-1591814468924-caf88d1232e1?auto=format&fit=crop&q=80&w=1200") },
+                   { t: "Hokkaido Uni", s: "Uchiura Bay", d: "Pure, oceanic creaminess harvested daily and served at body temperature.", img: photo(3, "https://images.unsplash.com/photo-1625944525533-473f1a3d54e7?auto=format&fit=crop&q=80&w=1200") },
+                   { t: "Rare Abalone", s: "Mie Prefecture", d: "Slow-steamed for 6 hours in sake and kelp dashi for optimal texture.", img: photo(4, "https://images.unsplash.com/photo-1579871494447-9811cf80d66c?auto=format&fit=crop&q=80&w=1200") }
                  ].map((item, i) => (
                    <Reveal key={i} delay={i * 0.15}>
                       <div className="group cursor-pointer">
@@ -308,7 +313,7 @@ export default function KuroOmakasePage() {
                  </Reveal>
                  <Reveal delay={0.2}>
                     <div className="aspect-[3/4] relative overflow-hidden grayscale hover:grayscale-0 transition-all duration-[2000ms]">
-                       <Image src="https://images.unsplash.com/photo-1577219491135-ce391730fb2c?auto=format&fit=crop&q=80&w=1200" alt="Chef" fill className="object-cover" />
+                       <Image src={photo(5, "https://images.unsplash.com/photo-1577219491135-ce391730fb2c?auto=format&fit=crop&q=80&w=1200")} alt="Chef" fill className="object-cover" />
                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                     </div>
                  </Reveal>

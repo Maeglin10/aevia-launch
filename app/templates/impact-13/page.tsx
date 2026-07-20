@@ -54,6 +54,11 @@ const timeline = [
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+// Client-uploaded photo at index i, falling back to the template's stock
+// photo when the client did not upload one for that slot.
+function photo(i: number, fallback: string): string {
+  return fd?.photoUrls?.[i] || fallback;
+}
 export default function AtelierMecaniquePage() {
   const [session, setSession] = useState<{
     formData?: {
@@ -241,7 +246,7 @@ return (
           {/* Hero */}
           <section id="hero" ref={heroRef} className="relative h-dvh overflow-hidden">
             <motion.div className="absolute inset-0" style={{ y: heroY }}>
-              <Image src="https://images.unsplash.com/photo-1547996160-81dfa63595aa?w=1600&q=85" alt="Atelier Mécanique — Horlogerie de prestige" fill className="object-cover" priority />
+              <Image src={photo(0, "https://images.unsplash.com/photo-1547996160-81dfa63595aa?w=1600&q=85")} alt="Atelier Mécanique — Horlogerie de prestige" fill className="object-cover" priority />
               <div className="absolute inset-0 bg-gradient-to-r from-[#0C0B09]/90 via-[#0C0B09]/50 to-transparent" />
             </motion.div>
             <motion.div className="relative z-10 h-full flex items-center px-6" style={{ opacity: heroOpacity }}>
@@ -306,7 +311,7 @@ return (
                   <Reveal key={m.name} delay={i * 0.1}>
                     <div onClick={() => { setActiveModel(i); goTo("montres"); }} className={`bg-[#111009] border rounded-2xl overflow-hidden cursor-pointer transition-all hover:border-[#B49A6A]/40 ${i === activeModel ? "border-[#B49A6A]/50" : "border-white/10"}`}>
                       <div className="relative h-48 bg-[#181610]">
-                        <Image src="https://images.unsplash.com/photo-1619134778706-7015533a6150?w=500&q=80" alt={m.name} fill className="object-cover opacity-70" />
+                        <Image src={photo(1, "https://images.unsplash.com/photo-1619134778706-7015533a6150?w=500&q=80")} alt={m.name} fill className="object-cover opacity-70" />
                         {m.limited && (
                           <div className="absolute top-3 right-3 bg-[#B49A6A] text-[#0C0B09] text-xs px-2.5 py-1 tracking-widest uppercase">
                             Édition Limitée
@@ -340,7 +345,7 @@ return (
             <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-16 items-center">
               <Reveal>
                 <div className="relative h-[500px] rounded-2xl overflow-hidden">
-                  <Image src="https://images.unsplash.com/photo-1548169874-53e85f753f1e?w=800&q=80" alt="Savoir-faire horloger" fill className="object-cover" />
+                  <Image src={photo(2, "https://images.unsplash.com/photo-1548169874-53e85f753f1e?w=800&q=80")} alt="Savoir-faire horloger" fill className="object-cover" />
                 </div>
               </Reveal>
               <Reveal delay={0.1}>
@@ -570,7 +575,7 @@ function MontresSubPage({ goTo, activeModel, setActiveModel }: { goTo: (p: any) 
         <div className="grid md:grid-cols-2 gap-12 items-start">
           <div className="space-y-6">
             <div className="relative h-[480px] bg-[#181610] rounded-2xl overflow-hidden border border-[#B49A6A]/20">
-              <Image src="https://images.unsplash.com/photo-1619134778706-7015533a6150?w=800&q=80" alt={watchModels[activeModel].name} fill className="object-cover opacity-80" />
+              <Image src={photo(3, "https://images.unsplash.com/photo-1619134778706-7015533a6150?w=800&q=80")} alt={watchModels[activeModel].name} fill className="object-cover opacity-80" />
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
               {watchModels.map((m, idx) => (
@@ -581,7 +586,7 @@ function MontresSubPage({ goTo, activeModel, setActiveModel }: { goTo: (p: any) 
                     idx === activeModel ? "border-[#B49A6A]" : "border-white/10"
                   }`}
                 >
-                  <Image src="https://images.unsplash.com/photo-1619134778706-7015533a6150?w=200&q=80" alt={m.name} fill className="object-cover opacity-60" />
+                  <Image src={photo(4, "https://images.unsplash.com/photo-1619134778706-7015533a6150?w=200&q=80")} alt={m.name} fill className="object-cover opacity-60" />
                 </button>
               ))}
             </div>
@@ -635,7 +640,7 @@ function ManufactureSubPage({ goTo }: { goTo: (p: any) => void }) {
 
         <div className="grid md:grid-cols-2 gap-12 items-center">
           <div className="relative h-[450px] rounded-2xl overflow-hidden border border-[#B49A6A]/20">
-            <Image src="https://images.unsplash.com/photo-1548169874-53e85f753f1e?w=800&q=80" alt="Horloger au travail" fill className="object-cover" />
+            <Image src={photo(5, "https://images.unsplash.com/photo-1548169874-53e85f753f1e?w=800&q=80")} alt="Horloger au travail" fill className="object-cover" />
           </div>
           <div className="space-y-6">
             <h2 className="text-3xl font-light" style={{ fontFamily: "'Libre Baskerville', serif" }}>Finition anglée & polie</h2>
