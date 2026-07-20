@@ -386,7 +386,7 @@ function ThemesContent() {
         <div className="grid grid-cols-1 lg:grid-cols-[240px_1fr] gap-8">
 
           {/* ── Sidebar (sticky) ─────────────────────────────────────────── */}
-          <aside className="lg:sticky lg:top-24 lg:self-start lg:max-h-[calc(100vh-7rem)] lg:overflow-y-auto">
+          <aside className="lg:sticky lg:top-24 lg:self-start">
             {/* Search */}
             <div className="relative mb-5">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-zinc-500 pointer-events-none" />

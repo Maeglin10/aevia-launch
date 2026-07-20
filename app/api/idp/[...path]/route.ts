@@ -3,8 +3,11 @@ export const dynamic = "force-dynamic";
 
 import { NextRequest, NextResponse } from "next/server";
 
-// Allowlist — only auth paths are proxied, no open proxy.
-const ALLOWED_PREFIXES = ["/auth/"];
+// Allowlist — only these paths are proxied, no open proxy.
+// /auth/ = SSO session check (Aevia unified login).
+// /user-sites = Launch CMS site management, moved here from the Inbox
+// frontend (it never belonged there) — same backend, same SSO cookie.
+const ALLOWED_PREFIXES = ["/auth/", "/user-sites"];
 
 const IDP_BASE =
   process.env.AEVIA_IDP_URL ||
