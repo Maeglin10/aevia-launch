@@ -7,7 +7,10 @@ import { NextRequest, NextResponse } from "next/server";
 // /auth/ = SSO session check (Aevia unified login).
 // /user-sites = Launch CMS site management, moved here from the Inbox
 // frontend (it never belonged there) — same backend, same SSO cookie.
-const ALLOWED_PREFIXES = ["/auth/", "/user-sites"];
+// /aevia-bridge/webchat-widget = public widget lookup for the webchat
+// auto-embed bridge (see app/templates/WebchatBridge.tsx). Not under
+// IDP_BASE's /api/v1 prefix (aevia-bridge is unversioned), see proxy() below.
+const ALLOWED_PREFIXES = ["/auth/", "/user-sites", "/aevia-bridge/"];
 
 const IDP_BASE =
   process.env.AEVIA_IDP_URL ||

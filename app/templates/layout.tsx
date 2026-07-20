@@ -1,3 +1,5 @@
+import { WebchatBridge } from "./WebchatBridge";
+
 export const dynamic = 'force-dynamic';
 
 export default function TemplatesLayout({
@@ -5,5 +7,10 @@ export default function TemplatesLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return children;
+  return (
+    <>
+      {children}
+      <WebchatBridge />
+    </>
+  );
 }

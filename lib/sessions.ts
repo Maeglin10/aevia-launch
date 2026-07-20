@@ -51,6 +51,11 @@ export interface SessionData {
   formData: FormData;
   generatedContent?: GeneratedContent;
   createdAt: Date;
+  // Aevia account this site belongs to, once linked (see app/api/webhook —
+  // set from the Stripe checkout email at purchase time). Lets the site
+  // itself look up whether its owner already has an active Inbox webchat
+  // widget and auto-embed it, no manual snippet copy-paste needed.
+  accountId?: string;
 }
 
 // In-memory cache (warm path)

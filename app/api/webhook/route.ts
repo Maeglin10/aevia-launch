@@ -3,7 +3,12 @@ import Stripe from "stripe";
 import { Resend } from "resend";
 import { put } from "@vercel/blob";
 import * as Sentry from "@sentry/nextjs";
-import { saveSessionToBlob, type FormData as SiteFormData, type GeneratedContent } from "@/lib/sessions";
+import {
+  saveSessionToBlob,
+  getSessionFromBlob,
+  type FormData as SiteFormData,
+  type GeneratedContent,
+} from "@/lib/sessions";
 import { generateMockContent } from "@/lib/mockContent";
 
 // IMPORTANT: configure RESEND_FROM_EMAIL with a verified domain (e.g., noreply@aevia.io)
@@ -307,6 +312,41 @@ function orderEmailHtml(params: {
 </html>`;
 }
 
+// ─── Aevia account bridge ───────────────────────────────────────────────────────
+
+const AEVIA_BACKEND_URL =
+  process.env.AEVIA_BACKEND_URL || "https://skybot-inbox-production.up.railway.app";
+
+/**
+ * Find-or-create the Aevia account for this purchaser and store the link on
+ * the session, so /templates/impact-N?session=X can later look up whether
+ * this account already has an active Inbox webchat widget to auto-embed.
+ * Best-effort — never throws into the caller (see .catch at call site).
+ */
+async function linkPurchaseToAccount(sessionId: string, email: string, siteName: string) {
+  const apiKey = process.env.AEVIA_BACKEND_API_KEY;
+  if (!apiKey) {
+    console.warn("[webhook] AEVIA_BACKEND_API_KEY not set, skipping account link");
+    return;
+  }
+
+  const res = await fetch(`${AEVIA_BACKEND_URL}/api/v1/aevia-bridge/link-launch-purchase`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", "x-api-key": apiKey },
+    body: JSON.stringify({ email, sessionId, siteName }),
+  });
+  if (!res.ok) {
+    throw new Error(`link-launch-purchase failed: ${res.status} ${res.statusText}`);
+  }
+  const { accountId } = (await res.json()) as { accountId: string };
+
+  const session = await getSessionFromBlob(sessionId);
+  if (!session) return; // session not written yet or already gone, nothing to link
+
+  await saveSessionToBlob(sessionId, { ...session, accountId });
+  console.log(`[webhook] session ${sessionId} linked to account ${accountId}`);
+}
+
 // ─── Idempotency reservation via Blob ──────────────────────────────────────────
 
 /**
@@ -397,6 +437,16 @@ export async function POST(req: NextRequest) {
         const previewUrl = meta.previewUrl ?? `${process.env.NEXT_PUBLIC_BASE_URL ?? "https://launch.aevia.services"}/preview/${meta.sessionId}`;
         const clientEmail = session.customer_details?.email ?? session.customer_email ?? undefined;
         const successUrl = `${process.env.NEXT_PUBLIC_BASE_URL ?? "https://launch.aevia.services"}/success?sessionId=${meta.sessionId}&siteName=${encodeURIComponent(siteName)}`;
+
+        // Link this purchase to an Aevia account (find-or-create by email) so
+        // the delivered site can later auto-detect an existing Inbox webchat
+        // widget and embed it — no manual snippet copy-paste required. Best
+        // effort: a failure here must never block order emails from sending.
+        if (clientEmail) {
+          void linkPurchaseToAccount(meta.sessionId, clientEmail, siteName).catch((err) =>
+            console.error("[webhook] account link failed", err),
+          );
+        }
 
         const emailPromises = [];
 
