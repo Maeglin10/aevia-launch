@@ -93,6 +93,24 @@ export default function KineticMarqueePage() {
   }, []);
 
   fd = session?.formData;
+
+  useEffect(() => {
+    if (!fd?.photoUrls?.length) return;
+    let n = 3;
+    const _photoArrays: any[] = [WORK];
+    _photoArrays.forEach((arr) => {
+      if (!Array.isArray(arr)) return;
+      arr.forEach((item) => {
+        if (!item || typeof item !== "object") return;
+        for (const key of ["img", "src", "image", "imgSrc", "photo"]) {
+          if (typeof item[key] === "string" && item[key].includes("images.unsplash.com")) {
+            if (fd.photoUrls[n]) item[key] = fd.photoUrls[n];
+            n++;
+          }
+        }
+      });
+    });
+  });
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
