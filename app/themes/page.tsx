@@ -198,13 +198,12 @@ const CAT_COLOR: Record<string, string> = {
   Education:     "#3b82f6",
   Finance:       "#22c55e",
   "Food & Drink":"#fb923c",
-  Free:          "#10b981",
 };
 
 const CATS = [
   "All", "Tech", "Creative", "Luxury", "Minimal", "Editorial",
   "Corporate", "Finance", "E-Commerce", "Health", "Hospitality",
-  "Food & Drink", "Services", "Education", "Free"
+  "Food & Drink", "Services", "Education"
 ];
 
 // ─── Business-niche (industry → specialty) colors, ported from GalleryShowcase ─
