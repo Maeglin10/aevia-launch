@@ -19,10 +19,10 @@ export async function POST(req: NextRequest) {
       {
         price_data: {
           currency: "eur",
-          unit_amount: 4900,
+          unit_amount: 2200,
           product_data: {
-            name: "Le Guide Complet de la Beauté du Regard",
-            description: "244 pages · 7 chapitres · 4 bonus inclus — livraison PDF par email sous 30 min",
+            name: "Débuter en Extensions de Cils",
+            description: "Guide PDF 34 pages — matériel, hygiène, erreurs à éviter, premières clientes — livraison par email",
           },
         },
         quantity: 1,

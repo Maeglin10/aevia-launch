@@ -52,7 +52,7 @@ function EbookSuccessContent() {
         </p>
         <div style={{ background: C.ivory, border: `1px solid ${C.ivoryDark}`, borderRadius: 4, padding: "28px 32px", marginBottom: 40, textAlign: "left" }}>
           <p style={{ fontSize: 14, color: C.textMuted, lineHeight: 1.7, margin: 0 }}>
-            📖 <strong style={{ color: C.dark }}>Le Guide Complet de la Beauté du Regard</strong> — 244 pages · 7 chapitres · 4 bonus
+            📖 <strong style={{ color: C.dark }}>Débuter en Extensions de Cils</strong> — 34 pages · matériel · hygiène · premières clientes
           </p>
         </div>
         <Link href="/maison-maria" style={{ display: "inline-block", fontFamily: C.fontSans, fontSize: 13, fontWeight: 600, color: C.roseDark, textDecoration: "none", letterSpacing: "0.1em", textTransform: "uppercase", padding: "14px 32px", border: `1.5px solid ${C.rose}`, borderRadius: 2 }}>

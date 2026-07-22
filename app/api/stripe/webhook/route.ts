@@ -49,7 +49,7 @@ export async function POST(req: NextRequest) {
     <div style="padding:48px;">
       <p style="font-size:16px;color:#2d2220;line-height:1.7;margin:0 0 20px;">Bonjour${name ? ` ${name.split(" ")[0]}` : ""} 👋</p>
       <p style="font-size:15px;color:#8a7570;line-height:1.75;margin:0 0 32px;">
-        Merci pour votre achat ! Voici votre guide complet — <strong style="color:#2d2220;">244 pages, 7 chapitres, 4 bonus</strong>.
+        Merci pour votre achat ! Voici votre guide — <strong style="color:#2d2220;">34 pages, matériel, hygiène, erreurs à éviter et premières clientes</strong>.
         Téléchargez-le en cliquant sur le bouton ci-dessous.
       </p>
       <div style="text-align:center;margin:0 0 32px;">
