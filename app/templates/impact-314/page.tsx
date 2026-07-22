@@ -190,6 +190,56 @@ const Button = ({ children, variant = "primary", href = "#", className = "", sty
   );
 };
 
+const FaqItem = ({ item, idx, C }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  return (
+    <Reveal delay={idx * 0.1}>
+      <div
+        style={{
+          backgroundColor: C.bgCard,
+          borderRadius: "16px",
+          border: `1px solid ${C.border}`,
+          overflow: "hidden"
+        }}
+      >
+        <button
+          onClick={() => setIsOpen(!isOpen)}
+          style={{
+            width: "100%",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            padding: "24px",
+            backgroundColor: "transparent",
+            border: "none",
+            cursor: "pointer",
+            textAlign: "left"
+          }}
+        >
+          <span style={{ fontFamily: SERIF, fontWeight: 600, fontSize: "18px", color: C.text }}>{item.q}</span>
+          <div style={{ color: C.primary, minWidth: "24px" }}>
+            {isOpen ? <Minus size={24} /> : <Plus size={24} />}
+          </div>
+        </button>
+        <AnimatePresence>
+          {isOpen && (
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              <div style={{ padding: "0 24px 24px", fontFamily: SANS, color: C.textMuted, lineHeight: 1.6 }}>
+                {item.a}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+    </Reveal>
+  );
+};
+
 // --- MAIN PAGE ---
 export default function Page({ session }) {
   const [C, setC] = useState(INITIAL_C);
@@ -834,55 +884,9 @@ export default function Page({ session }) {
             </div>
 
             <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-              {faq.map((item, idx) => {
-                const [isOpen, setIsOpen] = useState(false);
-                return (
-                  <Reveal key={idx} delay={idx * 0.1}>
-                    <div 
-                      style={{
-                        backgroundColor: C.bgCard,
-                        borderRadius: "16px",
-                        border: `1px solid ${C.border}`,
-                        overflow: "hidden"
-                      }}
-                    >
-                      <button 
-                        onClick={() => setIsOpen(!isOpen)}
-                        style={{
-                          width: "100%",
-                          display: "flex",
-                          justifyContent: "space-between",
-                          alignItems: "center",
-                          padding: "24px",
-                          backgroundColor: "transparent",
-                          border: "none",
-                          cursor: "pointer",
-                          textAlign: "left"
-                        }}
-                      >
-                        <span style={{ fontFamily: SERIF, fontWeight: 600, fontSize: "18px", color: C.text }}>{item.q}</span>
-                        <div style={{ color: C.primary, minWidth: "24px" }}>
-                          {isOpen ? <Minus size={24} /> : <Plus size={24} />}
-                        </div>
-                      </button>
-                      <AnimatePresence>
-                        {isOpen && (
-                          <motion.div
-                            initial={{ height: 0, opacity: 0 }}
-                            animate={{ height: "auto", opacity: 1 }}
-                            exit={{ height: 0, opacity: 0 }}
-                            transition={{ duration: 0.3 }}
-                          >
-                            <div style={{ padding: "0 24px 24px", fontFamily: SANS, color: C.textMuted, lineHeight: 1.6 }}>
-                              {item.a}
-                            </div>
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
-                    </div>
-                  </Reveal>
-                )
-              })}
+              {faq.map((item, idx) => (
+                <FaqItem key={idx} item={item} idx={idx} C={C} />
+              ))}
             </div>
           </div>
         </section>
