@@ -26,6 +26,7 @@ export const INDUSTRIES: IndustryInfo[] = [
       { id: 'dentiste', label: 'Dentiste',         labels: { en: 'Dentist',         es: 'Dentista',      de: 'Zahnarzt',          pt: 'Dentista'       }, emoji: '🦷', accentColor: '#0c2340' },
       { id: 'kine',     label: 'Kinésithérapeute', labels: { en: 'Physiotherapist', es: 'Fisioterapeuta', de: 'Physiotherapeut',  pt: 'Fisioterapeuta' }, emoji: '🏃', accentColor: '#1a5f7a' },
       { id: 'osteo',    label: 'Ostéopathe',       labels: { en: 'Osteopath',       es: 'Osteópata',     de: 'Osteopath',         pt: 'Osteopata'      }, emoji: '🙌', accentColor: '#2a4a35' },
+      { id: 'veterinaire', label: 'Vétérinaire',  labels: { en: 'Veterinarian',    es: 'Veterinario',   de: 'Tierarzt',          pt: 'Veterinário'    }, emoji: '🐾', accentColor: '#3a6b52' },
     ],
   },
   {
@@ -37,6 +38,8 @@ export const INDUSTRIES: IndustryInfo[] = [
       { id: 'plombier',    label: 'Plombier',    labels: { en: 'Plumber',      es: 'Fontanero',    de: 'Klempner',   pt: 'Canalizador' }, emoji: '🔧', accentColor: '#8b2020' },
       { id: 'electricien', label: 'Électricien', labels: { en: 'Electrician',  es: 'Electricista', de: 'Elektriker', pt: 'Eletricista'  }, emoji: '⚡', accentColor: '#003b8e' },
       { id: 'paysagiste',  label: 'Paysagiste',  labels: { en: 'Landscaper',   es: 'Paisajista',   de: 'Landschaftsgärtner', pt: 'Paisagista' }, emoji: '🌿', accentColor: '#2a5c3a' },
+      { id: 'menage',      label: 'Ménage / Nettoyage', labels: { en: 'Cleaning Service', es: 'Limpieza', de: 'Reinigungsservice', pt: 'Limpeza' }, emoji: '🧹', accentColor: '#0e7c86' },
+      { id: 'garage_auto', label: 'Garage automobile', labels: { en: 'Auto Garage', es: 'Taller mecánico', de: 'Autowerkstatt', pt: 'Oficina automóvel' }, emoji: '🚗', accentColor: '#33261a' },
     ],
   },
   {
@@ -67,6 +70,7 @@ export const INDUSTRIES: IndustryInfo[] = [
     emoji: '💪',
     specialties: [
       { id: 'coach', label: 'Coach sportif', labels: { en: 'Sports Coach', es: 'Entrenador', de: 'Sporttrainer', pt: 'Treinador' }, emoji: '💪', accentColor: '#111111' },
+      { id: 'salle_sport', label: 'Salle de sport', labels: { en: 'Gym / Fitness Studio', es: 'Gimnasio', de: 'Fitnessstudio', pt: 'Ginásio' }, emoji: '🏋️', accentColor: '#a11d1d' },
     ],
   },
   {
@@ -77,6 +81,8 @@ export const INDUSTRIES: IndustryInfo[] = [
     specialties: [
       { id: 'tatoueur', label: 'Tatoueur',      labels: { en: 'Tattoo Artist',    es: 'Tatuador',   de: 'Tätowierer',    pt: 'Tatuador'    }, emoji: '🎨', accentColor: '#1a1a1a' },
       { id: 'couture',  label: 'Couture / Mode', labels: { en: 'Fashion / Sewing', es: 'Moda / Costura', de: 'Mode / Schneiderei', pt: 'Moda / Costura' }, emoji: '✂️', accentColor: '#0d0d0d' },
+      { id: 'photographe', label: 'Photographe', labels: { en: 'Photographer', es: 'Fotógrafo', de: 'Fotograf', pt: 'Fotógrafo' }, emoji: '📷', accentColor: '#101820' },
+      { id: 'fleuriste',   label: 'Fleuriste',   labels: { en: 'Florist',      es: 'Floristería', de: 'Blumenladen', pt: 'Florista' }, emoji: '💐', accentColor: '#c25b7c' },
     ],
   },
   {
@@ -86,6 +92,35 @@ export const INDUSTRIES: IndustryInfo[] = [
     emoji: '💍',
     specialties: [
       { id: 'mariage', label: 'Wedding Planner', labels: { en: 'Wedding Planner', es: 'Wedding Planner', de: 'Hochzeitsplaner', pt: 'Wedding Planner' }, emoji: '💍', accentColor: '#6b8f71' },
+    ],
+  },
+  {
+    id: 'beaute',
+    label: 'Beauté',
+    labels: { en: 'Beauty', es: 'Belleza', de: 'Schönheit', pt: 'Beleza' },
+    emoji: '💇',
+    specialties: [
+      { id: 'coiffeur', label: 'Coiffeur / Barbier', labels: { en: 'Hair Salon / Barber', es: 'Peluquería / Barbería', de: 'Friseur / Barbier', pt: 'Cabeleireiro / Barbearia' }, emoji: '💇', accentColor: '#8a6d3f' },
+    ],
+  },
+  {
+    id: 'immobilier_architecture',
+    label: 'Immobilier & Architecture',
+    labels: { en: 'Real Estate & Architecture', es: 'Inmobiliaria y Arquitectura', de: 'Immobilien & Architektur', pt: 'Imobiliário & Arquitetura' },
+    emoji: '🏛️',
+    specialties: [
+      { id: 'agent_immobilier',    label: 'Agence immobilière',    labels: { en: 'Real Estate Agency', es: 'Inmobiliaria',              de: 'Immobilienmakler', pt: 'Agência imobiliária' }, emoji: '🏠', accentColor: '#1c2e4a' },
+      { id: 'architecte',          label: 'Architecte',            labels: { en: 'Architecture Firm',  es: 'Estudio de arquitectura',   de: 'Architekturbüro',  pt: 'Atelier de arquitetura' }, emoji: '📐', accentColor: '#44576b' },
+      { id: 'decorateur_interieur', label: "Décorateur d'intérieur", labels: { en: 'Interior Designer', es: 'Diseño de interiores',     de: 'Innenarchitekt',   pt: 'Designer de interiores' }, emoji: '🛋️', accentColor: '#8a6a4f' },
+    ],
+  },
+  {
+    id: 'hebergement',
+    label: 'Hôtellerie',
+    labels: { en: 'Hospitality', es: 'Hostelería', de: 'Hotellerie', pt: 'Hotelaria' },
+    emoji: '🏨',
+    specialties: [
+      { id: 'hotel', label: 'Hôtel', labels: { en: 'Hotel', es: 'Hotel', de: 'Hotel', pt: 'Hotel' }, emoji: '🏨', accentColor: '#12294a' },
     ],
   },
 ];
@@ -111,6 +146,17 @@ export const SECTOR_TEMPLATES: Record<string, string[]> = {
   paysagiste:          ['impact-250', 'impact-263', 'impact-268', 'impact-271', 'impact-310'],
   restaurant:          ['impact-04',  'impact-99',  'impact-189', 'impact-211'],
   restauration_rapide: ['impact-292', 'impact-293', 'impact-294', 'impact-295', 'impact-296'],
+  veterinaire:         ['impact-32'],
+  menage:              ['impact-178', 'impact-315', 'impact-316', 'impact-317', 'impact-318', 'impact-319'],
+  garage_auto:         ['impact-311', 'impact-312'],
+  salle_sport:         ['impact-119', 'impact-174'],
+  photographe:         ['impact-02',  'impact-16',  'impact-60',  'impact-71',  'impact-77',  'impact-96',  'impact-166'],
+  fleuriste:           ['impact-47',  'impact-94'],
+  coiffeur:            ['impact-180', 'impact-209'],
+  agent_immobilier:    ['impact-82',  'impact-92',  'impact-128', 'impact-167', 'impact-222', 'impact-241'],
+  architecte:          ['impact-17',  'impact-28',  'impact-118', 'impact-147', 'impact-156', 'impact-186'],
+  decorateur_interieur: ['impact-44', 'impact-100', 'impact-143'],
+  hotel:               ['impact-10',  'impact-182'],
 };
 
 /** Short display name per template for the step-2 card. */
@@ -199,4 +245,53 @@ export const TEMPLATE_CITY_LABELS: Record<string, string> = {
   'impact-308': 'Re-Thread Studio · Bordeaux',
   'impact-309': 'Encre Délicate · Bordeaux',
   'impact-310': "Jardins de l'Hérault · Montpellier",
+  // Cleaning / ménage
+  'impact-178': 'Essential Cleaning · Toulouse',
+  'impact-315': 'Brise de Propreté · Nantes',
+  'impact-316': 'Pro-Nettoyage Services · Île-de-France',
+  'impact-317': 'Sparkle Home · Marseille',
+  'impact-318': 'Nettoyage Extrême · Lille',
+  'impact-319': 'Éco-Clean Habitat · Montpellier',
+  // Garage auto
+  'impact-311': 'Atelier Performance · Lyon',
+  'impact-312': 'Garage Minimalist · Rennes',
+  // Salle de sport
+  'impact-119': 'IronX Fitness · Marseille',
+  'impact-174': 'FORGE · Lille',
+  // Photographe
+  'impact-02':  'Elena Korr · Paris',
+  'impact-16':  'Obscura · Lyon',
+  'impact-60':  'Stack OS · Marseille',
+  'impact-71':  'Archive 35mm · Toulouse',
+  'impact-77':  'Tilt Grid · Nice',
+  'impact-96':  'Urban Pulse · Nantes',
+  'impact-166': 'Iris Studio · Strasbourg',
+  // Fleuriste
+  'impact-47':  'Pétales & Co · Bordeaux',
+  'impact-94':  'Botanica Flowers · Montpellier',
+  // Coiffeur / Barbier
+  'impact-180': 'Essential Salon · Rennes',
+  'impact-209': "L'Atelier Coiffure · Lille",
+  // Agence immobilière
+  'impact-82':  'Blueprint Developments · Lyon',
+  'impact-92':  'Skyline Concierge · Marseille',
+  'impact-128': 'Haven Estates · Toulouse',
+  'impact-167': 'Rive Gauche Immobilier · Paris',
+  'impact-222': 'Solis Immobilier · Montpellier',
+  // Architecte
+  'impact-17':  'Kéops · Nantes',
+  'impact-28':  'Brutco · Lille',
+  'impact-118': 'Formwerk Studio · Strasbourg',
+  'impact-147': 'Void Arch · Rennes',
+  'impact-156': 'Bio Form Arch · Nice',
+  'impact-186': 'ArchiTectura · Île-de-France',
+  // Décorateur d'intérieur
+  'impact-44':  'Espace Studio · Marseille',
+  'impact-100': 'Nova Spaces · Paris',
+  'impact-143': 'Atelier Interior · Lyon',
+  // Hôtel
+  'impact-10':  'Grand Palais · Nice',
+  'impact-182': 'The Grand Hotel · Lille',
+  // Vétérinaire
+  'impact-32':  'PawCare Clinic · Nantes',
 };

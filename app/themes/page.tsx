@@ -1,11 +1,14 @@
 "use client";
 
-import { useState, useRef, useEffect, Suspense, useMemo } from "react";
+import { useState, useRef, useEffect, Suspense, useMemo, useCallback } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { motion, AnimatePresence, useInView } from "framer-motion";
 import { ArrowRight, Sparkles, Search, Star } from "lucide-react";
 import { TEMPLATES_REGISTRY } from "@/lib/templates/registry";
+import { INDUSTRIES, SECTOR_TEMPLATES, TEMPLATE_CITY_LABELS, type IndustryInfo, type SectorInfo } from "@/lib/templates/sectors";
+import { TEMPLATE_PAGE_TYPE, type PageType } from "@/lib/templates/pageType";
+import { TEMPLATE_I18N } from "@/lib/templates/registry-i18n";
 import { AeviaHeader } from "@/components/AeviaHeader";
 import { LegalFooter } from "@/components/LegalFooter";
 import { useLang } from "@/lib/LangContext";
@@ -47,6 +50,16 @@ const T = {
     search: "Rechercher un thème…",
     featured: "Sélection",
     featuredPicks: "favoris",
+    industryFilter: "Secteur d'activité",
+    allIndustries: "Tous les secteurs",
+    specialtyFilter: "Spécialité / Métier",
+    allSpecialties: "Tous les métiers",
+    pageTypeFilter: "Type de page",
+    allPageTypes: "Tous types",
+    landing: "Landing Page",
+    fullsite: "Site complet",
+    filteredBy: "Filtré par :",
+    seeAll: "Voir tous",
   },
   en: {
     title: "What type of site?",
@@ -67,6 +80,16 @@ const T = {
     search: "Search themes…",
     featured: "Featured",
     featuredPicks: "picks",
+    industryFilter: "Industry",
+    allIndustries: "All industries",
+    specialtyFilter: "Specialty / Profession",
+    allSpecialties: "All specialties",
+    pageTypeFilter: "Page type",
+    allPageTypes: "All types",
+    landing: "Landing Page",
+    fullsite: "Full site",
+    filteredBy: "Filtered by:",
+    seeAll: "See all",
   },
   es: {
     title: "¿Qué tipo de sitio?",
@@ -87,6 +110,16 @@ const T = {
     search: "Buscar temas…",
     featured: "Destacados",
     featuredPicks: "elegidos",
+    industryFilter: "Sector de actividad",
+    allIndustries: "Todos los sectores",
+    specialtyFilter: "Especialidad / Profesión",
+    allSpecialties: "Todas las profesiones",
+    pageTypeFilter: "Tipo de página",
+    allPageTypes: "Todos los tipos",
+    landing: "Landing Page",
+    fullsite: "Sitio completo",
+    filteredBy: "Filtrado por:",
+    seeAll: "Ver todos",
   },
   de: {
     title: "Welche Art von Website?",
@@ -107,6 +140,16 @@ const T = {
     search: "Themes suchen…",
     featured: "Empfohlen",
     featuredPicks: "picks",
+    industryFilter: "Branche",
+    allIndustries: "Alle Branchen",
+    specialtyFilter: "Spezialität / Beruf",
+    allSpecialties: "Alle Berufe",
+    pageTypeFilter: "Seitentyp",
+    allPageTypes: "Alle Typen",
+    landing: "Landing Page",
+    fullsite: "Komplette Website",
+    filteredBy: "Gefiltert nach:",
+    seeAll: "Alle anzeigen",
   },
   pt: {
     title: "Que tipo de site?",
@@ -127,6 +170,16 @@ const T = {
     search: "Pesquisar temas…",
     featured: "Destaques",
     featuredPicks: "selecionados",
+    industryFilter: "Setor de atividade",
+    allIndustries: "Todos os setores",
+    specialtyFilter: "Especialidade / Profissão",
+    allSpecialties: "Todas as profissões",
+    pageTypeFilter: "Tipo de página",
+    allPageTypes: "Todos os tipos",
+    landing: "Landing Page",
+    fullsite: "Site completo",
+    filteredBy: "Filtrado por:",
+    seeAll: "Ver todos",
   },
 };
 
@@ -154,6 +207,26 @@ const CATS = [
   "Food & Drink", "Services", "Education", "Free"
 ];
 
+// ─── Business-niche (industry → specialty) colors, ported from GalleryShowcase ─
+const INDUSTRY_COLOR: Record<string, string> = {
+  sante: "#14b8a6",
+  services: "#f59e0b",
+  droit_finance: "#3b82f6",
+  restauration: "#ef4444",
+  sport_coaching: "#ef4444",
+  art_creation: "#ec4899",
+  evenementiel: "#10b981",
+  beaute: "#8a6d3f",
+  immobilier_architecture: "#44576b",
+  hebergement: "#12294a",
+};
+
+// ─── Page-type filter colors ────────────────────────────────────────────────
+const PAGETYPE_COLOR: Record<PageType, string> = {
+  landing: "#38bdf8",
+  fullsite: "#f97316",
+};
+
 // ─── Theme item type ──────────────────────────────────────────────────────────
 interface ThemeItem {
   id: string;
@@ -163,6 +236,12 @@ interface ThemeItem {
   href: string;
   source: "builder" | "impact";
   featured: boolean;
+  pageType: PageType;
+  specialtyId?: string;
+  specialtyLabel?: string;
+  specialtyEmoji?: string;
+  industryId?: string;
+  cityLabel?: string;
 }
 
 // ─── Thumbnail card (Showcase-style design) ────────────────────────────────────
@@ -293,6 +372,12 @@ function ThemesContent() {
   const [cat, setCat] = useState("All");
   const [search, setSearch] = useState("");
 
+  // ── Business-niche filter state (industry → specialty, ported from /galerie) ──
+  const [selectedIndustry, setSelectedIndustry] = useState<string>("All");
+  const [selectedSpecialty, setSelectedSpecialty] = useState<string>("All");
+  // ── Page-type filter state (landing vs. full site) ───────────────────────────
+  const [pageTypeFilter, setPageTypeFilter] = useState<"All" | PageType>("All");
+
   useEffect(() => {
     if (catParam) {
       const match = CATS.find(c => c.toLowerCase() === catParam.toLowerCase());
@@ -304,19 +389,81 @@ function ThemesContent() {
     }
   }, [catParam]);
 
+  // Translate broad industry / specialty labels dynamically (fr comes from the
+  // base `label` field, other locales from the `labels` map — same pattern as
+  // the former /galerie page).
+  const getIndustryLabel = useCallback((ind: IndustryInfo) => {
+    if (locale === "fr") return ind.label;
+    return ind.labels[locale as keyof typeof ind.labels] || ind.label;
+  }, [locale]);
+
+  const getSpecialtyLabel = useCallback((spec: SectorInfo) => {
+    if (locale === "fr") return spec.label;
+    return spec.labels[locale as keyof typeof spec.labels] || spec.label;
+  }, [locale]);
+
+  // template id → specialty id
+  const templateToSpecialty = useMemo(() => {
+    const map: Record<string, string> = {};
+    for (const [specId, tids] of Object.entries(SECTOR_TEMPLATES)) {
+      for (const tid of tids) map[tid] = specId;
+    }
+    return map;
+  }, []);
+
+  // specialty id → industry id
+  const specialtyToIndustry = useMemo(() => {
+    const map: Record<string, string> = {};
+    for (const ind of INDUSTRIES) {
+      for (const spec of ind.specialties) map[spec.id] = ind.id;
+    }
+    return map;
+  }, []);
+
+  const specialtiesInSelectedIndustry = useMemo(() => {
+    if (selectedIndustry === "All") return [];
+    const ind = INDUSTRIES.find(i => i.id === selectedIndustry);
+    return ind ? ind.specialties : [];
+  }, [selectedIndustry]);
+
+  // Locale-aware name/description lookup: fr always comes from registry.ts,
+  // every other locale comes from TEMPLATE_I18N with a defensive fr fallback.
+  const localizeTemplate = useCallback((tpl: (typeof TEMPLATES_REGISTRY)[number]) => {
+    if (locale === "fr") return { name: tpl.name, description: tpl.description };
+    const entry = TEMPLATE_I18N[tpl.id]?.[locale as "en" | "es" | "de" | "pt"];
+    return {
+      name: entry?.name ?? tpl.name,
+      description: entry?.description ?? tpl.description,
+    };
+  }, [locale]);
+
   const allThemes = useMemo<ThemeItem[]>(() => {
     return TEMPLATES_REGISTRY
       .filter(tpl => !HIDDEN_IMPACT.has(tpl.id))
-      .map(tpl => ({
-        id: tpl.id,
-        label: tpl.name,
-        desc: tpl.description,
-        category: tpl.category,
-        href: `/templates/${tpl.id}`,
-        source: "impact" as const,
-        featured: FEATURED.has(tpl.id),
-      }));
-  }, []);
+      .map(tpl => {
+        const { name, description } = localizeTemplate(tpl);
+        const specId = templateToSpecialty[tpl.id];
+        const indId = specId ? specialtyToIndustry[specId] : undefined;
+        const industry = indId ? INDUSTRIES.find(i => i.id === indId) : undefined;
+        const specialty = specId ? industry?.specialties.find(s => s.id === specId) : undefined;
+
+        return {
+          id: tpl.id,
+          label: name,
+          desc: description,
+          category: tpl.category,
+          href: `/templates/${tpl.id}`,
+          source: "impact" as const,
+          featured: FEATURED.has(tpl.id),
+          pageType: TEMPLATE_PAGE_TYPE[tpl.id] ?? "landing",
+          specialtyId: specId,
+          specialtyLabel: specialty ? getSpecialtyLabel(specialty) : undefined,
+          specialtyEmoji: specialty?.emoji,
+          industryId: indId,
+          cityLabel: TEMPLATE_CITY_LABELS[tpl.id],
+        };
+      });
+  }, [localizeTemplate, templateToSpecialty, specialtyToIndustry, getSpecialtyLabel]);
 
   const catCounts = useMemo(() => {
     const counts: Record<string, number> = {};
@@ -324,14 +471,70 @@ function ThemesContent() {
     return counts;
   }, [allThemes]);
 
+  const industryCounts = useMemo(() => {
+    const counts: Record<string, number> = {};
+    for (const tpl of allThemes) {
+      if (!tpl.industryId) continue;
+      counts[tpl.industryId] = (counts[tpl.industryId] ?? 0) + 1;
+    }
+    return counts;
+  }, [allThemes]);
+
+  const specialtyCounts = useMemo(() => {
+    const counts: Record<string, number> = {};
+    for (const tpl of allThemes) {
+      if (!tpl.specialtyId) continue;
+      counts[tpl.specialtyId] = (counts[tpl.specialtyId] ?? 0) + 1;
+    }
+    return counts;
+  }, [allThemes]);
+
+  const pageTypeCounts = useMemo(() => {
+    const counts: Record<PageType, number> = { landing: 0, fullsite: 0 };
+    for (const tpl of allThemes) counts[tpl.pageType]++;
+    return counts;
+  }, [allThemes]);
+
+  // Reset specialty whenever the industry changes
+  const selectIndustry = (indId: string) => {
+    setSelectedIndustry(indId);
+    setSelectedSpecialty("All");
+  };
+
+  const clearAllFilters = () => {
+    setCat("All");
+    setSelectedIndustry("All");
+    setSelectedSpecialty("All");
+    setPageTypeFilter("All");
+    setSearch("");
+  };
+
+  const hasActiveFilters = cat !== "All" || selectedIndustry !== "All" || selectedSpecialty !== "All" || pageTypeFilter !== "All" || !!search;
+
   const filtered = useMemo(() => {
     const q = search.toLowerCase().trim();
     return allThemes.filter(tpl => {
+      // Category (design-style) filter
       const catOk = cat === "All" || tpl.category === cat;
-      const searchOk = !q || tpl.label.toLowerCase().includes(q) || tpl.desc.toLowerCase().includes(q);
-      return catOk && searchOk;
+      // Business-niche filters (industry / specialty) — templates without a
+      // niche only match when no industry/specialty filter is active.
+      const industryOk = selectedIndustry === "All" || tpl.industryId === selectedIndustry;
+      const specialtyOk = selectedSpecialty === "All" || tpl.specialtyId === selectedSpecialty;
+      // Page-type filter
+      const pageTypeOk = pageTypeFilter === "All" || tpl.pageType === pageTypeFilter;
+      // Locale-aware search across name/description/category/specialty/city
+      let searchOk = true;
+      if (q) {
+        const inLabel = tpl.label.toLowerCase().includes(q);
+        const inDesc = tpl.desc.toLowerCase().includes(q);
+        const inCat = tpl.category.toLowerCase().includes(q);
+        const inSpec = (tpl.specialtyLabel ?? "").toLowerCase().includes(q);
+        const inCity = (tpl.cityLabel ?? "").toLowerCase().includes(q);
+        searchOk = inLabel || inDesc || inCat || inSpec || inCity;
+      }
+      return catOk && industryOk && specialtyOk && pageTypeOk && searchOk;
     });
-  }, [allThemes, cat, search]);
+  }, [allThemes, cat, selectedIndustry, selectedSpecialty, pageTypeFilter, search]);
 
   const featured = useMemo(() => filtered.filter(tpl => tpl.featured), [filtered]);
   const rest     = useMemo(() => filtered.filter(tpl => !tpl.featured), [filtered]);
@@ -358,25 +561,71 @@ function ThemesContent() {
             {t.sub}
           </p>
 
-          {cat !== "All" && (
+          {(cat !== "All" || selectedIndustry !== "All" || selectedSpecialty !== "All" || pageTypeFilter !== "All") && (
             <div className="flex items-center gap-2 mt-4 flex-wrap">
-              <span className="text-xs text-zinc-500 font-bold uppercase tracking-wider">Filtré par :</span>
-              <span 
-                className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold border"
-                style={{
-                  background: `${CAT_COLOR[cat] ?? "#dc2626"}15`,
-                  borderColor: `${CAT_COLOR[cat] ?? "#dc2626"}35`,
-                  color: CAT_COLOR[cat] ?? "#dc2626"
-                }}
-              >
-                <span className="w-1.5 h-1.5 rounded-full bg-current" />
-                {cat}
-              </span>
+              <span className="text-xs text-zinc-500 font-bold uppercase tracking-wider">{t.filteredBy}</span>
+
+              {cat !== "All" && (
+                <span
+                  className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold border"
+                  style={{
+                    background: `${CAT_COLOR[cat] ?? "#dc2626"}15`,
+                    borderColor: `${CAT_COLOR[cat] ?? "#dc2626"}35`,
+                    color: CAT_COLOR[cat] ?? "#dc2626"
+                  }}
+                >
+                  <span className="w-1.5 h-1.5 rounded-full bg-current" />
+                  {cat}
+                </span>
+              )}
+
+              {selectedIndustry !== "All" && (() => {
+                const ind = INDUSTRIES.find(i => i.id === selectedIndustry);
+                const color = INDUSTRY_COLOR[selectedIndustry] ?? "#dc2626";
+                return ind ? (
+                  <span
+                    className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold border"
+                    style={{ background: `${color}15`, borderColor: `${color}35`, color }}
+                  >
+                    <span>{ind.emoji}</span>
+                    {getIndustryLabel(ind)}
+                  </span>
+                ) : null;
+              })()}
+
+              {selectedSpecialty !== "All" && (() => {
+                const spec = specialtiesInSelectedIndustry.find(s => s.id === selectedSpecialty);
+                const color = spec?.accentColor ?? "#dc2626";
+                return spec ? (
+                  <span
+                    className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold border"
+                    style={{ background: `${color}15`, borderColor: `${color}35`, color }}
+                  >
+                    <span>{spec.emoji}</span>
+                    {getSpecialtyLabel(spec)}
+                  </span>
+                ) : null;
+              })()}
+
+              {pageTypeFilter !== "All" && (
+                <span
+                  className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold border"
+                  style={{
+                    background: `${PAGETYPE_COLOR[pageTypeFilter]}15`,
+                    borderColor: `${PAGETYPE_COLOR[pageTypeFilter]}35`,
+                    color: PAGETYPE_COLOR[pageTypeFilter],
+                  }}
+                >
+                  <span className="w-1.5 h-1.5 rounded-full bg-current" />
+                  {pageTypeFilter === "landing" ? t.landing : t.fullsite}
+                </span>
+              )}
+
               <button
-                onClick={() => setCat("All")}
+                onClick={clearAllFilters}
                 className="text-xs text-red-400 hover:text-red-300 underline cursor-pointer ml-1 font-semibold"
               >
-                Voir tous
+                {t.seeAll}
               </button>
             </div>
           )}
@@ -401,9 +650,9 @@ function ThemesContent() {
             {/* Filters */}
             <div className="flex items-center justify-between mb-3 px-1">
               <span className="text-[10px] font-bold text-white/40 uppercase tracking-widest">{t.filters}</span>
-              {(cat !== "All" || search) && (
+              {hasActiveFilters && (
                 <button
-                  onClick={() => { setCat("All"); setSearch(""); }}
+                  onClick={clearAllFilters}
                   className="text-[10px] text-red-400 hover:text-red-300 transition-colors uppercase tracking-wider"
                 >
                   {t.clear}
@@ -445,6 +694,139 @@ function ThemesContent() {
               })}
             </nav>
 
+            {/* ── Business-niche filter: industry ──────────────────────────── */}
+            <div className="mt-6 pt-6 border-t border-white/5">
+              <span className="block text-[10px] font-bold text-white/40 uppercase tracking-widest mb-3 px-1">
+                {t.industryFilter}
+              </span>
+              <nav className="flex flex-col gap-1">
+                <button
+                  onClick={() => selectIndustry("All")}
+                  className="group flex items-center justify-between gap-2 px-3 py-2 rounded-lg text-xs font-medium transition-all duration-200 cursor-pointer"
+                  style={{
+                    background: selectedIndustry === "All" ? "rgba(220,38,38,0.13)" : "transparent",
+                    color: selectedIndustry === "All" ? "#fff" : "rgba(255,255,255,0.55)",
+                    border: selectedIndustry === "All" ? "1px solid rgba(220,38,38,0.35)" : "1px solid transparent",
+                  }}
+                >
+                  <span>{t.allIndustries}</span>
+                  <span className="text-[10px] font-mono tabular-nums" style={{ color: "rgba(255,255,255,0.3)" }}>
+                    {allThemes.length}
+                  </span>
+                </button>
+                {INDUSTRIES.map(ind => {
+                  const active = selectedIndustry === ind.id;
+                  const color = INDUSTRY_COLOR[ind.id] ?? "#dc2626";
+                  return (
+                    <button
+                      key={ind.id}
+                      onClick={() => selectIndustry(ind.id)}
+                      className="group flex items-center justify-between gap-2 px-3 py-2 rounded-lg text-xs font-medium transition-all duration-200 cursor-pointer"
+                      style={{
+                        background: active ? `${color}22` : "transparent",
+                        color: active ? "#fff" : "rgba(255,255,255,0.55)",
+                        border: active ? `1px solid ${color}55` : "1px solid transparent",
+                      }}
+                    >
+                      <span className="flex items-center gap-2">
+                        <span>{ind.emoji}</span>
+                        {getIndustryLabel(ind)}
+                      </span>
+                      <span className="text-[10px] font-mono tabular-nums" style={{ color: active ? color : "rgba(255,255,255,0.3)" }}>
+                        {industryCounts[ind.id] ?? 0}
+                      </span>
+                    </button>
+                  );
+                })}
+              </nav>
+            </div>
+
+            {/* ── Business-niche filter: specialty (nested under industry) ──── */}
+            <AnimatePresence>
+              {selectedIndustry !== "All" && specialtiesInSelectedIndustry.length > 0 && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: "auto" }}
+                  exit={{ opacity: 0, height: 0 }}
+                  transition={{ duration: 0.25 }}
+                  className="overflow-hidden mt-4 pt-4 border-t border-white/5"
+                >
+                  <span className="block text-[10px] font-bold text-white/40 uppercase tracking-widest mb-3 px-1">
+                    {t.specialtyFilter}
+                  </span>
+                  <nav className="flex flex-col gap-1">
+                    <button
+                      onClick={() => setSelectedSpecialty("All")}
+                      className="group flex items-center justify-between gap-2 px-3 py-2 rounded-lg text-xs font-medium transition-all duration-200 cursor-pointer"
+                      style={{
+                        background: selectedSpecialty === "All" ? "rgba(255,255,255,0.08)" : "transparent",
+                        color: selectedSpecialty === "All" ? "#fff" : "rgba(255,255,255,0.55)",
+                        border: selectedSpecialty === "All" ? "1px solid rgba(255,255,255,0.15)" : "1px solid transparent",
+                      }}
+                    >
+                      {t.allSpecialties}
+                    </button>
+                    {specialtiesInSelectedIndustry.map(spec => {
+                      const active = selectedSpecialty === spec.id;
+                      const color = spec.accentColor;
+                      return (
+                        <button
+                          key={spec.id}
+                          onClick={() => setSelectedSpecialty(spec.id)}
+                          className="group flex items-center justify-between gap-2 px-3 py-2 rounded-lg text-xs font-medium transition-all duration-200 cursor-pointer"
+                          style={{
+                            background: active ? `${color}22` : "transparent",
+                            color: active ? "#fff" : "rgba(255,255,255,0.55)",
+                            border: active ? `1px solid ${color}55` : "1px solid transparent",
+                          }}
+                        >
+                          <span className="flex items-center gap-2">
+                            <span>{spec.emoji}</span>
+                            {getSpecialtyLabel(spec)}
+                          </span>
+                          <span className="text-[10px] font-mono tabular-nums" style={{ color: active ? color : "rgba(255,255,255,0.3)" }}>
+                            {specialtyCounts[spec.id] ?? 0}
+                          </span>
+                        </button>
+                      );
+                    })}
+                  </nav>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            {/* ── Page-type filter ─────────────────────────────────────────── */}
+            <div className="mt-6 pt-6 border-t border-white/5">
+              <span className="block text-[10px] font-bold text-white/40 uppercase tracking-widest mb-3 px-1">
+                {t.pageTypeFilter}
+              </span>
+              <div className="flex gap-1.5">
+                {(["All", "landing", "fullsite"] as const).map(pt => {
+                  const active = pageTypeFilter === pt;
+                  const color = pt === "All" ? "#dc2626" : PAGETYPE_COLOR[pt];
+                  const label = pt === "All" ? t.allPageTypes : pt === "landing" ? t.landing : t.fullsite;
+                  const count = pt === "All" ? allThemes.length : pageTypeCounts[pt];
+                  return (
+                    <button
+                      key={pt}
+                      onClick={() => setPageTypeFilter(pt)}
+                      className="flex-1 flex flex-col items-center gap-0.5 px-2 py-2 rounded-lg text-[10px] font-bold transition-all duration-200 cursor-pointer"
+                      style={{
+                        background: active ? `${color}22` : "transparent",
+                        color: active ? "#fff" : "rgba(255,255,255,0.55)",
+                        border: active ? `1px solid ${color}55` : "1px solid rgba(255,255,255,0.08)",
+                      }}
+                    >
+                      <span>{label}</span>
+                      <span className="font-mono tabular-nums" style={{ color: active ? color : "rgba(255,255,255,0.3)" }}>
+                        {count}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
             <div className="mt-6 pt-6 border-t border-white/5">
               <Link
                 href="/configure"
@@ -468,7 +850,7 @@ function ThemesContent() {
             <AnimatePresence mode="wait">
               {featured.length > 0 && (
                 <motion.section
-                  key={`feat-${cat}`}
+                  key={`feat-${cat}-${selectedIndustry}-${selectedSpecialty}-${pageTypeFilter}`}
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
@@ -493,7 +875,7 @@ function ThemesContent() {
             {/* Full grid */}
             <AnimatePresence mode="wait">
               <motion.section
-                key={`grid-${cat}-${search}`}
+                key={`grid-${cat}-${selectedIndustry}-${selectedSpecialty}-${pageTypeFilter}-${search}`}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
@@ -515,9 +897,9 @@ function ThemesContent() {
                 ) : filtered.length === 0 ? (
                   <div className="text-center py-28 text-zinc-600">
                     <Search className="w-10 h-10 mx-auto mb-4 opacity-20" />
-                    <p className="text-sm">{t.noMatch} &ldquo;{search}&rdquo;</p>
+                    <p className="text-sm">{search ? <>{t.noMatch} &ldquo;{search}&rdquo;</> : t.clearFilters}</p>
                     <button
-                      onClick={() => { setSearch(""); setCat("All"); }}
+                      onClick={clearAllFilters}
                       className="mt-4 text-xs text-red-400 hover:text-red-300 underline cursor-pointer"
                     >
                       {t.clearFilters}
