@@ -378,6 +378,21 @@ function ThemesContent() {
   // ── Page-type filter state (landing vs. full site) ───────────────────────────
   const [pageTypeFilter, setPageTypeFilter] = useState<"All" | PageType>("All");
 
+  // Changing a filter re-renders the results grid with a different (often much
+  // shorter) height. If the visitor was scrolled deep into a long grid, the
+  // page height shrinking under a now-fixed scroll position leaves them
+  // stranded near the bottom of an otherwise-empty page instead of seeing the
+  // new results — scroll back to the results header whenever a filter changes.
+  const resultsTopRef = useRef<HTMLDivElement>(null);
+  const isFirstFilterRender = useRef(true);
+  useEffect(() => {
+    if (isFirstFilterRender.current) {
+      isFirstFilterRender.current = false;
+      return;
+    }
+    resultsTopRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }, [cat, selectedIndustry, selectedSpecialty, pageTypeFilter]);
+
   useEffect(() => {
     if (catParam) {
       const match = CATS.find(c => c.toLowerCase() === catParam.toLowerCase());
@@ -839,7 +854,7 @@ function ThemesContent() {
 
           {/* ── Main content ──────────────────────────────────────────── */}
           <main className="min-w-0">
-            <div className="flex items-center justify-between mb-6 text-xs">
+            <div ref={resultsTopRef} className="flex items-center justify-between mb-6 text-xs scroll-mt-24">
               <span className="text-zinc-500 tabular-nums">
                 {filtered.length} {t.themesCount}
                 {cat !== "All" && <> · <span className="text-white">{cat}</span></>}
