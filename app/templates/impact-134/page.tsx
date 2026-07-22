@@ -459,7 +459,7 @@ function Nav({ scrolled }: { scrolled: boolean }) {
                     color: scrolled ? C.text : C.text,
                   }}
                 >
-                  LUMIÈRE
+                  {fd?.businessName ?? "LUMIÈRE"}
                 </span>
               </>
             )}
@@ -526,7 +526,7 @@ function Nav({ scrolled }: { scrolled: boolean }) {
                 style={{ fontFamily: "'Playfair Display', serif", color: C.text, fontWeight: 600 }}
               >
                 <Sparkles size={16} color={C.primary} />
-                LUMIÈRE
+                {fd?.businessName ?? "LUMIÈRE"}
               </span>
               <button onClick={() => setOpen(false)} className="p-2 transition-opacity hover:opacity-60" style={{ color: C.text }}>
                 <X size={22} />
@@ -1756,7 +1756,7 @@ function Footer() {
                 className="text-[26px] italic"
                 style={{ fontFamily: "'Playfair Display', serif", fontWeight: 600, color: "#fff" }}
               >
-                LUMIÈRE
+                {fd?.businessName ?? "LUMIÈRE"}
               </span>
             </div>
             <p

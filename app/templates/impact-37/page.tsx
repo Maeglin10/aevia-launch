@@ -559,7 +559,7 @@ return (
                     fontWeight: 300,
                   }}
                 >
-                  Each evening at Clos du Soir, she or one of her carefully trained team guides guests through the language of terroir, vintage, and winemaker intention — making every glass a conversation.
+                  Each evening at {fd?.businessName ?? 'Clos du Soir'}, she or one of her carefully trained team guides guests through the language of terroir, vintage, and winemaker intention — making every glass a conversation.
                 </p>
                 <div
                   style={{
@@ -618,7 +618,7 @@ return (
                     marginBottom: 24,
                   }}
                 >
-                  Une soirée au Clos du Soir
+                  Une soirée au {fd?.businessName ?? 'Clos du Soir'}
                 </div>
                 {[
                   {

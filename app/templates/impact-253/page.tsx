@@ -423,7 +423,7 @@ function Nav() {
                 flexShrink: 0,
               }}
             />
-            KinéSport&nbsp;Élite
+            {fd?.businessName ?? "KinéSport Élite"}
           </>
         )}
       </a>
@@ -582,7 +582,7 @@ function Hero() {
         }}
       >
         <img
-          src={photo('1544367745-a81e18eb7be2', 2000)}
+          src={fd?.photoUrls?.[0] || photo('1544367745-a81e18eb7be2', 2000)}
           alt="Kinésithérapeute du sport au travail"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
@@ -1324,7 +1324,7 @@ function MethodPanel() {
             }}
           >
             <img
-              src={photo('1506126613-423d21668e8b', 900)}
+              src={fd?.photoUrls?.[1] || photo('1506126613-423d21668e8b', 900)}
               alt="Rééducation sportive — méthode KinéSport Élite"
               loading="lazy"
               style={{

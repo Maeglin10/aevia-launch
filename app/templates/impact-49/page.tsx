@@ -504,7 +504,7 @@ return (
                 Success Stories
               </span>
               <h2 className="text-3xl md:text-4xl font-extrabold text-[#1E1B4B] mb-6">
-                Ils ont changé de vie grâce à Skillbridge
+                Ils ont changé de vie grâce à {fd?.businessName ?? 'Skillbridge'}
               </h2>
             </div>
           </Reveal>

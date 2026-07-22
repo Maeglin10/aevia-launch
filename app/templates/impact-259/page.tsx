@@ -442,12 +442,14 @@ function Nav() {
             style={{ height: 30, maxWidth: 160, objectFit: 'contain', display: 'block' }}
           />
         ) : (
+          fd?.businessName ?? (
           <>
             Le Fournil<br />
             <span style={{ fontStyle: 'italic', fontSize: '0.78em', color: 'rgba(240,221,184,0.7)', letterSpacing: '0.04em' }}>
               du Parlement
             </span>
           </>
+          )
         )}
       </a>
 
@@ -601,7 +603,7 @@ function Hero() {
         }}
       >
         <img
-          src={`https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=2000&auto=format&fit=crop`}
+          src={fd?.photoUrls?.[0] || `https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=2000&auto=format&fit=crop`}
           alt="Fournil du Parlement — pains au levain en boulangerie artisanale"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
           priority-fetch="high"
@@ -1350,7 +1352,7 @@ function SourcingPanel() {
             }}
           >
             <img
-              src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=900&auto=format&fit=crop"
+              src={fd?.photoUrls?.[1] || "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=900&auto=format&fit=crop"}
               alt="Nos sourcing — ingrédients artisanaux au Fournil du Parlement"
               loading="lazy"
               style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}

@@ -199,6 +199,19 @@ export default function GarageMinimalistTemplate() {
   const [stats, setStats] = useState([]);
   const [gallery, setGallery] = useState([]);
 
+  // Standard session loading (matches every other template): the wizard
+  // links here as /templates/impact-312?session=<id>, not via localStorage.
+  // Without this, fd.logoBase64 / fd.photoUrls / fd.businessName below never
+  // receive real data outside of a same-browser localStorage fallback.
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(setSession)
+      .catch(() => {});
+  }, []);
+
   useEffect(() => {
     let savedSession = null;
     try {
@@ -259,10 +272,24 @@ export default function GarageMinimalistTemplate() {
   }, []);
 
   const fd = session?.formData || {};
-  const businessName = fd.companyName || "Garage Minimalist";
+  const businessName = fd.businessName || "Garage Minimalist";
   const phone = fd.phone || "01 23 45 67 89";
   const email = fd.email || "contact@garageminimalist.fr";
   const address = fd.location || "123 Avenue de l'Automobile, 75000 Paris";
+
+  // Client-uploaded photos (uploaded in the brief) replace the stock
+  // Unsplash placeholders — hero shot and about-section image first.
+  useEffect(() => {
+    if (!fd?.photoUrls?.length) return;
+    const p = fd.photoUrls;
+    if (p[0]) PHOTO.hero = p[0];
+    if (p[1]) PHOTO.about = p[1];
+    if (p[2]) PHOTO.cta = p[2];
+    if (p[3]) PHOTO.stats = p[3];
+    for (let i = 4; i < p.length && i - 4 < PHOTO.gallery.length; i++) {
+      if (p[i]) PHOTO.gallery[i - 4] = p[i];
+    }
+  }, [fd]);
 
   const { scrollYProgress } = useScroll();
   const heroY = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
@@ -325,12 +352,22 @@ export default function GarageMinimalistTemplate() {
         padding: "1rem 5%",
         display: "flex", justifyContent: "space-between", alignItems: "center"
       }}>
-        <div style={{ fontFamily: SANS, fontWeight: 800, fontSize: "1.5rem", color: C.graphite, display: "flex", alignItems: "center", gap: "0.5rem" }}>
-          <div style={{ width: "32px", height: "32px", backgroundColor: C.primary, color: C.white, display: "flex", alignItems: "center", justifyContent: "center", borderRadius: "4px" }}>
-            <Wrench size={18} />
+        {fd?.logoBase64 ? (
+          // Client logo (uploaded in the brief) replaces the placeholder mark —
+          // essential for the client to recognise their brand in the render.
+          <img
+            src={fd.logoBase64}
+            alt={businessName ?? 'logo'}
+            style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+          />
+        ) : (
+          <div style={{ fontFamily: SANS, fontWeight: 800, fontSize: "1.5rem", color: C.graphite, display: "flex", alignItems: "center", gap: "0.5rem" }}>
+            <div style={{ width: "32px", height: "32px", backgroundColor: C.primary, color: C.white, display: "flex", alignItems: "center", justifyContent: "center", borderRadius: "4px" }}>
+              <Wrench size={18} />
+            </div>
+            {businessName}
           </div>
-          {businessName}
-        </div>
+        )}
 
         {/* Desktop Menu */}
         <div style={{ display: "none", gap: "2.5rem", alignItems: "center" }} className="desktop-menu">

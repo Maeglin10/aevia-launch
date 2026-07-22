@@ -892,7 +892,7 @@ return (
                 marginBottom: '1.5rem',
               }}
             >
-              COMMENÇONS.
+              {c?.aboutTitle ?? fd?.businessName ?? <>COMMENÇONS.</>}
             </div>
           </Reveal>
 

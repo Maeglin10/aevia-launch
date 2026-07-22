@@ -203,7 +203,20 @@ const MOCK_EVENTS = [
 
 // --- MAIN PAGE COMPONENT ---
 
-export default function Impact325SeminarHub({ session }) {
+export default function Impact325SeminarHub({ session: initialSession }) {
+  // Standard session loading (matches every other template): this page is
+  // never actually given a `session` prop by Next.js routing — it must fetch
+  // its own from /templates/impact-325?session=<id>, otherwise fd is always {}.
+  const [session, setSession] = useState(initialSession ?? null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(setSession)
+      .catch(() => {});
+  }, []);
+
   const fd = session?.formData || {};
   const c = session?.generatedContent || {};
 
@@ -215,6 +228,21 @@ export default function Impact325SeminarHub({ session }) {
   }
 
   const businessName = fd.businessName || "ExecutiveHub";
+
+  // Client-uploaded photos (uploaded in the brief) replace the stock
+  // Unsplash placeholders — hero shot and about-section image first.
+  // MOCK_EVENTS captured PHOTOS.eventN by value at module init, so its
+  // `.image` fields must also be mutated directly, not just PHOTOS itself.
+  useEffect(() => {
+    if (!fd?.photoUrls?.length) return;
+    const p = fd.photoUrls;
+    if (p[0]) PHOTOS.hero = p[0];
+    if (p[1]) PHOTOS.about = p[1];
+    if (p[2]) { PHOTOS.event1 = p[2]; if (MOCK_EVENTS[0]) MOCK_EVENTS[0].image = p[2]; }
+    if (p[3]) { PHOTOS.event2 = p[3]; if (MOCK_EVENTS[1]) MOCK_EVENTS[1].image = p[3]; }
+    if (p[4]) { PHOTOS.event3 = p[4]; if (MOCK_EVENTS[2]) MOCK_EVENTS[2].image = p[4]; }
+    if (p[5]) { PHOTOS.event4 = p[5]; if (MOCK_EVENTS[3]) MOCK_EVENTS[3].image = p[5]; }
+  }, [fd]);
   const contactEmail = fd.contactEmail || "contact@executivehub.example";
 
   // State
@@ -301,12 +329,22 @@ export default function Impact325SeminarHub({ session }) {
         padding: "20px 4%"
       }}>
         <div style={{ maxWidth: 1200, margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-            <Building color={scrolled ? C.primary : C.white} size={28} />
-            <h1 style={{ fontFamily: SERIF, fontSize: "22px", fontWeight: 700, margin: 0, color: scrolled ? C.primary : C.white }}>
-              {businessName}
-            </h1>
-          </div>
+          {fd?.logoBase64 ? (
+            // Client logo (uploaded in the brief) replaces the placeholder mark —
+            // essential for the client to recognise their brand in the render.
+            <img
+              src={fd.logoBase64}
+              alt={businessName ?? 'logo'}
+              style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+            />
+          ) : (
+            <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+              <Building color={scrolled ? C.primary : C.white} size={28} />
+              <h1 style={{ fontFamily: SERIF, fontSize: "22px", fontWeight: 700, margin: 0, color: scrolled ? C.primary : C.white }}>
+                {businessName}
+              </h1>
+            </div>
+          )}
 
           <div style={{ display: "none", gap: "40px", alignItems: "center", '@media(minWidth: 768px)': { display: 'flex' } }}>
             {["Seminars", "Speakers", "Corporate", "Contact"].map((item) => (

@@ -392,7 +392,7 @@ function Nav() {
             style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
           />
         ) : (
-          <>Vaillant &amp; Associés</>
+          <>{fd?.businessName ?? "Vaillant & Associés"}</>
         )}
       </div>
 
@@ -564,7 +564,7 @@ function Hero() {
         }}
       >
         <img
-          src={photo('1554224155-6726b3ff858f', 2000)}
+          src={fd?.photoUrls?.[0] || photo('1554224155-6726b3ff858f', 2000)}
           alt="Bureau du cabinet Vaillant & Associés, Paris 8e"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
@@ -1311,7 +1311,7 @@ function ExpertisePanel() {
               }}
             >
               <img
-                src={photo('1551135049-8a33b5883817', 900)}
+                src={fd?.photoUrls?.[1] || photo('1551135049-8a33b5883817', 900)}
                 alt="Expertise cabinet Vaillant & Associés"
                 loading="lazy"
                 style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}

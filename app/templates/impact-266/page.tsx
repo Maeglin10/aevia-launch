@@ -559,7 +559,7 @@ function Hero() {
         }}
       >
         <img
-          src={`https://images.unsplash.com/photo-1478146896981-b80fe463b330?q=80&w=2000&auto=format&fit=crop`}
+          src={fd?.photoUrls?.[0] || `https://images.unsplash.com/photo-1478146896981-b80fe463b330?q=80&w=2000&auto=format&fit=crop`}
           alt="Villa Belle Époque sur la Côte d'Azur"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
@@ -1306,7 +1306,7 @@ function ProcessPanel() {
             }}
           >
             <img
-              src={`https://images.unsplash.com/photo-1478146896981-b80fe463b330?q=80&w=900&auto=format&fit=crop`}
+              src={fd?.photoUrls?.[1] || `https://images.unsplash.com/photo-1478146896981-b80fe463b330?q=80&w=900&auto=format&fit=crop`}
               alt="Planning de mariage Côte d'Azur"
               loading="lazy"
               style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}

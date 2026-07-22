@@ -318,7 +318,20 @@ const Button = ({
 
 // --- Main Template Component ---
 
-export default function Template({ session }: { session: any }) {
+export default function Template({ session: initialSession }: { session?: any } = {}) {
+  // Standard session loading (matches every other template): this page is
+  // never actually given a `session` prop by Next.js routing — it must fetch
+  // its own from /templates/impact-319?session=<id>, otherwise fd is always {}.
+  const [session, setSession] = useState<any>(initialSession ?? null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(setSession)
+      .catch(() => {});
+  }, []);
+
   // Data Binding
   const fd = session?.formData || {};
   const c = session?.generatedContent || {};
@@ -330,6 +343,21 @@ export default function Template({ session }: { session: any }) {
 
   // Colors
   const brandColor = fd.brandColor || DEFAULT_BRAND_COLOR;
+
+  // Client-uploaded photos (uploaded in the brief) replace the stock
+  // Unsplash placeholders — hero shot and about-section image first.
+  useEffect(() => {
+    if (!fd?.photoUrls?.length) return;
+    const p = fd.photoUrls;
+    if (p[0]) PHOTO.hero = p[0];
+    if (p[1]) PHOTO.about = p[1];
+    for (let i = 2; i < p.length && i - 2 < PHOTO.services.length; i++) {
+      if (p[i]) PHOTO.services[i - 2] = p[i];
+    }
+    for (let i = 5; i < p.length && i - 5 < PHOTO.gallery.length; i++) {
+      if (p[i]) PHOTO.gallery[i - 5] = p[i];
+    }
+  }, [fd]);
   
   const C = {
     primary: brandColor,
@@ -474,18 +502,28 @@ export default function Template({ session }: { session: any }) {
           alignItems: "center",
         }}
       >
-        <div style={{ 
-          fontFamily: SERIF, 
-          fontSize: "24px", 
-          fontWeight: 500, 
-          color: C.primaryDark,
-          display: "flex",
-          alignItems: "center",
-          gap: "10px"
-        }}>
-          <Leaf size={24} color={C.primary} />
-          {businessName}
-        </div>
+        {fd?.logoBase64 ? (
+          // Client logo (uploaded in the brief) replaces the placeholder mark —
+          // essential for the client to recognise their brand in the render.
+          <img
+            src={fd.logoBase64}
+            alt={businessName ?? 'logo'}
+            style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+          />
+        ) : (
+          <div style={{
+            fontFamily: SERIF,
+            fontSize: "24px",
+            fontWeight: 500,
+            color: C.primaryDark,
+            display: "flex",
+            alignItems: "center",
+            gap: "10px"
+          }}>
+            <Leaf size={24} color={C.primary} />
+            {businessName}
+          </div>
+        )}
 
         {/* Desktop Nav */}
         <div style={{ display: "none", "@media (min-width: 768px)": { display: "flex" }, gap: "30px", alignItems: "center" }} className="hidden md:flex">

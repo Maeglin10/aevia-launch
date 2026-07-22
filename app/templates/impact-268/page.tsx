@@ -416,7 +416,7 @@ function Nav() {
         ) : (
           <>
             <Leaf size={18} color={C.accent} strokeWidth={1.6} />
-            Vert&nbsp;Horizon
+            {fd?.businessName ?? "Vert Horizon"}
           </>
         )}
       </div>
@@ -569,7 +569,7 @@ function Hero() {
         }}
       >
         <img
-          src={photo('1558618047-b62e0e6e8517', 2000)}
+          src={fd?.photoUrls?.[0] || photo('1558618047-b62e0e6e8517', 2000)}
           alt="Jardin contemporain Vert Horizon Île-de-France"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
@@ -1253,7 +1253,7 @@ function DesignPanel() {
             }}
           >
             <img
-              src={photo('1578662996442-48f60103fc96', 900)}
+              src={fd?.photoUrls?.[1] || photo('1578662996442-48f60103fc96', 900)}
               alt="Terrasse végétalisée Vert Horizon"
               loading="lazy"
               style={{

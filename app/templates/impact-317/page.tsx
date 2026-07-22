@@ -162,15 +162,19 @@ const Reveal = ({
   );
 };
 
-export default function TemplatePage({ session }: { session: any }) {
+export default function TemplatePage({ session: initialSession }: { session?: any } = {}) {
   const [mounted, setMounted] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeFAQ, setActiveFAQ] = useState<number | null>(null);
   const [hours, setHours] = useState(2);
   const [frequency, setFrequency] = useState("weekly");
+  // Standard session loading (matches every other template): this page is
+  // never actually given a `session` prop by Next.js routing — it must fetch
+  // its own from /templates/impact-317?session=<id>, otherwise fd is always {}.
+  const [session, setSession] = useState<any>(initialSession ?? null);
 
   const hourlyRate = 35;
-  
+
   const calculateEstimate = () => {
     let rate = hourlyRate;
     if (frequency === "weekly") rate = hourlyRate * 0.9;
@@ -180,6 +184,15 @@ export default function TemplatePage({ session }: { session: any }) {
 
   useEffect(() => {
     setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(setSession)
+      .catch(() => {});
   }, []);
 
   const fd = session?.formData || {};
@@ -203,6 +216,21 @@ export default function TemplatePage({ session }: { session: any }) {
 
   // Data binding
   const companyName = fd.businessName || "Ménage Dynamique";
+
+  // Client-uploaded photos (uploaded in the brief) replace the stock
+  // Unsplash placeholders — hero shot and about-section image first.
+  useEffect(() => {
+    if (!fd?.photoUrls?.length) return;
+    const p = fd.photoUrls;
+    if (p[0]) PHOTO.hero = p[0];
+    if (p[1]) PHOTO.about = p[1];
+    for (let i = 2; i < p.length && i - 2 < PHOTO.services.length; i++) {
+      if (p[i]) PHOTO.services[i - 2] = p[i];
+    }
+    for (let i = 5; i < p.length && i - 5 < PHOTO.gallery.length; i++) {
+      if (p[i]) PHOTO.gallery[i - 5] = p[i];
+    }
+  }, [fd]);
   const tagline = c.tagline || "Le nettoyage qui redonne vie à votre espace.";
   const heroHeading = c.heroTitle || "L'énergie de la propreté à votre service";
   const heroSub = c.heroSubtitle || "Des services de nettoyage résidentiels et commerciaux rapides, efficaces et éclatants pour un environnement toujours impeccable.";
@@ -306,24 +334,34 @@ export default function TemplatePage({ session }: { session: any }) {
         transition: "all 0.3s ease"
       }}>
         <div style={{ maxWidth: "1400px", margin: "0 auto", padding: "20px 24px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-            <div style={{
-              width: "40px",
-              height: "40px",
-              borderRadius: "10px",
-              backgroundColor: C.primary,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              color: C.white,
-              transform: "rotate(-10deg)"
-            }}>
-              <Zap size={24} />
+          {fd?.logoBase64 ? (
+            // Client logo (uploaded in the brief) replaces the placeholder mark —
+            // essential for the client to recognise their brand in the render.
+            <img
+              src={fd.logoBase64}
+              alt={companyName ?? 'logo'}
+              style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+            />
+          ) : (
+            <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+              <div style={{
+                width: "40px",
+                height: "40px",
+                borderRadius: "10px",
+                backgroundColor: C.primary,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                color: C.white,
+                transform: "rotate(-10deg)"
+              }}>
+                <Zap size={24} />
+              </div>
+              <span style={{ fontFamily: SERIF, fontSize: "24px", fontWeight: 800, color: C.text, lineHeight: 1 }}>
+                {companyName}
+              </span>
             </div>
-            <span style={{ fontFamily: SERIF, fontSize: "24px", fontWeight: 800, color: C.text, lineHeight: 1 }}>
-              {companyName}
-            </span>
-          </div>
+          )}
 
           <div className="hidden md:flex" style={{ alignItems: "center", gap: "40px" }}>
             {["Services", "Avantages", "Tarifs", "Témoignages"].map((item) => (

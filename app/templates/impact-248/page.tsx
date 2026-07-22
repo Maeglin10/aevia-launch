@@ -452,7 +452,7 @@ function Nav() {
             style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
           />
         ) : (
-          <>Ostéo&nbsp;République</>
+          <>{fd?.businessName ?? "Ostéo République"}</>
         )}
       </a>
       <div style={linkRow} className="or-navlinks">
@@ -602,7 +602,7 @@ function Hero() {
         }}
       >
         <img
-          src={photo('1544367745-a81e18eb7be2', 2000)}
+          src={fd?.photoUrls?.[0] || photo('1544367745-a81e18eb7be2', 2000)}
           alt="Soin ostéopathique — mains de l'ostéopathe sur le dos d'un patient"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
           priority-hint="high"
@@ -1355,7 +1355,7 @@ function PrinciplesPanel() {
             }}
           >
             <img
-              src={photo('1570295999-41bbf40f8fb5', 900)}
+              src={fd?.photoUrls?.[1] || photo('1570295999-41bbf40f8fb5', 900)}
               alt="Ostéopathie crânienne — soin délicat sur le crâne"
               loading="lazy"
               style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}

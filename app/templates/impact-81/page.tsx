@@ -231,7 +231,7 @@ return (
             {["Maison Margiela", "Saint Laurent", "Balenciaga", "Valentino", "Givenchy"].map((m, i) => (
               <Reveal key={m} delay={i * 0.07}>
                 <div className="relative aspect-[2/3] overflow-hidden group cursor-pointer">
-                  <Image src={`https://images.unsplash.com/photo-155861866${6 + i}-fcd25c85cd64?w=600&q=80`} alt={m} fill className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700" />
+                  <Image src={photo(5 + i, `https://images.unsplash.com/photo-155861866${6 + i}-fcd25c85cd64?w=600&q=80`)} alt={m} fill className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700" />
                   <div className="absolute inset-0 bg-[#0A0A08]/50 group-hover:bg-transparent transition-all duration-700" />
                   <div className="absolute bottom-0 left-0 right-0 p-4">
                     <span className="text-[9px] uppercase tracking-[0.3em] text-[#C9A86C]">{m}</span>

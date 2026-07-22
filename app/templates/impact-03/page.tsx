@@ -930,10 +930,25 @@ return (
             letterSpacing: '0.08em',
             fontWeight: 300,
             cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
           }}
         >
-          <span style={{ fontStyle: 'italic' }}>Atelier</span>{' '}
-          <span style={{ fontWeight: 400 }}>NOIR</span>
+          {fd?.logoBase64 ? (
+            // Client logo (uploaded in the brief) replaces the placeholder mark
+            <img
+              src={fd.logoBase64}
+              alt={fd?.businessName ?? 'logo'}
+              style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+            />
+          ) : fd?.businessName ? (
+            <span style={{ fontWeight: 400 }}>{fd.businessName}</span>
+          ) : (
+            <>
+              <span style={{ fontStyle: 'italic' }}>Atelier</span>{' '}
+              <span style={{ fontWeight: 400 }}>NOIR</span>
+            </>
+          )}
         </div>
 
         {/* Right */}
@@ -2169,7 +2184,7 @@ return (
                 fontStyle: 'italic',
               }}
             >
-              Atelier NOIR
+              {fd?.businessName ?? "Atelier NOIR"}
             </div>
             <div style={{ width: 60, height: 1, background: 'rgba(250,250,250,0.1)' }} />
           </div>
@@ -2318,7 +2333,7 @@ return (
                 letterSpacing: '0.1em',
               }}
             >
-              © 2026 Atelier NOIR. All rights reserved.
+              © 2026 {fd?.businessName ?? "Atelier NOIR"}. All rights reserved.
             </div>
             <div
               style={{

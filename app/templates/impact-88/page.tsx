@@ -450,7 +450,7 @@ function Hero() {
         <div className="absolute right-0 top-0 bottom-0 w-1/2 hidden lg:block overflow-hidden">
           <div className="relative h-full w-full">
             <Image
-              src="https://images.unsplash.com/photo-1604654894610-df63bc536371?w=900&q=80"
+              src={photo(0, "https://images.unsplash.com/photo-1604654894610-df63bc536371?w=900&q=80")}
               alt="Nail art salon photography"
               fill
               className="object-cover object-center opacity-30"
@@ -641,7 +641,7 @@ function PortfolioSection() {
               >
                 <div className="relative aspect-[4/5] overflow-hidden">
                   <Image
-                    src={`https://images.unsplash.com/${item.img}?w=500&q=75`}
+                    src={photo(4 + item.id, `https://images.unsplash.com/${item.img}?w=500&q=75`)}
                     alt={item.title}
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-700"
@@ -786,7 +786,7 @@ function ArtistesSection() {
                 {/* Photo area */}
                 <div className="relative h-[260px] overflow-hidden">
                   <Image
-                    src={`https://images.unsplash.com/${artist.img}?w=600&q=80`}
+                    src={photo(1 + artist.id, `https://images.unsplash.com/${artist.img}?w=600&q=80`)}
                     alt={artist.name}
                     fill
                     className="object-cover object-top group-hover:scale-105 transition-transform duration-700"
@@ -1305,7 +1305,7 @@ function AboutSection() {
           <Reveal>
             <div className="relative aspect-[4/5] rounded-[24px] overflow-hidden shadow-[0_4px_30px_rgba(236,72,153,0.1)]">
               <Image
-                src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=800&q=80"
+                src={photo(1, "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=800&q=80")}
                 alt="Velvet Nails concept"
                 fill
                 className="object-cover"
@@ -1525,6 +1525,11 @@ function ContactSection() {
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+// Client-uploaded photo at index i, falling back to the template's stock
+// photo when the client did not upload one for that slot.
+function photo(i: number, fallback: string): string {
+  return fd?.photoUrls?.[i] || fallback;
+}
 export default function Impact88Page() {
   const [session, setSession] = useState<{
     formData?: {

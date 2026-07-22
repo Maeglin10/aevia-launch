@@ -613,7 +613,7 @@ function Hero() {
         }}
       >
         <img
-          src={ph('1581578485-dea47a32cc3f') + '&w=2000'}
+          src={fd?.photoUrls?.[0] || (ph('1581578485-dea47a32cc3f') + '&w=2000')}
           alt="Plombier Aqua Confort Lyon en intervention"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
           priority-hint="high"
@@ -1416,7 +1416,7 @@ function CertPanel() {
               }}
             >
               <img
-                src={ph('1585771724684-38269d6639fd') + '&w=900'}
+                src={fd?.photoUrls?.[1] || (ph('1585771724684-38269d6639fd') + '&w=900')}
                 alt="Technicien certifié RGE Aqua Confort Lyon"
                 loading="lazy"
                 style={{

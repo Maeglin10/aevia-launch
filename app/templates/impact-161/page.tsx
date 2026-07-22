@@ -189,7 +189,7 @@ export default function EssentialSaaSPage() {
                 <div className="w-7 h-7 bg-[#6366F1] rounded-lg flex items-center justify-center">
                   <Sparkles className="w-4 h-4 text-white" />
                 </div>
-                <span className="text-lg font-bold">Flowbase</span>
+                <span className="text-lg font-bold">{fd?.businessName ?? "Flowbase"}</span>
               </>
             )}
           </div>
@@ -224,7 +224,7 @@ export default function EssentialSaaSPage() {
                 ) : (
                   <>
                     <div className="w-7 h-7 bg-[#6366F1] rounded-lg flex items-center justify-center"><Sparkles className="w-4 h-4 text-white" /></div>
-                    <span className="font-bold">Flowbase</span>
+                    <span className="font-bold">{fd?.businessName ?? "Flowbase"}</span>
                   </>
                 )}
               </div>
@@ -525,7 +525,7 @@ export default function EssentialSaaSPage() {
             <div className="md:col-span-2">
               <div className="flex items-center gap-2 mb-4">
                 <div className="w-7 h-7 bg-[#6366F1] rounded-lg flex items-center justify-center"><Sparkles className="w-4 h-4 text-white" /></div>
-                <span className="text-white font-bold">Flowbase</span>
+                <span className="text-white font-bold">{fd?.businessName ?? "Flowbase"}</span>
               </div>
               <p className="text-sm leading-relaxed max-w-xs">La plateforme SaaS qui connecte votre équipe, vos projets et vos données.</p>
             </div>
@@ -537,7 +537,7 @@ export default function EssentialSaaSPage() {
             ))}
           </div>
           <div className="pt-8 border-t border-slate-800 flex flex-col md:flex-row justify-between gap-4 text-xs">
-            <span>© 2024 Flowbase · Tous droits réservés</span>
+            <span>© 2024 {fd?.businessName ?? "Flowbase"} · Tous droits réservés</span>
             <div className="flex gap-6">
               {["Confidentialité", "CGU", "Cookies"].map(l => <Link key={l} href="#fonctionnalités" className="hover:text-white transition-colors cursor-pointer">{l}</Link>)}
             </div>

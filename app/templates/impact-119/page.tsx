@@ -141,7 +141,9 @@ export default function NebulaCloudPage() {
                 <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-600 to-violet-600 flex items-center justify-center group-hover:rotate-12 transition-transform duration-500">
                   <Cloud className="w-5 h-5 text-white" />
                 </div>
-                <span className="text-xl font-bold tracking-tighter">Nebula<span className="text-blue-500">Cloud</span></span>
+                <span className="text-xl font-bold tracking-tighter">
+                  {fd?.businessName ? fd.businessName : <>Nebula<span className="text-blue-500">Cloud</span></>}
+                </span>
               </>
             )}
           </Link>
@@ -425,7 +427,9 @@ export default function NebulaCloudPage() {
               <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-600 to-violet-600 flex items-center justify-center">
                 <Cloud className="w-4 h-4 text-white" />
               </div>
-              <span className="text-xl font-bold tracking-tighter">Nebula<span className="text-blue-500">Cloud</span></span>
+              <span className="text-xl font-bold tracking-tighter">
+                {fd?.businessName ? fd.businessName : <>Nebula<span className="text-blue-500">Cloud</span></>}
+              </span>
             </Link>
             <p className="text-slate-500 max-w-sm leading-relaxed mb-8">{c?.aboutText ?? <>
               The world's fastest cloud platform for building and scaling high-performance applications at the edge.

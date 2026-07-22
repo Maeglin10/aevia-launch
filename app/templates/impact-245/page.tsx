@@ -478,7 +478,7 @@ function Hero() {
         }}
       >
         <img
-          src={unsplash('1509440159258-1c1c3e5f3f5b', 2000)}
+          src={fd?.photoUrls?.[0] || unsplash('1509440159258-1c1c3e5f3f5b', 2000)}
           alt="Boulanger pétrissant la pâte à la Maison Brûlot"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
@@ -2106,10 +2106,30 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+
+  // Client-uploaded photos (beyond the hero, which uses index 0) replace the
+  // template's stock Unsplash photography in the editorial rows.
+  useEffect(() => {
+    if (!fd?.photoUrls?.length) return;
+    let n = 1;
+    const _photoArrays: any[] = [EDIT_ROWS];
+    _photoArrays.forEach((arr) => {
+      if (!Array.isArray(arr)) return;
+      arr.forEach((item) => {
+        if (!item || typeof item !== "object") return;
+        for (const key of ["img", "src", "image", "imgSrc", "photo"]) {
+          if (typeof item[key] === "string" && item[key].includes("images.unsplash.com")) {
+            if (fd.photoUrls[n]) item[key] = fd.photoUrls[n];
+            n++;
+          }
+        }
+      });
+    });
+  });
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
-  
+
   // Dynamic Services & Testimonials Mutation for Session Data
   useEffect(() => {
     if (c?.services) {

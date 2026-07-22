@@ -471,7 +471,7 @@ function Nav() {
         ) : (
           <>
             <Heart size={18} color={C.accentLight} strokeWidth={2} />
-            KinéPédiatrie Bordeaux
+            {fd?.businessName ?? "KinéPédiatrie Bordeaux"}
           </>
         )}
       </a>
@@ -605,7 +605,7 @@ function Hero() {
         }}
       >
         <img
-          src={P.hero}
+          src={fd?.photoUrls?.[0] || P.hero}
           alt="Kinésithérapeute pédiatrique avec un enfant à Bordeaux"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
@@ -1371,7 +1371,7 @@ function MethodPanel() {
               }}
             >
               <img
-                src={P.method}
+                src={fd?.photoUrls?.[1] || P.method}
                 alt="Séance de kinésithérapie pédiatrique à Bordeaux"
                 loading="lazy"
                 style={{

@@ -89,7 +89,7 @@ const PHOTO = {
     'https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?q=80&w=1600&auto=format&fit=crop',
   heroWide:
     'https://images.unsplash.com/photo-1585771724684-38269d6639fd?q=80&w=1600&auto=format&fit=crop',
-} as const;
+};
 
 /* ════════════════════════════════════════════════════════════════════════════
    Primitives partagées
@@ -2750,7 +2750,7 @@ function FooterSection() {
         }}
       >
         <span>
-          © 2024 Plomberie Garonne — SIRET 000 000 000 00000 · Toulouse (31)
+          © 2024 {fd?.businessName ?? 'Plomberie Garonne'} — SIRET 000 000 000 00000 · Toulouse (31)
         </span>
         <span style={{ display: 'flex', gap: 24, flexWrap: 'wrap' }}>
           <a href="#hero" style={{ color: 'inherit', textDecoration: 'none' }}>
@@ -2816,6 +2816,19 @@ function Impact278Page() {
   if (brand) {
     C = { ...C, brick: brand, brickLight: shadeColor(brand, 25) };
   }
+
+  // Client-uploaded photos (uploaded in the brief) replace the stock
+  // Unsplash placeholders — hero/bathroom shot first.
+  useEffect(() => {
+    if (!fd?.photoUrls?.length) return;
+    const p = fd.photoUrls;
+    if (p[0]) { PHOTO.salleBain = p[0]; PHOTO.heroWide = p[0]; }
+    if (p[1]) PHOTO.plombier = p[1];
+    if (p[2]) PHOTO.chaudiere = p[2];
+    if (p[3]) PHOTO.tuyauterie = p[3];
+    if (p[4]) PHOTO.cuisine = p[4];
+    if (p[5]) PHOTO.salleBainDesign = p[5];
+  });
 
   const root: React.CSSProperties = {
     background: C.dark,

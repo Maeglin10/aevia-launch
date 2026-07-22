@@ -236,14 +236,17 @@ export default function AIHorizonsTemplate() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeTab, setActiveTab] = useState(0); // Agenda tabs
 
-  // Fetch session data placeholder
+  // Standard session loading (matches every other template): the wizard
+  // links here as /templates/impact-321?session=<id>, and the correct
+  // endpoint is /api/sessions?id=<id> — the previous "sessionId" param and
+  // "/api/session/:id" path never matched anything, so fd was always {}.
   useEffect(() => {
     const fetchSession = async () => {
       try {
         const urlParams = new URLSearchParams(window.location.search);
-        const sessionId = urlParams.get('sessionId');
+        const sessionId = urlParams.get('session');
         if (sessionId) {
-          const res = await fetch(`/api/session/${sessionId}`);
+          const res = await fetch(`/api/sessions?id=${sessionId}`);
           if (res.ok) {
             const data = await res.json();
             setSession(data);
@@ -280,6 +283,21 @@ export default function AIHorizonsTemplate() {
   const businessName = fd?.businessName || "AI Horizons '26";
   const eventDate = fd?.eventDate || "15 - 17 Novembre 2026";
   const eventLocation = fd?.eventLocation || "Station F, Paris";
+
+  // Client-uploaded photos (uploaded in the brief) replace the stock
+  // Unsplash placeholders — hero shot and about-section image first.
+  useEffect(() => {
+    if (!fd?.photoUrls?.length) return;
+    const p = fd.photoUrls;
+    if (p[0]) PHOTOS.hero = p[0];
+    if (p[1]) PHOTOS.about = p[1];
+    for (let i = 2; i < p.length && i - 2 < PHOTOS.speakers.length; i++) {
+      if (p[i]) PHOTOS.speakers[i - 2] = p[i];
+    }
+    for (let i = 8; i < p.length && i - 8 < PHOTOS.gallery.length; i++) {
+      if (p[i]) PHOTOS.gallery[i - 8] = p[i];
+    }
+  }, [fd]);
 
   // Navigation Links
   const navLinks = [
@@ -533,14 +551,24 @@ export default function AIHorizonsTemplate() {
         borderBottom: isScrolled ? '1px solid rgba(255,255,255,0.05)' : '1px solid transparent',
         transition: 'all 0.3s ease'
       }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-          <div style={{ width: '40px', height: '40px', backgroundColor: C.primary, borderRadius: '4px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <Cpu color={C.bgDeep} size={24} />
+        {fd?.logoBase64 ? (
+          // Client logo (uploaded in the brief) replaces the placeholder mark —
+          // essential for the client to recognise their brand in the render.
+          <img
+            src={fd.logoBase64}
+            alt={businessName ?? 'logo'}
+            style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+          />
+        ) : (
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <div style={{ width: '40px', height: '40px', backgroundColor: C.primary, borderRadius: '4px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <Cpu color={C.bgDeep} size={24} />
+            </div>
+            <span style={{ fontFamily: SERIF, fontSize: '20px', fontWeight: 700, letterSpacing: '1px' }}>
+              {businessName.split(' ')[0]}<span style={{ color: C.primary }}>{businessName.substring(businessName.indexOf(' '))}</span>
+            </span>
           </div>
-          <span style={{ fontFamily: SERIF, fontSize: '20px', fontWeight: 700, letterSpacing: '1px' }}>
-            {businessName.split(' ')[0]}<span style={{ color: C.primary }}>{businessName.substring(businessName.indexOf(' '))}</span>
-          </span>
-        </div>
+        )}
 
         {/* Desktop Nav */}
         <nav style={{ display: 'none', gap: '40px', '@media (min-width: 992px)': { display: 'flex' } }} className="desktop-nav">

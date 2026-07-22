@@ -424,7 +424,7 @@ function Nav() {
             style={{ height: 28, maxWidth: 160, objectFit: 'contain', display: 'block' }}
           />
         ) : (
-          <>L&rsquo;Atelier Soie</>
+          <>{fd?.businessName ?? "L'Atelier Soie"}</>
         )}
       </a>
       <div style={linkRow} className="as-navlinks">
@@ -574,7 +574,7 @@ function Hero() {
         }}
       >
         <img
-          src={photo('1483985985-e99f93b85d2a', 2000)}
+          src={fd?.photoUrls?.[0] || photo('1483985985-e99f93b85d2a', 2000)}
           alt="Atelier de couture soie naturelle Lyon"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
@@ -1279,7 +1279,7 @@ function CraftPanel() {
             }}
           >
             <img
-              src={photo('1469334031925-4650d4192253', 900)}
+              src={fd?.photoUrls?.[1] || photo('1469334031925-4650d4192253', 900)}
               alt="Atelier L'Atelier Soie — savoir-faire lyonnais"
               loading="lazy"
               style={{

@@ -434,7 +434,7 @@ function Nav() {
         ) : (
           <>
             <span style={{ color: C.accent }}>▶</span>
-            STUDIO ATHLETIC
+            {fd?.businessName ?? "STUDIO ATHLETIC"}
           </>
         )}
       </div>
@@ -583,7 +583,7 @@ function Hero() {
         }}
       >
         <img
-          src={`${PHOTO_BASE}1534438327489-9e9a11e32e26?q=80&w=2000&auto=format&fit=crop`}
+          src={fd?.photoUrls?.[0] || `${PHOTO_BASE}1534438327489-9e9a11e32e26?q=80&w=2000&auto=format&fit=crop`}
           alt="Séance de coaching au Studio Athletic Lyon 6e"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
@@ -2115,6 +2115,26 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+
+  // Client-uploaded photos (beyond the hero, which uses index 0) replace the
+  // template's stock Unsplash photography in the editorial rows.
+  useEffect(() => {
+    if (!fd?.photoUrls?.length) return;
+    let n = 1;
+    const _photoArrays: any[] = [EDIT_ROWS];
+    _photoArrays.forEach((arr) => {
+      if (!Array.isArray(arr)) return;
+      arr.forEach((item) => {
+        if (!item || typeof item !== "object") return;
+        for (const key of ["img", "src", "image", "imgSrc", "photo"]) {
+          if (typeof item[key] === "string" && item[key].includes("images.unsplash.com")) {
+            if (fd.photoUrls[n]) item[key] = fd.photoUrls[n];
+            n++;
+          }
+        }
+      });
+    });
+  });
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {

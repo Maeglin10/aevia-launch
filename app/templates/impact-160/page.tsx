@@ -489,10 +489,23 @@ return (
            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-32 mb-60 text-white">
               <div className="lg:col-span-2">
                  <div className="flex items-center gap-6 mb-16">
-                    <div className="w-16 h-16 bg-white flex items-center justify-center">
-                      <Grid className="w-10 h-10 text-black" />
-                    </div>
-                    <span className="text-4xl font-black uppercase tracking-tighter italic">THE<span className="text-white/20">MONOLITH.</span></span>
+                    {fd?.logoBase64 ? (
+                      // Client logo (uploaded in the brief) replaces the placeholder mark
+                      <img
+                        src={fd.logoBase64}
+                        alt={fd?.businessName ?? 'logo'}
+                        style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+                      />
+                    ) : (
+                      <>
+                        <div className="w-16 h-16 bg-white flex items-center justify-center">
+                          <Grid className="w-10 h-10 text-black" />
+                        </div>
+                        <span className="text-4xl font-black uppercase tracking-tighter italic">
+                          {fd?.businessName ? fd.businessName : <>THE<span className="text-white/20">MONOLITH.</span></>}
+                        </span>
+                      </>
+                    )}
                  </div>
                  <p className="text-white/20 text-[11px] font-black uppercase tracking-[0.5em] leading-loose max-w-sm mb-20 italic">
                     "L'information est le seul monument qui ne s'effondre jamais." — Archive Monolith V.14
@@ -521,7 +534,7 @@ return (
            </div>
 
            <div className="max-w-[1600px] mx-auto border-t border-white/5 pt-16 flex flex-col md:flex-row justify-between items-center gap-16 text-[10px] font-black text-white/10 uppercase tracking-[0.6em] italic">
-              <span>© 2026 THE MONOLITH GLOBAL INFRASTRUCTURE AG. // ALL_RIGHTS_RESERVED</span>
+              <span>© 2026 {fd?.businessName ?? "THE MONOLITH"} GLOBAL INFRASTRUCTURE AG. // ALL_RIGHTS_RESERVED</span>
               <div className="flex gap-16">
                  <span>STATUS: IMMUTABLE</span>
                  <span>LATENCY: 12ms (AVG)</span>

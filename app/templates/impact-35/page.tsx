@@ -331,7 +331,7 @@ return (
                 Un espace pour chaque façon de travailler
               </h2>
               <p style={{ fontSize: 17, color: C.textMuted, maxWidth: 520, margin: "0 auto", lineHeight: 1.7 }}>
-                Du Day Pass spontané au bureau privatif permanent — Nexus Hub s'adapte à votre rythme.
+                Du Day Pass spontané au bureau privatif permanent — {fd?.businessName ?? 'Nexus Hub'} s'adapte à votre rythme.
               </p>
             </div>
           </SectionReveal>

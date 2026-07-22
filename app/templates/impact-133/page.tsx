@@ -624,8 +624,7 @@ function Nav() {
                 color: C.cream,
               }}
             >
-              FORMA
-              <span style={{ color: C.violet }}>.STUDIO</span>
+              {fd?.businessName ? fd.businessName : <>FORMA<span style={{ color: C.violet }}>.STUDIO</span></>}
             </span>
           </div>
         )}
@@ -2069,7 +2068,7 @@ function ContactFooter() {
                   letterSpacing: "0.06em",
                 }}
               >
-                FORMA<span style={{ color: C.violet }}>.STUDIO</span>
+                {fd?.businessName ? fd.businessName : <>FORMA<span style={{ color: C.violet }}>.STUDIO</span></>}
               </span>
             </div>
             <p

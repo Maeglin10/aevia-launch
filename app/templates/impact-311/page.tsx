@@ -318,6 +318,19 @@ export default function AtelierPerformanceTemplate() {
   const fd = session?.formData;
   const c = session?.generatedContent;
 
+  // Client-uploaded photos (uploaded in the brief) replace the stock
+  // Unsplash placeholders — hero shot and about-section image first.
+  useEffect(() => {
+    if (!fd?.photoUrls?.length) return;
+    const p = fd.photoUrls;
+    if (p[0]) PHOTO.hero = p[0];
+    if (p[1]) PHOTO.about = p[1];
+    if (p[2]) PHOTO.gallery1 = p[2];
+    if (p[3]) PHOTO.gallery2 = p[3];
+    if (p[4]) PHOTO.gallery3 = p[4];
+    if (p[5]) PHOTO.gallery4 = p[5];
+  }, [fd]);
+
   const businessName = fd?.businessName || "Atelier Performance";
   const heroTitle = c?.heroTitle || "L'Excellence Mécanique à l'État Pur.";
   const heroSubtitle = c?.heroSubtitle || "Spécialistes en préparation et optimisation de véhicules de prestige. Poussez les limites de votre machine avec notre expertise de pointe.";
@@ -363,7 +376,7 @@ export default function AtelierPerformanceTemplate() {
       `}} />
 
       {/* NAVIGATION */}
-      <Navigation businessName={businessName} themeColor={themeColor} />
+      <Navigation businessName={businessName} themeColor={themeColor} logoBase64={fd?.logoBase64} />
 
       {/* MAIN CONTENT */}
       <main>
@@ -1148,7 +1161,7 @@ export default function AtelierPerformanceTemplate() {
 // 4. HELPER COMPONENTS
 // ==========================================
 
-const Navigation = ({ businessName, themeColor }: { businessName: string, themeColor: string }) => {
+const Navigation = ({ businessName, themeColor, logoBase64 }: { businessName: string, themeColor: string, logoBase64?: string }) => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -1181,19 +1194,29 @@ const Navigation = ({ businessName, themeColor }: { businessName: string, themeC
           alignItems: 'center'
         }}>
           {/* Logo */}
-          <div style={{ 
-            fontFamily: SERIF, 
-            fontSize: '1.5rem', 
-            fontWeight: 800, 
-            color: C.white,
-            textTransform: 'uppercase',
-            letterSpacing: '0.1em',
-            display: 'flex',
-            alignItems: 'center'
-          }}>
-            {businessName.split(' ')[0]}
-            <span style={{ color: themeColor }}>.</span>
-          </div>
+          {logoBase64 ? (
+            // Client logo (uploaded in the brief) replaces the placeholder mark —
+            // essential for the client to recognise their brand in the render.
+            <img
+              src={logoBase64}
+              alt={businessName ?? 'logo'}
+              style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+            />
+          ) : (
+            <div style={{
+              fontFamily: SERIF,
+              fontSize: '1.5rem',
+              fontWeight: 800,
+              color: C.white,
+              textTransform: 'uppercase',
+              letterSpacing: '0.1em',
+              display: 'flex',
+              alignItems: 'center'
+            }}>
+              {businessName.split(' ')[0]}
+              <span style={{ color: themeColor }}>.</span>
+            </div>
+          )}
 
           {/* Desktop Nav */}
           <div className="hidden md:flex" style={{ display: 'flex', gap: '2rem', alignItems: 'center' }}>

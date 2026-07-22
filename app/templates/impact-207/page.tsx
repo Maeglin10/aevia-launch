@@ -249,7 +249,7 @@ function Navbar() {
               </svg>
             </div>
             <span style={{ fontWeight: 800, fontSize: 20, color: T.text, letterSpacing: "-0.02em" }}>
-              NEXUS<span style={{ color: T.accent }}>FREIGHT</span>
+              {fd?.businessName ? fd.businessName : <>NEXUS<span style={{ color: T.accent }}>FREIGHT</span></>}
             </span>
           </>
         )}
@@ -1986,7 +1986,7 @@ function Footer() {
                 </svg>
               </div>
               <span style={{ fontWeight: 800, fontSize: 18, color: T.text }}>
-                NEXUS<span style={{ color: T.accent }}>FREIGHT</span>
+                {fd?.businessName ? fd.businessName : <>NEXUS<span style={{ color: T.accent }}>FREIGHT</span></>}
               </span>
             </div>
             <p style={{ fontSize: 14, color: T.textMuted, lineHeight: 1.65, maxWidth: 280 }}>
@@ -2088,7 +2088,7 @@ function Footer() {
           }}
         >
           <span style={{ fontSize: 13, color: T.textMuted }}>
-            © 2026 NexusFreight SAS. All rights reserved.
+            © 2026 {fd?.businessName ?? "NexusFreight SAS"}. All rights reserved.
           </span>
           <div style={{ display: "flex", gap: 24 }}>
             {["Privacy Policy", "Terms of Service", "Cookie Settings"].map((item) => (

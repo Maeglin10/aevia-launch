@@ -79,7 +79,7 @@ const PHOTO = {
     'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?q=80&w=1600&auto=format&fit=crop',
   solar:
     'https://images.unsplash.com/photo-1509391366360-2e959784a276?q=80&w=1600&auto=format&fit=crop',
-} as const;
+};
 
 /* ── Easing partagé ──────────────────────────────────────────────────────── */
 const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
@@ -2773,7 +2773,7 @@ function FooterSection() {
               color: 'rgba(255,255,255,0.30)',
             }}
           >
-            © 2024 Eau &amp; Habitat Bretagne · SIRET 000 000 000 00000 ·
+            © 2024 {fd?.businessName ?? 'Eau & Habitat Bretagne'} · SIRET 000 000 000 00000 ·
             Artisan RGE · Assurance décennale souscrite
           </span>
           <div style={{ display: 'flex', gap: 24 }}>
@@ -2883,7 +2883,18 @@ function Impact290Page() {
     C = { ...C, forest: brand, forestLight: shadeColor(brand, 25) };
   }
 
-  
+  // Client-uploaded photos (uploaded in the brief) replace the stock
+  // Unsplash placeholders — hero/bathroom shot first.
+  useEffect(() => {
+    if (!fd?.photoUrls?.length) return;
+    const p = fd.photoUrls;
+    if (p[0]) PHOTO.bathroom = p[0];
+    if (p[1]) PHOTO.pac = p[1];
+    if (p[2]) PHOTO.artisan = p[2];
+    if (p[3]) PHOTO.solar = p[3];
+  });
+
+
   // Dynamic Services & Testimonials Mutation for Session Data
   useEffect(() => {
     if (c?.services) {

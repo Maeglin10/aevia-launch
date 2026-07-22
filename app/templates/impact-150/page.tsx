@@ -386,7 +386,7 @@ function Navigation() {
             letterSpacing: "0.04em",
           }}
         >
-          Alderton &amp; Sterling
+          {fd?.businessName ?? "Alderton & Sterling"}
         </span>
         <span
           style={{
@@ -1900,7 +1900,7 @@ function CtaSection() {
                 whiteSpace: "nowrap",
               }}
             >
-              Alderton &amp; Sterling LLP
+              {fd?.businessName ?? "Alderton & Sterling LLP"}
             </span>
             <div style={{ flex: 1, height: 1, backgroundColor: COLORS.stone }} />
           </div>
@@ -1952,7 +1952,7 @@ function Footer() {
                 marginBottom: 8,
               }}
             >
-              Alderton &amp; Sterling
+              {fd?.businessName ?? "Alderton & Sterling"}
             </div>
             <div
               style={{
@@ -2049,7 +2049,7 @@ function Footer() {
               letterSpacing: "0.06em",
             }}
           >
-            © 2026 Alderton &amp; Sterling LLP. Regulated by the Solicitors Regulation Authority.
+            © 2026 {fd?.businessName ?? "Alderton & Sterling LLP"}. Regulated by the Solicitors Regulation Authority.
             All rights reserved.
           </p>
           <div

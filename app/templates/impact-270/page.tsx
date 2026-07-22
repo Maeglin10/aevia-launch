@@ -431,7 +431,7 @@ function Nav() {
         ) : (
           <>
             <Feather size={18} color={C.accent} strokeWidth={1.6} />
-            Peau &amp; Plume
+            {fd?.businessName ?? "Peau & Plume"}
           </>
         )}
       </a>
@@ -582,7 +582,7 @@ function Hero() {
         }}
       >
         <img
-          src={ph('1611501579-4d7dc8532cc1', 2000)}
+          src={fd?.photoUrls?.[0] || ph('1611501579-4d7dc8532cc1', 2000)}
           alt="Tatouage nature et plumes — Peau & Plume Lille"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
@@ -1333,7 +1333,7 @@ function SafetyPanel() {
               }}
             >
               <img
-                src={ph('1567401893-56e3d64e7b2c', 900)}
+                src={fd?.photoUrls?.[1] || ph('1567401893-56e3d64e7b2c', 900)}
                 alt="Hygiène irréprochable — Peau & Plume"
                 loading="lazy"
                 style={{

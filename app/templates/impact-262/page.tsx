@@ -582,7 +582,7 @@ function Hero() {
         }}
       >
         <img
-          src={photo('1611501579-4d7dc8532cc1', 2000)}
+          src={fd?.photoUrls?.[0] || photo('1611501579-4d7dc8532cc1', 2000)}
           alt="Studio Noir Absolu — Fine Art Tattoo Paris 3e"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
           priority-hint="high"
@@ -1381,7 +1381,7 @@ function SafetyPanel() {
             }}
           >
             <img
-              src={photo('1567401893-56e3d64e7b2c', 900)}
+              src={fd?.photoUrls?.[1] || photo('1567401893-56e3d64e7b2c', 900)}
               alt="Hygiène et protocoles — Studio Noir Absolu"
               loading="lazy"
               style={{

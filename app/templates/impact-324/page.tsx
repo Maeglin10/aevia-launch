@@ -205,7 +205,20 @@ const MOCK_EVENTS = [
 
 // --- MAIN PAGE COMPONENT ---
 
-export default function Impact324TicketStore({ session }) {
+export default function Impact324TicketStore({ session: initialSession }) {
+  // Standard session loading (matches every other template): this page is
+  // never actually given a `session` prop by Next.js routing — it must fetch
+  // its own from /templates/impact-324?session=<id>, otherwise fd is always {}.
+  const [session, setSession] = useState(initialSession ?? null);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(setSession)
+      .catch(() => {});
+  }, []);
+
   const fd = session?.formData || {};
   const c = session?.generatedContent || {};
 
@@ -217,6 +230,21 @@ export default function Impact324TicketStore({ session }) {
   }
 
   const businessName = fd.businessName || "LiveTicket";
+
+  // Client-uploaded photos (uploaded in the brief) replace the stock
+  // Unsplash placeholders — hero shot and about-section image first.
+  // MOCK_EVENTS captured PHOTOS.eventN by value at module init, so its
+  // `.image` fields must also be mutated directly, not just PHOTOS itself.
+  useEffect(() => {
+    if (!fd?.photoUrls?.length) return;
+    const p = fd.photoUrls;
+    if (p[0]) { PHOTOS.hero = p[0]; if (MOCK_EVENTS[0]) MOCK_EVENTS[0].image = p[0]; }
+    if (p[1]) { PHOTOS.about = p[1]; if (MOCK_EVENTS[1]) MOCK_EVENTS[1].image = p[1]; }
+    if (p[2]) { PHOTOS.event3 = p[2]; if (MOCK_EVENTS[2]) MOCK_EVENTS[2].image = p[2]; }
+    if (p[3]) { PHOTOS.event4 = p[3]; if (MOCK_EVENTS[3]) MOCK_EVENTS[3].image = p[3]; }
+    if (p[4]) { PHOTOS.gallery[0] = p[4]; if (MOCK_EVENTS[4]) MOCK_EVENTS[4].image = p[4]; }
+    if (p[5]) { PHOTOS.gallery[1] = p[5]; if (MOCK_EVENTS[5]) MOCK_EVENTS[5].image = p[5]; }
+  }, [fd]);
   const contactEmail = fd.contactEmail || "hello@liveticket.example";
 
   // State
@@ -297,12 +325,22 @@ export default function Impact324TicketStore({ session }) {
         padding: "16px 4%"
       }}>
         <div style={{ maxWidth: 1400, margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-            <Music color={C.primary} size={28} />
-            <h1 style={{ fontFamily: SERIF, fontSize: "24px", fontWeight: 800, margin: 0, color: C.white }}>
-              {businessName.toUpperCase()}
-            </h1>
-          </div>
+          {fd?.logoBase64 ? (
+            // Client logo (uploaded in the brief) replaces the placeholder mark —
+            // essential for the client to recognise their brand in the render.
+            <img
+              src={fd.logoBase64}
+              alt={businessName ?? 'logo'}
+              style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+            />
+          ) : (
+            <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+              <Music color={C.primary} size={28} />
+              <h1 style={{ fontFamily: SERIF, fontSize: "24px", fontWeight: 800, margin: 0, color: C.white }}>
+                {businessName.toUpperCase()}
+              </h1>
+            </div>
+          )}
 
           <div style={{ display: "none", gap: "32px", alignItems: "center", '@media(minWidth: 768px)': { display: 'flex' } }}>
             {["Events", "VIP Packages", "About", "Contact"].map((item) => (

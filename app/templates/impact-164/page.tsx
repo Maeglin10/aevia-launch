@@ -434,7 +434,7 @@ return (
           />
         ) : (
           <span style={{ fontFamily: C.mono, fontSize: 14, letterSpacing: 4, textTransform: "uppercase", color: C.white, fontWeight: 700 }}>
-            BUREAU
+            {fd?.businessName ?? "BUREAU"}
           </span>
         )}
         <div id="mb164-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      {[
@@ -932,7 +932,7 @@ return (
       {/* FOOTER */}
       <footer style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr", borderBottom: `1px solid ${C.borderLight}` }}>
         <div style={{ padding: "48px 44px", borderRight: `1px solid ${C.borderLight}` }}>
-          <div style={{ fontFamily: C.mono, fontSize: 14, letterSpacing: 4, fontWeight: 700, textTransform: "uppercase", marginBottom: 12 }}>BUREAU</div>
+          <div style={{ fontFamily: C.mono, fontSize: 14, letterSpacing: 4, fontWeight: 700, textTransform: "uppercase", marginBottom: 12 }}>{fd?.businessName ?? "BUREAU"}</div>
           <div style={{ fontFamily: C.mono, fontSize: 10, color: C.textMuted, lineHeight: 1.8, letterSpacing: 1 }}>
             Agence créative indépendante.<br />Paris 11e, France.<br />{fd?.email ?? "hello@bureau.co"}</div>
         </div>

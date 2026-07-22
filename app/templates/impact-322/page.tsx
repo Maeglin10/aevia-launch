@@ -150,6 +150,19 @@ export default function Impact322() {
   
   const { scrollY } = useScroll();
 
+  // Standard session loading (matches every other template): the wizard
+  // links here as /templates/impact-322?session=<id>, not via sessionStorage.
+  // Without this, fd.logoBase64 / fd.photoUrls / fd.businessName never
+  // receive real data outside of a same-tab sessionStorage fallback.
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(setSession)
+      .catch(() => {});
+  }, []);
+
   useEffect(() => {
     setMounted(true);
     // Simulate fetching session
@@ -176,6 +189,24 @@ export default function Impact322() {
   const c = session?.generatedContent || {};
 
   const brandColor = fd?.brandColor || DEFAULT_BRAND_COLOR;
+
+  // Client-uploaded photos (uploaded in the brief) replace the stock
+  // Unsplash placeholders — hero shot and about-section image first.
+  useEffect(() => {
+    if (!fd?.photoUrls?.length) return;
+    const p = fd.photoUrls;
+    if (p[0]) PHOTOS.hero = p[0];
+    if (p[1]) PHOTOS.about = p[1];
+    if (p[2]) PHOTOS.service1 = p[2];
+    if (p[3]) PHOTOS.service2 = p[3];
+    if (p[4]) PHOTOS.service3 = p[4];
+    if (p[5]) PHOTOS.gallery1 = p[5];
+    if (p[6]) PHOTOS.gallery2 = p[6];
+    if (p[7]) PHOTOS.gallery3 = p[7];
+    if (p[8]) PHOTOS.gallery4 = p[8];
+    if (p[9]) PHOTOS.gallery5 = p[9];
+    if (p[10]) PHOTOS.gallery6 = p[10];
+  }, [fd]);
   
   const C = {
     primary: brandColor,
@@ -253,9 +284,19 @@ export default function Impact322() {
       >
         <div className="max-w-7xl mx-auto px-6 md:px-12 flex justify-between items-center">
           <div className="flex-shrink-0 z-50">
-            <span style={{ fontFamily: SERIF, fontSize: '1.5rem', fontWeight: 600, color: C.white }}>
-              {fd?.businessName || "Agence Prestige"}
-            </span>
+            {fd?.logoBase64 ? (
+              // Client logo (uploaded in the brief) replaces the placeholder mark —
+              // essential for the client to recognise their brand in the render.
+              <img
+                src={fd.logoBase64}
+                alt={fd?.businessName ?? 'logo'}
+                style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+              />
+            ) : (
+              <span style={{ fontFamily: SERIF, fontSize: '1.5rem', fontWeight: 600, color: C.white }}>
+                {fd?.businessName || "Agence Prestige"}
+              </span>
+            )}
           </div>
 
           <nav className="hidden md:flex items-center gap-10">

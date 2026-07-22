@@ -479,7 +479,7 @@ function Hero() {
             maxWidth: 490,
           }}
         >
-          Smile Studio est le cabinet dentaire de référence à Paris 8e. Soins de pointe,
+          {fd?.businessName ?? "Smile Studio"} est le cabinet dentaire de référence à Paris 8e. Soins de pointe,
           technologies dernière génération et équipe bienveillante pour des résultats
           qui transforment votre vie.
         </motion.p>
@@ -1397,7 +1397,7 @@ function Footer() {
       </div>
 
       <div style={{ borderTop: "1px solid rgba(255,255,255,0.1)", paddingTop: 24, display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 12 }}>
-        <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 14 }}>© 2025 Smile Studio. Tous droits réservés.</p>
+        <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 14 }}>© 2025 {fd?.businessName ?? "Smile Studio"}. Tous droits réservés.</p>
         <div style={{ display: "flex", gap: 20 }}>
           {["Mentions légales", "Confidentialité", "RGPD"].map((link) => (
             <a key={link} href="/templates/impact-30" style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, textDecoration: "none" }}>{link}</a>

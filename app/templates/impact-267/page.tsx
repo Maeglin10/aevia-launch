@@ -426,7 +426,7 @@ function Nav() {
         ) : (
           <>
             <PenLine size={18} color={C.accent} strokeWidth={1.5} />
-            Atelier Encre Vivante
+            {fd?.businessName ?? "Atelier Encre Vivante"}
           </>
         )}
       </a>
@@ -580,7 +580,7 @@ function Hero() {
         }}
       >
         <img
-          src={`${PHOTO_BASE}1611501579-4d7dc8532cc1?q=80&w=2000&auto=format&fit=crop`}
+          src={fd?.photoUrls?.[0] || `${PHOTO_BASE}1611501579-4d7dc8532cc1?q=80&w=2000&auto=format&fit=crop`}
           alt="Artiste en train de tatouer un motif géométrique"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
@@ -1341,7 +1341,7 @@ function SafetyPanel() {
             }}
           >
             <img
-              src={`${PHOTO_BASE}1567401893-56e3d64e7b2c?q=80&w=900&auto=format&fit=crop`}
+              src={fd?.photoUrls?.[1] || `${PHOTO_BASE}1567401893-56e3d64e7b2c?q=80&w=900&auto=format&fit=crop`}
               alt="Poste de travail stérilisé — Atelier Encre Vivante"
               loading="lazy"
               style={{

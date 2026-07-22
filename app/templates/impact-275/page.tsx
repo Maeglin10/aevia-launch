@@ -492,7 +492,7 @@ function HeroSection() {
         }}
       >
         <img
-          src={PHOTO.tribunal}
+          src={fd?.photoUrls?.[0] || PHOTO.tribunal}
           alt="Bibliothèque juridique, Cabinet Faure Marseille"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
           loading="eager"
@@ -1298,7 +1298,7 @@ function ProcessSection() {
               }}
             >
               <img
-                src={PHOTO.avocate}
+                src={fd?.photoUrls?.[1] || PHOTO.avocate}
                 alt="Maître Isabelle Faure, avocate droit de la famille Marseille"
                 style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                 loading="lazy"

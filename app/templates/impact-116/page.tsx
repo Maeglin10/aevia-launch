@@ -247,7 +247,7 @@ export default function KineticStudio() {
         </div>
         <div className="relative z-10 text-center max-w-4xl mx-auto px-6">
           <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="text-6xl md:text-8xl font-bold mb-6">{c?.heroHeadline ?? <>
-            KINETIC
+            {fd?.businessName ?? "KINETIC"}
           </>}</motion.h1>
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }} className="text-xl md:text-2xl font-light">{c?.heroSubline ?? fd?.tagline ?? <>
             Motion Design & Animation Studio
@@ -476,7 +476,7 @@ export default function KineticStudio() {
 
       <section id="realisations" className="py-24 px-6 md:px-12 bg-[#1a1a2e]">
         <Reveal>
-          <h2 className="text-5xl font-light mb-12" style={{color: brand ?? '#ff5500' }}>About KINETIC</h2>
+          <h2 className="text-5xl font-light mb-12" style={{color: brand ?? '#ff5500' }}>About {fd?.businessName ?? "KINETIC"}</h2>
         </Reveal>
         <div className="max-w-3xl mx-auto">
           <Reveal>

@@ -364,7 +364,7 @@ function Nav() {
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
                   }}><TemplateIcon emoji="🚚" size={18} color="#fff" /></div>
                   <span style={{ fontFamily: C.fontDisplay, fontWeight: 800, fontSize: 18, color: C.text }}>
-                    Meridian<span style={{ color: C.accent }}>Freight</span>
+                    {fd?.businessName ?? (<>Meridian<span style={{ color: C.accent }}>Freight</span></>)}
                   </span>
                 </>
               )}
@@ -1645,7 +1645,7 @@ function Footer() {
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                 }}><TemplateIcon emoji="🚚" size={19} color="#fff" /></div>
                 <span style={{ fontFamily: C.fontDisplay, fontWeight: 800, fontSize: 19, color: C.text }}>
-                  Meridian<span style={{ color: C.accent }}>Freight</span>
+                  {fd?.businessName ?? (<>Meridian<span style={{ color: C.accent }}>Freight</span></>)}
                 </span>
               </a>
               <p style={{ fontFamily: C.fontBody, fontSize: 13, color: C.textMuted, lineHeight: 1.8, marginBottom: 24 }}>

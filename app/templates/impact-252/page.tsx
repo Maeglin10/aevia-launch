@@ -410,7 +410,7 @@ function Nav() {
           />
         ) : (
           <>
-            Smile&nbsp;&amp;&nbsp;Co
+            {fd?.businessName ?? "Smile & Co"}
             <span style={dot} />
           </>
         )}
@@ -569,7 +569,7 @@ function Hero() {
         }}
       >
         <img
-          src={unsplash('1598300402640-cf52ea77e6da', 2000)}
+          src={fd?.photoUrls?.[0] || unsplash('1598300402640-cf52ea77e6da', 2000)}
           alt="Cabinet dentaire Smile & Co Lyon 6e"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
           priority-fetch="high"
@@ -1165,7 +1165,7 @@ function EditRow({ row, romanIndex }: { row: EditRow; romanIndex: string }) {
       </span>
       <Reveal y={50} style={imgWrap}>
         <ParallaxImg
-          src={unsplash(row.imgId, 800)}
+          src={(romanIndex === 'I' && fd?.photoUrls?.[1]) || unsplash(row.imgId, 800)}
           alt={row.eyebrow}
         />
       </Reveal>

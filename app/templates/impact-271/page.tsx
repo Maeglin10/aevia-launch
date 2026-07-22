@@ -575,7 +575,7 @@ function Hero() {
         }}
       >
         <img
-          src={`https://images.unsplash.com/photo-1578662996442-48f60103fc96?q=80&w=2000&auto=format&fit=crop`}
+          src={fd?.photoUrls?.[0] || `https://images.unsplash.com/photo-1578662996442-48f60103fc96?q=80&w=2000&auto=format&fit=crop`}
           alt="Jardin alsacien fleuri par Jardins d'Alsace"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
@@ -1312,7 +1312,7 @@ function SeasonPanel() {
             }}
           >
             <img
-              src={`https://images.unsplash.com/photo-1578662996442-48f60103fc96?q=80&w=900&auto=format&fit=crop`}
+              src={fd?.photoUrls?.[1] || `https://images.unsplash.com/photo-1578662996442-48f60103fc96?q=80&w=900&auto=format&fit=crop`}
               alt="Jardin alsacien en automne"
               loading="lazy"
               style={{

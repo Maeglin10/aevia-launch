@@ -400,7 +400,7 @@ function Nav() {
         ) : (
           <>
             <Leaf size={18} color={C.accent} strokeWidth={1.5} />
-            Atelier Terra
+            {fd?.businessName ?? "Atelier Terra"}
           </>
         )}
       </a>
@@ -552,7 +552,7 @@ function Hero() {
         }}
       >
         <img
-          src={photo('1558618047-b62e0e6e8517', 2000)}
+          src={fd?.photoUrls?.[0] || photo('1558618047-b62e0e6e8517', 2000)}
           alt="Jardin formel conçu par Atelier Terra à Nantes"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
@@ -1961,6 +1961,26 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+
+  // Client-uploaded photos (beyond the hero, which uses index 0) replace the
+  // template's stock Unsplash photography in the editorial rows.
+  useEffect(() => {
+    if (!fd?.photoUrls?.length) return;
+    let n = 1;
+    const _photoArrays: any[] = [EDIT_ROWS];
+    _photoArrays.forEach((arr) => {
+      if (!Array.isArray(arr)) return;
+      arr.forEach((item) => {
+        if (!item || typeof item !== "object") return;
+        for (const key of ["img", "src", "image", "imgSrc", "photo"]) {
+          if (typeof item[key] === "string" && item[key].includes("images.unsplash.com")) {
+            if (fd.photoUrls[n]) item[key] = fd.photoUrls[n];
+            n++;
+          }
+        }
+      });
+    });
+  });
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 

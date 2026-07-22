@@ -313,7 +313,20 @@ export default function PlumberDarkUrgent() {
   
   const [services, setServices] = useState(FALLBACK_SERVICES);
   const [testimonials, setTestimonials] = useState(FALLBACK_TESTIMONIALS);
-  
+
+  // Standard session loading (matches every other template): the wizard
+  // links here as /templates/impact-313?session=<id>, not via localStorage.
+  // Without this, fd.logoBase64 / fd.photoUrls / fd.businessName below never
+  // receive real data outside of a same-browser localStorage fallback.
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(setSession)
+      .catch(() => {});
+  }, []);
+
   // Try to load session from local storage or window
   useEffect(() => {
     try {
@@ -367,7 +380,20 @@ export default function PlumberDarkUrgent() {
   
   const heroTitle = c.heroTitle || "DÉPANNAGE PLOMBERIE D'URGENCE EN 30 MIN";
   const heroSubtitle = c.heroSubtitle || "Fuite d'eau, débouchage, panne de chauffe-eau. Interventions 24h/24 et 7j/7 par des artisans qualifiés.";
-  
+
+  // Client-uploaded photos (uploaded in the brief) replace the stock
+  // Unsplash placeholders — hero shot first.
+  useEffect(() => {
+    if (!fd?.photoUrls?.length) return;
+    const p = fd.photoUrls;
+    if (p[0]) { PHOTO.hero = p[0]; PHOTO.gallery[0] = p[0]; }
+    if (p[1]) { PHOTO.worker1 = p[1]; PHOTO.gallery[1] = p[1]; }
+    if (p[2]) { PHOTO.worker2 = p[2]; PHOTO.gallery[2] = p[2]; }
+    if (p[3]) { PHOTO.tools = p[3]; PHOTO.gallery[3] = p[3]; }
+    if (p[4]) { PHOTO.pipe = p[4]; PHOTO.gallery[4] = p[4]; }
+    if (p[5]) PHOTO.gallery[5] = p[5];
+  }, [fd]);
+
   const { scrollYProgress } = useScroll();
   const yHero = useTransform(scrollYProgress, [0, 1], [0, 300]);
 
@@ -470,31 +496,43 @@ export default function PlumberDarkUrgent() {
             gap: "0.5rem",
             textDecoration: "none"
           }}>
-            <div style={{
-              width: "40px",
-              height: "40px",
-              backgroundColor: C.primary,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              borderRadius: "4px",
-              transform: "rotate(-10deg)"
-            }}>
-              <Wrench color={C.white} size={24} />
-            </div>
-            <span style={{
-              fontFamily: SERIF,
-              fontSize: "1.75rem",
-              fontWeight: 700,
-              color: C.white,
-              lineHeight: 1,
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center"
-            }}>
-              {businessName.split(" ").slice(0,2).join(" ")}
-              <span style={{ color: C.primary, fontSize: "1rem" }}>{businessName.split(" ").slice(2).join(" ")}</span>
-            </span>
+            {fd?.logoBase64 ? (
+              // Client logo (uploaded in the brief) replaces the placeholder mark —
+              // essential for the client to recognise their brand in the render.
+              <img
+                src={fd.logoBase64}
+                alt={businessName ?? 'logo'}
+                style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+              />
+            ) : (
+              <>
+                <div style={{
+                  width: "40px",
+                  height: "40px",
+                  backgroundColor: C.primary,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  borderRadius: "4px",
+                  transform: "rotate(-10deg)"
+                }}>
+                  <Wrench color={C.white} size={24} />
+                </div>
+                <span style={{
+                  fontFamily: SERIF,
+                  fontSize: "1.75rem",
+                  fontWeight: 700,
+                  color: C.white,
+                  lineHeight: 1,
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center"
+                }}>
+                  {businessName.split(" ").slice(0,2).join(" ")}
+                  <span style={{ color: C.primary, fontSize: "1rem" }}>{businessName.split(" ").slice(2).join(" ")}</span>
+                </span>
+              </>
+            )}
           </a>
 
           {/* Desktop Nav */}

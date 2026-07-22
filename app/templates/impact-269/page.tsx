@@ -449,7 +449,7 @@ function Nav() {
             style={{ height: 28, maxWidth: 160, objectFit: 'contain', display: 'block' }}
           />
         ) : (
-          "Boulangerie des Chartrons"
+          fd?.businessName ?? "Boulangerie des Chartrons"
         )}
       </div>
       <div style={linkRow} className="bc-navlinks">
@@ -599,7 +599,7 @@ function Hero() {
         }}
       >
         <img
-          src={photo('1509440159258-1c1c3e5f3f5b', 2000)}
+          src={fd?.photoUrls?.[0] || photo('1509440159258-1c1c3e5f3f5b', 2000)}
           alt="Devanture de la Boulangerie des Chartrons à Bordeaux"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
@@ -1305,7 +1305,7 @@ function CraftPanel() {
             }}
           >
             <img
-              src={photo('1549931319-a545dcf3bc7b', 900)}
+              src={fd?.photoUrls?.[1] || photo('1549931319-a545dcf3bc7b', 900)}
               alt="Pains artisanaux en cuisson au four à sole"
               loading="lazy"
               style={{

@@ -496,8 +496,8 @@ return (
               marginBottom: "1.5rem",
             }}
           >
-            Vous avez<br />
-            <span style={{ color: C.amber }}>un projet ?</span>
+            {c?.aboutTitle ?? fd?.businessName ?? <>Vous avez<br />
+            <span style={{ color: C.amber }}>un projet ?</span></>}
           </motion.h2>
 
           <motion.p

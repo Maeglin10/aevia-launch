@@ -877,7 +877,7 @@ function Footer() {
             <div style={{ width: 38, height: 38, background: C.accent, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>
               <Leaf size={20} color={C.white} />
             </div>
-            <span style={{ fontFamily: FONT_HEADING, fontWeight: 700, fontSize: 21 }}>AnandaFlow</span>
+            <span style={{ fontFamily: FONT_HEADING, fontWeight: 700, fontSize: 21 }}>{fd?.businessName ?? 'AnandaFlow'}</span>
           </div>
           <p style={{ color: "rgba(255,255,255,0.58)", fontSize: 15, lineHeight: 1.65, marginBottom: 24 }}>
             Studio de yoga et méditation au cœur de Lyon. Un espace chaleureux pour trouver la paix intérieure et cultiver votre équilibre.

@@ -222,7 +222,7 @@ export default function PulseAppPage() {
                 <div className="w-8 h-8 bg-[#6366F1] rounded-lg flex items-center justify-center">
                   <Zap className="w-4 h-4 text-white" />
                 </div>
-                <span className="text-lg font-700 font-bold">Pulse</span>
+                <span className="text-lg font-700 font-bold">{fd?.businessName ?? "Pulse"}</span>
               </>
             )}
           </div>
@@ -257,7 +257,7 @@ export default function PulseAppPage() {
                 ) : (
                   <>
                     <div className="w-8 h-8 bg-[#6366F1] rounded-lg flex items-center justify-center"><Zap className="w-4 h-4 text-white" /></div>
-                    <span className="text-lg font-bold">Pulse</span>
+                    <span className="text-lg font-bold">{fd?.businessName ?? "Pulse"}</span>
                   </>
                 )}
               </div>
@@ -589,7 +589,7 @@ export default function PulseAppPage() {
             <div className="md:col-span-2">
               <div className="flex items-center gap-2 mb-4">
                 <div className="w-8 h-8 bg-[#6366F1] rounded-lg flex items-center justify-center"><Zap className="w-4 h-4 text-white" /></div>
-                <span className="text-white font-bold text-lg">Pulse</span>
+                <span className="text-white font-bold text-lg">{fd?.businessName ?? "Pulse"}</span>
               </div>
               <p className="text-sm leading-relaxed max-w-xs">La plateforme mobile qui connecte votre équipe, vos données et vos décisions.</p>
             </div>
@@ -601,7 +601,7 @@ export default function PulseAppPage() {
             ))}
           </div>
           <div className="pt-8 border-t border-[#1a1740] flex flex-col md:flex-row justify-between gap-4 text-xs">
-            <span>© 2024 Pulse · Tous droits réservés</span>
+            <span>© 2024 {fd?.businessName ?? "Pulse"} · Tous droits réservés</span>
             <div className="flex gap-6">
               {["Confidentialité", "CGU", "Cookies"].map(l => <Link key={l} href="#fonctionnalités" className="hover:text-white transition-colors cursor-pointer">{l}</Link>)}
             </div>

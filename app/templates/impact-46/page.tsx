@@ -62,7 +62,7 @@ function HeroSection() {
             transition={{ duration: 0.8, delay: 0.7 }}
             style={{ fontFamily: "'Source Sans Pro', system-ui", fontSize: 18, color: "rgba(255,255,255,0.65)", lineHeight: 1.7, maxWidth: 480, marginBottom: 48 }}
           >
-            Dumont & Associates is a boutique Parisian law firm specialising in corporate law, M&A, IP, and commercial litigation. We partner with founders, boards, and executives who demand the highest standard of legal counsel.
+            {fd?.businessName ?? "Dumont & Associates"} is a boutique Parisian law firm specialising in corporate law, M&A, IP, and commercial litigation. We partner with founders, boards, and executives who demand the highest standard of legal counsel.
           </motion.p>
 
           <motion.div

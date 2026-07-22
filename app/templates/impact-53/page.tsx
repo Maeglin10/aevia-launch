@@ -300,7 +300,7 @@ return (
       <section style={{ background: C.red, padding: "10rem 2.5rem", textAlign: "center" }}>
         <div style={{ maxWidth: "800px", margin: "0 auto" }}>
           <div style={{ fontFamily: FONT_MONO, fontSize: "0.6rem", color: "rgba(0,0,0,0.5)", letterSpacing: "0.4em", textTransform: "uppercase", marginBottom: "2rem" }}>NEW BRIEF</div>
-          <h2 style={{ fontFamily: FONT_SYNE, fontWeight: 900, fontSize: "clamp(3rem,8vw,7rem)", color: C.black, textTransform: "uppercase", lineHeight: 0.95, marginBottom: "3rem", letterSpacing: "-0.02em" }}>LET'S BUILD<br />SOMETHING<br />WRONG.</h2>
+          <h2 style={{ fontFamily: FONT_SYNE, fontWeight: 900, fontSize: "clamp(3rem,8vw,7rem)", color: C.black, textTransform: "uppercase", lineHeight: 0.95, marginBottom: "3rem", letterSpacing: "-0.02em" }}>{c?.aboutTitle ?? fd?.businessName ?? <>LET'S BUILD<br />SOMETHING<br />WRONG.</>}</h2>
           <p style={{ fontFamily: FONT_MONO, fontSize: "0.8rem", color: "rgba(0,0,0,0.5)", lineHeight: 1.9, marginBottom: "3.5rem", letterSpacing: "0.05em" }}>
             We work with a limited number of clients per quarter.<br />
             If you have a brief that scares you a little, we want to hear it.

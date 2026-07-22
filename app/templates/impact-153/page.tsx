@@ -1989,7 +1989,7 @@ function Navigation() {
                 <polygon points="16,4 28,26 4,26" fill={C.accent} />
                 <polygon points="16,10 24,26 8,26" fill={C.bg} />
               </svg>
-              ATLAS<span style={{ color: C.accent }}>EXP</span>
+              {fd?.businessName ? fd.businessName : <>ATLAS<span style={{ color: C.accent }}>EXP</span></>}
             </>
           )}
         </Link>
@@ -2143,7 +2143,7 @@ function Footer() {
                 <polygon points="16,4 28,26 4,26" fill={C.accent} />
                 <polygon points="16,10 24,26 8,26" fill="#060809" />
               </svg>
-              ATLAS<span style={{ color: C.accent }}>EXP</span>
+              {fd?.businessName ? fd.businessName : <>ATLAS<span style={{ color: C.accent }}>EXP</span></>}
             </div>
             <p
               style={{

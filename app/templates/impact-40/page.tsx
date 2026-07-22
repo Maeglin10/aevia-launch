@@ -1241,7 +1241,7 @@ export default function TerreVivantePage() {
             }}
           >
             <p style={{ fontFamily: C.bodyFont, fontSize: "0.8rem", color: "rgba(253,249,238,0.3)" }}>
-              © 2026 Terre Vivante SARL. Tous droits réservés. SIRET 422 890 123 00034.
+              © 2026 {fd?.businessName ?? "Terre Vivante"} SARL. Tous droits réservés. SIRET 422 890 123 00034.
             </p>
             <div style={{ display: "flex", gap: "1.75rem" }}>
               {["Mentions légales", "Confidentialité", "CGV"].map((l) => (

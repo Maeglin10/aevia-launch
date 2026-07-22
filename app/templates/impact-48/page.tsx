@@ -360,7 +360,7 @@ function HeroSection() {
               letterSpacing: '0.01em',
             }}
           >
-            Atelier Moreau·Leroy is a Paris-based architecture and urbanism studio. We design buildings, cities, and interiors that resist the ordinary and endure beyond fashion.
+            {fd?.businessName ?? "Atelier Moreau·Leroy"} is a Paris-based architecture and urbanism studio. We design buildings, cities, and interiors that resist the ordinary and endure beyond fashion.
           </motion.p>
 
           <motion.div

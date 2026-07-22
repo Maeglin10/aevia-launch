@@ -110,15 +110,19 @@ export default function Impact52Page() {
   }, [c]);
 
   const glitchChars = "!@#$%^&*<>?/|\\[]{}";
-  const heroWord = "PARTICLE";
+  // Client business name (uploaded in the brief) replaces the demo studio
+  // name "PARTICLE FIELD" in the glitching hero title.
+  const bizWords = fd?.businessName ? fd.businessName.toUpperCase().split(" ") : null;
+  const heroWord = bizWords ? bizWords[0] : "PARTICLE";
+  const heroWord2 = bizWords ? (bizWords.slice(1).join(" ") || bizWords[0]) : "FIELD";
   const glitchedWord =
     tick % 40 < 3
       ? heroWord
           .split("")
-          .map((c) =>
+          .map((ch: string) =>
             Math.random() > 0.7
               ? glitchChars[Math.floor(Math.random() * glitchChars.length)]
-              : c
+              : ch
           )
           .join("")
       : heroWord;
@@ -297,7 +301,7 @@ export default function Impact52Page() {
                 marginBottom: "1.5rem",
               }}
             >
-              FIELD
+              {heroWord2}
             </div>
           </motion.div>
 

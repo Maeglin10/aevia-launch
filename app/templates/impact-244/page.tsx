@@ -595,7 +595,7 @@ function Hero() {
         }}
       >
         <img
-          src={`https://images.unsplash.com/photo-1478146896981-b80fe463b330?q=80&w=2000&auto=format&fit=crop`}
+          src={fd?.photoUrls?.[0] || `https://images.unsplash.com/photo-1478146896981-b80fe463b330?q=80&w=2000&auto=format&fit=crop`}
           alt="Cérémonie de mariage romantique fleurie"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
@@ -1309,7 +1309,7 @@ function FloralPanel() {
             }}
           >
             <img
-              src={`https://images.unsplash.com/photo-1478146896981-b80fe463b330?q=80&w=900&auto=format&fit=crop`}
+              src={fd?.photoUrls?.[1] || `https://images.unsplash.com/photo-1478146896981-b80fe463b330?q=80&w=900&auto=format&fit=crop`}
               alt="Bouquet de mariée artisanal"
               loading="lazy"
               style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}

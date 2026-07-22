@@ -408,7 +408,7 @@ function Nav() {
         ) : (
           <>
             <Heart size={18} color={C.accent} strokeWidth={2} fill={C.accent} />
-            Dr.&nbsp;Beaumont
+            {fd?.businessName ?? "Dr. Beaumont"}
           </>
         )}
       </a>
@@ -559,7 +559,7 @@ function Hero() {
         }}
       >
         <img
-          src={photoUrl('1559757148-5c350d0d3c56', 2000)}
+          src={fd?.photoUrls?.[0] || photoUrl('1559757148-5c350d0d3c56', 2000)}
           alt="Consultation médicale avec le Dr. Beaumont"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
@@ -1363,7 +1363,7 @@ function PreventionPanel() {
             }}
           >
             <img
-              src={photoUrl('1551601651-2a8158c5a73e', 900)}
+              src={fd?.photoUrls?.[1] || photoUrl('1551601651-2a8158c5a73e', 900)}
               alt="Médecine préventive — cabinet Dr. Beaumont"
               loading="lazy"
               style={{

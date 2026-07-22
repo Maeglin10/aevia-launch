@@ -91,7 +91,7 @@ const PHOTO = {
     'https://images.unsplash.com/photo-1559839914-17aae19cec71?q=80&w=800&auto=format&fit=crop',
   massage:
     'https://images.unsplash.com/photo-1519823551278-64ac92734fb1?q=80&w=1600&auto=format&fit=crop',
-} as const;
+};
 
 /* ── Easing partagé ──────────────────────────────────────────────────────── */
 const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
@@ -3029,7 +3029,7 @@ function FooterSection() {
               color: 'rgba(255,255,255,0.40)',
             }}
           >
-            © 2025 Kinésithérapie du Languedoc — Tous droits réservés
+            © 2025 {fd?.businessName ?? 'Kinésithérapie du Languedoc'} — Tous droits réservés
           </p>
           <div style={{ display: 'flex', gap: 20 }}>
             {[
@@ -3129,7 +3129,21 @@ function Impact283Page() {
     C = { ...C, blue: brand, blueLight: shadeColor(brand, 25) };
   }
 
-  
+  // Client-uploaded photos (uploaded in the brief) replace the stock
+  // Unsplash placeholders — hero/cabinet shot and therapist portrait first.
+  useEffect(() => {
+    if (!fd?.photoUrls?.length) return;
+    const p = fd.photoUrls;
+    if (p[0]) PHOTO.cabinet = p[0];
+    if (p[1]) PHOTO.reeducation = p[1];
+    if (p[2]) PHOTO.therapeute = p[2];
+    if (p[3]) PHOTO.massage = p[3];
+    if (p[4]) PHOTO.team1 = p[4];
+    if (p[5]) PHOTO.team2 = p[5];
+    if (p[6]) PHOTO.team3 = p[6];
+  });
+
+
   // Dynamic Services & Testimonials Mutation for Session Data
   useEffect(() => {
     if (c?.services) {

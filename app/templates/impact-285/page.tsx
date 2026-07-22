@@ -87,7 +87,7 @@ const PHOTO = {
     'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?q=80&w=1600&auto=format&fit=crop',
   vaccination:
     'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=1600&auto=format&fit=crop',
-} as const;
+};
 
 /* ── Easing partagé ──────────────────────────────────────────────────────── */
 const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
@@ -1147,7 +1147,7 @@ function ConsultationSection() {
                 fontWeight: 600,
               }}
             >
-              Dr. Marc Lecomte
+              {fd?.businessName ?? 'Dr. Marc Lecomte'}
             </div>
             <div
               style={{
@@ -1525,7 +1525,7 @@ function RdvFormSection() {
           >
             Consulter{' '}
             <span style={{ fontStyle: 'italic', color: C.salmonLight }}>
-              le Dr. Lecomte
+              {fd?.businessName ?? 'le Dr. Lecomte'}
             </span>
           </h2>
         </Reveal>
@@ -2496,7 +2496,7 @@ function FooterSection() {
             }}
           >
             <Stethoscope size={20} color={C.salmon} strokeWidth={1.8} />
-            Dr. M. Lecomte
+            {fd?.businessName ?? 'Dr. M. Lecomte'}
           </div>
           <div
             style={{
@@ -2663,7 +2663,7 @@ function FooterSection() {
         }}
       >
         <span>
-          © 2026 Dr. Marc Lecomte · RPPS 10&nbsp;987&nbsp;654&nbsp;321 ·
+          © 2026 {fd?.businessName ?? 'Dr. Marc Lecomte'} · RPPS 10&nbsp;987&nbsp;654&nbsp;321 ·
           Conseil de l'Ordre des Médecins de Loire-Atlantique · Nantes Centre
         </span>
         <span style={{ display: 'flex', gap: 20 }}>
@@ -2730,6 +2730,17 @@ function Impact285Page() {
   if (brand) {
     C = { ...C, salmon: brand, salmonLight: shadeColor(brand, 25) };
   }
+
+  // Client-uploaded photos (uploaded in the brief) replace the stock
+  // Unsplash placeholders — hero/consultation and the doctor portrait first.
+  useEffect(() => {
+    if (!fd?.photoUrls?.length) return;
+    const p = fd.photoUrls;
+    if (p[0]) { PHOTO.consultation = p[0]; PHOTO.heroWide = p[0]; }
+    if (p[1]) PHOTO.medecin = p[1];
+    if (p[2]) { PHOTO.stethoscope = p[2]; PHOTO.bilan = p[2]; }
+    if (p[3]) { PHOTO.cabinet = p[3]; PHOTO.vaccination = p[3]; }
+  });
 
   const root: React.CSSProperties = {
     background: C.linen,

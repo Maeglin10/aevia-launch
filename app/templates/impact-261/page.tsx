@@ -563,7 +563,7 @@ function Hero() {
         }}
       >
         <img
-          src={photo('1554224155-6726b3ff858f', 2000)}
+          src={fd?.photoUrls?.[0] || photo('1554224155-6726b3ff858f', 2000)}
           alt="Cabinet Axiom Conseil Bordeaux"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
@@ -1279,7 +1279,7 @@ function PillarPanel() {
             }}
           >
             <img
-              src={photo('1551135049-8a33b5883817', 900)}
+              src={fd?.photoUrls?.[1] || photo('1551135049-8a33b5883817', 900)}
               alt="L'équipe Axiom Conseil Bordeaux"
               loading="lazy"
               style={{

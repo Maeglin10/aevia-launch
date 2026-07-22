@@ -374,9 +374,7 @@ function BlueprintHero() {
             letterSpacing: '-0.02em',
           }}
         >
-          FERRETTI
-          <br />
-          <span style={{ color: C.yellow }}>CONSTRUCTION</span>
+          {fd?.businessName ? fd.businessName : <>FERRETTI<br /><span style={{ color: C.yellow }}>CONSTRUCTION</span></>}
         </motion.h1>
 
         <motion.p
@@ -1865,7 +1863,7 @@ function Footer() {
             color: C.cream,
             marginBottom: 6,
           }}>
-            FERRETTI <span style={{ color: C.yellow }}>CONSTRUCTION</span>
+            {fd?.businessName ? fd.businessName : <>FERRETTI <span style={{ color: C.yellow }}>CONSTRUCTION</span></>}
           </div>
           <div style={{
             fontFamily: 'monospace',
@@ -1907,7 +1905,7 @@ function Footer() {
           color: C.creamDim,
           opacity: 0.5,
         }}>
-          © 2024 Ferretti Construction. SIRET 123 456 789 00010
+          © 2024 {fd?.businessName ?? "Ferretti Construction"}. SIRET 123 456 789 00010
         </div>
       </div>
     </footer>
@@ -1967,7 +1965,7 @@ function Nav() {
             color: C.cream,
             letterSpacing: '-0.02em',
           }}>
-            FERRETTI <span style={{ color: C.yellow }}>▲</span>
+            {fd?.businessName ? fd.businessName : <>FERRETTI <span style={{ color: C.yellow }}>▲</span></>}
           </div>
         )}
       </a>

@@ -449,7 +449,7 @@ function Hero() {
       {/* Parallax image */}
       <motion.div className="absolute inset-0 z-0" style={{ y: yImg }}>
         <Image
-          src="https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?q=80&w=1920&auto=format&fit=crop"
+          src={photo(0, "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?q=80&w=1920&auto=format&fit=crop")}
           alt="Bijoux Aurelia"
           fill
           className="object-cover opacity-30"
@@ -656,7 +656,7 @@ function CollectionsSection() {
                   {/* Image */}
                   <div className="relative aspect-[3/4] overflow-hidden mb-6" style={{ backgroundColor: C.creamSoft }}>
                     <Image
-                      src={`https://images.unsplash.com/${piece.img}?q=80&w=600&auto=format&fit=crop`}
+                      src={photo(2 + i, `https://images.unsplash.com/${piece.img}?q=80&w=600&auto=format&fit=crop`)}
                       alt={piece.name}
                       fill
                       className="object-cover transition-transform duration-700 group-hover:scale-105"
@@ -942,7 +942,7 @@ function AteliersSection() {
           <Reveal x={-40} y={0}>
             <div className="relative aspect-[4/5] overflow-hidden">
               <Image
-                src="https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?q=80&w=800&auto=format&fit=crop"
+                src={photo(1, "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?q=80&w=800&auto=format&fit=crop")}
                 alt="Atelier Aurelia"
                 fill
                 className="object-cover"
@@ -1723,6 +1723,11 @@ function Footer() {
 
 // Global state variables for subpage compatibility
 let fd: any = null;
+// Client-uploaded photo at index i, falling back to the template's stock
+// photo when the client did not upload one for that slot.
+function photo(i: number, fallback: string): string {
+  return fd?.photoUrls?.[i] || fallback;
+}
 let c: any = null;
 let brand: any = null;
 export default function Impact91Page() {

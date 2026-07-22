@@ -972,9 +972,22 @@ return (
             border: "none",
             cursor: "pointer",
             padding: 0,
+            display: "flex",
+            alignItems: "center",
           }}
         >
-          IMPACT<span style={{ color: T.accent }}>.</span>
+          {fd?.logoBase64 ? (
+            // Client logo (uploaded in the brief) replaces the placeholder mark
+            <img
+              src={fd.logoBase64}
+              alt={fd?.businessName ?? 'logo'}
+              style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+            />
+          ) : (
+            <>
+              {fd?.businessName ?? "IMPACT"}<span style={{ color: T.accent }}>.</span>
+            </>
+          )}
         </button>
 
         {/* Desktop nav */}
@@ -2335,7 +2348,7 @@ function Footer({ goTo }: { goTo: (p: AgencyPage) => void }) {
               fontWeight: 400,
             }}
           >
-            &copy; 2026 IMPACT Studio. All rights reserved.
+            &copy; 2026 {fd?.businessName ?? "IMPACT Studio"}. All rights reserved.
           </span>
           <div style={{ display: "flex", gap: 24 }}>
             <button

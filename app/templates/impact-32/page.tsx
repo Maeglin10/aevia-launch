@@ -803,7 +803,7 @@ function Footer() {
         ))}
       </div>
       <div style={{ borderTop: "1px solid rgba(255,255,255,0.1)", paddingTop: 24, display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 12 }}>
-        <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 14 }}>© 2025 PawCare Clinic. Tous droits réservés.</p>
+        <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 14 }}>© 2025 {fd?.businessName ?? "PawCare Clinic"}. Tous droits réservés.</p>
         <div style={{ display: "flex", gap: 20 }}>
           {["Mentions légales", "Confidentialité", "RGPD"].map((link) => (<a key={link} href="/templates/impact-32" style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, textDecoration: "none" }}>{link}</a>))}
         </div>

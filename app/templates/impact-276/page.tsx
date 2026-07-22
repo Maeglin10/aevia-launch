@@ -316,7 +316,7 @@ function Nav() {
           />
         ) : (
           <span style={logoStyle}>
-            TL<span style={{ color: C.orange }}>Coach</span>
+            {fd?.businessName ?? (<>TL<span style={{ color: C.orange }}>Coach</span></>)}
           </span>
         )}
         <div className="r276-nav-links">
@@ -445,7 +445,7 @@ function HeroSection() {
           }}
         >
           <motion.img
-            src={PHOTO.gym}
+            src={fd?.photoUrls?.[0] || PHOTO.gym}
             alt="Salle de sport Thomas Lebrun Coach Bordeaux"
             style={{
               width: '100%',
@@ -1329,7 +1329,7 @@ function MethodSection() {
           <div className="r276-method-sticky">
             <motion.div style={{ position: 'absolute', inset: '-8% 0', y: imgY }}>
               <img
-                src={PHOTO.coach}
+                src={fd?.photoUrls?.[1] || PHOTO.coach}
                 alt="Thomas Lebrun coach en action Bordeaux"
                 style={{ width: '100%', height: '100%', objectFit: 'cover' }}
               />

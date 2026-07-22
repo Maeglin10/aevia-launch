@@ -241,18 +241,31 @@ const FaqItem = ({ item, idx, C }) => {
 };
 
 // --- MAIN PAGE ---
-export default function Page({ session }) {
+export default function Page({ session: initialSession }) {
   const [C, setC] = useState(INITIAL_C);
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [fd, setFd] = useState(null);
-  const [cData, setCData] = useState(null);
-  
+  const [fd, setFd] = useState<any>(null);
+  const [cData, setCData] = useState<any>(null);
+  const [session, setSession] = useState(initialSession ?? null);
+
   // Data lists
   const [services, setServices] = useState([]);
   const [testimonials, setTestimonials] = useState([]);
   const [faq, setFaq] = useState([]);
-  
+
+  // Standard session loading (matches every other template): this page is
+  // never actually given a `session` prop by Next.js routing — it must fetch
+  // its own from /templates/impact-314?session=<id>, otherwise fd stays null.
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(setSession)
+      .catch(() => {});
+  }, []);
+
   useEffect(() => {
     // Session handling
     if (session) {
@@ -351,6 +364,22 @@ export default function Page({ session }) {
 
   // Derived values
   const companyName = fd?.businessName || "Plomberie & Confort";
+
+  // Client-uploaded photos (uploaded in the brief) replace the stock
+  // Unsplash placeholders — hero shot and about-section image first.
+  useEffect(() => {
+    if (!fd?.photoUrls?.length) return;
+    const p = fd.photoUrls;
+    if (p[0]) PHOTOS.hero = p[0];
+    if (p[1]) PHOTOS.about = p[1];
+    if (p[2]) PHOTOS.service1 = p[2];
+    if (p[3]) PHOTOS.service2 = p[3];
+    if (p[4]) PHOTOS.service3 = p[4];
+    if (p[5]) PHOTOS.gallery1 = p[5];
+    if (p[6]) PHOTOS.gallery2 = p[6];
+    if (p[7]) PHOTOS.gallery3 = p[7];
+    if (p[8]) PHOTOS.gallery4 = p[8];
+  }, [fd]);
   const phone = fd?.phone || "01 23 45 67 89";
   const email = fd?.email || "contact@plomberie-confort.fr";
   const address = fd?.address || "15 Rue de la Paix, 75002 Paris";
@@ -384,29 +413,41 @@ export default function Page({ session }) {
       >
         <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 24px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
           <div style={{ display: "flex", alignItems: "center", gap: "12px", zIndex: 101 }}>
-            <div style={{ 
-              width: "40px", 
-              height: "40px", 
-              backgroundColor: C.primary, 
-              borderRadius: "8px", 
-              display: "flex", 
-              alignItems: "center", 
-              justifyContent: "center",
-              color: C.white
-            }}>
-              <Droplets size={24} />
-            </div>
-            <span style={{ 
-              fontFamily: SERIF, 
-              fontWeight: 700, 
-              fontSize: "20px", 
-              color: isScrolled ? C.text : C.white,
-              transition: "color 0.3s ease",
-              display: "flex",
-              alignItems: "center"
-            }}>
-              {companyName}
-            </span>
+            {fd?.logoBase64 ? (
+              // Client logo (uploaded in the brief) replaces the placeholder mark —
+              // essential for the client to recognise their brand in the render.
+              <img
+                src={fd.logoBase64}
+                alt={companyName ?? 'logo'}
+                style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+              />
+            ) : (
+              <>
+                <div style={{
+                  width: "40px",
+                  height: "40px",
+                  backgroundColor: C.primary,
+                  borderRadius: "8px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  color: C.white
+                }}>
+                  <Droplets size={24} />
+                </div>
+                <span style={{
+                  fontFamily: SERIF,
+                  fontWeight: 700,
+                  fontSize: "20px",
+                  color: isScrolled ? C.text : C.white,
+                  transition: "color 0.3s ease",
+                  display: "flex",
+                  alignItems: "center"
+                }}>
+                  {companyName}
+                </span>
+              </>
+            )}
           </div>
 
           {/* Desktop Nav */}

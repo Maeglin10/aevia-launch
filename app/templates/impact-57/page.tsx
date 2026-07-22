@@ -728,7 +728,7 @@ function StudioTeaser() {
             }}
           >
             <img
-              src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=1200&auto=format&fit=crop"
+              src={photo(0, "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=1200&auto=format&fit=crop")}
               alt="MASK_UNIT studio"
               style={{
                 width: '100%',
@@ -878,6 +878,11 @@ function CTABanner() {
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+// Client-uploaded photo at index i, falling back to the template's stock
+// photo when the client did not upload one for that slot.
+function photo(i: number, fallback: string): string {
+  return fd?.photoUrls?.[i] || fallback;
+}
 export default function MaskUnitHome() {
   const [session, setSession] = useState<{
     formData?: {
@@ -1013,9 +1018,7 @@ return (
               textAlign: 'center',
             }}
           >
-            MASK
-            <br />
-            UNIT
+            {fd?.businessName ? fd.businessName.toUpperCase() : <>MASK<br />UNIT</>}
           </div>
         </motion.div>
 

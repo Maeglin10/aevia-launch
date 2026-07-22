@@ -684,20 +684,31 @@ function Nav({ scrolled }: { scrolled: boolean }) {
     >
       {/* Logo */}
       <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-        <div
-          style={{
-            width: 32,
-            height: 32,
-            background: "linear-gradient(135deg,#c084fc,#67e8f9)",
-            clipPath: "polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%)",
-          }}
-        />
-        <span
-          className="syne"
-          style={{ fontSize: 16, color: "#f0eeff", letterSpacing: "-0.02em" }}
-        >
-          AEVIA MATERIALS
-        </span>
+        {fd?.logoBase64 ? (
+          // Client logo (uploaded in the brief) replaces the placeholder mark
+          <img
+            src={fd.logoBase64}
+            alt={fd?.businessName ?? 'logo'}
+            style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
+          />
+        ) : (
+          <>
+            <div
+              style={{
+                width: 32,
+                height: 32,
+                background: "linear-gradient(135deg,#c084fc,#67e8f9)",
+                clipPath: "polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%)",
+              }}
+            />
+            <span
+              className="syne"
+              style={{ fontSize: 16, color: "#f0eeff", letterSpacing: "-0.02em" }}
+            >
+              {fd?.businessName ?? "AEVIA MATERIALS"}
+            </span>
+          </>
+        )}
       </div>
 
       {/* Desktop links */}
@@ -1860,7 +1871,7 @@ function Footer() {
                 className="syne"
                 style={{ fontSize: 14, color: "#f0eeff", letterSpacing: "-0.02em" }}
               >
-                AEVIA MATERIALS
+                {fd?.businessName ?? "AEVIA MATERIALS"}
               </span>
             </div>
             <p

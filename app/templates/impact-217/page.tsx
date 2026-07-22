@@ -525,7 +525,7 @@ function Hero() {
         }}
       >
         <img
-          src={IMG.hero}
+          src={fd?.photoUrls?.[0] || IMG.hero}
           alt="AirForge sneaker hero"
           loading="eager"
           style={{
@@ -2141,6 +2141,26 @@ export default function ImpactSneakerPage() {
   }, []);
 
   fd = session?.formData;
+
+  // Client-uploaded photos (beyond the hero, which uses index 0) replace the
+  // template's stock Unsplash photography in the editorial story rows.
+  useEffect(() => {
+    if (!fd?.photoUrls?.length) return;
+    let n = 1;
+    const _photoArrays: any[] = [STORY_ROWS];
+    _photoArrays.forEach((arr) => {
+      if (!Array.isArray(arr)) return;
+      arr.forEach((item) => {
+        if (!item || typeof item !== "object") return;
+        for (const key of ["img", "src", "image", "imgSrc", "photo"]) {
+          if (typeof item[key] === "string" && item[key].includes("images.unsplash.com")) {
+            if (fd.photoUrls[n]) item[key] = fd.photoUrls[n];
+            n++;
+          }
+        }
+      });
+    });
+  });
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
