@@ -1,4 +1,5 @@
 import { put, list } from "@vercel/blob";
+import type { LegalPages } from "@/lib/legal/generateLegalPages";
 
 export interface FormData {
   // Step 1
@@ -105,6 +106,7 @@ export interface SessionData {
   formData: FormData;
   businessProfile?: BusinessProfile;   // ← new
   generatedContent?: GeneratedContent;
+  legalPages?: LegalPages;
   createdAt: Date;
   // Aevia account this site belongs to, once linked (see app/api/webhook —
   // set from the Stripe checkout email at purchase time). Lets the site
