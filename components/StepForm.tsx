@@ -13,6 +13,7 @@ import { SECTOR_EXTRA_QUESTIONS } from "@/lib/templates/sector-questions";
 import { TEMPLATES_REGISTRY } from "@/lib/templates/registry";
 import { NICHE_ARCHETYPE } from "@/lib/wizard/archetypes";
 import { ServiceRdvStep } from "@/components/wizard/steps/ServiceRdvStep";
+import { LegalStep } from "@/components/wizard/steps/LegalStep";
 import type { BusinessProfile } from "@/lib/sessions";
 
 // Registry lookup by id — used in step 2 template cards
@@ -20,7 +21,7 @@ const REGISTRY_BY_ID = Object.fromEntries(
   TEMPLATES_REGISTRY.map((t) => [t.id, t])
 );
 
-const TOTAL_STEPS = 6;
+const TOTAL_STEPS = 7;
 
 // ─── i18n ────────────────────────────────────────────────────────────────────
 // UI chrome translations. Template *labels* stay as product names; their
@@ -36,6 +37,7 @@ type StepFormStrings = {
   s4Title: string; s4SectorSub: string;
   s5Title: string; s5Sub: string;
   s6Title: string;
+  s7Title: string; s7Sub: string;
   fBusinessName: string; fWhatYouDo: string; fCity: string;
   fMainService: string; fBenefits: string; fPriceRange: string;
   fTargetAudience: string; phTargetAudience: string;
@@ -68,6 +70,7 @@ const STEPFORM_T: Record<string, StepFormStrings> = {
     s4Title: "Votre offre", s4SectorSub: "Ces questions permettent d'adapter le contenu à votre métier.",
     s5Title: "Vos visuels", s5Sub: "Ajoutez votre logo et des photos pour personnaliser votre site.",
     s6Title: "Presque fini !",
+    s7Title: "Informations légales", s7Sub: "Pour générer vos mentions légales et CGV automatiquement. Tout est optionnel.",
     fBusinessName: "Nom de l'entreprise", fWhatYouDo: "Ce que vous faites", fCity: "Ville",
     fMainService: "Service principal", fBenefits: "3 avantages clés", fPriceRange: "Gamme de prix",
     fTargetAudience: "Clientèle cible (optionnel)", phTargetAudience: "ex : Particuliers 30-50 ans, PME, Sportifs…",
@@ -100,6 +103,7 @@ const STEPFORM_T: Record<string, StepFormStrings> = {
     s4Title: "Your offer", s4SectorSub: "These questions help tailor the content to your profession.",
     s5Title: "Your visuals", s5Sub: "Add your logo and photos to personalise your site.",
     s6Title: "Almost there!",
+    s7Title: "Legal information", s7Sub: "To auto-generate your legal notice and terms of sale. Everything is optional.",
     fBusinessName: "Business name", fWhatYouDo: "What you do", fCity: "City",
     fMainService: "Main service", fBenefits: "3 key benefits", fPriceRange: "Price range",
     fTargetAudience: "Target audience (optional)", phTargetAudience: "e.g. Individuals 30-50, SMEs, Athletes…",
@@ -132,6 +136,7 @@ const STEPFORM_T: Record<string, StepFormStrings> = {
     s4Title: "Tu oferta", s4SectorSub: "Estas preguntas permiten adaptar el contenido a tu profesión.",
     s5Title: "Tus visuales", s5Sub: "Añade tu logo y fotos para personalizar tu sitio.",
     s6Title: "¡Casi listo!",
+    s7Title: "Información legal", s7Sub: "Para generar automáticamente tu aviso legal y condiciones de venta. Todo es opcional.",
     fBusinessName: "Nombre del negocio", fWhatYouDo: "Qué haces", fCity: "Ciudad",
     fMainService: "Servicio principal", fBenefits: "3 beneficios clave", fPriceRange: "Rango de precios",
     fTargetAudience: "Público objetivo (opcional)", phTargetAudience: "ej: Particulares 30-50, Pymes, Deportistas…",
@@ -164,6 +169,7 @@ const STEPFORM_T: Record<string, StepFormStrings> = {
     s4Title: "Ihr Angebot", s4SectorSub: "Diese Fragen ermöglichen es, den Inhalt auf Ihren Beruf abzustimmen.",
     s5Title: "Ihre Bilder", s5Sub: "Fügen Sie Ihr Logo und Fotos hinzu, um Ihre Website zu personalisieren.",
     s6Title: "Fast geschafft!",
+    s7Title: "Rechtliche Angaben", s7Sub: "Zur automatischen Erstellung von Impressum und AGB. Alles optional.",
     fBusinessName: "Firmenname", fWhatYouDo: "Was Sie tun", fCity: "Stadt",
     fMainService: "Hauptleistung", fBenefits: "3 Vorteile", fPriceRange: "Preisspanne",
     fTargetAudience: "Zielgruppe (optional)", phTargetAudience: "z.B. Privatpersonen 30-50, KMU, Sportler…",
@@ -196,6 +202,7 @@ const STEPFORM_T: Record<string, StepFormStrings> = {
     s4Title: "A sua oferta", s4SectorSub: "Estas perguntas permitem adaptar o conteúdo à sua profissão.",
     s5Title: "Os seus visuais", s5Sub: "Adicione o seu logotipo e fotos para personalizar o seu site.",
     s6Title: "Quase lá!",
+    s7Title: "Informações legais", s7Sub: "Para gerar automaticamente seus avisos legais e termos de venda. Tudo é opcional.",
     fBusinessName: "Nome do negócio", fWhatYouDo: "O que faz", fCity: "Cidade",
     fMainService: "Serviço principal", fBenefits: "3 benefícios", fPriceRange: "Faixa de preço",
     fTargetAudience: "Público-alvo (opcional)", phTargetAudience: "ex: Particulares 30-50, PME, Desportistas…",
@@ -485,10 +492,12 @@ export function StepForm() {
       // businessProfile) instead of creating a second, orphaned one.
       let currentSessionId = sessionId;
       if (currentSessionId) {
+        // Include businessProfile so step 7's legal fields (SIRET, address…),
+        // captured after step 4's auto-save last fired, aren't lost.
         await fetch(`/api/sessions?id=${currentSessionId}`, {
           method: "PATCH",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ formData }),
+          body: JSON.stringify({ formData, businessProfile: form.businessProfile }),
         });
       } else {
         const sessionRes = await fetch("/api/sessions", {
@@ -978,6 +987,17 @@ export function StepForm() {
                   placeholder={t.phGsc}
                 />
               </Field>
+            </>
+          )}
+
+          {/* STEP 7 — Legal info (every niche, before submit) */}
+          {step === 7 && (
+            <>
+              <p className="text-zinc-400 text-sm mb-1">{t.s7Sub}</p>
+              <LegalStep
+                value={form.businessProfile.legal}
+                onChange={(legal) => set("businessProfile", { ...form.businessProfile, legal })}
+              />
               {error && <p className="text-red-400 text-base bg-red-500/10 border border-red-500/20 rounded-xl px-4 py-2">{error}</p>}
             </>
           )}
