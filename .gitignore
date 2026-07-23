@@ -59,3 +59,9 @@ next-env.d.ts
 /scripts/fix_*.py
 /scripts/verify_*.py
 /lib/htmlTemplate.ts
+
+# Wizard business-aware redesign — working design doc, never commit
+*.local.md
+
+# Git worktrees (superpowers workflow)
+/.worktrees/
