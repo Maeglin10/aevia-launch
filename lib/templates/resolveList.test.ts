@@ -16,7 +16,7 @@ describe("resolveList", () => {
   });
 
   it("returns real data unchanged when present", () => {
-    const real = [{ name: "Vraie prestation", price: "45€" }];
+    const real = [{ title: "Vraie prestation", price: "45€" }];
     expect(resolveList(real, demo)).toBe(real);
   });
 });
