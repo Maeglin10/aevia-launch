@@ -7,7 +7,32 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Sparkles } from "lucide-react";
 import { Reveal } from "./shared";
+import { resolveList } from "@/lib/templates/resolveList";
 
+// ─── Demo content — real data (businessProfile) replaces these wholesale via
+// resolveList when the client provided it; each field access below falls
+// back with `??` so the same JSX renders either shape (see WIZARD_DESIGN
+// .local.md § MAPPING template→champ for the field-by-field rationale).
+const PROTOCOLES_DEMO = [
+  { num: "01", title: "Médecine faciale", desc: "Injection de toxine botulique, acide hyaluronique, techniques de volumisation et repositionnement sans acte chirurgical. Résultats naturels garantis.", duration: "45 min", recovery: "0 jour" },
+  { num: "02", title: "Lasers & Lumières", desc: "Traitements photodynamiques, lasers fractionnels CO₂, épilation définitive et rajeunissement cutané par technologie IPL de dernière génération.", duration: "60 min", recovery: "1–2 jours" },
+  { num: "03", title: "Corps & Silhouette", desc: "Cryolipolyse, radiofréquence multipôlaire, HIFU corporel et drainage lymphatique instrumental pour un remodelage non-invasif durable.", duration: "90 min", recovery: "0 jour" },
+  { num: "04", title: "Soin du visage médical", desc: "Peelings chimiques de profondeur modulable, mésothérapie, HydraFacial MD et protocols anti-âge sur mesure selon diagnostic cutané.", duration: "60 min", recovery: "0–3 jours" },
+  { num: "05", title: "Médecine régénérative", desc: "PRP autologue, injections de polynucléotides, exosomes et bio-stimulateurs de collagène pour une régénération cellulaire profonde.", duration: "45 min", recovery: "2 jours" },
+  { num: "06", title: "Programmes Sur-Mesure", desc: "Après bilan photo-morphologique complet par notre équipe médicale, nous élaborons un protocole global sur 3 à 6 mois adapté à vos objectifs spécifiques.", duration: "Sur devis", recovery: "Variable" },
+];
+
+const TEMOIGNAGES_DEMO = [
+  { name: "Sophia T.", protocol: "Médecine faciale", text: "Pour la première fois depuis des années, je me regarde dans le miroir avec plaisir. Le Dr Nakamura a compris exactement ce que je voulais — pas plus, pas moins. Le résultat est d'une discrétion absolue." },
+  { name: "Claire B.", protocol: "Laser CO₂ fractionnel", text: "Après 2 séances, mes cicatrices d'acné ont pratiquement disparu. L'équipe m'a accompagnée avec une vraie attention médicale, pas commerciale. Cypher Clinic est la meilleure décision que j'ai prise pour ma peau." },
+  { name: "Marc D.", protocol: "Programme sur-mesure", text: "Je m'attendais à des résultats modestes. Ce que j'ai obtenu en 4 mois dépasse tout ce que j'aurais pu imaginer. Le protocole était vraiment pensé pour mon visage spécifiquement — j'ai senti la différence." },
+];
+
+const MEDECINS_DEMO = [
+  { name: "Dr. Kenji Nakamura", spec: "Médecine esthétique faciale", exp: "14 ans", bio: "Formé à l'Académie de médecine esthétique de Paris. Spécialiste des techniques d'injection ultra-précises et de la morphologie faciale.", badge: "Certifié AME" },
+  { name: "Dr. Sophie Bellamy", spec: "Laser & Régénération cutanée", exp: "9 ans", bio: "Docteure en dermatologie, IDRM Lausanne. Experte des protocoles laser CO₂ et PRP pour les cicatrices et le vieillissement cutané.", badge: "Dermatologie" },
+  { name: "Dr. Malik Osei", spec: "Corps & Médecine anti-âge", exp: "11 ans", bio: "Médecin du sport reconverti en esthétique corporelle. Approche globale alliant nutrition, hormonal et intervention pour des résultats durables.", badge: "Anti-âge" },
+];
 
 // Global state variables for subpage compatibility
 let fd: any = null;
@@ -33,6 +58,7 @@ export default function CypherClinicPage() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -53,54 +79,17 @@ export default function CypherClinicPage() {
   const heroImgY = useTransform(heroScroll, [0, 1], ["0%", "30%"]);
   const basePath = "/templates/impact-84";
 
-  
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
+  // Real business data (resolveList) replaces demo content wholesale when
+  // present — see the DEMO consts above for the shape each section falls
+  // back to. Field access in JSX uses `??` chains so both shapes render.
+  // Note: businessProfile is a sibling of formData on SessionData, not
+  // nested inside it — read from `session`, not `fd`.
+  const bp = session?.businessProfile;
+  const protocoles = resolveList(bp?.services, PROTOCOLES_DEMO);
+  const temoignages = resolveList(bp?.reputation?.featuredReviews, TEMOIGNAGES_DEMO);
+  const medecins = resolveList(bp?.team, MEDECINS_DEMO);
+  const bookingUrl = bp?.bookingSystem?.url;
+
 return (
     <div className="bg-[#0C0C0A] text-[#F0EBE0]">
       {/* Hero */}
@@ -147,23 +136,17 @@ return (
             </h2>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[
-              { num: "01", title: "Médecine faciale", desc: "Injection de toxine botulique, acide hyaluronique, techniques de volumisation et repositionnement sans acte chirurgical. Résultats naturels garantis.", duration: "45 min", recovery: "0 jour" },
-              { num: "02", title: "Lasers & Lumières", desc: "Traitements photodynamiques, lasers fractionnels CO₂, épilation définitive et rajeunissement cutané par technologie IPL de dernière génération.", duration: "60 min", recovery: "1–2 jours" },
-              { num: "03", title: "Corps & Silhouette", desc: "Cryolipolyse, radiofréquence multipôlaire, HIFU corporel et drainage lymphatique instrumental pour un remodelage non-invasif durable.", duration: "90 min", recovery: "0 jour" },
-              { num: "04", title: "Soin du visage médical", desc: "Peelings chimiques de profondeur modulable, mésothérapie, HydraFacial MD et protocols anti-âge sur mesure selon diagnostic cutané.", duration: "60 min", recovery: "0–3 jours" },
-              { num: "05", title: "Médecine régénérative", desc: "PRP autologue, injections de polynucléotides, exosomes et bio-stimulateurs de collagène pour une régénération cellulaire profonde.", duration: "45 min", recovery: "2 jours" },
-              { num: "06", title: "Programmes Sur-Mesure", desc: "Après bilan photo-morphologique complet par notre équipe médicale, nous élaborons un protocole global sur 3 à 6 mois adapté à vos objectifs spécifiques.", duration: "Sur devis", recovery: "Variable" },
-            ].map((p, i) => (
-              <Reveal key={p.num} delay={i * 0.08}>
+            {protocoles.map((p: any, i: number) => (
+              <Reveal key={p.num ?? p.name ?? i} delay={i * 0.08}>
                 <div className="p-8 border border-[#2A2820] hover:border-[#C9A86C]/30 transition-all duration-500 group">
-                  <div className="text-[#C9A86C]/20 text-5xl font-light mb-6" style={{ fontFamily: "'Bodoni Moda', serif" }}>{p.num}</div>
-                  <h3 className="font-medium text-[#F0EBE0] text-lg mb-4" style={{ fontFamily: "'Bodoni Moda', serif" }}>{p.title}</h3>
-                  <p className="text-[#6A6258] text-sm leading-relaxed mb-6">{p.desc}</p>
+                  <div className="text-[#C9A86C]/20 text-5xl font-light mb-6" style={{ fontFamily: "'Bodoni Moda', serif" }}>{p.num ?? String(i + 1).padStart(2, "0")}</div>
+                  <h3 className="font-medium text-[#F0EBE0] text-lg mb-4" style={{ fontFamily: "'Bodoni Moda', serif" }}>{p.title ?? p.name}</h3>
+                  <p className="text-[#6A6258] text-sm leading-relaxed mb-6">{p.desc ?? p.description}</p>
                   <div className="flex gap-6 text-[9px] text-[#C9A86C]/60 uppercase tracking-widest border-t border-[#2A2820] pt-4">
-                    <span>Durée : {p.duration}</span>
-                    <span>|</span>
-                    <span>Récupération : {p.recovery}</span>
+                    {p.duration && <span>Durée : {p.duration}</span>}
+                    {p.duration && p.recovery && <span>|</span>}
+                    {p.recovery && <span>Récupération : {p.recovery}</span>}
+                    {p.price && <span>Prix : {p.price}</span>}
                   </div>
                 </div>
               </Reveal>
@@ -216,17 +199,13 @@ return (
             <h2 className="text-3xl font-light mb-16" style={{ fontFamily: "'Bodoni Moda', serif" }}>Ce qu'ils ont vécu.</h2>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              { name: "Sophia T.", protocol: "Médecine faciale", text: "Pour la première fois depuis des années, je me regarde dans le miroir avec plaisir. Le Dr Nakamura a compris exactement ce que je voulais — pas plus, pas moins. Le résultat est d'une discrétion absolue." },
-              { name: "Claire B.", protocol: "Laser CO₂ fractionnel", text: "Après 2 séances, mes cicatrices d'acné ont pratiquement disparu. L'équipe m'a accompagnée avec une vraie attention médicale, pas commerciale. Cypher Clinic est la meilleure décision que j'ai prise pour ma peau." },
-              { name: "Marc D.", protocol: "Programme sur-mesure", text: "Je m'attendais à des résultats modestes. Ce que j'ai obtenu en 4 mois dépasse tout ce que j'aurais pu imaginer. Le protocole était vraiment pensé pour mon visage spécifiquement — j'ai senti la différence." },
-            ].map((t, i) => (
-              <Reveal key={t.name} delay={i * 0.1}>
+            {temoignages.map((t: any, i: number) => (
+              <Reveal key={t.name ?? t.author ?? i} delay={i * 0.1}>
                 <div className="p-8 border border-[#2A2820]">
                   <p className="text-[#8A8278] text-sm leading-relaxed mb-8 italic">&ldquo;{t.text}&rdquo;</p>
                   <div className="border-t border-[#2A2820] pt-6">
-                    <p className="text-[#F0EBE0] font-medium text-sm">{t.name}</p>
-                    <p className="text-[9px] uppercase tracking-widest text-[#C9A86C] mt-1">{t.protocol}</p>
+                    <p className="text-[#F0EBE0] font-medium text-sm">{t.name ?? t.author}</p>
+                    <p className="text-[9px] uppercase tracking-widest text-[#C9A86C] mt-1">{t.protocol ?? t.source ?? ""}</p>
                   </div>
                 </div>
               </Reveal>
@@ -243,22 +222,20 @@ return (
             <h2 className="text-3xl font-light mb-16" style={{ fontFamily: "'Bodoni Moda', serif" }}>Les médecins.</h2>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              { name: "Dr. Kenji Nakamura", spec: "Médecine esthétique faciale", exp: "14 ans", bio: "Formé à l'Académie de médecine esthétique de Paris. Spécialiste des techniques d'injection ultra-précises et de la morphologie faciale.", badge: "Certifié AME" },
-              { name: "Dr. Sophie Bellamy", spec: "Laser & Régénération cutanée", exp: "9 ans", bio: "Docteure en dermatologie, IDRM Lausanne. Experte des protocoles laser CO₂ et PRP pour les cicatrices et le vieillissement cutané.", badge: "Dermatologie" },
-              { name: "Dr. Malik Osei", spec: "Corps & Médecine anti-âge", exp: "11 ans", bio: "Médecin du sport reconverti en esthétique corporelle. Approche globale alliant nutrition, hormonal et intervention pour des résultats durables.", badge: "Anti-âge" },
-            ].map((m, i) => (
-              <Reveal key={m.name} delay={i * 0.1}>
+            {medecins.map((m: any, i: number) => (
+              <Reveal key={m.name ?? i} delay={i * 0.1}>
                 <div className="p-8 border border-[#2A2820] flex flex-col gap-4">
                   <div className="w-14 h-14 bg-[#2A2820] flex items-center justify-center">
-                    <span className="text-[#C9A86C] font-light text-xl" style={{ fontFamily: "'Bodoni Moda', serif" }}>{m.name.split(" ").filter(n => !n.startsWith("Dr")).map(n => n[0]).join("")}</span>
+                    <span className="text-[#C9A86C] font-light text-xl" style={{ fontFamily: "'Bodoni Moda', serif" }}>{String(m.name ?? "").split(" ").filter((n: string) => !n.startsWith("Dr")).map((n: string) => n[0]).join("")}</span>
                   </div>
                   <div>
-                    <p className="text-[9px] uppercase tracking-[0.3em] text-[#C9A86C] mb-1">{m.badge} · {m.exp}</p>
+                    {(m.badge ?? m.credentials ?? m.exp) && (
+                      <p className="text-[9px] uppercase tracking-[0.3em] text-[#C9A86C] mb-1">{[m.badge ?? m.credentials, m.exp].filter(Boolean).join(" · ")}</p>
+                    )}
                     <h3 className="text-[#F0EBE0] font-medium" style={{ fontFamily: "'Bodoni Moda', serif" }}>{m.name}</h3>
-                    <p className="text-[10px] uppercase tracking-widest text-[#6A6258] mt-0.5">{m.spec}</p>
+                    <p className="text-[10px] uppercase tracking-widest text-[#6A6258] mt-0.5">{m.spec ?? m.specialty ?? m.role}</p>
                   </div>
-                  <p className="text-[#8A8278] text-sm leading-relaxed border-t border-[#2A2820] pt-4">{m.bio}</p>
+                  {(m.bio) && <p className="text-[#8A8278] text-sm leading-relaxed border-t border-[#2A2820] pt-4">{m.bio}</p>}
                 </div>
               </Reveal>
             ))}
@@ -277,7 +254,11 @@ return (
             <p className="text-[#0C0C0A]/60 mb-10 max-w-md mx-auto leading-relaxed text-sm">
               Votre première consultation avec l'un de nos médecins est dédiée à l'écoute et au diagnostic. Aucun acte n'est réalisé lors de cette séance.
             </p>
-            <Link href={`${basePath}/rdv`} className="inline-flex items-center gap-4 px-10 py-5 bg-[#0C0C0A] text-[#C9A86C] text-[10px] uppercase tracking-widest hover:gap-8 transition-all cursor-pointer">
+            <Link
+              href={bookingUrl || `${basePath}/rdv`}
+              {...(bookingUrl && { target: "_blank", rel: "noopener noreferrer" })}
+              className="inline-flex items-center gap-4 px-10 py-5 bg-[#0C0C0A] text-[#C9A86C] text-[10px] uppercase tracking-widest hover:gap-8 transition-all cursor-pointer"
+            >
               Prendre rendez-vous <ArrowRight className="w-4 h-4" />
             </Link>
           </Reveal>
