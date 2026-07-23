@@ -11,6 +11,9 @@ import { useLang } from "@/lib/LangContext";
 import { INDUSTRIES, SECTORS, SECTOR_TEMPLATES, TEMPLATE_CITY_LABELS } from "@/lib/templates/sectors";
 import { SECTOR_EXTRA_QUESTIONS } from "@/lib/templates/sector-questions";
 import { TEMPLATES_REGISTRY } from "@/lib/templates/registry";
+import { NICHE_ARCHETYPE } from "@/lib/wizard/archetypes";
+import { ServiceRdvStep } from "@/components/wizard/steps/ServiceRdvStep";
+import type { BusinessProfile } from "@/lib/sessions";
 
 // Registry lookup by id — used in step 2 template cards
 const REGISTRY_BY_ID = Object.fromEntries(
@@ -229,6 +232,7 @@ type FormState = {
   sectorData: Record<string, string>;
   logoUrl: string;
   photoUrls: string[];
+  businessProfile: BusinessProfile;
 };
 
 const PRESET_COLORS = [
@@ -247,6 +251,7 @@ const initial: FormState = {
   sectorData: {},
   logoUrl: "",
   photoUrls: [],
+  businessProfile: {},
 };
 
 // Thumbnail for a theme row in step 2 — falls back to a color swatch if the
@@ -279,6 +284,9 @@ export function StepForm() {
   const [industryPhase, setIndustryPhase] = useState<"industry" | "specialty">("industry");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  // Created early (leaving step 1) so the businessProfile step (4) has an id
+  // to auto-save against — previously only created at final submit.
+  const [sessionId, setSessionId] = useState<string | null>(null);
 
   // Tracks whether the user attempted to advance a given step, so we only show
   // validation errors after an attempt (not on first render).
@@ -394,7 +402,7 @@ export function StepForm() {
     } else if (s === 3) {
       if (!form.businessName.trim()) errs.businessName = t.errBusinessName;
       if (!form.tagline.trim()) errs.tagline = t.errTagline;
-    } else if (s === 4) {
+    } else if (s === 4 && NICHE_ARCHETYPE[form.sector] !== "service_rdv") {
       if (!form.mainService.trim()) errs.mainService = t.errMainService;
       if (!form.benefit1.trim()) errs.benefit1 = t.errBenefit;
     } else if (s === 6) {
@@ -411,9 +419,27 @@ export function StepForm() {
   const canNext = () => Object.keys(getStepErrors(step)).length === 0;
 
   // Guarded navigation: mark the step attempted; only advance when valid.
+  // Create the session as soon as we know the sector (leaving step 1) so
+  // step 4's businessProfile capture has an id to auto-save against. Takes
+  // explicit args rather than reading `form` because the specialty picker's
+  // auto-advance (below) calls this in the same tick as `set("sector", …)`,
+  // before that state update has committed.
+  const createSessionEarly = (sector: string, industry: string) => {
+    if (sessionId) return;
+    void fetch("/api/sessions", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ formData: { sector, industry, businessType: sector } }),
+    })
+      .then((res) => res.json())
+      .then((data: { sessionId: string }) => setSessionId(data.sessionId))
+      .catch(() => {});
+  };
+
   const goNext = () => {
     setAttempted((a) => ({ ...a, [step]: true }));
     if (Object.keys(getStepErrors(step)).length === 0) {
+      if (step === 1) createSessionEarly(form.sector, form.industry);
       setStep((s) => s + 1);
     }
   };
@@ -431,8 +457,16 @@ export function StepForm() {
         businessType: form.sector, // FormData contract key
         template: form.template,
         businessName: form.businessName, tagline: form.tagline, city: form.city,
-        mainService: form.mainService,
-        benefits: [form.benefit1, form.benefit2, form.benefit3].filter(Boolean) as [string, string, string],
+        // service_rdv niches skip the generic mainService/benefits fields (step 4
+        // is the businessProfile capture instead) — fall back to the first
+        // captured service so the AI copy prompt (lib/llmProviders.ts) never
+        // sees an empty "Service principal".
+        mainService: form.mainService || form.businessProfile.services?.[0]?.name || "",
+        benefits: (
+          [form.benefit1, form.benefit2, form.benefit3].filter(Boolean).length > 0
+            ? [form.benefit1, form.benefit2, form.benefit3].filter(Boolean)
+            : (form.businessProfile.services ?? []).slice(0, 3).map((s) => s.description || s.name)
+        ) as [string, string, string],
         priceRange: form.priceRange,
         brandColor: form.brandColor || "#7c3aed",
         email: form.email,
@@ -447,18 +481,29 @@ export function StepForm() {
         ...(form.photoUrls.length > 0 && { photoUrls: form.photoUrls }),
       };
 
-      const sessionRes = await fetch("/api/sessions", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ formData }),
-      });
-      const { sessionId } = await sessionRes.json();
+      // Reuse the session created on leaving step 1 (carries the auto-saved
+      // businessProfile) instead of creating a second, orphaned one.
+      let currentSessionId = sessionId;
+      if (currentSessionId) {
+        await fetch(`/api/sessions?id=${currentSessionId}`, {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ formData }),
+        });
+      } else {
+        const sessionRes = await fetch("/api/sessions", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ formData }),
+        });
+        ({ sessionId: currentSessionId } = await sessionRes.json());
+      }
 
       // Generate content
       const genRes = await fetch("/api/generate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ sessionId, formData }),
+        body: JSON.stringify({ sessionId: currentSessionId, formData }),
       });
 
       const { previewUrl } = await genRes.json();
@@ -469,7 +514,7 @@ export function StepForm() {
       // session by /api/generate, and the preview page reads it back.
       // Monetization happens from the preview's own "Launch my site" CTA.
       recordFunnel(TOTAL_STEPS, true); // mark this visitor as completed
-      router.push(previewUrl ?? `/preview/${sessionId}`);
+      router.push(previewUrl ?? `/preview/${currentSessionId}`);
     } catch {
       setError(t.genericError);
       setLoading(false);
@@ -606,6 +651,7 @@ export function StepForm() {
                           onClick={() => {
                             set("sector", s.id);
                             set("template", "");
+                            createSessionEarly(s.id, form.industry);
                             // Auto-advance to template selection
                             setTimeout(() => setStep(2), 180);
                           }}
@@ -703,7 +749,13 @@ export function StepForm() {
           )}
 
           {/* STEP 4 — Offer */}
-          {step === 4 && (
+          {step === 4 && NICHE_ARCHETYPE[form.sector] === "service_rdv" ? (
+            <ServiceRdvStep
+              value={form.businessProfile}
+              onChange={(bp) => set("businessProfile", bp)}
+              sessionId={sessionId}
+            />
+          ) : step === 4 && (
             <>
               <h2 className="text-xl font-bold text-white">{t.s4Title}</h2>
               <Field label={t.fMainService} required error={errFor("mainService")}>
