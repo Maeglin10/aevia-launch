@@ -31,6 +31,60 @@ export interface FormData {
   gscVerification?: string;
 }
 
+// ─── Business Profile — real, structured client data (not AI-invented) ─────
+// Filled progressively by the niche-aware wizard steps (Phase 1-2). Optional
+// on the type because legacy sessions and non-pilot niches won't have it —
+// every consumer must fall back to demo/generic content when a field is
+// absent (see lib/templates/resolveList.ts).
+export interface BusinessCore {
+  niche?: string;                    // sectors.ts niche id, drives archetype
+  foundedYear?: number;
+  contacts?: {
+    general?: { email?: string; phone?: string };
+    booking?: { email?: string; phone?: string };
+  };
+  openingHours?: { day: string; open?: string; close?: string; closed?: boolean }[];
+  paymentMethods?: string[];
+  bookingSystem?: { provider?: string; url?: string };
+  emergency?: { enabled: boolean; phone?: string; note?: string };
+  geo?: {
+    address?: string;
+    primaryCity?: string;
+    serviceAreas?: string[];
+    radiusKm?: number;
+  };
+  reputation?: {
+    sources?: { platform: string; url: string; rating?: number; reviewCount?: number }[];
+    featuredReviews?: { author: string; text: string; rating: number; source?: string }[];
+  };
+  keyStats?: { value: string; label: string }[];
+  certifications?: string[];
+  faq?: { q: string; a: string }[];
+  hasQuoteRequest?: boolean;
+  chatWidget?: { interested: boolean };
+}
+
+export interface Catalogues {
+  services?: { name: string; price?: string; duration?: string; description?: string }[];
+  products?: { name: string; price?: string; description?: string; photoUrl?: string }[];
+  menu?: { category: string; name: string; price?: string; description?: string }[];
+  listings?: { title: string; price?: string; surface?: string; rooms?: string; status?: string; photoUrl?: string; city?: string }[];
+  team?: { name: string; role: string; photoUrl?: string; bio?: string; specialty?: string; credentials?: string }[];
+  beforeAfter?: { beforeUrl: string; afterUrl: string; caption?: string }[];
+  commerce?: { mode: "showcase" | "external" | "stripe"; storeUrl?: string };
+}
+
+export interface LegalProfile {
+  legalForm?: string;
+  siret?: string;
+  companyAddress?: string;
+  capitalSocial?: string;
+}
+
+export interface BusinessProfile extends BusinessCore, Catalogues {
+  legal?: LegalProfile;
+}
+
 export interface GeneratedContent {
   heroHeadline: string;
   heroSubline: string;
@@ -49,6 +103,7 @@ export interface GeneratedContent {
 export interface SessionData {
   id: string;
   formData: FormData;
+  businessProfile?: BusinessProfile;   // ← new
   generatedContent?: GeneratedContent;
   createdAt: Date;
   // Aevia account this site belongs to, once linked (see app/api/webhook —
