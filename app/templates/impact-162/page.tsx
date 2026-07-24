@@ -6,6 +6,7 @@ import { motion, AnimatePresence, useScroll, useTransform, useInView } from "fra
 import Image from "next/image"
 import Link from "next/link"
 import { Menu, X, ArrowRight, Coffee, Clock, MapPin, Phone, Mail, Star, Heart, ChevronRight } from "lucide-react"
+import { resolveList } from "@/lib/templates/resolveList";
 
 const Instagram = ({ className = "w-4 h-4" }: { className?: string }) => (
   <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5}>
@@ -38,7 +39,7 @@ function Reveal({ children, delay = 0, y = 30 }: { children: React.ReactNode; de
   )
 }
 
-const MENU_ITEMS = [
+const MENU_ITEMS_DEMO = [
   { category: "Cafés signature", items: [
     { name: "Le Matin Doré", desc: "Espresso, lait entier vapeur, miel de fleurs sauvages, une touche de cannelle", price: "4,80 €" },
     { name: "Velours Noir", desc: "Double espresso, crème de cacao, lait végétal d'avoine, poudre de fève", price: "5,20 €" },
@@ -56,7 +57,7 @@ const MENU_ITEMS = [
   ]},
 ]
 
-const TESTIMONIALS = [
+const TESTIMONIALS_DEMO = [
   { name: "Élise M.", text: "Le café idéal pour travailler le matin. La lumière, la musique, le café... Tout est parfait.", rating: 5 },
   { name: "Thomas B.", text: "La brioche aux agrumes est un chef-d'œuvre. Je fais un détour de 20 minutes pour en avoir une le week-end.", rating: 5 },
   { name: "Pauline R.", text: "Accueil chaleureux, cadre magnifique. On s'y sent comme à la maison, mais en beaucoup mieux.", rating: 5 },
@@ -72,6 +73,7 @@ const HOURS = [
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
@@ -93,6 +95,7 @@ export default function EssentialCafePage() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -106,6 +109,7 @@ export default function EssentialCafePage() {
 
   fd = session?.formData;
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   useFonts()
@@ -123,53 +127,28 @@ export default function EssentialCafePage() {
     return () => window.removeEventListener("scroll", onScroll)
   }, []);
 
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
+  const MENU_ITEMS = (bp?.menu && bp.menu.length > 0)
+    ? Object.values(
+        bp.menu.reduce((acc: any, m: any) => {
+          const cat = m.category ?? "Menu";
+          (acc[cat] ??= { category: cat, items: [] }).items.push({
+            name: m.name,
+            desc: m.description,
+            price: m.price,
           });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);return (
+          return acc;
+        }, {})
+      ) as typeof MENU_ITEMS_DEMO
+    : MENU_ITEMS_DEMO;
+  const TESTIMONIALS = resolveList(
+    bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+      name: r.name ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].name,
+      text: r.text ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].text,
+      rating: r.stars ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].rating,
+    })),
+    TESTIMONIALS_DEMO
+  );
+return (
     <div className="min-h-dvh bg-[#FDFAF5] text-[#2A1F0E]" style={{ fontFamily: "'Lato', sans-serif" }}>
       <motion.div className="fixed top-0 left-0 h-[2px] bg-[#8B5E3C] z-[1000] origin-left" style={{ scaleX: scrollYProgress }} />
 

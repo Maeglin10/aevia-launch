@@ -24,6 +24,7 @@ import {
   Mail,
   Calendar,
 } from 'lucide-react';
+import { resolveList } from "@/lib/templates/resolveList";
 
 /* ════════════════════════════════════════════════════════════════════════════
    LES ÉPOUSAILLES D'ALSACE — Wedding planner & événementiel · Strasbourg
@@ -835,7 +836,7 @@ const n = panels.length;
    3 · SERVICES SECTION — 3 formules
    ════════════════════════════════════════════════════════════════════════════ */
 function ServicesSection() {
-  const services = [
+  const services_DEMO = [
     {
       Icon: Sparkles,
       label: 'Notre formule phare',
@@ -882,6 +883,16 @@ function ServicesSection() {
       ],
     },
   ];
+
+  const services = resolveList(
+    bp?.services?.map((s: any, i: number) => ({
+      ...services_DEMO[i % services_DEMO.length],
+      title: s.title ?? services_DEMO[i % services_DEMO.length].title,
+      desc: s.description ?? services_DEMO[i % services_DEMO.length].desc,
+      price: s.price ?? services_DEMO[i % services_DEMO.length].price,
+    })),
+    services_DEMO
+  );
 
   return (
     <section
@@ -1392,7 +1403,7 @@ function ProcessStep({
    5 · TESTIMONIALS SECTION
    ════════════════════════════════════════════════════════════════════════════ */
 function TestimonialsSection() {
-  const testimonials = [
+  const testimonials_DEMO = [
     {
       couple: 'Sophie & Matthieu R.',
       lieu: 'Château de Kintzheim, Alsace',
@@ -1412,6 +1423,16 @@ function TestimonialsSection() {
       text: "La décoration florale que l'équipe a créée pour notre mariage dépassait tout ce que nous aurions pu imaginer. Les arches de roses blanches et d'eucalyptus, les compositions de table, les bougies — tout était en parfaite harmonie avec notre vision. Les Épousailles d'Alsace méritent plus que 5 étoiles.",
     },
   ];
+
+  const testimonials = resolveList(
+    bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+      couple: r.name ?? testimonials_DEMO[i % testimonials_DEMO.length].couple,
+      lieu: r.location ?? testimonials_DEMO[i % testimonials_DEMO.length].lieu,
+      mariage: testimonials_DEMO[i % testimonials_DEMO.length].mariage,
+      text: r.text ?? testimonials_DEMO[i % testimonials_DEMO.length].text,
+    })),
+    testimonials_DEMO
+  );
 
   return (
     <section
@@ -1976,7 +1997,7 @@ function ContactFormSection() {
    7 · RÉALISATIONS SECTION — 3 mariages
    ════════════════════════════════════════════════════════════════════════════ */
 function RealizationsSection() {
-  const realisations = [
+  const realisations_DEMO = [
     {
       img: PHOTO.chateau,
       tag: 'Mariage de château',
@@ -2008,6 +2029,15 @@ function RealizationsSection() {
       color: C.taupe,
     },
   ];
+
+  const realisations = resolveList(
+    bp?.beforeAfter?.map((b: any, i: number) => ({
+      ...realisations_DEMO[i % realisations_DEMO.length],
+      img: b.afterUrl ?? realisations_DEMO[i % realisations_DEMO.length].img,
+      desc: b.caption ?? realisations_DEMO[i % realisations_DEMO.length].desc,
+    })),
+    realisations_DEMO
+  );
 
   return (
     <section
@@ -3204,6 +3234,7 @@ const RESPONSIVE_CSS = `
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 let brand: any = null;
 export default function Impact280Page() {
   const [session, setSession] = useState<{
@@ -3220,6 +3251,7 @@ export default function Impact280Page() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -3251,59 +3283,11 @@ export default function Impact280Page() {
     });
   });
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, rose: brand, roseLight: shadeColor(brand, 25), roseDark: shadeColor(brand, -20) };
   }
-
-  
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
 return (
     <main
       id="hero"
