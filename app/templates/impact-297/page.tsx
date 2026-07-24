@@ -222,6 +222,7 @@ function Button({
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+let bp: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
     formData?: {
@@ -237,6 +238,7 @@ export default function Page() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -268,6 +270,7 @@ export default function Page() {
     });
   });
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, primary: brand, primaryLight: shadeColor(brand, 25), primaryDark: shadeColor(brand, -20) };
@@ -288,9 +291,17 @@ export default function Page() {
   const heroY = useTransform(heroProgress, [0, 1], ['0%', '8%']);
   const heroOpacity = useTransform(heroProgress, [0, 0.8], [1, 0]);
 
-  const menuItemsFiltered = activeCategory === "Tous"
-    ? [{"name": "Consultation de Médecine Générale", "category": "Général", "desc": "Consultation standard pour adultes et enfants, suivi médical, ordonnances.", "price": "26,50 €"}, {"name": "Bilan Sportif Complet", "category": "Sport", "desc": "Bilan cardiorespiratoire, évaluation de la condition physique, conseils sportifs.", "price": "80,00 €"}, {"name": "Téléconsultation", "category": "Général", "desc": "Consultation à distance par vidéo pour suivi et petites urgences.", "price": "25,00 €"}, {"name": "Certificat de Non-Contre-Indication", "category": "Sport", "desc": "Examen médical approfondi pour la pratique sportive en compétition.", "price": "50,00 €"}]
-    : [{"name": "Consultation de Médecine Générale", "category": "Général", "desc": "Consultation standard pour adultes et enfants, suivi médical, ordonnances.", "price": "26,50 €"}, {"name": "Bilan Sportif Complet", "category": "Sport", "desc": "Bilan cardiorespiratoire, évaluation de la condition physique, conseils sportifs.", "price": "80,00 €"}, {"name": "Téléconsultation", "category": "Général", "desc": "Consultation à distance par vidéo pour suivi et petites urgences.", "price": "25,00 €"}, {"name": "Certificat de Non-Contre-Indication", "category": "Sport", "desc": "Examen médical approfondi pour la pratique sportive en compétition.", "price": "50,00 €"}].filter(item => item.category === activeCategory);
+  const servicesReal: any[] | null = bp?.services?.length ? bp.services : null;
+  const SERVICES_DEMO = [{"name": "Consultation de Médecine Générale", "category": "Général", "desc": "Consultation standard pour adultes et enfants, suivi médical, ordonnances.", "price": "26,50 €"}, {"name": "Bilan Sportif Complet", "category": "Sport", "desc": "Bilan cardiorespiratoire, évaluation de la condition physique, conseils sportifs.", "price": "80,00 €"}, {"name": "Téléconsultation", "category": "Général", "desc": "Consultation à distance par vidéo pour suivi et petites urgences.", "price": "25,00 €"}, {"name": "Certificat de Non-Contre-Indication", "category": "Sport", "desc": "Examen médical approfondi pour la pratique sportive en compétition.", "price": "50,00 €"}];
+  // businessProfile.services replaces the demo list wholesale; real services
+  // rarely carry a `category`, so the fixed tab filter is skipped for them —
+  // every real item just shows under "Tous".
+  const menuTabs = servicesReal ? ["Tous"] : ["Tous", "Général", "Sport", "Actes"];
+  const menuItemsFiltered = servicesReal
+    ? servicesReal.map((s: any) => ({ name: s.name, category: "Tous", desc: s.description ?? "", price: s.price ?? "" }))
+    : activeCategory === "Tous"
+      ? SERVICES_DEMO
+      : SERVICES_DEMO.filter(item => item.category === activeCategory);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -299,54 +310,6 @@ export default function Page() {
     }
   };
 
-  
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
 return (
     <div style={{
       background: C.bg,
@@ -823,7 +786,7 @@ return (
                 maxWidth: 550,
                 margin: '0 auto'
               }}>
-                {["Tous","Général","Sport","Actes"].map((tab, i) => (
+                {menuTabs.map((tab, i) => (
                   <button
                     key={i}
                     onClick={() => setActiveCategory(tab)}
@@ -1024,7 +987,7 @@ return (
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-            {[{"q":"Prenez-vous de nouveaux patients ?","a":"Oui, le cabinet accepte actuellement de nouveaux patients en tant que médecin traitant. Vous pouvez déclarer le Dr. Faure lors de votre première consultation."},{"q":"Quels sont les modes de paiement acceptés ?","a":"Nous acceptons les cartes bancaires, les chèques et les espèces. La carte Vitale est acceptée pour le tiers payant automatique."},{"q":"Comment prendre rendez-vous en urgence ?","a":"Des créneaux d'urgence sont libérés chaque matin à 8h00 sur notre espace Doctolib. Vous pouvez aussi contacter le secrétariat téléphonique."}].map((item, i) => (
+            {(bp?.faq?.length ? bp.faq : [{"q":"Prenez-vous de nouveaux patients ?","a":"Oui, le cabinet accepte actuellement de nouveaux patients en tant que médecin traitant. Vous pouvez déclarer le Dr. Faure lors de votre première consultation."},{"q":"Quels sont les modes de paiement acceptés ?","a":"Nous acceptons les cartes bancaires, les chèques et les espèces. La carte Vitale est acceptée pour le tiers payant automatique."},{"q":"Comment prendre rendez-vous en urgence ?","a":"Des créneaux d'urgence sont libérés chaque matin à 8h00 sur notre espace Doctolib. Vous pouvez aussi contacter le secrétariat téléphonique."}]).map((item: any, i: number) => (
               <Reveal key={i} delay={i * 0.08}>
                 <div style={{
                   background: C.bgCard,
