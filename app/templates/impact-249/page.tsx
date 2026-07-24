@@ -11,6 +11,7 @@ import {
   useMotionValue,
 } from 'framer-motion';
 import { ArrowRight, ChevronDown, Star } from 'lucide-react';
+import { resolveList } from "@/lib/templates/resolveList";
 
 /* ════════════════════════════════════════════════════════════════════════════
    DERMIS STUDIO — Tatouage & Piercing · Montpellier
@@ -110,7 +111,7 @@ interface SafetyStep {
 /* ════════════════════════════════════════════════════════════════════════════
    Data
    ════════════════════════════════════════════════════════════════════════════ */
-const STYLES: Style[] = [
+const STYLES_DEMO: Style[] = [
   {
     src: PHOTO.blackwork,
     alt: 'Tatouage blackwork géométrique sur avant-bras',
@@ -134,7 +135,7 @@ const STYLES: Style[] = [
   },
 ];
 
-const ARTISTS: Artist[] = [
+const ARTISTS_DEMO: Artist[] = [
   {
     name: 'MATHIS',
     specialty: 'Blackwork & Géométrie',
@@ -205,7 +206,7 @@ const SAFETY_STEPS: SafetyStep[] = [
   },
 ];
 
-const TESTIMONIALS: Testimonial[] = [
+const TESTIMONIALS_DEMO: Testimonial[] = [
   {
     quote: "Six séances avec Mathis pour un sleeve complet — chaque détail est d\'une précision hallucinante. Le blackwork tient parfaitement, même deux ans après. C\'est du vrai travail d\'artiste.",
     author: 'Camille D.',
@@ -896,6 +897,16 @@ function ProgressDot({
 }
 
 function StyleSequence() {
+  const STYLES = resolveList(
+    bp?.services?.map((s: any, i: number) => ({
+      src: STYLES_DEMO[i % STYLES_DEMO.length].src,
+      alt: s.title ?? STYLES_DEMO[i % STYLES_DEMO.length].alt,
+      index: STYLES_DEMO[i % STYLES_DEMO.length].index,
+      label: s.title ?? STYLES_DEMO[i % STYLES_DEMO.length].label,
+      body: s.description ?? STYLES_DEMO[i % STYLES_DEMO.length].body,
+    })),
+    STYLES_DEMO,
+  );
   const n = STYLES.length;
   const progress = useMotionValue(0.5 / n);
   const [active, setActive] = useState(0);
@@ -1142,6 +1153,15 @@ function ArtistCard({ a, i }: { a: Artist; i: number }) {
 }
 
 function ArtistCards() {
+  const ARTISTS = resolveList(
+    bp?.team?.map((t: any, i: number) => ({
+      name: t.name ?? ARTISTS_DEMO[i % ARTISTS_DEMO.length].name,
+      specialty: t.specialty ?? t.role ?? ARTISTS_DEMO[i % ARTISTS_DEMO.length].specialty,
+      experience: t.credentials ?? ARTISTS_DEMO[i % ARTISTS_DEMO.length].experience,
+      colorHint: ARTISTS_DEMO[i % ARTISTS_DEMO.length].colorHint,
+    })),
+    ARTISTS_DEMO,
+  );
   const sec: React.CSSProperties = {
     background: C.bgAlt,
     padding: 'clamp(88px,12vw,160px) clamp(24px,6vw,80px)',
@@ -1491,6 +1511,14 @@ function SafetyPanel() {
    8 · TESTIMONIALS
    ════════════════════════════════════════════════════════════════════════════ */
 function Testimonials() {
+  const TESTIMONIALS = resolveList(
+    bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+      quote: r.text ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].quote,
+      author: r.name ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].author,
+      context: r.location ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].context,
+    })),
+    TESTIMONIALS_DEMO,
+  );
   const sec: React.CSSProperties = {
     background: C.bg,
     padding: 'clamp(88px,12vw,168px) clamp(24px,6vw,80px)',
@@ -2086,6 +2114,7 @@ function FooterLink({ label, href }: { label: string; href: string }) {
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+let bp: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
     formData?: {
@@ -2101,6 +2130,7 @@ export default function Page() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -2132,6 +2162,7 @@ export default function Page() {
     });
   });
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   if (brand) {
@@ -2151,54 +2182,7 @@ export default function Page() {
     MozOsxFontSmoothing: 'grayscale',
   };
 
-  
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
+
 return (
     <main style={root} suppressHydrationWarning>
       <style>{`

@@ -29,6 +29,7 @@ import {
   Users,
   Heart,
 } from "lucide-react"
+import { resolveList } from "@/lib/templates/resolveList"
 
 const Instagram = ({ className = "w-4 h-4" }: { className?: string }) => (
   <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5}>
@@ -121,7 +122,7 @@ function RevealRight({
 
 /* --- Data ------------------------------------------------------------------ */
 
-const STYLES = [
+const STYLES_DEMO = [
   {
     name: "Traditional",
     desc: "Couleurs audacieuses, contours épais — les racines du tatouage américain revisitées.",
@@ -160,7 +161,7 @@ const STYLES = [
   },
 ]
 
-const ARTISTS = [
+const ARTISTS_DEMO = [
   {
     name: "Kira Voss",
     specialty: "Japanese & Neo-Traditional",
@@ -190,7 +191,7 @@ const ARTISTS = [
   },
 ]
 
-const FLASH_PIECES = [
+const FLASH_PIECES_DEMO = [
   { name: "Serpent Tribal", price: 80, size: "5cm", style: "Traditional" },
   { name: "Lune & Étoiles", price: 120, size: "8cm", style: "Fineline" },
   { name: "Crâne Floral", price: 180, size: "12cm", style: "Neo-Trad" },
@@ -273,7 +274,7 @@ const PRICING = [
   },
 ]
 
-const FAQS = [
+const FAQS_DEMO = [
   {
     q: "Est-ce que ça fait vraiment mal ?",
     a: "La douleur varie selon l'emplacement, la durée et votre seuil personnel. Les zones osseuses (côtes, colonne, coudes) sont plus sensibles. Nos artistes adaptent leur rythme et vous encouragent à prendre des pauses. La plupart de nos clients décrivent ça comme une expérience méditative.",
@@ -300,7 +301,7 @@ const FAQS = [
   },
 ]
 
-const GALLERY_IMAGES = [
+const GALLERY_IMAGES_DEMO = [
   "https://images.unsplash.com/photo-1598452963314-b09f397a5c48?w=800&q=80",
   "https://images.unsplash.com/photo-1611501275019-9b5cda994e8d?w=800&q=80",
   "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&q=80",
@@ -321,6 +322,7 @@ const GALLERY_IMAGES = [
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+let bp: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
 function photo(i: number, fallback: string): string {
@@ -341,6 +343,7 @@ export default function Impact199Page() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -357,7 +360,7 @@ export default function Impact199Page() {
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;
     let n = 1;
-    const _photoArrays: any[] = [STYLES, ARTISTS, GALLERY_IMAGES];
+    const _photoArrays: any[] = [STYLES_DEMO, ARTISTS_DEMO, GALLERY_IMAGES_DEMO];
     _photoArrays.forEach((arr) => {
       if (!Array.isArray(arr)) return;
       arr.forEach((item) => {
@@ -372,7 +375,48 @@ export default function Impact199Page() {
     });
   });
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
+
+  // Real client data (falls back to demo when the client left a field empty).
+  const STYLES = resolveList(
+    bp?.services?.map((s: any, i: number) => ({
+      name: s.title ?? STYLES_DEMO[i % STYLES_DEMO.length].name,
+      desc: s.description ?? STYLES_DEMO[i % STYLES_DEMO.length].desc,
+      image: STYLES_DEMO[i % STYLES_DEMO.length].image,
+      tag: s.price ?? STYLES_DEMO[i % STYLES_DEMO.length].tag,
+    })),
+    STYLES_DEMO,
+  );
+  const ARTISTS = resolveList(
+    bp?.team?.map((t: any, i: number) => ({
+      name: t.name ?? ARTISTS_DEMO[i % ARTISTS_DEMO.length].name,
+      specialty: t.specialty ?? t.role ?? ARTISTS_DEMO[i % ARTISTS_DEMO.length].specialty,
+      years: ARTISTS_DEMO[i % ARTISTS_DEMO.length].years,
+      bio: t.bio ?? t.credentials ?? ARTISTS_DEMO[i % ARTISTS_DEMO.length].bio,
+      slots: ARTISTS_DEMO[i % ARTISTS_DEMO.length].slots,
+      tag: ARTISTS_DEMO[i % ARTISTS_DEMO.length].tag,
+      image: t.photoUrl ?? ARTISTS_DEMO[i % ARTISTS_DEMO.length].image,
+    })),
+    ARTISTS_DEMO,
+  );
+  const FLASH_PIECES = resolveList(
+    bp?.beforeAfter?.map((b: any, i: number) => ({
+      name: b.caption ?? FLASH_PIECES_DEMO[i % FLASH_PIECES_DEMO.length].name,
+      price: FLASH_PIECES_DEMO[i % FLASH_PIECES_DEMO.length].price,
+      size: FLASH_PIECES_DEMO[i % FLASH_PIECES_DEMO.length].size,
+      style: FLASH_PIECES_DEMO[i % FLASH_PIECES_DEMO.length].style,
+    })),
+    FLASH_PIECES_DEMO,
+  );
+  const FAQS = resolveList(
+    bp?.faq?.map((f: any) => ({ q: f.q, a: f.a })),
+    FAQS_DEMO,
+  );
+  const GALLERY_IMAGES = resolveList(
+    bp?.beforeAfter?.map((b: any, i: number) => b.afterUrl ?? b.beforeUrl ?? GALLERY_IMAGES_DEMO[i % GALLERY_IMAGES_DEMO.length]),
+    GALLERY_IMAGES_DEMO,
+  );
 
   useFonts()
 
@@ -395,53 +439,7 @@ export default function Impact199Page() {
     return () => window.removeEventListener("scroll", onScroll)
   }, []);
 
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     setFormSent(true)
   }

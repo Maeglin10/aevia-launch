@@ -11,6 +11,7 @@ import {
   useMotionValue,
 } from 'framer-motion';
 import { ArrowRight, ChevronDown, PenLine } from 'lucide-react';
+import { resolveList } from "@/lib/templates/resolveList";
 
 /* ════════════════════════════════════════════════════════════════════════════
    ATELIER ENCRE VIVANTE — Tatouage Contemporain & Art Corporel · Lyon 1er
@@ -105,7 +106,7 @@ interface SafetyItem {
 
 const PHOTO_BASE = 'https://images.unsplash.com/photo-';
 
-const STYLES: Style[] = [
+const STYLES_DEMO: Style[] = [
   {
     id: 'geo',
     index: 'I',
@@ -129,7 +130,7 @@ const STYLES: Style[] = [
   },
 ];
 
-const ARTISTS: Artist[] = [
+const ARTISTS_DEMO: Artist[] = [
   {
     name: 'ELENA',
     specialty: 'Géométrique & Mandala',
@@ -208,7 +209,7 @@ const SAFETY_ITEMS: SafetyItem[] = [
   },
 ];
 
-const TESTIMONIALS: Testimonial[] = [
+const TESTIMONIALS_DEMO: Testimonial[] = [
   {
     quote:
       "J'avais une idée vague en tête — quelque chose de géométrique dans le dos, inspiré de l'astronomie. Elena a passé 90 minutes à traduire mes envies en un dessin que je n'aurais jamais imaginé seule. Après 8 séances, le résultat est absolument hors du commun. La précision géométrique est à couper le souffle.",
@@ -923,6 +924,16 @@ function ProgressDot({
 }
 
 function StyleSequence() {
+  const STYLES = resolveList(
+    bp?.services?.map((s: any, i: number) => ({
+      id: STYLES_DEMO[i % STYLES_DEMO.length].id,
+      index: STYLES_DEMO[i % STYLES_DEMO.length].index,
+      label: s.title ?? STYLES_DEMO[i % STYLES_DEMO.length].label,
+      sub: s.description ?? STYLES_DEMO[i % STYLES_DEMO.length].sub,
+      img: STYLES_DEMO[i % STYLES_DEMO.length].img,
+    })),
+    STYLES_DEMO,
+  );
   const n = STYLES.length;
   const progress = useMotionValue(0.5 / n);
   const [active, setActive] = useState(0);
@@ -1120,6 +1131,15 @@ function ArtistCard({ artist, i }: { artist: Artist; i: number }) {
 }
 
 function ArtistCards() {
+  const ARTISTS = resolveList(
+    bp?.team?.map((t: any, i: number) => ({
+      name: t.name ?? ARTISTS_DEMO[i % ARTISTS_DEMO.length].name,
+      specialty: t.specialty ?? t.role ?? ARTISTS_DEMO[i % ARTISTS_DEMO.length].specialty,
+      img: t.photoUrl ?? ARTISTS_DEMO[i % ARTISTS_DEMO.length].img,
+      since: ARTISTS_DEMO[i % ARTISTS_DEMO.length].since,
+    })),
+    ARTISTS_DEMO,
+  );
   const sec: React.CSSProperties = {
     background: C.bgAlt,
     padding: 'clamp(88px, 12vw, 160px) clamp(24px, 6vw, 96px)',
@@ -1460,6 +1480,14 @@ function SafetyPanel() {
    8 · TESTIMONIALS — bg, 2 cartes blanches, icône Plume en orange
    ════════════════════════════════════════════════════════════════════════════ */
 function Testimonials() {
+  const TESTIMONIALS = resolveList(
+    bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+      quote: r.text ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].quote,
+      name: r.name ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].name,
+      context: r.location ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].context,
+    })),
+    TESTIMONIALS_DEMO,
+  );
   const sec: React.CSSProperties = {
     background: C.bg,
     padding: 'clamp(88px, 12vw, 170px) clamp(24px, 6vw, 96px)',
@@ -2100,6 +2128,7 @@ function FooterLink({ label, href }: { label: string; href: string }) {
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+let bp: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
     formData?: {
@@ -2115,6 +2144,7 @@ export default function Page() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -2128,6 +2158,7 @@ export default function Page() {
 
   fd = session?.formData;
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, accent: brand, accentLight: shadeColor(brand, 25), accentDark: shadeColor(brand, -20) };
@@ -2143,53 +2174,7 @@ export default function Page() {
   };
 
   
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
+
 return (
     <main style={root} suppressHydrationWarning>
       {/* Google Fonts */}

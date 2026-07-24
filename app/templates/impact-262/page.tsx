@@ -11,6 +11,7 @@ import {
   useMotionValue,
 } from 'framer-motion';
 import { ArrowRight, ChevronDown, Star } from 'lucide-react';
+import { resolveList } from "@/lib/templates/resolveList";
 
 /* ════════════════════════════════════════════════════════════════════════════
    STUDIO NOIR ABSOLU — Tatouage Fine Art & Illustration · Paris 3e Marais
@@ -109,7 +110,7 @@ interface SafetyItem {
    Données
    ════════════════════════════════════════════════════════════════════════════ */
 
-const STYLES: Style[] = [
+const STYLES_DEMO: Style[] = [
   {
     num: '1',
     roman: 'I',
@@ -133,7 +134,7 @@ const STYLES: Style[] = [
   },
 ];
 
-const ARTISTS: Artist[] = [
+const ARTISTS_DEMO: Artist[] = [
   {
     name: 'KIRA',
     specialty: 'Illustration & manga',
@@ -214,7 +215,7 @@ const SAFETY_ITEMS: SafetyItem[] = [
   },
 ];
 
-const TESTIMONIALS: Testimonial[] = [
+const TESTIMONIALS_DEMO: Testimonial[] = [
   {
     quote:
       "J\'ai 12 tatouages signés de mains différentes à travers le monde. La manche réalisée par Kira est la pièce maîtresse de ma collection — un univers narratif complet sur une seule peau.",
@@ -940,6 +941,16 @@ function ProgressDot({
 }
 
 function StyleSequence() {
+  const STYLES = resolveList(
+    bp?.services?.map((s: any, i: number) => ({
+      num: STYLES_DEMO[i % STYLES_DEMO.length].num,
+      roman: STYLES_DEMO[i % STYLES_DEMO.length].roman,
+      label: s.title ?? STYLES_DEMO[i % STYLES_DEMO.length].label,
+      body: s.description ?? STYLES_DEMO[i % STYLES_DEMO.length].body,
+      imgId: STYLES_DEMO[i % STYLES_DEMO.length].imgId,
+    })),
+    STYLES_DEMO,
+  );
   const n = STYLES.length;
   const progress = useMotionValue(0.5 / n);
   const [active, setActive] = useState(0);
@@ -1158,6 +1169,16 @@ function ArtistCard({ artist, i }: { artist: Artist; i: number }) {
 }
 
 function ArtistCards() {
+  const ARTISTS = resolveList(
+    bp?.team?.map((t: any, i: number) => ({
+      name: t.name ?? ARTISTS_DEMO[i % ARTISTS_DEMO.length].name,
+      specialty: t.specialty ?? t.role ?? ARTISTS_DEMO[i % ARTISTS_DEMO.length].specialty,
+      wait: ARTISTS_DEMO[i % ARTISTS_DEMO.length].wait,
+      bio: t.bio ?? t.credentials ?? ARTISTS_DEMO[i % ARTISTS_DEMO.length].bio,
+      imgId: ARTISTS_DEMO[i % ARTISTS_DEMO.length].imgId,
+    })),
+    ARTISTS_DEMO,
+  );
   const sec: React.CSSProperties = {
     background: C.bgAlt,
     padding:
@@ -1502,6 +1523,14 @@ function SafetyPanel() {
    8 · TESTIMONIALS — bg, 2 cartes blanches, étoiles gold, SERIF italic
    ════════════════════════════════════════════════════════════════════════════ */
 function Testimonials() {
+  const TESTIMONIALS = resolveList(
+    bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+      quote: r.text ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].quote,
+      name: r.name ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].name,
+      role: r.location ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].role,
+    })),
+    TESTIMONIALS_DEMO,
+  );
   const sec: React.CSSProperties = {
     background: C.bg,
     padding:
@@ -2197,6 +2226,7 @@ function Footer() {
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+let bp: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
     formData?: {
@@ -2212,6 +2242,7 @@ export default function Page() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -2225,6 +2256,7 @@ export default function Page() {
 
   fd = session?.formData;
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   if (brand) {
@@ -2245,53 +2277,7 @@ export default function Page() {
   };
 
   
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
+
 return (
     <main style={root} suppressHydrationWarning>
       {/* Google Fonts */}
