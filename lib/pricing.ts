@@ -23,7 +23,7 @@ export const DEFAULT_CURRENCY: Currency = "EUR";
 // Matches products.prices in the Aevia DB exactly.
 const PRICE_TABLE: Record<number, Record<Currency, number>> = {
   0:    { EUR: 0,    CHF: 0,    USD: 0,    GBP: 0 },
-  59:   { EUR: 59,   CHF: 59,   USD: 65,   GBP: 49 },   // maintenance / mo
+  20:   { EUR: 20,   CHF: 20,   USD: 22,   GBP: 17 },   // maintenance / mo
   149:  { EUR: 149,  CHF: 149,  USD: 169,  GBP: 129 },  // branding add-on
   399:  { EUR: 399,  CHF: 395,  USD: 439,  GBP: 349 },  // Landing tier
   599:  { EUR: 599,  CHF: 590,  USD: 659,  GBP: 519 },  // Essentiel tier
@@ -86,7 +86,7 @@ export const ADDONS = {
   // identity without going full custom (Premium).
   branding:    { id: "branding",    label: "Service Branding",      sublabel: "Logo + charte couleurs + retouche photos", price: 149, recurring: false },
   // Updates, hosting & priority support, billed monthly after delivery.
-  maintenance: { id: "maintenance", label: "Maintenance mensuelle", sublabel: "Mises à jour, hébergement & support",      price: 59,  recurring: true  },
+  maintenance: { id: "maintenance", label: "Maintenance mensuelle", sublabel: "Mises à jour, hébergement & support",      price: 20,  recurring: true  },
 } as const;
 
 // ─── Pricing tiers (for a /pricing or homepage section) ─────────────────────

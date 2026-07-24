@@ -146,7 +146,7 @@ function orderEmailHtml(params: {
 }): string {
   const { name, typeLabel, maintenance, total, date, sessionId, brief, previewUrl } = params;
   const basePrice = SITE_PRICES[params.type] ?? total;
-  const maintenancePrice = 59;
+  const maintenancePrice = 20;
 
   // Escape all Stripe metadata values before injecting into HTML
   const safeName = escapeHtml(name);

@@ -131,6 +131,11 @@ export async function POST(req: NextRequest) {
       });
     }
 
+    // Free-hosting period by tier, matching the /pricing page promise
+    // (Landing/Essentiel: none, Pro: 3 months, Premium: 6 months).
+    const maintenanceTrialDays =
+      siteInfo.price >= 1499 ? 180 : siteInfo.price >= 899 ? 90 : 0;
+
     if (withMaintenance) {
       lineItems.push({
         price_data: {
@@ -139,9 +144,8 @@ export async function POST(req: NextRequest) {
             name: ADDONS.maintenance.label,
             description: ADDONS.maintenance.sublabel,
           },
-          // Recurring maintenance billed monthly — use a one-time line item
-          // to avoid Stripe subscription complexity; displayed as monthly on order page
           unit_amount: priceIn(ADDONS.maintenance.price, ccy) * 100,
+          recurring: { interval: "month" },
         },
         quantity: 1,
       });
@@ -164,8 +168,13 @@ export async function POST(req: NextRequest) {
       }
     }
 
+    // With hosting selected, the site price + branding ride as one-time
+    // invoice items on the subscription's first invoice (Stripe bills
+    // non-recurring price_data line items once, immediately, even inside
+    // mode:"subscription") while the maintenance line becomes the actual
+    // recurring charge — trial_period_days defers only that recurring part.
     const session = await stripe.checkout.sessions.create({
-      mode: "payment",
+      mode: withMaintenance ? "subscription" : "payment",
       // payment_method_types omitted → Stripe auto-enables all activated methods
       // (cards, Apple Pay, Google Pay, Link, SEPA…). Enable each one in
       // Stripe Dashboard → Settings → Payment methods. Apple Pay and Google Pay
@@ -179,6 +188,9 @@ export async function POST(req: NextRequest) {
           request_three_d_secure: "automatic",
         },
       },
+      ...(withMaintenance && maintenanceTrialDays > 0
+        ? { subscription_data: { trial_period_days: maintenanceTrialDays } }
+        : {}),
       metadata: {
         siteName,
         siteType,
