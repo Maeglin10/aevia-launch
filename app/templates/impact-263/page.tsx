@@ -11,6 +11,7 @@ import {
   useMotionValue,
 } from 'framer-motion';
 import { ArrowRight, ChevronDown, Leaf, MapPin, Send } from 'lucide-react';
+import { resolveList } from "@/lib/templates/resolveList";
 
 /* ════════════════════════════════════════════════════════════════════════════
    JARDINS VIVANTS — Paysagiste-Concepteur & Permaculture · Bordeaux
@@ -101,7 +102,7 @@ interface EcoItem {
    Données
    ════════════════════════════════════════════════════════════════════════════ */
 
-const PROJECTS: Project[] = [
+const PROJECTS_DEMO: Project[] = [
   {
     id: 'proj-1',
     src: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?q=80&w=1600&auto=format&fit=crop',
@@ -125,7 +126,7 @@ const PROJECTS: Project[] = [
   },
 ];
 
-const SERVICES: Service[] = [
+const SERVICES_DEMO: Service[] = [
   { icon: '⬡', title: 'Conception 3D', desc: 'Plans en perspective, rendu photoréaliste et visite virtuelle avant la première pelletée de terre.' },
   { icon: '⬡', title: 'Jardin naturel', desc: "Jardins en harmonie avec l\'écosystème local, plantations mellifères, zéro pesticide de synthèse." },
   { icon: '⬡', title: 'Potager biologique', desc: 'Buttes lasagne, association de cultures, bâches de paillage biodégradables, autonomie alimentaire.' },
@@ -184,7 +185,7 @@ const ECO_ITEMS: EcoItem[] = [
   },
 ];
 
-const TESTIMONIALS: Testimonial[] = [
+const TESTIMONIALS_DEMO: Testimonial[] = [
   {
     quote:
       "Nous avions une cour bétonnée sans âme. Aujourd\'hui c\'est une forêt comestible de 80 m². Dès le quatrième mois, nous récoltions herbes aromatiques, fraises et courgettes. L\'équipe de Jardins Vivants a transformé notre regard sur notre extérieur.",
@@ -912,6 +913,16 @@ function ProgressDot({
 }
 
 function ProjectSequence() {
+  const PROJECTS: Project[] = resolveList(
+    bp?.beforeAfter?.map((r: any, i: number) => ({
+      id: `proj-${i + 1}`,
+      src: r.afterUrl ?? r.beforeUrl ?? r.imageUrl,
+      index: PROJECTS_DEMO[i % PROJECTS_DEMO.length].index,
+      title: r.caption ?? PROJECTS_DEMO[i % PROJECTS_DEMO.length].title,
+      sub: r.description ?? PROJECTS_DEMO[i % PROJECTS_DEMO.length].sub,
+    })),
+    PROJECTS_DEMO
+  );
   const n = PROJECTS.length;
   const progress = useMotionValue(0.5 / n);
   const [active, setActive] = useState(0);
@@ -1094,6 +1105,14 @@ function ServiceCards() {
     maxWidth: 1240,
     margin: '0 auto',
   };
+  const SERVICES: Service[] = resolveList(
+    bp?.services?.map((s: any, i: number) => ({
+      icon: SERVICES_DEMO[i % SERVICES_DEMO.length].icon,
+      title: s.title ?? s.name,
+      desc: s.description ?? s.desc,
+    })),
+    SERVICES_DEMO
+  );
   return (
     <section style={sec} id="services">
       <div style={{ maxWidth: 1240, margin: '0 auto 56px' }}>
@@ -1498,6 +1517,14 @@ function Testimonials() {
     maxWidth: 1180,
     margin: '0 auto',
   };
+  const TESTIMONIALS: Testimonial[] = resolveList(
+    bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+      quote: r.text ?? r.quote,
+      name: r.name ?? r.author,
+      role: r.location ?? r.role ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].role,
+    })),
+    TESTIMONIALS_DEMO
+  );
   return (
     <section style={sec} id="temoignages">
       <div style={{ maxWidth: 1180, margin: '0 auto 56px', textAlign: 'center' }}>
@@ -2105,6 +2132,7 @@ function Footer() {
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 let brand: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
@@ -2121,6 +2149,7 @@ export default function Page() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -2137,7 +2166,7 @@ export default function Page() {
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;
     let n = 0;
-    const _photoArrays: any[] = [PROJECTS];
+    const _photoArrays: any[] = [PROJECTS_DEMO];
     _photoArrays.forEach((arr) => {
       if (!Array.isArray(arr)) return;
       arr.forEach((item) => {
@@ -2152,6 +2181,7 @@ export default function Page() {
     });
   });
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, accent: brand, accentLight: shadeColor(brand, 25), accentDark: shadeColor(brand, -20) };
@@ -2166,55 +2196,7 @@ export default function Page() {
     MozOsxFontSmoothing: 'grayscale',
   };
 
-  
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
-return (
+  return (
     <main style={root} suppressHydrationWarning>
       {/* Google Fonts */}
       <style>{`@import url('${FONTS_URL}');`}</style>
