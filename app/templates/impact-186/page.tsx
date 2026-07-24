@@ -6,6 +6,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { Phone, Star, MapPin, Clock, CheckCircle, Shield, Smile, Heart, Calendar, Menu } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import { resolveList } from "@/lib/templates/resolveList"
 
 /* ═══════════════════════════════════════════════════════════════════════════
    DR. LÉA FONTAINE — Cabinet dentaire moderne (Nantes)
@@ -25,7 +26,7 @@ function Reveal({ children, delay = 0, y = 20 }: { children: React.ReactNode; de
   )
 }
 
-const SOINS = [
+const SOINS_DEMO = [
   { icon: Smile, title: "Soins conservateurs", desc: "Détartrage, traitement de caries, obturations composite teintées. Matériaux sans mercure, résultat esthétique invisible." },
   { icon: Heart, title: "Prothèses & couronnes", desc: "Couronnes céramique, bridges, prothèses amovibles. Fabrication sur mesure, teintes naturelles, ajustement précis." },
   { icon: Star, title: "Esthétique dentaire", desc: "Blanchiment LED, facettes porcelaine, correction sourire. Résultat naturel garanti. Simulateur sourire en consultation." },
@@ -38,6 +39,7 @@ const SOINS = [
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
@@ -59,6 +61,7 @@ export default function DrFontainePage() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -72,7 +75,17 @@ export default function DrFontainePage() {
 
   fd = session?.formData;
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
+
+  const SOINS: any[] = resolveList(
+    bp?.services?.map((s: any, i: number) => ({
+      icon: SOINS_DEMO[i % SOINS_DEMO.length].icon,
+      title: s.title ?? s.name,
+      desc: s.description ?? s.desc,
+    })),
+    SOINS_DEMO
+  );
 
   const heroRef = useRef(null)
   const [scrolled, setScrolled] = useState(false)
@@ -87,53 +100,7 @@ export default function DrFontainePage() {
     return () => window.removeEventListener("scroll", h)
   }, []);
 
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);return (
+  return (
     <div className="bg-white text-[#1a2332] overflow-x-hidden" style={{ fontFamily: "'Nunito', 'Inter', system-ui, sans-serif" }}>
       {/* ── NAVBAR ── */}
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-white/98 backdrop-blur-xl py-3 shadow-sm border-b border-[#1d6fa4]/10" : "bg-white/95 backdrop-blur-md py-5 border-b border-[#1d6fa4]/5"}`}>
@@ -291,11 +258,15 @@ export default function DrFontainePage() {
             <h2 className="text-4xl font-bold text-[#1a2332]">Des praticiens <span className="text-[#1d6fa4]">à votre écoute.</span></h2>
           </div></Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {[
+            {resolveList(bp?.team?.map((m: any) => ({
+              nom: m.name,
+              sp: m.role ?? m.specialty ?? "",
+              f: m.bio ?? m.credentials ?? m.specialty ?? "",
+            })), [
               { nom: "Dr. Léa Fontaine", sp: "Omnipratique & Esthétique", f: "Diplômée Faculté de Nantes 2006, DU Implantologie Tours 2010" },
               { nom: "Dr. Antoine Merle", sp: "Orthodontie & Invisalign®", f: "Spécialiste orthodontie, formateur Invisalign® Provider certifié" },
               { nom: "Sophie C.", sp: "Assistante dentaire", f: "10 ans d'expérience, spécialisée chirurgie implantaire et accueil patient" },
-            ].map((p, i) => (
+            ] as any[]).map((p: any, i: number) => (
               <Reveal key={i} delay={i * 0.09}>
                 <div className="p-7 rounded-2xl bg-[#f5faff] border border-[#e8f4fd]">
                   <div className="w-14 h-14 rounded-full bg-[#1d6fa4]/10 flex items-center justify-center mb-5">
@@ -319,11 +290,15 @@ export default function DrFontainePage() {
             <h2 className="text-3xl font-bold text-[#1a2332]">Ils nous font <span className="text-[#1d6fa4]">confiance.</span></h2>
           </div></Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-            {[
+            {resolveList(bp?.reputation?.featuredReviews?.map((r: any) => ({
+              q: r.text ?? r.quote,
+              n: r.name ?? r.author,
+              l: r.location ?? r.context ?? "",
+            })), [
               { q: "Enfin un cabinet où on se sent à l'aise ! Le Dr. Fontaine prend le temps d'expliquer chaque soin. Pas de douleur, gestes précis, suivi parfait.", n: "Marie-Claire H.", l: "Nantes" },
               { q: "Implant posé sans douleur ni anxiété grâce à l'équipe super rassurante. Résultat bluffant — on ne voit plus la différence avec la vraie dent.", n: "Philippe T.", l: "Saint-Nazaire" },
               { q: "Aligneurs transparents pour ma fille de 16 ans. En 14 mois, résultat parfait. Suivi régulier, app de suivi, équipe disponible. Très satisfaits.", n: "Nathalie & Lucas B.", l: "Rezé (44)" },
-            ].map((t, i) => (
+            ] as any[]).map((t: any, i: number) => (
               <Reveal key={i} delay={i * 0.1}>
                 <div className="p-8 bg-white rounded-2xl border border-[#e8f4fd] shadow-sm h-full flex flex-col">
                   <div className="flex gap-1 mb-4">

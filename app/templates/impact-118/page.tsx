@@ -6,6 +6,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { Watch, ArrowRight, Menu, Star, Sparkles, Shield, Clock, Award, Hammer, Compass, ChevronRight, Play, BookOpen, History, Cpu, Wrench } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import { resolveList } from "@/lib/templates/resolveList"
 
 function Reveal({ children, delay = 0, y = 40 }: { children: React.ReactNode; delay?: number; y?: number }) {
   const ref = useRef(null)
@@ -32,13 +33,13 @@ function ParallaxImg({ src, alt }: { src: string; alt: string }) {
   )
 }
 
-const COLLECTION = [
+const COLLECTION_DEMO = [
   { name: "Horology One", series: "Precision Series", price: "€14,500", img: "https://images.unsplash.com/photo-1524592094714-0f0654e20314?auto=format&fit=crop&q=80&w=1200", desc: "Brushed titanium case with a 72-hour power reserve and sapphire crystal." },
   { name: "Deep Sea", series: "Oceanic Series", price: "€18,200", img: "https://images.unsplash.com/photo-1547996160-81dfa63595aa?auto=format&fit=crop&q=80&w=1200", desc: "Professional diver's watch water resistant to 1000m with helium escape valve." },
   { name: "Lunar Phase", series: "Astral Series", price: "€22,900", img: "https://images.unsplash.com/photo-1524592094714-0f0654e20314?auto=format&fit=crop&q=80&w=1200", desc: "Perpetual moon phase complication with 18k rose gold hand-engraved dial." },
 ]
 
-const CRAFT = [
+const CRAFT_DEMO = [
   { icon: Hammer, title: "Artisan Hand-Assembly", desc: "Over 200 hours of precision assembly by master horologists in our Swiss atelier." },
   { icon: Compass, title: "Navigational Precision", desc: "Calibrated to +/- 1 second per day, surpassing traditional COSC standards." },
   { icon: Shield, title: "Indestructible Materials", desc: "Grade 5 titanium and scratch-proof sapphire with multi-layer anti-reflective coating." },
@@ -50,6 +51,7 @@ type ActivePage = "home" | "atelier" | "collection" | "concierge" | "legal" | "c
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
@@ -71,6 +73,7 @@ export default function ChronosLuxuryPage() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -87,7 +90,7 @@ export default function ChronosLuxuryPage() {
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;
     let n = 14;
-    const _photoArrays: any[] = [COLLECTION];
+    const _photoArrays: any[] = [COLLECTION_DEMO];
     _photoArrays.forEach((arr) => {
       if (!Array.isArray(arr)) return;
       arr.forEach((item) => {
@@ -102,7 +105,27 @@ export default function ChronosLuxuryPage() {
     });
   });
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
+
+  const COLLECTION: any[] = resolveList(
+    bp?.beforeAfter?.map((b: any, i: number) => ({
+      name: b.caption ?? COLLECTION_DEMO[i % COLLECTION_DEMO.length].name,
+      series: COLLECTION_DEMO[i % COLLECTION_DEMO.length].series,
+      price: COLLECTION_DEMO[i % COLLECTION_DEMO.length].price,
+      img: b.afterUrl ?? b.beforeUrl ?? COLLECTION_DEMO[i % COLLECTION_DEMO.length].img,
+      desc: b.caption ?? COLLECTION_DEMO[i % COLLECTION_DEMO.length].desc,
+    })),
+    COLLECTION_DEMO
+  );
+  const CRAFT: any[] = resolveList(
+    bp?.services?.map((s: any, i: number) => ({
+      icon: CRAFT_DEMO[i % CRAFT_DEMO.length].icon,
+      title: s.title ?? s.name,
+      desc: s.description ?? s.desc,
+    })),
+    CRAFT_DEMO
+  );
 
   const [page, setPage] = useState<ActivePage>("home");
   const goTo = (p: ActivePage) => {
@@ -120,53 +143,7 @@ export default function ChronosLuxuryPage() {
     return () => window.removeEventListener("scroll", h)
   }, []);
 
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);return (
+  return (
     <div className="bg-[#050505] text-[#d4af37] font-sans min-h-dvh selection:bg-[#d4af37] selection:text-black overflow-x-clip">
       
       {/* ── NAVBAR ────────────────── */}

@@ -5,6 +5,7 @@ import { useRef, useState, useEffect } from "react"
 import Link from "next/link"
 import { Shield, ArrowRight, Menu, Lock, Zap, Activity, Cpu, Globe, Terminal, ChevronRight, Eye, Radar } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import { resolveList } from "@/lib/templates/resolveList"
 
 function Reveal({ children, delay = 0, y = 30 }: { children: React.ReactNode; delay?: number; y?: number }) {
   const ref = useRef(null)
@@ -29,6 +30,7 @@ function GridBackground() {
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 let brand: any = null;
 export default function VanguardLegalPage() {
   const [session, setSession] = useState<{
@@ -45,6 +47,7 @@ export default function VanguardLegalPage() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -58,6 +61,7 @@ export default function VanguardLegalPage() {
 
   fd = session?.formData;
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const [scrolled, setScrolled] = useState(false)
@@ -68,53 +72,7 @@ export default function VanguardLegalPage() {
     return () => window.removeEventListener("scroll", h)
   }, []);
 
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);return (
+  return (
     <div className="bg-[#02040a] text-white font-mono min-h-dvh selection:bg-[#00ff41] selection:text-black overflow-x-hidden">
       
       {/* ── NAVBAR ────────────────── */}
@@ -252,11 +210,11 @@ export default function VanguardLegalPage() {
             </Reveal>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-0 border border-white/5">
-              {[
+              {resolveList(bp?.services?.map((s: any, i: number) => ({ icon: [Radar, Lock, Eye][i % 3], t: s.title ?? s.name, d: s.description ?? s.desc })), [
                 { icon: Radar, t: "Asset Intelligence", d: "Deep-web tracing and forensic accounting to locate misappropriated holdings globally." },
                 { icon: Lock, t: "Extraction Strategy", d: "Surgical legal maneuvers to freeze and extract assets across complex jurisdictions." },
                 { icon: Eye, t: "Privacy Cloaking", d: "Digital erasure and physical security protocols to ensure your movements remain invisible." }
-              ].map((item, i) => (
+              ] as any[]).map((item: any, i: number) => (
                 <Reveal key={i} delay={i * 0.1}>
                   <div className={`p-16 flex flex-col h-full border-white/5 group ${i < 2 ? "md:border-r" : ""}`}>
                     <div className="w-16 h-16 border border-[#00ff41]/20 flex items-center justify-center mb-12 group-hover:bg-[#00ff41] group-hover:text-black transition-all duration-700">
@@ -333,11 +291,11 @@ export default function VanguardLegalPage() {
               </h2>
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-[#00ff41]/5">
-              {[
+              {resolveList(bp?.reputation?.featuredReviews?.map((r: any) => ({ quote: r.text ?? r.quote, handle: r.name ?? r.author, org: r.location ?? r.context ?? "" })), [
                 { quote: "Our red team couldn't find a single gap after deployment. The threat graph identified a lateral movement path we had missed for two years. Mission critical.", handle: "// SEC_LEAD_ORION", org: "Fortune 500 · Financial Sector" },
                 { quote: "Six ransomware attempts blocked in 90 days. Zero successful intrusions. The AI intercepts attacks before our SOC analysts even see the alert.", handle: "// CISO_MERIDIAN", org: "Critical Infrastructure" },
                 { quote: "We replaced four separate tools with this single platform. Coverage increased 40%, cost dropped 60%. The ROI conversation with the board was the easiest I've had.", handle: "// INFOSEC_VOSS", org: "Global SaaS · Series C" },
-              ].map((t, i) => (
+              ] as any[]).map((t: any, i: number) => (
                 <Reveal key={i} delay={i * 0.1}>
                   <div className="bg-[#02040a] p-10 flex flex-col gap-6 hover:bg-black transition-colors border border-[#00ff41]/5 hover:border-[#00ff41]/20">
                     <Terminal className="w-4 h-4 text-[#00ff41]/40" />
@@ -363,12 +321,12 @@ export default function VanguardLegalPage() {
               </h2>
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-4 gap-px bg-[#00ff41]/5">
-              {[
+              {resolveList(bp?.team?.map((tm: any, i: number) => ({ handle: (["WRAITH", "CIPHER", "GHOST", "SPECTER"][i % 4]), name: tm.name, role: tm.role ?? tm.specialty ?? "", clearance: (["ALPHA", "BRAVO", "CHARLIE"][i % 3]), years: tm.credentials ?? "" })), [
                 { handle: "WRAITH", name: "Elara Voss", role: "Threat Intelligence", clearance: "ALPHA", years: "14yr" },
                 { handle: "CIPHER", name: "Ryo Tanaka", role: "Offensive Security", clearance: "BRAVO", years: "11yr" },
                 { handle: "GHOST", name: "Omar Al Farsi", role: "AI/ML Defense", clearance: "ALPHA", years: "9yr" },
                 { handle: "SPECTER", name: "Nova Chen", role: "Incident Response", clearance: "CHARLIE", years: "7yr" },
-              ].map((m, i) => (
+              ] as any[]).map((m: any, i: number) => (
                 <Reveal key={m.handle} delay={i * 0.08}>
                   <div className="bg-black p-10 hover:bg-[#02040a] transition-colors group">
                     <div className="w-12 h-12 border border-[#00ff41]/20 flex items-center justify-center mb-6 group-hover:border-[#00ff41]/60 transition-colors">

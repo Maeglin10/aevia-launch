@@ -6,7 +6,8 @@ import { useRef, useState, useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { ArrowRight, ArrowUpRight, ChevronDown, ChevronLeft, ChevronRight } from "lucide-react"
-import { Reveal, ScrollImage, projects, services, team, testimonials, processSteps } from "./shared"
+import { resolveList } from "@/lib/templates/resolveList"
+import { Reveal, ScrollImage, projects as projects_DEMO, services as services_DEMO, team as team_DEMO, testimonials as testimonials_DEMO, processSteps } from "./shared"
 
 // Animated counter hook
 function useCounter(target: number, duration = 1800) {
@@ -43,6 +44,7 @@ function useCounter(target: number, duration = 1800) {
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
@@ -64,6 +66,7 @@ export default function Home() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -77,7 +80,49 @@ export default function Home() {
 
   fd = session?.formData;
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
+
+  const projects: any[] = resolveList(
+    bp?.beforeAfter?.map((b: any, i: number) => ({
+      name: b.caption ?? projects_DEMO[i % projects_DEMO.length].name,
+      loc: projects_DEMO[i % projects_DEMO.length].loc,
+      year: projects_DEMO[i % projects_DEMO.length].year,
+      type: projects_DEMO[i % projects_DEMO.length].type,
+      img: b.afterUrl ?? b.beforeUrl ?? projects_DEMO[i % projects_DEMO.length].img,
+      area: projects_DEMO[i % projects_DEMO.length].area,
+      concrete: projects_DEMO[i % projects_DEMO.length].concrete,
+      structure: projects_DEMO[i % projects_DEMO.length].structure,
+      description: b.caption ?? projects_DEMO[i % projects_DEMO.length].description,
+    })),
+    projects_DEMO
+  );
+  const services: any[] = resolveList(
+    bp?.services?.map((s: any, i: number) => ({
+      n: services_DEMO[i % services_DEMO.length].n,
+      title: s.title ?? s.name,
+      desc: s.description ?? s.desc,
+    })),
+    services_DEMO
+  );
+  const team: any[] = resolveList(
+    bp?.team?.map((m: any, i: number) => ({
+      name: m.name,
+      role: m.role ?? m.specialty ?? "",
+      img: m.photoUrl ?? team_DEMO[i % team_DEMO.length].img,
+    })),
+    team_DEMO
+  );
+  const testimonials: any[] = resolveList(
+    bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+      quote: r.text ?? r.quote,
+      author: r.name ?? r.author,
+      title: r.location ?? r.context ?? "",
+      project: testimonials_DEMO[i % testimonials_DEMO.length].project,
+      img: testimonials_DEMO[i % testimonials_DEMO.length].img,
+    })),
+    testimonials_DEMO
+  );
 
   const containerRef = useRef(null)
   const { scrollYProgress } = useScroll({ target: containerRef })
@@ -95,54 +140,7 @@ export default function Home() {
   const { count: sqmCount, ref: sqmRef } = useCounter(800)
 
   
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
-return (
+  return (
     <div ref={containerRef} className="relative w-full overflow-hidden">
       {/* Hero */}
       <section className="min-h-dvh flex flex-col relative pt-[72px] overflow-hidden">
