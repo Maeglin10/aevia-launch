@@ -33,10 +33,15 @@ export function ServiceRdvStep({
   value,
   onChange,
   sessionId,
+  variant = "default",
 }: {
   value: BusinessProfile | undefined;
   onChange: (bp: BusinessProfile) => void;
   sessionId: string | null;
+  // "sante" adds practitioner specialty/credentials fields to each team row
+  // and an emergency-contact section — reused as-is for médecin/dentiste/
+  // kiné/ostéo (same service_rdv archetype, no separate step needed).
+  variant?: "default" | "sante";
 }) {
   useAutoSaveStep(sessionId, "businessProfile", value);
 
@@ -158,6 +163,22 @@ export function ServiceRdvStep({
                   <X size={14} className="text-zinc-500 hover:text-zinc-300 transition-colors" />
                 </button>
               </div>
+              {variant === "sante" && (
+                <div className="flex items-center gap-2">
+                  <input
+                    className={`${input} flex-1`}
+                    value={m.specialty ?? ""}
+                    onChange={(e) => updateTeam(i, "specialty", e.target.value)}
+                    placeholder="Spécialité (ex : Pédiatrie)"
+                  />
+                  <input
+                    className={`${input} flex-1`}
+                    value={m.credentials ?? ""}
+                    onChange={(e) => updateTeam(i, "credentials", e.target.value)}
+                    placeholder="Diplômes / certifications"
+                  />
+                </div>
+              )}
               <label className="inline-flex items-center gap-2 text-xs text-zinc-400 cursor-pointer w-fit">
                 {uploadingIdx === i ? "Envoi…" : m.photoUrl ? "Photo ajoutée ✓" : "Ajouter une photo"}
                 <input
@@ -275,6 +296,37 @@ export function ServiceRdvStep({
           </button>
         </div>
       </div>
+
+      {/* Emergency contact (santé only) */}
+      {variant === "sante" && (
+        <div className="space-y-2">
+          <p className={label}>Urgences</p>
+          <label className="flex items-center gap-2 text-sm text-zinc-300">
+            <input
+              type="checkbox"
+              checked={!!value?.emergency?.enabled}
+              onChange={(e) => patch({ emergency: { ...value?.emergency, enabled: e.target.checked } })}
+            />
+            Nous prenons les urgences
+          </label>
+          {value?.emergency?.enabled && (
+            <div className="flex items-center gap-2">
+              <input
+                className={`${input} w-40`}
+                value={value?.emergency?.phone ?? ""}
+                onChange={(e) => patch({ emergency: { ...value?.emergency, enabled: true, phone: e.target.value } })}
+                placeholder="Téléphone d'urgence"
+              />
+              <input
+                className={`${input} flex-1`}
+                value={value?.emergency?.note ?? ""}
+                onChange={(e) => patch({ emergency: { ...value?.emergency, enabled: true, note: e.target.value } })}
+                placeholder="Note (ex : soir et week-end)"
+              />
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }

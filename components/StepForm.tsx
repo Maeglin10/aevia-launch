@@ -11,8 +11,10 @@ import { useLang } from "@/lib/LangContext";
 import { INDUSTRIES, SECTORS, SECTOR_TEMPLATES, TEMPLATE_CITY_LABELS } from "@/lib/templates/sectors";
 import { SECTOR_EXTRA_QUESTIONS } from "@/lib/templates/sector-questions";
 import { TEMPLATES_REGISTRY } from "@/lib/templates/registry";
-import { NICHE_ARCHETYPE } from "@/lib/wizard/archetypes";
+import { NICHE_ARCHETYPE, SANTE_NICHES } from "@/lib/wizard/archetypes";
 import { ServiceRdvStep } from "@/components/wizard/steps/ServiceRdvStep";
+import { FoodStep } from "@/components/wizard/steps/FoodStep";
+import { ImmobilierStep } from "@/components/wizard/steps/ImmobilierStep";
 import { LegalStep } from "@/components/wizard/steps/LegalStep";
 import type { BusinessProfile } from "@/lib/sessions";
 
@@ -409,7 +411,9 @@ export function StepForm() {
     } else if (s === 3) {
       if (!form.businessName.trim()) errs.businessName = t.errBusinessName;
       if (!form.tagline.trim()) errs.tagline = t.errTagline;
-    } else if (s === 4 && NICHE_ARCHETYPE[form.sector] !== "service_rdv") {
+    } else if (s === 4 && !NICHE_ARCHETYPE[form.sector]) {
+      // Only non-pilot niches (no dedicated step 4 component) use the
+      // generic "Votre offre" fields.
       if (!form.mainService.trim()) errs.mainService = t.errMainService;
       if (!form.benefit1.trim()) errs.benefit1 = t.errBenefit;
     } else if (s === 6) {
@@ -464,15 +468,21 @@ export function StepForm() {
         businessType: form.sector, // FormData contract key
         template: form.template,
         businessName: form.businessName, tagline: form.tagline, city: form.city,
-        // service_rdv niches skip the generic mainService/benefits fields (step 4
-        // is the businessProfile capture instead) — fall back to the first
-        // captured service so the AI copy prompt (lib/llmProviders.ts) never
-        // sees an empty "Service principal".
-        mainService: form.mainService || form.businessProfile.services?.[0]?.name || "",
+        // Pilot niches (service_rdv/food/immobilier) skip the generic
+        // mainService/benefits fields — step 4 is their businessProfile
+        // capture instead. Fall back to whatever catalogue they filled so
+        // the AI copy prompt (lib/llmProviders.ts) never sees empty strings.
+        mainService: form.mainService
+          || form.businessProfile.services?.[0]?.name
+          || form.businessProfile.menu?.[0]?.name
+          || form.businessProfile.listings?.[0]?.title
+          || "",
         benefits: (
           [form.benefit1, form.benefit2, form.benefit3].filter(Boolean).length > 0
             ? [form.benefit1, form.benefit2, form.benefit3].filter(Boolean)
-            : (form.businessProfile.services ?? []).slice(0, 3).map((s) => s.description || s.name)
+            : (form.businessProfile.services?.length ? form.businessProfile.services : form.businessProfile.menu?.length ? form.businessProfile.menu : form.businessProfile.listings ?? [])
+                .slice(0, 3)
+                .map((s: any) => s.description || s.name || s.title)
         ) as [string, string, string],
         priceRange: form.priceRange,
         brandColor: form.brandColor || "#7c3aed",
@@ -760,6 +770,19 @@ export function StepForm() {
           {/* STEP 4 — Offer */}
           {step === 4 && NICHE_ARCHETYPE[form.sector] === "service_rdv" ? (
             <ServiceRdvStep
+              value={form.businessProfile}
+              onChange={(bp) => set("businessProfile", bp)}
+              sessionId={sessionId}
+              variant={SANTE_NICHES.has(form.sector) ? "sante" : "default"}
+            />
+          ) : step === 4 && NICHE_ARCHETYPE[form.sector] === "food" ? (
+            <FoodStep
+              value={form.businessProfile}
+              onChange={(bp) => set("businessProfile", bp)}
+              sessionId={sessionId}
+            />
+          ) : step === 4 && NICHE_ARCHETYPE[form.sector] === "immobilier" ? (
+            <ImmobilierStep
               value={form.businessProfile}
               onChange={(bp) => set("businessProfile", bp)}
               sessionId={sessionId}

@@ -48,7 +48,15 @@ export const NICHE_ARCHETYPE: Record<string, ArchetypeId> = {
   institut_beaute: "service_rdv",
   coiffeur: "service_rdv",
   restaurant: "food",
+  restauration_rapide: "food",
   agent_immobilier: "immobilier",
   medecin: "service_rdv",
   dentiste: "service_rdv",
+  kine: "service_rdv",
+  osteo: "service_rdv",
 };
+
+// Niches within the service_rdv archetype that get the santé extension
+// (practitioner specialty/credentials fields + emergency contact) on top of
+// the base ServiceRdvStep — see components/wizard/steps/ServiceRdvStep.tsx.
+export const SANTE_NICHES = new Set(["medecin", "dentiste", "kine", "osteo"]);
