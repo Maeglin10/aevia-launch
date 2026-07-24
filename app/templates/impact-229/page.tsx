@@ -4,6 +4,7 @@
 import React, {useRef, useState, useEffect} from 'react'
 import { motion, useScroll, useTransform, useInView } from "framer-motion"
 import { Sparkles, Phone, Mail, MapPin, Clock, Star, CheckCircle, ArrowRight, Heart } from "lucide-react"
+import { resolveList } from "@/lib/templates/resolveList";
 
 // Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
 // used to derive companion shades from the client's brand color.
@@ -31,7 +32,7 @@ const FONT_BODY = "'Karla', system-ui, sans-serif"
 
 const STATS = [{ value: "14 ans", label: "D'expertise beauté" }, { value: "3 200+", label: "Soins réalisés" }, { value: "4.9★", label: "Avis Google" }, { value: "90 min", label: "Soin signature" }]
 
-const SOINS = [
+const SOINS_DEMO = [
   { titre: "Soins visage sur mesure", desc: "Nettoyage en profondeur, exfoliation, masque, sérum, hydratation. Protocole personnalisé après diagnostic de peau — 60 à 90 min.", tag: "Visage" },
   { titre: "Massage corps & modelage", desc: "Relaxant suédois, drainant lymphatique, modelage amincissant. Huiles végétales et essentielles biologiques. Dès 60 min.", tag: "Corps" },
   { titre: "Épilation & soins intimes", desc: "Épilation cire tiède ou orientale, soins post-épilation. Résultats durables et confort maximal. Zones corps et visage.", tag: "Épilation" },
@@ -47,7 +48,7 @@ const VALEURS = [
   "Formation continue annuelle de toute l'équipe",
 ]
 
-const AVIS = [
+const AVIS_DEMO = [
   { texte: "Le soin visage hydratant a complètement transformé ma peau en 6 semaines. L'esthéticienne a pris le temps d'analyser ma peau et adapté le protocole. Je n'avais jamais vécu ça ailleurs.", auteur: "Emma G.", detail: "Soin visage sur mesure" },
   { texte: "Massage drainant avant mon mariage : résultat visible en une séance. Corps léger, jambes désenflées, peau lumineuse. J'avais le corps de mes rêves le jour J. Merci !", auteur: "Sophie B.", detail: "Forfait mariage" },
   { texte: "Ritual spa duo avec ma meilleure amie pour notre anniversaire. Accueil aux petits soins, ambiance cocooning, soins au top. On a passé l'après-midi dans un vrai état de lévitation.", auteur: "Clara & Inès", detail: "Rituel spa duo" },
@@ -84,6 +85,7 @@ export default function EclatSpaPage() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -102,6 +104,15 @@ export default function EclatSpaPage() {
     C = { ...C, accent: brand };
   }
 
+  // Real business data (resolveList) replaces demo content wholesale when
+  // present — see the DEMO consts above for the shape each section falls
+  // back to. Field access in JSX uses `??` chains so both shapes render.
+  // Note: businessProfile is a sibling of formData on SessionData, not
+  // nested inside it — read from `session`, not `fd`.
+  const bp = session?.businessProfile;
+  const soins = resolveList(bp?.services, SOINS_DEMO);
+  const avis = resolveList(bp?.reputation?.featuredReviews, AVIS_DEMO);
+
   const heroRef = useRef<HTMLElement>(null)
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
@@ -114,53 +125,7 @@ export default function EclatSpaPage() {
     return () => window.removeEventListener("scroll", h)
   }, []);
 
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);return (
+  return (
     <div style={{ background: C.bg, fontFamily: FONT_BODY, overflowX: "hidden" }}>
       <style jsx global>{`@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Karla:wght@300;400;500;600;700&display=swap');
         /* mobile: stack 2-col grids to single column (added by responsive fix) */
@@ -264,12 +229,12 @@ export default function EclatSpaPage() {
           <h2 style={{ fontFamily: FONT, fontSize: "clamp(30px, 4vw, 52px)", color: C.text, marginTop: 10, lineHeight: 1.15 }}>Un univers dédié<br /><em>à votre bien-être.</em></h2>
         </div></Reveal>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: 18, maxWidth: 1200, margin: "0 auto" }}>
-          {SOINS.map((s, i) => (
-            <Reveal key={s.titre} delay={i * 0.07}>
+          {soins.map((s: any, i: number) => (
+            <Reveal key={s.titre ?? s.name ?? i} delay={i * 0.07}>
               <motion.div whileHover={{ y: -5, boxShadow: C.shadowLg }} style={{ background: C.white, borderRadius: 14, padding: "26px 24px", border: `1px solid ${C.border}`, boxShadow: C.shadow }}>
-                <span style={{ background: C.accentLight, color: C.accent, borderRadius: 20, padding: "4px 12px", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>{s.tag}</span>
-                <h3 style={{ fontFamily: FONT, fontSize: 18, color: C.text, margin: "14px 0 10px" }}>{s.titre}</h3>
-                <p style={{ fontSize: 14, color: C.textMuted, lineHeight: 1.7 }}>{s.desc}</p>
+                {s.tag && <span style={{ background: C.accentLight, color: C.accent, borderRadius: 20, padding: "4px 12px", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>{s.tag}</span>}
+                <h3 style={{ fontFamily: FONT, fontSize: 18, color: C.text, margin: "14px 0 10px" }}>{s.titre ?? s.name}</h3>
+                <p style={{ fontSize: 14, color: C.textMuted, lineHeight: 1.7 }}>{s.desc ?? s.description}</p>
               </motion.div>
             </Reveal>
           ))}
@@ -301,14 +266,14 @@ export default function EclatSpaPage() {
           <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 3.5vw, 48px)", color: "#fff", marginTop: 10 }}>Elles <em style={{ color: C.rose }}>rayonnent.</em></h2>
         </div></Reveal>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: 18, maxWidth: 1100, margin: "0 auto" }}>
-          {AVIS.map((a, i) => (
-            <Reveal key={a.auteur} delay={i * 0.1}>
+          {avis.map((a: any, i: number) => (
+            <Reveal key={a.auteur ?? a.author ?? i} delay={i * 0.1}>
               <div style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 14, padding: "26px 24px" }}>
                 <div style={{ display: "flex", gap: 3, marginBottom: 12 }}>{[...Array(5)].map((_, j) => <Star key={j} size={13} fill={C.rose} color={C.rose} />)}</div>
-                <p style={{ fontFamily: FONT, fontSize: 15, fontStyle: "italic", color: "rgba(255,255,255,0.78)", lineHeight: 1.72, marginBottom: 18 }}>"{a.texte}"</p>
+                <p style={{ fontFamily: FONT, fontSize: 15, fontStyle: "italic", color: "rgba(255,255,255,0.78)", lineHeight: 1.72, marginBottom: 18 }}>"{a.texte ?? a.text}"</p>
                 <div style={{ borderTop: "1px solid rgba(255,255,255,0.08)", paddingTop: 14 }}>
-                  <div style={{ fontWeight: 600, color: "#fff", fontSize: 14 }}>{a.auteur}</div>
-                  <div style={{ color: C.rose, fontSize: 12, marginTop: 4 }}>{a.detail}</div>
+                  <div style={{ fontWeight: 600, color: "#fff", fontSize: 14 }}>{a.auteur ?? a.author}</div>
+                  <div style={{ color: C.rose, fontSize: 12, marginTop: 4 }}>{a.detail ?? a.source ?? ""}</div>
                 </div>
               </div>
             </Reveal>
