@@ -12,6 +12,7 @@ import {
   AnimatePresence,
 } from 'framer-motion'
 import { TemplateIcon } from '@/components/TemplateIcon'
+import { resolveList } from "@/lib/templates/resolveList";
 
 /* ==========================================================================
    DESIGN TOKENS
@@ -57,7 +58,7 @@ const STATS = [
   { label: 'Pays', value: 12, suffix: '', prefix: '' },
 ]
 
-const PROJECTS = [
+const PROJECTS_DEMO = [
   {
     id: 1,
     name: 'Tour Confluence',
@@ -123,7 +124,7 @@ const MATERIALS = [
   },
 ]
 
-const TEAM = [
+const TEAM_DEMO = [
   {
     name: 'Jean-Marc Ferretti',
     role: 'Directeur Général & Fondateur',
@@ -150,7 +151,7 @@ const TEAM = [
   },
 ]
 
-const SERVICES = [
+const SERVICES_DEMO = [
   {
     icon: '⬜',
     title: 'Gros Œuvre',
@@ -482,6 +483,15 @@ function BlueprintHero() {
 function ServicesSection() {
   const ref = useRef<HTMLDivElement>(null)
   const inView = useInView(ref, { once: true, margin: '-100px' })
+
+  const SERVICES = resolveList(
+    bp?.services?.map((s: any, i: number) => ({
+      icon: SERVICES_DEMO[i % SERVICES_DEMO.length].icon,
+      title: s.title ?? s.name ?? SERVICES_DEMO[i % SERVICES_DEMO.length].title,
+      desc: s.description ?? s.desc ?? SERVICES_DEMO[i % SERVICES_DEMO.length].desc,
+    })),
+    SERVICES_DEMO
+  );
 
   return (
     <section
@@ -1068,6 +1078,15 @@ function ProjectsSection() {
   const ref = useRef<HTMLDivElement>(null)
   const inView = useInView(ref, { once: true, margin: '-100px' })
 
+  const PROJECTS = resolveList(
+    bp?.beforeAfter?.map((b: any, i: number) => ({
+      ...PROJECTS_DEMO[i % PROJECTS_DEMO.length],
+      id: i + 1,
+      name: b.caption ?? PROJECTS_DEMO[i % PROJECTS_DEMO.length].name,
+    })),
+    PROJECTS_DEMO
+  );
+
   return (
     <section
       ref={ref}
@@ -1127,7 +1146,7 @@ function ProjectTiltCard({
   index,
   inView,
 }: {
-  project: typeof PROJECTS[0]
+  project: typeof PROJECTS_DEMO[0]
   index: number
   inView: boolean
 }) {
@@ -1361,6 +1380,16 @@ function ProjectTiltCard({
 function TeamSection() {
   const ref = useRef<HTMLDivElement>(null)
   const inView = useInView(ref, { once: true, margin: '-100px' })
+
+  const TEAM = resolveList(
+    bp?.team?.map((t: any, i: number) => ({
+      ...TEAM_DEMO[i % TEAM_DEMO.length],
+      name: t.name ?? TEAM_DEMO[i % TEAM_DEMO.length].name,
+      role: t.role ?? TEAM_DEMO[i % TEAM_DEMO.length].role,
+      spec: t.specialty ?? t.bio ?? TEAM_DEMO[i % TEAM_DEMO.length].spec,
+    })),
+    TEAM_DEMO
+  );
 
   return (
     <section
@@ -2028,6 +2057,7 @@ function Nav() {
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 let brand: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
@@ -2044,6 +2074,7 @@ export default function Page() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -2057,59 +2088,12 @@ export default function Page() {
 
   fd = session?.formData;
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, yellow: brand };
   }
 
-  
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
 return (
     <main style={{ background: C.bg, overflowX: 'hidden' }}>
       <style>{`

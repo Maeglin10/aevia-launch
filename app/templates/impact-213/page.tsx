@@ -11,6 +11,7 @@ import {
 } from 'framer-motion'
 import { TemplateIcon } from '@/components/TemplateIcon'
 import { CheckCircle2 } from 'lucide-react'
+import { resolveList } from "@/lib/templates/resolveList";
 
 /* ─────────────────────────────────────────────
    DESIGN TOKENS
@@ -892,7 +893,7 @@ function Services() {
   const titleRef = useRef<HTMLHeadingElement>(null)
   const titleInView = useInView(titleRef, { once: true })
 
-  const services = [
+  const services_DEMO = [
     {
       icon: '🧱',
       title: 'Maçonnerie Générale',
@@ -936,6 +937,16 @@ function Services() {
       price: 'À partir de 25 €/m²',
     },
   ]
+
+  const services = resolveList(
+    bp?.services?.map((s: any, i: number) => ({
+      icon: services_DEMO[i % services_DEMO.length].icon,
+      title: s.title ?? s.name ?? services_DEMO[i % services_DEMO.length].title,
+      description: s.description ?? s.desc ?? services_DEMO[i % services_DEMO.length].description,
+      price: s.price ?? services_DEMO[i % services_DEMO.length].price,
+    })),
+    services_DEMO
+  );
 
   return (
     <section id="services" className="section-padding" style={{ background: C.bg }}>
@@ -1519,7 +1530,7 @@ function Realisations() {
   const titleRef = useRef<HTMLHeadingElement>(null)
   const titleInView = useInView(titleRef, { once: true })
 
-  const projects = [
+  const projects_DEMO = [
     {
       type: 'Ravalement ITE',
       location: 'Immeuble copropriété — Lyon 8e',
@@ -1569,6 +1580,14 @@ function Realisations() {
       tag: 'Tertiaire',
     },
   ]
+
+  const projects = resolveList(
+    bp?.beforeAfter?.map((b: any, i: number) => ({
+      ...projects_DEMO[i % projects_DEMO.length],
+      location: b.caption ?? projects_DEMO[i % projects_DEMO.length].location,
+    })),
+    projects_DEMO
+  );
 
   return (
     <section id="realisations" className="section-padding" style={{ background: C.bgAlt }}>
@@ -1735,7 +1754,7 @@ function Team() {
   const titleRef = useRef<HTMLHeadingElement>(null)
   const titleInView = useInView(titleRef, { once: true })
 
-  const members = [
+  const members_DEMO = [
     {
       name: 'Marc Durand',
       role: 'Fondateur & Gérant',
@@ -1758,6 +1777,19 @@ function Team() {
       initials: 'JM',
     },
   ]
+
+  const members = resolveList(
+    bp?.team?.map((t: any, i: number) => ({
+      ...members_DEMO[i % members_DEMO.length],
+      name: t.name ?? members_DEMO[i % members_DEMO.length].name,
+      role: t.role ?? members_DEMO[i % members_DEMO.length].role,
+      specialty: t.specialty ?? t.bio ?? members_DEMO[i % members_DEMO.length].specialty,
+      initials: t.name
+        ? t.name.split(' ').map((n: string) => n[0]).join('').slice(0, 2).toUpperCase()
+        : members_DEMO[i % members_DEMO.length].initials,
+    })),
+    members_DEMO
+  );
 
   return (
     <section id="equipe" className="section-padding" style={{ background: C.bg }}>
@@ -1884,7 +1916,7 @@ function Testimonials() {
   const titleRef = useRef<HTMLHeadingElement>(null)
   const titleInView = useInView(titleRef, { once: true })
 
-  const testimonials = [
+  const testimonials_DEMO = [
     {
       text: "Ravalement complet de notre immeuble de 12 lots, travaux terminés en avance sur le planning et dans le budget. Marc et son équipe ont été d'une professionnalisme exemplaire. Le syndic a déjà signé pour le prochain chantier.",
       author: 'Isabelle Roux',
@@ -1922,6 +1954,16 @@ function Testimonials() {
       rating: 4,
     },
   ]
+
+  const testimonials = resolveList(
+    bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+      text: r.text ?? testimonials_DEMO[i % testimonials_DEMO.length].text,
+      author: r.name ?? testimonials_DEMO[i % testimonials_DEMO.length].author,
+      role: r.location ?? testimonials_DEMO[i % testimonials_DEMO.length].role,
+      rating: r.stars ?? testimonials_DEMO[i % testimonials_DEMO.length].rating,
+    })),
+    testimonials_DEMO
+  );
 
   return (
     <section id="avis" className="section-padding" style={{ background: C.bgAlt }}>
@@ -2095,7 +2137,7 @@ function FAQ() {
   const titleRef = useRef<HTMLHeadingElement>(null)
   const titleInView = useInView(titleRef, { once: true })
 
-  const faqs = [
+  const faqs_DEMO = [
     {
       question: 'Comment obtenir un devis gratuit ?',
       answer:
@@ -2122,6 +2164,14 @@ function FAQ() {
         "Le délai varie selon l'envergure des travaux. Une ouverture de mur porteur se réalise en 1 à 2 jours. Une rénovation de salle de bain prend 5 à 7 jours. Un ravalement de façade d'un immeuble R+4 demande 4 à 6 semaines. Une extension de maison de 40 m² représente 8 à 12 semaines, fondations et finitions incluses. Nous vous communiquons un planning détaillé avant tout démarrage.",
     },
   ]
+
+  const faqs = resolveList(
+    bp?.faq?.map((f: any, i: number) => ({
+      question: f.q ?? faqs_DEMO[i % faqs_DEMO.length].question,
+      answer: f.a ?? faqs_DEMO[i % faqs_DEMO.length].answer,
+    })),
+    faqs_DEMO
+  );
 
   return (
     <section id="faq" className="section-padding" style={{ background: C.bg }}>
@@ -2737,6 +2787,7 @@ function Footer() {
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 let brand: any = null;
 export default function Impact213Page() {
   const [session, setSession] = useState<{
@@ -2753,6 +2804,7 @@ export default function Impact213Page() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -2766,59 +2818,12 @@ export default function Impact213Page() {
 
   fd = session?.formData;
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, accent: brand };
   }
 
-  
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
 return (
     <>
       <FontLoader />

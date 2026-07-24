@@ -10,10 +10,11 @@ import {
   ChevronRight, Menu, X, Users, Activity, Heart, Calendar,
   CheckCircle, Clock, MapPin, Phone, Mail, Instagram
 } from "lucide-react"
+import { resolveList } from "@/lib/templates/resolveList";
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
 
-const PROGRAMS = [
+const PROGRAMS_DEMO = [
   { title: "HIIT Circuit", intensity: "MAX", duration: "45 min", desc: "Intervalles haute intensité conçus pour brûler le maximum de calories et booster votre métabolisme 24h après la séance.", tag: "Bestseller" },
   { title: "Force Brute", intensity: "HIGH", duration: "60 min", desc: "Programme de musculation progressif orienté hypertrophie et développement de la force fonctionnelle.", tag: "Force" },
   { title: "CrossFit FORGE", intensity: "MAX", duration: "50 min", desc: "WODs variés combinant haltérophilie, cardio et mouvements gymnastics. La définition de l'effort total.", tag: "Signature" },
@@ -22,7 +23,7 @@ const PROGRAMS = [
   { title: "Récup Active", intensity: "LOW", duration: "45 min", desc: "Stretching profond, mobilité articulaire et techniques de récupération musculaire accélérée.", tag: "Recovery" },
 ]
 
-const COACHES = [
+const COACHES_DEMO = [
   {
     name: "Alexis Romain",
     role: "Head Coach — Force & Conditioning",
@@ -119,6 +120,7 @@ function Reveal({ children, delay = 0, y = 40 }: { children: React.ReactNode; de
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
@@ -140,6 +142,7 @@ export default function Impact174Page() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -152,6 +155,27 @@ export default function Impact174Page() {
   }, []);
 
   fd = session?.formData;
+  bp = session?.businessProfile;
+
+  const PROGRAMS = resolveList(
+    bp?.services?.map((s: any, i: number) => ({
+      ...PROGRAMS_DEMO[i % PROGRAMS_DEMO.length],
+      title: s.title ?? s.name ?? PROGRAMS_DEMO[i % PROGRAMS_DEMO.length].title,
+      desc: s.description ?? s.desc ?? PROGRAMS_DEMO[i % PROGRAMS_DEMO.length].desc,
+    })),
+    PROGRAMS_DEMO
+  );
+  const COACHES = resolveList(
+    bp?.team?.map((t: any, i: number) => ({
+      ...COACHES_DEMO[i % COACHES_DEMO.length],
+      name: t.name ?? COACHES_DEMO[i % COACHES_DEMO.length].name,
+      role: t.role ?? COACHES_DEMO[i % COACHES_DEMO.length].role,
+      certs: t.credentials ?? COACHES_DEMO[i % COACHES_DEMO.length].certs,
+      quote: t.bio ?? t.specialty ?? COACHES_DEMO[i % COACHES_DEMO.length].quote,
+      img: t.photoUrl ?? COACHES_DEMO[i % COACHES_DEMO.length].img,
+    })),
+    COACHES_DEMO
+  );
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;
@@ -186,53 +210,7 @@ export default function Impact174Page() {
     return () => window.removeEventListener("scroll", fn)
   }, []);
 
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);const navLinks = ["Programs", "Schedule", "Coaches", "Membership"]
+  const navLinks = ["Programs", "Schedule", "Coaches", "Membership"]
 
   return (
     <div className="min-h-dvh overflow-x-hidden bg-[#0a0a0a] text-[#f5f5f5]" style={{ fontFamily: "'Inter', sans-serif" }}>

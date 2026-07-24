@@ -7,6 +7,7 @@ import Link from "next/link";
 import {
   ArrowRight, Check, Leaf, Sun, Snowflake, Wind, Heart, Gift, Briefcase, Camera, ChevronDown, Star
 } from "lucide-react";
+import { resolveList } from "@/lib/templates/resolveList";
 import {
   C,
   seasons,
@@ -112,6 +113,15 @@ function CollectionsSection() {
   const inView = useInView(ref, { once: true, margin: "-80px" });
   const [activeSeason, setActiveSeason] = useState("spring");
   const active = seasons.find(s => s.id === activeSeason) || seasons[0];
+  const arrangements = resolveList(
+    bp?.services?.map((s: any, i: number) => ({
+      name: s.title ?? s.name ?? active.arrangements[i % active.arrangements.length].name,
+      price: s.price ?? active.arrangements[i % active.arrangements.length].price,
+      desc: s.description ?? s.desc ?? active.arrangements[i % active.arrangements.length].desc,
+      image: active.arrangements[i % active.arrangements.length].image,
+    })),
+    active.arrangements
+  );
 
   return (
     <section id="collections" ref={ref} style={{ background: C.bg, padding: "120px 24px" }}>
@@ -153,7 +163,7 @@ function CollectionsSection() {
           >
             <p style={{ fontFamily: "'Poppins', system-ui", fontSize: 16, color: C.textMuted, marginBottom: 40, maxWidth: 560 }}>{active.desc}</p>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(320px, 100%), 1fr))", gap: 24 }}>
-              {active.arrangements.map((arr, i) => (
+              {arrangements.map((arr: any, i: number) => (
                 <Link key={arr.name} href="/templates/impact-47/boutique" style={{ textDecoration: "none" }}>
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
@@ -302,6 +312,16 @@ function WorkshopSection() {
 function TestimonialsSection() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
+  const reviewList = resolveList(
+    bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+      name: r.name ?? testimonials[i % testimonials.length].name,
+      location: r.location ?? testimonials[i % testimonials.length].location,
+      rating: r.stars ?? testimonials[i % testimonials.length].rating,
+      text: r.text ?? testimonials[i % testimonials.length].text,
+      occasion: testimonials[i % testimonials.length].occasion,
+    })),
+    testimonials
+  );
 
   return (
     <section id="testimonials" ref={ref} style={{ background: C.bgPink, padding: "120px 24px" }}>
@@ -321,7 +341,7 @@ function TestimonialsSection() {
         </motion.div>
 
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(320px, 100%), 1fr))", gap: 20 }}>
-          {testimonials.map((t, i) => (
+          {reviewList.map((t: any, i: number) => (
             <motion.div
               key={t.name}
               initial={{ opacity: 0, y: 30 }}
@@ -416,6 +436,13 @@ function FAQSection() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
   const [openIdx, setOpenIdx] = useState<number | null>(null);
+  const faqList = resolveList(
+    bp?.faq?.map((f: any, i: number) => ({
+      q: f.q ?? faqs[i % faqs.length].q,
+      a: f.a ?? faqs[i % faqs.length].a,
+    })),
+    faqs
+  );
 
   return (
     <section id="faq" ref={ref} style={{ background: C.blush, padding: "120px 24px" }}>
@@ -433,7 +460,7 @@ function FAQSection() {
           <h2 style={{ fontFamily: "'Libre Baskerville', Georgia, serif", fontSize: "clamp(36px, 4vw, 52px)", color: C.text, margin: 0, fontWeight: 700 }}>Questions & Answers</h2>
         </motion.div>
 
-        {faqs.map((faq, i) => (
+        {faqList.map((faq: any, i: number) => (
           <motion.div
             key={i}
             initial={{ opacity: 0, y: 20 }}
@@ -469,6 +496,7 @@ function FAQSection() {
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 let brand: any = null;
 export default function FloristHome() {
   const [session, setSession] = useState<{
@@ -485,6 +513,7 @@ export default function FloristHome() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -498,56 +527,9 @@ export default function FloristHome() {
 
   fd = session?.formData;
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
-  
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
 return (
     <div style={{ background: C.bg, minHeight: "100dvh" }}>
       <style>{`
