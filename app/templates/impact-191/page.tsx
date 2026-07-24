@@ -6,6 +6,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { Leaf, Sun, Trees, Flower, Phone, Star, MapPin, Clock, CheckCircle, Scissors, Sprout, Droplets, Menu } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import { resolveList } from "@/lib/templates/resolveList";
 
 /* ═══════════════════════════════════════════════════════════════════════════
    JARDINS VIVANTS — Paysagiste & entretien espaces verts (Annecy)
@@ -38,13 +39,22 @@ function ParallaxImg({ src, alt }: { src: string; alt: string }) {
   )
 }
 
-const PRESTATIONS = [
+// Demo content — real data (businessProfile) replaces this wholesale via
+// resolveList when the client provided it; each field access below falls
+// back with `??` so the same JSX renders either shape.
+const PRESTATIONS_DEMO = [
   { icon: Flower, title: "Création jardin", desc: "Étude, plan 3D, terrassement, plantations, dallage, éclairage, arrosage automatique. Conception sur mesure de A à Z, du 10m² au 2 hectares." },
   { icon: Scissors, title: "Entretien régulier", desc: "Tonte, taille des haies et arbustes, désherbage, arrosage. Passage hebdomadaire, bihebdomadaire ou mensuel selon saison et superficie." },
   { icon: Trees, title: "Élagage & abattage", desc: "Élagage raisonné, recépage, abattage contrôlé de grands arbres. Matériel nacelle jusqu'à 28m. Broyage et évacuation des déchets végétaux." },
   { icon: Sprout, title: "Potager & verger", desc: "Création et entretien potager surélevé, verger, haie fruitière. Choix variétés adaptées au climat alpin, récoltes abondantes garanties." },
   { icon: Droplets, title: "Arrosage automatique", desc: "Études, installation et maintenance. Goutte-à-goutte, asperseurs, drip line, commande connectée. Économie d'eau jusqu'à 60% vs arrosage manuel." },
   { icon: Sun, title: "Massifs & vivaces", desc: "Composition massifs 4 saisons, rocailles, prairie fleurie, plantes locales et résistantes. Entretien minimal garanti, floraison continue d'avril à octobre." },
+]
+
+const TEMOIGNAGES_DEMO = [
+  { q: "Notre terrain en friche transformé en jardin à la française en 3 semaines. Plan proposé en 48h, devis clair, exécution irréprochable. On est bluffés.", n: "Marie-Claire & Paul G.", l: "Annecy-le-Vieux" },
+  { q: "Élagage d'un grand chêne de 20m de haut réalisé en sécurité totale. Pas une fleur touchée dans le jardin. Équipe pro, rapide, nettoyage parfait.", n: "Hervé T.", l: "Thônes (74)" },
+  { q: "Suivi entretien mensuel depuis 2 ans. Le jardin est toujours magnifique, même en mon absence. Ponctualité parfaite, conseils précieux sur les plantations.", n: "Charlotte S.", l: "Megève (74)" },
 ]
 
 
@@ -72,6 +82,7 @@ export default function JardinsVivantsPage() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -100,53 +111,16 @@ export default function JardinsVivantsPage() {
     return () => window.removeEventListener("scroll", h)
   }, []);
 
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);return (
+  // Real business data (resolveList) replaces demo content wholesale when
+  // present — see the DEMO consts above for the shape each section falls
+  // back to. Field access in JSX uses `??` chains so both shapes render.
+  // Note: businessProfile is a sibling of formData on SessionData, not
+  // nested inside it — read from `session`, not `fd`.
+  const bp = session?.businessProfile;
+  const prestations = resolveList(bp?.services, PRESTATIONS_DEMO);
+  const temoignages = resolveList(bp?.reputation?.featuredReviews, TEMOIGNAGES_DEMO);
+
+  return (
     <div className="bg-[#fafaf7] text-[#1e2a1c] overflow-x-hidden" style={{ fontFamily: "'Source Sans 3', 'Inter', system-ui, sans-serif" }}>
       {/* ── NAVBAR ── */}
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#fafaf7]/98 backdrop-blur-xl py-3 shadow-sm border-b border-[#2d5a27]/10" : "bg-transparent py-7"}`}>
@@ -274,14 +248,16 @@ export default function JardinsVivantsPage() {
             </div>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-            {PRESTATIONS.map((p, i) => (
-              <Reveal key={i} delay={i * 0.07}>
+            {prestations.map((p: any, i: number) => (
+              <Reveal key={p.title ?? p.name ?? i} delay={i * 0.07}>
                 <div className="group p-8 bg-white rounded-xl border border-[#e8f5e5] hover:border-[#2d5a27]/25 hover:shadow-lg hover:shadow-[#2d5a27]/5 transition-all duration-500 h-full">
-                  <div className="w-10 h-10 bg-[#e8f5e5] rounded-xl flex items-center justify-center mb-5 group-hover:bg-[#2d5a27] transition-colors duration-500">
-                    <p.icon className="w-5 h-5 text-[#2d5a27] group-hover:text-white transition-colors" />
-                  </div>
-                  <h3 className="font-bold text-[#1e2a1c] mb-3 group-hover:text-[#2d5a27] transition-colors" style={{ fontFamily: "'Cardo', serif" }}>{p.title}</h3>
-                  <p className="text-sm text-[#1e2a1c]/40 leading-relaxed">{p.desc}</p>
+                  {p.icon && (
+                    <div className="w-10 h-10 bg-[#e8f5e5] rounded-xl flex items-center justify-center mb-5 group-hover:bg-[#2d5a27] transition-colors duration-500">
+                      <p.icon className="w-5 h-5 text-[#2d5a27] group-hover:text-white transition-colors" />
+                    </div>
+                  )}
+                  <h3 className="font-bold text-[#1e2a1c] mb-3 group-hover:text-[#2d5a27] transition-colors" style={{ fontFamily: "'Cardo', serif" }}>{p.title ?? p.name}</h3>
+                  <p className="text-sm text-[#1e2a1c]/40 leading-relaxed">{p.desc ?? p.description}</p>
                 </div>
               </Reveal>
             ))}
@@ -314,20 +290,18 @@ export default function JardinsVivantsPage() {
             <h2 className="text-4xl font-bold text-[#1e2a1c]" style={{ fontFamily: "'Cardo', serif" }}>Ils ont un <span className="text-[#2d5a27] italic">jardin dont ils sont fiers.</span></h2>
           </div></Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-            {[
-              { q: "Notre terrain en friche transformé en jardin à la française en 3 semaines. Plan proposé en 48h, devis clair, exécution irréprochable. On est bluffés.", n: "Marie-Claire & Paul G.", l: "Annecy-le-Vieux" },
-              { q: "Élagage d'un grand chêne de 20m de haut réalisé en sécurité totale. Pas une fleur touchée dans le jardin. Équipe pro, rapide, nettoyage parfait.", n: "Hervé T.", l: "Thônes (74)" },
-              { q: "Suivi entretien mensuel depuis 2 ans. Le jardin est toujours magnifique, même en mon absence. Ponctualité parfaite, conseils précieux sur les plantations.", n: "Charlotte S.", l: "Megève (74)" },
-            ].map((t, i) => (
-              <Reveal key={i} delay={i * 0.1}>
+            {temoignages.map((t: any, i: number) => (
+              <Reveal key={t.n ?? t.author ?? i} delay={i * 0.1}>
                 <div className="p-8 bg-white rounded-xl border border-[#e8f5e5] h-full flex flex-col">
                   <div className="flex gap-1 mb-5">
-                    {[...Array(5)].map((_, j) => <Star key={j} className="w-4 h-4 fill-[#2d5a27] text-[#2d5a27]" />)}
+                    {[...Array(t.rating ?? 5)].map((_, j) => <Star key={j} className="w-4 h-4 fill-[#2d5a27] text-[#2d5a27]" />)}
                   </div>
-                  <p className="text-sm text-[#1e2a1c]/42 leading-relaxed italic flex-1">{`"${t.q}"`}</p>
+                  <p className="text-sm text-[#1e2a1c]/42 leading-relaxed italic flex-1">{`"${t.q ?? t.text}"`}</p>
                   <div className="mt-6 pt-5 border-t border-[#e8f5e5]">
-                    <div className="font-bold text-[#1e2a1c] text-sm">{t.n}</div>
-                    <div className="text-[10px] text-[#2d5a27] mt-1 flex items-center gap-1"><MapPin className="w-3 h-3" />{t.l}</div>
+                    <div className="font-bold text-[#1e2a1c] text-sm">{t.n ?? t.author}</div>
+                    {(t.l ?? t.source) && (
+                      <div className="text-[10px] text-[#2d5a27] mt-1 flex items-center gap-1"><MapPin className="w-3 h-3" />{t.l ?? t.source}</div>
+                    )}
                   </div>
                 </div>
               </Reveal>
