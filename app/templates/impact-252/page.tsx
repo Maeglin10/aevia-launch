@@ -11,6 +11,7 @@ import {
   useMotionValue,
 } from 'framer-motion';
 import { ArrowRight, ChevronDown, Star } from 'lucide-react';
+import { resolveList } from "@/lib/templates/resolveList";
 
 /* ════════════════════════════════════════════════════════════════════════════
    SMILE & CO — Cabinet Dentaire Esthétique · Lyon 6e
@@ -101,7 +102,7 @@ interface TechItem {
    Data
    ════════════════════════════════════════════════════════════════════════════ */
 
-const TREATMENTS: Treatment[] = [
+const TREATMENTS_DEMO: Treatment[] = [
   {
     id: 'conservateurs',
     imgId: '1598300402640-cf52ea77e6da',
@@ -128,7 +129,7 @@ const TREATMENTS: Treatment[] = [
   },
 ];
 
-const SPECIALTIES: Specialty[] = [
+const SPECIALTIES_DEMO: Specialty[] = [
   { title: 'Soins conservateurs', icon: '◇' },
   { title: 'Blanchiment LED', icon: '◈' },
   { title: 'Facettes e.max', icon: '◆' },
@@ -183,7 +184,7 @@ const TECH_ITEMS: TechItem[] = [
   },
 ];
 
-const TESTIMONIALS: Testimonial[] = [
+const TESTIMONIALS_DEMO: Testimonial[] = [
   {
     quote:
       "J'avais évité les dentistes pendant dix ans à cause d'une phobie intense. Smile & Co a tout changé — une équipe d'une patience et d'une douceur rares. Aujourd'hui je souris sans me cacher. Je ne pensais pas que c'était encore possible.",
@@ -755,7 +756,7 @@ function TreatmentImage({
   total,
   progress,
 }: {
-  treatment: Treatment;
+  treatment: any;
   i: number;
   total: number;
   progress: MotionValue<number>;
@@ -776,11 +777,15 @@ function TreatmentImage({
   );
   const scale = useTransform(progress, [start - fadeIn, end], [1.1, 1.0]);
 
+  // Real services rarely carry a photo — fall back to the demo treatment's
+  // stock Unsplash image (cycled by index) so the crossfade never breaks.
+  const imgId = treatment.imgId ?? TREATMENTS_DEMO[i % TREATMENTS_DEMO.length].imgId;
+
   return (
     <motion.div style={{ position: 'absolute', inset: 0, opacity }}>
       <motion.img
-        src={unsplash(treatment.imgId)}
-        alt={treatment.label}
+        src={unsplash(imgId)}
+        alt={treatment.label ?? treatment.name}
         loading="lazy"
         style={{
           width: '100%',
@@ -799,7 +804,7 @@ function TreatmentCaption({
   total,
   progress,
 }: {
-  treatment: Treatment;
+  treatment: any;
   i: number;
   total: number;
   progress: MotionValue<number>;
@@ -841,7 +846,7 @@ function TreatmentCaption({
           marginBottom: 8,
         }}
       >
-        {treatment.index}
+        {treatment.index ?? String(i + 1).padStart(2, '0')}
       </span>
       <h2
         style={{
@@ -854,7 +859,7 @@ function TreatmentCaption({
           margin: '0 0 20px',
         }}
       >
-        {treatment.label}
+        {treatment.label ?? treatment.name}
       </h2>
       <p
         style={{
@@ -868,7 +873,7 @@ function TreatmentCaption({
           textShadow: '0 4px 20px rgba(0,0,0,0.5)',
         }}
       >
-        {treatment.description}
+        {treatment.description ?? treatment.desc}
       </p>
     </motion.div>
   );
@@ -895,8 +900,8 @@ function ProgressDot({
   );
 }
 
-function TreatmentSequence() {
-  const n = TREATMENTS.length;
+function TreatmentSequence({ treatments }: { treatments: any[] }) {
+  const n = treatments.length;
   const progress = useMotionValue(0.5 / n);
   const [active, setActive] = useState(0);
   const goTo = (i: number) => {
@@ -917,12 +922,12 @@ function TreatmentSequence() {
         }}
       >
         {/* Images en crossfade */}
-        {TREATMENTS.map((t, i) => (
+        {treatments.map((t: any, i: number) => (
           <TreatmentImage
-            key={t.id}
+            key={t.id ?? t.name ?? i}
             treatment={t}
             i={i}
-            total={TREATMENTS.length}
+            total={treatments.length}
             progress={progress}
           />
         ))}
@@ -954,12 +959,12 @@ function TreatmentSequence() {
         </div>
 
         {/* Captions crossfade */}
-        {TREATMENTS.map((t, i) => (
+        {treatments.map((t: any, i: number) => (
           <TreatmentCaption
-            key={t.id}
+            key={t.id ?? t.name ?? i}
             treatment={t}
             i={i}
-            total={TREATMENTS.length}
+            total={treatments.length}
             progress={progress}
           />
         ))}
@@ -975,11 +980,11 @@ function TreatmentSequence() {
             gap: 12,
           }}
         >
-          {TREATMENTS.map((t, i) => (
+          {treatments.map((t: any, i: number) => (
             <ProgressDot
-              key={t.id}
+              key={t.id ?? t.name ?? i}
               i={i}
-              total={TREATMENTS.length}
+              total={treatments.length}
               progress={progress}
             />
           ))}
@@ -1008,7 +1013,7 @@ function TreatmentSequence() {
 /* ════════════════════════════════════════════════════════════════════════════
    5 · SpecialtyCards
    ════════════════════════════════════════════════════════════════════════════ */
-function SpecialtyCard({ sp, i }: { sp: Specialty; i: number }) {
+function SpecialtyCard({ sp, i }: { sp: any; i: number }) {
   const [hover, setHover] = useState(false);
   const card: React.CSSProperties = {
     background: C.bgCard,
@@ -1041,7 +1046,7 @@ function SpecialtyCard({ sp, i }: { sp: Specialty; i: number }) {
             transition: 'color .5s',
           }}
         >
-          {sp.icon}
+          {sp.icon ?? '◆'}
         </span>
         <h3
           style={{
@@ -1052,14 +1057,14 @@ function SpecialtyCard({ sp, i }: { sp: Specialty; i: number }) {
             margin: 0,
           }}
         >
-          {sp.title}
+          {sp.title ?? sp.name}
         </h3>
       </article>
     </Reveal>
   );
 }
 
-function SpecialtyCards() {
+function SpecialtyCards({ specialties }: { specialties: any[] }) {
   const sec: React.CSSProperties = {
     background: C.bg,
     padding: 'clamp(88px,12vw,160px) clamp(24px,6vw,96px)',
@@ -1096,8 +1101,8 @@ function SpecialtyCards() {
         </Reveal>
       </div>
       <div style={grid}>
-        {SPECIALTIES.map((sp, i) => (
-          <SpecialtyCard key={sp.title} sp={sp} i={i} />
+        {specialties.map((sp: any, i: number) => (
+          <SpecialtyCard key={sp.title ?? sp.name ?? i} sp={sp} i={i} />
         ))}
       </div>
     </section>
@@ -1384,7 +1389,7 @@ function TechPanel() {
 /* ════════════════════════════════════════════════════════════════════════════
    8 · Testimonials
    ════════════════════════════════════════════════════════════════════════════ */
-function Testimonials() {
+function Testimonials({ testimonials }: { testimonials: any[] }) {
   const sec: React.CSSProperties = {
     background: C.bgAlt,
     padding: 'clamp(88px,12vw,168px) clamp(24px,6vw,96px)',
@@ -1423,8 +1428,8 @@ function Testimonials() {
         </Reveal>
       </div>
       <div style={grid}>
-        {TESTIMONIALS.map((t, i) => (
-          <Reveal key={t.name} delay={i * 0.13} style={{ height: '100%' }}>
+        {testimonials.map((t: any, i: number) => (
+          <Reveal key={t.name ?? t.author ?? i} delay={i * 0.13} style={{ height: '100%' }}>
             <figure
               style={{
                 background: C.bgCard,
@@ -1440,7 +1445,7 @@ function Testimonials() {
             >
               <div style={{ display: 'flex', gap: 3, marginBottom: 22 }}>
                 {Array.from({ length: 5 }).map((_, s) => (
-                  <Star key={s} size={15} fill={C.gold} color={C.gold} strokeWidth={0} />
+                  <Star key={s} size={15} fill={s < (t.rating ?? 5) ? C.gold : 'none'} color={C.gold} strokeWidth={s < (t.rating ?? 5) ? 0 : 1.3} />
                 ))}
               </div>
               <blockquote
@@ -1454,7 +1459,7 @@ function Testimonials() {
                   flex: 1,
                 }}
               >
-                &ldquo;{t.quote}&rdquo;
+                &ldquo;{t.quote ?? t.text}&rdquo;
               </blockquote>
               <figcaption
                 style={{
@@ -1470,7 +1475,7 @@ function Testimonials() {
                     color: C.accent,
                   }}
                 >
-                  {t.name}
+                  {t.name ?? t.author}
                 </div>
                 <div
                   style={{
@@ -1482,7 +1487,7 @@ function Testimonials() {
                     marginTop: 6,
                   }}
                 >
-                  {t.role}
+                  {t.role ?? t.source ?? ""}
                 </div>
               </figcaption>
             </figure>
@@ -1996,6 +2001,7 @@ function Footer() {
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+let bp: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
     formData?: {
@@ -2011,6 +2017,7 @@ export default function Page() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -2024,6 +2031,7 @@ export default function Page() {
 
   fd = session?.formData;
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, accent: brand, accentLight: shadeColor(brand, 25), accentDark: shadeColor(brand, -20) };
@@ -2038,54 +2046,6 @@ export default function Page() {
     MozOsxFontSmoothing: 'grayscale',
   };
 
-  
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
 return (
     <main style={root} suppressHydrationWarning>
       {/* Google Fonts */}
@@ -2111,11 +2071,14 @@ return (
       <Nav />
       <Hero />
       <Intro />
-      <TreatmentSequence />
-      <SpecialtyCards />
+      <TreatmentSequence treatments={resolveList<any>(bp?.services, TREATMENTS_DEMO)} />
+      {/* SpecialtyCards left demo-only: sparse icon+title tags with no clean
+          BusinessProfile field — wiring real data here would just duplicate
+          TREATMENTS_DEMO's substance with a worse (title-only) shape. */}
+      <SpecialtyCards specialties={SPECIALTIES_DEMO} />
       <EditorialRows />
       <TechPanel />
-      <Testimonials />
+      <Testimonials testimonials={resolveList<any>(bp?.reputation?.featuredReviews, TESTIMONIALS_DEMO)} />
       <AppointmentForm />
       <Footer />
     </main>
