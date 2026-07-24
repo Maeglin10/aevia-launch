@@ -28,7 +28,7 @@ const MENU_DATA = {
 export function RestaurantTheme({ session }: { session: SessionData }) {
   const { formData, generatedContent: c } = session;
   const brand = formData.brandColor || "#7c3aed";
-  
+
   const [activeTab, setActiveTab] = useState<keyof typeof MENU_DATA>("Entrees");
   const [isBookingOpen, setIsBookingOpen] = useState(false);
   const [bookingStep, setBookingStep] = useState(1);

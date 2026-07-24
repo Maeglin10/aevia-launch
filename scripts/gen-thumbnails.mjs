@@ -56,6 +56,9 @@ async function main() {
     // Only templates that don't yet have a thumbnail file.
     const existing = new Set((await fs.readdir(THUMBNAILS_DIR)).map((f) => f.replace(/\.\w+$/, '')));
     target = ids.filter((id) => !existing.has(id));
+  } else if (arg === '--only') {
+    const list = new Set(process.argv[3].split(',').map((n) => `impact-${n.trim().replace(/^impact-/, '')}`));
+    target = ids.filter((id) => list.has(id));
   } else if (arg) {
     target = [arg];
   } else {
