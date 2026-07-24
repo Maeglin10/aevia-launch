@@ -10,10 +10,12 @@ import {
   Star, ArrowRight, ChevronRight, Menu, X, Shield, Award, Users,
   CheckCircle, Microscope, Brain, Zap
 } from "lucide-react"
+import { resolveList } from "@/lib/templates/resolveList"
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
 
-const SPECIALTIES = [
+const SPECIALTY_ICONS = [Stethoscope, Heart, Shield, Activity, Zap, Brain];
+const SPECIALTIES_DEMO = [
   {
     id: "generale",
     label: "Médecine Générale",
@@ -64,7 +66,7 @@ const SPECIALTIES = [
   },
 ]
 
-const DOCTORS = [
+const DOCTORS_DEMO = [
   {
     name: "Dr. Claire Fontaine",
     role: "Médecin Généraliste & Directrice Médicale",
@@ -110,7 +112,7 @@ const SCIENCE = [
   { icon: Award, title: "Innovation Médicale", desc: "Intégration des thérapies émergentes : microbiome, génomique nutritionnelle et médecine régénérative." },
 ]
 
-const TESTIMONIALS = [
+const TESTIMONIALS_DEMO = [
   {
     name: "Marie-Laure D.",
     age: 52,
@@ -195,6 +197,7 @@ function StatCard({ value, label, delay }: { value: string; label: string; delay
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+let bp: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
 function photo(i: number, fallback: string): string {
@@ -215,6 +218,7 @@ export default function Impact171Page() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -231,7 +235,7 @@ export default function Impact171Page() {
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;
     let n = 2;
-    const _photoArrays: any[] = [DOCTORS];
+    const _photoArrays: any[] = [DOCTORS_DEMO];
     _photoArrays.forEach((arr) => {
       if (!Array.isArray(arr)) return;
       arr.forEach((item) => {
@@ -246,12 +250,26 @@ export default function Impact171Page() {
     });
   });
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   useFonts()
   const [menuOpen, setMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [activeSpec, setActiveSpec] = useState("generale")
+
+  const specialties = bp?.services?.length
+    ? bp.services.map((s: any, i: number) => ({
+        id: `svc-${i}`,
+        label: s.name,
+        icon: SPECIALTY_ICONS[i % SPECIALTY_ICONS.length],
+        desc: s.description ?? "",
+        doctor: undefined as string | undefined,
+        duration: s.duration ?? s.price,
+      }))
+    : SPECIALTIES_DEMO;
+  const team = resolveList<any>(bp?.team, DOCTORS_DEMO);
+  const testimonials = resolveList<any>(bp?.reputation?.featuredReviews, TESTIMONIALS_DEMO);
 
   const { scrollYProgress } = useScroll()
   const heroY = useTransform(scrollYProgress, [0, 0.4], ["0%", "20%"])
@@ -262,54 +280,8 @@ export default function Impact171Page() {
     return () => window.removeEventListener("scroll", fn)
   }, []);
 
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);const navLinks = ["Spécialités", "Médecins", "Protocoles", "Science", "Tarifs", "Contact"]
-  const activeSpecData = SPECIALTIES.find(s => s.id === activeSpec)!
+const navLinks = ["Spécialités", "Médecins", "Protocoles", "Science", "Tarifs", "Contact"]
+  const activeSpecData = specialties.find((s: any) => s.id === activeSpec) ?? specialties[0]
 
   return (
     <div className="min-h-dvh overflow-x-hidden bg-[#F0FDFA] text-[#134E4A]" style={{ fontFamily: "'Noto Sans', sans-serif" }}>
@@ -477,7 +449,7 @@ export default function Impact171Page() {
 
           {/* Tabs */}
           <div className="flex flex-wrap gap-3 justify-center mb-10">
-            {SPECIALTIES.map(s => (
+            {specialties.map((s: any) => (
               <button key={s.id} onClick={() => setActiveSpec(s.id)}
                 className={`px-5 py-2.5 rounded-full text-sm font-medium transition-all cursor-pointer ${activeSpec === s.id ? "bg-[#0891B2] text-white shadow-md shadow-[#0891B2]/30" : "bg-[#F0FDFA] text-[#134E4A]/70 hover:bg-[#ccfbf1]"}`}>
                 {s.label}
@@ -496,15 +468,17 @@ export default function Impact171Page() {
                   </div>
                   <div>
                     <h3 className="text-2xl font-bold text-[#134E4A]" style={{ fontFamily: "'Figtree', sans-serif" }}>{activeSpecData.label}</h3>
-                    <span className="text-sm text-[#0891B2]">{activeSpecData.doctor}</span>
+                    {activeSpecData.doctor && <span className="text-sm text-[#0891B2]">{activeSpecData.doctor}</span>}
                   </div>
                 </div>
                 <p className="text-[#134E4A]/70 leading-relaxed mb-8">{activeSpecData.desc}</p>
                 <div className="flex items-center gap-6">
-                  <div className="flex items-center gap-2 text-sm text-[#134E4A]/60">
-                    <Clock className="w-4 h-4" />
-                    <span>{activeSpecData.duration}</span>
-                  </div>
+                  {activeSpecData.duration && (
+                    <div className="flex items-center gap-2 text-sm text-[#134E4A]/60">
+                      <Clock className="w-4 h-4" />
+                      <span>{activeSpecData.duration}</span>
+                    </div>
+                  )}
                   <button className="px-5 py-2.5 bg-[#0891B2] text-white text-sm font-medium rounded-full hover:bg-[#0e7490] transition-colors cursor-pointer flex items-center gap-2">
                     Réserver <ArrowRight className="w-4 h-4" />
                   </button>
@@ -532,19 +506,23 @@ export default function Impact171Page() {
           </Reveal>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {DOCTORS.map((doc, i) => (
-              <Reveal key={doc.name} delay={i * 0.1}>
+            {team.map((doc: any, i: number) => (
+              <Reveal key={doc.name ?? i} delay={i * 0.1}>
                 <div className="bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 group cursor-pointer">
-                  <div className="relative h-56 overflow-hidden">
-                    <Image src={doc.img} alt={doc.name} fill className="object-cover group-hover:scale-105 transition-transform duration-700" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#134E4A]/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                  </div>
+                  {(doc.img || doc.photoUrl) && (
+                    <div className="relative h-56 overflow-hidden">
+                      <Image src={doc.img ?? doc.photoUrl} alt={doc.name} fill className="object-cover group-hover:scale-105 transition-transform duration-700" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#134E4A]/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                    </div>
+                  )}
                   <div className="p-6">
                     <h3 className="font-bold text-[#134E4A] mb-1" style={{ fontFamily: "'Figtree', sans-serif" }}>{doc.name}</h3>
                     <p className="text-xs text-[#0891B2] font-medium mb-3">{doc.role}</p>
-                    <p className="text-xs text-[#134E4A]/60 leading-relaxed mb-3">{doc.formation}</p>
+                    {(doc.formation ?? doc.credentials ?? doc.specialty) && (
+                      <p className="text-xs text-[#134E4A]/60 leading-relaxed mb-3">{doc.formation ?? [doc.specialty, doc.credentials].filter(Boolean).join(' · ')}</p>
+                    )}
                     <div className="flex items-center justify-between">
-                      <span className="text-xs text-[#134E4A]/50">{doc.years} d'expérience</span>
+                      {doc.years && <span className="text-xs text-[#134E4A]/50">{doc.years} d'expérience</span>}
                       <button className="text-xs text-[#0891B2] font-medium flex items-center gap-1 cursor-pointer hover:gap-2 transition-all">
                         RDV <ArrowRight className="w-3 h-3" />
                       </button>
@@ -654,22 +632,24 @@ export default function Impact171Page() {
           </Reveal>
 
           <div className="grid md:grid-cols-2 gap-6">
-            {TESTIMONIALS.map((t, i) => (
-              <Reveal key={t.name} delay={i * 0.1}>
+            {testimonials.map((t: any, i: number) => (
+              <Reveal key={t.name ?? t.author ?? i} delay={i * 0.1}>
                 <div className="bg-[#F0FDFA] rounded-3xl p-8 border border-[#0891B2]/10">
                   <div className="flex items-center gap-1 mb-4">
-                    {[1,2,3,4,5].map(s => <Star key={s} className="w-4 h-4 fill-amber-400 text-amber-400" />)}
+                    {Array.from({ length: t.stars ?? t.rating ?? 5 }).map((_, s) => <Star key={s} className="w-4 h-4 fill-amber-400 text-amber-400" />)}
                   </div>
-                  <p className="text-[#134E4A]/80 leading-relaxed mb-6 italic">"{t.quote}"</p>
+                  <p className="text-[#134E4A]/80 leading-relaxed mb-6 italic">"{t.quote ?? t.text}"</p>
                   <div className="flex items-center justify-between">
                     <div>
-                      <span className="font-bold text-[#134E4A]" style={{ fontFamily: "'Figtree', sans-serif" }}>{t.name}</span>
-                      <span className="text-xs text-[#134E4A]/50 ml-2">{t.age} ans</span>
+                      <span className="font-bold text-[#134E4A]" style={{ fontFamily: "'Figtree', sans-serif" }}>{t.name ?? t.author}</span>
+                      {t.age && <span className="text-xs text-[#134E4A]/50 ml-2">{t.age} ans</span>}
                     </div>
-                    <div className="flex items-center gap-2 bg-[#22C55E]/10 rounded-full px-3 py-1">
-                      <CheckCircle className="w-3.5 h-3.5 text-[#22C55E]" />
-                      <span className="text-xs text-[#22C55E] font-medium">{t.result}</span>
-                    </div>
+                    {(t.result ?? t.source) && (
+                      <div className="flex items-center gap-2 bg-[#22C55E]/10 rounded-full px-3 py-1">
+                        <CheckCircle className="w-3.5 h-3.5 text-[#22C55E]" />
+                        <span className="text-xs text-[#22C55E] font-medium">{t.result ?? t.source}</span>
+                      </div>
+                    )}
                   </div>
                 </div>
               </Reveal>
@@ -784,7 +764,7 @@ export default function Impact171Page() {
                 <input type="email" placeholder="Email" className="w-full px-4 py-3 bg-[#F0FDFA] border border-[#0891B2]/20 rounded-xl text-[#134E4A] placeholder-[#134E4A]/40 focus:outline-none focus:border-[#0891B2] text-sm" />
                 <select className="w-full px-4 py-3 bg-[#F0FDFA] border border-[#0891B2]/20 rounded-xl text-[#134E4A] focus:outline-none focus:border-[#0891B2] text-sm cursor-pointer">
                   <option value="">Spécialité souhaitée</option>
-                  {SPECIALTIES.map(s => <option key={s.id} value={s.id}>{s.label}</option>)}
+                  {specialties.map((s: any) => <option key={s.id} value={s.id}>{s.label}</option>)}
                 </select>
                 <textarea rows={4} placeholder="Votre message (motif de consultation...)" className="w-full px-4 py-3 bg-[#F0FDFA] border border-[#0891B2]/20 rounded-xl text-[#134E4A] placeholder-[#134E4A]/40 focus:outline-none focus:border-[#0891B2] text-sm resize-none" />
                 <button type="submit" className="w-full py-3.5 bg-[#0891B2] text-white font-semibold rounded-xl hover:bg-[#0e7490] transition-colors cursor-pointer flex items-center justify-center gap-2">

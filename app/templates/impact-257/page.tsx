@@ -11,10 +11,12 @@ import {
   useMotionValue,
 } from 'framer-motion';
 import { ArrowRight, ChevronDown, Heart, Leaf, MapPin } from 'lucide-react';
+import { resolveList } from "@/lib/templates/resolveList";
 
 // Hoisted above the design tokens: several templates read `brand` in a
 // module-level const — declaring it lower caused a TDZ ReferenceError (500).
 let brand: any = null;
+let bp: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
    DR. ALEXANDRE MOULIN — Médecin Généraliste & Médecine Fonctionnelle · Bordeaux
@@ -94,8 +96,10 @@ interface Pillar {
 }
 
 interface Specialty {
-  title: string;
-  desc: string;
+  title?: string;
+  desc?: string;
+  name?: string;
+  description?: string;
 }
 
 interface EditRow {
@@ -115,9 +119,12 @@ interface ApproachItem {
 }
 
 interface Testimonial {
-  quote: string;
-  name: string;
-  role: string;
+  quote?: string;
+  name?: string;
+  role?: string;
+  text?: string;
+  author?: string;
+  source?: string;
 }
 
 /* ════════════════════════════════════════════════════════════════════════════
@@ -147,7 +154,7 @@ const PILLARS: Pillar[] = [
   },
 ];
 
-const SPECIALTIES: Specialty[] = [
+const SPECIALTIES_DEMO: Specialty[] = [
   {
     title: 'Médecine générale',
     desc: 'Suivi global, maladies aiguës, ordonnances, certificats médicaux et orientations spécialisées.',
@@ -228,7 +235,7 @@ const APPROACH_ITEMS: ApproachItem[] = [
   },
 ];
 
-const TESTIMONIALS: Testimonial[] = [
+const TESTIMONIALS_DEMO: Testimonial[] = [
   {
     quote:
       'Cinq ans de fatigue inexpliquée, trois spécialistes, aucune réponse. En deux consultations, le Dr. Moulin a identifié une hypothyroïdie fonctionnelle couplée à une dysbiose intestinale. Six mois plus tard, je me sens enfin vivante.',
@@ -475,7 +482,11 @@ function Nav() {
         ))}
       </div>
       <div className="am-navcta">
-        <a href="#rdv" style={{ textDecoration: 'none' }}>
+        <a
+          href={bp?.bookingSystem?.url || "#rdv"}
+          {...(bp?.bookingSystem?.url && { target: "_blank", rel: "noopener noreferrer" })}
+          style={{ textDecoration: 'none' }}
+        >
           <AccentButton filled dark>
             Prendre RDV
           </AccentButton>
@@ -1073,7 +1084,7 @@ function SpecialtyCard({
   s,
   i,
 }: {
-  s: Specialty;
+  s: any;
   i: number;
 }) {
   const [hover, setHover] = useState(false);
@@ -1106,7 +1117,7 @@ function SpecialtyCard({
             lineHeight: 1.2,
           }}
         >
-          {s.title}
+          {s.title ?? s.name}
         </h3>
         <p
           style={{
@@ -1118,7 +1129,7 @@ function SpecialtyCard({
             margin: 0,
           }}
         >
-          {s.desc}
+          {s.desc ?? s.description}
         </p>
       </article>
     </Reveal>
@@ -1160,8 +1171,8 @@ function SpecialtyCards() {
         </Reveal>
       </div>
       <div style={grid}>
-        {SPECIALTIES.map((s, i) => (
-          <SpecialtyCard key={s.title} s={s} i={i} />
+        {resolveList<any>(bp?.services, SPECIALTIES_DEMO).map((s: any, i: number) => (
+          <SpecialtyCard key={s.title ?? s.name ?? i} s={s} i={i} />
         ))}
       </div>
     </section>
@@ -1503,8 +1514,8 @@ function Testimonials() {
         </Reveal>
       </div>
       <div style={grid}>
-        {TESTIMONIALS.map((t, i) => (
-          <Reveal key={t.name} delay={i * 0.12} style={{ height: '100%' }}>
+        {resolveList<any>(bp?.reputation?.featuredReviews, TESTIMONIALS_DEMO).map((t: any, i: number) => (
+          <Reveal key={t.name ?? t.author ?? i} delay={i * 0.12} style={{ height: '100%' }}>
             <figure
               style={{
                 background: C.bgCard,
@@ -1536,7 +1547,7 @@ function Testimonials() {
                   flex: 1,
                 }}
               >
-                &ldquo;{t.quote}&rdquo;
+                &ldquo;{t.quote ?? t.text}&rdquo;
               </blockquote>
               <figcaption
                 style={{ borderTop: `1px solid ${C.border}`, paddingTop: 20 }}
@@ -1549,7 +1560,7 @@ function Testimonials() {
                     color: C.accent,
                   }}
                 >
-                  {t.name}
+                  {t.name ?? t.author}
                 </div>
                 <div
                   style={{
@@ -1561,7 +1572,7 @@ function Testimonials() {
                     marginTop: 6,
                   }}
                 >
-                  {t.role}
+                  {t.role ?? t.source ?? ""}
                 </div>
               </figcaption>
             </figure>
@@ -2089,6 +2100,7 @@ export default function Page() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -2101,6 +2113,7 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+  bp = session?.businessProfile;
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;
@@ -2134,54 +2147,6 @@ export default function Page() {
     MozOsxFontSmoothing: 'grayscale',
   };
 
-  
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
 return (
     <main style={root} suppressHydrationWarning>
       {/* Google Fonts injection */}

@@ -20,6 +20,7 @@ import {
   Clock,
   Shield,
 } from 'lucide-react';
+import { resolveList } from '@/lib/templates/resolveList';
 
 /* ════════════════════════════════════════════════════════════════════════════
    CABINET DENTAIRE ROSENFELD — Dentisterie & Implantologie · Strasbourg
@@ -128,7 +129,7 @@ const PHASES: Treatment[] = [
   },
 ];
 
-const CARE_CARDS: Care[] = [
+const CARE_CARDS_DEMO: Care[] = [
   {
     icon: '🦷',
     title: 'Soins conservateurs',
@@ -213,7 +214,7 @@ const TECH_ITEMS: TechItem[] = [
   },
 ];
 
-const TESTIMONIALS: Testimonial[] = [
+const TESTIMONIALS_DEMO: Testimonial[] = [
   {
     quote:
       "J'avais une phobie du dentiste depuis 15 ans. Le protocole MEOPA du Dr Rosenfeld a tout changé. Je viens maintenant tous les 6 mois sans appréhension. Une équipe qui écoute vraiment.",
@@ -1023,7 +1024,7 @@ function TreatmentSequence() {
 /* ════════════════════════════════════════════════════════════════════════════
    5 · CareCards
    ════════════════════════════════════════════════════════════════════════════ */
-function CareCard({ care, i }: { care: Care; i: number }) {
+function CareCard({ care, i }: { care: any; i: number }) {
   const [hover, setHover] = useState(false);
   const card: React.CSSProperties = {
     background: C.bgCard,
@@ -1046,7 +1047,7 @@ function CareCard({ care, i }: { care: Care; i: number }) {
         onMouseEnter={() => setHover(true)}
         onMouseLeave={() => setHover(false)}
       >
-        <span style={{ fontSize: 28 }}>{care.icon}</span>
+        <span style={{ fontSize: 28 }}>{care.icon ?? '🦷'}</span>
         <h3
           style={{
             fontFamily: SERIF,
@@ -1056,7 +1057,7 @@ function CareCard({ care, i }: { care: Care; i: number }) {
             margin: 0,
           }}
         >
-          {care.title}
+          {care.title ?? care.name}
         </h3>
         <p
           style={{
@@ -1068,7 +1069,7 @@ function CareCard({ care, i }: { care: Care; i: number }) {
             margin: 0,
           }}
         >
-          {care.desc}
+          {care.desc ?? care.description}
         </p>
         <div
           style={{
@@ -1135,8 +1136,8 @@ function CareCards() {
         </Reveal>
       </div>
       <div style={grid}>
-        {CARE_CARDS.map((c, i) => (
-          <CareCard key={c.title} care={c} i={i} />
+        {resolveList<any>(bp?.services, CARE_CARDS_DEMO).map((card: any, i: number) => (
+          <CareCard key={card.title ?? card.name ?? i} care={card} i={i} />
         ))}
       </div>
     </section>
@@ -1486,8 +1487,8 @@ function Testimonials() {
         </Reveal>
       </div>
       <div style={grid}>
-        {TESTIMONIALS.map((t, i) => (
-          <Reveal key={t.name} delay={i * 0.14} style={{ height: '100%' }}>
+        {resolveList<any>(bp?.reputation?.featuredReviews, TESTIMONIALS_DEMO).map((t: any, i: number) => (
+          <Reveal key={t.name ?? t.author ?? i} delay={i * 0.14} style={{ height: '100%' }}>
             <figure
               style={{
                 background: C.bgCard,
@@ -1503,7 +1504,7 @@ function Testimonials() {
             >
               {/* Étoiles */}
               <div style={{ display: 'flex', gap: 4, marginBottom: 22 }}>
-                {Array.from({ length: 5 }).map((_, s) => (
+                {Array.from({ length: t.rating ?? 5 }).map((_, s) => (
                   <Star key={s} size={14} fill={C.silver} color={C.silver} strokeWidth={0} />
                 ))}
               </div>
@@ -1519,7 +1520,7 @@ function Testimonials() {
                   flex: 1,
                 }}
               >
-                &ldquo;{t.quote}&rdquo;
+                &ldquo;{t.quote ?? t.text}&rdquo;
               </blockquote>
 
               <figcaption
@@ -1533,20 +1534,22 @@ function Testimonials() {
                     color: C.textMuted,
                   }}
                 >
-                  {t.name}
+                  {t.name ?? t.author}
                 </div>
-                <div
-                  style={{
-                    fontFamily: SANS,
-                    fontSize: 11,
-                    letterSpacing: '0.16em',
-                    textTransform: 'uppercase',
-                    color: C.textFaint,
-                    marginTop: 6,
-                  }}
-                >
-                  {t.role}
-                </div>
+                {(t.role ?? t.source) && (
+                  <div
+                    style={{
+                      fontFamily: SANS,
+                      fontSize: 11,
+                      letterSpacing: '0.16em',
+                      textTransform: 'uppercase',
+                      color: C.textFaint,
+                      marginTop: 6,
+                    }}
+                  >
+                    {t.role ?? t.source}
+                  </div>
+                )}
               </figcaption>
             </figure>
           </Reveal>
@@ -2096,6 +2099,7 @@ function Footer() {
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+let bp: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
     formData?: {
@@ -2111,6 +2115,7 @@ export default function Page() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -2142,6 +2147,7 @@ export default function Page() {
     });
   });
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   if (brand) {
@@ -2161,54 +2167,6 @@ export default function Page() {
     MozOsxFontSmoothing: 'grayscale',
   };
 
-  
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
 return (
     <main style={root} suppressHydrationWarning>
       {/* Google Fonts */}

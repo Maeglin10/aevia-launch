@@ -6,11 +6,11 @@ import { LegalFooter } from "@/components/LegalFooter";
 import { AeviaHeader } from "@/components/AeviaHeader";
 
 const T = {
-  fr: { title: "Créez votre site", sub: "5 étapes rapides — moins de 3 minutes" },
-  en: { title: "Build your site", sub: "5 quick steps — under 3 minutes" },
-  es: { title: "Crea tu sitio web", sub: "5 pasos rápidos — menos de 3 minutos" },
-  de: { title: "Erstelle deine Website", sub: "5 schnelle Schritte — unter 3 Minuten" },
-  pt: { title: "Crie seu site", sub: "5 etapas rápidas — em menos de 3 minutos" },
+  fr: { title: "Créez votre site", sub: "7 étapes rapides — moins de 5 minutes" },
+  en: { title: "Build your site", sub: "7 quick steps — under 5 minutes" },
+  es: { title: "Crea tu sitio web", sub: "7 pasos rápidos — menos de 5 minutos" },
+  de: { title: "Erstelle deine Website", sub: "7 schnelle Schritte — unter 5 Minuten" },
+  pt: { title: "Crie seu site", sub: "7 etapas rápidas — em menos de 5 minutos" },
 };
 
 export default function ConfigurePage() {

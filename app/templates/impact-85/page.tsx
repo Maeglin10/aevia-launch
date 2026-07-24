@@ -6,6 +6,7 @@ import { motion, AnimatePresence, useScroll, useTransform, useInView } from "fra
 import Image from "next/image"
 import Link from "next/link"
 import { Menu, X, ArrowRight, FlaskConical, Microscope, Leaf, Shield, Star, ChevronRight, Search, Mail, Phone, MapPin } from "lucide-react"
+import { resolveList } from "@/lib/templates/resolveList"
 
 function useFonts() {
   useEffect(() => {
@@ -30,7 +31,10 @@ function Reveal({ children, delay = 0, y = 40 }: { children: React.ReactNode; de
   )
 }
 
-const PRODUCTS = [
+// ─── Demo content — real data (businessProfile) replaces these wholesale via
+// resolveList when the client provided it; each field access below falls
+// back with `??` so the same JSX renders either shape.
+const PRODUCTS_DEMO = [
   { id: "serum", name: "Luminos Sérum", tagline: "L'essence luminosité", desc: "Complexe Vita-C 15% encapsulé, niacinamide 5%, acide férulique et Bakuchiol certifié. La formule anti-âge cliniquement prouvée.", price: "148 €", volume: "30 ml", score: 98, image: "https://images.unsplash.com/photo-1556228852-6d35a585d566?w=600&q=80", badges: ["Cliniquement testé", "Végan"] },
   { id: "moisture", name: "Cellulaire Crème", tagline: "Régénération nocturne", desc: "Rétinol 0,5% encapsulé, peptides de cuivre EGF-like, céramides NP et probiotiques lactobacillus. Régénération intensive nocturne.", price: "124 €", volume: "50 ml", score: 96, image: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=600&q=80", badges: ["Dermatologiquement testé", "Sans parfum"] },
   { id: "mask", name: "Kaolin Masque", tagline: "Pureté enzymatique", desc: "Kaolin, enzymes de papaye et ananas, zinc PCA et acide salicylique 1%. Purification douce et régulation du sébum.", price: "68 €", volume: "75 ml", score: 94, image: "https://images.unsplash.com/photo-1556228852-6d35a585d566?w=600&q=80", badges: ["Naturel", "Sensory"] },
@@ -44,12 +48,18 @@ const INGREDIENTS = [
   { name: "Probiotiques lactobacillus", origin: "Fermentation contrôlée", icon: Shield, desc: "Microbiome skin-safe. Renforcement de la barrière cutanée et réduction de l'inflammation de bas grade." },
 ]
 
-const FAQS = [
+const FAQS_DEMO = [
   { q: "Vos produits sont-ils adaptés aux peaux très sensibles ?", a: "Oui. Toutes nos formules sont testées sous contrôle dermatologique et exemptes d'huiles essentielles irritantes, de silicones et de parfums de synthèse pour minimiser les risques d'allergies." },
   { q: "Qu'est-ce que la biotechnologie blanche utilisée dans vos soins ?", a: "La biotechnologie blanche utilise des micro-organismes vivants (comme des levures ou des bactéries) pour synthétiser des actifs hautement performants de manière durable, comme nos peptides EGF-like ou l'acide hyaluronique." },
   { q: "Vos soins sont-ils certifiés biologiques ou véganes ?", a: "Oui, nos produits respectent la charte COSMOS Natural. De plus, toutes nos formules sont certifiées 100% véganes par la Vegan Society et certifiées Cruelty-Free par la PETA." },
   { q: "Combien de temps faut-il pour voir des résultats sur ma peau ?", a: "Les premiers résultats sur l'hydratation et l'éclat sont visibles dès 7 à 10 jours. Pour les taches pigmentaires et la fermeté (renouvellement cellulaire), une utilisation constante pendant 4 à 6 semaines est recommandée." },
   { q: "Quelle est votre politique de livraison et de retour ?", a: "Nous livrons en France sous 48h (offerte dès 80 €). Si un produit ne convient pas à votre peau, vous disposez de 14 jours pour le retourner gratuitement et obtenir un remboursement complet." }
+];
+
+const TEMOIGNAGES_DEMO = [
+  { name: "Claire M.", skin: "Peau mixte, 38 ans", text: "Le Luminos Sérum a effacé mes taches de grossesse en 6 semaines. J'ai essayé des dizaines de produits. Aucun n'avait été aussi précis.", rating: 5 },
+  { name: "Anaïs B.", skin: "Peau sensible, 29 ans", text: "Le Bakuchiol était ma seule option rétinol-free. Les résultats en 4 semaines ont dépassé mes attentes. Et aucune irritation.", rating: 5 },
+  { name: "Sophie T.", skin: "Peau mature, 52 ans", text: "La Cellulaire Crème a transformé la texture de ma peau. Ma dermatologue a demandé ce que j'utilisais. Elle commande maintenant pour sa clinique.", rating: 5 },
 ];
 
 
@@ -77,6 +87,7 @@ export default function AetherLabsPage() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -93,7 +104,7 @@ export default function AetherLabsPage() {
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;
     let n = 1;
-    const _photoArrays: any[] = [PRODUCTS];
+    const _photoArrays: any[] = [PRODUCTS_DEMO];
     _photoArrays.forEach((arr) => {
       if (!Array.isArray(arr)) return;
       arr.forEach((item) => {
@@ -109,6 +120,16 @@ export default function AetherLabsPage() {
   });
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
+
+  // Real business data (resolveList) replaces demo content wholesale when
+  // present — see the DEMO consts above for the shape each section falls
+  // back to. Field access in JSX uses `??` chains so both shapes render.
+  // Note: businessProfile is a sibling of formData on SessionData, not
+  // nested inside it — read from `session`, not `fd`.
+  const bp = session?.businessProfile;
+  const products = resolveList(bp?.products, PRODUCTS_DEMO);
+  const faqs = resolveList(bp?.faq, FAQS_DEMO);
+  const testimonials = resolveList(bp?.reputation?.featuredReviews, TEMOIGNAGES_DEMO);
 
   useFonts()
   const [menuOpen, setMenuOpen] = useState(false)
@@ -127,53 +148,7 @@ export default function AetherLabsPage() {
     return () => window.removeEventListener("scroll", onScroll)
   }, []);
 
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);return (
+  return (
     <div className="min-h-dvh bg-[#F8F6F2] text-[#1C1814]" style={{ fontFamily: "'Inter', sans-serif" }}>
       <motion.div className="fixed top-0 left-0 h-[2px] bg-[#8B7355] z-[1000] origin-left" style={{ scaleX: scrollYProgress }} />
 
@@ -300,42 +275,53 @@ export default function AetherLabsPage() {
 
           {/* Tabs */}
           <div className="flex gap-0 border border-[#E4DDD4] mb-12 overflow-x-auto">
-            {PRODUCTS.map((p, i) => (
-              <button key={p.id} onClick={() => setActiveProduct(i)}
+            {products.map((p: any, i: number) => (
+              <button key={p.id ?? p.name ?? i} onClick={() => setActiveProduct(i)}
                 className={`flex-1 min-w-[140px] px-6 py-4 text-xs tracking-widests uppercase border-r border-[#E4DDD4] last:border-r-0 transition-all duration-200 cursor-pointer whitespace-nowrap ${activeProduct === i ? "bg-[#1C1814] text-[#F8F6F2]" : "hover:bg-[#F0EBE0] text-[#6B5A40]"}`}>
                 {p.name}
               </button>
             ))}
           </div>
 
+          {(() => {
+            const current: any = products[activeProduct] ?? products[0];
+            return (
           <AnimatePresence mode="wait">
             <motion.div key={activeProduct} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.4 }}
               className="grid md:grid-cols-2 gap-16 items-center">
               <div className="relative aspect-square overflow-hidden bg-[#F0EBE0]">
-                <Image src={PRODUCTS[activeProduct].image} alt={PRODUCTS[activeProduct].name} fill className="object-cover" />
+                <Image src={current.image ?? current.photoUrl ?? PRODUCTS_DEMO[0].image} alt={current.name} fill className="object-cover" />
                 <div className="absolute top-4 right-4 flex flex-col gap-2">
-                  {PRODUCTS[activeProduct].badges.map(b => (
+                  {(current.badges ?? []).map((b: string) => (
                     <span key={b} className="bg-[#F8F6F2]/90 backdrop-blur-sm text-[#1C1814] text-[10px] tracking-widests uppercase px-2.5 py-1">{b}</span>
                   ))}
                 </div>
               </div>
               <div>
-                <p className="text-xs tracking-[0.2em] uppercase text-[#8B7355] mb-3">{PRODUCTS[activeProduct].tagline}</p>
-                <h3 className="text-3xl font-light mb-4" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{PRODUCTS[activeProduct].name}</h3>
-                <p className="text-[#6B5A40] leading-relaxed mb-6">{PRODUCTS[activeProduct].desc}</p>
+                {current.tagline && <p className="text-xs tracking-[0.2em] uppercase text-[#8B7355] mb-3">{current.tagline}</p>}
+                <h3 className="text-3xl font-light mb-4" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{current.name}</h3>
+                <p className="text-[#6B5A40] leading-relaxed mb-6">{current.desc ?? current.description}</p>
                 <div className="flex items-center gap-6 mb-8 p-4 bg-[#F0EBE0]">
+                  {current.score !== undefined && (
+                    <>
+                      <div>
+                        <div className="text-2xl font-light" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{current.score}<span className="text-base text-[#8B7355]">/100</span></div>
+                        <div className="text-xs text-[#8A7860]">Score formule INCI</div>
+                      </div>
+                      <div className="h-12 w-[1px] bg-[#D4C9B0]" />
+                    </>
+                  )}
+                  {current.volume && (
+                    <>
+                      <div>
+                        <div className="text-2xl font-light" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{current.volume}</div>
+                        <div className="text-xs text-[#8A7860]">Contenance</div>
+                      </div>
+                      <div className="h-12 w-[1px] bg-[#D4C9B0]" />
+                    </>
+                  )}
                   <div>
-                    <div className="text-2xl font-light" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{PRODUCTS[activeProduct].score}<span className="text-base text-[#8B7355]">/100</span></div>
-                    <div className="text-xs text-[#8A7860]">Score formule INCI</div>
-                  </div>
-                  <div className="h-12 w-[1px] bg-[#D4C9B0]" />
-                  <div>
-                    <div className="text-2xl font-light" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{PRODUCTS[activeProduct].volume}</div>
-                    <div className="text-xs text-[#8A7860]">Contenance</div>
-                  </div>
-                  <div className="h-12 w-[1px] bg-[#D4C9B0]" />
-                  <div>
-                    <div className="text-2xl font-light" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{PRODUCTS[activeProduct].price}</div>
+                    <div className="text-2xl font-light" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{current.price}</div>
                     <div className="text-xs text-[#8A7860]">Prix TTC</div>
                   </div>
                 </div>
@@ -350,6 +336,8 @@ export default function AetherLabsPage() {
               </div>
             </motion.div>
           </AnimatePresence>
+            );
+          })()}
         </div>
       </section>
 
@@ -434,12 +422,8 @@ export default function AetherLabsPage() {
             </h2>
           </Reveal>
           <div className="grid md:grid-cols-3 gap-6">
-            {[
-              { name: "Claire M.", skin: "Peau mixte, 38 ans", text: "Le Luminos Sérum a effacé mes taches de grossesse en 6 semaines. J'ai essayé des dizaines de produits. Aucun n'avait été aussi précis.", rating: 5 },
-              { name: "Anaïs B.", skin: "Peau sensible, 29 ans", text: "Le Bakuchiol était ma seule option rétinol-free. Les résultats en 4 semaines ont dépassé mes attentes. Et aucune irritation.", rating: 5 },
-              { name: "Sophie T.", skin: "Peau mature, 52 ans", text: "La Cellulaire Crème a transformé la texture de ma peau. Ma dermatologue a demandé ce que j'utilisais. Elle commande maintenant pour sa clinique.", rating: 5 },
-            ].map((t, i) => (
-              <Reveal key={t.name} delay={i * 0.08}>
+            {testimonials.map((t: any, i: number) => (
+              <Reveal key={t.name ?? t.author ?? i} delay={i * 0.08}>
                 <div className="bg-[#F0EBE0] p-8">
                   <div className="flex gap-1 mb-5">
                     {[...Array(t.rating)].map((_, i) => <Star key={i} className="w-3 h-3 fill-[#8B7355] text-[#8B7355]" />)}
@@ -447,8 +431,8 @@ export default function AetherLabsPage() {
                   <p className="text-[#3A3028] leading-relaxed mb-5 italic" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "17px" }}>
                     &ldquo;{t.text}&rdquo;
                   </p>
-                  <div className="text-sm font-medium">{t.name}</div>
-                  <div className="text-xs text-[#8A7860] mt-0.5">{t.skin}</div>
+                  <div className="text-sm font-medium">{t.name ?? t.author}</div>
+                  {(t.skin || t.source) && <div className="text-xs text-[#8A7860] mt-0.5">{t.skin ?? t.source}</div>}
                 </div>
               </Reveal>
             ))}
@@ -498,7 +482,7 @@ export default function AetherLabsPage() {
             </h2>
           </Reveal>
           <div className="space-y-4">
-            {FAQS.map((faq, i) => (
+            {faqs.map((faq: any, i: number) => (
               <Reveal key={i} delay={i * 0.05}>
                 <div className="border-b border-[#E4DDD4] pb-4">
                   <button

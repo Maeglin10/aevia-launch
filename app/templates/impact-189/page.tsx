@@ -6,6 +6,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { Scissors, Star, Phone, MapPin, Clock, Calendar, Sparkles, Heart, ArrowRight, Menu } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import { resolveList } from "@/lib/templates/resolveList"
 
 /* ═══════════════════════════════════════════════════════════════════════════
    ATELIER LÉONIE — Salon de coiffure premium femmes (Paris 16e)
@@ -47,11 +48,18 @@ const PRESTATIONS = [
   { title: "Consultation capillaire", price: "Offerte", desc: "Diagnostic état de la fibre, rythme colorimétrique, soins adaptés. En amont de chaque nouveau service, sur demande." },
 ]
 
+const TESTIMONIALS_DEMO = [
+  { q: "Léonie a transformé mes cheveux abîmés en quelque chose de sublime. Le balayage est naturel, la couleur exactement ce que je voulais. Enfin une vraie experte.", n: "Sophie M.", l: "Paris 16e" },
+  { q: "Coiffure de mariée parfaite le jour J. L'essai en amont m'a permis d'ajuster chaque détail. On s'est senti chouchouté du début à la fin. Merci Atelier Léonie !", n: "Clémence R.", l: "Paris 75" },
+  { q: "Lissage brésilien impeccable. Résultat qui dure 4 mois, aucun problème aux repousses. Pour moi c'est devenu un rituel bi-annuel incontournable.", n: "Aïcha D.", l: "Neuilly-sur-Seine" },
+]
+
 
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+let bp: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
 function photo(i: number, fallback: string): string {
@@ -72,6 +80,7 @@ export default function AtelierLeoniePage() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -85,7 +94,11 @@ export default function AtelierLeoniePage() {
 
   fd = session?.formData;
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
+
+  const services = resolveList(bp?.services, PRESTATIONS);
+  const testimonials = resolveList(bp?.reputation?.featuredReviews, TESTIMONIALS_DEMO);
 
   const heroRef = useRef(null)
   const [scrolled, setScrolled] = useState(false)
@@ -100,53 +113,7 @@ export default function AtelierLeoniePage() {
     return () => window.removeEventListener("scroll", h)
   }, []);
 
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);return (
+  return (
     <div className="bg-[#faf6f1] text-[#1a1218] overflow-x-hidden" style={{ fontFamily: "'Lato', 'Inter', system-ui, sans-serif" }}>
       {/* ── NAVBAR ── */}
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#faf6f1]/98 backdrop-blur-xl py-3 shadow-sm border-b border-[#c97b7b]/10" : "bg-transparent py-7"}`}>
@@ -275,14 +242,14 @@ export default function AtelierLeoniePage() {
             </div>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-            {PRESTATIONS.map((p, i) => (
+            {services.map((p: any, i: number) => (
               <Reveal key={i} delay={i * 0.07}>
                 <div className="group p-8 bg-white border border-[#f3ede6] hover:border-[#c97b7b]/25 hover:shadow-lg hover:shadow-[#c97b7b]/5 transition-all duration-500 h-full">
                   <div className="flex items-start justify-between mb-4">
-                    <h3 className="font-bold text-[#1a1218] group-hover:text-[#c97b7b] transition-colors" style={{ fontFamily: "'Bodoni Moda', serif" }}>{p.title}</h3>
-                    <div className="text-sm font-bold text-[#c97b7b] whitespace-nowrap ml-4">{p.price}</div>
+                    <h3 className="font-bold text-[#1a1218] group-hover:text-[#c97b7b] transition-colors" style={{ fontFamily: "'Bodoni Moda', serif" }}>{p.title ?? p.name}</h3>
+                    {p.price && <div className="text-sm font-bold text-[#c97b7b] whitespace-nowrap ml-4">{p.price}</div>}
                   </div>
-                  <p className="text-sm text-[#1a1218]/38 leading-relaxed">{p.desc}</p>
+                  <p className="text-sm text-[#1a1218]/38 leading-relaxed">{p.desc ?? p.description}</p>
                 </div>
               </Reveal>
             ))}
@@ -315,20 +282,16 @@ export default function AtelierLeoniePage() {
             <h2 className="text-4xl font-bold text-[#1a1218]" style={{ fontFamily: "'Bodoni Moda', serif" }}>Elles adorent <span className="italic text-[#c97b7b]">le résultat.</span></h2>
           </div></Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-            {[
-              { q: "Léonie a transformé mes cheveux abîmés en quelque chose de sublime. Le balayage est naturel, la couleur exactement ce que je voulais. Enfin une vraie experte.", n: "Sophie M.", l: "Paris 16e" },
-              { q: "Coiffure de mariée parfaite le jour J. L'essai en amont m'a permis d'ajuster chaque détail. On s'est senti chouchouté du début à la fin. Merci Atelier Léonie !", n: "Clémence R.", l: "Paris 75" },
-              { q: "Lissage brésilien impeccable. Résultat qui dure 4 mois, aucun problème aux repousses. Pour moi c'est devenu un rituel bi-annuel incontournable.", n: "Aïcha D.", l: "Neuilly-sur-Seine" },
-            ].map((t, i) => (
+            {testimonials.map((t: any, i: number) => (
               <Reveal key={i} delay={i * 0.1}>
                 <div className="p-8 bg-white border border-[#f3ede6] h-full flex flex-col">
                   <div className="flex gap-1 mb-5">
-                    {[...Array(5)].map((_, j) => <Star key={j} className="w-4 h-4 fill-[#c97b7b] text-[#c97b7b]" />)}
+                    {[...Array(t.rating ?? 5)].map((_, j) => <Star key={j} className="w-4 h-4 fill-[#c97b7b] text-[#c97b7b]" />)}
                   </div>
-                  <p className="text-sm text-[#1a1218]/40 leading-relaxed italic flex-1">{`"${t.q}"`}</p>
+                  <p className="text-sm text-[#1a1218]/40 leading-relaxed italic flex-1">{`"${t.q ?? t.text}"`}</p>
                   <div className="mt-6 pt-5 border-t border-[#f3ede6]">
-                    <div className="font-bold text-[#1a1218] text-sm">{t.n}</div>
-                    <div className="text-[10px] text-[#c97b7b] mt-1 flex items-center gap-1"><MapPin className="w-3 h-3" />{t.l}</div>
+                    <div className="font-bold text-[#1a1218] text-sm">{t.n ?? t.author}</div>
+                    {(t.l ?? t.source) && <div className="text-[10px] text-[#c97b7b] mt-1 flex items-center gap-1"><MapPin className="w-3 h-3" />{t.l ?? t.source}</div>}
                   </div>
                 </div>
               </Reveal>

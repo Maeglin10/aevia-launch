@@ -432,6 +432,7 @@ function MenuItem({
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+let bp: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
 function photo(i: number, fallback: string): string {
@@ -452,6 +453,7 @@ export default function ImpactRestaurantPage() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -465,6 +467,7 @@ export default function ImpactRestaurantPage() {
 
   fd = session?.formData;
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, terracotta: brand };
@@ -472,7 +475,20 @@ export default function ImpactRestaurantPage() {
 
   useFonts();
 
-  const [activeCategory, setActiveCategory] = useState<MenuCategory>("Antipasti");
+  // businessProfile.menu (structured wizard step) replaces the fixed 4-tab
+  // demo menu wholesale when present — real categories come from the data
+  // itself rather than the MenuCategory union, so both `categories` and
+  // `menuRecord` widen to `string` for the real-data path.
+  const realMenu: Record<string, { name: string; price: string; desc: string }[]> | null = bp?.menu?.length
+    ? bp.menu.reduce((acc: Record<string, any[]>, item: any) => {
+        const cat = item.category || "Menu";
+        (acc[cat] = acc[cat] || []).push({ name: item.name, price: item.price ?? "", desc: item.description ?? "" });
+        return acc;
+      }, {})
+    : null;
+  const categories: string[] = realMenu ? Object.keys(realMenu) : [...MENU_CATEGORIES];
+  const menuRecord: Record<string, { name: string; price: string; desc: string; highlight?: boolean }[]> = realMenu ?? MENU_ITEMS;
+  const [activeCategory, setActiveCategory] = useState<string>(categories[0] ?? "Antipasti");
   const [navScrolled, setNavScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [reservationOpen, setReservationOpen] = useState(false);
@@ -487,54 +503,6 @@ export default function ImpactRestaurantPage() {
   }, [scrollY]);
 
   /* ---- NAV ---- */
-  
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
 return (
     <div
       style={{
@@ -1204,7 +1172,7 @@ return (
               borderRadius: 6,
             }}
           >
-            {MENU_CATEGORIES.map((cat) => (
+            {categories.map((cat) => (
               <button
                 key={cat}
                 onClick={() => setActiveCategory(cat)}
@@ -1231,7 +1199,7 @@ return (
           {/* Items */}
           <AnimatePresence mode="wait">
             <motion.div key={activeCategory}>
-              {MENU_ITEMS[activeCategory].map((item, i) => (
+              {(menuRecord[activeCategory] ?? menuRecord[categories[0]] ?? []).map((item: any, i: number) => (
                 <MenuItem key={item.name} item={item} index={i} />
               ))}
             </motion.div>

@@ -4,6 +4,7 @@
 import React, { useState, useEffect, useRef, useCallback } from "react"
 import Image from "next/image"
 import Link from "next/link"
+import { resolveList } from "@/lib/templates/resolveList"
 import {
   motion,
   AnimatePresence,
@@ -107,7 +108,7 @@ const PORTFOLIO_ITEMS = [
   { id: 9, category: "Seasonal", title: "Hiver Nacré",        desc: "Nacre & paillettes fines",     accent: "#C084FC", img: "photo-1604654894610-df63bc536371" },
 ]
 
-const SERVICES = [
+const SERVICES_DEMO = [
   { id: 1, name: "Pose Gel Couleur",    price: "45€",  duration: "60 min",  desc: "Application longue tenue avec finition brillante ou mate. Tient 3 semaines sans éclats." },
   { id: 2, name: "Nail Art Complet",    price: "85€",  duration: "90 min",  desc: "Création sur-mesure : aquarelle, géométrie, 3D, floraux. Consultation design incluse." },
   { id: 3, name: "French Manucure",     price: "35€",  duration: "45 min",  desc: "La French classique ou revisitée avec notre signature pointe couleur." },
@@ -116,7 +117,7 @@ const SERVICES = [
   { id: 6, name: "Dépose + Soin",       price: "40€",  duration: "45 min",  desc: "Dépose soignée du produit + bain nourrissant + évaluation santé de l'ongle." },
 ]
 
-const ARTISTS = [
+const ARTISTS_DEMO = [
   {
     id: 1,
     name: "Sophie Leroux",
@@ -163,7 +164,7 @@ const BRANDS = [
   { name: "Gelish",       detail: "Gel premium UV/LED" },
 ]
 
-const TESTIMONIALS = [
+const TESTIMONIALS_DEMO = [
   { name: "Marie-Claire B.", avatar: "M", stars: 5, service: "Nail Art Complet", quote: "Un véritable atelier d'art sur mes ongles. Sophie a recréé exactement ce que j'avais en tête. Je n'irai jamais ailleurs." },
   { name: "Juliette P.",     avatar: "J", stars: 5, service: "Pose Gel Couleur", quote: "3 semaines plus tard, pas une seule petite éclat. La qualité est incomparable à tout ce que j'ai connu." },
   { name: "Océane R.",       avatar: "O", stars: 5, service: "Soin Japonais",    quote: "Mes ongles naturels n'ont jamais été aussi forts. Le soin japonais est un must absolu !" },
@@ -682,6 +683,7 @@ function PortfolioSection() {
    SECTION 4: SERVICES
    ========================================================================== */
 function ServicesSection() {
+  const services: any[] = resolveList(bp?.services, SERVICES_DEMO)
   return (
     <section className="py-[100px] bg-white" id="services">
       <div className="max-w-[1280px] mx-auto px-6 lg:px-10">
@@ -713,8 +715,8 @@ function ServicesSection() {
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {SERVICES.map((service, i) => (
-            <Reveal key={service.id} delay={i * 0.07}>
+          {services.map((service: any, i: number) => (
+            <Reveal key={service.id ?? service.name ?? i} delay={i * 0.07}>
               <div className="group p-7 bg-[#FDF2F8] border border-[rgba(236,72,153,0.1)] rounded-[20px] hover:border-[#EC4899]/40 hover:shadow-[0_8px_40px_rgba(236,72,153,0.12)] transition-all duration-400 cursor-pointer relative overflow-hidden">
                 {/* Pink bloom on hover */}
                 <div className="absolute inset-0 bg-gradient-to-br from-[#EC4899]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-400 rounded-[20px]" />
@@ -744,7 +746,7 @@ function ServicesSection() {
                     </span>
                   </div>
                   <p className="text-[13px] text-[#9D174D] leading-[1.7] font-[300]" style={{ fontFamily: "'Inter', sans-serif" }}>
-                    {service.desc}
+                    {service.desc ?? service.description}
                   </p>
                   <div className="mt-5 flex items-center gap-2 text-[#EC4899] opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     <span className="text-[12px] font-[600] uppercase tracking-[0.12em]" style={{ fontFamily: "'Inter', sans-serif" }}>Réserver</span>
@@ -764,6 +766,7 @@ function ServicesSection() {
    SECTION 5: ARTISTES
    ========================================================================== */
 function ArtistesSection() {
+  const artists: any[] = resolveList(bp?.team, ARTISTS_DEMO)
   return (
     <section className="py-[100px] bg-gradient-to-b from-[#FCE7F3] to-[#FDF2F8]" id="artistes">
       <div className="max-w-[1280px] mx-auto px-6 lg:px-10">
@@ -780,46 +783,60 @@ function ArtistesSection() {
         </Reveal>
 
         <div className="grid md:grid-cols-3 gap-8">
-          {ARTISTS.map((artist, i) => (
-            <Reveal key={artist.id} delay={i * 0.1}>
+          {artists.map((artist: any, i: number) => (
+            <Reveal key={artist.id ?? artist.name ?? i} delay={i * 0.1}>
               <div className="bg-white rounded-[24px] overflow-hidden shadow-[0_2px_24px_rgba(236,72,153,0.06)] hover:shadow-[0_12px_48px_rgba(236,72,153,0.14)] transition-all duration-500 group">
                 {/* Photo area */}
-                <div className="relative h-[260px] overflow-hidden">
-                  <Image
-                    src={photo(1 + artist.id, `https://images.unsplash.com/${artist.img}?w=600&q=80`)}
-                    alt={artist.name}
-                    fill
-                    className="object-cover object-top group-hover:scale-105 transition-transform duration-700"
-                    sizes="(max-width: 768px) 100vw, 33vw"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#831843]/60 to-transparent" />
-                  <div className="absolute bottom-4 left-5 right-5">
-                    <p className="text-white text-[18px] font-[600] italic" style={{ fontFamily: "'Playfair Display', serif" }}>{artist.name}</p>
-                    <p className="text-white/80 text-[11px] font-[400] uppercase tracking-[0.1em] mt-0.5" style={{ fontFamily: "'Inter', sans-serif" }}>{artist.title}</p>
+                {(artist.img || artist.photoUrl) && (
+                  <div className="relative h-[260px] overflow-hidden">
+                    <Image
+                      src={photo(1 + (artist.id ?? i), artist.photoUrl ?? `https://images.unsplash.com/${artist.img}?w=600&q=80`)}
+                      alt={artist.name}
+                      fill
+                      className="object-cover object-top group-hover:scale-105 transition-transform duration-700"
+                      sizes="(max-width: 768px) 100vw, 33vw"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#831843]/60 to-transparent" />
+                    <div className="absolute bottom-4 left-5 right-5">
+                      <p className="text-white text-[18px] font-[600] italic" style={{ fontFamily: "'Playfair Display', serif" }}>{artist.name}</p>
+                      <p className="text-white/80 text-[11px] font-[400] uppercase tracking-[0.1em] mt-0.5" style={{ fontFamily: "'Inter', sans-serif" }}>{artist.title ?? artist.role}</p>
+                    </div>
                   </div>
-                </div>
+                )}
 
                 {/* Info area */}
                 <div className="p-6">
-                  <div
-                    className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-[600] uppercase tracking-[0.1em] mb-5"
-                    style={{ background: `${artist.color}14`, color: artist.color, fontFamily: "'Inter', sans-serif" }}
-                  >
-                    <Award className="w-3 h-3" />
-                    {artist.specialty}
-                  </div>
-                  <p className="text-[13px] text-[#9D174D] leading-[1.7] mb-5 font-[300]" style={{ fontFamily: "'Inter', sans-serif" }}>
-                    {artist.bio}
-                  </p>
+                  {!(artist.img || artist.photoUrl) && (
+                    <div className="mb-5">
+                      <p className="text-[#831843] text-[18px] font-[600] italic" style={{ fontFamily: "'Playfair Display', serif" }}>{artist.name}</p>
+                      {(artist.title ?? artist.role) && <p className="text-[#9D174D]/70 text-[11px] font-[400] uppercase tracking-[0.1em] mt-0.5" style={{ fontFamily: "'Inter', sans-serif" }}>{artist.title ?? artist.role}</p>}
+                    </div>
+                  )}
+                  {(artist.specialty) && (
+                    <div
+                      className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-[600] uppercase tracking-[0.1em] mb-5"
+                      style={{ background: `${artist.color ?? "#EC4899"}14`, color: artist.color ?? "#EC4899", fontFamily: "'Inter', sans-serif" }}
+                    >
+                      <Award className="w-3 h-3" />
+                      {artist.specialty}
+                    </div>
+                  )}
+                  {(artist.bio) && (
+                    <p className="text-[13px] text-[#9D174D] leading-[1.7] mb-5 font-[300]" style={{ fontFamily: "'Inter', sans-serif" }}>
+                      {artist.bio}
+                    </p>
+                  )}
                   {/* Certifications */}
-                  <div className="space-y-2 mb-6">
-                    {artist.certs.map((cert, ci) => (
-                      <div key={ci} className="flex items-center gap-2">
-                        <Check className="w-3.5 h-3.5 text-[#EC4899] flex-shrink-0" />
-                        <span className="text-[12px] text-[#BE185D]" style={{ fontFamily: "'Inter', sans-serif" }}>{cert}</span>
-                      </div>
-                    ))}
-                  </div>
+                  {(Array.isArray(artist.certs) ? artist.certs : artist.credentials ? [artist.credentials] : []).length > 0 && (
+                    <div className="space-y-2 mb-6">
+                      {(Array.isArray(artist.certs) ? artist.certs : [artist.credentials]).map((cert: string, ci: number) => (
+                        <div key={ci} className="flex items-center gap-2">
+                          <Check className="w-3.5 h-3.5 text-[#EC4899] flex-shrink-0" />
+                          <span className="text-[12px] text-[#BE185D]" style={{ fontFamily: "'Inter', sans-serif" }}>{cert}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                   <button
                     className="w-full py-3 text-[12px] font-[600] uppercase tracking-[0.12em] rounded-full border-2 text-[#EC4899] border-[#EC4899] hover:bg-[#EC4899] hover:text-white transition-all duration-300"
                     style={{ fontFamily: "'Inter', sans-serif" }}
@@ -950,11 +967,12 @@ function BrandsSection() {
    ========================================================================== */
 function TestimonialsSection() {
   const [active, setActive] = useState(0)
+  const testimonials: any[] = resolveList(bp?.reputation?.featuredReviews, TESTIMONIALS_DEMO)
 
   useEffect(() => {
-    const t = setInterval(() => setActive((p) => (p + 1) % TESTIMONIALS.length), 5000)
+    const t = setInterval(() => setActive((p) => (p + 1) % testimonials.length), 5000)
     return () => clearInterval(t)
-  }, [])
+  }, [testimonials.length])
 
   return (
     <section className="py-[100px] bg-gradient-to-br from-[#FDF2F8] to-[#F5D0FE]/30" id="temoignages">
@@ -990,15 +1008,15 @@ function TestimonialsSection() {
                   className="text-[18px] md:text-[22px] font-[400] italic text-[#831843] leading-[1.55] mb-6"
                   style={{ fontFamily: "'Playfair Display', serif" }}
                 >
-                  &ldquo;{TESTIMONIALS[active].quote}&rdquo;
+                  &ldquo;{testimonials[active].quote ?? testimonials[active].text}&rdquo;
                 </p>
                 <div className="flex items-center justify-center gap-3">
                   <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#EC4899] to-[#8B5CF6] flex items-center justify-center text-white text-[14px] font-[700]" style={{ fontFamily: "'Inter', sans-serif" }}>
-                    {TESTIMONIALS[active].avatar}
+                    {testimonials[active].avatar ?? (testimonials[active].name ?? testimonials[active].author ?? "?")[0]}
                   </div>
                   <div className="text-left">
-                    <p className="text-[14px] font-[600] text-[#831843]" style={{ fontFamily: "'Inter', sans-serif" }}>{TESTIMONIALS[active].name}</p>
-                    <p className="text-[12px] text-[#EC4899]" style={{ fontFamily: "'Inter', sans-serif" }}>{TESTIMONIALS[active].service}</p>
+                    <p className="text-[14px] font-[600] text-[#831843]" style={{ fontFamily: "'Inter', sans-serif" }}>{testimonials[active].name ?? testimonials[active].author}</p>
+                    <p className="text-[12px] text-[#EC4899]" style={{ fontFamily: "'Inter', sans-serif" }}>{testimonials[active].service ?? testimonials[active].source}</p>
                   </div>
                 </div>
               </motion.div>
@@ -1008,7 +1026,7 @@ function TestimonialsSection() {
 
         {/* Pagination dots */}
         <div className="flex justify-center gap-2 mb-16">
-          {TESTIMONIALS.map((_, i) => (
+          {testimonials.map((_: any, i: number) => (
             <button
               key={i}
               onClick={() => setActive(i)}
@@ -1021,7 +1039,9 @@ function TestimonialsSection() {
 
         {/* All cards grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-5">
-          {TESTIMONIALS.map((t, i) => (
+          {testimonials.map((t: any, i: number) => {
+            const quote = t.quote ?? t.text ?? "";
+            return (
             <Reveal key={i} delay={i * 0.08}>
               <div
                 onClick={() => setActive(i)}
@@ -1032,25 +1052,26 @@ function TestimonialsSection() {
                 }`}
               >
                 <div className="flex items-center gap-1 mb-3">
-                  {Array.from({ length: t.stars }).map((_, si) => (
+                  {Array.from({ length: t.stars ?? t.rating ?? 5 }).map((_, si) => (
                     <Star key={si} className="w-3 h-3 fill-[#EC4899] text-[#EC4899]" />
                   ))}
                 </div>
                 <p className="text-[13px] italic text-[#9D174D] leading-[1.65] mb-4 font-[400]" style={{ fontFamily: "'Playfair Display', serif" }}>
-                  &ldquo;{t.quote.slice(0, 80)}…&rdquo;
+                  &ldquo;{quote.slice(0, 80)}…&rdquo;
                 </p>
                 <div className="flex items-center gap-2">
                   <div className="w-7 h-7 rounded-full bg-gradient-to-br from-[#EC4899] to-[#8B5CF6] flex items-center justify-center text-white text-[11px] font-[700]">
-                    {t.avatar}
+                    {t.avatar ?? (t.name ?? t.author ?? "?")[0]}
                   </div>
                   <div>
-                    <p className="text-[12px] font-[600] text-[#831843]" style={{ fontFamily: "'Inter', sans-serif" }}>{t.name}</p>
-                    <p className="text-[10px] text-[#EC4899]" style={{ fontFamily: "'Inter', sans-serif" }}>{t.service}</p>
+                    <p className="text-[12px] font-[600] text-[#831843]" style={{ fontFamily: "'Inter', sans-serif" }}>{t.name ?? t.author}</p>
+                    <p className="text-[10px] text-[#EC4899]" style={{ fontFamily: "'Inter', sans-serif" }}>{t.service ?? t.source}</p>
                   </div>
                 </div>
               </div>
             </Reveal>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>
@@ -1370,6 +1391,7 @@ const FAQS_88 = [
 
 function FaqSection() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const faqs: any[] = resolveList(bp?.faq, FAQS_88)
   return (
     <section className="py-[100px] bg-white border-b border-[rgba(236,72,153,0.08)]" id="faq">
       <div className="max-w-[800px] mx-auto px-6">
@@ -1380,7 +1402,7 @@ function FaqSection() {
           </h2>
         </Reveal>
         <div className="space-y-4">
-          {FAQS_88.map((faq, idx) => (
+          {faqs.map((faq: any, idx: number) => (
             <Reveal key={idx} delay={idx * 0.05}>
               <div className="border border-[rgba(236,72,153,0.15)] rounded-[16px] bg-[#FDF2F8]/30 overflow-hidden">
                 <button
@@ -1525,6 +1547,7 @@ function ContactSection() {
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+let bp: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
 function photo(i: number, fallback: string): string {
@@ -1545,6 +1568,7 @@ export default function Impact88Page() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -1558,6 +1582,7 @@ export default function Impact88Page() {
 
   fd = session?.formData;
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, primary: brand, primaryLight: shadeColor(brand, 25), primaryDark: shadeColor(brand, -20) };
@@ -1565,54 +1590,6 @@ export default function Impact88Page() {
 
   useFonts()
 
-  
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
 return (
     <main className="bg-[#FDF2F8] text-[#831843] min-h-dvh overflow-x-hidden">
       <ScrollProgressBar />

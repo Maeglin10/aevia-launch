@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { saveSession, saveSessionToBlob, getSession, getSessionFromBlob, type FormData, type GeneratedContent } from "@/lib/sessions";
 import { generateMockContent } from "@/lib/mockContent";
 import { generateWithFreeProviders, extractMenuItems } from "@/lib/llmProviders";
+import { generateLegalPages } from "@/lib/legal/generateLegalPages";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -85,11 +86,23 @@ export async function POST(req: NextRequest) {
     // Save or update session — persist to Blob so the preview page (running
     // on another serverless instance) can read the generated content.
     const existing = getSession(sessionId) ?? (await getSessionFromBlob(sessionId));
+    // Auto-generate legal pages (mentions légales, CGV…) from whatever legal
+    // data the wizard's step 7 captured — no-op boilerplate if the client
+    // left those fields empty, never blocks generation.
+    const legalPages = generateLegalPages(formData, existing?.businessProfile?.legal);
     const sessionData = {
       id: sessionId,
       formData,
+      // Preserve businessProfile — this route used to rebuild sessionData
+      // from scratch here, silently dropping the businessProfile the wizard
+      // PATCHed in right before calling /api/generate (services, team,
+      // legal…), so every resolveList() in the templates would always fall
+      // back to demo content on the actual generated site.
+      businessProfile: existing?.businessProfile,
       generatedContent,
+      legalPages,
       createdAt: existing?.createdAt ?? new Date(),
+      accountId: existing?.accountId,
     };
 
     try {

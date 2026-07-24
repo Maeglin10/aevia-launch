@@ -6,6 +6,7 @@ import { motion, AnimatePresence, useScroll, useTransform, useInView } from "fra
 import Image from "next/image"
 import Link from "next/link"
 import { Menu, X, ArrowRight, CheckCircle, ChevronRight, Phone, Mail, Clock, Award, Microscope, Shield, FlaskConical, Stethoscope, Sparkles, Star } from "lucide-react"
+import { resolveList } from "@/lib/templates/resolveList"
 
 // ─── Fonts ───────────────────────────────────────────────────────────────────
 function useFonts() {
@@ -33,7 +34,7 @@ function Reveal({ children, delay = 0, y = 40 }: { children: React.ReactNode; de
 }
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
-const TREATMENTS = [
+const TREATMENTS_DEMO = [
   {
     id: "botox",
     icon: Sparkles,
@@ -136,7 +137,8 @@ const FAQ_ITEMS = [
 
 function TraitementsSection() {
   const [active, setActive] = useState(0)
-  const ActiveIcon = TREATMENTS[active].icon
+  const treatments: any[] = resolveList(bp?.services, TREATMENTS_DEMO)
+  const ActiveIcon = treatments[active].icon
   return (
     <div className="bg-[#FAFAF8] py-28 border-t border-[#E8E4DE]">
       <div className="max-w-7xl mx-auto px-6 md:px-12">
@@ -152,16 +154,16 @@ function TraitementsSection() {
 
         <div className="grid lg:grid-cols-5 gap-0 border border-[#E8E4DE] mb-20">
           <div className="lg:col-span-2 border-r border-[#E8E4DE]">
-            {TREATMENTS.map((t, i) => {
-              const Icon = t.icon
+            {treatments.map((t: any, i: number) => {
+              const Icon = t.icon ?? FlaskConical
               return (
-                <button key={t.id} type="button" onClick={() => setActive(i)}
+                <button key={t.id ?? t.name ?? i} type="button" onClick={() => setActive(i)}
                   className={`w-full text-left p-5 border-b border-[#E8E4DE] last:border-b-0 flex items-center gap-4 transition-all duration-200 cursor-pointer group ${active === i ? "bg-[#181410] text-[#FAFAF8]" : "hover:bg-[#F0EDE8]"}`}>
                   <div className="w-9 h-9 flex items-center justify-center flex-shrink-0 text-[#3A8080]">
                     <Icon className="w-5 h-5" />
                   </div>
                   <div className="flex-1">
-                    <div className={`text-sm font-medium ${active === i ? "text-[#FAFAF8]" : "text-[#181410]"}`}>{t.label}</div>
+                    <div className={`text-sm font-medium ${active === i ? "text-[#FAFAF8]" : "text-[#181410]"}`}>{t.label ?? t.name}</div>
                     <div className={`text-xs mt-0.5 ${active === i ? "text-[#8A9A9A]" : "text-[#8A8278]"}`}>{t.price}</div>
                   </div>
                   <ChevronRight className={`w-4 h-4 flex-shrink-0 transition-colors ${active === i ? "text-[#3A8080]" : "text-[#3A8080] opacity-0 group-hover:opacity-100"}`} />
@@ -179,24 +181,26 @@ function TraitementsSection() {
                     <ActiveIcon className="w-6 h-6 text-[#3A8080]" />
                   </div>
                   <div className="flex flex-wrap gap-3 text-xs">
-                    <span className="bg-[#EEF4F4] text-[#3A8080] px-3 py-1.5 flex items-center gap-1.5"><Clock className="w-3 h-3" />{TREATMENTS[active].duration}</span>
-                    <span className="bg-[#EEF4F4] text-[#3A8080] px-3 py-1.5">Résultats : {TREATMENTS[active].results}</span>
-                    <span className="bg-[#F0EDE8] text-[#8A6840] px-3 py-1.5">{TREATMENTS[active].price}</span>
+                    {treatments[active].duration && <span className="bg-[#EEF4F4] text-[#3A8080] px-3 py-1.5 flex items-center gap-1.5"><Clock className="w-3 h-3" />{treatments[active].duration}</span>}
+                    {treatments[active].results && <span className="bg-[#EEF4F4] text-[#3A8080] px-3 py-1.5">Résultats : {treatments[active].results}</span>}
+                    {treatments[active].price && <span className="bg-[#F0EDE8] text-[#8A6840] px-3 py-1.5">{treatments[active].price}</span>}
                   </div>
                 </div>
                 <h3 className="text-2xl font-light mb-4" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
-                  {TREATMENTS[active].title}
+                  {treatments[active].title ?? treatments[active].name}
                 </h3>
-                <p className="text-[#6B6560] leading-relaxed mb-8">{TREATMENTS[active].desc}</p>
-                <div className="space-y-3 mb-10">
-                  <p className="text-xs tracking-[0.2em] uppercase text-[#3A8080] mb-4">Indications traitées</p>
-                  {TREATMENTS[active].detail.map(d => (
-                    <div key={d} className="flex items-center gap-3 text-sm">
-                      <CheckCircle className="w-4 h-4 text-[#3A8080] flex-shrink-0" />
-                      <span className="text-[#3A3028]">{d}</span>
-                    </div>
-                  ))}
-                </div>
+                <p className="text-[#6B6560] leading-relaxed mb-8">{treatments[active].desc ?? treatments[active].description}</p>
+                {treatments[active].detail && (
+                  <div className="space-y-3 mb-10">
+                    <p className="text-xs tracking-[0.2em] uppercase text-[#3A8080] mb-4">Indications traitées</p>
+                    {treatments[active].detail.map((d: string) => (
+                      <div key={d} className="flex items-center gap-3 text-sm">
+                        <CheckCircle className="w-4 h-4 text-[#3A8080] flex-shrink-0" />
+                        <span className="text-[#3A3028]">{d}</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
                 <button type="button" onClick={() => document.getElementById("rdv")?.scrollIntoView({ behavior: "smooth" })}
                   className="inline-flex items-center gap-2 px-6 py-3 bg-[#181410] text-[#FAFAF8] text-xs tracking-widest uppercase hover:bg-[#3A8080] transition-colors duration-300 cursor-pointer">
                   Réserver une consultation <ArrowRight className="w-3.5 h-3.5" />
@@ -235,7 +239,7 @@ function TraitementsSection() {
 }
 
 function EquipeSection() {
-  const team = [
+  const TEAM_DEMO = [
     {
       name: "Dr. Sophie Lemaire",
       spec: "Médecin esthétique",
@@ -261,6 +265,7 @@ function EquipeSection() {
       image: "https://images.unsplash.com/photo-1594824476967-48c8b964273f?w=800&q=80&fit=crop",
     },
   ]
+  const team: any[] = resolveList(bp?.team, TEAM_DEMO)
 
   return (
     <div className="bg-[#FAFAF8] py-28 border-t border-[#E8E4DE]">
@@ -276,21 +281,25 @@ function EquipeSection() {
         </Reveal>
 
         <div className="grid md:grid-cols-3 gap-10 mb-20">
-          {team.map((doc, i) => (
-            <Reveal key={doc.name} delay={i * 0.1}>
+          {team.map((doc: any, i: number) => (
+            <Reveal key={doc.name ?? i} delay={i * 0.1}>
               <div className="bg-[#FAFAF8] border border-[#E8E4DE] group overflow-hidden">
-                <div className="relative aspect-[3/4] overflow-hidden">
-                  <Image src={doc.image} alt={doc.name} fill className="object-cover group-hover:scale-105 transition-transform duration-700 grayscale" loading="lazy" />
-                  <div className="absolute bottom-0 left-0 right-0 h-[3px] bg-[#3A8080] origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
-                </div>
+                {(doc.image ?? doc.photoUrl) && (
+                  <div className="relative aspect-[3/4] overflow-hidden">
+                    <Image src={doc.image ?? doc.photoUrl} alt={doc.name} fill className="object-cover group-hover:scale-105 transition-transform duration-700 grayscale" loading="lazy" />
+                    <div className="absolute bottom-0 left-0 right-0 h-[3px] bg-[#3A8080] origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
+                  </div>
+                )}
                 <div className="p-7">
                   <h3 className="text-2xl font-light mb-1" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{doc.name}</h3>
-                  <p className="text-[#3A8080] text-xs tracking-widest uppercase mb-4">{doc.spec}</p>
-                  <p className="text-xs text-[#8A8278] mb-1">{doc.diploma}</p>
-                  <p className="text-xs text-[#8A8278]">{doc.exp}</p>
-                  <blockquote className="border-l-2 border-[#3A8080] pl-4 italic text-[#6B6560] text-sm leading-relaxed mt-5" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "16px" }}>
-                    &ldquo;{doc.quote}&rdquo;
-                  </blockquote>
+                  <p className="text-[#3A8080] text-xs tracking-widest uppercase mb-4">{doc.spec ?? doc.role ?? doc.specialty}</p>
+                  {(doc.diploma ?? doc.credentials) && <p className="text-xs text-[#8A8278] mb-1">{doc.diploma ?? doc.credentials}</p>}
+                  {doc.exp && <p className="text-xs text-[#8A8278]">{doc.exp}</p>}
+                  {(doc.quote ?? doc.bio) && (
+                    <blockquote className="border-l-2 border-[#3A8080] pl-4 italic text-[#6B6560] text-sm leading-relaxed mt-5" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "16px" }}>
+                      &ldquo;{doc.quote ?? doc.bio}&rdquo;
+                    </blockquote>
+                  )}
                 </div>
               </div>
             </Reveal>
@@ -359,7 +368,7 @@ function RdvSection() {
               <select required className="w-full bg-[#FAFAF8] border border-[#D8D0C8] px-4 py-3 text-sm focus:outline-none focus:border-[#181410] transition-colors">
                 <option value="">Sélectionner un traitement...</option>
                 <option>Consultation initiale (bilan complet)</option>
-                {TREATMENTS.map(t => <option key={t.id}>{t.label} — {t.price}</option>)}
+                {resolveList(bp?.services, TREATMENTS_DEMO).map((t: any, i: number) => <option key={t.id ?? i}>{(t.label ?? t.name)}{t.price ? ` — ${t.price}` : ""}</option>)}
               </select>
             </div>
 
@@ -655,6 +664,7 @@ function ContactSection() {
 
 function FaqSection() {
   const [openIndex, setOpenIndex] = useState<number | null>(null)
+  const faqItems: any[] = resolveList(bp?.faq, FAQ_ITEMS)
 
   return (
     <section id="faq" className="py-28 bg-[#FAFAF8] border-t border-[#E8E4DE]">
@@ -667,7 +677,7 @@ function FaqSection() {
         </Reveal>
 
         <div className="space-y-4">
-          {FAQ_ITEMS.map((item, i) => (
+          {faqItems.map((item: any, i: number) => (
             <Reveal key={i} delay={i * 0.08}>
               <div className="border border-[#E8E4DE] bg-white">
                 <button
@@ -716,6 +726,7 @@ function FaqSection() {
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+let bp: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
 function photo(i: number, fallback: string): string {
@@ -736,6 +747,7 @@ export default function LumiereCliniquePage() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -749,6 +761,7 @@ export default function LumiereCliniquePage() {
 
   fd = session?.formData;
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   useFonts()
@@ -771,53 +784,7 @@ export default function LumiereCliniquePage() {
     return () => window.removeEventListener("scroll", onScroll)
   }, []);
 
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);const ActiveIcon = TREATMENTS[activeTreatment].icon
+  const ActiveIcon = TREATMENTS_DEMO[activeTreatment].icon
 
   const NAV_LINKS = [
     { label: "Traitements", id: "traitements" },

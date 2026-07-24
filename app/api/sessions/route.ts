@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { saveSession, saveSessionToBlob, getSessionFromBlob } from "@/lib/sessions";
-import type { GeneratedContent, FormData, SessionData } from "@/lib/sessions";
+import type { GeneratedContent, FormData, SessionData, BusinessProfile } from "@/lib/sessions";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -96,11 +96,15 @@ export async function PATCH(req: NextRequest) {
   const body = await req.json() as {
     generatedContent?: Partial<GeneratedContent>;
     formData?: Partial<FormData>;
+    businessProfile?: Partial<BusinessProfile>;
   };
 
   const updated = {
     ...session,
     ...(body.formData && { formData: { ...session.formData, ...body.formData } as FormData }),
+    ...(body.businessProfile && {
+      businessProfile: { ...session.businessProfile, ...body.businessProfile } as BusinessProfile,
+    }),
     ...(body.generatedContent && {
       generatedContent: { ...session.generatedContent, ...body.generatedContent } as GeneratedContent,
     }),

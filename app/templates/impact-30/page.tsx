@@ -22,6 +22,7 @@ import {
   Users,
   ThumbsUp,
 } from "lucide-react";
+import { resolveList } from "@/lib/templates/resolveList";
 
 // Hoisted above the design tokens: several templates read `brand` in a
 // module-level const — declaring it lower caused a TDZ ReferenceError (500).
@@ -567,7 +568,7 @@ function Hero() {
 }
 
 // ─── Services ─────────────────────────────────────────────────────────────────
-const SERVICES = [
+const SERVICES_DEMO = [
   {
     icon: <Smile size={28} color="#00b894" />,
     title: "Blanchiment dentaire",
@@ -601,6 +602,16 @@ const SERVICES = [
 function Services() {
   const ref = useRef<HTMLElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-80px" });
+  const SERVICES = resolveList(
+    bp?.services?.map((s: any, i: number) => ({
+      icon: SERVICES_DEMO[i % SERVICES_DEMO.length].icon,
+      title: s.title ?? s.name,
+      desc: s.description ?? s.desc,
+      price: s.price,
+      tag: SERVICES_DEMO[i % SERVICES_DEMO.length].tag,
+    })),
+    SERVICES_DEMO
+  );
 
   return (
     <section
@@ -789,7 +800,7 @@ function Stats() {
 }
 
 // ─── Testimonials ─────────────────────────────────────────────────────────────
-const TESTIMONIALS = [
+const TESTIMONIALS_DEMO = [
   {
     name: "Sophie M.",
     treatment: "Blanchiment + Facettes",
@@ -819,6 +830,17 @@ const TESTIMONIALS = [
 function Testimonials() {
   const ref = useRef<HTMLElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-60px" });
+  const TESTIMONIALS = resolveList(
+    bp?.reputation?.featuredReviews?.map((r: any) => ({
+      name: r.name ?? r.author,
+      treatment: r.treatment,
+      before: r.before,
+      after: r.after ?? r.text,
+      stars: r.stars ?? r.rating ?? 5,
+      date: r.date,
+    })),
+    TESTIMONIALS_DEMO
+  );
 
   return (
     <section
@@ -869,7 +891,7 @@ function Testimonials() {
       >
         {TESTIMONIALS.map((t, i) => (
           <motion.div
-            key={t.name}
+            key={t.name ?? i}
             initial={{ opacity: 0, y: 44 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.55, delay: i * 0.12 }}
@@ -882,14 +904,16 @@ function Testimonials() {
             }}
           >
             {/* Before */}
-            <div style={{ padding: "24px 28px 18px", borderBottom: `1px solid ${C.border}`, background: "#fff8f8" }}>
-              <div style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", color: "#d46060", letterSpacing: 1, marginBottom: 8 }}>
-                Avant
+            {t.before && (
+              <div style={{ padding: "24px 28px 18px", borderBottom: `1px solid ${C.border}`, background: "#fff8f8" }}>
+                <div style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", color: "#d46060", letterSpacing: 1, marginBottom: 8 }}>
+                  Avant
+                </div>
+                <p style={{ color: C.textMuted, fontSize: 14, fontStyle: "italic", lineHeight: 1.65 }}>
+                  "{t.before}"
+                </p>
               </div>
-              <p style={{ color: C.textMuted, fontSize: 14, fontStyle: "italic", lineHeight: 1.65 }}>
-                "{t.before}"
-              </p>
-            </div>
+            )}
             {/* After */}
             <div style={{ padding: "24px 28px" }}>
               <div style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", color: C.accent, letterSpacing: 1, marginBottom: 8 }}>
@@ -921,7 +945,7 @@ function Testimonials() {
 }
 
 // ─── Team ─────────────────────────────────────────────────────────────────────
-const TEAM = [
+const TEAM_DEMO = [
   { name: "Dr. Claire Laurent", role: "Chirurgienne-dentiste", specialty: "Implantologie & Chirurgie orale", experience: "18 ans", initials: "CL", color: "#4a90d9" },
   { name: "Dr. Marc Dupont", role: "Orthodontiste", specialty: "Aligneurs Invisalign certifié Diamond", experience: "12 ans", initials: "MD", color: "#7c3aed" },
   { name: "Dr. Sofia Ramirez", role: "Chirurgienne-dentiste", specialty: "Esthétique dentaire & Blanchiment", experience: "9 ans", initials: "SR", color: "#00b894" },
@@ -930,6 +954,17 @@ const TEAM = [
 function Team() {
   const ref = useRef<HTMLElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-60px" });
+  const TEAM = resolveList(
+    bp?.team?.map((m: any, i: number) => ({
+      name: m.name,
+      role: m.role,
+      specialty: m.specialty ?? m.credentials,
+      experience: m.experience,
+      initials: m.initials ?? (m.name ?? "").split(" ").map((w: string) => w[0]).join("").slice(0, 2).toUpperCase(),
+      color: m.color ?? TEAM_DEMO[i % TEAM_DEMO.length].color,
+    })),
+    TEAM_DEMO
+  );
 
   return (
     <section
@@ -1020,7 +1055,7 @@ function Team() {
                 color: C.text,
               }}
             >
-              {doc.experience} d'expérience
+              {doc.experience ? `${doc.experience} d'expérience` : doc.role}
             </div>
           </motion.div>
         ))}
@@ -1216,7 +1251,7 @@ function Pricing() {
 }
 
 // ─── FAQ ──────────────────────────────────────────────────────────────────────
-const FAQS = [
+const FAQS_DEMO = [
   {
     q: "Le blanchiment dentaire est-il remboursé par la Sécurité Sociale ?",
     a: "Non, le blanchiment esthétique n'est pas pris en charge par la Sécurité Sociale. Certaines mutuelles offrent cependant une prise en charge partielle. Nous vous fournissons un devis détaillé et proposons des solutions de financement adaptées.",
@@ -1243,6 +1278,7 @@ function FAQ() {
   const ref = useRef<HTMLElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-60px" });
   const [open, setOpen] = useState<number | null>(null);
+  const FAQS = resolveList(bp?.faq, FAQS_DEMO);
 
   return (
     <section
@@ -1413,6 +1449,7 @@ function Footer() {
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 export default function Impact30() {
   const [session, setSession] = useState<{
     formData?: {
@@ -1428,6 +1465,7 @@ export default function Impact30() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -1441,59 +1479,12 @@ export default function Impact30() {
 
   fd = session?.formData;
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, accent: brand, accentLight: shadeColor(brand, 25), accentDark: shadeColor(brand, -20) };
   }
 
-  
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
 return (
     <main style={{ background: C.bg, fontFamily: FONT, overflowX: "hidden" }}>
       <Navbar />

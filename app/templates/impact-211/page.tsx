@@ -10,6 +10,7 @@ import {
   useSpring,
   useMotionValue,
   animate,
+  type MotionValue,
 } from "framer-motion"
 
 // ─── Design Tokens ─────────────────────────────────────────────────────────────
@@ -116,7 +117,7 @@ const EVENTS = [
 ]
 
 // ─── Hooks ────────────────────────────────────────────────────────────────────
-function useParallax(value: ReturnType<typeof useMotionValue>, distance: number) {
+function useParallax(value: MotionValue<number>, distance: number) {
   return useTransform(value, [0, 1], [-distance, distance])
 }
 
@@ -384,6 +385,7 @@ function CourseCard({ course, index }: { course: typeof COURSES[0]; index: numbe
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+let bp: any = null;
 export default function Impact211Page() {
   const [session, setSession] = useState<{
     formData?: {
@@ -399,6 +401,7 @@ export default function Impact211Page() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -412,11 +415,15 @@ export default function Impact211Page() {
 
   fd = session?.formData;
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
-  // Real client menu (from the wizard) or template demo tasting-menu courses.
-  const hasRealMenu = !!(c?.menuItems && c.menuItems.length > 0);
-  const courses = hasRealMenu ? buildCourses(c.menuItems) : COURSES;
+  // businessProfile.menu (structured wizard step) takes priority over the
+  // older free-text extraction (c?.menuItems), then demo tasting-menu courses.
+  const hasRealMenu = !!(bp?.menu?.length || (c?.menuItems && c.menuItems.length > 0));
+  const courses = bp?.menu?.length
+    ? buildCourses(bp.menu)
+    : (c?.menuItems && c.menuItems.length > 0) ? buildCourses(c.menuItems) : COURSES;
 
   const [activeMapDot, setActiveMapDot] = useState<string | null>(null)
   const [chefHovered, setChefHovered] = useState(false)
@@ -441,53 +448,7 @@ export default function Impact211Page() {
     return () => window.removeEventListener("scroll", handleScroll)
   }, []);
 
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);const handleReservation = useCallback((e: React.FormEvent) => {
+  const handleReservation = useCallback((e: React.FormEvent) => {
     e.preventDefault()
     setReservationLoading(true)
     setTimeout(() => {
@@ -618,7 +579,6 @@ export default function Impact211Page() {
                 fontFamily: font.sans,
                 fontSize: "0.72rem",
                 fontWeight: 400,
-                letterSpacing: "0.2em",
                 textTransform: "uppercase",
                 color: C.bg,
                 background: C.gold,

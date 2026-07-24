@@ -6,6 +6,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { Zap, ArrowRight, Menu, Star, Activity, Cpu, Globe, Share2, Shield, ChevronRight, Layout, Box, Sparkles, Wallet } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import { resolveList } from "@/lib/templates/resolveList";
 
 function Reveal({ children, delay = 0, y = 30 }: { children: React.ReactNode; delay?: number; y?: number }) {
   const ref = useRef(null)
@@ -18,7 +19,10 @@ function Reveal({ children, delay = 0, y = 30 }: { children: React.ReactNode; de
   )
 }
 
-const DROPS = [
+// Demo content — real data (businessProfile) replaces this wholesale via
+// resolveList when the client provided it; each field access below falls
+// back with `??` so the same JSX renders either shape.
+const DROPS_DEMO = [
   { id: "P-01", name: "Glitch Angel", creator: "@Xero", price: "4.2 ETH", img: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&q=80&w=1200" },
   { id: "P-02", name: "Neo Tokyo", creator: "@Sintra", price: "12.8 ETH", img: "https://images.unsplash.com/photo-1614728263952-84ea256f9679?auto=format&fit=crop&q=80&w=1200" },
   { id: "P-03", name: "Ether Void", creator: "@Vane", price: "2.1 ETH", img: "https://images.unsplash.com/photo-1633167606207-d840b5070fc2?auto=format&fit=crop&q=80&w=1200" },
@@ -44,6 +48,7 @@ export default function NeonPulsePage() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -60,7 +65,7 @@ export default function NeonPulsePage() {
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;
     let n = 0;
-    const _photoArrays: any[] = [DROPS];
+    const _photoArrays: any[] = [DROPS_DEMO];
     _photoArrays.forEach((arr) => {
       if (!Array.isArray(arr)) return;
       arr.forEach((item) => {
@@ -85,53 +90,15 @@ export default function NeonPulsePage() {
     return () => window.removeEventListener("scroll", h)
   }, []);
 
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);return (
+  // Real business data (resolveList) replaces demo content wholesale when
+  // present — see the DEMO const above for the shape this section falls
+  // back to. Field access in JSX uses `??` chains so both shapes render.
+  // Note: businessProfile is a sibling of formData on SessionData, not
+  // nested inside it — read from `session`, not `fd`.
+  const bp = session?.businessProfile;
+  const drops = resolveList(bp?.services, DROPS_DEMO);
+
+  return (
     <div className="bg-[#050505] text-white font-sans min-h-dvh selection:bg-purple-500 selection:text-white overflow-x-hidden">
       
       {/* ── GRADIENT BACKGROUND ───── */}
@@ -261,24 +228,26 @@ export default function NeonPulsePage() {
            </Reveal>
 
            <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-              {DROPS.map((drop, i) => (
-                <Reveal key={i} delay={i * 0.15}>
+              {drops.map((drop: any, i: number) => (
+                <Reveal key={drop.id ?? drop.name ?? i} delay={i * 0.15}>
                    <div className="group relative">
                       <div className="relative aspect-[3/4] mb-10 overflow-hidden rounded-[2rem] bg-white/[0.02] border border-white/10 p-4">
                          <div className="relative w-full h-full overflow-hidden rounded-[1.5rem]">
-                            <Image src={drop.img} alt={drop.name} fill className="object-cover group-hover:scale-110 transition-transform duration-1000 grayscale group-hover:grayscale-0" />
+                            <Image src={drop.img ?? "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&q=80&w=1200"} alt={drop.name} fill className="object-cover group-hover:scale-110 transition-transform duration-1000 grayscale group-hover:grayscale-0" />
                             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
                             <div className="absolute bottom-6 left-6">
                                <h3 className="text-3xl font-black italic uppercase mb-2">{drop.name}</h3>
-                               <div className="text-[10px] font-bold uppercase tracking-widest text-cyan-400">{drop.creator}</div>
+                               {drop.creator && <div className="text-[10px] font-bold uppercase tracking-widest text-cyan-400">{drop.creator}</div>}
                             </div>
                          </div>
                       </div>
                       <div className="flex justify-between items-center px-6">
-                         <div>
-                            <div className="text-[9px] font-bold uppercase tracking-widest text-white/30 mb-1">List Price</div>
-                            <div className="text-xl font-black italic uppercase tracking-tighter">{drop.price}</div>
-                         </div>
+                         {drop.price && (
+                           <div>
+                              <div className="text-[9px] font-bold uppercase tracking-widest text-white/30 mb-1">List Price</div>
+                              <div className="text-xl font-black italic uppercase tracking-tighter">{drop.price}</div>
+                           </div>
+                         )}
                          <button className="px-8 py-3 bg-white text-black text-[9px] font-black uppercase tracking-widest rounded-full hover:bg-cyan-400 transition-all">Buy Now</button>
                       </div>
                    </div>

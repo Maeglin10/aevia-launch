@@ -17,6 +17,7 @@ import {
   MapPin,
   Quote,
 } from 'lucide-react';
+import { resolveList } from '@/lib/templates/resolveList';
 
 /* ════════════════════════════════════════════════════════════════════════════
    CLÉ DE VOÛTE IMMOBILIER — Agence immobilière premium · Bordeaux
@@ -141,7 +142,7 @@ const PROPERTIES: Property[] = [
   },
 ];
 
-const SERVICES: Service[] = [
+const SERVICES_DEMO: Service[] = [
   {
     title: 'Estimation gratuite',
     desc: 'Évaluation précise de votre bien en 48h, fondée sur 2 000+ transactions et les données du marché bordelais en temps réel.',
@@ -232,7 +233,7 @@ const EXPERTISE_ITEMS: ExpertiseItem[] = [
   },
 ];
 
-const TESTIMONIALS: Testimonial[] = [
+const TESTIMONIALS_DEMO: Testimonial[] = [
   {
     quote:
       "Nous avions mis notre appartement des Chartrons en vente deux fois sans succès avec d'autres agences. Clé de Voûte l'a vendu en 8 jours, au-dessus de notre prix de réserve. Leur méthode est radicalement différente : photos de qualité studio, acheteurs ciblés, négociation sans concession. Nous ne saurions recommander personne d'autre.",
@@ -1032,7 +1033,7 @@ function PropertySequence() {
 /* ════════════════════════════════════════════════════════════════════════════
    ServiceCards — 6 cartes sur bgAlt
    ════════════════════════════════════════════════════════════════════════════ */
-function ServiceCard({ s, i }: { s: Service; i: number }) {
+function ServiceCard({ s, i }: { s: any; i: number }) {
   const [hover, setHover] = useState(false);
   const card: React.CSSProperties = {
     background: C.bgCard,
@@ -1069,7 +1070,7 @@ function ServiceCard({ s, i }: { s: Service; i: number }) {
             alignSelf: 'flex-start',
           }}
         >
-          {s.badge}
+          {s.badge ?? s.duration ?? s.price}
         </div>
         <h3
           style={{
@@ -1081,7 +1082,7 @@ function ServiceCard({ s, i }: { s: Service; i: number }) {
             lineHeight: 1.12,
           }}
         >
-          {s.title}
+          {s.title ?? s.name}
         </h3>
         <p
           style={{
@@ -1093,7 +1094,7 @@ function ServiceCard({ s, i }: { s: Service; i: number }) {
             flex: 1,
           }}
         >
-          {s.desc}
+          {s.desc ?? s.description}
         </p>
         <div
           style={{
@@ -1159,8 +1160,8 @@ function ServiceCards() {
         </Reveal>
       </div>
       <div style={grid}>
-        {SERVICES.map((s, i) => (
-          <ServiceCard key={s.title} s={s} i={i} />
+        {resolveList<any>(bp?.services, SERVICES_DEMO).map((s: any, i: number) => (
+          <ServiceCard key={s.title ?? s.name ?? i} s={s} i={i} />
         ))}
       </div>
     </section>
@@ -1502,7 +1503,7 @@ function ExpertisePanel() {
 /* ════════════════════════════════════════════════════════════════════════════
    Testimonials — 2 cartes longues, fond clair
    ════════════════════════════════════════════════════════════════════════════ */
-function TestimonialCard({ t, i }: { t: Testimonial; i: number }) {
+function TestimonialCard({ t, i }: { t: any; i: number }) {
   return (
     <Reveal delay={i * 0.12} style={{ height: '100%' }}>
       <figure
@@ -1535,7 +1536,7 @@ function TestimonialCard({ t, i }: { t: Testimonial; i: number }) {
             flex: 1,
           }}
         >
-          &ldquo;{t.quote}&rdquo;
+          &ldquo;{t.quote ?? t.text}&rdquo;
         </blockquote>
         <figcaption
           style={{
@@ -1551,7 +1552,7 @@ function TestimonialCard({ t, i }: { t: Testimonial; i: number }) {
               marginBottom: 6,
             }}
           >
-            {t.name}
+            {t.name ?? t.author}
           </div>
           <div
             style={{
@@ -1562,7 +1563,7 @@ function TestimonialCard({ t, i }: { t: Testimonial; i: number }) {
               color: C.textFaint,
             }}
           >
-            {t.role}
+            {t.role ?? t.source ?? ''}
           </div>
         </figcaption>
       </figure>
@@ -1609,8 +1610,8 @@ function Testimonials() {
         </Reveal>
       </div>
       <div style={grid}>
-        {TESTIMONIALS.map((t, i) => (
-          <TestimonialCard key={t.name} t={t} i={i} />
+        {resolveList<any>(bp?.reputation?.featuredReviews, TESTIMONIALS_DEMO).map((t: any, i: number) => (
+          <TestimonialCard key={t.name ?? t.author ?? i} t={t} i={i} />
         ))}
       </div>
     </section>
@@ -2107,6 +2108,7 @@ function FooterLink({ label, href }: { label: string; href: string }) {
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+let bp: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
     formData?: {
@@ -2122,6 +2124,7 @@ export default function Page() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -2153,6 +2156,7 @@ export default function Page() {
     });
   });
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, accent: brand, accentLight: shadeColor(brand, 25), accentDark: shadeColor(brand, -20) };
@@ -2165,54 +2169,6 @@ export default function Page() {
     overflowX: 'hidden',
     WebkitFontSmoothing: 'antialiased',
   };
-  
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
 return (
     <main style={root} suppressHydrationWarning>
       <Nav />

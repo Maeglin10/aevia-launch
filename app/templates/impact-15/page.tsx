@@ -4,6 +4,7 @@
 import React, {useRef, useState, useEffect} from 'react'
 import { motion, useScroll, useTransform, useInView } from "framer-motion"
 import { Zap, Phone, Mail, MapPin, Clock, CheckCircle, Star, ArrowRight, Shield, Wrench, Lightbulb } from "lucide-react"
+import { resolveList } from "@/lib/templates/resolveList"
 
 // Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
 // used to derive light/dark shades from the client's brand color.
@@ -39,26 +40,26 @@ const STATS = [
   { value: "24h", label: "Intervention d'urgence" },
 ]
 
-const SERVICES = [
-  { titre: "Installation électrique neuve", desc: "Tableau électrique, câblage, prises et éclairages pour constructions neuves et rénovations complètes. Mise aux normes NF C 15-100.", tag: "Installation" },
-  { titre: "Mise aux normes & diagnostic", desc: "Diagnostic électrique obligatoire, mise en conformité du tableau et des circuits. Rapport CONSUEL inclus pour toute installation neuve.", tag: "Normes" },
-  { titre: "Domotique & alarme", desc: "Installation de systèmes de domotique (Legrand, Somfy), alarmes intrusion et détection incendie pour maison connectée.", tag: "Domotique" },
-  { titre: "Rénovation & dépannage", desc: "Court-circuit, disjoncteur qui saute, prises défectueuses — intervention rapide H/H et weekend sur Toulouse et agglomération.", tag: "Dépannage" },
-  { titre: "Bornes de recharge VE", desc: "Installation de bornes IRVE (IZIVIA, Schneider, Hager) pour véhicules électriques en maison individuelle et collectif.", tag: "Électromobilité" },
-  { titre: "Éclairage extérieur & piscine", desc: "Éclairage de façade, jardin, terrasse et piscine. Installations basse tension sécurisées, commandes automatiques et LED.", tag: "Extérieur" },
+const SERVICES_DEMO = [
+  { titre: "Construction de piscine", desc: "Piscine enterrée béton, coque ou bloc à bancher. Terrassement, structure, étanchéité, margelles et plage. De l'étude 3D à la mise en eau.", tag: "Construction" },
+  { titre: "Rénovation de bassin", desc: "Changement de liner, réfection d'étanchéité, remise à neuf des margelles et de la filtration. Une seconde vie pour votre piscine.", tag: "Rénovation" },
+  { titre: "Local technique & filtration", desc: "Pompes, filtres à sable, électrolyse au sel, régulation automatique du pH. Une eau limpide toute l'année, sans effort.", tag: "Technique" },
+  { titre: "Sécurité & mise aux normes", desc: "Barrières, volets immergés, alarmes et abris conformes à la norme NF P90. Mise en conformité de votre installation existante.", tag: "Sécurité" },
+  { titre: "Éclairage & domotique piscine", desc: "Projecteurs LED, commande à distance, chauffage et pilotage connecté du bassin. Confort et ambiance à toute heure.", tag: "Domotique" },
+  { titre: "Entretien & hivernage", desc: "Contrat saisonnier, hivernage, remise en route, nettoyage et traitement de l'eau. Profitez, on s'occupe du reste.", tag: "Entretien" },
 ]
 
 const ATOUTS = [
-  "Artisan certifié QUALIFELEC et RGE",
+  "Pisciniste certifié, membre de la FPP",
   "Garantie décennale et assurance RC Pro",
   "Devis gratuit sous 24h",
   "Intervention d'urgence 7j/7 en moins de 2h",
 ]
 
-const AVIS = [
-  { texte: "Intervention rapide après une coupure de courant totale un vendredi soir. En 1h30 tout était réglé. Sérieux, propre et prix correct. Je recommande sans hésiter.", auteur: "Marc D.", detail: "Dépannage urgent, Toulouse" },
-  { texte: "Rénovation complète du tableau électrique d'une maison des années 70. Travail impeccable, explications claires et passage CONSUEL sans problème. Bravo !", auteur: "Christine M.", detail: "Mise aux normes, Colomiers" },
-  { texte: "Installation de 2 bornes de recharge pour nos deux voitures électriques. Conseils pertinents sur les puissances, finitions parfaites. Délai tenu à la journée près.", auteur: "Famille Aubert", detail: "Borne IRVE, Blagnac" },
+const AVIS_DEMO = [
+  { texte: "Construction de notre piscine béton livrée dans les délais, chantier propre et équipe à l'écoute. Le résultat dépasse toutes nos attentes. Un vrai savoir-faire.", auteur: "Marc D.", detail: "Construction, Toulouse" },
+  { texte: "Rénovation complète de notre bassin des années 90 : nouveau liner, margelles et filtration au sel. On profite enfin d'une eau parfaite. Bravo !", auteur: "Christine M.", detail: "Rénovation, Colomiers" },
+  { texte: "Local technique refait avec régulation automatique et éclairage LED. Conseils pertinents, finitions impeccables, délai tenu à la journée près.", auteur: "Famille Aubert", detail: "Local technique, Blagnac" },
 ]
 
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
@@ -75,13 +76,14 @@ function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: nu
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
 function photo(i: number, fallback: string): string {
   return fd?.photoUrls?.[i] || fallback;
 }
-export default function VoltExpertPage() {
+export default function VoltPiscinesPage() {
   const [session, setSession] = useState<{
     formData?: {
       businessName?: string; businessType?: string; tagline?: string;
@@ -96,7 +98,27 @@ export default function VoltExpertPage() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
+
+  const bpLocal: any = session?.businessProfile;
+  const SERVICE_TAGS = SERVICES_DEMO.map((s) => s.tag);
+  const SERVICES = resolveList(
+    bpLocal?.services?.map((sv: any, i: number) => ({
+      titre: sv.title ?? sv.name,
+      desc: sv.description ?? sv.desc,
+      tag: sv.price ?? SERVICE_TAGS[i % SERVICE_TAGS.length],
+    })),
+    SERVICES_DEMO
+  );
+  const AVIS = resolveList(
+    bpLocal?.reputation?.featuredReviews?.map((r: any) => ({
+      texte: r.text ?? r.quote,
+      auteur: r.name ?? r.author,
+      detail: r.detail ?? r.context ?? "",
+    })),
+    AVIS_DEMO
+  );
 
   useEffect(() => {
     const id = new URLSearchParams(window.location.search).get("session");
@@ -109,6 +131,7 @@ export default function VoltExpertPage() {
 
   fd = session?.formData;
   c = session?.generatedContent;
+  bp = bpLocal;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, accent: brand };
@@ -128,53 +151,7 @@ export default function VoltExpertPage() {
     return () => window.removeEventListener("scroll", h)
   }, []);
 
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);return (
+return (
     <div style={{ background: C.bg, fontFamily: FONT, overflowX: "hidden" }}>
       <style jsx global>{`@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
         /* mobile: stack 2-col grids to single column (added by responsive fix) */
@@ -241,7 +218,7 @@ export default function VoltExpertPage() {
       {/* Hero */}
       <section id="hero" ref={heroRef} style={{ height: "115vh", minHeight: "900px", position: "relative", display: "flex", alignItems: "flex-end", overflow: "hidden" }}>
         <motion.div style={{ y: heroY, position: "absolute", inset: 0 }}>
-          <img src={photo(0, "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=1920&q=80")} alt="Électricien professionnel Toulouse" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+          <img src={photo(0, "https://images.unsplash.com/photo-1572331165267-854da2b10ccc?w=1920&q=80")} alt="Piscine sur-mesure" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
         </motion.div>
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(10,20,40,0.92) 0%, rgba(10,20,40,0.45) 45%, rgba(10,20,40,0.08) 100%)" }} />
         <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to right, ${C.accent}20 0%, transparent 55%)` }} />
@@ -250,17 +227,17 @@ export default function VoltExpertPage() {
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
             style={{ display: "inline-flex", alignItems: "center", gap: 8, marginBottom: 28, background: "rgba(245,158,11,0.15)", border: "1px solid rgba(245,158,11,0.35)", borderRadius: 20, padding: "7px 18px" }}>
             <Shield size={12} color={C.accent} />
-            <span style={{ color: C.accent, fontSize: 12, fontWeight: 700, letterSpacing: 2, textTransform: "uppercase" }}>Électricien QUALIFELEC — Toulouse</span>
+            <span style={{ color: C.accent, fontSize: 12, fontWeight: 700, letterSpacing: 2, textTransform: "uppercase" }}>Pisciniste certifié — Toulouse</span>
           </motion.div>
 
           <motion.h1 initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.9 }}
             style={{ fontSize: "clamp(40px, 5.5vw, 72px)", fontWeight: 800, color: "#fff", lineHeight: 1.05, marginBottom: 24 }}>{c?.heroHeadline ?? <>
-            L'électricité,<br /><span style={{ color: C.accent }}>sans mauvaise surprise.</span>
+            Votre piscine,<br /><span style={{ color: C.accent }}>sans mauvaise surprise.</span>
           </>}</motion.h1>
 
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.75 }}
             style={{ fontSize: 17, color: "rgba(255,255,255,0.75)", lineHeight: 1.75, marginBottom: 40, maxWidth: 520 }}>{c?.heroSubline ?? fd?.tagline ?? <>
-            VoltExpert intervient sur tous vos travaux électriques à Toulouse et agglomération. Installation, mise aux normes, domotique, bornes VE — devis gratuit sous 24h.
+            Construction, rénovation, sécurité et entretien de piscines à Toulouse et agglomération. Du bassin béton sur-mesure au contrat d'entretien — devis gratuit sous 48h.
           </>}</motion.p>
 
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.0 }} style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
@@ -301,13 +278,13 @@ export default function VoltExpertPage() {
           <div style={{ marginBottom: 60 }}>
             <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Nos prestations</span>
             <h2 style={{ fontSize: "clamp(30px, 4vw, 52px)", fontWeight: 800, color: C.text, marginTop: 10, lineHeight: 1.1 }}>
-              Tous vos travaux électriques,<br />un seul interlocuteur.
+              Tous vos travaux de piscine,<br />un seul interlocuteur.
             </h2>
           </div>
         </Reveal>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: 20, maxWidth: 1200, margin: "0 auto" }}>
           {SERVICES.map((s, i) => (
-            <Reveal key={s.titre} delay={i * 0.07}>
+            <Reveal key={s.titre ?? i} delay={i * 0.07}>
               <motion.div whileHover={{ y: -5, boxShadow: C.shadowLg }} style={{ background: C.white, borderRadius: 14, padding: "26px 24px", border: `1px solid ${C.border}`, boxShadow: C.shadow }}>
                 <span style={{ background: C.accentLight, color: C.accentDark, borderRadius: 20, padding: "4px 12px", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>{s.tag}</span>
                 <h3 style={{ fontSize: 17, fontWeight: 700, color: C.text, margin: "14px 0 10px" }}>{s.titre}</h3>
@@ -322,7 +299,7 @@ export default function VoltExpertPage() {
       <section style={{ padding: "100px 80px", background: C.bgSection }}>
         <div className="imx-mobstack" style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "center" }}>
           <Reveal>
-            <img src={photo(1, "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80")} alt="Electricien certifie Toulouse" style={{ width: "100%", borderRadius: 16, aspectRatio: "4/3", objectFit: "cover" }} />
+            <img src={photo(1, "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80")} alt="Pisciniste certifié Toulouse" style={{ width: "100%", borderRadius: 16, aspectRatio: "4/3", objectFit: "cover" }} />
           </Reveal>
           <Reveal delay={0.15}>
             <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Pourquoi nous choisir</span>
@@ -353,14 +330,14 @@ export default function VoltExpertPage() {
           </div>
         </Reveal>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: 20, maxWidth: 1100, margin: "0 auto" }}>
-          {AVIS.map((a, i) => (
-            <Reveal key={a.auteur} delay={i * 0.1}>
+          {AVIS.map((a: any, i: number) => (
+            <Reveal key={a.auteur ?? i} delay={i * 0.1}>
               <div style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 14, padding: "28px 24px" }}>
                 <div style={{ display: "flex", gap: 3, marginBottom: 12 }}>{[...Array(5)].map((_, j) => <Star key={j} size={13} fill={C.accent} color={C.accent} />)}</div>
                 <p style={{ fontSize: 14, color: "rgba(255,255,255,0.78)", lineHeight: 1.7, marginBottom: 18 }}>"{a.texte}"</p>
                 <div style={{ borderTop: "1px solid rgba(255,255,255,0.07)", paddingTop: 14 }}>
                   <div style={{ fontWeight: 700, color: "#fff", fontSize: 14 }}>{a.auteur}</div>
-                  <div style={{ color: C.accent, fontSize: 12, marginTop: 4 }}>{a.detail}</div>
+                  {a.detail && <div style={{ color: C.accent, fontSize: 12, marginTop: 4 }}>{a.detail}</div>}
                 </div>
               </div>
             </Reveal>
@@ -383,7 +360,7 @@ export default function VoltExpertPage() {
             <motion.a href={`tel:${fd?.phone ?? "+33561000000"}`} style={{ background: C.dark, color: C.white, borderRadius: 8, padding: "15px 36px", fontWeight: 700, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ scale: 1.03 }}>
               <Phone size={18} /> 05 61 00 00 00
             </motion.a>
-            <motion.a href={`mailto:${fd?.email ?? "contact@voltexpert.fr"}`} style={{ background: "transparent", color: C.text, border: `2px solid ${C.dark}`, borderRadius: 8, padding: "13px 32px", fontWeight: 700, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ background: C.dark, color: C.white }}>
+            <motion.a href={`mailto:${fd?.email ?? "contact@voltpiscines.fr"}`} style={{ background: "transparent", color: C.text, border: `2px solid ${C.dark}`, borderRadius: 8, padding: "13px 32px", fontWeight: 700, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ background: C.dark, color: C.white }}>
               <Mail size={18} /> Nous écrire
             </motion.a>
           </div>
@@ -394,8 +371,8 @@ export default function VoltExpertPage() {
       <footer style={{ background: C.text, padding: "48px 80px 24px" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: 32, marginBottom: 36 }}>
           <div>
-            <div style={{ fontSize: 20, fontWeight: 800, color: C.accent, marginBottom: 8 }}>VoltExpert</div>
-            <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, lineHeight: 1.6, maxWidth: 220 }}>Électricien certifié QUALIFELEC<br />Toulouse & agglomération</p>
+            <div style={{ fontSize: 20, fontWeight: 800, color: C.accent, marginBottom: 8 }}>{fd?.businessName ?? "Volt Piscines"}</div>
+            <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, lineHeight: 1.6, maxWidth: 220 }}>Pisciniste certifié FPP<br />Toulouse & agglomération</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
             {[{ icon: <MapPin size={13} />, t: "Toulouse, Haute-Garonne" }, { icon: <Phone size={13} />, t: "05 61 00 00 00" }, { icon: <Clock size={13} />, t: "Urgences 7j/7 · 24h/24" }].map((item, i) => (
@@ -406,7 +383,7 @@ export default function VoltExpertPage() {
           </div>
         </div>
         <div style={{ borderTop: "1px solid rgba(255,255,255,0.07)", paddingTop: 16, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 10 }}>
-          <span style={{ color: "rgba(255,255,255,0.22)", fontSize: 12 }}>© 2026 VoltExpert — Site réalisé par Aevia WS</span>
+          <span style={{ color: "rgba(255,255,255,0.22)", fontSize: 12 }}>© 2026 {fd?.businessName ?? "Volt Piscines"} — Site réalisé par Aevia WS</span>
           <a href="/templates/impact-15/mentions-legales" style={{ color: "rgba(255,255,255,0.22)", fontSize: 12, textDecoration: "none" }}>{c?.ctaText ?? <>Mentions légales</>}</a>
         </div>
       </footer>

@@ -11,13 +11,19 @@ import { useLang } from "@/lib/LangContext";
 import { INDUSTRIES, SECTORS, SECTOR_TEMPLATES, TEMPLATE_CITY_LABELS } from "@/lib/templates/sectors";
 import { SECTOR_EXTRA_QUESTIONS } from "@/lib/templates/sector-questions";
 import { TEMPLATES_REGISTRY } from "@/lib/templates/registry";
+import { NICHE_ARCHETYPE, SANTE_NICHES } from "@/lib/wizard/archetypes";
+import { ServiceRdvStep } from "@/components/wizard/steps/ServiceRdvStep";
+import { FoodStep } from "@/components/wizard/steps/FoodStep";
+import { ImmobilierStep } from "@/components/wizard/steps/ImmobilierStep";
+import { LegalStep } from "@/components/wizard/steps/LegalStep";
+import type { BusinessProfile } from "@/lib/sessions";
 
 // Registry lookup by id — used in step 2 template cards
 const REGISTRY_BY_ID = Object.fromEntries(
   TEMPLATES_REGISTRY.map((t) => [t.id, t])
 );
 
-const TOTAL_STEPS = 6;
+const TOTAL_STEPS = 7;
 
 // ─── i18n ────────────────────────────────────────────────────────────────────
 // UI chrome translations. Template *labels* stay as product names; their
@@ -33,6 +39,7 @@ type StepFormStrings = {
   s4Title: string; s4SectorSub: string;
   s5Title: string; s5Sub: string;
   s6Title: string;
+  s7Title: string; s7Sub: string;
   fBusinessName: string; fWhatYouDo: string; fCity: string;
   fMainService: string; fBenefits: string; fPriceRange: string;
   fTargetAudience: string; phTargetAudience: string;
@@ -65,6 +72,7 @@ const STEPFORM_T: Record<string, StepFormStrings> = {
     s4Title: "Votre offre", s4SectorSub: "Ces questions permettent d'adapter le contenu à votre métier.",
     s5Title: "Vos visuels", s5Sub: "Ajoutez votre logo et des photos pour personnaliser votre site.",
     s6Title: "Presque fini !",
+    s7Title: "Informations légales", s7Sub: "Pour générer vos mentions légales et CGV automatiquement. Tout est optionnel.",
     fBusinessName: "Nom de l'entreprise", fWhatYouDo: "Ce que vous faites", fCity: "Ville",
     fMainService: "Service principal", fBenefits: "3 avantages clés", fPriceRange: "Gamme de prix",
     fTargetAudience: "Clientèle cible (optionnel)", phTargetAudience: "ex : Particuliers 30-50 ans, PME, Sportifs…",
@@ -97,6 +105,7 @@ const STEPFORM_T: Record<string, StepFormStrings> = {
     s4Title: "Your offer", s4SectorSub: "These questions help tailor the content to your profession.",
     s5Title: "Your visuals", s5Sub: "Add your logo and photos to personalise your site.",
     s6Title: "Almost there!",
+    s7Title: "Legal information", s7Sub: "To auto-generate your legal notice and terms of sale. Everything is optional.",
     fBusinessName: "Business name", fWhatYouDo: "What you do", fCity: "City",
     fMainService: "Main service", fBenefits: "3 key benefits", fPriceRange: "Price range",
     fTargetAudience: "Target audience (optional)", phTargetAudience: "e.g. Individuals 30-50, SMEs, Athletes…",
@@ -129,6 +138,7 @@ const STEPFORM_T: Record<string, StepFormStrings> = {
     s4Title: "Tu oferta", s4SectorSub: "Estas preguntas permiten adaptar el contenido a tu profesión.",
     s5Title: "Tus visuales", s5Sub: "Añade tu logo y fotos para personalizar tu sitio.",
     s6Title: "¡Casi listo!",
+    s7Title: "Información legal", s7Sub: "Para generar automáticamente tu aviso legal y condiciones de venta. Todo es opcional.",
     fBusinessName: "Nombre del negocio", fWhatYouDo: "Qué haces", fCity: "Ciudad",
     fMainService: "Servicio principal", fBenefits: "3 beneficios clave", fPriceRange: "Rango de precios",
     fTargetAudience: "Público objetivo (opcional)", phTargetAudience: "ej: Particulares 30-50, Pymes, Deportistas…",
@@ -161,6 +171,7 @@ const STEPFORM_T: Record<string, StepFormStrings> = {
     s4Title: "Ihr Angebot", s4SectorSub: "Diese Fragen ermöglichen es, den Inhalt auf Ihren Beruf abzustimmen.",
     s5Title: "Ihre Bilder", s5Sub: "Fügen Sie Ihr Logo und Fotos hinzu, um Ihre Website zu personalisieren.",
     s6Title: "Fast geschafft!",
+    s7Title: "Rechtliche Angaben", s7Sub: "Zur automatischen Erstellung von Impressum und AGB. Alles optional.",
     fBusinessName: "Firmenname", fWhatYouDo: "Was Sie tun", fCity: "Stadt",
     fMainService: "Hauptleistung", fBenefits: "3 Vorteile", fPriceRange: "Preisspanne",
     fTargetAudience: "Zielgruppe (optional)", phTargetAudience: "z.B. Privatpersonen 30-50, KMU, Sportler…",
@@ -193,6 +204,7 @@ const STEPFORM_T: Record<string, StepFormStrings> = {
     s4Title: "A sua oferta", s4SectorSub: "Estas perguntas permitem adaptar o conteúdo à sua profissão.",
     s5Title: "Os seus visuais", s5Sub: "Adicione o seu logotipo e fotos para personalizar o seu site.",
     s6Title: "Quase lá!",
+    s7Title: "Informações legais", s7Sub: "Para gerar automaticamente seus avisos legais e termos de venda. Tudo é opcional.",
     fBusinessName: "Nome do negócio", fWhatYouDo: "O que faz", fCity: "Cidade",
     fMainService: "Serviço principal", fBenefits: "3 benefícios", fPriceRange: "Faixa de preço",
     fTargetAudience: "Público-alvo (opcional)", phTargetAudience: "ex: Particulares 30-50, PME, Desportistas…",
@@ -229,6 +241,7 @@ type FormState = {
   sectorData: Record<string, string>;
   logoUrl: string;
   photoUrls: string[];
+  businessProfile: BusinessProfile;
 };
 
 const PRESET_COLORS = [
@@ -247,6 +260,7 @@ const initial: FormState = {
   sectorData: {},
   logoUrl: "",
   photoUrls: [],
+  businessProfile: {},
 };
 
 // Thumbnail for a theme row in step 2 — falls back to a color swatch if the
@@ -279,6 +293,9 @@ export function StepForm() {
   const [industryPhase, setIndustryPhase] = useState<"industry" | "specialty">("industry");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  // Created early (leaving step 1) so the businessProfile step (4) has an id
+  // to auto-save against — previously only created at final submit.
+  const [sessionId, setSessionId] = useState<string | null>(null);
 
   // Tracks whether the user attempted to advance a given step, so we only show
   // validation errors after an attempt (not on first render).
@@ -394,7 +411,9 @@ export function StepForm() {
     } else if (s === 3) {
       if (!form.businessName.trim()) errs.businessName = t.errBusinessName;
       if (!form.tagline.trim()) errs.tagline = t.errTagline;
-    } else if (s === 4) {
+    } else if (s === 4 && !NICHE_ARCHETYPE[form.sector]) {
+      // Only non-pilot niches (no dedicated step 4 component) use the
+      // generic "Votre offre" fields.
       if (!form.mainService.trim()) errs.mainService = t.errMainService;
       if (!form.benefit1.trim()) errs.benefit1 = t.errBenefit;
     } else if (s === 6) {
@@ -411,9 +430,27 @@ export function StepForm() {
   const canNext = () => Object.keys(getStepErrors(step)).length === 0;
 
   // Guarded navigation: mark the step attempted; only advance when valid.
+  // Create the session as soon as we know the sector (leaving step 1) so
+  // step 4's businessProfile capture has an id to auto-save against. Takes
+  // explicit args rather than reading `form` because the specialty picker's
+  // auto-advance (below) calls this in the same tick as `set("sector", …)`,
+  // before that state update has committed.
+  const createSessionEarly = (sector: string, industry: string) => {
+    if (sessionId) return;
+    void fetch("/api/sessions", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ formData: { sector, industry, businessType: sector } }),
+    })
+      .then((res) => res.json())
+      .then((data: { sessionId: string }) => setSessionId(data.sessionId))
+      .catch(() => {});
+  };
+
   const goNext = () => {
     setAttempted((a) => ({ ...a, [step]: true }));
     if (Object.keys(getStepErrors(step)).length === 0) {
+      if (step === 1) createSessionEarly(form.sector, form.industry);
       setStep((s) => s + 1);
     }
   };
@@ -431,8 +468,22 @@ export function StepForm() {
         businessType: form.sector, // FormData contract key
         template: form.template,
         businessName: form.businessName, tagline: form.tagline, city: form.city,
-        mainService: form.mainService,
-        benefits: [form.benefit1, form.benefit2, form.benefit3].filter(Boolean) as [string, string, string],
+        // Pilot niches (service_rdv/food/immobilier) skip the generic
+        // mainService/benefits fields — step 4 is their businessProfile
+        // capture instead. Fall back to whatever catalogue they filled so
+        // the AI copy prompt (lib/llmProviders.ts) never sees empty strings.
+        mainService: form.mainService
+          || form.businessProfile.services?.[0]?.name
+          || form.businessProfile.menu?.[0]?.name
+          || form.businessProfile.listings?.[0]?.title
+          || "",
+        benefits: (
+          [form.benefit1, form.benefit2, form.benefit3].filter(Boolean).length > 0
+            ? [form.benefit1, form.benefit2, form.benefit3].filter(Boolean)
+            : (form.businessProfile.services?.length ? form.businessProfile.services : form.businessProfile.menu?.length ? form.businessProfile.menu : form.businessProfile.listings ?? [])
+                .slice(0, 3)
+                .map((s: any) => s.description || s.name || s.title)
+        ) as [string, string, string],
         priceRange: form.priceRange,
         brandColor: form.brandColor || "#7c3aed",
         email: form.email,
@@ -447,18 +498,31 @@ export function StepForm() {
         ...(form.photoUrls.length > 0 && { photoUrls: form.photoUrls }),
       };
 
-      const sessionRes = await fetch("/api/sessions", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ formData }),
-      });
-      const { sessionId } = await sessionRes.json();
+      // Reuse the session created on leaving step 1 (carries the auto-saved
+      // businessProfile) instead of creating a second, orphaned one.
+      let currentSessionId = sessionId;
+      if (currentSessionId) {
+        // Include businessProfile so step 7's legal fields (SIRET, address…),
+        // captured after step 4's auto-save last fired, aren't lost.
+        await fetch(`/api/sessions?id=${currentSessionId}`, {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ formData, businessProfile: form.businessProfile }),
+        });
+      } else {
+        const sessionRes = await fetch("/api/sessions", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ formData }),
+        });
+        ({ sessionId: currentSessionId } = await sessionRes.json());
+      }
 
       // Generate content
       const genRes = await fetch("/api/generate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ sessionId, formData }),
+        body: JSON.stringify({ sessionId: currentSessionId, formData }),
       });
 
       const { previewUrl } = await genRes.json();
@@ -469,7 +533,7 @@ export function StepForm() {
       // session by /api/generate, and the preview page reads it back.
       // Monetization happens from the preview's own "Launch my site" CTA.
       recordFunnel(TOTAL_STEPS, true); // mark this visitor as completed
-      router.push(previewUrl ?? `/preview/${sessionId}`);
+      router.push(previewUrl ?? `/preview/${currentSessionId}`);
     } catch {
       setError(t.genericError);
       setLoading(false);
@@ -606,6 +670,7 @@ export function StepForm() {
                           onClick={() => {
                             set("sector", s.id);
                             set("template", "");
+                            createSessionEarly(s.id, form.industry);
                             // Auto-advance to template selection
                             setTimeout(() => setStep(2), 180);
                           }}
@@ -703,7 +768,26 @@ export function StepForm() {
           )}
 
           {/* STEP 4 — Offer */}
-          {step === 4 && (
+          {step === 4 && NICHE_ARCHETYPE[form.sector] === "service_rdv" ? (
+            <ServiceRdvStep
+              value={form.businessProfile}
+              onChange={(bp) => set("businessProfile", bp)}
+              sessionId={sessionId}
+              variant={SANTE_NICHES.has(form.sector) ? "sante" : "default"}
+            />
+          ) : step === 4 && NICHE_ARCHETYPE[form.sector] === "food" ? (
+            <FoodStep
+              value={form.businessProfile}
+              onChange={(bp) => set("businessProfile", bp)}
+              sessionId={sessionId}
+            />
+          ) : step === 4 && NICHE_ARCHETYPE[form.sector] === "immobilier" ? (
+            <ImmobilierStep
+              value={form.businessProfile}
+              onChange={(bp) => set("businessProfile", bp)}
+              sessionId={sessionId}
+            />
+          ) : step === 4 && (
             <>
               <h2 className="text-xl font-bold text-white">{t.s4Title}</h2>
               <Field label={t.fMainService} required error={errFor("mainService")}>
@@ -926,6 +1010,17 @@ export function StepForm() {
                   placeholder={t.phGsc}
                 />
               </Field>
+            </>
+          )}
+
+          {/* STEP 7 — Legal info (every niche, before submit) */}
+          {step === 7 && (
+            <>
+              <p className="text-zinc-400 text-sm mb-1">{t.s7Sub}</p>
+              <LegalStep
+                value={form.businessProfile.legal}
+                onChange={(legal) => set("businessProfile", { ...form.businessProfile, legal })}
+              />
               {error && <p className="text-red-400 text-base bg-red-500/10 border border-red-500/20 rounded-xl px-4 py-2">{error}</p>}
             </>
           )}

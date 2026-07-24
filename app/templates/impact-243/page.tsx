@@ -19,6 +19,7 @@ import {
   Phone,
   Mail,
 } from 'lucide-react';
+import { resolveList } from "@/lib/templates/resolveList";
 
 /* ════════════════════════════════════════════════════════════════════════════
    DR. ÉLODIE BEAUMONT — Cabinet médecine générale & préventive · Strasbourg
@@ -81,9 +82,13 @@ interface Phase {
 }
 
 interface Consultation {
-  title: string;
-  desc: string;
-  tag: string;
+  title?: string;
+  desc?: string;
+  tag?: string;
+  name?: string;
+  description?: string;
+  duration?: string;
+  price?: string;
 }
 
 interface EditRow {
@@ -103,9 +108,12 @@ interface PreventionItem {
 }
 
 interface Testimonial {
-  quote: string;
-  name: string;
-  situation: string;
+  quote?: string;
+  name?: string;
+  situation?: string;
+  text?: string;
+  author?: string;
+  source?: string;
 }
 
 /* ════════════════════════════════════════════════════════════════════════════
@@ -136,7 +144,7 @@ const PHASES: Phase[] = [
   },
 ];
 
-const CONSULTATIONS: Consultation[] = [
+const CONSULTATIONS_DEMO: Consultation[] = [
   {
     title: 'Consultation générale',
     desc: "Diagnostic, ordonnances, suivi de santé au quotidien. Créneaux de 30 min pour prendre le temps qu'il faut.",
@@ -213,7 +221,7 @@ const PREVENTION_ITEMS: PreventionItem[] = [
   },
 ];
 
-const TESTIMONIALS: Testimonial[] = [
+const TESTIMONIALS_DEMO: Testimonial[] = [
   {
     quote:
       "Hypertendu depuis cinq ans, je changeais de médecin tous les deux ans faute de suivi. Avec le Dr. Beaumont, pour la première fois, je me sens vraiment écouté. Mon traitement est enfin ajusté, ma tension est stable. C'est ça, un médecin traitant.",
@@ -418,7 +426,11 @@ function Nav() {
         ))}
       </div>
       <div className="eb-navcta">
-        <a href="#rdv" style={{ textDecoration: 'none' }}>
+        <a
+          href={bp?.bookingSystem?.url || "#rdv"}
+          {...(bp?.bookingSystem?.url && { target: "_blank", rel: "noopener noreferrer" })}
+          style={{ textDecoration: 'none' }}
+        >
           <BlueButton>Prendre RDV</BlueButton>
         </a>
       </div>
@@ -1027,7 +1039,7 @@ function CareSequence() {
 /* ════════════════════════════════════════════════════════════════════════════
    CONSULTATION CARDS
    ════════════════════════════════════════════════════════════════════════════ */
-function ConsultationCard({ c, i }: { c: Consultation; i: number }) {
+function ConsultationCard({ c, i }: { c: any; i: number }) {
   const [hover, setHover] = useState(false);
   const card: React.CSSProperties = {
     background: C.bgCard,
@@ -1066,7 +1078,7 @@ function ConsultationCard({ c, i }: { c: Consultation; i: number }) {
             alignSelf: 'flex-start',
           }}
         >
-          {c.tag}
+          {c.tag ?? c.duration ?? "Consultation"}
         </span>
         <h3
           style={{
@@ -1078,7 +1090,7 @@ function ConsultationCard({ c, i }: { c: Consultation; i: number }) {
             lineHeight: 1.25,
           }}
         >
-          {c.title}
+          {c.title ?? c.name}
         </h3>
         <p
           style={{
@@ -1091,7 +1103,7 @@ function ConsultationCard({ c, i }: { c: Consultation; i: number }) {
             flex: 1,
           }}
         >
-          {c.desc}
+          {c.desc ?? c.description}
         </p>
         <div
           style={{
@@ -1172,8 +1184,8 @@ function ConsultationCards() {
         </Reveal>
       </div>
       <div style={grid}>
-        {CONSULTATIONS.map((c, i) => (
-          <ConsultationCard key={c.title} c={c} i={i} />
+        {resolveList<any>(bp?.services, CONSULTATIONS_DEMO).map((c: any, i: number) => (
+          <ConsultationCard key={c.title ?? c.name ?? i} c={c} i={i} />
         ))}
       </div>
     </section>
@@ -1500,7 +1512,11 @@ function PreventionPanel() {
 
           <Reveal delay={0.28}>
             <div style={{ marginTop: 48 }}>
-              <a href="#rdv" style={{ textDecoration: 'none' }}>
+              <a
+                href={bp?.bookingSystem?.url || "#rdv"}
+                {...(bp?.bookingSystem?.url && { target: "_blank", rel: "noopener noreferrer" })}
+                style={{ textDecoration: 'none' }}
+              >
                 <BlueButton filled={false}>Consulter pour un bilan</BlueButton>
               </a>
             </div>
@@ -1520,7 +1536,7 @@ function PreventionPanel() {
 /* ════════════════════════════════════════════════════════════════════════════
    TESTIMONIALS
    ════════════════════════════════════════════════════════════════════════════ */
-function TestimonialCard({ t, i }: { t: Testimonial; i: number }) {
+function TestimonialCard({ t, i }: { t: any; i: number }) {
   const card: React.CSSProperties = {
     background: C.bgCard,
     border: `1.5px solid ${C.border}`,
@@ -1546,7 +1562,7 @@ function TestimonialCard({ t, i }: { t: Testimonial; i: number }) {
             flex: 1,
           }}
         >
-          « {t.quote} »
+          « {t.quote ?? t.text} »
         </blockquote>
         <figcaption
           style={{
@@ -1555,7 +1571,7 @@ function TestimonialCard({ t, i }: { t: Testimonial; i: number }) {
           }}
         >
           <div style={{ fontFamily: SERIF, fontSize: 17, fontWeight: 600, color: C.ink }}>
-            {t.name}
+            {t.name ?? t.author}
           </div>
           <div
             style={{
@@ -1566,7 +1582,7 @@ function TestimonialCard({ t, i }: { t: Testimonial; i: number }) {
               marginTop: 5,
             }}
           >
-            {t.situation}
+            {t.situation ?? t.source ?? ""}
           </div>
         </figcaption>
       </figure>
@@ -1628,8 +1644,8 @@ function Testimonials() {
         </Reveal>
       </div>
       <div style={grid} className="eb-testgrid">
-        {TESTIMONIALS.map((t, i) => (
-          <TestimonialCard key={t.name} t={t} i={i} />
+        {resolveList<any>(bp?.reputation?.featuredReviews, TESTIMONIALS_DEMO).map((t: any, i: number) => (
+          <TestimonialCard key={t.name ?? t.author ?? i} t={t} i={i} />
         ))}
       </div>
       <style>{`
@@ -2162,6 +2178,7 @@ function Footer() {
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+let bp: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
     formData?: {
@@ -2177,6 +2194,7 @@ export default function Page() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -2190,6 +2208,7 @@ export default function Page() {
 
   fd = session?.formData;
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   if (brand) {
@@ -2209,54 +2228,6 @@ export default function Page() {
     MozOsxFontSmoothing: 'grayscale',
   };
 
-  
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
 return (
     <main style={root} suppressHydrationWarning>
       <Nav />

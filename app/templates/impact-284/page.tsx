@@ -25,6 +25,7 @@ import {
   Camera,
   Activity,
 } from 'lucide-react';
+import { resolveList } from '@/lib/templates/resolveList';
 
 /* ════════════════════════════════════════════════════════════════════════════
    CABINET DENT'OR — Chirurgien-dentiste & implantologie · Bordeaux Chartrons
@@ -902,7 +903,7 @@ type Soin = {
   cta: string;
 };
 
-const SOINS: Soin[] = [
+const SOINS_DEMO: Soin[] = [
   {
     icon: <Smile size={32} strokeWidth={1.4} color={C.gold} />,
     titre: 'Implantologie',
@@ -944,7 +945,7 @@ const SOINS: Soin[] = [
   },
 ];
 
-function SoinCard({ soin, i }: { soin: Soin; i: number }) {
+function SoinCard({ soin, i }: { soin: any; i: number }) {
   const [hover, setHover] = useState(false);
   const card: React.CSSProperties = {
     background: hover ? C.navy : C.white,
@@ -981,7 +982,7 @@ function SoinCard({ soin, i }: { soin: Soin; i: number }) {
             transition: 'background .5s',
           }}
         >
-          {soin.icon}
+          {soin.icon ?? <Sparkles size={26} color={C.gold} />}
         </div>
         <h3
           style={{
@@ -993,7 +994,7 @@ function SoinCard({ soin, i }: { soin: Soin; i: number }) {
             transition: 'color .5s',
           }}
         >
-          {soin.titre}
+          {soin.titre ?? soin.name}
         </h3>
         <p
           style={{
@@ -1008,39 +1009,41 @@ function SoinCard({ soin, i }: { soin: Soin; i: number }) {
         >
           {soin.description}
         </p>
-        <ul
-          style={{
-            listStyle: 'none',
-            margin: '0 0 28px',
-            padding: 0,
-            display: 'flex',
-            flexDirection: 'column',
-            gap: 10,
-          }}
-        >
-          {soin.details.map((d) => (
-            <li
-              key={d}
-              style={{
-                display: 'flex',
-                alignItems: 'flex-start',
-                gap: 10,
-                fontFamily: SANS,
-                fontSize: 13.5,
-                color: hover ? 'rgba(255,255,255,0.72)' : 'rgba(10,26,46,0.68)',
-                transition: 'color .5s',
-              }}
-            >
-              <CheckCircle
-                size={15}
-                color={C.gold}
-                strokeWidth={2}
-                style={{ flexShrink: 0, marginTop: 2 }}
-              />
-              {d}
-            </li>
-          ))}
-        </ul>
+        {Array.isArray(soin.details) && soin.details.length > 0 && (
+          <ul
+            style={{
+              listStyle: 'none',
+              margin: '0 0 28px',
+              padding: 0,
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 10,
+            }}
+          >
+            {soin.details.map((d: string) => (
+              <li
+                key={d}
+                style={{
+                  display: 'flex',
+                  alignItems: 'flex-start',
+                  gap: 10,
+                  fontFamily: SANS,
+                  fontSize: 13.5,
+                  color: hover ? 'rgba(255,255,255,0.72)' : 'rgba(10,26,46,0.68)',
+                  transition: 'color .5s',
+                }}
+              >
+                <CheckCircle
+                  size={15}
+                  color={C.gold}
+                  strokeWidth={2}
+                  style={{ flexShrink: 0, marginTop: 2 }}
+                />
+                {d}
+              </li>
+            ))}
+          </ul>
+        )}
         <div
           style={{
             display: 'inline-flex',
@@ -1055,7 +1058,7 @@ function SoinCard({ soin, i }: { soin: Soin; i: number }) {
             transition: 'color .4s',
           }}
         >
-          {soin.cta}
+          {soin.cta ?? (soin.price ?? soin.duration ?? 'En savoir plus')}
           <ArrowRight
             size={13}
             style={{
@@ -1124,8 +1127,8 @@ function SoinsSection() {
         </Reveal>
       </div>
       <div style={grid}>
-        {SOINS.map((s, i) => (
-          <SoinCard key={s.titre} soin={s} i={i} />
+        {resolveList<any>(bp?.services, SOINS_DEMO).map((s: any, i: number) => (
+          <SoinCard key={s.titre ?? s.name ?? i} soin={s} i={i} />
         ))}
       </div>
     </section>
@@ -1375,7 +1378,7 @@ type Temoignage = {
   etoiles: number;
 };
 
-const TEMOIGNAGES: Temoignage[] = [
+const TEMOIGNAGES_DEMO: Temoignage[] = [
   {
     quote:
       "Après des années à sourire la bouche fermée, deux implants ont tout changé. La mise en charge immédiate m'a permis de repartir avec une couronne provisoire dès le lendemain de l'intervention. Le résultat définitif est bluffant de naturel — aucun de mes proches ne devine que ce n'est pas ma vraie dent.",
@@ -1441,8 +1444,8 @@ function TestimonialsSection() {
         </Reveal>
       </div>
       <div style={grid}>
-        {TEMOIGNAGES.map((t, i) => (
-          <Reveal key={t.prenom} delay={i * 0.10} style={{ height: '100%' }}>
+        {resolveList<any>(bp?.reputation?.featuredReviews, TEMOIGNAGES_DEMO).map((t: any, i: number) => (
+          <Reveal key={t.prenom ?? t.author ?? i} delay={i * 0.10} style={{ height: '100%' }}>
             <figure
               style={{
                 background: 'rgba(255,255,255,0.04)',
@@ -1457,37 +1460,39 @@ function TestimonialsSection() {
             >
               {/* Étoiles */}
               <div style={{ display: 'flex', gap: 5, marginBottom: 20 }}>
-                {Array.from({ length: t.etoiles }).map((_, s) => (
+                {Array.from({ length: t.etoiles ?? t.rating ?? 5 }).map((_, s) => (
                   <Star key={s} size={15} fill={C.gold} color={C.gold} strokeWidth={0} />
                 ))}
               </div>
               {/* Badge résultat */}
-              <div
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: 8,
-                  background: 'rgba(212,175,55,0.12)',
-                  border: `1px solid rgba(212,175,55,0.30)`,
-                  padding: '7px 14px',
-                  marginBottom: 22,
-                  alignSelf: 'flex-start',
-                }}
-              >
-                <CheckCircle size={13} color={C.gold} strokeWidth={2} />
-                <span
+              {(t.resultat ?? t.source) && (
+                <div
                   style={{
-                    fontFamily: SANS,
-                    fontSize: 11,
-                    letterSpacing: '0.14em',
-                    textTransform: 'uppercase',
-                    color: C.gold,
-                    fontWeight: 600,
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 8,
+                    background: 'rgba(212,175,55,0.12)',
+                    border: `1px solid rgba(212,175,55,0.30)`,
+                    padding: '7px 14px',
+                    marginBottom: 22,
+                    alignSelf: 'flex-start',
                   }}
                 >
-                  {t.resultat}
-                </span>
-              </div>
+                  <CheckCircle size={13} color={C.gold} strokeWidth={2} />
+                  <span
+                    style={{
+                      fontFamily: SANS,
+                      fontSize: 11,
+                      letterSpacing: '0.14em',
+                      textTransform: 'uppercase',
+                      color: C.gold,
+                      fontWeight: 600,
+                    }}
+                  >
+                    {t.resultat ?? t.source}
+                  </span>
+                </div>
+              )}
               <blockquote
                 style={{
                   fontFamily: SERIF,
@@ -1499,7 +1504,7 @@ function TestimonialsSection() {
                   flex: 1,
                 }}
               >
-                &ldquo;{t.quote}&rdquo;
+                &ldquo;{t.quote ?? t.text}&rdquo;
               </blockquote>
               <figcaption
                 style={{
@@ -1515,21 +1520,23 @@ function TestimonialsSection() {
                     color: C.white,
                   }}
                 >
-                  {t.prenom}
+                  {t.prenom ?? t.author}
                 </div>
-                <div
-                  style={{
-                    fontFamily: SANS,
-                    fontSize: 11,
-                    letterSpacing: '0.16em',
-                    textTransform: 'uppercase',
-                    color: 'rgba(255,255,255,0.48)',
-                    marginTop: 5,
-                    fontWeight: 500,
-                  }}
-                >
-                  {t.role}
-                </div>
+                {t.role && (
+                  <div
+                    style={{
+                      fontFamily: SANS,
+                      fontSize: 11,
+                      letterSpacing: '0.16em',
+                      textTransform: 'uppercase',
+                      color: 'rgba(255,255,255,0.48)',
+                      marginTop: 5,
+                      fontWeight: 500,
+                    }}
+                  >
+                    {t.role}
+                  </div>
+                )}
               </figcaption>
             </figure>
           </Reveal>
@@ -2224,7 +2231,7 @@ type Membre = {
   specialites: string[];
 };
 
-const EQUIPE: Membre[] = [
+const EQUIPE_DEMO: Membre[] = [
   {
     photo: PHOTO.dentiste,
     prenom: 'Dr. Mathieu',
@@ -2251,8 +2258,12 @@ const EQUIPE: Membre[] = [
   },
 ];
 
-function MembreCard({ m, i }: { m: Membre; i: number }) {
+function MembreCard({ m, i }: { m: any; i: number }) {
   const isDoctor = i === 0;
+  const fullName = m.prenom ? `${m.prenom} ${m.nom ?? ''}`.trim() : (m.name ?? '');
+  const specialites: string[] = Array.isArray(m.specialites)
+    ? m.specialites
+    : [m.specialty, m.credentials].filter(Boolean);
   return (
     <Reveal delay={i * 0.10} style={{ height: '100%' }}>
       <article
@@ -2275,8 +2286,8 @@ function MembreCard({ m, i }: { m: Membre; i: number }) {
           }}
         >
           <img
-            src={m.photo}
-            alt={`${m.prenom} ${m.nom} — ${m.titre}`}
+            src={m.photo ?? m.photoUrl ?? EQUIPE_DEMO[i % EQUIPE_DEMO.length].photo}
+            alt={`${fullName} — ${m.titre ?? m.role ?? ''}`}
             loading="lazy"
             style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
           />
@@ -2305,7 +2316,7 @@ function MembreCard({ m, i }: { m: Membre; i: number }) {
                 lineHeight: 1.1,
               }}
             >
-              {m.prenom} <span style={{ fontStyle: 'italic' }}>{m.nom}</span>
+              {m.prenom ? (<>{m.prenom} <span style={{ fontStyle: 'italic' }}>{m.nom}</span></>) : fullName}
             </div>
           </div>
         </div>
@@ -2320,22 +2331,24 @@ function MembreCard({ m, i }: { m: Membre; i: number }) {
               fontWeight: 600,
             }}
           >
-            {m.titre}
+            {m.titre ?? m.role}
           </div>
-          <p
-            style={{
-              fontFamily: SANS,
-              fontSize: 14,
-              lineHeight: 1.76,
-              color: 'rgba(10,26,46,0.66)',
-              margin: 0,
-              flex: 1,
-            }}
-          >
-            {m.bio}
-          </p>
+          {m.bio && (
+            <p
+              style={{
+                fontFamily: SANS,
+                fontSize: 14,
+                lineHeight: 1.76,
+                color: 'rgba(10,26,46,0.66)',
+                margin: 0,
+                flex: 1,
+              }}
+            >
+              {m.bio}
+            </p>
+          )}
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 4 }}>
-            {m.specialites.map((s) => (
+            {specialites.map((s) => (
               <span
                 key={s}
                 style={{
@@ -2413,8 +2426,8 @@ function EquipeSection() {
         </Reveal>
       </div>
       <div style={grid}>
-        {EQUIPE.map((m, i) => (
-          <MembreCard key={m.nom} m={m} i={i} />
+        {resolveList<any>(bp?.team, EQUIPE_DEMO).map((m: any, i: number) => (
+          <MembreCard key={m.nom ?? m.name ?? i} m={m} i={i} />
         ))}
       </div>
     </section>
@@ -2735,6 +2748,7 @@ function FooterSection() {
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+let bp: any = null;
 export default function Impact284Page() {
   const [session, setSession] = useState<{
     formData?: {
@@ -2750,6 +2764,7 @@ export default function Impact284Page() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -2781,6 +2796,7 @@ export default function Impact284Page() {
     });
   });
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, gold: brand, goldLight: shadeColor(brand, 25) };
@@ -2794,54 +2810,6 @@ export default function Impact284Page() {
     WebkitFontSmoothing: 'antialiased',
     MozOsxFontSmoothing: 'grayscale',
   };
-  
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
 return (
     <main id="hero" style={root} suppressHydrationWarning>
       <NavBar />

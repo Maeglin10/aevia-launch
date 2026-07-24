@@ -11,6 +11,7 @@ import {
   useMotionValue,
 } from 'framer-motion';
 import { ArrowRight, ChevronDown, Heart, MapPin } from 'lucide-react';
+import { resolveList } from "@/lib/templates/resolveList";
 
 /* ════════════════════════════════════════════════════════════════════════════
    OSTÉO ATLANTIQUE — Cabinet d'Ostéopathie & Thérapies Manuelles · Nantes
@@ -117,7 +118,7 @@ const DOMAINS: Domain[] = [
   },
 ];
 
-const SPECIALTIES: Specialty[] = [
+const SPECIALTIES_DEMO: Specialty[] = [
   { label: 'Lombalgies & sciatique' },
   { label: 'Cervicalgies & migraines' },
   { label: 'Suivi sportif' },
@@ -176,7 +177,7 @@ const PRINCIPLES: PrincipleItem[] = [
   },
 ];
 
-const TESTIMONIALS: Testimonial[] = [
+const TESTIMONIALS_DEMO: Testimonial[] = [
   {
     quote:
       "Maçon depuis vingt ans, j'avais des lombalgies chroniques depuis sept ans. Quatre séances ont suffi à résoudre complètement le problème. Je n'aurais jamais cru ça possible.",
@@ -1039,6 +1040,10 @@ function SpecialtyCard({ s, i }: { s: Specialty; i: number }) {
 }
 
 function SpecialtyCards() {
+  const SPECIALTIES = resolveList(
+    bp?.services?.map((s: any) => ({ label: s.title ?? s.name })),
+    SPECIALTIES_DEMO
+  );
   const sec: React.CSSProperties = {
     background: C.bg,
     padding: 'clamp(90px,12vw,170px) clamp(24px,6vw,96px)',
@@ -1403,6 +1408,14 @@ function PrinciplesPanel() {
    8 · TESTIMONIALS
    ════════════════════════════════════════════════════════════════════════════ */
 function Testimonials() {
+  const TESTIMONIALS = resolveList(
+    bp?.reputation?.featuredReviews?.map((r: any) => ({
+      quote: r.text ?? r.quote,
+      name: r.name ?? r.author,
+      role: r.role ?? r.context,
+    })),
+    TESTIMONIALS_DEMO
+  );
   const sec: React.CSSProperties = {
     background: C.bgAlt,
     padding: 'clamp(90px,12vw,170px) clamp(24px,6vw,96px)',
@@ -2007,6 +2020,7 @@ function Footer() {
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 let brand: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
@@ -2023,6 +2037,7 @@ export default function Page() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -2036,6 +2051,7 @@ export default function Page() {
 
   fd = session?.formData;
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   if (brand) {
@@ -2055,54 +2071,6 @@ export default function Page() {
     MozOsxFontSmoothing: 'grayscale',
   };
 
-  
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
 return (
     <>
       <style>{`

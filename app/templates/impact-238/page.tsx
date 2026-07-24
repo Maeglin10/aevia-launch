@@ -19,6 +19,7 @@ import {
   Star,
   CheckCircle2,
 } from 'lucide-react';
+import { resolveList } from "@/lib/templates/resolveList";
 
 /* ════════════════════════════════════════════════════════════════════════════
    CENTRE KINÉ ATLANTIQUE — Cabinet de kinésithérapie · Rennes
@@ -144,7 +145,7 @@ const PROGRAMS: Program[] = [
   },
 ];
 
-const SPECIALTIES: Specialty[] = [
+const SPECIALTIES_DEMO: Specialty[] = [
   {
     number: '01',
     title: 'Rééducation post-opératoire',
@@ -221,7 +222,7 @@ const METHOD_ITEMS: Spec[] = [
   },
 ];
 
-const REVIEWS: Review[] = [
+const REVIEWS_DEMO: Review[] = [
   {
     quote: "Après mon opération du genou, j'avais très peur de ne jamais récupérer pleinement. L'équipe m'a suivi avec une rigueur et une bienveillance exemplaires. En 8 semaines, j'ai retrouvé 95 % de mes capacités.",
     name: 'Sophie L.',
@@ -452,7 +453,11 @@ function Nav() {
       </div>
 
       <div className="ka-navcta">
-        <a href="#rdv" style={{ textDecoration: 'none' }}>
+        <a
+          href={bp?.bookingSystem?.url || "#rdv"}
+          style={{ textDecoration: 'none' }}
+          {...(bp?.bookingSystem?.url && { target: "_blank", rel: "noopener noreferrer" })}
+        >
           <GreenButton filled>Prendre RDV</GreenButton>
         </a>
       </div>
@@ -1064,7 +1069,7 @@ function ProgramSequence() {
 /* ════════════════════════════════════════════════════════════════════════════
    SPECIALTY CARDS — 6 cartes, fond clair, hover lift
    ════════════════════════════════════════════════════════════════════════════ */
-function SpecialtyCard({ sp, i }: { sp: Specialty; i: number }) {
+function SpecialtyCard({ sp, i }: { sp: any; i: number }) {
   const [hover, setHover] = useState(false);
   const card: React.CSSProperties = {
     background: C.bgCard,
@@ -1101,7 +1106,7 @@ function SpecialtyCard({ sp, i }: { sp: Specialty; i: number }) {
             letterSpacing: '-0.02em',
           }}
         >
-          {sp.number}
+          {sp.number ?? String(i + 1).padStart(2, '0')}
         </span>
 
         <h3
@@ -1114,7 +1119,7 @@ function SpecialtyCard({ sp, i }: { sp: Specialty; i: number }) {
             margin: 0,
           }}
         >
-          {sp.title}
+          {sp.title ?? sp.name}
         </h3>
 
         <div
@@ -1137,8 +1142,25 @@ function SpecialtyCard({ sp, i }: { sp: Specialty; i: number }) {
             margin: 0,
           }}
         >
-          {sp.desc}
+          {sp.desc ?? sp.description}
         </p>
+        {(sp.duration || sp.price) && (
+          <div
+            style={{
+              display: 'flex',
+              gap: 12,
+              fontFamily: SANS,
+              fontSize: 11,
+              fontWeight: 600,
+              letterSpacing: '0.1em',
+              textTransform: 'uppercase',
+              color: C.textFaint,
+            }}
+          >
+            {sp.duration && <span>{sp.duration}</span>}
+            {sp.price && <span>{sp.price}</span>}
+          </div>
+        )}
       </article>
     </Reveal>
   );
@@ -1149,6 +1171,8 @@ function SpecialtyCards() {
     background: C.bg,
     padding: 'clamp(90px,12vw,160px) clamp(24px,6vw,96px)',
   };
+
+  const specialties = resolveList<any>(bp?.services, SPECIALTIES_DEMO);
 
   return (
     <section style={sec} id="specialites">
@@ -1182,8 +1206,8 @@ function SpecialtyCards() {
             gap: 'clamp(18px,2.5vw,32px)',
           }}
         >
-          {SPECIALTIES.map((sp, i) => (
-            <SpecialtyCard key={sp.number} sp={sp} i={i} />
+          {specialties.map((sp: any, i: number) => (
+            <SpecialtyCard key={sp.number ?? sp.name ?? i} sp={sp} i={i} />
           ))}
         </div>
       </div>
@@ -1536,7 +1560,7 @@ function MethodPanel() {
 /* ════════════════════════════════════════════════════════════════════════════
    REVIEWS — 3 avis patients, étoiles accent, fond clair
    ════════════════════════════════════════════════════════════════════════════ */
-function ReviewCard({ rev, i }: { rev: Review; i: number }) {
+function ReviewCard({ rev, i }: { rev: any; i: number }) {
   const card: React.CSSProperties = {
     background: C.bgCard,
     border: `1px solid ${C.border}`,
@@ -1568,7 +1592,7 @@ function ReviewCard({ rev, i }: { rev: Review; i: number }) {
             flex: 1,
           }}
         >
-          &ldquo;{rev.quote}&rdquo;
+          &ldquo;{rev.quote ?? rev.text}&rdquo;
         </blockquote>
         <figcaption
           style={{
@@ -1584,7 +1608,7 @@ function ReviewCard({ rev, i }: { rev: Review; i: number }) {
               color: C.ink,
             }}
           >
-            {rev.name}
+            {rev.name ?? rev.author}
           </div>
           <div
             style={{
@@ -1597,7 +1621,7 @@ function ReviewCard({ rev, i }: { rev: Review; i: number }) {
               marginTop: 5,
             }}
           >
-            {rev.role}
+            {rev.role ?? rev.source ?? ''}
           </div>
         </figcaption>
       </figure>
@@ -1610,6 +1634,7 @@ function Reviews() {
     background: C.bg,
     padding: 'clamp(90px,12vw,160px) clamp(24px,6vw,96px)',
   };
+  const reviews = resolveList<any>(bp?.reputation?.featuredReviews, REVIEWS_DEMO);
   return (
     <section style={sec} id="avis">
       <div style={{ maxWidth: 1280, margin: '0 auto' }}>
@@ -1643,8 +1668,8 @@ function Reviews() {
             gap: 'clamp(20px,2.8vw,36px)',
           }}
         >
-          {REVIEWS.map((rev, i) => (
-            <ReviewCard key={rev.name} rev={rev} i={i} />
+          {reviews.map((rev: any, i: number) => (
+            <ReviewCard key={rev.name ?? rev.author ?? i} rev={rev} i={i} />
           ))}
         </div>
       </div>
@@ -2046,7 +2071,11 @@ function Footer() {
               marginTop: 28,
             }}
           >
-            <a href="#rdv" style={{ textDecoration: 'none' }}>
+            <a
+              href={bp?.bookingSystem?.url || "#rdv"}
+              style={{ textDecoration: 'none' }}
+              {...(bp?.bookingSystem?.url && { target: "_blank", rel: "noopener noreferrer" })}
+            >
               <GreenButton dark>
                 Prendre RDV
               </GreenButton>
@@ -2163,6 +2192,7 @@ function Footer() {
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+let bp: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
     formData?: {
@@ -2178,6 +2208,7 @@ export default function Page() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -2209,6 +2240,7 @@ export default function Page() {
     });
   });
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, accent: brand, accentLight: shadeColor(brand, 25), accentDark: shadeColor(brand, -20) };
@@ -2223,54 +2255,7 @@ export default function Page() {
     MozOsxFontSmoothing: 'grayscale',
   };
 
-  
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
+
 return (
     <>
       {/* Polices Google */}

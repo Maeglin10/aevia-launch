@@ -5,10 +5,11 @@ import { useRef, useState, useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { ArrowRight, ArrowUpRight, Star, Quote, MapPin, Phone, Mail, Menu } from "lucide-react"
+import { resolveList } from "@/lib/templates/resolveList"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   MAËLLE DUMAS — Architecte d'intérieur (Lyon)
+   MAËLLE DUMAS PISCINES — Pisciniste / Concepteur de piscines (Lyon)
    Palette : blanc chaud / terracotta / lin / noir doux
    Fonts : Cormorant Garamond (titres) + Inter (corps)
    ═══════════════════════════════════════════════════════════════════════════ */
@@ -61,30 +62,31 @@ function ParallaxImg({ src, alt }: { src: string; alt: string }) {
   )
 }
 
-const PROJECTS = [
-  { title: "Appartement Presqu'île", city: "Lyon 2ème", surface: "120 m²", style: "Contemporain haussmannien", img: "https://images.unsplash.com/photo-1600210491369-e753d80a41f3?auto=format&fit=crop&q=80&w=1200" },
-  { title: "Villa Les Pins", city: "Tassin-la-Demi-Lune", surface: "280 m²", style: "Minimalisme chaleureux", img: "https://images.unsplash.com/photo-1616137466211-f939a420be84?auto=format&fit=crop&q=80&w=1200" },
-  { title: "Loft Croix-Rousse", city: "Lyon 4ème", surface: "90 m²", style: "Industriel doux", img: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&q=80&w=1200" },
+const PROJECTS_DEMO = [
+  { title: "Piscine miroir Presqu'île", city: "Lyon 2ème", surface: "10 × 4 m", style: "Béton sur-mesure", img: "https://images.unsplash.com/photo-1572331165267-854da2b10ccc?auto=format&fit=crop&q=80&w=1200" },
+  { title: "Villa Les Pins", city: "Tassin-la-Demi-Lune", surface: "12 × 5 m", style: "Bassin à débordement", img: "https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&q=80&w=1200" },
+  { title: "Couloir de nage Croix-Rousse", city: "Lyon 4ème", surface: "12 × 2,5 m", style: "Contemporain", img: "https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&q=80&w=1200" },
 ]
 
-const SERVICES = [
-  { num: "01", title: "Conception complète", desc: "De l'esquisse au chantier — plans, matériaux, mobilier, suivi d'entreprise. Un projet livré clé en main." },
-  { num: "02", title: "Conseil & mood board", desc: "Session de 2h pour définir votre style, palette chromatique, et mobilier cible. Idéal pour les petits budgets." },
-  { num: "03", title: "Rénovation partielle", desc: "Salle de bain, cuisine, chambre principale — on réinvente un espace précis avec un impact maximum." },
-  { num: "04", title: "Aménagement commercial", desc: "Boutiques, cabinets, restaurants — nous concevons des espaces qui racontent votre marque et convertissent." },
+const SERVICES_DEMO = [
+  { num: "01", title: "Construction sur-mesure", desc: "De l'étude 3D à la mise en eau — terrassement, structure béton ou coque, étanchéité, margelles et plage. Un bassin livré clé en main." },
+  { num: "02", title: "Conception & étude 3D", desc: "Session pour définir la forme, le revêtement, la plage et l'intégration paysagère de votre piscine. Plan 3D et devis détaillé." },
+  { num: "03", title: "Rénovation de bassin", desc: "Liner, margelles, étanchéité, filtration — on redonne vie à une piscine existante avec un impact maximum." },
+  { num: "04", title: "Aménagement & pool house", desc: "Plage immergée, terrasse, éclairage LED et pool house — nous concevons un espace baignade qui vous ressemble." },
 ]
 
 
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
 function photo(i: number, fallback: string): string {
   return fd?.photoUrls?.[i] || fallback;
 }
-export default function MaelleDumasPage() {
+export default function MaelleDumasPiscinesPage() {
   const [session, setSession] = useState<{
     formData?: {
       businessName?: string; businessType?: string; tagline?: string;
@@ -99,7 +101,40 @@ export default function MaelleDumasPage() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
+
+  const bpLocal: any = session?.businessProfile;
+  const SERVICES = resolveList(
+    bpLocal?.services?.map((sv: any, i: number) => ({
+      num: SERVICES_DEMO[i % SERVICES_DEMO.length].num,
+      title: sv.title ?? sv.name,
+      desc: sv.description ?? sv.desc,
+    })),
+    SERVICES_DEMO
+  );
+  const PROJECTS = resolveList(
+    bpLocal?.beforeAfter?.map((b: any, i: number) => ({
+      title: b.caption ?? PROJECTS_DEMO[i % PROJECTS_DEMO.length].title,
+      city: PROJECTS_DEMO[i % PROJECTS_DEMO.length].city,
+      surface: PROJECTS_DEMO[i % PROJECTS_DEMO.length].surface,
+      style: "Réalisation",
+      img: b.afterUrl ?? b.beforeUrl ?? PROJECTS_DEMO[i % PROJECTS_DEMO.length].img,
+    })),
+    PROJECTS_DEMO
+  );
+  const AVIS = resolveList(
+    bpLocal?.reputation?.featuredReviews?.map((r: any) => ({
+      quote: r.text ?? r.quote,
+      name: r.name ?? r.author,
+      loc: r.location ?? r.context ?? "",
+    })),
+    [
+      { quote: "Maëlle a conçu notre piscine miroir avec un goût sûr : intégration paysagère parfaite, matériaux nobles. Un vrai talent au service de nos envies.", name: "Claire & Antoine R.", loc: "Lyon 6ème" },
+      { quote: "Écoute parfaite, respect du budget, délais tenus. Notre couloir de nage est devenu le coeur de notre jardin. On en rêvait depuis des années.", name: "Thomas M.", loc: "Lyon 4ème" },
+      { quote: "La rénovation de notre bassin a tout changé : nouveau liner, plage et éclairage. L'espace inspire calme et élégance. Au-delà de nos espérances.", name: "Dr. Sophie L.", loc: "Tassin-la-Demi-Lune" },
+    ]
+  );
 
   useEffect(() => {
     const id = new URLSearchParams(window.location.search).get("session");
@@ -115,7 +150,7 @@ export default function MaelleDumasPage() {
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;
     let n = 1;
-    const _photoArrays: any[] = [PROJECTS];
+    const _photoArrays: any[] = [PROJECTS_DEMO];
     _photoArrays.forEach((arr) => {
       if (!Array.isArray(arr)) return;
       arr.forEach((item) => {
@@ -149,53 +184,7 @@ export default function MaelleDumasPage() {
     return () => window.removeEventListener("scroll", h)
   }, []);
 
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);return (
+return (
     <div style={{ background: C.bg, color: C.dark, fontFamily: C.sans }}>
       {/* ── NAVBAR ── */}
       <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 50, transition: "all 0.6s", background: scrolled ? "rgba(250,248,244,0.95)" : "transparent", backdropFilter: scrolled ? "blur(12px)" : "none", borderBottom: scrolled ? `1px solid ${C.line}` : "none", padding: scrolled ? "1rem 0" : "1.75rem 0" }}>
@@ -207,7 +196,7 @@ export default function MaelleDumasPage() {
               style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
             />
           ) : (
-            <span style={{ fontFamily: C.serif, fontSize: "1.4rem", fontWeight: 600, letterSpacing: "0.02em", fontStyle: "italic", color: C.dark }}>Maëlle Dumas</span>
+            <span style={{ fontFamily: C.serif, fontSize: "1.4rem", fontWeight: 600, letterSpacing: "0.02em", fontStyle: "italic", color: C.dark }}>{fd?.businessName ?? "Maëlle Dumas Piscines"}</span>
           )}
           <div style={{ gap: "3rem" }} className="hidden lg:flex">
             {["Projets", "Prestations", "À propos", "Contact"].map(l => (
@@ -245,7 +234,7 @@ export default function MaelleDumasPage() {
       {/* ── HERO ── */}
       <section id="hero" ref={heroRef} style={{ position: "relative", height: "110vh", minHeight: 900, overflow: "hidden", display: "flex", alignItems: "flex-end" }}>
         <motion.div style={{ y: heroY, position: "absolute", inset: 0 }}>
-          <Image src={photo(0, "https://images.unsplash.com/photo-1618219908412-a29a1bb7b86e?auto=format&fit=crop&q=85&w=2400")} alt="Architecture intérieure Maëlle Dumas" fill className="object-cover" priority style={{ filter: "brightness(0.75)" }} />
+          <Image src={photo(0, "https://images.unsplash.com/photo-1572331165267-854da2b10ccc?auto=format&fit=crop&q=85&w=2400")} alt="Piscine sur-mesure" fill className="object-cover" priority style={{ filter: "brightness(0.75)" }} />
           <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to top, ${C.dark} 0%, rgba(28,26,24,0.3) 50%, transparent 100%)` }} />
           <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to right, rgba(28,26,24,0.5) 0%, transparent 60%)` }} />
         </motion.div>
@@ -254,18 +243,18 @@ export default function MaelleDumasPage() {
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}>
             <div style={{ display: "flex", alignItems: "center", gap: "1rem", marginBottom: "1.5rem" }}>
               <div style={{ width: 40, height: 1, background: C.terra }} />
-              <span style={{ fontFamily: C.sans, fontSize: "0.65rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.35em", color: C.terra }}>Architecte d'intérieur · Lyon</span>
+              <span style={{ fontFamily: C.sans, fontSize: "0.65rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.35em", color: C.terra }}>Pisciniste · Lyon</span>
             </div>
           </motion.div>
 
           <motion.h1 initial={{ opacity: 0, y: 60 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.1, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
             style={{ fontFamily: C.serif, fontSize: "clamp(3.5rem,9vw,8.5rem)", fontWeight: 400, lineHeight: 0.9, letterSpacing: "-0.01em", color: "#fff", marginBottom: "1.5rem", fontStyle: "italic" }}>{c?.heroHeadline ?? <>
-            Des intérieurs<br />qui vous<br /><span style={{ color: C.terraLight }}>ressemblent.</span>
+            Des piscines<br />qui vous<br /><span style={{ color: C.terraLight }}>ressemblent.</span>
           </>}</motion.h1>
 
           <motion.p initial={{ opacity: 0, y: 25 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, delay: 0.75, ease: [0.22, 1, 0.36, 1] }}
             style={{ fontFamily: C.sans, fontSize: "0.9rem", color: "rgba(255,255,255,0.5)", lineHeight: 1.8, maxWidth: 480, marginBottom: "2.5rem" }}>{c?.heroSubline ?? fd?.tagline ?? <>
-            Conception et rénovation d'espaces de vie et professionnels en Auvergne-Rhône-Alpes. Du projet à la livraison, une approche sur-mesure et humaine.
+            Conception, construction et rénovation de piscines en Auvergne-Rhône-Alpes. Du projet à la mise en eau, une approche sur-mesure et humaine.
           </>}</motion.p>
 
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 1.0, ease: [0.22, 1, 0.36, 1] }}
@@ -312,7 +301,7 @@ export default function MaelleDumasPage() {
           <Reveal>
             <div style={{ marginBottom: "4rem" }}>
               <div style={{ fontFamily: C.sans, fontSize: "0.6rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.4em", color: C.terra, marginBottom: "1rem" }}>Portfolio</div>
-              <h2 style={{ fontFamily: C.serif, fontSize: "clamp(2.5rem,5vw,5rem)", fontWeight: 400, color: C.dark, fontStyle: "italic", lineHeight: 1 }}>Projets récents.</h2>
+              <h2 style={{ fontFamily: C.serif, fontSize: "clamp(2.5rem,5vw,5rem)", fontWeight: 400, color: C.dark, fontStyle: "italic", lineHeight: 1 }}>Réalisations récentes.</h2>
             </div>
           </Reveal>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(320px, 100%), 1fr))", gap: "2rem" }}>
@@ -377,18 +366,14 @@ export default function MaelleDumasPage() {
             </div>
           </Reveal>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: "2rem" }}>
-            {[
-              { quote: "Maëlle a su transformer notre appartement haussmannien en un espace lumineux et moderne, tout en conservant l'âme du bâtiment. Un vrai talent.", name: "Claire & Antoine R.", loc: "Lyon 6ème" },
-              { quote: "Écoute parfaite, respect du budget, délais tenus. Notre loft Croix-Rousse est devenu la maison dont on rêvait depuis des années.", name: "Thomas M.", loc: "Lyon 4ème" },
-              { quote: "La rénovation de notre cabinet a complètement changé l'accueil des patients. L'espace inspire calme et confiance. Résultat au-delà de nos espérances.", name: "Dr. Sophie L.", loc: "Tassin-la-Demi-Lune" },
-            ].map((t, i) => (
+            {AVIS.map((t: any, i: number) => (
               <Reveal key={i} delay={i * 0.1}>
                 <div style={{ padding: "2.5rem", border: `1px solid ${C.line}`, background: C.bgAlt }}>
                   <Quote style={{ width: 24, height: 24, color: C.terra, marginBottom: "1.5rem", opacity: 0.6 }} />
                   <p style={{ fontFamily: C.serif, fontSize: "1.05rem", fontWeight: 400, color: C.dark, lineHeight: 1.7, fontStyle: "italic", marginBottom: "2rem" }}>{`"${t.quote}"`}</p>
                   <div>
                     <div style={{ fontFamily: C.sans, fontSize: "0.75rem", fontWeight: 700, color: C.dark, textTransform: "uppercase", letterSpacing: "0.1em" }}>{t.name}</div>
-                    <div style={{ fontFamily: C.sans, fontSize: "0.65rem", color: C.muted, marginTop: "0.25rem" }}>{t.loc}</div>
+                    {t.loc && <div style={{ fontFamily: C.sans, fontSize: "0.65rem", color: C.muted, marginTop: "0.25rem" }}>{t.loc}</div>}
                   </div>
                 </div>
               </Reveal>
@@ -424,12 +409,12 @@ export default function MaelleDumasPage() {
       <footer style={{ background: "#141210", padding: "4rem 2.5rem 2rem", borderTop: `1px solid rgba(255,255,255,0.05)` }}>
         <div style={{ maxWidth: 1200, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(200px, 100%), 1fr))", gap: "3rem", marginBottom: "3rem" }}>
           <div>
-            <div style={{ fontFamily: C.serif, fontSize: "1.2rem", fontStyle: "italic", color: "#fff", marginBottom: "1rem" }}>Maëlle Dumas</div>
-            <p style={{ fontFamily: C.sans, fontSize: "0.75rem", color: "rgba(255,255,255,0.3)", lineHeight: 1.7 }}>Architecte d'intérieur CFAI. Conception et rénovation d'espaces en Auvergne-Rhône-Alpes.</p>
+            <div style={{ fontFamily: C.serif, fontSize: "1.2rem", fontStyle: "italic", color: "#fff", marginBottom: "1rem" }}>{fd?.businessName ?? "Maëlle Dumas Piscines"}</div>
+            <p style={{ fontFamily: C.sans, fontSize: "0.75rem", color: "rgba(255,255,255,0.3)", lineHeight: 1.7 }}>Pisciniste certifié. Conception, construction et rénovation de piscines en Auvergne-Rhône-Alpes.</p>
           </div>
           {[
-            { t: "Services", ls: ["Conception complète", "Conseil & moodboard", "Rénovation partielle", "Aménagement commercial"] },
-            { t: "Contact", ls: ["04 78 12 34 56", "contact@maelledumas.fr", "Lyon · Auvergne-Rhône-Alpes", "RDV sur devis"] },
+            { t: "Services", ls: ["Construction sur-mesure", "Conception & étude 3D", "Rénovation de bassin", "Aménagement & pool house"] },
+            { t: "Contact", ls: ["04 78 12 34 56", "contact@maelledumas.fr", "Lyon · Auvergne-Rhône-Alpes", "Devis sous 48h"] },
           ].map((col, i) => (
             <div key={i}>
               <div style={{ fontFamily: C.sans, fontSize: "0.6rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.3em", color: C.terra, marginBottom: "1.25rem" }}>{col.t}</div>
@@ -440,8 +425,8 @@ export default function MaelleDumasPage() {
           ))}
         </div>
         <div style={{ maxWidth: 1200, margin: "0 auto", paddingTop: "1.5rem", borderTop: "1px solid rgba(255,255,255,0.05)", display: "flex", justifyContent: "space-between", gap: "1rem" }}>
-          <span style={{ fontFamily: C.sans, fontSize: "0.6rem", color: "rgba(255,255,255,0.15)", textTransform: "uppercase", letterSpacing: "0.15em" }}>© 2026 Maëlle Dumas Design · SIRET 987 654 321 00045</span>
-          <span style={{ fontFamily: C.sans, fontSize: "0.6rem", color: C.terra + "60", textTransform: "uppercase", letterSpacing: "0.15em" }}>Architecte d'intérieur certifiée CFAI</span>
+          <span style={{ fontFamily: C.sans, fontSize: "0.6rem", color: "rgba(255,255,255,0.15)", textTransform: "uppercase", letterSpacing: "0.15em" }}>© 2026 {fd?.businessName ?? "Maëlle Dumas Piscines"} · SIRET 987 654 321 00045</span>
+          <span style={{ fontFamily: C.sans, fontSize: "0.6rem", color: C.terra + "60", textTransform: "uppercase", letterSpacing: "0.15em" }}>Pisciniste certifié FPP</span>
         </div>
       </footer>
     </div>

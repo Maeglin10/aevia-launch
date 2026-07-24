@@ -6,6 +6,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { Home, ArrowRight, Menu, Star, MapPin, Bed, Bath, Maximize2, Phone, Mail, Building, Award, ChevronRight, Heart, DollarSign } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import { resolveList } from "@/lib/templates/resolveList"
 
 function Reveal({ children, delay = 0, y = 40 }: { children: React.ReactNode; delay?: number; y?: number }) {
   const ref = useRef(null)
@@ -31,11 +32,17 @@ function ParallaxImg({ src, alt }: { src: string; alt: string }) {
   )
 }
 
-const PROPERTIES = [
+const PROPERTIES_DEMO = [
   { title: "The Belvedere Penthouse", location: "Upper East Side, NY", price: "$12.5M", beds: 5, baths: 4, sqft: "6,200", img: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&q=80&w=1200", tag: "Exclusive" },
   { title: "Château des Vignes", location: "Provence, France", price: "€8.9M", beds: 7, baths: 5, sqft: "9,400", img: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=1200", tag: "New Listing" },
   { title: "Marina Bay Residence", location: "Singapore", price: "S$18.2M", beds: 4, baths: 3, sqft: "4,800", img: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&q=80&w=1200", tag: "Penthouse" },
   { title: "Hampstead Manor", location: "London, UK", price: "£14.7M", beds: 8, baths: 6, sqft: "11,200", img: "https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&q=80&w=1200", tag: "Heritage" },
+]
+
+const TESTIMONIALS_DEMO = [
+  { quote: "Haven Estates found our Hampstead estate entirely off-market. Their discretion and global network are simply unmatched.", name: "Lord A. Thornton", role: "London · Private Estate" },
+  { quote: "The team navigated our Singapore acquisition with extraordinary professionalism. We closed in under three weeks.", name: "S. Nakamura", role: "Singapore · Penthouse" },
+  { quote: "Three continents, one advisor. Haven managed our entire portfolio consolidation seamlessly and discreetly.", name: "E. Volkov", role: "Geneva · Multi-Property" },
 ]
 
 const SERVICES = [
@@ -49,6 +56,7 @@ const SERVICES = [
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+let bp: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
 function photo(i: number, fallback: string): string {
@@ -69,6 +77,7 @@ export default function HavenEstatesPage() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -81,25 +90,8 @@ export default function HavenEstatesPage() {
   }, []);
 
   fd = session?.formData;
-
-  useEffect(() => {
-    if (!fd?.photoUrls?.length) return;
-    let n = 2;
-    const _photoArrays: any[] = [PROPERTIES];
-    _photoArrays.forEach((arr) => {
-      if (!Array.isArray(arr)) return;
-      arr.forEach((item) => {
-        if (!item || typeof item !== "object") return;
-        for (const key of ["img", "src", "image", "imgSrc", "photo"]) {
-          if (typeof item[key] === "string" && item[key].includes("images.unsplash.com")) {
-            if (fd.photoUrls[n]) item[key] = fd.photoUrls[n];
-            n++;
-          }
-        }
-      });
-    });
-  });
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const [scrolled, setScrolled] = useState(false)
@@ -114,53 +106,10 @@ export default function HavenEstatesPage() {
     return () => window.removeEventListener("scroll", h)
   }, []);
 
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);return (
+  const properties = resolveList(bp?.listings, PROPERTIES_DEMO);
+  const testimonials = resolveList(bp?.reputation?.featuredReviews, TESTIMONIALS_DEMO);
+
+  return (
     <div className="bg-[#faf9f6] text-[#1a1a1a] font-sans min-h-dvh selection:bg-[#b8860b] selection:text-white overflow-x-hidden">
 
       {/* ── NAVBAR ────────────────────────── */}
@@ -245,31 +194,33 @@ export default function HavenEstatesPage() {
               </div>
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {PROPERTIES.map((p, i) => (
+              {properties.map((p: any, i: number) => (
                 <Reveal key={i} delay={i * 0.1}>
                   <div className="group cursor-pointer">
                     <div className="relative aspect-[16/10] overflow-hidden rounded-sm mb-6">
-                      <ParallaxImg src={p.img} alt={p.title} />
-                      <div className="absolute top-6 left-6 flex gap-2">
-                        <span className="px-3 py-1 bg-[#b8860b] text-white text-[10px] font-bold uppercase tracking-widest rounded-full">{p.tag}</span>
-                      </div>
+                      <ParallaxImg src={p.img ?? p.photoUrl ?? photo(2 + i, "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&q=80&w=1200")} alt={p.title ?? p.name ?? "Property"} />
+                      {(p.tag ?? p.status) && (
+                        <div className="absolute top-6 left-6 flex gap-2">
+                          <span className="px-3 py-1 bg-[#b8860b] text-white text-[10px] font-bold uppercase tracking-widest rounded-full">{p.tag ?? p.status}</span>
+                        </div>
+                      )}
                       <button className="absolute top-6 right-6 w-10 h-10 rounded-full bg-white/80 backdrop-blur-md flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                         <Heart className="w-4 h-4 text-[#1a1a1a]" />
                       </button>
                       <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                         <div className="flex gap-6 text-white/80 text-xs font-bold">
-                          <span className="flex items-center gap-1"><Bed className="w-3 h-3" /> {p.beds} Beds</span>
-                          <span className="flex items-center gap-1"><Bath className="w-3 h-3" /> {p.baths} Baths</span>
-                          <span className="flex items-center gap-1"><Maximize2 className="w-3 h-3" /> {p.sqft} sqft</span>
+                          {(p.beds ?? p.rooms) && <span className="flex items-center gap-1"><Bed className="w-3 h-3" /> {p.beds ?? p.rooms} Beds</span>}
+                          {p.baths && <span className="flex items-center gap-1"><Bath className="w-3 h-3" /> {p.baths} Baths</span>}
+                          {(p.sqft ?? p.surface) && <span className="flex items-center gap-1"><Maximize2 className="w-3 h-3" /> {p.sqft ?? p.surface} sqft</span>}
                         </div>
                       </div>
                     </div>
                     <div className="flex justify-between items-start">
                       <div>
-                        <h3 className="text-2xl font-bold group-hover:text-[#b8860b] transition-colors mb-1" style={{ fontFamily: "Georgia, serif" }}>{p.title}</h3>
-                        <div className="flex items-center gap-1 text-sm text-[#1a1a1a]/40"><MapPin className="w-3 h-3" /> {p.location}</div>
+                        <h3 className="text-2xl font-bold group-hover:text-[#b8860b] transition-colors mb-1" style={{ fontFamily: "Georgia, serif" }}>{p.title ?? p.name}</h3>
+                        {(p.location ?? p.city) && <div className="flex items-center gap-1 text-sm text-[#1a1a1a]/40"><MapPin className="w-3 h-3" /> {p.location ?? p.city}</div>}
                       </div>
-                      <div className="text-xl font-bold text-[#b8860b]">{p.price}</div>
+                      {p.price && <div className="text-xl font-bold text-[#b8860b]">{p.price}</div>}
                     </div>
                   </div>
                 </Reveal>
@@ -317,20 +268,16 @@ export default function HavenEstatesPage() {
               </div>
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {[
-                { quote: "Haven Estates found our Hampstead estate entirely off-market. Their discretion and global network are simply unmatched.", name: "Lord A. Thornton", role: "London · Private Estate" },
-                { quote: "The team navigated our Singapore acquisition with extraordinary professionalism. We closed in under three weeks.", name: "S. Nakamura", role: "Singapore · Penthouse" },
-                { quote: "Three continents, one advisor. Haven managed our entire portfolio consolidation seamlessly and discreetly.", name: "E. Volkov", role: "Geneva · Multi-Property" },
-              ].map((t, i) => (
+              {testimonials.map((t: any, i: number) => (
                 <Reveal key={i} delay={i * 0.12}>
                   <div className="p-10 border border-[#b8860b]/10 rounded-sm flex flex-col gap-6 h-full">
                     <div className="flex gap-1">
                       {[...Array(5)].map((_, j) => <Star key={j} className="w-4 h-4 fill-[#b8860b] text-[#b8860b]" />)}
                     </div>
-                    <p className="text-[#1a1a1a]/60 font-light leading-relaxed italic flex-1" style={{ fontFamily: "Georgia, serif" }}>&ldquo;{t.quote}&rdquo;</p>
+                    <p className="text-[#1a1a1a]/60 font-light leading-relaxed italic flex-1" style={{ fontFamily: "Georgia, serif" }}>&ldquo;{t.quote ?? t.text}&rdquo;</p>
                     <div className="pt-6 border-t border-[#b8860b]/10">
-                      <div className="font-bold text-sm" style={{ fontFamily: "Georgia, serif" }}>{t.name}</div>
-                      <div className="text-xs text-[#1a1a1a]/40 tracking-widest uppercase mt-1">{t.role}</div>
+                      <div className="font-bold text-sm" style={{ fontFamily: "Georgia, serif" }}>{t.name ?? t.author}</div>
+                      {(t.role ?? t.source) && <div className="text-xs text-[#1a1a1a]/40 tracking-widest uppercase mt-1">{t.role ?? t.source}</div>}
                     </div>
                   </div>
                 </Reveal>

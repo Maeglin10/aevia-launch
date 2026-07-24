@@ -25,6 +25,7 @@ import {
   CheckCircle,
   ExternalLink,
 } from 'lucide-react';
+import { resolveList } from "@/lib/templates/resolveList";
 
 // Hoisted above the design tokens: several templates read `brand` in a
 // module-level const — declaring it lower caused a TDZ ReferenceError (500).
@@ -881,7 +882,7 @@ type Indication = {
   details: string[];
 };
 
-const INDICATIONS: Indication[] = [
+const INDICATIONS_DEMO: Indication[] = [
   {
     icon: <Activity size={32} color={C.terra} strokeWidth={1.4} />,
     title: 'Douleurs chroniques',
@@ -1015,6 +1016,15 @@ function IndicationCard({ ind, i }: { ind: Indication; i: number }) {
 }
 
 function IndicationsSection() {
+  const INDICATIONS = resolveList(
+    bp?.services?.map((s: any, i: number) => ({
+      icon: INDICATIONS_DEMO[i % INDICATIONS_DEMO.length].icon,
+      title: s.title ?? s.name,
+      description: s.description ?? s.desc,
+      details: s.price ? [s.price] : [],
+    })),
+    INDICATIONS_DEMO
+  );
   const sec: React.CSSProperties = {
     background: C.linen,
     padding: 'clamp(96px,13vw,180px) clamp(24px,6vw,96px)',
@@ -1274,7 +1284,7 @@ type Testimonial = {
   stars: number;
 };
 
-const TESTIMONIALS: Testimonial[] = [
+const TESTIMONIALS_DEMO: Testimonial[] = [
   {
     quote:
       'J&apos;avais une lombalgie chronique depuis trois ans. En deux séances, le Dr Soler a identifié une restriction que personne n&apos;avait vue. Après quatre séances, je n&apos;ai plus de douleurs quotidiennes. Un praticien exceptionnel.',
@@ -1299,6 +1309,15 @@ const TESTIMONIALS: Testimonial[] = [
 ];
 
 function TestimonialsSection() {
+  const TESTIMONIALS = resolveList(
+    bp?.reputation?.featuredReviews?.map((r: any) => ({
+      quote: r.text ?? r.quote,
+      name: r.name ?? r.author,
+      situation: r.situation ?? r.context,
+      stars: r.stars ?? r.rating ?? 5,
+    })),
+    TESTIMONIALS_DEMO
+  );
   const sec: React.CSSProperties = {
     background: C.linen,
     padding: 'clamp(90px,12vw,170px) clamp(24px,6vw,96px)',
@@ -1338,7 +1357,7 @@ function TestimonialsSection() {
       </div>
       <div style={grid}>
         {TESTIMONIALS.map((t, i) => (
-          <Reveal key={t.name} delay={i * 0.12} style={{ height: '100%' }}>
+          <Reveal key={t.name ?? i} delay={i * 0.12} style={{ height: '100%' }}>
             <figure
               style={{
                 background: C.white,
@@ -1387,19 +1406,21 @@ function TestimonialsSection() {
                 >
                   {t.name}
                 </div>
-                <div
-                  style={{
-                    fontFamily: SANS,
-                    fontSize: 11,
-                    letterSpacing: '0.16em',
-                    textTransform: 'uppercase',
-                    color: C.terra,
-                    marginTop: 6,
-                    fontWeight: 500,
-                  }}
-                >
-                  {t.situation}
-                </div>
+                {t.situation && (
+                  <div
+                    style={{
+                      fontFamily: SANS,
+                      fontSize: 11,
+                      letterSpacing: '0.16em',
+                      textTransform: 'uppercase',
+                      color: C.terra,
+                      marginTop: 6,
+                      fontWeight: 500,
+                    }}
+                  >
+                    {t.situation}
+                  </div>
+                )}
               </figcaption>
             </figure>
           </Reveal>
@@ -2518,6 +2539,7 @@ function FooterSection() {
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 export default function Impact279Page() {
   const [session, setSession] = useState<{
     formData?: {
@@ -2533,6 +2555,7 @@ export default function Impact279Page() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -2564,6 +2587,7 @@ export default function Impact279Page() {
     });
   });
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, terra: brand, terraLight: shadeColor(brand, 25), terraDark: shadeColor(brand, -20) };
@@ -2578,54 +2602,6 @@ export default function Impact279Page() {
     MozOsxFontSmoothing: 'grayscale',
   };
 
-  
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
 return (
     <main id="hero" style={root} suppressHydrationWarning>
       <Nav />

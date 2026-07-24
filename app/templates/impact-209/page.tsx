@@ -11,6 +11,7 @@ import {
 } from 'framer-motion'
 import { TemplateIcon } from '@/components/TemplateIcon'
 import { MapPin } from 'lucide-react'
+import { resolveList } from "@/lib/templates/resolveList";
 
 // Hoisted above the design tokens: several templates read `brand` in a
 // module-level const — declaring it lower caused a TDZ ReferenceError (500).
@@ -129,6 +130,15 @@ const STYLISTS: Stylist[] = [
 
 const BOOKING_STEPS = ['Service', 'Date & Heure', 'Styliste', 'Confirmation']
 
+// Testimonials — hoisted from an inline JSX array literal so resolveList can
+// swap in bp?.reputation?.featuredReviews when the client provided real
+// reviews.
+const TESTIMONIALS_DEMO = [
+  { name: 'Sophie M.', text: 'Le meilleur balayage que j\'aie jamais eu. Camille a su exactement ce que je voulais sans que j\'aie à l\'expliquer deux fois. Je reviens depuis 4 ans.', rating: 5 },
+  { name: 'Clara R.', text: 'L\'ambiance est feutrée et luxueuse, le café offert, et Hugo m\'a donné une coupe qui a changé ma vie. Je ne vais nulle part ailleurs.', rating: 5 },
+  { name: 'Amira K.', text: 'Yasmine est une magicienne. Mon lissage tient 6 mois et mes cheveux sont en meilleure santé qu\'avant le traitement. Incroyable.', rating: 5 },
+]
+
 // ─── Sub-components ────────────────────────────────────────────────────────────
 
 // Scissor Blade component
@@ -166,7 +176,7 @@ function GoldDivider() {
 }
 
 // Service Card with scroll reveal
-function ServiceCard({ service, index }: { service: Service; index: number }) {
+function ServiceCard({ service, index }: { service: any; index: number }) {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: '-80px' })
 
@@ -206,34 +216,42 @@ function ServiceCard({ service, index }: { service: Service; index: number }) {
           <h3 style={{ ...headingFont, fontSize: '24px', color: DARK, margin: 0, letterSpacing: '0.02em' }}>
             {service.name}
           </h3>
-          <p style={{ ...bodyFont, fontSize: '11px', color: GOLD, letterSpacing: '0.15em', textTransform: 'uppercase', margin: '4px 0 0' }}>
-            {service.nameEn}
-          </p>
+          {service.nameEn && (
+            <p style={{ ...bodyFont, fontSize: '11px', color: GOLD, letterSpacing: '0.15em', textTransform: 'uppercase', margin: '4px 0 0' }}>
+              {service.nameEn}
+            </p>
+          )}
         </div>
-        <span style={{ ...bodyFont, fontSize: '11px', color: GRAY_MID, background: GOLD_PALE, padding: '4px 10px', borderRadius: '20px' }}>
-          {service.duration}
-        </span>
+        {service.duration && (
+          <span style={{ ...bodyFont, fontSize: '11px', color: GRAY_MID, background: GOLD_PALE, padding: '4px 10px', borderRadius: '20px' }}>
+            {service.duration}
+          </span>
+        )}
       </div>
 
       <p style={{ ...bodyFont, fontSize: '14px', color: GRAY_MID, lineHeight: 1.7, margin: '0 0 20px' }}>
         {service.description}
       </p>
 
-      <motion.p
-        initial={{ opacity: 0 }}
-        animate={isInView ? { opacity: 1 } : { opacity: 0 }}
-        transition={{ duration: 0.5, delay: index * 0.1 + 0.5 }}
-        style={{ ...headingFont, fontSize: '20px', color: GOLD, margin: 0 }}
-      >
-        {service.price}
-      </motion.p>
+      {service.price && (
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={isInView ? { opacity: 1 } : { opacity: 0 }}
+          transition={{ duration: 0.5, delay: index * 0.1 + 0.5 }}
+          style={{ ...headingFont, fontSize: '20px', color: GOLD, margin: 0 }}
+        >
+          {service.price}
+        </motion.p>
+      )}
     </motion.div>
   )
 }
 
 // Stylist Card with hover bio
-function StylistCard({ stylist }: { stylist: Stylist }) {
+function StylistCard({ stylist }: { stylist: any }) {
   const [hovered, setHovered] = useState(false)
+  const role = stylist.title ?? stylist.role;
+  const specialty = stylist.specialty ?? stylist.credentials;
 
   return (
     <div
@@ -248,7 +266,7 @@ function StylistCard({ stylist }: { stylist: Stylist }) {
             width: '100px',
             height: '100px',
             borderRadius: '50%',
-            background: stylist.color,
+            background: stylist.color ?? GOLD_PALE,
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -260,32 +278,36 @@ function StylistCard({ stylist }: { stylist: Stylist }) {
             ...headingFont,
           }}
         >
-          {stylist.name.charAt(0)}
+          {stylist.name?.charAt(0)}
         </div>
         <div style={{ textAlign: 'center' }}>
           <h4 style={{ ...headingFont, fontSize: '22px', color: DARK, margin: '0 0 4px', letterSpacing: '0.02em' }}>
             {stylist.name}
           </h4>
-          <p style={{ ...bodyFont, fontSize: '11px', color: GOLD, letterSpacing: '0.12em', textTransform: 'uppercase', margin: '0 0 8px' }}>
-            {stylist.title}
-          </p>
-          <span style={{
-            ...bodyFont,
-            fontSize: '11px',
-            color: GRAY_MID,
-            background: GOLD_PALE,
-            padding: '4px 12px',
-            borderRadius: '20px',
-            display: 'inline-block',
-          }}>
-            {stylist.specialty}
-          </span>
+          {role && (
+            <p style={{ ...bodyFont, fontSize: '11px', color: GOLD, letterSpacing: '0.12em', textTransform: 'uppercase', margin: '0 0 8px' }}>
+              {role}
+            </p>
+          )}
+          {specialty && (
+            <span style={{
+              ...bodyFont,
+              fontSize: '11px',
+              color: GRAY_MID,
+              background: GOLD_PALE,
+              padding: '4px 12px',
+              borderRadius: '20px',
+              display: 'inline-block',
+            }}>
+              {specialty}
+            </span>
+          )}
         </div>
       </div>
 
       {/* Bio panel — AnimatePresence slide up */}
       <AnimatePresence>
-        {hovered && (
+        {hovered && (stylist.bio || stylist.years) && (
           <motion.div
             key="bio"
             initial={{ opacity: 0, y: 40 }}
@@ -304,15 +326,19 @@ function StylistCard({ stylist }: { stylist: Stylist }) {
               borderTop: `2px solid ${GOLD}`,
             }}
           >
-            <p style={{ ...bodyFont, fontSize: '13px', lineHeight: 1.75, color: GRAY_LIGHT, margin: '0 0 16px' }}>
-              {stylist.bio}
-            </p>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <div style={{ width: '20px', height: '1px', background: GOLD }} />
-              <span style={{ ...bodyFont, fontSize: '11px', color: GOLD, letterSpacing: '0.1em' }}>
-                {stylist.years} ans d'expérience
-              </span>
-            </div>
+            {stylist.bio && (
+              <p style={{ ...bodyFont, fontSize: '13px', lineHeight: 1.75, color: GRAY_LIGHT, margin: '0 0 16px' }}>
+                {stylist.bio}
+              </p>
+            )}
+            {stylist.years && (
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <div style={{ width: '20px', height: '1px', background: GOLD }} />
+                <span style={{ ...bodyFont, fontSize: '11px', color: GOLD, letterSpacing: '0.1em' }}>
+                  {stylist.years} ans d'expérience
+                </span>
+              </div>
+            )}
           </motion.div>
         )}
       </AnimatePresence>
@@ -515,7 +541,11 @@ function BeforeAfterSlider() {
 }
 
 // Multi-step Booking Form
-function BookingForm() {
+// `services`/`stylists` let the caller pass the resolved (real-data-or-demo)
+// arrays so the booking selectors stay in sync with the SERVICES/TEAM grids
+// rendered elsewhere on the page — defaults keep this component working
+// standalone with the template's demo data.
+function BookingForm({ services = SERVICES, stylists = STYLISTS }: { services?: any[]; stylists?: any[] }) {
   const [step, setStep] = useState(0)
   const [direction, setDirection] = useState(1) // 1 = forward, -1 = backward
   const [selectedService, setSelectedService] = useState<string | null>(null)
@@ -668,18 +698,18 @@ function BookingForm() {
                 <p style={{ ...headingFont, fontSize: '22px', color: DARK, margin: '0 0 16px', fontStyle: 'italic' }}>
                   Quel soin souhaitez-vous ?
                 </p>
-                {SERVICES.map((s) => (
+                {services.map((s: any, i: number) => (
                   <button
-                    key={s.name}
+                    key={s.name ?? i}
                     onClick={() => setSelectedService(s.name)}
                     style={chipStyle(selectedService === s.name)}
                   >
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                       <div>
                         <span style={{ display: 'block', fontWeight: 400 }}>{s.name}</span>
-                        <span style={{ fontSize: '12px', color: GOLD }}>{s.price}</span>
+                        {s.price && <span style={{ fontSize: '12px', color: GOLD }}>{s.price}</span>}
                       </div>
-                      <span style={{ fontSize: '12px', color: GRAY_MID }}>{s.duration}</span>
+                      {s.duration && <span style={{ fontSize: '12px', color: GRAY_MID }}>{s.duration}</span>}
                     </div>
                   </button>
                 ))}
@@ -744,19 +774,19 @@ function BookingForm() {
                   >
                     <span style={{ fontWeight: 400 }}>Aucune préférence — disponibilité optimale</span>
                   </button>
-                  {STYLISTS.map((s) => (
+                  {stylists.map((s: any, i: number) => (
                     <button
-                      key={s.name}
+                      key={s.name ?? i}
                       onClick={() => setSelectedStylist(s.name)}
                       style={chipStyle(selectedStylist === s.name)}
                     >
                       <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                        <div style={{ width: '32px', height: '32px', borderRadius: '50%', background: s.color, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', ...headingFont, fontSize: '16px', flexShrink: 0 }}>
-                          {s.name.charAt(0)}
+                        <div style={{ width: '32px', height: '32px', borderRadius: '50%', background: s.color ?? GOLD_PALE, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', ...headingFont, fontSize: '16px', flexShrink: 0 }}>
+                          {s.name?.charAt(0)}
                         </div>
                         <div>
                           <span style={{ display: 'block', fontWeight: 400 }}>{s.name}</span>
-                          <span style={{ fontSize: '12px', color: GOLD }}>{s.specialty}</span>
+                          {(s.specialty ?? s.role) && <span style={{ fontSize: '12px', color: GOLD }}>{s.specialty ?? s.role}</span>}
                         </div>
                       </div>
                     </button>
@@ -958,6 +988,7 @@ export default function Page() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -972,6 +1003,16 @@ export default function Page() {
   fd = session?.formData;
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
+
+  // Real business data (resolveList) replaces demo content wholesale when
+  // present — see the DEMO consts above for the shape each section falls
+  // back to. Field access in JSX uses `??` chains so both shapes render.
+  // Note: businessProfile is a sibling of formData on SessionData, not
+  // nested inside it — read from `session`, not `fd`.
+  const bp = session?.businessProfile;
+  const services = resolveList(bp?.services, SERVICES);
+  const stylists = resolveList(bp?.team, STYLISTS);
+  const temoignages = resolveList(bp?.reputation?.featuredReviews, TESTIMONIALS_DEMO);
 
   const [scissorOpen, setScissorOpen] = useState(false)
   const [titleVisible, setTitleVisible] = useState(false)
@@ -988,53 +1029,7 @@ export default function Page() {
     }
   }, []);
 
-  // Dynamic Services & Testimonials Mutation for Session Data
   useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 60)
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
@@ -1336,8 +1331,8 @@ export default function Page() {
           subtitle="Chaque soin est pensé comme un rituel. Nos tarifs incluent le diagnostic, le soin, et le brushing de finition."
         />
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(320px, 100%), 1fr))', gap: '2px', background: GRAY_LIGHT }}>
-          {SERVICES.map((service, i) => (
-            <div key={service.name} style={{ background: BG }}>
+          {services.map((service: any, i: number) => (
+            <div key={service.name ?? i} style={{ background: BG }}>
               <ServiceCard service={service} index={i} />
             </div>
           ))}
@@ -1465,8 +1460,8 @@ export default function Page() {
           subtitle="Des professionnels passionnés, formés dans les plus grandes maisons parisiennes."
         />
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(240px, 100%), 1fr))', gap: '2px', background: GRAY_LIGHT }}>
-          {STYLISTS.map((stylist) => (
-            <div key={stylist.name} style={{ background: BG, position: 'relative', overflow: 'hidden', minHeight: '340px' }}>
+          {stylists.map((stylist: any, i: number) => (
+            <div key={stylist.name ?? i} style={{ background: BG, position: 'relative', overflow: 'hidden', minHeight: '340px' }}>
               <StylistCard stylist={stylist} />
             </div>
           ))}
@@ -1507,13 +1502,9 @@ export default function Page() {
             title="Ce que disent nos clientes"
           />
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(280px, 100%), 1fr))', gap: '24px' }}>
-            {[
-              { name: 'Sophie M.', text: 'Le meilleur balayage que j\'aie jamais eu. Camille a su exactement ce que je voulais sans que j\'aie à l\'expliquer deux fois. Je reviens depuis 4 ans.', rating: 5 },
-              { name: 'Clara R.', text: 'L\'ambiance est feutrée et luxueuse, le café offert, et Hugo m\'a donné une coupe qui a changé ma vie. Je ne vais nulle part ailleurs.', rating: 5 },
-              { name: 'Amira K.', text: 'Yasmine est une magicienne. Mon lissage tient 6 mois et mes cheveux sont en meilleure santé qu\'avant le traitement. Incroyable.', rating: 5 },
-            ].map((t, i) => (
+            {temoignages.map((t: any, i: number) => (
               <motion.div
-                key={t.name}
+                key={t.name ?? t.author ?? i}
                 initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -1521,7 +1512,7 @@ export default function Page() {
                 style={{ padding: '32px', background: '#fff', border: `1px solid ${GRAY_LIGHT}`, position: 'relative' }}
               >
                 <div style={{ display: 'flex', gap: '4px', marginBottom: '16px' }}>
-                  {Array.from({ length: t.rating }).map((_, j) => (
+                  {Array.from({ length: t.rating ?? 5 }).map((_, j) => (
                     <svg key={j} width="14" height="14" viewBox="0 0 14 14" fill={GOLD}>
                       <path d="M7 1l1.5 4h4.5l-3.5 2.5 1.5 4L7 9 3 11.5 4.5 7.5 1 5h4.5z" />
                     </svg>
@@ -1532,7 +1523,7 @@ export default function Page() {
                 </p>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                   <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: GOLD_PALE, border: `1px solid ${GOLD}` }} />
-                  <span style={{ ...bodyFont, fontSize: '13px', color: DARK, fontWeight: 400 }}>{t.name}</span>
+                  <span style={{ ...bodyFont, fontSize: '13px', color: DARK, fontWeight: 400 }}>{t.name ?? t.author}</span>
                 </div>
                 <div style={{ position: 'absolute', top: '20px', right: '20px' }}>
                   <span style={{ ...headingFont, fontSize: '48px', color: GOLD_PALE, lineHeight: 1 }}>"</span>
@@ -1563,7 +1554,7 @@ export default function Page() {
               boxShadow: '0 20px 60px rgba(26,18,9,0.08)',
             }}
           >
-            <BookingForm />
+            <BookingForm services={services} stylists={stylists} />
           </motion.div>
         </div>
       </section>

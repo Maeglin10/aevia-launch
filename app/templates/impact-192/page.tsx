@@ -6,6 +6,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { Key, Lock, Shield, Zap, Clock, Phone, Star, MapPin, CheckCircle, AlertTriangle, Wrench, Home, Menu } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import { resolveList } from "@/lib/templates/resolveList";
 
 /* ═══════════════════════════════════════════════════════════════════════════
    SÉC'URFAST — Serrurier urgence & sécurité (Strasbourg)
@@ -25,13 +26,22 @@ function Reveal({ children, delay = 0, y = 20 }: { children: React.ReactNode; de
   )
 }
 
-const SERVICES = [
+// Demo content — real data (businessProfile) replaces this wholesale via
+// resolveList when the client provided it; each field access below falls
+// back with `??` so the same JSX renders either shape.
+const SERVICES_DEMO = [
   { icon: AlertTriangle, title: "Urgence & dépannage 24h/24", desc: "Porte claquée, serrure bloquée, intrusion. Intervention sous 30 min sur Strasbourg. Astreinte 7j/7 nuits et jours fériés inclus." },
   { icon: Lock, title: "Changement & installation serrure", desc: "Pose serrure 3 points, blindée, connectée. Toutes marques : Vachette, Fichet, Mul-T-Lock, Abus. Devis transparent avant travaux." },
   { icon: Home, title: "Porte blindée & renforcée", desc: "Fourniture et pose de portes blindées Fichet, Mottura, Fichet Bauche. Conforme norme NF A2P. Financement disponible." },
   { icon: Shield, title: "Contrôle d'accès & visiophonie", desc: "Digicode, badge, lecteur biométrique, interphone vidéo. Système géré par smartphone. Idéal copropriétés et locaux pro." },
   { icon: Key, title: "Reproduction & trousseau", desc: "Reproduction clés plates, cylindres, badges, télécommandes de garage. Gravure sur mesure. Clés en double livrées sous 24h." },
   { icon: Wrench, title: "Coffre-fort & sécurité", desc: "Fourniture, scellement et ouverture de coffres-forts. Gamme domestique et professionnelle. Expertise assurance incluse." },
+]
+
+const TEMOIGNAGES_DEMO = [
+  { q: "Porte claquée à 23h30 avec mes clés à l'intérieur. Arrivée en 25 minutes, ouverture en 10 minutes, porte intacte, facture correcte. Merci pour ce service pro et rapide.", n: "Émilie T.", l: "Strasbourg Hautepierre" },
+  { q: "Changement serrure 3 points après perte de clés. Devis donné par téléphone avant tout. Travail propre, serrurier ponctuel et de bon conseil pour la sécurité.", n: "Fabrice M.", l: "Schiltigheim (67)" },
+  { q: "Porte blindée installée en 3 heures. Très beau travail, finitions parfaites, prise en charge partielle par mon assurance. L'investissement valait vraiment le coup.", n: "Sandra et Marc O.", l: "Illkirch-Graffenstaden" },
 ]
 
 
@@ -59,6 +69,7 @@ export default function SecurFastPage() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -87,53 +98,16 @@ export default function SecurFastPage() {
     return () => window.removeEventListener("scroll", h)
   }, []);
 
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);return (
+  // Real business data (resolveList) replaces demo content wholesale when
+  // present — see the DEMO consts above for the shape each section falls
+  // back to. Field access in JSX uses `??` chains so both shapes render.
+  // Note: businessProfile is a sibling of formData on SessionData, not
+  // nested inside it — read from `session`, not `fd`.
+  const bp = session?.businessProfile;
+  const services = resolveList(bp?.services, SERVICES_DEMO);
+  const temoignages = resolveList(bp?.reputation?.featuredReviews, TEMOIGNAGES_DEMO);
+
+  return (
     <div className="bg-[#0d1524] text-[#f0f4ff] overflow-x-hidden" style={{ fontFamily: "'Exo 2', 'Inter', system-ui, sans-serif" }}>
       {/* ── NAVBAR ── */}
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#0d1524]/98 backdrop-blur-xl py-3 border-b border-[#2563eb]/15" : "bg-transparent py-7"}`}>
@@ -267,14 +241,16 @@ export default function SecurFastPage() {
             </div>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {SERVICES.map((s, i) => (
-              <Reveal key={i} delay={i * 0.07}>
+            {services.map((s: any, i: number) => (
+              <Reveal key={s.title ?? s.name ?? i} delay={i * 0.07}>
                 <div className="group p-7 border border-[#f0f4ff]/5 hover:border-[#2563eb]/30 hover:bg-[#111d30] transition-all duration-500 h-full">
-                  <div className="w-10 h-10 bg-[#2563eb]/10 flex items-center justify-center mb-5 group-hover:bg-[#2563eb] transition-colors duration-500">
-                    <s.icon className="w-5 h-5 text-[#2563eb] group-hover:text-white transition-colors" />
-                  </div>
-                  <h3 className="font-bold text-[#f0f4ff] mb-3 group-hover:text-[#2563eb] transition-colors">{s.title}</h3>
-                  <p className="text-sm text-[#f0f4ff]/25 leading-relaxed">{s.desc}</p>
+                  {s.icon && (
+                    <div className="w-10 h-10 bg-[#2563eb]/10 flex items-center justify-center mb-5 group-hover:bg-[#2563eb] transition-colors duration-500">
+                      <s.icon className="w-5 h-5 text-[#2563eb] group-hover:text-white transition-colors" />
+                    </div>
+                  )}
+                  <h3 className="font-bold text-[#f0f4ff] mb-3 group-hover:text-[#2563eb] transition-colors">{s.title ?? s.name}</h3>
+                  <p className="text-sm text-[#f0f4ff]/25 leading-relaxed">{s.desc ?? s.description}</p>
                 </div>
               </Reveal>
             ))}
@@ -290,20 +266,18 @@ export default function SecurFastPage() {
             <h2 className="text-4xl font-bold text-[#f0f4ff]">Ils ont pu <span className="text-[#2563eb]">rentrer chez eux.</span></h2>
           </div></Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {[
-              { q: "Porte claquée à 23h30 avec mes clés à l'intérieur. Arrivée en 25 minutes, ouverture en 10 minutes, porte intacte, facture correcte. Merci pour ce service pro et rapide.", n: "Émilie T.", l: "Strasbourg Hautepierre" },
-              { q: "Changement serrure 3 points après perte de clés. Devis donné par téléphone avant tout. Travail propre, serrurier ponctuel et de bon conseil pour la sécurité.", n: "Fabrice M.", l: "Schiltigheim (67)" },
-              { q: "Porte blindée installée en 3 heures. Très beau travail, finitions parfaites, prise en charge partielle par mon assurance. L'investissement valait vraiment le coup.", n: "Sandra et Marc O.", l: "Illkirch-Graffenstaden" },
-            ].map((t, i) => (
-              <Reveal key={i} delay={i * 0.1}>
+            {temoignages.map((t: any, i: number) => (
+              <Reveal key={t.n ?? t.author ?? i} delay={i * 0.1}>
                 <div className="p-8 border border-[#f0f4ff]/5 hover:border-[#2563eb]/20 transition-colors h-full flex flex-col">
                   <div className="flex gap-1 mb-5">
-                    {[...Array(5)].map((_, j) => <Star key={j} className="w-4 h-4 fill-[#2563eb] text-[#2563eb]" />)}
+                    {[...Array(t.rating ?? 5)].map((_, j) => <Star key={j} className="w-4 h-4 fill-[#2563eb] text-[#2563eb]" />)}
                   </div>
-                  <p className="text-sm text-[#f0f4ff]/28 leading-relaxed flex-1">{`"${t.q}"`}</p>
+                  <p className="text-sm text-[#f0f4ff]/28 leading-relaxed flex-1">{`"${t.q ?? t.text}"`}</p>
                   <div className="mt-6 pt-5 border-t border-[#f0f4ff]/5">
-                    <div className="font-bold text-[#f0f4ff] text-sm">{t.n}</div>
-                    <div className="text-[10px] text-[#2563eb] mt-1 flex items-center gap-1"><MapPin className="w-3 h-3" />{t.l}</div>
+                    <div className="font-bold text-[#f0f4ff] text-sm">{t.n ?? t.author}</div>
+                    {(t.l ?? t.source) && (
+                      <div className="text-[10px] text-[#2563eb] mt-1 flex items-center gap-1"><MapPin className="w-3 h-3" />{t.l ?? t.source}</div>
+                    )}
                   </div>
                 </div>
               </Reveal>

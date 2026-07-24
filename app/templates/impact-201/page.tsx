@@ -11,6 +11,7 @@ import {
   AnimatePresence,
 } from "framer-motion";
 import { TemplateIcon } from '@/components/TemplateIcon';
+import { resolveList } from "@/lib/templates/resolveList";
 
 // ─── Design tokens ────────────────────────────────────────────────────────────
 // Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
@@ -157,7 +158,7 @@ const SEASON_MENUS: Record<
   ],
 };
 
-const EXPERIENCES = [
+const EXPERIENCES_DEMO = [
   {
     img: "photo-1414235077428-338989a2e8c0",
     title: "Dîner en amoureux",
@@ -207,7 +208,7 @@ const SAVOIR_FAIRE = [
   },
 ];
 
-const TESTIMONIALS = [
+const TESTIMONIALS_DEMO = [
   {
     name: "Isabelle & Frédéric M.",
     role: "Dîner anniversaire",
@@ -461,7 +462,7 @@ function TestimonialCard({
   active,
   onSelect,
 }: {
-  t: (typeof TESTIMONIALS)[0];
+  t: any;
   index: number;
   active: boolean;
   onSelect: (i: number) => void;
@@ -534,7 +535,7 @@ function TestimonialCard({
             flexShrink: 0,
           }}
         >
-          {t.initials}
+          {t.initials ?? (t.name ?? t.author ?? "").split(" ").map((w: string) => w[0]?.toUpperCase()).join("").slice(0, 2)}
         </div>
         <div>
           <div
@@ -545,7 +546,7 @@ function TestimonialCard({
               fontFamily: C.fontSans,
             }}
           >
-            {t.name}
+            {t.name ?? t.author}
           </div>
           <div
             style={{
@@ -554,7 +555,7 @@ function TestimonialCard({
               fontFamily: C.fontSans,
             }}
           >
-            {t.role}
+            {t.role ?? t.source ?? ""}
           </div>
         </div>
       </div>
@@ -567,10 +568,11 @@ function ExperienceCard({
   exp,
   index,
 }: {
-  exp: (typeof EXPERIENCES)[0];
+  exp: any;
   index: number;
 }) {
   const [hovered, setHovered] = useState(false);
+  const demoImg = EXPERIENCES_DEMO[index % EXPERIENCES_DEMO.length].img;
   return (
     <motion.div
       initial={{ opacity: 0, y: 40 }}
@@ -583,8 +585,8 @@ function ExperienceCard({
     >
       <div style={{ position: "relative", aspectRatio: "4/5", overflow: "hidden" }}>
         <motion.img
-          src={`https://images.unsplash.com/${exp.img}?q=80&w=700&auto=format&fit=crop`}
-          alt={exp.title}
+          src={exp.photoUrl || `https://images.unsplash.com/${exp.img ?? demoImg}?q=80&w=700&auto=format&fit=crop`}
+          alt={exp.title ?? exp.name}
           style={{
             width: "100%",
             height: "100%",
@@ -629,19 +631,21 @@ function ExperienceCard({
               marginBottom: 6,
             }}
           >
-            {exp.title}
+            {exp.title ?? exp.name}
           </div>
-          <div
-            style={{
-              fontSize: 12,
-              color: C.creamDim,
-              fontFamily: C.fontSans,
-              marginBottom: 12,
-              letterSpacing: "0.04em",
-            }}
-          >
-            {exp.sub}
-          </div>
+          {(exp.sub ?? exp.duration ?? exp.description) && (
+            <div
+              style={{
+                fontSize: 12,
+                color: C.creamDim,
+                fontFamily: C.fontSans,
+                marginBottom: 12,
+                letterSpacing: "0.04em",
+              }}
+            >
+              {exp.sub ?? exp.duration ?? exp.description}
+            </div>
+          )}
           <div
             style={{
               fontSize: 14,
@@ -664,6 +668,7 @@ function ExperienceCard({
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+let bp: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
 function photo(i: number, fallback: string): string {
@@ -684,6 +689,7 @@ export default function Impact201Page() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -697,12 +703,16 @@ export default function Impact201Page() {
 
   fd = session?.formData;
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, gold: brand };
   }
 
   useFonts();
+
+  const experiences: any[] = resolveList(bp?.services, EXPERIENCES_DEMO);
+  const testimonials: any[] = resolveList(bp?.reputation?.featuredReviews, TESTIMONIALS_DEMO);
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeSeason, setActiveSeason] = useState("Automne");
@@ -725,54 +735,6 @@ export default function Impact201Page() {
   const seasons = Object.keys(SEASON_MENUS);
   const currentMenus = SEASON_MENUS[activeSeason] ?? [];
 
-  
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
 return (
     <div
       style={{
@@ -1922,8 +1884,8 @@ return (
             gap: 20,
           }}
         >
-          {EXPERIENCES.map((exp, i) => (
-            <ExperienceCard key={exp.title} exp={exp} index={i} />
+          {experiences.map((exp: any, i: number) => (
+            <ExperienceCard key={exp.title ?? exp.name ?? i} exp={exp} index={i} />
           ))}
         </div>
       </section>
@@ -2169,9 +2131,9 @@ return (
             marginBottom: 16,
           }}
         >
-          {TESTIMONIALS.slice(0, 3).map((t, i) => (
+          {testimonials.slice(0, 3).map((t: any, i: number) => (
             <TestimonialCard
-              key={t.name}
+              key={t.name ?? t.author ?? i}
               t={t}
               index={i}
               active={activeTestimonial === i}
@@ -2187,9 +2149,9 @@ return (
             maxWidth: 760,
           }}
         >
-          {TESTIMONIALS.slice(3).map((t, i) => (
+          {testimonials.slice(3).map((t: any, i: number) => (
             <TestimonialCard
-              key={t.name}
+              key={t.name ?? t.author ?? i}
               t={t}
               index={i + 3}
               active={activeTestimonial === i + 3}

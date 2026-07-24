@@ -5,10 +5,11 @@ import { useRef, useState, useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { Home, ShieldCheck, Phone, Clock, Star, MapPin, ArrowRight, CheckCircle, Wrench, AlertTriangle, Wind, Menu } from "lucide-react"
+import { resolveList } from "@/lib/templates/resolveList"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   TOIT & PIERRE — Couvreur professionnel (Nantes)
+   TOIT & PIERRE PISCINES — Pisciniste / Constructeur de piscines (Nantes)
    Palette : blanc cassé / ardoise profonde #374151 / rouge tuile #b91c1c
    Fonts : Raleway (titres) + Inter (corps)
    Style : artisanal premium, solide, fiable
@@ -38,32 +39,34 @@ function ParallaxImg({ src, alt }: { src: string; alt: string }) {
   )
 }
 
-const SERVICES = [
-  { icon: Home, title: "Pose de toiture neuve", desc: "Tuiles, ardoise naturelle, zinc, bac acier. De la charpente à la couverture. Toutes surfaces, maison individuelle ou bâtiment industriel." },
-  { icon: Wrench, title: "Réfection de toiture", desc: "Remplacement de tuiles cassées, démoussage, hydrofugation. Toiture entière ou réparation partielle selon diagnostic." },
-  { icon: Wind, title: "Charpente & zinguerie", desc: "Rénovation et remplacement de charpente traditionnelle ou industrielle. Gouttières, descentes, noues, faîtage, chatière." },
-  { icon: AlertTriangle, title: "Urgence fuite de toit", desc: "Infiltration, tuile manquante après tempête — bâche et mise hors d'eau rapide. Intervention sur devis dans les 24h." },
-  { icon: ShieldCheck, title: "Isolation par l'extérieur", desc: "Sarking (isolation sous toiture), primes CEE et MaPrimeRénov' disponibles. Amélioration énergétique garantie." },
-  { icon: Home, title: "Velux & fenêtres de toit", desc: "Pose et remplacement de fenêtres de toit Velux et Roto. Intégration soignée, étanchéité garantie 10 ans." },
+const SERVICE_ICONS = [Home, Wrench, Wind, AlertTriangle, ShieldCheck, Home]
+const SERVICES_DEMO = [
+  { icon: Home, title: "Construction de piscine", desc: "Piscine enterrée béton, coque polyester ou bloc à bancher. Terrassement, structure, étanchéité, margelles et plage — de l'étude au remplissage." },
+  { icon: Wrench, title: "Rénovation de bassin", desc: "Changement de liner, réfection d'étanchéité, remise à neuf des margelles et de la filtration. Redonnez une seconde vie à votre piscine." },
+  { icon: Wind, title: "Couverture & abri", desc: "Volets immergés, bâches à barres, abris bas ou hauts. Protection thermique, sécurité et propreté du bassin toute l'année." },
+  { icon: AlertTriangle, title: "Recherche de fuite", desc: "Détection non destructive par colorant, pression et caméra. Localisation précise des fuites de bassin et de canalisation." },
+  { icon: ShieldCheck, title: "Sécurité aux normes", desc: "Barrières, alarmes immergées et abris conformes à la loi NF P90. Mise en conformité de votre installation existante." },
+  { icon: Home, title: "Entretien & hivernage", desc: "Contrat saisonnier, mise en hivernage, remise en route, traitement de l'eau et nettoyage. Une eau limpide sans effort." },
 ]
 
-const REALISATIONS = [
-  { title: "Réfection ardoise · Maison 1900", tag: "Toiture ardoise naturelle", img: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&q=80&w=1200" },
-  { title: "Toiture neuve · Pavillon années 70", tag: "Tuile mécanique + isolation", img: "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&q=80&w=1200" },
-  { title: "Zinc & cuivre · Immeuble centre-ville", tag: "Zinguerie haut de gamme", img: "https://images.unsplash.com/photo-1486325212027-8081e485255e?auto=format&fit=crop&q=80&w=1200" },
+const REALISATIONS_DEMO = [
+  { title: "Piscine béton 9×4 m · Villa", tag: "Construction sur-mesure", img: "https://images.unsplash.com/photo-1572331165267-854da2b10ccc?auto=format&fit=crop&q=80&w=1200" },
+  { title: "Rénovation liner & plage", tag: "Rénovation complète", img: "https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&q=80&w=1200" },
+  { title: "Couloir de nage · Contemporain", tag: "Bassin à débordement", img: "https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&q=80&w=1200" },
 ]
 
 
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
 function photo(i: number, fallback: string): string {
   return fd?.photoUrls?.[i] || fallback;
 }
-export default function ToitPierrePage() {
+export default function ToitPierrePiscinesPage() {
   const [session, setSession] = useState<{
     formData?: {
       businessName?: string; businessType?: string; tagline?: string;
@@ -78,7 +81,39 @@ export default function ToitPierrePage() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
+
+  const bpLocal: any = session?.businessProfile;
+  const SERVICES = resolveList(
+    bpLocal?.services?.map((s: any, i: number) => ({
+      icon: SERVICE_ICONS[i % SERVICE_ICONS.length],
+      title: s.title ?? s.name,
+      desc: s.description ?? s.desc,
+    })),
+    SERVICES_DEMO
+  );
+  const REALISATIONS = resolveList(
+    bpLocal?.beforeAfter?.map((b: any, i: number) => ({
+      title: b.caption ?? REALISATIONS_DEMO[i % REALISATIONS_DEMO.length].title,
+      tag: "Réalisation",
+      img: b.afterUrl ?? b.beforeUrl ?? REALISATIONS_DEMO[i % REALISATIONS_DEMO.length].img,
+    })),
+    REALISATIONS_DEMO
+  );
+  const AVIS = resolveList(
+    bpLocal?.reputation?.featuredReviews?.map((r: any) => ({
+      q: r.text ?? r.quote,
+      n: r.name ?? r.author,
+      l: r.location ?? r.context ?? "",
+      s: r.stars ?? r.rating ?? 5,
+    })),
+    [
+      { q: "Notre piscine béton a été livrée en respectant chaque délai. Chantier propre, équipe à l'écoute, finitions impeccables. Un vrai savoir-faire d'artisan.", n: "Sandrine M.", l: "Nantes", s: 5 },
+      { q: "Rénovation complète de notre bassin : liner, margelles et filtration. Le résultat dépasse nos attentes. On profite enfin de notre piscine.", n: "Patrick & Aurélie F.", l: "Saint-Herblain", s: 5 },
+      { q: "Installation d'un volet immergé et mise aux normes de sécurité. Travail soigné, conseils précieux. Je recommande sans hésiter.", n: "Luc B.", l: "Rezé", s: 5 },
+    ]
+  );
 
   useEffect(() => {
     const id = new URLSearchParams(window.location.search).get("session");
@@ -94,7 +129,7 @@ export default function ToitPierrePage() {
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;
     let n = 1;
-    const _photoArrays: any[] = [REALISATIONS];
+    const _photoArrays: any[] = [REALISATIONS_DEMO];
     _photoArrays.forEach((arr) => {
       if (!Array.isArray(arr)) return;
       arr.forEach((item) => {
@@ -109,6 +144,7 @@ export default function ToitPierrePage() {
     });
   });
   c = session?.generatedContent;
+  bp = bpLocal;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const heroRef = useRef(null)
@@ -124,53 +160,7 @@ export default function ToitPierrePage() {
     return () => window.removeEventListener("scroll", h)
   }, []);
 
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);return (
+  return (
     <div className="bg-[#f9f8f6] text-[#1f2937] overflow-x-hidden" style={{ fontFamily: "'Raleway', 'Inter', system-ui, sans-serif" }}>
       {/* ── NAVBAR ── */}
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#f9f8f6]/97 backdrop-blur-xl py-3 border-b border-slate-200 shadow-sm" : "bg-transparent py-7"}`}>
@@ -187,7 +177,7 @@ export default function ToitPierrePage() {
                 <div className="w-8 h-8 bg-[#374151] flex items-center justify-center">
                   <Home className="w-4 h-4 text-white" />
                 </div>
-                <span className="font-bold text-[#1f2937] text-base tracking-wide">Toit <span className="text-[#b91c1c]">&</span> Pierre</span>
+                <span className="font-bold text-[#1f2937] text-base tracking-wide">{fd?.businessName ?? <>Toit <span className="text-[#b91c1c]">&</span> Pierre</>}</span>
               </>
             )}
           </div>
@@ -220,7 +210,7 @@ export default function ToitPierrePage() {
       {/* ── HERO ── */}
       <section id="hero" ref={heroRef} className="relative h-[110vh] min-h-[820px] flex items-end overflow-hidden">
         <motion.div style={{ y: heroY }} className="absolute inset-0">
-          <Image src={photo(0, "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&q=85&w=2400")} alt="Couvreur sur toiture en ardoise" fill className="object-cover" priority style={{ filter: "brightness(0.55)" }} />
+          <Image src={photo(0, "https://images.unsplash.com/photo-1572331165267-854da2b10ccc?auto=format&fit=crop&q=85&w=2400")} alt="Piscine sur-mesure" fill className="object-cover" priority style={{ filter: "brightness(0.55)" }} />
           <div className="absolute inset-0 bg-gradient-to-t from-[#1f2937] via-[#1f2937]/40 to-transparent" />
           <div className="absolute inset-0 bg-gradient-to-r from-[#1f2937]/50 to-transparent" />
         </motion.div>
@@ -229,18 +219,18 @@ export default function ToitPierrePage() {
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.3 }}>
             <div className="flex items-center gap-4 mb-7">
               <div className="w-10 h-[2px] bg-[#b91c1c]" />
-              <span className="text-[9px] font-bold uppercase tracking-[0.45em] text-[#fca5a5]">Couvreur qualifié · Pays de la Loire</span>
+              <span className="text-[9px] font-bold uppercase tracking-[0.45em] text-[#fca5a5]">Pisciniste qualifié · Pays de la Loire</span>
             </div>
           </motion.div>
 
           <motion.h1 initial={{ opacity: 0, y: 55 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.1, delay: 0.48, ease: [0.16, 1, 0.3, 1] }}
             className="text-5xl md:text-7xl lg:text-8xl font-bold leading-[0.88] tracking-tight mb-9 text-white">{c?.heroHeadline ?? <>
-            Le toit de votre<br />maison, entre<br /><span className="text-[#fca5a5]">de bonnes mains.</span>
+            La piscine de vos<br />rêves, entre<br /><span className="text-[#fca5a5]">de bonnes mains.</span>
           </>}</motion.h1>
 
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 0.75 }}
             className="max-w-lg text-sm text-white/40 leading-relaxed mb-10">{c?.heroSubline ?? fd?.tagline ?? <>
-            Pose, réfection, zinguerie, isolation et réparation d'urgence. Artisan couvreur qualifié Qualibat depuis 20 ans. Devis gratuit, garantie décennale.
+            Construction, rénovation, sécurité, couverture et entretien de piscines. Pisciniste qualifié depuis 20 ans. Devis gratuit, garantie décennale.
           </>}</motion.p>
 
           <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 1.0 }} className="flex flex-wrap gap-3">
@@ -263,7 +253,7 @@ export default function ToitPierrePage() {
         <div className="max-w-[1200px] mx-auto px-6 md:px-12 grid grid-cols-2 md:grid-cols-4 gap-0">
           {[
             { v: "20+", l: "Ans d'expérience" },
-            { v: "1 800+", l: "Toitures réalisées" },
+            { v: "1 800+", l: "Piscines réalisées" },
             { v: "Qualibat", l: "Certification artisan" },
             { v: "10 ans", l: "Garantie décennale" },
           ].map((s, i) => (
@@ -335,20 +325,16 @@ export default function ToitPierrePage() {
             <h2 className="text-4xl font-bold text-[#1f2937]">La confiance, <span className="text-[#374151]">ça se mérite.</span></h2>
           </div></Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {[
-              { q: "Toiture en ardoise de 1925 entièrement réfaite. Travail soigné, propre, chantier nettoyé. Résultat parfait et garantie 10 ans. Artisan sérieux.", n: "Hélène F.", l: "Nantes (44)" },
-              { q: "Après la tempête Domingos, Toit & Pierre ont répondu en moins de 24h. Bâche posée, toiture réparée en 3 jours. Très réactifs et professionnels.", n: "Julien R.", l: "Saint-Nazaire (44)" },
-              { q: "Installation de 3 Velux et isolation en sarking. Excellent conseil, pas de mauvaise surprise sur le devis. Je recommande sans hésiter.", n: "Claire & Arnaud M.", l: "La Baule (44)" },
-            ].map((t, i) => (
+            {AVIS.map((t: any, i: number) => (
               <Reveal key={i} delay={i * 0.1}>
                 <div className="p-8 bg-white border border-slate-100 hover:border-[#374151]/20 transition-colors h-full flex flex-col">
                   <div className="flex gap-1 mb-5">
-                    {[...Array(5)].map((_, j) => <Star key={j} className="w-4 h-4 fill-[#b91c1c] text-[#b91c1c]" />)}
+                    {[...Array(t.s ?? 5)].map((_, j) => <Star key={j} className="w-4 h-4 fill-[#b91c1c] text-[#b91c1c]" />)}
                   </div>
                   <p className="text-slate-500 text-sm leading-relaxed italic flex-1">{`"${t.q}"`}</p>
                   <div className="mt-6 pt-5 border-t border-slate-100">
                     <div className="font-bold text-[#1f2937] text-sm">{t.n}</div>
-                    <div className="text-[10px] text-[#b91c1c] mt-1"><MapPin className="w-3 h-3 inline mr-1" />{t.l}</div>
+                    {t.l && <div className="text-[10px] text-[#b91c1c] mt-1"><MapPin className="w-3 h-3 inline mr-1" />{t.l}</div>}
                   </div>
                 </div>
               </Reveal>
@@ -362,7 +348,7 @@ export default function ToitPierrePage() {
         <Reveal>
           <div className="max-w-xl mx-auto px-6">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#b91c1c] mb-6">Votre projet</div>
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">Un projet de toiture ?<br /><span className="text-[#fca5a5]">Parlons-en.</span></h2>
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">Un projet de piscine ?<br /><span className="text-[#fca5a5]">Parlons-en.</span></h2>
             <p className="text-white/40 mb-10 text-sm leading-relaxed">Devis gratuit et sans engagement · Garantie décennale · Artisan Qualibat</p>
             <div className="flex flex-wrap gap-4 justify-center">
               <button className="px-10 py-4 bg-[#b91c1c] text-white font-bold text-[10px] uppercase tracking-[0.25em] hover:bg-[#dc2626] transition-colors">
@@ -382,14 +368,14 @@ export default function ToitPierrePage() {
           <div>
             <div className="flex items-center gap-3 mb-5">
               <div className="w-7 h-7 bg-[#374151] flex items-center justify-center"><Home className="w-3.5 h-3.5 text-white" /></div>
-              <span className="font-bold text-white text-sm">Toit & Pierre</span>
+              <span className="font-bold text-white text-sm">{fd?.businessName ?? "Toit & Pierre Piscines"}</span>
             </div>
-            <p className="text-white/25 text-sm leading-relaxed">Couvreur qualifié Qualibat · Pays de la Loire. Tuiles, ardoise, zinc, isolation toiture depuis 2004.</p>
+            <p className="text-white/25 text-sm leading-relaxed">Pisciniste qualifié · Pays de la Loire. Construction, rénovation et entretien de piscines depuis 2004.</p>
           </div>
           {[
-            { t: "Prestations", ls: ["Toiture neuve", "Réfection toiture", "Ardoise & tuile", "Zinguerie", "Isolation sarking", "Velux & lucarnes"] },
-            { t: "Matériaux", ls: ["Ardoise naturelle", "Tuile mécanique", "Zinc & cuivre", "Bac acier", "Membrane EPDM"] },
-            { t: "Contact", ls: ["02 40 12 34 56", "devis@toitpierre.fr", "Pays de la Loire", "Lundi-Vendredi 8h-18h", "Devis gratuit sous 48h"] },
+            { t: "Prestations", ls: ["Construction sur-mesure", "Rénovation de bassin", "Sécurité & couverture", "Recherche de fuite", "Local technique", "Entretien & hivernage"] },
+            { t: "Matériaux", ls: ["Béton projeté", "Coque polyester", "Bloc à bancher", "Liner armé", "Carrelage & mosaïque"] },
+            { t: "Contact", ls: ["02 40 12 34 56", "devis@toitpierre.fr", "Pays de la Loire", "Étude 3D offerte", "Devis gratuit sous 48h"] },
           ].map((col, i) => (
             <div key={i}>
               <h4 className="text-[9px] font-bold uppercase tracking-[0.3em] text-[#b91c1c] mb-5">{col.t}</h4>
@@ -400,8 +386,8 @@ export default function ToitPierrePage() {
           ))}
         </div>
         <div className="max-w-[1300px] mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between gap-4 text-[9px] font-bold uppercase tracking-widest text-white/15">
-          <span>© 2026 Toit & Pierre · SIRET 456 789 012 00067 · Qualibat 3111 · Assurance Décennale AXA</span>
-          <span className="text-[#b91c1c]/30">Couvreur certifié · Pays de la Loire</span>
+          <span>© 2026 {fd?.businessName ?? "Toit & Pierre Piscines"} · SIRET 456 789 012 00067 · Garantie Décennale · Assurance RC Pro</span>
+          <span className="text-[#b91c1c]/30">Pisciniste certifié · Pays de la Loire</span>
         </div>
       </footer>
     </div>

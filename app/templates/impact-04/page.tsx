@@ -16,6 +16,7 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 import { Progress } from "@/components/ui/progress"
 import { Separator } from "@/components/ui/separator"
 import { Menu, X, Clock, MapPin, Phone, Mail, Star, ChevronDown, ArrowRight, Leaf, Flame, Wine, Utensils, CalendarDays, Users, Camera, Award, Globe, CheckCircle2 } from "lucide-react"
+import { resolveList } from "@/lib/templates/resolveList"
 
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const ref = useRef(null)
@@ -81,7 +82,7 @@ const STATS = [
   { value: "240+", label: "Wine References", icon: <Leaf className="w-5 h-5" /> },
 ]
 
-const TESTIMONIALS = [
+const TESTIMONIALS_DEMO = [
   {
     name: "Pierre Manchon",
     role: "Michelin Inspector (Retired)",
@@ -174,7 +175,7 @@ const PRICING = [
   },
 ]
 
-const FAQS = [
+const FAQS_DEMO = [
   { q: "How far in advance should I book?", a: "We strongly recommend reserving at least three to four weeks in advance for Friday and Saturday evenings. Midweek tables are sometimes available with shorter notice. Private dining events require a minimum of two weeks." },
   { q: "Is there a dress code?", a: "We maintain a smart elegant dress code. Jackets are appreciated for gentlemen at dinner. We politely ask that sportswear and open footwear are not worn in the dining room." },
   { q: "Can you accommodate dietary requirements?", a: "Absolutely. Chef Beaumont and our team can adapt the tasting menu for vegetarian, vegan, gluten-free, and most allergy requirements when notified at time of booking. Please specify any requirements in your reservation." },
@@ -189,6 +190,7 @@ const FAQS = [
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+let bp: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
 function photo(i: number, fallback: string): string {
@@ -209,6 +211,7 @@ export default function LEtoileRestaurant() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -225,7 +228,7 @@ export default function LEtoileRestaurant() {
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;
     let n = 8;
-    const _photoArrays: any[] = [TESTIMONIALS];
+    const _photoArrays: any[] = [TESTIMONIALS_DEMO];
     _photoArrays.forEach((arr) => {
       if (!Array.isArray(arr)) return;
       arr.forEach((item) => {
@@ -240,11 +243,18 @@ export default function LEtoileRestaurant() {
     });
   });
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
-  // Real client menu (from the wizard) or template demo dishes.
-  const hasRealMenu = !!(c?.menuItems && c.menuItems.length > 0);
-  const menuData = hasRealMenu ? buildMenuRecord(c.menuItems) : MENU_ITEMS;
+  // Real client menu — the structured wizard step (businessProfile.menu)
+  // takes priority over the older free-text extraction (c?.menuItems),
+  // which takes priority over the template's demo dishes.
+  const hasRealMenu = !!(bp?.menu?.length || (c?.menuItems && c.menuItems.length > 0));
+  const menuData = bp?.menu?.length
+    ? buildMenuRecord(bp.menu)
+    : (c?.menuItems && c.menuItems.length > 0) ? buildMenuRecord(c.menuItems) : MENU_ITEMS;
+  const testimonials: any[] = resolveList(bp?.reputation?.featuredReviews, TESTIMONIALS_DEMO);
+  const faqs: any[] = resolveList(bp?.faq, FAQS_DEMO);
   const menuTabs = hasRealMenu
     ? Object.keys(menuData).map((cat, i) => {
         const TabIcon = MENU_TAB_ICONS[i % MENU_TAB_ICONS.length];
@@ -272,53 +282,6 @@ export default function LEtoileRestaurant() {
   };
 
   
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
 return (
     <div className="bg-[#0c0a08] text-[#f5efe6] min-h-dvh selection:bg-amber-700 selection:text-white" style={{ fontFamily: "'Georgia', 'Times New Roman', serif", overflowX: "clip" }}>
       <style>{`
@@ -629,30 +592,33 @@ return (
 
           <Carousel opts={{ align: "start", loop: true }} className="w-full">
             <CarouselContent className="-ml-4">
-              {TESTIMONIALS.map((t, i) => (
+              {testimonials.map((t: any, i: number) => {
+                const name = t.name ?? t.author ?? "";
+                return (
                 <CarouselItem key={i} className="pl-4 md:basis-1/2 lg:basis-1/3">
                   <Card className="bg-white/[0.03] border-white/5 h-full">
                     <CardContent className="p-8 flex flex-col h-full">
                       <div className="flex gap-1 mb-5">
-                        {[...Array(t.rating)].map((_, j) => <Star key={j} className="w-4 h-4 fill-amber-500 text-amber-500" />)}
+                        {[...Array(t.rating ?? 5)].map((_, j) => <Star key={j} className="w-4 h-4 fill-amber-500 text-amber-500" />)}
                       </div>
                       <p className="text-[#f5efe6]/65 font-light italic leading-relaxed text-sm mb-8 flex-1">&ldquo;{t.text}&rdquo;</p>
                       <Separator className="bg-white/5 mb-6" />
                       <div className="flex items-center gap-3">
                         <Avatar className="w-10 h-10">
-                          <AvatarImage src={t.avatar} alt={t.name} />
-                          <AvatarFallback className="bg-amber-700 text-white text-xs">{t.name[0]}</AvatarFallback>
+                          {t.avatar && <AvatarImage src={t.avatar} alt={name} />}
+                          <AvatarFallback className="bg-amber-700 text-white text-xs">{name[0]}</AvatarFallback>
                         </Avatar>
                         <div>
-                          <div className="text-sm font-sans font-semibold text-[#f5efe6]">{t.name}</div>
-                          <div className="text-[10px] font-sans text-[#f5efe6]/30">{t.role}</div>
+                          <div className="text-sm font-sans font-semibold text-[#f5efe6]">{name}</div>
+                          {(t.role ?? t.source) && <div className="text-[10px] font-sans text-[#f5efe6]/30">{t.role ?? t.source}</div>}
                         </div>
-                        <div className="ml-auto text-[9px] font-sans text-[#f5efe6]/20 uppercase tracking-wider">{t.date}</div>
+                        {t.date && <div className="ml-auto text-[9px] font-sans text-[#f5efe6]/20 uppercase tracking-wider">{t.date}</div>}
                       </div>
                     </CardContent>
                   </Card>
                 </CarouselItem>
-              ))}
+                );
+              })}
             </CarouselContent>
             <CarouselPrevious className="border-white/10 bg-transparent text-[#f5efe6] hover:bg-amber-700 hover:border-amber-700 transition-all duration-200 cursor-pointer -left-4" />
             <CarouselNext className="border-white/10 bg-transparent text-[#f5efe6] hover:bg-amber-700 hover:border-amber-700 transition-all duration-200 cursor-pointer -right-4" />
@@ -723,7 +689,7 @@ return (
           </Reveal>
 
           <Accordion type="single" collapsible className="space-y-0">
-            {FAQS.map((faq, i) => (
+            {faqs.map((faq: any, i: number) => (
               <AccordionItem key={i} value={`faq-${i}`} className="border-b border-white/5">
                 <AccordionTrigger className="text-left text-[#f5efe6]/80 hover:text-amber-400 transition-all duration-200 py-6 font-light text-base cursor-pointer hover:no-underline">
                   {faq.q}
@@ -887,9 +853,13 @@ return (
    SUB-PAGE: MENU
 ───────────────────────────────────────────────────────────────────────────── */
 function MenuPage() {
-  // Real client menu (from the wizard) or template demo dishes.
-  const hasRealMenu = !!(c?.menuItems && c.menuItems.length > 0);
-  const menuData = hasRealMenu ? buildMenuRecord(c.menuItems) : MENU_ITEMS;
+  // Real client menu — businessProfile.menu (structured wizard step) takes
+  // priority over the older free-text extraction (c?.menuItems), which
+  // takes priority over the template's demo dishes.
+  const hasRealMenu = !!(bp?.menu?.length || (c?.menuItems && c.menuItems.length > 0));
+  const menuData = bp?.menu?.length
+    ? buildMenuRecord(bp.menu)
+    : (c?.menuItems && c.menuItems.length > 0) ? buildMenuRecord(c.menuItems) : MENU_ITEMS;
   return (
     <div style={{ padding: '120px 24px 100px', maxWidth: 1000, margin: '0 auto', fontFamily: "'Georgia', serif" }}>
       <div style={{ textAlign: 'center', marginBottom: 80 }}>
