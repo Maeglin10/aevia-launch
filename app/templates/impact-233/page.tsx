@@ -4,6 +4,7 @@
 import React, {useRef, useState, useEffect} from 'react'
 import { motion, useScroll, useTransform, useInView } from "framer-motion"
 import { Phone, Mail, MapPin, Clock, Star, CheckCircle, ArrowRight, Zap } from "lucide-react"
+import { resolveList } from "@/lib/templates/resolveList"
 
 // Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
 // used to derive companion shades from the client's brand color.
@@ -30,7 +31,7 @@ const FONT_BODY = "'Source Sans 3', system-ui, sans-serif"
 
 const STATS = [{ value: "12 ans", label: "D'ostéopathie" }, { value: "800+", label: "Patients par an" }, { value: "1ère séance", label: "En 48h" }, { value: "95%", label: "Patients soulagés" }]
 
-const MOTIFS = [
+const MOTIFS_DEMO = [
   { titre: "Douleurs du dos & rachis", desc: "Lombalgie, dorsalgie, cervicalgie aiguë ou chronique. Traitement des blocages vertébraux, des tensions musculaires et des douleurs liées à la posture.", tag: "Dos" },
   { titre: "Maux de tête & migraines", desc: "Céphalées de tension, migraines, vertiges. L'ostéopathie agit sur les tensions cervicales et crâniennes qui en sont souvent la cause.", tag: "Tête" },
   { titre: "Troubles articulaires", desc: "Épaule, genou, cheville, poignet. Entorses, tendinites, blocages articulaires — prise en charge globale et non invasive.", tag: "Articulations" },
@@ -46,7 +47,7 @@ const APPROCHE = [
   "Collaboration avec votre médecin, kiné et autres professionnels de santé",
 ]
 
-const AVIS = [
+const AVIS_DEMO = [
   { texte: "Lombalgie chronique depuis 8 ans, invalidante certains jours. Après 3 séances d'ostéo, je peux travailler sans douleur. C'est la première fois depuis des années. Je m'en veux de ne pas être venu plus tôt.", auteur: "Marc B.", detail: "Lombalgie chronique · 3 séances" },
   { texte: "Mon bébé de 6 semaines pleurait constamment, refusait de tourner la tête à droite. Après une seule séance, il s'est endormi dans mes bras. Une magie que je ne comprends pas mais qui marche.", auteur: "Amélie F.", detail: "Nourrisson · Torticolis" },
   { texte: "Migraines hebdomadaires depuis la fac. Un ami m'a poussée à essayer. 6 séances sur 3 mois et je n'ai eu qu'une seule migraine depuis. Je suis bluffée.", auteur: "Laura M.", detail: "Migraines · Suivi 3 mois" },
@@ -62,6 +63,7 @@ function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: nu
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
@@ -83,6 +85,7 @@ export default function CabinetOsteopathiePage() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -96,10 +99,28 @@ export default function CabinetOsteopathiePage() {
 
   fd = session?.formData;
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, accent: brand };
   }
+
+  const MOTIFS = resolveList(
+    bp?.services?.map((s: any, i: number) => ({
+      titre: s.title ?? s.name,
+      desc: s.description ?? s.desc,
+      tag: s.price ?? MOTIFS_DEMO[i % MOTIFS_DEMO.length].tag,
+    })),
+    MOTIFS_DEMO
+  );
+  const AVIS = resolveList(
+    bp?.reputation?.featuredReviews?.map((r: any) => ({
+      texte: r.text ?? r.quote,
+      auteur: r.name ?? r.author,
+      detail: r.detail ?? r.context,
+    })),
+    AVIS_DEMO
+  );
 
   const heroRef = useRef<HTMLElement>(null)
   const [scrolled, setScrolled] = useState(false)
@@ -113,53 +134,7 @@ export default function CabinetOsteopathiePage() {
     return () => window.removeEventListener("scroll", h)
   }, []);
 
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);return (
+  return (
     <div style={{ background: C.bg, fontFamily: FONT_BODY, overflowX: "hidden" }}>
       <style jsx global>{`@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Source+Sans+3:wght@300;400;600;700&display=swap');
         /* mobile: stack 2-col grids to single column (added by responsive fix) */
@@ -266,7 +241,7 @@ export default function CabinetOsteopathiePage() {
         </div></Reveal>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: 18, maxWidth: 1200, margin: "0 auto" }}>
           {MOTIFS.map((s, i) => (
-            <Reveal key={s.titre} delay={i * 0.07}>
+            <Reveal key={s.titre ?? i} delay={i * 0.07}>
               <motion.div whileHover={{ y: -5, boxShadow: C.shadowLg }} style={{ background: C.white, borderRadius: 10, padding: "26px 24px", border: `1px solid ${C.border}`, boxShadow: C.shadow }}>
                 <span style={{ background: C.accentLight, color: C.accent, borderRadius: 20, padding: "4px 12px", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>{s.tag}</span>
                 <h3 style={{ fontFamily: FONT, fontSize: 20, color: C.text, margin: "14px 0 10px" }}>{s.titre}</h3>
@@ -302,13 +277,13 @@ export default function CabinetOsteopathiePage() {
         </div></Reveal>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: 18, maxWidth: 1100, margin: "0 auto" }}>
           {AVIS.map((a, i) => (
-            <Reveal key={a.auteur} delay={i * 0.1}>
+            <Reveal key={a.auteur ?? i} delay={i * 0.1}>
               <div style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 10, padding: "26px 24px" }}>
                 <div style={{ display: "flex", gap: 3, marginBottom: 12 }}>{[...Array(5)].map((_, j) => <Star key={j} size={13} fill="#7ec8e0" color="#7ec8e0" />)}</div>
                 <p style={{ fontFamily: FONT, fontSize: 15, fontStyle: "italic", color: "rgba(255,255,255,0.78)", lineHeight: 1.7, marginBottom: 18 }}>"{a.texte}"</p>
                 <div style={{ borderTop: "1px solid rgba(255,255,255,0.07)", paddingTop: 14 }}>
                   <div style={{ fontWeight: 600, color: "#fff", fontSize: 14 }}>{a.auteur}</div>
-                  <div style={{color: brand ?? '#7ec8e0', fontSize: 12, marginTop: 4 }}>{a.detail}</div>
+                  {a.detail && <div style={{color: brand ?? '#7ec8e0', fontSize: 12, marginTop: 4 }}>{a.detail}</div>}
                 </div>
               </div>
             </Reveal>
