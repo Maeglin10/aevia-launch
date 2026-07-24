@@ -7,12 +7,29 @@ import Image from "next/image"
 import Link from "next/link"
 import { ArrowRight, Building, Users, TrendingUp, Award } from "lucide-react"
 import { Reveal } from "./shared"
+import { resolveList } from "@/lib/templates/resolveList"
 
+// ─── Demo content — real data (businessProfile) replaces these wholesale via
+// resolveList when the client provided it; field access uses `??` chains so
+// the same JSX renders either shape.
+const PROGRAMMES_DEMO = [
+  { name: "Résidence Ithaque", loc: "Paris 16e", type: "Résidentiel premium", units: "28 appartements", delivery: "T2 2026", price: "À partir de 1,4 M€", img: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&q=85", badge: "Commercialisation" },
+  { name: "Le Domaine de Chambord", loc: "Neuilly-sur-Seine", type: "Résidentiel de prestige", units: "42 appartements", delivery: "T4 2026", price: "À partir de 920 k€", img: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&q=85", badge: "Pré-vente" },
+  { name: "Horizon Business Center", loc: "La Défense", type: "Bureaux class A", units: "8 500 m² de bureaux", delivery: "T1 2027", price: "Sur demande", img: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=85", badge: "Investisseurs" },
+];
+
+const EQUIPE_DEMO = [
+  { name: "Édouard Marchand", role: "Président Fondateur", bio: "35 ans d'immobilier. Fondateur de Blueprint en 1989, il a piloté plus de 2,4 Md€ de réalisations.", img: "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=600&q=80" },
+  { name: "Claire Fontaine", role: "DGA — Développement", bio: "15 ans dans le foncier grand Paris. En charge de l'acquisition et du montage de tous les programmes.", img: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=600&q=80" },
+  { name: "Thomas Renard", role: "Directeur Financier", bio: "Ex-Goldman Sachs Real Estate. Pilote la relation investisseurs et la structuration des fonds.", img: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=600&q=80" },
+  { name: "Sophie Leroux", role: "Directrice Commerciale", bio: "Spécialiste résidentiel de prestige. A lancé 18 programmes depuis 2015, avec un taux de vente VEFA de 94%.", img: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=600&q=80" },
+];
 
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+let bp: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
 function photo(i: number, fallback: string): string {
@@ -33,6 +50,7 @@ export default function BlueprintPage() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -46,60 +64,16 @@ export default function BlueprintPage() {
 
   fd = session?.formData;
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const heroRef = useRef<HTMLDivElement>(null)
   const { scrollYProgress: heroScroll } = useScroll({ target: heroRef, offset: ["start start", "end start"] })
   const heroY = useTransform(heroScroll, [0, 1], ["0%", "35%"])
 
-  
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
+  const programmes = resolveList(bp?.listings, PROGRAMMES_DEMO);
+  const equipe = resolveList(bp?.team, EQUIPE_DEMO);
+
 return (
     <div className="min-h-dvh bg-[#F7F5F2]">
       {/* Hero */}
@@ -215,26 +189,22 @@ return (
             </div>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              { name: "Résidence Ithaque", loc: "Paris 16e", type: "Résidentiel premium", units: "28 appartements", delivery: "T2 2026", price: "À partir de 1,4 M€", img: photo(1, "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&q=85"), badge: "Commercialisation" },
-              { name: "Le Domaine de Chambord", loc: "Neuilly-sur-Seine", type: "Résidentiel de prestige", units: "42 appartements", delivery: "T4 2026", price: "À partir de 920 k€", img: photo(2, "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&q=85"), badge: "Pré-vente" },
-              { name: "Horizon Business Center", loc: "La Défense", type: "Bureaux class A", units: "8 500 m² de bureaux", delivery: "T1 2027", price: "Sur demande", img: photo(3, "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=85"), badge: "Investisseurs" },
-            ].map((p, i) => (
-              <Reveal key={p.name} delay={i * 0.1}>
+            {programmes.map((p: any, i: number) => (
+              <Reveal key={p.title ?? p.name ?? i} delay={i * 0.1}>
                 <div className="group cursor-pointer">
                   <div className="relative aspect-video overflow-hidden mb-6">
-                    <Image src={p.img} alt={p.name} fill className="object-cover group-hover:scale-105 transition-transform duration-700" />
+                    <Image src={p.img ?? p.photoUrl ?? photo(1 + i, "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&q=85")} alt={p.title ?? p.name} fill className="object-cover group-hover:scale-105 transition-transform duration-700" />
                     <div className="absolute inset-0 bg-gradient-to-t from-[#1A1612]/60 to-transparent" />
-                    <span className="absolute top-4 left-4 px-3 py-1 bg-[#C9A86C] text-[#1A1612] text-[9px] uppercase tracking-widest font-medium">{p.badge}</span>
+                    {(p.badge ?? p.status) && <span className="absolute top-4 left-4 px-3 py-1 bg-[#C9A86C] text-[#1A1612] text-[9px] uppercase tracking-widest font-medium">{p.badge ?? p.status}</span>}
                   </div>
                   <div>
-                    <p className="text-xs text-[#C9A86C] uppercase tracking-widest mb-2">{p.loc} · {p.type}</p>
-                    <h3 className="text-xl font-normal mb-3 group-hover:text-[#C9A86C] transition-colors" style={{ fontFamily: "'Libre Baskerville', serif" }}>{p.name}</h3>
+                    {(p.loc ?? p.city ?? p.type) && <p className="text-xs text-[#C9A86C] uppercase tracking-widest mb-2">{[p.loc ?? p.city, p.type].filter(Boolean).join(" · ")}</p>}
+                    <h3 className="text-xl font-normal mb-3 group-hover:text-[#C9A86C] transition-colors" style={{ fontFamily: "'Libre Baskerville', serif" }}>{p.title ?? p.name}</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs text-[#8A7860] mb-4">
-                      <span>{p.units}</span>
-                      <span>Livraison {p.delivery}</span>
+                      {(p.units ?? p.rooms) && <span>{p.units ?? `${p.rooms} pièces`}{p.surface ? ` · ${p.surface} m²` : ""}</span>}
+                      {p.delivery && <span>Livraison {p.delivery}</span>}
                     </div>
-                    <p className="font-medium text-[#1A1612] text-sm">{p.price}</p>
+                    {p.price && <p className="font-medium text-[#1A1612] text-sm">{p.price}</p>}
                   </div>
                 </div>
               </Reveal>
@@ -253,20 +223,17 @@ return (
             </h2>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            {[
-              { name: "Édouard Marchand", role: "Président Fondateur", bio: "35 ans d'immobilier. Fondateur de Blueprint en 1989, il a piloté plus de 2,4 Md€ de réalisations.", img: photo(4, "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=600&q=80") },
-              { name: "Claire Fontaine", role: "DGA — Développement", bio: "15 ans dans le foncier grand Paris. En charge de l'acquisition et du montage de tous les programmes.", img: photo(5, "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=600&q=80") },
-              { name: "Thomas Renard", role: "Directeur Financier", bio: "Ex-Goldman Sachs Real Estate. Pilote la relation investisseurs et la structuration des fonds.", img: photo(6, "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=600&q=80") },
-              { name: "Sophie Leroux", role: "Directrice Commerciale", bio: "Spécialiste résidentiel de prestige. A lancé 18 programmes depuis 2015, avec un taux de vente VEFA de 94%.", img: photo(7, "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=600&q=80") },
-            ].map((m, i) => (
-              <Reveal key={m.name} delay={i * 0.1}>
+            {equipe.map((m: any, i: number) => (
+              <Reveal key={m.name ?? i} delay={i * 0.1}>
                 <div>
-                  <div className="relative aspect-[4/5] overflow-hidden mb-6 grayscale hover:grayscale-0 transition-all duration-700">
-                    <Image src={m.img} alt={m.name} fill className="object-cover" />
-                  </div>
+                  {(m.img ?? m.photoUrl) && (
+                    <div className="relative aspect-[4/5] overflow-hidden mb-6 grayscale hover:grayscale-0 transition-all duration-700">
+                      <Image src={m.img ?? m.photoUrl} alt={m.name} fill className="object-cover" />
+                    </div>
+                  )}
                   <p className="text-xs tracking-widest text-[#C9A86C] uppercase mb-2">{m.role}</p>
                   <h3 className="font-normal text-lg mb-3" style={{ fontFamily: "'Libre Baskerville', serif" }}>{m.name}</h3>
-                  <p className="text-xs text-[#6A6058] leading-relaxed">{m.bio}</p>
+                  {m.bio && <p className="text-xs text-[#6A6058] leading-relaxed">{m.bio}</p>}
                 </div>
               </Reveal>
             ))}
