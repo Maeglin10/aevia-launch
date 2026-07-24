@@ -6,6 +6,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { Heart, Phone, Star, MapPin, Clock, CheckCircle, Stethoscope, Scissors, Dog, Cat, Calendar, Shield, Menu } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import { resolveList } from "@/lib/templates/resolveList"
 
 /* ═══════════════════════════════════════════════════════════════════════════
    CLINIQUE DU BOIS VERT — Vétérinaire (Toulouse)
@@ -25,7 +26,7 @@ function Reveal({ children, delay = 0, y = 20 }: { children: React.ReactNode; de
   )
 }
 
-const SOINS = [
+const SOINS_DEMO = [
   { icon: Stethoscope, title: "Consultations & bilans", desc: "Consultations de routine, bilans de santé annuels, suivi des maladies chroniques. Écoute, examen clinique approfondi, diagnostic précis." },
   { icon: Shield, title: "Vaccinations & prévention", desc: "Protocoles vaccinaux chats et chiens selon les recommandations WSAVA. Antiparasitaires, rappels, carnets de santé à jour." },
   { icon: Heart, title: "Chirurgie", desc: "Stérilisation, chirurgie des tissus mous, orthopédie. Bloc opératoire équipé, monitoring anesthésique, réveil accompagné." },
@@ -38,6 +39,7 @@ const SOINS = [
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
@@ -59,6 +61,7 @@ export default function CliniqueBoisVertPage() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -72,7 +75,31 @@ export default function CliniqueBoisVertPage() {
 
   fd = session?.formData;
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
+
+  // Client services drive the "Nos soins" grid; demo icons cycle through.
+  const SOINS = resolveList(
+    bp?.services?.map((s: any, i: number) => ({
+      icon: SOINS_DEMO[i % SOINS_DEMO.length].icon,
+      title: s.title ?? s.name,
+      desc: s.description ?? s.desc,
+    })),
+    SOINS_DEMO
+  );
+  // Client reviews drive the testimonials grid; demo copy is the fallback.
+  const AVIS = resolveList(
+    bp?.reputation?.featuredReviews?.map((r: any) => ({
+      q: r.text ?? r.quote,
+      n: r.name ?? r.author,
+      l: r.location ?? r.context ?? "",
+    })),
+    [
+      { q: "Luna a été opérée en urgence un dimanche matin. L'équipe était calme, rassurante, hyper compétente. Aujourd'hui elle galope comme avant. Merci du fond du cœur.", n: "Camille V.", l: "Toulouse · Luna, labrador" },
+      { q: "Mon chat de 14 ans a une maladie rénale chronique. Le Dr. Martin le suit depuis 3 ans avec une patience et une expertise remarquables. On ne changerait pour rien.", n: "Élisabeth M.", l: "Ramonville · Sushi, chat persan" },
+      { q: "Super clinique, accueil top, salle d'attente propre avec espaces chats/chiens séparés. Et nos deux teckels adorent le Dr. Bouchard (ce qui n'est pas commun pour des chiens de véto).", n: "Thomas & Julie K.", l: "Colomiers (31)" },
+    ]
+  );
 
   const heroRef = useRef(null)
   const [scrolled, setScrolled] = useState(false)
@@ -87,53 +114,7 @@ export default function CliniqueBoisVertPage() {
     return () => window.removeEventListener("scroll", h)
   }, []);
 
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);return (
+  return (
     <div className="bg-[#fdfaf6] text-[#2d2318] overflow-x-hidden" style={{ fontFamily: "'Source Sans 3', 'Inter', system-ui, sans-serif" }}>
       {/* ── NAVBAR ── */}
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#fdfaf6]/98 backdrop-blur-xl py-3 shadow-sm border-b border-[#3a7d44]/10" : "bg-[#fdfaf6]/95 backdrop-blur-md py-5 border-b border-[#3a7d44]/5"}`}>
@@ -300,11 +281,7 @@ export default function CliniqueBoisVertPage() {
             <h2 className="text-4xl font-bold text-[#2d2318]" style={{ fontFamily: "'Lora', serif" }}>Nos patients <span className="text-[#3a7d44]">& leurs familles.</span></h2>
           </div></Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-            {[
-              { q: "Luna a été opérée en urgence un dimanche matin. L'équipe était calme, rassurante, hyper compétente. Aujourd'hui elle galope comme avant. Merci du fond du cœur.", n: "Camille V.", l: "Toulouse · Luna, labrador" },
-              { q: "Mon chat de 14 ans a une maladie rénale chronique. Le Dr. Martin le suit depuis 3 ans avec une patience et une expertise remarquables. On ne changerait pour rien.", n: "Élisabeth M.", l: "Ramonville · Sushi, chat persan" },
-              { q: "Super clinique, accueil top, salle d'attente propre avec espaces chats/chiens séparés. Et nos deux teckels adorent le Dr. Bouchard (ce qui n'est pas commun pour des chiens de véto).", n: "Thomas & Julie K.", l: "Colomiers (31)" },
-            ].map((t, i) => (
+            {AVIS.map((t: any, i: number) => (
               <Reveal key={i} delay={i * 0.1}>
                 <div className="p-8 rounded-2xl bg-[#fdfaf6] border border-[#e8f5eb] h-full flex flex-col">
                   <div className="flex gap-1 mb-5">

@@ -19,17 +19,19 @@ import {
   SectionReveal,
   FAQItem,
   marqueeArtists,
-  homeStudios,
+  homeStudios as homeStudios_DEMO,
   gear,
-  testimonials,
+  testimonials as testimonials_DEMO,
   packages,
-  faqs,
+  faqs as faqs_DEMO,
 } from "./shared";
+import { resolveList } from "@/lib/templates/resolveList";
 
 
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 let brand: any = null;
 export default function EchoChamberPage() {
   const [session, setSession] = useState<{
@@ -46,6 +48,7 @@ export default function EchoChamberPage() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -59,7 +62,35 @@ export default function EchoChamberPage() {
 
   fd = session?.formData;
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
+
+  // Client service offerings drive the studios showcase; demo colour/size/features
+  // cycle through so each tab stays visually complete.
+  const homeStudios = resolveList(
+    bp?.services?.map((s: any, i: number) => ({
+      name: s.title ?? s.name ?? homeStudios_DEMO[i % homeStudios_DEMO.length].name,
+      size: s.price ?? homeStudios_DEMO[i % homeStudios_DEMO.length].size,
+      desc: s.description ?? s.desc ?? homeStudios_DEMO[i % homeStudios_DEMO.length].desc,
+      features: homeStudios_DEMO[i % homeStudios_DEMO.length].features,
+      color: homeStudios_DEMO[i % homeStudios_DEMO.length].color,
+    })),
+    homeStudios_DEMO
+  );
+  const testimonials = resolveList(
+    bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+      name: r.name ?? r.author,
+      role: r.location ?? r.role ?? testimonials_DEMO[i % testimonials_DEMO.length].role,
+      text: r.text ?? r.quote,
+      rating: r.stars ?? r.rating ?? 5,
+      avatar: (r.name ?? r.author ?? "?").trim().slice(0, 2).toUpperCase(),
+    })),
+    testimonials_DEMO
+  );
+  const faqs = resolveList(
+    bp?.faq?.map((f: any) => ({ q: f.q ?? f.question, a: f.a ?? f.answer })),
+    faqs_DEMO
+  );
 
   const [activeStudio, setActiveStudio] = useState(0);
   const heroRef = useRef(null);
@@ -68,55 +99,7 @@ export default function EchoChamberPage() {
   const heroY = useTransform(scrollYProgress, [0, 1], [0, 140]);
   const heroOpacity = useTransform(scrollYProgress, [0, 0.72], [1, 0]);
 
-  
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
-return (
+  return (
     <div style={{ fontFamily: C.bodyFont, backgroundColor: C.bg, color: C.text, overflowX: "clip" }}>
       <style>{`
         /* mobile: stack 2-col grids to single column (added by responsive fix) */

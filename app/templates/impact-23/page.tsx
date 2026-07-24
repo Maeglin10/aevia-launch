@@ -5,6 +5,7 @@ import { motion, useScroll, useTransform, AnimatePresence, useInView } from "fra
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { Menu, X, ArrowRight, Film, Camera, ChevronRight, Award, Globe, Users, Play, Clock, Clapperboard, Sparkles, MonitorPlay, PenLine, Video, Layers, Star, MapPin, Mail } from "lucide-react";
+import { resolveList } from "@/lib/templates/resolveList";
 
 type ActivePage = "home" | "films" | "services" | "propos" | "legal";
 
@@ -28,7 +29,7 @@ const Reveal = ({ children, className = "", delay = 0 }: { children: React.React
   );
 };
 
-const films = [
+const films_DEMO = [
   { title: "Les Heures Perdues", type: "Long-métrage", year: "2025", festival: "Cannes — Sélection Officielle", src: "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=600&auto=format&fit=crop" },
   { title: "Poussière de Lumière", type: "Court-métrage", year: "2025", festival: "Sundance — Grand Prix", src: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=600&q=80" },
   { title: "L'Écho du Silence", type: "Documentaire", year: "2024", festival: "IDFA — Best Documentary", src: "https://images.unsplash.com/photo-1485846234645-a62644f84728?w=600&q=80" },
@@ -38,7 +39,7 @@ const films = [
 
 const categories = ["Tous", "Long-métrage", "Court-métrage", "Documentaire", "Série"];
 
-const services = [
+const services_DEMO = [
   { title: "Production de films", desc: "De l'écriture de scénario à la post-production. Un accompagnement sur mesure pour chaque projet." },
   { title: "Publicités & Brand Content", desc: "Films de marque, spots TV, content digital. Narration cinématographique au service de votre identité." },
   { title: "Documentaires", desc: "Enquêtes, portraits, films de société. La vérité racontée avec la force du cinéma." },
@@ -114,6 +115,7 @@ const filmsCatalogue = [
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
@@ -135,6 +137,7 @@ export default function StudioPelikanPage() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -151,7 +154,7 @@ export default function StudioPelikanPage() {
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;
     let n = 6;
-    const _photoArrays: any[] = [films, filmsCatalogue];
+    const _photoArrays: any[] = [films_DEMO, filmsCatalogue];
     _photoArrays.forEach((arr) => {
       if (!Array.isArray(arr)) return;
       arr.forEach((item) => {
@@ -166,7 +169,29 @@ export default function StudioPelikanPage() {
     });
   });
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
+
+  // Real client services (from the brief) replace the demo list when present.
+  const services = resolveList(
+    bp?.services?.map((s: any, i: number) => ({
+      title: s.title ?? s.name,
+      desc: s.description ?? s.desc,
+    })),
+    services_DEMO
+  );
+  // Client project/work gallery drives the filmography grid; demo film metadata
+  // (type/year/festival) is cycled to keep the cards visually complete.
+  const films = resolveList(
+    bp?.beforeAfter?.map((b: any, i: number) => ({
+      title: b.caption ?? films_DEMO[i % films_DEMO.length].title,
+      type: films_DEMO[i % films_DEMO.length].type,
+      year: films_DEMO[i % films_DEMO.length].year,
+      festival: films_DEMO[i % films_DEMO.length].festival,
+      src: b.afterUrl ?? b.beforeUrl ?? films_DEMO[i % films_DEMO.length].src,
+    })),
+    films_DEMO
+  );
 
   useFonts();
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -196,55 +221,7 @@ export default function StudioPelikanPage() {
 
   const filtered = activeFilter === "Tous" ? films : films.filter(f => f.type === activeFilter);
 
-  
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
-return (
+  return (
     <div className="min-h-dvh bg-[#100D08]" style={{ fontFamily: "'Raleway', sans-serif" }}>
       <motion.div className="fixed top-0 left-0 right-0 h-[2px] bg-[#C9A05A] origin-left z-[60]" style={{ scaleX: scrollYProgress }} />
 

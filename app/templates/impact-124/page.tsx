@@ -15,6 +15,7 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 import { Progress } from "@/components/ui/progress"
 import { Separator } from "@/components/ui/separator"
 import { Menu, X, ArrowRight, ArrowUpRight, Play, Box, Layers, Cpu, Zap, Maximize, Activity, Code, Orbit, Disc3, Sparkles } from "lucide-react"
+import { resolveList } from "@/lib/templates/resolveList"
 
 // ─── UTILS & ANIMATION COMPONENTS ─────────────────────────────────────────────
 
@@ -115,6 +116,7 @@ const MANIFEST = {
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 let brand: any = null;
 export default function MorphStudioPage() {
   const [session, setSession] = useState<{
@@ -131,6 +133,7 @@ export default function MorphStudioPage() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -162,7 +165,33 @@ export default function MorphStudioPage() {
     });
   });
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
+
+  // Client services drive the capability cards; demo id/icon cycle through.
+  const SERVICES = resolveList(
+    bp?.services?.map((s: any, i: number) => ({
+      id: MANIFEST.services[i % MANIFEST.services.length].id,
+      title: s.title ?? s.name,
+      icon: MANIFEST.services[i % MANIFEST.services.length].icon,
+      desc: s.description ?? s.desc,
+    })),
+    MANIFEST.services
+  );
+  // Client project gallery drives the case-studies grid; demo tech/img cycle.
+  const PROJECTS = resolveList(
+    bp?.beforeAfter?.map((b: any, i: number) => ({
+      title: b.caption ?? MANIFEST.projects[i % MANIFEST.projects.length].title,
+      tech: MANIFEST.projects[i % MANIFEST.projects.length].tech,
+      desc: MANIFEST.projects[i % MANIFEST.projects.length].desc,
+      img: b.afterUrl ?? b.beforeUrl ?? MANIFEST.projects[i % MANIFEST.projects.length].img,
+    })),
+    MANIFEST.projects
+  );
+  const FAQS = resolveList(
+    bp?.faq?.map((f: any) => ({ q: f.q ?? f.question, a: f.a ?? f.answer })),
+    MANIFEST.faq
+  );
 
   const [scrolled, setScrolled] = useState(false)
   const { scrollYProgress } = useScroll()
@@ -176,53 +205,7 @@ export default function MorphStudioPage() {
     return () => window.removeEventListener("scroll", handleScroll)
   }, []);
 
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);return (
+  return (
     <div className="bg-[#050505] text-[#e0e0e0] font-mono min-h-dvh selection:bg-cyan-500/30 selection:text-cyan-200 overflow-x-hidden">
       
       <GridBackground />
@@ -364,7 +347,7 @@ export default function MorphStudioPage() {
             </Reveal>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {MANIFEST.services.map((service, i) => (
+              {SERVICES.map((service, i) => (
                 <Reveal key={service.id} delay={i * 0.1}>
                   <GlassCard className="group">
                     <div className="flex justify-between items-start mb-16">
@@ -398,7 +381,7 @@ export default function MorphStudioPage() {
             </Reveal>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16">
-              {MANIFEST.projects.map((project, i) => (
+              {PROJECTS.map((project, i) => (
                 <Reveal key={i} delay={i * 0.1}>
                   <Link href="#realisations" className="group block">
                     <div className="relative aspect-video rounded-3xl overflow-hidden mb-8 border border-white/10 bg-[#111]">
@@ -496,7 +479,7 @@ export default function MorphStudioPage() {
           
           <Reveal delay={0.2}>
             <Accordion type="single" collapsible className="w-full space-y-4">
-              {MANIFEST.faq.map((item, i) => (
+              {FAQS.map((item, i) => (
                 <AccordionItem key={i} value={`item-${i}`} className="border border-white/10 bg-black/40 backdrop-blur-sm px-6 rounded-2xl">
                   <AccordionTrigger className="text-sm font-bold uppercase tracking-widest py-6 hover:text-cyan-400 hover:no-underline text-left">
                     {item.q}
