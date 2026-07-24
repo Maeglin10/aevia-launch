@@ -19,6 +19,7 @@ import {
   Scissors,
   Star,
 } from 'lucide-react';
+import { resolveList } from "@/lib/templates/resolveList";
 
 // Hoisted above the design tokens: several templates read `brand` in a
 // module-level const — declaring it lower caused a TDZ ReferenceError (500).
@@ -871,7 +872,7 @@ type Service = {
   detail: string;
 };
 
-const SERVICES: Service[] = [
+const SERVICES_DEMO: Service[] = [
   {
     icon: <Scissors size={32} strokeWidth={1.3} color={C.gold} />,
     titre: 'Robe sur mesure',
@@ -1037,7 +1038,15 @@ function ServicesSection() {
         </Reveal>
       </div>
       <div style={grid}>
-        {SERVICES.map((svc, i) => (
+        {resolveList(
+          bp?.services?.map((s: any, i: number) => ({
+            icon: SERVICES_DEMO[i % SERVICES_DEMO.length].icon,
+            titre: s.title ?? s.name,
+            sous: s.price ?? SERVICES_DEMO[i % SERVICES_DEMO.length].sous,
+            detail: s.description ?? s.desc ?? SERVICES_DEMO[i % SERVICES_DEMO.length].detail,
+          })),
+          SERVICES_DEMO
+        ).map((svc: any, i: number) => (
           <ServiceCard key={svc.titre} svc={svc} i={i} />
         ))}
       </div>
@@ -1256,7 +1265,7 @@ type Testimonial = {
   stars: number;
 };
 
-const TESTIMONIALS: Testimonial[] = [
+const TESTIMONIALS_DEMO: Testimonial[] = [
   {
     quote:
       "Maison Céleste a réalisé ma robe de mariée. Du premier essayage à la livraison, chaque détail a été pensé avec une attention que je n'avais jamais rencontrée. Je n'ai jamais été aussi belle de ma vie.",
@@ -1409,7 +1418,16 @@ function TestimonialsSection() {
         </Reveal>
       </div>
       <div style={grid}>
-        {TESTIMONIALS.map((t, i) => (
+        {resolveList(
+          bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+            quote: r.text ?? r.quote,
+            name: r.name ?? r.author,
+            role: r.location ?? r.role ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].role,
+            occasion: TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].occasion,
+            stars: r.stars ?? r.rating ?? 5,
+          })),
+          TESTIMONIALS_DEMO
+        ).map((t: any, i: number) => (
           <TestimonialCard key={t.name} t={t} i={i} />
         ))}
       </div>
@@ -1425,12 +1443,12 @@ function TestimonialsSection() {
 /* ════════════════════════════════════════════════════════════════════════════
    6 · AppointmentFormSection — Formulaire de prise de rendez-vous
    ════════════════════════════════════════════════════════════════════════════ */
-const PRESTATIONS = [
+const PRESTATIONS_DEMO = [
   'Robe sur mesure',
   'Costume homme',
   'Retouche',
   'Autre',
-] as const;
+];
 
 function AppointmentFormSection() {
   const [prenom, setPrenom] = useState('');
@@ -1654,7 +1672,10 @@ function AppointmentFormSection() {
                   <option value="" style={{ color: '#000' }}>
                     Choisir une prestation…
                   </option>
-                  {PRESTATIONS.map((p) => (
+                  {resolveList(
+                    bp?.services?.map((s: any) => s.title ?? s.name),
+                    PRESTATIONS_DEMO
+                  ).map((p: any) => (
                     <option key={p} value={p} style={{ color: '#000' }}>
                       {p}
                     </option>
@@ -2064,7 +2085,7 @@ type Creation = {
   description: string;
 };
 
-const CREATIONS: Creation[] = [
+const CREATIONS_DEMO: Creation[] = [
   {
     img: PHOTO.mode,
     alt: 'Robe cocktail signature Maison Céleste',
@@ -2278,7 +2299,16 @@ function CreationsSection() {
         </Reveal>
       </div>
       <div style={grid}>
-        {CREATIONS.map((c, i) => (
+        {resolveList(
+          bp?.beforeAfter?.map((b: any, i: number) => ({
+            img: b.afterUrl ?? b.beforeUrl ?? CREATIONS_DEMO[i % CREATIONS_DEMO.length].img,
+            alt: b.caption ?? CREATIONS_DEMO[i % CREATIONS_DEMO.length].alt,
+            titre: b.caption ?? CREATIONS_DEMO[i % CREATIONS_DEMO.length].titre,
+            sous: CREATIONS_DEMO[i % CREATIONS_DEMO.length].sous,
+            description: CREATIONS_DEMO[i % CREATIONS_DEMO.length].description,
+          })),
+          CREATIONS_DEMO
+        ).map((c: any, i: number) => (
           <CreationCard key={c.titre} c={c} i={i} />
         ))}
       </div>
@@ -2515,6 +2545,7 @@ function FooterSection() {
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 export default function Impact281Page() {
   const [session, setSession] = useState<{
     formData?: {
@@ -2530,6 +2561,7 @@ export default function Impact281Page() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -2561,6 +2593,7 @@ export default function Impact281Page() {
     });
   });
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, gold: brand, goldLight: shadeColor(brand, 25) };
@@ -2575,55 +2608,7 @@ export default function Impact281Page() {
     MozOsxFontSmoothing: 'grayscale',
   };
 
-  
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
-return (
+  return (
     <main id="hero" style={root} suppressHydrationWarning>
       {/* Styles globaux responsifs — préfixés r281- */}
       <style>{`

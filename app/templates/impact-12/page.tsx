@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Menu, X, ArrowRight, ChevronRight, ShoppingBag } from "lucide-react";
+import { resolveList } from "@/lib/templates/resolveList";
 
 const Instagram = ({ className = "w-4 h-4" }: { className?: string }) => (
   <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5}>
@@ -58,6 +59,7 @@ const looks = [
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
@@ -79,6 +81,7 @@ export default function NoirCouturePage() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -110,6 +113,7 @@ export default function NoirCouturePage() {
     });
   });
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   useFonts();
@@ -133,55 +137,8 @@ export default function NoirCouturePage() {
   const heroY = useTransform(heroScroll, [0, 1], ["0%", "20%"]);
   const heroOpacity = useTransform(heroScroll, [0, 0.8], [1, 0]);
 
-  
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
-return (
+
+  return (
     <div className="min-h-dvh bg-white" style={{ fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif", overflowX: "clip" }}>
       <motion.div className="fixed top-0 left-0 right-0 h-[1px] bg-black origin-left z-[60]" style={{ scaleX: scrollYProgress }} />
 
@@ -348,7 +305,14 @@ return (
                 </div>
               </Reveal>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                {editorials.map((e, i) => (
+                {resolveList(
+                  bp?.beforeAfter?.map((b: any, i: number) => ({
+                    title: b.caption ?? editorials[i % editorials.length].title,
+                    category: editorials[i % editorials.length].category,
+                    src: b.afterUrl ?? b.beforeUrl ?? editorials[i % editorials.length].src,
+                  })),
+                  editorials
+                ).map((e: any, i: number) => (
                   <Reveal key={e.title} delay={i * 0.08}>
                     <div onClick={() => goTo("editorial")} className="relative overflow-hidden group cursor-pointer" style={{ aspectRatio: "3/4" }}>
                       <Image src={e.src} alt={e.title} fill className="object-cover group-hover:scale-105 transition-transform duration-700 filter grayscale group-hover:grayscale-0" />
@@ -374,7 +338,14 @@ return (
                 </div>
               </Reveal>
               <div className="grid md:grid-cols-3 gap-6">
-                {looks.map((look, i) => (
+                {resolveList(
+                  bp?.services?.map((s: any, i: number) => ({
+                    name: s.title ?? s.name,
+                    price: s.price ?? looks[i % looks.length].price,
+                    src: looks[i % looks.length].src,
+                  })),
+                  looks
+                ).map((look: any, i: number) => (
                   <Reveal key={look.name} delay={i * 0.1}>
                     <div className="group cursor-pointer">
                       <div className="relative overflow-hidden mb-4" style={{ aspectRatio: "3/4" }}>
@@ -571,12 +542,21 @@ function CollectionsSubPage({ goTo, activeCol, setActiveCol }: { goTo: (p: any) 
 }
 
 function EditorialSubPage() {
-  const editorialItems = [
+  const editorialItems_DEMO = [
     { title: "La nuit appartient aux audacieuses", category: "Editorial / SS 2026", src: photo(4, "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=800&q=80"), text: "Une campagne photographiée à minuit dans les rues désertes du Quartier Latin. Une célébration de la silhouette structurée sous la lumière artificielle des lampadaires parisiens." },
     { title: "Silences et structures", category: "Fashion / AW 2025", src: photo(5, "https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=800&q=80"), text: "L'art de sculpter le vide. Ce projet explore la tension entre le corps et le tissu rigide, créant des drapés volumineux et géométriques." },
     { title: "L'héritage revisité", category: "Interview", src: photo(6, "https://images.unsplash.com/photo-1509631179647-0177331693ae?w=800&q=80"), text: "Entretien exclusif avec notre directeur artistique sur l'importance du noir absolu dans la garde-robe moderne et le refus des tendances éphémères." },
     { title: "Noir absolu, texture absolue", category: "Campaign", src: photo(7, "https://images.unsplash.com/photo-1534126416832-a88fdf2911c2?w=800&q=80"), text: "Macro-photographie de matières premières : laines bouillies, cuirs de veau pleine fleur patinés, et organza de soie brut. La matière comme origine du dessin." },
   ];
+  const editorialItems = resolveList(
+    bp?.beforeAfter?.map((b: any, i: number) => ({
+      title: b.caption ?? editorialItems_DEMO[i % editorialItems_DEMO.length].title,
+      category: editorialItems_DEMO[i % editorialItems_DEMO.length].category,
+      src: b.afterUrl ?? b.beforeUrl ?? editorialItems_DEMO[i % editorialItems_DEMO.length].src,
+      text: editorialItems_DEMO[i % editorialItems_DEMO.length].text,
+    })),
+    editorialItems_DEMO
+  );
 
   return (
     <section className="py-32 px-6 bg-white text-black min-h-dvh">
@@ -589,7 +569,7 @@ function EditorialSubPage() {
         </Reveal>
 
         <div className="space-y-24">
-          {editorialItems.map((item, idx) => (
+          {editorialItems.map((item: any, idx: number) => (
             <Reveal key={item.title} delay={idx * 0.1}>
               <div className={`grid md:grid-cols-12 gap-12 items-center ${idx % 2 === 1 ? "md:flex-row-reverse" : ""}`}>
                 <div className={`md:col-span-7 relative h-[500px] overflow-hidden ${idx % 2 === 1 ? "md:order-last" : ""}`}>
@@ -616,7 +596,7 @@ function EditorialSubPage() {
 }
 
 function BoutiqueSubPage({ cartCount, setCartCount }: { cartCount: number; setCartCount: React.Dispatch<React.SetStateAction<number>> }) {
-  const shopItems = [
+  const shopItems_DEMO = [
     { name: "Manteau Asymétrique", price: "2 400€", category: "Prêt-à-porter", src: photo(8, "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=600&q=80"), desc: "Coupe décontractée asymétrique en laine bouillie italienne. Entièrement doublé soie." },
     { name: "Robe Colonne", price: "1 800€", category: "Prêt-à-porter", src: photo(9, "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=600&q=80"), desc: "Robe longue en crêpe de soie noir mat. Dos nu architectural et fente latérale." },
     { name: "Tailleur Structuré", price: "3 200€", category: "Prêt-à-porter", src: photo(10, "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=600&q=80"), desc: "Veste épaulée à double boutonnage et pantalon droit assorti en laine vierge." },
@@ -624,9 +604,19 @@ function BoutiqueSubPage({ cartCount, setCartCount }: { cartCount: number; setCa
     { name: "Veste Couture Déstructurée", price: "2 900€", category: "Prêt-à-porter", src: photo(12, "https://images.unsplash.com/photo-1534126416832-a88fdf2911c2?w=600&q=80"), desc: "Veste d'atelier déstructurée en cachemire mélangé noir charbon." },
     { name: "Pantalon Fluide Noir", price: "950€", category: "Prêt-à-porter", src: photo(13, "https://images.unsplash.com/photo-1509631179647-0177331693ae?w=600&q=80"), desc: "Pantalon ample fluide en satin de soie. Ceinture ajustable intégrée." }
   ];
+  const shopItems = resolveList(
+    bp?.services?.map((s: any, i: number) => ({
+      name: s.title ?? s.name,
+      price: s.price ?? shopItems_DEMO[i % shopItems_DEMO.length].price,
+      category: shopItems_DEMO[i % shopItems_DEMO.length].category,
+      src: shopItems_DEMO[i % shopItems_DEMO.length].src,
+      desc: s.description ?? s.desc ?? shopItems_DEMO[i % shopItems_DEMO.length].desc,
+    })),
+    shopItems_DEMO
+  );
 
   const [filter, setFilter] = useState("Tout");
-  const filteredItems = filter === "Tout" ? shopItems : shopItems.filter(item => item.category === filter);
+  const filteredItems = filter === "Tout" ? shopItems : shopItems.filter((item: any) => item.category === filter);
   const [addedItem, setAddedItem] = useState<string | null>(null);
 
   const handleAddToCart = (name: string) => {
@@ -671,7 +661,7 @@ function BoutiqueSubPage({ cartCount, setCartCount }: { cartCount: number; setCa
         )}
 
         <div className="grid md:grid-cols-3 gap-8">
-          {filteredItems.map((look, i) => (
+          {filteredItems.map((look: any, i: number) => (
             <Reveal key={look.name} delay={i * 0.08}>
               <div className="group cursor-pointer">
                 <div className="relative overflow-hidden mb-4" style={{ aspectRatio: "3/4" }}>

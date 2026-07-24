@@ -11,6 +11,7 @@ import {
   useMotionValue,
 } from 'framer-motion';
 import { ArrowRight, ChevronDown, Scissors } from 'lucide-react';
+import { resolveList } from "@/lib/templates/resolveList";
 
 /* ════════════════════════════════════════════════════════════════════════════
    L'ATELIER SOIE — Couture & Broderie sur-mesure · Lyon 2e
@@ -104,7 +105,7 @@ interface CraftStep {
    Données
    ════════════════════════════════════════════════════════════════════════════ */
 
-const CREATIONS: Creation[] = [
+const CREATIONS_DEMO: Creation[] = [
   {
     index: 'I',
     label: 'SOIE & ORGANZA',
@@ -128,7 +129,7 @@ const CREATIONS: Creation[] = [
   },
 ];
 
-const PIECES: Piece[] = [
+const PIECES_DEMO: Piece[] = [
   { name: 'Robe de soirée soie', sub: 'Couture sur-mesure' },
   { name: 'Robe de mariée', sub: 'Création exclusive' },
   { name: 'Broderie lyonnaise', sub: 'Technique traditionnelle' },
@@ -192,7 +193,7 @@ const CRAFT_STEPS: CraftStep[] = [
   },
 ];
 
-const TESTIMONIALS: Testimonial[] = [
+const TESTIMONIALS_DEMO: Testimonial[] = [
   {
     quote:
       "Je chante à l'Opéra de Lyon depuis dix ans, et L'Atelier Soie habille tous mes rôles. Leurs costumes vibrent avec ma voix — la soie suit le souffle, le bustier tient sans jamais contraindre. Ce sont des artisanes qui comprennent le corps en mouvement.",
@@ -784,7 +785,7 @@ function CreationImage({
   return (
     <motion.div style={{ position: 'absolute', inset: 0, opacity }}>
       <motion.img
-        src={photo(creation.imgId)}
+        src={creation.imgId?.startsWith('http') ? creation.imgId : photo(creation.imgId)}
         alt={creation.title}
         loading="lazy"
         style={{
@@ -904,6 +905,16 @@ function ProgressDot({
 }
 
 function CreationSequence() {
+  const CREATIONS = resolveList(
+    bp?.beforeAfter?.map((b: any, i: number) => ({
+      index: CREATIONS_DEMO[i % CREATIONS_DEMO.length].index,
+      label: CREATIONS_DEMO[i % CREATIONS_DEMO.length].label,
+      title: b.caption ?? CREATIONS_DEMO[i % CREATIONS_DEMO.length].title,
+      body: b.caption ?? CREATIONS_DEMO[i % CREATIONS_DEMO.length].body,
+      imgId: b.afterUrl ?? b.beforeUrl ?? CREATIONS_DEMO[i % CREATIONS_DEMO.length].imgId,
+    })),
+    CREATIONS_DEMO
+  );
   const n = CREATIONS.length;
   const progress = useMotionValue(0.5 / n);
   const [active, setActive] = useState(0);
@@ -1127,7 +1138,13 @@ function PieceCards() {
         </Reveal>
       </div>
       <div style={grid}>
-        {PIECES.map((p, i) => (
+        {resolveList(
+          bp?.services?.map((s: any, i: number) => ({
+            name: s.title ?? s.name,
+            sub: s.description ?? s.desc ?? PIECES_DEMO[i % PIECES_DEMO.length].sub,
+          })),
+          PIECES_DEMO
+        ).map((p: any, i: number) => (
           <PieceCard key={p.name} piece={p} i={i} />
         ))}
       </div>
@@ -1510,7 +1527,14 @@ function Testimonials() {
         </Reveal>
       </div>
       <div style={grid}>
-        {TESTIMONIALS.map((t, i) => (
+        {resolveList(
+          bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+            quote: r.text ?? r.quote,
+            name: r.name ?? r.author,
+            role: r.location ?? r.role ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].role,
+          })),
+          TESTIMONIALS_DEMO
+        ).map((t: any, i: number) => (
           <TestimonialCard key={t.name} t={t} i={i} />
         ))}
       </div>
@@ -1567,7 +1591,7 @@ function OrderForm() {
     marginBottom: 4,
   };
 
-  const PIECE_OPTIONS = [
+  const PIECE_OPTIONS_DEMO = [
     'Robe de soirée',
     'Robe de mariée',
     'Costume scénique',
@@ -1575,6 +1599,10 @@ function OrderForm() {
     'Retouche haute couture',
     'Autre',
   ];
+  const PIECE_OPTIONS = resolveList(
+    bp?.services?.map((s: any) => s.title ?? s.name),
+    PIECE_OPTIONS_DEMO
+  );
 
   return (
     <section style={sec} id="commande">
@@ -2014,6 +2042,7 @@ function Footer() {
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 let brand: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
@@ -2030,6 +2059,7 @@ export default function Page() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -2043,6 +2073,7 @@ export default function Page() {
 
   fd = session?.formData;
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, silk: brand };
@@ -2057,55 +2088,7 @@ export default function Page() {
     MozOsxFontSmoothing: 'grayscale',
   };
 
-  
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
-return (
+  return (
     <main style={root} suppressHydrationWarning>
       {/* Google Fonts */}
       <style>{`@import url('${FONTS_URL}');`}</style>

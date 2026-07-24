@@ -17,6 +17,7 @@ import {
   Star,
   Scissors,
 } from 'lucide-react';
+import { resolveList } from "@/lib/templates/resolveList";
 
 /* ════════════════════════════════════════════════════════════════════════════
    Atelier Marguerite Voss — Couturière créatrice sur mesure, Paris 8e
@@ -82,7 +83,7 @@ interface Collection {
   img: string;
 }
 
-const COLLECTIONS: Collection[] = [
+const COLLECTIONS_DEMO: Collection[] = [
   {
     num: 'I',
     season: 'Automne / Hiver',
@@ -145,7 +146,7 @@ interface PressItem {
   issue: string;
 }
 
-const PRESS: PressItem[] = [
+const PRESS_DEMO: PressItem[] = [
   {
     outlet: 'Vogue Paris',
     quote: "« La couturière qui réenchante le tailleur féminin. Une technique d\'une rigueur absolue au service d\'une sensibilité rare. »",
@@ -168,6 +169,21 @@ const PRESS: PressItem[] = [
    ════════════════════════════════════════════════════════════════════════════ */
 
 const easeOut = [0.16, 1, 0.3, 1] as const;
+
+// Client creations (before/after gallery) mapped onto the demo collection shape,
+// keeping decorative num/season/sub from the demo when the client omits them.
+function buildCollections() {
+  return resolveList(
+    bp?.beforeAfter?.map((b: any, i: number) => ({
+      num: COLLECTIONS_DEMO[i % COLLECTIONS_DEMO.length].num,
+      season: COLLECTIONS_DEMO[i % COLLECTIONS_DEMO.length].season,
+      caption: b.caption ?? COLLECTIONS_DEMO[i % COLLECTIONS_DEMO.length].caption,
+      sub: COLLECTIONS_DEMO[i % COLLECTIONS_DEMO.length].sub,
+      img: b.afterUrl ?? b.beforeUrl ?? COLLECTIONS_DEMO[i % COLLECTIONS_DEMO.length].img,
+    })),
+    COLLECTIONS_DEMO
+  );
+}
 
 interface RevealProps {
   children: React.ReactNode;
@@ -678,6 +694,7 @@ function SeqLayer({
   index: number;
   progress: MotionValue<number>;
 }) {
+  const COLLECTIONS = buildCollections();
   const n = COLLECTIONS.length;
   const seg = 1 / n;
   const start = index * seg;
@@ -736,6 +753,7 @@ function SeqCaption({
   index: number;
   progress: MotionValue<number>;
 }) {
+  const COLLECTIONS = buildCollections();
   const n = COLLECTIONS.length;
   const seg = 1 / n;
   const start = index * seg;
@@ -805,6 +823,7 @@ function SeqCaption({
 }
 
 function CollectionSequence() {
+  const COLLECTIONS = buildCollections();
   const n = COLLECTIONS.length;
   const progress = useMotionValue(0.5 / n);
   const [active, setActive] = useState(0);
@@ -1188,6 +1207,14 @@ function MaterialsPanel() {
    ════════════════════════════════════════════════════════════════════════════ */
 
 function Press() {
+  const PRESS = resolveList(
+    bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+      outlet: r.name ?? r.author ?? PRESS_DEMO[i % PRESS_DEMO.length].outlet,
+      quote: r.text ?? r.quote,
+      issue: r.location ?? r.context ?? PRESS_DEMO[i % PRESS_DEMO.length].issue,
+    })),
+    PRESS_DEMO
+  );
   return (
     <section
       id="presse"
@@ -1766,6 +1793,7 @@ function Footer() {
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 let brand: any = null;
 export default function AtlierMargueriteVossPage() {
   const [session, setSession] = useState<{
@@ -1782,6 +1810,7 @@ export default function AtlierMargueriteVossPage() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -1813,6 +1842,7 @@ export default function AtlierMargueriteVossPage() {
     });
   });
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   if (brand) {
@@ -1822,55 +1852,7 @@ export default function AtlierMargueriteVossPage() {
     };
   }
 
-  
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
-return (
+  return (
     <main
       suppressHydrationWarning
       style={{

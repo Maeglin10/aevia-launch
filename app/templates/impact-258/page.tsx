@@ -11,6 +11,7 @@ import {
   useMotionValue,
 } from 'framer-motion';
 import { ArrowRight, ChevronDown, Heart, MapPin } from 'lucide-react';
+import { resolveList } from "@/lib/templates/resolveList";
 
 // Hoisted above the design tokens: several templates read `brand` in a
 // module-level const — declaring it lower caused a TDZ ReferenceError (500).
@@ -107,7 +108,7 @@ interface AtélierStep {
    Data
    ════════════════════════════════════════════════════════════════════════════ */
 
-const COLLECTIONS: Collection[] = [
+const COLLECTIONS_DEMO: Collection[] = [
   {
     img: photo('1483985985-e99f93b85d2a'),
     index: 'I',
@@ -131,7 +132,7 @@ const COLLECTIONS: Collection[] = [
   },
 ];
 
-const PIECES: Piece[] = [
+const PIECES_DEMO: Piece[] = [
   { title: 'Robe de soirée', sub: 'Soie · Organza · Dentelle' },
   { title: 'Robe de mariée', sub: 'Mikado · Crépon · Broderie' },
   { title: 'Tailleur femme', sub: 'Lainage · Lin · Soie' },
@@ -190,7 +191,7 @@ const ATELIER_STEPS: AtélierStep[] = [
   },
 ];
 
-const TESTIMONIALS: Testimonial[] = [
+const TESTIMONIALS_DEMO: Testimonial[] = [
   {
     quote:
       "Ma robe de mariée a été confectionnée ici, en cinq essayages d'une patience extraordinaire. L'atelier a capturé quelque chose que je n'aurais su décrire — une présence que je n'avais jamais eue dans un vêtement.",
@@ -205,14 +206,14 @@ const TESTIMONIALS: Testimonial[] = [
   },
 ];
 
-const PIECE_TYPES = [
+const PIECE_TYPES_DEMO = [
   'Robe de mariée',
   'Robe de soirée',
   'Tailleur femme',
   'Manteau',
   'Pièce homme',
   'Broderie & retouche',
-] as const;
+];
 
 /* ════════════════════════════════════════════════════════════════════════════
    Primitives
@@ -895,6 +896,15 @@ function ProgressDot({
 }
 
 function CollectionSequence() {
+  const COLLECTIONS = resolveList(
+    bp?.beforeAfter?.map((b: any, i: number) => ({
+      img: b.afterUrl ?? b.beforeUrl ?? COLLECTIONS_DEMO[i % COLLECTIONS_DEMO.length].img,
+      index: COLLECTIONS_DEMO[i % COLLECTIONS_DEMO.length].index,
+      label: COLLECTIONS_DEMO[i % COLLECTIONS_DEMO.length].label,
+      caption: b.caption ?? COLLECTIONS_DEMO[i % COLLECTIONS_DEMO.length].caption,
+    })),
+    COLLECTIONS_DEMO
+  );
   const n = COLLECTIONS.length;
   const progress = useMotionValue(0.5 / n);
   const [active, setActive] = useState(0);
@@ -1081,6 +1091,13 @@ function PieceCard({ piece, i }: { piece: Piece; i: number }) {
 }
 
 function PieceCards() {
+  const PIECES = resolveList(
+    bp?.services?.map((s: any, i: number) => ({
+      title: s.title ?? s.name,
+      sub: s.description ?? s.desc ?? PIECES_DEMO[i % PIECES_DEMO.length].sub,
+    })),
+    PIECES_DEMO
+  );
   const sec: React.CSSProperties = {
     background: C.bg,
     padding: 'clamp(88px,12vw,170px) clamp(24px,6vw,96px)',
@@ -1423,6 +1440,14 @@ function AtélierPanel() {
    8 · Testimonials — 2 cartes blanches, cœur terracotta
    ════════════════════════════════════════════════════════════════════════════ */
 function Testimonials() {
+  const TESTIMONIALS = resolveList(
+    bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+      quote: r.text ?? r.quote,
+      name: r.name ?? r.author,
+      role: r.location ?? r.role ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].role,
+    })),
+    TESTIMONIALS_DEMO
+  );
   const sec: React.CSSProperties = {
     background: C.bgAlt,
     padding: 'clamp(88px,12vw,170px) clamp(24px,6vw,96px)',
@@ -1529,6 +1554,10 @@ function Testimonials() {
    9 · OrderForm — bgDark, champs underline, sent state
    ════════════════════════════════════════════════════════════════════════════ */
 function OrderForm() {
+  const PIECE_TYPES = resolveList(
+    bp?.services?.map((s: any) => s.title ?? s.name),
+    PIECE_TYPES_DEMO
+  );
   const [prenom, setPrenom] = useState('');
   const [email, setEmail] = useState('');
   const [tel, setTel] = useState('');
@@ -2038,6 +2067,7 @@ function Footer() {
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
     formData?: {
@@ -2053,6 +2083,7 @@ export default function Page() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -2066,6 +2097,7 @@ export default function Page() {
 
   fd = session?.formData;
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, accent: brand, accentLight: shadeColor(brand, 25), accentDark: shadeColor(brand, -20) };
@@ -2079,55 +2111,8 @@ export default function Page() {
     WebkitFontSmoothing: 'antialiased',
     MozOsxFontSmoothing: 'grayscale',
   };
-  
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
-return (
+
+  return (
     <main style={root} suppressHydrationWarning>
       {/* Google Fonts */}
       <style>{`@import url('${FONT_LINK}');`}</style>
