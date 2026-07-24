@@ -35,6 +35,7 @@ import {
   X,
   Plus
 } from "lucide-react";
+import { resolveList } from "@/lib/templates/resolveList";
 
 // Helper: Shade Color
 function shadeColor(color, percent) {
@@ -372,6 +373,31 @@ export default function PlumberDarkUrgent() {
 
   const fd = session?.formData || {};
   const c = session?.generatedContent || {};
+  const bp = (session as any)?.businessProfile;
+
+  // Prefer the client's real business data; fall back to the generatedContent
+  // state (already seeded from localStorage) and then the template demo arrays.
+  const resolvedServices = resolveList(
+    bp?.services?.map((s: any, i: number) => ({
+      title: s.title ?? s.name,
+      description: s.description ?? s.desc,
+      icon: FALLBACK_SERVICES[i % FALLBACK_SERVICES.length].icon,
+    })),
+    services
+  );
+  const resolvedTestimonials = resolveList(
+    bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+      name: r.name ?? r.author,
+      role: r.location ?? r.role,
+      content: r.text ?? r.quote,
+      rating: r.stars ?? r.rating ?? 5,
+    })),
+    testimonials
+  );
+  const resolvedFaqs = resolveList(
+    bp?.faq?.map((f: any) => ({ question: f.q, answer: f.a })),
+    FALLBACK_FAQS
+  );
 
   const businessName = fd.businessName || "Urgence Plomberie 24/7";
   const businessPhone = fd.businessPhone || "01 23 45 67 89";
@@ -804,7 +830,7 @@ export default function PlumberDarkUrgent() {
           </div>
 
           <div className="grid-2">
-            {services.map((srv, idx) => (
+            {resolvedServices.map((srv, idx) => (
               <Reveal key={idx} delay={idx * 0.1}>
                 <div style={{
                   backgroundColor: C.bgCard,
@@ -1044,7 +1070,7 @@ export default function PlumberDarkUrgent() {
           </div>
 
           <div className="grid-3">
-            {testimonials.map((testi, idx) => (
+            {resolvedTestimonials.map((testi, idx) => (
               <Reveal key={idx} delay={idx * 0.1}>
                 <div style={{
                   backgroundColor: C.bgCard,
@@ -1102,7 +1128,7 @@ export default function PlumberDarkUrgent() {
             
             <div>
               <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-                {FALLBACK_FAQS.map((faq, idx) => {
+                {resolvedFaqs.map((faq, idx) => {
                   const [isOpen, setIsOpen] = useState(false);
                   return (
                     <Reveal key={idx} delay={idx * 0.1}>

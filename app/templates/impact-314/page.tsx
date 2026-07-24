@@ -27,6 +27,7 @@ import {
   Plus,
   Minus
 } from "lucide-react";
+import { resolveList } from "@/lib/templates/resolveList";
 const Facebook = ({ size = 24, color = 'currentColor', ...p }: any) => (<svg xmlns='http://www.w3.org/2000/svg' width={size} height={size} viewBox='0 0 24 24' fill='none' stroke={color} strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' {...p}><circle cx='12' cy='12' r='10'/></svg>);
 const Twitter = ({ size = 24, color = 'currentColor', ...p }: any) => (<svg xmlns='http://www.w3.org/2000/svg' width={size} height={size} viewBox='0 0 24 24' fill='none' stroke={color} strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' {...p}><circle cx='12' cy='12' r='10'/></svg>);
 
@@ -394,6 +395,31 @@ export default function Page({ session: initialSession }) {
     return icons[name] || <Wrench size={32} />;
   };
 
+  // Prefer the client's real business data; fall back to the state arrays
+  // (seeded from generatedContent or the template demo fallbacks).
+  const bp = (session as any)?.businessProfile;
+  const resolvedServices = resolveList(
+    bp?.services?.map((s: any, i: number) => ({
+      title: s.title ?? s.name,
+      description: s.description ?? s.desc,
+      icon: (services as any[])[i % services.length]?.icon,
+    })),
+    services
+  );
+  const resolvedTestimonials = resolveList(
+    bp?.reputation?.featuredReviews?.map((r: any) => ({
+      name: r.name ?? r.author,
+      role: r.location ?? r.role,
+      text: r.text ?? r.quote,
+      rating: r.stars ?? r.rating ?? 5,
+    })),
+    testimonials
+  );
+  const resolvedFaq = resolveList(
+    bp?.faq?.map((f: any) => ({ q: f.q, a: f.a })),
+    faq
+  );
+
   return (
     <div style={{ backgroundColor: C.bg, color: C.text, fontFamily: SANS, overflowX: "hidden" }}>
       {/* HEADER / NAVBAR */}
@@ -661,7 +687,7 @@ export default function Page({ session: initialSession }) {
               gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", 
               gap: "32px" 
             }}>
-              {services.map((service, idx) => (
+              {resolvedServices.map((service, idx) => (
                 <Reveal key={idx} delay={0.1 * idx}>
                   <motion.div 
                     whileHover={{ y: -8 }}
@@ -878,7 +904,7 @@ export default function Page({ session: initialSession }) {
               gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", 
               gap: "32px" 
             }}>
-              {testimonials.map((testi, idx) => (
+              {resolvedTestimonials.map((testi, idx) => (
                 <Reveal key={idx} delay={idx * 0.1}>
                   <div style={{
                     backgroundColor: C.bgDeep,
@@ -925,7 +951,7 @@ export default function Page({ session: initialSession }) {
             </div>
 
             <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-              {faq.map((item, idx) => (
+              {resolvedFaq.map((item, idx) => (
                 <FaqItem key={idx} item={item} idx={idx} C={C} />
               ))}
             </div>
