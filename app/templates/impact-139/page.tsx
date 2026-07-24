@@ -5,6 +5,7 @@ import { useRef, useState, useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { Dumbbell, ArrowRight, Menu, Star, MapPin, Clock, Users, Flame, ChevronRight, Heart, Trophy, Target, Zap, CheckCircle2 } from "lucide-react"
+import { resolveList } from "@/lib/templates/resolveList"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 
 function Reveal({ children, delay = 0, y = 40 }: { children: React.ReactNode; delay?: number; y?: number }) {
@@ -31,7 +32,7 @@ function ParallaxImg({ src, alt }: { src: string; alt: string }) {
   )
 }
 
-const PROGRAMS = [
+const PROGRAMS_DEMO = [
   { title: "FORGE", type: "Strength", duration: "60 min", level: "Advanced", desc: "Heavy compound lifts with progressive overload programming.", img: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&q=80&w=800" },
   { title: "BLITZ", type: "HIIT", duration: "45 min", level: "All Levels", desc: "Heart-rate driven interval training for maximum caloric burn.", img: "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?auto=format&fit=crop&q=80&w=800" },
   { title: "RECOVER", type: "Mobility", duration: "30 min", level: "All Levels", desc: "Active recovery with guided stretching and foam rolling protocols.", img: "https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&q=80&w=800" },
@@ -54,6 +55,7 @@ const PLANS = [
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
@@ -75,6 +77,7 @@ export default function ApexFitnessPage() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -91,7 +94,7 @@ export default function ApexFitnessPage() {
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;
     let n = 2;
-    const _photoArrays: any[] = [PROGRAMS];
+    const _photoArrays: any[] = [PROGRAMS_DEMO];
     _photoArrays.forEach((arr) => {
       if (!Array.isArray(arr)) return;
       arr.forEach((item) => {
@@ -106,7 +109,21 @@ export default function ApexFitnessPage() {
     });
   });
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
+
+  // Real client programs (services) when provided, else template demo lineup.
+  const PROGRAMS = resolveList(
+    bp?.services?.map((s: any, i: number) => ({
+      title: s.title ?? s.name ?? PROGRAMS_DEMO[i % PROGRAMS_DEMO.length].title,
+      type: s.price ?? PROGRAMS_DEMO[i % PROGRAMS_DEMO.length].type,
+      duration: PROGRAMS_DEMO[i % PROGRAMS_DEMO.length].duration,
+      level: PROGRAMS_DEMO[i % PROGRAMS_DEMO.length].level,
+      desc: s.description ?? s.desc ?? PROGRAMS_DEMO[i % PROGRAMS_DEMO.length].desc,
+      img: PROGRAMS_DEMO[i % PROGRAMS_DEMO.length].img,
+    })),
+    PROGRAMS_DEMO
+  );
 
   const [scrolled, setScrolled] = useState(false)
   const [contactSubmitted, setContactSubmitted] = useState(false)
@@ -121,53 +138,7 @@ export default function ApexFitnessPage() {
     return () => window.removeEventListener("scroll", h)
   }, []);
 
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);return (
+  return (
     <div className="bg-[#0a0a0a] text-white font-sans min-h-dvh selection:bg-lime-500 selection:text-black overflow-x-hidden">
 
       {/* ── NAVBAR ────── */}
@@ -386,11 +357,16 @@ export default function ApexFitnessPage() {
               </div>
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {[
+              {resolveList(bp?.team?.map((m: any, i: number) => ({
+                name: m.name,
+                role: m.role ?? m.specialty ?? "",
+                bio: m.bio ?? m.credentials ?? "",
+                initials: (m.name ?? "").split(" ").map((w: string) => w[0] || "").join("").slice(0, 2).toUpperCase(),
+              })), [
                 { name: "Marcus Vane", role: "Strength & Conditioning Lead", bio: "Former Division 1 strength coach with 10+ years training elite athletes.", initials: "MV" },
                 { name: "Sarah Chen", role: "HIIT & Athletic Cardio Lead", bio: "Biomedical Science graduate specializing in heart-rate zone optimization.", initials: "SC" },
                 { name: "Dimitri Belov", role: "Mobility & Recovery Specialist", bio: "Certified physical therapist assistant focusing on joint health and longevity.", initials: "DB" },
-              ].map((c, i) => (
+              ] as any[]).map((c: any, i: number) => (
                 <Reveal key={c.name} delay={i * 0.1}>
                   <div className="p-8 bg-[#0a0a0a] border border-white/5 rounded-2xl flex flex-col items-center text-center">
                     <div className="w-16 h-16 bg-lime-500 rounded-xl flex items-center justify-center -skew-x-6 mb-6">
@@ -416,11 +392,15 @@ export default function ApexFitnessPage() {
               </div>
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {[
+              {resolveList(bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+                quote: r.text ?? r.quote ?? "",
+                author: r.name ?? r.author ?? "",
+                plan: r.location ?? r.context ?? "Verified Member",
+              })), [
                 { quote: "Apex completely changed my approach to fitness. The heart rate zone tracking keeps me accountable every single workout.", author: "James L.", plan: "Performance Member" },
                 { quote: "Small class sizes mean you get personal coach attention even in a group environment. Worth every single cent.", author: "Elena R.", plan: "Elite Member" },
                 { quote: "The community is extremely supportive, and the mobility programming has cured my chronic lower back issues.", author: "Marcus D.", plan: "Essential Member" },
-              ].map((t, i) => (
+              ] as any[]).map((t: any, i: number) => (
                 <Reveal key={i} delay={i * 0.1}>
                   <div className="p-8 bg-[#0d0d0d] border border-white/5 rounded-2xl flex flex-col justify-between h-full hover:border-lime-500/20 transition-all duration-300">
                     <p className="text-white/60 leading-relaxed italic mb-8">"{t.quote}"</p>

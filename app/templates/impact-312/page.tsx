@@ -29,6 +29,7 @@ import {
   Search,
   Award
 } from "lucide-react";
+import { resolveList } from "@/lib/templates/resolveList";
 const Facebook = ({ size = 24, color = 'currentColor', ...p }: any) => (<svg xmlns='http://www.w3.org/2000/svg' width={size} height={size} viewBox='0 0 24 24' fill='none' stroke={color} strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' {...p}><circle cx='12' cy='12' r='10'/></svg>);
 const Twitter = ({ size = 24, color = 'currentColor', ...p }: any) => (<svg xmlns='http://www.w3.org/2000/svg' width={size} height={size} viewBox='0 0 24 24' fill='none' stroke={color} strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' {...p}><circle cx='12' cy='12' r='10'/></svg>);
 const Instagram = ({ size = 24, color = 'currentColor', ...p }: any) => (<svg xmlns='http://www.w3.org/2000/svg' width={size} height={size} viewBox='0 0 24 24' fill='none' stroke={color} strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' {...p}><circle cx='12' cy='12' r='10'/></svg>);
@@ -41,13 +42,13 @@ const Instagram = ({ size = 24, color = 'currentColor', ...p }: any) => (<svg xm
   Credits: Aevia Launch
 */
 
-function shadeColor(color, percent) {
+function shadeColor(color: string, percent: number) {
   let R = parseInt(color.substring(1,3),16);
   let G = parseInt(color.substring(3,5),16);
   let B = parseInt(color.substring(5,7),16);
-  R = parseInt(R * (100 + percent) / 100);
-  G = parseInt(G * (100 + percent) / 100);
-  B = parseInt(B * (100 + percent) / 100);
+  R = parseInt(String(R * (100 + percent) / 100));
+  G = parseInt(String(G * (100 + percent) / 100));
+  B = parseInt(String(B * (100 + percent) / 100));
   R = (R<255)?R:255;
   G = (G<255)?G:255;
   B = (B<255)?B:255;
@@ -76,7 +77,7 @@ const C = {
 
 const SANS = "'Plus Jakarta Sans', sans-serif";
 const SERIF = "'Inter', sans-serif";
-const EASE = [0.16, 1, 0.3, 1];
+const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 const PHOTO = {
   hero: "https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?q=80&w=2000&auto=format&fit=crop",
@@ -111,7 +112,7 @@ const CustomInstagramIcon = ({ size = 24, color = "currentColor" }) => (
   </svg>
 );
 
-const Reveal = ({ children, delay = 0, y = 30, className = "" }) => {
+const Reveal = ({ children, delay = 0, y = 30, className = "" }: any) => {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-50px" });
   return (
@@ -127,7 +128,7 @@ const Reveal = ({ children, delay = 0, y = 30, className = "" }) => {
   );
 };
 
-const Eyebrow = ({ children, className = "" }) => (
+const Eyebrow = ({ children, className = "" }: { children: React.ReactNode; className?: string }) => (
   <div style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem", marginBottom: "1rem" }} className={className}>
     <span style={{ width: "30px", height: "2px", backgroundColor: C.primary, display: "block" }}></span>
     <span style={{ fontFamily: SANS, fontWeight: 700, fontSize: "0.875rem", textTransform: "uppercase", letterSpacing: "0.1em", color: C.primary }}>
@@ -136,7 +137,7 @@ const Eyebrow = ({ children, className = "" }) => (
   </div>
 );
 
-const Button = ({ children, variant = "primary", onClick, href, className = "", icon = null }) => {
+const Button = ({ children, variant = "primary", onClick, href, className = "", icon = null }: any) => {
   const isPrimary = variant === "primary";
   const Element = href ? "a" : "button";
   
@@ -188,16 +189,16 @@ const Button = ({ children, variant = "primary", onClick, href, className = "", 
 };
 
 export default function GarageMinimalistTemplate() {
-  const [session, setSession] = useState(null);
+  const [session, setSession] = useState<any>(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeFaq, setActiveFaq] = useState(0);
 
-  const [testimonials, setTestimonials] = useState([]);
-  const [services, setServices] = useState([]);
-  const [faqs, setFaqs] = useState([]);
-  const [features, setFeatures] = useState([]);
-  const [stats, setStats] = useState([]);
-  const [gallery, setGallery] = useState([]);
+  const [testimonials, setTestimonials] = useState<any[]>([]);
+  const [services, setServices] = useState<any[]>([]);
+  const [faqs, setFaqs] = useState<any[]>([]);
+  const [features, setFeatures] = useState<any[]>([]);
+  const [stats, setStats] = useState<any[]>([]);
+  const [gallery, setGallery] = useState<any[]>([]);
 
   // Standard session loading (matches every other template): the wizard
   // links here as /templates/impact-312?session=<id>, not via localStorage.
@@ -272,6 +273,35 @@ export default function GarageMinimalistTemplate() {
   }, []);
 
   const fd = session?.formData || {};
+  const bp = session?.businessProfile;
+
+  // Prefer the client's real business data (services / reviews / faq) when the
+  // brief provided a BusinessProfile; otherwise keep the demo/state defaults.
+  const servicesResolved = resolveList(
+    bp?.services?.map((s: any, i: number) => ({
+      title: s.title ?? s.name ?? "",
+      description: s.description ?? s.desc ?? "",
+      icon: services.length ? services[i % services.length].icon : <Wrench size={24} />,
+    })),
+    services
+  );
+  const testimonialsResolved = resolveList(
+    bp?.reputation?.featuredReviews?.map((r: any) => ({
+      name: r.name ?? r.author ?? "",
+      role: r.location ?? r.role ?? "",
+      content: r.text ?? r.quote ?? r.content ?? "",
+      rating: r.stars ?? r.rating ?? 5,
+    })),
+    testimonials
+  );
+  const faqsResolved = resolveList(
+    bp?.faq?.map((f: any) => ({
+      q: f.q ?? f.question ?? "",
+      a: f.a ?? f.answer ?? "",
+    })),
+    faqs
+  );
+
   const businessName = fd.businessName || "Garage Minimalist";
   const phone = fd.phone || "01 23 45 67 89";
   const email = fd.email || "contact@garageminimalist.fr";
@@ -296,7 +326,7 @@ export default function GarageMinimalistTemplate() {
   const heroOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
 
   // Styles globals
-  const sectionStyle = {
+  const sectionStyle: React.CSSProperties = {
     padding: "8rem 5%",
     backgroundColor: C.bg,
     color: C.text,
@@ -304,7 +334,7 @@ export default function GarageMinimalistTemplate() {
     overflow: "hidden"
   };
 
-  const containerStyle = {
+  const containerStyle: React.CSSProperties = {
     maxWidth: "1200px",
     margin: "0 auto",
     position: "relative",
@@ -546,7 +576,7 @@ export default function GarageMinimalistTemplate() {
           </div>
 
           <div className="grid-auto">
-            {services.map((service, idx) => (
+            {servicesResolved.map((service: any, idx: number) => (
               <Reveal key={idx} delay={idx * 0.1}>
                 <div style={{ 
                   backgroundColor: C.bgCard, 
@@ -629,8 +659,8 @@ export default function GarageMinimalistTemplate() {
             <Reveal key={idx} delay={idx * 0.1} className="image-hover-zoom" style={{ height: "350px", width: "100%", position: "relative" }}>
               <img src={img} alt={`Gallery ${idx}`} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
               <div style={{ position: "absolute", inset: 0, backgroundColor: "rgba(0,0,0,0.3)", opacity: 0, transition: "opacity 0.3s", display: "flex", alignItems: "center", justifyContent: "center" }}
-                onMouseOver={e => e.currentTarget.style.opacity = 1}
-                onMouseOut={e => e.currentTarget.style.opacity = 0}
+                onMouseOver={e => e.currentTarget.style.opacity = "1"}
+                onMouseOut={e => e.currentTarget.style.opacity = "0"}
               >
                 <div style={{ width: "50px", height: "50px", backgroundColor: C.primary, color: C.white, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>
                   <Instagram size={24} />
@@ -652,7 +682,7 @@ export default function GarageMinimalistTemplate() {
           </div>
 
           <div className="grid-auto">
-            {testimonials.map((test, idx) => (
+            {testimonialsResolved.map((test: any, idx: number) => (
               <Reveal key={idx} delay={idx * 0.1}>
                 <div style={{ backgroundColor: C.bgCard, padding: "2.5rem", borderRadius: "8px", height: "100%", display: "flex", flexDirection: "column" }}>
                   <div style={{ display: "flex", color: "#f59e0b", marginBottom: "1rem" }}>
@@ -715,8 +745,8 @@ export default function GarageMinimalistTemplate() {
             </Reveal>
 
             <div style={{ backgroundColor: C.bgCard, padding: "2rem", borderRadius: "8px", boxShadow: "0 4px 20px rgba(0,0,0,0.03)" }}>
-              {faqs.map((faq, idx) => (
-                <div key={idx} style={{ borderBottom: idx !== faqs.length - 1 ? "1px solid #e5e7eb" : "none" }}>
+              {faqsResolved.map((faq: any, idx: number) => (
+                <div key={idx} style={{ borderBottom: idx !== faqsResolved.length - 1 ? "1px solid #e5e7eb" : "none" }}>
                   <button
                     className="faq-btn"
                     style={{ borderBottom: "none" }}
@@ -770,7 +800,7 @@ export default function GarageMinimalistTemplate() {
                   </div>
                   <input type="email" placeholder="Email" className="contact-input" style={{ backgroundColor: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", color: C.white }} />
                   <input type="tel" placeholder="Téléphone" className="contact-input" style={{ backgroundColor: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", color: C.white }} />
-                  <textarea placeholder="Décrivez votre besoin (Modèle de voiture, problème rencontré...)" className="contact-input" rows="4" style={{ backgroundColor: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", color: C.white, resize: "vertical" }}></textarea>
+                  <textarea placeholder="Décrivez votre besoin (Modèle de voiture, problème rencontré...)" className="contact-input" rows={4} style={{ backgroundColor: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", color: C.white, resize: "vertical" }}></textarea>
                   <Button variant="primary" style={{ width: "100%" }}>Envoyer la demande</Button>
                 </form>
               </Reveal>
