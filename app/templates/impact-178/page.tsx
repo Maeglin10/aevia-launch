@@ -5,6 +5,7 @@ import { useRef, useState, useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { Building2, MapPin, ArrowRight, Star, Phone, Mail, Search, Bed, Bath, Square, ChevronDown, Menu } from "lucide-react"
+import { resolveList } from "@/lib/templates/resolveList"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -13,11 +14,11 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
    Fonts : Libre Baskerville (titres) + Inter (corps) — Tailwind Reveal style
    ═══════════════════════════════════════════════════════════════════════════ */
 
-function Reveal({ children, delay = 0, y = 35 }: { children: React.ReactNode; delay?: number; y?: number }) {
+function Reveal({ children, delay = 0, y = 35, className }: { children: React.ReactNode; delay?: number; y?: number; className?: string }) {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: "-70px" })
   return (
-    <motion.div ref={ref} initial={{ opacity: 0, y }} animate={isInView ? { opacity: 1, y: 0 } : {}}
+    <motion.div ref={ref} className={className} initial={{ opacity: 0, y }} animate={isInView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 1.0, delay, ease: [0.22, 1, 0.36, 1] }}>
       {children}
     </motion.div>
@@ -37,13 +38,13 @@ function ParallaxImg({ src, alt }: { src: string; alt: string }) {
   )
 }
 
-const BIENS = [
+const BIENS_DEMO = [
   { type: "Appartement", title: "Haussmannien d'exception", loc: "Paris 8ème", price: "2 450 000 €", surface: 185, pieces: 6, chambres: 4, sdb: 2, img: "https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?auto=format&fit=crop&q=80&w=1200", badge: "Exclusivité" },
   { type: "Maison", title: "Villa contemporaine à toit-terrasse", loc: "Neuilly-sur-Seine", price: "3 200 000 €", surface: 260, pieces: 8, chambres: 5, sdb: 3, img: "https://images.unsplash.com/photo-1613977257592-4871e5fcd7c4?auto=format&fit=crop&q=80&w=1200", badge: "Nouveau" },
   { type: "Penthouse", title: "Duplex vue panoramique", loc: "Paris 16ème", price: "4 800 000 €", surface: 220, pieces: 7, chambres: 4, sdb: 3, img: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&q=80&w=1200", badge: "Coup de cœur" },
 ]
 
-const SERVICES = [
+const SERVICES_DEMO = [
   { num: "01", title: "Estimation gratuite", desc: "Évaluation précise de votre bien basée sur 15 ans de données de marché et une analyse comparative approfondie." },
   { num: "02", title: "Marketing premium", desc: "Photos professionnel, visite virtuelle 3D, diffusion sur 40+ portails, newsletter auprès de 2 000 acquéreurs qualifiés." },
   { num: "03", title: "Accompagnement acheteurs", desc: "Sélection exclusive, visites accompagnées, négociation, suivi notarial. Une seule personne de confiance du début à la fin." },
@@ -54,6 +55,7 @@ const SERVICES = [
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
@@ -75,6 +77,7 @@ export default function AltaTransactionsPage() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -91,7 +94,7 @@ export default function AltaTransactionsPage() {
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;
     let n = 2;
-    const _photoArrays: any[] = [BIENS];
+    const _photoArrays: any[] = [BIENS_DEMO];
     _photoArrays.forEach((arr) => {
       if (!Array.isArray(arr)) return;
       arr.forEach((item) => {
@@ -106,7 +109,25 @@ export default function AltaTransactionsPage() {
     });
   });
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
+
+  const BIENS = resolveList(
+    bp?.services?.map((s: any, i: number) => ({
+      ...BIENS_DEMO[i % BIENS_DEMO.length],
+      title: s.title ?? s.name,
+      price: s.price ?? BIENS_DEMO[i % BIENS_DEMO.length].price,
+    })),
+    BIENS_DEMO
+  );
+  const SERVICES = resolveList(
+    bp?.services?.map((s: any, i: number) => ({
+      num: SERVICES_DEMO[i % SERVICES_DEMO.length].num,
+      title: s.title ?? s.name,
+      desc: s.description ?? s.desc,
+    })),
+    SERVICES_DEMO
+  );
 
   const heroRef = useRef(null)
   const [scrolled, setScrolled] = useState(false)
@@ -121,53 +142,7 @@ export default function AltaTransactionsPage() {
     return () => window.removeEventListener("scroll", h)
   }, []);
 
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);return (
+  return (
     <div className="bg-[#fefdfb] text-[#11182a] overflow-x-hidden" style={{ fontFamily: "'Inter', system-ui, sans-serif" }}>
       {/* ── NAVBAR ── */}
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#11182a]/97 backdrop-blur-xl py-4 border-b border-[#b8944a]/15" : "bg-transparent py-7"}`}>
@@ -353,11 +328,11 @@ export default function AltaTransactionsPage() {
             </div>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
+            {resolveList(bp?.reputation?.featuredReviews?.map((r: any) => ({ q: r.text ?? r.quote, a: r.name ?? r.author, p: r.location ?? r.detail ?? "" })), [
               { q: "Vente de notre appartement en 11 jours au prix demandé. L'équipe Alta est d'une efficacité remarquable. Vrais professionnels, vrais résultats.", a: "Jean-Michel & Corinne T.", p: "Vendeurs · Paris 8ème" },
               { q: "Après 6 mois de recherche infructueuse avec d'autres agences, Alta m'a trouvé mon appartement en 3 semaines. Un réseau et une réactivité hors norme.", a: "Sophie A.", p: "Acquéreur · Neuilly" },
               { q: "La gestion locative d'Alta est irréprochable. Zéro vacance depuis 4 ans sur mes 3 biens. Un vrai partenaire patrimonial.", a: "François D.", p: "Bailleur · Portfoli 3 biens" },
-            ].map((t, i) => (
+            ] as any[]).map((t: any, i: number) => (
               <Reveal key={i} delay={i * 0.1}>
                 <div className="border border-white/5 p-10 hover:border-[#b8944a]/20 transition-colors duration-500">
                   <div className="flex gap-1 mb-6">

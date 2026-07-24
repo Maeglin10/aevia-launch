@@ -40,6 +40,7 @@ import {
   User,
   Zap
 } from "lucide-react";
+import { resolveList } from "@/lib/templates/resolveList";
 const Facebook = ({ size = 24, color = 'currentColor', ...p }: any) => (<svg xmlns='http://www.w3.org/2000/svg' width={size} height={size} viewBox='0 0 24 24' fill='none' stroke={color} strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' {...p}><circle cx='12' cy='12' r='10'/></svg>);
 const Twitter = ({ size = 24, color = 'currentColor', ...p }: any) => (<svg xmlns='http://www.w3.org/2000/svg' width={size} height={size} viewBox='0 0 24 24' fill='none' stroke={color} strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' {...p}><circle cx='12' cy='12' r='10'/></svg>);
 const InstagramIcon = ({ size = 24, color = 'currentColor', ...p }: any) => (<svg xmlns='http://www.w3.org/2000/svg' width={size} height={size} viewBox='0 0 24 24' fill='none' stroke={color} strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' {...p}><circle cx='12' cy='12' r='10'/></svg>);
@@ -197,6 +198,7 @@ export default function TemplatePage({ session: initialSession }: { session?: an
 
   const fd = session?.formData || {};
   const c = session?.generatedContent || {};
+  const bp = session?.businessProfile;
 
   // Theme configuration
   const brandColor = fd.primaryColor || "#7c3aed";
@@ -256,20 +258,22 @@ export default function TemplatePage({ session: initialSession }: { session?: an
   const [testimonials, setTestimonials] = useState(defaultTestimonials);
 
   useEffect(() => {
-    if (c.services && Array.isArray(c.services) && c.services.length > 0) {
-      setServices(c.services.map((s: any, i: number) => ({
+    const srcServices = resolveList(bp?.services, c.services || []);
+    if (srcServices.length > 0) {
+      setServices(srcServices.map((s: any, i: number) => ({
         title: s.title || s.name || defaultServices[i%3].title,
         desc: s.description || s.desc || defaultServices[i%3].desc
       })));
     }
-    if (c.testimonials && Array.isArray(c.testimonials) && c.testimonials.length > 0) {
-      setTestimonials(c.testimonials.map((t: any, i: number) => ({
+    const srcTesti = resolveList(bp?.reputation?.featuredReviews, c.testimonials || []);
+    if (srcTesti.length > 0) {
+      setTestimonials(srcTesti.map((t: any, i: number) => ({
         name: t.name || t.author || defaultTestimonials[i%3].name,
         text: t.text || t.content || t.quote || defaultTestimonials[i%3].text,
-        role: t.role || defaultTestimonials[i%3].role
+        role: t.role || t.location || defaultTestimonials[i%3].role
       })));
     }
-  }, [c]);
+  }, [session]);
 
   // Components
   const Eyebrow = ({ children, color = C.primary }: { children: React.ReactNode, color?: string }) => (
@@ -975,12 +979,12 @@ export default function TemplatePage({ session: initialSession }: { session?: an
           </div>
 
           <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-            {[
+            {resolveList(bp?.faq?.map((f: any) => ({ q: f.q, a: f.a })), [
               { q: "Fournissez-vous les produits de nettoyage ?", a: "Oui, nous apportons tout le matériel et les produits nécessaires, tous respectueux de l'environnement." },
               { q: "Dois-je être présent pendant le nettoyage ?", a: "Ce n'est pas obligatoire. Vous pouvez nous confier vos clés ou être présent selon votre préférence." },
               { q: "Comment modifier ou annuler un rendez-vous ?", a: "Vous pouvez modifier ou annuler gratuitement jusqu'à 24h avant l'intervention via votre espace client ou par téléphone." },
               { q: "Vos agents sont-ils assurés ?", a: "Absolument. Tous nos agents sont entièrement assurés en cas de dommage accidentel lors de la prestation." }
-            ].map((faq, i) => (
+            ] as any[]).map((faq: any, i: number) => (
               <Reveal key={i} delay={i * 0.1}>
                 <div 
                   onClick={() => setActiveFAQ(activeFAQ === i ? null : i)}
