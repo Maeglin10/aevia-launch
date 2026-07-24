@@ -282,12 +282,12 @@ export default function EbookPage() {
             </motion.div>
 
             <TextReveal>
-              <h1 style={{ fontFamily: C.font, fontSize: "clamp(42px,6vw,80px)", fontWeight: 400, color: C.dark, lineHeight: 1.05, marginBottom: 4 }}>
+              <h1 style={{ fontFamily: C.font, fontSize: "clamp(40px,6vw,78px)", fontWeight: 400, color: C.dark, lineHeight: 1.05, marginBottom: 4 }}>
                 {EBOOK_TITLE}
               </h1>
             </TextReveal>
             <TextReveal delay={0.1}>
-              <p style={{ fontFamily: C.fontSans, fontSize: 17, color: C.textMuted, lineHeight: 1.75, maxWidth: 580, marginTop: 20, marginBottom: 36 }}>
+              <p style={{ fontFamily: C.fontSans, fontSize: 15, color: C.textMuted, lineHeight: 1.75, maxWidth: 580, marginTop: 20, marginBottom: 36 }}>
                 {EBOOK_SUBTITLE}
               </p>
             </TextReveal>
@@ -306,8 +306,8 @@ export default function EbookPage() {
                 { val: "PDF", label: "livré par e-mail" },
               ].map((s) => (
                 <div key={s.val}>
-                  <div style={{ fontFamily: C.font, fontSize: 32, fontWeight: 500, color: C.dark, lineHeight: 1 }}>{s.val}</div>
-                  <div style={{ fontFamily: C.fontSans, fontSize: 12, color: C.textMuted, marginTop: 4, letterSpacing: "0.05em" }}>{s.label}</div>
+                  <div style={{ fontFamily: C.font, fontSize: 30, fontWeight: 500, color: C.dark, lineHeight: 1 }}>{s.val}</div>
+                  <div style={{ fontFamily: C.fontSans, fontSize: 10, color: C.textMuted, marginTop: 4, letterSpacing: "0.05em" }}>{s.label}</div>
                 </div>
               ))}
             </motion.div>
@@ -320,7 +320,7 @@ export default function EbookPage() {
               style={{ display: "flex", alignItems: "center", gap: 24, flexWrap: "wrap" }}
             >
               <div style={{ display: "flex", alignItems: "baseline", gap: 10 }}>
-                <span style={{ fontFamily: C.font, fontSize: 52, fontWeight: 400, color: C.dark }}>{EBOOK_PRICE}€</span>
+                <span style={{ fontFamily: C.font, fontSize: 50, fontWeight: 400, color: C.dark }}>{EBOOK_PRICE}€</span>
               </div>
               <MagneticButton
                 onClick={handleBuy}
@@ -343,17 +343,17 @@ export default function EbookPage() {
             style={{ flexShrink: 0 }}
             className="ebook-mockup"
           >
-            <div style={{ width: 280, height: 370, background: `linear-gradient(135deg, ${C.dark} 0%, #2d1f1c 100%)`, borderRadius: 8, boxShadow: `0 40px 80px rgba(26,20,18,0.35), 0 0 0 1px rgba(255,255,255,0.05)`, position: "relative", overflow: "hidden", display: "flex", flexDirection: "column", justifyContent: "flex-end", padding: 32 }}>
+            <div style={{ width: 340, height: 450, background: `linear-gradient(135deg, ${C.dark} 0%, #2d1f1c 100%)`, borderRadius: 8, boxShadow: `0 40px 80px rgba(26,20,18,0.35), 0 0 0 1px rgba(255,255,255,0.05)`, position: "relative", overflow: "hidden", display: "flex", flexDirection: "column", justifyContent: "flex-end", padding: 40 }}>
               {/* Decorative */}
-              <div style={{ position: "absolute", top: 28, left: 28, right: 28, height: 2, background: `linear-gradient(90deg, ${C.rose}, ${C.roseLight})` }} />
-              <div style={{ position: "absolute", top: 60, left: 28, right: 28 }}>
-                <div style={{ fontFamily: C.fontSans, fontSize: 9, letterSpacing: "0.25em", textTransform: "uppercase", color: C.roseLight, marginBottom: 12, fontWeight: 500 }}>par Zoé Maria</div>
-                <div style={{ fontFamily: C.font, fontStyle: "italic", fontSize: 11, color: "rgba(255,255,255,0.4)", marginBottom: 20 }}>Lash Artist · Maison Maria</div>
-                <div style={{ fontFamily: C.font, fontSize: 26, fontWeight: 400, color: "#fff", lineHeight: 1.2 }}>Débuter en<br /><em style={{ color: C.roseLight }}>Extensions</em><br />de Cils</div>
+              <div style={{ position: "absolute", top: 36, left: 36, right: 36, height: 2, background: `linear-gradient(90deg, ${C.rose}, ${C.roseLight})` }} />
+              <div style={{ position: "absolute", top: 74, left: 36, right: 36 }}>
+                <div style={{ fontFamily: C.fontSans, fontSize: 10, letterSpacing: "0.25em", textTransform: "uppercase", color: C.roseLight, marginBottom: 14, fontWeight: 500 }}>par Zoé Maria</div>
+                <div style={{ fontFamily: C.font, fontStyle: "italic", fontSize: 13, color: "rgba(255,255,255,0.4)", marginBottom: 26 }}>Lash Artist · Maison Maria</div>
+                <div style={{ fontFamily: C.font, fontSize: 32, fontWeight: 400, color: "#fff", lineHeight: 1.25 }}>Débuter en<br /><em style={{ color: C.roseLight }}>Extensions</em><br />de Cils</div>
               </div>
-              <div style={{ position: "absolute", bottom: 28, left: 28, right: 28, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                <span style={{ fontFamily: C.fontSans, fontSize: 10, color: "rgba(255,255,255,0.35)", letterSpacing: "0.1em" }}>34 pages</span>
-                <span style={{ fontFamily: C.fontSans, fontSize: 10, color: "rgba(255,255,255,0.35)", letterSpacing: "0.1em" }}>PDF</span>
+              <div style={{ position: "absolute", bottom: 36, left: 36, right: 36, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                <span style={{ fontFamily: C.fontSans, fontSize: 11, color: "rgba(255,255,255,0.35)", letterSpacing: "0.1em" }}>34 pages</span>
+                <span style={{ fontFamily: C.fontSans, fontSize: 11, color: "rgba(255,255,255,0.35)", letterSpacing: "0.1em" }}>PDF</span>
               </div>
               {/* Rose circle accent */}
               <div style={{ position: "absolute", bottom: -40, right: -40, width: 160, height: 160, borderRadius: "50%", background: `radial-gradient(circle, ${C.rose}22 0%, transparent 70%)` }} />
@@ -401,7 +401,7 @@ export default function EbookPage() {
               {[
                 "Vous démarrez en esthétique et voulez une base solide et complète",
                 "Vous êtes déjà professionnelle mais manquez de ressources théoriques fiables",
-                "Vous souhaitez élargir votre catalogue de prestations (madéro, micropigmentation, blanchiment)",
+                "Vous souhaitez ajouter les extensions de cils à votre catalogue de prestations",
                 "Vous voulez lancer ou développer votre activité en indépendante",
                 "Vous cherchez un guide en français, écrit par quelqu'un qui pratique vraiment",
               ].map((item, i) => (

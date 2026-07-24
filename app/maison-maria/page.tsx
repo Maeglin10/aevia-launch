@@ -963,7 +963,7 @@ export default function MaisonMariaPage() {
               (e.currentTarget as HTMLElement).style.color = C.roseDark;
             }}
           >
-            Guide — 49€
+            Guide — 22€
           </a>
           <MagneticButton
             onClick={openBooking}
@@ -1078,7 +1078,7 @@ export default function MaisonMariaPage() {
                 gap: 8,
               }}
             >
-              Guide de formation — 49€
+              Guide de formation — 22€
             </a>
           </motion.div>
         )}
@@ -2085,10 +2085,10 @@ export default function MaisonMariaPage() {
             }}>
               <div style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0, background: "repeating-linear-gradient(90deg, rgba(255,255,255,0.03) 0px, rgba(255,255,255,0.03) 1px, transparent 1px, transparent 8px)", borderRadius: 6 }} />
               <div style={{ fontFamily: C.fontSans, fontSize: 9, letterSpacing: "0.25em", textTransform: "uppercase" as const, color: "rgba(255,255,255,0.6)", marginBottom: 20 }}>Guide Professionnel</div>
-              <div style={{ fontFamily: C.font, fontSize: 26, fontWeight: 500, color: "#fff", lineHeight: 1.15, marginBottom: 16 }}>L'Art de<br/>l'Esthétique</div>
+              <div style={{ fontFamily: C.font, fontSize: 22, fontWeight: 500, color: "#fff", lineHeight: 1.2, marginBottom: 16 }}>Débuter en<br/>Extensions de Cils</div>
               <div style={{ width: 32, height: 1, background: "rgba(255,255,255,0.4)", margin: "0 auto 16px" }} />
               <div style={{ fontFamily: C.fontSans, fontSize: 10, color: "rgba(255,255,255,0.7)", letterSpacing: "0.1em" }}>Maria</div>
-              <div style={{ position: "absolute", bottom: 20, fontFamily: C.fontSans, fontSize: 9, color: "rgba(255,255,255,0.4)" }}>244 pages · 7 chapitres</div>
+              <div style={{ position: "absolute", bottom: 20, fontFamily: C.fontSans, fontSize: 9, color: "rgba(255,255,255,0.4)" }}>34 pages · 4 parties</div>
             </div>
           </div>
 
@@ -2096,17 +2096,17 @@ export default function MaisonMariaPage() {
           <div style={{ flex: 1, minWidth: 280 }}>
             <div style={{ fontFamily: C.fontSans, fontSize: 11, letterSpacing: "0.2em", textTransform: "uppercase" as const, color: C.rose, marginBottom: 16 }}>Nouveau · Guide de Formation</div>
             <h2 style={{ fontFamily: C.font, fontSize: "clamp(32px, 4vw, 52px)", fontWeight: 400, color: "#fff", lineHeight: 1.1, marginBottom: 20 }}>
-              Toutes les techniques<br/>en un seul guide
+              Débuter en extensions<br/>de cils, sans se planter
             </h2>
             <p style={{ fontFamily: C.fontSans, fontSize: 15, color: "rgba(255,255,255,0.6)", lineHeight: 1.75, marginBottom: 32, maxWidth: 480 }}>
-              Cils, sourcils, blanchiment dentaire, micropigmentation, madérothérapie — 244 pages de protocoles professionnels, fiches clientes et stratégies tarifaires pour lancer ou développer ton activité.
+              Le guide simple et professionnel pour réussir tes premières poses — matériel, hygiène, erreurs à éviter et comment trouver et fidéliser tes premières clientes.
             </p>
             <div style={{ display: "flex", gap: 40, marginBottom: 36, flexWrap: "wrap" }}>
               {[
-                { val: "244", label: "pages" },
-                { val: "7", label: "chapitres" },
-                { val: "4", label: "bonus inclus" },
-                { val: "49€", label: "prix unique" },
+                { val: "34", label: "pages" },
+                { val: "4", label: "parties" },
+                { val: "3", label: "bonus inclus" },
+                { val: "22€", label: "prix unique" },
               ].map((s) => (
                 <div key={s.label}>
                   <div style={{ fontFamily: C.font, fontSize: 28, color: C.roseLight, lineHeight: 1 }}>{s.val}</div>
@@ -2133,7 +2133,7 @@ export default function MaisonMariaPage() {
                   borderRadius: 2,
                 }}
               >
-                Commander — 49€
+                Commander — 22€
               </a>
               <div style={{ fontFamily: C.fontSans, fontSize: 12, color: "rgba(255,255,255,0.35)" }}>
                 Accès immédiat · PDF téléchargeable
@@ -2208,7 +2208,7 @@ export default function MaisonMariaPage() {
         <div style={{ maxWidth: 1200, margin: "48px auto 0", paddingTop: 24, borderTop: "1px solid rgba(255,255,255,0.1)", display: "flex", flexDirection: "column", gap: 16 }}>
           <div style={{ display: "flex", flexWrap: "wrap", gap: 20 }}>
             <a href="/maison-maria/ebook" style={{ fontFamily: C.fontSans, fontSize: 12.5, color: C.roseLight, textDecoration: "none", fontWeight: 600 }}>
-              📖 Guide de formation — 49€
+              📖 Guide de formation — 22€
             </a>
             {[
               { label: "Mentions légales", href: "/maison-maria/legal/mentions-legales" },
