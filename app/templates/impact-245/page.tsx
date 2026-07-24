@@ -11,6 +11,7 @@ import {
   useMotionValue,
 } from 'framer-motion';
 import { ArrowRight, ChevronDown, Star } from 'lucide-react';
+import { resolveList } from "@/lib/templates/resolveList";
 
 // Hoisted above the design tokens: several templates read `brand` in a
 // module-level const — declaring it lower caused a TDZ ReferenceError (500).
@@ -110,7 +111,7 @@ const PHASES: CraftPhase[] = [
   },
 ];
 
-const SPECIALTIES: Specialty[] = [
+const SPECIALTIES_DEMO: Specialty[] = [
   { name: 'Pain de campagne au levain' },
   { name: 'Baguette de tradition' },
   { name: 'Croissant pur beurre AOP' },
@@ -149,7 +150,7 @@ const PROCESS_STEPS: CraftStep[] = [
   { num: '04', body: 'Cuisson sur sole réfractaire, vapeur naturelle' },
 ];
 
-const TESTIMONIALS: Testimonial[] = [
+const TESTIMONIALS_DEMO: Testimonial[] = [
   {
     quote:
       "J'ai déménagé dans le 6e il y a deux ans, mais le samedi matin je traverse Lyon pour venir chercher mon pain. Ce levain, c'est une addiction honnête.",
@@ -1056,6 +1057,10 @@ function SpecialtyCard({ item, i }: { item: Specialty; i: number }) {
 }
 
 function SpecialtyCards() {
+  const SPECIALTIES = resolveList(
+    bp?.menu?.map((m: any) => ({ name: m.name })),
+    SPECIALTIES_DEMO
+  );
   return (
     <section
       id="specialites"
@@ -1408,6 +1413,14 @@ function ProcessPanel() {
    8 · TESTIMONIALS — 2 cartes blanches avec étoiles or
    ════════════════════════════════════════════════════════════════════════════ */
 function Testimonials() {
+  const TESTIMONIALS = resolveList(
+    bp?.reputation?.featuredReviews?.map((r: any) => ({
+      quote: r.text,
+      name: r.name,
+      role: r.location ?? "",
+    })),
+    TESTIMONIALS_DEMO
+  );
   return (
     <section
       style={{
@@ -2079,6 +2092,7 @@ function Footer() {
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
     formData?: {
@@ -2094,6 +2108,7 @@ export default function Page() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -2127,56 +2142,9 @@ export default function Page() {
     });
   });
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
-
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
 return (
     <>
       <style>{FONTS_CSS}</style>

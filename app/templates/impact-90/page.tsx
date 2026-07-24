@@ -12,6 +12,7 @@ import {
 } from "framer-motion";
 import React, { useRef, useState, useEffect } from "react";
 import Link from "next/link";
+import { resolveList } from "@/lib/templates/resolveList";
 
 /* ─── Design Tokens ─────────────────────────────────────────── */
 // Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
@@ -55,7 +56,7 @@ const NAV_LINKS = [
   { label: "Contact", href: "#contact" }
 ];
 
-const BREADS = [
+const BREADS_DEMO = [
   { id: 1, name: "Miche au Levain", tag: "Signature", price: "8.50", desc: "24h fermentation, stone-ground T65 flour, open crumb, caramelised crust. Our most beloved loaf.", baked: "Daily 7:00" },
   { id: 2, name: "Pain de Seigle", tag: "Classic", price: "6.90", desc: "40% dark rye, light sour, dense and moist. Exceptional with butter and smoked salmon.", baked: "Tue / Thu / Sat" },
   { id: 3, name: "Épi de Blé", tag: "Seasonal", price: "4.20", desc: "Pull-apart wheat stalk, soft crumb with a crisp crust. Made fresh each morning.", baked: "Daily 8:00" },
@@ -78,7 +79,7 @@ const WORKSHOPS = [
   { name: "Viennoiserie Weekend", date: "Sat–Sun 7–8 Jun", price: "160", spots: 2 },
 ];
 
-const SPECIALTIES = ["Levain Signature", "Seigle 40%", "Brioche feuilletée", "Fougasse Olive", "Tourte de Meule", "Épi de Blé"];
+const SPECIALTIES_DEMO = ["Levain Signature", "Seigle 40%", "Brioche feuilletée", "Fougasse Olive", "Tourte de Meule", "Épi de Blé"];
 
 /* ─── TextReveal ─────────────────────────────────────────────── */
 function TextReveal({ text, delay = 0, style = {} }: { text: string; delay?: number; style?: React.CSSProperties }) {
@@ -119,6 +120,10 @@ function MagneticButton({ children, style = {}, onClick }: { children: React.Rea
 
 /* ─── MarqueeStrip ───────────────────────────────────────────── */
 function MarqueeStrip() {
+  const SPECIALTIES = resolveList(
+    bp?.menu?.map((m: any) => m.name),
+    SPECIALTIES_DEMO
+  );
   const items = [...SPECIALTIES, ...SPECIALTIES];
   return (
     <div style={{ overflow: "hidden", borderTop: `1px solid ${C.border}`, borderBottom: `1px solid ${C.border}`, padding: "11px 0", background: C.brown }}>
@@ -257,7 +262,7 @@ function SteamingLoaf() {
 }
 
 /* ─── BreadCard ──────────────────────────────────────────────── */
-function BreadCard({ bread }: { bread: typeof BREADS[0] }) {
+function BreadCard({ bread }: { bread: typeof BREADS_DEMO[0] }) {
   const [hovered, setHovered] = useState(false);
   return (
     <motion.div
@@ -313,13 +318,21 @@ function ProcessStep({ step, index }: { step: typeof PROCESS[0]; index: number }
 }
 
 /* ─── ServicesSection ───────────────────────────────────────── */
-const SERVICES_90 = [
+const SERVICES_90_DEMO = [
   { name: "Pain Sur-Mesure", desc: "Commandes spéciales pour événements, restaurants et banquets. Formes et farines adaptées.", icon: "🥖" },
   { name: "Click & Collect", desc: "Réservez votre pain en ligne et venez le récupérer dès l'ouverture sans faire la queue.", icon: "🛍️" },
   { name: "Ateliers Levain", desc: "Découvrez nos masterclass le samedi matin pour apprendre à dompter le levain sauvage.", icon: "🎓" }
 ];
 
 function ServicesSection() {
+  const SERVICES_90 = resolveList(
+    bp?.services?.map((s: any, i: number) => ({
+      name: s.title ?? s.name,
+      desc: s.description ?? s.desc,
+      icon: SERVICES_90_DEMO[i % SERVICES_90_DEMO.length].icon,
+    })),
+    SERVICES_90_DEMO
+  );
   return (
     <section id="services" style={{ padding: "80px 0", background: C.bgCard, borderBottom: `1px solid ${C.border}` }}>
       <div style={{ maxWidth: 1100, margin: "0 auto", paddingInline: 40 }}>
@@ -344,13 +357,21 @@ function ServicesSection() {
 }
 
 /* ─── TestimonialsSection ────────────────────────────────────── */
-const TESTIMONIALS_90 = [
+const TESTIMONIALS_90_DEMO = [
   { name: "Jean-Pierre D.", review: "Le pain de meule est extraordinaire, il se garde 5 jours sans aucun problème. La croûte est bien caramélisée, exactement comme j'aime.", origin: "Croix-Rousse" },
   { name: "Marie-Laure G.", review: "J'ai participé à l'atelier levain du samedi matin. Une révélation ! Je fais maintenant mon propre pain à la maison grâce aux conseils du chef.", origin: "Lyon 6e" },
   { name: "Antoine S.", review: "La brioche feuilletée du samedi matin est un chef-d'œuvre. Beurre parfait, croustillante et fondante à la fois. Pensez à réserver !", origin: "Caluire" }
 ];
 
 function TestimonialsSection() {
+  const TESTIMONIALS_90 = resolveList(
+    bp?.reputation?.featuredReviews?.map((r: any) => ({
+      name: r.name,
+      review: r.text,
+      origin: r.location ?? "",
+    })),
+    TESTIMONIALS_90_DEMO
+  );
   return (
     <section id="testimonials" style={{ padding: "80px 0", background: C.bg, borderBottom: `1px solid ${C.border}` }}>
       <div style={{ maxWidth: 1100, margin: "0 auto", paddingInline: 40 }}>
@@ -379,7 +400,7 @@ function TestimonialsSection() {
 }
 
 /* ─── FaqSection ────────────────────────────────────────────── */
-const FAQS_90 = [
+const FAQS_90_DEMO = [
   { q: "Qu'est-ce que le levain naturel ?", a: "Le levain naturel est un mélange de farine et d'eau où se développent des levures sauvages et des bactéries lactiques. Contrairement à la levure de boulangerie industrielle, il fermente lentement (24h à 48h), ce qui rend le pain plus digeste, aromatique et durable." },
   { q: "Proposez-vous du pain sans gluten ?", a: "Nous travaillons principalement des farines de blé ancien, de seigle et d'épeautre qui contiennent du gluten. Bien que notre fermentation longue dégrade une grande partie du gluten, nous n'avons pas d'environnement certifié 'sans allergènes' pour les personnes cœliaques." },
   { q: "Comment réserver un atelier de boulangerie ?", a: "Vous pouvez réserver directement sur notre site via la liste des ateliers ci-dessus. Les places étant limitées (6 personnes max), nous vous conseillons de réserver 3 à 4 semaines à l'avance." },
@@ -388,6 +409,10 @@ const FAQS_90 = [
 
 function FaqSection() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const FAQS_90 = resolveList(
+    bp?.faq?.map((f: any) => ({ q: f.q, a: f.a })),
+    FAQS_90_DEMO
+  );
   return (
     <section id="faq" style={{ padding: "80px 0", background: C.bgWarm, borderBottom: `1px solid ${C.border}` }}>
       <div style={{ maxWidth: 800, margin: "0 auto", paddingInline: 40 }}>
@@ -566,6 +591,7 @@ function ContactSection() {
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 let brand: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
@@ -582,6 +608,7 @@ export default function Page() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -595,10 +622,23 @@ export default function Page() {
 
   fd = session?.formData;
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, brown: brand };
   }
+
+  const BREADS = resolveList(
+    bp?.menu?.map((m: any, i: number) => ({
+      id: i + 1,
+      name: m.name,
+      tag: BREADS_DEMO[i % BREADS_DEMO.length].tag,
+      price: String(m.price ?? "").replace(/\s*€\s*/g, "").trim() || BREADS_DEMO[i % BREADS_DEMO.length].price,
+      desc: m.description,
+      baked: BREADS_DEMO[i % BREADS_DEMO.length].baked,
+    })),
+    BREADS_DEMO
+  );
 
   const [activeProcess, setActiveProcess] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -613,54 +653,6 @@ export default function Page() {
     document.head.appendChild(style);
     return () => { document.head.removeChild(style); };
   }, []);
-
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
 
   return (
     <main style={{ background: C.bg, color: C.brown, minHeight: "100dvh", fontFamily: "'Cabin', sans-serif", overflowX: "hidden" }}>
