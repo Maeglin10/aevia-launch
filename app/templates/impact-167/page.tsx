@@ -11,6 +11,7 @@ import {
   useSpring,
   AnimatePresence,
 } from "framer-motion";
+import { resolveList } from "@/lib/templates/resolveList";
 
 // ─── Design Tokens ────────────────────────────────────────────────────────────
 // Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
@@ -44,7 +45,7 @@ let C: Record<string, string> = {
 // ─── Data ─────────────────────────────────────────────────────────────────────
 const NAV_LINKS = ["Properties", "Market", "Neighborhoods", "Process", "Contact"];
 
-const PROPERTIES = [
+const PROPERTIES_DEMO = [
   {
     id: 1,
     title: "Hôtel Particulier",
@@ -147,13 +148,13 @@ const PROCESS_STEPS = [
   },
 ];
 
-const TESTIMONIALS = [
+const TESTIMONIALS_DEMO = [
   { quote: "Rive Gauche found us our apartment in four weeks. Three off-market viewings, one offer. They know this city in a way that takes decades to learn.", author: "Edward & Caroline H.", origin: "London" },
   { quote: "I had worked with three agencies before. This was different from the first meeting. They asked questions no one had asked.", author: "Mathieu L.", origin: "Paris" },
   { quote: "The negotiation they conducted on our behalf saved us €180,000. Quietly, professionally, without drama.", author: "Ingrid S.", origin: "Stockholm" },
 ];
 
-const MARQUEE_ITEMS = [
+const MARQUEE_ITEMS_DEMO = [
   "Saint-Germain",
   "Le Marais",
   "Île Saint-Louis",
@@ -342,7 +343,7 @@ function PropertyCard({
   isActive,
   onActivate,
 }: {
-  property: (typeof PROPERTIES)[0];
+  property: any;
   index: number;
   isActive: boolean;
   onActivate: () => void;
@@ -371,8 +372,8 @@ function PropertyCard({
         }}
       >
         <img
-          src={property.image}
-          alt={property.title}
+          src={property.image ?? property.photoUrl ?? photo(2 + index, "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=1400&auto=format&fit=crop")}
+          alt={property.title ?? property.name ?? "Bien"}
           style={{
             width: "100%",
             height: "100%",
@@ -427,18 +428,20 @@ function PropertyCard({
       </div>
 
       <div style={{ padding: "28px 28px 32px" }}>
-        <div
-          style={{
-            fontFamily: C.fontSans,
-            fontSize: 10,
-            letterSpacing: "0.22em",
-            textTransform: "uppercase",
-            color: isActive ? C.gold : C.gold,
-            marginBottom: 8,
-          }}
-        >
-          {property.subtitle}
-        </div>
+        {(property.subtitle ?? property.city) && (
+          <div
+            style={{
+              fontFamily: C.fontSans,
+              fontSize: 10,
+              letterSpacing: "0.22em",
+              textTransform: "uppercase",
+              color: isActive ? C.gold : C.gold,
+              marginBottom: 8,
+            }}
+          >
+            {property.subtitle ?? property.city}
+          </div>
+        )}
         <div
           style={{
             fontFamily: C.font,
@@ -450,7 +453,7 @@ function PropertyCard({
             transition: "color 0.4s",
           }}
         >
-          {property.title}
+          {property.title ?? property.name}
         </div>
 
         <div
@@ -461,9 +464,9 @@ function PropertyCard({
           }}
         >
           {[
-            { label: "Surface", value: property.area },
+            { label: "Surface", value: property.area ?? property.surface },
             { label: "Pièces", value: property.rooms },
-          ].map((item) => (
+          ].filter((item) => item.value).map((item) => (
             <div key={item.label}>
               <div
                 style={{
@@ -500,38 +503,42 @@ function PropertyCard({
               transition={{ duration: 0.4 }}
               style={{ overflow: "hidden" }}
             >
-              <div
-                style={{
-                  fontFamily: C.fontSans,
-                  fontSize: 14,
-                  color: "rgba(255,255,255,0.7)",
-                  lineHeight: 1.75,
-                  marginBottom: 20,
-                  fontWeight: 300,
-                  paddingTop: 8,
-                  borderTop: `1px solid rgba(255,255,255,0.1)`,
-                }}
-              >
-                {property.description}
-              </div>
-              <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 20 }}>
-                {property.tags.map((tag) => (
-                  <span
-                    key={tag}
-                    style={{
-                      fontFamily: C.fontSans,
-                      fontSize: 10,
-                      letterSpacing: "0.15em",
-                      textTransform: "uppercase",
-                      color: C.gold,
-                      border: `1px solid rgba(201,168,85,0.3)`,
-                      padding: "4px 12px",
-                    }}
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
+              {property.description && (
+                <div
+                  style={{
+                    fontFamily: C.fontSans,
+                    fontSize: 14,
+                    color: "rgba(255,255,255,0.7)",
+                    lineHeight: 1.75,
+                    marginBottom: 20,
+                    fontWeight: 300,
+                    paddingTop: 8,
+                    borderTop: `1px solid rgba(255,255,255,0.1)`,
+                  }}
+                >
+                  {property.description}
+                </div>
+              )}
+              {Array.isArray(property.tags) && property.tags.length > 0 && (
+                <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 20 }}>
+                  {property.tags.map((tag: any) => (
+                    <span
+                      key={tag}
+                      style={{
+                        fontFamily: C.fontSans,
+                        fontSize: 10,
+                        letterSpacing: "0.15em",
+                        textTransform: "uppercase",
+                        color: C.gold,
+                        border: `1px solid rgba(201,168,85,0.3)`,
+                        padding: "4px 12px",
+                      }}
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              )}
               <button
                 style={{
                   background: C.gold,
@@ -743,6 +750,7 @@ function NeighborhoodTab({
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+let bp: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
 function photo(i: number, fallback: string): string {
@@ -763,6 +771,7 @@ export default function Impact167Page() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -775,25 +784,8 @@ export default function Impact167Page() {
   }, []);
 
   fd = session?.formData;
-
-  useEffect(() => {
-    if (!fd?.photoUrls?.length) return;
-    let n = 2;
-    const _photoArrays: any[] = [PROPERTIES, NEIGHBORHOODS];
-    _photoArrays.forEach((arr) => {
-      if (!Array.isArray(arr)) return;
-      arr.forEach((item) => {
-        if (!item || typeof item !== "object") return;
-        for (const key of ["img", "src", "image", "imgSrc", "photo"]) {
-          if (typeof item[key] === "string" && item[key].includes("images.unsplash.com")) {
-            if (fd.photoUrls[n]) item[key] = fd.photoUrls[n];
-            n++;
-          }
-        }
-      });
-    });
-  });
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, gold: brand, goldLight: shadeColor(brand, 25), goldDark: shadeColor(brand, -20) };
@@ -826,60 +818,16 @@ export default function Impact167Page() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
+  const properties = resolveList(bp?.listings, PROPERTIES_DEMO);
+  const testimonials = resolveList(bp?.reputation?.featuredReviews, TESTIMONIALS_DEMO);
+  const marqueeItems = resolveList(bp?.geo?.serviceAreas, MARQUEE_ITEMS_DEMO);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setActiveTestimonial((prev) => (prev + 1) % TESTIMONIALS.length);
+      setActiveTestimonial((prev) => (prev + 1) % testimonials.length);
     }, 5500);
     return () => clearInterval(interval);
-  }, []);
+  }, [testimonials.length]);
 
   const scrollTo = useCallback((id: string) => {
     document.getElementById(id.toLowerCase())?.scrollIntoView({ behavior: "smooth" });
@@ -1487,7 +1435,7 @@ export default function Impact167Page() {
               gap: 2,
             }}
           >
-            {PROPERTIES.map((property, i) => (
+            {properties.map((property: any, i: number) => (
               <PropertyCard
                 key={property.id}
                 property={property}
@@ -1615,7 +1563,7 @@ export default function Impact167Page() {
       </section>
 
       {/* Marquee */}
-      <MarqueeStrip items={MARQUEE_ITEMS} bg={C.gold} textColor={C.navy} />
+      <MarqueeStrip items={marqueeItems} bg={C.gold} textColor={C.navy} />
 
       {/* Process */}
       <section id="process" style={{ padding: "120px 80px", background: C.ivory }}>
@@ -1773,7 +1721,7 @@ export default function Impact167Page() {
           </TextReveal>
 
           <div style={{ position: "relative", minHeight: 220 }}>
-            {TESTIMONIALS.map((t, i) => (
+            {testimonials.map((t: any, i: number) => (
               <motion.div
                 key={i}
                 animate={{
@@ -1839,7 +1787,7 @@ export default function Impact167Page() {
               marginTop: 48,
             }}
           >
-            {TESTIMONIALS.map((_, i) => (
+            {testimonials.map((_: any, i: number) => (
               <button
                 key={i}
                 onClick={() => setActiveTestimonial(i)}
