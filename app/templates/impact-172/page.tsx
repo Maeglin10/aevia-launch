@@ -6,6 +6,7 @@ import { motion, AnimatePresence, useScroll, useTransform, useInView } from "fra
 import Image from "next/image"
 import Link from "next/link"
 import { Menu, X, ArrowRight, Scale, Shield, Briefcase, Users, Building, FileText, Phone, Mail, MapPin, ChevronRight, Award, Globe } from "lucide-react"
+import { resolveList } from "@/lib/templates/resolveList"
 
 function useFonts() {
   useEffect(() => {
@@ -30,7 +31,7 @@ function Reveal({ children, delay = 0, y = 40 }: { children: React.ReactNode; de
   )
 }
 
-const DOMAINS = [
+const DOMAINS_DEMO = [
   {
     id: "corporate",
     icon: Building,
@@ -68,7 +69,7 @@ const DOMAINS = [
   },
 ]
 
-const PARTNERS = [
+const PARTNERS_DEMO = [
   { name: "Philippe Legrand", title: "Associé Fondateur", domain: "Droit des affaires", bar: "Paris, 1991", image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&q=80" },
   { name: "Marie-Sophie Renault", title: "Associée", domain: "Contentieux & Arbitrage", bar: "Paris, 1998", image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&q=80" },
   { name: "Thomas Vigneron", title: "Associé", domain: "Fiscalité internationale", bar: "Paris, 2003", image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&q=80" },
@@ -86,6 +87,7 @@ const REFERENCES = [
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
@@ -107,6 +109,7 @@ export default function LegrandPage() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -123,7 +126,7 @@ export default function LegrandPage() {
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;
     let n = 2;
-    const _photoArrays: any[] = [PARTNERS];
+    const _photoArrays: any[] = [PARTNERS_DEMO];
     _photoArrays.forEach((arr) => {
       if (!Array.isArray(arr)) return;
       arr.forEach((item) => {
@@ -138,7 +141,29 @@ export default function LegrandPage() {
     });
   });
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
+
+  const DOMAINS = resolveList(
+    bp?.services?.map((s: any, i: number) => ({
+      id: DOMAINS_DEMO[i % DOMAINS_DEMO.length].id + "-" + i,
+      icon: DOMAINS_DEMO[i % DOMAINS_DEMO.length].icon,
+      label: s.title ?? s.name,
+      desc: s.description ?? s.desc,
+      expertise: [],
+    })),
+    DOMAINS_DEMO
+  );
+  const PARTNERS = resolveList(
+    bp?.team?.map((m: any, i: number) => ({
+      name: m.name ?? PARTNERS_DEMO[i % PARTNERS_DEMO.length].name,
+      title: m.role ?? PARTNERS_DEMO[i % PARTNERS_DEMO.length].title,
+      domain: m.specialty ?? PARTNERS_DEMO[i % PARTNERS_DEMO.length].domain,
+      bar: m.credentials ?? PARTNERS_DEMO[i % PARTNERS_DEMO.length].bar,
+      image: m.photoUrl ?? PARTNERS_DEMO[i % PARTNERS_DEMO.length].image,
+    })),
+    PARTNERS_DEMO
+  );
 
   useFonts()
   const [menuOpen, setMenuOpen] = useState(false)
@@ -155,53 +180,7 @@ export default function LegrandPage() {
     return () => window.removeEventListener("scroll", onScroll)
   }, []);
 
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);const ActiveDomainIcon = DOMAINS[activeDomain].icon
+  const ActiveDomainIcon = DOMAINS[activeDomain].icon
 
   return (
     <div className="min-h-dvh bg-[#F9F6F0] text-[#1A1510]" style={{ fontFamily: "'Inter', sans-serif" }}>
@@ -368,6 +347,7 @@ export default function LegrandPage() {
                     {DOMAINS[activeDomain].label}
                   </h3>
                   <p className="text-[#5A5040] leading-relaxed mb-10">{DOMAINS[activeDomain].desc}</p>
+                  {DOMAINS[activeDomain].expertise?.length > 0 && (
                   <div className="space-y-3">
                     <p className="text-xs tracking-[0.2em] uppercase text-[#C9A855] mb-4">Domaines d&apos;expertise</p>
                     {DOMAINS[activeDomain].expertise.map(e => (
@@ -377,6 +357,7 @@ export default function LegrandPage() {
                       </div>
                     ))}
                   </div>
+                  )}
                   <Link href="#contact" className="mt-10 inline-flex items-center gap-2 text-sm text-[#C9A855] border-b border-[#C9A855] pb-0.5 hover:text-[#1A1510] hover:border-[#1A1510] transition-colors cursor-pointer">
                     Consulter nos équipes <ArrowRight className="w-3.5 h-3.5" />
                   </Link>

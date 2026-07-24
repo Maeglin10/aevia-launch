@@ -6,6 +6,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { Zap, ShieldCheck, Phone, Clock, Star, MapPin, ArrowRight, CheckCircle, Menu, Wrench, Award, Users, ChevronDown } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import { resolveList } from "@/lib/templates/resolveList"
 
 /* ═══════════════════════════════════════════════════════════════════════════
    VOLTPRO ÉLECTRICITÉ — Électricien professionnel (France)
@@ -14,11 +15,11 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
    Style : dark industrial, high-contrast, Tailwind Reveal
    ═══════════════════════════════════════════════════════════════════════════ */
 
-function Reveal({ children, delay = 0, y = 40 }: { children: React.ReactNode; delay?: number; y?: number }) {
+function Reveal({ children, delay = 0, y = 40, className }: { children: React.ReactNode; delay?: number; y?: number; className?: string }) {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: "-80px" })
   return (
-    <motion.div ref={ref} initial={{ opacity: 0, y }} animate={isInView ? { opacity: 1, y: 0 } : {}}
+    <motion.div ref={ref} className={className} initial={{ opacity: 0, y }} animate={isInView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.9, delay, ease: [0.16, 1, 0.3, 1] }}>
       {children}
     </motion.div>
@@ -38,7 +39,7 @@ function ParallaxImg({ src, alt }: { src: string; alt: string }) {
   )
 }
 
-const SERVICES = [
+const SERVICES_DEMO = [
   { icon: Zap, title: "Installation électrique", desc: "Tableaux de distribution, câblage neuf, mise aux normes NF C 15-100. Habitat individuel et collectif." },
   { icon: ShieldCheck, title: "Mise en conformité", desc: "Diagnostic CONSUEL, rapport de vérification, levée des réserves. Attestations pour vente ou location." },
   { icon: Wrench, title: "Dépannage 7j/7", desc: "Disjoncteur sauté, panne totale, court-circuit. Intervention sous 2h dans un rayon de 30 km." },
@@ -47,7 +48,7 @@ const SERVICES = [
   { icon: Wrench, title: "Chantiers neufs & rénovation", desc: "Accompagnement complet de la conception au CONSUEL. Plans, devis gratuit sous 24h, suivi chantier." },
 ]
 
-const REALIZATIONS = [
+const REALIZATIONS_DEMO = [
   { label: "Villa contemporaine · 280 m²", tag: "Installation complète", img: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&q=80&w=1200" },
   { label: "Immeuble 12 logements · Bordeaux", tag: "Mise en conformité NFC15-100", img: "https://images.unsplash.com/photo-1486325212027-8081e485255e?auto=format&fit=crop&q=80&w=1200" },
   { label: "Commerce · Cuisine industrielle", tag: "Triphasé + TGBT", img: "https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?auto=format&fit=crop&q=80&w=1200" },
@@ -64,6 +65,7 @@ const STEPS = [
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
@@ -85,6 +87,7 @@ export default function VoltProPage() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -101,7 +104,7 @@ export default function VoltProPage() {
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;
     let n = 2;
-    const _photoArrays: any[] = [REALIZATIONS];
+    const _photoArrays: any[] = [REALIZATIONS_DEMO];
     _photoArrays.forEach((arr) => {
       if (!Array.isArray(arr)) return;
       arr.forEach((item) => {
@@ -116,7 +119,38 @@ export default function VoltProPage() {
     });
   });
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
+
+  const SERVICES = resolveList(
+    bp?.services?.map((s: any, i: number) => ({
+      icon: SERVICES_DEMO[i % SERVICES_DEMO.length].icon,
+      title: s.title ?? s.name,
+      desc: s.description ?? s.desc,
+    })),
+    SERVICES_DEMO
+  );
+  const REALIZATIONS = resolveList(
+    bp?.beforeAfter?.map((r: any, i: number) => ({
+      label: r.caption ?? REALIZATIONS_DEMO[i % REALIZATIONS_DEMO.length].label,
+      tag: REALIZATIONS_DEMO[i % REALIZATIONS_DEMO.length].tag,
+      img: r.afterUrl ?? r.beforeUrl ?? REALIZATIONS_DEMO[i % REALIZATIONS_DEMO.length].img,
+    })),
+    REALIZATIONS_DEMO
+  );
+  const TESTIMONIALS = resolveList(
+    bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+      quote: r.text ?? r.quote,
+      name: r.name ?? r.author,
+      loc: r.location ?? "",
+      stars: r.stars ?? 5,
+    })),
+    [
+      { quote: "Intervention rapide après une panne totale la veille d'un réveillon. Professionnel, rassurant, tarif transparent. Je ne ferai appel qu'à VoltPro.", name: "Marie-France D.", loc: "Vincennes (94)", stars: 5 },
+      { quote: "Mise aux normes complète de notre maison des années 70. Le rapport CONSUEL a été obtenu sans réserve du premier coup. Travail impeccable.", name: "Thierry K.", loc: "Roissy-en-Brie (77)", stars: 5 },
+      { quote: "Installation de 4 bornes IRVE pour notre parking de copropriété. Coordination parfaite avec le syndic, délais tenus. Vraiment sérieux.", name: "Sylvie & Jean-Pierre N.", loc: "Montreuil (93)", stars: 5 },
+    ]
+  );
 
   const [scrolled, setScrolled] = useState(false)
   const { scrollYProgress } = useScroll()
@@ -129,53 +163,7 @@ export default function VoltProPage() {
     return () => window.removeEventListener("scroll", h)
   }, []);
 
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);return (
+  return (
     <div className="bg-[#080a0c] text-white min-h-dvh overflow-x-hidden" style={{ fontFamily: "'Syne', system-ui, sans-serif" }}>
 
       {/* ── NAVBAR ── */}
@@ -426,11 +414,7 @@ export default function VoltProPage() {
               </div>
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {[
-                { quote: "Intervention rapide après une panne totale la veille d'un réveillon. Professionnel, rassurant, tarif transparent. Je ne ferai appel qu'à VoltPro.", name: "Marie-France D.", loc: "Vincennes (94)", stars: 5 },
-                { quote: "Mise aux normes complète de notre maison des années 70. Le rapport CONSUEL a été obtenu sans réserve du premier coup. Travail impeccable.", name: "Thierry K.", loc: "Roissy-en-Brie (77)", stars: 5 },
-                { quote: "Installation de 4 bornes IRVE pour notre parking de copropriété. Coordination parfaite avec le syndic, délais tenus. Vraiment sérieux.", name: "Sylvie & Jean-Pierre N.", loc: "Montreuil (93)", stars: 5 },
-              ].map((t, i) => (
+              {TESTIMONIALS.map((t, i) => (
                 <Reveal key={i} delay={i * 0.1}>
                   <div className="border border-white/5 p-10 flex flex-col gap-6 hover:border-yellow-400/15 transition-colors duration-500 h-full">
                     <div className="flex gap-1">
@@ -439,9 +423,9 @@ export default function VoltProPage() {
                     <p className="text-white/45 text-sm leading-relaxed italic flex-1">{`"${t.quote}"`}</p>
                     <div className="border-t border-white/5 pt-6">
                       <div className="font-extrabold text-sm uppercase tracking-widest text-white">{t.name}</div>
-                      <div className="flex items-center gap-2 text-[10px] text-yellow-400/60 mt-1" style={{ fontFamily: "'Space Mono', monospace" }}>
+                      {t.loc && <div className="flex items-center gap-2 text-[10px] text-yellow-400/60 mt-1" style={{ fontFamily: "'Space Mono', monospace" }}>
                         <MapPin className="w-3 h-3" /> {t.loc}
-                      </div>
+                      </div>}
                     </div>
                   </div>
                 </Reveal>

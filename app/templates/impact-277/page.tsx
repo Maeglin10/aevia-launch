@@ -30,6 +30,7 @@ import {
   Building2,
   Smartphone,
 } from 'lucide-react';
+import { resolveList } from "@/lib/templates/resolveList";
 
 /* ════════════════════════════════════════════════════════════════════════════
    ÉLECTRICITÉ DUMONT — Électricien certifié · Paris 11e & Île-de-France
@@ -925,7 +926,7 @@ type Service = {
   items: string[];
 };
 
-const SERVICES: Service[] = [
+const SERVICES_DEMO: Service[] = [
   {
     icon: <Zap size={34} color={C.yellow} strokeWidth={1.8} />,
     title: 'Installation électrique',
@@ -1098,7 +1099,15 @@ function ServicesSection() {
         </Reveal>
       </div>
       <div style={grid}>
-        {SERVICES.map((s, i) => (
+        {resolveList(
+          bp?.services?.map((s: any, i: number) => ({
+            icon: SERVICES_DEMO[i % SERVICES_DEMO.length].icon,
+            title: s.title ?? s.name,
+            sub: s.description ?? s.desc,
+            items: SERVICES_DEMO[i % SERVICES_DEMO.length].items,
+          })),
+          SERVICES_DEMO
+        ).map((s, i) => (
           <ServiceCard key={s.title} s={s} i={i} />
         ))}
       </div>
@@ -1345,7 +1354,7 @@ function ProcessSection() {
    ════════════════════════════════════════════════════════════════════════════ */
 type Testimonial = { quote: string; name: string; job: string; travaux: string };
 
-const TESTIMONIALS: Testimonial[] = [
+const TESTIMONIALS_DEMO: Testimonial[] = [
   {
     quote:
       'Intervention rapide après une panne de tableau. M. Dumont a tout réparé en 2 heures, proprement, avec un devis respecté à l’euro. Je recommande sans hésiter à tous mes voisins du 11e.',
@@ -1492,7 +1501,15 @@ function TestimonialsSection() {
         </Reveal>
       </div>
       <div style={grid}>
-        {TESTIMONIALS.map((t, i) => (
+        {resolveList(
+          bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+            quote: r.text ?? r.quote,
+            name: r.name ?? r.author,
+            job: r.location ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].job,
+            travaux: r.detail ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].travaux,
+          })),
+          TESTIMONIALS_DEMO
+        ).map((t, i) => (
           <TestimonialCard key={t.name} t={t} i={i} />
         ))}
       </div>
@@ -1951,7 +1968,7 @@ type Project = {
   icon: React.ReactNode;
 };
 
-const PROJECTS: Project[] = [
+const PROJECTS_DEMO: Project[] = [
   {
     img: PHOTO.haussmann,
     alt: 'Rénovation électrique appartement haussmannien Paris',
@@ -2132,7 +2149,18 @@ function ProjectsSection() {
         </Reveal>
       </div>
       <div style={grid}>
-        {PROJECTS.map((p, i) => (
+        {resolveList(
+          bp?.beforeAfter?.map((r: any, i: number) => ({
+            img: r.afterUrl ?? r.beforeUrl ?? PROJECTS_DEMO[i % PROJECTS_DEMO.length].img,
+            alt: r.caption ?? PROJECTS_DEMO[i % PROJECTS_DEMO.length].alt,
+            tag: PROJECTS_DEMO[i % PROJECTS_DEMO.length].tag,
+            title: r.caption ?? PROJECTS_DEMO[i % PROJECTS_DEMO.length].title,
+            desc: PROJECTS_DEMO[i % PROJECTS_DEMO.length].desc,
+            detail: PROJECTS_DEMO[i % PROJECTS_DEMO.length].detail,
+            icon: PROJECTS_DEMO[i % PROJECTS_DEMO.length].icon,
+          })),
+          PROJECTS_DEMO
+        ).map((p, i) => (
           <ProjectCard key={p.title} p={p} i={i} />
         ))}
       </div>
@@ -2631,6 +2659,7 @@ function FooterSection() {
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 let brand: any = null;
 export default function Impact277Page() {
   const [session, setSession] = useState<{
@@ -2647,6 +2676,7 @@ export default function Impact277Page() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -2678,6 +2708,7 @@ export default function Impact277Page() {
     });
   });
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, yellow: brand, yellowLight: shadeColor(brand, 25) };
@@ -2692,55 +2723,7 @@ export default function Impact277Page() {
     MozOsxFontSmoothing: 'grayscale',
   };
 
-  
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
-return (
+  return (
     <main id="hero" style={root} suppressHydrationWarning>
       <Nav />
       <HeroSection />

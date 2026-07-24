@@ -19,6 +19,7 @@ import {
   Star,
   Shield,
 } from 'lucide-react';
+import { resolveList } from "@/lib/templates/resolveList";
 
 /* ════════════════════════════════════════════════════════════════════════════
    ÉLECTROPRO — Électricien · Domotique · Île-de-France
@@ -127,7 +128,7 @@ const PHASES: Phase[] = [
 ];
 
 /* ── Services (6) ─────────────────────────────────────────────────────────── */
-const SERVICES: Service[] = [
+const SERVICES_DEMO: Service[] = [
   {
     num: '01',
     title: 'Installation électrique',
@@ -205,7 +206,7 @@ const SPECS: Spec[] = [
 ];
 
 /* ── Reviews (3) ─────────────────────────────────────────────────────────── */
-const REVIEWS: Review[] = [
+const REVIEWS_DEMO: Review[] = [
   {
     quote:
       'Tableau électrique entièrement refait en une journée, câblage impeccable et nettoyage du chantier inclus. Je recommande sans hésiter.',
@@ -1198,7 +1199,14 @@ function ServiceCards() {
         </Reveal>
       </div>
       <div style={grid}>
-        {SERVICES.map((s, i) => (
+        {resolveList(
+          bp?.services?.map((s: any, i: number) => ({
+            num: SERVICES_DEMO[i % SERVICES_DEMO.length].num,
+            title: s.title ?? s.name,
+            desc: s.description ?? s.desc,
+          })),
+          SERVICES_DEMO
+        ).map((s, i) => (
           <ServiceCard key={s.num} svc={s} i={i} />
         ))}
       </div>
@@ -1595,7 +1603,15 @@ function Reviews() {
         </Reveal>
       </div>
       <div style={grid}>
-        {REVIEWS.map((r, i) => (
+        {resolveList(
+          bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+            quote: r.text ?? r.quote,
+            name: r.name ?? r.author,
+            role: r.role ?? REVIEWS_DEMO[i % REVIEWS_DEMO.length].role,
+            city: r.location ?? REVIEWS_DEMO[i % REVIEWS_DEMO.length].city,
+          })),
+          REVIEWS_DEMO
+        ).map((r, i) => (
           <ReviewCard key={r.name} review={r} i={i} />
         ))}
       </div>
@@ -2093,6 +2109,7 @@ function Footer() {
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 let brand: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
@@ -2109,6 +2126,7 @@ export default function Page() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -2142,6 +2160,7 @@ export default function Page() {
     });
   });
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, accent: brand };
@@ -2156,55 +2175,7 @@ export default function Page() {
     MozOsxFontSmoothing: 'grayscale',
   };
 
-  
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
-return (
+  return (
     <main style={root} suppressHydrationWarning>
       <style>{`
         ${GFONTS}

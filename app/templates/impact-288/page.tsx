@@ -28,6 +28,7 @@ import {
   Zap,
   ZapOff,
 } from 'lucide-react';
+import { resolveList } from "@/lib/templates/resolveList";
 
 /* ════════════════════════════════════════════════════════════════════════════
    AMPÈRE & FILS — Électricien artisan · Nantes & Loire-Atlantique
@@ -939,7 +940,7 @@ function ScrollCrossfade() {
    3 · SERVICES SECTION — 3 spécialités avec icônes Lucide
    Installation & rénovation / Bornes IRVE / Solaire photovoltaïque
    ════════════════════════════════════════════════════════════════════════════ */
-const SERVICES = [
+const SERVICES_DEMO = [
   {
     icon: Zap,
     title: 'Installation & rénovation',
@@ -976,13 +977,13 @@ const SERVICES = [
       "MaPrimeRénov' jusqu'à 1 000 €",
     ],
   },
-] as const;
+];
 
 function ServiceCard({
   svc,
   i,
 }: {
-  svc: (typeof SERVICES)[number];
+  svc: (typeof SERVICES_DEMO)[number];
   i: number;
 }) {
   const [hover, setHover] = useState(false);
@@ -1157,7 +1158,16 @@ function ServicesSection() {
             alignItems: 'stretch',
           }}
         >
-          {SERVICES.map((s, i) => (
+          {resolveList(
+            bp?.services?.map((s: any, i: number) => ({
+              icon: SERVICES_DEMO[i % SERVICES_DEMO.length].icon,
+              title: s.title ?? s.name,
+              subtitle: SERVICES_DEMO[i % SERVICES_DEMO.length].subtitle,
+              desc: s.description ?? s.desc,
+              items: SERVICES_DEMO[i % SERVICES_DEMO.length].items,
+            })),
+            SERVICES_DEMO
+          ).map((s, i) => (
             <ServiceCard key={s.title} svc={s} i={i} />
           ))}
         </div>
@@ -1418,7 +1428,7 @@ function ProcessSection() {
 /* ════════════════════════════════════════════════════════════════════════════
    5 · TESTIMONIALS SECTION — 3 avis clients avec étoiles
    ════════════════════════════════════════════════════════════════════════════ */
-const TESTIMONIALS = [
+const TESTIMONIALS_DEMO = [
   {
     name: 'Sophie M.',
     city: 'Nantes (44000)',
@@ -1440,9 +1450,9 @@ const TESTIMONIALS = [
     text: "Pose de 16 panneaux photovoltaïques sur notre toit. Bilan de production sérieux, dossier MaPrimeRénov' géré de A à Z. Premier mois : 80 % de notre consommation couverte. Bravo pour le suivi !",
     stars: 5,
   },
-] as const;
+];
 
-function TestimonialCard({ t, i }: { t: (typeof TESTIMONIALS)[number]; i: number }) {
+function TestimonialCard({ t, i }: { t: (typeof TESTIMONIALS_DEMO)[number]; i: number }) {
   return (
     <Reveal delay={i * 0.12} style={{ height: '100%' }}>
       <article
@@ -1597,7 +1607,16 @@ function TestimonialsSection() {
             alignItems: 'stretch',
           }}
         >
-          {TESTIMONIALS.map((t, i) => (
+          {resolveList(
+            bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+              name: r.name ?? r.author,
+              city: r.location ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].city,
+              project: TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].project,
+              text: r.text ?? r.quote,
+              stars: r.stars ?? 5,
+            })),
+            TESTIMONIALS_DEMO
+          ).map((t, i) => (
             <TestimonialCard key={t.name} t={t} i={i} />
           ))}
         </div>
@@ -3045,6 +3064,7 @@ function FooterSection() {
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 let brand: any = null;
 export default function Impact288Page() {
   const [session, setSession] = useState<{
@@ -3061,6 +3081,7 @@ export default function Impact288Page() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -3092,60 +3113,13 @@ export default function Impact288Page() {
     });
   });
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, green: brand, greenLight: shadeColor(brand, 25) };
   }
 
-  
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
-return (
+  return (
     <main id="hero">
       {/* Polices système importées via link */}
       <style>{`

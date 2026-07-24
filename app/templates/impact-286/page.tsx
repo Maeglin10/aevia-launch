@@ -22,6 +22,7 @@ import {
   Shield,
   Star,
 } from 'lucide-react';
+import { resolveList } from "@/lib/templates/resolveList";
 
 /* ════════════════════════════════════════════════════════════════════════════
    CABINET VIDAL — Maître Clara Vidal · Avocate droit social & travail
@@ -829,7 +830,7 @@ type Domaine = {
   detail: string;
 };
 
-const DOMAINES: Domaine[] = [
+const DOMAINES_DEMO: Domaine[] = [
   {
     icon: <Briefcase size={28} strokeWidth={1.4} />,
     titre: 'Licenciement & rupture',
@@ -953,6 +954,15 @@ function DomaineCard({ d, i }: { d: Domaine; i: number }) {
 }
 
 function DomainesSection() {
+  const DOMAINES = resolveList(
+    bp?.services?.map((s: any, i: number) => ({
+      icon: DOMAINES_DEMO[i % DOMAINES_DEMO.length].icon,
+      titre: s.title ?? s.name,
+      sous: DOMAINES_DEMO[i % DOMAINES_DEMO.length].sous,
+      detail: s.description ?? s.desc,
+    })),
+    DOMAINES_DEMO
+  );
   const sec: React.CSSProperties = {
     background: C.bordeauxDeep,
     padding: 'clamp(90px,13vw,180px) clamp(24px,6vw,96px)',
@@ -990,8 +1000,8 @@ function DomainesSection() {
         </Reveal>
       </div>
       <div style={grid}>
-        {DOMAINES.map((d, i) => (
-          <DomaineCard key={d.titre} d={d} i={i} />
+        {DOMAINES.map((d: any, i: number) => (
+          <DomaineCard key={d.titre ?? i} d={d} i={i} />
         ))}
       </div>
     </section>
@@ -1209,7 +1219,7 @@ function ProcessSection() {
    ════════════════════════════════════════════════════════════════════════════ */
 type Temoignage = { quote: string; prenom: string; role: string; domaine: string };
 
-const TEMOIGNAGES: Temoignage[] = [
+const TEMOIGNAGES_DEMO: Temoignage[] = [
   {
     quote:
       "Mon employeur m'avait licencié sans cause réelle ni sérieuse. Maître Vidal a démontré devant les prud'hommes l'absence de justification — j'ai obtenu 14 mois de salaire. Tout s'est déroulé avec une clarté et une efficacité remarquables.",
@@ -1326,6 +1336,15 @@ function TemoignageCard({ t, i }: { t: Temoignage; i: number }) {
 }
 
 function TestimonialsSection() {
+  const TEMOIGNAGES = resolveList(
+    bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+      quote: r.text ?? r.quote,
+      prenom: r.name ?? r.author,
+      role: r.location ?? r.role ?? TEMOIGNAGES_DEMO[i % TEMOIGNAGES_DEMO.length].role,
+      domaine: TEMOIGNAGES_DEMO[i % TEMOIGNAGES_DEMO.length].domaine,
+    })),
+    TEMOIGNAGES_DEMO
+  );
   const sec: React.CSSProperties = {
     background: C.beige,
     padding: 'clamp(90px,12vw,170px) clamp(24px,6vw,96px)',
@@ -1364,7 +1383,7 @@ function TestimonialsSection() {
         </Reveal>
       </div>
       <div style={grid}>
-        {TEMOIGNAGES.map((t, i) => (
+        {TEMOIGNAGES.map((t: any, i: number) => (
           <TemoignageCard key={t.prenom} t={t} i={i} />
         ))}
       </div>
@@ -2511,6 +2530,7 @@ function FooterSection() {
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 let brand: any = null;
 export default function Impact286Page() {
   const [session, setSession] = useState<{
@@ -2527,6 +2547,7 @@ export default function Impact286Page() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -2558,6 +2579,7 @@ export default function Impact286Page() {
     });
   });
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, gold: brand, goldLight: shadeColor(brand, 25) };
@@ -2572,54 +2594,6 @@ export default function Impact286Page() {
     MozOsxFontSmoothing: 'grayscale',
   };
 
-  
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
 return (
     <main id="hero" style={root} suppressHydrationWarning>
       <Nav />

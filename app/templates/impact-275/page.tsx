@@ -37,6 +37,8 @@ import {
 /* ── Palette ─────────────────────────────────────────────────────────────── */
 // Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
 // used to derive companion shades from the client's brand color.
+import { resolveList } from "@/lib/templates/resolveList";
+
 function shadeColor(hex: string, percent: number): string {
   const num = parseInt(hex.replace('#', ''), 16);
   if (isNaN(num)) return hex;
@@ -948,7 +950,7 @@ const n = 3;
    3 · EXPERTISES — 3 domaines avec icônes lucide-react
    ════════════════════════════════════════════════════════════════════════════ */
 function ExpertiseSection() {
-  const expertises = [
+  const expertises_DEMO = [
     {
       icon: Scale,
       title: 'Divorce & Séparation',
@@ -989,6 +991,17 @@ function ExpertiseSection() {
       ],
     },
   ];
+
+  const expertises = resolveList(
+    bp?.services?.map((s: any, i: number) => ({
+      icon: expertises_DEMO[i % expertises_DEMO.length].icon,
+      title: s.title ?? s.name,
+      sub: expertises_DEMO[i % expertises_DEMO.length].sub,
+      desc: s.description ?? s.desc,
+      items: [],
+    })),
+    expertises_DEMO
+  );
 
   const [activeCard, setActiveCard] = useState<number | null>(null);
 
@@ -1464,7 +1477,7 @@ function ProcessSection() {
    5 · TÉMOIGNAGES — 3 témoignages clients avec étoiles
    ════════════════════════════════════════════════════════════════════════════ */
 function TestimonialsSection() {
-  const temoignages = [
+  const temoignages_DEMO = [
     {
       initials: 'M.L.',
       situation: 'Divorce contentieux — Région PACA',
@@ -1487,6 +1500,19 @@ function TestimonialsSection() {
       detail: 'Résidence alternée accordée · Pension alimentaire fixée',
     },
   ];
+
+  const temoignages = resolveList(
+    bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+      initials:
+        (r.name ?? '').split(' ').map((w: string) => w.charAt(0)).join('').toUpperCase() ||
+        temoignages_DEMO[i % temoignages_DEMO.length].initials,
+      situation: r.location ?? temoignages_DEMO[i % temoignages_DEMO.length].situation,
+      stars: r.stars ?? r.rating ?? 5,
+      text: r.text ?? r.quote,
+      detail: temoignages_DEMO[i % temoignages_DEMO.length].detail,
+    })),
+    temoignages_DEMO
+  );
 
   return (
     <section
@@ -3045,6 +3071,7 @@ function FooterSection() {
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 let brand: any = null;
 function Impact275Page() {
   const [session, setSession] = useState<{
@@ -3061,6 +3088,7 @@ function Impact275Page() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -3074,59 +3102,12 @@ function Impact275Page() {
 
   fd = session?.formData;
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, gold: brand, goldLight: shadeColor(brand, 25) };
   }
 
-  
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
 return (
     <main
       id="hero"
