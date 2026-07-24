@@ -24,6 +24,7 @@ import {
   BatteryCharging,
   Gauge
 } from 'lucide-react';
+import { resolveList } from "@/lib/templates/resolveList";
 const Facebook = ({ size = 24, color = 'currentColor', ...p }: any) => (<svg xmlns='http://www.w3.org/2000/svg' width={size} height={size} viewBox='0 0 24 24' fill='none' stroke={color} strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' {...p}><circle cx='12' cy='12' r='10'/></svg>);
 const Twitter = ({ size = 24, color = 'currentColor', ...p }: any) => (<svg xmlns='http://www.w3.org/2000/svg' width={size} height={size} viewBox='0 0 24 24' fill='none' stroke={color} strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' {...p}><circle cx='12' cy='12' r='10'/></svg>);
 
@@ -85,7 +86,7 @@ const C = {
 
 const SERIF = "'Orbitron', sans-serif";
 const SANS = "'Inter', sans-serif";
-const EASE = [0.16, 1, 0.3, 1];
+const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 const PHOTO = {
   hero: "https://images.unsplash.com/photo-1611016186353-9af58c69a533?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80",
@@ -138,7 +139,7 @@ const Reveal = ({ children, delay = 0, direction = 'up', width = '100%' }: { chi
   );
 };
 
-const Eyebrow = ({ children, color = C.primary }) => (
+const Eyebrow = ({ children, color = C.primary }: { children: React.ReactNode; color?: string }) => (
   <motion.div 
     initial={{ opacity: 0, x: -20 }}
     whileInView={{ opacity: 1, x: 0 }}
@@ -317,6 +318,7 @@ export default function AtelierPerformanceTemplate() {
 
   const fd = session?.formData;
   const c = session?.generatedContent;
+  const bp = session?.businessProfile;
 
   // Client-uploaded photos (uploaded in the brief) replace the stock
   // Unsplash placeholders — hero shot and about-section image first.
@@ -334,7 +336,35 @@ export default function AtelierPerformanceTemplate() {
   const businessName = fd?.businessName || "Atelier Performance";
   const heroTitle = c?.heroTitle || "L'Excellence Mécanique à l'État Pur.";
   const heroSubtitle = c?.heroSubtitle || "Spécialistes en préparation et optimisation de véhicules de prestige. Poussez les limites de votre machine avec notre expertise de pointe.";
-  
+
+  // Prefer the client's real business data (services / reviews / faq) when the
+  // brief provided a BusinessProfile; otherwise fall back to the demo defaults.
+  const servicesResolved = resolveList(
+    bp?.services?.map((s: any, i: number) => ({
+      title: s.title ?? s.name ?? "",
+      description: s.description ?? s.desc ?? "",
+      icon: services.length ? services[i % services.length].icon : <Cpu size={32} color={C.primary} />,
+      features: Array.isArray(s.features) ? s.features : (s.price ? [s.price] : []),
+    })),
+    services
+  );
+  const testimonialsResolved = resolveList(
+    bp?.reputation?.featuredReviews?.map((r: any) => ({
+      name: r.name ?? r.author ?? "",
+      role: r.location ?? r.role ?? "",
+      text: r.text ?? r.quote ?? "",
+      rating: r.stars ?? r.rating ?? 5,
+    })),
+    testimonials
+  );
+  const faqsResolved = resolveList(
+    bp?.faq?.map((f: any) => ({
+      question: f.q ?? f.question ?? "",
+      answer: f.a ?? f.answer ?? "",
+    })),
+    faqs
+  );
+
   if (!isMounted) return null;
 
   return (
@@ -440,7 +470,7 @@ export default function AtelierPerformanceTemplate() {
                   textTransform: 'uppercase',
                   letterSpacing: '0.02em'
                 }}>
-                  {heroTitle.split(' ').map((word, i) => (
+                  {heroTitle.split(' ').map((word: string, i: number) => (
                     <span key={i} style={{ 
                       color: i % 3 === 0 ? themeColor : C.white,
                       display: 'inline-block',
@@ -572,7 +602,7 @@ export default function AtelierPerformanceTemplate() {
               gridTemplateColumns: 'repeat(auto-fit, minmax(min(320px, 100%), 1fr))',
               gap: '2rem'
             }}>
-              {services.map((srv, i) => (
+              {servicesResolved.map((srv: any, i: number) => (
                 <Reveal key={i} delay={i * 0.15}>
                   <motion.div
                     whileHover={{ y: -10 }}
@@ -856,7 +886,7 @@ export default function AtelierPerformanceTemplate() {
               gridTemplateColumns: 'repeat(auto-fit, minmax(min(300px, 100%), 1fr))',
               gap: '2rem'
             }}>
-              {testimonials.map((testi, i) => (
+              {testimonialsResolved.map((testi: any, i: number) => (
                 <Reveal key={i} delay={i * 0.15}>
                   <div style={{
                     backgroundColor: C.bg,
@@ -923,7 +953,7 @@ export default function AtelierPerformanceTemplate() {
             </div>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-              {faqs.map((faq, i) => (
+              {faqsResolved.map((faq: any, i: number) => (
                 <FaqItem key={i} question={faq.question} answer={faq.answer} themeColor={themeColor} />
               ))}
             </div>
