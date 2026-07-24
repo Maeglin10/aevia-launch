@@ -5,10 +5,11 @@ import { useRef, useState, useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { Paintbrush, Sparkles, Phone, Star, MapPin, ArrowRight, CheckCircle, Layers, Brush, Shield, Menu } from "lucide-react"
+import { resolveList } from "@/lib/templates/resolveList"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   COULEURS & CO — Peintre en bâtiment (Lille)
+   COULEURS & CO PISCINES — Pisciniste / Constructeur de piscines (Lille)
    Palette : blanc pur / vert sauge #4d7c5f / gris perle #e8e8e4 / encre #1a1a2e
    Fonts : Montserrat (titres) + Nunito (corps)
    Style : frais, propre, coloré, artisanal premium
@@ -38,33 +39,35 @@ function ParallaxImg({ src, alt }: { src: string; alt: string }) {
   )
 }
 
-const SERVICES = [
-  { icon: Paintbrush, title: "Peinture intérieure", desc: "Séjour, chambre, cuisine, bureau. Préparation des supports (enduit, rebouchage, ponçage), application soignée multicouche. Toutes teintes." },
-  { icon: Layers, title: "Revêtement mural", desc: "Papier peint, toile de verre, enduit décoratif, béton ciré, stuc. Pose soignée, raccords impeccables, respect des calepinages." },
-  { icon: Brush, title: "Peinture extérieure", desc: "Façade, volets, portail, clôture. Peinture microporeuse, lasure, laque. Nettoyage haute pression et imperméabilisation inclus." },
-  { icon: Sparkles, title: "Décoration & relooking", desc: "Conseil couleur personnalisé, échantillons fournis, suivi Pantone. Jeux de matières et effets décoratifs pour un résultat unique." },
-  { icon: Shield, title: "Traitement avant peinture", desc: "Démoussage, anti-humidité, traitement anti-moisissures, reprises fissures. Garantie d'adhérence pour une peinture qui dure 10 ans." },
-  { icon: Paintbrush, title: "Logements locatifs", desc: "Remise en état entre deux locataires, réparations état des lieux. Tarifs avantageux, délais rapides, facture et garantie incluses." },
+const SERVICE_ICONS = [Paintbrush, Layers, Brush, Sparkles, Shield, Paintbrush]
+const SERVICES_DEMO = [
+  { icon: Paintbrush, title: "Construction de piscine", desc: "Piscine enterrée béton, coque ou bloc à bancher. Terrassement, structure, étanchéité, margelles et plage. De l'étude 3D à la mise en eau." },
+  { icon: Layers, title: "Revêtement & finitions", desc: "Liner armé, membrane PVC, carrelage, mosaïque ou béton ciré. Choix de teintes et de matières pour un bassin à votre image." },
+  { icon: Brush, title: "Rénovation de piscine", desc: "Réfection d'étanchéité, changement de liner, remise à neuf des margelles et de la plage. Redonnez vie à votre bassin." },
+  { icon: Sparkles, title: "Aménagement extérieur", desc: "Plage immergée, terrasse bois, éclairage LED, pool house. Un espace baignade harmonieux et pensé pour durer." },
+  { icon: Shield, title: "Sécurité & traitement", desc: "Barrières, volets, alarmes aux normes NF P90. Filtration, électrolyse au sel et régulation automatique du pH." },
+  { icon: Paintbrush, title: "Entretien & hivernage", desc: "Contrat saisonnier, hivernage, remise en route, analyse et traitement de l'eau. Une piscine limpide sans souci." },
 ]
 
 const COULEURS = [
-  { name: "Vert Sauge", hex: "#8fae9a", desc: "Tendance 2025" },
-  { name: "Terracotta", hex: "#c87c5c", desc: "Chaleur & caractère" },
-  { name: "Bleu Orage", hex: "#3d5a80", desc: "Profondeur & élégance" },
-  { name: "Crème Douce", hex: "#f5ede3", desc: "Intemporel & lumineux" },
+  { name: "Bleu Lagon", hex: "#2a9db5", desc: "Liner clair" },
+  { name: "Gris Perle", hex: "#9aa7ab", desc: "Élégance contemporaine" },
+  { name: "Bleu Nuit", hex: "#22415e", desc: "Effet miroir & profondeur" },
+  { name: "Sable", hex: "#d8c7a8", desc: "Ambiance lagon naturel" },
 ]
 
 
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
 function photo(i: number, fallback: string): string {
   return fd?.photoUrls?.[i] || fallback;
 }
-export default function CouleursCOPage() {
+export default function CouleursCOPiscinesPage() {
   const [session, setSession] = useState<{
     formData?: {
       businessName?: string; businessType?: string; tagline?: string;
@@ -79,7 +82,30 @@ export default function CouleursCOPage() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
+
+  const bpLocal: any = session?.businessProfile;
+  const SERVICES = resolveList(
+    bpLocal?.services?.map((sv: any, i: number) => ({
+      icon: SERVICE_ICONS[i % SERVICE_ICONS.length],
+      title: sv.title ?? sv.name,
+      desc: sv.description ?? sv.desc,
+    })),
+    SERVICES_DEMO
+  );
+  const AVIS = resolveList(
+    bpLocal?.reputation?.featuredReviews?.map((r: any) => ({
+      q: r.text ?? r.quote,
+      n: r.name ?? r.author,
+      l: r.location ?? r.context ?? "",
+    })),
+    [
+      { q: "Notre piscine béton avec liner bleu lagon est une réussite totale. Conseils précieux sur les finitions, chantier propre, délais tenus. Bluffés.", n: "Amélie B.", l: "Lille (59)" },
+      { q: "Rénovation complète : nouveau liner, margelles et filtration au sel. La piscine a retrouvé une seconde jeunesse. Rapport qualité-prix excellent.", n: "Paul & Martine G.", l: "Roubaix (59)" },
+      { q: "Construction d'un couloir de nage avec plage immergée et éclairage LED. Résultat magnifique, livré dans les temps. Très pro et à l'écoute.", n: "Karim D.", l: "Tourcoing (59)" },
+    ]
+  );
 
   useEffect(() => {
     const id = new URLSearchParams(window.location.search).get("session");
@@ -92,6 +118,7 @@ export default function CouleursCOPage() {
 
   fd = session?.formData;
   c = session?.generatedContent;
+  bp = bpLocal;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const heroRef = useRef(null)
@@ -107,53 +134,7 @@ export default function CouleursCOPage() {
     return () => window.removeEventListener("scroll", h)
   }, []);
 
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);return (
+return (
     <div className="bg-[#fefefe] text-[#1a1a2e] overflow-x-hidden" style={{ fontFamily: "'Montserrat', 'Inter', system-ui, sans-serif" }}>
       {/* ── NAVBAR ── */}
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-white/97 backdrop-blur-xl py-3 shadow-sm border-b border-[#4d7c5f]/10" : "bg-transparent py-7"}`}>
@@ -168,7 +149,7 @@ export default function CouleursCOPage() {
             ) : (
               <>
                 <Paintbrush className="w-5 h-5 text-[#4d7c5f]" />
-                <span className="font-bold text-[#1a1a2e] text-base tracking-tight">Couleurs <span className="text-[#4d7c5f]">&amp; Co</span></span>
+                <span className="font-bold text-[#1a1a2e] text-base tracking-tight">{fd?.businessName ?? <>Couleurs <span className="text-[#4d7c5f]">&amp; Co</span></>}</span>
               </>
             )}
           </div>
@@ -200,7 +181,7 @@ export default function CouleursCOPage() {
       {/* ── HERO ── */}
       <section id="hero" ref={heroRef} className="relative h-[110vh] min-h-[820px] flex items-end overflow-hidden">
         <motion.div style={{ y: heroY }} className="absolute inset-0">
-          <Image src={photo(0, "https://images.unsplash.com/photo-1562259949-e8e7689d7828?auto=format&fit=crop&q=85&w=2400")} alt="Peintre professionnel intérieur" fill className="object-cover" priority style={{ filter: "brightness(0.55)" }} />
+          <Image src={photo(0, "https://images.unsplash.com/photo-1572331165267-854da2b10ccc?auto=format&fit=crop&q=85&w=2400")} alt="Piscine sur-mesure" fill className="object-cover" priority style={{ filter: "brightness(0.55)" }} />
           <div className="absolute inset-0 bg-gradient-to-t from-[#1a1a2e] via-[#1a1a2e]/40 to-transparent" />
           <div className="absolute inset-0 bg-gradient-to-r from-[#1a1a2e]/55 to-transparent" />
         </motion.div>
@@ -209,18 +190,18 @@ export default function CouleursCOPage() {
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.3 }}>
             <div className="inline-flex items-center gap-3 px-4 py-2 border border-[#4d7c5f]/40 bg-[#4d7c5f]/10 mb-8">
               <Paintbrush className="w-3.5 h-3.5 text-[#7db88f]" />
-              <span className="text-[9px] font-bold uppercase tracking-[0.4em] text-[#7db88f]">Peintre en bâtiment qualifié · Nord & Pas-de-Calais</span>
+              <span className="text-[9px] font-bold uppercase tracking-[0.4em] text-[#7db88f]">Pisciniste qualifié · Nord & Pas-de-Calais</span>
             </div>
           </motion.div>
 
           <motion.h1 initial={{ opacity: 0, y: 55 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.1, delay: 0.48, ease: [0.16, 1, 0.3, 1] }}
             className="text-5xl md:text-7xl lg:text-8xl font-bold leading-[0.9] tracking-tight mb-8 text-white">{c?.heroHeadline ?? <>
-            La couleur<br />qui change <span className="text-[#7db88f]">tout.</span>
+            La piscine<br />qui change <span className="text-[#7db88f]">tout.</span>
           </>}</motion.h1>
 
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 0.75 }}
             className="max-w-lg text-sm text-white/40 leading-relaxed mb-10" style={{ fontFamily: "'Nunito', sans-serif" }}>{c?.heroSubline ?? fd?.tagline ?? <>
-            Peinture intérieure et extérieure, revêtements muraux, décorations. Artisan qualifié, conseils couleur personnalisés, préparation impeccable des supports. Devis gratuit sous 24h.
+            Construction, rénovation, sécurité et entretien de piscines. Pisciniste qualifié, conseils personnalisés sur les finitions, chantiers soignés. Devis gratuit sous 48h.
           </>}</motion.p>
 
           <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 1.0 }} className="flex flex-wrap gap-3">
@@ -288,7 +269,7 @@ export default function CouleursCOPage() {
           <Reveal>
             <div className="mb-12">
               <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#4d7c5f] mb-4">Palette 2025-2026</div>
-              <h2 className="text-3xl md:text-4xl font-bold text-[#1a1a2e]">Couleurs <span className="text-[#4d7c5f]">du moment.</span></h2>
+              <h2 className="text-3xl md:text-4xl font-bold text-[#1a1a2e]">Finitions <span className="text-[#4d7c5f]">& teintes.</span></h2>
             </div>
           </Reveal>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -318,11 +299,7 @@ export default function CouleursCOPage() {
             <h2 className="text-4xl font-bold text-[#1a1a2e]">Ils adorent <span className="text-[#4d7c5f]">le résultat.</span></h2>
           </div></Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {[
-              { q: "Notre salon relooké avec un vert sauge magnifique. Conseils couleur top, finitions parfaites, pas une trace de peinture ailleurs. Je suis bluffée.", n: "Amélie B.", l: "Lille (59)" },
-              { q: "Ravalement de façade fait proprement, avec un enduit imperméabilisant. Maison comme neuve, 20 ans de moins. Rapport qualité-prix excellent.", n: "Paul & Martine G.", l: "Roubaix (59)" },
-              { q: "Appartement entier refait avant mise en location. Couleurs neutres parfaites pour la mise en valeur. Livré en 4 jours. Très pro et réactif.", n: "Karim D.", l: "Tourcoing (59)" },
-            ].map((t, i) => (
+            {AVIS.map((t: any, i: number) => (
               <Reveal key={i} delay={i * 0.1}>
                 <div className="p-8 border border-[#e8e8e4] hover:border-[#4d7c5f]/25 transition-colors h-full flex flex-col">
                   <div className="flex gap-1 mb-5">
@@ -331,7 +308,7 @@ export default function CouleursCOPage() {
                   <p className="text-[#1a1a2e]/45 text-sm leading-relaxed italic flex-1" style={{ fontFamily: "'Nunito', sans-serif" }}>{`"${t.q}"`}</p>
                   <div className="mt-6 pt-5 border-t border-[#e8e8e4]">
                     <div className="font-bold text-[#1a1a2e] text-sm">{t.n}</div>
-                    <div className="text-[10px] text-[#4d7c5f] mt-1"><MapPin className="w-3 h-3 inline mr-1" />{t.l}</div>
+                    {t.l && <div className="text-[10px] text-[#4d7c5f] mt-1"><MapPin className="w-3 h-3 inline mr-1" />{t.l}</div>}
                   </div>
                 </div>
               </Reveal>
@@ -363,12 +340,12 @@ export default function CouleursCOPage() {
       <footer className="bg-[#1a1a2e] pt-20 pb-10 px-6 border-t border-white/5">
         <div className="max-w-[1300px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           <div>
-            <div className="flex items-center gap-2.5 mb-5"><Paintbrush className="w-5 h-5 text-[#4d7c5f]" /><span className="font-bold text-white text-sm">Couleurs & Co</span></div>
-            <p className="text-white/25 text-sm leading-relaxed" style={{ fontFamily: "'Nunito', sans-serif" }}>Peintre qualifié · Nord & Pas-de-Calais. Peinture intérieure/extérieure, revêtements, déco depuis 2010.</p>
+            <div className="flex items-center gap-2.5 mb-5"><Paintbrush className="w-5 h-5 text-[#4d7c5f]" /><span className="font-bold text-white text-sm">{fd?.businessName ?? "Couleurs & Co Piscines"}</span></div>
+            <p className="text-white/25 text-sm leading-relaxed" style={{ fontFamily: "'Nunito', sans-serif" }}>Pisciniste qualifié · Nord & Pas-de-Calais. Construction, rénovation et entretien de piscines depuis 2010.</p>
           </div>
           {[
-            { t: "Services", ls: ["Peinture intérieure", "Revêtements muraux", "Peinture extérieure", "Conseil couleur", "Logements locatifs"] },
-            { t: "Infos", ls: ["Qui sommes-nous", "Nos réalisations", "Zone d'intervention", "Avis clients", "Blog peinture"] },
+            { t: "Services", ls: ["Construction sur-mesure", "Revêtement & finitions", "Rénovation de bassin", "Aménagement extérieur", "Entretien & hivernage"] },
+            { t: "Infos", ls: ["Qui sommes-nous", "Nos réalisations", "Zone d'intervention", "Avis clients", "Conseils piscine"] },
             { t: "Contact", ls: ["03 20 45 67 89", "contact@couleurs-co.fr", "Lille Métropole", "Lundi-Vendredi 8h-18h", "Devis gratuit 24h"] },
           ].map((col, i) => (
             <div key={i}>
@@ -380,8 +357,8 @@ export default function CouleursCOPage() {
           ))}
         </div>
         <div className="max-w-[1300px] mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between gap-4 text-[9px] font-bold uppercase tracking-widest text-white/15">
-          <span>© 2026 Couleurs & Co · SIRET 678 901 234 00056 · Qualibat 6312 · Artisan peintre</span>
-          <span className="text-[#4d7c5f]/40">Peintre qualifié · Nord-Pas-de-Calais</span>
+          <span>© 2026 {fd?.businessName ?? "Couleurs & Co Piscines"} · SIRET 678 901 234 00056 · Garantie Décennale · Artisan pisciniste</span>
+          <span className="text-[#4d7c5f]/40">Pisciniste qualifié · Nord-Pas-de-Calais</span>
         </div>
       </footer>
     </div>
