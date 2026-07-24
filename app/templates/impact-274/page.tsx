@@ -27,6 +27,7 @@ import {
   BookOpen,
   CheckCircle,
 } from 'lucide-react';
+import { resolveList } from "@/lib/templates/resolveList";
 
 /* ════════════════════════════════════════════════════════════════════════════
    DR. SOPHIE RENARD — Médecin généraliste · Lyon 3e
@@ -1042,12 +1043,15 @@ function ValueCard({ value, index }: { value: Value; index: number }) {
    4 · PRATIQUE — left sticky photo + right scroll 4 items
    ════════════════════════════════════════════════════════════════════════════ */
 type Practice = {
-  title: string;
-  body: string;
-  tag: string;
+  title?: string;
+  body?: string;
+  tag?: string;
+  name?: string;
+  description?: string;
+  duration?: string;
 };
 
-const PRACTICES: Practice[] = [
+const PRACTICES_DEMO: Practice[] = [
   {
     title: 'Consultation générale',
     body: 'Diagnostic, ordonnances, certificats médicaux, arrêts de travail. Le Dr. Renard vous reçoit pour toute problématique de santé aiguë ou chronique, des maladies courantes aux situations plus complexes nécessitant une coordination spécialisée.',
@@ -1161,8 +1165,8 @@ function PracticeSection() {
           </Reveal>
 
           <div style={{ display: 'flex', flexDirection: 'column' }}>
-            {PRACTICES.map((p, i) => (
-              <Reveal key={p.title} delay={0.06 * i}>
+            {resolveList<any>(bp?.services, PRACTICES_DEMO).map((p: any, i: number) => (
+              <Reveal key={p.title ?? p.name ?? i} delay={0.06 * i}>
                 <div
                   style={{
                     padding: 'clamp(28px, 3.5vw, 44px) 0',
@@ -1189,7 +1193,7 @@ function PracticeSection() {
                         margin: 0,
                       }}
                     >
-                      {p.title}
+                      {p.title ?? p.name}
                     </h3>
                     <span
                       style={{
@@ -1204,7 +1208,7 @@ function PracticeSection() {
                         whiteSpace: 'nowrap',
                       }}
                     >
-                      {p.tag}
+                      {p.tag ?? p.duration ?? "Consultation"}
                     </span>
                   </div>
                   <p
@@ -1216,7 +1220,7 @@ function PracticeSection() {
                       margin: 0,
                     }}
                   >
-                    {p.body}
+                    {p.body ?? p.description}
                   </p>
                 </div>
               </Reveal>
@@ -1237,9 +1241,9 @@ function PracticeSection() {
 /* ════════════════════════════════════════════════════════════════════════════
    5 · TÉMOIGNAGES — 3 patients avec étoiles et guillemets
    ════════════════════════════════════════════════════════════════════════════ */
-type Testimonial = { quote: string; name: string; context: string };
+type Testimonial = { quote?: string; name?: string; context?: string; text?: string; author?: string; source?: string };
 
-const TESTIMONIALS: Testimonial[] = [
+const TESTIMONIALS_DEMO: Testimonial[] = [
   {
     quote:
       'Le Dr. Renard m\'a diagnostiqué un diabète de type 2 que je n\'avais pas vu venir. Grâce à son suivi rigoureux et ses conseils, j\'ai totalement modifié mes habitudes. Un an plus tard, mes glycémies sont normales. Je lui dois vraiment beaucoup.',
@@ -1302,15 +1306,15 @@ function TestimonialsSection() {
       </div>
 
       <div style={grid}>
-        {TESTIMONIALS.map((t, i) => (
-          <TestimonialCard key={t.name} testimonial={t} index={i} />
+        {resolveList<any>(bp?.reputation?.featuredReviews, TESTIMONIALS_DEMO).map((t: any, i: number) => (
+          <TestimonialCard key={t.name ?? t.author ?? i} testimonial={t} index={i} />
         ))}
       </div>
     </section>
   );
 }
 
-function TestimonialCard({ testimonial, index }: { testimonial: Testimonial; index: number }) {
+function TestimonialCard({ testimonial, index }: { testimonial: any; index: number }) {
   return (
     <Reveal delay={index * 0.12} style={{ height: '100%' }}>
       <figure
@@ -1343,11 +1347,11 @@ function TestimonialCard({ testimonial, index }: { testimonial: Testimonial; ind
             flex: 1,
           }}
         >
-          &ldquo;{testimonial.quote}&rdquo;
+          &ldquo;{testimonial.quote ?? testimonial.text}&rdquo;
         </blockquote>
         <figcaption style={{ borderTop: `1px solid ${C.creamDeep}`, paddingTop: 18 }}>
           <div style={{ fontFamily: SERIF, fontSize: 18, color: C.sage, fontWeight: 600 }}>
-            {testimonial.name}
+            {testimonial.name ?? testimonial.author}
           </div>
           <div
             style={{
@@ -1360,7 +1364,7 @@ function TestimonialCard({ testimonial, index }: { testimonial: Testimonial; ind
               marginTop: 5,
             }}
           >
-            {testimonial.context}
+            {testimonial.context ?? testimonial.source ?? ""}
           </div>
         </figcaption>
       </figure>
@@ -1674,13 +1678,15 @@ function AppointmentFormSection() {
    7 · ÉQUIPE — Dr. Renard + infirmière + secrétaire
    ════════════════════════════════════════════════════════════════════════════ */
 type TeamMember = {
-  name: string;
-  role: string;
-  bio: string;
-  initials: string;
+  name?: string;
+  role?: string;
+  bio?: string;
+  initials?: string;
+  specialty?: string;
+  credentials?: string;
 };
 
-const TEAM_MEMBERS: TeamMember[] = [
+const TEAM_MEMBERS_DEMO: TeamMember[] = [
   {
     name: 'Dr. Sophie Renard',
     role: 'Médecin généraliste — Praticienne responsable',
@@ -1744,8 +1750,8 @@ function TeamSection() {
       </div>
 
       <div style={grid} className="r274-team-grid">
-        {TEAM_MEMBERS.map((m, i) => (
-          <TeamCard key={m.name} member={m} index={i} />
+        {resolveList<TeamMember>(bp?.team, TEAM_MEMBERS_DEMO).map((m: TeamMember, i: number) => (
+          <TeamCard key={m.name ?? i} member={m} index={i} />
         ))}
       </div>
       <style>{`
@@ -1804,7 +1810,7 @@ function TeamCard({ member, index }: { member: TeamMember; index: number }) {
               letterSpacing: '0.04em',
             }}
           >
-            {member.initials}
+            {member.initials ?? (member.name ?? "").split(" ").map((w) => w[0]?.toUpperCase()).join("").slice(0, 2)}
           </span>
         </div>
 
@@ -1836,19 +1842,28 @@ function TeamCard({ member, index }: { member: TeamMember; index: number }) {
           {member.role}
         </div>
 
+        {/* Spécialité / diplômes */}
+        {(member.specialty || member.credentials) && (
+          <div style={{ fontFamily: SANS, fontSize: 12, color: 'rgba(30,26,22,0.55)', marginBottom: 14 }}>
+            {[member.specialty, member.credentials].filter(Boolean).join(" · ")}
+          </div>
+        )}
+
         {/* Bio */}
-        <p
-          style={{
-            fontFamily: SANS,
-            fontSize: 15,
-            lineHeight: 1.72,
-            color: 'rgba(30,26,22,0.68)',
-            margin: 0,
-            flex: 1,
-          }}
-        >
-          {member.bio}
-        </p>
+        {member.bio && (
+          <p
+            style={{
+              fontFamily: SANS,
+              fontSize: 15,
+              lineHeight: 1.72,
+              color: 'rgba(30,26,22,0.68)',
+              margin: 0,
+              flex: 1,
+            }}
+          >
+            {member.bio}
+          </p>
+        )}
       </div>
     </Reveal>
   );
@@ -2657,6 +2672,7 @@ function FooterSection() {
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+let bp: any = null;
 export default function Impact274Page() {
   const [session, setSession] = useState<{
     formData?: {
@@ -2672,6 +2688,7 @@ export default function Impact274Page() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -2703,6 +2720,7 @@ export default function Impact274Page() {
     });
   });
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, sage: brand };
@@ -2717,54 +2735,6 @@ export default function Impact274Page() {
     MozOsxFontSmoothing: 'grayscale',
   };
 
-  
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
 return (
     <main id="hero" style={root} suppressHydrationWarning>
       <Nav />
