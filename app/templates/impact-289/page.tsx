@@ -22,6 +22,7 @@ import {
   TrendingUp,
   Users,
 } from 'lucide-react';
+import { resolveList } from "@/lib/templates/resolveList";
 
 /* ════════════════════════════════════════════════════════════════════════════
    SCHREIBER & ASSOCIÉS — Expert-comptable & commissaires aux comptes
@@ -917,7 +918,7 @@ type Service = {
   tags: string[];
 };
 
-const SERVICES: Service[] = [
+const SERVICES_DEMO: Service[] = [
   {
     icon: <Calculator size={32} strokeWidth={1.5} color={C.blue} />,
     title: 'Comptabilité & bilan',
@@ -1042,6 +1043,16 @@ function ServiceCard({ s, i }: { s: Service; i: number }) {
 }
 
 function ServicesSection() {
+  const SERVICES = resolveList(
+    bp?.services?.map((s: any, i: number) => ({
+      icon: SERVICES_DEMO[i % SERVICES_DEMO.length].icon,
+      title: s.title ?? s.name,
+      sub: SERVICES_DEMO[i % SERVICES_DEMO.length].sub,
+      body: s.description ?? s.desc,
+      tags: SERVICES_DEMO[i % SERVICES_DEMO.length].tags,
+    })),
+    SERVICES_DEMO
+  );
   const sec: React.CSSProperties = {
     background: C.offwhite,
     padding: 'clamp(88px,12vw,168px) clamp(24px,6vw,96px)',
@@ -1326,7 +1337,7 @@ type Testimonial = {
   stars: number;
 };
 
-const TESTIMONIALS: Testimonial[] = [
+const TESTIMONIALS_DEMO: Testimonial[] = [
   {
     quote:
       "Je suis artisan plombier depuis 18 ans. Schreiber & Associés ont restructuré ma comptabilité en 3 mois. Aujourd'hui, je comprends mes chiffres et j'ai récupéré 6 800 € de trop-perçu fiscal sur les deux dernières années.",
@@ -1354,6 +1365,16 @@ const TESTIMONIALS: Testimonial[] = [
 ];
 
 function TestimonialsSection() {
+  const TESTIMONIALS = resolveList(
+    bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+      quote: r.text ?? r.quote,
+      name: r.name ?? r.author,
+      role: r.location ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].role,
+      saving: TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].saving,
+      stars: r.stars ?? r.rating ?? 5,
+    })),
+    TESTIMONIALS_DEMO
+  );
   const sec: React.CSSProperties = {
     background: C.blueDeep,
     padding: 'clamp(88px,12vw,168px) clamp(24px,6vw,96px)',
@@ -2539,6 +2560,7 @@ function FooterSection() {
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 let brand: any = null;
 export default function Impact289Page() {
   const [session, setSession] = useState<{
@@ -2555,6 +2577,7 @@ export default function Impact289Page() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -2586,6 +2609,7 @@ export default function Impact289Page() {
     });
   });
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, blue: brand };
@@ -2600,54 +2624,6 @@ export default function Impact289Page() {
     MozOsxFontSmoothing: 'grayscale',
   };
 
-  
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
 return (
     <main id="hero" style={root} suppressHydrationWarning>
       <Nav />

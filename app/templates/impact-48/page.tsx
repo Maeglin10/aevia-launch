@@ -13,6 +13,7 @@ import {
 } from "framer-motion";
 import Link from "next/link";
 import { C, F, projects, teamMembers, processSteps } from "./shared";
+import { resolveList } from "@/lib/templates/resolveList";
 
 // ─── 3D BUILDING FACADE ───────────────────────────────────────────────────────
 function Building3D({ rotateX }: { rotateX: any }) {
@@ -1995,6 +1996,19 @@ function TeamSection() {
   const ref = useRef<HTMLElement>(null);
   const inView = useInView(ref, { once: true, margin: '-80px' });
 
+  const TEAM = resolveList(
+    bp?.team?.map((m: any, i: number) => ({
+      name: m.name,
+      title: m.role ?? teamMembers[i % teamMembers.length].title,
+      credentials: m.credentials ?? teamMembers[i % teamMembers.length].credentials,
+      focus: m.specialty ?? teamMembers[i % teamMembers.length].focus,
+      bio: m.bio ?? teamMembers[i % teamMembers.length].bio,
+      projects: teamMembers[i % teamMembers.length].projects,
+      awards: teamMembers[i % teamMembers.length].awards,
+    })),
+    teamMembers
+  );
+
   return (
     <section
       id="team"
@@ -2090,7 +2104,7 @@ function TeamSection() {
             background: C.border,
           }}
         >
-          {teamMembers.map((member, i) => (
+          {TEAM.map((member, i) => (
             <motion.div
               key={member.name}
               initial={{ opacity: 0, y: 40 }}
@@ -2576,6 +2590,7 @@ function ContactSection() {
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 let brand: any = null;
 export default function ArchitectureTemplate() {
   const [session, setSession] = useState<{
@@ -2592,6 +2607,7 @@ export default function ArchitectureTemplate() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -2605,56 +2621,9 @@ export default function ArchitectureTemplate() {
 
   fd = session?.formData;
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
-  
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
 return (
     <>
       <style>{`
