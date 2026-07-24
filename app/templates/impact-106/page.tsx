@@ -6,6 +6,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { PenTool, ArrowRight, Menu, Star, Layers, Eye, Palette, Zap, Award, Users, ChevronRight, ArrowUpRight } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import { resolveList } from "@/lib/templates/resolveList"
 
 function Reveal({ children, delay = 0, y = 40 }: { children: React.ReactNode; delay?: number; y?: number }) {
   const ref = useRef(null)
@@ -31,14 +32,14 @@ function ParallaxImg({ src, alt }: { src: string; alt: string }) {
   )
 }
 
-const PROJECTS = [
+const PROJECTS_DEMO = [
   { title: "Flux Identity", client: "Flux Labs", type: "Brand System", img: "https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&q=80&w=1200", year: "2024" },
   { title: "Prism Launch", client: "Prism Analytics", type: "Product Design", img: "https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&q=80&w=1200", year: "2024" },
   { title: "Ember Editorial", client: "Ember Magazine", type: "Editorial + Web", img: "https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&q=80&w=1200", year: "2023" },
   { title: "Vertex Motion", client: "Vertex Films", type: "Motion Design", img: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=1200", year: "2023" },
 ]
 
-const CAPABILITIES = [
+const CAPABILITIES_DEMO = [
   { icon: Palette, title: "Visual Identity", desc: "Logo, color system, typography, and brand guidelines that scale from app icon to billboard." },
   { icon: Layers, title: "Product Design", desc: "User research, wireframes, prototypes, and pixel-perfect UI for web and mobile." },
   { icon: PenTool, title: "Art Direction", desc: "Photo shoots, illustration commissions, and visual storytelling for campaigns." },
@@ -49,6 +50,7 @@ const CAPABILITIES = [
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
@@ -70,6 +72,7 @@ export default function StudioVersaPage() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -86,7 +89,7 @@ export default function StudioVersaPage() {
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;
     let n = 5;
-    const _photoArrays: any[] = [PROJECTS];
+    const _photoArrays: any[] = [PROJECTS_DEMO];
     _photoArrays.forEach((arr) => {
       if (!Array.isArray(arr)) return;
       arr.forEach((item) => {
@@ -101,7 +104,30 @@ export default function StudioVersaPage() {
     });
   });
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
+
+  // Client project gallery drives the portfolio; demo client/type/year metadata
+  // cycles so each card stays visually complete.
+  const PROJECTS = resolveList(
+    bp?.beforeAfter?.map((b: any, i: number) => ({
+      title: b.caption ?? PROJECTS_DEMO[i % PROJECTS_DEMO.length].title,
+      client: PROJECTS_DEMO[i % PROJECTS_DEMO.length].client,
+      type: PROJECTS_DEMO[i % PROJECTS_DEMO.length].type,
+      img: b.afterUrl ?? b.beforeUrl ?? PROJECTS_DEMO[i % PROJECTS_DEMO.length].img,
+      year: PROJECTS_DEMO[i % PROJECTS_DEMO.length].year,
+    })),
+    PROJECTS_DEMO
+  );
+  // Client services drive the capabilities grid; demo icons cycle through.
+  const CAPABILITIES = resolveList(
+    bp?.services?.map((s: any, i: number) => ({
+      icon: CAPABILITIES_DEMO[i % CAPABILITIES_DEMO.length].icon,
+      title: s.title ?? s.name,
+      desc: s.description ?? s.desc,
+    })),
+    CAPABILITIES_DEMO
+  );
 
   const [scrolled, setScrolled] = useState(false)
 
@@ -114,53 +140,7 @@ export default function StudioVersaPage() {
     return () => window.removeEventListener("scroll", h)
   }, []);
 
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);return (
+  return (
     <div className="bg-[#faf5f0] text-[#1a1a1a] font-sans min-h-dvh selection:bg-orange-500 selection:text-white overflow-x-hidden">
 
       {/* ── NAVBAR ─────────────────── */}
