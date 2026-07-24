@@ -19,6 +19,7 @@ import {
   useMotionTemplate,
 } from 'framer-motion';
 import { TemplateIcon } from '@/components/TemplateIcon';
+import { resolveList } from '@/lib/templates/resolveList';
 
 // Hoisted above the design tokens: several templates read `brand` in a
 // module-level const — declaring it lower caused a TDZ ReferenceError (500).
@@ -77,7 +78,7 @@ const PALETTE_COLORS: PaletteColor[] = [
   { name: 'black', hex: '#1A0A10', label: 'Noir' },
 ];
 
-const SERVICES: Service[] = [
+const SERVICES_DEMO: Service[] = [
   {
     id: 'gel',
     icon: 'nail',
@@ -745,7 +746,7 @@ function ServiceCard({
   accentColor,
   index,
 }: {
-  service: Service;
+  service: any;
   accentColor: string;
   index: number;
 }) {
@@ -811,9 +812,9 @@ function ServiceCard({
                 lineHeight: 1.2,
               }}
             >
-              {service.nameFr}
+              {service.nameFr ?? service.name}
             </div>
-            <div style={{ fontSize: 13, color: '#7a5060', marginTop: 4 }}>{service.name}</div>
+            {service.nameFr && service.name && <div style={{ fontSize: 13, color: '#7a5060', marginTop: 4 }}>{service.name}</div>}
           </div>
 
           {/* Description */}
@@ -859,7 +860,7 @@ function ServiceCard({
             {service.price}
           </div>
           <div style={{ color: 'rgba(255,255,255,0.8)', fontSize: 14, textAlign: 'center' }}>
-            {service.nameFr}
+            {service.nameFr ?? service.name}
             <br />
             <span style={{ fontSize: 12, opacity: 0.7 }}>{service.duration}</span>
           </div>
@@ -892,6 +893,7 @@ function ServiceCard({
 function ServicesSection({ accentColor }: { accentColor: string }) {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true });
+  const services: any[] = resolveList(bp?.services, SERVICES_DEMO);
 
   return (
     <section
@@ -953,8 +955,8 @@ function ServicesSection({ accentColor }: { accentColor: string }) {
           gap: 24,
         }}
       >
-        {SERVICES.map((service, i) => (
-          <ServiceCard key={service.id} service={service} accentColor={accentColor} index={i} />
+        {services.map((service: any, i: number) => (
+          <ServiceCard key={service.id ?? service.name ?? i} service={service} accentColor={accentColor} index={i} />
         ))}
       </div>
     </section>
@@ -1741,7 +1743,7 @@ function BookingSection({ accentColor }: { accentColor: string }) {
    COMPONENT: TESTIMONIALS
    ========================================================================== */
 
-const TESTIMONIALS = [
+const TESTIMONIALS_DEMO = [
   {
     name: 'Camille L.',
     text: "Je reviens depuis 3 ans — the nail art quality is simply unmatched in Paris. Chaque pose est un chef-d'œuvre.",
@@ -1811,9 +1813,9 @@ function TestimonialsSection({ accentColor }: { accentColor: string }) {
             gap: 24,
           }}
         >
-          {TESTIMONIALS.map((t, i) => (
+          {resolveList(bp?.reputation?.featuredReviews, TESTIMONIALS_DEMO).map((t: any, i: number) => (
             <motion.div
-              key={t.name}
+              key={t.name ?? t.author ?? i}
               initial={{ opacity: 0, y: 30 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ delay: i * 0.15, duration: 0.7 }}
@@ -1828,7 +1830,7 @@ function TestimonialsSection({ accentColor }: { accentColor: string }) {
               }}
             >
               <div style={{ display: 'flex', gap: 2 }}>
-                {Array.from({ length: t.rating }).map((_, j) => (
+                {Array.from({ length: t.rating ?? 5 }).map((_, j) => (
                   <span key={j} style={{ color: '#FFD700', fontSize: 16 }}>
                     ★
                   </span>
@@ -1848,11 +1850,13 @@ function TestimonialsSection({ accentColor }: { accentColor: string }) {
                 <div
                   style={{fontWeight: 600, fontSize: 14, color: brand ?? '#1a0a10' }}
                 >
-                  {t.name}
+                  {t.name ?? t.author}
                 </div>
-                <div style={{ fontSize: 12, color: accentColor, marginTop: 2 }}>
-                  {t.service}
-                </div>
+                {(t.service ?? t.source) && (
+                  <div style={{ fontSize: 12, color: accentColor, marginTop: 2 }}>
+                    {t.service ?? t.source}
+                  </div>
+                )}
               </div>
             </motion.div>
           ))}
@@ -2088,6 +2092,7 @@ function Footer({ accentColor }: { accentColor: string }) {
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 export default function NailStudioTemplate() {
   const [session, setSession] = useState<{
     formData?: {
@@ -2103,6 +2108,7 @@ export default function NailStudioTemplate() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -2116,6 +2122,7 @@ export default function NailStudioTemplate() {
 
   fd = session?.formData;
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const [particles] = useState<Particle[]>(() => generateParticles());
@@ -2135,54 +2142,6 @@ export default function NailStudioTemplate() {
       if (el) el.remove();
     };
   }, []);
-
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
 
   // Palette color updates
   const handlePaletteChange = useCallback((index: number) => {
