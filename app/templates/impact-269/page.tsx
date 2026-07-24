@@ -11,6 +11,7 @@ import {
   useMotionValue,
 } from 'framer-motion';
 import { ArrowRight, ChevronDown, Coffee, MapPin } from 'lucide-react';
+import { resolveList } from "@/lib/templates/resolveList";
 
 /* ════════════════════════════════════════════════════════════════════════════
    BOULANGERIE DES CHARTRONS — Boulangerie-Pâtisserie & Café · Bordeaux
@@ -130,7 +131,7 @@ const PHASES: Bread[] = [
   },
 ];
 
-const SPECIALTIES: Specialty[] = [
+const SPECIALTIES_DEMO: Specialty[] = [
   {
     name: 'Canelé bordelais',
     desc: 'Caramélisé dehors, fondant à cœur, à la vanille de Madagascar.',
@@ -209,7 +210,7 @@ const CRAFT_STEPS: CraftStep[] = [
   },
 ];
 
-const TESTIMONIALS: Testimonial[] = [
+const TESTIMONIALS_DEMO: Testimonial[] = [
   {
     quote:
       "Je passais devant leur vitrine chaque matin en allant chez le fromager d'à côté. Un jour j'ai poussé la porte. Maintenant le brunch du dimanche aux Chartrons est un rituel que rien ne déplace — ni voyage, ni rhume, ni mauvais temps.",
@@ -1102,6 +1103,14 @@ function SpecialtyCard({
 }
 
 function SpecialtyCards() {
+  const SPECIALTIES = resolveList(
+    bp?.menu?.map((m: any, i: number) => ({
+      name: m.name,
+      desc: m.description,
+      tag: m.category ?? SPECIALTIES_DEMO[i % SPECIALTIES_DEMO.length].tag,
+    })),
+    SPECIALTIES_DEMO
+  );
   const sec: React.CSSProperties = {
     background: C.bg,
     padding: 'clamp(90px,12vw,170px) clamp(24px,6vw,96px)',
@@ -1436,6 +1445,14 @@ function CraftPanel() {
    8 · Testimonials — bgAlt, icône café, SERIF italique
    ════════════════════════════════════════════════════════════════════════════ */
 function Testimonials() {
+  const TESTIMONIALS = resolveList(
+    bp?.reputation?.featuredReviews?.map((r: any) => ({
+      quote: r.text,
+      name: r.name,
+      role: r.location ?? "",
+    })),
+    TESTIMONIALS_DEMO
+  );
   const sec: React.CSSProperties = {
     background: C.bgAlt,
     padding: 'clamp(90px,12vw,170px) clamp(24px,6vw,96px)',
@@ -2117,6 +2134,7 @@ function Footer() {
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 let brand: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
@@ -2133,6 +2151,7 @@ export default function Page() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -2146,6 +2165,7 @@ export default function Page() {
 
   fd = session?.formData;
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   if (brand) {
@@ -2166,54 +2186,6 @@ export default function Page() {
     MozOsxFontSmoothing: 'grayscale',
   };
 
-  
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
 return (
     <main style={root} suppressHydrationWarning>
       {/* Google Fonts */}

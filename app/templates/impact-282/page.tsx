@@ -30,6 +30,7 @@ import {
   Sun,
   Heart,
 } from 'lucide-react';
+import { resolveList } from "@/lib/templates/resolveList";
 
 /* ════════════════════════════════════════════════════════════════════════════
    BOULANGERIE DU BEFFROI — Boulangerie artisanale & pâtisserie · Lille Vieux-Bourg
@@ -855,7 +856,7 @@ type Specialite = {
   detail: string;
 };
 
-const SPECIALITES: Specialite[] = [
+const SPECIALITES_DEMO: Specialite[] = [
   {
     icon: <Wheat size={36} strokeWidth={1.3} color={C.wheat} />,
     titre: 'Pains au levain',
@@ -962,6 +963,16 @@ function SpecialiteCard({ s, i }: { s: Specialite; i: number }) {
 }
 
 function SpecialitesSection() {
+  const SPECIALITES = resolveList(
+    bp?.menu?.map((m: any, i: number) => ({
+      icon: SPECIALITES_DEMO[i % SPECIALITES_DEMO.length].icon,
+      titre: m.name,
+      sous: SPECIALITES_DEMO[i % SPECIALITES_DEMO.length].sous,
+      description: m.description,
+      detail: SPECIALITES_DEMO[i % SPECIALITES_DEMO.length].detail,
+    })),
+    SPECIALITES_DEMO
+  );
   const sec: React.CSSProperties = {
     background: C.brownDeep,
     padding: 'clamp(90px,12vw,170px) clamp(24px,6vw,96px)',
@@ -1263,7 +1274,7 @@ type Avis = {
   note: number;
 };
 
-const AVIS: Avis[] = [
+const AVIS_DEMO: Avis[] = [
   {
     quote:
       'Ça fait dix ans que je commence ma journée ici. Le pain de campagne au levain est le meilleur que j\'ai mangé — une croûte incroyable, une mie qui a du goût. On sent que c\'est fait avec amour et passion.',
@@ -1368,6 +1379,16 @@ function AvisCard({ a, i }: { a: Avis; i: number }) {
 }
 
 function TestimonialsSection() {
+  const AVIS = resolveList(
+    bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+      quote: r.text,
+      prenom: r.name,
+      quartier: r.location ?? "",
+      produit: AVIS_DEMO[i % AVIS_DEMO.length].produit,
+      note: r.stars ?? r.rating ?? 5,
+    })),
+    AVIS_DEMO
+  );
   const sec: React.CSSProperties = {
     background: C.paper,
     padding: 'clamp(90px,12vw,170px) clamp(24px,6vw,96px)',
@@ -1730,7 +1751,7 @@ function CommandeFormSection() {
 type MenuItem = { nom: string; detail: string; prix: string };
 type MenuCat = { titre: string; items: MenuItem[] };
 
-const MENU_CATEGORIES: MenuCat[] = [
+const MENU_CATEGORIES_DEMO: MenuCat[] = [
   {
     titre: 'Pains',
     items: [
@@ -1867,6 +1888,19 @@ function MenuItemRow({ item, j, total }: { item: MenuItem; j: number; total: num
 }
 
 function MenuSection() {
+  const MENU_CATEGORIES = resolveList(
+    (() => {
+      if (!bp?.menu?.length) return undefined;
+      const groups: Record<string, any> = {};
+      bp.menu.forEach((m: any) => {
+        const cat = m.category ?? "Nos produits";
+        if (!groups[cat]) groups[cat] = { titre: cat, items: [] };
+        groups[cat].items.push({ nom: m.name, detail: m.description, prix: m.price });
+      });
+      return Object.values(groups);
+    })(),
+    MENU_CATEGORIES_DEMO
+  );
   const sec: React.CSSProperties = {
     background: C.cream,
     padding: 'clamp(90px,12vw,170px) clamp(24px,6vw,96px)',
@@ -2709,6 +2743,7 @@ function FooterSection() {
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 let brand: any = null;
 export default function Impact282Page() {
   const [session, setSession] = useState<{
@@ -2725,6 +2760,7 @@ export default function Impact282Page() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -2756,6 +2792,7 @@ export default function Impact282Page() {
     });
   });
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, wheat: brand, wheatLight: shadeColor(brand, 25) };
@@ -2769,54 +2806,7 @@ export default function Impact282Page() {
     WebkitFontSmoothing: 'antialiased',
     MozOsxFontSmoothing: 'grayscale',
   };
-  
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
+
 return (
     <main id="hero" style={root} suppressHydrationWarning>
       <Nav />

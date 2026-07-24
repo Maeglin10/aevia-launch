@@ -43,6 +43,7 @@ import {
   X,
   Zap,
 } from 'lucide-react';
+import { resolveList } from "@/lib/templates/resolveList";
 
 // Hoisted above the design tokens: several templates read `brand` in a
 // module-level const — declaring it lower caused a TDZ ReferenceError (500).
@@ -225,6 +226,7 @@ function Button({
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
     formData?: {
@@ -240,6 +242,7 @@ export default function Page() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -271,6 +274,7 @@ export default function Page() {
     });
   });
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, primary: brand, primaryLight: shadeColor(brand, 25), primaryDark: shadeColor(brand, -20) };
@@ -291,9 +295,19 @@ export default function Page() {
   const heroY = useTransform(heroProgress, [0, 1], ['0%', '8%']);
   const heroOpacity = useTransform(heroProgress, [0, 0.8], [1, 0]);
 
+  const MENU_ITEMS_DEMO = [{"name": "Baguette au Levain Bio", "category": "Pains", "desc": "Façonnée à la main, fermentation longue, farine biologique de pays.", "price": "1,30 €"}, {"name": "Croissant Pur Beurre", "category": "Viennoiseries", "desc": "Feuilletage maison au beurre AOP Charentes-Poitou.", "price": "1,50 €"}, {"name": "Tarte Citron Meringuée", "category": "Pâtisseries", "desc": "Pâte sablée, crème citron acidulée, meringue italienne fondante.", "price": "4,20 €"}];
+  const MENU_ITEMS = resolveList(
+    bp?.menu?.map((m: any) => ({
+      name: m.name,
+      category: m.category ?? "Nos produits",
+      desc: m.description,
+      price: m.price,
+    })),
+    MENU_ITEMS_DEMO
+  );
   const menuItemsFiltered = activeCategory === "Tous"
-    ? [{"name": "Baguette au Levain Bio", "category": "Pains", "desc": "Façonnée à la main, fermentation longue, farine biologique de pays.", "price": "1,30 €"}, {"name": "Croissant Pur Beurre", "category": "Viennoiseries", "desc": "Feuilletage maison au beurre AOP Charentes-Poitou.", "price": "1,50 €"}, {"name": "Tarte Citron Meringuée", "category": "Pâtisseries", "desc": "Pâte sablée, crème citron acidulée, meringue italienne fondante.", "price": "4,20 €"}]
-    : [{"name": "Baguette au Levain Bio", "category": "Pains", "desc": "Façonnée à la main, fermentation longue, farine biologique de pays.", "price": "1,30 €"}, {"name": "Croissant Pur Beurre", "category": "Viennoiseries", "desc": "Feuilletage maison au beurre AOP Charentes-Poitou.", "price": "1,50 €"}, {"name": "Tarte Citron Meringuée", "category": "Pâtisseries", "desc": "Pâte sablée, crème citron acidulée, meringue italienne fondante.", "price": "4,20 €"}].filter(item => item.category === activeCategory);
+    ? MENU_ITEMS
+    : MENU_ITEMS.filter((item: any) => item.category === activeCategory);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -302,54 +316,8 @@ export default function Page() {
     }
   };
 
-  
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
+  const review = bp?.reputation?.featuredReviews?.[0];
+  const faqs = resolveList(bp?.faq, [{"q":"Quelles farines utilisez-vous ?","a":"Nous utilisons exclusivement des farines locales de la région Occitanie, issues de l'agriculture biologique et moulues sur meule de pierre pour préserver les nutriments."},{"q":"Peut-on réserver ses viennoiseries pour le dimanche ?","a":"Oui, vous pouvez passer commande par téléphone ou en boutique jusqu'à la veille à 18h pour récupérer votre sac chaud le lendemain matin."},{"q":"Vos pains conviennent-ils aux intolérants au gluten ?","a":"Notre pain d'épeautre ancien contient un gluten naturel très digeste grâce à la longue fermentation, mais il n'est pas certifié sans gluten pour les personnes céliaques."}]);
 return (
     <div style={{
       background: C.bg,
@@ -828,7 +796,7 @@ return (
                 maxWidth: 550,
                 margin: '0 auto'
               }}>
-                {["Tous","Pains","Viennoiseries","Pâtisseries"].map((tab, i) => (
+                {["Tous", ...Array.from(new Set(MENU_ITEMS.map((m: any) => m.category)))].map((tab, i) => (
                   <button
                     key={i}
                     onClick={() => setActiveCategory(tab)}
@@ -997,13 +965,13 @@ return (
                 position: 'relative',
                 zIndex: 2
               }}>
-                "Une prestation irréprochable et un souci du détail impressionnant. Les délais ont été parfaitement respectés, et la communication a toujours été fluide."
+                {review?.text ?? "Une prestation irréprochable et un souci du détail impressionnant. Les délais ont été parfaitement respectés, et la communication a toujours été fluide."}
               </p>
               <div style={{ display: 'flex', justifyContent: 'center', gap: 4, marginBottom: 12 }}>
-                {[...Array(5)].map((_, i) => <Star key={i} size={14} fill={C.primary} color={C.primary} />)}
+                {[...Array(review?.stars ?? review?.rating ?? 5)].map((_, i) => <Star key={i} size={14} fill={C.primary} color={C.primary} />)}
               </div>
               <div style={{ fontFamily: SANS, fontSize: 12, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: C.primary }}>
-                Marie Lauret · Bordeaux
+                {review?.name ?? "Marie Lauret · Bordeaux"}
               </div>
             </div>
           </Reveal>
@@ -1029,7 +997,7 @@ return (
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-            {[{"q":"Quelles farines utilisez-vous ?","a":"Nous utilisons exclusivement des farines locales de la région Occitanie, issues de l'agriculture biologique et moulues sur meule de pierre pour préserver les nutriments."},{"q":"Peut-on réserver ses viennoiseries pour le dimanche ?","a":"Oui, vous pouvez passer commande par téléphone ou en boutique jusqu'à la veille à 18h pour récupérer votre sac chaud le lendemain matin."},{"q":"Vos pains conviennent-ils aux intolérants au gluten ?","a":"Notre pain d'épeautre ancien contient un gluten naturel très digeste grâce à la longue fermentation, mais il n'est pas certifié sans gluten pour les personnes céliaques."}].map((item, i) => (
+            {faqs.map((item: any, i: number) => (
               <Reveal key={i} delay={i * 0.08}>
                 <div style={{
                   background: C.bgCard,

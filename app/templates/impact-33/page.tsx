@@ -23,6 +23,7 @@ import {
   X,
 } from "lucide-react";
 import { TemplateIcon } from '@/components/TemplateIcon';
+import { resolveList } from "@/lib/templates/resolveList";
 
 // Hoisted above the design tokens: several templates read `brand` in a
 // module-level const — declaring it lower caused a TDZ ReferenceError (500).
@@ -310,7 +311,7 @@ function MarqueeSection() {
 }
 
 // ─── Menu Categories ──────────────────────────────────────────────────────────
-const CATEGORIES = [
+const CATEGORIES_DEMO = [
   {
     name: "Pains & Miches",
     emoji: "🍞",
@@ -347,6 +348,23 @@ function MenuSection() {
   const ref = useRef<HTMLElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-60px" });
   const [activeCategory, setActiveCategory] = useState(0);
+
+  const CATEGORIES = resolveList(
+    (() => {
+      if (!bp?.menu?.length) return undefined;
+      const groups: Record<string, any> = {};
+      bp.menu.forEach((m: any) => {
+        const cat = m.category ?? "Nos produits";
+        if (!groups[cat]) {
+          const idx = Object.keys(groups).length;
+          groups[cat] = { name: cat, emoji: CATEGORIES_DEMO[idx % CATEGORIES_DEMO.length].emoji, items: [] };
+        }
+        groups[cat].items.push({ name: m.name, desc: m.description, price: m.price });
+      });
+      return Object.values(groups);
+    })(),
+    CATEGORIES_DEMO
+  );
 
   return (
     <section id="menu" ref={ref} style={{ padding: "100px 80px", background: C.bg, fontFamily: FONT_BODY }}>
@@ -395,7 +413,7 @@ function MenuSection() {
           transition={{ duration: 0.3 }}
           style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(260px, 100%), 1fr))", gap: 20, maxWidth: 1100, margin: "0 auto" }}
         >
-          {CATEGORIES[activeCategory].items.map((item, i) => (
+          {CATEGORIES[activeCategory].items.map((item: any, i: number) => (
             <motion.div
               key={item.name}
               initial={{ opacity: 0, y: 24 }}
@@ -571,7 +589,7 @@ function ProductsShowcase() {
 }
 
 // ─── Testimonials ─────────────────────────────────────────────────────────────
-const TESTIMONIALS = [
+const TESTIMONIALS_DEMO = [
   { name: "Isabelle T.", text: "La meilleure baguette tradition de Paris, sans hésitation. Le croissant est à se damner — feuilleté, aérien, pur beurre. J'y vais chaque samedi matin depuis 8 ans.", stars: 5 },
   { name: "Grégoire M.", text: "L'abonnement hebdomadaire est une révélation. Du pain frais sans y penser, livré directement en boutique avant mon passage. Qualité constante, équipe adorable.", stars: 5 },
   { name: "Sakina B.", text: "J'ai commandé le plateau prestige pour l'anniversaire de ma mère — succès total. Chaque pâtisserie était un chef-d'œuvre de saveurs. Merci Camille !", stars: 5 },
@@ -580,6 +598,15 @@ const TESTIMONIALS = [
 function Testimonials() {
   const ref = useRef<HTMLElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-60px" });
+
+  const TESTIMONIALS = resolveList(
+    bp?.reputation?.featuredReviews?.map((r: any) => ({
+      name: r.name,
+      text: r.text,
+      stars: r.stars ?? 5,
+    })),
+    TESTIMONIALS_DEMO
+  );
 
   return (
     <section ref={ref} style={{ padding: "100px 80px", background: C.bgSection, fontFamily: FONT_BODY }}>
@@ -699,7 +726,7 @@ function HorairesContact() {
 }
 
 // ─── FAQ ──────────────────────────────────────────────────────────────────────
-const FAQS = [
+const FAQS_DEMO = [
   { q: "Proposez-vous la livraison à domicile ?", a: "Oui, nous livrons dans un rayon de 3 km autour de la boutique du mardi au samedi, de 8h à 12h. Commandez en ligne avant 20h la veille. Livraison offerte à partir de 25 € d'achat." },
   { q: "Puis-je commander des pâtisseries personnalisées ?", a: "Absolument ! Camille réalise des gâteaux sur commande pour vos anniversaires, mariages et événements professionnels. Délai minimum : 5 jours ouvrés. Contactez-nous pour un devis gratuit." },
   { q: "Utilisez-vous des farines biologiques ?", a: "Nous utilisons principalement des farines Label Rouge provenant de moulins français. Notre farine de tradition T65 vient du Moulin Decollogne en Bourgogne. Certains pains spéciaux sont en agriculture biologique certifiée." },
@@ -711,6 +738,11 @@ function FAQ() {
   const ref = useRef<HTMLElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-60px" });
   const [open, setOpen] = useState<number | null>(null);
+
+  const FAQS = resolveList(
+    bp?.faq?.map((f: any) => ({ q: f.q, a: f.a })),
+    FAQS_DEMO
+  );
 
   return (
     <section ref={ref} style={{ padding: "100px 80px", background: C.bgSection, fontFamily: FONT_BODY }}>
@@ -812,6 +844,7 @@ function Footer() {
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 export default function Impact33() {
   const [session, setSession] = useState<{
     formData?: {
@@ -827,6 +860,7 @@ export default function Impact33() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -840,59 +874,12 @@ export default function Impact33() {
 
   fd = session?.formData;
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, accent: brand, accentLight: shadeColor(brand, 25), accentDark: shadeColor(brand, -20) };
   }
 
-  
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
 return (
     <main style={{ background: C.bg, overflowX: "hidden" }}>
       <style>{`
