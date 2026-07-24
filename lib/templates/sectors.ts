@@ -158,7 +158,7 @@ export const SECTOR_TEMPLATES: Record<string, string[]> = {
   // manual review — no more real matches exist without fabricating content.
   veterinaire:         ['impact-32'],
   menage:              ['impact-178', 'impact-315', 'impact-316', 'impact-317', 'impact-318', 'impact-319'],
-  garage_auto:         ['impact-311', 'impact-312', 'impact-08', 'impact-139', 'impact-221'],
+  garage_auto:         ['impact-311', 'impact-312', 'impact-139', 'impact-221'],
   // Genuinely scarce (see note above) — Studio Coach Sportif (impact-227) was
   // closer to 1:1 coaching and went to `coach` instead of here.
   salle_sport:         ['impact-119', 'impact-174'],
@@ -175,7 +175,7 @@ export const SECTOR_TEMPLATES: Record<string, string[]> = {
   hotel:               ['impact-10',  'impact-182', 'impact-43', 'impact-93', 'impact-97', 'impact-140', 'impact-197'],
   bijouterie:          ['impact-13', 'impact-20', 'impact-83', 'impact-91', 'impact-98', 'impact-157', 'impact-220', 'impact-151', 'impact-60'],
   studio_creatif:      ['impact-23', 'impact-42', 'impact-106', 'impact-124', 'impact-188'],
-  boutique_mode:       ['impact-03', 'impact-150', 'impact-160', 'impact-168', 'impact-217', 'impact-123'],
+  boutique_mode:       ['impact-03', 'impact-150', 'impact-168', 'impact-217', 'impact-123'],
   cafe_bar:            ['impact-37', 'impact-38', 'impact-116', 'impact-131', 'impact-137', 'impact-162', 'impact-218'],
   // Only 3 genuine matches found after a full manual review — real BTP/
   // construction content exists in the catalog but is thin. Below the
