@@ -142,7 +142,7 @@ export const SECTOR_TEMPLATES: Record<string, string[]> = {
   osteo:               ['impact-248', 'impact-264', 'impact-279', 'impact-291', 'impact-300', 'impact-233'],
   avocat:              ['impact-239', 'impact-255', 'impact-275', 'impact-286', 'impact-301', 'impact-46', 'impact-172', 'impact-193'],
   comptable:           ['impact-242', 'impact-254', 'impact-261', 'impact-289', 'impact-302', 'impact-48'],
-  coach:               ['impact-240', 'impact-256', 'impact-276', 'impact-287', 'impact-303', 'impact-227'],
+  coach:               ['impact-240', 'impact-256', 'impact-276', 'impact-287', 'impact-303'],
   plombier:            ['impact-246', 'impact-260', 'impact-278', 'impact-290', 'impact-304', 'impact-212', 'impact-214', 'impact-215', 'impact-313', 'impact-314'],
   electricien:         ['impact-236', 'impact-247', 'impact-277', 'impact-288', 'impact-305', 'impact-223', 'impact-228'],
   boulangerie:         ['impact-245', 'impact-259', 'impact-269', 'impact-282', 'impact-306', 'impact-33', 'impact-90'],
@@ -160,18 +160,18 @@ export const SECTOR_TEMPLATES: Record<string, string[]> = {
   // Genuinely scarce (see note above) — Studio Coach Sportif (impact-227) was
   // closer to 1:1 coaching and went to `coach` instead of here.
   salle_sport:         ['impact-119', 'impact-174'],
-  photographe:         ['impact-02',  'impact-16',  'impact-60',  'impact-71',  'impact-77',  'impact-96',  'impact-166'],
+  photographe:         ['impact-02',  'impact-16',  'impact-77',  'impact-96',  'impact-166', 'impact-104', 'impact-69'],
   // Genuinely scarce (see note above).
   fleuriste:           ['impact-47',  'impact-94'],
   // Genuinely scarce (see note above) — impact-198 is a dual-fit with
   // institut_beaute (multi-service beauty salons commonly do both in France).
-  coiffeur:            ['impact-180', 'impact-209', 'impact-198'],
-  institut_beaute:     ['impact-84', 'impact-85', 'impact-86', 'impact-88', 'impact-95', 'impact-148', 'impact-191', 'impact-192', 'impact-198', 'impact-210', 'impact-229'],
+  coiffeur:            ['impact-180', 'impact-209', 'impact-198', 'impact-227'],
+  institut_beaute:     ['impact-84', 'impact-85', 'impact-86', 'impact-88', 'impact-95', 'impact-148', 'impact-191', 'impact-192', 'impact-198', 'impact-210', 'impact-229', 'impact-71'],
   agent_immobilier:    ['impact-82',  'impact-92',  'impact-128', 'impact-167', 'impact-222', 'impact-241', 'impact-67'],
   architecte:          ['impact-17',  'impact-28',  'impact-118', 'impact-147', 'impact-156', 'impact-186'],
   decorateur_interieur: ['impact-44', 'impact-100', 'impact-143', 'impact-149', 'impact-230'],
   hotel:               ['impact-10',  'impact-182', 'impact-43', 'impact-93', 'impact-97', 'impact-140', 'impact-197'],
-  bijouterie:          ['impact-13', 'impact-20', 'impact-83', 'impact-91', 'impact-98', 'impact-157', 'impact-220', 'impact-151'],
+  bijouterie:          ['impact-13', 'impact-20', 'impact-83', 'impact-91', 'impact-98', 'impact-157', 'impact-220', 'impact-151', 'impact-60'],
   studio_creatif:      ['impact-23', 'impact-42', 'impact-106', 'impact-124', 'impact-188'],
   boutique_mode:       ['impact-03', 'impact-150', 'impact-160', 'impact-168', 'impact-217', 'impact-123'],
   cafe_bar:            ['impact-37', 'impact-38', 'impact-116', 'impact-131', 'impact-137', 'impact-162', 'impact-218'],
@@ -283,17 +283,18 @@ export const TEMPLATE_CITY_LABELS: Record<string, string> = {
   // Photographe
   'impact-02':  'Elena Korr · Paris',
   'impact-16':  'Obscura · Lyon',
-  'impact-60':  'Stack OS · Marseille',
-  'impact-71':  'Archive 35mm · Toulouse',
   'impact-77':  'Tilt Grid · Nice',
   'impact-96':  'Urban Pulse · Nantes',
   'impact-166': 'Iris Studio · Strasbourg',
+  'impact-104': 'Lumière Dorée — Photographe mariage · Paris',
+  'impact-69':  'Léa — Nature Photography & Fine Art Prints · Annecy',
   // Fleuriste
   'impact-47':  'Pétales & Co · Bordeaux',
   'impact-94':  'Botanica Flowers · Montpellier',
   // Coiffeur / Barbier
   'impact-180': 'Essential Salon · Rennes',
   'impact-209': "L'Atelier Coiffure · Lille",
+  'impact-227': 'Le Barber Club · Strasbourg',
   // Agence immobilière
   'impact-82':  'Blueprint Developments · Lyon',
   'impact-92':  'Skyline Concierge · Marseille',
@@ -327,6 +328,7 @@ export const TEMPLATE_CITY_LABELS: Record<string, string> = {
   'impact-157': 'Aurum Jewelry · Nantes',
   'impact-220': 'Hora Viva · Strasbourg',
   'impact-151': 'Chronos Lab · Bordeaux',
+  'impact-60':  'Zenith — Horlogerie de prestige · Genève',
   'impact-84': 'Cypher Clinic · Lille',
   'impact-85': 'Aether Labs · Rennes',
   'impact-86': 'Aura Wellness · Montpellier',
@@ -338,6 +340,7 @@ export const TEMPLATE_CITY_LABELS: Record<string, string> = {
   'impact-198': 'Lumière Beauty · Nice',
   'impact-210': 'Studio Nail · Nantes',
   'impact-229': 'Institut Beauté · Strasbourg',
+  'impact-71':  'ZenSpace — Spa & bien-être · Toulouse',
   'impact-37': 'Clos du Soir · Bordeaux',
   'impact-38': 'Origin Roast · Lille',
   'impact-116': 'Kyoto Teahouse · Rennes',
@@ -397,5 +400,4 @@ export const TEMPLATE_CITY_LABELS: Record<string, string> = {
   'impact-200': 'Cérémonie · Toulouse',
   'impact-322': 'Gala & Prestige · Nice',
   'impact-12': 'Noir Couture · Nantes',
-  'impact-227': 'Studio Coach Sportif · Strasbourg',
 };
