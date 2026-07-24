@@ -391,8 +391,8 @@ export default function AquanovaPiscinesPage() {
         <Reveal>
           <div className="max-w-2xl mx-auto px-6">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#38bdf8] mb-6">Prendre contact</div>
-            <h2 className="text-4xl md:text-6xl font-bold text-white mb-6">Un problème ?<br /><span className="text-[#38bdf8]">On arrive.</span></h2>
-            <p className="text-white/40 mb-10 text-sm leading-relaxed">Devis gratuit sous 2h · Intervention &lt; 1h pour les urgences · Travaux garantis 2 ans</p>
+            <h2 className="text-4xl md:text-6xl font-bold text-white mb-6">Un projet ?<br /><span className="text-[#38bdf8]">Parlons-en.</span></h2>
+            <p className="text-white/40 mb-10 text-sm leading-relaxed">Devis gratuit sous 48h · Étude 3D offerte · Travaux garantis décennale</p>
             <div className="flex flex-wrap gap-4 justify-center">
               <button className="px-10 py-4 bg-[#0369a1] text-white font-bold text-[10px] uppercase tracking-[0.2em] rounded hover:bg-[#0284c7] transition-colors">
                 Demander un devis
