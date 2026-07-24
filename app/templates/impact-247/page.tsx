@@ -11,6 +11,7 @@ import {
   useMotionValue,
 } from 'framer-motion';
 import { ArrowRight, ChevronDown, Zap } from 'lucide-react';
+import { resolveList } from "@/lib/templates/resolveList";
 
 /* ════════════════════════════════════════════════════════════════════════════
    VOLT & LUX — Électricien Certifié & Domotique · Toulouse
@@ -894,7 +895,7 @@ interface Service {
   description: string;
 }
 
-const SERVICES: Service[] = [
+const SERVICES_DEMO: Service[] = [
   {
     icon: '⚡',
     title: 'Mise aux normes NF C 15-100',
@@ -1018,7 +1019,14 @@ function ServiceCards() {
         </Reveal>
       </div>
       <div style={grid}>
-        {SERVICES.map((s, i) => (
+        {resolveList(
+          bp?.services?.map((s: any, i: number) => ({
+            icon: SERVICES_DEMO[i % SERVICES_DEMO.length].icon,
+            title: s.title ?? s.name,
+            description: s.description ?? s.desc,
+          })),
+          SERVICES_DEMO
+        ).map((s, i) => (
           <ServiceCard key={s.title} s={s} i={i} />
         ))}
       </div>
@@ -1421,7 +1429,7 @@ interface Testimonial {
   detail: string;
 }
 
-const TESTIMONIALS: Testimonial[] = [
+const TESTIMONIALS_DEMO: Testimonial[] = [
   {
     quote:
       "Rénovation électrique complète de notre maison de 180 m² + installation domotique Somfy. Coordination parfaite, délais tenus à la journée. L\'attestation CONSUEL reçue en 48h après la fin du chantier.",
@@ -1541,7 +1549,15 @@ function Testimonials() {
         </Reveal>
       </div>
       <div style={grid}>
-        {TESTIMONIALS.map((t, i) => (
+        {resolveList(
+          bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+            quote: r.text ?? r.quote,
+            name: r.name ?? r.author,
+            role: r.role ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].role,
+            detail: r.location ?? r.detail ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].detail,
+          })),
+          TESTIMONIALS_DEMO
+        ).map((t, i) => (
           <TestimonialCard key={t.name} t={t} i={i} />
         ))}
       </div>
@@ -2015,6 +2031,7 @@ function Footer() {
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 let brand: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
@@ -2031,6 +2048,7 @@ export default function Page() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -2064,6 +2082,7 @@ export default function Page() {
     });
   });
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const root: React.CSSProperties = {
@@ -2075,55 +2094,7 @@ export default function Page() {
     MozOsxFontSmoothing: 'grayscale',
   };
 
-  
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
-return (
+  return (
     <main style={root} suppressHydrationWarning>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap');

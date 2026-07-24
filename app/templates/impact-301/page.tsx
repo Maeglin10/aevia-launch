@@ -43,6 +43,7 @@ import {
   X,
   Zap,
 } from 'lucide-react';
+import { resolveList } from "@/lib/templates/resolveList";
 // Custom Instagram icon component for compatibility
 const Instagram = ({ size = 24, ...props }: React.ComponentProps<'svg'> & { size?: number }) => (
   <svg
@@ -109,6 +110,19 @@ const PHOTO = {
   gallery3: "https://images.unsplash.com/photo-1450133064473-71024230f91b?q=80&w=800&auto=format&fit=crop",
   gallery4: "https://images.unsplash.com/photo-1557804506-669a67965ba0?q=80&w=800&auto=format&fit=crop"
 } as const;
+
+const SERVICES_DEMO = [
+  {"name": "Création de Société & Statuts", "category": "Sociétés", "desc": "Accompagnement complet, choix de la structure, rédaction des statuts.", "price": "1 200 €"},
+  {"name": "Accompagnement Levée de Fonds", "category": "Startups", "desc": "Négociation de la term sheet, rédaction du pacte d'actionnaires.", "price": "Sur Devis"},
+  {"name": "Audit de Conformité RGPD", "category": "Contrats", "desc": "Mise en conformité des sites web, contrats et traitements de données.", "price": "800 €"},
+  {"name": "Rédaction de Contrats Commerciaux", "category": "Contrats", "desc": "Conditions générales, contrats de prestation de services, baux commerciaux.", "price": "500 €"}
+];
+
+const FAQ_DEMO = [
+  {"q":"Quels sont vos modes de facturation ?","a":"Nous facturons soit au forfait pour les opérations standardisées (création, contrats), soit au temps passé (taux horaire de 220€ HT) pour le conseil et la négociation."},
+  {"q":"Proposez-vous des abonnements juridiques ?","a":"Oui, notre offre de 'CFO/Juriste externe' permet aux PME et startups en croissance de bénéficier d'un forfait d'heures mensuel de conseil juridique à tarif préférentiel."},
+  {"q":"Où se situe votre cabinet ?","a":"Nos bureaux sont situés au cœur du quartier des Chartrons à Bordeaux. Nous réalisons également l'ensemble de nos rendez-vous en visioconférence."}
+];
 
 /* ── Primitives Reutilisables ─────────────────────────────────────────────── */
 
@@ -221,6 +235,7 @@ function Button({
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 let brand: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
@@ -237,6 +252,7 @@ export default function Page() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -268,10 +284,25 @@ export default function Page() {
     });
   });
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, primary: brand, primaryLight: shadeColor(brand, 25), primaryDark: shadeColor(brand, -20) };
   }
+
+  const MENU_ITEMS = resolveList(
+    bp?.services?.map((s: any, i: number) => ({
+      name: s.title ?? s.name,
+      category: SERVICES_DEMO[i % SERVICES_DEMO.length].category,
+      desc: s.description ?? s.desc,
+      price: s.price ?? SERVICES_DEMO[i % SERVICES_DEMO.length].price,
+    })),
+    SERVICES_DEMO
+  );
+  const FAQ = resolveList(
+    bp?.faq?.map((f: any) => ({ q: f.q ?? f.question, a: f.a ?? f.answer })),
+    FAQ_DEMO
+  );
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeCategory, setActiveCategory] = useState("Tous");
@@ -289,8 +320,8 @@ export default function Page() {
   const heroOpacity = useTransform(heroProgress, [0, 0.8], [1, 0]);
 
   const menuItemsFiltered = activeCategory === "Tous"
-    ? [{"name": "Création de Société & Statuts", "category": "Sociétés", "desc": "Accompagnement complet, choix de la structure, rédaction des statuts.", "price": "1 200 €"}, {"name": "Accompagnement Levée de Fonds", "category": "Startups", "desc": "Négociation de la term sheet, rédaction du pacte d'actionnaires.", "price": "Sur Devis"}, {"name": "Audit de Conformité RGPD", "category": "Contrats", "desc": "Mise en conformité des sites web, contrats et traitements de données.", "price": "800 €"}, {"name": "Rédaction de Contrats Commerciaux", "category": "Contrats", "desc": "Conditions générales, contrats de prestation de services, baux commerciaux.", "price": "500 €"}]
-    : [{"name": "Création de Société & Statuts", "category": "Sociétés", "desc": "Accompagnement complet, choix de la structure, rédaction des statuts.", "price": "1 200 €"}, {"name": "Accompagnement Levée de Fonds", "category": "Startups", "desc": "Négociation de la term sheet, rédaction du pacte d'actionnaires.", "price": "Sur Devis"}, {"name": "Audit de Conformité RGPD", "category": "Contrats", "desc": "Mise en conformité des sites web, contrats et traitements de données.", "price": "800 €"}, {"name": "Rédaction de Contrats Commerciaux", "category": "Contrats", "desc": "Conditions générales, contrats de prestation de services, baux commerciaux.", "price": "500 €"}].filter(item => item.category === activeCategory);
+    ? MENU_ITEMS
+    : MENU_ITEMS.filter(item => item.category === activeCategory);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -299,55 +330,7 @@ export default function Page() {
     }
   };
 
-  
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
-return (
+  return (
     <div style={{
       background: C.bg,
       color: C.text,
@@ -994,13 +977,15 @@ return (
                 position: 'relative',
                 zIndex: 2
               }}>
-                "Une prestation irréprochable et un souci du détail impressionnant. Les délais ont été parfaitement respectés, et la communication a toujours été fluide."
+                {bp?.reputation?.featuredReviews?.[0]?.text
+                  ? `"${bp.reputation.featuredReviews[0].text}"`
+                  : "\"Une prestation irréprochable et un souci du détail impressionnant. Les délais ont été parfaitement respectés, et la communication a toujours été fluide.\""}
               </p>
               <div style={{ display: 'flex', justifyContent: 'center', gap: 4, marginBottom: 12 }}>
                 {[...Array(5)].map((_, i) => <Star key={i} size={14} fill={C.primary} color={C.primary} />)}
               </div>
               <div style={{ fontFamily: SANS, fontSize: 12, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: C.primary }}>
-                Marie Lauret · Bordeaux
+                {bp?.reputation?.featuredReviews?.[0]?.name ?? "Marie Lauret"}{" · "}{bp?.reputation?.featuredReviews?.[0]?.location ?? "Bordeaux"}
               </div>
             </div>
           </Reveal>
@@ -1026,7 +1011,7 @@ return (
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-            {[{"q":"Quels sont vos modes de facturation ?","a":"Nous facturons soit au forfait pour les opérations standardisées (création, contrats), soit au temps passé (taux horaire de 220€ HT) pour le conseil et la négociation."},{"q":"Proposez-vous des abonnements juridiques ?","a":"Oui, notre offre de 'CFO/Juriste externe' permet aux PME et startups en croissance de bénéficier d'un forfait d'heures mensuel de conseil juridique à tarif préférentiel."},{"q":"Où se situe votre cabinet ?","a":"Nos bureaux sont situés au cœur du quartier des Chartrons à Bordeaux. Nous réalisons également l'ensemble de nos rendez-vous en visioconférence."}].map((item, i) => (
+            {FAQ.map((item, i) => (
               <Reveal key={i} delay={i * 0.08}>
                 <div style={{
                   background: C.bgCard,

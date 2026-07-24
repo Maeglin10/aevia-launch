@@ -9,14 +9,15 @@ import {
 } from "lucide-react";
 import {
   C,
-  practiceAreas,
-  attorneys,
+  practiceAreas as practiceAreas_DEMO,
+  attorneys as attorneys_DEMO,
   caseResults,
-  testimonials,
+  testimonials as testimonials_DEMO,
   consultationTiers,
-  faqs,
+  faqs as faqs_DEMO,
   ScaleSVG
 } from "./shared";
+import { resolveList } from "@/lib/templates/resolveList";
 
 function HeroSection() {
   const ref = useRef(null);
@@ -123,6 +124,14 @@ function HeroSection() {
 function PracticeSection() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
+  const practiceAreas = resolveList(
+    bp?.services?.map((s: any, i: number) => ({
+      icon: practiceAreas_DEMO[i % practiceAreas_DEMO.length].icon,
+      title: s.title ?? s.name,
+      desc: s.description ?? s.desc,
+    })),
+    practiceAreas_DEMO
+  );
 
   return (
     <section id="practice" ref={ref} style={{ background: C.bg, padding: "120px 32px" }}>
@@ -172,6 +181,19 @@ function PracticeSection() {
 function AttorneysSection() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
+  const attorneys = resolveList(
+    bp?.team?.map((m: any, i: number) => ({
+      name: m.name ?? attorneys_DEMO[i % attorneys_DEMO.length].name,
+      title: m.role ?? attorneys_DEMO[i % attorneys_DEMO.length].title,
+      focus: m.specialty ?? "",
+      bio: m.bio ?? "",
+      bar: m.credentials ?? "",
+      education: "",
+      languages: "",
+      matters: "",
+    })),
+    attorneys_DEMO
+  );
 
   return (
     <section id="attorneys" ref={ref} style={{ background: C.navy, padding: "120px 32px" }}>
@@ -215,7 +237,7 @@ function AttorneysSection() {
                   { label: "Education", val: atty.education },
                   { label: "Languages", val: atty.languages },
                   { label: "Track Record", val: atty.matters },
-                ].map((item) => (
+                ].filter((item) => item.val).map((item) => (
                   <div key={item.label} style={{ display: "flex", gap: 12, marginBottom: 10 }}>
                     <span style={{ fontFamily: "'Source Sans Pro', system-ui", fontSize: 12, color: C.accent, fontWeight: 600, minWidth: 90, flexShrink: 0 }}>{item.label}</span>
                     <span style={{ fontFamily: "'Source Sans Pro', system-ui", fontSize: 12, color: "rgba(255,255,255,0.5)" }}>{item.val}</span>
@@ -268,6 +290,16 @@ function ResultsSection() {
 function TestimonialsSection() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
+  const testimonials = resolveList(
+    bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+      name: r.name ?? testimonials_DEMO[i % testimonials_DEMO.length].name,
+      title: r.location ?? testimonials_DEMO[i % testimonials_DEMO.length].title,
+      text: r.text ?? r.quote,
+      rating: r.stars ?? r.rating ?? 5,
+      matter: testimonials_DEMO[i % testimonials_DEMO.length].matter,
+    })),
+    testimonials_DEMO
+  );
 
   return (
     <section id="testimonials" ref={ref} style={{ background: C.bg, padding: "80px 32px 120px" }}>
@@ -378,6 +410,10 @@ function FAQSection() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
   const [openIdx, setOpenIdx] = useState<number | null>(null);
+  const faqs = resolveList(
+    bp?.faq?.map((f: any) => ({ q: f.q ?? f.question, a: f.a ?? f.answer })),
+    faqs_DEMO
+  );
 
   return (
     <section id="faq" ref={ref} style={{ background: C.bg, padding: "120px 32px" }}>
@@ -431,6 +467,7 @@ function FAQSection() {
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 let brand: any = null;
 export default function LawFirmHome() {
   const [session, setSession] = useState<{
@@ -447,6 +484,7 @@ export default function LawFirmHome() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -460,57 +498,10 @@ export default function LawFirmHome() {
 
   fd = session?.formData;
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
-  
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
-return (
+  return (
     <div style={{ background: C.bg, minHeight: "100dvh" }}>
       <style>{`
         /* mobile: stack 2-col grids to single column (added by responsive fix) */

@@ -6,6 +6,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { Heart, Wind, Hand, Star, Phone, MapPin, Clock, CheckCircle, Leaf, Circle, Calendar, Menu } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import { resolveList } from "@/lib/templates/resolveList"
 
 /* ═══════════════════════════════════════════════════════════════════════════
    OSTÉO GAÏA — Ostéopathe D.O. (Montpellier)
@@ -25,7 +26,7 @@ function Reveal({ children, delay = 0, y = 20 }: { children: React.ReactNode; de
   )
 }
 
-const PRISES_EN_CHARGE = [
+const PRISES_EN_CHARGE_DEMO = [
   { icon: Wind, title: "Douleurs du dos & lombalgies", desc: "Cervicalgie, dorsalgie, lombalgie, sciatique. Traitement manuel des restrictions de mobilité articulaire et musculaire. Soins adaptés aux douleurs chroniques et aiguës." },
   { icon: Heart, title: "Suivi grossesse & nourrissons", desc: "Accompagnement périnatal, préparation à l'accouchement, suivi post-partum. Traitement des coliques, régurgitations et troubles du sommeil chez le nourrisson." },
   { icon: Hand, title: "Troubles musculo-squelettiques", desc: "Tendinites, entorses, tensions musculaires, troubles de la posture. Prise en charge préventive avant et récupérative après activité sportive." },
@@ -34,10 +35,17 @@ const PRISES_EN_CHARGE = [
   { icon: Calendar, title: "Sportifs & préparation physique", desc: "Bilan ostéo préventif avant saison, récupération post-blessure, optimisation mobilité articulaire. Suivi de sportifs amateurs et semi-professionnels." },
 ]
 
+const AVIS_DEMO = [
+  { q: "Sciatique depuis 3 mois, aucun soulagement avec les médicaments. Après 2 séances avec Emma, la douleur a diminué de 70%. Je recommence à marcher normalement.", n: "Frédéric H.", l: "Montpellier" },
+  { q: "Mon fils de 6 semaines avait des coliques intenses. Deux séances d'ostéopathie crânienne et les cris nocturnes ont quasiment disparu. Je n'aurais pas cru si je ne l'avais pas vécu.", n: "Camille & Maxime D.", l: "Lattes (34)" },
+  { q: "Suivi trimestriel depuis ma grossesse jusqu'à maintenant (14 mois post-partum). Emma est bienveillante, pédagogue, ses mains savent exactement où aller. Une vraie experte.", n: "Louise M.", l: "Palavas-les-Flots" },
+]
+
 
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
@@ -59,6 +67,7 @@ export default function OsteoGaiaPage() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -72,7 +81,25 @@ export default function OsteoGaiaPage() {
 
   fd = session?.formData;
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
+
+  const PRISES_EN_CHARGE = resolveList(
+    bp?.services?.map((s: any, i: number) => ({
+      icon: PRISES_EN_CHARGE_DEMO[i % PRISES_EN_CHARGE_DEMO.length].icon,
+      title: s.title ?? s.name,
+      desc: s.description ?? s.desc,
+    })),
+    PRISES_EN_CHARGE_DEMO
+  );
+  const AVIS = resolveList(
+    bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+      q: r.text ?? r.quote,
+      n: r.name ?? r.author,
+      l: r.location ?? r.context ?? AVIS_DEMO[i % AVIS_DEMO.length].l,
+    })),
+    AVIS_DEMO
+  );
 
   const heroRef = useRef(null)
   const [scrolled, setScrolled] = useState(false)
@@ -87,53 +114,7 @@ export default function OsteoGaiaPage() {
     return () => window.removeEventListener("scroll", h)
   }, []);
 
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);return (
+  return (
     <div className="bg-[#f5f0e8] text-[#3a2e28] overflow-x-hidden" style={{ fontFamily: "'Lato', 'Inter', system-ui, sans-serif" }}>
       {/* ── NAVBAR ── */}
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#f5f0e8]/98 backdrop-blur-xl py-3 shadow-sm border-b border-[#c26b4c]/10" : "bg-transparent py-7"}`}>
@@ -298,11 +279,7 @@ export default function OsteoGaiaPage() {
             <h2 className="text-4xl font-bold text-[#3a2e28]" style={{ fontFamily: "'Libre Baskerville', serif" }}>Ce qu'ils <span className="text-[#c26b4c] italic">ressentent.</span></h2>
           </div></Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-            {[
-              { q: "Sciatique depuis 3 mois, aucun soulagement avec les médicaments. Après 2 séances avec Emma, la douleur a diminué de 70%. Je recommence à marcher normalement.", n: "Frédéric H.", l: "Montpellier" },
-              { q: "Mon fils de 6 semaines avait des coliques intenses. Deux séances d'ostéopathie crânienne et les cris nocturnes ont quasiment disparu. Je n'aurais pas cru si je ne l'avais pas vécu.", n: "Camille & Maxime D.", l: "Lattes (34)" },
-              { q: "Suivi trimestriel depuis ma grossesse jusqu'à maintenant (14 mois post-partum). Emma est bienveillante, pédagogue, ses mains savent exactement où aller. Une vraie experte.", n: "Louise M.", l: "Palavas-les-Flots" },
-            ].map((t, i) => (
+            {AVIS.map((t, i) => (
               <Reveal key={i} delay={i * 0.1}>
                 <div className="p-8 bg-[#f5f0e8] rounded-xl border border-[#ede6d9] h-full flex flex-col">
                   <div className="flex gap-1 mb-5">
