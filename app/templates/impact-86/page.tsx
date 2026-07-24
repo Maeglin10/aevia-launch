@@ -36,6 +36,7 @@ import {
   CheckCircle,
 } from "lucide-react";
 import { TemplateIcon } from '@/components/TemplateIcon';
+import { resolveList } from "@/lib/templates/resolveList";
 
 const useFonts = () => {
   useEffect(() => {
@@ -63,7 +64,10 @@ const Reveal = ({ children, className = "", delay = 0 }: { children: React.React
   );
 };
 
-const rituals = [
+// ─── Demo content — real data (businessProfile) replaces these wholesale via
+// resolveList when the client provided it; each field access below falls
+// back with `??` so the same JSX renders either shape.
+const RITUALS_DEMO = [
   {
     id: "restore",
     label: "Restore",
@@ -119,7 +123,7 @@ const amenities = [
   { icon: <Heart className="w-6 h-6" />, label: "Meditation Loft", desc: "Soundproofed Tibetan singing bowls" },
 ];
 
-const testimonials = [
+const TESTIMONIALS_DEMO = [
   {
     name: "Isabelle M.",
     role: "Photographe",
@@ -150,7 +154,7 @@ const botanicals = [
   { name: "Romarin Côtier", origin: "Méditerranée", benefit: "Circulation & détox", icon: "🌱" },
 ];
 
-const team = [
+const TEAM_DEMO = [
   { name: "Amélie Fontaine", role: "Directrice Wellness", years: 14, specialty: "Massage Ayurvédique" },
   { name: "Nour El-Kadi", role: "Experte Soin Visage", years: 9, specialty: "Peeling & Gua Sha" },
   { name: "Pierre Lecomte", role: "Thérapeute Holistique", years: 11, specialty: "Craniosacral & Breath" },
@@ -342,7 +346,7 @@ const PageHero = ({ eyebrow, title, subtitle }: { eyebrow: string; title: string
 
 // ─── Soins (treatments/rituals listing + optional detail view) ────────────────
 
-const FAQS = [
+const FAQS_DEMO = [
   { q: "Comment sont vérifiées vos huiles essentielles ?", a: "Chaque lot subit des analyses par chromatographie en phase gazeuse (GC-MS) pour garantir une pureté de 100%. Nous nous approvisionnons exclusivement auprès de domaines certifiés à Grasse et dans la vallée des roses en Bulgarie." },
   { q: "Quel est votre protocole de filtration de l'eau ?", a: "Nos circuits d'hydrothérapie utilisent un système de filtration breveté en 7 étapes, incluant une restructuration moléculaire et une minéralisation cristalline pour reproduire la pureté d'une eau de source de haute montagne." },
   { q: "Les rituels sont-ils adaptés à mon type de peau ?", a: "Oui. Chaque rituel Aura commence par un diagnostic d'analyse cutanée personnalisé. Nous ajustons ensuite les dosages de nos actifs botaniques et l'intensité des modelages en fonction de vos besoins." },
@@ -374,6 +378,7 @@ export default function AuraWellnessPage() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -407,10 +412,21 @@ export default function AuraWellnessPage() {
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
+  // Real business data (resolveList) replaces demo content wholesale when
+  // present — see the DEMO consts above for the shape each section falls
+  // back to. Field access in JSX uses `??` chains so both shapes render.
+  // Note: businessProfile is a sibling of formData on SessionData, not
+  // nested inside it — read from `session`, not `fd`.
+  const bp = session?.businessProfile;
+  const rituals = resolveList(bp?.services, RITUALS_DEMO);
+  const team = resolveList(bp?.team, TEAM_DEMO);
+  const testimonials = resolveList(bp?.reputation?.featuredReviews, TESTIMONIALS_DEMO);
+  const faqs = resolveList(bp?.faq, FAQS_DEMO);
+
   useFonts();
 
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [activeRitual, setActiveRitual] = useState("restore");
+  const [activeRitual, setActiveRitual] = useState(0);
   const [activeTestimonial, setActiveTestimonial] = useState(0);
   const [contactSubmitted, setContactSubmitted] = useState(false);
   const [reservationSubmitted, setReservationSubmitted] = useState(false);
@@ -427,62 +443,14 @@ export default function AuraWellnessPage() {
   const { scrollYProgress: amenitiesScroll } = useScroll({ target: amenitiesRef, offset: ["start end", "end start"] });
   const amenitiesX = useTransform(amenitiesScroll, [0, 1], ["0%", "-8%"]);
 
-  const currentRitual = rituals.find((r) => r.id === activeRitual)!;
+  const currentRitual: any = rituals[activeRitual] ?? rituals[0];
 
   useEffect(() => {
     const timer = setInterval(() => {
       setActiveTestimonial((p) => (p + 1) % testimonials.length);
     }, 5000);
     return () => clearInterval(timer);
-  }, []);
-
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
+  }, [testimonials.length]);
 
   const navItems = [
     { label: "Accueil", href: "#hero" },
@@ -674,18 +642,18 @@ export default function AuraWellnessPage() {
             </div>
           </Reveal>
           <div className="flex gap-3 mb-10 flex-wrap">
-            {rituals.map((r) => (
+            {rituals.map((r: any, i: number) => (
               <button
-                key={r.id}
-                onClick={() => setActiveRitual(r.id)}
+                key={r.id ?? r.name ?? i}
+                onClick={() => setActiveRitual(i)}
                 className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm transition-all duration-200 cursor-pointer border ${
-                  activeRitual === r.id
+                  activeRitual === i
                     ? "bg-[#7C9E87] text-white border-[#7C9E87]"
                     : "bg-white text-[#2C2820]/70 border-[#D8D0C4] hover:border-[#7C9E87] hover:text-[#7C9E87]"
                 }`}
               >
                 {r.icon}
-                {r.label}
+                {r.label ?? r.title ?? r.name}
               </button>
             ))}
           </div>
@@ -700,30 +668,36 @@ export default function AuraWellnessPage() {
             >
               <div className="p-10">
                 <div className="flex items-center gap-3 mb-6">
-                  <span className="text-xs bg-[#7C9E87]/10 text-[#7C9E87] px-3 py-1 rounded-full border border-[#7C9E87]/20">
-                    {currentRitual.tag}
-                  </span>
-                  <span className="text-[#6B5E52] text-sm flex items-center gap-1">
-                    <Clock className="w-4 h-4" /> {currentRitual.duration}
-                  </span>
+                  {currentRitual.tag && (
+                    <span className="text-xs bg-[#7C9E87]/10 text-[#7C9E87] px-3 py-1 rounded-full border border-[#7C9E87]/20">
+                      {currentRitual.tag}
+                    </span>
+                  )}
+                  {currentRitual.duration && (
+                    <span className="text-[#6B5E52] text-sm flex items-center gap-1">
+                      <Clock className="w-4 h-4" /> {currentRitual.duration}
+                    </span>
+                  )}
                 </div>
                 <h3
                   className="text-[#2C2820] text-3xl mb-4"
                   style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 400 }}
                 >
-                  {currentRitual.title}
+                  {currentRitual.title ?? currentRitual.name}
                 </h3>
                 <p className="text-[#6B5E52] leading-relaxed mb-8 text-sm">
                   {currentRitual.description}
                 </p>
-                <div className="space-y-3 mb-8">
-                  {currentRitual.steps.map((step, i) => (
-                    <div key={i} className="flex items-center gap-3 text-sm text-[#2C2820]/80">
-                      <CheckCircle className="w-4 h-4 text-[#7C9E87] shrink-0" />
-                      {step}
-                    </div>
-                  ))}
-                </div>
+                {(currentRitual.steps ?? []).length > 0 && (
+                  <div className="space-y-3 mb-8">
+                    {currentRitual.steps.map((step: string, i: number) => (
+                      <div key={i} className="flex items-center gap-3 text-sm text-[#2C2820]/80">
+                        <CheckCircle className="w-4 h-4 text-[#7C9E87] shrink-0" />
+                        {step}
+                      </div>
+                    ))}
+                  </div>
+                )}
                 <div className="flex items-center justify-between">
                   <span
                     className="text-[#2C2820] text-4xl"
@@ -862,12 +836,12 @@ export default function AuraWellnessPage() {
             </div>
           </Reveal>
           <div className="grid md:grid-cols-3 gap-6">
-            {team.map((t, i) => (
-              <Reveal key={t.name} delay={i * 0.1}>
+            {team.map((t: any, i: number) => (
+              <Reveal key={t.name ?? i} delay={i * 0.1}>
                 <div className="bg-white rounded-2xl overflow-hidden border border-[#D8D0C4] group cursor-pointer">
                   <div className="relative h-64 overflow-hidden">
                     <Image
-                      src={`https://images.unsplash.com/photo-${["1559599101-f09722fb4948", "1573496359142-b8d87734a5a2", "1507003211169-0a1dd7228f2d"][i]}?w=600&q=80`}
+                      src={t.photoUrl ?? `https://images.unsplash.com/photo-${["1559599101-f09722fb4948", "1573496359142-b8d87734a5a2", "1507003211169-0a1dd7228f2d"][i % 3]}?w=600&q=80`}
                       alt={t.name}
                       fill
                       className="object-cover grayscale group-hover:grayscale-0 transition-all duration-500"
@@ -882,9 +856,13 @@ export default function AuraWellnessPage() {
                     </h3>
                     <p className="text-[#7C9E87] text-xs tracking-wide uppercase mb-3">{t.role}</p>
                     <div className="flex items-center gap-4 text-sm text-[#6B5E52]">
-                      <span>{t.years} ans d'expérience</span>
-                      <span className="text-[#D8D0C4]">·</span>
-                      <span>{t.specialty}</span>
+                      {t.years && (
+                        <>
+                          <span>{t.years} ans d'expérience</span>
+                          {t.specialty && <span className="text-[#D8D0C4]">·</span>}
+                        </>
+                      )}
+                      {t.specialty && <span>{t.specialty}</span>}
                     </div>
                   </div>
                 </div>
@@ -950,7 +928,7 @@ export default function AuraWellnessPage() {
           </Reveal>
 
           <Accordion type="single" collapsible className="space-y-6">
-            {FAQS.map((faq, i) => (
+            {faqs.map((faq, i) => (
               <AccordionItem
                 key={i}
                 value={`item-${i}`}
