@@ -5,6 +5,7 @@ import React, { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform, useInView, AnimatePresence, useMotionValue, useSpring } from "framer-motion";
 import Link from "next/link";
 import { Globe, Compass, Star, MapPin, Phone, Mail, Camera, MessageSquare, Users2, Menu, X, ChevronRight, Shield, Clock, Award, Users, Plane, Anchor, Mountain, Heart, Check, ArrowRight, ChevronDown, Calendar, Headphones, Gem, Leaf } from "lucide-react";
+import { resolveList } from "@/lib/templates/resolveList";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Badge } from "@/components/ui/badge";
@@ -44,7 +45,7 @@ let C: Record<string, string> = {
   borderLight: "rgba(10,37,64,0.08)",
 };
 
-const DESTINATIONS = [
+const DESTINATIONS_DEMO = [
   { name: "Maldives Privées", region: "Océan Indien", img: "photo-1514282401047-d79a71a590e8", duration: "10 nuits", price: "À partir de 12 400 €", tag: "Sérénité absolue", icon: Anchor, desc: "Villas sur pilotis, lagon turquoise privé, plongée de corail — l'archipel d'exception." },
   { name: "Kyoto Impériale", region: "Japon", img: "photo-1528360983277-13d401cdc186", duration: "12 nuits", price: "À partir de 9 800 €", tag: "Patrimoine vivant", icon: Leaf, desc: "Ryokans historiques, cérémonie du thé privée, géishas et jardins zen au lever du soleil." },
   { name: "Safari Masaï Mara", region: "Kenya", img: "photo-1516426122078-c23e76319801", duration: "9 nuits", price: "À partir de 14 200 €", tag: "Grande migration", icon: Mountain, desc: "Camp de luxe privé, safaris au lever du soleil, bush dinner sous les étoiles africaines." },
@@ -53,7 +54,7 @@ const DESTINATIONS = [
   { name: "Rajasthan Royal", region: "Inde du Nord", img: "photo-1524492412937-b28074a5d7da", duration: "11 nuits", price: "À partir de 6 400 €", tag: "Fastes de l'Orient", icon: Gem, desc: "Palace hotels historiques, Jaipur, Udaipur, Jaisalmer — un voyage dans un voyage." },
 ];
 
-const PACKAGES = [
+const PACKAGES_DEMO = [
   {
     name: "Évasion",
     subtitle: "Le voyage essentiel",
@@ -114,7 +115,7 @@ const STATS = [
   { val: "18", label: "Années d'expertise", suffix: "" },
 ];
 
-const TESTIMONIALS = [
+const TESTIMONIALS_DEMO = [
   {
     name: "Hélène & Bertrand Favre",
     origin: "Lyon",
@@ -165,7 +166,7 @@ const TESTIMONIALS = [
   },
 ];
 
-const SERVICES_DETAIL = [
+const SERVICES_DETAIL_DEMO = [
   { icon: Compass, title: "Conception sur mesure", desc: "Chaque itinéraire est créé de zéro selon vos désirs, votre rythme et vos passions. Aucun voyage n'est jamais identique." },
   { icon: Gem, title: "Accès ultra-exclusifs", desc: "Palaces, villas privées, accès VIP à des sites fermés au public — notre carnet d'adresses s'ouvre là où les agences classiques n'entrent pas." },
   { icon: Headphones, title: "Conciergerie 24h/24", desc: "Un interlocuteur francophone dédié, joignable à toute heure, dans tous les fuseaux horaires. Parce que l'imprévu n'attend pas." },
@@ -181,7 +182,7 @@ const PROCESS_STEPS = [
   { num: "04", title: "Départ et suivi", desc: "Votre concierge est joignable 24h/24 tout au long du voyage. Retours, imprévus, demandes de dernière minute — nous gérons tout." },
 ];
 
-const FAQS = [
+const FAQS_DEMO = [
   { q: "Quel est le budget minimum pour vos voyages ?", a: "Nos voyages sur mesure débutent à partir de 4 900 € par personne (vol en classe affaires inclus). Pour les formules Excellence avec jet privé, comptez 25 000 € et au-delà. Nous adaptons chaque voyage au budget annoncé avec transparence totale." },
   { q: "Combien de temps à l'avance dois-je réserver ?", a: "Idéalement 3 à 6 mois pour les haute saisons (été, Noël, Nouvel An). Pour les destinations très demandées comme les Maldives ou le Japon en sakura, 8 à 12 mois sont recommandés. Nous pouvons parfois créer des voyages express en 3 semaines." },
   { q: "Proposez-vous des voyages en famille ?", a: "Absolument. Nous sommes spécialistes des voyages familiaux luxury : villas privées avec personnel dédié, activités adaptées à chaque âge, babysitters certifiés, menus enfants gastronomiques. Voyager en famille n'est pas un compromis, c'est une autre forme d'excellence." },
@@ -361,6 +362,7 @@ type ActivePage = "home" | "destinations" | "concept" | "formules" | "legal";
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 export default function EvasionDoree() {
   const [session, setSession] = useState<{
     formData?: {
@@ -376,6 +378,7 @@ export default function EvasionDoree() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -389,6 +392,7 @@ export default function EvasionDoree() {
 
   fd = session?.formData;
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, accent: brand, accentLight: shadeColor(brand, 25), accentDark: shadeColor(brand, -20) };
@@ -414,54 +418,44 @@ export default function EvasionDoree() {
   const heroScale = useTransform(scrollYProgress, [0, 1], [1, 1.08]);
 
   const NAV_LINKS = ["Destinations", "Services", "Processus", "Avis", "Tarifs"];
-  
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
+
+  const DESTINATIONS = resolveList(
+    bp?.services?.map((s: any, i: number) => ({
+      ...DESTINATIONS_DEMO[i % DESTINATIONS_DEMO.length],
+      name: s.title ?? s.name,
+      desc: s.description ?? s.desc,
+      price: s.price ?? DESTINATIONS_DEMO[i % DESTINATIONS_DEMO.length].price,
+    })),
+    DESTINATIONS_DEMO
+  );
+  const SERVICES_DETAIL = resolveList(
+    bp?.services?.map((s: any, i: number) => ({
+      icon: SERVICES_DETAIL_DEMO[i % SERVICES_DETAIL_DEMO.length].icon,
+      title: s.title ?? s.name,
+      desc: s.description ?? s.desc,
+    })),
+    SERVICES_DETAIL_DEMO
+  );
+  const PACKAGES = resolveList(
+    bp?.services?.map((s: any, i: number) => ({
+      ...PACKAGES_DEMO[i % PACKAGES_DEMO.length],
+      name: s.title ?? s.name,
+      subtitle: s.description ?? PACKAGES_DEMO[i % PACKAGES_DEMO.length].subtitle,
+      price: s.price ?? PACKAGES_DEMO[i % PACKAGES_DEMO.length].price,
+    })),
+    PACKAGES_DEMO
+  );
+  const TESTIMONIALS = resolveList(
+    bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+      ...TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length],
+      name: r.name ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].name,
+      text: r.text ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].text,
+      rating: r.stars ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].rating,
+      trip: r.location ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].trip,
+    })),
+    TESTIMONIALS_DEMO
+  );
+  const FAQS = resolveList(bp?.faq, FAQS_DEMO);
 return (
     <div ref={containerRef} style={{ background: C.bg, color: C.text, minHeight: "100dvh", fontFamily: "'Cormorant Garamond', Georgia, serif", overflowX: "hidden" }}>
       <style>{`

@@ -29,6 +29,7 @@ import {
   Gem,
   ChevronRight,
 } from 'lucide-react';
+import { resolveList } from "@/lib/templates/resolveList";
 
 /* ════════════════════════════════════════════════════════════════════════════
    HORA VIVA — Manufacture Horlogère Suisse, Genève
@@ -916,7 +917,7 @@ function StickyCrossfade() {
 
 // ─── COLLECTIONS ─────────────────────────────────────────────────────────────
 
-const COLLECTIONS = [
+const COLLECTIONS_DEMO = [
   {
     name: 'Perpétuelle',
     ref: 'HV-190 · Cal. 190A',
@@ -945,13 +946,13 @@ const COLLECTIONS = [
     desc: "Boîtier en titane grade 5, cadran en lapis-lazuli naturel. Pour ceux qui cherchent l\'exception absolue dans la discrétion.",
     complications: ['Phases de lune précises', 'Chronographe', 'Bicompax'],
   },
-] as const;
+];
 
 function CollectionCard({
   col,
   delay,
 }: {
-  col: (typeof COLLECTIONS)[number];
+  col: (typeof COLLECTIONS_DEMO)[number];
   delay: number;
 }) {
   const [hovered, setHovered] = useState(false);
@@ -1116,6 +1117,14 @@ function CollectionCard({
 }
 
 function Collections() {
+  const COLLECTIONS = resolveList(
+    bp?.services?.map((s: any, i: number) => ({
+      ...COLLECTIONS_DEMO[i % COLLECTIONS_DEMO.length],
+      name: s.title ?? s.name,
+      desc: s.description ?? s.desc,
+    })),
+    COLLECTIONS_DEMO
+  );
   return (
     <section
       id="collections"
@@ -1560,7 +1569,7 @@ function Heritage() {
 
 // ─── TESTIMONIALS ─────────────────────────────────────────────────────────────
 
-const TESTIMONIALS = [
+const TESTIMONIALS_DEMO = [
   {
     quote: "Ma Perpétuelle Hora Viva accompagne chaque décision importante de ma vie depuis vingt-deux ans. Ce n\'est pas une montre — c\'est un compagnon silencieux et fidèle.",
     author: 'Henri de Vauclaire',
@@ -1573,9 +1582,18 @@ const TESTIMONIALS = [
     role: 'Chronobiologiste & Horloger amateur, Tokyo',
     stars: 5,
   },
-] as const;
+];
 
 function Testimonials() {
+  const TESTIMONIALS = resolveList(
+    bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+      quote: r.text ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].quote,
+      author: r.name ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].author,
+      role: r.location ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].role,
+      stars: r.stars ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].stars,
+    })),
+    TESTIMONIALS_DEMO
+  );
   return (
     <section id="realisations"
       style={{
@@ -2303,6 +2321,7 @@ function Footer() {
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 let brand: any = null;
 export default function HoraVivaPage() {
   const [session, setSession] = useState<{
@@ -2319,6 +2338,7 @@ export default function HoraVivaPage() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -2350,6 +2370,7 @@ export default function HoraVivaPage() {
     });
   });
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   // Inject global CSS once
@@ -2366,54 +2387,6 @@ export default function HoraVivaPage() {
       if (el) el.remove();
     };
   }, []);
-
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
 
   return (
     <main

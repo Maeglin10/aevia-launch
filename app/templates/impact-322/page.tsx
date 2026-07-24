@@ -39,6 +39,7 @@ import {
   GlassWater,
   Briefcase
 } from "lucide-react";
+import { resolveList } from "@/lib/templates/resolveList";
 const Instagram = ({ size = 24, color = 'currentColor', ...p }: any) => (<svg xmlns='http://www.w3.org/2000/svg' width={size} height={size} viewBox='0 0 24 24' fill='none' stroke={color} strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' {...p}><circle cx='12' cy='12' r='10'/></svg>);
 const Linkedin = ({ size = 24, color = 'currentColor', ...p }: any) => (<svg xmlns='http://www.w3.org/2000/svg' width={size} height={size} viewBox='0 0 24 24' fill='none' stroke={color} strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' {...p}><circle cx='12' cy='12' r='10'/></svg>);
 
@@ -70,7 +71,7 @@ function shadeColor(color: string, percent: number) {
 // --- CONSTANTS ---
 const SERIF = "'Playfair Display', serif";
 const SANS = "'Montserrat', sans-serif";
-const EASE = [0.16, 1, 0.3, 1];
+const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 const DEFAULT_BRAND_COLOR = "#c5a880";
 
@@ -90,7 +91,7 @@ const PHOTOS = {
 
 // --- COMPONENTS ---
 
-const Reveal = ({ children, delay = 0, y = 30, className = "" }) => {
+const Reveal = ({ children, delay = 0, y = 30, className = "" }: any) => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-50px" });
 
@@ -107,7 +108,7 @@ const Reveal = ({ children, delay = 0, y = 30, className = "" }) => {
   );
 };
 
-const Button = ({ children, primary = true, onClick, className = "", style = {}, C }) => {
+const Button = ({ children, primary = true, onClick, className = "", style = {}, C }: any) => {
   return (
     <motion.button
       onClick={onClick}
@@ -128,7 +129,7 @@ const Button = ({ children, primary = true, onClick, className = "", style = {},
   );
 };
 
-const Eyebrow = ({ text, C, className = "" }) => (
+const Eyebrow = ({ text, C, className = "" }: any) => (
   <div className={`flex items-center gap-4 ${className}`}>
     <div style={{ width: '40px', height: '1px', backgroundColor: C.primary }} />
     <span 
@@ -143,7 +144,11 @@ const Eyebrow = ({ text, C, className = "" }) => (
 // --- MAIN TEMPLATE ---
 
 export default function Impact322() {
-  const [session, setSession] = useState(null);
+  const [session, setSession] = useState<{
+    formData?: any;
+    generatedContent?: any;
+    businessProfile?: any;
+  } | null>(null);
   const [mounted, setMounted] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -187,6 +192,7 @@ export default function Impact322() {
 
   const fd = session?.formData || {};
   const c = session?.generatedContent || {};
+  const bp = session?.businessProfile || {};
 
   const brandColor = fd?.brandColor || DEFAULT_BRAND_COLOR;
 
@@ -222,7 +228,7 @@ export default function Impact322() {
     black: "#000000",
   };
 
-  const services = c?.services || [
+  const services_DEMO = [
     {
       title: "Galas & Réceptions",
       description: "Organisation sur mesure d'événements prestigieux. Du choix du lieu d'exception à la scénographie, nous créons des soirées inoubliables pour vos invités de marque.",
@@ -240,7 +246,16 @@ export default function Impact322() {
     }
   ];
 
-  const testimonials = c?.testimonials || [
+  const services = resolveList(
+    bp?.services?.map((s: any, i: number) => ({
+      ...services_DEMO[i % services_DEMO.length],
+      title: s.title ?? services_DEMO[i % services_DEMO.length].title,
+      description: s.description ?? services_DEMO[i % services_DEMO.length].description,
+    })),
+    resolveList(c?.services, services_DEMO)
+  );
+
+  const testimonials_DEMO = [
     {
       name: "Jean-Pierre Laurent",
       role: "Directeur Général, Maison L.",
@@ -257,6 +272,15 @@ export default function Impact322() {
       content: "Le séminaire de direction organisé à Courchevel restera dans les annales. Un service discret, réactif et d'un professionnalisme absolu."
     }
   ];
+
+  const testimonials = resolveList(
+    bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+      name: r.name ?? testimonials_DEMO[i % testimonials_DEMO.length].name,
+      role: r.location ?? testimonials_DEMO[i % testimonials_DEMO.length].role,
+      content: r.text ?? testimonials_DEMO[i % testimonials_DEMO.length].content,
+    })),
+    resolveList(c?.testimonials, testimonials_DEMO)
+  );
 
   const navLinks = [
     { label: "Accueil", href: "#hero" },
