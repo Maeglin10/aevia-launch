@@ -6,14 +6,28 @@ import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import { Terminal, Radio } from "lucide-react";
 import { Reveal, MagneticBtn } from "./shared";
+import { resolveList } from "@/lib/templates/resolveList";
 
 import "../premium.css";
 
+const PROPERTIES_DEMO = [
+  { id: "PRJ-0047", name: "Penthouse Trinity", loc: "Paris 8e", type: "Résidentiel", size: "340 m²", pts: "2.8B pts", imgFallback: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&q=80" },
+  { id: "PRJ-0031", name: "HQ Montparnasse", loc: "Paris 14e", type: "Commercial", size: "4 200 m²", pts: "18.4B pts", imgFallback: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80" },
+  { id: "PRJ-0018", name: "Villa Antibes", loc: "Côte d'Azur", type: "Prestige", size: "820 m²", pts: "6.1B pts", imgFallback: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&q=80" },
+];
+
+const SERVICES_DEMO = [
+  { code: "01", title: "Residential", price: "À partir de 2 400€", desc: "Scan complet appartements et maisons. Modèle 3D HD, plan de coupe, visite virtuelle haute résolution." },
+  { code: "02", title: "Commercial", price: "Sur devis", desc: "Digitisation de bureaux, commerces et hôtels. Intégration BIM et livrables IFC/RVT pour promoteurs." },
+  { code: "03", title: "Heritage & Museum", price: "Sur devis", desc: "Archivage de patrimoine architectural. Précision archéologique sub-millimétrique, livrables Matterport + nuage de points." },
+  { code: "04", title: "Development Pipeline", price: "Abonnement mensuel", desc: "Suivi chantier en temps réel, comparaison BIM vs. As-built, rapport d'avancement automatisé." },
+];
 
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+let bp: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
 function photo(i: number, fallback: string): string {
@@ -34,6 +48,7 @@ export default function VisionHomePage() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -47,7 +62,11 @@ export default function VisionHomePage() {
 
   fd = session?.formData;
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
+
+  const properties: any[] = resolveList(bp?.listings, PROPERTIES_DEMO);
+  const services: any[] = resolveList(bp?.services, SERVICES_DEMO);
 
   const heroRef = useRef(null);
   const { scrollYProgress } = useScroll({
@@ -61,54 +80,6 @@ export default function VisionHomePage() {
     window.dispatchEvent(new Event("open-vision-scan"));
   };
 
-  
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
 return (
     <div className="bg-[#050505] text-white font-mono min-h-dvh">
       {/* ==========================================
@@ -353,26 +324,23 @@ return (
             </div>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-white/5">
-            {[
-              { id: "PRJ-0047", name: "Penthouse Trinity", loc: "Paris 8e", type: "Résidentiel", size: "340 m²", pts: "2.8B pts", img: photo(1, "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&q=80") },
-              { id: "PRJ-0031", name: "HQ Montparnasse", loc: "Paris 14e", type: "Commercial", size: "4 200 m²", pts: "18.4B pts", img: photo(2, "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80") },
-              { id: "PRJ-0018", name: "Villa Antibes", loc: "Côte d'Azur", type: "Prestige", size: "820 m²", pts: "6.1B pts", img: photo(3, "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&q=80") },
-            ].map((p, i) => (
-              <Reveal key={p.id} delay={i * 0.08}>
+            {properties.map((p: any, i: number) => (
+              <Reveal key={p.id ?? p.title ?? i} delay={i * 0.08}>
                 <div className="bg-[#050505] group overflow-hidden">
                   <div className="relative aspect-video overflow-hidden">
-                    <img src={p.img} alt={p.name} className="w-full h-full object-cover brightness-50 grayscale group-hover:brightness-[0.7] group-hover:grayscale-0 transition-all duration-700" />
+                    <img src={p.photoUrl ?? p.img ?? photo(1 + i, PROPERTIES_DEMO[i % PROPERTIES_DEMO.length].imgFallback)} alt={p.name ?? p.title} className="w-full h-full object-cover brightness-50 grayscale group-hover:brightness-[0.7] group-hover:grayscale-0 transition-all duration-700" />
                     <div className="absolute inset-0 bg-gradient-to-t from-[#050505] to-transparent" />
-                    <div className="absolute top-4 left-4 text-[9px] font-mono font-bold text-rose-600 uppercase tracking-widest border border-rose-600/30 px-2 py-1">{p.id}</div>
+                    {p.id && <div className="absolute top-4 left-4 text-[9px] font-mono font-bold text-rose-600 uppercase tracking-widest border border-rose-600/30 px-2 py-1">{p.id}</div>}
                   </div>
                   <div className="p-8">
                     <div className="flex justify-between text-[9px] font-mono text-white/20 uppercase tracking-widest mb-4">
-                      <span>{p.loc}</span><span>{p.type}</span>
+                      <span>{p.loc ?? p.city}</span><span>{p.type ?? p.status}</span>
                     </div>
-                    <h3 className="text-xl font-black uppercase italic tracking-tight text-white mb-4">{p.name}</h3>
+                    <h3 className="text-xl font-black uppercase italic tracking-tight text-white mb-4">{p.name ?? p.title}</h3>
                     <div className="flex gap-6 text-[9px] font-mono">
-                      <span className="text-white/30">{p.size}</span>
-                      <span className="text-rose-600">{p.pts}</span>
+                      {(p.size ?? p.surface) && <span className="text-white/30">{p.size ?? `${p.surface} m²`}</span>}
+                      {p.pts && <span className="text-rose-600">{p.pts}</span>}
+                      {p.price && <span className="text-rose-600">{p.price}</span>}
                     </div>
                   </div>
                 </div>
@@ -396,18 +364,13 @@ return (
             </div>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-white/5">
-            {[
-              { code: "01", title: "Residential", price: "À partir de 2 400€", desc: "Scan complet appartements et maisons. Modèle 3D HD, plan de coupe, visite virtuelle haute résolution." },
-              { code: "02", title: "Commercial", price: "Sur devis", desc: "Digitisation de bureaux, commerces et hôtels. Intégration BIM et livrables IFC/RVT pour promoteurs." },
-              { code: "03", title: "Heritage & Museum", price: "Sur devis", desc: "Archivage de patrimoine architectural. Précision archéologique sub-millimétrique, livrables Matterport + nuage de points." },
-              { code: "04", title: "Development Pipeline", price: "Abonnement mensuel", desc: "Suivi chantier en temps réel, comparaison BIM vs. As-built, rapport d'avancement automatisé." },
-            ].map((s) => (
-              <Reveal key={s.code}>
+            {services.map((s: any, i: number) => (
+              <Reveal key={s.code ?? s.title ?? s.name ?? i}>
                 <div className="bg-[#050505] p-12 group hover:bg-rose-600/5 transition-colors border border-white/5 hover:border-rose-600/20">
-                  <div className="text-[9px] font-mono text-rose-600/60 uppercase tracking-[0.4em] mb-6">{s.code} //</div>
-                  <h3 className="text-2xl font-black uppercase italic tracking-tight text-white mb-4">{s.title}</h3>
-                  <p className="text-sm text-white/30 leading-relaxed font-mono mb-6">{s.desc}</p>
-                  <div className="text-rose-600 text-[10px] font-black uppercase tracking-widest">{s.price}</div>
+                  {s.code && <div className="text-[9px] font-mono text-rose-600/60 uppercase tracking-[0.4em] mb-6">{s.code} //</div>}
+                  <h3 className="text-2xl font-black uppercase italic tracking-tight text-white mb-4">{s.title ?? s.name}</h3>
+                  <p className="text-sm text-white/30 leading-relaxed font-mono mb-6">{s.desc ?? s.description}</p>
+                  {(s.price || s.duration) && <div className="text-rose-600 text-[10px] font-black uppercase tracking-widest">{s.price ?? s.duration}</div>}
                 </div>
               </Reveal>
             ))}
