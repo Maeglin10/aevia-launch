@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Menu, X, ArrowRight, ChevronRight, Clock, MapPin, Phone, Mail, Award, Settings } from "lucide-react";
+import { resolveList } from "@/lib/templates/resolveList";
 
 const useFonts = () => {
   useEffect(() => {
@@ -27,7 +28,7 @@ const Reveal = ({ children, className = "", delay = 0 }: { children: React.React
   );
 };
 
-const models = [
+const models_DEMO = [
   { name: "Calibre Tourbillon I", movement: "Manufacture LM-01", reserve: "72h", complications: "Tourbillon, grande date", price: "68 000€", year: "2024", limited: true },
   { name: "Chronographe Rattrapante", movement: "Manufacture LM-07", reserve: "48h", complications: "Chronographe, rattrapante", price: "38 500€", year: "2023", limited: false },
   { name: "Perpétuel Calendrier", movement: "Manufacture LM-14", reserve: "80h", complications: "Calendrier perpétuel, phases de lune", price: "52 000€", year: "2025", limited: true },
@@ -53,6 +54,7 @@ const timeline = [
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
@@ -74,6 +76,7 @@ export default function AtelierMecaniquePage() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -87,7 +90,22 @@ export default function AtelierMecaniquePage() {
 
   fd = session?.formData;
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
+
+  // Product collection ← client's business profile (falls back to demo).
+  const models = resolveList(
+    bp?.services?.map((s: any, i: number) => ({
+      name: s.title ?? s.name,
+      movement: s.description ?? models_DEMO[i % models_DEMO.length].movement,
+      reserve: models_DEMO[i % models_DEMO.length].reserve,
+      complications: models_DEMO[i % models_DEMO.length].complications,
+      price: s.price ?? models_DEMO[i % models_DEMO.length].price,
+      year: models_DEMO[i % models_DEMO.length].year,
+      limited: models_DEMO[i % models_DEMO.length].limited,
+    })),
+    models_DEMO
+  );
 
   useFonts();
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -110,54 +128,6 @@ export default function AtelierMecaniquePage() {
   const heroY = useTransform(heroScroll, [0, 1], ["0%", "22%"]);
   const heroOpacity = useTransform(heroScroll, [0, 0.7], [1, 0]);
 
-  
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
 return (
     <div className="min-h-dvh bg-[#0C0B09]" style={{ fontFamily: "'Jost', sans-serif", overflowX: "clip" }}>
       <motion.div className="fixed top-0 left-0 right-0 h-[2px] bg-[#B49A6A] origin-left z-[60]" style={{ scaleX: scrollYProgress }} />

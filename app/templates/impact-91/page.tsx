@@ -12,6 +12,7 @@ import {
 } from "framer-motion"
 import Image from "next/image"
 import Link from "next/link"
+import { resolveList } from "@/lib/templates/resolveList"
 import {
 
   Gem,
@@ -78,7 +79,7 @@ const NAV_LINKS = [
   { label: "Contact", href: "#contact" },
 ]
 
-const COLLECTIONS = [
+const COLLECTIONS_DEMO = [
   {
     id: "hiver",
     season: "Hiver Céleste",
@@ -114,6 +115,20 @@ const COLLECTIONS = [
   },
 ]
 
+// Product collections ← client's business profile. Client services (flat list)
+// replace the demo pieces in each season; falls back to demo when absent.
+function buildCollections() {
+  if (!bp?.services?.length) return COLLECTIONS_DEMO;
+  const demoPieces = COLLECTIONS_DEMO[0].pieces;
+  const pieces = bp.services.map((s: any, i: number) => ({
+    name: s.title ?? s.name,
+    material: s.description ?? demoPieces[i % demoPieces.length].material,
+    price: s.price ?? demoPieces[i % demoPieces.length].price,
+    img: demoPieces[i % demoPieces.length].img,
+  }));
+  return COLLECTIONS_DEMO.map((season) => ({ ...season, pieces }));
+}
+
 const BESPOKE_STEPS = [
   { step: "01", label: "Consultation", desc: "Un entretien privé dans nos salons du 1er arrondissement. Nous écoutons votre vision, vos émotions, l'histoire que la pièce doit raconter." },
   { step: "02", label: "Design", desc: "Nos orfèvres dessinent à la main les esquisses. Vous validez chaque détail : forme, matière, pierre, proportion." },
@@ -128,7 +143,7 @@ const STATS = [
   { value: "100%", unit: "", label: "métaux certifiés" },
 ]
 
-const TESTIMONIALS = [
+const TESTIMONIALS_DEMO = [
   {
     quote: "Aurelia a créé la bague de fiançailles de mes rêves. Chaque détail dépasse ce que j'avais imaginé. Une maison d'exception.",
     author: "Isabelle M.",
@@ -217,12 +232,14 @@ function Reveal({
   y = 48,
   x = 0,
   className = "",
+  style,
 }: {
   children: React.ReactNode
   delay?: number
   y?: number
   x?: number
   className?: string
+  style?: React.CSSProperties
 }) {
   const ref = useRef<HTMLDivElement>(null)
   const isInView = useInView(ref, { once: true, margin: "-80px" })
@@ -233,6 +250,7 @@ function Reveal({
       animate={isInView ? { opacity: 1, y: 0, x: 0 } : {}}
       transition={{ duration: 0.8, delay, ease: [0.22, 1, 0.36, 1] }}
       className={className}
+      style={style}
     >
       {children}
     </motion.div>
@@ -567,6 +585,7 @@ function Hero() {
    ========================================================================== */
 function CollectionsSection() {
   const [active, setActive] = useState(0)
+  const COLLECTIONS = buildCollections()
 
   return (
     <section id="collections" className="py-28 lg:py-36" style={{ backgroundColor: C.cream }}>
@@ -645,7 +664,7 @@ function CollectionsSection() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {COLLECTIONS[active].pieces.map((piece, i) => (
+              {COLLECTIONS[active].pieces.map((piece: any, i: number) => (
                 <motion.div
                   key={piece.name}
                   initial={{ opacity: 0, y: 30 }}
@@ -1051,6 +1070,16 @@ function AteliersSection() {
    TESTIMONIALS SECTION
    ========================================================================== */
 function TestimonialsSection() {
+  const TESTIMONIALS = resolveList(
+    bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+      quote: r.text ?? r.quote,
+      author: r.name ?? r.author,
+      occasion: r.occasion ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].occasion,
+      location: r.location ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].location,
+      rating: r.stars ?? r.rating ?? 5,
+    })),
+    TESTIMONIALS_DEMO
+  )
   return (
     <section className="py-28 lg:py-36" style={{ backgroundColor: C.creamSoft }}>
       <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-16">
@@ -1729,6 +1758,7 @@ function photo(i: number, fallback: string): string {
   return fd?.photoUrls?.[i] || fallback;
 }
 let c: any = null;
+let bp: any = null;
 let brand: any = null;
 export default function Impact91Page() {
   const [session, setSession] = useState<{
@@ -1745,6 +1775,7 @@ export default function Impact91Page() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -1758,6 +1789,7 @@ export default function Impact91Page() {
 
   fd = session?.formData;
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   if (brand) {
@@ -1780,53 +1812,7 @@ export default function Impact91Page() {
     return () => window.removeEventListener("scroll", handleScroll)
   }, [handleScroll]);
 
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);return (
+  return (
     <div style={{ backgroundColor: C.cream, fontFamily: "'Montserrat', sans-serif" }}>
       <ScrollProgressBar />
       <Nav scrolled={scrolled} />

@@ -26,6 +26,7 @@ import { Separator } from "@/components/ui/separator";
 import { Anchor, Compass, Ship, ShieldCheck, Star, Globe, Mail, MapPin, ChevronRight, ArrowRight, X, Menu, Waves, Wind, Sun, Map, Clock, Phone, Search, ShoppingBag, Maximize, Activity, Droplets } from "lucide-react";
 
 import "../premium.css";
+import { resolveList } from "@/lib/templates/resolveList";
 
 /* ==========================================================================
    DATA STRUCTURES
@@ -61,7 +62,7 @@ const FLEET = [
   },
 ];
 
-const DESTINATIONS = [
+const DESTINATIONS_DEMO = [
   {
     name: "French Riviera",
     season: "May — September",
@@ -166,6 +167,7 @@ function MagneticBtn({
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
@@ -187,6 +189,7 @@ export default function HorizonYachtPage() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -218,7 +221,17 @@ export default function HorizonYachtPage() {
     });
   });
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
+
+  const DESTINATIONS = resolveList(
+    bp?.services?.map((s: any, i: number) => ({
+      name: s.title ?? s.name,
+      season: DESTINATIONS_DEMO[i % DESTINATIONS_DEMO.length].season,
+      highlights: s.description ?? s.desc ?? DESTINATIONS_DEMO[i % DESTINATIONS_DEMO.length].highlights,
+    })),
+    DESTINATIONS_DEMO
+  );
 
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -229,54 +242,6 @@ export default function HorizonYachtPage() {
     window.addEventListener("scroll", h);
     return () => window.removeEventListener("scroll", h);
   }, []);
-
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
 
   return (
     <div className="premium-theme min-h-dvh bg-[#020a13] text-[#f4f4f4] font-sans selection:bg-[#c5a059] selection:text-white overflow-x-hidden">

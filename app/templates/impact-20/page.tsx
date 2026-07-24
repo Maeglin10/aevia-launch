@@ -11,6 +11,7 @@ import {
 } from "framer-motion";
 import { useEffect, useRef, useState, useCallback } from "react";
 import Link from "next/link";
+import { resolveList } from "@/lib/templates/resolveList";
 
 // Hoisted above the design tokens: several templates read `brand` in a
 // module-level const — declaring it lower caused a TDZ ReferenceError (500).
@@ -596,7 +597,7 @@ function SectionReveal({
 
 // ─── Data ────────────────────────────────────────────────────────────────────
 
-const PRODUCTS: ProductCard[] = [
+const PRODUCTS_DEMO: ProductCard[] = [
   {
     name: "Solitaire Éternité",
     image: "https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=800&q=80",
@@ -676,10 +677,49 @@ const MATERIALS = [
   },
 ];
 
-const LOOKBOOK = [
+const LOOKBOOK_DEMO = [
   { title: "Printemps 2025", image: "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=800&q=80", items: 8 },
   { title: "Édition Nuit", image: "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=800&q=80", items: 5 },
   { title: "Sur Mesure", image: "https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=800&q=80", items: "∞" },
+];
+
+// Product collections ← client's business profile (falls back to demo).
+function buildProducts(): ProductCard[] {
+  return resolveList<ProductCard>(
+    bp?.services?.map((s: any, i: number) => ({
+      name: s.title ?? s.name,
+      image: PRODUCTS_DEMO[i % PRODUCTS_DEMO.length].image,
+      subtitle: PRODUCTS_DEMO[i % PRODUCTS_DEMO.length].subtitle,
+      material: s.description ?? PRODUCTS_DEMO[i % PRODUCTS_DEMO.length].material,
+      price: s.price ?? PRODUCTS_DEMO[i % PRODUCTS_DEMO.length].price,
+      category: s.category ?? PRODUCTS_DEMO[i % PRODUCTS_DEMO.length].category,
+      color: PRODUCTS_DEMO[i % PRODUCTS_DEMO.length].color,
+    })),
+    PRODUCTS_DEMO
+  );
+}
+// Lookbook / gallery ← client's before/after imagery (falls back to demo).
+function buildLookbook() {
+  return resolveList(
+    bp?.beforeAfter?.map((b: any, i: number) => ({
+      title: b.caption ?? LOOKBOOK_DEMO[i % LOOKBOOK_DEMO.length].title,
+      image: b.afterUrl ?? b.beforeUrl ?? LOOKBOOK_DEMO[i % LOOKBOOK_DEMO.length].image,
+      items: LOOKBOOK_DEMO[i % LOOKBOOK_DEMO.length].items,
+    })),
+    LOOKBOOK_DEMO
+  );
+}
+const TESTIMONIALS_DEMO_20 = [
+  {
+    text: "La bague de fiançailles est d'une beauté indescriptible. Chaque détail est parfait — on sent que des mains expertes et une âme passionnée l'ont façonnée.",
+    name: "Madeleine V.",
+    piece: "Solitaire Éternité",
+  },
+  {
+    text: "J'ai commandé une parure sur mesure pour les 25 ans de mariage de mes parents. La Maison a su capturer une histoire entière dans un seul bijou.",
+    name: "Florent K.",
+    piece: "Parure Impériale sur mesure",
+  },
 ];
 
 // ─── Lookbook Card (extracted to respect Rules of Hooks) ─────────────────────
@@ -826,6 +866,7 @@ type ActivePage =
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 export default function LuxuryJewelryTemplate() {
   const [session, setSession] = useState<{
     formData?: {
@@ -841,6 +882,7 @@ export default function LuxuryJewelryTemplate() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -857,7 +899,7 @@ export default function LuxuryJewelryTemplate() {
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;
     let n = 0;
-    const _photoArrays: any[] = [PRODUCTS, LOOKBOOK];
+    const _photoArrays: any[] = [PRODUCTS_DEMO, LOOKBOOK_DEMO];
     _photoArrays.forEach((arr) => {
       if (!Array.isArray(arr)) return;
       arr.forEach((item) => {
@@ -872,7 +914,19 @@ export default function LuxuryJewelryTemplate() {
     });
   });
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
+
+  const PRODUCTS = buildProducts();
+  const LOOKBOOK = buildLookbook();
+  const TESTIMONIALS_LIST = resolveList(
+    bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+      text: r.text ?? r.quote,
+      name: r.name ?? r.author,
+      piece: r.location ?? r.context ?? TESTIMONIALS_DEMO_20[i % TESTIMONIALS_DEMO_20.length].piece,
+    })),
+    TESTIMONIALS_DEMO_20
+  );
 
   const [page, setPage] = useState<ActivePage>("home");
   const [selectedProduct, setSelectedProduct] = useState<any | null>(null);
@@ -930,54 +984,6 @@ export default function LuxuryJewelryTemplate() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
-
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
 
   const handleEmailSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -2214,18 +2220,7 @@ export default function LuxuryJewelryTemplate() {
             </p>
           </SectionReveal>
 
-          {[
-            {
-              text: "La bague de fiançailles est d'une beauté indescriptible. Chaque détail est parfait — on sent que des mains expertes et une âme passionnée l'ont façonnée.",
-              name: "Madeleine V.",
-              piece: "Solitaire Éternité",
-            },
-            {
-              text: "J'ai commandé une parure sur mesure pour les 25 ans de mariage de mes parents. La Maison a su capturer une histoire entière dans un seul bijou.",
-              name: "Florent K.",
-              piece: "Parure Impériale sur mesure",
-            },
-          ].map((t, i) => (
+          {TESTIMONIALS_LIST.map((t, i) => (
             <SectionReveal key={i} delay={i * 0.15}>
               <div
                 style={{
@@ -2750,7 +2745,7 @@ function BoutiquePage({ selectedProduct, setSelectedProduct, goTo }: BoutiquePag
   const [successMsg, setSuccessMsg] = useState(false);
 
   // We can access products list
-  const products = PRODUCTS;
+  const products = buildProducts();
 
   if (selectedProduct) {
     return (

@@ -20,6 +20,7 @@ import {
   FAQItem,
   SectionReveal,
 } from "./shared";
+import { resolveList } from "@/lib/templates/resolveList";
 
 // Hoisted above the design tokens: several templates read `brand` in a
 // module-level const — declaring it lower caused a TDZ ReferenceError (500).
@@ -40,7 +41,7 @@ const TICKER_ORIGINS = [
   "Tanzanie · Kilimanjaro",
 ];
 
-const ALL_PRODUCTS = [
+const ALL_PRODUCTS_DEMO = [
   {
     id: "eth-yirg",
     name: "Éthiopie Yirgacheffe",
@@ -207,7 +208,7 @@ const TASTING_NOTES_CATEGORIES = [
   },
 ];
 
-const TESTIMONIALS = [
+const TESTIMONIALS_DEMO = [
   {
     name: "James Okafor",
     role: "Home Barista · Londres",
@@ -388,7 +389,7 @@ function IntensityBar({ level }: { level: number }) {
   );
 }
 
-function ProductCard({ product, index }: { product: typeof ALL_PRODUCTS[0]; index: number }) {
+function ProductCard({ product, index }: { product: typeof ALL_PRODUCTS_DEMO[0]; index: number }) {
   const [hovered, setHovered] = useState(false);
   return (
     <SectionReveal delay={index * 0.08}>
@@ -480,6 +481,22 @@ function ProductCard({ product, index }: { product: typeof ALL_PRODUCTS[0]; inde
 
 function TestimonialsCarousel() {
   const [current, setCurrent] = useState(0);
+  const TESTIMONIALS = resolveList(
+    bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+      name: r.name,
+      role: r.location ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].role,
+      avatar: String(r.name ?? "")
+        .split(" ")
+        .map((w: string) => w[0])
+        .slice(0, 2)
+        .join("")
+        .toUpperCase(),
+      rating: r.stars ?? r.rating ?? 5,
+      coffee: TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].coffee,
+      text: r.text,
+    })),
+    TESTIMONIALS_DEMO
+  );
   const total = TESTIMONIALS.length;
 
   const prev = () => setCurrent((c) => (c - 1 + total) % total);
@@ -706,6 +723,7 @@ function ImpactMetric({ stat, index }: { stat: typeof IMPACT_STATS[0]; index: nu
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 export default function OriginRoastPage() {
   const [session, setSession] = useState<{
     formData?: {
@@ -721,6 +739,7 @@ export default function OriginRoastPage() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -734,7 +753,26 @@ export default function OriginRoastPage() {
 
   fd = session?.formData;
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
+
+  // Products ← bp.menu (real business products) else demo. Decorative fields
+  // (roast, intensity, grind, flavor, badge) cycle from the demo product.
+  const ALL_PRODUCTS = resolveList(
+    bp?.menu?.map((m: any, i: number) => {
+      const d = ALL_PRODUCTS_DEMO[i % ALL_PRODUCTS_DEMO.length];
+      return {
+        ...d,
+        id: `prod-${i}`,
+        name: m.name ?? d.name,
+        origin: m.category ?? d.origin,
+        region: m.category ?? d.region,
+        price: String(m.price ?? d.price).replace(/[^0-9.,]/g, "") || d.price,
+        description: m.description ?? d.description,
+      };
+    }),
+    ALL_PRODUCTS_DEMO
+  );
 
   const heroRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
@@ -745,7 +783,7 @@ export default function OriginRoastPage() {
   const [filterRegion, setFilterRegion] = useState<string>("Tous");
   const [filterRoast, setFilterRoast] = useState<string>("Tous");
 
-  const regions = ["Tous", "Afrique", "Amérique Latine", "Amérique Centrale", "Amérique du Sud", "Asie-Pacifique", "Sélection"];
+  const regions = ["Tous", ...Array.from(new Set(ALL_PRODUCTS.map((p: any) => p.region)))];
   const roasts = ["Tous", "Light", "Light-Medium", "Medium", "Medium-Dark", "Dark"];
 
   const filteredProducts = ALL_PRODUCTS.filter((p) => {
@@ -754,55 +792,7 @@ export default function OriginRoastPage() {
     return regionOk && roastOk;
   });
 
-  
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
-return (
+  return (
     <div style={{ background: C.bg, color: C.text }}>
 
       {/* ─── HERO ─────────────────────────────────────────────────────────── */}
