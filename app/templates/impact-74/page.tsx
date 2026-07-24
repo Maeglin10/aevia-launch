@@ -7,6 +7,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ShieldCheck, ChevronRight, Star, MapPin, Clock, Car, Check } from "lucide-react";
 import { Reveal, MagneticBtn } from "./shared";
+import { resolveList } from "@/lib/templates/resolveList";
 
 /* ============================================================
    DATA
@@ -53,6 +54,33 @@ const MENUS = [
     ],
   },
 ];
+
+// Real menu from the client's wizard input (businessProfile.menu) takes
+// priority over the demo seasonal MENUS above. Since bp.menu items don't
+// carry a "season", each distinct `category` becomes its own tab instead —
+// dishes are rendered with their description in place of the demo's wine
+// pairing (guarded separately, see render site).
+const MENU_PALETTE = [
+  { color: "from-emerald-900/20 to-transparent", accent: "text-emerald-400", borderAccent: "border-emerald-800/40" },
+  { color: "from-amber-900/20 to-transparent", accent: "text-amber-400", borderAccent: "border-amber-800/40" },
+  { color: "from-orange-900/20 to-transparent", accent: "text-orange-400", borderAccent: "border-orange-800/40" },
+  { color: "from-sky-900/20 to-transparent", accent: "text-sky-400", borderAccent: "border-sky-800/40" },
+];
+function buildSeasonalMenus(items: { name: string; price: string; description?: string; category?: string }[]) {
+  const order: string[] = [];
+  const grouped: Record<string, { name: string; price: string; desc?: string }[]> = {};
+  for (const item of items) {
+    const cat = item.category || "Menu";
+    if (!grouped[cat]) { grouped[cat] = []; order.push(cat); }
+    grouped[cat].push({ name: item.name, price: item.price, desc: item.description || undefined });
+  }
+  return order.map((cat, i) => ({
+    season: cat,
+    subtitle: "",
+    ...MENU_PALETTE[i % MENU_PALETTE.length],
+    dishes: grouped[cat],
+  }));
+}
 
 const GALLERY_PHOTOS = [
   {
@@ -110,7 +138,7 @@ const EXPERIENCES = [
   },
 ];
 
-const REVIEWS = [
+const REVIEWS_DEMO = [
   {
     text: "Une expérience sensorielle complète. Le ris de veau aux morilles est d'une précision d'exécution rarissime. Service impeccable, cave exceptionnelle.",
     author: "M. Bertrand L.",
@@ -142,6 +170,7 @@ const GUEST_OPTIONS = ["1 personne", "2 personnes", "3 personnes", "4 personnes"
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+let bp: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
 function photo(i: number, fallback: string): string {
@@ -162,6 +191,7 @@ export default function AeviaKitchenPage() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -193,7 +223,12 @@ export default function AeviaKitchenPage() {
     });
   });
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
+
+  const hasRealMenu = !!(bp?.menu && bp.menu.length > 0);
+  const menus = hasRealMenu ? buildSeasonalMenus(bp.menu) : MENUS;
+  const reviews = resolveList(bp?.reputation?.featuredReviews, REVIEWS_DEMO);
 
   const heroRef = useRef(null);
   const [activeMenu, setActiveMenu] = useState(0)
@@ -216,54 +251,6 @@ export default function AeviaKitchenPage() {
     window.addEventListener("scroll", h);
     return () => window.removeEventListener("scroll", h);
   }, []);
-
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
 
   return (
     <div className="relative w-full bg-[#faf8f5]">
@@ -421,7 +408,7 @@ export default function AeviaKitchenPage() {
 
           {/* Season tabs */}
           <div className="flex justify-center gap-2 mb-12">
-            {MENUS.map((m, i) => (
+            {menus.map((m, i) => (
               <button
                 key={m.season}
                 onClick={() => setActiveMenu(i)}
@@ -441,26 +428,35 @@ export default function AeviaKitchenPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className={`bg-gradient-to-br ${MENUS[activeMenu].color} bg-white border border-[#11182a]/8 rounded-xl p-10 md:p-14`}
+            className={`bg-gradient-to-br ${menus[activeMenu].color} bg-white border border-[#11182a]/8 rounded-xl p-10 md:p-14`}
           >
             <div className="mb-10">
               <h3 className="font-serif text-3xl text-[#11182a] mb-1">
-                {MENUS[activeMenu].season}
+                {menus[activeMenu].season}
               </h3>
-              <p className={`text-sm ${MENUS[activeMenu].accent} font-bold uppercase tracking-widest`}>
-                {MENUS[activeMenu].subtitle}
-              </p>
+              {menus[activeMenu].subtitle && (
+                <p className={`text-sm ${menus[activeMenu].accent} font-bold uppercase tracking-widest`}>
+                  {menus[activeMenu].subtitle}
+                </p>
+              )}
             </div>
             <div className="divide-y divide-[#11182a]/8">
-              {MENUS[activeMenu].dishes.map((dish, i) => (
+              {menus[activeMenu].dishes.map((dish: any, i: number) => (
                 <div key={i} className="flex flex-col md:flex-row md:items-center justify-between py-6 gap-4">
                   <div className="flex-1">
                     <p className="font-serif text-lg text-[#11182a] mb-1">{dish.name}</p>
-                    <p className="text-[10px] text-[#11182a]/40 uppercase tracking-widest font-bold">
-                      Accord : {dish.wine}
-                    </p>
+                    {dish.wine && (
+                      <p className="text-[10px] text-[#11182a]/40 uppercase tracking-widest font-bold">
+                        Accord : {dish.wine}
+                      </p>
+                    )}
+                    {dish.desc && (
+                      <p className="text-[10px] text-[#11182a]/40 uppercase tracking-widest font-bold">
+                        {dish.desc}
+                      </p>
+                    )}
                   </div>
-                  <div className={`text-xl font-bold ${MENUS[activeMenu].accent} flex-shrink-0`}>
+                  <div className={`text-xl font-bold ${menus[activeMenu].accent} flex-shrink-0`}>
                     {dish.price}
                   </div>
                 </div>
@@ -713,7 +709,7 @@ export default function AeviaKitchenPage() {
           </Reveal>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {REVIEWS.map((review, i) => (
+            {reviews.map((review: any, i: number) => (
               <Reveal key={i} delay={i * 0.1}>
                 <div className="flex flex-col h-full p-8 bg-white border border-[#11182a]/6 rounded-xl hover:shadow-md transition-shadow">
                   <div className="flex gap-1 mb-6">
