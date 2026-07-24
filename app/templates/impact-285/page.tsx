@@ -32,6 +32,7 @@ import {
   User,
   Users,
 } from 'lucide-react';
+import { resolveList } from '@/lib/templates/resolveList';
 
 /* ════════════════════════════════════════════════════════════════════════════
    DR. MARC LECOMTE — Médecin généraliste & médecine du voyage · Nantes Centre
@@ -1061,7 +1062,7 @@ type ConsultType = {
   duree: string;
 };
 
-const CONSULT_TYPES: ConsultType[] = [
+const CONSULT_TYPES_DEMO: ConsultType[] = [
   {
     num: '01',
     titre: 'Consultation standard',
@@ -1187,8 +1188,8 @@ function ConsultationSection() {
           </Reveal>
 
           <div style={{ display: 'flex', flexDirection: 'column' }}>
-            {CONSULT_TYPES.map((ct, i) => (
-              <Reveal key={ct.num} delay={0.05 * i}>
+            {resolveList<any>(bp?.services, CONSULT_TYPES_DEMO).map((ct: any, i: number) => (
+              <Reveal key={ct.num ?? ct.titre ?? ct.name ?? i} delay={0.05 * i}>
                 <div
                   style={{
                     padding: '32px 0',
@@ -1207,7 +1208,7 @@ function ConsultationSection() {
                       minWidth: 44,
                     }}
                   >
-                    {ct.num}
+                    {ct.num ?? String(i + 1).padStart(2, '0')}
                   </span>
                   <div style={{ flex: 1 }}>
                     <div
@@ -1229,23 +1230,25 @@ function ConsultationSection() {
                           margin: 0,
                         }}
                       >
-                        {ct.titre}
+                        {ct.titre ?? ct.name}
                       </h4>
-                      <span
-                        style={{
-                          fontFamily: SANS,
-                          fontSize: 12,
-                          letterSpacing: '0.14em',
-                          textTransform: 'uppercase',
-                          color: C.salmon,
-                          fontWeight: 600,
-                          background: `${C.salmon}15`,
-                          padding: '4px 12px',
-                          borderRadius: 20,
-                        }}
-                      >
-                        {ct.duree}
-                      </span>
+                      {(ct.duree ?? ct.duration ?? ct.price) && (
+                        <span
+                          style={{
+                            fontFamily: SANS,
+                            fontSize: 12,
+                            letterSpacing: '0.14em',
+                            textTransform: 'uppercase',
+                            color: C.salmon,
+                            fontWeight: 600,
+                            background: `${C.salmon}15`,
+                            padding: '4px 12px',
+                            borderRadius: 20,
+                          }}
+                        >
+                          {ct.duree ?? ct.duration ?? ct.price}
+                        </span>
+                      )}
                     </div>
                     <p
                       style={{
@@ -1257,7 +1260,7 @@ function ConsultationSection() {
                         margin: 0,
                       }}
                     >
-                      {ct.body}
+                      {ct.body ?? ct.description}
                     </p>
                   </div>
                 </div>
@@ -1294,7 +1297,7 @@ type Testimonial = {
   stars: number;
 };
 
-const TESTIMONIALS: Testimonial[] = [
+const TESTIMONIALS_DEMO: Testimonial[] = [
   {
     quote:
       "Le Dr. Lecomte suit mon diabète depuis cinq ans avec une rigueur et une humanité remarquables. Il prend le temps d'expliquer chaque résultat et adapte le traitement sans jamais perdre le contact humain. Je me sens vraiment entre de bonnes mains.",
@@ -1318,7 +1321,7 @@ const TESTIMONIALS: Testimonial[] = [
   },
 ];
 
-function TestimonialCard({ t, i }: { t: Testimonial; i: number }) {
+function TestimonialCard({ t, i }: { t: any; i: number }) {
   return (
     <Reveal delay={i * 0.12} style={{ height: '100%' }}>
       <figure
@@ -1337,7 +1340,7 @@ function TestimonialCard({ t, i }: { t: Testimonial; i: number }) {
       >
         <Quote size={30} color={C.salmon} strokeWidth={1.3} />
         <div style={{ display: 'flex', gap: 4, margin: '18px 0 16px' }}>
-          {Array.from({ length: t.stars }).map((_, s) => (
+          {Array.from({ length: t.stars ?? t.rating ?? 5 }).map((_, s) => (
             <Star key={s} size={14} fill={C.salmon} color={C.salmon} strokeWidth={0} />
           ))}
         </div>
@@ -1352,7 +1355,7 @@ function TestimonialCard({ t, i }: { t: Testimonial; i: number }) {
             flex: 1,
           }}
         >
-          "{t.quote}"
+          "{t.quote ?? t.text}"
         </blockquote>
         <figcaption
           style={{ borderTop: `1px solid ${C.linenDeep}`, paddingTop: 20 }}
@@ -1365,7 +1368,7 @@ function TestimonialCard({ t, i }: { t: Testimonial; i: number }) {
               fontWeight: 600,
             }}
           >
-            {t.name}
+            {t.name ?? t.author}
           </div>
           <div
             style={{
@@ -1376,7 +1379,7 @@ function TestimonialCard({ t, i }: { t: Testimonial; i: number }) {
               marginTop: 5,
             }}
           >
-            {t.context}
+            {t.context ?? t.source ?? ''}
           </div>
         </figcaption>
       </figure>
@@ -1425,8 +1428,8 @@ function TestimonialsSection() {
         </Reveal>
       </div>
       <div style={grid}>
-        {TESTIMONIALS.map((t, i) => (
-          <TestimonialCard key={t.name} t={t} i={i} />
+        {resolveList<any>(bp?.reputation?.featuredReviews, TESTIMONIALS_DEMO).map((t: any, i: number) => (
+          <TestimonialCard key={t.name ?? t.author ?? i} t={t} i={i} />
         ))}
       </div>
     </section>
@@ -2226,7 +2229,7 @@ type TeamMember = {
   accent: string;
 };
 
-const TEAM: TeamMember[] = [
+const TEAM_DEMO: TeamMember[] = [
   {
     nom: 'Dr. Marc Lecomte',
     role: 'Médecin généraliste & médecin du voyageur',
@@ -2250,12 +2253,15 @@ const TEAM: TeamMember[] = [
   },
 ];
 
-function TeamMemberCard({ member, i }: { member: TeamMember; i: number }) {
+function TeamMemberCard({ member, i }: { member: any; i: number }) {
   const [hover, setHover] = useState(false);
+  const accent = member.accent ?? TEAM_DEMO[i % TEAM_DEMO.length].accent;
+  const img = member.photoUrl ?? member.img ?? TEAM_DEMO[i % TEAM_DEMO.length].img;
+  const name = member.nom ?? member.name;
 
   const card: React.CSSProperties = {
     background: C.white,
-    border: `1.5px solid ${hover ? member.accent : C.linenDeep}`,
+    border: `1.5px solid ${hover ? accent : C.linenDeep}`,
     overflow: 'hidden',
     borderRadius: 4,
     transform: hover ? 'translateY(-8px)' : 'none',
@@ -2282,8 +2288,8 @@ function TeamMemberCard({ member, i }: { member: TeamMember; i: number }) {
           }}
         >
           <img
-            src={member.img}
-            alt={member.nom}
+            src={img}
+            alt={name}
             loading="lazy"
             style={{
               width: '100%',
@@ -2318,7 +2324,7 @@ function TeamMemberCard({ member, i }: { member: TeamMember; i: number }) {
                 color: C.white,
               }}
             >
-              {member.nom}
+              {name}
             </div>
           </div>
         </div>
@@ -2330,25 +2336,32 @@ function TeamMemberCard({ member, i }: { member: TeamMember; i: number }) {
               fontSize: 10.5,
               letterSpacing: '0.16em',
               textTransform: 'uppercase',
-              color: member.accent,
+              color: accent,
               marginBottom: 14,
               fontWeight: 700,
             }}
           >
             {member.role}
           </div>
-          <p
-            style={{
-              fontFamily: SERIF,
-              fontStyle: 'italic',
-              fontSize: 15,
-              lineHeight: 1.72,
-              color: 'rgba(26,46,36,0.72)',
-              margin: 0,
-            }}
-          >
-            {member.bio}
-          </p>
+          {(member.specialty || member.credentials) && (
+            <div style={{ fontFamily: SANS, fontSize: 11, color: 'rgba(26,46,36,0.55)', marginBottom: 10 }}>
+              {[member.specialty, member.credentials].filter(Boolean).join(' · ')}
+            </div>
+          )}
+          {member.bio && (
+            <p
+              style={{
+                fontFamily: SERIF,
+                fontStyle: 'italic',
+                fontSize: 15,
+                lineHeight: 1.72,
+                color: 'rgba(26,46,36,0.72)',
+                margin: 0,
+              }}
+            >
+              {member.bio}
+            </p>
+          )}
         </div>
       </article>
     </Reveal>
@@ -2412,8 +2425,8 @@ function TeamSection() {
         </Reveal>
       </div>
       <div style={grid}>
-        {TEAM.map((member, i) => (
-          <TeamMemberCard key={member.nom} member={member} i={i} />
+        {resolveList<any>(bp?.team, TEAM_DEMO).map((member: any, i: number) => (
+          <TeamMemberCard key={member.nom ?? member.name ?? i} member={member} i={i} />
         ))}
       </div>
     </section>
@@ -2698,6 +2711,7 @@ function FooterSection() {
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+let bp: any = null;
 function Impact285Page() {
   const [session, setSession] = useState<{
     formData?: {
@@ -2713,6 +2727,7 @@ function Impact285Page() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -2726,6 +2741,7 @@ function Impact285Page() {
 
   fd = session?.formData;
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, salmon: brand, salmonLight: shadeColor(brand, 25) };
@@ -2751,54 +2767,6 @@ function Impact285Page() {
     MozOsxFontSmoothing: 'grayscale',
   };
 
-  
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
 return (
     <main id="hero" style={root} suppressHydrationWarning>
       {/* Chargement des polices système */}
