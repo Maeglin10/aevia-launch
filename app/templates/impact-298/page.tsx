@@ -295,7 +295,7 @@ export default function Page() {
   const SERVICES_DEMO = [{"name": "Bilan Dentaire & Détartrage", "category": "Soins", "desc": "Examen bucco-dentaire complet, nettoyage professionnel, conseils d'hygiène.", "price": "43,43 €"}, {"name": "Blanchiment Professionnel", "category": "Esthétique", "desc": "Traitement de blanchiment au fauteuil avec gel certifié et lampe LED.", "price": "450,00 €"}, {"name": "Traitement Aligneurs Invisibles", "category": "Esthétique", "desc": "Orthodontie invisible par gouttières amovibles transparentes sur mesure.", "price": "Sur Devis"}, {"name": "Pose d'Implant Dentaire", "category": "Implants", "desc": "Remplacement d'une dent manquante par une racine artificielle en titane.", "price": "Sur Devis"}];
   // businessProfile.services replaces the demo list wholesale; real services
   // rarely carry a `category`, so the fixed tab filter is skipped for them.
-  const menuTabs = servicesReal ? ["Tous"] : ["Tous", "Prévention", "Spécialités", "Esthétique"];
+  const menuTabs = servicesReal ? ["Tous"] : ["Tous", ...Array.from(new Set(SERVICES_DEMO.map((s) => s.category)))];
   const menuItemsFiltered = servicesReal
     ? servicesReal.map((s: any) => ({ name: s.name, category: "Tous", desc: s.description ?? "", price: s.price ?? "" }))
     : activeCategory === "Tous"

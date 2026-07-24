@@ -296,7 +296,7 @@ export default function Page() {
   // businessProfile.services replaces the demo list wholesale; real services
   // rarely carry a `category`, so the fixed tab filter is skipped for them —
   // every real item just shows under "Tous".
-  const menuTabs = servicesReal ? ["Tous"] : ["Tous", "Général", "Sport", "Actes"];
+  const menuTabs = servicesReal ? ["Tous"] : ["Tous", ...Array.from(new Set(SERVICES_DEMO.map((s) => s.category)))];
   const menuItemsFiltered = servicesReal
     ? servicesReal.map((s: any) => ({ name: s.name, category: "Tous", desc: s.description ?? "", price: s.price ?? "" }))
     : activeCategory === "Tous"

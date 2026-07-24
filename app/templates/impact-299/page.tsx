@@ -791,7 +791,7 @@ return (
                 maxWidth: 550,
                 margin: '0 auto'
               }}>
-                {["Tous","Rehab","Trauma","Performance"].map((tab, i) => (
+                {["Tous", ...Array.from(new Set(MENU_ITEMS.map((m) => m.category)))].map((tab, i) => (
                   <button
                     key={i}
                     onClick={() => setActiveCategory(tab)}
