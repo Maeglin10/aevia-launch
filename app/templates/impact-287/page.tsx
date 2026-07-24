@@ -25,6 +25,7 @@ import {
   Sunset,
   Wind,
 } from 'lucide-react';
+import { resolveList } from "@/lib/templates/resolveList";
 
 // Hoisted above the design tokens: several templates read `brand` in a
 // module-level const — declaring it lower caused a TDZ ReferenceError (500).
@@ -935,7 +936,7 @@ type Program = {
   highlight: boolean;
 };
 
-const PROGRAMS: Program[] = [
+const PROGRAMS_DEMO: Program[] = [
   {
     icon: <Sun size={34} color={C.coral} strokeWidth={1.8} />,
     name: 'Coaching outdoor Nice',
@@ -1178,6 +1179,21 @@ function ProgramCard({ p, i }: { p: Program; i: number }) {
 }
 
 function ProgramsSection() {
+  const PROGRAMS = resolveList<Program>(
+    bp?.services?.map((s: any, i: number) => {
+      const d = PROGRAMS_DEMO[i % PROGRAMS_DEMO.length];
+      return {
+        icon: d.icon,
+        name: s.title ?? s.name ?? d.name,
+        tagline: d.tagline,
+        description: s.description ?? s.desc ?? d.description,
+        price: s.price ?? d.price,
+        features: d.features,
+        highlight: d.highlight,
+      };
+    }),
+    PROGRAMS_DEMO
+  );
   const sec: React.CSSProperties = {
     background: C.paper,
     padding: 'clamp(88px, 12vw, 170px) clamp(24px, 6vw, 96px)',
@@ -1476,7 +1492,7 @@ type Testimonial = {
   resultLabel: string;
 };
 
-const TESTIMONIALS: Testimonial[] = [
+const TESTIMONIALS_DEMO: Testimonial[] = [
   {
     quote:
       'En 3 mois avec Thomas, j&apos;ai perdu 12 kg sans jamais me sentir à court d&apos;énergie. Les séances outdoor me donnaient envie de me lever le matin. La Prom&apos; des Anglais, c&apos;est devenu mon terrain de jeu.',
@@ -1504,6 +1520,19 @@ const TESTIMONIALS: Testimonial[] = [
 ];
 
 function TransformationSection() {
+  const TESTIMONIALS = resolveList<Testimonial>(
+    bp?.reputation?.featuredReviews?.map((r: any, i: number) => {
+      const d = TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length];
+      return {
+        quote: r.text ?? d.quote,
+        name: r.name ?? d.name,
+        role: r.location ?? d.role,
+        result: d.result,
+        resultLabel: d.resultLabel,
+      };
+    }),
+    TESTIMONIALS_DEMO
+  );
   const sec: React.CSSProperties = {
     background: C.azureDeep,
     padding: 'clamp(88px, 12vw, 170px) clamp(24px, 6vw, 96px)',
@@ -3070,6 +3099,7 @@ function FooterSection() {
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 export default function Impact287Page() {
   const [session, setSession] = useState<{
     formData?: {
@@ -3085,6 +3115,7 @@ export default function Impact287Page() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -3116,6 +3147,7 @@ export default function Impact287Page() {
     });
   });
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, coral: brand, coralLight: shadeColor(brand, 25) };
@@ -3130,54 +3162,6 @@ export default function Impact287Page() {
     MozOsxFontSmoothing: 'grayscale',
   };
 
-  
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
 return (
     <main id="hero" style={root} suppressHydrationWarning>
       <Nav />
