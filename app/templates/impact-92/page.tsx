@@ -26,12 +26,15 @@ import { Separator } from "@/components/ui/separator";
 import { Building2, Key, ShieldCheck, Globe, Star, Mail, Phone, ChevronRight, ArrowRight, X, Menu, Gem, Briefcase, MapPin, Search, Plane, Users, Award, Calendar, Compass } from "lucide-react";
 
 import "../premium.css";
+import { resolveList } from "@/lib/templates/resolveList";
 
 /* ==========================================================================
-   DATA STRUCTURES
+   DATA STRUCTURES — demo content; resolveList() swaps in businessProfile
+   data wholesale when the client provided it (see field-fallback `??`
+   chains at render time for shape differences).
    ========================================================================= */
 
-const LISTINGS = [
+const LISTINGS_DEMO = [
   {
     id: 1,
     title: "The Obsidian Penthouse",
@@ -58,6 +61,43 @@ const LISTINGS = [
     sqft: "9,800",
     features: ["Automotive Gallery", "Outdoor Cinema", "Zen Garden"],
     img: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80",
+  },
+];
+
+const TESTIMONIALS_DEMO = [
+  {
+    quote: "Skyline managed the off-market acquisition of our alpine estate and the security logistics for our family office within 48 hours. Absolute excellence.",
+    author: "Family Office Principal",
+    location: "Geneva",
+  },
+  {
+    quote: "The lifestyle desk is truly outstanding. From securing last-minute yacht charters to private aviation coordination, their response time is unparalleled.",
+    author: "Venture Partner",
+    location: "Silicon Valley",
+  },
+  {
+    quote: "Discretion is their currency. Skyline has become our trusted advisor for all non-financial infrastructure and global assets.",
+    author: "Managing Director",
+    location: "London",
+  },
+];
+
+const FAQ_DEMO = [
+  {
+    q: "How do I obtain membership?",
+    a: "Membership in Skyline Concierge Group is strictly limited. It is accessible by direct referral from an existing member, or by requesting an application via our private advisory desk for verification.",
+  },
+  {
+    q: "What private assets do you handle?",
+    a: "We specialize in off-market ultra-luxury real estate brokerage, yacht chartering, private aviation logistics, and bespoke security detail for high-net-worth individuals and families.",
+  },
+  {
+    q: "Are your lifestyle concierge services globally active?",
+    a: "Yes. With coordinate offices in Monaco, London, Dubai, and New York, our dispatch desk operates 24/7 globally to ensure continuity of service anywhere in transit.",
+  },
+  {
+    q: "Is an NDA required for private listings?",
+    a: "Yes. All off-market inventory viewings require a signed Non-Disclosure Agreement (NDA) and financial verification prior to sharing detailed specifications or scheduling private viewings.",
   },
 ];
 
@@ -171,6 +211,7 @@ function MagneticBtn({
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+let bp: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
 function photo(i: number, fallback: string): string {
@@ -191,6 +232,7 @@ export default function SkylineConciergePage() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -203,25 +245,8 @@ export default function SkylineConciergePage() {
   }, []);
 
   fd = session?.formData;
-
-  useEffect(() => {
-    if (!fd?.photoUrls?.length) return;
-    let n = 3;
-    const _photoArrays: any[] = [LISTINGS];
-    _photoArrays.forEach((arr) => {
-      if (!Array.isArray(arr)) return;
-      arr.forEach((item) => {
-        if (!item || typeof item !== "object") return;
-        for (const key of ["img", "src", "image", "imgSrc", "photo"]) {
-          if (typeof item[key] === "string" && item[key].includes("images.unsplash.com")) {
-            if (fd.photoUrls[n]) item[key] = fd.photoUrls[n];
-            n++;
-          }
-        }
-      });
-    });
-  });
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const [scrolled, setScrolled] = useState(false);
@@ -235,53 +260,9 @@ export default function SkylineConciergePage() {
     return () => window.removeEventListener("scroll", h);
   }, []);
 
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
+  const listings = resolveList(bp?.listings, LISTINGS_DEMO);
+  const testimonials = resolveList(bp?.reputation?.featuredReviews, TESTIMONIALS_DEMO);
+  const faqs = resolveList(bp?.faq, FAQ_DEMO);
 
   return (
     <div className="premium-theme min-h-dvh bg-[#0a0a0a] text-[#ffffff] font-sans selection:bg-[#c9a96e] selection:text-black overflow-x-hidden">
@@ -555,31 +536,35 @@ export default function SkylineConciergePage() {
           </Reveal>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {LISTINGS.map((item, i) => (
-              <Reveal key={item.id} delay={i * 0.1}>
+            {listings.map((item: any, i: number) => {
+              const itemId = item.id ?? i;
+              return (
+              <Reveal key={itemId} delay={i * 0.1}>
                 <div
                   className="group relative aspect-[3/4] overflow-hidden rounded-sm cursor-pointer"
-                  onMouseEnter={() => setActiveListing(item.id)}
+                  onMouseEnter={() => setActiveListing(itemId)}
                   onMouseLeave={() => setActiveListing(null)}
                 >
                   <Image
-                    src={item.img}
-                    alt={item.title}
+                    src={item.img ?? item.photoUrl ?? photo(3 + i, "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&q=80")}
+                    alt={item.title ?? item.name ?? "Estate"}
                     fill
                     className="object-cover transition-transform duration-1000 group-hover:scale-110 grayscale group-hover:grayscale-0"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-80" />
 
                   <div className="absolute inset-0 p-10 flex flex-col justify-end">
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-[#c9a96e] mb-3">
-                      {item.location}
-                    </span>
+                    {(item.location ?? item.city) && (
+                      <span className="text-[10px] font-bold uppercase tracking-widest text-[#c9a96e] mb-3">
+                        {item.location ?? item.city}
+                      </span>
+                    )}
                     <h3 className="text-3xl font-black uppercase mb-6 tracking-tighter leading-none">
-                      {item.title}
+                      {item.title ?? item.name}
                     </h3>
 
                     <AnimatePresence>
-                      {activeListing === item.id && (
+                      {activeListing === itemId && (
                         <motion.div
                           initial={{ opacity: 0, height: 0 }}
                           animate={{ opacity: 1, height: "auto" }}
@@ -587,20 +572,25 @@ export default function SkylineConciergePage() {
                           className="space-y-6 pt-6 border-t border-white/10"
                         >
                           <div className="flex justify-between items-center text-[10px] font-bold uppercase tracking-widest text-white/40">
-                            <span>{item.sqft} SQ.FT</span>
-                            <span className="text-white">{item.price}</span>
+                            {(item.sqft ?? item.surface) && <span>{item.sqft ?? item.surface} SQ.FT</span>}
+                            {item.price && <span className="text-white">{item.price}</span>}
                           </div>
-                          <ul className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                            {item.features.map((f, j) => (
-                              <li
-                                key={j}
-                                className="text-[8px] font-bold uppercase tracking-widest text-[#c9a96e] flex items-center gap-2"
-                              >
-                                <div className="w-1 h-1 bg-[#c9a96e] rounded-full" />
-                                {f}
-                              </li>
-                            ))}
-                          </ul>
+                          {Array.isArray(item.features) && item.features.length > 0 && (
+                            <ul className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                              {item.features.map((f: any, j: number) => (
+                                <li
+                                  key={j}
+                                  className="text-[8px] font-bold uppercase tracking-widest text-[#c9a96e] flex items-center gap-2"
+                                >
+                                  <div className="w-1 h-1 bg-[#c9a96e] rounded-full" />
+                                  {f}
+                                </li>
+                              ))}
+                            </ul>
+                          )}
+                          {item.status && (
+                            <div className="text-[8px] font-bold uppercase tracking-widest text-white/40">{item.status}</div>
+                          )}
                         </motion.div>
                       )}
                     </AnimatePresence>
@@ -614,7 +604,8 @@ export default function SkylineConciergePage() {
                   </div>
                 </div>
               </Reveal>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>
@@ -635,36 +626,22 @@ export default function SkylineConciergePage() {
           </Reveal>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              {
-                quote: "Skyline managed the off-market acquisition of our alpine estate and the security logistics for our family office within 48 hours. Absolute excellence.",
-                author: "Family Office Principal",
-                location: "Geneva",
-              },
-              {
-                quote: "The lifestyle desk is truly outstanding. From securing last-minute yacht charters to private aviation coordination, their response time is unparalleled.",
-                author: "Venture Partner",
-                location: "Silicon Valley",
-              },
-              {
-                quote: "Discretion is their currency. Skyline has become our trusted advisor for all non-financial infrastructure and global assets.",
-                author: "Managing Director",
-                location: "London",
-              },
-            ].map((t, i) => (
+            {testimonials.map((t: any, i: number) => (
               <Reveal key={i} delay={i * 0.1}>
                 <div className="p-12 border border-white/5 bg-black/40 hover:border-[#c9a96e]/30 transition-all relative">
-                  <div className="text-5xl text-[#c9a96e]/20 font-serif absolute top-6 left-8 font-black leading-none">“</div>
+                  <div className="text-5xl text-[#c9a96e]/20 font-serif absolute top-6 left-8 font-black leading-none">&ldquo;</div>
                   <p className="text-sm text-white/50 leading-relaxed font-light italic mb-8 relative z-10 pt-4">
-                    {t.quote}
+                    {t.quote ?? t.text}
                   </p>
                   <div className="border-t border-white/5 pt-6 flex items-center justify-between">
                     <span className="text-[10px] font-bold uppercase tracking-widest text-[#c9a96e]">
                       {t.author}
                     </span>
-                    <span className="text-[8px] font-bold uppercase tracking-widest text-white/30">
-                      {t.location}
-                    </span>
+                    {(t.location ?? t.source) && (
+                      <span className="text-[8px] font-bold uppercase tracking-widest text-white/30">
+                        {t.location ?? t.source}
+                      </span>
+                    )}
                   </div>
                 </div>
               </Reveal>
@@ -749,24 +726,7 @@ export default function SkylineConciergePage() {
 
           <Reveal delay={0.1}>
             <Accordion type="single" collapsible className="w-full space-y-4">
-              {[
-                {
-                  q: "How do I obtain membership?",
-                  a: "Membership in Skyline Concierge Group is strictly limited. It is accessible by direct referral from an existing member, or by requesting an application via our private advisory desk for verification.",
-                },
-                {
-                  q: "What private assets do you handle?",
-                  a: "We specialize in off-market ultra-luxury real estate brokerage, yacht chartering, private aviation logistics, and bespoke security detail for high-net-worth individuals and families.",
-                },
-                {
-                  q: "Are your lifestyle concierge services globally active?",
-                  a: "Yes. With coordinate offices in Monaco, London, Dubai, and New York, our dispatch desk operates 24/7 globally to ensure continuity of service anywhere in transit.",
-                },
-                {
-                  q: "Is an NDA required for private listings?",
-                  a: "Yes. All off-market inventory viewings require a signed Non-Disclosure Agreement (NDA) and financial verification prior to sharing detailed specifications or scheduling private viewings.",
-                },
-              ].map((faq, i) => (
+              {faqs.map((faq: any, i: number) => (
                 <AccordionItem key={i} value={`faq-${i}`} className="border border-white/5 bg-black/40 px-6 rounded-sm">
                   <AccordionTrigger className="text-[11px] font-bold uppercase tracking-widest text-[#c9a96e] hover:no-underline py-5">
                     {faq.q}
