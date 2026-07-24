@@ -4,12 +4,14 @@
 import React, { useRef, useState, useEffect } from "react";
 import Link from "next/link";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
-import { C, FONT, FONT_BODY, STATS, PRESTATIONS, TEMOIGNAGES, GALERIE, Reveal, CSS_VARIABLES } from "./shared";
+import { C, FONT, FONT_BODY, STATS, PRESTATIONS as PRESTATIONS_DEMO, TEMOIGNAGES as TEMOIGNAGES_DEMO, GALERIE as GALERIE_DEMO, Reveal, CSS_VARIABLES } from "./shared";
+import { resolveList } from "@/lib/templates/resolveList";
 
 
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
@@ -31,7 +33,32 @@ export default function LumiereDoreePage() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
+
+  const bpLocal: any = session?.businessProfile;
+  const PRESTATIONS = resolveList(
+    bpLocal?.services?.map((s: any, i: number) => ({
+      ...PRESTATIONS_DEMO[i % PRESTATIONS_DEMO.length],
+      titre: s.title ?? s.name,
+      description: s.description ?? s.desc,
+    })),
+    PRESTATIONS_DEMO
+  );
+  const TEMOIGNAGES = resolveList(
+    bpLocal?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+      ...TEMOIGNAGES_DEMO[i % TEMOIGNAGES_DEMO.length],
+      couple: r.name ?? TEMOIGNAGES_DEMO[i % TEMOIGNAGES_DEMO.length].couple,
+      texte: r.text ?? r.quote ?? TEMOIGNAGES_DEMO[i % TEMOIGNAGES_DEMO.length].texte,
+      mariage: r.location ?? TEMOIGNAGES_DEMO[i % TEMOIGNAGES_DEMO.length].mariage,
+      note: r.stars ?? r.rating ?? 5,
+    })),
+    TEMOIGNAGES_DEMO
+  );
+  const GALERIE = resolveList(
+    bpLocal?.beforeAfter?.map((b: any, i: number) => b.afterUrl ?? b.beforeUrl ?? GALERIE_DEMO[i % GALERIE_DEMO.length]),
+    GALERIE_DEMO
+  );
 
   useEffect(() => {
     const id = new URLSearchParams(window.location.search).get("session");
@@ -44,6 +71,7 @@ export default function LumiereDoreePage() {
 
   fd = session?.formData;
   c = session?.generatedContent;
+  bp = bpLocal;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const heroRef = useRef<HTMLElement>(null);
@@ -60,54 +88,6 @@ export default function LumiereDoreePage() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
-
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
 
   const BASE = "/templates/impact-104";
   const navLinks = [

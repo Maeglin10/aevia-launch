@@ -28,6 +28,7 @@ import {
   Shield,
   Zap,
 } from 'lucide-react';
+import { resolveList } from "@/lib/templates/resolveList";
 
 /* ════════════════════════════════════════════════════════════════════════════
    EAU & HABITAT BRETAGNE — Plombier-chauffagiste Rennes & agglo
@@ -708,7 +709,7 @@ function ScrollCrossfade() {
    3 · SERVICES SECTION — 3 spécialités
    ════════════════════════════════════════════════════════════════════════════ */
 function ServicesSection() {
-  const services = [
+  const services_DEMO = [
     {
       Icon: Droplets,
       title: 'Plomberie & sanitaire',
@@ -749,6 +750,16 @@ function ServicesSection() {
       color: C.wood,
     },
   ];
+  const services = resolveList(
+    bp?.services?.map((s: any, i: number) => ({
+      Icon: services_DEMO[i % services_DEMO.length].Icon,
+      title: s.title ?? s.name,
+      description: s.description ?? s.desc,
+      points: services_DEMO[i % services_DEMO.length].points,
+      color: services_DEMO[i % services_DEMO.length].color,
+    })),
+    services_DEMO
+  );
 
   return (
     <section
@@ -1159,7 +1170,7 @@ function ProcessStep({
    5 · TESTIMONIALS SECTION
    ════════════════════════════════════════════════════════════════════════════ */
 function TestimonialsSection() {
-  const reviews = [
+  const reviews_DEMO = [
     {
       name: 'Bertrand M.',
       location: 'Rennes Thabor',
@@ -1188,6 +1199,17 @@ function TestimonialsSection() {
       savings: "70% d'eau chaude gratuite",
     },
   ];
+  const reviews = resolveList(
+    bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+      name: r.name ?? r.author,
+      location: r.location ?? reviews_DEMO[i % reviews_DEMO.length].location,
+      service: reviews_DEMO[i % reviews_DEMO.length].service,
+      stars: r.stars ?? r.rating ?? 5,
+      text: r.text ?? r.quote,
+      savings: reviews_DEMO[i % reviews_DEMO.length].savings,
+    })),
+    reviews_DEMO
+  );
 
   return (
     <section
@@ -2849,6 +2871,7 @@ function FooterLink({ label, href }: { label: string; href: string }) {
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 let brand: any = null;
 function Impact290Page() {
   const [session, setSession] = useState<{
@@ -2865,6 +2888,7 @@ function Impact290Page() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -2878,6 +2902,7 @@ function Impact290Page() {
 
   fd = session?.formData;
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, forest: brand, forestLight: shadeColor(brand, 25) };
@@ -2895,53 +2920,6 @@ function Impact290Page() {
   });
 
 
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
 return (
     <main id="hero" style={{ fontFamily: SANS, background: C.white }}>
       {/* Fonts Google (chargement via style tag pour autonomie totale) */}

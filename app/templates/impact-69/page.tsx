@@ -4,12 +4,14 @@
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import React, {useRef, useState, useEffect} from 'react';
 import Link from "next/link";
-import { C, TextReveal, MagneticButton, MarqueeStrip, DepthLayers, CountUp, PRESS, SERIES, SeriesCard } from "./shared";
+import { C, TextReveal, MagneticButton, MarqueeStrip, DepthLayers, CountUp, PRESS, SERIES as SERIES_DEMO, SeriesCard } from "./shared";
+import { resolveList } from "@/lib/templates/resolveList";
 
 
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 let brand: any = null;
 export default function LeaHomePage() {
   const [session, setSession] = useState<{
@@ -26,7 +28,22 @@ export default function LeaHomePage() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
+
+  const bpLocal: any = session?.businessProfile;
+  // SERIES cards are gradient/SVG art (no photo slot) and the page reads fixed
+  // indices SERIES[0..4], so map real gallery captions in over the demo to keep
+  // the array length and inject the client's real series titles.
+  const SERIES = resolveList(
+    bpLocal?.beforeAfter?.length
+      ? SERIES_DEMO.map((demo: any, i: number) => {
+          const b = bpLocal.beforeAfter[i % bpLocal.beforeAfter.length];
+          return { ...demo, title: b?.caption ?? demo.title };
+        })
+      : undefined,
+    SERIES_DEMO
+  );
 
   useEffect(() => {
     const id = new URLSearchParams(window.location.search).get("session");
@@ -39,6 +56,7 @@ export default function LeaHomePage() {
 
   fd = session?.formData;
   c = session?.generatedContent;
+  bp = bpLocal;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const [activePress, setActivePress] = useState(0);
@@ -47,54 +65,7 @@ export default function LeaHomePage() {
   const heroY = useTransform(heroProgress, [0, 1], ["0%", "40%"]);
   const heroOpacity = useTransform(heroProgress, [0, 0.7], [1, 0]);
 
-  
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
+
 return (
     <div style={{ background: C.bg, color: C.cream, minHeight: "80vh" }}>
       <style>{`

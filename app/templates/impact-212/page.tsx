@@ -13,6 +13,7 @@ import {
 } from 'framer-motion';
 import { TemplateIcon } from '@/components/TemplateIcon';
 import { Flame } from 'lucide-react';
+import { resolveList } from "@/lib/templates/resolveList";
 
 // Hoisted above the design tokens: several templates read `brand` in a
 // module-level const — declaring it lower caused a TDZ ReferenceError (500).
@@ -635,6 +636,7 @@ function SectionHeading({ eyebrow, title, accent, subtitle }: { eyebrow: string;
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 export default function ThermaProPage() {
   const [session, setSession] = useState<{
     formData?: {
@@ -650,6 +652,7 @@ export default function ThermaProPage() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -663,6 +666,7 @@ export default function ThermaProPage() {
 
   fd = session?.formData;
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, accent: brand, accentLight: shadeColor(brand, 25), accentDark: shadeColor(brand, -20) };
@@ -717,7 +721,7 @@ export default function ThermaProPage() {
     { label: 'Contact',       href: '#contact' },
   ];
 
-  const services = [
+  const services_DEMO = [
     {
       icon: '🔥', title: 'Chaudières gaz & fuel',
       desc: 'Installation et remplacement de chaudières à condensation haute performance. Marques Viessmann, Bosch, Vaillant. Jusqu\'à 30% d\'économies garanties sur votre facture énergétique.',
@@ -775,7 +779,7 @@ export default function ThermaProPage() {
     { icon: '🏆', title: 'Viessmann Gold', sub: 'Partenaire distributeur officiel' },
   ];
 
-  const projects = [
+  const projects_DEMO = [
     { type: 'PAC air/eau + plancher chauffant',       location: 'Lyon 6e',            surface: '180 m²',   year: '2024', tag: 'Résidentiel' },
     { type: 'Chaudière condensation gaz',              location: 'Villeurbanne',       surface: '95 m²',    year: '2024', tag: 'Résidentiel' },
     { type: 'Climatisation multisplit 5 groupes',      location: 'Bron',               surface: '220 m²',   year: '2024', tag: 'Commercial'  },
@@ -784,13 +788,13 @@ export default function ThermaProPage() {
     { type: 'Réseau de chauffage collectif',           location: 'Décines-Charpieu',   surface: '1 200 m²', year: '2023', tag: 'Collectif'   },
   ];
 
-  const team = [
+  const team_DEMO = [
     { name: 'Marc Durand',    role: 'Directeur Technique',      years: 22, specialty: 'PAC & Géothermie'      },
     { name: 'Sophie Laurent', role: 'Responsable Chantiers',    years: 14, specialty: 'Planchers chauffants'  },
     { name: 'Karim Benali',   role: 'Chef Technicien',          years: 17, specialty: 'Chaudières & gaz'      },
   ];
 
-  const testimonials = [
+  const testimonials_DEMO = [
     { name: 'Pierre M.',       city: 'Lyon 3e',           text: 'Intervention ultra rapide un dimanche soir pour une panne de chaudière. Technicien très compétent, prix honnête, chaudière réparée en 1h. Je recommande chaudement !',                                service: 'Urgence'      },
     { name: 'Nathalie B.',     city: 'Villeurbanne',      text: 'Installation d\'une PAC air/eau complète avec plancher chauffant. Chantier propre et dans les délais annoncés. Les économies sont au rendez-vous : −40% sur ma facture de gaz.',                     service: 'PAC'          },
     { name: 'François T.',     city: 'Bron',              text: 'Therma Pro a géré l\'intégralité des démarches MaPrimeRénov\' pour moi. Simple, rapide, et l\'équipe est vraiment professionnelle. Je n\'ai eu qu\'à signer. Merci !',                             service: 'Financement'  },
@@ -799,7 +803,7 @@ export default function ThermaProPage() {
     { name: 'Marie-Anne D.',   city: 'Décines-Charpieu',  text: 'Contrat d\'entretien annuel depuis 3 ans, toujours ponctuel, toujours professionnel. On sent que ce sont des gens qui aiment leur métier. Bravo à toute l\'équipe de Therma Pro.',                   service: 'Entretien'    },
   ];
 
-  const faqs = [
+  const faqs_DEMO = [
     {
       q: 'Quelles aides financières puis-je obtenir pour une pompe à chaleur ?',
       a: 'En 2024, plusieurs dispositifs sont cumulables : MaPrimeRénov\' (jusqu\'à 5 000€ selon revenus), les Certificats d\'Économie d\'Énergie (CEE), l\'éco-prêt à taux zéro (jusqu\'à 50 000€ sur 20 ans), et certaines aides régionales. Nos conseillers font le point gratuit avec vous et gèrent les dossiers de A à Z. En moyenne, nos clients financent 60 à 70% du coût total via ces aides cumulées.',
@@ -821,6 +825,49 @@ export default function ThermaProPage() {
       a: 'Oui, l\'entretien annuel est obligatoire pour les chaudières au gaz, au fioul et au biogaz d\'une puissance comprise entre 4 et 400 kW (décret du 2 avril 2009). Le non-respect peut entraîner la nullité de votre assurance habitation en cas de sinistre. Nos contrats d\'entretien incluent la visite annuelle, le certificat légal, et un diagnostic complet de votre installation.',
     },
   ];
+
+  // Prefer the client's real business data; else the template's demo arrays.
+  const services = resolveList(
+    bp?.services?.map((s: any, i: number) => ({
+      icon: services_DEMO[i % services_DEMO.length].icon,
+      title: s.title ?? s.name,
+      desc: s.description ?? s.desc,
+      badge: services_DEMO[i % services_DEMO.length].badge,
+    })),
+    services_DEMO
+  );
+  const projects = resolveList(
+    bp?.beforeAfter?.map((b: any, i: number) => ({
+      type: b.caption ?? projects_DEMO[i % projects_DEMO.length].type,
+      location: projects_DEMO[i % projects_DEMO.length].location,
+      surface: projects_DEMO[i % projects_DEMO.length].surface,
+      year: projects_DEMO[i % projects_DEMO.length].year,
+      tag: projects_DEMO[i % projects_DEMO.length].tag,
+    })),
+    projects_DEMO
+  );
+  const team = resolveList(
+    bp?.team?.map((m: any, i: number) => ({
+      name: m.name,
+      role: m.role ?? team_DEMO[i % team_DEMO.length].role,
+      years: team_DEMO[i % team_DEMO.length].years,
+      specialty: m.specialty ?? team_DEMO[i % team_DEMO.length].specialty,
+    })),
+    team_DEMO
+  );
+  const testimonials = resolveList(
+    bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+      name: r.name ?? r.author,
+      city: r.location ?? testimonials_DEMO[i % testimonials_DEMO.length].city,
+      text: r.text ?? r.quote,
+      service: testimonials_DEMO[i % testimonials_DEMO.length].service,
+    })),
+    testimonials_DEMO
+  );
+  const faqs = resolveList(
+    bp?.faq?.map((f: any) => ({ q: f.q, a: f.a })),
+    faqs_DEMO
+  );
 
   const fireBars = [
     { left: '5%',  height: 320, delay: 0    },
@@ -856,53 +903,6 @@ export default function ThermaProPage() {
 
   // ── Render ───────────────────────────────────────────────────────────────
   
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
 return (
     <>
       <FontImport />

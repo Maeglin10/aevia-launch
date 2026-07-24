@@ -7,6 +7,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Watch, ArrowUpRight, Mail } from "lucide-react";
 import { Reveal, MagneticBtn, TiltCard, Counter } from "./shared";
+import { resolveList } from "@/lib/templates/resolveList";
 
 const Instagram = (props: any) => (
   <svg
@@ -27,7 +28,7 @@ const Instagram = (props: any) => (
   </svg>
 );
 
-const GRID_PHOTOS = [
+const GRID_PHOTOS_DEMO = [
   {
     id: 1,
     src: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=800&auto=format&fit=crop",
@@ -88,7 +89,7 @@ const GRID_PHOTOS = [
 
 const CATEGORIES = ["All", "Landscape", "Portrait", "Architecture", "Commercial"];
 
-const SERVICES = [
+const SERVICES_DEMO = [
   {
     code: "SVC_01",
     title: "Editorial",
@@ -117,6 +118,7 @@ const CLIENTS = ["Vogue", "Wallpaper*", "Dezeen", "Monocle", "Dior"];
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
@@ -138,7 +140,28 @@ export default function HorologsLuxePage() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
+
+  const bpLocal: any = session?.businessProfile;
+  const GRID_PHOTOS = resolveList(
+    bpLocal?.beforeAfter?.map((b: any, i: number) => ({
+      id: i + 1,
+      src: b.afterUrl ?? b.beforeUrl ?? GRID_PHOTOS_DEMO[i % GRID_PHOTOS_DEMO.length].src,
+      category: GRID_PHOTOS_DEMO[i % GRID_PHOTOS_DEMO.length].category,
+      title: b.caption ?? GRID_PHOTOS_DEMO[i % GRID_PHOTOS_DEMO.length].title,
+      aspect: GRID_PHOTOS_DEMO[i % GRID_PHOTOS_DEMO.length].aspect,
+    })),
+    GRID_PHOTOS_DEMO
+  );
+  const SERVICES = resolveList(
+    bpLocal?.services?.map((s: any, i: number) => ({
+      code: SERVICES_DEMO[i % SERVICES_DEMO.length].code,
+      title: s.title ?? s.name,
+      desc: s.description ?? s.desc,
+    })),
+    SERVICES_DEMO
+  );
 
   useEffect(() => {
     const id = new URLSearchParams(window.location.search).get("session");
@@ -169,6 +192,7 @@ export default function HorologsLuxePage() {
     });
   });
   c = session?.generatedContent;
+  bp = bpLocal;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const heroRef = useRef(null);
@@ -188,54 +212,6 @@ export default function HorologsLuxePage() {
     window.addEventListener("scroll", h);
     return () => window.removeEventListener("scroll", h);
   }, []);
-
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
 
   const filtered =
     activeCategory === "All"

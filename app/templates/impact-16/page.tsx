@@ -7,6 +7,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { Menu, X, ArrowRight, Camera, Eye, Award, ChevronRight, MapPin, Mail, Tag, Star, Heart } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import { resolveList } from "@/lib/templates/resolveList"
 
 const Instagram = ({ className = "w-4 h-4" }: { className?: string }) => (
   <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5}>
@@ -38,7 +39,7 @@ const Reveal = ({ children, className = "", delay = 0 }: { children: React.React
 
 const CATEGORIES = ["Tous", "Portrait", "Mode", "Reportage", "Architecture", "Nature"]
 
-const WORKS = [
+const WORKS_DEMO = [
   { title: "La Lumière de Minuit", category: "Portrait", src: "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=600&q=80", year: "2025" },
   { title: "Couture Invisible", category: "Mode", src: "https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=600&q=80", year: "2025" },
   { title: "Mémoire des Rues", category: "Reportage", src: "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=600&q=80", year: "2024" },
@@ -47,7 +48,7 @@ const WORKS = [
   { title: "Le Temps Suspendu", category: "Portrait", src: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=600&q=80", year: "2023" },
 ]
 
-const SERVICES = [
+const SERVICES_DEMO = [
   { title: "Portraits & Éditorial", desc: "Portraits intimes et éditoriaux pour magazines, agences et particuliers. Studio ou extérieur.", from: "600€" },
   { title: "Campagnes Mode", desc: "Direction artistique et photographie pour collections et lookbooks. Équipe complète sur demande.", from: "2 400€" },
   { title: "Reportage Événementiel", desc: "Mariage, lancement produit, conférence. Documentation professionnelle haute définition.", from: "900€" },
@@ -68,6 +69,7 @@ type ActivePage = "home" | "portfolio" | "services" | "propos" | "legal"
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
@@ -89,7 +91,19 @@ export default function ObscuraPage() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
+
+  const bpLocal: any = session?.businessProfile;
+  const WORKS = resolveList(
+    bpLocal?.beforeAfter?.map((b: any, i: number) => ({
+      title: b.caption ?? WORKS_DEMO[i % WORKS_DEMO.length].title,
+      category: WORKS_DEMO[i % WORKS_DEMO.length].category,
+      src: b.afterUrl ?? b.beforeUrl ?? WORKS_DEMO[i % WORKS_DEMO.length].src,
+      year: WORKS_DEMO[i % WORKS_DEMO.length].year,
+    })),
+    WORKS_DEMO
+  );
 
   useEffect(() => {
     const id = new URLSearchParams(window.location.search).get("session");
@@ -120,6 +134,7 @@ export default function ObscuraPage() {
     });
   });
   c = session?.generatedContent;
+  bp = bpLocal;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   useFonts()
@@ -141,54 +156,7 @@ export default function ObscuraPage() {
   const heroY = useTransform(heroScroll, [0, 1], ["0%", "20%"])
   const heroOpacity = useTransform(heroScroll, [0, 0.8], [1, 0])
 
-  
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
+
 return (
     <div className="min-h-dvh bg-[#0A0806] text-white selection:bg-[#C9A86C]/20 selection:text-[#C9A86C] overflow-x-clip" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
       <motion.div className="fixed top-0 left-0 right-0 h-[2px] bg-[#C9A86C] origin-left z-[60]" style={{ scaleX: scrollYProgress }} />
@@ -366,6 +334,15 @@ return (
    ========================================================================= */
 
 function PortfolioPage({ activeCategory, setActiveCategory }: { activeCategory: string, setActiveCategory: (c: string) => void }) {
+  const WORKS = resolveList(
+    bp?.beforeAfter?.map((b: any, i: number) => ({
+      title: b.caption ?? WORKS_DEMO[i % WORKS_DEMO.length].title,
+      category: WORKS_DEMO[i % WORKS_DEMO.length].category,
+      src: b.afterUrl ?? b.beforeUrl ?? WORKS_DEMO[i % WORKS_DEMO.length].src,
+      year: WORKS_DEMO[i % WORKS_DEMO.length].year,
+    })),
+    WORKS_DEMO
+  )
   const filteredWorks = activeCategory === "Tous" ? WORKS : WORKS.filter(w => w.category === activeCategory)
 
   return (
@@ -421,6 +398,14 @@ function PortfolioPage({ activeCategory, setActiveCategory }: { activeCategory: 
 }
 
 function ServicesPage({ goTo }: { goTo: (p: ActivePage) => void }) {
+  const SERVICES = resolveList(
+    bp?.services?.map((s: any, i: number) => ({
+      title: s.title ?? s.name,
+      desc: s.description ?? s.desc,
+      from: s.price ?? SERVICES_DEMO[i % SERVICES_DEMO.length].from,
+    })),
+    SERVICES_DEMO
+  )
   return (
     <section className="py-24 px-6 bg-[#0E0B08] border-t border-white/5">
       <div className="max-w-6xl mx-auto">

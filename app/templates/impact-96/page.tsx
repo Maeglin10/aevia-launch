@@ -29,6 +29,7 @@ import {
   ChevronRight,
   Star,
 } from "lucide-react";
+import { resolveList } from "@/lib/templates/resolveList";
 
 /* ─── COLOUR PALETTE ─────────────────────────────────────────── */
 // Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
@@ -66,7 +67,7 @@ const FONT_DISPLAY = "'Space Grotesk', sans-serif";
 /* ─── DATA ────────────────────────────────────────────────────── */
 const NAV_LINKS = ["Studio", "Productions", "Services", "Clients", "Contact"];
 
-const PROJECTS = [
+const PROJECTS_DEMO = [
   {
     id: 1,
     year: "2025",
@@ -129,7 +130,7 @@ const PROJECTS = [
   },
 ];
 
-const SERVICES = [
+const SERVICES_DEMO = [
   {
     icon: Film,
     title: "Fiction & Série",
@@ -167,7 +168,7 @@ const STATS = [
   { val: "94%", label: "Clients fidèles" },
 ];
 
-const TESTIMONIALS = [
+const TESTIMONIALS_DEMO = [
   {
     q: "Urban Pulse a capturé quelque chose que nous ne savions pas mettre en mots. 'Le Geste Juste' est désormais notre film de référence interne — une lecture cinématographique de notre ADN de maison.",
     name: "Isabelle Fontaine",
@@ -251,7 +252,7 @@ const PRICING = [
   },
 ];
 
-const FAQS = [
+const FAQS_DEMO = [
   {
     q: "Quel est le délai moyen d'un spot publicitaire ?",
     a: "Pour un spot 30–90 secondes : 6 à 10 semaines de la signature à la livraison master. Pré-production 2 semaines, tournage 1 à 3 jours, post-production 3 à 5 semaines. Les productions avec VFX complexes s'étendent sur 12 à 16 semaines. Nous fournissons un rétroplanning détaillé avant tout démarrage.",
@@ -417,6 +418,7 @@ function StatItem({ val, label }: { val: string; label: string }) {
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 let brand: any = null;
 export default function UrbanPulsePage() {
   const [session, setSession] = useState<{
@@ -433,7 +435,45 @@ export default function UrbanPulsePage() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
+
+  const bpLocal: any = session?.businessProfile;
+  const PROJECTS = resolveList(
+    bpLocal?.beforeAfter?.map((b: any, i: number) => ({
+      ...PROJECTS_DEMO[i % PROJECTS_DEMO.length],
+      id: i + 1,
+      title: b.caption ?? PROJECTS_DEMO[i % PROJECTS_DEMO.length].title,
+    })),
+    PROJECTS_DEMO
+  );
+  const SERVICES = resolveList(
+    bpLocal?.services?.map((s: any, i: number) => ({
+      ...SERVICES_DEMO[i % SERVICES_DEMO.length],
+      title: s.title ?? s.name,
+      desc: s.description ?? s.desc,
+    })),
+    SERVICES_DEMO
+  );
+  const TESTIMONIALS = resolveList(
+    bpLocal?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+      ...TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length],
+      q: r.text ?? r.quote ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].q,
+      name: r.name ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].name,
+      role: r.role ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].role,
+      co: r.location ?? r.co ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].co,
+      init: ((r.name ?? "").split(" ").map((w: string) => w[0]).slice(0, 2).join("").toUpperCase()) || TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].init,
+      stars: r.stars ?? r.rating ?? 5,
+    })),
+    TESTIMONIALS_DEMO
+  );
+  const FAQS = resolveList(
+    bpLocal?.faq?.map((f: any) => ({
+      q: f.q ?? f.question,
+      a: f.a ?? f.answer,
+    })),
+    FAQS_DEMO
+  );
 
   useEffect(() => {
     const id = new URLSearchParams(window.location.search).get("session");
@@ -446,6 +486,7 @@ export default function UrbanPulsePage() {
 
   fd = session?.formData;
   c = session?.generatedContent;
+  bp = bpLocal;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, amber: brand };
@@ -473,54 +514,7 @@ export default function UrbanPulsePage() {
     setActiveTesti((i) => (i - 1 + TESTIMONIALS.length) % TESTIMONIALS.length);
   }
 
-  
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
+
 return (
     <div
       ref={containerRef}

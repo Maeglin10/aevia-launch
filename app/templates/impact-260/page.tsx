@@ -19,6 +19,7 @@ import {
   CheckCircle2,
   Wrench,
 } from 'lucide-react';
+import { resolveList } from "@/lib/templates/resolveList";
 
 /* ════════════════════════════════════════════════════════════════════════════
    AQUA CONFORT LYON — Plombier-Chauffagiste & Énergies Renouvelables · Lyon 7e
@@ -137,7 +138,7 @@ const INTERVENTIONS: Intervention[] = [
   },
 ];
 
-const SERVICES: Service[] = [
+const SERVICES_DEMO: Service[] = [
   { icon: <Wrench size={20} strokeWidth={1.6} />, title: 'Dépannage urgent', desc: "Intervention d'urgence sous 2h sur Lyon Métropole, 7j/7 et 24h/24." },
   { icon: <Wrench size={20} strokeWidth={1.6} />, title: 'Installation chauffe-eau', desc: 'Pose et remplacement de ballon électrique ou thermodynamique, toutes marques.' },
   { icon: <Wrench size={20} strokeWidth={1.6} />, title: 'Chaudière gaz', desc: 'Installation, entretien et dépannage de chaudières à condensation — certificat RGE.' },
@@ -204,7 +205,7 @@ const CERTS: CertItem[] = [
   },
 ];
 
-const TESTIMONIALS: Testimonial[] = [
+const TESTIMONIALS_DEMO: Testimonial[] = [
   {
     quote:
       "Nous avons remplacé notre vieille chaudière et installé une pompe à chaleur air/eau. Aqua Confort a géré MaPrimeRénov' de A à Z — 65 % financés, et on économise 800 € par an sur nos factures. Équipe sérieuse, délais tenus.",
@@ -1219,6 +1220,14 @@ function ServiceCard({ svc, i }: { svc: Service; i: number }) {
 }
 
 function ServiceCards() {
+  const SERVICES = resolveList(
+    bp?.services?.map((s: any, i: number) => ({
+      icon: SERVICES_DEMO[i % SERVICES_DEMO.length].icon,
+      title: s.title ?? s.name,
+      desc: s.description ?? s.desc,
+    })),
+    SERVICES_DEMO
+  );
   const sec: React.CSSProperties = {
     background: C.bg,
     padding: 'clamp(80px,11vw,150px) clamp(20px,5vw,80px)',
@@ -1543,6 +1552,14 @@ function CertPanel() {
    7 · Testimonials : bgAlt, Shield teal, quote SERIF italic
    ════════════════════════════════════════════════════════════════════════════ */
 function Testimonials() {
+  const TESTIMONIALS = resolveList(
+    bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+      quote: r.text ?? r.quote,
+      name: r.name ?? r.author,
+      role: r.location ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].role,
+    })),
+    TESTIMONIALS_DEMO
+  );
   const sec: React.CSSProperties = {
     background: C.bgAlt,
     padding: 'clamp(80px,11vw,150px) clamp(20px,5vw,80px)',
@@ -2217,6 +2234,7 @@ function Footer() {
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 let brand: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
@@ -2233,6 +2251,7 @@ export default function Page() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -2246,6 +2265,7 @@ export default function Page() {
 
   fd = session?.formData;
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, accent: brand, accentLight: shadeColor(brand, 25), accentDark: shadeColor(brand, -20) };
@@ -2259,54 +2279,6 @@ export default function Page() {
     WebkitFontSmoothing: 'antialiased',
   };
 
-  
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
 return (
     <main style={root} suppressHydrationWarning>
       {/* Google Fonts */}

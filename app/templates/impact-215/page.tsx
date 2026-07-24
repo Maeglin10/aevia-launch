@@ -11,6 +11,7 @@ import {
 } from 'framer-motion';
 import { TemplateIcon } from '@/components/TemplateIcon';
 import { PartyPopper } from 'lucide-react';
+import { resolveList } from "@/lib/templates/resolveList";
 
 // ─── Design Tokens ────────────────────────────────────────────────────────────
 // Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
@@ -46,7 +47,7 @@ let C: Record<string, string> = {
 };
 
 // ─── Products Data ─────────────────────────────────────────────────────────────
-const PRODUCTS = [
+const PRODUCTS_DEMO = [
   {
     id: 1,
     brand: 'Invicta',
@@ -171,7 +172,7 @@ const USPS = [
   { icon: '🛡️', title: 'SAV 5 ans', desc: 'Garantie constructeur jusqu\'à 5 ans. Service après-vente basé en France, réactif et humain.' },
 ];
 
-const TESTIMONIALS = [
+const TESTIMONIALS_DEMO = [
   { id: 1, name: 'Isabelle M.', city: 'Lyon', product: 'Invicta Prélude 8kW', rating: 5, text: 'Magnifique poêle, installation parfaite. Livré en 2 jours, service impeccable. Après 3 mois d\'utilisation, notre maison est toujours à la bonne température.', verified: true, date: 'Janvier 2025' },
   { id: 2, name: 'Thomas D.', city: 'Bordeaux', product: 'MCZ Musa 11kW', rating: 5, text: 'Le granulés MCZ Musa est silencieux, efficace et l\'application mobile est bluffante. On programme la chauffe depuis le lit ! Qualité premium à prix justifié.', verified: true, date: 'Février 2025' },
   { id: 3, name: 'Claire & Paul R.', city: 'Strasbourg', product: 'Stuv 16 Insert', rating: 5, text: 'Cet insert a transformé notre salon. Le flamme est spectaculaire derrière la vitre panoramique. L\'équipe Flamme & Co nous a très bien conseillés.', verified: true, date: 'Décembre 2024' },
@@ -185,7 +186,7 @@ const EXTRA_TESTIMONIALS = [
   { id: 8, name: 'Benoît L.', city: 'Grenoble', product: 'Invicta Prélude 8kW', rating: 5, text: 'Parfait pour nos hivers montagnards ! Très content de mon achat. Le rendement est au top, et l\'équipe Flamme & Co était disponible pour répondre à toutes mes questions.', verified: true, date: 'Octobre 2024' },
 ];
 
-const FAQS = [
+const FAQS_DEMO = [
   {
     q: 'Quels sont les délais de livraison ?',
     a: 'Nous livrons en 48h ouvrées en France métropolitaine pour la majorité de nos produits en stock. Pour les commandes sur mesure ou les produits en précommande, comptez 2 à 3 semaines. Un email de suivi vous est envoyé dès l\'expédition.'
@@ -447,7 +448,7 @@ function ProductCard({
   i,
   onAddToCart,
 }: {
-  p: typeof PRODUCTS[number];
+  p: typeof PRODUCTS_DEMO[number];
   i: number;
   onAddToCart: (item: { id: number; name: string; price: number; emoji: string }) => void;
 }) {
@@ -713,7 +714,7 @@ function USPCard({ u, i }: { u: typeof USPS[number]; i: number }) {
 }
 
 // ─── Testimonial Card ──────────────────────────────────────────────────────────
-function TestiCard({ t, i }: { t: typeof TESTIMONIALS[number]; i: number }) {
+function TestiCard({ t, i }: { t: typeof TESTIMONIALS_DEMO[number]; i: number }) {
   const ref    = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: '-40px' });
 
@@ -800,7 +801,7 @@ function Configurator() {
   const [type,    setType]    = useState('');
   const [surface, setSurface] = useState('');
   const [budget,  setBudget]  = useState('');
-  const [result,  setResult]  = useState<typeof PRODUCTS[number] | null>(null);
+  const [result,  setResult]  = useState<typeof PRODUCTS_DEMO[number] | null>(null);
   const [done,    setDone]    = useState(false);
 
   const stoveTypes = [
@@ -829,12 +830,12 @@ function Configurator() {
       bois: 'Poêle à bois', granules: 'Poêle à granulés', insert: 'Insert cheminée', ethanol: 'Cheminée éthanol'
     };
     const wantType = typeMap[type] ?? '';
-    const candidates = PRODUCTS.filter(p => {
+    const candidates = PRODUCTS_DEMO.filter(p => {
       const matchType   = !wantType || p.type === wantType;
       const matchBudget = p.price <= maxBudget;
       return matchType && matchBudget;
     }).sort((a, b) => b.rating - a.rating);
-    setResult(candidates[0] ?? PRODUCTS[0]);
+    setResult(candidates[0] ?? PRODUCTS_DEMO[0]);
     setDone(true);
     setStep(3);
   }, [type, budget]);
@@ -1376,6 +1377,10 @@ function MobileNavDrawer({
 // ─── FAQ Accordion ─────────────────────────────────────────────────────────────
 function FAQAccordion() {
   const [openIdx, setOpenIdx] = useState<number | null>(null);
+  const FAQS = resolveList(
+    bp?.faq?.map((f: any) => ({ q: f.q, a: f.a })),
+    FAQS_DEMO
+  );
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem', maxWidth: '780px', margin: '0 auto' }}>
@@ -1616,6 +1621,7 @@ function PromoBanner() {
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 let brand: any = null;
 export default function FlammeEtCoPage() {
   const [session, setSession] = useState<{
@@ -1632,6 +1638,7 @@ export default function FlammeEtCoPage() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -1645,10 +1652,45 @@ export default function FlammeEtCoPage() {
 
   fd = session?.formData;
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, accent: brand, accentLight: shadeColor(brand, 25) };
   }
+
+  // Prefer the client's real business data; else the template's demo arrays.
+  // Products carry the client's services (name + price); decorative fields
+  // (emoji, brand, rating, badges) cycle from the demo catalog.
+  const PRODUCTS = resolveList(
+    bp?.services?.map((s: any, i: number) => {
+      const d = PRODUCTS_DEMO[i % PRODUCTS_DEMO.length];
+      const parsed = typeof s.price === 'number'
+        ? s.price
+        : parseInt(String(s.price ?? '').replace(/[^0-9]/g, ''), 10);
+      return {
+        ...d,
+        name: s.title ?? s.name ?? d.name,
+        shortName: s.title ?? d.shortName,
+        price: Number.isFinite(parsed) && parsed > 0 ? parsed : d.price,
+        priceOld: null,
+      };
+    }),
+    PRODUCTS_DEMO
+  );
+  const TESTIMONIALS = resolveList(
+    bp?.reputation?.featuredReviews?.map((r: any, i: number) => {
+      const d = TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length];
+      return {
+        ...d,
+        name: r.name ?? r.author ?? d.name,
+        city: r.location ?? d.city,
+        rating: r.stars ?? r.rating ?? 5,
+        text: r.text ?? r.quote ?? d.text,
+        verified: true,
+      };
+    }),
+    TESTIMONIALS_DEMO
+  );
 
   const [cartItems,    setCartItems]    = useState<CartItem[]>([]);
   const [cartOpen,     setCartOpen]     = useState(false);
@@ -1664,54 +1706,6 @@ export default function FlammeEtCoPage() {
     const unsub = scrollY.on('change', v => setScrolled(v > 60));
     return () => unsub();
   }, [scrollY]);
-
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
 
   const navLinks = [
     { label: 'Poêles à bois',      href: '#categories' },

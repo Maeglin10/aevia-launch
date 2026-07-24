@@ -11,6 +11,7 @@ import {
 } from 'framer-motion';
 import { TemplateIcon } from '@/components/TemplateIcon';
 import { Droplets, Bell } from 'lucide-react';
+import { resolveList } from "@/lib/templates/resolveList";
 
 /* ─────────────────────────────────────────────
    DESIGN TOKENS
@@ -62,7 +63,7 @@ const STATS = [
   { value: 30, suffix: ' min', label: 'Délai moyen d\'arrivée', icon: '⚡' },
 ];
 
-const SERVICES = [
+const SERVICES_DEMO = [
   {
     icon: '💧',
     title: 'Dépannage Fuite',
@@ -134,7 +135,7 @@ const ZONES = [
   "Nanterre', 'Créteil', 'Versailles",
 ];
 
-const PORTFOLIO = [
+const PORTFOLIO_DEMO = [
   { style: 'Industriel Chic', surface: '8 m²', budget: '4 500 – 6 000 €', city: 'Paris 11e', before: '🏚️', after: '✨' },
   { style: 'Scandinave Épuré', surface: '12 m²', budget: '6 000 – 8 500 €', city: 'Boulogne-B.', before: '🏚️', after: '✨' },
   { style: 'Marbre & Laiton', surface: '10 m²', budget: '7 000 – 10 000 €', city: 'Neuilly', before: '🏚️', after: '✨' },
@@ -143,7 +144,7 @@ const PORTFOLIO = [
   { style: 'Contemporain Dark', surface: '14 m²', budget: '8 000 – 12 000 €', city: 'Levallois', before: '🏚️', after: '✨' },
 ];
 
-const TEAM = [
+const TEAM_DEMO = [
   {
     name: 'Karim Aziz',
     role: 'Fondateur & Maître Plombier',
@@ -173,7 +174,7 @@ const TEAM = [
   },
 ];
 
-const TESTIMONIALS = [
+const TESTIMONIALS_DEMO = [
   {
     name: 'Isabelle M.',
     city: 'Paris 11e',
@@ -218,7 +219,7 @@ const TESTIMONIALS = [
   },
 ];
 
-const FAQ_ITEMS = [
+const FAQ_ITEMS_DEMO = [
   {
     q: 'Quels sont vos tarifs pour une urgence la nuit ou le week-end ?',
     a: "Nos tarifs d\'urgence nocturne (20h–8h) et week-end sont majorés de 40% par rapport au tarif normal. Nous vous communiquons toujours le devis avant toute intervention. Tarif de déplacement : 49€ en journée, 79€ la nuit.",
@@ -1064,6 +1065,7 @@ function AnalogClock() {
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 let brand: any = null;
 export default function AquaPrestigePage() {
   const [session, setSession] = useState<{
@@ -1080,6 +1082,7 @@ export default function AquaPrestigePage() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -1093,10 +1096,61 @@ export default function AquaPrestigePage() {
 
   fd = session?.formData;
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, accent: brand, accentLight: shadeColor(brand, 25), accentDark: shadeColor(brand, -20) };
   }
+
+  // Prefer the client's real business data; else the template's demo arrays.
+  const SERVICES = resolveList(
+    bp?.services?.map((s: any, i: number) => ({
+      icon: SERVICES_DEMO[i % SERVICES_DEMO.length].icon,
+      title: s.title ?? s.name,
+      desc: s.description ?? s.desc,
+      badge: SERVICES_DEMO[i % SERVICES_DEMO.length].badge,
+    })),
+    SERVICES_DEMO
+  );
+  const TESTIMONIALS = resolveList(
+    bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+      name: r.name ?? r.author,
+      city: r.location ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].city,
+      rating: r.stars ?? r.rating ?? 5,
+      text: r.text ?? r.quote,
+      service: TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].service,
+    })),
+    TESTIMONIALS_DEMO
+  );
+  const TEAM = resolveList(
+    bp?.team?.map((m: any, i: number) => ({
+      name: m.name,
+      role: m.role ?? TEAM_DEMO[i % TEAM_DEMO.length].role,
+      exp: TEAM_DEMO[i % TEAM_DEMO.length].exp,
+      certs: m.credentials
+        ? (Array.isArray(m.credentials) ? m.credentials : [m.credentials])
+        : TEAM_DEMO[i % TEAM_DEMO.length].certs,
+      bio: m.bio ?? TEAM_DEMO[i % TEAM_DEMO.length].bio,
+      emoji: TEAM_DEMO[i % TEAM_DEMO.length].emoji,
+      color: TEAM_DEMO[i % TEAM_DEMO.length].color,
+    })),
+    TEAM_DEMO
+  );
+  const PORTFOLIO = resolveList(
+    bp?.beforeAfter?.map((b: any, i: number) => ({
+      style: b.caption ?? PORTFOLIO_DEMO[i % PORTFOLIO_DEMO.length].style,
+      surface: PORTFOLIO_DEMO[i % PORTFOLIO_DEMO.length].surface,
+      budget: PORTFOLIO_DEMO[i % PORTFOLIO_DEMO.length].budget,
+      city: PORTFOLIO_DEMO[i % PORTFOLIO_DEMO.length].city,
+      before: PORTFOLIO_DEMO[i % PORTFOLIO_DEMO.length].before,
+      after: PORTFOLIO_DEMO[i % PORTFOLIO_DEMO.length].after,
+    })),
+    PORTFOLIO_DEMO
+  );
+  const FAQ_ITEMS = resolveList(
+    bp?.faq?.map((f: any) => ({ q: f.q, a: f.a })),
+    FAQ_ITEMS_DEMO
+  );
 
   const [navScrolled, setNavScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -1128,54 +1182,6 @@ export default function AquaPrestigePage() {
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
 
   const handleNavClick = useCallback((e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
