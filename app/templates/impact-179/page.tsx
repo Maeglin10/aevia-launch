@@ -10,7 +10,7 @@ import { resolveList } from "@/lib/templates/resolveList"
 
 /* ═══════════════════════════════════════════════════════════════════════════
    AQUANOVA PISCINES — Pisciniste / Constructeur de piscines (Lyon)
-   Palette : blanc / bleu atlantique #0369a1 / ardoise / acier
+   Palette : blanc / bleu atlantique var(--brand) / ardoise / acier
    Fonts : Outfit (titres) + Roboto Mono (accents)
    Style : clair, propre, professionnel, confiance
    ═══════════════════════════════════════════════════════════════════════════ */
@@ -161,7 +161,7 @@ export default function AquanovaPiscinesPage() {
   }, []);
 
   return (
-    <div className="bg-white text-[#0f172a] overflow-x-hidden" style={{ fontFamily: "'Outfit', 'Inter', system-ui, sans-serif" }}>
+    <div className="bg-white text-[#0f172a] overflow-x-hidden" style={{ fontFamily: "'Outfit', 'Inter', system-ui, sans-serif", ["--brand" as any]: brand ?? "#0369a1", ["--brand-light" as any]: brand ?? "#38bdf8" }}>
       {/* ── NAVBAR ── */}
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-white/97 backdrop-blur-xl py-3 shadow-sm border-b border-slate-100" : "bg-transparent py-6"}`}>
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex items-center justify-between">
@@ -174,23 +174,23 @@ export default function AquanovaPiscinesPage() {
               />
             ) : (
               <>
-                <div className="w-8 h-8 bg-[#0369a1] flex items-center justify-center rounded">
+                <div className="w-8 h-8 bg-[var(--brand)] flex items-center justify-center rounded">
                   <Droplets className="w-4 h-4 text-white" />
                 </div>
-                <span className="text-lg font-bold tracking-tight text-[#0f172a]">{fd?.businessName ?? <>AquaNova <span className="text-[#0369a1]">Piscines</span></>}</span>
+                <span className="text-lg font-bold tracking-tight text-[#0f172a]">{fd?.businessName ?? <>AquaNova <span className="text-[var(--brand)]">Piscines</span></>}</span>
               </>
             )}
           </div>
           <div className="hidden lg:flex gap-9 text-[10px] font-bold uppercase tracking-[0.2em] text-[#0f172a]/40">
             {["Services", "Réalisations", "Tarifs", "Zone intervention", "Contact"].map(l => (
-              <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="hover:text-[#0369a1] transition-colors">{l}</Link>
+              <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="hover:text-[var(--brand)] transition-colors">{l}</Link>
             ))}
           </div>
           <div className="flex items-center gap-3">
-            <a href={`tel:${fd?.phone ?? "0478987654"}`} className="hidden md:flex items-center gap-2 text-[#0369a1] font-bold text-sm">
+            <a href={`tel:${fd?.phone ?? "0478987654"}`} className="hidden md:flex items-center gap-2 text-[var(--brand)] font-bold text-sm">
               <Phone className="w-4 h-4" /> 04 78 98 76 54
             </a>
-            <button className="hidden md:block px-5 py-2.5 bg-[#0369a1] text-white text-[10px] font-bold uppercase tracking-[0.2em] rounded hover:bg-[#0284c7] transition-colors">
+            <button className="hidden md:block px-5 py-2.5 bg-[var(--brand)] text-white text-[10px] font-bold uppercase tracking-[0.2em] rounded hover:bg-[#0284c7] transition-colors">
               Devis Gratuit
             </button>
             <Sheet>
@@ -198,9 +198,9 @@ export default function AquanovaPiscinesPage() {
               <SheetContent side="right" className="bg-white border-slate-100 p-10">
                 <div className="flex flex-col gap-7 mt-16">
                   {["Services", "Réalisations", "Contact"].map(l => (
-                    <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="text-3xl font-bold text-[#0f172a] hover:text-[#0369a1] transition-colors">{l}</Link>
+                    <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="text-3xl font-bold text-[#0f172a] hover:text-[var(--brand)] transition-colors">{l}</Link>
                   ))}
-                  <a href={`tel:${fd?.phone ?? "0478987654"}`} className="flex items-center gap-3 text-[#0369a1] font-bold text-xl mt-4">
+                  <a href={`tel:${fd?.phone ?? "0478987654"}`} className="flex items-center gap-3 text-[var(--brand)] font-bold text-xl mt-4">
                     <Phone className="w-5 h-5" /> 04 78 98 76 54
                   </a>
                 </div>
@@ -220,15 +220,15 @@ export default function AquanovaPiscinesPage() {
 
         <motion.div style={{ y: heroTextY, opacity: heroOpacity }} className="relative z-10 max-w-[1400px] w-full mx-auto px-6 md:px-12 pb-28">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.3 }}>
-            <div className="inline-flex items-center gap-3 px-4 py-2 bg-[#0369a1]/20 backdrop-blur border border-[#0369a1]/30 rounded mb-8">
-              <div className="w-2 h-2 bg-[#38bdf8] rounded-full animate-pulse" />
-              <span className="text-[9px] font-bold uppercase tracking-[0.4em] text-[#38bdf8]">Constructeur de piscines · Devis sous 48h</span>
+            <div className="inline-flex items-center gap-3 px-4 py-2 bg-[var(--brand)]/20 backdrop-blur border border-[var(--brand)]/30 rounded mb-8">
+              <div className="w-2 h-2 bg-[var(--brand-light)] rounded-full animate-pulse" />
+              <span className="text-[9px] font-bold uppercase tracking-[0.4em] text-[var(--brand-light)]">Constructeur de piscines · Devis sous 48h</span>
             </div>
           </motion.div>
 
           <motion.h1 initial={{ opacity: 0, y: 55 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.1, delay: 0.48, ease: [0.16, 1, 0.3, 1] }}
             className="text-5xl md:text-7xl lg:text-8xl font-bold leading-[0.9] tracking-tight mb-8 text-white">{c?.heroHeadline ?? <>
-            Votre piscine<br />sur-<span className="text-[#38bdf8]">mesure</span><br />à Lyon.
+            Votre piscine<br />sur-<span className="text-[var(--brand-light)]">mesure</span><br />à Lyon.
           </>}</motion.h1>
 
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 0.75 }}
@@ -237,7 +237,7 @@ export default function AquanovaPiscinesPage() {
           </>}</motion.p>
 
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 1.0 }} className="flex flex-wrap gap-3">
-            <button className="px-8 py-4 bg-[#0369a1] text-white font-bold text-[10px] uppercase tracking-[0.2em] rounded hover:bg-[#0284c7] transition-colors">{c?.ctaText ?? <>
+            <button className="px-8 py-4 bg-[var(--brand)] text-white font-bold text-[10px] uppercase tracking-[0.2em] rounded hover:bg-[#0284c7] transition-colors">{c?.ctaText ?? <>
               Devis gratuit sous 48h
             </>}</button>
             <a href={`tel:${fd?.phone ?? "0478987654"}`} className="flex items-center gap-3 px-8 py-4 bg-white/10 backdrop-blur border border-white/20 text-white font-bold text-[10px] uppercase tracking-[0.15em] rounded hover:bg-white/20 transition-all">
@@ -247,20 +247,20 @@ export default function AquanovaPiscinesPage() {
         </motion.div>
 
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 z-10">
-          <motion.div animate={{ y: [0, 8, 0] }} transition={{ repeat: Infinity, duration: 2.2 }} className="w-[1px] h-10 bg-gradient-to-b from-[#38bdf8]/60 to-transparent" />
+          <motion.div animate={{ y: [0, 8, 0] }} transition={{ repeat: Infinity, duration: 2.2 }} className="w-[1px] h-10 bg-gradient-to-b from-[var(--brand-light)]/60 to-transparent" />
         </div>
       </section>
 
       {/* ── URGENCE BANNER ── */}
-      <section className="bg-[#0369a1] py-4">
+      <section className="bg-[var(--brand)] py-4">
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-3 text-white">
-            <div className="w-2 h-2 bg-[#38bdf8] rounded-full animate-pulse" />
+            <div className="w-2 h-2 bg-[var(--brand-light)] rounded-full animate-pulse" />
             <span className="font-bold text-sm">Construction · Rénovation · Entretien de piscines</span>
           </div>
           <div className="flex items-center gap-6">
             <span className="flex items-center gap-2 text-white/80 text-sm font-semibold"><Clock className="w-4 h-4" /> Devis sous 48h</span>
-            <a href={`tel:${fd?.phone ?? "0478987654"}`} className="bg-white text-[#0369a1] px-5 py-2 rounded font-bold text-sm hover:bg-[#f0f9ff] transition-colors">
+            <a href={`tel:${fd?.phone ?? "0478987654"}`} className="bg-white text-[var(--brand)] px-5 py-2 rounded font-bold text-sm hover:bg-[#f0f9ff] transition-colors">
               04 78 98 76 54
             </a>
           </div>
@@ -278,7 +278,7 @@ export default function AquanovaPiscinesPage() {
           ].map((s, i) => (
             <Reveal key={i} delay={i * 0.07}>
               <div className="bg-white rounded-lg border border-slate-100 p-6 text-center shadow-sm">
-                <div className="text-3xl font-bold text-[#0369a1] mb-1">{s.v}</div>
+                <div className="text-3xl font-bold text-[var(--brand)] mb-1">{s.v}</div>
                 <div className="text-[10px] font-bold uppercase tracking-widest text-slate-400">{s.l}</div>
               </div>
             </Reveal>
@@ -291,18 +291,18 @@ export default function AquanovaPiscinesPage() {
         <div className="max-w-[1300px] mx-auto px-6 md:px-12">
           <Reveal>
             <div className="mb-16">
-              <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#0369a1] mb-4">Nos interventions</div>
-              <h2 className="text-4xl md:text-5xl font-bold text-[#0f172a]">Tout ce que nous <span className="text-[#0369a1]">faisons.</span></h2>
+              <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand)] mb-4">Nos interventions</div>
+              <h2 className="text-4xl md:text-5xl font-bold text-[#0f172a]">Tout ce que nous <span className="text-[var(--brand)]">faisons.</span></h2>
             </div>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {SERVICES.map((s, i) => (
               <Reveal key={i} delay={i * 0.07}>
-                <div className="group p-8 border border-slate-100 rounded-xl hover:border-[#0369a1]/30 hover:shadow-lg hover:shadow-[#0369a1]/5 transition-all duration-500">
-                  <div className="w-12 h-12 bg-[#0369a1]/8 rounded-lg flex items-center justify-center mb-6 group-hover:bg-[#0369a1] transition-colors duration-500">
-                    <s.icon className="w-5 h-5 text-[#0369a1] group-hover:text-white transition-colors" />
+                <div className="group p-8 border border-slate-100 rounded-xl hover:border-[var(--brand)]/30 hover:shadow-lg hover:shadow-[var(--brand)]/5 transition-all duration-500">
+                  <div className="w-12 h-12 bg-[var(--brand)]/8 rounded-lg flex items-center justify-center mb-6 group-hover:bg-[var(--brand)] transition-colors duration-500">
+                    <s.icon className="w-5 h-5 text-[var(--brand)] group-hover:text-white transition-colors" />
                   </div>
-                  <h3 className="text-lg font-bold text-[#0f172a] mb-3 group-hover:text-[#0369a1] transition-colors">{s.title}</h3>
+                  <h3 className="text-lg font-bold text-[#0f172a] mb-3 group-hover:text-[var(--brand)] transition-colors">{s.title}</h3>
                   <p className="text-sm text-slate-500 leading-relaxed">{s.desc}</p>
                 </div>
               </Reveal>
@@ -316,8 +316,8 @@ export default function AquanovaPiscinesPage() {
         <div className="max-w-[1400px] mx-auto px-6 md:px-12">
           <Reveal>
             <div className="mb-16">
-              <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#0369a1] mb-4">Portfolio</div>
-              <h2 className="text-4xl md:text-5xl font-bold text-[#0f172a]">Nos <span className="text-[#0369a1]">réalisations.</span></h2>
+              <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand)] mb-4">Portfolio</div>
+              <h2 className="text-4xl md:text-5xl font-bold text-[#0f172a]">Nos <span className="text-[var(--brand)]">réalisations.</span></h2>
             </div>
           </Reveal>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -326,10 +326,10 @@ export default function AquanovaPiscinesPage() {
                 <div className="group cursor-pointer bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500">
                   <div className="relative aspect-[4/3] overflow-hidden">
                     <ParallaxImg src={r.img} alt={r.title} />
-                    <div className="absolute top-4 left-4 px-3 py-1.5 bg-[#0369a1] text-white text-[9px] font-bold uppercase tracking-widest rounded">{r.tag}</div>
+                    <div className="absolute top-4 left-4 px-3 py-1.5 bg-[var(--brand)] text-white text-[9px] font-bold uppercase tracking-widest rounded">{r.tag}</div>
                   </div>
                   <div className="p-6">
-                    <h3 className="font-bold text-[#0f172a] group-hover:text-[#0369a1] transition-colors">{r.title}</h3>
+                    <h3 className="font-bold text-[#0f172a] group-hover:text-[var(--brand)] transition-colors">{r.title}</h3>
                   </div>
                 </div>
               </Reveal>
@@ -343,21 +343,21 @@ export default function AquanovaPiscinesPage() {
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
           <Reveal>
             <div className="mb-16 text-center">
-              <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#0369a1] mb-4">Avis clients</div>
-              <h2 className="text-4xl font-bold text-[#0f172a]">Ils nous font <span className="text-[#0369a1]">confiance.</span></h2>
+              <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand)] mb-4">Avis clients</div>
+              <h2 className="text-4xl font-bold text-[#0f172a]">Ils nous font <span className="text-[var(--brand)]">confiance.</span></h2>
             </div>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {AVIS.map((t: any, i: number) => (
               <Reveal key={i} delay={i * 0.1}>
-                <div className="p-8 border border-slate-100 rounded-xl hover:border-[#0369a1]/20 transition-colors h-full flex flex-col">
+                <div className="p-8 border border-slate-100 rounded-xl hover:border-[var(--brand)]/20 transition-colors h-full flex flex-col">
                   <div className="flex gap-1 mb-5">
-                    {[...Array(t.s)].map((_, j) => <Star key={j} className="w-4 h-4 fill-[#0369a1] text-[#0369a1]" />)}
+                    {[...Array(t.s)].map((_, j) => <Star key={j} className="w-4 h-4 fill-[var(--brand)] text-[var(--brand)]" />)}
                   </div>
                   <p className="text-slate-500 text-sm leading-relaxed italic flex-1">{`"${t.q}"`}</p>
                   <div className="mt-6 pt-5 border-t border-slate-100">
                     <div className="font-bold text-[#0f172a] text-sm">{t.n}</div>
-                    {t.l && <div className="flex items-center gap-1 text-[10px] text-[#0369a1] mt-1"><MapPin className="w-3 h-3" /> {t.l}</div>}
+                    {t.l && <div className="flex items-center gap-1 text-[10px] text-[var(--brand)] mt-1"><MapPin className="w-3 h-3" /> {t.l}</div>}
                   </div>
                 </div>
               </Reveal>
@@ -367,7 +367,7 @@ export default function AquanovaPiscinesPage() {
       </section>
 
       {/* ── CERTIFICATIONS ── */}
-      <section className="py-16 bg-[#0369a1]">
+      <section className="py-16 bg-[var(--brand)]">
         <div className="max-w-[1200px] mx-auto px-6 md:px-12 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
           {[
             { t: "Certifié RGE", s: "Reconnu Garant Environnement" },
@@ -390,14 +390,14 @@ export default function AquanovaPiscinesPage() {
       <section id="contact" className="py-32 bg-[#0f172a] text-center">
         <Reveal>
           <div className="max-w-2xl mx-auto px-6">
-            <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#38bdf8] mb-6">Prendre contact</div>
-            <h2 className="text-4xl md:text-6xl font-bold text-white mb-6">Un projet ?<br /><span className="text-[#38bdf8]">Parlons-en.</span></h2>
+            <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand-light)] mb-6">Prendre contact</div>
+            <h2 className="text-4xl md:text-6xl font-bold text-white mb-6">Un projet ?<br /><span className="text-[var(--brand-light)]">Parlons-en.</span></h2>
             <p className="text-white/40 mb-10 text-sm leading-relaxed">Devis gratuit sous 48h · Étude 3D offerte · Travaux garantis décennale</p>
             <div className="flex flex-wrap gap-4 justify-center">
-              <button className="px-10 py-4 bg-[#0369a1] text-white font-bold text-[10px] uppercase tracking-[0.2em] rounded hover:bg-[#0284c7] transition-colors">
+              <button className="px-10 py-4 bg-[var(--brand)] text-white font-bold text-[10px] uppercase tracking-[0.2em] rounded hover:bg-[#0284c7] transition-colors">
                 Demander un devis
               </button>
-              <a href={`tel:${fd?.phone ?? "0478987654"}`} className="flex items-center gap-3 px-10 py-4 border border-white/15 text-white font-bold text-[10px] uppercase tracking-[0.15em] rounded hover:border-[#38bdf8]/50 hover:text-[#38bdf8] transition-all">
+              <a href={`tel:${fd?.phone ?? "0478987654"}`} className="flex items-center gap-3 px-10 py-4 border border-white/15 text-white font-bold text-[10px] uppercase tracking-[0.15em] rounded hover:border-[var(--brand-light)]/50 hover:text-[var(--brand-light)] transition-all">
                 <Phone className="w-4 h-4" /> 04 78 98 76 54
               </a>
             </div>
@@ -410,7 +410,7 @@ export default function AquanovaPiscinesPage() {
         <div className="max-w-[1300px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           <div>
             <div className="flex items-center gap-2.5 mb-5">
-              <div className="w-7 h-7 bg-[#0369a1] rounded flex items-center justify-center">
+              <div className="w-7 h-7 bg-[var(--brand)] rounded flex items-center justify-center">
                 <Droplets className="w-3.5 h-3.5 text-white" />
               </div>
               <span className="font-bold text-white text-sm">{fd?.businessName ?? "AquaNova Piscines"}</span>
@@ -423,7 +423,7 @@ export default function AquanovaPiscinesPage() {
             { t: "Contact", ls: ["04 78 98 76 54", "contact@aquanova.fr", "Zone Grand Lyon", "Étude 3D offerte", "Devis gratuit sous 48h"] },
           ].map((col, i) => (
             <div key={i}>
-              <h4 className="text-[9px] font-bold uppercase tracking-[0.3em] text-[#38bdf8] mb-5">{col.t}</h4>
+              <h4 className="text-[9px] font-bold uppercase tracking-[0.3em] text-[var(--brand-light)] mb-5">{col.t}</h4>
               <ul className="space-y-2.5">
                 {col.ls.map(l => <li key={l}><Link href="#contact" className="text-white/25 text-sm hover:text-white transition-colors">{l}</Link></li>)}
               </ul>
@@ -432,7 +432,7 @@ export default function AquanovaPiscinesPage() {
         </div>
         <div className="max-w-[1300px] mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between gap-4 text-[9px] font-bold uppercase tracking-widest text-white/15">
           <span>© 2026 {fd?.businessName ?? "AquaNova Piscines"} · SIRET 234 567 890 00056 · Garantie Décennale · Assurance RC Pro</span>
-          <span className="text-[#38bdf8]/30">Pisciniste certifié · Grand Lyon</span>
+          <span className="text-[var(--brand-light)]/30">Pisciniste certifié · Grand Lyon</span>
         </div>
       </footer>
     </div>
