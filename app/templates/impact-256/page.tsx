@@ -11,6 +11,7 @@ import {
   useMotionValue,
 } from 'framer-motion';
 import { ArrowRight, ChevronDown, Trophy, Dumbbell, MapPin } from 'lucide-react';
+import { resolveList } from "@/lib/templates/resolveList";
 
 /* ════════════════════════════════════════════════════════════════════════════
    FORCE BRUTE — Coach Sportif Personnel & Remise en Forme · Marseille
@@ -118,7 +119,7 @@ interface Testimonial {
    Data
    ════════════════════════════════════════════════════════════════════════════ */
 
-const PROGRAMS: Program[] = [
+const PROGRAMS_DEMO: Program[] = [
   {
     id: 'force',
     romanNumeral: 'I',
@@ -145,7 +146,7 @@ const PROGRAMS: Program[] = [
   },
 ];
 
-const OFFERS: Offer[] = [
+const OFFERS_DEMO: Offer[] = [
   {
     id: 'decouverte',
     title: 'Séance découverte offerte',
@@ -244,7 +245,7 @@ const PILLARS: PillarItem[] = [
   },
 ];
 
-const TESTIMONIALS: Testimonial[] = [
+const TESTIMONIALS_DEMO: Testimonial[] = [
   {
     quote: "Après 10 régimes ratés, je n'y croyais plus. En 5 mois avec lui, j'ai perdu 18 kg sans jamais me sentir privée. Sa méthode change tout.",
     name: 'Sandrine M.',
@@ -984,6 +985,20 @@ function ProgressDot({
 }
 
 function ProgramSequence() {
+  const PROGRAMS = resolveList<Program>(
+    bp?.services?.map((s: any, i: number) => {
+      const d = PROGRAMS_DEMO[i % PROGRAMS_DEMO.length];
+      return {
+        id: (d.id ?? 'prog') + '-' + i,
+        romanNumeral: d.romanNumeral,
+        label: s.title ?? s.name ?? d.label,
+        title: s.title ?? s.name ?? d.title,
+        body: s.description ?? s.desc ?? d.body,
+        img: d.img,
+      };
+    }),
+    PROGRAMS_DEMO
+  );
   const n = PROGRAMS.length;
   const progress = useMotionValue(0.5 / n);
   const [active, setActive] = useState(0);
@@ -1196,6 +1211,20 @@ function OfferCard({ offer, i }: { offer: Offer; i: number }) {
 }
 
 function OfferCards() {
+  const OFFERS = resolveList<Offer>(
+    bp?.services?.map((s: any, i: number) => {
+      const d = OFFERS_DEMO[i % OFFERS_DEMO.length];
+      return {
+        id: (d.id ?? 'offer') + '-' + i,
+        title: s.title ?? s.name ?? d.title,
+        price: s.price ?? d.price,
+        description: s.description ?? s.desc ?? d.description,
+        tags: d.tags,
+        featured: d.featured,
+      };
+    }),
+    OFFERS_DEMO
+  );
   const sec: React.CSSProperties = {
     background: C.bg,
     padding: 'clamp(90px,12vw,170px) clamp(24px,6vw,96px)',
@@ -1539,6 +1568,18 @@ function PillarPanel() {
    Testimonials — 2 cartes blanches sur bgAlt
    ════════════════════════════════════════════════════════════════════════════ */
 function Testimonials() {
+  const TESTIMONIALS = resolveList<Testimonial>(
+    bp?.reputation?.featuredReviews?.map((r: any, i: number) => {
+      const d = TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length];
+      return {
+        quote: r.text ?? d.quote,
+        name: r.name ?? d.name,
+        role: r.location ?? d.role,
+        result: d.result,
+      };
+    }),
+    TESTIMONIALS_DEMO
+  );
   const sec: React.CSSProperties = {
     background: C.bgAlt,
     padding: 'clamp(90px,12vw,170px) clamp(24px,6vw,96px)',
@@ -2118,6 +2159,7 @@ function Footer() {
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 let brand: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
@@ -2134,6 +2176,7 @@ export default function Page() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -2165,6 +2208,7 @@ export default function Page() {
     });
   });
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, accent: brand, accentLight: shadeColor(brand, 25), accentDark: shadeColor(brand, -20) };
@@ -2179,54 +2223,6 @@ export default function Page() {
     MozOsxFontSmoothing: 'grayscale',
   };
 
-  
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
 return (
     <main style={root} suppressHydrationWarning>
       {/* Google Fonts */}
