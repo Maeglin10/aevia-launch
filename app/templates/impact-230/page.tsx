@@ -4,6 +4,7 @@
 import React, {useRef, useState, useEffect} from 'react'
 import { motion, useScroll, useTransform, useInView } from "framer-motion"
 import { Phone, Mail, MapPin, Clock, Star, CheckCircle, ArrowRight, Hammer } from "lucide-react"
+import { resolveList } from "@/lib/templates/resolveList"
 
 // Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
 // used to derive light/dark shades from the client's brand color.
@@ -29,7 +30,7 @@ const FONT_BODY = "'Cabin', system-ui, sans-serif"
 
 const STATS = [{ value: "20 ans", label: "D'ébénisterie" }, { value: "600+", label: "Pièces créées" }, { value: "100%", label: "Bois sourcé France" }, { value: "3 ans", label: "Garantie pièces" }]
 
-const SAVOIR_FAIRE = [
+const SAVOIR_FAIRE_DEMO = [
   { titre: "Mobilier sur mesure", desc: "Tables, bibliothèques, lits, armoires — chaque pièce est dessinée et fabriquée selon vos dimensions exactes, vos essences préférées et votre style.", tag: "Mobilier" },
   { titre: "Cuisine & dressing", desc: "Agencement sur mesure en bois massif. Bois de noyer, chêne, hêtre, frêne. Caissons, façades, plans de travail — du sur-mesure vrai, pas du semi-fini.", tag: "Agencement" },
   { titre: "Restauration d'anciens", desc: "Restauration et réparation de meubles anciens ou de famille. Respect des techniques d'époque, finitions cire, vernis gomme-laque ou huile.", tag: "Restauration" },
@@ -45,7 +46,7 @@ const ENGAGEMENT = [
   "Délais honnêtes : 8 à 12 semaines selon la complexité",
 ]
 
-const AVIS = [
+const AVIS_DEMO = [
   { texte: "Une table en chêne massif sur mesure pour notre salle à manger. Lassé du mobilier suédois, j'ai voulu quelque chose qui dure. 3 ans après, c'est la plus belle pièce de notre maison.", auteur: "Thomas & Claire R.", detail: "Table chêne sur mesure" },
   { texte: "Restauration d'un secrétaire Louis XVI de ma grand-mère. Travail remarquable de minutie — vous ne pouvez pas distinguer les zones restaurées des originales. Un vrai artiste.", auteur: "Geneviève P.", detail: "Restauration meuble ancien" },
   { texte: "Escalier en noyer avec garde-corps forgé. On a eu peur que ça dure 6 mois. Livré à la semaine près comme promis. C'est la première chose que nos invités voient et ils en restent bouche bée.", auteur: "Famille Blanc", detail: "Escalier noyer" },
@@ -61,6 +62,7 @@ function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: nu
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
@@ -82,6 +84,7 @@ export default function AtelierDuBoisPage() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -95,10 +98,28 @@ export default function AtelierDuBoisPage() {
 
   fd = session?.formData;
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, accent: brand };
   }
+
+  const SAVOIR_FAIRE = resolveList(
+    bp?.services?.map((s: any, i: number) => ({
+      titre: s.title ?? SAVOIR_FAIRE_DEMO[i % SAVOIR_FAIRE_DEMO.length].titre,
+      desc: s.description ?? SAVOIR_FAIRE_DEMO[i % SAVOIR_FAIRE_DEMO.length].desc,
+      tag: SAVOIR_FAIRE_DEMO[i % SAVOIR_FAIRE_DEMO.length].tag,
+    })),
+    SAVOIR_FAIRE_DEMO
+  )
+  const AVIS = resolveList(
+    bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+      texte: r.text ?? AVIS_DEMO[i % AVIS_DEMO.length].texte,
+      auteur: r.name ?? AVIS_DEMO[i % AVIS_DEMO.length].auteur,
+      detail: r.location ?? AVIS_DEMO[i % AVIS_DEMO.length].detail,
+    })),
+    AVIS_DEMO
+  )
 
   const heroRef = useRef<HTMLElement>(null)
   const [scrolled, setScrolled] = useState(false)
@@ -112,53 +133,7 @@ export default function AtelierDuBoisPage() {
     return () => window.removeEventListener("scroll", h)
   }, []);
 
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);return (
+  return (
     <div style={{ background: C.bg, fontFamily: FONT_BODY, overflowX: "hidden" }}>
       <style jsx global>{`@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Cabin:wght@400;500;600;700&display=swap');
         /* mobile: stack 2-col grids to single column (added by responsive fix) */

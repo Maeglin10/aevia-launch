@@ -6,6 +6,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { Wind, ArrowRight, Menu, Star, Heart, Sun, Waves, Flower2, Moon, ChevronRight, Play, Sparkles } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import { resolveList } from "@/lib/templates/resolveList"
 
 function Reveal({ children, delay = 0, y = 30 }: { children: React.ReactNode; delay?: number; y?: number }) {
   const ref = useRef(null)
@@ -29,9 +30,22 @@ function BreathingCircle() {
 }
 
 
+const RETREATS_DEMO = [
+  { name: "Elemental", duration: "3 days", guests: "Solo or couple", price: "€2,400", icon: Sun, desc: "Forest bathing, breathwork, cold immersion. A reset at cellular level.", includes: ["Daily thermal circuit", "2 treatments", "Plant-based cuisine"] },
+  { name: "Deep Stillness", duration: "7 days", guests: "Max 4 guests", price: "€5,800", icon: Moon, desc: "Full sensory withdrawal programme for executives and high-performance athletes.", includes: ["Biometric assessment", "Daily guided practice", "Sleep protocol", "Weekly outcomes report"] },
+  { name: "Inner Spring", duration: "14 days", guests: "Solo only", price: "€11,200", icon: Flower2, desc: "The complete Aether experience. Curated for transformational depth.", includes: ["Personalised ceremony", "Private chef", "6 modalities daily", "Post-retreat coaching", "2-month follow-up"] },
+]
+
+const TESTIMONIALS_DEMO = [
+  { quote: "I arrived carrying three years of accumulated burnout. After seven days at Aether, I remembered what it felt like to be in my body.", name: "Dr. Léa Fontaine", role: "Surgeon, Lyon" },
+  { quote: "Nothing digital, nothing performative. Just the sound of water and the smell of cedar. It changed my entire relationship with stillness.", name: "M. Okafor", role: "Founder, London" },
+  { quote: "The Deep Stillness retreat recalibrated my nervous system in ways I didn't know were possible. I sleep differently now.", name: "Y. Sato", role: "Artist, Tokyo" },
+]
+
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
@@ -53,6 +67,7 @@ export default function AetherWellnessPage() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -66,7 +81,29 @@ export default function AetherWellnessPage() {
 
   fd = session?.formData;
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
+
+  const RETREATS = resolveList(
+    bp?.services?.map((s: any, i: number) => ({
+      name: s.title ?? RETREATS_DEMO[i % RETREATS_DEMO.length].name,
+      duration: RETREATS_DEMO[i % RETREATS_DEMO.length].duration,
+      guests: RETREATS_DEMO[i % RETREATS_DEMO.length].guests,
+      price: s.price ?? RETREATS_DEMO[i % RETREATS_DEMO.length].price,
+      icon: RETREATS_DEMO[i % RETREATS_DEMO.length].icon,
+      desc: s.description ?? RETREATS_DEMO[i % RETREATS_DEMO.length].desc,
+      includes: RETREATS_DEMO[i % RETREATS_DEMO.length].includes,
+    })),
+    RETREATS_DEMO
+  )
+  const TESTIMONIALS = resolveList(
+    bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+      quote: r.text ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].quote,
+      name: r.name ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].name,
+      role: r.location ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].role,
+    })),
+    TESTIMONIALS_DEMO
+  )
 
   const [scrolled, setScrolled] = useState(false)
 
@@ -76,53 +113,7 @@ export default function AetherWellnessPage() {
     return () => window.removeEventListener("scroll", h)
   }, []);
 
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);return (
+  return (
     <div className="bg-[#faf9f6] text-[#3d3d3d] font-sans min-h-dvh selection:bg-[#e5e7eb] selection:text-[#1a1a1a] overflow-x-hidden">
       
       {/* ── NAVBAR ────────────────── */}
@@ -289,11 +280,7 @@ export default function AetherWellnessPage() {
                  </div>
               </Reveal>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                 {[
-                    { name: "Elemental", duration: "3 days", guests: "Solo or couple", price: "€2,400", icon: Sun, desc: "Forest bathing, breathwork, cold immersion. A reset at cellular level.", includes: ["Daily thermal circuit", "2 treatments", "Plant-based cuisine"] },
-                    { name: "Deep Stillness", duration: "7 days", guests: "Max 4 guests", price: "€5,800", icon: Moon, desc: "Full sensory withdrawal programme for executives and high-performance athletes.", includes: ["Biometric assessment", "Daily guided practice", "Sleep protocol", "Weekly outcomes report"] },
-                    { name: "Inner Spring", duration: "14 days", guests: "Solo only", price: "€11,200", icon: Flower2, desc: "The complete Aether experience. Curated for transformational depth.", includes: ["Personalised ceremony", "Private chef", "6 modalities daily", "Post-retreat coaching", "2-month follow-up"] },
-                 ].map((r, i) => (
+                 {RETREATS.map((r: any, i: number) => (
                     <Reveal key={i} delay={i * 0.12}>
                        <div className="group border border-black/5 rounded-[2rem] p-10 flex flex-col gap-6 hover:shadow-xl transition-all duration-700 h-full">
                           <div className="w-14 h-14 rounded-full border border-black/10 flex items-center justify-center group-hover:bg-[#1a1a1a] group-hover:border-[#1a1a1a] transition-all duration-700">
@@ -306,7 +293,7 @@ export default function AetherWellnessPage() {
                           </div>
                           <p className="text-sm text-black/40 font-light leading-relaxed italic flex-1">{r.desc}</p>
                           <ul className="space-y-2 border-t border-black/5 pt-6">
-                             {r.includes.map(f => <li key={f} className="text-xs text-black/30 flex items-center gap-3"><Sparkles className="w-3 h-3 shrink-0 text-black/20" />{f}</li>)}
+                             {r.includes.map((f: any) => <li key={f} className="text-xs text-black/30 flex items-center gap-3"><Sparkles className="w-3 h-3 shrink-0 text-black/20" />{f}</li>)}
                           </ul>
                        </div>
                     </Reveal>
@@ -325,11 +312,7 @@ export default function AetherWellnessPage() {
                  </div>
               </Reveal>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                 {[
-                    { quote: "I arrived carrying three years of accumulated burnout. After seven days at Aether, I remembered what it felt like to be in my body.", name: "Dr. Léa Fontaine", role: "Surgeon, Lyon" },
-                    { quote: "Nothing digital, nothing performative. Just the sound of water and the smell of cedar. It changed my entire relationship with stillness.", name: "M. Okafor", role: "Founder, London" },
-                    { quote: "The Deep Stillness retreat recalibrated my nervous system in ways I didn't know were possible. I sleep differently now.", name: "Y. Sato", role: "Artist, Tokyo" },
-                 ].map((t, i) => (
+                 {TESTIMONIALS.map((t: any, i: number) => (
                     <Reveal key={i} delay={i * 0.12}>
                        <div className="p-12 flex flex-col gap-6 border border-black/5 rounded-[2rem] h-full">
                           <div className="flex gap-1">

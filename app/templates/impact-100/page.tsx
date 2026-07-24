@@ -24,6 +24,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Separator } from "@/components/ui/separator";
 import { Compass, Layout, Maximize, Ruler, Sparkles, Globe, Mail, MapPin, ChevronRight, ArrowRight, X, Menu, Box, Home, Layers, PencilLine, Focus, Frame, Monitor, Share2, Lock, Search, ShoppingBag } from "lucide-react";
+import { resolveList } from "@/lib/templates/resolveList";
 
 import "../premium.css";
 
@@ -31,7 +32,7 @@ import "../premium.css";
    DATA STRUCTURES
    ========================================================================= */
 
-const PROJECTS = [
+const PROJECTS_DEMO = [
   {
     id: 1,
     name: "The Obsidian Loft",
@@ -158,6 +159,7 @@ function MagneticBtn({
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
@@ -179,6 +181,7 @@ export default function NovaSpacesPage() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -195,7 +198,7 @@ export default function NovaSpacesPage() {
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;
     let n = 2;
-    const _photoArrays: any[] = [PROJECTS];
+    const _photoArrays: any[] = [PROJECTS_DEMO];
     _photoArrays.forEach((arr) => {
       if (!Array.isArray(arr)) return;
       arr.forEach((item) => {
@@ -210,7 +213,20 @@ export default function NovaSpacesPage() {
     });
   });
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
+
+  const PROJECTS = resolveList(
+    bp?.beforeAfter?.map((b: any, i: number) => ({
+      id: i + 1,
+      name: b.caption ?? PROJECTS_DEMO[i % PROJECTS_DEMO.length].name,
+      category: PROJECTS_DEMO[i % PROJECTS_DEMO.length].category,
+      location: b.location ?? PROJECTS_DEMO[i % PROJECTS_DEMO.length].location,
+      desc: b.caption ?? PROJECTS_DEMO[i % PROJECTS_DEMO.length].desc,
+      img: b.afterUrl ?? b.beforeUrl ?? PROJECTS_DEMO[i % PROJECTS_DEMO.length].img,
+    })),
+    PROJECTS_DEMO
+  );
 
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -221,54 +237,6 @@ export default function NovaSpacesPage() {
     window.addEventListener("scroll", h);
     return () => window.removeEventListener("scroll", h);
   }, []);
-
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
 
   return (
     <div className="premium-theme min-h-dvh bg-[#f7f7f7] text-[#1a1a1a] font-sans selection:bg-[#1a1a1a] selection:text-white overflow-x-hidden">

@@ -6,6 +6,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { Sofa, ArrowRight, Menu, Star, Palette, Ruler, Eye, Lightbulb, Layers, ChevronRight, MapPin, Phone, Mail, CheckCircle2 } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import { resolveList } from "@/lib/templates/resolveList"
 
 function Reveal({ children, delay = 0, y = 40 }: { children: React.ReactNode; delay?: number; y?: number }) {
   const ref = useRef(null)
@@ -31,20 +32,20 @@ function ParallaxImg({ src, alt }: { src: string; alt: string }) {
   )
 }
 
-const PROJECTS = [
+const PROJECTS_DEMO = [
   { title: "Villa Serena", type: "Residential", img: "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&q=80&w=1200", desc: "Minimalist coastal retreat with organic textures and panoramic ocean views." },
   { title: "Maison Noire", type: "Penthouse", img: "https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&q=80&w=1200", desc: "Dark luxury penthouse with travertine, brass accents, and bespoke furniture." },
   { title: "Bureau Lumière", type: "Commercial", img: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=1200", desc: "Biophilic office redesign for a tech company prioritizing employee wellbeing." },
 ]
 
-const SERVICES = [
+const SERVICES_DEMO = [
   { icon: Palette, title: "Concept & Mood", desc: "Material palettes, mood boards, and spatial concepts tailored to your lifestyle." },
   { icon: Ruler, title: "Space Planning", desc: "Functional layouts that flow naturally, maximizing light, movement, and comfort." },
   { icon: Lightbulb, title: "Lighting Design", desc: "Layered lighting schemes that transform atmosphere from morning to evening." },
   { icon: Layers, title: "Furniture Curation", desc: "Sourcing and commissioning bespoke pieces from artisan workshops worldwide." },
 ]
 
-const TESTIMONIALS = [
+const TESTIMONIALS_DEMO = [
   { text: "Atelier transformed our home into something that feels like us, but elevated. Every detail was considered.", author: "Victoria & James R.", project: "Villa Serena" },
   { text: "The attention to material quality is extraordinary. They source things you didn't know existed.", author: "Marc Dubois", project: "Maison Noire" },
   { text: "A masterful understanding of light and space. Our workspace redesign has drastically improved our team productivity and focus.", author: "Elena R.", project: "Bureau Lumière" },
@@ -54,6 +55,7 @@ const TESTIMONIALS = [
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
@@ -75,6 +77,7 @@ export default function AtelierInteriorPage() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -91,7 +94,7 @@ export default function AtelierInteriorPage() {
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;
     let n = 3;
-    const _photoArrays: any[] = [PROJECTS];
+    const _photoArrays: any[] = [PROJECTS_DEMO];
     _photoArrays.forEach((arr) => {
       if (!Array.isArray(arr)) return;
       arr.forEach((item) => {
@@ -106,7 +109,34 @@ export default function AtelierInteriorPage() {
     });
   });
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
+
+  const PROJECTS = resolveList(
+    bp?.beforeAfter?.map((b: any, i: number) => ({
+      title: b.caption ?? PROJECTS_DEMO[i % PROJECTS_DEMO.length].title,
+      type: PROJECTS_DEMO[i % PROJECTS_DEMO.length].type,
+      img: b.afterUrl ?? b.beforeUrl ?? PROJECTS_DEMO[i % PROJECTS_DEMO.length].img,
+      desc: b.caption ?? PROJECTS_DEMO[i % PROJECTS_DEMO.length].desc,
+    })),
+    PROJECTS_DEMO
+  );
+  const SERVICES = resolveList(
+    bp?.services?.map((s: any, i: number) => ({
+      icon: SERVICES_DEMO[i % SERVICES_DEMO.length].icon,
+      title: s.title ?? SERVICES_DEMO[i % SERVICES_DEMO.length].title,
+      desc: s.description ?? SERVICES_DEMO[i % SERVICES_DEMO.length].desc,
+    })),
+    SERVICES_DEMO
+  );
+  const TESTIMONIALS = resolveList(
+    bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+      text: r.text ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].text,
+      author: r.name ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].author,
+      project: r.location ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].project,
+    })),
+    TESTIMONIALS_DEMO
+  );
 
   const [scrolled, setScrolled] = useState(false)
   const [contactSubmitted, setContactSubmitted] = useState(false)
@@ -121,53 +151,7 @@ export default function AtelierInteriorPage() {
     return () => window.removeEventListener("scroll", h)
   }, []);
 
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);return (
+  return (
     <div className="bg-[#f5f0eb] text-[#2a2520] font-sans min-h-dvh selection:bg-[#8b7355] selection:text-white overflow-x-hidden">
 
       {/* ── NAVBAR ─────────────── */}
