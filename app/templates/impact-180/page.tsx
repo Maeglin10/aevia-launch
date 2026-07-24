@@ -6,6 +6,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { Flame, Thermometer, Phone, Clock, Star, MapPin, ArrowRight, CheckCircle, Wrench, Shield, Zap, Menu, Award } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import { resolveList } from "@/lib/templates/resolveList";
 
 /* ═══════════════════════════════════════════════════════════════════════════
    THERMOTEK CHAUFFAGE — Chauffagiste professionnel (Bordeaux)
@@ -38,13 +39,22 @@ function ParallaxImg({ src, alt }: { src: string; alt: string }) {
   )
 }
 
-const SERVICES = [
+const SERVICES_DEMO = [
   { icon: Flame, title: "Installation chaudière", desc: "Chaudière gaz, fioul, condensation, micro-cogénération. Toutes marques. Mise en service et formation à l'utilisation incluses." },
   { icon: Thermometer, title: "Pompe à chaleur (PAC)", desc: "PAC air-air, air-eau, géothermique. Dossier CEE et aides MaPrimeRénov' gérés par nos soins. Garantie 5 ans." },
   { icon: Wrench, title: "Entretien & révision", desc: "Contrat d'entretien annuel (obligatoire pour les chaudières gaz). Rapport de combustion, nettoyage, diagnostic." },
   { icon: Zap, title: "Dépannage d'urgence", desc: "Plus de chauffage en plein hiver ? Intervention sous 4h dans la métropole bordelaise. Astreinte 7j/7 de novembre à mars." },
   { icon: Shield, title: "Plancher chauffant", desc: "Pose de plancher chauffant hydraulique sur dalle neuve ou rénovation. Conception de la régulation par pièce." },
   { icon: Flame, title: "VMC & ventilation", desc: "VMC simple et double flux, DRV, traitement de l'air. Bilan aéraulique, pose, entretien. Labels QualAir et RGE." },
+]
+
+// Testimonials — hoisted from an inline JSX array literal so resolveList can
+// swap in bp?.reputation?.featuredReviews when the client provided real
+// reviews.
+const TEMOIGNAGES_DEMO = [
+  { q: "Chaudière tombée en panne un dimanche soir de janvier. Technicien présent en 3h. Pièce remplacée, chaudière repartie. Service au top.", n: "Bernard L.", l: "Bordeaux (33)" },
+  { q: "Thermotek nous a installé une PAC air-eau et géré toutes les aides MaPrimeRénov'. Économie de 60% sur notre facture de gaz. Exceptionnel.", n: "Isabelle & Marc D.", l: "Mérignac (33)" },
+  { q: "Entretien annuel ponctuel, technicien sérieux et pédagogue. Le rapport de combustion est clair. On continue avec Thermotek depuis 8 ans.", n: "Sylvain A.", l: "Pessac (33)" },
 ]
 
 
@@ -72,6 +82,7 @@ export default function ThermotekChauffagePage() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -87,6 +98,15 @@ export default function ThermotekChauffagePage() {
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
+  // Real business data (resolveList) replaces demo content wholesale when
+  // present — see the DEMO consts above for the shape each section falls
+  // back to. Field access in JSX uses `??` chains so both shapes render.
+  // Note: businessProfile is a sibling of formData on SessionData, not
+  // nested inside it — read from `session`, not `fd`.
+  const bp = session?.businessProfile;
+  const services = resolveList(bp?.services, SERVICES_DEMO);
+  const temoignages = resolveList(bp?.reputation?.featuredReviews, TEMOIGNAGES_DEMO);
+
   const heroRef = useRef(null)
   const [scrolled, setScrolled] = useState(false)
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] })
@@ -100,53 +120,7 @@ export default function ThermotekChauffagePage() {
     return () => window.removeEventListener("scroll", h)
   }, []);
 
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);return (
+  return (
     <div className="bg-[#0a0906] text-white overflow-x-hidden" style={{ fontFamily: "'DM Sans', 'Inter', system-ui, sans-serif" }}>
       {/* ── NAVBAR ── */}
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#0a0906]/97 backdrop-blur-xl py-3 border-b border-[#ea580c]/10" : "bg-transparent py-6"}`}>
@@ -272,19 +246,22 @@ export default function ThermotekChauffagePage() {
             </div>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-white/5">
-            {SERVICES.map((s, i) => (
-              <Reveal key={i} delay={i * 0.07}>
-                <div className="bg-[#0a0906] p-9 group hover:bg-[#140c07] transition-colors duration-500 h-full flex flex-col gap-5">
-                  <div className="w-11 h-11 border border-[#ea580c]/20 flex items-center justify-center group-hover:bg-[#ea580c] group-hover:border-[#ea580c] transition-all duration-500">
-                    <s.icon className="w-5 h-5 text-[#ea580c] group-hover:text-white transition-colors" />
+            {services.map((s: any, i: number) => {
+              const Icon = s.icon ?? Flame;
+              return (
+                <Reveal key={s.title ?? s.name ?? i} delay={i * 0.07}>
+                  <div className="bg-[#0a0906] p-9 group hover:bg-[#140c07] transition-colors duration-500 h-full flex flex-col gap-5">
+                    <div className="w-11 h-11 border border-[#ea580c]/20 flex items-center justify-center group-hover:bg-[#ea580c] group-hover:border-[#ea580c] transition-all duration-500">
+                      <Icon className="w-5 h-5 text-[#ea580c] group-hover:text-white transition-colors" />
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-base mb-3 group-hover:text-[#ea580c] transition-colors">{s.title ?? s.name}</h3>
+                      <p className="text-sm text-white/30 leading-relaxed">{s.desc ?? s.description}</p>
+                    </div>
                   </div>
-                  <div>
-                    <h3 className="font-bold text-base mb-3 group-hover:text-[#ea580c] transition-colors">{s.title}</h3>
-                    <p className="text-sm text-white/30 leading-relaxed">{s.desc}</p>
-                  </div>
-                </div>
-              </Reveal>
-            ))}
+                </Reveal>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -297,20 +274,16 @@ export default function ThermotekChauffagePage() {
             <h2 className="text-4xl font-bold">Ce qu'ils <span className="text-[#ea580c]">disent.</span></h2>
           </div></Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {[
-              { q: "Chaudière tombée en panne un dimanche soir de janvier. Technicien présent en 3h. Pièce remplacée, chaudière repartie. Service au top.", n: "Bernard L.", l: "Bordeaux (33)" },
-              { q: "Thermotek nous a installé une PAC air-eau et géré toutes les aides MaPrimeRénov'. Économie de 60% sur notre facture de gaz. Exceptionnel.", n: "Isabelle & Marc D.", l: "Mérignac (33)" },
-              { q: "Entretien annuel ponctuel, technicien sérieux et pédagogue. Le rapport de combustion est clair. On continue avec Thermotek depuis 8 ans.", n: "Sylvain A.", l: "Pessac (33)" },
-            ].map((t, i) => (
-              <Reveal key={i} delay={i * 0.1}>
+            {temoignages.map((t: any, i: number) => (
+              <Reveal key={t.n ?? t.author ?? i} delay={i * 0.1}>
                 <div className="border border-white/5 p-9 hover:border-[#ea580c]/15 transition-colors h-full flex flex-col">
                   <div className="flex gap-1 mb-5">
                     {[...Array(5)].map((_, j) => <Star key={j} className="w-4 h-4 fill-[#ea580c] text-[#ea580c]" />)}
                   </div>
-                  <p className="text-white/40 text-sm leading-relaxed italic flex-1">{`"${t.q}"`}</p>
+                  <p className="text-white/40 text-sm leading-relaxed italic flex-1">{`"${t.q ?? t.text}"`}</p>
                   <div className="border-t border-white/5 pt-5 mt-6">
-                    <div className="font-bold text-sm uppercase tracking-widest">{t.n}</div>
-                    <div className="text-[10px] text-[#ea580c]/60 mt-1"><MapPin className="w-2.5 h-2.5 inline mr-1" />{t.l}</div>
+                    <div className="font-bold text-sm uppercase tracking-widest">{t.n ?? t.author}</div>
+                    {(t.l ?? t.source) && <div className="text-[10px] text-[#ea580c]/60 mt-1"><MapPin className="w-2.5 h-2.5 inline mr-1" />{t.l ?? t.source}</div>}
                   </div>
                 </div>
               </Reveal>
