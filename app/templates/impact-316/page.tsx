@@ -38,6 +38,7 @@ import {
   X,
   Zap
 } from 'lucide-react';
+import { resolveList } from "@/lib/templates/resolveList";
 
 const Instagram = ({ size = 24, ...props }: React.ComponentProps<'svg'> & { size?: number }) => (
   <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
@@ -131,9 +132,10 @@ function Button({ children, onClick, filled = false, type = 'button' }: { childr
 
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 let brand: any = null;
 
-const SERVICES = [
+const SERVICES_DEMO = [
   { icon: <Building2 size={28} />, title: "Nettoyage de Bureaux", desc: "Entretien quotidien ou hebdomadaire de vos open-spaces, salles de réunion et espaces communs." },
   { icon: <Layers size={28} />, title: "Copropriétés", desc: "Parties communes, halls d'entrée, escaliers, locaux poubelles. Contrat sur mesure." },
   { icon: <Globe size={28} />, title: "Vitrerie Professionnelle", desc: "Nettoyage intérieur et extérieur de baies vitrées, façades, verrières de grande hauteur." },
@@ -142,7 +144,7 @@ const SERVICES = [
   { icon: <ClipboardCheck size={28} />, title: "Audit & Qualité", desc: "Contrôles qualité réguliers, reporting mensuel, interlocuteur dédié. Certification ISO 14001." },
 ];
 
-const TESTIMONIALS = [
+const TESTIMONIALS_DEMO = [
   { name: "Laurent P.", role: "Directeur Général, TechCorp Paris", text: "Pro-Nettoyage assure l'entretien de nos 2 000 m² de bureaux depuis 3 ans. Fiabilité exemplaire, équipes discrètes et résultats constants.", rating: 5 },
   { name: "Nathalie F.", role: "Syndic, Résidence Les Érables", text: "Les parties communes n'ont jamais été aussi propres. Les résidents sont unanimes. Le reporting mensuel est un vrai plus.", rating: 5 },
   { name: "Stéphane R.", role: "DRH, Cabinet Juridique Bordeaux", text: "Passage quotidien impeccable, équipe stable et professionnelle. Notre cabinet a un standing irréprochable grâce à leur travail.", rating: 5 },
@@ -163,6 +165,7 @@ export default function Page() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -191,6 +194,7 @@ export default function Page() {
     });
   });
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null;
   if (brand) {
     C = { ...C, primary: brand, primaryLight: shadeColor(brand, 25), primaryDark: shadeColor(brand, -20) };
@@ -209,22 +213,23 @@ export default function Page() {
 
   const handleSubmit = (e: React.FormEvent) => { e.preventDefault(); if (formData.name && formData.email) setFormSubmitted(true); };
 
-  useEffect(() => {
-    if (c?.services) {
-      [SERVICES].forEach(arr => {
-        if (arr) arr.forEach((s, idx) => {
-          if (idx < 3 && c.services[idx]) { s.title = c.services[idx].title ?? s.title; if ('desc' in s) s.desc = c.services[idx].description ?? s.desc; }
-        });
-      });
-    }
-    if (c?.testimonials) {
-      [TESTIMONIALS].forEach(arr => {
-        if (arr) arr.forEach((t, idx) => {
-          if (idx < 3 && c.testimonials[idx]) { t.name = c.testimonials[idx].name ?? t.name; if ('role' in t) t.role = c.testimonials[idx].role ?? t.role; if ('text' in t) t.text = c.testimonials[idx].text ?? t.text; }
-        });
-      });
-    }
-  }, [c]);
+  const SERVICES = resolveList(
+    bp?.services?.map((s: any, i: number) => ({
+      icon: SERVICES_DEMO[i % SERVICES_DEMO.length].icon,
+      title: s.title ?? s.name,
+      desc: s.description ?? s.desc,
+    })),
+    SERVICES_DEMO
+  );
+  const TESTIMONIALS = resolveList(
+    bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+      name: r.name ?? r.author,
+      role: r.location ?? r.role ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].role,
+      text: r.text ?? r.quote,
+      rating: r.stars ?? r.rating ?? 5,
+    })),
+    TESTIMONIALS_DEMO
+  );
 
   return (
     <div style={{ background: C.bg, color: C.text, fontFamily: SANS, minHeight: '100dvh', overflowX: 'hidden' }}>
@@ -502,12 +507,12 @@ export default function Page() {
             </Reveal>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-            {[
+            {resolveList(bp?.faq?.map((f: any) => ({ q: f.q, a: f.a })), [
               { q: "Quelle est la durée minimum d'engagement ?", a: "Nos contrats sont flexibles. Nous proposons des engagements de 3, 6 ou 12 mois avec des conditions avantageuses pour les contrats annuels. Un préavis de 30 jours suffit." },
               { q: "Intervenez-vous en dehors des heures de bureau ?", a: "Oui, nos équipes s'adaptent à vos horaires : interventions matinales dès 5h, en soirée après 19h ou le week-end. Aucun supplément pour les créneaux standards hors bureau." },
               { q: "Comment gérez-vous les accès et la sécurité ?", a: "Chaque agent signe une clause de confidentialité. Nous gérons les badges, clés et protocoles d'accès en coordination avec votre responsable sécurité." },
               { q: "Proposez-vous un suivi de qualité ?", a: "Absolument. Un responsable qualité effectue des contrôles mensuels. Vous recevez un rapport détaillé avec photos et scores de conformité." },
-            ].map((item, i) => (
+            ] as any[]).map((item: any, i: number) => (
               <Reveal key={i} delay={i * 0.06}>
                 <div style={{ background: C.bgDeep, borderRadius: 4, border: `1px solid ${C.accent}0a`, overflow: 'hidden' }}>
                   <button onClick={() => setExpandedFaq(expandedFaq === i ? null : i)}

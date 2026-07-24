@@ -35,6 +35,7 @@ import {
   Menu,
   X
 } from "lucide-react";
+import { resolveList } from "@/lib/templates/resolveList";
 const Facebook = ({ size = 24, color = 'currentColor', ...p }: any) => (<svg xmlns='http://www.w3.org/2000/svg' width={size} height={size} viewBox='0 0 24 24' fill='none' stroke={color} strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' {...p}><circle cx='12' cy='12' r='10'/></svg>);
 const Twitter = ({ size = 24, color = 'currentColor', ...p }: any) => (<svg xmlns='http://www.w3.org/2000/svg' width={size} height={size} viewBox='0 0 24 24' fill='none' stroke={color} strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' {...p}><circle cx='12' cy='12' r='10'/></svg>);
 const Instagram = ({ size = 24, color = 'currentColor', ...p }: any) => (<svg xmlns='http://www.w3.org/2000/svg' width={size} height={size} viewBox='0 0 24 24' fill='none' stroke={color} strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' {...p}><circle cx='12' cy='12' r='10'/></svg>);
@@ -335,6 +336,7 @@ export default function Template({ session: initialSession }: { session?: any } 
   // Data Binding
   const fd = session?.formData || {};
   const c = session?.generatedContent || {};
+  const bp = session?.businessProfile;
 
   const businessName = fd.businessName || "Éco-Clean Habitat";
   const contactEmail = fd.contactEmail || "contact@eco-clean-habitat.fr";
@@ -392,8 +394,9 @@ export default function Template({ session: initialSession }: { session?: any } 
   }, []);
 
   useEffect(() => {
-    if (c.services && c.services.length > 0) {
-      setServices(c.services);
+    const srcServices = resolveList(bp?.services?.map((s: any) => ({ title: s.title, description: s.description })), c.services || []);
+    if (srcServices.length > 0) {
+      setServices(srcServices);
     } else {
       setServices([
         {
@@ -414,8 +417,9 @@ export default function Template({ session: initialSession }: { session?: any } 
       ]);
     }
 
-    if (c.testimonials && c.testimonials.length > 0) {
-      setTestimonials(c.testimonials);
+    const srcTesti = resolveList(bp?.reputation?.featuredReviews?.map((r: any) => ({ name: r.name, role: r.location ?? "Client", content: r.text, rating: r.stars ?? 5 })), c.testimonials || []);
+    if (srcTesti.length > 0) {
+      setTestimonials(srcTesti);
     } else {
       setTestimonials([
         {
@@ -439,8 +443,9 @@ export default function Template({ session: initialSession }: { session?: any } 
       ]);
     }
 
-    if (c.faq && c.faq.length > 0) {
-      setFaqs(c.faq);
+    const srcFaq = resolveList(bp?.faq?.map((f: any) => ({ question: f.q, answer: f.a })), c.faq || []);
+    if (srcFaq.length > 0) {
+      setFaqs(srcFaq);
     } else {
       setFaqs([
         {
@@ -461,7 +466,7 @@ export default function Template({ session: initialSession }: { session?: any } 
         },
       ]);
     }
-  }, [c]);
+  }, [session]);
 
   // Global Styles injecting
   useEffect(() => {

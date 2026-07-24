@@ -38,6 +38,7 @@ import {
   X,
   Zap
 } from 'lucide-react';
+import { resolveList } from "@/lib/templates/resolveList";
 
 const Instagram = ({ size = 24, ...props }: React.ComponentProps<'svg'> & { size?: number }) => (
   <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
@@ -131,9 +132,10 @@ function Button({ children, onClick, filled = false, type = 'button' }: { childr
 
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 let brand: any = null;
 
-const SERVICES = [
+const SERVICES_DEMO = [
   { icon: <HardHat size={28} />, title: "Fin de Chantier", desc: "Nettoyage complet après travaux de construction ou rénovation. Poussière, gravats, résidus de peinture, joints." },
   { icon: <Droplets size={28} />, title: "Dégât des Eaux", desc: "Assèchement, extraction d'eau, nettoyage et remise en état après inondation ou fuite majeure." },
   { icon: <Flame size={28} />, title: "Après Incendie", desc: "Décontamination, élimination de la suie, traitement anti-odeurs, nettoyage structurel complet." },
@@ -142,7 +144,7 @@ const SERVICES = [
   { icon: <Shield size={28} />, title: "Débarras & Curage", desc: "Vidage complet de locaux, caves, greniers, appartements. Tri, recyclage et évacuation en déchetterie." },
 ];
 
-const TESTIMONIALS = [
+const TESTIMONIALS_DEMO = [
   { name: "Guillaume M.", role: "Chef de chantier, BTP Provence", text: "Après un chantier de 6 mois, l'équipe a livré un immeuble impeccable en 48h. Rapport qualité-prix imbattable. Partenariat reconduit.", rating: 5 },
   { name: "Isabelle K.", role: "Expert d'assurance, AXA", text: "Intervention rapide et professionnelle après un dégât des eaux. Le rapport d'intervention détaillé facilite le traitement du sinistre.", rating: 5 },
   { name: "Romain T.", role: "Directeur usine, Agroalimentaire", text: "Désinfection mensuelle de nos locaux de production. Protocole rigoureux, traçabilité parfaite, aucune non-conformité depuis 2 ans.", rating: 5 },
@@ -163,6 +165,7 @@ export default function Page() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -191,6 +194,7 @@ export default function Page() {
     });
   });
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null;
   if (brand) {
     C = { ...C, primary: brand, primaryLight: shadeColor(brand, 25), primaryDark: shadeColor(brand, -20) };
@@ -209,10 +213,23 @@ export default function Page() {
 
   const handleSubmit = (e: React.FormEvent) => { e.preventDefault(); if (formData.name && formData.email) setFormSubmitted(true); };
 
-  useEffect(() => {
-    if (c?.services) { [SERVICES].forEach(arr => { if (arr) arr.forEach((s, idx) => { if (idx < 3 && c.services[idx]) { s.title = c.services[idx].title ?? s.title; if ('desc' in s) s.desc = c.services[idx].description ?? s.desc; } }); }); }
-    if (c?.testimonials) { [TESTIMONIALS].forEach(arr => { if (arr) arr.forEach((t, idx) => { if (idx < 3 && c.testimonials[idx]) { t.name = c.testimonials[idx].name ?? t.name; if ('role' in t) t.role = c.testimonials[idx].role ?? t.role; if ('text' in t) t.text = c.testimonials[idx].text ?? t.text; } }); }); }
-  }, [c]);
+  const SERVICES = resolveList(
+    bp?.services?.map((s: any, i: number) => ({
+      icon: SERVICES_DEMO[i % SERVICES_DEMO.length].icon,
+      title: s.title ?? s.name,
+      desc: s.description ?? s.desc,
+    })),
+    SERVICES_DEMO
+  );
+  const TESTIMONIALS = resolveList(
+    bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+      name: r.name ?? r.author,
+      role: r.location ?? r.role ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].role,
+      text: r.text ?? r.quote,
+      rating: r.stars ?? r.rating ?? 5,
+    })),
+    TESTIMONIALS_DEMO
+  );
 
   return (
     <div style={{ background: C.bg, color: C.text, fontFamily: SANS, minHeight: '100dvh', overflowX: 'hidden' }}>
@@ -455,12 +472,12 @@ export default function Page() {
             </Reveal>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-            {[
+            {resolveList(bp?.faq?.map((f: any) => ({ q: f.q, a: f.a })), [
               { q: "Quel est votre délai d'intervention en urgence ?", a: "Nous sommes sur site en moins de 2 heures en zone urbaine, et sous 4 heures en zone rurale. Disponibilité 24h/24, 7j/7, week-ends et jours fériés compris." },
               { q: "Travaillez-vous directement avec les assurances ?", a: "Oui. Notre rapport d'intervention détaillé (photos avant/après, protocole suivi, produits utilisés) est conçu pour faciliter vos démarches auprès de votre assurance habitation ou multirisque." },
               { q: "Quels types de produits utilisez-vous ?", a: "Nous utilisons des produits professionnels certifiés (EN 14476 pour les virucides, EN 1276 pour les bactéricides). Pour les interventions en milieu alimentaire, nous employons des produits agréés contact alimentaire." },
               { q: "Intervenez-vous pour les particuliers ?", a: "Oui. Nous intervenons aussi bien pour les professionnels (BTP, industrie, syndics) que pour les particuliers (dégât des eaux à domicile, nettoyage après travaux de rénovation)." },
-            ].map((item, i) => (
+            ] as any[]).map((item: any, i: number) => (
               <Reveal key={i} delay={i * 0.06}>
                 <div style={{ background: C.bgCard, borderRadius: 4, border: `1px solid ${C.primary}0d`, overflow: 'hidden' }}>
                   <button onClick={() => setExpandedFaq(expandedFaq === i ? null : i)}

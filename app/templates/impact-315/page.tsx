@@ -37,6 +37,7 @@ import {
   X,
   Zap
 } from 'lucide-react';
+import { resolveList } from "@/lib/templates/resolveList";
 
 // Custom Instagram icon component for compatibility
 const Instagram = ({ size = 24, ...props }: React.ComponentProps<'svg'> & { size?: number }) => (
@@ -212,9 +213,10 @@ function Button({
 
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 let brand: any = null;
 
-const SERVICES = [
+const SERVICES_DEMO = [
   { icon: <Home size={28} />, title: "Ménage Régulier", desc: "Entretien hebdomadaire ou bi-mensuel de votre intérieur. Cuisine, salons, chambres, sanitaires — tout brille." },
   { icon: <Sparkles size={28} />, title: "Grand Nettoyage", desc: "Nettoyage en profondeur ponctuel : déménagement, fin de chantier, nettoyage de printemps." },
   { icon: <Wind size={28} />, title: "Vitres & Surfaces", desc: "Lavage intérieur et extérieur de vos vitres, baies vitrées, miroirs et surfaces vitrées." },
@@ -223,7 +225,7 @@ const SERVICES = [
   { icon: <Leaf size={28} />, title: "Formule Éco", desc: "Produits 100% bio-dégradables et éco-certifiés. Respect de votre intérieur et de l'environnement." },
 ];
 
-const TESTIMONIALS = [
+const TESTIMONIALS_DEMO = [
   { name: "Sophie L.", role: "Paris 15e", text: "Un service impeccable ! L'intervenante est ponctuelle, soigneuse et très professionnelle. Mon appartement n'a jamais été aussi propre.", rating: 5 },
   { name: "Marc D.", role: "Boulogne-Billancourt", text: "Abonnement ménage bi-mensuel depuis 6 mois. Fiabilité totale, qualité constante. Je recommande sans hésiter.", rating: 5 },
   { name: "Émilie R.", role: "Neuilly-sur-Seine", text: "Grand nettoyage après travaux : résultat bluffant. L'équipe a redonné vie à tout l'appartement en une journée.", rating: 5 },
@@ -251,6 +253,7 @@ export default function Page() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -282,6 +285,7 @@ export default function Page() {
     });
   });
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null;
   if (brand) {
     C = { ...C, primary: brand, primaryLight: shadeColor(brand, 25), primaryDark: shadeColor(brand, -20) };
@@ -308,44 +312,23 @@ export default function Page() {
     }
   };
 
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
+  const SERVICES = resolveList(
+    bp?.services?.map((s: any, i: number) => ({
+      icon: SERVICES_DEMO[i % SERVICES_DEMO.length].icon,
+      title: s.title ?? s.name,
+      desc: s.description ?? s.desc,
+    })),
+    SERVICES_DEMO
+  );
+  const TESTIMONIALS = resolveList(
+    bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+      name: r.name ?? r.author,
+      role: r.location ?? r.role ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].role,
+      text: r.text ?? r.quote,
+      rating: r.stars ?? r.rating ?? 5,
+    })),
+    TESTIMONIALS_DEMO
+  );
 
   return (
     <div style={{
@@ -1072,13 +1055,13 @@ export default function Page() {
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-            {[
+            {resolveList(bp?.faq?.map((f: any) => ({ q: f.q, a: f.a })), [
               { q: "Fournissez-vous les produits et le matériel ?", a: "Oui, nous apportons tout le nécessaire : aspirateur professionnel, serpillières microfibres, produits ménagers de qualité. Vous n'avez rien à prévoir." },
               { q: "Puis-je demander la même intervenante à chaque fois ?", a: "Absolument. Dès la deuxième intervention, nous vous attribuons une intervenante attitrée qui connaît vos préférences et vos habitudes." },
               { q: "Que se passe-t-il si je ne suis pas satisfait·e ?", a: "Notre garantie satisfaction vous couvre : nous revenons gratuitement sous 48h pour refaire les zones qui ne vous conviennent pas." },
               { q: "Comment fonctionne l'abonnement ?", a: "Choisissez votre fréquence (hebdomadaire, bi-mensuel, mensuel) et votre formule. Le prélèvement est automatique, sans engagement. Vous pouvez annuler à tout moment." },
               { q: "Intervenez-vous le week-end ?", a: "Oui, nous proposons des créneaux le samedi matin (8h–13h) avec un supplément de 10€ par intervention. Dimanche sur devis." },
-            ].map((item, i) => (
+            ] as any[]).map((item: any, i: number) => (
               <Reveal key={i} delay={i * 0.06}>
                 <div style={{
                   background: C.bg,
