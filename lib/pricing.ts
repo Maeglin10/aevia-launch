@@ -57,7 +57,13 @@ export function isCurrency(v: string | undefined | null): v is Currency {
 // conversion page = Landing tier (399). Full one-page = Essentiel (599).
 // Multi-section = Pro (899). Complex (e-commerce, luxury, 3D) = Premium (1499).
 export const SITE_PRICES: Record<string, { label: string; price: number }> = {
-  landing:       { label: "Landing Page",          price: 399  },
+  // Section-count tiers (see lib/templates/templateTier.ts) — the order flow
+  // prices a template by how many <section> blocks it has, so the rich sites
+  // (most of the catalog) land at Pro/Premium rather than a flat 399.
+  landing:       { label: "Site Landing",          price: 399  },
+  essentiel:     { label: "Site Essentiel",        price: 599  },
+  pro:           { label: "Site Pro",              price: 899  },
+  premium:       { label: "Site Premium",          price: 1499 },
   consultant:    { label: "Consultant / Coach",    price: 599  },
   portfolio:     { label: "Portfolio",             price: 599  },
   event:         { label: "Événement",             price: 599  },
