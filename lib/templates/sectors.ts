@@ -38,6 +38,7 @@ export const INDUSTRIES: IndustryInfo[] = [
       { id: 'plombier',    label: 'Plombier',    labels: { en: 'Plumber',      es: 'Fontanero',    de: 'Klempner',   pt: 'Canalizador' }, emoji: '🔧', accentColor: '#8b2020' },
       { id: 'electricien', label: 'Électricien', labels: { en: 'Electrician',  es: 'Electricista', de: 'Elektriker', pt: 'Eletricista'  }, emoji: '⚡', accentColor: '#003b8e' },
       { id: 'paysagiste',  label: 'Paysagiste',  labels: { en: 'Landscaper',   es: 'Paisajista',   de: 'Landschaftsgärtner', pt: 'Paisagista' }, emoji: '🌿', accentColor: '#2a5c3a' },
+      { id: 'pisciniste',  label: 'Pisciniste',  labels: { en: 'Pool Builder',  es: 'Constructor de piscinas', de: 'Poolbauer', pt: 'Construtor de piscinas' }, emoji: '🏊', accentColor: '#0369a1' },
       { id: 'menage',      label: 'Ménage / Nettoyage', labels: { en: 'Cleaning Service', es: 'Limpieza', de: 'Reinigungsservice', pt: 'Limpeza' }, emoji: '🧹', accentColor: '#0e7c86' },
       { id: 'garage_auto', label: 'Garage automobile', labels: { en: 'Auto Garage', es: 'Taller mecánico', de: 'Autowerkstatt', pt: 'Oficina automóvel' }, emoji: '🚗', accentColor: '#33261a' },
       { id: 'btp_construction', label: 'BTP / Construction générale', labels: { en: 'Construction Company', es: 'Empresa de construcción', de: 'Bauunternehmen', pt: 'Empresa de construção' }, emoji: '🏗️', accentColor: '#5c4a2e' },
@@ -150,6 +151,7 @@ export const SECTOR_TEMPLATES: Record<string, string[]> = {
   couture:             ['impact-235', 'impact-258', 'impact-265', 'impact-281', 'impact-308', 'impact-12'],
   tatoueur:            ['impact-249', 'impact-262', 'impact-267', 'impact-270', 'impact-309', 'impact-199', 'impact-226'],
   paysagiste:          ['impact-250', 'impact-263', 'impact-268', 'impact-271', 'impact-310', 'impact-232'],
+  pisciniste:          ['impact-179', 'impact-181', 'impact-183', 'impact-15', 'impact-177'],
   restaurant:          ['impact-04',  'impact-99',  'impact-189', 'impact-211', 'impact-126', 'impact-74', 'impact-201'],
   restauration_rapide: ['impact-292', 'impact-293', 'impact-294', 'impact-295', 'impact-296'],
   // Genuinely scarce in the current 315-template catalog even after a full
@@ -205,6 +207,12 @@ export const TEMPLATE_CITY_LABELS: Record<string, string> = {
   'impact-248': 'Ostéo République · Paris',
   'impact-249': 'Dermis Studio · Montpellier',
   'impact-250': 'Vert Nature · Nantes',
+  // Pisciniste
+  'impact-179': 'AquaNova Piscines · Lyon',
+  'impact-181': 'Toit & Pierre Piscines · Nantes',
+  'impact-183': 'Couleurs & Co Piscines · Lille',
+  'impact-15':  'Volt Piscines · Paris',
+  'impact-177': 'Maëlle Dumas Piscines · Lyon',
   'impact-251': 'Maison Nuptiale · Bordeaux',
   'impact-252': 'Smile & Co · Lyon',
   'impact-253': 'KinéSport Élite · Paris',

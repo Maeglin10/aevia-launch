@@ -6,9 +6,10 @@ import Image from "next/image"
 import Link from "next/link"
 import { Droplets, ShieldCheck, Phone, Clock, Star, MapPin, ArrowRight, CheckCircle, Wrench, Award, Menu } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import { resolveList } from "@/lib/templates/resolveList"
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   AQUANOVA PLOMBERIE — Plombier professionnel (Lyon)
+   AQUANOVA PISCINES — Pisciniste / Constructeur de piscines (Lyon)
    Palette : blanc / bleu atlantique #0369a1 / ardoise / acier
    Fonts : Outfit (titres) + Roboto Mono (accents)
    Style : clair, propre, professionnel, confiance
@@ -38,32 +39,34 @@ function ParallaxImg({ src, alt }: { src: string; alt: string }) {
   )
 }
 
-const SERVICES = [
-  { icon: Droplets, title: "Dépannage urgent 24h/24", desc: "Fuite d'eau, canalisation bouchée, casse de tuyauterie — intervention sous 1h. Disponible week-end et jours fériés." },
-  { icon: Wrench, title: "Installation sanitaire", desc: "Salle de bain complète, WC, douche, baignoire, vasque. Fourniture et pose de robinetterie haut de gamme." },
-  { icon: ShieldCheck, title: "Rénovation salle de bain", desc: "De la démolition à la finition. Conception sur-mesure, carrelage, plomberie, électricité, peinture. Clé en main." },
-  { icon: Droplets, title: "Détection de fuite", desc: "Méthode non destructive par thermographie et corrélation acoustique. Localisation précise sans casser les murs." },
-  { icon: Wrench, title: "Ballon d'eau chaude & PAC", desc: "Remplacement cumulus, installation chauffe-eau thermodynamique, optimisation consommation eau chaude sanitaire." },
-  { icon: ShieldCheck, title: "Devis gratuit sous 2h", desc: "Estimation détaillée avec photos, sans engagement. Paiement en fin de chantier uniquement. Travaux garantis 2 ans." },
+const SERVICE_ICONS = [Droplets, Wrench, ShieldCheck, Droplets, Wrench, ShieldCheck]
+const SERVICES_DEMO = [
+  { icon: Droplets, title: "Construction de piscine sur-mesure", desc: "Piscine enterrée béton ou coque polyester, forme libre ou classique. Étude de sol, terrassement, structure, étanchéité et margelles — clé en main." },
+  { icon: Wrench, title: "Rénovation de piscine", desc: "Réfection d'étanchéité, changement de liner, remise à neuf des margelles et du système de filtration. Redonnez vie à votre bassin." },
+  { icon: ShieldCheck, title: "Sécurité & conformité", desc: "Barrières, volets immergés, alarmes et abris conformes à la norme NF P90. Protégez votre famille en toute tranquillité." },
+  { icon: Droplets, title: "Local technique & filtration", desc: "Pompes, filtres à sable, électrolyseur au sel, régulation automatique du pH. Une eau limpide toute l'année, sans effort." },
+  { icon: Wrench, title: "Entretien & hivernage", desc: "Contrat d'entretien saisonnier, mise en hivernage, remise en route au printemps. Nettoyage, analyse de l'eau, traitement." },
+  { icon: ShieldCheck, title: "Devis gratuit sous 48h", desc: "Étude personnalisée avec plan 3D et estimation détaillée, sans engagement. Travaux garantis, décennale incluse." },
 ]
 
-const REALISATIONS = [
-  { title: "Rénovation complète SdB · 8 m²", tag: "Salle de bain clé en main", img: "https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?auto=format&fit=crop&q=80&w=1200" },
-  { title: "Détection fuite sous chape", tag: "Fuite non-destructive", img: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&q=80&w=1200" },
-  { title: "Salle de bain PMR · Villa", tag: "Accessibilité handicap", img: "https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&q=80&w=1200" },
+const REALISATIONS_DEMO = [
+  { title: "Piscine miroir 10×4 m · Villa", tag: "Béton sur-mesure", img: "https://images.unsplash.com/photo-1572331165267-854da2b10ccc?auto=format&fit=crop&q=80&w=1200" },
+  { title: "Rénovation liner & margelles", tag: "Rénovation complète", img: "https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&q=80&w=1200" },
+  { title: "Couloir de nage 12 m · Contemporain", tag: "Nage à contre-courant", img: "https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&q=80&w=1200" },
 ]
 
 
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
 function photo(i: number, fallback: string): string {
   return fd?.photoUrls?.[i] || fallback;
 }
-export default function AquanovaPlomberiePage() {
+export default function AquanovaPiscinesPage() {
   const [session, setSession] = useState<{
     formData?: {
       businessName?: string; businessType?: string; tagline?: string;
@@ -78,7 +81,39 @@ export default function AquanovaPlomberiePage() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
+
+  const bpLocal: any = session?.businessProfile;
+  const SERVICES = resolveList(
+    bpLocal?.services?.map((s: any, i: number) => ({
+      icon: SERVICE_ICONS[i % SERVICE_ICONS.length],
+      title: s.title ?? s.name,
+      desc: s.description ?? s.desc,
+    })),
+    SERVICES_DEMO
+  );
+  const REALISATIONS = resolveList(
+    bpLocal?.beforeAfter?.map((b: any, i: number) => ({
+      title: b.caption ?? REALISATIONS_DEMO[i % REALISATIONS_DEMO.length].title,
+      tag: "Réalisation",
+      img: b.afterUrl ?? b.beforeUrl ?? REALISATIONS_DEMO[i % REALISATIONS_DEMO.length].img,
+    })),
+    REALISATIONS_DEMO
+  );
+  const AVIS = resolveList(
+    bpLocal?.reputation?.featuredReviews?.map((r: any) => ({
+      q: r.text ?? r.quote,
+      n: r.name ?? r.author,
+      l: r.location ?? r.context ?? "",
+      s: r.stars ?? r.rating ?? 5,
+    })),
+    [
+      { q: "Notre piscine miroir est une pure merveille. De l'étude 3D à la mise en eau, l'équipe a été d'un professionnalisme rare. Délais tenus, budget respecté.", n: "Sandrine M.", l: "Lyon 3ème", s: 5 },
+      { q: "Rénovation complète de notre bassin des années 90 : nouveau liner, margelles, filtration au sel. Résultat bluffant. On se croirait dans une piscine neuve.", n: "Patrick & Aurélie F.", l: "Villeurbanne", s: 5 },
+      { q: "Couloir de nage installé en 6 semaines, chantier propre et bien organisé. Le système de nage à contre-courant est top. Je recommande les yeux fermés.", n: "Luc B.", l: "Lyon 6ème", s: 5 },
+    ]
+  );
 
   useEffect(() => {
     const id = new URLSearchParams(window.location.search).get("session");
@@ -109,6 +144,7 @@ export default function AquanovaPlomberiePage() {
     });
   });
   c = session?.generatedContent;
+  bp = bpLocal;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const heroRef = useRef(null)
@@ -124,53 +160,7 @@ export default function AquanovaPlomberiePage() {
     return () => window.removeEventListener("scroll", h)
   }, []);
 
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);return (
+  return (
     <div className="bg-white text-[#0f172a] overflow-x-hidden" style={{ fontFamily: "'Outfit', 'Inter', system-ui, sans-serif" }}>
       {/* ── NAVBAR ── */}
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-white/97 backdrop-blur-xl py-3 shadow-sm border-b border-slate-100" : "bg-transparent py-6"}`}>
@@ -187,7 +177,7 @@ export default function AquanovaPlomberiePage() {
                 <div className="w-8 h-8 bg-[#0369a1] flex items-center justify-center rounded">
                   <Droplets className="w-4 h-4 text-white" />
                 </div>
-                <span className="text-lg font-bold tracking-tight text-[#0f172a]">AquaNova <span className="text-[#0369a1]">Plomberie</span></span>
+                <span className="text-lg font-bold tracking-tight text-[#0f172a]">{fd?.businessName ?? <>AquaNova <span className="text-[#0369a1]">Piscines</span></>}</span>
               </>
             )}
           </div>
@@ -223,7 +213,7 @@ export default function AquanovaPlomberiePage() {
       {/* ── HERO ── */}
       <section id="hero" ref={heroRef} className="relative h-[110vh] min-h-[820px] flex items-end overflow-hidden">
         <motion.div style={{ y: heroY }} className="absolute inset-0">
-          <Image src={photo(0, "https://images.unsplash.com/photo-1581244277943-fe4a9c777189?auto=format&fit=crop&q=85&w=2400")} alt="Plombier au travail" fill className="object-cover" priority style={{ filter: "brightness(0.6)" }} />
+          <Image src={photo(0, "https://images.unsplash.com/photo-1572331165267-854da2b10ccc?auto=format&fit=crop&q=85&w=2400")} alt="Piscine sur-mesure" fill className="object-cover" priority style={{ filter: "brightness(0.6)" }} />
           <div className="absolute inset-0 bg-gradient-to-t from-[#0f172a] via-[#0f172a]/40 to-transparent" />
           <div className="absolute inset-0 bg-gradient-to-r from-[#0f172a]/55 to-transparent" />
         </motion.div>
@@ -232,26 +222,26 @@ export default function AquanovaPlomberiePage() {
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.3 }}>
             <div className="inline-flex items-center gap-3 px-4 py-2 bg-[#0369a1]/20 backdrop-blur border border-[#0369a1]/30 rounded mb-8">
               <div className="w-2 h-2 bg-[#38bdf8] rounded-full animate-pulse" />
-              <span className="text-[9px] font-bold uppercase tracking-[0.4em] text-[#38bdf8]">Disponible maintenant · Intervention &lt; 1h</span>
+              <span className="text-[9px] font-bold uppercase tracking-[0.4em] text-[#38bdf8]">Constructeur de piscines · Devis sous 48h</span>
             </div>
           </motion.div>
 
           <motion.h1 initial={{ opacity: 0, y: 55 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.1, delay: 0.48, ease: [0.16, 1, 0.3, 1] }}
             className="text-5xl md:text-7xl lg:text-8xl font-bold leading-[0.9] tracking-tight mb-8 text-white">{c?.heroHeadline ?? <>
-            Votre plombier<br />de <span className="text-[#38bdf8]">confiance</span><br />à Lyon.
+            Votre piscine<br />sur-<span className="text-[#38bdf8]">mesure</span><br />à Lyon.
           </>}</motion.h1>
 
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 0.75 }}
             className="max-w-lg text-sm text-white/45 leading-relaxed mb-10">{c?.heroSubline ?? fd?.tagline ?? <>
-            Dépannage d'urgence, rénovation de salle de bain, détection de fuite. Artisan certifié RGE, devis gratuit sous 2h, garantie 2 ans sur tous les travaux.
+            Construction, rénovation et entretien de piscines. Bassins béton et coque, sécurité aux normes, local technique et filtration. Devis gratuit sous 48h, garantie décennale.
           </>}</motion.p>
 
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 1.0 }} className="flex flex-wrap gap-3">
             <button className="px-8 py-4 bg-[#0369a1] text-white font-bold text-[10px] uppercase tracking-[0.2em] rounded hover:bg-[#0284c7] transition-colors">{c?.ctaText ?? <>
-              Devis gratuit sous 2h
+              Devis gratuit sous 48h
             </>}</button>
             <a href={`tel:${fd?.phone ?? "0478987654"}`} className="flex items-center gap-3 px-8 py-4 bg-white/10 backdrop-blur border border-white/20 text-white font-bold text-[10px] uppercase tracking-[0.15em] rounded hover:bg-white/20 transition-all">
-              <Phone className="w-4 h-4" /> Urgence 24h/24
+              <Phone className="w-4 h-4" /> Nous appeler
             </a>
           </motion.div>
         </motion.div>
@@ -266,10 +256,10 @@ export default function AquanovaPlomberiePage() {
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-3 text-white">
             <div className="w-2 h-2 bg-[#38bdf8] rounded-full animate-pulse" />
-            <span className="font-bold text-sm">Urgence plomberie disponible 24h/24 · 7j/7</span>
+            <span className="font-bold text-sm">Construction · Rénovation · Entretien de piscines</span>
           </div>
           <div className="flex items-center gap-6">
-            <span className="flex items-center gap-2 text-white/80 text-sm font-semibold"><Clock className="w-4 h-4" /> &lt; 1h d'intervention</span>
+            <span className="flex items-center gap-2 text-white/80 text-sm font-semibold"><Clock className="w-4 h-4" /> Devis sous 48h</span>
             <a href={`tel:${fd?.phone ?? "0478987654"}`} className="bg-white text-[#0369a1] px-5 py-2 rounded font-bold text-sm hover:bg-[#f0f9ff] transition-colors">
               04 78 98 76 54
             </a>
@@ -358,11 +348,7 @@ export default function AquanovaPlomberiePage() {
             </div>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {[
-              { q: "Arrivé en moins d'une heure pour une fuite catastrophique sous l'évier. Réparation propre, explication claire, prix honnête. Parfait.", n: "Sandrine M.", l: "Lyon 3ème", s: 5 },
-              { q: "Rénovation complète de notre salle de bain, du carrelage aux sanitaires. Résultat bluffant pour un budget respecté. On les recommande les yeux fermés.", n: "Patrick & Aurélie F.", l: "Villeurbanne", s: 5 },
-              { q: "Détection de fuite sous ma terrasse sans démolir quoi que ce soit. Technologie impressionnante, réparation discrète. Service vraiment professionnel.", n: "Luc B.", l: "Lyon 6ème", s: 5 },
-            ].map((t, i) => (
+            {AVIS.map((t: any, i: number) => (
               <Reveal key={i} delay={i * 0.1}>
                 <div className="p-8 border border-slate-100 rounded-xl hover:border-[#0369a1]/20 transition-colors h-full flex flex-col">
                   <div className="flex gap-1 mb-5">
@@ -371,7 +357,7 @@ export default function AquanovaPlomberiePage() {
                   <p className="text-slate-500 text-sm leading-relaxed italic flex-1">{`"${t.q}"`}</p>
                   <div className="mt-6 pt-5 border-t border-slate-100">
                     <div className="font-bold text-[#0f172a] text-sm">{t.n}</div>
-                    <div className="flex items-center gap-1 text-[10px] text-[#0369a1] mt-1"><MapPin className="w-3 h-3" /> {t.l}</div>
+                    {t.l && <div className="flex items-center gap-1 text-[10px] text-[#0369a1] mt-1"><MapPin className="w-3 h-3" /> {t.l}</div>}
                   </div>
                 </div>
               </Reveal>
@@ -427,14 +413,14 @@ export default function AquanovaPlomberiePage() {
               <div className="w-7 h-7 bg-[#0369a1] rounded flex items-center justify-center">
                 <Droplets className="w-3.5 h-3.5 text-white" />
               </div>
-              <span className="font-bold text-white text-sm">AquaNova Plomberie</span>
+              <span className="font-bold text-white text-sm">{fd?.businessName ?? "AquaNova Piscines"}</span>
             </div>
-            <p className="text-white/25 text-sm leading-relaxed">Plombier certifié RGE · Grand Lyon. Dépannage, rénovation, sanitaires depuis 2006.</p>
+            <p className="text-white/25 text-sm leading-relaxed">Pisciniste certifié · Grand Lyon. Construction, rénovation et entretien de piscines depuis 2006.</p>
           </div>
           {[
-            { t: "Services", ls: ["Dépannage urgent", "Installation sanitaire", "Rénovation SdB", "Détection de fuite", "Ballon eau chaude"] },
-            { t: "Informations", ls: ["Qui sommes-nous", "Certifications RGE", "Zone d'intervention", "Témoignages", "Conseils plomberie"] },
-            { t: "Contact", ls: ["04 78 98 76 54", "contact@aquanova.fr", "Zone Grand Lyon", "Urgences 24h/24", "Devis gratuit sous 2h"] },
+            { t: "Services", ls: ["Construction sur-mesure", "Rénovation de piscine", "Sécurité & conformité", "Local technique", "Entretien & hivernage"] },
+            { t: "Informations", ls: ["Qui sommes-nous", "Certifications & garanties", "Zone d'intervention", "Témoignages", "Conseils piscine"] },
+            { t: "Contact", ls: ["04 78 98 76 54", "contact@aquanova.fr", "Zone Grand Lyon", "Étude 3D offerte", "Devis gratuit sous 48h"] },
           ].map((col, i) => (
             <div key={i}>
               <h4 className="text-[9px] font-bold uppercase tracking-[0.3em] text-[#38bdf8] mb-5">{col.t}</h4>
@@ -445,8 +431,8 @@ export default function AquanovaPlomberiePage() {
           ))}
         </div>
         <div className="max-w-[1300px] mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between gap-4 text-[9px] font-bold uppercase tracking-widest text-white/15">
-          <span>© 2026 AquaNova Plomberie · SIRET 234 567 890 00056 · RGE Qualibat · Assurance Décennale</span>
-          <span className="text-[#38bdf8]/30">Plombier certifié · Grand Lyon</span>
+          <span>© 2026 {fd?.businessName ?? "AquaNova Piscines"} · SIRET 234 567 890 00056 · Garantie Décennale · Assurance RC Pro</span>
+          <span className="text-[#38bdf8]/30">Pisciniste certifié · Grand Lyon</span>
         </div>
       </footer>
     </div>
