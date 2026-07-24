@@ -30,6 +30,7 @@ import {
   Mail,
   ExternalLink,
 } from 'lucide-react';
+import { resolveList } from "@/lib/templates/resolveList";
 
 /* ════════════════════════════════════════════════════════════════════════════
    KINÉSITHÉRAPIE DU LANGUEDOC — Cabinet kiné & rééducation · Montpellier Antigone
@@ -1303,7 +1304,7 @@ function TechCard({
    5 · TÉMOIGNAGES — 3 patients avec étoiles et durée de suivi
    ════════════════════════════════════════════════════════════════════════════ */
 function TestimonialsSection() {
-  const testimonials = [
+  const testimonials_demo = [
     {
       name: 'Martine D.',
       age: '62 ans',
@@ -1329,6 +1330,17 @@ function TestimonialsSection() {
       text: "Suite à mon AVC, j'ai retrouvé dans ce cabinet une équipe spécialisée en neurologie qui a cru en ma récupération quand moi-même j'en doutais. La progression a été lente mais régulière. Aujourd'hui je marche sans aide technique et je regagne en autonomie chaque semaine.",
     },
   ];
+  const testimonials = resolveList(
+    bp?.reputation?.featuredReviews?.map((r: any) => ({
+      name: r.name ?? r.author,
+      age: undefined,
+      motif: undefined,
+      duree: undefined,
+      stars: r.stars ?? r.rating ?? 5,
+      text: r.text ?? r.quote,
+    })),
+    testimonials_demo
+  );
 
   return (
     <section
@@ -1435,32 +1447,36 @@ function TestimonialsSection() {
                     >
                       {t.name}
                     </div>
+                    {(t.age || t.motif) && (
+                      <div
+                        style={{
+                          fontFamily: SANS,
+                          fontSize: 12,
+                          color: 'rgba(255,255,255,0.60)',
+                          marginTop: 3,
+                        }}
+                      >
+                        {[t.age, t.motif].filter(Boolean).join(' · ')}
+                      </div>
+                    )}
+                  </div>
+                  {t.duree && (
                     <div
                       style={{
+                        background: 'rgba(78,205,196,0.20)',
+                        border: '1px solid rgba(78,205,196,0.35)',
+                        borderRadius: 20,
+                        padding: '4px 12px',
                         fontFamily: SANS,
-                        fontSize: 12,
-                        color: 'rgba(255,255,255,0.60)',
-                        marginTop: 3,
+                        fontSize: 11,
+                        color: C.turqLight,
+                        fontWeight: 600,
+                        letterSpacing: '0.04em',
                       }}
                     >
-                      {t.age} · {t.motif}
+                      {t.duree}
                     </div>
-                  </div>
-                  <div
-                    style={{
-                      background: 'rgba(78,205,196,0.20)',
-                      border: '1px solid rgba(78,205,196,0.35)',
-                      borderRadius: 20,
-                      padding: '4px 12px',
-                      fontFamily: SANS,
-                      fontSize: 11,
-                      color: C.turqLight,
-                      fontWeight: 600,
-                      letterSpacing: '0.04em',
-                    }}
-                  >
-                    {t.duree}
-                  </div>
+                  )}
                 </div>
               </div>
             </Reveal>
@@ -1930,7 +1946,7 @@ function RdvFormSection() {
    7 · ÉQUIPE — 3 kinésithérapeutes
    ════════════════════════════════════════════════════════════════════════════ */
 function EquipeSection() {
-  const equipe = [
+  const equipe_demo = [
     {
       photo: PHOTO.team1,
       prenom: 'Dr. Sophie',
@@ -1962,6 +1978,22 @@ function EquipeSection() {
       langues: 'Français · Arabe · Anglais',
     },
   ];
+  const equipe = resolveList(
+    bp?.team?.map((m: any, i: number) => {
+      const [prenom, ...rest] = (m.name ?? "").split(" ");
+      return {
+        photo: m.photoUrl ?? equipe_demo[i % equipe_demo.length].photo,
+        prenom: prenom || m.name,
+        nom: rest.join(" "),
+        specialite: m.specialty ?? m.role,
+        diplome: m.credentials ?? m.bio ?? m.role,
+        formation: m.bio && m.credentials ? m.bio : undefined,
+        annees: undefined,
+        langues: undefined,
+      };
+    }),
+    equipe_demo
+  );
 
   return (
     <section
@@ -2131,45 +2163,51 @@ function KineCard({
               gap: 8,
             }}
           >
-            <div style={{ display: 'flex', gap: 8, alignItems: 'flex-start' }}>
-              <CheckCircle
-                size={14}
-                color={C.turq}
-                strokeWidth={2}
-                style={{ flexShrink: 0, marginTop: 2 }}
-              />
-              <span
-                style={{ fontFamily: SANS, fontSize: 12.5, color: C.textBody }}
-              >
-                {kine.formation}
-              </span>
-            </div>
-            <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-              <Activity
-                size={14}
-                color={C.blue}
-                strokeWidth={2}
-                style={{ flexShrink: 0 }}
-              />
-              <span
-                style={{ fontFamily: SANS, fontSize: 12.5, color: C.textBody }}
-              >
-                {kine.annees}
-              </span>
-            </div>
-            <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-              <Mail
-                size={14}
-                color={C.blue}
-                strokeWidth={2}
-                style={{ flexShrink: 0 }}
-              />
-              <span
-                style={{ fontFamily: SANS, fontSize: 12.5, color: C.textMuted }}
-              >
-                {kine.langues}
-              </span>
-            </div>
+            {kine.formation && (
+              <div style={{ display: 'flex', gap: 8, alignItems: 'flex-start' }}>
+                <CheckCircle
+                  size={14}
+                  color={C.turq}
+                  strokeWidth={2}
+                  style={{ flexShrink: 0, marginTop: 2 }}
+                />
+                <span
+                  style={{ fontFamily: SANS, fontSize: 12.5, color: C.textBody }}
+                >
+                  {kine.formation}
+                </span>
+              </div>
+            )}
+            {kine.annees && (
+              <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+                <Activity
+                  size={14}
+                  color={C.blue}
+                  strokeWidth={2}
+                  style={{ flexShrink: 0 }}
+                />
+                <span
+                  style={{ fontFamily: SANS, fontSize: 12.5, color: C.textBody }}
+                >
+                  {kine.annees}
+                </span>
+              </div>
+            )}
+            {kine.langues && (
+              <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+                <Mail
+                  size={14}
+                  color={C.blue}
+                  strokeWidth={2}
+                  style={{ flexShrink: 0 }}
+                />
+                <span
+                  style={{ fontFamily: SANS, fontSize: 12.5, color: C.textMuted }}
+                >
+                  {kine.langues}
+                </span>
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -3095,6 +3133,7 @@ function FooterLink283({
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 let brand: any = null;
 function Impact283Page() {
   const [session, setSession] = useState<{
@@ -3111,6 +3150,7 @@ function Impact283Page() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -3124,6 +3164,7 @@ function Impact283Page() {
 
   fd = session?.formData;
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, blue: brand, blueLight: shadeColor(brand, 25) };
@@ -3144,53 +3185,6 @@ function Impact283Page() {
   });
 
 
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
 return (
     <main id="hero">
       {/* Police Google Fonts via @import dans style tag */}
