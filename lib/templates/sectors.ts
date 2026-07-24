@@ -136,7 +136,7 @@ export const SECTORS: SectorInfo[] = INDUSTRIES.flatMap((ind) => ind.specialties
 
 /** Map sector id → ordered template IDs (best first). */
 export const SECTOR_TEMPLATES: Record<string, string[]> = {
-  medecin:             ['impact-243', 'impact-257', 'impact-274', 'impact-285', 'impact-297', 'impact-226', 'impact-171', 'impact-231'],
+  medecin:             ['impact-243', 'impact-257', 'impact-274', 'impact-285', 'impact-297', 'impact-171', 'impact-231'],
   dentiste:            ['impact-237', 'impact-252', 'impact-273', 'impact-284', 'impact-298', 'impact-30'],
   kine:                ['impact-238', 'impact-253', 'impact-272', 'impact-283', 'impact-299'],
   osteo:               ['impact-248', 'impact-264', 'impact-279', 'impact-291', 'impact-300', 'impact-233'],
@@ -148,7 +148,7 @@ export const SECTOR_TEMPLATES: Record<string, string[]> = {
   boulangerie:         ['impact-245', 'impact-259', 'impact-269', 'impact-282', 'impact-306', 'impact-33', 'impact-90'],
   mariage:             ['impact-244', 'impact-251', 'impact-266', 'impact-280', 'impact-307', 'impact-175', 'impact-200', 'impact-322'],
   couture:             ['impact-235', 'impact-258', 'impact-265', 'impact-281', 'impact-308', 'impact-12'],
-  tatoueur:            ['impact-249', 'impact-262', 'impact-267', 'impact-270', 'impact-309', 'impact-199'],
+  tatoueur:            ['impact-249', 'impact-262', 'impact-267', 'impact-270', 'impact-309', 'impact-199', 'impact-226'],
   paysagiste:          ['impact-250', 'impact-263', 'impact-268', 'impact-271', 'impact-310', 'impact-232'],
   restaurant:          ['impact-04',  'impact-99',  'impact-189', 'impact-211', 'impact-126', 'impact-74', 'impact-201'],
   restauration_rapide: ['impact-292', 'impact-293', 'impact-294', 'impact-295', 'impact-296'],
@@ -370,7 +370,7 @@ export const TEMPLATE_CITY_LABELS: Record<string, string> = {
   'impact-149': 'Nørdic Furniture · Paris',
   'impact-230': 'Atelier Ébénisterie · Lyon',
   'impact-67': 'Plan 067 · Marseille',
-  'impact-226': 'Cabinet Médical — Généraliste · Toulouse',
+  'impact-226': 'Studio Encre Noire — Tatouage · Paris 11e',
   'impact-171': 'Vitalité Médical · Nice',
   'impact-231': 'Cabinet Diététique · Nantes',
   'impact-30': 'Smile Studio · Strasbourg',

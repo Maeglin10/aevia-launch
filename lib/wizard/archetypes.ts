@@ -54,6 +54,7 @@ export const NICHE_ARCHETYPE: Record<string, ArchetypeId> = {
   dentiste: "service_rdv",
   kine: "service_rdv",
   osteo: "service_rdv",
+  tatoueur: "service_rdv",
 };
 
 // Niches within the service_rdv archetype that get the santé extension
