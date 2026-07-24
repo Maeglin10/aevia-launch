@@ -4,6 +4,7 @@
 import React, {useRef, useState, useEffect} from 'react'
 import { motion, useScroll, useTransform, useInView } from "framer-motion"
 import { Scissors, Phone, Mail, MapPin, Clock, Star, CheckCircle, ArrowRight, Calendar } from "lucide-react"
+import { resolveList } from "@/lib/templates/resolveList"
 
 
 // Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
@@ -43,7 +44,7 @@ const STATS = [
   { value: "45 min", label: "Prestation signature" },
 ]
 
-const PRESTATIONS = [
+const PRESTATIONS_DEMO = [
   { titre: "Coupe homme classique", desc: "Ciseaux ou tondeuse, dégradé américain ou anglais, finition rasoir. Shampooing + coupe + styling — 35€.", tag: "Coupe" },
   { titre: "Rasage traditionnel", desc: "Rasage lame droite avec préparation serviettes chaudes, huile, mousse artisanale. Soin de peau inclus. Un rituel d'exception — 45€.", tag: "Rasage" },
   { titre: "Barbe taillée & modelée", desc: "Définition du contour, dégradé de longueurs, finition à la cire. Du bouc au beard full — 25€.", tag: "Barbe" },
@@ -59,7 +60,7 @@ const VALEURS = [
   "Carte fidélité : 10e coupe offerte",
 ]
 
-const AVIS = [
+const AVIS_DEMO = [
   { texte: "Le meilleur rasage de ma vie. Serviettes chaudes, mousse artisanale, lame droite, soin après. J'y vais chaque mois et je ressors à chaque fois comme une star. Un endroit à part.", auteur: "Antoine R.", detail: "Rasage traditionnel" },
   { texte: "Cherchais un barbier qui maîtrise le dégradé peau sans faire de bourrelets. Premier essai et c'est exactement ce que je voulais. Prix honnête, ambiance cool. Mon nouveau QG.", auteur: "Kévin L.", detail: "Coupe dégradé" },
   { texte: "Mon fils de 8 ans avait peur du coiffeur. Ici, ils ont été patients, fun, et il est reparti en disant 'trop bien'. C'est devenu un moment père-fils qu'il attend avec impatience.", auteur: "Famille Morel", detail: "Coupe enfant" },
@@ -79,6 +80,7 @@ function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: nu
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
@@ -100,6 +102,7 @@ export default function LeBarberClubPage() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -113,6 +116,7 @@ export default function LeBarberClubPage() {
 
   fd = session?.formData;
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   if (brand) {
@@ -121,6 +125,9 @@ export default function LeBarberClubPage() {
       accent: brand,
     };
   }
+
+  const PRESTATIONS = resolveList(bp?.services?.map((sv: any, i: number) => ({ titre: sv.title ?? sv.name, desc: sv.description ?? sv.desc, tag: sv.price ?? PRESTATIONS_DEMO[i % PRESTATIONS_DEMO.length].tag })), PRESTATIONS_DEMO);
+  const AVIS = resolveList(bp?.reputation?.featuredReviews?.map((r: any) => ({ texte: r.text ?? r.quote, auteur: r.name ?? r.author, detail: r.detail ?? r.context ?? "" })), AVIS_DEMO);
 
   const heroRef = useRef<HTMLElement>(null)
   const [scrolled, setScrolled] = useState(false)
@@ -136,53 +143,7 @@ export default function LeBarberClubPage() {
     return () => window.removeEventListener("scroll", h)
   }, []);
 
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);return (
+return (
     <div style={{ background: C.bg, fontFamily: FONT_BODY, overflowX: "hidden" }}>
       <style jsx global>{`@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Raleway:wght@300;400;500;600;700&display=swap');
         /* mobile: stack 2-col grids to single column (added by responsive fix) */
@@ -300,7 +261,7 @@ export default function LeBarberClubPage() {
           <h2 style={{ fontFamily: FONT, fontSize: "clamp(30px, 4vw, 50px)", color: C.text, marginTop: 10, lineHeight: 1.15 }}>Chaque prestation,<br /><em>un soin complet.</em></h2>
         </div></Reveal>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: 18, maxWidth: 1200, margin: "0 auto" }}>
-          {PRESTATIONS.map((p, i) => (
+          {PRESTATIONS.map((p: any, i: number) => (
             <Reveal key={p.titre} delay={i * 0.07}>
               <motion.div whileHover={{ y: -5, boxShadow: C.shadowLg }} style={{ background: C.white, borderRadius: 10, padding: "26px 24px", border: `1px solid ${C.border}`, boxShadow: C.shadow }}>
                 <span style={{ background: C.accentLight, color: C.accent, borderRadius: 20, padding: "4px 12px", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>{p.tag}</span>
@@ -337,14 +298,14 @@ export default function LeBarberClubPage() {
           <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 3.5vw, 48px)", color: "#fff", marginTop: 10 }}>Les clients <em style={{ color: C.accentLight }}>parlent.</em></h2>
         </div></Reveal>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: 18, maxWidth: 1100, margin: "0 auto" }}>
-          {AVIS.map((a, i) => (
-            <Reveal key={a.auteur} delay={i * 0.1}>
+          {AVIS.map((a: any, i: number) => (
+            <Reveal key={a.auteur ?? i} delay={i * 0.1}>
               <div style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 10, padding: "26px 24px" }}>
                 <div style={{ display: "flex", gap: 3, marginBottom: 12 }}>{[...Array(5)].map((_, j) => <Star key={j} size={13} fill={C.accentLight} color={C.accentLight} />)}</div>
                 <p style={{ fontFamily: FONT, fontSize: 15, fontStyle: "italic", color: "rgba(255,255,255,0.78)", lineHeight: 1.7, marginBottom: 18 }}>"{a.texte}"</p>
                 <div style={{ borderTop: "1px solid rgba(255,255,255,0.07)", paddingTop: 14 }}>
                   <div style={{ fontWeight: 600, color: "#fff", fontSize: 14 }}>{a.auteur}</div>
-                  <div style={{ color: C.accentLight, fontSize: 12, marginTop: 4 }}>{a.detail}</div>
+                  {a.detail && <div style={{ color: C.accentLight, fontSize: 12, marginTop: 4 }}>{a.detail}</div>}
                 </div>
               </div>
             </Reveal>

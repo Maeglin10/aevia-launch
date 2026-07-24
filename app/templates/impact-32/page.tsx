@@ -23,6 +23,7 @@ import {
   Stethoscope,
   Syringe,
 } from "lucide-react";
+import { resolveList } from "@/lib/templates/resolveList";
 import { TemplateIcon } from '@/components/TemplateIcon';
 
 // Hoisted above the design tokens: several templates read `brand` in a
@@ -410,7 +411,7 @@ function Hero() {
 }
 
 // ─── Services ─────────────────────────────────────────────────────────────────
-const SERVICES = [
+const SERVICES_DEMO = [
   { icon: <Stethoscope size={26} color="#2d6a4f" />, title: "Consultations", desc: "Bilan de santé complet, suivi régulier et prévention pour votre animal.", tag: "Essentiel" },
   { icon: <Syringe size={26} color="#2d6a4f" />, title: "Vaccinations", desc: "Protocoles vaccinaux adaptés à chaque espèce et mode de vie.", tag: "Prévention" },
   { icon: <Shield size={26} color="#2d6a4f" />, title: "Chirurgie", desc: "Chirurgie douce avec anesthésie sécurisée et monitoring cardiaque.", tag: "Spécialisé" },
@@ -422,6 +423,7 @@ const SERVICES = [
 function Services() {
   const ref = useRef<HTMLElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-60px" });
+  const SERVICES = resolveList(bp?.services?.map((s: any, i: number) => ({ icon: SERVICES_DEMO[i % SERVICES_DEMO.length].icon, title: s.title ?? s.name, desc: s.description ?? s.desc, tag: s.price ?? SERVICES_DEMO[i % SERVICES_DEMO.length].tag })), SERVICES_DEMO);
 
   return (
     <section id="services" ref={ref} style={{ padding: "100px 80px", background: C.bgSection, fontFamily: FONT }}>
@@ -513,13 +515,14 @@ function Stats() {
 }
 
 // ─── Team ─────────────────────────────────────────────────────────────────────
-const TEAM = [
+const TEAM_DEMO = [
   { name: "Dr. Marie Fontaine", role: "Vétérinaire généraliste", specialty: "Chiens & chats, chirurgie douce", exp: "14 ans", initials: "MF", color: C.accent },
   { name: "Dr. Pierre Leroy", role: "Vétérinaire spécialisé", specialty: "Cardiologie & imagerie médicale", exp: "10 ans", initials: "PL", color: "#4a7aa0" },
   { name: "Dr. Nadia Sall", role: "Vétérinaire exotiques", specialty: "NAC — oiseaux, reptiles, rongeurs", exp: "8 ans", initials: "NS", color: "#7a5ea0" },
 ];
 
 function Team() {
+  const TEAM = resolveList(bp?.team?.map((m: any, i: number) => ({ name: m.name, role: m.role, specialty: m.specialty ?? m.credentials, exp: m.experience, initials: m.initials ?? (m.name ?? '').split(' ').map((w: string) => w[0]).join('').slice(0,2).toUpperCase(), color: m.color ?? TEAM_DEMO[i % TEAM_DEMO.length].color })), TEAM_DEMO);
   const ref = useRef<HTMLElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-60px" });
 
@@ -561,7 +564,7 @@ function Team() {
 }
 
 // ─── Testimonials ─────────────────────────────────────────────────────────────
-const TESTIMONIALS = [
+const TESTIMONIALS_DEMO = [
   { name: "Julie & Max (Border Collie)", text: "L'équipe PawCare a sauvé la vie de Max lors d'une urgence nocturne. Réactivité exemplaire, soins impeccables. Nous ne changerons jamais de clinique.", stars: 5 },
   { name: "Antoine & ses 2 chats", text: "Dr. Fontaine est une perle. Elle prend le temps d'expliquer chaque diagnostic, elle est douce avec les chats et toujours disponible pour répondre à nos questions.", stars: 5 },
   { name: "Léa & Noisette (lapin)", text: "Difficile de trouver un vétérinaire pour les lapins. Dr. Sall est une vraie spécialiste NAC — Noisette est en parfaite santé grâce à elle !", stars: 5 },
@@ -570,6 +573,7 @@ const TESTIMONIALS = [
 function Testimonials() {
   const ref = useRef<HTMLElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-60px" });
+  const TESTIMONIALS = resolveList(bp?.reputation?.featuredReviews?.map((r: any) => ({ name: r.name ?? r.author, text: r.text ?? r.quote, stars: r.stars ?? r.rating ?? 5 })), TESTIMONIALS_DEMO);
 
   return (
     <section ref={ref} style={{ padding: "100px 80px", background: C.bgSection, fontFamily: FONT }}>
@@ -706,7 +710,7 @@ function Pricing() {
 }
 
 // ─── FAQ ──────────────────────────────────────────────────────────────────────
-const FAQS = [
+const FAQS_DEMO = [
   { q: "Comment prendre rendez-vous en urgence ?", a: "Appelez directement notre ligne urgences au 05 56 78 90 12, disponible 24h/24 et 7j/7. Pour les urgences vitales, notre équipe d'astreinte intervient en moins de 30 minutes." },
   { q: "Acceptez-vous les animaux exotiques (lapins, oiseaux, reptiles) ?", a: "Oui ! Dr. Nadia Sall est spécialisée NAC (Nouveaux Animaux de Compagnie). Elle reçoit lapins, cobayes, oiseaux, reptiles et poissons du lundi au vendredi sur rendez-vous." },
   { q: "Travaillez-vous avec les assurances animaux ?", a: "Nous collaborons avec les principaux assureurs vétérinaires : Agria, Santévet, Assur O'Poil et April. Nous émettons les factures dans le format requis pour vos remboursements." },
@@ -715,6 +719,7 @@ const FAQS = [
 ];
 
 function FAQ() {
+  const FAQS = resolveList(bp?.faq, FAQS_DEMO);
   const ref = useRef<HTMLElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-60px" });
   const [open, setOpen] = useState<number | null>(null);
@@ -817,6 +822,7 @@ function Footer() {
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 export default function Impact32() {
   const [session, setSession] = useState<{
     formData?: {
@@ -832,6 +838,7 @@ export default function Impact32() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -845,59 +852,14 @@ export default function Impact32() {
 
   fd = session?.formData;
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, accent: brand, accentLight: shadeColor(brand, 25), accentDark: shadeColor(brand, -20) };
   }
 
-  
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
+
+
 return (
     <main style={{ background: C.bg, fontFamily: FONT, overflowX: "hidden" }}>
       <Navbar />

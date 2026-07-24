@@ -6,12 +6,14 @@ import {useRef, useEffect, useState} from 'react';
 import Image from "next/image";
 import Link from "next/link";
 import { Leaf, Sun, Wind, Activity, Sparkles } from "lucide-react";
+import { resolveList } from "@/lib/templates/resolveList";
 import { Reveal, Counter, MagneticBtn } from "./shared";
 
 
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
@@ -33,6 +35,7 @@ export default function ZenSpaceHome() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -46,6 +49,7 @@ export default function ZenSpaceHome() {
 
   fd = session?.formData;
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const heroRef = useRef(null);
@@ -60,54 +64,6 @@ export default function ZenSpaceHome() {
     window.dispatchEvent(new CustomEvent("open-zenspace-booking"));
   };
 
-  
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
 return (
     <div className="w-full">
       {/* ==========================================
@@ -339,23 +295,25 @@ return (
             </div>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-stone-200/30">
-            {[
+            {resolveList(bp?.services?.map((sv: any) => ({ icon: <Leaf className="w-5 h-5" />, name: sv.title ?? sv.name, duration: "", level: "", desc: sv.description ?? sv.desc })), [
               { icon: <Leaf className="w-5 h-5" />, name: "Yin Yoga", duration: "75 min", level: "All levels", desc: "Deep connective tissue release. Long holds, breath synchronization, and complete nervous system reset." },
               { icon: <Sun className="w-5 h-5" />, name: "Vinyasa Flow", duration: "60 min", level: "Intermediate", desc: "Dynamic sequences linking breath to movement. Build heat, strength, and fluid mobility in one practice." },
               { icon: <Wind className="w-5 h-5" />, name: "Breathwork", duration: "45 min", level: "All levels", desc: "Pranayama and coherence breathing protocols for immediate cortisol reduction and clarity of mind." },
               { icon: <Activity className="w-5 h-5" />, name: "Meditation", duration: "30 min", level: "All levels", desc: "Guided non-sleep deep rest sessions. Backed by neuroscience, designed for the chronically busy." },
               { icon: <Sparkles className="w-5 h-5" />, name: "Sound Bath", duration: "60 min", level: "All levels", desc: "Immersive sessions with Tibetan singing bowls tuned to 432Hz. Profound relaxation at a cellular level." },
               { icon: <Leaf className="w-5 h-5" />, name: "Yoga Nidra", duration: "45 min", level: "All levels", desc: "Conscious sleep state induction. Equal to 4 hours of rest. Our most-requested weekly session." },
-            ].map((p, i) => (
+            ] as any[]).map((p: any, i: number) => (
               <Reveal key={p.name} delay={i * 0.07}>
                 <div className="bg-[#faf9f6] p-10 group hover:bg-white transition-colors">
                   <div className="text-[#c9a84c] mb-6">{p.icon}</div>
                   <h3 className="text-xl font-light uppercase tracking-wide text-[#33302c] mb-2 italic">{p.name}</h3>
+                  {(p.duration || p.level) && (
                   <div className="flex gap-4 text-[9px] font-bold uppercase tracking-widest text-stone-400 mb-5">
-                    <span>{p.duration}</span>
-                    <span className="text-[#c9a84c]/60">·</span>
-                    <span>{p.level}</span>
+                    {p.duration && <span>{p.duration}</span>}
+                    {p.duration && p.level && <span className="text-[#c9a84c]/60">·</span>}
+                    {p.level && <span>{p.level}</span>}
                   </div>
+                  )}
                   <p className="text-sm text-stone-400 leading-relaxed font-light italic">{p.desc}</p>
                 </div>
               </Reveal>
@@ -378,11 +336,11 @@ return (
             </div>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
+            {resolveList(bp?.reputation?.featuredReviews?.map((r: any) => ({ name: r.name ?? r.author, role: r.location ?? "", stars: r.stars ?? r.rating ?? 5, text: r.text ?? r.quote })), [
               { name: "Camille R.", role: "Member since 2023", stars: 5, text: "ZenSpace changed my relationship with stress entirely. The Yin sessions are unlike anything I've experienced. Three months in, my therapist noticed the difference before I did." },
               { name: "Antoine M.", role: "Annual membership", stars: 5, text: "I was skeptical about sound baths. Two sessions in and I cancelled my insomnia prescription. The 432Hz environment here is something I can only describe as physical calm." },
               { name: "Sophie L.", role: "Corporate retreat client", stars: 5, text: "We booked ZenSpace for our leadership team after a brutal Q4. The breathwork protocol reduced measurable burnout markers by 40% in our post-retreat survey. We're booking Q2 already." },
-            ].map((t, i) => (
+            ] as any[]).map((t: any, i: number) => (
               <Reveal key={t.name} delay={i * 0.1}>
                 <div className="p-10 bg-stone-50 border border-stone-200/50 flex flex-col gap-6">
                   <div className="flex gap-1">
@@ -393,7 +351,7 @@ return (
                   <p className="text-stone-500 leading-relaxed font-light italic text-sm flex-1">"{t.text}"</p>
                   <div>
                     <div className="text-[#33302c] font-medium text-sm">{t.name}</div>
-                    <div className="text-[9px] uppercase tracking-widest text-stone-400 mt-1">{t.role}</div>
+                    {t.role && <div className="text-[9px] uppercase tracking-widest text-stone-400 mt-1">{t.role}</div>}
                   </div>
                 </div>
               </Reveal>
