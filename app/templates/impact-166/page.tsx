@@ -11,6 +11,7 @@ import {
   useSpring,
   AnimatePresence,
 } from "framer-motion";
+import { resolveList } from "@/lib/templates/resolveList";
 
 // ─── Design tokens ────────────────────────────────────────────────────────────
 
@@ -42,7 +43,7 @@ let C: Record<string, string> = {
 };
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
-const SERIES = [
+const SERIES_DEMO = [
   {
     title: "Lumière Naturelle",
     count: "24 clichés",
@@ -93,7 +94,7 @@ const SERIES = [
   },
 ];
 
-const SERVICES = [
+const SERVICES_DEMO = [
   {
     name: "Éditorial & Mode",
     desc: "Lookbooks, campagnes de saison, portraits de collection. Studio parisien ou déplacements sur mesure. Direction artistique complète disponible.",
@@ -124,7 +125,7 @@ const SERVICES = [
   },
 ];
 
-const TESTIMONIALS = [
+const TESTIMONIALS_DEMO = [
   {
     quote: "Iris a capturé en une fraction de seconde ce qu'on avait mis cinq ans à construire. Notre campagne a généré un ROI ×4 par rapport aux visuels précédents.",
     name: "Julien Bernard",
@@ -367,7 +368,7 @@ function SeriesCard({
   s,
   index,
 }: {
-  s: (typeof SERIES)[0];
+  s: (typeof SERIES_DEMO)[0];
   index: number;
 }) {
   const [hovered, setHovered] = useState(false);
@@ -391,7 +392,7 @@ function SeriesCard({
       }}
     >
       <motion.img
-        src={`https://images.unsplash.com/${s.img}?q=80&w=1400&auto=format&fit=crop`}
+        src={typeof s.img === "string" && s.img.startsWith("http") ? s.img : `https://images.unsplash.com/${s.img}?q=80&w=1400&auto=format&fit=crop`}
         alt={s.title}
         style={{
           width: "100%",
@@ -528,7 +529,7 @@ function ServiceCard({
   s,
   index,
 }: {
-  s: (typeof SERVICES)[0];
+  s: (typeof SERVICES_DEMO)[0];
   index: number;
 }) {
   const [hovered, setHovered] = useState(false);
@@ -663,7 +664,7 @@ function TestimonialCard({
   t,
   index,
 }: {
-  t: (typeof TESTIMONIALS)[0];
+  t: (typeof TESTIMONIALS_DEMO)[0];
   index: number;
 }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -739,6 +740,7 @@ function TestimonialCard({
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
@@ -760,7 +762,35 @@ export default function Impact166Page() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
+
+  const bpLocal: any = session?.businessProfile;
+  const SERIES = resolveList(
+    bpLocal?.beforeAfter?.map((b: any, i: number) => ({
+      ...SERIES_DEMO[i % SERIES_DEMO.length],
+      title: b.caption ?? SERIES_DEMO[i % SERIES_DEMO.length].title,
+      img: b.afterUrl ?? b.beforeUrl ?? SERIES_DEMO[i % SERIES_DEMO.length].img,
+    })),
+    SERIES_DEMO
+  );
+  const SERVICES = resolveList(
+    bpLocal?.services?.map((s: any, i: number) => ({
+      ...SERVICES_DEMO[i % SERVICES_DEMO.length],
+      name: s.title ?? s.name,
+      desc: s.description ?? s.desc,
+      price: s.price ?? SERVICES_DEMO[i % SERVICES_DEMO.length].price,
+    })),
+    SERVICES_DEMO
+  );
+  const TESTIMONIALS = resolveList(
+    bpLocal?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+      quote: r.text ?? r.quote ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].quote,
+      name: r.name ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].name,
+      role: r.location ?? r.role ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].role,
+    })),
+    TESTIMONIALS_DEMO
+  );
 
   useEffect(() => {
     const id = new URLSearchParams(window.location.search).get("session");
@@ -773,6 +803,7 @@ export default function Impact166Page() {
 
   fd = session?.formData;
   c = session?.generatedContent;
+  bp = bpLocal;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   if (brand) {
@@ -828,54 +859,7 @@ export default function Impact166Page() {
     []
   );
 
-  
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
+
 return (
     <div
       ref={containerRef}

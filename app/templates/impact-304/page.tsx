@@ -43,6 +43,7 @@ import {
   X,
   Zap,
 } from 'lucide-react';
+import { resolveList } from "@/lib/templates/resolveList";
 // Custom Instagram icon component for compatibility
 const Instagram = ({ size = 24, ...props }: React.ComponentProps<'svg'> & { size?: number }) => (
   <svg
@@ -221,6 +222,7 @@ function Button({
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 let brand: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
@@ -237,6 +239,7 @@ export default function Page() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -268,6 +271,7 @@ export default function Page() {
     });
   });
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, primary: brand, primaryLight: shadeColor(brand, 25), primaryDark: shadeColor(brand, -20) };
@@ -288,9 +292,31 @@ export default function Page() {
   const heroY = useTransform(heroProgress, [0, 1], ['0%', '8%']);
   const heroOpacity = useTransform(heroProgress, [0, 0.8], [1, 0]);
 
+  const MENU_DEMO = [
+    {"name": "Recherche & Réparation de Fuite", "category": "Dépannage", "desc": "Localisation de fuite d'eau, réparation des canalisations défectueuses.", "price": "80,00 €"},
+    {"name": "Remplacement de Ballon d'Eau Chaude", "category": "Installation", "desc": "Dépose de l'ancien chauffe-eau, pose d'un ballon neuf de marque française.", "price": "650,00 €"},
+    {"name": "Entretien de Chaudière Gaz", "category": "Entretien", "desc": "Contrôle annuel obligatoire, nettoyage des brûleurs et attestation fournie.", "price": "120,00 €"}
+  ];
+  // Prefer the client's real services; keep demo category so tab filtering works.
+  const MENU_ITEMS = resolveList(
+    bp?.services?.map((s: any, i: number) => ({
+      name: s.title ?? s.name,
+      category: MENU_DEMO[i % MENU_DEMO.length].category,
+      desc: s.description ?? s.desc,
+      price: s.price ?? MENU_DEMO[i % MENU_DEMO.length].price,
+    })),
+    MENU_DEMO
+  );
   const menuItemsFiltered = activeCategory === "Tous"
-    ? [{"name": "Recherche & Réparation de Fuite", "category": "Dépannage", "desc": "Localisation de fuite d'eau, réparation des canalisations défectueuses.", "price": "80,00 €"}, {"name": "Remplacement de Ballon d'Eau Chaude", "category": "Installation", "desc": "Dépose de l'ancien chauffe-eau, pose d'un ballon neuf de marque française.", "price": "650,00 €"}, {"name": "Entretien de Chaudière Gaz", "category": "Entretien", "desc": "Contrôle annuel obligatoire, nettoyage des brûleurs et attestation fournie.", "price": "120,00 €"}]
-    : [{"name": "Recherche & Réparation de Fuite", "category": "Dépannage", "desc": "Localisation de fuite d'eau, réparation des canalisations défectueuses.", "price": "80,00 €"}, {"name": "Remplacement de Ballon d'Eau Chaude", "category": "Installation", "desc": "Dépose de l'ancien chauffe-eau, pose d'un ballon neuf de marque française.", "price": "650,00 €"}, {"name": "Entretien de Chaudière Gaz", "category": "Entretien", "desc": "Contrôle annuel obligatoire, nettoyage des brûleurs et attestation fournie.", "price": "120,00 €"}].filter(item => item.category === activeCategory);
+    ? MENU_ITEMS
+    : MENU_ITEMS.filter(item => item.category === activeCategory);
+
+  // Single testimonial block bound to the first real review when available.
+  const featuredReview = bp?.reputation?.featuredReviews?.[0];
+  const FAQ_ITEMS = resolveList(
+    bp?.faq?.map((f: any) => ({ q: f.q, a: f.a })),
+    [{"q":"Quelles sont les majorations de nuit et de week-end ?","a":"Nos tarifs sont majorés de 50% après 19h00 en semaine, et le week-end (samedi/dimanche)."},{"q":"Vos devis sont-ils vraiment gratuits ?","a":"Oui, un devis écrit détaillé vous est présenté avant chaque intervention. Si vous refusez le devis, rien ne vous est facturé hormis le déplacement en cas d'urgence."},{"q":"Travaillez-vous avec les assurances ?","a":"Oui, nos factures de recherche de fuite sont conformes aux demandes de remboursement des compagnies d'assurance habitation."}]
+  );
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -300,53 +326,6 @@ export default function Page() {
   };
 
   
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
 return (
     <div style={{
       background: C.bg,
@@ -992,13 +971,13 @@ return (
                 position: 'relative',
                 zIndex: 2
               }}>
-                "Une prestation irréprochable et un souci du détail impressionnant. Les délais ont été parfaitement respectés, et la communication a toujours été fluide."
+                "{featuredReview?.text ?? "Une prestation irréprochable et un souci du détail impressionnant. Les délais ont été parfaitement respectés, et la communication a toujours été fluide."}"
               </p>
               <div style={{ display: 'flex', justifyContent: 'center', gap: 4, marginBottom: 12 }}>
                 {[...Array(5)].map((_, i) => <Star key={i} size={14} fill={C.primary} color={C.primary} />)}
               </div>
               <div style={{ fontFamily: SANS, fontSize: 12, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: C.primary }}>
-                Marie Lauret · Bordeaux
+                {featuredReview ? `${featuredReview.name}${featuredReview.location ? " · " + featuredReview.location : ""}` : "Marie Lauret · Bordeaux"}
               </div>
             </div>
           </Reveal>
@@ -1024,7 +1003,7 @@ return (
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-            {[{"q":"Quelles sont les majorations de nuit et de week-end ?","a":"Nos tarifs sont majorés de 50% après 19h00 en semaine, et le week-end (samedi/dimanche)."},{"q":"Vos devis sont-ils vraiment gratuits ?","a":"Oui, un devis écrit détaillé vous est présenté avant chaque intervention. Si vous refusez le devis, rien ne vous est facturé hormis le déplacement en cas d'urgence."},{"q":"Travaillez-vous avec les assurances ?","a":"Oui, nos factures de recherche de fuite sont conformes aux demandes de remboursement des compagnies d'assurance habitation."}].map((item, i) => (
+            {FAQ_ITEMS.map((item, i) => (
               <Reveal key={i} delay={i * 0.08}>
                 <div style={{
                   background: C.bgCard,

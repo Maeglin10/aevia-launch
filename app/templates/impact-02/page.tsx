@@ -7,12 +7,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight, ArrowLeft, X, Menu, Camera, AtSign, Mail, MapPin, ExternalLink, Plus, Minus, ChevronRight } from "lucide-react";
 import "../premium.css";
+import { resolveList } from "@/lib/templates/resolveList";
 
 /* ==========================================================================
    DATA
    ========================================================================== */
 
-const PROJECTS = [
+const PROJECTS_DEMO = [
   { id: 1, title: "Fluid Horizons", category: "Photography", year: "2026", image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=1200&auto=format&fit=crop", color: "#6366f1", desc: "Capturing the ephemeral dance between sky and sea along the Icelandic coastline. A study in vastness, silence, and the weight of light at dusk.", role: "Photographer & Art Director", client: "National Geographic", duration: "3 Months" },
   { id: 2, title: "Tokyo Neon", category: "Street", year: "2025", image: "https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?q=80&w=1200&auto=format&fit=crop", color: "#f43f5e", desc: "A nocturnal exploration of Shinjuku's electric veins — where neon bleeds into rain-slicked asphalt and human stories unfold in 1/125th of a second.", role: "Street Photographer", client: "Personal Project", duration: "6 Weeks" },
   { id: 3, title: "Concrete Poetry", category: "Architecture", year: "2025", image: "https://images.unsplash.com/photo-1486325212027-8081e485255e?q=80&w=1200&auto=format&fit=crop", color: "#10b981", desc: "Brutalist structures reimagined as sculptural poems. Exploring the tension between mass and void in post-war European architecture.", role: "Architecture Photographer", client: "Wallpaper Magazine", duration: "4 Months" },
@@ -25,7 +26,7 @@ const PROJECTS = [
 
 const CATEGORIES = ["All", "Photography", "Street", "Architecture", "Fashion", "Landscape", "Portrait"];
 
-const SERVICES = [
+const SERVICES_DEMO = [
   {
     id: "01",
     title: "Editorial Photography",
@@ -63,13 +64,13 @@ const PROCESS = [
   { phase: "04 / Post-Production", title: "Retouching & Delivery", desc: "Meticulous color grading, compositing, and high-end retouching to polish the final assets, delivered in all necessary formats for print and digital." },
 ];
 
-const TESTIMONIALS = [
+const TESTIMONIALS_DEMO = [
   { name: "Sarah Jenkins", role: "Creative Director, Vogue", text: "Elena doesn't just take photographs; she crafts cinematic narratives. Her ability to command light and direct talent is unparalleled in the industry today." },
   { name: "Marcus Thorne", role: "Founder, Thorne Architecture", text: "She captured our brutalist structures with a sensitivity we didn't know was possible. The resulting images completely redefined our portfolio presentation." },
   { name: "Claire Dubois", role: "CMO, Maison Lumière", text: "Working with Elena elevated our campaign to fine art. Her pre-production planning is exhaustive, and her execution on set is flawlessly calm and decisive." },
 ];
 
-const FAQS = [
+const FAQS_DEMO = [
   { question: "Are you available for international travel?", answer: "Yes. While based between Paris and Tokyo, I frequently travel globally for campaigns and editorial assignments. Travel fees are calculated based on the project scope." },
   { question: "What is your typical turnaround time?", answer: "For editorial and commercial projects, the standard turnaround time for the first contact sheet is 48 hours. Final retouched assets are typically delivered within 2-3 weeks post-shoot." },
   { question: "Do you handle full production?", answer: "Absolutely. I work with a dedicated team of producers who can handle everything from location scouting and casting to permits and catering, offering a turnkey solution." },
@@ -99,7 +100,7 @@ function Reveal({ children, className = "", delay = 0 }: { children: React.React
   );
 }
 
-function AccordionItem({ item, isOpen, onClick }: { item: typeof FAQS[0]; isOpen: boolean; onClick: () => void }) {
+function AccordionItem({ item, isOpen, onClick }: { item: typeof FAQS_DEMO[0]; isOpen: boolean; onClick: () => void }) {
   return (
     <div className="border-b border-white/10">
       <button onClick={onClick} className="w-full py-8 flex items-center justify-between text-left group">
@@ -128,6 +129,7 @@ function AccordionItem({ item, isOpen, onClick }: { item: typeof FAQS[0]; isOpen
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
@@ -149,7 +151,42 @@ export default function CreativePortfolioSPA() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
+
+  const bpLocal: any = session?.businessProfile;
+  const PROJECTS = resolveList(
+    bpLocal?.beforeAfter?.map((b: any, i: number) => ({
+      ...PROJECTS_DEMO[i % PROJECTS_DEMO.length],
+      id: i + 1,
+      title: b.caption ?? PROJECTS_DEMO[i % PROJECTS_DEMO.length].title,
+      image: b.afterUrl ?? b.beforeUrl ?? PROJECTS_DEMO[i % PROJECTS_DEMO.length].image,
+    })),
+    PROJECTS_DEMO
+  );
+  const SERVICES = resolveList(
+    bpLocal?.services?.map((s: any, i: number) => ({
+      ...SERVICES_DEMO[i % SERVICES_DEMO.length],
+      title: s.title ?? s.name,
+      desc: s.description ?? s.desc,
+    })),
+    SERVICES_DEMO
+  );
+  const TESTIMONIALS = resolveList(
+    bpLocal?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+      name: r.name ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].name,
+      role: r.location ?? r.role ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].role,
+      text: r.text ?? r.quote ?? "",
+    })),
+    TESTIMONIALS_DEMO
+  );
+  const FAQS = resolveList(
+    bpLocal?.faq?.map((f: any) => ({
+      question: f.q ?? f.question,
+      answer: f.a ?? f.answer,
+    })),
+    FAQS_DEMO
+  );
 
   useEffect(() => {
     const id = new URLSearchParams(window.location.search).get("session");
@@ -180,6 +217,7 @@ export default function CreativePortfolioSPA() {
     });
   });
   c = session?.generatedContent;
+  bp = bpLocal;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const [activeFilter, setActiveFilter] = useState("All");
@@ -208,54 +246,6 @@ export default function CreativePortfolioSPA() {
     window.addEventListener("mousemove", handle);
     return () => window.removeEventListener("mousemove", handle);
   }, [mouseX, mouseY]);
-
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
 
   const filtered = activeFilter === "All" ? PROJECTS : PROJECTS.filter(p => p.category === activeFilter);
 
