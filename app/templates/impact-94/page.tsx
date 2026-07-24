@@ -33,6 +33,7 @@ import {
   Sparkles,
   CheckCircle,
 } from "lucide-react"
+import { resolveList } from "@/lib/templates/resolveList";
 
 const Facebook = ({ className = "w-4 h-4" }: { className?: string }) => (
   <svg className={className} viewBox="0 0 24 24" fill="currentColor">
@@ -53,7 +54,7 @@ const NAV_LINKS = [
   { label: "Contact", href: "#contact" },
 ]
 
-const ARRANGEMENTS = [
+const ARRANGEMENTS_DEMO = [
   {
     id: "a-01",
     name: "Mémoire d'Été",
@@ -165,7 +166,7 @@ const STATS = [
   { value: "45", label: "producteurs partenaires" },
 ]
 
-const TESTIMONIALS = [
+const TESTIMONIALS_DEMO = [
   {
     name: "Isabelle de Montblanc",
     role: "Mariée — Château du Vexin",
@@ -293,7 +294,7 @@ function useFonts() {
   }, [])
 }
 
-const FAQ_ITEMS = [
+const FAQ_ITEMS_DEMO = [
   {
     q: "Quels sont vos délais de création ?",
     a: "Pour les bouquets standards, nous livrons sous 4 heures à Paris. Pour les compositions sur-mesure ou les événements, nous conseillons de nous contacter au moins 48 heures à l'avance.",
@@ -318,6 +319,13 @@ const FAQ_ITEMS = [
 
 function FaqSection() {
   const [openIndex, setOpenIndex] = useState<number | null>(null)
+  const FAQ_ITEMS = resolveList(
+    bp?.faq?.map((f: any, i: number) => ({
+      q: f.q ?? FAQ_ITEMS_DEMO[i % FAQ_ITEMS_DEMO.length].q,
+      a: f.a ?? FAQ_ITEMS_DEMO[i % FAQ_ITEMS_DEMO.length].a,
+    })),
+    FAQ_ITEMS_DEMO
+  );
 
   return (
     <section id="faq" className="py-40 px-6 md:px-16 bg-[#FAFAF8] border-t border-[#CA8A04]/10">
@@ -376,6 +384,7 @@ function FaqSection() {
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
@@ -397,6 +406,7 @@ export default function Impact94Page() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -409,6 +419,28 @@ export default function Impact94Page() {
   }, []);
 
   fd = session?.formData;
+  bp = session?.businessProfile;
+
+  const ARRANGEMENTS = resolveList(
+    bp?.services?.map((s: any, i: number) => ({
+      ...ARRANGEMENTS_DEMO[i % ARRANGEMENTS_DEMO.length],
+      id: `svc-${i}`,
+      name: s.title ?? s.name ?? ARRANGEMENTS_DEMO[i % ARRANGEMENTS_DEMO.length].name,
+      description: s.description ?? s.desc ?? ARRANGEMENTS_DEMO[i % ARRANGEMENTS_DEMO.length].description,
+      price: s.price ?? ARRANGEMENTS_DEMO[i % ARRANGEMENTS_DEMO.length].price,
+    })),
+    ARRANGEMENTS_DEMO
+  );
+  const TESTIMONIALS = resolveList(
+    bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+      ...TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length],
+      name: r.name ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].name,
+      quote: r.text ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].quote,
+      rating: r.stars ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].rating,
+      role: r.location ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].role,
+    })),
+    TESTIMONIALS_DEMO
+  );
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;
@@ -457,53 +489,7 @@ export default function Impact94Page() {
     return () => window.removeEventListener("scroll", onScroll)
   }, []);
 
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);return (
+  return (
     <div
       className="bg-[#FAFAF9] text-[#0C0A09] min-h-dvh overflow-x-hidden"
       style={{ fontFamily: "'Jost', sans-serif" }}

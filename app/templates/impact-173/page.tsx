@@ -29,6 +29,7 @@ import {
   Link2,
   Users2,
 } from "lucide-react";
+import { resolveList } from "@/lib/templates/resolveList";
 
 // Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
 // used to derive light/dark shades from the client's brand color.
@@ -65,7 +66,7 @@ const FONT_BODY = "'Inter', system-ui, sans-serif";
 
 const NAV_LINKS = ["Projets", "Métiers", "Équipe", "Références", "Contact"];
 
-const PROJECTS = [
+const PROJECTS_DEMO = [
   {
     id: "01",
     name: "Résidence Les Cèdres",
@@ -158,7 +159,7 @@ const PROJECTS = [
   },
 ];
 
-const METIERS = [
+const METIERS_DEMO = [
   {
     icon: Building2,
     name: "Construction Neuve",
@@ -193,7 +194,7 @@ const METIERS = [
   },
 ];
 
-const CORPS_METIERS = [
+const CORPS_METIERS_DEMO = [
   "Terrassement & VRD",
   "Fondations spéciales",
   "Béton armé",
@@ -208,7 +209,7 @@ const CORPS_METIERS = [
   "Serrurerie & métallerie",
 ];
 
-const TEAM = [
+const TEAM_DEMO = [
   {
     name: "Philippe Barrault",
     role: "Directeur Général",
@@ -239,7 +240,7 @@ const TEAM = [
   },
 ];
 
-const TESTIMONIALS = [
+const TESTIMONIALS_DEMO = [
   {
     quote: "Livré 3 semaines avant le délai contractuel. 84 logements, zéro malfaçon à la réception. Du jamais-vu sur un chantier de cette envergure.",
     name: "Laurent Duchamp",
@@ -333,7 +334,7 @@ const FORMULES = [
   },
 ];
 
-const FAQS = [
+const FAQS_DEMO = [
   {
     q: "Quel est votre rayon d'intervention géographique ?",
     a: "Principalement le Sud et Centre de la France : Rhône-Alpes, Occitanie, Pays de la Loire, Nouvelle-Aquitaine. Nous étudions tous les projets supérieurs à 10M€ sur l'ensemble du territoire national.",
@@ -387,6 +388,7 @@ function CountUp({ target, suffix = "", duration = 2 }: { target: number; suffix
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 let brand: any = null;
 export default function Impact173Page() {
   const [mobileOpen, setMobileOpen] = useState(false)
@@ -404,6 +406,7 @@ export default function Impact173Page() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -417,10 +420,61 @@ export default function Impact173Page() {
 
   fd = session?.formData;
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, orange: brand };
   }
+
+  const PROJECTS = resolveList(
+    bp?.beforeAfter?.map((b: any, i: number) => ({
+      ...PROJECTS_DEMO[i % PROJECTS_DEMO.length],
+      name: b.caption ?? PROJECTS_DEMO[i % PROJECTS_DEMO.length].name,
+    })),
+    PROJECTS_DEMO
+  );
+  const METIERS = resolveList(
+    bp?.services?.map((s: any, i: number) => ({
+      ...METIERS_DEMO[i % METIERS_DEMO.length],
+      name: s.title ?? s.name ?? METIERS_DEMO[i % METIERS_DEMO.length].name,
+      desc: s.description ?? s.desc ?? METIERS_DEMO[i % METIERS_DEMO.length].desc,
+      from: s.price ?? METIERS_DEMO[i % METIERS_DEMO.length].from,
+    })),
+    METIERS_DEMO
+  );
+  const CORPS_METIERS = resolveList(
+    bp?.services?.map((s: any, i: number) => s.title ?? s.name ?? CORPS_METIERS_DEMO[i % CORPS_METIERS_DEMO.length]),
+    CORPS_METIERS_DEMO
+  );
+  const TEAM = resolveList(
+    bp?.team?.map((t: any, i: number) => ({
+      ...TEAM_DEMO[i % TEAM_DEMO.length],
+      name: t.name ?? TEAM_DEMO[i % TEAM_DEMO.length].name,
+      role: t.role ?? TEAM_DEMO[i % TEAM_DEMO.length].role,
+      since: t.specialty ?? TEAM_DEMO[i % TEAM_DEMO.length].since,
+      desc: t.bio ?? TEAM_DEMO[i % TEAM_DEMO.length].desc,
+      certs: t.credentials ? [t.credentials] : TEAM_DEMO[i % TEAM_DEMO.length].certs,
+    })),
+    TEAM_DEMO
+  );
+  const TESTIMONIALS = resolveList(
+    bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+      ...TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length],
+      quote: r.text ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].quote,
+      name: r.name ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].name,
+      stars: r.stars ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].stars,
+      role: TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].role,
+      company: r.location ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].company,
+    })),
+    TESTIMONIALS_DEMO
+  );
+  const FAQS = resolveList(
+    bp?.faq?.map((f: any, i: number) => ({
+      q: f.q ?? FAQS_DEMO[i % FAQS_DEMO.length].q,
+      a: f.a ?? FAQS_DEMO[i % FAQS_DEMO.length].a,
+    })),
+    FAQS_DEMO
+  );
 
   const containerRef = useRef(null);
   const heroRef = useRef(null);
@@ -453,54 +507,6 @@ export default function Impact173Page() {
     const unsub = scrollY.on("change", v => setNavScrolled(v > 60));
     return () => unsub();
   }, [scrollY]);
-
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
 
   const filteredProjects = activeFilter === "all"
     ? PROJECTS
