@@ -19,8 +19,8 @@ const T = {
     editContent: "Personnaliser",
     copied: "Copié !", shareLink: "Partager le lien", launch: "Je veux ce site",
     preview: "Aperçu", ready: "Votre site vous plaît ?",
-    orderIntro: "Envoyez-nous un message et nous vous recontactons sous 2h pour finaliser et mettre votre site en ligne.",
-    orderBtn: "Nous contacter →", backToPreview: "Retour à l'aperçu",
+    orderIntro: "Choisissez votre formule, réglez en ligne, et nous mettons votre site en ligne juste après. Tout reste modifiable ensuite.",
+    orderBtn: "Commander & payer →", backToPreview: "Retour à l'aperçu",
     yourLink: "Votre lien d'aperçu :",
     mailSubject: "Commande de site — AeviaLaunch",
     mailBody: "Bonjour,\n\nJe suis intéressé(e) par le site que vous avez généré pour moi.\nLien d'aperçu : {{link}}\n\nMerci de me recontacter.",
@@ -36,8 +36,8 @@ const T = {
     editContent: "Customize",
     copied: "Copied!", shareLink: "Share link", launch: "I want this site",
     preview: "Preview", ready: "Happy with your site?",
-    orderIntro: "Send us a message and we'll get back to you within 2 hours to finalise and publish your site.",
-    orderBtn: "Contact us →", backToPreview: "Back to preview",
+    orderIntro: "Choose your plan, pay online, and we publish your site right after. Everything stays editable afterwards.",
+    orderBtn: "Order & pay →", backToPreview: "Back to preview",
     yourLink: "Your preview link:",
     mailSubject: "Site order — AeviaLaunch",
     mailBody: "Hello,\n\nI am interested in the site you generated for me.\nPreview link: {{link}}\n\nPlease get back to me.",
@@ -53,8 +53,8 @@ const T = {
     editContent: "Personalizar",
     copied: "¡Copiado!", shareLink: "Compartir enlace", launch: "Quiero este sitio",
     preview: "Vista previa", ready: "¿Te gusta tu sitio?",
-    orderIntro: "Envíanos un mensaje y te contactaremos en 2 horas para finalizar y publicar tu sitio.",
-    orderBtn: "Contactarnos →", backToPreview: "Volver a la vista previa",
+    orderIntro: "Elige tu plan, paga en línea y publicamos tu sitio justo después. Todo sigue siendo editable.",
+    orderBtn: "Pedir y pagar →", backToPreview: "Volver a la vista previa",
     yourLink: "Tu enlace de vista previa:",
     mailSubject: "Pedido de sitio — AeviaLaunch",
     mailBody: "Hola,\n\nEstoy interesado/a en el sitio que generaron para mí.\nEnlace de vista previa: {{link}}\n\nPor favor contáctenme.",
@@ -70,8 +70,8 @@ const T = {
     editContent: "Anpassen",
     copied: "Kopiert!", shareLink: "Link teilen", launch: "Ich will diese Website",
     preview: "Vorschau", ready: "Gefällt Ihnen Ihre Website?",
-    orderIntro: "Schreiben Sie uns und wir melden uns innerhalb von 2 Stunden, um Ihre Website fertigzustellen.",
-    orderBtn: "Kontakt aufnehmen →", backToPreview: "Zurück zur Vorschau",
+    orderIntro: "Wählen Sie Ihr Paket, zahlen Sie online, und wir veröffentlichen Ihre Website direkt danach. Alles bleibt änderbar.",
+    orderBtn: "Bestellen & zahlen →", backToPreview: "Zurück zur Vorschau",
     yourLink: "Ihr Vorschau-Link:",
     mailSubject: "Website-Bestellung — AeviaLaunch",
     mailBody: "Hallo,\n\nIch bin an der für mich generierten Website interessiert.\nVorschau-Link: {{link}}\n\nBitte melden Sie sich bei mir.",
@@ -87,8 +87,8 @@ const T = {
     editContent: "Personalizar",
     copied: "Copiado!", shareLink: "Partilhar link", launch: "Quero este site",
     preview: "Pré-visualização", ready: "Gostou do seu site?",
-    orderIntro: "Envie-nos uma mensagem e entraremos em contacto em 2 horas para finalizar e publicar o seu site.",
-    orderBtn: "Contactar-nos →", backToPreview: "Voltar à pré-visualização",
+    orderIntro: "Escolha o seu plano, pague online e publicamos o seu site logo a seguir. Tudo continua editável.",
+    orderBtn: "Encomendar e pagar →", backToPreview: "Voltar à pré-visualização",
     yourLink: "O seu link de pré-visualização:",
     mailSubject: "Pedido de site — AeviaLaunch",
     mailBody: "Olá,\n\nEstou interessado/a no site que geraram para mim.\nLink de pré-visualização: {{link}}\n\nPor favor contactem-me.",
@@ -176,9 +176,15 @@ export default function PreviewClient({ sessionId }: { sessionId: string }) {
   };
 
   const handleOrder = () => {
-    const previewLink = window.location.href;
-    const body = t.mailBody.replace("{{link}}", previewLink);
-    window.location.href = `mailto:valentinmilliand@aevia.services?subject=${encodeURIComponent(t.mailSubject)}&body=${encodeURIComponent(body)}`;
+    // Route into the real Stripe order flow (/order → /onboarding → /api/checkout)
+    // carrying the wizard session so the brief + generated site persist through
+    // payment. Formule is chosen on the order page (pricing grid).
+    const params = new URLSearchParams({ session: sessionId });
+    const name = liveSession?.formData?.businessName;
+    const theme = liveSession?.formData?.template;
+    if (name) params.set("name", name);
+    if (theme) params.set("theme", theme);
+    window.location.href = `/order?${params.toString()}`;
   };
 
   const handleEditChange = (data: EditableData) => {
