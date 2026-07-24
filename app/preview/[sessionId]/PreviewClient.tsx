@@ -7,6 +7,7 @@ import GeneratedSite from "@/components/GeneratedSite";
 import { EditPanel } from "@/components/EditPanel";
 import type { SessionData, GeneratedContent, FormData } from "@/lib/sessions";
 import { useLang, LOCALE_META, type Locale } from "@/lib/LangContext";
+import { tierForTemplate } from "@/lib/templates/templateTier";
 
 type EditableData = {
   generatedContent: Partial<GeneratedContent>;
@@ -183,7 +184,12 @@ export default function PreviewClient({ sessionId }: { sessionId: string }) {
     const name = liveSession?.formData?.businessName;
     const theme = liveSession?.formData?.template;
     if (name) params.set("name", name);
-    if (theme) params.set("theme", theme);
+    if (theme) {
+      params.set("theme", theme);
+      // Price by the template's real depth (number of sections), not a flat
+      // landing rate — most themes are rich full pages → Pro/Premium.
+      params.set("type", tierForTemplate(theme));
+    }
     window.location.href = `/order?${params.toString()}`;
   };
 
