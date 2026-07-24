@@ -351,9 +351,12 @@ const LABEL_CLASS =
    ========================================================================= */
 
 function CartePage() {
-  // Real client menu (from the wizard) or template demo dishes.
-  const hasRealMenu = !!(c?.menuItems && c.menuItems.length > 0);
-  const carteSections = hasRealMenu ? buildCarteSections(c.menuItems) : CARTE_SECTIONS;
+  // businessProfile.menu (structured wizard step) takes priority over the
+  // older free-text extraction (c?.menuItems), then demo dishes.
+  const hasRealMenu = !!(bp?.menu?.length || (c?.menuItems && c.menuItems.length > 0));
+  const carteSections = bp?.menu?.length
+    ? buildCarteSections(bp.menu)
+    : (c?.menuItems && c.menuItems.length > 0) ? buildCarteSections(c.menuItems) : CARTE_SECTIONS;
   return (
     <section id="hero" className="pt-44 pb-32 px-6 md:px-12 min-h-dvh">
       <div className="max-w-[1600px] mx-auto">
@@ -1036,6 +1039,7 @@ function LegalBlock({
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+let bp: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
 function photo(i: number, fallback: string): string {
@@ -1056,6 +1060,7 @@ export default function EmberGrillPage() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -1087,6 +1092,7 @@ export default function EmberGrillPage() {
     });
   });
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const [page, setPage] = useState<EmberPage>("home");
@@ -1108,54 +1114,6 @@ export default function EmberGrillPage() {
     window.addEventListener("scroll", h);
     return () => window.removeEventListener("scroll", h);
   }, []);
-
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
 
   return (
     <div className="premium-theme min-h-dvh bg-[#050505] text-[#dcdcdc] font-sans selection:bg-[#ff4d00] selection:text-white overflow-x-hidden">
