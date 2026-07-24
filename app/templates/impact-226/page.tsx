@@ -4,6 +4,7 @@
 import React, {useRef, useState, useEffect} from 'react'
 import { motion, useScroll, useTransform, useInView } from "framer-motion"
 import { Phone, Mail, MapPin, Clock, Star, CheckCircle, ArrowRight, Camera } from "lucide-react"
+import { resolveList } from "@/lib/templates/resolveList"
 
 // Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
 // used to derive light/dark shades from the client's brand color.
@@ -40,7 +41,7 @@ const STATS = [
   { value: "3 artistes", label: "Styles variés" },
 ]
 
-const STYLES = [
+const STYLES_DEMO = [
   { titre: "Blackwork & fine line", desc: "Traits fins, géométrie, mandala, ornements. Technique maîtrisée pour des tracés chirurgicaux durables sur toutes carnations.", tag: "Blackwork" },
   { titre: "Réalisme noir & gris", desc: "Portraits, animaux, nature. Travail d'ombres et de lumières pour un rendu photographique sur peau. Spécialité de l'atelier.", tag: "Réalisme" },
   { titre: "Japonais traditionnel", desc: "Koi, dragon, cerisier, lotus — iconographie japonaise classique avec remplissages couleurs denses et contours puissants.", tag: "Japonais" },
@@ -56,7 +57,7 @@ const PROCESS = [
   "Retouche gratuite incluse dans les 3 mois",
 ]
 
-const AVIS = [
+const AVIS_DEMO = [
   { texte: "Je cherchais depuis des mois un artiste capable de faire un réalisme de portrait de mon chien. Le résultat dépasse tout ce que j'imaginais. Une fidélité de dingue. Je reviendrai.", auteur: "Lucie V.", detail: "Réalisme portrait, cuisse" },
   { texte: "Cover-up d'un vieux tatouage raté que je cachais depuis 10 ans. Ils ont transformé ça en quelque chose de magnifique. Merci ! Je ne pouvais plus rêver d'un meilleur résultat.", auteur: "Kevin M.", detail: "Cover-up japonais, bras" },
   { texte: "Fine line fleuri sur la clavicule. Propre, précis, soigné. L'accueil est top, le studio est beau, et on est bien guidé sur les soins après. Je recommande à 100%.", auteur: "Chloé B.", detail: "Fine line floral, clavicule" },
@@ -77,6 +78,7 @@ function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: nu
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+let bp: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
 function photo(i: number, fallback: string): string {
@@ -97,6 +99,7 @@ export default function EncreNoirePage() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -110,6 +113,7 @@ export default function EncreNoirePage() {
 
   fd = session?.formData;
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, accent: brand };
@@ -129,53 +133,7 @@ export default function EncreNoirePage() {
     return () => window.removeEventListener("scroll", h)
   }, []);
 
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);return (
+return (
     <div style={{ background: C.bg, fontFamily: FONT_BODY, overflowX: "hidden" }}>
       <style jsx global>{`@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600;700&display=swap');
         /* mobile: stack 2-col grids to single column (added by responsive fix) */
@@ -294,12 +252,12 @@ export default function EncreNoirePage() {
           </div>
         </Reveal>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: 18, maxWidth: 1200, margin: "0 auto" }}>
-          {STYLES.map((s, i) => (
-            <Reveal key={s.titre} delay={i * 0.07}>
+          {resolveList<any>(bp?.services, STYLES_DEMO).map((s: any, i: number) => (
+            <Reveal key={s.titre ?? s.name ?? i} delay={i * 0.07}>
               <motion.div whileHover={{ y: -4, borderColor: C.accent }} style={{ background: C.bgSection, borderRadius: 8, padding: "26px 24px", border: `1px solid ${C.border}` }}>
-                <span style={{ background: "rgba(232,201,122,0.12)", color: C.accent, borderRadius: 20, padding: "4px 12px", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>{s.tag}</span>
-                <h3 style={{ fontFamily: FONT, fontSize: 18, color: C.text, margin: "14px 0 10px" }}>{s.titre}</h3>
-                <p style={{ fontSize: 14, color: C.textMuted, lineHeight: 1.7 }}>{s.desc}</p>
+                {(s.tag || s.price) && <span style={{ background: "rgba(232,201,122,0.12)", color: C.accent, borderRadius: 20, padding: "4px 12px", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>{s.tag ?? s.price}</span>}
+                <h3 style={{ fontFamily: FONT, fontSize: 18, color: C.text, margin: "14px 0 10px" }}>{s.titre ?? s.name}</h3>
+                <p style={{ fontSize: 14, color: C.textMuted, lineHeight: 1.7 }}>{s.desc ?? s.description}</p>
               </motion.div>
             </Reveal>
           ))}
@@ -333,14 +291,14 @@ export default function EncreNoirePage() {
           <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 3.5vw, 48px)", color: C.text, marginTop: 10 }}>Ils portent <em style={{ color: C.accent }}>nos œuvres.</em></h2>
         </div></Reveal>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: 18, maxWidth: 1100, margin: "0 auto" }}>
-          {AVIS.map((a, i) => (
-            <Reveal key={a.auteur} delay={i * 0.1}>
+          {resolveList<any>(bp?.reputation?.featuredReviews, AVIS_DEMO).map((a: any, i: number) => (
+            <Reveal key={a.auteur ?? a.author ?? i} delay={i * 0.1}>
               <div style={{ background: C.bgSection, border: `1px solid ${C.border}`, borderRadius: 8, padding: "28px 24px" }}>
-                <div style={{ display: "flex", gap: 3, marginBottom: 12 }}>{[...Array(5)].map((_, j) => <Star key={j} size={13} fill={C.accent} color={C.accent} />)}</div>
-                <p style={{ fontSize: 14, color: C.textMuted, lineHeight: 1.7, marginBottom: 18 }}>"{a.texte}"</p>
+                <div style={{ display: "flex", gap: 3, marginBottom: 12 }}>{[...Array(a.rating ?? 5)].map((_, j) => <Star key={j} size={13} fill={C.accent} color={C.accent} />)}</div>
+                <p style={{ fontSize: 14, color: C.textMuted, lineHeight: 1.7, marginBottom: 18 }}>"{a.texte ?? a.text}"</p>
                 <div style={{ borderTop: `1px solid ${C.border}`, paddingTop: 14 }}>
-                  <div style={{ fontWeight: 600, color: C.text, fontSize: 14 }}>{a.auteur}</div>
-                  <div style={{ color: C.accent, fontSize: 12, marginTop: 4 }}>{a.detail}</div>
+                  <div style={{ fontWeight: 600, color: C.text, fontSize: 14 }}>{a.auteur ?? a.author}</div>
+                  {(a.detail ?? a.source) && <div style={{ color: C.accent, fontSize: 12, marginTop: 4 }}>{a.detail ?? a.source}</div>}
                 </div>
               </div>
             </Reveal>
