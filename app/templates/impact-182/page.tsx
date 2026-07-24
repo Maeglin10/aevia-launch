@@ -6,6 +6,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { HardHat, Hammer, Phone, Star, MapPin, ArrowRight, CheckCircle, Ruler, ShieldCheck, Award, Menu } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import { resolveList } from "@/lib/templates/resolveList"
 
 /* ═══════════════════════════════════════════════════════════════════════════
    BÂTIR SOLIDE — Maçon & Gros Œuvre (Marseille)
@@ -38,7 +39,7 @@ function ParallaxImg({ src, alt }: { src: string; alt: string }) {
   )
 }
 
-const SERVICES = [
+const SERVICES_DEMO = [
   { icon: Hammer, title: "Gros œuvre & fondations", desc: "Terrassement, fouilles, fondations, chaînages, dalles, poteaux. Construction de maisons individuelles, extensions, garages." },
   { icon: Ruler, title: "Extension & surélévation", desc: "Agrandissement de votre maison, pièce supplémentaire, véranda maçonnée, surélévation de toiture. Études de faisabilité incluses." },
   { icon: HardHat, title: "Ravalement de façade", desc: "Enduit monocouche, crépis, peinture minérale, ITE (isolation thermique par l'extérieur). Travaux en grande hauteur." },
@@ -47,7 +48,7 @@ const SERVICES = [
   { icon: ShieldCheck, title: "Réparation fissurations", desc: "Diagnostic des fissures, injection de résines, armatures, reprise en sous-œuvre. Rapport d'expertise fourni." },
 ]
 
-const REALISATIONS = [
+const REALISATIONS_DEMO = [
   { title: "Extension 45 m² · Villa provençale", tag: "Extension gros œuvre", img: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&q=80&w=1200" },
   { title: "Ravalement ITE · Immeuble R+4", tag: "Isolation thermique extérieure", img: "https://images.unsplash.com/photo-1581244277943-fe4a9c777189?auto=format&fit=crop&q=80&w=1200" },
   { title: "Construction garage + dalle béton", tag: "Gros œuvre & dallage", img: "https://images.unsplash.com/photo-1581244277943-fe4a9c777189?auto=format&fit=crop&q=80&w=1200" },
@@ -57,6 +58,7 @@ const REALISATIONS = [
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
@@ -78,6 +80,7 @@ export default function BatirSolidePage() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -94,7 +97,7 @@ export default function BatirSolidePage() {
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;
     let n = 1;
-    const _photoArrays: any[] = [REALISATIONS];
+    const _photoArrays: any[] = [REALISATIONS_DEMO];
     _photoArrays.forEach((arr) => {
       if (!Array.isArray(arr)) return;
       arr.forEach((item) => {
@@ -109,7 +112,37 @@ export default function BatirSolidePage() {
     });
   });
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
+
+  const SERVICES = resolveList(
+    bp?.services?.map((s: any, i: number) => ({
+      icon: SERVICES_DEMO[i % SERVICES_DEMO.length].icon,
+      title: s.title ?? s.name,
+      desc: s.description ?? s.desc ?? SERVICES_DEMO[i % SERVICES_DEMO.length].desc,
+    })),
+    SERVICES_DEMO
+  );
+  const REALISATIONS = resolveList(
+    bp?.beforeAfter?.map((b: any, i: number) => ({
+      title: b.caption ?? REALISATIONS_DEMO[i % REALISATIONS_DEMO.length].title,
+      tag: REALISATIONS_DEMO[i % REALISATIONS_DEMO.length].tag,
+      img: b.afterUrl ?? b.beforeUrl ?? REALISATIONS_DEMO[i % REALISATIONS_DEMO.length].img,
+    })),
+    REALISATIONS_DEMO
+  );
+  const AVIS = resolveList(
+    bp?.reputation?.featuredReviews?.map((r: any) => ({
+      q: r.text ?? "",
+      n: r.name ?? "",
+      l: r.location ?? "",
+    })),
+    [
+      { q: "Extension de 40 m² réalisée en 3 mois top chrono. Qualité béton irréprochable, finitions soignées, aucun dépassement budget. Chapeau.", n: "Jean-Pierre M.", l: "Marseille 12ème" },
+      { q: "Suppression d'un mur porteur de 6m avec IPN. Bâtir Solide a géré l'étude de structure et les travaux. Parfait, aucune fissure, résultat propre.", n: "Nathalie & Frédéric D.", l: "Aix-en-Provence" },
+      { q: "Ravalement ITE de notre immeuble 6 logements. Dossier MaPrimeRénov' entièrement géré par l'équipe. Économies énergétiques bluffantes.", n: "Syndicat copropriété Les Pins", l: "Aubagne (13)" },
+    ]
+  );
 
   const heroRef = useRef(null)
   const [scrolled, setScrolled] = useState(false)
@@ -124,53 +157,7 @@ export default function BatirSolidePage() {
     return () => window.removeEventListener("scroll", h)
   }, []);
 
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);return (
+  return (
     <div className="bg-[#faf7f2] text-[#1a1008] overflow-x-hidden" style={{ fontFamily: "'Barlow', 'Inter', system-ui, sans-serif" }}>
       {/* ── NAVBAR ── */}
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#1a1008]/96 backdrop-blur-xl py-3 border-b border-[#d4a96a]/15" : "bg-transparent py-7"}`}>
@@ -331,11 +318,7 @@ export default function BatirSolidePage() {
             <h2 className="text-4xl font-black uppercase text-[#1a1008]">Ce qu'ils <span className="text-[#5c3317]">disent.</span></h2>
           </div></Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {[
-              { q: "Extension de 40 m² réalisée en 3 mois top chrono. Qualité béton irréprochable, finitions soignées, aucun dépassement budget. Chapeau.", n: "Jean-Pierre M.", l: "Marseille 12ème" },
-              { q: "Suppression d'un mur porteur de 6m avec IPN. Bâtir Solide a géré l'étude de structure et les travaux. Parfait, aucune fissure, résultat propre.", n: "Nathalie & Frédéric D.", l: "Aix-en-Provence" },
-              { q: "Ravalement ITE de notre immeuble 6 logements. Dossier MaPrimeRénov' entièrement géré par l'équipe. Économies énergétiques bluffantes.", n: "Syndicat copropriété Les Pins", l: "Aubagne (13)" },
-            ].map((t, i) => (
+            {AVIS.map((t, i) => (
               <Reveal key={i} delay={i * 0.1}>
                 <div className="p-8 bg-white border border-[#d4a96a]/10 hover:border-[#d4a96a]/30 transition-colors h-full flex flex-col">
                   <div className="flex gap-1 mb-5">

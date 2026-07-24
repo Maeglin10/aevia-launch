@@ -6,11 +6,13 @@ import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion"
 import Link from "next/link";
 import { ArrowRight, ChevronDown, Gem } from "lucide-react";
 import { C, FONT_HEADING, FONT_BODY, FONT_LABEL, GemStoneSVG, Reveal, STATS, TESTIMONIALS, TEAM } from "./shared";
+import { resolveList } from "@/lib/templates/resolveList";
 
 
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
@@ -32,6 +34,7 @@ export default function Impact83Page() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -45,7 +48,45 @@ export default function Impact83Page() {
 
   fd = session?.formData;
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
+
+  // Product collections ← client's business profile (falls back to demo).
+  const COLLECTIONS_DEMO = [
+    { name: "Constellation Noir", cat: "Haute Joaillerie", price: "€185,000", stone: "Diamant noir 8 ct", img: photo(0, "https://images.unsplash.com/photo-1599643477877-530eb83abc8e?w=600&q=85") },
+    { name: "Éclipse Royale", cat: "Haute Horlogerie", price: "€48,000", stone: "Saphir de Ceylan", img: photo(1, "https://images.unsplash.com/photo-1548169874-53e85f753f1e?w=600&q=85") },
+    { name: "Eternité Rose", cat: "Alliance sur-mesure", price: "À partir de €12,000", stone: "Diamant rose 3 ct", img: photo(2, "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=600&q=85") },
+    { name: "Heritage Tourbillon", cat: "Montre de collection", price: "€320,000", stone: "Rubis de Birmanie", img: photo(3, "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600&q=85") },
+  ];
+  const COLLECTIONS_LIST = resolveList(
+    bp?.services?.map((s: any, i: number) => ({
+      name: s.title ?? s.name,
+      cat: COLLECTIONS_DEMO[i % COLLECTIONS_DEMO.length].cat,
+      price: s.price ?? COLLECTIONS_DEMO[i % COLLECTIONS_DEMO.length].price,
+      stone: s.description ?? COLLECTIONS_DEMO[i % COLLECTIONS_DEMO.length].stone,
+      img: COLLECTIONS_DEMO[i % COLLECTIONS_DEMO.length].img,
+    })),
+    COLLECTIONS_DEMO
+  );
+  const TESTIMONIALS_LIST = resolveList(
+    bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+      name: r.name ?? r.author,
+      role: r.location ?? r.role ?? TESTIMONIALS[i % TESTIMONIALS.length].role,
+      note: r.stars ?? r.rating ?? 5,
+      text: r.text ?? r.quote,
+      piece: TESTIMONIALS[i % TESTIMONIALS.length].piece,
+    })),
+    TESTIMONIALS
+  );
+  const TEAM_LIST = resolveList(
+    bp?.team?.map((m: any, i: number) => ({
+      name: m.name,
+      role: m.role ?? TEAM[i % TEAM.length].role,
+      bio: m.bio ?? m.specialty ?? TEAM[i % TEAM.length].bio,
+      exp: m.credentials ?? TEAM[i % TEAM.length].exp,
+    })),
+    TEAM
+  );
 
   const containerRef = useRef<HTMLDivElement>(null);
   const heroRef = useRef<HTMLDivElement>(null);
@@ -67,54 +108,6 @@ export default function Impact83Page() {
     }, 3500);
     return () => clearInterval(timer);
   }, []);
-
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
 
   return (
     <div ref={containerRef}>
@@ -300,12 +293,7 @@ export default function Impact83Page() {
             </h2>
           </Reveal>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(280px,1fr))", gap: "2rem" }}>
-            {[
-              { name: "Constellation Noir", cat: "Haute Joaillerie", price: "€185,000", stone: "Diamant noir 8 ct", img: photo(0, "https://images.unsplash.com/photo-1599643477877-530eb83abc8e?w=600&q=85") },
-              { name: "Éclipse Royale", cat: "Haute Horlogerie", price: "€48,000", stone: "Saphir de Ceylan", img: photo(1, "https://images.unsplash.com/photo-1548169874-53e85f753f1e?w=600&q=85") },
-              { name: "Eternité Rose", cat: "Alliance sur-mesure", price: "À partir de €12,000", stone: "Diamant rose 3 ct", img: photo(2, "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=600&q=85") },
-              { name: "Heritage Tourbillon", cat: "Montre de collection", price: "€320,000", stone: "Rubis de Birmanie", img: photo(3, "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600&q=85") },
-            ].map((item, i) => (
+            {COLLECTIONS_LIST.map((item, i) => (
               <Reveal key={item.name} delay={i * 0.1}>
                 <div style={{ background: C.bgCard, border: `1px solid ${C.border}`, overflow: "hidden", cursor: "pointer" }}>
                   <div style={{ position: "relative", aspectRatio: "1", overflow: "hidden" }}>
@@ -387,7 +375,7 @@ export default function Impact83Page() {
             </h2>
           </Reveal>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(300px,1fr))", gap: "2rem" }}>
-            {TESTIMONIALS.slice(0, 3).map((t, i) => (
+            {TESTIMONIALS_LIST.slice(0, 3).map((t, i) => (
               <Reveal key={i} delay={i * 0.1}>
                 <div style={{ background: C.bgCard, border: `1px solid ${C.border}`, padding: "2.5rem", display: "flex", flexDirection: "column", gap: "1.5rem" }}>
                   <div style={{ display: "flex", gap: 4 }}>
@@ -420,7 +408,7 @@ export default function Impact83Page() {
             </h2>
           </Reveal>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(260px,1fr))", gap: "2rem" }}>
-            {TEAM.map((m, i) => (
+            {TEAM_LIST.map((m, i) => (
               <Reveal key={i} delay={i * 0.1}>
                 <div style={{ background: C.bgCard, border: `1px solid ${C.border}`, padding: "2.5rem" }}>
                   <div style={{ width: 48, height: 48, borderRadius: "50%", background: C.accentGlow, border: `1px solid ${C.borderGold}`, display: "flex", alignItems: "center", justifyContent: "center", marginBottom: "1.5rem" }}>

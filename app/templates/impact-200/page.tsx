@@ -32,6 +32,7 @@ import {
   Award,
   Check,
 } from "lucide-react"
+import { resolveList } from "@/lib/templates/resolveList"
 
 /* ==========================================================================
    CÉRÉMONIE — Wedding Planner (impact-200)
@@ -154,7 +155,7 @@ function Marquee({ items, speed = 40 }: { items: string[]; speed?: number }) {
 
 /* --- Data ------------------------------------------------------------------ */
 
-const SERVICES = [
+const SERVICES_DEMO = [
   {
     title: "Coordination Complète",
     subtitle: "De A à Z",
@@ -199,7 +200,7 @@ const SERVICES = [
   },
 ]
 
-const GALLERY_ITEMS = [
+const GALLERY_ITEMS_DEMO = [
   {
     src: "https://images.unsplash.com/photo-1519741497674-611481863552?w=800&q=80",
     year: "2024",
@@ -335,7 +336,7 @@ const STEPS = [
   },
 ]
 
-const TESTIMONIALS = [
+const TESTIMONIALS_DEMO = [
   {
     names: "Sophie & Mathieu",
     date: "14 Juin 2024",
@@ -400,6 +401,7 @@ const MARQUEE_ITEMS = [
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
@@ -421,6 +423,7 @@ export default function Impact200Page() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -437,7 +440,7 @@ export default function Impact200Page() {
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;
     let n = 2;
-    const _photoArrays: any[] = [SERVICES, GALLERY_ITEMS, TESTIMONIALS];
+    const _photoArrays: any[] = [SERVICES_DEMO, GALLERY_ITEMS_DEMO, TESTIMONIALS_DEMO];
     _photoArrays.forEach((arr) => {
       if (!Array.isArray(arr)) return;
       arr.forEach((item) => {
@@ -452,7 +455,39 @@ export default function Impact200Page() {
     });
   });
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
+
+  const SERVICES = resolveList(
+    bp?.services?.map((s: any, i: number) => ({
+      title: s.title ?? SERVICES_DEMO[i % SERVICES_DEMO.length].title,
+      subtitle: SERVICES_DEMO[i % SERVICES_DEMO.length].subtitle,
+      desc: s.description ?? SERVICES_DEMO[i % SERVICES_DEMO.length].desc,
+      icon: SERVICES_DEMO[i % SERVICES_DEMO.length].icon,
+      image: SERVICES_DEMO[i % SERVICES_DEMO.length].image,
+    })),
+    SERVICES_DEMO
+  );
+  const GALLERY_ITEMS = resolveList(
+    bp?.beforeAfter?.map((b: any, i: number) => ({
+      src: b.afterUrl ?? b.beforeUrl ?? GALLERY_ITEMS_DEMO[i % GALLERY_ITEMS_DEMO.length].src,
+      year: GALLERY_ITEMS_DEMO[i % GALLERY_ITEMS_DEMO.length].year,
+      location: b.caption ?? GALLERY_ITEMS_DEMO[i % GALLERY_ITEMS_DEMO.length].location,
+      size: GALLERY_ITEMS_DEMO[i % GALLERY_ITEMS_DEMO.length].size,
+    })),
+    GALLERY_ITEMS_DEMO
+  );
+  const TESTIMONIALS = resolveList(
+    bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+      names: r.name ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].names,
+      date: TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].date,
+      location: r.location ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].location,
+      quote: r.text ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].quote,
+      stars: r.stars ?? r.rating ?? 5,
+      image: TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].image,
+    })),
+    TESTIMONIALS_DEMO
+  );
 
   useFonts()
 
@@ -483,53 +518,7 @@ export default function Impact200Page() {
     return () => window.removeEventListener("scroll", onScroll)
   }, []);
 
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);// Auto-rotate testimonials
+  // Auto-rotate testimonials
   useEffect(() => {
     const interval = setInterval(() => {
       setActiveTestimonial((p) => (p + 1) % TESTIMONIALS.length)

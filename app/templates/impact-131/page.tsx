@@ -12,6 +12,7 @@ import {
   useSpring,
 } from "framer-motion";
 import { TemplateIcon } from '@/components/TemplateIcon';
+import { resolveList } from "@/lib/templates/resolveList";
 
 /* ==========================================================================
    DESIGN TOKENS
@@ -60,7 +61,7 @@ function useFonts() {
    WINES DATA
    ========================================================================== */
 
-const WINES = [
+const WINES_DEMO = [
   {
     id: "prestige",
     name: "Cuvée Prestige",
@@ -411,7 +412,7 @@ function VineGrowth() {
    WINE CARD
    ========================================================================== */
 
-function WineCard({ wine, index }: { wine: typeof WINES[0]; index: number }) {
+function WineCard({ wine, index }: { wine: typeof WINES_DEMO[0]; index: number }) {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-60px" });
 
@@ -600,6 +601,7 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
@@ -621,6 +623,7 @@ export default function WineryTemplate() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -634,7 +637,25 @@ export default function WineryTemplate() {
 
   fd = session?.formData;
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
+
+  // Wines ← bp.menu (real bottle list) else demo. vintage/notes/abv/aging
+  // are decorative fields cycled from the demo wine.
+  const WINES = resolveList(
+    bp?.menu?.map((m: any, i: number) => {
+      const d = WINES_DEMO[i % WINES_DEMO.length];
+      return {
+        ...d,
+        id: `wine-${i}`,
+        name: m.name ?? d.name,
+        appellation: m.category ?? d.appellation,
+        price: m.price ?? d.price,
+        desc: m.description ?? d.desc,
+      };
+    }),
+    WINES_DEMO
+  );
 
   if (brand) {
     C = {
@@ -662,57 +683,9 @@ export default function WineryTemplate() {
 
   const activeTerroir = TERROIR_TABS.find((t) => t.id === terroirTab) ?? TERROIR_TABS[0];
 
-  const VINTAGES = ["2020", "2019", "2018", "2017", "2016", "2015"];
+  const VINTAGES = Array.from(new Set(WINES.map((w: any) => w.vintage)));
 
-  
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
-return (
+  return (
     <div style={{ background: C.bg, minHeight: "100dvh", fontFamily: C.fontSans, overflowX: "hidden" }}>
 
       {/* ====================================================================

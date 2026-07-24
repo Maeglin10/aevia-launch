@@ -26,6 +26,7 @@ import { Separator } from "@/components/ui/separator";
 import { Plane, Globe, Clock, ShieldCheck, Zap, Mail, Phone, ChevronRight, ArrowRight, X, Menu, Compass, Navigation, MapPin, Gauge, Users, Award, Calendar, Wind, Star } from "lucide-react";
 
 import "../premium.css";
+import { resolveList } from "@/lib/templates/resolveList";
 
 /* ==========================================================================
    DATA STRUCTURES
@@ -178,6 +179,7 @@ function MagneticBtn({
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
@@ -199,6 +201,7 @@ export default function VelocityJetsPage() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -230,7 +233,59 @@ export default function VelocityJetsPage() {
     });
   });
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
+
+  const TESTIMONIALS_DEMO = [
+    {
+      quote: "Velocity has transformed how we manage our global board meetings. The ability to launch a jet in under four hours is a game-changer.",
+      author: "Chief Executive Officer",
+      location: "Tech Conglomerate",
+    },
+    {
+      quote: "The cabin comfort on the Global 7500 was exceptional, and the crew's attention to detail was flawless. Highly recommended.",
+      author: "Private Collector",
+      location: "Los Angeles",
+    },
+    {
+      quote: "Wyvern Wingman safety rating and top-tier aircraft maintenance. Velocity gives me absolute peace of mind on every journey.",
+      author: "Logistics Director",
+      location: "London",
+    },
+  ];
+  const AVIS = resolveList(
+    bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+      quote: r.text ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].quote,
+      author: r.name ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].author,
+      location: r.location ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].location,
+    })),
+    TESTIMONIALS_DEMO
+  );
+  const FAQS_DEMO = [
+    {
+      q: "How quickly can a flight be activated?",
+      a: "Our global dispatch desk can activate an aircraft and have it ready for take-off in as little as 4 hours from booking confirmation.",
+    },
+    {
+      q: "What are your safety standards?",
+      a: "We hold Wyvern Wingman and ARGUS Gold safety ratings. Every operator in our network is audited to meet and exceed FAA Part 135 regulations.",
+    },
+    {
+      q: "Can I choose specific catering and cabin configurations?",
+      a: "Absolutely. All flights can be customized with bespoke catering, specific cabin layouts, and security personnel upon request.",
+    },
+    {
+      q: "What is your cancellation policy?",
+      a: "Cancellation terms depend on the aircraft class and flight route. Detailed terms are provided during the instant quote process.",
+    },
+  ];
+  const FAQS = resolveList(
+    bp?.faq?.map((f: any, i: number) => ({
+      q: f.q ?? FAQS_DEMO[i % FAQS_DEMO.length].q,
+      a: f.a ?? FAQS_DEMO[i % FAQS_DEMO.length].a,
+    })),
+    FAQS_DEMO
+  );
 
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -242,54 +297,6 @@ export default function VelocityJetsPage() {
     window.addEventListener("scroll", h);
     return () => window.removeEventListener("scroll", h);
   }, []);
-
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
 
   return (
     <div className="premium-theme min-h-dvh bg-[#050505] text-[#ffffff] font-sans selection:bg-[#00f2ff] selection:text-black overflow-x-hidden">
@@ -653,23 +660,7 @@ export default function VelocityJetsPage() {
           </Reveal>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              {
-                quote: "Velocity has transformed how we manage our global board meetings. The ability to launch a jet in under four hours is a game-changer.",
-                author: "Chief Executive Officer",
-                location: "Tech Conglomerate",
-              },
-              {
-                quote: "The cabin comfort on the Global 7500 was exceptional, and the crew's attention to detail was flawless. Highly recommended.",
-                author: "Private Collector",
-                location: "Los Angeles",
-              },
-              {
-                quote: "Wyvern Wingman safety rating and top-tier aircraft maintenance. Velocity gives me absolute peace of mind on every journey.",
-                author: "Logistics Director",
-                location: "London",
-              },
-            ].map((t, i) => (
+            {AVIS.map((t, i) => (
               <Reveal key={i} delay={i * 0.1}>
                 <div className="p-12 border border-white/5 bg-black/40 hover:border-[#00f2ff]/30 transition-all relative">
                   <div className="text-5xl text-[#00f2ff]/20 font-serif absolute top-6 left-8 font-black leading-none">“</div>
@@ -788,24 +779,7 @@ export default function VelocityJetsPage() {
 
           <Reveal delay={0.1}>
             <Accordion type="single" collapsible className="w-full space-y-4">
-              {[
-                {
-                  q: "How quickly can a flight be activated?",
-                  a: "Our global dispatch desk can activate an aircraft and have it ready for take-off in as little as 4 hours from booking confirmation.",
-                },
-                {
-                  q: "What are your safety standards?",
-                  a: "We hold Wyvern Wingman and ARGUS Gold safety ratings. Every operator in our network is audited to meet and exceed FAA Part 135 regulations.",
-                },
-                {
-                  q: "Can I choose specific catering and cabin configurations?",
-                  a: "Absolutely. All flights can be customized with bespoke catering, specific cabin layouts, and security personnel upon request.",
-                },
-                {
-                  q: "What is your cancellation policy?",
-                  a: "Cancellation terms depend on the aircraft class and flight route. Detailed terms are provided during the instant quote process.",
-                },
-              ].map((faq, i) => (
+              {FAQS.map((faq, i) => (
                 <AccordionItem key={i} value={`faq-${i}`} className="border border-white/5 bg-black/40 px-6 rounded-sm">
                   <AccordionTrigger className="text-[11px] font-bold uppercase tracking-widest text-[#00f2ff] hover:no-underline py-5">
                     {faq.q}

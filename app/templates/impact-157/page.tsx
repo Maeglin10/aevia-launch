@@ -30,6 +30,7 @@ import {
   Users,
   Globe,
 } from "lucide-react";
+import { resolveList } from "@/lib/templates/resolveList";
 
 // Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
 // used to derive light/dark shades from the client's brand color.
@@ -67,7 +68,7 @@ const FONT_BODY = "'Inter', system-ui, sans-serif";
 
 // ─── DATA ─────────────────────────────────────────────────────────────────────
 
-const COLLECTIONS = [
+const COLLECTIONS_DEMO = [
   {
     name: "Éternité",
     category: "Bagues",
@@ -131,7 +132,7 @@ const STATS = [
   { value: "67", label: "Pays livrés", suffix: "" },
 ];
 
-const TESTIMONIALS = [
+const TESTIMONIALS_DEMO = [
   {
     name: "Isabelle Moreau",
     location: "Paris, 8ème",
@@ -222,7 +223,7 @@ const SERVICES = [
   },
 ];
 
-const FAQS = [
+const FAQS_DEMO = [
   {
     q: "Comment fonctionne la gravure personnalisée ?",
     a: "Tous nos anneaux (bagues, alliances, bracelets) peuvent être gravés manuellement par nos artisans. Lors de votre commande, vous indiquez le texte souhaité (jusqu'à 30 caractères). La gravure est incluse sans supplément. Délai : 5 jours ouvrés supplémentaires.",
@@ -348,6 +349,7 @@ function StatItem({
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 let brand: any = null;
 export default function Impact157Page() {
   const [session, setSession] = useState<{
@@ -364,6 +366,7 @@ export default function Impact157Page() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -380,7 +383,7 @@ export default function Impact157Page() {
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;
     let n = 0;
-    const _photoArrays: any[] = [COLLECTIONS];
+    const _photoArrays: any[] = [COLLECTIONS_DEMO];
     _photoArrays.forEach((arr) => {
       if (!Array.isArray(arr)) return;
       arr.forEach((item) => {
@@ -395,10 +398,39 @@ export default function Impact157Page() {
     });
   });
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, gold: brand };
   }
+
+  // Product collections ← client's business profile (falls back to demo).
+  const COLLECTIONS = resolveList(
+    bp?.services?.map((s: any, i: number) => ({
+      name: s.title ?? s.name,
+      category: s.category ?? COLLECTIONS_DEMO[i % COLLECTIONS_DEMO.length].category,
+      desc: s.description ?? COLLECTIONS_DEMO[i % COLLECTIONS_DEMO.length].desc,
+      from: s.price ?? COLLECTIONS_DEMO[i % COLLECTIONS_DEMO.length].from,
+      img: COLLECTIONS_DEMO[i % COLLECTIONS_DEMO.length].img,
+      tag: COLLECTIONS_DEMO[i % COLLECTIONS_DEMO.length].tag,
+      pieces: COLLECTIONS_DEMO[i % COLLECTIONS_DEMO.length].pieces,
+    })),
+    COLLECTIONS_DEMO
+  );
+  const TESTIMONIALS = resolveList(
+    bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+      name: r.name ?? r.author,
+      location: r.location ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].location,
+      stars: r.stars ?? r.rating ?? 5,
+      text: r.text ?? r.quote,
+      purchase: TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].purchase,
+    })),
+    TESTIMONIALS_DEMO
+  );
+  const FAQS = resolveList(
+    bp?.faq?.map((f: any) => ({ q: f.q ?? f.question, a: f.a ?? f.answer })),
+    FAQS_DEMO
+  );
 
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: containerRef });
@@ -425,54 +457,6 @@ export default function Impact157Page() {
             (activeFilter === "Bespoke" && c.category === "Bespoke")
         );
 
-  
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
 return (
     <div
       ref={containerRef}

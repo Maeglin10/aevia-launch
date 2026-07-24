@@ -6,6 +6,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { Coffee, Leaf, MapPin, Star, ArrowRight, Menu, Thermometer, Droplets, Mountain, Award, ChevronRight } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import { resolveList } from "@/lib/templates/resolveList"
 
 function Reveal({ children, delay = 0, y = 40 }: { children: React.ReactNode; delay?: number; y?: number }) {
   const ref = useRef(null)
@@ -31,7 +32,7 @@ function ParallaxImg({ src, alt }: { src: string; alt: string }) {
   )
 }
 
-const ORIGINS = [
+const ORIGINS_DEMO = [
   { name: "Ethiopian Yirgacheffe", region: "Sidamo, Ethiopia", altitude: "1,800m", process: "Washed", notes: "Jasmine, bergamot, stone fruit", img: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?q=80&w=800&auto=format&fit=crop", score: 92 },
   { name: "Colombian Huila", region: "Huila, Colombia", altitude: "1,650m", process: "Honey", notes: "Chocolate, caramel, citrus", img: "https://images.unsplash.com/photo-1559056199-641a0ac8b55e?auto=format&fit=crop&q=80&w=800", score: 89 },
   { name: "Kenyan Nyeri AA", region: "Nyeri, Kenya", altitude: "1,700m", process: "Washed", notes: "Blackcurrant, tomato, wine", img: "https://images.unsplash.com/photo-1504630083234-14187a9df0f5?auto=format&fit=crop&q=80&w=800", score: 91 },
@@ -49,6 +50,7 @@ const PROCESS = [
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
@@ -70,6 +72,7 @@ export default function TorrefieCoffeePage() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -86,7 +89,7 @@ export default function TorrefieCoffeePage() {
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;
     let n = 2;
-    const _photoArrays: any[] = [ORIGINS];
+    const _photoArrays: any[] = [ORIGINS_DEMO];
     _photoArrays.forEach((arr) => {
       if (!Array.isArray(arr)) return;
       arr.forEach((item) => {
@@ -101,7 +104,23 @@ export default function TorrefieCoffeePage() {
     });
   });
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
+
+  // Origins ← bp.menu (real coffee list) else demo. altitude/process/img/score
+  // are decorative fields cycled from the demo origin.
+  const ORIGINS = resolveList(
+    bp?.menu?.map((m: any, i: number) => {
+      const d = ORIGINS_DEMO[i % ORIGINS_DEMO.length];
+      return {
+        ...d,
+        name: m.name ?? d.name,
+        region: m.category ?? d.region,
+        notes: m.description ?? d.notes,
+      };
+    }),
+    ORIGINS_DEMO
+  );
 
   const [scrolled, setScrolled] = useState(false)
 
@@ -115,53 +134,7 @@ export default function TorrefieCoffeePage() {
     return () => window.removeEventListener("scroll", h)
   }, []);
 
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);return (
+  return (
     <div className="bg-[#f5f0ea] text-[#2c1810] font-sans min-h-dvh selection:bg-[#6b3a24] selection:text-white overflow-x-hidden">
 
       {/* ── NAVBAR ────────────────────────────── */}

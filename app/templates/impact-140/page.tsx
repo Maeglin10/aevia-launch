@@ -14,12 +14,13 @@ import Link from "next/link";
 import { ArrowRight, MapPin, Compass, Calendar, Users, Star, ArrowLeft, Globe, Sun, Cloud, Wind, Search, Menu, X, Plane, Coffee, Camera } from "lucide-react";
 
 import "../premium.css";
+import { resolveList } from "@/lib/templates/resolveList";
 
 /* ==========================================================================
    DATA STRUCTURES
    ========================================================================== */
 
-const DESTINATIONS = [
+const DESTINATIONS_DEMO = [
   {
     id: "dst-01",
     title: "Namib Desert",
@@ -66,7 +67,7 @@ const DESTINATIONS = [
   },
 ];
 
-const EXPERIENCES = [
+const EXPERIENCES_DEMO = [
   {
     title: "Private Expeditions",
     icon: <Compass className="w-6 h-6 text-amber-500" />,
@@ -89,7 +90,7 @@ const EXPERIENCES = [
   },
 ];
 
-const REVIEWS = [
+const REVIEWS_DEMO = [
   {
     text: "The Atacama expedition changed the way I see the world. The logistics were flawless, allowing us to just focus on the overwhelming beauty of the landscape.",
     author: "Marcus T.",
@@ -114,15 +115,18 @@ const REVIEWS = [
 function Reveal({
   children,
   delay = 0,
+  className,
 }: {
   children: React.ReactNode;
   delay?: number;
+  className?: string;
 }) {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-50px" });
   return (
     <motion.div
       ref={ref}
+      className={className}
       initial={{ opacity: 0, y: 30 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.8, delay, ease: [0.25, 0.1, 0.25, 1] }}
@@ -140,6 +144,7 @@ function Reveal({
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
@@ -161,6 +166,7 @@ export default function WanderlustPage() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -177,7 +183,7 @@ export default function WanderlustPage() {
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;
     let n = 1;
-    const _photoArrays: any[] = [DESTINATIONS];
+    const _photoArrays: any[] = [DESTINATIONS_DEMO];
     _photoArrays.forEach((arr) => {
       if (!Array.isArray(arr)) return;
       arr.forEach((item) => {
@@ -192,7 +198,38 @@ export default function WanderlustPage() {
     });
   });
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
+
+  const DESTINATIONS = resolveList(
+    bp?.services?.map((s: any, i: number) => ({
+      id: DESTINATIONS_DEMO[i % DESTINATIONS_DEMO.length].id,
+      title: s.title ?? s.name,
+      country: DESTINATIONS_DEMO[i % DESTINATIONS_DEMO.length].country,
+      price: s.price ?? DESTINATIONS_DEMO[i % DESTINATIONS_DEMO.length].price,
+      days: DESTINATIONS_DEMO[i % DESTINATIONS_DEMO.length].days,
+      desc: s.description ?? s.desc ?? DESTINATIONS_DEMO[i % DESTINATIONS_DEMO.length].desc,
+      image: DESTINATIONS_DEMO[i % DESTINATIONS_DEMO.length].image,
+      color: DESTINATIONS_DEMO[i % DESTINATIONS_DEMO.length].color,
+    })),
+    DESTINATIONS_DEMO
+  );
+  const EXPERIENCES = resolveList(
+    bp?.services?.map((s: any, i: number) => ({
+      title: s.title ?? s.name,
+      icon: EXPERIENCES_DEMO[i % EXPERIENCES_DEMO.length].icon,
+      desc: s.description ?? s.desc ?? EXPERIENCES_DEMO[i % EXPERIENCES_DEMO.length].desc,
+    })),
+    EXPERIENCES_DEMO
+  );
+  const REVIEWS = resolveList(
+    bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+      text: r.text ?? REVIEWS_DEMO[i % REVIEWS_DEMO.length].text,
+      author: r.name ?? REVIEWS_DEMO[i % REVIEWS_DEMO.length].author,
+      role: r.location ?? REVIEWS_DEMO[i % REVIEWS_DEMO.length].role,
+    })),
+    REVIEWS_DEMO
+  );
 
   const [activeDst, setActiveDst] = useState(0);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -207,54 +244,6 @@ export default function WanderlustPage() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
 
   const nextDst = () =>
     setActiveDst((prev) => (prev + 1) % DESTINATIONS.length);

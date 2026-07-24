@@ -12,6 +12,7 @@ import {
   AnimatePresence,
 } from 'framer-motion';
 import { useEffect, useRef, useState, useCallback } from 'react';
+import { resolveList } from "@/lib/templates/resolveList";
 
 // ─── Font Loader ─────────────────────────────────────────────────────────────
 const useFonts = () => {
@@ -38,7 +39,7 @@ const SERIF = "'Cormorant Garamond', Georgia, 'Times New Roman', serif";
 const SANS  = "'Jost', system-ui, sans-serif";
 
 // ─── Data ────────────────────────────────────────────────────────────────────
-const ROOMS = [
+const ROOMS_DEMO = [
   {
     num: '01',
     name: 'Prestige Room',
@@ -71,7 +72,7 @@ const ROOMS = [
   },
 ];
 
-const EXPERIENCES = [
+const EXPERIENCES_DEMO = [
   {
     label: "L\'Atelier",
     sub: 'Two Michelin Stars',
@@ -213,7 +214,7 @@ const ROOMS_FULL: RoomFull[] = [
 ];
 
 // ─── Hotel services / experiences (Services sub-page) ─────────────────────────
-const SERVICES = [
+const SERVICES_DEMO = [
   {
     glyph: '✦',
     label: 'Espace Étoile',
@@ -803,6 +804,19 @@ function StatsBar() {
 // root wrapper's `overflowX` is also switched to `clip` (see Root Page) so any
 // remaining sticky/parallax descendants behave correctly.
 function RoomsSection({ goTo }: { goTo: (p: HotelPage) => void }) {
+  const ROOMS = resolveList(
+    bp?.services?.map((s: any, i: number) => ({
+      num: ROOMS_DEMO[i % ROOMS_DEMO.length].num,
+      name: s.title ?? s.name,
+      size: ROOMS_DEMO[i % ROOMS_DEMO.length].size,
+      view: ROOMS_DEMO[i % ROOMS_DEMO.length].view,
+      price: s.price ?? ROOMS_DEMO[i % ROOMS_DEMO.length].price,
+      tag: ROOMS_DEMO[i % ROOMS_DEMO.length].tag,
+      desc: s.description ?? s.desc ?? ROOMS_DEMO[i % ROOMS_DEMO.length].desc,
+      img: ROOMS_DEMO[i % ROOMS_DEMO.length].img,
+    })),
+    ROOMS_DEMO
+  );
   return (
     <section style={{ position: 'relative', background: CREAM, padding: '8rem 0', overflow: 'hidden' }}>
       <div style={{ maxWidth: '75rem', margin: '0 auto', padding: '0 3rem', position: 'relative' }}>
@@ -893,7 +907,7 @@ function RoomCard({
   index,
   goTo,
 }: {
-  room: typeof ROOMS[0];
+  room: typeof ROOMS_DEMO[0];
   index: number;
   goTo: (p: HotelPage) => void;
 }) {
@@ -995,6 +1009,15 @@ function RoomCard({
 
 // ─── Experience Section ───────────────────────────────────────────────────────
 function ExperienceSection() {
+  const EXPERIENCES = resolveList(
+    bp?.services?.map((s: any, i: number) => ({
+      label: s.title ?? s.name,
+      sub: EXPERIENCES_DEMO[i % EXPERIENCES_DEMO.length].sub,
+      desc: s.description ?? s.desc ?? EXPERIENCES_DEMO[i % EXPERIENCES_DEMO.length].desc,
+      img: EXPERIENCES_DEMO[i % EXPERIENCES_DEMO.length].img,
+    })),
+    EXPERIENCES_DEMO
+  );
   return (
     <section style={{ background: DARK, padding: '8rem 0' }}>
       <div style={{ maxWidth: '75rem', margin: '0 auto', padding: '0 3rem' }}>
@@ -1029,7 +1052,7 @@ function ExperienceSection() {
   );
 }
 
-function ExperienceRow({ exp, index }: { exp: typeof EXPERIENCES[0]; index: number }) {
+function ExperienceRow({ exp, index }: { exp: typeof EXPERIENCES_DEMO[0]; index: number }) {
   const rowRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: rowRef, offset: ['start end', 'center center'] });
 
@@ -1368,13 +1391,22 @@ function LocationSection() {
 }
 
 // ─── Testimonials ─────────────────────────────────────────────────────────────
-const TESTIMONIALS = [
+const TESTIMONIALS_DEMO = [
   { name: 'Sophie R.', origin: 'Paris', text: 'An experience that redefined our expectations of hospitality. Every detail, every gesture — flawless.', stars: 5 },
   { name: 'James W.', origin: 'London', text: 'The Grand Palais is beyond comparison. The suite views, the silence, the staff — we return every autumn.', stars: 5 },
   { name: 'Hana T.', origin: 'Tokyo', text: 'The most extraordinary stay of our lives. Nothing prepares you for the quiet perfection of this place.', stars: 5 },
 ];
 
 function TestimonialsSection() {
+  const TESTIMONIALS = resolveList(
+    bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+      name: r.name ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].name,
+      origin: r.location ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].origin,
+      text: r.text ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].text,
+      stars: r.stars ?? 5,
+    })),
+    TESTIMONIALS_DEMO
+  );
   const [active, setActive] = useState(0);
 
   useEffect(() => {
@@ -2001,6 +2033,17 @@ function ChambresPage({ roomSlug, setRoomSlug, goTo }: { roomSlug: string | null
 
 // ─── SERVICES (hotel experiences), theme card design ──────────────────────────
 function ServicesPage({ goTo }: { goTo: (p: HotelPage) => void }) {
+  const SERVICES = resolveList(
+    bp?.services?.map((s: any, i: number) => ({
+      glyph: SERVICES_DEMO[i % SERVICES_DEMO.length].glyph,
+      label: s.title ?? s.name,
+      sub: SERVICES_DEMO[i % SERVICES_DEMO.length].sub,
+      desc: s.description ?? s.desc ?? SERVICES_DEMO[i % SERVICES_DEMO.length].desc,
+      img: SERVICES_DEMO[i % SERVICES_DEMO.length].img,
+      points: SERVICES_DEMO[i % SERVICES_DEMO.length].points,
+    })),
+    SERVICES_DEMO
+  );
   return (
     <div>
       <SubPageHero
@@ -2367,6 +2410,7 @@ function LegalPage({ variant }: { variant: 'mentions' | 'privacy' }) {
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 let brand: any = null;
 export default function GrandPalaisPage() {
   const [session, setSession] = useState<{
@@ -2383,6 +2427,7 @@ export default function GrandPalaisPage() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -2399,7 +2444,7 @@ export default function GrandPalaisPage() {
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;
     let n = 0;
-    const _photoArrays: any[] = [ROOMS, EXPERIENCES, ROOMS_FULL, SERVICES, BLOG_POSTS];
+    const _photoArrays: any[] = [ROOMS_DEMO, EXPERIENCES_DEMO, ROOMS_FULL, SERVICES_DEMO, BLOG_POSTS];
     _photoArrays.forEach((arr) => {
       if (!Array.isArray(arr)) return;
       arr.forEach((item) => {
@@ -2414,6 +2459,7 @@ export default function GrandPalaisPage() {
     });
   });
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   useFonts();
@@ -2435,54 +2481,6 @@ export default function GrandPalaisPage() {
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
-
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
 
   return (
     <div

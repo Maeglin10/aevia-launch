@@ -11,6 +11,7 @@ import {
   useSpring,
   AnimatePresence,
 } from "framer-motion";
+import { resolveList } from "@/lib/templates/resolveList";
 
 // Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
 // used to derive light/dark shades from the client's brand color.
@@ -38,7 +39,7 @@ let C: Record<string, string> = {
   fontSans: "'Jost', system-ui, sans-serif",
 };
 
-const EVENT_TYPES = [
+const EVENT_TYPES_DEMO = [
   {
     id: "corporate",
     label: "Corporate",
@@ -85,7 +86,7 @@ const EVENT_TYPES = [
   },
 ];
 
-const PAST_EVENTS = [
+const PAST_EVENTS_DEMO = [
   { title: "Gala Fondation Lumière", location: "Paris, France", year: "2024", img: "photo-1530103862676-de8c9debad1d", guests: "420" },
   { title: "Mariage Château Margaux", location: "Bordeaux, France", year: "2024", img: "photo-1540575467063-178a50c2df87", guests: "180" },
   { title: "Conférence TechEurope", location: "Monaco", year: "2024", img: "photo-1492684223066-81342ee5ff30", guests: "1200" },
@@ -94,7 +95,7 @@ const PAST_EVENTS = [
   { title: "Gala Prestige Awards", location: "Paris, France", year: "2023", img: "photo-1492684223066-81342ee5ff30", guests: "600" },
 ];
 
-const SERVICES = [
+const SERVICES_DEMO = [
   {
     icon: "✦",
     title: "Conception Créative",
@@ -130,7 +131,7 @@ const PROCESS = [
   { step: "05", title: "Le Grand Soir", description: "Notre équipe est présente du début à la fin. Vous profitez, nous orchestrons." },
 ];
 
-const TESTIMONIALS = [
+const TESTIMONIALS_DEMO = [
   {
     text: "Confluence a transformé notre gala annuel en un moment légendaire. Chaque détail témoignait d'une maîtrise et d'une élégance rares.",
     author: "François de B.",
@@ -328,7 +329,7 @@ function MarqueeStrip({
   );
 }
 
-function GalleryCard({ event, index }: { event: (typeof PAST_EVENTS)[0]; index: number }) {
+function GalleryCard({ event, index }: { event: (typeof PAST_EVENTS_DEMO)[0]; index: number }) {
   const [hovered, setHovered] = useState(false);
   return (
     <motion.div
@@ -455,6 +456,7 @@ function ProcessStep({ step, index }: { step: (typeof PROCESS)[0]; index: number
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
@@ -476,6 +478,7 @@ export default function Impact175Page() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -489,6 +492,7 @@ export default function Impact175Page() {
 
   fd = session?.formData;
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, champagne: brand };
@@ -509,53 +513,42 @@ export default function Impact175Page() {
     return () => unsub();
   }, [scrollY]);
 
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
+  const EVENT_TYPES = resolveList(
+    bp?.services?.map((s: any, i: number) => ({
+      ...EVENT_TYPES_DEMO[i % EVENT_TYPES_DEMO.length],
+      label: s.title ?? EVENT_TYPES_DEMO[i % EVENT_TYPES_DEMO.length].label,
+      title: s.title ?? EVENT_TYPES_DEMO[i % EVENT_TYPES_DEMO.length].title,
+      description: s.description ?? EVENT_TYPES_DEMO[i % EVENT_TYPES_DEMO.length].description,
+    })),
+    EVENT_TYPES_DEMO
+  );
+  const PAST_EVENTS = resolveList(
+    bp?.beforeAfter?.map((b: any, i: number) => ({
+      title: b.caption ?? PAST_EVENTS_DEMO[i % PAST_EVENTS_DEMO.length].title,
+      location: PAST_EVENTS_DEMO[i % PAST_EVENTS_DEMO.length].location,
+      year: PAST_EVENTS_DEMO[i % PAST_EVENTS_DEMO.length].year,
+      img: PAST_EVENTS_DEMO[i % PAST_EVENTS_DEMO.length].img,
+      guests: PAST_EVENTS_DEMO[i % PAST_EVENTS_DEMO.length].guests,
+    })),
+    PAST_EVENTS_DEMO
+  );
+  const SERVICES = resolveList(
+    bp?.services?.map((s: any, i: number) => ({
+      icon: SERVICES_DEMO[i % SERVICES_DEMO.length].icon,
+      title: s.title ?? SERVICES_DEMO[i % SERVICES_DEMO.length].title,
+      description: s.description ?? SERVICES_DEMO[i % SERVICES_DEMO.length].description,
+    })),
+    SERVICES_DEMO
+  );
+  const TESTIMONIALS = resolveList(
+    bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+      text: r.text ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].text,
+      author: r.name ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].author,
+      role: r.location ?? r.role ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].role,
+      rating: r.stars ?? r.rating ?? 5,
+    })),
+    TESTIMONIALS_DEMO
+  );
 
   const scrollTo = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });

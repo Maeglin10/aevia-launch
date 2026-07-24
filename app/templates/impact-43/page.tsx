@@ -6,11 +6,11 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import Link from "next/link";
 import {
   C,
-  EXPERIENCES,
+  EXPERIENCES as EXPERIENCES_DEMO,
   CIRCUIT_STEPS,
-  PACKAGES,
-  TEAM,
-  TESTIMONIALS,
+  PACKAGES as PACKAGES_DEMO,
+  TEAM as TEAM_DEMO,
+  TESTIMONIALS as TESTIMONIALS_DEMO,
   MARQUEE_ITEMS,
   TextReveal,
   MagneticButton,
@@ -21,11 +21,13 @@ import {
   TherapistCard,
   TestimonialCard,
 } from "./shared";
+import { resolveList } from "@/lib/templates/resolveList";
 
 
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
@@ -47,6 +49,7 @@ export default function SereneRetreatHome() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -60,7 +63,50 @@ export default function SereneRetreatHome() {
 
   fd = session?.formData;
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
+
+  const EXPERIENCES = resolveList(
+    bp?.services?.map((s: any, i: number) => ({
+      title: s.title ?? s.name,
+      subtitle: EXPERIENCES_DEMO[i % EXPERIENCES_DEMO.length].subtitle,
+      description: s.description ?? s.desc ?? EXPERIENCES_DEMO[i % EXPERIENCES_DEMO.length].description,
+      image: EXPERIENCES_DEMO[i % EXPERIENCES_DEMO.length].image,
+      icon: EXPERIENCES_DEMO[i % EXPERIENCES_DEMO.length].icon,
+      tag: EXPERIENCES_DEMO[i % EXPERIENCES_DEMO.length].tag,
+    })),
+    EXPERIENCES_DEMO
+  );
+  const PACKAGES = resolveList(
+    bp?.services?.map((s: any, i: number) => ({
+      name: s.title ?? s.name,
+      duration: PACKAGES_DEMO[i % PACKAGES_DEMO.length].duration,
+      price: s.price ?? PACKAGES_DEMO[i % PACKAGES_DEMO.length].price,
+      color: PACKAGES_DEMO[i % PACKAGES_DEMO.length].color,
+      accentColor: PACKAGES_DEMO[i % PACKAGES_DEMO.length].accentColor,
+      features: PACKAGES_DEMO[i % PACKAGES_DEMO.length].features,
+      popular: PACKAGES_DEMO[i % PACKAGES_DEMO.length].popular,
+    })),
+    PACKAGES_DEMO
+  );
+  const TEAM = resolveList(
+    bp?.team?.map((t: any, i: number) => ({
+      name: t.name ?? TEAM_DEMO[i % TEAM_DEMO.length].name,
+      role: t.role ?? TEAM_DEMO[i % TEAM_DEMO.length].role,
+      bio: t.bio ?? t.credentials ?? TEAM_DEMO[i % TEAM_DEMO.length].bio,
+      image: t.photoUrl ?? TEAM_DEMO[i % TEAM_DEMO.length].image,
+      specialties: t.specialty ? [t.specialty] : TEAM_DEMO[i % TEAM_DEMO.length].specialties,
+    })),
+    TEAM_DEMO
+  );
+  const TESTIMONIALS = resolveList(
+    bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+      quote: r.text ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].quote,
+      author: r.name ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].author,
+      location: r.location ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].location,
+    })),
+    TESTIMONIALS_DEMO
+  );
 
   const [selectedPackage, setSelectedPackage] = useState(1);
   const [activeTestimonial, setActiveTestimonial] = useState(0);
@@ -82,54 +128,6 @@ export default function SereneRetreatHome() {
     }, 5000);
     return () => clearInterval(interval);
   }, []);
-
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
 
   return (
     <div ref={containerRef} style={{ background: C.cream, minHeight: "100dvh" }}>

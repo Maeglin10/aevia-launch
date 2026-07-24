@@ -22,12 +22,13 @@ import {
   CloudRain, MapPin, ChevronRight, Play,
   Lock, Key, BookOpen, PenTool
 } from "lucide-react"
+import { resolveList } from "@/lib/templates/resolveList"
 
 /* ==========================================================================
    THE AETHELGARD DATASET (PREMIUM DENSITY)
    ========================================================================== */
 
-const VINTAGES = [
+const VINTAGES_DEMO = [
   {
     id: "v-2022",
     name: "The Crimson Sovereign",
@@ -106,6 +107,7 @@ function SectionTitle({ subtitle, title, alignment = "center" }: { subtitle: str
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
@@ -127,6 +129,7 @@ export default function AethelgardEstatePremium() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -143,7 +146,7 @@ export default function AethelgardEstatePremium() {
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;
     let n = 2;
-    const _photoArrays: any[] = [VINTAGES];
+    const _photoArrays: any[] = [VINTAGES_DEMO];
     _photoArrays.forEach((arr) => {
       if (!Array.isArray(arr)) return;
       arr.forEach((item) => {
@@ -158,7 +161,22 @@ export default function AethelgardEstatePremium() {
     });
   });
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
+
+  // Product vintages ← client's business profile (falls back to demo).
+  const VINTAGES = resolveList(
+    bp?.services?.map((s: any, i: number) => ({
+      id: `v-${i}`,
+      name: s.title ?? s.name,
+      type: s.description ?? VINTAGES_DEMO[i % VINTAGES_DEMO.length].type,
+      notes: VINTAGES_DEMO[i % VINTAGES_DEMO.length].notes,
+      score: s.price ?? VINTAGES_DEMO[i % VINTAGES_DEMO.length].score,
+      stock: VINTAGES_DEMO[i % VINTAGES_DEMO.length].stock,
+      image: VINTAGES_DEMO[i % VINTAGES_DEMO.length].image,
+    })),
+    VINTAGES_DEMO
+  );
 
   const [activeVintage, setActiveVintage] = useState(0)
   const [memberPortal, setMemberPortal] = useState(false)
@@ -170,54 +188,6 @@ export default function AethelgardEstatePremium() {
   const heroScale = useTransform(scrollYProgress, [0, 0.2], [1, 1.05])
   const bgTransition = useTransform(scrollYProgress, [0, 0.3, 0.6, 0.9], ["#0a0a0b", "#1a1614", "#2d1b1b", "#0a0a0b"])
 
-  
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
 return (
     <motion.div 
       ref={containerRef} 

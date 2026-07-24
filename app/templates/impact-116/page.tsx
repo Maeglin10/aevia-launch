@@ -14,6 +14,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
 import { Progress } from "@/components/ui/progress"
+import { resolveList } from "@/lib/templates/resolveList"
 
 function Reveal({ children, delay=0 }: { children: React.ReactNode; delay?: number }) {
   const ref = useRef(null)
@@ -34,7 +35,7 @@ function Counter({ target, suffix="" }: { target: number; suffix?: string }) {
   return <span ref={ref}>{count.toLocaleString()}{suffix}</span>
 }
 
-function MagneticBtn({ children, className="" }: { children: React.ReactNode; className?: string }) {
+function MagneticBtn({ children, className="", style }: { children: React.ReactNode; className?: string; style?: React.CSSProperties }) {
   const x = useMotionValue(0); const y = useMotionValue(0)
   const sx = useSpring(x, { stiffness: 500, damping: 25 })
   const sy = useSpring(y, { stiffness: 500, damping: 25 })
@@ -44,10 +45,10 @@ function MagneticBtn({ children, className="" }: { children: React.ReactNode; cl
     x.set((e.clientX - r.left - r.width/2) * 0.35)
     y.set((e.clientY - r.top - r.height/2) * 0.35)
   }
-  return <motion.button ref={ref} style={{ x: sx, y: sy }} onMouseMove={handleMouse} onMouseLeave={() => { x.set(0); y.set(0) }} className={className}>{children}</motion.button>
+  return <motion.button ref={ref} style={{ ...style, x: sx, y: sy }} onMouseMove={handleMouse} onMouseLeave={() => { x.set(0); y.set(0) }} className={className}>{children}</motion.button>
 }
 
-const SERVICES = [
+const SERVICES_DEMO = [
   {
     name: "Motion Graphics",
     desc: "Cinematic motion design for brands and campaigns",
@@ -92,7 +93,7 @@ const SERVICES = [
   },
 ]
 
-const TEAM = [
+const TEAM_DEMO = [
   { name: "Alex Kim", role: "Creative Director", specialty: "Motion Design" },
   { name: "Maya Patel", role: "Lead 3D Artist", specialty: "CGI/Animation" },
   { name: "Jordan Rodriguez", role: "Producer", specialty: "Project Management" },
@@ -120,6 +121,7 @@ const REELTHUMB = [
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
@@ -141,6 +143,7 @@ export default function KineticStudio() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -172,7 +175,31 @@ export default function KineticStudio() {
     });
   });
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
+
+  // Services ← bp.services; reels/deliverables are decorative demo fields
+  const SERVICES = resolveList(
+    bp?.services?.map((s: any, i: number) => {
+      const d = SERVICES_DEMO[i % SERVICES_DEMO.length];
+      return {
+        name: s.title ?? d.name,
+        desc: s.description ?? d.desc,
+        reels: d.reels,
+        deliverables: d.deliverables,
+        price: s.price ?? d.price,
+      };
+    }),
+    SERVICES_DEMO
+  );
+  const TEAM = resolveList(
+    bp?.team?.map((t: any, i: number) => ({
+      name: t.name,
+      role: t.role,
+      specialty: t.specialty ?? TEAM_DEMO[i % TEAM_DEMO.length].specialty,
+    })),
+    TEAM_DEMO
+  );
 
   const [activeService, setActiveService] = useState(0)
   const [reel, setReel] = useState(0)
@@ -188,53 +215,7 @@ export default function KineticStudio() {
     return () => clearInterval(interval)
   }, []);
 
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);return (
+  return (
     <div className="min-h-dvh bg-[#06060a] text-white">
       <motion.section style={{ y: heroY }} className="relative h-dvh flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-[#1a1a2e] via-[#06060a] to-[#06060a]" />
@@ -259,7 +240,7 @@ export default function KineticStudio() {
         <Reveal>
           <h2 className="text-5xl font-light mb-12" style={{color: brand ?? '#ff5500' }}>Our Services</h2>
         </Reveal>
-        <Tabs defaultValue="Motion Graphics" className="w-full">
+        <Tabs defaultValue={SERVICES[0]?.name} className="w-full">
           <TabsList className="grid w-full grid-cols-6 bg-[#1a1a2e] border border-[#ff5500]/20">
             {SERVICES.map((svc) => (
               <TabsTrigger key={svc.name} value={svc.name} className="data-[state=active]:bg-[#ff5500] data-[state=active]:text-black text-xs">

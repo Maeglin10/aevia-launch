@@ -11,6 +11,7 @@ import {
   useMotionValue,
 } from 'framer-motion';
 import { ArrowRight, ChevronDown, Heart } from 'lucide-react';
+import { resolveList } from "@/lib/templates/resolveList";
 
 // Hoisted above the design tokens: several templates read `brand` in a
 // module-level const — declaring it lower caused a TDZ ReferenceError (500).
@@ -137,7 +138,7 @@ const PHASES: Collection[] = [
 ];
 
 /** 6 cartes de services */
-const SERVICES: Service[] = [
+const SERVICES_DEMO: Service[] = [
   {
     num: '01',
     title: 'Wedding Planner Intégral',
@@ -227,7 +228,7 @@ const FLORAL_ITEMS: FlowerItem[] = [
 ];
 
 /** 2 témoignages de couples */
-const TESTIMONIALS: Testimonial[] = [
+const TESTIMONIALS_DEMO: Testimonial[] = [
   {
     quote:
       "Atelier Céleste a transformé notre mariage au Château de Vaux-le-Vicomte en quelque chose d'absolument magique. Leur obsession du détail — chaque fleur, chaque bougie, chaque ruban — était visible. Nous vivions pleinement notre journée pendant qu'ils veillaient sur tout.",
@@ -241,6 +242,11 @@ const TESTIMONIALS: Testimonial[] = [
     role: "Mariage en destination · Côte d'Azur",
   },
 ];
+
+// Live arrays — reassigned from the client's BusinessProfile in Page(), read by
+// the module-level ServiceCards/Testimonials sub-components. Fall back to demo.
+let SERVICES: Service[] = SERVICES_DEMO;
+let TESTIMONIALS: Testimonial[] = TESTIMONIALS_DEMO;
 
 /* ════════════════════════════════════════════════════════════════════════════
    Primitives
@@ -2017,6 +2023,7 @@ function Footer() {
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
     formData?: {
@@ -2032,6 +2039,7 @@ export default function Page() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -2045,6 +2053,7 @@ export default function Page() {
 
   fd = session?.formData;
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   if (brand) {
@@ -2055,54 +2064,22 @@ export default function Page() {
     };
   }
 
-  
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
+  SERVICES = resolveList(
+    bp?.services?.map((s: any, i: number) => ({
+      num: SERVICES_DEMO[i % SERVICES_DEMO.length].num,
+      title: s.title ?? SERVICES_DEMO[i % SERVICES_DEMO.length].title,
+      desc: s.description ?? SERVICES_DEMO[i % SERVICES_DEMO.length].desc,
+    })),
+    SERVICES_DEMO
+  );
+  TESTIMONIALS = resolveList(
+    bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+      quote: r.text ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].quote,
+      name: r.name ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].name,
+      role: r.location ?? r.role ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].role,
+    })),
+    TESTIMONIALS_DEMO
+  );
 return (
     <>
       <style>{`

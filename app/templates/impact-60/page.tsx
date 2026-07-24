@@ -6,11 +6,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { Play, Settings, Shield, Clock } from "lucide-react";
 import { Reveal, ParallaxImg, MODELS } from "./shared";
+import { resolveList } from "@/lib/templates/resolveList";
 
 
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
@@ -32,6 +34,7 @@ export default function ZenithWatchPage() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -45,56 +48,32 @@ export default function ZenithWatchPage() {
 
   fd = session?.formData;
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
-  
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
+  // Product collection ← client's business profile (falls back to demo).
+  const MODELS_LIST = resolveList(
+    bp?.services?.map((s: any, i: number) => ({
+      name: s.title ?? s.name,
+      cat: s.category ?? MODELS[i % MODELS.length].cat,
+      price: s.price ?? MODELS[i % MODELS.length].price,
+      img: MODELS[i % MODELS.length].img,
+    })),
+    MODELS
+  );
+
+  const TESTIMONIALS_LIST = resolveList(
+    bp?.reputation?.featuredReviews?.map((r: any) => ({
+      quote: r.text ?? r.quote,
+      name: r.name ?? r.author,
+      origin: r.location ?? r.context ?? "Collector",
+    })),
+    [
+      { quote: "The Chronos 01 is the only watch I've worn every day for four years. It has aged the way all great things do — with more character, not less.", name: "K. Lindqvist", origin: "Stockholm · Collector" },
+      { quote: "I compared it directly against Lange and Patek at my usual dealer. Zenith's movement finishing at this price point is simply audacious.", name: "H. Fournier", origin: "Paris · Horologist" },
+      { quote: "My Lunar Phase arrived with a personal letter from the atelier chief. That kind of craft and attention doesn't exist anymore. Except here.", name: "T. Okafor", origin: "Lagos · Collector" },
+    ]
+  );
 return (
     <div className="bg-[#0a0c10] text-[#a0a0a0]">
       <main>
@@ -239,7 +218,7 @@ return (
             </Reveal>
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-16">
-              {MODELS.map((item, i) => (
+              {MODELS_LIST.map((item, i) => (
                 <Reveal key={i} delay={i * 0.15}>
                   <Link href="/templates/impact-60/collections" className="group cursor-pointer block" style={{ textDecoration: "none" }}>
                     <div className="aspect-[4/5] relative mb-12 overflow-hidden grayscale group-hover:grayscale-0 transition-all duration-1000 border border-white/5 p-2 bg-white/[0.02]">
@@ -286,11 +265,7 @@ return (
               </div>
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-white/5">
-              {[
-                { quote: "The Chronos 01 is the only watch I've worn every day for four years. It has aged the way all great things do — with more character, not less.", name: "K. Lindqvist", origin: "Stockholm · Collector" },
-                { quote: "I compared it directly against Lange and Patek at my usual dealer. Zenith's movement finishing at this price point is simply audacious.", name: "H. Fournier", origin: "Paris · Horologist" },
-                { quote: "My Lunar Phase arrived with a personal letter from the atelier chief. That kind of craft and attention doesn't exist anymore. Except here.", name: "T. Okafor", origin: "Lagos · Collector" },
-              ].map((t, i) => (
+              {TESTIMONIALS_LIST.map((t, i) => (
                 <Reveal key={i} delay={i * 0.12}>
                   <div className="bg-[#0a0c10] p-14 flex flex-col gap-8 group hover:bg-black transition-colors">
                     <div className="text-6xl text-[#c9a96e]/10 font-serif leading-none">&ldquo;</div>
