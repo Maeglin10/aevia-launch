@@ -21,6 +21,7 @@ import {
   Search,
   ChevronDown,
 } from 'lucide-react';
+import { resolveList } from '@/lib/templates/resolveList';
 
 /* ════════════════════════════════════════════════════════════════════════════
    SOLIS IMMOBILIER — Immobilier & architecture de prestige (France)
@@ -783,7 +784,7 @@ type Property = {
   type: string;
 };
 
-const PROPERTIES: Property[] = [
+const PROPERTIES_DEMO: Property[] = [
   {
     name: 'Le Domaine des Cèdres',
     img: PHOTO.villa,
@@ -810,11 +811,13 @@ const PROPERTIES: Property[] = [
   },
 ];
 
-const PropertyCard: React.FC<{ p: Property; delay: number }> = ({
+const PropertyCard: React.FC<{ p: any; delay: number; index?: number }> = ({
   p,
   delay,
+  index = 0,
 }) => {
   const [hover, setHover] = useState<boolean>(false);
+  const img = p.photoUrl ?? p.img ?? PROPERTIES_DEMO[index % PROPERTIES_DEMO.length].img;
   return (
     <Reveal delay={delay} y={36}>
       <div
@@ -843,8 +846,8 @@ const PropertyCard: React.FC<{ p: Property; delay: number }> = ({
           }}
         >
           <img
-            src={p.img}
-            alt={p.name}
+            src={img}
+            alt={p.name ?? p.title}
             loading="lazy"
             style={{
               width: '100%',
@@ -877,7 +880,7 @@ const PropertyCard: React.FC<{ p: Property; delay: number }> = ({
             }}
           >
             <MapPin size={12} color={C.goldSoft} />
-            {p.city}
+            {p.city ?? p.loc}
           </span>
 
           {/* Hover overlay */}
@@ -926,7 +929,7 @@ const PropertyCard: React.FC<{ p: Property; delay: number }> = ({
               color: C.gold,
             }}
           >
-            {p.type}
+            {p.type ?? p.status}
           </span>
           <h3
             style={{
@@ -938,7 +941,7 @@ const PropertyCard: React.FC<{ p: Property; delay: number }> = ({
               lineHeight: 1.1,
             }}
           >
-            {p.name}
+            {p.name ?? p.title}
           </h3>
           <div
             style={{
@@ -1033,8 +1036,8 @@ const Selection: React.FC = () => (
         gap: 'clamp(24px, 3vw, 36px)',
       }}
     >
-      {PROPERTIES.map((p, i) => (
-        <PropertyCard key={p.name} p={p} delay={i * 0.12} />
+      {resolveList<any>(bp?.listings, PROPERTIES_DEMO).map((p: any, i: number) => (
+        <PropertyCard key={p.name ?? p.title ?? i} p={p} delay={i * 0.12} index={i} />
       ))}
     </div>
   </Section>
@@ -1680,7 +1683,7 @@ type Testimonial = {
   role: string;
 };
 
-const TESTIMONIALS: Testimonial[] = [
+const TESTIMONIALS_DEMO: Testimonial[] = [
   {
     quote:
       "Solis a compris en un rendez-vous ce que d'autres n'avaient pas saisi en six mois. L'acquisition de notre résidence à Saint-Rémy s'est faite avec une fluidité et une discrétion remarquables.",
@@ -1710,8 +1713,8 @@ const Testimonials: React.FC = () => (
         gap: 'clamp(24px, 3vw, 40px)',
       }}
     >
-      {TESTIMONIALS.map((t, i) => (
-        <Reveal key={t.name} delay={i * 0.12} y={36}>
+      {resolveList<any>(bp?.reputation?.featuredReviews, TESTIMONIALS_DEMO).map((t: any, i: number) => (
+        <Reveal key={t.name ?? t.author ?? i} delay={i * 0.12} y={36}>
           <figure
             style={{
               background: C.bgCard,
@@ -1738,7 +1741,7 @@ const Testimonials: React.FC = () => (
                 flex: 1,
               }}
             >
-              « {t.quote} »
+              « {t.quote ?? t.text} »
             </blockquote>
             <figcaption
               style={{
@@ -1764,9 +1767,9 @@ const Testimonials: React.FC = () => (
                   flexShrink: 0,
                 }}
               >
-                {t.name
+                {(t.name ?? t.author ?? '')
                   .split(' ')
-                  .map((w) => w[0])
+                  .map((w: string) => w[0])
                   .join('')}
               </span>
               <span>
@@ -1779,7 +1782,7 @@ const Testimonials: React.FC = () => (
                     color: C.text,
                   }}
                 >
-                  {t.name}
+                  {t.name ?? t.author}
                 </span>
                 <span
                   style={{
@@ -1790,7 +1793,7 @@ const Testimonials: React.FC = () => (
                     marginTop: 2,
                   }}
                 >
-                  {t.role}
+                  {t.role ?? t.source ?? ''}
                 </span>
               </span>
             </figcaption>
@@ -2406,6 +2409,7 @@ const ResponsiveStyles: React.FC = () => (
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+let bp: any = null;
 export default function ImpactTemplate(): React.ReactElement {
   const [session, setSession] = useState<{
     formData?: {
@@ -2421,6 +2425,7 @@ export default function ImpactTemplate(): React.ReactElement {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -2452,6 +2457,7 @@ export default function ImpactTemplate(): React.ReactElement {
     });
   });
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   if (brand) {
@@ -2462,54 +2468,6 @@ export default function ImpactTemplate(): React.ReactElement {
     };
   }
 
-  
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
 return (
     <main
       style={{
