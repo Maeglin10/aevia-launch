@@ -11,6 +11,7 @@ import {
   useMotionValue,
 } from 'framer-motion';
 import { ArrowRight, ChevronDown, Feather, MapPin } from 'lucide-react';
+import { resolveList } from "@/lib/templates/resolveList";
 
 // Hoisted above the design tokens: several templates read `brand` in a
 // module-level const — declaring it lower caused a TDZ ReferenceError (500).
@@ -113,7 +114,7 @@ const BASE = 'https://images.unsplash.com/photo-';
 const ph = (id: string, w = 1600) =>
   `${BASE}${id}?q=80&w=${w}&auto=format&fit=crop`;
 
-const STYLES: Style[] = [
+const STYLES_DEMO: Style[] = [
   {
     src: ph('1611501579-4d7dc8532cc1'),
     alt: 'Tatouage nature et plumes',
@@ -137,7 +138,7 @@ const STYLES: Style[] = [
   },
 ];
 
-const ARTISTS: Artist[] = [
+const ARTISTS_DEMO: Artist[] = [
   {
     name: 'CLAIRE',
     specialty: 'Nature & illustration',
@@ -221,7 +222,7 @@ const SAFETY_ITEMS: SafetyItem[] = [
   },
 ];
 
-const TESTIMONIALS: Testimonial[] = [
+const TESTIMONIALS_DEMO: Testimonial[] = [
   {
     quote:
       "Je suis historienne de l'art et je voulais une pièce inspirée de Magritte. L'interprétation d'Hugo a dépassé la référence — il a construit quelque chose d'entièrement neuf qui respire le surréalisme sans en copier les codes. Un tatouage que j'explique à chaque vernissage.",
@@ -914,6 +915,16 @@ function ProgressDot({
 }
 
 function StyleSequence() {
+  const STYLES = resolveList(
+    bp?.services?.map((s: any, i: number) => ({
+      src: STYLES_DEMO[i % STYLES_DEMO.length].src,
+      alt: s.title ?? STYLES_DEMO[i % STYLES_DEMO.length].alt,
+      index: STYLES_DEMO[i % STYLES_DEMO.length].index,
+      label: s.title ?? STYLES_DEMO[i % STYLES_DEMO.length].label,
+      desc: s.description ?? STYLES_DEMO[i % STYLES_DEMO.length].desc,
+    })),
+    STYLES_DEMO,
+  );
   const n = STYLES.length;
   const progress = useMotionValue(0.5 / n);
   const [active, setActive] = useState(0);
@@ -1118,6 +1129,16 @@ function ArtistCard({ a, i }: { a: Artist; i: number }) {
 }
 
 function ArtistCards() {
+  const ARTISTS = resolveList(
+    bp?.team?.map((t: any, i: number) => ({
+      name: t.name ?? ARTISTS_DEMO[i % ARTISTS_DEMO.length].name,
+      specialty: t.specialty ?? t.role ?? ARTISTS_DEMO[i % ARTISTS_DEMO.length].specialty,
+      badge: ARTISTS_DEMO[i % ARTISTS_DEMO.length].badge,
+      img: ARTISTS_DEMO[i % ARTISTS_DEMO.length].img,
+      alt: t.name ?? ARTISTS_DEMO[i % ARTISTS_DEMO.length].alt,
+    })),
+    ARTISTS_DEMO,
+  );
   const sec: React.CSSProperties = {
     background: C.bgAlt,
     padding: 'clamp(88px,12vw,170px) clamp(24px,6vw,96px)',
@@ -1467,6 +1488,14 @@ function SafetyPanel() {
    8 · Testimonials
    ════════════════════════════════════════════════════════════════════════════ */
 function Testimonials() {
+  const TESTIMONIALS = resolveList(
+    bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+      quote: r.text ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].quote,
+      name: r.name ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].name,
+      role: r.location ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].role,
+    })),
+    TESTIMONIALS_DEMO,
+  );
   const sec: React.CSSProperties = {
     background: C.bgAlt,
     padding: 'clamp(88px,12vw,170px) clamp(24px,6vw,96px)',
@@ -2068,6 +2097,7 @@ function Footer() {
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
     formData?: {
@@ -2083,6 +2113,7 @@ export default function Page() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -2096,6 +2127,7 @@ export default function Page() {
 
   fd = session?.formData;
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, accent: brand, accentLight: shadeColor(brand, 25), accentDark: shadeColor(brand, -20) };
@@ -2111,53 +2143,7 @@ export default function Page() {
   };
 
   
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
+
 return (
     <>
       {/* Google Fonts */}

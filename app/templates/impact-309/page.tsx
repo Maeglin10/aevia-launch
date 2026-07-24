@@ -43,6 +43,7 @@ import {
   X,
   Zap,
 } from 'lucide-react';
+import { resolveList } from "@/lib/templates/resolveList";
 
 // Hoisted above the design tokens: several templates read `brand` in a
 // module-level const — declaring it lower caused a TDZ ReferenceError (500).
@@ -225,6 +226,7 @@ function Button({
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
     formData?: {
@@ -240,6 +242,7 @@ export default function Page() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -271,6 +274,7 @@ export default function Page() {
     });
   });
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, primary: brand, primaryLight: shadeColor(brand, 25), primaryDark: shadeColor(brand, -20) };
@@ -291,9 +295,19 @@ export default function Page() {
   const heroY = useTransform(heroProgress, [0, 1], ['0%', '8%']);
   const heroOpacity = useTransform(heroProgress, [0, 0.8], [1, 0]);
 
+  const MENU_DEMO: any[] = [{"name": "Tatouage Fineline Poignet", "category": "Fineline", "desc": "Motif floral délicat tracé avec des aiguilles ultra-fines.", "price": "120,00 €"}, {"name": "Projet Aquarelle Dos", "category": "Aquarelle", "desc": "Composition colorée à effet aquarelle fluide et fondue.", "price": "250,00 €"}, {"name": "Mini Flash Lettrage", "category": "Minimaliste", "desc": "Mot ou date symbolique, typographie fine sur mesure.", "price": "80,00 €"}];
+  const menuItemsAll = resolveList(
+    bp?.services?.map((s: any, i: number) => ({
+      name: s.title ?? MENU_DEMO[i % MENU_DEMO.length].name,
+      category: MENU_DEMO[i % MENU_DEMO.length].category,
+      desc: s.description ?? MENU_DEMO[i % MENU_DEMO.length].desc,
+      price: s.price ?? MENU_DEMO[i % MENU_DEMO.length].price,
+    })),
+    MENU_DEMO,
+  );
   const menuItemsFiltered = activeCategory === "Tous"
-    ? [{"name": "Tatouage Fineline Poignet", "category": "Fineline", "desc": "Motif floral délicat tracé avec des aiguilles ultra-fines.", "price": "120,00 €"}, {"name": "Projet Aquarelle Dos", "category": "Aquarelle", "desc": "Composition colorée à effet aquarelle fluide et fondue.", "price": "250,00 €"}, {"name": "Mini Flash Lettrage", "category": "Minimaliste", "desc": "Mot ou date symbolique, typographie fine sur mesure.", "price": "80,00 €"}]
-    : [{"name": "Tatouage Fineline Poignet", "category": "Fineline", "desc": "Motif floral délicat tracé avec des aiguilles ultra-fines.", "price": "120,00 €"}, {"name": "Projet Aquarelle Dos", "category": "Aquarelle", "desc": "Composition colorée à effet aquarelle fluide et fondue.", "price": "250,00 €"}, {"name": "Mini Flash Lettrage", "category": "Minimaliste", "desc": "Mot ou date symbolique, typographie fine sur mesure.", "price": "80,00 €"}].filter(item => item.category === activeCategory);
+    ? menuItemsAll
+    : menuItemsAll.filter((item: any) => item.category === activeCategory);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -303,53 +317,7 @@ export default function Page() {
   };
 
   
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
+
 return (
     <div style={{
       background: C.bg,
@@ -946,22 +914,22 @@ return (
           }}>
             <Reveal delay={0.1}>
               <div style={{ position: 'relative', overflow: 'hidden', borderRadius: 4, aspectRatio: '1/1' }}>
-                <img src={PHOTO.gallery1} alt="Visuel galerie 1" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                <img src={bp?.beforeAfter?.[0]?.afterUrl ?? bp?.beforeAfter?.[0]?.beforeUrl ?? PHOTO.gallery1} alt={bp?.beforeAfter?.[0]?.caption ?? "Visuel galerie 1"} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               </div>
             </Reveal>
             <Reveal delay={0.2}>
               <div style={{ position: 'relative', overflow: 'hidden', borderRadius: 4, aspectRatio: '1/1' }}>
-                <img src={PHOTO.gallery2} alt="Visuel galerie 2" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                <img src={bp?.beforeAfter?.[1]?.afterUrl ?? bp?.beforeAfter?.[1]?.beforeUrl ?? PHOTO.gallery2} alt={bp?.beforeAfter?.[1]?.caption ?? "Visuel galerie 2"} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               </div>
             </Reveal>
             <Reveal delay={0.3}>
               <div style={{ position: 'relative', overflow: 'hidden', borderRadius: 4, aspectRatio: '1/1' }}>
-                <img src={PHOTO.gallery3} alt="Visuel galerie 3" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                <img src={bp?.beforeAfter?.[2]?.afterUrl ?? bp?.beforeAfter?.[2]?.beforeUrl ?? PHOTO.gallery3} alt={bp?.beforeAfter?.[2]?.caption ?? "Visuel galerie 3"} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               </div>
             </Reveal>
             <Reveal delay={0.4}>
               <div style={{ position: 'relative', overflow: 'hidden', borderRadius: 4, aspectRatio: '1/1' }}>
-                <img src={PHOTO.gallery4} alt="Visuel galerie 4" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                <img src={bp?.beforeAfter?.[3]?.afterUrl ?? bp?.beforeAfter?.[3]?.beforeUrl ?? PHOTO.gallery4} alt={bp?.beforeAfter?.[3]?.caption ?? "Visuel galerie 4"} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               </div>
             </Reveal>
           </div>
@@ -997,13 +965,15 @@ return (
                 position: 'relative',
                 zIndex: 2
               }}>
-                "Une prestation irréprochable et un souci du détail impressionnant. Les délais ont été parfaitement respectés, et la communication a toujours été fluide."
+                "{bp?.reputation?.featuredReviews?.[0]?.text ?? "Une prestation irréprochable et un souci du détail impressionnant. Les délais ont été parfaitement respectés, et la communication a toujours été fluide."}"
               </p>
               <div style={{ display: 'flex', justifyContent: 'center', gap: 4, marginBottom: 12 }}>
                 {[...Array(5)].map((_, i) => <Star key={i} size={14} fill={C.primary} color={C.primary} />)}
               </div>
               <div style={{ fontFamily: SANS, fontSize: 12, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: C.primary }}>
-                Marie Lauret · Bordeaux
+                {bp?.reputation?.featuredReviews?.[0]?.name
+                  ? `${bp.reputation.featuredReviews[0].name}${bp.reputation.featuredReviews[0].location ? ` · ${bp.reputation.featuredReviews[0].location}` : ""}`
+                  : "Marie Lauret · Bordeaux"}
               </div>
             </div>
           </Reveal>
@@ -1029,7 +999,7 @@ return (
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-            {[{"q":"Quelles sont les consignes d'hygiène ?","a":"Nous utilisons exclusivement du matériel à usage unique stérile ouvert devant vous, et notre studio respecte les protocoles de stérilisation de classe médicale."},{"q":"Est-ce douloureux le tatouage fineline ?","a":"Le tracé fin utilise des aiguilles beaucoup plus fines que le tatouage classique, ce qui réduit significativement la sensation de douleur et facilite la cicatrisation."},{"q":"Comment réserver une séance ?","a":"Remplissez le formulaire de contact en détaillant votre idée, la taille souhaitée et l'emplacement sur le corps. Nous vous répondrons sous 5 jours."}].map((item, i) => (
+            {resolveList(bp?.faq?.map((f: any) => ({ q: f.q, a: f.a })), [{"q":"Quelles sont les consignes d'hygiène ?","a":"Nous utilisons exclusivement du matériel à usage unique stérile ouvert devant vous, et notre studio respecte les protocoles de stérilisation de classe médicale."},{"q":"Est-ce douloureux le tatouage fineline ?","a":"Le tracé fin utilise des aiguilles beaucoup plus fines que le tatouage classique, ce qui réduit significativement la sensation de douleur et facilite la cicatrisation."},{"q":"Comment réserver une séance ?","a":"Remplissez le formulaire de contact en détaillant votre idée, la taille souhaitée et l'emplacement sur le corps. Nous vous répondrons sous 5 jours."}] as any[]).map((item: any, i: number) => (
               <Reveal key={i} delay={i * 0.08}>
                 <div style={{
                   background: C.bgCard,
