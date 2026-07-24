@@ -5,6 +5,7 @@ import React, {useRef, useState, useEffect} from 'react'
 import { motion, useScroll, useTransform, useInView } from "framer-motion"
 import Link from "next/link"
 import { ArrowRight, MapPin, Mail, Phone, Clock, Star, Heart, Sun, Moon } from "lucide-react"
+import { resolveList } from "@/lib/templates/resolveList"
 
 // ─── Design tokens ────────────────────────────────────────────────────────────
 // Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
@@ -44,7 +45,7 @@ const STATS = [
   { value: "15+", label: "Cours par semaine" },
 ]
 
-const COURS = [
+const COURS_DEMO = [
   { nom: "Vinyasa Flow", niveau: "Tous niveaux", duree: "60 min", horaire: "Lun · Mar · Jeu 7h30", desc: "Enchaînement fluide de postures synchronisées avec la respiration. Renforce et libère.", icon: <Sun size={20} color={C.accent} /> },
   { nom: "Yin Yoga", niveau: "Tous niveaux", duree: "75 min", horaire: "Mer · Ven 18h30", desc: "Postures tenues en profondeur pour relâcher les fascias et cultiver l'introspection.", icon: <Moon size={20} color={C.accent} /> },
   { nom: "Yoga Prénatal", niveau: "Gestantes", duree: "60 min", horaire: "Mar · Jeu 10h00", desc: "Pratique douce et sécurisée pour accompagner chaque étape de la grossesse avec sérénité.", icon: <Heart size={20} color={C.warm} /> },
@@ -59,7 +60,7 @@ const APPROCHE = [
   { titre: "Petits groupes", desc: "Maximum 12 élèves par cours pour un suivi individualisé et des ajustements personnalisés à chaque pratique." },
 ]
 
-const TEMOIGNAGES = [
+const TEMOIGNAGES_DEMO = [
   { texte: "Depuis que j'ai rejoint Lumière Yoga, ma relation avec mon corps a complètement changé. Les cours de Sophie sont à la fois exigeants et bienveillants. Un équilibre rare.", auteur: "Camille R.", detail: "Pratiquante depuis 2 ans, Vinyasa & Yin" },
   { texte: "Le yoga prénatal m'a accompagnée tout au long de ma grossesse. Sophie connaît parfaitement les besoins des futures mamans. Je me sentais entre de bonnes mains à chaque séance.", auteur: "Julie M.", detail: "Yoga prénatal, grossesse 2024" },
   { texte: "J'ai commencé sans aucune expérience. En 6 mois, je touche le sol avec les mains, mon dos ne me fait plus souffrir et je dors enfin bien. Le studio est un vrai sanctuaire.", auteur: "Marc P.", detail: "Pratiquant débutant, Yoga Restauratif" },
@@ -81,6 +82,7 @@ function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: nu
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
@@ -102,6 +104,7 @@ export default function LumiereYogaPage() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -115,10 +118,31 @@ export default function LumiereYogaPage() {
 
   fd = session?.formData;
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, accent: brand };
   }
+
+  const COURS: any[] = resolveList(
+    bp?.services?.map((s: any, i: number) => ({
+      nom: s.title ?? s.name,
+      niveau: s.price ?? COURS_DEMO[i % COURS_DEMO.length].niveau,
+      duree: COURS_DEMO[i % COURS_DEMO.length].duree,
+      horaire: COURS_DEMO[i % COURS_DEMO.length].horaire,
+      desc: s.description ?? s.desc,
+      icon: COURS_DEMO[i % COURS_DEMO.length].icon,
+    })),
+    COURS_DEMO
+  );
+  const TEMOIGNAGES: any[] = resolveList(
+    bp?.reputation?.featuredReviews?.map((r: any) => ({
+      texte: r.text ?? r.quote,
+      auteur: r.name ?? r.author,
+      detail: r.location ?? r.detail ?? r.context ?? "",
+    })),
+    TEMOIGNAGES_DEMO
+  );
 
   const heroRef = useRef<HTMLElement>(null)
   const [scrolled, setScrolled] = useState(false)
@@ -135,53 +159,7 @@ export default function LumiereYogaPage() {
     return () => window.removeEventListener("scroll", h)
   }, []);
 
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);return (
+  return (
     <div style={{ background: C.bg, fontFamily: FONT, overflowX: "hidden" }}>
       <style jsx global>{`@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,500;1,400&display=swap');
         /* mobile: stack 2-col grids to single column (added by responsive fix) */
