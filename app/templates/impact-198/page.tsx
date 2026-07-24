@@ -11,6 +11,7 @@ import {
   useSpring,
   AnimatePresence,
 } from "framer-motion";
+import { resolveList } from "@/lib/templates/resolveList";
 
 // Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
 // used to derive light/dark shades from the client's brand color.
@@ -39,7 +40,10 @@ let C: Record<string, string> = {
   fontSans: "'DM Sans', system-ui, sans-serif",
 };
 
-const SERVICES = [
+// Demo content — real data (businessProfile) replaces this wholesale via
+// resolveList when the client provided it; each field access below falls
+// back with `??` so the same JSX renders either shape.
+const SERVICES_DEMO = [
   {
     id: 1,
     title: "Soin Visage Signature",
@@ -103,7 +107,7 @@ const INGREDIENTS = [
   { name: "Beurre de Karité", origin: "Ghana", benefit: "Protection & Douceur", img: "photo-1620916566398-39f1143ab7be" },
 ];
 
-const TEAM = [
+const TEAM_DEMO = [
   {
     name: "Camille Rousseau",
     role: "Fondatrice & Esthéticienne",
@@ -134,7 +138,7 @@ const TEAM = [
   },
 ];
 
-const TESTIMONIALS = [
+const TESTIMONIALS_DEMO = [
   {
     text: "Un moment hors du temps. Le soin visage signature a transformé ma peau en une seule séance. Camille est une véritable artiste du soin.",
     author: "Léa M.",
@@ -368,7 +372,7 @@ function MarqueeStrip({
   );
 }
 
-function ServiceCard({ service }: { service: (typeof SERVICES)[0] }) {
+function ServiceCard({ service }: { service: any }) {
   return (
     <SpotlightCard
       accentRgb="196,132,122"
@@ -388,32 +392,36 @@ function ServiceCard({ service }: { service: (typeof SERVICES)[0] }) {
         viewport={{ once: true }}
         transition={{ duration: 0.7 }}
       >
-        <div
-          style={{
-            position: "absolute",
-            top: 20,
-            right: 20,
-            fontSize: 10,
-            letterSpacing: "0.2em",
-            textTransform: "uppercase",
-            background: C.blush,
-            color: C.roseDark,
-            padding: "4px 10px",
-            fontFamily: C.fontSans,
-            fontWeight: 500,
-          }}
-        >
-          {service.tag}
-        </div>
-        <div
-          style={{
-            fontSize: 28,
-            marginBottom: 20,
-            color: C.rose,
-          }}
-        >
-          {service.icon}
-        </div>
+        {service.tag && (
+          <div
+            style={{
+              position: "absolute",
+              top: 20,
+              right: 20,
+              fontSize: 10,
+              letterSpacing: "0.2em",
+              textTransform: "uppercase",
+              background: C.blush,
+              color: C.roseDark,
+              padding: "4px 10px",
+              fontFamily: C.fontSans,
+              fontWeight: 500,
+            }}
+          >
+            {service.tag}
+          </div>
+        )}
+        {service.icon && (
+          <div
+            style={{
+              fontSize: 28,
+              marginBottom: 20,
+              color: C.rose,
+            }}
+          >
+            {service.icon}
+          </div>
+        )}
         <h3
           style={{
             fontFamily: C.font,
@@ -424,20 +432,22 @@ function ServiceCard({ service }: { service: (typeof SERVICES)[0] }) {
             lineHeight: 1.2,
           }}
         >
-          {service.title}
+          {service.title ?? service.name}
         </h3>
-        <div
-          style={{
-            fontFamily: C.fontSans,
-            fontSize: 13,
-            color: C.rose,
-            marginBottom: 16,
-            fontWeight: 500,
-            letterSpacing: "0.05em",
-          }}
-        >
-          {service.subtitle}
-        </div>
+        {(service.subtitle ?? service.duration ?? service.price) && (
+          <div
+            style={{
+              fontFamily: C.fontSans,
+              fontSize: 13,
+              color: C.rose,
+              marginBottom: 16,
+              fontWeight: 500,
+              letterSpacing: "0.05em",
+            }}
+          >
+            {service.subtitle ?? [service.duration, service.price].filter(Boolean).join(" — ")}
+          </div>
+        )}
         <p
           style={{
             fontFamily: C.fontSans,
@@ -509,12 +519,13 @@ function IngredientCard({ ing }: { ing: (typeof INGREDIENTS)[0] }) {
   );
 }
 
-function TestimonialCarousel() {
+function TestimonialCarousel({ items }: { items: any[] }) {
   const [active, setActive] = useState(0);
   useEffect(() => {
-    const t = setInterval(() => setActive((a) => (a + 1) % TESTIMONIALS.length), 5000);
+    const t = setInterval(() => setActive((a) => (a + 1) % items.length), 5000);
     return () => clearInterval(t);
-  }, []);
+  }, [items.length]);
+  const current = items[active] ?? {};
   return (
     <div style={{ position: "relative", maxWidth: 700, margin: "0 auto" }}>
       <AnimatePresence mode="wait">
@@ -527,7 +538,7 @@ function TestimonialCarousel() {
           style={{ textAlign: "center" }}
         >
           <div style={{ display: "flex", justifyContent: "center", gap: 4, marginBottom: 24 }}>
-            {Array.from({ length: TESTIMONIALS[active].rating }).map((_, i) => (
+            {Array.from({ length: current.rating ?? 5 }).map((_, i) => (
               <span key={i} style={{ color: C.rose, fontSize: 16 }}>★</span>
             ))}
           </div>
@@ -541,18 +552,18 @@ function TestimonialCarousel() {
               marginBottom: 28,
             }}
           >
-            "{TESTIMONIALS[active].text}"
+            "{current.text}"
           </blockquote>
           <div style={{ fontFamily: C.fontSans, fontWeight: 600, color: C.dark, fontSize: 14 }}>
-            {TESTIMONIALS[active].author}
+            {current.author ?? current.name}
           </div>
           <div style={{ fontFamily: C.fontSans, color: C.textMuted, fontSize: 12, letterSpacing: "0.1em", marginTop: 4 }}>
-            {TESTIMONIALS[active].role}
+            {current.role ?? current.source}
           </div>
         </motion.div>
       </AnimatePresence>
       <div style={{ display: "flex", justifyContent: "center", gap: 8, marginTop: 36 }}>
-        {TESTIMONIALS.map((_, i) => (
+        {items.map((_, i) => (
           <button
             key={i}
             onClick={() => setActive(i)}
@@ -727,6 +738,7 @@ export default function Impact198Page() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -761,53 +773,15 @@ export default function Impact198Page() {
     return () => unsub();
   }, [scrollY]);
 
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
+  // Real business data (resolveList) replaces demo content wholesale when
+  // present — see the DEMO consts above for the shape each section falls
+  // back to. Field access in JSX uses `??` chains so both shapes render.
+  // Note: businessProfile is a sibling of formData on SessionData, not
+  // nested inside it — read from `session`, not `fd`.
+  const bp = session?.businessProfile;
+  const services: any[] = resolveList(bp?.services, SERVICES_DEMO);
+  const team: any[] = resolveList(bp?.team, TEAM_DEMO);
+  const temoignages: any[] = resolveList(bp?.reputation?.featuredReviews, TESTIMONIALS_DEMO);
 
   const scrollTo = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
@@ -1273,8 +1247,8 @@ export default function Impact198Page() {
               gap: 24,
             }}
           >
-            {SERVICES.map((service) => (
-              <ServiceCard key={service.id} service={service} />
+            {services.map((service: any, i: number) => (
+              <ServiceCard key={service.id ?? service.name ?? i} service={service} />
             ))}
           </div>
         </div>
@@ -1407,7 +1381,7 @@ export default function Impact198Page() {
               borderBottom: `1px solid ${C.ivoryDark}`,
             }}
           >
-            {TEAM.map((member, i) => (
+            {team.map((member, i) => (
               <button
                 key={i}
                 onClick={() => setActiveTeam(i)}
@@ -1446,8 +1420,8 @@ export default function Impact198Page() {
             >
               <div style={{ position: "relative" }}>
                 <img
-                  src={`https://images.unsplash.com/${TEAM[activeTeam].img}?q=80&w=800&auto=format&fit=crop`}
-                  alt={TEAM[activeTeam].name}
+                  src={`https://images.unsplash.com/${team[activeTeam].img}?q=80&w=800&auto=format&fit=crop`}
+                  alt={team[activeTeam].name}
                   style={{
                     width: "100%",
                     aspectRatio: "4/5",
@@ -1487,7 +1461,7 @@ export default function Impact198Page() {
                     fontWeight: 500,
                   }}
                 >
-                  {TEAM[activeTeam].role}
+                  {team[activeTeam].role}
                 </div>
                 <h3
                   style={{
@@ -1499,7 +1473,7 @@ export default function Impact198Page() {
                     lineHeight: 1.1,
                   }}
                 >
-                  {TEAM[activeTeam].name}
+                  {team[activeTeam].name}
                 </h3>
                 <p
                   style={{
@@ -1510,10 +1484,10 @@ export default function Impact198Page() {
                     marginBottom: 32,
                   }}
                 >
-                  {TEAM[activeTeam].bio}
+                  {team[activeTeam].bio}
                 </p>
                 <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-                  {TEAM[activeTeam].specialties.map((s) => (
+                  {team[activeTeam].specialties.map((s: any) => (
                     <span
                       key={s}
                       style={{
@@ -1574,7 +1548,7 @@ export default function Impact198Page() {
               </h2>
             </TextReveal>
           </div>
-          <TestimonialCarousel />
+          <TestimonialCarousel items={temoignages} />
         </div>
       </section>
 
