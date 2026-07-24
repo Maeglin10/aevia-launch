@@ -4,6 +4,7 @@
 import React, {useRef, useState, useEffect} from 'react'
 import { motion, useScroll, useTransform, useInView } from "framer-motion"
 import { Phone, Mail, MapPin, Clock, Star, CheckCircle, ArrowRight, Sprout } from "lucide-react"
+import { resolveList } from "@/lib/templates/resolveList"
 
 // Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
 // used to derive light/dark shades from the client's brand color.
@@ -29,7 +30,7 @@ const FONT_BODY = "'Lato', system-ui, sans-serif"
 
 const STATS = [{ value: "15 ans", label: "D'expertise" }, { value: "350+", label: "Jardins réalisés" }, { value: "0", label: "Pesticides" }, { value: "94%", label: "Clients satisfaits" }]
 
-const PRESTATIONS = [
+const PRESTATIONS_DEMO = [
   { titre: "Création de jardins", desc: "Conception et aménagement complet de votre jardin. Plan 3D, choix des essences, terrassement, plantation, arrosage automatique — clé en main.", tag: "Création" },
   { titre: "Potagers & jardins comestibles", desc: "Potager en carré, jardin comestible intégré au paysage, permaculture. Sélection variétale locale, formation à l'entretien incluse.", tag: "Potager" },
   { titre: "Terrasses & espaces minéraux", desc: "Dallage, pavage, terrasse bois ou composite, allées gravillonnées. Intégration harmonieuse entre végétal et minéral.", tag: "Terrasse" },
@@ -45,7 +46,7 @@ const ENGAGEMENTS = [
   "Compostage intégré et amendement organique systématique",
 ]
 
-const AVIS = [
+const AVIS_DEMO = [
   { texte: "Notre jardin de 800 m² complètement repensé : potager intégré, zone naturalisée, terrasse en lames de chêne. C'est devenu le plus bel endroit de la maison. On y passe tous nos week-ends.", auteur: "Famille Dupont", detail: "Création jardin + terrasse · Mérignac" },
   { texte: "Haie de 40 mètres plantée en janvier, déjà impénétrable en juillet. Sélection d'essences parfaite pour notre exposition. Plus aucun vis-à-vis avec les voisins.", auteur: "Jean-Paul M.", detail: "Haie mellifère · Bordeaux" },
   { texte: "Contrat d'entretien depuis 2 ans. Ponctuels, propres, et ils comprennent vraiment ce qu'on veut. Ils ont même introduit des plantes aromatiques entre nos rosiers sans qu'on le demande.", auteur: "Isabelle & Robert K.", detail: "Entretien annuel · Pessac" },
@@ -61,6 +62,7 @@ function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: nu
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
@@ -82,6 +84,7 @@ export default function VertNaturePage() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -95,10 +98,28 @@ export default function VertNaturePage() {
 
   fd = session?.formData;
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, accent: brand };
   }
+
+  const PRESTATIONS = resolveList(
+    bp?.services?.map((s: any, i: number) => ({
+      titre: s.title ?? s.name,
+      desc: s.description ?? s.desc,
+      tag: s.price ?? PRESTATIONS_DEMO[i % PRESTATIONS_DEMO.length].tag,
+    })),
+    PRESTATIONS_DEMO
+  );
+  const AVIS = resolveList(
+    bp?.reputation?.featuredReviews?.map((r: any) => ({
+      texte: r.text ?? r.quote,
+      auteur: r.name ?? r.author,
+      detail: r.detail ?? r.location,
+    })),
+    AVIS_DEMO
+  );
 
   const heroRef = useRef<HTMLElement>(null)
   const [scrolled, setScrolled] = useState(false)
@@ -112,53 +133,7 @@ export default function VertNaturePage() {
     return () => window.removeEventListener("scroll", h)
   }, []);
 
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);return (
+  return (
     <div style={{ background: C.bg, fontFamily: FONT_BODY, overflowX: "hidden" }}>
       <style jsx global>{`@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap');
         /* mobile: stack 2-col grids to single column (added by responsive fix) */

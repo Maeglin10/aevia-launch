@@ -11,6 +11,7 @@ import {
   useMotionValue,
 } from 'framer-motion';
 import { ArrowRight, ChevronDown, Leaf, MapPin } from 'lucide-react';
+import { resolveList } from "@/lib/templates/resolveList";
 
 /* ════════════════════════════════════════════════════════════════════════════
    ATELIER TERRA — Paysagiste & Aménagement Extérieur · Nantes
@@ -108,7 +109,7 @@ interface Testimonial {
 /* ════════════════════════════════════════════════════════════════════════════
    Data
    ════════════════════════════════════════════════════════════════════════════ */
-const PROJECTS: Project[] = [
+const PROJECTS_DEMO: Project[] = [
   {
     img: photo('1558618047-b62e0e6e8517'),
     alt: 'Conception de jardin à la française — Atelier Terra',
@@ -135,7 +136,7 @@ const PROJECTS: Project[] = [
   },
 ];
 
-const SERVICES: Service[] = [
+const SERVICES_DEMO: Service[] = [
   { title: 'Création de jardin', desc: 'Conception sur-mesure, plan 3D et réalisation complète — de la terre nue au jardin abouti.', icon: '🌿' },
   { title: 'Aménagement terrasse', desc: 'Dallage naturel, bois exotique, pergolas et mobilier extérieur choisis avec vous.', icon: '🪨' },
   { title: 'Entretien & tonte', desc: 'Forfaits saisonniers, taille raisonnée, désherbage naturel. Votre jardin toujours au meilleur.', icon: '✂️' },
@@ -198,7 +199,7 @@ const PHILOSOPHY: PhilosophyItem[] = [
   },
 ];
 
-const TESTIMONIALS: Testimonial[] = [
+const TESTIMONIALS_DEMO: Testimonial[] = [
   {
     quote: "En trois mois, Atelier Terra a transformé 800 m² de béton nu en un jardin luxuriant que je n\'aurais jamais osé imaginer. Leur patience et leur vision ont été remarquables du premier plan jusqu\'à la dernière plante.",
     name: 'Isabelle Moreau',
@@ -881,6 +882,17 @@ function ProgressDot({
 }
 
 function ProjectSequence() {
+  const PROJECTS: Project[] = resolveList(
+    bp?.beforeAfter?.map((r: any, i: number) => ({
+      img: r.afterUrl ?? r.beforeUrl ?? r.imageUrl,
+      alt: r.caption ?? PROJECTS_DEMO[i % PROJECTS_DEMO.length].alt,
+      index: PROJECTS_DEMO[i % PROJECTS_DEMO.length].index,
+      label: PROJECTS_DEMO[i % PROJECTS_DEMO.length].label,
+      caption: r.caption ?? PROJECTS_DEMO[i % PROJECTS_DEMO.length].caption,
+      sub: r.description ?? PROJECTS_DEMO[i % PROJECTS_DEMO.length].sub,
+    })),
+    PROJECTS_DEMO
+  );
   const n = PROJECTS.length;
   const progress = useMotionValue(0.5 / n);
   const [active, setActive] = useState(0);
@@ -1053,6 +1065,14 @@ function ServiceCards() {
     maxWidth: 1240,
     margin: '0 auto',
   };
+  const SERVICES: Service[] = resolveList(
+    bp?.services?.map((s: any, i: number) => ({
+      title: s.title ?? s.name,
+      desc: s.description ?? s.desc,
+      icon: SERVICES_DEMO[i % SERVICES_DEMO.length].icon,
+    })),
+    SERVICES_DEMO
+  );
   return (
     <section style={sec} id="services">
       <div style={{ maxWidth: 1240, margin: '0 auto 56px' }}>
@@ -1435,6 +1455,14 @@ function Testimonials() {
     maxWidth: 1180,
     margin: '0 auto',
   };
+  const TESTIMONIALS: Testimonial[] = resolveList(
+    bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+      quote: r.text ?? r.quote,
+      name: r.name ?? r.author,
+      role: r.location ?? r.role ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].role,
+    })),
+    TESTIMONIALS_DEMO
+  );
   return (
     <section style={sec}>
       <div style={{ maxWidth: 1180, margin: '0 auto 60px', textAlign: 'center' }}>
@@ -1933,6 +1961,7 @@ function Footer() {
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 let brand: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
@@ -1949,6 +1978,7 @@ export default function Page() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -1982,6 +2012,7 @@ export default function Page() {
     });
   });
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   if (brand) {
@@ -2000,55 +2031,7 @@ export default function Page() {
     WebkitFontSmoothing: 'antialiased',
   };
 
-  
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
-return (
+  return (
     <main style={root} suppressHydrationWarning>
       <style>{FONTS}</style>
       <Nav />

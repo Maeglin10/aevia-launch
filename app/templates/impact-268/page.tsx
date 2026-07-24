@@ -11,6 +11,7 @@ import {
   useMotionValue,
 } from 'framer-motion';
 import { ArrowRight, ChevronDown, Leaf, MapPin } from 'lucide-react';
+import { resolveList } from "@/lib/templates/resolveList";
 
 /* ════════════════════════════════════════════════════════════════════════════
    VERT HORIZON — Paysagiste & Architecture de Jardin · Île-de-France
@@ -62,6 +63,9 @@ const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 /* ── Photo helper ────────────────────────────────────────────────────────── */
 function photo(id: string, w = 1600) {
+  // Client-provided full URLs (e.g. uploaded realisation photos) pass through
+  // untouched; only bare Unsplash id fragments get wrapped.
+  if (id.startsWith('http')) return id;
   return `https://images.unsplash.com/photo-${id}?q=80&w=${w}&auto=format&fit=crop`;
 }
 
@@ -106,7 +110,7 @@ interface DesignStep {
    Data
    ════════════════════════════════════════════════════════════════════════════ */
 
-const PHASES: Project[] = [
+const PHASES_DEMO: Project[] = [
   {
     imgId: '1558618047-b62e0e6e8517',
     index: 'I',
@@ -127,7 +131,7 @@ const PHASES: Project[] = [
   },
 ];
 
-const SERVICES: Service[] = [
+const SERVICES_DEMO: Service[] = [
   { label: 'Conception paysagère', desc: 'Étude de site, relevé topographique, plan masse et palette végétale adaptée à votre micro-climat.' },
   { label: 'Jardin contemporain', desc: 'Architecture minérale et végétale, sélection de graminées et vivaces structurantes, esprit zen urbain.' },
   { label: 'Potager biologique', desc: 'Carrés potagers surélevés, buttes en lasagne, composteur intégré, sélection variétale ancienne.' },
@@ -178,7 +182,7 @@ const DESIGN_STEPS: DesignStep[] = [
   },
 ];
 
-const TESTIMONIALS: Testimonial[] = [
+const TESTIMONIALS_DEMO: Testimonial[] = [
   {
     quote: "J\'avais une cour bétonnée de 40 m² à Neuilly — un no man\'s land gris. Vert Horizon l\'a transformée en jardin japonais luxuriant. Les voisins me demandent leur contact sans arrêt.",
     name: 'Sophie M.',
@@ -898,6 +902,15 @@ function ProgressDot({
 }
 
 function ProjectSequence() {
+  const PHASES: Project[] = resolveList(
+    bp?.beforeAfter?.map((r: any, i: number) => ({
+      imgId: r.afterUrl ?? r.beforeUrl ?? r.imageUrl ?? PHASES_DEMO[i % PHASES_DEMO.length].imgId,
+      index: PHASES_DEMO[i % PHASES_DEMO.length].index,
+      title: r.caption ?? PHASES_DEMO[i % PHASES_DEMO.length].title,
+      sub: r.description ?? PHASES_DEMO[i % PHASES_DEMO.length].sub,
+    })),
+    PHASES_DEMO
+  );
   const n = PHASES.length;
   const progress = useMotionValue(0.5 / n);
   const [active, setActive] = useState(0);
@@ -1064,6 +1077,13 @@ function ServiceCards() {
     maxWidth: 1240,
     margin: '0 auto',
   };
+  const SERVICES: Service[] = resolveList(
+    bp?.services?.map((s: any, i: number) => ({
+      label: s.title ?? s.name,
+      desc: s.description ?? s.desc,
+    })),
+    SERVICES_DEMO
+  );
   return (
     <section style={sec} id="services">
       <div style={{ maxWidth: 1240, margin: '0 auto 56px' }}>
@@ -1473,6 +1493,14 @@ function Testimonials() {
     maxWidth: 1180,
     margin: '0 auto',
   };
+  const TESTIMONIALS: Testimonial[] = resolveList(
+    bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+      quote: r.text ?? r.quote,
+      name: r.name ?? r.author,
+      role: r.location ?? r.role ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].role,
+    })),
+    TESTIMONIALS_DEMO
+  );
   return (
     <section id="contact" style={sec}>
       <div style={{ maxWidth: 1180, margin: '0 auto 56px', textAlign: 'center' }}>
@@ -2038,6 +2066,7 @@ function Footer() {
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 let brand: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
@@ -2054,6 +2083,7 @@ export default function Page() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -2067,6 +2097,7 @@ export default function Page() {
 
   fd = session?.formData;
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, accent: brand, accentLight: shadeColor(brand, 25), accentDark: shadeColor(brand, -20) };
@@ -2081,55 +2112,7 @@ export default function Page() {
     MozOsxFontSmoothing: 'grayscale',
   };
 
-  
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
-return (
+  return (
     <main style={root} suppressHydrationWarning>
       {/* Google Fonts */}
       <style>{`@import url('${FONTS_URL}');`}</style>

@@ -43,6 +43,7 @@ import {
   X,
   Zap,
 } from 'lucide-react';
+import { resolveList } from "@/lib/templates/resolveList";
 // Custom Instagram icon component for compatibility
 const Instagram = ({ size = 24, ...props }: React.ComponentProps<'svg'> & { size?: number }) => (
   <svg
@@ -221,6 +222,7 @@ function Button({
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 let brand: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
@@ -237,6 +239,7 @@ export default function Page() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -268,6 +271,7 @@ export default function Page() {
     });
   });
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, primary: brand, primaryLight: shadeColor(brand, 25), primaryDark: shadeColor(brand, -20) };
@@ -288,9 +292,19 @@ export default function Page() {
   const heroY = useTransform(heroProgress, [0, 1], ['0%', '8%']);
   const heroOpacity = useTransform(heroProgress, [0, 0.8], [1, 0]);
 
+  const MENU_ITEMS_DEMO = [{"name": "Conception Jardin Sec", "category": "Création", "desc": "Plan 3D et plantation d'espèces locales peu gourmandes en eau.", "price": "Sur Devis"}, {"name": "Pose de Terrasse Bois", "category": "Création", "desc": "Installation de terrasse en bois naturel ou composite, matériaux locaux.", "price": "Sur Devis"}, {"name": "Installation Goutte-à-Goutte", "category": "Arrosage", "desc": "Système d'irrigation programmé économe en eau, adapté à la garrigue.", "price": "450,00 €"}];
+  const menuItemsAll = resolveList(
+    bp?.services?.map((s: any, i: number) => ({
+      name: s.title ?? s.name,
+      category: MENU_ITEMS_DEMO[i % MENU_ITEMS_DEMO.length].category,
+      desc: s.description ?? s.desc,
+      price: s.price ?? MENU_ITEMS_DEMO[i % MENU_ITEMS_DEMO.length].price,
+    })),
+    MENU_ITEMS_DEMO
+  );
   const menuItemsFiltered = activeCategory === "Tous"
-    ? [{"name": "Conception Jardin Sec", "category": "Création", "desc": "Plan 3D et plantation d'espèces locales peu gourmandes en eau.", "price": "Sur Devis"}, {"name": "Pose de Terrasse Bois", "category": "Création", "desc": "Installation de terrasse en bois naturel ou composite, matériaux locaux.", "price": "Sur Devis"}, {"name": "Installation Goutte-à-Goutte", "category": "Arrosage", "desc": "Système d'irrigation programmé économe en eau, adapté à la garrigue.", "price": "450,00 €"}]
-    : [{"name": "Conception Jardin Sec", "category": "Création", "desc": "Plan 3D et plantation d'espèces locales peu gourmandes en eau.", "price": "Sur Devis"}, {"name": "Pose de Terrasse Bois", "category": "Création", "desc": "Installation de terrasse en bois naturel ou composite, matériaux locaux.", "price": "Sur Devis"}, {"name": "Installation Goutte-à-Goutte", "category": "Arrosage", "desc": "Système d'irrigation programmé économe en eau, adapté à la garrigue.", "price": "450,00 €"}].filter(item => item.category === activeCategory);
+    ? menuItemsAll
+    : menuItemsAll.filter((item: any) => item.category === activeCategory);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -299,54 +313,28 @@ export default function Page() {
     }
   };
 
-  
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
+  const REVIEWS_DEMO = [{ text: "Une prestation irréprochable et un souci du détail impressionnant. Les délais ont été parfaitement respectés, et la communication a toujours été fluide.", name: "Marie Lauret", location: "Bordeaux" }];
+  const REVIEWS = resolveList(
+    bp?.reputation?.featuredReviews?.map((r: any) => ({
+      text: r.text ?? r.quote,
+      name: r.name ?? r.author,
+      location: r.location ?? r.role ?? "",
+    })),
+    REVIEWS_DEMO
+  );
+  const featuredReview = REVIEWS[0];
+
+  const FAQ_DEMO = [{"q":"Quelles plantes résistantes à la chaleur conseillez-vous ?","a":"Le laurier-rose, la lavande, le romarin, le ciste, l'olivier et les herbes de la pampa s'épanouissent parfaitement sous le climat de Montpellier sans nécessiter beaucoup d'eau."},{"q":"Comment fonctionnent vos systèmes d'arrosage économes ?","a":"Ils sont connectés à une sonde météo locale : si de la pluie est annoncée, l'arrosage se coupe automatiquement pour préserver les ressources."},{"q":"Proposez-vous des contrats d'entretien annuel ?","a":"Oui, pour la tonte, la taille des haies et le nettoyage saisonnier, éligibles au crédit d'impôt service à la personne (50% de déduction)."}];
+  const FAQ = resolveList(
+    bp?.faq?.map((f: any) => ({ q: f.q ?? f.question, a: f.a ?? f.answer })),
+    FAQ_DEMO
+  );
+
+  const GALLERY_DEMO = [PHOTO.gallery1, PHOTO.gallery2, PHOTO.gallery3, PHOTO.gallery4];
+  const GALLERY = resolveList(
+    bp?.beforeAfter?.map((r: any) => r.afterUrl ?? r.beforeUrl ?? r.imageUrl),
+    GALLERY_DEMO
+  );
 return (
     <div style={{
       background: C.bg,
@@ -943,22 +931,22 @@ return (
           }}>
             <Reveal delay={0.1}>
               <div style={{ position: 'relative', overflow: 'hidden', borderRadius: 4, aspectRatio: '1/1' }}>
-                <img src={PHOTO.gallery1} alt="Visuel galerie 1" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                <img src={GALLERY[0 % GALLERY.length]} alt="Visuel galerie 1" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               </div>
             </Reveal>
             <Reveal delay={0.2}>
               <div style={{ position: 'relative', overflow: 'hidden', borderRadius: 4, aspectRatio: '1/1' }}>
-                <img src={PHOTO.gallery2} alt="Visuel galerie 2" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                <img src={GALLERY[1 % GALLERY.length]} alt="Visuel galerie 2" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               </div>
             </Reveal>
             <Reveal delay={0.3}>
               <div style={{ position: 'relative', overflow: 'hidden', borderRadius: 4, aspectRatio: '1/1' }}>
-                <img src={PHOTO.gallery3} alt="Visuel galerie 3" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                <img src={GALLERY[2 % GALLERY.length]} alt="Visuel galerie 3" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               </div>
             </Reveal>
             <Reveal delay={0.4}>
               <div style={{ position: 'relative', overflow: 'hidden', borderRadius: 4, aspectRatio: '1/1' }}>
-                <img src={PHOTO.gallery4} alt="Visuel galerie 4" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                <img src={GALLERY[3 % GALLERY.length]} alt="Visuel galerie 4" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               </div>
             </Reveal>
           </div>
@@ -994,13 +982,13 @@ return (
                 position: 'relative',
                 zIndex: 2
               }}>
-                "Une prestation irréprochable et un souci du détail impressionnant. Les délais ont été parfaitement respectés, et la communication a toujours été fluide."
+                "{featuredReview.text}"
               </p>
               <div style={{ display: 'flex', justifyContent: 'center', gap: 4, marginBottom: 12 }}>
                 {[...Array(5)].map((_, i) => <Star key={i} size={14} fill={C.primary} color={C.primary} />)}
               </div>
               <div style={{ fontFamily: SANS, fontSize: 12, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: C.primary }}>
-                Marie Lauret · Bordeaux
+                {featuredReview.name}{featuredReview.location ? ` · ${featuredReview.location}` : ''}
               </div>
             </div>
           </Reveal>
@@ -1026,7 +1014,7 @@ return (
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-            {[{"q":"Quelles plantes résistantes à la chaleur conseillez-vous ?","a":"Le laurier-rose, la lavande, le romarin, le ciste, l'olivier et les herbes de la pampa s'épanouissent parfaitement sous le climat de Montpellier sans nécessiter beaucoup d'eau."},{"q":"Comment fonctionnent vos systèmes d'arrosage économes ?","a":"Ils sont connectés à une sonde météo locale : si de la pluie est annoncée, l'arrosage se coupe automatiquement pour préserver les ressources."},{"q":"Proposez-vous des contrats d'entretien annuel ?","a":"Oui, pour la tonte, la taille des haies et le nettoyage saisonnier, éligibles au crédit d'impôt service à la personne (50% de déduction)."}].map((item, i) => (
+            {FAQ.map((item: any, i: number) => (
               <Reveal key={i} delay={i * 0.08}>
                 <div style={{
                   background: C.bgCard,
