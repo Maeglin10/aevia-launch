@@ -43,6 +43,7 @@ import {
   X,
   Zap,
 } from 'lucide-react';
+import { resolveList } from "@/lib/templates/resolveList";
 // Custom Instagram icon component for compatibility
 const Instagram = ({ size = 24, ...props }: React.ComponentProps<'svg'> & { size?: number }) => (
   <svg
@@ -221,6 +222,7 @@ function Button({
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 let brand: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
@@ -237,6 +239,7 @@ export default function Page() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -268,6 +271,8 @@ export default function Page() {
     });
   });
   c = session?.generatedContent;
+  bp = session?.businessProfile;
+  const review = bp?.reputation?.featuredReviews?.[0];
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, primary: brand, primaryLight: shadeColor(brand, 25), primaryDark: shadeColor(brand, -20) };
@@ -290,7 +295,9 @@ export default function Page() {
 
   // Real menu from the client's wizard input (c.menuItems) takes priority;
   // falls back to the template's demo dishes only when none was provided.
-  const menuItemsAll: { name: string; category: string; desc: string; price: string }[] = (c?.menuItems && c.menuItems.length > 0)
+  const menuItemsAll: { name: string; category: string; desc: string; price: string }[] = (bp?.menu && bp.menu.length > 0)
+    ? bp.menu.map((item: any) => ({ name: item.name, category: item.category || "Menu", desc: item.description || "", price: item.price }))
+    : (c?.menuItems && c.menuItems.length > 0)
     ? c.menuItems.map((item: { name: string; category?: string; description?: string; price: string }) => ({
         name: item.name, category: item.category || "Menu",
         desc: item.description || "", price: item.price,
@@ -307,54 +314,6 @@ export default function Page() {
     }
   };
 
-  
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
 return (
     <div style={{
       background: C.bg,
@@ -837,7 +796,7 @@ return (
                 maxWidth: 550,
                 margin: '0 auto'
               }}>
-                {(c?.menuItems && c.menuItems.length > 0
+                {((bp?.menu && bp.menu.length > 0) || (c?.menuItems && c.menuItems.length > 0)
                   ? ["Tous", ...Array.from(new Set(menuItemsAll.map((i) => i.category)))]
                   : ["Tous","Burgers","Accompagnements","Desserts"]
                 ).map((tab: string, i: number) => (
@@ -1009,13 +968,13 @@ return (
                 position: 'relative',
                 zIndex: 2
               }}>
-                "Une prestation irréprochable et un souci du détail impressionnant. Les délais ont été parfaitement respectés, et la communication a toujours été fluide."
+                {`"${review?.text ?? "Une prestation irréprochable et un souci du détail impressionnant. Les délais ont été parfaitement respectés, et la communication a toujours été fluide."}"`}
               </p>
               <div style={{ display: 'flex', justifyContent: 'center', gap: 4, marginBottom: 12 }}>
-                {[...Array(5)].map((_, i) => <Star key={i} size={14} fill={C.primary} color={C.primary} />)}
+                {[...Array(review?.stars ?? review?.rating ?? 5)].map((_, i) => <Star key={i} size={14} fill={C.primary} color={C.primary} />)}
               </div>
               <div style={{ fontFamily: SANS, fontSize: 12, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: C.primary }}>
-                Marie Lauret · Bordeaux
+                {review?.name ?? "Marie Lauret · Bordeaux"}
               </div>
             </div>
           </Reveal>
@@ -1041,7 +1000,7 @@ return (
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-            {[{"q":"Quelles sont vos zones de livraison ?","a":"Nous livrons principalement dans le 9e, 2e, 10e et 18e arrondissements de Paris. Vous pouvez aussi commander en Click & Collect."},{"q":"Proposez-vous des options végétariennes ?","a":"Oui, notre Veggie Green est disponible sur place et à la livraison, et vous pouvez remplacer la viande par un patty végétal sur tous nos burgers."},{"q":"D'où vient votre viande ?","a":"Notre bœuf est 100% origine France, de race Aubrac ou Limousine, fourni par une boucherie partenaire du 9e arrondissement."}].map((item, i) => (
+            {resolveList(bp?.faq, [{"q":"Quelles sont vos zones de livraison ?","a":"Nous livrons principalement dans le 9e, 2e, 10e et 18e arrondissements de Paris. Vous pouvez aussi commander en Click & Collect."},{"q":"Proposez-vous des options végétariennes ?","a":"Oui, notre Veggie Green est disponible sur place et à la livraison, et vous pouvez remplacer la viande par un patty végétal sur tous nos burgers."},{"q":"D'où vient votre viande ?","a":"Notre bœuf est 100% origine France, de race Aubrac ou Limousine, fourni par une boucherie partenaire du 9e arrondissement."}] as any[]).map((item: any, i: number) => (
               <Reveal key={i} delay={i * 0.08}>
                 <div style={{
                   background: C.bgCard,
