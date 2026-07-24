@@ -10,6 +10,7 @@ import {
   useSpring,
   useMotionValue,
   animate,
+  type MotionValue,
 } from "framer-motion"
 
 // ─── Design Tokens ─────────────────────────────────────────────────────────────
@@ -116,7 +117,7 @@ const EVENTS = [
 ]
 
 // ─── Hooks ────────────────────────────────────────────────────────────────────
-function useParallax(value: ReturnType<typeof useMotionValue>, distance: number) {
+function useParallax(value: MotionValue<number>, distance: number) {
   return useTransform(value, [0, 1], [-distance, distance])
 }
 
@@ -578,7 +579,6 @@ export default function Impact211Page() {
                 fontFamily: font.sans,
                 fontSize: "0.72rem",
                 fontWeight: 400,
-                letterSpacing: "0.2em",
                 textTransform: "uppercase",
                 color: C.bg,
                 background: C.gold,
