@@ -11,6 +11,7 @@ import {
   useMotionValue,
 } from 'framer-motion';
 import { ArrowRight, ChevronDown, TrendingUp } from 'lucide-react';
+import { resolveList } from "@/lib/templates/resolveList";
 
 /* ════════════════════════════════════════════════════════════════════════════
    AXIOM CONSEIL — Expert-Comptable & Conseil en Gestion · Bordeaux
@@ -117,7 +118,7 @@ const DOMAINS: Domain[] = [
   },
 ];
 
-const SERVICES: Service[] = [
+const SERVICES_DEMO: Service[] = [
   {
     label: 'Tenue comptable',
     desc: 'Saisie, révision et clôture des comptes dans les délais impartis.',
@@ -199,7 +200,7 @@ const PILLARS: PillarItem[] = [
   },
 ];
 
-const TESTIMONIALS: Testimonial[] = [
+const TESTIMONIALS_DEMO: Testimonial[] = [
   {
     quote:
       "J'ai lancé mon e-commerce à zéro et franchi les 2 M€ en deux ans. Axiom a structuré la comptabilité, la paie et la fiscalité dès le premier jour. Je n'aurais pas grandi aussi vite sans eux.",
@@ -1058,6 +1059,13 @@ function ServiceCard({ svc, i }: { svc: Service; i: number }) {
 }
 
 function ServiceCards() {
+  const SERVICES = resolveList(
+    bp?.services?.map((s: any) => ({
+      label: s.title ?? s.name,
+      desc: s.description ?? s.desc,
+    })),
+    SERVICES_DEMO
+  );
   const sec: React.CSSProperties = {
     background: C.bg,
     padding: 'clamp(80px,11vw,160px) clamp(24px,6vw,96px)',
@@ -1425,6 +1433,14 @@ function PillarPanel() {
    TESTIMONIALS
    ════════════════════════════════════════════════════════════════════════════ */
 function Testimonials() {
+  const TESTIMONIALS = resolveList(
+    bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+      quote: r.text ?? r.quote,
+      name: r.name ?? r.author,
+      role: r.location ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].role,
+    })),
+    TESTIMONIALS_DEMO
+  );
   const sec: React.CSSProperties = {
     background: C.bgAlt,
     padding: 'clamp(80px,11vw,160px) clamp(24px,6vw,96px)',
@@ -2062,6 +2078,7 @@ function Footer() {
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 let brand: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
@@ -2078,6 +2095,7 @@ export default function Page() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -2091,6 +2109,7 @@ export default function Page() {
 
   fd = session?.formData;
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   if (brand) {
@@ -2110,54 +2129,6 @@ export default function Page() {
     MozOsxFontSmoothing: 'grayscale',
   };
 
-  
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
 return (
     <main style={root} suppressHydrationWarning>
       <style>{`

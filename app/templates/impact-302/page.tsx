@@ -43,6 +43,7 @@ import {
   X,
   Zap,
 } from 'lucide-react';
+import { resolveList } from "@/lib/templates/resolveList";
 // Custom Instagram icon component for compatibility
 const Instagram = ({ size = 24, ...props }: React.ComponentProps<'svg'> & { size?: number }) => (
   <svg
@@ -221,6 +222,7 @@ function Button({
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 let brand: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
@@ -237,6 +239,7 @@ export default function Page() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -268,6 +271,7 @@ export default function Page() {
     });
   });
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, primary: brand, primaryLight: shadeColor(brand, 25), primaryDark: shadeColor(brand, -20) };
@@ -288,9 +292,19 @@ export default function Page() {
   const heroY = useTransform(heroProgress, [0, 1], ['0%', '8%']);
   const heroOpacity = useTransform(heroProgress, [0, 0.8], [1, 0]);
 
+  const MENU_ITEMS_DEMO = [{"name": "Pack Création d'Entreprise", "category": "Création", "desc": "Choix du statut juridique, rédaction des statuts, dépôt au greffe.", "price": "350,00 €"}, {"name": "Tenue Comptable Mensuelle", "category": "Comptabilité", "desc": "Saisie des pièces, rapprochement bancaire, déclarations de TVA incluses.", "price": "99,00 € / mois"}, {"name": "Déclaration Fiscale Annuelle", "category": "Fiscalité", "desc": "Établissement du bilan, compte de résultat et liasse fiscale.", "price": "400,00 €"}];
+  const MENU_ITEMS = resolveList(
+    bp?.services?.map((s: any, i: number) => ({
+      name: s.title ?? s.name,
+      category: MENU_ITEMS_DEMO[i % MENU_ITEMS_DEMO.length].category,
+      desc: s.description ?? s.desc,
+      price: s.price ?? MENU_ITEMS_DEMO[i % MENU_ITEMS_DEMO.length].price,
+    })),
+    MENU_ITEMS_DEMO
+  );
   const menuItemsFiltered = activeCategory === "Tous"
-    ? [{"name": "Pack Création d'Entreprise", "category": "Création", "desc": "Choix du statut juridique, rédaction des statuts, dépôt au greffe.", "price": "350,00 €"}, {"name": "Tenue Comptable Mensuelle", "category": "Comptabilité", "desc": "Saisie des pièces, rapprochement bancaire, déclarations de TVA incluses.", "price": "99,00 € / mois"}, {"name": "Déclaration Fiscale Annuelle", "category": "Fiscalité", "desc": "Établissement du bilan, compte de résultat et liasse fiscale.", "price": "400,00 €"}]
-    : [{"name": "Pack Création d'Entreprise", "category": "Création", "desc": "Choix du statut juridique, rédaction des statuts, dépôt au greffe.", "price": "350,00 €"}, {"name": "Tenue Comptable Mensuelle", "category": "Comptabilité", "desc": "Saisie des pièces, rapprochement bancaire, déclarations de TVA incluses.", "price": "99,00 € / mois"}, {"name": "Déclaration Fiscale Annuelle", "category": "Fiscalité", "desc": "Établissement du bilan, compte de résultat et liasse fiscale.", "price": "400,00 €"}].filter(item => item.category === activeCategory);
+    ? MENU_ITEMS
+    : MENU_ITEMS.filter(item => item.category === activeCategory);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -299,54 +313,6 @@ export default function Page() {
     }
   };
 
-  
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
 return (
     <div style={{
       background: C.bg,
@@ -994,13 +960,15 @@ return (
                 position: 'relative',
                 zIndex: 2
               }}>
-                "Une prestation irréprochable et un souci du détail impressionnant. Les délais ont été parfaitement respectés, et la communication a toujours été fluide."
+                "{bp?.reputation?.featuredReviews?.[0]?.text ?? "Une prestation irréprochable et un souci du détail impressionnant. Les délais ont été parfaitement respectés, et la communication a toujours été fluide."}"
               </p>
               <div style={{ display: 'flex', justifyContent: 'center', gap: 4, marginBottom: 12 }}>
                 {[...Array(5)].map((_, i) => <Star key={i} size={14} fill={C.primary} color={C.primary} />)}
               </div>
               <div style={{ fontFamily: SANS, fontSize: 12, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: C.primary }}>
-                Marie Lauret · Bordeaux
+                {bp?.reputation?.featuredReviews?.[0]?.name
+                  ? `${bp.reputation.featuredReviews[0].name}${bp.reputation.featuredReviews[0].location ? " · " + bp.reputation.featuredReviews[0].location : ""}`
+                  : "Marie Lauret · Bordeaux"}
               </div>
             </div>
           </Reveal>
@@ -1026,7 +994,7 @@ return (
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-            {[{"q":"Quels outils logiciels fournissez-vous ?","a":"Chaque forfait intègre un accès à notre application partenaire Penylane permettant de prendre en photo vos factures et de suivre votre trésorerie en temps réel."},{"q":"Comment s'effectue la transition depuis mon ancien comptable ?","a":"Nous nous occupons de tout. Nous envoyons la lettre de résiliation à votre ancien cabinet et récupérons vos historiques sans coupure."},{"q":"Puis-je vous rencontrer physiquement à Toulouse ?","a":"Absolument. Nos bureaux sont basés à Toulouse, vous pouvez y prendre rendez-vous pour des points fiscaux réguliers."}].map((item, i) => (
+            {resolveList(bp?.faq?.map((f: any) => ({ q: f.q, a: f.a })), [{"q":"Quels outils logiciels fournissez-vous ?","a":"Chaque forfait intègre un accès à notre application partenaire Penylane permettant de prendre en photo vos factures et de suivre votre trésorerie en temps réel."},{"q":"Comment s'effectue la transition depuis mon ancien comptable ?","a":"Nous nous occupons de tout. Nous envoyons la lettre de résiliation à votre ancien cabinet et récupérons vos historiques sans coupure."},{"q":"Puis-je vous rencontrer physiquement à Toulouse ?","a":"Absolument. Nos bureaux sont basés à Toulouse, vous pouvez y prendre rendez-vous pour des points fiscaux réguliers."}]).map((item, i) => (
               <Reveal key={i} delay={i * 0.08}>
                 <div style={{
                   background: C.bgCard,
