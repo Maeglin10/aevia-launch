@@ -26,6 +26,7 @@ import {
   PlayCircle,
   ChevronDown,
 } from 'lucide-react';
+import { resolveList } from "@/lib/templates/resolveList";
 
 // Hoisted above the design tokens: several templates read `brand` in a
 // module-level const — declaring it lower caused a TDZ ReferenceError (500).
@@ -183,7 +184,7 @@ interface Product {
   badge?: string;
 }
 
-const PRODUCTS: Product[] = [
+const PRODUCTS_DEMO: Product[] = [
   {
     id: 'af-01',
     name: 'Forge Runner OG',
@@ -276,7 +277,7 @@ interface Look {
   label: string;
 }
 
-const LOOKBOOK: Look[] = [
+const LOOKBOOK_DEMO: Look[] = [
   { img: IMG.look1, tall: true, label: 'Concrete Editorial' },
   { img: IMG.story1, label: 'Studio 04' },
   { img: IMG.look2, label: 'Night Shift' },
@@ -292,7 +293,7 @@ interface Review {
   text: string;
 }
 
-const REVIEWS: Review[] = [
+const REVIEWS_DEMO: Review[] = [
   {
     name: 'Marcus T.',
     handle: '@marcusruns',
@@ -1172,7 +1173,7 @@ function FeaturedDrops({ onAdd }: { onAdd: () => void }) {
             gap: 'clamp(16px, 2vw, 28px)',
           }}
         >
-          {PRODUCTS.map((p) => (
+          {buildProducts217().map((p) => (
             <ProductCard key={p.id} product={p} onAdd={onAdd} />
           ))}
         </motion.div>
@@ -1484,7 +1485,7 @@ function Lookbook() {
             columnGap: 'clamp(12px, 1.8vw, 22px)',
           }}
         >
-          {LOOKBOOK.map((look, i) => (
+          {buildLookbook217().map((look, i) => (
             <Reveal
               key={i}
               delay={(i % 3) * 0.08}
@@ -1611,7 +1612,7 @@ function Reviews() {
             gap: 'clamp(16px, 2vw, 28px)',
           }}
         >
-          {REVIEWS.map((r) => (
+          {buildReviews217().map((r) => (
             <motion.div
               key={r.handle}
               variants={revealUp}
@@ -2114,6 +2115,46 @@ function Footer() {
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
+// Builders return the client's real data (when the session provides a business
+// profile) or the demo dataset. Read by the module-level section components.
+function buildProducts217(): Product[] {
+  const D = PRODUCTS_DEMO;
+  return resolveList<Product>(
+    bp?.services?.map((s: any, i: number) => ({
+      id: s.id ?? `svc-${i}`,
+      name: s.title ?? s.name ?? D[i % D.length].name,
+      edition: D[i % D.length].edition,
+      price: s.price ?? D[i % D.length].price,
+      img: D[i % D.length].img,
+      badge: D[i % D.length].badge,
+    })),
+    D
+  );
+}
+function buildLookbook217(): Look[] {
+  const D = LOOKBOOK_DEMO;
+  return resolveList<Look>(
+    bp?.beforeAfter?.map((b: any, i: number) => ({
+      img: b.afterUrl ?? b.beforeUrl ?? D[i % D.length].img,
+      tall: D[i % D.length].tall,
+      label: b.caption ?? D[i % D.length].label,
+    })),
+    D
+  );
+}
+function buildReviews217(): Review[] {
+  const D = REVIEWS_DEMO;
+  return resolveList<Review>(
+    bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+      name: r.name ?? r.author ?? D[i % D.length].name,
+      handle: r.location ?? r.context ?? D[i % D.length].handle,
+      stars: r.stars ?? r.rating ?? D[i % D.length].stars,
+      text: r.text ?? r.quote ?? D[i % D.length].text,
+    })),
+    D
+  );
+}
 export default function ImpactSneakerPage() {
   const [session, setSession] = useState<{
     formData?: {
@@ -2129,6 +2170,7 @@ export default function ImpactSneakerPage() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -2162,6 +2204,7 @@ export default function ImpactSneakerPage() {
     });
   });
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   if (brand) {
@@ -2174,55 +2217,7 @@ export default function ImpactSneakerPage() {
 
   const [cart, setCart] = useState(0);
 
-  
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
-return (
+  return (
     <main
       suppressHydrationWarning
       style={{

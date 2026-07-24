@@ -7,6 +7,7 @@ import React, {
   useRef,
   useCallback,
 } from "react"
+import { resolveList } from "@/lib/templates/resolveList"
 import {
   motion,
   AnimatePresence,
@@ -66,7 +67,7 @@ function FontLoader() {
    DATASET
    ========================================================================== */
 
-const PRACTICE_AREAS = [
+const PRACTICE_AREAS_DEMO = [
   {
     id: "ma",
     title: "Mergers & Acquisitions",
@@ -141,7 +142,7 @@ const PRACTICE_AREAS = [
   },
 ]
 
-const LANDMARK_CASES = [
+const LANDMARK_CASES_DEMO = [
   {
     id: "berlin",
     year: "2019",
@@ -180,7 +181,7 @@ const LANDMARK_CASES = [
   },
 ]
 
-const PARTNERS = [
+const PARTNERS_DEMO = [
   {
     id: "sterling",
     initials: "AS",
@@ -222,6 +223,63 @@ const PARTNERS = [
     hue: "#1c2420",
   },
 ]
+
+// Client business profile (populated at render from the session). Section
+// components live at module scope, so they read these shared builders which
+// return the client's real data when present, otherwise the demo dataset.
+let bp: any = null;
+function buildPracticeAreas() {
+  const D = PRACTICE_AREAS_DEMO;
+  return resolveList(
+    bp?.services?.map((s: any, i: number) => ({
+      id: s.id ?? `svc-${i}`,
+      title: s.title ?? s.name ?? D[i % D.length].title,
+      roman: D[i % D.length].roman,
+      tagline: s.tagline ?? D[i % D.length].tagline,
+      description: s.description ?? s.desc ?? D[i % D.length].description,
+      subspecialties: D[i % D.length].subspecialties,
+      metric: s.price ?? D[i % D.length].metric,
+      metricLabel: D[i % D.length].metricLabel,
+    })),
+    D
+  );
+}
+function buildLandmarkCases() {
+  const D = LANDMARK_CASES_DEMO;
+  return resolveList(
+    bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+      id: `case-${i}`,
+      year: D[i % D.length].year,
+      title: r.name ?? r.author ?? D[i % D.length].title,
+      category: r.location ?? r.context ?? D[i % D.length].category,
+      description: r.text ?? r.quote ?? D[i % D.length].description,
+      outcome: D[i % D.length].outcome,
+    })),
+    D
+  );
+}
+function buildPartners() {
+  const D = PARTNERS_DEMO;
+  return resolveList(
+    bp?.team?.map((m: any, i: number) => ({
+      id: `partner-${i}`,
+      initials:
+        (m.name ?? "")
+          .split(" ")
+          .map((w: string) => w[0])
+          .join("")
+          .slice(0, 2)
+          .toUpperCase() || D[i % D.length].initials,
+      name: m.name ?? D[i % D.length].name,
+      title: m.role ?? D[i % D.length].title,
+      practice: m.specialty ?? D[i % D.length].practice,
+      called: m.credentials ?? D[i % D.length].called,
+      bio: m.bio ?? D[i % D.length].bio,
+      hue: D[i % D.length].hue,
+    })),
+    D
+  );
+}
 
 const TRUST_METRICS = [
   { value: 340, suffix: "+", label: "Attorneys Worldwide", decimals: 0 },
@@ -899,7 +957,7 @@ function PracticeAreasSection() {
             borderTop: `1px solid ${COLORS.stone}`,
           }}
         >
-          {PRACTICE_AREAS.map((area, areaIdx) => (
+          {buildPracticeAreas().map((area, areaIdx) => (
             <div key={area.id} style={{ borderBottom: `1px solid ${COLORS.stone}` }}>
               {/* Accordion header */}
               <motion.button
@@ -1122,9 +1180,11 @@ function PracticeAreasSection() {
 function TimelineCase({
   caseItem,
   index,
+  total,
 }: {
-  caseItem: (typeof LANDMARK_CASES)[number]
+  caseItem: (typeof LANDMARK_CASES_DEMO)[number]
   index: number
+  total: number
 }) {
   const ref = useRef<HTMLDivElement>(null)
   const isInView = useInView(ref, { once: true, margin: "-120px" })
@@ -1186,7 +1246,7 @@ function TimelineCase({
           }}
         />
         {/* Connector line — extends downward when active */}
-        {index < LANDMARK_CASES.length - 1 && (
+        {index < total - 1 && (
           <motion.div
             initial={{ scaleY: 0, originY: 0 }}
             animate={isInView ? { scaleY: 1 } : { scaleY: 0 }}
@@ -1212,7 +1272,7 @@ function TimelineCase({
         }
         transition={{ duration: 0.7, delay: 0.15, ease: [0.25, 0.46, 0.45, 0.94] }}
         style={{
-          paddingBottom: index < LANDMARK_CASES.length - 1 ? 80 : 0,
+          paddingBottom: index < total - 1 ? 80 : 0,
           paddingTop: 0,
         }}
       >
@@ -1361,9 +1421,12 @@ function CaseTimelineSection() {
 
           {/* Timeline */}
           <div>
-            {LANDMARK_CASES.map((c, i) => (
-              <TimelineCase key={c.id} caseItem={c} index={i} />
-            ))}
+            {(() => {
+              const LANDMARK_CASES = buildLandmarkCases();
+              return LANDMARK_CASES.map((c, i) => (
+                <TimelineCase key={c.id} caseItem={c} index={i} total={LANDMARK_CASES.length} />
+              ));
+            })()}
           </div>
         </div>
       </div>
@@ -1375,7 +1438,7 @@ function CaseTimelineSection() {
    SECTION: PARTNERS — scroll reveal + hover bio overlay
    ========================================================================== */
 
-function PartnerCard({ partner, delay }: { partner: (typeof PARTNERS)[number]; delay: number }) {
+function PartnerCard({ partner, delay }: { partner: (typeof PARTNERS_DEMO)[number]; delay: number }) {
   const ref = useRef<HTMLDivElement>(null)
   const isInView = useInView(ref, { once: true, margin: "-80px" })
   const [hovered, setHovered] = useState(false)
@@ -1602,7 +1665,7 @@ function PartnersSection() {
             gap: 40,
           }}
         >
-          {PARTNERS.map((partner, i) => (
+          {buildPartners().map((partner, i) => (
             <PartnerCard key={partner.id} partner={partner} delay={i * 0.1} />
           ))}
         </div>
@@ -2106,6 +2169,7 @@ export default function LegalFirmTemplate() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -2119,6 +2183,7 @@ export default function LegalFirmTemplate() {
 
   fd = session?.formData;
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   if (brand) {
@@ -2128,55 +2193,7 @@ export default function LegalFirmTemplate() {
     };
   }
 
-  
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
-return (
+  return (
     <>
       <FontLoader />
       <div

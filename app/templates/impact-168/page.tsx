@@ -4,6 +4,7 @@
 import { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform, useInView, AnimatePresence, useMotionValue, useSpring } from "framer-motion";
 import { ShoppingBag, Heart, Search, User, ArrowRight, Check, Star, Package, RefreshCw, Leaf, Camera, X, ChevronLeft, ChevronRight, Truck } from "lucide-react";
+import { resolveList } from "@/lib/templates/resolveList";
 
 // ─── Design Tokens ────────────────────────────────────────────────────────────
 // Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
@@ -81,7 +82,7 @@ const COLLECTIONS = [
   },
 ];
 
-const PRODUCTS = [
+const PRODUCTS_DEMO = [
   {
     name: "Robe Lin Biarritz",
     price: 189,
@@ -188,7 +189,7 @@ const PRODUCTS = [
   },
 ];
 
-const TESTIMONIALS = [
+const TESTIMONIALS_DEMO = [
   {
     quote: "La qualité est incomparable. J'ai la Robe Lin depuis 2 ans — elle est toujours parfaite après chaque lavage. C'est exactement ce que j'attendais d'une marque éthique.",
     name: "Pauline M.",
@@ -260,7 +261,7 @@ const LOYALTY_TIERS = [
   },
 ];
 
-const FAQS = [
+const FAQS_DEMO = [
   {
     q: "Quels sont les délais de livraison ?",
     a: "Livraison standard 2–3 jours ouvrés. Express J+1 disponible (avant 14h). Gratuit dès 150 € d'achat. International disponible vers 45 pays.",
@@ -341,7 +342,7 @@ function AnnouncementBar() {
 }
 
 // ─── Product Card ─────────────────────────────────────────────────────────────
-function ProductCard({ p, i, onAddToCart }: { p: typeof PRODUCTS[0]; i: number; onAddToCart: () => void }) {
+function ProductCard({ p, i, onAddToCart }: { p: typeof PRODUCTS_DEMO[0]; i: number; onAddToCart: () => void }) {
   const [wishlisted, setWishlisted] = useState(false);
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
   const [hovering, setHovering] = useState(false);
@@ -688,7 +689,54 @@ const BLOG_POSTS = [
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 let brand: any = null;
+// Builders return the client's real data (when the session provides a business
+// profile) or the demo dataset. Defined at module scope so the home page and
+// the boutique/product sub-pages all read the same resolved lists.
+function buildProducts() {
+  const D = PRODUCTS_DEMO;
+  return resolveList(
+    bp?.services?.map((s: any, i: number) => ({
+      name: s.title ?? s.name ?? D[i % D.length].name,
+      price: s.price ?? D[i % D.length].price,
+      oldPrice: D[i % D.length].oldPrice,
+      tag: D[i % D.length].tag,
+      tagType: D[i % D.length].tagType,
+      collection: D[i % D.length].collection,
+      sizes: D[i % D.length].sizes,
+      material: s.description ?? s.desc ?? D[i % D.length].material,
+      colors: D[i % D.length].colors,
+      rating: D[i % D.length].rating,
+      reviews: D[i % D.length].reviews,
+    })),
+    D
+  );
+}
+function buildTestimonials() {
+  const D = TESTIMONIALS_DEMO;
+  return resolveList(
+    bp?.reputation?.featuredReviews?.map((r: any, i: number) => ({
+      quote: r.text ?? r.quote ?? D[i % D.length].quote,
+      name: r.name ?? r.author ?? D[i % D.length].name,
+      location: r.location ?? r.context ?? D[i % D.length].location,
+      service: D[i % D.length].service,
+      stars: r.stars ?? r.rating ?? D[i % D.length].stars,
+      verified: true,
+    })),
+    D
+  );
+}
+function buildFaqs() {
+  const D = FAQS_DEMO;
+  return resolveList(
+    bp?.faq?.map((f: any, i: number) => ({
+      q: f.q ?? f.question ?? D[i % D.length].q,
+      a: f.a ?? f.answer ?? D[i % D.length].a,
+    })),
+    D
+  );
+}
 export default function ImpactEclatPage() {
   const [session, setSession] = useState<{
     formData?: {
@@ -704,6 +752,7 @@ export default function ImpactEclatPage() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -717,6 +766,7 @@ export default function ImpactEclatPage() {
 
   fd = session?.formData;
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, gold: brand, goldLight: shadeColor(brand, 25), goldDark: shadeColor(brand, -20) };
@@ -763,53 +813,9 @@ export default function ImpactEclatPage() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
+  const PRODUCTS = buildProducts();
+  const TESTIMONIALS = buildTestimonials();
+  const FAQS = buildFaqs();
 
   const filters = ["Tous", "Été Brûlant", "Essentiels Neutres", "Nuit Dorée", "Resort Méditerranée"];
   const filteredProducts =
@@ -2434,6 +2440,7 @@ function BoutiquePage({
   setProductDetail: (i: number | null) => void;
   onAddToCart: () => void;
 }) {
+  const PRODUCTS = buildProducts();
   if (productDetail !== null && PRODUCTS[productDetail]) {
     return (
       <ProductDetail
@@ -2477,7 +2484,7 @@ function BoutiquePage({
 }
 
 // Boutique card — reuses the home ProductCard visual language, click opens detail.
-function ShopCard({ p, i, onOpen }: { p: typeof PRODUCTS[0]; i: number; onOpen: () => void }) {
+function ShopCard({ p, i, onOpen }: { p: typeof PRODUCTS_DEMO[0]; i: number; onOpen: () => void }) {
   const [hovering, setHovering] = useState(false);
   const tagColors: Record<string, string> = {
     new: C.gold,
@@ -2629,7 +2636,7 @@ function ProductDetail({
   onBack,
   onAddToCart,
 }: {
-  p: typeof PRODUCTS[0];
+  p: typeof PRODUCTS_DEMO[0];
   onBack: () => void;
   onAddToCart: () => void;
 }) {

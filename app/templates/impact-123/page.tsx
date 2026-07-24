@@ -6,6 +6,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { Car, ArrowRight, Menu, Zap, Gauge, Shield, Settings, Timer, ChevronRight, Activity, MoveRight } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import { resolveList } from "@/lib/templates/resolveList"
 
 function Reveal({ children, delay = 0, y = 40 }: { children: React.ReactNode; delay?: number; y?: number }) {
   const ref = useRef(null)
@@ -31,7 +32,7 @@ function ParallaxImg({ src, alt }: { src: string; alt: string }) {
   )
 }
 
-const MODELS = [
+const MODELS_DEMO = [
   { name: "V1 Prototype", year: "2024", topSpeed: "380 km/h", power: "1,200 hp", img: "https://images.unsplash.com/photo-1592198084033-aade902d1aae?auto=format&fit=crop&q=80&w=1200" },
   { name: "Iron Lung S", year: "2023", topSpeed: "420 km/h", power: "1,600 hp", img: "https://images.unsplash.com/photo-1614164185128-e4ec99c436d7?auto=format&fit=crop&q=80&w=1200" },
   { name: "Apex Track", year: "2024", topSpeed: "340 km/h", power: "900 hp", img: "https://images.unsplash.com/photo-1544636331-e26879cd4d9b?auto=format&fit=crop&q=80&w=1200" },
@@ -48,6 +49,7 @@ const SPECS = [
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 let brand: any = null;
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
@@ -69,6 +71,7 @@ export default function VulcanMotorsPage() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -85,7 +88,7 @@ export default function VulcanMotorsPage() {
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;
     let n = 3;
-    const _photoArrays: any[] = [MODELS];
+    const _photoArrays: any[] = [MODELS_DEMO];
     _photoArrays.forEach((arr) => {
       if (!Array.isArray(arr)) return;
       arr.forEach((item) => {
@@ -100,7 +103,19 @@ export default function VulcanMotorsPage() {
     });
   });
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
+
+  const MODELS = resolveList(
+    bp?.services?.map((s: any, i: number) => ({
+      name: s.title ?? s.name ?? MODELS_DEMO[i % MODELS_DEMO.length].name,
+      year: MODELS_DEMO[i % MODELS_DEMO.length].year,
+      topSpeed: MODELS_DEMO[i % MODELS_DEMO.length].topSpeed,
+      power: MODELS_DEMO[i % MODELS_DEMO.length].power,
+      img: MODELS_DEMO[i % MODELS_DEMO.length].img,
+    })),
+    MODELS_DEMO
+  );
 
   const [scrolled, setScrolled] = useState(false)
 
@@ -110,53 +125,7 @@ export default function VulcanMotorsPage() {
     return () => window.removeEventListener("scroll", h)
   }, []);
 
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);return (
+  return (
     <div className="bg-[#050505] text-white font-sans min-h-dvh selection:bg-[#ff3b30] selection:text-white overflow-x-hidden">
       
       {/* ── NAVBAR ────────────────── */}
