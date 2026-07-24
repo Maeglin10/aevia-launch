@@ -22,6 +22,7 @@ import {
   Quote,
   Star,
 } from 'lucide-react';
+import { resolveList } from "@/lib/templates/resolveList";
 
 // Hoisted above the design tokens: several templates read `brand` in a
 // module-level const — declaring it lower caused a TDZ ReferenceError (500).
@@ -871,7 +872,7 @@ type Motif = {
   tag: string;
 };
 
-const MOTIFS: Motif[] = [
+const MOTIFS_DEMO: Motif[] = [
   {
     icon: <Activity size={30} color={C.terra} strokeWidth={1.5} />,
     title: 'Douleurs musculo-squelettiques',
@@ -973,6 +974,15 @@ function MotifCard({ m, i }: { m: Motif; i: number }) {
 }
 
 function MotifSection() {
+  const MOTIFS = resolveList(
+    bp?.services?.map((s: any, i: number) => ({
+      icon: MOTIFS_DEMO[i % MOTIFS_DEMO.length].icon,
+      title: s.title ?? s.name,
+      body: s.description ?? s.desc,
+      tag: s.price ?? MOTIFS_DEMO[i % MOTIFS_DEMO.length].tag,
+    })),
+    MOTIFS_DEMO
+  );
   const sec: React.CSSProperties = {
     background: C.ivory,
     padding: 'clamp(88px, 12vw, 180px) clamp(24px, 6vw, 96px)',
@@ -1220,7 +1230,7 @@ type Testi = {
   suivi: string;
 };
 
-const TESTIMONIALS: Testi[] = [
+const TESTIMONIALS_DEMO: Testi[] = [
   {
     quote:
       'Souffrant de lombalgies chroniques depuis trois ans, j\'avais perdu espoir après plusieurs kinés. Dès la deuxième séance, la douleur a régressé de moitié. Après quatre consultations, je peux de nouveau courir. Approche sérieuse, écoute parfaite.',
@@ -1245,6 +1255,15 @@ const TESTIMONIALS: Testi[] = [
 ];
 
 function TestimonialsSection() {
+  const TESTIMONIALS = resolveList(
+    bp?.reputation?.featuredReviews?.map((r: any) => ({
+      quote: r.text ?? r.quote,
+      name: r.name ?? r.author,
+      role: r.role ?? r.context ?? "",
+      suivi: r.suivi,
+    })),
+    TESTIMONIALS_DEMO
+  );
   const sec: React.CSSProperties = {
     background: C.ivory,
     padding: 'clamp(88px,12vw,170px) clamp(24px,6vw,96px)',
@@ -1282,7 +1301,7 @@ function TestimonialsSection() {
       </div>
       <div style={grid}>
         {TESTIMONIALS.map((t, i) => (
-          <Reveal key={t.name} delay={i * 0.10} style={{ height: '100%' }}>
+          <Reveal key={t.name ?? i} delay={i * 0.10} style={{ height: '100%' }}>
             <figure
               style={{
                 background: C.white,
@@ -1332,16 +1351,18 @@ function TestimonialsSection() {
                   }}
                   dangerouslySetInnerHTML={{ __html: t.role }}
                 />
-                <div
-                  style={{
-                    fontFamily: SANS,
-                    fontSize: 10.5,
-                    color: C.darkLight,
-                    marginTop: 4,
-                  }}
-                >
-                  {t.suivi}
-                </div>
+                {t.suivi && (
+                  <div
+                    style={{
+                      fontFamily: SANS,
+                      fontSize: 10.5,
+                      color: C.darkLight,
+                      marginTop: 4,
+                    }}
+                  >
+                    {t.suivi}
+                  </div>
+                )}
               </figcaption>
             </figure>
           </Reveal>
@@ -2524,6 +2545,7 @@ function FootLink({ label, href }: { label: string; href: string }) {
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+let bp: any = null;
 export default function Impact291Page() {
   const [session, setSession] = useState<{
     formData?: {
@@ -2539,6 +2561,7 @@ export default function Impact291Page() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -2570,6 +2593,7 @@ export default function Impact291Page() {
     });
   });
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, terra: brand, terraLight: shadeColor(brand, 25), terraDark: shadeColor(brand, -20) };
@@ -2583,54 +2607,7 @@ export default function Impact291Page() {
     WebkitFontSmoothing: 'antialiased',
     MozOsxFontSmoothing: 'grayscale',
   };
-  
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
+
 return (
     <main id="hero" style={root} suppressHydrationWarning>
       <Nav />
