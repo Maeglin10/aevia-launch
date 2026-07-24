@@ -2,7 +2,14 @@ import type { NextConfig } from "next";
 import { withSentryConfig } from "@sentry/nextjs";
 
 const nextConfig: NextConfig = {
-  reactCompiler: true,
+  // Disabled: React Compiler auto-memoizes prop-less template sub-components
+  // that read the module-level `bp` (businessProfile) set during the page's
+  // render, so they never re-rendered after the client session fetch and kept
+  // showing demo data in production (worked in dev where the compiler is off).
+  // Correctness does not depend on the compiler — it is a perf-only
+  // optimization — so disabling it makes every template render real client
+  // data. Re-enable only after refactoring templates to pass bp via props.
+  reactCompiler: false,
   typescript: { ignoreBuildErrors: true },
   // Hide Next.js dev indicator (the small badge bottom-left in dev/preview builds)
   devIndicators: false,
