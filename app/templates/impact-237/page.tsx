@@ -11,6 +11,7 @@ import {
   useMotionValue,
 } from 'framer-motion';
 import { ArrowRight, ChevronDown, Quote, Star } from 'lucide-react';
+import { resolveList } from "@/lib/templates/resolveList";
 
 /* ════════════════════════════════════════════════════════════════════════════
    CABINET DENTAIRE SORRENTO — Dr. Clara Sorrento & Associés · Nice
@@ -141,7 +142,7 @@ const PHASES: Phase[] = [
   },
 ];
 
-const TREATMENTS: Treatment[] = [
+const TREATMENTS_DEMO: Treatment[] = [
   {
     label: 'Bilan & Détartrage',
     tag: 'Prévention',
@@ -234,7 +235,7 @@ const SPECS: Spec[] = [
   },
 ];
 
-const REVIEWS: Review[] = [
+const REVIEWS_DEMO: Review[] = [
   {
     quote:
       "J'avais une phobie du dentiste depuis 20 ans. La première consultation avec le Dr Sorrento a tout changé. Zéro douleur, équipe rassurante, résultat parfait. Je ne savais pas que ça pouvait être aussi simple.",
@@ -1101,7 +1102,7 @@ function CareSequence() {
 /* ════════════════════════════════════════════════════════════════════════════
    TREATMENT CARDS — 6 cartes sur fond clair
    ════════════════════════════════════════════════════════════════════════════ */
-function TreatmentCard({ t, i }: { t: Treatment; i: number }) {
+function TreatmentCard({ t, i }: { t: any; i: number }) {
   const [hover, setHover] = useState(false);
   const card: React.CSSProperties = {
     background: C.bgCard,
@@ -1126,23 +1127,25 @@ function TreatmentCard({ t, i }: { t: Treatment; i: number }) {
         onMouseEnter={() => setHover(true)}
         onMouseLeave={() => setHover(false)}
       >
-        <div
-          style={{
-            fontFamily: SANS,
-            fontSize: 10,
-            letterSpacing: '0.36em',
-            textTransform: 'uppercase',
-            color: C.accent,
-            fontWeight: 600,
-            padding: '4px 10px',
-            background: C.accentLight,
-            display: 'inline-block',
-            marginBottom: 22,
-            borderRadius: 2,
-          }}
-        >
-          {t.tag}
-        </div>
+        {(t.tag) && (
+          <div
+            style={{
+              fontFamily: SANS,
+              fontSize: 10,
+              letterSpacing: '0.36em',
+              textTransform: 'uppercase',
+              color: C.accent,
+              fontWeight: 600,
+              padding: '4px 10px',
+              background: C.accentLight,
+              display: 'inline-block',
+              marginBottom: 22,
+              borderRadius: 2,
+            }}
+          >
+            {t.tag}
+          </div>
+        )}
         <div
           style={{
             fontFamily: SERIF,
@@ -1152,7 +1155,7 @@ function TreatmentCard({ t, i }: { t: Treatment; i: number }) {
             marginBottom: 16,
           }}
         >
-          {t.icon}
+          {t.icon ?? '◆'}
         </div>
         <h3
           style={{
@@ -1164,7 +1167,7 @@ function TreatmentCard({ t, i }: { t: Treatment; i: number }) {
             lineHeight: 1.15,
           }}
         >
-          {t.label}
+          {t.label ?? t.name}
         </h3>
         <p
           style={{
@@ -1177,8 +1180,27 @@ function TreatmentCard({ t, i }: { t: Treatment; i: number }) {
             fontWeight: 300,
           }}
         >
-          {t.desc}
+          {t.desc ?? t.description}
         </p>
+        {(t.duration || t.price) && (
+          <div
+            style={{
+              display: 'flex',
+              gap: 12,
+              fontFamily: SANS,
+              fontSize: 10,
+              letterSpacing: '0.1em',
+              textTransform: 'uppercase',
+              color: C.textFaint,
+              fontWeight: 500,
+              marginBottom: 16,
+            }}
+          >
+            {t.duration && <span>{t.duration}</span>}
+            {t.duration && t.price && <span>·</span>}
+            {t.price && <span>{t.price}</span>}
+          </div>
+        )}
         <div
           style={{
             display: 'inline-flex',
@@ -1207,7 +1229,7 @@ function TreatmentCard({ t, i }: { t: Treatment; i: number }) {
   );
 }
 
-function TreatmentCards() {
+function TreatmentCards({ treatments }: { treatments: any[] }) {
   return (
     <section id="services"
       style={{
@@ -1246,8 +1268,8 @@ function TreatmentCards() {
           gap: 'clamp(20px,2.5vw,36px)',
         }}
       >
-        {TREATMENTS.map((t, i) => (
-          <TreatmentCard key={t.label} t={t} i={i} />
+        {treatments.map((t: any, i: number) => (
+          <TreatmentCard key={t.label ?? t.name ?? i} t={t} i={i} />
         ))}
       </div>
     </section>
@@ -1525,7 +1547,7 @@ function TechPanel() {
 /* ════════════════════════════════════════════════════════════════════════════
    TESTIMONIALS — 3 cartes, icône Quote or, étoiles teal
    ════════════════════════════════════════════════════════════════════════════ */
-function Testimonials() {
+function Testimonials({ reviews }: { reviews: any[] }) {
   return (
     <section
       style={{
@@ -1564,15 +1586,15 @@ function Testimonials() {
           gap: 'clamp(24px,3vw,40px)',
         }}
       >
-        {REVIEWS.map((r, i) => (
-          <ReviewCard key={r.name} r={r} i={i} />
+        {reviews.map((r: any, i: number) => (
+          <ReviewCard key={r.name ?? r.author ?? i} r={r} i={i} />
         ))}
       </div>
     </section>
   );
 }
 
-function ReviewCard({ r, i }: { r: Review; i: number }) {
+function ReviewCard({ r, i }: { r: any; i: number }) {
   return (
     <Reveal delay={i * 0.12} style={{ height: '100%' }}>
       <figure
@@ -1597,7 +1619,7 @@ function ReviewCard({ r, i }: { r: Review; i: number }) {
           }}
         >
           {Array.from({ length: 5 }).map((_, s) => (
-            <Star key={s} size={14} fill={C.accent} color={C.accent} strokeWidth={0} />
+            <Star key={s} size={14} fill={s < (r.rating ?? 5) ? C.accent : 'none'} color={C.accent} strokeWidth={s < (r.rating ?? 5) ? 0 : 1.3} />
           ))}
         </div>
         <blockquote
@@ -1611,7 +1633,7 @@ function ReviewCard({ r, i }: { r: Review; i: number }) {
             flex: 1,
           }}
         >
-          &ldquo;{r.quote}&rdquo;
+          &ldquo;{r.quote ?? r.text}&rdquo;
         </blockquote>
         <figcaption
           style={{
@@ -1627,7 +1649,7 @@ function ReviewCard({ r, i }: { r: Review; i: number }) {
               marginBottom: 4,
             }}
           >
-            {r.name}
+            {r.name ?? r.author}
           </div>
           <div
             style={{
@@ -1639,7 +1661,7 @@ function ReviewCard({ r, i }: { r: Review; i: number }) {
               fontWeight: 500,
             }}
           >
-            {r.role}
+            {r.role ?? r.source ?? ""}
           </div>
         </figcaption>
       </figure>
@@ -2144,6 +2166,7 @@ function Footer() {
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+let bp: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
     formData?: {
@@ -2159,6 +2182,7 @@ export default function Page() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -2192,59 +2216,16 @@ export default function Page() {
     });
   });
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, accent: brand, accentLight: shadeColor(brand, 25), accentDark: shadeColor(brand, -20) };
   }
 
-  
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
+  // Real business data (resolveList) replaces demo content wholesale when
+  // present — falls back to the template's own *_DEMO consts otherwise.
+  const treatments = resolveList(bp?.services, TREATMENTS_DEMO);
+  const reviews = resolveList(bp?.reputation?.featuredReviews, REVIEWS_DEMO);
 return (
     <>
       {/* Google Fonts */}
@@ -2267,10 +2248,10 @@ return (
         <Hero />
         <Manifesto />
         <CareSequence />
-        <TreatmentCards />
+        <TreatmentCards treatments={treatments} />
         <EditorialRows />
         <TechPanel />
-        <Testimonials />
+        <Testimonials reviews={reviews} />
         <AppointmentForm />
         <Footer />
       </main>
