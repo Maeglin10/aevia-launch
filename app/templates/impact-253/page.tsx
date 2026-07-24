@@ -11,6 +11,7 @@ import {
   useMotionValue,
 } from 'framer-motion';
 import { ArrowRight, ChevronDown, MapPin, Quote, Trophy } from 'lucide-react';
+import { resolveList } from "@/lib/templates/resolveList";
 
 /* ════════════════════════════════════════════════════════════════════════════
    KINESPORT ÉLITE — Kinésithérapie du Sport & Rééducation · Paris 15e
@@ -130,7 +131,7 @@ const PROTOCOLS: Protocol[] = [
   },
 ];
 
-const SPECIALTIES: Specialty[] = [
+const SPECIALTIES_DEMO: Specialty[] = [
   { title: 'Blessures sportives', icon: '⚡' },
   { title: 'Rééducation post-op', icon: '🔬' },
   { title: 'Lombalgies & cervicalgies', icon: '🩻' },
@@ -191,7 +192,7 @@ const METHOD_ITEMS: MethodItem[] = [
   },
 ];
 
-const TESTIMONIALS: Testimonial[] = [
+const TESTIMONIALS_DEMO: Testimonial[] = [
   {
     quote:
       "Coureur amateur avec des douleurs récurrentes au genou, j'avais presque renoncé à courir. Après 8 séances chez KinéSport Élite, j'ai repris l'entraînement marathon. Leur approche biomécanique a tout changé.",
@@ -433,7 +434,11 @@ function Nav() {
         ))}
       </div>
       <div className="ks-navcta">
-        <a href="#rdv" style={{ textDecoration: 'none' }}>
+        <a
+          href={bp?.bookingSystem?.url || "#rdv"}
+          style={{ textDecoration: 'none' }}
+          {...(bp?.bookingSystem?.url && { target: "_blank", rel: "noopener noreferrer" })}
+        >
           <GreenButton filled small>
             Prendre RDV
           </GreenButton>
@@ -686,7 +691,11 @@ function Hero() {
           transition={{ duration: 1.1, ease: EASE, delay: 0.65 }}
           style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}
         >
-          <a href="#rdv" style={{ textDecoration: 'none' }}>
+          <a
+            href={bp?.bookingSystem?.url || "#rdv"}
+            style={{ textDecoration: 'none' }}
+            {...(bp?.bookingSystem?.url && { target: "_blank", rel: "noopener noreferrer" })}
+          >
             <GreenButton filled>Prendre rendez-vous</GreenButton>
           </a>
           <a href="#soins" style={{ textDecoration: 'none' }}>
@@ -1046,7 +1055,7 @@ function ProtocolSequence() {
 /* ════════════════════════════════════════════════════════════════════════════
    5 · SpecialtyCards
    ════════════════════════════════════════════════════════════════════════════ */
-function SpecialtyCard({ spec, i }: { spec: Specialty; i: number }) {
+function SpecialtyCard({ spec, i }: { spec: any; i: number }) {
   const [hover, setHover] = useState(false);
   return (
     <Reveal delay={i * 0.07} style={{ height: '100%' }}>
@@ -1068,7 +1077,7 @@ function SpecialtyCard({ spec, i }: { spec: Specialty; i: number }) {
         }}
       >
         <span style={{ fontSize: 28, display: 'block', marginBottom: 16 }}>
-          {spec.icon}
+          {spec.icon ?? '⚡'}
         </span>
         <h3
           style={{
@@ -1080,8 +1089,21 @@ function SpecialtyCard({ spec, i }: { spec: Specialty; i: number }) {
             lineHeight: 1.25,
           }}
         >
-          {spec.title}
+          {spec.title ?? spec.name}
         </h3>
+        {(spec.desc ?? spec.description) && (
+          <p
+            style={{
+              fontFamily: SANS,
+              fontSize: 14,
+              lineHeight: 1.6,
+              color: C.textMuted,
+              margin: '0 0 4px',
+            }}
+          >
+            {spec.desc ?? spec.description}
+          </p>
+        )}
         <div
           style={{
             width: hover ? 48 : 24,
@@ -1108,6 +1130,7 @@ function SpecialtyCards() {
     maxWidth: 1280,
     margin: '0 auto',
   };
+  const specialties = resolveList<any>(bp?.services, SPECIALTIES_DEMO);
   return (
     <section id="contact" style={sec}>
       <div style={{ maxWidth: 1280, margin: '0 auto 56px' }}>
@@ -1133,8 +1156,8 @@ function SpecialtyCards() {
         </Reveal>
       </div>
       <div style={grid}>
-        {SPECIALTIES.map((s, i) => (
-          <SpecialtyCard key={s.title} spec={s} i={i} />
+        {specialties.map((s: any, i: number) => (
+          <SpecialtyCard key={s.title ?? s.name ?? i} spec={s} i={i} />
         ))}
       </div>
     </section>
@@ -1483,6 +1506,7 @@ function Testimonials() {
     maxWidth: 1220,
     margin: '0 auto',
   };
+  const testimonials = resolveList<any>(bp?.reputation?.featuredReviews, TESTIMONIALS_DEMO);
   return (
     <section id="about" style={sec}>
       <div style={{ maxWidth: 1220, margin: '0 auto 60px', textAlign: 'center' }}>
@@ -1508,8 +1532,8 @@ function Testimonials() {
         </Reveal>
       </div>
       <div style={grid}>
-        {TESTIMONIALS.map((t, i) => (
-          <Reveal key={t.name} delay={i * 0.12} style={{ height: '100%' }}>
+        {testimonials.map((t: any, i: number) => (
+          <Reveal key={t.name ?? t.author ?? i} delay={i * 0.12} style={{ height: '100%' }}>
             <figure
               style={{
                 background: C.white,
@@ -1546,7 +1570,7 @@ function Testimonials() {
                   flex: 1,
                 }}
               >
-                &ldquo;{t.quote}&rdquo;
+                &ldquo;{t.quote ?? t.text}&rdquo;
               </blockquote>
               <figcaption
                 style={{ borderTop: `1px solid ${C.border}`, paddingTop: 20 }}
@@ -1559,7 +1583,7 @@ function Testimonials() {
                     marginBottom: 4,
                   }}
                 >
-                  {t.name}
+                  {t.name ?? t.author}
                 </div>
                 <div
                   style={{
@@ -1570,7 +1594,7 @@ function Testimonials() {
                     color: C.textFaint,
                   }}
                 >
-                  {t.role}
+                  {t.role ?? t.source ?? ''}
                 </div>
               </figcaption>
             </figure>
@@ -2120,6 +2144,7 @@ const RESPONSIVE_CSS = `
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+let bp: any = null;
 export default function Page() {
   const [session, setSession] = useState<{
     formData?: {
@@ -2135,6 +2160,7 @@ export default function Page() {
       services?: { title?: string; description?: string }[];
       testimonials?: { name?: string; role?: string; text?: string; rating?: number }[];
     };
+    businessProfile?: any;
   } | null>(null);
 
   useEffect(() => {
@@ -2148,6 +2174,7 @@ export default function Page() {
 
   fd = session?.formData;
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, accent: brand, accentLight: shadeColor(brand, 25), accentDark: shadeColor(brand, -20) };
@@ -2162,54 +2189,6 @@ export default function Page() {
     MozOsxFontSmoothing: 'grayscale',
   };
 
-  
-  // Dynamic Services & Testimonials Mutation for Session Data
-  useEffect(() => {
-    if (c?.services) {
-      const services_arrays = [
-        typeof SERVICES !== 'undefined' ? SERVICES : null,
-        typeof features !== 'undefined' ? features : null,
-        typeof services !== 'undefined' ? services : null,
-        typeof FEATURES !== 'undefined' ? FEATURES : null,
-      ];
-      services_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((s, idx) => {
-            if (idx < 3 && c.services[idx]) {
-              if (s && typeof s === 'object') {
-                s.title = c.services[idx].title ?? s.title;
-                if ('desc' in s) s.desc = c.services[idx].description ?? s.desc;
-                if ('description' in s) s.description = c.services[idx].description ?? s.description;
-              }
-            }
-          });
-        }
-      });
-    }
-    if (c?.testimonials) {
-      const testimonials_arrays = [
-        typeof TESTIMONIALS !== 'undefined' ? TESTIMONIALS : null,
-        typeof testimonials !== 'undefined' ? testimonials : null,
-        typeof REVIEWS !== 'undefined' ? REVIEWS : null,
-        typeof reviews !== 'undefined' ? reviews : null,
-      ];
-      testimonials_arrays.forEach(arr => {
-        if (arr && Array.isArray(arr)) {
-          arr.forEach((t, idx) => {
-            if (idx < 3 && c.testimonials[idx]) {
-              if (t && typeof t === 'object') {
-                t.name = c.testimonials[idx].name ?? t.name;
-                if ('role' in t) t.role = c.testimonials[idx].role ?? t.role;
-                if ('text' in t) t.text = c.testimonials[idx].text ?? t.text;
-                if ('quote' in t) t.quote = c.testimonials[idx].text ?? t.quote;
-                if ('desc' in t) t.desc = c.testimonials[idx].text ?? t.desc;
-              }
-            }
-          });
-        }
-      });
-    }
-  }, [c]);
 return (
     <main style={root} suppressHydrationWarning>
       <style>{FONTS_CSS}</style>
