@@ -168,7 +168,7 @@ export default function StreamlinePage() {
   }, [c]);
 return (
     <div className="min-h-dvh bg-[#0D1117] text-white overflow-x-clip flex flex-col" style={{ fontFamily: "'Inter', sans-serif" }}>
-      <motion.div className="fixed top-0 left-0 right-0 h-[3px] bg-[#3B82F6] origin-left z-[60]" style={{ scaleX: scrollYProgress }} />
+      <motion.div className="fixed top-0 left-0 right-0 h-[3px] bg-[var(--brand,#3B82F6)] origin-left z-[60]" style={{ scaleX: scrollYProgress }} />
 
       {/* Nav */}
       <nav className="fixed top-4 left-4 right-4 z-50">
@@ -182,7 +182,7 @@ return (
               />
             ) : (
               <>
-                <div className="w-8 h-8 bg-gradient-to-br from-[#3B82F6] to-[#8B5CF6] rounded-lg flex items-center justify-center"><Layers className="w-4 h-4 text-white" /></div>
+                <div className="w-8 h-8 bg-gradient-to-br from-[var(--brand,#3B82F6)] to-[#8B5CF6] rounded-lg flex items-center justify-center"><Layers className="w-4 h-4 text-white" /></div>
                 <span className="text-white font-bold text-lg">{fd?.businessName ?? "Streamline"}</span>
               </>
             )}
@@ -199,7 +199,7 @@ return (
                 key={item.key}
                 href={`#${item.key}`}
                 onClick={(e) => { e.preventDefault(); goTo(item.key as any); }}
-                className={`hover:text-white transition-colors cursor-pointer ${page === item.key ? "text-[#3B82F6] font-bold" : ""}`}
+                className={`hover:text-white transition-colors cursor-pointer ${page === item.key ? "text-[var(--brand,#3B82F6)] font-bold" : ""}`}
               >
                 {item.name}
               </a>
@@ -207,7 +207,7 @@ return (
           </div>
           <div className="hidden md:flex items-center gap-3">
             <button onClick={() => goTo("tarifs")} className="text-gray-400 text-sm px-4 py-2 hover:text-white transition-colors cursor-pointer">Se connecter</button>
-            <button onClick={() => goTo("tarifs")} className="bg-[#3B82F6] text-white text-sm px-5 py-2.5 rounded-xl hover:bg-[#2563EB] transition-colors cursor-pointer font-medium">Essai gratuit</button>
+            <button onClick={() => goTo("tarifs")} className="bg-[var(--brand,#3B82F6)] text-white text-sm px-5 py-2.5 rounded-xl hover:bg-[#2563EB] transition-colors cursor-pointer font-medium">Essai gratuit</button>
           </div>
           <button className="md:hidden text-white cursor-pointer" onClick={() => setMobileOpen(true)}><Menu className="w-5 h-5" /></button>
         </div>
@@ -240,7 +240,7 @@ return (
               <motion.div key={item.key} initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.07 }}>
                 <a
                   href={`#${item.key}`}
-                  className={`block text-white text-2xl font-bold mb-6 cursor-pointer ${page === item.key ? "text-[#3B82F6] font-bold" : ""}`}
+                  className={`block text-white text-2xl font-bold mb-6 cursor-pointer ${page === item.key ? "text-[var(--brand,#3B82F6)] font-bold" : ""}`}
                   onClick={(e) => { e.preventDefault(); goTo(item.key as any); }}
                 >
                   {item.name}
@@ -257,26 +257,26 @@ return (
             {/* Hero */}
             <section id="hero" className="relative min-h-dvh flex items-center pt-32 pb-20 px-6 overflow-hidden">
               <div className="absolute inset-0 pointer-events-none">
-                <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#3B82F6]/10 rounded-full blur-3xl" />
+                <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[var(--brand,#3B82F6)]/10 rounded-full blur-3xl" />
                 <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-[#8B5CF6]/10 rounded-full blur-3xl" />
               </div>
               <div className="max-w-6xl mx-auto w-full relative z-10">
                 <Reveal className="text-center">
-                  <div className="inline-flex items-center gap-2 bg-[#3B82F6]/10 border border-[#3B82F6]/20 text-[#60A5FA] px-4 py-1.5 rounded-full text-xs font-semibold mb-8">
+                  <div className="inline-flex items-center gap-2 bg-[var(--brand,#3B82F6)]/10 border border-[var(--brand,#3B82F6)]/20 text-[#60A5FA] px-4 py-1.5 rounded-full text-xs font-semibold mb-8">
                     <TrendingUp className="w-3 h-3" /> +12 000 équipes nous font confiance
                   </div>
                 </Reveal>
                 <Reveal delay={0.1} className="text-center">
                   <h1 className="text-white text-5xl md:text-7xl font-extrabold leading-tight mb-6">{c?.heroHeadline ?? <>
                     Gérez tout votre travail<br />
-                    <span className="bg-gradient-to-r from-[#3B82F6] to-[#8B5CF6] bg-clip-text text-transparent">en un seul endroit</span>
+                    <span className="bg-gradient-to-r from-[var(--brand,#3B82F6)] to-[#8B5CF6] bg-clip-text text-transparent">en un seul endroit</span>
                   </>}</h1>
                 </Reveal>
                 <Reveal delay={0.2} className="text-center">
                   <p className="text-gray-400 text-xl max-w-2xl mx-auto mb-10">{c?.heroSubline ?? fd?.tagline ?? <>Projets, équipes, analytics, intégrations. Streamline centralise votre stack de productivité et automatise ce qui peut l'être.</>}</p>
                 </Reveal>
                 <Reveal delay={0.3} className="flex flex-col sm:flex-row justify-center gap-4">
-                  <button onClick={() => goTo("tarifs")} className="bg-[#3B82F6] text-white font-bold px-8 py-4 rounded-xl hover:bg-[#2563EB] transition-colors cursor-pointer flex items-center justify-center gap-2">
+                  <button onClick={() => goTo("tarifs")} className="bg-[var(--brand,#3B82F6)] text-white font-bold px-8 py-4 rounded-xl hover:bg-[#2563EB] transition-colors cursor-pointer flex items-center justify-center gap-2">
                     Démarrer gratuitement <ArrowRight className="w-4 h-4" />
                   </button>
                   <button onClick={() => goTo("features")} className="border border-white/10 text-white px-8 py-4 rounded-xl hover:bg-white/5 transition-colors cursor-pointer">
@@ -391,7 +391,7 @@ return (
         <div className="max-w-6xl mx-auto grid md:grid-cols-5 gap-10 mb-12">
           <div className="md:col-span-2">
             <div onClick={() => goTo("home")} className="flex items-center gap-2 mb-4 cursor-pointer">
-              <div className="w-8 h-8 bg-gradient-to-br from-[#3B82F6] to-[#8B5CF6] rounded-lg flex items-center justify-center"><Layers className="w-4 h-4 text-white" /></div>
+              <div className="w-8 h-8 bg-gradient-to-br from-[var(--brand,#3B82F6)] to-[#8B5CF6] rounded-lg flex items-center justify-center"><Layers className="w-4 h-4 text-white" /></div>
               <span className="text-white font-bold text-lg">{fd?.businessName ?? "Streamline"}</span>
             </div>
             <p className="text-gray-500 text-sm leading-relaxed">La plateforme de productivité pour les équipes modernes. Gérez tout votre travail en un seul endroit.</p>
@@ -437,7 +437,7 @@ function FeaturesPage() {
     <section className="py-24 px-6 bg-[#0D1117] border-t border-white/5">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16">
-          <span className="text-[#3B82F6] text-sm font-semibold mb-3 block">Fonctionnalités</span>
+          <span className="text-[var(--brand,#3B82F6)] text-sm font-semibold mb-3 block">Fonctionnalités</span>
           <h1 className="text-4xl md:text-6xl font-bold mb-6">Une plateforme puissante</h1>
           <p className="max-w-xl mx-auto text-gray-400 text-sm leading-relaxed">
             Éliminez le travail répétitif grâce à des tableaux de bord interactifs, des intégrations fluides et un moteur d'automatisation no-code.
@@ -446,11 +446,11 @@ function FeaturesPage() {
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {features.map((f, i) => (
-            <div key={f.title} className="bg-[#161B27] border border-white/5 rounded-2xl p-8 hover:border-[#3B82F6]/30 transition-all cursor-pointer">
+            <div key={f.title} className="bg-[#161B27] border border-white/5 rounded-2xl p-8 hover:border-[var(--brand,#3B82F6)]/30 transition-all cursor-pointer">
               <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-6" style={{ background: `${f.color}20`, color: f.color }}>{f.icon}</div>
               <h3 className="text-white font-semibold text-lg mb-3">{f.title}</h3>
               <p className="text-gray-400 text-sm leading-relaxed mb-6">{f.desc}</p>
-              <div className="flex items-center gap-2 text-[#3B82F6] text-xs font-semibold uppercase tracking-wider">
+              <div className="flex items-center gap-2 text-[var(--brand,#3B82F6)] text-xs font-semibold uppercase tracking-wider">
                 En savoir plus <ArrowRight className="w-3 h-3" />
               </div>
             </div>
@@ -510,7 +510,7 @@ function TarifsPage({ billingAnnual, setBillingAnnual }: { billingAnnual: boolea
     <section id="tarifs" className="py-24 px-6 bg-[#0D1117] border-t border-white/5">
       <div className="max-w-5xl mx-auto">
         <div className="text-center mb-12">
-          <span className="text-[#3B82F6] text-sm font-semibold mb-3 block">Tarification</span>
+          <span className="text-[var(--brand,#3B82F6)] text-sm font-semibold mb-3 block">Tarification</span>
           <h1 className="text-4xl md:text-6xl font-bold mb-6">Simple et transparent</h1>
           <div className="flex items-center justify-center gap-3 mt-6">
             <button onClick={() => setBillingAnnual(false)} className={`text-sm px-4 py-2 rounded-lg transition-colors cursor-pointer ${!billingAnnual ? "bg-white/10 text-white" : "text-gray-500"}`}>Mensuel</button>
@@ -520,7 +520,7 @@ function TarifsPage({ billingAnnual, setBillingAnnual }: { billingAnnual: boolea
 
         <div className="grid md:grid-cols-3 gap-6">
           {plans.map((plan, i) => (
-            <div key={plan.name} className={`rounded-2xl p-8 flex flex-col justify-between ${plan.highlight ? "bg-gradient-to-b from-[#3B82F6] to-[#2563EB] scale-105 shadow-2xl" : "bg-[#1E2535] border border-white/5"}`}>
+            <div key={plan.name} className={`rounded-2xl p-8 flex flex-col justify-between ${plan.highlight ? "bg-gradient-to-b from-[var(--brand,#3B82F6)] to-[#2563EB] scale-105 shadow-2xl" : "bg-[#1E2535] border border-white/5"}`}>
               <div>
                 <h3 className="font-bold text-xl mb-1 text-white">{plan.name}</h3>
                 <p className={`text-sm mb-4 ${plan.highlight ? "text-blue-200" : "text-gray-500"}`}>{plan.desc}</p>
@@ -531,13 +531,13 @@ function TarifsPage({ billingAnnual, setBillingAnnual }: { billingAnnual: boolea
                 <ul className="space-y-3 mb-8">
                   {plan.features.map(f => (
                     <li key={f} className="flex items-center gap-2 text-sm">
-                      <CheckCircle className={`w-4 h-4 shrink-0 ${plan.highlight ? "text-white" : "text-[#3B82F6]"}`} />
+                      <CheckCircle className={`w-4 h-4 shrink-0 ${plan.highlight ? "text-white" : "text-[var(--brand,#3B82F6)]"}`} />
                       <span className={plan.highlight ? "text-white/90" : "text-gray-400"}>{f}</span>
                     </li>
                   ))}
                 </ul>
               </div>
-              <button className={`w-full py-3.5 rounded-xl font-bold text-sm cursor-pointer transition-colors mt-6 ${plan.highlight ? "bg-white text-[#2563EB] hover:bg-gray-100" : "bg-[#3B82F6] text-white hover:bg-[#2563EB]"}`}>{plan.cta}</button>
+              <button className={`w-full py-3.5 rounded-xl font-bold text-sm cursor-pointer transition-colors mt-6 ${plan.highlight ? "bg-white text-[#2563EB] hover:bg-gray-100" : "bg-[var(--brand,#3B82F6)] text-white hover:bg-[#2563EB]"}`}>{plan.cta}</button>
             </div>
           ))}
         </div>
@@ -551,7 +551,7 @@ function DocsPage() {
     <section className="py-24 px-6 bg-[#0E131F] border-t border-white/5">
       <div className="max-w-4xl mx-auto">
         <div className="mb-12">
-          <span className="text-[#3B82F6] text-sm font-semibold mb-3 block">Développeurs</span>
+          <span className="text-[var(--brand,#3B82F6)] text-sm font-semibold mb-3 block">Développeurs</span>
           <h1 className="text-4xl md:text-5xl font-bold mb-6">Documentation API</h1>
           <p className="text-gray-400 text-sm leading-relaxed">
             Consultez nos guides techniques pour authentifier vos requêtes, écouter nos webhooks et automatiser la création de tâches.
@@ -560,7 +560,7 @@ function DocsPage() {
 
         <div className="space-y-8">
           <div className="bg-[#161B27] border border-white/10 rounded-2xl p-6">
-            <h3 className="text-lg font-bold text-white mb-3 flex items-center gap-2"><Lock className="w-5 h-5 text-[#3B82F6]" /> Authentification</h3>
+            <h3 className="text-lg font-bold text-white mb-3 flex items-center gap-2"><Lock className="w-5 h-5 text-[var(--brand,#3B82F6)]" /> Authentification</h3>
             <p className="text-gray-400 text-sm leading-relaxed mb-4">
               Passez votre jeton API dans le header HTTP `Authorization` comme suit :
             </p>
@@ -570,7 +570,7 @@ function DocsPage() {
           </div>
 
           <div className="bg-[#161B27] border border-white/10 rounded-2xl p-6">
-            <h3 className="text-lg font-bold text-white mb-3 flex items-center gap-2"><Server className="w-5 h-5 text-[#3B82F6]" /> Récupérer les tâches (GET)</h3>
+            <h3 className="text-lg font-bold text-white mb-3 flex items-center gap-2"><Server className="w-5 h-5 text-[var(--brand,#3B82F6)]" /> Récupérer les tâches (GET)</h3>
             <p className="text-gray-400 text-sm leading-relaxed mb-4">
               Requête API standard pour lister les tâches actives :
             </p>
@@ -621,13 +621,13 @@ function LegalPage() {
     <section id="contact" className="py-24 px-6 bg-[#0D1117] border-t border-white/5 font-mono text-xs text-gray-400">
       <div className="max-w-3xl mx-auto space-y-12">
         <div>
-          <span className="text-[#3B82F6] text-[10px] uppercase tracking-widest mb-3 block font-bold">Sécurité & Conformité</span>
+          <span className="text-[var(--brand,#3B82F6)] text-[10px] uppercase tracking-widest mb-3 block font-bold">Sécurité & Conformité</span>
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-8">Mentions Légales</h1>
         </div>
 
         <div className="border border-white/10 bg-[#161B27] p-8 rounded-2xl space-y-6">
           <div className="border-b border-white/5 pb-4">
-            <div className="text-[#3B82F6] text-[10px] font-bold uppercase mb-2">ÉDITEUR</div>
+            <div className="text-[var(--brand,#3B82F6)] text-[10px] font-bold uppercase mb-2">ÉDITEUR</div>
             <p className="leading-relaxed font-sans text-sm text-gray-300">
               <strong>Aevia WS — Valentin Milliand</strong><br />
               Entrepreneur individuel<br />
@@ -639,7 +639,7 @@ function LegalPage() {
           </div>
 
           <div className="border-b border-white/5 pb-4">
-            <div className="text-[#3B82F6] text-[10px] font-bold uppercase mb-2">HÉBERGEUR</div>
+            <div className="text-[var(--brand,#3B82F6)] text-[10px] font-bold uppercase mb-2">HÉBERGEUR</div>
             <p className="leading-relaxed font-sans text-sm text-gray-300">
               <strong>Vercel Inc.</strong><br />
               340 S Lemon Ave #4133<br />
@@ -648,7 +648,7 @@ function LegalPage() {
           </div>
 
           <div>
-            <div className="text-[#3B82F6] text-[10px] font-bold uppercase mb-2">PROPRIÉTÉ INTELLECTUELLE</div>
+            <div className="text-[var(--brand,#3B82F6)] text-[10px] font-bold uppercase mb-2">PROPRIÉTÉ INTELLECTUELLE</div>
             <p className="leading-relaxed font-sans text-xs text-gray-500">
               Le logiciel Streamline, les icônes, les marques ainsi que les codes de style présents sur cette plateforme sont la propriété exclusive d'Aevia WS ou de ses concédants de licence. Toute reproduction est soumise à approbation écrite.
             </p>

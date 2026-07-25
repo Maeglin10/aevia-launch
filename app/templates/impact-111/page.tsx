@@ -157,7 +157,7 @@ export default function TerraArchitecturePage() {
       });
     }
   }, [c]);return (
-    <div className="bg-[#f2f0eb] text-[#3d3a35] font-sans min-h-dvh selection:bg-[#c4b5a2] selection:text-white overflow-x-hidden">
+    <div className="bg-[#f2f0eb] text-[#3d3a35] font-sans min-h-dvh selection:bg-[var(--brand,#c4b5a2)] selection:text-white overflow-x-hidden">
       
       {/* ── NAVBAR ────────────────── */}
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-1000 ${scrolled ? "bg-[#f2f0eb]/90 backdrop-blur-xl border-b border-[#3d3a35]/5 py-4" : "bg-transparent py-8"}`}>
@@ -213,7 +213,7 @@ export default function TerraArchitecturePage() {
                 </Reveal>
                 <Reveal delay={0.1} y={60}>
                   <h1 className="text-7xl md:text-[8rem] font-light tracking-tighter leading-[0.85] mb-12 uppercase">{c?.heroHeadline ?? <>
-                    Rooted <br/> In <span className="italic text-[#c4b5a2] font-normal">Nature.</span>
+                    Rooted <br/> In <span className="italic text-[var(--brand,#c4b5a2)] font-normal">Nature.</span>
                   </>}</h1>
                 </Reveal>
                 <Reveal delay={0.3}>
@@ -234,7 +234,7 @@ export default function TerraArchitecturePage() {
               </div>
               
               <Reveal delay={0.5}>
-                <div className="relative aspect-[4/5] bg-[#c4b5a2]/20 rounded-sm">
+                <div className="relative aspect-[4/5] bg-[var(--brand,#c4b5a2)]/20 rounded-sm">
                    <ParallaxImg src={photo(0, "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=1200")} alt="Main Project" />
                 </div>
               </Reveal>
@@ -249,7 +249,7 @@ export default function TerraArchitecturePage() {
               {PILLARS.map((p, i) => (
                 <Reveal key={i} delay={i * 0.1}>
                   <div className="group">
-                    <p.icon className="w-8 h-8 text-[#c4b5a2] mb-8 group-hover:scale-110 transition-transform" />
+                    <p.icon className="w-8 h-8 text-[var(--brand,#c4b5a2)] mb-8 group-hover:scale-110 transition-transform" />
                     <h3 className="text-2xl font-bold mb-4 uppercase tracking-tighter">{p.title}</h3>
                     <p className="text-[#3d3a35]/50 leading-relaxed text-sm">{p.desc}</p>
                   </div>
@@ -265,7 +265,7 @@ export default function TerraArchitecturePage() {
             <Reveal>
               <div className="flex flex-col md:flex-row items-end justify-between mb-24 gap-8">
                 <div className="max-w-2xl">
-                  <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#c4b5a2] block mb-4">Portfolio</span>
+                  <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#c4b5a2)] block mb-4">Portfolio</span>
                   <h2 className="text-6xl md:text-8xl font-light uppercase tracking-tighter italic">Selected <br/> <span className="not-italic font-normal">Works.</span></h2>
                 </div>
                 <div className="text-[10px] font-bold uppercase tracking-widest text-[#3d3a35]/40 mb-2">2020 — 2026</div>
@@ -310,8 +310,8 @@ export default function TerraArchitecturePage() {
               <h2 className="text-4xl md:text-6xl font-light italic leading-tight mb-12">
                 "Architecture is the learned game, correct and magnificent, of forms assembled in the light."
               </h2>
-              <div className="w-20 h-[1px] bg-[#c4b5a2] mx-auto mb-8" />
-              <p className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#c4b5a2]">The Terra Manifesto</p>
+              <div className="w-20 h-[1px] bg-[var(--brand,#c4b5a2)] mx-auto mb-8" />
+              <p className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#c4b5a2)]">The Terra Manifesto</p>
             </Reveal>
           </div>
         </section>
@@ -339,7 +339,7 @@ export default function TerraArchitecturePage() {
                     <div className="w-16 h-16 rounded-full bg-[#3d3a35]/5 flex items-center justify-center mb-6 group-hover:bg-[#3d3a35] transition-colors duration-500">
                       <span className="text-xl font-light text-[#3d3a35] group-hover:text-[#f2f0eb] transition-colors" style={{ fontFamily: "serif" }}>{m.name.split(" ").map(n => n[0]).join("")}</span>
                     </div>
-                    <div className="text-[9px] font-bold uppercase tracking-widest text-[#c4b5a2] mb-1">{m.exp} · {m.spec}</div>
+                    <div className="text-[9px] font-bold uppercase tracking-widest text-[var(--brand,#c4b5a2)] mb-1">{m.exp} · {m.spec}</div>
                     <h3 className="text-xl font-bold text-[#3d3a35] mb-1">{m.name}</h3>
                     <p className="text-xs text-[#3d3a35]/40 uppercase tracking-wider mb-4">{m.role}</p>
                     <div className="flex flex-wrap gap-2">{m.tags.map(t => <span key={t} className="text-[8px] font-bold uppercase tracking-widest px-2 py-1 border border-[#3d3a35]/10 text-[#3d3a35]/30">{t}</span>)}</div>
@@ -355,10 +355,10 @@ export default function TerraArchitecturePage() {
           <div className="max-w-[1400px] mx-auto px-6 md:px-12">
             <Reveal>
               <div className="flex flex-wrap items-center justify-between gap-8">
-                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#c4b5a2]">Recognised by</span>
+                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#c4b5a2)]">Recognised by</span>
                 <div className="flex flex-wrap gap-8">
                   {["Architectural Digest", "Dezeen 2024 Award", "RIBA National Award", "World Architecture Festival", "Prix Europa Nostra"].map(a => (
-                    <span key={a} className="text-[10px] font-bold uppercase tracking-widest text-[#f2f0eb]/25 hover:text-[#c4b5a2] transition-colors cursor-default">{a}</span>
+                    <span key={a} className="text-[10px] font-bold uppercase tracking-widest text-[#f2f0eb]/25 hover:text-[var(--brand,#c4b5a2)] transition-colors cursor-default">{a}</span>
                   ))}
                 </div>
               </div>

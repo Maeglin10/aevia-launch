@@ -112,7 +112,7 @@ return (
         <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 pt-32 min-h-dvh flex flex-col">
           <div className="flex-1 flex flex-col justify-center">
             <Reveal>
-              <p className="text-[10px] tracking-[0.4em] uppercase text-[#C9A86C] mb-8">Numéro 214 · Janvier 2025</p>
+              <p className="text-[10px] tracking-[0.4em] uppercase text-[var(--brand,#C9A86C)] mb-8">Numéro 214 · Janvier 2025</p>
             </Reveal>
             <Reveal delay={0.1}>
               <h1 className="text-6xl md:text-8xl lg:text-[10rem] font-light leading-[1.15] mb-8 tracking-tight pb-4" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{c?.heroHeadline ?? <>
@@ -123,7 +123,7 @@ return (
               <p className="text-[#A0988A] text-lg max-w-md leading-relaxed mb-10">{c?.heroSubline ?? fd?.tagline ?? <>
                 La saison Automne / Hiver 2025 porte en elle une nouvelle grammaire du corps. Entre retenue et explosion, les maisons réinventent leur vocabulaire.
               </>}</p>
-              <Link href={`${basePath}/editoriaux`} className="inline-flex items-center gap-3 text-sm tracking-widest uppercase border-b border-[#C9A86C] pb-1 text-[#C9A86C] hover:text-[#F0EBE0] hover:border-[#F0EBE0] transition-colors cursor-pointer">
+              <Link href={`${basePath}/editoriaux`} className="inline-flex items-center gap-3 text-sm tracking-widest uppercase border-b border-[var(--brand,#C9A86C)] pb-1 text-[var(--brand,#C9A86C)] hover:text-[#F0EBE0] hover:border-[#F0EBE0] transition-colors cursor-pointer">
                 Explorer le numéro <ArrowRight className="w-4 h-4" />
               </Link>
             </Reveal>
@@ -151,13 +151,13 @@ return (
                 <Image src={photo(1, "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=1200&q=85")} alt="Editorial" fill className="object-cover grayscale hover:grayscale-0 transition-all duration-1000" />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0F0E0B]/80 to-transparent" />
                 <div className="absolute bottom-8 left-8">
-                  <span className="text-[9px] uppercase tracking-[0.4em] text-[#C9A86C]">Couverture · Hiver 2025</span>
+                  <span className="text-[9px] uppercase tracking-[0.4em] text-[var(--brand,#C9A86C)]">Couverture · Hiver 2025</span>
                 </div>
               </div>
             </Reveal>
             <Reveal delay={0.15}>
               <div className="pt-8 lg:pt-24">
-                <span className="text-[9px] uppercase tracking-[0.4em] text-[#C9A86C] block mb-6">Éditorial de couverture</span>
+                <span className="text-[9px] uppercase tracking-[0.4em] text-[var(--brand,#C9A86C)] block mb-6">Éditorial de couverture</span>
                 <h2 className="text-4xl md:text-6xl font-light leading-[1.2] mb-8" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{c?.aboutTitle ?? fd?.businessName ?? <>
                   Le corps comme langage.<br /><em>La mode comme texte.</em>
                 </>}</h2>
@@ -171,7 +171,7 @@ return (
                   <span className="w-4 h-[1px] bg-[#3A3028]" />
                   <span>8 min de lecture</span>
                 </div>
-                <Link href={`${basePath}/editoriaux`} className="inline-flex items-center gap-3 text-sm tracking-widest uppercase border-b border-[#C9A86C]/40 pb-1 text-[#C9A86C] hover:border-[#C9A86C] transition-colors cursor-pointer">
+                <Link href={`${basePath}/editoriaux`} className="inline-flex items-center gap-3 text-sm tracking-widest uppercase border-b border-[var(--brand,#C9A86C)]/40 pb-1 text-[var(--brand,#C9A86C)] hover:border-[var(--brand,#C9A86C)] transition-colors cursor-pointer">
                   Lire l'éditorial complet <ArrowRight className="w-4 h-4" />
                 </Link>
               </div>
@@ -186,10 +186,10 @@ return (
           <Reveal>
             <div className="flex items-end justify-between mb-16">
               <div>
-                <p className="text-[9px] uppercase tracking-[0.4em] text-[#C9A86C] mb-4">Dans ce numéro</p>
+                <p className="text-[9px] uppercase tracking-[0.4em] text-[var(--brand,#C9A86C)] mb-4">Dans ce numéro</p>
                 <h2 className="text-4xl font-light" style={{ fontFamily: "'Cormorant Garamond', serif" }}>La sélection Vogue Noire</h2>
               </div>
-              <Link href={`${basePath}/editoriaux`} className="text-[9px] uppercase tracking-widest text-[#6A6058] hover:text-[#C9A86C] transition-colors hidden md:block cursor-pointer">
+              <Link href={`${basePath}/editoriaux`} className="text-[9px] uppercase tracking-widest text-[#6A6058] hover:text-[var(--brand,#C9A86C)] transition-colors hidden md:block cursor-pointer">
                 Voir tout le numéro
               </Link>
             </div>
@@ -206,8 +206,8 @@ return (
                     <Image src={art.img} alt={art.title} fill className="object-cover grayscale-[60%] group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105" />
                     <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A08]/60 to-transparent" />
                   </div>
-                  <span className="text-[9px] uppercase tracking-[0.4em] text-[#C9A86C] block mb-3">{art.cat}</span>
-                  <h3 className="text-xl font-light leading-snug mb-4 group-hover:text-[#C9A86C] transition-colors" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{art.title}</h3>
+                  <span className="text-[9px] uppercase tracking-[0.4em] text-[var(--brand,#C9A86C)] block mb-3">{art.cat}</span>
+                  <h3 className="text-xl font-light leading-snug mb-4 group-hover:text-[var(--brand,#C9A86C)] transition-colors" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{art.title}</h3>
                   <div className="flex items-center gap-3 text-xs text-[#6A6058]">
                     <span>{art.author}</span>
                     <span>·</span>
@@ -224,7 +224,7 @@ return (
       <section className="py-24 border-t border-[#2A2820] bg-[#0F0E0B]">
         <div className="max-w-7xl mx-auto px-6 md:px-12">
           <Reveal>
-            <p className="text-[9px] uppercase tracking-[0.4em] text-[#C9A86C] mb-4">Haute couture</p>
+            <p className="text-[9px] uppercase tracking-[0.4em] text-[var(--brand,#C9A86C)] mb-4">Haute couture</p>
             <h2 className="text-4xl font-light mb-20" style={{ fontFamily: "'Cormorant Garamond', serif" }}>Les maisons à la une</h2>
           </Reveal>
           <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
@@ -234,7 +234,7 @@ return (
                   <Image src={photo(5 + i, `https://images.unsplash.com/photo-155861866${6 + i}-fcd25c85cd64?w=600&q=80`)} alt={m} fill className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700" />
                   <div className="absolute inset-0 bg-[#0A0A08]/50 group-hover:bg-transparent transition-all duration-700" />
                   <div className="absolute bottom-0 left-0 right-0 p-4">
-                    <span className="text-[9px] uppercase tracking-[0.3em] text-[#C9A86C]">{m}</span>
+                    <span className="text-[9px] uppercase tracking-[0.3em] text-[var(--brand,#C9A86C)]">{m}</span>
                   </div>
                 </div>
               </Reveal>
@@ -247,7 +247,7 @@ return (
       <section className="py-32 bg-[#0A0A08] border-t border-[#2A2820]">
         <div className="max-w-6xl mx-auto px-6 md:px-12">
           <Reveal>
-            <p className="text-[9px] uppercase tracking-[0.5em] text-[#C9A86C]/60 mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>Lectrices & Communauté</p>
+            <p className="text-[9px] uppercase tracking-[0.5em] text-[var(--brand,#C9A86C)]/60 mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>Lectrices & Communauté</p>
             <h2 className="text-4xl md:text-6xl font-light text-[#F0EBE0] mb-20 leading-snug" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
               Ce qu&apos;elles disent <em>de nous.</em>
             </h2>
@@ -260,11 +260,11 @@ return (
             ].map((t, i) => (
               <Reveal key={i} delay={i * 0.1}>
                 <div className="bg-[#0A0A08] p-12 flex flex-col gap-6 hover:bg-[#0F0E0B] transition-colors">
-                  <div className="text-5xl text-[#C9A86C]/10 font-serif leading-none">&ldquo;</div>
+                  <div className="text-5xl text-[var(--brand,#C9A86C)]/10 font-serif leading-none">&ldquo;</div>
                   <p className="text-[#8A8278] text-sm leading-relaxed italic flex-1">{t.quote}</p>
                   <div className="border-t border-[#2A2820] pt-6">
                     <div className="text-[#F0EBE0] font-medium text-sm">{t.name}</div>
-                    <div className="text-[9px] uppercase tracking-widest text-[#C9A86C]/50 mt-1">{t.role}</div>
+                    <div className="text-[9px] uppercase tracking-widest text-[var(--brand,#C9A86C)]/50 mt-1">{t.role}</div>
                   </div>
                 </div>
               </Reveal>
@@ -277,7 +277,7 @@ return (
       <section className="py-32 bg-[#0F0E0B] border-t border-[#2A2820]">
         <div className="max-w-6xl mx-auto px-6 md:px-12">
           <Reveal>
-            <p className="text-[9px] uppercase tracking-[0.5em] text-[#C9A86C]/60 mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>L&apos;équipe</p>
+            <p className="text-[9px] uppercase tracking-[0.5em] text-[var(--brand,#C9A86C)]/60 mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>L&apos;équipe</p>
             <h2 className="text-4xl md:text-6xl font-light text-[#F0EBE0] mb-20 leading-snug" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
               Derrière <em>la revue.</em>
             </h2>
@@ -292,10 +292,10 @@ return (
               <Reveal key={m.name} delay={i * 0.08}>
                 <div className="bg-[#0F0E0B] p-10 flex flex-col gap-5 hover:bg-[#0A0A08] transition-colors">
                   <div className="w-12 h-12 bg-[#2A2820] flex items-center justify-center">
-                    <span className="text-[#C9A86C] text-sm font-light" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{m.initials}</span>
+                    <span className="text-[var(--brand,#C9A86C)] text-sm font-light" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{m.initials}</span>
                   </div>
                   <div>
-                    <div className="text-[9px] uppercase tracking-widest text-[#C9A86C]/40 mb-1">{m.since}</div>
+                    <div className="text-[9px] uppercase tracking-widest text-[var(--brand,#C9A86C)]/40 mb-1">{m.since}</div>
                     <div className="text-[#F0EBE0] font-medium" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{m.name}</div>
                     <div className="text-[9px] uppercase tracking-widest text-[#8A8278] mt-0.5">{m.role}</div>
                   </div>
@@ -307,7 +307,7 @@ return (
       </section>
 
       {/* ── NEWSLETTER */}
-      <section className="py-24 bg-[#C9A86C] text-[#0A0A08]">
+      <section className="py-24 bg-[var(--brand,#C9A86C)] text-[#0A0A08]">
         <div className="max-w-2xl mx-auto px-6 text-center">
           <Reveal>
             <p className="text-[9px] uppercase tracking-[0.5em] mb-6">Abonnement · Gratuit</p>
@@ -317,7 +317,7 @@ return (
             <p className="text-[#0A0A08]/60 mb-10 text-sm">Les défilés, les éditoriaux, les tendances — avant tout le monde. 40 000 lecteurs. Sans publicité.</p>
             <div className="flex gap-3 max-w-md mx-auto">
               <input type="email" placeholder="votre@email.com" className="flex-1 px-5 py-3 bg-[#0A0A08]/10 border border-[#0A0A08]/20 text-[#0A0A08] placeholder-[#0A0A08]/30 text-sm focus:outline-none focus:border-[#0A0A08]/50 transition-colors" />
-              <button className="px-8 py-3 bg-[#0A0A08] text-[#C9A86C] text-[9px] uppercase tracking-widest font-medium hover:bg-[#0A0A08]/80 transition-colors cursor-pointer">
+              <button className="px-8 py-3 bg-[#0A0A08] text-[var(--brand,#C9A86C)] text-[9px] uppercase tracking-widest font-medium hover:bg-[#0A0A08]/80 transition-colors cursor-pointer">
                 S'abonner
               </button>
             </div>

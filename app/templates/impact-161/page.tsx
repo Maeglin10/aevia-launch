@@ -169,7 +169,7 @@ export default function EssentialSaaSPage() {
     }
   }, [c]);return (
     <div className="min-h-dvh bg-white text-[#0F172A]" style={{ fontFamily: "'Inter', sans-serif" }}>
-      <motion.div className="fixed top-0 left-0 h-[3px] bg-[#6366F1] z-[1000] origin-left" style={{ scaleX: scrollYProgress }} />
+      <motion.div className="fixed top-0 left-0 h-[3px] bg-[var(--brand,#6366F1)] z-[1000] origin-left" style={{ scaleX: scrollYProgress }} />
 
       {/* Nav */}
       <motion.nav
@@ -186,7 +186,7 @@ export default function EssentialSaaSPage() {
               />
             ) : (
               <>
-                <div className="w-7 h-7 bg-[#6366F1] rounded-lg flex items-center justify-center">
+                <div className="w-7 h-7 bg-[var(--brand,#6366F1)] rounded-lg flex items-center justify-center">
                   <Sparkles className="w-4 h-4 text-white" />
                 </div>
                 <span className="text-lg font-bold">{fd?.businessName ?? "Flowbase"}</span>
@@ -195,10 +195,10 @@ export default function EssentialSaaSPage() {
           </div>
           <div className="hidden md:flex items-center gap-8 text-sm font-medium text-slate-600">
             {["Fonctionnalités", "Tarifs", "Docs", "Blog"].map(l => (
-              <Link key={l} href={`#${l.toLowerCase()}`} className="hover:text-[#6366F1] transition-colors">{l}</Link>
+              <Link key={l} href={`#${l.toLowerCase()}`} className="hover:text-[var(--brand,#6366F1)] transition-colors">{l}</Link>
             ))}
-            <Link href="#tarifs" className="text-[#6366F1]">Connexion</Link>
-            <Link href="#tarifs" className="px-5 py-2.5 bg-[#6366F1] text-white rounded-xl font-semibold hover:bg-[#4F46E5] transition-colors cursor-pointer">
+            <Link href="#tarifs" className="text-[var(--brand,#6366F1)]">Connexion</Link>
+            <Link href="#tarifs" className="px-5 py-2.5 bg-[var(--brand,#6366F1)] text-white rounded-xl font-semibold hover:bg-[#4F46E5] transition-colors cursor-pointer">
               Essai gratuit
             </Link>
           </div>
@@ -223,7 +223,7 @@ export default function EssentialSaaSPage() {
                   />
                 ) : (
                   <>
-                    <div className="w-7 h-7 bg-[#6366F1] rounded-lg flex items-center justify-center"><Sparkles className="w-4 h-4 text-white" /></div>
+                    <div className="w-7 h-7 bg-[var(--brand,#6366F1)] rounded-lg flex items-center justify-center"><Sparkles className="w-4 h-4 text-white" /></div>
                     <span className="font-bold">{fd?.businessName ?? "Flowbase"}</span>
                   </>
                 )}
@@ -233,10 +233,10 @@ export default function EssentialSaaSPage() {
             <div className="flex flex-col gap-6 p-8">
               {["Fonctionnalités", "Tarifs", "Docs", "Blog"].map((l, i) => (
                 <motion.div key={l} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.05 }}>
-                  <Link href={`#${l.toLowerCase()}`} onClick={() => setMenuOpen(false)} className="text-2xl font-semibold hover:text-[#6366F1] transition-colors cursor-pointer">{l}</Link>
+                  <Link href={`#${l.toLowerCase()}`} onClick={() => setMenuOpen(false)} className="text-2xl font-semibold hover:text-[var(--brand,#6366F1)] transition-colors cursor-pointer">{l}</Link>
                 </motion.div>
               ))}
-              <Link href="#tarifs" className="mt-4 py-4 bg-[#6366F1] text-white text-center font-semibold rounded-xl cursor-pointer">Essai gratuit</Link>
+              <Link href="#tarifs" className="mt-4 py-4 bg-[var(--brand,#6366F1)] text-white text-center font-semibold rounded-xl cursor-pointer">Essai gratuit</Link>
             </div>
           </motion.div>
         )}
@@ -245,14 +245,14 @@ export default function EssentialSaaSPage() {
       {/* Hero */}
       <section id="hero" className="pt-28 pb-20 px-6 max-w-7xl mx-auto text-center">
         <Reveal>
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#EEF2FF] rounded-full text-[#6366F1] text-sm font-semibold mb-8">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#EEF2FF] rounded-full text-[var(--brand,#6366F1)] text-sm font-semibold mb-8">
             <Zap className="w-3.5 h-3.5" />
             Nouveau — Intégration IA disponible
           </div>
         </Reveal>
         <Reveal delay={0.1}>
           <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight leading-[1.05] mb-6 max-w-4xl mx-auto">{c?.heroHeadline ?? <>
-            Gérez votre business<br />avec <span className="text-[#6366F1]">clarté et vitesse</span>
+            Gérez votre business<br />avec <span className="text-[var(--brand,#6366F1)]">clarté et vitesse</span>
           </>}</h1>
         </Reveal>
         <Reveal delay={0.2}>
@@ -262,11 +262,11 @@ export default function EssentialSaaSPage() {
         </Reveal>
         <Reveal delay={0.3}>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-14">
-            <Link href="#tarifs" className="flex items-center gap-2 px-8 py-4 bg-[#6366F1] text-white font-bold rounded-xl hover:bg-[#4F46E5] transition-colors cursor-pointer text-lg">
+            <Link href="#tarifs" className="flex items-center gap-2 px-8 py-4 bg-[var(--brand,#6366F1)] text-white font-bold rounded-xl hover:bg-[#4F46E5] transition-colors cursor-pointer text-lg">
               Démarrer gratuitement <ArrowRight className="w-5 h-5" />
             </Link>
-            <Link href="#tarifs" className="flex items-center gap-2 px-8 py-4 border border-slate-200 rounded-xl font-semibold hover:border-[#6366F1] transition-colors cursor-pointer">
-              <Play className="w-4 h-4 text-[#6366F1]" /> Voir la démo (2 min)
+            <Link href="#tarifs" className="flex items-center gap-2 px-8 py-4 border border-slate-200 rounded-xl font-semibold hover:border-[var(--brand,#6366F1)] transition-colors cursor-pointer">
+              <Play className="w-4 h-4 text-[var(--brand,#6366F1)]" /> Voir la démo (2 min)
             </Link>
           </div>
         </Reveal>
@@ -334,7 +334,7 @@ export default function EssentialSaaSPage() {
         <div className="max-w-7xl mx-auto px-6 md:px-12">
           <div className="text-center mb-16">
             <Reveal>
-              <p className="text-[#6366F1] font-semibold text-sm mb-3">Fonctionnalités</p>
+              <p className="text-[var(--brand,#6366F1)] font-semibold text-sm mb-3">Fonctionnalités</p>
               <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4">Tout ce dont vous avez besoin</h2>
               <p className="text-slate-500 text-lg max-w-2xl mx-auto">Une plateforme qui grandit avec vous. Pas de configuration complexe, pas de modules cachés.</p>
             </Reveal>
@@ -344,9 +344,9 @@ export default function EssentialSaaSPage() {
               const Icon = f.icon
               return (
                 <Reveal key={f.title} delay={i * 0.07}>
-                  <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-100 hover:border-[#6366F1]/30 hover:shadow-md transition-all duration-300 group cursor-pointer">
-                    <div className="w-12 h-12 bg-[#EEF2FF] rounded-xl flex items-center justify-center mb-5 group-hover:bg-[#6366F1] transition-colors duration-300">
-                      <Icon className="w-6 h-6 text-[#6366F1] group-hover:text-white transition-colors duration-300" />
+                  <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-100 hover:border-[var(--brand,#6366F1)]/30 hover:shadow-md transition-all duration-300 group cursor-pointer">
+                    <div className="w-12 h-12 bg-[#EEF2FF] rounded-xl flex items-center justify-center mb-5 group-hover:bg-[var(--brand,#6366F1)] transition-colors duration-300">
+                      <Icon className="w-6 h-6 text-[var(--brand,#6366F1)] group-hover:text-white transition-colors duration-300" />
                     </div>
                     <h3 className="text-lg font-bold mb-3">{f.title}</h3>
                     <p className="text-slate-500 text-sm leading-relaxed">{f.desc}</p>
@@ -363,7 +363,7 @@ export default function EssentialSaaSPage() {
         <div className="max-w-7xl mx-auto px-6 md:px-12">
           <div className="text-center mb-16">
             <Reveal>
-              <p className="text-[#6366F1] font-semibold text-sm mb-3">Prise en main</p>
+              <p className="text-[var(--brand,#6366F1)] font-semibold text-sm mb-3">Prise en main</p>
               <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4">Opérationnel en 5 minutes</h2>
             </Reveal>
           </div>
@@ -376,7 +376,7 @@ export default function EssentialSaaSPage() {
             ].map((s, i) => (
               <Reveal key={s.step} delay={i * 0.1}>
                 <div className="text-center relative">
-                  <div className="w-16 h-16 bg-[#6366F1] rounded-2xl flex items-center justify-center text-white text-2xl font-extrabold mx-auto mb-6 relative z-10">
+                  <div className="w-16 h-16 bg-[var(--brand,#6366F1)] rounded-2xl flex items-center justify-center text-white text-2xl font-extrabold mx-auto mb-6 relative z-10">
                     {s.step}
                   </div>
                   <h3 className="text-xl font-bold mb-3">{s.title}</h3>
@@ -389,7 +389,7 @@ export default function EssentialSaaSPage() {
       </section>
 
       {/* Stats */}
-      <section id="about" className="py-20 bg-[#6366F1] text-white">
+      <section id="about" className="py-20 bg-[var(--brand,#6366F1)] text-white">
         <div className="max-w-7xl mx-auto px-6 md:px-12">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             {[["2 400+", "Équipes actives"], ["99.99%", "Uptime garanti"], ["4.9/5", "Note moyenne"], ["15h/sem", "Temps économisé"]].map(([val, label]) => (
@@ -409,7 +409,7 @@ export default function EssentialSaaSPage() {
         <div className="max-w-7xl mx-auto px-6 md:px-12">
           <div className="text-center mb-14">
             <Reveal>
-              <p className="text-[#6366F1] font-semibold text-sm mb-3">Témoignages</p>
+              <p className="text-[var(--brand,#6366F1)] font-semibold text-sm mb-3">Témoignages</p>
               <h2 className="text-4xl font-extrabold tracking-tight">Ils nous font confiance</h2>
             </Reveal>
           </div>
@@ -422,7 +422,7 @@ export default function EssentialSaaSPage() {
                   </div>
                   <p className="text-slate-600 leading-relaxed mb-6">&ldquo;{t.text}&rdquo;</p>
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-[#6366F1] rounded-full flex items-center justify-center text-white text-xs font-bold">{t.avatar}</div>
+                    <div className="w-10 h-10 bg-[var(--brand,#6366F1)] rounded-full flex items-center justify-center text-white text-xs font-bold">{t.avatar}</div>
                     <div>
                       <div className="font-semibold text-sm">{t.name}</div>
                       <div className="text-xs text-slate-500">{t.role}</div>
@@ -440,7 +440,7 @@ export default function EssentialSaaSPage() {
         <div className="max-w-7xl mx-auto px-6 md:px-12">
           <div className="text-center mb-14">
             <Reveal>
-              <p className="text-[#6366F1] font-semibold text-sm mb-3">Tarifs</p>
+              <p className="text-[var(--brand,#6366F1)] font-semibold text-sm mb-3">Tarifs</p>
               <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4">Simple et transparent</h2>
               <p className="text-slate-500 text-lg">Commencez gratuitement, évoluez quand vous en avez besoin.</p>
             </Reveal>
@@ -448,14 +448,14 @@ export default function EssentialSaaSPage() {
           <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
             {PRICING.map((plan, i) => (
               <Reveal key={plan.name} delay={i * 0.1}>
-                <div className={`rounded-2xl p-8 relative ${plan.highlight ? "bg-[#6366F1] text-white shadow-2xl shadow-indigo-200 scale-105" : "bg-[#F8F9FF] border border-slate-100"}`}>
+                <div className={`rounded-2xl p-8 relative ${plan.highlight ? "bg-[var(--brand,#6366F1)] text-white shadow-2xl shadow-indigo-200 scale-105" : "bg-[#F8F9FF] border border-slate-100"}`}>
                   {plan.highlight && (
                     <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-[#F59E0B] text-[#0F172A] text-xs font-bold px-4 py-1.5 rounded-full">
                       Recommandé
                     </div>
                   )}
                   <div className="mb-6">
-                    <div className={`font-semibold text-sm mb-2 ${plan.highlight ? "text-indigo-200" : "text-[#6366F1]"}`}>{plan.name}</div>
+                    <div className={`font-semibold text-sm mb-2 ${plan.highlight ? "text-indigo-200" : "text-[var(--brand,#6366F1)]"}`}>{plan.name}</div>
                     <div className="text-3xl font-extrabold mb-1">
                       {plan.price === "Sur devis" ? plan.price : plan.price === "0" ? "Gratuit" : `€${plan.price}`}
                     </div>
@@ -465,12 +465,12 @@ export default function EssentialSaaSPage() {
                   <ul className="space-y-3 mb-8">
                     {plan.features.map(f => (
                       <li key={f} className="flex items-center gap-2.5 text-sm">
-                        <Check className={`w-4 h-4 flex-shrink-0 ${plan.highlight ? "text-white" : "text-[#6366F1]"}`} />
+                        <Check className={`w-4 h-4 flex-shrink-0 ${plan.highlight ? "text-white" : "text-[var(--brand,#6366F1)]"}`} />
                         <span className={plan.highlight ? "text-indigo-100" : "text-slate-600"}>{f}</span>
                       </li>
                     ))}
                   </ul>
-                  <button className={`w-full py-3.5 rounded-xl font-semibold text-sm transition-all cursor-pointer ${plan.highlight ? "bg-white text-[#6366F1] hover:bg-indigo-50" : "bg-[#6366F1] text-white hover:bg-[#4F46E5]"}`}>
+                  <button className={`w-full py-3.5 rounded-xl font-semibold text-sm transition-all cursor-pointer ${plan.highlight ? "bg-white text-[var(--brand,#6366F1)] hover:bg-indigo-50" : "bg-[var(--brand,#6366F1)] text-white hover:bg-[#4F46E5]"}`}>
                     {plan.cta}
                   </button>
                 </div>
@@ -508,11 +508,11 @@ export default function EssentialSaaSPage() {
       </section>
 
       {/* CTA */}
-      <section id="contact" className="py-24 bg-[#6366F1] text-white text-center px-6">
+      <section id="contact" className="py-24 bg-[var(--brand,#6366F1)] text-white text-center px-6">
         <Reveal>
           <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-6">Prêt à simplifier votre workflow ?</h2>
           <p className="text-indigo-200 text-lg mb-10">14 jours d&apos;essai gratuit. Pas de carte bancaire. Annulable à tout moment.</p>
-          <Link href="#tarifs" className="inline-flex items-center gap-2 px-10 py-5 bg-white text-[#6366F1] font-bold rounded-xl hover:bg-indigo-50 transition-colors cursor-pointer text-lg">
+          <Link href="#tarifs" className="inline-flex items-center gap-2 px-10 py-5 bg-white text-[var(--brand,#6366F1)] font-bold rounded-xl hover:bg-indigo-50 transition-colors cursor-pointer text-lg">
             Commencer maintenant <ArrowRight className="w-5 h-5" />
           </Link>
         </Reveal>
@@ -524,7 +524,7 @@ export default function EssentialSaaSPage() {
           <div className="grid md:grid-cols-5 gap-10 mb-12">
             <div className="md:col-span-2">
               <div className="flex items-center gap-2 mb-4">
-                <div className="w-7 h-7 bg-[#6366F1] rounded-lg flex items-center justify-center"><Sparkles className="w-4 h-4 text-white" /></div>
+                <div className="w-7 h-7 bg-[var(--brand,#6366F1)] rounded-lg flex items-center justify-center"><Sparkles className="w-4 h-4 text-white" /></div>
                 <span className="text-white font-bold">{fd?.businessName ?? "Flowbase"}</span>
               </div>
               <p className="text-sm leading-relaxed max-w-xs">La plateforme SaaS qui connecte votre équipe, vos projets et vos données.</p>

@@ -136,7 +136,7 @@ export default function BrilloNetPage() {
   }, [c]);return (
     <div className="bg-white text-[#1c2b2b] overflow-x-hidden" style={{ fontFamily: "'Plus Jakarta Sans', 'Inter', system-ui, sans-serif" }}>
       {/* ── NAVBAR ── */}
-      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-white/98 backdrop-blur-xl py-3 shadow-sm border-b border-[#0d9488]/10" : "bg-transparent py-7"}`}>
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-white/98 backdrop-blur-xl py-3 shadow-sm border-b border-[var(--brand,#0d9488)]/10" : "bg-transparent py-7"}`}>
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex items-center justify-between">
           <div className="flex items-center gap-2">
             {fd?.logoBase64 ? (
@@ -147,29 +147,29 @@ export default function BrilloNetPage() {
               />
             ) : (
               <>
-                <Sparkles className="w-4 h-4 text-[#0d9488]" />
-                <span className="font-bold text-[#1c2b2b] tracking-tight text-sm">Brillo<span className="text-[#0d9488]">Net</span></span>
+                <Sparkles className="w-4 h-4 text-[var(--brand,#0d9488)]" />
+                <span className="font-bold text-[#1c2b2b] tracking-tight text-sm">Brillo<span className="text-[var(--brand,#0d9488)]">Net</span></span>
               </>
             )}
           </div>
           <div className="hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.22em] text-[#1c2b2b]/30">
             {["Services", "Tarifs", "Zone", "Avis", "Contact"].map(l => (
-              <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="hover:text-[#0d9488] transition-colors">{l}</Link>
+              <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="hover:text-[var(--brand,#0d9488)] transition-colors">{l}</Link>
             ))}
           </div>
           <div className="flex items-center gap-3">
-            <a href={`tel:${fd?.phone ?? "0478123456"}`} className="hidden md:flex items-center gap-2 text-[#0d9488] font-bold text-sm">
+            <a href={`tel:${fd?.phone ?? "0478123456"}`} className="hidden md:flex items-center gap-2 text-[var(--brand,#0d9488)] font-bold text-sm">
               <Phone className="w-4 h-4" /> 04 78 12 34 56
             </a>
-            <button className="hidden md:block px-5 py-2.5 bg-[#0d9488] text-white text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-[#0b7d73] transition-colors rounded-full">
+            <button className="hidden md:block px-5 py-2.5 bg-[var(--brand,#0d9488)] text-white text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-[#0b7d73] transition-colors rounded-full">
               Devis gratuit
             </button>
             <Sheet>
               <SheetTrigger className="lg:hidden"><Menu className="w-5 h-5" /></SheetTrigger>
               <SheetContent side="right" className="bg-white border-slate-100 p-10">
                 <div className="flex flex-col gap-7 mt-16">
-                  {["Services", "Tarifs", "Contact"].map(l => <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="text-3xl font-bold text-[#1c2b2b] hover:text-[#0d9488] transition-colors">{l}</Link>)}
-                  <a href={`tel:${fd?.phone ?? "0478123456"}`} className="flex items-center gap-3 text-[#0d9488] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> 04 78 12 34 56</a>
+                  {["Services", "Tarifs", "Contact"].map(l => <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="text-3xl font-bold text-[#1c2b2b] hover:text-[var(--brand,#0d9488)] transition-colors">{l}</Link>)}
+                  <a href={`tel:${fd?.phone ?? "0478123456"}`} className="flex items-center gap-3 text-[var(--brand,#0d9488)] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> 04 78 12 34 56</a>
                 </div>
               </SheetContent>
             </Sheet>
@@ -186,14 +186,14 @@ export default function BrilloNetPage() {
         </motion.div>
 
         <motion.div initial={{ opacity: 0, y: -16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25, duration: 0.8 }}
-          className="absolute top-28 right-8 md:right-16 z-10 bg-[#0d9488]/90 backdrop-blur-sm text-white text-[10px] font-bold uppercase tracking-widest px-4 py-2.5 rounded-full flex items-center gap-2 shadow-lg">
+          className="absolute top-28 right-8 md:right-16 z-10 bg-[var(--brand,#0d9488)]/90 backdrop-blur-sm text-white text-[10px] font-bold uppercase tracking-widest px-4 py-2.5 rounded-full flex items-center gap-2 shadow-lg">
           <Leaf className="w-3 h-3" /> Produits 100% éco
         </motion.div>
 
         <motion.div style={{ y: heroTextY, opacity: heroOpacity }} className="relative z-10 max-w-[1400px] w-full mx-auto px-6 md:px-12 pb-28">
           <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.3 }}>
             <div className="flex items-center gap-3 mb-8">
-              <div className="w-6 h-[1px] bg-[#0d9488]" />
+              <div className="w-6 h-[1px] bg-[var(--brand,#0d9488)]" />
               <span className="text-[9px] font-bold uppercase tracking-[0.4em] text-[#2dd4bf]">Ménage & Nettoyage Pro · Lyon Métropole</span>
             </div>
           </motion.div>
@@ -209,10 +209,10 @@ export default function BrilloNetPage() {
           </>}</motion.p>
 
           <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.98 }} className="flex flex-wrap gap-3 mb-8">
-            <button className="px-8 py-4 bg-[#0d9488] text-white font-bold text-[10px] uppercase tracking-[0.22em] hover:bg-[#0b7d73] transition-colors rounded-full">{c?.ctaText ?? <>
+            <button className="px-8 py-4 bg-[var(--brand,#0d9488)] text-white font-bold text-[10px] uppercase tracking-[0.22em] hover:bg-[#0b7d73] transition-colors rounded-full">{c?.ctaText ?? <>
               Devis gratuit sous 2h
             </>}</button>
-            <a href={`tel:${fd?.phone ?? "0478123456"}`} className="flex items-center gap-3 px-8 py-4 border border-white/15 text-white font-bold text-[10px] uppercase tracking-widest hover:border-[#0d9488]/50 hover:text-[#2dd4bf] transition-all rounded-full">
+            <a href={`tel:${fd?.phone ?? "0478123456"}`} className="flex items-center gap-3 px-8 py-4 border border-white/15 text-white font-bold text-[10px] uppercase tracking-widest hover:border-[var(--brand,#0d9488)]/50 hover:text-[#2dd4bf] transition-all rounded-full">
               <Phone className="w-4 h-4" /> Appeler maintenant
             </a>
           </motion.div>
@@ -220,7 +220,7 @@ export default function BrilloNetPage() {
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.2, duration: 0.7 }} className="flex flex-wrap items-center gap-6">
             {["Assurés RC Pro", "Ponctualité garantie", "Devis gratuit 2h"].map((b, i) => (
               <div key={i} className="flex items-center gap-2">
-                <CheckCircle className="w-3.5 h-3.5 text-[#0d9488]" />
+                <CheckCircle className="w-3.5 h-3.5 text-[var(--brand,#0d9488)]" />
                 <span className="text-[10px] font-bold text-white/35 uppercase tracking-wide">{b}</span>
               </div>
             ))}
@@ -228,7 +228,7 @@ export default function BrilloNetPage() {
         </motion.div>
 
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10">
-          <motion.div animate={{ y: [0, 8, 0] }} transition={{ repeat: Infinity, duration: 2.4 }} className="w-[1px] h-10 bg-gradient-to-b from-[#0d9488]/60 to-transparent mx-auto" />
+          <motion.div animate={{ y: [0, 8, 0] }} transition={{ repeat: Infinity, duration: 2.4 }} className="w-[1px] h-10 bg-gradient-to-b from-[var(--brand,#0d9488)]/60 to-transparent mx-auto" />
         </div>
       </section>
 
@@ -243,7 +243,7 @@ export default function BrilloNetPage() {
           ].map((s, i) => (
             <Reveal key={i} delay={i * 0.07}>
               <div className="text-center p-6 bg-white rounded-2xl shadow-sm">
-                <div className="text-3xl font-bold text-[#0d9488] mb-1">{s.v}</div>
+                <div className="text-3xl font-bold text-[var(--brand,#0d9488)] mb-1">{s.v}</div>
                 <div className="text-[10px] font-bold uppercase tracking-widest text-[#1c2b2b]/35">{s.l}</div>
               </div>
             </Reveal>
@@ -257,8 +257,8 @@ export default function BrilloNetPage() {
           <Reveal>
             <div className="mb-16 flex flex-col md:flex-row md:items-end gap-8 justify-between">
               <div>
-                <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#0d9488] mb-4">Nos prestations</div>
-                <h2 className="text-4xl md:text-5xl font-bold text-[#1c2b2b]">Des solutions pour<br /><span className="text-[#0d9488]">chaque besoin.</span></h2>
+                <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#0d9488)] mb-4">Nos prestations</div>
+                <h2 className="text-4xl md:text-5xl font-bold text-[#1c2b2b]">Des solutions pour<br /><span className="text-[var(--brand,#0d9488)]">chaque besoin.</span></h2>
               </div>
               <p className="max-w-xs text-sm text-[#1c2b2b]/40 leading-relaxed" style={{ fontFamily: "'Inter', sans-serif" }}>
                 Particuliers ou professionnels, ponctuel ou régulier, écologique en option standard.
@@ -268,9 +268,9 @@ export default function BrilloNetPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             {SERVICES.map((s, i) => (
               <Reveal key={i} delay={i * 0.08}>
-                <div className="group p-7 rounded-2xl border border-[#e8f7f6] hover:border-[#0d9488]/25 hover:shadow-xl hover:shadow-[#0d9488]/5 transition-all duration-500 bg-white h-full">
-                  <div className="w-10 h-10 bg-[#0d9488]/8 rounded-xl flex items-center justify-center mb-5 group-hover:bg-[#0d9488] transition-colors duration-500">
-                    <s.icon className="w-5 h-5 text-[#0d9488] group-hover:text-white transition-colors" />
+                <div className="group p-7 rounded-2xl border border-[#e8f7f6] hover:border-[var(--brand,#0d9488)]/25 hover:shadow-xl hover:shadow-[var(--brand,#0d9488)]/5 transition-all duration-500 bg-white h-full">
+                  <div className="w-10 h-10 bg-[var(--brand,#0d9488)]/8 rounded-xl flex items-center justify-center mb-5 group-hover:bg-[var(--brand,#0d9488)] transition-colors duration-500">
+                    <s.icon className="w-5 h-5 text-[var(--brand,#0d9488)] group-hover:text-white transition-colors" />
                   </div>
                   <h3 className="font-bold text-[#1c2b2b] mb-3 text-sm">{s.title}</h3>
                   <p className="text-sm text-[#1c2b2b]/40 leading-relaxed" style={{ fontFamily: "'Inter', sans-serif" }}>{s.desc}</p>
@@ -285,7 +285,7 @@ export default function BrilloNetPage() {
       <section id="contact" className="py-24 bg-[#f0fafa]">
         <div className="max-w-[1100px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-14 text-center">
-            <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#0d9488] mb-4">Simple comme bonjour</div>
+            <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#0d9488)] mb-4">Simple comme bonjour</div>
             <h2 className="text-4xl font-bold text-[#1c2b2b]">Comment ça marche ?</h2>
           </div></Reveal>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
@@ -297,7 +297,7 @@ export default function BrilloNetPage() {
             ].map((s, i) => (
               <Reveal key={i} delay={i * 0.09}>
                 <div className="bg-white rounded-2xl p-7 shadow-sm h-full">
-                  <div className="text-4xl font-bold text-[#0d9488]/15 mb-4 tracking-tight">{s.n}</div>
+                  <div className="text-4xl font-bold text-[var(--brand,#0d9488)]/15 mb-4 tracking-tight">{s.n}</div>
                   <div className="font-bold text-[#1c2b2b] mb-2 text-sm">{s.t}</div>
                   <p className="text-sm text-[#1c2b2b]/40 leading-relaxed" style={{ fontFamily: "'Inter', sans-serif" }}>{s.d}</p>
                 </div>
@@ -311,8 +311,8 @@ export default function BrilloNetPage() {
       <section id="about" className="py-28 bg-white">
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-16 text-center">
-            <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#0d9488] mb-4">Ce qu'ils disent</div>
-            <h2 className="text-4xl font-bold text-[#1c2b2b]">Clients satisfaits,<br /><span className="text-[#0d9488]">maisons impeccables.</span></h2>
+            <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#0d9488)] mb-4">Ce qu'ils disent</div>
+            <h2 className="text-4xl font-bold text-[#1c2b2b]">Clients satisfaits,<br /><span className="text-[var(--brand,#0d9488)]">maisons impeccables.</span></h2>
           </div></Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             {[
@@ -321,14 +321,14 @@ export default function BrilloNetPage() {
               { q: "Nos bureaux sont nettoyés 3 fois par semaine. Zéro problème depuis 2 ans, intervenantes discrètes, travail remarquable. C'est pas donné à tout le monde.", n: "Agence ARBO", l: "Lyon 2e" },
             ].map((t, i) => (
               <Reveal key={i} delay={i * 0.1}>
-                <div className="p-8 rounded-2xl bg-[#f0fafa] border border-[#0d9488]/10 h-full flex flex-col">
+                <div className="p-8 rounded-2xl bg-[#f0fafa] border border-[var(--brand,#0d9488)]/10 h-full flex flex-col">
                   <div className="flex gap-1 mb-5">
-                    {[...Array(5)].map((_, j) => <Star key={j} className="w-3.5 h-3.5 fill-[#0d9488] text-[#0d9488]" />)}
+                    {[...Array(5)].map((_, j) => <Star key={j} className="w-3.5 h-3.5 fill-[var(--brand,#0d9488)] text-[var(--brand,#0d9488)]" />)}
                   </div>
                   <p className="text-sm text-[#1c2b2b]/50 leading-relaxed italic flex-1" style={{ fontFamily: "'Inter', sans-serif" }}>{`"${t.q}"`}</p>
-                  <div className="mt-6 pt-5 border-t border-[#0d9488]/10">
+                  <div className="mt-6 pt-5 border-t border-[var(--brand,#0d9488)]/10">
                     <div className="font-bold text-[#1c2b2b] text-sm">{t.n}</div>
-                    <div className="text-[10px] text-[#0d9488] mt-1 flex items-center gap-1"><MapPin className="w-3 h-3" />{t.l}</div>
+                    <div className="text-[10px] text-[var(--brand,#0d9488)] mt-1 flex items-center gap-1"><MapPin className="w-3 h-3" />{t.l}</div>
                   </div>
                 </div>
               </Reveal>
@@ -338,7 +338,7 @@ export default function BrilloNetPage() {
       </section>
 
       {/* ── CTA ── */}
-      <section id="services" className="py-28 bg-[#0d9488]">
+      <section id="services" className="py-28 bg-[var(--brand,#0d9488)]">
         <Reveal>
           <div className="max-w-2xl mx-auto px-6 text-center">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/45 mb-6">Premier passage</div>
@@ -347,7 +347,7 @@ export default function BrilloNetPage() {
               Devis gratuit en 2h · Premier passage sur Lyon Métropole · Résiliation libre à tout moment
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
-              <button className="px-10 py-4 bg-white text-[#0d9488] font-bold text-[10px] uppercase tracking-[0.25em] hover:bg-[#f0fafa] transition-colors rounded-full shadow-lg">
+              <button className="px-10 py-4 bg-white text-[var(--brand,#0d9488)] font-bold text-[10px] uppercase tracking-[0.25em] hover:bg-[#f0fafa] transition-colors rounded-full shadow-lg">
                 Demander mon devis
               </button>
               <a href={`tel:${fd?.phone ?? "0478123456"}`} className="flex items-center gap-3 px-10 py-4 border border-white/25 text-white font-bold text-[10px] uppercase tracking-widest hover:bg-white/10 transition-all rounded-full">
@@ -362,7 +362,7 @@ export default function BrilloNetPage() {
       <footer className="bg-[#1c2b2b] pt-20 pb-10 px-6">
         <div className="max-w-[1300px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           <div>
-            <div className="flex items-center gap-2 mb-5"><Sparkles className="w-4 h-4 text-[#0d9488]" /><span className="font-bold text-white text-sm">BrilloNet</span></div>
+            <div className="flex items-center gap-2 mb-5"><Sparkles className="w-4 h-4 text-[var(--brand,#0d9488)]" /><span className="font-bold text-white text-sm">BrilloNet</span></div>
             <p className="text-white/20 text-sm leading-relaxed" style={{ fontFamily: "'Inter', sans-serif" }}>Ménage & nettoyage professionnel sur Lyon. Particuliers et professionnels. Produits éco certifiés.</p>
           </div>
           {[
@@ -371,7 +371,7 @@ export default function BrilloNetPage() {
             { t: "Contact", ls: ["04 78 12 34 56", "contact@brillonet.fr", "Lyon Métropole", "7j/7 8h-20h", "Devis gratuit en 2h"] },
           ].map((col, i) => (
             <div key={i}>
-              <h4 className="text-[9px] font-bold uppercase tracking-[0.3em] text-[#0d9488] mb-5">{col.t}</h4>
+              <h4 className="text-[9px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#0d9488)] mb-5">{col.t}</h4>
               <ul className="space-y-2.5">
                 {col.ls.map(l => <li key={l}><Link href="#contact" className="text-white/20 text-sm hover:text-white transition-colors">{l}</Link></li>)}
               </ul>
@@ -380,7 +380,7 @@ export default function BrilloNetPage() {
         </div>
         <div className="max-w-[1300px] mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between gap-3 text-[9px] font-bold uppercase tracking-widest text-white/10">
           <span>© 2026 BrilloNet · SIRET 789 012 345 00067 · RC Pro · Assurance décennale</span>
-          <span className="text-[#0d9488]/30">Ménage professionnel · Lyon</span>
+          <span className="text-[var(--brand,#0d9488)]/30">Ménage professionnel · Lyon</span>
         </div>
       </footer>
     </div>

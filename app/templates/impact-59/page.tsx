@@ -138,7 +138,7 @@ return (
 
         <div className="relative z-10 max-w-[1400px] mx-auto px-6 md:px-12 w-full">
           <Reveal>
-            <span className="text-[10px] md:text-[12px] uppercase tracking-[0.4em] font-bold text-[#3d7a5e] mb-8 block font-sans">
+            <span className="text-[10px] md:text-[12px] uppercase tracking-[0.4em] font-bold text-[var(--brand,#3d7a5e)] mb-8 block font-sans">
               Maximum 9 Participants · No Devices
             </span>
             <h1 className="text-6xl md:text-8xl lg:text-[10rem] font-bold leading-[1.15] pb-4 tracking-tighter mb-12 uppercase font-serif">{c?.heroHeadline ?? <>
@@ -151,7 +151,7 @@ return (
               rest through carefully calibrated stillness.
             </>}</p>
             <div className="flex flex-col sm:flex-row gap-6 font-sans">
-              <Link href="/templates/impact-59/retreats" className="px-12 py-5 bg-black text-white text-[10px] uppercase tracking-[0.4em] font-bold rounded-full hover:bg-[#3d7a5e] transition-all cursor-pointer shadow-xl text-center" style={{ textDecoration: "none" }}>
+              <Link href="/templates/impact-59/retreats" className="px-12 py-5 bg-black text-white text-[10px] uppercase tracking-[0.4em] font-bold rounded-full hover:bg-[var(--brand,#3d7a5e)] transition-all cursor-pointer shadow-xl text-center" style={{ textDecoration: "none" }}>
                 Explore 2026 Programme
               </Link>
               <Link href="/templates/impact-59/method" className="px-12 py-5 border border-black/10 text-black text-[10px] uppercase tracking-[0.4em] font-bold rounded-full hover:bg-black hover:text-white transition-all cursor-pointer text-center" style={{ textDecoration: "none" }}>
@@ -180,7 +180,7 @@ return (
       <section className="py-32 px-6 md:px-12 bg-[#f8f5f0]">
         <div className="max-w-[1400px] mx-auto">
           <Reveal>
-            <p className="text-[10px] uppercase tracking-[0.4em] text-[#3d7a5e] mb-6 font-sans font-bold">
+            <p className="text-[10px] uppercase tracking-[0.4em] text-[var(--brand,#3d7a5e)] mb-6 font-sans font-bold">
               Programme 2026
             </p>
             <h2
@@ -209,7 +209,7 @@ return (
                         className="object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700"
                       />
                       {/* Sage green overlay on hover */}
-                      <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-[#3d7a5e]/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10" />
+                      <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-[var(--brand,#3d7a5e)]/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10" />
                       {/* Theme badge */}
                       <div className="absolute top-4 left-4 z-20">
                         <span className="px-3 py-1 bg-[#f8f5f0]/90 text-[#2a2a2a] text-[9px] uppercase tracking-[0.35em] font-bold font-sans">
@@ -239,7 +239,7 @@ return (
                         <span className="text-xs text-black/50 font-sans">
                           {retreat.duration} · {retreat.season}
                         </span>
-                        <ArrowRight className="w-4 h-4 text-[#3d7a5e] opacity-0 group-hover:opacity-100 transition-all duration-300 translate-x-[-4px] group-hover:translate-x-0" />
+                        <ArrowRight className="w-4 h-4 text-[var(--brand,#3d7a5e)] opacity-0 group-hover:opacity-100 transition-all duration-300 translate-x-[-4px] group-hover:translate-x-0" />
                       </div>
                     </div>
                   </div>
@@ -252,7 +252,7 @@ return (
             <div className="text-center mt-16">
               <Link
                 href="/templates/impact-59/retreats"
-                className="inline-flex items-center gap-3 text-[10px] uppercase tracking-[0.4em] text-[#2a2a2a] border-b border-[#2a2a2a]/20 pb-1 hover:border-[#3d7a5e] hover:text-[#3d7a5e] transition-all font-sans font-bold"
+                className="inline-flex items-center gap-3 text-[10px] uppercase tracking-[0.4em] text-[#2a2a2a] border-b border-[#2a2a2a]/20 pb-1 hover:border-[var(--brand,#3d7a5e)] hover:text-[var(--brand,#3d7a5e)] transition-all font-sans font-bold"
                 style={{ textDecoration: "none" }}
               >
                 Voir toutes les retraites
@@ -272,7 +272,7 @@ return (
             {/* Left: text */}
             <div>
               <Reveal>
-                <p className="text-[10px] uppercase tracking-[0.4em] text-[#3d7a5e] mb-6 font-sans font-bold">
+                <p className="text-[10px] uppercase tracking-[0.4em] text-[var(--brand,#3d7a5e)] mb-6 font-sans font-bold">
                   Science · Contemplation · Corps
                 </p>
                 <h2
@@ -303,7 +303,7 @@ return (
                   {SCIENTIFIC_PILLARS.map((pillar, i) => (
                     <Reveal key={pillar.title} delay={i * 0.1}>
                       <div className="flex items-start gap-4 border-t border-[#f8f5f0]/10 pt-6">
-                        <div className="text-[#3d7a5e] flex-shrink-0 mt-0.5">
+                        <div className="text-[var(--brand,#3d7a5e)] flex-shrink-0 mt-0.5">
                           {pillar.icon}
                         </div>
                         <div>
@@ -325,7 +325,7 @@ return (
                 <Reveal delay={0.4}>
                   <Link
                     href="/templates/impact-59/method"
-                    className="inline-flex items-center gap-3 mt-12 text-[10px] uppercase tracking-[0.4em] text-[#f8f5f0] border-b border-[#f8f5f0]/20 pb-1 hover:border-[#3d7a5e] hover:text-[#3d7a5e] transition-all font-sans font-bold"
+                    className="inline-flex items-center gap-3 mt-12 text-[10px] uppercase tracking-[0.4em] text-[#f8f5f0] border-b border-[#f8f5f0]/20 pb-1 hover:border-[var(--brand,#3d7a5e)] hover:text-[var(--brand,#3d7a5e)] transition-all font-sans font-bold"
                     style={{ textDecoration: "none" }}
                   >
                     Explorer la méthode
@@ -387,7 +387,7 @@ return (
       <section className="py-32 px-6 md:px-12 bg-[#f8f5f0]">
         <div className="max-w-[1400px] mx-auto">
           <Reveal>
-            <p className="text-[10px] uppercase tracking-[0.4em] text-[#3d7a5e] mb-16 font-sans font-bold text-center">
+            <p className="text-[10px] uppercase tracking-[0.4em] text-[var(--brand,#3d7a5e)] mb-16 font-sans font-bold text-center">
               Témoignages
             </p>
           </Reveal>
@@ -412,7 +412,7 @@ return (
             ].map((t, i) => (
               <Reveal key={i} delay={i * 0.15}>
                 <div className="flex flex-col h-full">
-                  <div className="text-[#3d7a5e]/30 text-6xl leading-none mb-6 font-serif">&ldquo;</div>
+                  <div className="text-[var(--brand,#3d7a5e)]/30 text-6xl leading-none mb-6 font-serif">&ldquo;</div>
                   <blockquote
                     className="text-xl md:text-2xl font-light italic text-[#2a2a2a] leading-relaxed flex-1"
                     style={{ fontFamily: "Lora, Georgia, serif" }}
@@ -443,7 +443,7 @@ return (
       <section className="py-32 px-6 md:px-12 bg-[#2a2a2a]/5 border-t border-black/5">
         <div className="max-w-[1400px] mx-auto">
           <Reveal>
-            <p className="text-[10px] uppercase tracking-[0.4em] text-[#3d7a5e] mb-6 font-sans font-bold">
+            <p className="text-[10px] uppercase tracking-[0.4em] text-[var(--brand,#3d7a5e)] mb-6 font-sans font-bold">
               Expertise · Transmission · Soin
             </p>
             <h2
@@ -458,11 +458,11 @@ return (
             {LINEAGE.map((guide, i) => (
               <Reveal key={guide.name} delay={i * 0.15}>
                 <Link href="/templates/impact-59/lineage" style={{ textDecoration: "none" }}>
-                  <div className="group flex items-start gap-5 p-6 border border-black/5 bg-white/50 hover:bg-white hover:border-[#3d7a5e]/20 hover:shadow-md transition-all duration-400 rounded-sm cursor-pointer">
+                  <div className="group flex items-start gap-5 p-6 border border-black/5 bg-white/50 hover:bg-white hover:border-[var(--brand,#3d7a5e)]/20 hover:shadow-md transition-all duration-400 rounded-sm cursor-pointer">
                     {/* Avatar */}
-                    <div className="w-14 h-14 rounded-full bg-[#3d7a5e]/10 border border-[#3d7a5e]/20 flex items-center justify-center flex-shrink-0 group-hover:bg-[#3d7a5e]/20 transition-colors duration-300">
+                    <div className="w-14 h-14 rounded-full bg-[var(--brand,#3d7a5e)]/10 border border-[var(--brand,#3d7a5e)]/20 flex items-center justify-center flex-shrink-0 group-hover:bg-[var(--brand,#3d7a5e)]/20 transition-colors duration-300">
                       <span
-                        className="text-sm font-semibold text-[#3d7a5e]"
+                        className="text-sm font-semibold text-[var(--brand,#3d7a5e)]"
                         style={{ fontFamily: "Cinzel, Georgia, serif" }}
                       >
                         {guide.avatar}
@@ -475,7 +475,7 @@ return (
                       >
                         {guide.name}
                       </h3>
-                      <p className="text-[10px] uppercase tracking-[0.25em] text-[#3d7a5e] font-sans mb-3">
+                      <p className="text-[10px] uppercase tracking-[0.25em] text-[var(--brand,#3d7a5e)] font-sans mb-3">
                         {guide.role}
                       </p>
                       <p className="text-sm text-black/50 leading-relaxed font-sans">
@@ -492,7 +492,7 @@ return (
             <div className="text-center mt-14">
               <Link
                 href="/templates/impact-59/lineage"
-                className="inline-flex items-center gap-3 text-[10px] uppercase tracking-[0.4em] text-[#2a2a2a] border-b border-[#2a2a2a]/20 pb-1 hover:border-[#3d7a5e] hover:text-[#3d7a5e] transition-all font-sans font-bold"
+                className="inline-flex items-center gap-3 text-[10px] uppercase tracking-[0.4em] text-[#2a2a2a] border-b border-[#2a2a2a]/20 pb-1 hover:border-[var(--brand,#3d7a5e)] hover:text-[var(--brand,#3d7a5e)] transition-all font-sans font-bold"
                 style={{ textDecoration: "none" }}
               >
                 Rencontrer nos guides
@@ -509,7 +509,7 @@ return (
       <section className="py-32 px-6 md:px-12 bg-[#2a2a2a] text-[#f8f5f0]">
         <div className="max-w-[1400px] mx-auto">
           <Reveal>
-            <p className="text-[10px] uppercase tracking-[0.4em] text-[#3d7a5e] mb-6 font-sans font-bold">Approche · Méthode</p>
+            <p className="text-[10px] uppercase tracking-[0.4em] text-[var(--brand,#3d7a5e)] mb-6 font-sans font-bold">Approche · Méthode</p>
             <h2 className="text-4xl md:text-5xl font-bold uppercase tracking-tight mb-20 leading-tight" style={{ fontFamily: "Cinzel, Georgia, serif" }}>
               La Méthode<br /><span className="font-light italic" style={{ fontFamily: "Lora, Georgia, serif" }}>Nakano</span>
             </h2>
@@ -523,8 +523,8 @@ return (
             ].map((step, i) => (
               <Reveal key={step.num} delay={i * 0.12}>
                 <div className="flex gap-8">
-                  <div className="flex-shrink-0 w-10 h-10 border border-[#3d7a5e]/30 flex items-center justify-center">
-                    <span className="text-[#3d7a5e] font-bold text-sm" style={{ fontFamily: "Cinzel, Georgia, serif" }}>{step.num}</span>
+                  <div className="flex-shrink-0 w-10 h-10 border border-[var(--brand,#3d7a5e)]/30 flex items-center justify-center">
+                    <span className="text-[var(--brand,#3d7a5e)] font-bold text-sm" style={{ fontFamily: "Cinzel, Georgia, serif" }}>{step.num}</span>
                   </div>
                   <div>
                     <h3 className="text-base font-semibold uppercase tracking-wide mb-3" style={{ fontFamily: "Cinzel, Georgia, serif" }}>{step.title}</h3>
@@ -539,7 +539,7 @@ return (
               <p className="text-sm text-white/40 font-sans italic leading-relaxed max-w-2xl" style={{ fontFamily: "Lora, Georgia, serif" }}>
                 "La transformation ne survient pas pendant la retraite. Elle survient dans les semaines qui suivent, lorsque vous réalisez que vous réagissez différemment à ce qui ne changeait jamais."
               </p>
-              <p className="text-[10px] uppercase tracking-[0.3em] text-[#3d7a5e] mt-4 font-sans">— Dr Yuki Nakano, fondatrice de la méthode</p>
+              <p className="text-[10px] uppercase tracking-[0.3em] text-[var(--brand,#3d7a5e)] mt-4 font-sans">— Dr Yuki Nakano, fondatrice de la méthode</p>
             </div>
           </Reveal>
         </div>
@@ -551,7 +551,7 @@ return (
       <section className="py-32 px-6 md:px-12 bg-[#f8f5f0] border-t border-black/5">
         <div className="max-w-[1400px] mx-auto">
           <Reveal>
-            <p className="text-[10px] uppercase tracking-[0.4em] text-[#3d7a5e] mb-6 font-sans font-bold">Processus</p>
+            <p className="text-[10px] uppercase tracking-[0.4em] text-[var(--brand,#3d7a5e)] mb-6 font-sans font-bold">Processus</p>
             <h2 className="text-4xl md:text-5xl font-bold uppercase tracking-tight mb-20" style={{ fontFamily: "Cinzel, Georgia, serif" }}>Comment ça fonctionne</h2>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
@@ -563,8 +563,8 @@ return (
             ].map((s, i) => (
               <Reveal key={s.num} delay={i * 0.1}>
                 <div>
-                  <div className="text-5xl font-light text-[#3d7a5e]/20 mb-6" style={{ fontFamily: "Cinzel, Georgia, serif" }}>{s.num}</div>
-                  <div className="w-8 h-[1px] bg-[#3d7a5e]/30 mb-6" />
+                  <div className="text-5xl font-light text-[var(--brand,#3d7a5e)]/20 mb-6" style={{ fontFamily: "Cinzel, Georgia, serif" }}>{s.num}</div>
+                  <div className="w-8 h-[1px] bg-[var(--brand,#3d7a5e)]/30 mb-6" />
                   <h3 className="text-sm font-semibold uppercase tracking-wide mb-4 text-[#2a2a2a]" style={{ fontFamily: "Cinzel, Georgia, serif" }}>{s.title}</h3>
                   <p className="text-sm text-black/45 leading-relaxed font-sans">{s.desc}</p>
                 </div>
@@ -580,7 +580,7 @@ return (
       <section className="py-32 px-6 md:px-12 bg-white border-t border-black/5">
         <div className="max-w-[900px] mx-auto">
           <Reveal>
-            <p className="text-[10px] uppercase tracking-[0.4em] text-[#3d7a5e] mb-6 font-sans font-bold">Questions fréquentes</p>
+            <p className="text-[10px] uppercase tracking-[0.4em] text-[var(--brand,#3d7a5e)] mb-6 font-sans font-bold">Questions fréquentes</p>
             <h2 className="text-4xl font-bold uppercase tracking-tight mb-20 text-[#2a2a2a]" style={{ fontFamily: "Cinzel, Georgia, serif" }}>Ce qu'on nous pose.</h2>
           </Reveal>
           <div className="space-y-0 divide-y divide-black/8">
@@ -608,7 +608,7 @@ return (
       <section className="py-40 px-6 md:px-12 bg-[#f8f5f0] border-t border-black/5 text-center">
         <div className="max-w-[900px] mx-auto">
           <Reveal>
-            <p className="text-[10px] uppercase tracking-[0.4em] text-[#3d7a5e] mb-8 font-sans font-bold">
+            <p className="text-[10px] uppercase tracking-[0.4em] text-[var(--brand,#3d7a5e)] mb-8 font-sans font-bold">
               Candidatures ouvertes — Places limitées
             </p>
             <h2
@@ -631,7 +631,7 @@ return (
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 href="/templates/impact-59/apply"
-                className="px-12 py-5 bg-[#3d7a5e] text-white text-[10px] uppercase tracking-[0.4em] font-bold rounded-full hover:bg-[#2a5e45] transition-all cursor-pointer shadow-xl font-sans"
+                className="px-12 py-5 bg-[var(--brand,#3d7a5e)] text-white text-[10px] uppercase tracking-[0.4em] font-bold rounded-full hover:bg-[#2a5e45] transition-all cursor-pointer shadow-xl font-sans"
                 style={{ textDecoration: "none" }}
               >
                 Candidater maintenant →

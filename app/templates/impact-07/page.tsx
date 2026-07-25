@@ -226,7 +226,7 @@ export default function AetherSoundPage() {
   }, [c]);
 
   return (
-    <div className="premium-theme min-h-dvh bg-[#080808] text-[#d4d4d4] font-sans selection:bg-[#c9a84c] selection:text-black overflow-x-hidden">
+    <div className="premium-theme min-h-dvh bg-[#080808] text-[#d4d4d4] font-sans selection:bg-[var(--brand,#c9a84c)] selection:text-black overflow-x-hidden">
 
       {/* ── NAVIGATION ── */}
       <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-700 ${scrolled ? "bg-black/90 backdrop-blur-2xl py-4 border-b border-white/5" : "bg-transparent py-8"}`}>
@@ -241,25 +241,25 @@ export default function AetherSoundPage() {
             ) : (
               <>
              <span className="text-3xl font-black tracking-[0.1em] uppercase leading-none italic">Aether</span>
-             <span className="text-[8px] font-bold uppercase tracking-[0.6em] text-[#c9a84c] -mt-1 ml-1">Sound Labs</span>
+             <span className="text-[8px] font-bold uppercase tracking-[0.6em] text-[var(--brand,#c9a84c)] -mt-1 ml-1">Sound Labs</span>
               </>
             )}
           </Link>
 
           <div className="hidden lg:flex items-center gap-12 text-[10px] font-bold uppercase tracking-[0.3em] text-white/40">
             {["Reference", "Amplification", "Source", "Consultation", "Archives"].map(link => (
-              <Link key={link} href={`/templates/impact-07/${link.toLowerCase()}`} className="hover:text-[#c9a84c] transition-colors cursor-pointer">{link}</Link>
+              <Link key={link} href={`/templates/impact-07/${link.toLowerCase()}`} className="hover:text-[var(--brand,#c9a84c)] transition-colors cursor-pointer">{link}</Link>
             ))}
           </div>
 
           <div className="flex items-center gap-8">
              <Link href="/templates/impact-07/client-lounge" className="hidden md:flex items-center gap-3 group">
-                <span className="text-[10px] font-bold uppercase tracking-widest text-white/60 group-hover:text-[#c9a84c] transition-colors">Client_Lounge</span>
-                <div className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center text-white/40 group-hover:bg-[#c9a84c] group-hover:text-black group-hover:border-[#c9a84c] transition-all">
+                <span className="text-[10px] font-bold uppercase tracking-widest text-white/60 group-hover:text-[var(--brand,#c9a84c)] transition-colors">Client_Lounge</span>
+                <div className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center text-white/40 group-hover:bg-[var(--brand,#c9a84c)] group-hover:text-black group-hover:border-[var(--brand,#c9a84c)] transition-all">
                    <Volume2 className="w-4 h-4" />
                 </div>
              </Link>
-             <button onClick={() => setMenuOpen(true)} className="lg:hidden text-[#c9a84c]"><Menu className="w-6 h-6" /></button>
+             <button onClick={() => setMenuOpen(true)} className="lg:hidden text-[var(--brand,#c9a84c)]"><Menu className="w-6 h-6" /></button>
           </div>
         </div>
       </nav>
@@ -268,10 +268,10 @@ export default function AetherSoundPage() {
       <AnimatePresence>
         {menuOpen && (
           <motion.div initial={{ opacity: 0, x: "100%" }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: "100%" }} className="fixed inset-0 z-[100] bg-black p-12 flex flex-col justify-center gap-10">
-             <button onClick={() => setMenuOpen(false)} className="absolute top-10 right-8 text-white/40 hover:text-[#c9a84c]"><X className="w-10 h-10"/></button>
+             <button onClick={() => setMenuOpen(false)} className="absolute top-10 right-8 text-white/40 hover:text-[var(--brand,#c9a84c)]"><X className="w-10 h-10"/></button>
              <div className="flex flex-col gap-6 text-6xl font-black uppercase italic text-white/5">
                 {["System", "Engineering", "Consult", "About"].map(l => (
-                   <Link key={l} href={`/templates/impact-07/${l.toLowerCase()}`} onClick={() => setMenuOpen(false)} className="hover:text-[#c9a84c] transition-all">{l}</Link>
+                   <Link key={l} href={`/templates/impact-07/${l.toLowerCase()}`} onClick={() => setMenuOpen(false)} className="hover:text-[var(--brand,#c9a84c)] transition-all">{l}</Link>
                 ))}
              </div>
           </motion.div>
@@ -287,17 +287,17 @@ export default function AetherSoundPage() {
 
         <div className="relative z-10 max-w-[1600px] mx-auto px-6 md:px-12 w-full grid grid-cols-1 lg:grid-cols-2 items-center">
           <Reveal>
-             <Badge className="bg-[#c9a84c]/10 text-[#c9a84c] border border-[#c9a84c]/30 text-[10px] font-bold uppercase tracking-[0.5em] mb-10 px-4 py-1.5 rounded-full">
+             <Badge className="bg-[var(--brand,#c9a84c)]/10 text-[var(--brand,#c9a84c)] border border-[var(--brand,#c9a84c)]/30 text-[10px] font-bold uppercase tracking-[0.5em] mb-10 px-4 py-1.5 rounded-full">
                 Berlin, Germany // Established 1994
              </Badge>
              <h1 className="text-8xl md:text-[14rem] font-black leading-[0.75] tracking-tighter mb-12 uppercase text-white italic">{c?.heroHeadline ?? <>
-               The <br/> <span className="text-[#c9a84c] not-italic">Silence.</span>
+               The <br/> <span className="text-[var(--brand,#c9a84c)] not-italic">Silence.</span>
              </>}</h1>
              <p className="max-w-md text-xl text-white/30 leading-relaxed font-light mb-12 uppercase tracking-widest italic">{c?.heroSubline ?? fd?.tagline ?? <>
                Redefining the threshold of hearing. Precision sonic instruments for the world's most discerning ears.
              </>}</p>
              <div className="flex flex-col sm:flex-row gap-6">
-                <MagneticBtn className="px-12 py-5 bg-[#c9a84c] text-black text-[10px] font-black uppercase tracking-[0.3em] rounded-full hover:scale-105 transition-all cursor-pointer shadow-[0_0_40px_rgba(201,168,76,0.3)]">
+                <MagneticBtn className="px-12 py-5 bg-[var(--brand,#c9a84c)] text-black text-[10px] font-black uppercase tracking-[0.3em] rounded-full hover:scale-105 transition-all cursor-pointer shadow-[0_0_40px_rgba(201,168,76,0.3)]">
                   Request Audition
                 </MagneticBtn>
                 <Link href="/templates/impact-07/current-collection" className="px-12 py-5 border border-white/20 text-white text-[10px] font-bold uppercase tracking-[0.3em] rounded-full hover:bg-white hover:text-black transition-all flex items-center justify-center gap-3">
@@ -309,13 +309,13 @@ export default function AetherSoundPage() {
           <div className="hidden lg:flex justify-end pr-12 relative">
              <Reveal delay={0.4}>
                 <div className="relative w-96 h-96 rounded-full border border-white/5 flex items-center justify-center">
-                   <motion.div animate={{ scale: [1, 1.1, 1], opacity: [0.3, 0.6, 0.3] }} transition={{ duration: 4, repeat: Infinity }} className="absolute inset-0 border border-[#c9a84c] rounded-full" />
+                   <motion.div animate={{ scale: [1, 1.1, 1], opacity: [0.3, 0.6, 0.3] }} transition={{ duration: 4, repeat: Infinity }} className="absolute inset-0 border border-[var(--brand,#c9a84c)] rounded-full" />
                    <div className="text-center">
-                      <span className="text-5xl font-black italic block text-[#c9a84c]">-142dB</span>
+                      <span className="text-5xl font-black italic block text-[var(--brand,#c9a84c)]">-142dB</span>
                       <span className="text-[10px] font-bold uppercase tracking-widest text-white/30">Signal To Noise Ratio</span>
                    </div>
                 </div>
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 bg-[#c9a84c] rounded-full blur-2xl opacity-20 animate-pulse" />
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 bg-[var(--brand,#c9a84c)] rounded-full blur-2xl opacity-20 animate-pulse" />
              </Reveal>
           </div>
         </div>
@@ -328,7 +328,7 @@ export default function AetherSoundPage() {
               {STATS.map((stat, i) => (
                 <Reveal key={i} delay={i * 0.1}>
                    <div className="text-center md:text-left">
-                      <div className="text-[9px] font-bold uppercase tracking-[0.3em] text-[#c9a84c] mb-2">{stat.label}</div>
+                      <div className="text-[9px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#c9a84c)] mb-2">{stat.label}</div>
                       <div className="text-5xl font-black italic text-white">{stat.value}</div>
                    </div>
                 </Reveal>
@@ -343,10 +343,10 @@ export default function AetherSoundPage() {
           <Reveal>
             <div className="flex flex-col md:flex-row justify-between items-end mb-24 gap-12">
                <div>
-                  <h2 className="text-7xl md:text-[10rem] font-black italic tracking-tighter leading-none mb-6 uppercase text-white">The <br/> <span className="text-[#c9a84c]">Line.</span></h2>
+                  <h2 className="text-7xl md:text-[10rem] font-black italic tracking-tighter leading-none mb-6 uppercase text-white">The <br/> <span className="text-[var(--brand,#c9a84c)]">Line.</span></h2>
                   <p className="text-white/20 text-[10px] font-bold uppercase tracking-[0.4em]">Reference Manifest // Hand-Crafted // Series 07</p>
                </div>
-               <Link href="/templates/impact-07/technical-archive" className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#c9a84c] border-b border-[#c9a84c] pb-2 hover:text-white hover:border-white transition-all">Download Technical Archive</Link>
+               <Link href="/templates/impact-07/technical-archive" className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#c9a84c)] border-b border-[var(--brand,#c9a84c)] pb-2 hover:text-white hover:border-white transition-all">Download Technical Archive</Link>
             </div>
           </Reveal>
 
@@ -366,7 +366,7 @@ export default function AetherSoundPage() {
 
                        <AnimatePresence>
                           {activeItem === item.id && (
-                            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 flex items-center justify-center bg-[#c9a84c]/10 backdrop-blur-[2px]">
+                            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 flex items-center justify-center bg-[var(--brand,#c9a84c)]/10 backdrop-blur-[2px]">
                                <button className="px-10 py-4 bg-white text-black text-[10px] font-black uppercase tracking-widest hover:scale-110 transition-all shadow-2xl">Acoustic Specs</button>
                             </motion.div>
                           )}
@@ -374,13 +374,13 @@ export default function AetherSoundPage() {
                     </div>
                     <div className="space-y-6">
                        <div className="flex justify-between items-baseline">
-                          <h3 className="text-4xl font-black uppercase tracking-tighter text-white italic group-hover:text-[#c9a84c] transition-colors">{item.name}</h3>
-                          <span className="text-lg font-black text-[#c9a84c] tracking-tighter">{item.price}</span>
+                          <h3 className="text-4xl font-black uppercase tracking-tighter text-white italic group-hover:text-[var(--brand,#c9a84c)] transition-colors">{item.name}</h3>
+                          <span className="text-lg font-black text-[var(--brand,#c9a84c)] tracking-tighter">{item.price}</span>
                        </div>
                        <p className="text-sm text-white/30 font-light leading-relaxed uppercase tracking-widest italic leading-loose">{item.desc}</p>
                        <div className="flex items-center gap-4">
                           <div className="h-[1px] flex-1 bg-white/5" />
-                          <Settings2 className="w-5 h-5 text-white/10 group-hover:text-[#c9a84c] transition-all" />
+                          <Settings2 className="w-5 h-5 text-white/10 group-hover:text-[var(--brand,#c9a84c)] transition-all" />
                        </div>
                     </div>
                  </div>
@@ -392,25 +392,25 @@ export default function AetherSoundPage() {
 
       {/* ── ENGINEERING PHILOSOPHY ── */}
       <section className="py-40 bg-[#0a0a0a] overflow-hidden relative border-t border-white/5">
-         <div className="absolute -bottom-32 -left-32 w-[40rem] h-[40rem] bg-[#c9a84c]/5 blur-[120px] rounded-full" />
+         <div className="absolute -bottom-32 -left-32 w-[40rem] h-[40rem] bg-[var(--brand,#c9a84c)]/5 blur-[120px] rounded-full" />
          <div className="max-w-[1600px] mx-auto px-6 md:px-12">
             <Reveal>
                <div className="text-center mb-32">
-                  <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#c9a84c] mb-8 block">Sonic Integrity</span>
-                  <h2 className="text-6xl md:text-8xl font-black italic tracking-tighter uppercase">Physical <span className="text-[#c9a84c] not-italic">Acoustics.</span></h2>
+                  <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#c9a84c)] mb-8 block">Sonic Integrity</span>
+                  <h2 className="text-6xl md:text-8xl font-black italic tracking-tighter uppercase">Physical <span className="text-[var(--brand,#c9a84c)] not-italic">Acoustics.</span></h2>
                </div>
             </Reveal>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
                {ENGINEERING.map((s, i) => (
                  <Reveal key={i} delay={i * 0.1}>
-                    <div className="p-16 border border-white/5 bg-white/[0.01] hover:border-[#c9a84c]/30 transition-all group h-full flex flex-col relative overflow-hidden">
-                       <div className="w-16 h-16 bg-white/5 rounded-full flex items-center justify-center text-[#c9a84c] mb-10 group-hover:bg-[#c9a84c] group-hover:text-black transition-all duration-500">
+                    <div className="p-16 border border-white/5 bg-white/[0.01] hover:border-[var(--brand,#c9a84c)]/30 transition-all group h-full flex flex-col relative overflow-hidden">
+                       <div className="w-16 h-16 bg-white/5 rounded-full flex items-center justify-center text-[var(--brand,#c9a84c)] mb-10 group-hover:bg-[var(--brand,#c9a84c)] group-hover:text-black transition-all duration-500">
                           <s.icon className="w-8 h-8" />
                        </div>
                        <h3 className="text-3xl font-black uppercase italic mb-6 tracking-tighter text-white group-hover:translate-x-2 transition-transform">{s.title}</h3>
                        <p className="text-sm text-white/30 font-light leading-relaxed mb-12 flex-1 tracking-wide uppercase italic leading-loose">{s.desc}</p>
-                       <button className="flex items-center gap-4 text-[9px] font-bold uppercase tracking-[0.3em] text-[#c9a84c] group-hover:gap-6 transition-all">
+                       <button className="flex items-center gap-4 text-[9px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#c9a84c)] group-hover:gap-6 transition-all">
                           Read Whitepaper <ArrowRight className="w-4 h-4" />
                        </button>
                     </div>
@@ -428,16 +428,16 @@ export default function AetherSoundPage() {
                   <Image src={photo(1, "https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?q=80&w=1200&auto=format&fit=crop")} alt="Audio Engineering" fill className="object-cover group-hover:scale-110 transition-all duration-[3s] grayscale hover:grayscale-0 opacity-60" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent" />
                   <div className="absolute bottom-16 left-16 text-white">
-                     <span className="text-[10px] font-bold uppercase tracking-[0.4em] mb-4 block text-[#c9a84c]">The Atelier</span>
+                     <span className="text-[10px] font-bold uppercase tracking-[0.4em] mb-4 block text-[var(--brand,#c9a84c)]">The Atelier</span>
                      <h4 className="text-5xl font-black italic uppercase tracking-tighter leading-none">Vacuum Tube <br/> Architecture.</h4>
                   </div>
                </div>
             </Reveal>
 
             <Reveal delay={0.2}>
-               <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#c9a84c] mb-8 block">The Protocol</span>
+               <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#c9a84c)] mb-8 block">The Protocol</span>
                <h2 className="text-6xl md:text-9xl font-black italic tracking-tighter leading-[0.8] mb-12 uppercase text-white">{c?.aboutTitle ?? fd?.businessName ?? <>
-                 Pure <br/> <span className="text-[#c9a84c] not-italic">Sync.</span>
+                 Pure <br/> <span className="text-[var(--brand,#c9a84c)] not-italic">Sync.</span>
                </>}</h2>
                <p className="text-white/40 text-xl leading-relaxed mb-16 font-light uppercase tracking-wide italic">{c?.aboutText ?? <>
                  Beyond the measurement. We design sonic instruments that merge the mathematical precision of modern electronics with the emotional warmth of vintage analog philosophy.
@@ -450,13 +450,13 @@ export default function AetherSoundPage() {
                     { icon: Zap, label: "Instant_Response", desc: "0.2ms Transient" },
                   ].map((val, i) => (
                     <div key={i} className="space-y-4">
-                       <val.icon className="w-6 h-6 text-[#c9a84c]" />
+                       <val.icon className="w-6 h-6 text-[var(--brand,#c9a84c)]" />
                        <h4 className="text-[11px] font-black uppercase tracking-widest text-white">{val.label}</h4>
                        <p className="text-[10px] font-light text-white/30 uppercase tracking-widest leading-loose">{val.desc}</p>
                     </div>
                   ))}
                </div>
-               <MagneticBtn className="mt-20 px-14 py-6 bg-white text-black text-[10px] font-black uppercase tracking-[0.4em] rounded-full hover:bg-[#c9a84c] hover:text-white transition-all shadow-2xl">
+               <MagneticBtn className="mt-20 px-14 py-6 bg-white text-black text-[10px] font-black uppercase tracking-[0.4em] rounded-full hover:bg-[var(--brand,#c9a84c)] hover:text-white transition-all shadow-2xl">
                   Schedule Listening Session
                </MagneticBtn>
             </Reveal>
@@ -465,13 +465,13 @@ export default function AetherSoundPage() {
 
       {/* ── HERITAGE & ORIGIN ── */}
       <section id="realisations" className="py-40 bg-black relative overflow-hidden">
-         <div className="absolute top-0 right-0 w-[60rem] h-[60rem] bg-[#c9a84c]/5 blur-[180px] rounded-full" />
+         <div className="absolute top-0 right-0 w-[60rem] h-[60rem] bg-[var(--brand,#c9a84c)]/5 blur-[180px] rounded-full" />
          <div className="max-w-[1600px] mx-auto px-6 md:px-12">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-32 items-center">
                <Reveal>
-                  <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#c9a84c] mb-8 block">The Chronology</span>
+                  <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#c9a84c)] mb-8 block">The Chronology</span>
                   <h2 className="text-6xl md:text-9xl font-black italic tracking-tighter leading-[0.8] mb-12 uppercase text-white">
-                    Three <br/> <span className="text-[#c9a84c] not-italic">Decades.</span>
+                    Three <br/> <span className="text-[var(--brand,#c9a84c)] not-italic">Decades.</span>
                   </h2>
                   <p className="text-white/40 text-xl leading-relaxed mb-16 font-light uppercase tracking-wide italic leading-loose">
                     Since 1994, Aether has operated at the intersection of material science and auditory emotion. Our journey began in a small workshop in Kreuzberg and has evolved into a global benchmark for reference sound.
@@ -484,7 +484,7 @@ export default function AetherSoundPage() {
                        { year: "2024", event: "Integration of femto-clocking across the entire digital source lineup." },
                      ].map((item, i) => (
                         <div key={i} className="flex gap-12 group">
-                           <span className="text-3xl font-black italic text-[#c9a84c] opacity-40 group-hover:opacity-100 transition-opacity">{item.year}</span>
+                           <span className="text-3xl font-black italic text-[var(--brand,#c9a84c)] opacity-40 group-hover:opacity-100 transition-opacity">{item.year}</span>
                            <p className="text-[11px] font-bold uppercase tracking-widest text-white/30 leading-loose">{item.event}</p>
                         </div>
                      ))}
@@ -504,8 +504,8 @@ export default function AetherSoundPage() {
         <div className="max-w-[1600px] mx-auto px-6 md:px-12">
            <Reveal>
               <div className="mb-32">
-                 <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#c9a84c] mb-8 block">Acoustic Manifest</span>
-                 <h2 className="text-6xl md:text-8xl font-black italic tracking-tighter uppercase text-white">Full <br/> <span className="text-[#c9a84c] not-italic">Spectrum.</span></h2>
+                 <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#c9a84c)] mb-8 block">Acoustic Manifest</span>
+                 <h2 className="text-6xl md:text-8xl font-black italic tracking-tighter uppercase text-white">Full <br/> <span className="text-[var(--brand,#c9a84c)] not-italic">Spectrum.</span></h2>
               </div>
            </Reveal>
 
@@ -545,8 +545,8 @@ export default function AetherSoundPage() {
         <div className="max-w-[1600px] mx-auto px-6 md:px-12">
            <Reveal>
               <div className="mb-32 text-center">
-                 <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#c9a84c] mb-8 block">The Craftsmen</span>
-                 <h2 className="text-6xl md:text-8xl font-black italic tracking-tighter uppercase text-white">Human <span className="text-[#c9a84c] not-italic">Element.</span></h2>
+                 <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#c9a84c)] mb-8 block">The Craftsmen</span>
+                 <h2 className="text-6xl md:text-8xl font-black italic tracking-tighter uppercase text-white">Human <span className="text-[var(--brand,#c9a84c)] not-italic">Element.</span></h2>
               </div>
            </Reveal>
 
@@ -557,7 +557,7 @@ export default function AetherSoundPage() {
               ].map((item, i) => (
                 <Reveal key={i} delay={i * 0.2}>
                    <div className="space-y-12">
-                      <div className="relative w-24 h-24 rounded-full overflow-hidden grayscale border border-[#c9a84c]/30">
+                      <div className="relative w-24 h-24 rounded-full overflow-hidden grayscale border border-[var(--brand,#c9a84c)]/30">
                          <Image src={item.img} alt={item.name} fill className="object-cover" />
                       </div>
                       <blockquote className="text-3xl font-light italic text-white/60 leading-relaxed uppercase tracking-widest leading-loose">
@@ -565,7 +565,7 @@ export default function AetherSoundPage() {
                       </blockquote>
                       <div>
                          <span className="text-xl font-black text-white italic block mb-1">{item.name}</span>
-                         <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#c9a84c]">{item.role}</span>
+                         <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#c9a84c)]">{item.role}</span>
                       </div>
                    </div>
                 </Reveal>
@@ -579,7 +579,7 @@ export default function AetherSoundPage() {
         <div className="max-w-4xl mx-auto px-6">
            <Reveal>
               <div className="mb-24 text-center">
-                 <h2 className="text-5xl font-black italic uppercase tracking-tighter text-white mb-8">Sonic <span className="text-[#c9a84c] not-italic">Dialogues.</span></h2>
+                 <h2 className="text-5xl font-black italic uppercase tracking-tighter text-white mb-8">Sonic <span className="text-[var(--brand,#c9a84c)] not-italic">Dialogues.</span></h2>
                  <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-white/20">Acquisition // Setup // Integrity</p>
               </div>
            </Reveal>
@@ -593,7 +593,7 @@ export default function AetherSoundPage() {
                 { q: "Can I audition the systems in person?", a: "Auditions are available strictly by appointment at our Berlin Atelier or through our select private partners in London, Tokyo, and New York." },
               ].map((item, i) => (
                 <AccordionItem key={i} value={`item-${i}`} className="border border-white/5 bg-white/[0.02] px-8 rounded-sm">
-                   <AccordionTrigger className="text-[11px] font-black uppercase tracking-[0.3em] text-white hover:text-[#c9a84c] py-8 no-underline italic">
+                   <AccordionTrigger className="text-[11px] font-black uppercase tracking-[0.3em] text-white hover:text-[var(--brand,#c9a84c)] py-8 no-underline italic">
                       {item.q}
                    </AccordionTrigger>
                    <AccordionContent className="text-[11px] font-light text-white/30 tracking-widest uppercase italic leading-loose pb-8">
@@ -613,14 +613,14 @@ export default function AetherSoundPage() {
               <Reveal>
                  <div className="flex flex-col mb-12">
                     <span className="text-4xl font-black tracking-[0.1em] uppercase leading-none italic">Aether</span>
-                    <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#c9a84c] -mt-1 ml-1">Sound Labs</span>
+                    <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#c9a84c)] -mt-1 ml-1">Sound Labs</span>
                  </div>
                  <p className="text-white/20 max-w-md mb-16 text-[11px] font-bold uppercase tracking-[0.2em] leading-loose italic">
                     The absolute mastery of acoustic engineering. Engineered for the evolutionary audiophile in our Berlin sanctuary.
                  </p>
                  <div className="flex gap-6">
                     {[Globe, Globe, Mail].map((Icon, i) => (
-                      <button key={i} className="w-14 h-14 rounded-full border border-white/10 flex items-center justify-center text-white/40 hover:bg-[#c9a84c] hover:text-black hover:border-[#c9a84c] transition-all">
+                      <button key={i} className="w-14 h-14 rounded-full border border-white/10 flex items-center justify-center text-white/40 hover:bg-[var(--brand,#c9a84c)] hover:text-black hover:border-[var(--brand,#c9a84c)] transition-all">
                          <Icon className="w-5 h-5" />
                       </button>
                     ))}
@@ -629,7 +629,7 @@ export default function AetherSoundPage() {
            </div>
 
            <div className="lg:col-span-2">
-              <h4 className="text-[11px] font-black uppercase tracking-widest text-[#c9a84c] mb-12">Instruments</h4>
+              <h4 className="text-[11px] font-black uppercase tracking-widest text-[var(--brand,#c9a84c)] mb-12">Instruments</h4>
               <ul className="space-y-6 text-[10px] font-bold uppercase tracking-widest text-white/30">
                  <li><Link href="/templates/impact-07/aether-one" className="hover:text-white transition-colors">Aether_One</Link></li>
                  <li><Link href="/templates/impact-07/vortex-amplification" className="hover:text-white transition-colors">Vortex_Amplification</Link></li>
@@ -639,7 +639,7 @@ export default function AetherSoundPage() {
            </div>
 
            <div className="lg:col-span-2">
-              <h4 className="text-[11px] font-black uppercase tracking-widest text-[#c9a84c] mb-12">Engineering</h4>
+              <h4 className="text-[11px] font-black uppercase tracking-widest text-[var(--brand,#c9a84c)] mb-12">Engineering</h4>
               <ul className="space-y-6 text-[10px] font-bold uppercase tracking-widest text-white/30">
                  <li><Link href="/templates/impact-07/the-process" className="hover:text-white transition-colors">The_Process</Link></li>
                  <li><Link href="/templates/impact-07/material-science" className="hover:text-white transition-colors">Material_Science</Link></li>
@@ -649,7 +649,7 @@ export default function AetherSoundPage() {
            </div>
 
            <div className="lg:col-span-2">
-              <h4 className="text-[11px] font-black uppercase tracking-widest text-[#c9a84c] mb-12">Studio</h4>
+              <h4 className="text-[11px] font-black uppercase tracking-widest text-[var(--brand,#c9a84c)] mb-12">Studio</h4>
               <ul className="space-y-6 text-[10px] font-bold uppercase tracking-widest text-white/30">
                  <li><Link href="/templates/impact-07/the-maison" className="hover:text-white transition-colors">The_Maison</Link></li>
                  <li><Link href="/templates/impact-07/global-units" className="hover:text-white transition-colors">Global_Units</Link></li>

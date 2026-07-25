@@ -143,7 +143,7 @@ export default function VoltLogisticsPage() {
       });
     }
   }, [c]);return (
-    <div className="bg-[#0a0a0a] text-white font-sans min-h-dvh selection:bg-[#ffb400] selection:text-black overflow-x-hidden">
+    <div className="bg-[#0a0a0a] text-white font-sans min-h-dvh selection:bg-[var(--brand,#ffb400)] selection:text-black overflow-x-hidden">
       
       {/* ── NAVBAR ────────────────── */}
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? "bg-[#0a0a0a]/90 backdrop-blur-md border-b border-white/5 py-4" : "bg-transparent py-8"}`}>
@@ -157,27 +157,27 @@ export default function VoltLogisticsPage() {
               />
             ) : (
               <>
-                <div className="w-10 h-10 bg-[#ffb400] flex items-center justify-center -skew-x-12">
+                <div className="w-10 h-10 bg-[var(--brand,#ffb400)] flex items-center justify-center -skew-x-12">
                   <Zap className="w-6 h-6 text-black fill-black" />
                 </div>
-                <span className="text-2xl font-black tracking-tighter uppercase italic">Volt<span className="text-[#ffb400]">Logistics</span></span>
+                <span className="text-2xl font-black tracking-tighter uppercase italic">Volt<span className="text-[var(--brand,#ffb400)]">Logistics</span></span>
               </>
             )}
           </Link>
           <div className="hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-white/40">
             {["Fleet", "Network", "Technology", "Company"].map(l => (
-              <Link key={l} href={l === "Fleet" ? "#fleet" : l === "Technology" ? "#technology" : l === "Company" ? "#contact" : "#hero"} className="hover:text-[#ffb400] transition-colors">{l}</Link>
+              <Link key={l} href={l === "Fleet" ? "#fleet" : l === "Technology" ? "#technology" : l === "Company" ? "#contact" : "#hero"} className="hover:text-[var(--brand,#ffb400)] transition-colors">{l}</Link>
             ))}
           </div>
           <div className="flex items-center gap-4">
             <button className="hidden md:block px-6 py-2.5 text-white/60 text-[10px] font-bold uppercase tracking-widest hover:text-white transition-colors">Client Portal</button>
-            <button className="px-8 py-3 bg-white text-black text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-[#ffb400] transition-all duration-500">Track Cargo</button>
+            <button className="px-8 py-3 bg-white text-black text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-[var(--brand,#ffb400)] transition-all duration-500">Track Cargo</button>
             <Sheet>
               <SheetTrigger className="lg:hidden"><Menu className="w-6 h-6 text-white" /></SheetTrigger>
               <SheetContent side="right" className="bg-[#0a0a0a] border-white/5 p-12">
                 <div className="flex flex-col gap-8 mt-16 text-left">
                   {["Our Fleet", "Global Network", "Tech Stack", "Pricing"].map(l => (
-                    <Link key={l} href={l === "Our Fleet" ? "#fleet" : l === "Tech Stack" ? "#technology" : l === "Pricing" ? "#contact" : "#hero"} className="text-3xl font-black uppercase tracking-tighter hover:text-[#ffb400] transition-colors italic">{l}</Link>
+                    <Link key={l} href={l === "Our Fleet" ? "#fleet" : l === "Tech Stack" ? "#technology" : l === "Pricing" ? "#contact" : "#hero"} className="text-3xl font-black uppercase tracking-tighter hover:text-[var(--brand,#ffb400)] transition-colors italic">{l}</Link>
                   ))}
                 </div>
               </SheetContent>
@@ -197,13 +197,13 @@ export default function VoltLogisticsPage() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
               <div>
                 <Reveal>
-                  <div className="inline-flex items-center gap-3 px-4 py-1.5 bg-[#ffb400]/10 border border-[#ffb400]/20 text-[#ffb400] text-[10px] font-bold uppercase tracking-[0.3em] mb-8">
-                    <span className="w-2 h-2 rounded-full bg-[#ffb400] animate-pulse" /> Decarbonizing Global Supply Chains
+                  <div className="inline-flex items-center gap-3 px-4 py-1.5 bg-[var(--brand,#ffb400)]/10 border border-[var(--brand,#ffb400)]/20 text-[var(--brand,#ffb400)] text-[10px] font-bold uppercase tracking-[0.3em] mb-8">
+                    <span className="w-2 h-2 rounded-full bg-[var(--brand,#ffb400)] animate-pulse" /> Decarbonizing Global Supply Chains
                   </div>
                 </Reveal>
                 <Reveal delay={0.1}>
                   <h1 className="text-7xl md:text-[9rem] font-black tracking-tighter leading-[0.8] uppercase italic mb-10">{c?.heroHeadline ?? <>
-                    The Speed<br/>Of <span className="text-[#ffb400]">Light.</span>
+                    The Speed<br/>Of <span className="text-[var(--brand,#ffb400)]">Light.</span>
                   </>}</h1>
                 </Reveal>
                 <Reveal delay={0.25}>
@@ -213,7 +213,7 @@ export default function VoltLogisticsPage() {
                 </Reveal>
                 <Reveal delay={0.35}>
                   <div className="flex flex-col sm:flex-row gap-6">
-                    <button className="px-10 py-5 bg-[#ffb400] text-black font-black uppercase tracking-widest text-xs hover:bg-white transition-all duration-500 shadow-[0_0_30px_rgba(255,180,0,0.2)]">
+                    <button className="px-10 py-5 bg-[var(--brand,#ffb400)] text-black font-black uppercase tracking-widest text-xs hover:bg-white transition-all duration-500 shadow-[0_0_30px_rgba(255,180,0,0.2)]">
                       Start Shipping
                     </button>
                     <button className="px-10 py-5 border border-white/10 text-white font-bold uppercase tracking-widest text-xs hover:bg-white/5 transition-all">
@@ -225,7 +225,7 @@ export default function VoltLogisticsPage() {
               
               <Reveal delay={0.5} y={0}>
                 <div className="relative">
-                  <div className="absolute -inset-10 bg-[#ffb400]/10 blur-[100px] rounded-full" />
+                  <div className="absolute -inset-10 bg-[var(--brand,#ffb400)]/10 blur-[100px] rounded-full" />
                   <div className="relative bg-white/5 border border-white/10 p-1 rounded-2xl overflow-hidden backdrop-blur-sm">
                     <div className="aspect-[4/3] relative">
                       <Image src={photo(0, "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&q=80&w=1200")} alt="E-Mobility" fill className="object-cover opacity-70 group-hover:scale-110 transition-transform duration-700" />
@@ -233,7 +233,7 @@ export default function VoltLogisticsPage() {
                       <div className="absolute bottom-8 left-8 right-8">
                         <div className="flex justify-between items-end">
                           <div>
-                            <div className="text-[10px] font-bold uppercase tracking-widest text-[#ffb400] mb-1">Vehicle Status</div>
+                            <div className="text-[10px] font-bold uppercase tracking-widest text-[var(--brand,#ffb400)] mb-1">Vehicle Status</div>
                             <div className="text-2xl font-black italic uppercase">In-Transit: NYC_442</div>
                           </div>
                           <div className="text-right">
@@ -262,7 +262,7 @@ export default function VoltLogisticsPage() {
               ].map((s, i) => (
                 <Reveal key={i} delay={i * 0.1}>
                   <div className="flex flex-col gap-4 border-l border-white/10 pl-8">
-                    <s.i className="w-6 h-6 text-[#ffb400]" />
+                    <s.i className="w-6 h-6 text-[var(--brand,#ffb400)]" />
                     <div className="text-5xl font-black italic tracking-tighter uppercase">{s.v}</div>
                     <div className="text-[10px] font-bold uppercase tracking-widest text-white/30">{s.l}</div>
                   </div>
@@ -278,10 +278,10 @@ export default function VoltLogisticsPage() {
             <Reveal>
               <div className="flex flex-col md:flex-row items-end justify-between mb-24 gap-8">
                 <div className="max-w-2xl">
-                  <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#ffb400] block mb-4">The Fleet</span>
+                  <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#ffb400)] block mb-4">The Fleet</span>
                   <h2 className="text-6xl md:text-8xl font-black tracking-tighter uppercase italic">Future <span className="text-white/20">Mobility.</span></h2>
                 </div>
-                <button className="flex items-center gap-4 text-[10px] font-bold uppercase tracking-widest hover:text-[#ffb400] transition-colors group">
+                <button className="flex items-center gap-4 text-[10px] font-bold uppercase tracking-widest hover:text-[var(--brand,#ffb400)] transition-colors group">
                   View Specifications <MoveRight className="w-4 h-4 group-hover:translate-x-2 transition-transform" />
                 </button>
               </div>
@@ -294,7 +294,7 @@ export default function VoltLogisticsPage() {
                     <Image src={f.img} alt={f.name} fill className="object-cover transition-transform duration-700 group-hover:scale-110" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-80" />
                     <div className="absolute inset-0 p-10 flex flex-col justify-end">
-                      <div className="text-[10px] font-bold uppercase tracking-widest text-[#ffb400] mb-2">{f.type}</div>
+                      <div className="text-[10px] font-bold uppercase tracking-widest text-[var(--brand,#ffb400)] mb-2">{f.type}</div>
                       <h3 className="text-4xl font-black italic uppercase mb-6">{f.name}</h3>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 border-t border-white/20 pt-6">
                          <div>
@@ -321,13 +321,13 @@ export default function VoltLogisticsPage() {
               <div>
                 <Reveal>
                   <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase italic mb-12 leading-tight">
-                    Powered By<br/>The <span className="text-[#ffb400]">Volt Hub.</span>
+                    Powered By<br/>The <span className="text-[var(--brand,#ffb400)]">Volt Hub.</span>
                   </h2>
                   <div className="space-y-12">
                     {FEATURES.map((f, i) => (
                       <div key={i} className="flex gap-8 group">
-                        <div className="w-16 h-16 shrink-0 bg-white/5 flex items-center justify-center -skew-x-12 border border-white/10 group-hover:bg-[#ffb400] group-hover:border-[#ffb400] transition-all duration-500">
-                          <f.icon className="w-6 h-6 text-[#ffb400] group-hover:text-black transition-colors" />
+                        <div className="w-16 h-16 shrink-0 bg-white/5 flex items-center justify-center -skew-x-12 border border-white/10 group-hover:bg-[var(--brand,#ffb400)] group-hover:border-[var(--brand,#ffb400)] transition-all duration-500">
+                          <f.icon className="w-6 h-6 text-[var(--brand,#ffb400)] group-hover:text-black transition-colors" />
                         </div>
                         <div>
                           <h4 className="text-xl font-bold uppercase italic mb-2 tracking-tight">{f.title}</h4>
@@ -341,8 +341,8 @@ export default function VoltLogisticsPage() {
               <Reveal delay={0.2}>
                  <div className="relative aspect-square bg-white/[0.02] border border-white/5 rounded-3xl p-12 overflow-hidden">
                     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[150%] h-[150%] opacity-10">
-                       <div className="w-full h-full border border-[#ffb400]/20 rounded-full animate-ping" style={{ animationDuration: '4s' }} />
-                       <div className="absolute inset-0 border border-[#ffb400]/10 rounded-full animate-pulse" />
+                       <div className="w-full h-full border border-[var(--brand,#ffb400)]/20 rounded-full animate-ping" style={{ animationDuration: '4s' }} />
+                       <div className="absolute inset-0 border border-[var(--brand,#ffb400)]/10 rounded-full animate-pulse" />
                     </div>
                     <div className="relative h-full flex flex-col justify-between font-mono">
                        <div className="flex justify-between items-start">
@@ -353,7 +353,7 @@ export default function VoltLogisticsPage() {
                           {[
                             { l: "CPU LOAD", v: "24%", c: "text-white" },
                             { l: "NETWORK THRUPUT", v: "8.4 GB/S", c: "text-white" },
-                            { l: "ENCRYPTION", v: "AES-256-GCM", c: "text-[#ffb400]" },
+                            { l: "ENCRYPTION", v: "AES-256-GCM", c: "text-[var(--brand,#ffb400)]" },
                           ].map((item, idx) => (
                             <div key={idx} className="flex justify-between border-b border-white/5 pb-2">
                                <span className="text-[10px] text-white/30">{item.l}</span>
@@ -363,7 +363,7 @@ export default function VoltLogisticsPage() {
                        </div>
                        <div className="h-32 bg-white/5 rounded-xl border border-white/5 flex items-end gap-1 p-4">
                           {Array.from({ length: 24 }).map((_, i) => (
-                            <motion.div key={i} className="flex-1 bg-[#ffb400]/40" 
+                            <motion.div key={i} className="flex-1 bg-[var(--brand,#ffb400)]/40" 
                               animate={{ height: `${20 + Math.random() * 80}%` }}
                               transition={{ duration: 1, repeat: Infinity, repeatType: "reverse" }} />
                           ))}
@@ -376,7 +376,7 @@ export default function VoltLogisticsPage() {
         </section>
 
         {/* ── CTA ───────────────────── */}
-        <section id="contact" className="py-32 bg-[#ffb400]">
+        <section id="contact" className="py-32 bg-[var(--brand,#ffb400)]">
           <div className="max-w-[1000px] mx-auto px-6 text-center">
             <Reveal>
               <h2 className="text-6xl md:text-[8rem] font-black tracking-tighter uppercase italic leading-[0.8] text-black mb-12">
@@ -400,17 +400,17 @@ export default function VoltLogisticsPage() {
         <div className="max-w-[1400px] mx-auto grid grid-cols-1 md:grid-cols-5 gap-16 mb-24">
           <div className="md:col-span-2">
             <Link href="#hero" className="flex items-center gap-3 mb-10">
-              <div className="w-10 h-10 bg-[#ffb400] flex items-center justify-center -skew-x-12">
+              <div className="w-10 h-10 bg-[var(--brand,#ffb400)] flex items-center justify-center -skew-x-12">
                 <Zap className="w-5 h-5 text-black fill-black" />
               </div>
-              <span className="text-2xl font-black tracking-tighter uppercase italic">Volt<span className="text-[#ffb400]">Logistics</span></span>
+              <span className="text-2xl font-black tracking-tighter uppercase italic">Volt<span className="text-[var(--brand,#ffb400)]">Logistics</span></span>
             </Link>
             <p className="text-white/30 max-w-sm leading-relaxed mb-10 text-sm">{c?.aboutText ?? <>
               Engineering the next generation of autonomous, zero-emission logistics for a world that never stops moving.
             </>}</p>
             <div className="flex gap-6">
                {["LinkedIn", "X", "Vimeo", "GitHub"].map(s => (
-                 <Link key={s} href={ s === "LinkedIn" || s === "Linkedin" ? "https://linkedin.com" : s === "Contact" || s === "contact" ? "#contact" : `#${s.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="text-[10px] font-bold uppercase tracking-widest text-white/30 hover:text-[#ffb400] transition-colors">{s}</Link>
+                 <Link key={s} href={ s === "LinkedIn" || s === "Linkedin" ? "https://linkedin.com" : s === "Contact" || s === "contact" ? "#contact" : `#${s.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="text-[10px] font-bold uppercase tracking-widest text-white/30 hover:text-[var(--brand,#ffb400)] transition-colors">{s}</Link>
                ))}
             </div>
           </div>
@@ -421,9 +421,9 @@ export default function VoltLogisticsPage() {
             { t: "Legal", l: ["Privacy", "Terms", "SLA", "Compliance"] },
           ].map((col, i) => (
             <div key={i} className="space-y-8">
-              <h4 className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#ffb400]">{col.t}</h4>
+              <h4 className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#ffb400)]">{col.t}</h4>
               <ul className="space-y-6">
-                {col.l.map(link => <li key={link}><Link href="#hero" className="text-sm text-white/40 hover:text-[#ffb400] transition-colors">{link}</Link></li>)}
+                {col.l.map(link => <li key={link}><Link href="#hero" className="text-sm text-white/40 hover:text-[var(--brand,#ffb400)] transition-colors">{link}</Link></li>)}
               </ul>
             </div>
           ))}

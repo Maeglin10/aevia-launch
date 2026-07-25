@@ -202,7 +202,7 @@ export default function PulseAppPage() {
 
   return (
     <div className="min-h-dvh bg-[#F8F7FF] text-[#0F0B2D]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
-      <motion.div className="fixed top-0 left-0 h-[3px] bg-[#6366F1] z-[1000] origin-left" style={{ scaleX: scrollYProgress }} />
+      <motion.div className="fixed top-0 left-0 h-[3px] bg-[var(--brand,#6366F1)] z-[1000] origin-left" style={{ scaleX: scrollYProgress }} />
 
       {/* Nav */}
       <motion.nav
@@ -219,7 +219,7 @@ export default function PulseAppPage() {
               />
             ) : (
               <>
-                <div className="w-8 h-8 bg-[#6366F1] rounded-lg flex items-center justify-center">
+                <div className="w-8 h-8 bg-[var(--brand,#6366F1)] rounded-lg flex items-center justify-center">
                   <Zap className="w-4 h-4 text-white" />
                 </div>
                 <span className="text-lg font-700 font-bold">{fd?.businessName ?? "Pulse"}</span>
@@ -228,10 +228,10 @@ export default function PulseAppPage() {
           </div>
           <div className="hidden md:flex items-center gap-8 text-sm font-medium text-[#4B4570]">
             {["Fonctionnalités", "Tarifs", "Blog", "Docs"].map(l => (
-              <Link key={l} href={`#${l.toLowerCase()}`} className="hover:text-[#6366F1] transition-colors duration-200">{l}</Link>
+              <Link key={l} href={`#${l.toLowerCase()}`} className="hover:text-[var(--brand,#6366F1)] transition-colors duration-200">{l}</Link>
             ))}
-            <Link href="#tarifs" className="text-[#6366F1] hover:text-[#4F46E5] transition-colors">Se connecter</Link>
-            <Link href="#tarifs" className="px-5 py-2.5 bg-[#6366F1] text-white text-sm font-semibold rounded-xl hover:bg-[#4F46E5] transition-colors cursor-pointer">
+            <Link href="#tarifs" className="text-[var(--brand,#6366F1)] hover:text-[#4F46E5] transition-colors">Se connecter</Link>
+            <Link href="#tarifs" className="px-5 py-2.5 bg-[var(--brand,#6366F1)] text-white text-sm font-semibold rounded-xl hover:bg-[#4F46E5] transition-colors cursor-pointer">
               Essai gratuit
             </Link>
           </div>
@@ -256,7 +256,7 @@ export default function PulseAppPage() {
                   />
                 ) : (
                   <>
-                    <div className="w-8 h-8 bg-[#6366F1] rounded-lg flex items-center justify-center"><Zap className="w-4 h-4 text-white" /></div>
+                    <div className="w-8 h-8 bg-[var(--brand,#6366F1)] rounded-lg flex items-center justify-center"><Zap className="w-4 h-4 text-white" /></div>
                     <span className="text-lg font-bold">{fd?.businessName ?? "Pulse"}</span>
                   </>
                 )}
@@ -266,10 +266,10 @@ export default function PulseAppPage() {
             <div className="flex flex-col gap-6 p-8">
               {["Fonctionnalités", "Tarifs", "Blog", "Docs"].map((l, i) => (
                 <motion.div key={l} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.05 }}>
-                  <Link href={`#${l.toLowerCase()}`} onClick={() => setMenuOpen(false)} className="text-2xl font-semibold hover:text-[#6366F1] transition-colors cursor-pointer">{l}</Link>
+                  <Link href={`#${l.toLowerCase()}`} onClick={() => setMenuOpen(false)} className="text-2xl font-semibold hover:text-[var(--brand,#6366F1)] transition-colors cursor-pointer">{l}</Link>
                 </motion.div>
               ))}
-              <Link href="#tarifs" className="mt-4 w-full py-4 bg-[#6366F1] text-white text-center font-semibold rounded-xl cursor-pointer">Essai gratuit 14 jours</Link>
+              <Link href="#tarifs" className="mt-4 w-full py-4 bg-[var(--brand,#6366F1)] text-white text-center font-semibold rounded-xl cursor-pointer">Essai gratuit 14 jours</Link>
             </div>
           </motion.div>
         )}
@@ -280,14 +280,14 @@ export default function PulseAppPage() {
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           <div>
             <Reveal>
-              <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#EEF2FF] rounded-full text-[#6366F1] text-sm font-semibold mb-8">
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#EEF2FF] rounded-full text-[var(--brand,#6366F1)] text-sm font-semibold mb-8">
                 <Zap className="w-3.5 h-3.5" />
                 Nouveau — Analytics IA en bêta
               </div>
             </Reveal>
             <Reveal delay={0.1}>
               <h1 className="text-5xl md:text-6xl font-extrabold leading-[1.05] tracking-tight mb-6">{c?.heroHeadline ?? <>
-                L&apos;app qui fait<br />travailler votre<br /><span className="text-[#6366F1]">équipe mieux</span>
+                L&apos;app qui fait<br />travailler votre<br /><span className="text-[var(--brand,#6366F1)]">équipe mieux</span>
               </>}</h1>
             </Reveal>
             <Reveal delay={0.2}>
@@ -297,11 +297,11 @@ export default function PulseAppPage() {
             </Reveal>
             <Reveal delay={0.3}>
               <div className="flex flex-col sm:flex-row gap-4 mb-12">
-                <Link href="#tarifs" className="flex items-center justify-center gap-2 px-7 py-4 bg-[#6366F1] text-white font-semibold rounded-xl hover:bg-[#4F46E5] transition-colors cursor-pointer">
+                <Link href="#tarifs" className="flex items-center justify-center gap-2 px-7 py-4 bg-[var(--brand,#6366F1)] text-white font-semibold rounded-xl hover:bg-[#4F46E5] transition-colors cursor-pointer">
                   Démarrer gratuitement <ArrowRight className="w-4 h-4" />
                 </Link>
-                <Link href="#fonctionnalités" className="flex items-center justify-center gap-2 px-7 py-4 bg-white text-[#0F0B2D] font-semibold rounded-xl border border-[#E8E5FF] hover:border-[#6366F1] transition-colors cursor-pointer">
-                  <Play className="w-4 h-4 text-[#6366F1]" /> Voir la démo
+                <Link href="#fonctionnalités" className="flex items-center justify-center gap-2 px-7 py-4 bg-white text-[#0F0B2D] font-semibold rounded-xl border border-[#E8E5FF] hover:border-[var(--brand,#6366F1)] transition-colors cursor-pointer">
+                  <Play className="w-4 h-4 text-[var(--brand,#6366F1)]" /> Voir la démo
                 </Link>
               </div>
             </Reveal>
@@ -309,7 +309,7 @@ export default function PulseAppPage() {
               <div className="flex items-center gap-6">
                 <div className="flex -space-x-2">
                   {["MG", "LB", "AP", "CD"].map(av => (
-                    <div key={av} className="w-9 h-9 rounded-full bg-[#6366F1] border-2 border-[#F8F7FF] flex items-center justify-center text-xs text-white font-semibold">{av}</div>
+                    <div key={av} className="w-9 h-9 rounded-full bg-[var(--brand,#6366F1)] border-2 border-[#F8F7FF] flex items-center justify-center text-xs text-white font-semibold">{av}</div>
                   ))}
                 </div>
                 <div>
@@ -336,7 +336,7 @@ export default function PulseAppPage() {
                         <p className="text-xs text-[#8B87B0]">Bonjour, Mathieu</p>
                         <p className="text-white font-semibold">Tableau de bord</p>
                       </div>
-                      <div className="w-8 h-8 bg-[#6366F1] rounded-full flex items-center justify-center">
+                      <div className="w-8 h-8 bg-[var(--brand,#6366F1)] rounded-full flex items-center justify-center">
                         <Bell className="w-4 h-4 text-white" />
                       </div>
                     </div>
@@ -346,7 +346,7 @@ export default function PulseAppPage() {
                         <div key={label as string} className="bg-[#252150] rounded-2xl p-3">
                           <p className="text-[10px] text-[#8B87B0] mb-1">{label as string}</p>
                           <p className="text-white text-base font-bold mb-1">{val as string}</p>
-                          <span className={`text-[10px] font-semibold ${green ? "text-[#22C55E]" : "text-[#6366F1]"}`}>{change as string}</span>
+                          <span className={`text-[10px] font-semibold ${green ? "text-[#22C55E]" : "text-[var(--brand,#6366F1)]"}`}>{change as string}</span>
                         </div>
                       ))}
                     </div>
@@ -363,7 +363,7 @@ export default function PulseAppPage() {
                     <div className="space-y-2">
                       {["Rapport hebdomadaire prêt", "3 tâches en retard", "Objectif atteint"].map(notif => (
                         <div key={notif} className="bg-[#252150] rounded-xl p-3 flex items-center gap-3">
-                          <div className="w-2 h-2 rounded-full bg-[#6366F1] flex-shrink-0" />
+                          <div className="w-2 h-2 rounded-full bg-[var(--brand,#6366F1)] flex-shrink-0" />
                           <span className="text-[11px] text-[#C8C4E8]">{notif}</span>
                         </div>
                       ))}
@@ -374,7 +374,7 @@ export default function PulseAppPage() {
               {/* Floating badges */}
               <motion.div className="absolute -left-12 top-1/4 bg-white rounded-2xl shadow-xl p-3 flex items-center gap-2.5"
                 animate={{ y: [0, -6, 0] }} transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}>
-                <div className="w-8 h-8 bg-[#EEF2FF] rounded-xl flex items-center justify-center"><BarChart2 className="w-4 h-4 text-[#6366F1]" /></div>
+                <div className="w-8 h-8 bg-[#EEF2FF] rounded-xl flex items-center justify-center"><BarChart2 className="w-4 h-4 text-[var(--brand,#6366F1)]" /></div>
                 <div><p className="text-[10px] text-gray-500">Conversion</p><p className="text-sm font-bold">+23.6%</p></div>
               </motion.div>
               <motion.div className="absolute -right-10 bottom-1/3 bg-white rounded-2xl shadow-xl p-3 flex items-center gap-2.5"
@@ -402,7 +402,7 @@ export default function PulseAppPage() {
         <div className="max-w-7xl mx-auto px-6 md:px-12">
           <div className="text-center mb-16">
             <Reveal>
-              <p className="text-[#6366F1] font-semibold text-sm mb-3">Fonctionnalités</p>
+              <p className="text-[var(--brand,#6366F1)] font-semibold text-sm mb-3">Fonctionnalités</p>
               <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4">Tout ce dont votre équipe a besoin</h2>
               <p className="text-[#4B4570] text-lg max-w-2xl mx-auto">Une plateforme unifiée qui remplace votre stack d&apos;outils fragmentés.</p>
             </Reveal>
@@ -413,10 +413,10 @@ export default function PulseAppPage() {
               {FEATURES.map((f, i) => {
                 const Icon = f.icon
                 return (
-                  <button key={f.id} onClick={() => setActiveFeature(i)} className={`w-full text-left p-5 rounded-2xl transition-all duration-300 cursor-pointer ${activeFeature === i ? "bg-[#6366F1] text-white shadow-lg shadow-indigo-200" : "bg-[#F8F7FF] hover:bg-[#EEF2FF] text-[#4B4570]"}`}>
+                  <button key={f.id} onClick={() => setActiveFeature(i)} className={`w-full text-left p-5 rounded-2xl transition-all duration-300 cursor-pointer ${activeFeature === i ? "bg-[var(--brand,#6366F1)] text-white shadow-lg shadow-indigo-200" : "bg-[#F8F7FF] hover:bg-[#EEF2FF] text-[#4B4570]"}`}>
                     <div className="flex items-center gap-4">
                       <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${activeFeature === i ? "bg-white/20" : "bg-white"}`}>
-                        <Icon className={`w-5 h-5 ${activeFeature === i ? "text-white" : "text-[#6366F1]"}`} />
+                        <Icon className={`w-5 h-5 ${activeFeature === i ? "text-white" : "text-[var(--brand,#6366F1)]"}`} />
                       </div>
                       <span className="font-semibold">{f.label}</span>
                     </div>
@@ -430,14 +430,14 @@ export default function PulseAppPage() {
                 <motion.div key={activeFeature} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.3 }}
                   className="bg-[#F8F7FF] rounded-3xl p-8 md:p-10">
                   <div className="w-14 h-14 bg-[#EEF2FF] rounded-2xl flex items-center justify-center mb-6">
-                    <ActiveIcon className="w-7 h-7 text-[#6366F1]" />
+                    <ActiveIcon className="w-7 h-7 text-[var(--brand,#6366F1)]" />
                   </div>
                   <h3 className="text-2xl font-bold mb-4">{FEATURES[activeFeature].title}</h3>
                   <p className="text-[#4B4570] leading-relaxed mb-8">{FEATURES[activeFeature].desc}</p>
                   <ul className="space-y-3">
                     {FEATURES[activeFeature].bullets.map(b => (
                       <li key={b} className="flex items-center gap-3 text-sm font-medium">
-                        <div className="w-5 h-5 rounded-full bg-[#6366F1] flex items-center justify-center flex-shrink-0">
+                        <div className="w-5 h-5 rounded-full bg-[var(--brand,#6366F1)] flex items-center justify-center flex-shrink-0">
                           <Check className="w-3 h-3 text-white" />
                         </div>
                         {b}
@@ -452,7 +452,7 @@ export default function PulseAppPage() {
       </section>
 
       {/* Stats */}
-      <section id="about" className="py-20 bg-[#6366F1] text-white">
+      <section id="about" className="py-20 bg-[var(--brand,#6366F1)] text-white">
         <div className="max-w-7xl mx-auto px-6 md:px-12">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             {[["2 400+", "Équipes actives"], ["99.97%", "Uptime garanti"], ["4.9/5", "Note App Store"], ["2h/jour", "Temps économisé"]].map(([val, label]) => (
@@ -470,7 +470,7 @@ export default function PulseAppPage() {
         <div className="max-w-7xl mx-auto px-6 md:px-12">
           <div className="text-center mb-16">
             <Reveal>
-              <p className="text-[#6366F1] font-semibold text-sm mb-3">Témoignages</p>
+              <p className="text-[var(--brand,#6366F1)] font-semibold text-sm mb-3">Témoignages</p>
               <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight">Ils en parlent mieux que nous</h2>
             </Reveal>
           </div>
@@ -483,7 +483,7 @@ export default function PulseAppPage() {
                   </div>
                   <p className="text-[#C8C4E8] text-sm leading-relaxed mb-6">&ldquo;{t.text}&rdquo;</p>
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-[#6366F1] flex items-center justify-center text-xs font-bold">{t.avatar}</div>
+                    <div className="w-10 h-10 rounded-full bg-[var(--brand,#6366F1)] flex items-center justify-center text-xs font-bold">{t.avatar}</div>
                     <div>
                       <div className="font-semibold text-sm">{t.name}</div>
                       <div className="text-xs text-[#8B87B0]">{t.role}</div>
@@ -501,12 +501,12 @@ export default function PulseAppPage() {
         <div className="max-w-7xl mx-auto px-6 md:px-12">
           <div className="text-center mb-12">
             <Reveal>
-              <p className="text-[#6366F1] font-semibold text-sm mb-3">Tarifs</p>
+              <p className="text-[var(--brand,#6366F1)] font-semibold text-sm mb-3">Tarifs</p>
               <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-6">Simple, transparent, sans surprise</h2>
               <div className="inline-flex items-center gap-3 bg-[#F8F7FF] rounded-full p-1.5">
                 <button onClick={() => setBillingAnnual(false)} className={`px-5 py-2 rounded-full text-sm font-semibold transition-all cursor-pointer ${!billingAnnual ? "bg-white shadow text-[#0F0B2D]" : "text-[#4B4570]"}`}>Mensuel</button>
                 <button onClick={() => setBillingAnnual(true)} className={`px-5 py-2 rounded-full text-sm font-semibold transition-all cursor-pointer ${billingAnnual ? "bg-white shadow text-[#0F0B2D]" : "text-[#4B4570]"}`}>
-                  Annuel <span className="text-[#6366F1] text-xs ml-1">-20%</span>
+                  Annuel <span className="text-[var(--brand,#6366F1)] text-xs ml-1">-20%</span>
                 </button>
               </div>
             </Reveal>
@@ -517,14 +517,14 @@ export default function PulseAppPage() {
               const price = billingAnnual && plan.price !== "0" ? Math.round(parseInt(plan.price) * 0.8) : plan.price
               return (
                 <Reveal key={plan.name} delay={i * 0.1}>
-                  <div className={`rounded-3xl p-8 relative ${plan.highlight ? "bg-[#6366F1] text-white shadow-2xl shadow-indigo-200 scale-105" : "bg-[#F8F7FF]"}`}>
+                  <div className={`rounded-3xl p-8 relative ${plan.highlight ? "bg-[var(--brand,#6366F1)] text-white shadow-2xl shadow-indigo-200 scale-105" : "bg-[#F8F7FF]"}`}>
                     {plan.highlight && (
                       <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-[#F59E0B] text-[#0F0B2D] text-xs font-bold px-4 py-1.5 rounded-full">
                         Le plus populaire
                       </div>
                     )}
                     <div className="mb-6">
-                      <div className={`text-sm font-semibold mb-1 ${plan.highlight ? "text-indigo-200" : "text-[#6366F1]"}`}>{plan.name}</div>
+                      <div className={`text-sm font-semibold mb-1 ${plan.highlight ? "text-indigo-200" : "text-[var(--brand,#6366F1)]"}`}>{plan.name}</div>
                       <div className="text-4xl font-extrabold mb-1">
                         {price === "0" ? "Gratuit" : `€${price}`}
                         {price !== "0" && <span className={`text-base font-normal ml-1 ${plan.highlight ? "text-indigo-200" : "text-[#4B4570]"}`}>/mois</span>}
@@ -534,12 +534,12 @@ export default function PulseAppPage() {
                     <ul className="space-y-3 mb-8">
                       {plan.features.map(f => (
                         <li key={f} className="flex items-center gap-3 text-sm">
-                          <Check className={`w-4 h-4 flex-shrink-0 ${plan.highlight ? "text-white" : "text-[#6366F1]"}`} />
+                          <Check className={`w-4 h-4 flex-shrink-0 ${plan.highlight ? "text-white" : "text-[var(--brand,#6366F1)]"}`} />
                           <span className={plan.highlight ? "text-indigo-100" : "text-[#4B4570]"}>{f}</span>
                         </li>
                       ))}
                     </ul>
-                    <button className={`w-full py-3.5 rounded-xl font-semibold text-sm transition-all cursor-pointer ${plan.highlight ? "bg-white text-[#6366F1] hover:bg-indigo-50" : "bg-[#6366F1] text-white hover:bg-[#4F46E5]"}`}>
+                    <button className={`w-full py-3.5 rounded-xl font-semibold text-sm transition-all cursor-pointer ${plan.highlight ? "bg-white text-[var(--brand,#6366F1)] hover:bg-indigo-50" : "bg-[var(--brand,#6366F1)] text-white hover:bg-[#4F46E5]"}`}>
                       {plan.cta}
                     </button>
                   </div>
@@ -554,7 +554,7 @@ export default function PulseAppPage() {
       <section className="py-24 bg-[#EEF2FF]">
         <div className="max-w-4xl mx-auto px-6 text-center">
           <Reveal>
-            <Smartphone className="w-12 h-12 text-[#6366F1] mx-auto mb-6" />
+            <Smartphone className="w-12 h-12 text-[var(--brand,#6366F1)] mx-auto mb-6" />
             <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4">Téléchargez l&apos;app</h2>
             <p className="text-[#4B4570] text-lg mb-10">Disponible sur iOS et Android. Synchronisez-vous avec votre équipe partout, à tout moment.</p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -572,11 +572,11 @@ export default function PulseAppPage() {
       </section>
 
       {/* Final CTA */}
-      <section id="contact" className="py-24 bg-[#6366F1] text-white text-center px-6">
+      <section id="contact" className="py-24 bg-[var(--brand,#6366F1)] text-white text-center px-6">
         <Reveal>
           <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-6">Prêt à passer à Pulse ?</h2>
           <p className="text-indigo-200 text-lg mb-10">14 jours gratuits. Pas de carte bancaire requise. Annulez à tout moment.</p>
-          <Link href="#tarifs" className="inline-flex items-center gap-2 px-10 py-5 bg-white text-[#6366F1] font-bold rounded-xl hover:bg-indigo-50 transition-colors cursor-pointer text-lg">
+          <Link href="#tarifs" className="inline-flex items-center gap-2 px-10 py-5 bg-white text-[var(--brand,#6366F1)] font-bold rounded-xl hover:bg-indigo-50 transition-colors cursor-pointer text-lg">
             Commencer maintenant <ArrowRight className="w-5 h-5" />
           </Link>
         </Reveal>
@@ -588,7 +588,7 @@ export default function PulseAppPage() {
           <div className="grid md:grid-cols-5 gap-10 mb-12">
             <div className="md:col-span-2">
               <div className="flex items-center gap-2 mb-4">
-                <div className="w-8 h-8 bg-[#6366F1] rounded-lg flex items-center justify-center"><Zap className="w-4 h-4 text-white" /></div>
+                <div className="w-8 h-8 bg-[var(--brand,#6366F1)] rounded-lg flex items-center justify-center"><Zap className="w-4 h-4 text-white" /></div>
                 <span className="text-white font-bold text-lg">{fd?.businessName ?? "Pulse"}</span>
               </div>
               <p className="text-sm leading-relaxed max-w-xs">La plateforme mobile qui connecte votre équipe, vos données et vos décisions.</p>
