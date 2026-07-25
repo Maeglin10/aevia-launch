@@ -14,7 +14,7 @@ export const C = {
   textDim: "#A0A0A0",
   border: "#E8E8E8",
   borderDark: "#2A2A2A",
-  gold: "#D4AF37",
+  gold: "var(--brand,#D4AF37)",
   goldDark: "#8A7020",
 };
 

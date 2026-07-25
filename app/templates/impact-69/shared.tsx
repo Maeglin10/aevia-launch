@@ -9,7 +9,7 @@ export const C = {
   bgMid:   "#1A2112",
   green:   "#4A6741",
   moss:    "#8B9E6F",
-  amber:   "#C8943A",
+  amber:   "var(--brand,#C8943A)",
   cream:   "#F2EAD6",
   muted:   "#8A8E7A",
   border:  "rgba(138,158,111,0.15)",

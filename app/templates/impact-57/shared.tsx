@@ -10,8 +10,8 @@ export const C = {
   text: "#F0EDE8",
   textMuted: "#888",
   textDim: "#3A3A3A",
-  accent: "#E8FF00",
-  accentAlt: "#FF4D00",
+  accent: "var(--brand,#E8FF00)",
+  accentAlt: "var(--brand-light,#FF4D00)",
   border: "#1A1A1A",
 };
 
