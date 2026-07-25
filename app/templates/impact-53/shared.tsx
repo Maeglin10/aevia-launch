@@ -118,7 +118,7 @@ export const HERO_WORDS = ["WE", "BREAK.", "WE", "BUILD.", "WE", "SHIP."];
 export const C = {
   black: "#000000",
   white: "#ffffff",
-  red: "#ff3300",
+  red: "var(--brand,#ff3300)",
   dim: "rgba(255,255,255,0.18)",
   dimDark: "rgba(255,255,255,0.06)",
 };

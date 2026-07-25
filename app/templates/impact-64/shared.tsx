@@ -22,7 +22,7 @@ export const C = {
   greenGlow: "rgba(0,230,118,0.12)",
   greenBorder: "rgba(0,230,118,0.18)",
   greenBorderHover: "rgba(0,230,118,0.45)",
-  red: "#ef5350",
+  red: "var(--brand,#ef5350)",
   orange: "#ffb74d",
   blue: "#40c4ff",
   border: "rgba(0,230,118,0.12)",

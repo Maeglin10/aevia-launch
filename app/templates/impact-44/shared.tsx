@@ -7,7 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 export const C = {
   bg: '#060a06',
   green: '#00ff64',
-  red: '#ff3c00',
+  red: 'var(--brand,#ff3c00)',
   darkGreen: '#003318',
   midGreen: '#00cc50',
   gray: '#1a2a1a',
