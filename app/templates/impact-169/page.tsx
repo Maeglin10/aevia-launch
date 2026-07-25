@@ -38,7 +38,7 @@ let C: Record<string, string> = {
 // ─── Data ─────────────────────────────────────────────────────────────────────
 const CATEGORIES = [
   { name: "Tech & Culture", color: "#7C3AED", count: 48 },
-  { name: "Business", color: "#1D4ED8", count: 62 },
+  { name: "Business", color: "var(--brand,#1D4ED8)", count: 62 },
   { name: "Société", color: "#059669", count: 55 },
   { name: "Finance", color: "#D97706", count: 31 },
   { name: "Design", color: "#DB2777", count: 27 },
@@ -63,7 +63,7 @@ const ARTICLES = [
     issue: "046",
     date: "28 avr. 2025",
     tag: "Business",
-    tagColor: "#1D4ED8",
+    tagColor: "var(--brand,#1D4ED8)",
     title: "Le retour du bureau : ce que les chiffres ne disent pas.",
     excerpt: "Les grandes entreprises imposent le retour en présentiel. Mais les données montrent que la productivité n'est pas là où on le croit.",
     author: "Théo Marchand",
@@ -136,7 +136,7 @@ const AUTHORS = [
     bio: "Chercheur associé à Sciences Po Paris. Couvre les mutations du travail, l'économie comportementale.",
     articles: 78,
     initials: "TM",
-    color: "#1D4ED8",
+    color: "var(--brand,#1D4ED8)",
   },
   {
     name: "Léa Fontaine",

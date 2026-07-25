@@ -207,7 +207,7 @@ export default function CabinetRenardPage() {
         <div id="mb55-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      {["Domaines", "L'équipe", "Honoraires", "Contact"].map(l => (
             <a key={l} href={`#${l.toLowerCase().replace(/'/g, "").replace(/é/g, "e")}`} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)", fontSize: 14, fontWeight: 600, textDecoration: "none" }}>{l}</a>
           ))}
-          <motion.a href={`tel:${fd?.phone ?? "+33144000001"}`} style={{ background: C.gold, color: C.text, borderRadius: 4, padding: "9px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none" }} whileHover={{ background: "#b8952e" }}>
+          <motion.a href={`tel:${fd?.phone ?? "+33144000001"}`} style={{ background: C.gold, color: C.text, borderRadius: 4, padding: "9px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none" }} whileHover={{ background: "var(--brand,#b8952e)" }}>
             Consultation
           </motion.a>
       </div>
@@ -227,7 +227,7 @@ export default function CabinetRenardPage() {
           {["Domaines", "L'équipe", "Honoraires", "Contact"].map(l => (
             <a key={l} href={`#${l.toLowerCase().replace(/'/g, "").replace(/é/g, "e")}`} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)", fontSize: 14, fontWeight: 600, textDecoration: "none" }}>{l}</a>
           ))}
-          <motion.a href={`tel:${fd?.phone ?? "+33144000001"}`} style={{ background: C.gold, color: C.text, borderRadius: 4, padding: "9px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none" }} whileHover={{ background: "#b8952e" }}>
+          <motion.a href={`tel:${fd?.phone ?? "+33144000001"}`} style={{ background: C.gold, color: C.text, borderRadius: 4, padding: "9px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none" }} whileHover={{ background: "var(--brand,#b8952e)" }}>
             Consultation
           </motion.a>
         </div>
@@ -260,7 +260,7 @@ export default function CabinetRenardPage() {
           </>}</motion.p>
 
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.0 }} style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
-            <motion.a href={`tel:${fd?.phone ?? "+33144000001"}`} style={{ background: C.gold, color: C.text, borderRadius: 4, padding: "15px 32px", fontWeight: 700, fontSize: 15, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, boxShadow: `0 8px 32px ${C.gold}44` }} whileHover={{ background: "#b8952e", scale: 1.03 }}>
+            <motion.a href={`tel:${fd?.phone ?? "+33144000001"}`} style={{ background: C.gold, color: C.text, borderRadius: 4, padding: "15px 32px", fontWeight: 700, fontSize: 15, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, boxShadow: `0 8px 32px ${C.gold}44` }} whileHover={{ background: "var(--brand,#b8952e)", scale: 1.03 }}>
               Prendre rendez-vous <ArrowRight size={16} />
             </motion.a>
             <motion.a href="#domaines" style={{ background: "rgba(255,255,255,0.08)", color: "#fff", border: "1px solid rgba(255,255,255,0.22)", borderRadius: 4, padding: "13px 28px", fontWeight: 600, fontSize: 15, textDecoration: "none", backdropFilter: "blur(8px)" }} whileHover={{ background: "rgba(255,255,255,0.14)" }}>
@@ -333,7 +333,7 @@ export default function CabinetRenardPage() {
                 </div>
               ))}
             </div>
-            <motion.a href={`tel:${fd?.phone ?? "+33144000001"}`} style={{ display: "inline-flex", alignItems: "center", gap: 8, marginTop: 32, background: C.gold, color: C.text, borderRadius: 4, padding: "13px 28px", fontWeight: 700, fontSize: 15, textDecoration: "none" }} whileHover={{ background: "#b8952e", scale: 1.02 }}>
+            <motion.a href={`tel:${fd?.phone ?? "+33144000001"}`} style={{ display: "inline-flex", alignItems: "center", gap: 8, marginTop: 32, background: C.gold, color: C.text, borderRadius: 4, padding: "13px 28px", fontWeight: 700, fontSize: 15, textDecoration: "none" }} whileHover={{ background: "var(--brand,#b8952e)", scale: 1.02 }}>
               Consultation <ArrowRight size={16} />
             </motion.a>
           </Reveal>

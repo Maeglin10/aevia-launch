@@ -209,7 +209,7 @@ export default function ConservatoireAccordPage() {
         <div id="mb73-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      {["Cours", "Professeurs", "Tarifs", "Contact"].map(l => (
             <a key={l} href={`#${l.toLowerCase()}`} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)", fontSize: 14, fontWeight: 500, textDecoration: "none" }}>{l}</a>
           ))}
-          <motion.a href="#contact" style={{ background: C.amber, color: C.white, borderRadius: 8, padding: "9px 22px", fontSize: 14, fontWeight: 600, textDecoration: "none", display: "flex", alignItems: "center", gap: 6 }} whileHover={{ background: "#d06a2e" }}>
+          <motion.a href="#contact" style={{ background: C.amber, color: C.white, borderRadius: 8, padding: "9px 22px", fontSize: 14, fontWeight: 600, textDecoration: "none", display: "flex", alignItems: "center", gap: 6 }} whileHover={{ background: "var(--brand,#d06a2e)" }}>
             <Guitar size={14} /> S'inscrire
           </motion.a>
       </div>
@@ -229,7 +229,7 @@ export default function ConservatoireAccordPage() {
           {["Cours", "Professeurs", "Tarifs", "Contact"].map(l => (
             <a key={l} href={`#${l.toLowerCase()}`} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)", fontSize: 14, fontWeight: 500, textDecoration: "none" }}>{l}</a>
           ))}
-          <motion.a href="#contact" style={{ background: C.amber, color: C.white, borderRadius: 8, padding: "9px 22px", fontSize: 14, fontWeight: 600, textDecoration: "none", display: "flex", alignItems: "center", gap: 6 }} whileHover={{ background: "#d06a2e" }}>
+          <motion.a href="#contact" style={{ background: C.amber, color: C.white, borderRadius: 8, padding: "9px 22px", fontSize: 14, fontWeight: 600, textDecoration: "none", display: "flex", alignItems: "center", gap: 6 }} whileHover={{ background: "var(--brand,#d06a2e)" }}>
             <Guitar size={14} /> S'inscrire
           </motion.a>
         </div>
@@ -262,7 +262,7 @@ export default function ConservatoireAccordPage() {
           </>}</motion.p>
 
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.0 }} style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
-            <motion.a href="#contact" style={{ background: C.amber, color: C.white, borderRadius: 8, padding: "15px 32px", fontWeight: 600, fontSize: 15, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, boxShadow: `0 8px 32px ${C.amber}44` }} whileHover={{ background: "#d06a2e", scale: 1.03 }}>
+            <motion.a href="#contact" style={{ background: C.amber, color: C.white, borderRadius: 8, padding: "15px 32px", fontWeight: 600, fontSize: 15, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, boxShadow: `0 8px 32px ${C.amber}44` }} whileHover={{ background: "var(--brand,#d06a2e)", scale: 1.03 }}>
               S'inscrire <ArrowRight size={16} />
             </motion.a>
             <motion.a href="#cours" style={{ background: "rgba(255,255,255,0.10)", color: "#fff", border: "1px solid rgba(255,255,255,0.28)", borderRadius: 8, padding: "13px 28px", fontWeight: 500, fontSize: 15, textDecoration: "none", backdropFilter: "blur(8px)" }} whileHover={{ background: "rgba(255,255,255,0.18)" }}>
@@ -332,7 +332,7 @@ export default function ConservatoireAccordPage() {
                 </div>
               ))}
             </div>
-            <motion.a href="#contact" style={{ display: "inline-flex", alignItems: "center", gap: 8, marginTop: 32, background: C.amber, color: C.white, borderRadius: 8, padding: "13px 28px", fontWeight: 600, fontSize: 15, textDecoration: "none" }} whileHover={{ background: "#d06a2e", scale: 1.02 }}>
+            <motion.a href="#contact" style={{ display: "inline-flex", alignItems: "center", gap: 8, marginTop: 32, background: C.amber, color: C.white, borderRadius: 8, padding: "13px 28px", fontWeight: 600, fontSize: 15, textDecoration: "none" }} whileHover={{ background: "var(--brand,#d06a2e)", scale: 1.02 }}>
               S'inscrire <ArrowRight size={16} />
             </motion.a>
           </Reveal>

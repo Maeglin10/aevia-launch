@@ -117,7 +117,7 @@ const MANIFEST = {
       role: "E-Commerce, Strategy",
       category: "Luxury",
       img: "https://images.unsplash.com/photo-1549490349-8643362247b5?w=1600&q=80",
-      color: "#9ca3af"
+      color: "var(--brand,#9ca3af)"
     }
   ],
   services: [

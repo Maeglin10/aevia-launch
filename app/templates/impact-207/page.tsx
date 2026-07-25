@@ -616,9 +616,9 @@ function CssTruck({ scale = 1, color = "#1e3a5f", opacity = 1 }: TruckProps) {
       style={{ opacity, display: "block" }}
     >
       {/* Trailer body */}
-      <rect x="2" y="12" width="82" height="34" rx="2" fill={color} stroke="#2a4a6e" strokeWidth="1"/>
+      <rect x="2" y="12" width="82" height="34" rx="2" fill={color} stroke="var(--brand,#2a4a6e)" strokeWidth="1"/>
       {/* Cab */}
-      <path d="M84 22 L84 46 L118 46 L118 30 L108 22 Z" fill={color} stroke="#2a4a6e" strokeWidth="1"/>
+      <path d="M84 22 L84 46 L118 46 L118 30 L108 22 Z" fill={color} stroke="var(--brand,#2a4a6e)" strokeWidth="1"/>
       {/* Cab window */}
       <path d="M88 24 L88 32 L104 32 L104 24 Z" fill="#0a1f3a" opacity="0.7"/>
       {/* Headlight */}
@@ -628,12 +628,12 @@ function CssTruck({ scale = 1, color = "#1e3a5f", opacity = 1 }: TruckProps) {
       {/* Logo on trailer */}
       <text x="28" y="35" fontFamily="Inter,sans-serif" fontSize="8" fontWeight="700" fill="#ffffff" opacity="0.5">NEXUSFREIGHT</text>
       {/* Rear wheels */}
-      <circle cx="20" cy="46" r="8" fill="#0a0f1e" stroke="#2a4a6e" strokeWidth="2"/>
+      <circle cx="20" cy="46" r="8" fill="#0a0f1e" stroke="var(--brand,#2a4a6e)" strokeWidth="2"/>
       <circle cx="20" cy="46" r="4" fill="#1a2a45"/>
-      <circle cx="55" cy="46" r="8" fill="#0a0f1e" stroke="#2a4a6e" strokeWidth="2"/>
+      <circle cx="55" cy="46" r="8" fill="#0a0f1e" stroke="var(--brand,#2a4a6e)" strokeWidth="2"/>
       <circle cx="55" cy="46" r="4" fill="#1a2a45"/>
       {/* Front wheel */}
-      <circle cx="103" cy="46" r="8" fill="#0a0f1e" stroke="#2a4a6e" strokeWidth="2"/>
+      <circle cx="103" cy="46" r="8" fill="#0a0f1e" stroke="var(--brand,#2a4a6e)" strokeWidth="2"/>
       <circle cx="103" cy="46" r="4" fill="#1a2a45"/>
     </svg>
   )
