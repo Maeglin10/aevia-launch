@@ -2153,7 +2153,7 @@ function PracticalSection() {
             href={`tel:${fd?.phone ?? "+33472000000"}`}
             style={{ color: 'inherit', textDecoration: 'none' }}
           >
-            04 72 00 00 00
+            {fd?.phone ?? "04 72 00 00 00"}
           </a>
         </span>,
         <span key="a3" style={{ display: 'block', marginTop: 8 }}>

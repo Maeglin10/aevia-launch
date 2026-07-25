@@ -140,7 +140,7 @@ export default function OsteoGaiaPage() {
           </div>
           <div className="flex items-center gap-3">
             <a href={`tel:${fd?.phone ?? "0467891234"}`} className="hidden md:flex items-center gap-2 text-[var(--brand,#c26b4c)] font-bold text-sm">
-              <Phone className="w-4 h-4" /> 04 67 89 12 34
+              <Phone className="w-4 h-4" /> {fd?.phone ?? "04 67 89 12 34"}
             </a>
             <button className="hidden md:block px-5 py-2.5 bg-[var(--brand,#c26b4c)] text-white text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-[#a85a3c] transition-colors rounded-lg">
               Prendre RDV
@@ -150,7 +150,7 @@ export default function OsteoGaiaPage() {
               <SheetContent side="right" className="bg-[#f5f0e8] border-slate-200 p-10">
                 <div className="flex flex-col gap-7 mt-16">
                   {["Soins", "L'approche", "Contact"].map(l => <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="text-3xl font-bold text-[#3a2e28] hover:text-[var(--brand,#c26b4c)] transition-colors" style={{ fontFamily: "'Libre Baskerville', serif" }}>{l}</Link>)}
-                  <a href={`tel:${fd?.phone ?? "0467891234"}`} className="flex items-center gap-3 text-[var(--brand,#c26b4c)] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> 04 67 89 12 34</a>
+                  <a href={`tel:${fd?.phone ?? "0467891234"}`} className="flex items-center gap-3 text-[var(--brand,#c26b4c)] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> {fd?.phone ?? "04 67 89 12 34"}</a>
                 </div>
               </SheetContent>
             </Sheet>
@@ -190,7 +190,7 @@ export default function OsteoGaiaPage() {
               Prendre rendez-vous
             </>}</button>
             <a href={`tel:${fd?.phone ?? "0467891234"}`} className="flex items-center gap-3 px-9 py-4 border border-[#f5f0e8]/12 text-[#f5f0e8]/40 font-bold text-[10px] uppercase tracking-widest hover:border-[var(--brand,#c26b4c)]/40 hover:text-[#d4937a] transition-all rounded-lg">
-              <Phone className="w-4 h-4" /> 04 67 89 12 34
+              <Phone className="w-4 h-4" /> {fd?.phone ?? "04 67 89 12 34"}
             </a>
           </motion.div>
         </motion.div>
@@ -311,7 +311,7 @@ export default function OsteoGaiaPage() {
                 Prendre rendez-vous
               </button>
               <a href={`tel:${fd?.phone ?? "0467891234"}`} className="flex items-center gap-3 px-10 py-4 border border-white/25 text-white font-bold text-[10px] uppercase tracking-widest hover:bg-white/10 transition-all rounded-lg">
-                <Phone className="w-4 h-4" /> 04 67 89 12 34
+                <Phone className="w-4 h-4" /> {fd?.phone ?? "04 67 89 12 34"}
               </a>
             </div>
           </div>

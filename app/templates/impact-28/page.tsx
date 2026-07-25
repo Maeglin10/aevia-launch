@@ -694,7 +694,7 @@ export default function Home() {
                   </>}</p>
                   <div className="space-y-2 text-sm font-semibold">
                     <div>{fd?.email ?? "contact@brutco-architecture.com"}</div>
-                    <div>+33 1 42 78 91 00</div>
+                    <div>{fd?.phone ?? "+33 1 42 78 91 00"}</div>
                     <div className="text-gray-400">Main Atelier: Paris, France</div>
                   </div>
                 </div>

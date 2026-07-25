@@ -288,7 +288,7 @@ export default function EclatSpaPage() {
           <p style={{ fontSize: 16, color: C.textMuted, maxWidth: 420, margin: "0 auto 36px", lineHeight: 1.7 }}>Réservation par téléphone ou email. Coffrets cadeaux disponibles — parfaits pour offrir.</p>
           <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
             <motion.a href={`tel:${fd?.phone ?? "+33493000000"}`} style={{ background: C.accent, color: C.white, borderRadius: 8, padding: "15px 36px", fontWeight: 600, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ scale: 1.03 }}>
-              <Phone size={18} /> 04 93 00 00 00
+              <Phone size={18} /> {fd?.phone ?? "04 93 00 00 00"}
             </motion.a>
             <motion.a href={`mailto:${fd?.email ?? "bonjour@eclatspa.fr"}`} style={{ background: "transparent", color: C.text, border: `2px solid ${C.accent}`, borderRadius: 8, padding: "13px 32px", fontWeight: 600, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ background: C.accent, color: C.white }}>
               <Mail size={18} />{fd?.email ?? "bonjour@eclatspa.fr"}</motion.a>

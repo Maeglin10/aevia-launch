@@ -790,7 +790,7 @@ function ContactSubPage() {
             </div>
             <div className="space-y-2">
               <h3 className="text-white text-xs tracking-widest uppercase">Téléphone</h3>
-              <p>+33 1 42 60 00 00</p>
+              <p>{fd?.phone ?? "+33 1 42 60 00 00"}</p>
             </div>
             <div className="space-y-2">
               <h3 className="text-white text-xs tracking-widest uppercase">Email</h3>

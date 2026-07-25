@@ -401,7 +401,7 @@ export default function StudioNomaPage() {
               <Mail size={18} /> Prendre rendez-vous
             </motion.a>
             <motion.a href={`tel:${fd?.phone ?? "+33478000000"}`} style={{ background: "transparent", color: C.text, border: `2px solid ${C.accent}`, borderRadius: 6, padding: "14px 32px", fontWeight: 600, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, fontFamily: FONT_SANS }} whileHover={{ background: C.accent, color: C.white }}>
-              <Phone size={18} /> 04 78 00 00 00
+              <Phone size={18} /> {fd?.phone ?? "04 78 00 00 00"}
             </motion.a>
           </div>
         </Reveal>

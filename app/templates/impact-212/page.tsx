@@ -966,7 +966,7 @@ return (
               padding: '10px 20px', borderRadius: 50,
               fontSize: 13.5, fontWeight: 700,
               boxShadow: `0 4px 20px ${C.accent}44`, whiteSpace: 'nowrap',
-            }}>04 78 00 00 00</a>
+            }}>{fd?.phone ?? "04 78 00 00 00"}</a>
           </div>
 
           {/* Hamburger */}

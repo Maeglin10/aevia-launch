@@ -188,7 +188,7 @@ export default function AquanovaPiscinesPage() {
           </div>
           <div className="flex items-center gap-3">
             <a href={`tel:${fd?.phone ?? "0478987654"}`} className="hidden md:flex items-center gap-2 text-[var(--brand)] font-bold text-sm">
-              <Phone className="w-4 h-4" /> 04 78 98 76 54
+              <Phone className="w-4 h-4" /> {fd?.phone ?? "04 78 98 76 54"}
             </a>
             <button className="hidden md:block px-5 py-2.5 bg-[var(--brand)] text-white text-[10px] font-bold uppercase tracking-[0.2em] rounded hover:bg-[#0284c7] transition-colors">
               Devis Gratuit
@@ -201,7 +201,7 @@ export default function AquanovaPiscinesPage() {
                     <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="text-3xl font-bold text-[#0f172a] hover:text-[var(--brand)] transition-colors">{l}</Link>
                   ))}
                   <a href={`tel:${fd?.phone ?? "0478987654"}`} className="flex items-center gap-3 text-[var(--brand)] font-bold text-xl mt-4">
-                    <Phone className="w-5 h-5" /> 04 78 98 76 54
+                    <Phone className="w-5 h-5" /> {fd?.phone ?? "04 78 98 76 54"}
                   </a>
                 </div>
               </SheetContent>
@@ -261,7 +261,7 @@ export default function AquanovaPiscinesPage() {
           <div className="flex items-center gap-6">
             <span className="flex items-center gap-2 text-white/80 text-sm font-semibold"><Clock className="w-4 h-4" /> Devis sous 48h</span>
             <a href={`tel:${fd?.phone ?? "0478987654"}`} className="bg-white text-[var(--brand)] px-5 py-2 rounded font-bold text-sm hover:bg-[#f0f9ff] transition-colors">
-              04 78 98 76 54
+              {fd?.phone ?? "04 78 98 76 54"}
             </a>
           </div>
         </div>
@@ -398,7 +398,7 @@ export default function AquanovaPiscinesPage() {
                 Demander un devis
               </button>
               <a href={`tel:${fd?.phone ?? "0478987654"}`} className="flex items-center gap-3 px-10 py-4 border border-white/15 text-white font-bold text-[10px] uppercase tracking-[0.15em] rounded hover:border-[var(--brand-light)]/50 hover:text-[var(--brand-light)] transition-all">
-                <Phone className="w-4 h-4" /> 04 78 98 76 54
+                <Phone className="w-4 h-4" /> {fd?.phone ?? "04 78 98 76 54"}
               </a>
             </div>
           </div>

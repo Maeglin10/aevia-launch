@@ -679,7 +679,7 @@ export default function TextRevealPage() {
                   href="mailto:hello@reveal.studio"
                   className="text-2xl md:text-4xl font-light hover:text-zinc-400 transition-colors border-b border-zinc-700 pb-2"
                 >
-                  hello@reveal.studio
+                  {fd?.email ?? "hello@reveal.studio"}
                 </a>
               </Reveal>
             </div>

@@ -159,7 +159,7 @@ export default function TableExceptionPage() {
           </div>
           <div className="flex items-center gap-3">
             <a href={`tel:${fd?.phone ?? "0478345678"}`} className="hidden md:flex items-center gap-2 text-[var(--brand,#d4a853)] font-bold text-sm">
-              <Phone className="w-4 h-4" /> 04 78 34 56 78
+              <Phone className="w-4 h-4" /> {fd?.phone ?? "04 78 34 56 78"}
             </a>
             <button className="hidden md:block px-5 py-2.5 bg-[var(--brand,#d4a853)] text-white text-[10px] font-bold uppercase tracking-[0.22em] hover:bg-[#ba9040] transition-colors">
               Devis gratuit
@@ -169,7 +169,7 @@ export default function TableExceptionPage() {
               <SheetContent side="right" className="bg-[#fefcf8] border-slate-100 p-10">
                 <div className="flex flex-col gap-7 mt-16">
                   {["Formules", "Réalisations", "Contact"].map(l => <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="text-3xl font-bold text-[#1f1d1a] hover:text-[var(--brand,#d4a853)] transition-colors" style={{ fontFamily: "'Playfair Display', serif" }}>{l}</Link>)}
-                  <a href={`tel:${fd?.phone ?? "0478345678"}`} className="flex items-center gap-3 text-[var(--brand,#d4a853)] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> 04 78 34 56 78</a>
+                  <a href={`tel:${fd?.phone ?? "0478345678"}`} className="flex items-center gap-3 text-[var(--brand,#d4a853)] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> {fd?.phone ?? "04 78 34 56 78"}</a>
                 </div>
               </SheetContent>
             </Sheet>
@@ -212,7 +212,7 @@ export default function TableExceptionPage() {
               Devis personnalisé
             </>}</button>
             <a href={`tel:${fd?.phone ?? "0478345678"}`} className="flex items-center gap-3 px-9 py-4 border border-[#fefcf8]/12 text-[#fefcf8]/38 font-bold text-[10px] uppercase tracking-widest hover:border-[var(--brand,#d4a853)]/40 hover:text-[var(--brand,#d4a853)] transition-all">
-              <Phone className="w-4 h-4" /> 04 78 34 56 78
+              <Phone className="w-4 h-4" /> {fd?.phone ?? "04 78 34 56 78"}
             </a>
           </motion.div>
 
@@ -323,7 +323,7 @@ export default function TableExceptionPage() {
                 Demander un devis
               </button>
               <a href={`tel:${fd?.phone ?? "0478345678"}`} className="flex items-center gap-3 px-10 py-4 border border-white/25 text-white font-bold text-[10px] uppercase tracking-widest hover:bg-white/10 transition-all">
-                <Phone className="w-4 h-4" /> 04 78 34 56 78
+                <Phone className="w-4 h-4" /> {fd?.phone ?? "04 78 34 56 78"}
               </a>
             </div>
           </div>

@@ -543,7 +543,7 @@ function ContactPage() {
               </div>
               <div className="flex items-center gap-3 text-sm text-white/50">
                 <Phone className="w-4 h-4 text-[var(--brand,#C9A86C)] shrink-0" />
-                <span>+33 1 49 00 00 00</span>
+                <span>{fd?.phone ?? "+33 1 49 00 00 00"}</span>
               </div>
             </div>
           </div>

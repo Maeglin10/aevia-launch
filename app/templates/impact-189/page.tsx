@@ -139,7 +139,7 @@ export default function AtelierLeoniePage() {
           </div>
           <div className="flex items-center gap-3">
             <a href={`tel:${fd?.phone ?? "0145678901"}`} className="hidden md:flex items-center gap-2 text-[var(--brand,#c97b7b)] font-bold text-sm">
-              <Phone className="w-4 h-4" /> 01 45 67 89 01
+              <Phone className="w-4 h-4" /> {fd?.phone ?? "01 45 67 89 01"}
             </a>
             <button className="hidden md:block px-5 py-2.5 bg-[var(--brand,#c97b7b)] text-white text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-[#b56868] transition-colors">
               Réserver
@@ -149,7 +149,7 @@ export default function AtelierLeoniePage() {
               <SheetContent side="right" className="bg-[#faf6f1] border-slate-100 p-10">
                 <div className="flex flex-col gap-7 mt-16">
                   {["Prestations", "Tarifs", "Contact"].map(l => <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="text-3xl font-bold text-[#1a1218] hover:text-[var(--brand,#c97b7b)] transition-colors" style={{ fontFamily: "'Bodoni Moda', serif" }}>{l}</Link>)}
-                  <a href={`tel:${fd?.phone ?? "0145678901"}`} className="flex items-center gap-3 text-[var(--brand,#c97b7b)] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> 01 45 67 89 01</a>
+                  <a href={`tel:${fd?.phone ?? "0145678901"}`} className="flex items-center gap-3 text-[var(--brand,#c97b7b)] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> {fd?.phone ?? "01 45 67 89 01"}</a>
                 </div>
               </SheetContent>
             </Sheet>
@@ -198,7 +198,7 @@ export default function AtelierLeoniePage() {
               Prendre rendez-vous
             </>}</button>
             <a href={`tel:${fd?.phone ?? "0145678901"}`} className="flex items-center gap-3 px-9 py-4 border border-white/12 text-white/50 font-bold text-[10px] uppercase tracking-widest hover:border-[var(--brand,#c97b7b)]/40 hover:text-[#d4a5a5] transition-all">
-              <Phone className="w-4 h-4" /> 01 45 67 89 01
+              <Phone className="w-4 h-4" /> {fd?.phone ?? "01 45 67 89 01"}
             </a>
           </motion.div>
         </motion.div>
@@ -314,7 +314,7 @@ export default function AtelierLeoniePage() {
                 Réserver maintenant
               </button>
               <a href={`tel:${fd?.phone ?? "0145678901"}`} className="flex items-center gap-3 px-10 py-4 border border-white/12 text-white/40 font-bold text-[10px] uppercase tracking-widest hover:border-[var(--brand,#c97b7b)]/40 hover:text-[#d4a5a5] transition-all">
-                <Phone className="w-4 h-4" /> 01 45 67 89 01
+                <Phone className="w-4 h-4" /> {fd?.phone ?? "01 45 67 89 01"}
               </a>
             </div>
           </div>

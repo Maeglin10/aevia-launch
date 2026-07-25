@@ -561,7 +561,7 @@ return (
               <p className="text-[#FDFAF5] text-xs tracking-widest uppercase mb-5">Contact</p>
               <p className="text-sm mb-2">34 rue de la Roquette</p>
               <p className="text-sm mb-2">75011 Paris</p>
-              <p className="text-sm mb-4">+33 1 43 48 22 10</p>
+              <p className="text-sm mb-4">{fd?.phone ?? "+33 1 43 48 22 10"}</p>
               <Link href="#contact" className="flex items-center gap-2 text-sm hover:text-[#C9A86C] transition-colors cursor-pointer"><Instagram className="w-4 h-4" /> @lematindore</Link>
             </div>
           </div>

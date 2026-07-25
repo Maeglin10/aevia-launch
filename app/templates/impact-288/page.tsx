@@ -570,7 +570,7 @@ function HeroSection() {
           <a href={`tel:${fd?.phone ?? "0240000000"}`} style={{ textDecoration: 'none' }}>
             <GreenButton>
               <Phone size={15} />
-              02 40 00 00 00
+              {fd?.phone ?? "02 40 00 00 00"}
             </GreenButton>
           </a>
         </motion.div>
@@ -1833,7 +1833,7 @@ function DevisFormSection() {
               <div style={{ marginTop: 8, display: 'flex', gap: 12, alignItems: 'center' }}>
                 <Phone size={16} color={C.green} />
                 <span style={{ fontFamily: SANS, fontSize: 15, color: 'rgba(255,255,255,0.80)' }}>
-                  Besoin urgent ? <strong style={{ color: C.green }}>02 40 00 00 00</strong>
+                  Besoin urgent ? <strong style={{ color: C.green }}>{fd?.phone ?? "02 40 00 00 00"}</strong>
                 </span>
               </div>
             </motion.div>
@@ -2943,7 +2943,7 @@ function FooterSection() {
                 onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = C.white; }}
               >
                 <Phone size={16} color={C.green} />
-                02 40 00 00 00
+                {fd?.phone ?? "02 40 00 00 00"}
               </a>
               <div
                 style={{

@@ -200,7 +200,7 @@ export default function VoltProPage() {
           </div>
           <div className="flex items-center gap-4">
             <a href={`tel:${fd?.phone ?? "0612345678"}`} className="hidden md:flex items-center gap-2 text-[10px] font-bold tracking-widest text-[var(--brand,#facc15)] uppercase">
-              <Phone className="w-3 h-3" /> 06 12 34 56 78
+              <Phone className="w-3 h-3" /> {fd?.phone ?? "06 12 34 56 78"}
             </a>
             <button className="hidden md:block px-6 py-2.5 bg-[var(--brand,#facc15)] text-black text-[10px] font-extrabold uppercase tracking-[0.2em] hover:bg-white transition-colors duration-300">
               Devis Gratuit
@@ -218,7 +218,7 @@ export default function VoltProPage() {
                     <Link key={label} href={href} className="text-3xl font-extrabold uppercase tracking-widest hover:text-[var(--brand,#facc15)] transition-colors">{label}</Link>
                   ))}
                   <a href={`tel:${fd?.phone ?? "0612345678"}`} className="flex items-center gap-3 text-[var(--brand,#facc15)] font-bold text-lg mt-4">
-                    <Phone className="w-5 h-5" /> 06 12 34 56 78
+                    <Phone className="w-5 h-5" /> {fd?.phone ?? "06 12 34 56 78"}
                   </a>
                 </div>
               </SheetContent>
@@ -291,7 +291,7 @@ export default function VoltProPage() {
                 <Clock className="w-4 h-4" /> Intervention &lt; 2h
               </div>
               <a href={`tel:${fd?.phone ?? "0612345678"}`} className="bg-black text-[var(--brand,#facc15)] px-6 py-2 font-extrabold text-xs uppercase tracking-widest hover:bg-white hover:text-black transition-colors">
-                06 12 34 56 78
+                {fd?.phone ?? "06 12 34 56 78"}
               </a>
             </div>
           </div>
@@ -522,7 +522,7 @@ export default function VoltProPage() {
                 Demander un devis
               </button>
               <a href={`tel:${fd?.phone ?? "0612345678"}`} className="flex items-center gap-3 px-10 py-5 border border-white/15 text-white font-bold uppercase tracking-[0.15em] text-[10px] hover:border-[var(--brand,#facc15)]/50 hover:text-[var(--brand,#facc15)] transition-all">
-                <Phone className="w-4 h-4" /> 06 12 34 56 78
+                <Phone className="w-4 h-4" /> {fd?.phone ?? "06 12 34 56 78"}
               </a>
             </div>
           </Reveal>
@@ -542,7 +542,7 @@ export default function VoltProPage() {
             <p className="text-sm text-white/25 leading-relaxed mb-6">Électricien qualifié RGE · Île-de-France. Installation, conformité, domotique, dépannage urgent.</p>
             <div className="flex items-center gap-2 text-[var(--brand,#facc15)] text-sm font-bold">
               <Phone className="w-4 h-4" />
-              <a href={`tel:${fd?.phone ?? "0612345678"}`} className="hover:text-white transition-colors">06 12 34 56 78</a>
+              <a href={`tel:${fd?.phone ?? "0612345678"}`} className="hover:text-white transition-colors">{fd?.phone ?? "06 12 34 56 78"}</a>
             </div>
           </div>
           {[

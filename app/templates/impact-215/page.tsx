@@ -2616,7 +2616,7 @@ export default function FlammeEtCoPage() {
                   padding: '1rem',
                 }}>
                   <p style={{ color: C.textMuted, fontFamily: 'Inter, sans-serif', fontSize: '0.78rem', marginBottom: '0.35rem' }}>Service client</p>
-                  <p style={{ color: C.text, fontFamily: 'Inter, sans-serif', fontSize: '1rem', fontWeight: 700 }}>01 23 45 67 89</p>
+                  <p style={{ color: C.text, fontFamily: 'Inter, sans-serif', fontSize: '1rem', fontWeight: 700 }}>{fd?.phone ?? "01 23 45 67 89"}</p>
                   <p style={{ color: C.textMuted, fontFamily: 'Inter, sans-serif', fontSize: '0.73rem', marginTop: '0.2rem' }}>Lun–Ven, 9h–18h</p>
                 </div>
               </div>

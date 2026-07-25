@@ -183,7 +183,7 @@ export default function BatirSolidePage() {
           </div>
           <div className="flex items-center gap-3">
             <a href={`tel:${fd?.phone ?? "0491234567"}`} className="hidden md:flex items-center gap-2 text-[var(--brand,#d4a96a)] font-bold text-sm">
-              <Phone className="w-4 h-4" /> 04 91 23 45 67
+              <Phone className="w-4 h-4" /> {fd?.phone ?? "04 91 23 45 67"}
             </a>
             <button className="hidden md:block px-5 py-2.5 bg-[var(--brand,#d4a96a)] text-[#1a1008] text-[10px] font-black uppercase tracking-[0.2em] hover:bg-[#e8bf85] transition-colors">
               Devis Gratuit
@@ -193,7 +193,7 @@ export default function BatirSolidePage() {
               <SheetContent side="right" className="bg-[#1a1008] border-[var(--brand,#d4a96a)]/10 p-10">
                 <div className="flex flex-col gap-7 mt-16">
                   {["Savoir-faire", "Chantiers", "Contact"].map(l => <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="text-3xl font-black uppercase text-white hover:text-[var(--brand,#d4a96a)] transition-colors">{l}</Link>)}
-                  <a href={`tel:${fd?.phone ?? "0491234567"}`} className="flex items-center gap-3 text-[var(--brand,#d4a96a)] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> 04 91 23 45 67</a>
+                  <a href={`tel:${fd?.phone ?? "0491234567"}`} className="flex items-center gap-3 text-[var(--brand,#d4a96a)] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> {fd?.phone ?? "04 91 23 45 67"}</a>
                 </div>
               </SheetContent>
             </Sheet>
@@ -232,7 +232,7 @@ export default function BatirSolidePage() {
               Devis gratuit sous 48h
             </button>
             <a href={`tel:${fd?.phone ?? "0491234567"}`} className="flex items-center gap-3 px-9 py-4 border border-white/15 text-white font-bold text-[10px] uppercase tracking-widest hover:border-[var(--brand,#d4a96a)]/50 hover:text-[var(--brand,#d4a96a)] transition-all">
-              <Phone className="w-4 h-4" /> 04 91 23 45 67
+              <Phone className="w-4 h-4" /> {fd?.phone ?? "04 91 23 45 67"}
             </a>
           </motion.div>
         </motion.div>
@@ -348,7 +348,7 @@ export default function BatirSolidePage() {
                 Demander un devis
               </button>
               <a href={`tel:${fd?.phone ?? "0491234567"}`} className="flex items-center gap-3 px-10 py-4 border border-white/15 text-white font-bold text-[10px] uppercase tracking-widest hover:border-[var(--brand,#d4a96a)]/50 hover:text-[var(--brand,#d4a96a)] transition-all">
-                <Phone className="w-4 h-4" /> 04 91 23 45 67
+                <Phone className="w-4 h-4" /> {fd?.phone ?? "04 91 23 45 67"}
               </a>
             </div>
           </div>

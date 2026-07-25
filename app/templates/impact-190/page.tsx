@@ -161,7 +161,7 @@ export default function AutoExpertPage() {
           </div>
           <div className="flex items-center gap-3">
             <a href={`tel:${fd?.phone ?? "0299345678"}`} className="hidden md:flex items-center gap-2 text-[var(--brand,#dc2626)] font-bold text-sm">
-              <Phone className="w-4 h-4" /> 02 99 34 56 78
+              <Phone className="w-4 h-4" /> {fd?.phone ?? "02 99 34 56 78"}
             </a>
             <button className="hidden md:block px-5 py-2.5 bg-[var(--brand,#dc2626)] text-white text-[10px] font-bold uppercase tracking-[0.22em] hover:bg-[#c01f1f] transition-colors">
               Devis gratuit
@@ -171,7 +171,7 @@ export default function AutoExpertPage() {
               <SheetContent side="right" className="bg-[#141820] border-[var(--brand,#dc2626)]/10 p-10">
                 <div className="flex flex-col gap-7 mt-16">
                   {["Services", "Devis rapide", "Contact"].map(l => <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="text-3xl font-bold text-[#f1f3f5] hover:text-[var(--brand,#dc2626)] transition-colors">{l}</Link>)}
-                  <a href={`tel:${fd?.phone ?? "0299345678"}`} className="flex items-center gap-3 text-[var(--brand,#dc2626)] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> 02 99 34 56 78</a>
+                  <a href={`tel:${fd?.phone ?? "0299345678"}`} className="flex items-center gap-3 text-[var(--brand,#dc2626)] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> {fd?.phone ?? "02 99 34 56 78"}</a>
                 </div>
               </SheetContent>
             </Sheet>
@@ -212,7 +212,7 @@ export default function AutoExpertPage() {
               Devis gratuit 30 min
             </>}</button>
             <a href={`tel:${fd?.phone ?? "0299345678"}`} className="flex items-center gap-3 px-9 py-4 border border-[#f1f3f5]/10 text-[#f1f3f5]/40 font-bold text-[10px] uppercase tracking-widest hover:border-[var(--brand,#dc2626)]/40 hover:text-[var(--brand,#dc2626)] transition-all">
-              <Phone className="w-4 h-4" /> 02 99 34 56 78
+              <Phone className="w-4 h-4" /> {fd?.phone ?? "02 99 34 56 78"}
             </a>
           </motion.div>
 
@@ -337,7 +337,7 @@ export default function AutoExpertPage() {
                 Devis gratuit maintenant
               </button>
               <a href={`tel:${fd?.phone ?? "0299345678"}`} className="flex items-center gap-3 px-10 py-4 border border-[#f1f3f5]/10 text-[#f1f3f5]/35 font-bold text-[10px] uppercase tracking-widest hover:border-[var(--brand,#dc2626)]/40 hover:text-[var(--brand,#dc2626)] transition-all">
-                <Phone className="w-4 h-4" /> 02 99 34 56 78
+                <Phone className="w-4 h-4" /> {fd?.phone ?? "02 99 34 56 78"}
               </a>
             </div>
           </div>

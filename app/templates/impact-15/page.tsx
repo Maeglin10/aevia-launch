@@ -358,7 +358,7 @@ return (
           </>}</p>
           <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
             <motion.a href={`tel:${fd?.phone ?? "+33561000000"}`} style={{ background: C.dark, color: C.white, borderRadius: 8, padding: "15px 36px", fontWeight: 700, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ scale: 1.03 }}>
-              <Phone size={18} /> 05 61 00 00 00
+              <Phone size={18} /> {fd?.phone ?? "05 61 00 00 00"}
             </motion.a>
             <motion.a href={`mailto:${fd?.email ?? "contact@voltpiscines.fr"}`} style={{ background: "transparent", color: C.text, border: `2px solid ${C.dark}`, borderRadius: 8, padding: "13px 32px", fontWeight: 700, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ background: C.dark, color: C.white }}>
               <Mail size={18} /> Nous écrire

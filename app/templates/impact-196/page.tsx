@@ -278,7 +278,7 @@ export default function CabinetKinePage() {
               <Calendar size={18} /> Prendre rendez-vous
             </motion.a>
             <motion.a href={`tel:${fd?.phone ?? "+33240000000"}`} style={{ background: "rgba(255,255,255,0.10)", color: "#fff", border: "1px solid rgba(255,255,255,0.28)", borderRadius: 8, padding: "13px 28px", fontWeight: 600, fontSize: 15, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, backdropFilter: "blur(8px)" }} whileHover={{ background: "rgba(255,255,255,0.18)" }}>
-              <Phone size={16} /> 02 40 00 00 00
+              <Phone size={16} /> {fd?.phone ?? "02 40 00 00 00"}
             </motion.a>
           </motion.div>
         </motion.div>
@@ -388,7 +388,7 @@ export default function CabinetKinePage() {
           </>}</p>
           <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
             <motion.a href={`tel:${fd?.phone ?? "+33240000000"}`} style={{ background: C.accent, color: C.white, borderRadius: 8, padding: "16px 36px", fontWeight: 700, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ background: C.accentDark, scale: 1.03 }}>
-              <Phone size={18} /> 02 40 00 00 00
+              <Phone size={18} /> {fd?.phone ?? "02 40 00 00 00"}
             </motion.a>
             <motion.a href={`mailto:${fd?.email ?? "contact@kine-mouvement.fr"}`} style={{ background: "transparent", color: C.text, border: `2px solid ${C.accentDark}`, borderRadius: 8, padding: "14px 32px", fontWeight: 700, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ background: C.accent, color: C.white, borderColor: C.accent }}>
               <Mail size={18} /> Nous écrire

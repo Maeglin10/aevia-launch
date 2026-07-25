@@ -1870,7 +1870,7 @@ export default function AquaPrestigePage() {
                   onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.transform = 'scale(1.04)')}
                   onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.transform = 'scale(1)')}
                 >
-                  01 42 00 00 00
+                  {fd?.phone ?? "01 42 00 00 00"}
                 </a>
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.75rem', flexShrink: 0 }}>
@@ -2592,7 +2592,7 @@ export default function AquaPrestigePage() {
                     boxShadow: `0 4px 16px rgba(30,143,191,0.3)`,
                   }}
                 >
-                  01 42 00 00 00
+                  {fd?.phone ?? "01 42 00 00 00"}
                 </a>
                 <div style={{ color: C.textMuted, fontSize: '0.83rem', lineHeight: 1.7 }}>
                   <div>{fd?.email ?? "contact@aquaprestige.fr"}</div>

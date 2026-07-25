@@ -484,7 +484,7 @@ function ContactSection() {
               Une question sur nos ateliers, une commande spéciale pour un événement ou simplement envie de nous dire bonjour ? Remplissez le formulaire ci-contre et nous vous répondrons sous 24h.
             </p>
             <div style={{ display: "flex", flexDirection: "column", gap: 16, fontFamily: "'Cabin', sans-serif", fontSize: 14, color: C.brown }}>
-              <p>📞 <strong>Téléphone :</strong> +33 4 78 28 00 00</p>
+              <p>📞 <strong>Téléphone :</strong> {fd?.phone ?? "+33 4 78 28 00 00"}</p>
               <p>✉ <strong>Email :</strong>{fd?.email ?? "contact@maisonlaval.fr"}</p>
               <p>📍 <strong>Adresse :</strong> 47 Grande Rue de la Croix-Rousse, 69004 Lyon</p>
             </div>

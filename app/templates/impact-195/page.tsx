@@ -172,7 +172,7 @@ export default function MaisonElisePage() {
           </div>
           <div className="flex items-center gap-3">
             <a href={`tel:${fd?.phone ?? "0493567890"}`} className="hidden md:flex items-center gap-2 text-[var(--brand,#c4a06a)] font-bold text-sm">
-              <Phone className="w-4 h-4" /> 04 93 56 78 90
+              <Phone className="w-4 h-4" /> {fd?.phone ?? "04 93 56 78 90"}
             </a>
             <button className="hidden md:block px-5 py-2.5 bg-[var(--brand,#c4a06a)] text-white text-[10px] font-bold uppercase tracking-[0.25em] hover:bg-[#a88550] transition-colors">
               Consultation gratuite
@@ -182,7 +182,7 @@ export default function MaisonElisePage() {
               <SheetContent side="right" className="bg-[#fdfaf7] border-slate-100 p-10">
                 <div className="flex flex-col gap-7 mt-16">
                   {["Formules", "Portfolio", "Contact"].map(l => <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="text-3xl font-bold text-[#1a1018] hover:text-[var(--brand,#c4a06a)] transition-colors" style={{ fontFamily: "'Lora', serif" }}>{l}</Link>)}
-                  <a href={`tel:${fd?.phone ?? "0493567890"}`} className="flex items-center gap-3 text-[var(--brand,#c4a06a)] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> 04 93 56 78 90</a>
+                  <a href={`tel:${fd?.phone ?? "0493567890"}`} className="flex items-center gap-3 text-[var(--brand,#c4a06a)] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> {fd?.phone ?? "04 93 56 78 90"}</a>
                 </div>
               </SheetContent>
             </Sheet>
@@ -235,7 +235,7 @@ export default function MaisonElisePage() {
               Consultation gratuite
             </>}</button>
             <a href={`tel:${fd?.phone ?? "0493567890"}`} className="flex items-center gap-3 px-9 py-4 border border-[#fdfaf7]/12 text-[#fdfaf7]/38 font-bold text-[10px] uppercase tracking-widest hover:border-[var(--brand,#c4a06a)]/40 hover:text-[var(--brand,#c4a06a)] transition-all">
-              <Phone className="w-4 h-4" /> 04 93 56 78 90
+              <Phone className="w-4 h-4" /> {fd?.phone ?? "04 93 56 78 90"}
             </a>
           </motion.div>
         </motion.div>
@@ -356,7 +356,7 @@ export default function MaisonElisePage() {
                 Consultation gratuite
               </button>
               <a href={`tel:${fd?.phone ?? "0493567890"}`} className="flex items-center gap-3 px-10 py-4 border border-[#fdfaf7]/12 text-[#fdfaf7]/35 font-bold text-[10px] uppercase tracking-widest hover:border-[var(--brand,#c4a06a)]/40 hover:text-[var(--brand,#c4a06a)] transition-all">
-                <Phone className="w-4 h-4" /> 04 93 56 78 90
+                <Phone className="w-4 h-4" /> {fd?.phone ?? "04 93 56 78 90"}
               </a>
             </div>
           </div>

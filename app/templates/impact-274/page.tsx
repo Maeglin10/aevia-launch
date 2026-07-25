@@ -2177,7 +2177,7 @@ function PracticalInfoSection() {
                     fontWeight: 600,
                   }}
                 >
-                  04 78 12 34 56
+                  {fd?.phone ?? "04 78 12 34 56"}
                 </a>
               </div>
             </div>
@@ -2561,7 +2561,7 @@ function FooterSection() {
               }}
             >
               <Phone size={14} color="rgba(160,210,170,0.75)" strokeWidth={1.8} />
-              04 78 12 34 56
+              {fd?.phone ?? "04 78 12 34 56"}
             </div>
           </div>
         </div>

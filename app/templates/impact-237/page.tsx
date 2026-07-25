@@ -2051,7 +2051,7 @@ function Footer() {
               letterSpacing: '0.06em',
             }}
           >
-            04 93 00 00 00
+            {fd?.phone ?? "04 93 00 00 00"}
           </div>
           <div
             style={{
