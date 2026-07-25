@@ -165,7 +165,7 @@ export default function GentlemansCutPage() {
           </div>
           <div className="flex items-center gap-3">
             <a href={`tel:${fd?.phone ?? "0556789012"}`} className="hidden md:flex items-center gap-2 text-[var(--brand,#c9a84c)] font-bold text-sm" style={{ fontFamily: "'DM Mono', monospace" }}>
-              <Phone className="w-4 h-4" /> 05 56 78 90 12
+              <Phone className="w-4 h-4" /> {fd?.phone ?? "05 56 78 90 12"}
             </a>
             <button className="hidden md:block px-5 py-2.5 border border-[var(--brand,#c9a84c)] text-[var(--brand,#c9a84c)] text-[10px] font-bold uppercase tracking-[0.25em] hover:bg-[var(--brand,#c9a84c)] hover:text-[#0a0908] transition-all" style={{ fontFamily: "'DM Mono', monospace" }}>
               Réserver
@@ -175,7 +175,7 @@ export default function GentlemansCutPage() {
               <SheetContent side="right" className="bg-[#0f0e0c] border-[var(--brand,#c9a84c)]/10 p-10">
                 <div className="flex flex-col gap-7 mt-16">
                   {["Services", "Tarifs", "Réservation"].map(l => <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="text-3xl font-bold text-[#f5f0e8] hover:text-[var(--brand,#c9a84c)] transition-colors">{l}</Link>)}
-                  <a href={`tel:${fd?.phone ?? "0556789012"}`} className="flex items-center gap-3 text-[var(--brand,#c9a84c)] font-bold text-lg mt-4"><Phone className="w-5 h-5" /> 05 56 78 90 12</a>
+                  <a href={`tel:${fd?.phone ?? "0556789012"}`} className="flex items-center gap-3 text-[var(--brand,#c9a84c)] font-bold text-lg mt-4"><Phone className="w-5 h-5" /> {fd?.phone ?? "05 56 78 90 12"}</a>
                 </div>
               </SheetContent>
             </Sheet>
@@ -221,7 +221,7 @@ export default function GentlemansCutPage() {
               Prendre rendez-vous
             </>}</button>
             <a href={`tel:${fd?.phone ?? "0556789012"}`} className="flex items-center gap-3 px-9 py-4 border border-[#f5f0e8]/12 text-[#f5f0e8]/50 font-bold text-[10px] uppercase tracking-widest hover:border-[var(--brand,#c9a84c)]/40 hover:text-[var(--brand,#c9a84c)] transition-all" style={{ fontFamily: "'DM Mono', monospace" }}>
-              <Phone className="w-4 h-4" /> 05 56 78 90 12
+              <Phone className="w-4 h-4" /> {fd?.phone ?? "05 56 78 90 12"}
             </a>
           </motion.div>
         </motion.div>

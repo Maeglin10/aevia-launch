@@ -376,7 +376,7 @@ export default function AtelierBloomPage() {
           </>}</p>
           <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
             <motion.a href={`tel:${fd?.phone ?? "+33388000000"}`} style={{ background: C.accent, color: C.white, borderRadius: 8, padding: "15px 36px", fontWeight: 700, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ scale: 1.03 }}>
-              <Phone size={18} /> 03 88 00 00 00
+              <Phone size={18} /> {fd?.phone ?? "03 88 00 00 00"}
             </motion.a>
             <motion.a href={`mailto:${fd?.email ?? "hello@atelierbloom.fr"}`} style={{ background: "transparent", color: C.text, border: `2px solid ${C.peach}`, borderRadius: 8, padding: "13px 32px", fontWeight: 700, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ background: C.peach, color: C.white, borderColor: C.peach }}>
               <Mail size={18} />{fd?.email ?? "hello@atelierbloom.fr"}</motion.a>

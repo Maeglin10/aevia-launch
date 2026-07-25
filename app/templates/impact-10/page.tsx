@@ -1634,7 +1634,7 @@ function BookingCTA() {
                 paddingBottom: '2px',
               }}
             >
-              +33 1 40 00 00 00
+              {fd?.phone ?? "+33 1 40 00 00 00"}
             </a>
             <a
               href={`mailto:${fd?.email ?? "reservations@grandpalais.fr"}`}

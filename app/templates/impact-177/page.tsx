@@ -398,7 +398,7 @@ return (
                 Prendre rendez-vous
               </button>
               <a href={`tel:${fd?.phone ?? "0478123456"}`} style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem", padding: "1.1rem 2.5rem", border: "1px solid rgba(255,255,255,0.15)", color: "rgba(255,255,255,0.6)", fontFamily: C.sans, fontWeight: 700, fontSize: "0.65rem", textTransform: "uppercase", letterSpacing: "0.2em", textDecoration: "none" }}>
-                <Phone style={{ width: 14, height: 14 }} /> 04 78 12 34 56
+                <Phone style={{ width: 14, height: 14 }} /> {fd?.phone ?? "04 78 12 34 56"}
               </a>
             </div>
           </div>

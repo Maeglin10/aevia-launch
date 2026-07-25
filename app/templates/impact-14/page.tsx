@@ -1180,7 +1180,7 @@ export default function HorizonMaritimePage() {
               }}
             >
               <p style={{fontFamily: "Montserrat, sans-serif", fontSize: 10, color: brand ?? '#c9a84c', letterSpacing: 3, textTransform: "uppercase" }}>
-                +33 1 23 45 67 89
+                {fd?.phone ?? "+33 1 23 45 67 89"}
               </p>
             </div>
           </motion.div>
@@ -2387,7 +2387,7 @@ export default function HorizonMaritimePage() {
               >
                 <Phone size={12} style={{color: brand ?? '#c9a84c' }} />
                 <span style={{ fontFamily: "Montserrat, sans-serif", fontSize: 11, color: "rgba(240,236,224,0.5)" }}>
-                  +33 1 23 45 67 89
+                  {fd?.phone ?? "+33 1 23 45 67 89"}
                 </span>
               </a>
               <a

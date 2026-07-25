@@ -169,7 +169,7 @@ export default function AltaTransactionsPage() {
             ))}
           </div>
           <div className="hidden md:flex items-center gap-4">
-            <a href={`tel:${fd?.phone ?? "0144876543"}`} className="text-[10px] font-bold uppercase tracking-widest text-[var(--brand,#b8944a)]">01 44 87 65 43</a>
+            <a href={`tel:${fd?.phone ?? "0144876543"}`} className="text-[10px] font-bold uppercase tracking-widest text-[var(--brand,#b8944a)]">{fd?.phone ?? "01 44 87 65 43"}</a>
             <button className="px-6 py-2.5 bg-[var(--brand,#b8944a)] text-white text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-[#cdab66] transition-colors duration-300">
               Estimer mon bien
             </button>
@@ -369,7 +369,7 @@ export default function AltaTransactionsPage() {
               Demander une estimation
             </button>
             <a href={`tel:${fd?.phone ?? "0144876543"}`} className="flex items-center gap-3 px-10 py-5 border border-[#11182a]/15 text-[#11182a] text-[10px] font-bold uppercase tracking-[0.2em] hover:border-[var(--brand,#b8944a)] transition-all">
-              <Phone className="w-4 h-4 text-[var(--brand,#b8944a)]" /> 01 44 87 65 43
+              <Phone className="w-4 h-4 text-[var(--brand,#b8944a)]" /> {fd?.phone ?? "01 44 87 65 43"}
             </a>
           </div>
         </Reveal>

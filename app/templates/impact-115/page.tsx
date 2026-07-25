@@ -2082,7 +2082,7 @@ export default function Impact115Page() {
                   marginBottom: 10,
                 }}
               >
-                hello@rostova.studio
+                {fd?.email ?? "hello@rostova.studio"}
               </a>
               <div
                 style={{

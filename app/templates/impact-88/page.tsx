@@ -1213,7 +1213,7 @@ function ContactFooter() {
                 <div className="space-y-3">
                   <a href={`tel:${fd?.phone ?? "+33123456789"}`} className="flex items-center gap-2 text-white/80 hover:text-white transition-colors text-[13px]" style={{ fontFamily: "'Inter', sans-serif" }}>
                     <Phone className="w-3.5 h-3.5" />
-                    +33 1 23 45 67 89
+                    {fd?.phone ?? "+33 1 23 45 67 89"}
                   </a>
                   <a href={`mailto:${fd?.email ?? "bonjour@velvetnails.fr"}`} className="flex items-center gap-2 text-white/80 hover:text-white transition-colors text-[13px]" style={{ fontFamily: "'Inter', sans-serif" }}>
                     <Mail className="w-3.5 h-3.5" />{fd?.email ?? "bonjour@velvetnails.fr"}</a>
@@ -1456,7 +1456,7 @@ function ContactSection() {
             <div className="space-y-4 font-[300] text-[#9D174D] text-[14px]" style={{ fontFamily: "'Inter', sans-serif" }}>
               <div className="flex items-center gap-3">
                 <Phone className="w-4 h-4 text-[#EC4899]" />
-                <span>+33 1 23 45 67 89</span>
+                <span>{fd?.phone ?? "+33 1 23 45 67 89"}</span>
               </div>
               <div className="flex items-center gap-3">
                 <Mail className="w-4 h-4 text-[#EC4899]" />

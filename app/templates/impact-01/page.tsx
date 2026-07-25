@@ -2008,7 +2008,7 @@ return (
                 onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.82")}
                 onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
               >
-                <Mail size={16} /> hello@impact.studio
+                <Mail size={16} /> {fd?.email ?? "hello@impact.studio"}
               </a>
               <button
                 onClick={() => scrollTo("contact")}

@@ -156,7 +156,7 @@ export default function MaxPerformancePage() {
           </div>
           <div className="flex items-center gap-3">
             <a href={`tel:${fd?.phone ?? "0612345678"}`} className="hidden md:flex items-center gap-2 text-[var(--brand,#f97316)] font-bold text-sm">
-              <Phone className="w-4 h-4" /> 06 12 34 56 78
+              <Phone className="w-4 h-4" /> {fd?.phone ?? "06 12 34 56 78"}
             </a>
             <button className="hidden md:block px-5 py-2.5 bg-[var(--brand,#f97316)] text-[#0a0a0a] text-[10px] font-black uppercase tracking-[0.25em] hover:bg-[#ea650a] transition-colors">
               Séance offerte
@@ -166,7 +166,7 @@ export default function MaxPerformancePage() {
               <SheetContent side="right" className="bg-[#111] border-[var(--brand,#f97316)]/10 p-10">
                 <div className="flex flex-col gap-7 mt-16">
                   {["Programmes", "Méthode", "Contact"].map(l => <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="text-3xl font-black uppercase text-[#f8f5f0] hover:text-[var(--brand,#f97316)] transition-colors" style={{ fontFamily: "'Anton', sans-serif" }}>{l}</Link>)}
-                  <a href={`tel:${fd?.phone ?? "0612345678"}`} className="flex items-center gap-3 text-[var(--brand,#f97316)] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> 06 12 34 56 78</a>
+                  <a href={`tel:${fd?.phone ?? "0612345678"}`} className="flex items-center gap-3 text-[var(--brand,#f97316)] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> {fd?.phone ?? "06 12 34 56 78"}</a>
                 </div>
               </SheetContent>
             </Sheet>
@@ -222,7 +222,7 @@ export default function MaxPerformancePage() {
               1ère séance offerte
             </>}</button>
             <a href={`tel:${fd?.phone ?? "0612345678"}`} className="flex items-center gap-3 px-9 py-4 border border-[#f8f5f0]/10 text-[#f8f5f0]/40 font-bold text-[10px] uppercase tracking-widest hover:border-[var(--brand,#f97316)]/40 hover:text-[var(--brand,#f97316)] transition-all">
-              <Phone className="w-4 h-4" /> 06 12 34 56 78
+              <Phone className="w-4 h-4" /> {fd?.phone ?? "06 12 34 56 78"}
             </a>
           </motion.div>
         </motion.div>
@@ -347,7 +347,7 @@ export default function MaxPerformancePage() {
                 Séance offerte maintenant
               </button>
               <a href={`tel:${fd?.phone ?? "0612345678"}`} className="flex items-center gap-3 px-10 py-4 border-2 border-[#0a0a0a]/20 text-[#0a0a0a] font-bold text-[10px] uppercase tracking-widest hover:border-[#0a0a0a]/40 transition-all">
-                <Phone className="w-4 h-4" /> 06 12 34 56 78
+                <Phone className="w-4 h-4" /> {fd?.phone ?? "06 12 34 56 78"}
               </a>
             </div>
           </div>

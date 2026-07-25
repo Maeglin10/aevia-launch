@@ -1230,7 +1230,7 @@ export default function AIHorizonsTemplate() {
             <h4 style={{ fontFamily: SERIF, fontSize: '16px', marginBottom: '24px' }}>Contact</h4>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', color: C.textMuted, fontSize: '14px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <Mail size={16} /> contact@aihorizons.com
+                <Mail size={16} /> {fd?.email ?? "contact@aihorizons.com"}
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <MapPin size={16} /> Station F, Paris

@@ -2297,7 +2297,7 @@ function PracticalSection() {
                   }}
                 >
                   <Phone size={16} strokeWidth={1.8} />
-                  03 88 00 00 00
+                  {fd?.phone ?? "03 88 00 00 00"}
                 </div>
               </a>
             </div>

@@ -502,7 +502,7 @@ return (
                 className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#f5efe0]/30 hover:text-[#f5efe0] transition-colors"
                 style={{ textDecoration: "none" }}
               >
-                +33 1 42 00 00 00
+                {fd?.phone ?? "+33 1 42 00 00 00"}
               </a>
             </div>
 

@@ -1514,7 +1514,7 @@ function DevisFormSection() {
                 <div
                   style={{ fontFamily: SERIF, fontSize: 22, fontWeight: 700, color: C.ink }}
                 >
-                  02 99 00 00 00
+                  {fd?.phone ?? "02 99 00 00 00"}
                 </div>
               </div>
             </div>
@@ -2667,7 +2667,7 @@ function FooterSection() {
                     fontWeight: 600,
                   }}
                 >
-                  02 99 00 00 00
+                  {fd?.phone ?? "02 99 00 00 00"}
                 </span>
               </a>
               <div style={{ display: 'flex', alignItems: 'flex-start', gap: 10 }}>

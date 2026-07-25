@@ -160,7 +160,7 @@ return (
           </div>
           <div className="flex items-center gap-3">
             <a href={`tel:${fd?.phone ?? "0320456789"}`} className="hidden md:flex items-center gap-2 text-[var(--brand,#4d7c5f)] font-bold text-sm">
-              <Phone className="w-4 h-4" /> 03 20 45 67 89
+              <Phone className="w-4 h-4" /> {fd?.phone ?? "03 20 45 67 89"}
             </a>
             <button className="hidden md:block px-5 py-2.5 bg-[var(--brand,#4d7c5f)] text-white text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-[#3d6b50] transition-colors rounded-sm">
               Devis Gratuit
@@ -170,7 +170,7 @@ return (
               <SheetContent side="right" className="bg-white border-slate-100 p-10">
                 <div className="flex flex-col gap-7 mt-16">
                   {["Services", "Réalisations", "Contact"].map(l => <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="text-3xl font-bold text-[#1a1a2e] hover:text-[var(--brand,#4d7c5f)] transition-colors">{l}</Link>)}
-                  <a href={`tel:${fd?.phone ?? "0320456789"}`} className="flex items-center gap-3 text-[var(--brand,#4d7c5f)] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> 03 20 45 67 89</a>
+                  <a href={`tel:${fd?.phone ?? "0320456789"}`} className="flex items-center gap-3 text-[var(--brand,#4d7c5f)] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> {fd?.phone ?? "03 20 45 67 89"}</a>
                 </div>
               </SheetContent>
             </Sheet>
@@ -209,7 +209,7 @@ return (
               Devis gratuit sous 24h
             </button>
             <a href={`tel:${fd?.phone ?? "0320456789"}`} className="flex items-center gap-3 px-8 py-4 border border-white/20 text-white font-bold text-[10px] uppercase tracking-widest hover:border-[#7db88f]/50 hover:text-[#7db88f] transition-all">
-              <Phone className="w-4 h-4" /> 03 20 45 67 89
+              <Phone className="w-4 h-4" /> {fd?.phone ?? "03 20 45 67 89"}
             </a>
           </motion.div>
         </motion.div>
@@ -329,7 +329,7 @@ return (
                 Demander un devis
               </button>
               <a href={`tel:${fd?.phone ?? "0320456789"}`} className="flex items-center gap-3 px-10 py-4 border border-white/30 text-white font-bold text-[10px] uppercase tracking-widest hover:bg-white/10 transition-all">
-                <Phone className="w-4 h-4" /> 03 20 45 67 89
+                <Phone className="w-4 h-4" /> {fd?.phone ?? "03 20 45 67 89"}
               </a>
             </div>
           </div>

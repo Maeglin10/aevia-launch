@@ -188,7 +188,7 @@ export default function ToitPierrePiscinesPage() {
           </div>
           <div className="flex items-center gap-3">
             <a href={`tel:${fd?.phone ?? "0240123456"}`} className="hidden md:flex items-center gap-2 text-[var(--brand,#b91c1c)] font-bold text-sm">
-              <Phone className="w-4 h-4" /> 02 40 12 34 56
+              <Phone className="w-4 h-4" /> {fd?.phone ?? "02 40 12 34 56"}
             </a>
             <button className="hidden md:block px-5 py-2.5 bg-[#374151] text-white text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-[#1f2937] transition-colors">
               Devis Gratuit
@@ -198,7 +198,7 @@ export default function ToitPierrePiscinesPage() {
               <SheetContent side="right" className="bg-[#f9f8f6] border-slate-200 p-10">
                 <div className="flex flex-col gap-7 mt-16">
                   {["Prestations", "Réalisations", "Contact"].map(l => <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="text-3xl font-bold text-[#1f2937] hover:text-[var(--brand,#b91c1c)] transition-colors">{l}</Link>)}
-                  <a href={`tel:${fd?.phone ?? "0240123456"}`} className="flex items-center gap-3 text-[var(--brand,#b91c1c)] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> 02 40 12 34 56</a>
+                  <a href={`tel:${fd?.phone ?? "0240123456"}`} className="flex items-center gap-3 text-[var(--brand,#b91c1c)] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> {fd?.phone ?? "02 40 12 34 56"}</a>
                 </div>
               </SheetContent>
             </Sheet>
@@ -238,7 +238,7 @@ export default function ToitPierrePiscinesPage() {
               Devis gratuit
             </>}</button>
             <a href={`tel:${fd?.phone ?? "0240123456"}`} className="flex items-center gap-3 px-8 py-4 border border-white/20 text-white font-bold text-[10px] uppercase tracking-widest hover:border-[#fca5a5]/50 hover:text-[#fca5a5] transition-all">
-              <Phone className="w-4 h-4" /> 02 40 12 34 56
+              <Phone className="w-4 h-4" /> {fd?.phone ?? "02 40 12 34 56"}
             </a>
           </motion.div>
         </motion.div>
@@ -355,7 +355,7 @@ export default function ToitPierrePiscinesPage() {
                 Demander un devis gratuit
               </button>
               <a href={`tel:${fd?.phone ?? "0240123456"}`} className="flex items-center gap-3 px-10 py-4 border border-white/15 text-white font-bold text-[10px] uppercase tracking-widest hover:border-[#fca5a5]/50 hover:text-[#fca5a5] transition-all">
-                <Phone className="w-4 h-4" /> 02 40 12 34 56
+                <Phone className="w-4 h-4" /> {fd?.phone ?? "02 40 12 34 56"}
               </a>
             </div>
           </div>

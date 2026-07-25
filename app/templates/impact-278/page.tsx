@@ -598,7 +598,7 @@ function HeroSection() {
           </BrickButton>
           <BrickButton href={`tel:${fd?.phone ?? "+33561000000"}`}>
             <Phone size={15} strokeWidth={2} />
-            05 61 00 00 00
+            {fd?.phone ?? "05 61 00 00 00"}
           </BrickButton>
         </motion.div>
       </motion.div>
@@ -1726,7 +1726,7 @@ function DevisFormSection() {
           >
             Remplissez le formulaire, nous vous répondons sous 48h avec un
             devis détaillé, sans engagement. Urgence ? Appelez directement le{' '}
-            <strong style={{color: brand ?? '#e87070' }}>05 61 00 00 00</strong>.
+            <strong style={{color: brand ?? '#e87070' }}>{fd?.phone ?? "05 61 00 00 00"}</strong>.
           </p>
         </Reveal>
 
@@ -2570,7 +2570,7 @@ function FooterSection() {
             }}
           >
             <Phone size={17} color={C.brick} strokeWidth={2} />
-            05 61 00 00 00
+            {fd?.phone ?? "05 61 00 00 00"}
           </a>
           {/* Zones */}
           <div style={{ marginTop: 8 }}>
@@ -2733,7 +2733,7 @@ function FooterSection() {
               }}
             >
               <Phone size={16} strokeWidth={2} color="#e87070" />
-              05 61 00 00 00
+              {fd?.phone ?? "05 61 00 00 00"}
             </a>
             <div
               style={{

@@ -2108,7 +2108,7 @@ function Footer() {
               }}
             >
               <Phone size={13} strokeWidth={2} />
-              04 00 00 00 00
+              {fd?.phone ?? "04 00 00 00 00"}
             </a>
             <div
               style={{

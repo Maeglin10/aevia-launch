@@ -437,7 +437,7 @@ export default function PixelRepublicPage() {
             <motion.a href={`mailto:${fd?.email ?? "hello@pixelrepublic.fr"}`} style={{ background: C.accent, color: C.white, borderRadius: 8, padding: "15px 36px", fontWeight: 700, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, fontFamily: FONT }} whileHover={{ background: C.accentDark, scale: 1.03 }}>
               <Mail size={18} />{fd?.email ?? "hello@pixelrepublic.fr"}</motion.a>
             <motion.a href={`tel:${fd?.phone ?? "+33144000000"}`} style={{ background: "transparent", color: C.text, border: `2px solid ${C.accent}`, borderRadius: 8, padding: "13px 32px", fontWeight: 600, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, fontFamily: FONT }} whileHover={{ background: C.accent, color: C.white }}>
-              <Phone size={18} /> 01 44 00 00 00
+              <Phone size={18} /> {fd?.phone ?? "01 44 00 00 00"}
             </motion.a>
           </div>
         </Reveal>

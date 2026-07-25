@@ -370,7 +370,7 @@ export default function LumiereYogaPage() {
               <Mail size={18} /> Réserver mon cours d'essai
             </motion.a>
             <motion.a href={`tel:${fd?.phone ?? "+33556000000"}`} style={{ background: "transparent", color: C.text, border: `2px solid ${C.accentDark}`, borderRadius: 6, padding: "14px 30px", fontWeight: 600, fontSize: 15, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ background: C.accent, color: C.white, borderColor: C.accent }}>
-              <Phone size={18} /> 05 56 00 00 00
+              <Phone size={18} /> {fd?.phone ?? "05 56 00 00 00"}
             </motion.a>
           </div>
         </Reveal>

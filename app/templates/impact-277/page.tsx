@@ -1215,7 +1215,7 @@ function ProcessSection() {
                     letterSpacing: '0.04em',
                   }}
                 >
-                  01 23 45 67 89
+                  {fd?.phone ?? "01 23 45 67 89"}
                 </div>
                 <div
                   style={{
@@ -2277,7 +2277,7 @@ function UrgencySection() {
                   letterSpacing: '0.04em',
                 }}
               >
-                01 23 45 67 89
+                {fd?.phone ?? "01 23 45 67 89"}
               </div>
               <div
                 style={{
@@ -2512,7 +2512,7 @@ function FooterSection() {
                 letterSpacing: '0.06em',
               }}
             >
-              01 23 45 67 89
+              {fd?.phone ?? "01 23 45 67 89"}
             </span>
           </a>
         </div>

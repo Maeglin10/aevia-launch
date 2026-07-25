@@ -145,7 +145,7 @@ export default function CliniqueBoisVertPage() {
           </div>
           <div className="flex items-center gap-3">
             <a href={`tel:${fd?.phone ?? "0561789012"}`} className="hidden md:flex items-center gap-2 text-[var(--brand,#3a7d44)] font-bold text-sm">
-              <Phone className="w-4 h-4" /> 05 61 78 90 12
+              <Phone className="w-4 h-4" /> {fd?.phone ?? "05 61 78 90 12"}
             </a>
             <button className="hidden md:block px-5 py-2.5 bg-[var(--brand,#3a7d44)] text-white text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-[#2e6337] transition-colors rounded-xl">
               Prendre RDV
@@ -155,7 +155,7 @@ export default function CliniqueBoisVertPage() {
               <SheetContent side="right" className="bg-[#fdfaf6] border-slate-100 p-10">
                 <div className="flex flex-col gap-7 mt-16">
                   {["Soins", "L'équipe", "Urgences"].map(l => <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="text-3xl font-bold text-[#2d2318] hover:text-[var(--brand,#3a7d44)] transition-colors" style={{ fontFamily: "'Lora', serif" }}>{l}</Link>)}
-                  <a href={`tel:${fd?.phone ?? "0561789012"}`} className="flex items-center gap-3 text-[var(--brand,#3a7d44)] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> 05 61 78 90 12</a>
+                  <a href={`tel:${fd?.phone ?? "0561789012"}`} className="flex items-center gap-3 text-[var(--brand,#3a7d44)] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> {fd?.phone ?? "05 61 78 90 12"}</a>
                 </div>
               </SheetContent>
             </Sheet>
@@ -195,7 +195,7 @@ export default function CliniqueBoisVertPage() {
               Prendre rendez-vous
             </>}</button>
             <a href={`tel:${fd?.phone ?? "0561789012"}`} className="flex items-center gap-3 px-8 py-4 border border-white/15 text-white font-bold text-[10px] uppercase tracking-widest hover:border-[#6bbf78]/50 hover:text-[#6bbf78] transition-all rounded-xl">
-              <Phone className="w-4 h-4" /> 05 61 78 90 12
+              <Phone className="w-4 h-4" /> {fd?.phone ?? "05 61 78 90 12"}
             </a>
           </motion.div>
 
@@ -222,7 +222,7 @@ export default function CliniqueBoisVertPage() {
             <span className="font-bold text-sm">Urgences vétérinaires 7j/7 — Lun-Sam jusqu'à 20h, Dim jusqu'à 18h</span>
           </div>
           <a href={`tel:${fd?.phone ?? "0561789012"}`} className="flex items-center gap-2 px-6 py-2.5 bg-white text-[var(--brand,#3a7d44)] font-bold text-sm rounded-xl hover:bg-[#f0f9f1] transition-colors whitespace-nowrap">
-            <Phone className="w-4 h-4" /> 05 61 78 90 12
+            <Phone className="w-4 h-4" /> {fd?.phone ?? "05 61 78 90 12"}
           </a>
         </div>
       </div>
@@ -313,7 +313,7 @@ export default function CliniqueBoisVertPage() {
                 Prendre rendez-vous
               </button>
               <a href={`tel:${fd?.phone ?? "0561789012"}`} className="flex items-center gap-3 px-10 py-4 border border-white/25 text-white font-bold text-[10px] uppercase tracking-widest hover:bg-white/10 transition-all rounded-xl">
-                <Phone className="w-4 h-4" /> 05 61 78 90 12
+                <Phone className="w-4 h-4" /> {fd?.phone ?? "05 61 78 90 12"}
               </a>
             </div>
           </div>
