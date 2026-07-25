@@ -9,8 +9,8 @@ export const CSS_VARIABLES = `
     --impact-104-bg-dark: #1a0f08;
     --impact-104-text: #1a0f08;
     --impact-104-text-muted: #7c6050;
-    --impact-104-accent: #c9a87c;
-    --impact-104-accent-dark: #a8825a;
+    --impact-104-accent: var(--brand, #c9a87c);
+    --impact-104-accent-dark: var(--brand-light, #a8825a);
     --impact-104-accent-light: #f7ede0;
     --impact-104-warm: #2c1810;
     --impact-104-white: #ffffff;
