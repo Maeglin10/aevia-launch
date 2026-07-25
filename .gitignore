@@ -65,3 +65,6 @@ next-env.d.ts
 
 # Git worktrees (superpowers workflow)
 /.worktrees/
+
+# Local audit/report artifacts
+audit-results/
