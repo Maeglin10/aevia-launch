@@ -228,12 +228,12 @@ export default function Impact26() {
   return (
     <div ref={containerRef} className="min-h-dvh bg-[#1A0F1E] text-[#F5EDE8]" style={{ fontFamily: "'Jost', sans-serif", overflowX: "clip" }}>
       <motion.div
-        className="fixed top-0 left-0 right-0 h-px bg-[#C9956A] origin-left z-50"
+        className="fixed top-0 left-0 right-0 h-px bg-[var(--brand,#c9956a)] origin-left z-50"
         style={{ scaleX: scrollYProgress }}
       />
 
       {/* Nav */}
-      <nav className="fixed top-0 left-0 right-0 z-40 bg-[#1A0F1E]/90 backdrop-blur-md border-b border-[#C9956A]/10">
+      <nav className="fixed top-0 left-0 right-0 z-40 bg-[#1A0F1E]/90 backdrop-blur-md border-b border-[var(--brand,#c9956a)]/10">
         <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
           <div
             onClick={() => goTo("home")}
@@ -255,28 +255,28 @@ export default function Impact26() {
           <div className="hidden md:flex items-center gap-10 text-xs tracking-widest uppercase text-[#F5EDE8]/50">
             <button
               onClick={() => goTo("collection")}
-              className="hover:text-[#C9956A] transition-colors cursor-pointer text-[#F5EDE8]/50 text-xs tracking-widest uppercase"
+              className="hover:text-[var(--brand,#c9956a)] transition-colors cursor-pointer text-[#F5EDE8]/50 text-xs tracking-widest uppercase"
               style={{ background: "none", border: "none", fontFamily: "'Jost', sans-serif", padding: 0 }}
             >
               Collection
             </button>
             <button
               onClick={() => goTo("maison")}
-              className="hover:text-[#C9956A] transition-colors cursor-pointer text-[#F5EDE8]/50 text-xs tracking-widest uppercase"
+              className="hover:text-[var(--brand,#c9956a)] transition-colors cursor-pointer text-[#F5EDE8]/50 text-xs tracking-widest uppercase"
               style={{ background: "none", border: "none", fontFamily: "'Jost', sans-serif", padding: 0 }}
             >
               La Maison
             </button>
             <button
               onClick={() => goTo("savoir-faire")}
-              className="hover:text-[#C9956A] transition-colors cursor-pointer text-[#F5EDE8]/50 text-xs tracking-widest uppercase"
+              className="hover:text-[var(--brand,#c9956a)] transition-colors cursor-pointer text-[#F5EDE8]/50 text-xs tracking-widest uppercase"
               style={{ background: "none", border: "none", fontFamily: "'Jost', sans-serif", padding: 0 }}
             >
               Savoir-Faire
             </button>
             <button
               onClick={() => goTo("contact")}
-              className="hover:text-[#C9956A] transition-colors cursor-pointer text-[#F5EDE8]/50 text-xs tracking-widest uppercase"
+              className="hover:text-[var(--brand,#c9956a)] transition-colors cursor-pointer text-[#F5EDE8]/50 text-xs tracking-widest uppercase"
               style={{ background: "none", border: "none", fontFamily: "'Jost', sans-serif", padding: 0 }}
             >
               Contact
@@ -284,7 +284,7 @@ export default function Impact26() {
           </div>
           <button
             onClick={() => goTo("collection")}
-            className="hidden md:block border border-[#C9956A]/50 text-[#C9956A] text-xs tracking-widest uppercase px-6 py-2.5 hover:bg-[#C9956A]/10 transition-colors cursor-pointer"
+            className="hidden md:block border border-[var(--brand,#c9956a)]/50 text-[var(--brand,#c9956a)] text-xs tracking-widest uppercase px-6 py-2.5 hover:bg-[var(--brand,#c9956a)]/10 transition-colors cursor-pointer"
             style={{ background: "none", fontFamily: "'Jost', sans-serif" }}
           >
             Commander
@@ -301,7 +301,7 @@ export default function Impact26() {
               initial={{ height: 0, opacity: 0 }}
               animate={{ height: "auto", opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
-              className="overflow-hidden border-t border-[#C9956A]/10"
+              className="overflow-hidden border-t border-[var(--brand,#c9956a)]/10"
             >
               <div className="px-6 py-4 flex flex-col gap-4 text-xs tracking-widest uppercase text-[#F5EDE8]/60 items-start">
                 {[
@@ -316,7 +316,7 @@ export default function Impact26() {
                       setMenuOpen(false);
                       goTo(key);
                     }}
-                    className="hover:text-[#C9956A] transition-colors cursor-pointer text-[#F5EDE8]/60 text-xs tracking-widest uppercase"
+                    className="hover:text-[var(--brand,#c9956a)] transition-colors cursor-pointer text-[#F5EDE8]/60 text-xs tracking-widest uppercase"
                     style={{ background: "none", border: "none", fontFamily: "'Jost', sans-serif", padding: 0 }}
                   >
                     {label}
@@ -346,7 +346,7 @@ export default function Impact26() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-[#C9956A] text-xs tracking-[0.4em] uppercase mb-6"
+            className="text-[var(--brand,#c9956a)] text-xs tracking-[0.4em] uppercase mb-6"
           >
             Parfumerie de Niche · Paris
           </motion.div>
@@ -376,14 +376,14 @@ export default function Impact26() {
           >
             <button
               onClick={() => goTo("collection")}
-              className="bg-[#C9956A] text-[#1A0F1E] text-xs tracking-widest uppercase px-8 py-4 font-medium hover:bg-[#D9A57A] transition-colors flex items-center gap-3 cursor-pointer"
-              style={{background: brand ?? '#c9956a', border: "none", fontFamily: "'Jost', sans-serif" }}
+              className="bg-[var(--brand,#c9956a)] text-[#1A0F1E] text-xs tracking-widest uppercase px-8 py-4 font-medium hover:bg-[var(--brand-light,#d9a57a)] transition-colors flex items-center gap-3 cursor-pointer"
+              style={{background: brand ?? 'var(--brand,#c9956a)', border: "none", fontFamily: "'Jost', sans-serif" }}
             >
               Découvrir la collection <ArrowRight className="w-4 h-4" />
             </button>
             <button
               onClick={() => goTo("maison")}
-              className="text-[#C9956A] text-xs tracking-widest uppercase border-b border-[#C9956A]/40 pb-0.5 hover:border-[#C9956A] transition-colors cursor-pointer"
+              className="text-[var(--brand,#c9956a)] text-xs tracking-widest uppercase border-b border-[var(--brand,#c9956a)]/40 pb-0.5 hover:border-[var(--brand,#c9956a)] transition-colors cursor-pointer"
               style={{ background: "none", border: "none", fontFamily: "'Jost', sans-serif", padding: 0 }}
             >
               Notre histoire
@@ -396,7 +396,7 @@ export default function Impact26() {
       <section id="collection" className="py-24 px-6">
         <div className="max-w-6xl mx-auto">
           <Reveal className="mb-16">
-            <p className="text-[#C9956A] text-xs tracking-[0.4em] uppercase mb-4">Collection 2026</p>
+            <p className="text-[var(--brand,#c9956a)] text-xs tracking-[0.4em] uppercase mb-4">Collection 2026</p>
             <h2 className="text-5xl md:text-6xl" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>
               Quatre essences,<br /><em>un monde.</em>
             </h2>
@@ -431,13 +431,13 @@ export default function Impact26() {
                   className="absolute top-4 right-4 w-10 h-10 bg-[#1A0F1E]/80 backdrop-blur-sm rounded-full flex items-center justify-center transition-colors cursor-pointer"
                   aria-label="Wishlist"
                 >
-                  <Heart className={`w-4 h-4 transition-colors ${wishlist.has(activeFragrance) ? "fill-[#C9956A] text-[#C9956A]" : "text-[#F5EDE8]/60"}`} />
+                  <Heart className={`w-4 h-4 transition-colors ${wishlist.has(activeFragrance) ? "fill-[var(--brand,#c9956a)] text-[var(--brand,#c9956a)]" : "text-[#F5EDE8]/60"}`} />
                 </button>
               </div>
             </Reveal>
             <Reveal delay={0.2}>
               <div>
-                <div className="text-[#C9956A] text-xs tracking-widest uppercase mb-3">{fragrances[activeFragrance].family}</div>
+                <div className="text-[var(--brand,#c9956a)] text-xs tracking-widest uppercase mb-3">{fragrances[activeFragrance].family}</div>
                 <h3 className="text-4xl md:text-5xl mb-4" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>
                   {fragrances[activeFragrance].name}
                 </h3>
@@ -446,7 +446,7 @@ export default function Impact26() {
                 </p>
                 <div className="flex gap-3 mb-8">
                   {fragrances[activeFragrance].notes.map(note => (
-                    <span key={note} className="border border-[#C9956A]/30 text-[#C9956A] text-xs tracking-widest uppercase px-4 py-2">
+                    <span key={note} className="border border-[var(--brand,#c9956a)]/30 text-[var(--brand,#c9956a)] text-xs tracking-widest uppercase px-4 py-2">
                       {note}
                     </span>
                   ))}
@@ -456,7 +456,7 @@ export default function Impact26() {
                     <div className="text-3xl" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{fragrances[activeFragrance].price}</div>
                     <div className="text-[#F5EDE8]/40 text-xs tracking-widest">{fragrances[activeFragrance].ml} · Eau de Parfum</div>
                   </div>
-                  <button className="bg-[#C9956A] text-[#1A0F1E] text-xs tracking-widest uppercase px-8 py-3 hover:bg-[#D9A57A] transition-colors cursor-pointer">
+                  <button className="bg-[var(--brand,#c9956a)] text-[#1A0F1E] text-xs tracking-widest uppercase px-8 py-3 hover:bg-[var(--brand-light,#d9a57a)] transition-colors cursor-pointer">
                     Ajouter au panier
                   </button>
                 </div>
@@ -466,7 +466,7 @@ export default function Impact26() {
                     <button
                       key={f.name}
                       onClick={() => setActiveFragrance(i)}
-                      className={`w-16 h-20 overflow-hidden rounded-sm transition-all cursor-pointer ${activeFragrance === i ? "ring-1 ring-[#C9956A]" : "opacity-40 hover:opacity-70"}`}
+                      className={`w-16 h-20 overflow-hidden rounded-sm transition-all cursor-pointer ${activeFragrance === i ? "ring-1 ring-[var(--brand,#c9956a)]" : "opacity-40 hover:opacity-70"}`}
                     >
                       <Image src={f.img} alt={f.name} width={64} height={80} className="w-full h-full object-cover" />
                     </button>
@@ -493,15 +493,15 @@ export default function Impact26() {
                     className="w-full h-full object-cover"
                   />
                 </div>
-                <div className="absolute bottom-6 left-6 bg-[#1A0F1E]/90 backdrop-blur-sm border border-[#C9956A]/20 p-6">
-                  <div className="text-3xl text-[#C9956A]" style={{ fontFamily: "'Cormorant Garamond', serif" }}>1987</div>
+                <div className="absolute bottom-6 left-6 bg-[#1A0F1E]/90 backdrop-blur-sm border border-[var(--brand,#c9956a)]/20 p-6">
+                  <div className="text-3xl text-[var(--brand,#c9956a)]" style={{ fontFamily: "'Cormorant Garamond', serif" }}>1987</div>
                   <div className="text-[#F5EDE8]/50 text-xs tracking-widest uppercase mt-1">Fondé à Paris</div>
                 </div>
               </div>
             </Reveal>
             <Reveal delay={0.2}>
               <div>
-                <p className="text-[#C9956A] text-xs tracking-[0.4em] uppercase mb-6">La Maison Éther</p>
+                <p className="text-[var(--brand,#c9956a)] text-xs tracking-[0.4em] uppercase mb-6">La Maison Éther</p>
                 <h2 className="text-4xl md:text-5xl mb-8 leading-tight" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>{c?.aboutTitle ?? fd?.businessName ?? <>
                   Trente-sept ans de<br /><em>création olfactive.</em>
                 </>}</h2>
@@ -515,8 +515,8 @@ export default function Impact26() {
                     { icon: <Droplets className="w-5 h-5" />, label: "Concentrés parfum", val: "25–30%" },
                     { icon: <Wind className="w-5 h-5" />, label: "Tenue garantie", val: "12h+" },
                   ].map(({ icon, label, val }) => (
-                    <div key={label} className="border-t border-[#C9956A]/20 pt-4">
-                      <div className="text-[#C9956A] mb-2">{icon}</div>
+                    <div key={label} className="border-t border-[var(--brand,#c9956a)]/20 pt-4">
+                      <div className="text-[var(--brand,#c9956a)] mb-2">{icon}</div>
                       <div className="text-2xl text-[#F5EDE8]" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{val}</div>
                       <div className="text-[#F5EDE8]/40 text-xs mt-1">{label}</div>
                     </div>
@@ -532,7 +532,7 @@ export default function Impact26() {
       <section id="savoir-faire" className="py-24 px-6">
         <div className="max-w-6xl mx-auto">
           <Reveal className="text-center mb-16">
-            <p className="text-[#C9956A] text-xs tracking-[0.4em] uppercase mb-4">Savoir-Faire</p>
+            <p className="text-[var(--brand,#c9956a)] text-xs tracking-[0.4em] uppercase mb-4">Savoir-Faire</p>
             <h2 className="text-4xl md:text-5xl" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>
               Le processus de création
             </h2>
@@ -545,8 +545,8 @@ export default function Impact26() {
               { step: "04", title: "Mise en flacon", desc: "Chaque flacon est rempli et cacheté à la main dans notre atelier parisien." },
             ].map((s, i) => (
               <Reveal key={s.step} delay={i * 0.1}>
-                <div className="border-t border-[#C9956A]/20 pt-6">
-                  <div className="text-[#C9956A]/30 text-4xl mb-4" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{s.step}</div>
+                <div className="border-t border-[var(--brand,#c9956a)]/20 pt-6">
+                  <div className="text-[var(--brand,#c9956a)]/30 text-4xl mb-4" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{s.step}</div>
                   <h3 className="text-xl mb-3" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{s.title}</h3>
                   <p className="text-[#F5EDE8]/50 text-sm leading-relaxed">{s.desc}</p>
                 </div>
@@ -560,7 +560,7 @@ export default function Impact26() {
       <section className="py-24 px-6 bg-[#150C18]">
         <div className="max-w-3xl mx-auto text-center">
           <Reveal>
-            <p className="text-[#C9956A] text-xs tracking-[0.4em] uppercase mb-12">Ils portent Éther</p>
+            <p className="text-[var(--brand,#c9956a)] text-xs tracking-[0.4em] uppercase mb-12">Ils portent Éther</p>
             <div className="relative min-h-[180px] flex items-center">
               <AnimatePresence mode="wait">
                 <motion.div
@@ -573,7 +573,7 @@ export default function Impact26() {
                 >
                   <div className="flex justify-center mb-6">
                     {[...Array(5)].map((_, i) => (
-                      <Star key={i} className="w-4 h-4 fill-[#C9956A] text-[#C9956A]" />
+                      <Star key={i} className="w-4 h-4 fill-[var(--brand,#c9956a)] text-[var(--brand,#c9956a)]" />
                     ))}
                   </div>
                   <p className="text-2xl leading-relaxed text-[#F5EDE8]/80 italic mb-8" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>
@@ -590,7 +590,7 @@ export default function Impact26() {
                 <button
                   key={i}
                   onClick={() => setTestimonialIdx(i)}
-                  className={`transition-all cursor-pointer ${testimonialIdx === i ? "w-8 h-0.5 bg-[#C9956A]" : "w-2 h-0.5 bg-[#C9956A]/30 hover:bg-[#C9956A]/60"}`}
+                  className={`transition-all cursor-pointer ${testimonialIdx === i ? "w-8 h-0.5 bg-[var(--brand,#c9956a)]" : "w-2 h-0.5 bg-[var(--brand,#c9956a)]/30 hover:bg-[var(--brand,#c9956a)]/60"}`}
                 />
               ))}
             </div>
@@ -602,7 +602,7 @@ export default function Impact26() {
       <section id="contact" className="py-32 px-6">
         <div className="max-w-4xl mx-auto text-center">
           <Reveal>
-            <p className="text-[#C9956A] text-xs tracking-[0.4em] uppercase mb-6">Commander</p>
+            <p className="text-[var(--brand,#c9956a)] text-xs tracking-[0.4em] uppercase mb-6">Commander</p>
             <h2 className="text-5xl md:text-7xl mb-8 leading-tight" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>
               Votre parfum<br /><em>vous attend.</em>
             </h2>
@@ -612,14 +612,14 @@ export default function Impact26() {
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <button
                 onClick={() => goTo("collection")}
-                className="bg-[#C9956A] text-[#1A0F1E] text-xs tracking-widest uppercase px-10 py-4 font-medium hover:bg-[#D9A57A] transition-colors cursor-pointer"
-                style={{background: brand ?? '#c9956a', border: "none", fontFamily: "'Jost', sans-serif" }}
+                className="bg-[var(--brand,#c9956a)] text-[#1A0F1E] text-xs tracking-widest uppercase px-10 py-4 font-medium hover:bg-[var(--brand-light,#d9a57a)] transition-colors cursor-pointer"
+                style={{background: brand ?? 'var(--brand,#c9956a)', border: "none", fontFamily: "'Jost', sans-serif" }}
               >
                 Explorer la collection
               </button>
               <button
                 onClick={() => goTo("contact")}
-                className="border border-[#C9956A]/40 text-[#C9956A] text-xs tracking-widest uppercase px-10 py-4 hover:border-[#C9956A] hover:bg-[#C9956A]/5 transition-colors cursor-pointer"
+                className="border border-[var(--brand,#c9956a)]/40 text-[var(--brand,#c9956a)] text-xs tracking-widest uppercase px-10 py-4 hover:border-[var(--brand,#c9956a)] hover:bg-[var(--brand,#c9956a)]/5 transition-colors cursor-pointer"
                 style={{ background: "none", fontFamily: "'Jost', sans-serif" }}
               >
                 Nous contacter
@@ -647,7 +647,7 @@ export default function Impact26() {
       {page === "privacy" && <LegalPage variant="privacy" />}
 
       {/* Footer */}
-      <footer className="border-t border-[#C9956A]/10 py-12 px-6">
+      <footer className="border-t border-[var(--brand,#c9956a)]/10 py-12 px-6">
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="text-xl tracking-[0.3em] uppercase" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>{fd?.businessName ?? "Éther"}</div>
           <div className="flex flex-wrap gap-6 text-xs tracking-widest uppercase text-[#F5EDE8]/30">
@@ -663,7 +663,7 @@ export default function Impact26() {
               <button
                 key={key}
                 onClick={() => goTo(key)}
-                className="hover:text-[#C9956A] transition-colors cursor-pointer"
+                className="hover:text-[var(--brand,#c9956a)] transition-colors cursor-pointer"
                 style={{ background: "none", border: "none", color: "inherit", fontFamily: "'Jost', sans-serif", fontSize: "inherit", letterSpacing: "inherit", textTransform: "inherit", padding: 0 }}
               >
                 {label}
@@ -714,7 +714,7 @@ function BoutiquePage({ selectedProduct, setSelectedProduct, goTo }: BoutiquePag
             fontSize: 11,
             letterSpacing: "0.2em",
             textTransform: "uppercase",
-            color: brand ?? '#c9956a',
+            color: brand ?? 'var(--brand,#c9956a)',
             display: "flex",
             alignItems: "center",
             gap: 8,
@@ -746,7 +746,7 @@ function BoutiquePage({ selectedProduct, setSelectedProduct, goTo }: BoutiquePag
 
           {/* Details */}
           <div style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-            <div style={{color: brand ?? '#c9956a', fontSize: 12, letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: 12 }}>
+            <div style={{color: brand ?? 'var(--brand,#c9956a)', fontSize: 12, letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: 12 }}>
               {selectedProduct.family}
             </div>
             <h1 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 48, fontWeight: 300, color: "#F5EDE8", marginBottom: 16 }}>
@@ -765,7 +765,7 @@ function BoutiquePage({ selectedProduct, setSelectedProduct, goTo }: BoutiquePag
 
             <div style={{ display: "flex", gap: 3, flexWrap: "wrap", marginBottom: 40 }}>
               {selectedProduct.notes.map((note: string) => (
-                <span key={note} className="border border-[#C9956A]/30 text-[#C9956A] text-[10px] tracking-widest uppercase px-3 py-1.5">
+                <span key={note} className="border border-[var(--brand,#c9956a)]/30 text-[var(--brand,#c9956a)] text-[10px] tracking-widest uppercase px-3 py-1.5">
                   {note}
                 </span>
               ))}
@@ -777,7 +777,7 @@ function BoutiquePage({ selectedProduct, setSelectedProduct, goTo }: BoutiquePag
                 animate={{ opacity: 1, y: 0 }}
                 style={{padding: "16px 24px",
                   border: "1px solid #C9956A",
-                  color: brand ?? '#c9956a',
+                  color: brand ?? 'var(--brand,#c9956a)',
                   fontSize: 11,
                   letterSpacing: "0.15em",
                   textTransform: "uppercase",
@@ -790,7 +790,7 @@ function BoutiquePage({ selectedProduct, setSelectedProduct, goTo }: BoutiquePag
             ) : (
               <button
                 onClick={() => setSuccessMsg(true)}
-                style={{background: brand ?? '#c9956a',
+                style={{background: brand ?? 'var(--brand,#c9956a)',
                   border: "none",
                   color: "#1A0F1E",
                   fontSize: 10,
@@ -831,7 +831,7 @@ function BoutiquePage({ selectedProduct, setSelectedProduct, goTo }: BoutiquePag
       }}
     >
       <div style={{ textAlign: "center", marginBottom: 80 }}>
-        <p style={{color: brand ?? '#c9956a', fontSize: 11, letterSpacing: "0.4em", textTransform: "uppercase", marginBottom: 16 }}>Collection 2026</p>
+        <p style={{color: brand ?? 'var(--brand,#c9956a)', fontSize: 11, letterSpacing: "0.4em", textTransform: "uppercase", marginBottom: 16 }}>Collection 2026</p>
         <h1 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 56, fontWeight: 300, color: "#F5EDE8", marginBottom: 20 }}>
           La Collection Éther
         </h1>
@@ -862,7 +862,7 @@ function BoutiquePage({ selectedProduct, setSelectedProduct, goTo }: BoutiquePag
             <div style={{ aspectRatio: "3/4", position: "relative", overflow: "hidden", borderRadius: 2, marginBottom: 20 }}>
               <Image src={product.img} alt={product.name} fill className="object-cover" />
             </div>
-            <p style={{color: brand ?? '#c9956a', fontSize: 10, letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: 8 }}>
+            <p style={{color: brand ?? 'var(--brand,#c9956a)', fontSize: 10, letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: 8 }}>
               {product.family}
             </p>
             <h3 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 22, fontWeight: 300, color: "#F5EDE8", marginBottom: 8 }}>
@@ -870,7 +870,7 @@ function BoutiquePage({ selectedProduct, setSelectedProduct, goTo }: BoutiquePag
             </h3>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
               <span style={{ fontSize: 16, color: "#F5EDE8" }}>{product.price}</span>
-              <span style={{fontSize: 11, color: brand ?? '#c9956a', letterSpacing: "0.1em" }}>Découvrir →</span>
+              <span style={{fontSize: 11, color: brand ?? 'var(--brand,#c9956a)', letterSpacing: "0.1em" }}>Découvrir →</span>
             </div>
           </div>
         ))}
@@ -894,11 +894,11 @@ function MaisonPage() {
       }}
     >
       <div style={{ textAlign: "center", marginBottom: 72 }}>
-        <p style={{color: brand ?? '#c9956a', fontSize: 11, letterSpacing: "0.4em", textTransform: "uppercase", marginBottom: 16 }}>Notre Histoire</p>
+        <p style={{color: brand ?? 'var(--brand,#c9956a)', fontSize: 11, letterSpacing: "0.4em", textTransform: "uppercase", marginBottom: 16 }}>Notre Histoire</p>
         <h1 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 56, fontWeight: 300, color: "#F5EDE8", marginBottom: 20 }}>
           La Maison Éther
         </h1>
-        <div style={{width: 48, height: 1, background: brand ?? '#c9956a', margin: "0 auto" }} />
+        <div style={{width: 48, height: 1, background: brand ?? 'var(--brand,#c9956a)', margin: "0 auto" }} />
       </div>
 
       <div style={{ display: "flex", flexDirection: "column", gap: 36, fontSize: 16, lineHeight: 1.8, color: "#F5EDE8", opacity: 0.75 }}>
@@ -934,11 +934,11 @@ function SavoirFairePage() {
       }}
     >
       <div style={{ textAlign: "center", marginBottom: 72 }}>
-        <p style={{color: brand ?? '#c9956a', fontSize: 11, letterSpacing: "0.4em", textTransform: "uppercase", marginBottom: 16 }}>Savoir-Faire</p>
+        <p style={{color: brand ?? 'var(--brand,#c9956a)', fontSize: 11, letterSpacing: "0.4em", textTransform: "uppercase", marginBottom: 16 }}>Savoir-Faire</p>
         <h1 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 56, fontWeight: 300, color: "#F5EDE8", marginBottom: 20 }}>
           Le Processus de Création
         </h1>
-        <div style={{width: 48, height: 1, background: brand ?? '#c9956a', margin: "0 auto" }} />
+        <div style={{width: 48, height: 1, background: brand ?? 'var(--brand,#c9956a)', margin: "0 auto" }} />
       </div>
 
       <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: 48 }}>
@@ -965,7 +965,7 @@ function SavoirFairePage() {
           },
         ].map((step) => (
           <div key={step.num} style={{ display: "flex", gap: 32, paddingBottom: 32, borderBottom: "1px solid rgba(201, 149, 106, 0.1)" }}>
-            <span style={{fontFamily: "'Cormorant Garamond', serif", fontSize: 36, color: brand ?? '#c9956a', opacity: 0.5, lineHeight: 1 }}>
+            <span style={{fontFamily: "'Cormorant Garamond', serif", fontSize: 36, color: brand ?? 'var(--brand,#c9956a)', opacity: 0.5, lineHeight: 1 }}>
               {step.num}
             </span>
             <div>
@@ -1008,11 +1008,11 @@ function ContactPage() {
       }}
     >
       <div style={{ textAlign: "center", marginBottom: 72 }}>
-        <p style={{color: brand ?? '#c9956a', fontSize: 11, letterSpacing: "0.4em", textTransform: "uppercase", marginBottom: 16 }}>Prendre Contact</p>
+        <p style={{color: brand ?? 'var(--brand,#c9956a)', fontSize: 11, letterSpacing: "0.4em", textTransform: "uppercase", marginBottom: 16 }}>Prendre Contact</p>
         <h1 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 56, fontWeight: 300, color: "#F5EDE8", marginBottom: 20 }}>
           Nous Écrire
         </h1>
-        <div style={{width: 48, height: 1, background: brand ?? '#c9956a', margin: "0 auto" }} />
+        <div style={{width: 48, height: 1, background: brand ?? 'var(--brand,#c9956a)', margin: "0 auto" }} />
       </div>
 
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(280px, 100%), 1fr))", gap: 64 }}>
@@ -1078,7 +1078,7 @@ function ContactPage() {
                 </div>
                 <button
                   type="submit"
-                  style={{background: brand ?? '#c9956a',
+                  style={{background: brand ?? 'var(--brand,#c9956a)',
                     border: "none",
                     color: "#1A0F1E",
                     fontSize: 10,
@@ -1105,7 +1105,7 @@ function ContactPage() {
                   textAlign: "center",
                 }}
               >
-                <p style={{color: brand ?? '#c9956a', fontSize: 16, marginBottom: 8, textTransform: "uppercase", letterSpacing: "0.1em" }}>✦ Message envoyé ✦</p>
+                <p style={{color: brand ?? 'var(--brand,#c9956a)', fontSize: 16, marginBottom: 8, textTransform: "uppercase", letterSpacing: "0.1em" }}>✦ Message envoyé ✦</p>
                 <p style={{ color: "#F5EDE8", opacity: 0.6, fontSize: 13 }}>Nous vous répondrons dans les meilleurs délais.</p>
               </motion.div>
             )}
@@ -1150,7 +1150,7 @@ function LegalPage({ variant }: { variant: "mentions" | "cgv" | "privacy" }) {
         <h1 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 40, fontWeight: 300, color: "#F5EDE8", marginBottom: 40 }}>Mentions Légales</h1>
         <div style={{ display: "flex", flexDirection: "column", gap: 32, color: "#F5EDE8", opacity: 0.8 }}>
           <div>
-            <h3 style={{color: brand ?? '#c9956a', fontSize: 16, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 8 }}>Éditeur du site</h3>
+            <h3 style={{color: brand ?? 'var(--brand,#c9956a)', fontSize: 16, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 8 }}>Éditeur du site</h3>
             <p>
               Aevia WS — Valentin Milliand<br />
               Entrepreneur individuel<br />
@@ -1161,7 +1161,7 @@ function LegalPage({ variant }: { variant: "mentions" | "cgv" | "privacy" }) {
             </p>
           </div>
           <div>
-            <h3 style={{color: brand ?? '#c9956a', fontSize: 16, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 8 }}>Hébergement</h3>
+            <h3 style={{color: brand ?? 'var(--brand,#c9956a)', fontSize: 16, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 8 }}>Hébergement</h3>
             <p>
               Vercel Inc.<br />
               340 S Lemon Ave #4133<br />
@@ -1169,7 +1169,7 @@ function LegalPage({ variant }: { variant: "mentions" | "cgv" | "privacy" }) {
             </p>
           </div>
           <div>
-            <h3 style={{color: brand ?? '#c9956a', fontSize: 16, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 8 }}>Propriété intellectuelle</h3>
+            <h3 style={{color: brand ?? 'var(--brand,#c9956a)', fontSize: 16, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 8 }}>Propriété intellectuelle</h3>
             <p>
               Le contenu de ce site web (visuels, textes, marques) est protégé au titre de la propriété intellectuelle. Toute exploitation sans accord préalable est illicite.
             </p>
@@ -1197,19 +1197,19 @@ function LegalPage({ variant }: { variant: "mentions" | "cgv" | "privacy" }) {
         <h1 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 40, fontWeight: 300, color: "#F5EDE8", marginBottom: 40 }}>Conditions Générales de Vente</h1>
         <div style={{ display: "flex", flexDirection: "column", gap: 32, color: "#F5EDE8", opacity: 0.8 }}>
           <div>
-            <h3 style={{color: brand ?? '#c9956a', fontSize: 16, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 8 }}>1. Commandes</h3>
+            <h3 style={{color: brand ?? 'var(--brand,#c9956a)', fontSize: 16, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 8 }}>1. Commandes</h3>
             <p>
               Les commandes d'essences de parfum s'effectuent en ligne. Le client reçoit un échantillon dans sa livraison pour pouvoir essayer la fragrance sans rompre l'emballage sécurisé du flacon.
             </p>
           </div>
           <div>
-            <h3 style={{color: brand ?? '#c9956a', fontSize: 16, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 8 }}>2. Prix & Paiement</h3>
+            <h3 style={{color: brand ?? 'var(--brand,#c9956a)', fontSize: 16, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 8 }}>2. Prix & Paiement</h3>
             <p>
               Les prix de vente indiqués s'entendent toutes taxes comprises (TTC). Le règlement s'effectue de manière sécurisée en ligne.
             </p>
           </div>
           <div>
-            <h3 style={{color: brand ?? '#c9956a', fontSize: 16, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 8 }}>3. Rétractation</h3>
+            <h3 style={{color: brand ?? 'var(--brand,#c9956a)', fontSize: 16, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 8 }}>3. Rétractation</h3>
             <p>
               Le client dispose de 30 jours à compter de la livraison pour retourner le produit dans son emballage d'origine non ouvert s'il ne souhaite pas le conserver.
             </p>
@@ -1236,19 +1236,19 @@ function LegalPage({ variant }: { variant: "mentions" | "cgv" | "privacy" }) {
       <h1 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 40, fontWeight: 300, color: "#F5EDE8", marginBottom: 40 }}>Politique de Confidentialité</h1>
       <div style={{ display: "flex", flexDirection: "column", gap: 32, color: "#F5EDE8", opacity: 0.8 }}>
         <div>
-          <h3 style={{color: brand ?? '#c9956a', fontSize: 16, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 8 }}>Données personnelles</h3>
+          <h3 style={{color: brand ?? 'var(--brand,#c9956a)', fontSize: 16, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 8 }}>Données personnelles</h3>
           <p>
             Les données recueillies sont destinées uniquement à la gestion de vos commandes et au suivi personnalisé de notre relation client.
           </p>
         </div>
         <div>
-          <h3 style={{color: brand ?? '#c9956a', fontSize: 16, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 8 }}>Confidentialité absolue</h3>
+          <h3 style={{color: brand ?? 'var(--brand,#c9956a)', fontSize: 16, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 8 }}>Confidentialité absolue</h3>
           <p>
             Maison Éther s'engage à ne jamais communiquer vos informations personnelles à des tiers à des fins publicitaires.
           </p>
         </div>
         <div>
-          <h3 style={{color: brand ?? '#c9956a', fontSize: 16, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 8 }}>Vos droits</h3>
+          <h3 style={{color: brand ?? 'var(--brand,#c9956a)', fontSize: 16, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 8 }}>Vos droits</h3>
           <p>
             Vous disposez d'un droit d'accès, de modification et d'effacement de vos données personnelles en contactant notre service client à : valentinmilliand@aevia.services.
           </p>

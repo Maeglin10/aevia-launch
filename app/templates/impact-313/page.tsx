@@ -64,8 +64,8 @@ function shadeColor(color, percent) {
 
 // Colors and Fonts Configuration
 const DEFAULT_C = {
-  primary: "#dc2626", // Red
-  primaryLight: "#ef4444",
+  primary: "var(--brand,#dc2626)", // Red
+  primaryLight: "var(--brand-light,#ef4444)",
   primaryDark: "#b91c1c",
   bg: "#0b0f19", // Deep navy/charcoal
   bgDeep: "#05070c",

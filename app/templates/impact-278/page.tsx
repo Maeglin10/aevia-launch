@@ -54,7 +54,7 @@ function shadeColor(hex: string, percent: number): string {
 }
 
 let C: Record<string, string> = {
-  brick: '#8b2020',
+  brick: 'var(--brand-light,#8b2020)',
   brickDeep: '#6a1818',
   brickMid: '#a52828',
   brickLight: '#c43030',
@@ -533,7 +533,7 @@ function HeroSection() {
           }}
         >
           L&apos;eau maîtrisée,{' '}
-          <span style={{color: brand ?? '#e87070' }}>votre confort</span>{' '}
+          <span style={{color: brand ?? 'var(--brand,#e87070)' }}>votre confort</span>{' '}
           assuré
         </motion.h1>
 
@@ -572,7 +572,7 @@ function HeroSection() {
             marginBottom: 32,
           }}
         >
-          <Clock size={16} color="#e87070" strokeWidth={2} />
+          <Clock size={16} color="var(--brand,#e87070)" strokeWidth={2} />
           <span
             style={{
               fontFamily: SANS,
@@ -1661,7 +1661,7 @@ function DevisFormSection() {
   const errorStyle: React.CSSProperties = {
     fontFamily: SANS,
     fontSize: 12,
-    color: '#e87070',
+    color: 'var(--brand,#e87070)',
     marginTop: 4,
     fontWeight: 600,
   };
@@ -1710,7 +1710,7 @@ function DevisFormSection() {
             }}
           >
             Votre projet{' '}
-            <span style={{color: brand ?? '#e87070' }}>en 48h</span>
+            <span style={{color: brand ?? 'var(--brand,#e87070)' }}>en 48h</span>
           </h2>
         </Reveal>
         <Reveal delay={0.16}>
@@ -1726,7 +1726,7 @@ function DevisFormSection() {
           >
             Remplissez le formulaire, nous vous répondons sous 48h avec un
             devis détaillé, sans engagement. Urgence ? Appelez directement le{' '}
-            <strong style={{color: brand ?? '#e87070' }}>{fd?.phone ?? "05 61 00 00 00"}</strong>.
+            <strong style={{color: brand ?? 'var(--brand,#e87070)' }}>{fd?.phone ?? "05 61 00 00 00"}</strong>.
           </p>
         </Reveal>
 
@@ -1763,13 +1763,13 @@ function DevisFormSection() {
                 }}
               >
                 Nous avons bien enregistré votre demande pour{' '}
-                <strong style={{color: brand ?? '#e87070', fontStyle: 'normal' }}>
+                <strong style={{color: brand ?? 'var(--brand,#e87070)', fontStyle: 'normal' }}>
                   {form.typeIntervention}
                 </strong>{' '}
                 à{' '}
-                <strong style={{color: brand ?? '#e87070' }}>{form.adresse}</strong>.
+                <strong style={{color: brand ?? 'var(--brand,#e87070)' }}>{form.adresse}</strong>.
                 Nous vous rappelons au{' '}
-                <strong style={{color: brand ?? '#e87070' }}>{form.telephone}</strong>{' '}
+                <strong style={{color: brand ?? 'var(--brand,#e87070)' }}>{form.telephone}</strong>{' '}
                 sous 48h ouvrées.
               </p>
             </div>
@@ -1789,7 +1789,7 @@ function DevisFormSection() {
                     id="pg-prenom"
                     style={{
                       ...fieldStyle,
-                      borderColor: errors.prenom ? '#e87070' : 'rgba(240,232,216,0.22)',
+                      borderColor: errors.prenom ? 'var(--brand,#e87070)' : 'rgba(240,232,216,0.22)',
                     }}
                     value={form.prenom}
                     onChange={(e) => setForm({ ...form, prenom: e.target.value })}
@@ -1804,7 +1804,7 @@ function DevisFormSection() {
                     id="pg-nom"
                     style={{
                       ...fieldStyle,
-                      borderColor: errors.nom ? '#e87070' : 'rgba(240,232,216,0.22)',
+                      borderColor: errors.nom ? 'var(--brand,#e87070)' : 'rgba(240,232,216,0.22)',
                     }}
                     value={form.nom}
                     onChange={(e) => setForm({ ...form, nom: e.target.value })}
@@ -1826,7 +1826,7 @@ function DevisFormSection() {
                     WebkitAppearance: 'none',
                     cursor: 'pointer',
                     color: form.typeIntervention ? C.white : 'rgba(240,232,216,0.4)',
-                    borderColor: errors.typeIntervention ? '#e87070' : 'rgba(240,232,216,0.22)',
+                    borderColor: errors.typeIntervention ? 'var(--brand,#e87070)' : 'rgba(240,232,216,0.22)',
                   }}
                   value={form.typeIntervention}
                   onChange={(e) => setForm({ ...form, typeIntervention: e.target.value })}
@@ -1850,7 +1850,7 @@ function DevisFormSection() {
                   id="pg-adresse"
                   style={{
                     ...fieldStyle,
-                    borderColor: errors.adresse ? '#e87070' : 'rgba(240,232,216,0.22)',
+                    borderColor: errors.adresse ? 'var(--brand,#e87070)' : 'rgba(240,232,216,0.22)',
                   }}
                   value={form.adresse}
                   onChange={(e) => setForm({ ...form, adresse: e.target.value })}
@@ -1867,7 +1867,7 @@ function DevisFormSection() {
                   id="pg-tel"
                   style={{
                     ...fieldStyle,
-                    borderColor: errors.telephone ? '#e87070' : 'rgba(240,232,216,0.22)',
+                    borderColor: errors.telephone ? 'var(--brand,#e87070)' : 'rgba(240,232,216,0.22)',
                   }}
                   value={form.telephone}
                   onChange={(e) => setForm({ ...form, telephone: e.target.value })}
@@ -2224,7 +2224,7 @@ function CertifCard({ c, i }: { c: Certification; i: number }) {
             fontFamily: SANS,
             fontSize: 12,
             fontWeight: 700,
-            color: hover ? '#e87070' : C.brick,
+            color: hover ? 'var(--brand,#e87070)' : C.brick,
             letterSpacing: '0.08em',
             textTransform: 'uppercase',
             transition: 'color .5s',
@@ -2368,7 +2368,7 @@ function UrgencySection() {
               }}
             >
               Une fuite ?{' '}
-              <span style={{color: brand ?? '#e87070' }}>
+              <span style={{color: brand ?? 'var(--brand,#e87070)' }}>
                 On arrive.
               </span>
             </h2>
@@ -2422,7 +2422,7 @@ function UrgencySection() {
                     gap: 8,
                   }}
                 >
-                  <div style={{color: brand ?? '#e87070' }}>{s.icon}</div>
+                  <div style={{color: brand ?? 'var(--brand,#e87070)' }}>{s.icon}</div>
                   <div
                     style={{
                       fontFamily: SERIF,
@@ -2713,7 +2713,7 @@ function FooterSection() {
                 fontWeight: 700,
                 letterSpacing: '0.14em',
                 textTransform: 'uppercase',
-                color: brand ?? '#e87070',
+                color: brand ?? 'var(--brand,#e87070)',
                 marginBottom: 8,
               }}
             >
@@ -2732,7 +2732,7 @@ function FooterSection() {
                 gap: 8,
               }}
             >
-              <Phone size={16} strokeWidth={2} color="#e87070" />
+              <Phone size={16} strokeWidth={2} color="var(--brand,#e87070)" />
               {fd?.phone ?? "05 61 00 00 00"}
             </a>
             <div

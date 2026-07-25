@@ -73,7 +73,7 @@ let C: Record<string, string> = {
   bgCard:    '#0d1119',
   border:    '#161d2a',
   borderHi:  '#1e2d44',
-  blue:      '#00d4ff',
+  blue:      'var(--brand-light,#00d4ff)',
   blueDeep:  '#0096c7',
   blueDim:   'rgba(0,212,255,0.12)',
   blueGlow:  'rgba(0,212,255,0.4)',
@@ -492,7 +492,7 @@ function StickyCrossfade() {
 const MODELS = [
   { name: 'Lumyx ONE', tagline: "L'essentiel réinventé",      price: '2 490', range: '120 km', speed: '35 km/h', charge: '3.5 h', img: IMG.bike,     badge: 'Bestseller',      accent: C.blue },
   { name: 'Lumyx PRO', tagline: 'Pour ceux qui vont plus loin',price: '3 890', range: '180 km', speed: '45 km/h', charge: '2.5 h', img: IMG.ride,     badge: 'Recommandé',      accent: '#7c3aed' },
-  { name: 'Lumyx GT',  tagline: 'La performance absolue',     price: '5 490', range: '230 km', speed: '45 km/h', charge: '1.8 h', img: IMG.hero,     badge: 'Édition limitée', accent: brand ?? '#f59e0b' },
+  { name: 'Lumyx GT',  tagline: 'La performance absolue',     price: '5 490', range: '230 km', speed: '45 km/h', charge: '1.8 h', img: IMG.hero,     badge: 'Édition limitée', accent: brand ?? 'var(--brand,#f59e0b)' },
 ];
 
 type ModelType = typeof MODELS[0];
@@ -898,8 +898,8 @@ function ReserveForm() {
         style={{ maxWidth: '680px', margin: '0 auto', textAlign: 'center', position: 'relative' }}
       >
         <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'rgba(245,158,11,0.12)', border: '1px solid rgba(245,158,11,0.35)', borderRadius: '2px', padding: '6px 16px', marginBottom: '2rem' }}>
-          <Clock size={13} color="#f59e0b" />
-          <span style={{color: brand ?? '#f59e0b', fontSize: '0.72rem', fontWeight: 800, letterSpacing: '0.15em', textTransform: 'uppercase' as const }}>Plus que 100 unités disponibles</span>
+          <Clock size={13} color="var(--brand,#f59e0b)" />
+          <span style={{color: brand ?? 'var(--brand,#f59e0b)', fontSize: '0.72rem', fontWeight: 800, letterSpacing: '0.15em', textTransform: 'uppercase' as const }}>Plus que 100 unités disponibles</span>
         </div>
 
         <h2 style={{ fontSize: fl(2, 4), fontWeight: 900, textTransform: 'uppercase' as const, letterSpacing: '-0.02em', lineHeight: 1.1, marginBottom: '1.25rem' }}>

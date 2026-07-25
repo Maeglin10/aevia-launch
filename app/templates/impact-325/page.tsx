@@ -62,7 +62,7 @@ function shadeColor(color: string, percent: number) {
 }
 
 const C = {
-  primary: "#1e3a8a", // Navy Blue
+  primary: "var(--brand,#1e3a8a)", // Navy Blue
   primaryLight: "#3b82f6",
   primaryDark: "#172554",
   bg: "#f8fafc", // Light Canvas
@@ -70,7 +70,7 @@ const C = {
   bgCard: "#f1f5f9",
   text: "#0f172a", // Dark Text
   textMuted: "#64748b",
-  accent: "#eab308", // Gold
+  accent: "var(--brand-light,#eab308)", // Gold
   white: "#ffffff",
   black: "#000000",
   success: "#16a34a",

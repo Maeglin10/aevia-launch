@@ -441,7 +441,7 @@ export default function Impact52Page() {
                   <div
                     style={{fontSize: "0.65rem",
                       fontFamily: F.mono,
-                      color: brand ?? '#6666aa',
+                      color: brand ?? 'var(--brand,#6666aa)',
                       letterSpacing: "0.25em",
                     }}
                   >
@@ -500,7 +500,7 @@ export default function Impact52Page() {
                   <div style={{ position: "absolute", top: 0, left: 0, width: "3px", height: "100%", background: s.color, boxShadow: `0 0 12px ${s.color}` }} />
                   <div style={{ fontFamily: F.mono, fontSize: "0.6rem", color: `${s.color}66`, letterSpacing: "0.35em", marginBottom: "1.25rem" }}>{s.code} //</div>
                   <h3 style={{ fontFamily: F.mono, fontWeight: 900, fontSize: "1rem", color: "white", letterSpacing: "0.04em", marginBottom: "0.75rem", textTransform: "uppercase" }}>{s.title}</h3>
-                  <p style={{fontFamily: F.mono, fontSize: "0.72rem", color: brand ?? '#6666aa', lineHeight: 1.85, letterSpacing: "0.03em" }}>{s.desc}</p>
+                  <p style={{fontFamily: F.mono, fontSize: "0.72rem", color: brand ?? 'var(--brand,#6666aa)', lineHeight: 1.85, letterSpacing: "0.03em" }}>{s.desc}</p>
                 </div>
               </Reveal>
             ))}
@@ -549,8 +549,8 @@ export default function Impact52Page() {
                 >
                   <span style={{ fontFamily: F.mono, fontSize: "0.6rem", color: `${C.CYAN}55`, letterSpacing: "0.1em" }}>{w.id}</span>
                   <h3 style={{ fontFamily: F.mono, fontWeight: 900, fontSize: "1.1rem", color: C.PINK, textShadow: `0 0 12px ${C.PINK}44`, letterSpacing: "0.04em" }}>{w.title}</h3>
-                  <span style={{fontFamily: F.mono, fontSize: "0.65rem", color: brand ?? '#6666aa', letterSpacing: "0.08em" }}>{w.cat}</span>
-                  <span style={{ fontFamily: F.mono, fontSize: "0.65rem", color: "#333366" }}>{w.year}</span>
+                  <span style={{fontFamily: F.mono, fontSize: "0.65rem", color: brand ?? 'var(--brand,#6666aa)', letterSpacing: "0.08em" }}>{w.cat}</span>
+                  <span style={{ fontFamily: F.mono, fontSize: "0.65rem", color: "var(--brand-light,#333366)" }}>{w.year}</span>
                 </div>
               </Reveal>
             ))}

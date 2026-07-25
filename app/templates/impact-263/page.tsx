@@ -42,7 +42,7 @@ let C: Record<string, string> = {
   bgDark: '#0c1a08',
   bgDarkAlt: '#080f04',
   bgCard: '#ffffff',
-  accent: '#386c2e',
+  accent: 'var(--brand-light,#386c2e)',
   accentDark: '#28501e',
   accentLight: '#c4dcbc',
   white: '#ffffff',
@@ -1621,7 +1621,7 @@ function QuoteForm() {
   const errorStyle: React.CSSProperties = {
     fontFamily: SANS,
     fontSize: 11,
-    color: '#e07a5f',
+    color: 'var(--brand,#e07a5f)',
     marginTop: 4,
     letterSpacing: '0.06em',
   };
@@ -1742,7 +1742,7 @@ function QuoteForm() {
                   style={{
                     ...fieldBase,
                     borderBottomColor: errors.prenom
-                      ? '#e07a5f'
+                      ? 'var(--brand,#e07a5f)'
                       : 'rgba(56,108,46,0.45)',
                   }}
                   value={prenom}
@@ -1765,7 +1765,7 @@ function QuoteForm() {
                   style={{
                     ...fieldBase,
                     borderBottomColor: errors.email
-                      ? '#e07a5f'
+                      ? 'var(--brand,#e07a5f)'
                       : 'rgba(56,108,46,0.45)',
                   }}
                   type="email"
@@ -1809,7 +1809,7 @@ function QuoteForm() {
                     cursor: 'pointer',
                     color: typeProjet ? C.white : 'rgba(255,255,255,0.40)',
                     borderBottomColor: errors.typeProjet
-                      ? '#e07a5f'
+                      ? 'var(--brand,#e07a5f)'
                       : 'rgba(56,108,46,0.45)',
                   }}
                   value={typeProjet}

@@ -48,7 +48,7 @@ let C: Record<string, string> = {
   black: '#0d0d0d',
   blackDeep: '#080808',
   blackMid: '#1a1a1a',
-  champagne: '#e8d5b0',
+  champagne: 'var(--brand-light,#e8d5b0)',
   champagneDeep: '#d4bc93',
   champagneLight: '#f2e8d0',
   white: '#ffffff',
@@ -1174,7 +1174,7 @@ function ProcessSection() {
               }}
             >
               De la première mesure{' '}
-              <span style={{fontStyle: 'italic', color: brand ?? '#7a5c2e' }}>
+              <span style={{fontStyle: 'italic', color: brand ?? 'var(--brand,#7a5c2e)' }}>
                 à la dernière épingle
               </span>
             </h2>
@@ -1411,7 +1411,7 @@ function TestimonialsSection() {
             }}
           >
             Des moments{' '}
-            <span style={{fontStyle: 'italic', color: brand ?? '#7a5c2e' }}>
+            <span style={{fontStyle: 'italic', color: brand ?? 'var(--brand,#7a5c2e)' }}>
               inoubliables
             </span>
           </h2>
@@ -1882,7 +1882,7 @@ function MaterialsSection() {
             }}
           >
             L&apos;étoffe fait{' '}
-            <span style={{fontStyle: 'italic', color: brand ?? '#7a5c2e' }}>
+            <span style={{fontStyle: 'italic', color: brand ?? 'var(--brand,#7a5c2e)' }}>
               la tenue
             </span>
           </h2>

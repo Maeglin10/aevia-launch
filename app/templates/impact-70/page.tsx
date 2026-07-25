@@ -118,9 +118,9 @@ return (
           <div className="relative z-10 max-w-[1200px] mx-auto px-6 text-center">
             <Reveal>
               <div className="flex items-center justify-center gap-8 mb-12 opacity-30">
-                <div className="w-16 h-[1px] bg-[#ff00ff]" />
+                <div className="w-16 h-[1px] bg-[var(--brand,#ff00ff)]" />
                 <span className="text-[10px] font-bold uppercase tracking-[0.6em] text-white">The Pulse of Nocturnal Elegance</span>
-                <div className="w-16 h-[1px] bg-[#ff00ff]" />
+                <div className="w-16 h-[1px] bg-[var(--brand,#ff00ff)]" />
               </div>
             </Reveal>
             <Reveal delay={0.2} y={70}>
@@ -136,7 +136,7 @@ return (
                 <div className="flex flex-wrap justify-center gap-10">
                   <button
                     onClick={() => router.push("/templates/impact-70/experience")}
-                    className="px-16 py-6 bg-white text-black font-bold uppercase tracking-widest text-[10px] rounded-full hover:px-20 transition-all duration-700 shadow-2xl shadow-[#ff00ff]/20 cursor-pointer border-none"
+                    className="px-16 py-6 bg-white text-black font-bold uppercase tracking-widest text-[10px] rounded-full hover:px-20 transition-all duration-700 shadow-2xl shadow-[var(--brand,#ff00ff)]/20 cursor-pointer border-none"
                   >
                     Discover The Scene
                   </button>
@@ -154,8 +154,8 @@ return (
           <div className="absolute bottom-12 left-12 right-12 flex justify-between items-end text-[9px] font-bold uppercase tracking-[0.4em] text-white/10 italic">
             <span>BERLIN / IBIZA / TOKYO / MIAMI</span>
             <div className="flex gap-6">
-              <Music className="w-4 h-4 text-[#ff00ff] animate-pulse" />
-              <Sparkles className="w-4 h-4 text-[#4b0082]" />
+              <Music className="w-4 h-4 text-[var(--brand,#ff00ff)] animate-pulse" />
+              <Sparkles className="w-4 h-4 text-[var(--brand-light,#4b0082)]" />
             </div>
           </div>
         </section>
@@ -171,8 +171,8 @@ return (
               ].map((p, i) => (
                 <Reveal key={i} delay={i * 0.1}>
                   <div className="text-center group cursor-pointer" onClick={() => router.push("/templates/impact-70/experience")}>
-                    <div className="w-20 h-20 mx-auto rounded-full bg-white/5 border border-white/10 flex items-center justify-center mb-10 group-hover:bg-[#ff00ff]/20 group-hover:border-[#ff00ff]/30 transition-all duration-700">
-                      <p.icon className="w-6 h-6 text-white/20 group-hover:text-[#ff00ff]" />
+                    <div className="w-20 h-20 mx-auto rounded-full bg-white/5 border border-white/10 flex items-center justify-center mb-10 group-hover:bg-[var(--brand,#ff00ff)]/20 group-hover:border-[var(--brand,#ff00ff)]/30 transition-all duration-700">
+                      <p.icon className="w-6 h-6 text-white/20 group-hover:text-[var(--brand,#ff00ff)]" />
                     </div>
                     <h3 className="text-2xl font-bold mb-6 uppercase tracking-widest italic text-white">{p.t}</h3>
                     <p className="text-white/20 leading-relaxed font-light text-sm italic">{p.d}</p>
@@ -203,7 +203,7 @@ return (
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#050005] via-transparent to-transparent" />
                   <div className="absolute bottom-8 left-8">
-                    <div className="text-[10px] font-bold tracking-[0.4em] uppercase text-[#ff00ff] mb-2">{ev.cat}</div>
+                    <div className="text-[10px] font-bold tracking-[0.4em] uppercase text-[var(--brand,#ff00ff)] mb-2">{ev.cat}</div>
                     <div className="text-2xl font-bold text-white uppercase tracking-wider">{ev.name}</div>
                   </div>
                   <div className="absolute top-6 right-6 text-[10px] font-bold text-white/20 tracking-[0.3em]">{ev.id}</div>
@@ -217,7 +217,7 @@ return (
         <section className="py-12 bg-[#0d000d] border-y border-white/5 overflow-hidden">
           <div className="flex whitespace-nowrap">
             <motion.div
-              className="flex gap-12 items-center text-[#ff00ff] text-sm font-bold uppercase tracking-[0.4em] shrink-0"
+              className="flex gap-12 items-center text-[var(--brand,#ff00ff)] text-sm font-bold uppercase tracking-[0.4em] shrink-0"
               animate={{ x: ["0%", "-50%"] }}
               transition={{ repeat: Infinity, duration: 22, ease: "linear" }}
             >
@@ -256,8 +256,8 @@ return (
                 { value: "10", label: "Ans" },
               ].map((stat, i) => (
                 <Reveal key={i} delay={i * 0.1}>
-                  <div className="text-center py-16 border border-white/5 group hover:border-[#ff00ff]/20 transition-colors duration-500">
-                    <div className="text-6xl md:text-8xl font-bold text-[#ff00ff] leading-none mb-4 group-hover:opacity-80 transition-opacity">
+                  <div className="text-center py-16 border border-white/5 group hover:border-[var(--brand,#ff00ff)]/20 transition-colors duration-500">
+                    <div className="text-6xl md:text-8xl font-bold text-[var(--brand,#ff00ff)] leading-none mb-4 group-hover:opacity-80 transition-opacity">
                       {stat.value}
                     </div>
                     <div className="text-[11px] font-bold uppercase tracking-[0.4em] text-white/20">
@@ -305,20 +305,20 @@ return (
 
               {/* Violet — featured */}
               <Reveal delay={0.1}>
-                <div className="bg-[#0d000d] border border-[#ff00ff]/40 p-10 flex flex-col gap-8 relative hover:border-[#ff00ff]/70 transition-colors duration-500 shadow-2xl shadow-[#ff00ff]/10">
-                  <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#ff00ff] to-transparent" />
+                <div className="bg-[#0d000d] border border-[var(--brand,#ff00ff)]/40 p-10 flex flex-col gap-8 relative hover:border-[var(--brand,#ff00ff)]/70 transition-colors duration-500 shadow-2xl shadow-[var(--brand,#ff00ff)]/10">
+                  <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[var(--brand,#ff00ff)] to-transparent" />
                   <div>
-                    <div className="text-[10px] font-bold tracking-[0.4em] uppercase text-[#ff00ff] mb-3">Recommandé</div>
+                    <div className="text-[10px] font-bold tracking-[0.4em] uppercase text-[var(--brand,#ff00ff)] mb-3">Recommandé</div>
                     <h3 className="text-3xl font-bold text-white uppercase tracking-wider italic">{c?.aboutTitle ?? fd?.businessName ?? <>Violet</>}</h3>
                   </div>
                   <div className="text-4xl font-light text-white italic">€180<span className="text-lg text-white/30">/mois</span></div>
-                  <div className="w-8 h-[1px] bg-[#ff00ff]/30" />
+                  <div className="w-8 h-[1px] bg-[var(--brand,#ff00ff)]/30" />
                   <p className="text-white/50 leading-relaxed text-sm font-light">{c?.aboutText ?? <>
                     Réservations prioritaires, accès lounge VIP, 2 invités par soir, événements membres.
                   </>}</p>
                   <button
                     onClick={() => router.push("/templates/impact-70/members")}
-                    className="mt-auto px-8 py-4 bg-[#ff00ff] text-black font-bold uppercase tracking-widest text-[10px] rounded-full hover:bg-white transition-all duration-500 cursor-pointer border-none"
+                    className="mt-auto px-8 py-4 bg-[var(--brand,#ff00ff)] text-black font-bold uppercase tracking-widest text-[10px] rounded-full hover:bg-white transition-all duration-500 cursor-pointer border-none"
                   >
                     Rejoindre
                   </button>
@@ -327,7 +327,7 @@ return (
 
               {/* Obsidien */}
               <Reveal delay={0.2}>
-                <div className="bg-[#0d000d] border border-white/10 p-10 flex flex-col gap-8 hover:border-[#4b0082]/50 transition-colors duration-500">
+                <div className="bg-[#0d000d] border border-white/10 p-10 flex flex-col gap-8 hover:border-[var(--brand-light,#4b0082)]/50 transition-colors duration-500">
                   <div>
                     <div className="text-[10px] font-bold tracking-[0.4em] uppercase text-white/20 mb-3">Prestige</div>
                     <h3 className="text-3xl font-bold text-white uppercase tracking-wider italic">Obsidien</h3>
@@ -339,7 +339,7 @@ return (
                   </p>
                   <button
                     onClick={() => router.push("/templates/impact-70/members")}
-                    className="mt-auto px-8 py-4 border border-[#4b0082]/50 text-white/60 font-bold uppercase tracking-widest text-[10px] rounded-full hover:bg-[#4b0082]/20 hover:text-white transition-all cursor-pointer bg-transparent"
+                    className="mt-auto px-8 py-4 border border-[var(--brand-light,#4b0082)]/50 text-white/60 font-bold uppercase tracking-widest text-[10px] rounded-full hover:bg-[var(--brand-light,#4b0082)]/20 hover:text-white transition-all cursor-pointer bg-transparent"
                   >
                     Rejoindre
                   </button>
@@ -363,7 +363,7 @@ return (
                   name: "ABYSS",
                   genre: "Berlin Techno",
                   gradient: "from-[#0d000d] via-[#1a0030] to-[#050005]",
-                  accent: brand ?? '#ff00ff',
+                  accent: brand ?? 'var(--brand,#ff00ff)',
                 },
                 {
                   name: "SOLÈNE K.",
@@ -381,13 +381,13 @@ return (
                   name: "LUMIÈRE NOIRE",
                   genre: "Ambient / Ceremonial",
                   gradient: "from-[#050005] via-[#200038] to-[#0d000d]",
-                  accent: "#4b0082",
+                  accent: "var(--brand-light,#4b0082)",
                 },
               ].map((artist, i) => (
                 <Reveal key={i} delay={i * 0.1}>
                   <div className="group cursor-pointer">
                     <div
-                      className={`aspect-square bg-gradient-to-br ${artist.gradient} border border-white/5 group-hover:border-[#ff00ff]/20 transition-all duration-700 flex items-end p-6 relative overflow-hidden`}
+                      className={`aspect-square bg-gradient-to-br ${artist.gradient} border border-white/5 group-hover:border-[var(--brand,#ff00ff)]/20 transition-all duration-700 flex items-end p-6 relative overflow-hidden`}
                     >
                       {/* Abstract circle decoration */}
                       <div
@@ -451,11 +451,11 @@ return (
                   <div
                     className={`p-10 border flex flex-col gap-8 h-full ${
                       t.dark
-                        ? "bg-[#ff00ff]/5 border-[#ff00ff]/20"
+                        ? "bg-[var(--brand,#ff00ff)]/5 border-[var(--brand,#ff00ff)]/20"
                         : "bg-[#0d000d] border-white/5"
                     }`}
                   >
-                    <div className="text-[#ff00ff] text-4xl font-serif leading-none opacity-60">&ldquo;</div>
+                    <div className="text-[var(--brand,#ff00ff)] text-4xl font-serif leading-none opacity-60">&ldquo;</div>
                     <p className="text-white/60 leading-relaxed font-light italic text-lg flex-1">
                       {t.quote}
                     </p>
@@ -473,7 +473,7 @@ return (
         {/* ── CTA ───────────────────── */}
         <section className="py-60 bg-white text-black text-center relative overflow-hidden">
           {/* Abstract Circle Gradient */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[150%] h-[150%] bg-gradient-to-tr from-[#ff00ff]/20 to-[#4b0082]/20 blur-[120px] pointer-events-none" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[150%] h-[150%] bg-gradient-to-tr from-[var(--brand,#ff00ff)]/20 to-[var(--brand-light,#4b0082)]/20 blur-[120px] pointer-events-none" />
 
           <div className="max-w-4xl mx-auto px-6 relative z-10">
             <Reveal>

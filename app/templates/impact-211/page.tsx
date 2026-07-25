@@ -18,8 +18,8 @@ const C = {
   bg: "#0d0b08",
   bgAlt: "#13110d",
   cream: "#f5f0e4",
-  creamMuted: "#c8c0a8",
-  gold: "#c9a84c",
+  creamMuted: "var(--brand-light,#c8c0a8)",
+  gold: "var(--brand,#c9a84c)",
   goldLight: "#e2c97e",
   goldDark: "#8f6e28",
   border: "rgba(201,168,76,0.18)",
@@ -34,7 +34,7 @@ const font = {
 // ─── SVG France Map coordinates (simplified) ──────────────────────────────────
 const INGREDIENT_DOTS = [
   { id: "bretagne",  cx: 92,  cy: 155, label: "Huîtres de Bretagne", producer: "Maison Cadoret, Riec-sur-Bélon", color: "#5ba4cf" },
-  { id: "perigord",  cx: 200, cy: 270, label: "Foie gras du Périgord", producer: "Ferme de la Madeleine, Sarlat", color: "#c9a84c" },
+  { id: "perigord",  cx: 200, cy: 270, label: "Foie gras du Périgord", producer: "Ferme de la Madeleine, Sarlat", color: "var(--brand,#c9a84c)" },
   { id: "auvergne",  cx: 235, cy: 245, label: "Fromages d'Auvergne", producer: "Fromagerie Saint-Nectaire", color: "#8dc68d" },
   { id: "provence",  cx: 270, cy: 315, label: "Truffes de Provence", producer: "Domaine Perluisi, Apt", color: "#b8860b" },
   { id: "alsace",    cx: 330, cy: 120, label: "Choucroute d'Alsace", producer: "Jean Galler, Krautergersheim", color: "#e07b54" },

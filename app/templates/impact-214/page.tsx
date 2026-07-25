@@ -33,7 +33,7 @@ let C: Record<string, string> = {
   bgAlt: '#0b1825',
   bgCard: '#0f2030',
   text: '#e4eef5',
-  textMuted: '#7fa8c4',
+  textMuted: 'var(--brand-light,#7fa8c4)',
   accent: '#1e8fbf',
   accentLight: '#3ab5e8',
   accentDark: '#155f80',
@@ -1570,7 +1570,7 @@ export default function AquaPrestigePage() {
               gap: '0.5rem',
               background: 'rgba(255,80,80,0.12)',
               border: '1px solid rgba(255,80,80,0.3)',
-              color: brand ?? '#ff6b6b',
+              color: brand ?? 'var(--brand,#ff6b6b)',
               fontSize: '0.78rem',
               fontWeight: 700,
               letterSpacing: '0.12em',
@@ -1583,7 +1583,7 @@ export default function AquaPrestigePage() {
             <motion.span
               animate={{ opacity: [1, 0.3, 1] }}
               transition={{ repeat: Infinity, duration: 1.4 }}
-              style={{width: '6px', height: '6px', borderRadius: '50%', background: brand ?? '#ff6b6b', display: 'inline-block' }}
+              style={{width: '6px', height: '6px', borderRadius: '50%', background: brand ?? 'var(--brand,#ff6b6b)', display: 'inline-block' }}
             />
             Disponible 24h/24 — Intervention en 30 min
           </motion.div>
@@ -1812,7 +1812,7 @@ export default function AquaPrestigePage() {
                     gap: '0.5rem',
                     background: 'rgba(255,80,80,0.15)',
                     border: '1px solid rgba(255,80,80,0.3)',
-                    color: brand ?? '#ff6b6b',
+                    color: brand ?? 'var(--brand,#ff6b6b)',
                     fontSize: '0.75rem',
                     fontWeight: 700,
                     letterSpacing: '0.15em',

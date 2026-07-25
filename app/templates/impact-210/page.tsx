@@ -166,7 +166,7 @@ const GALLERY_ITEMS = [
    UTILITY: PARTICLE GENERATOR
    ========================================================================== */
 
-const PARTICLE_COLORS = ['#d4356a', '#FFD700', '#FFFFFF', '#FFB6C1', '#FFF0F5', '#FFE4E1'];
+const PARTICLE_COLORS = ['#d4356a', 'var(--brand-light,#ffd700)', '#FFFFFF', '#FFB6C1', '#FFF0F5', '#FFE4E1'];
 
 const generateParticles = (): Particle[] =>
   Array.from({ length: 38 }, (_, i) => ({
@@ -475,7 +475,7 @@ function Hero({ accentColor, particles }: { accentColor: string; particles: Part
           width: 400,
           height: 400,
           borderRadius: '50%',
-          background: `radial-gradient(circle, #FFD70022 0%, transparent 70%)`,
+          background: `radial-gradient(circle, var(--brand-light,#ffd700)22 0%, transparent 70%)`,
           filter: 'blur(50px)',
           pointerEvents: 'none',
         }}
@@ -544,7 +544,7 @@ function Hero({ accentColor, particles }: { accentColor: string; particles: Part
           transition={{ duration: 0.8, delay: 0.6 }}
           style={{
             fontSize: 18,
-            color: '#7a5060',
+            color: 'var(--brand,#7a5060)',
             maxWidth: 520,
             margin: '0 auto 48px',
             lineHeight: 1.7,
@@ -649,7 +649,7 @@ function Hero({ accentColor, particles }: { accentColor: string; particles: Part
               >
                 {stat.value}
               </div>
-              <div style={{ fontSize: 13, color: '#7a5060', marginTop: 4 }}>{stat.label}</div>
+              <div style={{ fontSize: 13, color: 'var(--brand,#7a5060)', marginTop: 4 }}>{stat.label}</div>
             </div>
           ))}
         </motion.div>
@@ -814,14 +814,14 @@ function ServiceCard({
             >
               {service.nameFr ?? service.name}
             </div>
-            {service.nameFr && service.name && <div style={{ fontSize: 13, color: '#7a5060', marginTop: 4 }}>{service.name}</div>}
+            {service.nameFr && service.name && <div style={{ fontSize: 13, color: 'var(--brand,#7a5060)', marginTop: 4 }}>{service.name}</div>}
           </div>
 
           {/* Description */}
           <p
             style={{
               fontSize: 14,
-              color: '#7a5060',
+              color: 'var(--brand,#7a5060)',
               lineHeight: 1.6,
               fontWeight: 300,
             }}
@@ -831,7 +831,7 @@ function ServiceCard({
 
           {/* Duration */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 'auto' }}>
-            <span style={{ fontSize: 12, color: '#7a5060' }}>{service.duration}</span>
+            <span style={{ fontSize: 12, color: 'var(--brand,#7a5060)' }}>{service.duration}</span>
           </div>
         </div>
 
@@ -937,7 +937,7 @@ function ServicesSection({ accentColor }: { accentColor: string }) {
         <p
           style={{
             fontSize: 16,
-            color: '#7a5060',
+            color: 'var(--brand,#7a5060)',
             maxWidth: 480,
             margin: '20px auto 0',
             lineHeight: 1.7,
@@ -1020,7 +1020,7 @@ function PaletteSection({
         <p
           style={{
             fontSize: 16,
-            color: '#7a5060',
+            color: 'var(--brand,#7a5060)',
             maxWidth: 420,
             margin: '0 auto 56px',
             lineHeight: 1.7,
@@ -1140,7 +1140,7 @@ function PaletteSection({
           >
             {PALETTE_COLORS[activeIndex].label}
           </span>
-          <span style={{ fontSize: 12, color: '#7a5060' }}>
+          <span style={{ fontSize: 12, color: 'var(--brand,#7a5060)' }}>
             {PALETTE_COLORS[activeIndex].hex}
           </span>
         </motion.div>
@@ -1192,7 +1192,7 @@ function BeforeAfterSection({ accentColor }: { accentColor: string }) {
         <p
           style={{
             fontSize: 16,
-            color: '#7a5060',
+            color: 'var(--brand,#7a5060)',
             maxWidth: 420,
             margin: '0 auto 64px',
             lineHeight: 1.7,
@@ -1226,7 +1226,7 @@ function BeforeAfterSection({ accentColor }: { accentColor: string }) {
               fontSize: 13,
               letterSpacing: '0.15em',
               textTransform: 'uppercase',
-              color: '#7a5060',
+              color: 'var(--brand,#7a5060)',
             }}
           >
             Avant
@@ -1260,7 +1260,7 @@ function BeforeAfterSection({ accentColor }: { accentColor: string }) {
               </div>
             ))}
           </div>
-          <p style={{ fontSize: 13, color: '#7a5060', textAlign: 'center' }}>
+          <p style={{ fontSize: 13, color: 'var(--brand,#7a5060)', textAlign: 'center' }}>
             Natural — ongles<br />sans préparation
           </p>
         </motion.div>
@@ -1355,7 +1355,7 @@ function BeforeAfterSection({ accentColor }: { accentColor: string }) {
                         position: 'absolute',
                         bottom: 12,
                         right: 6,
-                        color: '#FFD700',
+                        color: 'var(--brand-light,#ffd700)',
                         fontSize: 10,
                         lineHeight: 1,
                       }}
@@ -1581,7 +1581,7 @@ function BookingSection({ accentColor }: { accentColor: string }) {
           Réservez votre{' '}
           <span style={{ color: accentColor }}>créneau</span>
         </h2>
-        <p style={{ fontSize: 16, color: '#7a5060', fontWeight: 300 }}>
+        <p style={{ fontSize: 16, color: 'var(--brand,#7a5060)', fontWeight: 300 }}>
           Semaine du 19 au 24 mai — sélectionnez un créneau disponible.
         </p>
       </motion.div>
@@ -1629,7 +1629,7 @@ function BookingSection({ accentColor }: { accentColor: string }) {
                 justifyContent: 'flex-end',
                 paddingRight: 12,
                 fontSize: 12,
-                color: '#7a5060',
+                color: 'var(--brand,#7a5060)',
                 fontWeight: 400,
               }}
             >
@@ -1672,7 +1672,7 @@ function BookingSection({ accentColor }: { accentColor: string }) {
                     color: isConfirmed
                       ? '#fff'
                       : slot.booked
-                        ? '#7a5060'
+                        ? 'var(--brand,#7a5060)'
                         : '#1a0a10',
                     transition: 'all 0.2s ease',
                     fontWeight: isConfirmed ? 600 : 300,
@@ -1728,7 +1728,7 @@ function BookingSection({ accentColor }: { accentColor: string }) {
             >
               ✦ Créneau sélectionné !
             </div>
-            <p style={{ fontSize: 14, color: '#7a5060', fontWeight: 300 }}>
+            <p style={{ fontSize: 14, color: 'var(--brand,#7a5060)', fontWeight: 300 }}>
               Votre demande de réservation a été enregistrée.
               Nous vous confirmerons par email dans les 24h.
             </p>
@@ -1831,7 +1831,7 @@ function TestimonialsSection({ accentColor }: { accentColor: string }) {
             >
               <div style={{ display: 'flex', gap: 2 }}>
                 {Array.from({ length: t.rating ?? 5 }).map((_, j) => (
-                  <span key={j} style={{ color: '#FFD700', fontSize: 16 }}>
+                  <span key={j} style={{ color: 'var(--brand-light,#ffd700)', fontSize: 16 }}>
                     ★
                   </span>
                 ))}
@@ -1964,7 +1964,7 @@ function ContactSection({ accentColor }: { accentColor: string }) {
               <div
                 style={{
                   fontSize: 14,
-                  color: '#7a5060',
+                  color: 'var(--brand,#7a5060)',
                   lineHeight: 1.6,
                   whiteSpace: 'pre-line',
                 }}

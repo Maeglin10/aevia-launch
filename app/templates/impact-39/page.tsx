@@ -151,7 +151,7 @@ return (
               </>}</motion.h1>
 
               <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.7, delay: 0.25 }}
-                style={{fontSize: 18, color: brand ?? '#93c5fd', lineHeight: 1.8, marginBottom: 40, maxWidth: 460, fontWeight: 400 }}>{c?.heroSubline ?? fd?.tagline ?? <>
+                style={{fontSize: 18, color: brand ?? 'var(--brand,#93c5fd)', lineHeight: 1.8, marginBottom: 40, maxWidth: 460, fontWeight: 400 }}>{c?.heroSubline ?? fd?.tagline ?? <>
                 Déménagement local, longue distance, international, garde-meuble. Équipes professionnelles, estimation ferme sous 24 h.
               </>}</motion.p>
 
@@ -179,7 +179,7 @@ return (
                 ].map((s) => (
                   <div key={s.label}>
                     <div style={{ fontSize: 22, fontWeight: 900, color: C.orange }}>{s.val}</div>
-                    <div style={{fontSize: 13, color: brand ?? '#93c5fd', marginTop: 4 }}>{s.label}</div>
+                    <div style={{fontSize: 13, color: brand ?? 'var(--brand,#93c5fd)', marginTop: 4 }}>{s.label}</div>
                   </div>
                 ))}
               </motion.div>
@@ -368,9 +368,9 @@ return (
                     </div>
                   )}
                   <h3 style={{ fontSize: 18, fontWeight: 800, color: plan.highlight ? C.white : C.navy, marginBottom: 4 }}>{plan.name}</h3>
-                  <div style={{ fontSize: 12, color: plan.highlight ? "#93c5fd" : C.textMuted, marginBottom: 20 }}>{plan.period}</div>
+                  <div style={{ fontSize: 12, color: plan.highlight ? "var(--brand,#93c5fd)" : C.textMuted, marginBottom: 20 }}>{plan.period}</div>
                   <div style={{ marginBottom: 24 }}>
-                    <span style={{ fontSize: 11, color: plan.highlight ? "#93c5fd" : C.textMuted, textTransform: "uppercase", fontWeight: 700 }}>{plan.suffix} </span>
+                    <span style={{ fontSize: 11, color: plan.highlight ? "var(--brand,#93c5fd)" : C.textMuted, textTransform: "uppercase", fontWeight: 700 }}>{plan.suffix} </span>
                     <span style={{ fontSize: 36, fontWeight: 900, color: plan.highlight ? C.orange : C.navy }}>{plan.price}</span>
                   </div>
                   <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 10, marginBottom: 28 }}>

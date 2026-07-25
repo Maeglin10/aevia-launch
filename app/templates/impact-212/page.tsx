@@ -38,7 +38,7 @@ let C: Record<string, string> = {
   bgCard: '#13171f',
   text: '#e8edf5',
   textMuted: '#8a95a8',
-  accent: '#e85c0c',
+  accent: 'var(--brand,#e85c0c)',
   accentDark: '#b84208',
   accentLight: '#ff7a30',
   border: '#1e2530',
@@ -427,7 +427,7 @@ function TeamCard({ name, role, years, specialty, index }: TeamCardProps) {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: '-40px' });
   const [hovered, setHovered] = useState(false);
-  const avatarColors = ['#e85c0c', '#0c8ae8', '#0ce87a'];
+  const avatarColors = ['var(--brand,#e85c0c)', '#0c8ae8', '#0ce87a'];
   const initials = name.split(' ').map(n => n[0]).join('');
 
   return (
@@ -495,7 +495,7 @@ function TestimonialCard({ name, city, text, service, index }: TestimonialCardPr
         position: 'absolute', top: -1, left: 24, right: 24, height: 2,
         background: `linear-gradient(90deg, transparent, ${C.accent}66, transparent)`,
       }} />
-      <div style={{color: brand ?? '#f5a623', fontSize: 15, marginBottom: 12, letterSpacing: 2 }}>★★★★★</div>
+      <div style={{color: brand ?? 'var(--brand-light,#f5a623)', fontSize: 15, marginBottom: 12, letterSpacing: 2 }}>★★★★★</div>
       <p style={{
         color: C.text, fontSize: 'clamp(13px, 1.5vw, 14.5px)',
         lineHeight: 1.75, fontStyle: 'italic', marginBottom: 20,
@@ -1364,7 +1364,7 @@ return (
               fontWeight: 800, color: C.white, lineHeight: 1.1, marginBottom: 12,
             }}>Ce que Disent<br /><span style={{ color: C.accent }}>Nos Clients</span></h2>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10 }}>
-              <div style={{color: brand ?? '#f5a623', fontSize: 17, letterSpacing: 3 }}>★★★★★</div>
+              <div style={{color: brand ?? 'var(--brand-light,#f5a623)', fontSize: 17, letterSpacing: 3 }}>★★★★★</div>
               <div style={{ color: C.textMuted, fontSize: 14 }}>4.9/5 sur 847 avis Google</div>
             </div>
           </motion.div>

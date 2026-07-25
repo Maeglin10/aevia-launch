@@ -34,7 +34,7 @@ let C: Record<string, string> = {
   bgCard: '#161810',
   text: '#e9ead8',
   textMuted: '#9a9a82',
-  accent: '#c8a53a',
+  accent: 'var(--brand-light,#c8a53a)',
   accentDark: '#8f7120',
   border: '#2a2c1f',
   borderLight: '#3a3c2a',
@@ -352,7 +352,7 @@ function Nav() {
               textDecoration: 'none',
               transition: 'background 0.2s',
             }}
-            onMouseEnter={(e) => ((e.target as HTMLElement).style.background = '#d9b545')}
+            onMouseEnter={(e) => ((e.target as HTMLElement).style.background = 'var(--brand,#d9b545)')}
             onMouseLeave={(e) => ((e.target as HTMLElement).style.background = C.accent)}
           >
             Devis Gratuit
@@ -624,7 +624,7 @@ function Hero() {
             }}
             onMouseEnter={(e) => {
               const el = e.currentTarget
-              el.style.background = '#d9b545'
+              el.style.background = 'var(--brand,#d9b545)'
               el.style.transform = 'translateY(-2px)'
             }}
             onMouseLeave={(e) => {
@@ -2530,7 +2530,7 @@ function ContactForm() {
                       width: '100%',
                     }}
                     onMouseEnter={(e) => {
-                      if (status !== 'loading') e.currentTarget.style.background = '#d9b545'
+                      if (status !== 'loading') e.currentTarget.style.background = 'var(--brand,#d9b545)'
                     }}
                     onMouseLeave={(e) => {
                       if (status !== 'loading') e.currentTarget.style.background = C.accent

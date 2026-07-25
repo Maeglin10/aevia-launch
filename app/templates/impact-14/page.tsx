@@ -81,7 +81,7 @@ const globalStyles = `
   .font-sans  { font-family: 'Montserrat', sans-serif; }
 
   .gold-shimmer {
-    background: linear-gradient(90deg, #c9a84c 0%, #f0d98c 40%, #c9a84c 60%, #a07828 100%);
+    background: linear-gradient(90deg, var(--brand,#c9a84c) 0%, #f0d98c 40%, var(--brand,#c9a84c) 60%, #a07828 100%);
     background-size: 200% auto;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -111,7 +111,7 @@ const globalStyles = `
     top: 0;
     width: 1px;
     height: var(--progress, 0%);
-    background: linear-gradient(to bottom, #c9a84c, transparent);
+    background: linear-gradient(to bottom, var(--brand,#c9a84c), transparent);
     transform: translateX(-50%);
     transition: height 0.1s linear;
   }
@@ -130,7 +130,7 @@ const globalStyles = `
     position: absolute;
     width: 2px;
     transform-origin: bottom center;
-    background: linear-gradient(to top, #c9a84c, transparent);
+    background: linear-gradient(to top, var(--brand,#c9a84c), transparent);
   }
 
   /* Scroll indicator bounce */
@@ -194,35 +194,35 @@ const destinations: Destination[] = [
     region: "French Riviera",
     tagline: "Where glamour meets the open sea",
     gradient: "linear-gradient(135deg, #0d1b2a 0%, #1a3a5c 50%, #0a2a4a 100%)",
-    accent: brand ?? '#c9a84c',
+    accent: brand ?? 'var(--brand,#c9a84c)',
   },
   {
     name: "Santorini",
     region: "Greek Islands",
     tagline: "Caldera sunsets from your private deck",
     gradient: "linear-gradient(135deg, #1a0a2e 0%, #2d1b4e 50%, #0d1b2a 100%)",
-    accent: brand ?? '#c9a84c',
+    accent: brand ?? 'var(--brand,#c9a84c)',
   },
   {
     name: "Maldives",
     region: "Indian Ocean",
     tagline: "Atolls of turquoise in perfect silence",
     gradient: "linear-gradient(135deg, #0a2a1a 0%, #0d3d2a 50%, #0d1b2a 100%)",
-    accent: brand ?? '#c9a84c',
+    accent: brand ?? 'var(--brand,#c9a84c)',
   },
   {
     name: "Amalfi",
     region: "Tyrrhenian Coast",
     tagline: "Cliffside villages draped in legend",
     gradient: "linear-gradient(135deg, #2a1a0a 0%, #4a2a10 50%, #1a0d0a 100%)",
-    accent: brand ?? '#c9a84c',
+    accent: brand ?? 'var(--brand,#c9a84c)',
   },
   {
     name: "St. Barts",
     region: "Caribbean",
     tagline: "Pristine bays reserved for the few",
     gradient: "linear-gradient(135deg, #0a1a2a 0%, #0d2a3a 50%, #051015 100%)",
-    accent: brand ?? '#c9a84c',
+    accent: brand ?? 'var(--brand,#c9a84c)',
   },
 ];
 
@@ -417,7 +417,7 @@ function CompassRose() {
                 transformOrigin: "top center",
                 transform: `translateX(-50%) rotate(${angle}deg) translateY(-${length}px)`,
                 background: isCardinal
-                  ? "linear-gradient(to bottom, #c9a84c, rgba(201,168,76,0.1))"
+                  ? "linear-gradient(to bottom, var(--brand,#c9a84c), rgba(201,168,76,0.1))"
                   : "linear-gradient(to bottom, rgba(201,168,76,0.6), transparent)",
                 borderRadius: 2,
               }}
@@ -432,7 +432,7 @@ function CompassRose() {
             width: 12,
             height: 12,
             borderRadius: "50%",
-            background: brand ?? '#c9a84c',
+            background: brand ?? 'var(--brand,#c9a84c)',
             transform: "translate(-50%, -50%)",
             boxShadow: "0 0 16px rgba(201,168,76,0.6)",
           }}
@@ -452,7 +452,7 @@ function CompassRose() {
                 fontFamily: "Montserrat, sans-serif",
                 fontSize: 9,
                 fontWeight: 600,
-                color: brand ?? '#c9a84c',
+                color: brand ?? 'var(--brand,#c9a84c)',
                 letterSpacing: 1,
                 ...positions[i],
               }}
@@ -534,7 +534,7 @@ function DestinationCard({
           left: 0,
           right: 0,
           height: 2,
-          background: "linear-gradient(90deg, transparent, #c9a84c, transparent)",
+          background: "linear-gradient(90deg, transparent, var(--brand,#c9a84c), transparent)",
           opacity: revealed ? 1 : 0,
           transition: "opacity 0.8s ease 0.6s",
         }}
@@ -546,10 +546,10 @@ function DestinationCard({
         viewBox="0 0 400 380"
       >
         {[80, 160, 240, 320].map((x) => (
-          <line key={x} x1={x} y1="0" x2={x} y2="380" stroke="#c9a84c" strokeWidth="0.5" />
+          <line key={x} x1={x} y1="0" x2={x} y2="380" stroke="var(--brand,#c9a84c)" strokeWidth="0.5" />
         ))}
         {[95, 190, 285].map((y) => (
-          <line key={y} x1="0" y1={y} x2="400" y2={y} stroke="#c9a84c" strokeWidth="0.5" />
+          <line key={y} x1="0" y1={y} x2="400" y2={y} stroke="var(--brand,#c9a84c)" strokeWidth="0.5" />
         ))}
       </svg>
 
@@ -568,7 +568,7 @@ function DestinationCard({
             fontSize: 10,
             fontWeight: 500,
             letterSpacing: 3,
-            color: brand ?? '#c9a84c',
+            color: brand ?? 'var(--brand,#c9a84c)',
             textTransform: "uppercase",
             marginBottom: 8,
           }}
@@ -603,13 +603,13 @@ function DestinationCard({
           <div
             style={{width: 32,
               height: 1,
-              background: brand ?? '#c9a84c',
+              background: brand ?? 'var(--brand,#c9a84c)',
             }}
           />
           <span
             style={{fontFamily: "Montserrat, sans-serif",
               fontSize: 10,
-              color: brand ?? '#c9a84c',
+              color: brand ?? 'var(--brand,#c9a84c)',
               letterSpacing: 2,
               textTransform: "uppercase",
             }}
@@ -664,8 +664,8 @@ function WaypointItem({
             width: isCurrent ? 16 : 10,
             height: isCurrent ? 16 : 10,
             borderRadius: "50%",
-            background: isActive ? "#c9a84c" : "rgba(201,168,76,0.2)",
-            border: `2px solid ${isActive ? "#c9a84c" : "rgba(201,168,76,0.3)"}`,
+            background: isActive ? "var(--brand,#c9a84c)" : "rgba(201,168,76,0.2)",
+            border: `2px solid ${isActive ? "var(--brand,#c9a84c)" : "rgba(201,168,76,0.3)"}`,
             boxShadow: isCurrent ? "0 0 0 4px rgba(201,168,76,0.2)" : "none",
             transition: "all 0.4s ease",
             zIndex: 2,
@@ -679,7 +679,7 @@ function WaypointItem({
               flexGrow: 1,
               minHeight: 60,
               background: isActive
-                ? "linear-gradient(to bottom, #c9a84c, rgba(201,168,76,0.2))"
+                ? "linear-gradient(to bottom, var(--brand,#c9a84c), rgba(201,168,76,0.2))"
                 : "rgba(201,168,76,0.1)",
               marginTop: 4,
               transition: "background 0.6s ease",
@@ -695,7 +695,7 @@ function WaypointItem({
             style={{fontFamily: "Montserrat, sans-serif",
               fontSize: 10,
               fontWeight: 600,
-              color: brand ?? '#c9a84c',
+              color: brand ?? 'var(--brand,#c9a84c)',
               letterSpacing: 2,
               textTransform: "uppercase",
             }}
@@ -948,7 +948,7 @@ export default function HorizonMaritimePage() {
           left: 0,
           right: 0,
           height: 1,
-          background: "linear-gradient(90deg, #c9a84c, #f0d98c)",
+          background: "linear-gradient(90deg, var(--brand,#c9a84c), #f0d98c)",
           transformOrigin: "left",
           scaleX: progressScaleX,
           zIndex: 100,
@@ -1004,7 +1004,7 @@ export default function HorizonMaritimePage() {
                 >
                   <Anchor
                     size={14}
-                    style={{color: brand ?? '#c9a84c', transform: "rotate(-45deg)" }}
+                    style={{color: brand ?? 'var(--brand,#c9a84c)', transform: "rotate(-45deg)" }}
                   />
                 </div>
                 <div>
@@ -1025,7 +1025,7 @@ export default function HorizonMaritimePage() {
                     style={{fontFamily: "Montserrat, sans-serif",
                       fontSize: 8,
                       fontWeight: 500,
-                      color: brand ?? '#c9a84c',
+                      color: brand ?? 'var(--brand,#c9a84c)',
                       letterSpacing: 4,
                       textTransform: "uppercase",
                     }}
@@ -1061,18 +1061,18 @@ export default function HorizonMaritimePage() {
                   fontFamily: "Montserrat, sans-serif",
                   fontSize: 11,
                   fontWeight: 500,
-                  color: page === item.page ? "#c9a84c" : "rgba(240,236,224,0.7)",
+                  color: page === item.page ? "var(--brand,#c9a84c)" : "rgba(240,236,224,0.7)",
                   textDecoration: "none",
                   letterSpacing: 2,
                   textTransform: "uppercase",
                   transition: "color 0.3s ease",
                 }}
                 onMouseEnter={(e) =>
-                  ((e.target as HTMLAnchorElement).style.color = "#c9a84c")
+                  ((e.target as HTMLAnchorElement).style.color = "var(--brand,#c9a84c)")
                 }
                 onMouseLeave={(e) =>
                   ((e.target as HTMLAnchorElement).style.color =
-                    page === item.page ? "#c9a84c" : "rgba(240,236,224,0.7)")
+                    page === item.page ? "var(--brand,#c9a84c)" : "rgba(240,236,224,0.7)")
                 }
               >
                 {item.name}
@@ -1084,7 +1084,7 @@ export default function HorizonMaritimePage() {
                 fontSize: 10,
                 fontWeight: 600,
                 color: "#0d1b2a",
-                background: brand ?? '#c9a84c',
+                background: brand ?? 'var(--brand,#c9a84c)',
                 border: "none",
                 padding: "0.7rem 1.75rem",
                 letterSpacing: 2,
@@ -1105,7 +1105,7 @@ export default function HorizonMaritimePage() {
               border: "1px solid rgba(201,168,76,0.3)",
               padding: "0.5rem",
               cursor: "pointer",
-              color: brand ?? '#c9a84c',
+              color: brand ?? 'var(--brand,#c9a84c)',
             }}
             onClick={() => setMobileOpen(true)}
           >
@@ -1136,7 +1136,7 @@ export default function HorizonMaritimePage() {
             <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "3rem" }}>
               <button
                 onClick={() => setMobileOpen(false)}
-                style={{background: "none", border: "none", color: brand ?? '#c9a84c', cursor: "pointer" }}
+                style={{background: "none", border: "none", color: brand ?? 'var(--brand,#c9a84c)', cursor: "pointer" }}
               >
                 <X size={24} />
               </button>
@@ -1162,7 +1162,7 @@ export default function HorizonMaritimePage() {
                     fontFamily: "Cormorant Garamond, Georgia, serif",
                     fontSize: "2.5rem",
                     fontWeight: 300,
-                    color: page === item.page ? "#c9a84c" : "#f0ece0",
+                    color: page === item.page ? "var(--brand,#c9a84c)" : "#f0ece0",
                     textDecoration: "none",
                     marginBottom: "1.5rem",
                     letterSpacing: 2,
@@ -1179,7 +1179,7 @@ export default function HorizonMaritimePage() {
                 paddingTop: "2rem",
               }}
             >
-              <p style={{fontFamily: "Montserrat, sans-serif", fontSize: 10, color: brand ?? '#c9a84c', letterSpacing: 3, textTransform: "uppercase" }}>
+              <p style={{fontFamily: "Montserrat, sans-serif", fontSize: 10, color: brand ?? 'var(--brand,#c9a84c)', letterSpacing: 3, textTransform: "uppercase" }}>
                 {fd?.phone ?? "+33 1 23 45 67 89"}
               </p>
             </div>
@@ -1291,7 +1291,7 @@ export default function HorizonMaritimePage() {
                 key={offset}
                 d={`M0 ${20 + offset} Q360 ${10 + offset} 720 ${22 + offset} Q1080 ${34 + offset} 1440 ${18 + offset}`}
                 fill="none"
-                stroke="#c9a84c"
+                stroke="var(--brand,#c9a84c)"
                 strokeWidth="0.5"
               />
             ))}
@@ -1359,12 +1359,12 @@ export default function HorizonMaritimePage() {
           >
             {/* Overline */}
             <div style={{ display: "flex", alignItems: "center", gap: "1rem", marginBottom: "1.5rem" }}>
-              <div style={{width: 40, height: 1, background: brand ?? '#c9a84c' }} />
+              <div style={{width: 40, height: 1, background: brand ?? 'var(--brand,#c9a84c)' }} />
               <p
                 style={{fontFamily: "Montserrat, sans-serif",
                   fontSize: 10,
                   fontWeight: 500,
-                  color: brand ?? '#c9a84c',
+                  color: brand ?? 'var(--brand,#c9a84c)',
                   letterSpacing: 4,
                   textTransform: "uppercase",
                 }}
@@ -1390,7 +1390,7 @@ export default function HorizonMaritimePage() {
             >{c?.heroHeadline ?? <>
               Beyond the
               <br />
-              <em style={{fontStyle: "italic", color: brand ?? '#c9a84c' }}>ordinary</em>
+              <em style={{fontStyle: "italic", color: brand ?? 'var(--brand,#c9a84c)' }}>ordinary</em>
               <br />
               horizon.
             </>}</motion.h1>
@@ -1424,7 +1424,7 @@ export default function HorizonMaritimePage() {
                   fontSize: 10,
                   fontWeight: 600,
                   color: "#0d1b2a",
-                  background: brand ?? '#c9a84c',
+                  background: brand ?? 'var(--brand,#c9a84c)',
                   border: "none",
                   padding: "1rem 2.5rem",
                   letterSpacing: 3,
@@ -1475,7 +1475,7 @@ export default function HorizonMaritimePage() {
             Scroll
           </p>
           <div style={{ animation: "scrollBounce 2s ease-in-out infinite" }}>
-            <ChevronDown size={16} style={{color: brand ?? '#c9a84c' }} />
+            <ChevronDown size={16} style={{color: brand ?? 'var(--brand,#c9a84c)' }} />
           </div>
         </div>
       </section>
@@ -1529,8 +1529,8 @@ export default function HorizonMaritimePage() {
           <Reveal>
             <div style={{ marginBottom: "5rem" }}>
               <div style={{ display: "flex", alignItems: "center", gap: "1rem", marginBottom: "1rem" }}>
-                <div style={{width: 32, height: 1, background: brand ?? '#c9a84c' }} />
-                <p style={{fontFamily: "Montserrat, sans-serif", fontSize: 10, color: brand ?? '#c9a84c', letterSpacing: 4, textTransform: "uppercase" }}>
+                <div style={{width: 32, height: 1, background: brand ?? 'var(--brand,#c9a84c)' }} />
+                <p style={{fontFamily: "Montserrat, sans-serif", fontSize: 10, color: brand ?? 'var(--brand,#c9a84c)', letterSpacing: 4, textTransform: "uppercase" }}>
                   Private Destinations
                 </p>
               </div>
@@ -1546,7 +1546,7 @@ export default function HorizonMaritimePage() {
               >
                 Curated anchorages,
                 <br />
-                <em style={{fontStyle: "italic", color: brand ?? '#c9a84c' }}>reserved for you alone.</em>
+                <em style={{fontStyle: "italic", color: brand ?? 'var(--brand,#c9a84c)' }}>reserved for you alone.</em>
               </h2>
             </div>
           </Reveal>
@@ -1589,7 +1589,7 @@ export default function HorizonMaritimePage() {
                 style={{fontFamily: "Montserrat, sans-serif",
                   fontSize: 10,
                   fontWeight: 500,
-                  color: brand ?? '#c9a84c',
+                  color: brand ?? 'var(--brand,#c9a84c)',
                   background: "transparent",
                   border: "1px solid rgba(201,168,76,0.3)",
                   padding: "0.85rem 2.5rem",
@@ -1625,10 +1625,10 @@ export default function HorizonMaritimePage() {
           preserveAspectRatio="xMidYMid slice"
         >
           {Array.from({ length: 20 }, (_, i) => (
-            <line key={`v${i}`} x1={i * 64} y1="0" x2={i * 64} y2="600" stroke="#c9a84c" strokeWidth="0.5" />
+            <line key={`v${i}`} x1={i * 64} y1="0" x2={i * 64} y2="600" stroke="var(--brand,#c9a84c)" strokeWidth="0.5" />
           ))}
           {Array.from({ length: 10 }, (_, i) => (
-            <line key={`h${i}`} x1="0" y1={i * 60} x2="1280" y2={i * 60} stroke="#c9a84c" strokeWidth="0.5" />
+            <line key={`h${i}`} x1="0" y1={i * 60} x2="1280" y2={i * 60} stroke="var(--brand,#c9a84c)" strokeWidth="0.5" />
           ))}
         </svg>
 
@@ -1645,8 +1645,8 @@ export default function HorizonMaritimePage() {
             <div>
               <Reveal>
                 <div style={{ display: "flex", alignItems: "center", gap: "1rem", marginBottom: "1rem" }}>
-                  <div style={{width: 32, height: 1, background: brand ?? '#c9a84c' }} />
-                  <p style={{fontFamily: "Montserrat, sans-serif", fontSize: 10, color: brand ?? '#c9a84c', letterSpacing: 4, textTransform: "uppercase" }}>
+                  <div style={{width: 32, height: 1, background: brand ?? 'var(--brand,#c9a84c)' }} />
+                  <p style={{fontFamily: "Montserrat, sans-serif", fontSize: 10, color: brand ?? 'var(--brand,#c9a84c)', letterSpacing: 4, textTransform: "uppercase" }}>
                     The Horizon Standard
                   </p>
                 </div>
@@ -1664,7 +1664,7 @@ export default function HorizonMaritimePage() {
                 >
                   Every voyage is authored
                   <br />
-                  <em style={{fontStyle: "italic", color: brand ?? '#c9a84c' }}>specifically for you.</em>
+                  <em style={{fontStyle: "italic", color: brand ?? 'var(--brand,#c9a84c)' }}>specifically for you.</em>
                 </h2>
               </Reveal>
               <Reveal delay={0.2}>
@@ -1719,7 +1719,7 @@ export default function HorizonMaritimePage() {
                     <div
                       style={{width: 6,
                         height: 6,
-                        background: brand ?? '#c9a84c',
+                        background: brand ?? 'var(--brand,#c9a84c)',
                         borderRadius: "50%",
                         flexShrink: 0,
                       }}
@@ -1802,7 +1802,7 @@ export default function HorizonMaritimePage() {
                     width: 80,
                     height: 80,
                     borderRadius: "50%",
-                    background: brand ?? '#c9a84c',
+                    background: brand ?? 'var(--brand,#c9a84c)',
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "center",
@@ -1842,7 +1842,7 @@ export default function HorizonMaritimePage() {
                 }}
               >
                 <div style={{ width: 40, height: 1, background: "rgba(201,168,76,0.4)" }} />
-                <p style={{fontFamily: "Montserrat, sans-serif", fontSize: 10, color: brand ?? '#c9a84c', letterSpacing: 4, textTransform: "uppercase" }}>
+                <p style={{fontFamily: "Montserrat, sans-serif", fontSize: 10, color: brand ?? 'var(--brand,#c9a84c)', letterSpacing: 4, textTransform: "uppercase" }}>
                   Sample Voyage
                 </p>
                 <div style={{ width: 40, height: 1, background: "rgba(201,168,76,0.4)" }} />
@@ -1884,7 +1884,7 @@ export default function HorizonMaritimePage() {
                   fontSize: 10,
                   fontWeight: 600,
                   color: "#0d1b2a",
-                  background: brand ?? '#c9a84c',
+                  background: brand ?? 'var(--brand,#c9a84c)',
                   border: "none",
                   padding: "1rem 2.5rem",
                   letterSpacing: 3,
@@ -1922,7 +1922,7 @@ export default function HorizonMaritimePage() {
                 }}
               >
                 <div style={{ width: 32, height: 1, background: "rgba(201,168,76,0.4)" }} />
-                <p style={{fontFamily: "Montserrat, sans-serif", fontSize: 10, color: brand ?? '#c9a84c', letterSpacing: 4, textTransform: "uppercase" }}>
+                <p style={{fontFamily: "Montserrat, sans-serif", fontSize: 10, color: brand ?? 'var(--brand,#c9a84c)', letterSpacing: 4, textTransform: "uppercase" }}>
                   Client Reflections
                 </p>
                 <div style={{ width: 32, height: 1, background: "rgba(201,168,76,0.4)" }} />
@@ -1974,7 +1974,7 @@ export default function HorizonMaritimePage() {
               {/* Stars */}
               <div style={{ display: "flex", justifyContent: "center", gap: 4, marginBottom: "2rem" }}>
                 {Array.from({ length: testimonials[activeTestimonial].stars }, (_, i) => (
-                  <Star key={i} size={14} style={{color: brand ?? '#c9a84c', fill: "#c9a84c" }} />
+                  <Star key={i} size={14} style={{color: brand ?? 'var(--brand,#c9a84c)', fill: "var(--brand,#c9a84c)" }} />
                 ))}
               </div>
 
@@ -2001,7 +2001,7 @@ export default function HorizonMaritimePage() {
                 <p style={{ fontFamily: "Montserrat, sans-serif", fontSize: 10, color: "rgba(240,236,224,0.4)", letterSpacing: 1 }}>
                   {testimonials[activeTestimonial].title}
                 </p>
-                <p style={{fontFamily: "Montserrat, sans-serif", fontSize: 10, color: brand ?? '#c9a84c', letterSpacing: 2, marginTop: 4 }}>
+                <p style={{fontFamily: "Montserrat, sans-serif", fontSize: 10, color: brand ?? 'var(--brand,#c9a84c)', letterSpacing: 2, marginTop: 4 }}>
                   {testimonials[activeTestimonial].yacht}
                 </p>
               </div>
@@ -2017,7 +2017,7 @@ export default function HorizonMaritimePage() {
                 style={{
                   width: i === activeTestimonial ? 32 : 8,
                   height: 2,
-                  background: i === activeTestimonial ? "#c9a84c" : "rgba(201,168,76,0.3)",
+                  background: i === activeTestimonial ? "var(--brand,#c9a84c)" : "rgba(201,168,76,0.3)",
                   border: "none",
                   cursor: "pointer",
                   transition: "all 0.4s ease",
@@ -2049,7 +2049,7 @@ export default function HorizonMaritimePage() {
                 }}
               >
                 <div style={{ width: 32, height: 1, background: "rgba(201,168,76,0.4)" }} />
-                <p style={{fontFamily: "Montserrat, sans-serif", fontSize: 10, color: brand ?? '#c9a84c', letterSpacing: 4, textTransform: "uppercase" }}>
+                <p style={{fontFamily: "Montserrat, sans-serif", fontSize: 10, color: brand ?? 'var(--brand,#c9a84c)', letterSpacing: 4, textTransform: "uppercase" }}>
                   Begin Your Journey
                 </p>
                 <div style={{ width: 32, height: 1, background: "rgba(201,168,76,0.4)" }} />
@@ -2158,7 +2158,7 @@ export default function HorizonMaritimePage() {
                         fontWeight: 300,
                       }}
                     >
-                      <input type="radio" name="vesselType" style={{accentColor: brand ?? '#c9a84c' }} />
+                      <input type="radio" name="vesselType" style={{accentColor: brand ?? 'var(--brand,#c9a84c)' }} />
                       {type}
                     </label>
                   ))}
@@ -2211,7 +2211,7 @@ export default function HorizonMaritimePage() {
                   fontSize: 11,
                   fontWeight: 600,
                   color: "#0d1b2a",
-                  background: brand ?? '#c9a84c',
+                  background: brand ?? 'var(--brand,#c9a84c)',
                   border: "none",
                   padding: "1.1rem",
                   letterSpacing: 4,
@@ -2283,7 +2283,7 @@ export default function HorizonMaritimePage() {
                     transform: "rotate(45deg)",
                   }}
                 >
-                  <Anchor size={14} style={{color: brand ?? '#c9a84c', transform: "rotate(-45deg)" }} />
+                  <Anchor size={14} style={{color: brand ?? 'var(--brand,#c9a84c)', transform: "rotate(-45deg)" }} />
                 </div>
                 <div>
                   <p style={{ fontFamily: "Cormorant Garamond, Georgia, serif", fontSize: "1.2rem", color: "#f0ece0", letterSpacing: 2, textTransform: "uppercase" }}>
@@ -2295,11 +2295,11 @@ export default function HorizonMaritimePage() {
                 Crafting extraordinary maritime experiences since 1997. Monaco — Geneva — Singapore.
               </p>
               <div style={{ marginTop: "2rem", display: "flex", gap: "1rem" }}>
-                <a href="#contact" style={{fontFamily: "Montserrat, sans-serif", fontSize: 9, color: brand ?? '#c9a84c', letterSpacing: 2, textDecoration: "none" }}>
+                <a href="#contact" style={{fontFamily: "Montserrat, sans-serif", fontSize: 9, color: brand ?? 'var(--brand,#c9a84c)', letterSpacing: 2, textDecoration: "none" }}>
                   Instagram
                 </a>
                 <span style={{ color: "rgba(201,168,76,0.3)" }}>·</span>
-                <a href="#contact" style={{fontFamily: "Montserrat, sans-serif", fontSize: 9, color: brand ?? '#c9a84c', letterSpacing: 2, textDecoration: "none" }}>
+                <a href="#contact" style={{fontFamily: "Montserrat, sans-serif", fontSize: 9, color: brand ?? 'var(--brand,#c9a84c)', letterSpacing: 2, textDecoration: "none" }}>
                   LinkedIn
                 </a>
               </div>
@@ -2324,7 +2324,7 @@ export default function HorizonMaritimePage() {
                   style={{fontFamily: "Montserrat, sans-serif",
                     fontSize: 9,
                     fontWeight: 600,
-                    color: brand ?? '#c9a84c',
+                    color: brand ?? 'var(--brand,#c9a84c)',
                     letterSpacing: 4,
                     textTransform: "uppercase",
                     marginBottom: "1.5rem",
@@ -2385,7 +2385,7 @@ export default function HorizonMaritimePage() {
                 href={`tel:${fd?.phone ?? "+33123456789"}`}
                 style={{ display: "flex", alignItems: "center", gap: "0.5rem", textDecoration: "none" }}
               >
-                <Phone size={12} style={{color: brand ?? '#c9a84c' }} />
+                <Phone size={12} style={{color: brand ?? 'var(--brand,#c9a84c)' }} />
                 <span style={{ fontFamily: "Montserrat, sans-serif", fontSize: 11, color: "rgba(240,236,224,0.5)" }}>
                   {fd?.phone ?? "+33 1 23 45 67 89"}
                 </span>
@@ -2394,11 +2394,11 @@ export default function HorizonMaritimePage() {
                 href={`mailto:${fd?.email ?? "voyages@horizonmaritime.com"}`}
                 style={{ display: "flex", alignItems: "center", gap: "0.5rem", textDecoration: "none" }}
               >
-                <Mail size={12} style={{color: brand ?? '#c9a84c' }} />
+                <Mail size={12} style={{color: brand ?? 'var(--brand,#c9a84c)' }} />
                 <span style={{ fontFamily: "Montserrat, sans-serif", fontSize: 11, color: "rgba(240,236,224,0.5)" }}>{fd?.email ?? "voyages@horizonmaritime.com"}</span>
               </a>
               <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-                <MapPin size={12} style={{color: brand ?? '#c9a84c' }} />
+                <MapPin size={12} style={{color: brand ?? 'var(--brand,#c9a84c)' }} />
                 <span style={{ fontFamily: "Montserrat, sans-serif", fontSize: 11, color: "rgba(240,236,224,0.5)" }}>
                   Port Hercules, Monaco
                 </span>
@@ -2523,14 +2523,14 @@ function FleetPage({ goTo }: { goTo: (p: ActivePage) => void }) {
         {/* Title */}
         <div style={{ textAlign: "center", marginBottom: "4rem" }}>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "1rem", marginBottom: "1rem" }}>
-            <div style={{width: 32, height: 1, background: brand ?? '#c9a84c' }} />
-            <p style={{fontFamily: "Montserrat, sans-serif", fontSize: 10, color: brand ?? '#c9a84c', letterSpacing: 4, textTransform: "uppercase" }}>
+            <div style={{width: 32, height: 1, background: brand ?? 'var(--brand,#c9a84c)' }} />
+            <p style={{fontFamily: "Montserrat, sans-serif", fontSize: 10, color: brand ?? 'var(--brand,#c9a84c)', letterSpacing: 4, textTransform: "uppercase" }}>
               Our Fleet
             </p>
-            <div style={{width: 32, height: 1, background: brand ?? '#c9a84c' }} />
+            <div style={{width: 32, height: 1, background: brand ?? 'var(--brand,#c9a84c)' }} />
           </div>
           <h1 style={{ fontFamily: "Cormorant Garamond, Georgia, serif", fontSize: "clamp(2.5rem, 5vw, 4.5rem)", fontWeight: 300, color: "#f0ece0", lineHeight: 1.1, marginBottom: "1.5rem" }}>
-            The Horizon <em style={{fontStyle: "italic", color: brand ?? '#c9a84c' }}>Collection</em>
+            The Horizon <em style={{fontStyle: "italic", color: brand ?? 'var(--brand,#c9a84c)' }}>Collection</em>
           </h1>
           <p style={{ fontFamily: "Montserrat, sans-serif", fontSize: 13, color: "rgba(240,236,224,0.6)", maxWidth: 600, margin: "0 auto", lineHeight: 1.8 }}>
             Explore our curated portfolio of ultra-luxury vessels available for charter. Each yacht is maintained to impeccable standards with hand-selected crews.
@@ -2547,8 +2547,8 @@ function FleetPage({ goTo }: { goTo: (p: ActivePage) => void }) {
                 fontFamily: "Montserrat, sans-serif",
                 fontSize: 10,
                 fontWeight: 600,
-                color: filter === t ? "#0d1b2a" : "#c9a84c",
-                background: filter === t ? "#c9a84c" : "transparent",
+                color: filter === t ? "#0d1b2a" : "var(--brand,#c9a84c)",
+                background: filter === t ? "var(--brand,#c9a84c)" : "transparent",
                 border: "1px solid rgba(201,168,76,0.3)",
                 padding: "0.75rem 2rem",
                 letterSpacing: 2,
@@ -2586,7 +2586,7 @@ function FleetPage({ goTo }: { goTo: (p: ActivePage) => void }) {
                 />
                 <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(10,21,32,0.8), transparent)" }} />
                 <div style={{ position: "absolute", bottom: "1rem", left: "1.5rem", right: "1.5rem", display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
-                  <span style={{fontFamily: "Montserrat, sans-serif", fontSize: 9, color: brand ?? '#c9a84c', letterSpacing: 2, textTransform: "uppercase", fontWeight: 600 }}>
+                  <span style={{fontFamily: "Montserrat, sans-serif", fontSize: 9, color: brand ?? 'var(--brand,#c9a84c)', letterSpacing: 2, textTransform: "uppercase", fontWeight: 600 }}>
                     {yacht.type} yacht
                   </span>
                   <span style={{ fontFamily: "Cormorant Garamond, Georgia, serif", fontSize: "1.4rem", color: "#f0ece0" }}>
@@ -2628,7 +2628,7 @@ function FleetPage({ goTo }: { goTo: (p: ActivePage) => void }) {
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: "auto" }}>
                   <div>
                     <p style={{ fontFamily: "Montserrat, sans-serif", fontSize: 8, color: "rgba(240,236,224,0.4)", letterSpacing: 1, textTransform: "uppercase" }}>Weekly Rate</p>
-                    <p style={{fontFamily: "Montserrat, sans-serif", fontSize: 13, color: brand ?? '#c9a84c', fontWeight: 600 }}>from {yacht.price}</p>
+                    <p style={{fontFamily: "Montserrat, sans-serif", fontSize: 13, color: brand ?? 'var(--brand,#c9a84c)', fontWeight: 600 }}>from {yacht.price}</p>
                   </div>
                   <button
                     onClick={() => goTo("contact")}
@@ -2636,7 +2636,7 @@ function FleetPage({ goTo }: { goTo: (p: ActivePage) => void }) {
                       fontSize: 9,
                       fontWeight: 600,
                       color: "#0d1b2a",
-                      background: brand ?? '#c9a84c',
+                      background: brand ?? 'var(--brand,#c9a84c)',
                       border: "none",
                       padding: "0.6rem 1.25rem",
                       letterSpacing: 2,
@@ -2714,14 +2714,14 @@ function DestinationsPage({ goTo }: { goTo: (p: ActivePage) => void }) {
         {/* Title */}
         <div style={{ textAlign: "center", marginBottom: "5rem" }}>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "1rem", marginBottom: "1rem" }}>
-            <div style={{width: 32, height: 1, background: brand ?? '#c9a84c' }} />
-            <p style={{fontFamily: "Montserrat, sans-serif", fontSize: 10, color: brand ?? '#c9a84c', letterSpacing: 4, textTransform: "uppercase" }}>
+            <div style={{width: 32, height: 1, background: brand ?? 'var(--brand,#c9a84c)' }} />
+            <p style={{fontFamily: "Montserrat, sans-serif", fontSize: 10, color: brand ?? 'var(--brand,#c9a84c)', letterSpacing: 4, textTransform: "uppercase" }}>
               Private Journeys
             </p>
-            <div style={{width: 32, height: 1, background: brand ?? '#c9a84c' }} />
+            <div style={{width: 32, height: 1, background: brand ?? 'var(--brand,#c9a84c)' }} />
           </div>
           <h1 style={{ fontFamily: "Cormorant Garamond, Georgia, serif", fontSize: "clamp(2.5rem, 5vw, 4.5rem)", fontWeight: 300, color: "#f0ece0", lineHeight: 1.1, marginBottom: "1.5rem" }}>
-            Curated <em style={{fontStyle: "italic", color: brand ?? '#c9a84c' }}>Destinations</em>
+            Curated <em style={{fontStyle: "italic", color: brand ?? 'var(--brand,#c9a84c)' }}>Destinations</em>
           </h1>
           <p style={{ fontFamily: "Montserrat, sans-serif", fontSize: 13, color: "rgba(240,236,224,0.6)", maxWidth: 600, margin: "0 auto", lineHeight: 1.8 }}>
             Navigate the world's most exceptional coastal waters. From sun-drenched Mediterranean shores to untouched polar wilderness.
@@ -2748,7 +2748,7 @@ function DestinationsPage({ goTo }: { goTo: (p: ActivePage) => void }) {
                 backgroundPosition: "center",
               }}
             >
-              <span style={{position: "absolute", top: "2rem", right: "2rem", fontFamily: "Montserrat, sans-serif", fontSize: 8, color: brand ?? '#c9a84c', border: "1px solid rgba(201,168,76,0.3)", padding: "0.4rem 1rem", textTransform: "uppercase", letterSpacing: 2 }}>
+              <span style={{position: "absolute", top: "2rem", right: "2rem", fontFamily: "Montserrat, sans-serif", fontSize: 8, color: brand ?? 'var(--brand,#c9a84c)', border: "1px solid rgba(201,168,76,0.3)", padding: "0.4rem 1rem", textTransform: "uppercase", letterSpacing: 2 }}>
                 {dest.region}
               </span>
 
@@ -2767,7 +2767,7 @@ function DestinationsPage({ goTo }: { goTo: (p: ActivePage) => void }) {
                   </div>
                   <div>
                     <span style={{ display: "block", fontFamily: "Montserrat, sans-serif", fontSize: 7, color: "rgba(240,236,224,0.4)", textTransform: "uppercase", letterSpacing: 1 }}>Recommended Vessel</span>
-                    <span style={{fontFamily: "Montserrat, sans-serif", fontSize: 11, color: brand ?? '#c9a84c', fontWeight: 500 }}>{dest.yacht}</span>
+                    <span style={{fontFamily: "Montserrat, sans-serif", fontSize: 11, color: brand ?? 'var(--brand,#c9a84c)', fontWeight: 500 }}>{dest.yacht}</span>
                   </div>
                 </div>
 
@@ -2778,7 +2778,7 @@ function DestinationsPage({ goTo }: { goTo: (p: ActivePage) => void }) {
                     fontSize: 9,
                     fontWeight: 600,
                     color: "#0d1b2a",
-                    background: brand ?? '#c9a84c',
+                    background: brand ?? 'var(--brand,#c9a84c)',
                     border: "none",
                     padding: "0.85rem",
                     letterSpacing: 2,
@@ -2828,14 +2828,14 @@ function ExperiencePage({ goTo }: { goTo: (p: ActivePage) => void }) {
         {/* Title */}
         <div style={{ textAlign: "center", marginBottom: "6rem" }}>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "1rem", marginBottom: "1rem" }}>
-            <div style={{width: 32, height: 1, background: brand ?? '#c9a84c' }} />
-            <p style={{fontFamily: "Montserrat, sans-serif", fontSize: 10, color: brand ?? '#c9a84c', letterSpacing: 4, textTransform: "uppercase" }}>
+            <div style={{width: 32, height: 1, background: brand ?? 'var(--brand,#c9a84c)' }} />
+            <p style={{fontFamily: "Montserrat, sans-serif", fontSize: 10, color: brand ?? 'var(--brand,#c9a84c)', letterSpacing: 4, textTransform: "uppercase" }}>
               The Horizon Standard
             </p>
-            <div style={{width: 32, height: 1, background: brand ?? '#c9a84c' }} />
+            <div style={{width: 32, height: 1, background: brand ?? 'var(--brand,#c9a84c)' }} />
           </div>
           <h1 style={{ fontFamily: "Cormorant Garamond, Georgia, serif", fontSize: "clamp(2.5rem, 5vw, 4.5rem)", fontWeight: 300, color: "#f0ece0", lineHeight: 1.1, marginBottom: "1.5rem" }}>
-            The Onboard <em style={{fontStyle: "italic", color: brand ?? '#c9a84c' }}>Experience</em>
+            The Onboard <em style={{fontStyle: "italic", color: brand ?? 'var(--brand,#c9a84c)' }}>Experience</em>
           </h1>
           <p style={{ fontFamily: "Montserrat, sans-serif", fontSize: 13, color: "rgba(240,236,224,0.6)", maxWidth: 600, margin: "0 auto", lineHeight: 1.8 }}>
             True luxury is the absence of friction. We manage every detail of your journey so that your only responsibility is to enjoy the open sea.
@@ -2879,7 +2879,7 @@ function ExperiencePage({ goTo }: { goTo: (p: ActivePage) => void }) {
                     style={{fontFamily: "Montserrat, sans-serif",
                       fontSize: 10,
                       fontWeight: 600,
-                      color: brand ?? '#c9a84c',
+                      color: brand ?? 'var(--brand,#c9a84c)',
                       background: "transparent",
                       border: "1px solid rgba(201,168,76,0.4)",
                       padding: "0.75rem 2rem",
@@ -2914,14 +2914,14 @@ function ContactPage() {
         {/* Title */}
         <div style={{ textAlign: "center", marginBottom: "5rem" }}>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "1rem", marginBottom: "1rem" }}>
-            <div style={{width: 32, height: 1, background: brand ?? '#c9a84c' }} />
-            <p style={{fontFamily: "Montserrat, sans-serif", fontSize: 10, color: brand ?? '#c9a84c', letterSpacing: 4, textTransform: "uppercase" }}>
+            <div style={{width: 32, height: 1, background: brand ?? 'var(--brand,#c9a84c)' }} />
+            <p style={{fontFamily: "Montserrat, sans-serif", fontSize: 10, color: brand ?? 'var(--brand,#c9a84c)', letterSpacing: 4, textTransform: "uppercase" }}>
               Get In Touch
             </p>
-            <div style={{width: 32, height: 1, background: brand ?? '#c9a84c' }} />
+            <div style={{width: 32, height: 1, background: brand ?? 'var(--brand,#c9a84c)' }} />
           </div>
           <h1 style={{ fontFamily: "Cormorant Garamond, Georgia, serif", fontSize: "clamp(2.5rem, 5vw, 4.5rem)", fontWeight: 300, color: "#f0ece0", lineHeight: 1.1, marginBottom: "1.5rem" }}>
-            Begin Your <em style={{fontStyle: "italic", color: brand ?? '#c9a84c' }}>Voyage</em>
+            Begin Your <em style={{fontStyle: "italic", color: brand ?? 'var(--brand,#c9a84c)' }}>Voyage</em>
           </h1>
           <p style={{ fontFamily: "Montserrat, sans-serif", fontSize: 13, color: "rgba(240,236,224,0.6)", maxWidth: 600, margin: "0 auto", lineHeight: 1.8 }}>
             Reach out to our global charter desks or submit a private enquiry. A voyage architect will respond within 4 hours.
@@ -2944,7 +2944,7 @@ function ContactPage() {
                   borderRadius: 4,
                 }}
               >
-                <h4 style={{fontFamily: "Montserrat, sans-serif", fontSize: 14, fontWeight: 600, color: brand ?? '#c9a84c', textTransform: "uppercase", letterSpacing: 2, marginBottom: "0.5rem" }}>
+                <h4 style={{fontFamily: "Montserrat, sans-serif", fontSize: 14, fontWeight: 600, color: brand ?? 'var(--brand,#c9a84c)', textTransform: "uppercase", letterSpacing: 2, marginBottom: "0.5rem" }}>
                   {off.city}
                 </h4>
                 <p style={{ fontFamily: "Montserrat, sans-serif", fontSize: 12, color: "rgba(240,236,224,0.6)", marginBottom: "1rem", fontWeight: 300 }}>
@@ -2954,7 +2954,7 @@ function ContactPage() {
                   <span style={{ fontFamily: "Montserrat, sans-serif", fontSize: 11, color: "#f0ece0" }}>
                     Tel: {off.phone}
                   </span>
-                  <span style={{fontFamily: "Montserrat, sans-serif", fontSize: 11, color: brand ?? '#c9a84c' }}>
+                  <span style={{fontFamily: "Montserrat, sans-serif", fontSize: 11, color: brand ?? 'var(--brand,#c9a84c)' }}>
                     Email: {off.email}
                   </span>
                 </div>
@@ -3007,7 +3007,7 @@ function ContactPage() {
                   fontSize: 10,
                   fontWeight: 600,
                   color: "#0d1b2a",
-                  background: brand ?? '#c9a84c',
+                  background: brand ?? 'var(--brand,#c9a84c)',
                   border: "none",
                   padding: "1rem",
                   letterSpacing: 3,
@@ -3037,7 +3037,7 @@ function LegalPage() {
         <div style={{ display: "flex", flexDirection: "column", gap: "2.5rem", fontSize: "0.9rem", color: "rgba(240,236,224,0.7)", lineHeight: 1.8, fontWeight: 300 }}>
           {/* Legal Identity Block */}
           <div style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(201,168,76,0.15)", padding: "2rem", borderRadius: 4 }}>
-            <h3 style={{fontFamily: "Cormorant Garamond, Georgia, serif", fontSize: "1.4rem", color: brand ?? '#c9a84c', marginBottom: "1rem", fontWeight: 400 }}>
+            <h3 style={{fontFamily: "Cormorant Garamond, Georgia, serif", fontSize: "1.4rem", color: brand ?? 'var(--brand,#c9a84c)', marginBottom: "1rem", fontWeight: 400 }}>
               Publisher & Host Information
             </h3>
             <p style={{ margin: 0 }}>

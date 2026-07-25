@@ -48,7 +48,7 @@ let C: Record<string, string> = {
   textFaint: '#7a8a80',
   border: '#c8d8cc',
   borderDark: 'rgba(26,92,56,0.2)',
-  gold: '#b89040',
+  gold: 'var(--brand,#b89040)',
 };
 
 const SERIF = "'DM Serif Display', Georgia, serif" as const;

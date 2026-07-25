@@ -117,7 +117,7 @@ const STORES = [
    Sections map: 0→hero, 1→collection, 2→gallery, 3→lookbook, 4→sustainability
 ───────────────────────────────────────────────────────────────────────────── */
 
-const ACCENT_STOPS = ['#0a0a0a', '#8b4513', '#1a3a5c', '#2d4a1e'];
+const ACCENT_STOPS = ['#0a0a0a', 'var(--brand-light,#8b4513)', '#1a3a5c', '#2d4a1e'];
 
 /* ─────────────────────────────────────────────────────────────────────────────
    GEOMETRIC PRODUCT (CSS-DRAWN — simulates a structured bag / watch)
@@ -176,7 +176,7 @@ function GeometricProduct({ rotateY }: { rotateY: import('framer-motion').Motion
             height: 28,
             border: '2px solid #0a0a0a',
             borderRadius: '50%',
-            background: '#e8c97a',
+            background: 'var(--brand,#e8c97a)',
             zIndex: 2,
           }}
         />
@@ -236,7 +236,7 @@ function GeometricProduct({ rotateY }: { rotateY: import('framer-motion').Motion
               position: 'absolute',
               width: 10,
               height: 10,
-              background: '#e8c97a',
+              background: 'var(--brand,#e8c97a)',
               borderRadius: '50%',
               ...pos,
             }}

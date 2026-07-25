@@ -78,9 +78,9 @@ let C: Record<string, string> = {
   bg:        "#FDF2F8",
   bgCard:    "#FFF0F6",
   bgDeep:    "#FCE7F3",
-  primary:   "#EC4899",
+  primary:   "var(--brand,#ec4899)",
   secondary: "#8B5CF6",
-  text:      "#831843",
+  text:      "var(--brand-light,#831843)",
   textSoft:  "#9D174D",
   textMuted: "#BE185D",
   textLight: "#F9A8D4",
@@ -98,7 +98,7 @@ const PORTFOLIO_FILTERS = ["Tout", "Gel", "Nail Art", "French", "Extensions", "S
 
 const PORTFOLIO_ITEMS = [
   { id: 1, category: "Nail Art", title: "Fleurs de Cerisier", desc: "Aquarelle sur base nude rosée", accent: "#FBCFE8", img: "photo-1604654894610-df63bc536371" },
-  { id: 2, category: "Gel",      title: "Rose Velours",       desc: "Gel couleur longue tenue",      accent: "#EC4899", img: "photo-1522337360788-8b13dee7a37e" },
+  { id: 2, category: "Gel",      title: "Rose Velours",       desc: "Gel couleur longue tenue",      accent: "var(--brand,#ec4899)", img: "photo-1522337360788-8b13dee7a37e" },
   { id: 3, category: "French",   title: "French Classique",   desc: "Pointe blanche parfaite",       accent: "#FDF4FF", img: "photo-1604654894610-df63bc536371" },
   { id: 4, category: "Extensions","title": "Extensions Stiletto","desc": "Forme pointue couture",    accent: "#A855F7", img: "photo-1522337360788-8b13dee7a37e" },
   { id: 5, category: "Seasonal", title: "Collection Printemps","desc": "Fleurs & pastel",            accent: "#F9A8D4", img: "photo-1604654894610-df63bc536371" },
@@ -145,7 +145,7 @@ const ARTISTS_DEMO = [
     specialty: "Soins & French Signature",
     certs: ["Japonais Kératine", "CND Vinylux", "Aromathérapie"],
     bio: "Passionnée de soins de l'ongle naturel. Chaque consultation commence par un diagnostic précis.",
-    color: "#EC4899",
+    color: "var(--brand,#ec4899)",
     img: "photo-1522337360788-8b13dee7a37e",
   },
 ]
@@ -247,7 +247,7 @@ function StarRating({ count = 5 }: { count?: number }) {
   return (
     <div className="flex gap-[3px]">
       {Array.from({ length: count }).map((_, i) => (
-        <Star key={i} className="w-3.5 h-3.5 fill-[#EC4899] text-[#EC4899]" />
+        <Star key={i} className="w-3.5 h-3.5 fill-[var(--brand,#ec4899)] text-[var(--brand,#ec4899)]" />
       ))}
     </div>
   )
@@ -262,7 +262,7 @@ function ScrollProgressBar() {
   return (
     <motion.div
       style={{ scaleX, transformOrigin: "left" }}
-      className="fixed top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[#EC4899] to-[#8B5CF6] z-[100]"
+      className="fixed top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[var(--brand,#ec4899)] to-[#8B5CF6] z-[100]"
     />
   )
 }
@@ -301,9 +301,9 @@ function Nav() {
               />
             ) : (
               <>
-                <Sparkles className="w-5 h-5 text-[#EC4899]" />
+                <Sparkles className="w-5 h-5 text-[var(--brand,#ec4899)]" />
                 <span
-                  className="text-[22px] font-[500] italic text-[#831843] tracking-wide"
+                  className="text-[22px] font-[500] italic text-[var(--brand-light,#831843)] tracking-wide"
                   style={{ fontFamily: "'Playfair Display', serif" }}
                 >
                   VELVET
@@ -324,13 +324,13 @@ function Nav() {
               <Link
                 key={link}
                 href={`#${link.toLowerCase()}`}
-                className="text-[13px] font-[400] text-[#9D174D] hover:text-[#EC4899] transition-colors duration-200 tracking-wide"
+                className="text-[13px] font-[400] text-[#9D174D] hover:text-[var(--brand,#ec4899)] transition-colors duration-200 tracking-wide"
                 style={{ fontFamily: "'Inter', sans-serif" }}
               >
                 {link}
               </Link>
             ))}
-            <Link href="#contact" className="ml-2 px-6 py-2.5 bg-[#EC4899] text-white text-[12px] font-[600] uppercase tracking-[0.12em] rounded-full hover:bg-[#DB2777] transition-all duration-200 shadow-[0_4px_16px_rgba(236,72,153,0.35)] text-center"
+            <Link href="#contact" className="ml-2 px-6 py-2.5 bg-[var(--brand,#ec4899)] text-white text-[12px] font-[600] uppercase tracking-[0.12em] rounded-full hover:bg-[#DB2777] transition-all duration-200 shadow-[0_4px_16px_rgba(236,72,153,0.35)] text-center"
               style={{ fontFamily: "'Inter', sans-serif" }}>
               Réserver
             </Link>
@@ -338,7 +338,7 @@ function Nav() {
 
           {/* Mobile burger */}
           <button
-            className="lg:hidden p-2 text-[#831843]"
+            className="lg:hidden p-2 text-[var(--brand-light,#831843)]"
             onClick={() => setMobileOpen((v) => !v)}
             aria-label="Menu"
           >
@@ -362,7 +362,7 @@ function Nav() {
                 <motion.div key={link} initial={{ opacity: 0, x: 24 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.06 }}>
                   <Link
                     href={`#${link.toLowerCase()}`}
-                    className="text-left text-[28px] font-[500] italic text-[#831843] hover:text-[#EC4899] transition-colors"
+                    className="text-left text-[28px] font-[500] italic text-[var(--brand-light,#831843)] hover:text-[var(--brand,#ec4899)] transition-colors"
                     style={{ fontFamily: "'Playfair Display', serif" }}
                     onClick={() => setMobileOpen(false)}
                   >
@@ -374,7 +374,7 @@ function Nav() {
             <Link
               href="#contact"
               onClick={() => setMobileOpen(false)}
-              className="w-full py-4 bg-[#EC4899] text-white text-[14px] font-[600] uppercase tracking-[0.15em] rounded-full shadow-[0_4px_20px_rgba(236,72,153,0.35)] text-center"
+              className="w-full py-4 bg-[var(--brand,#ec4899)] text-white text-[14px] font-[600] uppercase tracking-[0.15em] rounded-full shadow-[0_4px_20px_rgba(236,72,153,0.35)] text-center"
               style={{ fontFamily: "'Inter', sans-serif" }}
             >
               Réserver en ligne
@@ -410,7 +410,7 @@ function Hero() {
       >
         <div className="absolute inset-0 bg-gradient-to-br from-[#FDF2F8] via-[#FCE7F3] to-[#F5D0FE]" />
         {/* Radial petal accents */}
-        <div className="absolute top-[10%] left-[8%] w-[420px] h-[420px] bg-[#EC4899]/8 rounded-full blur-[80px]" />
+        <div className="absolute top-[10%] left-[8%] w-[420px] h-[420px] bg-[var(--brand,#ec4899)]/8 rounded-full blur-[80px]" />
         <div className="absolute bottom-[15%] right-[10%] w-[380px] h-[380px] bg-[#8B5CF6]/10 rounded-full blur-[90px]" />
         <div className="absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#F9A8D4]/12 rounded-full blur-[120px]" />
       </motion.div>
@@ -438,7 +438,7 @@ function Hero() {
             <svg width={blob.size} height={blob.size * 1.4} viewBox="0 0 24 34" fill="none">
               <path
                 d="M12 2C7 2 3 7 3 12 L3 26 C3 29 5.6 32 9 32 L15 32 C18.4 32 21 29 21 26 L21 12 C21 7 17 2 12 2 Z"
-                fill="#EC4899"
+                fill="var(--brand,#ec4899)"
               />
               <ellipse cx="8.5" cy="9" rx="2.5" ry="4" fill="white" fillOpacity="0.15" />
             </svg>
@@ -473,11 +473,11 @@ function Hero() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="inline-flex items-center gap-2 px-4 py-1.5 bg-[#EC4899]/10 rounded-full mb-8"
+            className="inline-flex items-center gap-2 px-4 py-1.5 bg-[var(--brand,#ec4899)]/10 rounded-full mb-8"
           >
-            <Sparkles className="w-3.5 h-3.5 text-[#EC4899]" />
+            <Sparkles className="w-3.5 h-3.5 text-[var(--brand,#ec4899)]" />
             <span
-              className="text-[11px] font-[600] uppercase tracking-[0.3em] text-[#EC4899]"
+              className="text-[11px] font-[600] uppercase tracking-[0.3em] text-[var(--brand,#ec4899)]"
               style={{ fontFamily: "'Inter', sans-serif" }}
             >
               Nail Atelier · Paris 9e
@@ -485,7 +485,7 @@ function Hero() {
           </motion.div>
 
           <h1
-            className="text-[clamp(52px,8vw,96px)] font-[700] italic leading-[0.92] tracking-[-0.02em] text-[#831843] mb-8"
+            className="text-[clamp(52px,8vw,96px)] font-[700] italic leading-[0.92] tracking-[-0.02em] text-[var(--brand-light,#831843)] mb-8"
             style={{ fontFamily: "'Playfair Display', serif" }}
           >
             <motion.span
@@ -497,7 +497,7 @@ function Hero() {
               L'Art de
             </motion.span>
             <motion.span
-              className="block text-[#EC4899]"
+              className="block text-[var(--brand,#ec4899)]"
               initial={{ opacity: 0, y: 32 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
@@ -530,13 +530,13 @@ function Hero() {
             transition={{ duration: 0.6, delay: 1.2 }}
             className="flex flex-wrap gap-4"
           >
-            <button className="px-8 py-4 bg-[#EC4899] text-white text-[13px] font-[600] uppercase tracking-[0.12em] rounded-full hover:bg-[#DB2777] transition-all duration-200 shadow-[0_8px_28px_rgba(236,72,153,0.4)] flex items-center gap-2"
+            <button className="px-8 py-4 bg-[var(--brand,#ec4899)] text-white text-[13px] font-[600] uppercase tracking-[0.12em] rounded-full hover:bg-[#DB2777] transition-all duration-200 shadow-[0_8px_28px_rgba(236,72,153,0.4)] flex items-center gap-2"
               style={{ fontFamily: "'Inter', sans-serif" }}>
               <Calendar className="w-4 h-4" /> Réserver ma séance
             </button>
-            <button className="px-8 py-4 bg-white/80 backdrop-blur text-[#831843] text-[13px] font-[500] uppercase tracking-[0.12em] rounded-full border border-[rgba(236,72,153,0.2)] hover:border-[#EC4899] transition-all duration-200 flex items-center gap-2"
+            <button className="px-8 py-4 bg-white/80 backdrop-blur text-[var(--brand-light,#831843)] text-[13px] font-[500] uppercase tracking-[0.12em] rounded-full border border-[rgba(236,72,153,0.2)] hover:border-[var(--brand,#ec4899)] transition-all duration-200 flex items-center gap-2"
               style={{ fontFamily: "'Inter', sans-serif" }}>
-              <Heart className="w-4 h-4 text-[#EC4899]" /> Voir le Portfolio
+              <Heart className="w-4 h-4 text-[var(--brand,#ec4899)]" /> Voir le Portfolio
             </button>
           </motion.div>
 
@@ -553,7 +553,7 @@ function Hero() {
               { icon: Award, label: "10 ans d'expertise" },
             ].map(({ icon: Icon, label }, i) => (
               <div key={i} className="flex items-center gap-2">
-                <Icon className="w-4 h-4 text-[#EC4899]" />
+                <Icon className="w-4 h-4 text-[var(--brand,#ec4899)]" />
                 <span className="text-[12px] text-[#9D174D] font-[400]" style={{ fontFamily: "'Inter', sans-serif" }}>{label}</span>
               </div>
             ))}
@@ -567,9 +567,9 @@ function Hero() {
         animate={{ y: [0, 8, 0] }}
         transition={{ duration: 2, repeat: Infinity }}
       >
-        <div className="w-6 h-10 rounded-full border-2 border-[#EC4899]/30 flex justify-center pt-2">
+        <div className="w-6 h-10 rounded-full border-2 border-[var(--brand,#ec4899)]/30 flex justify-center pt-2">
           <motion.div
-            className="w-1 h-2 rounded-full bg-[#EC4899]"
+            className="w-1 h-2 rounded-full bg-[var(--brand,#ec4899)]"
             animate={{ opacity: [1, 0, 1], y: [0, 4, 0] }}
             transition={{ duration: 2, repeat: Infinity }}
           />
@@ -594,13 +594,13 @@ function PortfolioSection() {
       <div className="max-w-[1280px] mx-auto px-6 lg:px-10">
         <Reveal>
           <p
-            className="text-[11px] font-[600] uppercase tracking-[0.35em] text-[#EC4899] mb-4"
+            className="text-[11px] font-[600] uppercase tracking-[0.35em] text-[var(--brand,#ec4899)] mb-4"
             style={{ fontFamily: "'Inter', sans-serif" }}
           >
             Portfolio
           </p>
           <h2
-            className="text-[clamp(36px,5vw,64px)] font-[700] italic text-[#831843] leading-[1.05] mb-12"
+            className="text-[clamp(36px,5vw,64px)] font-[700] italic text-[var(--brand-light,#831843)] leading-[1.05] mb-12"
             style={{ fontFamily: "'Playfair Display', serif" }}
           >
             Nos créations <span className="not-italic font-[400] text-[#8B5CF6]">en images</span>
@@ -616,8 +616,8 @@ function PortfolioSection() {
                 onClick={() => setActiveFilter(filter)}
                 className={`px-5 py-2 rounded-full text-[12px] font-[500] uppercase tracking-[0.1em] transition-all duration-300 ${
                   activeFilter === filter
-                    ? "bg-[#EC4899] text-white shadow-[0_4px_16px_rgba(236,72,153,0.35)]"
-                    : "bg-white text-[#9D174D] border border-[rgba(236,72,153,0.2)] hover:border-[#EC4899]"
+                    ? "bg-[var(--brand,#ec4899)] text-white shadow-[0_4px_16px_rgba(236,72,153,0.35)]"
+                    : "bg-white text-[#9D174D] border border-[rgba(236,72,153,0.2)] hover:border-[var(--brand,#ec4899)]"
                 }`}
                 style={{ fontFamily: "'Inter', sans-serif" }}
               >
@@ -668,7 +668,7 @@ function PortfolioSection() {
                   </div>
                 </div>
                 <div className="p-4">
-                  <p className="text-[15px] font-[500] italic text-[#831843]" style={{ fontFamily: "'Playfair Display', serif" }}>{item.title}</p>
+                  <p className="text-[15px] font-[500] italic text-[var(--brand-light,#831843)]" style={{ fontFamily: "'Playfair Display', serif" }}>{item.title}</p>
                 </div>
               </motion.div>
             ))}
@@ -690,13 +690,13 @@ function ServicesSection() {
         <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-16 gap-8">
           <Reveal>
             <p
-              className="text-[11px] font-[600] uppercase tracking-[0.35em] text-[#EC4899] mb-4"
+              className="text-[11px] font-[600] uppercase tracking-[0.35em] text-[var(--brand,#ec4899)] mb-4"
               style={{ fontFamily: "'Inter', sans-serif" }}
             >
               Services
             </p>
             <h2
-              className="text-[clamp(36px,5vw,64px)] font-[700] italic text-[#831843] leading-[1.05]"
+              className="text-[clamp(36px,5vw,64px)] font-[700] italic text-[var(--brand-light,#831843)] leading-[1.05]"
               style={{ fontFamily: "'Playfair Display', serif" }}
             >
               Chaque soin,
@@ -717,30 +717,30 @@ function ServicesSection() {
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {services.map((service: any, i: number) => (
             <Reveal key={service.id ?? service.name ?? i} delay={i * 0.07}>
-              <div className="group p-7 bg-[#FDF2F8] border border-[rgba(236,72,153,0.1)] rounded-[20px] hover:border-[#EC4899]/40 hover:shadow-[0_8px_40px_rgba(236,72,153,0.12)] transition-all duration-400 cursor-pointer relative overflow-hidden">
+              <div className="group p-7 bg-[#FDF2F8] border border-[rgba(236,72,153,0.1)] rounded-[20px] hover:border-[var(--brand,#ec4899)]/40 hover:shadow-[0_8px_40px_rgba(236,72,153,0.12)] transition-all duration-400 cursor-pointer relative overflow-hidden">
                 {/* Pink bloom on hover */}
-                <div className="absolute inset-0 bg-gradient-to-br from-[#EC4899]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-400 rounded-[20px]" />
+                <div className="absolute inset-0 bg-gradient-to-br from-[var(--brand,#ec4899)]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-400 rounded-[20px]" />
 
                 <div className="relative z-10">
                   <div className="flex items-start justify-between mb-5">
-                    <div className="w-11 h-11 rounded-xl bg-[#EC4899]/10 flex items-center justify-center group-hover:bg-[#EC4899]/20 transition-colors duration-300">
-                      <Sparkles className="w-5 h-5 text-[#EC4899]" />
+                    <div className="w-11 h-11 rounded-xl bg-[var(--brand,#ec4899)]/10 flex items-center justify-center group-hover:bg-[var(--brand,#ec4899)]/20 transition-colors duration-300">
+                      <Sparkles className="w-5 h-5 text-[var(--brand,#ec4899)]" />
                     </div>
                     <span
-                      className="text-[28px] font-[700] text-[#831843] leading-none"
+                      className="text-[28px] font-[700] text-[var(--brand-light,#831843)] leading-none"
                       style={{ fontFamily: "'Playfair Display', serif" }}
                     >
                       {service.price}
                     </span>
                   </div>
                   <h3
-                    className="text-[20px] font-[600] italic text-[#831843] mb-1.5 leading-[1.2]"
+                    className="text-[20px] font-[600] italic text-[var(--brand-light,#831843)] mb-1.5 leading-[1.2]"
                     style={{ fontFamily: "'Playfair Display', serif" }}
                   >
                     {service.name}
                   </h3>
                   <div className="flex items-center gap-1.5 mb-4">
-                    <Clock className="w-3.5 h-3.5 text-[#EC4899]" />
+                    <Clock className="w-3.5 h-3.5 text-[var(--brand,#ec4899)]" />
                     <span className="text-[11px] text-[#BE185D] font-[500] uppercase tracking-[0.1em]" style={{ fontFamily: "'Inter', sans-serif" }}>
                       {service.duration}
                     </span>
@@ -748,7 +748,7 @@ function ServicesSection() {
                   <p className="text-[13px] text-[#9D174D] leading-[1.7] font-[300]" style={{ fontFamily: "'Inter', sans-serif" }}>
                     {service.desc ?? service.description}
                   </p>
-                  <div className="mt-5 flex items-center gap-2 text-[#EC4899] opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <div className="mt-5 flex items-center gap-2 text-[var(--brand,#ec4899)] opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     <span className="text-[12px] font-[600] uppercase tracking-[0.12em]" style={{ fontFamily: "'Inter', sans-serif" }}>Réserver</span>
                     <ChevronRight className="w-4 h-4" />
                   </div>
@@ -771,10 +771,10 @@ function ArtistesSection() {
     <section className="py-[100px] bg-gradient-to-b from-[#FCE7F3] to-[#FDF2F8]" id="artistes">
       <div className="max-w-[1280px] mx-auto px-6 lg:px-10">
         <Reveal className="text-center mb-16">
-          <p className="text-[11px] font-[600] uppercase tracking-[0.35em] text-[#EC4899] mb-4" style={{ fontFamily: "'Inter', sans-serif" }}>
+          <p className="text-[11px] font-[600] uppercase tracking-[0.35em] text-[var(--brand,#ec4899)] mb-4" style={{ fontFamily: "'Inter', sans-serif" }}>
             Notre Équipe
           </p>
-          <h2 className="text-[clamp(36px,5vw,64px)] font-[700] italic text-[#831843] leading-[1.05]" style={{ fontFamily: "'Playfair Display', serif" }}>
+          <h2 className="text-[clamp(36px,5vw,64px)] font-[700] italic text-[var(--brand-light,#831843)] leading-[1.05]" style={{ fontFamily: "'Playfair Display', serif" }}>
             Les <span className="not-italic text-[#8B5CF6]">Artistes</span>
           </h2>
           <p className="text-[15px] text-[#9D174D] max-w-[520px] mx-auto mt-5 leading-[1.75] font-[300]" style={{ fontFamily: "'Inter', sans-serif" }}>
@@ -796,7 +796,7 @@ function ArtistesSection() {
                       className="object-cover object-top group-hover:scale-105 transition-transform duration-700"
                       sizes="(max-width: 768px) 100vw, 33vw"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#831843]/60 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[var(--brand-light,#831843)]/60 to-transparent" />
                     <div className="absolute bottom-4 left-5 right-5">
                       <p className="text-white text-[18px] font-[600] italic" style={{ fontFamily: "'Playfair Display', serif" }}>{artist.name}</p>
                       <p className="text-white/80 text-[11px] font-[400] uppercase tracking-[0.1em] mt-0.5" style={{ fontFamily: "'Inter', sans-serif" }}>{artist.title ?? artist.role}</p>
@@ -808,14 +808,14 @@ function ArtistesSection() {
                 <div className="p-6">
                   {!(artist.img || artist.photoUrl) && (
                     <div className="mb-5">
-                      <p className="text-[#831843] text-[18px] font-[600] italic" style={{ fontFamily: "'Playfair Display', serif" }}>{artist.name}</p>
+                      <p className="text-[var(--brand-light,#831843)] text-[18px] font-[600] italic" style={{ fontFamily: "'Playfair Display', serif" }}>{artist.name}</p>
                       {(artist.title ?? artist.role) && <p className="text-[#9D174D]/70 text-[11px] font-[400] uppercase tracking-[0.1em] mt-0.5" style={{ fontFamily: "'Inter', sans-serif" }}>{artist.title ?? artist.role}</p>}
                     </div>
                   )}
                   {(artist.specialty) && (
                     <div
                       className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-[600] uppercase tracking-[0.1em] mb-5"
-                      style={{ background: `${artist.color ?? "#EC4899"}14`, color: artist.color ?? "#EC4899", fontFamily: "'Inter', sans-serif" }}
+                      style={{ background: `${artist.color ?? "var(--brand,#ec4899)"}14`, color: artist.color ?? "var(--brand,#ec4899)", fontFamily: "'Inter', sans-serif" }}
                     >
                       <Award className="w-3 h-3" />
                       {artist.specialty}
@@ -831,14 +831,14 @@ function ArtistesSection() {
                     <div className="space-y-2 mb-6">
                       {(Array.isArray(artist.certs) ? artist.certs : [artist.credentials]).map((cert: string, ci: number) => (
                         <div key={ci} className="flex items-center gap-2">
-                          <Check className="w-3.5 h-3.5 text-[#EC4899] flex-shrink-0" />
+                          <Check className="w-3.5 h-3.5 text-[var(--brand,#ec4899)] flex-shrink-0" />
                           <span className="text-[12px] text-[#BE185D]" style={{ fontFamily: "'Inter', sans-serif" }}>{cert}</span>
                         </div>
                       ))}
                     </div>
                   )}
                   <button
-                    className="w-full py-3 text-[12px] font-[600] uppercase tracking-[0.12em] rounded-full border-2 text-[#EC4899] border-[#EC4899] hover:bg-[#EC4899] hover:text-white transition-all duration-300"
+                    className="w-full py-3 text-[12px] font-[600] uppercase tracking-[0.12em] rounded-full border-2 text-[var(--brand,#ec4899)] border-[var(--brand,#ec4899)] hover:bg-[var(--brand,#ec4899)] hover:text-white transition-all duration-300"
                     style={{ fontFamily: "'Inter', sans-serif" }}
                   >
                     Réserver avec {artist.name.split(" ")[0]}
@@ -858,7 +858,7 @@ function ArtistesSection() {
    ========================================================================== */
 function BookingProcess() {
   return (
-    <section className="py-[100px] bg-[#831843]" id="soins">
+    <section className="py-[100px] bg-[var(--brand-light,#831843)]" id="soins">
       <div className="max-w-[1280px] mx-auto px-6 lg:px-10">
         <Reveal className="text-center mb-16">
           <p className="text-[11px] font-[600] uppercase tracking-[0.35em] text-[#F9A8D4] mb-4" style={{ fontFamily: "'Inter', sans-serif" }}>
@@ -880,7 +880,7 @@ function BookingProcess() {
                     <div className="w-14 h-14 rounded-full bg-white/10 border border-white/20 flex items-center justify-center mx-auto relative">
                       <Icon className="w-6 h-6 text-white" />
                       <span
-                        className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-[#EC4899] text-white text-[11px] font-[700] flex items-center justify-center"
+                        className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-[var(--brand,#ec4899)] text-white text-[11px] font-[700] flex items-center justify-center"
                         style={{ fontFamily: "'Inter', sans-serif" }}
                       >
                         {i + 1}
@@ -909,7 +909,7 @@ function BookingProcess() {
         </div>
 
         <Reveal delay={0.4} className="text-center mt-14">
-          <button className="px-10 py-4 bg-white text-[#831843] text-[13px] font-[600] uppercase tracking-[0.14em] rounded-full hover:bg-[#F9A8D4] transition-all duration-300 shadow-[0_8px_28px_rgba(0,0,0,0.2)] flex items-center gap-2 mx-auto"
+          <button className="px-10 py-4 bg-white text-[var(--brand-light,#831843)] text-[13px] font-[600] uppercase tracking-[0.14em] rounded-full hover:bg-[#F9A8D4] transition-all duration-300 shadow-[0_8px_28px_rgba(0,0,0,0.2)] flex items-center gap-2 mx-auto"
             style={{ fontFamily: "'Inter', sans-serif" }}>
             <Calendar className="w-4 h-4" /> Prendre rendez-vous maintenant
           </button>
@@ -927,22 +927,22 @@ function BrandsSection() {
     <section className="py-[80px] bg-white border-t border-b border-[rgba(236,72,153,0.08)]">
       <div className="max-w-[1280px] mx-auto px-6 lg:px-10">
         <Reveal className="text-center mb-12">
-          <p className="text-[11px] font-[600] uppercase tracking-[0.35em] text-[#EC4899] mb-3" style={{ fontFamily: "'Inter', sans-serif" }}>
+          <p className="text-[11px] font-[600] uppercase tracking-[0.35em] text-[var(--brand,#ec4899)] mb-3" style={{ fontFamily: "'Inter', sans-serif" }}>
             Produits professionnels
           </p>
-          <h2 className="text-[28px] font-[500] italic text-[#831843]" style={{ fontFamily: "'Playfair Display', serif" }}>
+          <h2 className="text-[28px] font-[500] italic text-[var(--brand-light,#831843)]" style={{ fontFamily: "'Playfair Display', serif" }}>
             Nous travaillons exclusivement avec les meilleures marques
           </h2>
         </Reveal>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
           {BRANDS.map((brand, i) => (
             <Reveal key={i} delay={i * 0.08}>
-              <div className="group p-7 bg-[#FDF2F8] rounded-[20px] border border-[rgba(236,72,153,0.1)] text-center hover:border-[#EC4899]/40 hover:shadow-[0_6px_28px_rgba(236,72,153,0.1)] transition-all duration-300">
-                <div className="w-12 h-12 rounded-full bg-[#EC4899]/10 flex items-center justify-center mx-auto mb-4 group-hover:bg-[#EC4899]/20 transition-colors duration-300">
-                  <Award className="w-5 h-5 text-[#EC4899]" />
+              <div className="group p-7 bg-[#FDF2F8] rounded-[20px] border border-[rgba(236,72,153,0.1)] text-center hover:border-[var(--brand,#ec4899)]/40 hover:shadow-[0_6px_28px_rgba(236,72,153,0.1)] transition-all duration-300">
+                <div className="w-12 h-12 rounded-full bg-[var(--brand,#ec4899)]/10 flex items-center justify-center mx-auto mb-4 group-hover:bg-[var(--brand,#ec4899)]/20 transition-colors duration-300">
+                  <Award className="w-5 h-5 text-[var(--brand,#ec4899)]" />
                 </div>
                 <p
-                  className="text-[18px] font-[700] italic text-[#831843] mb-1"
+                  className="text-[18px] font-[700] italic text-[var(--brand-light,#831843)] mb-1"
                   style={{ fontFamily: "'Playfair Display', serif" }}
                 >
                   {brand.name}
@@ -978,10 +978,10 @@ function TestimonialsSection() {
     <section className="py-[100px] bg-gradient-to-br from-[#FDF2F8] to-[#F5D0FE]/30" id="temoignages">
       <div className="max-w-[1280px] mx-auto px-6 lg:px-10">
         <Reveal className="text-center mb-16">
-          <p className="text-[11px] font-[600] uppercase tracking-[0.35em] text-[#EC4899] mb-4" style={{ fontFamily: "'Inter', sans-serif" }}>
+          <p className="text-[11px] font-[600] uppercase tracking-[0.35em] text-[var(--brand,#ec4899)] mb-4" style={{ fontFamily: "'Inter', sans-serif" }}>
             Témoignages
           </p>
-          <h2 className="text-[clamp(36px,5vw,60px)] font-[700] italic text-[#831843] leading-[1.05]" style={{ fontFamily: "'Playfair Display', serif" }}>
+          <h2 className="text-[clamp(36px,5vw,60px)] font-[700] italic text-[var(--brand-light,#831843)] leading-[1.05]" style={{ fontFamily: "'Playfair Display', serif" }}>
             Ce qu'elles <span className="not-italic text-[#8B5CF6]">disent</span>
           </h2>
         </Reveal>
@@ -990,7 +990,7 @@ function TestimonialsSection() {
         <div className="max-w-[820px] mx-auto mb-12">
           <div className="relative bg-white rounded-[28px] shadow-[0_4px_40px_rgba(236,72,153,0.08)] p-10 text-center min-h-[220px] flex flex-col justify-center">
             <div className="absolute -top-4 left-1/2 -translate-x-1/2">
-              <div className="w-8 h-8 rounded-full bg-[#EC4899] flex items-center justify-center">
+              <div className="w-8 h-8 rounded-full bg-[var(--brand,#ec4899)] flex items-center justify-center">
                 <Heart className="w-4 h-4 text-white fill-white" />
               </div>
             </div>
@@ -1005,18 +1005,18 @@ function TestimonialsSection() {
                 <StarRating />
                 <div className="flex justify-center mb-5 mt-3" />
                 <p
-                  className="text-[18px] md:text-[22px] font-[400] italic text-[#831843] leading-[1.55] mb-6"
+                  className="text-[18px] md:text-[22px] font-[400] italic text-[var(--brand-light,#831843)] leading-[1.55] mb-6"
                   style={{ fontFamily: "'Playfair Display', serif" }}
                 >
                   &ldquo;{testimonials[active].quote ?? testimonials[active].text}&rdquo;
                 </p>
                 <div className="flex items-center justify-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#EC4899] to-[#8B5CF6] flex items-center justify-center text-white text-[14px] font-[700]" style={{ fontFamily: "'Inter', sans-serif" }}>
+                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[var(--brand,#ec4899)] to-[#8B5CF6] flex items-center justify-center text-white text-[14px] font-[700]" style={{ fontFamily: "'Inter', sans-serif" }}>
                     {testimonials[active].avatar ?? (testimonials[active].name ?? testimonials[active].author ?? "?")[0]}
                   </div>
                   <div className="text-left">
-                    <p className="text-[14px] font-[600] text-[#831843]" style={{ fontFamily: "'Inter', sans-serif" }}>{testimonials[active].name ?? testimonials[active].author}</p>
-                    <p className="text-[12px] text-[#EC4899]" style={{ fontFamily: "'Inter', sans-serif" }}>{testimonials[active].service ?? testimonials[active].source}</p>
+                    <p className="text-[14px] font-[600] text-[var(--brand-light,#831843)]" style={{ fontFamily: "'Inter', sans-serif" }}>{testimonials[active].name ?? testimonials[active].author}</p>
+                    <p className="text-[12px] text-[var(--brand,#ec4899)]" style={{ fontFamily: "'Inter', sans-serif" }}>{testimonials[active].service ?? testimonials[active].source}</p>
                   </div>
                 </div>
               </motion.div>
@@ -1031,7 +1031,7 @@ function TestimonialsSection() {
               key={i}
               onClick={() => setActive(i)}
               className={`rounded-full transition-all duration-300 ${
-                i === active ? "w-8 h-2.5 bg-[#EC4899]" : "w-2.5 h-2.5 bg-[#EC4899]/25"
+                i === active ? "w-8 h-2.5 bg-[var(--brand,#ec4899)]" : "w-2.5 h-2.5 bg-[var(--brand,#ec4899)]/25"
               }`}
             />
           ))}
@@ -1047,25 +1047,25 @@ function TestimonialsSection() {
                 onClick={() => setActive(i)}
                 className={`p-6 rounded-[20px] border cursor-pointer transition-all duration-300 ${
                   i === active
-                    ? "bg-white border-[#EC4899]/40 shadow-[0_4px_24px_rgba(236,72,153,0.12)]"
-                    : "bg-white/50 border-[rgba(236,72,153,0.1)] hover:border-[#EC4899]/30"
+                    ? "bg-white border-[var(--brand,#ec4899)]/40 shadow-[0_4px_24px_rgba(236,72,153,0.12)]"
+                    : "bg-white/50 border-[rgba(236,72,153,0.1)] hover:border-[var(--brand,#ec4899)]/30"
                 }`}
               >
                 <div className="flex items-center gap-1 mb-3">
                   {Array.from({ length: t.stars ?? t.rating ?? 5 }).map((_, si) => (
-                    <Star key={si} className="w-3 h-3 fill-[#EC4899] text-[#EC4899]" />
+                    <Star key={si} className="w-3 h-3 fill-[var(--brand,#ec4899)] text-[var(--brand,#ec4899)]" />
                   ))}
                 </div>
                 <p className="text-[13px] italic text-[#9D174D] leading-[1.65] mb-4 font-[400]" style={{ fontFamily: "'Playfair Display', serif" }}>
                   &ldquo;{quote.slice(0, 80)}…&rdquo;
                 </p>
                 <div className="flex items-center gap-2">
-                  <div className="w-7 h-7 rounded-full bg-gradient-to-br from-[#EC4899] to-[#8B5CF6] flex items-center justify-center text-white text-[11px] font-[700]">
+                  <div className="w-7 h-7 rounded-full bg-gradient-to-br from-[var(--brand,#ec4899)] to-[#8B5CF6] flex items-center justify-center text-white text-[11px] font-[700]">
                     {t.avatar ?? (t.name ?? t.author ?? "?")[0]}
                   </div>
                   <div>
-                    <p className="text-[12px] font-[600] text-[#831843]" style={{ fontFamily: "'Inter', sans-serif" }}>{t.name ?? t.author}</p>
-                    <p className="text-[10px] text-[#EC4899]" style={{ fontFamily: "'Inter', sans-serif" }}>{t.service ?? t.source}</p>
+                    <p className="text-[12px] font-[600] text-[var(--brand-light,#831843)]" style={{ fontFamily: "'Inter', sans-serif" }}>{t.name ?? t.author}</p>
+                    <p className="text-[10px] text-[var(--brand,#ec4899)]" style={{ fontFamily: "'Inter', sans-serif" }}>{t.service ?? t.source}</p>
                   </div>
                 </div>
               </div>
@@ -1086,10 +1086,10 @@ function TarifsSection() {
     <section className="py-[100px] bg-white" id="tarifs">
       <div className="max-w-[1280px] mx-auto px-6 lg:px-10">
         <Reveal className="text-center mb-16">
-          <p className="text-[11px] font-[600] uppercase tracking-[0.35em] text-[#EC4899] mb-4" style={{ fontFamily: "'Inter', sans-serif" }}>
+          <p className="text-[11px] font-[600] uppercase tracking-[0.35em] text-[var(--brand,#ec4899)] mb-4" style={{ fontFamily: "'Inter', sans-serif" }}>
             Tarifs
           </p>
-          <h2 className="text-[clamp(36px,5vw,64px)] font-[700] italic text-[#831843] leading-[1.05]" style={{ fontFamily: "'Playfair Display', serif" }}>
+          <h2 className="text-[clamp(36px,5vw,64px)] font-[700] italic text-[var(--brand-light,#831843)] leading-[1.05]" style={{ fontFamily: "'Playfair Display', serif" }}>
             Grille tarifaire <span className="not-italic font-[400] text-[#8B5CF6]">complète</span>
           </h2>
           <p className="text-[15px] text-[#9D174D] mt-5 font-[300]" style={{ fontFamily: "'Inter', sans-serif" }}>
@@ -1100,11 +1100,11 @@ function TarifsSection() {
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
           {FULL_PRICES.map((cat, ci) => (
             <Reveal key={ci} delay={ci * 0.08}>
-              <div className="bg-[#FDF2F8] rounded-[20px] p-6 border border-[rgba(236,72,153,0.1)] hover:border-[#EC4899]/30 transition-all duration-300">
+              <div className="bg-[#FDF2F8] rounded-[20px] p-6 border border-[rgba(236,72,153,0.1)] hover:border-[var(--brand,#ec4899)]/30 transition-all duration-300">
                 <div className="flex items-center gap-2 mb-6">
-                  <div className="w-2 h-2 rounded-full bg-[#EC4899]" />
+                  <div className="w-2 h-2 rounded-full bg-[var(--brand,#ec4899)]" />
                   <h3
-                    className="text-[14px] font-[600] uppercase tracking-[0.1em] text-[#831843]"
+                    className="text-[14px] font-[600] uppercase tracking-[0.1em] text-[var(--brand-light,#831843)]"
                     style={{ fontFamily: "'Inter', sans-serif" }}
                   >
                     {cat.category}
@@ -1120,7 +1120,7 @@ function TarifsSection() {
                         {item.name}
                       </span>
                       <span
-                        className="text-[14px] font-[700] text-[#EC4899]"
+                        className="text-[14px] font-[700] text-[var(--brand,#ec4899)]"
                         style={{ fontFamily: "'Playfair Display', serif" }}
                       >
                         {item.price}
@@ -1135,8 +1135,8 @@ function TarifsSection() {
 
         <Reveal delay={0.3} className="mt-10 text-center">
           <div className="inline-flex items-center gap-2 px-5 py-3 bg-[#FCE7F3] rounded-full">
-            <Sparkles className="w-4 h-4 text-[#EC4899]" />
-            <p className="text-[12px] text-[#831843] font-[400]" style={{ fontFamily: "'Inter', sans-serif" }}>
+            <Sparkles className="w-4 h-4 text-[var(--brand,#ec4899)]" />
+            <p className="text-[12px] text-[var(--brand-light,#831843)] font-[400]" style={{ fontFamily: "'Inter', sans-serif" }}>
               Forfaits mariée & groupe sur devis — Contactez-nous pour un rendez-vous personnalisé
             </p>
           </div>
@@ -1160,7 +1160,7 @@ function ContactFooter() {
   }
 
   return (
-    <footer className="bg-[#831843]">
+    <footer className="bg-[var(--brand-light,#831843)]">
       {/* Contact info band */}
       <div className="py-[80px] border-b border-white/10">
         <div className="max-w-[1280px] mx-auto px-6 lg:px-10">
@@ -1253,7 +1253,7 @@ function ContactFooter() {
                     />
                     <button
                       type="submit"
-                      className="w-full py-2.5 bg-[#EC4899] text-white text-[12px] font-[600] uppercase tracking-[0.12em] rounded-lg hover:bg-[#DB2777] transition-colors"
+                      className="w-full py-2.5 bg-[var(--brand,#ec4899)] text-white text-[12px] font-[600] uppercase tracking-[0.12em] rounded-lg hover:bg-[#DB2777] transition-colors"
                       style={{ fontFamily: "'Inter', sans-serif" }}
                     >
                       S'abonner
@@ -1337,13 +1337,13 @@ function AboutSection() {
           <Reveal delay={0.15}>
             <div>
               <p
-                className="text-[11px] font-[600] uppercase tracking-[0.35em] text-[#EC4899] mb-4"
+                className="text-[11px] font-[600] uppercase tracking-[0.35em] text-[var(--brand,#ec4899)] mb-4"
                 style={{ fontFamily: "'Inter', sans-serif" }}
               >
                 Notre Philosophie
               </p>
               <h2
-                className="text-[clamp(36px,5vw,56px)] font-[700] italic text-[#831843] leading-[1.1] mb-8"
+                className="text-[clamp(36px,5vw,56px)] font-[700] italic text-[var(--brand-light,#831843)] leading-[1.1] mb-8"
                 style={{ fontFamily: "'Playfair Display', serif" }}
               >
                 La beauté <br />
@@ -1363,11 +1363,11 @@ function AboutSection() {
               </p>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-6 border-t border-[rgba(236,72,153,0.1)]">
                 <div>
-                  <h4 className="text-[18px] font-[600] italic text-[#831843] mb-1" style={{ fontFamily: "'Playfair Display', serif" }}>Produits Clean</h4>
+                  <h4 className="text-[18px] font-[600] italic text-[var(--brand-light,#831843)] mb-1" style={{ fontFamily: "'Playfair Display', serif" }}>Produits Clean</h4>
                   <p className="text-[12px] text-[#BE185D] leading-relaxed" style={{ fontFamily: "'Inter', sans-serif" }}>Sans composants nocifs pour préserver vos ongles.</p>
                 </div>
                 <div>
-                  <h4 className="text-[18px] font-[600] italic text-[#831843] mb-1" style={{ fontFamily: "'Playfair Display', serif" }}>Nail Art Précis</h4>
+                  <h4 className="text-[18px] font-[600] italic text-[var(--brand-light,#831843)] mb-1" style={{ fontFamily: "'Playfair Display', serif" }}>Nail Art Précis</h4>
                   <p className="text-[12px] text-[#BE185D] leading-relaxed" style={{ fontFamily: "'Inter', sans-serif" }}>Des tracés haute définition réalisés au pinceau fin.</p>
                 </div>
               </div>
@@ -1396,8 +1396,8 @@ function FaqSection() {
     <section className="py-[100px] bg-white border-b border-[rgba(236,72,153,0.08)]" id="faq">
       <div className="max-w-[800px] mx-auto px-6">
         <Reveal className="text-center mb-16">
-          <p className="text-[11px] font-[600] uppercase tracking-[0.35em] text-[#EC4899] mb-4" style={{ fontFamily: "'Inter', sans-serif" }}>FAQ</p>
-          <h2 className="text-[clamp(36px,5vw,56px)] font-[700] italic text-[#831843] leading-[1.1]" style={{ fontFamily: "'Playfair Display', serif" }}>
+          <p className="text-[11px] font-[600] uppercase tracking-[0.35em] text-[var(--brand,#ec4899)] mb-4" style={{ fontFamily: "'Inter', sans-serif" }}>FAQ</p>
+          <h2 className="text-[clamp(36px,5vw,56px)] font-[700] italic text-[var(--brand-light,#831843)] leading-[1.1]" style={{ fontFamily: "'Playfair Display', serif" }}>
             Questions <span className="not-italic font-[400] text-[#8B5CF6]">Fréquentes</span>
           </h2>
         </Reveal>
@@ -1407,7 +1407,7 @@ function FaqSection() {
               <div className="border border-[rgba(236,72,153,0.15)] rounded-[16px] bg-[#FDF2F8]/30 overflow-hidden">
                 <button
                   onClick={() => setOpenIndex(openIndex === idx ? null : idx)}
-                  className="w-full px-6 py-5 flex items-center justify-between text-left font-[500] text-[#831843] hover:text-[#EC4899] transition-colors"
+                  className="w-full px-6 py-5 flex items-center justify-between text-left font-[500] text-[var(--brand-light,#831843)] hover:text-[var(--brand,#ec4899)] transition-colors"
                   style={{ fontFamily: "'Inter', sans-serif", fontSize: "15px" }}
                 >
                   <span>{faq.q}</span>
@@ -1446,8 +1446,8 @@ function ContactSection() {
       <div className="max-w-[1000px] mx-auto px-6">
         <div className="grid md:grid-cols-2 gap-16 items-center">
           <Reveal>
-            <p className="text-[11px] font-[600] uppercase tracking-[0.35em] text-[#EC4899] mb-4" style={{ fontFamily: "'Inter', sans-serif" }}>Contact</p>
-            <h2 className="text-[clamp(36px,5vw,56px)] font-[700] italic text-[#831843] leading-[1.1] mb-6" style={{ fontFamily: "'Playfair Display', serif" }}>
+            <p className="text-[11px] font-[600] uppercase tracking-[0.35em] text-[var(--brand,#ec4899)] mb-4" style={{ fontFamily: "'Inter', sans-serif" }}>Contact</p>
+            <h2 className="text-[clamp(36px,5vw,56px)] font-[700] italic text-[var(--brand-light,#831843)] leading-[1.1] mb-6" style={{ fontFamily: "'Playfair Display', serif" }}>
               Écrivez-nous <span className="not-italic font-[400] text-[#8B5CF6]">un message</span>
             </h2>
             <p className="text-[15px] text-[#9D174D] leading-[1.75] font-[300] mb-8" style={{ fontFamily: "'Inter', sans-serif" }}>
@@ -1455,11 +1455,11 @@ function ContactSection() {
             </p>
             <div className="space-y-4 font-[300] text-[#9D174D] text-[14px]" style={{ fontFamily: "'Inter', sans-serif" }}>
               <div className="flex items-center gap-3">
-                <Phone className="w-4 h-4 text-[#EC4899]" />
+                <Phone className="w-4 h-4 text-[var(--brand,#ec4899)]" />
                 <span>{fd?.phone ?? "+33 1 23 45 67 89"}</span>
               </div>
               <div className="flex items-center gap-3">
-                <Mail className="w-4 h-4 text-[#EC4899]" />
+                <Mail className="w-4 h-4 text-[var(--brand,#ec4899)]" />
                 <span>{fd?.email ?? "bonjour@velvetnails.fr"}</span>
               </div>
             </div>
@@ -1469,16 +1469,16 @@ function ContactSection() {
             <div className="bg-white rounded-[24px] p-8 border border-[rgba(236,72,153,0.1)] shadow-[0_4px_30px_rgba(236,72,153,0.05)] text-left">
               {contactSubmitted ? (
                 <div className="text-center py-12">
-                  <div className="w-12 h-12 rounded-full bg-[#EC4899]/10 flex items-center justify-center mx-auto mb-6">
-                    <Check className="w-6 h-6 text-[#EC4899]" />
+                  <div className="w-12 h-12 rounded-full bg-[var(--brand,#ec4899)]/10 flex items-center justify-center mx-auto mb-6">
+                    <Check className="w-6 h-6 text-[var(--brand,#ec4899)]" />
                   </div>
-                  <h3 className="text-[20px] font-[600] italic text-[#831843] mb-3" style={{ fontFamily: "'Playfair Display', serif" }}>Message envoyé</h3>
+                  <h3 className="text-[20px] font-[600] italic text-[var(--brand-light,#831843)] mb-3" style={{ fontFamily: "'Playfair Display', serif" }}>Message envoyé</h3>
                   <p className="text-[#9D174D] text-sm leading-relaxed max-w-xs mx-auto text-center" style={{ fontFamily: "'Inter', sans-serif" }}>
                     Merci, nous vous répondrons sous 24h.
                   </p>
                   <button
                     onClick={() => setContactSubmitted(false)}
-                    className="mt-8 px-6 py-2.5 bg-[#EC4899] text-white text-[12px] font-[600] uppercase tracking-[0.12em] rounded-full hover:bg-[#DB2777] transition-all"
+                    className="mt-8 px-6 py-2.5 bg-[var(--brand,#ec4899)] text-white text-[12px] font-[600] uppercase tracking-[0.12em] rounded-full hover:bg-[#DB2777] transition-all"
                     style={{ fontFamily: "'Inter', sans-serif" }}
                   >
                     Nouveau message
@@ -1500,7 +1500,7 @@ function ContactSection() {
                       type="text"
                       required
                       placeholder="Votre nom"
-                      className="w-full bg-[#FDF2F8]/50 border border-[rgba(236,72,153,0.15)] rounded-xl px-4 py-3 text-[#831843] outline-none focus:border-[#EC4899] focus:bg-white transition-all"
+                      className="w-full bg-[#FDF2F8]/50 border border-[rgba(236,72,153,0.15)] rounded-xl px-4 py-3 text-[var(--brand-light,#831843)] outline-none focus:border-[var(--brand,#ec4899)] focus:bg-white transition-all"
                     />
                   </div>
                   <div>
@@ -1510,7 +1510,7 @@ function ContactSection() {
                       type="email"
                       required
                       placeholder="vous@email.com"
-                      className="w-full bg-[#FDF2F8]/50 border border-[rgba(236,72,153,0.15)] rounded-xl px-4 py-3 text-[#831843] outline-none focus:border-[#EC4899] focus:bg-white transition-all"
+                      className="w-full bg-[#FDF2F8]/50 border border-[rgba(236,72,153,0.15)] rounded-xl px-4 py-3 text-[var(--brand-light,#831843)] outline-none focus:border-[var(--brand,#ec4899)] focus:bg-white transition-all"
                     />
                   </div>
                   <div>
@@ -1520,12 +1520,12 @@ function ContactSection() {
                       rows={4}
                       required
                       placeholder="Votre message..."
-                      className="w-full bg-[#FDF2F8]/50 border border-[rgba(236,72,153,0.15)] rounded-xl px-4 py-3 text-[#831843] outline-none focus:border-[#EC4899] focus:bg-white transition-all resize-none"
+                      className="w-full bg-[#FDF2F8]/50 border border-[rgba(236,72,153,0.15)] rounded-xl px-4 py-3 text-[var(--brand-light,#831843)] outline-none focus:border-[var(--brand,#ec4899)] focus:bg-white transition-all resize-none"
                     />
                   </div>
                   <button
                     type="submit"
-                    className="w-full py-4 bg-[#EC4899] text-white text-[12px] font-[600] uppercase tracking-[0.12em] rounded-full hover:bg-[#DB2777] transition-all cursor-pointer shadow-[0_4px_16px_rgba(236,72,153,0.3)]"
+                    className="w-full py-4 bg-[var(--brand,#ec4899)] text-white text-[12px] font-[600] uppercase tracking-[0.12em] rounded-full hover:bg-[#DB2777] transition-all cursor-pointer shadow-[0_4px_16px_rgba(236,72,153,0.3)]"
                   >
                     Envoyer le message
                   </button>
@@ -1591,7 +1591,7 @@ export default function Impact88Page() {
   useFonts()
 
 return (
-    <main className="bg-[#FDF2F8] text-[#831843] min-h-dvh overflow-x-hidden">
+    <main className="bg-[#FDF2F8] text-[var(--brand-light,#831843)] min-h-dvh overflow-x-hidden">
       <ScrollProgressBar />
       <Nav />
       <Hero />

@@ -58,7 +58,7 @@ function shadeColor(color: string, percent: number) {
   return "#"+RR+GG+BB;
 }
 
-const defaultPrimary = "#f97316";
+const defaultPrimary = "var(--brand,#f97316)";
 
 const C = {
   primary: defaultPrimary,
@@ -69,7 +69,7 @@ const C = {
   bgCard: "#ffffff",
   text: "#1a1a1a",
   textMuted: "#666666",
-  accent: "#f97316",
+  accent: "var(--brand,#f97316)",
   white: "#ffffff",
   black: "#000000",
   graphite: "#27272a"
@@ -524,7 +524,7 @@ export default function GarageMinimalistTemplate() {
             <Reveal delay={0.6}>
               <div style={{ marginTop: "4rem", display: "flex", alignItems: "center", gap: "2rem" }}>
                 <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-                  <div style={{ display: "flex", color: "#f59e0b" }}>
+                  <div style={{ display: "flex", color: "var(--brand-light,#f59e0b)" }}>
                     {[1,2,3,4,5].map(i => <Star key={i} size={20} fill="currentColor" />)}
                   </div>
                   <div style={{ fontFamily: SANS, fontWeight: 600, fontSize: "0.9rem" }}>
@@ -685,7 +685,7 @@ export default function GarageMinimalistTemplate() {
             {testimonialsResolved.map((test: any, idx: number) => (
               <Reveal key={idx} delay={idx * 0.1}>
                 <div style={{ backgroundColor: C.bgCard, padding: "2.5rem", borderRadius: "8px", height: "100%", display: "flex", flexDirection: "column" }}>
-                  <div style={{ display: "flex", color: "#f59e0b", marginBottom: "1rem" }}>
+                  <div style={{ display: "flex", color: "var(--brand-light,#f59e0b)", marginBottom: "1rem" }}>
                     {[...Array(test.rating || 5)].map((_, i) => <Star key={i} size={18} fill="currentColor" />)}
                   </div>
                   <p style={{ fontSize: "1rem", color: C.text, flexGrow: 1, fontStyle: "italic", marginBottom: "2rem" }}>

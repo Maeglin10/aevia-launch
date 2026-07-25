@@ -201,7 +201,7 @@ export default function TemplatePage({ session: initialSession }: { session?: an
   const bp = session?.businessProfile;
 
   // Theme configuration
-  const brandColor = fd.primaryColor || "#7c3aed";
+  const brandColor = fd.primaryColor || "var(--brand-light,#7c3aed)";
   const C: Record<string, string> = {
     primary: brandColor,
     primaryLight: shadeColor(brandColor, 20),
@@ -1090,13 +1090,13 @@ export default function TemplatePage({ session: initialSession }: { session?: an
                   {companyName}
                 </span>
               </div>
-              <p style={{ fontFamily: SANS, fontSize: "16px", color: "#94a3b8", lineHeight: 1.6, marginBottom: "24px" }}>
+              <p style={{ fontFamily: SANS, fontSize: "16px", color: "var(--brand,#94a3b8)", lineHeight: 1.6, marginBottom: "24px" }}>
                 {tagline}
               </p>
               <div style={{ display: "flex", gap: "16px" }}>
-                <InstagramIcon size={24} color="#94a3b8" style={{ cursor: "pointer" }} />
-                <Facebook size={24} color="#94a3b8" style={{ cursor: "pointer" }} />
-                <Twitter size={24} color="#94a3b8" style={{ cursor: "pointer" }} />
+                <InstagramIcon size={24} color="var(--brand,#94a3b8)" style={{ cursor: "pointer" }} />
+                <Facebook size={24} color="var(--brand,#94a3b8)" style={{ cursor: "pointer" }} />
+                <Twitter size={24} color="var(--brand,#94a3b8)" style={{ cursor: "pointer" }} />
               </div>
             </div>
 
@@ -1105,7 +1105,7 @@ export default function TemplatePage({ session: initialSession }: { session?: an
               <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "12px" }}>
                 {["Accueil", "À Propos", "Services", "Tarifs", "Contact"].map(link => (
                   <li key={link}>
-                    <a href="#" style={{ color: "#94a3b8", textDecoration: "none", fontFamily: SANS, fontSize: "16px", transition: "color 0.2s" }} onMouseOver={(e) => e.currentTarget.style.color = C.primary} onMouseOut={(e) => e.currentTarget.style.color = "#94a3b8"}>
+                    <a href="#" style={{ color: "var(--brand,#94a3b8)", textDecoration: "none", fontFamily: SANS, fontSize: "16px", transition: "color 0.2s" }} onMouseOver={(e) => e.currentTarget.style.color = C.primary} onMouseOut={(e) => e.currentTarget.style.color = "var(--brand,#94a3b8)"}>
                       {link}
                     </a>
                   </li>
@@ -1115,7 +1115,7 @@ export default function TemplatePage({ session: initialSession }: { session?: an
 
             <div>
               <h4 style={{ fontFamily: SERIF, fontSize: "18px", fontWeight: 700, marginBottom: "24px" }}>Horaires</h4>
-              <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "12px", fontFamily: SANS, color: "#94a3b8" }}>
+              <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "12px", fontFamily: SANS, color: "var(--brand,#94a3b8)" }}>
                 <li style={{ display: "flex", justifyContent: "space-between" }}>
                   <span>Lun - Ven:</span> <span>08:00 - 19:00</span>
                 </li>
@@ -1130,7 +1130,7 @@ export default function TemplatePage({ session: initialSession }: { session?: an
 
             <div>
               <h4 style={{ fontFamily: SERIF, fontSize: "18px", fontWeight: 700, marginBottom: "24px" }}>Newsletter</h4>
-              <p style={{ fontFamily: SANS, fontSize: "14px", color: "#94a3b8", marginBottom: "16px" }}>
+              <p style={{ fontFamily: SANS, fontSize: "14px", color: "var(--brand,#94a3b8)", marginBottom: "16px" }}>
                 Recevez nos astuces propreté et nos offres exclusives.
               </p>
               <div style={{ display: "flex", gap: "8px" }}>

@@ -43,7 +43,7 @@ let C: Record<string, string> = {
   bgDark: '#1a1510',
   bgDarkAlt: '#120e0b',
   bgCard: '#ffffff',
-  accent: '#6b7c5a',
+  accent: 'var(--brand,#6b7c5a)',
   accentDark: '#506048',
   accentLight: '#d8e0cc',
   white: '#ffffff',
@@ -52,7 +52,7 @@ let C: Record<string, string> = {
   textFaint: '#8a8070',
   border: '#ddd8d0',
   borderDark: 'rgba(107,124,90,0.2)',
-  warm: '#c4945c',
+  warm: 'var(--brand-light,#c4945c)',
 };
 
 const SERIF = "'Cormorant Garamond', Georgia, serif" as const;

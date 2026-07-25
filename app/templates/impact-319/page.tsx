@@ -68,9 +68,9 @@ function shadeColor(color: string, percent: number) {
 
 // --- Constants & Config ---
 
-const DEFAULT_BRAND_COLOR = "#65a30d"; // Olive green
+const DEFAULT_BRAND_COLOR = "var(--brand,#65a30d)"; // Olive green
 const BACKGROUND_COLOR = "#f5f5f4"; // Beige sand
-const ACCENT_COLOR = "#d97757"; // Terracotta
+const ACCENT_COLOR = "var(--brand-light,#d97757)"; // Terracotta
 
 const EASE = [0.16, 1, 0.3, 1];
 const SERIF = "'Fraunces', serif";

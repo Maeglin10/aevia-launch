@@ -21,7 +21,7 @@ let C: Record<string, string> = {
   bg: "#fdf9f5",
   bgSection: "#f5ede3",
   text: "#1e1209",
-  textMuted: "#6b5245",
+  textMuted: "var(--brand-light,#6b5245)",
   accent: "#2d4a22",
   accentLight: "#e8f0e0",
   peach: "#c8855a",
@@ -247,8 +247,8 @@ export default function AtelierBloomPage() {
         <motion.div style={{ position: "relative", zIndex: 1, padding: "0 80px 90px", maxWidth: 780, y: heroTextY, opacity: heroOpacity }}>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
             style={{ display: "inline-flex", alignItems: "center", gap: 8, marginBottom: 28, background: "rgba(45,74,34,0.20)", border: "1px solid rgba(45,74,34,0.40)", borderRadius: 20, padding: "7px 18px" }}>
-            <Leaf size={12} color="#a8d498" />
-            <span style={{color: brand ?? '#a8d498', fontSize: 12, fontWeight: 700, letterSpacing: 2, textTransform: "uppercase" }}>Fleuriste artisanale · Strasbourg</span>
+            <Leaf size={12} color="var(--brand,#a8d498)" />
+            <span style={{color: brand ?? 'var(--brand,#a8d498)', fontSize: 12, fontWeight: 700, letterSpacing: 2, textTransform: "uppercase" }}>Fleuriste artisanale · Strasbourg</span>
           </motion.div>
 
           <motion.h1 initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.9 }}
@@ -274,7 +274,7 @@ export default function AtelierBloomPage() {
         <motion.div animate={{ y: [0, 8, 0] }} transition={{ duration: 1.5, repeat: Infinity }}
           style={{ position: "absolute", bottom: 32, left: "50%", transform: "translateX(-50%)", zIndex: 2 }}>
           <div style={{ width: 24, height: 36, border: "2px solid rgba(255,255,255,0.35)", borderRadius: 12, display: "flex", justifyContent: "center", paddingTop: 6 }}>
-            <motion.div animate={{ y: [0, 10, 0] }} transition={{ duration: 1.5, repeat: Infinity }} style={{width: 6, height: 6, borderRadius: "50%", background: brand ?? '#a8d498' }} />
+            <motion.div animate={{ y: [0, 10, 0] }} transition={{ duration: 1.5, repeat: Infinity }} style={{width: 6, height: 6, borderRadius: "50%", background: brand ?? 'var(--brand,#a8d498)' }} />
           </div>
         </motion.div>
       </section>
@@ -347,7 +347,7 @@ export default function AtelierBloomPage() {
         <Reveal>
           <div style={{ textAlign: "center", marginBottom: 52 }}>
             <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.peach }}>Témoignages</span>
-            <h2 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(28px, 3.5vw, 48px)", color: "#fff", marginTop: 10 }}>Ils ont <em style={{color: brand ?? '#a8d498' }}>adoré</em>.</h2>
+            <h2 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(28px, 3.5vw, 48px)", color: "#fff", marginTop: 10 }}>Ils ont <em style={{color: brand ?? 'var(--brand,#a8d498)' }}>adoré</em>.</h2>
           </div>
         </Reveal>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: 20, maxWidth: 1100, margin: "0 auto" }}>
@@ -388,7 +388,7 @@ export default function AtelierBloomPage() {
       <footer style={{ background: C.text, padding: "48px 80px 24px" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: 32, marginBottom: 36 }}>
           <div>
-            <div style={{fontFamily: FONT_SERIF, fontSize: 20, fontStyle: "italic", color: brand ?? '#a8d498', marginBottom: 8 }}>Atelier Bloom</div>
+            <div style={{fontFamily: FONT_SERIF, fontSize: 20, fontStyle: "italic", color: brand ?? 'var(--brand,#a8d498)', marginBottom: 8 }}>Atelier Bloom</div>
             <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, lineHeight: 1.6 }}>Fleuriste artisanale · Strasbourg<br />Lun–Sam 9h–19h</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>

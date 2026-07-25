@@ -66,7 +66,7 @@ const shadeColor = (color, percent) => {
 };
 
 // --- DEFAULT STYLES ---
-const DEFAULT_BRAND_COLOR = "#06b6d4";
+const DEFAULT_BRAND_COLOR = "var(--brand,#06b6d4)";
 
 const C = {
   primary: DEFAULT_BRAND_COLOR,
@@ -77,7 +77,7 @@ const C = {
   bgCard: "#111827", // slightly lighter dark
   text: "#f9fafb",
   textMuted: "#9ca3af",
-  accent: "#8b5cf6", // Purple accent
+  accent: "var(--brand-light,#8b5cf6)", // Purple accent
   white: "#ffffff",
   black: "#000000"
 };

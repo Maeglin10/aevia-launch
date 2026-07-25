@@ -145,7 +145,7 @@ return (
                     fontWeight: 700,
                     textTransform: "uppercase",
                     letterSpacing: "0.05em",
-                    color: brand ?? '#00ffd1',
+                    color: brand ?? 'var(--brand,#00ffd1)',
                   }}
                 >
                   Atelier v2.4 Release
@@ -193,7 +193,7 @@ return (
                 <Link
                   href="/templates/impact-54/contact"
                   style={{
-                    background: "linear-gradient(135deg, #7c3aed, #5b21b6)",
+                    background: "linear-gradient(135deg, var(--brand-light,#7c3aed), #5b21b6)",
                     color: "#fff",
                     textDecoration: "none",
                     fontWeight: 600,
@@ -249,7 +249,7 @@ return (
                   fontWeight: 700,
                   textTransform: "uppercase",
                   letterSpacing: "0.1em",
-                  color: brand ?? '#00ffd1',
+                  color: brand ?? 'var(--brand,#00ffd1)',
                   marginBottom: 12,
                   display: "block",
                 }}
@@ -347,7 +347,7 @@ return (
                     fontWeight: 700,
                     textTransform: "uppercase",
                     letterSpacing: "0.1em",
-                    color: "#7c3aed",
+                    color: "var(--brand-light,#7c3aed)",
                     marginBottom: 12,
                     display: "block",
                   }}
@@ -409,7 +409,7 @@ return (
                     fontFamily: "'Syne', sans-serif",
                     fontWeight: 800,
                     letterSpacing: "-0.03em",
-                    color: brand ?? '#00ffd1',
+                    color: brand ?? 'var(--brand,#00ffd1)',
                     marginBottom: 8,
                     textShadow: "0 0 20px rgba(0,255,209,0.3)",
                   }}
@@ -435,7 +435,7 @@ return (
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
           <Reveal>
             <div style={{ marginBottom: 80, textAlign: "center" }}>
-              <span style={{fontSize: 12, fontWeight: 700, textTransform: "uppercase" as const, letterSpacing: "0.1em", color: brand ?? '#00ffd1', marginBottom: 12, display: "block" }}>
+              <span style={{fontSize: 12, fontWeight: 700, textTransform: "uppercase" as const, letterSpacing: "0.1em", color: brand ?? 'var(--brand,#00ffd1)', marginBottom: 12, display: "block" }}>
                 Pricing
               </span>
               <h2 style={{ fontSize: "clamp(28px, 3.5vw, 44px)", fontFamily: "'Syne', sans-serif", fontWeight: 700, lineHeight: 1.1, letterSpacing: "-0.02em" }}>
@@ -464,7 +464,7 @@ return (
               <Reveal key={plan.name} delay={i * 0.08}>
                 <div
                   style={{
-                    background: plan.highlight ? "linear-gradient(135deg, #7c3aed, #5b21b6)" : "rgba(124,58,237,0.04)",
+                    background: plan.highlight ? "linear-gradient(135deg, var(--brand-light,#7c3aed), #5b21b6)" : "rgba(124,58,237,0.04)",
                     border: plan.highlight ? "none" : "1px solid rgba(124,58,237,0.15)",
                     borderRadius: 16,
                     padding: "48px 36px",
@@ -473,20 +473,20 @@ return (
                   }}
                 >
                   {plan.highlight && (
-                    <div style={{position: "absolute", top: -12, left: "50%", transform: "translateX(-50%)", background: brand ?? '#00ffd1', color: "#050510", fontSize: 10, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase" as const, padding: "4px 16px", borderRadius: 100 }}>
+                    <div style={{position: "absolute", top: -12, left: "50%", transform: "translateX(-50%)", background: brand ?? 'var(--brand,#00ffd1)', color: "#050510", fontSize: 10, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase" as const, padding: "4px 16px", borderRadius: 100 }}>
                       Most Popular
                     </div>
                   )}
                   <h3 style={{ fontFamily: "'Syne', sans-serif", fontWeight: 700, fontSize: 20, marginBottom: 8 }}>{plan.name}</h3>
                   <p style={{ fontSize: 13, color: plan.highlight ? "rgba(255,255,255,0.7)" : "rgba(232,232,255,0.45)", marginBottom: 24, lineHeight: 1.5 }}>{plan.desc}</p>
                   <div style={{ marginBottom: 32 }}>
-                    <span style={{ fontSize: "clamp(36px, 4vw, 52px)", fontFamily: "'Syne', sans-serif", fontWeight: 800, color: plan.highlight ? "#fff" : "#00ffd1", letterSpacing: "-0.03em" }}>{plan.price}</span>
+                    <span style={{ fontSize: "clamp(36px, 4vw, 52px)", fontFamily: "'Syne', sans-serif", fontWeight: 800, color: plan.highlight ? "#fff" : "var(--brand,#00ffd1)", letterSpacing: "-0.03em" }}>{plan.price}</span>
                     {plan.period && <span style={{ fontSize: 14, color: plan.highlight ? "rgba(255,255,255,0.6)" : "rgba(232,232,255,0.4)" }}>{plan.period}</span>}
                   </div>
                   <ul style={{ display: "flex", flexDirection: "column" as const, gap: 12, marginBottom: 36 }}>
                     {plan.features.map((f) => (
                       <li key={f} style={{ display: "flex", alignItems: "center", gap: 10, fontSize: 13, color: plan.highlight ? "rgba(255,255,255,0.85)" : "rgba(232,232,255,0.6)" }}>
-                        <Check style={{ width: 14, height: 14, color: plan.highlight ? "#00ffd1" : "#7c3aed", flexShrink: 0 }} />
+                        <Check style={{ width: 14, height: 14, color: plan.highlight ? "var(--brand,#00ffd1)" : "var(--brand-light,#7c3aed)", flexShrink: 0 }} />
                         {f}
                       </li>
                     ))}
@@ -501,7 +501,7 @@ return (
                       fontWeight: 700,
                       fontSize: 14,
                       textDecoration: "none",
-                      background: plan.highlight ? "#00ffd1" : "rgba(124,58,237,0.1)",
+                      background: plan.highlight ? "var(--brand,#00ffd1)" : "rgba(124,58,237,0.1)",
                       color: plan.highlight ? "#050510" : "#e8e8ff",
                       border: plan.highlight ? "none" : "1px solid rgba(124,58,237,0.3)",
                       transition: "opacity 0.2s",
@@ -532,7 +532,7 @@ return (
         <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", width: "600px", height: "400px", background: "radial-gradient(ellipse, rgba(124,58,237,0.1) 0%, transparent 70%)", pointerEvents: "none" }} />
         <div style={{ position: "relative", maxWidth: 700, margin: "0 auto" }}>
           <Reveal>
-            <span style={{fontSize: 12, fontWeight: 700, textTransform: "uppercase" as const, letterSpacing: "0.1em", color: brand ?? '#00ffd1', marginBottom: 12, display: "block" }}>
+            <span style={{fontSize: 12, fontWeight: 700, textTransform: "uppercase" as const, letterSpacing: "0.1em", color: brand ?? 'var(--brand,#00ffd1)', marginBottom: 12, display: "block" }}>
               Start rendering
             </span>
             <h2
@@ -557,7 +557,7 @@ return (
               <Link
                 href="/templates/impact-54/contact"
                 style={{
-                  background: "linear-gradient(135deg, #7c3aed, #5b21b6)",
+                  background: "linear-gradient(135deg, var(--brand-light,#7c3aed), #5b21b6)",
                   color: "#fff",
                   textDecoration: "none",
                   fontWeight: 700,

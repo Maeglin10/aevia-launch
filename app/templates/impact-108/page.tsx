@@ -276,7 +276,7 @@ export default function LedgerPage() {
                   fontFamily: FONT,
                   fontSize: 36,
                   fontWeight: 700,
-                  color: "#4ade80",
+                  color: "var(--brand-light,#4ade80)",
                   textDecoration: "none",
                 }}
               >
@@ -342,7 +342,7 @@ export default function LedgerPage() {
               gap: 8,
               background: "rgba(26,158,111,0.2)",
               border: "1px solid rgba(26,158,111,0.5)",
-              color: "#4ade80",
+              color: "var(--brand-light,#4ade80)",
               fontFamily: FONT,
               fontWeight: 600,
               fontSize: 12,
@@ -370,7 +370,7 @@ export default function LedgerPage() {
             }}
           >{c?.heroHeadline ?? <>
             La comptabilité,<br />
-            <span style={{color: brand ?? '#93c5fd' }}>un outil de croissance</span>
+            <span style={{color: brand ?? 'var(--brand,#93c5fd)' }}>un outil de croissance</span>
           </>}</motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 28 }}
@@ -471,7 +471,7 @@ export default function LedgerPage() {
                   style={{fontFamily: FONT,
                     fontSize: 52,
                     fontWeight: 800,
-                    color: brand ?? '#93c5fd',
+                    color: brand ?? 'var(--brand,#93c5fd)',
                     lineHeight: 1,
                     marginBottom: 8,
                   }}
@@ -767,7 +767,7 @@ export default function LedgerPage() {
               fontSize: 12,
               letterSpacing: 3,
               textTransform: "uppercase",
-              color: brand ?? '#93c5fd',
+              color: brand ?? 'var(--brand,#93c5fd)',
               marginBottom: 20,
             }}
           >
@@ -837,7 +837,7 @@ export default function LedgerPage() {
                   gap: 8,
                   background: "rgba(26,158,111,0.15)",
                   border: "1px solid rgba(26,158,111,0.4)",
-                  color: "#4ade80",
+                  color: "var(--brand-light,#4ade80)",
                   fontFamily: FONT,
                   fontWeight: 600,
                   fontSize: 11,
@@ -858,8 +858,8 @@ export default function LedgerPage() {
               <p style={{ fontFamily: FONT_BODY, fontWeight: 300, fontSize: 14, lineHeight: 2 }}>
                 14 allée de Tourny<br />
                 33000 Bordeaux<br />
-                <a href={`tel:${fd?.phone ?? "+33556000000"}`} style={{color: brand ?? '#93c5fd', textDecoration: "none" }}>05 56 XX XX XX</a><br />
-                <a href={`mailto:${fd?.email ?? "contact@ledger-associes.fr"}`} style={{color: brand ?? '#93c5fd', textDecoration: "none" }}>{fd?.email ?? "contact@ledger-associes.fr"}</a>
+                <a href={`tel:${fd?.phone ?? "+33556000000"}`} style={{color: brand ?? 'var(--brand,#93c5fd)', textDecoration: "none" }}>05 56 XX XX XX</a><br />
+                <a href={`mailto:${fd?.email ?? "contact@ledger-associes.fr"}`} style={{color: brand ?? 'var(--brand,#93c5fd)', textDecoration: "none" }}>{fd?.email ?? "contact@ledger-associes.fr"}</a>
               </p>
             </div>
             <div>

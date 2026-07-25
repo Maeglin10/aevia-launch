@@ -66,7 +66,7 @@ const shadeColor = (color: string, percent: number) => {
   return "#"+RR+GG+BB;
 };
 
-const DEFAULT_BRAND_COLOR = "#2563eb";
+const DEFAULT_BRAND_COLOR = "var(--brand,#2563eb)";
 
 const C = {
   primary: DEFAULT_BRAND_COLOR,
@@ -78,7 +78,7 @@ const C = {
   bgHover: '#1f1f2a',
   text: '#f3f4f6',
   textMuted: '#9ca3af',
-  accent: '#3b82f6',
+  accent: 'var(--brand-light,#3b82f6)',
   white: '#ffffff',
   black: '#000000',
   border: '#2a2a35'

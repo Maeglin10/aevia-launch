@@ -350,7 +350,7 @@ function ProductCard({ p, i, onAddToCart }: { p: typeof PRODUCTS_DEMO[0]; i: num
 
   const tagColors: Record<string, string> = {
     new: C.gold,
-    sale: "#D4614A",
+    sale: "var(--brand,#d4614a)",
     exclusive: "#8B7355",
     low: "#B5763A",
   };
@@ -455,7 +455,7 @@ function ProductCard({ p, i, onAddToCart }: { p: typeof PRODUCTS_DEMO[0]; i: num
             width: 36,
             height: 36,
             background: "rgba(0,0,0,0.5)",
-            border: `1px solid ${wishlisted ? "#D4614A" : "rgba(255,255,255,0.15)"}`,
+            border: `1px solid ${wishlisted ? "var(--brand,#d4614a)" : "rgba(255,255,255,0.15)"}`,
             borderRadius: "50%",
             cursor: "pointer",
             display: "flex",
@@ -465,8 +465,8 @@ function ProductCard({ p, i, onAddToCart }: { p: typeof PRODUCTS_DEMO[0]; i: num
         >
           <Heart
             size={15}
-            fill={wishlisted ? "#D4614A" : "none"}
-            stroke={wishlisted ? "#D4614A" : C.muted}
+            fill={wishlisted ? "var(--brand,#d4614a)" : "none"}
+            stroke={wishlisted ? "var(--brand,#d4614a)" : C.muted}
           />
         </motion.button>
 
@@ -572,13 +572,13 @@ function ProductCard({ p, i, onAddToCart }: { p: typeof PRODUCTS_DEMO[0]; i: num
           </div>
           <motion.button
             onClick={handleAdd}
-            whileHover={{ background: added ? "#2A6A3A" : C.gold, color: C.bg }}
+            whileHover={{ background: added ? "var(--brand-light,#2a6a3a)" : C.gold, color: C.bg }}
             whileTap={{ scale: 0.94 }}
             style={{
               padding: "8px 16px",
-              background: added ? "#2A6A3A" : "transparent",
+              background: added ? "var(--brand-light,#2a6a3a)" : "transparent",
               color: added ? "#6EE6A0" : C.gold,
-              border: `1px solid ${added ? "#2A6A3A" : C.gold}`,
+              border: `1px solid ${added ? "var(--brand-light,#2a6a3a)" : C.gold}`,
               fontSize: 11,
               fontWeight: 600,
               cursor: "pointer",
@@ -2488,7 +2488,7 @@ function ShopCard({ p, i, onOpen }: { p: typeof PRODUCTS_DEMO[0]; i: number; onO
   const [hovering, setHovering] = useState(false);
   const tagColors: Record<string, string> = {
     new: C.gold,
-    sale: "#D4614A",
+    sale: "var(--brand,#d4614a)",
     exclusive: "#8B7355",
     low: "#B5763A",
   };
@@ -2819,13 +2819,13 @@ function ProductDetail({
 
           <motion.button
             onClick={handleAdd}
-            whileHover={{ background: added ? "#2A6A3A" : C.cream, color: C.bg }}
+            whileHover={{ background: added ? "var(--brand-light,#2a6a3a)" : C.cream, color: C.bg }}
             whileTap={{ scale: 0.97 }}
             style={{
               width: "100%",
               maxWidth: 460,
               padding: "17px",
-              background: added ? "#2A6A3A" : C.gold,
+              background: added ? "var(--brand-light,#2a6a3a)" : C.gold,
               color: added ? "#fff" : C.bg,
               border: "none",
               fontSize: 14,

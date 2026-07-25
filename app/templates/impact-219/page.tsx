@@ -46,8 +46,8 @@ let C: Record<string, string> = {
   card: '#ffffff',
   border: '#e8e6f2',
   borderStrong: '#d8d4ec',
-  primary: '#6d4aff',
-  primaryDark: '#5a37e0',
+  primary: 'var(--brand,#6d4aff)',
+  primaryDark: 'var(--brand-light,#5a37e0)',
   primaryLight: '#8b6dff',
   indigo: '#4338ca',
   ink: '#15131f',
@@ -788,12 +788,12 @@ const AV = (id: string) =>
   `https://images.unsplash.com/photo-${id}?q=80&w=160&h=160&auto=format&fit=crop&crop=faces`;
 
 const TESTIS: Testi[] = [
-  { name: 'Sophie Laurent', role: 'Head of Growth, Welly', hue: '#6d4aff', img: AV('1494790108377-be9c29b29330'), body: 'On a divisé par deux le temps passé sur le reporting. Les équipes adorent enfin leurs dashboards.' },
+  { name: 'Sophie Laurent', role: 'Head of Growth, Welly', hue: 'var(--brand,#6d4aff)', img: AV('1494790108377-be9c29b29330'), body: 'On a divisé par deux le temps passé sur le reporting. Les équipes adorent enfin leurs dashboards.' },
   { name: 'Thomas Berger', role: 'CTO, Fluxio', hue: '#4338ca', img: AV('1500648767791-00dcc994a43e'), body: 'L’API et les automatisations sont d’une fiabilité rare. Déployé en production en une après-midi.' },
   { name: 'Inès Moreau', role: 'CMO, Brightside', hue: '#8b6dff', img: AV('1438761681033-6461ffad8d80'), body: 'Le suivi de conversion en temps réel a transformé nos arbitrages budgétaires hebdomadaires.' },
-  { name: 'Karl Nyström', role: 'Data Lead, Nordata', hue: '#5a37e0', img: AV('1507003211169-0a1dd7228f2d'), body: 'Enfin un outil que mon équipe data ET mon équipe marketing utilisent sans se battre.' },
+  { name: 'Karl Nyström', role: 'Data Lead, Nordata', hue: 'var(--brand-light,#5a37e0)', img: AV('1507003211169-0a1dd7228f2d'), body: 'Enfin un outil que mon équipe data ET mon équipe marketing utilisent sans se battre.' },
   { name: 'Amélie Dubois', role: 'COO, Vértigo', hue: '#7c5cff', img: AV('1517841905240-472988babdf9'), body: 'Le support est excellent et la conformité SOC 2 a débloqué nos plus gros comptes entreprise.' },
-  { name: 'Diego Ferreira', role: 'Founder, Layerbase', hue: '#6d4aff', img: AV('1472099645785-5658abf4ff4e'), body: 'Passés de tableurs chaotiques à une source de vérité unique. Retour sur investissement immédiat.' },
+  { name: 'Diego Ferreira', role: 'Founder, Layerbase', hue: 'var(--brand,#6d4aff)', img: AV('1472099645785-5658abf4ff4e'), body: 'Passés de tableurs chaotiques à une source de vérité unique. Retour sur investissement immédiat.' },
 ];
 
 function Testimonials() {

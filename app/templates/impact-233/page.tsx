@@ -21,7 +21,7 @@ function shadeColor(hex: string, percent: number): string {
 let C: Record<string, string> = {
   bg: "#f8f6f3", bgSection: "#ede9e3", bgDark: "#130f0a",
   text: "#130f0a", textMuted: "#7a6e60",
-  accent: "#2d6b8a", accentDark: "#1e4d66", accentLight: "#d0e8f5",
+  accent: "var(--brand-light,#2d6b8a)", accentDark: "#1e4d66", accentLight: "#d0e8f5",
   warm: "#c4783c", warmLight: "#fdf0e6",
   white: "#ffffff", border: "#ddd5c8",
   shadow: "0 2px 14px rgba(19,15,10,0.07)", shadowLg: "0 16px 48px rgba(45,107,138,0.15)",
@@ -195,11 +195,11 @@ export default function CabinetOsteopathiePage() {
         <motion.div style={{ position: "relative", zIndex: 1, padding: "0 80px 90px", maxWidth: 760, y: heroTextY, opacity: heroOpacity }}>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
             style={{ display: "inline-flex", alignItems: "center", gap: 8, marginBottom: 28, background: "rgba(45,107,138,0.15)", border: "1px solid rgba(45,107,138,0.30)", borderRadius: 20, padding: "7px 18px" }}>
-            <span style={{color: brand ?? '#7ec8e0', fontSize: 12, fontWeight: 700, letterSpacing: 2, textTransform: "uppercase" }}>Ostéopathe D.O. · Lyon 6e</span>
+            <span style={{color: brand ?? 'var(--brand,#7ec8e0)', fontSize: 12, fontWeight: 700, letterSpacing: 2, textTransform: "uppercase" }}>Ostéopathe D.O. · Lyon 6e</span>
           </motion.div>
           <motion.h1 initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.9 }}
             style={{ fontFamily: FONT, fontSize: "clamp(40px, 5vw, 68px)", color: "#fff", lineHeight: 1.1, marginBottom: 24 }}>{c?.heroHeadline ?? <>
-            Retrouver l'équilibre<br /><em style={{color: brand ?? '#7ec8e0' }}>naturellement.</em>
+            Retrouver l'équilibre<br /><em style={{color: brand ?? 'var(--brand,#7ec8e0)' }}>naturellement.</em>
           </>}</motion.h1>
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.75 }}
             style={{ fontSize: 17, color: "rgba(255,255,255,0.70)", lineHeight: 1.75, marginBottom: 40, maxWidth: 510 }}>{c?.heroSubline ?? fd?.tagline ?? <>
@@ -216,7 +216,7 @@ export default function CabinetOsteopathiePage() {
         </motion.div>
         <motion.div animate={{ y: [0, 8, 0] }} transition={{ duration: 1.5, repeat: Infinity }} style={{ position: "absolute", bottom: 32, left: "50%", transform: "translateX(-50%)", zIndex: 2 }}>
           <div style={{ width: 24, height: 36, border: "2px solid rgba(255,255,255,0.30)", borderRadius: 12, display: "flex", justifyContent: "center", paddingTop: 6 }}>
-            <motion.div animate={{ y: [0, 10, 0] }} transition={{ duration: 1.5, repeat: Infinity }} style={{width: 6, height: 6, borderRadius: "50%", background: brand ?? '#7ec8e0' }} />
+            <motion.div animate={{ y: [0, 10, 0] }} transition={{ duration: 1.5, repeat: Infinity }} style={{width: 6, height: 6, borderRadius: "50%", background: brand ?? 'var(--brand,#7ec8e0)' }} />
           </div>
         </motion.div>
       </section>
@@ -226,7 +226,7 @@ export default function CabinetOsteopathiePage() {
           {STATS.map((s, i) => (
             <Reveal key={s.label} delay={i * 0.08}>
               <div style={{ padding: "28px 0", textAlign: "center", borderRight: i < 3 ? "1px solid rgba(255,255,255,0.07)" : "none" }}>
-                <div style={{fontFamily: FONT, fontSize: 36, color: brand ?? '#7ec8e0', lineHeight: 1 }}>{s.value}</div>
+                <div style={{fontFamily: FONT, fontSize: 36, color: brand ?? 'var(--brand,#7ec8e0)', lineHeight: 1 }}>{s.value}</div>
                 <div style={{ fontSize: 13, color: "rgba(255,255,255,0.42)", marginTop: 6 }}>{s.label}</div>
               </div>
             </Reveal>
@@ -273,17 +273,17 @@ export default function CabinetOsteopathiePage() {
 
       <section id="avis" style={{ padding: "100px 80px", background: C.bgDark }}>
         <Reveal><div style={{ textAlign: "center", marginBottom: 52 }}>
-          <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 3.5vw, 48px)", color: "#fff" }}>Ce que disent <em style={{color: brand ?? '#7ec8e0' }}>mes patients</em>.</h2>
+          <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 3.5vw, 48px)", color: "#fff" }}>Ce que disent <em style={{color: brand ?? 'var(--brand,#7ec8e0)' }}>mes patients</em>.</h2>
         </div></Reveal>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: 18, maxWidth: 1100, margin: "0 auto" }}>
           {AVIS.map((a, i) => (
             <Reveal key={a.auteur ?? i} delay={i * 0.1}>
               <div style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 10, padding: "26px 24px" }}>
-                <div style={{ display: "flex", gap: 3, marginBottom: 12 }}>{[...Array(5)].map((_, j) => <Star key={j} size={13} fill="#7ec8e0" color="#7ec8e0" />)}</div>
+                <div style={{ display: "flex", gap: 3, marginBottom: 12 }}>{[...Array(5)].map((_, j) => <Star key={j} size={13} fill="var(--brand,#7ec8e0)" color="var(--brand,#7ec8e0)" />)}</div>
                 <p style={{ fontFamily: FONT, fontSize: 15, fontStyle: "italic", color: "rgba(255,255,255,0.78)", lineHeight: 1.7, marginBottom: 18 }}>"{a.texte}"</p>
                 <div style={{ borderTop: "1px solid rgba(255,255,255,0.07)", paddingTop: 14 }}>
                   <div style={{ fontWeight: 600, color: "#fff", fontSize: 14 }}>{a.auteur}</div>
-                  {a.detail && <div style={{color: brand ?? '#7ec8e0', fontSize: 12, marginTop: 4 }}>{a.detail}</div>}
+                  {a.detail && <div style={{color: brand ?? 'var(--brand,#7ec8e0)', fontSize: 12, marginTop: 4 }}>{a.detail}</div>}
                 </div>
               </div>
             </Reveal>
@@ -310,13 +310,13 @@ export default function CabinetOsteopathiePage() {
       <footer style={{ background: C.bgDark, padding: "44px 80px 22px" }}>
         <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 28, marginBottom: 32 }}>
           <div>
-            <div style={{fontFamily: FONT, fontSize: 18, fontStyle: "italic", color: brand ?? '#7ec8e0', marginBottom: 8 }}>Cabinet Équilibre</div>
+            <div style={{fontFamily: FONT, fontSize: 18, fontStyle: "italic", color: brand ?? 'var(--brand,#7ec8e0)', marginBottom: 8 }}>Cabinet Équilibre</div>
             <p style={{ color: "rgba(255,255,255,0.30)", fontSize: 13, lineHeight: 1.6 }}>Lucas Martin · Ostéopathe D.O.<br />Diplômé IFSO · ADELI N°xxxxxxx</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
             {[{ icon: <MapPin size={13} />, t: "Lyon 6e — Rue de la République" }, { icon: <Phone size={13} />, t: "04 78 00 00 00" }, { icon: <Clock size={13} />, t: "Lun–Sam 8h30–19h30" }].map((item, i) => (
               <div key={i} style={{ display: "flex", gap: 10, color: "rgba(255,255,255,0.38)", fontSize: 13 }}>
-                <span style={{color: brand ?? '#7ec8e0' }}>{item.icon}</span>{item.t}
+                <span style={{color: brand ?? 'var(--brand,#7ec8e0)' }}>{item.icon}</span>{item.t}
               </div>
             ))}
           </div>

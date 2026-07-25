@@ -49,7 +49,7 @@ let C: Record<string, string> = {
   bgSection: "#f2fbf5",
   text: "#1a3a2a",
   textMuted: "#4a7060",
-  accent: '#2d6a4f',
+  accent: 'var(--brand,#2d6a4f)',
   accentLight: "#d8f3dc",
   accentDark: "#1e4d38",
   sand: "#f4a261",
@@ -412,12 +412,12 @@ function Hero() {
 
 // ─── Services ─────────────────────────────────────────────────────────────────
 const SERVICES_DEMO = [
-  { icon: <Stethoscope size={26} color="#2d6a4f" />, title: "Consultations", desc: "Bilan de santé complet, suivi régulier et prévention pour votre animal.", tag: "Essentiel" },
-  { icon: <Syringe size={26} color="#2d6a4f" />, title: "Vaccinations", desc: "Protocoles vaccinaux adaptés à chaque espèce et mode de vie.", tag: "Prévention" },
-  { icon: <Shield size={26} color="#2d6a4f" />, title: "Chirurgie", desc: "Chirurgie douce avec anesthésie sécurisée et monitoring cardiaque.", tag: "Spécialisé" },
-  { icon: <Heart size={26} color="#2d6a4f" />, title: "Cardiologie", desc: "Échographie cardiaque et suivi des pathologies cardiovasculaires.", tag: "Expert" },
-  { icon: <Award size={26} color="#2d6a4f" />, title: "Dermatologie", desc: "Diagnostic et traitement des affections cutanées chroniques.", tag: "Spécialisé" },
-  { icon: <Users size={26} color="#2d6a4f" />, title: "Urgences 24h/7j", desc: "Équipe d'astreinte pour les urgences vitales, 24h/24, 7j/7.", tag: "Urgent", urgent: true },
+  { icon: <Stethoscope size={26} color="var(--brand,#2d6a4f)" />, title: "Consultations", desc: "Bilan de santé complet, suivi régulier et prévention pour votre animal.", tag: "Essentiel" },
+  { icon: <Syringe size={26} color="var(--brand,#2d6a4f)" />, title: "Vaccinations", desc: "Protocoles vaccinaux adaptés à chaque espèce et mode de vie.", tag: "Prévention" },
+  { icon: <Shield size={26} color="var(--brand,#2d6a4f)" />, title: "Chirurgie", desc: "Chirurgie douce avec anesthésie sécurisée et monitoring cardiaque.", tag: "Spécialisé" },
+  { icon: <Heart size={26} color="var(--brand,#2d6a4f)" />, title: "Cardiologie", desc: "Échographie cardiaque et suivi des pathologies cardiovasculaires.", tag: "Expert" },
+  { icon: <Award size={26} color="var(--brand,#2d6a4f)" />, title: "Dermatologie", desc: "Diagnostic et traitement des affections cutanées chroniques.", tag: "Spécialisé" },
+  { icon: <Users size={26} color="var(--brand,#2d6a4f)" />, title: "Urgences 24h/7j", desc: "Équipe d'astreinte pour les urgences vitales, 24h/24, 7j/7.", tag: "Urgent", urgent: true },
 ];
 
 function Services() {
@@ -596,7 +596,7 @@ function Testimonials() {
             style={{ background: C.white, borderRadius: 18, padding: 28, border: `1px solid ${C.border}`, boxShadow: C.shadow }}
           >
             <div style={{ display: "flex", gap: 3, marginBottom: 14 }}>
-              {Array.from({ length: t.stars }).map((_, k) => (<Star key={k} size={14} color="#f59e0b" fill="#f59e0b" />))}
+              {Array.from({ length: t.stars }).map((_, k) => (<Star key={k} size={14} color="var(--brand-light,#f59e0b)" fill="var(--brand-light,#f59e0b)" />))}
             </div>
             <p style={{ fontSize: 15, color: C.text, lineHeight: 1.7, marginBottom: 18, fontStyle: "italic" }}>"{t.text}"</p>
             <div style={{ fontWeight: 800, fontSize: 14, color: C.accent }}>— {t.name}</div>

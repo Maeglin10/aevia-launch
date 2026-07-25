@@ -20,10 +20,10 @@ let brand: any = null;
 // ─── Design Tokens ─────────────────────────────────────────────────────────────
 const BG = '#faf8f5'
 const DARK = '#1a1209'
-const GOLD = brand ?? '#b8965a'
+const GOLD = brand ?? 'var(--brand,#b8965a)'
 const GOLD_LIGHT = '#d4af7a'
 const GOLD_PALE = '#f0e6d3'
-const ROSE = '#c9a0a0'
+const ROSE = 'var(--brand-light,#c9a0a0)'
 const GRAY_MID = '#6b6055'
 const GRAY_LIGHT = '#e8e2d9'
 
@@ -98,7 +98,7 @@ const STYLISTS: Stylist[] = [
     name: 'Camille Rousseau',
     title: 'Directrice Artistique',
     specialty: 'Balayage & Colorimétrie',
-    color: '#c9a0a0',
+    color: 'var(--brand-light,#c9a0a0)',
     bio: "Formée à l\'École Nationale Supérieure de Coiffure, Camille a perfectionné son art chez Dessange à Paris avant de fonder L\'Atelier. Sa signature : des couleurs qui semblent nées du soleil.",
     years: 15,
   },
@@ -414,7 +414,7 @@ function BeforeAfterSlider() {
         style={{
           position: 'absolute',
           inset: 0,
-          background: `linear-gradient(135deg, #d4b896 0%, #e8d5b7 30%, #c9a96e 60%, #b8965a 100%)`,
+          background: `linear-gradient(135deg, #d4b896 0%, #e8d5b7 30%, #c9a96e 60%, var(--brand,#b8965a) 100%)`,
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -875,11 +875,11 @@ function GalleryTile({ index }: { index: number }) {
   const [hovered, setHovered] = useState(false)
 
   const palettes = [
-    { bg: '#2d2420', accent: brand ?? '#b8965a', label: 'Balayage Cuivré' },
+    { bg: '#2d2420', accent: brand ?? 'var(--brand,#b8965a)', label: 'Balayage Cuivré' },
     { bg: '#d4b896', accent: '#1a1209', label: 'Blond Platine' },
     { bg: '#3a2e24', accent: '#d4af7a', label: 'Châtain Profond' },
-    { bg: '#c9a0a0', accent: '#fff', label: 'Couleur Rose' },
-    { bg: '#1a1a2e', accent: brand ?? '#b8965a', label: 'Noir Bleuté' },
+    { bg: 'var(--brand-light,#c9a0a0)', accent: '#fff', label: 'Couleur Rose' },
+    { bg: '#1a1a2e', accent: brand ?? 'var(--brand,#b8965a)', label: 'Noir Bleuté' },
     { bg: '#e8d5b7', accent: '#6b4c2a', label: 'Caramel Glacé' },
   ]
 
