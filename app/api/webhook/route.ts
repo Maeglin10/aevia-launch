@@ -347,6 +347,103 @@ async function linkPurchaseToAccount(sessionId: string, email: string, siteName:
   console.log(`[webhook] session ${sessionId} linked to account ${accountId}`);
 }
 
+// ─── Desired-domain handling (Netim via backend) ───────────────────────────────
+
+const DESIRED_DOMAIN_RE =
+  /^(?=.{4,253}$)([a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,24}$/i;
+
+/**
+ * Handle the domain the client asked for in onboarding (meta.domain).
+ *
+ * The backend (skybot-inbox on Railway) owns the Netim integration:
+ *   GET  /api/v1/domains/netim/check?q=<domain>   (free, read-only)
+ *   POST /api/v1/domains/netim/register {confirm}  (REAL money, no sandbox)
+ *
+ * ⚠️ register spends real account balance. We therefore DEFAULT to notify-only:
+ * we check availability and email the admin what to do. Actual auto-purchase
+ * only happens when SKYLAUNCH_DOMAIN_AUTO_REGISTER === "1" AND the domain is
+ * available — an explicit, opt-in gate on top of the backend's own confirm:true.
+ *
+ * Returns a human-readable status line for the admin email, or "" to skip.
+ * Never throws — domain handling must never break order fulfilment.
+ */
+async function handleDesiredDomain(rawDomain: string, siteName: string): Promise<string> {
+  const domain = (rawDomain ?? "").trim().toLowerCase();
+  if (!domain) return "";
+  if (!DESIRED_DOMAIN_RE.test(domain)) {
+    return `⚠️ Domaine demandé invalide : "${rawDomain}" — à traiter manuellement.`;
+  }
+  const apiKey = process.env.AEVIA_BACKEND_API_KEY;
+  if (!apiKey) {
+    return `📌 Domaine demandé : ${domain} — AEVIA_BACKEND_API_KEY absente, à enregistrer manuellement.`;
+  }
+
+  // 1. Availability (free, read-only)
+  let availLine = "dispo=?";
+  let available = false;
+  try {
+    const r = await fetch(
+      `${AEVIA_BACKEND_URL}/api/v1/domains/netim/check?q=${encodeURIComponent(domain)}`,
+      { headers: { "x-api-key": apiKey } },
+    );
+    if (r.ok) {
+      const j = (await r.json()) as {
+        results?: Array<{
+          domain: string;
+          available?: boolean;
+          isPremium?: boolean;
+          premiumPrice?: string;
+          currency?: string;
+        }>;
+      };
+      const res = j.results?.[0];
+      available = !!res?.available;
+      if (res) {
+        availLine =
+          `dispo=${available ? "oui" : "non"}` +
+          (res.isPremium ? " (premium)" : "") +
+          (res.premiumPrice ? `, ~${res.premiumPrice}${res.currency ?? ""}/an` : "");
+      }
+    } else {
+      availLine = `check HTTP ${r.status}`;
+    }
+  } catch (e) {
+    availLine = `check échoué: ${e instanceof Error ? e.message : String(e)}`;
+  }
+
+  // 2. Opt-in auto-purchase (real money) — only if enabled AND available
+  const autoRegister = process.env.SKYLAUNCH_DOMAIN_AUTO_REGISTER === "1";
+  if (autoRegister && available) {
+    try {
+      const r = await fetch(`${AEVIA_BACKEND_URL}/api/v1/domains/netim/register`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "x-api-key": apiKey },
+        body: JSON.stringify({ domain, confirm: true }),
+      });
+      const j = (await r.json().catch(() => ({}))) as {
+        registered?: boolean;
+        dnsConfigured?: boolean;
+        message?: string;
+        dnsError?: string;
+      };
+      if (r.ok && j.registered) {
+        const dns = j.dnsConfigured
+          ? ", DNS→Vercel OK"
+          : `, ⚠️ DNS à finir${j.dnsError ? `: ${j.dnsError}` : ""}`;
+        return `✅ Domaine ${domain} ENREGISTRÉ (${availLine})${dns}. Reste : ajouter ${domain} au projet Vercel aevia-launch.`;
+      }
+      return `⚠️ Enregistrement ${domain} ÉCHOUÉ (HTTP ${r.status}${j.message ? `: ${j.message}` : ""}) — ${availLine}. À traiter manuellement.`;
+    } catch (e) {
+      return `⚠️ Enregistrement ${domain} erreur : ${e instanceof Error ? e.message : String(e)} — à traiter manuellement.`;
+    }
+  }
+
+  // 3. Notify-only (default): a human decides + buys
+  return available
+    ? `📌 Domaine demandé pour « ${siteName} » : ${domain} (${availLine}). À ENREGISTRER (auto-achat off).`
+    : `📌 Domaine demandé pour « ${siteName} » : ${domain} (${availLine}). Indispo — proposer une alternative au client.`;
+}
+
 // ─── Idempotency reservation via Blob ──────────────────────────────────────────
 
 /**
@@ -431,6 +528,25 @@ export async function POST(req: NextRequest) {
         day: "2-digit", month: "long", year: "numeric",
         hour: "2-digit", minute: "2-digit", timeZone: "Europe/Paris",
       });
+
+      // ── Desired domain (Netim) — runs for every completed order, both paths.
+      // Best-effort + notify-only by default; never blocks fulfilment. ──
+      const desiredDomain = (meta.domain as string | undefined) ?? "";
+      if (resend && desiredDomain.trim()) {
+        try {
+          const domainNote = await handleDesiredDomain(desiredDomain, siteName);
+          if (domainNote) {
+            await resend.emails.send({
+              from: process.env.RESEND_FROM_EMAIL ?? "AeviaLaunch <noreply@aevia.io>",
+              to: [process.env.ADMIN_EMAIL ?? "v.milliand@gmail.com"],
+              subject: `[AeviaLaunch] Domaine — ${siteName}`,
+              html: `<p style="font-family:system-ui,sans-serif;font-size:15px;line-height:1.6;">${escapeHtml(domainNote)}</p>`,
+            }).catch((e: unknown) => console.error("[webhook] domain email failed", e));
+          }
+        } catch (e) {
+          console.error("[webhook] domain handling failed", e);
+        }
+      }
 
       // ── Preview-checkout path: content already generated, just send emails ──
       if (meta.sessionId && !meta.briefId) {
