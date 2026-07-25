@@ -115,12 +115,12 @@ return (
 
         <div className="relative z-10 max-w-[1400px] mx-auto px-6 md:px-12 w-full">
           <Reveal>
-            <div className="inline-flex items-center gap-3 px-4 py-2 bg-rose-600/10 rounded-none border border-rose-600/30 text-rose-600 text-[10px] font-bold uppercase tracking-widest mb-10 shadow-sm">
-              <span className="w-2 h-2 bg-rose-600 rounded-full animate-pulse" />
+            <div className="inline-flex items-center gap-3 px-4 py-2 bg-[var(--brand,#e11d48)]/10 rounded-none border border-[var(--brand,#e11d48)]/30 text-[var(--brand,#e11d48)] text-[10px] font-bold uppercase tracking-widest mb-10 shadow-sm">
+              <span className="w-2 h-2 bg-[var(--brand,#e11d48)] rounded-full animate-pulse" />
               Live: Volumetric Stream 0x074F
             </div>
             <h1 className="text-7xl md:text-9xl lg:text-[11rem] font-black leading-[1.15] tracking-tighter mb-12 uppercase italic pb-4">{c?.heroHeadline ?? <>
-              Space <br /> <span className="text-rose-600">As Data.</span>
+              Space <br /> <span className="text-[var(--brand,#e11d48)]">As Data.</span>
             </>}</h1>
             <p className="max-w-xl text-lg md:text-xl text-white/30 leading-relaxed font-bold mb-12 uppercase tracking-tight">{c?.heroSubline ?? fd?.tagline ?? <>
               Sub-millimeter LiDAR scanning and neural radiance fields for
@@ -129,7 +129,7 @@ return (
             <div className="flex flex-col sm:flex-row gap-6">
               <MagneticBtn
                 onClick={handleStartScan}
-                className="px-12 py-5 bg-rose-600 text-white text-[10px] font-bold uppercase tracking-[0.4em] rounded-none hover:bg-white hover:text-black transition-all cursor-pointer shadow-2xl shadow-rose-600/20"
+                className="px-12 py-5 bg-[var(--brand,#e11d48)] text-white text-[10px] font-bold uppercase tracking-[0.4em] rounded-none hover:bg-white hover:text-black transition-all cursor-pointer shadow-2xl shadow-rose-600/20"
               >
                 Enter Property
               </MagneticBtn>
@@ -155,7 +155,7 @@ return (
             <span className="text-[9px] font-bold text-white/10 uppercase tracking-[0.5em]">
               TETRAHEDRON // SCAN_MODE_EN
             </span>
-            <div className="w-32 h-[1px] bg-rose-600/40" />
+            <div className="w-32 h-[1px] bg-[var(--brand,#e11d48)]/40" />
           </div>
         </motion.div>
       </section>
@@ -171,12 +171,12 @@ return (
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 md:gap-32 items-center">
             <div className="lg:col-span-5">
               <Reveal>
-                <span className="text-[10px] uppercase tracking-[0.4em] font-bold text-rose-600 mb-6 block">
+                <span className="text-[10px] uppercase tracking-[0.4em] font-bold text-[var(--brand,#e11d48)] mb-6 block">
                   Spatial Protocol
                 </span>
                 <h2 className="text-5xl md:text-7xl font-black tracking-tighter leading-tight mb-12 text-white uppercase italic">{c?.aboutTitle ?? fd?.businessName ?? <>
                   Neural <br />{" "}
-                  <span className="text-rose-600">Rendering.</span>
+                  <span className="text-[var(--brand,#e11d48)]">Rendering.</span>
                 </>}</h2>
                 <p className="text-lg text-white/30 leading-relaxed font-bold mb-16 uppercase tracking-tight italic">{c?.aboutText ?? <>
                   Our proprietary engine digitizes physical assets into
@@ -206,12 +206,12 @@ return (
                   ].map((item, i) => (
                     <div
                       key={i}
-                      className="group border-l border-rose-600/20 pl-8 hover:border-rose-600 transition-all"
+                      className="group border-l border-[var(--brand,#e11d48)]/20 pl-8 hover:border-[var(--brand,#e11d48)] transition-all"
                     >
                       <h4 className="text-sm font-bold uppercase tracking-tight mb-2 text-white/60">
                         {item.label}
                       </h4>
-                      <div className="text-3xl font-black text-rose-600 mb-2 uppercase italic tabular-nums">
+                      <div className="text-3xl font-black text-[var(--brand,#e11d48)] mb-2 uppercase italic tabular-nums">
                         {item.val}
                         {item.suffix}
                       </div>
@@ -231,14 +231,14 @@ return (
                   <div className="relative h-full w-full border border-white/5 bg-[#050505] p-8 flex flex-col justify-between overflow-hidden">
                     <div className="flex items-center justify-between mb-10 pb-6 border-b border-white/5">
                       <div className="flex items-center gap-4">
-                        <Terminal className="w-5 h-5 text-rose-600" />
-                        <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-rose-600">
+                        <Terminal className="w-5 h-5 text-[var(--brand,#e11d48)]" />
+                        <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#e11d48)]">
                           Engine_Output_Live
                         </span>
                       </div>
                       <div className="flex gap-2">
-                        <div className="w-1.5 h-1.5 bg-rose-600 rounded-full animate-pulse" />
-                        <div className="w-1.5 h-1.5 bg-rose-600/30 rounded-full" />
+                        <div className="w-1.5 h-1.5 bg-[var(--brand,#e11d48)] rounded-full animate-pulse" />
+                        <div className="w-1.5 h-1.5 bg-[var(--brand,#e11d48)]/30 rounded-full" />
                       </div>
                     </div>
 
@@ -276,30 +276,30 @@ return (
                           <span className="text-white/20 italic">
                             {log.time}
                           </span>
-                          <span className="text-rose-600 font-black uppercase tracking-widest">
+                          <span className="text-[var(--brand,#e11d48)] font-black uppercase tracking-widest">
                             {log.op}
                           </span>
                           <span className="text-white/40 flex-1 truncate">
                             {log.val}
                           </span>
-                          <span className="text-rose-600/40">
+                          <span className="text-[var(--brand,#e11d48)]/40">
                             [{log.status}]
                           </span>
                         </div>
                       ))}
                     </div>
 
-                    <div className="mt-12 p-8 bg-rose-600/5 border border-rose-600/10">
+                    <div className="mt-12 p-8 bg-[var(--brand,#e11d48)]/5 border border-[var(--brand,#e11d48)]/10">
                       <div className="flex justify-between text-[10px] font-bold uppercase tracking-[0.3em] mb-4">
                         <span className="text-white/40 italic">Buffer Load</span>
-                        <span className="text-rose-600">92%</span>
+                        <span className="text-[var(--brand,#e11d48)]">92%</span>
                       </div>
                       <div className="h-1 bg-white/5 rounded-none overflow-hidden">
                         <motion.div
                           initial={{ width: 0 }}
                           whileInView={{ width: "92%" }}
                           transition={{ duration: 2 }}
-                          className="h-full bg-rose-600"
+                          className="h-full bg-[var(--brand,#e11d48)]"
                         />
                       </div>
                     </div>
@@ -317,9 +317,9 @@ return (
         <div className="max-w-[1400px] mx-auto px-6 md:px-12">
           <Reveal>
             <div className="mb-20">
-              <span className="text-[10px] uppercase tracking-[0.4em] font-bold text-rose-600 mb-4 block">Portfolio</span>
+              <span className="text-[10px] uppercase tracking-[0.4em] font-bold text-[var(--brand,#e11d48)] mb-4 block">Portfolio</span>
               <h2 className="text-5xl md:text-7xl font-black tracking-tighter leading-tight uppercase italic text-white">
-                Properties<br /><span className="text-rose-600">Scanned.</span>
+                Properties<br /><span className="text-[var(--brand,#e11d48)]">Scanned.</span>
               </h2>
             </div>
           </Reveal>
@@ -330,7 +330,7 @@ return (
                   <div className="relative aspect-video overflow-hidden">
                     <img src={p.photoUrl ?? p.img ?? photo(1 + i, PROPERTIES_DEMO[i % PROPERTIES_DEMO.length].imgFallback)} alt={p.name ?? p.title} className="w-full h-full object-cover brightness-50 grayscale group-hover:brightness-[0.7] group-hover:grayscale-0 transition-all duration-700" />
                     <div className="absolute inset-0 bg-gradient-to-t from-[#050505] to-transparent" />
-                    {p.id && <div className="absolute top-4 left-4 text-[9px] font-mono font-bold text-rose-600 uppercase tracking-widest border border-rose-600/30 px-2 py-1">{p.id}</div>}
+                    {p.id && <div className="absolute top-4 left-4 text-[9px] font-mono font-bold text-[var(--brand,#e11d48)] uppercase tracking-widest border border-[var(--brand,#e11d48)]/30 px-2 py-1">{p.id}</div>}
                   </div>
                   <div className="p-8">
                     <div className="flex justify-between text-[9px] font-mono text-white/20 uppercase tracking-widest mb-4">
@@ -339,8 +339,8 @@ return (
                     <h3 className="text-xl font-black uppercase italic tracking-tight text-white mb-4">{p.name ?? p.title}</h3>
                     <div className="flex gap-6 text-[9px] font-mono">
                       {(p.size ?? p.surface) && <span className="text-white/30">{p.size ?? `${p.surface} m²`}</span>}
-                      {p.pts && <span className="text-rose-600">{p.pts}</span>}
-                      {p.price && <span className="text-rose-600">{p.price}</span>}
+                      {p.pts && <span className="text-[var(--brand,#e11d48)]">{p.pts}</span>}
+                      {p.price && <span className="text-[var(--brand,#e11d48)]">{p.price}</span>}
                     </div>
                   </div>
                 </div>
@@ -357,20 +357,20 @@ return (
         <div className="max-w-[1400px] mx-auto px-6 md:px-12">
           <Reveal>
             <div className="mb-20">
-              <span className="text-[10px] uppercase tracking-[0.4em] font-bold text-rose-600 mb-4 block">Services</span>
+              <span className="text-[10px] uppercase tracking-[0.4em] font-bold text-[var(--brand,#e11d48)] mb-4 block">Services</span>
               <h2 className="text-5xl md:text-7xl font-black tracking-tighter leading-tight uppercase italic text-white">
-                Full-Spectrum<br /><span className="text-rose-600">Capture.</span>
+                Full-Spectrum<br /><span className="text-[var(--brand,#e11d48)]">Capture.</span>
               </h2>
             </div>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-white/5">
             {services.map((s: any, i: number) => (
               <Reveal key={s.code ?? s.title ?? s.name ?? i}>
-                <div className="bg-[#050505] p-12 group hover:bg-rose-600/5 transition-colors border border-white/5 hover:border-rose-600/20">
-                  {s.code && <div className="text-[9px] font-mono text-rose-600/60 uppercase tracking-[0.4em] mb-6">{s.code} //</div>}
+                <div className="bg-[#050505] p-12 group hover:bg-[var(--brand,#e11d48)]/5 transition-colors border border-white/5 hover:border-[var(--brand,#e11d48)]/20">
+                  {s.code && <div className="text-[9px] font-mono text-[var(--brand,#e11d48)]/60 uppercase tracking-[0.4em] mb-6">{s.code} //</div>}
                   <h3 className="text-2xl font-black uppercase italic tracking-tight text-white mb-4">{s.title ?? s.name}</h3>
                   <p className="text-sm text-white/30 leading-relaxed font-mono mb-6">{s.desc ?? s.description}</p>
-                  {(s.price || s.duration) && <div className="text-rose-600 text-[10px] font-black uppercase tracking-widest">{s.price ?? s.duration}</div>}
+                  {(s.price || s.duration) && <div className="text-[var(--brand,#e11d48)] text-[10px] font-black uppercase tracking-widest">{s.price ?? s.duration}</div>}
                 </div>
               </Reveal>
             ))}
@@ -381,20 +381,20 @@ return (
       {/* ==========================================
           5. CTA
           ========================================== */}
-      <section className="py-40 bg-[#050505] border-t border-rose-600/20 text-center relative overflow-hidden">
+      <section className="py-40 bg-[#050505] border-t border-[var(--brand,#e11d48)]/20 text-center relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(225,29,72,0.06)_0%,transparent_70%)] pointer-events-none" />
         <div className="relative max-w-3xl mx-auto px-6">
           <Reveal>
-            <span className="text-[10px] uppercase tracking-[0.4em] font-bold text-rose-600 mb-6 block font-mono">Initialize Scan</span>
+            <span className="text-[10px] uppercase tracking-[0.4em] font-bold text-[var(--brand,#e11d48)] mb-6 block font-mono">Initialize Scan</span>
             <h2 className="text-6xl md:text-8xl font-black uppercase italic tracking-tighter text-white mb-8 leading-[0.95]">
-              Book Your<br /><span className="text-rose-600">First Scan.</span>
+              Book Your<br /><span className="text-[var(--brand,#e11d48)]">First Scan.</span>
             </h2>
             <p className="text-white/30 font-mono text-sm leading-relaxed mb-12 max-w-lg mx-auto uppercase tracking-wide">
               Première visite de repérage gratuite. Devis sous 24h. Livraison du scan en 5 jours ouvrés.
             </p>
             <MagneticBtn
               onClick={handleStartScan}
-              className="px-16 py-6 bg-rose-600 text-white text-[10px] font-bold uppercase tracking-[0.4em] rounded-none hover:bg-white hover:text-black transition-all cursor-pointer shadow-2xl shadow-rose-600/20 border-none"
+              className="px-16 py-6 bg-[var(--brand,#e11d48)] text-white text-[10px] font-bold uppercase tracking-[0.4em] rounded-none hover:bg-white hover:text-black transition-all cursor-pointer shadow-2xl shadow-rose-600/20 border-none"
             >
               Launch Scan Protocol →
             </MagneticBtn>

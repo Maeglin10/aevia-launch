@@ -141,10 +141,10 @@ export default function StudioVersaPage() {
   }, []);
 
   return (
-    <div className="bg-[#faf5f0] text-[#1a1a1a] font-sans min-h-dvh selection:bg-orange-500 selection:text-white overflow-x-hidden">
+    <div className="bg-[#faf5f0] text-[#1a1a1a] font-sans min-h-dvh selection:bg-[var(--brand,#f97316)] selection:text-white overflow-x-hidden">
 
       {/* ── NAVBAR ─────────────────── */}
-      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#faf5f0]/90 backdrop-blur-xl border-b border-orange-500/10 py-4" : "bg-transparent py-8"}`}>
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#faf5f0]/90 backdrop-blur-xl border-b border-[var(--brand,#f97316)]/10 py-4" : "bg-transparent py-8"}`}>
         <div className="max-w-[1600px] mx-auto px-6 md:px-12 flex items-center justify-between">
           <Link href="#hero" className="flex items-center gap-3">
             {fd?.logoBase64 ? (
@@ -155,20 +155,20 @@ export default function StudioVersaPage() {
               />
             ) : (
               <>
-                <div className="w-10 h-10 rounded-full bg-orange-500 flex items-center justify-center">
+                <div className="w-10 h-10 rounded-full bg-[var(--brand,#f97316)] flex items-center justify-center">
                   <PenTool className="w-5 h-5 text-white" />
                 </div>
-                <span className="text-xl font-light tracking-[0.15em] uppercase">Studio <span className="font-black text-orange-500">Versa</span></span>
+                <span className="text-xl font-light tracking-[0.15em] uppercase">Studio <span className="font-black text-[var(--brand,#f97316)]">Versa</span></span>
               </>
             )}
           </Link>
           <div className="hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-[#1a1a1a]/40">
             {["Work", "Capabilities", "Team", "Journal"].map(l => (
-              <Link key={l} href="#equipe" className="hover:text-orange-500 transition-colors">{l}</Link>
+              <Link key={l} href="#equipe" className="hover:text-[var(--brand,#f97316)] transition-colors">{l}</Link>
             ))}
           </div>
           <div className="flex items-center gap-6">
-            <button className="hidden md:block px-8 py-3 bg-[#1a1a1a] text-white text-[10px] font-bold uppercase tracking-[0.2em] rounded-full hover:bg-orange-500 transition-colors duration-500">
+            <button className="hidden md:block px-8 py-3 bg-[#1a1a1a] text-white text-[10px] font-bold uppercase tracking-[0.2em] rounded-full hover:bg-[var(--brand,#f97316)] transition-colors duration-500">
               Start a Project
             </button>
             <Sheet>
@@ -176,7 +176,7 @@ export default function StudioVersaPage() {
               <SheetContent side="right" className="bg-[#faf5f0] p-12">
                 <div className="flex flex-col gap-8 mt-16">
                   {["Work", "Capabilities", "Team", "Contact"].map(l => (
-                    <Link key={l} href="#equipe" className="text-3xl font-light uppercase tracking-widest hover:text-orange-500 transition-colors">{l}</Link>
+                    <Link key={l} href="#equipe" className="text-3xl font-light uppercase tracking-widest hover:text-[var(--brand,#f97316)] transition-colors">{l}</Link>
                   ))}
                 </div>
               </SheetContent>
@@ -196,13 +196,13 @@ export default function StudioVersaPage() {
           <motion.div style={{ opacity: heroOpacity }} className="relative z-10 max-w-[1600px] mx-auto px-6 md:px-12 w-full">
             <Reveal>
               <div className="flex items-center gap-4 mb-8">
-                <div className="w-12 h-[2px] bg-orange-500" />
-                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-orange-500">Multidisciplinary Creative Studio</span>
+                <div className="w-12 h-[2px] bg-[var(--brand,#f97316)]" />
+                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#f97316)]">Multidisciplinary Creative Studio</span>
               </div>
             </Reveal>
             <Reveal delay={0.1} y={60}>
               <h1 className="text-6xl md:text-8xl lg:text-[9rem] font-black tracking-tighter leading-[0.8] mb-8 max-w-4xl">{c?.heroHeadline ?? <>
-                Design<br/>With <span className="text-orange-500 italic">Intent.</span>
+                Design<br/>With <span className="text-[var(--brand,#f97316)] italic">Intent.</span>
               </>}</h1>
             </Reveal>
             <Reveal delay={0.2}>
@@ -217,8 +217,8 @@ export default function StudioVersaPage() {
                   { v: "14", l: "Awards" },
                   { v: "7yr", l: "Active" },
                 ].map((s, i) => (
-                  <div key={i} className="border-l-2 border-orange-500/20 pl-4">
-                    <div className="text-2xl font-black text-orange-500">{s.v}</div>
+                  <div key={i} className="border-l-2 border-[var(--brand,#f97316)]/20 pl-4">
+                    <div className="text-2xl font-black text-[var(--brand,#f97316)]">{s.v}</div>
                     <div className="text-[10px] font-bold uppercase tracking-widest text-[#1a1a1a]/30">{s.l}</div>
                   </div>
                 ))}
@@ -233,8 +233,8 @@ export default function StudioVersaPage() {
             <Reveal>
               <div className="flex justify-between items-end mb-20">
                 <div>
-                  <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-orange-500 block mb-4">Portfolio</span>
-                  <h2 className="text-5xl md:text-7xl font-black tracking-tighter">Selected <span className="text-orange-500 italic">Work.</span></h2>
+                  <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#f97316)] block mb-4">Portfolio</span>
+                  <h2 className="text-5xl md:text-7xl font-black tracking-tighter">Selected <span className="text-[var(--brand,#f97316)] italic">Work.</span></h2>
                 </div>
               </div>
             </Reveal>
@@ -244,14 +244,14 @@ export default function StudioVersaPage() {
                   <div className="group cursor-pointer">
                     <div className="relative aspect-[16/10] overflow-hidden rounded-xl mb-6">
                       <ParallaxImg src={p.img} alt={p.title} />
-                      <div className="absolute inset-0 bg-orange-900/0 group-hover:bg-orange-900/10 transition-colors duration-700" />
+                      <div className="absolute inset-0 bg-[var(--brand,#7c2d12)]/0 group-hover:bg-[var(--brand,#7c2d12)]/10 transition-colors duration-700" />
                       <div className="absolute top-6 right-6 w-12 h-12 rounded-full bg-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                         <ArrowUpRight className="w-5 h-5 text-[#1a1a1a]" />
                       </div>
                     </div>
                     <div className="flex justify-between items-start">
                       <div>
-                        <h3 className="text-2xl font-bold group-hover:text-orange-500 transition-colors mb-1">{p.title}</h3>
+                        <h3 className="text-2xl font-bold group-hover:text-[var(--brand,#f97316)] transition-colors mb-1">{p.title}</h3>
                         <div className="text-sm text-[#1a1a1a]/40">{p.client} · {p.type}</div>
                       </div>
                       <span className="text-xs text-[#1a1a1a]/30 font-mono">{p.year}</span>
@@ -268,17 +268,17 @@ export default function StudioVersaPage() {
           <div className="max-w-[1200px] mx-auto px-6 md:px-12">
             <Reveal>
               <div className="text-center mb-24">
-                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-orange-400 block mb-4">What We Do</span>
-                <h2 className="text-5xl md:text-7xl font-black tracking-tighter">Our <span className="text-orange-400 italic">Craft.</span></h2>
+                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#fb923c)] block mb-4">What We Do</span>
+                <h2 className="text-5xl md:text-7xl font-black tracking-tighter">Our <span className="text-[var(--brand,#fb923c)] italic">Craft.</span></h2>
               </div>
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {CAPABILITIES.map((c, i) => (
                 <Reveal key={i} delay={i * 0.08}>
-                  <div className="group p-10 bg-white/[0.03] border border-white/5 rounded-2xl hover:border-orange-500/30 transition-all duration-500 cursor-default">
+                  <div className="group p-10 bg-white/[0.03] border border-white/5 rounded-2xl hover:border-[var(--brand,#f97316)]/30 transition-all duration-500 cursor-default">
                     <div className="flex items-start gap-6">
-                      <div className="w-14 h-14 rounded-xl bg-orange-500/10 border border-orange-500/20 flex items-center justify-center shrink-0 group-hover:bg-orange-500 group-hover:border-orange-500 transition-all duration-500">
-                        <c.icon className="w-6 h-6 text-orange-400 group-hover:text-white transition-colors" />
+                      <div className="w-14 h-14 rounded-xl bg-[var(--brand,#f97316)]/10 border border-[var(--brand,#f97316)]/20 flex items-center justify-center shrink-0 group-hover:bg-[var(--brand,#f97316)] group-hover:border-[var(--brand,#f97316)] transition-all duration-500">
+                        <c.icon className="w-6 h-6 text-[var(--brand,#fb923c)] group-hover:text-white transition-colors" />
                       </div>
                       <div>
                         <h3 className="text-xl font-bold mb-3">{c.title}</h3>
@@ -297,8 +297,8 @@ export default function StudioVersaPage() {
           <div className="max-w-[1600px] mx-auto px-6 md:px-12">
             <Reveal>
               <div className="mb-20">
-                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-orange-500 block mb-4">The People</span>
-                <h2 className="text-5xl md:text-7xl font-black tracking-tighter">Behind the <span className="text-orange-500 italic">Work.</span></h2>
+                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#f97316)] block mb-4">The People</span>
+                <h2 className="text-5xl md:text-7xl font-black tracking-tighter">Behind the <span className="text-[var(--brand,#f97316)] italic">Work.</span></h2>
               </div>
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -312,15 +312,15 @@ export default function StudioVersaPage() {
                   <div className="group">
                     <div className="relative aspect-[3/4] overflow-hidden rounded-xl mb-6 bg-[#1a1a1a]">
                       <ParallaxImg src={m.img} alt={m.name} />
-                      <div className="absolute inset-0 bg-orange-900/0 group-hover:bg-orange-500/10 transition-colors duration-700" />
+                      <div className="absolute inset-0 bg-[var(--brand,#7c2d12)]/0 group-hover:bg-[var(--brand,#f97316)]/10 transition-colors duration-700" />
                       <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex gap-2">
-                        {m.tags.map(t => <span key={t} className="px-3 py-1 bg-orange-500 text-white text-[9px] font-bold uppercase tracking-widest rounded-full">{t}</span>)}
+                        {m.tags.map(t => <span key={t} className="px-3 py-1 bg-[var(--brand,#f97316)] text-white text-[9px] font-bold uppercase tracking-widest rounded-full">{t}</span>)}
                       </div>
                     </div>
-                    <div className="border-l-2 border-orange-500/20 pl-4">
-                      <div className="text-lg font-bold group-hover:text-orange-500 transition-colors">{m.name}</div>
+                    <div className="border-l-2 border-[var(--brand,#f97316)]/20 pl-4">
+                      <div className="text-lg font-bold group-hover:text-[var(--brand,#f97316)] transition-colors">{m.name}</div>
                       <div className="text-xs text-[#1a1a1a]/40 font-bold uppercase tracking-widest mt-1">{m.role}</div>
-                      <div className="text-[10px] text-orange-500 font-mono mt-1">{m.yrs}</div>
+                      <div className="text-[10px] text-[var(--brand,#f97316)] font-mono mt-1">{m.yrs}</div>
                     </div>
                   </div>
                 </Reveal>
@@ -334,10 +334,10 @@ export default function StudioVersaPage() {
           <div className="max-w-[1600px] mx-auto px-6 md:px-12">
             <Reveal>
               <div className="flex flex-wrap items-center justify-between gap-8 mb-16">
-                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-orange-400">Trusted By</span>
+                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#fb923c)]">Trusted By</span>
                 <div className="flex flex-wrap gap-6">
                   {["Awwwards SOTD", "CSS Design Award", "FWA of the Day", "Cannes Lions Bronze"].map(a => (
-                    <span key={a} className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-orange-400">
+                    <span key={a} className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-[var(--brand,#fb923c)]">
                       <Award className="w-3 h-3" /> {a}
                     </span>
                   ))}
@@ -347,7 +347,7 @@ export default function StudioVersaPage() {
             <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-white/5">
               {["Flux Labs", "Prism Analytics", "Ember Magazine", "Vertex Films", "Arch Studio", "Nova Health", "Kōdo Games", "Dune Capital"].map((c, i) => (
                 <Reveal key={c} delay={i * 0.05}>
-                  <div className="bg-[#1a1a1a] p-8 flex items-center justify-center group hover:bg-orange-500/5 transition-colors duration-500 cursor-default">
+                  <div className="bg-[#1a1a1a] p-8 flex items-center justify-center group hover:bg-[var(--brand,#f97316)]/5 transition-colors duration-500 cursor-default">
                     <span className="text-sm font-bold tracking-wider text-white/20 group-hover:text-white/60 transition-colors">{c}</span>
                   </div>
                 </Reveal>
@@ -361,12 +361,12 @@ export default function StudioVersaPage() {
           <div className="max-w-[800px] mx-auto px-6 text-center">
             <Reveal>
               <h2 className="text-5xl md:text-7xl font-black tracking-tighter mb-6">{c?.aboutTitle ?? fd?.businessName ?? <>
-                Let's Make<br/><span className="text-orange-500 italic">Something.</span>
+                Let's Make<br/><span className="text-[var(--brand,#f97316)] italic">Something.</span>
               </>}</h2>
               <p className="text-lg text-[#1a1a1a]/40 font-light max-w-md mx-auto mb-10">{c?.aboutText ?? <>
                 We're selective about the projects we take on. If you're serious about great design, we should talk.
               </>}</p>
-              <button className="px-12 py-5 bg-[#1a1a1a] text-white font-bold rounded-full hover:bg-orange-500 transition-colors duration-500">
+              <button className="px-12 py-5 bg-[#1a1a1a] text-white font-bold rounded-full hover:bg-[var(--brand,#f97316)] transition-colors duration-500">
                 Start a Conversation
               </button>
             </Reveal>
@@ -379,8 +379,8 @@ export default function StudioVersaPage() {
         <div className="max-w-[1200px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-16 mb-20">
           <div>
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-8 h-8 rounded-full bg-orange-500 flex items-center justify-center"><PenTool className="w-4 h-4 text-white" /></div>
-              <span className="font-light tracking-[0.15em] uppercase">Studio <span className="font-black text-orange-400">Versa</span></span>
+              <div className="w-8 h-8 rounded-full bg-[var(--brand,#f97316)] flex items-center justify-center"><PenTool className="w-4 h-4 text-white" /></div>
+              <span className="font-light tracking-[0.15em] uppercase">Studio <span className="font-black text-[var(--brand,#fb923c)]">Versa</span></span>
             </div>
             <p className="text-sm text-white/30 leading-relaxed">Multidisciplinary creative studio for ambitious brands.</p>
           </div>
@@ -390,7 +390,7 @@ export default function StudioVersaPage() {
             { title: "Social", links: ["Camera", "Behance", "Dribbble", "LinkedIn"] },
           ].map((col, i) => (
             <div key={i}>
-              <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-orange-400 mb-6">{col.title}</h4>
+              <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#fb923c)] mb-6">{col.title}</h4>
               <ul className="space-y-3 text-sm text-white/30">
                 {col.links.map(l => <li key={l}><Link href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="hover:text-white transition-colors">{l}</Link></li>)}
               </ul>

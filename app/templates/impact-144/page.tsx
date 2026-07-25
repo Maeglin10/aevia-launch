@@ -173,10 +173,10 @@ export default function KineticMarqueePage() {
       });
     }
   }, [c]);return (
-    <div className="bg-[#0a0506] text-white font-sans min-h-dvh selection:bg-orange-500 selection:text-white overflow-x-hidden">
+    <div className="bg-[#0a0506] text-white font-sans min-h-dvh selection:bg-[var(--brand,#f97316)] selection:text-white overflow-x-hidden">
 
       {/* ── NAVBAR ──────── */}
-      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#0a0506]/90 backdrop-blur-xl border-b border-orange-500/10 py-4" : "bg-transparent py-8"}`}>
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#0a0506]/90 backdrop-blur-xl border-b border-[var(--brand,#f97316)]/10 py-4" : "bg-transparent py-8"}`}>
         <div className="max-w-[1600px] mx-auto px-6 md:px-12 flex items-center justify-between">
           <Link href="/templates/impact-144" className="text-2xl font-black tracking-tighter">
             {fd?.logoBase64 ? (
@@ -187,7 +187,7 @@ export default function KineticMarqueePage() {
               />
             ) : (
               <>
-            KIN<span className="text-orange-500">ETIC</span>
+            KIN<span className="text-[var(--brand,#f97316)]">ETIC</span>
           </>
             )}</Link>
           <div className="hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-white/40">
@@ -195,25 +195,25 @@ export default function KineticMarqueePage() {
               <Link key={l} href={`#${l.toLowerCase()}`} onClick={(e) => {
                 e.preventDefault();
                 document.getElementById(l.toLowerCase())?.scrollIntoView({ behavior: "smooth" });
-              }} className="hover:text-orange-400 transition-colors">{l}</Link>
+              }} className="hover:text-[var(--brand,#fb923c)] transition-colors">{l}</Link>
             ))}
           </div>
           <div className="flex items-center gap-4">
             <button
               onClick={() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })}
-              className="hidden md:block px-8 py-3 bg-orange-500 text-white text-[10px] font-bold uppercase tracking-[0.2em] rounded-full hover:bg-white hover:text-black transition-all duration-500"
+              className="hidden md:block px-8 py-3 bg-[var(--brand,#f97316)] text-white text-[10px] font-bold uppercase tracking-[0.2em] rounded-full hover:bg-white hover:text-black transition-all duration-500"
             >
               Start a Project
             </button>
             <Sheet>
               <SheetTrigger className="lg:hidden"><Menu className="w-6 h-6 text-white" /></SheetTrigger>
-              <SheetContent side="right" className="bg-[#0a0506] border-orange-500/10 p-12">
+              <SheetContent side="right" className="bg-[#0a0506] border-[var(--brand,#f97316)]/10 p-12">
                 <div className="flex flex-col gap-8 mt-16">
                   {["Work", "Services", "About", "Contact"].map(l => (
                     <Link key={l} href={`#${l.toLowerCase()}`} onClick={(e) => {
                       e.preventDefault();
                       document.getElementById(l.toLowerCase())?.scrollIntoView({ behavior: "smooth" });
-                    }} className="text-3xl font-light uppercase tracking-widest hover:text-orange-400 transition-colors">{l}</Link>
+                    }} className="text-3xl font-light uppercase tracking-widest hover:text-[var(--brand,#fb923c)] transition-colors">{l}</Link>
                   ))}
                 </div>
               </SheetContent>
@@ -228,13 +228,13 @@ export default function KineticMarqueePage() {
           <motion.div style={{ opacity: heroOpacity }} className="max-w-[1600px] mx-auto px-6 md:px-12 w-full mb-20">
             <Reveal>
               <div className="flex items-center gap-4 mb-8">
-                <motion.div className="w-3 h-3 rounded-full bg-orange-500" animate={{ scale: [1, 1.3, 1] }} transition={{ duration: 1.5, repeat: Infinity }} />
-                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-orange-400">Creative Agency — Open for Projects</span>
+                <motion.div className="w-3 h-3 rounded-full bg-[var(--brand,#f97316)]" animate={{ scale: [1, 1.3, 1] }} transition={{ duration: 1.5, repeat: Infinity }} />
+                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#fb923c)]">Creative Agency — Open for Projects</span>
               </div>
             </Reveal>
             <Reveal delay={0.1} y={60}>
               <h1 className="text-7xl md:text-[8rem] lg:text-[11rem] font-black tracking-tighter leading-[0.8] mb-10 uppercase">{c?.heroHeadline ?? <>
-                We Make<br/>It <span className="text-orange-500 italic">Move.</span>
+                We Make<br/>It <span className="text-[var(--brand,#f97316)] italic">Move.</span>
               </>}</h1>
             </Reveal>
             <Reveal delay={0.25}>
@@ -251,7 +251,7 @@ export default function KineticMarqueePage() {
                 <div className="flex gap-12">
                   {WORDS_1.map((w, i) => (
                     <span key={i} className="text-5xl md:text-7xl font-black tracking-tighter text-white/5 uppercase flex items-center gap-6">
-                      {w} <span className="text-orange-500 text-2xl">✦</span>
+                      {w} <span className="text-[var(--brand,#f97316)] text-2xl">✦</span>
                     </span>
                   ))}
                 </div>
@@ -262,7 +262,7 @@ export default function KineticMarqueePage() {
                 <div className="flex gap-12">
                   {WORDS_2.map((w, i) => (
                     <span key={i} className="text-5xl md:text-7xl font-black tracking-tighter text-white/5 uppercase flex items-center gap-6">
-                      {w} <span className="text-orange-500 text-2xl">✦</span>
+                      {w} <span className="text-[var(--brand,#f97316)] text-2xl">✦</span>
                     </span>
                   ))}
                 </div>
@@ -276,7 +276,7 @@ export default function KineticMarqueePage() {
           <div className="max-w-[1600px] mx-auto px-6 md:px-12">
             <Reveal>
               <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase mb-20">
-                Selected <span className="text-orange-500 italic">Work.</span>
+                Selected <span className="text-[var(--brand,#f97316)] italic">Work.</span>
               </h2>
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -285,14 +285,14 @@ export default function KineticMarqueePage() {
                   <div className="group cursor-pointer">
                     <div className="relative aspect-[16/10] overflow-hidden rounded-xl mb-6">
                       <Image src={w.img} alt={w.title} fill className="object-cover group-hover:scale-105 transition-transform duration-1000" />
-                      <div className="absolute inset-0 bg-orange-900/0 group-hover:bg-orange-900/10 transition-colors duration-700" />
+                      <div className="absolute inset-0 bg-[var(--brand,#7c2d12)]/0 group-hover:bg-[var(--brand,#7c2d12)]/10 transition-colors duration-700" />
                       <div className="absolute top-6 right-6 w-12 h-12 rounded-full bg-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                         <ArrowUpRight className="w-5 h-5 text-black" />
                       </div>
                     </div>
                     <div className="flex justify-between items-start">
                       <div>
-                        <h3 className="text-2xl font-bold group-hover:text-orange-400 transition-colors">{w.title}</h3>
+                        <h3 className="text-2xl font-bold group-hover:text-[var(--brand,#fb923c)] transition-colors">{w.title}</h3>
                         <div className="text-sm text-white/30">{w.client} · {w.type}</div>
                       </div>
                     </div>
@@ -308,16 +308,16 @@ export default function KineticMarqueePage() {
           <div className="max-w-[1200px] mx-auto px-6 md:px-12">
             <Reveal>
               <div className="text-center mb-24">
-                <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase">What We <span className="text-orange-500 italic">Do.</span></h2>
+                <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase">What We <span className="text-[var(--brand,#f97316)] italic">Do.</span></h2>
               </div>
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {SERVICES.map((s, i) => (
                 <Reveal key={i} delay={i * 0.08}>
-                  <div className="group p-10 bg-white/[0.02] border border-white/5 rounded-2xl hover:border-orange-500/30 transition-all duration-500">
+                  <div className="group p-10 bg-white/[0.02] border border-white/5 rounded-2xl hover:border-[var(--brand,#f97316)]/30 transition-all duration-500">
                     <div className="flex items-start gap-6">
-                      <div className="w-14 h-14 rounded-xl bg-orange-500/10 border border-orange-500/20 flex items-center justify-center shrink-0 group-hover:bg-orange-500 group-hover:border-orange-500 transition-all duration-500">
-                        <s.icon className="w-6 h-6 text-orange-400 group-hover:text-white transition-colors" />
+                      <div className="w-14 h-14 rounded-xl bg-[var(--brand,#f97316)]/10 border border-[var(--brand,#f97316)]/20 flex items-center justify-center shrink-0 group-hover:bg-[var(--brand,#f97316)] group-hover:border-[var(--brand,#f97316)] transition-all duration-500">
+                        <s.icon className="w-6 h-6 text-[var(--brand,#fb923c)] group-hover:text-white transition-colors" />
                       </div>
                       <div>
                         <h3 className="text-xl font-bold mb-3">{s.title}</h3>
@@ -338,14 +338,14 @@ export default function KineticMarqueePage() {
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 mb-24">
                 <div>
                   <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase mb-8">{c?.aboutTitle ?? fd?.businessName ?? <>
-                    Moving <span className="text-orange-500 italic">Forward.</span>
+                    Moving <span className="text-[var(--brand,#f97316)] italic">Forward.</span>
                   </>}</h2>
                   <p className="text-lg text-white/50 leading-relaxed font-light">{c?.aboutText ?? <>
                     Kinetic is a collective of designers, developers, and strategists obsessed with motion. We believe brands shouldn't just exist — they should move, engage, and inspire. By blending motion design with cutting-edge technology, we craft digital experiences that capture attention and refuse to let go.
                   </>}</p>
                 </div>
                 <div className="flex flex-col justify-center gap-6">
-                  <div className="border-l-2 border-orange-500 pl-6">
+                  <div className="border-l-2 border-[var(--brand,#f97316)] pl-6">
                     <h3 className="text-xl font-bold mb-2">Our Manifesto</h3>
                     <p className="text-sm text-white/40 leading-relaxed">
                       If it stands still, it's invisible. In a world of infinite scroll, we design for momentum, impact, and unforgettable digital interactions.
@@ -384,7 +384,7 @@ export default function KineticMarqueePage() {
         <section className="py-32 bg-[#0d0708]">
           <div className="max-w-[1200px] mx-auto px-6 md:px-12">
             <Reveal>
-              <h2 className="text-4xl font-black tracking-tighter uppercase mb-16 text-center">Client <span className="text-orange-500 italic">Words.</span></h2>
+              <h2 className="text-4xl font-black tracking-tighter uppercase mb-16 text-center">Client <span className="text-[var(--brand,#f97316)] italic">Words.</span></h2>
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {TESTIMONIALS.map((t, i) => (
@@ -392,7 +392,7 @@ export default function KineticMarqueePage() {
                   <div className="p-8 bg-white/[0.02] border border-white/5 rounded-2xl h-full flex flex-col">
                     <div className="flex gap-1 mb-6">
                       {Array.from({ length: 5 }).map((_, j) => (
-                        <Star key={j} className="w-4 h-4 fill-orange-400 text-orange-400" />
+                        <Star key={j} className="w-4 h-4 fill-[var(--brand,#fb923c)] text-[var(--brand,#fb923c)]" />
                       ))}
                     </div>
                     <p className="text-white/50 leading-relaxed flex-1 mb-6 italic">"{t.text}"</p>
@@ -408,7 +408,7 @@ export default function KineticMarqueePage() {
         </section>
 
         {/* ── CTA ───────────── */}
-        <section className="py-32 bg-orange-500 text-black">
+        <section className="py-32 bg-[var(--brand,#f97316)] text-black">
           <div className="max-w-[800px] mx-auto px-6 text-center">
             <Reveal>
               <h2 className="text-6xl md:text-8xl font-black tracking-tighter uppercase mb-8">
@@ -430,14 +430,14 @@ export default function KineticMarqueePage() {
             <Reveal>
               <div className="text-center mb-16">
                 <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase mb-4">
-                  Start a <span className="text-orange-500 italic">Project.</span>
+                  Start a <span className="text-[var(--brand,#f97316)] italic">Project.</span>
                 </h2>
                 <p className="text-white/40 font-light">Let's build something unforgettable together.</p>
               </div>
 
               {contactSubmitted ? (
-                <div className="p-12 bg-white/[0.02] border border-orange-500/20 rounded-2xl text-center flex flex-col items-center justify-center gap-4">
-                  <div className="w-16 h-16 rounded-full bg-orange-500/10 border border-orange-500/30 flex items-center justify-center text-orange-500">
+                <div className="p-12 bg-white/[0.02] border border-[var(--brand,#f97316)]/20 rounded-2xl text-center flex flex-col items-center justify-center gap-4">
+                  <div className="w-16 h-16 rounded-full bg-[var(--brand,#f97316)]/10 border border-[var(--brand,#f97316)]/30 flex items-center justify-center text-[var(--brand,#f97316)]">
                     <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                     </svg>
@@ -459,7 +459,7 @@ export default function KineticMarqueePage() {
                       <input
                         type="text"
                         required
-                        className="w-full bg-white/[0.02] border border-white/10 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-orange-500 transition-colors"
+                        className="w-full bg-white/[0.02] border border-white/10 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-[var(--brand,#f97316)] transition-colors"
                         placeholder="John Doe"
                       />
                     </div>
@@ -468,14 +468,14 @@ export default function KineticMarqueePage() {
                       <input
                         type="email"
                         required
-                        className="w-full bg-white/[0.02] border border-white/10 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-orange-500 transition-colors"
+                        className="w-full bg-white/[0.02] border border-white/10 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-[var(--brand,#f97316)] transition-colors"
                         placeholder="john@example.com"
                       />
                     </div>
                   </div>
                   <div>
                     <label className="block text-[10px] font-bold uppercase tracking-[0.2em] text-white/40 mb-2">Project Type</label>
-                    <select className="w-full bg-[#0a0506] border border-white/10 rounded-lg px-4 py-3 text-sm text-white/60 focus:outline-none focus:border-orange-500 transition-colors">
+                    <select className="w-full bg-[#0a0506] border border-white/10 rounded-lg px-4 py-3 text-sm text-white/60 focus:outline-none focus:border-[var(--brand,#f97316)] transition-colors">
                       <option className="bg-[#0a0506]">Brand Identity</option>
                       <option className="bg-[#0a0506]">Web Experience</option>
                       <option className="bg-[#0a0506]">Motion Design</option>
@@ -487,13 +487,13 @@ export default function KineticMarqueePage() {
                     <textarea
                       required
                       rows={5}
-                      className="w-full bg-white/[0.02] border border-white/10 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-orange-500 transition-colors"
+                      className="w-full bg-white/[0.02] border border-white/10 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-[var(--brand,#f97316)] transition-colors"
                       placeholder="Tell us about your project..."
                     />
                   </div>
                   <button
                     type="submit"
-                    className="w-full py-4 bg-orange-500 text-white text-[10px] font-bold uppercase tracking-[0.2em] rounded-lg hover:bg-white hover:text-black transition-colors duration-500"
+                    className="w-full py-4 bg-[var(--brand,#f97316)] text-white text-[10px] font-bold uppercase tracking-[0.2em] rounded-lg hover:bg-white hover:text-black transition-colors duration-500"
                   >
                     Send Message
                   </button>
@@ -508,7 +508,7 @@ export default function KineticMarqueePage() {
       <footer className="bg-[#050305] pt-24 pb-12 px-6">
         <div className="max-w-[1200px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-16 mb-20">
           <div>
-            <span className="text-2xl font-black tracking-tighter mb-6 block">KIN<span className="text-orange-500">ETIC</span></span>
+            <span className="text-2xl font-black tracking-tighter mb-6 block">KIN<span className="text-[var(--brand,#f97316)]">ETIC</span></span>
             <p className="text-sm text-white/30 leading-relaxed">Creative agency for brands in motion.</p>
           </div>
           {[
@@ -517,7 +517,7 @@ export default function KineticMarqueePage() {
             { title: "Social", links: ["Camera", "Behance", "X", "LinkedIn"] },
           ].map((col, i) => (
             <div key={i}>
-              <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-orange-400 mb-6">{col.title}</h4>
+              <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#fb923c)] mb-6">{col.title}</h4>
               <ul className="space-y-3 text-sm text-white/30">
                 {col.links.map(l => (
                   <li key={l}>

@@ -175,10 +175,10 @@ export default function WaveFXPage() {
       });
     }
   }, [c]);return (
-    <div className="bg-[#070a10] text-white font-sans min-h-dvh selection:bg-indigo-500 selection:text-white overflow-x-hidden">
+    <div className="bg-[#070a10] text-white font-sans min-h-dvh selection:bg-[var(--brand,#6366f1)] selection:text-white overflow-x-hidden">
 
       {/* ── NAVBAR ────── */}
-      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#070a10]/90 backdrop-blur-xl border-b border-indigo-500/10 py-4" : "bg-transparent py-8"}`}>
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#070a10]/90 backdrop-blur-xl border-b border-[var(--brand,#6366f1)]/10 py-4" : "bg-transparent py-8"}`}>
         <div className="max-w-[1200px] mx-auto px-6 md:px-12 flex items-center justify-between">
           <Link href="#hero" className="flex items-center gap-3">
             {fd?.logoBase64 ? (
@@ -189,31 +189,31 @@ export default function WaveFXPage() {
               />
             ) : (
               <>
-                <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-blue-500 flex items-center justify-center">
+                <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[var(--brand,#6366f1)] to-blue-500 flex items-center justify-center">
                   <Code2 className="w-4 h-4 text-white" />
                 </div>
-                <span className="text-xl font-black tracking-tight">Wave<span className="text-indigo-400">FX</span></span>
+                <span className="text-xl font-black tracking-tight">Wave<span className="text-[var(--brand,#818cf8)]">FX</span></span>
               </>
             )}
           </Link>
           <div className="hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-white/40">
             {["Docs", "Examples", "Plugins", "Blog"].map(l => (
-              <Link key={l} href={ l === "Blog" ? "#contact" : "#docs" } className="hover:text-indigo-400 transition-colors">{l}</Link>
+              <Link key={l} href={ l === "Blog" ? "#contact" : "#docs" } className="hover:text-[var(--brand,#818cf8)] transition-colors">{l}</Link>
             ))}
           </div>
           <div className="flex items-center gap-4">
              <Link href="#contact" className="hidden md:flex items-center gap-2 text-white/40 hover:text-white transition-colors">
               <Globe className="w-5 h-5" />
             </Link>
-            <button className="hidden md:block px-6 py-2.5 bg-gradient-to-r from-indigo-500 to-blue-500 text-white text-[10px] font-bold uppercase tracking-widest rounded-full hover:opacity-90 transition-opacity">
+            <button className="hidden md:block px-6 py-2.5 bg-gradient-to-r from-[var(--brand,#6366f1)] to-blue-500 text-white text-[10px] font-bold uppercase tracking-widest rounded-full hover:opacity-90 transition-opacity">
               Get Started
             </button>
             <Sheet>
               <SheetTrigger className="lg:hidden"><Menu className="w-6 h-6 text-white" /></SheetTrigger>
-              <SheetContent side="right" className="bg-[#070a10] border-indigo-500/10 p-12">
+              <SheetContent side="right" className="bg-[#070a10] border-[var(--brand,#6366f1)]/10 p-12">
                 <div className="flex flex-col gap-8 mt-16">
                    {["Docs", "Examples", "Plugins", "GitHub"].map(l => (
-                    <Link key={l} href={ l === "GitHub" ? "https://github.com" : "#docs" } className="text-2xl font-light uppercase tracking-widest hover:text-indigo-400 transition-colors">{l}</Link>
+                    <Link key={l} href={ l === "GitHub" ? "https://github.com" : "#docs" } className="text-2xl font-light uppercase tracking-widest hover:text-[var(--brand,#818cf8)] transition-colors">{l}</Link>
                   ))}
                 </div>
               </SheetContent>
@@ -227,18 +227,18 @@ export default function WaveFXPage() {
         <section id="hero" className="relative min-h-dvh flex items-center pt-32 pb-20 overflow-hidden">
           <div className="absolute inset-0">
             <div className="absolute inset-0 bg-[linear-gradient(rgba(99,102,241,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(99,102,241,0.03)_1px,transparent_1px)] bg-[size:4rem_4rem]" />
-            <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-indigo-500/8 blur-[200px] rounded-full" />
+            <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-[var(--brand,#6366f1)]/8 blur-[200px] rounded-full" />
           </div>
 
           <div className="relative z-10 max-w-[1000px] mx-auto px-6 md:px-12 w-full text-center">
             <Reveal>
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-indigo-500/20 bg-indigo-500/10 text-indigo-400 text-[10px] font-bold uppercase tracking-widest mb-8">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[var(--brand,#6366f1)]/20 bg-[var(--brand,#6366f1)]/10 text-[var(--brand,#818cf8)] text-[10px] font-bold uppercase tracking-widest mb-8">
                 <Star className="w-3 h-3 fill-current" /> v3.0 Released — Now with Streaming Support
               </div>
             </Reveal>
             <Reveal delay={0.1} y={60}>
               <h1 className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter leading-[0.9] mb-8">{c?.heroHeadline ?? <>
-                Data Pipelines<br/><span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-blue-300 to-indigo-500">Without the Pain.</span>
+                Data Pipelines<br/><span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--brand,#818cf8)] via-blue-300 to-[var(--brand,#6366f1)]">Without the Pain.</span>
               </>}</h1>
             </Reveal>
             <Reveal delay={0.2}>
@@ -248,10 +248,10 @@ export default function WaveFXPage() {
             </Reveal>
             <Reveal delay={0.3}>
               <div className="flex flex-wrap gap-4 justify-center mb-16">
-                <button className="px-8 py-4 bg-white text-black font-bold rounded-full hover:bg-indigo-500 hover:text-white transition-all duration-500 flex items-center gap-2">
+                <button className="px-8 py-4 bg-white text-black font-bold rounded-full hover:bg-[var(--brand,#6366f1)] hover:text-white transition-all duration-500 flex items-center gap-2">
                   <Download className="w-4 h-4" /> Install
                 </button>
-                <Link href="#hero" className="px-8 py-4 border border-white/10 text-white/60 font-bold rounded-full hover:border-indigo-500/50 transition-all flex items-center gap-2">
+                <Link href="#hero" className="px-8 py-4 border border-white/10 text-white/60 font-bold rounded-full hover:border-[var(--brand,#6366f1)]/50 transition-all flex items-center gap-2">
                   <Globe className="w-4 h-4" /> GitHub
                 </Link>
               </div>
@@ -269,7 +269,7 @@ export default function WaveFXPage() {
             {STATS.map((s, i) => (
               <Reveal key={i} delay={i * 0.08}>
                 <div className="text-center">
-                  <div className="text-3xl font-black text-indigo-400 mb-1">{s.value}</div>
+                  <div className="text-3xl font-black text-[var(--brand,#818cf8)] mb-1">{s.value}</div>
                   <div className="text-[10px] font-bold uppercase tracking-widest text-white/30">{s.label}</div>
                 </div>
               </Reveal>
@@ -282,14 +282,14 @@ export default function WaveFXPage() {
           <div className="max-w-[1000px] mx-auto px-6 md:px-12">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
               <Reveal>
-                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-indigo-400 block mb-4">Simple API</span>
+                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#818cf8)] block mb-4">Simple API</span>
                 <h2 className="text-4xl md:text-5xl font-black tracking-tighter mb-6">{c?.aboutTitle ?? fd?.businessName ?? <>
-                  Build Pipelines<br/>in <span className="text-indigo-400">Minutes.</span>
+                  Build Pipelines<br/>in <span className="text-[var(--brand,#818cf8)]">Minutes.</span>
                 </>}</h2>
                 <p className="text-white/40 leading-relaxed mb-8">{c?.aboutText ?? <>
                   Declarative pipeline definitions with full TypeScript support. Connect any source to any sink with composable transforms.
                 </>}</p>
-                <Link href="#contact" className="inline-flex items-center gap-2 text-indigo-400 text-[10px] font-bold uppercase tracking-widest hover:gap-4 transition-all">
+                <Link href="#contact" className="inline-flex items-center gap-2 text-[var(--brand,#818cf8)] text-[10px] font-bold uppercase tracking-widest hover:gap-4 transition-all">
                   Read the Docs <ArrowRight className="w-4 h-4" />
                 </Link>
               </Reveal>
@@ -305,15 +305,15 @@ export default function WaveFXPage() {
           <div className="max-w-[1000px] mx-auto px-6 md:px-12">
             <Reveal>
               <div className="text-center mb-24">
-                <h2 className="text-5xl md:text-6xl font-black tracking-tighter">Why <span className="text-indigo-400">WaveFX?</span></h2>
+                <h2 className="text-5xl md:text-6xl font-black tracking-tighter">Why <span className="text-[var(--brand,#818cf8)]">WaveFX?</span></h2>
               </div>
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {FEATURES.map((f, i) => (
                 <Reveal key={i} delay={i * 0.08}>
-                  <div className="group p-8 bg-white/[0.02] border border-white/5 rounded-2xl hover:border-indigo-500/30 transition-all duration-500 h-full">
-                    <div className="w-12 h-12 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center mb-6 group-hover:bg-indigo-500 group-hover:border-indigo-500 transition-all duration-500">
-                      <f.icon className="w-5 h-5 text-indigo-400 group-hover:text-white transition-colors" />
+                  <div className="group p-8 bg-white/[0.02] border border-white/5 rounded-2xl hover:border-[var(--brand,#6366f1)]/30 transition-all duration-500 h-full">
+                    <div className="w-12 h-12 rounded-xl bg-[var(--brand,#6366f1)]/10 border border-[var(--brand,#6366f1)]/20 flex items-center justify-center mb-6 group-hover:bg-[var(--brand,#6366f1)] group-hover:border-[var(--brand,#6366f1)] transition-all duration-500">
+                      <f.icon className="w-5 h-5 text-[var(--brand,#818cf8)] group-hover:text-white transition-colors" />
                     </div>
                     <h3 className="text-lg font-bold mb-3">{f.title}</h3>
                     <p className="text-sm text-white/40 leading-relaxed">{f.desc}</p>
@@ -329,8 +329,8 @@ export default function WaveFXPage() {
           <div className="max-w-[1200px] mx-auto px-6 md:px-12">
             <Reveal>
               <div className="text-center mb-20">
-                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-indigo-400 block mb-4">Developer Love</span>
-                <h2 className="text-5xl md:text-6xl font-black tracking-tighter">Trusted by <span className="text-indigo-400">Builders.</span></h2>
+                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#818cf8)] block mb-4">Developer Love</span>
+                <h2 className="text-5xl md:text-6xl font-black tracking-tighter">Trusted by <span className="text-[var(--brand,#818cf8)]">Builders.</span></h2>
               </div>
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -340,11 +340,11 @@ export default function WaveFXPage() {
                 { quote: "Our onboarding dropped from 3 days to 4 hours. Every new dev just runs one command and they're in the right environment immediately.", handle: "@priya_dev", role: "CTO, Singapore Startup", avatar: "PD" },
               ].map((t, i) => (
                 <Reveal key={i} delay={i * 0.1}>
-                  <div className="group p-8 bg-white/[0.02] border border-white/5 rounded-2xl hover:border-indigo-500/20 transition-all duration-500 flex flex-col gap-6 h-full">
-                    <div className="flex gap-1">{[...Array(5)].map((_, j) => <Star key={j} className="w-4 h-4 fill-indigo-400 text-indigo-400" />)}</div>
+                  <div className="group p-8 bg-white/[0.02] border border-white/5 rounded-2xl hover:border-[var(--brand,#6366f1)]/20 transition-all duration-500 flex flex-col gap-6 h-full">
+                    <div className="flex gap-1">{[...Array(5)].map((_, j) => <Star key={j} className="w-4 h-4 fill-[var(--brand,#818cf8)] text-[var(--brand,#818cf8)]" />)}</div>
                     <p className="text-sm text-white/50 leading-relaxed italic flex-1">&ldquo;{t.quote}&rdquo;</p>
                     <div className="flex items-center gap-4 border-t border-white/5 pt-6">
-                      <div className="w-10 h-10 rounded-xl bg-indigo-500/20 border border-indigo-500/20 flex items-center justify-center text-[10px] font-black text-indigo-400">{t.avatar}</div>
+                      <div className="w-10 h-10 rounded-xl bg-[var(--brand,#6366f1)]/20 border border-[var(--brand,#6366f1)]/20 flex items-center justify-center text-[10px] font-black text-[var(--brand,#818cf8)]">{t.avatar}</div>
                       <div>
                         <div className="text-sm font-bold text-white font-mono">{t.handle}</div>
                         <div className="text-xs text-white/30">{t.role}</div>
@@ -362,8 +362,8 @@ export default function WaveFXPage() {
           <div className="max-w-[1200px] mx-auto px-6 md:px-12">
             <Reveal>
               <div className="text-center mb-20">
-                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-indigo-400 block mb-4">Open Core Team</span>
-                <h2 className="text-5xl md:text-6xl font-black tracking-tighter">Built by <span className="text-indigo-400">Engineers.</span></h2>
+                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#818cf8)] block mb-4">Open Core Team</span>
+                <h2 className="text-5xl md:text-6xl font-black tracking-tighter">Built by <span className="text-[var(--brand,#818cf8)]">Engineers.</span></h2>
               </div>
             </Reveal>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
@@ -374,13 +374,13 @@ export default function WaveFXPage() {
                 { name: "Lucas Vidal", role: "Security & Infra", gh: "lv_sec", focus: "Zero-trust, audit" },
               ].map((m, i) => (
                 <Reveal key={i} delay={i * 0.08}>
-                  <div className="group p-6 bg-white/[0.02] border border-white/5 rounded-xl hover:border-indigo-500/20 transition-all duration-500 cursor-default flex flex-col gap-4">
-                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-indigo-500/20 to-blue-500/20 border border-indigo-500/20 flex items-center justify-center">
-                      <span className="text-[10px] font-black text-indigo-400">{m.gh.slice(0,2).toUpperCase()}</span>
+                  <div className="group p-6 bg-white/[0.02] border border-white/5 rounded-xl hover:border-[var(--brand,#6366f1)]/20 transition-all duration-500 cursor-default flex flex-col gap-4">
+                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[var(--brand,#6366f1)]/20 to-blue-500/20 border border-[var(--brand,#6366f1)]/20 flex items-center justify-center">
+                      <span className="text-[10px] font-black text-[var(--brand,#818cf8)]">{m.gh.slice(0,2).toUpperCase()}</span>
                     </div>
                     <div>
                       <div className="font-bold text-white mb-0.5">{m.name}</div>
-                      <div className="text-xs text-indigo-400/70 font-mono mb-1">@{m.gh}</div>
+                      <div className="text-xs text-[var(--brand,#818cf8)]/70 font-mono mb-1">@{m.gh}</div>
                       <div className="text-xs text-white/30">{m.role}</div>
                     </div>
                     <div className="text-[9px] font-bold uppercase tracking-widest text-white/15 border-t border-white/5 pt-3">{m.focus}</div>
@@ -393,20 +393,20 @@ export default function WaveFXPage() {
 
         {/* ── CTA ──────── */}
         <section id="contact" className="py-32 relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-indigo-600/10 via-transparent to-blue-600/10" />
+          <div className="absolute inset-0 bg-gradient-to-br from-[var(--brand,#4f46e5)]/10 via-transparent to-blue-600/10" />
           <div className="relative z-10 max-w-[700px] mx-auto px-6 text-center">
             <Reveal>
               <h2 className="text-5xl md:text-6xl font-black tracking-tighter mb-6">
-                Start Building<br/><span className="text-indigo-400">Today.</span>
+                Start Building<br/><span className="text-[var(--brand,#818cf8)]">Today.</span>
               </h2>
               <p className="text-lg text-white/40 font-light max-w-md mx-auto mb-10">
                 WaveFX is free, open-source, and backed by a community of 450+ contributors.
               </p>
               <div className="flex flex-wrap gap-4 justify-center">
-                <button className="px-10 py-4 bg-gradient-to-r from-indigo-500 to-blue-500 text-white font-bold rounded-full hover:opacity-90 transition-opacity">
+                <button className="px-10 py-4 bg-gradient-to-r from-[var(--brand,#6366f1)] to-blue-500 text-white font-bold rounded-full hover:opacity-90 transition-opacity">
                   Get Started Free
                 </button>
-                <Link href="#contact" className="px-10 py-4 border border-white/10 text-white/60 font-bold rounded-full hover:border-indigo-500/50 transition-all flex items-center gap-2">
+                <Link href="#contact" className="px-10 py-4 border border-white/10 text-white/60 font-bold rounded-full hover:border-[var(--brand,#6366f1)]/50 transition-all flex items-center gap-2">
                   Star on GitHub <ExternalLink className="w-4 h-4" />
                 </Link>
               </div>
@@ -420,8 +420,8 @@ export default function WaveFXPage() {
         <div className="max-w-[1000px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-16 mb-20">
           <div>
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-blue-500 flex items-center justify-center"><Code2 className="w-4 h-4 text-white" /></div>
-              <span className="font-black tracking-tight">Wave<span className="text-indigo-400">FX</span></span>
+              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[var(--brand,#6366f1)] to-blue-500 flex items-center justify-center"><Code2 className="w-4 h-4 text-white" /></div>
+              <span className="font-black tracking-tight">Wave<span className="text-[var(--brand,#818cf8)]">FX</span></span>
             </div>
             <p className="text-sm text-white/30 leading-relaxed">Open-source data pipeline framework.</p>
           </div>
@@ -431,7 +431,7 @@ export default function WaveFXPage() {
             { title: "Legal", links: ["MIT License", "Privacy", "Security", "Contact"] },
           ].map((col, i) => (
             <div key={i}>
-              <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-indigo-400 mb-6">{col.title}</h4>
+              <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#818cf8)] mb-6">{col.title}</h4>
               <ul className="space-y-3 text-sm text-white/30">
                 {col.links.map(l => <li key={l}><Link href="#contact" className="hover:text-white transition-colors">{l}</Link></li>)}
               </ul>

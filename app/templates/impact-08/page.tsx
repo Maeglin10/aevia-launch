@@ -168,8 +168,8 @@ function FluidAeroVisualizer() {
 function HUD_Telemetry() {
   return (
     <div className="fixed top-24 right-12 z-40 hidden xl:flex flex-col gap-8 items-end pointer-events-none">
-       <div className="flex flex-col items-end border-r-2 border-blue-500/30 pr-6 py-2">
-          <div className="text-[10px] font-black tracking-widest text-blue-500 uppercase mb-2">Vulcan_System_V4.2</div>
+       <div className="flex flex-col items-end border-r-2 border-[var(--brand,#3b82f6)]/30 pr-6 py-2">
+          <div className="text-[10px] font-black tracking-widest text-[var(--brand,#3b82f6)] uppercase mb-2">Vulcan_System_V4.2</div>
           <div className="text-2xl font-mono text-white tracking-tighter">44.12.08</div>
           <div className="text-[8px] font-bold text-white/30 uppercase mt-1">Modena // Italy</div>
        </div>
@@ -177,7 +177,7 @@ function HUD_Telemetry() {
           {[1, 0.8, 1.2, 0.6].map((h, i) => (
              <div key={i} className="flex gap-1 items-end h-12">
                 <motion.div 
-                  className="w-1 bg-blue-500/40"
+                  className="w-1 bg-[var(--brand,#3b82f6)]/40"
                   animate={{ height: ["20%", "80%", "40%"] }}
                   transition={{ duration: 2, repeat: 999999 , delay: i * 0.2 }}
                 />
@@ -213,7 +213,7 @@ function VehicleCard({ vehicle, goTo }: { vehicle: any, goTo: (p: ActivePage) =>
                 </h3>
              </div>
              <div className="text-right pb-4">
-                <div className="text-[10px] font-black uppercase tracking-widest text-blue-500 mb-2">Power_Output</div>
+                <div className="text-[10px] font-black uppercase tracking-widest text-[var(--brand,#3b82f6)] mb-2">Power_Output</div>
                 <div className="text-4xl font-black italic">{vehicle.power}</div>
              </div>
           </div>
@@ -244,7 +244,7 @@ function VehicleCard({ vehicle, goTo }: { vehicle: any, goTo: (p: ActivePage) =>
        </div>
        
        <div className="absolute top-12 right-12 z-20 flex gap-4">
-          <button onClick={() => goTo("fleet")} className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center bg-black/50 backdrop-blur-md hover:bg-blue-500 transition-colors group/btn">
+          <button onClick={() => goTo("fleet")} className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center bg-black/50 backdrop-blur-md hover:bg-[var(--brand,#3b82f6)] transition-colors group/btn">
              <ArrowUpRight className="w-5 h-5 group-hover/btn:rotate-45 transition-transform" />
           </button>
        </div>
@@ -378,7 +378,7 @@ export default function VulcanMotorPremium() {
     }
   }, [c]);
 return (
-    <div ref={containerRef} className="bg-[#050505] text-[#f0f0f0] font-sans selection:bg-blue-500/40 selection:text-white min-h-dvh overflow-x-clip">
+    <div ref={containerRef} className="bg-[#050505] text-[#f0f0f0] font-sans selection:bg-[var(--brand,#3b82f6)]/40 selection:text-white min-h-dvh overflow-x-clip">
       
       <HUD_Telemetry />
       
@@ -394,7 +394,7 @@ return (
             ) : (
               <>
             <span className="text-2xl font-black tracking-[-0.05em] uppercase leading-none italic">Vulcan</span>
-            <span className="text-[8px] font-bold uppercase tracking-[0.5em] text-blue-500 -mt-1 ml-1">Motor Group Modena</span>
+            <span className="text-[8px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#3b82f6)] -mt-1 ml-1">Motor Group Modena</span>
               </>
             )}
          </div>
@@ -409,7 +409,7 @@ return (
                 key={item.key} 
                 href={`#${item.key}`} 
                 onClick={(e) => { e.preventDefault(); goTo(item.key as any); }} 
-                className={`hover:text-white transition-colors ${page === item.key ? "text-blue-500 font-extrabold" : ""}`}
+                className={`hover:text-white transition-colors ${page === item.key ? "text-[var(--brand,#3b82f6)] font-extrabold" : ""}`}
               >
                 [ {item.name.replace(" ", "_")} ]
               </a>
@@ -417,12 +417,12 @@ return (
          </div>
          <div className="flex items-center gap-6">
             <div className="hidden sm:flex flex-col items-end mr-4">
-               <div className="text-[8px] font-black text-blue-500 uppercase tracking-widest">Active_Node</div>
+               <div className="text-[8px] font-black text-[var(--brand,#3b82f6)] uppercase tracking-widest">Active_Node</div>
                <div className="text-[10px] font-bold">Modena_01</div>
             </div>
             
             <Sheet>
-               <SheetTrigger className="md:hidden p-3 border border-white/10 rounded-full hover:border-blue-500 transition-colors">
+               <SheetTrigger className="md:hidden p-3 border border-white/10 rounded-full hover:border-[var(--brand,#3b82f6)] transition-colors">
                      <Menu className="w-5 h-5 text-white" />
                   </SheetTrigger>
                <SheetContent side="right" className="bg-[#050505] border-white/5 p-12 overflow-y-auto">
@@ -439,7 +439,7 @@ return (
                          key={item.key} 
                          href={`#${item.key}`} 
                          onClick={(e) => { e.preventDefault(); goTo(item.key as any); }} 
-                         className={`text-xl font-black uppercase tracking-widest hover:text-blue-500 transition-colors ${page === item.key ? "text-blue-500" : "text-white/60"}`}
+                         className={`text-xl font-black uppercase tracking-widest hover:text-[var(--brand,#3b82f6)] transition-colors ${page === item.key ? "text-[var(--brand,#3b82f6)]" : "text-white/60"}`}
                        >
                          {item.name.replace(" ", "_")}
                        </a>
@@ -448,7 +448,7 @@ return (
                </SheetContent>
             </Sheet>
 
-            <button onClick={() => goTo("atelier")} className="p-3 border border-white/10 rounded-full hover:border-blue-500 transition-colors group">
+            <button onClick={() => goTo("atelier")} className="p-3 border border-white/10 rounded-full hover:border-[var(--brand,#3b82f6)] transition-colors group">
                <Settings className="w-5 h-5 group-hover:rotate-90 transition-transform" />
             </button>
          </div>
@@ -470,7 +470,7 @@ return (
 
               <div className="relative z-10 w-full max-w-7xl">
                  <Reveal>
-                    <div className="inline-flex items-center gap-4 px-6 py-2 border border-blue-500/30 bg-blue-500/5 text-[10px] font-black uppercase tracking-[0.5em] text-blue-500 mb-12 italic">
+                    <div className="inline-flex items-center gap-4 px-6 py-2 border border-[var(--brand,#3b82f6)]/30 bg-[var(--brand,#3b82f6)]/5 text-[10px] font-black uppercase tracking-[0.5em] text-[var(--brand,#3b82f6)] mb-12 italic">
                        Propulsion_Init // Thermal: NOMINAL // Flow: OPTIMAL
                     </div>
                     <motion.h1 
@@ -486,7 +486,7 @@ return (
                           Nous ne construisons pas des voitures. Nous domptons la physique. Chaque courbe est dictée par le vent, chaque watt est maîtrisé par l'IA.
                        </>}</p>
                        <div className="flex flex-col sm:flex-row gap-8 md:justify-end">
-                          <button onClick={() => goTo("atelier")} className="px-12 py-6 bg-blue-600 text-white text-[10px] font-black uppercase tracking-widest hover:bg-white hover:text-black transition-all shadow-[0_0_40px_rgba(59,130,246,0.3)] flex items-center gap-4 italic group">
+                          <button onClick={() => goTo("atelier")} className="px-12 py-6 bg-[var(--brand,#2563eb)] text-white text-[10px] font-black uppercase tracking-widest hover:bg-white hover:text-black transition-all shadow-[0_0_40px_rgba(59,130,246,0.3)] flex items-center gap-4 italic group">
                              <Zap className="w-5 h-5 group-hover:animate-pulse" /> Configure Your Unit
                           </button>
                           <button onClick={() => goTo("fleet")} className="px-12 py-6 border border-white/10 text-white text-[10px] font-black uppercase tracking-widest hover:bg-white/5 transition-all flex items-center gap-4 italic">
@@ -506,7 +506,7 @@ return (
                           <div className="text-2xl font-black italic">{m.value}</div>
                           <div className="w-32 h-[2px] bg-white/5 mt-2 overflow-hidden">
                              <motion.div 
-                               className="h-full bg-blue-500" 
+                               className="h-full bg-[var(--brand,#3b82f6)]" 
                                initial={{ width: 0 }}
                                whileInView={{ width: `${m.percent}%` }}
                                transition={{ duration: 2 }}
@@ -518,9 +518,9 @@ return (
                  <div className="flex items-center gap-6">
                     <div className="flex flex-col items-end">
                        <div className="text-[10px] font-black uppercase tracking-widest text-white/30 italic">Wind_Tunnel_Active</div>
-                       <div className="text-xs font-bold text-blue-500">v0.24 Cd</div>
+                       <div className="text-xs font-bold text-[var(--brand,#3b82f6)]">v0.24 Cd</div>
                     </div>
-                    <div className="w-12 h-12 rounded-full border-2 border-blue-500 border-t-transparent animate-spin" />
+                    <div className="w-12 h-12 rounded-full border-2 border-[var(--brand,#3b82f6)] border-t-transparent animate-spin" />
                  </div>
               </div>
             </section>
@@ -529,7 +529,7 @@ return (
             <section className="py-48 px-8 md:px-24 bg-[#0a0a0a] relative overflow-hidden">
                <div className="max-w-7xl mx-auto mb-24 flex justify-between items-end">
                   <Reveal>
-                     <div className="text-[10px] font-black uppercase tracking-[0.5em] text-blue-500 mb-8">Vulcan_Registry</div>
+                     <div className="text-[10px] font-black uppercase tracking-[0.5em] text-[var(--brand,#3b82f6)] mb-8">Vulcan_Registry</div>
                      <h2 className="text-5xl md:text-8xl font-black uppercase tracking-tighter leading-[0.85] italic">{c?.aboutTitle ?? fd?.businessName ?? <>
                         The <br/> <span className="text-white/10">Arsenal.</span>
                      </>}</h2>
@@ -555,17 +555,17 @@ return (
                <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-24 items-center">
                   <div className="lg:col-span-2">
                      <Reveal>
-                        <div className="text-[10px] font-black uppercase tracking-[0.5em] text-blue-500 mb-8">Performance_Matrix</div>
+                        <div className="text-[10px] font-black uppercase tracking-[0.5em] text-[var(--brand,#3b82f6)] mb-8">Performance_Matrix</div>
                         <h2 className="text-5xl md:text-8xl font-black uppercase tracking-tighter leading-[0.85] mb-16 italic">
                            Advanced <br/> <span className="opacity-20">Dynamics.</span>
                         </h2>
                         
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                            {PERFORMANCE_METRICS.map((metric, i) => (
-                              <div key={metric.label} className="border border-white/5 bg-white/[0.02] p-10 backdrop-blur-sm group hover:border-blue-500/50 transition-colors cursor-pointer" onClick={() => goTo("engineering")}>
+                              <div key={metric.label} className="border border-white/5 bg-white/[0.02] p-10 backdrop-blur-sm group hover:border-[var(--brand,#3b82f6)]/50 transition-colors cursor-pointer" onClick={() => goTo("engineering")}>
                                  <div className="flex justify-between items-start mb-8">
                                     <div className="text-[10px] text-white/30 uppercase tracking-[0.2em]">{metric.label}</div>
-                                    <div className="p-2 border border-white/10 text-white/20 group-hover:text-blue-500 group-hover:border-blue-500 transition-colors">
+                                    <div className="p-2 border border-white/10 text-white/20 group-hover:text-[var(--brand,#3b82f6)] group-hover:border-[var(--brand,#3b82f6)] transition-colors">
                                        {i === 0 ? <Wind className="w-4 h-4" /> : i === 1 ? <Thermometer className="w-4 h-4" /> : i === 2 ? <Cog className="w-4 h-4" /> : <Gauge className="w-4 h-4" />}
                                     </div>
                                  </div>
@@ -573,13 +573,13 @@ return (
                                  <div className="flex items-center gap-3">
                                     <div className="flex-1 h-[2px] bg-white/5 overflow-hidden">
                                        <motion.div 
-                                          className="h-full bg-blue-500"
+                                          className="h-full bg-[var(--brand,#3b82f6)]"
                                           initial={{ width: 0 }}
                                           whileInView={{ width: `${metric.percent}%` }}
                                           transition={{ duration: 1.5, delay: i * 0.1 }}
                                        />
                                     </div>
-                                    <div className="text-[10px] text-blue-500 font-black italic">{metric.trend}</div>
+                                    <div className="text-[10px] text-[var(--brand,#3b82f6)] font-black italic">{metric.trend}</div>
                                  </div>
                               </div>
                            ))}
@@ -589,13 +589,13 @@ return (
 
                   <div className="space-y-12">
                      <Reveal delay={0.3}>
-                        <div className="bg-blue-600/5 border border-blue-500/20 p-12 cursor-pointer" onClick={() => goTo("engineering")}>
+                        <div className="bg-[var(--brand,#2563eb)]/5 border border-[var(--brand,#3b82f6)]/20 p-12 cursor-pointer" onClick={() => goTo("engineering")}>
                            <h4 className="text-xl font-black uppercase tracking-tighter mb-6 italic">Carbon Structure</h4>
                            <p className="text-sm text-white/30 leading-relaxed uppercase tracking-widest font-light italic mb-12">
                               Notre monocoque en carbone pèse seulement 74kg. Une rigidité torsionnelle record de 50,000 Nm/degré assurant une précision chirurgicale en virage.
                            </p>
                            <div className="flex items-center gap-4">
-                              <Pickaxe className="w-5 h-5 text-blue-500" />
+                              <Pickaxe className="w-5 h-5 text-[var(--brand,#3b82f6)]" />
                               <div className="text-[10px] font-black uppercase tracking-widest italic">T700_Industrial_Grade</div>
                            </div>
                         </div>
@@ -603,7 +603,7 @@ return (
                      
                      <Reveal delay={0.4}>
                         <div className="bg-white/5 p-10 border border-white/5">
-                           <div className="text-[10px] font-black uppercase tracking-widest text-blue-500 mb-8 flex items-center gap-3">
+                           <div className="text-[10px] font-black uppercase tracking-widest text-[var(--brand,#3b82f6)] mb-8 flex items-center gap-3">
                               <Terminal className="w-4 h-4" /> Live_Telemetry_Log
                            </div>
                            <div className="space-y-4 font-mono">
@@ -611,7 +611,7 @@ return (
                                  <div key={i} className="flex justify-between text-[10px] border-b border-white/5 pb-2 group hover:bg-white/5 transition-colors px-2">
                                     <span className="text-white/20 group-hover:text-white transition-colors">[{log.timestamp}]</span>
                                     <span className="text-white/60 font-bold">{log.unit}</span>
-                                    <span className="text-blue-500">{log.task}</span>
+                                    <span className="text-[var(--brand,#3b82f6)]">{log.task}</span>
                                     <span className="text-green-500 font-black">{log.status}</span>
                                  </div>
                               ))}
@@ -627,7 +627,7 @@ return (
                <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-24 items-center">
                   <div className="lg:col-span-5">
                      <Reveal>
-                        <div className="text-[10px] font-black uppercase tracking-[0.5em] text-blue-500 mb-8">Bespoke_Atelier</div>
+                        <div className="text-[10px] font-black uppercase tracking-[0.5em] text-[var(--brand,#3b82f6)] mb-8">Bespoke_Atelier</div>
                         <h2 className="text-5xl md:text-8xl font-black uppercase tracking-tighter leading-[0.8] mb-12 italic">
                            Tailored <br/> <span className="opacity-20">Velocity.</span>
                         </h2>
@@ -678,14 +678,14 @@ return (
       </main>
 
       {/* 7. CONVERGENCE (FOOTER) */}
-      <footer className="bg-black pt-48 pb-16 px-8 md:px-24 border-t-8 border-blue-600">
+      <footer className="bg-black pt-48 pb-16 px-8 md:px-24 border-t-8 border-[var(--brand,#2563eb)]">
          <div className="max-w-7xl mx-auto">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-24 mb-48">
                <div className="lg:col-span-7">
                   <Reveal>
                      <div onClick={() => goTo("home")} className="flex flex-col mb-16 cursor-pointer">
                         <span className="text-7xl md:text-[10vw] font-black tracking-tighter uppercase leading-[0.7] italic">Vulcan</span>
-                        <span className="text-[12px] font-bold uppercase tracking-[0.8em] text-blue-500 ml-2">Motor Group Modena</span>
+                        <span className="text-[12px] font-bold uppercase tracking-[0.8em] text-[var(--brand,#3b82f6)] ml-2">Motor Group Modena</span>
                      </div>
                      <p className="text-white/20 max-w-md mb-20 text-sm font-light uppercase tracking-widest leading-loose italic">
                         L'excellence absolue dans la performance automobile. Conçue pour l'élite mondiale dans notre sanctuaire italien.
@@ -693,9 +693,9 @@ return (
                      <div className="flex gap-8 items-center">
                         <div className="w-24 h-[1px] bg-white/10" />
                         <div className="flex gap-8">
-                           <Globe className="w-6 h-6 text-white/20 hover:text-blue-500 transition-all cursor-pointer" />
-                           <RadioIcon className="w-6 h-6 text-white/20 hover:text-blue-500 transition-all cursor-pointer" />
-                           <Share2 className="w-6 h-6 text-white/20 hover:text-blue-500 transition-all cursor-pointer" />
+                           <Globe className="w-6 h-6 text-white/20 hover:text-[var(--brand,#3b82f6)] transition-all cursor-pointer" />
+                           <RadioIcon className="w-6 h-6 text-white/20 hover:text-[var(--brand,#3b82f6)] transition-all cursor-pointer" />
+                           <Share2 className="w-6 h-6 text-white/20 hover:text-[var(--brand,#3b82f6)] transition-all cursor-pointer" />
                         </div>
                      </div>
                   </Reveal>
@@ -703,7 +703,7 @@ return (
 
                <div className="lg:col-span-5 grid grid-cols-1 md:grid-cols-2 gap-16">
                   <div className="space-y-12">
-                     <h4 className="text-[10px] font-black uppercase tracking-[0.5em] text-blue-500 border-b border-blue-500/20 pb-4">The_Fleet</h4>
+                     <h4 className="text-[10px] font-black uppercase tracking-[0.5em] text-[var(--brand,#3b82f6)] border-b border-[var(--brand,#3b82f6)]/20 pb-4">The_Fleet</h4>
                      <ul className="space-y-6 text-xs font-black uppercase tracking-widest text-white/30">
                         {FLEET.map(item => (
                           <li key={item.id} onClick={() => goTo("fleet")} className="hover:text-white cursor-pointer transition-all italic flex items-center gap-2 group">
@@ -713,7 +713,7 @@ return (
                      </ul>
                   </div>
                   <div className="space-y-12">
-                     <h4 className="text-[10px] font-black uppercase tracking-[0.5em] text-blue-500 border-b border-blue-500/20 pb-4">Experience</h4>
+                     <h4 className="text-[10px] font-black uppercase tracking-[0.5em] text-[var(--brand,#3b82f6)] border-b border-[var(--brand,#3b82f6)]/20 pb-4">Experience</h4>
                      <ul className="space-y-6 text-xs font-black uppercase tracking-widest text-white/30">
                         <li onClick={() => goTo("atelier")} className="hover:text-white cursor-pointer transition-all italic flex items-center gap-2 group">
                            <ChevronRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-all" /> The_Atelier
@@ -733,11 +733,11 @@ return (
                <div className="flex flex-wrap gap-8">
                   <span>©2026 VULCAN MOTOR GROUP MODENA.</span>
                   <span className="hidden md:inline">//</span>
-                  <a href="#aero-grad" onClick={(e) => { e.preventDefault(); goTo("legal"); }} className="hover:text-blue-500 transition-colors">MENTIONS LEGALES</a>
+                  <a href="#aero-grad" onClick={(e) => { e.preventDefault(); goTo("legal"); }} className="hover:text-[var(--brand,#3b82f6)] transition-colors">MENTIONS LEGALES</a>
                </div>
                <div className="flex gap-12 font-mono">
-                  <span className="text-blue-500/40">TELEMETRY_LINK_ESTABLISHED</span>
-                  <span className="text-blue-500/40">LOAD_0.12%</span>
+                  <span className="text-[var(--brand,#3b82f6)]/40">TELEMETRY_LINK_ESTABLISHED</span>
+                  <span className="text-[var(--brand,#3b82f6)]/40">LOAD_0.12%</span>
                </div>
             </div>
          </div>
@@ -764,7 +764,7 @@ function FleetPage({ goTo }: { goTo: (p: ActivePage) => void }) {
     <section className="py-32 px-8 md:px-24 bg-black border-t border-white/5">
       <div className="max-w-7xl mx-auto">
         <div className="mb-20">
-          <div className="text-[10px] font-black uppercase tracking-[0.5em] text-blue-500 mb-6">Specification_Register</div>
+          <div className="text-[10px] font-black uppercase tracking-[0.5em] text-[var(--brand,#3b82f6)] mb-6">Specification_Register</div>
           <h1 className="text-5xl md:text-8xl font-black uppercase tracking-tighter leading-none italic mb-8">
             The <span className="text-transparent" style={{ WebkitTextStroke: "2px white" }}>Fleet.</span>
           </h1>
@@ -780,7 +780,7 @@ function FleetPage({ goTo }: { goTo: (p: ActivePage) => void }) {
                 <img src={vehicle.img} alt={vehicle.name} className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000" />
               </div>
               <div className="lg:col-span-5">
-                <div className="text-[10px] font-black text-blue-500 uppercase tracking-widest mb-4">{vehicle.class} // SYSTEM_ID: {vehicle.id}</div>
+                <div className="text-[10px] font-black text-[var(--brand,#3b82f6)] uppercase tracking-widest mb-4">{vehicle.class} // SYSTEM_ID: {vehicle.id}</div>
                 <h3 className="text-4xl md:text-5xl font-black uppercase italic tracking-tighter mb-6">{vehicle.name}</h3>
                 <p className="text-sm text-white/40 leading-relaxed font-light uppercase italic mb-8">{vehicle.desc}</p>
                 
@@ -791,7 +791,7 @@ function FleetPage({ goTo }: { goTo: (p: ActivePage) => void }) {
                   <div className="flex justify-between pl-6"><span className="text-white/20">0-100 KM/H</span><span className="font-bold">{vehicle.accel}</span></div>
                 </div>
 
-                <button onClick={() => goTo("atelier")} className="w-full py-5 bg-blue-600 text-white text-[10px] font-black uppercase tracking-widest hover:bg-white hover:text-black transition-colors italic">
+                <button onClick={() => goTo("atelier")} className="w-full py-5 bg-[var(--brand,#2563eb)] text-white text-[10px] font-black uppercase tracking-widest hover:bg-white hover:text-black transition-colors italic">
                   [ Configure_Unit_{vehicle.name.split(" ")[0].toUpperCase()} ]
                 </button>
               </div>
@@ -814,7 +814,7 @@ function EngineeringPage() {
     <section id="about" className="py-32 px-8 md:px-24 bg-[#050505] border-t border-white/5">
       <div className="max-w-7xl mx-auto">
         <div className="mb-20 text-center">
-          <div className="text-[10px] font-black uppercase tracking-[0.5em] text-blue-500 mb-6">Dynamics_Lab</div>
+          <div className="text-[10px] font-black uppercase tracking-[0.5em] text-[var(--brand,#3b82f6)] mb-6">Dynamics_Lab</div>
           <h1 className="text-5xl md:text-8xl font-black uppercase tracking-tighter leading-none italic mb-8">
             Advanced <span className="text-transparent" style={{ WebkitTextStroke: "2px white" }}>Science.</span>
           </h1>
@@ -827,12 +827,12 @@ function EngineeringPage() {
           {aeroSteps.map((step, i) => (
             <div key={i} className="border border-white/5 bg-[#080808] p-10 flex flex-col justify-between">
               <div>
-                <div className="text-[10px] font-black text-blue-500 uppercase tracking-widest mb-4">LOG_NODE_0{i+1}</div>
+                <div className="text-[10px] font-black text-[var(--brand,#3b82f6)] uppercase tracking-widest mb-4">LOG_NODE_0{i+1}</div>
                 <h3 className="text-2xl font-black uppercase italic tracking-tighter text-white mb-2">{step.title}</h3>
                 <div className="text-3xl font-mono text-[#f0f0f0] font-bold italic mb-6">{step.val}</div>
                 <p className="text-xs text-white/40 leading-relaxed uppercase italic font-medium">{step.desc}</p>
               </div>
-              <div className="w-12 h-1 bg-blue-500 mt-8" />
+              <div className="w-12 h-1 bg-[var(--brand,#3b82f6)] mt-8" />
             </div>
           ))}
         </div>
@@ -840,10 +840,10 @@ function EngineeringPage() {
         <div className="border border-white/5 bg-zinc-950 p-12 flex flex-col lg:flex-row items-center gap-12">
           <div className="w-full lg:w-1/2 aspect-video relative">
             <img src={photo(2, "https://images.unsplash.com/photo-1611605645802-c21be743c321?w=800&q=80")} alt="Aerodynamics tunnel" className="w-full h-full object-cover grayscale" />
-            <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-transparent pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-r from-[var(--brand,#3b82f6)]/10 to-transparent pointer-events-none" />
           </div>
           <div className="w-full lg:w-1/2">
-            <div className="text-[10px] font-black text-blue-500 uppercase tracking-widest mb-4">Wind_Tunnel_Report</div>
+            <div className="text-[10px] font-black text-[var(--brand,#3b82f6)] uppercase tracking-widest mb-4">Wind_Tunnel_Report</div>
             <h3 className="text-4xl font-black uppercase italic tracking-tighter mb-6">Thermal & Aerodynamic Control</h3>
             <p className="text-sm text-white/40 leading-relaxed uppercase italic font-light mb-8">
               En optimisant les flux sous le châssis via un effet de sol venturi actif, nous avons éliminé la nécessité d'un aileron arrière massif permanent sur le Tyrant GT, préservant ses lignes sculpturales tout en garantissant une stabilité absolue à plus de 380 km/h.
@@ -872,7 +872,7 @@ function AtelierPage() {
     <section className="py-32 px-8 md:px-24 bg-[#050505] border-t border-white/5">
       <div className="max-w-7xl mx-auto">
         <div className="mb-20 text-center">
-          <div className="text-[10px] font-black uppercase tracking-[0.5em] text-blue-500 mb-6">Bespoke_Program</div>
+          <div className="text-[10px] font-black uppercase tracking-[0.5em] text-[var(--brand,#3b82f6)] mb-6">Bespoke_Program</div>
           <h1 className="text-5xl md:text-8xl font-black uppercase tracking-tighter leading-none italic mb-8">
             The <span className="text-transparent" style={{ WebkitTextStroke: "2px white" }}>Atelier.</span>
           </h1>
@@ -884,11 +884,11 @@ function AtelierPage() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center mb-24">
           <div className="space-y-12">
             <h3 className="text-3xl font-black uppercase italic tracking-tighter text-white">Bespoke Production Stages</h3>
-            <div className="space-y-8 border-l-2 border-blue-500/30 pl-8">
+            <div className="space-y-8 border-l-2 border-[var(--brand,#3b82f6)]/30 pl-8">
               {stages.map((stage, i) => (
                 <div key={i} className="relative">
-                  <div className="absolute -left-[41px] top-1 w-5 h-5 rounded-full bg-black border border-blue-500 flex items-center justify-center">
-                     <span className="text-[9px] font-mono text-blue-500">{i+1}</span>
+                  <div className="absolute -left-[41px] top-1 w-5 h-5 rounded-full bg-black border border-[var(--brand,#3b82f6)] flex items-center justify-center">
+                     <span className="text-[9px] font-mono text-[var(--brand,#3b82f6)]">{i+1}</span>
                   </div>
                   <h4 className="text-lg font-black uppercase tracking-widest text-white mb-2">{stage.name}</h4>
                   <p className="text-xs text-white/40 leading-relaxed uppercase italic font-medium">{stage.details}</p>
@@ -899,7 +899,7 @@ function AtelierPage() {
           <div className="aspect-[4/5] bg-zinc-900 border border-white/5 relative overflow-hidden">
             <img src={photo(3, "https://images.unsplash.com/photo-1590362891991-f776e747a588?w=800&q=80")} alt="Design sketch" className="w-full h-full object-cover grayscale opacity-50" />
             <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent p-12 flex flex-col justify-end">
-              <span className="text-[10px] font-black text-blue-500 uppercase tracking-widest mb-2">Modena_Atelier_Registry</span>
+              <span className="text-[10px] font-black text-[var(--brand,#3b82f6)] uppercase tracking-widest mb-2">Modena_Atelier_Registry</span>
               <h4 className="text-2xl font-black uppercase italic tracking-tighter text-white">4,200+ Combinations</h4>
               <p className="text-xs text-white/40 leading-relaxed uppercase italic font-light mt-2">
                 Des jantes forgées ultra-légères aux teintes historiques, les limites de l'Atelier sont celles de votre imagination.
@@ -917,7 +917,7 @@ function SupportPage() {
     <section className="py-32 px-8 md:px-24 bg-white text-black border-t border-white/5">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-20">
-          <div className="text-[10px] font-black uppercase tracking-[0.5em] text-blue-600 mb-6">Support_Department</div>
+          <div className="text-[10px] font-black uppercase tracking-[0.5em] text-[var(--brand,#2563eb)] mb-6">Support_Department</div>
           <h1 className="text-5xl md:text-8xl font-black uppercase tracking-tighter leading-none italic mb-8">
             Common <span className="opacity-20">Queries.</span>
           </h1>
@@ -958,7 +958,7 @@ function LegalPage() {
     <section id="contact" className="py-32 px-8 md:px-24 bg-[#050505] text-[#f0f0f0] border-t border-white/5 font-mono text-xs">
       <div className="max-w-3xl mx-auto space-y-16">
         <div>
-          <span className="text-[10px] font-black text-blue-500 uppercase tracking-widest mb-4 block">Vulcan_Compliance</span>
+          <span className="text-[10px] font-black text-[var(--brand,#3b82f6)] uppercase tracking-widest mb-4 block">Vulcan_Compliance</span>
           <h1 className="text-4xl md:text-6xl font-black uppercase tracking-tighter italic text-white mb-12">Mentions Légales</h1>
         </div>
 

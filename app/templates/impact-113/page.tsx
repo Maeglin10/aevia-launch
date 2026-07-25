@@ -282,9 +282,9 @@ export default function NexusSaaSPage() {
   }, [c]);
 
   return (
-    <div className="premium-theme min-h-dvh bg-[#05050a] text-white selection:bg-violet-500/30 font-sans overflow-x-hidden">
+    <div className="premium-theme min-h-dvh bg-[#05050a] text-white selection:bg-[var(--brand,#8b5cf6)]/30 font-sans overflow-x-hidden">
       {/* Background Gradients */}
-      <div className="fixed top-[-20%] left-[-10%] w-[50%] h-[50%] rounded-full bg-violet-600/20 blur-[150px] pointer-events-none z-0" />
+      <div className="fixed top-[-20%] left-[-10%] w-[50%] h-[50%] rounded-full bg-[var(--brand,#7c3aed)]/20 blur-[150px] pointer-events-none z-0" />
       <div className="fixed bottom-[-20%] right-[-10%] w-[50%] h-[50%] rounded-full bg-blue-600/10 blur-[150px] pointer-events-none z-0" />
 
       {/* NAVIGATION */}
@@ -301,7 +301,7 @@ export default function NexusSaaSPage() {
               />
             ) : (
               <>
-                <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-violet-500 to-indigo-600 flex items-center justify-center">
+                <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[var(--brand,#8b5cf6)] to-indigo-600 flex items-center justify-center">
                   <Zap className="w-4 h-4 text-white" />
                 </div>
                 <span className="text-xl font-semibold tracking-tight">Nexus.</span>
@@ -397,9 +397,9 @@ export default function NexusSaaSPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="mb-8 inline-flex items-center gap-3 px-4 py-2 rounded-full border border-violet-500/30 bg-violet-500/10 text-violet-300 text-xs font-semibold uppercase tracking-wider backdrop-blur-sm"
+            className="mb-8 inline-flex items-center gap-3 px-4 py-2 rounded-full border border-[var(--brand,#8b5cf6)]/30 bg-[var(--brand,#8b5cf6)]/10 text-violet-300 text-xs font-semibold uppercase tracking-wider backdrop-blur-sm"
           >
-            <span className="w-2 h-2 rounded-full bg-violet-400 animate-pulse" />{" "}
+            <span className="w-2 h-2 rounded-full bg-[var(--brand,#a78bfa)] animate-pulse" />{" "}
             Introducing Nexus Edge 2.0
           </motion.div>
 
@@ -410,7 +410,7 @@ export default function NexusSaaSPage() {
             className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tighter leading-[1.1] mb-8"
           >{c?.heroHeadline ?? <>
             Infrastructure for the <br className="hidden md:block" />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 via-fuchsia-300 to-indigo-400">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--brand,#a78bfa)] via-fuchsia-300 to-indigo-400">
               Next Generation.
             </span>
           </>}</motion.h1>
@@ -506,7 +506,7 @@ export default function NexusSaaSPage() {
                       (h, i) => (
                         <div
                           key={i}
-                          className="flex-1 bg-violet-500/40 rounded-t-sm transition-all"
+                          className="flex-1 bg-[var(--brand,#8b5cf6)]/40 rounded-t-sm transition-all"
                           style={{ height: `${h}%` }}
                         />
                       ),
@@ -585,7 +585,7 @@ export default function NexusSaaSPage() {
           {FEATURES.map((feature, i) => (
             <Reveal key={i} delay={i * 0.1}>
               <div className="p-8 rounded-2xl border border-white/10 bg-white/[0.02] hover:bg-white/[0.04] transition-colors h-full">
-                <div className="w-12 h-12 rounded-xl bg-violet-500/10 border border-violet-500/20 flex items-center justify-center text-violet-400 mb-6">
+                <div className="w-12 h-12 rounded-xl bg-[var(--brand,#8b5cf6)]/10 border border-[var(--brand,#8b5cf6)]/20 flex items-center justify-center text-[var(--brand,#a78bfa)] mb-6">
                   {feature.icon}
                 </div>
                 <h3 className="text-xl font-semibold mb-3">{feature.title}</h3>
@@ -626,7 +626,7 @@ export default function NexusSaaSPage() {
                   key={i}
                   className="flex items-center gap-3 text-sm font-medium"
                 >
-                  <CheckCircle2 className="w-5 h-5 text-violet-500" /> {item}
+                  <CheckCircle2 className="w-5 h-5 text-[var(--brand,#8b5cf6)]" /> {item}
                 </li>
               ))}
             </ul>
@@ -701,7 +701,7 @@ export default function NexusSaaSPage() {
                     {[...Array(5)].map((_, j) => (
                       <Star
                         key={j}
-                        className="w-4 h-4 fill-violet-500 text-violet-500"
+                        className="w-4 h-4 fill-[var(--brand,#8b5cf6)] text-[var(--brand,#8b5cf6)]"
                       />
                     ))}
                   </div>
@@ -710,7 +710,7 @@ export default function NexusSaaSPage() {
                   </p>
                 </div>
                 <div className="flex items-center gap-4 border-t border-white/5 pt-6">
-                  <div className="w-10 h-10 rounded-full bg-violet-500/20 text-violet-300 flex items-center justify-center font-bold">
+                  <div className="w-10 h-10 rounded-full bg-[var(--brand,#8b5cf6)]/20 text-violet-300 flex items-center justify-center font-bold">
                     {t.name.charAt(0)}
                   </div>
                   <div>
@@ -744,7 +744,7 @@ export default function NexusSaaSPage() {
                 className="w-14 h-8 rounded-full bg-white/10 p-1 relative transition-colors"
               >
                 <motion.div
-                  className="w-6 h-6 rounded-full bg-violet-500"
+                  className="w-6 h-6 rounded-full bg-[var(--brand,#8b5cf6)]"
                   animate={{ x: annualBilling ? 24 : 0 }}
                   transition={{ type: "spring", stiffness: 500, damping: 30 }}
                 />
@@ -764,10 +764,10 @@ export default function NexusSaaSPage() {
             {PRICING.map((plan, i) => (
               <Reveal key={i} delay={i * 0.1}>
                 <div
-                  className={`relative p-8 rounded-3xl border ${plan.popular ? "border-violet-500 bg-violet-500/5 shadow-[0_0_30px_rgba(139,92,246,0.1)]" : "border-white/10 bg-white/[0.02]"} h-full flex flex-col`}
+                  className={`relative p-8 rounded-3xl border ${plan.popular ? "border-[var(--brand,#8b5cf6)] bg-[var(--brand,#8b5cf6)]/5 shadow-[0_0_30px_rgba(139,92,246,0.1)]" : "border-white/10 bg-white/[0.02]"} h-full flex flex-col`}
                 >
                   {plan.popular && (
-                    <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-violet-500 text-white px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wider">
+                    <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[var(--brand,#8b5cf6)] text-white px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wider">
                       Most Popular
                     </div>
                   )}
@@ -787,7 +787,7 @@ export default function NexusSaaSPage() {
                   </div>
 
                   <button
-                    className={`w-full py-3.5 rounded-xl font-bold text-sm mb-8 transition-colors ${plan.popular ? "bg-violet-500 hover:bg-violet-600 text-white" : "bg-white/10 hover:bg-white/20 text-white"}`}
+                    className={`w-full py-3.5 rounded-xl font-bold text-sm mb-8 transition-colors ${plan.popular ? "bg-[var(--brand,#8b5cf6)] hover:bg-[var(--brand,#7c3aed)] text-white" : "bg-white/10 hover:bg-white/20 text-white"}`}
                   >
                     {plan.cta}
                   </button>
@@ -798,7 +798,7 @@ export default function NexusSaaSPage() {
                         key={j}
                         className="flex items-start gap-3 text-sm text-white/80"
                       >
-                        <CheckCircle2 className="w-4 h-4 text-violet-400 shrink-0 mt-0.5" />
+                        <CheckCircle2 className="w-4 h-4 text-[var(--brand,#a78bfa)] shrink-0 mt-0.5" />
                         <span>{feature}</span>
                       </div>
                     ))}
@@ -857,7 +857,7 @@ export default function NexusSaaSPage() {
           8. BOTTOM CTA
           ========================================== */}
       <section id="contact" className="py-32 px-6 relative overflow-hidden">
-        <div className="absolute inset-0 bg-violet-600/20 blur-[100px] z-0 pointer-events-none rounded-full scale-150" />
+        <div className="absolute inset-0 bg-[var(--brand,#7c3aed)]/20 blur-[100px] z-0 pointer-events-none rounded-full scale-150" />
         <div className="max-w-[800px] mx-auto text-center relative z-10 border border-white/10 bg-white/[0.02] backdrop-blur-xl rounded-3xl p-12 md:p-20 shadow-2xl">
           <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-6">
             Ready to scale?
@@ -885,7 +885,7 @@ export default function NexusSaaSPage() {
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-8 mb-16">
             <div className="col-span-2">
               <Link href="#hero" className="flex items-center gap-2 mb-6">
-                <div className="w-6 h-6 rounded bg-gradient-to-br from-violet-500 to-indigo-600 flex items-center justify-center">
+                <div className="w-6 h-6 rounded bg-gradient-to-br from-[var(--brand,#8b5cf6)] to-indigo-600 flex items-center justify-center">
                   <Zap className="w-3 h-3 text-white" />
                 </div>
                 <span className="text-lg font-bold tracking-tight">Nexus.</span>
