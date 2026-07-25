@@ -52,7 +52,7 @@ function shadeColor(hex: string, percent: number): string {
 }
 
 let C: Record<string, string> = {
-  electric: '#003b8e',
+  electric: 'var(--brand,#003b8e)',
   electricDeep: '#002a66',
   electricMid: '#0050c0',
   electricLight: '#1a6fd4',

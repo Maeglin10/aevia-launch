@@ -32,7 +32,7 @@ let C: Record<string, string> = {
   cream: "#faf8f4",
   creamDim: "rgba(250,248,244,0.55)",
   creamMuted: "rgba(250,248,244,0.25)",
-  gold: "#c9a855",
+  gold: "var(--brand,#c9a855)",
   goldDim: "rgba(201,168,85,0.55)",
   goldBorder: "rgba(201,168,85,0.18)",
   amber: "#8b5e2a",

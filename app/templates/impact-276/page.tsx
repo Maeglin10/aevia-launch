@@ -60,7 +60,7 @@ let C: Record<string, string> = {
   steel: '#2a2a2a',
   steelMid: '#3a3a3a',
   steelLight: '#4a4a4a',
-  orange: '#e8520a',
+  orange: 'var(--brand,#e8520a)',
   orangeHot: '#ff6a1a',
   orangeDark: '#c44408',
   white: '#ffffff',

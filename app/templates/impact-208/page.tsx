@@ -35,7 +35,7 @@ let C: Record<string, string> = {
   bgLight: '#222222',
   bgCard: '#242424',
   cream: '#f5f0e8',
-  creamDim: '#c8c2b6',
+  creamDim: 'var(--brand,#c8c2b6)',
   yellow: '#e8b84b',
   yellowDim: '#b8922e',
   blueprint: '#1e3a5f',

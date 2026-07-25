@@ -110,7 +110,7 @@ export default function SecurFastPage() {
   return (
     <div className="bg-[#0d1524] text-[#f0f4ff] overflow-x-hidden" style={{ fontFamily: "'Exo 2', 'Inter', system-ui, sans-serif" }}>
       {/* ── NAVBAR ── */}
-      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#0d1524]/98 backdrop-blur-xl py-3 border-b border-[#2563eb]/15" : "bg-transparent py-7"}`}>
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#0d1524]/98 backdrop-blur-xl py-3 border-b border-[var(--brand,#2563eb)]/15" : "bg-transparent py-7"}`}>
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex items-center justify-between">
           <div className="flex items-center gap-2.5">
             {fd?.logoBase64 ? (
@@ -121,29 +121,29 @@ export default function SecurFastPage() {
               />
             ) : (
               <>
-                <Lock className="w-5 h-5 text-[#2563eb]" />
-                <span className="font-bold text-[#f0f4ff] tracking-wide text-sm">SÉC'UR<span className="text-[#2563eb]">FAST</span></span>
+                <Lock className="w-5 h-5 text-[var(--brand,#2563eb)]" />
+                <span className="font-bold text-[#f0f4ff] tracking-wide text-sm">SÉC'UR<span className="text-[var(--brand,#2563eb)]">FAST</span></span>
               </>
             )}
           </div>
           <div className="hidden lg:flex gap-9 text-[10px] font-bold uppercase tracking-[0.22em] text-[#f0f4ff]/25">
             {["Services", "Urgences", "Tarifs", "Zone", "Contact"].map(l => (
-              <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="hover:text-[#2563eb] transition-colors">{l}</Link>
+              <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="hover:text-[var(--brand,#2563eb)] transition-colors">{l}</Link>
             ))}
           </div>
           <div className="flex items-center gap-3">
-            <a href={`tel:${fd?.phone ?? "0388234567"}`} className="hidden md:flex items-center gap-2 text-[#2563eb] font-bold text-sm">
+            <a href={`tel:${fd?.phone ?? "0388234567"}`} className="hidden md:flex items-center gap-2 text-[var(--brand,#2563eb)] font-bold text-sm">
               <Phone className="w-4 h-4" /> 03 88 23 45 67
             </a>
-            <button className="hidden md:block px-5 py-2.5 bg-[#2563eb] text-white text-[10px] font-bold uppercase tracking-[0.22em] hover:bg-[#1d4ed8] transition-colors">
+            <button className="hidden md:block px-5 py-2.5 bg-[var(--brand,#2563eb)] text-white text-[10px] font-bold uppercase tracking-[0.22em] hover:bg-[#1d4ed8] transition-colors">
               Urgence 24h/24
             </button>
             <Sheet>
               <SheetTrigger className="lg:hidden"><Menu className="w-5 h-5 text-[#f0f4ff]" /></SheetTrigger>
-              <SheetContent side="right" className="bg-[#111d30] border-[#2563eb]/10 p-10">
+              <SheetContent side="right" className="bg-[#111d30] border-[var(--brand,#2563eb)]/10 p-10">
                 <div className="flex flex-col gap-7 mt-16">
-                  {["Services", "Urgences", "Contact"].map(l => <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="text-3xl font-bold text-[#f0f4ff] hover:text-[#2563eb] transition-colors">{l}</Link>)}
-                  <a href={`tel:${fd?.phone ?? "0388234567"}`} className="flex items-center gap-3 text-[#2563eb] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> 03 88 23 45 67</a>
+                  {["Services", "Urgences", "Contact"].map(l => <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="text-3xl font-bold text-[#f0f4ff] hover:text-[var(--brand,#2563eb)] transition-colors">{l}</Link>)}
+                  <a href={`tel:${fd?.phone ?? "0388234567"}`} className="flex items-center gap-3 text-[var(--brand,#2563eb)] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> 03 88 23 45 67</a>
                 </div>
               </SheetContent>
             </Sheet>
@@ -153,7 +153,7 @@ export default function SecurFastPage() {
 
       {/* ── URGENCE TOP BANNER ── */}
       <div className="pt-0 fixed top-0 left-0 right-0 z-40 translate-y-[72px]">
-        <div className="bg-[#2563eb] py-2.5 text-center text-[10px] font-bold uppercase tracking-[0.3em] text-white flex items-center justify-center gap-4">
+        <div className="bg-[var(--brand,#2563eb)] py-2.5 text-center text-[10px] font-bold uppercase tracking-[0.3em] text-white flex items-center justify-center gap-4">
           <Zap className="w-3.5 h-3.5" />
           Disponible 24h/24 — 7j/7 — Intervention sous 30 min à Strasbourg
           <a href={`tel:${fd?.phone ?? "0388234567"}`} className="underline ml-2">03 88 23 45 67</a>
@@ -173,14 +173,14 @@ export default function SecurFastPage() {
         <motion.div style={{ y: heroTextY, opacity: heroOpacity }} className="relative z-10 max-w-[1400px] w-full mx-auto px-6 md:px-12 pb-24">
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.7, delay: 0.3 }}>
             <div className="flex items-center gap-3 mb-8">
-              <div className="w-2 h-2 rounded-full bg-[#2563eb] animate-pulse" />
-              <span className="text-[9px] font-bold uppercase tracking-[0.5em] text-[#2563eb]/70">Serrurier agréé · Strasbourg & Bas-Rhin</span>
+              <div className="w-2 h-2 rounded-full bg-[var(--brand,#2563eb)] animate-pulse" />
+              <span className="text-[9px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#2563eb)]/70">Serrurier agréé · Strasbourg & Bas-Rhin</span>
             </div>
           </motion.div>
 
           <motion.h1 initial={{ opacity: 0, y: 60 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.1, delay: 0.43, ease: [0.16, 1, 0.3, 1] }}
             className="text-5xl md:text-7xl lg:text-[88px] font-bold leading-[0.88] tracking-tight mb-7 text-[#f0f4ff]">{c?.heroHeadline ?? <>
-            Bloqué dehors ?<br /><span className="text-[#2563eb]">On arrive.</span>
+            Bloqué dehors ?<br /><span className="text-[var(--brand,#2563eb)]">On arrive.</span>
           </>}</motion.h1>
 
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 0.72 }}
@@ -189,10 +189,10 @@ export default function SecurFastPage() {
           </>}</motion.p>
 
           <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.98 }} className="flex flex-wrap gap-4 mb-8">
-            <a href={`tel:${fd?.phone ?? "0388234567"}`} className="flex items-center gap-3 px-9 py-4 bg-[#2563eb] text-white font-bold text-sm uppercase tracking-[0.1em] hover:bg-[#1d4ed8] transition-colors">
+            <a href={`tel:${fd?.phone ?? "0388234567"}`} className="flex items-center gap-3 px-9 py-4 bg-[var(--brand,#2563eb)] text-white font-bold text-sm uppercase tracking-[0.1em] hover:bg-[#1d4ed8] transition-colors">
               <Phone className="w-4 h-4" /> 03 88 23 45 67
             </a>
-            <button className="px-9 py-4 border border-[#f0f4ff]/12 text-[#f0f4ff]/40 font-bold text-[10px] uppercase tracking-widest hover:border-[#2563eb]/40 hover:text-[#2563eb] transition-all">
+            <button className="px-9 py-4 border border-[#f0f4ff]/12 text-[#f0f4ff]/40 font-bold text-[10px] uppercase tracking-widest hover:border-[var(--brand,#2563eb)]/40 hover:text-[var(--brand,#2563eb)] transition-all">
               Devis gratuit en ligne
             </button>
           </motion.div>
@@ -200,7 +200,7 @@ export default function SecurFastPage() {
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.2 }} className="flex flex-wrap gap-6">
             {["Intervention 30 min", "Devis avant travaux", "Agréé assurances"].map((b, i) => (
               <div key={i} className="flex items-center gap-2">
-                <CheckCircle className="w-3.5 h-3.5 text-[#2563eb]" />
+                <CheckCircle className="w-3.5 h-3.5 text-[var(--brand,#2563eb)]" />
                 <span className="text-[10px] font-bold text-[#f0f4ff]/25 uppercase tracking-wide">{b}</span>
               </div>
             ))}
@@ -208,12 +208,12 @@ export default function SecurFastPage() {
         </motion.div>
 
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10">
-          <motion.div animate={{ y: [0, 8, 0] }} transition={{ repeat: Infinity, duration: 2 }} className="w-[1px] h-10 bg-gradient-to-b from-[#2563eb]/60 to-transparent" />
+          <motion.div animate={{ y: [0, 8, 0] }} transition={{ repeat: Infinity, duration: 2 }} className="w-[1px] h-10 bg-gradient-to-b from-[var(--brand,#2563eb)]/60 to-transparent" />
         </div>
       </section>
 
       {/* ── CHIFFRES ── */}
-      <section className="py-14 bg-[#111d30] border-y border-[#2563eb]/10">
+      <section className="py-14 bg-[#111d30] border-y border-[var(--brand,#2563eb)]/10">
         <div className="max-w-[1100px] mx-auto px-6 md:px-12 grid grid-cols-2 md:grid-cols-4 gap-6">
           {[
             { v: "< 30 min", l: "Délai intervention moyen" },
@@ -223,7 +223,7 @@ export default function SecurFastPage() {
           ].map((s, i) => (
             <Reveal key={i} delay={i * 0.07}>
               <div className="text-center py-3">
-                <div className="text-2xl font-bold text-[#2563eb] mb-1">{s.v}</div>
+                <div className="text-2xl font-bold text-[var(--brand,#2563eb)] mb-1">{s.v}</div>
                 <div className="text-[9px] font-bold uppercase tracking-widest text-[#f0f4ff]/20">{s.l}</div>
               </div>
             </Reveal>
@@ -236,20 +236,20 @@ export default function SecurFastPage() {
         <div className="max-w-[1300px] mx-auto px-6 md:px-12">
           <Reveal>
             <div className="mb-16">
-              <div className="text-[9px] font-bold uppercase tracking-[0.5em] text-[#2563eb]/55 mb-4">— Nos interventions</div>
-              <h2 className="text-4xl md:text-5xl font-bold text-[#f0f4ff]">Sécurité & <span className="text-[#2563eb]">sérénité.</span></h2>
+              <div className="text-[9px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#2563eb)]/55 mb-4">— Nos interventions</div>
+              <h2 className="text-4xl md:text-5xl font-bold text-[#f0f4ff]">Sécurité & <span className="text-[var(--brand,#2563eb)]">sérénité.</span></h2>
             </div>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {services.map((s: any, i: number) => (
               <Reveal key={s.title ?? s.name ?? i} delay={i * 0.07}>
-                <div className="group p-7 border border-[#f0f4ff]/5 hover:border-[#2563eb]/30 hover:bg-[#111d30] transition-all duration-500 h-full">
+                <div className="group p-7 border border-[#f0f4ff]/5 hover:border-[var(--brand,#2563eb)]/30 hover:bg-[#111d30] transition-all duration-500 h-full">
                   {s.icon && (
-                    <div className="w-10 h-10 bg-[#2563eb]/10 flex items-center justify-center mb-5 group-hover:bg-[#2563eb] transition-colors duration-500">
-                      <s.icon className="w-5 h-5 text-[#2563eb] group-hover:text-white transition-colors" />
+                    <div className="w-10 h-10 bg-[var(--brand,#2563eb)]/10 flex items-center justify-center mb-5 group-hover:bg-[var(--brand,#2563eb)] transition-colors duration-500">
+                      <s.icon className="w-5 h-5 text-[var(--brand,#2563eb)] group-hover:text-white transition-colors" />
                     </div>
                   )}
-                  <h3 className="font-bold text-[#f0f4ff] mb-3 group-hover:text-[#2563eb] transition-colors">{s.title ?? s.name}</h3>
+                  <h3 className="font-bold text-[#f0f4ff] mb-3 group-hover:text-[var(--brand,#2563eb)] transition-colors">{s.title ?? s.name}</h3>
                   <p className="text-sm text-[#f0f4ff]/25 leading-relaxed">{s.desc ?? s.description}</p>
                 </div>
               </Reveal>
@@ -262,21 +262,21 @@ export default function SecurFastPage() {
       <section id="services" className="py-24 bg-[#111d30]">
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-14">
-            <div className="text-[9px] font-bold uppercase tracking-[0.5em] text-[#2563eb]/50 mb-4">— Avis clients</div>
-            <h2 className="text-4xl font-bold text-[#f0f4ff]">Ils ont pu <span className="text-[#2563eb]">rentrer chez eux.</span></h2>
+            <div className="text-[9px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#2563eb)]/50 mb-4">— Avis clients</div>
+            <h2 className="text-4xl font-bold text-[#f0f4ff]">Ils ont pu <span className="text-[var(--brand,#2563eb)]">rentrer chez eux.</span></h2>
           </div></Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {temoignages.map((t: any, i: number) => (
               <Reveal key={t.n ?? t.author ?? i} delay={i * 0.1}>
-                <div className="p-8 border border-[#f0f4ff]/5 hover:border-[#2563eb]/20 transition-colors h-full flex flex-col">
+                <div className="p-8 border border-[#f0f4ff]/5 hover:border-[var(--brand,#2563eb)]/20 transition-colors h-full flex flex-col">
                   <div className="flex gap-1 mb-5">
-                    {[...Array(t.rating ?? 5)].map((_, j) => <Star key={j} className="w-4 h-4 fill-[#2563eb] text-[#2563eb]" />)}
+                    {[...Array(t.rating ?? 5)].map((_, j) => <Star key={j} className="w-4 h-4 fill-[var(--brand,#2563eb)] text-[var(--brand,#2563eb)]" />)}
                   </div>
                   <p className="text-sm text-[#f0f4ff]/28 leading-relaxed flex-1">{`"${t.q ?? t.text}"`}</p>
                   <div className="mt-6 pt-5 border-t border-[#f0f4ff]/5">
                     <div className="font-bold text-[#f0f4ff] text-sm">{t.n ?? t.author}</div>
                     {(t.l ?? t.source) && (
-                      <div className="text-[10px] text-[#2563eb] mt-1 flex items-center gap-1"><MapPin className="w-3 h-3" />{t.l ?? t.source}</div>
+                      <div className="text-[10px] text-[var(--brand,#2563eb)] mt-1 flex items-center gap-1"><MapPin className="w-3 h-3" />{t.l ?? t.source}</div>
                     )}
                   </div>
                 </div>
@@ -287,14 +287,14 @@ export default function SecurFastPage() {
       </section>
 
       {/* ── CTA ── */}
-      <section id="tarifs" className="py-24 bg-[#2563eb] text-center">
+      <section id="tarifs" className="py-24 bg-[var(--brand,#2563eb)] text-center">
         <Reveal>
           <div className="max-w-xl mx-auto px-6">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/40 mb-5">Urgence · 24h/24 · 7j/7</div>
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-5">Un appel suffit.<br />On s'occupe du reste.</h2>
             <p className="text-white/55 mb-10 text-sm">Intervention sous 30 min · Strasbourg & Bas-Rhin · Devis avant travaux</p>
             <div className="flex flex-wrap gap-4 justify-center">
-              <a href={`tel:${fd?.phone ?? "0388234567"}`} className="flex items-center gap-3 px-10 py-4 bg-white text-[#2563eb] font-bold text-sm hover:bg-[#f0f4ff] transition-colors shadow-lg">
+              <a href={`tel:${fd?.phone ?? "0388234567"}`} className="flex items-center gap-3 px-10 py-4 bg-white text-[var(--brand,#2563eb)] font-bold text-sm hover:bg-[#f0f4ff] transition-colors shadow-lg">
                 <Phone className="w-5 h-5" /> 03 88 23 45 67
               </a>
               <button className="px-10 py-4 border-2 border-white/30 text-white font-bold text-[10px] uppercase tracking-widest hover:border-white/60 transition-all">
@@ -306,10 +306,10 @@ export default function SecurFastPage() {
       </section>
 
       {/* ── FOOTER ── */}
-      <footer id="contact" className="bg-[#070d18] pt-16 pb-8 px-6 border-t border-[#2563eb]/8">
+      <footer id="contact" className="bg-[#070d18] pt-16 pb-8 px-6 border-t border-[var(--brand,#2563eb)]/8">
         <div className="max-w-[1300px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           <div>
-            <div className="flex items-center gap-2.5 mb-5"><Lock className="w-4 h-4 text-[#2563eb]" /><span className="font-bold text-[#f0f4ff] text-sm">SÉC'URFAST</span></div>
+            <div className="flex items-center gap-2.5 mb-5"><Lock className="w-4 h-4 text-[var(--brand,#2563eb)]" /><span className="font-bold text-[#f0f4ff] text-sm">SÉC'URFAST</span></div>
             <p className="text-[#f0f4ff]/15 text-sm leading-relaxed">Serrurier urgence Strasbourg. Disponible 24h/24. Ouverture porte, serrures, porte blindée, contrôle d'accès.</p>
           </div>
           {[
@@ -318,7 +318,7 @@ export default function SecurFastPage() {
             { t: "Contact", ls: ["03 88 23 45 67", "contact@securfast.fr", "Strasbourg & 67", "24h/24 — 7j/7", "Devis gratuit"] },
           ].map((col, i) => (
             <div key={i}>
-              <h4 className="text-[9px] font-bold uppercase tracking-[0.3em] text-[#2563eb]/40 mb-5">{col.t}</h4>
+              <h4 className="text-[9px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#2563eb)]/40 mb-5">{col.t}</h4>
               <ul className="space-y-2.5">
                 {col.ls.map(l => <li key={l}><Link href="#contact" className="text-[#f0f4ff]/15 text-sm hover:text-[#f0f4ff]/50 transition-colors">{l}</Link></li>)}
               </ul>
@@ -327,7 +327,7 @@ export default function SecurFastPage() {
         </div>
         <div className="max-w-[1300px] mx-auto pt-6 border-t border-[#f0f4ff]/5 flex flex-col md:flex-row justify-between gap-3 text-[9px] font-bold uppercase tracking-widest text-[#f0f4ff]/8">
           <span>© 2026 SÉC'URFAST · SIRET 567 890 123 00044 · Agréé assurances · Strasbourg (67)</span>
-          <span className="text-[#2563eb]/20">Serrurier urgence · 24h/24</span>
+          <span className="text-[var(--brand,#2563eb)]/20">Serrurier urgence · 24h/24</span>
         </div>
       </footer>
     </div>

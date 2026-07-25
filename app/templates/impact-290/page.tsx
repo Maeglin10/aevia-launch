@@ -49,7 +49,7 @@ function shadeColor(hex: string, percent: number): string {
 }
 
 let C: Record<string, string> = {
-  forest: '#2d5a3d',
+  forest: 'var(--brand,#2d5a3d)',
   forestDeep: '#1e3d29',
   forestMid: '#3d7252',
   forestLight: '#4a8a64',

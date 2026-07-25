@@ -45,7 +45,7 @@ function shadeColor(hex: string, percent: number): string {
 }
 
 let C: Record<string, string> = {
-  rose: '#d4a5a5',
+  rose: 'var(--brand,#d4a5a5)',
   roseDark: '#b8847e',
   roseLight: '#e8cece',
   rosePale: '#f5eaea',

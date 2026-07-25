@@ -158,12 +158,12 @@ export default function ObscuraPage() {
 
 
 return (
-    <div className="min-h-dvh bg-[#0A0806] text-white selection:bg-[#C9A86C]/20 selection:text-[#C9A86C] overflow-x-clip" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
-      <motion.div className="fixed top-0 left-0 right-0 h-[2px] bg-[#C9A86C] origin-left z-[60]" style={{ scaleX: scrollYProgress }} />
+    <div className="min-h-dvh bg-[#0A0806] text-white selection:bg-[var(--brand,#C9A86C)]/20 selection:text-[var(--brand,#C9A86C)] overflow-x-clip" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+      <motion.div className="fixed top-0 left-0 right-0 h-[2px] bg-[var(--brand,#C9A86C)] origin-left z-[60]" style={{ scaleX: scrollYProgress }} />
 
       {/* Nav */}
       <nav className="fixed top-4 left-4 right-4 z-50">
-        <div className="max-w-6xl mx-auto bg-[#0A0806]/90 backdrop-blur-md border border-[#C9A86C]/15 rounded-2xl px-6 py-4 flex items-center justify-between shadow-xl">
+        <div className="max-w-6xl mx-auto bg-[#0A0806]/90 backdrop-blur-md border border-[var(--brand,#C9A86C)]/15 rounded-2xl px-6 py-4 flex items-center justify-between shadow-xl">
           <div onClick={() => goTo("home")} className="cursor-pointer">
             {fd?.logoBase64 ? (
               <img
@@ -172,7 +172,7 @@ return (
                 style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
               />
             ) : (
-              <span className="text-[#C9A86C] tracking-widest" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.2rem" }}>{fd?.businessName ?? "Obscura"}</span>
+              <span className="text-[var(--brand,#C9A86C)] tracking-widest" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.2rem" }}>{fd?.businessName ?? "Obscura"}</span>
             )}
           </div>
           <div className="hidden md:flex items-center gap-8 text-white/40 text-sm">
@@ -185,18 +185,18 @@ return (
                 key={item.key} 
                 href={`#${item.key}`} 
                 onClick={(e) => { e.preventDefault(); goTo(item.key as any); }} 
-                className={`hover:text-[#C9A86C] transition-colors cursor-pointer ${page === item.key ? "text-[#C9A86C] font-bold" : ""}`}
+                className={`hover:text-[var(--brand,#C9A86C)] transition-colors cursor-pointer ${page === item.key ? "text-[var(--brand,#C9A86C)] font-bold" : ""}`}
               >
                 {item.name}
               </a>
             ))}
           </div>
-          <button onClick={() => goTo("services")} className="hidden md:inline-flex border border-[#C9A86C]/30 text-[#C9A86C] text-xs px-5 py-2.5 rounded-xl hover:bg-[#C9A86C] hover:text-black transition-all cursor-pointer tracking-wide uppercase font-medium">
+          <button onClick={() => goTo("services")} className="hidden md:inline-flex border border-[var(--brand,#C9A86C)]/30 text-[var(--brand,#C9A86C)] text-xs px-5 py-2.5 rounded-xl hover:bg-[var(--brand,#C9A86C)] hover:text-black transition-all cursor-pointer tracking-wide uppercase font-medium">
             Réserver
           </button>
           <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
             <SheetTrigger className="md:hidden text-white cursor-pointer"><Menu className="w-5 h-5" /></SheetTrigger>
-            <SheetContent side="right" className="bg-[#0A0806] border-[#C9A86C]/10 text-white p-8">
+            <SheetContent side="right" className="bg-[#0A0806] border-[var(--brand,#C9A86C)]/10 text-white p-8">
                <div className="flex items-center justify-between mb-12">
                   {fd?.logoBase64 ? (
                     <img
@@ -205,7 +205,7 @@ return (
                       style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
                     />
                   ) : (
-                    <span className="text-[#C9A86C] text-xl" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{fd?.businessName ?? "Obscura"}</span>
+                    <span className="text-[var(--brand,#C9A86C)] text-xl" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{fd?.businessName ?? "Obscura"}</span>
                   )}
                </div>
                <div className="flex flex-col gap-6 font-medium">
@@ -220,7 +220,7 @@ return (
                       key={item.key} 
                       href={`#${item.key}`} 
                       onClick={(e) => { e.preventDefault(); goTo(item.key as any); }} 
-                      className={`text-2xl hover:text-[#C9A86C] transition-colors ${page === item.key ? "text-[#C9A86C] font-bold" : "text-white/60"}`}
+                      className={`text-2xl hover:text-[var(--brand,#C9A86C)] transition-colors ${page === item.key ? "text-[var(--brand,#C9A86C)] font-bold" : "text-white/60"}`}
                       style={{ fontFamily: "'Cormorant Garamond', serif" }}
                     >
                       {item.name}
@@ -243,7 +243,7 @@ return (
               </motion.div>
               <motion.div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-6" style={{ opacity: heroOpacity }}>
                 <Reveal>
-                  <div className="flex items-center gap-2 text-[#C9A86C] text-xs tracking-widest uppercase mb-8">
+                  <div className="flex items-center gap-2 text-[var(--brand,#C9A86C)] text-xs tracking-widest uppercase mb-8">
                     <Camera className="w-4 h-4" /> Photographe · Paris
                   </div>
                 </Reveal>
@@ -256,7 +256,7 @@ return (
                   </>}</p>
                 </Reveal>
                 <Reveal delay={0.3}>
-                  <button onClick={() => goTo("portfolio")} className="border border-[#C9A86C]/40 text-[#C9A86C] text-xs tracking-widest uppercase px-10 py-4 hover:bg-[#C9A86C] hover:text-black transition-all cursor-pointer rounded-xl">
+                  <button onClick={() => goTo("portfolio")} className="border border-[var(--brand,#C9A86C)]/40 text-[var(--brand,#C9A86C)] text-xs tracking-widest uppercase px-10 py-4 hover:bg-[var(--brand,#C9A86C)] hover:text-black transition-all cursor-pointer rounded-xl">
                     Voir le portfolio
                   </button>
                 </Reveal>
@@ -269,10 +269,10 @@ return (
                 <Reveal>
                   <div className="flex flex-col md:flex-row md:items-end justify-between mb-16">
                     <div>
-                      <p className="text-[#C9A86C] text-xs tracking-widest uppercase mb-3">Portfolio</p>
+                      <p className="text-[var(--brand,#C9A86C)] text-xs tracking-widest uppercase mb-3">Portfolio</p>
                       <h2 className="text-white text-4xl md:text-5xl" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>Œuvres sélectionnées</h2>
                     </div>
-                    <button onClick={() => goTo("portfolio")} className="text-[#C9A86C] text-sm font-bold flex items-center gap-2 hover:underline font-mono tracking-widest uppercase mt-6 md:mt-0">
+                    <button onClick={() => goTo("portfolio")} className="text-[var(--brand,#C9A86C)] text-sm font-bold flex items-center gap-2 hover:underline font-mono tracking-widest uppercase mt-6 md:mt-0">
                       Explorer la Galerie <ArrowRight className="w-4 h-4" />
                     </button>
                   </div>
@@ -285,7 +285,7 @@ return (
                         <Image src={w.src} alt={w.title} fill className="object-cover group-hover:scale-105 transition-transform duration-700 filter grayscale group-hover:grayscale-0" />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                         <div className="absolute bottom-6 left-6 right-6 translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                          <span className="text-[#C9A86C] text-xs tracking-widest uppercase font-mono">{w.category}</span>
+                          <span className="text-[var(--brand,#C9A86C)] text-xs tracking-widest uppercase font-mono">{w.category}</span>
                           <p className="text-white text-lg mt-1" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{w.title}</p>
                         </div>
                       </div>
@@ -301,7 +301,7 @@ return (
                 <Reveal className="text-center mb-8"><p className="text-white/20 text-xs tracking-widest uppercase font-mono">Partenaires & Diffusions</p></Reveal>
                 <div className="flex flex-wrap justify-center gap-12">
                   {CLIENTS.map((c, i) => (
-                    <Reveal key={c} delay={i * 0.06}><span className="text-white/30 text-sm tracking-widest hover:text-[#C9A86C] transition-colors cursor-pointer uppercase font-mono">{c}</span></Reveal>
+                    <Reveal key={c} delay={i * 0.06}><span className="text-white/30 text-sm tracking-widest hover:text-[var(--brand,#C9A86C)] transition-colors cursor-pointer uppercase font-mono">{c}</span></Reveal>
                   ))}
                 </div>
               </div>
@@ -318,10 +318,10 @@ return (
       {/* Footer */}
       <footer className="bg-[#060402] border-t border-white/5 py-12 px-6">
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6 text-xs text-white/20 font-mono">
-          <span className="text-[#C9A86C]" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.1rem" }}>Obscura · Photographe Paris</span>
+          <span className="text-[var(--brand,#C9A86C)]" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.1rem" }}>Obscura · Photographe Paris</span>
           <div className="flex gap-6">
-            <a href="/templates/impact-16" onClick={(e) => { e.preventDefault(); goTo("legal"); }} className="hover:text-[#C9A86C] transition-colors">Mentions légales</a>
-            <a href="/templates/impact-16" onClick={(e) => { e.preventDefault(); goTo("legal"); }} className="hover:text-[#C9A86C] transition-colors">Politique de Confidentialité</a>
+            <a href="/templates/impact-16" onClick={(e) => { e.preventDefault(); goTo("legal"); }} className="hover:text-[var(--brand,#C9A86C)] transition-colors">Mentions légales</a>
+            <a href="/templates/impact-16" onClick={(e) => { e.preventDefault(); goTo("legal"); }} className="hover:text-[var(--brand,#C9A86C)] transition-colors">Politique de Confidentialité</a>
           </div>
         </div>
       </footer>
@@ -349,7 +349,7 @@ function PortfolioPage({ activeCategory, setActiveCategory }: { activeCategory: 
     <section id="realisations" className="py-24 px-6 bg-[#0A0806] border-t border-white/5">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16">
-          <span className="text-[#C9A86C] text-xs tracking-widest uppercase mb-4 block font-mono">Galerie</span>
+          <span className="text-[var(--brand,#C9A86C)] text-xs tracking-widest uppercase mb-4 block font-mono">Galerie</span>
           <h1 className="text-5xl md:text-7xl font-light leading-none mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>Portfolio</h1>
           <p className="max-w-xl mx-auto text-white/50 text-sm font-sans font-light mb-10">
             Parcourez nos séries photographiques argentiques et numériques. Chaque cliché témoigne d'une recherche sur l'ombre, la géométrie des espaces et la sincérité du sujet.
@@ -360,7 +360,7 @@ function PortfolioPage({ activeCategory, setActiveCategory }: { activeCategory: 
               <button 
                 key={cat} 
                 onClick={() => setActiveCategory(cat)} 
-                className={`px-5 py-2.5 text-xs tracking-widest uppercase transition-all cursor-pointer rounded-lg border font-mono ${activeCategory === cat ? "bg-[#C9A86C] text-black border-[#C9A86C] shadow-md shadow-[#C9A86C]/10" : "border-white/10 text-white/40 hover:border-[#C9A86C]/40"}`}
+                className={`px-5 py-2.5 text-xs tracking-widest uppercase transition-all cursor-pointer rounded-lg border font-mono ${activeCategory === cat ? "bg-[var(--brand,#C9A86C)] text-black border-[var(--brand,#C9A86C)] shadow-md shadow-[var(--brand,#C9A86C)]/10" : "border-white/10 text-white/40 hover:border-[var(--brand,#C9A86C)]/40"}`}
               >
                 {cat}
               </button>
@@ -384,7 +384,7 @@ function PortfolioPage({ activeCategory, setActiveCategory }: { activeCategory: 
                   <Image src={w.src} alt={w.title} fill className="object-cover group-hover:scale-105 transition-transform duration-1000 filter grayscale group-hover:grayscale-0" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                   <div className="absolute bottom-6 left-6 right-6 translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                    <span className="text-[#C9A86C] text-xs tracking-widest uppercase font-mono">{w.category} · {w.year}</span>
+                    <span className="text-[var(--brand,#C9A86C)] text-xs tracking-widest uppercase font-mono">{w.category} · {w.year}</span>
                     <p className="text-white text-xl mt-1" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{w.title}</p>
                   </div>
                 </div>
@@ -410,7 +410,7 @@ function ServicesPage({ goTo }: { goTo: (p: ActivePage) => void }) {
     <section className="py-24 px-6 bg-[#0E0B08] border-t border-white/5">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-20">
-          <span className="text-[#C9A86C] text-xs tracking-widest uppercase mb-4 block font-mono">Prestations</span>
+          <span className="text-[var(--brand,#C9A86C)] text-xs tracking-widest uppercase mb-4 block font-mono">Prestations</span>
           <h1 className="text-5xl md:text-7xl font-light leading-none mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>Services & Tarifs</h1>
           <p className="max-w-xl mx-auto text-white/50 text-sm font-sans font-light">
             Une approche sur mesure pour chaque projet photographique, de la direction artistique préliminaire au tirage d'exposition.
@@ -419,24 +419,24 @@ function ServicesPage({ goTo }: { goTo: (p: ActivePage) => void }) {
 
         <div className="grid md:grid-cols-2 gap-8 mb-24">
           {SERVICES.map((s, i) => (
-            <div key={s.title} className="bg-[#131008] border border-white/5 rounded-3xl p-8 hover:border-[#C9A86C]/20 transition-all flex flex-col justify-between">
+            <div key={s.title} className="bg-[#131008] border border-white/5 rounded-3xl p-8 hover:border-[var(--brand,#C9A86C)]/20 transition-all flex flex-col justify-between">
               <div>
                 <div className="flex items-start justify-between mb-6 border-b border-white/5 pb-4">
                   <h3 className="text-white text-2xl font-light" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{s.title}</h3>
-                  <span className="text-[#C9A86C] text-lg font-medium" style={{ fontFamily: "'Cormorant Garamond', serif" }}>Dès {s.from}</span>
+                  <span className="text-[var(--brand,#C9A86C)] text-lg font-medium" style={{ fontFamily: "'Cormorant Garamond', serif" }}>Dès {s.from}</span>
                 </div>
                 <p className="text-white/50 text-sm leading-relaxed mb-8 font-sans">
                   {s.desc} Comprend la sélection des clichés sur planche contact numérique, le travail d'étalonnage colorimétrique complet et la retouche fine des fichiers haute définition.
                 </p>
               </div>
-              <button onClick={() => goTo("propos")} className="w-full py-4 border border-[#C9A86C]/30 hover:border-[#C9A86C] text-[#C9A86C] hover:text-black hover:bg-[#C9A86C] rounded-xl text-xs tracking-widest uppercase transition-all font-mono">
+              <button onClick={() => goTo("propos")} className="w-full py-4 border border-[var(--brand,#C9A86C)]/30 hover:border-[var(--brand,#C9A86C)] text-[var(--brand,#C9A86C)] hover:text-black hover:bg-[var(--brand,#C9A86C)] rounded-xl text-xs tracking-widest uppercase transition-all font-mono">
                 Demander un Devis
               </button>
             </div>
           ))}
         </div>
 
-        <div className="border border-[#C9A86C]/20 bg-[#C9A86C]/5 rounded-3xl p-8 md:p-12 text-center max-w-3xl mx-auto">
+        <div className="border border-[var(--brand,#C9A86C)]/20 bg-[var(--brand,#C9A86C)]/5 rounded-3xl p-8 md:p-12 text-center max-w-3xl mx-auto">
           <h3 className="text-2xl font-light text-white mb-4" style={{ fontFamily: "'Cormorant Garamond', serif" }}>Matériel & Tirages d'Art</h3>
           <p className="text-white/60 text-sm leading-relaxed font-sans mb-0">
              Chaque prise de vue est réalisée avec des boîtiers Leica M11 numériques et des chambres moyen format argentiques Hasselblad. Nous collaborons avec des laboratoires parisiens de confiance pour réaliser des tirages d'exposition haut de gamme sur papiers fine art certifiés Hahnemühle.
@@ -456,7 +456,7 @@ function ProposPage() {
             <Image src={photo(1, "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=800&q=80")} alt="Elena Korr Obscura" fill className="object-cover grayscale hover:grayscale-0 transition-all duration-1000" />
           </div>
           <div className="lg:col-span-7">
-            <span className="text-[#C9A86C] text-xs tracking-widest uppercase mb-4 block font-mono">Elena Korr</span>
+            <span className="text-[var(--brand,#C9A86C)] text-xs tracking-widest uppercase mb-4 block font-mono">Elena Korr</span>
             <h2 className="text-4xl md:text-6xl font-light leading-tight mb-8 text-white" style={{ fontFamily: "'Cormorant Garamond', serif" }}>Capturer le <span className="italic">temps suspendu.</span></h2>
             <p className="text-white/60 text-lg leading-relaxed mb-6 font-sans font-light">
               Diplômée de l'École Nationale Supérieure des Arts Décoratifs de Paris, je consacre ma pratique photographique à l'étude des ambiances lumineuses contrastées et à la géométrie rigoureuse des lignes architecturales.
@@ -466,7 +466,7 @@ function ProposPage() {
             </p>
             
             <div className="flex gap-4">
-              <a href={`mailto:${fd?.email ?? "contact@obscura.fr"}`} className="bg-[#C9A86C] text-black text-xs tracking-widest uppercase px-8 py-4 rounded-xl hover:bg-[#B8975E] transition-colors flex items-center gap-2 font-mono"><Mail className="w-4 h-4" />{fd?.email ?? "contact@obscura.fr"}</a>
+              <a href={`mailto:${fd?.email ?? "contact@obscura.fr"}`} className="bg-[var(--brand,#C9A86C)] text-black text-xs tracking-widest uppercase px-8 py-4 rounded-xl hover:bg-[#B8975E] transition-colors flex items-center gap-2 font-mono"><Mail className="w-4 h-4" />{fd?.email ?? "contact@obscura.fr"}</a>
               <a href="#contact" className="border border-white/10 text-white text-xs tracking-widest uppercase px-8 py-4 rounded-xl hover:bg-white/5 transition-colors flex items-center gap-2 font-mono"><Instagram className="w-4 h-4" /> @obscuraphoto</a>
             </div>
           </div>
@@ -492,10 +492,10 @@ function ProposPage() {
             <p className="text-white/40 text-sm leading-relaxed mb-8 font-sans font-light">
                Mon travail est régulièrement exposé dans des galeries parisiennes et publié dans des magazines de mode internationaux. Nous assurons la production de A à Z (casting, stylisme, repérages).
             </p>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 font-mono text-xs text-[#C9A86C]">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 font-mono text-xs text-[var(--brand,#C9A86C)]">
               {CLIENTS.map((c, i) => (
                 <div key={i} className="flex items-center gap-2">
-                  <div className="w-1.5 h-1.5 rounded-full bg-[#C9A86C]" />
+                  <div className="w-1.5 h-1.5 rounded-full bg-[var(--brand,#C9A86C)]" />
                   <span>{c}</span>
                 </div>
               ))}
@@ -512,11 +512,11 @@ function LegalPage() {
     <section id="contact" className="py-24 px-6 bg-[#0A0806] border-t border-white/5 font-mono text-xs">
       <div className="max-w-3xl mx-auto space-y-16">
         <div>
-          <span className="text-[#C9A86C] text-[10px] uppercase tracking-widest mb-4 block">Compliance</span>
+          <span className="text-[var(--brand,#C9A86C)] text-[10px] uppercase tracking-widest mb-4 block">Compliance</span>
           <h1 className="text-4xl md:text-6xl font-light uppercase text-white mb-12" style={{ fontFamily: "'Cormorant Garamond', serif" }}>Mentions Légales</h1>
         </div>
 
-        <div className="border border-[#C9A86C]/20 bg-[#0E0B08] p-10 space-y-6">
+        <div className="border border-[var(--brand,#C9A86C)]/20 bg-[#0E0B08] p-10 space-y-6">
           <div className="border-b border-white/10 pb-4">
              <div className="text-white/30 text-[10px] font-black uppercase mb-2">EDITEUR</div>
              <p className="text-white font-medium uppercase leading-relaxed">

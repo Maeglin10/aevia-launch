@@ -143,7 +143,7 @@ function TraitementsSection() {
     <div className="bg-[#FAFAF8] py-28 border-t border-[#E8E4DE]">
       <div className="max-w-7xl mx-auto px-6 md:px-12">
         <Reveal>
-          <p className="text-xs tracking-[0.3em] uppercase text-[#3A8080] mb-4">Catalogue complet</p>
+          <p className="text-xs tracking-[0.3em] uppercase text-[var(--brand,#3A8080)] mb-4">Catalogue complet</p>
           <h2 className="text-5xl md:text-6xl font-light leading-[1.05] mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
             Nos <em>traitements</em>
           </h2>
@@ -159,14 +159,14 @@ function TraitementsSection() {
               return (
                 <button key={t.id ?? t.name ?? i} type="button" onClick={() => setActive(i)}
                   className={`w-full text-left p-5 border-b border-[#E8E4DE] last:border-b-0 flex items-center gap-4 transition-all duration-200 cursor-pointer group ${active === i ? "bg-[#181410] text-[#FAFAF8]" : "hover:bg-[#F0EDE8]"}`}>
-                  <div className="w-9 h-9 flex items-center justify-center flex-shrink-0 text-[#3A8080]">
+                  <div className="w-9 h-9 flex items-center justify-center flex-shrink-0 text-[var(--brand,#3A8080)]">
                     <Icon className="w-5 h-5" />
                   </div>
                   <div className="flex-1">
                     <div className={`text-sm font-medium ${active === i ? "text-[#FAFAF8]" : "text-[#181410]"}`}>{t.label ?? t.name}</div>
                     <div className={`text-xs mt-0.5 ${active === i ? "text-[#8A9A9A]" : "text-[#8A8278]"}`}>{t.price}</div>
                   </div>
-                  <ChevronRight className={`w-4 h-4 flex-shrink-0 transition-colors ${active === i ? "text-[#3A8080]" : "text-[#3A8080] opacity-0 group-hover:opacity-100"}`} />
+                  <ChevronRight className={`w-4 h-4 flex-shrink-0 transition-colors ${active === i ? "text-[var(--brand,#3A8080)]" : "text-[var(--brand,#3A8080)] opacity-0 group-hover:opacity-100"}`} />
                 </button>
               )
             })}
@@ -177,12 +177,12 @@ function TraitementsSection() {
               <motion.div key={active} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.3 }}
                 className="p-8 md:p-12">
                 <div className="flex flex-wrap items-center gap-4 mb-6">
-                  <div className="w-12 h-12 border border-[#3A8080] flex items-center justify-center">
-                    <ActiveIcon className="w-6 h-6 text-[#3A8080]" />
+                  <div className="w-12 h-12 border border-[var(--brand,#3A8080)] flex items-center justify-center">
+                    <ActiveIcon className="w-6 h-6 text-[var(--brand,#3A8080)]" />
                   </div>
                   <div className="flex flex-wrap gap-3 text-xs">
-                    {treatments[active].duration && <span className="bg-[#EEF4F4] text-[#3A8080] px-3 py-1.5 flex items-center gap-1.5"><Clock className="w-3 h-3" />{treatments[active].duration}</span>}
-                    {treatments[active].results && <span className="bg-[#EEF4F4] text-[#3A8080] px-3 py-1.5">Résultats : {treatments[active].results}</span>}
+                    {treatments[active].duration && <span className="bg-[#EEF4F4] text-[var(--brand,#3A8080)] px-3 py-1.5 flex items-center gap-1.5"><Clock className="w-3 h-3" />{treatments[active].duration}</span>}
+                    {treatments[active].results && <span className="bg-[#EEF4F4] text-[var(--brand,#3A8080)] px-3 py-1.5">Résultats : {treatments[active].results}</span>}
                     {treatments[active].price && <span className="bg-[#F0EDE8] text-[#8A6840] px-3 py-1.5">{treatments[active].price}</span>}
                   </div>
                 </div>
@@ -192,17 +192,17 @@ function TraitementsSection() {
                 <p className="text-[#6B6560] leading-relaxed mb-8">{treatments[active].desc ?? treatments[active].description}</p>
                 {treatments[active].detail && (
                   <div className="space-y-3 mb-10">
-                    <p className="text-xs tracking-[0.2em] uppercase text-[#3A8080] mb-4">Indications traitées</p>
+                    <p className="text-xs tracking-[0.2em] uppercase text-[var(--brand,#3A8080)] mb-4">Indications traitées</p>
                     {treatments[active].detail.map((d: string) => (
                       <div key={d} className="flex items-center gap-3 text-sm">
-                        <CheckCircle className="w-4 h-4 text-[#3A8080] flex-shrink-0" />
+                        <CheckCircle className="w-4 h-4 text-[var(--brand,#3A8080)] flex-shrink-0" />
                         <span className="text-[#3A3028]">{d}</span>
                       </div>
                     ))}
                   </div>
                 )}
                 <button type="button" onClick={() => document.getElementById("rdv")?.scrollIntoView({ behavior: "smooth" })}
-                  className="inline-flex items-center gap-2 px-6 py-3 bg-[#181410] text-[#FAFAF8] text-xs tracking-widest uppercase hover:bg-[#3A8080] transition-colors duration-300 cursor-pointer">
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-[#181410] text-[#FAFAF8] text-xs tracking-widest uppercase hover:bg-[var(--brand,#3A8080)] transition-colors duration-300 cursor-pointer">
                   Réserver une consultation <ArrowRight className="w-3.5 h-3.5" />
                 </button>
               </motion.div>
@@ -212,7 +212,7 @@ function TraitementsSection() {
 
         {/* Science pillars */}
         <Reveal>
-          <p className="text-xs tracking-[0.25em] uppercase text-[#3A8080] mb-4">Notre approche</p>
+          <p className="text-xs tracking-[0.25em] uppercase text-[var(--brand,#3A8080)] mb-4">Notre approche</p>
           <h3 className="text-3xl font-light mb-12" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
             Rigueur médicale au service de l&apos;<em>esthétique</em>
           </h3>
@@ -223,8 +223,8 @@ function TraitementsSection() {
             return (
               <Reveal key={s.title} delay={i * 0.08}>
                 <div className="bg-[#F0EDE8] p-7 group hover:bg-[#181410] transition-colors duration-300">
-                  <div className="w-10 h-10 border border-[#3A8080] flex items-center justify-center mb-5 group-hover:bg-[#3A8080] transition-colors duration-300">
-                    <Icon className="w-5 h-5 text-[#3A8080] group-hover:text-white transition-colors duration-300" />
+                  <div className="w-10 h-10 border border-[var(--brand,#3A8080)] flex items-center justify-center mb-5 group-hover:bg-[var(--brand,#3A8080)] transition-colors duration-300">
+                    <Icon className="w-5 h-5 text-[var(--brand,#3A8080)] group-hover:text-white transition-colors duration-300" />
                   </div>
                   <h4 className="text-base font-light mb-3 group-hover:text-[#FAFAF8] transition-colors duration-300" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{s.title}</h4>
                   <p className="text-sm text-[#6B6560] group-hover:text-[#8A8278] leading-relaxed transition-colors duration-300">{s.desc}</p>
@@ -271,7 +271,7 @@ function EquipeSection() {
     <div className="bg-[#FAFAF8] py-28 border-t border-[#E8E4DE]">
       <div className="max-w-7xl mx-auto px-6 md:px-12">
         <Reveal>
-          <p className="text-xs tracking-[0.3em] uppercase text-[#3A8080] mb-4">L&apos;équipe</p>
+          <p className="text-xs tracking-[0.3em] uppercase text-[var(--brand,#3A8080)] mb-4">L&apos;équipe</p>
           <h2 className="text-5xl md:text-6xl font-light leading-[1.05] mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
             Nos <em>praticiens</em>
           </h2>
@@ -287,16 +287,16 @@ function EquipeSection() {
                 {(doc.image ?? doc.photoUrl) && (
                   <div className="relative aspect-[3/4] overflow-hidden">
                     <Image src={doc.image ?? doc.photoUrl} alt={doc.name} fill className="object-cover group-hover:scale-105 transition-transform duration-700 grayscale" loading="lazy" />
-                    <div className="absolute bottom-0 left-0 right-0 h-[3px] bg-[#3A8080] origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
+                    <div className="absolute bottom-0 left-0 right-0 h-[3px] bg-[var(--brand,#3A8080)] origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
                   </div>
                 )}
                 <div className="p-7">
                   <h3 className="text-2xl font-light mb-1" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{doc.name}</h3>
-                  <p className="text-[#3A8080] text-xs tracking-widest uppercase mb-4">{doc.spec ?? doc.role ?? doc.specialty}</p>
+                  <p className="text-[var(--brand,#3A8080)] text-xs tracking-widest uppercase mb-4">{doc.spec ?? doc.role ?? doc.specialty}</p>
                   {(doc.diploma ?? doc.credentials) && <p className="text-xs text-[#8A8278] mb-1">{doc.diploma ?? doc.credentials}</p>}
                   {doc.exp && <p className="text-xs text-[#8A8278]">{doc.exp}</p>}
                   {(doc.quote ?? doc.bio) && (
-                    <blockquote className="border-l-2 border-[#3A8080] pl-4 italic text-[#6B6560] text-sm leading-relaxed mt-5" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "16px" }}>
+                    <blockquote className="border-l-2 border-[var(--brand,#3A8080)] pl-4 italic text-[#6B6560] text-sm leading-relaxed mt-5" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "16px" }}>
                       &ldquo;{doc.quote ?? doc.bio}&rdquo;
                     </blockquote>
                   )}
@@ -310,7 +310,7 @@ function EquipeSection() {
           <div className="bg-[#F0EDE8] p-10 md:p-14 grid md:grid-cols-4 gap-10 border border-[#D8D0C8]">
             {[["3", "Médecins"], ["10+", "Ans d'expérience min."], ["4 800+", "Patients suivis"], ["97%", "Satisfaction patient"]].map(([val, label]) => (
               <div key={label} className="text-center">
-                <div className="text-4xl font-light text-[#3A8080] mb-2" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{val}</div>
+                <div className="text-4xl font-light text-[var(--brand,#3A8080)] mb-2" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{val}</div>
                 <div className="text-xs text-[#8A8278] uppercase tracking-wide">{label}</div>
               </div>
             ))}
@@ -329,11 +329,11 @@ function RdvSection() {
     <div className="bg-[#FAFAF8] py-28 border-t border-[#E8E4DE]">
       <div className="max-w-3xl mx-auto px-6 md:px-12">
         <Reveal>
-          <p className="text-xs tracking-[0.3em] uppercase text-[#3A8080] mb-4">Rendez-vous</p>
+          <p className="text-xs tracking-[0.3em] uppercase text-[var(--brand,#3A8080)] mb-4">Rendez-vous</p>
           <h2 className="text-5xl md:text-6xl font-light leading-[1.05] mb-4" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
             Prendre <em>rendez-vous</em>
           </h2>
-          <div className="flex items-center gap-2 mb-10 text-sm text-[#3A8080]">
+          <div className="flex items-center gap-2 mb-10 text-sm text-[var(--brand,#3A8080)]">
             <CheckCircle className="w-4 h-4 flex-shrink-0" />
             <span>Consultation gratuite avant tout traitement · Médecins diplômés d&apos;État</span>
           </div>
@@ -342,7 +342,7 @@ function RdvSection() {
         {submitted ? (
           <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.4 }}
             className="border border-[#E8E4DE] bg-white p-12 text-center flex flex-col items-center justify-center">
-            <CheckCircle className="w-8 h-8 text-[#3A8080] mb-4" />
+            <CheckCircle className="w-8 h-8 text-[var(--brand,#3A8080)] mb-4" />
             <h3 className="text-2xl font-light mb-2" style={{ fontFamily: "'Cormorant Garamond', serif" }}>Merci</h3>
             <p className="text-[#6B6560] leading-relaxed">Merci, nous vous répondrons sous 24h.</p>
           </motion.div>
@@ -426,7 +426,7 @@ function RdvSection() {
             </div>
 
             <button type="submit"
-              className="w-full bg-[#181410] text-[#FAFAF8] py-4 text-xs tracking-widest uppercase hover:bg-[#3A8080] transition-colors duration-300 cursor-pointer">
+              className="w-full bg-[#181410] text-[#FAFAF8] py-4 text-xs tracking-widest uppercase hover:bg-[var(--brand,#3A8080)] transition-colors duration-300 cursor-pointer">
               Envoyer ma demande de rendez-vous
             </button>
             <p className="text-xs text-[#8A8278] text-center">Confirmation par email dans les 24h · Données protégées RGPD</p>
@@ -491,14 +491,14 @@ function TarifsSection() {
     <div className="bg-[#FAFAF8] py-28 border-t border-[#E8E4DE]">
       <div className="max-w-7xl mx-auto px-6 md:px-12">
         <Reveal>
-          <p className="text-xs tracking-[0.3em] uppercase text-[#3A8080] mb-4">Honoraires</p>
+          <p className="text-xs tracking-[0.3em] uppercase text-[var(--brand,#3A8080)] mb-4">Honoraires</p>
           <h2 className="text-5xl md:text-6xl font-light leading-[1.05] mb-4" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
             Transparence <em>tarifaire</em>
           </h2>
           <p className="text-[#6B6560] leading-relaxed max-w-2xl mb-2">
             Consultation initiale gratuite. Devis personnalisé remis systématiquement lors de la consultation, avant tout acte médical.
           </p>
-          <div className="flex items-center gap-2 mb-16 text-sm text-[#3A8080]">
+          <div className="flex items-center gap-2 mb-16 text-sm text-[var(--brand,#3A8080)]">
             <CheckCircle className="w-4 h-4 flex-shrink-0" />
             <span>Aucun frais caché · Actes pratiqués par des médecins diplômés d&apos;État</span>
           </div>
@@ -515,7 +515,7 @@ function TarifsSection() {
                   {cat.items.map(item => (
                     <div key={item.name} className="px-6 py-4 flex items-center justify-between gap-4">
                       <span className="text-sm text-[#6B6560]">{item.name}</span>
-                      <span className="text-base font-light text-[#3A8080] flex-shrink-0" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{item.price}</span>
+                      <span className="text-base font-light text-[var(--brand,#3A8080)] flex-shrink-0" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{item.price}</span>
                     </div>
                   ))}
                 </div>
@@ -526,7 +526,7 @@ function TarifsSection() {
 
         {/* Packs */}
         <Reveal>
-          <p className="text-xs tracking-[0.25em] uppercase text-[#3A8080] mb-4">Packs &amp; forfaits</p>
+          <p className="text-xs tracking-[0.25em] uppercase text-[var(--brand,#3A8080)] mb-4">Packs &amp; forfaits</p>
           <h3 className="text-3xl font-light mb-10" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
             Protocoles <em>combinés</em>
           </h3>
@@ -534,11 +534,11 @@ function TarifsSection() {
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
           {packs.map((pack, i) => (
             <Reveal key={pack.name} delay={i * 0.07}>
-              <div className="border border-[#E8E4DE] p-6 hover:border-[#3A8080] transition-colors duration-300 group">
+              <div className="border border-[#E8E4DE] p-6 hover:border-[var(--brand,#3A8080)] transition-colors duration-300 group">
                 <div className="text-xs text-[#C9A86C] tracking-widest uppercase mb-4">{pack.saving}</div>
-                <h4 className="text-lg font-light mb-2 group-hover:text-[#3A8080] transition-colors duration-300" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{pack.name}</h4>
+                <h4 className="text-lg font-light mb-2 group-hover:text-[var(--brand,#3A8080)] transition-colors duration-300" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{pack.name}</h4>
                 <p className="text-xs text-[#8A8278] mb-5 leading-relaxed">{pack.desc}</p>
-                <div className="text-2xl font-light text-[#3A8080]" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{pack.price}</div>
+                <div className="text-2xl font-light text-[var(--brand,#3A8080)]" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{pack.price}</div>
               </div>
             </Reveal>
           ))}
@@ -551,7 +551,7 @@ function TarifsSection() {
               <p className="text-xs text-[#8A8278] max-w-md">Gratuite · 30 minutes · Bilan complet + proposition de protocole personnalisé. Aucun geste sans votre accord éclairé.</p>
             </div>
             <button type="button" onClick={() => document.getElementById("rdv")?.scrollIntoView({ behavior: "smooth" })}
-              className="flex-shrink-0 px-6 py-3 bg-[#181410] text-[#FAFAF8] text-xs tracking-widest uppercase hover:bg-[#3A8080] transition-colors duration-300 cursor-pointer">
+              className="flex-shrink-0 px-6 py-3 bg-[#181410] text-[#FAFAF8] text-xs tracking-widest uppercase hover:bg-[var(--brand,#3A8080)] transition-colors duration-300 cursor-pointer">
               Prendre RDV
             </button>
           </div>
@@ -572,7 +572,7 @@ function ContactSection() {
         <div className="grid md:grid-cols-2 gap-20">
           <div>
             <Reveal>
-              <p className="text-xs tracking-[0.3em] uppercase text-[#3A8080] mb-4">Nous contacter</p>
+              <p className="text-xs tracking-[0.3em] uppercase text-[var(--brand,#3A8080)] mb-4">Nous contacter</p>
               <h2 className="text-5xl md:text-6xl font-light leading-[1.05] mb-8" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
                 Prenez <em>contact</em>
               </h2>
@@ -583,26 +583,26 @@ function ContactSection() {
             <Reveal delay={0.1}>
               <div className="space-y-6">
                 <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 border border-[#3A8080] flex items-center justify-center flex-shrink-0">
-                    <Mail className="w-4 h-4 text-[#3A8080]" />
+                  <div className="w-10 h-10 border border-[var(--brand,#3A8080)] flex items-center justify-center flex-shrink-0">
+                    <Mail className="w-4 h-4 text-[var(--brand,#3A8080)]" />
                   </div>
                   <div>
                     <div className="text-xs tracking-widest uppercase text-[#8A8278] mb-1">Email</div>
-                    <a href={`mailto:${fd?.email ?? "valentinmilliand@aevia.services"}`} className="text-sm text-[#181410] hover:text-[#3A8080] transition-colors">{fd?.email ?? "valentinmilliand@aevia.services"}</a>
+                    <a href={`mailto:${fd?.email ?? "valentinmilliand@aevia.services"}`} className="text-sm text-[#181410] hover:text-[var(--brand,#3A8080)] transition-colors">{fd?.email ?? "valentinmilliand@aevia.services"}</a>
                   </div>
                 </div>
                 <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 border border-[#3A8080] flex items-center justify-center flex-shrink-0">
-                    <Phone className="w-4 h-4 text-[#3A8080]" />
+                  <div className="w-10 h-10 border border-[var(--brand,#3A8080)] flex items-center justify-center flex-shrink-0">
+                    <Phone className="w-4 h-4 text-[var(--brand,#3A8080)]" />
                   </div>
                   <div>
                     <div className="text-xs tracking-widest uppercase text-[#8A8278] mb-1">Téléphone</div>
-                    <a href={`tel:${fd?.phone ?? "+33145729830"}`} className="text-sm text-[#181410] hover:text-[#3A8080] transition-colors">+33 1 45 72 98 30</a>
+                    <a href={`tel:${fd?.phone ?? "+33145729830"}`} className="text-sm text-[#181410] hover:text-[var(--brand,#3A8080)] transition-colors">+33 1 45 72 98 30</a>
                   </div>
                 </div>
                 <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 border border-[#3A8080] flex items-center justify-center flex-shrink-0">
-                    <Clock className="w-4 h-4 text-[#3A8080]" />
+                  <div className="w-10 h-10 border border-[var(--brand,#3A8080)] flex items-center justify-center flex-shrink-0">
+                    <Clock className="w-4 h-4 text-[var(--brand,#3A8080)]" />
                   </div>
                   <div>
                     <div className="text-xs tracking-widest uppercase text-[#8A8278] mb-1">Horaires</div>
@@ -618,7 +618,7 @@ function ContactSection() {
             {submitted ? (
               <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.4 }}
                 className="border border-[#E8E4DE] bg-white p-12 text-center flex flex-col items-center justify-center h-full">
-                <CheckCircle className="w-8 h-8 text-[#3A8080] mb-4" />
+                <CheckCircle className="w-8 h-8 text-[var(--brand,#3A8080)] mb-4" />
                 <h3 className="text-2xl font-light mb-2" style={{ fontFamily: "'Cormorant Garamond', serif" }}>Merci</h3>
                 <p className="text-[#6B6560] leading-relaxed">Merci, nous vous répondrons sous 24h.</p>
               </motion.div>
@@ -650,7 +650,7 @@ function ContactSection() {
                   <label className="block text-xs tracking-widest uppercase text-[#8A8278] mb-2">Message</label>
                   <textarea required rows={5} className="w-full bg-transparent border border-[#D8D0C8] px-4 py-3 text-sm focus:outline-none focus:border-[#181410] transition-colors resize-none" placeholder="Votre message..." />
                 </div>
-                <button type="submit" className="w-full bg-[#181410] text-[#FAFAF8] py-4 text-xs tracking-widest uppercase hover:bg-[#3A8080] transition-colors duration-300 cursor-pointer">
+                <button type="submit" className="w-full bg-[#181410] text-[#FAFAF8] py-4 text-xs tracking-widest uppercase hover:bg-[var(--brand,#3A8080)] transition-colors duration-300 cursor-pointer">
                   Envoyer le message
                 </button>
               </form>
@@ -670,7 +670,7 @@ function FaqSection() {
     <section id="faq" className="py-28 bg-[#FAFAF8] border-t border-[#E8E4DE]">
       <div className="max-w-4xl mx-auto px-6 md:px-12">
         <Reveal>
-          <p className="text-xs tracking-[0.25em] uppercase text-[#3A8080] mb-4 text-center">FAQ</p>
+          <p className="text-xs tracking-[0.25em] uppercase text-[var(--brand,#3A8080)] mb-4 text-center">FAQ</p>
           <h2 className="text-4xl font-light text-center mb-16" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
             Questions <em>fréquentes</em>
           </h2>
@@ -691,7 +691,7 @@ function FaqSection() {
                   <motion.span
                     animate={{ rotate: openIndex === i ? 180 : 0 }}
                     transition={{ duration: 0.3 }}
-                    className="text-[#3A8080] flex-shrink-0 ml-4"
+                    className="text-[var(--brand,#3A8080)] flex-shrink-0 ml-4"
                   >
                     <ChevronRight className="w-5 h-5" />
                   </motion.span>
@@ -797,7 +797,7 @@ export default function LumiereCliniquePage() {
 
   return (
     <div className="min-h-dvh bg-[#FAFAF8] text-[#181410]" style={{ fontFamily: "'Inter', sans-serif", overflowX: "clip" }}>
-      <motion.div className="fixed top-0 left-0 h-[2px] bg-[#3A8080] z-[1000] origin-left" style={{ scaleX: scrollYProgress }} />
+      <motion.div className="fixed top-0 left-0 h-[2px] bg-[var(--brand,#3A8080)] z-[1000] origin-left" style={{ scaleX: scrollYProgress }} />
 
       {/* ── Nav ── */}
       <motion.nav
@@ -815,7 +815,7 @@ export default function LumiereCliniquePage() {
             ) : (
               <>
                 <span className="text-xl tracking-widest font-light" style={{ fontFamily: "'Cormorant Garamond', serif", letterSpacing: "0.1em" }}>{fd?.businessName ?? "Lumière Clinic"}</span>
-                <span className="text-[9px] tracking-[0.25em] uppercase text-[#3A8080]">Médecine esthétique médicale</span>
+                <span className="text-[9px] tracking-[0.25em] uppercase text-[var(--brand,#3A8080)]">Médecine esthétique médicale</span>
               </>
             )}
           </button>
@@ -827,7 +827,7 @@ export default function LumiereCliniquePage() {
               </button>
             ))}
             <button type="button" onClick={() => scrollToSection("rdv")}
-              className="ml-2 px-5 py-2.5 bg-[#181410] text-[#FAFAF8] text-xs tracking-widest uppercase hover:bg-[#3A8080] transition-colors duration-300 cursor-pointer">
+              className="ml-2 px-5 py-2.5 bg-[#181410] text-[#FAFAF8] text-xs tracking-widest uppercase hover:bg-[var(--brand,#3A8080)] transition-colors duration-300 cursor-pointer">
               Prendre RDV
             </button>
           </div>
@@ -858,7 +858,7 @@ export default function LumiereCliniquePage() {
               {NAV_LINKS.map((l, i) => (
                 <motion.div key={l.id} initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.07 }}>
                   <button type="button" onClick={() => scrollToSection(l.id)}
-                    className="text-3xl font-light hover:text-[#3A8080] transition-colors cursor-pointer text-left"
+                    className="text-3xl font-light hover:text-[var(--brand,#3A8080)] transition-colors cursor-pointer text-left"
                     style={{ fontFamily: "'Cormorant Garamond', serif" }}>{l.label}</button>
                 </motion.div>
               ))}
@@ -877,7 +877,7 @@ export default function LumiereCliniquePage() {
           </motion.div>
           <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 pt-24 pb-24 min-h-[calc(100vh-80px)] flex flex-col justify-center">
             <Reveal>
-              <p className="text-xs tracking-[0.3em] uppercase text-[#3A8080] mb-8">Médecine esthétique de précision</p>
+              <p className="text-xs tracking-[0.3em] uppercase text-[var(--brand,#3A8080)] mb-8">Médecine esthétique de précision</p>
             </Reveal>
             <Reveal delay={0.1}>
               <h1 className="text-5xl md:text-7xl font-light leading-[1.0] mb-8 max-w-2xl" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{c?.heroHeadline ?? <>
@@ -892,7 +892,7 @@ export default function LumiereCliniquePage() {
             <Reveal delay={0.3}>
               <div className="flex flex-col sm:flex-row gap-5">
                 <button type="button" onClick={() => scrollToSection("rdv")}
-                  className="inline-flex items-center gap-3 px-8 py-4 bg-[#181410] text-[#FAFAF8] text-sm uppercase tracking-widest hover:bg-[#3A8080] transition-colors cursor-pointer">
+                  className="inline-flex items-center gap-3 px-8 py-4 bg-[#181410] text-[#FAFAF8] text-sm uppercase tracking-widest hover:bg-[var(--brand,#3A8080)] transition-colors cursor-pointer">
                   Consultation médicale <ArrowRight className="w-4 h-4" />
                 </button>
                 <button type="button" onClick={() => scrollToSection("traitements")}
@@ -904,7 +904,7 @@ export default function LumiereCliniquePage() {
             <div className="mt-20 pt-10 border-t border-[#E8E4DE] grid grid-cols-2 md:grid-cols-4 gap-8 max-w-2xl">
               {[["3 médecins", "Spécialistes"], ["10 ans", "D'expertise min."], ["4 800+", "Patients suivis"], ["97%", "Satisfaction"]].map(([val, label]) => (
                 <div key={label}>
-                  <div className="text-2xl font-light text-[#3A8080] mb-1" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{val}</div>
+                  <div className="text-2xl font-light text-[var(--brand,#3A8080)] mb-1" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{val}</div>
                   <div className="text-xs text-[#8A8278] uppercase tracking-wide">{label}</div>
                 </div>
               ))}
@@ -948,7 +948,7 @@ export default function LumiereCliniquePage() {
             <div className="md:col-span-2">
               <button type="button" onClick={() => scrollToSection("hero")} className="text-left cursor-pointer">
                 <div className="text-[#FAFAF8] text-xl font-light mb-1" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{fd?.businessName ?? "Lumière Clinic"}</div>
-                <div className="text-[#3A8080] text-xs tracking-widest uppercase mb-4">Médecine esthétique médicale</div>
+                <div className="text-[var(--brand,#3A8080)] text-xs tracking-widest uppercase mb-4">Médecine esthétique médicale</div>
               </button>
               <p className="text-sm leading-relaxed max-w-xs mb-5">{c?.aboutText ?? <>Rigueur médicale, résultats naturels. Traitements validés cliniquement, pratiqués par des médecins diplômés d&apos;État.</>}</p>
               <p className="text-xs text-[#4A4038] leading-relaxed max-w-xs">
@@ -969,7 +969,7 @@ export default function LumiereCliniquePage() {
               <p className="text-sm mb-2">Adresse sur demande</p>
               <a href={`mailto:${fd?.email ?? "valentinmilliand@aevia.services"}`} className="text-sm mb-2 block hover:text-[#FAFAF8] transition-colors">{fd?.email ?? "valentinmilliand@aevia.services"}</a>
               <a href={`tel:${fd?.phone ?? "+33145729830"}`} className="text-sm mb-2 block hover:text-[#FAFAF8] transition-colors">+33 1 45 72 98 30</a>
-              <p className="text-sm text-[#3A8080] mt-4 text-xs">Lun–Ven 9h–18h · Sam 9h–13h</p>
+              <p className="text-sm text-[var(--brand,#3A8080)] mt-4 text-xs">Lun–Ven 9h–18h · Sam 9h–13h</p>
             </div>
           </div>
           <div className="pt-8 border-t border-[#2A1E12] flex flex-col md:flex-row justify-between gap-4 text-xs">

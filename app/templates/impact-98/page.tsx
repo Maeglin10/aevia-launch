@@ -240,7 +240,7 @@ export default function ZenithWatchesPage() {
   }, []);
 
   return (
-    <div className="premium-theme min-h-dvh bg-[#0a0a0a] text-[#e5e5e5] font-sans selection:bg-[#d4af37] selection:text-white overflow-x-hidden">
+    <div className="premium-theme min-h-dvh bg-[#0a0a0a] text-[#e5e5e5] font-sans selection:bg-[var(--brand,#d4af37)] selection:text-white overflow-x-hidden">
       {/* ── NAVIGATION ── */}
       <nav
         className={`fixed top-0 left-0 w-full z-50 transition-all duration-700 ${scrolled ? "bg-black/90 backdrop-blur-2xl py-4 border-b border-white/5" : "bg-transparent py-8"}`}
@@ -258,7 +258,7 @@ export default function ZenithWatchesPage() {
                 <span className="text-3xl font-black tracking-[0.2em] uppercase leading-none italic">
                   Zenith
                 </span>
-                <span className="text-[8px] font-bold uppercase tracking-[0.6em] text-[#d4af37] -mt-1 ml-1">
+                <span className="text-[8px] font-bold uppercase tracking-[0.6em] text-[var(--brand,#d4af37)] -mt-1 ml-1">
                   Swiss Horology
                 </span>
               </>
@@ -276,7 +276,7 @@ export default function ZenithWatchesPage() {
               <Link
                 key={link}
                 href="#collections"
-                className="hover:text-[#d4af37] transition-colors cursor-pointer"
+                className="hover:text-[var(--brand,#d4af37)] transition-colors cursor-pointer"
               >
                 {link}
               </Link>
@@ -285,16 +285,16 @@ export default function ZenithWatchesPage() {
 
           <div className="flex items-center gap-8">
             <button className="hidden md:flex items-center gap-3 group">
-              <span className="text-[10px] font-bold uppercase tracking-widest text-white/60 group-hover:text-[#d4af37] transition-colors">
+              <span className="text-[10px] font-bold uppercase tracking-widest text-white/60 group-hover:text-[var(--brand,#d4af37)] transition-colors">
                 Ownership_Portal
               </span>
-              <div className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center text-white/40 group-hover:bg-[#d4af37] group-hover:text-black group-hover:border-[#d4af37] transition-all">
+              <div className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center text-white/40 group-hover:bg-[var(--brand,#d4af37)] group-hover:text-black group-hover:border-[var(--brand,#d4af37)] transition-all">
                 <ShieldCheck className="w-4 h-4" />
               </div>
             </button>
             <button
               onClick={() => setMenuOpen(true)}
-              className="lg:hidden text-[#d4af37]"
+              className="lg:hidden text-[var(--brand,#d4af37)]"
             >
               <Menu className="w-6 h-6" />
             </button>
@@ -313,7 +313,7 @@ export default function ZenithWatchesPage() {
           >
             <button
               onClick={() => setMenuOpen(false)}
-              className="absolute top-10 right-8 text-white/40 hover:text-[#d4af37]"
+              className="absolute top-10 right-8 text-white/40 hover:text-[var(--brand,#d4af37)]"
             >
               <X className="w-10 h-10" />
             </button>
@@ -324,7 +324,7 @@ export default function ZenithWatchesPage() {
                     key={l}
                     href="#collections"
                     onClick={() => setMenuOpen(false)}
-                    className="hover:text-[#d4af37] hover:translate-x-4 transition-all"
+                    className="hover:text-[var(--brand,#d4af37)] hover:translate-x-4 transition-all"
                   >
                     {l}
                   </Link>
@@ -350,7 +350,7 @@ export default function ZenithWatchesPage() {
 
         <div className="relative z-10 max-w-[1600px] mx-auto px-6 md:px-12 w-full grid grid-cols-1 lg:grid-cols-2 items-center">
           <Reveal>
-            <Badge className="bg-[#d4af37]/10 text-[#d4af37] border border-[#d4af37]/30 text-[10px] font-bold uppercase tracking-[0.5em] mb-10 px-4 py-1.5 rounded-full">
+            <Badge className="bg-[var(--brand,#d4af37)]/10 text-[var(--brand,#d4af37)] border border-[var(--brand,#d4af37)]/30 text-[10px] font-bold uppercase tracking-[0.5em] mb-10 px-4 py-1.5 rounded-full">
               Le Locle, Switzerland // Since 1899
             </Badge>
             {/* Was a flat md:text-[14rem] — fine on very wide screens, but at the
@@ -360,14 +360,14 @@ export default function ZenithWatchesPage() {
                 room for both columns. */}
             <h1 className="text-8xl md:text-[8rem] lg:text-[9rem] xl:text-[11rem] 2xl:text-[14rem] font-black leading-[0.75] tracking-tighter mb-12 uppercase text-white italic">{c?.heroHeadline ?? <>
               Taming <br />{" "}
-              <span className="text-[#d4af37] not-italic">Entropy.</span>
+              <span className="text-[var(--brand,#d4af37)] not-italic">Entropy.</span>
             </>}</h1>
             <p className="max-w-md text-xl text-white/50 leading-relaxed font-light mb-12 uppercase tracking-wide italic">{c?.heroSubline ?? fd?.tagline ?? <>
               The absolute mechanical mastery of time. Engineered for the next
               millennium.
             </>}</p>
             <div className="flex flex-col sm:flex-row gap-6">
-              <MagneticBtn className="px-12 py-5 bg-[#d4af37] text-black text-[10px] font-black uppercase tracking-[0.3em] rounded-full hover:scale-105 transition-all cursor-pointer shadow-[0_0_40px_rgba(212,175,55,0.3)]">
+              <MagneticBtn className="px-12 py-5 bg-[var(--brand,#d4af37)] text-black text-[10px] font-black uppercase tracking-[0.3em] rounded-full hover:scale-105 transition-all cursor-pointer shadow-[0_0_40px_rgba(212,175,55,0.3)]">
                 The Masterpiece Archive
               </MagneticBtn>
               <Link
@@ -389,10 +389,10 @@ export default function ZenithWatchesPage() {
                     repeat: Infinity,
                     ease: "linear",
                   }}
-                  className="absolute inset-0 border-t-2 border-[#d4af37] rounded-full"
+                  className="absolute inset-0 border-t-2 border-[var(--brand,#d4af37)] rounded-full"
                 />
                 <div className="text-center">
-                  <span className="text-5xl font-black italic block text-[#d4af37]">
+                  <span className="text-5xl font-black italic block text-[var(--brand,#d4af37)]">
                     VHP
                   </span>
                   <span className="text-[10px] font-bold uppercase tracking-widest text-white/30">
@@ -400,7 +400,7 @@ export default function ZenithWatchesPage() {
                   </span>
                 </div>
               </div>
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 bg-[#d4af37] rounded-full blur-2xl opacity-20 animate-pulse" />
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 bg-[var(--brand,#d4af37)] rounded-full blur-2xl opacity-20 animate-pulse" />
             </Reveal>
           </div>
         </div>
@@ -413,7 +413,7 @@ export default function ZenithWatchesPage() {
             {STATS.map((stat, i) => (
               <Reveal key={i} delay={i * 0.1}>
                 <div className="text-center md:text-left">
-                  <div className="text-[9px] font-bold uppercase tracking-[0.3em] text-[#d4af37] mb-2">
+                  <div className="text-[9px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#d4af37)] mb-2">
                     {stat.label}
                   </div>
                   <div className="text-5xl font-black italic text-white">
@@ -433,7 +433,7 @@ export default function ZenithWatchesPage() {
             <div className="flex flex-col md:flex-row justify-between items-end mb-24 gap-12">
               <div>
                 <h2 className="text-7xl md:text-[10rem] font-black italic tracking-tighter leading-none mb-6 uppercase text-white">
-                  The <br /> <span className="text-[#d4af37]">Archive.</span>
+                  The <br /> <span className="text-[var(--brand,#d4af37)]">Archive.</span>
                 </h2>
                 <p className="text-white/20 text-[10px] font-bold uppercase tracking-[0.4em]">
                   Internal Reference // Swiss Quality Index // 2024
@@ -441,7 +441,7 @@ export default function ZenithWatchesPage() {
               </div>
               <Link
                 href="#collections"
-                className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#d4af37] border-b border-[#d4af37] pb-2 hover:text-white hover:border-white transition-all"
+                className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#d4af37)] border-b border-[var(--brand,#d4af37)] pb-2 hover:text-white hover:border-white transition-all"
               >
                 Download Technical Deck
               </Link>
@@ -477,7 +477,7 @@ export default function ZenithWatchesPage() {
                           initial={{ opacity: 0 }}
                           animate={{ opacity: 1 }}
                           exit={{ opacity: 0 }}
-                          className="absolute inset-0 flex items-center justify-center bg-[#d4af37]/10 backdrop-blur-[2px]"
+                          className="absolute inset-0 flex items-center justify-center bg-[var(--brand,#d4af37)]/10 backdrop-blur-[2px]"
                         >
                           <button className="px-10 py-4 bg-white text-black text-[10px] font-black uppercase tracking-widest hover:scale-110 transition-all shadow-2xl">
                             Caliber Specs
@@ -488,10 +488,10 @@ export default function ZenithWatchesPage() {
                   </div>
                   <div className="space-y-6">
                     <div className="flex justify-between items-baseline">
-                      <h3 className="text-4xl font-black uppercase tracking-tighter text-white italic group-hover:text-[#d4af37] transition-colors">
+                      <h3 className="text-4xl font-black uppercase tracking-tighter text-white italic group-hover:text-[var(--brand,#d4af37)] transition-colors">
                         {item.name}
                       </h3>
-                      <span className="text-lg font-black text-[#d4af37] tracking-tighter">
+                      <span className="text-lg font-black text-[var(--brand,#d4af37)] tracking-tighter">
                         {item.price}
                       </span>
                     </div>
@@ -499,8 +499,8 @@ export default function ZenithWatchesPage() {
                       {item.desc}
                     </p>
                     <div className="flex items-center gap-4">
-                      <div className="h-[1px] flex-1 bg-white/5 group-hover:bg-[#d4af37]/20 transition-all" />
-                      <Settings className="w-5 h-5 text-white/10 group-hover:text-[#d4af37] transition-all" />
+                      <div className="h-[1px] flex-1 bg-white/5 group-hover:bg-[var(--brand,#d4af37)]/20 transition-all" />
+                      <Settings className="w-5 h-5 text-white/10 group-hover:text-[var(--brand,#d4af37)] transition-all" />
                     </div>
                   </div>
                 </div>
@@ -512,16 +512,16 @@ export default function ZenithWatchesPage() {
 
       {/* ── SAVOIR-FAIRE ── */}
       <section id="contact" className="py-40 bg-[#0d0d0d] overflow-hidden relative">
-        <div className="absolute top-0 right-0 w-[40rem] h-[40rem] bg-[#d4af37]/5 blur-[120px] rounded-full" />
+        <div className="absolute top-0 right-0 w-[40rem] h-[40rem] bg-[var(--brand,#d4af37)]/5 blur-[120px] rounded-full" />
         <div className="max-w-[1600px] mx-auto px-6 md:px-12">
           <Reveal>
             <div className="text-center mb-32">
-              <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#d4af37] mb-8 block">
+              <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#d4af37)] mb-8 block">
                 Atelier Excellence
               </span>
               <h2 className="text-6xl md:text-8xl font-black italic tracking-tighter uppercase">
                 Swiss{" "}
-                <span className="text-[#d4af37] not-italic">Savoir-Faire.</span>
+                <span className="text-[var(--brand,#d4af37)] not-italic">Savoir-Faire.</span>
               </h2>
             </div>
           </Reveal>
@@ -529,8 +529,8 @@ export default function ZenithWatchesPage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
             {CRAFTSMANSHIP.map((s, i) => (
               <Reveal key={i} delay={i * 0.1}>
-                <div className="p-16 border border-white/5 bg-white/[0.01] hover:border-[#d4af37]/30 transition-all group h-full flex flex-col relative overflow-hidden">
-                  <div className="w-16 h-16 bg-white/5 rounded-full flex items-center justify-center text-[#d4af37] mb-10 group-hover:bg-[#d4af37] group-hover:text-black transition-all duration-500">
+                <div className="p-16 border border-white/5 bg-white/[0.01] hover:border-[var(--brand,#d4af37)]/30 transition-all group h-full flex flex-col relative overflow-hidden">
+                  <div className="w-16 h-16 bg-white/5 rounded-full flex items-center justify-center text-[var(--brand,#d4af37)] mb-10 group-hover:bg-[var(--brand,#d4af37)] group-hover:text-black transition-all duration-500">
                     <s.icon className="w-8 h-8" />
                   </div>
                   <h3 className="text-3xl font-black uppercase italic mb-6 tracking-tighter text-white group-hover:translate-x-2 transition-transform">
@@ -539,7 +539,7 @@ export default function ZenithWatchesPage() {
                   <p className="text-sm text-white/30 font-light leading-relaxed mb-12 flex-1 tracking-wide uppercase italic leading-loose">
                     {s.desc}
                   </p>
-                  <button className="flex items-center gap-4 text-[9px] font-bold uppercase tracking-[0.3em] text-[#d4af37] group-hover:gap-6 transition-all">
+                  <button className="flex items-center gap-4 text-[9px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#d4af37)] group-hover:gap-6 transition-all">
                     Read Case Study <ArrowRight className="w-4 h-4" />
                   </button>
                 </div>
@@ -562,10 +562,10 @@ export default function ZenithWatchesPage() {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
               <div className="absolute bottom-16 left-16 text-white">
-                <span className="text-[10px] font-bold uppercase tracking-[0.4em] mb-4 block text-[#d4af37]">
+                <span className="text-[10px] font-bold uppercase tracking-[0.4em] mb-4 block text-[var(--brand,#d4af37)]">
                   Since 1899
                 </span>
-                <h4 className="text-5xl font-black italic uppercase tracking-tighter leading-none text-[#d4af37]">
+                <h4 className="text-5xl font-black italic uppercase tracking-tighter leading-none text-[var(--brand,#d4af37)]">
                   A Legacy <br /> In Gold.
                 </h4>
               </div>
@@ -573,12 +573,12 @@ export default function ZenithWatchesPage() {
           </Reveal>
 
           <Reveal delay={0.2}>
-            <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#d4af37] mb-8 block">
+            <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#d4af37)] mb-8 block">
               The Philosophy
             </span>
             <h2 className="text-6xl md:text-9xl font-black italic tracking-tighter leading-[0.8] mb-12 uppercase text-white">{c?.aboutTitle ?? fd?.businessName ?? <>
               Eternal <br />{" "}
-              <span className="text-[#d4af37] not-italic">Rhythm.</span>
+              <span className="text-[var(--brand,#d4af37)] not-italic">Rhythm.</span>
             </>}</h2>
             <p className="text-white/40 text-xl leading-relaxed mb-16 font-light uppercase tracking-wide italic">{c?.aboutText ?? <>
               We don't sell watches. We sell the mastery over the fourth
@@ -596,7 +596,7 @@ export default function ZenithWatchesPage() {
                 { icon: Award, label: "Certified", desc: "METAS/COSC+" },
               ].map((val, i) => (
                 <div key={i} className="space-y-4">
-                  <val.icon className="w-6 h-6 text-[#d4af37]" />
+                  <val.icon className="w-6 h-6 text-[var(--brand,#d4af37)]" />
                   <h4 className="text-[11px] font-black uppercase tracking-widest text-white">
                     {val.label}
                   </h4>
@@ -606,7 +606,7 @@ export default function ZenithWatchesPage() {
                 </div>
               ))}
             </div>
-            <MagneticBtn className="mt-20 px-14 py-6 bg-white text-black text-[10px] font-black uppercase tracking-[0.4em] rounded-full hover:bg-[#d4af37] hover:text-white transition-all shadow-2xl">
+            <MagneticBtn className="mt-20 px-14 py-6 bg-white text-black text-[10px] font-black uppercase tracking-[0.4em] rounded-full hover:bg-[var(--brand,#d4af37)] hover:text-white transition-all shadow-2xl">
               Private Boutique Appointment
             </MagneticBtn>
           </Reveal>
@@ -622,7 +622,7 @@ export default function ZenithWatchesPage() {
                 <span className="text-5xl font-black tracking-[0.2em] uppercase leading-none italic">
                   Zenith
                 </span>
-                <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#d4af37] -mt-1 ml-1">
+                <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#d4af37)] -mt-1 ml-1">
                   Swiss Horology
                 </span>
               </div>
@@ -634,7 +634,7 @@ export default function ZenithWatchesPage() {
                 {[Globe, Globe, Mail].map((Icon, i) => (
                   <button
                     key={i}
-                    className="w-14 h-14 rounded-full border border-white/10 flex items-center justify-center text-white/40 hover:bg-[#d4af37] hover:text-black hover:border-[#d4af37] transition-all"
+                    className="w-14 h-14 rounded-full border border-white/10 flex items-center justify-center text-white/40 hover:bg-[var(--brand,#d4af37)] hover:text-black hover:border-[var(--brand,#d4af37)] transition-all"
                   >
                     <Icon className="w-5 h-5" />
                   </button>
@@ -644,7 +644,7 @@ export default function ZenithWatchesPage() {
           </div>
 
           <div className="lg:col-span-2">
-            <h4 className="text-[11px] font-black uppercase tracking-widest text-[#d4af37] mb-12">
+            <h4 className="text-[11px] font-black uppercase tracking-widest text-[var(--brand,#d4af37)] mb-12">
               Collection
             </h4>
             <ul className="space-y-6 text-[10px] font-bold uppercase tracking-widest text-white/30">
@@ -672,7 +672,7 @@ export default function ZenithWatchesPage() {
           </div>
 
           <div className="lg:col-span-2">
-            <h4 className="text-[11px] font-black uppercase tracking-widest text-[#d4af37] mb-12">
+            <h4 className="text-[11px] font-black uppercase tracking-widest text-[var(--brand,#d4af37)] mb-12">
               Atelier
             </h4>
             <ul className="space-y-6 text-[10px] font-bold uppercase tracking-widest text-white/30">
@@ -700,7 +700,7 @@ export default function ZenithWatchesPage() {
           </div>
 
           <div className="lg:col-span-2">
-            <h4 className="text-[11px] font-black uppercase tracking-widest text-[#d4af37] mb-12">
+            <h4 className="text-[11px] font-black uppercase tracking-widest text-[var(--brand,#d4af37)] mb-12">
               Zenith
             </h4>
             <ul className="space-y-6 text-[10px] font-bold uppercase tracking-widest text-white/30">

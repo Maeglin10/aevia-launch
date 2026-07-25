@@ -19,7 +19,7 @@ function Reveal({ children, delay = 0, y = 40 }: { children: React.ReactNode; de
 }
 
 const NODES = [
-  { title: "Edge Compute", desc: "120+ global regions with <5ms latency to end-users.", icon: Cpu, color: "#3b82f6" },
+  { title: "Edge Compute", desc: "120+ global regions with <5ms latency to end-users.", icon: Cpu, color: "var(--brand,#3b82f6)" },
   { title: "Object Storage", desc: "S3-compatible, multi-region replication with 11 nines of durability.", icon: Database, color: "#8b5cf6" },
   { title: "Managed K8s", desc: "Auto-scaling clusters with built-in service mesh and observability.", icon: Server, color: "#ec4899" },
 ]

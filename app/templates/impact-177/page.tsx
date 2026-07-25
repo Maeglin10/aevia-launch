@@ -29,7 +29,7 @@ function shadeColor(hex: string, percent: number): string {
 let C: Record<string, string> = {
   bg: "#faf8f4",
   bgAlt: "#f2ede6",
-  terra: "#c2724f",
+  terra: "var(--brand,#c2724f)",
   terraLight: "#e8a07e",
   dark: "#1c1a18",
   muted: "#8a8070",

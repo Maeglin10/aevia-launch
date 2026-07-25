@@ -30,7 +30,7 @@ const useFonts = () => {
 // ─── Design Tokens ───────────────────────────────────────────────────────────
 const CREAM   = '#f5f0e8';
 const DARK    = '#1a1208';
-const GOLD    = '#b8965a';
+const GOLD    = 'var(--brand,#b8965a)';
 const GOLD_DIM = '#8a6f3e';
 const CREAM_DIM = '#ede5d4';
 const MID     = '#2e2318';

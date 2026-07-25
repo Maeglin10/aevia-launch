@@ -54,7 +54,7 @@ function shadeColor(hex: string, percent: number): string {
 }
 
 let C: Record<string, string> = {
-  emerald: '#1a5c3a',
+  emerald: 'var(--brand,#1a5c3a)',
   emeraldDeep: '#123d27',
   emeraldMid: '#236b45',
   emeraldLight: '#2e8a58',

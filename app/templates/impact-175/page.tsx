@@ -27,7 +27,7 @@ function shadeColor(hex: string, percent: number): string {
 
 let C: Record<string, string> = {
   bg: "#0f0e0d",
-  champagne: "#e8d5a3",
+  champagne: "var(--brand,#e8d5a3)",
   ivory: "#faf8f3",
   terracotta: "#c4622d",
   terracottaLight: "#e08060",

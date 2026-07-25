@@ -89,17 +89,17 @@ return (
 
         {/* SOFT GLOWS */}
         <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-[#e8e4db]/40 rounded-full blur-[150px] pointer-events-none" />
-        <div className="absolute bottom-1/4 right-1/4 w-[600px] h-[600px] bg-[#c9a84c]/5 rounded-full blur-[150px] pointer-events-none" />
+        <div className="absolute bottom-1/4 right-1/4 w-[600px] h-[600px] bg-[var(--brand,#c9a84c)]/5 rounded-full blur-[150px] pointer-events-none" />
 
         <div className="relative z-10 max-w-[1400px] mx-auto px-6 md:px-12 w-full">
           <Reveal>
             <div className="inline-flex items-center gap-3 px-4 py-2 bg-stone-100/50 backdrop-blur-md rounded-full border border-stone-200/50 text-stone-500 text-[10px] font-bold uppercase tracking-widest mb-10 shadow-sm">
-              <Leaf className="w-3.5 h-3.5 text-[#c9a84c]" />
+              <Leaf className="w-3.5 h-3.5 text-[var(--brand,#c9a84c)]" />
               Silence is the Language of the Soul
             </div>
             <h1 className="text-7xl md:text-9xl lg:text-[11rem] font-light leading-[1.15] tracking-tighter mb-12 uppercase italic text-[#33302c] pb-6">{c?.heroHeadline ?? <>
               Find Your <br />{" "}
-              <span className="text-[#c9a84c]">Stillness.</span>
+              <span className="text-[var(--brand,#c9a84c)]">Stillness.</span>
             </>}</h1>
             <p className="max-w-xl text-lg md:text-xl text-stone-400 leading-relaxed font-light mb-12 italic tracking-tight">{c?.heroSubline ?? fd?.tagline ?? <>
               An architectural sanctuary in the heart of the city. We provide the
@@ -107,7 +107,7 @@ return (
             </>}</p>
             <div className="flex flex-col sm:flex-row gap-6">
               <Link href="/templates/impact-71/practices" className="no-underline">
-                <MagneticBtn className="px-12 py-5 bg-[#33302c] text-[#faf9f6] text-[10px] font-bold uppercase tracking-[0.4em] rounded-full hover:bg-[#c9a84c] transition-all cursor-pointer shadow-2xl border-none">
+                <MagneticBtn className="px-12 py-5 bg-[#33302c] text-[#faf9f6] text-[10px] font-bold uppercase tracking-[0.4em] rounded-full hover:bg-[var(--brand,#c9a84c)] transition-all cursor-pointer shadow-2xl border-none">
                   Discover Practices
                 </MagneticBtn>
               </Link>
@@ -128,7 +128,7 @@ return (
             <span className="text-[9px] font-bold text-stone-300 uppercase tracking-[0.5em]">
               GENEVA // KYOTO // LONDON
             </span>
-            <div className="w-32 h-[1px] bg-[#c9a84c]/40" />
+            <div className="w-32 h-[1px] bg-[var(--brand,#c9a84c)]/40" />
           </div>
         </motion.div>
       </section>
@@ -144,12 +144,12 @@ return (
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 md:gap-32 items-center">
             <div className="lg:col-span-5">
               <Reveal>
-                <span className="text-[10px] uppercase tracking-[0.4em] font-bold text-[#c9a84c] mb-6 block">
+                <span className="text-[10px] uppercase tracking-[0.4em] font-bold text-[var(--brand,#c9a84c)] mb-6 block">
                   The Zen Method
                 </span>
                 <h2 className="text-5xl md:text-7xl font-light tracking-tighter leading-[1.15] mb-12 text-[#33302c] uppercase italic pb-4">{c?.aboutTitle ?? fd?.businessName ?? <>
                   Breath <br />{" "}
-                  <span className="text-[#c9a84c] not-italic">As Alchemy.</span>
+                  <span className="text-[var(--brand,#c9a84c)] not-italic">As Alchemy.</span>
                 </>}</h2>
                 <p className="text-lg text-stone-400 leading-relaxed font-light mb-16 uppercase tracking-tight italic">{c?.aboutText ?? <>
                   Nous fusionnons les asanas traditionnels avec une approche
@@ -180,12 +180,12 @@ return (
                   ].map((item, i) => (
                     <div
                       key={i}
-                      className="group border-l border-[#c9a84c]/20 pl-8 hover:border-[#c9a84c] transition-all"
+                      className="group border-l border-[var(--brand,#c9a84c)]/20 pl-8 hover:border-[var(--brand,#c9a84c)] transition-all"
                     >
                       <h4 className="text-sm font-bold uppercase tracking-tight mb-2 text-stone-500">
                         {item.label}
                       </h4>
-                      <div className="text-3xl font-black text-[#c9a84c] mb-2 uppercase italic tabular-nums">
+                      <div className="text-3xl font-black text-[var(--brand,#c9a84c)] mb-2 uppercase italic tabular-nums">
                         <Counter to={item.val} suffix={item.suffix} />
                       </div>
                       <p className="text-[10px] text-stone-300 leading-relaxed font-bold uppercase tracking-widest">
@@ -203,14 +203,14 @@ return (
                 <div className="relative h-full w-full border border-stone-200/50 bg-[#faf9f6] p-8 flex flex-col justify-between overflow-hidden">
                   <div className="flex items-center justify-between mb-10 pb-6 border-b border-stone-200/50">
                     <div className="flex items-center gap-4">
-                      <Wind className="w-5 h-5 text-[#c9a84c]" />
-                      <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#c9a84c]">
+                      <Wind className="w-5 h-5 text-[var(--brand,#c9a84c)]" />
+                      <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#c9a84c)]">
                         Atmospheric_Purity_Log
                       </span>
                     </div>
                     <div className="flex gap-2">
-                      <div className="w-1.5 h-1.5 bg-[#c9a84c] rounded-full animate-pulse" />
-                      <div className="w-1.5 h-1.5 bg-[#c9a84c]/30 rounded-full" />
+                      <div className="w-1.5 h-1.5 bg-[var(--brand,#c9a84c)] rounded-full animate-pulse" />
+                      <div className="w-1.5 h-1.5 bg-[var(--brand,#c9a84c)]/30 rounded-full" />
                     </div>
                   </div>
 
@@ -239,15 +239,15 @@ return (
                     ].map((spec, i) => (
                       <div
                         key={i}
-                        className="flex items-center justify-between p-4 bg-white/50 border border-stone-200/30 rounded-xl hover:border-[#c9a84c]/30 transition-all"
+                        className="flex items-center justify-between p-4 bg-white/50 border border-stone-200/30 rounded-xl hover:border-[var(--brand,#c9a84c)]/30 transition-all"
                       >
                         <div className="flex items-center gap-4">
-                          <div className="text-[#c9a84c]">{spec.icon}</div>
+                          <div className="text-[var(--brand,#c9a84c)]">{spec.icon}</div>
                           <span className="text-[10px] font-black uppercase tracking-widest text-stone-500">
                             {spec.label}
                           </span>
                         </div>
-                        <span className="text-[10px] font-bold uppercase tracking-widest text-[#c9a84c] italic">
+                        <span className="text-[10px] font-bold uppercase tracking-widest text-[var(--brand,#c9a84c)] italic">
                           {spec.val}
                         </span>
                       </div>
@@ -265,7 +265,7 @@ return (
                     </div>
                     <div className="flex items-center gap-6">
                       <div className="flex flex-col items-end">
-                        <span className="text-[8px] font-bold text-[#c9a84c] uppercase">
+                        <span className="text-[8px] font-bold text-[var(--brand,#c9a84c)] uppercase">
                           Certified
                         </span>
                         <span className="text-[10px] font-black uppercase text-stone-500">
@@ -288,9 +288,9 @@ return (
         <div className="max-w-[1400px] mx-auto px-6 md:px-12">
           <Reveal>
             <div className="mb-16">
-              <span className="text-[10px] uppercase tracking-[0.4em] font-bold text-[#c9a84c] mb-4 block">Disciplines</span>
+              <span className="text-[10px] uppercase tracking-[0.4em] font-bold text-[var(--brand,#c9a84c)] mb-4 block">Disciplines</span>
               <h2 className="text-5xl md:text-7xl font-light tracking-tighter leading-tight text-[#33302c] uppercase italic pb-2">
-                Our <span className="text-[#c9a84c]">Practices.</span>
+                Our <span className="text-[var(--brand,#c9a84c)]">Practices.</span>
               </h2>
             </div>
           </Reveal>
@@ -305,12 +305,12 @@ return (
             ] as any[]).map((p: any, i: number) => (
               <Reveal key={p.name} delay={i * 0.07}>
                 <div className="bg-[#faf9f6] p-10 group hover:bg-white transition-colors">
-                  <div className="text-[#c9a84c] mb-6">{p.icon}</div>
+                  <div className="text-[var(--brand,#c9a84c)] mb-6">{p.icon}</div>
                   <h3 className="text-xl font-light uppercase tracking-wide text-[#33302c] mb-2 italic">{p.name}</h3>
                   {(p.duration || p.level) && (
                   <div className="flex gap-4 text-[9px] font-bold uppercase tracking-widest text-stone-400 mb-5">
                     {p.duration && <span>{p.duration}</span>}
-                    {p.duration && p.level && <span className="text-[#c9a84c]/60">·</span>}
+                    {p.duration && p.level && <span className="text-[var(--brand,#c9a84c)]/60">·</span>}
                     {p.level && <span>{p.level}</span>}
                   </div>
                   )}
@@ -329,9 +329,9 @@ return (
         <div className="max-w-[1400px] mx-auto px-6 md:px-12">
           <Reveal>
             <div className="mb-16">
-              <span className="text-[10px] uppercase tracking-[0.4em] font-bold text-[#c9a84c] mb-4 block">Community</span>
+              <span className="text-[10px] uppercase tracking-[0.4em] font-bold text-[var(--brand,#c9a84c)] mb-4 block">Community</span>
               <h2 className="text-5xl md:text-6xl font-light tracking-tighter text-[#33302c] uppercase italic pb-2">
-                Voices from the <span className="text-[#c9a84c]">Sanctuary.</span>
+                Voices from the <span className="text-[var(--brand,#c9a84c)]">Sanctuary.</span>
               </h2>
             </div>
           </Reveal>
@@ -345,7 +345,7 @@ return (
                 <div className="p-10 bg-stone-50 border border-stone-200/50 flex flex-col gap-6">
                   <div className="flex gap-1">
                     {Array.from({ length: t.stars }).map((_, j) => (
-                      <span key={j} className="text-[#c9a84c] text-sm">★</span>
+                      <span key={j} className="text-[var(--brand,#c9a84c)] text-sm">★</span>
                     ))}
                   </div>
                   <p className="text-stone-500 leading-relaxed font-light italic text-sm flex-1">"{t.text}"</p>
@@ -367,11 +367,11 @@ return (
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 text-center">
           <Reveal>
             <h3 className="text-3xl md:text-5xl font-light uppercase tracking-widest text-[#33302c] mb-8 italic">
-              Ready to begin your <span className="text-[#c9a84c]">Journey</span>?
+              Ready to begin your <span className="text-[var(--brand,#c9a84c)]">Journey</span>?
             </h3>
             <div className="flex flex-wrap justify-center gap-6">
               <Link href="/templates/impact-71/practices" className="no-underline">
-                <button className="px-10 py-4 bg-[#33302c] hover:bg-[#c9a84c] text-white text-[10px] font-bold uppercase tracking-widest rounded-full cursor-pointer transition-all border-none">
+                <button className="px-10 py-4 bg-[#33302c] hover:bg-[var(--brand,#c9a84c)] text-white text-[10px] font-bold uppercase tracking-widest rounded-full cursor-pointer transition-all border-none">
                   View Practices
                 </button>
               </Link>

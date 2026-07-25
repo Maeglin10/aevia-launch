@@ -30,7 +30,7 @@ const DESTINATIONS_DEMO = [
     desc: "Traverse the oldest desert in the world. Witness the towering red dunes of Sossusvlei and the surreal dead-tree valleys of Deadvlei.",
     image:
       "https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?q=80&w=1600&auto=format&fit=crop",
-    color: "#d97736",
+    color: "var(--brand,#d97736)",
   },
   {
     id: "dst-02",

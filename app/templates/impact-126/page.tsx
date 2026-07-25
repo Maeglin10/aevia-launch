@@ -37,7 +37,7 @@ let C: Record<string, string> = {
   bg: "#FAF8F3",
   bgCard: "#F0EBE0",
   bgDark: "#1A1008",
-  terracotta: "#C8603A",
+  terracotta: "var(--brand,#C8603A)",
   gold: "#C9A86C",
   dark: "#1E1208",
   muted: "#8A7868",

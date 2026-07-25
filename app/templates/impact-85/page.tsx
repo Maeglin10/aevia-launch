@@ -150,7 +150,7 @@ export default function AetherLabsPage() {
 
   return (
     <div className="min-h-dvh bg-[#F8F6F2] text-[#1C1814]" style={{ fontFamily: "'Inter', sans-serif" }}>
-      <motion.div className="fixed top-0 left-0 h-[2px] bg-[#8B7355] z-[1000] origin-left" style={{ scaleX: scrollYProgress }} />
+      <motion.div className="fixed top-0 left-0 h-[2px] bg-[var(--brand,#8B7355)] z-[1000] origin-left" style={{ scaleX: scrollYProgress }} />
 
       {/* Nav */}
       <motion.nav
@@ -168,7 +168,7 @@ export default function AetherLabsPage() {
             ) : (
               <>
                 <span className="text-xl font-light tracking-widest" style={{ fontFamily: "'Cormorant Garamond', serif", letterSpacing: "0.15em" }}>{fd?.businessName ?? "Aether Labs"}</span>
-                <span className="text-[9px] tracking-[0.2em] uppercase text-[#8B7355]">Cosmétique scientifique</span>
+                <span className="text-[9px] tracking-[0.2em] uppercase text-[var(--brand,#8B7355)]">Cosmétique scientifique</span>
               </>
             )}
           </Link>
@@ -177,7 +177,7 @@ export default function AetherLabsPage() {
               <Link key={l} href={`#${l.toLowerCase()}`} className="hover:text-[#1C1814] transition-colors">{l}</Link>
             ))}
             <button className="cursor-pointer"><Search className="w-4 h-4 text-[#6B5A40] hover:text-[#1C1814] transition-colors" /></button>
-            <Link href="#formules" className="ml-2 px-5 py-2.5 bg-[#1C1814] text-[#F8F6F2] text-xs tracking-widest uppercase hover:bg-[#8B7355] transition-colors cursor-pointer">
+            <Link href="#formules" className="ml-2 px-5 py-2.5 bg-[#1C1814] text-[#F8F6F2] text-xs tracking-widest uppercase hover:bg-[var(--brand,#8B7355)] transition-colors cursor-pointer">
               Découvrir
             </Link>
           </div>
@@ -208,7 +208,7 @@ export default function AetherLabsPage() {
               {["Formules", "Science", "Rituels", "Journal", "FAQ", "Contact"].map((l, i) => (
                 <motion.div key={l} initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.07 }}>
                   <Link href={`#${l.toLowerCase()}`} onClick={() => setMenuOpen(false)}
-                    className="text-3xl font-light hover:text-[#8B7355] transition-colors cursor-pointer"
+                    className="text-3xl font-light hover:text-[var(--brand,#8B7355)] transition-colors cursor-pointer"
                     style={{ fontFamily: "'Cormorant Garamond', serif" }}>{l}</Link>
                 </motion.div>
               ))}
@@ -221,7 +221,7 @@ export default function AetherLabsPage() {
       <section id="hero" ref={heroRef} className="relative min-h-dvh overflow-hidden grid md:grid-cols-2">
         <div className="flex flex-col justify-center px-8 md:px-16 lg:px-24 pt-28 pb-16 md:py-0">
           <Reveal>
-            <p className="text-xs tracking-[0.3em] uppercase text-[#8B7355] mb-8">Laboratoire cosmétique — Grasse, France</p>
+            <p className="text-xs tracking-[0.3em] uppercase text-[var(--brand,#8B7355)] mb-8">Laboratoire cosmétique — Grasse, France</p>
           </Reveal>
           <Reveal delay={0.1}>
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-light leading-[1.0] mb-8" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{c?.heroHeadline ?? <>
@@ -235,7 +235,7 @@ export default function AetherLabsPage() {
           </Reveal>
           <Reveal delay={0.3}>
             <div className="flex gap-5">
-              <Link href="#formules" className="px-8 py-4 bg-[#1C1814] text-[#F8F6F2] text-xs tracking-widest uppercase hover:bg-[#8B7355] transition-colors cursor-pointer">{c?.ctaText ?? <>
+              <Link href="#formules" className="px-8 py-4 bg-[#1C1814] text-[#F8F6F2] text-xs tracking-widest uppercase hover:bg-[var(--brand,#8B7355)] transition-colors cursor-pointer">{c?.ctaText ?? <>
                 Nos formules
               </>}</Link>
               <Link href="#science" className="px-8 py-4 border border-[#D4C9B0] text-[#1C1814] text-xs tracking-widests uppercase hover:border-[#1C1814] transition-colors cursor-pointer">
@@ -266,7 +266,7 @@ export default function AetherLabsPage() {
         <div className="max-w-7xl mx-auto px-6 md:px-12">
           <div className="mb-14">
             <Reveal>
-              <p className="text-xs tracking-[0.25em] uppercase text-[#8B7355] mb-4">Formules signatures</p>
+              <p className="text-xs tracking-[0.25em] uppercase text-[var(--brand,#8B7355)] mb-4">Formules signatures</p>
               <h2 className="text-4xl md:text-5xl font-light" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
                 La collection <em>Aether</em>
               </h2>
@@ -298,14 +298,14 @@ export default function AetherLabsPage() {
                 </div>
               </div>
               <div>
-                {current.tagline && <p className="text-xs tracking-[0.2em] uppercase text-[#8B7355] mb-3">{current.tagline}</p>}
+                {current.tagline && <p className="text-xs tracking-[0.2em] uppercase text-[var(--brand,#8B7355)] mb-3">{current.tagline}</p>}
                 <h3 className="text-3xl font-light mb-4" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{current.name}</h3>
                 <p className="text-[#6B5A40] leading-relaxed mb-6">{current.desc ?? current.description}</p>
                 <div className="flex items-center gap-6 mb-8 p-4 bg-[#F0EBE0]">
                   {current.score !== undefined && (
                     <>
                       <div>
-                        <div className="text-2xl font-light" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{current.score}<span className="text-base text-[#8B7355]">/100</span></div>
+                        <div className="text-2xl font-light" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{current.score}<span className="text-base text-[var(--brand,#8B7355)]">/100</span></div>
                         <div className="text-xs text-[#8A7860]">Score formule INCI</div>
                       </div>
                       <div className="h-12 w-[1px] bg-[#D4C9B0]" />
@@ -326,7 +326,7 @@ export default function AetherLabsPage() {
                   </div>
                 </div>
                 <div className="flex gap-4">
-                  <button className="flex-1 py-4 bg-[#1C1814] text-[#F8F6F2] text-xs tracking-widests uppercase hover:bg-[#8B7355] transition-colors cursor-pointer">
+                  <button className="flex-1 py-4 bg-[#1C1814] text-[#F8F6F2] text-xs tracking-widests uppercase hover:bg-[var(--brand,#8B7355)] transition-colors cursor-pointer">
                     Ajouter au panier
                   </button>
                   <button className="px-6 py-4 border border-[#E4DDD4] text-[#1C1814] text-xs tracking-widests uppercase hover:border-[#1C1814] transition-colors cursor-pointer">
@@ -346,7 +346,7 @@ export default function AetherLabsPage() {
         <div className="max-w-7xl mx-auto px-6 md:px-12">
           <div className="grid md:grid-cols-2 gap-20 mb-16">
             <Reveal>
-              <p className="text-xs tracking-[0.25em] uppercase text-[#8B7355] mb-4">Ingrédients actifs</p>
+              <p className="text-xs tracking-[0.25em] uppercase text-[var(--brand,#8B7355)] mb-4">Ingrédients actifs</p>
               <h2 className="text-4xl md:text-5xl font-light leading-tight" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{c?.aboutTitle ?? fd?.businessName ?? <>
                 La transparence<br />comme <em>éthique</em>
               </>}</h2>
@@ -364,12 +364,12 @@ export default function AetherLabsPage() {
                 <Reveal key={ing.name} delay={i * 0.08}>
                   <div className="bg-[#1C1814] p-8 group hover:bg-[#231E14] transition-colors duration-300">
                     <div className="flex items-start gap-5">
-                      <div className="w-10 h-10 border border-[#3A3020] flex items-center justify-center flex-shrink-0 group-hover:border-[#8B7355] transition-colors duration-300">
-                        <Icon className="w-5 h-5 text-[#8B7355]" />
+                      <div className="w-10 h-10 border border-[#3A3020] flex items-center justify-center flex-shrink-0 group-hover:border-[var(--brand,#8B7355)] transition-colors duration-300">
+                        <Icon className="w-5 h-5 text-[var(--brand,#8B7355)]" />
                       </div>
                       <div>
                         <h3 className="text-lg font-light mb-1" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{ing.name}</h3>
-                        <p className="text-xs text-[#8B7355] mb-3">{ing.origin}</p>
+                        <p className="text-xs text-[var(--brand,#8B7355)] mb-3">{ing.origin}</p>
                         <p className="text-sm text-[#6A6058] leading-relaxed">{ing.desc}</p>
                       </div>
                     </div>
@@ -386,7 +386,7 @@ export default function AetherLabsPage() {
         <div className="max-w-7xl mx-auto px-6 md:px-12">
           <div className="text-center mb-14">
             <Reveal>
-              <p className="text-xs tracking-[0.25em] uppercase text-[#8B7355] mb-4">Protocole</p>
+              <p className="text-xs tracking-[0.25em] uppercase text-[var(--brand,#8B7355)] mb-4">Protocole</p>
               <h2 className="text-4xl md:text-5xl font-light" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
                 Le rituel <em>Aether</em>
               </h2>
@@ -402,7 +402,7 @@ export default function AetherLabsPage() {
               <Reveal key={r.step} delay={i * 0.08}>
                 <div className="bg-[#F0EBE0] p-8 hover:bg-[#F8F6F2] transition-colors duration-300">
                   <div className="text-4xl font-light text-[#D4C9B0] mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{r.step}</div>
-                  <p className="text-xs tracking-widests uppercase text-[#8B7355] mb-2">{r.time}</p>
+                  <p className="text-xs tracking-widests uppercase text-[var(--brand,#8B7355)] mb-2">{r.time}</p>
                   <h3 className="text-lg font-light mb-3" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{r.name}</h3>
                   <p className="text-sm text-[#6B5A40] leading-relaxed">{r.action}</p>
                 </div>
@@ -416,7 +416,7 @@ export default function AetherLabsPage() {
       <section className="py-24 bg-[#F8F6F2]">
         <div className="max-w-5xl mx-auto px-6 md:px-12">
           <Reveal>
-            <p className="text-xs tracking-[0.25em] uppercase text-[#8B7355] mb-4 text-center">Témoignages</p>
+            <p className="text-xs tracking-[0.25em] uppercase text-[var(--brand,#8B7355)] mb-4 text-center">Témoignages</p>
             <h2 className="text-3xl font-light text-center mb-14" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
               Ce que la peau <em>nous dit</em>
             </h2>
@@ -426,7 +426,7 @@ export default function AetherLabsPage() {
               <Reveal key={t.name ?? t.author ?? i} delay={i * 0.08}>
                 <div className="bg-[#F0EBE0] p-8">
                   <div className="flex gap-1 mb-5">
-                    {[...Array(t.rating)].map((_, i) => <Star key={i} className="w-3 h-3 fill-[#8B7355] text-[#8B7355]" />)}
+                    {[...Array(t.rating)].map((_, i) => <Star key={i} className="w-3 h-3 fill-[var(--brand,#8B7355)] text-[var(--brand,#8B7355)]" />)}
                   </div>
                   <p className="text-[#3A3028] leading-relaxed mb-5 italic" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "17px" }}>
                     &ldquo;{t.text}&rdquo;
@@ -445,7 +445,7 @@ export default function AetherLabsPage() {
         <div className="max-w-7xl mx-auto px-6 md:px-12">
           <div className="flex items-end justify-between mb-10">
             <Reveal>
-              <p className="text-xs tracking-[0.25em] uppercase text-[#8B7355] mb-3">Le journal scientifique</p>
+              <p className="text-xs tracking-[0.25em] uppercase text-[var(--brand,#8B7355)] mb-3">Le journal scientifique</p>
               <h2 className="text-3xl font-light" style={{ fontFamily: "'Cormorant Garamond', serif" }}>Nos dernières publications</h2>
             </Reveal>
           </div>
@@ -456,14 +456,14 @@ export default function AetherLabsPage() {
               { cat: "Microbiome", title: "Probiotiques topiques et fonction barrière cutanée : état de l'art", date: "Septembre 2024" },
             ].map((article, i) => (
               <Reveal key={article.title} delay={i * 0.08}>
-                <div className="border border-[#D4C9B0] p-6 hover:border-[#8B7355] transition-colors duration-300 cursor-pointer group">
-                  <p className="text-xs tracking-widests uppercase text-[#8B7355] mb-3">{article.cat}</p>
-                  <h3 className="text-base font-light leading-snug mb-4 group-hover:text-[#8B7355] transition-colors" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+                <div className="border border-[#D4C9B0] p-6 hover:border-[var(--brand,#8B7355)] transition-colors duration-300 cursor-pointer group">
+                  <p className="text-xs tracking-widests uppercase text-[var(--brand,#8B7355)] mb-3">{article.cat}</p>
+                  <h3 className="text-base font-light leading-snug mb-4 group-hover:text-[var(--brand,#8B7355)] transition-colors" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
                     {article.title}
                   </h3>
                   <div className="flex items-center justify-between text-xs text-[#8A7860]">
                     <span>{article.date}</span>
-                    <ArrowRight className="w-4 h-4 text-[#8B7355] opacity-0 group-hover:opacity-100 transition-opacity" />
+                    <ArrowRight className="w-4 h-4 text-[var(--brand,#8B7355)] opacity-0 group-hover:opacity-100 transition-opacity" />
                   </div>
                 </div>
               </Reveal>
@@ -476,7 +476,7 @@ export default function AetherLabsPage() {
       <section id="faq" className="py-24 bg-[#F8F6F2] border-t border-[#E4DDD4]">
         <div className="max-w-4xl mx-auto px-6">
           <Reveal>
-            <p className="text-xs tracking-[0.25em] uppercase text-[#8B7355] mb-4 text-center">Foire aux questions</p>
+            <p className="text-xs tracking-[0.25em] uppercase text-[var(--brand,#8B7355)] mb-4 text-center">Foire aux questions</p>
             <h2 className="text-3xl md:text-4xl font-light text-center mb-16" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
               Questions <em>fréquentes</em>
             </h2>
@@ -487,7 +487,7 @@ export default function AetherLabsPage() {
                 <div className="border-b border-[#E4DDD4] pb-4">
                   <button
                     onClick={() => setOpenFaq(openFaq === i ? null : i)}
-                    className="w-full flex items-center justify-between text-left py-4 text-[#1C1814] font-light hover:text-[#8B7355] transition-colors focus:outline-none cursor-pointer"
+                    className="w-full flex items-center justify-between text-left py-4 text-[#1C1814] font-light hover:text-[var(--brand,#8B7355)] transition-colors focus:outline-none cursor-pointer"
                     style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "18px" }}
                   >
                     <span>{faq.q}</span>
@@ -520,14 +520,14 @@ export default function AetherLabsPage() {
       {/* Newsletter */}
       <section className="py-20 bg-[#1C1814] text-[#F8F6F2] text-center px-6">
         <Reveal>
-          <p className="text-xs tracking-[0.25em] uppercase text-[#8B7355] mb-4">Laboratoire ouvert</p>
+          <p className="text-xs tracking-[0.25em] uppercase text-[var(--brand,#8B7355)] mb-4">Laboratoire ouvert</p>
           <h2 className="text-3xl font-light mb-4" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
             Restez informés de nos <em>recherches</em>
           </h2>
           <p className="text-[#6A6058] text-sm mb-8 max-w-md mx-auto">Formulations exclusives, études cliniques, nouveaux actifs. Notre lettre mensuelle sans compromis.</p>
           <form className="flex flex-col sm:flex-row gap-3 max-w-sm mx-auto" onSubmit={e => e.preventDefault()}>
-            <input type="email" placeholder="Votre email" className="flex-1 bg-transparent border border-[#3A3020] px-5 py-3.5 text-sm text-[#F8F6F2] focus:outline-none focus:border-[#8B7355] transition-colors" />
-            <button type="submit" className="px-8 py-3.5 bg-[#8B7355] text-[#F8F6F2] text-xs tracking-widests uppercase hover:bg-[#A08B6A] transition-colors cursor-pointer">
+            <input type="email" placeholder="Votre email" className="flex-1 bg-transparent border border-[#3A3020] px-5 py-3.5 text-sm text-[#F8F6F2] focus:outline-none focus:border-[var(--brand,#8B7355)] transition-colors" />
+            <button type="submit" className="px-8 py-3.5 bg-[var(--brand,#8B7355)] text-[#F8F6F2] text-xs tracking-widests uppercase hover:bg-[#A08B6A] transition-colors cursor-pointer">
               Suivre
             </button>
           </form>
@@ -539,7 +539,7 @@ export default function AetherLabsPage() {
         <div className="max-w-5xl mx-auto px-6">
           <div className="grid md:grid-cols-2 gap-16">
             <Reveal>
-              <p className="text-xs tracking-[0.25em] uppercase text-[#8B7355] mb-4">Contact</p>
+              <p className="text-xs tracking-[0.25em] uppercase text-[var(--brand,#8B7355)] mb-4">Contact</p>
               <h2 className="text-4xl font-light mb-8" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
                 Prendre <em>contact</em>
               </h2>
@@ -549,7 +549,7 @@ export default function AetherLabsPage() {
               <div className="space-y-6 text-sm text-[#6B5A40]">
                 <div className="flex items-center gap-4">
                   <div className="w-10 h-10 border border-[#D4C9B0] flex items-center justify-center shrink-0">
-                    <Mail className="w-4 h-4 text-[#8B7355]" />
+                    <Mail className="w-4 h-4 text-[var(--brand,#8B7355)]" />
                   </div>
                   <div>
                     <div className="text-xs text-[#8A7860] uppercase tracking-wider">Email</div>
@@ -558,7 +558,7 @@ export default function AetherLabsPage() {
                 </div>
                 <div className="flex items-center gap-4">
                   <div className="w-10 h-10 border border-[#D4C9B0] flex items-center justify-center shrink-0">
-                    <Phone className="w-4 h-4 text-[#8B7355]" />
+                    <Phone className="w-4 h-4 text-[var(--brand,#8B7355)]" />
                   </div>
                   <div>
                     <div className="text-xs text-[#8A7860] uppercase tracking-wider">Téléphone</div>
@@ -567,7 +567,7 @@ export default function AetherLabsPage() {
                 </div>
                 <div className="flex items-center gap-4">
                   <div className="w-10 h-10 border border-[#D4C9B0] flex items-center justify-center shrink-0">
-                    <MapPin className="w-4 h-4 text-[#8B7355]" />
+                    <MapPin className="w-4 h-4 text-[var(--brand,#8B7355)]" />
                   </div>
                   <div>
                     <div className="text-xs text-[#8A7860] uppercase tracking-wider">Laboratoire</div>
@@ -581,8 +581,8 @@ export default function AetherLabsPage() {
               <div className="bg-[#F8F6F2] p-8 border border-[#E4DDD4]">
                 {contactSubmitted ? (
                   <div className="text-center py-12">
-                    <div className="w-12 h-12 border border-[#8B7355] flex items-center justify-center mx-auto mb-6">
-                      <span className="text-[#8B7355] text-lg font-light">✓</span>
+                    <div className="w-12 h-12 border border-[var(--brand,#8B7355)] flex items-center justify-center mx-auto mb-6">
+                      <span className="text-[var(--brand,#8B7355)] text-lg font-light">✓</span>
                     </div>
                     <h3 className="text-2xl font-light mb-3" style={{ fontFamily: "'Cormorant Garamond', serif" }}>Message envoyé</h3>
                     <p className="text-[#6B5A40] text-sm leading-relaxed max-w-xs mx-auto text-center">
@@ -590,7 +590,7 @@ export default function AetherLabsPage() {
                     </p>
                     <button
                       onClick={() => setContactSubmitted(false)}
-                      className="mt-8 px-6 py-2.5 bg-[#1C1814] text-[#F8F6F2] text-xs tracking-widest uppercase hover:bg-[#8B7355] transition-colors cursor-pointer"
+                      className="mt-8 px-6 py-2.5 bg-[#1C1814] text-[#F8F6F2] text-xs tracking-widest uppercase hover:bg-[var(--brand,#8B7355)] transition-colors cursor-pointer"
                     >
                       Nouveau message
                     </button>
@@ -610,7 +610,7 @@ export default function AetherLabsPage() {
                         type="text"
                         required
                         placeholder="Votre nom"
-                        className="w-full bg-transparent border-b border-[#D4C9B0] py-3 text-[#1C1814] outline-none focus:border-[#8B7355] transition-colors"
+                        className="w-full bg-transparent border-b border-[#D4C9B0] py-3 text-[#1C1814] outline-none focus:border-[var(--brand,#8B7355)] transition-colors"
                       />
                     </div>
                     <div>
@@ -620,7 +620,7 @@ export default function AetherLabsPage() {
                         type="email"
                         required
                         placeholder="vous@email.com"
-                        className="w-full bg-transparent border-b border-[#D4C9B0] py-3 text-[#1C1814] outline-none focus:border-[#8B7355] transition-colors"
+                        className="w-full bg-transparent border-b border-[#D4C9B0] py-3 text-[#1C1814] outline-none focus:border-[var(--brand,#8B7355)] transition-colors"
                       />
                     </div>
                     <div>
@@ -630,12 +630,12 @@ export default function AetherLabsPage() {
                         rows={4}
                         required
                         placeholder="Votre message..."
-                        className="w-full bg-transparent border-b border-[#D4C9B0] py-3 text-[#1C1814] outline-none focus:border-[#8B7355] transition-colors resize-none"
+                        className="w-full bg-transparent border-b border-[#D4C9B0] py-3 text-[#1C1814] outline-none focus:border-[var(--brand,#8B7355)] transition-colors resize-none"
                       />
                     </div>
                     <button
                       type="submit"
-                      className="w-full py-4 bg-[#1C1814] text-[#F8F6F2] text-xs tracking-widest uppercase hover:bg-[#8B7355] transition-colors cursor-pointer"
+                      className="w-full py-4 bg-[#1C1814] text-[#F8F6F2] text-xs tracking-widest uppercase hover:bg-[var(--brand,#8B7355)] transition-colors cursor-pointer"
                     >
                       Envoyer le message
                     </button>
@@ -653,7 +653,7 @@ export default function AetherLabsPage() {
           <div className="grid md:grid-cols-4 gap-10 mb-10">
             <div className="md:col-span-2">
               <div className="text-[#F8F6F2] text-xl font-light mb-1" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{fd?.businessName ?? "Aether Labs"}</div>
-              <div className="text-xs text-[#8B7355] tracking-widests uppercase mb-4">Cosmétique scientifique · Grasse</div>
+              <div className="text-xs text-[var(--brand,#8B7355)] tracking-widests uppercase mb-4">Cosmétique scientifique · Grasse</div>
               <p className="text-sm leading-relaxed max-w-xs">Laboratoire fondé en 2012. Chaque formule est développée en interne, testée sous contrôle dermatologique et sourcée de façon éthique.</p>
             </div>
             <div>

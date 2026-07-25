@@ -388,7 +388,7 @@ function HeroSection() {
                   transition: 'background 0.3s',
                 }}
                 onMouseEnter={(e) =>
-                  (e.currentTarget.style.background = '#d9b85c')
+                  (e.currentTarget.style.background = 'var(--brand,#d9b85c)')
                 }
                 onMouseLeave={(e) =>
                   (e.currentTarget.style.background = C.accent)
@@ -1219,7 +1219,7 @@ function ProjectsSection() {
                           cursor: 'pointer',
                           transition: 'background 0.3s',
                         }}
-                        onMouseEnter={(e) => (e.currentTarget.style.background = '#d9b85c')}
+                        onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--brand,#d9b85c)')}
                         onMouseLeave={(e) => (e.currentTarget.style.background = C.accent)}
                       >
                         Discuter du projet
@@ -2570,7 +2570,7 @@ function ContactSection() {
                       transition: 'background 0.3s',
                       width: '100%',
                     }}
-                    onMouseEnter={(e) => (e.currentTarget.style.background = '#d9b85c')}
+                    onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--brand,#d9b85c)')}
                     onMouseLeave={(e) => (e.currentTarget.style.background = C.accent)}
                   >
                     Send Enquiry

@@ -31,7 +31,7 @@ let C: Record<string, string> = {
   bg: "#0a0a0a",
   surface: "#111111",
   card: "#161616",
-  gold: "#c9a855",
+  gold: "var(--brand,#c9a855)",
   goldLight: "#e2c97e",
   goldDim: "rgba(201,168,85,0.15)",
   text: "#f0ece4",

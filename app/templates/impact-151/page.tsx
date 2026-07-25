@@ -88,7 +88,7 @@ function SectionTitle({ subtitle, title, alignment = "center" }: { subtitle: str
   return (
     <div className={`mb-32 ${alignment === "center" ? "text-center" : "text-left"}`}>
        <Reveal>
-          <span className="text-[10px] font-black uppercase tracking-[0.6em] text-[#c4a661] mb-8 block italic underline underline-offset-8">
+          <span className="text-[10px] font-black uppercase tracking-[0.6em] text-[var(--brand,#c4a661)] mb-8 block italic underline underline-offset-8">
              {subtitle}
           </span>
           <h2 className="text-6xl md:text-8xl font-light italic leading-none tracking-tighter uppercase text-white" style={{ fontFamily: "serif" }}>
@@ -192,7 +192,7 @@ return (
     <motion.div 
       ref={containerRef} 
       style={{ backgroundColor: bgTransition }}
-      className="text-[#f8f9fa] font-sans selection:bg-[#c4a661] selection:text-white min-h-dvh overflow-x-hidden transition-colors duration-1000"
+      className="text-[#f8f9fa] font-sans selection:bg-[var(--brand,#c4a661)] selection:text-white min-h-dvh overflow-x-hidden transition-colors duration-1000"
     >
       
       {/* ==========================================
@@ -209,8 +209,8 @@ return (
               />
             ) : (
               <>
-               <span className="text-3xl font-light tracking-[0.4em] uppercase text-white group-hover:text-[#c4a661] transition-colors">AETHELGARD</span>
-               <span className="text-[8px] font-black tracking-[0.6em] text-[#c4a661]/40 uppercase italic">The Estate & Spirits Group</span>
+               <span className="text-3xl font-light tracking-[0.4em] uppercase text-white group-hover:text-[var(--brand,#c4a661)] transition-colors">AETHELGARD</span>
+               <span className="text-[8px] font-black tracking-[0.6em] text-[var(--brand,#c4a661)]/40 uppercase italic">The Estate & Spirits Group</span>
             </>
             )}</Link>
          </div>
@@ -224,7 +224,7 @@ return (
             </div>
             <button 
               onClick={() => setMemberPortal(true)}
-              className="w-12 h-12 border border-white/10 rounded-full flex items-center justify-center hover:bg-[#c4a661] hover:text-white transition-all shadow-xl bg-black/40 backdrop-blur-xl"
+              className="w-12 h-12 border border-white/10 rounded-full flex items-center justify-center hover:bg-[var(--brand,#c4a661)] hover:text-white transition-all shadow-xl bg-black/40 backdrop-blur-xl"
             >
                <Menu className="w-5 h-5" />
             </button>
@@ -250,7 +250,7 @@ return (
           <div className="relative z-10 text-center max-w-6xl px-8">
              <Reveal>
                 <h1 className="text-7xl md:text-[14vw] font-light italic leading-[0.8] tracking-tighter uppercase mb-16" style={{ fontFamily: "serif" }}>{c?.heroHeadline ?? <>
-                   Time <br/> <span className="not-italic font-black text-[#c4a661]/5 italic">Is_The_Master.</span>
+                   Time <br/> <span className="not-italic font-black text-[var(--brand,#c4a661)]/5 italic">Is_The_Master.</span>
                 </>}</h1>
                 <div className="flex flex-col md:flex-row justify-center items-center gap-12 md:gap-32">
                    <div className="flex flex-col items-center">
@@ -282,7 +282,7 @@ return (
                  <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-white/5 border border-white/5">
                     {TERROIR_DATA.map((data, i) => (
                       <Reveal key={i} delay={i * 0.1}>
-                         <div className="bg-black/20 backdrop-blur-3xl p-12 hover:bg-[#c4a661] hover:text-black transition-all group">
+                         <div className="bg-black/20 backdrop-blur-3xl p-12 hover:bg-[var(--brand,#c4a661)] hover:text-black transition-all group">
                             <div className="mb-8 opacity-40 group-hover:opacity-100">{data.icon}</div>
                             <div className="text-[10px] font-black uppercase tracking-widest opacity-20 group-hover:opacity-100 mb-2">{data.label}</div>
                             <div className="text-3xl font-light tracking-tighter">{data.value}</div>
@@ -296,14 +296,14 @@ return (
                        <p className="text-2xl font-light text-white/60 leading-relaxed italic">{c?.aboutText ?? <>
                           "Notre sol de calcaire jurassique insuffle à nos vins une tension minérale unique, signature indélébile de l'Aethelgard."
                        </>}</p>
-                       <div className="h-px w-32 bg-[#c4a661] my-12" />
+                       <div className="h-px w-32 bg-[var(--brand,#c4a661)] my-12" />
                        <div className="space-y-8">
                           {[
                             { t: "The Micro-Climate", d: "Une vallée protégée par des falaises de granit, retenant la chaleur solaire." },
                             { t: "Organic Harmony", d: "Culture biodynamique sans aucun compromis chimique depuis 1992." }
                           ].map((item, i) => (
                             <div key={i} className="flex gap-8 group">
-                               <span className="text-[10px] font-black text-[#c4a661]">0{i+1}</span>
+                               <span className="text-[10px] font-black text-[var(--brand,#c4a661)]">0{i+1}</span>
                                <div>
                                   <h4 className="text-sm font-black uppercase tracking-widest mb-2 italic">{item.t}</h4>
                                   <p className="text-xs text-white/20 uppercase tracking-widest font-bold leading-relaxed">{item.d}</p>
@@ -327,8 +327,8 @@ return (
               <div className="grid md:grid-cols-3 gap-12">
                  {VINTAGES.map((vin, i) => (
                    <Reveal key={vin.id} delay={i * 0.1}>
-                      <div className="group relative bg-white/5 border border-white/5 p-12 overflow-hidden hover:border-[#c4a661]/50 transition-all duration-700 cursor-pointer">
-                         <div className="absolute top-0 right-0 p-40 bg-[#c4a661] opacity-0 group-hover:opacity-[0.03] blur-[100px] rounded-full transition-opacity" />
+                      <div className="group relative bg-white/5 border border-white/5 p-12 overflow-hidden hover:border-[var(--brand,#c4a661)]/50 transition-all duration-700 cursor-pointer">
+                         <div className="absolute top-0 right-0 p-40 bg-[var(--brand,#c4a661)] opacity-0 group-hover:opacity-[0.03] blur-[100px] rounded-full transition-opacity" />
                          
                          <div className="aspect-[3/4] relative mb-12 overflow-hidden">
                             <Image 
@@ -342,8 +342,8 @@ return (
 
                          <div className="relative z-10">
                             <div className="flex justify-between items-start mb-6">
-                               <h3 className="text-3xl font-light italic uppercase tracking-tighter text-white group-hover:text-[#c4a661] transition-colors">{vin.name}</h3>
-                               <span className="text-[10px] font-black text-[#c4a661]">{vin.score}</span>
+                               <h3 className="text-3xl font-light italic uppercase tracking-tighter text-white group-hover:text-[var(--brand,#c4a661)] transition-colors">{vin.name}</h3>
+                               <span className="text-[10px] font-black text-[var(--brand,#c4a661)]">{vin.score}</span>
                             </div>
                             <div className="flex flex-wrap gap-4 mb-8">
                                {vin.notes.map(note => (
@@ -352,7 +352,7 @@ return (
                             </div>
                             <div className="flex justify-between items-end border-t border-white/10 pt-8">
                                <span className="text-[10px] font-black uppercase tracking-widest text-white/20">{vin.type}</span>
-                               <button className="text-[10px] font-black uppercase tracking-widest text-[#c4a661] flex items-center gap-2 group-hover:translate-x-2 transition-transform">
+                               <button className="text-[10px] font-black uppercase tracking-widest text-[var(--brand,#c4a661)] flex items-center gap-2 group-hover:translate-x-2 transition-transform">
                                   Reserve <ChevronRight className="w-4 h-4" />
                                </button>
                             </div>
@@ -384,7 +384,7 @@ return (
                             { label: "Purity", value: "Non-Chill Filtered" }
                           ].map((stat, i) => (
                             <div key={i} className="border-b border-white/10 pb-6">
-                               <div className="text-[8px] font-black text-[#c4a661] uppercase tracking-[0.4em] mb-2">{stat.label}</div>
+                               <div className="text-[8px] font-black text-[var(--brand,#c4a661)] uppercase tracking-[0.4em] mb-2">{stat.label}</div>
                                <div className="text-xl font-light text-white italic">{stat.value}</div>
                             </div>
                           ))}
@@ -401,7 +401,7 @@ return (
                        />
                        <div className="absolute inset-0 border-[30px] border-black/20" />
                        <div className="absolute inset-0 flex items-center justify-center">
-                          <Play className="w-20 h-20 text-[#c4a661] opacity-50 hover:opacity-100 transition-opacity cursor-pointer" />
+                          <Play className="w-20 h-20 text-[var(--brand,#c4a661)] opacity-50 hover:opacity-100 transition-opacity cursor-pointer" />
                        </div>
                     </Reveal>
                  </div>
@@ -435,7 +435,7 @@ return (
                        <label className="text-[8px] font-black uppercase tracking-[0.4em] text-black/20 block mb-2">Digital Signature</label>
                        <input type="email" className="w-full bg-transparent outline-none text-xl font-light italic" placeholder="alistair@sterling.com" />
                     </div>
-                    <button className="w-full py-6 bg-black text-white text-[10px] font-black uppercase tracking-widest hover:bg-[#c4a661] transition-all shadow-2xl">
+                    <button className="w-full py-6 bg-black text-white text-[10px] font-black uppercase tracking-widest hover:bg-[var(--brand,#c4a661)] transition-all shadow-2xl">
                        Request Invitation
                     </button>
                  </form>
@@ -450,7 +450,7 @@ return (
            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-32 mb-60 text-white">
               <div className="lg:col-span-2">
                  <div className="flex items-center gap-4 mb-12">
-                    <div className="w-10 h-10 bg-[#c4a661] flex items-center justify-center rounded-sm">
+                    <div className="w-10 h-10 bg-[var(--brand,#c4a661)] flex items-center justify-center rounded-sm">
                        <Landmark className="w-6 h-6 text-black" />
                     </div>
                     <span className="text-3xl font-light tracking-[0.4em] uppercase">AETHELGARD</span>
@@ -460,7 +460,7 @@ return (
                  </p>
                  <div className="flex gap-12">
                     {["Camera", "Vogue", "Decanter", "Forbes"].map(s => (
-                       <Link key={s} href="#terroir" className="text-[10px] font-black uppercase tracking-widest text-white/20 hover:text-[#c4a661] transition-colors italic">{s}</Link>
+                       <Link key={s} href="#terroir" className="text-[10px] font-black uppercase tracking-widest text-white/20 hover:text-[var(--brand,#c4a661)] transition-colors italic">{s}</Link>
                     ))}
                  </div>
               </div>
@@ -471,7 +471,7 @@ return (
                 { t: "SUPPORT", l: ["Shipments", "Returns", "Terms", "Contact"] }
               ].map((col, i) => (
                 <div key={i} className="flex flex-col gap-12">
-                   <h4 className="text-[10px] font-black text-[#c4a661] uppercase tracking-[0.5em] italic">{col.t}</h4>
+                   <h4 className="text-[10px] font-black text-[var(--brand,#c4a661)] uppercase tracking-[0.5em] italic">{col.t}</h4>
                    <ul className="flex flex-col gap-6">
                       {col.l.map(link => (
                          <li key={link} className="text-[10px] font-bold text-white/20 hover:text-white transition-colors cursor-pointer uppercase tracking-widest italic">{link}</li>
@@ -512,7 +512,7 @@ return (
                          <label className="text-[8px] font-black uppercase tracking-[0.4em] text-white/20 block mb-2">Key Identifier</label>
                          <input type="text" className="w-full bg-transparent outline-none text-2xl font-light italic text-white" placeholder="AE-7402-X" />
                       </div>
-                      <button className="w-full py-6 bg-[#c4a661] text-black text-[10px] font-black uppercase tracking-widest hover:bg-white transition-all">
+                      <button className="w-full py-6 bg-[var(--brand,#c4a661)] text-black text-[10px] font-black uppercase tracking-widest hover:bg-white transition-all">
                          Validate Access
                       </button>
                    </div>

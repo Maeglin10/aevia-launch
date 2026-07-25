@@ -334,7 +334,7 @@ const PageHero = ({ eyebrow, title, subtitle }: { eyebrow: string; title: string
   <section className="pt-36 pb-16 px-6 bg-[#EDE9E2] border-b border-[#D8D0C4]">
     <div className="max-w-6xl mx-auto">
       <Reveal>
-        <p className="text-[#7C9E87] text-xs tracking-widest uppercase mb-3">{eyebrow}</p>
+        <p className="text-[var(--brand,#7C9E87)] text-xs tracking-widest uppercase mb-3">{eyebrow}</p>
         <h1 className="text-[#2C2820] text-4xl md:text-6xl" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>
           {title}
         </h1>
@@ -467,7 +467,7 @@ export default function AuraWellnessPage() {
     <div className="min-h-dvh bg-[#F6F3EE]" style={{ fontFamily: "'Jost', sans-serif" }}>
       {/* Scroll progress */}
       <motion.div
-        className="fixed top-0 left-0 right-0 h-[2px] bg-[#7C9E87] origin-left z-[60]"
+        className="fixed top-0 left-0 right-0 h-[2px] bg-[var(--brand,#7C9E87)] origin-left z-[60]"
         style={{ scaleX: scrollYProgress }}
       />
 
@@ -483,7 +483,7 @@ export default function AuraWellnessPage() {
               />
             ) : (
               <>
-                <Leaf className="w-5 h-5 text-[#7C9E87]" />
+                <Leaf className="w-5 h-5 text-[var(--brand,#7C9E87)]" />
                 <span className="text-[#2C2820] tracking-widest text-sm uppercase" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.1rem" }}>{fd?.businessName ?? "Aura Wellness"}</span>
               </>
             )}
@@ -493,7 +493,7 @@ export default function AuraWellnessPage() {
               <Link
                 key={item.label}
                 href={item.href}
-                className="transition-colors duration-200 cursor-pointer hover:text-[#7C9E87]"
+                className="transition-colors duration-200 cursor-pointer hover:text-[var(--brand,#7C9E87)]"
               >
                 {item.label}
               </Link>
@@ -501,7 +501,7 @@ export default function AuraWellnessPage() {
           </div>
           <Link
             href="#reservation"
-            className="hidden md:inline-flex items-center gap-2 bg-[#7C9E87] text-white text-sm px-5 py-2.5 rounded-xl hover:bg-[#6A8D75] transition-colors duration-200 cursor-pointer"
+            className="hidden md:inline-flex items-center gap-2 bg-[var(--brand,#7C9E87)] text-white text-sm px-5 py-2.5 rounded-xl hover:bg-[#6A8D75] transition-colors duration-200 cursor-pointer"
           >
             Réserver
           </Link>
@@ -541,7 +541,7 @@ export default function AuraWellnessPage() {
                 <motion.div key={item.label} whileHover={{ x: 8 }} transition={{ duration: 0.2 }}>
                   <Link
                     href={item.href}
-                    className="text-[#2C2820] text-3xl font-light hover:text-[#7C9E87] transition-colors"
+                    className="text-[#2C2820] text-3xl font-light hover:text-[var(--brand,#7C9E87)] transition-colors"
                     style={{ fontFamily: "'Cormorant Garamond', serif" }}
                     onClick={() => setMobileOpen(false)}
                   >
@@ -592,7 +592,7 @@ export default function AuraWellnessPage() {
           </Reveal>
           <Reveal delay={0.3}>
             <div className="flex flex-col sm:flex-row gap-4">
-              <Link href="#soins" className="bg-[#7C9E87] text-white px-8 py-4 rounded-xl text-sm tracking-wide hover:bg-[#6A8D75] transition-colors duration-200 cursor-pointer">
+              <Link href="#soins" className="bg-[var(--brand,#7C9E87)] text-white px-8 py-4 rounded-xl text-sm tracking-wide hover:bg-[#6A8D75] transition-colors duration-200 cursor-pointer">
                 Découvrir les rituels
               </Link>
               <Link href="#amenities" className="bg-white/20 backdrop-blur-sm border border-white/40 text-white px-8 py-4 rounded-xl text-sm tracking-wide hover:bg-white/30 transition-colors duration-200 cursor-pointer">
@@ -632,7 +632,7 @@ export default function AuraWellnessPage() {
         <div className="max-w-6xl mx-auto">
           <Reveal>
             <div className="mb-12">
-              <p className="text-[#7C9E87] text-xs tracking-widest uppercase mb-3">Soins & Rituels</p>
+              <p className="text-[var(--brand,#7C9E87)] text-xs tracking-widest uppercase mb-3">Soins & Rituels</p>
               <h2
                 className="text-[#2C2820] text-4xl md:text-5xl"
                 style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}
@@ -648,8 +648,8 @@ export default function AuraWellnessPage() {
                 onClick={() => setActiveRitual(i)}
                 className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm transition-all duration-200 cursor-pointer border ${
                   activeRitual === i
-                    ? "bg-[#7C9E87] text-white border-[#7C9E87]"
-                    : "bg-white text-[#2C2820]/70 border-[#D8D0C4] hover:border-[#7C9E87] hover:text-[#7C9E87]"
+                    ? "bg-[var(--brand,#7C9E87)] text-white border-[var(--brand,#7C9E87)]"
+                    : "bg-white text-[#2C2820]/70 border-[#D8D0C4] hover:border-[var(--brand,#7C9E87)] hover:text-[var(--brand,#7C9E87)]"
                 }`}
               >
                 {r.icon}
@@ -669,7 +669,7 @@ export default function AuraWellnessPage() {
               <div className="p-10">
                 <div className="flex items-center gap-3 mb-6">
                   {currentRitual.tag && (
-                    <span className="text-xs bg-[#7C9E87]/10 text-[#7C9E87] px-3 py-1 rounded-full border border-[#7C9E87]/20">
+                    <span className="text-xs bg-[var(--brand,#7C9E87)]/10 text-[var(--brand,#7C9E87)] px-3 py-1 rounded-full border border-[var(--brand,#7C9E87)]/20">
                       {currentRitual.tag}
                     </span>
                   )}
@@ -692,7 +692,7 @@ export default function AuraWellnessPage() {
                   <div className="space-y-3 mb-8">
                     {currentRitual.steps.map((step: string, i: number) => (
                       <div key={i} className="flex items-center gap-3 text-sm text-[#2C2820]/80">
-                        <CheckCircle className="w-4 h-4 text-[#7C9E87] shrink-0" />
+                        <CheckCircle className="w-4 h-4 text-[var(--brand,#7C9E87)] shrink-0" />
                         {step}
                       </div>
                     ))}
@@ -728,7 +728,7 @@ export default function AuraWellnessPage() {
         <div className="max-w-6xl mx-auto">
           <Reveal>
             <div className="mb-12">
-              <p className="text-[#7C9E87] text-xs tracking-widest uppercase mb-3">L'Espace</p>
+              <p className="text-[var(--brand,#7C9E87)] text-xs tracking-widest uppercase mb-3">L'Espace</p>
               <h2
                 className="text-[#2C2820] text-4xl md:text-5xl"
                 style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}
@@ -740,8 +740,8 @@ export default function AuraWellnessPage() {
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
             {amenities.map((a, i) => (
               <Reveal key={a.label} delay={i * 0.07}>
-                <div className="bg-white rounded-2xl p-6 border border-[#D8D0C4] hover:border-[#7C9E87] transition-colors duration-200 group cursor-pointer">
-                  <div className="w-10 h-10 bg-[#7C9E87]/10 rounded-xl flex items-center justify-center text-[#7C9E87] mb-4 group-hover:bg-[#7C9E87] group-hover:text-white transition-colors duration-200">
+                <div className="bg-white rounded-2xl p-6 border border-[#D8D0C4] hover:border-[var(--brand,#7C9E87)] transition-colors duration-200 group cursor-pointer">
+                  <div className="w-10 h-10 bg-[var(--brand,#7C9E87)]/10 rounded-xl flex items-center justify-center text-[var(--brand,#7C9E87)] mb-4 group-hover:bg-[var(--brand,#7C9E87)] group-hover:text-white transition-colors duration-200">
                     {a.icon}
                   </div>
                   <h3 className="text-[#2C2820] font-medium text-sm mb-1">{a.label}</h3>
@@ -779,7 +779,7 @@ export default function AuraWellnessPage() {
         <div className="max-w-6xl mx-auto">
           <Reveal>
             <div className="mb-12">
-              <p className="text-[#7C9E87] text-xs tracking-widest uppercase mb-3">Formules Botaniques</p>
+              <p className="text-[var(--brand,#7C9E87)] text-xs tracking-widest uppercase mb-3">Formules Botaniques</p>
               <h2
                 className="text-white text-4xl md:text-5xl"
                 style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}
@@ -799,7 +799,7 @@ export default function AuraWellnessPage() {
                   >
                     {b.name}
                   </h3>
-                  <p className="text-[#7C9E87] text-xs mb-3 flex items-center gap-1">
+                  <p className="text-[var(--brand,#7C9E87)] text-xs mb-3 flex items-center gap-1">
                     <MapPin className="w-3 h-3" /> {b.origin}
                   </p>
                   <p className="text-white/60 text-sm">{b.benefit}</p>
@@ -809,7 +809,7 @@ export default function AuraWellnessPage() {
           </div>
           <Reveal delay={0.3}>
             <div className="mt-12 bg-white/5 border border-white/10 rounded-2xl p-8 flex flex-col md:flex-row items-center gap-6">
-              <Leaf className="w-8 h-8 text-[#7C9E87] shrink-0" />
+              <Leaf className="w-8 h-8 text-[var(--brand,#7C9E87)] shrink-0" />
               <div>
                 <p className="text-white text-sm font-medium mb-1">Traçabilité 100% garantie</p>
                 <p className="text-white/50 text-sm leading-relaxed">
@@ -826,7 +826,7 @@ export default function AuraWellnessPage() {
         <div className="max-w-6xl mx-auto">
           <Reveal>
             <div className="mb-12">
-              <p className="text-[#7C9E87] text-xs tracking-widest uppercase mb-3">Notre Équipe</p>
+              <p className="text-[var(--brand,#7C9E87)] text-xs tracking-widest uppercase mb-3">Notre Équipe</p>
               <h2
                 className="text-[#2C2820] text-4xl md:text-5xl"
                 style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}
@@ -854,7 +854,7 @@ export default function AuraWellnessPage() {
                     >
                       {t.name}
                     </h3>
-                    <p className="text-[#7C9E87] text-xs tracking-wide uppercase mb-3">{t.role}</p>
+                    <p className="text-[var(--brand,#7C9E87)] text-xs tracking-wide uppercase mb-3">{t.role}</p>
                     <div className="flex items-center gap-4 text-sm text-[#6B5E52]">
                       {t.years && (
                         <>
@@ -873,7 +873,7 @@ export default function AuraWellnessPage() {
       </section>
 
       {/* Testimonials */}
-      <section id="temoignages" className="py-24 px-6 bg-[#7C9E87]">
+      <section id="temoignages" className="py-24 px-6 bg-[var(--brand,#7C9E87)]">
         <div className="max-w-3xl mx-auto text-center">
           <Reveal>
             <p className="text-white/60 text-xs tracking-widest uppercase mb-12">Témoignages</p>
@@ -919,7 +919,7 @@ export default function AuraWellnessPage() {
       <section id="faq" className="py-24 bg-[#EDE9E2] border-t border-[#D8D0C4]">
         <div className="max-w-3xl mx-auto px-6">
           <Reveal className="text-center mb-16">
-            <span className="text-[#7C9E87] text-xs tracking-widest uppercase mb-3 block">
+            <span className="text-[var(--brand,#7C9E87)] text-xs tracking-widest uppercase mb-3 block">
               Sourcing & Éthique
             </span>
             <h2 className="text-3xl md:text-5xl font-serif italic text-[#2C2820]" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
@@ -934,7 +934,7 @@ export default function AuraWellnessPage() {
                 value={`item-${i}`}
                 className="border-b border-[#D8D0C4] px-4"
               >
-                <AccordionTrigger className="text-left font-sans font-bold uppercase tracking-widest text-[11px] text-[#2C2820] py-6 hover:text-[#7C9E87] hover:no-underline">
+                <AccordionTrigger className="text-left font-sans font-bold uppercase tracking-widest text-[11px] text-[#2C2820] py-6 hover:text-[var(--brand,#7C9E87)] hover:no-underline">
                   {faq.q}
                 </AccordionTrigger>
                 <AccordionContent className="text-sm font-light text-[#6B5E52] leading-relaxed pb-6 italic">
@@ -950,7 +950,7 @@ export default function AuraWellnessPage() {
       <section id="reservation" className="py-24 px-6 bg-white border-t border-[#D8D0C4]">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
-            <p className="text-[#7C9E87] text-xs tracking-widest uppercase mb-3">Réservation</p>
+            <p className="text-[var(--brand,#7C9E87)] text-xs tracking-widest uppercase mb-3">Réservation</p>
             <h2 className="text-[#2C2820] text-3xl md:text-5xl" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>
               Réserver votre rituel
             </h2>
@@ -961,7 +961,7 @@ export default function AuraWellnessPage() {
               <div className="bg-[#EDE9E2] rounded-3xl border border-[#D8D0C4] p-8 md:p-10">
                 {reservationSubmitted ? (
                   <div className="text-center py-12">
-                    <CheckCircle className="w-12 h-12 text-[#7C9E87] mx-auto mb-6" />
+                    <CheckCircle className="w-12 h-12 text-[var(--brand,#7C9E87)] mx-auto mb-6" />
                     <h3 className="text-[#2C2820] text-3xl mb-3" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
                       Demande envoyée
                     </h3>
@@ -970,7 +970,7 @@ export default function AuraWellnessPage() {
                     </p>
                     <button
                       onClick={() => setReservationSubmitted(false)}
-                      className="mt-8 text-[#7C9E87] text-sm hover:underline cursor-pointer"
+                      className="mt-8 text-[var(--brand,#7C9E87)] text-sm hover:underline cursor-pointer"
                     >
                       Faire une autre demande
                     </button>
@@ -986,7 +986,7 @@ export default function AuraWellnessPage() {
                   >
                     <div>
                       <label className="block text-[#2C2820]/70 text-xs tracking-widest uppercase mb-2" htmlFor="soin">Soin souhaité</label>
-                      <select id="soin" required className="w-full bg-[#F6F3EE] border border-[#D8D0C4] rounded-xl px-4 py-3 text-[#2C2820] outline-none focus:border-[#7C9E87] transition-colors" style={{ fontSize: "16px" }} defaultValue="">
+                      <select id="soin" required className="w-full bg-[#F6F3EE] border border-[#D8D0C4] rounded-xl px-4 py-3 text-[#2C2820] outline-none focus:border-[var(--brand,#7C9E87)] transition-colors" style={{ fontSize: "16px" }} defaultValue="">
                         <option value="" disabled>Choisir un rituel</option>
                         {rituals.map((s) => (
                           <option key={s.id} value={s.id}>{s.title} — {s.duration} · {s.price}</option>
@@ -996,11 +996,11 @@ export default function AuraWellnessPage() {
                     <div className="grid sm:grid-cols-2 gap-6">
                       <div>
                         <label className="block text-[#2C2820]/70 text-xs tracking-widest uppercase mb-2" htmlFor="date">Date</label>
-                        <input id="date" type="date" required className="w-full bg-[#F6F3EE] border border-[#D8D0C4] rounded-xl px-4 py-3 text-[#2C2820] outline-none focus:border-[#7C9E87] transition-colors" style={{ fontSize: "16px" }} />
+                        <input id="date" type="date" required className="w-full bg-[#F6F3EE] border border-[#D8D0C4] rounded-xl px-4 py-3 text-[#2C2820] outline-none focus:border-[var(--brand,#7C9E87)] transition-colors" style={{ fontSize: "16px" }} />
                       </div>
                       <div>
                         <label className="block text-[#2C2820]/70 text-xs tracking-widest uppercase mb-2" htmlFor="heure">Heure</label>
-                        <select id="heure" required className="w-full bg-[#F6F3EE] border border-[#D8D0C4] rounded-xl px-4 py-3 text-[#2C2820] outline-none focus:border-[#7C9E87] transition-colors" style={{ fontSize: "16px" }} defaultValue="">
+                        <select id="heure" required className="w-full bg-[#F6F3EE] border border-[#D8D0C4] rounded-xl px-4 py-3 text-[#2C2820] outline-none focus:border-[var(--brand,#7C9E87)] transition-colors" style={{ fontSize: "16px" }} defaultValue="">
                           <option value="" disabled>Choisir un créneau</option>
                           {creneaux.map((c) => (
                             <option key={c} value={c}>{c}</option>
@@ -1010,25 +1010,25 @@ export default function AuraWellnessPage() {
                     </div>
                     <div>
                       <label className="block text-[#2C2820]/70 text-xs tracking-widest uppercase mb-2" htmlFor="nom">Nom complet</label>
-                      <input id="nom" type="text" required placeholder="Votre nom" className="w-full bg-[#F6F3EE] border border-[#D8D0C4] rounded-xl px-4 py-3 text-[#2C2820] outline-none focus:border-[#7C9E87] transition-colors" style={{ fontSize: "16px" }} />
+                      <input id="nom" type="text" required placeholder="Votre nom" className="w-full bg-[#F6F3EE] border border-[#D8D0C4] rounded-xl px-4 py-3 text-[#2C2820] outline-none focus:border-[var(--brand,#7C9E87)] transition-colors" style={{ fontSize: "16px" }} />
                     </div>
                     <div className="grid sm:grid-cols-2 gap-6">
                       <div>
                         <label className="block text-[#2C2820]/70 text-xs tracking-widest uppercase mb-2" htmlFor="email">Email</label>
-                        <input id="email" type="email" required placeholder="vous@email.com" className="w-full bg-[#F6F3EE] border border-[#D8D0C4] rounded-xl px-4 py-3 text-[#2C2820] outline-none focus:border-[#7C9E87] transition-colors" style={{ fontSize: "16px" }} />
+                        <input id="email" type="email" required placeholder="vous@email.com" className="w-full bg-[#F6F3EE] border border-[#D8D0C4] rounded-xl px-4 py-3 text-[#2C2820] outline-none focus:border-[var(--brand,#7C9E87)] transition-colors" style={{ fontSize: "16px" }} />
                       </div>
                       <div>
                         <label className="block text-[#2C2820]/70 text-xs tracking-widest uppercase mb-2" htmlFor="tel">Téléphone</label>
-                        <input id="tel" type="tel" required placeholder="+33 6 00 00 00 00" className="w-full bg-[#F6F3EE] border border-[#D8D0C4] rounded-xl px-4 py-3 text-[#2C2820] outline-none focus:border-[#7C9E87] transition-colors" style={{ fontSize: "16px" }} />
+                        <input id="tel" type="tel" required placeholder="+33 6 00 00 00 00" className="w-full bg-[#F6F3EE] border border-[#D8D0C4] rounded-xl px-4 py-3 text-[#2C2820] outline-none focus:border-[var(--brand,#7C9E87)] transition-colors" style={{ fontSize: "16px" }} />
                       </div>
                     </div>
                     <div>
                       <label className="block text-[#2C2820]/70 text-xs tracking-widest uppercase mb-2" htmlFor="message">Message (optionnel)</label>
-                      <textarea id="message" rows={3} placeholder="Une demande particulière ?" className="w-full bg-[#F6F3EE] border border-[#D8D0C4] rounded-xl px-4 py-3 text-[#2C2820] outline-none focus:border-[#7C9E87] transition-colors" style={{ fontSize: "16px" }} />
+                      <textarea id="message" rows={3} placeholder="Une demande particulière ?" className="w-full bg-[#F6F3EE] border border-[#D8D0C4] rounded-xl px-4 py-3 text-[#2C2820] outline-none focus:border-[var(--brand,#7C9E87)] transition-colors" style={{ fontSize: "16px" }} />
                     </div>
                     <button
                       type="submit"
-                      className="w-full bg-[#7C9E87] text-white px-8 py-4 rounded-xl text-sm tracking-wide hover:bg-[#6A8D75] transition-colors duration-200 cursor-pointer flex items-center justify-center gap-2"
+                      className="w-full bg-[var(--brand,#7C9E87)] text-white px-8 py-4 rounded-xl text-sm tracking-wide hover:bg-[#6A8D75] transition-colors duration-200 cursor-pointer flex items-center justify-center gap-2"
                     >
                       Confirmer ma demande <ArrowRight className="w-4 h-4" />
                     </button>
@@ -1041,7 +1041,7 @@ export default function AuraWellnessPage() {
             {/* Horaires info */}
             <Reveal delay={0.1}>
               <div className="bg-[#EDE9E2] rounded-3xl border border-[#D8D0C4] p-8 md:p-10 h-full">
-                <p className="text-[#7C9E87] text-xs tracking-widest uppercase mb-3">Horaires</p>
+                <p className="text-[var(--brand,#7C9E87)] text-xs tracking-widest uppercase mb-3">Horaires</p>
                 <h3 className="text-[#2C2820] text-2xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
                   Nous vous accueillons
                 </h3>
@@ -1065,20 +1065,20 @@ export default function AuraWellnessPage() {
           {/* Coordonnées */}
           <Reveal>
             <div className="bg-[#EDE9E2] rounded-3xl border border-[#D8D0C4] p-8 md:p-10 h-full">
-              <p className="text-[#7C9E87] text-xs tracking-widest uppercase mb-3">Coordonnées</p>
+              <p className="text-[var(--brand,#7C9E87)] text-xs tracking-widest uppercase mb-3">Coordonnées</p>
               <h3 className="text-[#2C2820] text-2xl mb-8" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
                 Aura Wellness — Bordeaux
               </h3>
               <ul className="space-y-5 text-sm text-[#6B5E52]">
                 <li className="flex items-start gap-3">
-                  <MapPin className="w-5 h-5 text-[#7C9E87] shrink-0 mt-0.5" />
+                  <MapPin className="w-5 h-5 text-[var(--brand,#7C9E87)] shrink-0 mt-0.5" />
                   <span>Adresse communiquée sur demande<br /><span className="text-[#2C2820]/50 text-xs">Bordeaux, France</span></span>
                 </li>
                 <li className="flex items-center gap-3">
-                  <Phone className="w-5 h-5 text-[#7C9E87] shrink-0" /> +33 5 56 00 00 00
+                  <Phone className="w-5 h-5 text-[var(--brand,#7C9E87)] shrink-0" /> +33 5 56 00 00 00
                 </li>
                 <li className="flex items-center gap-3">
-                  <Mail className="w-5 h-5 text-[#7C9E87] shrink-0" />{fd?.email ?? "contact@aurawellness.fr"}</li>
+                  <Mail className="w-5 h-5 text-[var(--brand,#7C9E87)] shrink-0" />{fd?.email ?? "contact@aurawellness.fr"}</li>
               </ul>
             </div>
           </Reveal>
@@ -1088,14 +1088,14 @@ export default function AuraWellnessPage() {
             <div className="bg-white rounded-3xl border border-[#D8D0C4] p-8 md:p-10 h-full">
               {contactSubmitted ? (
                 <div className="text-center py-12">
-                  <CheckCircle className="w-12 h-12 text-[#7C9E87] mx-auto mb-6" />
+                  <CheckCircle className="w-12 h-12 text-[var(--brand,#7C9E87)] mx-auto mb-6" />
                   <h3 className="text-[#2C2820] text-3xl mb-3" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
                     Message envoyé
                   </h3>
                   <p className="text-[#6B5E52] text-sm max-w-sm mx-auto leading-relaxed">
                     Merci, nous vous répondrons sous 24h.
                   </p>
-                  <button onClick={() => setContactSubmitted(false)} className="mt-8 text-[#7C9E87] text-sm hover:underline cursor-pointer">
+                  <button onClick={() => setContactSubmitted(false)} className="mt-8 text-[var(--brand,#7C9E87)] text-sm hover:underline cursor-pointer">
                     Écrire un autre message
                   </button>
                 </div>
@@ -1110,19 +1110,19 @@ export default function AuraWellnessPage() {
                 >
                   <div>
                     <label className="block text-[#2C2820]/70 text-xs tracking-widest uppercase mb-2" htmlFor="c-nom">Nom complet</label>
-                    <input id="c-nom" type="text" required placeholder="Votre nom" className="w-full bg-[#F6F3EE] border border-[#D8D0C4] rounded-xl px-4 py-3 text-[#2C2820] outline-none focus:border-[#7C9E87] transition-colors" style={{ fontSize: "16px" }} />
+                    <input id="c-nom" type="text" required placeholder="Votre nom" className="w-full bg-[#F6F3EE] border border-[#D8D0C4] rounded-xl px-4 py-3 text-[#2C2820] outline-none focus:border-[var(--brand,#7C9E87)] transition-colors" style={{ fontSize: "16px" }} />
                   </div>
                   <div>
                     <label className="block text-[#2C2820]/70 text-xs tracking-widest uppercase mb-2" htmlFor="c-email">Email</label>
-                    <input id="c-email" type="email" required placeholder="vous@email.com" className="w-full bg-[#F6F3EE] border border-[#D8D0C4] rounded-xl px-4 py-3 text-[#2C2820] outline-none focus:border-[#7C9E87] transition-colors" style={{ fontSize: "16px" }} />
+                    <input id="c-email" type="email" required placeholder="vous@email.com" className="w-full bg-[#F6F3EE] border border-[#D8D0C4] rounded-xl px-4 py-3 text-[#2C2820] outline-none focus:border-[var(--brand,#7C9E87)] transition-colors" style={{ fontSize: "16px" }} />
                   </div>
                   <div>
                     <label className="block text-[#2C2820]/70 text-xs tracking-widest uppercase mb-2" htmlFor="c-message">Message</label>
-                    <textarea id="c-message" rows={5} required placeholder="Votre message…" className="w-full bg-[#F6F3EE] border border-[#D8D0C4] rounded-xl px-4 py-3 text-[#2C2820] outline-none focus:border-[#7C9E87] transition-colors" style={{ fontSize: "16px" }} />
+                    <textarea id="c-message" rows={5} required placeholder="Votre message…" className="w-full bg-[#F6F3EE] border border-[#D8D0C4] rounded-xl px-4 py-3 text-[#2C2820] outline-none focus:border-[var(--brand,#7C9E87)] transition-colors" style={{ fontSize: "16px" }} />
                   </div>
                   <button
                     type="submit"
-                    className="w-full bg-[#7C9E87] text-white px-8 py-4 rounded-xl text-sm tracking-wide hover:bg-[#6A8D75] transition-colors duration-200 cursor-pointer flex items-center justify-center gap-2"
+                    className="w-full bg-[var(--brand,#7C9E87)] text-white px-8 py-4 rounded-xl text-sm tracking-wide hover:bg-[#6A8D75] transition-colors duration-200 cursor-pointer flex items-center justify-center gap-2"
                   >
                     Envoyer le message <ArrowRight className="w-4 h-4" />
                   </button>
@@ -1138,7 +1138,7 @@ export default function AuraWellnessPage() {
         <div className="max-w-6xl mx-auto grid md:grid-cols-4 gap-10">
           <div>
             <div className="flex items-center gap-2 mb-4">
-              <Leaf className="w-4 h-4 text-[#7C9E87]" />
+              <Leaf className="w-4 h-4 text-[var(--brand,#7C9E87)]" />
               <span
                 className="text-[#2C2820] text-lg"
                 style={{ fontFamily: "'Cormorant Garamond', serif" }}
@@ -1163,7 +1163,7 @@ export default function AuraWellnessPage() {
               <ul className="space-y-2">
                 {col.links.map(([l, target]) => (
                   <li key={l}>
-                    <Link href={target} className="text-[#6B5E52] text-sm hover:text-[#7C9E87] transition-colors duration-200 cursor-pointer text-left">
+                    <Link href={target} className="text-[#6B5E52] text-sm hover:text-[var(--brand,#7C9E87)] transition-colors duration-200 cursor-pointer text-left">
                       {l}
                     </Link>
                   </li>
@@ -1175,9 +1175,9 @@ export default function AuraWellnessPage() {
         <div className="max-w-6xl mx-auto border-t border-[#D8D0C4] mt-10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-[#6B5E52]">
           <span>© 2026 Aura Wellness. Tous droits réservés.</span>
           <div className="flex gap-6">
-            <Link href="/templates/impact-86/mentions-legales" className="hover:text-[#7C9E87] transition-colors cursor-pointer">Mentions légales</Link>
-            <Link href="/templates/impact-86/cgu" className="hover:text-[#7C9E87] transition-colors cursor-pointer">CGU</Link>
-            <Link href="/templates/impact-86/confidentialite" className="hover:text-[#7C9E87] transition-colors cursor-pointer">Confidentialité</Link>
+            <Link href="/templates/impact-86/mentions-legales" className="hover:text-[var(--brand,#7C9E87)] transition-colors cursor-pointer">Mentions légales</Link>
+            <Link href="/templates/impact-86/cgu" className="hover:text-[var(--brand,#7C9E87)] transition-colors cursor-pointer">CGU</Link>
+            <Link href="/templates/impact-86/confidentialite" className="hover:text-[var(--brand,#7C9E87)] transition-colors cursor-pointer">Confidentialité</Link>
           </div>
         </div>
       </footer>

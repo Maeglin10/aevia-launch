@@ -150,7 +150,7 @@ export default function EssentialCafePage() {
   );
 return (
     <div className="min-h-dvh bg-[#FDFAF5] text-[#2A1F0E]" style={{ fontFamily: "'Lato', sans-serif" }}>
-      <motion.div className="fixed top-0 left-0 h-[2px] bg-[#8B5E3C] z-[1000] origin-left" style={{ scaleX: scrollYProgress }} />
+      <motion.div className="fixed top-0 left-0 h-[2px] bg-[var(--brand,#8B5E3C)] z-[1000] origin-left" style={{ scaleX: scrollYProgress }} />
 
       {/* Nav */}
       <motion.nav
@@ -167,7 +167,7 @@ return (
               />
             ) : (
               <>
-                <Coffee className="w-5 h-5 text-[#8B5E3C]" />
+                <Coffee className="w-5 h-5 text-[var(--brand,#8B5E3C)]" />
                 <span className="text-xl font-normal" style={{ fontFamily: "'Playfair Display', serif" }}>Le Matin Doré</span>
               </>
             )}
@@ -176,7 +176,7 @@ return (
             {["Menu", "Notre histoire", "Galerie", "Nous trouver"].map(l => (
               <Link key={l} href={`#${l.toLowerCase().replace(/ /g, "-")}`} className="hover:text-[#2A1F0E] transition-colors">{l}</Link>
             ))}
-            <Link href="#nous-trouver" className="px-5 py-2.5 bg-[#8B5E3C] text-white text-sm hover:bg-[#6B4830] transition-colors cursor-pointer rounded-sm">
+            <Link href="#nous-trouver" className="px-5 py-2.5 bg-[var(--brand,#8B5E3C)] text-white text-sm hover:bg-[#6B4830] transition-colors cursor-pointer rounded-sm">
               Réserver une table
             </Link>
           </div>
@@ -241,7 +241,7 @@ return (
               Chaque tasse est une promesse — de qualité, de soin, de présence. Bienvenue au Matin Doré.
             </>}</p>
             <div className="flex flex-col sm:flex-row gap-5">
-              <Link href="#menu" className="inline-flex items-center gap-3 px-8 py-4 bg-[#8B5E3C] text-white text-sm uppercase tracking-widest hover:bg-[#6B4830] transition-colors cursor-pointer">
+              <Link href="#menu" className="inline-flex items-center gap-3 px-8 py-4 bg-[var(--brand,#8B5E3C)] text-white text-sm uppercase tracking-widest hover:bg-[#6B4830] transition-colors cursor-pointer">
                 Découvrir la carte <ArrowRight className="w-4 h-4" />
               </Link>
               <Link href="#nous-trouver" className="inline-flex items-center gap-3 px-8 py-4 border border-[#D4C9B0]/50 text-white text-sm uppercase tracking-widest hover:border-[#D4C9B0] transition-colors cursor-pointer">
@@ -274,7 +274,7 @@ return (
                 <Reveal key={p.title} delay={i * 0.1}>
                   <div className="text-center p-8">
                     <div className="w-14 h-14 border border-[#C9A86C] flex items-center justify-center mx-auto mb-6">
-                      <Icon className="w-6 h-6 text-[#8B5E3C]" />
+                      <Icon className="w-6 h-6 text-[var(--brand,#8B5E3C)]" />
                     </div>
                     <h3 className="text-xl font-normal mb-4" style={{ fontFamily: "'Playfair Display', serif" }}>{p.title}</h3>
                     <p className="text-[#6B5A40] leading-relaxed text-sm">{p.desc}</p>
@@ -291,7 +291,7 @@ return (
         <div className="max-w-7xl mx-auto px-6 md:px-12">
           <div className="text-center mb-14">
             <Reveal>
-              <p className="text-xs tracking-[0.25em] uppercase text-[#8B5E3C] mb-4">La carte</p>
+              <p className="text-xs tracking-[0.25em] uppercase text-[var(--brand,#8B5E3C)] mb-4">La carte</p>
               <h2 className="text-4xl md:text-5xl font-light" style={{ fontFamily: "'Playfair Display', serif" }}>
                 Ce que nous vous <em>proposons</em>
               </h2>
@@ -316,7 +316,7 @@ return (
                     <h3 className="text-xl font-normal mb-2" style={{ fontFamily: "'Playfair Display', serif" }}>{item.name}</h3>
                     <p className="text-sm text-[#6B5A40] leading-relaxed">{item.desc}</p>
                   </div>
-                  <div className="text-xl font-light text-[#8B5E3C] whitespace-nowrap" style={{ fontFamily: "'Playfair Display', serif" }}>{item.price}</div>
+                  <div className="text-xl font-light text-[var(--brand,#8B5E3C)] whitespace-nowrap" style={{ fontFamily: "'Playfair Display', serif" }}>{item.price}</div>
                 </div>
               ))}
             </motion.div>
@@ -336,7 +336,7 @@ return (
                 <div className="aspect-[4/5] relative overflow-hidden">
                   <Image src={photo(1, "https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=800&q=80")} alt="Notre histoire" fill className="object-cover" />
                 </div>
-                <div className="absolute -bottom-6 -right-6 bg-[#8B5E3C] text-white p-6">
+                <div className="absolute -bottom-6 -right-6 bg-[var(--brand,#8B5E3C)] text-white p-6">
                   <div className="text-3xl font-light mb-1" style={{ fontFamily: "'Playfair Display', serif" }}>2018</div>
                   <div className="text-xs uppercase tracking-wide">Fondé à Paris</div>
                 </div>
@@ -344,7 +344,7 @@ return (
             </div>
             <div>
               <Reveal delay={0.1}>
-                <p className="text-xs tracking-[0.25em] uppercase text-[#8B5E3C] mb-4">Notre histoire</p>
+                <p className="text-xs tracking-[0.25em] uppercase text-[var(--brand,#8B5E3C)] mb-4">Notre histoire</p>
                 <h2 className="text-4xl md:text-5xl font-light leading-tight mb-6" style={{ fontFamily: "'Playfair Display', serif" }}>{c?.aboutTitle ?? fd?.businessName ?? <>
                   Un rêve de<br /><em>café parfait</em><br />devenu réalité
                 </>}</h2>
@@ -376,7 +376,7 @@ return (
           <Reveal>
             <div className="flex items-center justify-between mb-10">
               <h2 className="text-3xl font-light" style={{ fontFamily: "'Playfair Display', serif" }}>L&apos;ambiance du lieu</h2>
-              <Link href="#galerie" className="flex items-center gap-2 text-sm text-[#8B5E3C] cursor-pointer hover:gap-3 transition-all duration-200">
+              <Link href="#galerie" className="flex items-center gap-2 text-sm text-[var(--brand,#8B5E3C)] cursor-pointer hover:gap-3 transition-all duration-200">
                 <Instagram className="w-4 h-4" /> @lematindore
               </Link>
             </div>
@@ -434,7 +434,7 @@ return (
       <section className="py-24 bg-[#FDFAF5]">
         <div className="max-w-7xl mx-auto px-6 md:px-12">
           <Reveal>
-            <p className="text-xs tracking-[0.25em] uppercase text-[#8B5E3C] mb-4">Agenda</p>
+            <p className="text-xs tracking-[0.25em] uppercase text-[var(--brand,#8B5E3C)] mb-4">Agenda</p>
             <h2 className="text-3xl font-light mb-10" style={{ fontFamily: "'Playfair Display', serif" }}>
               À venir au café
             </h2>
@@ -446,8 +446,8 @@ return (
               { date: "Sam 25 jan", title: "Vernissage : Clara Morin", desc: "Exposition de photographies argentiques sur le thème des marchés parisiens.", time: "18h – 21h", spots: "Sur invitation" },
             ].map((ev, i) => (
               <Reveal key={ev.title} delay={i * 0.08}>
-                <div className="border border-[#E8DED0] p-6 hover:border-[#8B5E3C] transition-colors duration-300 cursor-pointer group">
-                  <div className="text-xs tracking-widest uppercase text-[#8B5E3C] mb-3">{ev.date}</div>
+                <div className="border border-[#E8DED0] p-6 hover:border-[var(--brand,#8B5E3C)] transition-colors duration-300 cursor-pointer group">
+                  <div className="text-xs tracking-widest uppercase text-[var(--brand,#8B5E3C)] mb-3">{ev.date}</div>
                   <h3 className="text-lg font-normal mb-2" style={{ fontFamily: "'Playfair Display', serif" }}>{ev.title}</h3>
                   <p className="text-sm text-[#6B5A40] leading-relaxed mb-4">{ev.desc}</p>
                   <div className="flex items-center justify-between text-xs text-[#8A7560]">
@@ -467,14 +467,14 @@ return (
           <div className="grid md:grid-cols-2 gap-20">
             <div>
               <Reveal>
-                <p className="text-xs tracking-[0.25em] uppercase text-[#8B5E3C] mb-4">Nous trouver</p>
+                <p className="text-xs tracking-[0.25em] uppercase text-[var(--brand,#8B5E3C)] mb-4">Nous trouver</p>
                 <h2 className="text-4xl md:text-5xl font-light leading-tight mb-8" style={{ fontFamily: "'Playfair Display', serif" }}>
                   Venez nous <em>rendre visite</em>
                 </h2>
                 <div className="space-y-5 mb-10">
                   {[{ Icon: MapPin, text: "34 rue de la Roquette, 75011 Paris" }, { Icon: Phone, text: "+33 1 43 48 22 10" }, { Icon: Mail, text: "bonjour@lematindore.fr" }, { Icon: Instagram, text: "@lematindore" }].map(({ Icon, text }) => (
                     <div key={text} className="flex items-center gap-4 text-sm text-[#6B5A40]">
-                      <Icon className="w-4 h-4 text-[#8B5E3C] flex-shrink-0" />
+                      <Icon className="w-4 h-4 text-[var(--brand,#8B5E3C)] flex-shrink-0" />
                       {text}
                     </div>
                   ))}
@@ -500,37 +500,37 @@ return (
                     {["Prénom", "Nom"].map(f => (
                       <div key={f}>
                         <label className="block text-xs text-[#8A7560] mb-2">{f}</label>
-                        <input className="w-full bg-transparent border border-[#D4C9B0] px-4 py-3 text-sm focus:outline-none focus:border-[#8B5E3C] transition-colors" placeholder={f} />
+                        <input className="w-full bg-transparent border border-[#D4C9B0] px-4 py-3 text-sm focus:outline-none focus:border-[var(--brand,#8B5E3C)] transition-colors" placeholder={f} />
                       </div>
                     ))}
                   </div>
                   <div>
                     <label className="block text-xs text-[#8A7560] mb-2">Email</label>
-                    <input type="email" className="w-full bg-transparent border border-[#D4C9B0] px-4 py-3 text-sm focus:outline-none focus:border-[#8B5E3C] transition-colors" placeholder="votre@email.fr" />
+                    <input type="email" className="w-full bg-transparent border border-[#D4C9B0] px-4 py-3 text-sm focus:outline-none focus:border-[var(--brand,#8B5E3C)] transition-colors" placeholder="votre@email.fr" />
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                       <label className="block text-xs text-[#8A7560] mb-2">Date</label>
-                      <input type="date" className="w-full bg-transparent border border-[#D4C9B0] px-4 py-3 text-sm focus:outline-none focus:border-[#8B5E3C] transition-colors" />
+                      <input type="date" className="w-full bg-transparent border border-[#D4C9B0] px-4 py-3 text-sm focus:outline-none focus:border-[var(--brand,#8B5E3C)] transition-colors" />
                     </div>
                     <div>
                       <label className="block text-xs text-[#8A7560] mb-2">Heure</label>
-                      <select className="w-full bg-[#FDFAF5] border border-[#D4C9B0] px-4 py-3 text-sm focus:outline-none focus:border-[#8B5E3C] transition-colors">
+                      <select className="w-full bg-[#FDFAF5] border border-[#D4C9B0] px-4 py-3 text-sm focus:outline-none focus:border-[var(--brand,#8B5E3C)] transition-colors">
                         {["9h00", "10h00", "11h00", "12h00", "13h00", "14h00", "17h00", "18h00"].map(h => <option key={h}>{h}</option>)}
                       </select>
                     </div>
                   </div>
                   <div>
                     <label className="block text-xs text-[#8A7560] mb-2">Nombre de personnes</label>
-                    <select className="w-full bg-[#FDFAF5] border border-[#D4C9B0] px-4 py-3 text-sm focus:outline-none focus:border-[#8B5E3C] transition-colors">
+                    <select className="w-full bg-[#FDFAF5] border border-[#D4C9B0] px-4 py-3 text-sm focus:outline-none focus:border-[var(--brand,#8B5E3C)] transition-colors">
                       {["1 personne", "2 personnes", "3 personnes", "4 personnes", "5+ personnes"].map(n => <option key={n}>{n}</option>)}
                     </select>
                   </div>
                   <div>
                     <label className="block text-xs text-[#8A7560] mb-2">Message (optionnel)</label>
-                    <textarea rows={3} className="w-full bg-transparent border border-[#D4C9B0] px-4 py-3 text-sm focus:outline-none focus:border-[#8B5E3C] transition-colors resize-none" placeholder="Allergies, occasion particulière..." />
+                    <textarea rows={3} className="w-full bg-transparent border border-[#D4C9B0] px-4 py-3 text-sm focus:outline-none focus:border-[var(--brand,#8B5E3C)] transition-colors resize-none" placeholder="Allergies, occasion particulière..." />
                   </div>
-                  <button type="submit" className="w-full bg-[#8B5E3C] text-white py-4 text-sm uppercase tracking-widest hover:bg-[#6B4830] transition-colors cursor-pointer">
+                  <button type="submit" className="w-full bg-[var(--brand,#8B5E3C)] text-white py-4 text-sm uppercase tracking-widest hover:bg-[#6B4830] transition-colors cursor-pointer">
                     Confirmer la réservation
                   </button>
                 </form>

@@ -166,11 +166,11 @@ export default function KeopsPage() {
   
 return (
     <div className="min-h-dvh bg-[#F5F2ED] text-[#1A1510] overflow-x-clip flex flex-col" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
-      <motion.div className="fixed top-0 left-0 right-0 h-[2px] bg-[#C46A3E] origin-left z-[60]" style={{ scaleX: scrollYProgress }} />
+      <motion.div className="fixed top-0 left-0 right-0 h-[2px] bg-[var(--brand,#C46A3E)] origin-left z-[60]" style={{ scaleX: scrollYProgress }} />
 
       {/* Nav */}
       <nav className="fixed top-4 left-4 right-4 z-50">
-        <div className="max-w-6xl mx-auto bg-[#F5F2ED]/92 backdrop-blur-md border border-[#C46A3E]/20 rounded-2xl px-6 py-4 flex items-center justify-between shadow-sm">
+        <div className="max-w-6xl mx-auto bg-[#F5F2ED]/92 backdrop-blur-md border border-[var(--brand,#C46A3E)]/20 rounded-2xl px-6 py-4 flex items-center justify-between shadow-sm">
           <div onClick={() => goTo("home")} className="cursor-pointer">
             {fd?.logoBase64 ? (
               <img
@@ -194,13 +194,13 @@ return (
                 key={item.key}
                 href={`#${item.key}`}
                 onClick={(e) => { e.preventDefault(); goTo(item.key as any); }}
-                className={`hover:text-[#C46A3E] transition-colors cursor-pointer ${page === item.key ? "text-[#C46A3E] font-bold" : ""}`}
+                className={`hover:text-[var(--brand,#C46A3E)] transition-colors cursor-pointer ${page === item.key ? "text-[var(--brand,#C46A3E)] font-bold" : ""}`}
               >
                 {item.name}
               </a>
             ))}
           </div>
-          <button onClick={() => goTo("contact")} className="hidden md:inline-flex border border-[#C46A3E] text-[#C46A3E] text-sm px-5 py-2.5 rounded-xl hover:bg-[#C46A3E] hover:text-white transition-all cursor-pointer font-medium">
+          <button onClick={() => goTo("contact")} className="hidden md:inline-flex border border-[var(--brand,#C46A3E)] text-[var(--brand,#C46A3E)] text-sm px-5 py-2.5 rounded-xl hover:bg-[var(--brand,#C46A3E)] hover:text-white transition-all cursor-pointer font-medium">
             Nous contacter
           </button>
           <button className="md:hidden text-[#1A1510] cursor-pointer" onClick={() => setMobileOpen(true)}><Menu className="w-5 h-5" /></button>
@@ -234,7 +234,7 @@ return (
               <motion.div key={item.key} initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.07 }}>
                 <a
                   href={`#${item.key}`}
-                  className={`block text-3xl mb-6 cursor-pointer ${page === item.key ? "text-[#C46A3E] font-bold" : "text-[#1A1510]"}`}
+                  className={`block text-3xl mb-6 cursor-pointer ${page === item.key ? "text-[var(--brand,#C46A3E)] font-bold" : "text-[#1A1510]"}`}
                   style={{ fontFamily: "'Libre Baskerville', serif" }}
                   onClick={(e) => { e.preventDefault(); goTo(item.key as any); }}
                 >
@@ -258,7 +258,7 @@ return (
               <motion.div className="relative z-10 h-full flex items-end pb-20 px-6" style={{ opacity: heroOpacity }}>
                 <div className="max-w-6xl mx-auto w-full">
                   <Reveal>
-                    <p className="text-[#C46A3E] text-xs tracking-widest uppercase mb-4">Agence d'architecture · Paris</p>
+                    <p className="text-[var(--brand,#C46A3E)] text-xs tracking-widest uppercase mb-4">Agence d'architecture · Paris</p>
                   </Reveal>
                   <Reveal delay={0.1}>
                     <h1 className="text-white text-7xl md:text-9xl leading-none mb-6" style={{ fontFamily: "'Libre Baskerville', serif", fontWeight: 400 }}>{c?.heroHeadline ?? <>{fd?.businessName ?? "Kéops"}</>}</h1>
@@ -266,7 +266,7 @@ return (
                   <Reveal delay={0.2}>
                     <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
                       <p className="text-white/70 text-lg max-w-md leading-relaxed">{c?.heroSubline ?? fd?.tagline ?? <>Architecture vivante. Espaces pensés pour durer, bâtis avec intention, habités avec plaisir.</>}</p>
-                      <button onClick={() => goTo("projets")} className="shrink-0 bg-[#C46A3E] text-white px-8 py-4 rounded-xl font-medium hover:bg-[#B5593A] transition-colors cursor-pointer flex items-center gap-2">
+                      <button onClick={() => goTo("projets")} className="shrink-0 bg-[var(--brand,#C46A3E)] text-white px-8 py-4 rounded-xl font-medium hover:bg-[#B5593A] transition-colors cursor-pointer flex items-center gap-2">
                         Voir les projets <ArrowRight className="w-4 h-4" />
                       </button>
                     </div>
@@ -276,7 +276,7 @@ return (
             </section>
 
             {/* Stats */}
-            <section className="py-12 bg-[#C46A3E]">
+            <section className="py-12 bg-[var(--brand,#C46A3E)]">
               <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 px-6">
                 {[["22 ans", "D'expérience"], ["140+", "Projets réalisés"], ["12", "Prix d'architecture"], ["4", "Villes d'agences"]].map(([n, l]) => (
                   <div key={l} className="text-center">
@@ -293,10 +293,10 @@ return (
                 <Reveal>
                   <div className="flex flex-col md:flex-row md:items-end justify-between mb-10">
                     <div>
-                      <p className="text-[#C46A3E] text-xs tracking-widest uppercase mb-3">Réalisations</p>
+                      <p className="text-[var(--brand,#C46A3E)] text-xs tracking-widest uppercase mb-3">Réalisations</p>
                       <h2 className="text-[#1A1510] text-4xl md:text-5xl" style={{ fontFamily: "'Libre Baskerville', serif" }}>Nos projets</h2>
                     </div>
-                    <button onClick={() => goTo("projets")} className="mt-4 md:mt-0 text-[#C46A3E] font-medium flex items-center gap-2 hover:underline cursor-pointer">
+                    <button onClick={() => goTo("projets")} className="mt-4 md:mt-0 text-[var(--brand,#C46A3E)] font-medium flex items-center gap-2 hover:underline cursor-pointer">
                       Tous nos projets <ArrowRight className="w-4 h-4" />
                     </button>
                   </div>
@@ -314,7 +314,7 @@ return (
                             <h3 className="text-[#1A1510] font-medium mb-1">{p.name}</h3>
                             <p className="text-[#1A1510]/50 text-sm flex items-center gap-1"><MapPin className="w-3 h-3" />{p.location} · {p.area}</p>
                           </div>
-                          <span className="text-[#C46A3E] text-sm">{p.year}</span>
+                          <span className="text-[var(--brand,#C46A3E)] text-sm">{p.year}</span>
                         </div>
                       </div>
                     </Reveal>
@@ -329,10 +329,10 @@ return (
                 <Reveal>
                   <div className="flex flex-col md:flex-row md:items-end justify-between mb-12">
                     <div>
-                      <p className="text-[#C46A3E] text-xs tracking-widest uppercase mb-3">Expertise</p>
+                      <p className="text-[var(--brand,#C46A3E)] text-xs tracking-widest uppercase mb-3">Expertise</p>
                       <h2 className="text-[#1A1510] text-4xl md:text-5xl" style={{ fontFamily: "'Libre Baskerville', serif" }}>Services</h2>
                     </div>
-                    <button onClick={() => goTo("services")} className="mt-4 md:mt-0 text-[#C46A3E] font-medium flex items-center gap-2 hover:underline cursor-pointer">
+                    <button onClick={() => goTo("services")} className="mt-4 md:mt-0 text-[var(--brand,#C46A3E)] font-medium flex items-center gap-2 hover:underline cursor-pointer">
                       Notre méthodologie <ArrowRight className="w-4 h-4" />
                     </button>
                   </div>
@@ -340,8 +340,8 @@ return (
                 <div className="grid md:grid-cols-2 gap-5">
                   {services.map((s, i) => (
                     <Reveal key={s.title} delay={i * 0.08}>
-                      <div onClick={() => goTo("services")} className="bg-white rounded-2xl p-8 border border-[#1A1510]/8 hover:border-[#C46A3E]/30 transition-colors cursor-pointer group">
-                        <div className="w-10 h-10 bg-[#C46A3E]/10 rounded-xl flex items-center justify-center text-[#C46A3E] mb-5 group-hover:bg-[#C46A3E] group-hover:text-white transition-colors">{s.icon}</div>
+                      <div onClick={() => goTo("services")} className="bg-white rounded-2xl p-8 border border-[#1A1510]/8 hover:border-[var(--brand,#C46A3E)]/30 transition-colors cursor-pointer group">
+                        <div className="w-10 h-10 bg-[var(--brand,#C46A3E)]/10 rounded-xl flex items-center justify-center text-[var(--brand,#C46A3E)] mb-5 group-hover:bg-[var(--brand,#C46A3E)] group-hover:text-white transition-colors">{s.icon}</div>
                         <h3 className="text-[#1A1510] font-medium text-lg mb-3" style={{ fontFamily: "'Libre Baskerville', serif" }}>{s.title}</h3>
                         <p className="text-[#1A1510]/50 text-sm leading-relaxed">{s.desc}</p>
                       </div>
@@ -390,7 +390,7 @@ return (
             <div key={col.title}>
               <h4 className="text-white/40 text-xs tracking-widest uppercase mb-4">{col.title}</h4>
               <ul className="space-y-2">
-                {col.links.map(l => <li key={l.name}><a href="/templates/impact-17" onClick={(e) => { e.preventDefault(); goTo(l.key as any); }} className="text-white/30 text-sm hover:text-[#C46A3E] transition-colors cursor-pointer">{l.name}</a></li>)}
+                {col.links.map(l => <li key={l.name}><a href="/templates/impact-17" onClick={(e) => { e.preventDefault(); goTo(l.key as any); }} className="text-white/30 text-sm hover:text-[var(--brand,#C46A3E)] transition-colors cursor-pointer">{l.name}</a></li>)}
               </ul>
             </div>
           ))}
@@ -398,8 +398,8 @@ return (
         <div className="max-w-6xl mx-auto border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between text-xs text-white/20 gap-4">
           <span>© 2026 Kéops Architecture. Tous droits réservés.</span>
           <div className="flex gap-6">
-            <a href="/templates/impact-17" onClick={(e) => { e.preventDefault(); goTo("legal"); }} className="hover:text-[#C46A3E] transition-colors">Mentions légales</a>
-            <a href="/templates/impact-17" onClick={(e) => { e.preventDefault(); goTo("legal"); }} className="hover:text-[#C46A3E] transition-colors">Confidentialité</a>
+            <a href="/templates/impact-17" onClick={(e) => { e.preventDefault(); goTo("legal"); }} className="hover:text-[var(--brand,#C46A3E)] transition-colors">Mentions légales</a>
+            <a href="/templates/impact-17" onClick={(e) => { e.preventDefault(); goTo("legal"); }} className="hover:text-[var(--brand,#C46A3E)] transition-colors">Confidentialité</a>
           </div>
         </div>
       </footer>
@@ -416,7 +416,7 @@ function ProjetsPage({ activeFilter, setActiveFilter, filtered }: { activeFilter
     <section className="py-20 px-6 bg-white">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16">
-          <span className="text-[#C46A3E] text-xs tracking-widest uppercase mb-4 block">Notre catalogue</span>
+          <span className="text-[var(--brand,#C46A3E)] text-xs tracking-widest uppercase mb-4 block">Notre catalogue</span>
           <h1 className="text-5xl md:text-7xl font-light mb-6 text-[#1A1510]" style={{ fontFamily: "'Libre Baskerville', serif" }}>Nos Réalisations</h1>
           <p className="max-w-xl mx-auto text-[#1A1510]/60 text-sm leading-relaxed mb-10">
             Découvrez nos réalisations architecturales à travers la France. Chaque ouvrage répond à une étude bioclimatique minutieuse et intègre des matériaux biosourcés.
@@ -427,7 +427,7 @@ function ProjetsPage({ activeFilter, setActiveFilter, filtered }: { activeFilter
               <button
                 key={f}
                 onClick={() => setActiveFilter(f)}
-                className={`px-5 py-2.5 rounded-xl text-sm transition-all cursor-pointer border font-medium ${activeFilter === f ? "bg-[#C46A3E] text-white border-[#C46A3E]" : "border-[#1A1510]/15 text-[#1A1510]/60 hover:border-[#C46A3E]"}`}
+                className={`px-5 py-2.5 rounded-xl text-sm transition-all cursor-pointer border font-medium ${activeFilter === f ? "bg-[var(--brand,#C46A3E)] text-white border-[var(--brand,#C46A3E)]" : "border-[#1A1510]/15 text-[#1A1510]/60 hover:border-[var(--brand,#C46A3E)]"}`}
               >
                 {f}
               </button>
@@ -455,9 +455,9 @@ function ProjetsPage({ activeFilter, setActiveFilter, filtered }: { activeFilter
                   <div>
                     <h3 className="text-[#1A1510] font-medium mb-1">{p.name}</h3>
                     <p className="text-[#1A1510]/50 text-sm flex items-center gap-1"><MapPin className="w-3 h-3" />{p.location} · {p.area}</p>
-                    <p className="text-xs text-[#C46A3E]/70 mt-1 font-mono">Matériaux : Bois local, terre crue, béton bas carbone</p>
+                    <p className="text-xs text-[var(--brand,#C46A3E)]/70 mt-1 font-mono">Matériaux : Bois local, terre crue, béton bas carbone</p>
                   </div>
-                  <span className="text-[#C46A3E] text-sm font-semibold">{p.year}</span>
+                  <span className="text-[var(--brand,#C46A3E)] text-sm font-semibold">{p.year}</span>
                 </div>
               </motion.div>
             ))}
@@ -488,7 +488,7 @@ function ServicesPage({ goTo }: { goTo: (p: ActivePage) => void }) {
     <section className="py-20 px-6 bg-[#F5F2ED]">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16">
-          <span className="text-[#C46A3E] text-xs tracking-widest uppercase mb-4 block">Notre Expertise</span>
+          <span className="text-[var(--brand,#C46A3E)] text-xs tracking-widest uppercase mb-4 block">Notre Expertise</span>
           <h1 className="text-5xl md:text-7xl font-light mb-6 text-[#1A1510]" style={{ fontFamily: "'Libre Baskerville', serif" }}>Services & Processus</h1>
           <p className="max-w-xl mx-auto text-[#1A1510]/60 text-sm leading-relaxed">
             De la première esquisse à la livraison définitive, nous pilotons chaque projet avec la même exigence de rigueur technique et d'élégance environnementale.
@@ -497,13 +497,13 @@ function ServicesPage({ goTo }: { goTo: (p: ActivePage) => void }) {
 
         <div className="grid md:grid-cols-2 gap-6 mb-20">
           {services.map((s, i) => (
-            <div key={s.title} className="bg-white rounded-2xl p-8 border border-[#1A1510]/8 hover:border-[#C46A3E]/30 transition-colors flex flex-col justify-between">
+            <div key={s.title} className="bg-white rounded-2xl p-8 border border-[#1A1510]/8 hover:border-[var(--brand,#C46A3E)]/30 transition-colors flex flex-col justify-between">
               <div>
-                <div className="w-12 h-12 bg-[#C46A3E]/10 rounded-xl flex items-center justify-center text-[#C46A3E] mb-6">{s.icon}</div>
+                <div className="w-12 h-12 bg-[var(--brand,#C46A3E)]/10 rounded-xl flex items-center justify-center text-[var(--brand,#C46A3E)] mb-6">{s.icon}</div>
                 <h3 className="text-[#1A1510] font-medium text-xl mb-3" style={{ fontFamily: "'Libre Baskerville', serif" }}>{s.title}</h3>
                 <p className="text-[#1A1510]/50 text-sm leading-relaxed mb-6">{s.desc}</p>
               </div>
-              <button onClick={() => goTo("contact")} className="w-full py-3.5 border border-[#C46A3E]/30 hover:border-[#C46A3E] hover:bg-[#C46A3E] hover:text-white rounded-xl text-xs tracking-widest uppercase transition-all font-medium text-[#C46A3E]">
+              <button onClick={() => goTo("contact")} className="w-full py-3.5 border border-[var(--brand,#C46A3E)]/30 hover:border-[var(--brand,#C46A3E)] hover:bg-[var(--brand,#C46A3E)] hover:text-white rounded-xl text-xs tracking-widest uppercase transition-all font-medium text-[var(--brand,#C46A3E)]">
                 Étudier mon projet
               </button>
             </div>
@@ -515,7 +515,7 @@ function ServicesPage({ goTo }: { goTo: (p: ActivePage) => void }) {
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {steps.map((st, idx) => (
               <div key={st.num} className="bg-white/50 border border-[#1A1510]/5 rounded-2xl p-6 relative">
-                <span className="text-5xl font-bold text-[#C46A3E]/15 absolute top-4 right-4">{st.num}</span>
+                <span className="text-5xl font-bold text-[var(--brand,#C46A3E)]/15 absolute top-4 right-4">{st.num}</span>
                 <h4 className="text-[#1A1510] font-medium text-lg mb-2 mt-4">{st.title}</h4>
                 <p className="text-[#1A1510]/50 text-xs leading-relaxed">{st.desc}</p>
               </div>
@@ -536,7 +536,7 @@ function AgencePage() {
             <Image src={photo(1, "https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80")} alt="Kéops Agence" fill className="object-cover" />
           </div>
           <div className="lg:col-span-7">
-            <span className="text-[#C46A3E] text-xs tracking-widest uppercase mb-4 block">Notre histoire</span>
+            <span className="text-[var(--brand,#C46A3E)] text-xs tracking-widest uppercase mb-4 block">Notre histoire</span>
             <h2 className="text-4xl md:text-5xl font-light leading-tight mb-6 text-[#1A1510]" style={{ fontFamily: "'Libre Baskerville', serif" }}>Bâtir l'avenir sur des fondations durables.</h2>
             <p className="text-[#1A1510]/70 text-lg leading-relaxed mb-4">
               Fondée en 2004 par Nadia Kéops, l'agence s'est forgé une solide réputation nationale dans la conception d'architectures bioclimatiques et d'espaces durables.
@@ -553,7 +553,7 @@ function AgencePage() {
             <div className="space-y-4">
               {distinctions.map((d, i) => (
                 <div key={d} className="flex items-center gap-4 py-4 border-b border-[#1A1510]/5">
-                  <Award className="w-5 h-5 text-[#C46A3E] shrink-0" />
+                  <Award className="w-5 h-5 text-[var(--brand,#C46A3E)] shrink-0" />
                   <p className="text-[#1A1510] text-sm font-medium">{d}</p>
                 </div>
               ))}
@@ -564,8 +564,8 @@ function AgencePage() {
             <p className="text-[#1A1510]/60 text-sm leading-relaxed mb-6">
               Tous nos bâtiments visent une conformité stricte RE2020 et intègrent l'analyse de cycle de vie (ACV) dès les premières étapes du design pour minimiser le carbone incorporé.
             </p>
-            <div className="bg-[#F5F2ED] rounded-2xl p-6 border border-[#C46A3E]/10">
-              <h4 className="text-[#1A1510] font-medium text-md mb-2 flex items-center gap-2"><ShieldCheck className="w-5 h-5 text-[#C46A3E]" /> Philosophie Bioclimatique</h4>
+            <div className="bg-[#F5F2ED] rounded-2xl p-6 border border-[var(--brand,#C46A3E)]/10">
+              <h4 className="text-[#1A1510] font-medium text-md mb-2 flex items-center gap-2"><ShieldCheck className="w-5 h-5 text-[var(--brand,#C46A3E)]" /> Philosophie Bioclimatique</h4>
               <p className="text-[#1A1510]/50 text-xs leading-relaxed">
                 Utilisation de la ventilation transversale naturelle, de la masse thermique pour le lissage des températures, et de protections solaires passives calculées selon l'azimut local.
               </p>
@@ -591,7 +591,7 @@ function EquipePage() {
     <section className="py-20 px-6 bg-[#F5F2ED]">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16">
-          <span className="text-[#C46A3E] text-xs tracking-widest uppercase mb-4 block">Notre ADN</span>
+          <span className="text-[var(--brand,#C46A3E)] text-xs tracking-widest uppercase mb-4 block">Notre ADN</span>
           <h1 className="text-5xl md:text-7xl font-light mb-6 text-[#1A1510]" style={{ fontFamily: "'Libre Baskerville', serif" }}>L'Équipe</h1>
           <p className="max-w-xl mx-auto text-[#1A1510]/60 text-sm leading-relaxed">
             Une synergie de talents complémentaires : architectes, ingénieurs thermiciens et conducteurs de chantiers animés par la même passion environnementale.
@@ -600,11 +600,11 @@ function EquipePage() {
 
         <div className="grid md:grid-cols-3 gap-6">
           {team.map((t, i) => (
-            <div key={t.name} className="bg-white border border-[#1A1510]/5 rounded-2xl p-8 hover:border-[#C46A3E]/30 transition-colors flex flex-col justify-between">
+            <div key={t.name} className="bg-white border border-[#1A1510]/5 rounded-2xl p-8 hover:border-[var(--brand,#C46A3E)]/30 transition-colors flex flex-col justify-between">
               <div>
-                <div className="w-16 h-16 bg-[#C46A3E] rounded-2xl flex items-center justify-center text-white text-2xl font-medium mb-6" style={{ fontFamily: "'Libre Baskerville', serif" }}>{t.name.charAt(0)}</div>
+                <div className="w-16 h-16 bg-[var(--brand,#C46A3E)] rounded-2xl flex items-center justify-center text-white text-2xl font-medium mb-6" style={{ fontFamily: "'Libre Baskerville', serif" }}>{t.name.charAt(0)}</div>
                 <h3 className="text-[#1A1510] text-xl mb-1" style={{ fontFamily: "'Libre Baskerville', serif" }}>{t.name}</h3>
-                <p className="text-[#C46A3E] text-xs tracking-widest uppercase mb-4">{t.role}</p>
+                <p className="text-[var(--brand,#C46A3E)] text-xs tracking-widest uppercase mb-4">{t.role}</p>
                 <p className="text-[#1A1510]/50 text-xs font-mono mb-4">{t.years} d'expérience</p>
                 <p className="text-[#1A1510]/60 text-sm italic leading-relaxed">"{t.citation}"</p>
               </div>
@@ -621,7 +621,7 @@ function ContactPage() {
     <section className="py-20 px-6 bg-white">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-16">
-          <span className="text-[#C46A3E] text-xs tracking-widest uppercase mb-4 block">Contact</span>
+          <span className="text-[var(--brand,#C46A3E)] text-xs tracking-widest uppercase mb-4 block">Contact</span>
           <h1 className="text-5xl md:text-7xl font-light mb-6 text-[#1A1510]" style={{ fontFamily: "'Libre Baskerville', serif" }}>Parlons de votre projet</h1>
           <p className="max-w-xl mx-auto text-[#1A1510]/60 text-sm leading-relaxed">
             Vous avez un projet résidentiel, public ou mixte ? Remplissez ce formulaire et un de nos architectes vous recontactera sous 48 heures.
@@ -633,15 +633,15 @@ function ContactPage() {
             <h3 className="text-xl font-medium text-[#1A1510]" style={{ fontFamily: "'Libre Baskerville', serif" }}>Coordonnées</h3>
             <div className="space-y-4">
               <div className="flex items-center gap-3 text-sm text-[#1A1510]/70">
-                <MapPin className="w-4 h-4 text-[#C46A3E] shrink-0" />
+                <MapPin className="w-4 h-4 text-[var(--brand,#C46A3E)] shrink-0" />
                 <span>Showroom Privé, 11 Rue de la Paix, 75002 Paris</span>
               </div>
               <div className="flex items-center gap-3 text-sm text-[#1A1510]/70">
-                <Mail className="w-4 h-4 text-[#C46A3E] shrink-0" />
+                <Mail className="w-4 h-4 text-[var(--brand,#C46A3E)] shrink-0" />
                 <span>{fd?.email ?? "contact@keops-archi.fr"}</span>
               </div>
               <div className="flex items-center gap-3 text-sm text-[#1A1510]/70">
-                <Phone className="w-4 h-4 text-[#C46A3E] shrink-0" />
+                <Phone className="w-4 h-4 text-[var(--brand,#C46A3E)] shrink-0" />
                 <span>+33 1 42 00 00 00</span>
               </div>
             </div>
@@ -655,17 +655,17 @@ function ContactPage() {
           </div>
 
           <div className="md:col-span-7 bg-white p-8 rounded-2xl border border-[#1A1510]/10 flex flex-col gap-4">
-            <input type="text" placeholder="Votre nom complet" className="bg-[#F5F2ED] border border-[#1A1510]/10 text-[#1A1510] text-sm px-4 py-3.5 rounded-xl outline-none focus:border-[#C46A3E] placeholder-[#1A1510]/30" />
-            <input type="email" placeholder="Votre adresse email" className="bg-[#F5F2ED] border border-[#1A1510]/10 text-[#1A1510] text-sm px-4 py-3.5 rounded-xl outline-none focus:border-[#C46A3E] placeholder-[#1A1510]/30" />
-            <select className="bg-[#F5F2ED] border border-[#1A1510]/10 text-[#1A1510]/60 text-sm px-4 py-3.5 rounded-xl outline-none focus:border-[#C46A3E] cursor-pointer">
+            <input type="text" placeholder="Votre nom complet" className="bg-[#F5F2ED] border border-[#1A1510]/10 text-[#1A1510] text-sm px-4 py-3.5 rounded-xl outline-none focus:border-[var(--brand,#C46A3E)] placeholder-[#1A1510]/30" />
+            <input type="email" placeholder="Votre adresse email" className="bg-[#F5F2ED] border border-[#1A1510]/10 text-[#1A1510] text-sm px-4 py-3.5 rounded-xl outline-none focus:border-[var(--brand,#C46A3E)] placeholder-[#1A1510]/30" />
+            <select className="bg-[#F5F2ED] border border-[#1A1510]/10 text-[#1A1510]/60 text-sm px-4 py-3.5 rounded-xl outline-none focus:border-[var(--brand,#C46A3E)] cursor-pointer">
               <option>Type de programme</option>
               <option>Villa & Résidentiel</option>
               <option>Espace Public / Culturel</option>
               <option>Réhabilitation & Rénovation</option>
               <option>Autre</option>
             </select>
-            <textarea rows={4} placeholder="Décrivez les grandes lignes de votre projet (surface, localisation, budget estimé...)" className="bg-[#F5F2ED] border border-[#1A1510]/10 text-[#1A1510] text-sm px-4 py-3.5 rounded-xl outline-none focus:border-[#C46A3E] placeholder-[#1A1510]/30 resize-none" />
-            <button className="bg-[#C46A3E] text-white font-medium px-6 py-4 rounded-xl hover:bg-[#B5593A] transition-colors cursor-pointer text-sm">
+            <textarea rows={4} placeholder="Décrivez les grandes lignes de votre projet (surface, localisation, budget estimé...)" className="bg-[#F5F2ED] border border-[#1A1510]/10 text-[#1A1510] text-sm px-4 py-3.5 rounded-xl outline-none focus:border-[var(--brand,#C46A3E)] placeholder-[#1A1510]/30 resize-none" />
+            <button className="bg-[var(--brand,#C46A3E)] text-white font-medium px-6 py-4 rounded-xl hover:bg-[#B5593A] transition-colors cursor-pointer text-sm">
               Envoyer ma demande d'étude
             </button>
           </div>
@@ -680,13 +680,13 @@ function LegalPage() {
     <section id="contact" className="py-20 px-6 bg-white font-mono text-xs text-[#1A1510]/80">
       <div className="max-w-3xl mx-auto space-y-12">
         <div>
-          <span className="text-[#C46A3E] text-[10px] uppercase tracking-widest mb-3 block font-bold">Réglementation</span>
+          <span className="text-[var(--brand,#C46A3E)] text-[10px] uppercase tracking-widest mb-3 block font-bold">Réglementation</span>
           <h1 className="text-4xl md:text-5xl font-light uppercase text-[#1A1510] mb-8" style={{ fontFamily: "'Libre Baskerville', serif" }}>Mentions Légales</h1>
         </div>
 
-        <div className="border border-[#C46A3E]/20 bg-[#F5F2ED]/50 p-8 rounded-2xl space-y-6">
+        <div className="border border-[var(--brand,#C46A3E)]/20 bg-[#F5F2ED]/50 p-8 rounded-2xl space-y-6">
           <div className="border-b border-[#1A1510]/10 pb-4">
-            <div className="text-[#C46A3E] text-[10px] font-bold uppercase mb-2">ÉDITEUR</div>
+            <div className="text-[var(--brand,#C46A3E)] text-[10px] font-bold uppercase mb-2">ÉDITEUR</div>
             <p className="leading-relaxed font-sans">
               <strong>Aevia WS — Valentin Milliand</strong><br />
               Entrepreneur individuel<br />
@@ -698,7 +698,7 @@ function LegalPage() {
           </div>
 
           <div className="border-b border-[#1A1510]/10 pb-4">
-            <div className="text-[#C46A3E] text-[10px] font-bold uppercase mb-2">HÉBERGEUR</div>
+            <div className="text-[var(--brand,#C46A3E)] text-[10px] font-bold uppercase mb-2">HÉBERGEUR</div>
             <p className="leading-relaxed font-sans">
               <strong>Vercel Inc.</strong><br />
               340 S Lemon Ave #4133<br />
@@ -707,7 +707,7 @@ function LegalPage() {
           </div>
 
           <div>
-            <div className="text-[#C46A3E] text-[10px] font-bold uppercase mb-2">PROPRIÉTÉ INTELLECTUELLE</div>
+            <div className="text-[var(--brand,#C46A3E)] text-[10px] font-bold uppercase mb-2">PROPRIÉTÉ INTELLECTUELLE</div>
             <p className="leading-relaxed font-sans text-xs">
               Tous les visuels, photographies de chantiers, plans, esquisses architecturales, ainsi que le code source de ce site internet sont protégés par le droit d'auteur. Toute reproduction ou distribution non autorisée est passible de poursuites judiciaires.
             </p>
