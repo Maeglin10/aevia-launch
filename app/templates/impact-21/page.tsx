@@ -289,7 +289,7 @@ export default function FormeStudioPage() {
   }, [c]);
 return (
     <div className="min-h-dvh bg-white" style={{ fontFamily: "'DM Sans', sans-serif" }}>
-      <motion.div className="fixed top-0 left-0 right-0 h-[3px] bg-[#F97316] origin-left z-[60]" style={{ scaleX: scrollYProgress }} />
+      <motion.div className="fixed top-0 left-0 right-0 h-[3px] bg-[var(--brand,#F97316)] origin-left z-[60]" style={{ scaleX: scrollYProgress }} />
 
       {/* Nav */}
       <nav className="fixed top-4 left-4 right-4 z-50">
@@ -303,19 +303,19 @@ return (
               />
             ) : (
               <>
-                <div className="w-7 h-7 bg-[#F97316] rounded-lg" />
+                <div className="w-7 h-7 bg-[var(--brand,#F97316)] rounded-lg" />
                 <span className="text-gray-900 font-bold text-lg tracking-tight">{fd?.businessName ?? "Forme Studio"}</span>
               </>
             )}
           </button>
           <div className="hidden md:flex items-center gap-8 text-gray-500 text-sm font-medium">
             {Object.entries(navMap).map(([label, target]) => (
-              <button key={label} onClick={() => goTo(target)} className="hover:text-[#F97316] transition-colors cursor-pointer bg-transparent border-none p-0 font-medium text-sm text-gray-500">
+              <button key={label} onClick={() => goTo(target)} className="hover:text-[var(--brand,#F97316)] transition-colors cursor-pointer bg-transparent border-none p-0 font-medium text-sm text-gray-500">
                 {label}
               </button>
             ))}
           </div>
-          <button onClick={() => goTo("contact")} className="hidden md:inline-flex bg-gray-900 text-white text-sm px-5 py-2.5 rounded-xl hover:bg-[#F97316] transition-colors cursor-pointer font-medium">
+          <button onClick={() => goTo("contact")} className="hidden md:inline-flex bg-gray-900 text-white text-sm px-5 py-2.5 rounded-xl hover:bg-[var(--brand,#F97316)] transition-colors cursor-pointer font-medium">
             Nouveau projet
           </button>
           <button className="md:hidden text-gray-900 cursor-pointer" onClick={() => setMobileOpen(true)}><Menu className="w-5 h-5" /></button>
@@ -357,14 +357,14 @@ return (
             </motion.div>
             <div className="max-w-6xl mx-auto w-full relative z-10">
               <Reveal>
-                <div className="inline-flex items-center gap-2 bg-[#F97316]/10 text-[#F97316] text-xs font-semibold px-4 py-1.5 rounded-full mb-8">
+                <div className="inline-flex items-center gap-2 bg-[var(--brand,#F97316)]/10 text-[var(--brand,#F97316)] text-xs font-semibold px-4 py-1.5 rounded-full mb-8">
                   Studio de design produit · Paris
                 </div>
               </Reveal>
               <Reveal delay={0.1}>
                 <h1 className="text-gray-900 text-6xl md:text-8xl font-bold leading-none mb-8">{c?.heroHeadline ?? <>
                   Design<br />
-                  <em className="font-light text-[#F97316]">qui dure.</em>
+                  <em className="font-light text-[var(--brand,#F97316)]">qui dure.</em>
                 </>}</h1>
               </Reveal>
               <Reveal delay={0.2}>
@@ -374,10 +374,10 @@ return (
               </Reveal>
               <Reveal delay={0.3}>
                 <div className="flex flex-col sm:flex-row gap-4">
-                  <button onClick={() => goTo("travaux")} className="bg-gray-900 text-white font-bold px-8 py-4 rounded-xl hover:bg-[#F97316] transition-colors cursor-pointer flex items-center gap-2">
+                  <button onClick={() => goTo("travaux")} className="bg-gray-900 text-white font-bold px-8 py-4 rounded-xl hover:bg-[var(--brand,#F97316)] transition-colors cursor-pointer flex items-center gap-2">
                     Voir les projets <ArrowRight className="w-4 h-4" />
                   </button>
-                  <button onClick={() => goTo("studio")} className="border border-gray-300 text-gray-700 px-8 py-4 rounded-xl hover:border-[#F97316] hover:text-[#F97316] transition-colors cursor-pointer">
+                  <button onClick={() => goTo("studio")} className="border border-gray-300 text-gray-700 px-8 py-4 rounded-xl hover:border-[var(--brand,#F97316)] hover:text-[var(--brand,#F97316)] transition-colors cursor-pointer">
                     En savoir plus
                   </button>
                 </div>
@@ -400,10 +400,10 @@ return (
             <div className="max-w-6xl mx-auto">
               <Reveal className="flex items-end justify-between mb-12">
                 <div>
-                  <p className="text-[#F97316] text-sm font-semibold mb-3">Travaux récents</p>
+                  <p className="text-[var(--brand,#F97316)] text-sm font-semibold mb-3">Travaux récents</p>
                   <h2 className="text-gray-900 text-4xl font-bold">Projets sélectionnés</h2>
                 </div>
-                <button onClick={() => goTo("travaux")} className="text-gray-400 text-sm hover:text-[#F97316] transition-colors cursor-pointer flex items-center gap-1 bg-transparent border-none p-0">
+                <button onClick={() => goTo("travaux")} className="text-gray-400 text-sm hover:text-[var(--brand,#F97316)] transition-colors cursor-pointer flex items-center gap-1 bg-transparent border-none p-0">
                   Tout voir <ChevronRight className="w-4 h-4" />
                 </button>
               </Reveal>
@@ -447,14 +447,14 @@ return (
           <section className="py-24 px-6 bg-gray-50">
             <div className="max-w-6xl mx-auto">
               <Reveal className="mb-12">
-                <p className="text-[#F97316] text-sm font-semibold mb-3">Expertises</p>
+                <p className="text-[var(--brand,#F97316)] text-sm font-semibold mb-3">Expertises</p>
                 <h2 className="text-gray-900 text-4xl font-bold">Ce que nous faisons</h2>
               </Reveal>
               <div className="grid md:grid-cols-2 gap-5">
                 {disciplines.map((d, i) => (
                   <Reveal key={d.title} delay={i * 0.1}>
-                    <div className="bg-white rounded-2xl p-8 border border-gray-100 hover:border-[#F97316]/20 hover:shadow-md transition-all cursor-pointer group">
-                      <div className="w-10 h-10 rounded-xl bg-[#F97316]/10 flex items-center justify-center text-[#F97316] mb-5 group-hover:bg-[#F97316] group-hover:text-white transition-colors">{d.icon}</div>
+                    <div className="bg-white rounded-2xl p-8 border border-gray-100 hover:border-[var(--brand,#F97316)]/20 hover:shadow-md transition-all cursor-pointer group">
+                      <div className="w-10 h-10 rounded-xl bg-[var(--brand,#F97316)]/10 flex items-center justify-center text-[var(--brand,#F97316)] mb-5 group-hover:bg-[var(--brand,#F97316)] group-hover:text-white transition-colors">{d.icon}</div>
                       <h3 className="text-gray-900 font-bold text-lg mb-3">{d.title}</h3>
                       <p className="text-gray-500 text-sm leading-relaxed">{d.desc}</p>
                     </div>
@@ -468,7 +468,7 @@ return (
           <section className="py-24 px-6 bg-gray-900">
             <div className="max-w-6xl mx-auto">
               <Reveal className="mb-12">
-                <p className="text-[#F97316] text-sm font-semibold mb-3">Notre méthode</p>
+                <p className="text-[var(--brand,#F97316)] text-sm font-semibold mb-3">Notre méthode</p>
                 <h2 className="text-white text-4xl font-bold">Du brief au lancement</h2>
               </Reveal>
               <div className="grid md:grid-cols-4 gap-6">
@@ -490,7 +490,7 @@ return (
             <div className="max-w-6xl mx-auto">
               <Reveal className="text-center mb-8"><p className="text-gray-400 text-sm">Ils nous ont fait confiance</p></Reveal>
               <div className="flex flex-wrap justify-center gap-8">
-                {clients.map((c, i) => <Reveal key={c} delay={i * 0.04}><span className="text-gray-300 text-sm font-medium hover:text-[#F97316] transition-colors cursor-pointer">{c}</span></Reveal>)}
+                {clients.map((c, i) => <Reveal key={c} delay={i * 0.04}><span className="text-gray-300 text-sm font-medium hover:text-[var(--brand,#F97316)] transition-colors cursor-pointer">{c}</span></Reveal>)}
               </div>
             </div>
           </section>
@@ -499,10 +499,10 @@ return (
           <section className="py-24 px-6 bg-[#F8F4F0]">
             <div className="max-w-4xl mx-auto text-center">
               <Reveal>
-                <p className="text-[#F97316] text-sm font-semibold mb-4">Travaillons ensemble</p>
+                <p className="text-[var(--brand,#F97316)] text-sm font-semibold mb-4">Travaillons ensemble</p>
                 <h2 className="text-gray-900 text-5xl font-bold mb-4">Vous avez un projet ?</h2>
                 <p className="text-gray-500 text-lg max-w-md mx-auto mb-10">On est curieux. Parlez-nous de votre produit, de vos contraintes et de vos ambitions.</p>
-                <button onClick={() => goTo("contact")} className="bg-gray-900 text-white font-bold px-10 py-4 rounded-xl hover:bg-[#F97316] transition-colors cursor-pointer text-lg flex items-center gap-2 mx-auto">
+                <button onClick={() => goTo("contact")} className="bg-gray-900 text-white font-bold px-10 py-4 rounded-xl hover:bg-[var(--brand,#F97316)] transition-colors cursor-pointer text-lg flex items-center gap-2 mx-auto">
                   <Mail className="w-5 h-5" />{fd?.email ?? "hello@formedstudio.fr"}</button>
               </Reveal>
             </div>
@@ -514,13 +514,13 @@ return (
           <section id="realisations" className="pt-32 pb-16 px-6 bg-[#F8F4F0]">
             <div className="max-w-6xl mx-auto">
               <Reveal>
-                <div className="inline-flex items-center gap-2 bg-[#F97316]/10 text-[#F97316] text-xs font-semibold px-4 py-1.5 rounded-full mb-6">
+                <div className="inline-flex items-center gap-2 bg-[var(--brand,#F97316)]/10 text-[var(--brand,#F97316)] text-xs font-semibold px-4 py-1.5 rounded-full mb-6">
                   Portfolio complet
                 </div>
               </Reveal>
               <Reveal delay={0.1}>
                 <h1 className="text-gray-900 text-5xl md:text-7xl font-bold leading-none mb-6">
-                  Nos <em className="font-light text-[#F97316]">travaux</em>
+                  Nos <em className="font-light text-[var(--brand,#F97316)]">travaux</em>
                 </h1>
               </Reveal>
               <Reveal delay={0.2}>
@@ -553,19 +553,19 @@ return (
                       <p className="text-gray-600 leading-relaxed">{p.description}</p>
                       <div className="space-y-4">
                         <div className="bg-gray-50 rounded-xl p-5 border border-gray-100">
-                          <div className="flex items-center gap-2 text-[#F97316] text-sm font-semibold mb-2">
+                          <div className="flex items-center gap-2 text-[var(--brand,#F97316)] text-sm font-semibold mb-2">
                             <Cog className="w-4 h-4" /> Matériaux
                           </div>
                           <p className="text-gray-500 text-sm">{p.materials}</p>
                         </div>
                         <div className="bg-gray-50 rounded-xl p-5 border border-gray-100">
-                          <div className="flex items-center gap-2 text-[#F97316] text-sm font-semibold mb-2">
+                          <div className="flex items-center gap-2 text-[var(--brand,#F97316)] text-sm font-semibold mb-2">
                             <Ruler className="w-4 h-4" /> Process
                           </div>
                           <p className="text-gray-500 text-sm">{p.processUsed}</p>
                         </div>
                         <div className="bg-gray-50 rounded-xl p-5 border border-gray-100">
-                          <div className="flex items-center gap-2 text-[#F97316] text-sm font-semibold mb-2">
+                          <div className="flex items-center gap-2 text-[var(--brand,#F97316)] text-sm font-semibold mb-2">
                             <Users className="w-4 h-4" /> Ergonomie
                           </div>
                           <p className="text-gray-500 text-sm">{p.ergonomics}</p>
@@ -583,7 +583,7 @@ return (
               <Reveal>
                 <h2 className="text-white text-4xl font-bold mb-4">Votre produit pourrait être ici</h2>
                 <p className="text-gray-400 text-lg mb-8">Rejoignez les marques qui nous ont fait confiance pour donner forme à leurs idées.</p>
-                <button onClick={() => goTo("contact")} className="bg-[#F97316] text-white font-bold px-8 py-4 rounded-xl hover:bg-[#F97316]/90 transition-colors cursor-pointer flex items-center gap-2 mx-auto">
+                <button onClick={() => goTo("contact")} className="bg-[var(--brand,#F97316)] text-white font-bold px-8 py-4 rounded-xl hover:bg-[var(--brand,#F97316)]/90 transition-colors cursor-pointer flex items-center gap-2 mx-auto">
                   Lancer un projet <ArrowRight className="w-4 h-4" />
                 </button>
               </Reveal>
@@ -596,13 +596,13 @@ return (
           <section id="services" className="pt-32 pb-16 px-6 bg-[#F8F4F0]">
             <div className="max-w-6xl mx-auto">
               <Reveal>
-                <div className="inline-flex items-center gap-2 bg-[#F97316]/10 text-[#F97316] text-xs font-semibold px-4 py-1.5 rounded-full mb-6">
+                <div className="inline-flex items-center gap-2 bg-[var(--brand,#F97316)]/10 text-[var(--brand,#F97316)] text-xs font-semibold px-4 py-1.5 rounded-full mb-6">
                   Nos savoir-faire
                 </div>
               </Reveal>
               <Reveal delay={0.1}>
                 <h1 className="text-gray-900 text-5xl md:text-7xl font-bold leading-none mb-6">
-                  Nos <em className="font-light text-[#F97316]">expertises</em>
+                  Nos <em className="font-light text-[var(--brand,#F97316)]">expertises</em>
                 </h1>
               </Reveal>
               <Reveal delay={0.2}>
@@ -620,7 +620,7 @@ return (
               <Reveal>
                 <div className="grid md:grid-cols-5 gap-8 items-start">
                   <div className="md:col-span-2">
-                    <div className="w-14 h-14 rounded-2xl bg-[#F97316]/10 flex items-center justify-center text-[#F97316] mb-6">
+                    <div className="w-14 h-14 rounded-2xl bg-[var(--brand,#F97316)]/10 flex items-center justify-center text-[var(--brand,#F97316)] mb-6">
                       <Package className="w-7 h-7" />
                     </div>
                     <h2 className="text-gray-900 text-3xl font-bold mb-4">Packaging & Branding</h2>
@@ -650,7 +650,7 @@ return (
               <Reveal>
                 <div className="grid md:grid-cols-5 gap-8 items-start">
                   <div className="md:col-span-2">
-                    <div className="w-14 h-14 rounded-2xl bg-[#F97316]/10 flex items-center justify-center text-[#F97316] mb-6">
+                    <div className="w-14 h-14 rounded-2xl bg-[var(--brand,#F97316)]/10 flex items-center justify-center text-[var(--brand,#F97316)] mb-6">
                       <Layers className="w-7 h-7" />
                     </div>
                     <h2 className="text-gray-900 text-3xl font-bold mb-4">Mobilier & Objets</h2>
@@ -680,7 +680,7 @@ return (
               <Reveal>
                 <div className="grid md:grid-cols-5 gap-8 items-start">
                   <div className="md:col-span-2">
-                    <div className="w-14 h-14 rounded-2xl bg-[#F97316]/10 flex items-center justify-center text-[#F97316] mb-6">
+                    <div className="w-14 h-14 rounded-2xl bg-[var(--brand,#F97316)]/10 flex items-center justify-center text-[var(--brand,#F97316)] mb-6">
                       <Cpu className="w-7 h-7" />
                     </div>
                     <h2 className="text-gray-900 text-3xl font-bold mb-4">Product Design Tech</h2>
@@ -710,7 +710,7 @@ return (
               <Reveal>
                 <div className="grid md:grid-cols-5 gap-8 items-start">
                   <div className="md:col-span-2">
-                    <div className="w-14 h-14 rounded-2xl bg-[#F97316]/10 flex items-center justify-center text-[#F97316] mb-6">
+                    <div className="w-14 h-14 rounded-2xl bg-[var(--brand,#F97316)]/10 flex items-center justify-center text-[var(--brand,#F97316)] mb-6">
                       <Eye className="w-7 h-7" />
                     </div>
                     <h2 className="text-gray-900 text-3xl font-bold mb-4">Design de Concept</h2>
@@ -742,7 +742,7 @@ return (
           <section className="py-20 px-6 bg-gray-50">
             <div className="max-w-4xl mx-auto text-center">
               <Reveal>
-                <div className="w-14 h-14 rounded-2xl bg-[#F97316]/10 flex items-center justify-center text-[#F97316] mx-auto mb-6">
+                <div className="w-14 h-14 rounded-2xl bg-[var(--brand,#F97316)]/10 flex items-center justify-center text-[var(--brand,#F97316)] mx-auto mb-6">
                   <Lightbulb className="w-7 h-7" />
                 </div>
                 <h2 className="text-gray-900 text-4xl font-bold mb-4">Workshops de co-design</h2>
@@ -750,7 +750,7 @@ return (
                   Deux jours d'immersion créative avec notre équipe. Idéation, prototypage rapide et feuille de route design pour votre prochain lancement.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                  <button onClick={() => goTo("contact")} className="bg-gray-900 text-white font-bold px-8 py-4 rounded-xl hover:bg-[#F97316] transition-colors cursor-pointer flex items-center gap-2 mx-auto sm:mx-0">
+                  <button onClick={() => goTo("contact")} className="bg-gray-900 text-white font-bold px-8 py-4 rounded-xl hover:bg-[var(--brand,#F97316)] transition-colors cursor-pointer flex items-center gap-2 mx-auto sm:mx-0">
                     Réserver un workshop <Calendar className="w-4 h-4" />
                   </button>
                 </div>
@@ -764,13 +764,13 @@ return (
           <section className="pt-32 pb-16 px-6 bg-[#F8F4F0]">
             <div className="max-w-6xl mx-auto">
               <Reveal>
-                <div className="inline-flex items-center gap-2 bg-[#F97316]/10 text-[#F97316] text-xs font-semibold px-4 py-1.5 rounded-full mb-6">
+                <div className="inline-flex items-center gap-2 bg-[var(--brand,#F97316)]/10 text-[var(--brand,#F97316)] text-xs font-semibold px-4 py-1.5 rounded-full mb-6">
                   Qui nous sommes
                 </div>
               </Reveal>
               <Reveal delay={0.1}>
                 <h1 className="text-gray-900 text-5xl md:text-7xl font-bold leading-none mb-6">
-                  Le <em className="font-light text-[#F97316]">studio</em>
+                  Le <em className="font-light text-[var(--brand,#F97316)]">studio</em>
                 </h1>
               </Reveal>
               <Reveal delay={0.2}>
@@ -787,7 +787,7 @@ return (
               <div className="grid md:grid-cols-2 gap-16 items-start">
                 <Reveal>
                   <div>
-                    <p className="text-[#F97316] text-sm font-semibold mb-3">Notre manifeste</p>
+                    <p className="text-[var(--brand,#F97316)] text-sm font-semibold mb-3">Notre manifeste</p>
                     <h2 className="text-gray-900 text-4xl font-bold mb-8">Le design qui dure est un acte de responsabilité</h2>
                     <div className="space-y-6 text-gray-500 leading-relaxed">
                       <p>
@@ -811,7 +811,7 @@ return (
                       { icon: <Globe className="w-5 h-5" />, title: "Rayonnement international", desc: "Des projets pour des clients dans 12 pays, avec une sensibilité culturelle adaptée." },
                     ].map((v, i) => (
                       <div key={i} className="bg-gray-50 rounded-2xl p-6 border border-gray-100 flex gap-4">
-                        <div className="w-10 h-10 rounded-xl bg-[#F97316]/10 flex items-center justify-center text-[#F97316] shrink-0">{v.icon}</div>
+                        <div className="w-10 h-10 rounded-xl bg-[var(--brand,#F97316)]/10 flex items-center justify-center text-[var(--brand,#F97316)] shrink-0">{v.icon}</div>
                         <div>
                           <h4 className="text-gray-900 font-bold mb-1">{v.title}</h4>
                           <p className="text-gray-500 text-sm leading-relaxed">{v.desc}</p>
@@ -828,7 +828,7 @@ return (
           <section className="py-24 px-6 bg-gray-50">
             <div className="max-w-4xl mx-auto">
               <Reveal className="mb-16 text-center">
-                <p className="text-[#F97316] text-sm font-semibold mb-3">Notre parcours</p>
+                <p className="text-[var(--brand,#F97316)] text-sm font-semibold mb-3">Notre parcours</p>
                 <h2 className="text-gray-900 text-4xl font-bold">Une décennie de design</h2>
               </Reveal>
               <div className="relative">
@@ -838,15 +838,15 @@ return (
                     <div className={`relative flex items-start gap-8 mb-12 ${i % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"}`}>
                       <div className={`flex-1 ${i % 2 === 0 ? "md:text-right" : "md:text-left"} hidden md:block`}>
                         <div className={`bg-white rounded-2xl p-6 border border-gray-100 inline-block max-w-sm ${i % 2 === 0 ? "ml-auto" : "mr-auto"}`}>
-                          <p className="text-[#F97316] font-bold text-lg mb-1">{t.year}</p>
+                          <p className="text-[var(--brand,#F97316)] font-bold text-lg mb-1">{t.year}</p>
                           <h4 className="text-gray-900 font-bold mb-2">{t.title}</h4>
                           <p className="text-gray-500 text-sm leading-relaxed">{t.desc}</p>
                         </div>
                       </div>
-                      <div className="absolute left-4 md:left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-[#F97316] border-4 border-white shadow-sm z-10 mt-2" />
+                      <div className="absolute left-4 md:left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-[var(--brand,#F97316)] border-4 border-white shadow-sm z-10 mt-2" />
                       <div className="flex-1 md:hidden pl-10">
                         <div className="bg-white rounded-2xl p-6 border border-gray-100">
-                          <p className="text-[#F97316] font-bold text-lg mb-1">{t.year}</p>
+                          <p className="text-[var(--brand,#F97316)] font-bold text-lg mb-1">{t.year}</p>
                           <h4 className="text-gray-900 font-bold mb-2">{t.title}</h4>
                           <p className="text-gray-500 text-sm leading-relaxed">{t.desc}</p>
                         </div>
@@ -863,16 +863,16 @@ return (
           <section id="tarifs" className="py-24 px-6 bg-gray-900">
             <div className="max-w-6xl mx-auto">
               <Reveal className="mb-12">
-                <p className="text-[#F97316] text-sm font-semibold mb-3">Reconnaissance</p>
+                <p className="text-[var(--brand,#F97316)] text-sm font-semibold mb-3">Reconnaissance</p>
                 <h2 className="text-white text-4xl font-bold">18 prix internationaux</h2>
               </Reveal>
               <div className="grid md:grid-cols-3 lg:grid-cols-5 gap-5">
                 {awards.map((a, i) => (
                   <Reveal key={a.name} delay={i * 0.08}>
-                    <div className="bg-white/5 border border-white/10 rounded-2xl p-6 text-center hover:border-[#F97316]/40 transition-colors">
-                      <Award className="w-8 h-8 text-[#F97316] mx-auto mb-4" />
+                    <div className="bg-white/5 border border-white/10 rounded-2xl p-6 text-center hover:border-[var(--brand,#F97316)]/40 transition-colors">
+                      <Award className="w-8 h-8 text-[var(--brand,#F97316)] mx-auto mb-4" />
                       <h4 className="text-white font-bold text-sm mb-1">{a.name}</h4>
-                      <p className="text-[#F97316] text-2xl font-bold mb-2">{a.count}×</p>
+                      <p className="text-[var(--brand,#F97316)] text-2xl font-bold mb-2">{a.count}×</p>
                       <p className="text-gray-500 text-xs">{a.years}</p>
                     </div>
                   </Reveal>
@@ -885,7 +885,7 @@ return (
           <section className="py-24 px-6 bg-white">
             <div className="max-w-4xl mx-auto text-center">
               <Reveal>
-                <div className="w-14 h-14 rounded-2xl bg-[#F97316]/10 flex items-center justify-center text-[#F97316] mx-auto mb-6">
+                <div className="w-14 h-14 rounded-2xl bg-[var(--brand,#F97316)]/10 flex items-center justify-center text-[var(--brand,#F97316)] mx-auto mb-6">
                   <Globe className="w-7 h-7" />
                 </div>
                 <h2 className="text-gray-900 text-4xl font-bold mb-6">Design durable</h2>
@@ -897,7 +897,7 @@ return (
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 max-w-lg mx-auto">
                   {[["100%", "Matériaux tracés"], ["–40%", "Empreinte carbone"], ["0", "Matériaux vierges"]].map(([n, l]) => (
                     <div key={l}>
-                      <p className="text-[#F97316] text-3xl font-bold">{n}</p>
+                      <p className="text-[var(--brand,#F97316)] text-3xl font-bold">{n}</p>
                       <p className="text-gray-400 text-xs mt-1">{l}</p>
                     </div>
                   ))}
@@ -912,13 +912,13 @@ return (
           <section className="pt-32 pb-16 px-6 bg-[#F8F4F0]">
             <div className="max-w-6xl mx-auto">
               <Reveal>
-                <div className="inline-flex items-center gap-2 bg-[#F97316]/10 text-[#F97316] text-xs font-semibold px-4 py-1.5 rounded-full mb-6">
+                <div className="inline-flex items-center gap-2 bg-[var(--brand,#F97316)]/10 text-[var(--brand,#F97316)] text-xs font-semibold px-4 py-1.5 rounded-full mb-6">
                   Travaillons ensemble
                 </div>
               </Reveal>
               <Reveal delay={0.1}>
                 <h1 className="text-gray-900 text-5xl md:text-7xl font-bold leading-none mb-6">
-                  Nouveau <em className="font-light text-[#F97316]">projet</em>
+                  Nouveau <em className="font-light text-[var(--brand,#F97316)]">projet</em>
                 </h1>
               </Reveal>
               <Reveal delay={0.2}>
@@ -940,20 +940,20 @@ return (
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                           <label className="text-gray-600 text-sm font-medium mb-2 block">Nom complet</label>
-                          <input type="text" placeholder="Jean Dupont" className="w-full px-4 py-3 rounded-xl border border-gray-200 text-gray-900 placeholder:text-gray-300 focus:outline-none focus:border-[#F97316] transition-colors" />
+                          <input type="text" placeholder="Jean Dupont" className="w-full px-4 py-3 rounded-xl border border-gray-200 text-gray-900 placeholder:text-gray-300 focus:outline-none focus:border-[var(--brand,#F97316)] transition-colors" />
                         </div>
                         <div>
                           <label className="text-gray-600 text-sm font-medium mb-2 block">Entreprise</label>
-                          <input type="text" placeholder="Acme Corp" className="w-full px-4 py-3 rounded-xl border border-gray-200 text-gray-900 placeholder:text-gray-300 focus:outline-none focus:border-[#F97316] transition-colors" />
+                          <input type="text" placeholder="Acme Corp" className="w-full px-4 py-3 rounded-xl border border-gray-200 text-gray-900 placeholder:text-gray-300 focus:outline-none focus:border-[var(--brand,#F97316)] transition-colors" />
                         </div>
                       </div>
                       <div>
                         <label className="text-gray-600 text-sm font-medium mb-2 block">Email</label>
-                        <input type="email" placeholder="jean@acme.com" className="w-full px-4 py-3 rounded-xl border border-gray-200 text-gray-900 placeholder:text-gray-300 focus:outline-none focus:border-[#F97316] transition-colors" />
+                        <input type="email" placeholder="jean@acme.com" className="w-full px-4 py-3 rounded-xl border border-gray-200 text-gray-900 placeholder:text-gray-300 focus:outline-none focus:border-[var(--brand,#F97316)] transition-colors" />
                       </div>
                       <div>
                         <label className="text-gray-600 text-sm font-medium mb-2 block">Type de projet</label>
-                        <select className="w-full px-4 py-3 rounded-xl border border-gray-200 text-gray-900 focus:outline-none focus:border-[#F97316] transition-colors bg-white">
+                        <select className="w-full px-4 py-3 rounded-xl border border-gray-200 text-gray-900 focus:outline-none focus:border-[var(--brand,#F97316)] transition-colors bg-white">
                           <option>Packaging & Branding</option>
                           <option>Mobilier & Objets</option>
                           <option>Product Design Tech</option>
@@ -964,7 +964,7 @@ return (
                       </div>
                       <div>
                         <label className="text-gray-600 text-sm font-medium mb-2 block">Budget indicatif</label>
-                        <select className="w-full px-4 py-3 rounded-xl border border-gray-200 text-gray-900 focus:outline-none focus:border-[#F97316] transition-colors bg-white">
+                        <select className="w-full px-4 py-3 rounded-xl border border-gray-200 text-gray-900 focus:outline-none focus:border-[var(--brand,#F97316)] transition-colors bg-white">
                           <option>Moins de 5 000 €</option>
                           <option>5 000 € – 10 000 €</option>
                           <option>10 000 € – 25 000 €</option>
@@ -974,9 +974,9 @@ return (
                       </div>
                       <div>
                         <label className="text-gray-600 text-sm font-medium mb-2 block">Décrivez votre projet</label>
-                        <textarea rows={5} placeholder="Racontez-nous votre idée, le contexte, les contraintes…" className="w-full px-4 py-3 rounded-xl border border-gray-200 text-gray-900 placeholder:text-gray-300 focus:outline-none focus:border-[#F97316] transition-colors resize-none" />
+                        <textarea rows={5} placeholder="Racontez-nous votre idée, le contexte, les contraintes…" className="w-full px-4 py-3 rounded-xl border border-gray-200 text-gray-900 placeholder:text-gray-300 focus:outline-none focus:border-[var(--brand,#F97316)] transition-colors resize-none" />
                       </div>
-                      <button type="submit" className="w-full bg-gray-900 text-white font-bold py-4 rounded-xl hover:bg-[#F97316] transition-colors cursor-pointer flex items-center justify-center gap-2">
+                      <button type="submit" className="w-full bg-gray-900 text-white font-bold py-4 rounded-xl hover:bg-[var(--brand,#F97316)] transition-colors cursor-pointer flex items-center justify-center gap-2">
                         <Send className="w-4 h-4" /> Envoyer la demande
                       </button>
                     </form>
@@ -987,28 +987,28 @@ return (
                     <div className="space-y-6">
                       <div className="bg-gray-50 rounded-2xl p-6 border border-gray-100">
                         <div className="flex items-center gap-3 mb-3">
-                          <Mail className="w-5 h-5 text-[#F97316]" />
+                          <Mail className="w-5 h-5 text-[var(--brand,#F97316)]" />
                           <h4 className="text-gray-900 font-bold">Email</h4>
                         </div>
                         <p className="text-gray-500 text-sm">{fd?.email ?? "hello@formedstudio.fr"}</p>
                       </div>
                       <div className="bg-gray-50 rounded-2xl p-6 border border-gray-100">
                         <div className="flex items-center gap-3 mb-3">
-                          <Clock className="w-5 h-5 text-[#F97316]" />
+                          <Clock className="w-5 h-5 text-[var(--brand,#F97316)]" />
                           <h4 className="text-gray-900 font-bold">Délai de réponse</h4>
                         </div>
                         <p className="text-gray-500 text-sm">Sous 48 heures ouvrées</p>
                       </div>
                       <div className="bg-gray-50 rounded-2xl p-6 border border-gray-100">
                         <div className="flex items-center gap-3 mb-3">
-                          <Globe className="w-5 h-5 text-[#F97316]" />
+                          <Globe className="w-5 h-5 text-[var(--brand,#F97316)]" />
                           <h4 className="text-gray-900 font-bold">Studio</h4>
                         </div>
                         <p className="text-gray-500 text-sm">42 rue Oberkampf<br />75011 Paris, France</p>
                       </div>
                       <div className="bg-gray-50 rounded-2xl p-6 border border-gray-100">
                         <div className="flex items-center gap-3 mb-3">
-                          <Calendar className="w-5 h-5 text-[#F97316]" />
+                          <Calendar className="w-5 h-5 text-[var(--brand,#F97316)]" />
                           <h4 className="text-gray-900 font-bold">Workshops</h4>
                         </div>
                         <p className="text-gray-500 text-sm">Sessions de 2 jours, sur rendez-vous. Prochaine session disponible : juillet 2026.</p>
@@ -1024,31 +1024,31 @@ return (
           <section className="py-24 px-6 bg-gray-50">
             <div className="max-w-6xl mx-auto">
               <Reveal className="text-center mb-16">
-                <p className="text-[#F97316] text-sm font-semibold mb-3">Tarification indicative</p>
+                <p className="text-[var(--brand,#F97316)] text-sm font-semibold mb-3">Tarification indicative</p>
                 <h2 className="text-gray-900 text-4xl font-bold mb-4">Nos formules</h2>
                 <p className="text-gray-500 max-w-lg mx-auto">Chaque projet est unique. Ces tarifs sont indicatifs et servent de base à la discussion.</p>
               </Reveal>
               <div className="grid md:grid-cols-3 gap-6">
                 {pricingTiers.map((tier, i) => (
                   <Reveal key={tier.name} delay={i * 0.1}>
-                    <div className={`bg-white rounded-2xl p-8 border ${tier.popular ? "border-[#F97316] shadow-lg relative" : "border-gray-100"} flex flex-col h-full`}>
+                    <div className={`bg-white rounded-2xl p-8 border ${tier.popular ? "border-[var(--brand,#F97316)] shadow-lg relative" : "border-gray-100"} flex flex-col h-full`}>
                       {tier.popular && (
-                        <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#F97316] text-white text-xs font-bold px-4 py-1 rounded-full">
+                        <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-[var(--brand,#F97316)] text-white text-xs font-bold px-4 py-1 rounded-full">
                           Le plus choisi
                         </div>
                       )}
                       <h3 className="text-gray-900 text-xl font-bold mb-2">{tier.name}</h3>
-                      <p className="text-[#F97316] text-3xl font-bold mb-2">{tier.price}</p>
+                      <p className="text-[var(--brand,#F97316)] text-3xl font-bold mb-2">{tier.price}</p>
                       <p className="text-gray-500 text-sm mb-6">{tier.desc}</p>
                       <ul className="space-y-3 flex-1">
                         {tier.features.map((f) => (
                           <li key={f} className="flex items-start gap-2 text-gray-600 text-sm">
-                            <CheckCircle className="w-4 h-4 text-[#F97316] shrink-0 mt-0.5" />
+                            <CheckCircle className="w-4 h-4 text-[var(--brand,#F97316)] shrink-0 mt-0.5" />
                             {f}
                           </li>
                         ))}
                       </ul>
-                      <button className={`w-full mt-8 py-3 rounded-xl font-bold transition-colors cursor-pointer ${tier.popular ? "bg-[#F97316] text-white hover:bg-[#F97316]/90" : "bg-gray-100 text-gray-900 hover:bg-gray-200"}`}>
+                      <button className={`w-full mt-8 py-3 rounded-xl font-bold transition-colors cursor-pointer ${tier.popular ? "bg-[var(--brand,#F97316)] text-white hover:bg-[var(--brand,#F97316)]/90" : "bg-gray-100 text-gray-900 hover:bg-gray-200"}`}>
                         Choisir cette formule
                       </button>
                     </div>
@@ -1078,7 +1078,7 @@ return (
                     <p className="text-gray-600 leading-relaxed">
                       Aevia WS — Valentin Milliand, entrepreneur individuel.<br />
                       SIREN : 852 546 225 — RCS Bourg-en-Bresse.<br />
-                      Contact : <span className="text-[#F97316]">{fd?.email ?? "contact@aevia.ws"}</span>
+                      Contact : <span className="text-[var(--brand,#F97316)]">{fd?.email ?? "contact@aevia.ws"}</span>
                     </p>
                   </div>
 
@@ -1111,10 +1111,10 @@ return (
       {/* Footer — always visible */}
       <footer className="bg-gray-900 py-12 px-6">
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-gray-500">
-          <button onClick={() => goTo("home")} className="flex items-center gap-2 cursor-pointer bg-transparent border-none p-0"><div className="w-5 h-5 bg-[#F97316] rounded" /><span className="text-white font-bold">{fd?.businessName ?? "Forme Studio"}</span></button>
+          <button onClick={() => goTo("home")} className="flex items-center gap-2 cursor-pointer bg-transparent border-none p-0"><div className="w-5 h-5 bg-[var(--brand,#F97316)] rounded" /><span className="text-white font-bold">{fd?.businessName ?? "Forme Studio"}</span></button>
           <div className="flex gap-8">
-            <button onClick={() => goTo("legal")} className="hover:text-[#F97316] transition-colors cursor-pointer bg-transparent border-none p-0 text-xs text-gray-500">Politique de conf.</button>
-            <button onClick={() => goTo("legal")} className="hover:text-[#F97316] transition-colors cursor-pointer bg-transparent border-none p-0 text-xs text-gray-500">Mentions légales</button>
+            <button onClick={() => goTo("legal")} className="hover:text-[var(--brand,#F97316)] transition-colors cursor-pointer bg-transparent border-none p-0 text-xs text-gray-500">Politique de conf.</button>
+            <button onClick={() => goTo("legal")} className="hover:text-[var(--brand,#F97316)] transition-colors cursor-pointer bg-transparent border-none p-0 text-xs text-gray-500">Mentions légales</button>
           </div>
           <span>© 2026 Forme Studio. Tous droits réservés.</span>
         </div>

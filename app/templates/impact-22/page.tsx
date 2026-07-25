@@ -180,7 +180,7 @@ export default function NimbusAIPage() {
   }, [c]);
 return (
     <div className="min-h-dvh bg-[#060B16]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
-      <motion.div className="fixed top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[#06B6D4] to-[#8B5CF6] origin-left z-[60]" style={{ scaleX: scrollYProgress }} />
+      <motion.div className="fixed top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[var(--brand,#06B6D4)] to-[#8B5CF6] origin-left z-[60]" style={{ scaleX: scrollYProgress }} />
 
       {/* Nav */}
       <nav className="fixed top-4 left-4 right-4 z-50">
@@ -196,7 +196,7 @@ return (
               />
             ) : (
               <>
-                <div className="w-8 h-8 bg-gradient-to-br from-[#06B6D4] to-[#8B5CF6] rounded-lg flex items-center justify-center"><Cloud className="w-4 h-4 text-white" /></div>
+                <div className="w-8 h-8 bg-gradient-to-br from-[var(--brand,#06B6D4)] to-[#8B5CF6] rounded-lg flex items-center justify-center"><Cloud className="w-4 h-4 text-white" /></div>
                 <span className="text-white font-bold text-lg">{fd?.businessName ?? "NimbusAI"}</span>
               </>
             )}
@@ -208,7 +208,7 @@ return (
           </div>
           <div className="hidden md:flex items-center gap-3">
             <button onClick={() => goTo("login")} className="text-gray-400 text-sm px-4 py-2 hover:text-white transition-colors cursor-pointer bg-transparent border-none">Se connecter</button>
-            <button onClick={() => goTo("pricing")} className="bg-gradient-to-r from-[#06B6D4] to-[#8B5CF6] text-white text-sm px-5 py-2.5 rounded-xl hover:opacity-90 transition-opacity cursor-pointer font-medium">Démarrer</button>
+            <button onClick={() => goTo("pricing")} className="bg-gradient-to-r from-[var(--brand,#06B6D4)] to-[#8B5CF6] text-white text-sm px-5 py-2.5 rounded-xl hover:opacity-90 transition-opacity cursor-pointer font-medium">Démarrer</button>
           </div>
           <button className="md:hidden text-white cursor-pointer" onClick={() => setMobileOpen(true)}><Menu className="w-5 h-5" /></button>
         </div>
@@ -243,19 +243,19 @@ return (
           {/* Hero */}
           <section id="hero" className="relative min-h-dvh flex items-center pt-32 pb-20 px-6 overflow-hidden">
             <div className="absolute inset-0 pointer-events-none">
-              <div className="absolute top-1/3 left-1/3 w-[600px] h-[600px] bg-[#06B6D4]/5 rounded-full blur-3xl" />
+              <div className="absolute top-1/3 left-1/3 w-[600px] h-[600px] bg-[var(--brand,#06B6D4)]/5 rounded-full blur-3xl" />
               <div className="absolute top-1/2 right-1/4 w-[400px] h-[400px] bg-[#8B5CF6]/8 rounded-full blur-3xl" />
             </div>
             <div className="max-w-6xl mx-auto w-full relative z-10 text-center">
               <Reveal>
-                <div className="inline-flex items-center gap-2 bg-[#06B6D4]/10 border border-[#06B6D4]/20 text-[#06B6D4] px-4 py-1.5 rounded-full text-xs font-semibold mb-8">
-                  <span className="w-2 h-2 bg-[#06B6D4] rounded-full animate-pulse" /> Cloud AI Infrastructure — 12 régions mondiales
+                <div className="inline-flex items-center gap-2 bg-[var(--brand,#06B6D4)]/10 border border-[var(--brand,#06B6D4)]/20 text-[var(--brand,#06B6D4)] px-4 py-1.5 rounded-full text-xs font-semibold mb-8">
+                  <span className="w-2 h-2 bg-[var(--brand,#06B6D4)] rounded-full animate-pulse" /> Cloud AI Infrastructure — 12 régions mondiales
                 </div>
               </Reveal>
               <Reveal delay={0.1}>
                 <h1 className="text-white text-5xl md:text-7xl font-bold leading-tight mb-6">{c?.heroHeadline ?? <>
                   L&apos;infrastructure IA<br />
-                  <span className="bg-gradient-to-r from-[#06B6D4] to-[#8B5CF6] bg-clip-text text-transparent">pour les builders sérieux</span>
+                  <span className="bg-gradient-to-r from-[var(--brand,#06B6D4)] to-[#8B5CF6] bg-clip-text text-transparent">pour les builders sérieux</span>
                 </>}</h1>
               </Reveal>
               <Reveal delay={0.2}>
@@ -264,7 +264,7 @@ return (
                 </>}</p>
               </Reveal>
               <Reveal delay={0.3} className="flex flex-col sm:flex-row gap-4 justify-center">
-                <button onClick={() => goTo("pricing")} className="bg-gradient-to-r from-[#06B6D4] to-[#8B5CF6] text-white font-bold px-8 py-4 rounded-xl hover:opacity-90 transition-opacity cursor-pointer flex items-center justify-center gap-2">
+                <button onClick={() => goTo("pricing")} className="bg-gradient-to-r from-[var(--brand,#06B6D4)] to-[#8B5CF6] text-white font-bold px-8 py-4 rounded-xl hover:opacity-90 transition-opacity cursor-pointer flex items-center justify-center gap-2">
                   Commencer gratuitement <ArrowRight className="w-4 h-4" />
                 </button>
                 <button onClick={() => goTo("docs")} className="border border-white/10 text-white px-8 py-4 rounded-xl hover:bg-white/5 transition-colors cursor-pointer flex items-center justify-center gap-2">
@@ -288,7 +288,7 @@ return (
           <section className="py-24 px-6 bg-[#070D1A]">
             <div className="max-w-6xl mx-auto">
               <Reveal className="text-center mb-16">
-                <p className="text-[#06B6D4] text-sm font-semibold mb-3">Infrastructure</p>
+                <p className="text-[var(--brand,#06B6D4)] text-sm font-semibold mb-3">Infrastructure</p>
                 <h2 className="text-white text-4xl font-bold">Tout ce qu&apos;il vous faut</h2>
               </Reveal>
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -309,16 +309,16 @@ return (
           <section className="py-24 px-6">
             <div className="max-w-6xl mx-auto">
               <Reveal className="mb-12">
-                <p className="text-[#06B6D4] text-sm font-semibold mb-3">Catalogue modèles</p>
+                <p className="text-[var(--brand,#06B6D4)] text-sm font-semibold mb-3">Catalogue modèles</p>
                 <h2 className="text-white text-4xl font-bold">Les meilleurs modèles du marché</h2>
               </Reveal>
               <div className="space-y-3">
                 {models.map((m, i) => (
                   <Reveal key={m.name} delay={i * 0.06}>
-                    <div className="bg-[#0D1525] border border-white/5 rounded-2xl p-5 flex items-center justify-between hover:border-[#06B6D4]/20 transition-colors cursor-pointer group">
+                    <div className="bg-[#0D1525] border border-white/5 rounded-2xl p-5 flex items-center justify-between hover:border-[var(--brand,#06B6D4)]/20 transition-colors cursor-pointer group">
                       <div className="flex items-center gap-4">
-                        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#06B6D4]/20 to-[#8B5CF6]/20 flex items-center justify-center">
-                          <Cpu className="w-5 h-5 text-[#06B6D4]" />
+                        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[var(--brand,#06B6D4)]/20 to-[#8B5CF6]/20 flex items-center justify-center">
+                          <Cpu className="w-5 h-5 text-[var(--brand,#06B6D4)]" />
                         </div>
                         <div>
                           <h3 className="text-white font-semibold text-sm">{m.name}</h3>
@@ -334,9 +334,9 @@ return (
                           <p className="text-white text-sm font-medium">{m.cost}</p>
                           <p className="text-gray-600 text-xs">Tarif</p>
                         </div>
-                        <span className="text-[#06B6D4] text-xs border border-[#06B6D4]/20 px-2.5 py-1 rounded-full">{m.badge}</span>
+                        <span className="text-[var(--brand,#06B6D4)] text-xs border border-[var(--brand,#06B6D4)]/20 px-2.5 py-1 rounded-full">{m.badge}</span>
                       </div>
-                      <button onClick={() => goTo("modeles")} className="text-xs text-gray-500 group-hover:text-[#06B6D4] transition-colors cursor-pointer ml-4">Utiliser →</button>
+                      <button onClick={() => goTo("modeles")} className="text-xs text-gray-500 group-hover:text-[var(--brand,#06B6D4)] transition-colors cursor-pointer ml-4">Utiliser →</button>
                     </div>
                   </Reveal>
                 ))}
@@ -348,7 +348,7 @@ return (
           <section className="py-24 px-6 bg-[#070D1A]">
             <div className="max-w-6xl mx-auto">
               <Reveal className="text-center mb-16">
-                <p className="text-[#06B6D4] text-sm font-semibold mb-3">Intégration</p>
+                <p className="text-[var(--brand,#06B6D4)] text-sm font-semibold mb-3">Intégration</p>
                 <h2 className="text-white text-4xl font-bold">5 minutes pour aller en prod</h2>
               </Reveal>
               <div className="grid md:grid-cols-4 gap-4">
@@ -356,10 +356,10 @@ return (
                   <Reveal key={step.step} delay={i * 0.1}>
                     <div className="bg-[#0D1525] border border-white/5 rounded-2xl p-5">
                       <div className="flex items-center gap-2 mb-4">
-                        <span className="w-6 h-6 bg-[#06B6D4] rounded-full text-black text-xs font-bold flex items-center justify-center">{i + 1}</span>
+                        <span className="w-6 h-6 bg-[var(--brand,#06B6D4)] rounded-full text-black text-xs font-bold flex items-center justify-center">{i + 1}</span>
                         <span className="text-white text-sm font-semibold">{step.step}</span>
                       </div>
-                      <div className="bg-[#060B16] rounded-xl p-3 mb-4 font-mono text-[10px] text-[#06B6D4] whitespace-pre-line">{step.code}</div>
+                      <div className="bg-[#060B16] rounded-xl p-3 mb-4 font-mono text-[10px] text-[var(--brand,#06B6D4)] whitespace-pre-line">{step.code}</div>
                       <p className="text-gray-500 text-xs">{step.desc}</p>
                     </div>
                   </Reveal>
@@ -402,11 +402,11 @@ return (
           <section className="py-24 px-6 bg-[#070D1A]">
             <div className="max-w-4xl mx-auto text-center">
               <Reveal>
-                <div className="relative bg-gradient-to-br from-[#06B6D4]/10 to-[#8B5CF6]/10 border border-[#06B6D4]/20 rounded-3xl p-10 md:p-16">
-                  <Cloud className="w-10 h-10 text-[#06B6D4] mx-auto mb-6 opacity-60" />
+                <div className="relative bg-gradient-to-br from-[var(--brand,#06B6D4)]/10 to-[#8B5CF6]/10 border border-[var(--brand,#06B6D4)]/20 rounded-3xl p-10 md:p-16">
+                  <Cloud className="w-10 h-10 text-[var(--brand,#06B6D4)] mx-auto mb-6 opacity-60" />
                   <h2 className="text-white text-4xl font-bold mb-4">Prêt à scaler votre IA ?</h2>
                   <p className="text-gray-400 max-w-lg mx-auto mb-10">$50 de crédits offerts pour démarrer. Aucune carte de crédit requise.</p>
-                  <button onClick={() => goTo("pricing")} className="bg-gradient-to-r from-[#06B6D4] to-[#8B5CF6] text-white font-bold px-10 py-4 rounded-xl hover:opacity-90 transition-opacity cursor-pointer text-lg">
+                  <button onClick={() => goTo("pricing")} className="bg-gradient-to-r from-[var(--brand,#06B6D4)] to-[#8B5CF6] text-white font-bold px-10 py-4 rounded-xl hover:opacity-90 transition-opacity cursor-pointer text-lg">
                     Créer un compte gratuit →
                   </button>
                 </div>
@@ -431,7 +431,7 @@ return (
       <footer className="bg-[#060B16] border-t border-white/5 py-16 px-6">
         <div className="max-w-6xl mx-auto grid md:grid-cols-4 gap-10 mb-12">
           <div>
-            <div className="flex items-center gap-2 mb-4"><div className="w-8 h-8 bg-gradient-to-br from-[#06B6D4] to-[#8B5CF6] rounded-lg flex items-center justify-center"><Cloud className="w-4 h-4 text-white" /></div><span className="text-white font-bold">{fd?.businessName ?? "NimbusAI"}</span></div>
+            <div className="flex items-center gap-2 mb-4"><div className="w-8 h-8 bg-gradient-to-br from-[var(--brand,#06B6D4)] to-[#8B5CF6] rounded-lg flex items-center justify-center"><Cloud className="w-4 h-4 text-white" /></div><span className="text-white font-bold">{fd?.businessName ?? "NimbusAI"}</span></div>
             <p className="text-gray-500 text-sm">Cloud AI infrastructure pour les équipes qui construisent les produits de demain.</p>
           </div>
           {[

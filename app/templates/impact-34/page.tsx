@@ -154,8 +154,8 @@ return (
         <motion.div style={{ opacity: heroOpacity }} className="relative z-10 max-w-6xl mx-auto px-6 text-center">
           {/* Chip */}
           <Reveal>
-            <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full border border-[#F97316]/30 bg-[#F97316]/10 mb-10">
-              <Mic className="w-3.5 h-3.5 text-[#F97316]" />
+            <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full border border-[var(--brand,#F97316)]/30 bg-[var(--brand,#F97316)]/10 mb-10">
+              <Mic className="w-3.5 h-3.5 text-[var(--brand,#F97316)]" />
               <span className="text-xs font-semibold text-[#FB923C]">
                 Trusted by 50,000+ podcasters worldwide
               </span>
@@ -246,11 +246,11 @@ return (
           transition={{ duration: 1.5, repeat: Infinity }}
           className="absolute bottom-8 left-1/2 -translate-x-1/2"
         >
-          <div className="w-6 h-9 border-2 border-[#F97316]/30 rounded-full flex justify-center pt-1.5">
+          <div className="w-6 h-9 border-2 border-[var(--brand,#F97316)]/30 rounded-full flex justify-center pt-1.5">
             <motion.div
               animate={{ y: [0, 10, 0] }}
               transition={{ duration: 1.5, repeat: Infinity }}
-              className="w-1.5 h-1.5 rounded-full bg-[#F97316]"
+              className="w-1.5 h-1.5 rounded-full bg-[var(--brand,#F97316)]"
             />
           </div>
         </motion.div>
@@ -263,7 +263,7 @@ return (
         <div className="max-w-7xl mx-auto">
           <Reveal>
             <div className="text-center mb-16">
-              <span className="text-xs font-bold uppercase tracking-widest text-[#F97316] block mb-2">
+              <span className="text-xs font-bold uppercase tracking-widest text-[var(--brand,#F97316)] block mb-2">
                 Creator Tools
               </span>
               <h2 className="text-4xl md:text-5xl font-black tracking-tight mb-4">{c?.aboutTitle ?? fd?.businessName ?? <>
@@ -317,7 +317,7 @@ return (
         <div className="max-w-7xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <Reveal>
-              <span className="text-xs font-bold uppercase tracking-widest text-[#F97316] block mb-3">
+              <span className="text-xs font-bold uppercase tracking-widest text-[var(--brand,#F97316)] block mb-3">
                 Analytics
               </span>
               <h2 className="text-4xl md:text-5xl font-black tracking-tight mb-6">
@@ -341,7 +341,7 @@ return (
                       className="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0"
                       style={{ backgroundColor: "#F9731620" }}
                     >
-                      <BarChart3 className="w-3 h-3 text-[#F97316]" />
+                      <BarChart3 className="w-3 h-3 text-[var(--brand,#F97316)]" />
                     </span>
                     {item}
                   </li>
@@ -396,7 +396,7 @@ return (
                         key={ep.rank}
                         className="flex items-center gap-3 p-3 rounded-xl bg-white/[0.03]"
                       >
-                        <span className="text-xs font-black text-[#F97316] w-5 text-center">
+                        <span className="text-xs font-black text-[var(--brand,#F97316)] w-5 text-center">
                           #{ep.rank}
                         </span>
                         <div className="flex-1 min-w-0">
@@ -432,7 +432,7 @@ return (
           {[...DISTRIBUTION_PLATFORMS, ...DISTRIBUTION_PLATFORMS].map((platform, i) => (
             <span
               key={i}
-              className="inline-flex items-center gap-2 text-sm font-bold text-[#475569] hover:text-[#F97316] transition-colors cursor-pointer"
+              className="inline-flex items-center gap-2 text-sm font-bold text-[#475569] hover:text-[var(--brand,#F97316)] transition-colors cursor-pointer"
             >
               <Headphones className="w-4 h-4" />
               {platform}
@@ -448,7 +448,7 @@ return (
         <div className="max-w-7xl mx-auto">
           <Reveal>
             <div className="text-center mb-16">
-              <span className="text-xs font-bold uppercase tracking-widest text-[#F97316] block mb-2">
+              <span className="text-xs font-bold uppercase tracking-widest text-[var(--brand,#F97316)] block mb-2">
                 Success Stories
               </span>
               <h2 className="text-4xl md:text-5xl font-black tracking-tight mb-4">
@@ -465,19 +465,19 @@ return (
               <Reveal key={t.name} delay={i * 0.1}>
                 <motion.div
                   whileHover={{ scale: 1.01 }}
-                  className="p-8 rounded-2xl border border-white/8 hover:border-[#F97316]/30 transition-all bg-white/[0.03]"
+                  className="p-8 rounded-2xl border border-white/8 hover:border-[var(--brand,#F97316)]/30 transition-all bg-white/[0.03]"
                 >
                   {/* Show info */}
                   <div className="flex items-center justify-between mb-6">
                     <div>
                       <div className="flex items-center gap-2 mb-1">
-                        <Mic className="w-4 h-4 text-[#F97316]" />
+                        <Mic className="w-4 h-4 text-[var(--brand,#F97316)]" />
                         <span className="text-sm font-bold text-[#F8FAFC]">{t.show}</span>
                       </div>
                       <span className="text-xs text-[#64748B]">{t.niche}</span>
                     </div>
                     <div className="text-right">
-                      <div className="text-xl font-black text-[#F97316]">{t.listeners}</div>
+                      <div className="text-xl font-black text-[var(--brand,#F97316)]">{t.listeners}</div>
                       <div className="text-xs text-[#64748B]">listeners/mo</div>
                     </div>
                   </div>

@@ -111,7 +111,7 @@ export default function AtelierBeautePage() {
     }
   }, [c]);
 return (
-    <div className="premium-theme min-h-dvh bg-[#faf9f6] text-[#1a1814] font-sans selection:bg-[#c9b7a1] selection:text-white overflow-x-hidden">
+    <div className="premium-theme min-h-dvh bg-[#faf9f6] text-[#1a1814] font-sans selection:bg-[var(--brand,#c9b7a1)] selection:text-white overflow-x-hidden">
       {/* ==========================================
           1. HERO (Cinematic Beauty)
           ========================================== */}
@@ -136,12 +136,12 @@ return (
         <div className="relative z-10 max-w-[1400px] mx-auto px-6 md:px-12 w-full">
           <Reveal>
             <div className="inline-flex items-center gap-3 px-4 py-2 bg-white/50 backdrop-blur rounded-full border border-[#1a1814]/10 text-[#1a1814]/60 text-[10px] font-bold uppercase tracking-widest mb-10 shadow-sm">
-              <Sparkles className="w-3.5 h-3.5 text-[#c9b7a1]" />
+              <Sparkles className="w-3.5 h-3.5 text-[var(--brand,#c9b7a1)]" />
               L'Excellence du Soin Architectural
             </div>
             <h1 className="text-7xl md:text-9xl lg:text-[11rem] font-light leading-[1.15] pb-4 tracking-tighter mb-12">{c?.heroHeadline ?? <>
               The Art of <br />{" "}
-              <span className="italic font-normal text-[#c9b7a1]">
+              <span className="italic font-normal text-[var(--brand,#c9b7a1)]">
                 Precision.
               </span>
             </>}</h1>
@@ -152,7 +152,7 @@ return (
             <div className="flex flex-col sm:flex-row gap-6">
               <MagneticBtn
                 onClick={handleBook}
-                className="px-12 py-5 bg-[#1a1814] text-white text-[10px] font-bold uppercase tracking-[0.4em] rounded-full hover:bg-[#c9b7a1] transition-all cursor-pointer shadow-2xl"
+                className="px-12 py-5 bg-[#1a1814] text-white text-[10px] font-bold uppercase tracking-[0.4em] rounded-full hover:bg-[var(--brand,#c9b7a1)] transition-all cursor-pointer shadow-2xl"
               >
                 Réserver un Soin
               </MagneticBtn>
@@ -175,7 +175,7 @@ return (
             <span className="text-[9px] font-bold text-[#1a1814]/20 uppercase tracking-[0.5em]">
               PARIS VIII // ATELIER PRIVÉ
             </span>
-            <div className="w-24 h-[1px] bg-[#c9b7a1]/40" />
+            <div className="w-24 h-[1px] bg-[var(--brand,#c9b7a1)]/40" />
           </div>
         </motion.div>
       </section>
@@ -194,7 +194,7 @@ return (
               </span>
               <h2 className="text-5xl md:text-8xl font-light tracking-tighter uppercase leading-[1.15] pb-4">{c?.aboutTitle ?? fd?.businessName ?? <>
                 The <br />{" "}
-                <span className="italic text-[#c9b7a1]">Signature Edit.</span>
+                <span className="italic text-[var(--brand,#c9b7a1)]">Signature Edit.</span>
               </>}</h2>
             </Reveal>
             <p className="max-w-xs text-[10px] font-bold uppercase tracking-widest text-[#1a1814]/30 leading-relaxed italic text-right">{c?.aboutText ?? <>
@@ -222,7 +222,7 @@ return (
                     </div>
                   </div>
                   <div className="px-4 pb-4">
-                    <div className="text-[9px] uppercase tracking-[0.3em] text-[#c9b7a1] font-black mb-2">
+                    <div className="text-[9px] uppercase tracking-[0.3em] text-[var(--brand,#c9b7a1)] font-black mb-2">
                       {item.tag}
                     </div>
                     <h3 className="text-xl font-light tracking-tight mb-2 group-hover:text-[#1a1814]/60 transition-colors">
@@ -252,7 +252,7 @@ return (
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-24 items-center">
             <div className="lg:col-span-5">
               <Reveal>
-                <span className="text-[10px] uppercase tracking-[0.4em] font-bold text-[#c9b7a1] mb-6 block">
+                <span className="text-[10px] uppercase tracking-[0.4em] font-bold text-[var(--brand,#c9b7a1)] mb-6 block">
                   Le Protocole Visage
                 </span>
                 <h2 className="text-5xl md:text-7xl font-light tracking-tighter leading-[1.15] pb-4 mb-12 uppercase">
@@ -273,9 +273,9 @@ return (
                   ].map((item, i) => (
                     <div
                       key={i}
-                      className="group flex gap-8 items-start border-l border-black/[0.05] pl-8 hover:border-[#c9b7a1] transition-all"
+                      className="group flex gap-8 items-start border-l border-black/[0.05] pl-8 hover:border-[var(--brand,#c9b7a1)] transition-all"
                     >
-                      <div className="text-[#c9b7a1] group-hover:scale-110 transition-transform">
+                      <div className="text-[var(--brand,#c9b7a1)] group-hover:scale-110 transition-transform">
                         {item.icon}
                       </div>
                       <div>
@@ -300,7 +300,7 @@ return (
                   fill
                   className="object-cover"
                 />
-                <div className="absolute inset-0 bg-[#c9b7a1]/10 mix-blend-multiply" />
+                <div className="absolute inset-0 bg-[var(--brand,#c9b7a1)]/10 mix-blend-multiply" />
                 <div className="absolute bottom-10 left-10 flex gap-4">
                   <div className="px-6 py-3 bg-white/10 backdrop-blur-md border border-white/10 text-white text-[10px] font-bold uppercase tracking-widest">
                     90 MIN RITUAL
@@ -330,7 +330,7 @@ return (
               Notre Philosophie
             </span>
             <h2 className="text-5xl md:text-8xl font-light tracking-tighter uppercase italic mb-8">
-              Less but <span className="text-[#c9b7a1]">Better.</span>
+              Less but <span className="text-[var(--brand,#c9b7a1)]">Better.</span>
             </h2>
             <p className="text-[#1a1814]/40 italic font-medium leading-relaxed">
               Nous croyons en une beauté qui ne s'impose pas. Une esthétique
@@ -341,13 +341,13 @@ return (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16 items-center">
             <Reveal className="text-left">
               <div className="mb-10 p-10 bg-white border border-black/5 rounded-2xl shadow-sm">
-                <Quote className="w-8 h-8 text-[#c9b7a1] mb-6" />
+                <Quote className="w-8 h-8 text-[var(--brand,#c9b7a1)] mb-6" />
                 <p className="text-xl font-light italic leading-relaxed text-[#1a1814]/60 mb-10">
                   "Chaque ongle, chaque cil est une structure. Nous ne faisons
                   pas que de l'esthétique, nous faisons de l'architecture."
                 </p>
                 <div className="flex items-center gap-6">
-                  <Avatar className="w-16 h-16 border-2 border-[#c9b7a1]/20">
+                  <Avatar className="w-16 h-16 border-2 border-[var(--brand,#c9b7a1)]/20">
                     <AvatarImage src={photo(2, "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&q=80")} />
                     <AvatarFallback>SL</AvatarFallback>
                   </Avatar>
@@ -355,7 +355,7 @@ return (
                     <h4 className="text-sm font-black uppercase tracking-widest">
                       Sophie Laurent
                     </h4>
-                    <span className="text-[9px] font-bold text-[#c9b7a1] uppercase tracking-widest">
+                    <span className="text-[9px] font-bold text-[var(--brand,#c9b7a1)] uppercase tracking-widest">
                       Fondatrice & Head Artisan
                     </span>
                   </div>
@@ -386,7 +386,7 @@ return (
               ].map((item, i) => (
                 <Reveal key={i} delay={i * 0.1}>
                   <div className="flex items-start gap-6 group">
-                    <div className="w-10 h-10 rounded-full border border-[#c9b7a1]/30 flex items-center justify-center text-[#c9b7a1] group-hover:bg-[#c9b7a1] group-hover:text-white transition-all">
+                    <div className="w-10 h-10 rounded-full border border-[var(--brand,#c9b7a1)]/30 flex items-center justify-center text-[var(--brand,#c9b7a1)] group-hover:bg-[var(--brand,#c9b7a1)] group-hover:text-white transition-all">
                       <Check className="w-4 h-4" />
                     </div>
                     <div>
@@ -412,12 +412,12 @@ return (
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 grid grid-cols-1 md:grid-cols-3 gap-16">
           {REVIEWS.map((r, i) => (
             <Reveal key={i} delay={i * 0.1}>
-              <div className="text-center p-12 bg-[#faf9f6] rounded-3xl border border-black/[0.03] group hover:border-[#c9b7a1]/20 transition-all">
+              <div className="text-center p-12 bg-[#faf9f6] rounded-3xl border border-black/[0.03] group hover:border-[var(--brand,#c9b7a1)]/20 transition-all">
                 <div className="flex justify-center gap-1 mb-8">
                   {[...Array(5)].map((_, i) => (
                     <Star
                       key={i}
-                      className="w-3.5 h-3.5 fill-[#c9b7a1] text-[#c9b7a1]"
+                      className="w-3.5 h-3.5 fill-[var(--brand,#c9b7a1)] text-[var(--brand,#c9b7a1)]"
                     />
                   ))}
                 </div>
@@ -428,7 +428,7 @@ return (
                   <h4 className="text-[10px] font-black uppercase tracking-widest mb-1">
                     {r.author}
                   </h4>
-                  <span className="text-[9px] font-bold text-[#c9b7a1] uppercase tracking-widest">
+                  <span className="text-[9px] font-bold text-[var(--brand,#c9b7a1)] uppercase tracking-widest">
                     {r.role}
                   </span>
                 </div>
@@ -450,7 +450,7 @@ return (
             { label: "Certification", val: 100, suffix: "%" },
           ].map((stat, i) => (
             <Reveal key={i} delay={i * 0.1}>
-              <div className="text-5xl md:text-7xl font-light text-[#c9b7a1] mb-4 italic tabular-nums">
+              <div className="text-5xl md:text-7xl font-light text-[var(--brand,#c9b7a1)] mb-4 italic tabular-nums">
                 <Counter to={stat.val} suffix={stat.suffix} />
               </div>
               <div className="text-[10px] font-bold uppercase tracking-[0.5em] text-white/20">
@@ -496,7 +496,7 @@ return (
                 value={`item-${i}`}
                 className="border-b border-black/[0.05]"
               >
-                <AccordionTrigger className="text-left text-sm uppercase font-bold tracking-widest py-8 hover:text-[#c9b7a1] hover:no-underline">
+                <AccordionTrigger className="text-left text-sm uppercase font-bold tracking-widest py-8 hover:text-[var(--brand,#c9b7a1)] hover:no-underline">
                   {faq.q}
                 </AccordionTrigger>
                 <AccordionContent className="text-sm text-[#1a1814]/40 leading-relaxed font-bold uppercase tracking-widest pb-8 italic">

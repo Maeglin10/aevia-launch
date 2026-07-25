@@ -149,7 +149,7 @@ export default function EduPathPage() {
   }, [c]);
 return (
     <div className="min-h-dvh bg-white" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
-      <motion.div className="fixed top-0 left-0 right-0 h-[3px] bg-[#7C3AED] origin-left z-[60]" style={{ scaleX: scrollYProgress }} />
+      <motion.div className="fixed top-0 left-0 right-0 h-[3px] bg-[var(--brand,#7C3AED)] origin-left z-[60]" style={{ scaleX: scrollYProgress }} />
 
       {/* Nav */}
       <nav className="fixed top-4 left-4 right-4 z-50">
@@ -163,7 +163,7 @@ return (
               />
             ) : (
               <>
-                <div className="w-8 h-8 bg-[#7C3AED] rounded-lg flex items-center justify-center">
+                <div className="w-8 h-8 bg-[var(--brand,#7C3AED)] rounded-lg flex items-center justify-center">
                   <BookOpen className="w-4 h-4 text-white" />
                 </div>
                 <span className="text-gray-900 font-bold text-lg">{fd?.businessName ?? "EduPath"}</span>
@@ -172,12 +172,12 @@ return (
           </Link>
           <div className="hidden md:flex items-center gap-8 text-gray-600 text-sm font-medium">
             {["Cours", "Mentoring", "Certifications", "Entreprises", "Tarifs"].map(item => (
-              <Link key={item} href="/templates/impact-11" className="hover:text-[#7C3AED] transition-colors cursor-pointer">{item}</Link>
+              <Link key={item} href="/templates/impact-11" className="hover:text-[var(--brand,#7C3AED)] transition-colors cursor-pointer">{item}</Link>
             ))}
           </div>
           <div className="hidden md:flex items-center gap-3">
             <button className="text-gray-700 text-sm px-4 py-2 hover:bg-gray-100 rounded-xl transition-colors cursor-pointer">Se connecter</button>
-            <button className="bg-[#7C3AED] text-white text-sm px-5 py-2.5 rounded-xl hover:bg-[#6D28D9] transition-colors cursor-pointer font-medium">Commencer</button>
+            <button className="bg-[var(--brand,#7C3AED)] text-white text-sm px-5 py-2.5 rounded-xl hover:bg-[#6D28D9] transition-colors cursor-pointer font-medium">Commencer</button>
           </div>
           <button className="md:hidden text-gray-900 cursor-pointer" onClick={() => setMobileOpen(true)}><Menu className="w-5 h-5" /></button>
         </div>
@@ -210,20 +210,20 @@ return (
       {/* Hero */}
       <section ref={heroRef} className="relative min-h-dvh overflow-hidden bg-gradient-to-br from-[#F5F3FF] via-white to-[#EFF6FF] pt-32 pb-24 px-6">
         <motion.div className="absolute inset-0 pointer-events-none" style={{ y: heroY }}>
-          <div className="absolute top-20 right-10 w-96 h-96 bg-[#7C3AED]/8 rounded-full blur-3xl" />
+          <div className="absolute top-20 right-10 w-96 h-96 bg-[var(--brand,#7C3AED)]/8 rounded-full blur-3xl" />
           <div className="absolute bottom-20 left-10 w-80 h-80 bg-[#0EA5E9]/8 rounded-full blur-3xl" />
         </motion.div>
         <div className="max-w-6xl mx-auto relative z-10">
           <div className="max-w-3xl">
             <Reveal>
-              <div className="inline-flex items-center gap-2 bg-[#7C3AED]/10 text-[#7C3AED] px-4 py-1.5 rounded-full text-xs font-semibold mb-8">
-                <Star className="w-3 h-3 fill-[#7C3AED]" /> Plateforme #1 en France · 250k apprenants
+              <div className="inline-flex items-center gap-2 bg-[var(--brand,#7C3AED)]/10 text-[var(--brand,#7C3AED)] px-4 py-1.5 rounded-full text-xs font-semibold mb-8">
+                <Star className="w-3 h-3 fill-[var(--brand,#7C3AED)]" /> Plateforme #1 en France · 250k apprenants
               </div>
             </Reveal>
             <Reveal delay={0.1}>
               <h1 className="text-gray-900 text-5xl md:text-7xl font-bold leading-tight mb-6">{c?.heroHeadline ?? <>
                 Apprenez les<br />
-                <span className="text-[#7C3AED]">compétences</span><br />
+                <span className="text-[var(--brand,#7C3AED)]">compétences</span><br />
                 de demain
               </>}</h1>
             </Reveal>
@@ -234,12 +234,12 @@ return (
             </Reveal>
             <Reveal delay={0.3}>
               <div className="flex flex-col sm:flex-row gap-4">
-                <button className="bg-[#7C3AED] text-white px-8 py-4 rounded-xl font-semibold hover:bg-[#6D28D9] transition-colors cursor-pointer flex items-center gap-2">
+                <button className="bg-[var(--brand,#7C3AED)] text-white px-8 py-4 rounded-xl font-semibold hover:bg-[#6D28D9] transition-colors cursor-pointer flex items-center gap-2">
                   Commencer gratuitement <ArrowRight className="w-4 h-4" />
                 </button>
                 <button className="flex items-center gap-3 text-gray-700 px-6 py-4 hover:bg-gray-100 rounded-xl transition-colors cursor-pointer">
                   <div className="w-10 h-10 bg-white shadow-md rounded-full flex items-center justify-center">
-                    <Play className="w-4 h-4 text-[#7C3AED] fill-[#7C3AED]" />
+                    <Play className="w-4 h-4 text-[var(--brand,#7C3AED)] fill-[var(--brand,#7C3AED)]" />
                   </div>
                   Voir la démo
                 </button>
@@ -263,14 +263,14 @@ return (
       <section className="py-24 px-6 bg-white">
         <div className="max-w-6xl mx-auto">
           <Reveal className="text-center mb-16">
-            <p className="text-[#7C3AED] text-sm font-semibold mb-3">Pourquoi EduPath</p>
+            <p className="text-[var(--brand,#7C3AED)] text-sm font-semibold mb-3">Pourquoi EduPath</p>
             <h2 className="text-gray-900 text-4xl md:text-5xl font-bold">Tout ce dont vous avez besoin</h2>
           </Reveal>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {features.map((f, i) => (
               <Reveal key={f.title} delay={i * 0.1}>
-                <div className="bg-gray-50 rounded-2xl p-6 hover:bg-[#7C3AED]/5 transition-colors cursor-pointer group">
-                  <div className="w-12 h-12 bg-[#7C3AED]/10 rounded-xl flex items-center justify-center text-[#7C3AED] mb-4 group-hover:bg-[#7C3AED] group-hover:text-white transition-colors">{f.icon}</div>
+                <div className="bg-gray-50 rounded-2xl p-6 hover:bg-[var(--brand,#7C3AED)]/5 transition-colors cursor-pointer group">
+                  <div className="w-12 h-12 bg-[var(--brand,#7C3AED)]/10 rounded-xl flex items-center justify-center text-[var(--brand,#7C3AED)] mb-4 group-hover:bg-[var(--brand,#7C3AED)] group-hover:text-white transition-colors">{f.icon}</div>
                   <h3 className="text-gray-900 font-semibold mb-2">{f.title}</h3>
                   <p className="text-gray-500 text-sm leading-relaxed">{f.desc}</p>
                 </div>
@@ -285,12 +285,12 @@ return (
         <div className="max-w-6xl mx-auto">
           <Reveal className="flex flex-col md:flex-row md:items-end justify-between mb-10">
             <div>
-              <p className="text-[#7C3AED] text-sm font-semibold mb-3">Catalogue</p>
+              <p className="text-[var(--brand,#7C3AED)] text-sm font-semibold mb-3">Catalogue</p>
               <h2 className="text-gray-900 text-4xl font-bold">Cours populaires</h2>
             </div>
             <div className="flex gap-2 flex-wrap mt-6 md:mt-0">
               {categories.map(cat => (
-                <button key={cat} onClick={() => setActiveCategory(cat)} className={`px-4 py-2 rounded-xl text-sm font-medium transition-all cursor-pointer ${activeCategory === cat ? "bg-[#7C3AED] text-white" : "bg-white text-gray-600 border border-gray-200 hover:border-[#7C3AED]"}`}>{cat}</button>
+                <button key={cat} onClick={() => setActiveCategory(cat)} className={`px-4 py-2 rounded-xl text-sm font-medium transition-all cursor-pointer ${activeCategory === cat ? "bg-[var(--brand,#7C3AED)] text-white" : "bg-white text-gray-600 border border-gray-200 hover:border-[var(--brand,#7C3AED)]"}`}>{cat}</button>
               ))}
             </div>
           </Reveal>
@@ -333,18 +333,18 @@ return (
       <section className="py-24 px-6 bg-white">
         <div className="max-w-6xl mx-auto">
           <Reveal className="mb-12">
-            <p className="text-[#7C3AED] text-sm font-semibold mb-3">Formateurs</p>
+            <p className="text-[var(--brand,#7C3AED)] text-sm font-semibold mb-3">Formateurs</p>
             <h2 className="text-gray-900 text-4xl font-bold">Apprenez des meilleurs</h2>
           </Reveal>
           <div className="grid md:grid-cols-3 gap-6">
             {instructors.map((inst, i) => (
               <Reveal key={inst.name} delay={i * 0.1}>
                 <div className="bg-gray-50 rounded-2xl p-6 hover:shadow-md transition-shadow cursor-pointer">
-                  <div className="w-16 h-16 bg-gradient-to-br from-[#7C3AED] to-[#0EA5E9] rounded-2xl mb-4 flex items-center justify-center text-white text-xl font-bold">
+                  <div className="w-16 h-16 bg-gradient-to-br from-[var(--brand,#7C3AED)] to-[#0EA5E9] rounded-2xl mb-4 flex items-center justify-center text-white text-xl font-bold">
                     {inst.name.charAt(0)}
                   </div>
                   <h3 className="text-gray-900 font-semibold mb-1">{inst.name}</h3>
-                  <p className="text-[#7C3AED] text-sm mb-4">{inst.specialty}</p>
+                  <p className="text-[var(--brand,#7C3AED)] text-sm mb-4">{inst.specialty}</p>
                   <div className="flex items-center gap-4 text-xs text-gray-500">
                     <span className="flex items-center gap-1"><BookOpen className="w-3 h-3" />{inst.courses} cours</span>
                     <span className="flex items-center gap-1"><Users className="w-3 h-3" />{inst.students} élèves</span>
@@ -361,13 +361,13 @@ return (
       <section className="py-24 px-6 bg-gradient-to-br from-[#F5F3FF] to-white">
         <div className="max-w-5xl mx-auto">
           <Reveal className="text-center mb-16">
-            <p className="text-[#7C3AED] text-sm font-semibold mb-3">Tarifs</p>
+            <p className="text-[var(--brand,#7C3AED)] text-sm font-semibold mb-3">Tarifs</p>
             <h2 className="text-gray-900 text-4xl font-bold">Investissez dans votre carrière</h2>
           </Reveal>
           <div className="grid md:grid-cols-3 gap-6">
             {plans.map((plan, i) => (
               <Reveal key={plan.name} delay={i * 0.1}>
-                <div className={`rounded-2xl p-8 ${plan.highlight ? "bg-[#7C3AED] text-white scale-105 shadow-2xl" : "bg-white border border-gray-200"}`}>
+                <div className={`rounded-2xl p-8 ${plan.highlight ? "bg-[var(--brand,#7C3AED)] text-white scale-105 shadow-2xl" : "bg-white border border-gray-200"}`}>
                   <h3 className={`font-bold text-xl mb-2 ${plan.highlight ? "text-white" : "text-gray-900"}`}>{plan.name}</h3>
                   <div className="mb-6">
                     <span className={`text-4xl font-bold ${plan.highlight ? "text-white" : "text-gray-900"}`}>{plan.price}€</span>
@@ -376,12 +376,12 @@ return (
                   <ul className="space-y-3 mb-8">
                     {plan.features.map(f => (
                       <li key={f} className="flex items-center gap-2 text-sm">
-                        <CheckCircle className={`w-4 h-4 shrink-0 ${plan.highlight ? "text-white" : "text-[#7C3AED]"}`} />
+                        <CheckCircle className={`w-4 h-4 shrink-0 ${plan.highlight ? "text-white" : "text-[var(--brand,#7C3AED)]"}`} />
                         <span className={plan.highlight ? "text-white/90" : "text-gray-600"}>{f}</span>
                       </li>
                     ))}
                   </ul>
-                  <button className={`w-full py-3 rounded-xl font-semibold text-sm transition-colors cursor-pointer ${plan.highlight ? "bg-white text-[#7C3AED] hover:bg-gray-100" : "bg-[#7C3AED] text-white hover:bg-[#6D28D9]"}`}>
+                  <button className={`w-full py-3 rounded-xl font-semibold text-sm transition-colors cursor-pointer ${plan.highlight ? "bg-white text-[var(--brand,#7C3AED)] hover:bg-gray-100" : "bg-[var(--brand,#7C3AED)] text-white hover:bg-[#6D28D9]"}`}>
                     {plan.cta}
                   </button>
                 </div>
@@ -396,7 +396,7 @@ return (
         <div className="max-w-6xl mx-auto grid md:grid-cols-4 gap-10 mb-12">
           <div>
             <div className="flex items-center gap-2 mb-4">
-              <div className="w-8 h-8 bg-[#7C3AED] rounded-lg flex items-center justify-center"><BookOpen className="w-4 h-4 text-white" /></div>
+              <div className="w-8 h-8 bg-[var(--brand,#7C3AED)] rounded-lg flex items-center justify-center"><BookOpen className="w-4 h-4 text-white" /></div>
               <span className="text-white font-bold text-lg">{fd?.businessName ?? "EduPath"}</span>
             </div>
             <p className="text-gray-400 text-sm leading-relaxed">La plateforme d'apprentissage en ligne pour les professionnels ambitieux.</p>

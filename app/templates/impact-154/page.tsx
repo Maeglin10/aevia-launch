@@ -292,7 +292,7 @@ function SectionTitle({ subtitle, title, alignment = "center" }: { subtitle: str
   return (
     <div className={`mb-32 ${alignment === "center" ? "text-center" : "text-left"}`}>
        <Reveal>
-          <span className="text-[10px] font-black uppercase tracking-[0.6em] text-[#b4925e] mb-8 block italic underline underline-offset-8">
+          <span className="text-[10px] font-black uppercase tracking-[0.6em] text-[var(--brand,#b4925e)] mb-8 block italic underline underline-offset-8">
              {subtitle}
           </span>
           <h2 className="text-6xl md:text-[8vw] font-light italic leading-none tracking-tighter uppercase text-[#fdfcfb]" style={{ fontFamily: "serif" }}>
@@ -307,10 +307,10 @@ function SectionTitle({ subtitle, title, alignment = "center" }: { subtitle: str
 function PageHeader({ chapter, title, intro }: { chapter: string, title: string, intro?: string }) {
   return (
     <section id="hero" className="relative pt-48 pb-24 px-8 md:px-20 border-b border-white/5 overflow-hidden">
-       <div className="absolute top-0 right-0 p-40 bg-[#b4925e] opacity-[0.04] blur-[120px] rounded-full pointer-events-none" />
+       <div className="absolute top-0 right-0 p-40 bg-[var(--brand,#b4925e)] opacity-[0.04] blur-[120px] rounded-full pointer-events-none" />
        <div className="max-w-[1400px] mx-auto relative z-10">
           <Reveal>
-             <span className="text-[10px] font-black uppercase tracking-[0.6em] text-[#b4925e] mb-8 block italic underline underline-offset-8">
+             <span className="text-[10px] font-black uppercase tracking-[0.6em] text-[var(--brand,#b4925e)] mb-8 block italic underline underline-offset-8">
                 {chapter}
              </span>
              <h1 className="text-5xl md:text-[7vw] font-light italic leading-[0.85] tracking-tighter uppercase text-[#fdfcfb]" style={{ fontFamily: "serif" }}>
@@ -459,7 +459,7 @@ export default function IvoryArchivePremium() {
     }
   }, [c]);
 return (
-    <div ref={containerRef} className="bg-[#0c0c0e] text-[#fdfcfb] font-sans selection:bg-[#b4925e] selection:text-black min-h-dvh overflow-x-hidden">
+    <div ref={containerRef} className="bg-[#0c0c0e] text-[#fdfcfb] font-sans selection:bg-[var(--brand,#b4925e)] selection:text-black min-h-dvh overflow-x-hidden">
 
       {/* GLOBAL HUD & NAVIGATION */}
       <nav className="fixed top-0 left-0 w-full z-[100] px-8 md:px-20 flex items-center justify-between border-b border-white/5 bg-[#0c0c0e]/80 backdrop-blur-xl py-5">
@@ -473,8 +473,8 @@ return (
             ) : (
               <>
             <span className="text-2xl md:text-3xl font-light tracking-[0.2em] uppercase text-white flex items-center gap-4">
-               <Landmark className="w-7 h-7 md:w-8 md:h-8 text-[#b4925e]" />
-               IVORY<span className="text-[#b4925e] font-black italic">.ARCHIVE</span>
+               <Landmark className="w-7 h-7 md:w-8 md:h-8 text-[var(--brand,#b4925e)]" />
+               IVORY<span className="text-[var(--brand,#b4925e)] font-black italic">.ARCHIVE</span>
             </span>
             <span className="text-[8px] font-black tracking-[0.6em] text-white/20 uppercase italic hidden md:block">Elite Art Conservation & Private Registry</span>
               </>
@@ -487,7 +487,7 @@ return (
                  <button
                    key={l.key}
                    onClick={() => goTo(l.key)}
-                   className={`transition-colors uppercase tracking-[0.4em] ${page === l.key ? "text-[#b4925e]" : "text-white/30 hover:text-white"}`}
+                   className={`transition-colors uppercase tracking-[0.4em] ${page === l.key ? "text-[var(--brand,#b4925e)]" : "text-white/30 hover:text-white"}`}
                  >
                    {l.label}
                  </button>
@@ -496,7 +496,7 @@ return (
             <div className="h-10 w-px bg-white/10" />
             <button
               onClick={() => setVaultOpen(true)}
-              className="flex items-center gap-3 px-8 py-3 bg-[#b4925e] text-black text-[10px] font-black uppercase tracking-widest hover:bg-white transition-all shadow-xl"
+              className="flex items-center gap-3 px-8 py-3 bg-[var(--brand,#b4925e)] text-black text-[10px] font-black uppercase tracking-widest hover:bg-white transition-all shadow-xl"
             >
                <Lock className="w-4 h-4" /> Collector Vault
             </button>
@@ -520,14 +520,14 @@ return (
                <button
                  key={l.key}
                  onClick={() => goTo(l.key)}
-                 className={`text-left text-[11px] font-black uppercase tracking-[0.4em] ${page === l.key ? "text-[#b4925e]" : "text-white/40"}`}
+                 className={`text-left text-[11px] font-black uppercase tracking-[0.4em] ${page === l.key ? "text-[var(--brand,#b4925e)]" : "text-white/40"}`}
                >
                  {l.label}
                </button>
              ))}
              <button
                onClick={() => { setMobileNav(false); setVaultOpen(true) }}
-               className="mt-4 flex items-center gap-3 px-8 py-4 bg-[#b4925e] text-black text-[10px] font-black uppercase tracking-widest"
+               className="mt-4 flex items-center gap-3 px-8 py-4 bg-[var(--brand,#b4925e)] text-black text-[10px] font-black uppercase tracking-widest"
              >
                 <Lock className="w-4 h-4" /> Collector Vault
              </button>
@@ -556,7 +556,7 @@ return (
 
           <div className="relative z-10 text-center max-w-7xl px-8">
              <Reveal>
-                <div className="inline-flex items-center gap-4 px-4 py-1 border border-[#b4925e]/30 bg-[#b4925e]/5 text-[10px] font-bold uppercase tracking-[0.5em] text-[#b4925e] mb-12 italic">
+                <div className="inline-flex items-center gap-4 px-4 py-1 border border-[var(--brand,#b4925e)]/30 bg-[var(--brand,#b4925e)]/5 text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#b4925e)] mb-12 italic">
                    Status // High_Security_Node: Zurich
                 </div>
                 <h1 className="text-7xl md:text-[14vw] font-light italic leading-[0.75] tracking-tighter uppercase mb-16" style={{ fontFamily: "serif" }}>{c?.heroHeadline ?? <>
@@ -564,7 +564,7 @@ return (
                 </>}</h1>
                 <div className="grid md:grid-cols-3 gap-12 md:gap-24 text-left max-w-5xl mx-auto border-t border-white/10 pt-16">
                    <div className="space-y-4">
-                      <h3 className="text-[10px] font-black uppercase tracking-widest text-[#b4925e]">The Mandate</h3>
+                      <h3 className="text-[10px] font-black uppercase tracking-widest text-[var(--brand,#b4925e)]">The Mandate</h3>
                       <p className="text-[11px] text-white/30 leading-loose uppercase tracking-widest font-bold italic">{c?.heroSubline ?? fd?.tagline ?? <>
                          Nous assurons la pérennité des chefs-d'œuvre mondiaux à travers une expertise scientifique et une conservation de haute sphère.
                       </>}</p>
@@ -583,7 +583,7 @@ return (
 
           <div className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4">
              <span className="text-[8px] font-black uppercase tracking-[0.5em] text-white/20">Explore_The_Repository</span>
-             <div className="h-20 w-px bg-gradient-to-b from-[#b4925e] to-transparent" />
+             <div className="h-20 w-px bg-gradient-to-b from-[var(--brand,#b4925e)] to-transparent" />
           </div>
         </section>
 
@@ -599,7 +599,7 @@ return (
                    <Reveal key={art.id} delay={i * 0.1} y={80}>
                       <div
                          onClick={() => { goTo("collection"); setActiveWork(art.id) }}
-                         className="group relative bg-[#0c0c0e] border border-white/5 p-12 hover:border-[#b4925e]/30 transition-all duration-700 cursor-pointer"
+                         className="group relative bg-[#0c0c0e] border border-white/5 p-12 hover:border-[var(--brand,#b4925e)]/30 transition-all duration-700 cursor-pointer"
                       >
                          <div className="relative aspect-[3/4] mb-12 overflow-hidden shadow-2xl">
                             <Image
@@ -610,24 +610,24 @@ return (
                             />
                             <div className="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-colors" />
                             <div className="absolute top-6 left-6">
-                               <span className="px-3 py-1 bg-[#b4925e] text-black text-[8px] font-black uppercase tracking-widest">{art.period}</span>
+                               <span className="px-3 py-1 bg-[var(--brand,#b4925e)] text-black text-[8px] font-black uppercase tracking-widest">{art.period}</span>
                             </div>
                          </div>
 
-                         <h3 className="text-3xl font-light italic uppercase tracking-tighter text-white group-hover:text-[#b4925e] transition-colors mb-6" style={{ fontFamily: "serif" }}>{art.title}</h3>
+                         <h3 className="text-3xl font-light italic uppercase tracking-tighter text-white group-hover:text-[var(--brand,#b4925e)] transition-colors mb-6" style={{ fontFamily: "serif" }}>{art.title}</h3>
                          <div className="flex justify-between items-center text-[9px] font-black text-white/20 uppercase tracking-widest mb-12">
                             <span>ID: {art.id}</span>
-                            <span className="text-[#b4925e]">{art.status}</span>
+                            <span className="text-[var(--brand,#b4925e)]">{art.status}</span>
                          </div>
                          <p className="text-[11px] text-white/40 leading-loose uppercase tracking-[0.2em] font-bold italic mb-12">
                             {art.desc}
                          </p>
                          <div className="flex justify-between items-center border-t border-white/5 pt-8">
                             <div className="flex items-center gap-3">
-                               <MapPin className="w-3 h-3 text-[#b4925e]" />
+                               <MapPin className="w-3 h-3 text-[var(--brand,#b4925e)]" />
                                <span className="text-[8px] font-black uppercase tracking-widest text-white/30">{art.location}</span>
                             </div>
-                            <span className="text-[9px] font-black uppercase tracking-widest text-[#b4925e] flex items-center gap-2 group-hover:translate-x-2 transition-transform">
+                            <span className="text-[9px] font-black uppercase tracking-widest text-[var(--brand,#b4925e)] flex items-center gap-2 group-hover:translate-x-2 transition-transform">
                                Expertise Report <ChevronRight className="w-4 h-4" />
                             </span>
                          </div>
@@ -652,8 +652,8 @@ return (
                        </>}</p>
                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-20">
                           {LAB_METRICS.map((metric, i) => (
-                            <div key={i} className="p-8 bg-black border border-white/5 hover:border-[#b4925e]/30 transition-all">
-                               <div className="text-[8px] font-black uppercase text-[#b4925e] mb-2 tracking-[0.3em]">{metric.label}</div>
+                            <div key={i} className="p-8 bg-black border border-white/5 hover:border-[var(--brand,#b4925e)]/30 transition-all">
+                               <div className="text-[8px] font-black uppercase text-[var(--brand,#b4925e)] mb-2 tracking-[0.3em]">{metric.label}</div>
                                <div className="text-3xl font-light text-white mb-4 italic">{metric.value}</div>
                                <div className="flex items-center gap-2 text-[8px] font-bold uppercase tracking-widest text-white/20 italic">
                                   <Activity className="w-3 h-3" /> {metric.status}
@@ -661,7 +661,7 @@ return (
                             </div>
                           ))}
                        </div>
-                       <button className="w-full py-6 border-2 border-[#b4925e] text-[#b4925e] text-[10px] font-black uppercase tracking-widest hover:bg-[#b4925e] hover:text-black transition-all shadow-2xl">
+                       <button className="w-full py-6 border-2 border-[var(--brand,#b4925e)] text-[var(--brand,#b4925e)] text-[10px] font-black uppercase tracking-widest hover:bg-[var(--brand,#b4925e)] hover:text-black transition-all shadow-2xl">
                           Request Lab Analysis Log
                        </button>
                     </Reveal>
@@ -669,24 +669,24 @@ return (
                  <div className="relative">
                     <Reveal delay={0.3} x={40}>
                        <div className="aspect-square bg-black border border-white/10 p-12 flex flex-col justify-between relative group overflow-hidden">
-                          <div className="absolute top-0 right-0 p-40 bg-[#b4925e] opacity-[0.03] blur-[100px] rounded-full group-hover:opacity-[0.1] transition-opacity" />
+                          <div className="absolute top-0 right-0 p-40 bg-[var(--brand,#b4925e)] opacity-[0.03] blur-[100px] rounded-full group-hover:opacity-[0.1] transition-opacity" />
                           <div className="flex justify-between items-start z-10">
                              <div className="flex flex-col gap-2">
                                 <span className="text-[8px] font-black text-white/20 uppercase tracking-widest">System_ID // ARCH-V4</span>
                                 <span className="text-[10px] font-black text-white uppercase tracking-[0.4em]">Multi-Spectral_Scan</span>
                              </div>
-                             <Microscope className="w-5 h-5 text-[#b4925e]" />
+                             <Microscope className="w-5 h-5 text-[var(--brand,#b4925e)]" />
                           </div>
 
                           <div className="flex flex-col gap-12 relative z-10">
                              <div className="flex items-center justify-center gap-8">
-                                <div className="w-24 h-24 border border-white/10 rounded-full flex items-center justify-center text-[#b4925e] shadow-[0_0_30px_rgba(180,146,94,0.1)]">
+                                <div className="w-24 h-24 border border-white/10 rounded-full flex items-center justify-center text-[var(--brand,#b4925e)] shadow-[0_0_30px_rgba(180,146,94,0.1)]">
                                    <Palette className="w-12 h-12" />
                                 </div>
                              </div>
                              <div className="text-center">
                                 <span className="text-[8px] font-black text-white/20 uppercase tracking-[0.5em] block mb-4 italic">Scan_Efficiency</span>
-                                <div className="text-4xl font-black italic text-[#b4925e]">99.98% // SECURE</div>
+                                <div className="text-4xl font-black italic text-[var(--brand,#b4925e)]">99.98% // SECURE</div>
                              </div>
                           </div>
 
@@ -695,7 +695,7 @@ return (
                                 <motion.div
                                    animate={{ x: ["-100%", "100%"] }}
                                    transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
-                                   className="w-1/2 h-full bg-[#b4925e]"
+                                   className="w-1/2 h-full bg-[var(--brand,#b4925e)]"
                                 />
                              </div>
                           </div>
@@ -722,9 +722,9 @@ return (
                     <div className="absolute inset-0 bg-black/60 group-hover:bg-black/20 transition-all" />
                     <div className="absolute inset-0 p-16 flex flex-col justify-end">
                        <div className="text-white">
-                          <span className="text-[10px] font-black uppercase tracking-[0.5em] text-[#b4925e] mb-4 block italic underline underline-offset-8">Featured Provenance // Case-09</span>
+                          <span className="text-[10px] font-black uppercase tracking-[0.5em] text-[var(--brand,#b4925e)] mb-4 block italic underline underline-offset-8">Featured Provenance // Case-09</span>
                           <h4 className="text-5xl font-light tracking-tighter uppercase italic mb-8" style={{ fontFamily: "serif" }}>The Royal <br/> Archive Trace.</h4>
-                          <button onClick={() => goTo("about")} className="flex items-center gap-4 text-[10px] font-black uppercase tracking-widest border-b border-[#b4925e] pb-2">
+                          <button onClick={() => goTo("about")} className="flex items-center gap-4 text-[10px] font-black uppercase tracking-widest border-b border-[var(--brand,#b4925e)] pb-2">
                              Full Chronology <ExternalLink className="w-4 h-4" />
                           </button>
                        </div>
@@ -736,9 +736,9 @@ return (
                        <SectionTitle subtitle="Chapitre III // Provenance" title="Chain of Custody." alignment="left" />
                        <div className="space-y-12">
                           {PROVENANCE_LOGS.map((log, i) => (
-                            <div key={i} className="group border-l border-white/5 pl-12 hover:border-[#b4925e] transition-all cursor-default">
+                            <div key={i} className="group border-l border-white/5 pl-12 hover:border-[var(--brand,#b4925e)] transition-all cursor-default">
                                <div className="flex justify-between items-center mb-4">
-                                  <span className="text-[10px] font-black text-[#b4925e] uppercase tracking-widest">{log.year}</span>
+                                  <span className="text-[10px] font-black text-[var(--brand,#b4925e)] uppercase tracking-widest">{log.year}</span>
                                   <History className="w-4 h-4 text-white/10 group-hover:text-white transition-all" />
                                </div>
                                <p className="text-[11px] text-white/30 uppercase tracking-[0.2em] font-bold leading-relaxed">{log.event}</p>
@@ -782,7 +782,7 @@ return (
                        <label className="text-[8px] font-black uppercase tracking-[0.4em] text-black/20 block mb-2">Digital Signature</label>
                        <input type="email" className="w-full bg-transparent outline-none text-xl font-light italic" placeholder="alistair@sterling.ch" />
                     </div>
-                    <button className="w-full py-6 bg-black text-white text-[10px] font-black uppercase tracking-widest hover:bg-[#b4925e] transition-all shadow-2xl">
+                    <button className="w-full py-6 bg-black text-white text-[10px] font-black uppercase tracking-widest hover:bg-[var(--brand,#b4925e)] transition-all shadow-2xl">
                        Request Acquisition Handshake
                     </button>
                  </form>
@@ -828,17 +828,17 @@ return (
            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-32 mb-60 text-white">
               <div className="lg:col-span-2">
                  <button onClick={() => goTo("home")} className="flex items-center gap-4 mb-12 text-left">
-                    <div className="w-10 h-10 bg-[#b4925e] flex items-center justify-center rounded-sm">
+                    <div className="w-10 h-10 bg-[var(--brand,#b4925e)] flex items-center justify-center rounded-sm">
                        <Landmark className="w-6 h-6 text-black" />
                     </div>
-                    <span className="text-3xl font-light tracking-[0.2em] uppercase">IVORY<span className="text-[#b4925e] font-black">.ARCHIVE</span></span>
+                    <span className="text-3xl font-light tracking-[0.2em] uppercase">IVORY<span className="text-[var(--brand,#b4925e)] font-black">.ARCHIVE</span></span>
                  </button>
                  <p className="text-white/20 text-[10px] font-black uppercase tracking-[0.4em] leading-loose max-w-sm mb-16 italic">
                     "La conservation est l'art de faire taire le temps pour laisser parler l'histoire." — Archive Ivory V.4
                  </p>
                  <div className="flex gap-12">
                     {["Camera", "ArtsNet", "UNESCO_Partner", "LinkedIn"].map(s => (
-                       <span key={s} className="text-[10px] font-black uppercase tracking-widest text-white/20 hover:text-[#b4925e] transition-colors italic cursor-pointer">{s}</span>
+                       <span key={s} className="text-[10px] font-black uppercase tracking-widest text-white/20 hover:text-[var(--brand,#b4925e)] transition-colors italic cursor-pointer">{s}</span>
                     ))}
                  </div>
               </div>
@@ -863,7 +863,7 @@ return (
                 ] }
               ].map((col, i) => (
                 <div key={i} className="flex flex-col gap-12">
-                   <h4 className="text-[10px] font-black text-[#b4925e] uppercase tracking-[0.5em] italic">{col.t}</h4>
+                   <h4 className="text-[10px] font-black text-[var(--brand,#b4925e)] uppercase tracking-[0.5em] italic">{col.t}</h4>
                    <ul className="flex flex-col gap-6">
                       {col.links.map(link => (
                          <li key={link.label}>
@@ -900,13 +900,13 @@ return (
             exit={{ opacity: 0 }}
             className="fixed inset-0 z-[1000] bg-black/95 backdrop-blur-3xl flex items-center justify-center p-8"
           >
-             <div className="max-w-md w-full border border-[#b4925e]/30 p-12 relative bg-[#0c0c0e]">
+             <div className="max-w-md w-full border border-[var(--brand,#b4925e)]/30 p-12 relative bg-[#0c0c0e]">
                 <button onClick={() => setVaultOpen(false)} className="absolute top-4 right-4 text-white/20 hover:text-white transition-colors">
                    <X className="w-8 h-8" />
                 </button>
                 <div className="flex flex-col items-center gap-12">
-                   <div className="w-20 h-20 bg-[#b4925e]/10 flex items-center justify-center rounded-full">
-                      <Fingerprint className="w-10 h-10 text-[#b4925e]" />
+                   <div className="w-20 h-20 bg-[var(--brand,#b4925e)]/10 flex items-center justify-center rounded-full">
+                      <Fingerprint className="w-10 h-10 text-[var(--brand,#b4925e)]" />
                    </div>
                    <div className="text-center">
                       <h2 className="text-2xl font-black uppercase tracking-tighter mb-4 italic">Collector_Handshake</h2>
@@ -918,9 +918,9 @@ return (
                       <input
                          type="text"
                          placeholder="IDENT_ACCESS_KEY"
-                         className="w-full bg-white/5 border border-white/10 px-6 py-4 text-base font-bold uppercase tracking-[0.3em] outline-none focus:border-[#b4925e] text-white"
+                         className="w-full bg-white/5 border border-white/10 px-6 py-4 text-base font-bold uppercase tracking-[0.3em] outline-none focus:border-[var(--brand,#b4925e)] text-white"
                       />
-                      <button className="w-full py-4 bg-[#b4925e] text-black text-[10px] font-black uppercase tracking-widest">
+                      <button className="w-full py-4 bg-[var(--brand,#b4925e)] text-black text-[10px] font-black uppercase tracking-widest">
                          Authenticate Access
                       </button>
                    </div>
@@ -951,7 +951,7 @@ function CollectionIndex({ onOpen }: { onOpen: (id: string) => void }) {
                  <Reveal key={art.id} delay={(i % 3) * 0.1} y={60}>
                     <div
                        onClick={() => onOpen(art.id)}
-                       className="group relative bg-[#0c0c0e] border border-white/5 p-12 hover:border-[#b4925e]/30 transition-all duration-700 cursor-pointer h-full"
+                       className="group relative bg-[#0c0c0e] border border-white/5 p-12 hover:border-[var(--brand,#b4925e)]/30 transition-all duration-700 cursor-pointer h-full"
                     >
                        <div className="relative aspect-[3/4] mb-12 overflow-hidden shadow-2xl">
                           <Image
@@ -962,23 +962,23 @@ function CollectionIndex({ onOpen }: { onOpen: (id: string) => void }) {
                           />
                           <div className="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-colors" />
                           <div className="absolute top-6 left-6">
-                             <span className="px-3 py-1 bg-[#b4925e] text-black text-[8px] font-black uppercase tracking-widest">{art.period}</span>
+                             <span className="px-3 py-1 bg-[var(--brand,#b4925e)] text-black text-[8px] font-black uppercase tracking-widest">{art.period}</span>
                           </div>
                        </div>
-                       <h3 className="text-3xl font-light italic uppercase tracking-tighter text-white group-hover:text-[#b4925e] transition-colors mb-6" style={{ fontFamily: "serif" }}>{art.title}</h3>
+                       <h3 className="text-3xl font-light italic uppercase tracking-tighter text-white group-hover:text-[var(--brand,#b4925e)] transition-colors mb-6" style={{ fontFamily: "serif" }}>{art.title}</h3>
                        <div className="flex justify-between items-center text-[9px] font-black text-white/20 uppercase tracking-widest mb-12">
                           <span>ID: {art.id}</span>
-                          <span className="text-[#b4925e]">{art.status}</span>
+                          <span className="text-[var(--brand,#b4925e)]">{art.status}</span>
                        </div>
                        <p className="text-[11px] text-white/40 leading-loose uppercase tracking-[0.2em] font-bold italic mb-12">
                           {art.desc}
                        </p>
                        <div className="flex justify-between items-center border-t border-white/5 pt-8">
                           <div className="flex items-center gap-3">
-                             <MapPin className="w-3 h-3 text-[#b4925e]" />
+                             <MapPin className="w-3 h-3 text-[var(--brand,#b4925e)]" />
                              <span className="text-[8px] font-black uppercase tracking-widest text-white/30">{art.location}</span>
                           </div>
-                          <span className="text-[9px] font-black uppercase tracking-widest text-[#b4925e] flex items-center gap-2 group-hover:translate-x-2 transition-transform">
+                          <span className="text-[9px] font-black uppercase tracking-widest text-[var(--brand,#b4925e)] flex items-center gap-2 group-hover:translate-x-2 transition-transform">
                              Expertise Report <ChevronRight className="w-4 h-4" />
                           </span>
                        </div>
@@ -1002,7 +1002,7 @@ function CollectionDetail({ id, onBack, onContact }: { id: string, onBack: () =>
     return (
       <div className="pt-48 pb-32 px-8 md:px-20 max-w-[1200px] mx-auto text-center">
          <p className="text-white/40 uppercase tracking-widest text-sm italic mb-12">Œuvre introuvable.</p>
-         <button onClick={onBack} className="text-[#b4925e] uppercase tracking-widest text-[10px] font-black">← Retour à la collection</button>
+         <button onClick={onBack} className="text-[var(--brand,#b4925e)] uppercase tracking-widest text-[10px] font-black">← Retour à la collection</button>
       </div>
     )
   }
@@ -1011,7 +1011,7 @@ function CollectionDetail({ id, onBack, onContact }: { id: string, onBack: () =>
        <div className="max-w-[1500px] mx-auto px-8 md:px-20">
           <button
              onClick={onBack}
-             className="inline-flex items-center gap-3 text-[10px] font-black uppercase tracking-[0.4em] text-white/30 hover:text-[#b4925e] transition-colors mb-16"
+             className="inline-flex items-center gap-3 text-[10px] font-black uppercase tracking-[0.4em] text-white/30 hover:text-[var(--brand,#b4925e)] transition-colors mb-16"
           >
              <ChevronLeft className="w-4 h-4" /> Toute la collection
           </button>
@@ -1027,14 +1027,14 @@ function CollectionDetail({ id, onBack, onContact }: { id: string, onBack: () =>
                       className="object-cover grayscale group-hover:grayscale-0 transition-all duration-1000"
                    />
                    <div className="absolute top-6 left-6">
-                      <span className="px-3 py-1 bg-[#b4925e] text-black text-[8px] font-black uppercase tracking-widest">{art.period}</span>
+                      <span className="px-3 py-1 bg-[var(--brand,#b4925e)] text-black text-[8px] font-black uppercase tracking-widest">{art.period}</span>
                    </div>
                 </div>
              </Reveal>
 
              {/* Expertise report */}
              <Reveal delay={0.2} x={30}>
-                <span className="text-[10px] font-black uppercase tracking-[0.6em] text-[#b4925e] mb-8 block italic underline underline-offset-8">
+                <span className="text-[10px] font-black uppercase tracking-[0.6em] text-[var(--brand,#b4925e)] mb-8 block italic underline underline-offset-8">
                    Expertise Report // {art.id}
                 </span>
                 <h1 className="text-5xl md:text-6xl font-light italic uppercase tracking-tighter text-white leading-[0.9] mb-10" style={{ fontFamily: "serif" }}>
@@ -1049,7 +1049,7 @@ function CollectionDetail({ id, onBack, onContact }: { id: string, onBack: () =>
                      { label: "Dimensions", value: detail?.dimensions ?? "—" }
                    ].map((row, i) => (
                      <div key={i} className="bg-[#0c0c0e] p-6">
-                        <div className="text-[8px] font-black uppercase text-[#b4925e] mb-2 tracking-[0.3em]">{row.label}</div>
+                        <div className="text-[8px] font-black uppercase text-[var(--brand,#b4925e)] mb-2 tracking-[0.3em]">{row.label}</div>
                         <div className="text-sm font-light text-white italic">{row.value}</div>
                      </div>
                    ))}
@@ -1065,7 +1065,7 @@ function CollectionDetail({ id, onBack, onContact }: { id: string, onBack: () =>
 
                 <div className="border-t border-white/5 pt-8 mb-12">
                    <div className="flex items-center gap-3 mb-2">
-                      <ShieldCheck className="w-4 h-4 text-[#b4925e]" />
+                      <ShieldCheck className="w-4 h-4 text-[var(--brand,#b4925e)]" />
                       <span className="text-[9px] font-black uppercase tracking-widest text-white/30">Acquisition</span>
                    </div>
                    <p className="text-[11px] text-white/40 uppercase tracking-[0.2em] font-bold italic">{detail?.acquisition ?? "Dossier confidentiel."}</p>
@@ -1073,7 +1073,7 @@ function CollectionDetail({ id, onBack, onContact }: { id: string, onBack: () =>
 
                 <button
                    onClick={onContact}
-                   className="w-full py-6 bg-[#b4925e] text-black text-[10px] font-black uppercase tracking-widest hover:bg-white transition-all shadow-2xl flex items-center justify-center gap-3"
+                   className="w-full py-6 bg-[var(--brand,#b4925e)] text-black text-[10px] font-black uppercase tracking-widest hover:bg-white transition-all shadow-2xl flex items-center justify-center gap-3"
                 >
                    <Lock className="w-4 h-4" /> Demander le dossier de provenance
                 </button>
@@ -1102,7 +1102,7 @@ function JournalIndex({ onOpen }: { onOpen: (slug: string) => void }) {
                  <Reveal key={post.slug} delay={(i % 2) * 0.1} y={60}>
                     <article
                        onClick={() => onOpen(post.slug)}
-                       className="group relative bg-[#0c0c0e] border border-white/5 hover:border-[#b4925e]/30 transition-all duration-700 cursor-pointer h-full flex flex-col"
+                       className="group relative bg-[#0c0c0e] border border-white/5 hover:border-[var(--brand,#b4925e)]/30 transition-all duration-700 cursor-pointer h-full flex flex-col"
                     >
                        <div className="relative aspect-[16/9] overflow-hidden">
                           <Image
@@ -1113,18 +1113,18 @@ function JournalIndex({ onOpen }: { onOpen: (slug: string) => void }) {
                           />
                           <div className="absolute inset-0 bg-black/40 group-hover:bg-black/10 transition-colors" />
                           <div className="absolute top-6 left-6">
-                             <span className="px-3 py-1 bg-[#b4925e] text-black text-[8px] font-black uppercase tracking-widest">{post.category}</span>
+                             <span className="px-3 py-1 bg-[var(--brand,#b4925e)] text-black text-[8px] font-black uppercase tracking-widest">{post.category}</span>
                           </div>
                        </div>
                        <div className="p-12 flex flex-col flex-1">
                           <span className="text-[8px] font-black uppercase tracking-[0.4em] text-white/20 mb-6 italic">{post.date}</span>
-                          <h3 className="text-2xl md:text-3xl font-light italic uppercase tracking-tighter text-white group-hover:text-[#b4925e] transition-colors mb-8 leading-tight" style={{ fontFamily: "serif" }}>
+                          <h3 className="text-2xl md:text-3xl font-light italic uppercase tracking-tighter text-white group-hover:text-[var(--brand,#b4925e)] transition-colors mb-8 leading-tight" style={{ fontFamily: "serif" }}>
                              {post.title}
                           </h3>
                           <p className="text-[11px] text-white/40 leading-loose uppercase tracking-[0.2em] font-bold italic mb-8 flex-1">
                              {post.excerpt}
                           </p>
-                          <span className="text-[9px] font-black uppercase tracking-widest text-[#b4925e] flex items-center gap-2 group-hover:translate-x-2 transition-transform">
+                          <span className="text-[9px] font-black uppercase tracking-widest text-[var(--brand,#b4925e)] flex items-center gap-2 group-hover:translate-x-2 transition-transform">
                              Lire l'article <ChevronRight className="w-4 h-4" />
                           </span>
                        </div>
@@ -1147,7 +1147,7 @@ function JournalArticle({ slug, onBack }: { slug: string, onBack: () => void }) 
     return (
       <div className="pt-48 pb-32 px-8 md:px-20 max-w-[1200px] mx-auto text-center">
          <p className="text-white/40 uppercase tracking-widest text-sm italic mb-12">Article introuvable.</p>
-         <button onClick={onBack} className="text-[#b4925e] uppercase tracking-widest text-[10px] font-black">← Retour au journal</button>
+         <button onClick={onBack} className="text-[var(--brand,#b4925e)] uppercase tracking-widest text-[10px] font-black">← Retour au journal</button>
       </div>
     )
   }
@@ -1156,13 +1156,13 @@ function JournalArticle({ slug, onBack }: { slug: string, onBack: () => void }) 
        <div className="max-w-[860px] mx-auto px-8 md:px-12">
           <button
              onClick={onBack}
-             className="inline-flex items-center gap-3 text-[10px] font-black uppercase tracking-[0.4em] text-white/30 hover:text-[#b4925e] transition-colors mb-16"
+             className="inline-flex items-center gap-3 text-[10px] font-black uppercase tracking-[0.4em] text-white/30 hover:text-[var(--brand,#b4925e)] transition-colors mb-16"
           >
              <ChevronLeft className="w-4 h-4" /> Tout le journal
           </button>
 
           <div className="flex items-center gap-6 mb-10">
-             <span className="px-3 py-1 bg-[#b4925e] text-black text-[8px] font-black uppercase tracking-widest">{post.category}</span>
+             <span className="px-3 py-1 bg-[var(--brand,#b4925e)] text-black text-[8px] font-black uppercase tracking-widest">{post.category}</span>
              <span className="text-[9px] font-black uppercase tracking-[0.4em] text-white/20 italic">{post.date}</span>
           </div>
 
@@ -1240,9 +1240,9 @@ function AboutPage({ onContact }: { onContact: () => void }) {
             <div className="grid md:grid-cols-3 gap-16">
                {VALUES.map((v, i) => (
                  <Reveal key={v.title} delay={i * 0.12} y={60}>
-                    <div className="bg-[#0c0c0e] border border-white/5 p-12 hover:border-[#b4925e]/30 transition-all duration-700 h-full">
-                       <div className="w-16 h-16 bg-[#b4925e]/10 border border-[#b4925e]/20 flex items-center justify-center mb-10">
-                          <v.icon className="w-7 h-7 text-[#b4925e]" />
+                    <div className="bg-[#0c0c0e] border border-white/5 p-12 hover:border-[var(--brand,#b4925e)]/30 transition-all duration-700 h-full">
+                       <div className="w-16 h-16 bg-[var(--brand,#b4925e)]/10 border border-[var(--brand,#b4925e)]/20 flex items-center justify-center mb-10">
+                          <v.icon className="w-7 h-7 text-[var(--brand,#b4925e)]" />
                        </div>
                        <h3 className="text-3xl font-light italic uppercase tracking-tighter text-white mb-6" style={{ fontFamily: "serif" }}>{v.title}</h3>
                        <p className="text-[11px] text-white/40 leading-loose uppercase tracking-[0.2em] font-bold italic">{v.text}</p>
@@ -1260,9 +1260,9 @@ function AboutPage({ onContact }: { onContact: () => void }) {
                <SectionTitle subtitle="Chain of Custody" title="Provenance." alignment="left" />
                <div className="space-y-12">
                   {PROVENANCE_LOGS.map((log, i) => (
-                    <div key={i} className="group border-l border-white/5 pl-12 hover:border-[#b4925e] transition-all cursor-default">
+                    <div key={i} className="group border-l border-white/5 pl-12 hover:border-[var(--brand,#b4925e)] transition-all cursor-default">
                        <div className="flex justify-between items-center mb-4">
-                          <span className="text-[10px] font-black text-[#b4925e] uppercase tracking-widest">{log.year}</span>
+                          <span className="text-[10px] font-black text-[var(--brand,#b4925e)] uppercase tracking-widest">{log.year}</span>
                           <History className="w-4 h-4 text-white/10 group-hover:text-white transition-all" />
                        </div>
                        <p className="text-[11px] text-white/30 uppercase tracking-[0.2em] font-bold leading-relaxed">{log.event}</p>
@@ -1274,7 +1274,7 @@ function AboutPage({ onContact }: { onContact: () => void }) {
                <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-white/5 border border-white/5">
                   {NODES.map((node, i) => (
                     <div key={i} className="bg-black p-10 hover:bg-[#0c0c0e] transition-colors">
-                       <Globe2 className="w-5 h-5 text-[#b4925e] mb-6" />
+                       <Globe2 className="w-5 h-5 text-[var(--brand,#b4925e)] mb-6" />
                        <div className="text-2xl font-light italic uppercase tracking-tighter text-white mb-3" style={{ fontFamily: "serif" }}>{node.city}</div>
                        <div className="text-[8px] font-black uppercase tracking-[0.3em] text-white/30 italic">{node.role}</div>
                     </div>
@@ -1296,7 +1296,7 @@ function AboutPage({ onContact }: { onContact: () => void }) {
                </p>
                <button
                   onClick={onContact}
-                  className="inline-flex items-center gap-3 px-12 py-6 bg-[#b4925e] text-black text-[10px] font-black uppercase tracking-widest hover:bg-white transition-all shadow-2xl"
+                  className="inline-flex items-center gap-3 px-12 py-6 bg-[var(--brand,#b4925e)] text-black text-[10px] font-black uppercase tracking-widest hover:bg-white transition-all shadow-2xl"
                >
                   Prendre contact <ArrowRight className="w-4 h-4" />
                </button>
@@ -1312,8 +1312,8 @@ function AboutPage({ onContact }: { onContact: () => void }) {
    ========================================================================== */
 function ContactPage() {
   const [sent, setSent] = useState(false)
-  const inputClass = "w-full bg-transparent border-b border-white/10 py-4 text-base font-light italic text-white outline-none focus:border-[#b4925e] transition-colors placeholder:text-white/20"
-  const labelClass = "text-[8px] font-black uppercase tracking-[0.4em] text-[#b4925e] block mb-2"
+  const inputClass = "w-full bg-transparent border-b border-white/10 py-4 text-base font-light italic text-white outline-none focus:border-[var(--brand,#b4925e)] transition-colors placeholder:text-white/20"
+  const labelClass = "text-[8px] font-black uppercase tracking-[0.4em] text-[var(--brand,#b4925e)] block mb-2"
   return (
     <div>
       <PageHeader
@@ -1332,8 +1332,8 @@ function ContactPage() {
                  { icon: ShieldCheck, label: "Confidentialité", value: "Discrétion absolue garantie" }
                ].map((row, i) => (
                  <div key={i} className="flex gap-6 items-start mb-10 border-b border-white/5 pb-8">
-                    <div className="w-12 h-12 bg-[#b4925e]/10 border border-[#b4925e]/20 flex items-center justify-center flex-shrink-0">
-                       <row.icon className="w-5 h-5 text-[#b4925e]" />
+                    <div className="w-12 h-12 bg-[var(--brand,#b4925e)]/10 border border-[var(--brand,#b4925e)]/20 flex items-center justify-center flex-shrink-0">
+                       <row.icon className="w-5 h-5 text-[var(--brand,#b4925e)]" />
                     </div>
                     <div>
                        <div className={labelClass}>{row.label}</div>
@@ -1350,8 +1350,8 @@ function ContactPage() {
             <div>
                {sent ? (
                  <div className="border border-white/10 p-16 text-center bg-[#0c0c0e]">
-                    <div className="w-16 h-16 bg-[#b4925e]/10 border border-[#b4925e]/20 flex items-center justify-center mx-auto mb-8">
-                       <Check className="w-7 h-7 text-[#b4925e]" />
+                    <div className="w-16 h-16 bg-[var(--brand,#b4925e)]/10 border border-[var(--brand,#b4925e)]/20 flex items-center justify-center mx-auto mb-8">
+                       <Check className="w-7 h-7 text-[var(--brand,#b4925e)]" />
                     </div>
                     <h3 className="text-3xl font-light italic uppercase tracking-tighter text-white mb-4" style={{ fontFamily: "serif" }}>Message reçu</h3>
                     <p className="text-[11px] text-white/40 uppercase tracking-[0.2em] font-bold italic leading-loose">
@@ -1384,7 +1384,7 @@ function ContactPage() {
                     </div>
                     <button
                        type="submit"
-                       className="w-full py-6 bg-[#b4925e] text-black text-[10px] font-black uppercase tracking-widest hover:bg-white transition-all shadow-2xl"
+                       className="w-full py-6 bg-[var(--brand,#b4925e)] text-black text-[10px] font-black uppercase tracking-widest hover:bg-white transition-all shadow-2xl"
                     >
                        Envoyer la demande
                     </button>

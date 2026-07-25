@@ -153,7 +153,7 @@ return (
           <Reveal>
             <h1 className="text-7xl md:text-9xl lg:text-[11rem] font-light leading-[1.15] pb-4 tracking-tighter mb-12 uppercase text-white">{c?.heroHeadline ?? <>
               Surrender <br />{" "}
-              <span className="italic font-normal text-[#b8860b]">
+              <span className="italic font-normal text-[var(--brand,#b8860b)]">
                 to fire.
               </span>
             </>}</h1>
@@ -164,7 +164,7 @@ return (
             <div className="flex flex-col sm:flex-row gap-6">
               <Link href="/templates/impact-62/contact" style={{ textDecoration: "none" }}>
                 <MagneticBtn
-                  className="px-12 py-5 bg-[#b8860b] text-black text-[10px] font-bold uppercase tracking-[0.4em] hover:bg-white transition-all cursor-pointer shadow-2xl border-none"
+                  className="px-12 py-5 bg-[var(--brand,#b8860b)] text-black text-[10px] font-bold uppercase tracking-[0.4em] hover:bg-white transition-all cursor-pointer shadow-2xl border-none"
                 >
                   Secure a Table
                 </MagneticBtn>
@@ -184,7 +184,7 @@ return (
             <span className="text-[9px] font-bold text-[#f5efe0]/20 uppercase tracking-[0.5em]">
               Paris // Geneva // Tokyo
             </span>
-            <div className="w-24 h-[1px] bg-[#b8860b]/30" />
+            <div className="w-24 h-[1px] bg-[var(--brand,#b8860b)]/30" />
           </div>
         </motion.div>
       </section>
@@ -213,7 +213,7 @@ return (
       <section className="py-32 px-6 md:px-12 max-w-[1400px] mx-auto">
         <Reveal>
           <div className="mb-16">
-            <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#b8860b]">
+            <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#b8860b)]">
               La Carte
             </span>
             <h2 className="text-5xl md:text-7xl font-light mt-4 tracking-tight uppercase">
@@ -229,7 +229,7 @@ return (
             <div key={menu.id} className="bg-[#1a1612] p-8 md:p-10">
               <Reveal delay={colIdx * 0.1}>
                 <div className="mb-8 pb-6 border-b border-[#f5efe0]/10">
-                  <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#b8860b]">
+                  <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#b8860b)]">
                     {String(colIdx + 1).padStart(2, "0")}
                   </span>
                   <h3 className="text-xl font-light mt-2 uppercase tracking-widest">
@@ -244,7 +244,7 @@ return (
                         <span className="text-sm font-medium tracking-wide uppercase">
                           {item.name}
                         </span>
-                        <span className="text-[#b8860b] text-sm font-light shrink-0">
+                        <span className="text-[var(--brand,#b8860b)] text-sm font-light shrink-0">
                           {item.price}
                         </span>
                       </div>
@@ -272,7 +272,7 @@ return (
           <Reveal>
             <div className="mb-16 flex flex-col md:flex-row md:items-end md:justify-between gap-8">
               <div>
-                <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#b8860b]">
+                <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#b8860b)]">
                   Sommellerie
                 </span>
                 <h2 className="text-5xl md:text-7xl font-light mt-4 tracking-tight uppercase">{c?.aboutTitle ?? fd?.businessName ?? <>
@@ -292,10 +292,10 @@ return (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {WINE_PAIRINGS.map((pairing, idx) => (
               <Reveal key={idx} delay={idx * 0.12}>
-                <div className="group relative bg-[#1a1612] border border-[#f5efe0]/10 p-8 hover:border-[#b8860b]/50 transition-all duration-500 cursor-default">
-                  <div className="absolute top-0 left-0 w-0 h-[1px] bg-[#b8860b] group-hover:w-full transition-all duration-700" />
+                <div className="group relative bg-[#1a1612] border border-[#f5efe0]/10 p-8 hover:border-[var(--brand,#b8860b)]/50 transition-all duration-500 cursor-default">
+                  <div className="absolute top-0 left-0 w-0 h-[1px] bg-[var(--brand,#b8860b)] group-hover:w-full transition-all duration-700" />
 
-                  <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#b8860b]">
+                  <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#b8860b)]">
                     Accord {String(idx + 1).padStart(2, "0")}
                   </span>
                   <h3 className="text-2xl font-light mt-3 mb-2 tracking-wide">
@@ -307,7 +307,7 @@ return (
 
                   <div className="flex justify-between items-end">
                     <div>
-                      <span className="block text-3xl font-light text-[#b8860b]">
+                      <span className="block text-3xl font-light text-[var(--brand,#b8860b)]">
                         {pairing.wines}
                       </span>
                       <span className="text-[9px] uppercase tracking-[0.4em] text-[#f5efe0]/30">
@@ -319,7 +319,7 @@ return (
                     </span>
                   </div>
 
-                  <div className="absolute bottom-0 left-0 w-full h-[1px] bg-[#b8860b]/0 group-hover:bg-[#b8860b]/30 transition-all duration-700" />
+                  <div className="absolute bottom-0 left-0 w-full h-[1px] bg-[var(--brand,#b8860b)]/0 group-hover:bg-[var(--brand,#b8860b)]/30 transition-all duration-700" />
                 </div>
               </Reveal>
             ))}
@@ -338,7 +338,7 @@ return (
           ].map((stat, idx) => (
             <Reveal key={idx} delay={idx * 0.1}>
               <div className="text-center md:text-left">
-                <span className="block text-6xl md:text-7xl font-light text-[#b8860b] leading-none mb-3 tabular-nums">
+                <span className="block text-6xl md:text-7xl font-light text-[var(--brand,#b8860b)] leading-none mb-3 tabular-nums">
                   <Counter to={stat.value} suffix={stat.suffix} />
                 </span>
                 <span className="text-[10px] uppercase tracking-[0.4em] text-[#f5efe0]/30 leading-relaxed">
@@ -354,7 +354,7 @@ return (
       <section className="py-32 px-6 md:px-12 max-w-[1400px] mx-auto">
         <Reveal>
           <div className="mb-16">
-            <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#b8860b]">
+            <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#b8860b)]">
               Terroir & Confiance
             </span>
             <h2 className="text-5xl md:text-7xl font-light mt-4 tracking-tight uppercase">
@@ -383,7 +383,7 @@ return (
                       className="object-cover brightness-[0.45] group-hover:brightness-[0.6] group-hover:scale-105 transition-all duration-700"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-[#0f0d0b] via-transparent to-transparent" />
-                    <span className="absolute bottom-4 left-4 text-[9px] font-bold uppercase tracking-[0.5em] text-[#b8860b]">
+                    <span className="absolute bottom-4 left-4 text-[9px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#b8860b)]">
                       {artisan.loc}
                     </span>
                   </div>
@@ -418,7 +418,7 @@ return (
         <div className="max-w-[1400px] mx-auto">
           <Reveal>
             <div className="mb-16">
-              <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#b8860b]">
+              <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#b8860b)]">
                 Ils ont vécu Satori
               </span>
               <h2 className="text-5xl md:text-7xl font-light mt-4 tracking-tight uppercase">
@@ -434,7 +434,7 @@ return (
               <Reveal key={idx} delay={idx * 0.12}>
                 <div className="bg-[#1a1612] border border-[#f5efe0]/10 p-8 flex flex-col justify-between h-full min-h-[260px]">
                   <div>
-                    <span className="block text-4xl text-[#b8860b]/30 font-serif leading-none mb-4">
+                    <span className="block text-4xl text-[var(--brand,#b8860b)]/30 font-serif leading-none mb-4">
                       "
                     </span>
                     <p className="text-sm text-[#f5efe0]/60 leading-relaxed italic font-light">
@@ -443,8 +443,8 @@ return (
                   </div>
 
                   <div className="flex items-center gap-4 mt-8 pt-6 border-t border-[#f5efe0]/10">
-                    <div className="w-9 h-9 rounded-full bg-[#b8860b]/20 border border-[#b8860b]/30 flex items-center justify-center shrink-0">
-                      <span className="text-[10px] font-bold text-[#b8860b] tracking-wide">
+                    <div className="w-9 h-9 rounded-full bg-[var(--brand,#b8860b)]/20 border border-[var(--brand,#b8860b)]/30 flex items-center justify-center shrink-0">
+                      <span className="text-[10px] font-bold text-[var(--brand,#b8860b)] tracking-wide">
                         {t.initials}
                       </span>
                     </div>
@@ -478,7 +478,7 @@ return (
 
         <div className="relative z-10 max-w-[1400px] mx-auto text-center">
           <Reveal>
-            <span className="block text-[10px] font-bold uppercase tracking-[0.6em] text-[#b8860b] mb-6">
+            <span className="block text-[10px] font-bold uppercase tracking-[0.6em] text-[var(--brand,#b8860b)] mb-6">
               Réservations
             </span>
             <h2 className="text-5xl md:text-7xl lg:text-8xl font-light tracking-tighter uppercase mb-6">
@@ -493,7 +493,7 @@ return (
 
             <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
               <Link href="/templates/impact-62/contact" style={{ textDecoration: "none" }}>
-                <MagneticBtn className="px-14 py-5 bg-[#b8860b] text-black text-[10px] font-bold uppercase tracking-[0.4em] hover:bg-white transition-all cursor-pointer shadow-2xl border-none">
+                <MagneticBtn className="px-14 py-5 bg-[var(--brand,#b8860b)] text-black text-[10px] font-bold uppercase tracking-[0.4em] hover:bg-white transition-all cursor-pointer shadow-2xl border-none">
                   Réserver une table
                 </MagneticBtn>
               </Link>
@@ -508,7 +508,7 @@ return (
 
             <div className="mt-20 flex justify-center">
               <div className="flex flex-col items-center gap-3">
-                <div className="w-[1px] h-12 bg-[#b8860b]/30" />
+                <div className="w-[1px] h-12 bg-[var(--brand,#b8860b)]/30" />
                 <span className="text-[9px] font-bold uppercase tracking-[0.5em] text-[#f5efe0]/20">
                   Ouvert du mardi au samedi · Service 19h30 – 22h00
                 </span>

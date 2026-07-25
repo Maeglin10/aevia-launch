@@ -154,7 +154,7 @@ return (
           style={{ y: heroY, scale: heroScale }}
           className="absolute inset-0 pointer-events-none"
         >
-          <div className="absolute top-[-10%] left-[10%] w-[600px] h-[600px] rounded-full bg-[#6366F1]/10 blur-[100px]" />
+          <div className="absolute top-[-10%] left-[10%] w-[600px] h-[600px] rounded-full bg-[var(--brand,#6366F1)]/10 blur-[100px]" />
           <div className="absolute top-[20%] right-[5%] w-[400px] h-[400px] rounded-full bg-[#818CF8]/15 blur-[80px]" />
           <div className="absolute bottom-[-5%] left-[30%] w-[500px] h-[500px] rounded-full bg-[#10B981]/10 blur-[100px]" />
           <div className="absolute inset-0 bg-[linear-gradient(to_right,#6366F110_1px,transparent_1px),linear-gradient(to_bottom,#6366F110_1px,transparent_1px)] bg-[size:40px_40px]" />
@@ -166,8 +166,8 @@ return (
         >
           <Reveal>
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-[#E0E7FF] shadow-sm mb-8">
-              <Zap className="w-3.5 h-3.5 text-[#6366F1]" />
-              <span className="text-xs font-semibold text-[#6366F1]">
+              <Zap className="w-3.5 h-3.5 text-[var(--brand,#6366F1)]" />
+              <span className="text-xs font-semibold text-[var(--brand,#6366F1)]">
                 +2 000 nouveaux cours cette année
               </span>
             </div>
@@ -177,12 +177,12 @@ return (
             <h1 className="text-5xl md:text-7xl font-extrabold leading-[1.05] tracking-tight mb-6">{c?.heroHeadline ?? <>
               Apprenez ce que{" "}
               <span className="relative inline-block">
-                <span className="text-[#6366F1]">vous voulez</span>
+                <span className="text-[var(--brand,#6366F1)]">vous voulez</span>
                 <motion.div
                   initial={{ scaleX: 0 }}
                   animate={{ scaleX: 1 }}
                   transition={{ duration: 0.7, delay: 0.5 }}
-                  className="absolute bottom-0 left-0 right-0 h-1 bg-[#6366F1]/30 rounded-full origin-left"
+                  className="absolute bottom-0 left-0 right-0 h-1 bg-[var(--brand,#6366F1)]/30 rounded-full origin-left"
                 />
               </span>
               <br />
@@ -209,7 +209,7 @@ return (
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="flex-1 bg-transparent border-none outline-none text-sm font-medium text-[#1E1B4B] placeholder-[#9CA3AF] py-3.5 px-2"
                 />
-                <button className="px-6 py-3.5 rounded-xl bg-[#6366F1] text-white text-sm font-semibold hover:bg-[#4F46E5] transition-colors whitespace-nowrap">{c?.ctaText ?? <>
+                <button className="px-6 py-3.5 rounded-xl bg-[var(--brand,#6366F1)] text-white text-sm font-semibold hover:bg-[#4F46E5] transition-colors whitespace-nowrap">{c?.ctaText ?? <>
                   Rechercher
                 </>}</button>
               </div>
@@ -231,7 +231,7 @@ return (
       <section className="py-24 px-6 max-w-7xl mx-auto">
         <Reveal>
           <div className="text-center mb-16">
-            <span className="text-xs font-bold text-[#6366F1] uppercase tracking-widest block mb-3">
+            <span className="text-xs font-bold text-[var(--brand,#6366F1)] uppercase tracking-widest block mb-3">
               Thématiques
             </span>
             <h2 className="text-3xl md:text-4xl font-extrabold text-[#1E1B4B]">
@@ -263,7 +263,7 @@ return (
                   {cat.label[0]}
                 </div>
                 <div>
-                  <h3 className="font-bold text-base text-[#1E1B4B] group-hover:text-[#6366F1] transition-colors">
+                  <h3 className="font-bold text-base text-[#1E1B4B] group-hover:text-[var(--brand,#6366F1)] transition-colors">
                     {cat.label}
                   </h3>
                   <p className="text-xs text-[#6B7280] mt-1">
@@ -284,7 +284,7 @@ return (
           <Reveal>
             <div className="flex flex-col md:flex-row md:items-end justify-between mb-16">
               <div>
-                <span className="text-xs font-bold text-[#6366F1] uppercase tracking-widest block mb-3">
+                <span className="text-xs font-bold text-[var(--brand,#6366F1)] uppercase tracking-widest block mb-3">
                   Catalogue
                 </span>
                 <h2 className="text-3xl md:text-4xl font-extrabold text-[#1E1B4B]">
@@ -294,7 +294,7 @@ return (
               {activeCategory && (
                 <button
                   onClick={() => setActiveCategory(null)}
-                  className="mt-4 md:mt-0 text-sm font-semibold text-[#6366F1] hover:text-[#4F46E5] transition-colors"
+                  className="mt-4 md:mt-0 text-sm font-semibold text-[var(--brand,#6366F1)] hover:text-[#4F46E5] transition-colors"
                 >
                   Réinitialiser le filtre ({activeCategory})
                 </button>
@@ -312,9 +312,9 @@ return (
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {filteredCourses.map((course, i) => (
                 <Reveal key={course.id} delay={i * 0.1}>
-                  <div className="bg-[#F9FAFB] rounded-3xl overflow-hidden border border-[#F3F4F6] group hover:border-[#6366F1]/20 hover:shadow-[0_10px_30px_rgba(99,102,241,0.04)] transition-all flex flex-col h-full">
+                  <div className="bg-[#F9FAFB] rounded-3xl overflow-hidden border border-[#F3F4F6] group hover:border-[var(--brand,#6366F1)]/20 hover:shadow-[0_10px_30px_rgba(99,102,241,0.04)] transition-all flex flex-col h-full">
                     {/* Course card image preview */}
-                    <div className="aspect-[1.8/1] bg-[#EEF2FF] relative overflow-hidden flex items-center justify-center text-[#6366F1]/30">
+                    <div className="aspect-[1.8/1] bg-[#EEF2FF] relative overflow-hidden flex items-center justify-center text-[var(--brand,#6366F1)]/30">
                       <BookOpen className="w-12 h-12" />
                       {course.badge && (
                         <span className="absolute top-4 left-4 px-3 py-1.5 rounded-lg bg-[#10B981] text-white text-[10px] font-bold uppercase tracking-wider">
@@ -331,7 +331,7 @@ return (
                         >
                           {course.category}
                         </span>
-                        <h3 className="font-extrabold text-lg leading-snug mb-3 text-[#1E1B4B] group-hover:text-[#6366F1] transition-colors">
+                        <h3 className="font-extrabold text-lg leading-snug mb-3 text-[#1E1B4B] group-hover:text-[var(--brand,#6366F1)] transition-colors">
                           {course.title}
                         </h3>
                         <p className="text-xs text-[#6B7280] mb-4">
@@ -363,7 +363,7 @@ return (
                           </div>
                           <Link
                             href="/templates/impact-49/contact"
-                            className="px-4 py-2.5 rounded-xl bg-[#6366F1] text-white text-xs font-bold hover:bg-[#4F46E5] transition-colors"
+                            className="px-4 py-2.5 rounded-xl bg-[var(--brand,#6366F1)] text-white text-xs font-bold hover:bg-[#4F46E5] transition-colors"
                           >
                             Acheter
                           </Link>
@@ -385,7 +385,7 @@ return (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-16 items-start">
           <Reveal>
             <div className="sticky top-24">
-              <span className="text-xs font-bold text-[#6366F1] uppercase tracking-widest block mb-3">
+              <span className="text-xs font-bold text-[var(--brand,#6366F1)] uppercase tracking-widest block mb-3">
                 Parcours
               </span>
               <h2 className="text-3xl md:text-4xl font-extrabold text-[#1E1B4B] mb-6">{c?.aboutTitle ?? fd?.businessName ?? <>
@@ -500,7 +500,7 @@ return (
         <div className="max-w-7xl mx-auto">
           <Reveal>
             <div className="text-center mb-16 max-w-2xl mx-auto">
-              <span className="text-xs font-bold text-[#6366F1] uppercase tracking-widest block mb-3">
+              <span className="text-xs font-bold text-[var(--brand,#6366F1)] uppercase tracking-widest block mb-3">
                 Success Stories
               </span>
               <h2 className="text-3xl md:text-4xl font-extrabold text-[#1E1B4B] mb-6">
@@ -535,7 +535,7 @@ return (
                 <div className="p-10 rounded-[2.5rem] bg-[#F9FAFB] border border-[#F3F4F6] flex flex-col justify-between h-full">
                   <div>
                     <div className="flex items-center gap-3 mb-6">
-                      <div className="w-12 h-12 rounded-full bg-[#6366F1]/10 text-[#6366F1] font-bold text-sm flex items-center justify-center">
+                      <div className="w-12 h-12 rounded-full bg-[var(--brand,#6366F1)]/10 text-[var(--brand,#6366F1)] font-bold text-sm flex items-center justify-center">
                         {testi.initials}
                       </div>
                       <div>
@@ -567,11 +567,11 @@ return (
           ===================================================================== */}
       <section className="py-24 px-6 max-w-7xl mx-auto">
         <div className="p-12 md:p-20 rounded-[3rem] bg-white border border-[#E0E7FF] relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-[400px] h-[400px] rounded-full bg-[#6366F1]/5 blur-[80px] pointer-events-none" />
+          <div className="absolute top-0 right-0 w-[400px] h-[400px] rounded-full bg-[var(--brand,#6366F1)]/5 blur-[80px] pointer-events-none" />
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <Reveal>
               <div>
-                <span className="text-xs font-bold text-[#6366F1] uppercase tracking-widest block mb-4">
+                <span className="text-xs font-bold text-[var(--brand,#6366F1)] uppercase tracking-widest block mb-4">
                   Pour les équipes
                 </span>
                 <h3 className="text-3xl md:text-4xl font-extrabold text-[#1E1B4B] mb-6">
@@ -590,7 +590,7 @@ return (
                   </Link>
                   <Link
                     href="/templates/impact-49/contact"
-                    className="px-7 py-3.5 rounded-xl border border-[#E5E7EB] text-sm font-semibold text-[#1E1B4B] hover:border-[#6366F1] hover:text-[#6366F1] transition-colors"
+                    className="px-7 py-3.5 rounded-xl border border-[#E5E7EB] text-sm font-semibold text-[#1E1B4B] hover:border-[var(--brand,#6366F1)] hover:text-[var(--brand,#6366F1)] transition-colors"
                   >
                     Contacter les ventes
                   </Link>

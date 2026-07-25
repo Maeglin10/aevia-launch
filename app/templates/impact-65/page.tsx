@@ -130,7 +130,7 @@ return (
                   <p className="text-xl text-white/30 font-light max-w-sm leading-relaxed uppercase italic">{c?.heroSubline ?? fd?.tagline ?? <>
                     Uncompromising structural engineering. We deliver the highest strength-to-weight ratio in the industry.
                   </>}</p>
-                  <div className="h-px w-20 bg-[#0070f3] hidden sm:block" />
+                  <div className="h-px w-20 bg-[var(--brand,#0070f3)] hidden sm:block" />
                   <div className="text-[10px] font-black uppercase tracking-[0.4em] text-white flex flex-col gap-2">
                     <span>Tensile: 4500 MPa</span>
                     <span>Density: 1.6 g/cm³</span>
@@ -147,9 +147,9 @@ return (
                   fill
                   className="object-cover grayscale group-hover:grayscale-0 transition-all duration-1000 scale-105 group-hover:scale-100"
                 />
-                <div className="absolute inset-0 bg-gradient-to-br from-[#0070f3]/20 to-transparent mix-blend-overlay" />
+                <div className="absolute inset-0 bg-gradient-to-br from-[var(--brand,#0070f3)]/20 to-transparent mix-blend-overlay" />
                 <div className="absolute bottom-10 left-10 p-8 bg-black/80 backdrop-blur-xl border border-white/10">
-                  <div className="flex items-center gap-4 text-[#0070f3] mb-4 animate-pulse">
+                  <div className="flex items-center gap-4 text-[var(--brand,#0070f3)] mb-4 animate-pulse">
                     <Gauge className="w-5 h-5" />
                     <span className="text-[10px] font-black uppercase tracking-widest">Real-time Stress Audit</span>
                   </div>
@@ -163,7 +163,7 @@ return (
       </section>
 
       {/* ── METRICS ────────────────── */}
-      <section className="py-24 bg-[#0070f3] text-white">
+      <section className="py-24 bg-[var(--brand,#0070f3)] text-white">
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 grid grid-cols-2 md:grid-cols-4 gap-20">
           {[
             { v: "5X", l: "STRONGER THAN STEEL" },
@@ -187,14 +187,14 @@ return (
           <Reveal>
             <div className="flex flex-col md:flex-row items-end justify-between mb-32 gap-8 border-b border-white/5 pb-16">
               <div className="max-w-2xl">
-                <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#0070f3] block mb-6">Sector Integration</span>
+                <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#0070f3)] block mb-6">Sector Integration</span>
                 <h2 className="text-7xl md:text-[9vw] font-black uppercase tracking-tighter text-white leading-[1.15] pb-4 italic">
                   Hard <br /> <span className="font-light not-italic opacity-10">Logic.</span>
                 </h2>
               </div>
               <Link
                 href="/templates/impact-65/research"
-                className="flex items-center gap-4 text-[10px] font-bold uppercase tracking-widest text-white/40 hover:text-[#0070f3] transition-colors group italic"
+                className="flex items-center gap-4 text-[10px] font-bold uppercase tracking-widest text-white/40 hover:text-[var(--brand,#0070f3)] transition-colors group italic"
               >
                 Full Tech Stack <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
               </Link>
@@ -208,7 +208,7 @@ return (
               { icon: Shield, t: "Defense", d: "Ballistic-grade carbon weaves optimized for maximum energy absorption and structural integrity." },
             ].map((item, i) => (
               <Reveal key={i} delay={i * 0.1}>
-                <div className="p-16 bg-white/[0.02] border border-white/5 group hover:bg-[#0070f3] hover:text-white transition-all duration-700">
+                <div className="p-16 bg-white/[0.02] border border-white/5 group hover:bg-[var(--brand,#0070f3)] hover:text-white transition-all duration-700">
                   <div className="w-16 h-16 bg-white/5 border border-white/10 flex items-center justify-center mb-12 group-hover:bg-white group-hover:text-black transition-all duration-700 -skew-x-12">
                     <item.icon className="w-7 h-7" />
                   </div>
@@ -229,7 +229,7 @@ return (
         <div className="max-w-[1400px] mx-auto px-6 md:px-12">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center mb-24">
             <Reveal>
-              <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#0070f3] block mb-8">Materials Science</span>
+              <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#0070f3)] block mb-8">Materials Science</span>
               <h2 className="text-6xl md:text-8xl font-black uppercase tracking-tighter text-white leading-[1.1] pb-4 italic">{c?.aboutTitle ?? fd?.businessName ?? <>
                 The <br /><span className="text-white/10 font-light not-italic">Formula.</span>
               </>}</h2>
@@ -248,8 +248,8 @@ return (
               { step: "04", title: "Autoclave Cure", desc: "4-bar/180°C pressurized cure cycle in our 7-meter autoclave. Dimensional tolerance: ±0.05mm across any axis. NDT inspection by phased-array ultrasound on 100% of parts." },
             ].map((s, i) => (
               <Reveal key={s.step} delay={i * 0.1}>
-                <div className="p-12 bg-[#050505] hover:bg-[#0070f3]/5 transition-all duration-700 border border-transparent hover:border-[#0070f3]/20">
-                  <span className="text-[#0070f3]/30 text-sm font-black uppercase tracking-widest italic block mb-6">{s.step}</span>
+                <div className="p-12 bg-[#050505] hover:bg-[var(--brand,#0070f3)]/5 transition-all duration-700 border border-transparent hover:border-[var(--brand,#0070f3)]/20">
+                  <span className="text-[var(--brand,#0070f3)]/30 text-sm font-black uppercase tracking-widest italic block mb-6">{s.step}</span>
                   <h3 className="text-2xl font-black uppercase text-white tracking-tight italic mb-6">{s.title}</h3>
                   <p className="text-white/25 text-sm font-light italic leading-relaxed">{s.desc}</p>
                 </div>
@@ -270,7 +270,7 @@ return (
           <div className="grid grid-cols-2 md:grid-cols-5 gap-12 items-center opacity-30">
             {["Dallara", "Rolls-Royce Defence", "Airbus Urban Air", "Formula 1", "SpaceX Starshield"].map((c, i) => (
               <Reveal key={c} delay={i * 0.07}>
-                <div className="text-center text-sm font-black uppercase tracking-widest text-white/60 italic hover:text-[#0070f3] hover:opacity-100 transition-all duration-500 cursor-default">{c}</div>
+                <div className="text-center text-sm font-black uppercase tracking-widest text-white/60 italic hover:text-[var(--brand,#0070f3)] hover:opacity-100 transition-all duration-500 cursor-default">{c}</div>
               </Reveal>
             ))}
           </div>
@@ -282,7 +282,7 @@ return (
             ].map((s, i) => (
               <Reveal key={s.l} delay={i * 0.1}>
                 <div className="text-center">
-                  <div className="text-5xl font-black text-[#0070f3] italic tracking-tighter mb-4">{s.v}</div>
+                  <div className="text-5xl font-black text-[var(--brand,#0070f3)] italic tracking-tighter mb-4">{s.v}</div>
                   <div className="text-[10px] font-bold uppercase tracking-widest text-white/20 italic">{s.l}</div>
                 </div>
               </Reveal>
@@ -295,7 +295,7 @@ return (
       <section className="py-40 bg-[#050505] border-t border-white/5">
         <div className="max-w-6xl mx-auto px-6 md:px-12">
           <Reveal>
-            <p className="text-[10px] uppercase tracking-[0.5em] text-[#0070f3]/60 mb-6">Trusted by builders</p>
+            <p className="text-[10px] uppercase tracking-[0.5em] text-[var(--brand,#0070f3)]/60 mb-6">Trusted by builders</p>
             <h2 className="text-5xl md:text-8xl font-black text-white leading-none tracking-tighter mb-20">
               WHAT THEY<br /><span className="text-white/10">BUILD.</span>
             </h2>
@@ -307,12 +307,12 @@ return (
               { quote: "The DX is phenomenal. I shipped a distributed service in Go in under 2 hours. Zero config, zero yak shaving. Just works.", name: "P. Leclerc", title: "Senior SWE · Phantom IO" },
             ].map((t, i) => (
               <Reveal key={i} delay={i * 0.1}>
-                <div className="bg-[#050505] p-12 flex flex-col gap-6 hover:bg-[#0070f3]/5 transition-all duration-700 border border-transparent hover:border-[#0070f3]/20">
-                  <div className="flex gap-1">{[...Array(5)].map((_, s) => <span key={s} className="text-[#0070f3] text-xs">★</span>)}</div>
+                <div className="bg-[#050505] p-12 flex flex-col gap-6 hover:bg-[var(--brand,#0070f3)]/5 transition-all duration-700 border border-transparent hover:border-[var(--brand,#0070f3)]/20">
+                  <div className="flex gap-1">{[...Array(5)].map((_, s) => <span key={s} className="text-[var(--brand,#0070f3)] text-xs">★</span>)}</div>
                   <p className="text-white/40 leading-relaxed flex-1 italic">{t.quote}</p>
                   <div className="border-t border-white/5 pt-6">
                     <div className="text-xs font-bold text-white uppercase tracking-widest">{t.name}</div>
-                    <div className="text-[10px] text-[#0070f3]/50 mt-1">{t.title}</div>
+                    <div className="text-[10px] text-[var(--brand,#0070f3)]/50 mt-1">{t.title}</div>
                   </div>
                 </div>
               </Reveal>
@@ -325,7 +325,7 @@ return (
       <section className="py-32 bg-[#070707] border-t border-white/5">
         <div className="max-w-6xl mx-auto px-6 md:px-12">
           <Reveal>
-            <p className="text-[10px] uppercase tracking-[0.5em] text-[#0070f3]/60 mb-6">Case studies</p>
+            <p className="text-[10px] uppercase tracking-[0.5em] text-[var(--brand,#0070f3)]/60 mb-6">Case studies</p>
             <h2 className="text-5xl md:text-8xl font-black text-white leading-none tracking-tighter mb-20">
               IN THE<br /><span className="text-white/10">WILD.</span>
             </h2>
@@ -337,8 +337,8 @@ return (
               { tag: "E-COMMERCE", title: "Black Friday: 400k concurrent sessions, zero downtime", result: "Revenue preserved: $18M · Infra cost: $0 extra", icon: "03" },
             ].map((cs) => (
               <Reveal key={cs.icon}>
-                <div className="p-12 bg-[#050505] hover:bg-[#0070f3] hover:text-white transition-all duration-700 border border-transparent hover:border-[#0070f3] group">
-                  <div className="text-[10px] font-mono text-[#0070f3] group-hover:text-white/60 uppercase tracking-widest mb-4">{cs.tag} // {cs.icon}</div>
+                <div className="p-12 bg-[#050505] hover:bg-[var(--brand,#0070f3)] hover:text-white transition-all duration-700 border border-transparent hover:border-[var(--brand,#0070f3)] group">
+                  <div className="text-[10px] font-mono text-[var(--brand,#0070f3)] group-hover:text-white/60 uppercase tracking-widest mb-4">{cs.tag} // {cs.icon}</div>
                   <h3 className="text-lg font-bold text-white mb-4 leading-snug">{cs.title}</h3>
                   <p className="text-xs text-white/30 group-hover:text-white/60 leading-relaxed font-mono">{cs.result}</p>
                 </div>

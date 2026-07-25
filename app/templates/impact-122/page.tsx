@@ -239,11 +239,11 @@ export default function ChronicleEditorialPage() {
       });
     }
   }, [c]);return (
-    <div className="bg-[#fcfaf7] text-[#1a1814] min-h-dvh selection:bg-[#d64000] selection:text-white overflow-x-hidden font-sans">
+    <div className="bg-[#fcfaf7] text-[#1a1814] min-h-dvh selection:bg-[var(--brand,#d64000)] selection:text-white overflow-x-hidden font-sans">
       
       {/* ─── READING PROGRESS BAR ──────────────────────────────────────── */}
       <motion.div 
-        className="fixed top-0 left-0 right-0 h-1 bg-[#d64000] z-[60] origin-left"
+        className="fixed top-0 left-0 right-0 h-1 bg-[var(--brand,#d64000)] z-[60] origin-left"
         style={{ scaleX }}
       />
 
@@ -252,23 +252,23 @@ export default function ChronicleEditorialPage() {
         <div className="max-w-[1400px] mx-auto px-6 flex items-center justify-between">
           <div className="flex items-center gap-6">
             <Sheet>
-              <SheetTrigger className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest hover:text-[#d64000] transition-colors">
+              <SheetTrigger className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest hover:text-[var(--brand,#d64000)] transition-colors">
                   <Menu className="w-5 h-5" /> Menu
                 </SheetTrigger>
               <SheetContent side="left" className="bg-[#1a1814] text-[#fcfaf7] border-r-0 p-12 w-full sm:w-[400px]">
                 <div className="mt-12 flex flex-col gap-8">
                   {["Politics", "Culture", "Science", "Environment", "Essays", "Archive"].map(link => (
-                    <Link key={link} href="#subscribe" className="text-4xl font-serif italic hover:text-[#d64000] transition-colors">
+                    <Link key={link} href="#subscribe" className="text-4xl font-serif italic hover:text-[var(--brand,#d64000)] transition-colors">
                       {link}
                     </Link>
                   ))}
                   <div className="w-full h-[1px] bg-white/10 my-4" />
-                  <Link href="#subscribe" className="text-sm font-bold uppercase tracking-widest text-[#d64000] hover:text-white transition-colors">Subscribe</Link>
+                  <Link href="#subscribe" className="text-sm font-bold uppercase tracking-widest text-[var(--brand,#d64000)] hover:text-white transition-colors">Subscribe</Link>
                   <Link href="#subscribe" className="text-sm font-bold uppercase tracking-widest text-white/50 hover:text-white transition-colors">Sign In</Link>
                 </div>
               </SheetContent>
             </Sheet>
-            <button className="hidden md:block hover:text-[#d64000] transition-colors"><Search className="w-5 h-5" /></button>
+            <button className="hidden md:block hover:text-[var(--brand,#d64000)] transition-colors"><Search className="w-5 h-5" /></button>
           </div>
 
           <Link href="#hero" className="absolute left-1/2 -translate-x-1/2 flex flex-col items-center">
@@ -289,10 +289,10 @@ export default function ChronicleEditorialPage() {
           </Link>
 
           <div className="flex items-center gap-6">
-            <Link href="#subscribe" className="hidden md:block text-xs font-bold uppercase tracking-widest hover:text-[#d64000] transition-colors">
+            <Link href="#subscribe" className="hidden md:block text-xs font-bold uppercase tracking-widest hover:text-[var(--brand,#d64000)] transition-colors">
               Subscribe
             </Link>
-            <Link href="#subscribe" className="bg-[#d64000] text-white px-5 py-2.5 text-xs font-bold uppercase tracking-widest hover:bg-[#a33000] transition-colors">
+            <Link href="#subscribe" className="bg-[var(--brand,#d64000)] text-white px-5 py-2.5 text-xs font-bold uppercase tracking-widest hover:bg-[#a33000] transition-colors">
               Support Us
             </Link>
           </div>
@@ -325,8 +325,8 @@ export default function ChronicleEditorialPage() {
                 {MANIFEST.latestNews.map((news, i) => (
                   <Reveal key={i} delay={i * 0.1}>
                     <div className="group cursor-pointer">
-                      <div className="text-[10px] font-bold uppercase tracking-widest text-[#d64000] mb-2">{news.cat}</div>
-                      <h4 className="font-serif text-lg leading-snug group-hover:underline decoration-2 underline-offset-4 decoration-[#d64000]/30 mb-2">
+                      <div className="text-[10px] font-bold uppercase tracking-widest text-[var(--brand,#d64000)] mb-2">{news.cat}</div>
+                      <h4 className="font-serif text-lg leading-snug group-hover:underline decoration-2 underline-offset-4 decoration-[var(--brand,#d64000)]/30 mb-2">
                         {news.title}
                       </h4>
                       <div className="text-[10px] text-[#1a1814]/40 font-bold uppercase tracking-widest flex items-center gap-1">
@@ -338,10 +338,10 @@ export default function ChronicleEditorialPage() {
                 ))}
               </div>
               <div className="mt-8 p-6 bg-[#f0eee9] border border-[#1a1814]/10">
-                <Newspaper className="w-8 h-8 text-[#d64000] mb-4" />
+                <Newspaper className="w-8 h-8 text-[var(--brand,#d64000)] mb-4" />
                 <h4 className="font-serif italic text-xl mb-2">Morning Briefing</h4>
                 <p className="text-sm text-[#1a1814]/60 mb-4 leading-relaxed">{c?.heroSubline ?? fd?.tagline ?? <>Start your day with what you need to know.</>}</p>
-                <button className="w-full py-2 bg-[#1a1814] text-white text-xs font-bold uppercase tracking-widest hover:bg-[#d64000] transition-colors">{c?.ctaText ?? <>
+                <button className="w-full py-2 bg-[#1a1814] text-white text-xs font-bold uppercase tracking-widest hover:bg-[var(--brand,#d64000)] transition-colors">{c?.ctaText ?? <>
                   Sign Up
                 </>}</button>
               </div>
@@ -364,7 +364,7 @@ export default function ChronicleEditorialPage() {
                   </div>
                   
                   <div className="max-w-3xl mx-auto text-center md:text-left">
-                    <div className="text-xs font-black uppercase tracking-widest text-[#d64000] mb-4">
+                    <div className="text-xs font-black uppercase tracking-widest text-[var(--brand,#d64000)] mb-4">
                       {MANIFEST.hero.category}
                     </div>
                     <h2 className="text-5xl md:text-7xl font-serif leading-[1.1] mb-6 tracking-tight">
@@ -388,7 +388,7 @@ export default function ChronicleEditorialPage() {
                         </div>
                       </div>
                       <div className="flex items-center gap-4">
-                        <button className="w-8 h-8 rounded-full border border-[#1a1814]/20 flex items-center justify-center hover:bg-[#d64000] hover:text-white hover:border-[#d64000] transition-colors">
+                        <button className="w-8 h-8 rounded-full border border-[#1a1814]/20 flex items-center justify-center hover:bg-[var(--brand,#d64000)] hover:text-white hover:border-[var(--brand,#d64000)] transition-colors">
                           <Bookmark className="w-4 h-4" />
                         </button>
                         <button className="w-8 h-8 rounded-full border border-[#1a1814]/20 flex items-center justify-center hover:bg-[#1a1814] hover:text-white hover:border-[#1a1814] transition-colors">
@@ -408,7 +408,7 @@ export default function ChronicleEditorialPage() {
           <div className="max-w-[1400px] mx-auto px-6">
             <div className="flex items-center justify-between mb-12">
               <h3 className="text-3xl font-serif italic">Editors' Picks</h3>
-              <Link href="#subscribe" className="text-xs font-bold uppercase tracking-widest flex items-center gap-2 hover:text-[#d64000] transition-colors">
+              <Link href="#subscribe" className="text-xs font-bold uppercase tracking-widest flex items-center gap-2 hover:text-[var(--brand,#d64000)] transition-colors">
                 View All <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
@@ -420,8 +420,8 @@ export default function ChronicleEditorialPage() {
                     <div className="relative w-full aspect-[4/3] bg-[#e5e3de] mb-6 overflow-hidden">
                       <Image src={story.img} alt={story.title} fill className="object-cover group-hover:scale-105 transition-transform duration-700" />
                     </div>
-                    <div className="text-[10px] font-black uppercase tracking-widest text-[#d64000] mb-3">{story.cat}</div>
-                    <h4 className="text-2xl font-serif leading-snug mb-4 group-hover:text-[#d64000] transition-colors">
+                    <div className="text-[10px] font-black uppercase tracking-widest text-[var(--brand,#d64000)] mb-3">{story.cat}</div>
+                    <h4 className="text-2xl font-serif leading-snug mb-4 group-hover:text-[var(--brand,#d64000)] transition-colors">
                       {story.title}
                     </h4>
                     <p className="text-[#1a1814]/70 font-serif leading-relaxed mb-6 flex-1">
@@ -442,7 +442,7 @@ export default function ChronicleEditorialPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 md:gap-24 items-center">
             <div className="order-2 lg:order-1">
               <Reveal>
-                <div className="w-16 h-[2px] bg-[#d64000] mb-8" />
+                <div className="w-16 h-[2px] bg-[var(--brand,#d64000)] mb-8" />
                 <h2 className="text-4xl md:text-6xl font-serif leading-tight mb-8">{c?.aboutTitle ?? fd?.businessName ?? <>
                   The <br/><span className="italic">Sunday</span> Essays.
                 </>}</h2>
@@ -453,7 +453,7 @@ export default function ChronicleEditorialPage() {
                   {MANIFEST.essays.map((essay, i) => (
                     <Link key={i} href="#subscribe" className="group flex items-center justify-between py-6 border-b border-[#1a1814]/10 hover:bg-[#f2efe9] transition-colors -mx-6 px-6">
                       <div>
-                        <h4 className="text-xl font-serif mb-2 group-hover:text-[#d64000] transition-colors">{essay.title}</h4>
+                        <h4 className="text-xl font-serif mb-2 group-hover:text-[var(--brand,#d64000)] transition-colors">{essay.title}</h4>
                         <div className="text-[10px] font-bold uppercase tracking-widest text-[#1a1814]/50">By {essay.author}</div>
                       </div>
                       <div className="text-[10px] font-bold uppercase tracking-widest text-[#1a1814]/30">
@@ -471,14 +471,14 @@ export default function ChronicleEditorialPage() {
                   <Image src={photo(2, "https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?w=800&q=80")} alt="Writing" fill className="object-cover opacity-80 mix-blend-multiply group-hover:scale-105 transition-transform duration-1000" />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#1a1814]/90 via-[#1a1814]/20 to-transparent" />
                   <div className="relative z-10 text-white">
-                    <div className="text-[10px] font-black uppercase tracking-widest text-[#d64000] mb-4">Featured Essay</div>
+                    <div className="text-[10px] font-black uppercase tracking-widest text-[var(--brand,#d64000)] mb-4">Featured Essay</div>
                     <h3 className="text-3xl md:text-5xl font-serif leading-tight mb-4">
                       The Lost Art of Letter Writing
                     </h3>
                     <p className="text-white/70 italic font-serif mb-6">
                       How instantaneous communication stripped language of its anticipation.
                     </p>
-                    <button className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest hover:text-[#d64000] transition-colors">
+                    <button className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest hover:text-[var(--brand,#d64000)] transition-colors">
                       Read Essay <ArrowRight className="w-4 h-4" />
                     </button>
                   </div>
@@ -489,11 +489,11 @@ export default function ChronicleEditorialPage() {
         </section>
 
         {/* ─── SUBSCRIPTION PRICING ──────────────────────────────────────── */}
-        <section id="subscribe" className="bg-[#1a1814] text-[#fcfaf7] py-32 border-y-[10px] border-[#d64000]">
+        <section id="subscribe" className="bg-[#1a1814] text-[#fcfaf7] py-32 border-y-[10px] border-[var(--brand,#d64000)]">
           <div className="max-w-[1400px] mx-auto px-6">
             <div className="text-center mb-20">
               <Reveal>
-                <Sparkles className="w-8 h-8 mx-auto text-[#d64000] mb-6" />
+                <Sparkles className="w-8 h-8 mx-auto text-[var(--brand,#d64000)] mb-6" />
                 <h2 className="text-4xl md:text-6xl font-serif mb-6">Support Independent Journalism</h2>
                 <p className="text-[#fcfaf7]/60 max-w-xl mx-auto text-lg italic font-serif">
                   No clickbait. No intrusive ads. Just rigorous reporting and thoughtful cultural analysis. 
@@ -505,9 +505,9 @@ export default function ChronicleEditorialPage() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {MANIFEST.subscription.tiers.map((tier, i) => (
                 <Reveal key={i} delay={i * 0.1}>
-                  <div className={`p-10 border ${tier.recommended ? 'border-[#d64000] bg-[#2a261f]' : 'border-[#fcfaf7]/10 bg-[#1f1d18]'} relative flex flex-col h-full`}>
+                  <div className={`p-10 border ${tier.recommended ? 'border-[var(--brand,#d64000)] bg-[#2a261f]' : 'border-[#fcfaf7]/10 bg-[#1f1d18]'} relative flex flex-col h-full`}>
                     {tier.recommended && (
-                      <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#d64000] text-white px-4 py-1 text-[10px] font-black uppercase tracking-widest">
+                      <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[var(--brand,#d64000)] text-white px-4 py-1 text-[10px] font-black uppercase tracking-widest">
                         Most Popular
                       </div>
                     )}
@@ -517,13 +517,13 @@ export default function ChronicleEditorialPage() {
                     <ul className="space-y-4 mb-10 flex-1">
                       {tier.features.map((feat, j) => (
                         <li key={j} className="flex items-start gap-3 text-sm text-[#fcfaf7]/80">
-                          <div className="w-1.5 h-1.5 bg-[#d64000] rounded-full mt-1.5 shrink-0" />
+                          <div className="w-1.5 h-1.5 bg-[var(--brand,#d64000)] rounded-full mt-1.5 shrink-0" />
                           {feat}
                         </li>
                       ))}
                     </ul>
 
-                    <button className={`w-full py-4 text-xs font-bold uppercase tracking-widest transition-colors ${tier.recommended ? 'bg-[#d64000] text-white hover:bg-[#a33000]' : 'bg-[#fcfaf7] text-[#1a1814] hover:bg-[#d64000] hover:text-white'}`}>
+                    <button className={`w-full py-4 text-xs font-bold uppercase tracking-widest transition-colors ${tier.recommended ? 'bg-[var(--brand,#d64000)] text-white hover:bg-[#a33000]' : 'bg-[#fcfaf7] text-[#1a1814] hover:bg-[var(--brand,#d64000)] hover:text-white'}`}>
                       Select Plan
                     </button>
                   </div>
@@ -546,7 +546,7 @@ export default function ChronicleEditorialPage() {
             <Accordion type="single" collapsible className="w-full">
               {MANIFEST.faq.map((item, i) => (
                 <AccordionItem key={i} value={`item-${i}`} className="border-[#1a1814]/10">
-                  <AccordionTrigger className="text-lg font-serif py-6 hover:text-[#d64000] hover:no-underline text-left">
+                  <AccordionTrigger className="text-lg font-serif py-6 hover:text-[var(--brand,#d64000)] hover:no-underline text-left">
                     {item.q}
                   </AccordionTrigger>
                   <AccordionContent className="text-[#1a1814]/70 leading-relaxed pb-6 text-sm">
@@ -562,7 +562,7 @@ export default function ChronicleEditorialPage() {
         <section id="contact" className="py-24 bg-[#f2efe9] border-y border-[#1a1814]/10">
           <div className="max-w-[1000px] mx-auto px-6 text-center">
             <Reveal>
-              <Newspaper className="w-10 h-10 mx-auto text-[#d64000] mb-8" />
+              <Newspaper className="w-10 h-10 mx-auto text-[var(--brand,#d64000)] mb-8" />
               <h2 className="text-4xl md:text-5xl font-serif mb-6">The Daily Chronicle</h2>
               <p className="text-[#1a1814]/70 max-w-lg mx-auto mb-10 font-serif italic text-lg">
                 Our award-winning daily newsletter. The day's most important stories, curated by our editors and delivered straight to your inbox.
@@ -571,9 +571,9 @@ export default function ChronicleEditorialPage() {
                 <input 
                   type="email" 
                   placeholder="Your email address" 
-                  className="flex-1 bg-white border border-[#1a1814]/20 px-6 py-4 text-sm focus:outline-none focus:border-[#d64000] transition-colors"
+                  className="flex-1 bg-white border border-[#1a1814]/20 px-6 py-4 text-sm focus:outline-none focus:border-[var(--brand,#d64000)] transition-colors"
                 />
-                <button className="bg-[#1a1814] text-white px-8 py-4 text-xs font-bold uppercase tracking-widest hover:bg-[#d64000] transition-colors">
+                <button className="bg-[#1a1814] text-white px-8 py-4 text-xs font-bold uppercase tracking-widest hover:bg-[var(--brand,#d64000)] transition-colors">
                   Subscribe
                 </button>
               </form>
@@ -595,7 +595,7 @@ export default function ChronicleEditorialPage() {
             </p>
             <div className="flex gap-4">
               {['MessageSquare', 'Users2', 'Camera', 'LinkedIn'].map(social => (
-                <Link key={social} href="#subscribe" className="w-10 h-10 border border-[#fcfaf7]/20 rounded-full flex items-center justify-center hover:bg-[#d64000] hover:text-white hover:border-[#d64000] transition-colors text-xs font-bold uppercase">
+                <Link key={social} href="#subscribe" className="w-10 h-10 border border-[#fcfaf7]/20 rounded-full flex items-center justify-center hover:bg-[var(--brand,#d64000)] hover:text-white hover:border-[var(--brand,#d64000)] transition-colors text-xs font-bold uppercase">
                   {social.charAt(0)}
                 </Link>
               ))}
@@ -606,7 +606,7 @@ export default function ChronicleEditorialPage() {
             <h4 className="text-[#fcfaf7] text-xs font-bold uppercase tracking-widest mb-6">Sections</h4>
             <ul className="space-y-4 text-sm font-serif">
               {["Politics", "Business", "Science", "Culture", "Essays", "Opinion"].map(link => (
-                <li key={link}><Link href="#subscribe" className="hover:text-[#d64000] transition-colors">{link}</Link></li>
+                <li key={link}><Link href="#subscribe" className="hover:text-[var(--brand,#d64000)] transition-colors">{link}</Link></li>
               ))}
             </ul>
           </div>

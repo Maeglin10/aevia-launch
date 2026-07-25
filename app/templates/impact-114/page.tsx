@@ -300,9 +300,9 @@ function Reveal({
 function Divider() {
   return (
     <div className="flex items-center gap-4 my-6">
-      <div className="flex-1 h-px bg-[#2d1b0e]/10" />
+      <div className="flex-1 h-px bg-[var(--brand,#2d1b0e)]/10" />
       <Leaf className="w-3 h-3 text-[#3d5a3e]/40" />
-      <div className="flex-1 h-px bg-[#2d1b0e]/10" />
+      <div className="flex-1 h-px bg-[var(--brand,#2d1b0e)]/10" />
     </div>
   )
 }
@@ -653,7 +653,7 @@ export default function Impact114Page() {
   }, [c]);return (
     <div
       ref={containerRef}
-      className="bg-[#faf8f3] text-[#2d1b0e] overflow-x-hidden min-h-dvh selection:bg-[#3d5a3e]/15 selection:text-[#2d1b0e]"
+      className="bg-[#faf8f3] text-[var(--brand,#2d1b0e)] overflow-x-hidden min-h-dvh selection:bg-[#3d5a3e]/15 selection:text-[var(--brand,#2d1b0e)]"
       style={{ fontFamily: "'Source Serif 4', serif" }}
     >
       {/* SCROLL PROGRESS BAR */}
@@ -687,7 +687,7 @@ export default function Impact114Page() {
               <>
                 <Leaf className="w-4 h-4 text-[#3d5a3e] group-hover:rotate-12 transition-transform" />
                 <span
-                  className="text-2xl tracking-[0.15em] text-[#2d1b0e]"
+                  className="text-2xl tracking-[0.15em] text-[var(--brand,#2d1b0e)]"
                   style={{ fontFamily: "'Playfair Display', serif", fontStyle: "italic", fontWeight: 500 }}
                 >
                   TERRA
@@ -702,7 +702,7 @@ export default function Impact114Page() {
               <Link
                 key={link}
                 href={`#${link.toLowerCase().replace("à", "a").replace(/ /g, "")}`}
-                className="text-[11px] font-light tracking-[0.2em] uppercase text-[#2d1b0e]/45 hover:text-[#2d1b0e] transition-colors"
+                className="text-[11px] font-light tracking-[0.2em] uppercase text-[var(--brand,#2d1b0e)]/45 hover:text-[var(--brand,#2d1b0e)] transition-colors"
                 style={{ fontFamily: "'Source Serif 4', serif" }}
               >
                 {link}
@@ -714,7 +714,7 @@ export default function Impact114Page() {
           <div className="flex items-center gap-4">
             <Link
               href="#tirages"
-              className="hidden md:flex items-center gap-2 px-5 py-2.5 bg-[#2d1b0e] text-[#faf8f3] text-[11px] tracking-[0.2em] uppercase hover:bg-[#3d5a3e] transition-colors"
+              className="hidden md:flex items-center gap-2 px-5 py-2.5 bg-[var(--brand,#2d1b0e)] text-[#faf8f3] text-[11px] tracking-[0.2em] uppercase hover:bg-[#3d5a3e] transition-colors"
               style={{ fontFamily: "'Source Serif 4', serif" }}
             >
               Voir les tirages
@@ -722,7 +722,7 @@ export default function Impact114Page() {
             </Link>
             <button
               onClick={() => setMenuOpen(!menuOpen)}
-              className="md:hidden w-10 h-10 flex items-center justify-center text-[#2d1b0e]/50 hover:text-[#2d1b0e] transition-colors"
+              className="md:hidden w-10 h-10 flex items-center justify-center text-[var(--brand,#2d1b0e)]/50 hover:text-[var(--brand,#2d1b0e)] transition-colors"
               aria-label="Toggle menu"
             >
               {menuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -737,7 +737,7 @@ export default function Impact114Page() {
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
-              className="md:hidden bg-[#faf8f3]/97 border-t border-[#2d1b0e]/6 overflow-hidden"
+              className="md:hidden bg-[#faf8f3]/97 border-t border-[var(--brand,#2d1b0e)]/6 overflow-hidden"
             >
               <div className="px-6 py-6 flex flex-col gap-1">
                 {NAV_LINKS.map((link) => (
@@ -745,7 +745,7 @@ export default function Impact114Page() {
                     key={link}
                     href={`#${link.toLowerCase()}`}
                     onClick={() => setMenuOpen(false)}
-                    className="text-base text-[#2d1b0e]/55 hover:text-[#2d1b0e] transition-colors py-3 border-b border-[#2d1b0e]/5"
+                    className="text-base text-[var(--brand,#2d1b0e)]/55 hover:text-[var(--brand,#2d1b0e)] transition-colors py-3 border-b border-[var(--brand,#2d1b0e)]/5"
                     style={{ fontFamily: "'Source Serif 4', serif" }}
                   >
                     {link}
@@ -754,7 +754,7 @@ export default function Impact114Page() {
                 <Link
                   href="#tirages"
                   onClick={() => setMenuOpen(false)}
-                  className="mt-4 flex items-center justify-center gap-2 px-5 py-3 bg-[#2d1b0e] text-[#faf8f3] text-sm tracking-widest uppercase"
+                  className="mt-4 flex items-center justify-center gap-2 px-5 py-3 bg-[var(--brand,#2d1b0e)] text-[#faf8f3] text-sm tracking-widest uppercase"
                   style={{ fontFamily: "'Source Serif 4', serif" }}
                 >
                   Voir les tirages
@@ -783,7 +783,7 @@ export default function Impact114Page() {
               — Photographie de nature
             </span>
             <h2
-              className="text-5xl md:text-6xl text-[#2d1b0e] mb-6 leading-[1.1]"
+              className="text-5xl md:text-6xl text-[var(--brand,#2d1b0e)] mb-6 leading-[1.1]"
               style={{ fontFamily: "'Playfair Display', serif", fontWeight: 700 }}
             >{c?.aboutTitle ?? fd?.businessName ?? <>
               Les Collections
@@ -816,7 +816,7 @@ export default function Impact114Page() {
                       className="object-cover transition-transform duration-700 group-hover:scale-105"
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#2d1b0e]/70 via-transparent to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[var(--brand,#2d1b0e)]/70 via-transparent to-transparent" />
 
                     <motion.div
                       className="absolute inset-0 bg-[#3d5a3e]/25"
@@ -862,7 +862,7 @@ export default function Impact114Page() {
                     transition={{ duration: 0.3 }}
                   >
                     <div className="w-8 h-8 bg-[#faf8f3]/90 flex items-center justify-center">
-                      <ArrowRight className="w-4 h-4 text-[#2d1b0e]" />
+                      <ArrowRight className="w-4 h-4 text-[var(--brand,#2d1b0e)]" />
                     </div>
                   </motion.div>
                 </motion.div>
@@ -875,7 +875,7 @@ export default function Impact114Page() {
       {/* ================================================================
           4. PRINT SHOP
           ================================================================ */}
-      <section id="tirages" className="py-28 px-6 md:px-12 bg-[#2d1b0e]">
+      <section id="tirages" className="py-28 px-6 md:px-12 bg-[var(--brand,#2d1b0e)]">
         <div className="max-w-[1400px] mx-auto">
           <Reveal>
             <div className="max-w-2xl mb-16">
@@ -1060,7 +1060,7 @@ export default function Impact114Page() {
                   sizes="(max-width: 1024px) 100vw, 50vw"
                 />
               </motion.div>
-              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-[#2d1b0e]/75 to-transparent p-8 z-10">
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-[var(--brand,#2d1b0e)]/75 to-transparent p-8 z-10">
                 <span
                   className="text-[#faf8f3]/50 text-xs tracking-[0.2em] uppercase"
                   style={{ fontFamily: "'Source Serif 4', serif" }}
@@ -1082,7 +1082,7 @@ export default function Impact114Page() {
               </span>
 
               <h2
-                className="text-4xl md:text-5xl text-[#2d1b0e] mb-8 leading-[1.15]"
+                className="text-4xl md:text-5xl text-[var(--brand,#2d1b0e)] mb-8 leading-[1.15]"
                 style={{ fontFamily: "'Playfair Display', serif", fontWeight: 700 }}
               >
                 Julien Moreau
@@ -1120,7 +1120,7 @@ export default function Impact114Page() {
                   return (
                     <button
                       key={item.label}
-                      className="flex items-center gap-2 text-xs text-[#2d1b0e]/35 hover:text-[#3d5a3e] transition-colors"
+                      className="flex items-center gap-2 text-xs text-[var(--brand,#2d1b0e)]/35 hover:text-[#3d5a3e] transition-colors"
                       style={{ fontFamily: "'Source Serif 4', serif" }}
                     >
                       <Icon className="w-4 h-4" />
@@ -1148,7 +1148,7 @@ export default function Impact114Page() {
                 — Carnets de terrain
               </span>
               <h2
-                className="text-5xl md:text-6xl text-[#2d1b0e] mb-2 leading-[1.1]"
+                className="text-5xl md:text-6xl text-[var(--brand,#2d1b0e)] mb-2 leading-[1.1]"
                 style={{ fontFamily: "'Playfair Display', serif", fontWeight: 700 }}
               >
                 Notes du
@@ -1182,13 +1182,13 @@ export default function Impact114Page() {
                           {note.date}
                         </span>
                       </div>
-                      <div className="w-8 h-8 border border-[#2d1b0e]/8 flex items-center justify-center">
+                      <div className="w-8 h-8 border border-[var(--brand,#2d1b0e)]/8 flex items-center justify-center">
                         <Icon className="w-4 h-4 text-[#8b7355]" />
                       </div>
                     </div>
 
                     <p
-                      className="text-[#2d1b0e]/65 text-sm leading-relaxed mb-6"
+                      className="text-[var(--brand,#2d1b0e)]/65 text-sm leading-relaxed mb-6"
                       style={{ fontFamily: "'Source Serif 4', serif", fontStyle: "italic" }}
                     >
                       &ldquo;{note.excerpt}&rdquo;
@@ -1222,7 +1222,7 @@ export default function Impact114Page() {
               — Méthode
             </span>
             <h2
-              className="text-5xl md:text-6xl text-[#2d1b0e] leading-[1.1]"
+              className="text-5xl md:text-6xl text-[var(--brand,#2d1b0e)] leading-[1.1]"
               style={{ fontFamily: "'Playfair Display', serif", fontWeight: 700 }}
             >
               De la nature
@@ -1240,7 +1240,7 @@ export default function Impact114Page() {
                 <div className="relative">
                   {/* Large decorative number */}
                   <div
-                    className="text-[110px] font-bold leading-none text-[#2d1b0e]/4 mb-2 select-none"
+                    className="text-[110px] font-bold leading-none text-[var(--brand,#2d1b0e)]/4 mb-2 select-none"
                     style={{ fontFamily: "'Playfair Display', serif" }}
                   >
                     {step.n}
@@ -1252,7 +1252,7 @@ export default function Impact114Page() {
                     </div>
 
                     <h3
-                      className="text-xl text-[#2d1b0e] font-bold mb-3"
+                      className="text-xl text-[var(--brand,#2d1b0e)] font-bold mb-3"
                       style={{ fontFamily: "'Playfair Display', serif" }}
                     >
                       {step.title}
@@ -1267,7 +1267,7 @@ export default function Impact114Page() {
 
                   {i < PROCESS_STEPS.length - 1 && (
                     <div className="hidden lg:block absolute right-0 top-[calc(50%-20px)] translate-x-1/2 z-10">
-                      <ChevronRight className="w-4 h-4 text-[#2d1b0e]/12" />
+                      <ChevronRight className="w-4 h-4 text-[var(--brand,#2d1b0e)]/12" />
                     </div>
                   )}
                 </div>
@@ -1324,7 +1324,7 @@ export default function Impact114Page() {
             <Leaf className="w-8 h-8 text-[#3d5a3e]/35 mx-auto mb-8 float-slow" />
 
             <h2
-              className="text-4xl md:text-5xl text-[#2d1b0e] mb-5 leading-[1.15]"
+              className="text-4xl md:text-5xl text-[var(--brand,#2d1b0e)] mb-5 leading-[1.15]"
               style={{ fontFamily: "'Playfair Display', serif", fontWeight: 700 }}
             >
               Rejoignez la
@@ -1353,12 +1353,12 @@ export default function Impact114Page() {
                     placeholder="votre@email.com"
                     value={emailInput}
                     onChange={(e) => setEmailInput(e.target.value)}
-                    className="flex-1 px-5 py-3 border border-[#2d1b0e]/12 bg-white text-[#2d1b0e] placeholder-[#8b7355]/50 focus:border-[#3d5a3e] focus:outline-none text-sm transition-colors"
+                    className="flex-1 px-5 py-3 border border-[var(--brand,#2d1b0e)]/12 bg-white text-[var(--brand,#2d1b0e)] placeholder-[#8b7355]/50 focus:border-[#3d5a3e] focus:outline-none text-sm transition-colors"
                     style={{ fontFamily: "'Source Serif 4', serif" }}
                   />
                   <button
                     type="submit"
-                    className="px-6 py-3 bg-[#2d1b0e] text-[#faf8f3] text-[11px] tracking-[0.2em] uppercase hover:bg-[#3d5a3e] transition-colors whitespace-nowrap"
+                    className="px-6 py-3 bg-[var(--brand,#2d1b0e)] text-[#faf8f3] text-[11px] tracking-[0.2em] uppercase hover:bg-[#3d5a3e] transition-colors whitespace-nowrap"
                     style={{ fontFamily: "'Source Serif 4', serif" }}
                   >
                     S'inscrire
@@ -1414,7 +1414,7 @@ export default function Impact114Page() {
               — Contact &amp; Collaborations
             </span>
             <h2
-              className="text-5xl md:text-6xl text-[#2d1b0e] mb-8 leading-[1.1]"
+              className="text-5xl md:text-6xl text-[var(--brand,#2d1b0e)] mb-8 leading-[1.1]"
               style={{ fontFamily: "'Playfair Display', serif", fontWeight: 700 }}
             >
               Travaillons
@@ -1438,7 +1438,7 @@ export default function Impact114Page() {
                 const Icon = item.icon
                 return (
                   <div key={item.label} className="flex items-center gap-4">
-                    <div className="w-10 h-10 border border-[#2d1b0e]/8 bg-[#faf8f3] flex items-center justify-center">
+                    <div className="w-10 h-10 border border-[var(--brand,#2d1b0e)]/8 bg-[#faf8f3] flex items-center justify-center">
                       <Icon className="w-4 h-4 text-[#3d5a3e]" />
                     </div>
                     <div>
@@ -1449,7 +1449,7 @@ export default function Impact114Page() {
                         {item.label}
                       </div>
                       <div
-                        className="text-sm text-[#2d1b0e]"
+                        className="text-sm text-[var(--brand,#2d1b0e)]"
                         style={{ fontFamily: "'Source Serif 4', serif" }}
                       >
                         {item.value}
@@ -1463,7 +1463,7 @@ export default function Impact114Page() {
 
           {/* Contact form */}
           <Reveal delay={0.2}>
-            <div className="bg-[#faf8f3] p-8 border border-[#2d1b0e]/5">
+            <div className="bg-[#faf8f3] p-8 border border-[var(--brand,#2d1b0e)]/5">
               <AnimatePresence mode="wait">
                 {!contactSent ? (
                   <motion.form
@@ -1489,7 +1489,7 @@ export default function Impact114Page() {
                           placeholder={field.placeholder}
                           value={contactForm[field.key as keyof typeof contactForm]}
                           onChange={(e) => setContactForm(p => ({ ...p, [field.key]: e.target.value }))}
-                          className="w-full border border-[#2d1b0e]/10 px-4 py-3 text-sm text-[#2d1b0e] placeholder-[#8b7355]/35 focus:border-[#3d5a3e] focus:outline-none transition-colors bg-transparent"
+                          className="w-full border border-[var(--brand,#2d1b0e)]/10 px-4 py-3 text-sm text-[var(--brand,#2d1b0e)] placeholder-[#8b7355]/35 focus:border-[#3d5a3e] focus:outline-none transition-colors bg-transparent"
                           style={{ fontFamily: "'Source Serif 4', serif" }}
                         />
                       </div>
@@ -1507,14 +1507,14 @@ export default function Impact114Page() {
                         placeholder="Décrivez votre projet, demande d'exposition, acquisition..."
                         value={contactForm.message}
                         onChange={(e) => setContactForm(p => ({ ...p, message: e.target.value }))}
-                        className="w-full border border-[#2d1b0e]/10 px-4 py-3 text-sm text-[#2d1b0e] placeholder-[#8b7355]/35 focus:border-[#3d5a3e] focus:outline-none transition-colors bg-transparent resize-none"
+                        className="w-full border border-[var(--brand,#2d1b0e)]/10 px-4 py-3 text-sm text-[var(--brand,#2d1b0e)] placeholder-[#8b7355]/35 focus:border-[#3d5a3e] focus:outline-none transition-colors bg-transparent resize-none"
                         style={{ fontFamily: "'Source Serif 4', serif" }}
                       />
                     </div>
 
                     <button
                       type="submit"
-                      className="w-full py-4 bg-[#2d1b0e] text-[#faf8f3] text-[11px] tracking-[0.2em] uppercase hover:bg-[#3d5a3e] transition-colors flex items-center justify-center gap-2"
+                      className="w-full py-4 bg-[var(--brand,#2d1b0e)] text-[#faf8f3] text-[11px] tracking-[0.2em] uppercase hover:bg-[#3d5a3e] transition-colors flex items-center justify-center gap-2"
                       style={{ fontFamily: "'Source Serif 4', serif" }}
                     >
                       <Mail className="w-4 h-4" />
@@ -1532,7 +1532,7 @@ export default function Impact114Page() {
                       <Leaf className="w-6 h-6 text-[#3d5a3e]" />
                     </div>
                     <h3
-                      className="text-2xl text-[#2d1b0e] font-bold mb-3"
+                      className="text-2xl text-[var(--brand,#2d1b0e)] font-bold mb-3"
                       style={{ fontFamily: "'Playfair Display', serif" }}
                     >
                       Message reçu.
@@ -1554,12 +1554,12 @@ export default function Impact114Page() {
       {/* ================================================================
           FOOTER
           ================================================================ */}
-      <footer className="border-t border-[#2d1b0e]/6 bg-[#faf8f3] py-12 px-6 md:px-12">
+      <footer className="border-t border-[var(--brand,#2d1b0e)]/6 bg-[#faf8f3] py-12 px-6 md:px-12">
         <div className="max-w-[1400px] mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
           <div className="flex items-center gap-2">
             <Leaf className="w-4 h-4 text-[#3d5a3e]/40" />
             <span
-              className="text-xl tracking-[0.15em] text-[#2d1b0e]/50"
+              className="text-xl tracking-[0.15em] text-[var(--brand,#2d1b0e)]/50"
               style={{ fontFamily: "'Playfair Display', serif", fontStyle: "italic" }}
             >
               TERRA
@@ -1571,7 +1571,7 @@ export default function Impact114Page() {
               <a
                 key={i}
                 href="#n"
-                className="text-[#2d1b0e]/25 hover:text-[#3d5a3e] transition-colors"
+                className="text-[var(--brand,#2d1b0e)]/25 hover:text-[#3d5a3e] transition-colors"
               >
                 <Icon className="w-4 h-4" />
               </a>

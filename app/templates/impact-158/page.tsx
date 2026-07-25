@@ -241,7 +241,7 @@ export default function AtlasPage() {
 
   return (
     <div className="min-h-dvh text-[#2C1F0E]" style={{ fontFamily: "'Inter', sans-serif", background: "#F5F0E8" }}>
-      <motion.div className="fixed top-0 left-0 h-[2px] bg-[#C0392B] z-[1000] origin-left" style={{ scaleX: scrollYProgress }} />
+      <motion.div className="fixed top-0 left-0 h-[2px] bg-[var(--brand,#C0392B)] z-[1000] origin-left" style={{ scaleX: scrollYProgress }} />
 
       {/* Nav */}
       <motion.nav
@@ -258,7 +258,7 @@ export default function AtlasPage() {
               />
             ) : (
               <>
-                <Globe className="w-5 h-5 text-[#C0392B]" />
+                <Globe className="w-5 h-5 text-[var(--brand,#C0392B)]" />
                 <span className="text-xl font-bold tracking-wide" style={{ fontFamily: "'Playfair Display', serif" }}>Atlas</span>
               </>
             )}
@@ -299,7 +299,7 @@ export default function AtlasPage() {
               {["Articles", "Destinations", "À propos", "Newsletter"].map((l, i) => (
                 <motion.div key={l} initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.07 }}>
                   <Link href={`#${l.toLowerCase().replace(" ", "-").replace("à", "a")}`} onClick={() => setMenuOpen(false)}
-                    className="text-3xl font-light hover:text-[#C0392B] transition-colors cursor-pointer"
+                    className="text-3xl font-light hover:text-[var(--brand,#C0392B)] transition-colors cursor-pointer"
                     style={{ fontFamily: "'Playfair Display', serif" }}>{l}</Link>
                 </motion.div>
               ))}
@@ -331,7 +331,7 @@ export default function AtlasPage() {
         <motion.div className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-12 pb-20 pt-32" style={{ y: heroTextY }}>
           <Reveal>
             <div className="flex items-center gap-3 mb-6">
-              <span className="text-xs tracking-widest uppercase text-[#C0392B] bg-[#C0392B]/20 px-3 py-1 rounded-full">{featuredArticle.tag}</span>
+              <span className="text-xs tracking-widest uppercase text-[var(--brand,#C0392B)] bg-[var(--brand,#C0392B)]/20 px-3 py-1 rounded-full">{featuredArticle.tag}</span>
               <span className="text-xs text-[#D4C9B0] flex items-center gap-1.5"><MapPin className="w-3 h-3" />{featuredArticle.country}</span>
               <span className="text-xs text-[#D4C9B0] flex items-center gap-1.5"><Calendar className="w-3 h-3" />{featuredArticle.date}</span>
             </div>
@@ -345,14 +345,14 @@ export default function AtlasPage() {
             <p className="text-[#D4C9B0] text-lg leading-relaxed max-w-xl mb-8" style={{ fontFamily: "'EB Garamond', serif" }}>{c?.heroSubline ?? fd?.tagline ?? <>
               {featuredArticle.excerpt}
             </>}</p>
-            <Link href="#articles" className="inline-flex items-center gap-3 text-[#F5F0E8] text-sm border-b border-[#C0392B] pb-0.5 hover:text-[#C0392B] transition-colors cursor-pointer">
+            <Link href="#articles" className="inline-flex items-center gap-3 text-[#F5F0E8] text-sm border-b border-[var(--brand,#C0392B)] pb-0.5 hover:text-[var(--brand,#C0392B)] transition-colors cursor-pointer">
               Lire le récit complet <ArrowRight className="w-4 h-4" />
             </Link>
           </Reveal>
           <div className="mt-16 pt-8 border-t border-[#4A3520]/60 grid grid-cols-3 md:grid-cols-6 gap-4">
             {[["87", "Récits publiés"], ["34", "Pays visités"], ["12", "Années de route"], ["480k", "Lecteurs mensuels"], ["6", "Prix reçus"], ["240h", "De vidéos"]].map(([val, label]) => (
               <div key={label}>
-                <div className="text-xl text-[#C0392B]" style={{ fontFamily: "'Playfair Display', serif" }}>{val}</div>
+                <div className="text-xl text-[var(--brand,#C0392B)]" style={{ fontFamily: "'Playfair Display', serif" }}>{val}</div>
                 <div className="text-[10px] text-[#8A7560] mt-0.5">{label}</div>
               </div>
             ))}
@@ -404,7 +404,7 @@ export default function AtlasPage() {
                     <Image src={article.image} alt={article.title} fill className="object-cover group-hover:scale-105 transition-transform duration-700" />
                     <div className="absolute inset-0 bg-[#2C1F0E]/0 group-hover:bg-[#2C1F0E]/20 transition-all duration-500" />
                     <div className="absolute top-4 left-4 flex gap-2">
-                      <span className="bg-[#C0392B] text-white text-[10px] tracking-widest uppercase px-2.5 py-1">{article.tag}</span>
+                      <span className="bg-[var(--brand,#C0392B)] text-white text-[10px] tracking-widest uppercase px-2.5 py-1">{article.tag}</span>
                     </div>
                   </div>
                   <div className="flex items-center gap-4 text-xs text-[#8A7560] mb-3">
@@ -412,13 +412,13 @@ export default function AtlasPage() {
                     <span className="flex items-center gap-1"><Calendar className="w-3 h-3" />{article.date}</span>
                     <span className="flex items-center gap-1"><Clock className="w-3 h-3" />{article.readTime}</span>
                   </div>
-                  <h2 className="text-xl font-normal leading-snug mb-3 group-hover:text-[#C0392B] transition-colors duration-200" style={{ fontFamily: "'Playfair Display', serif" }}>
+                  <h2 className="text-xl font-normal leading-snug mb-3 group-hover:text-[var(--brand,#C0392B)] transition-colors duration-200" style={{ fontFamily: "'Playfair Display', serif" }}>
                     {article.title}
                   </h2>
                   <p className="text-sm text-[#6B5A40] leading-relaxed mb-4 line-clamp-3" style={{ fontFamily: "'EB Garamond', serif", fontSize: "16px" }}>
                     {article.excerpt}
                   </p>
-                  <Link href="#newsletter" className="text-xs text-[#C0392B] flex items-center gap-1.5 hover:gap-3 transition-all duration-200 cursor-pointer">
+                  <Link href="#newsletter" className="text-xs text-[var(--brand,#C0392B)] flex items-center gap-1.5 hover:gap-3 transition-all duration-200 cursor-pointer">
                     Lire le récit <ArrowRight className="w-3.5 h-3.5" />
                   </Link>
                 </motion.article>
@@ -433,7 +433,7 @@ export default function AtlasPage() {
         <div className="max-w-7xl mx-auto px-6 md:px-12">
           <div className="mb-14">
             <Reveal>
-              <p className="text-[#C0392B] text-xs tracking-[0.25em] uppercase mb-4">Destinations</p>
+              <p className="text-[var(--brand,#C0392B)] text-xs tracking-[0.25em] uppercase mb-4">Destinations</p>
               <h2 className="text-4xl md:text-5xl font-normal" style={{ fontFamily: "'Playfair Display', serif" }}>
                 Explorer par région
               </h2>
@@ -449,7 +449,7 @@ export default function AtlasPage() {
                     <h3 className="text-xl font-normal" style={{ fontFamily: "'Playfair Display', serif" }}>{dest.name}</h3>
                     <p className="text-xs text-[#D4C9B0] mt-0.5">{dest.articles} récits</p>
                   </div>
-                  <div className="absolute top-4 right-4 w-8 h-8 bg-[#C0392B] flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <div className="absolute top-4 right-4 w-8 h-8 bg-[var(--brand,#C0392B)] flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     <ChevronRight className="w-4 h-4 text-white" />
                   </div>
                 </div>
@@ -467,7 +467,7 @@ export default function AtlasPage() {
               <div className="aspect-[4/5] relative overflow-hidden">
                 <Image src={photo(2, "https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=800&q=80")} alt="Auteur" fill className="object-cover" />
               </div>
-              <div className="absolute -bottom-8 -right-6 bg-[#C0392B] text-white p-6">
+              <div className="absolute -bottom-8 -right-6 bg-[var(--brand,#C0392B)] text-white p-6">
                 <div className="text-3xl font-light mb-1" style={{ fontFamily: "'Playfair Display', serif" }}>2012</div>
                 <div className="text-xs uppercase tracking-wide">Premier récit publié</div>
               </div>
@@ -475,7 +475,7 @@ export default function AtlasPage() {
           </Reveal>
           <div>
             <Reveal delay={0.1}>
-              <p className="text-xs tracking-[0.25em] uppercase text-[#C0392B] mb-4">À propos d&apos;Atlas</p>
+              <p className="text-xs tracking-[0.25em] uppercase text-[var(--brand,#C0392B)] mb-4">À propos d&apos;Atlas</p>
               <h2 className="text-4xl md:text-5xl font-normal leading-tight mb-6" style={{ fontFamily: "'Playfair Display', serif" }}>{c?.aboutTitle ?? fd?.businessName ?? <>
                 Le voyage comme<br /><em>littérature</em>
               </>}</h2>
@@ -504,7 +504,7 @@ export default function AtlasPage() {
       <section id="newsletter" className="py-24 bg-[#EDE8DC] border-y border-[#D4C9B0]">
         <div className="max-w-2xl mx-auto px-6 text-center">
           <Reveal>
-            <Globe className="w-10 h-10 text-[#C0392B] mx-auto mb-6" />
+            <Globe className="w-10 h-10 text-[var(--brand,#C0392B)] mx-auto mb-6" />
             <h2 className="text-3xl md:text-4xl font-normal mb-4" style={{ fontFamily: "'Playfair Display', serif" }}>
               La lettre d&apos;Atlas
             </h2>
@@ -517,7 +517,7 @@ export default function AtlasPage() {
                 placeholder="Votre adresse email"
                 className="flex-1 bg-[#F5F0E8] border border-[#D4C9B0] px-4 py-3.5 text-sm focus:outline-none focus:border-[#2C1F0E] transition-colors"
               />
-              <button type="submit" className="px-8 py-3.5 bg-[#2C1F0E] text-[#F5F0E8] text-sm uppercase tracking-widest hover:bg-[#C0392B] transition-colors cursor-pointer whitespace-nowrap">
+              <button type="submit" className="px-8 py-3.5 bg-[#2C1F0E] text-[#F5F0E8] text-sm uppercase tracking-widest hover:bg-[var(--brand,#C0392B)] transition-colors cursor-pointer whitespace-nowrap">
                 S&apos;abonner
               </button>
             </form>
@@ -532,7 +532,7 @@ export default function AtlasPage() {
           <div className="grid md:grid-cols-4 gap-10 mb-12">
             <div className="md:col-span-2">
               <div className="flex items-center gap-2 mb-4">
-                <Globe className="w-5 h-5 text-[#C0392B]" />
+                <Globe className="w-5 h-5 text-[var(--brand,#C0392B)]" />
                 <span className="text-[#F5F0E8] text-xl font-bold" style={{ fontFamily: "'Playfair Display', serif" }}>Atlas</span>
               </div>
               <p className="text-sm leading-relaxed max-w-xs" style={{ fontFamily: "'EB Garamond', serif", fontSize: "16px" }}>

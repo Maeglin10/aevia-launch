@@ -130,14 +130,14 @@ function StatsTicker() {
   return (
     <section className="py-6 border-y border-white/5 relative overflow-hidden">
       {/* Subtle purple glow */}
-      <div className="absolute inset-0 bg-[#9B5CF6]/[0.03]" />
+      <div className="absolute inset-0 bg-[var(--brand,#9B5CF6)]/[0.03]" />
       <div className="max-w-6xl mx-auto px-6">
         <div className="flex flex-wrap gap-x-12 gap-y-6 justify-between items-center">
           {stats.map(({ val, label }, i) => (
             <Reveal key={label} delay={i * 0.05}>
               <div className="flex flex-col items-center md:items-start text-center md:text-left">
                 <span
-                  className="text-3xl font-bold text-[#9B5CF6]"
+                  className="text-3xl font-bold text-[var(--brand,#9B5CF6)]"
                   style={monoStyle}
                 >
                   {val}
@@ -177,7 +177,7 @@ function WorkGrid() {
           </div>
           <Link
             href="/templates/impact-27/work"
-            className="text-sm font-semibold text-[#9B5CF6] hover:text-white transition-colors flex items-center gap-1.5 shrink-0"
+            className="text-sm font-semibold text-[var(--brand,#9B5CF6)] hover:text-white transition-colors flex items-center gap-1.5 shrink-0"
           >
             View full portfolio <ArrowRight className="w-4 h-4" />
           </Link>
@@ -191,7 +191,7 @@ function WorkGrid() {
               onClick={() => setActiveFilter(f)}
               className={`px-5 py-2 rounded-full text-xs font-semibold tracking-wider uppercase transition-all border cursor-pointer ${
                 activeFilter === f
-                  ? "bg-[#9B5CF6] border-[#9B5CF6] text-white"
+                  ? "bg-[var(--brand,#9B5CF6)] border-[var(--brand,#9B5CF6)] text-white"
                   : "bg-white/5 border-white/10 text-white/55 hover:text-white hover:border-white/20"
               }`}
               style={monoStyle}
@@ -218,7 +218,7 @@ function WorkGrid() {
               >
                 <Link
                   href="/templates/impact-27/work"
-                  className="group relative block overflow-hidden rounded-2xl bg-[#120B1A] border border-white/5 hover:border-[#9B5CF6]/40 transition-all cursor-pointer"
+                  className="group relative block overflow-hidden rounded-2xl bg-[#120B1A] border border-white/5 hover:border-[var(--brand,#9B5CF6)]/40 transition-all cursor-pointer"
                   onMouseEnter={() => setHoveredIdx(i)}
                   onMouseLeave={() => setHoveredIdx(null)}
                 >
@@ -232,7 +232,7 @@ function WorkGrid() {
                     />
                     {/* Hover overlay */}
                     <motion.div
-                      className="absolute inset-0 bg-[#9B5CF6]/20 backdrop-blur-[2px]"
+                      className="absolute inset-0 bg-[var(--brand,#9B5CF6)]/20 backdrop-blur-[2px]"
                       initial={{ opacity: 0 }}
                       animate={{ opacity: hoveredIdx === i ? 1 : 0 }}
                       transition={{ duration: 0.25 }}
@@ -240,7 +240,7 @@ function WorkGrid() {
                     <div className="absolute inset-0 bg-gradient-to-t from-[#0C0712] via-[#0C0712]/40 to-transparent" />
                     {/* Reveal pill on hover */}
                     <motion.div
-                      className="absolute top-4 right-4 bg-[#9B5CF6] text-white text-[10px] font-semibold px-3 py-1.5 rounded-full"
+                      className="absolute top-4 right-4 bg-[var(--brand,#9B5CF6)] text-white text-[10px] font-semibold px-3 py-1.5 rounded-full"
                       initial={{ opacity: 0, y: -8 }}
                       animate={{ opacity: hoveredIdx === i ? 1 : 0, y: hoveredIdx === i ? 0 : -8 }}
                       transition={{ duration: 0.2 }}
@@ -250,15 +250,15 @@ function WorkGrid() {
                     </motion.div>
                   </div>
                   <div className="p-5">
-                    <span className="text-[#9B5CF6] text-[10px] tracking-widest uppercase" style={monoStyle}>
+                    <span className="text-[var(--brand,#9B5CF6)] text-[10px] tracking-widest uppercase" style={monoStyle}>
                       {p.type} · {p.year}
                     </span>
-                    <h3 className="text-lg font-bold mt-1 mb-2 group-hover:text-[#9B5CF6] transition-colors leading-snug">
+                    <h3 className="text-lg font-bold mt-1 mb-2 group-hover:text-[var(--brand,#9B5CF6)] transition-colors leading-snug">
                       {p.name}
                     </h3>
                     <div className="flex items-center justify-between">
                       <span className="text-white/40 text-xs">{p.client}</span>
-                      <span className="text-[10px] text-[#9B5CF6]/70 font-semibold" style={monoStyle}>{p.result}</span>
+                      <span className="text-[10px] text-[var(--brand,#9B5CF6)]/70 font-semibold" style={monoStyle}>{p.result}</span>
                     </div>
                   </div>
                 </Link>
@@ -317,7 +317,7 @@ function ServicesSection() {
           </div>
           <Link
             href="/templates/impact-27/services"
-            className="text-sm font-semibold text-[#9B5CF6] hover:text-white transition-colors flex items-center gap-1.5 shrink-0"
+            className="text-sm font-semibold text-[var(--brand,#9B5CF6)] hover:text-white transition-colors flex items-center gap-1.5 shrink-0"
           >
             Full service details <ArrowRight className="w-4 h-4" />
           </Link>
@@ -333,13 +333,13 @@ function ServicesSection() {
                   onClick={() => setActive(i)}
                   className={`w-full text-left rounded-2xl p-6 border transition-all cursor-pointer group ${
                     active === i
-                      ? "bg-[#9B5CF6]/10 border-[#9B5CF6]/40"
+                      ? "bg-[var(--brand,#9B5CF6)]/10 border-[var(--brand,#9B5CF6)]/40"
                       : "bg-white/[0.03] border-white/5 hover:bg-white/[0.05] hover:border-white/10"
                   }`}
                 >
                   <div className="flex items-center gap-4">
                     <div className={`w-12 h-12 rounded-xl flex items-center justify-center transition-colors ${
-                      active === i ? "bg-[#9B5CF6] text-white" : "bg-white/5 text-white/40 group-hover:bg-[#9B5CF6]/15 group-hover:text-[#9B5CF6]"
+                      active === i ? "bg-[var(--brand,#9B5CF6)] text-white" : "bg-white/5 text-white/40 group-hover:bg-[var(--brand,#9B5CF6)]/15 group-hover:text-[var(--brand,#9B5CF6)]"
                     }`}>
                       {s.icon}
                     </div>
@@ -347,11 +347,11 @@ function ServicesSection() {
                       <h3 className={`font-semibold text-base transition-colors ${active === i ? "text-white" : "text-white/60 group-hover:text-white"}`}>
                         {s.title}
                       </h3>
-                      <span className={`text-[10px] tracking-widest uppercase transition-colors ${active === i ? "text-[#9B5CF6]" : "text-white/30"}`} style={monoStyle}>
+                      <span className={`text-[10px] tracking-widest uppercase transition-colors ${active === i ? "text-[var(--brand,#9B5CF6)]" : "text-white/30"}`} style={monoStyle}>
                         {s.badge}
                       </span>
                     </div>
-                    <ChevronRight className={`w-4 h-4 transition-all ${active === i ? "text-[#9B5CF6] translate-x-1" : "text-white/20"}`} />
+                    <ChevronRight className={`w-4 h-4 transition-all ${active === i ? "text-[var(--brand,#9B5CF6)] translate-x-1" : "text-white/20"}`} />
                   </div>
                 </button>
               ))}
@@ -369,23 +369,23 @@ function ServicesSection() {
                 transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
                 className="bg-[#120B1A] border border-white/5 rounded-2xl p-8 h-full"
               >
-                <div className="w-14 h-14 bg-[#9B5CF6]/15 text-[#9B5CF6] rounded-xl flex items-center justify-center mb-6">
+                <div className="w-14 h-14 bg-[var(--brand,#9B5CF6)]/15 text-[var(--brand,#9B5CF6)] rounded-xl flex items-center justify-center mb-6">
                   {services[active].icon}
                 </div>
-                <div className="inline-block text-[10px] tracking-widest uppercase border border-[#9B5CF6]/30 text-[#9B5CF6] px-3 py-1.5 rounded-full mb-5" style={monoStyle}>
+                <div className="inline-block text-[10px] tracking-widest uppercase border border-[var(--brand,#9B5CF6)]/30 text-[var(--brand,#9B5CF6)] px-3 py-1.5 rounded-full mb-5" style={monoStyle}>
                   {services[active].badge}
                 </div>
                 <h3 className="text-2xl font-bold mb-4">{services[active].title}</h3>
                 <p className="text-white/55 text-sm leading-relaxed mb-8">{services[active].desc}</p>
 
-                <div className="text-xs uppercase tracking-wider text-[#9B5CF6] mb-4 font-semibold" style={monoStyle}>
+                <div className="text-xs uppercase tracking-wider text-[var(--brand,#9B5CF6)] mb-4 font-semibold" style={monoStyle}>
                   Process steps
                 </div>
                 <ol className="space-y-3">
                   {services[active].steps.map((step, si) => (
                     <li key={si} className="flex items-start gap-3 text-sm text-white/70">
                       <span
-                        className="shrink-0 w-5 h-5 bg-[#9B5CF6]/15 text-[#9B5CF6] rounded-full flex items-center justify-center text-[10px] font-bold mt-0.5"
+                        className="shrink-0 w-5 h-5 bg-[var(--brand,#9B5CF6)]/15 text-[var(--brand,#9B5CF6)] rounded-full flex items-center justify-center text-[10px] font-bold mt-0.5"
                         style={monoStyle}
                       >
                         {si + 1}
@@ -443,14 +443,14 @@ function TestimonialsCarousel() {
               {/* Stars */}
               <div className="flex justify-center gap-1 mb-8">
                 {Array.from({ length: testimonials[current].rating }).map((_, i) => (
-                  <Star key={i} className="w-4 h-4 fill-[#9B5CF6] text-[#9B5CF6]" />
+                  <Star key={i} className="w-4 h-4 fill-[var(--brand,#9B5CF6)] text-[var(--brand,#9B5CF6)]" />
                 ))}
               </div>
               <p className="text-xl md:text-2xl text-white/85 leading-relaxed font-light italic mb-10">
                 &ldquo;{testimonials[current].quote}&rdquo;
               </p>
               <div className="flex flex-col items-center gap-3">
-                <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-[#9B5CF6]/40">
+                <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-[var(--brand,#9B5CF6)]/40">
                   <Image
                     src={testimonials[current].avatar}
                     alt={testimonials[current].author}
@@ -471,7 +471,7 @@ function TestimonialsCarousel() {
           <div className="flex items-center justify-center gap-4 mt-8">
             <button
               onClick={prev}
-              className="w-10 h-10 rounded-full border border-white/15 flex items-center justify-center hover:border-[#9B5CF6]/50 hover:bg-[#9B5CF6]/10 transition-all cursor-pointer"
+              className="w-10 h-10 rounded-full border border-white/15 flex items-center justify-center hover:border-[var(--brand,#9B5CF6)]/50 hover:bg-[var(--brand,#9B5CF6)]/10 transition-all cursor-pointer"
               aria-label="Previous testimonial"
             >
               <ChevronLeft className="w-4 h-4" />
@@ -482,7 +482,7 @@ function TestimonialsCarousel() {
                   key={i}
                   onClick={() => setCurrent(i)}
                   className={`h-1.5 rounded-full transition-all cursor-pointer ${
-                    i === current ? "w-6 bg-[#9B5CF6]" : "w-1.5 bg-white/20 hover:bg-white/40"
+                    i === current ? "w-6 bg-[var(--brand,#9B5CF6)]" : "w-1.5 bg-white/20 hover:bg-white/40"
                   }`}
                   aria-label={`Testimonial ${i + 1}`}
                 />
@@ -490,7 +490,7 @@ function TestimonialsCarousel() {
             </div>
             <button
               onClick={next}
-              className="w-10 h-10 rounded-full border border-white/15 flex items-center justify-center hover:border-[#9B5CF6]/50 hover:bg-[#9B5CF6]/10 transition-all cursor-pointer"
+              className="w-10 h-10 rounded-full border border-white/15 flex items-center justify-center hover:border-[var(--brand,#9B5CF6)]/50 hover:bg-[var(--brand,#9B5CF6)]/10 transition-all cursor-pointer"
               aria-label="Next testimonial"
             >
               <ChevronRight className="w-4 h-4" />
@@ -519,8 +519,8 @@ function TechStackSection() {
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
           {techStack.map((tech, i) => (
             <Reveal key={tech.name} delay={i * 0.07}>
-              <div className="group bg-[#120B1A] border border-white/5 hover:border-[#9B5CF6]/30 rounded-2xl p-6 flex flex-col gap-4 transition-all hover:bg-[#9B5CF6]/[0.04] cursor-default">
-                <div className="w-11 h-11 bg-[#9B5CF6]/15 rounded-xl flex items-center justify-center text-[#9B5CF6] group-hover:bg-[#9B5CF6]/25 transition-colors">
+              <div className="group bg-[#120B1A] border border-white/5 hover:border-[var(--brand,#9B5CF6)]/30 rounded-2xl p-6 flex flex-col gap-4 transition-all hover:bg-[var(--brand,#9B5CF6)]/[0.04] cursor-default">
+                <div className="w-11 h-11 bg-[var(--brand,#9B5CF6)]/15 rounded-xl flex items-center justify-center text-[var(--brand,#9B5CF6)] group-hover:bg-[var(--brand,#9B5CF6)]/25 transition-colors">
                   {tech.icon}
                 </div>
                 <div>
@@ -530,7 +530,7 @@ function TechStackSection() {
                 {/* Progress bar — decorative skill indicator */}
                 <div className="h-0.5 bg-white/5 rounded-full overflow-hidden">
                   <motion.div
-                    className="h-full bg-[#9B5CF6] rounded-full"
+                    className="h-full bg-[var(--brand,#9B5CF6)] rounded-full"
                     initial={{ width: 0 }}
                     whileInView={{ width: "92%" }}
                     viewport={{ once: true }}
@@ -565,12 +565,12 @@ function PricingSection() {
             <Reveal key={plan.tier} delay={i * 0.08}>
               <div className={`relative flex flex-col rounded-3xl border p-8 h-full transition-all ${
                 plan.highlight
-                  ? "bg-gradient-to-b from-[#9B5CF6]/15 to-[#120B1A] border-[#9B5CF6]/50 shadow-[0_0_60px_-20px_rgba(155,92,246,0.4)]"
+                  ? "bg-gradient-to-b from-[var(--brand,#9B5CF6)]/15 to-[#120B1A] border-[var(--brand,#9B5CF6)]/50 shadow-[0_0_60px_-20px_rgba(155,92,246,0.4)]"
                   : "bg-[#120B1A] border-white/8 hover:border-white/15"
               }`}>
                 {plan.badge && (
                   <div
-                    className="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#9B5CF6] text-white text-[10px] font-bold tracking-widest uppercase px-4 py-1.5 rounded-full"
+                    className="absolute -top-3 left-1/2 -translate-x-1/2 bg-[var(--brand,#9B5CF6)] text-white text-[10px] font-bold tracking-widest uppercase px-4 py-1.5 rounded-full"
                     style={monoStyle}
                   >
                     {plan.badge}
@@ -580,7 +580,7 @@ function PricingSection() {
                 <div className="mb-6">
                   <p className="text-xs text-white/40 uppercase tracking-widest mb-2" style={monoStyle}>{plan.tier}</p>
                   <div className="flex items-end gap-2">
-                    <span className={`text-4xl font-bold ${plan.highlight ? "text-[#9B5CF6]" : "text-white"}`} style={monoStyle}>
+                    <span className={`text-4xl font-bold ${plan.highlight ? "text-[var(--brand,#9B5CF6)]" : "text-white"}`} style={monoStyle}>
                       {plan.price}
                     </span>
                     <span className="text-white/30 text-sm mb-1">/ {plan.period}</span>
@@ -591,7 +591,7 @@ function PricingSection() {
                 <ul className="space-y-3 mb-8 flex-1">
                   {plan.features.map(f => (
                     <li key={f} className="flex items-start gap-3 text-sm text-white/70">
-                      <Check className={`w-4 h-4 shrink-0 mt-0.5 ${plan.highlight ? "text-[#9B5CF6]" : "text-white/40"}`} />
+                      <Check className={`w-4 h-4 shrink-0 mt-0.5 ${plan.highlight ? "text-[var(--brand,#9B5CF6)]" : "text-white/40"}`} />
                       {f}
                     </li>
                   ))}
@@ -601,8 +601,8 @@ function PricingSection() {
                   href="/templates/impact-27/contact"
                   className={`w-full text-center font-semibold py-3.5 rounded-full text-sm transition-all block cursor-pointer ${
                     plan.highlight
-                      ? "bg-[#9B5CF6] hover:bg-[#7C3AED] text-white"
-                      : "border border-white/15 hover:border-[#9B5CF6]/50 hover:bg-[#9B5CF6]/10 text-white"
+                      ? "bg-[var(--brand,#9B5CF6)] hover:bg-[#7C3AED] text-white"
+                      : "border border-white/15 hover:border-[var(--brand,#9B5CF6)]/50 hover:bg-[var(--brand,#9B5CF6)]/10 text-white"
                   }`}
                 >
                   {plan.cta}
@@ -643,7 +643,7 @@ function AnimatedCTA() {
 
       {/* Moving purple orbs */}
       <motion.div
-        className="absolute w-[600px] h-[600px] bg-[#9B5CF6]/20 rounded-full blur-3xl pointer-events-none"
+        className="absolute w-[600px] h-[600px] bg-[var(--brand,#9B5CF6)]/20 rounded-full blur-3xl pointer-events-none"
         style={{
           left: useTransform(springX, [0, 1], ["-20%", "60%"]),
           top: useTransform(springY, [0, 1], ["-40%", "40%"]),
@@ -658,23 +658,23 @@ function AnimatedCTA() {
       />
 
       {/* Corner triangles — decorative */}
-      <div className="absolute top-8 left-8 w-16 h-16 border-t-2 border-l-2 border-[#9B5CF6]/20 rounded-tl-xl" />
-      <div className="absolute bottom-8 right-8 w-16 h-16 border-b-2 border-r-2 border-[#9B5CF6]/20 rounded-br-xl" />
+      <div className="absolute top-8 left-8 w-16 h-16 border-t-2 border-l-2 border-[var(--brand,#9B5CF6)]/20 rounded-tl-xl" />
+      <div className="absolute bottom-8 right-8 w-16 h-16 border-b-2 border-r-2 border-[var(--brand,#9B5CF6)]/20 rounded-br-xl" />
 
       <div className="max-w-4xl mx-auto text-center relative">
         <Reveal>
           <div
-            className="inline-flex items-center gap-2 border border-[#9B5CF6]/40 text-[#9B5CF6] text-xs tracking-widest uppercase px-4 py-2 rounded-full mb-8"
+            className="inline-flex items-center gap-2 border border-[var(--brand,#9B5CF6)]/40 text-[var(--brand,#9B5CF6)] text-xs tracking-widest uppercase px-4 py-2 rounded-full mb-8"
             style={monoStyle}
           >
-            <span className="w-2 h-2 bg-[#9B5CF6] rounded-full animate-pulse" />
+            <span className="w-2 h-2 bg-[var(--brand,#9B5CF6)] rounded-full animate-pulse" />
             Currently taking new projects
           </div>
         </Reveal>
         <Reveal delay={0.05}>
           <h2 className="text-5xl md:text-7xl font-bold leading-tight mb-6">
             Ready to go<br />
-            <span className="text-[#9B5CF6]">spatial?</span>
+            <span className="text-[var(--brand,#9B5CF6)]">spatial?</span>
           </h2>
         </Reveal>
         <Reveal delay={0.1}>
@@ -686,13 +686,13 @@ function AnimatedCTA() {
           <div className="flex flex-wrap justify-center gap-4">
             <Link
               href="/templates/impact-27/contact"
-              className="bg-[#9B5CF6] hover:bg-[#7C3AED] text-white font-semibold px-10 py-4 rounded-full transition-colors flex items-center gap-2 text-base"
+              className="bg-[var(--brand,#9B5CF6)] hover:bg-[#7C3AED] text-white font-semibold px-10 py-4 rounded-full transition-colors flex items-center gap-2 text-base"
             >
               Start a project <ArrowRight className="w-5 h-5" />
             </Link>
             <Link
               href="/templates/impact-27/work"
-              className="border border-white/15 hover:border-[#9B5CF6]/50 text-white hover:bg-[#9B5CF6]/10 font-semibold px-10 py-4 rounded-full transition-all text-base"
+              className="border border-white/15 hover:border-[var(--brand,#9B5CF6)]/50 text-white hover:bg-[var(--brand,#9B5CF6)]/10 font-semibold px-10 py-4 rounded-full transition-all text-base"
             >
               See our work
             </Link>
@@ -816,7 +816,7 @@ return (
       {/* ── Hero ───────────────────────────────────────────────────────────── */}
       <section className="min-h-dvh flex items-center relative overflow-hidden pt-24">
         <div className="absolute inset-0">
-          <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-[#9B5CF6]/10 rounded-full blur-3xl" />
+          <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-[var(--brand,#9B5CF6)]/10 rounded-full blur-3xl" />
           <div className="absolute bottom-1/4 left-0 w-96 h-96 bg-[#6D28D9]/15 rounded-full blur-3xl" />
           {/* Grid overlay */}
           <div className="absolute inset-0 opacity-5" style={gridOverlay} />
@@ -826,10 +826,10 @@ return (
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
-            className="inline-flex items-center gap-2 border border-[#9B5CF6]/40 text-[#9B5CF6] text-xs tracking-widest uppercase px-4 py-2 rounded-full mb-8"
+            className="inline-flex items-center gap-2 border border-[var(--brand,#9B5CF6)]/40 text-[var(--brand,#9B5CF6)] text-xs tracking-widest uppercase px-4 py-2 rounded-full mb-8"
             style={monoStyle}
           >
-            <span className="w-2 h-2 bg-[#9B5CF6] rounded-full animate-pulse" />
+            <span className="w-2 h-2 bg-[var(--brand,#9B5CF6)] rounded-full animate-pulse" />
             3D · AR · Real-time
           </motion.div>
           <motion.h1
@@ -839,7 +839,7 @@ return (
             className="text-6xl md:text-[7rem] font-bold leading-[0.9] mb-8 max-w-5xl"
           >{c?.heroHeadline ?? <>
             We build<br />
-            <span className="text-[#9B5CF6]">the third</span><br />
+            <span className="text-[var(--brand,#9B5CF6)]">the third</span><br />
             dimension.
           </>}</motion.h1>
           <motion.p
@@ -856,11 +856,11 @@ return (
             transition={{ duration: 0.6, delay: 0.3 }}
             className="flex flex-wrap items-center gap-4"
           >
-            <Link href="/templates/impact-27/work" className="bg-[#9B5CF6] hover:bg-[#7C3AED] text-white font-semibold px-8 py-4 rounded-full transition-colors flex items-center gap-2 text-base">
+            <Link href="/templates/impact-27/work" className="bg-[var(--brand,#9B5CF6)] hover:bg-[#7C3AED] text-white font-semibold px-8 py-4 rounded-full transition-colors flex items-center gap-2 text-base">
               View our work <ArrowRight className="w-5 h-5" />
             </Link>
             <a href="/templates/impact-27/work" className="flex items-center gap-2 text-white/60 hover:text-white transition-colors text-base">
-              <div className="w-10 h-10 border border-white/20 rounded-full flex items-center justify-center hover:border-[#9B5CF6]/60 transition-colors">
+              <div className="w-10 h-10 border border-white/20 rounded-full flex items-center justify-center hover:border-[var(--brand,#9B5CF6)]/60 transition-colors">
                 <Play className="w-4 h-4 ml-0.5" />
               </div>
               Watch showreel
@@ -881,7 +881,7 @@ return (
               { val: "99.8%", label: "Client satisfaction" },
             ].map(({ val, label }) => (
               <div key={label}>
-                <div className="text-3xl font-bold text-[#9B5CF6]" style={monoStyle}>{val}</div>
+                <div className="text-3xl font-bold text-[var(--brand,#9B5CF6)]" style={monoStyle}>{val}</div>
                 <div className="text-sm text-white/40 mt-1">{label}</div>
               </div>
             ))}
@@ -911,7 +911,7 @@ return (
       <section className="py-16 px-6 bg-white/[0.02] border-t border-b border-white/5">
         <div className="max-w-6xl mx-auto">
           <Reveal className="text-center">
-            <p className="text-[#9B5CF6] text-xs tracking-widest uppercase mb-6" style={monoStyle}>Trusted by</p>
+            <p className="text-[var(--brand,#9B5CF6)] text-xs tracking-widest uppercase mb-6" style={monoStyle}>Trusted by</p>
             <div className="flex flex-wrap justify-center gap-8 text-white/30 font-semibold text-lg">
               {["Phantom Motors", "ArcSpace", "Luminary", "Valo Corp", "Studio Levi", "Forma", "Nexus Cloud", "Helio Medical"].map(c => (
                 <span key={c} className="hover:text-white/60 transition-colors cursor-default">{c}</span>

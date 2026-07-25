@@ -569,15 +569,15 @@ return (
                            </>}</p>
                         </div>
                         
-                        <div className="bg-black text-[#00ff88] p-12 border-8 border-black/10 rounded-2xl font-mono text-xs overflow-hidden shadow-2xl">
-                           <div className="flex gap-4 mb-12 border-b border-[#00ff88]/20 pb-4">
+                        <div className="bg-black text-[var(--brand,#00ff88)] p-12 border-8 border-black/10 rounded-2xl font-mono text-xs overflow-hidden shadow-2xl">
+                           <div className="flex gap-4 mb-12 border-b border-[var(--brand,#00ff88)]/20 pb-4">
                               <CircleDot className="w-4 h-4 animate-pulse" />
                               <span className="font-black uppercase tracking-widest">Astrum_Console_v2.4</span>
                            </div>
                            <div className="space-y-6">
                               {TELEMETRY_LOGS.map((log, i) => (
                                  <div key={i} className="flex justify-between group cursor-default">
-                                    <span className="text-[#00ff88]/30 group-hover:text-[#00ff88] transition-colors">{log.time}</span>
+                                    <span className="text-[var(--brand,#00ff88)]/30 group-hover:text-[var(--brand,#00ff88)] transition-colors">{log.time}</span>
                                     <span className="font-black italic uppercase tracking-tighter">{log.event}</span>
                                     <span className="text-white/40">{log.value}</span>
                                     <span className="font-black">[{log.code}]</span>
@@ -585,7 +585,7 @@ return (
                               ))}
                               <motion.div 
                                  animate={{ opacity: [0, 1, 0] }} transition={{ duration: 1, repeat: Infinity }}
-                                 className="pt-8 border-t border-[#00ff88]/20 flex gap-4"
+                                 className="pt-8 border-t border-[var(--brand,#00ff88)]/20 flex gap-4"
                               >
                                  <span>_</span>
                                  <span className="uppercase italic tracking-widest">Awaiting flight signal input...</span>
@@ -715,7 +715,7 @@ function ManifestPage({ goTo }: { goTo: (p: ActivePage) => void }) {
                   <div className="flex justify-between border-r border-white/10 pr-6"><span className="text-white/20">TARGET</span><span className="font-bold text-white">{mission.target.split(" // ")[0]}</span></div>
                   <div className="flex justify-between pl-6"><span className="text-white/20">PAYLOAD</span><span className="font-bold text-white">{mission.payload}</span></div>
                   <div className="flex justify-between border-r border-white/10 pr-6"><span className="text-white/20">DURATION</span><span className="font-bold text-white">{mission.duration}</span></div>
-                  <div className="flex justify-between pl-6"><span className="text-white/20">STATUS</span><span className="text-[#00ff88] font-bold">READY</span></div>
+                  <div className="flex justify-between pl-6"><span className="text-white/20">STATUS</span><span className="text-[var(--brand,#00ff88)] font-bold">READY</span></div>
                 </div>
 
                 <button onClick={() => goTo("briefing")} className="w-full py-6 bg-indigo-600 text-white text-[10px] font-black uppercase tracking-widest hover:bg-white hover:text-black transition-colors italic">
@@ -776,7 +776,7 @@ function EngineeringPage() {
               En superposant des matrices de nanotubes de carbone et des polymères auto-cicatrisants, la coque externe d'Astrum résiste aux impacts de micrométéorites de taille inférieure à 5mm à des vitesses relatives de 28 km/s.
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 text-xs">
-              <div><span className="text-white/20 block">SHIELD_STATUS</span><span className="text-[#00ff88] font-bold">100% OK</span></div>
+              <div><span className="text-white/20 block">SHIELD_STATUS</span><span className="text-[var(--brand,#00ff88)] font-bold">100% OK</span></div>
               <div><span className="text-white/20 block">AIR_REST</span><span className="text-white font-bold">1.2G NOM</span></div>
               <div><span className="text-white/20 block">TEMP_SHIELD</span><span className="text-white font-bold">STABLE</span></div>
             </div>
