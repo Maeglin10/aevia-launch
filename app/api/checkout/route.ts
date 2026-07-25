@@ -199,6 +199,7 @@ export async function POST(req: NextRequest) {
         branding: withBranding ? "1" : "0",
         currency: ccy,
         briefId,
+        domain: typeof brief?.domain === "string" ? (brief.domain as string).slice(0, 100) : "",
       },
       // Force Stripe to collect customer email (even though Checkout collects by default in payment mode)
       customer_email: undefined, // let Stripe collect it

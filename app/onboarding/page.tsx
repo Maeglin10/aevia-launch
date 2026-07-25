@@ -71,6 +71,7 @@ interface BriefData {
   instagram: string;
   linkedin: string;
   website: string;
+  domain: string;
   notes: string;
 }
 
@@ -80,7 +81,7 @@ const INITIAL: BriefData = {
   logoUrl: "", photoUrls: [], inspirations: "",
   services: [{ name: "", description: "" }, { name: "", description: "" }, { name: "", description: "" }],
   about: "", phone: "", email: "", address: "",
-  instagram: "", linkedin: "", website: "", notes: "",
+  instagram: "", linkedin: "", website: "", domain: "", notes: "",
 };
 
 const STEPS = ["Votre entreprise", "Vos visuels", "Votre contenu"];
@@ -412,6 +413,13 @@ function Step3({ data, onChange }: { data: BriefData; onChange: (d: Partial<Brie
           </div>
         </Field>
       </div>
+
+      <Field label="Nom de domaine souhaité (optionnel — on l'achète et le configure pour vous)">
+        <div className="flex items-center gap-2 bg-white/5 border border-white/10 rounded-xl px-4 py-3">
+          <Globe size={14} className="text-white/30 shrink-0" />
+          <input value={data.domain} onChange={(e) => onChange({ domain: e.target.value })} placeholder="mon-entreprise.fr" className="bg-transparent text-sm text-white placeholder:text-white/20 focus:outline-none flex-1" />
+        </div>
+      </Field>
 
       <Field label="Demandes spéciales / informations complémentaires">
         <Textarea value={data.notes} onChange={(v) => onChange({ notes: v })} placeholder="Tout ce qui pourrait nous aider à créer le site parfait pour vous..." rows={3} />
