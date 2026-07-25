@@ -91,7 +91,7 @@ export default function CypherClinicPage() {
   const bookingUrl = bp?.bookingSystem?.url;
 
 return (
-    <div className="bg-[#0C0C0A] text-[#F0EBE0]">
+    <div className="bg-[#0C0C0A] text-[#F0EBE0]" style={{ ["--brand" as any]: brand ?? "#C9A86C", ["--brand-light" as any]: brand ?? "#E0BC70" }}>
       {/* Hero */}
       <section ref={heroRef} className="relative min-h-[90vh] overflow-hidden flex items-center">
         <motion.div className="absolute inset-0" style={{ y: heroImgY }}>
@@ -101,8 +101,8 @@ return (
         <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 pt-32 pb-24 w-full flex flex-col justify-center">
           <Reveal>
             <div className="flex items-center gap-2 mb-8">
-              <Sparkles className="w-4 h-4 text-[#C9A86C]" />
-              <span className="text-xs tracking-[0.3em] uppercase text-[#C9A86C]">Clinique d&apos;excellence médicale</span>
+              <Sparkles className="w-4 h-4 text-[var(--brand)]" />
+              <span className="text-xs tracking-[0.3em] uppercase text-[var(--brand)]">Clinique d&apos;excellence médicale</span>
             </div>
           </Reveal>
           <Reveal delay={0.1}>
@@ -115,10 +115,10 @@ return (
               Une harmonie mesurée entre rigueur scientifique et vision artistique du visage. Nos protocoles de pointe respectent votre morphologie naturelle pour des résultats invisibles et durables.
             </>}</p>
             <div className="flex flex-col sm:flex-row gap-5">
-              <Link href={`${basePath}/protocoles`} className="inline-flex items-center gap-3 px-8 py-4 bg-[#C9A86C] text-[#0C0C0A] font-medium text-sm tracking-wide uppercase hover:bg-[#E0BC70] transition-colors cursor-pointer">
+              <Link href={`${basePath}/protocoles`} className="inline-flex items-center gap-3 px-8 py-4 bg-[var(--brand)] text-[#0C0C0A] font-medium text-sm tracking-wide uppercase hover:bg-[var(--brand-light)] transition-colors cursor-pointer">
                 Découvrir nos protocoles <ArrowRight className="w-4 h-4" />
               </Link>
-              <Link href={`${basePath}/rdv`} className="inline-flex items-center gap-3 px-8 py-4 border border-[#C9A86C] text-[#C9A86C] font-light text-sm tracking-wide uppercase hover:bg-[#C9A86C] hover:text-[#0C0C0A] transition-all cursor-pointer">
+              <Link href={`${basePath}/rdv`} className="inline-flex items-center gap-3 px-8 py-4 border border-[var(--brand)] text-[var(--brand)] font-light text-sm tracking-wide uppercase hover:bg-[var(--brand)] hover:text-[#0C0C0A] transition-all cursor-pointer">
                 Demander un rendez-vous
               </Link>
             </div>
@@ -130,7 +130,7 @@ return (
       <section className="py-24 bg-[#0F0E0C] border-t border-[#2A2820]">
         <div className="max-w-7xl mx-auto px-6 md:px-12">
           <Reveal>
-            <p className="text-[10px] uppercase tracking-[0.4em] text-[#C9A86C] mb-6">Nos Expertises</p>
+            <p className="text-[10px] uppercase tracking-[0.4em] text-[var(--brand)] mb-6">Nos Expertises</p>
             <h2 className="text-4xl md:text-5xl font-light mb-20 max-w-xl leading-snug" style={{ fontFamily: "'Bodoni Moda', serif" }}>
               Des protocoles conçus<br />pour <em>votre morphologie</em>.
             </h2>
@@ -138,11 +138,11 @@ return (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {protocoles.map((p: any, i: number) => (
               <Reveal key={p.num ?? p.name ?? i} delay={i * 0.08}>
-                <div className="p-8 border border-[#2A2820] hover:border-[#C9A86C]/30 transition-all duration-500 group">
-                  <div className="text-[#C9A86C]/20 text-5xl font-light mb-6" style={{ fontFamily: "'Bodoni Moda', serif" }}>{p.num ?? String(i + 1).padStart(2, "0")}</div>
+                <div className="p-8 border border-[#2A2820] hover:border-[var(--brand)]/30 transition-all duration-500 group">
+                  <div className="text-[var(--brand)]/20 text-5xl font-light mb-6" style={{ fontFamily: "'Bodoni Moda', serif" }}>{p.num ?? String(i + 1).padStart(2, "0")}</div>
                   <h3 className="font-medium text-[#F0EBE0] text-lg mb-4" style={{ fontFamily: "'Bodoni Moda', serif" }}>{p.title ?? p.name}</h3>
                   <p className="text-[#6A6258] text-sm leading-relaxed mb-6">{p.desc ?? p.description}</p>
-                  <div className="flex gap-6 text-[9px] text-[#C9A86C]/60 uppercase tracking-widest border-t border-[#2A2820] pt-4">
+                  <div className="flex gap-6 text-[9px] text-[var(--brand)]/60 uppercase tracking-widest border-t border-[#2A2820] pt-4">
                     {p.duration && <span>Durée : {p.duration}</span>}
                     {p.duration && p.recovery && <span>|</span>}
                     {p.recovery && <span>Récupération : {p.recovery}</span>}
@@ -167,7 +167,7 @@ return (
             </Reveal>
             <Reveal delay={0.15}>
               <div>
-                <p className="text-[10px] uppercase tracking-[0.4em] text-[#C9A86C] mb-8">Notre philosophie</p>
+                <p className="text-[10px] uppercase tracking-[0.4em] text-[var(--brand)] mb-8">Notre philosophie</p>
                 <h2 className="text-4xl md:text-5xl font-light mb-8 leading-snug" style={{ fontFamily: "'Bodoni Moda', serif" }}>{c?.aboutTitle ?? fd?.businessName ?? <>
                   La beauté<br />comme <em>science.</em>
                 </>}</h2>
@@ -180,7 +180,7 @@ return (
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 border-t border-[#2A2820] pt-10">
                   {[{ v: "+2400", l: "Patients traités" }, { v: "14", l: "Points d'analyse" }, { v: "9 ans", l: "D'expertise" }].map((s, i) => (
                     <div key={i}>
-                      <div className="text-2xl font-light text-[#C9A86C] mb-1" style={{ fontFamily: "'Bodoni Moda', serif" }}>{s.v}</div>
+                      <div className="text-2xl font-light text-[var(--brand)] mb-1" style={{ fontFamily: "'Bodoni Moda', serif" }}>{s.v}</div>
                       <div className="text-[9px] uppercase tracking-widest text-[#6A6258]">{s.l}</div>
                     </div>
                   ))}
@@ -195,7 +195,7 @@ return (
       <section className="py-24 bg-[#0F0E0C] border-t border-[#2A2820]">
         <div className="max-w-7xl mx-auto px-6 md:px-12">
           <Reveal>
-            <p className="text-[10px] uppercase tracking-[0.4em] text-[#C9A86C] mb-6">Patients</p>
+            <p className="text-[10px] uppercase tracking-[0.4em] text-[var(--brand)] mb-6">Patients</p>
             <h2 className="text-3xl font-light mb-16" style={{ fontFamily: "'Bodoni Moda', serif" }}>Ce qu'ils ont vécu.</h2>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -205,7 +205,7 @@ return (
                   <p className="text-[#8A8278] text-sm leading-relaxed mb-8 italic">&ldquo;{t.text}&rdquo;</p>
                   <div className="border-t border-[#2A2820] pt-6">
                     <p className="text-[#F0EBE0] font-medium text-sm">{t.name ?? t.author}</p>
-                    <p className="text-[9px] uppercase tracking-widest text-[#C9A86C] mt-1">{t.protocol ?? t.source ?? ""}</p>
+                    <p className="text-[9px] uppercase tracking-widest text-[var(--brand)] mt-1">{t.protocol ?? t.source ?? ""}</p>
                   </div>
                 </div>
               </Reveal>
@@ -218,7 +218,7 @@ return (
       <section className="py-24 bg-[#0C0C0A] border-t border-[#2A2820]">
         <div className="max-w-7xl mx-auto px-6 md:px-12">
           <Reveal>
-            <p className="text-[10px] uppercase tracking-[0.4em] text-[#C9A86C] mb-6">Notre équipe</p>
+            <p className="text-[10px] uppercase tracking-[0.4em] text-[var(--brand)] mb-6">Notre équipe</p>
             <h2 className="text-3xl font-light mb-16" style={{ fontFamily: "'Bodoni Moda', serif" }}>Les médecins.</h2>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -226,11 +226,11 @@ return (
               <Reveal key={m.name ?? i} delay={i * 0.1}>
                 <div className="p-8 border border-[#2A2820] flex flex-col gap-4">
                   <div className="w-14 h-14 bg-[#2A2820] flex items-center justify-center">
-                    <span className="text-[#C9A86C] font-light text-xl" style={{ fontFamily: "'Bodoni Moda', serif" }}>{String(m.name ?? "").split(" ").filter((n: string) => !n.startsWith("Dr")).map((n: string) => n[0]).join("")}</span>
+                    <span className="text-[var(--brand)] font-light text-xl" style={{ fontFamily: "'Bodoni Moda', serif" }}>{String(m.name ?? "").split(" ").filter((n: string) => !n.startsWith("Dr")).map((n: string) => n[0]).join("")}</span>
                   </div>
                   <div>
                     {(m.badge ?? m.credentials ?? m.exp) && (
-                      <p className="text-[9px] uppercase tracking-[0.3em] text-[#C9A86C] mb-1">{[m.badge ?? m.credentials, m.exp].filter(Boolean).join(" · ")}</p>
+                      <p className="text-[9px] uppercase tracking-[0.3em] text-[var(--brand)] mb-1">{[m.badge ?? m.credentials, m.exp].filter(Boolean).join(" · ")}</p>
                     )}
                     <h3 className="text-[#F0EBE0] font-medium" style={{ fontFamily: "'Bodoni Moda', serif" }}>{m.name}</h3>
                     <p className="text-[10px] uppercase tracking-widest text-[#6A6258] mt-0.5">{m.spec ?? m.specialty ?? m.role}</p>
@@ -244,7 +244,7 @@ return (
       </section>
 
       {/* ── RDV CTA */}
-      <section className="py-24 bg-[#C9A86C]">
+      <section className="py-24 bg-[var(--brand)]">
         <div className="max-w-3xl mx-auto px-6 text-center">
           <Reveal>
             <p className="text-[9px] uppercase tracking-[0.5em] text-[#0C0C0A]/60 mb-6">Premier rendez-vous</p>
@@ -257,7 +257,7 @@ return (
             <Link
               href={bookingUrl || `${basePath}/rdv`}
               {...(bookingUrl && { target: "_blank", rel: "noopener noreferrer" })}
-              className="inline-flex items-center gap-4 px-10 py-5 bg-[#0C0C0A] text-[#C9A86C] text-[10px] uppercase tracking-widest hover:gap-8 transition-all cursor-pointer"
+              className="inline-flex items-center gap-4 px-10 py-5 bg-[#0C0C0A] text-[var(--brand)] text-[10px] uppercase tracking-widest hover:gap-8 transition-all cursor-pointer"
             >
               Prendre rendez-vous <ArrowRight className="w-4 h-4" />
             </Link>
