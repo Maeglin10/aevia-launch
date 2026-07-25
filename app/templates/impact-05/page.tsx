@@ -338,7 +338,7 @@ export default function NovaPlatformSaaS() {
     }
   }, [c]);
 return (
-    <div style={{ overflowX: "hidden", scrollBehavior: "smooth" }} className="bg-[#09090b] text-white min-h-dvh selection:bg-violet-500 font-sans">
+    <div style={{ overflowX: "hidden", scrollBehavior: "smooth" }} className="bg-[#09090b] text-white min-h-dvh selection:bg-[var(--brand,#8b5cf6)] font-sans">
 
       {/* ── NAVBAR ── */}
       <nav className="fixed top-0 left-0 w-full z-50 bg-[#09090b]/80 backdrop-blur-xl border-b border-white/5">
@@ -348,7 +348,7 @@ return (
               <img src={fd.logoBase64} alt={fd?.businessName ?? 'logo'} style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }} />
             ) : (
               <>
-                <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-violet-500 to-fuchsia-500 flex items-center justify-center">
+                <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[var(--brand,#8b5cf6)] to-fuchsia-500 flex items-center justify-center">
                   <Zap className="w-4 h-4 text-white" />
                 </div>
                 <span className="text-lg font-bold tracking-tight">{fd?.businessName ?? "NovaPlatform SaaS"}</span>
@@ -365,7 +365,7 @@ return (
 
           <div className="hidden lg:flex items-center gap-4">
             <button onClick={() => document.getElementById("contact")?.scrollIntoView({behavior:"smooth"})} className="text-sm text-zinc-400 hover:text-white transition-all duration-200 cursor-pointer">Log in</button>
-            <button onClick={() => document.getElementById("pricing")?.scrollIntoView({behavior:"smooth"})} className="px-5 py-2.5 bg-violet-600 hover:bg-violet-500 rounded-full text-sm font-semibold transition-all duration-200 cursor-pointer">
+            <button onClick={() => document.getElementById("pricing")?.scrollIntoView({behavior:"smooth"})} className="px-5 py-2.5 bg-[var(--brand,#7c3aed)] hover:bg-[var(--brand,#8b5cf6)] rounded-full text-sm font-semibold transition-all duration-200 cursor-pointer">
               Get Started Free
             </button>
           </div>
@@ -378,7 +378,7 @@ return (
                   <img src={fd.logoBase64} alt={fd?.businessName ?? 'logo'} style={{ height: 28, maxWidth: 160, objectFit: 'contain', display: 'block' }} />
                 ) : (
                   <>
-                    <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-violet-500 to-fuchsia-500 flex items-center justify-center">
+                    <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-[var(--brand,#8b5cf6)] to-fuchsia-500 flex items-center justify-center">
                       <Zap className="w-3.5 h-3.5" />
                     </div>
                     <span className="font-bold">{fd?.businessName ?? "NovaPlatform SaaS"}</span>
@@ -388,10 +388,10 @@ return (
               <div className="flex flex-col gap-6">
                 {(["Features", "Pricing", "FAQ", "Contact"] as const).map((item, i) => {
                   const ids = ["features", "pricing", "faq", "contact"];
-                  return <a key={item} href={`#${ids[i]}`} className="text-xl font-semibold hover:text-violet-400 transition-all duration-200 cursor-pointer">{item}</a>;
+                  return <a key={item} href={`#${ids[i]}`} className="text-xl font-semibold hover:text-[var(--brand,#a78bfa)] transition-all duration-200 cursor-pointer">{item}</a>;
                 })}
                 <Separator className="bg-white/10 my-2" />
-                <button onClick={() => document.getElementById("pricing")?.scrollIntoView({behavior:"smooth"})} className="px-8 py-3 bg-violet-600 rounded-full font-semibold text-center cursor-pointer">Get Started Free</button>
+                <button onClick={() => document.getElementById("pricing")?.scrollIntoView({behavior:"smooth"})} className="px-8 py-3 bg-[var(--brand,#7c3aed)] rounded-full font-semibold text-center cursor-pointer">Get Started Free</button>
               </div>
             </SheetContent>
           </Sheet>
@@ -403,7 +403,7 @@ return (
         {/* Gradient mesh background */}
         <div className="absolute inset-0 z-0">
           <motion.div animate={{ x: [0, 40, 0], y: [0, -25, 0] }} transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-            className="absolute top-[-15%] left-[15%] w-[700px] h-[700px] bg-violet-600/18 rounded-full blur-[160px]" />
+            className="absolute top-[-15%] left-[15%] w-[700px] h-[700px] bg-[var(--brand,#7c3aed)]/18 rounded-full blur-[160px]" />
           <motion.div animate={{ x: [0, -35, 0], y: [0, 45, 0] }} transition={{ duration: 26, repeat: Infinity, ease: "linear" }}
             className="absolute bottom-[-10%] right-[8%] w-[600px] h-[600px] bg-fuchsia-600/12 rounded-full blur-[160px]" />
           <motion.div animate={{ x: [0, 25, 0], y: [0, -35, 0] }} transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
@@ -413,9 +413,9 @@ return (
 
         <motion.div style={{ y: heroY, opacity: heroOpacity, x: smx, rotateY: smx }} className="relative z-10 text-center px-6 max-w-5xl mx-auto">
           <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-violet-500/30 bg-violet-500/10 mb-8 cursor-default"
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[var(--brand,#8b5cf6)]/30 bg-[var(--brand,#8b5cf6)]/10 mb-8 cursor-default"
           >
-            <Sparkles className="w-3.5 h-3.5 text-violet-400" />
+            <Sparkles className="w-3.5 h-3.5 text-[var(--brand,#a78bfa)]" />
             <span className="text-[11px] font-semibold text-violet-300 uppercase tracking-wider">Now with AI-powered observability</span>
             <Badge className="bg-emerald-500/20 text-emerald-400 border-emerald-500/30 text-[9px] ml-1">New</Badge>
           </motion.div>
@@ -427,7 +427,7 @@ return (
           </div>
           <div className="overflow-hidden mb-10">
             <motion.h1 initial={{ y: "100%" }} animate={{ y: 0 }} transition={{ duration: 1, ease: [0.22, 1, 0.36, 1], delay: 0.65 }} className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tight leading-[0.88]">
-              <span className="bg-gradient-to-r from-violet-400 via-fuchsia-400 to-pink-400 bg-clip-text text-transparent">Scale smarter.</span>
+              <span className="bg-gradient-to-r from-[var(--brand,#a78bfa)] via-fuchsia-400 to-pink-400 bg-clip-text text-transparent">Scale smarter.</span>
             </motion.h1>
           </div>
 
@@ -436,11 +436,11 @@ return (
           </>}</motion.p>
 
           <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.3 }} className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-14">
-            <button onClick={() => document.getElementById("pricing")?.scrollIntoView({behavior:"smooth"})} className="group px-8 py-4 bg-violet-600 hover:bg-violet-500 rounded-full text-sm font-bold transition-all duration-200 flex items-center gap-2 cursor-pointer">
+            <button onClick={() => document.getElementById("pricing")?.scrollIntoView({behavior:"smooth"})} className="group px-8 py-4 bg-[var(--brand,#7c3aed)] hover:bg-[var(--brand,#8b5cf6)] rounded-full text-sm font-bold transition-all duration-200 flex items-center gap-2 cursor-pointer">
               Start building for free <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200" />
             </button>
-            <button onClick={() => setDemoOpen(true)} className="px-8 py-4 border border-white/10 rounded-full text-sm font-semibold hover:border-violet-500/50 transition-all duration-200 flex items-center gap-2 cursor-pointer">
-              <Play className="w-4 h-4 text-violet-400" /> Watch demo (3 min)
+            <button onClick={() => setDemoOpen(true)} className="px-8 py-4 border border-white/10 rounded-full text-sm font-semibold hover:border-[var(--brand,#8b5cf6)]/50 transition-all duration-200 flex items-center gap-2 cursor-pointer">
+              <Play className="w-4 h-4 text-[var(--brand,#a78bfa)]" /> Watch demo (3 min)
             </button>
           </motion.div>
 
@@ -454,7 +454,7 @@ return (
                 photo(4, "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=60&q=80")].map((src, i) => (
                 <Avatar key={i} className="w-8 h-8 border-2 border-[#09090b]">
                   <AvatarImage src={src} />
-                  <AvatarFallback className="bg-violet-600 text-[10px]">U</AvatarFallback>
+                  <AvatarFallback className="bg-[var(--brand,#7c3aed)] text-[10px]">U</AvatarFallback>
                 </Avatar>
               ))}
             </div>
@@ -485,7 +485,7 @@ return (
           <Card className="bg-white/5 backdrop-blur-xl border-white/10 shadow-2xl w-52">
             <CardContent className="p-5">
               <div className="flex items-center gap-2 mb-3">
-                <Clock className="w-4 h-4 text-violet-400" />
+                <Clock className="w-4 h-4 text-[var(--brand,#a78bfa)]" />
                 <span className="text-xs font-semibold">Deploy time</span>
               </div>
               <div className="text-2xl font-bold mb-1">0.8s</div>
@@ -532,7 +532,7 @@ return (
           {STATS.map((stat, i) => (
             <Reveal key={i} delay={i * 0.07}>
               <div className="text-center group cursor-default">
-                <div className="text-3xl md:text-4xl font-black bg-gradient-to-r from-violet-400 to-fuchsia-400 bg-clip-text text-transparent mb-1">{stat.value}</div>
+                <div className="text-3xl md:text-4xl font-black bg-gradient-to-r from-[var(--brand,#a78bfa)] to-fuchsia-400 bg-clip-text text-transparent mb-1">{stat.value}</div>
                 <div className="text-xs font-bold text-white/70 mb-1">{stat.label}</div>
                 <div className="text-[10px] text-zinc-600 uppercase tracking-wider">{stat.sub}</div>
               </div>
@@ -546,7 +546,7 @@ return (
         <div className="max-w-6xl mx-auto">
           <Reveal>
             <div className="text-center mb-16">
-              <span className="text-violet-400 text-[11px] uppercase tracking-[0.3em] font-bold mb-4 block">Features</span>
+              <span className="text-[var(--brand,#a78bfa)] text-[11px] uppercase tracking-[0.3em] font-bold mb-4 block">Features</span>
               <h2 className="text-4xl md:text-6xl font-black tracking-tight mb-5">
                 Everything you need.<br />
                 <span className="text-zinc-500">Nothing you don&apos;t.</span>
@@ -558,7 +558,7 @@ return (
           <Tabs defaultValue="performance" className="w-full">
             <TabsList className="flex flex-wrap justify-center gap-2 h-auto bg-transparent mb-12">
               {FEATURE_TABS.map(tab => (
-                <TabsTrigger key={tab.id} value={tab.id} className="flex items-center gap-2 px-6 py-3 rounded-full data-[state=active]:bg-violet-600 data-[state=active]:text-white text-zinc-400 border border-white/10 hover:border-violet-500/40 hover:text-white transition-all duration-200 cursor-pointer text-sm font-semibold">
+                <TabsTrigger key={tab.id} value={tab.id} className="flex items-center gap-2 px-6 py-3 rounded-full data-[state=active]:bg-[var(--brand,#7c3aed)] data-[state=active]:text-white text-zinc-400 border border-white/10 hover:border-[var(--brand,#8b5cf6)]/40 hover:text-white transition-all duration-200 cursor-pointer text-sm font-semibold">
                   {tab.icon}{tab.label}
                 </TabsTrigger>
               ))}
@@ -570,8 +570,8 @@ return (
                   className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center"
                 >
                   <div>
-                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-violet-600/10 border border-violet-500/20 mb-6">
-                      <span className="text-violet-400">{tab.icon}</span>
+                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--brand,#7c3aed)]/10 border border-[var(--brand,#8b5cf6)]/20 mb-6">
+                      <span className="text-[var(--brand,#a78bfa)]">{tab.icon}</span>
                       <span className="text-xs font-semibold text-violet-300 uppercase tracking-wider">{tab.label}</span>
                     </div>
                     <h3 className="text-2xl md:text-3xl font-bold mb-5 leading-tight">{tab.headline}</h3>
@@ -579,20 +579,20 @@ return (
                     <ul className="space-y-3 mb-8">
                       {tab.bullets.map((b, i) => (
                         <li key={i} className="flex items-start gap-3 text-sm text-zinc-300">
-                          <Check className="w-4 h-4 text-violet-400 shrink-0 mt-0.5" />{b}
+                          <Check className="w-4 h-4 text-[var(--brand,#a78bfa)] shrink-0 mt-0.5" />{b}
                         </li>
                       ))}
                     </ul>
                     <div className="inline-flex items-center gap-4 bg-white/5 border border-white/10 rounded-2xl px-6 py-4">
                       <div>
-                        <div className="text-2xl font-black text-violet-400">{tab.metric.value}</div>
+                        <div className="text-2xl font-black text-[var(--brand,#a78bfa)]">{tab.metric.value}</div>
                         <div className="text-xs text-zinc-500">{tab.metric.label}</div>
                       </div>
                     </div>
                   </div>
                   <div className="relative rounded-2xl overflow-hidden aspect-video border border-white/5">
                     <Image src={tab.img} alt={tab.label} fill className="object-cover" />
-                    <div className="absolute inset-0 bg-gradient-to-tr from-violet-900/40 via-transparent to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-tr from-[var(--brand,#4c1d95)]/40 via-transparent to-transparent" />
                   </div>
                 </motion.div>
               </TabsContent>
@@ -606,9 +606,9 @@ return (
         <div className="max-w-5xl mx-auto">
           <Reveal>
             <div className="text-center mb-20">
-              <span className="text-violet-400 text-[11px] uppercase tracking-[0.3em] font-bold mb-4 block">How It Works</span>
+              <span className="text-[var(--brand,#a78bfa)] text-[11px] uppercase tracking-[0.3em] font-bold mb-4 block">How It Works</span>
               <h2 className="text-4xl md:text-6xl font-black tracking-tight">
-                Three steps to <span className="bg-gradient-to-r from-violet-400 to-fuchsia-400 bg-clip-text text-transparent">liftoff</span>
+                Three steps to <span className="bg-gradient-to-r from-[var(--brand,#a78bfa)] to-fuchsia-400 bg-clip-text text-transparent">liftoff</span>
               </h2>
             </div>
           </Reveal>
@@ -621,10 +621,10 @@ return (
               <Reveal key={i} delay={i * 0.15}>
                 <Card className="bg-white/[0.02] border-white/5 hover:bg-white/[0.04] transition-all duration-200 h-full cursor-default">
                   <CardContent className="p-8">
-                    <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-violet-500 to-fuchsia-500 flex items-center justify-center text-white shadow-lg shadow-violet-500/20 mb-6">
+                    <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[var(--brand,#8b5cf6)] to-fuchsia-500 flex items-center justify-center text-white shadow-lg shadow-violet-500/20 mb-6">
                       {step.icon}
                     </div>
-                    <div className="text-violet-400/50 text-5xl font-black mb-3 leading-none">{step.step}</div>
+                    <div className="text-[var(--brand,#a78bfa)]/50 text-5xl font-black mb-3 leading-none">{step.step}</div>
                     <h3 className="text-xl font-bold mb-3">{step.title}</h3>
                     <p className="text-zinc-400 text-sm leading-relaxed">{step.desc}</p>
                   </CardContent>
@@ -640,9 +640,9 @@ return (
         <div className="max-w-6xl mx-auto">
           <Reveal>
             <div className="text-center mb-16">
-              <span className="text-violet-400 text-[11px] uppercase tracking-[0.3em] font-bold mb-4 block">Testimonials</span>
+              <span className="text-[var(--brand,#a78bfa)] text-[11px] uppercase tracking-[0.3em] font-bold mb-4 block">Testimonials</span>
               <h2 className="text-4xl md:text-6xl font-black tracking-tight">
-                Loved by <span className="bg-gradient-to-r from-violet-400 to-fuchsia-400 bg-clip-text text-transparent">builders</span>
+                Loved by <span className="bg-gradient-to-r from-[var(--brand,#a78bfa)] to-fuchsia-400 bg-clip-text text-transparent">builders</span>
               </h2>
             </div>
           </Reveal>
@@ -662,7 +662,7 @@ return (
                         <div className="flex items-center gap-3">
                           <Avatar className="w-10 h-10">
                             <AvatarImage src={t.avatar} alt={t.name} />
-                            <AvatarFallback className="bg-violet-600 text-xs">{t.name[0]}</AvatarFallback>
+                            <AvatarFallback className="bg-[var(--brand,#7c3aed)] text-xs">{t.name[0]}</AvatarFallback>
                           </Avatar>
                           <div>
                             <div className="text-sm font-semibold">{t.name}</div>
@@ -678,8 +678,8 @@ return (
                 </CarouselItem>
               ))}
             </CarouselContent>
-            <CarouselPrevious className="border-white/10 bg-transparent text-white hover:bg-violet-600 hover:border-violet-600 transition-all duration-200 cursor-pointer -left-4" />
-            <CarouselNext className="border-white/10 bg-transparent text-white hover:bg-violet-600 hover:border-violet-600 transition-all duration-200 cursor-pointer -right-4" />
+            <CarouselPrevious className="border-white/10 bg-transparent text-white hover:bg-[var(--brand,#7c3aed)] hover:border-[var(--brand,#7c3aed)] transition-all duration-200 cursor-pointer -left-4" />
+            <CarouselNext className="border-white/10 bg-transparent text-white hover:bg-[var(--brand,#7c3aed)] hover:border-[var(--brand,#7c3aed)] transition-all duration-200 cursor-pointer -right-4" />
           </Carousel>
         </div>
       </section>
@@ -689,15 +689,15 @@ return (
         <div className="max-w-6xl mx-auto">
           <Reveal>
             <div className="text-center mb-16">
-              <span className="text-violet-400 text-[11px] uppercase tracking-[0.3em] font-bold mb-4 block">Pricing</span>
+              <span className="text-[var(--brand,#a78bfa)] text-[11px] uppercase tracking-[0.3em] font-bold mb-4 block">Pricing</span>
               <h2 className="text-4xl md:text-6xl font-black tracking-tight mb-6">
                 Start free, <span className="text-zinc-500">scale infinitely.</span>
               </h2>
               <div className="inline-flex items-center gap-3 mt-4 bg-white/5 rounded-full p-1 border border-white/10 cursor-pointer">
-                <button onClick={() => setBillingAnnual(false)} className={`px-5 py-2 rounded-full text-sm font-semibold transition-all duration-200 cursor-pointer ${!billingAnnual ? "bg-violet-600 text-white" : "text-zinc-400 hover:text-white"}`}>
+                <button onClick={() => setBillingAnnual(false)} className={`px-5 py-2 rounded-full text-sm font-semibold transition-all duration-200 cursor-pointer ${!billingAnnual ? "bg-[var(--brand,#7c3aed)] text-white" : "text-zinc-400 hover:text-white"}`}>
                   Monthly
                 </button>
-                <button onClick={() => setBillingAnnual(true)} className={`px-5 py-2 rounded-full text-sm font-semibold transition-all duration-200 cursor-pointer ${billingAnnual ? "bg-violet-600 text-white" : "text-zinc-400 hover:text-white"}`}>
+                <button onClick={() => setBillingAnnual(true)} className={`px-5 py-2 rounded-full text-sm font-semibold transition-all duration-200 cursor-pointer ${billingAnnual ? "bg-[var(--brand,#7c3aed)] text-white" : "text-zinc-400 hover:text-white"}`}>
                   Annual <span className="text-[10px] text-emerald-400 font-bold ml-1">−20%</span>
                 </button>
               </div>
@@ -707,9 +707,9 @@ return (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {PRICING.map((plan, i) => (
               <Reveal key={i} delay={i * 0.1}>
-                <div className={`relative rounded-2xl p-8 border h-full flex flex-col transition-all duration-200 hover:-translate-y-1 ${plan.popular ? "border-violet-500/50 bg-gradient-to-b from-violet-500/10 to-transparent shadow-lg shadow-violet-500/10" : "border-white/5 bg-white/[0.02]"}`}>
+                <div className={`relative rounded-2xl p-8 border h-full flex flex-col transition-all duration-200 hover:-translate-y-1 ${plan.popular ? "border-[var(--brand,#8b5cf6)]/50 bg-gradient-to-b from-[var(--brand,#8b5cf6)]/10 to-transparent shadow-lg shadow-violet-500/10" : "border-white/5 bg-white/[0.02]"}`}>
                   {plan.badge && (
-                    <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 bg-violet-600 rounded-full text-[10px] uppercase tracking-wider font-bold font-sans">
+                    <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 bg-[var(--brand,#7c3aed)] rounded-full text-[10px] uppercase tracking-wider font-bold font-sans">
                       {plan.badge}
                     </div>
                   )}
@@ -730,11 +730,11 @@ return (
                   <ul className="space-y-3 mb-10 flex-1">
                     {plan.features.map((feature, j) => (
                       <li key={j} className="flex items-start gap-3 text-sm text-zinc-300">
-                        <Check className="w-4 h-4 text-violet-400 shrink-0 mt-0.5" />{feature}
+                        <Check className="w-4 h-4 text-[var(--brand,#a78bfa)] shrink-0 mt-0.5" />{feature}
                       </li>
                     ))}
                   </ul>
-                  <button className={`w-full py-3.5 rounded-full text-sm font-bold transition-all duration-200 cursor-pointer ${plan.popular ? "bg-violet-600 hover:bg-violet-500 text-white" : "border border-white/10 hover:border-violet-500/50 text-white hover:text-white"}`}>
+                  <button className={`w-full py-3.5 rounded-full text-sm font-bold transition-all duration-200 cursor-pointer ${plan.popular ? "bg-[var(--brand,#7c3aed)] hover:bg-[var(--brand,#8b5cf6)] text-white" : "border border-white/10 hover:border-[var(--brand,#8b5cf6)]/50 text-white hover:text-white"}`}>
                     {plan.cta}
                   </button>
                 </div>
@@ -753,7 +753,7 @@ return (
         <div className="max-w-3xl mx-auto">
           <Reveal>
             <div className="text-center mb-16">
-              <span className="text-violet-400 text-[11px] uppercase tracking-[0.3em] font-bold mb-4 block">FAQ</span>
+              <span className="text-[var(--brand,#a78bfa)] text-[11px] uppercase tracking-[0.3em] font-bold mb-4 block">FAQ</span>
               <h2 className="text-4xl md:text-5xl font-black tracking-tight">Common <span className="text-zinc-500">Questions</span></h2>
             </div>
           </Reveal>
@@ -761,7 +761,7 @@ return (
           <Accordion type="single" collapsible className="space-y-0">
             {FAQS.map((faq, i) => (
               <AccordionItem key={i} value={`faq-${i}`} className="border-b border-white/5">
-                <AccordionTrigger className="text-left text-white/80 hover:text-violet-400 transition-all duration-200 py-6 font-semibold cursor-pointer hover:no-underline">
+                <AccordionTrigger className="text-left text-white/80 hover:text-[var(--brand,#a78bfa)] transition-all duration-200 py-6 font-semibold cursor-pointer hover:no-underline">
                   {faq.q}
                 </AccordionTrigger>
                 <AccordionContent className="text-sm text-zinc-400 leading-relaxed pb-6">
@@ -780,13 +780,13 @@ return (
             <div className="absolute inset-0 -z-10" style={{ background: "radial-gradient(ellipse at center, rgba(139,92,246,0.18) 0%, transparent 65%)" }} />
             <h2 className="text-4xl md:text-6xl lg:text-7xl font-black tracking-tight mb-6">
               Ready to build the<br />
-              <span className="bg-gradient-to-r from-violet-400 via-fuchsia-400 to-pink-400 bg-clip-text text-transparent">future?</span>
+              <span className="bg-gradient-to-r from-[var(--brand,#a78bfa)] via-fuchsia-400 to-pink-400 bg-clip-text text-transparent">future?</span>
             </h2>
             <p className="text-zinc-400 text-lg max-w-xl mx-auto mb-10">
               Join 14,200+ teams shipping faster with NovaPlatform. Free forever plan — no credit card required.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <button onClick={() => document.getElementById("pricing")?.scrollIntoView({behavior:"smooth"})} className="group px-10 py-4 bg-violet-600 hover:bg-violet-500 rounded-full font-bold transition-all duration-200 flex items-center gap-2 text-lg cursor-pointer">
+              <button onClick={() => document.getElementById("pricing")?.scrollIntoView({behavior:"smooth"})} className="group px-10 py-4 bg-[var(--brand,#7c3aed)] hover:bg-[var(--brand,#8b5cf6)] rounded-full font-bold transition-all duration-200 flex items-center gap-2 text-lg cursor-pointer">
                 Get started — it&apos;s free <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-200" />
               </button>
               <button className="px-8 py-4 text-zinc-400 hover:text-white transition-all duration-200 flex items-center gap-2 cursor-pointer">
@@ -795,7 +795,7 @@ return (
             </div>
             <div className="flex flex-wrap items-center justify-center gap-6 mt-12 text-xs text-zinc-600">
               {["No credit card required", "14-day Pro trial", "Cancel anytime", "SOC 2 certified"].map(f => (
-                <div key={f} className="flex items-center gap-1.5"><Check className="w-3 h-3 text-violet-500" />{f}</div>
+                <div key={f} className="flex items-center gap-1.5"><Check className="w-3 h-3 text-[var(--brand,#8b5cf6)]" />{f}</div>
               ))}
             </div>
           </div>
@@ -807,7 +807,7 @@ return (
         <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-5 gap-10 mb-16">
           <div className="col-span-2">
             <div className="flex items-center gap-2 mb-4">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-violet-500 to-fuchsia-500 flex items-center justify-center">
+              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[var(--brand,#8b5cf6)] to-fuchsia-500 flex items-center justify-center">
                 <Zap className="w-4 h-4" />
               </div>
               <span className="text-lg font-bold">{fd?.businessName ?? "NovaPlatform SaaS"}</span>
@@ -815,7 +815,7 @@ return (
             <p className="text-sm text-zinc-500 leading-relaxed max-w-xs mb-5">The all-in-one platform for modern engineering teams. Build, deploy, and scale without limits.</p>
             <div className="flex gap-3">
               {[<Globe key="tw" className="w-4 h-4" />, <Globe key="gh" className="w-4 h-4" />, <Globe key="sl" className="w-4 h-4" />, <Globe key="li" className="w-4 h-4" />].map((icon, i) => (
-                <a key={i} href="#features" className="w-9 h-9 rounded-full border border-white/10 flex items-center justify-center text-zinc-500 hover:text-violet-400 hover:border-violet-500/40 transition-all duration-200 cursor-pointer">
+                <a key={i} href="#features" className="w-9 h-9 rounded-full border border-white/10 flex items-center justify-center text-zinc-500 hover:text-[var(--brand,#a78bfa)] hover:border-[var(--brand,#8b5cf6)]/40 transition-all duration-200 cursor-pointer">
                   {icon}
                 </a>
               ))}
@@ -861,8 +861,8 @@ return (
           </DialogHeader>
           <div className="aspect-video bg-zinc-900 rounded-xl flex items-center justify-center border border-white/5">
             <div className="text-center">
-              <div className="w-16 h-16 rounded-full bg-violet-600/20 border border-violet-500/30 flex items-center justify-center mx-auto mb-4 cursor-pointer hover:bg-violet-600/40 transition-all duration-200">
-                <Play className="w-7 h-7 text-violet-400 ml-1" />
+              <div className="w-16 h-16 rounded-full bg-[var(--brand,#7c3aed)]/20 border border-[var(--brand,#8b5cf6)]/30 flex items-center justify-center mx-auto mb-4 cursor-pointer hover:bg-[var(--brand,#7c3aed)]/40 transition-all duration-200">
+                <Play className="w-7 h-7 text-[var(--brand,#a78bfa)] ml-1" />
               </div>
               <p className="text-zinc-500 text-sm">NovaPlatform — 3-minute overview</p>
             </div>

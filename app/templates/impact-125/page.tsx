@@ -156,10 +156,10 @@ export default function AstrumReachPage() {
       });
     }
   }, [c]);return (
-    <div className="bg-[#02040a] text-white font-sans min-h-dvh selection:bg-cyan-500 selection:text-white overflow-x-hidden">
+    <div className="bg-[#02040a] text-white font-sans min-h-dvh selection:bg-[var(--brand,#06b6d4)] selection:text-white overflow-x-hidden">
       
       {/* ── NAVBAR ────────────────── */}
-      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#02040a]/90 backdrop-blur-xl border-b border-cyan-500/20 py-4" : "bg-transparent py-8"}`}>
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#02040a]/90 backdrop-blur-xl border-b border-[var(--brand,#06b6d4)]/20 py-4" : "bg-transparent py-8"}`}>
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex items-center justify-between">
           <Link href="#hero" className="flex items-center gap-3 group">
             {fd?.logoBase64 ? (
@@ -170,27 +170,27 @@ export default function AstrumReachPage() {
               />
             ) : (
               <>
-                <div className="w-10 h-10 rounded-full bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center group-hover:bg-cyan-500 transition-all duration-500">
-                  <Rocket className="w-5 h-5 text-cyan-400 group-hover:text-black" />
+                <div className="w-10 h-10 rounded-full bg-[var(--brand,#06b6d4)]/10 border border-[var(--brand,#06b6d4)]/30 flex items-center justify-center group-hover:bg-[var(--brand,#06b6d4)] transition-all duration-500">
+                  <Rocket className="w-5 h-5 text-[var(--brand,#22d3ee)] group-hover:text-black" />
                 </div>
-                <span className="text-xl font-light tracking-[0.4em] uppercase">Astrum <span className="text-cyan-500 font-bold">Reach</span></span>
+                <span className="text-xl font-light tracking-[0.4em] uppercase">Astrum <span className="text-[var(--brand,#06b6d4)] font-bold">Reach</span></span>
               </>
             )}
           </Link>
           <div className="hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.4em] text-white/30">
             {["Missions", "Fleet", "Technology", "Control"].map(l => (
-              <Link key={l} href="#hero" className="hover:text-cyan-400 transition-colors">{l}</Link>
+              <Link key={l} href="#hero" className="hover:text-[var(--brand,#22d3ee)] transition-colors">{l}</Link>
             ))}
           </div>
           <div className="flex items-center gap-4">
             <button className="hidden md:block px-6 py-2.5 text-white/40 text-[10px] font-bold uppercase tracking-widest hover:text-white transition-colors">Command Login</button>
-            <button className="px-8 py-3 bg-cyan-600 text-white text-[10px] font-bold uppercase tracking-[0.2em] rounded-sm hover:bg-cyan-400 transition-all duration-500 shadow-[0_0_20px_rgba(6,182,212,0.3)]">Book Payload</button>
+            <button className="px-8 py-3 bg-[var(--brand,#0891b2)] text-white text-[10px] font-bold uppercase tracking-[0.2em] rounded-sm hover:bg-[var(--brand,#22d3ee)] transition-all duration-500 shadow-[0_0_20px_rgba(6,182,212,0.3)]">Book Payload</button>
             <Sheet>
               <SheetTrigger className="lg:hidden"><Menu className="w-6 h-6 text-white" /></SheetTrigger>
-              <SheetContent side="right" className="bg-[#02040a] border-cyan-500/20 p-12 text-white">
+              <SheetContent side="right" className="bg-[#02040a] border-[var(--brand,#06b6d4)]/20 p-12 text-white">
                 <div className="flex flex-col gap-8 mt-16 text-left">
                   {["Missions", "Fleet", "Tech", "Support"].map(l => (
-                    <Link key={l} href="#hero" className="text-3xl font-light uppercase tracking-widest hover:text-cyan-400 transition-colors">{l}</Link>
+                    <Link key={l} href="#hero" className="text-3xl font-light uppercase tracking-widest hover:text-[var(--brand,#22d3ee)] transition-colors">{l}</Link>
                   ))}
                 </div>
               </SheetContent>
@@ -205,20 +205,20 @@ export default function AstrumReachPage() {
           {/* Star Field Background */}
           <div className="absolute inset-0 opacity-40">
              <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] bg-repeat" />
-             <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-cyan-900/10 blur-[150px] rounded-full animate-pulse" />
+             <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-[var(--brand,#164e63)]/10 blur-[150px] rounded-full animate-pulse" />
           </div>
 
           <div className="relative z-10 max-w-[1400px] mx-auto px-6 md:px-12 w-full">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
               <div>
                 <Reveal>
-                  <div className="inline-flex items-center gap-3 px-4 py-1.5 bg-cyan-500/5 border border-cyan-500/20 text-cyan-400 text-[10px] font-bold uppercase tracking-[0.4em] mb-12">
+                  <div className="inline-flex items-center gap-3 px-4 py-1.5 bg-[var(--brand,#06b6d4)]/5 border border-[var(--brand,#06b6d4)]/20 text-[var(--brand,#22d3ee)] text-[10px] font-bold uppercase tracking-[0.4em] mb-12">
                     <Activity className="w-4 h-4 animate-pulse" /> Orbital Logistics System Active
                   </div>
                 </Reveal>
                 <Reveal delay={0.1} y={60}>
                   <h1 className="text-6xl md:text-[9rem] font-light tracking-tighter leading-[0.8] uppercase mb-12">{c?.heroHeadline ?? <>
-                    Infinite <br/> <span className="text-cyan-500 font-bold">Horizon.</span>
+                    Infinite <br/> <span className="text-[var(--brand,#06b6d4)] font-bold">Horizon.</span>
                   </>}</h1>
                 </Reveal>
                 <Reveal delay={0.3}>
@@ -228,7 +228,7 @@ export default function AstrumReachPage() {
                 </Reveal>
                 <Reveal delay={0.4}>
                   <div className="flex flex-wrap gap-6">
-                    <button className="px-12 py-5 bg-cyan-600 text-white font-bold uppercase tracking-widest text-[10px] hover:bg-cyan-400 transition-all duration-500">
+                    <button className="px-12 py-5 bg-[var(--brand,#0891b2)] text-white font-bold uppercase tracking-widest text-[10px] hover:bg-[var(--brand,#22d3ee)] transition-all duration-500">
                        Track Current Missions
                     </button>
                     <button className="px-12 py-5 border border-white/10 text-white font-bold uppercase tracking-widest text-[10px] hover:bg-white/5 transition-all flex items-center gap-3">
@@ -240,16 +240,16 @@ export default function AstrumReachPage() {
               
               <Reveal delay={0.5} y={0}>
                  <div className="relative">
-                    <div className="absolute -inset-10 bg-cyan-500/5 blur-[120px] rounded-full" />
+                    <div className="absolute -inset-10 bg-[var(--brand,#06b6d4)]/5 blur-[120px] rounded-full" />
                     <div className="relative aspect-square border border-white/5 p-2 bg-white/[0.02] rounded-full overflow-hidden">
                        <Image src={photo(0, "https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&q=80&w=1200")} alt="Orbital View" fill className="object-cover opacity-60 rounded-full" />
                        <div className="absolute inset-0 bg-gradient-to-t from-[#02040a] via-transparent to-transparent opacity-80" />
                        {/* Overlay HUD */}
                        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                          <div className="w-[80%] h-[80%] border border-cyan-500/20 rounded-full flex items-center justify-center animate-[spin_20s_linear_infinite]">
-                             <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 bg-cyan-500 shadow-[0_0_15px_rgba(6,182,212,0.8)] rounded-full" />
+                          <div className="w-[80%] h-[80%] border border-[var(--brand,#06b6d4)]/20 rounded-full flex items-center justify-center animate-[spin_20s_linear_infinite]">
+                             <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 bg-[var(--brand,#06b6d4)] shadow-[0_0_15px_rgba(6,182,212,0.8)] rounded-full" />
                           </div>
-                          <div className="absolute w-[60%] h-[60%] border border-cyan-500/10 rounded-full animate-[spin_15s_linear_infinite_reverse]" />
+                          <div className="absolute w-[60%] h-[60%] border border-[var(--brand,#06b6d4)]/10 rounded-full animate-[spin_15s_linear_infinite_reverse]" />
                        </div>
                     </div>
                  </div>
@@ -263,7 +263,7 @@ export default function AstrumReachPage() {
           <div className="max-w-[1400px] mx-auto px-6 md:px-12">
             <Reveal>
               <div className="mb-20">
-                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-cyan-500 block mb-4">Mission Manifest</span>
+                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#06b6d4)] block mb-4">Mission Manifest</span>
                 <h2 className="text-5xl md:text-7xl font-light uppercase tracking-tighter">Scheduled <span className="font-bold">Flights.</span></h2>
               </div>
             </Reveal>
@@ -283,13 +283,13 @@ export default function AstrumReachPage() {
                   {MISSIONS.map((m, i) => (
                     <Reveal key={i} delay={i * 0.1}>
                       <tr className="border-b border-white/5 hover:bg-white/[0.02] transition-colors group">
-                        <td className="py-8 font-mono text-cyan-400">{m.id}</td>
+                        <td className="py-8 font-mono text-[var(--brand,#22d3ee)]">{m.id}</td>
                         <td className="py-8">{m.target}</td>
                         <td className="py-8 text-white/60">{m.payload}</td>
                         <td className="py-8">
                            <span className="px-3 py-1 bg-white/5 border border-white/10 rounded-full text-[10px] uppercase font-bold tracking-widest">{m.type}</span>
                         </td>
-                        <td className="py-8 text-right font-bold text-white group-hover:text-cyan-400 transition-colors">{m.date}</td>
+                        <td className="py-8 text-right font-bold text-white group-hover:text-[var(--brand,#22d3ee)] transition-colors">{m.date}</td>
                       </tr>
                     </Reveal>
                   ))}
@@ -305,7 +305,7 @@ export default function AstrumReachPage() {
             <Reveal>
               <div className="flex flex-col md:flex-row items-end justify-between mb-24 gap-8">
                 <div className="max-w-2xl">
-                  <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-cyan-500 block mb-4">The Fleet</span>
+                  <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#06b6d4)] block mb-4">The Fleet</span>
                   <h2 className="text-6xl md:text-8xl font-light uppercase tracking-tighter italic leading-none">Space <span className="text-white/20">Infrastructure.</span></h2>
                 </div>
                 <div className="flex gap-4">
@@ -323,7 +323,7 @@ export default function AstrumReachPage() {
                       <ParallaxImg src={f.img} alt={f.name} />
                       <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80" />
                       <div className="absolute bottom-8 left-8 right-8">
-                         <div className="text-[10px] font-bold uppercase tracking-widest text-cyan-500 mb-2">Operational</div>
+                         <div className="text-[10px] font-bold uppercase tracking-widest text-[var(--brand,#06b6d4)] mb-2">Operational</div>
                          <h3 className="text-3xl font-bold uppercase tracking-widest text-white">{f.name}</h3>
                       </div>
                     </div>
@@ -353,7 +353,7 @@ export default function AstrumReachPage() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
               <div>
                 <Reveal>
-                  <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-cyan-500 block mb-4">Advancements</span>
+                  <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#06b6d4)] block mb-4">Advancements</span>
                   <h2 className="text-5xl md:text-7xl font-light uppercase tracking-tighter mb-12 leading-tight italic">Propelling <br/>The <span className="font-bold text-white not-italic">Future.</span></h2>
                   <div className="space-y-12">
                     {[
@@ -362,8 +362,8 @@ export default function AstrumReachPage() {
                       { icon: Radio, t: "Deep Space Comm", d: "Laser-based communication array providing gigabit-speed connectivity across the solar system." }
                     ].map((f, i) => (
                       <div key={i} className="flex gap-8 group">
-                         <div className="w-16 h-16 shrink-0 border border-cyan-500/20 flex items-center justify-center group-hover:bg-cyan-500 group-hover:border-cyan-500 transition-all duration-700">
-                            <f.icon className="w-6 h-6 text-cyan-400 group-hover:text-black transition-colors" />
+                         <div className="w-16 h-16 shrink-0 border border-[var(--brand,#06b6d4)]/20 flex items-center justify-center group-hover:bg-[var(--brand,#06b6d4)] group-hover:border-[var(--brand,#06b6d4)] transition-all duration-700">
+                            <f.icon className="w-6 h-6 text-[var(--brand,#22d3ee)] group-hover:text-black transition-colors" />
                          </div>
                          <div>
                             <h4 className="text-xl font-bold uppercase tracking-widest mb-2 italic">{f.t}</h4>
@@ -376,14 +376,14 @@ export default function AstrumReachPage() {
               </div>
               <Reveal delay={0.2}>
                  <div className="relative aspect-square border border-white/5 bg-white/[0.01] p-12 overflow-hidden flex items-center justify-center">
-                    <div className="relative w-full h-full border border-cyan-500/10 rounded-full flex items-center justify-center">
-                       <div className="w-3/4 h-3/4 border border-cyan-500/20 rounded-full animate-[ping_4s_linear_infinite]" />
+                    <div className="relative w-full h-full border border-[var(--brand,#06b6d4)]/10 rounded-full flex items-center justify-center">
+                       <div className="w-3/4 h-3/4 border border-[var(--brand,#06b6d4)]/20 rounded-full animate-[ping_4s_linear_infinite]" />
                        <div className="absolute inset-0 flex items-center justify-center">
-                          <Globe className="w-24 h-24 text-cyan-400/20" />
+                          <Globe className="w-24 h-24 text-[var(--brand,#22d3ee)]/20" />
                        </div>
                     </div>
                     {/* Telemetry markers */}
-                    <div className="absolute top-12 left-12 text-[8px] font-mono text-cyan-400/40 space-y-1">
+                    <div className="absolute top-12 left-12 text-[8px] font-mono text-[var(--brand,#22d3ee)]/40 space-y-1">
                        <p>ALT: 402.4 KM</p>
                        <p>VEL: 7.66 KM/S</p>
                        <p>LAT: 28.5721 N</p>
@@ -396,7 +396,7 @@ export default function AstrumReachPage() {
         </section>
 
         {/* ── CTA ───────────────────── */}
-        <section id="equipe" className="py-40 bg-cyan-600 text-white text-center relative overflow-hidden">
+        <section id="equipe" className="py-40 bg-[var(--brand,#0891b2)] text-white text-center relative overflow-hidden">
            <div className="absolute inset-0 opacity-10">
               <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] bg-repeat" />
            </div>
@@ -426,17 +426,17 @@ export default function AstrumReachPage() {
         <div className="max-w-[1400px] mx-auto grid grid-cols-1 md:grid-cols-5 gap-16 mb-32">
           <div className="md:col-span-2">
             <Link href="#hero" className="flex items-center gap-3 mb-10">
-              <div className="w-10 h-10 rounded-full bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center">
-                <Rocket className="w-5 h-5 text-cyan-400" />
+              <div className="w-10 h-10 rounded-full bg-[var(--brand,#06b6d4)]/10 border border-[var(--brand,#06b6d4)]/30 flex items-center justify-center">
+                <Rocket className="w-5 h-5 text-[var(--brand,#22d3ee)]" />
               </div>
-              <span className="text-xl font-light tracking-[0.4em] uppercase text-white">Astrum <span className="text-cyan-500 font-bold">Reach</span></span>
+              <span className="text-xl font-light tracking-[0.4em] uppercase text-white">Astrum <span className="text-[var(--brand,#06b6d4)] font-bold">Reach</span></span>
             </Link>
             <p className="text-white/20 max-w-sm leading-relaxed mb-10 text-sm font-light italic">
               Empowering the next century of space travel through sustainable, reliable, and frequent orbital access.
             </p>
             <div className="flex gap-8">
                {["Mission Control", "YouTube", "GitHub", "MessageSquare"].map(s => (
-                 <Link key={s} href={ s === "LinkedIn" || s === "Linkedin" ? "https://linkedin.com" : s === "Contact" || s === "contact" ? "#contact" : `#${s.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="text-[10px] font-bold uppercase tracking-widest text-white/20 hover:text-cyan-400 transition-colors">{s}</Link>
+                 <Link key={s} href={ s === "LinkedIn" || s === "Linkedin" ? "https://linkedin.com" : s === "Contact" || s === "contact" ? "#contact" : `#${s.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="text-[10px] font-bold uppercase tracking-widest text-white/20 hover:text-[var(--brand,#22d3ee)] transition-colors">{s}</Link>
                ))}
             </div>
           </div>
@@ -447,7 +447,7 @@ export default function AstrumReachPage() {
             { t: "Resources", l: ["Payload Guide", "Launch Specs", "Safety Manual", "Contact"] },
           ].map((col, i) => (
             <div key={i} className="space-y-10">
-              <h4 className="text-[10px] font-bold uppercase tracking-[0.4em] text-cyan-500">{col.t}</h4>
+              <h4 className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#06b6d4)]">{col.t}</h4>
               <ul className="space-y-6">
                 {col.l.map(link => <li key={link}><Link href="#contact" className="text-xs text-white/40 hover:text-white transition-colors">{link}</Link></li>)}
               </ul>

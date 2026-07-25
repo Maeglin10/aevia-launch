@@ -42,7 +42,7 @@ function GlassCard({ children, className = "" }: { children: React.ReactNode; cl
   return (
     <div className={`relative overflow-hidden rounded-3xl border border-white/10 bg-black/40 backdrop-blur-xl ${className}`}>
       <div className="absolute inset-0 bg-gradient-to-br from-white/[0.05] to-transparent pointer-events-none" />
-      <div className="absolute -inset-[1px] bg-gradient-to-br from-cyan-500/20 to-purple-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl" />
+      <div className="absolute -inset-[1px] bg-gradient-to-br from-[var(--brand,#06b6d4)]/20 to-purple-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl" />
       <div className="relative z-10 p-8 h-full">
         {children}
       </div>
@@ -67,7 +67,7 @@ function GridBackground() {
       />
       {/* Neon Orbs */}
       <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-purple-600/30 rounded-full blur-[120px] mix-blend-screen" />
-      <div className="absolute bottom-1/4 right-1/4 w-[600px] h-[600px] bg-cyan-600/20 rounded-full blur-[150px] mix-blend-screen" />
+      <div className="absolute bottom-1/4 right-1/4 w-[600px] h-[600px] bg-[var(--brand,#0891b2)]/20 rounded-full blur-[150px] mix-blend-screen" />
     </div>
   )
 }
@@ -206,7 +206,7 @@ export default function MorphStudioPage() {
   }, []);
 
   return (
-    <div className="bg-[#050505] text-[#e0e0e0] font-mono min-h-dvh selection:bg-cyan-500/30 selection:text-cyan-200 overflow-x-hidden">
+    <div className="bg-[#050505] text-[#e0e0e0] font-mono min-h-dvh selection:bg-[var(--brand,#06b6d4)]/30 selection:text-cyan-200 overflow-x-hidden">
       
       <GridBackground />
 
@@ -225,7 +225,7 @@ export default function MorphStudioPage() {
               />
             ) : (
               <>
-                <Orbit className="w-8 h-8 text-cyan-400 group-hover:rotate-180 transition-transform duration-1000" />
+                <Orbit className="w-8 h-8 text-[var(--brand,#22d3ee)] group-hover:rotate-180 transition-transform duration-1000" />
                 <span className="text-xl font-bold tracking-widest text-white uppercase">MORPH</span>
               </>
             )}
@@ -233,24 +233,24 @@ export default function MorphStudioPage() {
 
           <div className="hidden lg:flex items-center gap-8 text-xs font-bold tracking-[0.2em] uppercase">
             {["Engine", "Projects", "Stack", "Access"].map((link) => (
-              <Link key={link} href="#hero" className="text-zinc-400 hover:text-cyan-400 transition-colors relative group">
+              <Link key={link} href="#hero" className="text-zinc-400 hover:text-[var(--brand,#22d3ee)] transition-colors relative group">
                 {link}
               </Link>
             ))}
           </div>
 
           <div className="flex items-center gap-6">
-            <Link href="#hero" className="hidden md:flex items-center justify-center px-6 py-2.5 bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 text-xs font-bold uppercase tracking-widest hover:bg-cyan-500 hover:text-black transition-all rounded-full">
+            <Link href="#hero" className="hidden md:flex items-center justify-center px-6 py-2.5 bg-[var(--brand,#06b6d4)]/10 text-[var(--brand,#22d3ee)] border border-[var(--brand,#06b6d4)]/30 text-xs font-bold uppercase tracking-widest hover:bg-[var(--brand,#06b6d4)] hover:text-black transition-all rounded-full">
               Initialize
             </Link>
             <Sheet>
-              <SheetTrigger className="lg:hidden text-white hover:text-cyan-400 transition-colors">
+              <SheetTrigger className="lg:hidden text-white hover:text-[var(--brand,#22d3ee)] transition-colors">
                   <Menu className="w-8 h-8" />
                 </SheetTrigger>
               <SheetContent side="right" className="bg-[#0a0a0a] border-l border-white/10 p-12 text-white">
                 <div className="flex flex-col gap-8 mt-20">
                   {["Engine", "Projects", "Stack", "Access"].map((link) => (
-                    <Link key={link} href="#hero" className="text-3xl font-bold tracking-widest uppercase hover:text-cyan-400 transition-colors">
+                    <Link key={link} href="#hero" className="text-3xl font-bold tracking-widest uppercase hover:text-[var(--brand,#22d3ee)] transition-colors">
                       {link}
                     </Link>
                   ))}
@@ -269,12 +269,12 @@ export default function MorphStudioPage() {
             <div className="relative z-10">
               <Reveal>
                 <div className="flex items-center gap-3 mb-8">
-                  <div className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
-                  <span className="text-xs font-bold uppercase tracking-[0.3em] text-cyan-400">{MANIFEST.hero.status}</span>
+                  <div className="w-2 h-2 rounded-full bg-[var(--brand,#22d3ee)] animate-pulse" />
+                  <span className="text-xs font-bold uppercase tracking-[0.3em] text-[var(--brand,#22d3ee)]">{MANIFEST.hero.status}</span>
                 </div>
                 
                 <h1 className="text-6xl md:text-8xl lg:text-[7rem] font-black tracking-tighter leading-none text-white mb-8">{c?.heroHeadline ?? <>
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-500">
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--brand,#22d3ee)] to-purple-500">
                     MORPH
                   </span><br/>
                   STUDIO.
@@ -285,7 +285,7 @@ export default function MorphStudioPage() {
                 </>}</p>
                 
                 <div className="flex flex-col sm:flex-row gap-6">
-                  <button className="px-8 py-4 bg-white text-black text-xs font-bold uppercase tracking-widest rounded-full hover:bg-cyan-400 transition-colors flex items-center justify-center gap-3">
+                  <button className="px-8 py-4 bg-white text-black text-xs font-bold uppercase tracking-widest rounded-full hover:bg-[var(--brand,#22d3ee)] transition-colors flex items-center justify-center gap-3">
                     View Demo Reel <Play className="w-4 h-4" />
                   </button>
                   <button className="px-8 py-4 bg-white/5 border border-white/10 text-white text-xs font-bold uppercase tracking-widest rounded-full hover:bg-white/10 transition-colors">
@@ -298,11 +298,11 @@ export default function MorphStudioPage() {
             {/* 3D Placeholder Graphic */}
             <div className="hidden lg:flex items-center justify-center relative">
               <motion.div style={{ scale: heroScale, opacity: heroOpacity }} className="relative w-[500px] h-[500px]">
-                <div className="absolute inset-0 bg-gradient-to-tr from-cyan-500/20 to-purple-500/20 rounded-full blur-[80px]" />
+                <div className="absolute inset-0 bg-gradient-to-tr from-[var(--brand,#06b6d4)]/20 to-purple-500/20 rounded-full blur-[80px]" />
                 <motion.div 
                   animate={{ rotateY: 360, rotateX: 360 }}
                   transition={{ repeat: Infinity, duration: 20, ease: "linear" }}
-                  className="absolute inset-0 border-[2px] border-cyan-400/30 rounded-3xl"
+                  className="absolute inset-0 border-[2px] border-[var(--brand,#22d3ee)]/30 rounded-3xl"
                   style={{ transformStyle: "preserve-3d" }}
                 >
                   <div className="absolute inset-0 border-[2px] border-purple-500/30 rounded-3xl" style={{ transform: "rotateX(90deg)" }} />
@@ -310,7 +310,7 @@ export default function MorphStudioPage() {
                 </motion.div>
                 <div className="absolute inset-0 flex items-center justify-center">
                   <div className="w-32 h-32 bg-black/80 border border-white/20 rounded-full backdrop-blur-xl flex items-center justify-center shadow-[0_0_50px_rgba(34,211,238,0.3)]">
-                    <Zap className="w-10 h-10 text-cyan-400" />
+                    <Zap className="w-10 h-10 text-[var(--brand,#22d3ee)]" />
                   </div>
                 </div>
               </motion.div>
@@ -328,7 +328,7 @@ export default function MorphStudioPage() {
           >
             {Array(4).fill(MANIFEST.stats).flat().map((stat, i) => (
               <div key={i} className="flex items-center gap-4">
-                <span className="text-cyan-400">{stat.val}</span>
+                <span className="text-[var(--brand,#22d3ee)]">{stat.val}</span>
                 <span>{stat.label}</span>
                 <Disc3 className="w-6 h-6 ml-8 text-zinc-800" />
               </div>
@@ -342,7 +342,7 @@ export default function MorphStudioPage() {
             <Reveal>
               <div className="mb-20">
                 <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-purple-400 mb-4 block">Core Modules</span>
-                <h2 className="text-5xl md:text-7xl font-black uppercase tracking-tighter">System <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">Capabilities.</span></h2>
+                <h2 className="text-5xl md:text-7xl font-black uppercase tracking-tighter">System <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-[var(--brand,#22d3ee)]">Capabilities.</span></h2>
               </div>
             </Reveal>
 
@@ -351,7 +351,7 @@ export default function MorphStudioPage() {
                 <Reveal key={service.id} delay={i * 0.1}>
                   <GlassCard className="group">
                     <div className="flex justify-between items-start mb-16">
-                      <div className="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-cyan-400 group-hover:scale-110 group-hover:bg-cyan-500/20 transition-all duration-500">
+                      <div className="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-[var(--brand,#22d3ee)] group-hover:scale-110 group-hover:bg-[var(--brand,#06b6d4)]/20 transition-all duration-500">
                         {service.icon}
                       </div>
                       <span className="text-[10px] font-bold text-zinc-600 tracking-widest">{service.id}</span>
@@ -371,10 +371,10 @@ export default function MorphStudioPage() {
             <Reveal>
               <div className="flex items-end justify-between mb-20">
                 <div>
-                  <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-cyan-400 mb-4 block">Case Studies</span>
+                  <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#22d3ee)] mb-4 block">Case Studies</span>
                   <h2 className="text-5xl md:text-7xl font-black uppercase tracking-tighter">Rendered <span className="text-zinc-600">Outputs.</span></h2>
                 </div>
-                <Link href="#realisations" className="hidden md:flex items-center gap-3 text-xs font-bold uppercase tracking-widest text-cyan-400 hover:text-white transition-colors">
+                <Link href="#realisations" className="hidden md:flex items-center gap-3 text-xs font-bold uppercase tracking-widest text-[var(--brand,#22d3ee)] hover:text-white transition-colors">
                   View Repository <ArrowRight className="w-4 h-4" />
                 </Link>
               </div>
@@ -393,7 +393,7 @@ export default function MorphStudioPage() {
                     </div>
                     <div className="flex justify-between items-start">
                       <div>
-                        <h3 className="text-3xl font-bold uppercase tracking-widest mb-2 text-white group-hover:text-cyan-400 transition-colors">{project.title}</h3>
+                        <h3 className="text-3xl font-bold uppercase tracking-widest mb-2 text-white group-hover:text-[var(--brand,#22d3ee)] transition-colors">{project.title}</h3>
                         <p className="text-zinc-500 text-sm max-w-sm leading-relaxed">{project.desc}</p>
                       </div>
                       <div className="text-[10px] font-bold uppercase tracking-widest px-3 py-1 bg-white/5 border border-white/10 rounded-full text-zinc-400">
@@ -414,7 +414,7 @@ export default function MorphStudioPage() {
               <h2 className="text-3xl font-black uppercase tracking-[0.3em] text-zinc-600 mb-16">Technology Stack</h2>
               <div className="flex flex-wrap justify-center gap-4 max-w-4xl mx-auto">
                 {MANIFEST.stack.map((tech, i) => (
-                  <div key={i} className="px-6 py-3 bg-black/50 border border-white/10 rounded-full text-sm font-bold uppercase tracking-widest text-white hover:border-cyan-400 hover:text-cyan-400 hover:shadow-[0_0_20px_rgba(34,211,238,0.2)] transition-all cursor-default">
+                  <div key={i} className="px-6 py-3 bg-black/50 border border-white/10 rounded-full text-sm font-bold uppercase tracking-widest text-white hover:border-[var(--brand,#22d3ee)] hover:text-[var(--brand,#22d3ee)] hover:shadow-[0_0_20px_rgba(34,211,238,0.2)] transition-all cursor-default">
                     {tech}
                   </div>
                 ))}
@@ -436,9 +436,9 @@ export default function MorphStudioPage() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {MANIFEST.pricing.map((tier, i) => (
                 <Reveal key={i} delay={i * 0.1}>
-                  <GlassCard className={`flex flex-col h-full ${tier.recommended ? 'border-cyan-500/50 shadow-[0_0_50px_rgba(34,211,238,0.1)]' : ''}`}>
+                  <GlassCard className={`flex flex-col h-full ${tier.recommended ? 'border-[var(--brand,#06b6d4)]/50 shadow-[0_0_50px_rgba(34,211,238,0.1)]' : ''}`}>
                     {tier.recommended && (
-                      <div className="absolute top-6 right-6 px-3 py-1 bg-cyan-500/20 text-cyan-400 text-[10px] font-bold uppercase tracking-widest rounded-full border border-cyan-500/30">
+                      <div className="absolute top-6 right-6 px-3 py-1 bg-[var(--brand,#06b6d4)]/20 text-[var(--brand,#22d3ee)] text-[10px] font-bold uppercase tracking-widest rounded-full border border-[var(--brand,#06b6d4)]/30">
                         Optimum
                       </div>
                     )}
@@ -452,13 +452,13 @@ export default function MorphStudioPage() {
                     <ul className="space-y-4 mb-12 flex-1">
                       {tier.features.map((feat, j) => (
                         <li key={j} className="flex items-center gap-4 text-sm font-medium text-zinc-300">
-                          <Code className="w-4 h-4 text-cyan-400 shrink-0" />
+                          <Code className="w-4 h-4 text-[var(--brand,#22d3ee)] shrink-0" />
                           {feat}
                         </li>
                       ))}
                     </ul>
 
-                    <button className={`w-full py-4 rounded-xl text-xs font-bold uppercase tracking-widest transition-all ${tier.recommended ? 'bg-cyan-500 text-black hover:bg-cyan-400' : 'bg-white/5 text-white hover:bg-white border border-white/10 hover:text-black'}`}>
+                    <button className={`w-full py-4 rounded-xl text-xs font-bold uppercase tracking-widest transition-all ${tier.recommended ? 'bg-[var(--brand,#06b6d4)] text-black hover:bg-[var(--brand,#22d3ee)]' : 'bg-white/5 text-white hover:bg-white border border-white/10 hover:text-black'}`}>
                       Initialize
                     </button>
                   </GlassCard>
@@ -472,7 +472,7 @@ export default function MorphStudioPage() {
         <section className="py-32 max-w-[1000px] mx-auto px-6">
           <Reveal>
             <div className="flex items-center gap-4 mb-16">
-              <Activity className="w-8 h-8 text-cyan-400" />
+              <Activity className="w-8 h-8 text-[var(--brand,#22d3ee)]" />
               <h2 className="text-4xl font-black uppercase tracking-widest">System Queries</h2>
             </div>
           </Reveal>
@@ -481,7 +481,7 @@ export default function MorphStudioPage() {
             <Accordion type="single" collapsible className="w-full space-y-4">
               {FAQS.map((item, i) => (
                 <AccordionItem key={i} value={`item-${i}`} className="border border-white/10 bg-black/40 backdrop-blur-sm px-6 rounded-2xl">
-                  <AccordionTrigger className="text-sm font-bold uppercase tracking-widest py-6 hover:text-cyan-400 hover:no-underline text-left">
+                  <AccordionTrigger className="text-sm font-bold uppercase tracking-widest py-6 hover:text-[var(--brand,#22d3ee)] hover:no-underline text-left">
                     {item.q}
                   </AccordionTrigger>
                   <AccordionContent className="text-zinc-400 leading-relaxed pb-6 text-sm">
@@ -495,20 +495,20 @@ export default function MorphStudioPage() {
 
         {/* ─── CTA BANNER ────────────────────────────────────────────────── */}
         <section id="about" className="py-40 relative overflow-hidden border-y border-white/10">
-          <div className="absolute inset-0 bg-gradient-to-r from-purple-900/20 to-cyan-900/20" />
+          <div className="absolute inset-0 bg-gradient-to-r from-purple-900/20 to-[var(--brand,#164e63)]/20" />
           <div className="absolute inset-0 flex items-center justify-center">
-            <div className="w-full max-w-4xl aspect-video rounded-full bg-cyan-500/10 blur-[120px] mix-blend-screen animate-pulse" />
+            <div className="w-full max-w-4xl aspect-video rounded-full bg-[var(--brand,#06b6d4)]/10 blur-[120px] mix-blend-screen animate-pulse" />
           </div>
           
           <div className="max-w-[1200px] mx-auto px-6 relative z-10 text-center">
             <Reveal>
               <h2 className="text-6xl md:text-9xl font-black tracking-tighter uppercase mb-8">{c?.aboutTitle ?? fd?.businessName ?? <>
-                Ready to <br/> <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-500">Morph?</span>
+                Ready to <br/> <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--brand,#22d3ee)] to-purple-500">Morph?</span>
               </>}</h2>
               <p className="text-xl text-zinc-400 max-w-2xl mx-auto mb-12">{c?.aboutText ?? <>
                 Initiate a secure connection with our lead engineers to discuss your spatial computing requirements.
               </>}</p>
-              <button className="px-12 py-5 bg-white text-black text-xs font-bold uppercase tracking-widest rounded-full hover:bg-cyan-400 transition-all shadow-[0_0_40px_rgba(34,211,238,0.2)]">
+              <button className="px-12 py-5 bg-white text-black text-xs font-bold uppercase tracking-widest rounded-full hover:bg-[var(--brand,#22d3ee)] transition-all shadow-[0_0_40px_rgba(34,211,238,0.2)]">
                 Establish Connection
               </button>
             </Reveal>
@@ -521,7 +521,7 @@ export default function MorphStudioPage() {
         <div className="max-w-[1600px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-16 mb-24">
           <div className="md:col-span-2">
             <Link href="#hero" className="flex items-center gap-3 mb-8">
-              <Orbit className="w-6 h-6 text-cyan-400" />
+              <Orbit className="w-6 h-6 text-[var(--brand,#22d3ee)]" />
               <span className="text-xl font-bold tracking-widest text-white uppercase">MORPH</span>
             </Link>
             <p className="max-w-md text-sm text-zinc-500 leading-relaxed">
@@ -532,10 +532,10 @@ export default function MorphStudioPage() {
           <div>
             <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-zinc-600 mb-8">Protocols</h4>
             <ul className="space-y-4 text-xs font-bold uppercase tracking-widest text-zinc-400">
-              <li><Link href="#contact" className="hover:text-cyan-400 transition-colors">Documentation</Link></li>
-              <li><Link href="#contact" className="hover:text-cyan-400 transition-colors">API Reference</Link></li>
-              <li><Link href="#contact" className="hover:text-cyan-400 transition-colors">Status</Link></li>
-              <li><Link href="#contact" className="hover:text-cyan-400 transition-colors">GitBranch</Link></li>
+              <li><Link href="#contact" className="hover:text-[var(--brand,#22d3ee)] transition-colors">Documentation</Link></li>
+              <li><Link href="#contact" className="hover:text-[var(--brand,#22d3ee)] transition-colors">API Reference</Link></li>
+              <li><Link href="#contact" className="hover:text-[var(--brand,#22d3ee)] transition-colors">Status</Link></li>
+              <li><Link href="#contact" className="hover:text-[var(--brand,#22d3ee)] transition-colors">GitBranch</Link></li>
             </ul>
           </div>
 

@@ -161,10 +161,10 @@ export default function MeridianJourneyPage() {
       });
     }
   }, [c]);return (
-    <div className="bg-[#0d1210] text-white font-sans min-h-dvh selection:bg-teal-500 selection:text-black overflow-x-hidden">
+    <div className="bg-[#0d1210] text-white font-sans min-h-dvh selection:bg-[var(--brand,#14b8a6)] selection:text-black overflow-x-hidden">
 
       {/* ── NAVBAR ──────────────────────────── */}
-      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#0d1210]/90 backdrop-blur-xl border-b border-teal-500/10 py-4" : "bg-transparent py-8"}`}>
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#0d1210]/90 backdrop-blur-xl border-b border-[var(--brand,#14b8a6)]/10 py-4" : "bg-transparent py-8"}`}>
         <div className="max-w-[1600px] mx-auto px-6 md:px-12 flex items-center justify-between">
           <Link href="#hero" className="flex items-center gap-3">
             {fd?.logoBase64 ? (
@@ -175,26 +175,26 @@ export default function MeridianJourneyPage() {
               />
             ) : (
               <>
-                <Compass className="w-6 h-6 text-teal-400" />
+                <Compass className="w-6 h-6 text-[var(--brand,#2dd4bf)]" />
                 <span className="text-xl font-bold tracking-[0.2em] uppercase">Meridian</span>
               </>
             )}
           </Link>
           <div className="hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-white/40">
             {["Expeditions", "Stories", "Gear", "About"].map(l => (
-              <Link key={l} href="#about" className="hover:text-teal-400 transition-colors">{l}</Link>
+              <Link key={l} href="#about" className="hover:text-[var(--brand,#2dd4bf)] transition-colors">{l}</Link>
             ))}
           </div>
           <div className="flex items-center gap-6">
-            <button className="hidden md:block px-8 py-3 bg-teal-500 text-black text-[10px] font-bold uppercase tracking-[0.2em] rounded-full hover:bg-white transition-colors duration-500">
+            <button className="hidden md:block px-8 py-3 bg-[var(--brand,#14b8a6)] text-black text-[10px] font-bold uppercase tracking-[0.2em] rounded-full hover:bg-white transition-colors duration-500">
               Join Expedition
             </button>
             <Sheet>
               <SheetTrigger className="lg:hidden"><Menu className="w-6 h-6 text-white" /></SheetTrigger>
-              <SheetContent side="right" className="bg-[#0d1210] border-teal-500/10 p-12">
+              <SheetContent side="right" className="bg-[#0d1210] border-[var(--brand,#14b8a6)]/10 p-12">
                 <div className="flex flex-col gap-8 mt-16">
                   {["Expeditions", "Stories", "Gear", "Contact"].map(l => (
-                    <Link key={l} href="#contact" className="text-3xl font-light uppercase tracking-widest hover:text-teal-400 transition-colors">{l}</Link>
+                    <Link key={l} href="#contact" className="text-3xl font-light uppercase tracking-widest hover:text-[var(--brand,#2dd4bf)] transition-colors">{l}</Link>
                   ))}
                 </div>
               </SheetContent>
@@ -214,13 +214,13 @@ export default function MeridianJourneyPage() {
           <motion.div style={{ opacity: heroOpacity }} className="relative z-10 max-w-[1600px] w-full mx-auto px-6 md:px-12 pb-24">
             <Reveal>
               <div className="flex items-center gap-4 mb-6">
-                <div className="w-12 h-[1px] bg-teal-400" />
-                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-teal-400">Expedition Storytelling</span>
+                <div className="w-12 h-[1px] bg-[var(--brand,#2dd4bf)]" />
+                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#2dd4bf)]">Expedition Storytelling</span>
               </div>
             </Reveal>
             <Reveal delay={0.15} y={70}>
               <h1 className="text-6xl md:text-8xl lg:text-[10rem] font-black tracking-tighter leading-[0.8] mb-8 uppercase">{c?.heroHeadline ?? <>
-                Into The<br/><span className="text-teal-400">Unknown.</span>
+                Into The<br/><span className="text-[var(--brand,#2dd4bf)]">Unknown.</span>
               </>}</h1>
             </Reveal>
             <Reveal delay={0.3}>
@@ -233,7 +233,7 @@ export default function MeridianJourneyPage() {
           <div className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2">
             <span className="text-[8px] font-bold uppercase tracking-[0.4em] text-white/30">Scroll</span>
             <motion.div animate={{ y: [0, 8, 0] }} transition={{ repeat: Infinity, duration: 2 }}
-              className="w-[1px] h-10 bg-gradient-to-b from-teal-400/60 to-transparent" />
+              className="w-[1px] h-10 bg-gradient-to-b from-[var(--brand,#2dd4bf)]/60 to-transparent" />
           </div>
         </section>
 
@@ -248,7 +248,7 @@ export default function MeridianJourneyPage() {
             ].map((s, i) => (
               <Reveal key={i} delay={i * 0.08}>
                 <div className="text-center">
-                  <div className="text-4xl font-black text-teal-400 mb-1">{s.v}</div>
+                  <div className="text-4xl font-black text-[var(--brand,#2dd4bf)] mb-1">{s.v}</div>
                   <div className="text-[10px] font-bold uppercase tracking-widest text-white/30">{s.l}</div>
                 </div>
               </Reveal>
@@ -261,8 +261,8 @@ export default function MeridianJourneyPage() {
           <div className="max-w-[1600px] mx-auto px-6 md:px-12">
             <Reveal>
               <div className="mb-20">
-                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-teal-400 block mb-4">Upcoming</span>
-                <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase">Next <span className="text-teal-400">Expeditions.</span></h2>
+                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#2dd4bf)] block mb-4">Upcoming</span>
+                <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase">Next <span className="text-[var(--brand,#2dd4bf)]">Expeditions.</span></h2>
               </div>
             </Reveal>
             <div className="flex flex-col gap-12">
@@ -271,19 +271,19 @@ export default function MeridianJourneyPage() {
                   <div className="group grid grid-cols-1 lg:grid-cols-2 gap-8 cursor-pointer items-center">
                     <div className="relative aspect-[16/9] overflow-hidden rounded-xl">
                       <ParallaxImg src={exp.img} alt={exp.title} />
-                      <div className="absolute inset-0 bg-teal-900/10 group-hover:bg-transparent transition-colors duration-700" />
+                      <div className="absolute inset-0 bg-[var(--brand,#134e4a)]/10 group-hover:bg-transparent transition-colors duration-700" />
                       <div className="absolute top-6 left-6 flex gap-2">
                         <span className="px-3 py-1 bg-black/50 backdrop-blur-md text-[10px] font-bold uppercase tracking-widest text-teal-300 rounded-full">{exp.duration}</span>
                         <span className="px-3 py-1 bg-black/50 backdrop-blur-md text-[10px] font-bold uppercase tracking-widest text-white/60 rounded-full">{exp.difficulty}</span>
                       </div>
                     </div>
                     <div className="lg:pl-8">
-                      <div className="flex items-center gap-2 mb-3 text-xs text-teal-400">
+                      <div className="flex items-center gap-2 mb-3 text-xs text-[var(--brand,#2dd4bf)]">
                         <MapPin className="w-3 h-3" /> {exp.region}
                       </div>
-                      <h3 className="text-3xl md:text-4xl font-black uppercase tracking-tight mb-4 group-hover:text-teal-400 transition-colors">{exp.title}</h3>
+                      <h3 className="text-3xl md:text-4xl font-black uppercase tracking-tight mb-4 group-hover:text-[var(--brand,#2dd4bf)] transition-colors">{exp.title}</h3>
                       <p className="text-white/40 leading-relaxed mb-6">{exp.desc}</p>
-                      <button className="flex items-center gap-3 text-[10px] font-bold uppercase tracking-widest text-teal-400 group-hover:gap-5 transition-all">
+                      <button className="flex items-center gap-3 text-[10px] font-bold uppercase tracking-widest text-[var(--brand,#2dd4bf)] group-hover:gap-5 transition-all">
                         View Expedition <ArrowRight className="w-4 h-4" />
                       </button>
                     </div>
@@ -299,17 +299,17 @@ export default function MeridianJourneyPage() {
           <div className="max-w-[1200px] mx-auto px-6 md:px-12">
             <Reveal>
               <div className="text-center mb-24">
-                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-teal-400 block mb-4">The Journey</span>
-                <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase">Four <span className="text-teal-400">Chapters.</span></h2>
+                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#2dd4bf)] block mb-4">The Journey</span>
+                <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase">Four <span className="text-[var(--brand,#2dd4bf)]">Chapters.</span></h2>
               </div>
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
               {CHAPTERS.map((ch, i) => (
                 <Reveal key={i} delay={i * 0.1}>
                   <div className="text-center group">
-                    <div className="text-5xl font-light text-teal-400/15 mb-4">{ch.num}</div>
-                    <div className="w-14 h-14 rounded-full border border-teal-400/20 flex items-center justify-center mx-auto mb-6 group-hover:bg-teal-500 group-hover:border-teal-500 transition-all duration-500">
-                      <ch.icon className="w-6 h-6 text-teal-400 group-hover:text-black transition-colors" />
+                    <div className="text-5xl font-light text-[var(--brand,#2dd4bf)]/15 mb-4">{ch.num}</div>
+                    <div className="w-14 h-14 rounded-full border border-[var(--brand,#2dd4bf)]/20 flex items-center justify-center mx-auto mb-6 group-hover:bg-[var(--brand,#14b8a6)] group-hover:border-[var(--brand,#14b8a6)] transition-all duration-500">
+                      <ch.icon className="w-6 h-6 text-[var(--brand,#2dd4bf)] group-hover:text-black transition-colors" />
                     </div>
                     <h3 className="text-lg font-bold mb-3 uppercase tracking-wide">{ch.title}</h3>
                     <p className="text-sm text-white/40 leading-relaxed">{ch.desc}</p>
@@ -326,8 +326,8 @@ export default function MeridianJourneyPage() {
             <Reveal>
               <div className="flex items-end justify-between mb-20 border-b border-white/5 pb-12 gap-6">
                 <div>
-                  <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-teal-400 block mb-4">Field Reports</span>
-                  <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase mb-2">In Their <span className="text-teal-400">Words.</span></h2>
+                  <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#2dd4bf)] block mb-4">Field Reports</span>
+                  <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase mb-2">In Their <span className="text-[var(--brand,#2dd4bf)]">Words.</span></h2>
                 </div>
               </div>
             </Reveal>
@@ -338,15 +338,15 @@ export default function MeridianJourneyPage() {
                 { quote: "My son and I did the Greenland coastal route. He's 14. He still talks about it. I'll never find a better investment of two weeks.", name: "D. Morel", origin: "Lyon · Architect", exp: "Greenland Coastal" },
               ].map((t, i) => (
                 <Reveal key={i} delay={i * 0.12}>
-                  <div className="group border border-white/5 rounded-2xl p-10 flex flex-col gap-6 hover:border-teal-500/20 transition-all duration-500 h-full">
+                  <div className="group border border-white/5 rounded-2xl p-10 flex flex-col gap-6 hover:border-[var(--brand,#14b8a6)]/20 transition-all duration-500 h-full">
                     <div className="flex gap-1">
-                      {[...Array(5)].map((_, j) => <Star key={j} className="w-4 h-4 fill-teal-400 text-teal-400" />)}
+                      {[...Array(5)].map((_, j) => <Star key={j} className="w-4 h-4 fill-[var(--brand,#2dd4bf)] text-[var(--brand,#2dd4bf)]" />)}
                     </div>
                     <p className="text-white/50 font-light leading-relaxed italic flex-1">{`"${t.quote}"`}</p>
                     <div className="border-t border-white/5 pt-6">
                       <div className="font-bold text-sm text-white uppercase tracking-widest">{t.name}</div>
                       <div className="text-xs text-white/25 tracking-widest mt-1">{t.origin}</div>
-                      <div className="flex items-center gap-2 text-xs text-teal-400 mt-2"><MapPin className="w-3 h-3" />{t.exp}</div>
+                      <div className="flex items-center gap-2 text-xs text-[var(--brand,#2dd4bf)] mt-2"><MapPin className="w-3 h-3" />{t.exp}</div>
                     </div>
                   </div>
                 </Reveal>
@@ -360,8 +360,8 @@ export default function MeridianJourneyPage() {
           <div className="max-w-[1400px] mx-auto px-6 md:px-12">
             <Reveal>
               <div className="mb-20">
-                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-teal-400 block mb-4">Field Experts</span>
-                <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase">The <span className="text-teal-400">Guides.</span></h2>
+                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#2dd4bf)] block mb-4">Field Experts</span>
+                <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase">The <span className="text-[var(--brand,#2dd4bf)]">Guides.</span></h2>
               </div>
             </Reveal>
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
@@ -373,16 +373,16 @@ export default function MeridianJourneyPage() {
               ].map((g, i) => (
                 <Reveal key={i} delay={i * 0.1}>
                   <div className="group cursor-default">
-                    <div className="aspect-[3/4] rounded-xl overflow-hidden bg-white/[0.02] border border-white/5 mb-6 flex items-end p-8 group-hover:border-teal-500/20 transition-colors duration-500 relative">
+                    <div className="aspect-[3/4] rounded-xl overflow-hidden bg-white/[0.02] border border-white/5 mb-6 flex items-end p-8 group-hover:border-[var(--brand,#14b8a6)]/20 transition-colors duration-500 relative">
                       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[5rem] font-black text-white/[0.03] uppercase">{g.name.split(" ").map(n => n[0]).join("")}</div>
                       <div className="relative z-10">
-                        <div className="text-[9px] font-mono text-teal-400/60 mb-1">{g.routes} routes led</div>
+                        <div className="text-[9px] font-mono text-[var(--brand,#2dd4bf)]/60 mb-1">{g.routes} routes led</div>
                         <div className="text-[8px] font-bold uppercase tracking-widest text-white/20">{g.exp} field</div>
                       </div>
                     </div>
                     <div>
                       <h3 className="text-lg font-bold uppercase tracking-widest text-white mb-1">{g.name}</h3>
-                      <p className="text-[10px] text-teal-400 uppercase tracking-wider mb-2">{g.spec}</p>
+                      <p className="text-[10px] text-[var(--brand,#2dd4bf)] uppercase tracking-wider mb-2">{g.spec}</p>
                       <div className="flex flex-wrap gap-2">{g.certs.map(c => <span key={c} className="text-[8px] font-bold uppercase tracking-widest px-2 py-1 border border-white/10 text-white/25">{c}</span>)}</div>
                     </div>
                   </div>
@@ -401,12 +401,12 @@ export default function MeridianJourneyPage() {
           <div className="relative z-10 text-center px-6">
             <Reveal>
               <h2 className="text-6xl md:text-8xl font-black tracking-tighter uppercase mb-8">
-                Answer The<br/><span className="text-teal-400">Call.</span>
+                Answer The<br/><span className="text-[var(--brand,#2dd4bf)]">Call.</span>
               </h2>
               <p className="text-lg text-white/50 font-light max-w-md mx-auto mb-10">
                 Applications for 2026 expeditions are now open. Limited to 8 per journey.
               </p>
-              <button className="px-12 py-5 bg-teal-500 text-black font-bold rounded-full hover:bg-white transition-colors duration-500">
+              <button className="px-12 py-5 bg-[var(--brand,#14b8a6)] text-black font-bold rounded-full hover:bg-white transition-colors duration-500">
                 Apply Now
               </button>
             </Reveal>
@@ -419,7 +419,7 @@ export default function MeridianJourneyPage() {
         <div className="max-w-[1400px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-16 mb-20">
           <div>
             <div className="flex items-center gap-3 mb-6">
-              <Compass className="w-5 h-5 text-teal-400" />
+              <Compass className="w-5 h-5 text-[var(--brand,#2dd4bf)]" />
               <span className="font-bold tracking-[0.2em] uppercase">Meridian</span>
             </div>
             <p className="text-sm text-white/30 leading-relaxed">Expedition storytelling and guided wilderness journeys since 2017.</p>
@@ -430,7 +430,7 @@ export default function MeridianJourneyPage() {
             { title: "Company", links: ["About", "Guides", "Safety", "Contact"] },
           ].map((col, i) => (
             <div key={i}>
-              <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-teal-400 mb-6">{col.title}</h4>
+              <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#2dd4bf)] mb-6">{col.title}</h4>
               <ul className="space-y-3 text-sm text-white/30">
                 {col.links.map(l => <li key={l}><Link href="#contact" className="hover:text-white transition-colors">{l}</Link></li>)}
               </ul>

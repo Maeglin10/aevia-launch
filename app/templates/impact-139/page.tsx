@@ -139,10 +139,10 @@ export default function ApexFitnessPage() {
   }, []);
 
   return (
-    <div className="bg-[#0a0a0a] text-white font-sans min-h-dvh selection:bg-lime-500 selection:text-black overflow-x-hidden">
+    <div className="bg-[#0a0a0a] text-white font-sans min-h-dvh selection:bg-[var(--brand,#84cc16)] selection:text-black overflow-x-hidden">
 
       {/* ── NAVBAR ────── */}
-      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#0a0a0a]/90 backdrop-blur-xl border-b border-lime-500/10 py-4" : "bg-transparent py-8"}`}>
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#0a0a0a]/90 backdrop-blur-xl border-b border-[var(--brand,#84cc16)]/10 py-4" : "bg-transparent py-8"}`}>
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex items-center justify-between">
           <Link href="#hero" className="flex items-center gap-3">
             {fd?.logoBase64 ? (
@@ -153,7 +153,7 @@ export default function ApexFitnessPage() {
               />
             ) : (
               <>
-                <div className="w-10 h-10 rounded-lg bg-lime-500 flex items-center justify-center -skew-x-6">
+                <div className="w-10 h-10 rounded-lg bg-[var(--brand,#84cc16)] flex items-center justify-center -skew-x-6">
                   <Dumbbell className="w-5 h-5 text-black" />
                 </div>
                 <span className="text-xl font-black tracking-tight uppercase">Apex</span>
@@ -162,18 +162,18 @@ export default function ApexFitnessPage() {
           </Link>
           <div className="hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-white/40">
             {["Programs", "Pricing", "Team", "Contact"].map(l => (
-              <a key={l} href={`#${l.toLowerCase().replace(" ", "")}`} className="hover:text-lime-400 transition-colors">{l}</a>
+              <a key={l} href={`#${l.toLowerCase().replace(" ", "")}`} className="hover:text-[var(--brand,#a3e635)] transition-colors">{l}</a>
             ))}
           </div>
-          <button onClick={() => document.getElementById("contact")?.scrollIntoView({behavior:"smooth"})} className="hidden md:block px-8 py-3 bg-lime-500 text-black text-[10px] font-bold uppercase tracking-[0.2em] rounded-full hover:bg-white transition-colors duration-500">
+          <button onClick={() => document.getElementById("contact")?.scrollIntoView({behavior:"smooth"})} className="hidden md:block px-8 py-3 bg-[var(--brand,#84cc16)] text-black text-[10px] font-bold uppercase tracking-[0.2em] rounded-full hover:bg-white transition-colors duration-500">
             Start Free Trial
           </button>
           <Sheet>
             <SheetTrigger className="lg:hidden"><Menu className="w-6 h-6 text-white" /></SheetTrigger>
-            <SheetContent side="right" className="bg-[#0a0a0a] border-lime-500/10 p-12">
+            <SheetContent side="right" className="bg-[#0a0a0a] border-[var(--brand,#84cc16)]/10 p-12">
               <div className="flex flex-col gap-8 mt-16">
                 {["Programs", "Pricing", "Team", "Contact"].map(l => (
-                  <a key={l} href={`#${l.toLowerCase().replace(" ", "")}`} className="text-3xl font-bold uppercase tracking-widest hover:text-lime-400 transition-colors">{l}</a>
+                  <a key={l} href={`#${l.toLowerCase().replace(" ", "")}`} className="text-3xl font-bold uppercase tracking-widest hover:text-[var(--brand,#a3e635)] transition-colors">{l}</a>
                 ))}
               </div>
             </SheetContent>
@@ -191,13 +191,13 @@ export default function ApexFitnessPage() {
           <motion.div style={{ opacity: heroOpacity }} className="relative z-10 max-w-[1400px] mx-auto px-6 md:px-12 w-full">
             <Reveal>
               <div className="flex items-center gap-4 mb-8">
-                <Flame className="w-4 h-4 text-lime-500" />
-                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-lime-400">Performance Training Studio</span>
+                <Flame className="w-4 h-4 text-[var(--brand,#84cc16)]" />
+                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#a3e635)]">Performance Training Studio</span>
               </div>
             </Reveal>
             <Reveal delay={0.1} y={70}>
               <h1 className="text-7xl md:text-[8rem] lg:text-[11rem] font-black tracking-tighter leading-[0.8] uppercase mb-10">{c?.heroHeadline ?? <>
-                Train<br/><span className="text-lime-500">Harder.</span>
+                Train<br/><span className="text-[var(--brand,#84cc16)]">Harder.</span>
               </>}</h1>
             </Reveal>
             <Reveal delay={0.25}>
@@ -206,7 +206,7 @@ export default function ApexFitnessPage() {
               </>}</p>
             </Reveal>
             <Reveal delay={0.35}>
-              <button onClick={() => document.getElementById("contact")?.scrollIntoView({behavior:"smooth"})} className="px-10 py-5 bg-lime-500 text-black font-bold rounded-full hover:bg-white transition-colors duration-500 flex items-center gap-3">
+              <button onClick={() => document.getElementById("contact")?.scrollIntoView({behavior:"smooth"})} className="px-10 py-5 bg-[var(--brand,#84cc16)] text-black font-bold rounded-full hover:bg-white transition-colors duration-500 flex items-center gap-3">
                 <Zap className="w-5 h-5" /> Start Your Free Week
               </button>
             </Reveal>
@@ -214,7 +214,7 @@ export default function ApexFitnessPage() {
         </section>
 
         {/* ── STATS ──── */}
-        <section id="equipe" className="py-16 bg-lime-500 text-black">
+        <section id="equipe" className="py-16 bg-[var(--brand,#84cc16)] text-black">
           <div className="max-w-[1200px] mx-auto px-6 md:px-12 grid grid-cols-2 md:grid-cols-4 gap-8">
             {[
               { v: "2,400+", l: "Members" },
@@ -237,8 +237,8 @@ export default function ApexFitnessPage() {
           <div className="max-w-[1400px] mx-auto px-6 md:px-12">
             <Reveal>
               <div className="mb-20">
-                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-lime-400 block mb-4">Programs</span>
-                <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase">Find Your <span className="text-lime-500">Program.</span></h2>
+                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#a3e635)] block mb-4">Programs</span>
+                <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase">Find Your <span className="text-[var(--brand,#84cc16)]">Program.</span></h2>
               </div>
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -249,7 +249,7 @@ export default function ApexFitnessPage() {
                       <ParallaxImg src={p.img} alt={p.title} />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
                       <div className="absolute top-6 left-6 flex gap-2">
-                        <span className="px-3 py-1 bg-lime-500 text-black text-[10px] font-bold uppercase tracking-widest rounded-full">{p.type}</span>
+                        <span className="px-3 py-1 bg-[var(--brand,#84cc16)] text-black text-[10px] font-bold uppercase tracking-widest rounded-full">{p.type}</span>
                         <span className="px-3 py-1 bg-black/50 backdrop-blur-md text-white/70 text-[10px] font-bold uppercase tracking-widest rounded-full">{p.level}</span>
                       </div>
                       <div className="absolute bottom-6 left-6 right-6">
@@ -272,16 +272,16 @@ export default function ApexFitnessPage() {
           <div className="max-w-[1200px] mx-auto px-6 md:px-12">
             <Reveal>
               <div className="text-center mb-24">
-                <h2 className="text-5xl md:text-6xl font-black tracking-tighter uppercase">Why <span className="text-lime-500">Apex?</span></h2>
+                <h2 className="text-5xl md:text-6xl font-black tracking-tighter uppercase">Why <span className="text-[var(--brand,#84cc16)]">Apex?</span></h2>
               </div>
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {FEATURES.map((f, i) => (
                 <Reveal key={i} delay={i * 0.08}>
-                  <div className="group p-8 bg-white/[0.02] border border-white/5 rounded-2xl hover:border-lime-500/30 transition-all duration-500">
+                  <div className="group p-8 bg-white/[0.02] border border-white/5 rounded-2xl hover:border-[var(--brand,#84cc16)]/30 transition-all duration-500">
                     <div className="flex items-start gap-6">
-                      <div className="w-14 h-14 rounded-xl bg-lime-500/10 border border-lime-500/20 flex items-center justify-center shrink-0 group-hover:bg-lime-500 group-hover:border-lime-500 transition-all duration-500">
-                        <f.icon className="w-6 h-6 text-lime-400 group-hover:text-black transition-colors" />
+                      <div className="w-14 h-14 rounded-xl bg-[var(--brand,#84cc16)]/10 border border-[var(--brand,#84cc16)]/20 flex items-center justify-center shrink-0 group-hover:bg-[var(--brand,#84cc16)] group-hover:border-[var(--brand,#84cc16)] transition-all duration-500">
+                        <f.icon className="w-6 h-6 text-[var(--brand,#a3e635)] group-hover:text-black transition-colors" />
                       </div>
                       <div>
                         <h3 className="text-xl font-bold mb-3 uppercase">{f.title}</h3>
@@ -300,26 +300,26 @@ export default function ApexFitnessPage() {
           <div className="max-w-[1000px] mx-auto px-6 md:px-12">
             <Reveal>
               <div className="text-center mb-24">
-                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-lime-400 block mb-4">Membership</span>
-                <h2 className="text-5xl md:text-6xl font-black tracking-tighter uppercase">Choose Your <span className="text-lime-500">Plan.</span></h2>
+                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#a3e635)] block mb-4">Membership</span>
+                <h2 className="text-5xl md:text-6xl font-black tracking-tighter uppercase">Choose Your <span className="text-[var(--brand,#84cc16)]">Plan.</span></h2>
               </div>
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {PLANS.map((p, i) => (
                 <Reveal key={i} delay={i * 0.1}>
-                  <div className={`p-8 rounded-2xl border h-full flex flex-col ${p.popular ? "bg-lime-500/5 border-lime-500/30 relative" : "bg-white/[0.02] border-white/5"}`}>
-                    {p.popular && <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 px-4 py-1 bg-lime-500 text-black text-[10px] font-bold uppercase tracking-widest rounded-full">Most Popular</div>}
+                  <div className={`p-8 rounded-2xl border h-full flex flex-col ${p.popular ? "bg-[var(--brand,#84cc16)]/5 border-[var(--brand,#84cc16)]/30 relative" : "bg-white/[0.02] border-white/5"}`}>
+                    {p.popular && <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 px-4 py-1 bg-[var(--brand,#84cc16)] text-black text-[10px] font-bold uppercase tracking-widest rounded-full">Most Popular</div>}
                     <h3 className="text-xl font-bold uppercase mb-1">{p.name}</h3>
-                    <div className="text-4xl font-black text-lime-400 mb-1">{p.price}<span className="text-lg text-white/30 font-normal">/mo</span></div>
+                    <div className="text-4xl font-black text-[var(--brand,#a3e635)] mb-1">{p.price}<span className="text-lg text-white/30 font-normal">/mo</span></div>
                     <p className="text-sm text-white/40 mb-6">{p.desc}</p>
                     <ul className="space-y-3 flex-1 mb-8">
                       {p.features.map((f, j) => (
                         <li key={j} className="flex items-center gap-2 text-sm text-white/60">
-                          <CheckCircle2 className="w-4 h-4 text-lime-400 shrink-0" /> {f}
+                          <CheckCircle2 className="w-4 h-4 text-[var(--brand,#a3e635)] shrink-0" /> {f}
                         </li>
                       ))}
                     </ul>
-                    <button onClick={() => document.getElementById("contact")?.scrollIntoView({behavior:"smooth"})} className={`w-full py-4 font-bold rounded-full transition-all duration-500 ${p.popular ? "bg-lime-500 text-black hover:bg-white" : "bg-white/5 text-white hover:bg-white/10"}`}>
+                    <button onClick={() => document.getElementById("contact")?.scrollIntoView({behavior:"smooth"})} className={`w-full py-4 font-bold rounded-full transition-all duration-500 ${p.popular ? "bg-[var(--brand,#84cc16)] text-black hover:bg-white" : "bg-white/5 text-white hover:bg-white/10"}`}>
                       Start Free Week
                     </button>
                   </div>
@@ -338,9 +338,9 @@ export default function ApexFitnessPage() {
           <div className="relative z-10 text-center px-6">
             <Reveal>
               <h2 className="text-6xl md:text-8xl font-black tracking-tighter uppercase mb-8">
-                Your First<br/>Week Is <span className="text-lime-500">Free.</span>
+                Your First<br/>Week Is <span className="text-[var(--brand,#84cc16)]">Free.</span>
               </h2>
-              <button onClick={() => document.getElementById("contact")?.scrollIntoView({behavior:"smooth"})} className="px-12 py-5 bg-lime-500 text-black font-bold rounded-full hover:bg-white transition-colors duration-500">
+              <button onClick={() => document.getElementById("contact")?.scrollIntoView({behavior:"smooth"})} className="px-12 py-5 bg-[var(--brand,#84cc16)] text-black font-bold rounded-full hover:bg-white transition-colors duration-500">
                 Claim Your Trial
               </button>
             </Reveal>
@@ -352,8 +352,8 @@ export default function ApexFitnessPage() {
           <div className="max-w-[1200px] mx-auto px-6 md:px-12">
             <Reveal>
               <div className="text-center mb-24">
-                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-lime-400 block mb-4">Elite Coaches</span>
-                <h2 className="text-5xl md:text-6xl font-black tracking-tighter uppercase">Meet the <span className="text-lime-500">Coaches.</span></h2>
+                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#a3e635)] block mb-4">Elite Coaches</span>
+                <h2 className="text-5xl md:text-6xl font-black tracking-tighter uppercase">Meet the <span className="text-[var(--brand,#84cc16)]">Coaches.</span></h2>
               </div>
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -369,11 +369,11 @@ export default function ApexFitnessPage() {
               ] as any[]).map((c: any, i: number) => (
                 <Reveal key={c.name} delay={i * 0.1}>
                   <div className="p-8 bg-[#0a0a0a] border border-white/5 rounded-2xl flex flex-col items-center text-center">
-                    <div className="w-16 h-16 bg-lime-500 rounded-xl flex items-center justify-center -skew-x-6 mb-6">
+                    <div className="w-16 h-16 bg-[var(--brand,#84cc16)] rounded-xl flex items-center justify-center -skew-x-6 mb-6">
                       <span className="text-black font-black text-xl">{c.initials}</span>
                     </div>
                     <h3 className="text-xl font-bold uppercase mb-2">{c.name}</h3>
-                    <div className="text-xs text-lime-400 font-bold uppercase tracking-widest mb-4">{c.role}</div>
+                    <div className="text-xs text-[var(--brand,#a3e635)] font-bold uppercase tracking-widest mb-4">{c.role}</div>
                     <p className="text-sm text-white/40 leading-relaxed">{c.bio}</p>
                   </div>
                 </Reveal>
@@ -387,8 +387,8 @@ export default function ApexFitnessPage() {
           <div className="max-w-[1200px] mx-auto px-6 md:px-12">
             <Reveal>
               <div className="text-center mb-24">
-                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-lime-400 block mb-4">Reviews</span>
-                <h2 className="text-5xl md:text-6xl font-black tracking-tighter uppercase">What Our Members <span className="text-lime-500">Say.</span></h2>
+                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#a3e635)] block mb-4">Reviews</span>
+                <h2 className="text-5xl md:text-6xl font-black tracking-tighter uppercase">What Our Members <span className="text-[var(--brand,#84cc16)]">Say.</span></h2>
               </div>
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -402,11 +402,11 @@ export default function ApexFitnessPage() {
                 { quote: "The community is extremely supportive, and the mobility programming has cured my chronic lower back issues.", author: "Marcus D.", plan: "Essential Member" },
               ] as any[]).map((t: any, i: number) => (
                 <Reveal key={i} delay={i * 0.1}>
-                  <div className="p-8 bg-[#0d0d0d] border border-white/5 rounded-2xl flex flex-col justify-between h-full hover:border-lime-500/20 transition-all duration-300">
+                  <div className="p-8 bg-[#0d0d0d] border border-white/5 rounded-2xl flex flex-col justify-between h-full hover:border-[var(--brand,#84cc16)]/20 transition-all duration-300">
                     <p className="text-white/60 leading-relaxed italic mb-8">"{t.quote}"</p>
                     <div>
                       <div className="font-bold text-sm text-white uppercase">{t.author}</div>
-                      <div className="text-xs text-lime-400 font-medium mt-1 uppercase tracking-wider">{t.plan}</div>
+                      <div className="text-xs text-[var(--brand,#a3e635)] font-medium mt-1 uppercase tracking-wider">{t.plan}</div>
                     </div>
                   </div>
                 </Reveal>
@@ -419,30 +419,30 @@ export default function ApexFitnessPage() {
         <section id="contact" className="py-32 bg-[#0a0a0a] border-t border-white/5">
           <div className="max-w-[800px] mx-auto px-6 text-center">
             <Reveal>
-              <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-lime-400 block mb-4">Connect</span>
-              <h2 className="text-5xl md:text-6xl font-black tracking-tighter mb-12 uppercase">Get Your <span className="text-lime-500">Free Week.</span></h2>
+              <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#a3e635)] block mb-4">Connect</span>
+              <h2 className="text-5xl md:text-6xl font-black tracking-tighter mb-12 uppercase">Get Your <span className="text-[var(--brand,#84cc16)]">Free Week.</span></h2>
             </Reveal>
             <Reveal delay={0.15}>
               {contactSubmitted ? (
-                <div className="p-12 bg-[#0d0d0d] rounded-2xl border border-lime-500/30 flex flex-col items-center justify-center">
-                  <CheckCircle2 className="w-12 h-12 text-lime-400 mb-4" />
+                <div className="p-12 bg-[#0d0d0d] rounded-2xl border border-[var(--brand,#84cc16)]/30 flex flex-col items-center justify-center">
+                  <CheckCircle2 className="w-12 h-12 text-[var(--brand,#a3e635)] mb-4" />
                   <p className="text-xl font-bold text-white">Merci, nous vous répondrons sous 24h.</p>
                 </div>
               ) : (
                 <form onSubmit={(e) => { e.preventDefault(); setContactSubmitted(true); }} className="space-y-4 max-w-md mx-auto text-left">
                   <div>
                     <label className="block text-[9px] font-bold uppercase tracking-widest text-white/50 mb-2">Name</label>
-                    <input required type="text" placeholder="Your Name" className="w-full px-5 py-3.5 bg-[#0d0d0d] border border-white/10 rounded-xl text-sm focus:outline-none focus:border-lime-500 transition-colors text-white" />
+                    <input required type="text" placeholder="Your Name" className="w-full px-5 py-3.5 bg-[#0d0d0d] border border-white/10 rounded-xl text-sm focus:outline-none focus:border-[var(--brand,#84cc16)] transition-colors text-white" />
                   </div>
                   <div>
                     <label className="block text-[9px] font-bold uppercase tracking-widest text-white/50 mb-2">Email</label>
-                    <input required type="email" placeholder="you@example.com" className="w-full px-5 py-3.5 bg-[#0d0d0d] border border-white/10 rounded-xl text-sm focus:outline-none focus:border-lime-500 transition-colors text-white" />
+                    <input required type="email" placeholder="you@example.com" className="w-full px-5 py-3.5 bg-[#0d0d0d] border border-white/10 rounded-xl text-sm focus:outline-none focus:border-[var(--brand,#84cc16)] transition-colors text-white" />
                   </div>
                   <div>
                     <label className="block text-[9px] font-bold uppercase tracking-widest text-white/50 mb-2">Message</label>
-                    <textarea required rows={4} placeholder="Tell us about your training history and goals..." className="w-full px-5 py-3.5 bg-[#0d0d0d] border border-white/10 rounded-xl text-sm focus:outline-none focus:border-lime-500 transition-colors text-white" />
+                    <textarea required rows={4} placeholder="Tell us about your training history and goals..." className="w-full px-5 py-3.5 bg-[#0d0d0d] border border-white/10 rounded-xl text-sm focus:outline-none focus:border-[var(--brand,#84cc16)] transition-colors text-white" />
                   </div>
-                  <button type="submit" className="w-full py-4 bg-lime-500 text-black font-bold rounded-full hover:bg-white transition-colors duration-300">
+                  <button type="submit" className="w-full py-4 bg-[var(--brand,#84cc16)] text-black font-bold rounded-full hover:bg-white transition-colors duration-300">
                     Claim Free Week
                   </button>
                 </form>
@@ -456,7 +456,7 @@ export default function ApexFitnessPage() {
         <div className="max-w-[1200px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-16 mb-20">
           <div>
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-8 h-8 rounded-lg bg-lime-500 flex items-center justify-center -skew-x-6"><Dumbbell className="w-4 h-4 text-black" /></div>
+              <div className="w-8 h-8 rounded-lg bg-[var(--brand,#84cc16)] flex items-center justify-center -skew-x-6"><Dumbbell className="w-4 h-4 text-black" /></div>
               <span className="font-black tracking-tight uppercase">Apex</span>
             </div>
             <p className="text-sm text-white/30 leading-relaxed">Performance training studio for serious athletes.</p>
@@ -466,7 +466,7 @@ export default function ApexFitnessPage() {
             { title: "Follow", links: ["Instagram", "TikTok", "YouTube"] },
           ].map((col, i) => (
             <div key={i}>
-              <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-lime-400 mb-6">{col.title}</h4>
+              <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#a3e635)] mb-6">{col.title}</h4>
               <ul className="space-y-3 text-sm text-white/30">
                 {col.links.map(l => {
                   let href = "#";

@@ -104,7 +104,7 @@ export default function NeonPulsePage() {
       {/* ── GRADIENT BACKGROUND ───── */}
       <div className="fixed inset-0 pointer-events-none">
          <div className="absolute top-[-10%] right-[-10%] w-[60%] h-[60%] bg-purple-600/20 blur-[120px] rounded-full animate-pulse" />
-         <div className="absolute bottom-[-10%] left-[-10%] w-[60%] h-[60%] bg-cyan-600/10 blur-[120px] rounded-full" />
+         <div className="absolute bottom-[-10%] left-[-10%] w-[60%] h-[60%] bg-[var(--brand,#0891b2)]/10 blur-[120px] rounded-full" />
       </div>
 
       {/* ── NAVBAR ────────────────── */}
@@ -119,10 +119,10 @@ export default function NeonPulsePage() {
               />
             ) : (
               <>
-            <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-purple-600 via-pink-500 to-cyan-400 flex items-center justify-center group-hover:rotate-[360deg] transition-transform duration-1000 shadow-[0_0_20px_rgba(147,51,234,0.5)]">
+            <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-purple-600 via-pink-500 to-[var(--brand,#22d3ee)] flex items-center justify-center group-hover:rotate-[360deg] transition-transform duration-1000 shadow-[0_0_20px_rgba(147,51,234,0.5)]">
               <Zap className="w-5 h-5 text-white fill-current" />
             </div>
-            <span className="text-2xl font-black tracking-tighter uppercase italic">Neon<span className="text-cyan-400">Pulse</span></span>
+            <span className="text-2xl font-black tracking-tighter uppercase italic">Neon<span className="text-[var(--brand,#22d3ee)]">Pulse</span></span>
           </>
             )}</Link>
           <div className="hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-white/40">
@@ -132,13 +132,13 @@ export default function NeonPulsePage() {
           </div>
           <div className="flex items-center gap-6">
             <button className="hidden md:block text-[10px] font-bold uppercase tracking-widest text-white/40 hover:text-white transition-colors">Connect Wallet</button>
-            <button className="px-8 py-3 bg-white text-black text-[10px] font-bold uppercase tracking-[0.2em] rounded-full hover:bg-cyan-400 hover:text-black transition-all duration-500 shadow-[0_0_20px_rgba(255,255,255,0.2)]">Explore Drops</button>
+            <button className="px-8 py-3 bg-white text-black text-[10px] font-bold uppercase tracking-[0.2em] rounded-full hover:bg-[var(--brand,#22d3ee)] hover:text-black transition-all duration-500 shadow-[0_0_20px_rgba(255,255,255,0.2)]">Explore Drops</button>
             <Sheet>
               <SheetTrigger className="lg:hidden p-2"><Menu className="w-6 h-6 text-white" /></SheetTrigger>
               <SheetContent side="right" className="bg-black border-white/5 p-12 text-white">
                 <div className="flex flex-col gap-8 mt-16 text-left">
                   {["Gallery", "Creators", "Mint", "Profile"].map(l => (
-                    <Link key={l} href="#realisations" className="text-4xl font-black uppercase tracking-tighter hover:text-cyan-400 transition-all italic">{l}</Link>
+                    <Link key={l} href="#realisations" className="text-4xl font-black uppercase tracking-tighter hover:text-[var(--brand,#22d3ee)] transition-all italic">{l}</Link>
                   ))}
                 </div>
               </SheetContent>
@@ -153,13 +153,13 @@ export default function NeonPulsePage() {
            <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
               <div className="relative z-10">
                 <Reveal>
-                  <div className="inline-flex items-center gap-3 px-4 py-1.5 bg-white/5 border border-white/10 text-cyan-400 text-[10px] font-bold uppercase tracking-[0.4em] mb-12 rounded-full backdrop-blur-md">
+                  <div className="inline-flex items-center gap-3 px-4 py-1.5 bg-white/5 border border-white/10 text-[var(--brand,#22d3ee)] text-[10px] font-bold uppercase tracking-[0.4em] mb-12 rounded-full backdrop-blur-md">
                     <Sparkles className="w-4 h-4 animate-bounce" /> The Future of Digital Artifacts
                   </div>
                 </Reveal>
                 <Reveal delay={0.1} y={80}>
                   <h1 className="text-7xl md:text-[10vw] font-black tracking-tighter leading-[0.8] uppercase mb-12 italic">{c?.heroHeadline ?? <>
-                    Pulse <br/> <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 via-pink-500 to-cyan-400">The Void.</span>
+                    Pulse <br/> <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 via-pink-500 to-[var(--brand,#22d3ee)]">The Void.</span>
                   </>}</h1>
                 </Reveal>
                 <Reveal delay={0.3}>
@@ -184,14 +184,14 @@ export default function NeonPulsePage() {
               
               <Reveal delay={0.5} y={0}>
                  <div className="relative aspect-square">
-                    <div className="absolute inset-0 bg-gradient-to-tr from-purple-500/20 via-pink-500/10 to-cyan-400/20 blur-[100px] animate-pulse" />
+                    <div className="absolute inset-0 bg-gradient-to-tr from-purple-500/20 via-pink-500/10 to-[var(--brand,#22d3ee)]/20 blur-[100px] animate-pulse" />
                     <div className="relative w-full h-full p-10 bg-white/[0.03] backdrop-blur-2xl border border-white/10 rounded-[3rem] overflow-hidden flex items-center justify-center group">
                        <motion.div 
                          animate={{ rotate: [0, 360], scale: [1, 1.1, 1] }} 
                          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
                          className="w-2/3 h-2/3 border-2 border-dashed border-white/20 rounded-full flex items-center justify-center"
                        >
-                          <div className="w-1/2 h-1/2 bg-gradient-to-br from-purple-500 to-cyan-400 rounded-2xl shadow-[0_0_50px_rgba(168,85,247,0.5)] flex items-center justify-center">
+                          <div className="w-1/2 h-1/2 bg-gradient-to-br from-purple-500 to-[var(--brand,#22d3ee)] rounded-2xl shadow-[0_0_50px_rgba(168,85,247,0.5)] flex items-center justify-center">
                              <Box className="w-16 h-16 text-white" />
                           </div>
                        </motion.div>
@@ -202,7 +202,7 @@ export default function NeonPulsePage() {
                        </div>
                        <div className="absolute bottom-10 left-10 p-6 bg-black/40 backdrop-blur-md border border-white/10 rounded-2xl">
                           <div className="flex items-center gap-3">
-                             <div className="w-8 h-8 rounded-full bg-cyan-400" />
+                             <div className="w-8 h-8 rounded-full bg-[var(--brand,#22d3ee)]" />
                              <div className="text-[10px] font-bold uppercase tracking-widest">@TheArchitect</div>
                           </div>
                        </div>
@@ -217,7 +217,7 @@ export default function NeonPulsePage() {
            <Reveal>
               <div className="flex flex-col md:flex-row items-end justify-between mb-24 gap-8 border-b border-white/5 pb-12">
                  <div className="max-w-2xl">
-                    <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-cyan-400 block mb-6">Genesis Drops</span>
+                    <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#22d3ee)] block mb-6">Genesis Drops</span>
                     <h2 className="text-6xl md:text-8xl font-black uppercase tracking-tighter italic leading-none">The <span className="text-white/20 not-italic">Collection.</span></h2>
                  </div>
                  <div className="flex gap-4">
@@ -237,7 +237,7 @@ export default function NeonPulsePage() {
                             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
                             <div className="absolute bottom-6 left-6">
                                <h3 className="text-3xl font-black italic uppercase mb-2">{drop.name}</h3>
-                               {drop.creator && <div className="text-[10px] font-bold uppercase tracking-widest text-cyan-400">{drop.creator}</div>}
+                               {drop.creator && <div className="text-[10px] font-bold uppercase tracking-widest text-[var(--brand,#22d3ee)]">{drop.creator}</div>}
                             </div>
                          </div>
                       </div>
@@ -248,7 +248,7 @@ export default function NeonPulsePage() {
                               <div className="text-xl font-black italic uppercase tracking-tighter">{drop.price}</div>
                            </div>
                          )}
-                         <button className="px-8 py-3 bg-white text-black text-[9px] font-black uppercase tracking-widest rounded-full hover:bg-cyan-400 transition-all">Buy Now</button>
+                         <button className="px-8 py-3 bg-white text-black text-[9px] font-black uppercase tracking-widest rounded-full hover:bg-[var(--brand,#22d3ee)] transition-all">Buy Now</button>
                       </div>
                    </div>
                 </Reveal>
@@ -271,8 +271,8 @@ export default function NeonPulsePage() {
                             { icon: Share2, t: "Secondary Fluidity", d: "Instant secondary market liquidity with automated creator royalty splits." }
                           ].map((f, i) => (
                             <div key={i} className="flex gap-10 group">
-                               <div className="w-20 h-20 shrink-0 bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center group-hover:bg-cyan-400 transition-all duration-700">
-                                  <f.icon className="w-8 h-8 text-cyan-400 group-hover:text-black transition-colors" />
+                               <div className="w-20 h-20 shrink-0 bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center group-hover:bg-[var(--brand,#22d3ee)] transition-all duration-700">
+                                  <f.icon className="w-8 h-8 text-[var(--brand,#22d3ee)] group-hover:text-black transition-colors" />
                                </div>
                                <div>
                                   <h4 className="text-2xl font-black uppercase tracking-tighter mb-4 italic italic-none">{f.t}</h4>
@@ -296,9 +296,9 @@ export default function NeonPulsePage() {
                           <motion.div 
                             animate={{ rotate: -360 }} 
                             transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-                            className="absolute inset-20 border border-cyan-500/20 rounded-full flex items-center justify-center"
+                            className="absolute inset-20 border border-[var(--brand,#06b6d4)]/20 rounded-full flex items-center justify-center"
                           >
-                             <div className="absolute bottom-0 w-3 h-3 bg-cyan-400 rounded-full shadow-[0_0_15px_#06b6d4]" />
+                             <div className="absolute bottom-0 w-3 h-3 bg-[var(--brand,#22d3ee)] rounded-full shadow-[0_0_15px_#06b6d4]" />
                           </motion.div>
                           <div className="absolute inset-0 flex items-center justify-center">
                              <Layout className="w-24 h-24 text-white/5 group-hover:text-white/20 transition-all" />
@@ -320,12 +320,12 @@ export default function NeonPulsePage() {
                  </div>
               </Reveal>
               <div className="relative">
-                 <div className="absolute left-8 top-0 bottom-0 w-px bg-gradient-to-b from-purple-500 via-pink-500 to-cyan-500 opacity-20 hidden md:block" />
+                 <div className="absolute left-8 top-0 bottom-0 w-px bg-gradient-to-b from-purple-500 via-pink-500 to-[var(--brand,#06b6d4)] opacity-20 hidden md:block" />
                  <div className="space-y-8 md:pl-24">
                     {[
                        { phase: "Phase I", title: "Genesis Drop", status: "LIVE", date: "Q1 2025", desc: "888 hand-rendered Neural Fragments minted on Ethereum mainnet. Provenance via Chainlink VRF.", icon: Box, color: "text-green-400 border-green-500/30 bg-green-500/10" },
                        { phase: "Phase II", title: "Holder Utility", status: "IN PROGRESS", date: "Q2 2025", desc: "Staking rewards, governance voting, and access to physical art editions. Token-gated community.", icon: Wallet, color: "text-purple-400 border-purple-500/30 bg-purple-500/10" },
-                       { phase: "Phase III", title: "Protocol Bridge", status: "UPCOMING", date: "Q3 2025", desc: "Cross-chain expansion to Solana and Base. Interoperable assets across ecosystems.", icon: Globe, color: "text-cyan-400 border-cyan-500/30 bg-cyan-500/10" },
+                       { phase: "Phase III", title: "Protocol Bridge", status: "UPCOMING", date: "Q3 2025", desc: "Cross-chain expansion to Solana and Base. Interoperable assets across ecosystems.", icon: Globe, color: "text-[var(--brand,#22d3ee)] border-[var(--brand,#06b6d4)]/30 bg-[var(--brand,#06b6d4)]/10" },
                        { phase: "Phase IV", title: "Neural Genesis V2", status: "CONCEPT", date: "Q4 2025", desc: "Second generative series co-designed with the community. On-chain evolution based on holder behavior.", icon: Sparkles, color: "text-pink-400 border-pink-500/30 bg-pink-500/10" },
                     ].map((r, i) => (
                        <Reveal key={i} delay={i * 0.1}>
@@ -356,7 +356,7 @@ export default function NeonPulsePage() {
               <Reveal>
                  <div className="flex flex-col md:flex-row items-end justify-between mb-20 border-b border-white/5 pb-12 gap-6">
                     <div>
-                       <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-cyan-500 block mb-4">The Network</span>
+                       <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#06b6d4)] block mb-4">The Network</span>
                        <h2 className="text-6xl md:text-8xl font-black uppercase tracking-tighter italic leading-none">By The <span className="text-white/10">Numbers.</span></h2>
                     </div>
                     <div className="text-sm text-white/25 font-light italic max-w-xs leading-relaxed">Live on-chain data. Verified via Dune Analytics dashboard.</div>
@@ -371,7 +371,7 @@ export default function NeonPulsePage() {
                  ].map((s, i) => (
                     <Reveal key={i} delay={i * 0.08}>
                        <div className="bg-black p-10 text-center group hover:bg-white/[0.02] transition-colors duration-500">
-                          <div className="text-4xl font-black italic mb-2 bg-gradient-to-r from-purple-400 via-pink-400 to-cyan-400 bg-clip-text text-transparent">{s.v}</div>
+                          <div className="text-4xl font-black italic mb-2 bg-gradient-to-r from-purple-400 via-pink-400 to-[var(--brand,#22d3ee)] bg-clip-text text-transparent">{s.v}</div>
                           <div className="text-[10px] font-bold uppercase tracking-widest text-white/25">{s.l}</div>
                           <div className="text-[9px] text-white/15 tracking-wider mt-1">{s.sub}</div>
                        </div>
@@ -382,7 +382,7 @@ export default function NeonPulsePage() {
         </section>
 
         {/* ── CTA ───────────────────── */}
-        <section className="py-60 bg-gradient-to-tr from-purple-600 via-pink-600 to-cyan-500 text-center relative overflow-hidden">
+        <section className="py-60 bg-gradient-to-tr from-purple-600 via-pink-600 to-[var(--brand,#06b6d4)] text-center relative overflow-hidden">
            <div className="absolute inset-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]" />
            <div className="max-w-6xl mx-auto px-6 relative z-10">
               <Reveal>
@@ -407,17 +407,17 @@ export default function NeonPulsePage() {
         <div className="max-w-[1400px] mx-auto grid grid-cols-1 md:grid-cols-5 gap-20 mb-40">
            <div className="md:col-span-2">
               <Link href="#hero" className="flex items-center gap-3 mb-10 group">
-                <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-purple-600 via-pink-500 to-cyan-400 flex items-center justify-center">
+                <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-purple-600 via-pink-500 to-[var(--brand,#22d3ee)] flex items-center justify-center">
                   <Zap className="w-5 h-5 text-white fill-current" />
                 </div>
-                <span className="text-2xl font-black tracking-tighter uppercase italic text-white">Neon<span className="text-cyan-400">Pulse</span></span>
+                <span className="text-2xl font-black tracking-tighter uppercase italic text-white">Neon<span className="text-[var(--brand,#22d3ee)]">Pulse</span></span>
               </Link>
               <p className="text-white/20 max-w-sm leading-relaxed mb-12 text-sm font-light italic">
                  "The pulse is the rhythm of decentralized creation. Own the artifact, own the future."
               </p>
               <div className="flex gap-10">
                  {["Discord", "MessageSquare", "GitHub", "Lens"].map(s => (
-                   <Link key={s} href={ s === "LinkedIn" || s === "Linkedin" ? "https://linkedin.com" : s === "Contact" || s === "contact" ? "#contact" : `#${s.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="text-[10px] font-bold uppercase tracking-widest text-white/20 hover:text-cyan-400 transition-colors italic">{s}</Link>
+                   <Link key={s} href={ s === "LinkedIn" || s === "Linkedin" ? "https://linkedin.com" : s === "Contact" || s === "contact" ? "#contact" : `#${s.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="text-[10px] font-bold uppercase tracking-widest text-white/20 hover:text-[var(--brand,#22d3ee)] transition-colors italic">{s}</Link>
                  ))}
               </div>
            </div>
@@ -442,8 +442,8 @@ export default function NeonPulsePage() {
         <div className="max-w-[1400px] mx-auto flex flex-col md:row justify-between items-center gap-8 border-t border-white/5 pt-12 text-[10px] font-bold uppercase tracking-[0.4em] text-white/10 italic">
            <span>© 2026 NEON PULSE PROTOCOL. OWN THE VOID.</span>
            <div className="flex gap-12">
-              <Link href="#contact" className="hover:text-cyan-400 transition-all">SYSTEM: ONLINE</Link>
-              <Link href="#contact" className="hover:text-cyan-400 transition-all">PULSE: STABLE</Link>
+              <Link href="#contact" className="hover:text-[var(--brand,#22d3ee)] transition-all">SYSTEM: ONLINE</Link>
+              <Link href="#contact" className="hover:text-[var(--brand,#22d3ee)] transition-all">PULSE: STABLE</Link>
            </div>
         </div>
       </footer>

@@ -275,7 +275,7 @@ export default function SonicPlayerPage() {
   };
 
   return (
-    <div className="premium-theme min-h-dvh bg-[#030014] text-slate-200 font-sans selection:bg-purple-500/30 selection:text-white overflow-x-hidden">
+    <div className="premium-theme min-h-dvh bg-[#030014] text-slate-200 font-sans selection:bg-[var(--brand,#a855f7)]/30 selection:text-white overflow-x-hidden">
       {/* Global Background Glow reflecting active release */}
       <div
         className="fixed inset-0 pointer-events-none transition-colors duration-1000 opacity-20"
@@ -310,21 +310,21 @@ export default function SonicPlayerPage() {
           </Link>
 
           <div className="hidden lg:flex items-center gap-10 text-[11px] font-bold uppercase tracking-widest">
-            <Link href="#hero" className="hover:text-purple-400 transition-colors">
+            <Link href="#hero" className="hover:text-[var(--brand,#c084fc)] transition-colors">
               Releases
             </Link>
-            <Link href="#hero" className="hover:text-purple-400 transition-colors">
+            <Link href="#hero" className="hover:text-[var(--brand,#c084fc)] transition-colors">
               Artists
             </Link>
-            <Link href="#hero" className="hover:text-purple-400 transition-colors">
+            <Link href="#hero" className="hover:text-[var(--brand,#c084fc)] transition-colors">
               Tour
             </Link>
-            <Link href="#hero" className="hover:text-purple-400 transition-colors">
+            <Link href="#hero" className="hover:text-[var(--brand,#c084fc)] transition-colors">
               Store
             </Link>
           </div>
 
-          <button className="px-6 py-2 border border-purple-500/30 text-purple-400 text-[10px] font-bold uppercase tracking-widest hover:bg-purple-500 hover:text-white transition-all rounded-full hidden lg:flex items-center gap-2">
+          <button className="px-6 py-2 border border-[var(--brand,#a855f7)]/30 text-[var(--brand,#c084fc)] text-[10px] font-bold uppercase tracking-widest hover:bg-[var(--brand,#a855f7)] hover:text-white transition-all rounded-full hidden lg:flex items-center gap-2">
             <Headphones className="w-4 h-4" /> Listen Live
           </button>
           <button
@@ -341,11 +341,11 @@ export default function SonicPlayerPage() {
       {mobileOpen && (
         <div className="fixed inset-x-0 top-[72px] z-40 bg-[#030014]/95 backdrop-blur-md border-b border-white/5 flex flex-col gap-6 px-6 py-8 lg:hidden">
           {["Releases", "Artists", "Tour", "Store"].map(item => (
-            <a key={item} href="#hero" onClick={() => setMobileOpen(false)} className="text-sm font-bold uppercase tracking-widest text-slate-400 hover:text-purple-400 transition-colors">
+            <a key={item} href="#hero" onClick={() => setMobileOpen(false)} className="text-sm font-bold uppercase tracking-widest text-slate-400 hover:text-[var(--brand,#c084fc)] transition-colors">
               {item}
             </a>
           ))}
-          <button className="mt-2 px-6 py-3 border border-purple-500/30 text-purple-400 text-[10px] font-bold uppercase tracking-widest hover:bg-purple-500 hover:text-white transition-all rounded-full flex items-center gap-2 w-fit">
+          <button className="mt-2 px-6 py-3 border border-[var(--brand,#a855f7)]/30 text-[var(--brand,#c084fc)] text-[10px] font-bold uppercase tracking-widest hover:bg-[var(--brand,#a855f7)] hover:text-white transition-all rounded-full flex items-center gap-2 w-fit">
             <Headphones className="w-4 h-4" /> Listen Live
           </button>
         </div>
@@ -383,7 +383,7 @@ export default function SonicPlayerPage() {
                 <div className="mb-6">
                   <div className="h-1.5 w-full bg-slate-800 rounded-full overflow-hidden cursor-pointer">
                     <div
-                      className="h-full bg-gradient-to-r from-purple-500 to-pink-500 rounded-full relative transition-all duration-300 ease-linear"
+                      className="h-full bg-gradient-to-r from-[var(--brand,#a855f7)] to-pink-500 rounded-full relative transition-all duration-300 ease-linear"
                       style={{ width: `${progress}%` }}
                     >
                       <div className="absolute right-0 top-1/2 -translate-y-1/2 w-3 h-3 bg-white rounded-full shadow-[0_0_10px_rgba(168,85,247,0.8)]" />
@@ -409,7 +409,7 @@ export default function SonicPlayerPage() {
                   <div className="flex items-center gap-6">
                     <button
                       onClick={prevRelease}
-                      className="text-white hover:text-purple-400 transition-colors"
+                      className="text-white hover:text-[var(--brand,#c084fc)] transition-colors"
                     >
                       <SkipBack className="w-6 h-6 fill-current" />
                     </button>
@@ -425,7 +425,7 @@ export default function SonicPlayerPage() {
                     </button>
                     <button
                       onClick={nextRelease}
-                      className="text-white hover:text-purple-400 transition-colors"
+                      className="text-white hover:text-[var(--brand,#c084fc)] transition-colors"
                     >
                       <SkipForward className="w-6 h-6 fill-current" />
                     </button>
@@ -505,7 +505,7 @@ export default function SonicPlayerPage() {
         <div className="max-w-[1200px] mx-auto px-6 md:px-12 grid grid-cols-1 lg:grid-cols-12 gap-16">
           <div className="lg:col-span-4">
             <Reveal>
-              <span className="text-[10px] uppercase tracking-widest font-bold text-purple-500 block mb-4">
+              <span className="text-[10px] uppercase tracking-widest font-bold text-[var(--brand,#a855f7)] block mb-4">
                 About the Album
               </span>
               <h3 className="text-3xl font-bold mb-6">
@@ -544,16 +544,16 @@ export default function SonicPlayerPage() {
                   {TRACKLIST.map((track, i) => (
                     <div
                       key={i}
-                      className={`group flex items-center justify-between p-4 px-6 border-b border-white/5 hover:bg-white/5 transition-colors cursor-pointer ${track.highlight ? "bg-purple-500/10" : ""}`}
+                      className={`group flex items-center justify-between p-4 px-6 border-b border-white/5 hover:bg-white/5 transition-colors cursor-pointer ${track.highlight ? "bg-[var(--brand,#a855f7)]/10" : ""}`}
                     >
                       <div className="flex items-center gap-6">
                         <span
-                          className={`font-mono text-xs ${track.highlight ? "text-purple-400" : "text-slate-600"} group-hover:hidden`}
+                          className={`font-mono text-xs ${track.highlight ? "text-[var(--brand,#c084fc)]" : "text-slate-600"} group-hover:hidden`}
                         >
                           {track.num}
                         </span>
                         <Play
-                          className={`w-4 h-4 hidden group-hover:block ${track.highlight ? "text-purple-400" : "text-white"}`}
+                          className={`w-4 h-4 hidden group-hover:block ${track.highlight ? "text-[var(--brand,#c084fc)]" : "text-white"}`}
                         />
                         <span
                           className={`font-medium ${track.highlight ? "text-purple-300" : "text-slate-300"}`}
@@ -602,7 +602,7 @@ export default function SonicPlayerPage() {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
               <div className="absolute bottom-8 left-8">
-                <div className="px-3 py-1 bg-purple-500/20 text-purple-400 text-[10px] font-bold uppercase tracking-widest rounded-sm mb-3 inline-block backdrop-blur-sm border border-purple-500/30">
+                <div className="px-3 py-1 bg-[var(--brand,#a855f7)]/20 text-[var(--brand,#c084fc)] text-[10px] font-bold uppercase tracking-widest rounded-sm mb-3 inline-block backdrop-blur-sm border border-[var(--brand,#a855f7)]/30">
                   Lead Producer
                 </div>
                 <h3 className="text-4xl font-bold">Kaelen Vance</h3>
@@ -641,7 +641,7 @@ export default function SonicPlayerPage() {
                   Independent label pushing the boundaries of electronic music
                   since 2018.
                 </>}</p>
-                <button className="mt-6 text-[10px] uppercase tracking-widest font-bold text-purple-400 hover:text-white transition-colors pb-1 border-b border-purple-500/30 hover:border-white">
+                <button className="mt-6 text-[10px] uppercase tracking-widest font-bold text-[var(--brand,#c084fc)] hover:text-white transition-colors pb-1 border-b border-[var(--brand,#a855f7)]/30 hover:border-white">
                   Read Manifesto
                 </button>
               </div>
@@ -677,7 +677,7 @@ export default function SonicPlayerPage() {
         <div className="max-w-[1000px] mx-auto px-6 md:px-12">
           <Reveal className="flex justify-between items-end mb-16 border-b border-white/10 pb-8">
             <div>
-              <span className="text-[10px] uppercase tracking-widest font-bold text-purple-500 block mb-4">
+              <span className="text-[10px] uppercase tracking-widest font-bold text-[var(--brand,#a855f7)] block mb-4">
                 Live Experiences
               </span>
               <h2 className="text-4xl md:text-5xl font-black tracking-tighter">
@@ -694,9 +694,9 @@ export default function SonicPlayerPage() {
               const isSoldOut = tour.status === "Sold Out";
               return (
                 <Reveal key={i} delay={i * 0.1}>
-                  <div className="group flex flex-col md:flex-row md:items-center justify-between py-6 border-b border-white/5 hover:border-purple-500/50 transition-colors">
+                  <div className="group flex flex-col md:flex-row md:items-center justify-between py-6 border-b border-white/5 hover:border-[var(--brand,#a855f7)]/50 transition-colors">
                     <div className="flex items-center gap-8 md:w-1/3 mb-4 md:mb-0">
-                      <span className="font-mono text-xl text-purple-400 w-24">
+                      <span className="font-mono text-xl text-[var(--brand,#c084fc)] w-24">
                         {tour.date}
                       </span>
                       <h4 className="text-xl font-bold">{tour.city}</h4>
@@ -710,7 +710,7 @@ export default function SonicPlayerPage() {
                           Sold Out
                         </span>
                       ) : (
-                        <button className="text-[10px] font-bold uppercase tracking-widest text-black bg-purple-500 px-6 py-3 rounded-sm hover:bg-purple-400 transition-colors shadow-[0_0_15px_rgba(168,85,247,0.3)]">
+                        <button className="text-[10px] font-bold uppercase tracking-widest text-black bg-[var(--brand,#a855f7)] px-6 py-3 rounded-sm hover:bg-[var(--brand,#c084fc)] transition-colors shadow-[0_0_15px_rgba(168,85,247,0.3)]">
                           Get Tickets
                         </button>
                       )}
@@ -726,9 +726,9 @@ export default function SonicPlayerPage() {
       {/* ==========================================
           5. MEGA FOOTER
           ========================================== */}
-      <footer className="bg-[#02000a] pt-32 pb-12 px-6 md:px-12 border-t border-purple-900/20 relative overflow-hidden">
+      <footer className="bg-[#02000a] pt-32 pb-12 px-6 md:px-12 border-t border-[var(--brand,#581c87)]/20 relative overflow-hidden">
         {/* Glow */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-purple-600/10 blur-[150px] rounded-full pointer-events-none" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[var(--brand,#9333ea)]/10 blur-[150px] rounded-full pointer-events-none" />
 
         <div className="max-w-[1600px] mx-auto relative z-10">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 mb-24">
@@ -737,7 +737,7 @@ export default function SonicPlayerPage() {
                 href="#hero"
                 className="text-2xl font-black tracking-tighter uppercase mb-6 flex items-center gap-2"
               >
-                <Disc3 className="w-6 h-6 text-purple-500" />
+                <Disc3 className="w-6 h-6 text-[var(--brand,#a855f7)]" />
                 SONIC<span className="font-light text-slate-500">WAVE</span>
               </Link>
               <p className="text-slate-400 text-sm leading-relaxed mb-8">
@@ -758,7 +758,7 @@ export default function SonicPlayerPage() {
             </div>
 
             <div>
-              <h4 className="text-[10px] font-bold uppercase tracking-widest text-purple-500 mb-6">
+              <h4 className="text-[10px] font-bold uppercase tracking-widest text-[var(--brand,#a855f7)] mb-6">
                 Music
               </h4>
               <ul className="space-y-4 text-sm text-slate-300">
@@ -786,7 +786,7 @@ export default function SonicPlayerPage() {
             </div>
 
             <div>
-              <h4 className="text-[10px] font-bold uppercase tracking-widest text-purple-500 mb-6">
+              <h4 className="text-[10px] font-bold uppercase tracking-widest text-[var(--brand,#a855f7)] mb-6">
                 Store
               </h4>
               <ul className="space-y-4 text-sm text-slate-300">
@@ -814,7 +814,7 @@ export default function SonicPlayerPage() {
             </div>
 
             <div>
-              <h4 className="text-[10px] font-bold uppercase tracking-widest text-purple-500 mb-6">
+              <h4 className="text-[10px] font-bold uppercase tracking-widest text-[var(--brand,#a855f7)] mb-6">
                 Join the Frequency
               </h4>
               <p className="text-sm text-slate-400 mb-4">
@@ -825,11 +825,11 @@ export default function SonicPlayerPage() {
                 <input
                   type="email"
                   placeholder="Email address"
-                  className="w-full bg-white/5 border border-white/10 rounded-sm px-4 py-3 text-sm focus:outline-none focus:border-purple-500 text-white transition-colors"
+                  className="w-full bg-white/5 border border-white/10 rounded-sm px-4 py-3 text-sm focus:outline-none focus:border-[var(--brand,#a855f7)] text-white transition-colors"
                 />
                 <button
                   type="submit"
-                  className="absolute right-2 top-1/2 -translate-y-1/2 text-[10px] uppercase tracking-widest font-bold text-purple-400 hover:text-white transition-colors"
+                  className="absolute right-2 top-1/2 -translate-y-1/2 text-[10px] uppercase tracking-widest font-bold text-[var(--brand,#c084fc)] hover:text-white transition-colors"
                 >
                   Join
                 </button>

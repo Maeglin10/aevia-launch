@@ -246,17 +246,17 @@ return (
         </motion.div>
 
         {/* ORANGE PARTICLE GLOW */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60vw] h-[60vw] bg-orange-900/10 rounded-full blur-[150px] pointer-events-none" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60vw] h-[60vw] bg-[var(--brand,#7c2d12)]/10 rounded-full blur-[150px] pointer-events-none" />
 
         <div className="relative z-10 max-w-[1400px] mx-auto px-6 md:px-12 w-full">
           <Reveal>
-            <div className="inline-flex items-center gap-3 px-4 py-2 bg-orange-900/20 rounded-none border border-orange-900/40 text-orange-500 text-[10px] font-bold uppercase tracking-widest mb-10 shadow-sm">
+            <div className="inline-flex items-center gap-3 px-4 py-2 bg-[var(--brand,#7c2d12)]/20 rounded-none border border-[var(--brand,#7c2d12)]/40 text-[var(--brand,#f97316)] text-[10px] font-bold uppercase tracking-widest mb-10 shadow-sm">
               <Coffee className="w-3.5 h-3.5" />
               Specialty Grade // 90+ SCA Points
             </div>
             <h1 className="text-7xl md:text-9xl lg:text-[11rem] font-black leading-[1.15] tracking-tighter mb-12 uppercase pb-6">{c?.heroHeadline ?? <>
               The Alchemy <br />{" "}
-              <span className="text-orange-900 italic">of Extraction.</span>
+              <span className="text-[var(--brand,#7c2d12)] italic">of Extraction.</span>
             </>}</h1>
             <p className="max-w-xl text-lg md:text-xl text-white/20 leading-relaxed font-bold mb-12 uppercase tracking-tight italic">{c?.heroSubline ?? fd?.tagline ?? <>
               Precision-roasted molecular coffee. Sourced at origin. Analyzed in
@@ -264,7 +264,7 @@ return (
             </>}</p>
             <div className="flex flex-col sm:flex-row gap-6">
               <Link href="/templates/impact-78/collection">
-                <MagneticBtn className="px-12 py-5 bg-white text-black text-[10px] font-bold uppercase tracking-[0.4em] rounded-none hover:bg-orange-900 hover:text-white transition-all cursor-pointer shadow-2xl">
+                <MagneticBtn className="px-12 py-5 bg-white text-black text-[10px] font-bold uppercase tracking-[0.4em] rounded-none hover:bg-[var(--brand,#7c2d12)] hover:text-white transition-all cursor-pointer shadow-2xl">
                   Explore Roast Spectrum
                 </MagneticBtn>
               </Link>
@@ -285,7 +285,7 @@ return (
             <span className="text-[9px] font-bold text-white/10 uppercase tracking-[0.5em]">
               AETHER_ROAST_OS // NODE_078
             </span>
-            <div className="w-32 h-[1px] bg-orange-900/40" />
+            <div className="w-32 h-[1px] bg-[var(--brand,#7c2d12)]/40" />
           </div>
         </motion.div>
       </section>
@@ -296,7 +296,7 @@ return (
       <section className="py-32 bg-[#0c0a09] border-t border-white/5">
         <div className="max-w-[1400px] mx-auto px-6 md:px-12">
           <Reveal>
-            <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-orange-900 mb-6 block">
+            <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#7c2d12)] mb-6 block">
               WORK_REEL // SELECTED_PROJECTS
             </span>
             <h2 className="text-5xl md:text-7xl font-black uppercase tracking-tighter italic text-white mb-20 pb-2 leading-[1.1]">
@@ -320,7 +320,7 @@ return (
                       {work.tags.map((tag) => (
                         <span
                           key={tag}
-                          className="bg-orange-900/30 border border-orange-900/50 px-3 py-1 text-[9px] font-bold uppercase tracking-widest text-orange-500/80"
+                          className="bg-[var(--brand,#7c2d12)]/30 border border-[var(--brand,#7c2d12)]/50 px-3 py-1 text-[9px] font-bold uppercase tracking-widest text-[var(--brand,#f97316)]/80"
                         >
                           {tag}
                         </span>
@@ -333,11 +333,11 @@ return (
                         <p className="text-[9px] font-bold text-white/20 uppercase tracking-[0.4em] mb-2">
                           {work.client}
                         </p>
-                        <h3 className="text-2xl font-black uppercase tracking-tighter text-white group-hover:text-orange-500 transition-colors">
+                        <h3 className="text-2xl font-black uppercase tracking-tighter text-white group-hover:text-[var(--brand,#f97316)] transition-colors">
                           {work.title}
                         </h3>
                       </div>
-                      <ArrowUpRight className="w-4 h-4 text-white/10 group-hover:text-orange-900 transition-colors mt-1" />
+                      <ArrowUpRight className="w-4 h-4 text-white/10 group-hover:text-[var(--brand,#7c2d12)] transition-colors mt-1" />
                     </div>
                   </div>
                 </div>
@@ -353,7 +353,7 @@ return (
       <section className="py-32 bg-[#100e0c] border-t border-white/5">
         <div className="max-w-[1400px] mx-auto px-6 md:px-12">
           <Reveal>
-            <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-orange-900 mb-6 block">
+            <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#7c2d12)] mb-6 block">
               EXPERTISE_MATRIX // CORE_DOMAINS
             </span>
             <h2 className="text-5xl md:text-6xl font-black uppercase tracking-tighter italic text-white mb-20 pb-2 leading-[1.1]">
@@ -364,8 +364,8 @@ return (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-white/5">
             {EXPERTISE.map((exp, i) => (
               <Reveal key={i} delay={i * 0.1}>
-                <div className="bg-[#100e0c] p-10 group hover:bg-[#0c0a09] transition-colors border-t-2 border-transparent hover:border-orange-900">
-                  <span className="text-[9px] font-black text-orange-900/50 uppercase tracking-[0.5em] mb-6 block">
+                <div className="bg-[#100e0c] p-10 group hover:bg-[#0c0a09] transition-colors border-t-2 border-transparent hover:border-[var(--brand,#7c2d12)]">
+                  <span className="text-[9px] font-black text-[var(--brand,#7c2d12)]/50 uppercase tracking-[0.5em] mb-6 block">
                     {exp.code}
                   </span>
                   <h3 className="text-2xl font-black uppercase tracking-tighter text-white mb-6">
@@ -380,7 +380,7 @@ return (
                         key={item}
                         className="flex items-center gap-3 text-[9px] font-bold uppercase tracking-widest text-white/20"
                       >
-                        <div className="w-1 h-1 bg-orange-900 flex-shrink-0" />
+                        <div className="w-1 h-1 bg-[var(--brand,#7c2d12)] flex-shrink-0" />
                         {item}
                       </li>
                     ))}
@@ -398,7 +398,7 @@ return (
       <section className="py-32 bg-[#0c0a09] border-t border-white/5">
         <div className="max-w-[1400px] mx-auto px-6 md:px-12">
           <Reveal>
-            <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-orange-900 mb-6 block">
+            <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#7c2d12)] mb-6 block">
               PROCESS_SEQUENCE // HOW_WE_WORK
             </span>
             <h2 className="text-5xl md:text-6xl font-black uppercase tracking-tighter italic text-white mb-20 pb-2 leading-[1.1]">
@@ -410,7 +410,7 @@ return (
             {PROCESS_STEPS.map((step, i) => (
               <Reveal key={i} delay={i * 0.1}>
                 <div className="bg-[#0c0a09] p-10 h-full group hover:bg-[#100e0c] transition-colors">
-                  <div className="text-6xl font-black text-orange-900/20 mb-8 group-hover:text-orange-900/40 transition-colors">
+                  <div className="text-6xl font-black text-[var(--brand,#7c2d12)]/20 mb-8 group-hover:text-[var(--brand,#7c2d12)]/40 transition-colors">
                     {step.num}
                   </div>
                   <h3 className="text-xl font-black uppercase tracking-tighter text-white mb-4">
@@ -435,7 +435,7 @@ return (
             {STATS.map((stat, i) => (
               <Reveal key={i} delay={i * 0.1}>
                 <div className="bg-[#100e0c] p-12 text-center">
-                  <div className="text-6xl md:text-7xl font-black tracking-tighter text-orange-900 mb-4 font-mono">
+                  <div className="text-6xl md:text-7xl font-black tracking-tighter text-[var(--brand,#7c2d12)] mb-4 font-mono">
                     <Counter to={stat.value} suffix={stat.suffix} />
                   </div>
                   <div className="text-[9px] font-bold uppercase tracking-[0.5em] text-white/20 italic">
@@ -454,7 +454,7 @@ return (
       <section className="py-32 bg-[#0c0a09] border-t border-white/5">
         <div className="max-w-[1400px] mx-auto px-6 md:px-12">
           <Reveal>
-            <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-orange-900 mb-6 block">
+            <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#7c2d12)] mb-6 block">
               CLIENT_SIGNALS // TESTIMONIALS
             </span>
             <h2 className="text-5xl md:text-6xl font-black uppercase tracking-tighter italic text-white mb-20 pb-2 leading-[1.1]">
@@ -466,7 +466,7 @@ return (
             {TESTIMONIALS.map((t, i) => (
               <Reveal key={i} delay={i * 0.1}>
                 <div className="bg-[#0c0a09] p-10 h-full flex flex-col">
-                  <Quote className="w-8 h-8 text-orange-900/40 mb-8 flex-shrink-0" />
+                  <Quote className="w-8 h-8 text-[var(--brand,#7c2d12)]/40 mb-8 flex-shrink-0" />
                   <p className="text-[11px] text-white/40 uppercase tracking-widest leading-relaxed font-bold italic flex-1 mb-8">
                     "{t.quote}"
                   </p>
@@ -474,7 +474,7 @@ return (
                     <p className="text-xs font-black uppercase tracking-widest text-white mb-1">
                       {t.name}
                     </p>
-                    <p className="text-[9px] font-bold uppercase tracking-widest text-orange-900/60 italic">
+                    <p className="text-[9px] font-bold uppercase tracking-widest text-[var(--brand,#7c2d12)]/60 italic">
                       {t.role}
                     </p>
                   </div>
@@ -493,7 +493,7 @@ return (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-24">
             <div>
               <Reveal>
-                <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-orange-900 mb-6 block">RECOGNITION_LOG // AWARDS</span>
+                <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#7c2d12)] mb-6 block">RECOGNITION_LOG // AWARDS</span>
                 <h2 className="text-4xl font-black uppercase tracking-tighter italic text-white mb-16 leading-[1.1] pb-2">Awards.</h2>
               </Reveal>
               <div className="divide-y divide-white/5">
@@ -509,7 +509,7 @@ return (
                     <div className="py-5 flex items-center gap-8 group">
                       <span className="text-[9px] font-black text-white/10 uppercase tracking-widest w-10 flex-shrink-0 font-mono">{a.year}</span>
                       <div className="flex-1 text-sm font-black uppercase tracking-tighter text-white/40 italic group-hover:text-white/80 transition-colors">{a.title}</div>
-                      <span className="text-[9px] font-bold text-orange-900/60 uppercase tracking-widest flex-shrink-0">{a.cat}</span>
+                      <span className="text-[9px] font-bold text-[var(--brand,#7c2d12)]/60 uppercase tracking-widest flex-shrink-0">{a.cat}</span>
                     </div>
                   </Reveal>
                 ))}
@@ -517,7 +517,7 @@ return (
             </div>
             <div>
               <Reveal>
-                <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-orange-900 mb-6 block">PRESS_LOG // AS_SEEN_IN</span>
+                <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#7c2d12)] mb-6 block">PRESS_LOG // AS_SEEN_IN</span>
                 <h2 className="text-4xl font-black uppercase tracking-tighter italic text-white mb-16 leading-[1.1] pb-2">Press.</h2>
               </Reveal>
               <div className="divide-y divide-white/5">
@@ -530,9 +530,9 @@ return (
                 ].map((p, i) => (
                   <Reveal key={i} delay={i * 0.06}>
                     <div className="py-5 flex items-start gap-8 group cursor-pointer">
-                      <span className="text-[9px] font-black text-orange-900/50 uppercase tracking-widest w-20 flex-shrink-0 mt-0.5">{p.pub}</span>
+                      <span className="text-[9px] font-black text-[var(--brand,#7c2d12)]/50 uppercase tracking-widest w-20 flex-shrink-0 mt-0.5">{p.pub}</span>
                       <div className="flex-1 text-sm font-bold text-white/20 italic group-hover:text-white/60 transition-colors leading-snug">{p.title}</div>
-                      <ArrowUpRight className="w-3 h-3 text-white/10 group-hover:text-orange-900 transition-colors flex-shrink-0 mt-1" />
+                      <ArrowUpRight className="w-3 h-3 text-white/10 group-hover:text-[var(--brand,#7c2d12)] transition-colors flex-shrink-0 mt-1" />
                     </div>
                   </Reveal>
                 ))}
@@ -551,7 +551,7 @@ return (
             <div className="flex flex-wrap items-center gap-x-16 gap-y-4">
               <span className="text-[9px] font-bold text-white/10 uppercase tracking-[0.5em] flex-shrink-0">Trusted by</span>
               {["Nespresso Professional", "Starbucks Reserve", "Blue Bottle Coffee", "Intelligentsia", "La Marzocco", "Oatly", "Pact Coffee", "Matchless Coffee"].map((c) => (
-                <span key={c} className="text-base font-black uppercase tracking-tighter text-white/10 hover:text-orange-900/60 transition-colors cursor-default italic">{c}</span>
+                <span key={c} className="text-base font-black uppercase tracking-tighter text-white/10 hover:text-[var(--brand,#7c2d12)]/60 transition-colors cursor-default italic">{c}</span>
               ))}
             </div>
           </Reveal>
@@ -564,7 +564,7 @@ return (
       <section className="py-32 bg-[#100e0c] border-t border-white/5">
         <div className="max-w-[1400px] mx-auto px-6 md:px-12">
           <Reveal>
-            <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-orange-900 mb-6 block">ENGAGEMENT_MODEL // PRICING</span>
+            <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#7c2d12)] mb-6 block">ENGAGEMENT_MODEL // PRICING</span>
             <h2 className="text-5xl md:text-6xl font-black uppercase tracking-tighter italic text-white mb-20 leading-[1.1] pb-2">Investment.</h2>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-white/5">
@@ -574,19 +574,19 @@ return (
               { tier: "Reserve_Roast", desc: "Long-term creative partnership with monthly retainer. Unlimited requests. Priority turnaround.", scope: ["Everything in Full Extraction", "Monthly retainer access", "Dedicated creative team", "Quarterly brand review"], price: "From €6,500/mo", duration: "Ongoing" },
             ].map((p, i) => (
               <Reveal key={i} delay={i * 0.1}>
-                <div className="bg-[#0c0a09] p-10 h-full flex flex-col group hover:bg-[#100e0c] transition-colors border-t-2 border-transparent hover:border-orange-900">
-                  <span className="text-[9px] font-black text-orange-900/50 uppercase tracking-[0.5em] mb-4 block">{p.tier}</span>
-                  <div className="text-3xl font-black text-orange-900 mb-2 tracking-tighter">{p.price}</div>
+                <div className="bg-[#0c0a09] p-10 h-full flex flex-col group hover:bg-[#100e0c] transition-colors border-t-2 border-transparent hover:border-[var(--brand,#7c2d12)]">
+                  <span className="text-[9px] font-black text-[var(--brand,#7c2d12)]/50 uppercase tracking-[0.5em] mb-4 block">{p.tier}</span>
+                  <div className="text-3xl font-black text-[var(--brand,#7c2d12)] mb-2 tracking-tighter">{p.price}</div>
                   <div className="text-[9px] font-bold text-white/20 uppercase tracking-widest mb-6">{p.duration}</div>
                   <p className="text-[10px] text-white/20 uppercase tracking-widest leading-relaxed font-bold italic mb-8">{p.desc}</p>
                   <ul className="space-y-2 flex-1 mb-8">
                     {p.scope.map((s) => (
                       <li key={s} className="flex items-center gap-3 text-[9px] font-bold uppercase tracking-widest text-white/20">
-                        <div className="w-1 h-1 bg-orange-900 flex-shrink-0" />{s}
+                        <div className="w-1 h-1 bg-[var(--brand,#7c2d12)] flex-shrink-0" />{s}
                       </li>
                     ))}
                   </ul>
-                  <button className="w-full py-4 border border-white/10 text-white text-[9px] font-bold uppercase tracking-widest group-hover:bg-orange-900 group-hover:text-white transition-all">
+                  <button className="w-full py-4 border border-white/10 text-white text-[9px] font-bold uppercase tracking-widest group-hover:bg-[var(--brand,#7c2d12)] group-hover:text-white transition-all">
                     Discuss Brief
                   </button>
                 </div>
@@ -602,12 +602,12 @@ return (
       <section className="py-40 bg-[#100e0c] border-t border-white/5">
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 text-center">
           <Reveal>
-            <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-orange-900 mb-8 block">
+            <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#7c2d12)] mb-8 block">
               NEW_PROJECT // INQUIRY_PORTAL
             </span>
             <h2 className="text-6xl md:text-8xl font-black uppercase italic tracking-tighter text-white leading-[1.05] mb-12 pb-4">{c?.aboutTitle ?? fd?.businessName ?? <>
               Start a<br />
-              <span className="text-orange-900">project.</span>
+              <span className="text-[var(--brand,#7c2d12)]">project.</span>
             </>}</h2>
             <p className="max-w-md mx-auto text-[11px] text-white/20 uppercase tracking-widest leading-relaxed font-bold italic mb-16">{c?.aboutText ?? <>
               We take on a limited number of new clients each quarter. Submit your brief and we will respond within 48 hours.
@@ -616,7 +616,7 @@ return (
           <Reveal delay={0.2}>
             <div className="flex flex-col sm:flex-row gap-6 justify-center">
               <Link href="/templates/impact-78/contact">
-                <MagneticBtn className="px-16 py-6 bg-white text-black text-[10px] font-bold uppercase tracking-[0.4em] rounded-none hover:bg-orange-900 hover:text-white transition-all cursor-pointer shadow-2xl">
+                <MagneticBtn className="px-16 py-6 bg-white text-black text-[10px] font-bold uppercase tracking-[0.4em] rounded-none hover:bg-[var(--brand,#7c2d12)] hover:text-white transition-all cursor-pointer shadow-2xl">
                   Submit Brief
                 </MagneticBtn>
               </Link>
