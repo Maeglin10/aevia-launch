@@ -36,7 +36,7 @@ const T = {
   text: "#f0f0f0",
   muted: "#666666",
   dimmed: "#333333",
-  accent: "#0066ff",
+  accent: "var(--brand,#0066ff)",
   accentDim: "rgba(0,102,255,0.15)",
   accentBorder: "rgba(0,102,255,0.3)",
   border: "rgba(240,240,240,0.06)",

@@ -43,7 +43,7 @@ const HERO_PRODUCTS = [
     desc: "Cadran en nacre rose naturelle. Complications : date, phases de lune. Bracelet alligator bordeaux cousu main.",
     badge: "New Season",
     img: "https://images.unsplash.com/photo-1434493789847-2f02dc6ca35d?q=80&w=1200&auto=format&fit=crop",
-    accent: "#8B0000",
+    accent: "var(--brand,#8B0000)",
   },
   {
     id: 3,

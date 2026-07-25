@@ -46,7 +46,7 @@ let C: Record<string, string> = {
   bgAlt: "#F2EDE7",
   bgDark: "#1E1209",
   text: "#2C1810",
-  muted: "#8B6E5A",
+  muted: "var(--brand,#8B6E5A)",
   terracotta: "#9B4A28",
   terracottaLight: "#C46840",
   terracottaSoft: "rgba(155,74,40,0.09)",

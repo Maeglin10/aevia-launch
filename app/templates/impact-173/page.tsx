@@ -50,7 +50,7 @@ let C: Record<string, string> = {
   text: "#E8E4DC",
   textMuted: "#6B6560",
   textSub: "#9B9490",
-  orange: "#F57C00",
+  orange: "var(--brand,#F57C00)",
   orangeLight: "#FF9800",
   orangeDark: "#E65100",
   orangeGlow: "rgba(245,124,0,0.15)",
