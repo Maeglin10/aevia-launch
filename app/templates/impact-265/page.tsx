@@ -42,7 +42,7 @@ let C: Record<string, string> = {
   bgDark: '#14100c',
   bgDarkAlt: '#0c0806',
   bgCard: '#ffffff',
-  accent: '#7c6850',
+  accent: 'var(--brand,#7c6850)',
   accentDark: '#604e3a',
   accentLight: '#e8ddd0',
   white: '#ffffff',

@@ -50,7 +50,7 @@ let C: Record<string, string> = {
   bgDeep: "#0A0804",
   text: "#F0EAD8",
   muted: "#7A6E58",
-  amber: "#C8961E",
+  amber: "var(--brand,#C8961E)",
   amberLight: "#E4B840",
   amberSoft: "rgba(200,150,30,0.10)",
   amberGlow: "rgba(200,150,30,0.20)",
@@ -76,7 +76,7 @@ const PROJECTS_DEMO = [
     title: "Lumière Perpétuelle",
     format: "Spot 90s — Cannes Lions Or",
     desc: "Une ode au temps en images. Plan séquence unique, lumière naturelle, silence habité.",
-    accent: "#C8961E",
+    accent: "var(--brand,#C8961E)",
   },
   {
     id: 2,
@@ -106,7 +106,7 @@ const PROJECTS_DEMO = [
     title: "Le Geste Juste",
     format: "Film institutionnel 3min — Grand Prix ADC",
     desc: "Hommage aux maîtres artisans de la maison. Macro photographie et sons d'atelier.",
-    accent: "#C8961E",
+    accent: "var(--brand,#C8961E)",
   },
   {
     id: 5,

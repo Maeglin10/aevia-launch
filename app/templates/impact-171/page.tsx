@@ -183,8 +183,8 @@ function StatCard({ value, label, delay }: { value: string; label: string; delay
       initial={{ opacity: 0, y: 20, scale: 0.9 }}
       animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
       transition={{ duration: 0.7, delay, ease: [0.16, 1, 0.3, 1] }}
-      className="bg-white rounded-2xl shadow-lg px-6 py-4 flex flex-col items-center text-center border border-[#0891B2]/10">
-      <span className="text-2xl font-bold text-[#0891B2]" style={{ fontFamily: "'Figtree', sans-serif" }}>{value}</span>
+      className="bg-white rounded-2xl shadow-lg px-6 py-4 flex flex-col items-center text-center border border-[var(--brand,#0891B2)]/10">
+      <span className="text-2xl font-bold text-[var(--brand,#0891B2)]" style={{ fontFamily: "'Figtree', sans-serif" }}>{value}</span>
       <span className="text-xs text-[#134E4A]/60 mt-1" style={{ fontFamily: "'Noto Sans', sans-serif" }}>{label}</span>
     </motion.div>
   )
@@ -287,7 +287,7 @@ const navLinks = ["Spécialités", "Médecins", "Protocoles", "Science", "Tarifs
     <div className="min-h-dvh overflow-x-hidden bg-[#F0FDFA] text-[#134E4A]" style={{ fontFamily: "'Noto Sans', sans-serif" }}>
 
       {/* Progress bar */}
-      <motion.div className="fixed top-0 left-0 h-[2px] bg-[#0891B2] z-[1000] origin-left"
+      <motion.div className="fixed top-0 left-0 h-[2px] bg-[var(--brand,#0891B2)] z-[1000] origin-left"
         style={{ scaleX: scrollYProgress }} />
 
       {/* ── NAV ─────────────────────────────────────────────────────────── */}
@@ -302,9 +302,9 @@ const navLinks = ["Spécialités", "Médecins", "Protocoles", "Science", "Tarifs
               />
             ) : (
               <>
-                <Heart className="w-5 h-5 text-[#0891B2]" />
+                <Heart className="w-5 h-5 text-[var(--brand,#0891B2)]" />
                 <span className="text-xl font-bold text-[#134E4A]" style={{ fontFamily: "'Figtree', sans-serif" }}>VITALITÉ</span>
-                <span className="text-xs font-medium text-[#0891B2] uppercase tracking-widest">Médical</span>
+                <span className="text-xs font-medium text-[var(--brand,#0891B2)] uppercase tracking-widest">Médical</span>
               </>
             )}
           </Link>
@@ -312,11 +312,11 @@ const navLinks = ["Spécialités", "Médecins", "Protocoles", "Science", "Tarifs
           <div className="hidden md:flex items-center gap-8">
             {navLinks.map(l => (
               <button key={l} onClick={() => document.getElementById(l.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, ""))?.scrollIntoView({ behavior: "smooth" })}
-                className="text-sm text-[#134E4A]/70 hover:text-[#0891B2] transition-colors cursor-pointer">
+                className="text-sm text-[#134E4A]/70 hover:text-[var(--brand,#0891B2)] transition-colors cursor-pointer">
                 {l}
               </button>
             ))}
-            <button className="px-5 py-2 bg-[#0891B2] text-white text-sm font-medium rounded-full hover:bg-[#0e7490] transition-colors cursor-pointer">
+            <button className="px-5 py-2 bg-[var(--brand,#0891B2)] text-white text-sm font-medium rounded-full hover:bg-[#0e7490] transition-colors cursor-pointer">
               Prendre RDV
             </button>
           </div>
@@ -329,14 +329,14 @@ const navLinks = ["Spécialités", "Médecins", "Protocoles", "Science", "Tarifs
         <AnimatePresence>
           {menuOpen && (
             <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }}
-              className="md:hidden bg-white border-t border-[#0891B2]/10 px-6 py-4 flex flex-col gap-4">
+              className="md:hidden bg-white border-t border-[var(--brand,#0891B2)]/10 px-6 py-4 flex flex-col gap-4">
               {navLinks.map(l => (
                 <button key={l} onClick={() => { setMenuOpen(false); document.getElementById(l.toLowerCase())?.scrollIntoView({ behavior: "smooth" }) }}
                   className="text-left text-sm text-[#134E4A]/70 py-2 cursor-pointer">
                   {l}
                 </button>
               ))}
-              <button className="px-5 py-3 bg-[#0891B2] text-white text-sm font-medium rounded-full cursor-pointer">
+              <button className="px-5 py-3 bg-[var(--brand,#0891B2)] text-white text-sm font-medium rounded-full cursor-pointer">
                 Prendre RDV
               </button>
             </motion.div>
@@ -351,15 +351,15 @@ const navLinks = ["Spécialités", "Médecins", "Protocoles", "Science", "Tarifs
           {/* Left */}
           <div>
             <Reveal>
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-[#0891B2]/10 rounded-full mb-6">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-[var(--brand,#0891B2)]/10 rounded-full mb-6">
                 <div className="w-2 h-2 bg-[#22C55E] rounded-full animate-pulse" />
-                <span className="text-xs font-medium text-[#0891B2] uppercase tracking-widest">Consultations disponibles</span>
+                <span className="text-xs font-medium text-[var(--brand,#0891B2)] uppercase tracking-widest">Consultations disponibles</span>
               </div>
             </Reveal>
             <Reveal delay={0.1}>
               <h1 className="text-5xl md:text-6xl font-black leading-tight text-[#134E4A] mb-6" style={{ fontFamily: "'Figtree', sans-serif" }}>{c?.heroHeadline ?? <>
                 Votre Santé.<br />
-                <span className="text-[#0891B2]">Notre Engagement.</span>
+                <span className="text-[var(--brand,#0891B2)]">Notre Engagement.</span>
               </>}</h1>
             </Reveal>
             <Reveal delay={0.2}>
@@ -370,10 +370,10 @@ const navLinks = ["Spécialités", "Médecins", "Protocoles", "Science", "Tarifs
             </Reveal>
             <Reveal delay={0.3}>
               <div className="flex flex-wrap gap-4 mb-10">
-                <button className="px-7 py-3.5 bg-[#0891B2] text-white font-semibold rounded-full hover:bg-[#0e7490] transition-all shadow-lg shadow-[#0891B2]/25 cursor-pointer flex items-center gap-2">
+                <button className="px-7 py-3.5 bg-[var(--brand,#0891B2)] text-white font-semibold rounded-full hover:bg-[#0e7490] transition-all shadow-lg shadow-[var(--brand,#0891B2)]/25 cursor-pointer flex items-center gap-2">
                   Prendre RDV <ArrowRight className="w-4 h-4" />
                 </button>
-                <button className="px-7 py-3.5 border-2 border-[#0891B2]/30 text-[#0891B2] font-semibold rounded-full hover:bg-[#0891B2]/5 transition-all cursor-pointer">
+                <button className="px-7 py-3.5 border-2 border-[var(--brand,#0891B2)]/30 text-[var(--brand,#0891B2)] font-semibold rounded-full hover:bg-[var(--brand,#0891B2)]/5 transition-all cursor-pointer">
                   Découvrir la clinique
                 </button>
               </div>
@@ -382,7 +382,7 @@ const navLinks = ["Spécialités", "Médecins", "Protocoles", "Science", "Tarifs
               <div className="flex items-center gap-3">
                 <div className="flex -space-x-2">
                   {[1,2,3,4].map(i => (
-                    <div key={i} className="w-9 h-9 rounded-full bg-[#0891B2]/20 border-2 border-white flex items-center justify-center text-xs font-bold text-[#0891B2]">{i}</div>
+                    <div key={i} className="w-9 h-9 rounded-full bg-[var(--brand,#0891B2)]/20 border-2 border-white flex items-center justify-center text-xs font-bold text-[var(--brand,#0891B2)]">{i}</div>
                   ))}
                 </div>
                 <div>
@@ -423,7 +423,7 @@ const navLinks = ["Spécialités", "Médecins", "Protocoles", "Science", "Tarifs
       </section>
 
       {/* ── MARQUEE ─────────────────────────────────────────────────────── */}
-      <div className="overflow-hidden bg-[#0891B2] py-4">
+      <div className="overflow-hidden bg-[var(--brand,#0891B2)] py-4">
         <motion.div animate={{ x: ["0%", "-50%"] }} transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
           className="flex whitespace-nowrap w-max">
           {MARQUEE_ITEMS.map((item, i) => (
@@ -440,7 +440,7 @@ const navLinks = ["Spécialités", "Médecins", "Protocoles", "Science", "Tarifs
         <div className="max-w-7xl mx-auto px-6">
           <Reveal>
             <div className="text-center mb-14">
-              <span className="text-xs font-bold uppercase tracking-widest text-[#0891B2] block mb-4">Nos Spécialités</span>
+              <span className="text-xs font-bold uppercase tracking-widest text-[var(--brand,#0891B2)] block mb-4">Nos Spécialités</span>
               <h2 className="text-4xl md:text-5xl font-black text-[#134E4A]" style={{ fontFamily: "'Figtree', sans-serif" }}>
                 Une médecine complète
               </h2>
@@ -451,7 +451,7 @@ const navLinks = ["Spécialités", "Médecins", "Protocoles", "Science", "Tarifs
           <div className="flex flex-wrap gap-3 justify-center mb-10">
             {specialties.map((s: any) => (
               <button key={s.id} onClick={() => setActiveSpec(s.id)}
-                className={`px-5 py-2.5 rounded-full text-sm font-medium transition-all cursor-pointer ${activeSpec === s.id ? "bg-[#0891B2] text-white shadow-md shadow-[#0891B2]/30" : "bg-[#F0FDFA] text-[#134E4A]/70 hover:bg-[#ccfbf1]"}`}>
+                className={`px-5 py-2.5 rounded-full text-sm font-medium transition-all cursor-pointer ${activeSpec === s.id ? "bg-[var(--brand,#0891B2)] text-white shadow-md shadow-[var(--brand,#0891B2)]/30" : "bg-[#F0FDFA] text-[#134E4A]/70 hover:bg-[#ccfbf1]"}`}>
                 {s.label}
               </button>
             ))}
@@ -463,12 +463,12 @@ const navLinks = ["Spécialités", "Médecins", "Protocoles", "Science", "Tarifs
               className="bg-[#F0FDFA] rounded-3xl p-10 grid md:grid-cols-2 gap-10 items-center">
               <div>
                 <div className="flex items-center gap-4 mb-6">
-                  <div className="w-14 h-14 bg-[#0891B2]/10 rounded-2xl flex items-center justify-center">
-                    <activeSpecData.icon className="w-7 h-7 text-[#0891B2]" />
+                  <div className="w-14 h-14 bg-[var(--brand,#0891B2)]/10 rounded-2xl flex items-center justify-center">
+                    <activeSpecData.icon className="w-7 h-7 text-[var(--brand,#0891B2)]" />
                   </div>
                   <div>
                     <h3 className="text-2xl font-bold text-[#134E4A]" style={{ fontFamily: "'Figtree', sans-serif" }}>{activeSpecData.label}</h3>
-                    {activeSpecData.doctor && <span className="text-sm text-[#0891B2]">{activeSpecData.doctor}</span>}
+                    {activeSpecData.doctor && <span className="text-sm text-[var(--brand,#0891B2)]">{activeSpecData.doctor}</span>}
                   </div>
                 </div>
                 <p className="text-[#134E4A]/70 leading-relaxed mb-8">{activeSpecData.desc}</p>
@@ -479,7 +479,7 @@ const navLinks = ["Spécialités", "Médecins", "Protocoles", "Science", "Tarifs
                       <span>{activeSpecData.duration}</span>
                     </div>
                   )}
-                  <button className="px-5 py-2.5 bg-[#0891B2] text-white text-sm font-medium rounded-full hover:bg-[#0e7490] transition-colors cursor-pointer flex items-center gap-2">
+                  <button className="px-5 py-2.5 bg-[var(--brand,#0891B2)] text-white text-sm font-medium rounded-full hover:bg-[#0e7490] transition-colors cursor-pointer flex items-center gap-2">
                     Réserver <ArrowRight className="w-4 h-4" />
                   </button>
                 </div>
@@ -498,7 +498,7 @@ const navLinks = ["Spécialités", "Médecins", "Protocoles", "Science", "Tarifs
         <div className="max-w-7xl mx-auto px-6">
           <Reveal>
             <div className="text-center mb-14">
-              <span className="text-xs font-bold uppercase tracking-widest text-[#0891B2] block mb-4">Notre Équipe</span>
+              <span className="text-xs font-bold uppercase tracking-widest text-[var(--brand,#0891B2)] block mb-4">Notre Équipe</span>
               <h2 className="text-4xl md:text-5xl font-black text-[#134E4A]" style={{ fontFamily: "'Figtree', sans-serif" }}>
                 Des médecins d'exception
               </h2>
@@ -517,13 +517,13 @@ const navLinks = ["Spécialités", "Médecins", "Protocoles", "Science", "Tarifs
                   )}
                   <div className="p-6">
                     <h3 className="font-bold text-[#134E4A] mb-1" style={{ fontFamily: "'Figtree', sans-serif" }}>{doc.name}</h3>
-                    <p className="text-xs text-[#0891B2] font-medium mb-3">{doc.role}</p>
+                    <p className="text-xs text-[var(--brand,#0891B2)] font-medium mb-3">{doc.role}</p>
                     {(doc.formation ?? doc.credentials ?? doc.specialty) && (
                       <p className="text-xs text-[#134E4A]/60 leading-relaxed mb-3">{doc.formation ?? [doc.specialty, doc.credentials].filter(Boolean).join(' · ')}</p>
                     )}
                     <div className="flex items-center justify-between">
                       {doc.years && <span className="text-xs text-[#134E4A]/50">{doc.years} d'expérience</span>}
-                      <button className="text-xs text-[#0891B2] font-medium flex items-center gap-1 cursor-pointer hover:gap-2 transition-all">
+                      <button className="text-xs text-[var(--brand,#0891B2)] font-medium flex items-center gap-1 cursor-pointer hover:gap-2 transition-all">
                         RDV <ArrowRight className="w-3 h-3" />
                       </button>
                     </div>
@@ -540,7 +540,7 @@ const navLinks = ["Spécialités", "Médecins", "Protocoles", "Science", "Tarifs
         <div className="max-w-5xl mx-auto px-6">
           <Reveal>
             <div className="text-center mb-14">
-              <span className="text-xs font-bold uppercase tracking-widest text-[#0891B2] block mb-4">Parcours Patient</span>
+              <span className="text-xs font-bold uppercase tracking-widest text-[var(--brand,#0891B2)] block mb-4">Parcours Patient</span>
               <h2 className="text-4xl md:text-5xl font-black text-[#134E4A]" style={{ fontFamily: "'Figtree', sans-serif" }}>
                 5 étapes vers votre mieux-être
               </h2>
@@ -548,13 +548,13 @@ const navLinks = ["Spécialités", "Médecins", "Protocoles", "Science", "Tarifs
           </Reveal>
 
           <div className="relative">
-            <div className="absolute left-8 top-0 bottom-0 w-px bg-[#0891B2]/20 hidden md:block" />
+            <div className="absolute left-8 top-0 bottom-0 w-px bg-[var(--brand,#0891B2)]/20 hidden md:block" />
             <div className="flex flex-col gap-8">
               {STEPS.map((step, i) => (
                 <Reveal key={step.n} delay={i * 0.1}>
                   <div className="flex gap-8 items-start group">
                     <div className="relative flex-shrink-0">
-                      <div className="w-16 h-16 rounded-2xl bg-[#0891B2] text-white flex items-center justify-center font-black text-lg shadow-lg shadow-[#0891B2]/25 group-hover:scale-105 transition-transform" style={{ fontFamily: "'Figtree', sans-serif" }}>
+                      <div className="w-16 h-16 rounded-2xl bg-[var(--brand,#0891B2)] text-white flex items-center justify-center font-black text-lg shadow-lg shadow-[var(--brand,#0891B2)]/25 group-hover:scale-105 transition-transform" style={{ fontFamily: "'Figtree', sans-serif" }}>
                         {step.n}
                       </div>
                     </div>
@@ -575,7 +575,7 @@ const navLinks = ["Spécialités", "Médecins", "Protocoles", "Science", "Tarifs
         <div className="max-w-7xl mx-auto px-6">
           <Reveal>
             <div className="text-center mb-14">
-              <span className="text-xs font-bold uppercase tracking-widest text-[#0891B2] block mb-4">Approche Médicale</span>
+              <span className="text-xs font-bold uppercase tracking-widest text-[var(--brand,#0891B2)] block mb-4">Approche Médicale</span>
               <h2 className="text-4xl md:text-5xl font-black text-[#134E4A]" style={{ fontFamily: "'Figtree', sans-serif" }}>
                 La science au service<br />de votre santé
               </h2>
@@ -585,9 +585,9 @@ const navLinks = ["Spécialités", "Médecins", "Protocoles", "Science", "Tarifs
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {SCIENCE.map((item, i) => (
               <Reveal key={item.title} delay={i * 0.1}>
-                <div className="bg-white rounded-3xl p-8 hover:shadow-xl transition-all duration-500 group cursor-pointer border border-[#0891B2]/5">
-                  <div className="w-12 h-12 bg-[#0891B2]/10 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-[#0891B2] transition-colors">
-                    <item.icon className="w-6 h-6 text-[#0891B2] group-hover:text-white transition-colors" />
+                <div className="bg-white rounded-3xl p-8 hover:shadow-xl transition-all duration-500 group cursor-pointer border border-[var(--brand,#0891B2)]/5">
+                  <div className="w-12 h-12 bg-[var(--brand,#0891B2)]/10 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-[var(--brand,#0891B2)] transition-colors">
+                    <item.icon className="w-6 h-6 text-[var(--brand,#0891B2)] group-hover:text-white transition-colors" />
                   </div>
                   <h3 className="font-bold text-lg text-[#134E4A] mb-3" style={{ fontFamily: "'Figtree', sans-serif" }}>{item.title}</h3>
                   <p className="text-sm text-[#134E4A]/60 leading-relaxed">{item.desc}</p>
@@ -599,7 +599,7 @@ const navLinks = ["Spécialités", "Médecins", "Protocoles", "Science", "Tarifs
       </section>
 
       {/* ── STATS (teal bg) ──────────────────────────────────────────────── */}
-      <section id="services" className="py-24 bg-[#0891B2]">
+      <section id="services" className="py-24 bg-[var(--brand,#0891B2)]">
         <div className="max-w-5xl mx-auto px-6">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             {[
@@ -624,7 +624,7 @@ const navLinks = ["Spécialités", "Médecins", "Protocoles", "Science", "Tarifs
         <div className="max-w-7xl mx-auto px-6">
           <Reveal>
             <div className="text-center mb-14">
-              <span className="text-xs font-bold uppercase tracking-widest text-[#0891B2] block mb-4">Témoignages</span>
+              <span className="text-xs font-bold uppercase tracking-widest text-[var(--brand,#0891B2)] block mb-4">Témoignages</span>
               <h2 className="text-4xl md:text-5xl font-black text-[#134E4A]" style={{ fontFamily: "'Figtree', sans-serif" }}>
                 Ils ont retrouvé leur vitalité
               </h2>
@@ -634,7 +634,7 @@ const navLinks = ["Spécialités", "Médecins", "Protocoles", "Science", "Tarifs
           <div className="grid md:grid-cols-2 gap-6">
             {testimonials.map((t: any, i: number) => (
               <Reveal key={t.name ?? t.author ?? i} delay={i * 0.1}>
-                <div className="bg-[#F0FDFA] rounded-3xl p-8 border border-[#0891B2]/10">
+                <div className="bg-[#F0FDFA] rounded-3xl p-8 border border-[var(--brand,#0891B2)]/10">
                   <div className="flex items-center gap-1 mb-4">
                     {Array.from({ length: t.stars ?? t.rating ?? 5 }).map((_, s) => <Star key={s} className="w-4 h-4 fill-amber-400 text-amber-400" />)}
                   </div>
@@ -663,7 +663,7 @@ const navLinks = ["Spécialités", "Médecins", "Protocoles", "Science", "Tarifs
         <div className="max-w-5xl mx-auto px-6">
           <Reveal>
             <div className="text-center mb-14">
-              <span className="text-xs font-bold uppercase tracking-widest text-[#0891B2] block mb-4">Honoraires</span>
+              <span className="text-xs font-bold uppercase tracking-widest text-[var(--brand,#0891B2)] block mb-4">Honoraires</span>
               <h2 className="text-4xl md:text-5xl font-black text-[#134E4A]" style={{ fontFamily: "'Figtree', sans-serif" }}>
                 Transparence tarifaire
               </h2>
@@ -678,7 +678,7 @@ const navLinks = ["Spécialités", "Médecins", "Protocoles", "Science", "Tarifs
               { name: "Programme", price: "Sur devis", desc: "Accompagnement sur-mesure sur 3, 6 ou 12 mois avec suivi continu", features: ["Consultations illimitées", "Téléconsultation 7j/7", "Accès dossier médical", "Alertes proactives"], color: false },
             ].map((plan, i) => (
               <Reveal key={plan.name} delay={i * 0.1}>
-                <div className={`rounded-3xl p-8 border-2 transition-all duration-300 ${plan.color ? "bg-[#0891B2] border-[#0891B2] text-white" : "bg-white border-[#0891B2]/10 text-[#134E4A] hover:border-[#0891B2]/30"}`}>
+                <div className={`rounded-3xl p-8 border-2 transition-all duration-300 ${plan.color ? "bg-[var(--brand,#0891B2)] border-[var(--brand,#0891B2)] text-white" : "bg-white border-[var(--brand,#0891B2)]/10 text-[#134E4A] hover:border-[var(--brand,#0891B2)]/30"}`}>
                   <h3 className="font-bold text-xl mb-2" style={{ fontFamily: "'Figtree', sans-serif" }}>{plan.name}</h3>
                   <div className="text-3xl font-black mb-4" style={{ fontFamily: "'Figtree', sans-serif" }}>{plan.price}</div>
                   <p className={`text-sm mb-6 leading-relaxed ${plan.color ? "text-white/80" : "text-[#134E4A]/60"}`}>{plan.desc}</p>
@@ -690,7 +690,7 @@ const navLinks = ["Spécialités", "Médecins", "Protocoles", "Science", "Tarifs
                       </li>
                     ))}
                   </ul>
-                  <button className={`w-full py-3 rounded-full font-medium text-sm cursor-pointer transition-all ${plan.color ? "bg-white text-[#0891B2] hover:bg-white/90" : "bg-[#0891B2] text-white hover:bg-[#0e7490]"}`}>
+                  <button className={`w-full py-3 rounded-full font-medium text-sm cursor-pointer transition-all ${plan.color ? "bg-white text-[var(--brand,#0891B2)] hover:bg-white/90" : "bg-[var(--brand,#0891B2)] text-white hover:bg-[#0e7490]"}`}>
                     Réserver une consultation
                   </button>
                 </div>
@@ -705,7 +705,7 @@ const navLinks = ["Spécialités", "Médecins", "Protocoles", "Science", "Tarifs
         <div className="max-w-6xl mx-auto px-6">
           <Reveal>
             <div className="text-center mb-14">
-              <span className="text-xs font-bold uppercase tracking-widest text-[#0891B2] block mb-4">Prendre RDV</span>
+              <span className="text-xs font-bold uppercase tracking-widest text-[var(--brand,#0891B2)] block mb-4">Prendre RDV</span>
               <h2 className="text-4xl md:text-5xl font-black text-[#134E4A]" style={{ fontFamily: "'Figtree', sans-serif" }}>
                 Commencez votre parcours
               </h2>
@@ -716,8 +716,8 @@ const navLinks = ["Spécialités", "Médecins", "Protocoles", "Science", "Tarifs
             <Reveal>
               <div className="space-y-6">
                 <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 bg-[#0891B2]/10 rounded-xl flex items-center justify-center flex-shrink-0">
-                    <MapPin className="w-5 h-5 text-[#0891B2]" />
+                  <div className="w-10 h-10 bg-[var(--brand,#0891B2)]/10 rounded-xl flex items-center justify-center flex-shrink-0">
+                    <MapPin className="w-5 h-5 text-[var(--brand,#0891B2)]" />
                   </div>
                   <div>
                     <p className="font-bold text-[#134E4A]" style={{ fontFamily: "'Figtree', sans-serif" }}>Adresse</p>
@@ -725,8 +725,8 @@ const navLinks = ["Spécialités", "Médecins", "Protocoles", "Science", "Tarifs
                   </div>
                 </div>
                 <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 bg-[#0891B2]/10 rounded-xl flex items-center justify-center flex-shrink-0">
-                    <Clock className="w-5 h-5 text-[#0891B2]" />
+                  <div className="w-10 h-10 bg-[var(--brand,#0891B2)]/10 rounded-xl flex items-center justify-center flex-shrink-0">
+                    <Clock className="w-5 h-5 text-[var(--brand,#0891B2)]" />
                   </div>
                   <div>
                     <p className="font-bold text-[#134E4A]" style={{ fontFamily: "'Figtree', sans-serif" }}>Horaires</p>
@@ -735,8 +735,8 @@ const navLinks = ["Spécialités", "Médecins", "Protocoles", "Science", "Tarifs
                   </div>
                 </div>
                 <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 bg-[#0891B2]/10 rounded-xl flex items-center justify-center flex-shrink-0">
-                    <Phone className="w-5 h-5 text-[#0891B2]" />
+                  <div className="w-10 h-10 bg-[var(--brand,#0891B2)]/10 rounded-xl flex items-center justify-center flex-shrink-0">
+                    <Phone className="w-5 h-5 text-[var(--brand,#0891B2)]" />
                   </div>
                   <div>
                     <p className="font-bold text-[#134E4A]" style={{ fontFamily: "'Figtree', sans-serif" }}>Téléphone</p>
@@ -744,8 +744,8 @@ const navLinks = ["Spécialités", "Médecins", "Protocoles", "Science", "Tarifs
                   </div>
                 </div>
                 <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 bg-[#0891B2]/10 rounded-xl flex items-center justify-center flex-shrink-0">
-                    <Mail className="w-5 h-5 text-[#0891B2]" />
+                  <div className="w-10 h-10 bg-[var(--brand,#0891B2)]/10 rounded-xl flex items-center justify-center flex-shrink-0">
+                    <Mail className="w-5 h-5 text-[var(--brand,#0891B2)]" />
                   </div>
                   <div>
                     <p className="font-bold text-[#134E4A]" style={{ fontFamily: "'Figtree', sans-serif" }}>Email</p>
@@ -758,16 +758,16 @@ const navLinks = ["Spécialités", "Médecins", "Protocoles", "Science", "Tarifs
             <Reveal delay={0.2}>
               <form className="space-y-4" onSubmit={e => e.preventDefault()}>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <input type="text" placeholder="Prénom" className="w-full px-4 py-3 bg-[#F0FDFA] border border-[#0891B2]/20 rounded-xl text-[#134E4A] placeholder-[#134E4A]/40 focus:outline-none focus:border-[#0891B2] text-sm" />
-                  <input type="text" placeholder="Nom" className="w-full px-4 py-3 bg-[#F0FDFA] border border-[#0891B2]/20 rounded-xl text-[#134E4A] placeholder-[#134E4A]/40 focus:outline-none focus:border-[#0891B2] text-sm" />
+                  <input type="text" placeholder="Prénom" className="w-full px-4 py-3 bg-[#F0FDFA] border border-[var(--brand,#0891B2)]/20 rounded-xl text-[#134E4A] placeholder-[#134E4A]/40 focus:outline-none focus:border-[var(--brand,#0891B2)] text-sm" />
+                  <input type="text" placeholder="Nom" className="w-full px-4 py-3 bg-[#F0FDFA] border border-[var(--brand,#0891B2)]/20 rounded-xl text-[#134E4A] placeholder-[#134E4A]/40 focus:outline-none focus:border-[var(--brand,#0891B2)] text-sm" />
                 </div>
-                <input type="email" placeholder="Email" className="w-full px-4 py-3 bg-[#F0FDFA] border border-[#0891B2]/20 rounded-xl text-[#134E4A] placeholder-[#134E4A]/40 focus:outline-none focus:border-[#0891B2] text-sm" />
-                <select className="w-full px-4 py-3 bg-[#F0FDFA] border border-[#0891B2]/20 rounded-xl text-[#134E4A] focus:outline-none focus:border-[#0891B2] text-sm cursor-pointer">
+                <input type="email" placeholder="Email" className="w-full px-4 py-3 bg-[#F0FDFA] border border-[var(--brand,#0891B2)]/20 rounded-xl text-[#134E4A] placeholder-[#134E4A]/40 focus:outline-none focus:border-[var(--brand,#0891B2)] text-sm" />
+                <select className="w-full px-4 py-3 bg-[#F0FDFA] border border-[var(--brand,#0891B2)]/20 rounded-xl text-[#134E4A] focus:outline-none focus:border-[var(--brand,#0891B2)] text-sm cursor-pointer">
                   <option value="">Spécialité souhaitée</option>
                   {specialties.map((s: any) => <option key={s.id} value={s.id}>{s.label}</option>)}
                 </select>
-                <textarea rows={4} placeholder="Votre message (motif de consultation...)" className="w-full px-4 py-3 bg-[#F0FDFA] border border-[#0891B2]/20 rounded-xl text-[#134E4A] placeholder-[#134E4A]/40 focus:outline-none focus:border-[#0891B2] text-sm resize-none" />
-                <button type="submit" className="w-full py-3.5 bg-[#0891B2] text-white font-semibold rounded-xl hover:bg-[#0e7490] transition-colors cursor-pointer flex items-center justify-center gap-2">
+                <textarea rows={4} placeholder="Votre message (motif de consultation...)" className="w-full px-4 py-3 bg-[#F0FDFA] border border-[var(--brand,#0891B2)]/20 rounded-xl text-[#134E4A] placeholder-[#134E4A]/40 focus:outline-none focus:border-[var(--brand,#0891B2)] text-sm resize-none" />
+                <button type="submit" className="w-full py-3.5 bg-[var(--brand,#0891B2)] text-white font-semibold rounded-xl hover:bg-[#0e7490] transition-colors cursor-pointer flex items-center justify-center gap-2">
                   Envoyer ma demande <ArrowRight className="w-4 h-4" />
                 </button>
               </form>
@@ -794,7 +794,7 @@ const navLinks = ["Spécialités", "Médecins", "Protocoles", "Science", "Tarifs
               { title: "Clinique", links: ["Notre équipe", "Nos protocoles", "Tarifs", "Témoignages", "Contact"] },
             ].map(col => (
               <div key={col.title}>
-                <h4 className="font-bold text-sm uppercase tracking-widest text-[#0891B2] mb-4" style={{ fontFamily: "'Figtree', sans-serif" }}>{col.title}</h4>
+                <h4 className="font-bold text-sm uppercase tracking-widest text-[var(--brand,#0891B2)] mb-4" style={{ fontFamily: "'Figtree', sans-serif" }}>{col.title}</h4>
                 <ul className="space-y-2">
                   {col.links.map(l => (
                     <li key={l}><span className="text-white/50 text-sm hover:text-white/80 transition-colors cursor-pointer">{l}</span></li>

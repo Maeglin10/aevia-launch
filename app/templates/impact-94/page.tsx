@@ -240,7 +240,7 @@ function SectionTitle({
   subtitle,
   title,
   alignment = "center",
-  accentColor = "#CA8A04",
+  accentColor = "var(--brand,#CA8A04)",
   dark = false,
 }: {
   subtitle: string
@@ -272,9 +272,9 @@ function SectionTitle({
 function GoldDivider() {
   return (
     <div className="flex items-center gap-4 my-8">
-      <div className="flex-1 h-px bg-[#CA8A04]/30" />
-      <Flower className="w-4 h-4 text-[#CA8A04]" />
-      <div className="flex-1 h-px bg-[#CA8A04]/30" />
+      <div className="flex-1 h-px bg-[var(--brand,#CA8A04)]/30" />
+      <Flower className="w-4 h-4 text-[var(--brand,#CA8A04)]" />
+      <div className="flex-1 h-px bg-[var(--brand,#CA8A04)]/30" />
     </div>
   )
 }
@@ -328,14 +328,14 @@ function FaqSection() {
   );
 
   return (
-    <section id="faq" className="py-40 px-6 md:px-16 bg-[#FAFAF8] border-t border-[#CA8A04]/10">
+    <section id="faq" className="py-40 px-6 md:px-16 bg-[#FAFAF8] border-t border-[var(--brand,#CA8A04)]/10">
       <div className="max-w-4xl mx-auto">
         <SectionTitle subtitle="Des réponses à vos questions" title="Questions Fréquentes" />
         
         <div className="space-y-4 mt-12">
           {FAQ_ITEMS.map((item, i) => (
             <Reveal key={i} delay={i * 0.08}>
-              <div className="border border-[#CA8A04]/20 bg-white">
+              <div className="border border-[var(--brand,#CA8A04)]/20 bg-white">
                 <button
                   type="button"
                   onClick={() => setOpenIndex(openIndex === i ? null : i)}
@@ -347,7 +347,7 @@ function FaqSection() {
                   <motion.span
                     animate={{ rotate: openIndex === i ? 180 : 0 }}
                     transition={{ duration: 0.3 }}
-                    className="text-[#CA8A04] flex-shrink-0 ml-4"
+                    className="text-[var(--brand,#CA8A04)] flex-shrink-0 ml-4"
                   >
                     <ChevronRight className="w-5 h-5" />
                   </motion.span>
@@ -361,7 +361,7 @@ function FaqSection() {
                       transition={{ duration: 0.3, ease: "easeInOut" }}
                       style={{ overflow: "hidden" }}
                     >
-                      <div className="p-6 pt-0 text-sm md:text-base text-[#0C0A09]/60 leading-relaxed font-light border-t border-[#CA8A04]/10 mt-4">
+                      <div className="p-6 pt-0 text-sm md:text-base text-[#0C0A09]/60 leading-relaxed font-light border-t border-[var(--brand,#CA8A04)]/10 mt-4">
                         {item.a}
                       </div>
                     </motion.div>
@@ -496,7 +496,7 @@ export default function Impact94Page() {
     >
       {/* ── Scroll Progress Bar ── */}
       <motion.div
-        className="fixed top-0 left-0 h-[2px] bg-[#CA8A04] z-[1000]"
+        className="fixed top-0 left-0 h-[2px] bg-[var(--brand,#CA8A04)] z-[1000]"
         style={{ width: progressWidth }}
       />
 
@@ -506,7 +506,7 @@ export default function Impact94Page() {
       <nav
         className={`fixed top-0 left-0 right-0 z-[200] flex items-center justify-between px-8 md:px-16 transition-all duration-500 ${
           scrolled
-            ? "py-4 bg-[#FAFAF9]/95 backdrop-blur-lg border-b border-[#CA8A04]/20 shadow-sm"
+            ? "py-4 bg-[#FAFAF9]/95 backdrop-blur-lg border-b border-[var(--brand,#CA8A04)]/20 shadow-sm"
             : "py-7 bg-transparent"
         }`}
       >
@@ -520,7 +520,7 @@ export default function Impact94Page() {
             />
           ) : (
             <>
-              <Flower className="w-5 h-5 text-[#CA8A04] group-hover:rotate-45 transition-transform duration-500" />
+              <Flower className="w-5 h-5 text-[var(--brand,#CA8A04)] group-hover:rotate-45 transition-transform duration-500" />
               <span
                 className="text-xl font-normal tracking-[0.25em] uppercase text-[#0C0A09]"
                 style={{ fontFamily: "'Bodoni Moda', serif" }}
@@ -537,7 +537,7 @@ export default function Impact94Page() {
             <li key={link.label}>
               <button
                 onClick={() => document.getElementById(link.href.replace("#", ""))?.scrollIntoView({ behavior: "smooth" })}
-                className="text-[11px] font-medium uppercase tracking-[0.2em] text-[#0C0A09]/70 hover:text-[#CA8A04] transition-colors duration-300"
+                className="text-[11px] font-medium uppercase tracking-[0.2em] text-[#0C0A09]/70 hover:text-[var(--brand,#CA8A04)] transition-colors duration-300"
               >
                 {link.label}
               </button>
@@ -549,7 +549,7 @@ export default function Impact94Page() {
         <div className="hidden md:flex items-center gap-4">
           <button
             onClick={() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })}
-            className="px-6 py-3 border border-[#CA8A04] text-[#CA8A04] text-[11px] font-medium uppercase tracking-[0.2em] hover:bg-[#CA8A04] hover:text-white transition-all duration-300"
+            className="px-6 py-3 border border-[var(--brand,#CA8A04)] text-[var(--brand,#CA8A04)] text-[11px] font-medium uppercase tracking-[0.2em] hover:bg-[var(--brand,#CA8A04)] hover:text-white transition-all duration-300"
           >
             Commande sur-mesure
           </button>
@@ -591,7 +591,7 @@ export default function Impact94Page() {
                   setMenuOpen(false)
                   setTimeout(() => document.getElementById(link.href.replace("#", ""))?.scrollIntoView({ behavior: "smooth" }), 300)
                 }}
-                className="text-3xl font-normal uppercase tracking-[0.2em] text-[#0C0A09] hover:text-[#CA8A04] transition-colors"
+                className="text-3xl font-normal uppercase tracking-[0.2em] text-[#0C0A09] hover:text-[var(--brand,#CA8A04)] transition-colors"
                 style={{ fontFamily: "'Bodoni Moda', serif" }}
               >
                 {link.label}
@@ -605,7 +605,7 @@ export default function Impact94Page() {
                 setMenuOpen(false)
                 setTimeout(() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" }), 300)
               }}
-              className="mt-6 px-8 py-4 bg-[#CA8A04] text-white text-sm font-medium uppercase tracking-[0.2em]"
+              className="mt-6 px-8 py-4 bg-[var(--brand,#CA8A04)] text-white text-sm font-medium uppercase tracking-[0.2em]"
             >
               Commande sur-mesure
             </motion.button>
@@ -643,7 +643,7 @@ export default function Impact94Page() {
             initial={{ opacity: 0, letterSpacing: "0.3em" }}
             animate={{ opacity: 1, letterSpacing: "0.5em" }}
             transition={{ duration: 2, ease: [0.16, 1, 0.3, 1] }}
-            className="text-[10px] font-medium uppercase text-[#CA8A04] tracking-[0.5em] block mb-8"
+            className="text-[10px] font-medium uppercase text-[var(--brand,#CA8A04)] tracking-[0.5em] block mb-8"
           >
             Atelier floral de luxe — Paris
           </motion.span>
@@ -657,7 +657,7 @@ export default function Impact94Page() {
           >{c?.heroHeadline ?? <>
             L&apos;art
             <br />
-            <span className="text-[#CA8A04]">floral</span>
+            <span className="text-[var(--brand,#CA8A04)]">floral</span>
           </>}</motion.h1>
 
           <motion.p
@@ -677,7 +677,7 @@ export default function Impact94Page() {
           >
             <button
               onClick={() => document.getElementById("collections")?.scrollIntoView({ behavior: "smooth" })}
-              className="px-10 py-4 bg-[#CA8A04] text-white text-[11px] font-medium uppercase tracking-[0.25em] hover:bg-[#A16F03] transition-colors duration-300 flex items-center gap-2"
+              className="px-10 py-4 bg-[var(--brand,#CA8A04)] text-white text-[11px] font-medium uppercase tracking-[0.25em] hover:bg-[#A16F03] transition-colors duration-300 flex items-center gap-2"
             >
               Découvrir les collections
               <ArrowRight className="w-4 h-4" />
@@ -700,7 +700,7 @@ export default function Impact94Page() {
         >
           <span className="text-[9px] uppercase tracking-[0.4em] text-[#FAFAF9]/60">Défiler</span>
           <motion.div
-            className="w-px h-12 bg-[#CA8A04]"
+            className="w-px h-12 bg-[var(--brand,#CA8A04)]"
             animate={{ scaleY: [0, 1, 0] }}
             transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
             style={{ transformOrigin: "top" }}
@@ -711,7 +711,7 @@ export default function Impact94Page() {
       {/* ════════════════════════════════════════════════════════════
           MARQUEE
       ════════════════════════════════════════════════════════════ */}
-      <section id="realisations" className="bg-[#CA8A04] py-5 overflow-hidden">
+      <section id="realisations" className="bg-[var(--brand,#CA8A04)] py-5 overflow-hidden">
         <motion.div
           className="flex gap-12 whitespace-nowrap"
           animate={{ x: ["0%", "-50%"] }}
@@ -739,7 +739,7 @@ export default function Impact94Page() {
           {ARRANGEMENTS.map((item, i) => (
             <Reveal key={item.id} delay={i * 0.1}>
               <div
-                className="group relative bg-white border border-[#0C0A09]/8 hover:border-[#CA8A04]/40 transition-all duration-500 cursor-pointer overflow-hidden"
+                className="group relative bg-white border border-[#0C0A09]/8 hover:border-[var(--brand,#CA8A04)]/40 transition-all duration-500 cursor-pointer overflow-hidden"
                 onMouseEnter={() => setActiveCollection(item.id)}
                 onMouseLeave={() => setActiveCollection(null)}
               >
@@ -752,11 +752,11 @@ export default function Impact94Page() {
                     className="object-cover transition-transform duration-700 group-hover:scale-110"
                   />
                   {/* Tag */}
-                  <div className="absolute top-4 left-4 bg-[#CA8A04] text-white text-[9px] font-medium uppercase tracking-[0.3em] px-3 py-1">
+                  <div className="absolute top-4 left-4 bg-[var(--brand,#CA8A04)] text-white text-[9px] font-medium uppercase tracking-[0.3em] px-3 py-1">
                     {item.tag}
                   </div>
                   {/* Season badge */}
-                  <div className="absolute top-4 right-4 bg-[#0C0A09]/80 text-[#CA8A04] text-[9px] font-medium uppercase tracking-[0.2em] px-3 py-1 backdrop-blur-sm">
+                  <div className="absolute top-4 right-4 bg-[#0C0A09]/80 text-[var(--brand,#CA8A04)] text-[9px] font-medium uppercase tracking-[0.2em] px-3 py-1 backdrop-blur-sm">
                     {item.season}
                   </div>
                 </div>
@@ -771,7 +771,7 @@ export default function Impact94Page() {
                       {item.name}
                     </h3>
                     <span
-                      className="text-xl font-medium text-[#CA8A04]"
+                      className="text-xl font-medium text-[var(--brand,#CA8A04)]"
                       style={{ fontFamily: "'Bodoni Moda', serif" }}
                     >
                       {item.price}
@@ -781,7 +781,7 @@ export default function Impact94Page() {
                     {item.description}
                   </p>
                   <GoldDivider />
-                  <button className="flex items-center gap-2 text-[10px] font-medium uppercase tracking-[0.25em] text-[#CA8A04] hover:gap-4 transition-all duration-300 group/btn">
+                  <button className="flex items-center gap-2 text-[10px] font-medium uppercase tracking-[0.25em] text-[var(--brand,#CA8A04)] hover:gap-4 transition-all duration-300 group/btn">
                     Commander
                     <ArrowRight className="w-3 h-3 transition-transform duration-300 group-hover/btn:translate-x-1" />
                   </button>
@@ -801,7 +801,7 @@ export default function Impact94Page() {
           <div>
             <Reveal>
               <span
-                className="text-[10px] font-black uppercase tracking-[0.6em] text-[#CA8A04] block mb-6 italic"
+                className="text-[10px] font-black uppercase tracking-[0.6em] text-[var(--brand,#CA8A04)] block mb-6 italic"
                 style={{ fontFamily: "'Jost', sans-serif" }}
               >
                 Notre philosophie
@@ -814,12 +814,12 @@ export default function Impact94Page() {
               >{c?.aboutTitle ?? fd?.businessName ?? <>
                 La botanique
                 <br />
-                <span className="italic text-[#CA8A04]">comme art</span>
+                <span className="italic text-[var(--brand,#CA8A04)]">comme art</span>
               </>}</h2>
             </Reveal>
 
             <Reveal delay={0.2}>
-              <div className="h-px w-24 bg-[#CA8A04] mb-10" />
+              <div className="h-px w-24 bg-[var(--brand,#CA8A04)] mb-10" />
               <p className="text-lg text-[#FAFAF9]/70 font-light leading-relaxed mb-6">{c?.aboutText ?? <>
                 Depuis 2009, Botanica explore la frontière entre nature et architecture. Chaque composition est une oeuvre pensée, où la biologie des végétaux dialogue avec les principes du design.
               </>}</p>
@@ -838,7 +838,7 @@ export default function Impact94Page() {
                 ].map((stat) => (
                   <div key={stat.label} className="border border-[#FAFAF9]/10 p-6">
                     <div
-                      className="text-3xl font-normal text-[#CA8A04] mb-1"
+                      className="text-3xl font-normal text-[var(--brand,#CA8A04)] mb-1"
                       style={{ fontFamily: "'Bodoni Moda', serif" }}
                     >
                       {stat.value}
@@ -865,16 +865,16 @@ export default function Impact94Page() {
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0C0A09]/50 via-transparent to-transparent" />
               </div>
               {/* Gold frame accent */}
-              <div className="absolute -bottom-6 -right-6 w-48 h-48 border border-[#CA8A04]/30" />
-              <div className="absolute -top-6 -left-6 w-24 h-24 border border-[#CA8A04]/20" />
+              <div className="absolute -bottom-6 -right-6 w-48 h-48 border border-[var(--brand,#CA8A04)]/30" />
+              <div className="absolute -top-6 -left-6 w-24 h-24 border border-[var(--brand,#CA8A04)]/20" />
 
               {/* Floating card */}
-              <div className="absolute bottom-8 left-8 bg-[#0C0A09]/90 backdrop-blur-md border border-[#CA8A04]/20 p-6 max-w-[220px]">
-                <Flower className="w-6 h-6 text-[#CA8A04] mb-3" />
+              <div className="absolute bottom-8 left-8 bg-[#0C0A09]/90 backdrop-blur-md border border-[var(--brand,#CA8A04)]/20 p-6 max-w-[220px]">
+                <Flower className="w-6 h-6 text-[var(--brand,#CA8A04)] mb-3" />
                 <p className="text-sm text-[#FAFAF9]/80 font-light leading-relaxed italic" style={{ fontFamily: "'Bodoni Moda', serif" }}>
                   {"“La fleur la plus parfaite est celle qui révèle l'âme de celui qui la contemple.”"}
                 </p>
-                <p className="mt-3 text-[9px] uppercase tracking-[0.3em] text-[#CA8A04]">— Sophie Marchand, Fondatrice</p>
+                <p className="mt-3 text-[9px] uppercase tracking-[0.3em] text-[var(--brand,#CA8A04)]">— Sophie Marchand, Fondatrice</p>
               </div>
             </div>
           </Reveal>
@@ -892,9 +892,9 @@ export default function Impact94Page() {
             const Icon = event.icon
             return (
               <Reveal key={event.title} delay={i * 0.15}>
-                <div className="bg-white border border-[#CA8A04]/15 p-10 group hover:border-[#CA8A04]/50 hover:shadow-xl transition-all duration-500">
-                  <div className="w-14 h-14 bg-[#CA8A04]/10 flex items-center justify-center mb-8 group-hover:bg-[#CA8A04]/20 transition-colors">
-                    <Icon className="w-7 h-7 text-[#CA8A04]" />
+                <div className="bg-white border border-[var(--brand,#CA8A04)]/15 p-10 group hover:border-[var(--brand,#CA8A04)]/50 hover:shadow-xl transition-all duration-500">
+                  <div className="w-14 h-14 bg-[var(--brand,#CA8A04)]/10 flex items-center justify-center mb-8 group-hover:bg-[var(--brand,#CA8A04)]/20 transition-colors">
+                    <Icon className="w-7 h-7 text-[var(--brand,#CA8A04)]" />
                   </div>
                   <h3
                     className="text-3xl font-normal mb-6 text-[#0C0A09]"
@@ -908,13 +908,13 @@ export default function Impact94Page() {
                   <div className="space-y-3">
                     {event.features.map((f) => (
                       <div key={f} className="flex items-center gap-3">
-                        <CheckCircle className="w-4 h-4 text-[#CA8A04] flex-shrink-0" />
+                        <CheckCircle className="w-4 h-4 text-[var(--brand,#CA8A04)] flex-shrink-0" />
                         <span className="text-sm text-[#0C0A09]/70">{f}</span>
                       </div>
                     ))}
                   </div>
                   <GoldDivider />
-                  <button className="flex items-center gap-2 text-[10px] font-medium uppercase tracking-[0.25em] text-[#CA8A04] hover:gap-4 transition-all duration-300">
+                  <button className="flex items-center gap-2 text-[10px] font-medium uppercase tracking-[0.25em] text-[var(--brand,#CA8A04)] hover:gap-4 transition-all duration-300">
                     Demander un devis
                     <ChevronRight className="w-3 h-3" />
                   </button>
@@ -974,14 +974,14 @@ export default function Impact94Page() {
               const StepIcon = step.icon
               return (
                 <Reveal key={step.step} delay={i * 0.12}>
-                  <div className="bg-[#FAFAF9] p-10 group hover:bg-[#CA8A04] transition-colors duration-500">
+                  <div className="bg-[#FAFAF9] p-10 group hover:bg-[var(--brand,#CA8A04)] transition-colors duration-500">
                     <span
                       className="text-6xl font-black text-[#0C0A09]/8 group-hover:text-white/10 transition-colors block mb-6 leading-none"
                       style={{ fontFamily: "'Bodoni Moda', serif" }}
                     >
                       {step.step}
                     </span>
-                    <StepIcon className="w-7 h-7 text-[#CA8A04] group-hover:text-white transition-colors mb-4" />
+                    <StepIcon className="w-7 h-7 text-[var(--brand,#CA8A04)] group-hover:text-white transition-colors mb-4" />
                     <h4
                       className="text-xl font-normal mb-3 text-[#0C0A09] group-hover:text-white transition-colors"
                       style={{ fontFamily: "'Bodoni Moda', serif" }}
@@ -1002,7 +1002,7 @@ export default function Impact94Page() {
       {/* ════════════════════════════════════════════════════════════
           STATS
       ════════════════════════════════════════════════════════════ */}
-      <section className="py-32 px-6 md:px-16 bg-[#CA8A04]">
+      <section className="py-32 px-6 md:px-16 bg-[var(--brand,#CA8A04)]">
         <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
           {STATS.map((stat, i) => (
             <Reveal key={stat.label} delay={i * 0.1}>
@@ -1035,11 +1035,11 @@ export default function Impact94Page() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto">
           {TESTIMONIALS.map((t, i) => (
             <Reveal key={t.name} delay={i * 0.15}>
-              <div className="border border-[#FAFAF9]/10 p-10 hover:border-[#CA8A04]/30 transition-colors duration-500 group">
+              <div className="border border-[#FAFAF9]/10 p-10 hover:border-[var(--brand,#CA8A04)]/30 transition-colors duration-500 group">
                 {/* Stars */}
                 <div className="flex gap-1 mb-6">
                   {Array.from({ length: t.rating }).map((_, j) => (
-                    <Star key={j} className="w-4 h-4 text-[#CA8A04] fill-[#CA8A04]" />
+                    <Star key={j} className="w-4 h-4 text-[var(--brand,#CA8A04)] fill-[var(--brand,#CA8A04)]" />
                   ))}
                 </div>
 
@@ -1053,7 +1053,7 @@ export default function Impact94Page() {
                   </div>
                   <div>
                     <div className="text-sm font-medium text-[#FAFAF9]">{t.name}</div>
-                    <div className="text-[10px] text-[#CA8A04] uppercase tracking-[0.2em]">{t.role}</div>
+                    <div className="text-[10px] text-[var(--brand,#CA8A04)] uppercase tracking-[0.2em]">{t.role}</div>
                   </div>
                 </div>
               </div>
@@ -1076,7 +1076,7 @@ export default function Impact94Page() {
           <div>
             <Reveal>
               <span
-                className="text-[10px] font-black uppercase tracking-[0.6em] text-[#CA8A04] block mb-6 italic"
+                className="text-[10px] font-black uppercase tracking-[0.6em] text-[var(--brand,#CA8A04)] block mb-6 italic"
                 style={{ fontFamily: "'Jost', sans-serif" }}
               >
                 Entrer en contact
@@ -1087,7 +1087,7 @@ export default function Impact94Page() {
               >
                 Parlons de
                 <br />
-                <span className="italic text-[#CA8A04]">votre projet</span>
+                <span className="italic text-[var(--brand,#CA8A04)]">votre projet</span>
               </h2>
             </Reveal>
 
@@ -1098,8 +1098,8 @@ export default function Impact94Page() {
 
               <div className="space-y-6">
                 <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 bg-[#CA8A04]/10 flex items-center justify-center">
-                    <MapPin className="w-5 h-5 text-[#CA8A04]" />
+                  <div className="w-10 h-10 bg-[var(--brand,#CA8A04)]/10 flex items-center justify-center">
+                    <MapPin className="w-5 h-5 text-[var(--brand,#CA8A04)]" />
                   </div>
                   <div>
                     <div className="text-sm font-medium text-[#0C0A09]">Atelier</div>
@@ -1107,8 +1107,8 @@ export default function Impact94Page() {
                   </div>
                 </div>
                 <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 bg-[#CA8A04]/10 flex items-center justify-center">
-                    <Phone className="w-5 h-5 text-[#CA8A04]" />
+                  <div className="w-10 h-10 bg-[var(--brand,#CA8A04)]/10 flex items-center justify-center">
+                    <Phone className="w-5 h-5 text-[var(--brand,#CA8A04)]" />
                   </div>
                   <div>
                     <div className="text-sm font-medium text-[#0C0A09]">Téléphone</div>
@@ -1116,8 +1116,8 @@ export default function Impact94Page() {
                   </div>
                 </div>
                 <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 bg-[#CA8A04]/10 flex items-center justify-center">
-                    <Mail className="w-5 h-5 text-[#CA8A04]" />
+                  <div className="w-10 h-10 bg-[var(--brand,#CA8A04)]/10 flex items-center justify-center">
+                    <Mail className="w-5 h-5 text-[var(--brand,#CA8A04)]" />
                   </div>
                   <div>
                     <div className="text-sm font-medium text-[#0C0A09]">Email</div>
@@ -1125,8 +1125,8 @@ export default function Impact94Page() {
                   </div>
                 </div>
                 <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 bg-[#CA8A04]/10 flex items-center justify-center">
-                    <Clock className="w-5 h-5 text-[#CA8A04]" />
+                  <div className="w-10 h-10 bg-[var(--brand,#CA8A04)]/10 flex items-center justify-center">
+                    <Clock className="w-5 h-5 text-[var(--brand,#CA8A04)]" />
                   </div>
                   <div>
                     <div className="text-sm font-medium text-[#0C0A09]">Horaires</div>
@@ -1142,7 +1142,7 @@ export default function Impact94Page() {
                 {[Facebook].map((Icon, i) => (
                   <button
                     key={i}
-                    className="w-10 h-10 border border-[#0C0A09]/15 flex items-center justify-center hover:border-[#CA8A04] hover:text-[#CA8A04] transition-colors"
+                    className="w-10 h-10 border border-[#0C0A09]/15 flex items-center justify-center hover:border-[var(--brand,#CA8A04)] hover:text-[var(--brand,#CA8A04)] transition-colors"
                   >
                     <Icon className="w-4 h-4" />
                   </button>
@@ -1154,8 +1154,8 @@ export default function Impact94Page() {
           {/* Right — Form */}
           <Reveal delay={0.2}>
             {contactSubmitted ? (
-              <div className="border border-[#CA8A04]/20 bg-white p-10 text-center flex flex-col items-center justify-center h-full">
-                <Flower className="w-8 h-8 text-[#CA8A04] animate-spin mb-4" style={{ animationDuration: "3s" }} />
+              <div className="border border-[var(--brand,#CA8A04)]/20 bg-white p-10 text-center flex flex-col items-center justify-center h-full">
+                <Flower className="w-8 h-8 text-[var(--brand,#CA8A04)] animate-spin mb-4" style={{ animationDuration: "3s" }} />
                 <h3 className="text-2xl font-normal mb-2" style={{ fontFamily: "'Bodoni Moda', serif" }}>Merci</h3>
                 <p className="text-sm text-[#0C0A09]/60 font-light">Merci, nous vous répondrons sous 24h.</p>
               </div>
@@ -1175,7 +1175,7 @@ export default function Impact94Page() {
                     <input
                       type="text"
                       required
-                      className="w-full border border-[#0C0A09]/15 bg-transparent px-5 py-4 text-sm text-[#0C0A09] placeholder-[#0C0A09]/30 focus:outline-none focus:border-[#CA8A04] transition-colors"
+                      className="w-full border border-[#0C0A09]/15 bg-transparent px-5 py-4 text-sm text-[#0C0A09] placeholder-[#0C0A09]/30 focus:outline-none focus:border-[var(--brand,#CA8A04)] transition-colors"
                       placeholder="Sophie"
                     />
                   </div>
@@ -1186,7 +1186,7 @@ export default function Impact94Page() {
                     <input
                       type="text"
                       required
-                      className="w-full border border-[#0C0A09]/15 bg-transparent px-5 py-4 text-sm text-[#0C0A09] placeholder-[#0C0A09]/30 focus:outline-none focus:border-[#CA8A04] transition-colors"
+                      className="w-full border border-[#0C0A09]/15 bg-transparent px-5 py-4 text-sm text-[#0C0A09] placeholder-[#0C0A09]/30 focus:outline-none focus:border-[var(--brand,#CA8A04)] transition-colors"
                       placeholder="Marchand"
                     />
                   </div>
@@ -1198,7 +1198,7 @@ export default function Impact94Page() {
                   <input
                     type="email"
                     required
-                    className="w-full border border-[#0C0A09]/15 bg-transparent px-5 py-4 text-sm text-[#0C0A09] placeholder-[#0C0A09]/30 focus:outline-none focus:border-[#CA8A04] transition-colors"
+                    className="w-full border border-[#0C0A09]/15 bg-transparent px-5 py-4 text-sm text-[#0C0A09] placeholder-[#0C0A09]/30 focus:outline-none focus:border-[var(--brand,#CA8A04)] transition-colors"
                     placeholder="sophie@exemple.fr"
                   />
                 </div>
@@ -1206,7 +1206,7 @@ export default function Impact94Page() {
                   <label className="block text-[10px] uppercase tracking-[0.2em] text-[#0C0A09]/50 mb-2">
                     Type de commande
                   </label>
-                  <select required className="w-full border border-[#0C0A09]/15 bg-[#FAFAF9] px-5 py-4 text-sm text-[#0C0A09] focus:outline-none focus:border-[#CA8A04] transition-colors appearance-none">
+                  <select required className="w-full border border-[#0C0A09]/15 bg-[#FAFAF9] px-5 py-4 text-sm text-[#0C0A09] focus:outline-none focus:border-[var(--brand,#CA8A04)] transition-colors appearance-none">
                     <option value="">Sélectionner...</option>
                     <option value="bouquet">Bouquet standard</option>
                     <option value="mariage">Mariage</option>
@@ -1222,13 +1222,13 @@ export default function Impact94Page() {
                   <textarea
                     rows={5}
                     required
-                    className="w-full border border-[#0C0A09]/15 bg-transparent px-5 py-4 text-sm text-[#0C0A09] placeholder-[#0C0A09]/30 focus:outline-none focus:border-[#CA8A04] transition-colors resize-none"
+                    className="w-full border border-[#0C0A09]/15 bg-transparent px-5 py-4 text-sm text-[#0C0A09] placeholder-[#0C0A09]/30 focus:outline-none focus:border-[var(--brand,#CA8A04)] transition-colors resize-none"
                     placeholder="Décrivez votre projet, l'occasion, les couleurs souhaitées..."
                   />
                 </div>
                 <button
                   type="submit"
-                  className="w-full py-5 bg-[#CA8A04] text-white text-[11px] font-medium uppercase tracking-[0.3em] hover:bg-[#A16F03] transition-colors duration-300 flex items-center justify-center gap-2"
+                  className="w-full py-5 bg-[var(--brand,#CA8A04)] text-white text-[11px] font-medium uppercase tracking-[0.3em] hover:bg-[#A16F03] transition-colors duration-300 flex items-center justify-center gap-2"
                 >
                   Envoyer ma demande
                   <ArrowRight className="w-4 h-4" />
@@ -1246,7 +1246,7 @@ export default function Impact94Page() {
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
           {/* Logo */}
           <div className="flex items-center gap-3">
-            <Flower className="w-5 h-5 text-[#CA8A04]" />
+            <Flower className="w-5 h-5 text-[var(--brand,#CA8A04)]" />
             <span
               className="text-xl font-normal tracking-[0.25em] uppercase text-[#FAFAF9]"
               style={{ fontFamily: "'Bodoni Moda', serif" }}
@@ -1268,7 +1268,7 @@ export default function Impact94Page() {
               <Link
                 key={link.label}
                 href={link.href}
-                className="text-[10px] text-[#FAFAF9]/30 hover:text-[#CA8A04] uppercase tracking-[0.2em] transition-colors"
+                className="text-[10px] text-[#FAFAF9]/30 hover:text-[var(--brand,#CA8A04)] uppercase tracking-[0.2em] transition-colors"
               >
                 {link.label}
               </Link>

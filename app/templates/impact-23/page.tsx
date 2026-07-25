@@ -223,12 +223,12 @@ export default function StudioPelikanPage() {
 
   return (
     <div className="min-h-dvh bg-[#100D08]" style={{ fontFamily: "'Raleway', sans-serif" }}>
-      <motion.div className="fixed top-0 left-0 right-0 h-[2px] bg-[#C9A05A] origin-left z-[60]" style={{ scaleX: scrollYProgress }} />
+      <motion.div className="fixed top-0 left-0 right-0 h-[2px] bg-[var(--brand,#C9A05A)] origin-left z-[60]" style={{ scaleX: scrollYProgress }} />
 
       {/* Nav */}
       <nav className="fixed top-4 left-4 right-4 z-50">
-        <div className="max-w-6xl mx-auto bg-[#100D08]/90 backdrop-blur-md border border-[#C9A05A]/15 rounded-2xl px-6 py-4 flex items-center justify-between">
-          <button onClick={() => goTo("home")} className="flex items-center gap-2 text-[#C9A05A] cursor-pointer" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.1rem" }}>
+        <div className="max-w-6xl mx-auto bg-[#100D08]/90 backdrop-blur-md border border-[var(--brand,#C9A05A)]/15 rounded-2xl px-6 py-4 flex items-center justify-between">
+          <button onClick={() => goTo("home")} className="flex items-center gap-2 text-[var(--brand,#C9A05A)] cursor-pointer" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.1rem" }}>
             {fd?.logoBase64 ? (
               // Client logo (uploaded in the brief) replaces the placeholder mark —
               // essential for the client to recognise their brand in the render.
@@ -245,10 +245,10 @@ export default function StudioPelikanPage() {
           </button>
           <div className="hidden md:flex items-center gap-8 text-white/40 text-sm">
             {navItems.map(item => (
-              <button key={item.label} onClick={() => goTo(item.target)} className="hover:text-[#C9A05A] transition-colors cursor-pointer">{item.label}</button>
+              <button key={item.label} onClick={() => goTo(item.target)} className="hover:text-[var(--brand,#C9A05A)] transition-colors cursor-pointer">{item.label}</button>
             ))}
           </div>
-          <button onClick={() => goTo("home")} className="hidden md:inline-flex border border-[#C9A05A]/30 text-[#C9A05A] text-xs tracking-widest uppercase px-5 py-2.5 rounded-xl hover:bg-[#C9A05A] hover:text-black transition-all cursor-pointer">
+          <button onClick={() => goTo("home")} className="hidden md:inline-flex border border-[var(--brand,#C9A05A)]/30 text-[var(--brand,#C9A05A)] text-xs tracking-widest uppercase px-5 py-2.5 rounded-xl hover:bg-[var(--brand,#C9A05A)] hover:text-black transition-all cursor-pointer">
             Travailler avec nous
           </button>
           <button className="md:hidden text-white cursor-pointer" onClick={() => setMobileOpen(true)}><Menu className="w-5 h-5" /></button>
@@ -266,7 +266,7 @@ export default function StudioPelikanPage() {
                   style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
                 />
               ) : (
-                <button onClick={() => goTo("home")} className="text-[#C9A05A] text-xl cursor-pointer" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{fd?.businessName ?? "Studio Pelikan"}</button>
+                <button onClick={() => goTo("home")} className="text-[var(--brand,#C9A05A)] text-xl cursor-pointer" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{fd?.businessName ?? "Studio Pelikan"}</button>
               )}
               <button onClick={() => setMobileOpen(false)} className="cursor-pointer"><X className="w-6 h-6 text-white" /></button>
             </div>
@@ -290,7 +290,7 @@ export default function StudioPelikanPage() {
             <motion.div className="relative z-10 h-full flex flex-col justify-end pb-20 px-6" style={{ opacity: heroOpacity }}>
               <div className="max-w-6xl mx-auto w-full">
                 <Reveal>
-                  <p className="text-[#C9A05A] text-xs tracking-widest uppercase mb-4">Société de production · Paris</p>
+                  <p className="text-[var(--brand,#C9A05A)] text-xs tracking-widest uppercase mb-4">Société de production · Paris</p>
                 </Reveal>
                 <Reveal delay={0.1}>
                   <h1 className="text-white text-7xl md:text-9xl leading-none mb-6" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>{c?.heroHeadline ?? <>
@@ -300,7 +300,7 @@ export default function StudioPelikanPage() {
                 <Reveal delay={0.2}>
                   <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
                     <p className="text-white/50 text-lg max-w-sm">{c?.heroSubline ?? fd?.tagline ?? <>Cinéma d&apos;auteur, documentaire, série. Depuis 2012, nous produisons des œuvres qui voyagent.</>}</p>
-                    <button onClick={() => goTo("films")} className="shrink-0 border border-[#C9A05A]/40 text-[#C9A05A] text-xs tracking-widest uppercase px-8 py-4 rounded-xl hover:bg-[#C9A05A] hover:text-black transition-all cursor-pointer flex items-center gap-2">
+                    <button onClick={() => goTo("films")} className="shrink-0 border border-[var(--brand,#C9A05A)]/40 text-[var(--brand,#C9A05A)] text-xs tracking-widest uppercase px-8 py-4 rounded-xl hover:bg-[var(--brand,#C9A05A)] hover:text-black transition-all cursor-pointer flex items-center gap-2">
                       <Play className="w-3 h-3 fill-current" /> Voir la bande démo
                     </button>
                   </div>
@@ -310,7 +310,7 @@ export default function StudioPelikanPage() {
           </section>
 
           {/* Stats */}
-          <section id="tarifs" className="py-12 bg-[#C9A05A]">
+          <section id="tarifs" className="py-12 bg-[var(--brand,#C9A05A)]">
             <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 px-6">
               {[["38", "Films produits"], ["12", "Prix internationaux"], ["14 pays", "Distribution"], ["2012", "Fondé à Paris"]].map(([n, l]) => (
                 <div key={l} className="text-center">
@@ -326,12 +326,12 @@ export default function StudioPelikanPage() {
             <div className="max-w-6xl mx-auto">
               <Reveal className="flex flex-col md:flex-row md:items-end justify-between mb-10">
                 <div>
-                  <p className="text-[#C9A05A] text-xs tracking-widest uppercase mb-3">Filmographie</p>
+                  <p className="text-[var(--brand,#C9A05A)] text-xs tracking-widest uppercase mb-3">Filmographie</p>
                   <h2 className="text-white text-4xl" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>Nos productions</h2>
                 </div>
                 <div className="flex gap-2 flex-wrap mt-6 md:mt-0">
                   {categories.map(cat => (
-                    <button key={cat} onClick={() => setActiveFilter(cat)} className={`px-4 py-2 text-xs transition-all cursor-pointer rounded-lg border ${activeFilter === cat ? "bg-[#C9A05A] text-black border-[#C9A05A]" : "border-white/10 text-white/40 hover:border-[#C9A05A]/40"}`}>{cat}</button>
+                    <button key={cat} onClick={() => setActiveFilter(cat)} className={`px-4 py-2 text-xs transition-all cursor-pointer rounded-lg border ${activeFilter === cat ? "bg-[var(--brand,#C9A05A)] text-black border-[var(--brand,#C9A05A)]" : "border-white/10 text-white/40 hover:border-[var(--brand,#C9A05A)]/40"}`}>{cat}</button>
                   ))}
                 </div>
               </Reveal>
@@ -344,13 +344,13 @@ export default function StudioPelikanPage() {
                           <Image src={film.src} alt={film.title} fill className="object-cover group-hover:scale-105 transition-transform duration-700 filter grayscale group-hover:grayscale-0" />
                           <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
                           <div className="absolute bottom-4 left-4">
-                            <span className="text-[#C9A05A] text-xs tracking-widest uppercase border border-[#C9A05A]/30 px-2.5 py-1 rounded-full">{film.type}</span>
+                            <span className="text-[var(--brand,#C9A05A)] text-xs tracking-widest uppercase border border-[var(--brand,#C9A05A)]/30 px-2.5 py-1 rounded-full">{film.type}</span>
                           </div>
                           <button className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer">
                             <Play className="w-4 h-4 text-white fill-white" />
                           </button>
                         </div>
-                        <h3 className="text-white mb-1 group-hover:text-[#C9A05A] transition-colors" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.2rem" }}>{film.title}</h3>
+                        <h3 className="text-white mb-1 group-hover:text-[var(--brand,#C9A05A)] transition-colors" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.2rem" }}>{film.title}</h3>
                         <p className="text-white/30 text-xs">{film.festival} · {film.year}</p>
                       </div>
                     </motion.div>
@@ -364,16 +364,16 @@ export default function StudioPelikanPage() {
           <section className="py-24 px-6 bg-[#150F09]">
             <div className="max-w-6xl mx-auto">
               <Reveal className="mb-12">
-                <p className="text-[#C9A05A] text-xs tracking-widest uppercase mb-3">Expertise</p>
+                <p className="text-[var(--brand,#C9A05A)] text-xs tracking-widest uppercase mb-3">Expertise</p>
                 <h2 className="text-white text-4xl" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>Nos services</h2>
               </Reveal>
               <div className="grid md:grid-cols-2 gap-5">
                 {services.map((s, i) => (
                   <Reveal key={s.title} delay={i * 0.1}>
-                    <div onClick={() => goTo("services")} className="bg-[#1A1208] border border-white/5 rounded-2xl p-8 hover:border-[#C9A05A]/20 transition-colors cursor-pointer group">
-                      <h3 className="text-white text-xl mb-3 group-hover:text-[#C9A05A] transition-colors" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{s.title}</h3>
+                    <div onClick={() => goTo("services")} className="bg-[#1A1208] border border-white/5 rounded-2xl p-8 hover:border-[var(--brand,#C9A05A)]/20 transition-colors cursor-pointer group">
+                      <h3 className="text-white text-xl mb-3 group-hover:text-[var(--brand,#C9A05A)] transition-colors" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{s.title}</h3>
                       <p className="text-white/40 text-sm leading-relaxed">{s.desc}</p>
-                      <div className="flex items-center gap-1 text-[#C9A05A] text-xs mt-6 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <div className="flex items-center gap-1 text-[var(--brand,#C9A05A)] text-xs mt-6 opacity-0 group-hover:opacity-100 transition-opacity">
                         En savoir plus <ChevronRight className="w-3 h-3" />
                       </div>
                     </div>
@@ -387,7 +387,7 @@ export default function StudioPelikanPage() {
           <section className="py-24 px-6">
             <div className="max-w-4xl mx-auto">
               <Reveal className="mb-12">
-                <p className="text-[#C9A05A] text-xs tracking-widest uppercase mb-3">Distinctions</p>
+                <p className="text-[var(--brand,#C9A05A)] text-xs tracking-widest uppercase mb-3">Distinctions</p>
                 <h2 className="text-white text-4xl" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>Palmarès</h2>
               </Reveal>
               <div className="space-y-0">
@@ -395,9 +395,9 @@ export default function StudioPelikanPage() {
                   <Reveal key={a.name} delay={i * 0.08}>
                     <div className="flex items-center justify-between py-6 border-b border-white/10 group cursor-pointer">
                       <div className="flex items-center gap-4">
-                        <Award className="w-4 h-4 text-[#C9A05A] shrink-0" />
+                        <Award className="w-4 h-4 text-[var(--brand,#C9A05A)] shrink-0" />
                         <div>
-                          <p className="text-white text-sm group-hover:text-[#C9A05A] transition-colors">{a.name}</p>
+                          <p className="text-white text-sm group-hover:text-[var(--brand,#C9A05A)] transition-colors">{a.name}</p>
                           <p className="text-white/30 text-xs italic" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{a.film}</p>
                         </div>
                       </div>
@@ -413,13 +413,13 @@ export default function StudioPelikanPage() {
           <section className="py-24 px-6 bg-[#150F09]">
             <div className="max-w-4xl mx-auto text-center">
               <Reveal>
-                <p className="text-[#C9A05A] text-xs tracking-widest uppercase mb-4">Parlons de votre projet</p>
+                <p className="text-[var(--brand,#C9A05A)] text-xs tracking-widest uppercase mb-4">Parlons de votre projet</p>
                 <h2 className="text-white text-5xl mb-4" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>{c?.aboutTitle ?? fd?.businessName ?? <>Travaillons ensemble</>}</h2>
                 <p className="text-white/40 text-sm leading-relaxed max-w-md mx-auto mb-10">{c?.aboutText ?? <>
                   Nous recevons chaque projet avec la même attention. Qu&apos;il s&apos;agisse d&apos;un premier court-métrage ou d&apos;une coproduction internationale.
                 </>}</p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                  <button className="bg-[#C9A05A] text-black text-xs tracking-widest uppercase px-8 py-4 rounded-xl hover:bg-[#B89049] transition-colors cursor-pointer">
+                  <button className="bg-[var(--brand,#C9A05A)] text-black text-xs tracking-widest uppercase px-8 py-4 rounded-xl hover:bg-[#B89049] transition-colors cursor-pointer">
                     Nous écrire
                   </button>
                   <button className="border border-white/15 text-white text-xs tracking-widest uppercase px-8 py-4 rounded-xl hover:bg-white/5 transition-colors cursor-pointer flex items-center gap-2">
@@ -435,7 +435,7 @@ export default function StudioPelikanPage() {
           <section className="pt-32 pb-16 px-6">
             <div className="max-w-6xl mx-auto">
               <Reveal>
-                <p className="text-[#C9A05A] text-xs tracking-widest uppercase mb-4">Catalogue complet</p>
+                <p className="text-[var(--brand,#C9A05A)] text-xs tracking-widest uppercase mb-4">Catalogue complet</p>
                 <h1 className="text-white text-6xl md:text-8xl leading-none mb-6" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>
                   Nos <em>Films</em>
                 </h1>
@@ -456,7 +456,7 @@ export default function StudioPelikanPage() {
                       <Image src={film.src} alt={film.title} fill className="object-cover" />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                       <div className="absolute bottom-4 left-4 flex items-center gap-3">
-                        <span className="text-[#C9A05A] text-xs tracking-widest uppercase border border-[#C9A05A]/30 px-2.5 py-1 rounded-full bg-black/30 backdrop-blur-sm">{film.type}</span>
+                        <span className="text-[var(--brand,#C9A05A)] text-xs tracking-widest uppercase border border-[var(--brand,#C9A05A)]/30 px-2.5 py-1 rounded-full bg-black/30 backdrop-blur-sm">{film.type}</span>
                         <span className="text-white/60 text-xs flex items-center gap-1"><Clock className="w-3 h-3" /> {film.duration}</span>
                       </div>
                       <div className="absolute top-4 right-4">
@@ -469,7 +469,7 @@ export default function StudioPelikanPage() {
                       <p className="text-white/50 text-sm leading-relaxed mb-6">{film.synopsis}</p>
 
                       <div className="mb-6">
-                        <p className="text-[#C9A05A] text-xs tracking-widest uppercase mb-3">Distribution</p>
+                        <p className="text-[var(--brand,#C9A05A)] text-xs tracking-widest uppercase mb-3">Distribution</p>
                         <div className="space-y-1.5">
                           {film.cast.map(member => (
                             <p key={member} className="text-white/40 text-sm">{member}</p>
@@ -478,16 +478,16 @@ export default function StudioPelikanPage() {
                       </div>
 
                       <div className="mb-6">
-                        <p className="text-[#C9A05A] text-xs tracking-widest uppercase mb-3">Équipe technique</p>
+                        <p className="text-[var(--brand,#C9A05A)] text-xs tracking-widest uppercase mb-3">Équipe technique</p>
                         <p className="text-white/40 text-sm leading-relaxed">{film.crew}</p>
                       </div>
 
                       <div>
-                        <p className="text-[#C9A05A] text-xs tracking-widest uppercase mb-3">Sélections & Distinctions</p>
+                        <p className="text-[var(--brand,#C9A05A)] text-xs tracking-widest uppercase mb-3">Sélections & Distinctions</p>
                         <div className="space-y-2">
                           {film.festivals.map(fest => (
                             <div key={fest} className="flex items-center gap-2">
-                              <Award className="w-3 h-3 text-[#C9A05A] shrink-0" />
+                              <Award className="w-3 h-3 text-[var(--brand,#C9A05A)] shrink-0" />
                               <p className="text-white/40 text-sm">{fest}</p>
                             </div>
                           ))}
@@ -507,7 +507,7 @@ export default function StudioPelikanPage() {
           <section className="py-24 px-6 bg-[#150F09]">
             <div className="max-w-4xl mx-auto text-center">
               <Reveal>
-                <p className="text-[#C9A05A] text-xs tracking-widest uppercase mb-4">Vous avez un projet ?</p>
+                <p className="text-[var(--brand,#C9A05A)] text-xs tracking-widest uppercase mb-4">Vous avez un projet ?</p>
                 <h2 className="text-white text-5xl mb-4" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>
                   Soumettre un scénario
                 </h2>
@@ -515,7 +515,7 @@ export default function StudioPelikanPage() {
                   Nous lisons chaque scénario avec attention. Envoyez-nous votre note d&apos;intention
                   et votre traitement pour une première lecture.
                 </p>
-                <button onClick={() => goTo("home")} className="bg-[#C9A05A] text-black text-xs tracking-widest uppercase px-8 py-4 rounded-xl hover:bg-[#B89049] transition-colors cursor-pointer">
+                <button onClick={() => goTo("home")} className="bg-[var(--brand,#C9A05A)] text-black text-xs tracking-widest uppercase px-8 py-4 rounded-xl hover:bg-[#B89049] transition-colors cursor-pointer">
                   Nous contacter
                 </button>
               </Reveal>
@@ -528,7 +528,7 @@ export default function StudioPelikanPage() {
           <section className="pt-32 pb-16 px-6">
             <div className="max-w-6xl mx-auto">
               <Reveal>
-                <p className="text-[#C9A05A] text-xs tracking-widest uppercase mb-4">Notre expertise</p>
+                <p className="text-[var(--brand,#C9A05A)] text-xs tracking-widest uppercase mb-4">Notre expertise</p>
                 <h1 className="text-white text-6xl md:text-8xl leading-none mb-6" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>
                   Nos <em>Services</em>
                 </h1>
@@ -545,10 +545,10 @@ export default function StudioPelikanPage() {
             <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
               <Reveal>
                 <div className="flex items-center gap-3 mb-6">
-                  <div className="w-10 h-10 rounded-xl bg-[#C9A05A]/10 flex items-center justify-center">
-                    <PenLine className="w-5 h-5 text-[#C9A05A]" />
+                  <div className="w-10 h-10 rounded-xl bg-[var(--brand,#C9A05A)]/10 flex items-center justify-center">
+                    <PenLine className="w-5 h-5 text-[var(--brand,#C9A05A)]" />
                   </div>
-                  <p className="text-[#C9A05A] text-xs tracking-widest uppercase">Phase 1</p>
+                  <p className="text-[var(--brand,#C9A05A)] text-xs tracking-widest uppercase">Phase 1</p>
                 </div>
                 <h2 className="text-white text-4xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>Écriture &amp; Développement</h2>
                 <p className="text-white/40 text-sm leading-relaxed mb-6">
@@ -559,7 +559,7 @@ export default function StudioPelikanPage() {
                 <div className="space-y-3">
                   {["Consulting scénaristique et script-doctoring", "Résidences d'écriture (partenariats Moulin d'Andé, La Chartreuse)", "Montage du dossier CNC, Eurimages, aides régionales", "Recherche de coproducteurs nationaux et internationaux", "Bible de série et pilotes pour les plateformes"].map(item => (
                     <div key={item} className="flex items-start gap-2">
-                      <ChevronRight className="w-3 h-3 text-[#C9A05A] mt-1 shrink-0" />
+                      <ChevronRight className="w-3 h-3 text-[var(--brand,#C9A05A)] mt-1 shrink-0" />
                       <p className="text-white/50 text-sm">{item}</p>
                     </div>
                   ))}
@@ -585,10 +585,10 @@ export default function StudioPelikanPage() {
               </Reveal>
               <Reveal className="order-1 lg:order-2">
                 <div className="flex items-center gap-3 mb-6">
-                  <div className="w-10 h-10 rounded-xl bg-[#C9A05A]/10 flex items-center justify-center">
-                    <Clapperboard className="w-5 h-5 text-[#C9A05A]" />
+                  <div className="w-10 h-10 rounded-xl bg-[var(--brand,#C9A05A)]/10 flex items-center justify-center">
+                    <Clapperboard className="w-5 h-5 text-[var(--brand,#C9A05A)]" />
                   </div>
-                  <p className="text-[#C9A05A] text-xs tracking-widest uppercase">Phase 2</p>
+                  <p className="text-[var(--brand,#C9A05A)] text-xs tracking-widest uppercase">Phase 2</p>
                 </div>
                 <h2 className="text-white text-4xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>Réalisation &amp; Tournage</h2>
                 <p className="text-white/40 text-sm leading-relaxed mb-6">
@@ -599,7 +599,7 @@ export default function StudioPelikanPage() {
                 <div className="space-y-3">
                   {["Direction de production et plan de travail", "Casting sur Paris, régions et international", "Repérages et autorisations de tournage", "Coordination avec les prestataires techniques", "Suivi quotidien et rushes dailies"].map(item => (
                     <div key={item} className="flex items-start gap-2">
-                      <ChevronRight className="w-3 h-3 text-[#C9A05A] mt-1 shrink-0" />
+                      <ChevronRight className="w-3 h-3 text-[var(--brand,#C9A05A)] mt-1 shrink-0" />
                       <p className="text-white/50 text-sm">{item}</p>
                     </div>
                   ))}
@@ -613,10 +613,10 @@ export default function StudioPelikanPage() {
             <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
               <Reveal>
                 <div className="flex items-center gap-3 mb-6">
-                  <div className="w-10 h-10 rounded-xl bg-[#C9A05A]/10 flex items-center justify-center">
-                    <Sparkles className="w-5 h-5 text-[#C9A05A]" />
+                  <div className="w-10 h-10 rounded-xl bg-[var(--brand,#C9A05A)]/10 flex items-center justify-center">
+                    <Sparkles className="w-5 h-5 text-[var(--brand,#C9A05A)]" />
                   </div>
-                  <p className="text-[#C9A05A] text-xs tracking-widest uppercase">Phase 3</p>
+                  <p className="text-[var(--brand,#C9A05A)] text-xs tracking-widest uppercase">Phase 3</p>
                 </div>
                 <h2 className="text-white text-4xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>Post-production &amp; VFX</h2>
                 <p className="text-white/40 text-sm leading-relaxed mb-6">
@@ -627,7 +627,7 @@ export default function StudioPelikanPage() {
                 <div className="space-y-3">
                   {["Montage sur Avid Media Composer et DaVinci Resolve", "Étalonnage HDR / Dolby Vision en salle calibrée", "Mixage Dolby Atmos en auditorium certifié", "VFX et compositing (Nuke, Houdini, Unreal Engine)", "Mastering DCP pour diffusion en salle", "Sous-titrage et doublage multilingue"].map(item => (
                     <div key={item} className="flex items-start gap-2">
-                      <ChevronRight className="w-3 h-3 text-[#C9A05A] mt-1 shrink-0" />
+                      <ChevronRight className="w-3 h-3 text-[var(--brand,#C9A05A)] mt-1 shrink-0" />
                       <p className="text-white/50 text-sm">{item}</p>
                     </div>
                   ))}
@@ -653,10 +653,10 @@ export default function StudioPelikanPage() {
               </Reveal>
               <Reveal>
                 <div className="flex items-center gap-3 mb-6">
-                  <div className="w-10 h-10 rounded-xl bg-[#C9A05A]/10 flex items-center justify-center">
-                    <MonitorPlay className="w-5 h-5 text-[#C9A05A]" />
+                  <div className="w-10 h-10 rounded-xl bg-[var(--brand,#C9A05A)]/10 flex items-center justify-center">
+                    <MonitorPlay className="w-5 h-5 text-[var(--brand,#C9A05A)]" />
                   </div>
-                  <p className="text-[#C9A05A] text-xs tracking-widest uppercase">Sur mesure</p>
+                  <p className="text-[var(--brand,#C9A05A)] text-xs tracking-widest uppercase">Sur mesure</p>
                 </div>
                 <h2 className="text-white text-4xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>Spots de marque &amp; Brand Content</h2>
                 <p className="text-white/40 text-sm leading-relaxed mb-6">
@@ -667,7 +667,7 @@ export default function StudioPelikanPage() {
                 <div className="space-y-3">
                   {["Direction artistique et conception narrative", "Spots TV et digital (15s, 30s, 60s, formats longs)", "Films institutionnels et corporate", "Captation événementielle haut de gamme", "Stratégie de diffusion multi-plateformes"].map(item => (
                     <div key={item} className="flex items-start gap-2">
-                      <ChevronRight className="w-3 h-3 text-[#C9A05A] mt-1 shrink-0" />
+                      <ChevronRight className="w-3 h-3 text-[var(--brand,#C9A05A)] mt-1 shrink-0" />
                       <p className="text-white/50 text-sm">{item}</p>
                     </div>
                   ))}
@@ -680,7 +680,7 @@ export default function StudioPelikanPage() {
           <section id="realisations" className="py-20 px-6 bg-[#150F09]">
             <div className="max-w-6xl mx-auto">
               <Reveal className="mb-12">
-                <p className="text-[#C9A05A] text-xs tracking-widest uppercase mb-3">Parc technique</p>
+                <p className="text-[var(--brand,#C9A05A)] text-xs tracking-widest uppercase mb-3">Parc technique</p>
                 <h2 className="text-white text-4xl" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>Notre équipement</h2>
               </Reveal>
               <div className="grid md:grid-cols-3 gap-5">
@@ -691,7 +691,7 @@ export default function StudioPelikanPage() {
                 ].map((group, i) => (
                   <Reveal key={group.cat} delay={i * 0.1}>
                     <div className="bg-[#1A1208] border border-white/5 rounded-2xl p-8">
-                      <h3 className="text-[#C9A05A] text-xs tracking-widest uppercase mb-4">{group.cat}</h3>
+                      <h3 className="text-[var(--brand,#C9A05A)] text-xs tracking-widest uppercase mb-4">{group.cat}</h3>
                       <div className="space-y-2">
                         {group.items.map(item => (
                           <p key={item} className="text-white/50 text-sm">{item}</p>
@@ -708,7 +708,7 @@ export default function StudioPelikanPage() {
           <section className="py-20 px-6">
             <div className="max-w-6xl mx-auto">
               <Reveal className="mb-12">
-                <p className="text-[#C9A05A] text-xs tracking-widest uppercase mb-3">Processus</p>
+                <p className="text-[var(--brand,#C9A05A)] text-xs tracking-widest uppercase mb-3">Processus</p>
                 <h2 className="text-white text-4xl" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>Notre workflow de production</h2>
               </Reveal>
               <div className="grid md:grid-cols-4 gap-5">
@@ -720,7 +720,7 @@ export default function StudioPelikanPage() {
                 ].map((phase, i) => (
                   <Reveal key={phase.step} delay={i * 0.1}>
                     <div className="text-center">
-                      <p className="text-[#C9A05A] text-4xl mb-3" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>{phase.step}</p>
+                      <p className="text-[var(--brand,#C9A05A)] text-4xl mb-3" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>{phase.step}</p>
                       <h3 className="text-white text-sm uppercase tracking-widest mb-3">{phase.title}</h3>
                       <p className="text-white/40 text-sm leading-relaxed">{phase.desc}</p>
                     </div>
@@ -734,13 +734,13 @@ export default function StudioPelikanPage() {
           <section className="py-24 px-6 bg-[#150F09]">
             <div className="max-w-4xl mx-auto text-center">
               <Reveal>
-                <p className="text-[#C9A05A] text-xs tracking-widest uppercase mb-4">Prêt à produire ?</p>
+                <p className="text-[var(--brand,#C9A05A)] text-xs tracking-widest uppercase mb-4">Prêt à produire ?</p>
                 <h2 className="text-white text-5xl mb-4" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>Discutons de votre projet</h2>
                 <p className="text-white/40 text-sm leading-relaxed max-w-md mx-auto mb-10">
                   Que vous soyez réalisateur, auteur ou marque, nous serions ravis d&apos;étudier votre projet
                   et de vous proposer un accompagnement sur mesure.
                 </p>
-                <button onClick={() => goTo("home")} className="bg-[#C9A05A] text-black text-xs tracking-widest uppercase px-8 py-4 rounded-xl hover:bg-[#B89049] transition-colors cursor-pointer">
+                <button onClick={() => goTo("home")} className="bg-[var(--brand,#C9A05A)] text-black text-xs tracking-widest uppercase px-8 py-4 rounded-xl hover:bg-[#B89049] transition-colors cursor-pointer">
                   Nous contacter
                 </button>
               </Reveal>
@@ -753,7 +753,7 @@ export default function StudioPelikanPage() {
           <section className="pt-32 pb-16 px-6">
             <div className="max-w-6xl mx-auto">
               <Reveal>
-                <p className="text-[#C9A05A] text-xs tracking-widest uppercase mb-4">Notre histoire</p>
+                <p className="text-[var(--brand,#C9A05A)] text-xs tracking-widest uppercase mb-4">Notre histoire</p>
                 <h1 className="text-white text-6xl md:text-8xl leading-none mb-6" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>
                   À <em>propos</em>
                 </h1>
@@ -769,7 +769,7 @@ export default function StudioPelikanPage() {
           <section className="py-20 px-6 bg-[#150F09]">
             <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
               <Reveal>
-                <p className="text-[#C9A05A] text-xs tracking-widest uppercase mb-6">Fondation</p>
+                <p className="text-[var(--brand,#C9A05A)] text-xs tracking-widest uppercase mb-6">Fondation</p>
                 <h2 className="text-white text-4xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>Depuis 2012, Paris</h2>
                 <p className="text-white/40 text-sm leading-relaxed mb-4">
                   Studio Pelikan naît en 2012 dans le 11e arrondissement de Paris, fondé par Julien Ferraro
@@ -801,7 +801,7 @@ export default function StudioPelikanPage() {
           <section className="py-20 px-6">
             <div className="max-w-4xl mx-auto text-center">
               <Reveal>
-                <p className="text-[#C9A05A] text-xs tracking-widest uppercase mb-6">Manifeste artistique</p>
+                <p className="text-[var(--brand,#C9A05A)] text-xs tracking-widest uppercase mb-6">Manifeste artistique</p>
                 <h2 className="text-white text-4xl mb-10" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>Ce que nous défendons</h2>
               </Reveal>
               <div className="space-y-8">
@@ -826,7 +826,7 @@ export default function StudioPelikanPage() {
           <section className="py-20 px-6 bg-[#150F09]">
             <div className="max-w-6xl mx-auto">
               <Reveal className="mb-12">
-                <p className="text-[#C9A05A] text-xs tracking-widest uppercase mb-3">Réseau international</p>
+                <p className="text-[var(--brand,#C9A05A)] text-xs tracking-widest uppercase mb-3">Réseau international</p>
                 <h2 className="text-white text-4xl" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>Distribution &amp; Partenaires</h2>
               </Reveal>
               <div className="grid md:grid-cols-3 gap-5">
@@ -838,8 +838,8 @@ export default function StudioPelikanPage() {
                   <Reveal key={group.region} delay={i * 0.1}>
                     <div className="bg-[#1A1208] border border-white/5 rounded-2xl p-8">
                       <div className="flex items-center gap-2 mb-4">
-                        <Globe className="w-4 h-4 text-[#C9A05A]" />
-                        <h3 className="text-[#C9A05A] text-xs tracking-widest uppercase">{group.region}</h3>
+                        <Globe className="w-4 h-4 text-[var(--brand,#C9A05A)]" />
+                        <h3 className="text-[var(--brand,#C9A05A)] text-xs tracking-widest uppercase">{group.region}</h3>
                       </div>
                       <div className="space-y-2">
                         {group.partners.map(p => (
@@ -857,7 +857,7 @@ export default function StudioPelikanPage() {
           <section className="py-20 px-6">
             <div className="max-w-6xl mx-auto">
               <Reveal className="mb-12">
-                <p className="text-[#C9A05A] text-xs tracking-widest uppercase mb-3">L&apos;équipe</p>
+                <p className="text-[var(--brand,#C9A05A)] text-xs tracking-widest uppercase mb-3">L&apos;équipe</p>
                 <h2 className="text-white text-4xl" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>Les visages du studio</h2>
               </Reveal>
               <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-5">
@@ -872,12 +872,12 @@ export default function StudioPelikanPage() {
                   { name: "Lucie Fontaine", role: "Attachée de presse", bio: "Ancienne journaliste cinéma aux Cahiers, elle gère les relations presse et la communication du studio." },
                 ].map((member, i) => (
                   <Reveal key={member.name} delay={i * 0.06}>
-                    <div className="bg-[#1A1208] border border-white/5 rounded-2xl p-6 hover:border-[#C9A05A]/20 transition-colors">
-                      <div className="w-12 h-12 rounded-full bg-[#C9A05A]/10 flex items-center justify-center mb-4">
-                        <Users className="w-5 h-5 text-[#C9A05A]" />
+                    <div className="bg-[#1A1208] border border-white/5 rounded-2xl p-6 hover:border-[var(--brand,#C9A05A)]/20 transition-colors">
+                      <div className="w-12 h-12 rounded-full bg-[var(--brand,#C9A05A)]/10 flex items-center justify-center mb-4">
+                        <Users className="w-5 h-5 text-[var(--brand,#C9A05A)]" />
                       </div>
                       <h3 className="text-white text-lg mb-1" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{member.name}</h3>
-                      <p className="text-[#C9A05A] text-xs tracking-widest uppercase mb-3">{member.role}</p>
+                      <p className="text-[var(--brand,#C9A05A)] text-xs tracking-widest uppercase mb-3">{member.role}</p>
                       <p className="text-white/40 text-sm leading-relaxed">{member.bio}</p>
                     </div>
                   </Reveal>
@@ -890,7 +890,7 @@ export default function StudioPelikanPage() {
           <section id="about" className="py-20 px-6 bg-[#150F09]">
             <div className="max-w-4xl mx-auto">
               <Reveal className="mb-12">
-                <p className="text-[#C9A05A] text-xs tracking-widest uppercase mb-3">Presse</p>
+                <p className="text-[var(--brand,#C9A05A)] text-xs tracking-widest uppercase mb-3">Presse</p>
                 <h2 className="text-white text-4xl" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>Ils parlent de nous</h2>
               </Reveal>
               <div className="space-y-6">
@@ -901,11 +901,11 @@ export default function StudioPelikanPage() {
                   { quote: "Mémoire Vive est la série française la plus ambitieuse de la décennie. Une production qui rivalise avec les meilleures séries internationales.", source: "Première", date: "Septembre 2023" },
                 ].map((press, i) => (
                   <Reveal key={press.source} delay={i * 0.08}>
-                    <div className="border-l-2 border-[#C9A05A]/30 pl-6 py-2">
+                    <div className="border-l-2 border-[var(--brand,#C9A05A)]/30 pl-6 py-2">
                       <p className="text-white/50 text-lg italic leading-relaxed mb-3" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
                         &laquo;&nbsp;{press.quote}&nbsp;&raquo;
                       </p>
-                      <p className="text-[#C9A05A] text-xs tracking-widest uppercase">{press.source} — {press.date}</p>
+                      <p className="text-[var(--brand,#C9A05A)] text-xs tracking-widest uppercase">{press.source} — {press.date}</p>
                     </div>
                   </Reveal>
                 ))}
@@ -922,7 +922,7 @@ export default function StudioPelikanPage() {
                   Vous êtes cinéaste, auteur, technicien ou journaliste ? Nous serions ravis d&apos;échanger avec vous.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                  <button onClick={() => goTo("home")} className="bg-[#C9A05A] text-black text-xs tracking-widest uppercase px-8 py-4 rounded-xl hover:bg-[#B89049] transition-colors cursor-pointer">
+                  <button onClick={() => goTo("home")} className="bg-[var(--brand,#C9A05A)] text-black text-xs tracking-widest uppercase px-8 py-4 rounded-xl hover:bg-[#B89049] transition-colors cursor-pointer">
                     Nous contacter
                   </button>
                   <button onClick={() => goTo("films")} className="border border-white/15 text-white text-xs tracking-widest uppercase px-8 py-4 rounded-xl hover:bg-white/5 transition-colors cursor-pointer flex items-center gap-2 justify-center">
@@ -939,7 +939,7 @@ export default function StudioPelikanPage() {
           <section className="pt-32 pb-16 px-6">
             <div className="max-w-4xl mx-auto">
               <Reveal>
-                <p className="text-[#C9A05A] text-xs tracking-widest uppercase mb-4">Informations légales</p>
+                <p className="text-[var(--brand,#C9A05A)] text-xs tracking-widest uppercase mb-4">Informations légales</p>
                 <h1 className="text-white text-6xl md:text-8xl leading-none mb-6" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>
                   Mentions <em>légales</em>
                 </h1>
@@ -958,7 +958,7 @@ export default function StudioPelikanPage() {
               ].map((section, i) => (
                 <Reveal key={section.title} delay={i * 0.08}>
                   <div>
-                    <h2 className="text-[#C9A05A] text-xs tracking-widest uppercase mb-4">{section.title}</h2>
+                    <h2 className="text-[var(--brand,#C9A05A)] text-xs tracking-widest uppercase mb-4">{section.title}</h2>
                     {section.content.split("\n").map((line, j) => (
                       <p key={j} className="text-white/50 text-sm leading-relaxed">{line}</p>
                     ))}
@@ -971,7 +971,7 @@ export default function StudioPelikanPage() {
           <section className="py-24 px-6">
             <div className="max-w-4xl mx-auto text-center">
               <Reveal>
-                <button onClick={() => goTo("home")} className="border border-[#C9A05A]/30 text-[#C9A05A] text-xs tracking-widest uppercase px-8 py-4 rounded-xl hover:bg-[#C9A05A] hover:text-black transition-all cursor-pointer">
+                <button onClick={() => goTo("home")} className="border border-[var(--brand,#C9A05A)]/30 text-[var(--brand,#C9A05A)] text-xs tracking-widest uppercase px-8 py-4 rounded-xl hover:bg-[var(--brand,#C9A05A)] hover:text-black transition-all cursor-pointer">
                   Retour à l&apos;accueil
                 </button>
               </Reveal>
@@ -982,10 +982,10 @@ export default function StudioPelikanPage() {
       {/* Footer */}
       <footer className="bg-[#090704] border-t border-white/5 py-12 px-6">
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-white/20">
-          <button onClick={() => goTo("home")} className="text-[#C9A05A] text-lg cursor-pointer" style={{ fontFamily: "'Cormorant Garamond', serif" }}>Studio Pelikan · Paris</button>
+          <button onClick={() => goTo("home")} className="text-[var(--brand,#C9A05A)] text-lg cursor-pointer" style={{ fontFamily: "'Cormorant Garamond', serif" }}>Studio Pelikan · Paris</button>
           <div className="flex gap-8">
-            <button onClick={() => goTo("films")} className="hover:text-[#C9A05A] transition-colors cursor-pointer">Films</button>
-            <button onClick={() => goTo("legal")} className="hover:text-[#C9A05A] transition-colors cursor-pointer">Mentions légales</button>
+            <button onClick={() => goTo("films")} className="hover:text-[var(--brand,#C9A05A)] transition-colors cursor-pointer">Films</button>
+            <button onClick={() => goTo("legal")} className="hover:text-[var(--brand,#C9A05A)] transition-colors cursor-pointer">Mentions légales</button>
           </div>
           <span>© 2026 Studio Pelikan. Tous droits réservés.</span>
         </div>

@@ -1472,7 +1472,7 @@ function ConsultationFormSection() {
   const errorStyle: React.CSSProperties = {
     fontFamily: SANS,
     fontSize: 11,
-    color: '#ff8080',
+    color: 'var(--brand,#ff8080)',
     marginTop: 4,
     display: 'block',
   };
@@ -1629,7 +1629,7 @@ function ConsultationFormSection() {
                     style={{
                       ...fieldBase,
                       borderBottomColor: errors.prenom
-                        ? '#ff8080'
+                        ? 'var(--brand,#ff8080)'
                         : 'rgba(201,168,76,0.38)',
                     }}
                     value={prenom}
@@ -1653,7 +1653,7 @@ function ConsultationFormSection() {
                     style={{
                       ...fieldBase,
                       borderBottomColor: errors.nom
-                        ? '#ff8080'
+                        ? 'var(--brand,#ff8080)'
                         : 'rgba(201,168,76,0.38)',
                     }}
                     value={nom}
@@ -1678,7 +1678,7 @@ function ConsultationFormSection() {
                   style={{
                     ...fieldBase,
                     borderBottomColor: errors.email
-                      ? '#ff8080'
+                      ? 'var(--brand,#ff8080)'
                       : 'rgba(201,168,76,0.38)',
                   }}
                   type="email"
@@ -1707,7 +1707,7 @@ function ConsultationFormSection() {
                     cursor: 'pointer',
                     color: situation ? C.beige : 'rgba(242,234,216,0.42)',
                     borderBottomColor: errors.situation
-                      ? '#ff8080'
+                      ? 'var(--brand,#ff8080)'
                       : 'rgba(201,168,76,0.38)',
                   }}
                   value={situation}

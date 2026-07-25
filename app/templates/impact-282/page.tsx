@@ -52,7 +52,7 @@ function shadeColor(hex: string, percent: number): string {
 }
 
 let C: Record<string, string> = {
-  brown: '#5c3a1e',
+  brown: 'var(--brand,#5c3a1e)',
   brownDeep: '#3d2510',
   brownMid: '#7a4f2c',
   wheat: '#e8b84b',

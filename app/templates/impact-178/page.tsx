@@ -145,7 +145,7 @@ export default function AltaTransactionsPage() {
   return (
     <div className="bg-[#fefdfb] text-[#11182a] overflow-x-hidden" style={{ fontFamily: "'Inter', system-ui, sans-serif" }}>
       {/* ── NAVBAR ── */}
-      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#11182a]/97 backdrop-blur-xl py-4 border-b border-[#b8944a]/15" : "bg-transparent py-7"}`}>
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#11182a]/97 backdrop-blur-xl py-4 border-b border-[var(--brand,#b8944a)]/15" : "bg-transparent py-7"}`}>
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex items-center justify-between">
           <div className="flex items-center gap-3">
             {fd?.logoBase64 ? (
@@ -156,8 +156,8 @@ export default function AltaTransactionsPage() {
               />
             ) : (
               <>
-                <div className="w-7 h-7 border border-[#b8944a] flex items-center justify-center">
-                  <Building2 className="w-3.5 h-3.5 text-[#b8944a]" />
+                <div className="w-7 h-7 border border-[var(--brand,#b8944a)] flex items-center justify-center">
+                  <Building2 className="w-3.5 h-3.5 text-[var(--brand,#b8944a)]" />
                 </div>
                 <span className="text-white font-bold tracking-[0.2em] uppercase text-sm">Alta Transactions</span>
               </>
@@ -165,21 +165,21 @@ export default function AltaTransactionsPage() {
           </div>
           <div className="hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.25em] text-white/35">
             {["Acheter", "Vendre", "Estimer", "Programme neuf", "Contact"].map(l => (
-              <Link key={l} href="#contact" className="hover:text-[#b8944a] transition-colors">{l}</Link>
+              <Link key={l} href="#contact" className="hover:text-[var(--brand,#b8944a)] transition-colors">{l}</Link>
             ))}
           </div>
           <div className="hidden md:flex items-center gap-4">
-            <a href={`tel:${fd?.phone ?? "0144876543"}`} className="text-[10px] font-bold uppercase tracking-widest text-[#b8944a]">01 44 87 65 43</a>
-            <button className="px-6 py-2.5 bg-[#b8944a] text-white text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-[#cdab66] transition-colors duration-300">
+            <a href={`tel:${fd?.phone ?? "0144876543"}`} className="text-[10px] font-bold uppercase tracking-widest text-[var(--brand,#b8944a)]">01 44 87 65 43</a>
+            <button className="px-6 py-2.5 bg-[var(--brand,#b8944a)] text-white text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-[#cdab66] transition-colors duration-300">
               Estimer mon bien
             </button>
           </div>
           <Sheet>
             <SheetTrigger className="lg:hidden"><Menu className="w-5 h-5 text-white" /></SheetTrigger>
-            <SheetContent side="right" className="bg-[#11182a] border-[#b8944a]/10 p-10">
+            <SheetContent side="right" className="bg-[#11182a] border-[var(--brand,#b8944a)]/10 p-10">
               <div className="flex flex-col gap-8 mt-16">
                 {["Acheter", "Vendre", "Estimer", "Contact"].map(l => (
-                  <Link key={l} href="#contact" className="text-3xl font-light uppercase tracking-widest text-white hover:text-[#b8944a] transition-colors">{l}</Link>
+                  <Link key={l} href="#contact" className="text-3xl font-light uppercase tracking-widest text-white hover:text-[var(--brand,#b8944a)] transition-colors">{l}</Link>
                 ))}
               </div>
             </SheetContent>
@@ -198,8 +198,8 @@ export default function AltaTransactionsPage() {
         <motion.div style={{ y: heroTextY, opacity: heroOpacity }} className="relative z-10 max-w-[1400px] w-full mx-auto px-6 md:px-12 pb-28">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.3 }}>
             <div className="flex items-center gap-4 mb-6">
-              <div className="w-10 h-[1px] bg-[#b8944a]" />
-              <span className="text-[9px] font-bold uppercase tracking-[0.5em] text-[#b8944a]">Immobilier de prestige · Paris & Île-de-France</span>
+              <div className="w-10 h-[1px] bg-[var(--brand,#b8944a)]" />
+              <span className="text-[9px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#b8944a)]">Immobilier de prestige · Paris & Île-de-France</span>
             </div>
           </motion.div>
 
@@ -207,7 +207,7 @@ export default function AltaTransactionsPage() {
             className="text-5xl md:text-7xl lg:text-8xl font-bold leading-[0.92] tracking-tight mb-10 text-white"
             style={{ fontFamily: "'Libre Baskerville', Georgia, serif", fontStyle: "italic" }}>{c?.heroHeadline ?? <>
             L'immobilier de<br />
-            <span className="text-[#b8944a] not-italic">prestige</span>, autrement.
+            <span className="text-[var(--brand,#b8944a)] not-italic">prestige</span>, autrement.
           </>}</motion.h1>
 
           <motion.p initial={{ opacity: 0, y: 25 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, delay: 0.75 }}
@@ -216,10 +216,10 @@ export default function AltaTransactionsPage() {
           </>}</motion.p>
 
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 1.0 }} className="flex flex-wrap gap-4">
-            <button className="px-10 py-4 bg-[#b8944a] text-white text-[10px] font-bold uppercase tracking-[0.25em] hover:bg-[#cdab66] transition-colors duration-300">{c?.ctaText ?? <>
+            <button className="px-10 py-4 bg-[var(--brand,#b8944a)] text-white text-[10px] font-bold uppercase tracking-[0.25em] hover:bg-[#cdab66] transition-colors duration-300">{c?.ctaText ?? <>
               Voir nos biens
             </>}</button>
-            <button className="px-10 py-4 border border-white/15 text-white text-[10px] font-bold uppercase tracking-[0.2em] hover:border-[#b8944a]/50 hover:text-[#b8944a] transition-all">
+            <button className="px-10 py-4 border border-white/15 text-white text-[10px] font-bold uppercase tracking-[0.2em] hover:border-[var(--brand,#b8944a)]/50 hover:text-[var(--brand,#b8944a)] transition-all">
               Estimer gratuitement
             </button>
           </motion.div>
@@ -227,7 +227,7 @@ export default function AltaTransactionsPage() {
 
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 z-10">
           <span className="text-[8px] font-bold uppercase tracking-[0.5em] text-white/15">scroll</span>
-          <motion.div animate={{ y: [0, 8, 0] }} transition={{ repeat: Infinity, duration: 2.2 }} className="w-[1px] h-10 bg-gradient-to-b from-[#b8944a]/50 to-transparent" />
+          <motion.div animate={{ y: [0, 8, 0] }} transition={{ repeat: Infinity, duration: 2.2 }} className="w-[1px] h-10 bg-gradient-to-b from-[var(--brand,#b8944a)]/50 to-transparent" />
         </div>
       </section>
 
@@ -242,7 +242,7 @@ export default function AltaTransactionsPage() {
           ].map((s, i) => (
             <Reveal key={i} delay={i * 0.08}>
               <div className="text-center py-8 border-r border-white/5 last:border-r-0">
-                <div className="text-3xl font-bold text-[#b8944a] mb-2" style={{ fontFamily: "'Libre Baskerville', serif" }}>{s.v}</div>
+                <div className="text-3xl font-bold text-[var(--brand,#b8944a)] mb-2" style={{ fontFamily: "'Libre Baskerville', serif" }}>{s.v}</div>
                 <div className="text-[10px] font-bold uppercase tracking-widest text-white/25">{s.l}</div>
               </div>
             </Reveal>
@@ -255,7 +255,7 @@ export default function AltaTransactionsPage() {
         <div className="max-w-[1400px] mx-auto px-6 md:px-12">
           <Reveal>
             <div className="mb-16">
-              <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#b8944a] mb-4">Sélection exclusive</div>
+              <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#b8944a)] mb-4">Sélection exclusive</div>
               <h2 className="text-5xl md:text-6xl font-bold text-[#11182a]" style={{ fontFamily: "'Libre Baskerville', Georgia, serif", fontStyle: "italic" }}>
                 Nos biens en exclusivité.
               </h2>
@@ -267,12 +267,12 @@ export default function AltaTransactionsPage() {
                 <div className="group cursor-pointer">
                   <div className="relative aspect-[4/3] overflow-hidden mb-6">
                     <ParallaxImg src={b.img} alt={b.title} />
-                    <div className="absolute top-4 left-4 px-3 py-1.5 bg-[#b8944a] text-white text-[9px] font-bold uppercase tracking-widest">{b.badge}</div>
+                    <div className="absolute top-4 left-4 px-3 py-1.5 bg-[var(--brand,#b8944a)] text-white text-[9px] font-bold uppercase tracking-widest">{b.badge}</div>
                     <div className="absolute bottom-4 right-4 px-3 py-1.5 bg-[#11182a]/80 backdrop-blur-md text-white text-[10px] font-bold tracking-wider">{b.price}</div>
                     <div className="absolute inset-0 bg-[#11182a]/0 group-hover:bg-[#11182a]/15 transition-all duration-700" />
                   </div>
-                  <div className="text-[9px] font-bold uppercase tracking-[0.3em] text-[#b8944a] mb-2"><MapPin className="w-2.5 h-2.5 inline mr-1" />{b.loc} · {b.type}</div>
-                  <h3 className="text-xl font-bold text-[#11182a] mb-4 group-hover:text-[#b8944a] transition-colors" style={{ fontFamily: "'Libre Baskerville', serif", fontStyle: "italic" }}>{b.title}</h3>
+                  <div className="text-[9px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#b8944a)] mb-2"><MapPin className="w-2.5 h-2.5 inline mr-1" />{b.loc} · {b.type}</div>
+                  <h3 className="text-xl font-bold text-[#11182a] mb-4 group-hover:text-[var(--brand,#b8944a)] transition-colors" style={{ fontFamily: "'Libre Baskerville', serif", fontStyle: "italic" }}>{b.title}</h3>
                   <div className="flex gap-6 text-[10px] font-bold uppercase tracking-widest text-[#11182a]/40">
                     <span className="flex items-center gap-1"><Square className="w-3 h-3" /> {b.surface} m²</span>
                     <span className="flex items-center gap-1"><Bed className="w-3 h-3" /> {b.chambres} ch.</span>
@@ -297,7 +297,7 @@ export default function AltaTransactionsPage() {
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
           <Reveal>
             <div className="mb-16">
-              <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#b8944a] mb-4">Notre approche</div>
+              <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#b8944a)] mb-4">Notre approche</div>
               <h2 className="text-5xl md:text-6xl font-bold text-[#11182a]" style={{ fontFamily: "'Libre Baskerville', serif", fontStyle: "italic" }}>
                 Un accompagnement<br />sans compromis.
               </h2>
@@ -307,8 +307,8 @@ export default function AltaTransactionsPage() {
             {SERVICES.map((s, i) => (
               <Reveal key={i} delay={i * 0.08}>
                 <div className="bg-[#f2ede6] p-10 hover:bg-white transition-colors duration-500">
-                  <div className="text-[3rem] font-light text-[#b8944a]/20 mb-4 leading-none" style={{ fontFamily: "'Libre Baskerville', serif" }}>{s.num}</div>
-                  <div className="w-8 h-[1px] bg-[#b8944a] mb-5" />
+                  <div className="text-[3rem] font-light text-[var(--brand,#b8944a)]/20 mb-4 leading-none" style={{ fontFamily: "'Libre Baskerville', serif" }}>{s.num}</div>
+                  <div className="w-8 h-[1px] bg-[var(--brand,#b8944a)] mb-5" />
                   <h3 className="text-lg font-bold text-[#11182a] mb-3" style={{ fontFamily: "'Libre Baskerville', serif", fontStyle: "italic" }}>{s.title}</h3>
                   <p className="text-sm text-[#11182a]/50 leading-relaxed">{s.desc}</p>
                 </div>
@@ -323,7 +323,7 @@ export default function AltaTransactionsPage() {
         <div className="max-w-[1400px] mx-auto px-6 md:px-12">
           <Reveal>
             <div className="mb-16">
-              <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#b8944a] mb-4">Avis clients</div>
+              <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#b8944a)] mb-4">Avis clients</div>
               <h2 className="text-5xl font-bold text-white" style={{ fontFamily: "'Libre Baskerville', serif", fontStyle: "italic" }}>Ce qu'ils en pensent.</h2>
             </div>
           </Reveal>
@@ -334,14 +334,14 @@ export default function AltaTransactionsPage() {
               { q: "La gestion locative d'Alta est irréprochable. Zéro vacance depuis 4 ans sur mes 3 biens. Un vrai partenaire patrimonial.", a: "François D.", p: "Bailleur · Portfoli 3 biens" },
             ] as any[]).map((t: any, i: number) => (
               <Reveal key={i} delay={i * 0.1}>
-                <div className="border border-white/5 p-10 hover:border-[#b8944a]/20 transition-colors duration-500">
+                <div className="border border-white/5 p-10 hover:border-[var(--brand,#b8944a)]/20 transition-colors duration-500">
                   <div className="flex gap-1 mb-6">
-                    {[...Array(5)].map((_, j) => <Star key={j} className="w-4 h-4 fill-[#b8944a] text-[#b8944a]" />)}
+                    {[...Array(5)].map((_, j) => <Star key={j} className="w-4 h-4 fill-[var(--brand,#b8944a)] text-[var(--brand,#b8944a)]" />)}
                   </div>
                   <p className="text-white/45 text-sm leading-relaxed italic mb-8 flex-1">{`"${t.q}"`}</p>
                   <div className="border-t border-white/5 pt-6">
                     <div className="font-bold text-sm text-white uppercase tracking-widest">{t.a}</div>
-                    <div className="text-[10px] text-[#b8944a]/60 tracking-widest mt-1">{t.p}</div>
+                    <div className="text-[10px] text-[var(--brand,#b8944a)]/60 tracking-widest mt-1">{t.p}</div>
                   </div>
                 </div>
               </Reveal>
@@ -357,7 +357,7 @@ export default function AltaTransactionsPage() {
           <div className="absolute inset-0 bg-[#fefdfb]/85" />
         </div>
         <Reveal className="relative z-10 text-center px-6">
-          <div className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#b8944a] mb-6">Estimation gratuite</div>
+          <div className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#b8944a)] mb-6">Estimation gratuite</div>
           <h2 className="text-5xl md:text-7xl font-bold text-[#11182a] mb-8" style={{ fontFamily: "'Libre Baskerville', serif", fontStyle: "italic" }}>
             Combien vaut<br />votre bien ?
           </h2>
@@ -365,11 +365,11 @@ export default function AltaTransactionsPage() {
             Obtenez une estimation précise et confidentielle en moins de 48h. Sans engagement.
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
-            <button className="px-10 py-5 bg-[#11182a] text-white text-[10px] font-bold uppercase tracking-[0.25em] hover:bg-[#b8944a] transition-colors duration-500">
+            <button className="px-10 py-5 bg-[#11182a] text-white text-[10px] font-bold uppercase tracking-[0.25em] hover:bg-[var(--brand,#b8944a)] transition-colors duration-500">
               Demander une estimation
             </button>
-            <a href={`tel:${fd?.phone ?? "0144876543"}`} className="flex items-center gap-3 px-10 py-5 border border-[#11182a]/15 text-[#11182a] text-[10px] font-bold uppercase tracking-[0.2em] hover:border-[#b8944a] transition-all">
-              <Phone className="w-4 h-4 text-[#b8944a]" /> 01 44 87 65 43
+            <a href={`tel:${fd?.phone ?? "0144876543"}`} className="flex items-center gap-3 px-10 py-5 border border-[#11182a]/15 text-[#11182a] text-[10px] font-bold uppercase tracking-[0.2em] hover:border-[var(--brand,#b8944a)] transition-all">
+              <Phone className="w-4 h-4 text-[var(--brand,#b8944a)]" /> 01 44 87 65 43
             </a>
           </div>
         </Reveal>
@@ -380,7 +380,7 @@ export default function AltaTransactionsPage() {
         <div className="max-w-[1400px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-16 mb-16">
           <div>
             <div className="flex items-center gap-3 mb-6">
-              <Building2 className="w-5 h-5 text-[#b8944a]" />
+              <Building2 className="w-5 h-5 text-[var(--brand,#b8944a)]" />
               <span className="font-bold tracking-[0.2em] uppercase text-white text-sm">Alta Transactions</span>
             </div>
             <p className="text-sm text-white/25 leading-relaxed">Immobilier de prestige · Paris & Île-de-France · Expertise depuis 2009.</p>
@@ -391,7 +391,7 @@ export default function AltaTransactionsPage() {
             { t: "Agence", ls: ["Notre équipe", "Nos références", "Blog & conseils", "01 44 87 65 43"] },
           ].map((col, i) => (
             <div key={i}>
-              <h4 className="text-[9px] font-bold uppercase tracking-[0.3em] text-[#b8944a] mb-6">{col.t}</h4>
+              <h4 className="text-[9px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#b8944a)] mb-6">{col.t}</h4>
               <ul className="space-y-3">
                 {col.ls.map(l => <li key={l}><Link href={col.t === "Acheter" ? "#services" : col.t === "Vendre" ? "#tarifs" : "#contact"} className="text-sm text-white/25 hover:text-white transition-colors">{l}</Link></li>)}
               </ul>
@@ -400,7 +400,7 @@ export default function AltaTransactionsPage() {
         </div>
         <div className="max-w-[1400px] mx-auto pt-8 border-t border-white/5 flex justify-between text-[9px] font-bold uppercase tracking-widest text-white/15">
           <span>© 2026 Alta Transactions · SIRET 456 789 123 00078 · Carte professionnelle T/G/S n°C</span>
-          <span className="text-[#b8944a]/30">Immobilier de prestige Paris</span>
+          <span className="text-[var(--brand,#b8944a)]/30">Immobilier de prestige Paris</span>
         </div>
       </footer>
     </div>

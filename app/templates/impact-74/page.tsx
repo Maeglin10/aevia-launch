@@ -255,7 +255,7 @@ export default function AeviaKitchenPage() {
   return (
     <div className="relative w-full bg-[#faf8f5]">
       {/* ── NAVBAR ── */}
-      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#11182a]/95 backdrop-blur-xl py-4 border-b border-[#c9a855]/10" : "bg-transparent py-8"}`}>
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#11182a]/95 backdrop-blur-xl py-4 border-b border-[var(--brand,#c9a855)]/10" : "bg-transparent py-8"}`}>
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex items-center justify-between">
           {fd?.logoBase64 ? (
             <img
@@ -268,7 +268,7 @@ export default function AeviaKitchenPage() {
           )}
           <div className="hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-white/40">
             {["La carte", "Expériences", "Réserver", "Cave à vins", "À propos"].map(l => (
-              <Link key={l} href="#menus" className="hover:text-[#c9a855] transition-colors">{l}</Link>
+              <Link key={l} href="#menus" className="hover:text-[var(--brand,#c9a855)] transition-colors">{l}</Link>
             ))}
           </div>
           {/* Mobile hamburger */}
@@ -282,7 +282,7 @@ export default function AeviaKitchenPage() {
             <span className="block w-[22px] h-[2px] bg-current rounded-sm transition-transform duration-300" style={{ transform: mobileOpen ? 'rotate(-45deg) translate(0, -7px)' : 'none' }} />
           </button>
           <Link href="#reservation">
-            <button className="hidden md:block px-7 py-3 bg-[#c9a855] text-[#11182a] text-[10px] font-bold uppercase tracking-[0.25em] hover:bg-white transition-colors duration-300">
+            <button className="hidden md:block px-7 py-3 bg-[var(--brand,#c9a855)] text-[#11182a] text-[10px] font-bold uppercase tracking-[0.25em] hover:bg-white transition-colors duration-300">
               Réserver
             </button>
           </Link>
@@ -331,8 +331,8 @@ export default function AeviaKitchenPage() {
             transition={{ duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
           >
             <div className="flex items-center gap-4 mb-7">
-              <div className="w-10 h-[1px] bg-[#c9a855]" />
-              <div className="text-[9px] font-bold uppercase tracking-[0.5em] text-[#c9a855]">
+              <div className="w-10 h-[1px] bg-[var(--brand,#c9a855)]" />
+              <div className="text-[9px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#c9a855)]">
                 Restaurant gastronomique · Paris 8ème
               </div>
             </div>
@@ -345,7 +345,7 @@ export default function AeviaKitchenPage() {
             className="font-serif text-6xl md:text-8xl lg:text-[9.5rem] leading-[0.92] tracking-tight mb-10 text-white"
           >{c?.heroHeadline ?? <>
             L&apos;art de la<br />
-            <em className="text-[#c9a855]">table française.</em>
+            <em className="text-[var(--brand,#c9a855)]">table française.</em>
           </>}</motion.h1>
 
           <motion.p
@@ -364,12 +364,12 @@ export default function AeviaKitchenPage() {
             className="flex flex-col sm:flex-row gap-4"
           >
             <Link href="#reservation">
-              <button className="px-10 py-4 bg-[#c9a855] text-[#11182a] text-[10px] font-bold uppercase tracking-[0.3em] hover:bg-[#e0bf74] transition-all shadow-lg shadow-[#c9a855]/20">
+              <button className="px-10 py-4 bg-[var(--brand,#c9a855)] text-[#11182a] text-[10px] font-bold uppercase tracking-[0.3em] hover:bg-[#e0bf74] transition-all shadow-lg shadow-[var(--brand,#c9a855)]/20">
                 Réserver une table
               </button>
             </Link>
             <Link href="#menus">
-              <button className="px-10 py-4 border border-white/20 text-white text-[10px] font-bold uppercase tracking-[0.3em] hover:border-[#c9a855]/50 hover:text-[#c9a855] transition-all">
+              <button className="px-10 py-4 border border-white/20 text-white text-[10px] font-bold uppercase tracking-[0.3em] hover:border-[var(--brand,#c9a855)]/50 hover:text-[var(--brand,#c9a855)] transition-all">
                 Découvrir les menus
               </button>
             </Link>
@@ -382,7 +382,7 @@ export default function AeviaKitchenPage() {
           <motion.div
             animate={{ y: [0, 8, 0] }}
             transition={{ repeat: Infinity, duration: 2.2 }}
-            className="w-[1px] h-10 bg-gradient-to-b from-[#c9a855]/50 to-transparent"
+            className="w-[1px] h-10 bg-gradient-to-b from-[var(--brand,#c9a855)]/50 to-transparent"
           />
         </div>
       </section>
@@ -394,7 +394,7 @@ export default function AeviaKitchenPage() {
         <div className="max-w-[1400px] mx-auto px-6 md:px-12">
           <Reveal>
             <div className="text-center mb-16">
-              <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#c9a855] mb-4">
+              <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#c9a855)] mb-4">
                 La Carte
               </p>
               <h2 className="font-serif text-4xl md:text-6xl text-[#11182a] mb-4">
@@ -414,7 +414,7 @@ export default function AeviaKitchenPage() {
                 onClick={() => setActiveMenu(i)}
                 className={`px-6 py-3 text-[10px] font-bold uppercase tracking-widest rounded transition-all cursor-pointer ${
                   activeMenu === i
-                    ? "bg-[#11182a] text-[#c9a855]"
+                    ? "bg-[#11182a] text-[var(--brand,#c9a855)]"
                     : "bg-transparent text-[#11182a]/40 hover:text-[#11182a] border border-[#11182a]/10"
                 }`}
               >
@@ -489,7 +489,7 @@ export default function AeviaKitchenPage() {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#11182a]/60 to-transparent" />
                 </div>
-                <div className="absolute -bottom-6 -right-6 bg-[#c9a855] text-[#11182a] p-8 rounded-lg hidden md:block">
+                <div className="absolute -bottom-6 -right-6 bg-[var(--brand,#c9a855)] text-[#11182a] p-8 rounded-lg hidden md:block">
                   <div className="text-3xl font-bold mb-1">★ ★</div>
                   <div className="text-[10px] font-black uppercase tracking-widest">
                     Guide Michelin
@@ -500,7 +500,7 @@ export default function AeviaKitchenPage() {
 
             <Reveal delay={0.2}>
               <div>
-                <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#c9a855] mb-6">
+                <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#c9a855)] mb-6">
                   La Maison
                 </p>
                 <h2 className="font-serif text-4xl md:text-5xl text-white mb-8 leading-tight">{c?.aboutTitle ?? fd?.businessName ?? <>
@@ -533,7 +533,7 @@ export default function AeviaKitchenPage() {
                     { label: "Producteurs partenaires", val: "34" },
                   ].map((s) => (
                     <div key={s.label}>
-                      <div className="text-3xl font-bold text-[#c9a855] mb-1">{s.val}</div>
+                      <div className="text-3xl font-bold text-[var(--brand,#c9a855)] mb-1">{s.val}</div>
                       <div className="text-[9px] text-white/30 uppercase tracking-widest font-bold">
                         {s.label}
                       </div>
@@ -553,7 +553,7 @@ export default function AeviaKitchenPage() {
         <div className="max-w-[1400px] mx-auto px-6 md:px-12">
           <Reveal>
             <div className="text-center mb-14">
-              <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#c9a855] mb-4">
+              <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#c9a855)] mb-4">
                 L&apos;Ambiance
               </p>
               <h2 className="font-serif text-4xl md:text-5xl text-[#11182a]">
@@ -587,7 +587,7 @@ export default function AeviaKitchenPage() {
         <div className="max-w-[1400px] mx-auto px-6 md:px-12">
           <Reveal>
             <div className="text-center mb-16">
-              <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#c9a855] mb-4">
+              <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#c9a855)] mb-4">
                 Nos Propositions
               </p>
               <h2 className="font-serif text-4xl md:text-5xl text-[#11182a]">
@@ -602,12 +602,12 @@ export default function AeviaKitchenPage() {
                 <div
                   className={`relative flex flex-col p-8 rounded-xl border transition-all duration-300 ${
                     exp.highlight
-                      ? "bg-[#11182a] border-[#c9a855]/30 shadow-xl"
-                      : "bg-white border-[#11182a]/8 hover:border-[#c9a855]/20 hover:shadow-md"
+                      ? "bg-[#11182a] border-[var(--brand,#c9a855)]/30 shadow-xl"
+                      : "bg-white border-[#11182a]/8 hover:border-[var(--brand,#c9a855)]/20 hover:shadow-md"
                   }`}
                 >
                   {exp.highlight && (
-                    <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 bg-[#c9a855] text-[#11182a] text-[9px] font-black uppercase tracking-widest rounded-full">
+                    <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 bg-[var(--brand,#c9a855)] text-[#11182a] text-[9px] font-black uppercase tracking-widest rounded-full">
                       Recommandé
                     </div>
                   )}
@@ -621,7 +621,7 @@ export default function AeviaKitchenPage() {
                     </h3>
                     <p
                       className={`text-[10px] uppercase tracking-widest font-bold ${
-                        exp.highlight ? "text-[#c9a855]/70" : "text-[#11182a]/40"
+                        exp.highlight ? "text-[var(--brand,#c9a855)]/70" : "text-[#11182a]/40"
                       }`}
                     >
                       Durée : {exp.duration}
@@ -641,7 +641,7 @@ export default function AeviaKitchenPage() {
                       <li key={item} className="flex items-center gap-3">
                         <Check
                           className={`w-3 h-3 flex-shrink-0 ${
-                            exp.highlight ? "text-[#c9a855]" : "text-[#c9a855]"
+                            exp.highlight ? "text-[var(--brand,#c9a855)]" : "text-[var(--brand,#c9a855)]"
                           }`}
                         />
                         <span
@@ -659,7 +659,7 @@ export default function AeviaKitchenPage() {
                     <div>
                       <div
                         className={`text-3xl font-bold ${
-                          exp.highlight ? "text-[#c9a855]" : "text-[#11182a]"
+                          exp.highlight ? "text-[var(--brand,#c9a855)]" : "text-[#11182a]"
                         }`}
                       >
                         {exp.price}
@@ -676,8 +676,8 @@ export default function AeviaKitchenPage() {
                       <button
                         className={`flex items-center gap-2 px-5 py-3 rounded text-[9px] font-black uppercase tracking-widest cursor-pointer transition-all ${
                           exp.highlight
-                            ? "bg-[#c9a855] text-[#11182a] hover:bg-[#e0bf74] border-none"
-                            : "border border-[#c9a855]/40 text-[#c9a855] hover:bg-[#c9a855] hover:text-[#11182a]"
+                            ? "bg-[var(--brand,#c9a855)] text-[#11182a] hover:bg-[#e0bf74] border-none"
+                            : "border border-[var(--brand,#c9a855)]/40 text-[var(--brand,#c9a855)] hover:bg-[var(--brand,#c9a855)] hover:text-[#11182a]"
                         }`}
                       >
                         Réserver
@@ -699,7 +699,7 @@ export default function AeviaKitchenPage() {
         <div className="max-w-[1400px] mx-auto px-6 md:px-12">
           <Reveal>
             <div className="text-center mb-16">
-              <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#c9a855] mb-4">
+              <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#c9a855)] mb-4">
                 Avis Invités
               </p>
               <h2 className="font-serif text-4xl md:text-5xl text-[#11182a]">
@@ -714,7 +714,7 @@ export default function AeviaKitchenPage() {
                 <div className="flex flex-col h-full p-8 bg-white border border-[#11182a]/6 rounded-xl hover:shadow-md transition-shadow">
                   <div className="flex gap-1 mb-6">
                     {[...Array(review.stars)].map((_, s) => (
-                      <Star key={s} className="w-3.5 h-3.5 fill-[#c9a855] text-[#c9a855]" />
+                      <Star key={s} className="w-3.5 h-3.5 fill-[var(--brand,#c9a855)] text-[var(--brand,#c9a855)]" />
                     ))}
                   </div>
                   <p className="font-serif text-lg text-[#11182a]/80 leading-relaxed mb-8 flex-1 italic">
@@ -727,7 +727,7 @@ export default function AeviaKitchenPage() {
                         {review.date} · {review.occasion}
                       </div>
                     </div>
-                    <div className="text-[#c9a855] text-xl font-serif">✦</div>
+                    <div className="text-[var(--brand,#c9a855)] text-xl font-serif">✦</div>
                   </div>
                 </div>
               </Reveal>
@@ -745,7 +745,7 @@ export default function AeviaKitchenPage() {
             {/* Presse */}
             <div>
               <Reveal>
-                <p className="text-[10px] uppercase tracking-[0.4em] text-[#c9a855] font-bold mb-6">Presse</p>
+                <p className="text-[10px] uppercase tracking-[0.4em] text-[var(--brand,#c9a855)] font-bold mb-6">Presse</p>
                 <h2 className="text-3xl md:text-4xl font-bold text-white mb-12" style={{ fontFamily: "Playfair Display, Georgia, serif" }}>
                   Ils ont <em>écrit</em> sur nous.
                 </h2>
@@ -758,9 +758,9 @@ export default function AeviaKitchenPage() {
                   { pub: "Libération", date: "Juin 2024", quote: "Un lieu où l'on revient non pour ce qu'on a mangé, mais pour ce qu'on a ressenti." },
                 ].map((p, i) => (
                   <Reveal key={p.pub} delay={i * 0.1}>
-                    <div className="border-l-2 border-[#c9a855]/30 pl-6">
+                    <div className="border-l-2 border-[var(--brand,#c9a855)]/30 pl-6">
                       <div className="flex items-center gap-3 mb-2">
-                        <span className="text-[10px] font-bold uppercase tracking-widest text-[#c9a855]">{p.pub}</span>
+                        <span className="text-[10px] font-bold uppercase tracking-widest text-[var(--brand,#c9a855)]">{p.pub}</span>
                         <span className="text-[10px] text-white/20">{p.date}</span>
                       </div>
                       <p className="text-sm text-white/50 leading-relaxed italic" style={{ fontFamily: "Playfair Display, Georgia, serif" }}>"{p.quote}"</p>
@@ -772,7 +772,7 @@ export default function AeviaKitchenPage() {
             {/* Distinctions */}
             <div>
               <Reveal>
-                <p className="text-[10px] uppercase tracking-[0.4em] text-[#c9a855] font-bold mb-6">Distinctions</p>
+                <p className="text-[10px] uppercase tracking-[0.4em] text-[var(--brand,#c9a855)] font-bold mb-6">Distinctions</p>
                 <h2 className="text-3xl md:text-4xl font-bold text-white mb-12" style={{ fontFamily: "Playfair Display, Georgia, serif" }}>
                   Reconnaissances <em>officielles</em>.
                 </h2>
@@ -787,12 +787,12 @@ export default function AeviaKitchenPage() {
                 ].map((a, i) => (
                   <Reveal key={a.award} delay={i * 0.08}>
                     <div className="flex gap-5 items-start py-5 border-b border-white/5">
-                      <span className="text-[#c9a855] text-xl flex-shrink-0 w-8 text-center">{a.icon}</span>
+                      <span className="text-[var(--brand,#c9a855)] text-xl flex-shrink-0 w-8 text-center">{a.icon}</span>
                       <div className="flex-1">
                         <p className="font-bold text-white text-sm mb-1" style={{ fontFamily: "Playfair Display, Georgia, serif" }}>{a.award}</p>
                         <p className="text-[10px] text-white/30 uppercase tracking-wide">{a.body}</p>
                       </div>
-                      <span className="text-[10px] text-[#c9a855]/50 font-bold flex-shrink-0">{a.year}</span>
+                      <span className="text-[10px] text-[var(--brand,#c9a855)]/50 font-bold flex-shrink-0">{a.year}</span>
                     </div>
                   </Reveal>
                 ))}
@@ -810,17 +810,17 @@ export default function AeviaKitchenPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
             <Reveal>
               <div>
-                <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#c9a855] mb-6">
+                <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#c9a855)] mb-6">
                   Réservation
                 </p>
                 <h2 className="font-serif text-4xl md:text-5xl text-white mb-6 leading-tight">
                   Réservez votre <br />
-                  <em className="text-[#c9a855]">table</em>
+                  <em className="text-[var(--brand,#c9a855)]">table</em>
                 </h2>
                 <p className="text-white/40 text-sm leading-relaxed mb-10">
                   Pour toute demande spéciale ou réservation de plus de 8 couverts,
                   contactez-nous directement au{" "}
-                  <span className="text-[#c9a855]">01 42 56 78 90</span>.
+                  <span className="text-[var(--brand,#c9a855)]">01 42 56 78 90</span>.
                 </p>
 
                 <div className="space-y-6">
@@ -830,7 +830,7 @@ export default function AeviaKitchenPage() {
                     { icon: <Car className="w-4 h-4" />, title: "Parking", val: "Parking Montaigne à 200m\nVoiturier disponible le soir" },
                   ].map((item) => (
                     <div key={item.title} className="flex items-start gap-4">
-                      <div className="w-10 h-10 rounded border border-[#c9a855]/20 flex items-center justify-center text-[#c9a855] flex-shrink-0 mt-0.5">
+                      <div className="w-10 h-10 rounded border border-[var(--brand,#c9a855)]/20 flex items-center justify-center text-[var(--brand,#c9a855)] flex-shrink-0 mt-0.5">
                         {item.icon}
                       </div>
                       <div>
@@ -851,7 +851,7 @@ export default function AeviaKitchenPage() {
               <div className="bg-white/5 border border-white/10 rounded-xl p-8">
                 {reservationSent ? (
                   <div className="text-center py-12">
-                    <div className="text-4xl text-[#c9a855] font-serif mb-4">✦</div>
+                    <div className="text-4xl text-[var(--brand,#c9a855)] font-serif mb-4">✦</div>
                     <h3 className="font-serif text-2xl text-white mb-3">
                       Demande reçue
                     </h3>
@@ -881,7 +881,7 @@ export default function AeviaKitchenPage() {
                           required
                           value={form.date}
                           onChange={(e) => setForm({ ...form, date: e.target.value })}
-                          className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded text-white text-sm focus:outline-none focus:border-[#c9a855]/40 transition-colors"
+                          className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded text-white text-sm focus:outline-none focus:border-[var(--brand,#c9a855)]/40 transition-colors"
                         />
                       </div>
                       <div>
@@ -892,7 +892,7 @@ export default function AeviaKitchenPage() {
                           required
                           value={form.time}
                           onChange={(e) => setForm({ ...form, time: e.target.value })}
-                          className="w-full px-4 py-3 bg-[#0d1520] border border-white/10 rounded text-white text-sm focus:outline-none focus:border-[#c9a855]/40 transition-colors appearance-none cursor-pointer"
+                          className="w-full px-4 py-3 bg-[#0d1520] border border-white/10 rounded text-white text-sm focus:outline-none focus:border-[var(--brand,#c9a855)]/40 transition-colors appearance-none cursor-pointer"
                         >
                           <option value="">Choisir</option>
                           {TIME_SLOTS.map((t) => (
@@ -912,7 +912,7 @@ export default function AeviaKitchenPage() {
                         required
                         value={form.guests}
                         onChange={(e) => setForm({ ...form, guests: e.target.value })}
-                        className="w-full px-4 py-3 bg-[#0d1520] border border-white/10 rounded text-white text-sm focus:outline-none focus:border-[#c9a855]/40 transition-colors appearance-none cursor-pointer"
+                        className="w-full px-4 py-3 bg-[#0d1520] border border-white/10 rounded text-white text-sm focus:outline-none focus:border-[var(--brand,#c9a855)]/40 transition-colors appearance-none cursor-pointer"
                       >
                         <option value="">Sélectionner</option>
                         {GUEST_OPTIONS.map((g) => (
@@ -932,13 +932,13 @@ export default function AeviaKitchenPage() {
                         onChange={(e) => setForm({ ...form, request: e.target.value })}
                         placeholder="Allergies, occasion spéciale, préférences..."
                         rows={3}
-                        className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#c9a855]/40 transition-colors resize-none"
+                        className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded text-white text-sm placeholder-white/20 focus:outline-none focus:border-[var(--brand,#c9a855)]/40 transition-colors resize-none"
                       />
                     </div>
 
                     <button
                       type="submit"
-                      className="w-full py-4 bg-[#c9a855] hover:bg-[#e0bf74] text-[#11182a] text-[10px] font-black uppercase tracking-[0.4em] rounded transition-all cursor-pointer border-none"
+                      className="w-full py-4 bg-[var(--brand,#c9a855)] hover:bg-[#e0bf74] text-[#11182a] text-[10px] font-black uppercase tracking-[0.4em] rounded transition-all cursor-pointer border-none"
                     >
                       Confirmer la demande
                     </button>

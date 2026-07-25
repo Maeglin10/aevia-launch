@@ -33,7 +33,7 @@ let C: Record<string, string> = {
   bgCard:   "#EEDFCA",
   brown:    "#3D2010",
   browndark:"#2A1508",
-  amber:    "#C47A35",
+  amber:    "var(--brand,#C47A35)",
   terracotta:"#9B4E28",
   crust:    "#7A5230",
   muted:    "#8A7060",
@@ -156,7 +156,7 @@ function SteamingLoaf() {
           <defs>
             <radialGradient id="crustGrad" cx="45%" cy="40%" r="60%">
               <stop offset="0%" stopColor="#E8A84C" />
-              <stop offset="50%" stopColor="#C47A35" />
+              <stop offset="50%" stopColor="var(--brand,#C47A35)" />
               <stop offset="100%" stopColor="#7A4820" />
             </radialGradient>
             <radialGradient id="crustShine" cx="30%" cy="25%" r="45%">

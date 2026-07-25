@@ -265,7 +265,7 @@ export default function SkylineConciergePage() {
   const faqs = resolveList(bp?.faq, FAQ_DEMO);
 
   return (
-    <div className="premium-theme min-h-dvh bg-[#0a0a0a] text-[#ffffff] font-sans selection:bg-[#c9a96e] selection:text-black overflow-x-hidden">
+    <div className="premium-theme min-h-dvh bg-[#0a0a0a] text-[#ffffff] font-sans selection:bg-[var(--brand,#c9a96e)] selection:text-black overflow-x-hidden">
       {/* ── NAVIGATION ── */}
       <nav
         className={`fixed top-0 left-0 w-full z-50 transition-all duration-700 ${scrolled ? "bg-black/90 backdrop-blur-xl py-4 border-b border-white/5" : "bg-transparent py-8"}`}
@@ -280,14 +280,14 @@ export default function SkylineConciergePage() {
               />
             ) : (
               <>
-                <div className="w-10 h-10 bg-gradient-to-br from-[#c9a96e] to-[#8c7246] rounded-sm flex items-center justify-center rotate-45 group-hover:rotate-0 transition-transform duration-500">
+                <div className="w-10 h-10 bg-gradient-to-br from-[var(--brand,#c9a96e)] to-[#8c7246] rounded-sm flex items-center justify-center rotate-45 group-hover:rotate-0 transition-transform duration-500">
                   <Building2 className="w-5 h-5 text-black -rotate-45 group-hover:rotate-0 transition-transform duration-500" />
                 </div>
                 <div className="flex flex-col">
                   <span className="text-xl font-black tracking-tighter uppercase leading-none">
                     Skyline
                   </span>
-                  <span className="text-[8px] font-bold uppercase tracking-[0.4em] text-[#c9a96e] -mt-1">
+                  <span className="text-[8px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#c9a96e)] -mt-1">
                     Concierge Group
                   </span>
                 </div>
@@ -300,7 +300,7 @@ export default function SkylineConciergePage() {
               <Link
                 key={link.label}
                 href={link.href}
-                className="hover:text-[#c9a96e] transition-colors cursor-pointer"
+                className="hover:text-[var(--brand,#c9a96e)] transition-colors cursor-pointer"
               >
                 {link.label}
               </Link>
@@ -309,16 +309,16 @@ export default function SkylineConciergePage() {
 
           <div className="flex items-center gap-8">
             <button className="hidden md:flex items-center gap-3 group">
-              <span className="text-[10px] font-bold uppercase tracking-widest text-white/60 group-hover:text-[#c9a96e] transition-colors">
+              <span className="text-[10px] font-bold uppercase tracking-widest text-white/60 group-hover:text-[var(--brand,#c9a96e)] transition-colors">
                 Client_Login
               </span>
-              <div className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center text-white/40 group-hover:bg-[#c9a96e] group-hover:text-black transition-all">
+              <div className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center text-white/40 group-hover:bg-[var(--brand,#c9a96e)] group-hover:text-black transition-all">
                 <Key className="w-4 h-4" />
               </div>
             </button>
             <button
               onClick={() => setMenuOpen(true)}
-              className="lg:hidden text-[#c9a96e]"
+              className="lg:hidden text-[var(--brand,#c9a96e)]"
             >
               <Menu className="w-6 h-6" />
             </button>
@@ -337,7 +337,7 @@ export default function SkylineConciergePage() {
           >
             <button
               onClick={() => setMenuOpen(false)}
-              className="absolute top-10 right-8 text-[#c9a96e]"
+              className="absolute top-10 right-8 text-[var(--brand,#c9a96e)]"
             >
               <X className="w-8 h-8" />
             </button>
@@ -347,7 +347,7 @@ export default function SkylineConciergePage() {
                   key={link.label}
                   href={link.href}
                   onClick={() => setMenuOpen(false)}
-                  className="hover:text-[#c9a96e] transition-colors"
+                  className="hover:text-[var(--brand,#c9a96e)] transition-colors"
                 >
                   {link.label}
                 </Link>
@@ -373,12 +373,12 @@ export default function SkylineConciergePage() {
 
         <div className="relative z-10 max-w-[1400px] mx-auto px-6 md:px-12 w-full">
           <Reveal>
-            <Badge className="bg-[#c9a96e]/10 text-[#c9a96e] border border-[#c9a96e]/20 text-[10px] font-bold uppercase tracking-[0.5em] mb-10 px-4 py-1.5 rounded-sm">
+            <Badge className="bg-[var(--brand,#c9a96e)]/10 text-[var(--brand,#c9a96e)] border border-[var(--brand,#c9a96e)]/20 text-[10px] font-bold uppercase tracking-[0.5em] mb-10 px-4 py-1.5 rounded-sm">
               Private Advisory // Global Access
             </Badge>
             <h1 className="text-6xl md:text-[8rem] font-black leading-[0.85] tracking-tighter mb-10 uppercase">{c?.heroHeadline ?? <>
               The Standard of <br />{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#c9a96e] via-[#ffffff] to-[#c9a96e]">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--brand,#c9a96e)] via-[#ffffff] to-[var(--brand,#c9a96e)]">
                 Absolute Luxury.
               </span>
             </>}</h1>
@@ -389,7 +389,7 @@ export default function SkylineConciergePage() {
             </>}</p>
             <div className="flex flex-col sm:flex-row gap-6">
               <Link href="#contact">
-                <MagneticBtn className="px-12 py-5 bg-[#c9a96e] text-black text-[10px] font-bold uppercase tracking-[0.3em] rounded-sm hover:bg-white transition-all cursor-pointer shadow-2xl shadow-[#c9a96e]/20">
+                <MagneticBtn className="px-12 py-5 bg-[var(--brand,#c9a96e)] text-black text-[10px] font-bold uppercase tracking-[0.3em] rounded-sm hover:bg-white transition-all cursor-pointer shadow-2xl shadow-[var(--brand,#c9a96e)]/20">
                   Request_Membership
                 </MagneticBtn>
               </Link>
@@ -409,7 +409,7 @@ export default function SkylineConciergePage() {
         <div className="absolute bottom-12 right-12 hidden md:flex flex-col gap-4">
           {STATS.map((stat, i) => (
             <div key={i} className="flex items-center gap-4 group">
-              <div className="w-1 h-8 bg-[#c9a96e]/20 group-hover:bg-[#c9a96e] transition-all" />
+              <div className="w-1 h-8 bg-[var(--brand,#c9a96e)]/20 group-hover:bg-[var(--brand,#c9a96e)] transition-all" />
               <div>
                 <div className="text-[8px] font-bold uppercase tracking-widest text-white/30">
                   {stat.label}
@@ -426,7 +426,7 @@ export default function SkylineConciergePage() {
         <div className="max-w-[1400px] mx-auto">
           <Reveal>
             <div className="text-center mb-24">
-              <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#c9a96e] mb-4 block">
+              <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#c9a96e)] mb-4 block">
                 The Ecosystem
               </span>
               <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase italic">
@@ -441,11 +441,11 @@ export default function SkylineConciergePage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {SERVICES.map((s, i) => (
               <Reveal key={i} delay={i * 0.1}>
-                <div className="p-12 border border-white/5 bg-black/40 hover:border-[#c9a96e]/30 transition-all group relative overflow-hidden">
-                  <div className="absolute top-0 right-0 p-8 text-white/5 group-hover:text-[#c9a96e]/10 transition-colors">
+                <div className="p-12 border border-white/5 bg-black/40 hover:border-[var(--brand,#c9a96e)]/30 transition-all group relative overflow-hidden">
+                  <div className="absolute top-0 right-0 p-8 text-white/5 group-hover:text-[var(--brand,#c9a96e)]/10 transition-colors">
                     <s.icon className="w-32 h-32" />
                   </div>
-                  <div className="w-12 h-12 rounded-sm bg-[#c9a96e]/10 flex items-center justify-center text-[#c9a96e] mb-8 group-hover:bg-[#c9a96e] group-hover:text-black transition-all">
+                  <div className="w-12 h-12 rounded-sm bg-[var(--brand,#c9a96e)]/10 flex items-center justify-center text-[var(--brand,#c9a96e)] mb-8 group-hover:bg-[var(--brand,#c9a96e)] group-hover:text-black transition-all">
                     <s.icon className="w-5 h-5" />
                   </div>
                   <h3 className="text-2xl font-black uppercase mb-4 tracking-tighter">
@@ -454,7 +454,7 @@ export default function SkylineConciergePage() {
                   <p className="text-sm text-white/30 leading-relaxed font-light italic mb-8">
                     {s.desc}
                   </p>
-                  <button className="flex items-center gap-3 text-[9px] font-bold uppercase tracking-widest text-[#c9a96e] group-hover:gap-5 transition-all">
+                  <button className="flex items-center gap-3 text-[9px] font-bold uppercase tracking-widest text-[var(--brand,#c9a96e)] group-hover:gap-5 transition-all">
                     Explore Capability <ArrowRight className="w-4 h-4" />
                   </button>
                 </div>
@@ -468,7 +468,7 @@ export default function SkylineConciergePage() {
       <section id="about" className="py-32 px-6 md:px-12 bg-[#0a0a0a] border-b border-white/5">
         <div className="max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
           <Reveal>
-            <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#c9a96e] mb-8 block">
+            <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#c9a96e)] mb-8 block">
               Our Creed
             </span>
             <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase italic mb-8">{c?.aboutTitle ?? fd?.businessName ?? <>
@@ -483,7 +483,7 @@ export default function SkylineConciergePage() {
             </p>
             <div className="border-t border-white/10 pt-8 flex gap-8">
               <div>
-                <div className="text-2xl font-black text-[#c9a96e]">CONFIDENTIAL</div>
+                <div className="text-2xl font-black text-[var(--brand,#c9a96e)]">CONFIDENTIAL</div>
                 <div className="text-[8px] font-bold uppercase tracking-widest text-white/30">OPERATIONAL RULE</div>
               </div>
               <div>
@@ -503,8 +503,8 @@ export default function SkylineConciergePage() {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
               <div className="absolute bottom-8 left-8 flex items-center gap-3">
-                <div className="w-2.5 h-2.5 rounded-full bg-[#c9a96e] animate-pulse" />
-                <span className="text-[8px] font-bold uppercase tracking-[0.3em] text-[#c9a96e]">
+                <div className="w-2.5 h-2.5 rounded-full bg-[var(--brand,#c9a96e)] animate-pulse" />
+                <span className="text-[8px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#c9a96e)]">
                   SALON PRIVÉ // LONDON
                 </span>
               </div>
@@ -521,14 +521,14 @@ export default function SkylineConciergePage() {
               <div>
                 <h2 className="text-6xl md:text-8xl font-black italic tracking-tighter leading-none mb-6 uppercase">
                   Private <br />{" "}
-                  <span className="text-[#c9a96e]">Inventory.</span>
+                  <span className="text-[var(--brand,#c9a96e)]">Inventory.</span>
                 </h2>
                 <p className="text-white/20 text-[10px] font-bold uppercase tracking-[0.4em]">
                   Restricted Access Listings // Required NDA
                 </p>
               </div>
               <div className="flex gap-4">
-                <button className="px-8 py-4 bg-white/5 border border-white/10 text-white text-[9px] font-bold uppercase tracking-widest hover:bg-[#c9a96e] hover:text-black transition-all">
+                <button className="px-8 py-4 bg-white/5 border border-white/10 text-white text-[9px] font-bold uppercase tracking-widest hover:bg-[var(--brand,#c9a96e)] hover:text-black transition-all">
                   Request_NDA
                 </button>
               </div>
@@ -555,7 +555,7 @@ export default function SkylineConciergePage() {
 
                   <div className="absolute inset-0 p-10 flex flex-col justify-end">
                     {(item.location ?? item.city) && (
-                      <span className="text-[10px] font-bold uppercase tracking-widest text-[#c9a96e] mb-3">
+                      <span className="text-[10px] font-bold uppercase tracking-widest text-[var(--brand,#c9a96e)] mb-3">
                         {item.location ?? item.city}
                       </span>
                     )}
@@ -580,9 +580,9 @@ export default function SkylineConciergePage() {
                               {item.features.map((f: any, j: number) => (
                                 <li
                                   key={j}
-                                  className="text-[8px] font-bold uppercase tracking-widest text-[#c9a96e] flex items-center gap-2"
+                                  className="text-[8px] font-bold uppercase tracking-widest text-[var(--brand,#c9a96e)] flex items-center gap-2"
                                 >
-                                  <div className="w-1 h-1 bg-[#c9a96e] rounded-full" />
+                                  <div className="w-1 h-1 bg-[var(--brand,#c9a96e)] rounded-full" />
                                   {f}
                                 </li>
                               ))}
@@ -596,10 +596,10 @@ export default function SkylineConciergePage() {
                     </AnimatePresence>
 
                     <div className="mt-8 flex justify-between items-center">
-                      <button className="px-6 py-3 bg-[#c9a96e] text-black text-[9px] font-black uppercase tracking-widest">
+                      <button className="px-6 py-3 bg-[var(--brand,#c9a96e)] text-black text-[9px] font-black uppercase tracking-widest">
                         Inquire_Now
                       </button>
-                      <Star className="w-4 h-4 text-white/20 group-hover:text-[#c9a96e] transition-colors" />
+                      <Star className="w-4 h-4 text-white/20 group-hover:text-[var(--brand,#c9a96e)] transition-colors" />
                     </div>
                   </div>
                 </div>
@@ -615,7 +615,7 @@ export default function SkylineConciergePage() {
         <div className="max-w-[1400px] mx-auto">
           <Reveal>
             <div className="text-center mb-24">
-              <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#c9a96e] mb-4 block">
+              <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#c9a96e)] mb-4 block">
                 Client Endorsements
               </span>
               <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase italic">
@@ -628,13 +628,13 @@ export default function SkylineConciergePage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {testimonials.map((t: any, i: number) => (
               <Reveal key={i} delay={i * 0.1}>
-                <div className="p-12 border border-white/5 bg-black/40 hover:border-[#c9a96e]/30 transition-all relative">
-                  <div className="text-5xl text-[#c9a96e]/20 font-serif absolute top-6 left-8 font-black leading-none">&ldquo;</div>
+                <div className="p-12 border border-white/5 bg-black/40 hover:border-[var(--brand,#c9a96e)]/30 transition-all relative">
+                  <div className="text-5xl text-[var(--brand,#c9a96e)]/20 font-serif absolute top-6 left-8 font-black leading-none">&ldquo;</div>
                   <p className="text-sm text-white/50 leading-relaxed font-light italic mb-8 relative z-10 pt-4">
                     {t.quote ?? t.text}
                   </p>
                   <div className="border-t border-white/5 pt-6 flex items-center justify-between">
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-[#c9a96e]">
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-[var(--brand,#c9a96e)]">
                       {t.author}
                     </span>
                     {(t.location ?? t.source) && (
@@ -651,7 +651,7 @@ export default function SkylineConciergePage() {
       </section>
 
       {/* ── GLOBAL INFRASTRUCTURE ── */}
-      <section id="global" className="py-32 bg-[#c9a96e] text-black">
+      <section id="global" className="py-32 bg-[var(--brand,#c9a96e)] text-black">
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
           <Reveal>
             <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-black/40 mb-8 block">
@@ -695,7 +695,7 @@ export default function SkylineConciergePage() {
               />
               <div className="absolute inset-0 flex items-center justify-center">
                 <div className="w-32 h-32 border border-white/20 rounded-full flex items-center justify-center backdrop-blur-md">
-                  <Globe className="w-12 h-12 text-[#c9a96e]" />
+                  <Globe className="w-12 h-12 text-[var(--brand,#c9a96e)]" />
                 </div>
               </div>
               <div className="absolute top-10 right-10 flex flex-col gap-2">
@@ -714,7 +714,7 @@ export default function SkylineConciergePage() {
         <div className="max-w-[800px] mx-auto">
           <Reveal>
             <div className="text-center mb-20">
-              <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#c9a96e] mb-4 block">
+              <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#c9a96e)] mb-4 block">
                 Information Desk
               </span>
               <h2 className="text-4xl md:text-6xl font-black tracking-tighter uppercase italic">
@@ -728,7 +728,7 @@ export default function SkylineConciergePage() {
             <Accordion type="single" collapsible className="w-full space-y-4">
               {faqs.map((faq: any, i: number) => (
                 <AccordionItem key={i} value={`faq-${i}`} className="border border-white/5 bg-black/40 px-6 rounded-sm">
-                  <AccordionTrigger className="text-[11px] font-bold uppercase tracking-widest text-[#c9a96e] hover:no-underline py-5">
+                  <AccordionTrigger className="text-[11px] font-bold uppercase tracking-widest text-[var(--brand,#c9a96e)] hover:no-underline py-5">
                     {faq.q}
                   </AccordionTrigger>
                   <AccordionContent className="text-white/40 text-sm font-light italic leading-relaxed pb-6">
@@ -745,7 +745,7 @@ export default function SkylineConciergePage() {
       <section id="contact" className="py-32 px-6 md:px-12 bg-[#0d0d0d]">
         <div className="max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-24">
           <Reveal>
-            <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#c9a96e] mb-8 block">
+            <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#c9a96e)] mb-8 block">
               Initiate Consultation
             </span>
             <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase italic mb-8">
@@ -757,7 +757,7 @@ export default function SkylineConciergePage() {
             </p>
             <div className="space-y-6">
               <div className="flex items-center gap-6">
-                <div className="w-12 h-12 rounded-sm bg-white/5 flex items-center justify-center text-[#c9a96e]">
+                <div className="w-12 h-12 rounded-sm bg-white/5 flex items-center justify-center text-[var(--brand,#c9a96e)]">
                   <Mail className="w-5 h-5" />
                 </div>
                 <div>
@@ -766,7 +766,7 @@ export default function SkylineConciergePage() {
                 </div>
               </div>
               <div className="flex items-center gap-6">
-                <div className="w-12 h-12 rounded-sm bg-white/5 flex items-center justify-center text-[#c9a96e]">
+                <div className="w-12 h-12 rounded-sm bg-white/5 flex items-center justify-center text-[var(--brand,#c9a96e)]">
                   <Phone className="w-5 h-5" />
                 </div>
                 <div>
@@ -775,7 +775,7 @@ export default function SkylineConciergePage() {
                 </div>
               </div>
               <div className="flex items-center gap-6">
-                <div className="w-12 h-12 rounded-sm bg-white/5 flex items-center justify-center text-[#c9a96e]">
+                <div className="w-12 h-12 rounded-sm bg-white/5 flex items-center justify-center text-[var(--brand,#c9a96e)]">
                   <MapPin className="w-5 h-5" />
                 </div>
                 <div>
@@ -790,7 +790,7 @@ export default function SkylineConciergePage() {
             <div className="p-12 border border-white/5 bg-black/40">
               {contactSubmitted ? (
                 <div className="text-center py-12">
-                  <div className="w-16 h-16 rounded-full border border-[#c9a96e]/20 flex items-center justify-center text-[#c9a96e] mx-auto mb-6 bg-[#c9a96e]/5">
+                  <div className="w-16 h-16 rounded-full border border-[var(--brand,#c9a96e)]/20 flex items-center justify-center text-[var(--brand,#c9a96e)] mx-auto mb-6 bg-[var(--brand,#c9a96e)]/5">
                     <ShieldCheck className="w-8 h-8" />
                   </div>
                   <h3 className="text-2xl font-black uppercase mb-4 tracking-tighter">SECURE TRANSMISSION RECEIVED</h3>
@@ -811,7 +811,7 @@ export default function SkylineConciergePage() {
                     <input
                       type="text"
                       required
-                      className="w-full bg-black/60 border border-white/10 px-4 py-3 text-sm text-white focus:outline-none focus:border-[#c9a96e] transition-colors rounded-sm"
+                      className="w-full bg-black/60 border border-white/10 px-4 py-3 text-sm text-white focus:outline-none focus:border-[var(--brand,#c9a96e)] transition-colors rounded-sm"
                       placeholder="John Doe"
                     />
                   </div>
@@ -821,7 +821,7 @@ export default function SkylineConciergePage() {
                       <input
                         type="email"
                         required
-                        className="w-full bg-black/60 border border-white/10 px-4 py-3 text-sm text-white focus:outline-none focus:border-[#c9a96e] transition-colors rounded-sm"
+                        className="w-full bg-black/60 border border-white/10 px-4 py-3 text-sm text-white focus:outline-none focus:border-[var(--brand,#c9a96e)] transition-colors rounded-sm"
                         placeholder="j.doe@confidential.com"
                       />
                     </div>
@@ -829,7 +829,7 @@ export default function SkylineConciergePage() {
                       <label className="text-[8px] font-bold uppercase tracking-widest text-white/40">PHONE NUMBER</label>
                       <input
                         type="tel"
-                        className="w-full bg-black/60 border border-white/10 px-4 py-3 text-sm text-white focus:outline-none focus:border-[#c9a96e] transition-colors rounded-sm"
+                        className="w-full bg-black/60 border border-white/10 px-4 py-3 text-sm text-white focus:outline-none focus:border-[var(--brand,#c9a96e)] transition-colors rounded-sm"
                         placeholder="+44 20 7946 XXXX"
                       />
                     </div>
@@ -837,7 +837,7 @@ export default function SkylineConciergePage() {
                   <div className="space-y-2">
                     <label className="text-[8px] font-bold uppercase tracking-widest text-white/40">INQUIRY TYPE</label>
                     <select
-                      className="w-full bg-black border border-white/10 px-4 py-3 text-sm text-white/60 focus:outline-none focus:border-[#c9a96e] transition-colors rounded-sm"
+                      className="w-full bg-black border border-white/10 px-4 py-3 text-sm text-white/60 focus:outline-none focus:border-[var(--brand,#c9a96e)] transition-colors rounded-sm"
                     >
                       <option value="membership">Request Private Membership</option>
                       <option value="acquisition">Asset Acquisition</option>
@@ -850,13 +850,13 @@ export default function SkylineConciergePage() {
                     <textarea
                       required
                       rows={4}
-                      className="w-full bg-black/60 border border-white/10 px-4 py-3 text-sm text-white focus:outline-none focus:border-[#c9a96e] transition-colors rounded-sm resize-none"
+                      className="w-full bg-black/60 border border-white/10 px-4 py-3 text-sm text-white focus:outline-none focus:border-[var(--brand,#c9a96e)] transition-colors rounded-sm resize-none"
                       placeholder="Please outline the nature of your request..."
                     />
                   </div>
                   <button
                     type="submit"
-                    className="w-full py-4 bg-[#c9a96e] text-black text-[9px] font-bold uppercase tracking-widest hover:bg-white transition-colors cursor-pointer"
+                    className="w-full py-4 bg-[var(--brand,#c9a96e)] text-black text-[9px] font-bold uppercase tracking-widest hover:bg-white transition-colors cursor-pointer"
                   >
                     SEND ENCRYPTED MESSAGE
                   </button>
@@ -873,14 +873,14 @@ export default function SkylineConciergePage() {
           <div className="lg:col-span-5">
             <Reveal>
               <div className="flex items-center gap-3 mb-10">
-                <div className="w-10 h-10 bg-[#c9a96e] rounded-sm flex items-center justify-center rotate-45">
+                <div className="w-10 h-10 bg-[var(--brand,#c9a96e)] rounded-sm flex items-center justify-center rotate-45">
                   <Building2 className="w-5 h-5 text-black -rotate-45" />
                 </div>
                 <div className="flex flex-col">
                   <span className="text-xl font-black tracking-tighter uppercase leading-none">
                     Skyline
                   </span>
-                  <span className="text-[8px] font-bold uppercase tracking-[0.4em] text-[#c9a96e] -mt-1">
+                  <span className="text-[8px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#c9a96e)] -mt-1">
                     Concierge Group
                   </span>
                 </div>
@@ -893,7 +893,7 @@ export default function SkylineConciergePage() {
                 {[Globe, Globe, Globe].map((Icon, i) => (
                   <button
                     key={i}
-                    className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-white/20 hover:bg-[#c9a96e] hover:text-black transition-all"
+                    className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-white/20 hover:bg-[var(--brand,#c9a96e)] hover:text-black transition-all"
                   >
                     <Icon className="w-4 h-4" />
                   </button>
@@ -903,14 +903,14 @@ export default function SkylineConciergePage() {
           </div>
 
           <div className="lg:col-span-2 lg:col-start-7">
-            <h4 className="text-[10px] font-bold uppercase tracking-widest text-[#c9a96e] mb-10">
+            <h4 className="text-[10px] font-bold uppercase tracking-widest text-[var(--brand,#c9a96e)] mb-10">
               Inventory
             </h4>
             <ul className="space-y-4 text-[10px] font-bold uppercase tracking-widest text-white/20">
               <li>
                 <Link
                   href="#contact"
-                  className="hover:text-[#c9a96e] transition-colors"
+                  className="hover:text-[var(--brand,#c9a96e)] transition-colors"
                 >
                   Residential_Estates
                 </Link>
@@ -918,7 +918,7 @@ export default function SkylineConciergePage() {
               <li>
                 <Link
                   href="#contact"
-                  className="hover:text-[#c9a96e] transition-colors"
+                  className="hover:text-[var(--brand,#c9a96e)] transition-colors"
                 >
                   Yacht_Charter
                 </Link>
@@ -926,7 +926,7 @@ export default function SkylineConciergePage() {
               <li>
                 <Link
                   href="#contact"
-                  className="hover:text-[#c9a96e] transition-colors"
+                  className="hover:text-[var(--brand,#c9a96e)] transition-colors"
                 >
                   Private_Aviation
                 </Link>
@@ -934,7 +934,7 @@ export default function SkylineConciergePage() {
               <li>
                 <Link
                   href="#contact"
-                  className="hover:text-[#c9a96e] transition-colors"
+                  className="hover:text-[var(--brand,#c9a96e)] transition-colors"
                 >
                   Art_Advisory
                 </Link>
@@ -943,14 +943,14 @@ export default function SkylineConciergePage() {
           </div>
 
           <div className="lg:col-span-2">
-            <h4 className="text-[10px] font-bold uppercase tracking-widest text-[#c9a96e] mb-10">
+            <h4 className="text-[10px] font-bold uppercase tracking-widest text-[var(--brand,#c9a96e)] mb-10">
               Concierge
             </h4>
             <ul className="space-y-4 text-[10px] font-bold uppercase tracking-widest text-white/20">
               <li>
                 <Link
                   href="#contact"
-                  className="hover:text-[#c9a96e] transition-colors"
+                  className="hover:text-[var(--brand,#c9a96e)] transition-colors"
                 >
                   Lifestyle_Mgmt
                 </Link>
@@ -958,7 +958,7 @@ export default function SkylineConciergePage() {
               <li>
                 <Link
                   href="#contact"
-                  className="hover:text-[#c9a96e] transition-colors"
+                  className="hover:text-[var(--brand,#c9a96e)] transition-colors"
                 >
                   Global_Security
                 </Link>
@@ -966,7 +966,7 @@ export default function SkylineConciergePage() {
               <li>
                 <Link
                   href="#contact"
-                  className="hover:text-[#c9a96e] transition-colors"
+                  className="hover:text-[var(--brand,#c9a96e)] transition-colors"
                 >
                   Event_Access
                 </Link>
@@ -974,7 +974,7 @@ export default function SkylineConciergePage() {
               <li>
                 <Link
                   href="#contact"
-                  className="hover:text-[#c9a96e] transition-colors"
+                  className="hover:text-[var(--brand,#c9a96e)] transition-colors"
                 >
                   Health_Concierge
                 </Link>
@@ -983,14 +983,14 @@ export default function SkylineConciergePage() {
           </div>
 
           <div className="lg:col-span-2">
-            <h4 className="text-[10px] font-bold uppercase tracking-widest text-[#c9a96e] mb-10">
+            <h4 className="text-[10px] font-bold uppercase tracking-widest text-[var(--brand,#c9a96e)] mb-10">
               Group
             </h4>
             <ul className="space-y-4 text-[10px] font-bold uppercase tracking-widest text-white/20">
               <li>
                 <Link
                   href="#contact"
-                  className="hover:text-[#c9a96e] transition-colors"
+                  className="hover:text-[var(--brand,#c9a96e)] transition-colors"
                 >
                   The_Vault
                 </Link>
@@ -998,7 +998,7 @@ export default function SkylineConciergePage() {
               <li>
                 <Link
                   href="#contact"
-                  className="hover:text-[#c9a96e] transition-colors"
+                  className="hover:text-[var(--brand,#c9a96e)] transition-colors"
                 >
                   Membership
                 </Link>
@@ -1006,7 +1006,7 @@ export default function SkylineConciergePage() {
               <li>
                 <Link
                   href="#contact"
-                  className="hover:text-[#c9a96e] transition-colors"
+                  className="hover:text-[var(--brand,#c9a96e)] transition-colors"
                 >
                   Offices
                 </Link>
@@ -1014,7 +1014,7 @@ export default function SkylineConciergePage() {
               <li>
                 <Link
                   href="#contact"
-                  className="hover:text-[#c9a96e] transition-colors"
+                  className="hover:text-[var(--brand,#c9a96e)] transition-colors"
                 >
                   Contact
                 </Link>
@@ -1035,9 +1035,9 @@ export default function SkylineConciergePage() {
             </div>
           </div>
           <div className="flex gap-10">
-            <Link href="#contact" className="hover:text-[#c9a96e] transition-colors">Mentions Légales</Link>
-            <Link href="#contact" className="hover:text-[#c9a96e] transition-colors">Confidentialité</Link>
-            <Link href="#contact" className="hover:text-[#c9a96e] transition-colors">CGU</Link>
+            <Link href="#contact" className="hover:text-[var(--brand,#c9a96e)] transition-colors">Mentions Légales</Link>
+            <Link href="#contact" className="hover:text-[var(--brand,#c9a96e)] transition-colors">Confidentialité</Link>
+            <Link href="#contact" className="hover:text-[var(--brand,#c9a96e)] transition-colors">CGU</Link>
           </div>
         </div>
       </footer>

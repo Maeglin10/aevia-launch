@@ -105,7 +105,7 @@ return (
         
         <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 pt-32 pb-20 w-full">
           <Reveal>
-            <p className="text-xs tracking-[0.3em] uppercase text-[#C9A86C] mb-8">Promoteur immobilier — Fondé en 1989</p>
+            <p className="text-xs tracking-[0.3em] uppercase text-[var(--brand,#C9A86C)] mb-8">Promoteur immobilier — Fondé en 1989</p>
           </Reveal>
           <Reveal delay={0.1}>
             <h1 className="text-5xl md:text-7xl font-normal text-[#F7F5F2] leading-[1.15] mb-8 max-w-3xl font-serif" style={{ fontFamily: "'Libre Baskerville', serif" }}>{c?.heroHeadline ?? <>
@@ -117,10 +117,10 @@ return (
               Depuis 35 ans, Blueprint réalise des programmes immobiliers d&apos;exception. Résidentiel haut de gamme, bureaux premium, opérations mixtes — nous concevons des lieux qui durent.
             </>}</p>
             <div className="flex flex-col sm:flex-row gap-5">
-              <Link href="/templates/impact-82/programmes" className="inline-flex items-center justify-center gap-3 px-8 py-4 bg-[#C9A86C] text-[#1A1612] font-medium text-sm tracking-wide uppercase hover:bg-[#E0BC70] transition-colors cursor-pointer">
+              <Link href="/templates/impact-82/programmes" className="inline-flex items-center justify-center gap-3 px-8 py-4 bg-[var(--brand,#C9A86C)] text-[#1A1612] font-medium text-sm tracking-wide uppercase hover:bg-[#E0BC70] transition-colors cursor-pointer">
                 Nos programmes <ArrowRight className="w-4 h-4" />
               </Link>
-              <Link href="/templates/impact-82/investisseurs" className="inline-flex items-center justify-center gap-3 px-8 py-4 border border-[#C9A86C]/50 text-[#F7F5F2] font-light text-sm tracking-wide uppercase hover:border-[#C9A86C] transition-colors cursor-pointer">
+              <Link href="/templates/impact-82/investisseurs" className="inline-flex items-center justify-center gap-3 px-8 py-4 border border-[var(--brand,#C9A86C)]/50 text-[#F7F5F2] font-light text-sm tracking-wide uppercase hover:border-[var(--brand,#C9A86C)] transition-colors cursor-pointer">
                 Espace investisseurs
               </Link>
             </div>
@@ -135,7 +135,7 @@ return (
             ].map(([val, label]) => (
               <Reveal key={label} delay={0.05}>
                 <div>
-                  <div className="text-[#C9A86C] text-2xl font-light mb-1" style={{ fontFamily: "'Libre Baskerville', serif" }}>{val}</div>
+                  <div className="text-[var(--brand,#C9A86C)] text-2xl font-light mb-1" style={{ fontFamily: "'Libre Baskerville', serif" }}>{val}</div>
                   <div className="text-xs text-[#8A7860] uppercase tracking-wide">{label}</div>
                 </div>
               </Reveal>
@@ -149,7 +149,7 @@ return (
         <div className="max-w-7xl mx-auto px-6 md:px-12">
           <div className="grid md:grid-cols-2 gap-16 items-center mb-20">
             <Reveal>
-              <p className="text-xs tracking-[0.25em] uppercase text-[#C9A86C] mb-4">Notre ADN</p>
+              <p className="text-xs tracking-[0.25em] uppercase text-[var(--brand,#C9A86C)] mb-4">Notre ADN</p>
               <h2 className="text-4xl md:text-5xl font-normal leading-tight font-serif" style={{ fontFamily: "'Libre Baskerville', serif" }}>{c?.aboutTitle ?? fd?.businessName ?? <>
                 35 ans de<br /><em>savoir-faire</em><br />institutionnel
               </>}</h2>
@@ -158,7 +158,7 @@ return (
               <p className="text-[#8A7860] leading-relaxed mb-6 font-light">{c?.aboutText ?? <>
                 Blueprint a été fondé en 1989 par Édouard Marchand avec une conviction : le développement immobilier de qualité ne se résume pas à construire des murs. Il s&apos;agit de créer des lieux de vie durables et harmonieux.
               </>}</p>
-              <Link href="/templates/impact-82/entreprise" className="text-sm text-[#C9A86C] flex items-center gap-2 hover:gap-4 transition-all">
+              <Link href="/templates/impact-82/entreprise" className="text-sm text-[var(--brand,#C9A86C)] flex items-center gap-2 hover:gap-4 transition-all">
                 En savoir plus sur notre entreprise <ArrowRight className="w-4 h-4" />
               </Link>
             </Reveal>
@@ -175,7 +175,7 @@ return (
               return (
                 <Reveal key={p.title} delay={i * 0.08}>
                   <div className="bg-[#1A1612] p-8 h-full group hover:bg-[#231E14] transition-colors duration-300">
-                    <Icon className="w-8 h-8 text-[#C9A86C] mb-6" />
+                    <Icon className="w-8 h-8 text-[var(--brand,#C9A86C)] mb-6" />
                     <h3 className="text-lg font-normal mb-3 font-serif" style={{ fontFamily: "'Libre Baskerville', serif" }}>{p.title}</h3>
                     <p className="text-sm text-[#6A6058] leading-relaxed font-light">{p.desc}</p>
                   </div>
@@ -192,12 +192,12 @@ return (
           <Reveal>
             <div className="flex items-end justify-between mb-16">
               <div>
-                <p className="text-xs tracking-[0.3em] uppercase text-[#C9A86C] mb-4">Programmes en cours</p>
+                <p className="text-xs tracking-[0.3em] uppercase text-[var(--brand,#C9A86C)] mb-4">Programmes en cours</p>
                 <h2 className="text-4xl font-normal leading-tight" style={{ fontFamily: "'Libre Baskerville', serif" }}>
                   Nos réalisations<br /><em>à la livraison</em>
                 </h2>
               </div>
-              <Link href="/templates/impact-82/programmes" className="text-sm text-[#C9A86C] flex items-center gap-2 hover:gap-4 transition-all hidden md:flex">
+              <Link href="/templates/impact-82/programmes" className="text-sm text-[var(--brand,#C9A86C)] flex items-center gap-2 hover:gap-4 transition-all hidden md:flex">
                 Tous les programmes <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
@@ -209,11 +209,11 @@ return (
                   <div className="relative aspect-video overflow-hidden mb-6">
                     <Image src={p.img ?? p.photoUrl ?? photo(1 + i, "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&q=85")} alt={p.title ?? p.name} fill className="object-cover group-hover:scale-105 transition-transform duration-700" />
                     <div className="absolute inset-0 bg-gradient-to-t from-[#1A1612]/60 to-transparent" />
-                    {(p.badge ?? p.status) && <span className="absolute top-4 left-4 px-3 py-1 bg-[#C9A86C] text-[#1A1612] text-[9px] uppercase tracking-widest font-medium">{p.badge ?? p.status}</span>}
+                    {(p.badge ?? p.status) && <span className="absolute top-4 left-4 px-3 py-1 bg-[var(--brand,#C9A86C)] text-[#1A1612] text-[9px] uppercase tracking-widest font-medium">{p.badge ?? p.status}</span>}
                   </div>
                   <div>
-                    {(p.loc ?? p.city ?? p.type) && <p className="text-xs text-[#C9A86C] uppercase tracking-widest mb-2">{[p.loc ?? p.city, p.type].filter(Boolean).join(" · ")}</p>}
-                    <h3 className="text-xl font-normal mb-3 group-hover:text-[#C9A86C] transition-colors" style={{ fontFamily: "'Libre Baskerville', serif" }}>{p.title ?? p.name}</h3>
+                    {(p.loc ?? p.city ?? p.type) && <p className="text-xs text-[var(--brand,#C9A86C)] uppercase tracking-widest mb-2">{[p.loc ?? p.city, p.type].filter(Boolean).join(" · ")}</p>}
+                    <h3 className="text-xl font-normal mb-3 group-hover:text-[var(--brand,#C9A86C)] transition-colors" style={{ fontFamily: "'Libre Baskerville', serif" }}>{p.title ?? p.name}</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs text-[#8A7860] mb-4">
                       {(p.units ?? p.rooms) && <span>{p.units ?? `${p.rooms} pièces`}{p.surface ? ` · ${p.surface} m²` : ""}</span>}
                       {p.delivery && <span>Livraison {p.delivery}</span>}
@@ -231,7 +231,7 @@ return (
       <section className="py-24 bg-[#1A1612] text-[#F7F5F2]">
         <div className="max-w-7xl mx-auto px-6 md:px-12">
           <Reveal>
-            <p className="text-xs tracking-[0.3em] uppercase text-[#C9A86C] mb-4">Direction</p>
+            <p className="text-xs tracking-[0.3em] uppercase text-[var(--brand,#C9A86C)] mb-4">Direction</p>
             <h2 className="text-4xl font-normal mb-16" style={{ fontFamily: "'Libre Baskerville', serif" }}>
               L'équipe Blueprint
             </h2>
@@ -245,7 +245,7 @@ return (
                       <Image src={m.img ?? m.photoUrl} alt={m.name} fill className="object-cover" />
                     </div>
                   )}
-                  <p className="text-xs tracking-widest text-[#C9A86C] uppercase mb-2">{m.role}</p>
+                  <p className="text-xs tracking-widest text-[var(--brand,#C9A86C)] uppercase mb-2">{m.role}</p>
                   <h3 className="font-normal text-lg mb-3" style={{ fontFamily: "'Libre Baskerville', serif" }}>{m.name}</h3>
                   {m.bio && <p className="text-xs text-[#6A6058] leading-relaxed">{m.bio}</p>}
                 </div>
@@ -259,7 +259,7 @@ return (
       <section className="py-32 bg-[#F7F5F2] border-t border-[#2A2820]/10">
         <div className="max-w-6xl mx-auto px-6 md:px-12">
           <Reveal>
-            <p className="text-[9px] uppercase tracking-[0.5em] text-[#C9A86C] mb-6">Ils nous font confiance</p>
+            <p className="text-[9px] uppercase tracking-[0.5em] text-[var(--brand,#C9A86C)] mb-6">Ils nous font confiance</p>
             <h2 className="text-4xl md:text-6xl font-light text-[#1A1612] mb-20 leading-snug" style={{ fontFamily: "'Libre Baskerville', serif" }}>
               La parole de <em>nos clients</em>.
             </h2>
@@ -268,11 +268,11 @@ return (
             {avis.map((t: any, i: number) => (
               <Reveal key={t.name ?? i} delay={i * 0.1}>
                 <div className="bg-white p-12 flex flex-col gap-6 h-full">
-                  <div className="text-4xl text-[#C9A86C]/20 font-serif leading-none">&ldquo;</div>
+                  <div className="text-4xl text-[var(--brand,#C9A86C)]/20 font-serif leading-none">&ldquo;</div>
                   <p className="text-[#4A3F35] text-sm leading-relaxed italic flex-1">{t.quote}</p>
                   <div className="border-t border-[#2A2820]/10 pt-6 flex items-center justify-between">
                     <div className="text-sm font-bold text-[#1A1612]">{t.name}</div>
-                    {t.stats && <div className="text-[9px] uppercase tracking-widest text-[#C9A86C] font-bold">{t.stats}</div>}
+                    {t.stats && <div className="text-[9px] uppercase tracking-widest text-[var(--brand,#C9A86C)] font-bold">{t.stats}</div>}
                   </div>
                 </div>
               </Reveal>
@@ -292,7 +292,7 @@ return (
               Que vous soyez investisseur, collectivité ou à la recherche de votre future résidence d&apos;exception, nos équipes vous accompagnent à chaque étape.
             </p>
             <div className="flex flex-wrap items-center justify-center gap-4">
-              <Link href="/templates/impact-82/contact" className="inline-flex items-center gap-3 px-8 py-4 bg-[#1A1612] text-[#F7F5F2] font-medium text-sm tracking-wide uppercase hover:bg-[#C9A86C] hover:text-[#1A1612] transition-colors cursor-pointer">
+              <Link href="/templates/impact-82/contact" className="inline-flex items-center gap-3 px-8 py-4 bg-[#1A1612] text-[#F7F5F2] font-medium text-sm tracking-wide uppercase hover:bg-[var(--brand,#C9A86C)] hover:text-[#1A1612] transition-colors cursor-pointer">
                 Nous contacter <ArrowRight className="w-4 h-4" />
               </Link>
               <Link href="/templates/impact-82/programmes" className="inline-flex items-center gap-3 px-8 py-4 border border-[#1A1612]/30 text-[#1A1612] font-light text-sm tracking-wide uppercase hover:border-[#1A1612] transition-colors cursor-pointer">

@@ -135,10 +135,10 @@ export default function TorrefieCoffeePage() {
   }, []);
 
   return (
-    <div className="bg-[#f5f0ea] text-[#2c1810] font-sans min-h-dvh selection:bg-[#6b3a24] selection:text-white overflow-x-hidden">
+    <div className="bg-[#f5f0ea] text-[#2c1810] font-sans min-h-dvh selection:bg-[var(--brand,#6b3a24)] selection:text-white overflow-x-hidden">
 
       {/* ── NAVBAR ────────────────────────────── */}
-      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#f5f0ea]/90 backdrop-blur-xl border-b border-[#6b3a24]/10 py-4" : "bg-transparent py-8"}`}>
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#f5f0ea]/90 backdrop-blur-xl border-b border-[var(--brand,#6b3a24)]/10 py-4" : "bg-transparent py-8"}`}>
         <div className="max-w-[1600px] mx-auto px-6 md:px-12 flex items-center justify-between">
           <Link href="#hero" className="flex items-center gap-3">
             {fd?.logoBase64 ? (
@@ -149,20 +149,20 @@ export default function TorrefieCoffeePage() {
               />
             ) : (
               <>
-                <Coffee className="w-6 h-6 text-[#6b3a24]" />
+                <Coffee className="w-6 h-6 text-[var(--brand,#6b3a24)]" />
                 <span className="text-xl tracking-tight" style={{ fontFamily: "Georgia, serif" }}>
-                  <span className="font-light">Torré</span><span className="font-bold text-[#6b3a24]">fié</span>
+                  <span className="font-light">Torré</span><span className="font-bold text-[var(--brand,#6b3a24)]">fié</span>
                 </span>
               </>
             )}
           </Link>
           <div className="hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-[#2c1810]/40">
             {["Origins", "Process", "Shop", "About"].map(l => (
-              <Link key={l} href="#about" className="hover:text-[#6b3a24] transition-colors">{l}</Link>
+              <Link key={l} href="#about" className="hover:text-[var(--brand,#6b3a24)] transition-colors">{l}</Link>
             ))}
           </div>
           <div className="flex items-center gap-6">
-            <button className="hidden md:block px-8 py-3 bg-[#2c1810] text-[#f5f0ea] text-[10px] font-bold uppercase tracking-[0.2em] rounded-full hover:bg-[#6b3a24] transition-colors duration-500">
+            <button className="hidden md:block px-8 py-3 bg-[#2c1810] text-[#f5f0ea] text-[10px] font-bold uppercase tracking-[0.2em] rounded-full hover:bg-[var(--brand,#6b3a24)] transition-colors duration-500">
               Shop Coffee
             </button>
             <Sheet>
@@ -170,7 +170,7 @@ export default function TorrefieCoffeePage() {
               <SheetContent side="right" className="bg-[#f5f0ea] p-12">
                 <div className="flex flex-col gap-8 mt-16">
                   {["Origins", "Process", "Shop", "About"].map(l => (
-                    <Link key={l} href="#about" className="text-3xl font-light hover:text-[#6b3a24] transition-colors" style={{ fontFamily: "Georgia, serif" }}>{l}</Link>
+                    <Link key={l} href="#about" className="text-3xl font-light hover:text-[var(--brand,#6b3a24)] transition-colors" style={{ fontFamily: "Georgia, serif" }}>{l}</Link>
                   ))}
                 </div>
               </SheetContent>
@@ -190,13 +190,13 @@ export default function TorrefieCoffeePage() {
           <motion.div style={{ opacity: heroOpacity }} className="relative z-10 max-w-[1600px] mx-auto px-6 md:px-12">
             <Reveal>
               <div className="flex items-center gap-4 mb-8">
-                <Leaf className="w-4 h-4 text-[#6b3a24]" />
-                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#6b3a24]">Specialty Coffee Roasters — Est. 2016</span>
+                <Leaf className="w-4 h-4 text-[var(--brand,#6b3a24)]" />
+                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#6b3a24)]">Specialty Coffee Roasters — Est. 2016</span>
               </div>
             </Reveal>
             <Reveal delay={0.15} y={70}>
               <h1 className="text-6xl md:text-8xl lg:text-[9rem] font-light tracking-tighter leading-[0.85] mb-8" style={{ fontFamily: "Georgia, serif" }}>{c?.heroHeadline ?? <>
-                From Seed<br/>To <em className="text-[#6b3a24]">Soul.</em>
+                From Seed<br/>To <em className="text-[var(--brand,#6b3a24)]">Soul.</em>
               </>}</h1>
             </Reveal>
             <Reveal delay={0.3}>
@@ -206,7 +206,7 @@ export default function TorrefieCoffeePage() {
             </Reveal>
             <Reveal delay={0.4}>
               <div className="flex flex-wrap gap-4">
-                <button className="px-10 py-5 bg-[#2c1810] text-[#f5f0ea] font-bold rounded-full hover:bg-[#6b3a24] transition-colors duration-500 flex items-center gap-3">
+                <button className="px-10 py-5 bg-[#2c1810] text-[#f5f0ea] font-bold rounded-full hover:bg-[var(--brand,#6b3a24)] transition-colors duration-500 flex items-center gap-3">
                   Discover Origins <ArrowRight className="w-5 h-5" />
                 </button>
               </div>
@@ -248,9 +248,9 @@ export default function TorrefieCoffeePage() {
             <Reveal>
               <div className="flex justify-between items-end mb-20">
                 <div>
-                  <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#6b3a24] block mb-4">Current Selection</span>
+                  <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#6b3a24)] block mb-4">Current Selection</span>
                   <h2 className="text-5xl md:text-7xl font-light tracking-tighter" style={{ fontFamily: "Georgia, serif" }}>
-                    Single <em className="text-[#6b3a24]">Origins.</em>
+                    Single <em className="text-[var(--brand,#6b3a24)]">Origins.</em>
                   </h2>
                 </div>
               </div>
@@ -258,27 +258,27 @@ export default function TorrefieCoffeePage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {ORIGINS.map((o, i) => (
                 <Reveal key={i} delay={i * 0.1}>
-                  <div className="group cursor-pointer flex flex-col md:flex-row gap-6 p-6 bg-white rounded-sm border border-[#6b3a24]/5 hover:border-[#6b3a24]/20 transition-all duration-500">
+                  <div className="group cursor-pointer flex flex-col md:flex-row gap-6 p-6 bg-white rounded-sm border border-[var(--brand,#6b3a24)]/5 hover:border-[var(--brand,#6b3a24)]/20 transition-all duration-500">
                     <div className="relative w-full md:w-48 aspect-square overflow-hidden rounded-sm shrink-0">
                       <Image src={o.img} alt={o.name} fill className="object-cover group-hover:scale-105 transition-transform duration-700" />
                     </div>
                     <div className="flex-1 flex flex-col justify-between">
                       <div>
                         <div className="flex items-center gap-2 mb-2">
-                          <span className="text-[10px] font-bold uppercase tracking-widest text-[#6b3a24]">{o.process}</span>
+                          <span className="text-[10px] font-bold uppercase tracking-widest text-[var(--brand,#6b3a24)]">{o.process}</span>
                           <span className="text-[10px] text-[#2c1810]/20">·</span>
                           <span className="text-[10px] text-[#2c1810]/40">{o.altitude}</span>
                         </div>
-                        <h3 className="text-xl font-bold mb-1 group-hover:text-[#6b3a24] transition-colors" style={{ fontFamily: "Georgia, serif" }}>{o.name}</h3>
+                        <h3 className="text-xl font-bold mb-1 group-hover:text-[var(--brand,#6b3a24)] transition-colors" style={{ fontFamily: "Georgia, serif" }}>{o.name}</h3>
                         <div className="flex items-center gap-1 text-xs text-[#2c1810]/40 mb-3"><MapPin className="w-3 h-3" /> {o.region}</div>
                         <p className="text-sm text-[#2c1810]/50 italic">{o.notes}</p>
                       </div>
-                      <div className="flex items-center justify-between mt-4 pt-4 border-t border-[#6b3a24]/10">
+                      <div className="flex items-center justify-between mt-4 pt-4 border-t border-[var(--brand,#6b3a24)]/10">
                         <div className="flex items-center gap-2">
-                          <Award className="w-4 h-4 text-[#6b3a24]" />
-                          <span className="text-sm font-bold text-[#6b3a24]">SCA {o.score}</span>
+                          <Award className="w-4 h-4 text-[var(--brand,#6b3a24)]" />
+                          <span className="text-sm font-bold text-[var(--brand,#6b3a24)]">SCA {o.score}</span>
                         </div>
-                        <ArrowRight className="w-4 h-4 text-[#6b3a24] opacity-0 group-hover:opacity-100 transition-opacity" />
+                        <ArrowRight className="w-4 h-4 text-[var(--brand,#6b3a24)] opacity-0 group-hover:opacity-100 transition-opacity" />
                       </div>
                     </div>
                   </div>
@@ -328,9 +328,9 @@ export default function TorrefieCoffeePage() {
           <div className="max-w-[1200px] mx-auto px-6 md:px-12">
             <Reveal>
               <div className="text-center mb-20">
-                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#6b3a24] block mb-4">Subscribe</span>
+                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#6b3a24)] block mb-4">Subscribe</span>
                 <h2 className="text-5xl md:text-6xl font-light tracking-tighter" style={{ fontFamily: "Georgia, serif" }}>
-                  Your <em className="text-[#6b3a24]">Plan.</em>
+                  Your <em className="text-[var(--brand,#6b3a24)]">Plan.</em>
                 </h2>
                 <p className="text-lg text-[#2c1810]/40 font-light max-w-md mx-auto mt-4">
                   Roasted to order, shipped every two weeks. Pause or cancel anytime.
@@ -344,22 +344,22 @@ export default function TorrefieCoffeePage() {
                 { name: "Maison", price: "€96", cadence: "/ bi-weekly", qty: "1kg", desc: "The full Torréfié experience. Four origins, access to pre-release lots, priority allocation.", features: ["4 origins per cycle", "Pre-release access", "Direct farmer profiles", "Free express shipping", "Private tastings"], highlight: false },
               ].map((plan, i) => (
                 <Reveal key={i} delay={i * 0.1}>
-                  <div className={`flex flex-col h-full rounded-sm border p-10 ${plan.highlight ? "bg-[#2c1810] text-[#f5f0ea] border-[#6b3a24]" : "bg-white border-[#6b3a24]/10"}`}>
-                    <div className={`text-[10px] font-bold uppercase tracking-[0.3em] mb-2 ${plan.highlight ? "text-[#c48a5a]" : "text-[#6b3a24]"}`}>{plan.qty}</div>
+                  <div className={`flex flex-col h-full rounded-sm border p-10 ${plan.highlight ? "bg-[#2c1810] text-[#f5f0ea] border-[var(--brand,#6b3a24)]" : "bg-white border-[var(--brand,#6b3a24)]/10"}`}>
+                    <div className={`text-[10px] font-bold uppercase tracking-[0.3em] mb-2 ${plan.highlight ? "text-[#c48a5a]" : "text-[var(--brand,#6b3a24)]"}`}>{plan.qty}</div>
                     <h3 className="text-2xl font-bold mb-1" style={{ fontFamily: "Georgia, serif" }}>{plan.name}</h3>
                     <div className="flex items-baseline gap-1 mb-6">
-                      <span className={`text-4xl font-black ${plan.highlight ? "text-[#c48a5a]" : "text-[#6b3a24]"}`}>{plan.price}</span>
+                      <span className={`text-4xl font-black ${plan.highlight ? "text-[#c48a5a]" : "text-[var(--brand,#6b3a24)]"}`}>{plan.price}</span>
                       <span className={`text-sm font-light ${plan.highlight ? "text-[#f5f0ea]/40" : "text-[#2c1810]/30"}`}>{plan.cadence}</span>
                     </div>
                     <p className={`text-sm leading-relaxed mb-8 ${plan.highlight ? "text-[#f5f0ea]/50" : "text-[#2c1810]/50"}`}>{plan.desc}</p>
                     <ul className="space-y-3 mb-10 flex-1">
                       {plan.features.map(f => (
                         <li key={f} className={`flex items-center gap-3 text-sm ${plan.highlight ? "text-[#f5f0ea]/70" : "text-[#2c1810]/60"}`}>
-                          <Leaf className={`w-3 h-3 shrink-0 ${plan.highlight ? "text-[#c48a5a]" : "text-[#6b3a24]"}`} /> {f}
+                          <Leaf className={`w-3 h-3 shrink-0 ${plan.highlight ? "text-[#c48a5a]" : "text-[var(--brand,#6b3a24)]"}`} /> {f}
                         </li>
                       ))}
                     </ul>
-                    <button className={`w-full py-4 font-bold text-[10px] uppercase tracking-[0.2em] rounded-full transition-all duration-500 ${plan.highlight ? "bg-[#c48a5a] text-white hover:bg-[#f5f0ea] hover:text-[#2c1810]" : "bg-[#2c1810] text-[#f5f0ea] hover:bg-[#6b3a24]"}`}>
+                    <button className={`w-full py-4 font-bold text-[10px] uppercase tracking-[0.2em] rounded-full transition-all duration-500 ${plan.highlight ? "bg-[#c48a5a] text-white hover:bg-[#f5f0ea] hover:text-[#2c1810]" : "bg-[#2c1810] text-[#f5f0ea] hover:bg-[var(--brand,#6b3a24)]"}`}>
                       Start {plan.name}
                     </button>
                   </div>

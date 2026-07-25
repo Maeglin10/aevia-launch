@@ -139,7 +139,7 @@ function Marquee({ items, speed = 40 }: { items: string[]; speed?: number }) {
       <motion.div className="flex gap-0 whitespace-nowrap" style={{ x: baseX }}>
         {doubled.map((item, i) => (
           <span key={i} className="inline-flex items-center gap-6 px-6">
-            <Heart className="w-3 h-3 text-[#DB2777] flex-shrink-0" fill="currentColor" />
+            <Heart className="w-3 h-3 text-[var(--brand,#DB2777)] flex-shrink-0" fill="currentColor" />
             <span
               className="text-[#831843]/60 text-sm tracking-[0.2em] uppercase"
               style={{ fontFamily: "'Cormorant Infant', serif" }}
@@ -308,31 +308,31 @@ const STEPS = [
     num: "01",
     title: "La Rencontre",
     desc: "Café ou visio — nous apprenons à vous connaître, votre histoire, vos rêves, votre vision de ce jour parfait. Pas de formulaires, juste une conversation sincère.",
-    icon: <Heart className="w-7 h-7 text-[#DB2777]" />,
+    icon: <Heart className="w-7 h-7 text-[var(--brand,#DB2777)]" />,
   },
   {
     num: "02",
     title: "La Vision",
     desc: "Nous construisons ensemble votre moodboard — ambiance, palette de couleurs, thème floral, atmosphère souhaitée. Votre ADN, transcrit visuellement.",
-    icon: <Star className="w-7 h-7 text-[#DB2777]" />,
+    icon: <Star className="w-7 h-7 text-[var(--brand,#DB2777)]" />,
   },
   {
     num: "03",
     title: "La Planification",
     desc: "Sélection des prestataires, négociation des contrats, planning détaillé. Vous validez à chaque étape, nous gérons l'administratif.",
-    icon: <Calendar className="w-7 h-7 text-[#DB2777]" />,
+    icon: <Calendar className="w-7 h-7 text-[var(--brand,#DB2777)]" />,
   },
   {
     num: "04",
     title: "La Répétition",
     desc: "Visite de reconnaissance du lieu, brief général des équipes, répétition de la cérémonie. Le Jour J commence ici, dans les coulisses.",
-    icon: <Users className="w-7 h-7 text-[#DB2777]" />,
+    icon: <Users className="w-7 h-7 text-[var(--brand,#DB2777)]" />,
   },
   {
     num: "05",
     title: "Le Grand Jour",
     desc: "Vous vivez votre mariage pleinement. Nous gérons tout — des imprévus aux transitions — pour que vous n'ayez qu'à vous souvenir.",
-    icon: <Award className="w-7 h-7 text-[#DB2777]" />,
+    icon: <Award className="w-7 h-7 text-[var(--brand,#DB2777)]" />,
   },
 ]
 
@@ -538,7 +538,7 @@ export default function Impact200Page() {
     >
       {/* ── Scroll Progress Bar ──────────────────────────────────── */}
       <motion.div
-        className="fixed top-0 left-0 h-[2px] bg-gradient-to-r from-[#DB2777] to-[#CA8A04] z-[1000] origin-left"
+        className="fixed top-0 left-0 h-[2px] bg-gradient-to-r from-[var(--brand,#DB2777)] to-[#CA8A04] z-[1000] origin-left"
         style={{ scaleX: scrollYProgress }}
       />
 
@@ -546,7 +546,7 @@ export default function Impact200Page() {
       <motion.nav
         className={`fixed top-0 left-0 right-0 z-[900] transition-all duration-500 ${
           scrolled
-            ? "bg-[#FDF2F8]/95 backdrop-blur-md shadow-sm shadow-[#DB2777]/10"
+            ? "bg-[#FDF2F8]/95 backdrop-blur-md shadow-sm shadow-[var(--brand,#DB2777)]/10"
             : "bg-transparent"
         }`}
         initial={{ y: -80, opacity: 0 }}
@@ -566,7 +566,7 @@ export default function Impact200Page() {
               />
             ) : (
               <>
-                <Heart className="w-5 h-5 text-[#DB2777]" fill="currentColor" />
+                <Heart className="w-5 h-5 text-[var(--brand,#DB2777)]" fill="currentColor" />
                 <span
                   className="text-4xl text-[#831843]"
                   style={{ fontFamily: "'Great Vibes', cursive" }}
@@ -581,7 +581,7 @@ export default function Impact200Page() {
               <a
                 key={item}
                 href={`#${item.toLowerCase()}`}
-                className="text-sm font-light text-[#831843]/60 hover:text-[#DB2777] transition-colors tracking-wide"
+                className="text-sm font-light text-[#831843]/60 hover:text-[var(--brand,#DB2777)] transition-colors tracking-wide"
                 style={{ fontFamily: "'Cormorant Infant', serif" }}
               >
                 {item}
@@ -593,7 +593,7 @@ export default function Impact200Page() {
           <div className="flex items-center gap-4">
             <a
               href="#contact"
-              className="hidden lg:flex items-center gap-2 bg-[#DB2777] hover:bg-[#be185d] text-white text-sm font-medium px-6 py-3 rounded-full tracking-wide transition-all shadow-lg shadow-[#DB2777]/20"
+              className="hidden lg:flex items-center gap-2 bg-[var(--brand,#DB2777)] hover:bg-[#be185d] text-white text-sm font-medium px-6 py-3 rounded-full tracking-wide transition-all shadow-lg shadow-[var(--brand,#DB2777)]/20"
               style={{ fontFamily: "'Cormorant Infant', serif" }}
             >
               Commencer
@@ -620,7 +620,7 @@ export default function Impact200Page() {
             exit={{ opacity: 0, x: "100%" }}
             transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
           >
-            <div className="px-6 h-20 flex items-center justify-between border-b border-[#DB2777]/10">
+            <div className="px-6 h-20 flex items-center justify-between border-b border-[var(--brand,#DB2777)]/10">
               {fd?.logoBase64 ? (
                 // Client logo (uploaded in the brief) replaces the placeholder mark —
                 // essential for the client to recognise their brand in the render.
@@ -645,7 +645,7 @@ export default function Impact200Page() {
                   key={item}
                   href={`#${item.toLowerCase()}`}
                   onClick={() => setMenuOpen(false)}
-                  className="text-5xl text-[#831843]/70 hover:text-[#DB2777] transition-colors border-b border-[#DB2777]/10 pb-6"
+                  className="text-5xl text-[#831843]/70 hover:text-[var(--brand,#DB2777)] transition-colors border-b border-[var(--brand,#DB2777)]/10 pb-6"
                   style={{ fontFamily: "'Great Vibes', cursive" }}
                   initial={{ opacity: 0, x: 40 }}
                   animate={{ opacity: 1, x: 0 }}
@@ -657,7 +657,7 @@ export default function Impact200Page() {
               <motion.a
                 href="#contact"
                 onClick={() => setMenuOpen(false)}
-                className="mt-4 bg-[#DB2777] text-white text-center py-5 rounded-full text-lg tracking-wide"
+                className="mt-4 bg-[var(--brand,#DB2777)] text-white text-center py-5 rounded-full text-lg tracking-wide"
                 style={{ fontFamily: "'Cormorant Infant', serif" }}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -707,9 +707,9 @@ export default function Impact200Page() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
             >
-              <Heart className="w-4 h-4 text-[#DB2777]" fill="currentColor" />
+              <Heart className="w-4 h-4 text-[var(--brand,#DB2777)]" fill="currentColor" />
               <span
-                className="text-[#DB2777] text-sm tracking-[0.15em] font-light italic"
+                className="text-[var(--brand,#DB2777)] text-sm tracking-[0.15em] font-light italic"
                 style={{ fontFamily: "'Cormorant Infant', serif" }}
               >
                 Wedding Planner · Paris & France entière
@@ -749,14 +749,14 @@ export default function Impact200Page() {
             >
               <a
                 href="#contact"
-                className="group inline-flex items-center gap-3 bg-[#DB2777] hover:bg-[#be185d] text-white font-medium px-8 py-5 rounded-full tracking-wide text-base transition-all shadow-xl shadow-[#DB2777]/30"
+                className="group inline-flex items-center gap-3 bg-[var(--brand,#DB2777)] hover:bg-[#be185d] text-white font-medium px-8 py-5 rounded-full tracking-wide text-base transition-all shadow-xl shadow-[var(--brand,#DB2777)]/30"
               >
                 Commencer notre histoire
                 <Heart className="w-4 h-4 group-hover:scale-125 transition-transform" fill="currentColor" />
               </a>
               <a
                 href="#galerie"
-                className="inline-flex items-center gap-3 border border-[#DB2777]/30 hover:border-[#DB2777] text-[#831843] hover:text-[#DB2777] font-medium px-8 py-5 rounded-full tracking-wide text-base transition-all"
+                className="inline-flex items-center gap-3 border border-[var(--brand,#DB2777)]/30 hover:border-[var(--brand,#DB2777)] text-[#831843] hover:text-[var(--brand,#DB2777)] font-medium px-8 py-5 rounded-full tracking-wide text-base transition-all"
               >
                 Voir nos mariages
                 <ChevronRight className="w-4 h-4" />
@@ -765,7 +765,7 @@ export default function Impact200Page() {
 
             {/* Stats */}
             <motion.div
-              className="flex gap-10 mt-14 pt-10 border-t border-[#DB2777]/10"
+              className="flex gap-10 mt-14 pt-10 border-t border-[var(--brand,#DB2777)]/10"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 1, delay: 1.1 }}
@@ -777,7 +777,7 @@ export default function Impact200Page() {
               ].map((stat) => (
                 <div key={stat.label}>
                   <p
-                    className="text-3xl text-[#DB2777] font-semibold"
+                    className="text-3xl text-[var(--brand,#DB2777)] font-semibold"
                     style={{ fontFamily: "'Playfair Display', serif" }}
                   >
                     {stat.val}
@@ -800,7 +800,7 @@ export default function Impact200Page() {
               transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
             >
               <div className="relative w-full max-w-sm mx-auto">
-                <div className="aspect-[4/5] relative rounded-3xl overflow-hidden shadow-2xl shadow-[#DB2777]/20">
+                <div className="aspect-[4/5] relative rounded-3xl overflow-hidden shadow-2xl shadow-[var(--brand,#DB2777)]/20">
                   <Image
                     src={photo(1, "https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=600&q=80")}
                     alt="Mariage romantique"
@@ -810,9 +810,9 @@ export default function Impact200Page() {
                 </div>
 
                 {/* Glass badge */}
-                <div className="absolute -bottom-6 -left-6 bg-white/90 backdrop-blur-sm rounded-2xl p-4 shadow-xl border border-[#DB2777]/10">
+                <div className="absolute -bottom-6 -left-6 bg-white/90 backdrop-blur-sm rounded-2xl p-4 shadow-xl border border-[var(--brand,#DB2777)]/10">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-[#DB2777]/10 rounded-full flex items-center justify-center">
+                    <div className="w-10 h-10 bg-[var(--brand,#DB2777)]/10 rounded-full flex items-center justify-center">
                       <Star className="w-5 h-5 text-[#CA8A04]" fill="currentColor" />
                     </div>
                     <div>
@@ -833,7 +833,7 @@ export default function Impact200Page() {
       </section>
 
       {/* ── MARQUEE ─────────────────────────────────────────────── */}
-      <section className="py-8 bg-white/60 border-y border-[#DB2777]/10 overflow-hidden">
+      <section className="py-8 bg-white/60 border-y border-[var(--brand,#DB2777)]/10 overflow-hidden">
         <Marquee items={MARQUEE_ITEMS} speed={35} />
       </section>
 
@@ -842,9 +842,9 @@ export default function Impact200Page() {
         <div className="max-w-7xl mx-auto px-6">
           <Reveal>
             <div className="flex items-center gap-4 mb-6">
-              <Heart className="w-4 h-4 text-[#DB2777]" fill="currentColor" />
+              <Heart className="w-4 h-4 text-[var(--brand,#DB2777)]" fill="currentColor" />
               <span
-                className="text-[#DB2777] text-sm tracking-[0.2em] italic font-light"
+                className="text-[var(--brand,#DB2777)] text-sm tracking-[0.2em] italic font-light"
                 style={{ fontFamily: "'Cormorant Infant', serif" }}
               >
                 Ce que nous faisons pour vous
@@ -857,7 +857,7 @@ export default function Impact200Page() {
               Nos Services
             </h2>
             <h3
-              className="text-[clamp(2rem,5vw,4rem)] text-[#DB2777] mb-6 leading-none"
+              className="text-[clamp(2rem,5vw,4rem)] text-[var(--brand,#DB2777)] mb-6 leading-none"
               style={{ fontFamily: "'Great Vibes', cursive" }}
             >{c?.aboutTitle ?? fd?.businessName ?? <>
               avec amour
@@ -874,7 +874,7 @@ export default function Impact200Page() {
             {SERVICES.map((service, i) => (
               <Reveal key={service.title} delay={i * 0.1}>
                 <motion.div
-                  className="group bg-white/80 backdrop-blur-sm rounded-3xl overflow-hidden border border-[#DB2777]/10 hover:border-[#DB2777]/30 transition-all duration-500 shadow-sm hover:shadow-xl hover:shadow-[#DB2777]/10"
+                  className="group bg-white/80 backdrop-blur-sm rounded-3xl overflow-hidden border border-[var(--brand,#DB2777)]/10 hover:border-[var(--brand,#DB2777)]/30 transition-all duration-500 shadow-sm hover:shadow-xl hover:shadow-[var(--brand,#DB2777)]/10"
                   whileHover={{ y: -6 }}
                 >
                   <div className="relative h-52 overflow-hidden">
@@ -885,7 +885,7 @@ export default function Impact200Page() {
                       className="object-cover transition-transform duration-700 group-hover:scale-105"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent" />
-                    <div className="absolute top-4 right-4 w-10 h-10 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center text-[#DB2777]">
+                    <div className="absolute top-4 right-4 w-10 h-10 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center text-[var(--brand,#DB2777)]">
                       {service.icon}
                     </div>
                   </div>
@@ -908,7 +908,7 @@ export default function Impact200Page() {
                     >
                       {service.desc}
                     </p>
-                    <div className="flex items-center gap-2 mt-4 text-[#DB2777] text-xs tracking-wider opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <div className="flex items-center gap-2 mt-4 text-[var(--brand,#DB2777)] text-xs tracking-wider opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                       <span>En savoir plus</span>
                       <ChevronRight className="w-3 h-3" />
                     </div>
@@ -925,9 +925,9 @@ export default function Impact200Page() {
         <div className="max-w-7xl mx-auto px-6">
           <Reveal>
             <div className="flex items-center gap-4 mb-6">
-              <Heart className="w-4 h-4 text-[#DB2777]" fill="currentColor" />
+              <Heart className="w-4 h-4 text-[var(--brand,#DB2777)]" fill="currentColor" />
               <span
-                className="text-[#DB2777] text-sm tracking-[0.2em] italic font-light"
+                className="text-[var(--brand,#DB2777)] text-sm tracking-[0.2em] italic font-light"
                 style={{ fontFamily: "'Cormorant Infant', serif" }}
               >
                 Nos plus belles histoires
@@ -940,7 +940,7 @@ export default function Impact200Page() {
               La Galerie
             </h2>
             <h3
-              className="text-[clamp(2rem,5vw,4rem)] text-[#DB2777] mb-16 leading-none"
+              className="text-[clamp(2rem,5vw,4rem)] text-[var(--brand,#DB2777)] mb-16 leading-none"
               style={{ fontFamily: "'Great Vibes', cursive" }}
             >
               de souvenirs
@@ -991,9 +991,9 @@ export default function Impact200Page() {
         <div className="max-w-7xl mx-auto px-6">
           <Reveal>
             <div className="flex items-center gap-4 mb-6">
-              <Heart className="w-4 h-4 text-[#DB2777]" fill="currentColor" />
+              <Heart className="w-4 h-4 text-[var(--brand,#DB2777)]" fill="currentColor" />
               <span
-                className="text-[#DB2777] text-sm tracking-[0.2em] italic font-light"
+                className="text-[var(--brand,#DB2777)] text-sm tracking-[0.2em] italic font-light"
                 style={{ fontFamily: "'Cormorant Infant', serif" }}
               >
                 Formules & tarifs
@@ -1006,7 +1006,7 @@ export default function Impact200Page() {
               Nos Packages
             </h2>
             <h3
-              className="text-[clamp(2rem,5vw,4rem)] text-[#DB2777] mb-6 leading-none"
+              className="text-[clamp(2rem,5vw,4rem)] text-[var(--brand,#DB2777)] mb-6 leading-none"
               style={{ fontFamily: "'Great Vibes', cursive" }}
             >
               à votre image
@@ -1026,7 +1026,7 @@ export default function Impact200Page() {
                   className={`relative rounded-3xl p-8 flex flex-col transition-all duration-500 ${
                     pkg.highlight
                       ? "bg-[#831843] text-white shadow-2xl shadow-[#831843]/30 scale-[1.02]"
-                      : "bg-white/80 backdrop-blur-sm border border-[#DB2777]/10 hover:border-[#DB2777]/30 hover:shadow-xl hover:shadow-[#DB2777]/10"
+                      : "bg-white/80 backdrop-blur-sm border border-[var(--brand,#DB2777)]/10 hover:border-[var(--brand,#DB2777)]/30 hover:shadow-xl hover:shadow-[var(--brand,#DB2777)]/10"
                   }`}
                 >
                   {pkg.highlight && (
@@ -1045,7 +1045,7 @@ export default function Impact200Page() {
                       {pkg.name}
                     </h3>
                     <p
-                      className={`text-4xl font-bold mb-2 ${pkg.highlight ? "text-[#CA8A04]" : "text-[#DB2777]"}`}
+                      className={`text-4xl font-bold mb-2 ${pkg.highlight ? "text-[#CA8A04]" : "text-[var(--brand,#DB2777)]"}`}
                       style={{ fontFamily: "'Playfair Display', serif" }}
                     >
                       {pkg.price}
@@ -1063,11 +1063,11 @@ export default function Impact200Page() {
                       <li key={feat} className="flex items-start gap-3">
                         <div
                           className={`w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 ${
-                            pkg.highlight ? "bg-[#CA8A04]/20" : "bg-[#DB2777]/10"
+                            pkg.highlight ? "bg-[#CA8A04]/20" : "bg-[var(--brand,#DB2777)]/10"
                           }`}
                         >
                           <Check
-                            className={`w-3 h-3 ${pkg.highlight ? "text-[#CA8A04]" : "text-[#DB2777]"}`}
+                            className={`w-3 h-3 ${pkg.highlight ? "text-[#CA8A04]" : "text-[var(--brand,#DB2777)]"}`}
                           />
                         </div>
                         <span
@@ -1085,7 +1085,7 @@ export default function Impact200Page() {
                     className={`text-center py-4 rounded-full text-sm font-medium tracking-wide transition-all flex items-center justify-center gap-2 ${
                       pkg.highlight
                         ? "bg-[#CA8A04] hover:bg-[#b45309] text-white shadow-lg shadow-[#CA8A04]/30"
-                        : "bg-[#DB2777] hover:bg-[#be185d] text-white"
+                        : "bg-[var(--brand,#DB2777)] hover:bg-[#be185d] text-white"
                     }`}
                   >
                     {pkg.cta}
@@ -1103,9 +1103,9 @@ export default function Impact200Page() {
         <div className="max-w-6xl mx-auto px-6">
           <Reveal>
             <div className="flex items-center gap-4 mb-6">
-              <Heart className="w-4 h-4 text-[#DB2777]" fill="currentColor" />
+              <Heart className="w-4 h-4 text-[var(--brand,#DB2777)]" fill="currentColor" />
               <span
-                className="text-[#DB2777] text-sm tracking-[0.2em] italic font-light"
+                className="text-[var(--brand,#DB2777)] text-sm tracking-[0.2em] italic font-light"
                 style={{ fontFamily: "'Cormorant Infant', serif" }}
               >
                 Comment nous travaillons
@@ -1118,7 +1118,7 @@ export default function Impact200Page() {
               Notre Processus
             </h2>
             <h3
-              className="text-[clamp(2rem,5vw,4rem)] text-[#DB2777] mb-16 leading-none"
+              className="text-[clamp(2rem,5vw,4rem)] text-[var(--brand,#DB2777)] mb-16 leading-none"
               style={{ fontFamily: "'Great Vibes', cursive" }}
             >
               en cinq étapes
@@ -1128,14 +1128,14 @@ export default function Impact200Page() {
           <div className="space-y-6">
             {STEPS.map((step, i) => (
               <Reveal key={step.num} delay={i * 0.08}>
-                <div className="group grid md:grid-cols-[80px_1fr] gap-6 bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-[#DB2777]/10 hover:border-[#DB2777]/30 transition-all duration-500 hover:shadow-lg hover:shadow-[#DB2777]/10">
+                <div className="group grid md:grid-cols-[80px_1fr] gap-6 bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-[var(--brand,#DB2777)]/10 hover:border-[var(--brand,#DB2777)]/30 transition-all duration-500 hover:shadow-lg hover:shadow-[var(--brand,#DB2777)]/10">
                   {/* Step number */}
                   <div className="flex flex-col items-center gap-2">
-                    <div className="w-16 h-16 bg-[#FDF2F8] group-hover:bg-[#DB2777]/10 rounded-full flex items-center justify-center transition-colors duration-300">
+                    <div className="w-16 h-16 bg-[#FDF2F8] group-hover:bg-[var(--brand,#DB2777)]/10 rounded-full flex items-center justify-center transition-colors duration-300">
                       {step.icon}
                     </div>
                     <span
-                      className="text-[#DB2777]/30 text-xs font-semibold tracking-widest"
+                      className="text-[var(--brand,#DB2777)]/30 text-xs font-semibold tracking-widest"
                     >
                       {step.num}
                     </span>
@@ -1168,9 +1168,9 @@ export default function Impact200Page() {
         <div className="max-w-5xl mx-auto px-6">
           <Reveal>
             <div className="flex items-center gap-4 mb-6">
-              <Heart className="w-4 h-4 text-[#DB2777]" fill="currentColor" />
+              <Heart className="w-4 h-4 text-[var(--brand,#DB2777)]" fill="currentColor" />
               <span
-                className="text-[#DB2777] text-sm tracking-[0.2em] italic font-light"
+                className="text-[var(--brand,#DB2777)] text-sm tracking-[0.2em] italic font-light"
                 style={{ fontFamily: "'Cormorant Infant', serif" }}
               >
                 Ils nous font confiance
@@ -1183,7 +1183,7 @@ export default function Impact200Page() {
               Témoignages
             </h2>
             <h3
-              className="text-[clamp(2rem,5vw,4rem)] text-[#DB2777] mb-16 leading-none"
+              className="text-[clamp(2rem,5vw,4rem)] text-[var(--brand,#DB2777)] mb-16 leading-none"
               style={{ fontFamily: "'Great Vibes', cursive" }}
             >
               de couples heureux
@@ -1198,7 +1198,7 @@ export default function Impact200Page() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -30 }}
               transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-              className="bg-white/80 backdrop-blur-sm rounded-3xl p-10 md:p-14 border border-[#DB2777]/10 shadow-xl shadow-[#DB2777]/5 mb-8"
+              className="bg-white/80 backdrop-blur-sm rounded-3xl p-10 md:p-14 border border-[var(--brand,#DB2777)]/10 shadow-xl shadow-[var(--brand,#DB2777)]/5 mb-8"
             >
               {/* Stars */}
               <div className="flex items-center gap-1 mb-6">
@@ -1215,7 +1215,7 @@ export default function Impact200Page() {
               </blockquote>
 
               <div className="flex items-center gap-4">
-                <div className="relative w-12 h-12 rounded-full overflow-hidden border-2 border-[#DB2777]/20">
+                <div className="relative w-12 h-12 rounded-full overflow-hidden border-2 border-[var(--brand,#DB2777)]/20">
                   <Image
                     src={TESTIMONIALS[activeTestimonial].image}
                     alt={TESTIMONIALS[activeTestimonial].names}
@@ -1254,8 +1254,8 @@ export default function Impact200Page() {
                 onClick={() => setActiveTestimonial(i)}
                 className={`rounded-full transition-all duration-300 ${
                   activeTestimonial === i
-                    ? "w-8 h-2 bg-[#DB2777]"
-                    : "w-2 h-2 bg-[#DB2777]/20 hover:bg-[#DB2777]/40"
+                    ? "w-8 h-2 bg-[var(--brand,#DB2777)]"
+                    : "w-2 h-2 bg-[var(--brand,#DB2777)]/20 hover:bg-[var(--brand,#DB2777)]/40"
                 }`}
                 aria-label={`Testimonial ${i + 1}`}
               />
@@ -1270,12 +1270,12 @@ export default function Impact200Page() {
                 onClick={() => setActiveTestimonial(i)}
                 className={`group relative overflow-hidden rounded-2xl p-4 border text-left transition-all duration-300 ${
                   activeTestimonial === i
-                    ? "border-[#DB2777]/50 bg-[#DB2777]/5"
-                    : "border-[#DB2777]/10 bg-white/60 hover:border-[#DB2777]/30"
+                    ? "border-[var(--brand,#DB2777)]/50 bg-[var(--brand,#DB2777)]/5"
+                    : "border-[var(--brand,#DB2777)]/10 bg-white/60 hover:border-[var(--brand,#DB2777)]/30"
                 }`}
               >
                 <p
-                  className={`text-sm font-semibold mb-0.5 ${activeTestimonial === i ? "text-[#DB2777]" : "text-[#831843]"}`}
+                  className={`text-sm font-semibold mb-0.5 ${activeTestimonial === i ? "text-[var(--brand,#DB2777)]" : "text-[#831843]"}`}
                   style={{ fontFamily: "'Playfair Display', serif" }}
                 >
                   {t.names}
@@ -1293,7 +1293,7 @@ export default function Impact200Page() {
       </section>
 
       {/* ── PARTENAIRES ───────────────────────────────────────────── */}
-      <section className="py-16 bg-white/40 border-y border-[#DB2777]/10">
+      <section className="py-16 bg-white/40 border-y border-[var(--brand,#DB2777)]/10">
         <div className="max-w-7xl mx-auto px-6">
           <Reveal>
             <p
@@ -1314,9 +1314,9 @@ export default function Impact200Page() {
             {/* Left */}
             <RevealLeft>
               <div className="flex items-center gap-4 mb-6">
-                <Heart className="w-4 h-4 text-[#DB2777]" fill="currentColor" />
+                <Heart className="w-4 h-4 text-[var(--brand,#DB2777)]" fill="currentColor" />
                 <span
-                  className="text-[#DB2777] text-sm tracking-[0.2em] italic font-light"
+                  className="text-[var(--brand,#DB2777)] text-sm tracking-[0.2em] italic font-light"
                   style={{ fontFamily: "'Cormorant Infant', serif" }}
                 >
                   Parlons de votre mariage
@@ -1329,7 +1329,7 @@ export default function Impact200Page() {
                 Commençons
               </h2>
               <h3
-                className="text-[clamp(2rem,5vw,4rem)] text-[#DB2777] mb-8 leading-none"
+                className="text-[clamp(2rem,5vw,4rem)] text-[var(--brand,#DB2777)] mb-8 leading-none"
                 style={{ fontFamily: "'Great Vibes', cursive" }}
               >
                 votre histoire
@@ -1371,7 +1371,7 @@ export default function Impact200Page() {
                   },
                 ].map((item) => (
                   <div key={item.label} className="flex items-start gap-4">
-                    <div className="text-[#DB2777] mt-0.5 flex-shrink-0">{item.icon}</div>
+                    <div className="text-[var(--brand,#DB2777)] mt-0.5 flex-shrink-0">{item.icon}</div>
                     <div>
                       <p className="text-[#831843]/40 text-xs tracking-wider uppercase mb-0.5 font-medium">{item.label}</p>
                       <p
@@ -1403,7 +1403,7 @@ export default function Impact200Page() {
 
             {/* Right: Form */}
             <RevealRight>
-              <div className="bg-white/90 backdrop-blur-sm rounded-3xl border border-[#DB2777]/10 shadow-2xl shadow-[#DB2777]/5 p-8 md:p-10">
+              <div className="bg-white/90 backdrop-blur-sm rounded-3xl border border-[var(--brand,#DB2777)]/10 shadow-2xl shadow-[var(--brand,#DB2777)]/5 p-8 md:p-10">
                 {formSent ? (
                   <motion.div
                     className="flex flex-col items-center justify-center h-80 text-center"
@@ -1411,8 +1411,8 @@ export default function Impact200Page() {
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.5 }}
                   >
-                    <div className="w-20 h-20 bg-[#DB2777]/10 rounded-full flex items-center justify-center mb-6">
-                      <Heart className="w-10 h-10 text-[#DB2777]" fill="currentColor" />
+                    <div className="w-20 h-20 bg-[var(--brand,#DB2777)]/10 rounded-full flex items-center justify-center mb-6">
+                      <Heart className="w-10 h-10 text-[var(--brand,#DB2777)]" fill="currentColor" />
                     </div>
                     <h3
                       className="text-3xl text-[#831843] mb-3"
@@ -1454,7 +1454,7 @@ export default function Impact200Page() {
                           required
                           value={formData.names}
                           onChange={(e) => setFormData({ ...formData, names: e.target.value })}
-                          className="w-full bg-[#FDF2F8] border border-[#DB2777]/20 focus:border-[#DB2777] text-[#831843] text-sm px-4 py-3 rounded-xl outline-none transition-colors"
+                          className="w-full bg-[#FDF2F8] border border-[var(--brand,#DB2777)]/20 focus:border-[var(--brand,#DB2777)] text-[#831843] text-sm px-4 py-3 rounded-xl outline-none transition-colors"
                           placeholder="Sophie & Antoine"
                           style={{ fontFamily: "'Cormorant Infant', serif" }}
                         />
@@ -1467,7 +1467,7 @@ export default function Impact200Page() {
                           type="tel"
                           value={formData.phone}
                           onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                          className="w-full bg-[#FDF2F8] border border-[#DB2777]/20 focus:border-[#DB2777] text-[#831843] text-sm px-4 py-3 rounded-xl outline-none transition-colors"
+                          className="w-full bg-[#FDF2F8] border border-[var(--brand,#DB2777)]/20 focus:border-[var(--brand,#DB2777)] text-[#831843] text-sm px-4 py-3 rounded-xl outline-none transition-colors"
                           placeholder="+33 6 00 00 00 00"
                           style={{ fontFamily: "'Cormorant Infant', serif" }}
                         />
@@ -1483,7 +1483,7 @@ export default function Impact200Page() {
                         required
                         value={formData.email}
                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                        className="w-full bg-[#FDF2F8] border border-[#DB2777]/20 focus:border-[#DB2777] text-[#831843] text-sm px-4 py-3 rounded-xl outline-none transition-colors"
+                        className="w-full bg-[#FDF2F8] border border-[var(--brand,#DB2777)]/20 focus:border-[var(--brand,#DB2777)] text-[#831843] text-sm px-4 py-3 rounded-xl outline-none transition-colors"
                         placeholder="couple@example.com"
                         style={{ fontFamily: "'Cormorant Infant', serif" }}
                       />
@@ -1498,7 +1498,7 @@ export default function Impact200Page() {
                           type="date"
                           value={formData.date}
                           onChange={(e) => setFormData({ ...formData, date: e.target.value })}
-                          className="w-full bg-[#FDF2F8] border border-[#DB2777]/20 focus:border-[#DB2777] text-[#831843] text-sm px-4 py-3 rounded-xl outline-none transition-colors"
+                          className="w-full bg-[#FDF2F8] border border-[var(--brand,#DB2777)]/20 focus:border-[var(--brand,#DB2777)] text-[#831843] text-sm px-4 py-3 rounded-xl outline-none transition-colors"
                           style={{ fontFamily: "'Cormorant Infant', serif" }}
                         />
                       </div>
@@ -1509,7 +1509,7 @@ export default function Impact200Page() {
                         <select
                           value={formData.guests}
                           onChange={(e) => setFormData({ ...formData, guests: e.target.value })}
-                          className="w-full bg-[#FDF2F8] border border-[#DB2777]/20 focus:border-[#DB2777] text-[#831843] text-sm px-4 py-3 rounded-xl outline-none transition-colors"
+                          className="w-full bg-[#FDF2F8] border border-[var(--brand,#DB2777)]/20 focus:border-[var(--brand,#DB2777)] text-[#831843] text-sm px-4 py-3 rounded-xl outline-none transition-colors"
                           style={{ fontFamily: "'Cormorant Infant', serif" }}
                         >
                           <option value="">Estimé</option>
@@ -1528,7 +1528,7 @@ export default function Impact200Page() {
                       <select
                         value={formData.package}
                         onChange={(e) => setFormData({ ...formData, package: e.target.value })}
-                        className="w-full bg-[#FDF2F8] border border-[#DB2777]/20 focus:border-[#DB2777] text-[#831843] text-sm px-4 py-3 rounded-xl outline-none transition-colors"
+                        className="w-full bg-[#FDF2F8] border border-[var(--brand,#DB2777)]/20 focus:border-[var(--brand,#DB2777)] text-[#831843] text-sm px-4 py-3 rounded-xl outline-none transition-colors"
                         style={{ fontFamily: "'Cormorant Infant', serif" }}
                       >
                         <option value="">Choisir une formule</option>
@@ -1549,7 +1549,7 @@ export default function Impact200Page() {
                         rows={4}
                         value={formData.message}
                         onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                        className="w-full bg-[#FDF2F8] border border-[#DB2777]/20 focus:border-[#DB2777] text-[#831843] text-sm px-4 py-3 rounded-xl outline-none transition-colors resize-none"
+                        className="w-full bg-[#FDF2F8] border border-[var(--brand,#DB2777)]/20 focus:border-[var(--brand,#DB2777)] text-[#831843] text-sm px-4 py-3 rounded-xl outline-none transition-colors resize-none"
                         placeholder="Lieu de rêve, ambiance, thème, quelques mots sur votre histoire..."
                         style={{ fontFamily: "'Cormorant Infant', serif" }}
                       />
@@ -1557,7 +1557,7 @@ export default function Impact200Page() {
 
                     <button
                       type="submit"
-                      className="w-full bg-[#DB2777] hover:bg-[#be185d] text-white font-medium py-5 rounded-full tracking-wide text-base transition-all shadow-xl shadow-[#DB2777]/30 flex items-center justify-center gap-2"
+                      className="w-full bg-[var(--brand,#DB2777)] hover:bg-[#be185d] text-white font-medium py-5 rounded-full tracking-wide text-base transition-all shadow-xl shadow-[var(--brand,#DB2777)]/30 flex items-center justify-center gap-2"
                       style={{ fontFamily: "'Cormorant Infant', serif" }}
                     >
                       Commencer notre histoire
@@ -1584,7 +1584,7 @@ export default function Impact200Page() {
           <div className="flex flex-col md:flex-row items-center justify-between gap-8">
             <div className="flex flex-col items-center md:items-start gap-2">
               <div className="flex items-center gap-2">
-                <Heart className="w-4 h-4 text-[#DB2777]" fill="currentColor" />
+                <Heart className="w-4 h-4 text-[var(--brand,#DB2777)]" fill="currentColor" />
                 <span
                   className="text-3xl text-white/90"
                   style={{ fontFamily: "'Great Vibes', cursive" }}

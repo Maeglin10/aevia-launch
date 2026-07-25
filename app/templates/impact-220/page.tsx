@@ -41,7 +41,7 @@ const T = {
   navy:       '#0a0e17',
   navySoft:   '#0e1420',
   navyCard:   '#121926',
-  border:     '#1e2637',
+  border:     'var(--brand,#1e2637)',
   borderGold: '#2e2510',
   gold:       '#c9a24b',
   goldBright: '#e3bd6a',

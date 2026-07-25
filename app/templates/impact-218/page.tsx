@@ -41,7 +41,7 @@ function shadeColor(hex: string, percent: number): string {
 }
 
 let C: Record<string, string> = {
-  burgundy: '#3a0d1c',
+  burgundy: 'var(--brand,#3a0d1c)',
   burgundyDeep: '#270a13',
   burgundyMid: '#561627',
   cream: '#f4ece0',

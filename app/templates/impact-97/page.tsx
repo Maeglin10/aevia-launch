@@ -244,7 +244,7 @@ export default function HorizonYachtPage() {
   }, []);
 
   return (
-    <div className="premium-theme min-h-dvh bg-[#020a13] text-[#f4f4f4] font-sans selection:bg-[#c5a059] selection:text-white overflow-x-hidden">
+    <div className="premium-theme min-h-dvh bg-[#020a13] text-[#f4f4f4] font-sans selection:bg-[var(--brand,#c5a059)] selection:text-white overflow-x-hidden">
       {/* ── NAVIGATION ── */}
       <nav
         className={`fixed top-0 left-0 w-full z-50 transition-all duration-700 ${scrolled ? "bg-[#020a13]/90 backdrop-blur-2xl py-4 border-b border-white/5" : "bg-transparent py-8"}`}
@@ -259,14 +259,14 @@ export default function HorizonYachtPage() {
               />
             ) : (
               <>
-                <div className="w-12 h-12 border border-[#c5a059] rounded-full flex items-center justify-center text-[#c5a059] group-hover:bg-[#c5a059] group-hover:text-[#020a13] transition-all duration-500">
+                <div className="w-12 h-12 border border-[var(--brand,#c5a059)] rounded-full flex items-center justify-center text-[var(--brand,#c5a059)] group-hover:bg-[var(--brand,#c5a059)] group-hover:text-[#020a13] transition-all duration-500">
                   <Compass className="w-6 h-6" />
                 </div>
                 <div className="flex flex-col">
                   <span className="text-2xl font-black tracking-tighter uppercase leading-none italic">
                     Horizon
                   </span>
-                  <span className="text-[8px] font-bold uppercase tracking-[0.5em] text-[#c5a059] -mt-1 ml-1">
+                  <span className="text-[8px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#c5a059)] -mt-1 ml-1">
                     Maritime Group
                   </span>
                 </div>
@@ -285,7 +285,7 @@ export default function HorizonYachtPage() {
               <Link
                 key={link}
                 href="#fleet"
-                className="hover:text-[#c5a059] transition-colors cursor-pointer"
+                className="hover:text-[var(--brand,#c5a059)] transition-colors cursor-pointer"
               >
                 {link}
               </Link>
@@ -294,16 +294,16 @@ export default function HorizonYachtPage() {
 
           <div className="flex items-center gap-8">
             <button className="hidden md:flex items-center gap-3 group">
-              <span className="text-[10px] font-bold uppercase tracking-widest text-white/60 group-hover:text-[#c5a059] transition-colors">
+              <span className="text-[10px] font-bold uppercase tracking-widest text-white/60 group-hover:text-[var(--brand,#c5a059)] transition-colors">
                 Client_Login
               </span>
-              <div className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center text-white/40 group-hover:bg-[#c5a059] group-hover:text-[#020a13] group-hover:border-[#c5a059] transition-all">
+              <div className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center text-white/40 group-hover:bg-[var(--brand,#c5a059)] group-hover:text-[#020a13] group-hover:border-[var(--brand,#c5a059)] transition-all">
                 <ShieldCheck className="w-4 h-4" />
               </div>
             </button>
             <button
               onClick={() => setMenuOpen(true)}
-              className="lg:hidden text-[#c5a059]"
+              className="lg:hidden text-[var(--brand,#c5a059)]"
             >
               <Menu className="w-6 h-6" />
             </button>
@@ -322,7 +322,7 @@ export default function HorizonYachtPage() {
           >
             <button
               onClick={() => setMenuOpen(false)}
-              className="absolute top-10 right-8 text-[#c5a059]"
+              className="absolute top-10 right-8 text-[var(--brand,#c5a059)]"
             >
               <X className="w-10 h-10" />
             </button>
@@ -332,7 +332,7 @@ export default function HorizonYachtPage() {
                   key={l}
                   href="#fleet"
                   onClick={() => setMenuOpen(false)}
-                  className="hover:text-[#c5a059] transition-colors"
+                  className="hover:text-[var(--brand,#c5a059)] transition-colors"
                 >
                   {l}
                 </Link>
@@ -357,19 +357,19 @@ export default function HorizonYachtPage() {
 
         <div className="relative z-10 max-w-[1600px] mx-auto px-6 md:px-12 w-full grid grid-cols-1 lg:grid-cols-2 items-center">
           <Reveal>
-            <Badge className="bg-[#c5a059]/10 text-[#c5a059] border border-[#c5a059]/30 text-[10px] font-bold uppercase tracking-[0.5em] mb-10 px-4 py-1.5 rounded-full">
+            <Badge className="bg-[var(--brand,#c5a059)]/10 text-[var(--brand,#c5a059)] border border-[var(--brand,#c5a059)]/30 text-[10px] font-bold uppercase tracking-[0.5em] mb-10 px-4 py-1.5 rounded-full">
               Global Maritime Excellence // Est. 1988
             </Badge>
             <h1 className="text-8xl md:text-[12rem] font-black leading-[0.8] tracking-tighter mb-12 uppercase text-white italic">{c?.heroHeadline ?? <>
               Mastering <br />{" "}
-              <span className="text-[#c5a059] not-italic">The Deep.</span>
+              <span className="text-[var(--brand,#c5a059)] not-italic">The Deep.</span>
             </>}</h1>
             <p className="max-w-md text-lg text-white/50 leading-relaxed font-light mb-12 uppercase tracking-widest italic">{c?.heroSubline ?? fd?.tagline ?? <>
               The world's most exclusive superyacht fleet, curated for the
               modern navigator.
             </>}</p>
             <div className="flex flex-col sm:flex-row gap-6">
-              <MagneticBtn className="px-12 py-5 bg-[#c5a059] text-[#020a13] text-[10px] font-black uppercase tracking-[0.3em] rounded-full hover:scale-105 transition-all cursor-pointer">
+              <MagneticBtn className="px-12 py-5 bg-[var(--brand,#c5a059)] text-[#020a13] text-[10px] font-black uppercase tracking-[0.3em] rounded-full hover:scale-105 transition-all cursor-pointer">
                 View Current Fleet
               </MagneticBtn>
               <Link
@@ -399,7 +399,7 @@ export default function HorizonYachtPage() {
             {STATS.map((stat, i) => (
               <Reveal key={i} delay={i * 0.1}>
                 <div className="text-center md:text-left">
-                  <div className="text-[9px] font-bold uppercase tracking-[0.3em] text-[#c5a059] mb-2">
+                  <div className="text-[9px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#c5a059)] mb-2">
                     {stat.label}
                   </div>
                   <div className="text-5xl font-black italic text-white">
@@ -419,7 +419,7 @@ export default function HorizonYachtPage() {
             <div className="flex flex-col md:flex-row justify-between items-end mb-24 gap-12">
               <div>
                 <h2 className="text-7xl md:text-[10rem] font-black italic tracking-tighter leading-none mb-6 uppercase text-white">
-                  The <br /> <span className="text-[#c5a059]">Vessels.</span>
+                  The <br /> <span className="text-[var(--brand,#c5a059)]">Vessels.</span>
                 </h2>
                 <p className="text-white/20 text-[10px] font-bold uppercase tracking-[0.4em]">
                   Charter Manifest // Global Availability // Summer 2024
@@ -427,7 +427,7 @@ export default function HorizonYachtPage() {
               </div>
               <Link
                 href="#fleet"
-                className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#c5a059] border-b border-[#c5a059] pb-2 hover:text-white hover:border-white transition-all"
+                className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#c5a059)] border-b border-[var(--brand,#c5a059)] pb-2 hover:text-white hover:border-white transition-all"
               >
                 Download Full Deck
               </Link>
@@ -463,7 +463,7 @@ export default function HorizonYachtPage() {
                           initial={{ opacity: 0 }}
                           animate={{ opacity: 1 }}
                           exit={{ opacity: 0 }}
-                          className="absolute inset-0 flex items-center justify-center bg-[#c5a059]/10 backdrop-blur-[2px]"
+                          className="absolute inset-0 flex items-center justify-center bg-[var(--brand,#c5a059)]/10 backdrop-blur-[2px]"
                         >
                           <button className="px-10 py-4 bg-white text-[#020a13] text-[10px] font-black uppercase tracking-widest hover:scale-110 transition-all shadow-2xl">
                             Explore Deck
@@ -474,7 +474,7 @@ export default function HorizonYachtPage() {
                   </div>
                   <div className="space-y-6">
                     <div className="flex justify-between items-baseline">
-                      <h3 className="text-4xl font-black uppercase tracking-tighter text-white italic group-hover:text-[#c5a059] transition-colors">
+                      <h3 className="text-4xl font-black uppercase tracking-tighter text-white italic group-hover:text-[var(--brand,#c5a059)] transition-colors">
                         {item.name}
                       </h3>
                       <span className="text-[10px] font-bold uppercase tracking-widest text-white/20 group-hover:text-white/60 transition-colors">
@@ -485,11 +485,11 @@ export default function HorizonYachtPage() {
                       {item.desc}
                     </p>
                     <div className="flex items-center gap-4">
-                      <span className="text-lg font-black text-[#c5a059] tracking-tighter">
+                      <span className="text-lg font-black text-[var(--brand,#c5a059)] tracking-tighter">
                         {item.price}
                       </span>
                       <div className="h-[1px] flex-1 bg-white/5" />
-                      <Anchor className="w-5 h-5 text-white/10 group-hover:text-[#c5a059] transition-all" />
+                      <Anchor className="w-5 h-5 text-white/10 group-hover:text-[var(--brand,#c5a059)] transition-all" />
                     </div>
                   </div>
                 </div>
@@ -501,16 +501,16 @@ export default function HorizonYachtPage() {
 
       {/* ── MARITIME SERVICES ── */}
       <section id="services" className="py-40 bg-[#03101d] overflow-hidden relative">
-        <div className="absolute -top-32 -right-32 w-[40rem] h-[40rem] bg-[#c5a059]/5 blur-[120px] rounded-full" />
+        <div className="absolute -top-32 -right-32 w-[40rem] h-[40rem] bg-[var(--brand,#c5a059)]/5 blur-[120px] rounded-full" />
         <div className="max-w-[1600px] mx-auto px-6 md:px-12">
           <Reveal>
             <div className="text-center mb-32">
-              <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#c5a059] mb-8 block">
+              <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#c5a059)] mb-8 block">
                 Operational Mastery
               </span>
               <h2 className="text-6xl md:text-8xl font-black italic tracking-tighter uppercase">
                 Naval{" "}
-                <span className="text-[#c5a059] not-italic">
+                <span className="text-[var(--brand,#c5a059)] not-italic">
                   Infrastructure.
                 </span>
               </h2>
@@ -536,8 +536,8 @@ export default function HorizonYachtPage() {
               },
             ].map((s, i) => (
               <Reveal key={i} delay={i * 0.1}>
-                <div className="p-16 border border-white/5 bg-white/[0.01] hover:border-[#c5a059]/30 transition-all group h-full flex flex-col relative overflow-hidden">
-                  <div className="w-16 h-16 bg-white/5 rounded-full flex items-center justify-center text-[#c5a059] mb-10 group-hover:bg-[#c5a059] group-hover:text-[#020a13] transition-all duration-500">
+                <div className="p-16 border border-white/5 bg-white/[0.01] hover:border-[var(--brand,#c5a059)]/30 transition-all group h-full flex flex-col relative overflow-hidden">
+                  <div className="w-16 h-16 bg-white/5 rounded-full flex items-center justify-center text-[var(--brand,#c5a059)] mb-10 group-hover:bg-[var(--brand,#c5a059)] group-hover:text-[#020a13] transition-all duration-500">
                     <s.icon className="w-8 h-8" />
                   </div>
                   <h3 className="text-3xl font-black uppercase italic mb-6 tracking-tighter text-white group-hover:translate-x-2 transition-transform">
@@ -546,7 +546,7 @@ export default function HorizonYachtPage() {
                   <p className="text-sm text-white/30 font-light leading-relaxed mb-12 flex-1 tracking-wide uppercase italic">
                     {s.desc}
                   </p>
-                  <button className="flex items-center gap-4 text-[9px] font-bold uppercase tracking-[0.3em] text-[#c5a059] group-hover:gap-6 transition-all">
+                  <button className="flex items-center gap-4 text-[9px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#c5a059)] group-hover:gap-6 transition-all">
                     Read Strategy <ArrowRight className="w-5 h-5" />
                   </button>
                 </div>
@@ -569,7 +569,7 @@ export default function HorizonYachtPage() {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#020a13] via-[#020a13]/20 to-transparent" />
               <div className="absolute bottom-16 left-16 text-white">
-                <span className="text-[10px] font-bold uppercase tracking-[0.4em] mb-4 block text-[#c5a059]">
+                <span className="text-[10px] font-bold uppercase tracking-[0.4em] mb-4 block text-[var(--brand,#c5a059)]">
                   Monaco Grand Prix
                 </span>
                 <h4 className="text-5xl font-black italic uppercase tracking-tighter leading-none">
@@ -580,12 +580,12 @@ export default function HorizonYachtPage() {
           </Reveal>
 
           <Reveal delay={0.2}>
-            <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#c5a059] mb-8 block">
+            <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#c5a059)] mb-8 block">
               Itinerary Design
             </span>
             <h2 className="text-6xl md:text-9xl font-black italic tracking-tighter leading-[0.8] mb-12 uppercase text-white">{c?.aboutTitle ?? fd?.businessName ?? <>
               Infinite <br />{" "}
-              <span className="text-[#c5a059] not-italic">Horizons.</span>
+              <span className="text-[var(--brand,#c5a059)] not-italic">Horizons.</span>
             </>}</h2>
             <p className="text-white/40 text-xl leading-relaxed mb-16 font-light uppercase tracking-wide italic">{c?.aboutText ?? <>
               Beyond the coordinates. We design bespoke experiences that merge
@@ -596,23 +596,23 @@ export default function HorizonYachtPage() {
               {DESTINATIONS.map((d, i) => (
                 <div
                   key={i}
-                  className="flex justify-between items-center py-6 border-b border-white/5 group hover:border-[#c5a059]/30 transition-all"
+                  className="flex justify-between items-center py-6 border-b border-white/5 group hover:border-[var(--brand,#c5a059)]/30 transition-all"
                 >
                   <div>
-                    <h4 className="text-2xl font-black uppercase italic text-white group-hover:text-[#c5a059] transition-colors">
+                    <h4 className="text-2xl font-black uppercase italic text-white group-hover:text-[var(--brand,#c5a059)] transition-colors">
                       {d.name}
                     </h4>
                     <p className="text-[10px] font-bold uppercase tracking-widest text-white/20 mt-1">
                       {d.highlights}
                     </p>
                   </div>
-                  <span className="text-[10px] font-bold uppercase tracking-widest text-[#c5a059]">
+                  <span className="text-[10px] font-bold uppercase tracking-widest text-[var(--brand,#c5a059)]">
                     {d.season}
                   </span>
                 </div>
               ))}
             </div>
-            <MagneticBtn className="mt-20 px-14 py-6 border border-[#c5a059] text-[#c5a059] text-[10px] font-black uppercase tracking-[0.4em] rounded-full hover:bg-[#c5a059] hover:text-[#020a13] transition-all shadow-2xl">
+            <MagneticBtn className="mt-20 px-14 py-6 border border-[var(--brand,#c5a059)] text-[var(--brand,#c5a059)] text-[10px] font-black uppercase tracking-[0.4em] rounded-full hover:bg-[var(--brand,#c5a059)] hover:text-[#020a13] transition-all shadow-2xl">
               Consult With A Specialist
             </MagneticBtn>
           </Reveal>
@@ -625,14 +625,14 @@ export default function HorizonYachtPage() {
           <div className="lg:col-span-6">
             <Reveal>
               <div className="flex items-center gap-6 mb-12">
-                <div className="w-16 h-16 border border-[#c5a059] rounded-full flex items-center justify-center text-[#c5a059]">
+                <div className="w-16 h-16 border border-[var(--brand,#c5a059)] rounded-full flex items-center justify-center text-[var(--brand,#c5a059)]">
                   <Compass className="w-8 h-8" />
                 </div>
                 <div className="flex flex-col">
                   <span className="text-4xl font-black tracking-tighter uppercase leading-none italic">
                     Horizon
                   </span>
-                  <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#c5a059] -mt-1 ml-1">
+                  <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#c5a059)] -mt-1 ml-1">
                     Maritime Group
                   </span>
                 </div>
@@ -646,7 +646,7 @@ export default function HorizonYachtPage() {
                 {[Globe, Globe, Mail].map((Icon, i) => (
                   <button
                     key={i}
-                    className="w-14 h-14 rounded-full border border-white/10 flex items-center justify-center text-white/40 hover:bg-[#c5a059] hover:text-[#020a13] hover:border-[#c5a059] transition-all"
+                    className="w-14 h-14 rounded-full border border-white/10 flex items-center justify-center text-white/40 hover:bg-[var(--brand,#c5a059)] hover:text-[#020a13] hover:border-[var(--brand,#c5a059)] transition-all"
                   >
                     <Icon className="w-5 h-5" />
                   </button>
@@ -656,7 +656,7 @@ export default function HorizonYachtPage() {
           </div>
 
           <div className="lg:col-span-2">
-            <h4 className="text-[11px] font-black uppercase tracking-widest text-[#c5a059] mb-12">
+            <h4 className="text-[11px] font-black uppercase tracking-widest text-[var(--brand,#c5a059)] mb-12">
               Portfolio
             </h4>
             <ul className="space-y-6 text-[10px] font-bold uppercase tracking-widest text-white/30">
@@ -684,7 +684,7 @@ export default function HorizonYachtPage() {
           </div>
 
           <div className="lg:col-span-2">
-            <h4 className="text-[11px] font-black uppercase tracking-widest text-[#c5a059] mb-12">
+            <h4 className="text-[11px] font-black uppercase tracking-widest text-[var(--brand,#c5a059)] mb-12">
               Services
             </h4>
             <ul className="space-y-6 text-[10px] font-bold uppercase tracking-widest text-white/30">
@@ -712,7 +712,7 @@ export default function HorizonYachtPage() {
           </div>
 
           <div className="lg:col-span-2">
-            <h4 className="text-[11px] font-black uppercase tracking-widest text-[#c5a059] mb-12">
+            <h4 className="text-[11px] font-black uppercase tracking-widest text-[var(--brand,#c5a059)] mb-12">
               Contact
             </h4>
             <ul className="space-y-6 text-[10px] font-bold uppercase tracking-widest text-white/30">

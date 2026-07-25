@@ -451,7 +451,7 @@ export default function Impact199Page() {
     >
       {/* ── Scroll Progress Bar ──────────────────────────────────── */}
       <motion.div
-        className="fixed top-0 left-0 h-[2px] bg-[#DC2626] z-[1000] origin-left"
+        className="fixed top-0 left-0 h-[2px] bg-[var(--brand,#DC2626)] z-[1000] origin-left"
         style={{ scaleX: scrollYProgress }}
       />
 
@@ -471,7 +471,7 @@ export default function Impact199Page() {
               <img src={fd.logoBase64} alt={fd?.businessName ?? 'logo'} style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }} />
             ) : (
               <>
-                <div className="w-8 h-8 bg-[#DC2626] flex items-center justify-center">
+                <div className="w-8 h-8 bg-[var(--brand,#DC2626)] flex items-center justify-center">
                   <Pen className="w-4 h-4 text-white" />
                 </div>
                 <span
@@ -501,7 +501,7 @@ export default function Impact199Page() {
           <div className="flex items-center gap-4">
             <a
               href="#contact"
-              className="hidden lg:flex items-center gap-2 bg-[#DC2626] hover:bg-[#b91c1c] text-white text-sm font-semibold px-6 py-3 tracking-widest uppercase transition-colors"
+              className="hidden lg:flex items-center gap-2 bg-[var(--brand,#DC2626)] hover:bg-[#b91c1c] text-white text-sm font-semibold px-6 py-3 tracking-widest uppercase transition-colors"
             >
               Book Now
               <ArrowRight className="w-4 h-4" />
@@ -556,7 +556,7 @@ export default function Impact199Page() {
               <motion.a
                 href="#contact"
                 onClick={() => setMenuOpen(false)}
-                className="mt-4 bg-[#DC2626] text-white text-center py-5 text-xl tracking-widest uppercase"
+                className="mt-4 bg-[var(--brand,#DC2626)] text-white text-center py-5 text-xl tracking-widest uppercase"
                 style={{ fontFamily: "'Bebas Neue', cursive" }}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -589,7 +589,7 @@ export default function Impact199Page() {
 
         {/* Decorative red line */}
         <motion.div
-          className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-40 bg-[#DC2626] z-10"
+          className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-40 bg-[var(--brand,#DC2626)] z-10"
           initial={{ scaleY: 0 }}
           animate={{ scaleY: 1 }}
           transition={{ duration: 1, delay: 0.8, ease: [0.16, 1, 0.3, 1] }}
@@ -610,8 +610,8 @@ export default function Impact199Page() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
             >
-              <div className="w-8 h-[1px] bg-[#DC2626]" />
-              <span className="text-[#DC2626] text-xs tracking-[0.3em] uppercase font-medium">
+              <div className="w-8 h-[1px] bg-[var(--brand,#DC2626)]" />
+              <span className="text-[var(--brand,#DC2626)] text-xs tracking-[0.3em] uppercase font-medium">
                 Studio de Tatouage — Paris XI
               </span>
             </motion.div>
@@ -626,7 +626,7 @@ export default function Impact199Page() {
             >{c?.heroHeadline ?? <>
               L'ART VIVANT
               <br />
-              <span className="text-[#DC2626]">SUR</span> VOTRE PEAU
+              <span className="text-[var(--brand,#DC2626)]">SUR</span> VOTRE PEAU
             </>}</motion.h1>
 
             {/* Subtitle */}
@@ -648,7 +648,7 @@ export default function Impact199Page() {
             >
               <a
                 href="#contact"
-                className="group inline-flex items-center gap-3 bg-[#DC2626] hover:bg-[#b91c1c] text-white font-semibold px-8 py-5 tracking-widest uppercase text-sm transition-all"
+                className="group inline-flex items-center gap-3 bg-[var(--brand,#DC2626)] hover:bg-[#b91c1c] text-white font-semibold px-8 py-5 tracking-widest uppercase text-sm transition-all"
               >
                 Prendre Rendez-Vous
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -709,8 +709,8 @@ export default function Impact199Page() {
         <div className="max-w-7xl mx-auto px-6">
           <Reveal>
             <div className="flex items-center gap-4 mb-4">
-              <div className="w-8 h-[1px] bg-[#DC2626]" />
-              <span className="text-[#DC2626] text-xs tracking-[0.3em] uppercase">Nos Spécialités</span>
+              <div className="w-8 h-[1px] bg-[var(--brand,#DC2626)]" />
+              <span className="text-[var(--brand,#DC2626)] text-xs tracking-[0.3em] uppercase">Nos Spécialités</span>
             </div>
             <h2
               className="text-[clamp(3rem,8vw,6rem)] leading-none text-white mb-6"
@@ -727,7 +727,7 @@ export default function Impact199Page() {
             {STYLES.map((style, i) => (
               <Reveal key={style.name} delay={i * 0.08}>
                 <motion.div
-                  className="group relative overflow-hidden bg-[#0A0A0A] cursor-pointer border border-white/5 hover:border-[#DC2626]/40 transition-all duration-500"
+                  className="group relative overflow-hidden bg-[#0A0A0A] cursor-pointer border border-white/5 hover:border-[var(--brand,#DC2626)]/40 transition-all duration-500"
                   onHoverStart={() => setActiveStyle(i)}
                   onHoverEnd={() => setActiveStyle(null)}
                   whileHover={{ y: -4 }}
@@ -741,7 +741,7 @@ export default function Impact199Page() {
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent" />
                     <div className="absolute top-4 right-4">
-                      <span className="bg-[#DC2626] text-white text-xs px-3 py-1 tracking-widest uppercase">
+                      <span className="bg-[var(--brand,#DC2626)] text-white text-xs px-3 py-1 tracking-widest uppercase">
                         {style.tag}
                       </span>
                     </div>
@@ -749,13 +749,13 @@ export default function Impact199Page() {
 
                   <div className="p-6">
                     <h3
-                      className="text-3xl text-white mb-3 group-hover:text-[#DC2626] transition-colors duration-300"
+                      className="text-3xl text-white mb-3 group-hover:text-[var(--brand,#DC2626)] transition-colors duration-300"
                       style={{ fontFamily: "'Bebas Neue', cursive" }}
                     >
                       {style.name}
                     </h3>
                     <p className="text-white/50 text-sm leading-relaxed">{style.desc}</p>
-                    <div className="flex items-center gap-2 mt-4 text-[#DC2626] text-xs tracking-wider uppercase opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <div className="flex items-center gap-2 mt-4 text-[var(--brand,#DC2626)] text-xs tracking-wider uppercase opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                       <span>Explorer ce style</span>
                       <ChevronRight className="w-3 h-3" />
                     </div>
@@ -772,8 +772,8 @@ export default function Impact199Page() {
         <div className="max-w-7xl mx-auto px-6">
           <Reveal>
             <div className="flex items-center gap-4 mb-4">
-              <div className="w-8 h-[1px] bg-[#DC2626]" />
-              <span className="text-[#DC2626] text-xs tracking-[0.3em] uppercase">L'Équipe</span>
+              <div className="w-8 h-[1px] bg-[var(--brand,#DC2626)]" />
+              <span className="text-[var(--brand,#DC2626)] text-xs tracking-[0.3em] uppercase">L'Équipe</span>
             </div>
             <h2
               className="text-[clamp(3rem,8vw,6rem)] leading-none text-white mb-4"
@@ -824,7 +824,7 @@ export default function Impact199Page() {
                         >
                           {artist.name}
                         </h3>
-                        <p className="text-[#DC2626] text-sm tracking-widest uppercase">
+                        <p className="text-[var(--brand,#DC2626)] text-sm tracking-widest uppercase">
                           {artist.specialty}
                         </p>
                       </div>
@@ -847,7 +847,7 @@ export default function Impact199Page() {
                         className={`inline-flex items-center gap-2 text-sm font-semibold px-6 py-3 tracking-widest uppercase transition-all ${
                           artist.slots === 0
                             ? "bg-white/10 text-white/40 cursor-not-allowed"
-                            : "bg-[#DC2626] hover:bg-[#b91c1c] text-white"
+                            : "bg-[var(--brand,#DC2626)] hover:bg-[#b91c1c] text-white"
                         }`}
                       >
                         {artist.slots === 0 ? "Liste d'attente" : "Réserver"}
@@ -871,8 +871,8 @@ export default function Impact199Page() {
         <div className="max-w-7xl mx-auto px-6">
           <Reveal>
             <div className="flex items-center gap-4 mb-4">
-              <div className="w-8 h-[1px] bg-[#DC2626]" />
-              <span className="text-[#DC2626] text-xs tracking-[0.3em] uppercase">Disponible Maintenant</span>
+              <div className="w-8 h-[1px] bg-[var(--brand,#DC2626)]" />
+              <span className="text-[var(--brand,#DC2626)] text-xs tracking-[0.3em] uppercase">Disponible Maintenant</span>
             </div>
             <h2
               className="text-[clamp(3rem,8vw,6rem)] leading-none text-white mb-4"
@@ -890,14 +890,14 @@ export default function Impact199Page() {
             {FLASH_PIECES.map((flash, i) => (
               <Reveal key={flash.name} delay={i * 0.05}>
                 <motion.div
-                  className="group relative bg-[#0A0A0A] border border-white/5 hover:border-[#DC2626]/50 p-6 cursor-pointer transition-all duration-300"
+                  className="group relative bg-[#0A0A0A] border border-white/5 hover:border-[var(--brand,#DC2626)]/50 p-6 cursor-pointer transition-all duration-300"
                   whileHover={{ y: -4 }}
                 >
                   {/* Placeholder image for flash design */}
                   <div className="relative h-36 mb-4 overflow-hidden bg-[#111111] flex items-center justify-center">
                     <Pen className="w-12 h-12 text-white/10 group-hover:text-white/20 transition-colors" />
                     <div className="absolute top-2 right-2">
-                      <span className="bg-[#DC2626] text-white text-[10px] px-2 py-0.5 tracking-widest uppercase">
+                      <span className="bg-[var(--brand,#DC2626)] text-white text-[10px] px-2 py-0.5 tracking-widest uppercase">
                         {flash.style}
                       </span>
                     </div>
@@ -908,7 +908,7 @@ export default function Impact199Page() {
 
                   <div className="flex items-center justify-between">
                     <span
-                      className="text-2xl text-[#DC2626]"
+                      className="text-2xl text-[var(--brand,#DC2626)]"
                       style={{ fontFamily: "'Bebas Neue', cursive" }}
                     >
                       {flash.price}€
@@ -925,7 +925,7 @@ export default function Impact199Page() {
 
           {/* Flash CTA */}
           <Reveal delay={0.2}>
-            <div className="mt-12 p-8 border border-[#DC2626]/20 bg-[#DC2626]/5 flex flex-col md:flex-row items-center justify-between gap-6">
+            <div className="mt-12 p-8 border border-[var(--brand,#DC2626)]/20 bg-[var(--brand,#DC2626)]/5 flex flex-col md:flex-row items-center justify-between gap-6">
               <div>
                 <h3
                   className="text-3xl text-white mb-2"
@@ -939,7 +939,7 @@ export default function Impact199Page() {
               </div>
               <a
                 href="#contact"
-                className="flex-shrink-0 bg-[#DC2626] hover:bg-[#b91c1c] text-white font-semibold px-8 py-4 tracking-widest uppercase text-sm transition-all flex items-center gap-2"
+                className="flex-shrink-0 bg-[var(--brand,#DC2626)] hover:bg-[#b91c1c] text-white font-semibold px-8 py-4 tracking-widest uppercase text-sm transition-all flex items-center gap-2"
               >
                 Réserver un Flash
                 <ArrowRight className="w-4 h-4" />
@@ -954,8 +954,8 @@ export default function Impact199Page() {
         <div className="max-w-7xl mx-auto px-6">
           <Reveal>
             <div className="flex items-center gap-4 mb-4">
-              <div className="w-8 h-[1px] bg-[#DC2626]" />
-              <span className="text-[#DC2626] text-xs tracking-[0.3em] uppercase">De A à Z</span>
+              <div className="w-8 h-[1px] bg-[var(--brand,#DC2626)]" />
+              <span className="text-[var(--brand,#DC2626)] text-xs tracking-[0.3em] uppercase">De A à Z</span>
             </div>
             <h2
               className="text-[clamp(3rem,8vw,6rem)] leading-none text-white mb-4"
@@ -970,16 +970,16 @@ export default function Impact199Page() {
 
           <div className="relative">
             {/* Connecting line */}
-            <div className="absolute top-10 left-10 right-10 h-[1px] bg-gradient-to-r from-[#DC2626]/30 via-[#DC2626]/10 to-transparent hidden lg:block" />
+            <div className="absolute top-10 left-10 right-10 h-[1px] bg-gradient-to-r from-[var(--brand,#DC2626)]/30 via-[var(--brand,#DC2626)]/10 to-transparent hidden lg:block" />
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
               {STEPS.map((step, i) => (
                 <Reveal key={step.num} delay={i * 0.1}>
                   <div className="relative group">
                     {/* Number badge */}
-                    <div className="w-20 h-20 bg-[#0A0A0A] border border-white/10 group-hover:border-[#DC2626]/50 flex items-center justify-center mb-6 transition-all duration-300">
+                    <div className="w-20 h-20 bg-[#0A0A0A] border border-white/10 group-hover:border-[var(--brand,#DC2626)]/50 flex items-center justify-center mb-6 transition-all duration-300">
                       <span
-                        className="text-3xl text-white/20 group-hover:text-[#DC2626] transition-colors"
+                        className="text-3xl text-white/20 group-hover:text-[var(--brand,#DC2626)] transition-colors"
                         style={{ fontFamily: "'Bebas Neue', cursive" }}
                       >
                         {step.num}
@@ -1006,8 +1006,8 @@ export default function Impact199Page() {
         <div className="max-w-7xl mx-auto px-6">
           <Reveal>
             <div className="flex items-center gap-4 mb-4">
-              <div className="w-8 h-[1px] bg-[#DC2626]" />
-              <span className="text-[#DC2626] text-xs tracking-[0.3em] uppercase">Transparence Totale</span>
+              <div className="w-8 h-[1px] bg-[var(--brand,#DC2626)]" />
+              <span className="text-[var(--brand,#DC2626)] text-xs tracking-[0.3em] uppercase">Transparence Totale</span>
             </div>
             <h2
               className="text-[clamp(3rem,8vw,6rem)] leading-none text-white mb-4"
@@ -1023,7 +1023,7 @@ export default function Impact199Page() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-12">
             {PRICING.map((tier, i) => (
               <Reveal key={tier.size} delay={i * 0.08}>
-                <div className="group bg-[#0A0A0A] border border-white/5 hover:border-[#DC2626]/30 p-8 flex flex-col transition-all duration-500 hover:bg-[#0F0F0F]">
+                <div className="group bg-[#0A0A0A] border border-white/5 hover:border-[var(--brand,#DC2626)]/30 p-8 flex flex-col transition-all duration-500 hover:bg-[#0F0F0F]">
                   <div className="flex items-start justify-between mb-6">
                     <h3
                       className="text-4xl text-white"
@@ -1031,7 +1031,7 @@ export default function Impact199Page() {
                     >
                       {tier.size}
                     </h3>
-                    <span className="text-[#DC2626] text-[10px] tracking-widest uppercase bg-[#DC2626]/10 px-2 py-1">
+                    <span className="text-[var(--brand,#DC2626)] text-[10px] tracking-widest uppercase bg-[var(--brand,#DC2626)]/10 px-2 py-1">
                       {tier.dimensions}
                     </span>
                   </div>
@@ -1055,7 +1055,7 @@ export default function Impact199Page() {
                   <ul className="space-y-3 flex-1">
                     {tier.details.map((detail) => (
                       <li key={detail} className="flex items-center gap-3 text-white/50 text-sm">
-                        <div className="w-1 h-1 bg-[#DC2626] rounded-full flex-shrink-0" />
+                        <div className="w-1 h-1 bg-[var(--brand,#DC2626)] rounded-full flex-shrink-0" />
                         {detail}
                       </li>
                     ))}
@@ -1063,7 +1063,7 @@ export default function Impact199Page() {
 
                   <a
                     href="#contact"
-                    className="mt-8 border border-white/10 hover:border-[#DC2626] text-white hover:text-[#DC2626] text-xs tracking-widest uppercase py-3 text-center transition-all duration-300 flex items-center justify-center gap-2"
+                    className="mt-8 border border-white/10 hover:border-[var(--brand,#DC2626)] text-white hover:text-[var(--brand,#DC2626)] text-xs tracking-widest uppercase py-3 text-center transition-all duration-300 flex items-center justify-center gap-2"
                   >
                     Obtenir un devis
                     <ChevronRight className="w-3 h-3" />
@@ -1090,7 +1090,7 @@ export default function Impact199Page() {
                   { icon: <Award className="w-5 h-5" />, label: "Expérience de l'artiste" },
                 ].map((factor) => (
                   <div key={factor.label} className="flex items-center gap-3">
-                    <div className="text-[#DC2626]">{factor.icon}</div>
+                    <div className="text-[var(--brand,#DC2626)]">{factor.icon}</div>
                     <span className="text-white/50 text-sm">{factor.label}</span>
                   </div>
                 ))}
@@ -1105,8 +1105,8 @@ export default function Impact199Page() {
         <div className="max-w-4xl mx-auto px-6">
           <Reveal>
             <div className="flex items-center gap-4 mb-4">
-              <div className="w-8 h-[1px] bg-[#DC2626]" />
-              <span className="text-[#DC2626] text-xs tracking-[0.3em] uppercase">Questions Fréquentes</span>
+              <div className="w-8 h-[1px] bg-[var(--brand,#DC2626)]" />
+              <span className="text-[var(--brand,#DC2626)] text-xs tracking-[0.3em] uppercase">Questions Fréquentes</span>
             </div>
             <h2
               className="text-[clamp(3rem,8vw,6rem)] leading-none text-white mb-16"
@@ -1130,7 +1130,7 @@ export default function Impact199Page() {
                       transition={{ duration: 0.3 }}
                       className="flex-shrink-0"
                     >
-                      <ArrowRight className="w-4 h-4 text-[#DC2626]" />
+                      <ArrowRight className="w-4 h-4 text-[var(--brand,#DC2626)]" />
                     </motion.div>
                   </button>
 
@@ -1161,8 +1161,8 @@ export default function Impact199Page() {
         <div className="max-w-7xl mx-auto px-6">
           <Reveal>
             <div className="flex items-center gap-4 mb-4">
-              <div className="w-8 h-[1px] bg-[#DC2626]" />
-              <span className="text-[#DC2626] text-xs tracking-[0.3em] uppercase">Portfolio</span>
+              <div className="w-8 h-[1px] bg-[var(--brand,#DC2626)]" />
+              <span className="text-[var(--brand,#DC2626)] text-xs tracking-[0.3em] uppercase">Portfolio</span>
             </div>
             <h2
               className="text-[clamp(3rem,8vw,6rem)] leading-none text-white mb-4"
@@ -1224,8 +1224,8 @@ export default function Impact199Page() {
             {/* Left: Info */}
             <RevealLeft>
               <div className="flex items-center gap-4 mb-4">
-                <div className="w-8 h-[1px] bg-[#DC2626]" />
-                <span className="text-[#DC2626] text-xs tracking-[0.3em] uppercase">Venir Nous Voir</span>
+                <div className="w-8 h-[1px] bg-[var(--brand,#DC2626)]" />
+                <span className="text-[var(--brand,#DC2626)] text-xs tracking-[0.3em] uppercase">Venir Nous Voir</span>
               </div>
               <h2
                 className="text-[clamp(3rem,6vw,5rem)] leading-none text-white mb-8"
@@ -1266,7 +1266,7 @@ export default function Impact199Page() {
                   },
                 ].map((item) => (
                   <div key={item.label} className="flex items-start gap-4 group">
-                    <div className="text-[#DC2626] mt-0.5 flex-shrink-0">{item.icon}</div>
+                    <div className="text-[var(--brand,#DC2626)] mt-0.5 flex-shrink-0">{item.icon}</div>
                     <div>
                       <p className="text-white/30 text-xs tracking-wider uppercase mb-0.5">{item.label}</p>
                       <p className="text-white text-sm font-medium">{item.value}</p>
@@ -1283,7 +1283,7 @@ export default function Impact199Page() {
                   href="https://instagram.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-10 h-10 border border-white/10 hover:border-[#DC2626] flex items-center justify-center text-white/50 hover:text-[#DC2626] transition-all"
+                  className="w-10 h-10 border border-white/10 hover:border-[var(--brand,#DC2626)] flex items-center justify-center text-white/50 hover:text-[var(--brand,#DC2626)] transition-all"
                 >
                   <Instagram className="w-4 h-4" />
                 </a>
@@ -1299,8 +1299,8 @@ export default function Impact199Page() {
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
                   >
-                    <div className="w-16 h-16 bg-[#DC2626]/10 flex items-center justify-center mb-4">
-                      <Heart className="w-8 h-8 text-[#DC2626]" />
+                    <div className="w-16 h-16 bg-[var(--brand,#DC2626)]/10 flex items-center justify-center mb-4">
+                      <Heart className="w-8 h-8 text-[var(--brand,#DC2626)]" />
                     </div>
                     <h3
                       className="text-3xl text-white mb-3"
@@ -1331,7 +1331,7 @@ export default function Impact199Page() {
                           required
                           value={formData.name}
                           onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                          className="w-full bg-[#111111] border border-white/10 focus:border-[#DC2626] text-white text-sm px-4 py-3 outline-none transition-colors"
+                          className="w-full bg-[#111111] border border-white/10 focus:border-[var(--brand,#DC2626)] text-white text-sm px-4 py-3 outline-none transition-colors"
                           placeholder="Jean Dupont"
                         />
                       </div>
@@ -1343,7 +1343,7 @@ export default function Impact199Page() {
                           type="tel"
                           value={formData.phone}
                           onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                          className="w-full bg-[#111111] border border-white/10 focus:border-[#DC2626] text-white text-sm px-4 py-3 outline-none transition-colors"
+                          className="w-full bg-[#111111] border border-white/10 focus:border-[var(--brand,#DC2626)] text-white text-sm px-4 py-3 outline-none transition-colors"
                           placeholder="+33 6 00 00 00 00"
                         />
                       </div>
@@ -1358,7 +1358,7 @@ export default function Impact199Page() {
                         required
                         value={formData.email}
                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                        className="w-full bg-[#111111] border border-white/10 focus:border-[#DC2626] text-white text-sm px-4 py-3 outline-none transition-colors"
+                        className="w-full bg-[#111111] border border-white/10 focus:border-[var(--brand,#DC2626)] text-white text-sm px-4 py-3 outline-none transition-colors"
                         placeholder="jean@example.com"
                       />
                     </div>
@@ -1370,7 +1370,7 @@ export default function Impact199Page() {
                       <select
                         value={formData.style}
                         onChange={(e) => setFormData({ ...formData, style: e.target.value })}
-                        className="w-full bg-[#111111] border border-white/10 focus:border-[#DC2626] text-white text-sm px-4 py-3 outline-none transition-colors"
+                        className="w-full bg-[#111111] border border-white/10 focus:border-[var(--brand,#DC2626)] text-white text-sm px-4 py-3 outline-none transition-colors"
                       >
                         <option value="">Choisir un style</option>
                         {STYLES.map((s) => (
@@ -1391,7 +1391,7 @@ export default function Impact199Page() {
                         type="date"
                         value={formData.date}
                         onChange={(e) => setFormData({ ...formData, date: e.target.value })}
-                        className="w-full bg-[#111111] border border-white/10 focus:border-[#DC2626] text-white text-sm px-4 py-3 outline-none transition-colors"
+                        className="w-full bg-[#111111] border border-white/10 focus:border-[var(--brand,#DC2626)] text-white text-sm px-4 py-3 outline-none transition-colors"
                       />
                     </div>
 
@@ -1404,14 +1404,14 @@ export default function Impact199Page() {
                         rows={4}
                         value={formData.message}
                         onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                        className="w-full bg-[#111111] border border-white/10 focus:border-[#DC2626] text-white text-sm px-4 py-3 outline-none transition-colors resize-none"
+                        className="w-full bg-[#111111] border border-white/10 focus:border-[var(--brand,#DC2626)] text-white text-sm px-4 py-3 outline-none transition-colors resize-none"
                         placeholder="Décrivez votre idée, l'emplacement souhaité, les dimensions approximatives..."
                       />
                     </div>
 
                     <button
                       type="submit"
-                      className="w-full bg-[#DC2626] hover:bg-[#b91c1c] text-white font-semibold py-5 tracking-widest uppercase text-sm transition-all flex items-center justify-center gap-2"
+                      className="w-full bg-[var(--brand,#DC2626)] hover:bg-[#b91c1c] text-white font-semibold py-5 tracking-widest uppercase text-sm transition-all flex items-center justify-center gap-2"
                     >
                       Envoyer ma demande
                       <ArrowRight className="w-4 h-4" />
@@ -1433,8 +1433,8 @@ export default function Impact199Page() {
         <div className="max-w-7xl mx-auto px-6">
           <Reveal>
             <div className="flex items-center gap-4 mb-4">
-              <div className="w-8 h-[1px] bg-[#DC2626]" />
-              <span className="text-[#DC2626] text-xs tracking-[0.3em] uppercase">Notre Engagement</span>
+              <div className="w-8 h-[1px] bg-[var(--brand,#DC2626)]" />
+              <span className="text-[var(--brand,#DC2626)] text-xs tracking-[0.3em] uppercase">Notre Engagement</span>
             </div>
             <h2
               className="text-[clamp(3rem,8vw,5rem)] leading-none text-white mb-16"
@@ -1447,28 +1447,28 @@ export default function Impact199Page() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
               {
-                icon: <Award className="w-8 h-8 text-[#DC2626]" />,
+                icon: <Award className="w-8 h-8 text-[var(--brand,#DC2626)]" />,
                 title: "Hygiène Irréprochable",
                 desc: "Stérilisation autoclave systématique. Matériel entièrement à usage unique. Nous dépassons les normes sanitaires en vigueur.",
               },
               {
-                icon: <Users className="w-8 h-8 text-[#DC2626]" />,
+                icon: <Users className="w-8 h-8 text-[var(--brand,#DC2626)]" />,
                 title: "Équipe Certifiée",
                 desc: "Nos trois artistes sont certifiés par la Société Française de Tatouage. Formations continues en Europe et au Japon.",
               },
               {
-                icon: <Heart className="w-8 h-8 text-[#DC2626]" />,
+                icon: <Heart className="w-8 h-8 text-[var(--brand,#DC2626)]" />,
                 title: "Encres Vegan",
                 desc: "100% vegan, conformes REACH, non testées sur les animaux. Nous ne faisons aucun compromis sur les matériaux.",
               },
               {
-                icon: <Star className="w-8 h-8 text-[#DC2626]" />,
+                icon: <Star className="w-8 h-8 text-[var(--brand,#DC2626)]" />,
                 title: "Suivi 30 Jours",
                 desc: "Kit de soin offert à chaque client. Retouche gratuite si nécessaire. Nous ne vous abandonnons pas après la séance.",
               },
             ].map((feature, i) => (
               <Reveal key={feature.title} delay={i * 0.1}>
-                <div className="group bg-[#0A0A0A] border border-white/5 hover:border-[#DC2626]/30 p-8 transition-all duration-500">
+                <div className="group bg-[#0A0A0A] border border-white/5 hover:border-[var(--brand,#DC2626)]/30 p-8 transition-all duration-500">
                   <div className="mb-5">{feature.icon}</div>
                   <h3
                     className="text-2xl text-white mb-3"
@@ -1489,8 +1489,8 @@ export default function Impact199Page() {
         <div className="max-w-7xl mx-auto px-6 mb-12">
           <Reveal>
             <div className="flex items-center gap-4 mb-4">
-              <div className="w-8 h-[1px] bg-[#DC2626]" />
-              <span className="text-[#DC2626] text-xs tracking-[0.3em] uppercase">Ce qu'ils disent</span>
+              <div className="w-8 h-[1px] bg-[var(--brand,#DC2626)]" />
+              <span className="text-[var(--brand,#DC2626)] text-xs tracking-[0.3em] uppercase">Ce qu'ils disent</span>
             </div>
             <h2
               className="text-[clamp(3rem,8vw,5rem)] leading-none text-white"
@@ -1532,7 +1532,7 @@ export default function Impact199Page() {
                 <p className="text-white/60 text-sm leading-relaxed italic">"{testimonial.text}"</p>
                 <div className="flex items-center justify-between pt-4 border-t border-white/5">
                   <span className="text-white text-sm font-medium">{testimonial.name}</span>
-                  <span className="text-[#DC2626] text-[10px] tracking-widest uppercase bg-[#DC2626]/10 px-2 py-0.5">
+                  <span className="text-[var(--brand,#DC2626)] text-[10px] tracking-widest uppercase bg-[var(--brand,#DC2626)]/10 px-2 py-0.5">
                     {testimonial.style}
                   </span>
                 </div>
@@ -1544,7 +1544,7 @@ export default function Impact199Page() {
         {/* Bottom CTA strip */}
         <Reveal delay={0.3}>
           <div className="max-w-7xl mx-auto px-6 mt-12">
-            <div className="bg-[#DC2626] p-8 flex flex-col md:flex-row items-center justify-between gap-6">
+            <div className="bg-[var(--brand,#DC2626)] p-8 flex flex-col md:flex-row items-center justify-between gap-6">
               <div>
                 <h3
                   className="text-3xl text-white mb-1"
@@ -1556,7 +1556,7 @@ export default function Impact199Page() {
               </div>
               <a
                 href="#contact"
-                className="flex-shrink-0 bg-white hover:bg-white/90 text-[#DC2626] font-semibold px-8 py-4 tracking-widest uppercase text-sm transition-all flex items-center gap-2"
+                className="flex-shrink-0 bg-white hover:bg-white/90 text-[var(--brand,#DC2626)] font-semibold px-8 py-4 tracking-widest uppercase text-sm transition-all flex items-center gap-2"
               >
                 Réserver maintenant
                 <ArrowRight className="w-4 h-4" />
@@ -1572,7 +1572,7 @@ export default function Impact199Page() {
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
             <div className="flex items-center gap-3">
-              <div className="w-6 h-6 bg-[#DC2626] flex items-center justify-center">
+              <div className="w-6 h-6 bg-[var(--brand,#DC2626)] flex items-center justify-center">
                 <Pen className="w-3 h-3 text-white" />
               </div>
               <span

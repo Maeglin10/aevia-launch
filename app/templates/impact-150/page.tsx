@@ -39,7 +39,7 @@ function shadeColor(hex: string, percent: number): string {
 let COLORS: Record<string, string> = {
   cream:   "#f8f6f0",
   ink:     "#1a1208",
-  bronze:  "#8b7355",
+  bronze:  "var(--brand,#8b7355)",
   bronzeL: "#b09a78",
   stone:   "#c8bfb0",
   mist:    "#ede9e1",

@@ -44,7 +44,7 @@ let C: Record<string, string> = {
   anthracite: '#1a1a22',
   anthraciteMid: '#2a2a36',
   ink: '#0d0d14',
-  blue: '#1a4d8f',
+  blue: 'var(--brand,#1a4d8f)',
   blueDim: '#1a3d72',
   gold: '#c4a86e',
   paper: '#faf8f4',

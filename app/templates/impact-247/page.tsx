@@ -31,7 +31,7 @@ const C = {
   bgDark: '#0d0f1a',
   bgDarkAlt: '#080910',
   bgCard: '#ffffff',
-  accent: '#3d5afe',
+  accent: 'var(--brand,#3d5afe)',
   accentDark: '#2c46d6',
   accentLight: '#dde4ff',
   white: '#ffffff',

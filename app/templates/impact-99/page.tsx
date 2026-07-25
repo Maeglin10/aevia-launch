@@ -323,12 +323,12 @@ function PageHeader({
   return (
     <Reveal>
       <div className="mb-20">
-        <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#ff4d00] mb-8 block">
+        <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#ff4d00)] mb-8 block">
           {kicker}
         </span>
         <h1 className="text-6xl md:text-9xl font-black italic tracking-tighter leading-[0.8] uppercase text-white">
           {title}{" "}
-          {accent && <span className="text-[#ff4d00] not-italic">{accent}</span>}
+          {accent && <span className="text-[var(--brand,#ff4d00)] not-italic">{accent}</span>}
         </h1>
         {sub && (
           <p className="mt-10 max-w-xl text-white/30 text-sm font-light uppercase tracking-widest italic leading-loose">
@@ -342,9 +342,9 @@ function PageHeader({
 
 /* Shared input styling (font-size ≥ 16px enforced inline) */
 const FIELD_CLASS =
-  "w-full bg-white/[0.02] border border-white/10 rounded-sm px-6 py-4 text-white placeholder:text-white/20 focus:border-[#ff4d00] focus:outline-none transition-colors uppercase tracking-widest";
+  "w-full bg-white/[0.02] border border-white/10 rounded-sm px-6 py-4 text-white placeholder:text-white/20 focus:border-[var(--brand,#ff4d00)] focus:outline-none transition-colors uppercase tracking-widest";
 const LABEL_CLASS =
-  "block text-[10px] font-bold uppercase tracking-[0.3em] text-[#ff4d00] mb-4";
+  "block text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#ff4d00)] mb-4";
 
 /* ==========================================================================
    SUB-PAGE: CARTE (full menu)
@@ -373,7 +373,7 @@ function CartePage() {
               <div>
                 <div className="flex items-end justify-between mb-14 gap-8 border-b border-white/5 pb-8">
                   <div className="flex items-center gap-6">
-                    <div className="w-16 h-16 bg-white/5 rounded-full flex items-center justify-center text-[#ff4d00]">
+                    <div className="w-16 h-16 bg-white/5 rounded-full flex items-center justify-center text-[var(--brand,#ff4d00)]">
                       <sec.icon className="w-8 h-8" />
                     </div>
                     <h2 className="text-5xl md:text-7xl font-black italic uppercase tracking-tighter text-white">
@@ -391,11 +391,11 @@ function CartePage() {
                   {sec.items.map((item, i) => (
                     <div key={i} className="group">
                       <div className="flex justify-between items-baseline gap-6 mb-3">
-                        <h3 className="text-2xl font-black uppercase tracking-tighter text-white italic group-hover:text-[#ff4d00] transition-colors">
+                        <h3 className="text-2xl font-black uppercase tracking-tighter text-white italic group-hover:text-[var(--brand,#ff4d00)] transition-colors">
                           {item.name}
                         </h3>
                         <div className="flex-1 mx-2 border-b border-dotted border-white/10 translate-y-[-4px]" />
-                        <span className="text-lg font-black text-[#ff4d00] tracking-tighter whitespace-nowrap">
+                        <span className="text-lg font-black text-[var(--brand,#ff4d00)] tracking-tighter whitespace-nowrap">
                           {item.price}
                         </span>
                       </div>
@@ -442,8 +442,8 @@ function ReservationPage() {
           <Reveal>
             <div className="lg:col-span-7">
               {sent ? (
-                <div className="p-16 border border-[#ff4d00]/30 bg-[#ff4d00]/5 rounded-sm">
-                  <Flame className="w-10 h-10 text-[#ff4d00] mb-8" />
+                <div className="p-16 border border-[var(--brand,#ff4d00)]/30 bg-[var(--brand,#ff4d00)]/5 rounded-sm">
+                  <Flame className="w-10 h-10 text-[var(--brand,#ff4d00)] mb-8" />
                   <h3 className="text-3xl font-black italic uppercase tracking-tighter text-white mb-4">
                     Demande Reçue.
                   </h3>
@@ -545,7 +545,7 @@ function ReservationPage() {
 
                   <MagneticBtn
                     type="submit"
-                    className="px-14 py-6 bg-[#ff4d00] text-white text-[10px] font-black uppercase tracking-[0.4em] rounded-full hover:scale-105 transition-all cursor-pointer shadow-[0_0_40px_rgba(255,77,0,0.3)]"
+                    className="px-14 py-6 bg-[var(--brand,#ff4d00)] text-white text-[10px] font-black uppercase tracking-[0.4em] rounded-full hover:scale-105 transition-all cursor-pointer shadow-[0_0_40px_rgba(255,77,0,0.3)]"
                   >
                     Demander la réservation
                   </MagneticBtn>
@@ -558,7 +558,7 @@ function ReservationPage() {
           <Reveal delay={0.15}>
             <div className="lg:col-span-5 space-y-12">
               <div className="p-12 border border-white/5 bg-white/[0.01] rounded-sm">
-                <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#ff4d00] mb-8 block">
+                <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#ff4d00)] mb-8 block">
                   Horaires
                 </span>
                 <ul className="space-y-6 text-[11px] font-bold uppercase tracking-widest text-white/40">
@@ -579,12 +579,12 @@ function ReservationPage() {
 
               <div className="p-12 border border-white/5 bg-white/[0.01] rounded-sm space-y-8">
                 <div className="flex items-center gap-4 text-white/40 text-[11px] font-bold uppercase tracking-widest">
-                  <Phone className="w-5 h-5 text-[#ff4d00]" /> 01 23 45 67 89
+                  <Phone className="w-5 h-5 text-[var(--brand,#ff4d00)]" /> 01 23 45 67 89
                 </div>
                 <div className="flex items-center gap-4 text-white/40 text-[11px] font-bold uppercase tracking-widest">
-                  <Mail className="w-5 h-5 text-[#ff4d00]" />{fd?.email ?? "valentinmilliand@aevia.services"}</div>
+                  <Mail className="w-5 h-5 text-[var(--brand,#ff4d00)]" />{fd?.email ?? "valentinmilliand@aevia.services"}</div>
                 <div className="flex items-center gap-4 text-white/40 text-[11px] font-bold uppercase tracking-widest">
-                  <MapPin className="w-5 h-5 text-[#ff4d00]" /> Adresse communiquée
+                  <MapPin className="w-5 h-5 text-[var(--brand,#ff4d00)]" /> Adresse communiquée
                   sur demande
                 </div>
               </div>
@@ -616,11 +616,11 @@ function BlogPage({
           <Reveal>
             <button
               onClick={() => setSlug(null)}
-              className="flex items-center gap-3 text-[10px] font-bold uppercase tracking-[0.3em] text-[#ff4d00] hover:gap-5 transition-all mb-16"
+              className="flex items-center gap-3 text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#ff4d00)] hover:gap-5 transition-all mb-16"
             >
               <ArrowRight className="w-4 h-4 rotate-180" /> Retour au journal
             </button>
-            <Badge className="bg-[#ff4d00]/10 text-[#ff4d00] border border-[#ff4d00]/30 text-[10px] font-bold uppercase tracking-[0.4em] mb-8 px-4 py-1.5 rounded-full">
+            <Badge className="bg-[var(--brand,#ff4d00)]/10 text-[var(--brand,#ff4d00)] border border-[var(--brand,#ff4d00)]/30 text-[10px] font-bold uppercase tracking-[0.4em] mb-8 px-4 py-1.5 rounded-full">
               {post.category} // {post.date}
             </Badge>
             <h1 className="text-5xl md:text-7xl font-black italic tracking-tighter leading-[0.85] uppercase text-white mb-12">
@@ -685,16 +685,16 @@ function BlogPage({
                   </div>
                 </div>
                 <div className="space-y-4">
-                  <span className="text-[9px] font-bold uppercase tracking-[0.3em] text-[#ff4d00]">
+                  <span className="text-[9px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#ff4d00)]">
                     {p.date}
                   </span>
-                  <h3 className="text-3xl font-black uppercase tracking-tighter text-white italic group-hover:text-[#ff4d00] transition-colors leading-none">
+                  <h3 className="text-3xl font-black uppercase tracking-tighter text-white italic group-hover:text-[var(--brand,#ff4d00)] transition-colors leading-none">
                     {p.title}
                   </h3>
                   <p className="text-sm text-white/30 font-light leading-relaxed uppercase tracking-widest italic leading-loose">
                     {p.excerpt}
                   </p>
-                  <div className="flex items-center gap-3 text-[9px] font-bold uppercase tracking-[0.3em] text-[#ff4d00] group-hover:gap-5 transition-all pt-2">
+                  <div className="flex items-center gap-3 text-[9px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#ff4d00)] group-hover:gap-5 transition-all pt-2">
                     Lire l'article <ArrowRight className="w-4 h-4" />
                   </div>
                 </div>
@@ -757,11 +757,11 @@ function AboutPage({ goTo }: { goTo: (p: EmberPage) => void }) {
 
         <Reveal>
           <div className="text-center mb-24">
-            <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#ff4d00] mb-8 block">
+            <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#ff4d00)] mb-8 block">
               Nos Valeurs
             </span>
             <h2 className="text-5xl md:text-7xl font-black italic tracking-tighter uppercase text-white">
-              Feu. <span className="text-[#ff4d00] not-italic">Temps.</span>{" "}
+              Feu. <span className="text-[var(--brand,#ff4d00)] not-italic">Temps.</span>{" "}
               Produit.
             </h2>
           </div>
@@ -770,8 +770,8 @@ function AboutPage({ goTo }: { goTo: (p: EmberPage) => void }) {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-16 mb-32">
           {PHILOSOPHY.map((s, i) => (
             <Reveal key={i} delay={i * 0.1}>
-              <div className="p-16 border border-white/5 bg-white/[0.01] hover:border-[#ff4d00]/30 transition-all group h-full flex flex-col">
-                <div className="w-16 h-16 bg-white/5 rounded-full flex items-center justify-center text-[#ff4d00] mb-10 group-hover:bg-[#ff4d00] group-hover:text-white transition-all duration-500">
+              <div className="p-16 border border-white/5 bg-white/[0.01] hover:border-[var(--brand,#ff4d00)]/30 transition-all group h-full flex flex-col">
+                <div className="w-16 h-16 bg-white/5 rounded-full flex items-center justify-center text-[var(--brand,#ff4d00)] mb-10 group-hover:bg-[var(--brand,#ff4d00)] group-hover:text-white transition-all duration-500">
                   <s.icon className="w-8 h-8" />
                 </div>
                 <h3 className="text-3xl font-black uppercase italic mb-6 tracking-tighter text-white">
@@ -789,7 +789,7 @@ function AboutPage({ goTo }: { goTo: (p: EmberPage) => void }) {
           <div className="text-center">
             <MagneticBtn
               onClick={() => goTo("reservation")}
-              className="px-14 py-6 bg-white text-black text-[10px] font-black uppercase tracking-[0.4em] rounded-full hover:bg-[#ff4d00] hover:text-white transition-all shadow-2xl"
+              className="px-14 py-6 bg-white text-black text-[10px] font-black uppercase tracking-[0.4em] rounded-full hover:bg-[var(--brand,#ff4d00)] hover:text-white transition-all shadow-2xl"
             >
               Réserver une table
             </MagneticBtn>
@@ -821,7 +821,7 @@ function ContactPage() {
             <div className="lg:col-span-5 space-y-12">
               <div className="p-12 border border-white/5 bg-white/[0.01] rounded-sm space-y-10">
                 <div className="space-y-4">
-                  <div className="flex items-center gap-4 text-[#ff4d00]">
+                  <div className="flex items-center gap-4 text-[var(--brand,#ff4d00)]">
                     <MapPin className="w-5 h-5" />
                     <span className="text-[10px] font-bold uppercase tracking-[0.3em]">
                       Adresse
@@ -833,7 +833,7 @@ function ContactPage() {
                 </div>
                 <Separator className="bg-white/5" />
                 <div className="space-y-4">
-                  <div className="flex items-center gap-4 text-[#ff4d00]">
+                  <div className="flex items-center gap-4 text-[var(--brand,#ff4d00)]">
                     <Phone className="w-5 h-5" />
                     <span className="text-[10px] font-bold uppercase tracking-[0.3em]">
                       Téléphone
@@ -845,7 +845,7 @@ function ContactPage() {
                 </div>
                 <Separator className="bg-white/5" />
                 <div className="space-y-4">
-                  <div className="flex items-center gap-4 text-[#ff4d00]">
+                  <div className="flex items-center gap-4 text-[var(--brand,#ff4d00)]">
                     <Mail className="w-5 h-5" />
                     <span className="text-[10px] font-bold uppercase tracking-[0.3em]">
                       Email
@@ -860,8 +860,8 @@ function ContactPage() {
           <Reveal delay={0.15}>
             <div className="lg:col-span-7">
               {sent ? (
-                <div className="p-16 border border-[#ff4d00]/30 bg-[#ff4d00]/5 rounded-sm">
-                  <Mail className="w-10 h-10 text-[#ff4d00] mb-8" />
+                <div className="p-16 border border-[var(--brand,#ff4d00)]/30 bg-[var(--brand,#ff4d00)]/5 rounded-sm">
+                  <Mail className="w-10 h-10 text-[var(--brand,#ff4d00)] mb-8" />
                   <h3 className="text-3xl font-black italic uppercase tracking-tighter text-white mb-4">
                     Message Envoyé.
                   </h3>
@@ -921,7 +921,7 @@ function ContactPage() {
                   </div>
                   <MagneticBtn
                     type="submit"
-                    className="px-14 py-6 bg-[#ff4d00] text-white text-[10px] font-black uppercase tracking-[0.4em] rounded-full hover:scale-105 transition-all cursor-pointer shadow-[0_0_40px_rgba(255,77,0,0.3)]"
+                    className="px-14 py-6 bg-[var(--brand,#ff4d00)] text-white text-[10px] font-black uppercase tracking-[0.4em] rounded-full hover:scale-105 transition-all cursor-pointer shadow-[0_0_40px_rgba(255,77,0,0.3)]"
                   >
                     Envoyer le message
                   </MagneticBtn>
@@ -1019,7 +1019,7 @@ function LegalBlock({
   return (
     <Reveal>
       <div className="border-b border-white/5 pb-10">
-        <h2 className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#ff4d00] mb-5">
+        <h2 className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#ff4d00)] mb-5">
           {title}
         </h2>
         <p className="text-base md:text-lg text-white/50 font-light leading-relaxed italic">
@@ -1116,7 +1116,7 @@ export default function EmberGrillPage() {
   }, []);
 
   return (
-    <div className="premium-theme min-h-dvh bg-[#050505] text-[#dcdcdc] font-sans selection:bg-[#ff4d00] selection:text-white overflow-x-hidden">
+    <div className="premium-theme min-h-dvh bg-[#050505] text-[#dcdcdc] font-sans selection:bg-[var(--brand,#ff4d00)] selection:text-white overflow-x-hidden">
       {/* ── NAVIGATION ── */}
       <nav
         className={`fixed top-0 left-0 w-full z-50 transition-all duration-700 ${scrolled || page !== "home" ? "bg-[#050505]/95 backdrop-blur-2xl py-4 border-b border-white/5" : "bg-transparent py-8"}`}
@@ -1137,7 +1137,7 @@ export default function EmberGrillPage() {
                 <span className="text-3xl font-black tracking-[-0.05em] uppercase leading-none italic text-white">
                   Ember
                 </span>
-                <span className="text-[8px] font-bold uppercase tracking-[0.5em] text-[#ff4d00] -mt-1 ml-1">
+                <span className="text-[8px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#ff4d00)] -mt-1 ml-1">
                   Grill & Cellar
                 </span>
               </>
@@ -1149,7 +1149,7 @@ export default function EmberGrillPage() {
               <button
                 key={link.key}
                 onClick={() => goTo(link.key)}
-                className={`transition-colors cursor-pointer ${page === link.key ? "text-[#ff4d00]" : "hover:text-[#ff4d00]"}`}
+                className={`transition-colors cursor-pointer ${page === link.key ? "text-[var(--brand,#ff4d00)]" : "hover:text-[var(--brand,#ff4d00)]"}`}
               >
                 {link.label}
               </button>
@@ -1161,16 +1161,16 @@ export default function EmberGrillPage() {
               onClick={() => goTo("reservation")}
               className="hidden md:flex items-center gap-3 group"
             >
-              <span className="text-[10px] font-bold uppercase tracking-widest text-white/60 group-hover:text-[#ff4d00] transition-colors">
+              <span className="text-[10px] font-bold uppercase tracking-widest text-white/60 group-hover:text-[var(--brand,#ff4d00)] transition-colors">
                 Réserver
               </span>
-              <div className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center text-white/40 group-hover:bg-[#ff4d00] group-hover:text-white group-hover:border-[#ff4d00] transition-all">
+              <div className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center text-white/40 group-hover:bg-[var(--brand,#ff4d00)] group-hover:text-white group-hover:border-[var(--brand,#ff4d00)] transition-all">
                 <Clock className="w-4 h-4" />
               </div>
             </button>
             <button
               onClick={() => setMenuOpen(true)}
-              className="lg:hidden text-[#ff4d00]"
+              className="lg:hidden text-[var(--brand,#ff4d00)]"
             >
               <Menu className="w-6 h-6" />
             </button>
@@ -1189,7 +1189,7 @@ export default function EmberGrillPage() {
           >
             <button
               onClick={() => setMenuOpen(false)}
-              className="absolute top-10 right-8 text-[#ff4d00]"
+              className="absolute top-10 right-8 text-[var(--brand,#ff4d00)]"
             >
               <X className="w-10 h-10" />
             </button>
@@ -1198,14 +1198,14 @@ export default function EmberGrillPage() {
                 <button
                   key={l.key}
                   onClick={() => goTo(l.key)}
-                  className={`text-left transition-colors ${page === l.key ? "text-[#ff4d00]" : "text-white/15 hover:text-[#ff4d00]"}`}
+                  className={`text-left transition-colors ${page === l.key ? "text-[var(--brand,#ff4d00)]" : "text-white/15 hover:text-[var(--brand,#ff4d00)]"}`}
                 >
                   {l.label}
                 </button>
               ))}
               <button
                 onClick={() => goTo("privacy")}
-                className={`text-left transition-colors ${page === "privacy" ? "text-[#ff4d00]" : "text-white/15 hover:text-[#ff4d00]"}`}
+                className={`text-left transition-colors ${page === "privacy" ? "text-[var(--brand,#ff4d00)]" : "text-white/15 hover:text-[var(--brand,#ff4d00)]"}`}
               >
                 Confidentialité
               </button>
@@ -1232,12 +1232,12 @@ export default function EmberGrillPage() {
 
             <div className="relative z-10 max-w-[1600px] mx-auto px-6 md:px-12 w-full">
               <Reveal>
-                <Badge className="bg-[#ff4d00]/10 text-[#ff4d00] border border-[#ff4d00]/30 text-[10px] font-bold uppercase tracking-[0.5em] mb-10 px-4 py-1.5 rounded-full">
+                <Badge className="bg-[var(--brand,#ff4d00)]/10 text-[var(--brand,#ff4d00)] border border-[var(--brand,#ff4d00)]/30 text-[10px] font-bold uppercase tracking-[0.5em] mb-10 px-4 py-1.5 rounded-full">
                   Awarded Two Michelin Stars // 2024
                 </Badge>
                 <h1 className="text-8xl md:text-[14rem] font-black leading-[0.75] tracking-tighter mb-12 uppercase text-white italic">{c?.heroHeadline ?? <>
                   Primitive <br />{" "}
-                  <span className="text-[#ff4d00] not-italic">Refinement.</span>
+                  <span className="text-[var(--brand,#ff4d00)] not-italic">Refinement.</span>
                 </>}</h1>
                 <p className="max-w-md text-xl text-white/50 leading-relaxed font-light mb-12 uppercase tracking-widest italic">{c?.heroSubline ?? fd?.tagline ?? <>
                   Where wood-fired alchemy meets contemporary culinary precision.
@@ -1245,7 +1245,7 @@ export default function EmberGrillPage() {
                 <div className="flex flex-col sm:flex-row gap-6">
                   <MagneticBtn
                     onClick={() => goTo("carte")}
-                    className="px-12 py-5 bg-[#ff4d00] text-white text-[10px] font-black uppercase tracking-[0.3em] rounded-full hover:scale-105 transition-all cursor-pointer shadow-[0_0_40px_rgba(255,77,0,0.3)]"
+                    className="px-12 py-5 bg-[var(--brand,#ff4d00)] text-white text-[10px] font-black uppercase tracking-[0.3em] rounded-full hover:scale-105 transition-all cursor-pointer shadow-[0_0_40px_rgba(255,77,0,0.3)]"
                   >
                     Explore The Menu
                   </MagneticBtn>
@@ -1263,7 +1263,7 @@ export default function EmberGrillPage() {
               <span className="text-[10px] font-bold uppercase tracking-widest">
                 Scroll
               </span>
-              <div className="w-[1px] h-12 bg-gradient-to-b from-[#ff4d00] to-transparent" />
+              <div className="w-[1px] h-12 bg-gradient-to-b from-[var(--brand,#ff4d00)] to-transparent" />
             </div>
           </section>
 
@@ -1274,7 +1274,7 @@ export default function EmberGrillPage() {
                 {STATS.map((stat, i) => (
                   <Reveal key={i} delay={i * 0.1}>
                     <div className="text-center md:text-left">
-                      <div className="text-[9px] font-bold uppercase tracking-[0.3em] text-[#ff4d00] mb-2">
+                      <div className="text-[9px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#ff4d00)] mb-2">
                         {stat.label}
                       </div>
                       <div className="text-5xl font-black italic text-white">
@@ -1294,7 +1294,7 @@ export default function EmberGrillPage() {
                 <div className="flex flex-col md:flex-row justify-between items-end mb-24 gap-12">
                   <div>
                     <h2 className="text-7xl md:text-[10rem] font-black italic tracking-tighter leading-none mb-6 uppercase text-white">
-                      The <br /> <span className="text-[#ff4d00]">Cuts.</span>
+                      The <br /> <span className="text-[var(--brand,#ff4d00)]">Cuts.</span>
                     </h2>
                     <p className="text-white/20 text-[10px] font-bold uppercase tracking-[0.4em]">
                       Seasonal Manifest // Wood-Fired Daily // Summer 2024
@@ -1302,7 +1302,7 @@ export default function EmberGrillPage() {
                   </div>
                   <button
                     onClick={() => goTo("carte")}
-                    className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#ff4d00] border-b border-[#ff4d00] pb-2 hover:text-white hover:border-white transition-all"
+                    className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#ff4d00)] border-b border-[var(--brand,#ff4d00)] pb-2 hover:text-white hover:border-white transition-all"
                   >
                     View Full Wine List
                   </button>
@@ -1339,7 +1339,7 @@ export default function EmberGrillPage() {
                               initial={{ opacity: 0 }}
                               animate={{ opacity: 1 }}
                               exit={{ opacity: 0 }}
-                              className="absolute inset-0 flex items-center justify-center bg-[#ff4d00]/10 backdrop-blur-[2px]"
+                              className="absolute inset-0 flex items-center justify-center bg-[var(--brand,#ff4d00)]/10 backdrop-blur-[2px]"
                             >
                               <span className="px-10 py-4 bg-white text-black text-[10px] font-black uppercase tracking-widest shadow-2xl">
                                 View Provenance
@@ -1350,10 +1350,10 @@ export default function EmberGrillPage() {
                       </div>
                       <div className="space-y-6">
                         <div className="flex justify-between items-baseline">
-                          <h3 className="text-4xl font-black uppercase tracking-tighter text-white italic group-hover:text-[#ff4d00] transition-colors">
+                          <h3 className="text-4xl font-black uppercase tracking-tighter text-white italic group-hover:text-[var(--brand,#ff4d00)] transition-colors">
                             {item.name}
                           </h3>
-                          <span className="text-lg font-black text-[#ff4d00] tracking-tighter">
+                          <span className="text-lg font-black text-[var(--brand,#ff4d00)] tracking-tighter">
                             {item.price}
                           </span>
                         </div>
@@ -1362,7 +1362,7 @@ export default function EmberGrillPage() {
                         </p>
                         <div className="flex items-center gap-4">
                           <div className="h-[1px] flex-1 bg-white/5" />
-                          <Flame className="w-5 h-5 text-white/10 group-hover:text-[#ff4d00] transition-all" />
+                          <Flame className="w-5 h-5 text-white/10 group-hover:text-[var(--brand,#ff4d00)] transition-all" />
                         </div>
                       </div>
                     </div>
@@ -1374,16 +1374,16 @@ export default function EmberGrillPage() {
 
           {/* ── FIRE PHILOSOPHY ── */}
           <section id="contact" className="py-40 bg-[#0a0a0a] overflow-hidden relative border-t border-white/5">
-            <div className="absolute -bottom-32 -left-32 w-[40rem] h-[40rem] bg-[#ff4d00]/5 blur-[120px] rounded-full" />
+            <div className="absolute -bottom-32 -left-32 w-[40rem] h-[40rem] bg-[var(--brand,#ff4d00)]/5 blur-[120px] rounded-full" />
             <div className="max-w-[1600px] mx-auto px-6 md:px-12">
               <Reveal>
                 <div className="text-center mb-32">
-                  <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#ff4d00] mb-8 block">
+                  <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#ff4d00)] mb-8 block">
                     The Fire Lab
                   </span>
                   <h2 className="text-6xl md:text-8xl font-black italic tracking-tighter uppercase">
                     Elemental{" "}
-                    <span className="text-[#ff4d00] not-italic">Mastery.</span>
+                    <span className="text-[var(--brand,#ff4d00)] not-italic">Mastery.</span>
                   </h2>
                 </div>
               </Reveal>
@@ -1391,8 +1391,8 @@ export default function EmberGrillPage() {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
                 {PHILOSOPHY.map((s, i) => (
                   <Reveal key={i} delay={i * 0.1}>
-                    <div className="p-16 border border-white/5 bg-white/[0.01] hover:border-[#ff4d00]/30 transition-all group h-full flex flex-col relative overflow-hidden">
-                      <div className="w-16 h-16 bg-white/5 rounded-full flex items-center justify-center text-[#ff4d00] mb-10 group-hover:bg-[#ff4d00] group-hover:text-white transition-all duration-500">
+                    <div className="p-16 border border-white/5 bg-white/[0.01] hover:border-[var(--brand,#ff4d00)]/30 transition-all group h-full flex flex-col relative overflow-hidden">
+                      <div className="w-16 h-16 bg-white/5 rounded-full flex items-center justify-center text-[var(--brand,#ff4d00)] mb-10 group-hover:bg-[var(--brand,#ff4d00)] group-hover:text-white transition-all duration-500">
                         <s.icon className="w-8 h-8" />
                       </div>
                       <h3 className="text-3xl font-black uppercase italic mb-6 tracking-tighter text-white group-hover:translate-x-2 transition-transform">
@@ -1403,7 +1403,7 @@ export default function EmberGrillPage() {
                       </p>
                       <button
                         onClick={() => goTo("about")}
-                        className="flex items-center gap-4 text-[9px] font-bold uppercase tracking-[0.3em] text-[#ff4d00] group-hover:gap-6 transition-all"
+                        className="flex items-center gap-4 text-[9px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#ff4d00)] group-hover:gap-6 transition-all"
                       >
                         Sourcing Integrity <ArrowRight className="w-4 h-4" />
                       </button>
@@ -1427,7 +1427,7 @@ export default function EmberGrillPage() {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
                   <div className="absolute bottom-16 left-16 text-white">
-                    <span className="text-[10px] font-bold uppercase tracking-[0.4em] mb-4 block text-[#ff4d00]">
+                    <span className="text-[10px] font-bold uppercase tracking-[0.4em] mb-4 block text-[var(--brand,#ff4d00)]">
                       The Cellar
                     </span>
                     <h4 className="text-5xl font-black italic uppercase tracking-tighter leading-none">
@@ -1438,12 +1438,12 @@ export default function EmberGrillPage() {
               </Reveal>
 
               <Reveal delay={0.2}>
-                <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#ff4d00] mb-8 block">
+                <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#ff4d00)] mb-8 block">
                   The Experience
                 </span>
                 <h2 className="text-6xl md:text-9xl font-black italic tracking-tighter leading-[0.8] mb-12 uppercase text-white">{c?.aboutTitle ?? fd?.businessName ?? <>
                   Deep <br />{" "}
-                  <span className="text-[#ff4d00] not-italic">Immersion.</span>
+                  <span className="text-[var(--brand,#ff4d00)] not-italic">Immersion.</span>
                 </>}</h2>
                 <p className="text-white/40 text-xl leading-relaxed mb-16 font-light uppercase tracking-wide italic">{c?.aboutText ?? <>
                   Beyond the palate. We design sensory journeys that merge the
@@ -1462,7 +1462,7 @@ export default function EmberGrillPage() {
                     { icon: Star, label: "Michelin", desc: "2-Star rated" },
                   ].map((val, i) => (
                     <div key={i} className="space-y-4">
-                      <val.icon className="w-6 h-6 text-[#ff4d00]" />
+                      <val.icon className="w-6 h-6 text-[var(--brand,#ff4d00)]" />
                       <h4 className="text-[11px] font-black uppercase tracking-widest text-white">
                         {val.label}
                       </h4>
@@ -1474,7 +1474,7 @@ export default function EmberGrillPage() {
                 </div>
                 <MagneticBtn
                   onClick={() => goTo("reservation")}
-                  className="mt-20 px-14 py-6 bg-white text-black text-[10px] font-black uppercase tracking-[0.4em] rounded-full hover:bg-[#ff4d00] hover:text-white transition-all shadow-2xl"
+                  className="mt-20 px-14 py-6 bg-white text-black text-[10px] font-black uppercase tracking-[0.4em] rounded-full hover:bg-[var(--brand,#ff4d00)] hover:text-white transition-all shadow-2xl"
                 >
                   Request Private Dining
                 </MagneticBtn>
@@ -1502,7 +1502,7 @@ export default function EmberGrillPage() {
                 <span className="text-5xl font-black tracking-[-0.05em] uppercase leading-none italic text-white">
                   Ember
                 </span>
-                <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#ff4d00] -mt-1 ml-1">
+                <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#ff4d00)] -mt-1 ml-1">
                   Grill & Cellar
                 </span>
               </div>
@@ -1514,7 +1514,7 @@ export default function EmberGrillPage() {
                 {[Globe, Globe, Mail].map((Icon, i) => (
                   <button
                     key={i}
-                    className="w-14 h-14 rounded-full border border-white/10 flex items-center justify-center text-white/40 hover:bg-[#ff4d00] hover:text-white hover:border-[#ff4d00] transition-all"
+                    className="w-14 h-14 rounded-full border border-white/10 flex items-center justify-center text-white/40 hover:bg-[var(--brand,#ff4d00)] hover:text-white hover:border-[var(--brand,#ff4d00)] transition-all"
                   >
                     <Icon className="w-5 h-5" />
                   </button>
@@ -1524,7 +1524,7 @@ export default function EmberGrillPage() {
           </div>
 
           <div className="lg:col-span-2">
-            <h4 className="text-[11px] font-black uppercase tracking-widest text-[#ff4d00] mb-12">
+            <h4 className="text-[11px] font-black uppercase tracking-widest text-[var(--brand,#ff4d00)] mb-12">
               Cuisine
             </h4>
             <ul className="space-y-6 text-[10px] font-bold uppercase tracking-widest text-white/30">
@@ -1552,7 +1552,7 @@ export default function EmberGrillPage() {
           </div>
 
           <div className="lg:col-span-2">
-            <h4 className="text-[11px] font-black uppercase tracking-widest text-[#ff4d00] mb-12">
+            <h4 className="text-[11px] font-black uppercase tracking-widest text-[var(--brand,#ff4d00)] mb-12">
               Experience
             </h4>
             <ul className="space-y-6 text-[10px] font-bold uppercase tracking-widest text-white/30">
@@ -1580,7 +1580,7 @@ export default function EmberGrillPage() {
           </div>
 
           <div className="lg:col-span-2">
-            <h4 className="text-[11px] font-black uppercase tracking-widest text-[#ff4d00] mb-12">
+            <h4 className="text-[11px] font-black uppercase tracking-widest text-[var(--brand,#ff4d00)] mb-12">
               Studio
             </h4>
             <ul className="space-y-6 text-[10px] font-bold uppercase tracking-widest text-white/30">

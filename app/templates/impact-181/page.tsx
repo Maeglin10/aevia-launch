@@ -177,17 +177,17 @@ export default function ToitPierrePiscinesPage() {
                 <div className="w-8 h-8 bg-[#374151] flex items-center justify-center">
                   <Home className="w-4 h-4 text-white" />
                 </div>
-                <span className="font-bold text-[#1f2937] text-base tracking-wide">{fd?.businessName ?? <>Toit <span className="text-[#b91c1c]">&</span> Pierre</>}</span>
+                <span className="font-bold text-[#1f2937] text-base tracking-wide">{fd?.businessName ?? <>Toit <span className="text-[var(--brand,#b91c1c)]">&</span> Pierre</>}</span>
               </>
             )}
           </div>
           <div className="hidden lg:flex gap-9 text-[10px] font-bold uppercase tracking-[0.22em] text-[#1f2937]/40">
             {["Prestations", "Réalisations", "Matériaux", "Zone d'intervention", "Contact"].map(l => (
-              <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="hover:text-[#b91c1c] transition-colors">{l}</Link>
+              <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="hover:text-[var(--brand,#b91c1c)] transition-colors">{l}</Link>
             ))}
           </div>
           <div className="flex items-center gap-3">
-            <a href={`tel:${fd?.phone ?? "0240123456"}`} className="hidden md:flex items-center gap-2 text-[#b91c1c] font-bold text-sm">
+            <a href={`tel:${fd?.phone ?? "0240123456"}`} className="hidden md:flex items-center gap-2 text-[var(--brand,#b91c1c)] font-bold text-sm">
               <Phone className="w-4 h-4" /> 02 40 12 34 56
             </a>
             <button className="hidden md:block px-5 py-2.5 bg-[#374151] text-white text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-[#1f2937] transition-colors">
@@ -197,8 +197,8 @@ export default function ToitPierrePiscinesPage() {
               <SheetTrigger className="lg:hidden"><Menu className="w-5 h-5 text-[#1f2937]" /></SheetTrigger>
               <SheetContent side="right" className="bg-[#f9f8f6] border-slate-200 p-10">
                 <div className="flex flex-col gap-7 mt-16">
-                  {["Prestations", "Réalisations", "Contact"].map(l => <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="text-3xl font-bold text-[#1f2937] hover:text-[#b91c1c] transition-colors">{l}</Link>)}
-                  <a href={`tel:${fd?.phone ?? "0240123456"}`} className="flex items-center gap-3 text-[#b91c1c] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> 02 40 12 34 56</a>
+                  {["Prestations", "Réalisations", "Contact"].map(l => <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="text-3xl font-bold text-[#1f2937] hover:text-[var(--brand,#b91c1c)] transition-colors">{l}</Link>)}
+                  <a href={`tel:${fd?.phone ?? "0240123456"}`} className="flex items-center gap-3 text-[var(--brand,#b91c1c)] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> 02 40 12 34 56</a>
                 </div>
               </SheetContent>
             </Sheet>
@@ -218,7 +218,7 @@ export default function ToitPierrePiscinesPage() {
         <motion.div style={{ y: heroTextY, opacity: heroOpacity }} className="relative z-10 max-w-[1400px] w-full mx-auto px-6 md:px-12 pb-28">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.3 }}>
             <div className="flex items-center gap-4 mb-7">
-              <div className="w-10 h-[2px] bg-[#b91c1c]" />
+              <div className="w-10 h-[2px] bg-[var(--brand,#b91c1c)]" />
               <span className="text-[9px] font-bold uppercase tracking-[0.45em] text-[#fca5a5]">Pisciniste qualifié · Pays de la Loire</span>
             </div>
           </motion.div>
@@ -234,7 +234,7 @@ export default function ToitPierrePiscinesPage() {
           </>}</motion.p>
 
           <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 1.0 }} className="flex flex-wrap gap-3">
-            <button className="px-8 py-4 bg-[#b91c1c] text-white font-bold text-[10px] uppercase tracking-[0.2em] hover:bg-[#dc2626] transition-colors">{c?.ctaText ?? <>
+            <button className="px-8 py-4 bg-[var(--brand,#b91c1c)] text-white font-bold text-[10px] uppercase tracking-[0.2em] hover:bg-[#dc2626] transition-colors">{c?.ctaText ?? <>
               Devis gratuit
             </>}</button>
             <a href={`tel:${fd?.phone ?? "0240123456"}`} className="flex items-center gap-3 px-8 py-4 border border-white/20 text-white font-bold text-[10px] uppercase tracking-widest hover:border-[#fca5a5]/50 hover:text-[#fca5a5] transition-all">
@@ -244,7 +244,7 @@ export default function ToitPierrePiscinesPage() {
         </motion.div>
 
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 z-10">
-          <motion.div animate={{ y: [0, 8, 0] }} transition={{ repeat: Infinity, duration: 2.2 }} className="w-[1px] h-10 bg-gradient-to-b from-[#b91c1c]/60 to-transparent" />
+          <motion.div animate={{ y: [0, 8, 0] }} transition={{ repeat: Infinity, duration: 2.2 }} className="w-[1px] h-10 bg-gradient-to-b from-[var(--brand,#b91c1c)]/60 to-transparent" />
         </div>
       </section>
 
@@ -272,7 +272,7 @@ export default function ToitPierrePiscinesPage() {
         <div className="max-w-[1300px] mx-auto px-6 md:px-12">
           <Reveal>
             <div className="mb-16">
-              <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#b91c1c] mb-4">Nos savoir-faire</div>
+              <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#b91c1c)] mb-4">Nos savoir-faire</div>
               <h2 className="text-4xl md:text-5xl font-bold text-[#1f2937]">Nos <span className="text-[#374151]">prestations.</span></h2>
             </div>
           </Reveal>
@@ -283,7 +283,7 @@ export default function ToitPierrePiscinesPage() {
                   <div className="w-11 h-11 bg-[#374151]/8 flex items-center justify-center mb-6 group-hover:bg-[#374151] transition-colors duration-500">
                     <s.icon className="w-5 h-5 text-[#374151] group-hover:text-white transition-colors" />
                   </div>
-                  <h3 className="font-bold text-[#1f2937] mb-3 group-hover:text-[#b91c1c] transition-colors">{s.title}</h3>
+                  <h3 className="font-bold text-[#1f2937] mb-3 group-hover:text-[var(--brand,#b91c1c)] transition-colors">{s.title}</h3>
                   <p className="text-sm text-slate-500 leading-relaxed">{s.desc}</p>
                 </div>
               </Reveal>
@@ -296,7 +296,7 @@ export default function ToitPierrePiscinesPage() {
       <section className="py-28 bg-slate-50">
         <div className="max-w-[1400px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-16">
-            <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#b91c1c] mb-4">Portfolio</div>
+            <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#b91c1c)] mb-4">Portfolio</div>
             <h2 className="text-4xl font-bold text-[#1f2937]">Chantiers <span className="text-[#374151]">récents.</span></h2>
           </div></Reveal>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -308,7 +308,7 @@ export default function ToitPierrePiscinesPage() {
                     <div className="absolute top-4 left-4 px-3 py-1.5 bg-[#374151] text-white text-[9px] font-bold uppercase tracking-widest">{r.tag}</div>
                   </div>
                   <div className="p-6 border-t border-slate-100">
-                    <h3 className="font-bold text-[#1f2937] group-hover:text-[#b91c1c] transition-colors">{r.title}</h3>
+                    <h3 className="font-bold text-[#1f2937] group-hover:text-[var(--brand,#b91c1c)] transition-colors">{r.title}</h3>
                   </div>
                 </div>
               </Reveal>
@@ -321,7 +321,7 @@ export default function ToitPierrePiscinesPage() {
       <section className="py-28 bg-[#f9f8f6]">
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-16 text-center">
-            <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#b91c1c] mb-4">Avis clients</div>
+            <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#b91c1c)] mb-4">Avis clients</div>
             <h2 className="text-4xl font-bold text-[#1f2937]">La confiance, <span className="text-[#374151]">ça se mérite.</span></h2>
           </div></Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -329,12 +329,12 @@ export default function ToitPierrePiscinesPage() {
               <Reveal key={i} delay={i * 0.1}>
                 <div className="p-8 bg-white border border-slate-100 hover:border-[#374151]/20 transition-colors h-full flex flex-col">
                   <div className="flex gap-1 mb-5">
-                    {[...Array(t.s ?? 5)].map((_, j) => <Star key={j} className="w-4 h-4 fill-[#b91c1c] text-[#b91c1c]" />)}
+                    {[...Array(t.s ?? 5)].map((_, j) => <Star key={j} className="w-4 h-4 fill-[var(--brand,#b91c1c)] text-[var(--brand,#b91c1c)]" />)}
                   </div>
                   <p className="text-slate-500 text-sm leading-relaxed italic flex-1">{`"${t.q}"`}</p>
                   <div className="mt-6 pt-5 border-t border-slate-100">
                     <div className="font-bold text-[#1f2937] text-sm">{t.n}</div>
-                    {t.l && <div className="text-[10px] text-[#b91c1c] mt-1"><MapPin className="w-3 h-3 inline mr-1" />{t.l}</div>}
+                    {t.l && <div className="text-[10px] text-[var(--brand,#b91c1c)] mt-1"><MapPin className="w-3 h-3 inline mr-1" />{t.l}</div>}
                   </div>
                 </div>
               </Reveal>
@@ -347,11 +347,11 @@ export default function ToitPierrePiscinesPage() {
       <section id="realisations" className="py-32 bg-[#1f2937] text-center">
         <Reveal>
           <div className="max-w-xl mx-auto px-6">
-            <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#b91c1c] mb-6">Votre projet</div>
+            <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#b91c1c)] mb-6">Votre projet</div>
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">Un projet de piscine ?<br /><span className="text-[#fca5a5]">Parlons-en.</span></h2>
             <p className="text-white/40 mb-10 text-sm leading-relaxed">Devis gratuit et sans engagement · Garantie décennale · Artisan Qualibat</p>
             <div className="flex flex-wrap gap-4 justify-center">
-              <button className="px-10 py-4 bg-[#b91c1c] text-white font-bold text-[10px] uppercase tracking-[0.25em] hover:bg-[#dc2626] transition-colors">
+              <button className="px-10 py-4 bg-[var(--brand,#b91c1c)] text-white font-bold text-[10px] uppercase tracking-[0.25em] hover:bg-[#dc2626] transition-colors">
                 Demander un devis gratuit
               </button>
               <a href={`tel:${fd?.phone ?? "0240123456"}`} className="flex items-center gap-3 px-10 py-4 border border-white/15 text-white font-bold text-[10px] uppercase tracking-widest hover:border-[#fca5a5]/50 hover:text-[#fca5a5] transition-all">
@@ -378,7 +378,7 @@ export default function ToitPierrePiscinesPage() {
             { t: "Contact", ls: ["02 40 12 34 56", "devis@toitpierre.fr", "Pays de la Loire", "Étude 3D offerte", "Devis gratuit sous 48h"] },
           ].map((col, i) => (
             <div key={i}>
-              <h4 className="text-[9px] font-bold uppercase tracking-[0.3em] text-[#b91c1c] mb-5">{col.t}</h4>
+              <h4 className="text-[9px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#b91c1c)] mb-5">{col.t}</h4>
               <ul className="space-y-2.5">
                 {col.ls.map(l => <li key={l}><Link href="#contact" className="text-white/25 text-sm hover:text-white transition-colors">{l}</Link></li>)}
               </ul>
@@ -387,7 +387,7 @@ export default function ToitPierrePiscinesPage() {
         </div>
         <div className="max-w-[1300px] mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between gap-4 text-[9px] font-bold uppercase tracking-widest text-white/15">
           <span>© 2026 {fd?.businessName ?? "Toit & Pierre Piscines"} · SIRET 456 789 012 00067 · Garantie Décennale · Assurance RC Pro</span>
-          <span className="text-[#b91c1c]/30">Pisciniste certifié · Pays de la Loire</span>
+          <span className="text-[var(--brand,#b91c1c)]/30">Pisciniste certifié · Pays de la Loire</span>
         </div>
       </footer>
     </div>

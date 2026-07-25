@@ -51,7 +51,7 @@ function shadeColor(hex: string, percent: number): string {
 }
 
 let C: Record<string, string> = {
-  navy: '#1b2a4a',
+  navy: 'var(--brand,#1b2a4a)',
   navyDeep: '#111d35',
   navyMid: '#243660',
   green: '#00b894',

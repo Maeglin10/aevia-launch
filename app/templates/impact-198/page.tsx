@@ -29,7 +29,7 @@ let C: Record<string, string> = {
   bg: "#fdfaf5",
   blush: "#f5e6da",
   dark: "#1a1412",
-  rose: "#c4847a",
+  rose: "var(--brand,#c4847a)",
   roseLight: "#e8b4ad",
   roseDark: "#9d5f56",
   ivory: "#f7f2ea",

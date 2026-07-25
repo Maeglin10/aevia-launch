@@ -130,15 +130,15 @@ export default function AtelierMecaniquePage() {
 
 return (
     <div className="min-h-dvh bg-[#0C0B09]" style={{ fontFamily: "'Jost', sans-serif", overflowX: "clip" }}>
-      <motion.div className="fixed top-0 left-0 right-0 h-[2px] bg-[#B49A6A] origin-left z-[60]" style={{ scaleX: scrollYProgress }} />
+      <motion.div className="fixed top-0 left-0 right-0 h-[2px] bg-[var(--brand,#B49A6A)] origin-left z-[60]" style={{ scaleX: scrollYProgress }} />
 
       {/* Nav */}
       <nav className="fixed top-4 left-4 right-4 z-50">
-        <div className="max-w-6xl mx-auto bg-[#0C0B09]/90 backdrop-blur-md border border-[#B49A6A]/20 rounded-2xl px-6 py-4 flex items-center justify-between">
+        <div className="max-w-6xl mx-auto bg-[#0C0B09]/90 backdrop-blur-md border border-[var(--brand,#B49A6A)]/20 rounded-2xl px-6 py-4 flex items-center justify-between">
           <a
             href="/templates/impact-13"
             onClick={(e) => { e.preventDefault(); goTo("home"); }}
-            className="text-[#B49A6A] tracking-widest text-sm cursor-pointer text-decoration-none"
+            className="text-[var(--brand,#B49A6A)] tracking-widest text-sm cursor-pointer text-decoration-none"
             style={{ fontFamily: "'Libre Baskerville', serif", fontSize: "1rem" }}
           >{fd?.logoBase64 ? (
             <img
@@ -159,8 +159,8 @@ return (
                 key={item.name}
                 href="/templates/impact-13"
                 onClick={(e) => { e.preventDefault(); goTo(item.target as any); }}
-                className={`hover:text-[#B49A6A] transition-colors cursor-pointer text-decoration-none ${
-                  page === item.target ? "text-[#B49A6A]" : ""
+                className={`hover:text-[var(--brand,#B49A6A)] transition-colors cursor-pointer text-decoration-none ${
+                  page === item.target ? "text-[var(--brand,#B49A6A)]" : ""
                 }`}
               >
                 {item.name}
@@ -169,7 +169,7 @@ return (
           </div>
           <button
             onClick={() => goTo("montres")}
-            className="hidden md:inline-flex border border-[#B49A6A]/40 text-[#B49A6A] text-xs tracking-widest uppercase px-5 py-2.5 hover:bg-[#B49A6A] hover:text-[#0C0B09] transition-all cursor-pointer rounded-lg bg-transparent"
+            className="hidden md:inline-flex border border-[var(--brand,#B49A6A)]/40 text-[var(--brand,#B49A6A)] text-xs tracking-widest uppercase px-5 py-2.5 hover:bg-[var(--brand,#B49A6A)] hover:text-[#0C0B09] transition-all cursor-pointer rounded-lg bg-transparent"
           >
             Catalogue
           </button>
@@ -188,7 +188,7 @@ return (
                   style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
                 />
               ) : (
-                <span className="text-[#B49A6A] text-xl" style={{ fontFamily: "'Libre Baskerville', serif" }}>{fd?.businessName ?? "Atelier Mécanique"}</span>
+                <span className="text-[var(--brand,#B49A6A)] text-xl" style={{ fontFamily: "'Libre Baskerville', serif" }}>{fd?.businessName ?? "Atelier Mécanique"}</span>
               )}
               <button onClick={() => setMobileOpen(false)} className="cursor-pointer bg-transparent border-0"><X className="w-6 h-6 text-white" /></button>
             </div>
@@ -222,7 +222,7 @@ return (
             <motion.div className="relative z-10 h-full flex items-center px-6" style={{ opacity: heroOpacity }}>
               <div className="max-w-6xl mx-auto w-full">
                 <Reveal>
-                  <p className="text-[#B49A6A] text-xs tracking-widest uppercase mb-6">Manufacture horlogère · Depuis 1887</p>
+                  <p className="text-[var(--brand,#B49A6A)] text-xs tracking-widest uppercase mb-6">Manufacture horlogère · Depuis 1887</p>
                 </Reveal>
                 <Reveal delay={0.1}>
                   <h1 className="text-white text-6xl md:text-8xl leading-none mb-8" style={{ fontFamily: "'Libre Baskerville', serif", fontWeight: 400 }}>{c?.heroHeadline ?? <>
@@ -236,7 +236,7 @@ return (
                 </Reveal>
                 <Reveal delay={0.3}>
                   <div className="flex gap-4">
-                    <button onClick={() => goTo("montres")} className="bg-[#B49A6A] text-[#0C0B09] px-8 py-4 text-xs tracking-widest uppercase hover:bg-[#A08A5E] transition-colors cursor-pointer rounded-lg border-0">
+                    <button onClick={() => goTo("montres")} className="bg-[var(--brand,#B49A6A)] text-[#0C0B09] px-8 py-4 text-xs tracking-widest uppercase hover:bg-[#A08A5E] transition-colors cursor-pointer rounded-lg border-0">
                       Découvrir les montres
                     </button>
                     <button onClick={() => goTo("manufacture")} className="border border-white/20 text-white px-8 py-4 text-xs tracking-widest uppercase hover:bg-white/10 transition-colors cursor-pointer rounded-lg bg-transparent">
@@ -249,7 +249,7 @@ return (
           </section>
 
           {/* Stats */}
-          <section className="py-12 bg-[#B49A6A]">
+          <section className="py-12 bg-[var(--brand,#B49A6A)]">
             <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 px-6">
               {[["137", "Ans d'histoire"], ["100%", "Manufacture"], ["72h", "Réserve max."], ["500", "Pièces / an"]].map(([n, l]) => (
                 <div key={l} className="text-center">
@@ -265,13 +265,13 @@ return (
             <div className="max-w-6xl mx-auto">
               <Reveal>
                 <div className="mb-12">
-                  <p className="text-[#B49A6A] text-xs tracking-widest uppercase mb-3">Collections</p>
+                  <p className="text-[var(--brand,#B49A6A)] text-xs tracking-widest uppercase mb-3">Collections</p>
                   <h2 className="text-white text-4xl md:text-5xl" style={{ fontFamily: "'Libre Baskerville', serif", fontWeight: 400 }}>Nos garde-temps</h2>
                 </div>
               </Reveal>
               <div className="flex gap-3 mb-8 flex-wrap">
                 {collections.map((c, i) => (
-                  <button key={c} onClick={() => setActiveCollection(i)} className={`px-5 py-2.5 text-xs tracking-widest uppercase transition-all cursor-pointer border rounded-lg bg-transparent ${i === activeCollection ? "bg-[#B49A6A] text-[#0C0B09] border-[#B49A6A]" : "border-white/10 text-white/40 hover:border-[#B49A6A]/40"}`}>
+                  <button key={c} onClick={() => setActiveCollection(i)} className={`px-5 py-2.5 text-xs tracking-widest uppercase transition-all cursor-pointer border rounded-lg bg-transparent ${i === activeCollection ? "bg-[var(--brand,#B49A6A)] text-[#0C0B09] border-[var(--brand,#B49A6A)]" : "border-white/10 text-white/40 hover:border-[var(--brand,#B49A6A)]/40"}`}>
                     {c}
                   </button>
                 ))}
@@ -279,26 +279,26 @@ return (
               <div className="grid md:grid-cols-3 gap-5">
                 {models.map((m, i) => (
                   <Reveal key={m.name} delay={i * 0.1}>
-                    <div onClick={() => { setActiveModel(i); goTo("montres"); }} className={`bg-[#111009] border rounded-2xl overflow-hidden cursor-pointer transition-all hover:border-[#B49A6A]/40 ${i === activeModel ? "border-[#B49A6A]/50" : "border-white/10"}`}>
+                    <div onClick={() => { setActiveModel(i); goTo("montres"); }} className={`bg-[#111009] border rounded-2xl overflow-hidden cursor-pointer transition-all hover:border-[var(--brand,#B49A6A)]/40 ${i === activeModel ? "border-[var(--brand,#B49A6A)]/50" : "border-white/10"}`}>
                       <div className="relative h-48 bg-[#181610]">
                         <Image src={photo(1, "https://images.unsplash.com/photo-1619134778706-7015533a6150?w=500&q=80")} alt={m.name} fill className="object-cover opacity-70" />
                         {m.limited && (
-                          <div className="absolute top-3 right-3 bg-[#B49A6A] text-[#0C0B09] text-xs px-2.5 py-1 tracking-widest uppercase">
+                          <div className="absolute top-3 right-3 bg-[var(--brand,#B49A6A)] text-[#0C0B09] text-xs px-2.5 py-1 tracking-widest uppercase">
                             Édition Limitée
                           </div>
                         )}
                       </div>
                       <div className="p-6">
                         <h3 className="text-white text-lg mb-1" style={{ fontFamily: "'Libre Baskerville', serif" }}>{m.name}</h3>
-                        <p className="text-[#B49A6A] text-xs tracking-widest mb-4">{m.movement}</p>
+                        <p className="text-[var(--brand,#B49A6A)] text-xs tracking-widest mb-4">{m.movement}</p>
                         <div className="space-y-2 text-xs text-white/40 mb-6">
                           <div className="flex justify-between"><span>Réserve de marche</span><span className="text-white/70">{m.reserve}</span></div>
                           <div className="flex justify-between"><span>Complications</span><span className="text-white/70 text-right max-w-[120px]">{m.complications}</span></div>
                           <div className="flex justify-between"><span>Millésime</span><span className="text-white/70">{m.year}</span></div>
                         </div>
                         <div className="flex items-center justify-between">
-                          <span className="text-[#B49A6A] text-xl" style={{ fontFamily: "'Libre Baskerville', serif" }}>{m.price}</span>
-                          <button className="flex items-center gap-1 text-white/40 text-xs hover:text-[#B49A6A] transition-colors cursor-pointer bg-transparent border-0">
+                          <span className="text-[var(--brand,#B49A6A)] text-xl" style={{ fontFamily: "'Libre Baskerville', serif" }}>{m.price}</span>
+                          <button className="flex items-center gap-1 text-white/40 text-xs hover:text-[var(--brand,#B49A6A)] transition-colors cursor-pointer bg-transparent border-0">
                             Découvrir <ChevronRight className="w-3 h-3" />
                           </button>
                         </div>
@@ -320,19 +320,19 @@ return (
               </Reveal>
               <Reveal delay={0.1}>
                 <div>
-                  <p className="text-[#B49A6A] text-xs tracking-widest uppercase mb-4">Manufacture</p>
+                  <p className="text-[var(--brand,#B49A6A)] text-xs tracking-widest uppercase mb-4">Manufacture</p>
                   <h2 className="text-white text-4xl md:text-5xl mb-8" style={{ fontFamily: "'Libre Baskerville', serif", fontWeight: 400 }}>
                     L'excellence<br /><em>du geste</em>
                   </h2>
                   <div className="space-y-6">
                     {savoirFaire.map((sf, i) => (
-                      <div key={sf.title} className="border-l-2 border-[#B49A6A]/30 pl-5">
+                      <div key={sf.title} className="border-l-2 border-[var(--brand,#B49A6A)]/30 pl-5">
                         <h3 className="text-white font-medium text-sm mb-2">{sf.title}</h3>
                         <p className="text-white/50 text-sm leading-relaxed">{sf.desc}</p>
                       </div>
                     ))}
                   </div>
-                  <button onClick={() => goTo("manufacture")} className="flex items-center gap-2 text-[#B49A6A] text-xs tracking-widest uppercase mt-10 hover:gap-4 transition-all cursor-pointer bg-transparent border-0">
+                  <button onClick={() => goTo("manufacture")} className="flex items-center gap-2 text-[var(--brand,#B49A6A)] text-xs tracking-widest uppercase mt-10 hover:gap-4 transition-all cursor-pointer bg-transparent border-0">
                     Visiter la manufacture <ArrowRight className="w-4 h-4" />
                   </button>
                 </div>
@@ -344,14 +344,14 @@ return (
           <section className="py-24 px-6">
             <div className="max-w-4xl mx-auto">
               <Reveal className="mb-12">
-                <p className="text-[#B49A6A] text-xs tracking-widest uppercase mb-3">Histoire</p>
+                <p className="text-[var(--brand,#B49A6A)] text-xs tracking-widest uppercase mb-3">Histoire</p>
                 <h2 className="text-white text-4xl" style={{ fontFamily: "'Libre Baskerville', serif", fontWeight: 400 }}>137 ans d'héritage</h2>
               </Reveal>
               <div className="space-y-0">
                 {timeline.map((t, i) => (
                   <Reveal key={t.year} delay={i * 0.08}>
                     <div onClick={() => goTo("maison")} className="flex gap-8 py-6 border-b border-white/10 group cursor-pointer">
-                      <span className="text-[#B49A6A] text-xl shrink-0 w-16" style={{ fontFamily: "'Libre Baskerville', serif" }}>{t.year}</span>
+                      <span className="text-[var(--brand,#B49A6A)] text-xl shrink-0 w-16" style={{ fontFamily: "'Libre Baskerville', serif" }}>{t.year}</span>
                       <p className="text-white/60 group-hover:text-white transition-colors text-sm leading-relaxed">{t.event}</p>
                     </div>
                   </Reveal>
@@ -364,8 +364,8 @@ return (
           <section className="py-24 px-6 bg-[#0F0E0C]">
             <div className="max-w-4xl mx-auto">
               <Reveal>
-                <div className="bg-[#141310] border border-[#B49A6A]/20 rounded-3xl p-10 md:p-16">
-                  <p className="text-[#B49A6A] text-xs tracking-widest uppercase mb-6">Contact & Showroom</p>
+                <div className="bg-[#141310] border border-[var(--brand,#B49A6A)]/20 rounded-3xl p-10 md:p-16">
+                  <p className="text-[var(--brand,#B49A6A)] text-xs tracking-widest uppercase mb-6">Contact & Showroom</p>
                   <h2 className="text-white text-4xl mb-8" style={{ fontFamily: "'Libre Baskerville', serif", fontWeight: 400 }}>
                     Rencontrez nos<br />horlogers
                   </h2>
@@ -376,12 +376,12 @@ return (
                       { icon: <Clock className="w-4 h-4" />, label: "Horaires", value: "Lun–Sam 10h–19h" },
                     ].map(c => (
                       <div key={c.label}>
-                        <div className="flex items-center gap-2 text-[#B49A6A] mb-2">{c.icon}<span className="text-xs tracking-widest uppercase">{c.label}</span></div>
+                        <div className="flex items-center gap-2 text-[var(--brand,#B49A6A)] mb-2">{c.icon}<span className="text-xs tracking-widest uppercase">{c.label}</span></div>
                         <p className="text-white/60 text-sm">{c.value}</p>
                       </div>
                     ))}
                   </div>
-                  <button onClick={() => goTo("contact")} className="mt-10 bg-[#B49A6A] text-[#0C0B09] px-8 py-4 text-xs tracking-widest uppercase hover:bg-[#A08A5E] transition-colors cursor-pointer rounded-lg border-0">
+                  <button onClick={() => goTo("contact")} className="mt-10 bg-[var(--brand,#B49A6A)] text-[#0C0B09] px-8 py-4 text-xs tracking-widest uppercase hover:bg-[#A08A5E] transition-colors cursor-pointer rounded-lg border-0">
                     Prendre rendez-vous
                   </button>
                 </div>
@@ -403,7 +403,7 @@ return (
       <footer className="bg-[#080807] border-t border-white/5 py-16 px-6">
         <div className="max-w-6xl mx-auto grid md:grid-cols-4 gap-10">
           <div>
-            <p className="text-[#B49A6A] text-lg mb-4" style={{ fontFamily: "'Libre Baskerville', serif" }}>{fd?.businessName ?? "Atelier Mécanique"}</p>
+            <p className="text-[var(--brand,#B49A6A)] text-lg mb-4" style={{ fontFamily: "'Libre Baskerville', serif" }}>{fd?.businessName ?? "Atelier Mécanique"}</p>
             <p className="text-white/30 text-sm leading-relaxed">Manufacture horlogère. Place Vendôme, Paris — Depuis 1887.</p>
           </div>
           {[
@@ -430,7 +430,7 @@ return (
                       <a
                         href="/templates/impact-13"
                         onClick={clickHandler}
-                        className="text-white/30 text-sm hover:text-[#B49A6A] transition-colors cursor-pointer text-decoration-none"
+                        className="text-white/30 text-sm hover:text-[var(--brand,#B49A6A)] transition-colors cursor-pointer text-decoration-none"
                       >
                         {l}
                       </a>
@@ -446,7 +446,7 @@ return (
           <a
             href="/templates/impact-13"
             onClick={(e) => { e.preventDefault(); goTo("legal"); }}
-            className="hover:text-[#B49A6A] transition-colors cursor-pointer text-decoration-none"
+            className="hover:text-[var(--brand,#B49A6A)] transition-colors cursor-pointer text-decoration-none"
           >
             Mentions légales
           </a>
@@ -521,7 +521,7 @@ function MontresSubPage({ goTo, activeModel, setActiveModel }: { goTo: (p: any) 
         <Reveal>
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-16">
             <div>
-              <p className="text-[#B49A6A] text-xs tracking-widest uppercase mb-4">Le Catalogue</p>
+              <p className="text-[var(--brand,#B49A6A)] text-xs tracking-widest uppercase mb-4">Le Catalogue</p>
               <h1 className="text-5xl md:text-7xl font-light" style={{ fontFamily: "'Libre Baskerville', serif" }}>
                 Nos <em>Garde-Temps</em>
               </h1>
@@ -532,7 +532,7 @@ function MontresSubPage({ goTo, activeModel, setActiveModel }: { goTo: (p: any) 
                   key={cat}
                   onClick={() => setFilter(cat)}
                   className={`text-xs tracking-widest uppercase bg-transparent border-0 cursor-pointer pb-1 ${
-                    filter === cat ? "text-[#B49A6A] font-bold border-b-2 border-[#B49A6A]" : "text-white/40 hover:text-[#B49A6A]"
+                    filter === cat ? "text-[var(--brand,#B49A6A)] font-bold border-b-2 border-[var(--brand,#B49A6A)]" : "text-white/40 hover:text-[var(--brand,#B49A6A)]"
                   }`}
                 >
                   {cat}
@@ -544,7 +544,7 @@ function MontresSubPage({ goTo, activeModel, setActiveModel }: { goTo: (p: any) 
 
         <div className="grid md:grid-cols-2 gap-12 items-start">
           <div className="space-y-6">
-            <div className="relative h-[480px] bg-[#181610] rounded-2xl overflow-hidden border border-[#B49A6A]/20">
+            <div className="relative h-[480px] bg-[#181610] rounded-2xl overflow-hidden border border-[var(--brand,#B49A6A)]/20">
               <Image src={photo(3, "https://images.unsplash.com/photo-1619134778706-7015533a6150?w=800&q=80")} alt={watchModels[activeModel].name} fill className="object-cover opacity-80" />
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
@@ -553,7 +553,7 @@ function MontresSubPage({ goTo, activeModel, setActiveModel }: { goTo: (p: any) 
                   key={m.name}
                   onClick={() => setActiveModel(idx)}
                   className={`relative h-20 bg-[#141310] rounded-lg overflow-hidden border cursor-pointer ${
-                    idx === activeModel ? "border-[#B49A6A]" : "border-white/10"
+                    idx === activeModel ? "border-[var(--brand,#B49A6A)]" : "border-white/10"
                   }`}
                 >
                   <Image src={photo(4, "https://images.unsplash.com/photo-1619134778706-7015533a6150?w=200&q=80")} alt={m.name} fill className="object-cover opacity-60" />
@@ -564,15 +564,15 @@ function MontresSubPage({ goTo, activeModel, setActiveModel }: { goTo: (p: any) 
 
           <div className="space-y-8">
             <div>
-              <span className="text-[#B49A6A] text-xs tracking-widest uppercase">{watchModels[activeModel].movement}</span>
+              <span className="text-[var(--brand,#B49A6A)] text-xs tracking-widest uppercase">{watchModels[activeModel].movement}</span>
               <h2 className="text-4xl font-light mt-2" style={{ fontFamily: "'Libre Baskerville', serif" }}>{watchModels[activeModel].name}</h2>
-              <p className="text-2xl text-[#B49A6A] font-light mt-4" style={{ fontFamily: "'Libre Baskerville', serif" }}>{watchModels[activeModel].price}</p>
+              <p className="text-2xl text-[var(--brand,#B49A6A)] font-light mt-4" style={{ fontFamily: "'Libre Baskerville', serif" }}>{watchModels[activeModel].price}</p>
             </div>
 
             <p className="text-white/60 text-sm leading-relaxed">{watchModels[activeModel].desc}</p>
             <p className="text-white/60 text-xs italic">{watchModels[activeModel].details}</p>
 
-            <div className="border-t border-[#B49A6A]/20 pt-6 space-y-3 text-xs text-white/40">
+            <div className="border-t border-[var(--brand,#B49A6A)]/20 pt-6 space-y-3 text-xs text-white/40">
               <div className="flex justify-between"><span>Complications :</span><span className="text-white">{watchModels[activeModel].complications}</span></div>
               <div className="flex justify-between"><span>Réserve de marche :</span><span className="text-white">{watchModels[activeModel].reserve}</span></div>
               <div className="flex justify-between"><span>Millésime :</span><span className="text-white">{watchModels[activeModel].year}</span></div>
@@ -581,7 +581,7 @@ function MontresSubPage({ goTo, activeModel, setActiveModel }: { goTo: (p: any) 
 
             <button
               onClick={() => goTo("contact")}
-              className="w-full bg-[#B49A6A] text-[#0C0B09] px-8 py-4 text-xs tracking-widest uppercase hover:bg-[#A08A5E] transition-colors cursor-pointer rounded-lg border-0 font-medium"
+              className="w-full bg-[var(--brand,#B49A6A)] text-[#0C0B09] px-8 py-4 text-xs tracking-widest uppercase hover:bg-[#A08A5E] transition-colors cursor-pointer rounded-lg border-0 font-medium"
             >
               Demander une présentation privée
             </button>
@@ -598,7 +598,7 @@ function ManufactureSubPage({ goTo }: { goTo: (p: any) => void }) {
       <div className="max-w-5xl mx-auto space-y-16">
         <Reveal>
           <div className="text-center space-y-4">
-            <p className="text-[#B49A6A] text-xs tracking-widest uppercase">La Manufacture</p>
+            <p className="text-[var(--brand,#B49A6A)] text-xs tracking-widest uppercase">La Manufacture</p>
             <h1 className="text-5xl md:text-7xl font-light" style={{ fontFamily: "'Libre Baskerville', serif" }}>
               L'excellence du <em>Geste</em>
             </h1>
@@ -609,7 +609,7 @@ function ManufactureSubPage({ goTo }: { goTo: (p: any) => void }) {
         </Reveal>
 
         <div className="grid md:grid-cols-2 gap-12 items-center">
-          <div className="relative h-[450px] rounded-2xl overflow-hidden border border-[#B49A6A]/20">
+          <div className="relative h-[450px] rounded-2xl overflow-hidden border border-[var(--brand,#B49A6A)]/20">
             <Image src={photo(5, "https://images.unsplash.com/photo-1548169874-53e85f753f1e?w=800&q=80")} alt="Horloger au travail" fill className="object-cover" />
           </div>
           <div className="space-y-6">
@@ -617,7 +617,7 @@ function ManufactureSubPage({ goTo }: { goTo: (p: any) => void }) {
             <p className="text-white/60 text-sm leading-relaxed">
               L'anglage consiste à éliminer les arêtes vives des composants de mouvement en façonnant un biseau à 45 degrés, poli pour capter la lumière. Cette technique, entièrement manuelle, requiert des années d'expérience et une concentration absolue. Chaque pièce d'un calibre LM subit ce processus, même les parties invisibles à l'œil nu.
             </p>
-            <div className="border-l-2 border-[#B49A6A] pl-4 space-y-2 text-xs text-white/40">
+            <div className="border-l-2 border-[var(--brand,#B49A6A)] pl-4 space-y-2 text-xs text-white/40">
               <p><strong>Guillochage :</strong> Motifs géométriques réguliers gravés à la main sur les cadrans à l'aide de tours à guillocher centenaires.</p>
               <p><strong>Ajustage :</strong> Réglage chronométrique précis dans cinq positions différentes sous température contrôlée.</p>
             </div>
@@ -626,21 +626,21 @@ function ManufactureSubPage({ goTo }: { goTo: (p: any) => void }) {
 
         <div className="border-t border-white/5 pt-16 grid md:grid-cols-3 gap-8 text-sm text-white/50">
           <div className="space-y-2">
-            <h3 className="text-[#B49A6A] text-lg font-light" style={{ fontFamily: "'Libre Baskerville', serif" }}>1. Conception</h3>
+            <h3 className="text-[var(--brand,#B49A6A)] text-lg font-light" style={{ fontFamily: "'Libre Baskerville', serif" }}>1. Conception</h3>
             <p className="text-xs leading-relaxed">Notre bureau technique dessine chaque calibre de A à Z. Plus de 300 composants sont modélisés en 3D puis usinés au micron près avant de passer aux ateliers de décoration.</p>
           </div>
           <div className="space-y-2">
-            <h3 className="text-[#B49A6A] text-lg font-light" style={{ fontFamily: "'Libre Baskerville', serif" }}>2. Décoration</h3>
+            <h3 className="text-[var(--brand,#B49A6A)] text-lg font-light" style={{ fontFamily: "'Libre Baskerville', serif" }}>2. Décoration</h3>
             <p className="text-xs leading-relaxed">Côtes de Genève, perlage des platines, et étirage des flancs. C'est à cette étape que le métal brut devient une œuvre d'art horlogère, révélant ses reflets subtils.</p>
           </div>
           <div className="space-y-2">
-            <h3 className="text-[#B49A6A] text-lg font-light" style={{ fontFamily: "'Libre Baskerville', serif" }}>3. Assemblage</h3>
+            <h3 className="text-[var(--brand,#B49A6A)] text-lg font-light" style={{ fontFamily: "'Libre Baskerville', serif" }}>3. Assemblage</h3>
             <p className="text-xs leading-relaxed">Un seul horloger assemble l'intégralité d'un mouvement de haute complication, réglant le spiral et le balancier avant de procéder aux tests d'étanchéité.</p>
           </div>
         </div>
 
         <div className="text-center pt-8">
-          <button onClick={() => goTo("contact")} className="bg-[#B49A6A] text-[#0C0B09] px-10 py-5 text-xs tracking-widest uppercase hover:bg-[#A08A5E] transition-colors cursor-pointer rounded-lg border-0 font-medium">
+          <button onClick={() => goTo("contact")} className="bg-[var(--brand,#B49A6A)] text-[#0C0B09] px-10 py-5 text-xs tracking-widest uppercase hover:bg-[#A08A5E] transition-colors cursor-pointer rounded-lg border-0 font-medium">
             Prendre rendez-vous avec un conseiller
           </button>
         </div>
@@ -663,7 +663,7 @@ function MaisonSubPage() {
       <div className="max-w-4xl mx-auto space-y-16">
         <Reveal>
           <div className="text-center space-y-4">
-            <p className="text-[#B49A6A] text-xs tracking-widest uppercase">Notre Histoire</p>
+            <p className="text-[var(--brand,#B49A6A)] text-xs tracking-widest uppercase">Notre Histoire</p>
             <h1 className="text-5xl md:text-7xl font-light" style={{ fontFamily: "'Libre Baskerville', serif" }}>
               137 ans d'<em>Héritage</em>
             </h1>
@@ -677,7 +677,7 @@ function MaisonSubPage() {
           {historyTimeline.map((item, idx) => (
             <Reveal key={item.year} delay={idx * 0.08}>
               <div className="flex gap-8 py-8 border-b border-white/10 items-start">
-                <span className="text-[#B49A6A] text-3xl font-light shrink-0 w-24" style={{ fontFamily: "'Libre Baskerville', serif" }}>{item.year}</span>
+                <span className="text-[var(--brand,#B49A6A)] text-3xl font-light shrink-0 w-24" style={{ fontFamily: "'Libre Baskerville', serif" }}>{item.year}</span>
                 <div className="space-y-2">
                   <h3 className="text-white text-lg font-medium">{item.title}</h3>
                   <p className="text-white/60 text-sm leading-relaxed">{item.desc}</p>
@@ -698,7 +698,7 @@ function ContactSubPage() {
       <div className="max-w-4xl mx-auto">
         <Reveal>
           <div className="text-center mb-16 space-y-4">
-            <p className="text-[#B49A6A] text-xs tracking-widest uppercase">Showroom & Showroom Privé</p>
+            <p className="text-[var(--brand,#B49A6A)] text-xs tracking-widest uppercase">Showroom & Showroom Privé</p>
             <h1 className="text-5xl md:text-7xl font-light" style={{ fontFamily: "'Libre Baskerville', serif" }}>
               Prendre <em>Rendez-vous</em>
             </h1>
@@ -711,27 +711,27 @@ function ContactSubPage() {
         <div className="grid md:grid-cols-12 gap-12">
           <div className="md:col-span-5 space-y-8 text-sm text-white/60">
             <div className="space-y-2">
-              <h3 className="text-[#B49A6A] text-xs tracking-widest uppercase">Showroom Vendôme</h3>
+              <h3 className="text-[var(--brand,#B49A6A)] text-xs tracking-widest uppercase">Showroom Vendôme</h3>
               <p>18 Place Vendôme, 75001 Paris</p>
             </div>
             <div className="space-y-2">
-              <h3 className="text-[#B49A6A] text-xs tracking-widest uppercase">Manufacture Suisse</h3>
+              <h3 className="text-[var(--brand,#B49A6A)] text-xs tracking-widest uppercase">Manufacture Suisse</h3>
               <p>Route du Solliat 12, 1347 Le Sentier, Suisse</p>
             </div>
             <div className="space-y-2">
-              <h3 className="text-[#B49A6A] text-xs tracking-widest uppercase">Téléphone</h3>
+              <h3 className="text-[var(--brand,#B49A6A)] text-xs tracking-widest uppercase">Téléphone</h3>
               <p>+33 1 42 60 00 00</p>
             </div>
             <div className="space-y-2">
-              <h3 className="text-[#B49A6A] text-xs tracking-widest uppercase">Email</h3>
+              <h3 className="text-[var(--brand,#B49A6A)] text-xs tracking-widest uppercase">Email</h3>
               <p>{fd?.email ?? "contact@atelier-mecanique.com"}</p>
             </div>
           </div>
 
-          <div className="md:col-span-7 bg-[#141310] border border-[#B49A6A]/20 p-8 rounded-2xl">
+          <div className="md:col-span-7 bg-[#141310] border border-[var(--brand,#B49A6A)]/20 p-8 rounded-2xl">
             {submitted ? (
               <div className="text-center py-12 space-y-4">
-                <h3 className="text-xl font-light text-[#B49A6A]" style={{ fontFamily: "'Libre Baskerville', serif" }}>Demande Transmise</h3>
+                <h3 className="text-xl font-light text-[var(--brand,#B49A6A)]" style={{ fontFamily: "'Libre Baskerville', serif" }}>Demande Transmise</h3>
                 <p className="text-white/50 text-xs leading-relaxed">
                   Votre demande d'entretien a bien été enregistrée. Un concierge de la maison vous contactera sous 24 heures pour convenir des détails.
                 </p>
@@ -745,7 +745,7 @@ function ContactSubPage() {
                       type="text"
                       required
                       placeholder="Votre nom"
-                      className="w-full bg-[#0C0B09] border border-white/10 text-white p-3 text-xs outline-none focus:border-[#B49A6A] transition-all rounded-lg"
+                      className="w-full bg-[#0C0B09] border border-white/10 text-white p-3 text-xs outline-none focus:border-[var(--brand,#B49A6A)] transition-all rounded-lg"
                     />
                   </div>
                   <div>
@@ -754,7 +754,7 @@ function ContactSubPage() {
                       type="email"
                       required
                       placeholder="nom@email.com"
-                      className="w-full bg-[#0C0B09] border border-white/10 text-white p-3 text-xs outline-none focus:border-[#B49A6A] transition-all rounded-lg"
+                      className="w-full bg-[#0C0B09] border border-white/10 text-white p-3 text-xs outline-none focus:border-[var(--brand,#B49A6A)] transition-all rounded-lg"
                     />
                   </div>
                 </div>
@@ -762,7 +762,7 @@ function ContactSubPage() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-[10px] text-white/40 uppercase tracking-widest mb-2">Lieu souhaité</label>
-                    <select className="w-full bg-[#0C0B09] border border-white/10 text-white p-3 text-xs outline-none focus:border-[#B49A6A] transition-all rounded-lg">
+                    <select className="w-full bg-[#0C0B09] border border-white/10 text-white p-3 text-xs outline-none focus:border-[var(--brand,#B49A6A)] transition-all rounded-lg">
                       <option>Showroom Paris Vendôme</option>
                       <option>Manufacture Vallée de Joux</option>
                     </select>
@@ -772,14 +772,14 @@ function ContactSubPage() {
                     <input
                       type="date"
                       required
-                      className="w-full bg-[#0C0B09] border border-white/10 text-white p-3 text-xs outline-none focus:border-[#B49A6A] transition-all rounded-lg"
+                      className="w-full bg-[#0C0B09] border border-white/10 text-white p-3 text-xs outline-none focus:border-[var(--brand,#B49A6A)] transition-all rounded-lg"
                     />
                   </div>
                 </div>
 
                 <div>
                   <label className="block text-[10px] text-white/40 uppercase tracking-widest mb-2">Modèle d'intérêt</label>
-                  <select className="w-full bg-[#0C0B09] border border-white/10 text-white p-3 text-xs outline-none focus:border-[#B49A6A] transition-all rounded-lg">
+                  <select className="w-full bg-[#0C0B09] border border-white/10 text-white p-3 text-xs outline-none focus:border-[var(--brand,#B49A6A)] transition-all rounded-lg">
                     <option>Calibre Tourbillon I</option>
                     <option>Chronographe Rattrapante</option>
                     <option>Perpétuel Calendrier</option>
@@ -789,7 +789,7 @@ function ContactSubPage() {
 
                 <button
                   type="submit"
-                  className="w-full bg-[#B49A6A] text-[#0C0B09] text-xs tracking-widest uppercase py-4 font-bold hover:bg-[#A08A5E] transition-colors cursor-pointer rounded-lg border-0"
+                  className="w-full bg-[var(--brand,#B49A6A)] text-[#0C0B09] text-xs tracking-widest uppercase py-4 font-bold hover:bg-[#A08A5E] transition-colors cursor-pointer rounded-lg border-0"
                 >
                   Demander une consultation privée
                 </button>

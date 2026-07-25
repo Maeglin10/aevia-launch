@@ -49,7 +49,7 @@ let C: Record<string, string> = {
   bgAlt: "#0F0F0F",
   bgCard: "#131313",
   bgCardHover: "#171717",
-  gold: "#C9A84C",
+  gold: "var(--brand,#C9A84C)",
   goldLight: "#E2C880",
   goldDim: "rgba(201,168,76,0.1)",
   goldBorder: "rgba(201,168,76,0.2)",

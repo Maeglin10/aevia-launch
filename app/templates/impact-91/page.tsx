@@ -52,7 +52,7 @@ function shadeColor(hex: string, percent: number): string {
 let C: Record<string, string> = {
   cream:     "#FAFAF9",
   creamSoft: "#F5F4F0",
-  gold:      "#CA8A04",
+  gold:      "var(--brand,#CA8A04)",
   goldLight: "#F59E0B",
   goldDim:   "rgba(202,138,4,0.15)",
   goldBorder:"rgba(202,138,4,0.20)",
@@ -913,7 +913,7 @@ function SavoirFaireSection() {
             {STATS.map((stat, i) => (
               <Reveal key={stat.label} delay={i * 0.1}>
                 <div
-                  className="p-8 transition-all duration-300 hover:border-[#CA8A04]/40"
+                  className="p-8 transition-all duration-300 hover:border-[var(--brand,#CA8A04)]/40"
                   style={{ border: `1px solid ${C.goldBorder}`, backgroundColor: `${C.gold}08` }}
                 >
                   <p
@@ -1198,7 +1198,7 @@ function PressSection() {
           {PRESS.map((item, i) => (
             <Reveal key={item.name} delay={i * 0.08}>
               <div
-                className="p-7 flex flex-col gap-4 transition-all duration-300 hover:border-[#CA8A04]/40 group h-full"
+                className="p-7 flex flex-col gap-4 transition-all duration-300 hover:border-[var(--brand,#CA8A04)]/40 group h-full"
                 style={{ border: `1px solid ${C.goldBorder}`, backgroundColor: `${C.gold}06` }}
               >
                 <p
@@ -1651,7 +1651,7 @@ function Footer() {
                 <a
                   key={i}
                   href="#collections"
-                  className="w-9 h-9 flex items-center justify-center transition-all duration-300 hover:border-[#CA8A04]/60"
+                  className="w-9 h-9 flex items-center justify-center transition-all duration-300 hover:border-[var(--brand,#CA8A04)]/60"
                   style={{ border: `1px solid ${C.goldBorder}` }}
                 >
                   <Icon size={16} color={`${C.cream}80`} />

@@ -144,10 +144,10 @@ export default function ChronosLuxuryPage() {
   }, []);
 
   return (
-    <div className="bg-[#050505] text-[#d4af37] font-sans min-h-dvh selection:bg-[#d4af37] selection:text-black overflow-x-clip">
+    <div className="bg-[#050505] text-[var(--brand,#d4af37)] font-sans min-h-dvh selection:bg-[var(--brand,#d4af37)] selection:text-black overflow-x-clip">
       
       {/* ── NAVBAR ────────────────── */}
-      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-1000 ${scrolled ? "bg-[#050505]/95 backdrop-blur-xl border-b border-[#d4af37]/10 py-4" : "bg-transparent py-8"}`}>
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-1000 ${scrolled ? "bg-[#050505]/95 backdrop-blur-xl border-b border-[var(--brand,#d4af37)]/10 py-4" : "bg-transparent py-8"}`}>
         <div className="max-w-[1600px] mx-auto px-6 md:px-12 flex items-center justify-between">
           <div onClick={(e) => { e.preventDefault(); goTo("home"); }} className="flex items-center gap-3 group cursor-pointer">
             {fd?.logoBase64 ? (
@@ -158,14 +158,14 @@ export default function ChronosLuxuryPage() {
               />
             ) : (
               <>
-                <div className="w-10 h-10 border border-[#d4af37]/30 flex items-center justify-center group-hover:rotate-45 transition-transform duration-700">
-                  <Watch className="w-5 h-5 text-[#d4af37]" />
+                <div className="w-10 h-10 border border-[var(--brand,#d4af37)]/30 flex items-center justify-center group-hover:rotate-45 transition-transform duration-700">
+                  <Watch className="w-5 h-5 text-[var(--brand,#d4af37)]" />
                 </div>
                 <span className="text-xl font-light tracking-[0.4em] uppercase text-white">Chronos</span>
               </>
             )}
           </div>
-          <div className="hidden lg:flex gap-10 text-[9px] font-bold uppercase tracking-[0.4em] text-[#d4af37]/40">
+          <div className="hidden lg:flex gap-10 text-[9px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#d4af37)]/40">
             {[
               { name: "The Atelier", page: "atelier" },
               { name: "Collection", page: "collection" },
@@ -174,15 +174,15 @@ export default function ChronosLuxuryPage() {
               { name: "Innovation", page: "innovation" },
               { name: "Journal", page: "journal" },
             ].map(l => (
-              <a key={l.name} href="/templates/impact-118" onClick={(e) => { e.preventDefault(); goTo(l.page as any); }} className={`transition-colors hover:text-[#d4af37] ${page === l.page ? "text-[#d4af37] font-extrabold" : ""}`}>{l.name}</a>
+              <a key={l.name} href="/templates/impact-118" onClick={(e) => { e.preventDefault(); goTo(l.page as any); }} className={`transition-colors hover:text-[var(--brand,#d4af37)] ${page === l.page ? "text-[var(--brand,#d4af37)] font-extrabold" : ""}`}>{l.name}</a>
             ))}
           </div>
           <div className="flex items-center gap-8">
-            <button onClick={() => goTo("concierge")} className={`hidden md:block text-[9px] font-bold uppercase tracking-widest transition-colors ${page === "concierge" ? "text-[#d4af37]" : "text-[#d4af37]/60 hover:text-[#d4af37]"}`}>Private Concierge</button>
-            <button onClick={() => goTo("collection")} className="px-8 py-3 border border-[#d4af37] text-[#d4af37] text-[9px] font-bold uppercase tracking-[0.3em] hover:bg-[#d4af37] hover:text-black transition-all duration-700">Explore</button>
+            <button onClick={() => goTo("concierge")} className={`hidden md:block text-[9px] font-bold uppercase tracking-widest transition-colors ${page === "concierge" ? "text-[var(--brand,#d4af37)]" : "text-[var(--brand,#d4af37)]/60 hover:text-[var(--brand,#d4af37)]"}`}>Private Concierge</button>
+            <button onClick={() => goTo("collection")} className="px-8 py-3 border border-[var(--brand,#d4af37)] text-[var(--brand,#d4af37)] text-[9px] font-bold uppercase tracking-[0.3em] hover:bg-[var(--brand,#d4af37)] hover:text-black transition-all duration-700">Explore</button>
             <Sheet>
-              <SheetTrigger className="lg:hidden"><Menu className="w-6 h-6 text-[#d4af37]" /></SheetTrigger>
-              <SheetContent side="right" className="bg-[#050505] border-[#d4af37]/10 p-12 overflow-y-auto">
+              <SheetTrigger className="lg:hidden"><Menu className="w-6 h-6 text-[var(--brand,#d4af37)]" /></SheetTrigger>
+              <SheetContent side="right" className="bg-[#050505] border-[var(--brand,#d4af37)]/10 p-12 overflow-y-auto">
                 <div className="flex flex-col gap-8 mt-16 text-left">
                   {[
                     { name: "Home", page: "home" },
@@ -195,7 +195,7 @@ export default function ChronosLuxuryPage() {
                     { name: "Concierge", page: "concierge" },
                     { name: "Client Care", page: "support" },
                   ].map(l => (
-                    <a key={l.name} href="/templates/impact-118" onClick={(e) => { e.preventDefault(); goTo(l.page as any); }} className={`text-xl font-light uppercase tracking-[0.3em] hover:text-[#d4af37] transition-colors ${page === l.page ? "text-[#d4af37]" : "text-white"}`}>{l.name}</a>
+                    <a key={l.name} href="/templates/impact-118" onClick={(e) => { e.preventDefault(); goTo(l.page as any); }} className={`text-xl font-light uppercase tracking-[0.3em] hover:text-[var(--brand,#d4af37)] transition-colors ${page === l.page ? "text-[var(--brand,#d4af37)]" : "text-white"}`}>{l.name}</a>
                   ))}
                 </div>
               </SheetContent>
@@ -217,18 +217,18 @@ export default function ChronosLuxuryPage() {
 
               <div className="relative z-10 max-w-[1200px] mx-auto px-6 text-center">
                 <Reveal>
-                  <span className="text-[10px] font-bold uppercase tracking-[0.6em] text-[#d4af37]/60 block mb-10 italic">Defining Time Since 1924</span>
+                  <span className="text-[10px] font-bold uppercase tracking-[0.6em] text-[var(--brand,#d4af37)]/60 block mb-10 italic">Defining Time Since 1924</span>
                 </Reveal>
                 <Reveal delay={0.2} y={70}>
                   <h1 className="text-7xl md:text-[9rem] font-extralight tracking-tighter leading-[0.85] text-white mb-12 uppercase" style={{ fontFamily: "serif" }}>{c?.heroHeadline ?? <>
-                    Mastery In <br/> <span className="text-[#d4af37] italic">Motion.</span>
+                    Mastery In <br/> <span className="text-[var(--brand,#d4af37)] italic">Motion.</span>
                   </>}</h1>
                 </Reveal>
                 <Reveal delay={0.4}>
                   <div className="flex flex-col items-center justify-center gap-12">
-                    <div className="w-[1px] h-20 bg-gradient-to-b from-transparent via-[#d4af37]/40 to-transparent" />
+                    <div className="w-[1px] h-20 bg-gradient-to-b from-transparent via-[var(--brand,#d4af37)]/40 to-transparent" />
                     <div className="flex flex-wrap justify-center gap-8">
-                      <button onClick={() => goTo("collection")} className="px-12 py-5 bg-[#d4af37] text-black font-bold uppercase tracking-widest text-[10px] hover:px-14 transition-all duration-700">
+                      <button onClick={() => goTo("collection")} className="px-12 py-5 bg-[var(--brand,#d4af37)] text-black font-bold uppercase tracking-widest text-[10px] hover:px-14 transition-all duration-700">
                         View Collection
                       </button>
                       <button onClick={() => goTo("atelier")} className="px-12 py-5 border border-white/20 text-white font-bold uppercase tracking-widest text-[10px] hover:bg-white/5 transition-all flex items-center gap-3">
@@ -247,7 +247,7 @@ export default function ChronosLuxuryPage() {
                      <h2 className="text-3xl md:text-5xl font-light italic leading-relaxed text-white/80" style={{ fontFamily: "serif" }}>
                         "A watch does not simply tell the time; it tells a story of patience, precision, and the pursuit of perfection."
                      </h2>
-                     <div className="mt-12 text-[10px] font-bold uppercase tracking-[0.4em] text-[#d4af37]">Leo Aris — Master Horologist</div>
+                     <div className="mt-12 text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#d4af37)]">Leo Aris — Master Horologist</div>
                   </Reveal>
                </div>
             </section>
@@ -258,10 +258,10 @@ export default function ChronosLuxuryPage() {
                 <Reveal>
                   <div className="flex items-end justify-between mb-24 border-b border-white/5 pb-12">
                     <div>
-                      <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#d4af37] block mb-4">The Collection</span>
+                      <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#d4af37)] block mb-4">The Collection</span>
                       <h2 className="text-5xl md:text-7xl font-extralight uppercase text-white" style={{ fontFamily: "serif" }}>Selected <span className="italic">Series.</span></h2>
                     </div>
-                    <button onClick={() => goTo("collection")} className="text-[10px] font-bold uppercase tracking-widest text-[#d4af37]/60 hover:text-[#d4af37] transition-colors flex items-center gap-4 group">
+                    <button onClick={() => goTo("collection")} className="text-[10px] font-bold uppercase tracking-widest text-[var(--brand,#d4af37)]/60 hover:text-[var(--brand,#d4af37)] transition-colors flex items-center gap-4 group">
                        Browse All <ArrowRight className="w-4 h-4 group-hover:translate-x-2 transition-transform" />
                     </button>
                   </div>
@@ -280,7 +280,7 @@ export default function ChronosLuxuryPage() {
                         </div>
                         <div className="flex justify-between items-start mb-4">
                           <div>
-                             <div className="text-[9px] font-bold uppercase tracking-[0.2em] text-[#d4af37] mb-1">{c.series}</div>
+                             <div className="text-[9px] font-bold uppercase tracking-[0.2em] text-[var(--brand,#d4af37)] mb-1">{c.series}</div>
                              <h3 className="text-2xl font-light uppercase text-white tracking-widest">{c.name}</h3>
                           </div>
                           <div className="text-xl font-bold italic">{c.price}</div>
@@ -302,7 +302,7 @@ export default function ChronosLuxuryPage() {
                       <ParallaxImg src={photo(1, "https://images.unsplash.com/photo-1524592094714-0f0654e20314?auto=format&fit=crop&q=80&w=1200")} alt="Atelier Detail" />
                       <div className="absolute -bottom-12 -left-12 p-8 bg-[#050505] border border-white/5 w-64 hidden md:block">
                          <div className="text-3xl font-bold mb-2 text-white">100%</div>
-                         <div className="text-[9px] font-bold uppercase tracking-widest text-[#d4af37]">In-House Calibre</div>
+                         <div className="text-[9px] font-bold uppercase tracking-widest text-[var(--brand,#d4af37)]">In-House Calibre</div>
                       </div>
                     </div>
                   </Reveal>
@@ -312,8 +312,8 @@ export default function ChronosLuxuryPage() {
                       <div className="space-y-16">
                         {CRAFT.map((item, i) => (
                           <div key={i} className="flex gap-8 group cursor-pointer" onClick={() => goTo("craftsmanship")}>
-                            <div className="w-12 h-12 shrink-0 border border-[#d4af37]/20 flex items-center justify-center group-hover:bg-[#d4af37] group-hover:border-[#d4af37] transition-all duration-700">
-                              <item.icon className="w-5 h-5 text-[#d4af37] group-hover:text-black transition-colors" />
+                            <div className="w-12 h-12 shrink-0 border border-[var(--brand,#d4af37)]/20 flex items-center justify-center group-hover:bg-[var(--brand,#d4af37)] group-hover:border-[var(--brand,#d4af37)] transition-all duration-700">
+                              <item.icon className="w-5 h-5 text-[var(--brand,#d4af37)] group-hover:text-black transition-colors" />
                             </div>
                             <div>
                               <h4 className="text-lg font-bold uppercase tracking-widest text-white mb-4">{item.title}</h4>
@@ -332,12 +332,12 @@ export default function ChronosLuxuryPage() {
             <section className="py-40 bg-[#050505] text-center">
               <div className="max-w-4xl mx-auto px-6">
                 <Reveal>
-                  <h2 className="text-5xl md:text-8xl font-extralight uppercase text-white mb-12" style={{ fontFamily: "serif" }}>{c?.aboutTitle ?? fd?.businessName ?? <>Personal <span className="italic text-[#d4af37]">Curation.</span></>}</h2>
+                  <h2 className="text-5xl md:text-8xl font-extralight uppercase text-white mb-12" style={{ fontFamily: "serif" }}>{c?.aboutTitle ?? fd?.businessName ?? <>Personal <span className="italic text-[var(--brand,#d4af37)]">Curation.</span></>}</h2>
                   <p className="text-xl text-white/40 font-light mb-16 leading-relaxed">{c?.aboutText ?? <>
                     Connect with our horological advisors for a private viewing of our latest complications, or to begin the creation of a masterpiece.
                   </>}</p>
                   <div className="flex flex-col sm:flex-row items-center justify-center gap-8">
-                    <button onClick={() => goTo("concierge")} className="px-16 py-6 bg-[#d4af37] text-black font-bold uppercase tracking-widest text-[10px] hover:px-20 transition-all duration-700">
+                    <button onClick={() => goTo("concierge")} className="px-16 py-6 bg-[var(--brand,#d4af37)] text-black font-bold uppercase tracking-widest text-[10px] hover:px-20 transition-all duration-700">
                        Request Private Viewing
                     </button>
                     <button onClick={() => goTo("concierge")} className="px-16 py-6 border border-white/20 text-white font-bold uppercase tracking-widest text-[10px] hover:bg-white/5 transition-all">
@@ -366,8 +366,8 @@ export default function ChronosLuxuryPage() {
         <div className="max-w-[1600px] mx-auto grid grid-cols-1 md:grid-cols-5 gap-16 mb-24">
           <div className="md:col-span-2">
             <div onClick={() => goTo("home")} className="flex items-center gap-3 mb-10 cursor-pointer">
-              <div className="w-8 h-8 border border-[#d4af37]/30 flex items-center justify-center">
-                <Watch className="w-4 h-4 text-[#d4af37]" />
+              <div className="w-8 h-8 border border-[var(--brand,#d4af37)]/30 flex items-center justify-center">
+                <Watch className="w-4 h-4 text-[var(--brand,#d4af37)]" />
               </div>
               <span className="text-xl font-light tracking-[0.4em] uppercase text-white">Chronos</span>
             </div>
@@ -376,7 +376,7 @@ export default function ChronosLuxuryPage() {
             </p>
             <div className="flex gap-8">
                {["Camera", "Vimeo", "WeChat", "LinkedIn"].map(s => (
-                 <a key={s} href={ s === "LinkedIn" || s === "Linkedin" ? "https://linkedin.com" : s === "Contact" || s === "contact" ? "#contact" : `#${s.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } onClick={(e) => e.preventDefault()} className="text-[10px] font-bold uppercase tracking-widest text-[#d4af37]/40 hover:text-[#d4af37] transition-colors">{s}</a>
+                 <a key={s} href={ s === "LinkedIn" || s === "Linkedin" ? "https://linkedin.com" : s === "Contact" || s === "contact" ? "#contact" : `#${s.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } onClick={(e) => e.preventDefault()} className="text-[10px] font-bold uppercase tracking-widest text-[var(--brand,#d4af37)]/40 hover:text-[var(--brand,#d4af37)] transition-colors">{s}</a>
                ))}
             </div>
           </div>
@@ -387,7 +387,7 @@ export default function ChronosLuxuryPage() {
             { t: "Client Care", l: ["Servicing", "Authentication", "Warranty", "Contact"] },
           ].map((col, i) => (
             <div key={i}>
-              <h4 className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#d4af37] mb-10">{col.t}</h4>
+              <h4 className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#d4af37)] mb-10">{col.t}</h4>
               <ul className="space-y-6">
                 {col.l.map(link => {
                   let onClickHandler = (e: React.MouseEvent) => e.preventDefault();
@@ -422,9 +422,9 @@ export default function ChronosLuxuryPage() {
         <div className="max-w-[1600px] mx-auto pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6 text-[10px] font-bold uppercase tracking-widest text-white/20">
           <span>© 2026 CHRONOS HOROLOGY SA. GENÈVE.</span>
           <div className="flex gap-10">
-             <a href="/templates/impact-118" onClick={(e) => { e.preventDefault(); goTo("legal"); }} className="hover:text-[#d4af37] transition-colors">Legal Mention</a>
-             <a href="/templates/impact-118" onClick={(e) => { e.preventDefault(); goTo("legal"); }} className="hover:text-[#d4af37] transition-colors">Privacy Circle</a>
-             <a href="/templates/impact-118" onClick={(e) => { e.preventDefault(); goTo("legal"); }} className="hover:text-[#d4af37] transition-colors">Cookies Policy</a>
+             <a href="/templates/impact-118" onClick={(e) => { e.preventDefault(); goTo("legal"); }} className="hover:text-[var(--brand,#d4af37)] transition-colors">Legal Mention</a>
+             <a href="/templates/impact-118" onClick={(e) => { e.preventDefault(); goTo("legal"); }} className="hover:text-[var(--brand,#d4af37)] transition-colors">Privacy Circle</a>
+             <a href="/templates/impact-118" onClick={(e) => { e.preventDefault(); goTo("legal"); }} className="hover:text-[var(--brand,#d4af37)] transition-colors">Cookies Policy</a>
           </div>
         </div>
       </footer>
@@ -441,11 +441,11 @@ function AtelierPage() {
     <section className="py-40 bg-[#050505] min-h-dvh text-[#f0f0f0] border-t border-white/5">
       <div className="max-w-[1200px] mx-auto px-6 font-sans">
         <div className="text-center mb-24">
-          <span className="text-[10px] font-bold uppercase tracking-[0.6em] text-[#d4af37]/60 block mb-6 italic">Since 1924</span>
+          <span className="text-[10px] font-bold uppercase tracking-[0.6em] text-[var(--brand,#d4af37)]/60 block mb-6 italic">Since 1924</span>
           <h1 className="text-5xl md:text-7xl font-extralight uppercase text-white mb-8" style={{ fontFamily: "serif" }}>
-            The Swiss <span className="italic text-[#d4af37]">Atelier</span>
+            The Swiss <span className="italic text-[var(--brand,#d4af37)]">Atelier</span>
           </h1>
-          <div className="w-[1px] h-12 bg-[#d4af37]/30 mx-auto mb-8" />
+          <div className="w-[1px] h-12 bg-[var(--brand,#d4af37)]/30 mx-auto mb-8" />
           <p className="text-lg text-white/40 max-w-2xl mx-auto leading-relaxed font-light">
             Deep in the Jura Mountains, our master horologists combine century-old methods with cutting-edge micro-mechanics.
           </p>
@@ -475,7 +475,7 @@ function AtelierPage() {
             { title: "Swiss Sourced", desc: "100% of our movements and casings are crafted in Geneva." },
           ].map((item, i) => (
             <div key={i} className="border border-white/5 p-10 bg-[#080808]">
-              <h4 className="text-sm font-bold uppercase tracking-[0.2em] text-[#d4af37] mb-4">{item.title}</h4>
+              <h4 className="text-sm font-bold uppercase tracking-[0.2em] text-[var(--brand,#d4af37)] mb-4">{item.title}</h4>
               <p className="text-xs text-white/40 leading-relaxed">{item.desc}</p>
             </div>
           ))}
@@ -497,9 +497,9 @@ function CollectionPage({ goTo }: { goTo: (p: ActivePage) => void }) {
     <section className="py-40 bg-[#050505] min-h-dvh text-white border-t border-white/5">
       <div className="max-w-[1600px] mx-auto px-6 md:px-12 font-sans">
         <div className="text-center mb-20">
-          <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#d4af37] block mb-4">The Collection</span>
+          <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#d4af37)] block mb-4">The Collection</span>
           <h2 className="text-5xl md:text-7xl font-extralight uppercase text-white" style={{ fontFamily: "serif" }}>
-            Timepiece <span className="italic text-[#d4af37]">Catalogue</span>
+            Timepiece <span className="italic text-[var(--brand,#d4af37)]">Catalogue</span>
           </h2>
         </div>
 
@@ -511,9 +511,9 @@ function CollectionPage({ goTo }: { goTo: (p: ActivePage) => void }) {
               </div>
               <div className="w-full md:w-1/2 flex flex-col h-full justify-between">
                 <div>
-                  <div className="text-[9px] font-bold uppercase tracking-[0.2em] text-[#d4af37] mb-1">{c.series}</div>
+                  <div className="text-[9px] font-bold uppercase tracking-[0.2em] text-[var(--brand,#d4af37)] mb-1">{c.series}</div>
                   <h3 className="text-3xl font-light uppercase text-white tracking-wider mb-2">{c.name}</h3>
-                  <div className="text-xl font-bold italic text-[#d4af37] mb-4">{c.price}</div>
+                  <div className="text-xl font-bold italic text-[var(--brand,#d4af37)] mb-4">{c.price}</div>
                   <p className="text-sm text-white/50 leading-relaxed font-light mb-6">{c.desc}</p>
                 </div>
 
@@ -524,7 +524,7 @@ function CollectionPage({ goTo }: { goTo: (p: ActivePage) => void }) {
                   <div className="flex justify-between text-xs"><span className="text-white/30">Water Resistance</span><span>{c.water}</span></div>
                 </div>
 
-                <button onClick={() => goTo("concierge")} className="w-full py-4 border border-[#d4af37] text-[#d4af37] text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-[#d4af37] hover:text-black transition-all duration-700">
+                <button onClick={() => goTo("concierge")} className="w-full py-4 border border-[var(--brand,#d4af37)] text-[var(--brand,#d4af37)] text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-[var(--brand,#d4af37)] hover:text-black transition-all duration-700">
                   Request Viewing
                 </button>
               </div>
@@ -541,9 +541,9 @@ function CraftsmanshipPage() {
     <section className="py-40 bg-[#050505] min-h-dvh text-white border-t border-white/5">
       <div className="max-w-[1200px] mx-auto px-6 font-sans">
         <div className="text-center mb-24">
-          <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#d4af37] block mb-4">Savoir-Faire</span>
+          <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#d4af37)] block mb-4">Savoir-Faire</span>
           <h1 className="text-5xl md:text-7xl font-extralight uppercase text-white mb-6" style={{ fontFamily: "serif" }}>
-            The Art Of <span className="italic text-[#d4af37]">Craftsmanship</span>
+            The Art Of <span className="italic text-[var(--brand,#d4af37)]">Craftsmanship</span>
           </h1>
           <p className="text-base text-white/40 max-w-2xl mx-auto leading-relaxed">
             Every step in creating a Chronos watch is guided by absolute devotion to horological perfection. Here, we outline the key stages of our craft.
@@ -576,7 +576,7 @@ function CraftsmanshipPage() {
                 <img src={item.img} alt={item.title} className="w-full h-full object-cover" />
               </div>
               <div className="w-full lg:w-1/2">
-                <span className="text-4xl md:text-5xl font-light italic text-[#d4af37] block mb-4" style={{ fontFamily: "serif" }}>{item.num}</span>
+                <span className="text-4xl md:text-5xl font-light italic text-[var(--brand,#d4af37)] block mb-4" style={{ fontFamily: "serif" }}>{item.num}</span>
                 <h3 className="text-2xl md:text-3xl font-extralight uppercase text-white tracking-widest mb-6" style={{ fontFamily: "serif" }}>{item.title}</h3>
                 <p className="text-sm text-white/50 leading-relaxed font-light">{item.desc}</p>
               </div>
@@ -593,16 +593,16 @@ function HeritagePage() {
     <section id="realisations" className="py-40 bg-[#050505] min-h-dvh text-white border-t border-white/5">
       <div className="max-w-[1200px] mx-auto px-6 font-sans">
         <div className="text-center mb-24">
-          <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#d4af37] block mb-4">Our Legacy</span>
+          <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#d4af37)] block mb-4">Our Legacy</span>
           <h1 className="text-5xl md:text-7xl font-extralight uppercase text-white mb-6" style={{ fontFamily: "serif" }}>
-            Century Of <span className="italic text-[#d4af37]">Heritage</span>
+            Century Of <span className="italic text-[var(--brand,#d4af37)]">Heritage</span>
           </h1>
           <p className="text-base text-white/40 max-w-2xl mx-auto leading-relaxed">
             Time is not only measured but lived. Discover the key chapters that defined the Chronos legacy from the early 20th century to the modern day.
           </p>
         </div>
 
-        <div className="relative border-l border-[#d4af37]/20 pl-8 md:pl-16 max-w-3xl mx-auto space-y-24">
+        <div className="relative border-l border-[var(--brand,#d4af37)]/20 pl-8 md:pl-16 max-w-3xl mx-auto space-y-24">
           {[
             {
               year: "1924",
@@ -626,10 +626,10 @@ function HeritagePage() {
             }
           ].map((milestone, i) => (
             <div key={i} className="relative">
-              <div className="absolute -left-[41px] md:-left-[73px] top-1 w-5 h-5 rounded-full bg-[#050505] border border-[#d4af37] flex items-center justify-center">
-                <div className="w-1.5 h-1.5 rounded-full bg-[#d4af37]" />
+              <div className="absolute -left-[41px] md:-left-[73px] top-1 w-5 h-5 rounded-full bg-[#050505] border border-[var(--brand,#d4af37)] flex items-center justify-center">
+                <div className="w-1.5 h-1.5 rounded-full bg-[var(--brand,#d4af37)]" />
               </div>
-              <span className="text-3xl md:text-4xl font-extralight text-[#d4af37] italic block mb-2" style={{ fontFamily: "serif" }}>{milestone.year}</span>
+              <span className="text-3xl md:text-4xl font-extralight text-[var(--brand,#d4af37)] italic block mb-2" style={{ fontFamily: "serif" }}>{milestone.year}</span>
               <h3 className="text-xl font-bold uppercase tracking-widest text-white mb-4">{milestone.title}</h3>
               <p className="text-sm text-white/40 leading-relaxed font-light">{milestone.desc}</p>
             </div>
@@ -645,9 +645,9 @@ function InnovationPage() {
     <section className="py-40 bg-[#050505] min-h-dvh text-white border-t border-white/5">
       <div className="max-w-[1200px] mx-auto px-6 font-sans">
         <div className="text-center mb-24">
-          <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#d4af37] block mb-4">Engineering Future</span>
+          <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#d4af37)] block mb-4">Engineering Future</span>
           <h1 className="text-5xl md:text-7xl font-extralight uppercase text-white mb-6" style={{ fontFamily: "serif" }}>
-            Technical <span className="italic text-[#d4af37]">Innovation</span>
+            Technical <span className="italic text-[var(--brand,#d4af37)]">Innovation</span>
           </h1>
           <p className="text-base text-white/40 max-w-2xl mx-auto leading-relaxed">
             While respecting our heritage, we push mechanical limits. Our watchmakers develop state-of-the-art materials and complications that redefine reliability.
@@ -673,8 +673,8 @@ function InnovationPage() {
             }
           ].map((item, i) => (
             <div key={i} className="border border-white/5 p-12 bg-[#080808] flex flex-col items-center text-center">
-              <div className="w-16 h-16 border border-[#d4af37]/20 flex items-center justify-center mb-8">
-                <item.icon className="w-6 h-6 text-[#d4af37]" />
+              <div className="w-16 h-16 border border-[var(--brand,#d4af37)]/20 flex items-center justify-center mb-8">
+                <item.icon className="w-6 h-6 text-[var(--brand,#d4af37)]" />
               </div>
               <h3 className="text-lg font-bold uppercase tracking-widest text-white mb-4">{item.title}</h3>
               <p className="text-sm text-white/40 leading-relaxed font-light">{item.desc}</p>
@@ -687,18 +687,18 @@ function InnovationPage() {
             <img src={photo(10, "https://images.unsplash.com/photo-1547996160-81dfa63595aa?auto=format&fit=crop&q=80&w=1200")} alt="Innovation Detail" className="w-full h-full object-cover" />
           </div>
           <div className="w-full md:w-2/3">
-            <h3 className="text-3xl font-extralight uppercase text-[#d4af37] mb-6" style={{ fontFamily: "serif" }}>Dynamic Pressure Chambers</h3>
+            <h3 className="text-3xl font-extralight uppercase text-[var(--brand,#d4af37)] mb-6" style={{ fontFamily: "serif" }}>Dynamic Pressure Chambers</h3>
             <p className="text-sm text-white/50 leading-relaxed font-light mb-6">
               Our professional dive watches are subjected to intense static and dynamic water pressure tests. Utilizing custom-engineered hyperbaric chambers, we test each model at 125% of its rated depth to ensure absolute safety in the deepest oceans.
             </p>
             <div className="flex gap-12">
               <div>
                 <span className="text-2xl font-bold text-white block">125%</span>
-                <span className="text-[9px] font-bold uppercase tracking-widest text-[#d4af37]">Safety Buffer</span>
+                <span className="text-[9px] font-bold uppercase tracking-widest text-[var(--brand,#d4af37)]">Safety Buffer</span>
               </div>
               <div>
                 <span className="text-2xl font-bold text-white block">100 Bar</span>
-                <span className="text-[9px] font-bold uppercase tracking-widest text-[#d4af37]">Pressure Limit</span>
+                <span className="text-[9px] font-bold uppercase tracking-widest text-[var(--brand,#d4af37)]">Pressure Limit</span>
               </div>
             </div>
           </div>
@@ -737,9 +737,9 @@ function JournalPage() {
     <section className="py-40 bg-[#050505] min-h-dvh text-white border-t border-white/5">
       <div className="max-w-[1200px] mx-auto px-6 font-sans">
         <div className="text-center mb-24">
-          <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#d4af37] block mb-4">Chronos Journal</span>
+          <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#d4af37)] block mb-4">Chronos Journal</span>
           <h1 className="text-5xl md:text-7xl font-extralight uppercase text-white mb-6" style={{ fontFamily: "serif" }}>
-            Essays In <span className="italic text-[#d4af37]">Horology</span>
+            Essays In <span className="italic text-[var(--brand,#d4af37)]">Horology</span>
           </h1>
           <p className="text-base text-white/40 max-w-2xl mx-auto leading-relaxed">
             Read our notes on mechanical history, technical discoveries, and behind-the-scenes insights from the Geneva atelier.
@@ -748,17 +748,17 @@ function JournalPage() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {articles.map((art, idx) => (
-            <div key={idx} className="border border-white/5 bg-[#080808] p-6 hover:border-[#d4af37]/30 transition-all duration-500 cursor-pointer">
+            <div key={idx} className="border border-white/5 bg-[#080808] p-6 hover:border-[var(--brand,#d4af37)]/30 transition-all duration-500 cursor-pointer">
               <div className="aspect-[16/10] relative mb-6 overflow-hidden">
                 <img src={art.img} alt={art.title} className="w-full h-full object-cover" />
               </div>
-              <div className="flex justify-between items-center text-[9px] font-bold uppercase tracking-widest text-[#d4af37] mb-4">
+              <div className="flex justify-between items-center text-[9px] font-bold uppercase tracking-widest text-[var(--brand,#d4af37)] mb-4">
                 <span>{art.cat}</span>
                 <span className="text-white/30">{art.date}</span>
               </div>
               <h3 className="text-xl font-light uppercase text-white mb-4 tracking-wide leading-snug" style={{ fontFamily: "serif" }}>{art.title}</h3>
               <p className="text-xs text-white/40 leading-relaxed mb-6 font-light">{art.desc}</p>
-              <span className="text-[9px] font-bold uppercase tracking-widest text-white hover:text-[#d4af37] transition-colors flex items-center gap-2">
+              <span className="text-[9px] font-bold uppercase tracking-widest text-white hover:text-[var(--brand,#d4af37)] transition-colors flex items-center gap-2">
                 Read Article <ArrowRight className="w-3 h-3" />
               </span>
             </div>
@@ -774,9 +774,9 @@ function ConciergePage() {
     <section className="py-40 bg-[#050505] min-h-dvh text-white border-t border-white/5">
       <div className="max-w-3xl mx-auto px-6 font-sans">
         <div className="text-center mb-16">
-          <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#d4af37] block mb-4">Concierge Desk</span>
+          <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#d4af37)] block mb-4">Concierge Desk</span>
           <h2 className="text-5xl md:text-7xl font-extralight uppercase text-white" style={{ fontFamily: "serif" }}>
-            Acquisition <span className="italic text-[#d4af37]">Enquiry</span>
+            Acquisition <span className="italic text-[var(--brand,#d4af37)]">Enquiry</span>
           </h2>
           <p className="text-white/40 mt-6 text-sm font-light leading-relaxed">
             Please submit your preferred contact coordinates. Our horological advisors will contact you within 4 hours.
@@ -786,19 +786,19 @@ function ConciergePage() {
         <form onSubmit={(e) => e.preventDefault()} className="space-y-8 border border-white/5 bg-[#080808] p-10 md:p-16">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div>
-              <label className="block text-[9px] font-bold uppercase tracking-widest text-[#d4af37] mb-3">Full Name</label>
-              <input type="text" placeholder="Your name" className="w-full bg-black/40 border border-white/10 px-4 py-3 text-sm focus:border-[#d4af37] outline-none text-white transition-colors" />
+              <label className="block text-[9px] font-bold uppercase tracking-widest text-[var(--brand,#d4af37)] mb-3">Full Name</label>
+              <input type="text" placeholder="Your name" className="w-full bg-black/40 border border-white/10 px-4 py-3 text-sm focus:border-[var(--brand,#d4af37)] outline-none text-white transition-colors" />
             </div>
             <div>
-              <label className="block text-[9px] font-bold uppercase tracking-widest text-[#d4af37] mb-3">Email Address</label>
-              <input type="email" placeholder="name@domain.com" className="w-full bg-black/40 border border-white/10 px-4 py-3 text-sm focus:border-[#d4af37] outline-none text-white transition-colors" />
+              <label className="block text-[9px] font-bold uppercase tracking-widest text-[var(--brand,#d4af37)] mb-3">Email Address</label>
+              <input type="email" placeholder="name@domain.com" className="w-full bg-black/40 border border-white/10 px-4 py-3 text-sm focus:border-[var(--brand,#d4af37)] outline-none text-white transition-colors" />
             </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div>
-              <label className="block text-[9px] font-bold uppercase tracking-widest text-[#d4af37] mb-3">Timepiece of Interest</label>
-              <select className="w-full bg-black/40 border border-[#d4af37]/20 px-4 py-3 text-sm focus:border-[#d4af37] outline-none text-[#d4af37] transition-colors">
+              <label className="block text-[9px] font-bold uppercase tracking-widest text-[var(--brand,#d4af37)] mb-3">Timepiece of Interest</label>
+              <select className="w-full bg-black/40 border border-[var(--brand,#d4af37)]/20 px-4 py-3 text-sm focus:border-[var(--brand,#d4af37)] outline-none text-[var(--brand,#d4af37)] transition-colors">
                 <option value="horology1">Horology One</option>
                 <option value="deepsea">Deep Sea</option>
                 <option value="lunar">Lunar Phase</option>
@@ -807,8 +807,8 @@ function ConciergePage() {
               </select>
             </div>
             <div>
-              <label className="block text-[9px] font-bold uppercase tracking-widest text-[#d4af37] mb-3">Request Type</label>
-              <select className="w-full bg-black/40 border border-[#d4af37]/20 px-4 py-3 text-sm focus:border-[#d4af37] outline-none text-[#d4af37] transition-colors">
+              <label className="block text-[9px] font-bold uppercase tracking-widest text-[var(--brand,#d4af37)] mb-3">Request Type</label>
+              <select className="w-full bg-black/40 border border-[var(--brand,#d4af37)]/20 px-4 py-3 text-sm focus:border-[var(--brand,#d4af37)] outline-none text-[var(--brand,#d4af37)] transition-colors">
                 <option value="viewing">Private Viewing (Geneva)</option>
                 <option value="purchase">Acquisition Request</option>
                 <option value="custom">Bespoke Customization Commission</option>
@@ -817,11 +817,11 @@ function ConciergePage() {
           </div>
 
           <div>
-            <label className="block text-[9px] font-bold uppercase tracking-widest text-[#d4af37] mb-3">Additional Details</label>
-            <textarea rows={4} placeholder="Please describe any customization requests or preferred contact hours..." className="w-full bg-black/40 border border-white/10 px-4 py-3 text-sm focus:border-[#d4af37] outline-none text-white transition-colors resize-none" />
+            <label className="block text-[9px] font-bold uppercase tracking-widest text-[var(--brand,#d4af37)] mb-3">Additional Details</label>
+            <textarea rows={4} placeholder="Please describe any customization requests or preferred contact hours..." className="w-full bg-black/40 border border-white/10 px-4 py-3 text-sm focus:border-[var(--brand,#d4af37)] outline-none text-white transition-colors resize-none" />
           </div>
 
-          <button type="submit" className="w-full py-5 bg-[#d4af37] text-black font-bold uppercase tracking-widest text-[10px] hover:bg-[#d4af37]/90 transition-colors">
+          <button type="submit" className="w-full py-5 bg-[var(--brand,#d4af37)] text-black font-bold uppercase tracking-widest text-[10px] hover:bg-[var(--brand,#d4af37)]/90 transition-colors">
             Submit Private Enquiry
           </button>
         </form>
@@ -835,9 +835,9 @@ function SupportPage() {
     <section id="services" className="py-40 bg-[#050505] min-h-dvh text-white border-t border-white/5">
       <div className="max-w-[1200px] mx-auto px-6 font-sans">
         <div className="text-center mb-24">
-          <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#d4af37] block mb-4">Client Care</span>
+          <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#d4af37)] block mb-4">Client Care</span>
           <h1 className="text-5xl md:text-7xl font-extralight uppercase text-white mb-6" style={{ fontFamily: "serif" }}>
-            Servicing & <span className="italic text-[#d4af37]">Support</span>
+            Servicing & <span className="italic text-[var(--brand,#d4af37)]">Support</span>
           </h1>
           <p className="text-base text-white/40 max-w-2xl mx-auto leading-relaxed">
             Your Chronos timepiece is designed to function flawlessly across generations. Discover our support services, authentication standards, and warranty policies.
@@ -864,13 +864,13 @@ function SupportPage() {
           ].map((item, idx) => (
             <div key={idx} className="border border-white/5 bg-[#080808] p-10 flex flex-col justify-between">
               <div>
-                <div className="w-12 h-12 border border-[#d4af37]/20 flex items-center justify-center mb-8">
-                  <item.icon className="w-5 h-5 text-[#d4af37]" />
+                <div className="w-12 h-12 border border-[var(--brand,#d4af37)]/20 flex items-center justify-center mb-8">
+                  <item.icon className="w-5 h-5 text-[var(--brand,#d4af37)]" />
                 </div>
                 <h3 className="text-lg font-bold uppercase tracking-widest text-white mb-4">{item.title}</h3>
                 <p className="text-sm text-white/40 leading-relaxed font-light mb-8">{item.desc}</p>
               </div>
-              <button className="text-[9px] font-bold uppercase tracking-widest text-[#d4af37] hover:underline text-left">
+              <button className="text-[9px] font-bold uppercase tracking-widest text-[var(--brand,#d4af37)] hover:underline text-left">
                 Learn More
               </button>
             </div>
@@ -886,12 +886,12 @@ function LegalPage() {
     <section id="contact" className="py-40 bg-[#050505] min-h-dvh text-white border-t border-white/5">
       <div className="max-w-3xl mx-auto px-6 font-sans">
         <h1 className="text-4xl md:text-6xl font-extralight uppercase text-white mb-12" style={{ fontFamily: "serif" }}>
-          Legal <span className="italic text-[#d4af37]">Information</span>
+          Legal <span className="italic text-[var(--brand,#d4af37)]">Information</span>
         </h1>
 
         <div className="space-y-12 text-sm text-white/50 leading-relaxed font-light">
           <div className="border border-white/10 bg-[#080808] p-8 rounded">
-            <h3 className="text-sm font-bold uppercase tracking-[0.2em] text-[#d4af37] mb-4">Publisher & Host</h3>
+            <h3 className="text-sm font-bold uppercase tracking-[0.2em] text-[var(--brand,#d4af37)] mb-4">Publisher & Host</h3>
             <p className="space-y-1">
               <strong>Publisher:</strong> Aevia WS — Valentin Milliand<br />
               Sole Proprietorship — SIREN 852 546 225 — RCS Bourg-en-Bresse<br />

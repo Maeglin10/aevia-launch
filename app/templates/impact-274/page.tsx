@@ -49,7 +49,7 @@ function shadeColor(hex: string, percent: number): string {
 }
 
 let C: Record<string, string> = {
-  sage: '#2d5a3d',
+  sage: 'var(--brand,#2d5a3d)',
   sageMid: '#3d7a53',
   sageLite: '#5a9e72',
   plum: '#5c2a4a',

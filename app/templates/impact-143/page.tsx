@@ -152,10 +152,10 @@ export default function AtelierInteriorPage() {
   }, []);
 
   return (
-    <div className="bg-[#f5f0eb] text-[#2a2520] font-sans min-h-dvh selection:bg-[#8b7355] selection:text-white overflow-x-hidden">
+    <div className="bg-[#f5f0eb] text-[#2a2520] font-sans min-h-dvh selection:bg-[var(--brand,#8b7355)] selection:text-white overflow-x-hidden">
 
       {/* ── NAVBAR ─────────────── */}
-      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#f5f0eb]/90 backdrop-blur-xl border-b border-[#8b7355]/10 py-4" : "bg-transparent py-8"}`}>
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#f5f0eb]/90 backdrop-blur-xl border-b border-[var(--brand,#8b7355)]/10 py-4" : "bg-transparent py-8"}`}>
         <div className="max-w-[1600px] mx-auto px-6 md:px-12 flex items-center justify-between">
           <Link href="#hero" className="text-xl tracking-[0.2em] uppercase" style={{ fontFamily: "Georgia, serif" }}>
             {fd?.logoBase64 ? (
@@ -166,15 +166,15 @@ export default function AtelierInteriorPage() {
               />
             ) : (
               <>
-            <span className="font-light">Atelier</span> <span className="font-bold text-[#8b7355]">Interior</span>
+            <span className="font-light">Atelier</span> <span className="font-bold text-[var(--brand,#8b7355)]">Interior</span>
           </>
             )}</Link>
           <div className="hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-[#2a2520]/40">
             {["Projects", "Services", "About", "Contact"].map(l => (
-              <a key={l} href={`#${l.toLowerCase().replace(" ", "")}`} className="hover:text-[#8b7355] transition-colors">{l}</a>
+              <a key={l} href={`#${l.toLowerCase().replace(" ", "")}`} className="hover:text-[var(--brand,#8b7355)] transition-colors">{l}</a>
             ))}
           </div>
-          <button onClick={() => document.getElementById("contact")?.scrollIntoView({behavior:"smooth"})} className="hidden md:block px-8 py-3 bg-[#2a2520] text-[#f5f0eb] text-[10px] font-bold uppercase tracking-[0.2em] rounded-full hover:bg-[#8b7355] transition-colors duration-500">
+          <button onClick={() => document.getElementById("contact")?.scrollIntoView({behavior:"smooth"})} className="hidden md:block px-8 py-3 bg-[#2a2520] text-[#f5f0eb] text-[10px] font-bold uppercase tracking-[0.2em] rounded-full hover:bg-[var(--brand,#8b7355)] transition-colors duration-500">
             Book Consultation
           </button>
           <Sheet>
@@ -182,7 +182,7 @@ export default function AtelierInteriorPage() {
             <SheetContent side="right" className="bg-[#f5f0eb] p-12">
               <div className="flex flex-col gap-8 mt-16">
                 {["Projects", "Services", "About", "Contact"].map(l => (
-                  <a key={l} href={`#${l.toLowerCase().replace(" ", "")}`} className="text-3xl font-light hover:text-[#8b7355] transition-colors" style={{ fontFamily: "Georgia, serif" }}>{l}</a>
+                  <a key={l} href={`#${l.toLowerCase().replace(" ", "")}`} className="text-3xl font-light hover:text-[var(--brand,#8b7355)] transition-colors" style={{ fontFamily: "Georgia, serif" }}>{l}</a>
                 ))}
               </div>
             </SheetContent>
@@ -200,20 +200,20 @@ export default function AtelierInteriorPage() {
           <motion.div style={{ opacity: heroOpacity }} className="relative z-10 max-w-[1600px] w-full mx-auto px-6 md:px-12 pb-24">
             <Reveal>
               <div className="flex items-center gap-4 mb-6">
-                <div className="h-[1px] w-12 bg-[#8b7355]" />
-                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#8b7355]">Interior Design Studio</span>
+                <div className="h-[1px] w-12 bg-[var(--brand,#8b7355)]" />
+                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#8b7355)]">Interior Design Studio</span>
               </div>
             </Reveal>
             <Reveal delay={0.15} y={70}>
               <h1 className="text-6xl md:text-8xl lg:text-[9rem] font-light tracking-tighter leading-[0.85] mb-8" style={{ fontFamily: "Georgia, serif" }}>{c?.heroHeadline ?? <>
-                Spaces<br/>That <em className="text-[#8b7355]">Speak.</em>
+                Spaces<br/>That <em className="text-[var(--brand,#8b7355)]">Speak.</em>
               </>}</h1>
             </Reveal>
             <Reveal delay={0.3}>
               <p className="max-w-lg text-lg text-[#2a2520]/50 font-light leading-relaxed mb-8">{c?.heroSubline ?? fd?.tagline ?? <>
                 Bespoke interior design for discerning clients. We create environments that elevate daily life into something extraordinary.
               </>}</p>
-              <button onClick={() => document.getElementById("contact")?.scrollIntoView({behavior:"smooth"})} className="px-8 py-4 bg-[#2a2520] text-[#f5f0eb] text-[10px] font-bold uppercase tracking-widest rounded-full hover:bg-[#8b7355] transition-colors">
+              <button onClick={() => document.getElementById("contact")?.scrollIntoView({behavior:"smooth"})} className="px-8 py-4 bg-[#2a2520] text-[#f5f0eb] text-[10px] font-bold uppercase tracking-widest rounded-full hover:bg-[var(--brand,#8b7355)] transition-colors">
                 Book Consultation
               </button>
             </Reveal>
@@ -225,9 +225,9 @@ export default function AtelierInteriorPage() {
           <div className="max-w-[1600px] mx-auto px-6 md:px-12">
             <Reveal>
               <div className="mb-20">
-                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#8b7355] block mb-4">Portfolio</span>
+                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#8b7355)] block mb-4">Portfolio</span>
                 <h2 className="text-5xl md:text-7xl font-light tracking-tighter" style={{ fontFamily: "Georgia, serif" }}>
-                  Selected <em className="text-[#8b7355]">Spaces.</em>
+                  Selected <em className="text-[var(--brand,#8b7355)]">Spaces.</em>
                 </h2>
               </div>
             </Reveal>
@@ -238,10 +238,10 @@ export default function AtelierInteriorPage() {
                     <ParallaxImg src={p.img} alt={p.title} />
                   </div>
                   <div className={i % 2 !== 0 ? "lg:order-1" : ""}>
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-[#8b7355] block mb-3">{p.type}</span>
-                    <h3 className="text-4xl md:text-5xl font-light tracking-tighter mb-6 group-hover:text-[#8b7355] transition-colors" style={{ fontFamily: "Georgia, serif" }}>{p.title}</h3>
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-[var(--brand,#8b7355)] block mb-3">{p.type}</span>
+                    <h3 className="text-4xl md:text-5xl font-light tracking-tighter mb-6 group-hover:text-[var(--brand,#8b7355)] transition-colors" style={{ fontFamily: "Georgia, serif" }}>{p.title}</h3>
                     <p className="text-[#2a2520]/50 leading-relaxed mb-8">{p.desc}</p>
-                    <span className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-[#8b7355]">
+                    <span className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-[var(--brand,#8b7355)]">
                       View Project <ArrowRight className="w-4 h-4" />
                     </span>
                   </div>
@@ -267,7 +267,7 @@ export default function AtelierInteriorPage() {
                 <Reveal key={i} delay={i * 0.08}>
                   <div className="group p-10 bg-white/[0.03] border border-white/5 rounded-sm hover:border-[#c4a882]/30 transition-all duration-500">
                     <div className="flex items-start gap-6">
-                      <div className="w-14 h-14 rounded-full border border-[#c4a882]/20 flex items-center justify-center shrink-0 group-hover:bg-[#8b7355] group-hover:border-[#8b7355] transition-all duration-500">
+                      <div className="w-14 h-14 rounded-full border border-[#c4a882]/20 flex items-center justify-center shrink-0 group-hover:bg-[var(--brand,#8b7355)] group-hover:border-[var(--brand,#8b7355)] transition-all duration-500">
                         <s.icon className="w-6 h-6 text-[#c4a882] group-hover:text-white transition-colors" />
                       </div>
                       <div>
@@ -287,24 +287,24 @@ export default function AtelierInteriorPage() {
           <div className="max-w-[1000px] mx-auto px-6 md:px-12">
             <Reveal>
               <div className="text-center mb-20">
-                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#8b7355] block mb-4">Client Words</span>
+                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#8b7355)] block mb-4">Client Words</span>
                 <h2 className="text-5xl font-light tracking-tighter" style={{ fontFamily: "Georgia, serif" }}>
-                  Kind <em className="text-[#8b7355]">Words.</em>
+                  Kind <em className="text-[var(--brand,#8b7355)]">Words.</em>
                 </h2>
               </div>
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {TESTIMONIALS.map((t, i) => (
                 <Reveal key={i} delay={i * 0.1}>
-                  <div className="p-8 bg-[#f5f0eb] rounded-sm border border-[#8b7355]/5">
+                  <div className="p-8 bg-[#f5f0eb] rounded-sm border border-[var(--brand,#8b7355)]/5">
                     <div className="flex gap-1 mb-6">
                       {Array.from({ length: 5 }).map((_, j) => (
-                        <Star key={j} className="w-4 h-4 fill-[#8b7355] text-[#8b7355]" />
+                        <Star key={j} className="w-4 h-4 fill-[var(--brand,#8b7355)] text-[var(--brand,#8b7355)]" />
                       ))}
                     </div>
                     <p className="text-[#2a2520]/60 leading-relaxed mb-6 italic" style={{ fontFamily: "Georgia, serif" }}>"{t.text}"</p>
                     <div className="font-bold text-sm">{t.author}</div>
-                    <div className="text-xs text-[#8b7355]">{t.project}</div>
+                    <div className="text-xs text-[var(--brand,#8b7355)]">{t.project}</div>
                   </div>
                 </Reveal>
               ))}
@@ -323,7 +323,7 @@ export default function AtelierInteriorPage() {
               <h2 className="text-5xl md:text-7xl font-light tracking-tighter mb-6" style={{ fontFamily: "Georgia, serif" }}>
                 Let's Create Your<br/><em className="text-[#c4a882]">Perfect Space.</em>
               </h2>
-              <button onClick={() => document.getElementById("contact")?.scrollIntoView({behavior:"smooth"})} className="px-12 py-5 bg-[#f5f0eb] text-[#2a2520] font-bold rounded-full hover:bg-[#8b7355] hover:text-white transition-all duration-500">
+              <button onClick={() => document.getElementById("contact")?.scrollIntoView({behavior:"smooth"})} className="px-12 py-5 bg-[#f5f0eb] text-[#2a2520] font-bold rounded-full hover:bg-[var(--brand,#8b7355)] hover:text-white transition-all duration-500">
                 Book a Consultation
               </button>
             </Reveal>
@@ -331,7 +331,7 @@ export default function AtelierInteriorPage() {
         </section>
 
         {/* ── ABOUT ─────────── */}
-        <section id="about" className="py-32 bg-[#faf6f0] border-t border-[#8b7355]/10">
+        <section id="about" className="py-32 bg-[#faf6f0] border-t border-[var(--brand,#8b7355)]/10">
           <div className="max-w-[1200px] mx-auto px-6 md:px-12">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
               <Reveal>
@@ -341,8 +341,8 @@ export default function AtelierInteriorPage() {
               </Reveal>
               <div>
                 <Reveal delay={0.2}>
-                  <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#8b7355] block mb-4">Our Philosophy</span>
-                  <h2 className="text-4xl md:text-5xl font-light tracking-tighter mb-6" style={{ fontFamily: "Georgia, serif" }}>{c?.aboutTitle ?? fd?.businessName ?? <>Crafting Space With <em className="text-[#8b7355]">Intention.</em></>}</h2>
+                  <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#8b7355)] block mb-4">Our Philosophy</span>
+                  <h2 className="text-4xl md:text-5xl font-light tracking-tighter mb-6" style={{ fontFamily: "Georgia, serif" }}>{c?.aboutTitle ?? fd?.businessName ?? <>Crafting Space With <em className="text-[var(--brand,#8b7355)]">Intention.</em></>}</h2>
                   <p className="text-sm text-[#2a2520]/60 leading-relaxed mb-6">{c?.aboutText ?? <>
                     At Atelier Interior, we believe your home should be a physical manifestation of your journey. Founded in Paris in 2018, we work closely with local artisans to curate bespoke, tactile environments.
                   </>}</p>
@@ -356,33 +356,33 @@ export default function AtelierInteriorPage() {
         </section>
 
         {/* ── CONTACT ─────────── */}
-        <section id="contact" className="py-32 bg-[#f5f0eb] border-t border-[#8b7355]/10">
+        <section id="contact" className="py-32 bg-[#f5f0eb] border-t border-[var(--brand,#8b7355)]/10">
           <div className="max-w-[800px] mx-auto px-6 text-center">
             <Reveal>
-              <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#8b7355] block mb-4">Connect</span>
-              <h2 className="text-5xl md:text-6xl font-light tracking-tighter mb-12" style={{ fontFamily: "Georgia, serif" }}>Begin Your <em className="text-[#8b7355]">Project.</em></h2>
+              <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#8b7355)] block mb-4">Connect</span>
+              <h2 className="text-5xl md:text-6xl font-light tracking-tighter mb-12" style={{ fontFamily: "Georgia, serif" }}>Begin Your <em className="text-[var(--brand,#8b7355)]">Project.</em></h2>
             </Reveal>
             <Reveal delay={0.15}>
               {contactSubmitted ? (
-                <div className="p-12 bg-white rounded-sm border border-[#8b7355]/20 shadow-sm flex flex-col items-center justify-center">
-                  <CheckCircle2 className="w-12 h-12 text-[#8b7355] mb-4" />
+                <div className="p-12 bg-white rounded-sm border border-[var(--brand,#8b7355)]/20 shadow-sm flex flex-col items-center justify-center">
+                  <CheckCircle2 className="w-12 h-12 text-[var(--brand,#8b7355)] mb-4" />
                   <p className="text-xl font-bold text-[#2a2520]">Merci, nous vous répondrons sous 24h.</p>
                 </div>
               ) : (
                 <form onSubmit={(e) => { e.preventDefault(); setContactSubmitted(true); }} className="space-y-4 max-w-md mx-auto text-left">
                   <div>
                     <label className="block text-[9px] font-bold uppercase tracking-widest text-[#2a2520]/50 mb-2">Name</label>
-                    <input required type="text" placeholder="Your Name" className="w-full px-5 py-3.5 bg-white border border-[#8b7355]/10 rounded-sm text-sm focus:outline-none focus:border-[#8b7355] transition-colors text-[#2a2520]" />
+                    <input required type="text" placeholder="Your Name" className="w-full px-5 py-3.5 bg-white border border-[var(--brand,#8b7355)]/10 rounded-sm text-sm focus:outline-none focus:border-[var(--brand,#8b7355)] transition-colors text-[#2a2520]" />
                   </div>
                   <div>
                     <label className="block text-[9px] font-bold uppercase tracking-widest text-[#2a2520]/50 mb-2">Email</label>
-                    <input required type="email" placeholder="you@example.com" className="w-full px-5 py-3.5 bg-white border border-[#8b7355]/10 rounded-sm text-sm focus:outline-none focus:border-[#8b7355] transition-colors text-[#2a2520]" />
+                    <input required type="email" placeholder="you@example.com" className="w-full px-5 py-3.5 bg-white border border-[var(--brand,#8b7355)]/10 rounded-sm text-sm focus:outline-none focus:border-[var(--brand,#8b7355)] transition-colors text-[#2a2520]" />
                   </div>
                   <div>
                     <label className="block text-[9px] font-bold uppercase tracking-widest text-[#2a2520]/50 mb-2">Message</label>
-                    <textarea required rows={4} placeholder="Tell us about your space and timeline..." className="w-full px-5 py-3.5 bg-white border border-[#8b7355]/10 rounded-sm text-sm focus:outline-none focus:border-[#8b7355] transition-colors text-[#2a2520]" />
+                    <textarea required rows={4} placeholder="Tell us about your space and timeline..." className="w-full px-5 py-3.5 bg-white border border-[var(--brand,#8b7355)]/10 rounded-sm text-sm focus:outline-none focus:border-[var(--brand,#8b7355)] transition-colors text-[#2a2520]" />
                   </div>
-                  <button type="submit" className="w-full py-4 bg-[#2a2520] text-[#f5f0eb] font-bold rounded-sm hover:bg-[#8b7355] transition-colors duration-300">
+                  <button type="submit" className="w-full py-4 bg-[#2a2520] text-[#f5f0eb] font-bold rounded-sm hover:bg-[var(--brand,#8b7355)] transition-colors duration-300">
                     Submit Inquiry
                   </button>
                 </form>

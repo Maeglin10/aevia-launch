@@ -955,7 +955,7 @@ function ReservationPage({ guests, setGuests }: { guests: number; setGuests: (n:
             <label style={{ fontSize: 9, letterSpacing: '0.2em', color: '#f5efe6/30', fontWeight: 600, marginBottom: 8, display: 'block' }} className="uppercase">Special Requests</label>
             <textarea style={{ width: '100%', border: '1px solid rgba(255,255,255,0.1)', padding: '12px', fontSize: 13, background: 'rgba(255,255,255,0.05)', color: '#f5efe6', outline: 'none', resize: 'none', height: 80 }} />
           </div>
-          <button type="submit" style={{ width: '100%', padding: '16px', background: '#b45014', border: 'none', color: '#fff', fontSize: 11, fontWeight: 'bold', letterSpacing: '0.2em', cursor: 'pointer', borderRadius: 8 }} className="uppercase">
+          <button type="submit" style={{ width: '100%', padding: '16px', background: 'var(--brand,#b45014)', border: 'none', color: '#fff', fontSize: 11, fontWeight: 'bold', letterSpacing: '0.2em', cursor: 'pointer', borderRadius: 8 }} className="uppercase">
             Confirm Reservation
           </button>
         </form>
@@ -1032,7 +1032,7 @@ function ContactPage() {
             <label style={{ fontSize: 9, letterSpacing: '0.2em', color: '#f5efe6/30', fontWeight: 600, marginBottom: 8, display: 'block' }} className="uppercase">Message</label>
             <textarea required rows={5} style={{ width: '100%', border: '1px solid rgba(255,255,255,0.1)', padding: '12px', fontSize: 13, background: 'rgba(255,255,255,0.05)', color: '#f5efe6', outline: 'none', resize: 'none' }}></textarea>
           </div>
-          <button type="submit" style={{ width: '100%', padding: '16px', background: '#b45014', border: 'none', color: '#fff', fontSize: 11, fontWeight: 'bold', letterSpacing: '0.2em', cursor: 'pointer', borderRadius: 8 }} className="uppercase">
+          <button type="submit" style={{ width: '100%', padding: '16px', background: 'var(--brand,#b45014)', border: 'none', color: '#fff', fontSize: 11, fontWeight: 'bold', letterSpacing: '0.2em', cursor: 'pointer', borderRadius: 8 }} className="uppercase">
             Send Message
           </button>
         </form>
