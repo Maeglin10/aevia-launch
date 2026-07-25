@@ -24,7 +24,7 @@ let C: Record<string, string> = {
   bgSection: "#f0ece5",
   bgDark: "#1c1410",
   text: "#1c1410",
-  textMuted: "#6b5c4c",
+  textMuted: "var(--brand-light,#6b5c4c)",
   accent: "#8b6914",
   accentLight: "#f5e8c8",
   copper: "#b5651d",
@@ -179,7 +179,7 @@ return (
         <div id="mb227-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      {["Prestations", "Tarifs", "L'équipe", "Contact"].map(l => (
             <a key={l} href={`#${l.toLowerCase()}`} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)", fontSize: 14, fontWeight: 500, textDecoration: "none" }}>{l}</a>
           ))}
-          <motion.a href={`tel:${fd?.phone ?? "+33478000001"}`} style={{ background: C.accent, color: C.white, borderRadius: 6, padding: "9px 22px", fontSize: 14, fontWeight: 600, textDecoration: "none", display: "flex", alignItems: "center", gap: 6 }} whileHover={{ background: "#704f0a" }}>
+          <motion.a href={`tel:${fd?.phone ?? "+33478000001"}`} style={{ background: C.accent, color: C.white, borderRadius: 6, padding: "9px 22px", fontSize: 14, fontWeight: 600, textDecoration: "none", display: "flex", alignItems: "center", gap: 6 }} whileHover={{ background: "var(--brand,#704f0a)" }}>
             <Calendar size={14} /> Réserver
           </motion.a>
       </div>
@@ -199,7 +199,7 @@ return (
           {["Prestations", "Tarifs", "L'équipe", "Contact"].map(l => (
             <a key={l} href={`#${l.toLowerCase()}`} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)", fontSize: 14, fontWeight: 500, textDecoration: "none" }}>{l}</a>
           ))}
-          <motion.a href={`tel:${fd?.phone ?? "+33478000001"}`} style={{ background: C.accent, color: C.white, borderRadius: 6, padding: "9px 22px", fontSize: 14, fontWeight: 600, textDecoration: "none", display: "flex", alignItems: "center", gap: 6 }} whileHover={{ background: "#704f0a" }}>
+          <motion.a href={`tel:${fd?.phone ?? "+33478000001"}`} style={{ background: C.accent, color: C.white, borderRadius: 6, padding: "9px 22px", fontSize: 14, fontWeight: 600, textDecoration: "none", display: "flex", alignItems: "center", gap: 6 }} whileHover={{ background: "var(--brand,#704f0a)" }}>
             <Calendar size={14} /> Réserver
           </motion.a>
         </div>
@@ -284,7 +284,7 @@ return (
                 <span style={{ fontSize: 15, color: C.textMuted, lineHeight: 1.65 }}>{v}</span>
               </div>
             ))}
-            <motion.a href={`tel:${fd?.phone ?? "+33478000001"}`} style={{ display: "inline-flex", alignItems: "center", gap: 8, marginTop: 28, background: C.accent, color: C.white, borderRadius: 6, padding: "13px 28px", fontWeight: 600, fontSize: 15, textDecoration: "none" }} whileHover={{ background: "#704f0a", scale: 1.02 }}>
+            <motion.a href={`tel:${fd?.phone ?? "+33478000001"}`} style={{ display: "inline-flex", alignItems: "center", gap: 8, marginTop: 28, background: C.accent, color: C.white, borderRadius: 6, padding: "13px 28px", fontWeight: 600, fontSize: 15, textDecoration: "none" }} whileHover={{ background: "var(--brand,#704f0a)", scale: 1.02 }}>
               Réserver <ArrowRight size={16} />
             </motion.a>
           </div></Reveal>

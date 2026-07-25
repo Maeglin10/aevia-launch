@@ -236,8 +236,8 @@ function TagBadge({ tag }: { tag: string }) {
   if (!tag) return null;
   const colors: Record<string, string> = {
     Bestseller:    C.accent,
-    Nouveau:       '#2a7a4f',
-    Promo:         '#8b2020',
+    Nouveau:       'var(--brand,#2a7a4f)',
+    Promo:         'var(--brand-light,#8b2020)',
     Premium:       C.gold,
     'Coup de cœur': '#7a2a7a',
   };
@@ -513,7 +513,7 @@ function ProductCard({
             position: 'absolute',
             top: '0.75rem',
             right: '0.75rem',
-            background: '#8b2020',
+            background: 'var(--brand-light,#8b2020)',
             color: C.white,
             fontSize: '0.65rem',
             fontWeight: 700,
@@ -636,7 +636,7 @@ function ProductCard({
             onClick={handleAddToCart}
             style={{
               background: adding
-                ? `linear-gradient(135deg, #2a7a4f, #3aad6f)`
+                ? `linear-gradient(135deg, var(--brand,#2a7a4f), #3aad6f)`
                 : `linear-gradient(135deg, ${C.accent}, ${C.accentLight})`,
               color: C.white,
               border: 'none',

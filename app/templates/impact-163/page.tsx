@@ -24,7 +24,7 @@ let C: Record<string, string> = {
   bgDark: "#111111",
   text: "#111111",
   textMuted: "#6B6B6B",
-  accent: "#E63946",
+  accent: "var(--brand,#e63946)",
   accentLight: "rgba(230,57,70,0.08)",
   border: "#E2DFD9",
   white: "#FFFFFF",
@@ -126,7 +126,7 @@ const AUTHORS = [
     topics: "Stratégie · Go-to-Market",
     articles: 42,
     initials: "MD",
-    color: "#E63946",
+    color: "var(--brand,#e63946)",
   },
   {
     name: "Sophie Chen",
@@ -134,7 +134,7 @@ const AUTHORS = [
     topics: "Product · UX Research",
     articles: 38,
     initials: "SC",
-    color: "#7C3AED",
+    color: "var(--brand-light,#7c3aed)",
   },
   {
     name: "Thomas Müller",
@@ -993,7 +993,7 @@ export default function EssentialBlogPage() {
               <div style={{ display: "flex", gap: 16, marginTop: 32, alignItems: "center" }}>
                 <div style={{ display: "flex" }}>
                   {["MD", "SC", "TM", "CA"].map((init, i) => (
-                    <div key={i} style={{ width: 28, height: 28, background: ["#E63946", "#7C3AED", "#059669", "#D97706"][i], border: `2px solid ${C.bgDark}`, borderRadius: "50%", marginLeft: i > 0 ? -10 : 0, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 9, fontWeight: 800, color: C.white }}>
+                    <div key={i} style={{ width: 28, height: 28, background: ["var(--brand,#e63946)", "var(--brand-light,#7c3aed)", "#059669", "#D97706"][i], border: `2px solid ${C.bgDark}`, borderRadius: "50%", marginLeft: i > 0 ? -10 : 0, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 9, fontWeight: 800, color: C.white }}>
                       {init}
                     </div>
                   ))}

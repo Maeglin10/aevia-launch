@@ -21,7 +21,7 @@ let C: Record<string, string> = {
   bg: "#f0f7ff",
   bgSection: "#e4f0fc",
   text: "#0b2240",
-  textMuted: "#486887",
+  textMuted: "var(--brand-light,#486887)",
   accent: "#0f3460",
   accentDark: "#091f3d",
   accentLight: "#cce5ff",
@@ -311,7 +311,7 @@ export default function VisionClairePage() {
           {OFFRES.map((o, i) => (
             <Reveal key={o.titre} delay={i * 0.07}>
               <motion.div whileHover={{ y: -5, boxShadow: C.shadowLg }} style={{ background: C.white, borderRadius: 14, padding: "26px 24px", border: `1px solid ${C.border}`, boxShadow: C.shadow }}>
-                <span style={{background: C.cyanLight, color: brand ?? '#0369a1', borderRadius: 20, padding: "4px 12px", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>{o.tag}</span>
+                <span style={{background: C.cyanLight, color: brand ?? 'var(--brand,#0369a1)', borderRadius: 20, padding: "4px 12px", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>{o.tag}</span>
                 <h3 style={{ fontSize: 17, fontWeight: 700, color: C.text, margin: "14px 0 10px" }}>{o.titre}</h3>
                 <p style={{ fontSize: 14, color: C.textMuted, lineHeight: 1.7 }}>{o.desc}</p>
               </motion.div>
@@ -373,7 +373,7 @@ export default function VisionClairePage() {
       {/* CTA */}
       <section id="contact" style={{ padding: "100px 80px", background: C.cyanLight, textAlign: "center" }}>
         <Reveal>
-          <span style={{fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: brand ?? '#0369a1' }}>Prise en charge</span>
+          <span style={{fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: brand ?? 'var(--brand,#0369a1)' }}>Prise en charge</span>
           <h2 style={{ fontSize: "clamp(28px, 4vw, 52px)", fontWeight: 800, color: C.text, margin: "14px 0 16px" }}>{c?.aboutTitle ?? fd?.businessName ?? <>Prêt à mieux voir ?</>}</h2>
           <p style={{ fontSize: 16, color: C.textMuted, maxWidth: 460, margin: "0 auto 36px", lineHeight: 1.7 }}>{c?.aboutText ?? <>
             Réservez votre examen de vue ou venez découvrir nos montures. Tiers-payant intégral, accueil sans rendez-vous possible du mardi au samedi.

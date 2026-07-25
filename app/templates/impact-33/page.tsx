@@ -44,16 +44,16 @@ function shadeColor(hex: string, percent: number): string {
 
 let C: Record<string, string> = {
   bg: "#fdf8f0",
-  bgLight: "#f5e6c8",
+  bgLight: "var(--brand-light,#f5e6c8)",
   bgSection: "#fdf3e3",
   text: "#5c3317",
   textMuted: "#8c6440",
-  accent: '#d4832a',
+  accent: 'var(--brand,#d4832a)',
   accentDark: "#b86e1e",
   accentLight: "#fdedc8",
   brown: "#5c3317",
   brownLight: "#8c6440",
-  cream: "#f5e6c8",
+  cream: "var(--brand-light,#f5e6c8)",
   white: "#FFFFFF",
   border: "#e8d5b0",
   shadow: "0 4px 24px rgba(92,51,23,0.09)",
@@ -456,9 +456,9 @@ function Story() {
           </p>
           <div style={{ display: "flex", gap: 28 }}>
             {[
-              { icon: <Leaf size={18} color="#d4832a" />, text: "Farines Bio Label Rouge" },
-              { icon: <Heart size={18} color="#d4832a" />, text: "Beurre AOP Poitou" },
-              { icon: <Award size={18} color="#d4832a" />, text: "Meilleur artisan 2023" },
+              { icon: <Leaf size={18} color="var(--brand,#d4832a)" />, text: "Farines Bio Label Rouge" },
+              { icon: <Heart size={18} color="var(--brand,#d4832a)" />, text: "Beurre AOP Poitou" },
+              { icon: <Award size={18} color="var(--brand,#d4832a)" />, text: "Meilleur artisan 2023" },
             ].map((item, i) => (
               <div key={i} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8, textAlign: "center" }}>
                 <div style={{ width: 44, height: 44, background: C.accentLight, borderRadius: 12, display: "flex", alignItems: "center", justifyContent: "center" }}>{item.icon}</div>

@@ -20,8 +20,8 @@ function shadeColor(hex: string, percent: number): string {
 
 let C: Record<string, string> = {
   bg: "#f6f4f1", bgSection: "#ede9e2", bgDark: "#1a1208",
-  text: "#1a1208", textMuted: "#6b5e4a",
-  accent: "#e06c00", accentDark: "#b85800", accentLight: "#fdebd3",
+  text: "#1a1208", textMuted: "var(--brand,#6b5e4a)",
+  accent: "var(--brand-light,#e06c00)", accentDark: "#b85800", accentLight: "#fdebd3",
   slate: "#2d3748",
   white: "#ffffff", border: "#ddd0be",
   shadow: "0 2px 12px rgba(26,18,8,0.08)", shadowLg: "0 16px 48px rgba(224,108,0,0.18)",

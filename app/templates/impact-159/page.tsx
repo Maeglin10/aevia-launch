@@ -90,7 +90,7 @@ const MATERIALS: Material[] = [
     type: "Conductive Smart-Textile",
     status: "PRODUCTION",
     statusColor: "#86efac",
-    accentGradient: "linear-gradient(135deg,#c084fc,#67e8f9)",
+    accentGradient: "linear-gradient(135deg,var(--brand,#c084fc),#67e8f9)",
     desc:
       "Single-atom carbon lattice woven into recombinant silk fibroin at 1,200 threads/cm². Enables real-time biometric telemetry, piezoelectric energy harvesting, and dynamic thermal regulation — all invisible to the wearer.",
     tagline: "Where atomic precision meets haute couture.",
@@ -102,7 +102,7 @@ const MATERIALS: Material[] = [
       { label: "Power Harvest",   value: "12",     unit: "µW/cm²" },
       { label: "Temp Range",      value: "−40/+80",unit: "°C"     },
     ],
-    palette: ["#c084fc","#a855f7","#7c3aed","#5b21b6","#3b0764","#1a0331"],
+    palette: ["var(--brand,#c084fc)","#a855f7","#7c3aed","#5b21b6","#3b0764","#1a0331"],
     applications: ["Athletic Biometrics","Military Comms","Medical Wearables","AR Interface Fabric"],
     weight: "38 g/m²",
     origin: "Paris Synthesis Lab · 2025",
@@ -113,8 +113,8 @@ const MATERIALS: Material[] = [
     code: "BM-088",
     type: "Photonic Living Fabric",
     status: "R&D",
-    statusColor: "#67e8f9",
-    accentGradient: "linear-gradient(135deg,#67e8f9,#86efac)",
+    statusColor: "var(--brand-light,#67e8f9)",
+    accentGradient: "linear-gradient(135deg,var(--brand-light,#67e8f9),#86efac)",
     desc:
       "CRISPR-engineered bioluminescent proteins (Lux operon variant) suspended in a biocompatible hydrogel matrix and encapsulated within hollow polyamide microfibers. Emits visible photons in direct response to the wearer's serotonin and cortisol levels.",
     tagline: "Your mood, made visible.",
@@ -126,7 +126,7 @@ const MATERIALS: Material[] = [
       { label: "Response Lag",    value: "<200",    unit: "ms"    },
       { label: "Half-Life",       value: "36",      unit: "months"},
     ],
-    palette: ["#67e8f9","#22d3ee","#06b6d4","#0891b2","#164e63","#083344"],
+    palette: ["var(--brand-light,#67e8f9)","#22d3ee","#06b6d4","#0891b2","#164e63","#083344"],
     applications: ["Luxury Mood-Wear","Stage Performance","Health Monitoring","Experiential Art"],
     weight: "52 g/m²",
     origin: "Tokyo BioLab · 2025",
@@ -325,7 +325,7 @@ function SpecTypewriter({ specs }: { specs: { label: string; value: string; unit
             >
               <span>{typedTexts[i]}</span>
               {typedTexts[i].length < (`${spec.label.padEnd(22,'.')}${spec.value} ${spec.unit}`).length && (
-                <span className="cursor-blink" style={{marginLeft: 2, color: brand ?? '#c084fc' }}>█</span>
+                <span className="cursor-blink" style={{marginLeft: 2, color: brand ?? 'var(--brand,#c084fc)' }}>█</span>
               )}
             </div>
           )}
@@ -398,7 +398,7 @@ function IridescentHero({
         transformOrigin: "center center",
         borderRadius: "50%",
         background:
-          "conic-gradient(from 0deg at 50% 50%, #c084fc 0deg, #67e8f9 90deg, #86efac 180deg, #c084fc 270deg, #67e8f9 360deg)",
+          "conic-gradient(from 0deg at 50% 50%, var(--brand,#c084fc) 0deg, #67e8f9 90deg, #86efac 180deg, var(--brand,#c084fc) 270deg, #67e8f9 360deg)",
         opacity: 0.12,
         filter: "blur(80px) hue-rotate(0deg)",
         animation: "hue-rotate-mesh 12s ease-in-out infinite",
@@ -697,7 +697,7 @@ function Nav({ scrolled }: { scrolled: boolean }) {
               style={{
                 width: 32,
                 height: 32,
-                background: "linear-gradient(135deg,#c084fc,#67e8f9)",
+                background: "linear-gradient(135deg,var(--brand,#c084fc),#67e8f9)",
                 clipPath: "polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%)",
               }}
             />
@@ -743,7 +743,7 @@ function Nav({ scrolled }: { scrolled: boolean }) {
         whileTap={{ scale: 0.97 }}
         style={{
           padding: "10px 24px",
-          background: "linear-gradient(135deg,#c084fc,#67e8f9)",
+          background: "linear-gradient(135deg,var(--brand,#c084fc),#67e8f9)",
           border: "none",
           cursor: "pointer",
           fontFamily: "'Inter', sans-serif",
@@ -899,7 +899,7 @@ function HeroSection({
             color: "#f0eeff",
             marginBottom: 40,
             background:
-              "linear-gradient(135deg,#f0eeff 0%,#c084fc 40%,#67e8f9 70%,#86efac 100%)",
+              "linear-gradient(135deg,#f0eeff 0%,var(--brand,#c084fc) 40%,#67e8f9 70%,#86efac 100%)",
             WebkitBackgroundClip: "text",
             WebkitTextFillColor: "transparent",
             backgroundClip: "text",
@@ -942,7 +942,7 @@ function HeroSection({
             whileTap={{ scale: 0.97 }}
             style={{
               padding: "16px 40px",
-              background: "linear-gradient(135deg,#c084fc,#67e8f9)",
+              background: "linear-gradient(135deg,var(--brand,#c084fc),#67e8f9)",
               border: "none",
               cursor: "pointer",
               fontFamily: "'Inter', sans-serif",
@@ -1000,9 +1000,9 @@ function HeroSection({
               height: h,
               background:
                 i < 4
-                  ? "#c084fc"
+                  ? "var(--brand,#c084fc)"
                   : i < 7
-                  ? "#67e8f9"
+                  ? "var(--brand-light,#67e8f9)"
                   : "#86efac",
               opacity: 0.5,
               borderRadius: 2,
@@ -1169,7 +1169,7 @@ function MaterialsSection() {
               style={{fontSize: 10,
                 letterSpacing: "0.5em",
                 textTransform: "uppercase",
-                color: brand ?? '#c084fc',
+                color: brand ?? 'var(--brand,#c084fc)',
                 display: "block",
                 marginBottom: 16,
               }}
@@ -1272,7 +1272,7 @@ function ApplicationsSection() {
             fontSize: 10,
             letterSpacing: "0.5em",
             textTransform: "uppercase",
-            color: "#67e8f9",
+            color: "var(--brand-light,#67e8f9)",
             display: "block",
             marginBottom: 16,
           }}
@@ -1397,7 +1397,7 @@ function ResearchTicker() {
             style={{fontSize: 10,
               letterSpacing: "0.35em",
               textTransform: "uppercase",
-              color: brand ?? '#c084fc',
+              color: brand ?? 'var(--brand,#c084fc)',
               padding: "0 48px",
             }}
           >
@@ -1499,7 +1499,7 @@ function SpecDeepDive() {
                 fontSize: 11,
                 letterSpacing: "0.2em",
                 textTransform: "uppercase",
-                color: activeTab === i ? "#c084fc" : "rgba(240,238,255,0.3)",
+                color: activeTab === i ? "var(--brand,#c084fc)" : "rgba(240,238,255,0.3)",
                 transition: "all 0.25s",
               }}
             >
@@ -1539,7 +1539,7 @@ function SpecDeepDive() {
                 <p
                   className="inter-light"
                   style={{fontSize: 11,
-                    color: brand ?? '#c084fc',
+                    color: brand ?? 'var(--brand,#c084fc)',
                     letterSpacing: "0.2em",
                     textTransform: "uppercase",
                     marginBottom: 20,
@@ -1684,7 +1684,7 @@ function CTASection() {
           style={{fontSize: 10,
             letterSpacing: "0.5em",
             textTransform: "uppercase",
-            color: brand ?? '#c084fc',
+            color: brand ?? 'var(--brand,#c084fc)',
             display: "block",
             marginBottom: 24,
           }}
@@ -1709,7 +1709,7 @@ function CTASection() {
           Request Your<br/>
           <span
             style={{
-              background: "linear-gradient(135deg,#c084fc,#67e8f9,#86efac)",
+              background: "linear-gradient(135deg,var(--brand,#c084fc),#67e8f9,#86efac)",
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
               backgroundClip: "text",
@@ -1768,7 +1768,7 @@ function CTASection() {
                 type="submit"
                 style={{
                   padding: "16px 32px",
-                  background: "linear-gradient(135deg,#c084fc,#67e8f9)",
+                  background: "linear-gradient(135deg,var(--brand,#c084fc),#67e8f9)",
                   border: "none",
                   cursor: "pointer",
                   fontFamily: "'Inter', sans-serif",
@@ -1863,7 +1863,7 @@ function Footer() {
                 style={{
                   width: 28,
                   height: 28,
-                  background: "linear-gradient(135deg,#c084fc,#67e8f9)",
+                  background: "linear-gradient(135deg,var(--brand,#c084fc),#67e8f9)",
                   clipPath: "polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%)",
                 }}
               />

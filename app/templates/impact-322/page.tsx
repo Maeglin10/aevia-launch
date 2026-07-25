@@ -73,7 +73,7 @@ const SERIF = "'Playfair Display', serif";
 const SANS = "'Montserrat', sans-serif";
 const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
-const DEFAULT_BRAND_COLOR = "#c5a880";
+const DEFAULT_BRAND_COLOR = "var(--brand,#c5a880)";
 
 const PHOTOS = {
   hero: "https://images.unsplash.com/photo-1519671482749-fd09be7ccebf?auto=format&fit=crop&q=80&w=2070", // Elegant venue
@@ -554,7 +554,7 @@ export default function Impact322() {
                     {service.icon || <Star size={24} />}
                   </div>
                   
-                  <h3 style={{ fontFamily: SERIF }} className="text-2xl mb-4 group-hover:text-[#c5a880] transition-colors">
+                  <h3 style={{ fontFamily: SERIF }} className="text-2xl mb-4 group-hover:text-[var(--brand,#c5a880)] transition-colors">
                     {service.title}
                   </h3>
                   

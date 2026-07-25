@@ -82,7 +82,7 @@ const INITIAL_C = {
   bgDeep: "#f0fdfa",
   bgCard: "#ffffff",
   text: "#1e293b",
-  textMuted: "#64748b",
+  textMuted: "var(--brand-light,#64748b)",
   accent: "#f59e0b",
   white: "#ffffff",
   black: "#000000",
@@ -1053,7 +1053,7 @@ export default function Page({ session: initialSession }) {
                 </div>
                 <span style={{ fontFamily: SERIF, fontWeight: 700, fontSize: "20px" }}>{companyName}</span>
               </div>
-              <p style={{ fontFamily: SANS, color: "#94a3b8", lineHeight: 1.6, marginBottom: "24px" }}>
+              <p style={{ fontFamily: SANS, color: "var(--brand,#94a3b8)", lineHeight: 1.6, marginBottom: "24px" }}>
                 Votre expert en plomberie et chauffage. Qualité, réactivité et professionnalisme à votre service.
               </p>
               <div style={{ display: "flex", gap: "16px" }}>
@@ -1068,7 +1068,7 @@ export default function Page({ session: initialSession }) {
               <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "12px" }}>
                 {["Dépannage", "Chauffage", "Climatisation", "Création de salle de bain"].map((item, i) => (
                   <li key={i}>
-                    <a href="#" style={{ color: "#94a3b8", textDecoration: "none", fontFamily: SANS, transition: "color 0.2s" }} onMouseEnter={e => e.currentTarget.style.color = C.primary} onMouseLeave={e => e.currentTarget.style.color = "#94a3b8"}>
+                    <a href="#" style={{ color: "var(--brand,#94a3b8)", textDecoration: "none", fontFamily: SANS, transition: "color 0.2s" }} onMouseEnter={e => e.currentTarget.style.color = C.primary} onMouseLeave={e => e.currentTarget.style.color = "var(--brand,#94a3b8)"}>
                       {item}
                     </a>
                   </li>
@@ -1081,7 +1081,7 @@ export default function Page({ session: initialSession }) {
               <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "12px" }}>
                 {["À Propos", "Réalisations", "Avis Clients", "Contact"].map((item, i) => (
                   <li key={i}>
-                    <a href="#" style={{ color: "#94a3b8", textDecoration: "none", fontFamily: SANS, transition: "color 0.2s" }} onMouseEnter={e => e.currentTarget.style.color = C.primary} onMouseLeave={e => e.currentTarget.style.color = "#94a3b8"}>
+                    <a href="#" style={{ color: "var(--brand,#94a3b8)", textDecoration: "none", fontFamily: SANS, transition: "color 0.2s" }} onMouseEnter={e => e.currentTarget.style.color = C.primary} onMouseLeave={e => e.currentTarget.style.color = "var(--brand,#94a3b8)"}>
                       {item}
                     </a>
                   </li>
@@ -1092,15 +1092,15 @@ export default function Page({ session: initialSession }) {
             <div>
               <h4 style={{ fontFamily: SERIF, fontWeight: 600, fontSize: "18px", marginBottom: "24px" }}>Contact</h4>
               <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "16px" }}>
-                <li style={{ display: "flex", alignItems: "flex-start", gap: "12px", color: "#94a3b8", fontFamily: SANS }}>
+                <li style={{ display: "flex", alignItems: "flex-start", gap: "12px", color: "var(--brand,#94a3b8)", fontFamily: SANS }}>
                   <MapPin size={20} style={{ color: C.primary, flexShrink: 0 }} />
                   <span>{address}</span>
                 </li>
-                <li style={{ display: "flex", alignItems: "center", gap: "12px", color: "#94a3b8", fontFamily: SANS }}>
+                <li style={{ display: "flex", alignItems: "center", gap: "12px", color: "var(--brand,#94a3b8)", fontFamily: SANS }}>
                   <Phone size={20} style={{ color: C.primary, flexShrink: 0 }} />
                   <span>{phone}</span>
                 </li>
-                <li style={{ display: "flex", alignItems: "center", gap: "12px", color: "#94a3b8", fontFamily: SANS }}>
+                <li style={{ display: "flex", alignItems: "center", gap: "12px", color: "var(--brand,#94a3b8)", fontFamily: SANS }}>
                   <Mail size={20} style={{ color: C.primary, flexShrink: 0 }} />
                   <span>{email}</span>
                 </li>
@@ -1118,12 +1118,12 @@ export default function Page({ session: initialSession }) {
             gap: "16px",
             fontFamily: SANS,
             fontSize: "14px",
-            color: "#64748b"
+            color: "var(--brand-light,#64748b)"
           }}>
             <p>© {new Date().getFullYear()} {companyName}. Tous droits réservés.</p>
             <div style={{ display: "flex", gap: "24px" }}>
-              <a href="#" style={{ color: "inherit", textDecoration: "none", transition: "color 0.2s" }} onMouseEnter={e => e.currentTarget.style.color = "#f8fafc"} onMouseLeave={e => e.currentTarget.style.color = "#64748b"}>Mentions légales</a>
-              <a href="#" style={{ color: "inherit", textDecoration: "none", transition: "color 0.2s" }} onMouseEnter={e => e.currentTarget.style.color = "#f8fafc"} onMouseLeave={e => e.currentTarget.style.color = "#64748b"}>Politique de confidentialité</a>
+              <a href="#" style={{ color: "inherit", textDecoration: "none", transition: "color 0.2s" }} onMouseEnter={e => e.currentTarget.style.color = "#f8fafc"} onMouseLeave={e => e.currentTarget.style.color = "var(--brand-light,#64748b)"}>Mentions légales</a>
+              <a href="#" style={{ color: "inherit", textDecoration: "none", transition: "color 0.2s" }} onMouseEnter={e => e.currentTarget.style.color = "#f8fafc"} onMouseLeave={e => e.currentTarget.style.color = "var(--brand-light,#64748b)"}>Politique de confidentialité</a>
             </div>
           </div>
         </div>

@@ -59,21 +59,21 @@ const PUBLICATIONS = [
     title: "Coherence-Preserving Dynamical Decoupling in 127-Qubit Systems",
     authors: "Chen, R. · Park, S. · Williams, A.",
     status: "Published",
-    statusColor: "#24a148",
+    statusColor: "var(--brand-light,#24a148)",
   },
   {
     date: "2026-02",
     title: "Topological Qubit Arrays via Majorana Zero Modes: Experimental Evidence",
     authors: "Nkosi, T. · Larsson, E. · Chen, R.",
     status: "Published",
-    statusColor: "#24a148",
+    statusColor: "var(--brand-light,#24a148)",
   },
   {
     date: "2026-01",
     title: "Variational Quantum Eigensolver Performance on Protein Folding Benchmarks",
     authors: "Williams, A. · Yamamoto, K. · Osei, F.",
     status: "Published",
-    statusColor: "#24a148",
+    statusColor: "var(--brand-light,#24a148)",
   },
   {
     date: "2025-11",
@@ -87,7 +87,7 @@ const PUBLICATIONS = [
     title: "Entanglement Distribution Over 500km Fiber via Quantum Repeaters",
     authors: "Larsson, E. · Chen, R. · Yamamoto, K.",
     status: "Published",
-    statusColor: "#24a148",
+    statusColor: "var(--brand-light,#24a148)",
   },
 ]
 
@@ -315,7 +315,7 @@ export default function QBitLabsPage() {
                   style={{
                     width: 28,
                     height: 28,
-                    background: "#0f62fe",
+                    background: "var(--brand,#0f62fe)",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
@@ -331,7 +331,7 @@ export default function QBitLabsPage() {
                     letterSpacing: "-0.01em",
                   }}
                 >
-                  QBit <span style={{ color: "#0f62fe" }}>Labs</span>
+                  QBit <span style={{ color: "var(--brand,#0f62fe)" }}>Labs</span>
                 </span>
               </>
             )}
@@ -358,7 +358,7 @@ export default function QBitLabsPage() {
                   color: "#525252",
                   textDecoration: "none",
                 }}
-                onMouseEnter={(e) => (e.currentTarget.style.color = "#0f62fe")}
+                onMouseEnter={(e) => (e.currentTarget.style.color = "var(--brand,#0f62fe)")}
                 onMouseLeave={(e) => (e.currentTarget.style.color = "#525252")}
               >
                 {l}
@@ -371,7 +371,7 @@ export default function QBitLabsPage() {
             <button
               style={{
                 padding: "8px 20px",
-                background: "#0f62fe",
+                background: "var(--brand,#0f62fe)",
                 color: "#ffffff",
                 border: "none",
                 fontSize: 12,
@@ -381,7 +381,7 @@ export default function QBitLabsPage() {
                 fontFamily: "inherit",
               }}
               onMouseEnter={(e) => (e.currentTarget.style.background = "#0353e9")}
-              onMouseLeave={(e) => (e.currentTarget.style.background = "#0f62fe")}
+              onMouseLeave={(e) => (e.currentTarget.style.background = "var(--brand,#0f62fe)")}
             >
               Request Access
             </button>
@@ -465,7 +465,7 @@ export default function QBitLabsPage() {
                     display: "inline-block",
                     fontSize: 11,
                     fontFamily: "'IBM Plex Mono', 'Courier New', monospace",
-                    color: "#0f62fe",
+                    color: "var(--brand,#0f62fe)",
                     letterSpacing: "0.12em",
                     marginBottom: 24,
                     background: "#edf5ff",
@@ -514,7 +514,7 @@ export default function QBitLabsPage() {
                   <button
                     style={{
                       padding: "12px 28px",
-                      background: "#0f62fe",
+                      background: "var(--brand,#0f62fe)",
                       color: "#ffffff",
                       border: "none",
                       fontSize: 13,
@@ -526,7 +526,7 @@ export default function QBitLabsPage() {
                       fontFamily: "inherit",
                     }}
                     onMouseEnter={(e) => (e.currentTarget.style.background = "#0353e9")}
-                    onMouseLeave={(e) => (e.currentTarget.style.background = "#0f62fe")}
+                    onMouseLeave={(e) => (e.currentTarget.style.background = "var(--brand,#0f62fe)")}
                   >
                     Explore Research <ArrowRight style={{ width: 14, height: 14 }} />
                   </button>
@@ -534,7 +534,7 @@ export default function QBitLabsPage() {
                     style={{
                       padding: "12px 28px",
                       background: "transparent",
-                      color: "#0f62fe",
+                      color: "var(--brand,#0f62fe)",
                       border: "1px solid #0f62fe",
                       fontSize: 13,
                       fontWeight: 500,
@@ -589,7 +589,7 @@ export default function QBitLabsPage() {
                         width: 7,
                         height: 7,
                         borderRadius: "50%",
-                        background: "#24a148",
+                        background: "var(--brand-light,#24a148)",
                         display: "inline-block",
                       }}
                     />
@@ -597,7 +597,7 @@ export default function QBitLabsPage() {
                       style={{
                         fontSize: 10,
                         fontFamily: "'IBM Plex Mono', 'Courier New', monospace",
-                        color: "#24a148",
+                        color: "var(--brand-light,#24a148)",
                         letterSpacing: "0.06em",
                       }}
                     >
@@ -637,7 +637,7 @@ export default function QBitLabsPage() {
                       initial={{ width: 0 }}
                       animate={{ width: "73%" }}
                       transition={{ duration: 1.2, delay: 0.4, ease: "easeOut" }}
-                      style={{ height: "100%", background: "#0f62fe" }}
+                      style={{ height: "100%", background: "var(--brand,#0f62fe)" }}
                     />
                   </div>
                   <div
@@ -651,7 +651,7 @@ export default function QBitLabsPage() {
                     }}
                   >
                     <span>0%</span>
-                    <span style={{ color: "#0f62fe" }}>73% — HIGH</span>
+                    <span style={{ color: "var(--brand,#0f62fe)" }}>73% — HIGH</span>
                     <span>100%</span>
                   </div>
                 </div>
@@ -727,7 +727,7 @@ export default function QBitLabsPage() {
                   style={{
                     fontSize: 11,
                     fontFamily: "'IBM Plex Mono', 'Courier New', monospace",
-                    color: "#0f62fe",
+                    color: "var(--brand,#0f62fe)",
                     letterSpacing: "0.1em",
                     textTransform: "uppercase",
                     marginBottom: 12,
@@ -792,7 +792,7 @@ export default function QBitLabsPage() {
                           marginBottom: 20,
                         }}
                       >
-                        <Icon style={{ width: 20, height: 20, color: "#0f62fe" }} />
+                        <Icon style={{ width: 20, height: 20, color: "var(--brand,#0f62fe)" }} />
                       </div>
                       <h3
                         style={{
@@ -819,7 +819,7 @@ export default function QBitLabsPage() {
                         href="#hero"
                         style={{
                           fontSize: 12,
-                          color: "#0f62fe",
+                          color: "var(--brand,#0f62fe)",
                           textDecoration: "none",
                           fontWeight: 500,
                           display: "flex",
@@ -868,7 +868,7 @@ export default function QBitLabsPage() {
                     style={{
                       fontSize: 11,
                       fontFamily: "'IBM Plex Mono', 'Courier New', monospace",
-                      color: "#0f62fe",
+                      color: "var(--brand,#0f62fe)",
                       letterSpacing: "0.1em",
                       textTransform: "uppercase",
                       marginBottom: 12,
@@ -894,7 +894,7 @@ export default function QBitLabsPage() {
                   href="#hero"
                   style={{
                     fontSize: 12,
-                    color: "#0f62fe",
+                    color: "var(--brand,#0f62fe)",
                     textDecoration: "none",
                     fontWeight: 500,
                     display: "flex",
@@ -1037,7 +1037,7 @@ export default function QBitLabsPage() {
                       href="#contact"
                       style={{
                         fontSize: 12,
-                        color: "#0f62fe",
+                        color: "var(--brand,#0f62fe)",
                         textDecoration: "none",
                         fontWeight: 500,
                         display: "flex",
@@ -1075,7 +1075,7 @@ export default function QBitLabsPage() {
                   style={{
                     fontSize: 11,
                     fontFamily: "'IBM Plex Mono', 'Courier New', monospace",
-                    color: "#0f62fe",
+                    color: "var(--brand,#0f62fe)",
                     letterSpacing: "0.1em",
                     textTransform: "uppercase",
                     marginBottom: 12,
@@ -1163,7 +1163,7 @@ export default function QBitLabsPage() {
                       <p
                         style={{
                           fontSize: 13,
-                          color: "#0f62fe",
+                          color: "var(--brand,#0f62fe)",
                           fontWeight: 500,
                           margin: "0 0 6px",
                         }}
@@ -1201,7 +1201,7 @@ export default function QBitLabsPage() {
                           href="#contact"
                           style={{
                             fontSize: 12,
-                            color: "#0f62fe",
+                            color: "var(--brand,#0f62fe)",
                             textDecoration: "none",
                             fontWeight: 400,
                             lineHeight: 1.4,
@@ -1250,7 +1250,7 @@ export default function QBitLabsPage() {
                   style={{
                     fontSize: 11,
                     fontFamily: "'IBM Plex Mono', 'Courier New', monospace",
-                    color: "#0f62fe",
+                    color: "var(--brand,#0f62fe)",
                     letterSpacing: "0.1em",
                     textTransform: "uppercase",
                     marginBottom: 12,
@@ -1306,7 +1306,7 @@ export default function QBitLabsPage() {
                         style={{
                           width: 4,
                           height: 4,
-                          background: "#0f62fe",
+                          background: "var(--brand,#0f62fe)",
                           marginTop: 7,
                           flexShrink: 0,
                         }}
@@ -1389,7 +1389,7 @@ export default function QBitLabsPage() {
                         boxSizing: "border-box",
                       }}
                       onFocus={(e) => {
-                        e.currentTarget.style.borderBottomColor = "#0f62fe"
+                        e.currentTarget.style.borderBottomColor = "var(--brand,#0f62fe)"
                         e.currentTarget.style.borderBottomWidth = "2px"
                       }}
                       onBlur={(e) => {
@@ -1427,7 +1427,7 @@ export default function QBitLabsPage() {
                       cursor: "pointer",
                     }}
                     onFocus={(e) => {
-                      e.currentTarget.style.borderBottomColor = "#0f62fe"
+                      e.currentTarget.style.borderBottomColor = "var(--brand,#0f62fe)"
                       e.currentTarget.style.borderBottomWidth = "2px"
                     }}
                     onBlur={(e) => {
@@ -1473,7 +1473,7 @@ export default function QBitLabsPage() {
                       boxSizing: "border-box",
                     }}
                     onFocus={(e) => {
-                      e.currentTarget.style.borderBottomColor = "#0f62fe"
+                      e.currentTarget.style.borderBottomColor = "var(--brand,#0f62fe)"
                       e.currentTarget.style.borderBottomWidth = "2px"
                     }}
                     onBlur={(e) => {
@@ -1487,7 +1487,7 @@ export default function QBitLabsPage() {
                   style={{
                     width: "100%",
                     padding: "14px",
-                    background: "#0f62fe",
+                    background: "var(--brand,#0f62fe)",
                     color: "#ffffff",
                     border: "none",
                     fontSize: 13,
@@ -1497,7 +1497,7 @@ export default function QBitLabsPage() {
                     letterSpacing: "0.02em",
                   }}
                   onMouseEnter={(e) => (e.currentTarget.style.background = "#0353e9")}
-                  onMouseLeave={(e) => (e.currentTarget.style.background = "#0f62fe")}
+                  onMouseLeave={(e) => (e.currentTarget.style.background = "var(--brand,#0f62fe)")}
                 >
                   Submit Request
                 </button>
@@ -1546,7 +1546,7 @@ export default function QBitLabsPage() {
                   style={{
                     width: 28,
                     height: 28,
-                    background: "#0f62fe",
+                    background: "var(--brand,#0f62fe)",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",

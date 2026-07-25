@@ -51,7 +51,7 @@ let C: Record<string, string> = {
   pink:        "#FDF2F8",
   pinkMid:     "#FCE7F3",
   pinkDeep:    "#FBCFE8",
-  primary:     "#EC4899",
+  primary:     "var(--brand,#ec4899)",
   primaryDim:  "rgba(236,72,153,0.12)",
   primaryBorder:"rgba(236,72,153,0.20)",
   lavender:    "#8B5CF6",
@@ -222,7 +222,7 @@ const INGREDIENTS = [
     origin: "Maroc (certifié bio)",
     desc: "Extraite à froid de l'Arganier. Riche en acides gras oméga-6 et en vitamine E. Peau velours garantie.",
     icon: Leaf,
-    color: "#D97706",
+    color: "var(--brand-light,#d97706)",
   },
   {
     name: "Extrait de Pivoine",
@@ -326,7 +326,7 @@ const SETS = [
     saving: "Économisez 121€",
     items: ["Routine complète 7 produits", "Huile Précieuse 30ml", "Masque Argile 75ml", "Contour Yeux 15ml", "Pochette Lumière offerte"],
     badge: "L'expérience totale",
-    badgeColor: "#D97706",
+    badgeColor: "var(--brand-light,#d97706)",
     highlight: false,
     cta: "Choisir",
   },
@@ -471,7 +471,7 @@ function Nav({ scrolled }: { scrolled: boolean }) {
               <Link
                 key={l.label}
                 href={l.href}
-                className="text-[12px] tracking-[0.14em] font-[500] transition-colors duration-300 hover:text-[#EC4899]"
+                className="text-[12px] tracking-[0.14em] font-[500] transition-colors duration-300 hover:text-[var(--brand,#ec4899)]"
                 style={{
                   fontFamily: "'Inter', sans-serif",
                   color: C.textMuted,
@@ -1482,7 +1482,7 @@ function PressSection() {
           {PRESS_ITEMS.map((item, i) => (
             <Reveal key={item.name} delay={i * 0.08}>
               <div
-                className="p-6 rounded-xl flex flex-col gap-3 transition-all duration-300 hover:border-[#EC4899]/40 h-full"
+                className="p-6 rounded-xl flex flex-col gap-3 transition-all duration-300 hover:border-[var(--brand,#ec4899)]/40 h-full"
                 style={{ border: `1px solid ${C.primaryBorder}`, backgroundColor: `${C.primary}08` }}
               >
                 <p
@@ -1770,7 +1770,7 @@ function Footer() {
                 <a
                   key={i}
                   href="#collections"
-                  className="w-9 h-9 flex items-center justify-center rounded-full transition-all duration-300 hover:border-[#EC4899]/50"
+                  className="w-9 h-9 flex items-center justify-center rounded-full transition-all duration-300 hover:border-[var(--brand,#ec4899)]/50"
                   style={{ border: `1px solid ${C.primaryBorder}` }}
                 >
                   <Icon size={16} color="rgba(255,255,255,0.60)" />

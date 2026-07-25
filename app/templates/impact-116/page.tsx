@@ -238,12 +238,12 @@ export default function KineticStudio() {
 
       <section id="hero" className="py-24 px-6 md:px-12">
         <Reveal>
-          <h2 className="text-5xl font-light mb-12" style={{color: brand ?? '#ff5500' }}>Our Services</h2>
+          <h2 className="text-5xl font-light mb-12" style={{color: brand ?? 'var(--brand,#ff5500)' }}>Our Services</h2>
         </Reveal>
         <Tabs defaultValue={SERVICES[0]?.name} className="w-full">
-          <TabsList className="grid w-full grid-cols-6 bg-[#1a1a2e] border border-[#ff5500]/20">
+          <TabsList className="grid w-full grid-cols-6 bg-[#1a1a2e] border border-[var(--brand,#ff5500)]/20">
             {SERVICES.map((svc) => (
-              <TabsTrigger key={svc.name} value={svc.name} className="data-[state=active]:bg-[#ff5500] data-[state=active]:text-black text-xs">
+              <TabsTrigger key={svc.name} value={svc.name} className="data-[state=active]:bg-[var(--brand,#ff5500)] data-[state=active]:text-black text-xs">
                 {svc.name}
               </TabsTrigger>
             ))}
@@ -274,17 +274,17 @@ export default function KineticStudio() {
                     <h3 className="text-3xl font-light text-white mb-4">{service.name}</h3>
                     <p className="text-white/70 mb-8">{service.desc}</p>
                     <div className="mb-8">
-                      <h4 className="text-sm font-light uppercase tracking-widest text-[#ff5500] mb-4">Deliverables</h4>
+                      <h4 className="text-sm font-light uppercase tracking-widest text-[var(--brand,#ff5500)] mb-4">Deliverables</h4>
                       <ul className="space-y-3">
                         {service.deliverables.map((item, idx) => (
                           <li key={idx} className="flex items-center gap-3">
-                            <div className="w-2 h-2 bg-[#ff5500] rounded-full" />
+                            <div className="w-2 h-2 bg-[var(--brand,#ff5500)] rounded-full" />
                             <span className="text-white/80">{item}</span>
                           </li>
                         ))}
                       </ul>
                     </div>
-                    <Badge className="bg-[#ff5500] text-black font-light">{service.price}</Badge>
+                    <Badge className="bg-[var(--brand,#ff5500)] text-black font-light">{service.price}</Badge>
                   </div>
                 </Reveal>
               </div>
@@ -295,13 +295,13 @@ export default function KineticStudio() {
 
       <section className="py-24 px-6 md:px-12 bg-[#1a1a2e]">
         <Reveal>
-          <h2 className="text-5xl font-light mb-12" style={{color: brand ?? '#ff5500' }}>Our Process</h2>
+          <h2 className="text-5xl font-light mb-12" style={{color: brand ?? 'var(--brand,#ff5500)' }}>Our Process</h2>
         </Reveal>
         <Accordion type="single" collapsible className="max-w-4xl mx-auto">
           {PROCESS.map((item, idx) => (
-            <AccordionItem key={idx} value={`step-${idx}`} className="border-[#ff5500]/20">
+            <AccordionItem key={idx} value={`step-${idx}`} className="border-[var(--brand,#ff5500)]/20">
               <AccordionTrigger className="text-white text-lg">
-                <span className="mr-4 flex items-center"><TemplateIcon emoji={item.icon} size={24} color="#ff5500" /></span>
+                <span className="mr-4 flex items-center"><TemplateIcon emoji={item.icon} size={24} color="var(--brand,#ff5500)" /></span>
                 {item.step}
               </AccordionTrigger>
               <AccordionContent className="text-white/70">
@@ -318,7 +318,7 @@ export default function KineticStudio() {
 
       <section className="py-24 px-6 md:px-12">
         <Reveal>
-          <h2 className="text-5xl font-light mb-12" style={{color: brand ?? '#ff5500' }}>Featured Work</h2>
+          <h2 className="text-5xl font-light mb-12" style={{color: brand ?? 'var(--brand,#ff5500)' }}>Featured Work</h2>
         </Reveal>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {REELTHUMB.map((thumb, idx) => (
@@ -336,7 +336,7 @@ export default function KineticStudio() {
 
       <section className="py-24 px-6 md:px-12 bg-[#1a1a2e]">
         <Reveal>
-          <h2 className="text-5xl font-light mb-12" style={{color: brand ?? '#ff5500' }}>Trusted By Top Brands</h2>
+          <h2 className="text-5xl font-light mb-12" style={{color: brand ?? 'var(--brand,#ff5500)' }}>Trusted By Top Brands</h2>
         </Reveal>
         <div className="flex justify-center gap-12 flex-wrap">
           {["Nike", "Apple", "Google", "Netflix", "Spotify", "Adobe", "Meta", "Amazon"].map((brand, idx) => (
@@ -349,7 +349,7 @@ export default function KineticStudio() {
 
       <section className="py-24 px-6 md:px-12">
         <Reveal>
-          <h2 className="text-5xl font-light mb-12" style={{color: brand ?? '#ff5500' }}>By The Numbers</h2>
+          <h2 className="text-5xl font-light mb-12" style={{color: brand ?? 'var(--brand,#ff5500)' }}>By The Numbers</h2>
         </Reveal>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
           {[
@@ -360,7 +360,7 @@ export default function KineticStudio() {
           ].map((stat, idx) => (
             <Reveal key={idx} delay={idx * 0.1}>
               <div className="text-center">
-                <p className="text-4xl md:text-5xl font-light mb-2" style={{color: brand ?? '#ff5500' }}>
+                <p className="text-4xl md:text-5xl font-light mb-2" style={{color: brand ?? 'var(--brand,#ff5500)' }}>
                   <Counter target={stat.value} />
                 </p>
                 <p className="text-sm text-white/60">{stat.label}</p>
@@ -372,19 +372,19 @@ export default function KineticStudio() {
 
       <section id="equipe" className="py-24 px-6 md:px-12 bg-[#1a1a2e]">
         <Reveal>
-          <h2 className="text-5xl font-light mb-12" style={{color: brand ?? '#ff5500' }}>The Team</h2>
+          <h2 className="text-5xl font-light mb-12" style={{color: brand ?? 'var(--brand,#ff5500)' }}>The Team</h2>
         </Reveal>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {TEAM.map((member, idx) => (
             <Reveal key={idx} delay={idx * 0.1}>
-              <Card className="bg-[#06060a] border-[#ff5500]/20">
+              <Card className="bg-[#06060a] border-[var(--brand,#ff5500)]/20">
                 <CardContent className="p-6">
-                  <Avatar className="w-16 h-16 mb-4" style={{backgroundColor: brand ?? '#ff5500' }}>
+                  <Avatar className="w-16 h-16 mb-4" style={{backgroundColor: brand ?? 'var(--brand,#ff5500)' }}>
                     <AvatarFallback className="text-black">{member.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
                   </Avatar>
                   <h3 className="text-lg font-light text-white mb-1">{member.name}</h3>
-                  <p className="text-sm text-[#ff5500] mb-3">{member.role}</p>
-                  <Badge variant="outline" className="border-[#ff5500] text-[#ff5500]">{member.specialty}</Badge>
+                  <p className="text-sm text-[var(--brand,#ff5500)] mb-3">{member.role}</p>
+                  <Badge variant="outline" className="border-[var(--brand,#ff5500)] text-[var(--brand,#ff5500)]">{member.specialty}</Badge>
                 </CardContent>
               </Card>
             </Reveal>
@@ -394,17 +394,17 @@ export default function KineticStudio() {
 
       <section className="py-24 px-6 md:px-12">
         <Reveal>
-          <h2 className="text-5xl font-light mb-12" style={{color: brand ?? '#ff5500' }}>{c?.aboutTitle ?? fd?.businessName ?? <>Testimonials</>}</h2>
+          <h2 className="text-5xl font-light mb-12" style={{color: brand ?? 'var(--brand,#ff5500)' }}>{c?.aboutTitle ?? fd?.businessName ?? <>Testimonials</>}</h2>
         </Reveal>
         <Carousel className="w-full max-w-4xl mx-auto">
           <CarouselContent>
             {[1, 2, 3].map((idx) => (
               <CarouselItem key={idx}>
-                <Card className="bg-[#1a1a2e] border-[#ff5500]/20">
+                <Card className="bg-[#1a1a2e] border-[var(--brand,#ff5500)]/20">
                   <CardContent className="p-8">
                     <p className="text-lg text-white mb-6 italic">{c?.aboutText ?? <>"KINETIC brought our brand vision to life with stunning motion design. Their creativity and professionalism are exceptional."</>}</p>
                     <div className="flex items-center gap-4">
-                      <Avatar className="w-12 h-12" style={{backgroundColor: brand ?? '#ff5500' }}>
+                      <Avatar className="w-12 h-12" style={{backgroundColor: brand ?? 'var(--brand,#ff5500)' }}>
                         <AvatarFallback className="text-black">C{idx}</AvatarFallback>
                       </Avatar>
                       <div>
@@ -423,7 +423,7 @@ export default function KineticStudio() {
       </section>
 
       <Dialog open={showreelOpen} onOpenChange={setShowreelOpen}>
-        <DialogContent className="max-w-4xl bg-[#1a1a2e] border-[#ff5500]/20">
+        <DialogContent className="max-w-4xl bg-[#1a1a2e] border-[var(--brand,#ff5500)]/20">
           <DialogHeader>
             <DialogTitle className="text-3xl text-white">Showreel 2025</DialogTitle>
           </DialogHeader>
@@ -438,7 +438,7 @@ export default function KineticStudio() {
 
       <section className="py-24 px-6 md:px-12 bg-[#1a1a2e]">
         <Reveal>
-          <h2 className="text-5xl font-light mb-12" style={{color: brand ?? '#ff5500' }}>FAQ</h2>
+          <h2 className="text-5xl font-light mb-12" style={{color: brand ?? 'var(--brand,#ff5500)' }}>FAQ</h2>
         </Reveal>
         <Accordion type="single" collapsible className="max-w-2xl">
           {[
@@ -447,7 +447,7 @@ export default function KineticStudio() {
             { q: "What about usage rights?", a: "All deliverables include perpetual use rights for the client. We retain portfolio/reel rights." },
             { q: "Can we request revisions?", a: "Yes, we include 2 rounds of revisions. Additional revisions are billed hourly at $150/hour." },
           ].map((item, idx) => (
-            <AccordionItem key={idx} value={`item-${idx}`} className="border-[#ff5500]/20">
+            <AccordionItem key={idx} value={`item-${idx}`} className="border-[var(--brand,#ff5500)]/20">
               <AccordionTrigger className="text-white">{item.q}</AccordionTrigger>
               <AccordionContent className="text-white/70">{item.a}</AccordionContent>
             </AccordionItem>
@@ -457,7 +457,7 @@ export default function KineticStudio() {
 
       <section id="realisations" className="py-24 px-6 md:px-12 bg-[#1a1a2e]">
         <Reveal>
-          <h2 className="text-5xl font-light mb-12" style={{color: brand ?? '#ff5500' }}>About {fd?.businessName ?? "KINETIC"}</h2>
+          <h2 className="text-5xl font-light mb-12" style={{color: brand ?? 'var(--brand,#ff5500)' }}>About {fd?.businessName ?? "KINETIC"}</h2>
         </Reveal>
         <div className="max-w-3xl mx-auto">
           <Reveal>
@@ -474,13 +474,13 @@ export default function KineticStudio() {
 
       <section id="contact" className="py-24 px-6 md:px-12">
         <Reveal>
-          <h2 className="text-5xl font-light mb-12" style={{color: brand ?? '#ff5500' }}>Project Workflow</h2>
+          <h2 className="text-5xl font-light mb-12" style={{color: brand ?? 'var(--brand,#ff5500)' }}>Project Workflow</h2>
         </Reveal>
         <Accordion type="single" collapsible className="max-w-4xl mx-auto">
           {PROCESS.map((item, idx) => (
-            <AccordionItem key={idx} value={`step-${idx}`} className="border-[#ff5500]/20 mb-3">
-              <AccordionTrigger className="text-white text-lg hover:text-[#ff5500] transition-colors">
-                <span className="mr-4 flex items-center"><TemplateIcon emoji={item.icon} size={24} color="#ff5500" /></span>
+            <AccordionItem key={idx} value={`step-${idx}`} className="border-[var(--brand,#ff5500)]/20 mb-3">
+              <AccordionTrigger className="text-white text-lg hover:text-[var(--brand,#ff5500)] transition-colors">
+                <span className="mr-4 flex items-center"><TemplateIcon emoji={item.icon} size={24} color="var(--brand,#ff5500)" /></span>
                 <span className="font-light">Phase {idx + 1}: {item.step}</span>
               </AccordionTrigger>
               <AccordionContent className="text-white/70 space-y-2">
@@ -505,7 +505,7 @@ export default function KineticStudio() {
 
       <section id="services" className="py-24 px-6 md:px-12 bg-[#1a1a2e]">
         <Reveal>
-          <h2 className="text-5xl font-light mb-12" style={{color: brand ?? '#ff5500' }}>Our Expertise</h2>
+          <h2 className="text-5xl font-light mb-12" style={{color: brand ?? 'var(--brand,#ff5500)' }}>Our Expertise</h2>
         </Reveal>
         <div className="grid md:grid-cols-3 gap-12">
           {[
@@ -515,7 +515,7 @@ export default function KineticStudio() {
           ].map((expertise, idx) => (
             <Reveal key={idx} delay={idx * 0.1}>
               <div>
-                <h4 className="text-lg font-light text-[#ff5500] mb-4">{expertise.title}</h4>
+                <h4 className="text-lg font-light text-[var(--brand,#ff5500)] mb-4">{expertise.title}</h4>
                 <p className="text-white/70">{expertise.skills}</p>
               </div>
             </Reveal>
@@ -525,7 +525,7 @@ export default function KineticStudio() {
 
       <section className="py-24 px-6 md:px-12">
         <Reveal>
-          <h2 className="text-5xl font-light mb-12" style={{color: brand ?? '#ff5500' }}>Case Studies</h2>
+          <h2 className="text-5xl font-light mb-12" style={{color: brand ?? 'var(--brand,#ff5500)' }}>Case Studies</h2>
         </Reveal>
         <div className="grid md:grid-cols-2 gap-12">
           {[
@@ -533,17 +533,17 @@ export default function KineticStudio() {
             { brand: "Google", project: "AI Overview Explainer", scope: "60-sec motion design + interactive", result: "Featured on homepage, 5M+ impressions" },
           ].map((study, idx) => (
             <Reveal key={idx} delay={idx * 0.1}>
-              <Card className="bg-[#1a1a2e] border-[#ff5500]/20">
+              <Card className="bg-[#1a1a2e] border-[var(--brand,#ff5500)]/20">
                 <CardContent className="p-6">
-                  <Badge className="mb-3 bg-[#ff5500] text-black">{study.brand}</Badge>
+                  <Badge className="mb-3 bg-[var(--brand,#ff5500)] text-black">{study.brand}</Badge>
                   <h4 className="text-lg font-light text-white mb-3">{study.project}</h4>
                   <div className="space-y-3">
                     <div>
-                      <p className="text-xs text-[#ff5500] font-light">Scope</p>
+                      <p className="text-xs text-[var(--brand,#ff5500)] font-light">Scope</p>
                       <p className="text-white/70">{study.scope}</p>
                     </div>
                     <div>
-                      <p className="text-xs text-[#ff5500] font-light">Results</p>
+                      <p className="text-xs text-[var(--brand,#ff5500)] font-light">Results</p>
                       <p className="text-white/70">{study.result}</p>
                     </div>
                   </div>
@@ -556,14 +556,14 @@ export default function KineticStudio() {
 
       <section className="py-24 px-6 md:px-12 bg-[#1a1a2e]">
         <Reveal>
-          <h2 className="text-5xl font-light mb-12" style={{color: brand ?? '#ff5500' }}>Awards & Recognition</h2>
+          <h2 className="text-5xl font-light mb-12" style={{color: brand ?? 'var(--brand,#ff5500)' }}>Awards & Recognition</h2>
         </Reveal>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
           {["Cannes Lions", "D&AD Awards", "The Webby Awards", "Graphis Award", "One Show", "Indie Short Fest", "Vimeo Awards", "IATSE Choice"].map((award, idx) => (
             <Reveal key={idx} delay={idx * 0.05}>
-              <Card className="bg-[#06060a] border-[#ff5500]/20 text-center">
+              <Card className="bg-[#06060a] border-[var(--brand,#ff5500)]/20 text-center">
                 <CardContent className="p-6">
-                  <p className="text-sm font-light text-[#ff5500]">{award}</p>
+                  <p className="text-sm font-light text-[var(--brand,#ff5500)]">{award}</p>
                 </CardContent>
               </Card>
             </Reveal>
@@ -573,7 +573,7 @@ export default function KineticStudio() {
 
       <section id="tarifs" className="py-24 px-6 md:px-12">
         <Reveal>
-          <h2 className="text-5xl font-light mb-12" style={{color: brand ?? '#ff5500' }}>Pricing Guide</h2>
+          <h2 className="text-5xl font-light mb-12" style={{color: brand ?? 'var(--brand,#ff5500)' }}>Pricing Guide</h2>
         </Reveal>
         <div className="grid md:grid-cols-2 gap-12 max-w-4xl mx-auto">
           <Reveal>
@@ -582,19 +582,19 @@ export default function KineticStudio() {
               <ul className="space-y-4 text-white/70">
                 <li className="flex justify-between">
                   <span>Motion Graphics (30-sec)</span>
-                  <span className="text-[#ff5500]">$8,000 - $15,000</span>
+                  <span className="text-[var(--brand,#ff5500)]">$8,000 - $15,000</span>
                 </li>
                 <li className="flex justify-between">
                   <span>3D Animation (60-sec)</span>
-                  <span className="text-[#ff5500]">$12,000 - $25,000</span>
+                  <span className="text-[var(--brand,#ff5500)]">$12,000 - $25,000</span>
                 </li>
                 <li className="flex justify-between">
                   <span>Brand Film Production</span>
-                  <span className="text-[#ff5500]">$25,000 - $75,000+</span>
+                  <span className="text-[var(--brand,#ff5500)]">$25,000 - $75,000+</span>
                 </li>
                 <li className="flex justify-between">
                   <span>Interactive Experience</span>
-                  <span className="text-[#ff5500]">$15,000 - $40,000</span>
+                  <span className="text-[var(--brand,#ff5500)]">$15,000 - $40,000</span>
                 </li>
               </ul>
             </div>
@@ -604,19 +604,19 @@ export default function KineticStudio() {
               <h3 className="text-2xl font-light text-white mb-6">Package Includes</h3>
               <ul className="space-y-3 text-white/70">
                 <li className="flex items-start gap-3">
-                  <span className="text-[#ff5500] font-light">›</span>
+                  <span className="text-[var(--brand,#ff5500)] font-light">›</span>
                   <span>Unlimited revisions (first 2 rounds included)</span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <span className="text-[#ff5500] font-light">›</span>
+                  <span className="text-[var(--brand,#ff5500)] font-light">›</span>
                   <span>All source files and assets</span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <span className="text-[#ff5500] font-light">›</span>
+                  <span className="text-[var(--brand,#ff5500)] font-light">›</span>
                   <span>Multiple formats and resolutions</span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <span className="text-[#ff5500] font-light">›</span>
+                  <span className="text-[var(--brand,#ff5500)] font-light">›</span>
                   <span>Perpetual usage rights</span>
                 </li>
               </ul>
@@ -627,21 +627,21 @@ export default function KineticStudio() {
 
       <section className="py-24 px-6 md:px-12 bg-[#1a1a2e]">
         <Reveal>
-          <h2 className="text-5xl font-light mb-12" style={{color: brand ?? '#ff5500' }}>Get In Touch</h2>
+          <h2 className="text-5xl font-light mb-12" style={{color: brand ?? 'var(--brand,#ff5500)' }}>Get In Touch</h2>
         </Reveal>
         <div className="max-w-2xl mx-auto text-center">
           <p className="text-lg text-white/70 mb-8">Let's collaborate on your next project. Reach out to discuss your creative vision.</p>
           <div className="space-y-4 text-white/70 mb-12">
             <div>
-              <p className="font-light text-[#ff5500] text-sm">Email</p>
+              <p className="font-light text-[var(--brand,#ff5500)] text-sm">Email</p>
               <p>{fd?.email ?? "hello@kineticstudio.com"}</p>
             </div>
             <div>
-              <p className="font-light text-[#ff5500] text-sm">Phone</p>
+              <p className="font-light text-[var(--brand,#ff5500)] text-sm">Phone</p>
               <p>+1 (212) 555-0300</p>
             </div>
             <div>
-              <p className="font-light text-[#ff5500] text-sm">Location</p>
+              <p className="font-light text-[var(--brand,#ff5500)] text-sm">Location</p>
               <p>Brooklyn, New York</p>
             </div>
           </div>
@@ -650,11 +650,11 @@ export default function KineticStudio() {
 
       <section className="py-24 px-6 md:px-12">
         <Reveal>
-          <h2 className="text-5xl font-light mb-12" style={{color: brand ?? '#ff5500' }}>Let's Create Motion Magic</h2>
+          <h2 className="text-5xl font-light mb-12" style={{color: brand ?? 'var(--brand,#ff5500)' }}>Let's Create Motion Magic</h2>
         </Reveal>
         <div className="text-center">
           <p className="text-lg text-white/70 mb-8">Bring your brand story to life with cutting-edge motion design and animation</p>
-          <MagneticBtn className="px-12 py-4 rounded-lg font-light text-black transition-colors" style={{backgroundColor: brand ?? '#ff5500' }}>
+          <MagneticBtn className="px-12 py-4 rounded-lg font-light text-black transition-colors" style={{backgroundColor: brand ?? 'var(--brand,#ff5500)' }}>
             Get in Touch
           </MagneticBtn>
         </div>

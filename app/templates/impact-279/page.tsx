@@ -53,8 +53,8 @@ function shadeColor(hex: string, percent: number): string {
 let C: Record<string, string> = {
   forest: '#2a4a35',
   forestDeep: '#1c3326',
-  forestMid: '#3d6b4a',
-  forestLight: '#4e8a60',
+  forestMid: 'var(--brand,#3d6b4a)',
+  forestLight: 'var(--brand-light,#4e8a60)',
   linen: '#f5efe6',
   linenDeep: '#ede4d7',
   linenDarker: '#dfd4c5',

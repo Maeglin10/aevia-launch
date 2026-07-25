@@ -229,7 +229,7 @@ export default function ClosDuSoirPage() {
                 animate={{ opacity: 1 }}
                 transition={{ duration: 1, delay: 0.3 }}
                 style={{fontSize: 17,
-                  color: brand ?? '#c4a882',
+                  color: brand ?? 'var(--brand,#c4a882)',
                   lineHeight: 1.85,
                   marginBottom: 44,
                   maxWidth: 440,
@@ -541,7 +541,7 @@ export default function ClosDuSoirPage() {
                 </h2>
                 <p
                   style={{fontSize: 16,
-                    color: brand ?? '#c4a882',
+                    color: brand ?? 'var(--brand,#c4a882)',
                     lineHeight: 1.9,
                     marginBottom: 20,
                     fontWeight: 300,
@@ -551,7 +551,7 @@ export default function ClosDuSoirPage() {
                 </p>
                 <p
                   style={{fontSize: 16,
-                    color: brand ?? '#c4a882',
+                    color: brand ?? 'var(--brand,#c4a882)',
                     lineHeight: 1.9,
                     fontWeight: 300,
                   }}
@@ -583,7 +583,7 @@ export default function ClosDuSoirPage() {
                       </div>
                       <div
                         style={{fontSize: 13,
-                          color: brand ?? '#c4a882',
+                          color: brand ?? 'var(--brand,#c4a882)',
                           marginTop: 4,
                           fontWeight: 300,
                         }}
@@ -663,7 +663,7 @@ export default function ClosDuSoirPage() {
                     </div>
                     <div
                       style={{fontSize: 14,
-                        color: brand ?? '#c4a882',
+                        color: brand ?? 'var(--brand,#c4a882)',
                         lineHeight: 1.65,
                         fontWeight: 300,
                       }}
@@ -775,7 +775,7 @@ export default function ClosDuSoirPage() {
                         <span
                           style={{
                             background: "#fef2f2",
-                            color: "#dc2626",
+                            color: "var(--brand-light,#dc2626)",
                             fontSize: 10,
                             fontWeight: 700,
                             padding: "2px 8px",
@@ -825,7 +825,7 @@ export default function ClosDuSoirPage() {
                         <span
                           style={{
                             fontSize: 12,
-                            color: ev.spots === 0 ? "#dc2626" : C.gold,
+                            color: ev.spots === 0 ? "var(--brand-light,#dc2626)" : C.gold,
                             fontWeight: 600,
                           }}
                         >
@@ -1007,7 +1007,7 @@ export default function ClosDuSoirPage() {
               </h2>
               <p
                 style={{fontSize: 15,
-                  color: brand ?? '#c4a882',
+                  color: brand ?? 'var(--brand,#c4a882)',
                   maxWidth: 440,
                   margin: "0 auto",
                   lineHeight: 1.8,
@@ -1076,7 +1076,7 @@ export default function ClosDuSoirPage() {
                   </div>
                   <div
                     style={{fontSize: 12,
-                      color: brand ?? '#c4a882',
+                      color: brand ?? 'var(--brand,#c4a882)',
                       fontStyle: "italic",
                       marginBottom: 20,
                       letterSpacing: "0.04em",
@@ -1097,7 +1097,7 @@ export default function ClosDuSoirPage() {
                     </span>
                     <span
                       style={{fontSize: 14,
-                        color: brand ?? '#c4a882',
+                        color: brand ?? 'var(--brand,#c4a882)',
                         marginLeft: 4,
                       }}
                     >
@@ -1129,7 +1129,7 @@ export default function ClosDuSoirPage() {
                         />
                         <span
                           style={{fontSize: 13,
-                            color: brand ?? '#c4a882',
+                            color: brand ?? 'var(--brand,#c4a882)',
                             lineHeight: 1.5,
                             fontWeight: 300,
                           }}

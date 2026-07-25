@@ -174,9 +174,9 @@ return (
                   marginBottom: 28,
                 }}
               >
-                <Award size={14} color="#60a5fa" />
+                <Award size={14} color="var(--brand,#60a5fa)" />
                 <span
-                  style={{color: brand ?? '#60a5fa',
+                  style={{color: brand ?? 'var(--brand,#60a5fa)',
                     fontSize: 13,
                     fontWeight: 600,
                   }}
@@ -201,7 +201,7 @@ return (
                 <span
                   style={{
                     color: C.accent,
-                    background: `linear-gradient(135deg, ${C.accent}, #60a5fa)`,
+                    background: `linear-gradient(135deg, ${C.accent}, var(--brand,#60a5fa))`,
                     WebkitBackgroundClip: "text",
                     WebkitTextFillColor: "transparent",
                   }}
@@ -217,7 +217,7 @@ return (
                 transition={{ duration: 0.7, delay: 0.25 }}
                 style={{
                   fontSize: 18,
-                  color: "#93c5fd",
+                  color: "var(--brand-light,#93c5fd)",
                   lineHeight: 1.75,
                   marginBottom: 40,
                   maxWidth: 460,
@@ -360,7 +360,7 @@ return (
                     alignItems: "center",
                   }}
                 >
-                  <span style={{ color: "#93c5fd", fontSize: 14, fontWeight: 600 }}>
+                  <span style={{ color: "var(--brand-light,#93c5fd)", fontSize: 14, fontWeight: 600 }}>
                     Overall Match Score
                   </span>
                   <span style={{ fontSize: 24, fontWeight: 900, color: C.accent }}>
@@ -488,7 +488,7 @@ return (
               <h2 style={{ fontSize: "clamp(30px, 4vw, 46px)", fontWeight: 800, color: C.white, marginBottom: 16 }}>
                 18 years of measurable results
               </h2>
-              <p style={{ fontSize: 17, color: "#93c5fd", maxWidth: 480, margin: "0 auto" }}>
+              <p style={{ fontSize: 17, color: "var(--brand-light,#93c5fd)", maxWidth: 480, margin: "0 auto" }}>
                 Numbers that define our commitment to quality over volume.
               </p>
             </div>
@@ -642,7 +642,7 @@ return (
                         justifyContent: "center",
                         fontWeight: 700,
                         fontSize: 13,
-                        color: "#60a5fa",
+                        color: "var(--brand,#60a5fa)",
                         flexShrink: 0,
                       }}
                     >

@@ -80,7 +80,7 @@ function GoldParticles({ scrollY }: { scrollY: number }) {
             height: p.size,
             borderRadius: "50%",
             background:
-              "radial-gradient(circle, #d4af6b 0%, #c8963a 60%, transparent 100%)",
+              "radial-gradient(circle, var(--brand,#d4af6b) 0%, #c8963a 60%, transparent 100%)",
             opacity: p.opacity,
             transform: `translateY(${-scrollY * p.speed}px)`,
             transition: "transform 0.1s linear",
@@ -166,8 +166,8 @@ function RotatingJewel({ rotationSpeed }: { rotationSpeed: number }) {
         >
           <defs>
             <radialGradient id="goldGrad" cx="50%" cy="35%" r="65%">
-              <stop offset="0%" stopColor="#f5e6b8" />
-              <stop offset="40%" stopColor="#d4af6b" />
+              <stop offset="0%" stopColor="var(--brand-light,#f5e6b8)" />
+              <stop offset="40%" stopColor="var(--brand,#d4af6b)" />
               <stop offset="100%" stopColor="#8b6914" />
             </radialGradient>
             <radialGradient id="diamondGrad" cx="40%" cy="30%" r="70%">
@@ -245,7 +245,7 @@ function RotatingJewel({ rotationSpeed }: { rotationSpeed: number }) {
           <polygon
             points="90,52 114,75 114,105 90,128 66,105 66,75"
             fill="url(#diamondGrad)"
-            stroke="#d4af6b"
+            stroke="var(--brand,#d4af6b)"
             strokeWidth="1.5"
             filter="url(#glow)"
           />
@@ -479,7 +479,7 @@ function ProductRevealCard({
           {/* Info */}
           <div style={{ padding: "20px 24px 24px" }}>
             <p
-              style={{color: brand ?? '#d4af6b',
+              style={{color: brand ?? 'var(--brand,#d4af6b)',
                 fontSize: 10,
                 letterSpacing: "0.3em",
                 textTransform: "uppercase",
@@ -520,7 +520,7 @@ function ProductRevealCard({
               }}
             >
               <span
-                style={{color: brand ?? '#d4af6b',
+                style={{color: brand ?? 'var(--brand,#d4af6b)',
                   fontSize: 17,
                   fontFamily: "Georgia, serif",
                   letterSpacing: "0.05em",
@@ -544,9 +544,9 @@ function ProductRevealCard({
                 }}
                 onMouseEnter={(e) => {
                   const btn = e.currentTarget as HTMLButtonElement;
-                  btn.style.background = "#d4af6b";
+                  btn.style.background = "var(--brand,#d4af6b)";
                   btn.style.color = "#0a0806";
-                  btn.style.borderColor = "#d4af6b";
+                  btn.style.borderColor = "var(--brand,#d4af6b)";
                 }}
                 onMouseLeave={(e) => {
                   const btn = e.currentTarget as HTMLButtonElement;
@@ -1014,7 +1014,7 @@ export default function LuxuryJewelryTemplate() {
           left: 0,
           right: 0,
           height: 1,
-          background: "linear-gradient(90deg, #8b6914, #d4af6b, #f5e6b8, #d4af6b)",
+          background: "linear-gradient(90deg, #8b6914, var(--brand,#d4af6b), #f5e6b8, var(--brand,#d4af6b))",
           transformOrigin: "left",
           scaleX: progressBarScale,
           zIndex: 100,
@@ -1056,12 +1056,12 @@ export default function LuxuryJewelryTemplate() {
               />
             ) : (
               <span
-                style={{color: brand ?? '#d4af6b',
+                style={{color: brand ?? 'var(--brand,#d4af6b)',
                   fontSize: 22,
                   fontFamily: "Georgia, serif",
                   letterSpacing: "0.22em",
                   fontStyle: "italic",
-                  background: "linear-gradient(90deg, #d4af6b, #f5e6b8, #d4af6b)",
+                  background: "linear-gradient(90deg, var(--brand,#d4af6b), #f5e6b8, var(--brand,#d4af6b))",
                   backgroundSize: "200% auto",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
@@ -1097,7 +1097,7 @@ export default function LuxuryJewelryTemplate() {
                   border: "none",
                   cursor: "pointer",
                   padding: 0,
-                  color: page === key ? "#d4af6b" : "rgba(240,236,224,0.38)",
+                  color: page === key ? "var(--brand,#d4af6b)" : "rgba(240,236,224,0.38)",
                   fontSize: 10,
                   letterSpacing: "0.28em",
                   textTransform: "uppercase",
@@ -1105,11 +1105,11 @@ export default function LuxuryJewelryTemplate() {
                   transition: "color 0.3s ease",
                 }}
                 onMouseEnter={(e) =>
-                  ((e.target as HTMLElement).style.color = "#d4af6b")
+                  ((e.target as HTMLElement).style.color = "var(--brand,#d4af6b)")
                 }
                 onMouseLeave={(e) =>
                   ((e.target as HTMLElement).style.color =
-                    page === key ? "#d4af6b" : "rgba(240,236,224,0.38)")
+                    page === key ? "var(--brand,#d4af6b)" : "rgba(240,236,224,0.38)")
                 }
               >
                 {label}
@@ -1124,7 +1124,7 @@ export default function LuxuryJewelryTemplate() {
               style={{background: "transparent",
                 border: "1px solid rgba(212,175,107,0.3)",
                 borderRadius: 2,
-                color: brand ?? '#d4af6b',
+                color: brand ?? 'var(--brand,#d4af6b)',
                 fontSize: 9,
                 letterSpacing: "0.3em",
                 textTransform: "uppercase",
@@ -1210,7 +1210,7 @@ export default function LuxuryJewelryTemplate() {
                   />
                 ) : (
                   <span
-                    style={{color: brand ?? '#d4af6b',
+                    style={{color: brand ?? 'var(--brand,#d4af6b)',
                       fontSize: 20,
                       fontFamily: "Georgia, serif",
                       fontStyle: "italic",
@@ -1261,7 +1261,7 @@ export default function LuxuryJewelryTemplate() {
                     cursor: "pointer",
                     padding: 0,
                     textAlign: "left",
-                    color: page === key ? "#d4af6b" : "#f0ece0",
+                    color: page === key ? "var(--brand,#d4af6b)" : "#f0ece0",
                     fontSize: 32,
                     fontFamily: "Georgia, serif",
                     fontStyle: "italic",
@@ -1376,11 +1376,11 @@ export default function LuxuryJewelryTemplate() {
                     width: 40,
                     height: 1,
                     background:
-                      "linear-gradient(90deg, transparent, #d4af6b)",
+                      "linear-gradient(90deg, transparent, var(--brand,#d4af6b))",
                   }}
                 />
                 <span
-                  style={{color: brand ?? '#d4af6b',
+                  style={{color: brand ?? 'var(--brand,#d4af6b)',
                     fontSize: 10,
                     letterSpacing: "0.4em",
                     textTransform: "uppercase",
@@ -1410,7 +1410,7 @@ export default function LuxuryJewelryTemplate() {
                 <span
                   style={{
                     background:
-                      "linear-gradient(135deg, #d4af6b 0%, #f5e6b8 45%, #d4af6b 100%)",
+                      "linear-gradient(135deg, var(--brand,#d4af6b) 0%, #f5e6b8 45%, var(--brand,#d4af6b) 100%)",
                     WebkitBackgroundClip: "text",
                     WebkitTextFillColor: "transparent",
                     display: "block",
@@ -1446,7 +1446,7 @@ export default function LuxuryJewelryTemplate() {
                   onClick={() => goTo("collections")}
                   style={{
                     background:
-                      "linear-gradient(135deg, #d4af6b, #b8963a)",
+                      "linear-gradient(135deg, var(--brand,#d4af6b), #b8963a)",
                     border: "none",
                     borderRadius: 2,
                     color: "#0a0806",
@@ -1494,7 +1494,7 @@ export default function LuxuryJewelryTemplate() {
                     (e.currentTarget as HTMLButtonElement).style.borderColor =
                       "rgba(212,175,107,0.6)";
                     (e.currentTarget as HTMLButtonElement).style.color =
-                      "#d4af6b";
+                      "var(--brand,#d4af6b)";
                   }}
                   onMouseLeave={(e) => {
                     (e.currentTarget as HTMLButtonElement).style.borderColor =
@@ -1526,7 +1526,7 @@ export default function LuxuryJewelryTemplate() {
                 ].map(({ n, l }) => (
                   <div key={l}>
                     <p
-                      style={{color: brand ?? '#d4af6b',
+                      style={{color: brand ?? 'var(--brand,#d4af6b)',
                         fontSize: 24,
                         fontFamily: "Georgia, serif",
                         letterSpacing: "0.05em",
@@ -1593,7 +1593,7 @@ export default function LuxuryJewelryTemplate() {
                     height: "100%",
                     width: `${((8 - rotationSpeed) / 6.5) * 100}%`,
                     background:
-                      "linear-gradient(90deg, transparent, #d4af6b)",
+                      "linear-gradient(90deg, transparent, var(--brand,#d4af6b))",
                     transition: "width 0.2s ease",
                   }}
                 />
@@ -1737,7 +1737,7 @@ export default function LuxuryJewelryTemplate() {
                 width: 48,
                 height: 1,
                 background:
-                  "linear-gradient(90deg, transparent, #d4af6b, transparent)",
+                  "linear-gradient(90deg, transparent, var(--brand,#d4af6b), transparent)",
                 margin: "24px auto 0",
               }}
             />
@@ -1872,7 +1872,7 @@ export default function LuxuryJewelryTemplate() {
                 >
                   <span
                     style={{display: "block",
-                      color: brand ?? '#d4af6b',
+                      color: brand ?? 'var(--brand,#d4af6b)',
                       fontSize: 28,
                       marginBottom: 24,
                       opacity: 0.7,
@@ -2066,7 +2066,7 @@ export default function LuxuryJewelryTemplate() {
                   ].map(({ n, l }) => (
                     <div key={l}>
                       <p
-                        style={{color: brand ?? '#d4af6b',
+                        style={{color: brand ?? 'var(--brand,#d4af6b)',
                           fontSize: 26,
                           fontFamily: "Georgia, serif",
                           letterSpacing: "0.04em",
@@ -2168,7 +2168,7 @@ export default function LuxuryJewelryTemplate() {
                   }}
                 >
                   <p
-                    style={{color: brand ?? '#d4af6b',
+                    style={{color: brand ?? 'var(--brand,#d4af6b)',
                       fontSize: 20,
                       fontFamily: "Georgia, serif",
                       letterSpacing: "0.04em",
@@ -2244,7 +2244,7 @@ export default function LuxuryJewelryTemplate() {
                   &ldquo;{t.text}&rdquo;
                 </p>
                 <p
-                  style={{color: brand ?? '#d4af6b',
+                  style={{color: brand ?? 'var(--brand,#d4af6b)',
                     fontSize: 13,
                     fontFamily: "Georgia, serif",
                     letterSpacing: "0.15em",
@@ -2341,7 +2341,7 @@ export default function LuxuryJewelryTemplate() {
                 }}
               />
               <span
-                style={{color: brand ?? '#d4af6b',
+                style={{color: brand ?? 'var(--brand,#d4af6b)',
                   fontSize: 20,
                   opacity: 0.6,
                 }}
@@ -2377,7 +2377,7 @@ export default function LuxuryJewelryTemplate() {
               <span
                 style={{
                   background:
-                    "linear-gradient(135deg, #d4af6b 0%, #f5e6b8 50%, #d4af6b 100%)",
+                    "linear-gradient(135deg, var(--brand,#d4af6b) 0%, #f5e6b8 50%, var(--brand,#d4af6b) 100%)",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
                 }}
@@ -2453,7 +2453,7 @@ export default function LuxuryJewelryTemplate() {
                     type="submit"
                     style={{
                       background:
-                        "linear-gradient(135deg, #d4af6b, #b8963a)",
+                        "linear-gradient(135deg, var(--brand,#d4af6b), #b8963a)",
                       border: "none",
                       color: "#0a0806",
                       fontSize: 9,
@@ -2491,7 +2491,7 @@ export default function LuxuryJewelryTemplate() {
                   }}
                 >
                   <p
-                    style={{color: brand ?? '#d4af6b',
+                    style={{color: brand ?? 'var(--brand,#d4af6b)',
                       fontSize: 14,
                       fontFamily: "Georgia, serif",
                       fontStyle: "italic",
@@ -2563,7 +2563,7 @@ export default function LuxuryJewelryTemplate() {
           >
             <div>
               <div
-                style={{color: brand ?? '#d4af6b',
+                style={{color: brand ?? 'var(--brand,#d4af6b)',
                   fontSize: 26,
                   fontFamily: "Georgia, serif",
                   fontStyle: "italic",
@@ -2778,7 +2778,7 @@ function BoutiquePage({ selectedProduct, setSelectedProduct, goTo }: BoutiquePag
             marginBottom: 48,
             transition: "color 0.3s ease",
           }}
-          onMouseEnter={(e) => (e.currentTarget.style.color = "#d4af6b")}
+          onMouseEnter={(e) => (e.currentTarget.style.color = "var(--brand,#d4af6b)")}
           onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(240,236,224,0.5)")}
         >
           ← Retour à la collection
@@ -2824,14 +2824,14 @@ function BoutiquePage({ selectedProduct, setSelectedProduct, goTo }: BoutiquePag
                 height: 120,
                 borderRadius: "50%",
                 border: "2px stroke #d4af6b",
-                background: "radial-gradient(circle, #f5e6b8 0%, #c8963a 70%, transparent 100%)",
+                background: "radial-gradient(circle, var(--brand-light,#f5e6b8) 0%, #c8963a 70%, transparent 100%)",
                 opacity: 0.15,
                 filter: "blur(2px)",
                 animation: "jewel-spin 10s linear infinite",
               }}
             />
             <span
-              style={{color: brand ?? '#d4af6b',
+              style={{color: brand ?? 'var(--brand,#d4af6b)',
                 fontSize: 40,
                 opacity: 0.7,
                 filter: "drop-shadow(0 0 10px #d4af6b)",
@@ -2844,7 +2844,7 @@ function BoutiquePage({ selectedProduct, setSelectedProduct, goTo }: BoutiquePag
           {/* Right Column: Info */}
           <div style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
             <p
-              style={{color: brand ?? '#d4af6b',
+              style={{color: brand ?? 'var(--brand,#d4af6b)',
                 fontSize: 11,
                 letterSpacing: "0.3em",
                 textTransform: "uppercase",
@@ -2875,7 +2875,7 @@ function BoutiquePage({ selectedProduct, setSelectedProduct, goTo }: BoutiquePag
               {selectedProduct.material}
             </p>
             <div
-              style={{color: brand ?? '#d4af6b',
+              style={{color: brand ?? 'var(--brand,#d4af6b)',
                 fontSize: 28,
                 marginBottom: 32,
               }}
@@ -2903,7 +2903,7 @@ function BoutiquePage({ selectedProduct, setSelectedProduct, goTo }: BoutiquePag
                 animate={{ opacity: 1, y: 0 }}
                 style={{padding: "16px 24px",
                   border: "1px solid #d4af6b",
-                  color: brand ?? '#d4af6b',
+                  color: brand ?? 'var(--brand,#d4af6b)',
                   fontSize: 12,
                   letterSpacing: "0.15em",
                   textTransform: "uppercase",
@@ -2917,7 +2917,7 @@ function BoutiquePage({ selectedProduct, setSelectedProduct, goTo }: BoutiquePag
               <button
                 onClick={() => setSuccessMsg(true)}
                 style={{
-                  background: "linear-gradient(135deg, #d4af6b, #b8963a)",
+                  background: "linear-gradient(135deg, var(--brand,#d4af6b), #b8963a)",
                   border: "none",
                   borderRadius: 2,
                   color: "#0a0806",
@@ -3055,10 +3055,10 @@ function BoutiquePage({ selectedProduct, setSelectedProduct, goTo }: BoutiquePag
                 overflow: "hidden",
               }}
             >
-              <span style={{color: brand ?? '#d4af6b', fontSize: 24, opacity: 0.5 }}>✦</span>
+              <span style={{color: brand ?? 'var(--brand,#d4af6b)', fontSize: 24, opacity: 0.5 }}>✦</span>
             </div>
             <p
-              style={{color: brand ?? '#d4af6b',
+              style={{color: brand ?? 'var(--brand,#d4af6b)',
                 fontSize: 9,
                 letterSpacing: "0.25em",
                 textTransform: "uppercase",
@@ -3094,10 +3094,10 @@ function BoutiquePage({ selectedProduct, setSelectedProduct, goTo }: BoutiquePag
                 alignItems: "center",
               }}
             >
-              <span style={{color: brand ?? '#d4af6b', fontSize: 16 }}>{product.price}</span>
+              <span style={{color: brand ?? 'var(--brand,#d4af6b)', fontSize: 16 }}>{product.price}</span>
               <span
                 style={{fontSize: 10,
-                  color: brand ?? '#d4af6b',
+                  color: brand ?? 'var(--brand,#d4af6b)',
                   letterSpacing: "0.1em",
                   textTransform: "uppercase",
                 }}
@@ -3153,7 +3153,7 @@ function AtelierPage() {
           style={{
             width: 48,
             height: 1,
-            background: "linear-gradient(90deg, transparent, #d4af6b, transparent)",
+            background: "linear-gradient(90deg, transparent, var(--brand,#d4af6b), transparent)",
             margin: "0 auto",
           }}
         />
@@ -3179,15 +3179,15 @@ function AtelierPage() {
           }}
         >
           <div>
-            <h3 style={{color: brand ?? '#d4af6b', fontSize: 28, marginBottom: 8, fontWeight: 400 }}>78+ Ans</h3>
+            <h3 style={{color: brand ?? 'var(--brand,#d4af6b)', fontSize: 28, marginBottom: 8, fontWeight: 400 }}>78+ Ans</h3>
             <p style={{ fontSize: 12, color: "rgba(240,236,224,0.4)", textTransform: "uppercase", letterSpacing: "0.1em" }}>D'histoire et d'indépendance</p>
           </div>
           <div>
-            <h3 style={{color: brand ?? '#d4af6b', fontSize: 28, marginBottom: 8, fontWeight: 400 }}>12</h3>
+            <h3 style={{color: brand ?? 'var(--brand,#d4af6b)', fontSize: 28, marginBottom: 8, fontWeight: 400 }}>12</h3>
             <p style={{ fontSize: 12, color: "rgba(240,236,224,0.4)", textTransform: "uppercase", letterSpacing: "0.1em" }}>Maîtres joailliers à l'atelier</p>
           </div>
           <div>
-            <h3 style={{color: brand ?? '#d4af6b', fontSize: 28, marginBottom: 8, fontWeight: 400 }}>160 Heures</h3>
+            <h3 style={{color: brand ?? 'var(--brand,#d4af6b)', fontSize: 28, marginBottom: 8, fontWeight: 400 }}>160 Heures</h3>
             <p style={{ fontSize: 12, color: "rgba(240,236,224,0.4)", textTransform: "uppercase", letterSpacing: "0.1em" }}>De travail manuel par pièce unique</p>
           </div>
         </div>
@@ -3249,7 +3249,7 @@ function SavoirFairePage() {
           style={{
             width: 48,
             height: 1,
-            background: "linear-gradient(90deg, transparent, #d4af6b, transparent)",
+            background: "linear-gradient(90deg, transparent, var(--brand,#d4af6b), transparent)",
             margin: "0 auto",
           }}
         />
@@ -3368,7 +3368,7 @@ function LookbookPage() {
           style={{
             width: 48,
             height: 1,
-            background: "linear-gradient(90deg, transparent, #d4af6b, transparent)",
+            background: "linear-gradient(90deg, transparent, var(--brand,#d4af6b), transparent)",
             margin: "0 auto",
           }}
         />
@@ -3423,7 +3423,7 @@ function LookbookPage() {
               }}
             />
             <p
-              style={{color: brand ?? '#d4af6b',
+              style={{color: brand ?? 'var(--brand,#d4af6b)',
                 fontSize: 10,
                 letterSpacing: "0.25em",
                 textTransform: "uppercase",
@@ -3504,7 +3504,7 @@ function ContactPage() {
           style={{
             width: 48,
             height: 1,
-            background: "linear-gradient(90deg, transparent, #d4af6b, transparent)",
+            background: "linear-gradient(90deg, transparent, var(--brand,#d4af6b), transparent)",
             margin: "0 auto",
           }}
         />
@@ -3599,7 +3599,7 @@ function ContactPage() {
                 <button
                   type="submit"
                   style={{
-                    background: "linear-gradient(135deg, #d4af6b, #b8963a)",
+                    background: "linear-gradient(135deg, var(--brand,#d4af6b), #b8963a)",
                     border: "none",
                     borderRadius: 2,
                     color: "#0a0806",
@@ -3631,7 +3631,7 @@ function ContactPage() {
                   background: "rgba(212,175,107,0.02)",
                 }}
               >
-                <p style={{color: brand ?? '#d4af6b', fontSize: 18, fontStyle: "italic", marginBottom: 16 }}>✦ Message transmis ✦</p>
+                <p style={{color: brand ?? 'var(--brand,#d4af6b)', fontSize: 18, fontStyle: "italic", marginBottom: 16 }}>✦ Message transmis ✦</p>
                 <p style={{ color: "rgba(240,236,224,0.6)", fontSize: 14 }}>
                   Nous vous remercions pour votre intérêt. Un conseiller vous répondra sous 24h.
                 </p>
@@ -3690,7 +3690,7 @@ function ContactPage() {
             <div
               style={{width: 10,
                 height: 10,
-                background: brand ?? '#d4af6b',
+                background: brand ?? 'var(--brand,#d4af6b)',
                 borderRadius: "50%",
                 filter: "drop-shadow(0 0 10px #d4af6b)",
                 animation: "pulse-glow 2s ease-in-out infinite",
@@ -3734,7 +3734,7 @@ function LegalPage({ variant }: { variant: "mentions" | "cgv" | "privacy" }) {
         <h1 style={{ color: "#f0ece0", fontSize: 36, fontStyle: "italic", marginBottom: 40, fontWeight: 400 }}>Mentions Légales</h1>
         <div style={{ display: "flex", flexDirection: "column", gap: 32, color: "rgba(240,236,224,0.75)" }}>
           <div>
-            <h3 style={{color: brand ?? '#d4af6b', fontSize: 18, fontStyle: "italic", marginBottom: 12, fontWeight: 400 }}>Éditeur du site</h3>
+            <h3 style={{color: brand ?? 'var(--brand,#d4af6b)', fontSize: 18, fontStyle: "italic", marginBottom: 12, fontWeight: 400 }}>Éditeur du site</h3>
             <p>
               Aevia WS — Valentin Milliand<br />
               Entrepreneur individuel<br />
@@ -3745,7 +3745,7 @@ function LegalPage({ variant }: { variant: "mentions" | "cgv" | "privacy" }) {
             </p>
           </div>
           <div>
-            <h3 style={{color: brand ?? '#d4af6b', fontSize: 18, fontStyle: "italic", marginBottom: 12, fontWeight: 400 }}>Hébergement</h3>
+            <h3 style={{color: brand ?? 'var(--brand,#d4af6b)', fontSize: 18, fontStyle: "italic", marginBottom: 12, fontWeight: 400 }}>Hébergement</h3>
             <p>
               Vercel Inc.<br />
               340 S Lemon Ave #4133<br />
@@ -3753,7 +3753,7 @@ function LegalPage({ variant }: { variant: "mentions" | "cgv" | "privacy" }) {
             </p>
           </div>
           <div>
-            <h3 style={{color: brand ?? '#d4af6b', fontSize: 18, fontStyle: "italic", marginBottom: 12, fontWeight: 400 }}>Propriété intellectuelle</h3>
+            <h3 style={{color: brand ?? 'var(--brand,#d4af6b)', fontSize: 18, fontStyle: "italic", marginBottom: 12, fontWeight: 400 }}>Propriété intellectuelle</h3>
             <p>
               L'ensemble des contenus de ce site (textes, images, designs, logos) est protégé au titre du droit d'auteur.
               Toute reproduction ou diffusion non autorisée est strictement interdite.
@@ -3782,25 +3782,25 @@ function LegalPage({ variant }: { variant: "mentions" | "cgv" | "privacy" }) {
         <h1 style={{ color: "#f0ece0", fontSize: 36, fontStyle: "italic", marginBottom: 40, fontWeight: 400 }}>Conditions Générales de Vente</h1>
         <div style={{ display: "flex", flexDirection: "column", gap: 32, color: "rgba(240,236,224,0.75)" }}>
           <div>
-            <h3 style={{color: brand ?? '#d4af6b', fontSize: 18, fontStyle: "italic", marginBottom: 12, fontWeight: 400 }}>1. Objet</h3>
+            <h3 style={{color: brand ?? 'var(--brand,#d4af6b)', fontSize: 18, fontStyle: "italic", marginBottom: 12, fontWeight: 400 }}>1. Objet</h3>
             <p>
               Les présentes Conditions Générales de Vente régissent les relations contractuelles pour toute demande ou commande effectuée auprès de la Maison Élara.
             </p>
           </div>
           <div>
-            <h3 style={{color: brand ?? '#d4af6b', fontSize: 18, fontStyle: "italic", marginBottom: 12, fontWeight: 400 }}>2. Commandes & Créations</h3>
+            <h3 style={{color: brand ?? 'var(--brand,#d4af6b)', fontSize: 18, fontStyle: "italic", marginBottom: 12, fontWeight: 400 }}>2. Commandes & Créations</h3>
             <p>
               Nos bijoux étant façonnés à la main et sur commande, le délai de fabrication moyen est de 4 à 6 semaines. Un acompte peut être exigé lors de la validation de commandes sur mesure.
             </p>
           </div>
           <div>
-            <h3 style={{color: brand ?? '#d4af6b', fontSize: 18, fontStyle: "italic", marginBottom: 12, fontWeight: 400 }}>3. Livraison</h3>
+            <h3 style={{color: brand ?? 'var(--brand,#d4af6b)', fontSize: 18, fontStyle: "italic", marginBottom: 12, fontWeight: 400 }}>3. Livraison</h3>
             <p>
               Toutes nos livraisons de haute joaillerie sont confiées à des transporteurs spécialisés assurant un transit sécurisé et blindé. La livraison est offerte dans le monde entier.
             </p>
           </div>
           <div>
-            <h3 style={{color: brand ?? '#d4af6b', fontSize: 18, fontStyle: "italic", marginBottom: 12, fontWeight: 400 }}>4. Droit de rétractation</h3>
+            <h3 style={{color: brand ?? 'var(--brand,#d4af6b)', fontSize: 18, fontStyle: "italic", marginBottom: 12, fontWeight: 400 }}>4. Droit de rétractation</h3>
             <p>
               Conformément à la réglementation, l'acheteur dispose d'un droit de rétractation de 14 jours à compter de la réception de la pièce, sauf pour les créations entièrement personnalisées ou gravées sur mesure.
             </p>
@@ -3827,19 +3827,19 @@ function LegalPage({ variant }: { variant: "mentions" | "cgv" | "privacy" }) {
       <h1 style={{ color: "#f0ece0", fontSize: 36, fontStyle: "italic", marginBottom: 40, fontWeight: 400 }}>Politique de Confidentialité</h1>
       <div style={{ display: "flex", flexDirection: "column", gap: 32, color: "rgba(240,236,224,0.75)" }}>
         <div>
-          <h3 style={{color: brand ?? '#d4af6b', fontSize: 18, fontStyle: "italic", marginBottom: 12, fontWeight: 400 }}>Collecte des données</h3>
+          <h3 style={{color: brand ?? 'var(--brand,#d4af6b)', fontSize: 18, fontStyle: "italic", marginBottom: 12, fontWeight: 400 }}>Collecte des données</h3>
           <p>
             Les données recueillies via nos formulaires de contact ou d'inscription (nom, e-mail) sont destinées exclusivement au traitement de vos demandes d'informations et au suivi de vos relations avec la Maison Élara.
           </p>
         </div>
         <div>
-          <h3 style={{color: brand ?? '#d4af6b', fontSize: 18, fontStyle: "italic", marginBottom: 12, fontWeight: 400 }}>Discrétion absolue</h3>
+          <h3 style={{color: brand ?? 'var(--brand,#d4af6b)', fontSize: 18, fontStyle: "italic", marginBottom: 12, fontWeight: 400 }}>Discrétion absolue</h3>
           <p>
             Nous garantissons la confidentialité totale de vos données. Celles-ci ne seront en aucun cas louées, vendues ou cédées à des tiers.
           </p>
         </div>
         <div>
-          <h3 style={{color: brand ?? '#d4af6b', fontSize: 18, fontStyle: "italic", marginBottom: 12, fontWeight: 400 }}>Vos Droits</h3>
+          <h3 style={{color: brand ?? 'var(--brand,#d4af6b)', fontSize: 18, fontStyle: "italic", marginBottom: 12, fontWeight: 400 }}>Vos Droits</h3>
           <p>
             Conformément au RGPD, vous disposez d'un droit d'accès, de rectification et de suppression des données vous concernant. Vous pouvez exercer ce droit à tout moment par e-mail à : valentinmilliand@aevia.services.
           </p>

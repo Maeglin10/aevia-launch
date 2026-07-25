@@ -33,8 +33,8 @@ let C: Record<string, string> = {
   bgSection: "#f0ebe4",
   text: "#2c2420",
   textMuted: "#7a6e68",
-  accent: '#c4a882',
-  accentDark: "#a88c68",
+  accent: 'var(--brand,#c4a882)',
+  accentDark: "var(--brand-light,#a88c68)",
   accentLight: "#f0e8dc",
   white: "#ffffff",
   border: "#e5ddd5",
@@ -376,7 +376,7 @@ export default function StudioNomaPage() {
           {TEMOIGNAGES.map((t, i) => (
             <Reveal key={t.auteur} delay={i * 0.1}>
               <div style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.10)", borderRadius: 16, padding: "32px 28px" }}>
-                <div style={{ display: "flex", gap: 3, marginBottom: 16 }}>{[...Array(5)].map((_, j) => <Star key={j} size={14} fill="#c4a882" color="#c4a882" />)}</div>
+                <div style={{ display: "flex", gap: 3, marginBottom: 16 }}>{[...Array(5)].map((_, j) => <Star key={j} size={14} fill="var(--brand,#c4a882)" color="var(--brand,#c4a882)" />)}</div>
                 <p style={{ fontFamily: FONT, fontSize: 17, fontStyle: "italic", color: "rgba(255,255,255,0.85)", lineHeight: 1.7, marginBottom: 20 }}>"{t.texte}"</p>
                 <div style={{ borderTop: "1px solid rgba(255,255,255,0.10)", paddingTop: 16 }}>
                   <div style={{ fontWeight: 600, color: "#fff", fontSize: 14, fontFamily: FONT_SANS }}>{t.auteur}</div>

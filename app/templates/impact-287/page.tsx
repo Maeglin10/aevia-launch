@@ -51,7 +51,7 @@ function shadeColor(hex: string, percent: number): string {
 }
 
 let C: Record<string, string> = {
-  azure: '#0077b6',
+  azure: 'var(--brand-light,#0077b6)',
   azureDeep: '#005f92',
   azureMid: '#0096c7',
   azureLight: '#48cae4',
@@ -1015,7 +1015,7 @@ function ProgramCard({ p, i }: { p: Program; i: number }) {
   };
 
   const titleColor = p.highlight ? C.white : C.ink;
-  const textColor = p.highlight ? 'rgba(255,255,255,0.85)' : '#4a5568';
+  const textColor = p.highlight ? 'rgba(255,255,255,0.85)' : 'var(--brand,#4a5568)';
   const priceColor = p.highlight ? C.sand : C.azure;
   const featureColor = p.highlight ? 'rgba(255,255,255,0.78)' : '#6b7280';
   const dotColor = p.highlight ? C.sand : C.coral;
@@ -1233,7 +1233,7 @@ function ProgramsSection() {
           <p
             style={{fontFamily: SANS,
               fontSize: 'clamp(16px, 1.7vw, 19px)',
-              color: brand ?? '#4a5568',
+              color: brand ?? 'var(--brand,#4a5568)',
               maxWidth: 560,
               margin: '18px auto 0',
               lineHeight: 1.7,
@@ -1446,7 +1446,7 @@ function MethodSection() {
                       style={{fontFamily: SANS,
                         fontSize: 15.5,
                         lineHeight: 1.72,
-                        color: brand ?? '#4a5568',
+                        color: brand ?? 'var(--brand,#4a5568)',
                         margin: 0,
                         fontWeight: 400,
                       }}
@@ -1802,7 +1802,7 @@ function BilanFormSection() {
             style={{fontFamily: SANS,
               fontSize: 'clamp(16px, 1.7vw, 19px)',
               lineHeight: 1.7,
-              color: brand ?? '#4a5568',
+              color: brand ?? 'var(--brand,#4a5568)',
               maxWidth: 540,
               margin: '0 auto 48px',
               textAlign: 'center',
@@ -2472,7 +2472,7 @@ function OutdoorSection() {
               <p
                 style={{fontFamily: SANS,
                   fontSize: 'clamp(15px, 1.6vw, 18px)',
-                  color: brand ?? '#4a5568',
+                  color: brand ?? 'var(--brand,#4a5568)',
                   lineHeight: 1.72,
                   fontWeight: 400,
                   maxWidth: 420,
@@ -2598,7 +2598,7 @@ function OutdoorSpotCard({ spot, i }: { spot: OutdoorSpot; i: number }) {
             fontFamily: SANS,
             fontSize: 14,
             lineHeight: 1.68,
-            color: hover ? 'rgba(255,255,255,0.82)' : '#4a5568',
+            color: hover ? 'rgba(255,255,255,0.82)' : 'var(--brand,#4a5568)',
             margin: 0,
             fontWeight: 400,
             transition: 'color .4s',

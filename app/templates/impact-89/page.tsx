@@ -55,7 +55,7 @@ let C: Record<string, string> = {
   text: "#F0EDE8",
   textMuted: "#8A8278",
   textDim: "#4A4642",
-  accent: "#8B0000",
+  accent: "var(--brand-light,#8b0000)",
   accentHover: "#A50000",
   accentLight: "rgba(139,0,0,0.12)",
   accentBright: "#C41E3A",
@@ -198,7 +198,7 @@ const ARTISTS = [
     wait: "6–8 semaines",
     from: "€320 / session",
     pieces: 1100,
-    color: "#4A90D9",
+    color: "var(--brand,#4a90d9)",
   },
 ];
 
@@ -232,7 +232,7 @@ const STYLE_GUIDE = [
     desc: "Le vocabulaire américain classique : ancres, aigles, fleurs, cœurs. Outlines épais, couleurs saturées, iconographie immédiatement lisible.",
     traits: ["Traditionnel", "Coloré", "Iconique", "Durable"],
     icon: Scissors,
-    color: "#4A90D9",
+    color: "var(--brand,#4a90d9)",
   },
   {
     name: "Japonais",

@@ -29,10 +29,10 @@ let C: Record<string, string> = {
   bgAlt:        '#0d1018',
   bgCard:       '#121620',
   bgCardHover:  '#161c28',
-  accent:       '#3b82f6',
+  accent:       'var(--brand,#3b82f6)',
   accentDark:   '#1d4ed8',
   accentLight:  '#60a5fa',
-  orange:       '#f59e0b',
+  orange:       'var(--brand-light,#f59e0b)',
   orangeDark:   '#d97706',
   text:         '#e8edf8',
   textMuted:    '#8896b0',
@@ -1174,7 +1174,7 @@ const TESTIMONIALS = [
     text: "Meridian Freight a transformé notre logistique. Grâce à leur intégration Shopify, 98 % de nos commandes partent le jour même. Le taux de retours clients dû aux livraisons a chuté de 40 %.",
   },
   {
-    name: 'Frédéric Castellan', role: 'Directeur des Opérations', company: 'Imprimerie Rhône Alpex', sector: 'Industrie', rating: 5, initials: 'FC', color: '#3b82f6',
+    name: 'Frédéric Castellan', role: 'Directeur des Opérations', company: 'Imprimerie Rhône Alpex', sector: 'Industrie', rating: 5, initials: 'FC', color: 'var(--brand,#3b82f6)',
     text: "Nous expédions des bobines de papier lourdes vers toute la France. Avec Meridian, plus jamais de colis perdus et les délais sont tenus à 99 %. Un vrai partenaire industriel.",
   },
   {
@@ -1182,7 +1182,7 @@ const TESTIMONIALS = [
     text: "Le transport sous température contrôlée et la traçabilité médicale sont irréprochables. L'équipe dédiée répond en moins d'une heure. Exactement ce dont nous avions besoin.",
   },
   {
-    name: 'Thomas Guerrier', role: 'CEO', company: 'TechRetail France', sector: 'Retail', rating: 5, initials: 'TG', color: '#f59e0b',
+    name: 'Thomas Guerrier', role: 'CEO', company: 'TechRetail France', sector: 'Retail', rating: 5, initials: 'TG', color: 'var(--brand-light,#f59e0b)',
     text: "Nous avons switché depuis un grand groupe il y a 8 mois. Dès le premier mois, -22 % sur notre budget transport et un taux de satisfaction client en hausse. Je recommande sans hésiter.",
   },
   {

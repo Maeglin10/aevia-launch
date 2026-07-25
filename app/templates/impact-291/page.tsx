@@ -48,8 +48,8 @@ function shadeColor(hex: string, percent: number): string {
 }
 
 let C: Record<string, string> = {
-  terra: '#c4634a',
-  terraLight: '#d4836e',
+  terra: 'var(--brand,#c4634a)',
+  terraLight: 'var(--brand-light,#d4836e)',
   terraDark: '#a04e39',
   ivory: '#f8f4ed',
   ivoryDeep: '#ede7db',

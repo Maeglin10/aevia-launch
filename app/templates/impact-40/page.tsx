@@ -51,7 +51,7 @@ let C: Record<string, string> = {
   text: "#1a2e08",
   textLight: "#5a6e48",
   textMuted: "#8a9a78",
-  accent: '#f0c040',
+  accent: 'var(--brand,#f0c040)',
   accentDark: "#c8a020",
   earth: "#8b5e3c",
   earthLight: "#b8845a",
@@ -73,7 +73,7 @@ const seasonData: Record<
   spring: {
     label: "Printemps",
     icon: <Flower2 size={18} />,
-    color: "#7bb85a",
+    color: "var(--brand-light,#7bb85a)",
     items: [
       { name: "Asperges vertes", desc: "Tendres et croquantes, récoltées à l'aube", emoji: "🌿" },
       { name: "Radis multicolores", desc: "Rose, blanc et violet — croquant garanti", emoji: "🌈" },
@@ -86,7 +86,7 @@ const seasonData: Record<
   summer: {
     label: "Été",
     icon: <Sun size={18} />,
-    color: "#f0c040",
+    color: "var(--brand,#f0c040)",
     items: [
       { name: "Tomates anciennes", desc: "12 variétés — noir de Crimée, Green Zebra, Cœur de bœuf", emoji: "🍅" },
       { name: "Courgettes", desc: "Rondes et longues, cueillie avant maturité", emoji: "🥒" },
@@ -953,7 +953,7 @@ export default function TerreVivantePage() {
 
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(250px, 100%), 1fr))", gap: "1.5rem" }}>
             {[
-              { icon: <Leaf size={22} />, title: "Légumes de saison", desc: "5 à 10 variétés, récoltées le matin de la livraison", accent: "#7bb85a" },
+              { icon: <Leaf size={22} />, title: "Légumes de saison", desc: "5 à 10 variétés, récoltées le matin de la livraison", accent: "var(--brand-light,#7bb85a)" },
               { icon: <Sun size={22} />, title: "Fruits frais", desc: "500 g à 2 kg selon la saison et le panier choisi", accent: C.accent },
               { icon: <Flower2 size={22} />, title: "Herbes aromatiques", desc: "1 à 2 bouquets : basilic, thym, coriandre, persil…", accent: "#b8d4a0" },
               { icon: <Heart size={22} />, title: "Surprise du producteur", desc: "Un produit transformé : confiture, sirop, tapenade…", accent: C.earthLight },

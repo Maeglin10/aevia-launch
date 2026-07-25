@@ -62,9 +62,9 @@ function shadeColor(color: string, percent: number) {
 }
 
 const C = {
-  primary: "#ec4899", // Neon pink
+  primary: "var(--brand,#ec4899)", // Neon pink
   primaryLight: "#fbcfe8",
-  primaryDark: "#be185d",
+  primaryDark: "var(--brand-light,#be185d)",
   bg: "#0f172a", // Midnight blue
   bgDeep: "#020617",
   bgCard: "#1e293b",

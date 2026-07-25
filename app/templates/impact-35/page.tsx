@@ -206,7 +206,7 @@ return (
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.7, delay: 0.25 }}
                 style={{fontSize: 18,
-                  color: brand ?? '#94a3b8',
+                  color: brand ?? 'var(--brand,#94a3b8)',
                   lineHeight: 1.75,
                   marginBottom: 40,
                   maxWidth: 480,
@@ -272,7 +272,7 @@ return (
                 {STATS.slice(0, 3).map((s) => (
                   <div key={s.label}>
                     <div style={{ fontSize: 26, fontWeight: 800, color: C.accent }}>{s.value}</div>
-                    <div style={{fontSize: 13, color: brand ?? '#94a3b8', marginTop: 4 }}>{s.label}</div>
+                    <div style={{fontSize: 13, color: brand ?? 'var(--brand,#94a3b8)', marginTop: 4 }}>{s.label}</div>
                   </div>
                 ))}
               </motion.div>
@@ -299,7 +299,7 @@ return (
                   </span>
                 </div>
                 <FloorPlan />
-                <p style={{ marginTop: 12, fontSize: 12, color: "#475569", textAlign: "center" }}>
+                <p style={{ marginTop: 12, fontSize: 12, color: "var(--brand-light,#475569)", textAlign: "center" }}>
                   Survolez les zones pour explorer les espaces
                 </p>
               </div>
@@ -434,7 +434,7 @@ return (
               <h2 style={{ fontSize: "clamp(30px, 4vw, 46px)", fontWeight: 800, color: C.white, marginBottom: 16 }}>
                 Tout est inclus, dès le premier jour
               </h2>
-              <p style={{fontSize: 17, color: brand ?? '#94a3b8', maxWidth: 520, margin: "0 auto", lineHeight: 1.7 }}>
+              <p style={{fontSize: 17, color: brand ?? 'var(--brand,#94a3b8)', maxWidth: 520, margin: "0 auto", lineHeight: 1.7 }}>
                 Pas de frais cachés. Chaque équipement fait partie de votre abonnement.
               </p>
             </div>
@@ -471,7 +471,7 @@ return (
                     <a.icon size={22} color={C.accent} />
                   </div>
                   <div style={{ fontWeight: 700, fontSize: 15, color: C.white }}>{a.label}</div>
-                  <div style={{fontSize: 13, color: brand ?? '#94a3b8', lineHeight: 1.6 }}>{a.desc}</div>
+                  <div style={{fontSize: 13, color: brand ?? 'var(--brand,#94a3b8)', lineHeight: 1.6 }}>{a.desc}</div>
                 </div>
               </SectionReveal>
             ))}

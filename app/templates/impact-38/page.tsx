@@ -124,7 +124,7 @@ const ALL_PRODUCTS_DEMO = [
     flavor: ["Noisette", "Caramel brun", "Cacao", "Crème onctueuse"],
     description: "Notre assemblage signature, pensé pour un espresso parfait — cremeux, équilibré, constant.",
     badge: "Notre blend",
-    badgeColor: "#8B4513",
+    badgeColor: "var(--brand,#8b4513)",
     available: true,
   },
   {
@@ -193,7 +193,7 @@ const TASTING_NOTES_CATEGORIES = [
   },
   {
     category: "Chocolatés",
-    color: "#8B4513",
+    color: "var(--brand,#8b4513)",
     notes: ["Cacao", "Chocolat noir", "Chocolat au lait", "Caramel", "Toffee", "Noisette", "Praline"],
   },
   {
@@ -555,7 +555,7 @@ function TestimonialsCarousel() {
               <div style={{ fontFamily: SERIF, fontWeight: 700, fontSize: 16, color: C.cream }}>
                 {TESTIMONIALS[current].name}
               </div>
-              <div style={{fontSize: 12, color: brand ?? '#7a5c3a', fontWeight: 300 }}>
+              <div style={{fontSize: 12, color: brand ?? 'var(--brand-light,#7a5c3a)', fontWeight: 300 }}>
                 {TESTIMONIALS[current].role}
               </div>
             </div>
@@ -850,7 +850,7 @@ export default function OriginRoastPage() {
                   <div style={{ fontFamily: SERIF, fontSize: 13, letterSpacing: "0.15em", textTransform: "uppercase", color: C.caramel }}>
                     Torréfié aujourd'hui
                   </div>
-                  <div style={{marginTop: 6, fontFamily: SANS, fontSize: 12, color: brand ?? '#7a5c3a', fontWeight: 300 }}>
+                  <div style={{marginTop: 6, fontFamily: SANS, fontSize: 12, color: brand ?? 'var(--brand-light,#7a5c3a)', fontWeight: 300 }}>
                     Ethiopian Yirgacheffe — Lot 2024-112
                   </div>
                 </div>

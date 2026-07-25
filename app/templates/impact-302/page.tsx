@@ -83,8 +83,8 @@ function shadeColor(hex: string, percent: number): string {
 }
 
 let C: Record<string, string> = {
-  primary: "#3949ab",
-  primaryLight: "#5562c4",
+  primary: "var(--brand,#3949ab)",
+  primaryLight: "var(--brand-light,#5562c4)",
   primaryDark: "#283593",
   bg: "#fafbff",
   bgDeep: "#f0f2ff",

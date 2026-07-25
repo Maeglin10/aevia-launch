@@ -21,7 +21,7 @@ let C: Record<string, string> = {
   bg: "#faf7f4",
   bgSection: "#f2ece5",
   text: "#2a1f14",
-  textMuted: "#7a6655",
+  textMuted: "var(--brand-light,#7a6655)",
   accent: "#4a7c6f",
   accentDark: "#355c52",
   accentLight: "#d8ede9",
@@ -248,8 +248,8 @@ export default function CabinetMoreauPage() {
         <motion.div style={{ position: "relative", zIndex: 1, padding: "0 80px 90px", maxWidth: 760, y: heroTextY, opacity: heroOpacity }}>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
             style={{ display: "inline-flex", alignItems: "center", gap: 8, marginBottom: 28, background: "rgba(74,124,111,0.18)", border: "1px solid rgba(74,124,111,0.35)", borderRadius: 20, padding: "7px 18px" }}>
-            <Heart size={12} color="#9fd4c9" />
-            <span style={{color: brand ?? '#9fd4c9', fontSize: 12, fontWeight: 700, letterSpacing: 2, textTransform: "uppercase" }}>Psychologue clinicienne · Montpellier</span>
+            <Heart size={12} color="var(--brand,#9fd4c9)" />
+            <span style={{color: brand ?? 'var(--brand,#9fd4c9)', fontSize: 12, fontWeight: 700, letterSpacing: 2, textTransform: "uppercase" }}>Psychologue clinicienne · Montpellier</span>
           </motion.div>
 
           <motion.h1 initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.9 }}
@@ -275,7 +275,7 @@ export default function CabinetMoreauPage() {
         <motion.div animate={{ y: [0, 8, 0] }} transition={{ duration: 1.5, repeat: Infinity }}
           style={{ position: "absolute", bottom: 32, left: "50%", transform: "translateX(-50%)", zIndex: 2 }}>
           <div style={{ width: 24, height: 36, border: "2px solid rgba(255,255,255,0.35)", borderRadius: 12, display: "flex", justifyContent: "center", paddingTop: 6 }}>
-            <motion.div animate={{ y: [0, 10, 0] }} transition={{ duration: 1.5, repeat: Infinity }} style={{width: 6, height: 6, borderRadius: "50%", background: brand ?? '#9fd4c9' }} />
+            <motion.div animate={{ y: [0, 10, 0] }} transition={{ duration: 1.5, repeat: Infinity }} style={{width: 6, height: 6, borderRadius: "50%", background: brand ?? 'var(--brand,#9fd4c9)' }} />
           </div>
         </motion.div>
       </section>
@@ -347,19 +347,19 @@ export default function CabinetMoreauPage() {
       <section style={{ padding: "100px 80px", background: "#2a1f14" }}>
         <Reveal>
           <div style={{ textAlign: "center", marginBottom: 52 }}>
-            <span style={{fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: brand ?? '#9fd4c9' }}>Témoignages</span>
-            <h2 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(28px, 3.5vw, 48px)", color: "#fff", marginTop: 10 }}>Des chemins <em style={{color: brand ?? '#9fd4c9' }}>retrouvés</em>.</h2>
+            <span style={{fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: brand ?? 'var(--brand,#9fd4c9)' }}>Témoignages</span>
+            <h2 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(28px, 3.5vw, 48px)", color: "#fff", marginTop: 10 }}>Des chemins <em style={{color: brand ?? 'var(--brand,#9fd4c9)' }}>retrouvés</em>.</h2>
           </div>
         </Reveal>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: 20, maxWidth: 1100, margin: "0 auto" }}>
           {AVIS.map((a, i) => (
             <Reveal key={a.auteur} delay={i * 0.1}>
               <div style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 14, padding: "28px 24px" }}>
-                <div style={{ display: "flex", gap: 3, marginBottom: 12 }}>{[...Array(5)].map((_, j) => <Star key={j} size={13} fill="#9fd4c9" color="#9fd4c9" />)}</div>
+                <div style={{ display: "flex", gap: 3, marginBottom: 12 }}>{[...Array(5)].map((_, j) => <Star key={j} size={13} fill="var(--brand,#9fd4c9)" color="var(--brand,#9fd4c9)" />)}</div>
                 <p style={{ fontFamily: FONT_SERIF, fontSize: 15, fontStyle: "italic", color: "rgba(255,255,255,0.80)", lineHeight: 1.72, marginBottom: 18 }}>"{a.texte}"</p>
                 <div style={{ borderTop: "1px solid rgba(255,255,255,0.08)", paddingTop: 14 }}>
                   <div style={{ fontWeight: 700, color: "#fff", fontSize: 14 }}>{a.auteur}</div>
-                  <div style={{color: brand ?? '#9fd4c9', fontSize: 12, marginTop: 4 }}>{a.detail}</div>
+                  <div style={{color: brand ?? 'var(--brand,#9fd4c9)', fontSize: 12, marginTop: 4 }}>{a.detail}</div>
                 </div>
               </div>
             </Reveal>
@@ -390,13 +390,13 @@ export default function CabinetMoreauPage() {
       <footer style={{ background: "#2a1f14", padding: "48px 80px 24px" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: 32, marginBottom: 36 }}>
           <div>
-            <div style={{fontFamily: FONT_SERIF, fontSize: 18, fontStyle: "italic", color: brand ?? '#9fd4c9', marginBottom: 8 }}>Laurence Moreau</div>
+            <div style={{fontFamily: FONT_SERIF, fontSize: 18, fontStyle: "italic", color: brand ?? 'var(--brand,#9fd4c9)', marginBottom: 8 }}>Laurence Moreau</div>
             <p style={{ color: "rgba(255,255,255,0.35)", fontSize: 13, lineHeight: 1.6 }}>Psychologue clinicienne · Montpellier<br />Lun–Ven 9h–19h | Sam 9h–13h</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
             {[{ icon: <MapPin size={13} />, t: "Montpellier, Hérault" }, { icon: <Phone size={13} />, t: "04 34 00 00 00" }, { icon: <Clock size={13} />, t: "Lun–Ven 9h–19h" }].map((item, i) => (
               <div key={i} style={{ display: "flex", alignItems: "center", gap: 10, color: "rgba(255,255,255,0.40)", fontSize: 13 }}>
-                <span style={{color: brand ?? '#9fd4c9' }}>{item.icon}</span>{item.t}
+                <span style={{color: brand ?? 'var(--brand,#9fd4c9)' }}>{item.icon}</span>{item.t}
               </div>
             ))}
           </div>
