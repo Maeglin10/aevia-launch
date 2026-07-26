@@ -1062,8 +1062,10 @@ export default function Impact115Page() {
           </motion.div>
         </div>
 
-        {/* Scroll indicator */}
+        {/* Scroll indicator — hidden on mobile, where it collides with the
+            "View Projects" button above it on short viewports. */}
         <motion.div
+          className="hidden sm:flex"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1, delay: 1.8 }}
@@ -1072,7 +1074,6 @@ export default function Impact115Page() {
             bottom: 40,
             left: "50%",
             transform: "translateX(-50%)",
-            display: "flex",
             flexDirection: "column",
             alignItems: "center",
             gap: 10,
