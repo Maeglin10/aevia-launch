@@ -105,7 +105,7 @@ export default function StructuraArchLayout({
                   12 SITES_ACTIVE <Activity className="w-3 h-3" />
                 </span>
               </div>
-              <Link href="/templates/impact-76/contact">
+              <Link href="/templates/impact-76/contact" className="hidden sm:block">
                 <MagneticBtn className="px-8 py-3 bg-white text-black text-[10px] font-bold uppercase tracking-widest rounded-none hover:bg-stone-200 transition-all">
                   INQUIRE_PROJECT
                 </MagneticBtn>

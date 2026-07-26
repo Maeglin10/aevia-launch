@@ -250,7 +250,7 @@ export default function HorologsLuxePage() {
           >
             <div className="inline-flex items-center gap-3 px-4 py-2 bg-white/5 border border-white/10 text-stone-400 text-[9px] font-bold uppercase tracking-widest mb-10">
               <Watch className="w-3 h-3" />
-              Institutional Photography · Editorial & Commercial · Since 1924
+              Swiss Haute Horlogerie · Manufacture Pieces · Since 1924
             </div>
           </motion.div>
 
@@ -258,7 +258,7 @@ export default function HorologsLuxePage() {
             initial={{ opacity: 0, y: 60 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.2, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
-            className="text-7xl md:text-9xl lg:text-[10.5rem] font-black leading-[0.88] tracking-tighter mb-10 uppercase"
+            className="text-5xl sm:text-6xl md:text-9xl lg:text-[10.5rem] font-black leading-[0.88] tracking-tighter mb-10 uppercase break-words"
           >{c?.heroHeadline ?? <>
             Mastery of<br />
             <span className="text-stone-600 italic">Duration.</span>
@@ -271,8 +271,9 @@ export default function HorologsLuxePage() {
             className="max-w-xl text-base text-white/30 leading-relaxed font-light mb-12 uppercase tracking-widest italic"
             style={{ fontSize: "0.82rem" }}
           >{c?.heroSubline ?? fd?.tagline ?? <>
-            Advanced visual storytelling for the discerning collector.
-            Editorial, commercial, fine art — calibrated to perfection.
+            Hand-assembled manufacture movements for the discerning
+            collector. Swiss precision, exceptional finishing — calibrated
+            to perfection.
           </>}</motion.p>
 
           <motion.div
