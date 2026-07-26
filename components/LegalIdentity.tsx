@@ -10,23 +10,23 @@ import { useLang } from "@/lib/LangContext";
  *   - Éditeur: Aevia WS — entrepreneur individuel (auto-entrepreneur)
  *   - Directeur de la publication: Valentin Milliand
  *   - SIREN: 852 546 225 — RCS Bourg-en-Bresse
- *   - Contact: valentin.milliand@aevia.service
+ *   - Contact: valentinmilliand@aevia.services
  *   - TVA non applicable, art. 293 B du CGI
  *   - Hébergeur: Vercel Inc.
  *
  * ⚠️ The registered office street address is NEVER printed. It is "communiqué sur
- * demande à valentin.milliand@aevia.service" (label translated per locale).
+ * demande à valentinmilliand@aevia.services" (label translated per locale).
  */
 
 // ─── Constant identity facts (locale-independent) ────────────────────────────
 const FACTS = {
   editeur: "Aevia WS",
-  contactEmail: "valentin.milliand@aevia.service",
+  contactEmail: "valentinmilliand@aevia.services",
   director: "Valentin Milliand",
   siren: "852 546 225",
   rcs: "RCS Bourg-en-Bresse",
   hostName: "Vercel, Inc.",
-  hostAddress: "340 S Lemon Ave #4133, Walnut, CA 91789, USA",
+  hostAddress: "440 N Barranca Avenue #4133, Covina, CA 91723, USA",
   hostUrl: "https://vercel.com",
 } as const;
 
@@ -41,7 +41,7 @@ const T = {
     rcsLabel: "Immatriculation",
     contact: "Contact",
     address: "Adresse",
-    addressValue: "Adresse du siège social communiquée sur demande à valentin.milliand@aevia.service",
+    addressValue: "Adresse du siège social communiquée sur demande à valentinmilliand@aevia.services",
     vat: "TVA",
     vatValue: "TVA non applicable, art. 293 B du CGI",
     hostTitle: "Hébergeur",
@@ -57,7 +57,7 @@ const T = {
     rcsLabel: "Registration",
     contact: "Contact",
     address: "Address",
-    addressValue: "Registered office address provided on request at valentin.milliand@aevia.service",
+    addressValue: "Registered office address provided on request at valentinmilliand@aevia.services",
     vat: "VAT",
     vatValue: "VAT not applicable, art. 293 B of the French Tax Code",
     hostTitle: "Hosting provider",
@@ -73,7 +73,7 @@ const T = {
     rcsLabel: "Registro",
     contact: "Contacto",
     address: "Dirección",
-    addressValue: "Dirección del domicilio social facilitada previa solicitud a valentin.milliand@aevia.service",
+    addressValue: "Dirección del domicilio social facilitada previa solicitud a valentinmilliand@aevia.services",
     vat: "IVA",
     vatValue: "IVA no aplicable, art. 293 B del Código General de Impuestos francés",
     hostTitle: "Proveedor de alojamiento",
@@ -89,7 +89,7 @@ const T = {
     rcsLabel: "Registrierung",
     contact: "Kontakt",
     address: "Adresse",
-    addressValue: "Anschrift des Firmensitzes auf Anfrage unter valentin.milliand@aevia.service",
+    addressValue: "Anschrift des Firmensitzes auf Anfrage unter valentinmilliand@aevia.services",
     vat: "USt.",
     vatValue: "USt. nicht anwendbar, Art. 293 B des französischen Steuergesetzbuchs",
     hostTitle: "Hosting-Anbieter",
@@ -105,7 +105,7 @@ const T = {
     rcsLabel: "Registo",
     contact: "Contacto",
     address: "Morada",
-    addressValue: "Morada da sede social fornecida mediante pedido para valentin.milliand@aevia.service",
+    addressValue: "Morada da sede social fornecida mediante pedido para valentinmilliand@aevia.services",
     vat: "IVA",
     vatValue: "IVA não aplicável, art. 293.º B do Código Geral de Impostos francês",
     hostTitle: "Fornecedor de alojamento",
