@@ -350,7 +350,7 @@ export default function ZenithWatchesPage() {
 
         <div className="relative z-10 max-w-[1600px] mx-auto px-6 md:px-12 w-full grid grid-cols-1 lg:grid-cols-2 items-center">
           <Reveal>
-            <Badge className="bg-[var(--brand,#d4af37)]/10 text-[var(--brand,#d4af37)] border border-[var(--brand,#d4af37)]/30 text-[10px] font-bold uppercase tracking-[0.5em] mb-10 px-4 py-1.5 rounded-full">
+            <Badge className="bg-[var(--brand,#d4af37)]/10 text-[var(--brand,#d4af37)] border border-[var(--brand,#d4af37)]/30 text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.2em] sm:tracking-[0.5em] mb-10 px-4 py-1.5 rounded-full whitespace-normal text-center max-w-full">
               Le Locle, Switzerland // Since 1899
             </Badge>
             {/* Was a flat md:text-[14rem] — fine on very wide screens, but at the
