@@ -1,7 +1,7 @@
 "use client";
 // @ts-nocheck
 
-import React, { useState, useEffect, useRef, useCallback } from "react"
+import React, { useState, useEffect, useRef, useCallback, useContext, createContext } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { resolveList } from "@/lib/templates/resolveList"
@@ -157,6 +157,12 @@ const BOOKING_STEPS = [
   { icon: Check,     label: "Confirmer",           desc: "Confirmation SMS + email instantanée" },
 ]
 
+const TIME_SLOTS = [
+  "9h00", "9h30", "10h00", "10h30", "11h00", "11h30",
+  "12h00", "14h00", "14h30", "15h00", "15h30",
+  "16h00", "16h30", "17h00", "17h30", "18h00", "18h30",
+]
+
 const BRANDS = [
   { name: "OPI",          detail: "Vernis professionnels" },
   { name: "CND Shellac",  detail: "Gel longue tenue #1 mondial" },
@@ -254,6 +260,275 @@ function StarRating({ count = 5 }: { count?: number }) {
 }
 
 /* ==========================================================================
+   BOOKING MODAL — global "prendre RDV" flow, opened from any CTA on the page.
+   Service is pre-filled when opened from a service card / artist card, or
+   left blank (select) when opened from a generic "Réserver" CTA.
+   ========================================================================== */
+type BookingOpenOptions = { service?: string; note?: string }
+const BookingModalContext = createContext<{ open: (opts?: BookingOpenOptions) => void }>({
+  open: () => {},
+})
+function useBookingModal() {
+  return useContext(BookingModalContext)
+}
+
+function BookingModalProvider({ children }: { children: React.ReactNode }) {
+  const [isOpen, setIsOpen] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [sent, setSent] = useState(false)
+  const [service, setService] = useState("")
+  const [note, setNote] = useState("")
+  const [date, setDate] = useState("")
+  const [time, setTime] = useState("")
+  const [name, setName] = useState("")
+  const [email, setEmail] = useState("")
+  const [phone, setPhone] = useState("")
+
+  const services: any[] = resolveList(bp?.services, SERVICES_DEMO)
+
+  const open = useCallback((opts?: BookingOpenOptions) => {
+    setService(opts?.service ?? "")
+    setNote(opts?.note ?? "")
+    setSent(false)
+    setIsOpen(true)
+  }, [])
+
+  const close = useCallback(() => {
+    if (loading) return
+    setIsOpen(false)
+  }, [loading])
+
+  const resetAndClose = () => {
+    setIsOpen(false)
+    setSent(false)
+    setService("")
+    setNote("")
+    setDate("")
+    setTime("")
+    setName("")
+    setEmail("")
+    setPhone("")
+  }
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    setLoading(true)
+    setTimeout(() => {
+      setLoading(false)
+      setSent(true)
+    }, 1000)
+  }
+
+  return (
+    <BookingModalContext.Provider value={{ open }}>
+      {children}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[200] flex items-center justify-center p-4"
+          >
+            {/* Backdrop */}
+            <motion.div
+              className="absolute inset-0 bg-[var(--brand-light,#831843)]/60 backdrop-blur-sm cursor-pointer"
+              onClick={close}
+              aria-hidden="true"
+            />
+
+            {/* Card */}
+            <motion.div
+              initial={{ opacity: 0, y: 24, scale: 0.96 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 16, scale: 0.97 }}
+              transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+              role="dialog"
+              aria-modal="true"
+              aria-label="Prendre rendez-vous"
+              className="relative w-full max-w-[520px] max-h-[90vh] overflow-y-auto bg-white rounded-[24px] shadow-[0_20px_80px_rgba(131,24,67,0.35)] p-8"
+            >
+              <button
+                onClick={close}
+                aria-label="Fermer"
+                className="absolute top-3 right-3 w-11 h-11 min-w-[44px] min-h-[44px] flex items-center justify-center rounded-full text-[#9D174D] hover:bg-[#FDF2F8] hover:text-[var(--brand,#ec4899)] transition-colors cursor-pointer"
+              >
+                <X className="w-5 h-5" />
+              </button>
+
+              {sent ? (
+                <div className="text-center py-10">
+                  <div className="w-14 h-14 rounded-full bg-[var(--brand,#ec4899)]/10 flex items-center justify-center mx-auto mb-6">
+                    <Check className="w-7 h-7 text-[var(--brand,#ec4899)]" />
+                  </div>
+                  <h3
+                    className="text-[24px] font-[700] italic text-[var(--brand-light,#831843)] mb-3"
+                    style={{ fontFamily: "'Playfair Display', serif" }}
+                  >
+                    Demande envoyée
+                  </h3>
+                  <p className="text-[#9D174D] text-[14px] leading-relaxed max-w-[340px] mx-auto" style={{ fontFamily: "'Inter', sans-serif" }}>
+                    Merci{name ? `, ${name.split(" ")[0]}` : ""} ! Notre équipe vous confirmera votre rendez-vous par email ou téléphone sous 24h.
+                  </p>
+                  <button
+                    onClick={resetAndClose}
+                    className="mt-8 px-8 py-3.5 min-h-[44px] bg-[var(--brand,#ec4899)] text-white text-[12px] font-[600] uppercase tracking-[0.12em] rounded-full hover:bg-[#DB2777] transition-all cursor-pointer"
+                    style={{ fontFamily: "'Inter', sans-serif" }}
+                  >
+                    Fermer
+                  </button>
+                </div>
+              ) : (
+                <>
+                  <p className="text-[11px] font-[600] uppercase tracking-[0.35em] text-[var(--brand,#ec4899)] mb-2" style={{ fontFamily: "'Inter', sans-serif" }}>
+                    Réservation
+                  </p>
+                  <h3
+                    className="text-[28px] font-[700] italic text-[var(--brand-light,#831843)] mb-6 leading-[1.1]"
+                    style={{ fontFamily: "'Playfair Display', serif" }}
+                  >
+                    Prendre rendez-vous
+                  </h3>
+
+                  <form onSubmit={handleSubmit} className="space-y-5 text-sm" style={{ fontFamily: "'Inter', sans-serif" }}>
+                    <div>
+                      <label htmlFor="bk-service" className="block text-xs font-[600] uppercase tracking-wider text-[#9D174D] mb-2">
+                        Prestation souhaitée
+                      </label>
+                      <select
+                        id="bk-service"
+                        required
+                        value={service}
+                        onChange={(e) => setService(e.target.value)}
+                        className="w-full bg-[#FDF2F8]/50 border border-[rgba(236,72,153,0.15)] rounded-xl px-4 py-3 min-h-[44px] text-[var(--brand-light,#831843)] outline-none focus:border-[var(--brand,#ec4899)] focus:ring-2 focus:ring-[var(--brand,#ec4899)]/20 focus:bg-white transition-all cursor-pointer"
+                      >
+                        <option value="">Sélectionnez une prestation</option>
+                        {services.map((s: any, i: number) => (
+                          <option key={s.id ?? s.name ?? i} value={s.name}>
+                            {s.name}{s.price ? ` — ${s.price}` : ""}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <label htmlFor="bk-date" className="block text-xs font-[600] uppercase tracking-wider text-[#9D174D] mb-2">
+                          Date
+                        </label>
+                        <input
+                          id="bk-date"
+                          type="date"
+                          required
+                          value={date}
+                          min={new Date().toISOString().split("T")[0]}
+                          onChange={(e) => setDate(e.target.value)}
+                          className="w-full bg-[#FDF2F8]/50 border border-[rgba(236,72,153,0.15)] rounded-xl px-4 py-3 min-h-[44px] text-[var(--brand-light,#831843)] outline-none focus:border-[var(--brand,#ec4899)] focus:ring-2 focus:ring-[var(--brand,#ec4899)]/20 focus:bg-white transition-all"
+                        />
+                      </div>
+                      <div>
+                        <label htmlFor="bk-time" className="block text-xs font-[600] uppercase tracking-wider text-[#9D174D] mb-2">
+                          Heure
+                        </label>
+                        <select
+                          id="bk-time"
+                          required
+                          value={time}
+                          onChange={(e) => setTime(e.target.value)}
+                          className="w-full bg-[#FDF2F8]/50 border border-[rgba(236,72,153,0.15)] rounded-xl px-4 py-3 min-h-[44px] text-[var(--brand-light,#831843)] outline-none focus:border-[var(--brand,#ec4899)] focus:ring-2 focus:ring-[var(--brand,#ec4899)]/20 focus:bg-white transition-all cursor-pointer"
+                        >
+                          <option value="">—</option>
+                          {TIME_SLOTS.map((t) => (
+                            <option key={t} value={t}>{t}</option>
+                          ))}
+                        </select>
+                      </div>
+                    </div>
+
+                    <div>
+                      <label htmlFor="bk-name" className="block text-xs font-[600] uppercase tracking-wider text-[#9D174D] mb-2">
+                        Nom complet
+                      </label>
+                      <input
+                        id="bk-name"
+                        type="text"
+                        required
+                        placeholder="Votre nom"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        className="w-full bg-[#FDF2F8]/50 border border-[rgba(236,72,153,0.15)] rounded-xl px-4 py-3 min-h-[44px] text-[var(--brand-light,#831843)] outline-none focus:border-[var(--brand,#ec4899)] focus:ring-2 focus:ring-[var(--brand,#ec4899)]/20 focus:bg-white transition-all"
+                      />
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <label htmlFor="bk-email" className="block text-xs font-[600] uppercase tracking-wider text-[#9D174D] mb-2">
+                          Email
+                        </label>
+                        <input
+                          id="bk-email"
+                          type="email"
+                          required
+                          placeholder="vous@email.com"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                          className="w-full bg-[#FDF2F8]/50 border border-[rgba(236,72,153,0.15)] rounded-xl px-4 py-3 min-h-[44px] text-[var(--brand-light,#831843)] outline-none focus:border-[var(--brand,#ec4899)] focus:ring-2 focus:ring-[var(--brand,#ec4899)]/20 focus:bg-white transition-all"
+                        />
+                      </div>
+                      <div>
+                        <label htmlFor="bk-phone" className="block text-xs font-[600] uppercase tracking-wider text-[#9D174D] mb-2">
+                          Téléphone
+                        </label>
+                        <input
+                          id="bk-phone"
+                          type="tel"
+                          required
+                          placeholder="06 12 34 56 78"
+                          value={phone}
+                          onChange={(e) => setPhone(e.target.value)}
+                          className="w-full bg-[#FDF2F8]/50 border border-[rgba(236,72,153,0.15)] rounded-xl px-4 py-3 min-h-[44px] text-[var(--brand-light,#831843)] outline-none focus:border-[var(--brand,#ec4899)] focus:ring-2 focus:ring-[var(--brand,#ec4899)]/20 focus:bg-white transition-all"
+                        />
+                      </div>
+                    </div>
+
+                    {note && (
+                      <p className="text-[12px] text-[#BE185D] italic" style={{ fontFamily: "'Inter', sans-serif" }}>
+                        {note}
+                      </p>
+                    )}
+
+                    <button
+                      type="submit"
+                      disabled={loading}
+                      className={`w-full py-4 min-h-[44px] text-white text-[12px] font-[600] uppercase tracking-[0.12em] rounded-full transition-all shadow-[0_4px_16px_rgba(236,72,153,0.3)] flex items-center justify-center gap-2 ${
+                        loading ? "bg-[var(--brand,#ec4899)]/60 cursor-not-allowed" : "bg-[var(--brand,#ec4899)] hover:bg-[#DB2777] cursor-pointer"
+                      }`}
+                    >
+                      {loading ? (
+                        <>
+                          <motion.span
+                            animate={{ rotate: 360 }}
+                            transition={{ duration: 0.8, repeat: Infinity, ease: "linear" }}
+                            className="w-4 h-4 rounded-full border-2 border-white border-t-transparent inline-block"
+                          />
+                          Envoi en cours…
+                        </>
+                      ) : (
+                        "Confirmer la demande"
+                      )}
+                    </button>
+                  </form>
+                </>
+              )}
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </BookingModalContext.Provider>
+  )
+}
+
+/* ==========================================================================
    SCROLL PROGRESS BAR
    ========================================================================== */
 function ScrollProgressBar() {
@@ -273,6 +548,7 @@ function ScrollProgressBar() {
 function Nav() {
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
+  const { open } = useBookingModal()
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40)
@@ -330,10 +606,12 @@ function Nav() {
                 {link}
               </Link>
             ))}
-            <Link href="#contact" className="ml-2 px-6 py-2.5 bg-[var(--brand,#ec4899)] text-white text-[12px] font-[600] uppercase tracking-[0.12em] rounded-full hover:bg-[#DB2777] transition-all duration-200 shadow-[0_4px_16px_rgba(236,72,153,0.35)] text-center"
+            <button
+              onClick={() => open()}
+              className="ml-2 px-6 py-2.5 min-h-[44px] bg-[var(--brand,#ec4899)] text-white text-[12px] font-[600] uppercase tracking-[0.12em] rounded-full hover:bg-[#DB2777] transition-all duration-200 shadow-[0_4px_16px_rgba(236,72,153,0.35)] text-center cursor-pointer"
               style={{ fontFamily: "'Inter', sans-serif" }}>
               Réserver
-            </Link>
+            </button>
           </div>
 
           {/* Mobile burger */}
@@ -371,14 +649,13 @@ function Nav() {
                 </motion.div>
               ))}
             </div>
-            <Link
-              href="#contact"
-              onClick={() => setMobileOpen(false)}
-              className="w-full py-4 bg-[var(--brand,#ec4899)] text-white text-[14px] font-[600] uppercase tracking-[0.15em] rounded-full shadow-[0_4px_20px_rgba(236,72,153,0.35)] text-center"
+            <button
+              onClick={() => { setMobileOpen(false); open(); }}
+              className="w-full py-4 min-h-[44px] bg-[var(--brand,#ec4899)] text-white text-[14px] font-[600] uppercase tracking-[0.15em] rounded-full shadow-[0_4px_20px_rgba(236,72,153,0.35)] text-center cursor-pointer"
               style={{ fontFamily: "'Inter', sans-serif" }}
             >
               Réserver en ligne
-            </Link>
+            </button>
           </motion.div>
         )}
       </AnimatePresence>
@@ -390,6 +667,7 @@ function Nav() {
    HERO
    ========================================================================== */
 function Hero() {
+  const { open } = useBookingModal()
   const heroRef = useRef(null)
   const { scrollYProgress } = useScroll({
     target: heroRef,
@@ -530,7 +808,9 @@ function Hero() {
             transition={{ duration: 0.6, delay: 1.2 }}
             className="flex flex-wrap gap-4"
           >
-            <button className="px-8 py-4 bg-[var(--brand,#ec4899)] text-white text-[13px] font-[600] uppercase tracking-[0.12em] rounded-full hover:bg-[#DB2777] transition-all duration-200 shadow-[0_8px_28px_rgba(236,72,153,0.4)] flex items-center gap-2"
+            <button
+              onClick={() => open()}
+              className="px-8 py-4 min-h-[44px] bg-[var(--brand,#ec4899)] text-white text-[13px] font-[600] uppercase tracking-[0.12em] rounded-full hover:bg-[#DB2777] transition-all duration-200 shadow-[0_8px_28px_rgba(236,72,153,0.4)] flex items-center gap-2 cursor-pointer"
               style={{ fontFamily: "'Inter', sans-serif" }}>
               <Calendar className="w-4 h-4" /> Réserver ma séance
             </button>
@@ -683,6 +963,7 @@ function PortfolioSection() {
    SECTION 4: SERVICES
    ========================================================================== */
 function ServicesSection() {
+  const { open } = useBookingModal()
   const services: any[] = resolveList(bp?.services, SERVICES_DEMO)
   return (
     <section className="py-[100px] bg-white" id="services">
@@ -717,7 +998,13 @@ function ServicesSection() {
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {services.map((service: any, i: number) => (
             <Reveal key={service.id ?? service.name ?? i} delay={i * 0.07}>
-              <div className="group p-7 bg-[#FDF2F8] border border-[rgba(236,72,153,0.1)] rounded-[20px] hover:border-[var(--brand,#ec4899)]/40 hover:shadow-[0_8px_40px_rgba(236,72,153,0.12)] transition-all duration-400 cursor-pointer relative overflow-hidden">
+              <div
+                onClick={() => open({ service: service.name })}
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open({ service: service.name }); } }}
+                className="group p-7 bg-[#FDF2F8] border border-[rgba(236,72,153,0.1)] rounded-[20px] hover:border-[var(--brand,#ec4899)]/40 hover:shadow-[0_8px_40px_rgba(236,72,153,0.12)] transition-all duration-400 cursor-pointer relative overflow-hidden"
+              >
                 {/* Pink bloom on hover */}
                 <div className="absolute inset-0 bg-gradient-to-br from-[var(--brand,#ec4899)]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-400 rounded-[20px]" />
 
@@ -766,6 +1053,7 @@ function ServicesSection() {
    SECTION 5: ARTISTES
    ========================================================================== */
 function ArtistesSection() {
+  const { open } = useBookingModal()
   const artists: any[] = resolveList(bp?.team, ARTISTS_DEMO)
   return (
     <section className="py-[100px] bg-gradient-to-b from-[#FCE7F3] to-[#FDF2F8]" id="artistes">
@@ -838,7 +1126,8 @@ function ArtistesSection() {
                     </div>
                   )}
                   <button
-                    className="w-full py-3 text-[12px] font-[600] uppercase tracking-[0.12em] rounded-full border-2 text-[var(--brand,#ec4899)] border-[var(--brand,#ec4899)] hover:bg-[var(--brand,#ec4899)] hover:text-white transition-all duration-300"
+                    onClick={() => open({ note: `Rendez-vous souhaité avec ${artist.name}` })}
+                    className="w-full py-3 min-h-[44px] text-[12px] font-[600] uppercase tracking-[0.12em] rounded-full border-2 text-[var(--brand,#ec4899)] border-[var(--brand,#ec4899)] hover:bg-[var(--brand,#ec4899)] hover:text-white transition-all duration-300 cursor-pointer"
                     style={{ fontFamily: "'Inter', sans-serif" }}
                   >
                     Réserver avec {artist.name.split(" ")[0]}
@@ -857,6 +1146,7 @@ function ArtistesSection() {
    SECTION 6: BOOKING PROCESS
    ========================================================================== */
 function BookingProcess() {
+  const { open } = useBookingModal()
   return (
     <section className="py-[100px] bg-[var(--brand-light,#831843)]" id="soins">
       <div className="max-w-[1280px] mx-auto px-6 lg:px-10">
@@ -909,7 +1199,9 @@ function BookingProcess() {
         </div>
 
         <Reveal delay={0.4} className="text-center mt-14">
-          <button className="px-10 py-4 bg-white text-[var(--brand-light,#831843)] text-[13px] font-[600] uppercase tracking-[0.14em] rounded-full hover:bg-[#F9A8D4] transition-all duration-300 shadow-[0_8px_28px_rgba(0,0,0,0.2)] flex items-center gap-2 mx-auto"
+          <button
+            onClick={() => open()}
+            className="px-10 py-4 min-h-[44px] bg-white text-[var(--brand-light,#831843)] text-[13px] font-[600] uppercase tracking-[0.14em] rounded-full hover:bg-[#F9A8D4] transition-all duration-300 shadow-[0_8px_28px_rgba(0,0,0,0.2)] flex items-center gap-2 mx-auto cursor-pointer"
             style={{ fontFamily: "'Inter', sans-serif" }}>
             <Calendar className="w-4 h-4" /> Prendre rendez-vous maintenant
           </button>
@@ -1591,6 +1883,7 @@ export default function Impact88Page() {
   useFonts()
 
 return (
+    <BookingModalProvider>
     <main className="bg-[#FDF2F8] text-[var(--brand-light,#831843)] min-h-dvh overflow-x-hidden">
       <ScrollProgressBar />
       <Nav />
@@ -1629,5 +1922,6 @@ return (
       {/* Section 10: Contact + Footer mega */}
       <ContactFooter />
     </main>
+    </BookingModalProvider>
   )
 }

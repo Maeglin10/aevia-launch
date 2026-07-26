@@ -1,9 +1,9 @@
 "use client";
 // @ts-nocheck
 
-import React, {useRef, useState, useEffect} from 'react'
-import { motion, useScroll, useTransform, useInView } from "framer-motion"
-import { Scissors, Phone, Mail, MapPin, Clock, Star, CheckCircle, ArrowRight, Calendar } from "lucide-react"
+import React, {useRef, useState, useEffect, useCallback} from 'react'
+import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion"
+import { Scissors, Phone, Mail, MapPin, Clock, Star, CheckCircle, ArrowRight, Calendar, X } from "lucide-react"
 import { resolveList } from "@/lib/templates/resolveList"
 
 
@@ -76,6 +76,162 @@ function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: nu
   )
 }
 
+const BARBER_TIME_SLOTS = ["9h00", "10h00", "11h00", "13h00", "14h00", "15h00", "16h00", "17h00", "18h00"]
+
+function BarberBookingModal({
+  open,
+  onClose,
+  prestations,
+  initialPrestation,
+}: {
+  open: boolean
+  onClose: () => void
+  prestations: { titre?: string }[]
+  initialPrestation: string | null
+}) {
+  const [service, setService] = useState("")
+  const [date, setDate] = useState("")
+  const [time, setTime] = useState("")
+  const [name, setName] = useState("")
+  const [email, setEmail] = useState("")
+  const [phone, setPhone] = useState("")
+  const [loading, setLoading] = useState(false)
+  const [sent, setSent] = useState(false)
+
+  useEffect(() => {
+    if (open) {
+      setService(initialPrestation ?? "")
+      setDate(""); setTime(""); setName(""); setEmail(""); setPhone("")
+      setLoading(false); setSent(false)
+    }
+  }, [open, initialPrestation])
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!service || !date || !time || !name || !phone) return
+    setLoading(true)
+    setTimeout(() => {
+      setLoading(false)
+      setSent(true)
+    }, 1400)
+  }
+
+  const inputCls: React.CSSProperties = {
+    width: "100%", padding: "13px 16px", background: C.bg,
+    border: `1px solid ${C.border}`, borderRadius: 6, color: C.text, fontFamily: FONT_BODY,
+    fontSize: 14, outline: "none", boxSizing: "border-box",
+  }
+  const labelCls: React.CSSProperties = {
+    display: "block", fontSize: 11, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase",
+    color: C.textMuted, marginBottom: 6,
+  }
+
+  return (
+    <AnimatePresence>
+      {open && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          onClick={onClose}
+          style={{ position: "fixed", inset: 0, zIndex: 200, display: "flex", alignItems: "center", justifyContent: "center", padding: 16, background: "rgba(28,20,16,0.65)" }}
+        >
+          <motion.div
+            initial={{ opacity: 0, y: 24, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 16, scale: 0.98 }}
+            transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+            onClick={(e) => e.stopPropagation()}
+            style={{ position: "relative", width: "100%", maxWidth: 460, background: C.white, borderRadius: 12, maxHeight: "90vh", overflowY: "auto" }}
+          >
+            <button
+              onClick={onClose}
+              aria-label="Fermer"
+              style={{ position: "absolute", top: 14, right: 14, width: 44, height: 44, display: "flex", alignItems: "center", justifyContent: "center", background: "none", border: "none", color: C.textMuted, cursor: "pointer" }}
+            >
+              <X size={20} />
+            </button>
+
+            <div style={{ padding: "44px 36px 36px" }}>
+              {sent ? (
+                <div style={{ textAlign: "center", padding: "20px 0" }}>
+                  <div style={{ width: 56, height: 56, borderRadius: "50%", background: C.accentLight, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 22px", fontSize: 20, color: C.accent }}>✓</div>
+                  <h3 style={{ fontFamily: FONT, fontSize: 24, color: C.text, marginBottom: 12 }}>Rendez-vous demandé</h3>
+                  <p style={{ fontSize: 14, color: C.textMuted, lineHeight: 1.75 }}>
+                    Merci {name}. « {service} » réservé le {date} à {time}. Nous vous confirmons par SMS ou email à {email || "votre contact"}.
+                  </p>
+                </div>
+              ) : (
+                <>
+                  <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Réservation</span>
+                  <h3 style={{ fontFamily: FONT, fontSize: 26, color: C.text, margin: "10px 0 24px" }}>Prendre rendez-vous</h3>
+
+                  <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                    <div>
+                      <label htmlFor="brb-service" style={labelCls}>Prestation *</label>
+                      <select id="brb-service" required value={service} onChange={(e) => setService(e.target.value)} style={{ ...inputCls, cursor: "pointer" }}>
+                        <option value="">Choisir une prestation</option>
+                        {prestations.map((p, i) => (
+                          <option key={i} value={p.titre}>{p.titre}</option>
+                        ))}
+                      </select>
+                    </div>
+                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>
+                      <div>
+                        <label htmlFor="brb-date" style={labelCls}>Date *</label>
+                        <input id="brb-date" type="date" required value={date} onChange={(e) => setDate(e.target.value)} style={inputCls} />
+                      </div>
+                      <div>
+                        <label htmlFor="brb-time" style={labelCls}>Heure *</label>
+                        <select id="brb-time" required value={time} onChange={(e) => setTime(e.target.value)} style={{ ...inputCls, cursor: "pointer" }}>
+                          <option value="">—</option>
+                          {BARBER_TIME_SLOTS.map((t) => <option key={t} value={t}>{t}</option>)}
+                        </select>
+                      </div>
+                    </div>
+                    <div>
+                      <label htmlFor="brb-name" style={labelCls}>Nom complet *</label>
+                      <input id="brb-name" type="text" required value={name} onChange={(e) => setName(e.target.value)} placeholder="Antoine Rousseau" style={inputCls} />
+                    </div>
+                    <div>
+                      <label htmlFor="brb-phone" style={labelCls}>Téléphone *</label>
+                      <input id="brb-phone" type="tel" required value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="06 XX XX XX XX" style={inputCls} />
+                    </div>
+                    <div>
+                      <label htmlFor="brb-email" style={labelCls}>Email</label>
+                      <input id="brb-email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="antoine@email.fr" style={inputCls} />
+                    </div>
+                    <button
+                      type="submit"
+                      disabled={loading}
+                      style={{
+                        marginTop: 6, minHeight: 46, background: C.accent, color: C.white, border: "none",
+                        borderRadius: 6, fontWeight: 700, fontSize: 15, cursor: loading ? "not-allowed" : "pointer",
+                        opacity: loading ? 0.7 : 1, display: "flex", alignItems: "center", justifyContent: "center", gap: 10,
+                      }}
+                    >
+                      {loading ? (
+                        <>
+                          <motion.span
+                            animate={{ rotate: 360 }}
+                            transition={{ duration: 0.9, repeat: Infinity, ease: "linear" }}
+                            style={{ width: 14, height: 14, borderRadius: "50%", border: "2px solid rgba(255,255,255,0.4)", borderTopColor: "#fff", display: "inline-block" }}
+                          />
+                          Envoi en cours…
+                        </>
+                      ) : "Confirmer le rendez-vous"}
+                    </button>
+                  </form>
+                </>
+              )}
+            </div>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  )
+}
+
 
 // Global state variables for subpage compatibility
 let fd: any = null;
@@ -143,6 +299,13 @@ export default function LeBarberClubPage() {
     return () => window.removeEventListener("scroll", h)
   }, []);
 
+  const [bookingOpen, setBookingOpen] = useState(false)
+  const [bookingPrestation, setBookingPrestation] = useState<string | null>(null)
+  const openBooking = useCallback((prestation: string | null) => {
+    setBookingPrestation(prestation)
+    setBookingOpen(true)
+  }, [])
+
 return (
     <div style={{ background: C.bg, fontFamily: FONT_BODY, overflowX: "hidden" }}>
       <style jsx global>{`@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Raleway:wght@300;400;500;600;700&display=swap');
@@ -179,9 +342,9 @@ return (
         <div id="mb227-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      {["Prestations", "Tarifs", "L'équipe", "Contact"].map(l => (
             <a key={l} href={`#${l.toLowerCase()}`} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)", fontSize: 14, fontWeight: 500, textDecoration: "none" }}>{l}</a>
           ))}
-          <motion.a href={`tel:${fd?.phone ?? "+33478000001"}`} style={{ background: C.accent, color: C.white, borderRadius: 6, padding: "9px 22px", fontSize: 14, fontWeight: 600, textDecoration: "none", display: "flex", alignItems: "center", gap: 6 }} whileHover={{ background: "var(--brand,#704f0a)" }}>
+          <motion.button onClick={() => openBooking(null)} style={{ background: C.accent, color: C.white, border: "none", borderRadius: 6, padding: "9px 22px", fontSize: 14, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 6, minHeight: 44 }} whileHover={{ background: "var(--brand,#704f0a)" }}>
             <Calendar size={14} /> Réserver
-          </motion.a>
+          </motion.button>
       </div>
         <button
           className="mb227-burger"
@@ -199,9 +362,9 @@ return (
           {["Prestations", "Tarifs", "L'équipe", "Contact"].map(l => (
             <a key={l} href={`#${l.toLowerCase()}`} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)", fontSize: 14, fontWeight: 500, textDecoration: "none" }}>{l}</a>
           ))}
-          <motion.a href={`tel:${fd?.phone ?? "+33478000001"}`} style={{ background: C.accent, color: C.white, borderRadius: 6, padding: "9px 22px", fontSize: 14, fontWeight: 600, textDecoration: "none", display: "flex", alignItems: "center", gap: 6 }} whileHover={{ background: "var(--brand,#704f0a)" }}>
+          <motion.button onClick={() => openBooking(null)} style={{ background: C.accent, color: C.white, border: "none", borderRadius: 6, padding: "9px 22px", fontSize: 14, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 6, minHeight: 44 }} whileHover={{ background: "var(--brand,#704f0a)" }}>
             <Calendar size={14} /> Réserver
-          </motion.a>
+          </motion.button>
         </div>
       )}
       <style>{`@media (max-width: 900px) { #mb227-nav { display: none !important; } .mb227-burger { display: flex !important; } }`}</style>
@@ -227,9 +390,9 @@ return (
             Coupes, rasages au blaireau, soins barbe et cuir chevelu — Le Barber Club est l'adresse des hommes qui ne veulent pas choisir entre style et tradition.
           </>}</motion.p>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.0 }} style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
-            <motion.a href={`tel:${fd?.phone ?? "+33478000001"}`} style={{ background: C.accent, color: C.white, borderRadius: 6, padding: "15px 32px", fontWeight: 600, fontSize: 15, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, boxShadow: `0 8px 32px ${C.accent}44` }} whileHover={{ scale: 1.03 }}>
+            <motion.button onClick={() => openBooking(null)} style={{ background: C.accent, color: C.white, border: "none", borderRadius: 6, padding: "15px 32px", fontWeight: 600, fontSize: 15, cursor: "pointer", display: "flex", alignItems: "center", gap: 8, boxShadow: `0 8px 32px ${C.accent}44`, minHeight: 44 }} whileHover={{ scale: 1.03 }}>
               <Calendar size={18} /> Réserver en ligne
-            </motion.a>
+            </motion.button>
             <motion.a href="#prestations" style={{ background: "rgba(255,255,255,0.08)", color: "#fff", border: "1px solid rgba(255,255,255,0.22)", borderRadius: 6, padding: "13px 28px", fontWeight: 500, fontSize: 15, textDecoration: "none" }} whileHover={{ background: "rgba(255,255,255,0.14)" }}>
               Nos prestations
             </motion.a>
@@ -263,7 +426,14 @@ return (
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: 18, maxWidth: 1200, margin: "0 auto" }}>
           {PRESTATIONS.map((p: any, i: number) => (
             <Reveal key={p.titre} delay={i * 0.07}>
-              <motion.div whileHover={{ y: -5, boxShadow: C.shadowLg }} style={{ background: C.white, borderRadius: 10, padding: "26px 24px", border: `1px solid ${C.border}`, boxShadow: C.shadow }}>
+              <motion.div
+                role="button"
+                tabIndex={0}
+                onClick={() => openBooking(p.titre)}
+                onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openBooking(p.titre) } }}
+                whileHover={{ y: -5, boxShadow: C.shadowLg }}
+                style={{ background: C.white, borderRadius: 10, padding: "26px 24px", border: `1px solid ${C.border}`, boxShadow: C.shadow, cursor: "pointer" }}
+              >
                 <span style={{ background: C.accentLight, color: C.accent, borderRadius: 20, padding: "4px 12px", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>{p.tag}</span>
                 <h3 style={{ fontFamily: FONT, fontSize: 18, color: C.text, margin: "14px 0 10px" }}>{p.titre}</h3>
                 <p style={{ fontSize: 14, color: C.textMuted, lineHeight: 1.7 }}>{p.desc}</p>
@@ -284,9 +454,9 @@ return (
                 <span style={{ fontSize: 15, color: C.textMuted, lineHeight: 1.65 }}>{v}</span>
               </div>
             ))}
-            <motion.a href={`tel:${fd?.phone ?? "+33478000001"}`} style={{ display: "inline-flex", alignItems: "center", gap: 8, marginTop: 28, background: C.accent, color: C.white, borderRadius: 6, padding: "13px 28px", fontWeight: 600, fontSize: 15, textDecoration: "none" }} whileHover={{ background: "var(--brand,#704f0a)", scale: 1.02 }}>
+            <motion.button onClick={() => openBooking(null)} style={{ display: "inline-flex", alignItems: "center", gap: 8, marginTop: 28, background: C.accent, color: C.white, border: "none", borderRadius: 6, padding: "13px 28px", fontWeight: 600, fontSize: 15, cursor: "pointer", minHeight: 44 }} whileHover={{ background: "var(--brand,#704f0a)", scale: 1.02 }}>
               Réserver <ArrowRight size={16} />
-            </motion.a>
+            </motion.button>
           </div></Reveal>
           <Reveal><img src={photo(1, "https://images.unsplash.com/photo-1621605815971-fbc98d665033?w=800&q=80")} alt="Barbier rasage traditionnel" style={{ width: "100%", borderRadius: 12, aspectRatio: "4/3", objectFit: "cover" }} /></Reveal>
         </div>
@@ -319,15 +489,20 @@ return (
           <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 4vw, 50px)", color: C.text, margin: "14px 0 16px" }}>Prenez <em>soin de vous</em>.</h2>
           <p style={{ fontSize: 16, color: C.textMuted, maxWidth: 420, margin: "0 auto 36px", lineHeight: 1.7 }}>Réservation en ligne ou par téléphone. Walk-in bienvenu les mardis après 14h.</p>
           <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
-            <motion.a href={`tel:${fd?.phone ?? "+33478000001"}`} style={{ background: C.bgDark, color: C.white, borderRadius: 6, padding: "15px 36px", fontWeight: 600, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ scale: 1.03 }}>
-              <Phone size={18} /> {fd?.phone ?? "04 78 00 00 01"}
+            <motion.button onClick={() => openBooking(null)} style={{ background: C.bgDark, color: C.white, border: "none", borderRadius: 6, padding: "15px 36px", fontWeight: 600, fontSize: 16, cursor: "pointer", display: "flex", alignItems: "center", gap: 8, minHeight: 44 }} whileHover={{ scale: 1.03 }}>
+              <Calendar size={18} /> Réserver en ligne
+            </motion.button>
+            <motion.a href={`tel:${fd?.phone ?? "+33478000001"}`} style={{ background: "transparent", color: C.text, border: `2px solid ${C.accent}`, borderRadius: 6, padding: "13px 32px", fontWeight: 600, fontSize: 15, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, minHeight: 44 }} whileHover={{ background: C.accent, color: C.white }}>
+              <Phone size={17} /> {fd?.phone ?? "04 78 00 00 01"}
             </motion.a>
-            <motion.a href={`mailto:${fd?.email ?? "hello@lebarberclub.fr"}`} style={{ background: "transparent", color: C.text, border: `2px solid ${C.accent}`, borderRadius: 6, padding: "13px 32px", fontWeight: 600, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ background: C.accent, color: C.white }}>
-              <Mail size={18} /> Écrire
+            <motion.a href={`mailto:${fd?.email ?? "hello@lebarberclub.fr"}`} style={{ background: "transparent", color: C.text, border: `2px solid ${C.accent}`, borderRadius: 6, padding: "13px 32px", fontWeight: 600, fontSize: 15, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, minHeight: 44 }} whileHover={{ background: C.accent, color: C.white }}>
+              <Mail size={17} /> Écrire
             </motion.a>
           </div>
         </Reveal>
       </section>
+
+      <BarberBookingModal open={bookingOpen} onClose={() => setBookingOpen(false)} prestations={PRESTATIONS} initialPrestation={bookingPrestation} />
 
       <footer style={{ background: C.bgDark, padding: "44px 80px 22px" }}>
         <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 28, marginBottom: 32 }}>

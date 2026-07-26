@@ -183,6 +183,31 @@ export default function TemplatePage({ session: initialSession }: { session?: an
     return (hours * rate).toFixed(2);
   };
 
+  const FREQUENCY_LABELS: Record<string, string> = {
+    weekly: "Hebdomadaire",
+    biweekly: "Bimensuel",
+    once: "Une seule fois",
+  };
+
+  // Contact form state — wired to the calculator above so the selected
+  // hours/frequency/estimate travel with the request instead of living in
+  // a disconnected UI piece.
+  const [contactForm, setContactForm] = useState({ name: "", email: "", message: "" });
+  const [contactLoading, setContactLoading] = useState(false);
+  const [contactSent, setContactSent] = useState(false);
+  const scrollToContact = () => {
+    document.getElementById("contact")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+  const handleContactSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!contactForm.name || !contactForm.email) return;
+    setContactLoading(true);
+    setTimeout(() => {
+      setContactLoading(false);
+      setContactSent(true);
+    }, 1800);
+  };
+
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -801,7 +826,7 @@ export default function TemplatePage({ session: initialSession }: { session?: an
                   <div style={{ fontFamily: SANS, fontSize: "14px", opacity: 0.8, marginBottom: "40px" }}>
                     *Ceci est une estimation. Le prix final peut varier selon l'état des lieux.
                   </div>
-                  <Button style={{ width: "100%", backgroundColor: C.white, color: C.primary, border: "none" }}>
+                  <Button onClick={scrollToContact} style={{ width: "100%", backgroundColor: C.white, color: C.primary, border: "none", cursor: "pointer" }}>
                     Réserver maintenant
                   </Button>
                 </div>
@@ -1026,7 +1051,7 @@ export default function TemplatePage({ session: initialSession }: { session?: an
       </section>
 
       {/* CTA / Contact */}
-      <section style={{ padding: "120px 24px", backgroundColor: C.bgDeep }}>
+      <section id="contact" style={{ padding: "120px 24px", backgroundColor: C.bgDeep }}>
         <div style={{ maxWidth: "1200px", margin: "0 auto", backgroundColor: C.white, borderRadius: "40px", overflow: "hidden", display: "flex", flexDirection: "column", md: { flexDirection: "row" }, boxShadow: "0 40px 80px rgba(0,0,0,0.05)" }} className="md:flex-row flex-col flex">
           
           <div style={{ flex: 1, padding: "clamp(40px, 6vw, 80px)", backgroundColor: C.primary, color: C.white }}>
@@ -1063,14 +1088,70 @@ export default function TemplatePage({ session: initialSession }: { session?: an
             <h3 style={{ fontFamily: SERIF, fontSize: "28px", fontWeight: 700, color: C.text, marginBottom: "32px" }}>
               Envoyez-nous un message
             </h3>
-            <form onSubmit={(e) => e.preventDefault()} style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
-              <input type="text" placeholder="Votre nom" style={{ padding: "16px 20px", borderRadius: "12px", border: "1px solid #e2e8f0", fontFamily: SANS, fontSize: "16px", outline: "none", width: "100%" }} />
-              <input type="email" placeholder="Votre email" style={{ padding: "16px 20px", borderRadius: "12px", border: "1px solid #e2e8f0", fontFamily: SANS, fontSize: "16px", outline: "none", width: "100%" }} />
-              <textarea placeholder="Votre message" rows={4} style={{ padding: "16px 20px", borderRadius: "12px", border: "1px solid #e2e8f0", fontFamily: SANS, fontSize: "16px", outline: "none", width: "100%", resize: "vertical" }} />
-              <Button style={{ width: "100%", justifyContent: "center", marginTop: "12px" }}>
-                Envoyer <ArrowRight size={18} />
-              </Button>
-            </form>
+
+            {contactSent ? (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                style={{ textAlign: "center", padding: "24px 0" }}
+              >
+                <CheckCircle2 size={48} style={{ color: C.primary, margin: "0 auto 16px" }} />
+                <h4 style={{ fontFamily: SERIF, fontSize: "22px", fontWeight: 700, color: C.text, marginBottom: "8px" }}>Demande envoyée !</h4>
+                <p style={{ fontFamily: SANS, fontSize: "15px", color: C.textMuted, lineHeight: 1.6 }}>
+                  Merci {contactForm.name}, votre demande pour {hours}h de ménage ({FREQUENCY_LABELS[frequency]}, ~{calculateEstimate()}€) a bien été reçue. Nous vous recontactons rapidement.
+                </p>
+              </motion.div>
+            ) : (
+              <form onSubmit={handleContactSubmit} style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+                <div style={{
+                  padding: "14px 18px",
+                  borderRadius: "12px",
+                  backgroundColor: "#f8fafc",
+                  border: "1px solid #e2e8f0",
+                  fontFamily: SANS,
+                  fontSize: "14px",
+                  color: C.textMuted,
+                }}>
+                  <strong style={{ color: C.text }}>Récapitulatif :</strong> {hours}h · {FREQUENCY_LABELS[frequency]} · ~{calculateEstimate()}€
+                </div>
+                <div>
+                  <label htmlFor="cl317-name" style={{ display: "block", fontFamily: SANS, fontSize: "13px", fontWeight: 600, color: C.text, marginBottom: "6px" }}>Votre nom</label>
+                  <input
+                    id="cl317-name"
+                    type="text"
+                    required
+                    value={contactForm.name}
+                    onChange={(e) => setContactForm({ ...contactForm, name: e.target.value })}
+                    style={{ padding: "16px 20px", minHeight: 44, boxSizing: "border-box", borderRadius: "12px", border: "1px solid #e2e8f0", fontFamily: SANS, fontSize: "16px", outline: "none", width: "100%" }}
+                  />
+                </div>
+                <div>
+                  <label htmlFor="cl317-email" style={{ display: "block", fontFamily: SANS, fontSize: "13px", fontWeight: 600, color: C.text, marginBottom: "6px" }}>Votre email</label>
+                  <input
+                    id="cl317-email"
+                    type="email"
+                    required
+                    value={contactForm.email}
+                    onChange={(e) => setContactForm({ ...contactForm, email: e.target.value })}
+                    style={{ padding: "16px 20px", minHeight: 44, boxSizing: "border-box", borderRadius: "12px", border: "1px solid #e2e8f0", fontFamily: SANS, fontSize: "16px", outline: "none", width: "100%" }}
+                  />
+                </div>
+                <div>
+                  <label htmlFor="cl317-message" style={{ display: "block", fontFamily: SANS, fontSize: "13px", fontWeight: 600, color: C.text, marginBottom: "6px" }}>Votre message (facultatif)</label>
+                  <textarea
+                    id="cl317-message"
+                    placeholder="Précisions sur votre logement, accès, etc."
+                    rows={4}
+                    value={contactForm.message}
+                    onChange={(e) => setContactForm({ ...contactForm, message: e.target.value })}
+                    style={{ padding: "16px 20px", borderRadius: "12px", border: "1px solid #e2e8f0", fontFamily: SANS, fontSize: "16px", outline: "none", width: "100%", resize: "vertical" }}
+                  />
+                </div>
+                <Button type="submit" disabled={contactLoading} style={{ width: "100%", justifyContent: "center", marginTop: "12px", cursor: contactLoading ? "not-allowed" : "pointer", opacity: contactLoading ? 0.6 : 1 }}>
+                  {contactLoading ? "Envoi en cours…" : <>Envoyer <ArrowRight size={18} /></>}
+                </Button>
+              </form>
+            )}
           </div>
 
         </div>

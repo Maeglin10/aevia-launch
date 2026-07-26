@@ -106,7 +106,7 @@ return (
         }
       `}</style>
       {/* ── Hero ───────────────────────────────────────────────────────── */}
-      <section style={{ minHeight: "90vh", display: "flex", flexDirection: "column", justifyContent: "flex-end", padding: "3rem", paddingTop: "7rem", position: "relative" }}>
+      <section style={{ minHeight: "90vh", display: "flex", flexDirection: "column", justifyContent: "flex-end", padding: "2rem", paddingTop: "5rem", position: "relative" }}>
         {/* Giant number background */}
         <motion.div
           initial={{ opacity: 0 }}
@@ -129,24 +129,24 @@ return (
         </motion.div>
 
         <div style={{ position: "relative", zIndex: 1, maxWidth: "900px" }}>
-          <div style={{ overflow: "hidden", marginBottom: "2rem" }}>
+          <div style={{ overflow: "hidden", marginBottom: "1rem" }}>
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.4, delay: 0.3 }}
-              style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "0.7rem", letterSpacing: "0.35em", color: C.textDim, marginBottom: "1.5rem" }}
+              style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "0.7rem", letterSpacing: "0.35em", color: C.textDim, marginBottom: "1rem" }}
             >
               ARCHITECTES · PARIS · DEPUIS 2001
             </motion.div>
           </div>
 
-          <div style={{ fontFamily: "'Archivo', sans-serif", fontSize: "clamp(3.5rem, 10vw, 10rem)", fontWeight: 900, lineHeight: 1.15, letterSpacing: "-0.04em", color: C.text }}>
+          <div style={{ fontFamily: "'Archivo', sans-serif", fontSize: "clamp(2.5rem, 7vw, 6.5rem)", fontWeight: 900, lineHeight: 1.1, letterSpacing: "-0.04em", color: C.text }}>
             <TextReveal delay={0.3}>FORMES</TextReveal>
             <TextReveal delay={0.4} style={{ color: C.gold }}>ET</TextReveal>
             <TextReveal delay={0.5}>VIDES</TextReveal>
           </div>
 
-          <div className="imx-mobstack" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "4rem", marginTop: "4rem", paddingTop: "3rem", borderTop: `1px solid ${C.border}` }}>
+          <div className="imx-mobstack" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "2rem", marginTop: "2rem", paddingTop: "1.5rem", borderTop: `1px solid ${C.border}` }}>
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -159,7 +159,7 @@ return (
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.6, delay: 1.2 }}
-              style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}
+              style={{ display: "flex", flexDirection: "column", gap: "1rem" }}
             >
               <Link href="/templates/impact-61/projets" style={{ textDecoration: "none" }}>
                 <MagneticButton

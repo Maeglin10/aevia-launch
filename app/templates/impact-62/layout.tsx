@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { Star, Menu, X, Mail, Phone, Globe } from "lucide-react";
+import { Star, Menu, X, Mail, Phone, Globe, Check, Loader2 } from "lucide-react";
 import { Reveal, MagneticBtn } from "./shared";
 
 export default function SatoriLayout({
@@ -27,6 +27,23 @@ export default function SatoriLayout({
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [reserveOpen, setReserveOpen] = useState(false);
+  const [reserveLoading, setReserveLoading] = useState(false);
+  const [reserveSent, setReserveSent] = useState(false);
+
+  const closeReserve = () => {
+    setReserveOpen(false);
+    setReserveLoading(false);
+    setReserveSent(false);
+  };
+
+  const handleReserveSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setReserveLoading(true);
+    setTimeout(() => {
+      setReserveLoading(false);
+      setReserveSent(true);
+    }, 1800);
+  };
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
@@ -236,82 +253,156 @@ export default function SatoriLayout({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="fixed inset-0 z-[200] bg-black/90 backdrop-blur-xl flex items-center justify-center p-6"
-            onClick={() => setReserveOpen(false)}
+            onClick={closeReserve}
           >
             <motion.div
               initial={{ scale: 0.9, y: 30 }}
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.9, y: 30 }}
-              className="bg-[#0f0d0b] border border-[#b8860b]/20 max-w-2xl w-full p-12 rounded-sm shadow-2xl relative"
+              className="bg-[#0f0d0b] border border-[#b8860b]/20 max-w-2xl w-full p-12 rounded-sm shadow-2xl relative max-h-[90vh] overflow-y-auto"
               onClick={(e) => e.stopPropagation()}
             >
               <button
-                onClick={() => setReserveOpen(false)}
-                className="absolute top-8 right-8 text-white/20 hover:text-[#b8860b] transition-colors bg-transparent border-none cursor-pointer"
+                onClick={closeReserve}
+                aria-label="Close"
+                className="absolute top-6 right-6 w-11 h-11 flex items-center justify-center text-white/20 hover:text-[#b8860b] transition-colors bg-transparent border-none cursor-pointer"
               >
                 <X className="w-6 h-6" />
               </button>
 
-              <div className="text-center mb-12">
-                <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#b8860b] mb-4 block">
-                  Secure a Table
-                </span>
-                <h3 className="text-4xl font-light uppercase tracking-tighter italic text-white">
-                  Reservation Protocol.
-                </h3>
-              </div>
+              <AnimatePresence mode="wait">
+                {reserveSent ? (
+                  <motion.div
+                    key="success"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="text-center py-8"
+                  >
+                    <motion.div
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      transition={{ type: "spring", stiffness: 200, delay: 0.15 }}
+                      className="w-16 h-16 mx-auto mb-6 rounded-full border border-[#b8860b]/40 flex items-center justify-center text-[#b8860b]"
+                    >
+                      <Check className="w-7 h-7" />
+                    </motion.div>
+                    <h3 className="text-3xl font-light uppercase tracking-tighter italic text-white mb-4">
+                      Request Confirmed.
+                    </h3>
+                    <p className="text-xs text-white/40 uppercase tracking-widest font-bold leading-relaxed max-w-sm mx-auto">
+                      Your reservation request has been registered. Our team will confirm availability within 24 business hours.
+                    </p>
+                  </motion.div>
+                ) : (
+                  <motion.div key="form" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+                    <div className="text-center mb-12">
+                      <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#b8860b] mb-4 block">
+                        Secure a Table
+                      </span>
+                      <h3 className="text-4xl font-light uppercase tracking-tighter italic text-white">
+                        Reservation Protocol.
+                      </h3>
+                    </div>
 
-              <form onSubmit={(e) => { e.preventDefault(); setReserveOpen(false); alert("Reservation registered."); }} className="space-y-6">
-                <div className="grid grid-cols-2 gap-6">
-                  <div className="space-y-2">
-                    <label className="text-[9px] font-black uppercase tracking-widest text-white/30">
-                      Guest_Count
-                    </label>
-                    <input
-                      type="number"
-                      required
-                      placeholder="2"
-                      className="w-full bg-white/5 border border-white/5 p-4 text-xs font-bold outline-none focus:border-[#b8860b] transition-all text-white"
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <label className="text-[9px] font-black uppercase tracking-widest text-white/30">
-                      Service_Time
-                    </label>
-                    <input
-                      type="time"
-                      required
-                      className="w-full bg-white/5 border border-white/5 p-4 text-xs font-bold outline-none focus:border-[#b8860b] transition-all text-white"
-                    />
-                  </div>
-                </div>
-                <div className="space-y-2">
-                  <label className="text-[9px] font-black uppercase tracking-widest text-white/30">
-                    Authentication_Email
-                  </label>
-                  <input
-                    type="email"
-                    required
-                    placeholder="client@vault.com"
-                    className="w-full bg-white/5 border border-white/5 p-4 text-xs font-bold outline-none focus:border-[#b8860b] transition-all text-white"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <label className="text-[9px] font-black uppercase tracking-widest text-white/30">
-                    Special_Directives
-                  </label>
-                  <textarea
-                    placeholder="Dietary adjustments, allergens, or floor preferences..."
-                    className="w-full bg-white/5 border border-white/5 p-4 text-xs font-bold outline-none focus:border-[#b8860b] transition-all h-32 text-white"
-                  />
-                </div>
-                <button type="submit" className="w-full py-5 bg-[#b8860b] text-black text-[10px] font-bold uppercase tracking-widest hover:bg-white transition-all cursor-pointer border-none">
-                  Initialize_Request
-                </button>
-                <p className="text-[9px] text-center text-white/20 uppercase tracking-widest font-bold">
-                  Requests are processed within 24 business hours.
-                </p>
-              </form>
+                    <form onSubmit={handleReserveSubmit} className="space-y-6">
+                      <div className="space-y-2">
+                        <label htmlFor="rsv-name" className="text-[9px] font-black uppercase tracking-widest text-white/30">
+                          Guest_Name
+                        </label>
+                        <input
+                          id="rsv-name"
+                          name="name"
+                          type="text"
+                          required
+                          placeholder="Full name"
+                          className="w-full bg-white/5 border border-white/5 p-4 text-xs font-bold outline-none focus:border-[#b8860b] transition-all text-white"
+                        />
+                      </div>
+                      <div className="grid grid-cols-2 gap-6">
+                        <div className="space-y-2">
+                          <label htmlFor="rsv-guests" className="text-[9px] font-black uppercase tracking-widest text-white/30">
+                            Guest_Count
+                          </label>
+                          <input
+                            id="rsv-guests"
+                            name="guests"
+                            type="number"
+                            required
+                            min={1}
+                            placeholder="2"
+                            className="w-full bg-white/5 border border-white/5 p-4 text-xs font-bold outline-none focus:border-[#b8860b] transition-all text-white"
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <label htmlFor="rsv-date" className="text-[9px] font-black uppercase tracking-widest text-white/30">
+                            Service_Date
+                          </label>
+                          <input
+                            id="rsv-date"
+                            name="date"
+                            type="date"
+                            required
+                            className="w-full bg-white/5 border border-white/5 p-4 text-xs font-bold outline-none focus:border-[#b8860b] transition-all text-white [color-scheme:dark]"
+                          />
+                        </div>
+                      </div>
+                      <div className="space-y-2">
+                        <label htmlFor="rsv-time" className="text-[9px] font-black uppercase tracking-widest text-white/30">
+                          Service_Time
+                        </label>
+                        <input
+                          id="rsv-time"
+                          name="time"
+                          type="time"
+                          required
+                          className="w-full bg-white/5 border border-white/5 p-4 text-xs font-bold outline-none focus:border-[#b8860b] transition-all text-white [color-scheme:dark]"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <label htmlFor="rsv-email" className="text-[9px] font-black uppercase tracking-widest text-white/30">
+                          Authentication_Email
+                        </label>
+                        <input
+                          id="rsv-email"
+                          name="email"
+                          type="email"
+                          required
+                          placeholder="client@vault.com"
+                          className="w-full bg-white/5 border border-white/5 p-4 text-xs font-bold outline-none focus:border-[#b8860b] transition-all text-white"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <label htmlFor="rsv-notes" className="text-[9px] font-black uppercase tracking-widest text-white/30">
+                          Special_Directives
+                        </label>
+                        <textarea
+                          id="rsv-notes"
+                          name="notes"
+                          placeholder="Dietary adjustments, allergens, or floor preferences..."
+                          className="w-full bg-white/5 border border-white/5 p-4 text-xs font-bold outline-none focus:border-[#b8860b] transition-all h-32 text-white"
+                        />
+                      </div>
+                      <button
+                        type="submit"
+                        disabled={reserveLoading}
+                        className="w-full min-h-[44px] py-5 bg-[#b8860b] disabled:opacity-60 disabled:cursor-not-allowed text-black text-[10px] font-bold uppercase tracking-widest hover:bg-white transition-all cursor-pointer border-none flex items-center justify-center gap-2"
+                      >
+                        {reserveLoading ? (
+                          <>
+                            <Loader2 className="w-4 h-4 animate-spin" />
+                            Processing…
+                          </>
+                        ) : (
+                          "Initialize_Request"
+                        )}
+                      </button>
+                      <p className="text-[9px] text-center text-white/20 uppercase tracking-widest font-bold">
+                        Requests are processed within 24 business hours.
+                      </p>
+                    </form>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </motion.div>
           </motion.div>
         )}

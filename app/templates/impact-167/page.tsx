@@ -1081,6 +1081,10 @@ export default function Impact167Page() {
         @media (max-width: 768px) {
           .imx-mobstack { grid-template-columns: 1fr !important; }
         }
+        /* mobile hero fix: clear the fixed 80px nav so the logo never overlaps the H1 */
+        @media (max-width: 768px) {
+          .imx-hero167-left { padding: 120px 28px 48px !important; }
+        }
       `}</style>
 
       {/* Mobile Menu */}
@@ -1143,6 +1147,7 @@ export default function Impact167Page() {
       >
         {/* Navy Left */}
         <div
+          className="imx-hero167-left"
           style={{
             background: C.navy,
             position: "relative",

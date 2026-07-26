@@ -5,7 +5,7 @@ import { ArrowRight, MapPin, Mail, Phone } from "lucide-react";
 import { ARTISANS, Reveal } from "../shared";
 
 export default function ContactPage() {
-  const [formState, setFormState] = useState({ name: "", email: "", guests: "2", time: "", notes: "" });
+  const [formState, setFormState] = useState({ name: "", email: "", guests: "2", date: "", time: "", notes: "" });
   const [submitted, setSubmitted] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -160,6 +160,24 @@ export default function ContactPage() {
                         className="w-full bg-white/5 border border-white/5 p-4 text-xs font-bold outline-none focus:border-[#b8860b] text-white"
                       />
                     </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <label
+                      htmlFor="reservation-date"
+                      className="text-[9px] font-black uppercase tracking-widest text-[#f5efe0]/40"
+                    >
+                      PREFERRED DATE
+                    </label>
+                    <input
+                      id="reservation-date"
+                      name="date"
+                      type="date"
+                      required
+                      value={formState.date}
+                      onChange={(e) => setFormState({ ...formState, date: e.target.value })}
+                      className="w-full min-h-[44px] bg-white/5 border border-white/5 p-4 text-xs font-bold outline-none focus:border-[#b8860b] focus-visible:ring-2 focus-visible:ring-[#b8860b] text-white cursor-pointer"
+                    />
                   </div>
 
                   <div className="space-y-2">

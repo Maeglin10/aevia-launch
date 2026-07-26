@@ -233,6 +233,11 @@ export default function KineticStudio() {
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }} className="text-xl md:text-2xl font-light">{c?.heroSubline ?? fd?.tagline ?? <>
             Motion Design & Animation Studio
           </>}</motion.p>
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6 }} className="mt-10">
+            <Link href="#get-in-touch" className="inline-block px-10 py-4 rounded-lg font-light text-black transition-colors" style={{ backgroundColor: brand ?? 'var(--brand,#ff5500)' }}>
+              {c?.ctaText ?? "Get in Touch"}
+            </Link>
+          </motion.div>
         </div>
       </motion.section>
 
@@ -625,7 +630,7 @@ export default function KineticStudio() {
         </div>
       </section>
 
-      <section className="py-24 px-6 md:px-12 bg-[#1a1a2e]">
+      <section id="get-in-touch" className="py-24 px-6 md:px-12 bg-[#1a1a2e]">
         <Reveal>
           <h2 className="text-5xl font-light mb-12" style={{color: brand ?? 'var(--brand,#ff5500)' }}>Get In Touch</h2>
         </Reveal>

@@ -714,11 +714,11 @@ export default function Impact114Page() {
           <div className="flex items-center gap-4">
             <Link
               href="#tirages"
-              className="hidden md:flex items-center gap-2 px-5 py-2.5 bg-[var(--brand,#2d1b0e)] text-[#faf8f3] text-[11px] tracking-[0.2em] uppercase hover:bg-[#3d5a3e] transition-colors"
+              className="flex items-center gap-2 px-3.5 py-2 md:px-5 md:py-2.5 bg-[var(--brand,#2d1b0e)] text-[#faf8f3] text-[10px] md:text-[11px] tracking-[0.2em] uppercase hover:bg-[#3d5a3e] transition-colors whitespace-nowrap"
               style={{ fontFamily: "'Source Serif 4', serif" }}
             >
               Voir les tirages
-              <ArrowRight className="w-3 h-3" />
+              <ArrowRight className="w-3 h-3 hidden sm:inline" />
             </Link>
             <button
               onClick={() => setMenuOpen(!menuOpen)}

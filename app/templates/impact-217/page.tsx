@@ -184,6 +184,8 @@ interface Product {
   badge?: string;
 }
 
+const SHOE_SIZES = ['38', '39', '40', '41', '42', '43', '44', '45'];
+
 const PRODUCTS_DEMO: Product[] = [
   {
     id: 'af-01',
@@ -320,9 +322,10 @@ const REVIEWS_DEMO: Review[] = [
 
 interface NavProps {
   cartCount: number;
+  onCartClick: () => void;
 }
 
-function Nav({ cartCount }: NavProps) {
+function Nav({ cartCount, onCartClick }: NavProps) {
   const { scrollY } = useScroll();
   const [solid, setSolid] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -417,6 +420,7 @@ function Nav({ cartCount }: NavProps) {
 
         <button
           aria-label="Cart"
+          onClick={onCartClick}
           style={{
             position: 'relative',
             background: 'transparent',
@@ -426,6 +430,9 @@ function Nav({ cartCount }: NavProps) {
             display: 'flex',
             alignItems: 'center',
             padding: 4,
+            minWidth: 44,
+            minHeight: 44,
+            justifyContent: 'center',
           }}
         >
           <ShoppingBag size={22} strokeWidth={1.6} />
@@ -961,13 +968,15 @@ function ProductCard({
   onAdd,
 }: {
   product: Product;
-  onAdd: () => void;
+  onAdd: (product: Product, size: string) => void;
 }) {
   const [hover, setHover] = useState(false);
   const [added, setAdded] = useState(false);
+  const [pickingSize, setPickingSize] = useState(false);
 
-  const handleAdd = () => {
-    onAdd();
+  const handleAdd = (size: string) => {
+    onAdd(product, size);
+    setPickingSize(false);
     setAdded(true);
     window.setTimeout(() => setAdded(false), 1400);
   };
@@ -1022,7 +1031,7 @@ function ProductCard({
 
         {/* Add to cart reveal */}
         <AnimatePresence>
-          {hover && (
+          {hover && !added && !pickingSize && (
             <motion.button
               initial={{ y: 60, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
@@ -1030,7 +1039,7 @@ function ProductCard({
               transition={{ duration: 0.35, ease: easeOut }}
               onClick={(e) => {
                 e.stopPropagation();
-                handleAdd();
+                setPickingSize(true);
               }}
               style={{
                 position: 'absolute',
@@ -1041,11 +1050,12 @@ function ProductCard({
                 alignItems: 'center',
                 justifyContent: 'center',
                 gap: 10,
-                background: added ? C.accent : 'rgba(10,10,11,0.88)',
+                minHeight: 44,
+                background: 'rgba(10,10,11,0.88)',
                 backdropFilter: 'blur(8px)',
                 WebkitBackdropFilter: 'blur(8px)',
-                color: added ? '#0a0a0b' : C.white,
-                border: `1px solid ${added ? C.accent : C.borderBright}`,
+                color: C.white,
+                border: `1px solid ${C.borderBright}`,
                 padding: '14px',
                 fontWeight: 800,
                 fontSize: 13,
@@ -1055,16 +1065,92 @@ function ProductCard({
                 borderRadius: 2,
               }}
             >
-              {added ? (
-                <>
-                  <Check size={16} strokeWidth={3} /> Added
-                </>
-              ) : (
-                <>
-                  <Plus size={16} strokeWidth={3} /> Add to cart
-                </>
-              )}
+              <Plus size={16} strokeWidth={3} /> Add to cart
             </motion.button>
+          )}
+          {pickingSize && !added && (
+            <motion.div
+              initial={{ y: 60, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: 60, opacity: 0 }}
+              transition={{ duration: 0.3, ease: easeOut }}
+              onClick={(e) => e.stopPropagation()}
+              style={{
+                position: 'absolute',
+                left: 14,
+                right: 14,
+                bottom: 14,
+                background: 'rgba(10,10,11,0.92)',
+                backdropFilter: 'blur(8px)',
+                WebkitBackdropFilter: 'blur(8px)',
+                border: `1px solid ${C.borderBright}`,
+                borderRadius: 4,
+                padding: '10px',
+              }}
+            >
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8, padding: '0 2px' }}>
+                <span style={{ color: C.white, fontSize: 11, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase' }}>
+                  Select size (EU)
+                </span>
+                <button
+                  aria-label="Close size selector"
+                  onClick={() => setPickingSize(false)}
+                  style={{ background: 'none', border: 'none', color: C.textMuted, cursor: 'pointer', padding: 4, minWidth: 24, minHeight: 24, lineHeight: 1 }}
+                >
+                  ✕
+                </button>
+              </div>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 6 }}>
+                {SHOE_SIZES.map((size) => (
+                  <button
+                    key={size}
+                    onClick={() => handleAdd(size)}
+                    style={{
+                      minHeight: 36,
+                      background: 'rgba(255,255,255,0.06)',
+                      border: `1px solid ${C.border}`,
+                      borderRadius: 2,
+                      color: C.white,
+                      fontSize: 12,
+                      fontWeight: 700,
+                      cursor: 'pointer',
+                    }}
+                  >
+                    {size}
+                  </button>
+                ))}
+              </div>
+            </motion.div>
+          )}
+          {added && (
+            <motion.div
+              initial={{ y: 60, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: 60, opacity: 0 }}
+              transition={{ duration: 0.3, ease: easeOut }}
+              style={{
+                position: 'absolute',
+                left: 14,
+                right: 14,
+                bottom: 14,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: 10,
+                minHeight: 44,
+                background: C.accent,
+                color: brand ?? '#0a0a0b',
+                border: `1px solid ${C.accent}`,
+                padding: '14px',
+                fontWeight: 800,
+                fontSize: 13,
+                letterSpacing: '0.06em',
+                textTransform: 'uppercase',
+                borderRadius: 2,
+              }}
+            >
+              <Check size={16} strokeWidth={3} /> Added
+            </motion.div>
           )}
         </AnimatePresence>
       </div>
@@ -1102,7 +1188,7 @@ function ProductCard({
   );
 }
 
-function FeaturedDrops({ onAdd }: { onAdd: () => void }) {
+function FeaturedDrops({ onAdd }: { onAdd: (product: Product, size: string) => void }) {
   return (
     <section
       id="drops"
@@ -2155,6 +2241,257 @@ function buildReviews217(): Review[] {
     D
   );
 }
+/* ════════════════════════════════════════════════════════════════════════════
+   CART DRAWER — cart review → checkout → confirmation
+   ════════════════════════════════════════════════════════════════════════════ */
+
+interface CartLine {
+  key: string;
+  productId: string;
+  name: string;
+  edition: string;
+  price: number;
+  img: string;
+  size: string;
+  qty: number;
+}
+
+function SneakerCartDrawer({
+  open,
+  items,
+  onClose,
+  onRemove,
+  onQtyChange,
+}: {
+  open: boolean;
+  items: CartLine[];
+  onClose: () => void;
+  onRemove: (key: string) => void;
+  onQtyChange: (key: string, delta: number) => void;
+}) {
+  const total = items.reduce((s, i) => s + i.price * i.qty, 0);
+  const [step, setStep] = useState<'cart' | 'form' | 'done'>('cart');
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
+  const [address, setAddress] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (open) setStep('cart');
+  }, [open]);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!name || !email || !phone || !address) return;
+    setLoading(true);
+    window.setTimeout(() => {
+      setLoading(false);
+      setStep('done');
+    }, 1500);
+  };
+
+  const inputStyle: React.CSSProperties = {
+    width: '100%', padding: '0.75rem 1rem', borderRadius: 4,
+    border: `1px solid ${C.border}`, background: C.bgCard, color: C.white,
+    fontFamily: FONT_STACK, fontSize: '0.9rem', outline: 'none', boxSizing: 'border-box',
+  };
+  const labelStyle: React.CSSProperties = {
+    display: 'block', fontSize: '0.7rem', fontWeight: 700, letterSpacing: '0.06em',
+    textTransform: 'uppercase', color: C.textMuted, fontFamily: FONT_STACK, marginBottom: '0.4rem',
+  };
+
+  return (
+    <AnimatePresence>
+      {open && (
+        <>
+          <motion.div
+            key="sneaker-cart-backdrop"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={onClose}
+            style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.75)', zIndex: 999 }}
+          />
+          <motion.div
+            key="sneaker-cart-drawer"
+            initial={{ x: '100%' }}
+            animate={{ x: 0 }}
+            exit={{ x: '100%' }}
+            transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+            style={{
+              position: 'fixed', right: 0, top: 0, bottom: 0, width: 'min(440px, 100vw)',
+              background: C.bg, borderLeft: `1px solid ${C.border}`, zIndex: 1000,
+              display: 'flex', flexDirection: 'column', overflowY: 'auto', color: C.white,
+              fontFamily: FONT_STACK,
+            }}
+          >
+            <div style={{
+              display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+              padding: '1.5rem 1.75rem', borderBottom: `1px solid ${C.border}`,
+              position: 'sticky', top: 0, background: C.bg, zIndex: 2,
+            }}>
+              <h2 style={{ fontWeight: 900, fontSize: '1.1rem', textTransform: 'uppercase', letterSpacing: '-0.02em' }}>
+                {step === 'form' ? 'Checkout' : step === 'done' ? 'Order confirmed' : `Cart (${items.reduce((s, i) => s + i.qty, 0)})`}
+              </h2>
+              <button
+                onClick={onClose}
+                aria-label="Close cart"
+                style={{ background: 'none', border: 'none', color: C.textMuted, fontSize: '1.5rem', cursor: 'pointer', minWidth: 44, minHeight: 44 }}
+              >
+                ×
+              </button>
+            </div>
+
+            {step === 'cart' && (
+              <>
+                <div style={{ flex: 1, padding: '1.25rem 1.75rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                  {items.length === 0 ? (
+                    <div style={{ textAlign: 'center', paddingTop: '4rem' }}>
+                      <ShoppingBag size={40} strokeWidth={1.2} color={C.textFaint} style={{ margin: '0 auto 1rem' }} />
+                      <p style={{ color: C.textMuted, fontSize: '0.92rem' }}>Your cart is empty</p>
+                    </div>
+                  ) : (
+                    items.map((item) => (
+                      <div
+                        key={item.key}
+                        style={{
+                          background: C.bgCard, border: `1px solid ${C.border}`, borderRadius: 4,
+                          padding: '1rem', display: 'flex', alignItems: 'center', gap: '1rem',
+                        }}
+                      >
+                        <img src={item.img} alt={item.name} style={{ width: 56, height: 56, objectFit: 'cover', borderRadius: 2, flexShrink: 0 }} />
+                        <div style={{ flex: 1, minWidth: 0 }}>
+                          <p style={{ fontSize: '0.85rem', fontWeight: 700, margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                            {item.name}
+                          </p>
+                          <p style={{ fontSize: '0.75rem', color: C.textMuted, margin: '0.15rem 0' }}>
+                            EU {item.size} · {item.edition}
+                          </p>
+                          <p style={{ fontSize: '0.95rem', fontWeight: 800, color: C.accent, margin: 0 }}>
+                            €{item.price * item.qty}
+                          </p>
+                        </div>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+                          <button onClick={() => onQtyChange(item.key, -1)} style={{ background: C.border, border: 'none', borderRadius: 2, width: 26, height: 26, color: C.white, cursor: 'pointer', fontSize: '1rem' }}>−</button>
+                          <span style={{ fontSize: '0.85rem', minWidth: 18, textAlign: 'center' }}>{item.qty}</span>
+                          <button onClick={() => onQtyChange(item.key, 1)} style={{ background: C.border, border: 'none', borderRadius: 2, width: 26, height: 26, color: C.white, cursor: 'pointer', fontSize: '1rem' }}>+</button>
+                          <button onClick={() => onRemove(item.key)} style={{ background: 'none', border: 'none', color: '#e05252', cursor: 'pointer', fontSize: '1rem', marginLeft: '0.25rem', minWidth: 32, minHeight: 32 }}>🗑</button>
+                        </div>
+                      </div>
+                    ))
+                  )}
+                </div>
+                {items.length > 0 && (
+                  <div style={{ padding: '1.25rem 1.75rem 2rem', borderTop: `1px solid ${C.border}`, position: 'sticky', bottom: 0, background: C.bg }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1.25rem' }}>
+                      <span style={{ fontWeight: 700 }}>Total</span>
+                      <span style={{ fontWeight: 900, color: C.accent, fontSize: '1.2rem' }}>€{total}</span>
+                    </div>
+                    <button
+                      onClick={() => setStep('form')}
+                      style={{
+                        width: '100%', minHeight: 48, background: C.accent, color: brand ?? '#0a0a0b',
+                        border: 'none', borderRadius: 2, padding: '1rem', fontSize: '0.9rem', fontWeight: 800,
+                        letterSpacing: '0.06em', textTransform: 'uppercase', cursor: 'pointer',
+                      }}
+                    >
+                      Checkout →
+                    </button>
+                  </div>
+                )}
+              </>
+            )}
+
+            {step === 'form' && (
+              <div style={{ flex: 1, padding: '1.5rem 1.75rem 2rem' }}>
+                <button
+                  type="button"
+                  onClick={() => setStep('cart')}
+                  style={{ background: 'none', border: 'none', color: C.textMuted, fontSize: '0.82rem', cursor: 'pointer', marginBottom: '1.25rem', padding: 0 }}
+                >
+                  ← Back to cart
+                </button>
+                <p style={{ color: C.textMuted, fontSize: '0.85rem', marginBottom: '1.25rem' }}>
+                  Total due: <strong style={{ color: C.accent }}>€{total}</strong>
+                </p>
+                <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                  <div>
+                    <label htmlFor="sk-name" style={labelStyle}>Full name *</label>
+                    <input id="sk-name" type="text" required value={name} onChange={(e) => setName(e.target.value)} placeholder="Alex Dubois" style={inputStyle} />
+                  </div>
+                  <div>
+                    <label htmlFor="sk-email" style={labelStyle}>Email *</label>
+                    <input id="sk-email" type="email" required value={email} onChange={(e) => setEmail(e.target.value)} placeholder="alex@email.com" style={inputStyle} />
+                  </div>
+                  <div>
+                    <label htmlFor="sk-phone" style={labelStyle}>Phone *</label>
+                    <input id="sk-phone" type="tel" required value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="+33 6 XX XX XX XX" style={inputStyle} />
+                  </div>
+                  <div>
+                    <label htmlFor="sk-address" style={labelStyle}>Shipping address *</label>
+                    <input id="sk-address" type="text" required value={address} onChange={(e) => setAddress(e.target.value)} placeholder="12 Rue de la Paix, 75002 Paris" style={inputStyle} />
+                  </div>
+                  <button
+                    type="submit"
+                    disabled={loading}
+                    style={{
+                      width: '100%', minHeight: 48, marginTop: '0.5rem', background: C.accent, color: brand ?? '#0a0a0b',
+                      border: 'none', borderRadius: 2, padding: '1rem', fontSize: '0.9rem', fontWeight: 800,
+                      letterSpacing: '0.06em', textTransform: 'uppercase',
+                      cursor: loading ? 'not-allowed' : 'pointer', opacity: loading ? 0.7 : 1,
+                      display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.6rem',
+                    }}
+                  >
+                    {loading ? (
+                      <>
+                        <motion.span
+                          animate={{ rotate: 360 }}
+                          transition={{ duration: 0.9, repeat: Infinity, ease: 'linear' }}
+                          style={{ width: 14, height: 14, borderRadius: '50%', border: '2px solid rgba(10,10,11,0.3)', borderTopColor: '#0a0a0b', display: 'inline-block' }}
+                        />
+                        Processing…
+                      </>
+                    ) : `Place order — €${total}`}
+                  </button>
+                </form>
+              </div>
+            )}
+
+            {step === 'done' && (
+              <div style={{ flex: 1, padding: '3rem 1.75rem', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
+                <div style={{
+                  width: 60, height: 60, borderRadius: '50%', border: `1px solid ${C.accent}`,
+                  display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1.5rem',
+                }}>
+                  <Check size={26} color={C.accent} strokeWidth={2.5} />
+                </div>
+                <h3 style={{ fontSize: '1.3rem', fontWeight: 900, marginBottom: '0.75rem', textTransform: 'uppercase' }}>
+                  Order confirmed
+                </h3>
+                <p style={{ color: C.textMuted, fontSize: '0.9rem', lineHeight: 1.7 }}>
+                  Thanks {name}. Your order of €{total} will ship to {address}. A confirmation email is on its way to {email}.
+                </p>
+                <button
+                  type="button"
+                  onClick={onClose}
+                  style={{
+                    minHeight: 44, marginTop: '2rem', padding: '0.85rem 2rem', background: 'none',
+                    border: `1px solid ${C.border}`, borderRadius: 2, color: C.white, fontSize: '0.85rem',
+                    fontWeight: 700, cursor: 'pointer', textTransform: 'uppercase', letterSpacing: '0.05em',
+                  }}
+                >
+                  Continue shopping
+                </button>
+              </div>
+            )}
+          </motion.div>
+        </>
+      )}
+    </AnimatePresence>
+  );
+}
+
 export default function ImpactSneakerPage() {
   const [session, setSession] = useState<{
     formData?: {
@@ -2215,7 +2552,34 @@ export default function ImpactSneakerPage() {
     };
   }
 
-  const [cart, setCart] = useState(0);
+  const [cartItems, setCartItems] = useState<CartLine[]>([]);
+  const [cartOpen, setCartOpen] = useState(false);
+  const cartCount = cartItems.reduce((s, i) => s + i.qty, 0);
+
+  const handleAddToCart = (product: Product, size: string) => {
+    const key = `${product.id}-${size}`;
+    setCartItems((prev) => {
+      const existing = prev.find((i) => i.key === key);
+      if (existing) {
+        return prev.map((i) => (i.key === key ? { ...i, qty: i.qty + 1 } : i));
+      }
+      return [...prev, {
+        key, productId: product.id, name: product.name, edition: product.edition,
+        price: product.price, img: product.img, size, qty: 1,
+      }];
+    });
+  };
+
+  const handleRemoveFromCart = (key: string) => {
+    setCartItems((prev) => prev.filter((i) => i.key !== key));
+  };
+
+  const handleCartQtyChange = (key: string, delta: number) => {
+    setCartItems((prev) =>
+      prev
+        .map((i) => (i.key === key ? { ...i, qty: Math.max(1, i.qty + delta) } : i))
+    );
+  };
 
   return (
     <main
@@ -2252,11 +2616,11 @@ export default function ImpactSneakerPage() {
         }
       `}</style>
 
-      <Nav cartCount={cart} />
+      <Nav cartCount={cartCount} onCartClick={() => setCartOpen(true)} />
       <Hero />
       <Marquee />
       <CrossfadeSequence />
-      <FeaturedDrops onAdd={() => setCart((c) => c + 1)} />
+      <FeaturedDrops onAdd={handleAddToCart} />
       <EditorialRows />
       <SpecShowcase />
       <Lookbook />
@@ -2264,6 +2628,14 @@ export default function ImpactSneakerPage() {
       <FinalCTA />
       <ContactSection />
       <Footer />
+
+      <SneakerCartDrawer
+        open={cartOpen}
+        items={cartItems}
+        onClose={() => setCartOpen(false)}
+        onRemove={handleRemoveFromCart}
+        onQtyChange={handleCartQtyChange}
+      />
     </main>
   );
 }

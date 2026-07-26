@@ -1,9 +1,9 @@
 "use client";
 // @ts-nocheck
 
-import React, {useRef, useState, useEffect} from 'react'
-import { motion, useScroll, useTransform, useInView } from "framer-motion"
-import { Phone, Mail, MapPin, Clock, Star, CheckCircle, ArrowRight, Camera } from "lucide-react"
+import React, {useRef, useState, useEffect, useCallback} from 'react'
+import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion"
+import { Phone, Mail, MapPin, Clock, Star, CheckCircle, ArrowRight, Camera, X } from "lucide-react"
 import { resolveList } from "@/lib/templates/resolveList"
 
 // Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
@@ -62,6 +62,155 @@ const AVIS_DEMO = [
   { texte: "Cover-up d'un vieux tatouage raté que je cachais depuis 10 ans. Ils ont transformé ça en quelque chose de magnifique. Merci ! Je ne pouvais plus rêver d'un meilleur résultat.", auteur: "Kevin M.", detail: "Cover-up japonais, bras" },
   { texte: "Fine line fleuri sur la clavicule. Propre, précis, soigné. L'accueil est top, le studio est beau, et on est bien guidé sur les soins après. Je recommande à 100%.", auteur: "Chloé B.", detail: "Fine line floral, clavicule" },
 ]
+
+function ConsultationModal({
+  open,
+  onClose,
+  styles,
+  initialStyle,
+}: {
+  open: boolean
+  onClose: () => void
+  styles: { titre?: string; name?: string }[]
+  initialStyle: string | null
+}) {
+  const [style, setStyle] = useState("")
+  const [date, setDate] = useState("")
+  const [name, setName] = useState("")
+  const [email, setEmail] = useState("")
+  const [phone, setPhone] = useState("")
+  const [message, setMessage] = useState("")
+  const [loading, setLoading] = useState(false)
+  const [sent, setSent] = useState(false)
+
+  useEffect(() => {
+    if (open) {
+      setStyle(initialStyle ?? "")
+      setDate(""); setName(""); setEmail(""); setPhone(""); setMessage("")
+      setLoading(false); setSent(false)
+    }
+  }, [open, initialStyle])
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!style || !name || !email || !phone) return
+    setLoading(true)
+    setTimeout(() => {
+      setLoading(false)
+      setSent(true)
+    }, 1400)
+  }
+
+  const inputCls: React.CSSProperties = {
+    width: "100%", padding: "13px 16px", background: "rgba(255,255,255,0.04)",
+    border: `1px solid ${C.border}`, borderRadius: 4, color: C.text, fontFamily: FONT_BODY,
+    fontSize: 14, outline: "none", boxSizing: "border-box",
+  }
+  const labelCls: React.CSSProperties = {
+    display: "block", fontSize: 11, fontWeight: 700, letterSpacing: 1.5, textTransform: "uppercase",
+    color: C.textMuted, marginBottom: 6,
+  }
+
+  return (
+    <AnimatePresence>
+      {open && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          onClick={onClose}
+          style={{ position: "fixed", inset: 0, zIndex: 200, display: "flex", alignItems: "center", justifyContent: "center", padding: 16, background: "rgba(0,0,0,0.75)" }}
+        >
+          <motion.div
+            initial={{ opacity: 0, y: 24, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 16, scale: 0.98 }}
+            transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+            onClick={(e) => e.stopPropagation()}
+            style={{ position: "relative", width: "100%", maxWidth: 460, background: C.bgSection, border: `1px solid ${C.border}`, borderRadius: 8, maxHeight: "90vh", overflowY: "auto" }}
+          >
+            <button
+              onClick={onClose}
+              aria-label="Fermer"
+              style={{ position: "absolute", top: 14, right: 14, width: 44, height: 44, display: "flex", alignItems: "center", justifyContent: "center", background: "none", border: "none", color: C.textMuted, cursor: "pointer" }}
+            >
+              <X size={20} />
+            </button>
+
+            <div style={{ padding: "44px 36px 36px" }}>
+              {sent ? (
+                <div style={{ textAlign: "center", padding: "20px 0" }}>
+                  <div style={{ width: 56, height: 56, borderRadius: "50%", border: `1px solid ${C.accent}`, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 22px", fontSize: 20, color: C.accent }}>✓</div>
+                  <h3 style={{ fontFamily: FONT, fontSize: 24, color: C.text, marginBottom: 12 }}>Demande envoyée</h3>
+                  <p style={{ fontSize: 14, color: C.textMuted, lineHeight: 1.75 }}>
+                    Merci {name}. Votre demande de consultation pour « {style} »{date ? ` le ${date}` : ""} a bien été reçue. Nous vous répondons sous 48h à {email}.
+                  </p>
+                </div>
+              ) : (
+                <>
+                  <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Consultation gratuite</span>
+                  <h3 style={{ fontFamily: FONT, fontSize: 26, color: C.text, margin: "10px 0 24px" }}>Décrivez votre projet</h3>
+
+                  <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                    <div>
+                      <label htmlFor="tat-style" style={labelCls}>Style souhaité *</label>
+                      <select id="tat-style" required value={style} onChange={(e) => setStyle(e.target.value)} style={{ ...inputCls, cursor: "pointer" }}>
+                        <option value="">Choisir un style</option>
+                        {styles.map((s, i) => (
+                          <option key={i} value={s.titre ?? s.name}>{s.titre ?? s.name}</option>
+                        ))}
+                      </select>
+                    </div>
+                    <div>
+                      <label htmlFor="tat-date" style={labelCls}>Date souhaitée (indicative)</label>
+                      <input id="tat-date" type="date" value={date} onChange={(e) => setDate(e.target.value)} style={inputCls} />
+                    </div>
+                    <div>
+                      <label htmlFor="tat-name" style={labelCls}>Nom complet *</label>
+                      <input id="tat-name" type="text" required value={name} onChange={(e) => setName(e.target.value)} placeholder="Lucie Vasseur" style={inputCls} />
+                    </div>
+                    <div>
+                      <label htmlFor="tat-email" style={labelCls}>Email *</label>
+                      <input id="tat-email" type="email" required value={email} onChange={(e) => setEmail(e.target.value)} placeholder="lucie@email.fr" style={inputCls} />
+                    </div>
+                    <div>
+                      <label htmlFor="tat-phone" style={labelCls}>Téléphone *</label>
+                      <input id="tat-phone" type="tel" required value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="06 XX XX XX XX" style={inputCls} />
+                    </div>
+                    <div>
+                      <label htmlFor="tat-message" style={labelCls}>Votre projet (facultatif)</label>
+                      <textarea id="tat-message" rows={3} value={message} onChange={(e) => setMessage(e.target.value)} placeholder="Emplacement, taille, inspiration..." style={{ ...inputCls, resize: "none" }} />
+                    </div>
+                    <button
+                      type="submit"
+                      disabled={loading}
+                      style={{
+                        marginTop: 6, minHeight: 46, background: C.accent, color: "#0d0d0d", border: "none",
+                        borderRadius: 4, fontWeight: 700, fontSize: 15, cursor: loading ? "not-allowed" : "pointer",
+                        opacity: loading ? 0.7 : 1, display: "flex", alignItems: "center", justifyContent: "center", gap: 10,
+                      }}
+                    >
+                      {loading ? (
+                        <>
+                          <motion.span
+                            animate={{ rotate: 360 }}
+                            transition={{ duration: 0.9, repeat: Infinity, ease: "linear" }}
+                            style={{ width: 14, height: 14, borderRadius: "50%", border: "2px solid rgba(13,13,13,0.3)", borderTopColor: "#0d0d0d", display: "inline-block" }}
+                          />
+                          Envoi en cours…
+                        </>
+                      ) : "Envoyer ma demande"}
+                    </button>
+                  </form>
+                </>
+              )}
+            </div>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  )
+}
 
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const ref = useRef(null)
@@ -133,6 +282,14 @@ export default function EncreNoirePage() {
     return () => window.removeEventListener("scroll", h)
   }, []);
 
+  const STYLES = resolveList<any>(bp?.services, STYLES_DEMO);
+  const [consultOpen, setConsultOpen] = useState(false);
+  const [consultStyle, setConsultStyle] = useState<string | null>(null);
+  const openConsult = useCallback((style: string | null) => {
+    setConsultStyle(style);
+    setConsultOpen(true);
+  }, []);
+
 return (
     <div style={{ background: C.bg, fontFamily: FONT_BODY, overflowX: "hidden" }}>
       <style jsx global>{`@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600;700&display=swap');
@@ -166,9 +323,9 @@ return (
         <div id="mb226-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      {["Styles", "Galerie", "Tarifs", "Contact"].map(l => (
             <a key={l} href={`#${l.toLowerCase()}`} style={{ color: C.textMuted, fontSize: 14, fontWeight: 500, textDecoration: "none" }}>{l}</a>
           ))}
-          <motion.a href="#contact" style={{ background: C.accent, color: "#0d0d0d", borderRadius: 4, padding: "9px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none" }} whileHover={{ background: C.accentDark }}>
+          <motion.button onClick={() => openConsult(null)} style={{ background: C.accent, color: "#0d0d0d", border: "none", borderRadius: 4, padding: "9px 22px", fontSize: 14, fontWeight: 700, cursor: "pointer", minHeight: 44 }} whileHover={{ background: C.accentDark }}>
             Réserver
-          </motion.a>
+          </motion.button>
       </div>
         <button
           className="mb226-burger"
@@ -186,9 +343,9 @@ return (
           {["Styles", "Galerie", "Tarifs", "Contact"].map(l => (
             <a key={l} href={`#${l.toLowerCase()}`} style={{ color: C.textMuted, fontSize: 14, fontWeight: 500, textDecoration: "none" }}>{l}</a>
           ))}
-          <motion.a href="#contact" style={{ background: C.accent, color: "#0d0d0d", borderRadius: 4, padding: "9px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none" }} whileHover={{ background: C.accentDark }}>
+          <motion.button onClick={() => openConsult(null)} style={{ background: C.accent, color: "#0d0d0d", border: "none", borderRadius: 4, padding: "9px 22px", fontSize: 14, fontWeight: 700, cursor: "pointer", minHeight: 44 }} whileHover={{ background: C.accentDark }}>
             Réserver
-          </motion.a>
+          </motion.button>
         </div>
       )}
       <style>{`@media (max-width: 900px) { #mb226-nav { display: none !important; } .mb226-burger { display: flex !important; } }`}</style>
@@ -214,9 +371,9 @@ return (
             Studio Encre Noire réunit 3 artistes tatoueurs spécialisés — blackwork, réalisme, japonais, aquarelle. Chaque pièce est unique, dessinée sur mesure, réalisée avec obsession du détail.
           </>}</motion.p>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.0 }} style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
-            <motion.a href="#contact" style={{ background: C.accent, color: "#0d0d0d", borderRadius: 4, padding: "15px 32px", fontWeight: 700, fontSize: 15, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, boxShadow: `0 8px 32px ${C.accent}30` }} whileHover={{ scale: 1.03 }}>
+            <motion.button onClick={() => openConsult(null)} style={{ background: C.accent, color: "#0d0d0d", border: "none", borderRadius: 4, padding: "15px 32px", fontWeight: 700, fontSize: 15, cursor: "pointer", display: "flex", alignItems: "center", gap: 8, boxShadow: `0 8px 32px ${C.accent}30`, minHeight: 44 }} whileHover={{ scale: 1.03 }}>
               Prendre RDV <ArrowRight size={16} />
-            </motion.a>
+            </motion.button>
             <motion.a href="#styles" style={{ background: "rgba(255,255,255,0.06)", color: C.text, border: `1px solid ${C.border}`, borderRadius: 4, padding: "13px 28px", fontWeight: 500, fontSize: 15, textDecoration: "none" }} whileHover={{ background: "rgba(255,255,255,0.10)" }}>
               Nos styles
             </motion.a>
@@ -252,9 +409,16 @@ return (
           </div>
         </Reveal>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: 18, maxWidth: 1200, margin: "0 auto" }}>
-          {resolveList<any>(bp?.services, STYLES_DEMO).map((s: any, i: number) => (
+          {STYLES.map((s: any, i: number) => (
             <Reveal key={s.titre ?? s.name ?? i} delay={i * 0.07}>
-              <motion.div whileHover={{ y: -4, borderColor: C.accent }} style={{ background: C.bgSection, borderRadius: 8, padding: "26px 24px", border: `1px solid ${C.border}` }}>
+              <motion.div
+                role="button"
+                tabIndex={0}
+                onClick={() => openConsult(s.titre ?? s.name)}
+                onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openConsult(s.titre ?? s.name) } }}
+                whileHover={{ y: -4, borderColor: C.accent }}
+                style={{ background: C.bgSection, borderRadius: 8, padding: "26px 24px", border: `1px solid ${C.border}`, cursor: "pointer" }}
+              >
                 {(s.tag || s.price) && <span style={{ background: "rgba(232,201,122,0.12)", color: C.accent, borderRadius: 20, padding: "4px 12px", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>{s.tag ?? s.price}</span>}
                 <h3 style={{ fontFamily: FONT, fontSize: 18, color: C.text, margin: "14px 0 10px" }}>{s.titre ?? s.name}</h3>
                 <p style={{ fontSize: 14, color: C.textMuted, lineHeight: 1.7 }}>{s.desc ?? s.description}</p>
@@ -278,9 +442,9 @@ return (
                 <span style={{ fontSize: 15, color: C.textMuted, lineHeight: 1.65 }}>{p}</span>
               </div>
             ))}
-            <motion.a href="#contact" style={{ display: "inline-flex", alignItems: "center", gap: 8, marginTop: 28, background: C.accent, color: "#0d0d0d", borderRadius: 4, padding: "13px 28px", fontWeight: 700, fontSize: 15, textDecoration: "none" }} whileHover={{ background: C.accentDark, scale: 1.02 }}>
+            <motion.button onClick={() => openConsult(null)} style={{ display: "inline-flex", alignItems: "center", gap: 8, marginTop: 28, background: C.accent, color: "#0d0d0d", border: "none", borderRadius: 4, padding: "13px 28px", fontWeight: 700, fontSize: 15, cursor: "pointer", minHeight: 44 }} whileHover={{ background: C.accentDark, scale: 1.02 }}>
               Consultation gratuite <ArrowRight size={16} />
-            </motion.a>
+            </motion.button>
           </Reveal>
         </div>
       </section>
@@ -311,17 +475,22 @@ return (
           <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Prise de RDV</span>
           <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 4vw, 52px)", color: C.text, margin: "14px 0 16px" }}>{c?.aboutTitle ?? fd?.businessName ?? <>Votre projet<br /><em style={{ color: C.accent }}>commence ici.</em></>}</h2>
           <p style={{ fontSize: 16, color: C.textMuted, maxWidth: 440, margin: "0 auto 36px", lineHeight: 1.7 }}>{c?.aboutText ?? <>
-            Consultation gratuite obligatoire avant chaque tatouage. Décrivez-nous votre projet par email ou Instagram — réponse sous 48h.
+            Consultation gratuite obligatoire avant chaque tatouage. Remplissez le formulaire, ou contactez-nous par email ou Instagram — réponse sous 48h.
           </>}</p>
           <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
-            <motion.a href={`mailto:${fd?.email ?? "contact@encrenoire-paris.fr"}`} style={{ background: C.accent, color: "#0d0d0d", borderRadius: 4, padding: "15px 36px", fontWeight: 700, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ scale: 1.03 }}>
-              <Mail size={18} />{fd?.email ?? "contact@encrenoire-paris.fr"}</motion.a>
-            <motion.a href={`https://instagram.com/${fd?.instagram ?? "encrenoire.paris"}`} style={{ background: "transparent", color: C.text, border: `2px solid ${C.border}`, borderRadius: 4, padding: "13px 32px", fontWeight: 600, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ borderColor: C.accent, color: C.accent }}>
-              <Camera size={18} /> @encrenoire.paris
+            <motion.button onClick={() => openConsult(null)} style={{ background: C.accent, color: "#0d0d0d", border: "none", borderRadius: 4, padding: "15px 36px", fontWeight: 700, fontSize: 16, cursor: "pointer", display: "flex", alignItems: "center", gap: 8, minHeight: 44 }} whileHover={{ scale: 1.03 }}>
+              Demander une consultation <ArrowRight size={18} />
+            </motion.button>
+            <motion.a href={`mailto:${fd?.email ?? "contact@encrenoire-paris.fr"}`} style={{ background: "transparent", color: C.text, border: `2px solid ${C.border}`, borderRadius: 4, padding: "13px 32px", fontWeight: 600, fontSize: 15, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, minHeight: 44 }} whileHover={{ borderColor: C.accent, color: C.accent }}>
+              <Mail size={17} />{fd?.email ?? "contact@encrenoire-paris.fr"}</motion.a>
+            <motion.a href={`https://instagram.com/${fd?.instagram ?? "encrenoire.paris"}`} style={{ background: "transparent", color: C.text, border: `2px solid ${C.border}`, borderRadius: 4, padding: "13px 32px", fontWeight: 600, fontSize: 15, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, minHeight: 44 }} whileHover={{ borderColor: C.accent, color: C.accent }}>
+              <Camera size={17} /> @encrenoire.paris
             </motion.a>
           </div>
         </Reveal>
       </section>
+
+      <ConsultationModal open={consultOpen} onClose={() => setConsultOpen(false)} styles={STYLES} initialStyle={consultStyle} />
 
       <footer style={{ background: "#050505", borderTop: `1px solid ${C.border}`, padding: "48px 80px 24px" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: 32, marginBottom: 36 }}>

@@ -1486,8 +1486,12 @@ export default function Impact30() {
   }
 
 return (
+    // layout.tsx (this route segment's shared layout) already renders a fixed
+    // Navbar above {children} — this page rendered a second, near-identical
+    // fixed Navbar on top of it, producing the doubled logo / garbled
+    // overlapping nav links reported at every breakpoint. The page-local
+    // Navbar is redundant; layout.tsx's is the single source of truth.
     <main style={{ background: C.bg, fontFamily: FONT, overflowX: "hidden" }}>
-      <Navbar />
       <Hero />
       <Services />
       <Stats />

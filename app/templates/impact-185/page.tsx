@@ -1,10 +1,10 @@
 "use client";
 // @ts-nocheck
-import { motion, useScroll, useTransform, useInView } from "framer-motion"
-import { useRef, useState, useEffect } from "react"
+import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion"
+import { useRef, useState, useEffect, useCallback } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { Scissors, Star, Phone, MapPin, Clock, ChevronRight, Shield, Calendar, Menu } from "lucide-react"
+import { Scissors, Star, Phone, MapPin, Clock, ChevronRight, Shield, Calendar, Menu, X } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -33,6 +33,154 @@ const SERVICES = [
   { title: "Color & gris", price: "45€", desc: "Coloration naturelle ou couvrance des cheveux blancs. Teinte personnalisée, respect de la matière." },
   { title: "Soin cuir chevelu", price: "30€", desc: "Gommage + masque nourrissant. Idéal cuirs chevelu secs, desquamation ou chute de cheveux. En add-on ou seul." },
 ]
+
+const TIME_SLOTS = ["9h00", "10h00", "11h00", "14h00", "15h00", "16h00", "17h00", "18h00"]
+
+function BookingModal({
+  open,
+  onClose,
+  services,
+  initialService,
+}: {
+  open: boolean
+  onClose: () => void
+  services: { title: string; price: string }[]
+  initialService: string | null
+}) {
+  const [service, setService] = useState("")
+  const [date, setDate] = useState("")
+  const [time, setTime] = useState("")
+  const [name, setName] = useState("")
+  const [email, setEmail] = useState("")
+  const [phone, setPhone] = useState("")
+  const [loading, setLoading] = useState(false)
+  const [sent, setSent] = useState(false)
+
+  useEffect(() => {
+    if (open) {
+      setService(initialService ?? "")
+      setDate(""); setTime(""); setName(""); setEmail(""); setPhone("")
+      setLoading(false); setSent(false)
+    }
+  }, [open, initialService])
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!service || !date || !time || !name || !phone) return
+    setLoading(true)
+    setTimeout(() => {
+      setLoading(false)
+      setSent(true)
+    }, 1400)
+  }
+
+  const inputCls = "w-full bg-[#1e1c1a] border border-[var(--brand,#c9a84c)]/15 px-4 py-3 text-sm text-[#f5f0e8] outline-none focus:border-[var(--brand,#c9a84c)] focus:ring-2 focus:ring-[var(--brand,#c9a84c)]/25 transition-colors"
+  const labelCls = "block text-[9px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#c9a84c)]/60 mb-2"
+
+  return (
+    <AnimatePresence>
+      {open && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 z-[100] flex items-center justify-center p-4"
+          style={{ background: "rgba(10,9,8,0.82)" }}
+          onClick={onClose}
+        >
+          <motion.div
+            initial={{ opacity: 0, y: 24, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 16, scale: 0.98 }}
+            transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+            onClick={(e) => e.stopPropagation()}
+            className="relative w-full max-w-md bg-[#0f0e0c] border border-[var(--brand,#c9a84c)]/15 max-h-[90vh] overflow-y-auto"
+            style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+          >
+            <button
+              onClick={onClose}
+              aria-label="Fermer"
+              className="absolute top-4 right-4 w-11 h-11 flex items-center justify-center text-[#f5f0e8]/50 hover:text-[var(--brand,#c9a84c)] cursor-pointer"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            <div className="p-8 md:p-10">
+              {sent ? (
+                <div className="text-center py-10">
+                  <div className="w-14 h-14 rounded-full border border-[var(--brand,#c9a84c)] flex items-center justify-center mx-auto mb-6 text-[var(--brand,#c9a84c)] text-xl">✓</div>
+                  <h3 className="text-2xl font-bold text-[#f5f0e8] mb-3">Rendez-vous demandé</h3>
+                  <p className="text-sm text-[#f5f0e8]/40 leading-relaxed" style={{ fontFamily: "'DM Mono', monospace" }}>
+                    Merci {name}. {service} confirmé le {date} à {time}. Un SMS de confirmation va suivre.
+                  </p>
+                </div>
+              ) : (
+                <>
+                  <div className="text-[9px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#c9a84c)]/60 mb-3" style={{ fontFamily: "'DM Mono', monospace" }}>Réservation</div>
+                  <h3 className="text-2xl font-bold text-[#f5f0e8] mb-6">Prendre rendez-vous</h3>
+
+                  <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+                    <div>
+                      <label htmlFor="bk-service" className={labelCls}>Prestation *</label>
+                      <select id="bk-service" required value={service} onChange={(e) => setService(e.target.value)} className={inputCls + " cursor-pointer"}>
+                        <option value="">Choisir une prestation</option>
+                        {services.map((s) => (
+                          <option key={s.title} value={s.title}>{s.title} — {s.price}</option>
+                        ))}
+                      </select>
+                    </div>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <label htmlFor="bk-date" className={labelCls}>Date *</label>
+                        <input id="bk-date" type="date" required value={date} onChange={(e) => setDate(e.target.value)} className={inputCls} />
+                      </div>
+                      <div>
+                        <label htmlFor="bk-time" className={labelCls}>Heure *</label>
+                        <select id="bk-time" required value={time} onChange={(e) => setTime(e.target.value)} className={inputCls + " cursor-pointer"}>
+                          <option value="">—</option>
+                          {TIME_SLOTS.map((t) => <option key={t} value={t}>{t}</option>)}
+                        </select>
+                      </div>
+                    </div>
+                    <div>
+                      <label htmlFor="bk-name" className={labelCls}>Nom *</label>
+                      <input id="bk-name" type="text" required value={name} onChange={(e) => setName(e.target.value)} className={inputCls} placeholder="Julien Fabre" />
+                    </div>
+                    <div>
+                      <label htmlFor="bk-phone" className={labelCls}>Téléphone *</label>
+                      <input id="bk-phone" type="tel" required value={phone} onChange={(e) => setPhone(e.target.value)} className={inputCls} placeholder="06 XX XX XX XX" />
+                    </div>
+                    <div>
+                      <label htmlFor="bk-email" className={labelCls}>Email</label>
+                      <input id="bk-email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} className={inputCls} placeholder="julien@email.fr" />
+                    </div>
+                    <button
+                      type="submit"
+                      disabled={loading}
+                      className="mt-2 min-h-[44px] px-8 py-3.5 bg-[var(--brand,#c9a84c)] text-[#0a0908] font-bold text-[10px] uppercase tracking-[0.3em] hover:bg-[#b8973d] transition-colors disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer flex items-center justify-center gap-2"
+                      style={{ fontFamily: "'DM Mono', monospace" }}
+                    >
+                      {loading ? (
+                        <>
+                          <motion.span
+                            animate={{ rotate: 360 }}
+                            transition={{ duration: 0.9, repeat: Infinity, ease: "linear" }}
+                            className="w-3.5 h-3.5 border border-[#0a0908]/40 border-t-[#0a0908] rounded-full inline-block"
+                          />
+                          Envoi en cours…
+                        </>
+                      ) : "Confirmer le rendez-vous"}
+                    </button>
+                  </form>
+                </>
+              )}
+            </div>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  )
+}
 
 const TEMOIGNAGES = [
   { q: "Meilleur barbier de Bordeaux, sans discussion. Rasage au rasoir droit parfait, ambiance vintage au top, et le gars sait vraiment écouter ce qu'on veut.", n: "Julien F.", l: "Bordeaux Centre" },
@@ -92,6 +240,13 @@ export default function GentlemansCutPage() {
     window.addEventListener("scroll", h)
     return () => window.removeEventListener("scroll", h)
   }, []);
+
+  const [bookingOpen, setBookingOpen] = useState(false)
+  const [bookingService, setBookingService] = useState<string | null>(null)
+  const openBooking = useCallback((service: string | null) => {
+    setBookingService(service)
+    setBookingOpen(true)
+  }, [])
 
   // Dynamic Services & Testimonials Mutation for Session Data
   useEffect(() => {
@@ -167,7 +322,7 @@ export default function GentlemansCutPage() {
             <a href={`tel:${fd?.phone ?? "0556789012"}`} className="hidden md:flex items-center gap-2 text-[var(--brand,#c9a84c)] font-bold text-sm" style={{ fontFamily: "'DM Mono', monospace" }}>
               <Phone className="w-4 h-4" /> {fd?.phone ?? "05 56 78 90 12"}
             </a>
-            <button className="hidden md:block px-5 py-2.5 border border-[var(--brand,#c9a84c)] text-[var(--brand,#c9a84c)] text-[10px] font-bold uppercase tracking-[0.25em] hover:bg-[var(--brand,#c9a84c)] hover:text-[#0a0908] transition-all" style={{ fontFamily: "'DM Mono', monospace" }}>
+            <button onClick={() => openBooking(null)} className="hidden md:block min-h-[44px] px-5 py-2.5 border border-[var(--brand,#c9a84c)] text-[var(--brand,#c9a84c)] text-[10px] font-bold uppercase tracking-[0.25em] hover:bg-[var(--brand,#c9a84c)] hover:text-[#0a0908] transition-all cursor-pointer" style={{ fontFamily: "'DM Mono', monospace" }}>
               Réserver
             </button>
             <Sheet>
@@ -217,7 +372,7 @@ export default function GentlemansCutPage() {
           </>}</motion.p>
 
           <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 1.0 }} className="flex flex-wrap gap-4">
-            <button className="px-9 py-4 bg-[var(--brand,#c9a84c)] text-[#0a0908] font-bold text-[10px] uppercase tracking-[0.3em]  hover:bg-[#b8973d] transition-colors" style={{ fontFamily: "'DM Mono', monospace" }}>{c?.ctaText ?? <>
+            <button onClick={() => openBooking(null)} className="min-h-[44px] px-9 py-4 bg-[var(--brand,#c9a84c)] text-[#0a0908] font-bold text-[10px] uppercase tracking-[0.3em]  hover:bg-[#b8973d] transition-colors cursor-pointer" style={{ fontFamily: "'DM Mono', monospace" }}>{c?.ctaText ?? <>
               Prendre rendez-vous
             </>}</button>
             <a href={`tel:${fd?.phone ?? "0556789012"}`} className="flex items-center gap-3 px-9 py-4 border border-[#f5f0e8]/12 text-[#f5f0e8]/50 font-bold text-[10px] uppercase tracking-widest hover:border-[var(--brand,#c9a84c)]/40 hover:text-[var(--brand,#c9a84c)] transition-all" style={{ fontFamily: "'DM Mono', monospace" }}>
@@ -253,7 +408,13 @@ export default function GentlemansCutPage() {
           <div className="divide-y divide-[var(--brand,#c9a84c)]/8">
             {SERVICES.map((s, i) => (
               <Reveal key={i} delay={i * 0.06}>
-                <div className="group py-8 flex flex-col md:flex-row md:items-center gap-4 md:gap-12 hover:bg-[#1e1c1a]/30 -mx-4 px-4 transition-colors cursor-default">
+                <div
+                  role="button"
+                  tabIndex={0}
+                  onClick={() => openBooking(s.title)}
+                  onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openBooking(s.title) } }}
+                  className="group py-8 flex flex-col md:flex-row md:items-center gap-4 md:gap-12 hover:bg-[#1e1c1a]/30 -mx-4 px-4 transition-colors cursor-pointer"
+                >
                   <div className="text-[11px] font-bold text-[var(--brand,#c9a84c)]/30 w-8 shrink-0" style={{ fontFamily: "'DM Mono', monospace" }}>{String(i + 1).padStart(2, "0")}</div>
                   <div className="flex-1">
                     <div className="flex items-center justify-between mb-2">
@@ -345,16 +506,18 @@ export default function GentlemansCutPage() {
               Disponible du mardi au samedi · Bordeaux Centre · Sur rendez-vous
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
-              <button className="px-10 py-4 bg-[var(--brand,#c9a84c)] text-[#0a0908] font-bold text-[10px] uppercase tracking-[0.3em] hover:bg-[#b8973d] transition-colors" style={{ fontFamily: "'DM Mono', monospace" }}>
+              <button onClick={() => openBooking(null)} className="min-h-[44px] px-10 py-4 bg-[var(--brand,#c9a84c)] text-[#0a0908] font-bold text-[10px] uppercase tracking-[0.3em] hover:bg-[#b8973d] transition-colors cursor-pointer" style={{ fontFamily: "'DM Mono', monospace" }}>
                 Réserver maintenant
               </button>
-              <a href={`tel:${fd?.phone ?? "0556789012"}`} className="flex items-center gap-3 px-10 py-4 border border-[#f5f0e8]/10 text-[#f5f0e8]/35 font-bold text-[10px] uppercase tracking-widest hover:border-[var(--brand,#c9a84c)]/40 hover:text-[var(--brand,#c9a84c)] transition-all" style={{ fontFamily: "'DM Mono', monospace" }}>
+              <a href={`tel:${fd?.phone ?? "0556789012"}`} className="min-h-[44px] flex items-center gap-3 px-10 py-4 border border-[#f5f0e8]/10 text-[#f5f0e8]/35 font-bold text-[10px] uppercase tracking-widest hover:border-[var(--brand,#c9a84c)]/40 hover:text-[var(--brand,#c9a84c)] transition-all cursor-pointer" style={{ fontFamily: "'DM Mono', monospace" }}>
                 <Phone className="w-4 h-4" /> Appeler
               </a>
             </div>
           </div>
         </Reveal>
       </section>
+
+      <BookingModal open={bookingOpen} onClose={() => setBookingOpen(false)} services={SERVICES} initialService={bookingService} />
 
       {/* ── FOOTER ── */}
       <footer className="bg-[#050403] pt-16 pb-8 px-6 border-t border-[var(--brand,#c9a84c)]/8">

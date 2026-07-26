@@ -213,16 +213,21 @@ export default function ConservatoireAccordPage() {
             <Guitar size={14} /> S'inscrire
           </motion.a>
       </div>
-        <button
-          className="mb73-burger"
-          onClick={() => setMobileOpen(!mobileOpen)}
-          aria-label="Menu"
-          style={{ display: "none", flexDirection: "column", gap: 5, background: "none", border: "none", cursor: "pointer", padding: 4 }}
-        >
-          <span style={{ display: "block", width: 24, height: 1.5, background: "currentColor", transition: "all 0.3s", transform: mobileOpen ? "rotate(45deg) translate(4.5px, 4.5px)" : "none" }} />
-          <span style={{ display: "block", width: 24, height: 1.5, background: "currentColor", transition: "all 0.3s", opacity: mobileOpen ? 0 : 1 }} />
-          <span style={{ display: "block", width: 24, height: 1.5, background: "currentColor", transition: "all 0.3s", transform: mobileOpen ? "rotate(-45deg) translate(4.5px, -4.5px)" : "none" }} />
-        </button>
+        <div className="mb73-mobile-actions" style={{ display: "none", alignItems: "center", gap: 12 }}>
+          <motion.a href="#contact" style={{ background: C.amber, color: C.white, borderRadius: 8, padding: "8px 16px", fontSize: 13, fontWeight: 600, textDecoration: "none", display: "flex", alignItems: "center", gap: 6 }} whileHover={{ background: "var(--brand,#d06a2e)" }}>
+            <Guitar size={13} /> S'inscrire
+          </motion.a>
+          <button
+            className="mb73-burger"
+            onClick={() => setMobileOpen(!mobileOpen)}
+            aria-label="Menu"
+            style={{ display: "none", flexDirection: "column", gap: 5, background: "none", border: "none", cursor: "pointer", padding: 4 }}
+          >
+            <span style={{ display: "block", width: 24, height: 1.5, background: "currentColor", transition: "all 0.3s", transform: mobileOpen ? "rotate(45deg) translate(4.5px, 4.5px)" : "none" }} />
+            <span style={{ display: "block", width: 24, height: 1.5, background: "currentColor", transition: "all 0.3s", opacity: mobileOpen ? 0 : 1 }} />
+            <span style={{ display: "block", width: 24, height: 1.5, background: "currentColor", transition: "all 0.3s", transform: mobileOpen ? "rotate(-45deg) translate(4.5px, -4.5px)" : "none" }} />
+          </button>
+        </div>
       </motion.nav>
       {mobileOpen && (
         <div style={{ position: "fixed", top: 72, left: 0, right: 0, zIndex: 99, background: "rgba(255,255,255,0.98)", borderBottom: "1px solid #e5e5e5", padding: "24px 32px", display: "flex", flexDirection: "column", gap: 20, backdropFilter: "blur(12px)" }}>
@@ -234,7 +239,7 @@ export default function ConservatoireAccordPage() {
           </motion.a>
         </div>
       )}
-      <style>{`@media (max-width: 900px) { #mb73-nav { display: none !important; } .mb73-burger { display: flex !important; } }`}</style>
+      <style>{`@media (max-width: 900px) { #mb73-nav { display: none !important; } .mb73-mobile-actions { display: flex !important; } .mb73-burger { display: flex !important; } }`}</style>
 
       {/* Hero */}
       <section ref={heroRef} style={{ height: "115vh", minHeight: "900px", position: "relative", display: "flex", alignItems: "flex-end", overflow: "hidden" }}>

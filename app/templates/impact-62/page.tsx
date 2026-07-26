@@ -133,7 +133,7 @@ return (
       {/* ── HERO ──────────────────── */}
       <section
         ref={heroRef}
-        className="relative w-full h-[85svh] flex flex-col justify-end overflow-hidden pb-32"
+        className="relative w-full min-h-[85svh] flex flex-col justify-end overflow-hidden pb-32 pt-28 md:pt-32"
       >
         <motion.div
           style={{ y: heroY, opacity: heroOpacity }}

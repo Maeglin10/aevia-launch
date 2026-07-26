@@ -165,42 +165,48 @@ function Button({
   onClick,
   filled = false,
   type = 'button',
+  disabled = false,
 }: {
   children: React.ReactNode;
   onClick?: () => void;
   filled?: boolean;
   type?: 'button' | 'submit';
+  disabled?: boolean;
 }) {
   const [hover, setHover] = useState(false);
   return (
     <button
       type={type}
       onClick={onClick}
+      disabled={disabled}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
       style={{
         display: 'inline-flex',
         alignItems: 'center',
+        justifyContent: 'center',
         gap: 10,
         padding: '14px 28px',
+        minHeight: 44,
         fontFamily: SANS,
         fontSize: 11.5,
         letterSpacing: '0.2em',
         textTransform: 'uppercase',
         fontWeight: 700,
-        cursor: 'pointer',
+        cursor: disabled ? 'not-allowed' : 'pointer',
+        opacity: disabled ? 0.55 : 1,
         border: `1.5px solid ${C.primary}`,
         background: filled ? C.primary : 'transparent',
         color: filled ? C.white : C.primary,
         borderRadius: 30,
-        transform: hover ? 'translateY(-2px)' : 'none',
-        boxShadow: hover && filled ? `0 6px 20px ${C.primary}33` : 'none',
+        transform: hover && !disabled ? 'translateY(-2px)' : 'none',
+        boxShadow: hover && filled && !disabled ? `0 6px 20px ${C.primary}33` : 'none',
         transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
       }}
     >
       {children}
       <ArrowRight size={13} style={{
-        transform: hover ? 'translateX(4px)' : 'none',
+        transform: hover && !disabled ? 'translateX(4px)' : 'none',
         transition: 'transform 0.4s ease',
       }} />
     </button>
@@ -294,7 +300,8 @@ export default function Page() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [expandedFaq, setExpandedFaq] = useState<number | null>(null);
   const [formSubmitted, setFormSubmitted] = useState(false);
-  const [formData, setFormData] = useState({ name: '', email: '', phone: '', message: '' });
+  const [formLoading, setFormLoading] = useState(false);
+  const [formData, setFormData] = useState({ name: '', email: '', phone: '', message: '', serviceType: '', frequency: '', preferredDate: '' });
 
   const heroRef = useRef<HTMLElement>(null);
   const { scrollYProgress: heroProgress } = useScroll({
@@ -307,8 +314,12 @@ export default function Page() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (formData.name && formData.email) {
-      setFormSubmitted(true);
+    if (formData.name && formData.email && formData.serviceType && formData.frequency) {
+      setFormLoading(true);
+      setTimeout(() => {
+        setFormLoading(false);
+        setFormSubmitted(true);
+      }, 1800);
     }
   };
 
@@ -1204,11 +1215,66 @@ export default function Page() {
                       <div style={{ color: C.primary, marginBottom: 16 }}><CheckCircle size={48} style={{ margin: '0 auto' }} /></div>
                       <h3 style={{ fontFamily: SERIF, fontSize: 22, color: C.primary, marginBottom: 8, fontWeight: 700 }}>Demande envoyée !</h3>
                       <p style={{ fontSize: 14, color: C.textMuted, lineHeight: 1.6 }}>
-                        Merci {formData.name}, nous vous recontacterons très rapidement avec un créneau.
+                        Merci {formData.name}, votre demande de {formData.serviceType} ({formData.frequency}) a bien été reçue. Nous vous recontacterons très rapidement avec un créneau.
                       </p>
                     </motion.div>
                   ) : (
                     <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+                      <div>
+                        <label htmlFor="cl315-servicetype" style={{ display: 'block', fontSize: 11, letterSpacing: '0.05em', textTransform: 'uppercase', color: C.textMuted, marginBottom: 8, fontWeight: 600 }}>Type de prestation</label>
+                        <select
+                          id="cl315-servicetype"
+                          required
+                          value={formData.serviceType}
+                          onChange={(e) => setFormData({ ...formData, serviceType: e.target.value })}
+                          style={{
+                            width: '100%', minHeight: 44, boxSizing: 'border-box', padding: '12px 16px', background: C.bg,
+                            border: `1px solid ${C.primary}1a`, borderRadius: 10,
+                            color: C.text, fontFamily: SANS, fontSize: 14, outline: 'none', cursor: 'pointer',
+                          }}
+                        >
+                          <option value="">— Choisir —</option>
+                          <option value="Ménage standard">Ménage standard</option>
+                          <option value="Grand nettoyage">Grand nettoyage</option>
+                          <option value="Nettoyage fin de bail">Nettoyage fin de bail</option>
+                          <option value="Repassage">Repassage</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label htmlFor="cl315-frequency" style={{ display: 'block', fontSize: 11, letterSpacing: '0.05em', textTransform: 'uppercase', color: C.textMuted, marginBottom: 8, fontWeight: 600 }}>Fréquence souhaitée</label>
+                        <select
+                          id="cl315-frequency"
+                          required
+                          value={formData.frequency}
+                          onChange={(e) => setFormData({ ...formData, frequency: e.target.value })}
+                          style={{
+                            width: '100%', minHeight: 44, boxSizing: 'border-box', padding: '12px 16px', background: C.bg,
+                            border: `1px solid ${C.primary}1a`, borderRadius: 10,
+                            color: C.text, fontFamily: SANS, fontSize: 14, outline: 'none', cursor: 'pointer',
+                          }}
+                        >
+                          <option value="">— Choisir —</option>
+                          <option value="Ponctuel">Ponctuel (une fois)</option>
+                          <option value="Hebdomadaire">Hebdomadaire</option>
+                          <option value="Bi-mensuel">Bi-mensuel</option>
+                          <option value="Mensuel">Mensuel</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label htmlFor="cl315-date" style={{ display: 'block', fontSize: 11, letterSpacing: '0.05em', textTransform: 'uppercase', color: C.textMuted, marginBottom: 8, fontWeight: 600 }}>Date souhaitée (facultatif)</label>
+                        <input
+                          id="cl315-date"
+                          type="date"
+                          min={new Date().toISOString().split('T')[0]}
+                          value={formData.preferredDate}
+                          onChange={(e) => setFormData({ ...formData, preferredDate: e.target.value })}
+                          style={{
+                            width: '100%', minHeight: 44, boxSizing: 'border-box', padding: '12px 16px', background: C.bg,
+                            border: `1px solid ${C.primary}1a`, borderRadius: 10,
+                            color: C.text, fontFamily: SANS, fontSize: 14, outline: 'none', cursor: 'pointer',
+                          }}
+                        />
+                      </div>
                       <div>
                         <label style={{ display: 'block', fontSize: 11, letterSpacing: '0.05em', textTransform: 'uppercase', color: C.textMuted, marginBottom: 8, fontWeight: 600 }}>Nom Complet</label>
                         <input
@@ -1264,7 +1330,7 @@ export default function Page() {
                           }}
                         />
                       </div>
-                      <Button type="submit" filled>Envoyer ma demande</Button>
+                      <Button type="submit" filled disabled={formLoading}>{formLoading ? 'Envoi en cours…' : 'Envoyer ma demande'}</Button>
                     </form>
                   )}
                 </div>

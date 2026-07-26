@@ -825,7 +825,7 @@ function HeroSection({
         justifyContent: "center",
         alignItems: "center",
         overflow: "hidden",
-        padding: "120px 48px 80px",
+        padding: "120px clamp(20px, 6vw, 48px) 80px",
       }}
     >
       {/* Iridescent gradient bloom */}
@@ -893,7 +893,7 @@ function HeroSection({
           transition={{ duration: 1.2, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
           className="syne"
           style={{
-            fontSize: "clamp(56px,10vw,136px)",
+            fontSize: "clamp(34px,10vw,136px)",
             lineHeight: 0.88,
             letterSpacing: "-0.04em",
             color: "#f0eeff",

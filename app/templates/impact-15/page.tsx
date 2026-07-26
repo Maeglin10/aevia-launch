@@ -216,7 +216,12 @@ return (
       <style>{`@media (max-width: 900px) { #mb15-nav { display: none !important; } .mb15-burger { display: flex !important; } }`}</style>
 
       {/* Hero */}
-      <section id="hero" ref={heroRef} style={{ height: "115vh", minHeight: "900px", position: "relative", display: "flex", alignItems: "flex-end", overflow: "hidden" }}>
+      {/* height was 115vh + minHeight 900px with content pinned to the bottom
+          (alignItems: flex-end) — the section's own bottom edge sat 15vh below
+          the viewport fold, so the CTA buttons near that edge were never on
+          screen on load at any breakpoint. 100dvh keeps flex-end content
+          aligned with the actual visible viewport bottom. */}
+      <section id="hero" ref={heroRef} style={{ height: "100dvh", minHeight: "560px", position: "relative", display: "flex", alignItems: "flex-end", overflow: "hidden" }}>
         <motion.div style={{ y: heroY, position: "absolute", inset: 0 }}>
           <img src={photo(0, "https://images.unsplash.com/photo-1572331165267-854da2b10ccc?w=1920&q=80")} alt="Piscine sur-mesure" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
         </motion.div>

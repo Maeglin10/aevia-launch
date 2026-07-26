@@ -5,7 +5,7 @@ import { motion, useScroll, useTransform, AnimatePresence, useInView } from "fra
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Menu, X, ArrowRight, ChevronRight, ShoppingBag } from "lucide-react";
+import { Menu, X, ArrowRight, ChevronRight, ShoppingBag, Check } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
 
 const Instagram = ({ className = "w-4 h-4" }: { className?: string }) => (
@@ -54,6 +54,22 @@ const looks = [
   { name: "Robe Colonne", price: "1 800€", src: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=400&q=80" },
   { name: "Tailleur Structuré", price: "3 200€", src: "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=400&q=80" },
 ];
+
+/* Garment sizes offered on every piece — a size must be chosen before it can
+   be added to the cart. */
+const SIZES = ["XS", "S", "M", "L", "XL"];
+
+type CartItem = { id: string; name: string; price: number; qty: number; size: string };
+
+/* Prices in this template are pre-formatted French strings ("2 400€"); strip
+   everything but digits to get a number to sum in the cart. */
+function parsePriceEUR(price: string): number {
+  const digits = String(price).replace(/[^0-9]/g, "");
+  return digits ? parseInt(digits, 10) : 0;
+}
+function formatPriceEUR(n: number): string {
+  return `${n.toLocaleString("fr-FR")} €`;
+}
 
 
 // Global state variables for subpage compatibility
@@ -119,7 +135,21 @@ export default function NoirCouturePage() {
   useFonts();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeCollection, setActiveCollection] = useState(0);
-  const [cartCount, setCartCount] = useState(0);
+  const [cart, setCart] = useState<CartItem[]>([]);
+  const [cartOpen, setCartOpen] = useState(false);
+  const cartCount = cart.reduce((sum, it) => sum + it.qty, 0);
+
+  const handleAddToCart = (item: { name: string; price: string }, size: string) => {
+    setCart((prev) => {
+      const idx = prev.findIndex((it) => it.id === item.name && it.size === size);
+      if (idx >= 0) {
+        const next = [...prev];
+        next[idx] = { ...next[idx], qty: next[idx].qty + 1 };
+        return next;
+      }
+      return [...prev, { id: item.name, name: item.name, price: parsePriceEUR(item.price), qty: 1, size }];
+    });
+  };
 
   type ActivePage = "home" | "collections" | "editorial" | "boutique" | "atelier" | "contact" | "legal";
   const [page, setPage] = useState<ActivePage>("home");
@@ -177,7 +207,12 @@ export default function NoirCouturePage() {
             ))}
           </div>
           <div className="hidden md:flex items-center gap-4">
-            <button onClick={() => goTo("boutique")} className="cursor-pointer hover:opacity-60 transition-opacity relative">
+            <button
+              onClick={() => setCartOpen(true)}
+              aria-label={cartCount > 0 ? `Ouvrir le panier, ${cartCount} article${cartCount > 1 ? "s" : ""}` : "Ouvrir le panier"}
+              className="cursor-pointer hover:opacity-60 transition-opacity relative flex items-center justify-center"
+              style={{ minWidth: 44, minHeight: 44 }}
+            >
               <ShoppingBag className="w-5 h-5 text-black" />
               {cartCount > 0 && (
                 <span className="absolute -top-1.5 -right-1.5 bg-black text-white text-[9px] w-4 h-4 rounded-full flex items-center justify-center font-bold">
@@ -186,7 +221,22 @@ export default function NoirCouturePage() {
               )}
             </button>
           </div>
-          <button className="md:hidden text-black cursor-pointer" onClick={() => setMobileOpen(true)}><Menu className="w-5 h-5" /></button>
+          <div className="md:hidden flex items-center gap-1">
+            <button
+              onClick={() => setCartOpen(true)}
+              aria-label={cartCount > 0 ? `Ouvrir le panier, ${cartCount} article${cartCount > 1 ? "s" : ""}` : "Ouvrir le panier"}
+              className="text-black cursor-pointer relative flex items-center justify-center"
+              style={{ minWidth: 44, minHeight: 44 }}
+            >
+              <ShoppingBag className="w-5 h-5" />
+              {cartCount > 0 && (
+                <span className="absolute -top-1.5 -right-1.5 bg-black text-white text-[9px] w-4 h-4 rounded-full flex items-center justify-center font-bold">
+                  {cartCount}
+                </span>
+              )}
+            </button>
+            <button className="text-black cursor-pointer flex items-center justify-center" style={{ minWidth: 44, minHeight: 44 }} onClick={() => setMobileOpen(true)}><Menu className="w-5 h-5" /></button>
+          </div>
         </div>
       </nav>
 
@@ -383,10 +433,13 @@ export default function NoirCouturePage() {
         <CollectionsSubPage goTo={goTo} activeCol={activeCollection} setActiveCol={setActiveCollection} />
       )}
       {page === "editorial" && <EditorialSubPage />}
-      {page === "boutique" && <BoutiqueSubPage cartCount={cartCount} setCartCount={setCartCount} />}
+      {page === "boutique" && <BoutiqueSubPage onAddToCart={handleAddToCart} />}
       {page === "atelier" && <AtelierSubPage goTo={goTo} />}
       {page === "contact" && <ContactSubPage />}
       {page === "legal" && <LegalSubPage />}
+
+      {/* Cart drawer — line items + total → contact form → confirmation */}
+      <CartDrawer isOpen={cartOpen} onClose={() => setCartOpen(false)} cart={cart} setCart={setCart} />
 
       {/* Footer */}
       <footer className="bg-black py-16 px-6 border-t border-white/5">
@@ -595,7 +648,298 @@ function EditorialSubPage() {
   );
 }
 
-function BoutiqueSubPage({ cartCount, setCartCount }: { cartCount: number; setCartCount: React.Dispatch<React.SetStateAction<number>> }) {
+/* Product card with a required size selector — replaces the old hover-only
+   "Ajouter au panier" overlay, which had no size and didn't work on touch. */
+function ShopProductCard({
+  item,
+  index,
+  onAdd,
+}: {
+  item: any;
+  index: number;
+  onAdd: (item: any, size: string) => void;
+}) {
+  const [size, setSize] = useState<string | null>(null);
+
+  return (
+    <Reveal delay={index * 0.08}>
+      <div className="group">
+        <div className="relative overflow-hidden mb-4" style={{ aspectRatio: "3/4" }}>
+          <img
+            src={item.src}
+            alt={item.name}
+            className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-500 group-hover:scale-105"
+          />
+        </div>
+        <h3 className="text-white text-sm mb-1">{item.name}</h3>
+        <p className="text-white/40 text-xs mb-2 italic">{item.desc}</p>
+        <p className="text-white/80 text-sm font-medium mb-3">{item.price}</p>
+
+        <div role="group" aria-label={`Choisir une taille pour ${item.name}`} className="flex gap-2 mb-3">
+          {SIZES.map((s) => (
+            <button
+              key={s}
+              type="button"
+              aria-pressed={size === s}
+              onClick={() => setSize(s)}
+              className={`flex-1 text-[10px] tracking-widest uppercase border cursor-pointer transition-all ${
+                size === s ? "bg-white text-black border-white" : "border-white/20 text-white/50 hover:border-white/60"
+              }`}
+              style={{ minHeight: 40 }}
+            >
+              {s}
+            </button>
+          ))}
+        </div>
+
+        <button
+          onClick={() => size && onAdd(item, size)}
+          disabled={!size}
+          className={`w-full text-xs tracking-widest uppercase py-3 transition-opacity cursor-pointer flex items-center justify-center gap-2 border-0 ${
+            size ? "bg-white text-black hover:bg-white/90" : "bg-white/10 text-white/30 cursor-not-allowed"
+          }`}
+          style={{ minHeight: 44 }}
+        >
+          {size ? "Ajouter au panier" : "Choisir une taille"}
+        </button>
+      </div>
+    </Reveal>
+  );
+}
+
+/* Checkout input — real label/htmlFor + Tailwind's native focus state. */
+function CheckoutField({
+  id,
+  label,
+  type = "text",
+  value,
+  onChange,
+  required = true,
+  autoComplete,
+}: {
+  id: string;
+  label: string;
+  type?: string;
+  value: string;
+  onChange: (v: string) => void;
+  required?: boolean;
+  autoComplete?: string;
+}) {
+  return (
+    <div className="mb-5">
+      <label htmlFor={id} className="block text-[10px] text-black/40 uppercase tracking-widest mb-2">
+        {label}{required ? " *" : ""}
+      </label>
+      <input
+        id={id}
+        name={id}
+        type={type}
+        required={required}
+        autoComplete={autoComplete}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        className="w-full bg-black/[0.03] border border-black/10 text-black p-3 text-xs outline-none focus:border-black transition-all"
+        style={{ minHeight: 44 }}
+      />
+    </div>
+  );
+}
+
+/* Cart drawer — bag → checkout contact form → confirmation. Mounted at the
+   page root so it can be opened from any sub-page via the nav cart icon. */
+function CartDrawer({
+  isOpen,
+  onClose,
+  cart,
+  setCart,
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+  cart: CartItem[];
+  setCart: React.Dispatch<React.SetStateAction<CartItem[]>>;
+}) {
+  type Step = "cart" | "contact" | "confirmed";
+  const [step, setStep] = useState<Step>("cart");
+  const [orderLoading, setOrderLoading] = useState(false);
+  const [orderSummary, setOrderSummary] = useState<{ items: CartItem[]; total: number } | null>(null);
+  const [contact, setContact] = useState({ name: "", email: "", address: "" });
+
+  const total = cart.reduce((sum, it) => sum + it.price * it.qty, 0);
+  const itemCount = cart.reduce((sum, it) => sum + it.qty, 0);
+
+  const removeItem = (id: string, size: string) => {
+    setCart((prev) => prev.filter((it) => !(it.id === id && it.size === size)));
+  };
+
+  const handleClose = () => {
+    onClose();
+    // Reset to the bag view after the close animation finishes so re-opening
+    // never resumes mid-checkout on a stale step.
+    setTimeout(() => setStep("cart"), 300);
+  };
+
+  const handlePlaceOrder = (e: React.FormEvent) => {
+    e.preventDefault();
+    setOrderLoading(true);
+    setTimeout(() => {
+      setOrderLoading(false);
+      setOrderSummary({ items: cart, total });
+      setCart([]);
+      setStep("confirmed");
+    }, 2200);
+  };
+
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={handleClose}
+            className="fixed inset-0 bg-black/40 z-[200]"
+          />
+          <motion.div
+            role="dialog"
+            aria-modal="true"
+            aria-label="Panier"
+            initial={{ x: "100%" }}
+            animate={{ x: 0 }}
+            exit={{ x: "100%" }}
+            transition={{ type: "spring", stiffness: 300, damping: 30 }}
+            className="fixed top-0 right-0 bottom-0 w-full sm:w-[440px] bg-white z-[201] flex flex-col shadow-2xl"
+          >
+            {/* Header */}
+            <div className="flex items-center justify-between px-7 py-6 border-b border-black/10">
+              <h2 className="text-black text-xl" style={{ fontFamily: "'Playfair Display', serif" }}>
+                {step === "cart" && "Votre Panier"}
+                {step === "contact" && "Finaliser la commande"}
+                {step === "confirmed" && "Commande Confirmée"}
+              </h2>
+              <button
+                onClick={handleClose}
+                aria-label="Fermer le panier"
+                className="text-black cursor-pointer flex items-center justify-center"
+                style={{ minWidth: 44, minHeight: 44 }}
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Body */}
+            <div className="flex-1 overflow-y-auto px-7 py-6">
+              <AnimatePresence mode="wait">
+                {step === "cart" && (
+                  <motion.div key="cart-step" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.25 }}>
+                    {cart.length === 0 ? (
+                      <p className="text-black/40 text-sm text-center py-16">Votre panier est vide.</p>
+                    ) : (
+                      <div className="space-y-5">
+                        {cart.map((item) => (
+                          <div key={`${item.id}-${item.size}`} className="flex gap-4 items-center border-b border-black/5 pb-5">
+                            <div className="flex-1">
+                              <p className="text-black text-sm mb-1" style={{ fontFamily: "'Playfair Display', serif" }}>{item.name}</p>
+                              <p className="text-black/40 text-xs tracking-widest uppercase">Taille {item.size} · Qté {item.qty}</p>
+                            </div>
+                            <p className="text-black text-sm whitespace-nowrap">{formatPriceEUR(item.price * item.qty)}</p>
+                            <button
+                              onClick={() => removeItem(item.id, item.size)}
+                              aria-label={`Retirer ${item.name}, taille ${item.size}, du panier`}
+                              className="text-black/40 hover:text-black cursor-pointer flex items-center justify-center"
+                              style={{ minWidth: 44, minHeight: 44 }}
+                            >
+                              <X className="w-4 h-4" />
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </motion.div>
+                )}
+
+                {step === "contact" && (
+                  <motion.form
+                    key="contact-step"
+                    id="i12-checkout-form"
+                    onSubmit={handlePlaceOrder}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.25 }}
+                  >
+                    <CheckoutField id="i12-checkout-name" label="Nom complet" value={contact.name} onChange={(v) => setContact((c) => ({ ...c, name: v }))} autoComplete="name" />
+                    <CheckoutField id="i12-checkout-email" label="Email" type="email" value={contact.email} onChange={(v) => setContact((c) => ({ ...c, email: v }))} autoComplete="email" />
+                    <CheckoutField id="i12-checkout-address" label="Adresse de livraison" value={contact.address} onChange={(v) => setContact((c) => ({ ...c, address: v }))} autoComplete="street-address" />
+                  </motion.form>
+                )}
+
+                {step === "confirmed" && orderSummary && (
+                  <motion.div
+                    key="confirmed-step"
+                    initial={{ opacity: 0, y: 12 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.4 }}
+                    className="text-center py-10"
+                  >
+                    <div className="w-14 h-14 rounded-full bg-black flex items-center justify-center mx-auto mb-6">
+                      <Check className="w-6 h-6 text-white" />
+                    </div>
+                    <h3 className="text-2xl font-light mb-3" style={{ fontFamily: "'Playfair Display', serif" }}>
+                      Merci{contact.name ? `, ${contact.name.split(" ")[0]}` : ""}.
+                    </h3>
+                    <p className="text-black/55 text-sm leading-relaxed">
+                      Votre commande de {orderSummary.items.reduce((n, it) => n + it.qty, 0)} pièce
+                      {orderSummary.items.reduce((n, it) => n + it.qty, 0) > 1 ? "s" : ""} ({formatPriceEUR(orderSummary.total)}) a bien été reçue. Une confirmation a été envoyée à {contact.email}.
+                    </p>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+
+            {/* Footer */}
+            {step === "cart" && cart.length > 0 && (
+              <div className="px-7 py-6 border-t border-black/10">
+                <div className="flex justify-between mb-5 text-black text-base" style={{ fontFamily: "'Playfair Display', serif" }}>
+                  <span>Total ({itemCount} article{itemCount > 1 ? "s" : ""})</span>
+                  <span>{formatPriceEUR(total)}</span>
+                </div>
+                <button
+                  onClick={() => setStep("contact")}
+                  className="w-full bg-black text-white text-xs tracking-widest uppercase py-4 cursor-pointer border-0"
+                  style={{ minHeight: 44 }}
+                >
+                  Commander
+                </button>
+              </div>
+            )}
+
+            {step === "contact" && (
+              <div className="px-7 py-6 border-t border-black/10">
+                <div className="flex justify-between mb-5 text-black text-base" style={{ fontFamily: "'Playfair Display', serif" }}>
+                  <span>Total</span>
+                  <span>{formatPriceEUR(total)}</span>
+                </div>
+                <button
+                  type="submit"
+                  form="i12-checkout-form"
+                  disabled={orderLoading}
+                  className={`w-full text-xs tracking-widest uppercase py-4 border-0 text-white ${orderLoading ? "bg-black/50 cursor-not-allowed" : "bg-black cursor-pointer"}`}
+                  style={{ minHeight: 44 }}
+                >
+                  {orderLoading ? "Confirmation en cours…" : "Confirmer la commande"}
+                </button>
+              </div>
+            )}
+          </motion.div>
+        </>
+      )}
+    </AnimatePresence>
+  );
+}
+
+function BoutiqueSubPage({ onAddToCart }: { onAddToCart: (item: { name: string; price: string }, size: string) => void }) {
   const shopItems_DEMO = [
     { name: "Manteau Asymétrique", price: "2 400€", category: "Prêt-à-porter", src: photo(8, "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=600&q=80"), desc: "Coupe décontractée asymétrique en laine bouillie italienne. Entièrement doublé soie." },
     { name: "Robe Colonne", price: "1 800€", category: "Prêt-à-porter", src: photo(9, "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=600&q=80"), desc: "Robe longue en crêpe de soie noir mat. Dos nu architectural et fente latérale." },
@@ -619,9 +963,9 @@ function BoutiqueSubPage({ cartCount, setCartCount }: { cartCount: number; setCa
   const filteredItems = filter === "Tout" ? shopItems : shopItems.filter((item: any) => item.category === filter);
   const [addedItem, setAddedItem] = useState<string | null>(null);
 
-  const handleAddToCart = (name: string) => {
-    setCartCount(prev => prev + 1);
-    setAddedItem(name);
+  const handleAdd = (item: any, size: string) => {
+    onAddToCart(item, size);
+    setAddedItem(`${item.name} (Taille ${size})`);
     setTimeout(() => {
       setAddedItem(null);
     }, 2000);
@@ -662,26 +1006,7 @@ function BoutiqueSubPage({ cartCount, setCartCount }: { cartCount: number; setCa
 
         <div className="grid md:grid-cols-3 gap-8">
           {filteredItems.map((look: any, i: number) => (
-            <Reveal key={look.name} delay={i * 0.08}>
-              <div className="group cursor-pointer">
-                <div className="relative overflow-hidden mb-4" style={{ aspectRatio: "3/4" }}>
-                  <img
-                    src={look.src}
-                    alt={look.name}
-                    className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-500 group-hover:scale-105"
-                  />
-                  <button
-                    onClick={() => handleAddToCart(look.name)}
-                    className="absolute bottom-4 left-4 right-4 bg-white text-black text-xs tracking-widest uppercase py-3 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer flex items-center justify-center gap-2 border-0"
-                  >
-                    Ajouter au panier
-                  </button>
-                </div>
-                <h3 className="text-white text-sm mb-1">{look.name}</h3>
-                <p className="text-white/40 text-xs mb-2 italic">{look.desc}</p>
-                <p className="text-white/80 text-sm font-medium">{look.price}</p>
-              </div>
-            </Reveal>
+            <ShopProductCard key={look.name} item={look} index={i} onAdd={handleAdd} />
           ))}
         </div>
       </div>

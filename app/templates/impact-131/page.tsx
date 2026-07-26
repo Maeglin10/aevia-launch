@@ -140,6 +140,37 @@ const TERROIR_TABS = [
 ];
 
 /* ==========================================================================
+   TASTING / TOUR EXPERIENCES DATA
+   ========================================================================== */
+
+const EXPERIENCES_DEMO = [
+  {
+    id: "balade",
+    title: "Balade dans les Vignes",
+    duration: "2h",
+    price: "€35 / pers",
+    desc: "Guidés par notre vigneron, parcourez nos parcelles emblématiques, apprenez à lire le sol et découvrez les secrets de la biodynamie.",
+    icon: "🌿",
+  },
+  {
+    id: "degustation",
+    title: "Dégustation Verticale",
+    duration: "3h",
+    price: "€95 / pers",
+    desc: "5 millésimes de notre Cuvée Prestige, de 2015 à 2020. Une exploration du temps, de l'évolution d'un vin et de la mémoire du terroir.",
+    icon: "🍷",
+  },
+  {
+    id: "sejour",
+    title: "Séjour Vigneron",
+    duration: "2 jours",
+    price: "€480 / chambre",
+    desc: "Vivez la vendange de l'intérieur. Hébergement dans notre maison de maître, repas avec accord mets-vins, accès libre aux caves.",
+    icon: "🏰",
+  },
+];
+
+/* ==========================================================================
    MAGNETIC BUTTON
    ========================================================================== */
 
@@ -147,10 +178,14 @@ function MagneticButton({
   children,
   style,
   onClick,
+  type = "button",
+  disabled = false,
 }: {
   children: React.ReactNode;
   style?: React.CSSProperties;
   onClick?: () => void;
+  type?: "button" | "submit";
+  disabled?: boolean;
 }) {
   const ref = useRef<HTMLButtonElement>(null);
   const x = useMotionValue(0);
@@ -176,11 +211,22 @@ function MagneticButton({
   return (
     <motion.button
       ref={ref}
-      style={{ x: sx, y: sy, cursor: "pointer", border: "none", background: "transparent", ...style }}
+      type={type}
+      disabled={disabled}
+      style={{
+        x: sx,
+        y: sy,
+        cursor: disabled ? "not-allowed" : "pointer",
+        border: "none",
+        background: "transparent",
+        minHeight: 44,
+        opacity: disabled ? 0.65 : 1,
+        ...style,
+      }}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       onClick={onClick}
-      whileTap={{ scale: 0.96 }}
+      whileTap={disabled ? {} : { scale: 0.96 }}
     >
       {children}
     </motion.button>
@@ -426,7 +472,7 @@ function VineGrowth() {
    WINE CARD
    ========================================================================== */
 
-function WineCard({ wine, index }: { wine: typeof WINES_DEMO[0]; index: number }) {
+function WineCard({ wine, index, onOrder }: { wine: typeof WINES_DEMO[0]; index: number; onOrder?: (wineId: string) => void }) {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-60px" });
 
@@ -567,6 +613,28 @@ function WineCard({ wine, index }: { wine: typeof WINES_DEMO[0]; index: number }
           {wine.aging}
         </span>
       </div>
+
+      {onOrder && (
+        <button
+          onClick={() => onOrder((wine as any).id ?? wine.name)}
+          style={{
+            marginTop: 24,
+            width: "100%",
+            minHeight: 44,
+            background: "transparent",
+            border: `1px solid ${C.burgundy}`,
+            color: C.burgundy,
+            fontFamily: C.fontSans,
+            fontSize: 10,
+            fontWeight: 600,
+            letterSpacing: "0.18em",
+            textTransform: "uppercase",
+            cursor: "pointer",
+          }}
+        >
+          Commander cette cuvée
+        </button>
+      )}
     </motion.div>
   );
 }
@@ -604,6 +672,253 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
     >
       {children}
     </p>
+  );
+}
+
+/* ==========================================================================
+   MODAL FIELD — label + input wrapper shared by the booking modals
+   ========================================================================== */
+
+const srOnlyStyle: React.CSSProperties = {
+  position: "absolute",
+  width: 1,
+  height: 1,
+  padding: 0,
+  margin: -1,
+  overflow: "hidden",
+  clip: "rect(0,0,0,0)",
+  whiteSpace: "nowrap",
+  border: 0,
+};
+
+const modalInputStyle: React.CSSProperties = {
+  width: "100%",
+  background: C.bgCard,
+  border: `1px solid ${C.border}`,
+  borderRadius: 0,
+  padding: "13px 16px",
+  fontFamily: C.fontSans,
+  fontSize: 14,
+  color: C.dark,
+  outline: "none",
+};
+
+function ModalField({
+  label,
+  htmlFor,
+  children,
+}: {
+  label: string;
+  htmlFor: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div style={{ marginBottom: 16 }}>
+      <label
+        htmlFor={htmlFor}
+        style={{
+          display: "block",
+          fontFamily: C.fontSans,
+          fontSize: 10,
+          fontWeight: 600,
+          letterSpacing: "0.14em",
+          textTransform: "uppercase",
+          color: C.muted,
+          marginBottom: 6,
+        }}
+      >
+        {label}
+      </label>
+      {children}
+    </div>
+  );
+}
+
+/* ==========================================================================
+   BOOKING MODAL — reusable overlay for tasting reservations & wine orders
+   ========================================================================== */
+
+function BookingModal({
+  open,
+  onClose,
+  eyebrow,
+  title,
+  loading,
+  sent,
+  successTitle,
+  successBody,
+  onSubmit,
+  children,
+}: {
+  open: boolean;
+  onClose: () => void;
+  eyebrow: string;
+  title: React.ReactNode;
+  loading: boolean;
+  sent: boolean;
+  successTitle: string;
+  successBody: string;
+  onSubmit: (e: React.FormEvent) => void;
+  children: React.ReactNode;
+}) {
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [open, onClose]);
+
+  return (
+    <AnimatePresence>
+      {open && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          style={{ position: "fixed", inset: 0, zIndex: 300, display: "flex", alignItems: "center", justifyContent: "center", padding: 20 }}
+          role="dialog"
+          aria-modal="true"
+        >
+          <div
+            onClick={onClose}
+            style={{ position: "absolute", inset: 0, background: "rgba(26,14,8,0.72)", backdropFilter: "blur(4px)" }}
+          />
+          <motion.div
+            initial={{ opacity: 0, y: 24, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 16, scale: 0.98 }}
+            transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+            style={{
+              position: "relative",
+              width: "100%",
+              maxWidth: 520,
+              maxHeight: "90vh",
+              overflowY: "auto",
+              background: C.bg,
+              border: `1px solid ${C.border}`,
+              padding: "44px 40px 40px",
+            }}
+          >
+            <button
+              type="button"
+              onClick={onClose}
+              aria-label="Fermer"
+              style={{
+                position: "absolute",
+                top: 8,
+                right: 8,
+                width: 44,
+                height: 44,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                background: "none",
+                border: "none",
+                cursor: "pointer",
+                color: C.muted,
+                fontSize: 22,
+              }}
+            >
+              ×
+            </button>
+
+            {sent ? (
+              <div style={{ textAlign: "center", padding: "20px 0" }}>
+                <div
+                  style={{
+                    width: 56,
+                    height: 56,
+                    borderRadius: "50%",
+                    border: `1px solid ${C.burgundy}`,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    margin: "0 auto 24px",
+                    color: C.burgundy,
+                    fontSize: 22,
+                  }}
+                >
+                  ✓
+                </div>
+                <h3 style={{ fontFamily: C.fontSerif, fontSize: 26, fontWeight: 600, color: C.dark, margin: "0 0 12px" }}>
+                  {successTitle}
+                </h3>
+                <p style={{ fontFamily: C.fontSerif, fontSize: 16, color: C.muted, lineHeight: 1.7, margin: 0 }}>
+                  {successBody}
+                </p>
+                <button
+                  type="button"
+                  onClick={onClose}
+                  style={{
+                    marginTop: 28,
+                    minHeight: 44,
+                    padding: "0 32px",
+                    background: C.burgundy,
+                    color: C.bg,
+                    border: "none",
+                    fontFamily: C.fontSans,
+                    fontSize: 11,
+                    fontWeight: 600,
+                    letterSpacing: "0.18em",
+                    textTransform: "uppercase",
+                    cursor: "pointer",
+                  }}
+                >
+                  Fermer
+                </button>
+              </div>
+            ) : (
+              <form onSubmit={onSubmit}>
+                <p style={{ fontFamily: C.fontSans, fontSize: 10, fontWeight: 600, letterSpacing: "0.24em", textTransform: "uppercase", color: C.gold, margin: "0 0 10px" }}>
+                  {eyebrow}
+                </p>
+                <h3 style={{ fontFamily: C.fontSerif, fontSize: 28, fontWeight: 600, color: C.dark, margin: "0 0 24px", lineHeight: 1.2 }}>
+                  {title}
+                </h3>
+                {children}
+                <button
+                  type="submit"
+                  disabled={loading}
+                  style={{
+                    width: "100%",
+                    marginTop: 12,
+                    minHeight: 44,
+                    background: C.burgundy,
+                    color: C.bg,
+                    border: "none",
+                    fontFamily: C.fontSans,
+                    fontSize: 11,
+                    fontWeight: 600,
+                    letterSpacing: "0.2em",
+                    textTransform: "uppercase",
+                    cursor: loading ? "not-allowed" : "pointer",
+                    opacity: loading ? 0.7 : 1,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    gap: 10,
+                  }}
+                >
+                  {loading && (
+                    <span
+                      style={{
+                        width: 14,
+                        height: 14,
+                        borderRadius: "50%",
+                        border: `2px solid ${C.bg}`,
+                        borderTopColor: "transparent",
+                        animation: "mb131spin 0.8s linear infinite",
+                      }}
+                    />
+                  )}
+                  {loading ? "Envoi en cours…" : "Confirmer"}
+                </button>
+              </form>
+            )}
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 }
 
@@ -699,6 +1014,74 @@ export default function WineryTemplate() {
 
   const VINTAGES = Array.from(new Set(WINES.map((w: any) => w.vintage)));
 
+  // ── Contact form ──────────────────────────────────────────────────────
+  const [contactForm, setContactForm] = useState({ name: "", email: "", subject: "", message: "" });
+  const [contactLoading, setContactLoading] = useState(false);
+  const [contactSent, setContactSent] = useState(false);
+
+  function handleContactSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setContactLoading(true);
+    setTimeout(() => {
+      setContactLoading(false);
+      setContactSent(true);
+    }, 1000);
+  }
+
+  // ── Tasting / tour reservation modal ─────────────────────────────────
+  const [tastingOpen, setTastingOpen] = useState(false);
+  const [tastingLoading, setTastingLoading] = useState(false);
+  const [tastingSent, setTastingSent] = useState(false);
+  const [tastingForm, setTastingForm] = useState({ experience: "", date: "", partySize: "2", name: "", email: "", phone: "" });
+
+  function openTastingModal(experienceId: string = "") {
+    setTastingForm((f) => ({ ...f, experience: experienceId }));
+    setTastingOpen(true);
+  }
+
+  function closeTastingModal() {
+    setTastingOpen(false);
+    setTastingLoading(false);
+    setTastingSent(false);
+    setTastingForm({ experience: "", date: "", partySize: "2", name: "", email: "", phone: "" });
+  }
+
+  function handleTastingSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setTastingLoading(true);
+    setTimeout(() => {
+      setTastingLoading(false);
+      setTastingSent(true);
+    }, 1000);
+  }
+
+  // ── Wine order modal ─────────────────────────────────────────────────
+  const [orderOpen, setOrderOpen] = useState(false);
+  const [orderLoading, setOrderLoading] = useState(false);
+  const [orderSent, setOrderSent] = useState(false);
+  const [orderForm, setOrderForm] = useState({ wine: "", quantity: "6", name: "", email: "", address: "" });
+
+  function openOrderModal(wineId: string = "") {
+    setOrderForm((f) => ({ ...f, wine: wineId }));
+    setOrderOpen(true);
+  }
+
+  function closeOrderModal() {
+    setOrderOpen(false);
+    setOrderLoading(false);
+    setOrderSent(false);
+    setOrderForm({ wine: "", quantity: "6", name: "", email: "", address: "" });
+  }
+
+  function handleOrderSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setOrderLoading(true);
+    setTimeout(() => {
+      setOrderLoading(false);
+      setOrderSent(true);
+    }, 1000);
+  }
+
   return (
     <div style={{ background: C.bg, minHeight: "100dvh", fontFamily: C.fontSans, overflowX: "hidden" }}>
 
@@ -778,6 +1161,7 @@ export default function WineryTemplate() {
             </button>
           ))}
           <MagneticButton
+            onClick={() => openOrderModal()}
             style={{
               background: C.burgundy,
               color: C.bg,
@@ -834,6 +1218,7 @@ export default function WineryTemplate() {
             </button>
           ))}
           <MagneticButton
+            onClick={() => { setMobileOpen(false); openOrderModal(); }}
             style={{
               background: C.burgundy,
               color: C.bg,
@@ -854,6 +1239,11 @@ export default function WineryTemplate() {
         @media (max-width: 768px) {
           .imx-mobstack { grid-template-columns: 1fr !important; }
         }
+        .mb131-field:focus, .mb131-field:focus-visible {
+          border-color: ${C.burgundy} !important;
+          box-shadow: 0 0 0 3px ${C.burgundy}26;
+        }
+        @keyframes mb131spin { to { transform: rotate(360deg); } }
       `}</style>
 
       {/* ====================================================================
@@ -1251,7 +1641,7 @@ export default function WineryTemplate() {
               }}
             >
               {WINES.filter((w) => !vintageSelected || w.vintage === vintageSelected).map((wine, i) => (
-                <WineCard key={wine.id} wine={wine} index={i} />
+                <WineCard key={wine.id} wine={wine} index={i} onOrder={openOrderModal} />
               ))}
               {WINES.filter((w) => vintageSelected && w.vintage === vintageSelected).length === 0 && (
                 <div
@@ -1456,6 +1846,7 @@ export default function WineryTemplate() {
             Un espace intime au cœur de nos caves du XIXe siècle. Chaque dégustation est guidée par notre équipe, dans un cadre pensé pour révéler toute la profondeur de nos vins.
           </p>
           <MagneticButton
+            onClick={() => openTastingModal("degustation")}
             style={{
               background: C.gold,
               color: C.dark,
@@ -1664,29 +2055,7 @@ export default function WineryTemplate() {
           </div>
 
           <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 24 }}>
-            {[
-              {
-                title: "Balade dans les Vignes",
-                duration: "2h",
-                price: "€35 / pers",
-                desc: "Guidés par notre vigneron, parcourez nos parcelles emblématiques, apprenez à lire le sol et découvrez les secrets de la biodynamie.",
-                icon: "🌿",
-              },
-              {
-                title: "Dégustation Verticale",
-                duration: "3h",
-                price: "€95 / pers",
-                desc: "5 millésimes de notre Cuvée Prestige, de 2015 à 2020. Une exploration du temps, de l'évolution d'un vin et de la mémoire du terroir.",
-                icon: "🍷",
-              },
-              {
-                title: "Séjour Vigneron",
-                duration: "2 jours",
-                price: "€480 / chambre",
-                desc: "Vivez la vendange de l'intérieur. Hébergement dans notre maison de maître, repas avec accord mets-vins, accès libre aux caves.",
-                icon: "🏰",
-              },
-            ].map((exp, i) => {
+            {EXPERIENCES_DEMO.map((exp, i) => {
               const expRef = useRef<HTMLDivElement>(null);
               const expInView = useInView(expRef, { once: true, margin: "-40px" });
               return (
@@ -1760,6 +2129,7 @@ export default function WineryTemplate() {
                     {exp.desc}
                   </p>
                   <button
+                    onClick={() => openTastingModal(exp.id)}
                     style={{
                       background: "transparent",
                       border: `1px solid ${C.burgundy}`,
@@ -1770,6 +2140,7 @@ export default function WineryTemplate() {
                       letterSpacing: "0.2em",
                       textTransform: "uppercase",
                       padding: "10px 24px",
+                      minHeight: 44,
                       cursor: "pointer",
                     }}
                   >
@@ -1867,74 +2238,185 @@ export default function WineryTemplate() {
 
             {/* Right: Contact form */}
             <div>
-              <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-                {["Nom complet", "Email"].map((placeholder) => (
-                  <input
-                    key={placeholder}
-                    type={placeholder === "Email" ? "email" : "text"}
-                    placeholder={placeholder}
+              {contactSent ? (
+                <div style={{ textAlign: "center", padding: "48px 24px", border: `1px solid rgba(248,244,238,0.12)` }}>
+                  <div
                     style={{
-                      background: "rgba(248,244,238,0.06)",
-                      border: `1px solid rgba(248,244,238,0.12)`,
-                      borderRadius: 0,
-                      padding: "16px 20px",
-                      fontFamily: C.fontSans,
-                      fontSize: 13,
-                      color: C.bg,
-                      outline: "none",
+                      width: 56,
+                      height: 56,
+                      borderRadius: "50%",
+                      border: `1px solid ${C.gold}`,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      margin: "0 auto 24px",
+                      color: C.gold,
+                      fontSize: 22,
                     }}
-                  />
-                ))}
-                <select
-                  style={{
-                    background: "rgba(248,244,238,0.06)",
-                    border: `1px solid rgba(248,244,238,0.12)`,
-                    borderRadius: 0,
-                    padding: "16px 20px",
-                    fontFamily: C.fontSans,
-                    fontSize: 13,
-                    color: "rgba(248,244,238,0.6)",
-                    outline: "none",
-                    cursor: "pointer",
-                  }}
-                >
-                  <option value="">Objet de votre message</option>
-                  <option>Commande de vins</option>
-                  <option>Réservation de visite</option>
-                  <option>Renseignement</option>
-                  <option>Autre</option>
-                </select>
-                <textarea
-                  placeholder="Votre message"
-                  rows={5}
-                  style={{
-                    background: "rgba(248,244,238,0.06)",
-                    border: `1px solid rgba(248,244,238,0.12)`,
-                    borderRadius: 0,
-                    padding: "16px 20px",
-                    fontFamily: C.fontSans,
-                    fontSize: 13,
-                    color: C.bg,
-                    outline: "none",
-                    resize: "vertical",
-                  }}
-                />
-                <MagneticButton
-                  style={{
-                    background: C.burgundy,
-                    color: C.bg,
-                    fontFamily: C.fontSans,
-                    fontSize: 11,
-                    fontWeight: 600,
-                    letterSpacing: "0.22em",
-                    textTransform: "uppercase",
-                    padding: "16px 32px",
-                    alignSelf: "flex-start",
-                  }}
-                >
-                  Envoyer le message
-                </MagneticButton>
-              </div>
+                  >
+                    ✓
+                  </div>
+                  <h3 style={{ fontFamily: C.fontSerif, fontSize: 24, fontWeight: 600, color: C.bg, margin: "0 0 12px" }}>
+                    Message envoyé
+                  </h3>
+                  <p style={{ fontFamily: C.fontSerif, fontSize: 15, color: "rgba(248,244,238,0.6)", lineHeight: 1.7, margin: 0 }}>
+                    Merci, notre équipe vous répondra sous 24 heures ouvrées.
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => { setContactSent(false); setContactForm({ name: "", email: "", subject: "", message: "" }); }}
+                    style={{
+                      marginTop: 24,
+                      minHeight: 44,
+                      padding: "0 28px",
+                      background: "transparent",
+                      border: `1px solid ${C.gold}`,
+                      color: C.gold,
+                      fontFamily: C.fontSans,
+                      fontSize: 10,
+                      fontWeight: 600,
+                      letterSpacing: "0.18em",
+                      textTransform: "uppercase",
+                      cursor: "pointer",
+                    }}
+                  >
+                    Envoyer un autre message
+                  </button>
+                </div>
+              ) : (
+                <form onSubmit={handleContactSubmit} style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                  <div>
+                    <label htmlFor="contact-name" style={srOnlyStyle}>Nom complet</label>
+                    <input
+                      id="contact-name"
+                      type="text"
+                      required
+                      placeholder="Nom complet"
+                      value={contactForm.name}
+                      onChange={(e) => setContactForm((f) => ({ ...f, name: e.target.value }))}
+                      className="mb131-field"
+                      style={{
+                        width: "100%",
+                        background: "rgba(248,244,238,0.06)",
+                        border: `1px solid rgba(248,244,238,0.12)`,
+                        borderRadius: 0,
+                        padding: "16px 20px",
+                        fontFamily: C.fontSans,
+                        fontSize: 13,
+                        color: C.bg,
+                        outline: "none",
+                      }}
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="contact-email" style={srOnlyStyle}>Email</label>
+                    <input
+                      id="contact-email"
+                      type="email"
+                      required
+                      placeholder="Email"
+                      value={contactForm.email}
+                      onChange={(e) => setContactForm((f) => ({ ...f, email: e.target.value }))}
+                      className="mb131-field"
+                      style={{
+                        width: "100%",
+                        background: "rgba(248,244,238,0.06)",
+                        border: `1px solid rgba(248,244,238,0.12)`,
+                        borderRadius: 0,
+                        padding: "16px 20px",
+                        fontFamily: C.fontSans,
+                        fontSize: 13,
+                        color: C.bg,
+                        outline: "none",
+                      }}
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="contact-subject" style={srOnlyStyle}>Objet de votre message</label>
+                    <select
+                      id="contact-subject"
+                      required
+                      value={contactForm.subject}
+                      onChange={(e) => setContactForm((f) => ({ ...f, subject: e.target.value }))}
+                      className="mb131-field"
+                      style={{
+                        width: "100%",
+                        background: "rgba(248,244,238,0.06)",
+                        border: `1px solid rgba(248,244,238,0.12)`,
+                        borderRadius: 0,
+                        padding: "16px 20px",
+                        fontFamily: C.fontSans,
+                        fontSize: 13,
+                        color: contactForm.subject ? C.bg : "rgba(248,244,238,0.6)",
+                        outline: "none",
+                        cursor: "pointer",
+                      }}
+                    >
+                      <option value="">Objet de votre message</option>
+                      <option>Commande de vins</option>
+                      <option>Réservation de visite</option>
+                      <option>Renseignement</option>
+                      <option>Autre</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label htmlFor="contact-message" style={srOnlyStyle}>Votre message</label>
+                    <textarea
+                      id="contact-message"
+                      required
+                      placeholder="Votre message"
+                      rows={5}
+                      value={contactForm.message}
+                      onChange={(e) => setContactForm((f) => ({ ...f, message: e.target.value }))}
+                      className="mb131-field"
+                      style={{
+                        width: "100%",
+                        background: "rgba(248,244,238,0.06)",
+                        border: `1px solid rgba(248,244,238,0.12)`,
+                        borderRadius: 0,
+                        padding: "16px 20px",
+                        fontFamily: C.fontSans,
+                        fontSize: 13,
+                        color: C.bg,
+                        outline: "none",
+                        resize: "vertical",
+                      }}
+                    />
+                  </div>
+                  <MagneticButton
+                    type="submit"
+                    disabled={contactLoading}
+                    style={{
+                      background: C.burgundy,
+                      color: C.bg,
+                      fontFamily: C.fontSans,
+                      fontSize: 11,
+                      fontWeight: 600,
+                      letterSpacing: "0.22em",
+                      textTransform: "uppercase",
+                      padding: "16px 32px",
+                      alignSelf: "flex-start",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 10,
+                    }}
+                  >
+                    {contactLoading && (
+                      <span
+                        style={{
+                          width: 14,
+                          height: 14,
+                          borderRadius: "50%",
+                          border: `2px solid ${C.bg}`,
+                          borderTopColor: "transparent",
+                          animation: "mb131spin 0.8s linear infinite",
+                        }}
+                      />
+                    )}
+                    {contactLoading ? "Envoi en cours…" : "Envoyer le message"}
+                  </MagneticButton>
+                </form>
+              )}
             </div>
           </div>
 
@@ -2002,6 +2484,178 @@ export default function WineryTemplate() {
           </div>
         </div>
       </section>
+
+      {/* ── TASTING / TOUR RESERVATION MODAL ─────────────────────────────── */}
+      <BookingModal
+        open={tastingOpen}
+        onClose={closeTastingModal}
+        eyebrow="Oenotourisme"
+        title="Réserver une expérience"
+        loading={tastingLoading}
+        sent={tastingSent}
+        successTitle="Réservation reçue"
+        successBody="Notre équipe vous contactera sous 24 heures pour confirmer la date de votre expérience au domaine."
+        onSubmit={handleTastingSubmit}
+      >
+        <ModalField label="Expérience" htmlFor="tasting-experience">
+          <select
+            id="tasting-experience"
+            required
+            value={tastingForm.experience}
+            onChange={(e) => setTastingForm((f) => ({ ...f, experience: e.target.value }))}
+            className="mb131-field"
+            style={{ ...modalInputStyle, cursor: "pointer" }}
+          >
+            <option value="">Choisissez une expérience</option>
+            {EXPERIENCES_DEMO.map((exp) => (
+              <option key={exp.id} value={exp.id}>{exp.title} — {exp.price}</option>
+            ))}
+          </select>
+        </ModalField>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+          <ModalField label="Date souhaitée" htmlFor="tasting-date">
+            <input
+              id="tasting-date"
+              type="date"
+              required
+              value={tastingForm.date}
+              onChange={(e) => setTastingForm((f) => ({ ...f, date: e.target.value }))}
+              className="mb131-field"
+              style={modalInputStyle}
+            />
+          </ModalField>
+          <ModalField label="Nombre de personnes" htmlFor="tasting-party">
+            <select
+              id="tasting-party"
+              required
+              value={tastingForm.partySize}
+              onChange={(e) => setTastingForm((f) => ({ ...f, partySize: e.target.value }))}
+              className="mb131-field"
+              style={{ ...modalInputStyle, cursor: "pointer" }}
+            >
+              {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((n) => (
+                <option key={n} value={n}>{n} {n === 1 ? "personne" : "personnes"}</option>
+              ))}
+            </select>
+          </ModalField>
+        </div>
+        <ModalField label="Nom complet" htmlFor="tasting-name">
+          <input
+            id="tasting-name"
+            type="text"
+            required
+            value={tastingForm.name}
+            onChange={(e) => setTastingForm((f) => ({ ...f, name: e.target.value }))}
+            placeholder="Jeanne Dupont"
+            className="mb131-field"
+            style={modalInputStyle}
+          />
+        </ModalField>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+          <ModalField label="Email" htmlFor="tasting-email">
+            <input
+              id="tasting-email"
+              type="email"
+              required
+              value={tastingForm.email}
+              onChange={(e) => setTastingForm((f) => ({ ...f, email: e.target.value }))}
+              placeholder="vous@email.com"
+              className="mb131-field"
+              style={modalInputStyle}
+            />
+          </ModalField>
+          <ModalField label="Téléphone" htmlFor="tasting-phone">
+            <input
+              id="tasting-phone"
+              type="tel"
+              required
+              value={tastingForm.phone}
+              onChange={(e) => setTastingForm((f) => ({ ...f, phone: e.target.value }))}
+              placeholder="+33 6 00 00 00 00"
+              className="mb131-field"
+              style={modalInputStyle}
+            />
+          </ModalField>
+        </div>
+      </BookingModal>
+
+      {/* ── WINE ORDER MODAL ──────────────────────────────────────────────── */}
+      <BookingModal
+        open={orderOpen}
+        onClose={closeOrderModal}
+        eyebrow="Commande"
+        title="Commander nos vins"
+        loading={orderLoading}
+        sent={orderSent}
+        successTitle="Commande enregistrée"
+        successBody="Merci pour votre commande. Notre équipe vous recontacte sous 24 heures pour confirmer la livraison ou le retrait au domaine."
+        onSubmit={handleOrderSubmit}
+      >
+        <ModalField label="Cuvée" htmlFor="order-wine">
+          <select
+            id="order-wine"
+            required
+            value={orderForm.wine}
+            onChange={(e) => setOrderForm((f) => ({ ...f, wine: e.target.value }))}
+            className="mb131-field"
+            style={{ ...modalInputStyle, cursor: "pointer" }}
+          >
+            <option value="">Choisissez une cuvée</option>
+            {WINES.map((wine: any) => (
+              <option key={wine.id} value={wine.id}>{wine.name} ({wine.vintage}) — {wine.price}</option>
+            ))}
+          </select>
+        </ModalField>
+        <ModalField label="Quantité (bouteilles)" htmlFor="order-quantity">
+          <input
+            id="order-quantity"
+            type="number"
+            min={1}
+            max={60}
+            required
+            value={orderForm.quantity}
+            onChange={(e) => setOrderForm((f) => ({ ...f, quantity: e.target.value }))}
+            className="mb131-field"
+            style={modalInputStyle}
+          />
+        </ModalField>
+        <ModalField label="Nom complet" htmlFor="order-name">
+          <input
+            id="order-name"
+            type="text"
+            required
+            value={orderForm.name}
+            onChange={(e) => setOrderForm((f) => ({ ...f, name: e.target.value }))}
+            placeholder="Jeanne Dupont"
+            className="mb131-field"
+            style={modalInputStyle}
+          />
+        </ModalField>
+        <ModalField label="Email" htmlFor="order-email">
+          <input
+            id="order-email"
+            type="email"
+            required
+            value={orderForm.email}
+            onChange={(e) => setOrderForm((f) => ({ ...f, email: e.target.value }))}
+            placeholder="vous@email.com"
+            className="mb131-field"
+            style={modalInputStyle}
+          />
+        </ModalField>
+        <ModalField label="Adresse de livraison" htmlFor="order-address">
+          <input
+            id="order-address"
+            type="text"
+            required
+            value={orderForm.address}
+            onChange={(e) => setOrderForm((f) => ({ ...f, address: e.target.value }))}
+            placeholder="12 rue des Graves, 33760 Escoussans"
+            className="mb131-field"
+            style={modalInputStyle}
+          />
+        </ModalField>
+      </BookingModal>
     </div>
   );
 }

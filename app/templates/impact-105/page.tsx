@@ -213,16 +213,21 @@ export default function AtelierBloomPage() {
             Commander
           </motion.a>
       </div>
-        <button
-          className="mb105-burger"
-          onClick={() => setMobileOpen(!mobileOpen)}
-          aria-label="Menu"
-          style={{ display: "none", flexDirection: "column", gap: 5, background: "none", border: "none", cursor: "pointer", padding: 4 }}
-        >
-          <span style={{ display: "block", width: 24, height: 1.5, background: "#fff", transition: "all 0.3s", transform: mobileOpen ? "rotate(45deg) translate(4.5px, 4.5px)" : "none" }} />
-          <span style={{ display: "block", width: 24, height: 1.5, background: "#fff", transition: "all 0.3s", opacity: mobileOpen ? 0 : 1 }} />
-          <span style={{ display: "block", width: 24, height: 1.5, background: "#fff", transition: "all 0.3s", transform: mobileOpen ? "rotate(-45deg) translate(4.5px, -4.5px)" : "none" }} />
-        </button>
+        <div className="mb105-mobile-actions" style={{ display: "none", alignItems: "center", gap: 12 }}>
+          <motion.a href={`tel:${fd?.phone ?? "+33388000000"}`} style={{ background: C.accent, color: C.white, borderRadius: 8, padding: "8px 16px", fontSize: 13, fontWeight: 700, textDecoration: "none" }} whileHover={{ background: "#1e3318" }}>
+            Commander
+          </motion.a>
+          <button
+            className="mb105-burger"
+            onClick={() => setMobileOpen(!mobileOpen)}
+            aria-label="Menu"
+            style={{ display: "none", flexDirection: "column", gap: 5, background: "none", border: "none", cursor: "pointer", padding: 4 }}
+          >
+            <span style={{ display: "block", width: 24, height: 1.5, background: "#fff", transition: "all 0.3s", transform: mobileOpen ? "rotate(45deg) translate(4.5px, 4.5px)" : "none" }} />
+            <span style={{ display: "block", width: 24, height: 1.5, background: "#fff", transition: "all 0.3s", opacity: mobileOpen ? 0 : 1 }} />
+            <span style={{ display: "block", width: 24, height: 1.5, background: "#fff", transition: "all 0.3s", transform: mobileOpen ? "rotate(-45deg) translate(4.5px, -4.5px)" : "none" }} />
+          </button>
+        </div>
       </motion.nav>
       {mobileOpen && (
         <div style={{ position: "fixed", top: 72, left: 0, right: 0, zIndex: 99, background: "rgba(255,255,255,0.98)", borderBottom: "1px solid #e5e5e5", padding: "24px 32px", display: "flex", flexDirection: "column", gap: 20, backdropFilter: "blur(12px)" }}>
@@ -234,7 +239,8 @@ export default function AtelierBloomPage() {
           </motion.a>
         </div>
       )}
-      <style>{`@media (max-width: 900px) { #mb105-nav { display: none !important; } .mb105-burger { display: flex !important; } }`}</style>
+      <style>{`@media (max-width: 900px) { #mb105-nav { display: none !important; } .mb105-mobile-actions { display: flex !important; } .mb105-burger { display: flex !important; } }
+      @media (max-width: 700px) { #hero { height: auto !important; min-height: 0 !important; padding-top: 100px !important; padding-bottom: 32px !important; } #hero .i105-hero-inner { padding: 0 24px 24px !important; } }`}</style>
 
       {/* Hero */}
       <section id="hero" ref={heroRef} style={{ height: "115vh", minHeight: "900px", position: "relative", display: "flex", alignItems: "flex-end", overflow: "hidden" }}>
@@ -244,7 +250,7 @@ export default function AtelierBloomPage() {
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(10,20,5,0.90) 0%, rgba(10,20,5,0.35) 45%, rgba(10,20,5,0.05) 100%)" }} />
         <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to right, ${C.accent}22 0%, transparent 60%)` }} />
 
-        <motion.div style={{ position: "relative", zIndex: 1, padding: "0 80px 90px", maxWidth: 780, y: heroTextY, opacity: heroOpacity }}>
+        <motion.div className="i105-hero-inner" style={{ position: "relative", zIndex: 1, padding: "0 80px 90px", maxWidth: 780, y: heroTextY, opacity: heroOpacity }}>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
             style={{ display: "inline-flex", alignItems: "center", gap: 8, marginBottom: 28, background: "rgba(45,74,34,0.20)", border: "1px solid rgba(45,74,34,0.40)", borderRadius: 20, padding: "7px 18px" }}>
             <Leaf size={12} color="var(--brand,#a8d498)" />

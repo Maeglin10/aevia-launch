@@ -421,8 +421,8 @@ function SubscribeSection() {
                   </li>
                 ))}
               </ul>
-              <button onClick={addToCart}
-                style={{ display: "block", width: "100%", border: "none", cursor: "pointer", textAlign: "center" as const, background: tier.featured ? C.white : C.accent, color: tier.featured ? C.accent : C.white, padding: "14px 24px", fontSize: 12, letterSpacing: "0.08em", textTransform: "uppercase" as const, textDecoration: "none", fontFamily: "'Poppins', system-ui", fontWeight: 700 }}
+              <button onClick={() => addToCart({ id: `sub-${tier.name}`, name: `Abonnement ${tier.name}`, price: parseFloat(tier.price.replace(/[^0-9.]/g, "")) || 0 })}
+                style={{ display: "block", width: "100%", minHeight: 44, border: "none", cursor: "pointer", textAlign: "center" as const, background: tier.featured ? C.white : C.accent, color: tier.featured ? C.accent : C.white, padding: "14px 24px", fontSize: 12, letterSpacing: "0.08em", textTransform: "uppercase" as const, textDecoration: "none", fontFamily: "'Poppins', system-ui", fontWeight: 700 }}
               >{tier.cta}</button>
             </motion.div>
           ))}

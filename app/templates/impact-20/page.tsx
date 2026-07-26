@@ -1167,7 +1167,12 @@ export default function LuxuryJewelryTemplate() {
         </div>
       </nav>
       {/* Mobile header fix: hide desktop nav links on phones so they can't overlap the logo (hamburger stays) */}
-      <style>{`@media (max-width: 768px){.hidden-mobile{display:none !important}}`}</style>
+      <style>{`@media (max-width: 768px){.hidden-mobile{display:none !important}
+        /* the hero was vertically centered within 100dvh with no allowance for
+           the 72px fixed nav — on short mobile viewports the centered content
+           starts above the nav's bottom edge, tucking the eyebrow + H1 under it. */
+        .i20-hero{height:auto !important;min-height:100dvh !important;padding-top:112px !important;align-items:flex-start !important;}
+      }`}</style>
 
       {/* Mobile Menu */}
       <AnimatePresence>
@@ -1296,6 +1301,7 @@ export default function LuxuryJewelryTemplate() {
           {/* ── HERO ── */}
           <section id="hero"
             ref={heroRef}
+            className="i20-hero"
         style={{
           position: "relative",
           height: "100dvh",

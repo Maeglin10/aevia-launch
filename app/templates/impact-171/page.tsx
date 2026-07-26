@@ -8,7 +8,7 @@ import Link from "next/link"
 import {
   Heart, Activity, Stethoscope, Calendar, Clock, Phone, Mail, MapPin,
   Star, ArrowRight, ChevronRight, Menu, X, Shield, Award, Users,
-  CheckCircle, Microscope, Brain, Zap
+  CheckCircle, Microscope, Brain, Zap, Loader2
 } from "lucide-react"
 import { resolveList } from "@/lib/templates/resolveList"
 
@@ -257,6 +257,26 @@ export default function Impact171Page() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [activeSpec, setActiveSpec] = useState("generale")
+  const [selectedSpecialty, setSelectedSpecialty] = useState("")
+  const [contactLoading, setContactLoading] = useState(false)
+  const [contactSent, setContactSent] = useState(false)
+
+  // Shared by the nav/hero/specialty "Prendre RDV" / "Réserver" CTAs: optionally
+  // preselects a specialty in the contact form, then scrolls the visitor to it —
+  // this is the same booking flow the specialty tabs feed into.
+  const goToContact = (specId?: string) => {
+    if (specId) setSelectedSpecialty(specId)
+    document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })
+  }
+
+  const handleContactSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    setContactLoading(true)
+    setTimeout(() => {
+      setContactLoading(false)
+      setContactSent(true)
+    }, 900)
+  }
 
   const specialties = bp?.services?.length
     ? bp.services.map((s: any, i: number) => ({
@@ -316,7 +336,7 @@ const navLinks = ["Spécialités", "Médecins", "Protocoles", "Science", "Tarifs
                 {l}
               </button>
             ))}
-            <button className="px-5 py-2 bg-[var(--brand,#0891B2)] text-white text-sm font-medium rounded-full hover:bg-[#0e7490] transition-colors cursor-pointer">
+            <button onClick={() => goToContact()} className="px-5 py-2 min-h-[44px] bg-[var(--brand,#0891B2)] text-white text-sm font-medium rounded-full hover:bg-[#0e7490] transition-colors cursor-pointer">
               Prendre RDV
             </button>
           </div>
@@ -336,7 +356,7 @@ const navLinks = ["Spécialités", "Médecins", "Protocoles", "Science", "Tarifs
                   {l}
                 </button>
               ))}
-              <button className="px-5 py-3 bg-[var(--brand,#0891B2)] text-white text-sm font-medium rounded-full cursor-pointer">
+              <button onClick={() => { setMenuOpen(false); goToContact(); }} className="px-5 py-3 min-h-[44px] bg-[var(--brand,#0891B2)] text-white text-sm font-medium rounded-full cursor-pointer">
                 Prendre RDV
               </button>
             </motion.div>
@@ -370,7 +390,7 @@ const navLinks = ["Spécialités", "Médecins", "Protocoles", "Science", "Tarifs
             </Reveal>
             <Reveal delay={0.3}>
               <div className="flex flex-wrap gap-4 mb-10">
-                <button className="px-7 py-3.5 bg-[var(--brand,#0891B2)] text-white font-semibold rounded-full hover:bg-[#0e7490] transition-all shadow-lg shadow-[var(--brand,#0891B2)]/25 cursor-pointer flex items-center gap-2">
+                <button onClick={() => goToContact()} className="px-7 py-3.5 min-h-[44px] bg-[var(--brand,#0891B2)] text-white font-semibold rounded-full hover:bg-[#0e7490] transition-all shadow-lg shadow-[var(--brand,#0891B2)]/25 cursor-pointer flex items-center gap-2">
                   Prendre RDV <ArrowRight className="w-4 h-4" />
                 </button>
                 <button className="px-7 py-3.5 border-2 border-[var(--brand,#0891B2)]/30 text-[var(--brand,#0891B2)] font-semibold rounded-full hover:bg-[var(--brand,#0891B2)]/5 transition-all cursor-pointer">
@@ -479,7 +499,7 @@ const navLinks = ["Spécialités", "Médecins", "Protocoles", "Science", "Tarifs
                       <span>{activeSpecData.duration}</span>
                     </div>
                   )}
-                  <button className="px-5 py-2.5 bg-[var(--brand,#0891B2)] text-white text-sm font-medium rounded-full hover:bg-[#0e7490] transition-colors cursor-pointer flex items-center gap-2">
+                  <button onClick={() => goToContact(activeSpecData.id)} className="px-5 py-2.5 min-h-[44px] bg-[var(--brand,#0891B2)] text-white text-sm font-medium rounded-full hover:bg-[#0e7490] transition-colors cursor-pointer flex items-center gap-2">
                     Réserver <ArrowRight className="w-4 h-4" />
                   </button>
                 </div>
@@ -523,7 +543,7 @@ const navLinks = ["Spécialités", "Médecins", "Protocoles", "Science", "Tarifs
                     )}
                     <div className="flex items-center justify-between">
                       {doc.years && <span className="text-xs text-[#134E4A]/50">{doc.years} d'expérience</span>}
-                      <button className="text-xs text-[var(--brand,#0891B2)] font-medium flex items-center gap-1 cursor-pointer hover:gap-2 transition-all">
+                      <button onClick={() => goToContact()} className="text-xs text-[var(--brand,#0891B2)] font-medium flex items-center gap-1 cursor-pointer hover:gap-2 transition-all">
                         RDV <ArrowRight className="w-3 h-3" />
                       </button>
                     </div>
@@ -690,7 +710,7 @@ const navLinks = ["Spécialités", "Médecins", "Protocoles", "Science", "Tarifs
                       </li>
                     ))}
                   </ul>
-                  <button className={`w-full py-3 rounded-full font-medium text-sm cursor-pointer transition-all ${plan.color ? "bg-white text-[var(--brand,#0891B2)] hover:bg-white/90" : "bg-[var(--brand,#0891B2)] text-white hover:bg-[#0e7490]"}`}>
+                  <button onClick={() => goToContact()} className={`w-full py-3 min-h-[44px] rounded-full font-medium text-sm cursor-pointer transition-all ${plan.color ? "bg-white text-[var(--brand,#0891B2)] hover:bg-white/90" : "bg-[var(--brand,#0891B2)] text-white hover:bg-[#0e7490]"}`}>
                     Réserver une consultation
                   </button>
                 </div>
@@ -756,21 +776,87 @@ const navLinks = ["Spécialités", "Médecins", "Protocoles", "Science", "Tarifs
             </Reveal>
 
             <Reveal delay={0.2}>
-              <form className="space-y-4" onSubmit={e => e.preventDefault()}>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <input type="text" placeholder="Prénom" className="w-full px-4 py-3 bg-[#F0FDFA] border border-[var(--brand,#0891B2)]/20 rounded-xl text-[#134E4A] placeholder-[#134E4A]/40 focus:outline-none focus:border-[var(--brand,#0891B2)] text-sm" />
-                  <input type="text" placeholder="Nom" className="w-full px-4 py-3 bg-[#F0FDFA] border border-[var(--brand,#0891B2)]/20 rounded-xl text-[#134E4A] placeholder-[#134E4A]/40 focus:outline-none focus:border-[var(--brand,#0891B2)] text-sm" />
-                </div>
-                <input type="email" placeholder="Email" className="w-full px-4 py-3 bg-[#F0FDFA] border border-[var(--brand,#0891B2)]/20 rounded-xl text-[#134E4A] placeholder-[#134E4A]/40 focus:outline-none focus:border-[var(--brand,#0891B2)] text-sm" />
-                <select className="w-full px-4 py-3 bg-[#F0FDFA] border border-[var(--brand,#0891B2)]/20 rounded-xl text-[#134E4A] focus:outline-none focus:border-[var(--brand,#0891B2)] text-sm cursor-pointer">
-                  <option value="">Spécialité souhaitée</option>
-                  {specialties.map((s: any) => <option key={s.id} value={s.id}>{s.label}</option>)}
-                </select>
-                <textarea rows={4} placeholder="Votre message (motif de consultation...)" className="w-full px-4 py-3 bg-[#F0FDFA] border border-[var(--brand,#0891B2)]/20 rounded-xl text-[#134E4A] placeholder-[#134E4A]/40 focus:outline-none focus:border-[var(--brand,#0891B2)] text-sm resize-none" />
-                <button type="submit" className="w-full py-3.5 bg-[var(--brand,#0891B2)] text-white font-semibold rounded-xl hover:bg-[#0e7490] transition-colors cursor-pointer flex items-center justify-center gap-2">
-                  Envoyer ma demande <ArrowRight className="w-4 h-4" />
-                </button>
-              </form>
+              <AnimatePresence mode="wait">
+                {contactSent ? (
+                  <motion.div
+                    key="contact-confirmation"
+                    initial={{ opacity: 0, y: 12 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4 }}
+                    className="bg-[#F0FDFA] rounded-3xl p-10 text-center border border-[var(--brand,#0891B2)]/10"
+                  >
+                    <motion.div
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      transition={{ type: "spring", stiffness: 200, delay: 0.15 }}
+                      className="w-14 h-14 rounded-full bg-[#22C55E]/10 flex items-center justify-center mx-auto mb-6"
+                    >
+                      <CheckCircle className="w-7 h-7 text-[#22C55E]" />
+                    </motion.div>
+                    <h3 className="text-xl font-bold text-[#134E4A] mb-3" style={{ fontFamily: "'Figtree', sans-serif" }}>
+                      Demande envoyée
+                    </h3>
+                    <p className="text-sm text-[#134E4A]/70 leading-relaxed mb-8 max-w-xs mx-auto">
+                      Merci ! Notre équipe vous recontacte sous 24h pour confirmer votre rendez-vous.
+                    </p>
+                    <button
+                      onClick={() => { setContactSent(false); setSelectedSpecialty(""); }}
+                      className="px-8 py-3 min-h-[44px] rounded-full border-2 border-[var(--brand,#0891B2)]/30 text-[var(--brand,#0891B2)] font-semibold text-sm hover:bg-[var(--brand,#0891B2)]/5 transition-all cursor-pointer"
+                    >
+                      Nouvelle demande
+                    </button>
+                  </motion.div>
+                ) : (
+                  <motion.form key="contact-form" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.3 }} className="space-y-4" onSubmit={handleContactSubmit}>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <label htmlFor="contact-firstname" className="sr-only">Prénom</label>
+                        <input id="contact-firstname" type="text" required placeholder="Prénom" className="w-full px-4 py-3 bg-[#F0FDFA] border border-[var(--brand,#0891B2)]/20 rounded-xl text-[#134E4A] placeholder-[#134E4A]/40 focus:outline-none focus:border-[var(--brand,#0891B2)] text-sm" />
+                      </div>
+                      <div>
+                        <label htmlFor="contact-lastname" className="sr-only">Nom</label>
+                        <input id="contact-lastname" type="text" required placeholder="Nom" className="w-full px-4 py-3 bg-[#F0FDFA] border border-[var(--brand,#0891B2)]/20 rounded-xl text-[#134E4A] placeholder-[#134E4A]/40 focus:outline-none focus:border-[var(--brand,#0891B2)] text-sm" />
+                      </div>
+                    </div>
+                    <div>
+                      <label htmlFor="contact-email" className="sr-only">Email</label>
+                      <input id="contact-email" type="email" required placeholder="Email" className="w-full px-4 py-3 bg-[#F0FDFA] border border-[var(--brand,#0891B2)]/20 rounded-xl text-[#134E4A] placeholder-[#134E4A]/40 focus:outline-none focus:border-[var(--brand,#0891B2)] text-sm" />
+                    </div>
+                    <div>
+                      <label htmlFor="contact-specialty" className="sr-only">Spécialité souhaitée</label>
+                      <select
+                        id="contact-specialty"
+                        value={selectedSpecialty}
+                        onChange={e => setSelectedSpecialty(e.target.value)}
+                        className="w-full px-4 py-3 bg-[#F0FDFA] border border-[var(--brand,#0891B2)]/20 rounded-xl text-[#134E4A] focus:outline-none focus:border-[var(--brand,#0891B2)] text-sm cursor-pointer"
+                      >
+                        <option value="">Spécialité souhaitée</option>
+                        {specialties.map((s: any) => <option key={s.id} value={s.id}>{s.label}</option>)}
+                      </select>
+                    </div>
+                    <div>
+                      <label htmlFor="contact-message" className="sr-only">Votre message</label>
+                      <textarea id="contact-message" rows={4} placeholder="Votre message (motif de consultation...)" className="w-full px-4 py-3 bg-[#F0FDFA] border border-[var(--brand,#0891B2)]/20 rounded-xl text-[#134E4A] placeholder-[#134E4A]/40 focus:outline-none focus:border-[var(--brand,#0891B2)] text-sm resize-none" />
+                    </div>
+                    <button
+                      type="submit"
+                      disabled={contactLoading}
+                      className="w-full py-3.5 min-h-[44px] bg-[var(--brand,#0891B2)] text-white font-semibold rounded-xl hover:bg-[#0e7490] transition-colors cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                    >
+                      {contactLoading ? (
+                        <>
+                          <Loader2 className="w-4 h-4 animate-spin" />
+                          Envoi en cours…
+                        </>
+                      ) : (
+                        <>
+                          Envoyer ma demande <ArrowRight className="w-4 h-4" />
+                        </>
+                      )}
+                    </button>
+                  </motion.form>
+                )}
+              </AnimatePresence>
             </Reveal>
           </div>
         </div>

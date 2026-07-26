@@ -1,12 +1,52 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
+import { motion } from "framer-motion";
 import { ArrowRight, Check } from "lucide-react";
-import { C, FONT_HEADING, FONT_LABEL, COLLECTIONS, GemStoneSVG, Reveal } from "../shared";
+import { C, FONT_HEADING, FONT_LABEL, FONT_BODY, COLLECTIONS, GemStoneSVG, Reveal } from "../shared";
+
+const inputStyle: React.CSSProperties = {
+  width: "100%",
+  background: C.bgCard,
+  border: `1px solid ${C.border}`,
+  color: C.text,
+  padding: "14px 18px",
+  outline: "none",
+  fontFamily: FONT_BODY,
+  fontSize: 15,
+};
+
+const labelStyle: React.CSSProperties = {
+  fontFamily: FONT_LABEL,
+  fontSize: 9,
+  letterSpacing: "0.2em",
+  color: C.accent,
+  textTransform: "uppercase",
+  display: "block",
+  marginBottom: 8,
+};
 
 export default function SurMesurePage() {
   const bespoke = COLLECTIONS.find((c) => c.id === "bespoke")?.pieces || [];
   const [hoveredPiece, setHoveredPiece] = useState<number | null>(null);
+  const [message, setMessage] = useState("");
+  const [inquiryLoading, setInquiryLoading] = useState(false);
+  const [inquirySent, setInquirySent] = useState(false);
+  const formRef = useRef<HTMLDivElement>(null);
+
+  const handleSelectPiece = (pieceName: string) => {
+    setMessage(`Je souhaite une création inspirée de : ${pieceName} — `);
+    formRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
+  const handleInquirySubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setInquiryLoading(true);
+    setTimeout(() => {
+      setInquiryLoading(false);
+      setInquirySent(true);
+    }, 2200);
+  };
 
   const steps = [
     { num: "01", title: "Consultation Privée", desc: "Rencontre confidentielle dans notre atelier parisien ou à domicile pour définir votre vision." },
@@ -89,6 +129,7 @@ export default function SurMesurePage() {
                       {piece.price}
                     </span>
                     <button
+                      onClick={() => handleSelectPiece(piece.name)}
                       style={{
                         background: "transparent",
                         border: "none",
@@ -101,6 +142,8 @@ export default function SurMesurePage() {
                         alignItems: "center",
                         gap: 8,
                         cursor: "pointer",
+                        minHeight: 44,
+                        padding: "0 4px",
                       }}
                     >
                       DÉTAILS <ArrowRight size={12} />
@@ -130,6 +173,102 @@ export default function SurMesurePage() {
               </Reveal>
             ))}
           </div>
+        </div>
+
+        {/* Inquiry / consultation request form */}
+        <div ref={formRef} style={{ borderTop: `1px solid ${C.border}`, paddingTop: 80, marginTop: 80 }}>
+          <Reveal>
+            <div style={{ textAlign: "center", marginBottom: 50 }}>
+              <span style={{ fontFamily: FONT_LABEL, fontSize: 10, letterSpacing: "0.3em", color: C.accent, textTransform: "uppercase" }}>
+                Débuter votre création
+              </span>
+              <h2 style={{ fontFamily: FONT_HEADING, fontSize: "clamp(28px, 4vw, 40px)", fontWeight: 300, color: C.text, marginTop: 16 }}>
+                Demander une <em>consultation</em>
+              </h2>
+              <p style={{ fontFamily: FONT_BODY, fontSize: 16, color: C.textMuted, lineHeight: 1.7, maxWidth: 560, margin: "20px auto 0" }}>
+                Décrivez-nous votre projet — nos maîtres joailliers vous recontactent sous 24h pour organiser votre première consultation privée.
+              </p>
+            </div>
+          </Reveal>
+
+          <Reveal delay={0.1}>
+            <div style={{ maxWidth: 640, margin: "0 auto", background: C.bgCard, border: `1px solid ${C.border}`, padding: "48px 40px" }}>
+              {inquirySent ? (
+                <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} style={{ textAlign: "center", padding: "20px 0" }}>
+                  <motion.div
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{ type: "spring", stiffness: 200, delay: 0.15 }}
+                    style={{ width: 56, height: 56, borderRadius: "50%", border: `1px solid ${C.accent}`, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 24px" }}
+                  >
+                    <Check size={22} color={C.accent} />
+                  </motion.div>
+                  <h3 style={{ fontFamily: FONT_HEADING, fontSize: 26, color: C.text, marginBottom: 12 }}>Demande reçue</h3>
+                  <p style={{ fontFamily: FONT_BODY, fontSize: 15, color: C.textMuted, lineHeight: 1.7 }}>
+                    Merci. Un membre de notre atelier vous contactera personnellement sous 24h pour organiser votre consultation privée à Paris, Monaco ou à domicile.
+                  </p>
+                </motion.div>
+              ) : (
+                <motion.form
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  onSubmit={handleInquirySubmit}
+                  style={{ display: "flex", flexDirection: "column", gap: 22 }}
+                >
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>
+                    <div>
+                      <label htmlFor="sm-name" style={labelStyle}>Nom complet</label>
+                      <input id="sm-name" name="name" type="text" required placeholder="Votre nom" style={inputStyle} />
+                    </div>
+                    <div>
+                      <label htmlFor="sm-email" style={labelStyle}>Email</label>
+                      <input id="sm-email" name="email" type="email" required placeholder="vous@email.com" style={inputStyle} />
+                    </div>
+                  </div>
+                  <div>
+                    <label htmlFor="sm-phone" style={labelStyle}>Téléphone</label>
+                    <input id="sm-phone" name="phone" type="tel" required placeholder="+33 6 00 00 00 00" style={inputStyle} />
+                  </div>
+                  <div>
+                    <label htmlFor="sm-message" style={labelStyle}>Décrivez la pièce que vous souhaitez créer</label>
+                    <textarea
+                      id="sm-message"
+                      name="message"
+                      rows={5}
+                      required
+                      value={message}
+                      onChange={(e) => setMessage(e.target.value)}
+                      placeholder="Type de pièce, pierres, budget approximatif, occasion..."
+                      style={{ ...inputStyle, resize: "none" }}
+                    />
+                  </div>
+                  <button
+                    type="submit"
+                    disabled={inquiryLoading}
+                    style={{
+                      minHeight: 44,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      gap: 10,
+                      padding: "16px",
+                      background: C.accent,
+                      color: C.bg,
+                      border: "none",
+                      fontFamily: FONT_LABEL,
+                      fontSize: 11,
+                      letterSpacing: "0.2em",
+                      textTransform: "uppercase",
+                      cursor: inquiryLoading ? "not-allowed" : "pointer",
+                      opacity: inquiryLoading ? 0.6 : 1,
+                    }}
+                  >
+                    {inquiryLoading ? "Envoi en cours…" : "Demander une consultation"}
+                  </button>
+                </motion.form>
+              )}
+            </div>
+          </Reveal>
         </div>
       </div>
     </section>

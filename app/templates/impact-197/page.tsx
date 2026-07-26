@@ -472,6 +472,21 @@ return (
         }
         /* Mobile header fix: collapse the desktop nav on phones so it can't overlap the logo */
         @media (max-width: 900px){ .sky-desktop-nav{ display: none !important; } }
+        /* Mobile hero fix: the floating "Concierge en ligne" card was absolute-positioned over the
+           CTA buttons — pull it into normal flow below the buttons and shrink it on small screens. */
+        @media (max-width: 768px) {
+          .imx-hero197-section { flex-direction: column !important; padding: 100px 0 32px !important; }
+          .imx-hero197-card {
+            position: static !important;
+            margin-top: 28px !important;
+            right: auto !important;
+            bottom: auto !important;
+            display: inline-flex !important;
+            flex-direction: column !important;
+            min-width: 0 !important;
+            padding: 16px 20px !important;
+          }
+        }
       `}</style>
 
       {/* NAV */}
@@ -541,6 +556,7 @@ return (
           {/* HERO */}
       <section id="hero"
         ref={heroRef}
+        className="imx-hero197-section"
         style={{ position: "relative", height: "100dvh", minHeight: 700, overflow: "hidden", display: "flex", alignItems: "center" }}
       >
         <motion.div style={{ position: "absolute", inset: 0, y: heroY, scale: heroScale }}>
@@ -614,6 +630,7 @@ return (
 
         {/* Hero floating card */}
         <motion.div
+          className="imx-hero197-card"
           initial={{ opacity: 0, x: 60 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 1, duration: 0.8 }}
@@ -1308,6 +1325,33 @@ function ConceptPage({ goTo }: { goTo: (p: ActivePage) => void }) {
 }
 
 function FormulesPage() {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [destination, setDestination] = useState("");
+  const [formule, setFormule] = useState("evasion");
+  const [notes, setNotes] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [sent, setSent] = useState(false);
+
+  const FORMULE_LABELS: Record<string, string> = {
+    evasion: "Évasion — Le Voyage Essentiel",
+    prestige: "Prestige — L'Expérience Signature",
+    excellence: "Excellence — Le Sur-Mesure Absolu",
+  };
+
+  const inputStyle: React.CSSProperties = { width: "100%", padding: "12px 16px", border: `1px solid ${C.borderLight}`, borderRadius: 4, fontSize: 14, fontFamily: "system-ui", outline: "none", color: C.text };
+  const labelStyle: React.CSSProperties = { display: "block", fontSize: 11, fontWeight: 600, color: C.marine, fontFamily: "system-ui", marginBottom: 8, letterSpacing: "0.04em" };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!name || !email || !destination) return;
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+      setSent(true);
+    }, 1600);
+  };
+
   return (
     <section style={{ padding: "140px 40px", background: C.bg, minHeight: "100dvh" }}>
       <div style={{ maxWidth: 800, margin: "0 auto" }}>
@@ -1325,50 +1369,92 @@ function FormulesPage() {
           </p>
         </div>
 
-        <form onSubmit={(e) => e.preventDefault()} style={{ background: C.white, border: `1px solid ${C.borderLight}`, padding: 40, borderRadius: 16, display: "flex", flexDirection: "column", gap: 24 }}>
-          <div className="imx-mobstack" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24 }}>
-            <div>
-              <label style={{ display: "block", fontSize: 11, fontWeight: 600, color: C.marine, fontFamily: "system-ui", marginBottom: 8, letterSpacing: "0.04em" }}>NOM COMPLET</label>
-              <input type="text" placeholder="Votre nom" style={{ width: "100%", padding: "12px 16px", border: `1px solid ${C.borderLight}`, borderRadius: 4, fontSize: 14, fontFamily: "system-ui", outline: "none" }} />
-            </div>
-            <div>
-              <label style={{ display: "block", fontSize: 11, fontWeight: 600, color: C.marine, fontFamily: "system-ui", marginBottom: 8, letterSpacing: "0.04em" }}>ADRESSE EMAIL</label>
-              <input type="email" placeholder="nom@email.com" style={{ width: "100%", padding: "12px 16px", border: `1px solid ${C.borderLight}`, borderRadius: 4, fontSize: 14, fontFamily: "system-ui", outline: "none" }} />
-            </div>
-          </div>
+        <AnimatePresence mode="wait">
+          {sent ? (
+            <motion.div
+              key="success"
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              style={{ background: C.white, border: `1px solid ${C.borderLight}`, padding: 56, borderRadius: 16, textAlign: "center" }}
+            >
+              <div style={{
+                width: 64, height: 64, borderRadius: "50%", border: `1px solid ${C.accent}`,
+                display: "flex", alignItems: "center", justifyContent: "center",
+                margin: "0 auto 24px", fontSize: 24, color: C.accent,
+              }}>✓</div>
+              <h3 style={{ fontSize: 24, fontWeight: 500, color: C.marine, fontFamily: "'Cormorant Garamond', Georgia, serif", marginBottom: 12 }}>
+                Demande envoyée
+              </h3>
+              <p style={{ fontSize: 14, color: C.textMuted, fontFamily: "system-ui", lineHeight: 1.7 }}>
+                Merci {name}. Votre projet pour <strong style={{ color: C.marine }}>{destination}</strong> (formule {FORMULE_LABELS[formule]}) a bien été transmis à un conseiller dédié. Vous recevrez une réponse par email sous 4 heures.
+              </p>
+            </motion.div>
+          ) : (
+            <motion.form
+              key="form"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              onSubmit={handleSubmit}
+              style={{ background: C.white, border: `1px solid ${C.borderLight}`, padding: 40, borderRadius: 16, display: "flex", flexDirection: "column", gap: 24 }}
+            >
+              <div className="imx-mobstack" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24 }}>
+                <div>
+                  <label htmlFor="devis-name" style={labelStyle}>NOM COMPLET *</label>
+                  <input id="devis-name" type="text" required value={name} onChange={(e) => setName(e.target.value)} placeholder="Votre nom" style={inputStyle} />
+                </div>
+                <div>
+                  <label htmlFor="devis-email" style={labelStyle}>ADRESSE EMAIL *</label>
+                  <input id="devis-email" type="email" required value={email} onChange={(e) => setEmail(e.target.value)} placeholder="nom@email.com" style={inputStyle} />
+                </div>
+              </div>
 
-          <div className="imx-mobstack" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24 }}>
-            <div>
-              <label style={{ display: "block", fontSize: 11, fontWeight: 600, color: C.marine, fontFamily: "system-ui", marginBottom: 8, letterSpacing: "0.04em" }}>DESTINATION SOUHAITÉE</label>
-              <input type="text" placeholder="Ex: Maldives, Japon..." style={{ width: "100%", padding: "12px 16px", border: `1px solid ${C.borderLight}`, borderRadius: 4, fontSize: 14, fontFamily: "system-ui", outline: "none" }} />
-            </div>
-            <div>
-              <label style={{ display: "block", fontSize: 11, fontWeight: 600, color: C.marine, fontFamily: "system-ui", marginBottom: 8, letterSpacing: "0.04em" }}>FORMULE SOUHAITÉE</label>
-              <select style={{ width: "100%", padding: "12px 16px", border: `1px solid ${C.borderLight}`, borderRadius: 4, fontSize: 14, fontFamily: "system-ui", outline: "none", color: C.text }}>
-                <option value="evasion">Évasion — Le Voyage Essentiel</option>
-                <option value="prestige">Prestige — L'Expérience Signature</option>
-                <option value="excellence">Excellence — Le Sur-Mesure Absolu</option>
-              </select>
-            </div>
-          </div>
+              <div className="imx-mobstack" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24 }}>
+                <div>
+                  <label htmlFor="devis-dest" style={labelStyle}>DESTINATION SOUHAITÉE *</label>
+                  <input id="devis-dest" type="text" required value={destination} onChange={(e) => setDestination(e.target.value)} placeholder="Ex: Maldives, Japon..." style={inputStyle} />
+                </div>
+                <div>
+                  <label htmlFor="devis-formule" style={labelStyle}>FORMULE SOUHAITÉE</label>
+                  <select id="devis-formule" value={formule} onChange={(e) => setFormule(e.target.value)} style={{ ...inputStyle, cursor: "pointer" }}>
+                    <option value="evasion">Évasion — Le Voyage Essentiel</option>
+                    <option value="prestige">Prestige — L'Expérience Signature</option>
+                    <option value="excellence">Excellence — Le Sur-Mesure Absolu</option>
+                  </select>
+                </div>
+              </div>
 
-          <div>
-            <label style={{ display: "block", fontSize: 11, fontWeight: 600, color: C.marine, fontFamily: "system-ui", marginBottom: 8, letterSpacing: "0.04em" }}>EXIGENCES PARTICULIÈRES</label>
-            <textarea rows={4} placeholder="Indiquez ici le nombre de voyageurs, les préférences d'hôtels, activités spécifiques..." style={{ width: "100%", padding: "12px 16px", border: `1px solid ${C.borderLight}`, borderRadius: 4, fontSize: 14, fontFamily: "system-ui", outline: "none", resize: "none" }} />
-          </div>
+              <div>
+                <label htmlFor="devis-notes" style={labelStyle}>EXIGENCES PARTICULIÈRES</label>
+                <textarea id="devis-notes" rows={4} value={notes} onChange={(e) => setNotes(e.target.value)} placeholder="Indiquez ici le nombre de voyageurs, les préférences d'hôtels, activités spécifiques..." style={{ ...inputStyle, resize: "none" }} />
+              </div>
 
-          <button
-            type="submit"
-            style={{
-              padding: "16px", background: C.marine, color: C.white,
-              border: "none", borderRadius: 3,
-              fontSize: 12, fontFamily: "system-ui", fontWeight: 700,
-              letterSpacing: "0.12em", cursor: "pointer",
-            }}
-          >
-            ENVOYER MA DEMANDE DE CONCILIATION
-          </button>
-        </form>
+              <button
+                type="submit"
+                disabled={loading}
+                style={{
+                  minHeight: 44,
+                  padding: "16px", background: C.marine, color: C.white,
+                  border: "none", borderRadius: 3,
+                  fontSize: 12, fontFamily: "system-ui", fontWeight: 700,
+                  letterSpacing: "0.12em", cursor: loading ? "not-allowed" : "pointer",
+                  opacity: loading ? 0.7 : 1,
+                  display: "flex", alignItems: "center", justifyContent: "center", gap: 10,
+                }}
+              >
+                {loading ? (
+                  <>
+                    <motion.span
+                      animate={{ rotate: 360 }}
+                      transition={{ duration: 0.9, repeat: Infinity, ease: "linear" }}
+                      style={{ width: 14, height: 14, borderRadius: "50%", border: `2px solid rgba(255,255,255,0.4)`, borderTopColor: C.white, display: "inline-block" }}
+                    />
+                    ENVOI EN COURS…
+                  </>
+                ) : "ENVOYER MA DEMANDE DE DEVIS"}
+              </button>
+            </motion.form>
+          )}
+        </AnimatePresence>
       </div>
     </section>
   );

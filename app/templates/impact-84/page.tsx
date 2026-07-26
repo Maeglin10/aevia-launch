@@ -98,23 +98,23 @@ return (
           <Image src={photo(0, "https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=1600&q=85&fit=crop")} alt={fd?.businessName ?? "Cypher Clinic"} fill className="object-cover" />
           <div className="absolute inset-0 bg-gradient-to-r from-[#0C0C0A]/95 via-[#0C0C0A]/70 to-[#0C0C0A]/20" />
         </motion.div>
-        <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 pt-32 pb-24 w-full flex flex-col justify-center">
+        <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 pt-24 pb-12 md:pt-32 md:pb-24 w-full flex flex-col justify-center">
           <Reveal>
-            <div className="flex items-center gap-2 mb-8">
+            <div className="flex items-center gap-2 mb-4 md:mb-8">
               <Sparkles className="w-4 h-4 text-[var(--brand)]" />
               <span className="text-xs tracking-[0.3em] uppercase text-[var(--brand)]">Clinique d&apos;excellence médicale</span>
             </div>
           </Reveal>
           <Reveal delay={0.1}>
-            <h1 className="text-5xl md:text-7xl font-light text-[#F0EBE0] leading-[1.2] mb-8 max-w-3xl pb-4" style={{ fontFamily: "'Bodoni Moda', serif" }}>{c?.heroHeadline ?? <>
+            <h1 className="text-4xl md:text-7xl font-light text-[#F0EBE0] leading-[1.2] mb-4 md:mb-8 max-w-3xl pb-2 md:pb-4" style={{ fontFamily: "'Bodoni Moda', serif" }}>{c?.heroHeadline ?? <>
               L&apos;art de la médecine<br />esthétique de <em>précision</em>
             </>}</h1>
           </Reveal>
           <Reveal delay={0.2}>
-            <p className="text-[#8A8278] text-lg max-w-xl mb-12 leading-relaxed">{c?.heroSubline ?? fd?.tagline ?? <>
+            <p className="text-[#8A8278] text-base md:text-lg max-w-xl mb-6 md:mb-12 leading-relaxed">{c?.heroSubline ?? fd?.tagline ?? <>
               Une harmonie mesurée entre rigueur scientifique et vision artistique du visage. Nos protocoles de pointe respectent votre morphologie naturelle pour des résultats invisibles et durables.
             </>}</p>
-            <div className="flex flex-col sm:flex-row gap-5">
+            <div className="flex flex-col sm:flex-row gap-3 md:gap-5">
               <Link href={`${basePath}/protocoles`} className="inline-flex items-center gap-3 px-8 py-4 bg-[var(--brand)] text-[#0C0C0A] font-medium text-sm tracking-wide uppercase hover:bg-[var(--brand-light)] transition-colors cursor-pointer">
                 Découvrir nos protocoles <ArrowRight className="w-4 h-4" />
               </Link>

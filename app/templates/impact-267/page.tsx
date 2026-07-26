@@ -569,7 +569,7 @@ function Hero() {
   };
 
   return (
-    <section ref={ref} id="hero" style={sec}>
+    <section ref={ref} id="hero" style={sec} className="hero-section">
       {/* Photo parallaxe */}
       <motion.div
         style={{
@@ -607,6 +607,7 @@ function Hero() {
 
       {/* Contenu bas-gauche */}
       <motion.div
+        className="hero-content"
         style={{
           position: 'absolute',
           bottom: 'clamp(56px, 9vh, 110px)',
@@ -710,6 +711,21 @@ function Hero() {
           <ChevronDown size={18} color={C.accent} strokeWidth={1.5} />
         </motion.div>
       </motion.div>
+      <style>{`
+        @media (min-width: 768px) and (max-width: 1023px) {
+          .hero-section { display: flex !important; align-items: center !important; }
+          .hero-content {
+            position: static !important;
+            bottom: auto !important;
+            left: auto !important;
+            right: auto !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
+            padding-left: clamp(24px, 6vw, 100px) !important;
+            padding-right: clamp(24px, 6vw, 100px) !important;
+          }
+        }
+      `}</style>
     </section>
   );
 }

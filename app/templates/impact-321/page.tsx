@@ -158,37 +158,41 @@ const Eyebrow = ({ text, color = C.primary }) => (
   </Reveal>
 );
 
-const Button = ({ children, href, primary, icon: Icon, onClick, style = {} }) => {
+const Button = ({ children, href, primary, icon: Icon, onClick, style = {}, type = 'button', disabled = false }: any) => {
   const [hover, setHover] = useState(false);
-  
+
   const baseStyle = {
     display: 'inline-flex',
     alignItems: 'center',
     justifyContent: 'center',
     gap: '12px',
     padding: '16px 32px',
+    minHeight: 44,
     fontFamily: SANS,
     fontSize: '15px',
     fontWeight: 600,
     letterSpacing: '0.5px',
     textDecoration: 'none',
     border: `1px solid ${primary ? C.primary : 'rgba(255,255,255,0.2)'}`,
-    backgroundColor: primary ? (hover ? C.primaryLight : C.primary) : (hover ? 'rgba(255,255,255,0.05)' : 'transparent'),
+    backgroundColor: primary ? (hover && !disabled ? C.primaryLight : C.primary) : (hover && !disabled ? 'rgba(255,255,255,0.05)' : 'transparent'),
     color: primary ? C.bgDeep : C.white,
     transition: 'all 0.3s ease',
-    cursor: 'pointer',
+    cursor: disabled ? 'not-allowed' : 'pointer',
+    opacity: disabled ? 0.6 : 1,
     position: 'relative',
     overflow: 'hidden',
     borderRadius: '4px',
     ...style
   };
 
-  const Element = href ? 'a' : 'button';
+  const Element: any = href ? 'a' : 'button';
 
   return (
-    <Element 
+    <Element
       href={href}
-      onClick={onClick}
+      onClick={disabled ? undefined : onClick}
+      type={href ? undefined : type}
+      disabled={href ? undefined : disabled}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
       style={baseStyle}
@@ -196,7 +200,7 @@ const Button = ({ children, href, primary, icon: Icon, onClick, style = {} }) =>
       {children}
       {Icon && (
         <motion.span
-          animate={{ x: hover ? 5 : 0 }}
+          animate={{ x: hover && !disabled ? 5 : 0 }}
           transition={{ duration: 0.3, ease: EASE }}
         >
           <Icon size={18} />
@@ -244,6 +248,27 @@ export default function AIHorizonsTemplate() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeTab, setActiveTab] = useState(0); // Agenda tabs
+
+  // Ticket registration modal
+  const [registrationTier, setRegistrationTier] = useState<string | null>(null);
+  const [regForm, setRegForm] = useState({ name: '', email: '', company: '' });
+  const [regLoading, setRegLoading] = useState(false);
+  const [regSent, setRegSent] = useState(false);
+  const openRegistration = (tierName: string) => {
+    setRegistrationTier(tierName);
+    setRegSent(false);
+    setRegForm({ name: '', email: '', company: '' });
+  };
+  const closeRegistration = () => setRegistrationTier(null);
+  const handleRegistrationSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!regForm.name || !regForm.email) return;
+    setRegLoading(true);
+    setTimeout(() => {
+      setRegLoading(false);
+      setRegSent(true);
+    }, 1800);
+  };
 
   // Standard session loading (matches every other template): the wizard
   // links here as /templates/impact-321?session=<id>, and the correct
@@ -1115,7 +1140,7 @@ export default function AIHorizonsTemplate() {
                     ))}
                   </div>
 
-                  <Button primary={ticket.primary} style={{ width: '100%' }}>
+                  <Button primary={ticket.primary} onClick={() => openRegistration(ticket.name)} style={{ width: '100%' }}>
                     Réserver maintenant
                   </Button>
                 </div>
@@ -1254,6 +1279,158 @@ export default function AIHorizonsTemplate() {
           Créé avec AeviaLaunch.
         </div>
       </footer>
+
+      {/* ========================================================
+          TICKET REGISTRATION MODAL
+          ======================================================== */}
+      <AnimatePresence>
+        {registrationTier && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={closeRegistration}
+            style={{
+              position: 'fixed',
+              inset: 0,
+              zIndex: 200,
+              backgroundColor: 'rgba(3,7,18,0.8)',
+              backdropFilter: 'blur(6px)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              padding: '24px',
+            }}
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              transition={{ duration: 0.25, ease: "easeOut" }}
+              onClick={(e) => e.stopPropagation()}
+              style={{
+                width: '100%',
+                maxWidth: '460px',
+                backgroundColor: C.bgCard,
+                border: '1px solid rgba(255,255,255,0.08)',
+                borderRadius: '16px',
+                padding: '40px',
+                position: 'relative',
+                maxHeight: '90vh',
+                overflowY: 'auto',
+              }}
+            >
+              <button
+                onClick={closeRegistration}
+                aria-label="Fermer"
+                style={{
+                  position: 'absolute',
+                  top: '16px',
+                  right: '16px',
+                  width: '44px',
+                  height: '44px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  background: 'transparent',
+                  border: 'none',
+                  color: C.textMuted,
+                  cursor: 'pointer',
+                  borderRadius: '8px',
+                }}
+              >
+                <X size={20} />
+              </button>
+
+              {regSent ? (
+                <div style={{ textAlign: 'center', padding: '24px 0' }}>
+                  <CheckCircle2 size={48} color={C.primary} style={{ margin: '0 auto 16px' }} />
+                  <h3 style={{ fontFamily: SERIF, fontSize: '22px', color: C.white, marginBottom: '12px' }}>Inscription confirmée !</h3>
+                  <p style={{ color: C.textMuted, fontSize: '15px', lineHeight: 1.6 }}>
+                    Merci {regForm.name}, votre inscription au tarif <strong style={{ color: C.white }}>{registrationTier}</strong> est enregistrée. Un email de confirmation arrive à {regForm.email}.
+                  </p>
+                  <div style={{ marginTop: '32px' }}>
+                    <Button primary onClick={closeRegistration} style={{ width: '100%' }}>Fermer</Button>
+                  </div>
+                </div>
+              ) : (
+                <>
+                  <h3 style={{ fontFamily: SERIF, fontSize: '22px', color: C.white, marginBottom: '8px' }}>Réserver votre pass</h3>
+                  <p style={{ color: C.primary, fontSize: '14px', fontWeight: 600, marginBottom: '28px', letterSpacing: '0.5px' }}>
+                    Tarif sélectionné : {registrationTier}
+                  </p>
+                  <form onSubmit={handleRegistrationSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                    <div>
+                      <label htmlFor="reg-name" style={{ display: 'block', fontFamily: SANS, fontSize: '13px', fontWeight: 600, color: C.white, marginBottom: '8px' }}>Nom complet</label>
+                      <input
+                        id="reg-name"
+                        type="text"
+                        required
+                        value={regForm.name}
+                        onChange={(e) => setRegForm({ ...regForm, name: e.target.value })}
+                        style={{
+                          width: '100%', minHeight: 44, boxSizing: 'border-box', padding: '12px 16px',
+                          backgroundColor: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.15)',
+                          borderRadius: '8px', color: C.white, fontFamily: SANS, fontSize: '15px', outline: 'none',
+                        }}
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="reg-email" style={{ display: 'block', fontFamily: SANS, fontSize: '13px', fontWeight: 600, color: C.white, marginBottom: '8px' }}>Email professionnel</label>
+                      <input
+                        id="reg-email"
+                        type="email"
+                        required
+                        value={regForm.email}
+                        onChange={(e) => setRegForm({ ...regForm, email: e.target.value })}
+                        style={{
+                          width: '100%', minHeight: 44, boxSizing: 'border-box', padding: '12px 16px',
+                          backgroundColor: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.15)',
+                          borderRadius: '8px', color: C.white, fontFamily: SANS, fontSize: '15px', outline: 'none',
+                        }}
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="reg-company" style={{ display: 'block', fontFamily: SANS, fontSize: '13px', fontWeight: 600, color: C.white, marginBottom: '8px' }}>Entreprise (facultatif)</label>
+                      <input
+                        id="reg-company"
+                        type="text"
+                        value={regForm.company}
+                        onChange={(e) => setRegForm({ ...regForm, company: e.target.value })}
+                        style={{
+                          width: '100%', minHeight: 44, boxSizing: 'border-box', padding: '12px 16px',
+                          backgroundColor: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.15)',
+                          borderRadius: '8px', color: C.white, fontFamily: SANS, fontSize: '15px', outline: 'none',
+                        }}
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="reg-tier" style={{ display: 'block', fontFamily: SANS, fontSize: '13px', fontWeight: 600, color: C.white, marginBottom: '8px' }}>Tarif</label>
+                      <select
+                        id="reg-tier"
+                        value={registrationTier}
+                        onChange={(e) => setRegistrationTier(e.target.value)}
+                        style={{
+                          width: '100%', minHeight: 44, boxSizing: 'border-box', padding: '12px 16px',
+                          backgroundColor: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.15)',
+                          borderRadius: '8px', color: C.white, fontFamily: SANS, fontSize: '15px', outline: 'none', cursor: 'pointer',
+                        }}
+                      >
+                        {tickets.map((t) => (
+                          <option key={t.name} value={t.name} style={{ color: '#000' }}>{t.name} — {t.price}</option>
+                        ))}
+                      </select>
+                    </div>
+                    <Button type="submit" primary disabled={regLoading} style={{ width: '100%', marginTop: '8px' }}>
+                      {regLoading ? 'Envoi en cours…' : 'Confirmer mon inscription'}
+                    </Button>
+                  </form>
+                </>
+              )}
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

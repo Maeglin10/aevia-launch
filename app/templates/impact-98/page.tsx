@@ -358,7 +358,7 @@ export default function ZenithWatchesPage() {
                 at 224px overflowed straight into the circular VHP badge column.
                 Step it up progressively so it only hits full size once there's
                 room for both columns. */}
-            <h1 className="text-8xl md:text-[8rem] lg:text-[9rem] xl:text-[11rem] 2xl:text-[14rem] font-black leading-[0.75] tracking-tighter mb-12 uppercase text-white italic">{c?.heroHeadline ?? <>
+            <h1 className="text-5xl sm:text-6xl md:text-[8rem] lg:text-[9rem] xl:text-[11rem] 2xl:text-[14rem] font-black leading-[0.95] md:leading-[0.75] tracking-tighter mb-12 uppercase text-white italic break-words">{c?.heroHeadline ?? <>
               Taming <br />{" "}
               <span className="text-[var(--brand,#d4af37)] not-italic">Entropy.</span>
             </>}</h1>

@@ -1,7 +1,7 @@
 "use client";
 // @ts-nocheck
 
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import {useRef, useState, useEffect} from 'react';
 import Image from "next/image";
 import Link from "next/link";
@@ -17,6 +17,10 @@ import {
   ChevronRight,
   Check,
   ShoppingBag,
+  X,
+  Plus,
+  Minus,
+  Trash2,
 } from "lucide-react";
 import { Reveal, GridBackground } from "./shared";
 
@@ -207,6 +211,384 @@ const GUARANTEES = [
 ];
 
 
+/* ============================================================
+   CART / CHECKOUT — helpers & types
+   ============================================================ */
+
+type CartItem = {
+  key: string;
+  id: number;
+  name: string;
+  price: number;
+  qty: number;
+  strap: string;
+  size: string;
+  img: string;
+};
+
+type SelectableProduct = { id: number; name: string; price: string; img: string };
+
+const STRAP_OPTIONS = ["Alligator noir", "Alligator bordeaux", "Acier milanais", "Caoutchouc noir"];
+const SIZE_OPTIONS = ["38mm", "40mm", "42mm", "44mm"];
+
+function parsePriceToNumber(price: string): number {
+  const digits = price.replace(/[^\d]/g, "");
+  return digits ? parseInt(digits, 10) : 0;
+}
+
+function formatEUR(n: number): string {
+  return new Intl.NumberFormat("fr-FR", {
+    style: "currency",
+    currency: "EUR",
+    maximumFractionDigits: 0,
+  }).format(n);
+}
+
+/* ── Variant selection modal — required before add-to-cart ────────────── */
+function ProductVariantModal({
+  product,
+  onClose,
+  onAdd,
+}: {
+  product: SelectableProduct | null;
+  onClose: () => void;
+  onAdd: (strap: string, size: string, qty: number) => void;
+}) {
+  const [strap, setStrap] = useState("");
+  const [size, setSize] = useState("");
+  const [qty, setQty] = useState(1);
+
+  useEffect(() => {
+    setStrap("");
+    setSize("");
+    setQty(1);
+  }, [product?.id]);
+
+  return (
+    <AnimatePresence>
+      {product && (
+        <>
+          <motion.div
+            key="pv-overlay"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={onClose}
+            className="fixed inset-0 bg-black/60 z-[300]"
+          />
+          <motion.div
+            key="pv-panel"
+            initial={{ opacity: 0, y: 24, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 24, scale: 0.98 }}
+            transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            role="dialog"
+            aria-modal="true"
+            aria-label={`Choisir les options — ${product.name}`}
+            className="fixed inset-x-4 top-1/2 -translate-y-1/2 md:inset-x-auto md:left-1/2 md:-translate-x-1/2 max-w-md w-full mx-auto bg-white rounded-xl z-[310] max-h-[90vh] overflow-y-auto"
+          >
+            <div className="relative">
+              <button
+                onClick={onClose}
+                aria-label="Fermer"
+                className="absolute top-3 right-3 z-10 w-11 h-11 flex items-center justify-center bg-white/90 rounded-full cursor-pointer border-none hover:bg-white transition-colors"
+              >
+                <X className="w-4 h-4 text-[#0a0a0a]" />
+              </button>
+              <div className="relative aspect-[4/3] bg-[#f5f5f5] rounded-t-xl overflow-hidden">
+                <Image src={product.img} alt={product.name} fill className="object-cover" />
+              </div>
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  onAdd(strap, size, qty);
+                }}
+                className="p-6"
+              >
+                <p className="font-black text-[#0a0a0a] uppercase tracking-tight text-lg mb-1">{product.name}</p>
+                <p className="font-bold text-[#0a0a0a]/60 text-sm mb-6">{product.price}</p>
+
+                <label htmlFor="pv-strap" className="block text-[9px] font-black uppercase tracking-widest text-[#0a0a0a]/50 mb-2">
+                  Bracelet
+                </label>
+                <select
+                  id="pv-strap"
+                  name="strap"
+                  required
+                  value={strap}
+                  onChange={(e) => setStrap(e.target.value)}
+                  className="w-full mb-5 px-4 py-3.5 border border-[#0a0a0a]/15 rounded-lg text-sm text-[#0a0a0a] bg-white cursor-pointer focus:outline-none focus:border-[#0a0a0a] transition-colors"
+                >
+                  <option value="" disabled>Choisir un bracelet</option>
+                  {STRAP_OPTIONS.map((s) => (
+                    <option key={s} value={s}>{s}</option>
+                  ))}
+                </select>
+
+                <label htmlFor="pv-size" className="block text-[9px] font-black uppercase tracking-widest text-[#0a0a0a]/50 mb-2">
+                  Taille du boîtier
+                </label>
+                <select
+                  id="pv-size"
+                  name="size"
+                  required
+                  value={size}
+                  onChange={(e) => setSize(e.target.value)}
+                  className="w-full mb-5 px-4 py-3.5 border border-[#0a0a0a]/15 rounded-lg text-sm text-[#0a0a0a] bg-white cursor-pointer focus:outline-none focus:border-[#0a0a0a] transition-colors"
+                >
+                  <option value="" disabled>Choisir une taille</option>
+                  {SIZE_OPTIONS.map((s) => (
+                    <option key={s} value={s}>{s}</option>
+                  ))}
+                </select>
+
+                <div className="flex items-center justify-between mb-6">
+                  <span className="text-[9px] font-black uppercase tracking-widest text-[#0a0a0a]/50">Quantité</span>
+                  <div className="flex items-center gap-3">
+                    <button
+                      type="button"
+                      onClick={() => setQty((q) => Math.max(1, q - 1))}
+                      aria-label="Diminuer la quantité"
+                      className="w-11 h-11 flex items-center justify-center border border-[#0a0a0a]/15 rounded-lg cursor-pointer hover:border-[#0a0a0a] transition-colors"
+                    >
+                      <Minus className="w-4 h-4" />
+                    </button>
+                    <span className="w-6 text-center font-bold">{qty}</span>
+                    <button
+                      type="button"
+                      onClick={() => setQty((q) => q + 1)}
+                      aria-label="Augmenter la quantité"
+                      className="w-11 h-11 flex items-center justify-center border border-[#0a0a0a]/15 rounded-lg cursor-pointer hover:border-[#0a0a0a] transition-colors"
+                    >
+                      <Plus className="w-4 h-4" />
+                    </button>
+                  </div>
+                </div>
+
+                <button
+                  type="submit"
+                  className="w-full min-h-[44px] flex items-center justify-center gap-3 px-8 py-4 bg-[#0a0a0a] text-white text-[9px] font-black uppercase tracking-widest rounded-lg hover:bg-[#333] transition-all cursor-pointer border-none"
+                >
+                  <ShoppingBag className="w-4 h-4" />
+                  Ajouter au panier
+                </button>
+              </form>
+            </div>
+          </motion.div>
+        </>
+      )}
+    </AnimatePresence>
+  );
+}
+
+/* ── Cart drawer — line items, total, checkout, confirmation ──────────── */
+function CartDrawer({
+  open,
+  onClose,
+  cart,
+  onRemove,
+  step,
+  onStartCheckout,
+  loading,
+  onSubmitCheckout,
+  onReset,
+}: {
+  open: boolean;
+  onClose: () => void;
+  cart: CartItem[];
+  onRemove: (key: string) => void;
+  step: "cart" | "checkout" | "success";
+  onStartCheckout: () => void;
+  loading: boolean;
+  onSubmitCheckout: (e: React.FormEvent) => void;
+  onReset: () => void;
+}) {
+  const total = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+  const count = cart.reduce((sum, item) => sum + item.qty, 0);
+
+  return (
+    <AnimatePresence>
+      {open && (
+        <>
+          <motion.div
+            key="cart-overlay"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={onClose}
+            className="fixed inset-0 bg-black/60 z-[300]"
+          />
+          <motion.div
+            key="cart-panel"
+            initial={{ x: "100%" }}
+            animate={{ x: 0 }}
+            exit={{ x: "100%" }}
+            transition={{ type: "spring", stiffness: 300, damping: 32 }}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Panier"
+            className="fixed top-0 right-0 bottom-0 z-[310] w-full sm:w-[420px] bg-white flex flex-col"
+          >
+            <div className="flex items-center justify-between px-6 py-5 border-b border-[#0a0a0a]/10">
+              <h3 className="font-black uppercase tracking-tight text-[#0a0a0a]">
+                {step === "checkout" ? "Livraison" : step === "success" ? "Commande" : `Panier (${count})`}
+              </h3>
+              <button
+                onClick={onClose}
+                aria-label="Fermer le panier"
+                className="w-11 h-11 flex items-center justify-center rounded-full hover:bg-[#f5f5f5] transition-colors cursor-pointer border-none bg-transparent"
+              >
+                <X className="w-5 h-5 text-[#0a0a0a]" />
+              </button>
+            </div>
+
+            <div className="flex-1 overflow-y-auto px-6 py-6">
+              <AnimatePresence mode="wait">
+                {step === "success" ? (
+                  <motion.div
+                    key="success"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="text-center py-10"
+                  >
+                    <motion.div
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      transition={{ type: "spring", stiffness: 200, delay: 0.15 }}
+                      className="w-14 h-14 rounded-full bg-[#0a0a0a] text-white flex items-center justify-center mx-auto mb-6"
+                    >
+                      <Check className="w-6 h-6" />
+                    </motion.div>
+                    <h4 className="font-black uppercase tracking-tight text-[#0a0a0a] text-lg mb-3">Commande confirmée</h4>
+                    <p className="text-sm text-[#0a0a0a]/50 leading-relaxed mb-8">
+                      Merci pour votre commande. Notre concierge vous contactera sous 24h pour organiser la livraison sécurisée white glove.
+                    </p>
+                    <button
+                      onClick={onReset}
+                      className="w-full min-h-[44px] px-8 py-4 bg-[#0a0a0a] text-white text-[9px] font-black uppercase tracking-widest rounded-lg hover:bg-[#333] transition-all cursor-pointer border-none"
+                    >
+                      Fermer
+                    </button>
+                  </motion.div>
+                ) : step === "checkout" ? (
+                  <motion.form
+                    key="checkout"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    onSubmit={onSubmitCheckout}
+                  >
+                    <div className="mb-5">
+                      <label htmlFor="co-name" className="block text-[9px] font-black uppercase tracking-widest text-[#0a0a0a]/50 mb-2">
+                        Nom complet
+                      </label>
+                      <input
+                        id="co-name"
+                        name="name"
+                        type="text"
+                        required
+                        placeholder="Jean Dupont"
+                        className="w-full px-4 py-3.5 border border-[#0a0a0a]/15 rounded-lg text-sm text-[#0a0a0a] focus:outline-none focus:border-[#0a0a0a] transition-colors"
+                      />
+                    </div>
+                    <div className="mb-5">
+                      <label htmlFor="co-email" className="block text-[9px] font-black uppercase tracking-widest text-[#0a0a0a]/50 mb-2">
+                        Email
+                      </label>
+                      <input
+                        id="co-email"
+                        name="email"
+                        type="email"
+                        required
+                        placeholder="vous@email.com"
+                        className="w-full px-4 py-3.5 border border-[#0a0a0a]/15 rounded-lg text-sm text-[#0a0a0a] focus:outline-none focus:border-[#0a0a0a] transition-colors"
+                      />
+                    </div>
+                    <div className="mb-6">
+                      <label htmlFor="co-address" className="block text-[9px] font-black uppercase tracking-widest text-[#0a0a0a]/50 mb-2">
+                        Adresse de livraison
+                      </label>
+                      <textarea
+                        id="co-address"
+                        name="address"
+                        required
+                        rows={3}
+                        placeholder="12 rue de la Paix, 75002 Paris, France"
+                        className="w-full px-4 py-3.5 border border-[#0a0a0a]/15 rounded-lg text-sm text-[#0a0a0a] focus:outline-none focus:border-[#0a0a0a] transition-colors resize-none"
+                      />
+                    </div>
+                    <div className="flex justify-between items-center mb-6 pt-4 border-t border-[#0a0a0a]/10">
+                      <span className="text-[9px] font-black uppercase tracking-widest text-[#0a0a0a]/50">Total</span>
+                      <span className="font-black text-[#0a0a0a] text-lg">{formatEUR(total)}</span>
+                    </div>
+                    <button
+                      type="submit"
+                      disabled={loading}
+                      className={`w-full min-h-[44px] flex items-center justify-center gap-3 px-8 py-4 text-white text-[9px] font-black uppercase tracking-widest rounded-lg transition-all border-none ${loading ? "bg-[#0a0a0a]/50 cursor-not-allowed" : "bg-[#0a0a0a] hover:bg-[#333] cursor-pointer"}`}
+                    >
+                      {loading ? (
+                        <>
+                          <motion.div
+                            animate={{ rotate: 360 }}
+                            transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                            className="w-4 h-4 rounded-full border-2 border-white border-t-transparent"
+                          />
+                          Traitement en cours…
+                        </>
+                      ) : (
+                        "Confirmer la commande"
+                      )}
+                    </button>
+                  </motion.form>
+                ) : (
+                  <motion.div key="cart-list" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+                    {cart.length === 0 ? (
+                      <p className="text-sm text-[#0a0a0a]/40 text-center py-16">Votre panier est vide.</p>
+                    ) : (
+                      <>
+                        <div className="space-y-5 mb-6">
+                          {cart.map((item) => (
+                            <div key={item.key} className="flex gap-4 items-center">
+                              <div className="relative w-16 h-16 flex-shrink-0 rounded-lg overflow-hidden bg-[#f5f5f5]">
+                                <Image src={item.img} alt={item.name} fill className="object-cover" />
+                              </div>
+                              <div className="flex-1 min-w-0">
+                                <p className="font-black text-[#0a0a0a] text-xs uppercase tracking-tight truncate">{item.name}</p>
+                                <p className="text-[10px] text-[#0a0a0a]/40 uppercase tracking-wide mt-0.5">{item.strap} · {item.size}</p>
+                                <p className="text-xs font-bold text-[#0a0a0a] mt-1">{item.qty} × {formatEUR(item.price)}</p>
+                              </div>
+                              <button
+                                onClick={() => onRemove(item.key)}
+                                aria-label={`Retirer ${item.name} du panier`}
+                                className="w-11 h-11 flex items-center justify-center rounded-full hover:bg-[#f5f5f5] transition-colors cursor-pointer border-none bg-transparent flex-shrink-0"
+                              >
+                                <Trash2 className="w-4 h-4 text-[#0a0a0a]/40" />
+                              </button>
+                            </div>
+                          ))}
+                        </div>
+                        <div className="flex justify-between items-center py-5 border-t border-[#0a0a0a]/10 mb-6">
+                          <span className="text-[9px] font-black uppercase tracking-widest text-[#0a0a0a]/50">Total</span>
+                          <span className="font-black text-[#0a0a0a] text-lg">{formatEUR(total)}</span>
+                        </div>
+                        <button
+                          onClick={onStartCheckout}
+                          className="w-full min-h-[44px] px-8 py-4 bg-[#0a0a0a] text-white text-[9px] font-black uppercase tracking-widest rounded-lg hover:bg-[#333] transition-all cursor-pointer border-none"
+                        >
+                          Passer la commande
+                        </button>
+                      </>
+                    )}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          </motion.div>
+        </>
+      )}
+    </AnimatePresence>
+  );
+}
+
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
@@ -263,7 +645,57 @@ export default function OrbitAIPage() {
   const [heroIdx, setHeroIdx] = useState(0);
   const [email, setEmail] = useState("");
   const [subscribed, setSubscribed] = useState(false);
-  const [addedToCart, setAddedToCart] = useState<number | null>(null);
+
+  // Cart / checkout flow
+  const [selectedProduct, setSelectedProduct] = useState<SelectableProduct | null>(null);
+  const [cart, setCart] = useState<CartItem[]>([]);
+  const [cartOpen, setCartOpen] = useState(false);
+  const [checkoutStep, setCheckoutStep] = useState<"cart" | "checkout" | "success">("cart");
+  const [checkoutLoading, setCheckoutLoading] = useState(false);
+
+  const handleAddToCart = (strap: string, size: string, qty: number) => {
+    if (!selectedProduct) return;
+    const item: CartItem = {
+      key: `${selectedProduct.id}-${strap}-${size}`,
+      id: selectedProduct.id,
+      name: selectedProduct.name,
+      price: parsePriceToNumber(selectedProduct.price),
+      qty,
+      strap,
+      size,
+      img: selectedProduct.img,
+    };
+    setCart((prev) => {
+      const existing = prev.find((p) => p.key === item.key);
+      if (existing) {
+        return prev.map((p) => (p.key === item.key ? { ...p, qty: p.qty + qty } : p));
+      }
+      return [...prev, item];
+    });
+    setSelectedProduct(null);
+    setCartOpen(true);
+  };
+
+  const handleRemoveFromCart = (key: string) => {
+    setCart((prev) => prev.filter((p) => p.key !== key));
+  };
+
+  const handleSubmitCheckout = (e: React.FormEvent) => {
+    e.preventDefault();
+    setCheckoutLoading(true);
+    setTimeout(() => {
+      setCheckoutLoading(false);
+      setCheckoutStep("success");
+    }, 2200);
+  };
+
+  const handleResetCart = () => {
+    setCart([]);
+    setCheckoutStep("cart");
+    setCartOpen(false);
+  };
+
+  const cartCount = cart.reduce((sum, item) => sum + item.qty, 0);
 
   const { scrollYProgress } = useScroll({
     target: heroRef,
@@ -326,10 +758,45 @@ export default function OrbitAIPage() {
   }, [c]);
 return (
     <div className="relative w-full bg-[#ffffff]">
+      {/* Floating cart trigger */}
+      <button
+        onClick={() => setCartOpen(true)}
+        aria-label={`Ouvrir le panier (${cartCount} article${cartCount > 1 ? "s" : ""})`}
+        className="fixed bottom-6 right-6 z-[290] w-14 h-14 flex items-center justify-center bg-[#0a0a0a] text-white rounded-full shadow-lg hover:bg-[#333] transition-all cursor-pointer border-none"
+      >
+        <ShoppingBag className="w-5 h-5" />
+        {cartCount > 0 && (
+          <span className="absolute -top-1 -right-1 min-w-[20px] h-5 px-1 flex items-center justify-center bg-white text-[#0a0a0a] text-[10px] font-black rounded-full border border-[#0a0a0a]">
+            {cartCount}
+          </span>
+        )}
+      </button>
+
+      <ProductVariantModal
+        product={selectedProduct}
+        onClose={() => setSelectedProduct(null)}
+        onAdd={handleAddToCart}
+      />
+
+      <CartDrawer
+        open={cartOpen}
+        onClose={() => {
+          setCartOpen(false);
+          if (checkoutStep !== "success") setCheckoutStep("cart");
+        }}
+        cart={cart}
+        onRemove={handleRemoveFromCart}
+        step={checkoutStep}
+        onStartCheckout={() => setCheckoutStep("checkout")}
+        loading={checkoutLoading}
+        onSubmitCheckout={handleSubmitCheckout}
+        onReset={handleResetCart}
+      />
+
       {/* ── HERO ──────────────────── */}
       <section
         ref={heroRef}
-        className="relative h-dvh flex items-center justify-center overflow-hidden bg-[#050810]"
+        className="relative min-h-dvh flex items-center justify-center overflow-hidden bg-[#050810] pt-28 pb-16 md:pt-24"
       >
         <GridBackground />
         <motion.div
@@ -350,12 +817,12 @@ return (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
             <div>
               <Reveal>
-                <div className="inline-flex items-center gap-4 mb-10 text-cyan-500 text-[10px] font-bold uppercase tracking-[0.5em] italic">
+                <div className="inline-flex items-center gap-4 mb-5 md:mb-10 text-cyan-500 text-[10px] font-bold uppercase tracking-[0.5em] italic">
                   <Terminal className="w-4 h-4" /> {currentHero.collection}
                 </div>
               </Reveal>
               <Reveal delay={0.1} y={60}>
-                <h1 className="text-6xl md:text-8xl font-black tracking-tighter leading-[1.1] uppercase mb-6 italic text-white">{c?.heroHeadline ?? <>
+                <h1 className="text-5xl md:text-8xl font-black tracking-tighter leading-[1.1] uppercase mb-6 italic text-white">{c?.heroHeadline ?? <>
                   {currentHero.name}
                 </>}</h1>
               </Reveal>
@@ -374,11 +841,11 @@ return (
                     <div className="text-4xl font-black text-white tracking-tighter">{currentHero.price}</div>
                   </div>
                   <button
-                    onClick={() => setAddedToCart(currentHero.id)}
-                    className="flex items-center gap-3 px-8 py-4 bg-white text-black text-[9px] font-black uppercase tracking-widest hover:bg-[#f0f0f0] transition-all cursor-pointer border-none rounded"
+                    onClick={() => setSelectedProduct({ id: currentHero.id, name: currentHero.name, price: currentHero.price, img: currentHero.img })}
+                    className="flex items-center gap-3 px-8 py-4 bg-white text-black text-[9px] font-black uppercase tracking-widest hover:bg-[#f0f0f0] transition-all cursor-pointer border-none rounded min-h-[44px]"
                   >
                     <ShoppingBag className="w-4 h-4" />
-                    {addedToCart === currentHero.id ? "Ajouté ✓" : "Ajouter au panier"}
+                    Ajouter au panier
                   </button>
                 </div>
               </Reveal>
@@ -473,11 +940,11 @@ return (
                     <div className="absolute inset-0 bg-[#0a0a0a]/0 group-hover:bg-[#0a0a0a]/5 transition-colors duration-300" />
                     <div className="absolute bottom-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                       <button
-                        onClick={() => setAddedToCart(product.id)}
-                        className="flex items-center gap-2 px-4 py-2.5 bg-[#0a0a0a] text-white text-[9px] font-black uppercase tracking-widest rounded hover:bg-[#333] transition-all cursor-pointer border-none"
+                        onClick={() => setSelectedProduct({ id: product.id, name: product.name, price: product.price, img: product.img })}
+                        className="flex items-center gap-2 px-4 py-2.5 bg-[#0a0a0a] text-white text-[9px] font-black uppercase tracking-widest rounded hover:bg-[#333] transition-all cursor-pointer border-none min-h-[44px]"
                       >
                         <ShoppingBag className="w-3 h-3" />
-                        {addedToCart === product.id ? "Ajouté ✓" : "Panier"}
+                        Panier
                       </button>
                     </div>
                   </div>
@@ -596,11 +1063,11 @@ return (
                         {item.price}
                       </div>
                       <button
-                        onClick={() => setAddedToCart(i + 100)}
-                        className="flex items-center gap-2 px-6 py-3.5 bg-[#0a0a0a] text-white text-[9px] font-black uppercase tracking-widest rounded hover:bg-[#333] transition-all cursor-pointer border-none"
+                        onClick={() => setSelectedProduct({ id: i + 100, name: item.name, price: item.price, img: item.img })}
+                        className="flex items-center gap-2 px-6 py-3.5 bg-[#0a0a0a] text-white text-[9px] font-black uppercase tracking-widest rounded hover:bg-[#333] transition-all cursor-pointer border-none min-h-[44px]"
                       >
                         <ShoppingBag className="w-3.5 h-3.5" />
-                        {addedToCart === i + 100 ? "Ajouté ✓" : "Ajouter au panier"}
+                        Ajouter au panier
                       </button>
                     </div>
                   </div>

@@ -1,10 +1,10 @@
 "use client";
 // @ts-nocheck
-import { motion, useScroll, useTransform, useInView } from "framer-motion"
-import { useRef, useState, useEffect } from "react"
+import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion"
+import { useRef, useState, useEffect, useCallback } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { Phone, Star, MapPin, Clock, CheckCircle, Shield, Smile, Heart, Calendar, Menu } from "lucide-react"
+import { Phone, Star, MapPin, Clock, CheckCircle, Shield, Smile, Heart, Calendar, Menu, X } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { resolveList } from "@/lib/templates/resolveList"
 
@@ -35,6 +35,152 @@ const SOINS_DEMO = [
   { icon: Clock, title: "Urgences dentaires", desc: "Créneaux réservés urgences chaque matin dès 8h30. Douleur, fracture, dent cassée — on vous prend en charge le jour même." },
 ]
 
+
+const RDV_TIME_SLOTS = ["8h30", "9h30", "10h30", "11h30", "14h00", "15h00", "16h00", "17h30"]
+
+function AppointmentModal({
+  open,
+  onClose,
+  soins,
+  initialSoin,
+}: {
+  open: boolean
+  onClose: () => void
+  soins: { title: string }[]
+  initialSoin: string | null
+}) {
+  const [soin, setSoin] = useState("")
+  const [date, setDate] = useState("")
+  const [time, setTime] = useState("")
+  const [name, setName] = useState("")
+  const [email, setEmail] = useState("")
+  const [phone, setPhone] = useState("")
+  const [loading, setLoading] = useState(false)
+  const [sent, setSent] = useState(false)
+
+  useEffect(() => {
+    if (open) {
+      setSoin(initialSoin ?? "")
+      setDate(""); setTime(""); setName(""); setEmail(""); setPhone("")
+      setLoading(false); setSent(false)
+    }
+  }, [open, initialSoin])
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!soin || !date || !time || !name || !phone) return
+    setLoading(true)
+    setTimeout(() => {
+      setLoading(false)
+      setSent(true)
+    }, 1400)
+  }
+
+  const inputCls = "w-full bg-white border border-[#e8f4fd] px-4 py-3 text-sm text-[#1a2332] rounded-xl outline-none focus:border-[var(--brand,#1d6fa4)] focus:ring-2 focus:ring-[var(--brand,#1d6fa4)]/20 transition-colors"
+  const labelCls = "block text-[10px] font-bold uppercase tracking-widest text-[#1a2332]/40 mb-1.5"
+
+  return (
+    <AnimatePresence>
+      {open && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 z-[100] flex items-center justify-center p-4"
+          style={{ background: "rgba(26,35,50,0.6)" }}
+          onClick={onClose}
+        >
+          <motion.div
+            initial={{ opacity: 0, y: 24, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 16, scale: 0.98 }}
+            transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+            onClick={(e) => e.stopPropagation()}
+            className="relative w-full max-w-md bg-white rounded-2xl max-h-[90vh] overflow-y-auto"
+          >
+            <button
+              onClick={onClose}
+              aria-label="Fermer"
+              className="absolute top-4 right-4 w-11 h-11 flex items-center justify-center text-[#1a2332]/40 hover:text-[var(--brand,#1d6fa4)] cursor-pointer"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            <div className="p-8 md:p-10">
+              {sent ? (
+                <div className="text-center py-10">
+                  <div className="w-14 h-14 rounded-full bg-[var(--brand,#1d6fa4)]/10 flex items-center justify-center mx-auto mb-6 text-[var(--brand,#1d6fa4)] text-xl">✓</div>
+                  <h3 className="text-2xl font-bold text-[#1a2332] mb-3">Rendez-vous demandé</h3>
+                  <p className="text-sm text-[#1a2332]/45 leading-relaxed">
+                    Merci {name}. Votre demande pour « {soin} » le {date} à {time} a bien été reçue. Le cabinet vous enverra une confirmation SMS.
+                  </p>
+                </div>
+              ) : (
+                <>
+                  <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#1d6fa4)] mb-3">Prise de rendez-vous</div>
+                  <h3 className="text-2xl font-bold text-[#1a2332] mb-6">Réserver un créneau</h3>
+
+                  <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+                    <div>
+                      <label htmlFor="rdv-soin" className={labelCls}>Motif de consultation *</label>
+                      <select id="rdv-soin" required value={soin} onChange={(e) => setSoin(e.target.value)} className={inputCls + " cursor-pointer"}>
+                        <option value="">Choisir un soin</option>
+                        {soins.map((s) => (
+                          <option key={s.title} value={s.title}>{s.title}</option>
+                        ))}
+                      </select>
+                    </div>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <label htmlFor="rdv-date" className={labelCls}>Date *</label>
+                        <input id="rdv-date" type="date" required value={date} onChange={(e) => setDate(e.target.value)} className={inputCls} />
+                      </div>
+                      <div>
+                        <label htmlFor="rdv-time" className={labelCls}>Heure *</label>
+                        <select id="rdv-time" required value={time} onChange={(e) => setTime(e.target.value)} className={inputCls + " cursor-pointer"}>
+                          <option value="">—</option>
+                          {RDV_TIME_SLOTS.map((t) => <option key={t} value={t}>{t}</option>)}
+                        </select>
+                      </div>
+                    </div>
+                    <div>
+                      <label htmlFor="rdv-name" className={labelCls}>Nom complet *</label>
+                      <input id="rdv-name" type="text" required value={name} onChange={(e) => setName(e.target.value)} className={inputCls} placeholder="Marie-Claire Hébert" />
+                    </div>
+                    <div>
+                      <label htmlFor="rdv-phone" className={labelCls}>Téléphone *</label>
+                      <input id="rdv-phone" type="tel" required value={phone} onChange={(e) => setPhone(e.target.value)} className={inputCls} placeholder="06 XX XX XX XX" />
+                    </div>
+                    <div>
+                      <label htmlFor="rdv-email" className={labelCls}>Email</label>
+                      <input id="rdv-email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} className={inputCls} placeholder="marie@email.fr" />
+                    </div>
+                    <button
+                      type="submit"
+                      disabled={loading}
+                      className="mt-2 min-h-[44px] px-8 py-3.5 bg-[var(--brand,#1d6fa4)] text-white font-bold text-[10px] uppercase tracking-[0.22em] rounded-xl hover:bg-[#155d8a] transition-colors disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer flex items-center justify-center gap-2"
+                    >
+                      {loading ? (
+                        <>
+                          <motion.span
+                            animate={{ rotate: 360 }}
+                            transition={{ duration: 0.9, repeat: Infinity, ease: "linear" }}
+                            className="w-3.5 h-3.5 border border-white/40 border-t-white rounded-full inline-block"
+                          />
+                          Envoi en cours…
+                        </>
+                      ) : "Confirmer le rendez-vous"}
+                    </button>
+                  </form>
+                </>
+              )}
+            </div>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  )
+}
 
 // Global state variables for subpage compatibility
 let fd: any = null;
@@ -100,6 +246,13 @@ export default function DrFontainePage() {
     return () => window.removeEventListener("scroll", h)
   }, []);
 
+  const [rdvOpen, setRdvOpen] = useState(false)
+  const [rdvSoin, setRdvSoin] = useState<string | null>(null)
+  const openRdv = useCallback((soin: string | null) => {
+    setRdvSoin(soin)
+    setRdvOpen(true)
+  }, [])
+
   return (
     <div className="bg-white text-[#1a2332] overflow-x-hidden" style={{ fontFamily: "'Nunito', 'Inter', system-ui, sans-serif" }}>
       {/* ── NAVBAR ── */}
@@ -128,7 +281,7 @@ export default function DrFontainePage() {
             <a href={`tel:${fd?.phone ?? "0240567890"}`} className="hidden md:flex items-center gap-2 text-[var(--brand,#1d6fa4)] font-bold text-sm">
               <Phone className="w-4 h-4" /> {fd?.phone ?? "02 40 56 78 90"}
             </a>
-            <button className="hidden md:block px-5 py-2.5 bg-[var(--brand,#1d6fa4)] text-white text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-[#155d8a] transition-colors rounded-xl">
+            <button onClick={() => openRdv(null)} className="hidden md:block min-h-[44px] px-5 py-2.5 bg-[var(--brand,#1d6fa4)] text-white text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-[#155d8a] transition-colors rounded-xl cursor-pointer">
               Prendre RDV
             </button>
             <Sheet>
@@ -172,12 +325,12 @@ export default function DrFontainePage() {
           </>}</motion.p>
 
           <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.98 }} className="flex flex-wrap gap-3">
-            <button className="px-8 py-4 bg-[var(--brand,#1d6fa4)] text-white font-bold text-[10px] uppercase tracking-[0.22em] hover:bg-[#155d8a] transition-colors rounded-xl">{c?.ctaText ?? <>
+            <button onClick={() => openRdv(null)} className="min-h-[44px] px-8 py-4 bg-[var(--brand,#1d6fa4)] text-white font-bold text-[10px] uppercase tracking-[0.22em] hover:bg-[#155d8a] transition-colors rounded-xl cursor-pointer">{c?.ctaText ?? <>
               Prendre rendez-vous
             </>}</button>
-            <button className="flex items-center gap-3 px-8 py-4 border border-white/15 text-white font-bold text-[10px] uppercase tracking-widest hover:border-[#7bc3f5]/50 hover:text-[#7bc3f5] transition-all rounded-xl">
+            <a href={`tel:${fd?.phone ?? "0240567890"}`} className="min-h-[44px] flex items-center gap-3 px-8 py-4 border border-white/15 text-white font-bold text-[10px] uppercase tracking-widest hover:border-[#7bc3f5]/50 hover:text-[#7bc3f5] transition-all rounded-xl cursor-pointer">
               <Phone className="w-4 h-4" /> {fd?.phone ?? "02 40 56 78 90"}
-            </button>
+            </a>
           </motion.div>
         </motion.div>
 
@@ -219,7 +372,13 @@ export default function DrFontainePage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             {SOINS.map((s, i) => (
               <Reveal key={i} delay={i * 0.07}>
-                <div className="group p-8 rounded-2xl border border-[#e8f4fd] hover:border-[var(--brand,#1d6fa4)]/25 hover:shadow-lg hover:shadow-[var(--brand,#1d6fa4)]/5 bg-white transition-all duration-500 h-full">
+                <div
+                  role="button"
+                  tabIndex={0}
+                  onClick={() => openRdv(s.title)}
+                  onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openRdv(s.title) } }}
+                  className="group p-8 rounded-2xl border border-[#e8f4fd] hover:border-[var(--brand,#1d6fa4)]/25 hover:shadow-lg hover:shadow-[var(--brand,#1d6fa4)]/5 bg-white transition-all duration-500 h-full cursor-pointer"
+                >
                   <div className="w-10 h-10 bg-[#e8f4fd] rounded-xl flex items-center justify-center mb-5 group-hover:bg-[var(--brand,#1d6fa4)] transition-colors duration-500">
                     <s.icon className="w-5 h-5 text-[var(--brand,#1d6fa4)] group-hover:text-white transition-colors" />
                   </div>
@@ -324,16 +483,18 @@ export default function DrFontainePage() {
             <h2 className="text-4xl font-bold text-white mb-5">Prenez RDV<br /><span className="text-[#7bc3f5]">en moins de 2 minutes.</span></h2>
             <p className="text-white/30 mb-10 text-sm">Disponible en ligne 24h/24 · Confirmation SMS · Rappel automatique 48h avant</p>
             <div className="flex flex-wrap gap-4 justify-center">
-              <button className="px-10 py-4 bg-[var(--brand,#1d6fa4)] text-white font-bold text-[10px] uppercase tracking-[0.25em] hover:bg-[#155d8a] transition-colors rounded-xl">
+              <button onClick={() => openRdv(null)} className="min-h-[44px] px-10 py-4 bg-[var(--brand,#1d6fa4)] text-white font-bold text-[10px] uppercase tracking-[0.25em] hover:bg-[#155d8a] transition-colors rounded-xl cursor-pointer">
                 Réserver en ligne
               </button>
-              <a href={`tel:${fd?.phone ?? "0240567890"}`} className="flex items-center gap-3 px-10 py-4 border border-white/15 text-white font-bold text-[10px] uppercase tracking-widest hover:border-[#7bc3f5]/40 hover:text-[#7bc3f5] transition-all rounded-xl">
+              <a href={`tel:${fd?.phone ?? "0240567890"}`} className="min-h-[44px] flex items-center gap-3 px-10 py-4 border border-white/15 text-white font-bold text-[10px] uppercase tracking-widest hover:border-[#7bc3f5]/40 hover:text-[#7bc3f5] transition-all rounded-xl cursor-pointer">
                 <Phone className="w-4 h-4" /> {fd?.phone ?? "02 40 56 78 90"}
               </a>
             </div>
           </div>
         </Reveal>
       </section>
+
+      <AppointmentModal open={rdvOpen} onClose={() => setRdvOpen(false)} soins={SOINS} initialSoin={rdvSoin} />
 
       {/* ── FOOTER ── */}
       <footer className="bg-[#111827] pt-20 pb-10 px-6">

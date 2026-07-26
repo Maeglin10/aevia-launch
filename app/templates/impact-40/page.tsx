@@ -24,6 +24,7 @@ import {
   Heart,
   Menu,
   X,
+  Loader2,
 } from "lucide-react";
 import { TemplateIcon } from '@/components/TemplateIcon';
 
@@ -339,6 +340,116 @@ function SectionReveal({ children, delay = 0 }: { children: React.ReactNode; del
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
+type PlanInfo = { name: string; price: string; freq: string };
+
+function SubscriptionModal({ plan, onClose }: { plan: PlanInfo; onClose: () => void }) {
+  const [loading, setLoading] = useState(false);
+  const [sent, setSent] = useState(false);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+      setSent(true);
+    }, 1800);
+  };
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      onClick={onClose}
+      style={{ position: "fixed", inset: 0, zIndex: 300, background: "rgba(26,46,8,0.6)", backdropFilter: "blur(4px)", display: "flex", alignItems: "center", justifyContent: "center", padding: 20 }}
+    >
+      <motion.div
+        initial={{ opacity: 0, y: 24, scale: 0.97 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        exit={{ opacity: 0, y: 12, scale: 0.97 }}
+        transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
+        onClick={(e) => e.stopPropagation()}
+        style={{ width: "100%", maxWidth: 500, maxHeight: "90vh", overflowY: "auto", background: C.bg, borderRadius: "1.5rem", padding: "2.5rem", position: "relative", boxShadow: `0 24px 64px ${C.shadow}` }}
+      >
+        <button
+          onClick={onClose}
+          aria-label="Fermer"
+          style={{ position: "absolute", top: 16, right: 16, width: 44, height: 44, display: "flex", alignItems: "center", justifyContent: "center", borderRadius: "50%", border: `1px solid ${C.border}`, background: C.white, color: C.textLight, cursor: "pointer" }}
+        >
+          <X size={18} />
+        </button>
+
+        <AnimatePresence mode="wait">
+          {sent ? (
+            <motion.div key="success" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} style={{ textAlign: "center", padding: "1.5rem 0" }}>
+              <motion.div
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ type: "spring", stiffness: 200, delay: 0.15 }}
+                style={{ width: 64, height: 64, borderRadius: "50%", background: "rgba(45,80,22,0.1)", color: C.bgDark, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 1.25rem" }}
+              >
+                <Check size={28} />
+              </motion.div>
+              <h3 style={{ fontFamily: C.headingFont, fontSize: "1.5rem", fontWeight: 700, color: C.text, marginBottom: "0.6rem" }}>
+                Abonnement confirmé
+              </h3>
+              <p style={{ fontFamily: C.bodyFont, fontSize: "0.9rem", color: C.textLight, lineHeight: 1.6 }}>
+                Bienvenue chez Terre Vivante ! Votre <strong>{plan.name}</strong> ({plan.price}€{plan.freq}) est enregistré. Nous vous contactons sous 24h pour fixer votre premier jour de retrait.
+              </p>
+            </motion.div>
+          ) : (
+            <motion.form key="form" initial={{ opacity: 0 }} animate={{ opacity: 1 }} onSubmit={handleSubmit}>
+              <span style={{ fontFamily: C.bodyFont, fontSize: "0.78rem", fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: C.earth }}>
+                Abonnement
+              </span>
+              <h3 style={{ fontFamily: C.headingFont, fontSize: "1.7rem", fontWeight: 700, color: C.text, margin: "0.4rem 0 0.3rem" }}>
+                {plan.name}
+              </h3>
+              <p style={{ fontFamily: C.bodyFont, fontSize: "0.9rem", color: C.textLight, marginBottom: "1.75rem" }}>
+                {plan.price}€ {plan.freq} — engagement 6 mois
+              </p>
+
+              <div style={{ marginBottom: "1.1rem" }}>
+                <label htmlFor="sm-name" style={{ display: "block", fontFamily: C.bodyFont, fontSize: "0.78rem", fontWeight: 700, color: C.textLight, textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: "0.4rem" }}>Nom complet</label>
+                <input id="sm-name" name="name" type="text" required placeholder="Camille Dubois" style={{ width: "100%", boxSizing: "border-box", border: `1px solid ${C.border}`, borderRadius: "0.7rem", padding: "0.85rem 1rem", fontSize: "0.9rem", fontFamily: C.bodyFont, outline: "none", color: C.text, background: C.white }} />
+              </div>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.9rem", marginBottom: "1.1rem" }}>
+                <div>
+                  <label htmlFor="sm-email" style={{ display: "block", fontFamily: C.bodyFont, fontSize: "0.78rem", fontWeight: 700, color: C.textLight, textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: "0.4rem" }}>E-mail</label>
+                  <input id="sm-email" name="email" type="email" required placeholder="vous@email.com" style={{ width: "100%", boxSizing: "border-box", border: `1px solid ${C.border}`, borderRadius: "0.7rem", padding: "0.85rem 1rem", fontSize: "0.9rem", fontFamily: C.bodyFont, outline: "none", color: C.text, background: C.white }} />
+                </div>
+                <div>
+                  <label htmlFor="sm-phone" style={{ display: "block", fontFamily: C.bodyFont, fontSize: "0.78rem", fontWeight: 700, color: C.textLight, textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: "0.4rem" }}>Téléphone</label>
+                  <input id="sm-phone" name="phone" type="tel" required placeholder="06 12 34 56 78" style={{ width: "100%", boxSizing: "border-box", border: `1px solid ${C.border}`, borderRadius: "0.7rem", padding: "0.85rem 1rem", fontSize: "0.9rem", fontFamily: C.bodyFont, outline: "none", color: C.text, background: C.white }} />
+                </div>
+              </div>
+              <div style={{ marginBottom: "1.75rem" }}>
+                <label htmlFor="sm-address" style={{ display: "block", fontFamily: C.bodyFont, fontSize: "0.78rem", fontWeight: 700, color: C.textLight, textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: "0.4rem" }}>Adresse de retrait / livraison</label>
+                <input id="sm-address" name="address" type="text" required placeholder="12 rue des Vignes, 69400 Villefranche" style={{ width: "100%", boxSizing: "border-box", border: `1px solid ${C.border}`, borderRadius: "0.7rem", padding: "0.85rem 1rem", fontSize: "0.9rem", fontFamily: C.bodyFont, outline: "none", color: C.text, background: C.white }} />
+              </div>
+
+              <button
+                type="submit"
+                disabled={loading}
+                style={{ width: "100%", minHeight: 44, background: C.accent, color: C.bgDark, border: "none", borderRadius: "1rem", padding: "0.95rem", fontWeight: 700, fontFamily: C.bodyFont, fontSize: "0.92rem", cursor: loading ? "not-allowed" : "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: "0.6rem", opacity: loading ? 0.75 : 1 }}
+              >
+                {loading ? (
+                  <>
+                    <Loader2 size={16} className="animate-spin" />
+                    Envoi en cours…
+                  </>
+                ) : (
+                  "Confirmer mon abonnement"
+                )}
+              </button>
+            </motion.form>
+          )}
+        </AnimatePresence>
+      </motion.div>
+    </motion.div>
+  );
+}
+
 export default function TerreVivantePage() {
   const [session, setSession] = useState<{
     formData?: {
@@ -375,6 +486,7 @@ export default function TerreVivantePage() {
   const [activeSeason, setActiveSeason] = useState<Season>("spring");
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [selectedPlan, setSelectedPlan] = useState<PlanInfo | null>(null);
   const heroRef = useRef(null);
 
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
@@ -1121,9 +1233,11 @@ export default function TerreVivantePage() {
                       </li>
                     ))}
                   </ul>
-                  <button onClick={() => document.getElementById("contact")?.scrollIntoView({behavior:"smooth"})}
+                  <button onClick={() => setSelectedPlan({ name: plan.name, price: plan.price, freq: plan.freq })}
                     style={{
                       display: "block",
+                      width: "100%",
+                      minHeight: 44,
                       textAlign: "center",
                       backgroundColor: plan.popular ? C.accent : "rgba(255,255,255,0.15)",
                       color: plan.popular ? C.bgDark : plan.textColor,
@@ -1133,6 +1247,7 @@ export default function TerreVivantePage() {
                       fontWeight: 700,
                       fontFamily: C.bodyFont,
                       fontSize: "0.9rem",
+                      cursor: "pointer",
                       border: plan.popular ? "none" : `2px solid rgba(255,255,255,0.25)`,
                     }}
                   >
@@ -1144,6 +1259,10 @@ export default function TerreVivantePage() {
           </div>
         </div>
       </section>
+
+      <AnimatePresence>
+        {selectedPlan && <SubscriptionModal plan={selectedPlan} onClose={() => setSelectedPlan(null)} />}
+      </AnimatePresence>
 
       {/* ── FAQ ── */}
       <section id="faq" style={{ padding: "7rem 2rem", backgroundColor: C.bg }}>

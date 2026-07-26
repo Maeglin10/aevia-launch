@@ -221,6 +221,26 @@ function HeroSection() {
             <span>SEASON SIX — NOW LIVE</span>
             <div style={{ height: 1, width: 80, background: `linear-gradient(90deg, ${C.green}, transparent)` }} />
           </div>
+
+          {/* Real CTA — mobile's only other actionable element was the nav
+              hamburger; the recruitment CTA lives far below the fold. */}
+          <div style={{ marginTop: 32 }}>
+            <Link href="/templates/impact-44/recruit" style={{
+              display: "inline-block",
+              padding: "16px 40px",
+              background: C.green,
+              border: "none",
+              color: C.bg,
+              fontSize: 12,
+              letterSpacing: "0.25em",
+              textTransform: "uppercase",
+              textDecoration: "none",
+              fontWeight: 900,
+              boxShadow: `0 0 30px rgba(0,255,100,0.3)`,
+            }}>
+              Submit Tryout Form
+            </Link>
+          </div>
         </div>
 
         {/* SCROLL INDICATOR */}
@@ -246,17 +266,23 @@ function HeroSection() {
           <div style={{ width: 1, height: 40, background: `linear-gradient(180deg, ${C.green}, transparent)` }} />
         </motion.div>
 
-        {/* Corner HUD elements */}
-        <div style={{ position: "absolute", top: 80, left: 20, fontFamily: "'Courier New', monospace", fontSize: 10, color: C.textDim, letterSpacing: "0.1em", zIndex: 20 }}>
+        {/* Corner HUD elements — sit at the same top:80 band as the eyebrow
+            text + H1 above; on mobile the centered hero text block (which
+            has no whiteSpace:nowrap guard and spans nearly full width) grew
+            wide enough to run underneath both corner readouts, turning them
+            into an unreadable overlapping mess. They're decorative flavor
+            text, so we drop them below 640px instead of fighting for space. */}
+        <div className="i44-hud" style={{ position: "absolute", top: 80, left: 20, fontFamily: "'Courier New', monospace", fontSize: 10, color: C.textDim, letterSpacing: "0.1em", zIndex: 20 }}>
           <div>LAT: 48.8566° N</div>
           <div>LNG: 2.3522° E</div>
           <div style={{ color: C.green, marginTop: 4 }}>STATUS: ACTIVE</div>
         </div>
-        <div style={{ position: "absolute", top: 80, right: 20, fontFamily: "'Courier New', monospace", fontSize: 10, color: C.textDim, letterSpacing: "0.1em", textAlign: "right", zIndex: 20 }}>
+        <div className="i44-hud" style={{ position: "absolute", top: 80, right: 20, fontFamily: "'Courier New', monospace", fontSize: 10, color: C.textDim, letterSpacing: "0.1em", textAlign: "right", zIndex: 20 }}>
           <div>PING: 4ms</div>
           <div>FPS: 240</div>
           <div style={{ color: C.green, marginTop: 4 }}>RANK: LEGENDARY</div>
         </div>
+        <style>{`@media (max-width: 640px) { .i44-hud { display: none !important; } }`}</style>
       </div>
     </section>
   );

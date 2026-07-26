@@ -539,6 +539,21 @@ export default function Impact173Page() {
         @media (max-width: 768px) {
           .imx-mobstack { grid-template-columns: 1fr !important; }
         }
+        /* mobile hero fix: the floating stat badges were absolute-positioned over the paragraph/CTA —
+           pull them back into normal flow below the buttons so nothing overlaps */
+        @media (max-width: 768px) {
+          .imx-hero173-stats {
+            position: static !important;
+            flex-direction: row !important;
+            flex-wrap: wrap !important;
+            margin-top: 32px !important;
+            right: auto !important;
+            bottom: auto !important;
+          }
+          .imx-hero173-wrap { padding: 76px 24px 48px !important; }
+          .imx-hero173-h1 { font-size: clamp(48px, 15vw, 72px) !important; }
+          .imx-hero173-sub { margin-top: 28px !important; margin-bottom: 32px !important; }
+        }
       `}</style>
 
       {/* ── NAV ─────────────────────────────────────────────────── */}
@@ -643,7 +658,7 @@ export default function Impact173Page() {
           pointerEvents: "none",
         }} />
 
-        <div style={{ position: "relative", zIndex: 2, padding: "120px 60px 80px", width: "100%", maxWidth: 1400, margin: "0 auto" }}>
+        <div className="imx-hero173-wrap" style={{ position: "relative", zIndex: 2, padding: "120px 60px 80px", width: "100%", maxWidth: 1400, margin: "0 auto" }}>
           <motion.div initial={{ opacity: 0, y: 60 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}>
             <motion.div
               initial={{ opacity: 0, x: -20 }}
@@ -657,7 +672,7 @@ export default function Impact173Page() {
               </div>
             </motion.div>
 
-            <h1 style={{
+            <h1 className="imx-hero173-h1" style={{
               fontFamily: FONT_HEADING,
               fontSize: "clamp(72px, 11vw, 160px)",
               fontWeight: 700,
@@ -672,7 +687,7 @@ export default function Impact173Page() {
                 BÂTIT.
               </span>
             </>}</h1>
-            <div style={{
+            <div className="imx-hero173-h1" style={{
               fontFamily: FONT_HEADING,
               fontSize: "clamp(72px, 11vw, 160px)",
               fontWeight: 700,
@@ -684,6 +699,7 @@ export default function Impact173Page() {
             }}>SOLIDE.</div>
 
             <motion.p
+              className="imx-hero173-sub"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.5, duration: 0.8 }}
@@ -729,6 +745,7 @@ export default function Impact173Page() {
 
           {/* Floating stats badges */}
           <motion.div
+            className="imx-hero173-stats"
             initial={{ opacity: 0, x: 60 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.9, duration: 0.8 }}

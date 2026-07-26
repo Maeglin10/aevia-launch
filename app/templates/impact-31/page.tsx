@@ -481,9 +481,114 @@ const CLASSES = [
   { day: "Dimanche", time: "09h00", name: "Kundalini", level: "Intermédiaire", teacher: "Amara B.", spots: 2, icon: <Sunrise size={18} color="var(--brand,#6b8f6b)" /> },
 ];
 
+type ClassInfo = { day: string; time: string; name: string; level: string; teacher: string };
+
+function BookingModal({ cls, onClose }: { cls: ClassInfo; onClose: () => void }) {
+  const [loading, setLoading] = useState(false);
+  const [sent, setSent] = useState(false);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+      setSent(true);
+    }, 1800);
+  };
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      onClick={onClose}
+      style={{ position: "fixed", inset: 0, zIndex: 200, background: "rgba(61,43,31,0.55)", backdropFilter: "blur(4px)", display: "flex", alignItems: "center", justifyContent: "center", padding: 20 }}
+    >
+      <motion.div
+        initial={{ opacity: 0, y: 24, scale: 0.97 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        exit={{ opacity: 0, y: 12, scale: 0.97 }}
+        transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
+        onClick={(e) => e.stopPropagation()}
+        style={{ width: "100%", maxWidth: 480, maxHeight: "90vh", overflowY: "auto", background: C.white, borderRadius: 20, padding: "36px 32px", position: "relative", boxShadow: C.shadowLg, fontFamily: FONT_BODY }}
+      >
+        <button
+          onClick={onClose}
+          aria-label="Fermer"
+          style={{ position: "absolute", top: 16, right: 16, width: 44, height: 44, display: "flex", alignItems: "center", justifyContent: "center", borderRadius: "50%", border: `1px solid ${C.border}`, background: "transparent", color: C.textMuted, cursor: "pointer" }}
+        >
+          <X size={18} />
+        </button>
+
+        <AnimatePresence mode="wait">
+          {sent ? (
+            <motion.div key="success" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} style={{ textAlign: "center", padding: "24px 0" }}>
+              <motion.div
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ type: "spring", stiffness: 200, delay: 0.15 }}
+                style={{ width: 64, height: 64, borderRadius: "50%", background: C.sageLight, color: C.sage, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 20px" }}
+              >
+                <CheckCircle size={28} />
+              </motion.div>
+              <h3 style={{ fontFamily: FONT_HEADING, fontSize: 22, fontWeight: 700, color: C.text, marginBottom: 10 }}>Réservation confirmée</h3>
+              <p style={{ fontSize: 14, color: C.textMuted, lineHeight: 1.6 }}>
+                Votre place pour <strong>{cls.name}</strong> — {cls.day} à {cls.time} avec {cls.teacher} — est réservée. Un e-mail de confirmation vous a été envoyé.
+              </p>
+            </motion.div>
+          ) : (
+            <motion.form key="form" initial={{ opacity: 0 }} animate={{ opacity: 1 }} onSubmit={handleSubmit}>
+              <div style={{ display: "inline-block", background: C.sageLight, color: C.sage, borderRadius: 20, padding: "5px 14px", fontSize: 12, fontWeight: 700, marginBottom: 14, textTransform: "uppercase", letterSpacing: 0.6 }}>
+                {cls.day} · {cls.time}
+              </div>
+              <h3 style={{ fontFamily: FONT_HEADING, fontSize: 24, fontWeight: 700, color: C.text, marginBottom: 4 }}>{cls.name}</h3>
+              <p style={{ fontSize: 13, color: C.textMuted, marginBottom: 24 }}>{cls.level} · avec {cls.teacher}</p>
+
+              <div style={{ marginBottom: 16 }}>
+                <label htmlFor="bm-name" style={{ display: "block", fontSize: 12, fontWeight: 700, color: C.textMuted, textTransform: "uppercase", letterSpacing: 0.6, marginBottom: 6 }}>Nom complet</label>
+                <input id="bm-name" name="name" type="text" required placeholder="Camille Dubois" style={{ width: "100%", boxSizing: "border-box", border: `1px solid ${C.border}`, borderRadius: 10, padding: "12px 14px", fontSize: 14, fontFamily: FONT_BODY, outline: "none", color: C.text }} />
+              </div>
+              <div style={{ marginBottom: 16 }}>
+                <label htmlFor="bm-email" style={{ display: "block", fontSize: 12, fontWeight: 700, color: C.textMuted, textTransform: "uppercase", letterSpacing: 0.6, marginBottom: 6 }}>E-mail</label>
+                <input id="bm-email" name="email" type="email" required placeholder="vous@email.com" style={{ width: "100%", boxSizing: "border-box", border: `1px solid ${C.border}`, borderRadius: 10, padding: "12px 14px", fontSize: 14, fontFamily: FONT_BODY, outline: "none", color: C.text }} />
+              </div>
+              <div style={{ marginBottom: 28 }}>
+                <label htmlFor="bm-phone" style={{ display: "block", fontSize: 12, fontWeight: 700, color: C.textMuted, textTransform: "uppercase", letterSpacing: 0.6, marginBottom: 6 }}>Téléphone</label>
+                <input id="bm-phone" name="phone" type="tel" required placeholder="06 12 34 56 78" style={{ width: "100%", boxSizing: "border-box", border: `1px solid ${C.border}`, borderRadius: 10, padding: "12px 14px", fontSize: 14, fontFamily: FONT_BODY, outline: "none", color: C.text }} />
+              </div>
+
+              <motion.button
+                type="submit"
+                disabled={loading}
+                whileHover={loading ? {} : { background: C.accentDark }}
+                whileTap={loading ? {} : { scale: 0.98 }}
+                style={{ width: "100%", minHeight: 44, background: C.accent, color: C.white, border: "none", borderRadius: 12, padding: "14px 0", fontWeight: 700, fontSize: 14, cursor: loading ? "not-allowed" : "pointer", fontFamily: FONT_BODY, display: "flex", alignItems: "center", justifyContent: "center", gap: 10, opacity: loading ? 0.75 : 1 }}
+              >
+                {loading ? (
+                  <>
+                    <motion.div
+                      animate={{ rotate: 360 }}
+                      transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                      style={{ width: 16, height: 16, borderRadius: "50%", border: `2px solid ${C.white}`, borderTopColor: "transparent" }}
+                    />
+                    Réservation en cours…
+                  </>
+                ) : (
+                  "Confirmer ma réservation"
+                )}
+              </motion.button>
+            </motion.form>
+          )}
+        </AnimatePresence>
+      </motion.div>
+    </motion.div>
+  );
+}
+
 function Classes() {
   const ref = useRef<HTMLElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-60px" });
+  const [selectedClass, setSelectedClass] = useState<ClassInfo | null>(null);
 
   return (
     <section ref={ref} style={{ padding: "100px 80px", background: C.bgSection, fontFamily: FONT_BODY }}>
@@ -534,7 +639,8 @@ function Classes() {
                 {c.spots <= 3 ? `${c.spots} places` : `${c.spots} places dispo`}
               </span>
               <motion.button
-                style={{ background: C.accent, color: C.white, border: "none", borderRadius: 20, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer", fontFamily: FONT_BODY }}
+                onClick={() => setSelectedClass({ day: c.day, time: c.time, name: c.name, level: c.level, teacher: c.teacher })}
+                style={{ background: C.accent, color: C.white, border: "none", borderRadius: 20, padding: "8px 18px", minHeight: 44, fontWeight: 700, fontSize: 13, cursor: "pointer", fontFamily: FONT_BODY }}
                 whileHover={{ background: C.accentDark, scale: 1.05 }}
                 whileTap={{ scale: 0.96 }}
               >
@@ -544,6 +650,10 @@ function Classes() {
           </motion.div>
         ))}
       </div>
+
+      <AnimatePresence>
+        {selectedClass && <BookingModal cls={selectedClass} onClose={() => setSelectedClass(null)} />}
+      </AnimatePresence>
     </section>
   );
 }
@@ -1013,8 +1123,11 @@ export default function Impact31() {
     }
   }, [c]);
 return (
+    // layout.tsx already renders a fixed Navbar above {children} — this page
+    // rendered a second fixed Navbar on top of it, causing the "Professeurs" /
+    // "Tarifs" links to double up and overlap illegibly. layout.tsx's Navbar
+    // is the single source of truth for this route segment.
     <main style={{ background: C.bg, overflowX: "hidden" }}>
-      <Navbar />
       <Hero />
       <Classes />
       <Stats />

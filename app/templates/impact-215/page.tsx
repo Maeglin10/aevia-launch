@@ -1089,6 +1089,36 @@ function CartDrawer({
   onQtyChange: (id: number, delta: number) => void;
 }) {
   const total = items.reduce((s, i) => s + i.price * i.qty, 0);
+  const [checkoutStep, setCheckoutStep] = useState<'cart' | 'form' | 'done'>('cart');
+  const [ckName, setCkName] = useState('');
+  const [ckEmail, setCkEmail] = useState('');
+  const [ckPhone, setCkPhone] = useState('');
+  const [ckAddress, setCkAddress] = useState('');
+  const [ckLoading, setCkLoading] = useState(false);
+
+  useEffect(() => {
+    if (open) setCheckoutStep('cart');
+  }, [open]);
+
+  const handleCheckoutSubmit = useCallback((e: React.FormEvent) => {
+    e.preventDefault();
+    if (!ckName || !ckEmail || !ckPhone || !ckAddress) return;
+    setCkLoading(true);
+    setTimeout(() => {
+      setCkLoading(false);
+      setCheckoutStep('done');
+    }, 1500);
+  }, [ckName, ckEmail, ckPhone, ckAddress]);
+
+  const inputStyle: React.CSSProperties = {
+    width: '100%', padding: '0.75rem 1rem', borderRadius: '10px',
+    border: `1px solid ${C.borderLight}`, background: C.bgCard, color: C.text,
+    fontFamily: 'Inter, sans-serif', fontSize: '0.9rem', outline: 'none', boxSizing: 'border-box',
+  };
+  const labelStyle: React.CSSProperties = {
+    display: 'block', fontSize: '0.72rem', fontWeight: 600, letterSpacing: '0.05em',
+    textTransform: 'uppercase', color: C.textMuted, fontFamily: 'Inter, sans-serif', marginBottom: '0.4rem',
+  };
 
   return (
     <AnimatePresence>
@@ -1162,6 +1192,7 @@ function CartDrawer({
             </div>
 
             {/* Items */}
+            {checkoutStep === 'cart' && (
             <div style={{ flex: 1, padding: '1.25rem 1.75rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
               {items.length === 0 ? (
                 <div style={{ textAlign: 'center', paddingTop: '4rem' }}>
@@ -1224,9 +1255,10 @@ function CartDrawer({
                 </AnimatePresence>
               )}
             </div>
+            )}
 
             {/* Footer */}
-            {items.length > 0 && (
+            {checkoutStep === 'cart' && items.length > 0 && (
               <div style={{
                 padding: '1.25rem 1.75rem 2rem',
                 borderTop: `1px solid ${C.borderLight}`,
@@ -1243,8 +1275,10 @@ function CartDrawer({
                 <motion.button
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.97 }}
+                  onClick={() => setCheckoutStep('form')}
                   style={{
                     width: '100%',
+                    minHeight: 44,
                     background: `linear-gradient(135deg, ${C.accent}, ${C.accentLight})`,
                     color: C.white,
                     border: 'none',
@@ -1262,6 +1296,117 @@ function CartDrawer({
                 <p style={{ color: C.textMuted, fontSize: '0.73rem', fontFamily: 'Inter, sans-serif', textAlign: 'center', marginTop: '0.75rem' }}>
                   Livraison offerte · Paiement 3× sans frais disponible
                 </p>
+              </div>
+            )}
+
+            {/* Checkout form step */}
+            {checkoutStep === 'form' && (
+              <div style={{ flex: 1, padding: '1.5rem 1.75rem 2rem', display: 'flex', flexDirection: 'column' }}>
+                <button
+                  type="button"
+                  onClick={() => setCheckoutStep('cart')}
+                  style={{
+                    alignSelf: 'flex-start', background: 'none', border: 'none', color: C.textMuted,
+                    fontFamily: 'Inter, sans-serif', fontSize: '0.82rem', cursor: 'pointer', marginBottom: '1rem',
+                    padding: 0, display: 'flex', alignItems: 'center', gap: '0.35rem',
+                  }}
+                >
+                  ← Retour au panier
+                </button>
+                <h3 style={{ color: C.text, fontFamily: 'Playfair Display, serif', fontSize: '1.15rem', fontWeight: 700, marginBottom: '0.3rem' }}>
+                  Vos coordonnées
+                </h3>
+                <p style={{ color: C.textMuted, fontFamily: 'Inter, sans-serif', fontSize: '0.82rem', marginBottom: '1.25rem' }}>
+                  Total à régler : <strong style={{ color: C.gold }}>{fmt(total)}</strong>
+                </p>
+                <form onSubmit={handleCheckoutSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                  <div>
+                    <label htmlFor="ck-name" style={labelStyle}>Nom complet *</label>
+                    <input id="ck-name" type="text" required value={ckName} onChange={(e) => setCkName(e.target.value)} placeholder="Julien Moreau" style={inputStyle} />
+                  </div>
+                  <div>
+                    <label htmlFor="ck-email" style={labelStyle}>Email *</label>
+                    <input id="ck-email" type="email" required value={ckEmail} onChange={(e) => setCkEmail(e.target.value)} placeholder="julien@email.fr" style={inputStyle} />
+                  </div>
+                  <div>
+                    <label htmlFor="ck-phone" style={labelStyle}>Téléphone *</label>
+                    <input id="ck-phone" type="tel" required value={ckPhone} onChange={(e) => setCkPhone(e.target.value)} placeholder="06 XX XX XX XX" style={inputStyle} />
+                  </div>
+                  <div>
+                    <label htmlFor="ck-address" style={labelStyle}>Adresse de livraison *</label>
+                    <input id="ck-address" type="text" required value={ckAddress} onChange={(e) => setCkAddress(e.target.value)} placeholder="12 rue des Forges, 21000 Dijon" style={inputStyle} />
+                  </div>
+                  <motion.button
+                    type="submit"
+                    disabled={ckLoading}
+                    whileHover={ckLoading ? {} : { scale: 1.02 }}
+                    whileTap={ckLoading ? {} : { scale: 0.97 }}
+                    style={{
+                      width: '100%',
+                      minHeight: 44,
+                      marginTop: '0.5rem',
+                      background: `linear-gradient(135deg, ${C.accent}, ${C.accentLight})`,
+                      color: C.white,
+                      border: 'none',
+                      borderRadius: '12px',
+                      padding: '1rem',
+                      fontSize: '0.95rem',
+                      fontFamily: 'Inter, sans-serif',
+                      fontWeight: 700,
+                      cursor: ckLoading ? 'not-allowed' : 'pointer',
+                      opacity: ckLoading ? 0.7 : 1,
+                      letterSpacing: '0.03em',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.6rem',
+                    }}
+                  >
+                    {ckLoading ? (
+                      <>
+                        <motion.span
+                          animate={{ rotate: 360 }}
+                          transition={{ duration: 0.9, repeat: Infinity, ease: 'linear' }}
+                          style={{ width: 14, height: 14, borderRadius: '50%', border: '2px solid rgba(255,255,255,0.4)', borderTopColor: '#fff', display: 'inline-block' }}
+                        />
+                        Traitement en cours…
+                      </>
+                    ) : `Confirmer la commande — ${fmt(total)}`}
+                  </motion.button>
+                </form>
+              </div>
+            )}
+
+            {/* Confirmation step */}
+            {checkoutStep === 'done' && (
+              <div style={{ flex: 1, padding: '3rem 1.75rem', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
+                <div style={{
+                  width: 60, height: 60, borderRadius: '50%', border: `1px solid ${C.gold}`,
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  marginBottom: '1.5rem', fontSize: '1.4rem', color: C.gold,
+                }}>✓</div>
+                <h3 style={{ color: C.text, fontFamily: 'Playfair Display, serif', fontSize: '1.4rem', fontWeight: 700, marginBottom: '0.75rem' }}>
+                  Commande confirmée
+                </h3>
+                <p style={{ color: C.textMuted, fontFamily: 'Inter, sans-serif', fontSize: '0.9rem', lineHeight: 1.7 }}>
+                  Merci {ckName}. Votre commande de {fmt(total)} sera livrée à l'adresse indiquée. Un email de confirmation a été envoyé à {ckEmail}.
+                </p>
+                <button
+                  type="button"
+                  onClick={onClose}
+                  style={{
+                    minHeight: 44,
+                    marginTop: '2rem',
+                    padding: '0.85rem 2rem',
+                    background: 'none',
+                    border: `1px solid ${C.borderLight}`,
+                    borderRadius: '10px',
+                    color: C.text,
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: '0.85rem',
+                    fontWeight: 600,
+                    cursor: 'pointer',
+                  }}
+                >
+                  Continuer mes achats
+                </button>
               </div>
             )}
           </motion.div>

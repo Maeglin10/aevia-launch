@@ -1,8 +1,8 @@
 "use client";
 // @ts-nocheck
 
-import React, {useRef, useState, useEffect} from 'react'
-import { motion, useScroll, useTransform, useInView } from "framer-motion"
+import React, {useRef, useState, useEffect, useCallback} from 'react'
+import { motion, AnimatePresence, useScroll, useTransform, useInView } from "framer-motion"
 import { Phone, Mail, MapPin, Clock, Star, CheckCircle, ArrowRight, Zap } from "lucide-react"
 import { resolveList } from "@/lib/templates/resolveList"
 
@@ -57,6 +57,71 @@ function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: nu
   const ref = useRef(null)
   const inView = useInView(ref, { once: true, margin: "-60px" })
   return <motion.div ref={ref} initial={{ opacity: 0, y: 28 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.65, delay, ease: [0.16, 1, 0.3, 1] }}>{children}</motion.div>
+}
+
+const BOOKING_HOURS = ["08h30", "09h30", "10h30", "11h30", "14h00", "15h00", "16h00", "17h00", "18h00", "19h00"]
+
+/** Labelled booking-form field, styled to match the cabinet's warm/editorial design system. */
+function BookingField({
+  label,
+  name,
+  type = "text",
+  required = true,
+  children,
+}: {
+  label: string
+  name: string
+  type?: string
+  required?: boolean
+  children?: React.ReactNode
+}) {
+  const [focused, setFocused] = useState(false)
+  const isSelect = type === "select"
+  const fieldStyle: React.CSSProperties = {
+    width: "100%",
+    background: C.white,
+    border: `1.5px solid ${focused ? C.accent : C.border}`,
+    borderRadius: 8,
+    color: C.text,
+    fontFamily: FONT_BODY,
+    fontSize: 15,
+    padding: "12px 14px",
+    outline: "none",
+    boxShadow: focused ? `0 0 0 3px ${C.accentLight}` : "none",
+    transition: "border-color 0.2s ease, box-shadow 0.2s ease",
+    cursor: isSelect || type === "date" ? "pointer" : "text",
+    minHeight: 44,
+  }
+  return (
+    <div style={{ textAlign: "left" }}>
+      <label htmlFor={`b233-${name}`} style={{ display: "block", fontSize: 13, fontWeight: 600, color: C.text, marginBottom: 7 }}>
+        {label}{required && <span style={{ color: C.warm }}> *</span>}
+      </label>
+      {isSelect ? (
+        <select
+          id={`b233-${name}`}
+          name={name}
+          required={required}
+          defaultValue=""
+          onFocus={() => setFocused(true)}
+          onBlur={() => setFocused(false)}
+          style={{ ...fieldStyle, appearance: "none" }}
+        >
+          {children}
+        </select>
+      ) : (
+        <input
+          id={`b233-${name}`}
+          name={name}
+          type={type}
+          required={required}
+          onFocus={() => setFocused(true)}
+          onBlur={() => setFocused(false)}
+          style={fieldStyle}
+        />
+      )}
+    </div>
+  )
 }
 
 
@@ -125,6 +190,16 @@ export default function CabinetOsteopathiePage() {
   const heroRef = useRef<HTMLElement>(null)
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
+  const [bookingLoading, setBookingLoading] = useState(false)
+  const [bookingSent, setBookingSent] = useState(false)
+  const handleBooking = useCallback((e: React.FormEvent) => {
+    e.preventDefault()
+    setBookingLoading(true)
+    setTimeout(() => {
+      setBookingLoading(false)
+      setBookingSent(true)
+    }, 2000)
+  }, [])
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] })
   const heroY = useTransform(scrollYProgress, [0, 1], [0, 170])
   const heroTextY = useTransform(scrollYProgress, [0, 1], [0, -65])
@@ -163,7 +238,7 @@ export default function CabinetOsteopathiePage() {
         <div id="mb233-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      {["Motifs", "Approche", "Avis", "Contact"].map(l => (
             <a key={l} href={`#${l.toLowerCase()}`} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)", fontSize: 14, fontWeight: 500, textDecoration: "none" }}>{l}</a>
           ))}
-          <motion.a href={`tel:${fd?.phone ?? "+33478000000"}`} style={{ background: C.accent, color: C.white, borderRadius: 6, padding: "9px 22px", fontSize: 14, fontWeight: 600, textDecoration: "none" }} whileHover={{ background: C.accentDark }}>Prendre RDV</motion.a>
+          <motion.a href="#contact" style={{ background: C.accent, color: C.white, borderRadius: 6, padding: "9px 22px", fontSize: 14, fontWeight: 600, textDecoration: "none", cursor: "pointer" }} whileHover={{ background: C.accentDark }}>Prendre RDV</motion.a>
       </div>
         <button
           className="mb233-burger"
@@ -181,7 +256,7 @@ export default function CabinetOsteopathiePage() {
           {["Motifs", "Approche", "Avis", "Contact"].map(l => (
             <a key={l} href={`#${l.toLowerCase()}`} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)", fontSize: 14, fontWeight: 500, textDecoration: "none" }}>{l}</a>
           ))}
-          <motion.a href={`tel:${fd?.phone ?? "+33478000000"}`} style={{ background: C.accent, color: C.white, borderRadius: 6, padding: "9px 22px", fontSize: 14, fontWeight: 600, textDecoration: "none" }} whileHover={{ background: C.accentDark }}>Prendre RDV</motion.a>
+          <motion.a href="#contact" style={{ background: C.accent, color: C.white, borderRadius: 6, padding: "9px 22px", fontSize: 14, fontWeight: 600, textDecoration: "none", cursor: "pointer" }} whileHover={{ background: C.accentDark }}>Prendre RDV</motion.a>
         </div>
       )}
       <style>{`@media (max-width: 900px) { #mb233-nav { display: none !important; } .mb233-burger { display: flex !important; } }`}</style>
@@ -206,7 +281,7 @@ export default function CabinetOsteopathiePage() {
             Lucas Martin, ostéopathe D.O. à Lyon. Prise en charge des douleurs du dos, articulations, migraines, nourrissons et sportifs. RDV disponible sous 48h.
           </>}</motion.p>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.0 }} style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
-            <motion.a href={`tel:${fd?.phone ?? "+33478000000"}`} style={{ background: C.accent, color: C.white, borderRadius: 6, padding: "15px 32px", fontWeight: 600, fontSize: 15, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, boxShadow: `0 8px 32px ${C.accent}44` }} whileHover={{ scale: 1.03 }}>
+            <motion.a href="#contact" style={{ background: C.accent, color: C.white, borderRadius: 6, padding: "15px 32px", fontWeight: 600, fontSize: 15, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, boxShadow: `0 8px 32px ${C.accent}44`, cursor: "pointer" }} whileHover={{ scale: 1.03 }}>
               Prendre RDV <ArrowRight size={16} />
             </motion.a>
             <motion.a href="#motifs" style={{ background: "rgba(255,255,255,0.08)", color: "#fff", border: "1px solid rgba(255,255,255,0.22)", borderRadius: 6, padding: "13px 28px", fontWeight: 500, fontSize: 15, textDecoration: "none" }} whileHover={{ background: "rgba(255,255,255,0.14)" }}>
@@ -264,7 +339,7 @@ export default function CabinetOsteopathiePage() {
                 <span style={{ fontSize: 15, color: C.textMuted, lineHeight: 1.65 }}>{e}</span>
               </div>
             ))}
-            <motion.a href={`tel:${fd?.phone ?? "+33478000000"}`} style={{ display: "inline-flex", alignItems: "center", gap: 8, marginTop: 28, background: C.accent, color: C.white, borderRadius: 6, padding: "13px 28px", fontWeight: 600, fontSize: 15, textDecoration: "none" }} whileHover={{ background: C.accentDark, scale: 1.02 }}>
+            <motion.a href="#contact" style={{ display: "inline-flex", alignItems: "center", gap: 8, marginTop: 28, background: C.accent, color: C.white, borderRadius: 6, padding: "13px 28px", fontWeight: 600, fontSize: 15, textDecoration: "none", cursor: "pointer" }} whileHover={{ background: C.accentDark, scale: 1.02 }}>
               Réserver une séance <ArrowRight size={16} />
             </motion.a>
           </div></Reveal>
@@ -291,18 +366,108 @@ export default function CabinetOsteopathiePage() {
         </div>
       </section>
 
-      <section id="contact" style={{ padding: "100px 80px", background: C.warmLight, textAlign: "center" }}>
+      <section id="contact" style={{ padding: "100px 80px", background: C.warmLight }}>
         <Reveal>
-          <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Prise de RDV</span>
-          <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 4vw, 52px)", color: C.text, margin: "14px 0 16px" }}>Votre prochaine séance<br /><em>disponible sous 48h.</em></h2>
-          <p style={{ fontSize: 16, color: C.textMuted, maxWidth: 420, margin: "0 auto 36px", lineHeight: 1.7 }}>Cabinet Lyon 6e. Tarif : 65€ la séance. Remboursement partiel selon votre mutuelle.</p>
-          <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
-            <motion.a href={`tel:${fd?.phone ?? "+33478000000"}`} style={{ background: C.accent, color: C.white, borderRadius: 6, padding: "15px 36px", fontWeight: 600, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ scale: 1.03 }}>
-              <Phone size={18} /> {fd?.phone ?? "04 78 00 00 00"}
-            </motion.a>
-            <motion.a href={`mailto:${fd?.email ?? "contact@cabinet-equilibre.fr"}`} style={{ background: "transparent", color: C.text, border: `2px solid ${C.accent}`, borderRadius: 6, padding: "13px 32px", fontWeight: 600, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ background: C.accent, color: C.white }}>
-              <Mail size={18} /> Écrire
-            </motion.a>
+          <div style={{ textAlign: "center", marginBottom: 48 }}>
+            <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Prise de RDV</span>
+            <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 4vw, 52px)", color: C.text, margin: "14px 0 16px" }}>Votre prochaine séance<br /><em>disponible sous 48h.</em></h2>
+            <p style={{ fontSize: 16, color: C.textMuted, maxWidth: 420, margin: "0 auto", lineHeight: 1.7 }}>Cabinet Lyon 6e. Tarif : 65€ la séance. Remboursement partiel selon votre mutuelle.</p>
+          </div>
+
+          <div style={{ maxWidth: 560, margin: "0 auto", background: C.white, borderRadius: 14, border: `1px solid ${C.border}`, boxShadow: C.shadowLg, padding: "40px 36px" }}>
+            <AnimatePresence mode="wait">
+              {bookingSent ? (
+                <motion.div
+                  key="booking-success"
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5 }}
+                  style={{ textAlign: "center", padding: "24px 8px" }}
+                >
+                  <motion.div
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{ type: "spring", stiffness: 220, delay: 0.15 }}
+                    style={{ width: 60, height: 60, borderRadius: "50%", background: C.accentLight, color: C.accentDark, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 22px" }}
+                  >
+                    <CheckCircle size={30} />
+                  </motion.div>
+                  <h3 style={{ fontFamily: FONT, fontSize: 26, color: C.text, marginBottom: 12 }}>Demande envoyée</h3>
+                  <p style={{ fontSize: 15, color: C.textMuted, lineHeight: 1.7, maxWidth: 380, margin: "0 auto" }}>
+                    Merci ! Le cabinet vous recontacte sous 24h ouvrées pour confirmer votre créneau. Pour une urgence, appelez-nous directement.
+                  </p>
+                </motion.div>
+              ) : (
+                <motion.form
+                  key="booking-form"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  onSubmit={handleBooking}
+                  style={{ display: "flex", flexDirection: "column", gap: 20 }}
+                >
+                  <div className="imx-mobstack" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>
+                    <BookingField label="Nom complet" name="name" />
+                    <BookingField label="Téléphone" name="phone" type="tel" />
+                  </div>
+                  <BookingField label="Adresse e-mail" name="email" type="email" />
+                  <BookingField label="Motif de consultation" name="motif" type="select">
+                    <option value="">Sélectionner un motif</option>
+                    {MOTIFS.map((m, i) => (
+                      <option key={m.titre ?? i} value={m.titre}>{m.titre}</option>
+                    ))}
+                  </BookingField>
+                  <div className="imx-mobstack" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>
+                    <BookingField label="Date souhaitée" name="date" type="date" />
+                    <BookingField label="Heure" name="heure" type="select">
+                      <option value="">Sélectionner un créneau</option>
+                      {BOOKING_HOURS.map(h => <option key={h} value={h}>{h}</option>)}
+                    </BookingField>
+                  </div>
+
+                  <motion.button
+                    type="submit"
+                    disabled={bookingLoading}
+                    whileHover={bookingLoading ? {} : { background: C.accentDark }}
+                    whileTap={bookingLoading ? {} : { scale: 0.98 }}
+                    style={{
+                      background: C.accent, color: C.white, border: "none", borderRadius: 6,
+                      padding: "15px 28px", minHeight: 44, fontWeight: 600, fontSize: 15,
+                      fontFamily: FONT_BODY, display: "flex", alignItems: "center", justifyContent: "center", gap: 10,
+                      cursor: bookingLoading ? "not-allowed" : "pointer", opacity: bookingLoading ? 0.75 : 1,
+                      marginTop: 4,
+                    }}
+                  >
+                    {bookingLoading ? (
+                      <>
+                        <motion.span
+                          animate={{ rotate: 360 }}
+                          transition={{ duration: 0.9, repeat: Infinity, ease: "linear" }}
+                          style={{ width: 16, height: 16, borderRadius: "50%", border: `2px solid rgba(255,255,255,0.4)`, borderTopColor: C.white, display: "inline-block" }}
+                        />
+                        Envoi en cours…
+                      </>
+                    ) : (
+                      <>Confirmer la demande de RDV <ArrowRight size={16} /></>
+                    )}
+                  </motion.button>
+                  <p style={{ fontSize: 12, color: C.textMuted, textAlign: "center", margin: 0 }}>
+                    Champs marqués <span style={{ color: C.warm }}>*</span> obligatoires. Aucune donnée de paiement n'est demandée à cette étape.
+                  </p>
+                </motion.form>
+              )}
+            </AnimatePresence>
+          </div>
+
+          <div style={{ textAlign: "center", marginTop: 36 }}>
+            <p style={{ fontSize: 13, color: C.textMuted, marginBottom: 14 }}>Vous préférez nous joindre directement ?</p>
+            <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
+              <motion.a href={`tel:${fd?.phone ?? "+33478000000"}`} style={{ background: "transparent", color: C.text, border: `2px solid ${C.accent}`, borderRadius: 6, padding: "11px 26px", minHeight: 44, fontWeight: 600, fontSize: 14, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 8, cursor: "pointer" }} whileHover={{ background: C.accent, color: C.white }}>
+                <Phone size={16} /> {fd?.phone ?? "04 78 00 00 00"}
+              </motion.a>
+              <motion.a href={`mailto:${fd?.email ?? "contact@cabinet-equilibre.fr"}`} style={{ background: "transparent", color: C.text, border: `2px solid ${C.accent}`, borderRadius: 6, padding: "11px 26px", minHeight: 44, fontWeight: 600, fontSize: 14, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 8, cursor: "pointer" }} whileHover={{ background: C.accent, color: C.white }}>
+                <Mail size={16} /> Écrire
+              </motion.a>
+            </div>
           </div>
         </Reveal>
       </section>

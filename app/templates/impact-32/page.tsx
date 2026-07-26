@@ -861,8 +861,11 @@ export default function Impact32() {
 
 
 return (
+    // layout.tsx already renders a fixed Navbar above {children} — this page
+    // rendered a second fixed Navbar on top of it, causing the severe
+    // illegible nav overlap reported on desktop. layout.tsx's Navbar is the
+    // single source of truth for this route segment.
     <main style={{ background: C.bg, fontFamily: FONT, overflowX: "hidden" }}>
-      <Navbar />
       <Hero />
       <Services />
       <Stats />

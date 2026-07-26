@@ -172,42 +172,48 @@ function Button({
   onClick,
   filled = false,
   type = 'button',
+  disabled = false,
 }: {
   children: React.ReactNode;
   onClick?: () => void;
   filled?: boolean;
   type?: 'button' | 'submit';
+  disabled?: boolean;
 }) {
   const [hover, setHover] = useState(false);
   return (
     <button
       type={type}
       onClick={onClick}
+      disabled={disabled}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
       style={{
         display: 'inline-flex',
         alignItems: 'center',
+        justifyContent: 'center',
         gap: 10,
         padding: '14px 28px',
+        minHeight: 44,
         fontFamily: SANS,
         fontSize: 11.5,
         letterSpacing: '0.2em',
         textTransform: 'uppercase',
         fontWeight: 700,
-        cursor: 'pointer',
+        cursor: disabled ? 'not-allowed' : 'pointer',
+        opacity: disabled ? 0.55 : 1,
         border: `1.5px solid ${C.primary}`,
         background: filled ? C.primary : 'transparent',
         color: filled ? (C.white) : C.primary,
         borderRadius: 2,
-        transform: hover ? 'translateY(-2px)' : 'none',
-        boxShadow: hover && filled ? `0 6px 20px ${C.primary}33` : 'none',
+        transform: hover && !disabled ? 'translateY(-2px)' : 'none',
+        boxShadow: hover && filled && !disabled ? `0 6px 20px ${C.primary}33` : 'none',
         transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)'
       }}
     >
       {children}
       <ArrowRight size={13} style={{
-        transform: hover ? 'translateX(4px)' : 'none',
+        transform: hover && !disabled ? 'translateX(4px)' : 'none',
         transition: 'transform 0.4s ease'
       }} />
     </button>
@@ -281,7 +287,12 @@ export default function Page() {
   const [activeCategory, setActiveCategory] = useState("Tous");
   const [expandedFaq, setExpandedFaq] = useState<number | null>(null);
   const [formSubmitted, setFormSubmitted] = useState(false);
-  const [formData, setFormData] = useState({ name: '', email: '', phone: '', message: '' });
+  const [formLoading, setFormLoading] = useState(false);
+  const [formData, setFormData] = useState({ name: '', email: '', phone: '', message: '', service: '', preferredDate: '' });
+  const selectServiceForQuote = (name: string) => {
+    setFormData((prev) => ({ ...prev, service: name }));
+    document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
 
   const heroRef = useRef<HTMLElement>(null);
   const { scrollYProgress: heroProgress } = useScroll({
@@ -308,8 +319,12 @@ export default function Page() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (formData.name && formData.email) {
-      setFormSubmitted(true);
+    if (formData.name && formData.email && formData.phone && formData.service) {
+      setFormLoading(true);
+      setTimeout(() => {
+        setFormLoading(false);
+        setFormSubmitted(true);
+      }, 1800);
     }
   };
 
@@ -890,14 +905,37 @@ return (
                       {item.desc}
                     </p>
                   </div>
-                  <div style={{
-                    fontFamily: SERIF,
-                    fontSize: 18,
-                    fontWeight: 700,
-                    color: C.accent,
-                    whiteSpace: 'nowrap'
-                  }}>
-                    {item.price}
+                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 10, flexShrink: 0 }}>
+                    <div style={{
+                      fontFamily: SERIF,
+                      fontSize: 18,
+                      fontWeight: 700,
+                      color: C.accent,
+                      whiteSpace: 'nowrap'
+                    }}>
+                      {item.price}
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => selectServiceForQuote(item.name)}
+                      aria-label={`Demander un devis pour ${item.name}`}
+                      style={{
+                        minHeight: 44,
+                        minWidth: 44,
+                        padding: '0 16px',
+                        borderRadius: 22,
+                        border: `1px solid ${C.primary}33`,
+                        background: formData.service === item.name ? C.primary : 'transparent',
+                        color: formData.service === item.name ? C.white : C.primary,
+                        fontFamily: SANS,
+                        fontSize: 13,
+                        fontWeight: 700,
+                        cursor: 'pointer',
+                        whiteSpace: 'nowrap'
+                      }}
+                    >
+                      {formData.service === item.name ? 'Sélectionné ✓' : 'Devis'}
+                    </button>
                   </div>
                 </div>
               </Reveal>
@@ -1178,20 +1216,75 @@ return (
                       <div style={{ color: C.primary, marginBottom: 16 }}><CheckCircle size={48} style={{ margin: '0 auto' }} /></div>
                       <h3 style={{ fontFamily: SERIF, fontSize: 22, color: C.primary, marginBottom: 8, fontWeight: 700 }}>Demande reçue !</h3>
                       <p style={{ fontSize: 14, color: C.textMuted, lineHeight: 1.6 }}>
-                        Merci {formData.name}, nous avons bien reçu votre message et nous vous recontacterons très rapidement.
+                        Merci {formData.name}, votre demande de devis pour « {formData.service} »{formData.preferredDate ? ` (date souhaitée : ${formData.preferredDate})` : ''} a bien été reçue. Nous vous recontactons rapidement au {formData.phone} avec un chiffrage précis.
                       </p>
                     </motion.div>
                   ) : (
                     <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
                       <div>
-                        <label style={{ display: 'block', fontSize: 11, letterSpacing: '0.05em', textTransform: 'uppercase', color: C.textMuted, marginBottom: 8, fontWeight: 600 }}>Nom Complet</label>
+                        <label htmlFor="lg-service" style={{ display: 'block', fontSize: 11, letterSpacing: '0.05em', textTransform: 'uppercase', color: C.textMuted, marginBottom: 8, fontWeight: 600 }}>Service concerné</label>
+                        <select
+                          id="lg-service"
+                          required
+                          value={formData.service}
+                          onChange={(e) => setFormData({ ...formData, service: e.target.value })}
+                          style={{
+                            width: '100%',
+                            minHeight: 44,
+                            boxSizing: 'border-box',
+                            padding: '12px 16px',
+                            background: C.bgCard,
+                            border: `1px solid ${C.primary}1a`,
+                            borderRadius: 2,
+                            color: C.text,
+                            fontFamily: SANS,
+                            fontSize: 14,
+                            outline: 'none',
+                            cursor: 'pointer'
+                          }}
+                        >
+                          <option value="">— Choisir un service —</option>
+                          {menuItemsAll.map((m: any) => (
+                            <option key={m.name} value={m.name}>{m.name}</option>
+                          ))}
+                        </select>
+                      </div>
+                      <div>
+                        <label htmlFor="lg-date" style={{ display: 'block', fontSize: 11, letterSpacing: '0.05em', textTransform: 'uppercase', color: C.textMuted, marginBottom: 8, fontWeight: 600 }}>Date souhaitée d'intervention</label>
                         <input
+                          id="lg-date"
+                          type="date"
+                          min={new Date().toISOString().split('T')[0]}
+                          value={formData.preferredDate}
+                          onChange={(e) => setFormData({ ...formData, preferredDate: e.target.value })}
+                          style={{
+                            width: '100%',
+                            minHeight: 44,
+                            boxSizing: 'border-box',
+                            padding: '12px 16px',
+                            background: C.bgCard,
+                            border: `1px solid ${C.primary}1a`,
+                            borderRadius: 2,
+                            color: C.text,
+                            fontFamily: SANS,
+                            fontSize: 14,
+                            outline: 'none',
+                            cursor: 'pointer'
+                          }}
+                        />
+                      </div>
+                      <div>
+                        <label htmlFor="lg-name" style={{ display: 'block', fontSize: 11, letterSpacing: '0.05em', textTransform: 'uppercase', color: C.textMuted, marginBottom: 8, fontWeight: 600 }}>Nom Complet</label>
+                        <input
+                          id="lg-name"
                           type="text"
                           required
                           value={formData.name}
                           onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                           style={{
                             width: '100%',
+                            minHeight: 44,
+                            boxSizing: 'border-box',
                             padding: '12px 16px',
                             background: C.bgCard,
                             border: `1px solid ${C.primary}1a`,
@@ -1204,14 +1297,17 @@ return (
                         />
                       </div>
                       <div>
-                        <label style={{ display: 'block', fontSize: 11, letterSpacing: '0.05em', textTransform: 'uppercase', color: C.textMuted, marginBottom: 8, fontWeight: 600 }}>Adresse E-mail</label>
+                        <label htmlFor="lg-email" style={{ display: 'block', fontSize: 11, letterSpacing: '0.05em', textTransform: 'uppercase', color: C.textMuted, marginBottom: 8, fontWeight: 600 }}>Adresse E-mail</label>
                         <input
+                          id="lg-email"
                           type="email"
                           required
                           value={formData.email}
                           onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                           style={{
                             width: '100%',
+                            minHeight: 44,
+                            boxSizing: 'border-box',
                             padding: '12px 16px',
                             background: C.bgCard,
                             border: `1px solid ${C.primary}1a`,
@@ -1224,8 +1320,32 @@ return (
                         />
                       </div>
                       <div>
-                        <label style={{ display: 'block', fontSize: 11, letterSpacing: '0.05em', textTransform: 'uppercase', color: C.textMuted, marginBottom: 8, fontWeight: 600 }}>Votre Message</label>
+                        <label htmlFor="lg-phone" style={{ display: 'block', fontSize: 11, letterSpacing: '0.05em', textTransform: 'uppercase', color: C.textMuted, marginBottom: 8, fontWeight: 600 }}>Téléphone</label>
+                        <input
+                          id="lg-phone"
+                          type="tel"
+                          required
+                          value={formData.phone}
+                          onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                          style={{
+                            width: '100%',
+                            minHeight: 44,
+                            boxSizing: 'border-box',
+                            padding: '12px 16px',
+                            background: C.bgCard,
+                            border: `1px solid ${C.primary}1a`,
+                            borderRadius: 2,
+                            color: C.text,
+                            fontFamily: SANS,
+                            fontSize: 14,
+                            outline: 'none'
+                          }}
+                        />
+                      </div>
+                      <div>
+                        <label htmlFor="lg-message" style={{ display: 'block', fontSize: 11, letterSpacing: '0.05em', textTransform: 'uppercase', color: C.textMuted, marginBottom: 8, fontWeight: 600 }}>Détails (surface du terrain, besoins…)</label>
                         <textarea
+                          id="lg-message"
                           rows={4}
                           value={formData.message}
                           onChange={(e) => setFormData({ ...formData, message: e.target.value })}
@@ -1243,7 +1363,9 @@ return (
                           }}
                         />
                       </div>
-                      <Button type="submit" filled>Demander un devis</Button>
+                      <Button type="submit" filled disabled={formLoading}>
+                        {formLoading ? 'Envoi en cours…' : 'Demander un devis'}
+                      </Button>
                     </form>
                   )}
                 </div>

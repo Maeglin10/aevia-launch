@@ -237,13 +237,16 @@ function Hero() {
         <TemplateIcon emoji="🥖" size={180} />
       </motion.div>
 
-      {/* Content */}
+      {/* Content — padding/margins now use clamp() so they shrink on narrow
+          viewports instead of staying pinned at desktop values (120px/80px
+          padding + 28/24/40/52px margins was pushing the CTA row well past
+          the mobile fold, requiring a scroll to reach it). */}
       <motion.div
-        style={{ position: "relative", zIndex: 1, padding: "120px 80px 80px", maxWidth: 760, y: textY, opacity: textOpacity }}
+        style={{ position: "relative", zIndex: 1, padding: "clamp(88px,20vw,120px) clamp(24px,7vw,80px) clamp(40px,8vw,80px)", maxWidth: 760, y: textY, opacity: textOpacity }}
       >
         <motion.div
           initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}
-          style={{ display: "inline-flex", alignItems: "center", gap: 8, background: C.accentLight, border: `1px solid ${C.accent}`, borderRadius: 20, padding: "7px 16px", marginBottom: 28 }}
+          style={{ display: "inline-flex", alignItems: "center", gap: 8, background: C.accentLight, border: `1px solid ${C.accent}`, borderRadius: 20, padding: "7px 16px", marginBottom: "clamp(16px,4vw,28px)" }}
         >
           <Leaf size={14} color={C.accent} />
           <span style={{ color: C.accent, fontSize: 13, fontWeight: 700 }}>Artisan boulanger depuis 1987 · Paris 11e</span>
@@ -251,7 +254,7 @@ function Hero() {
 
         <motion.h1
           initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.1 }}
-          style={{ fontFamily: FONT_HEADING, fontSize: "clamp(40px, 5vw, 72px)", fontWeight: 700, color: C.text, lineHeight: 1.08, letterSpacing: -1.5, marginBottom: 24 }}
+          style={{ fontFamily: FONT_HEADING, fontSize: "clamp(36px, 5vw, 72px)", fontWeight: 700, color: C.text, lineHeight: 1.08, letterSpacing: -1.5, marginBottom: "clamp(14px,3vw,24px)" }}
         >
           Le pain, l'art,{" "}
           <em style={{ color: C.accent, fontStyle: "italic" }}>la tradition</em>
@@ -259,7 +262,7 @@ function Hero() {
 
         <motion.p
           initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.22 }}
-          style={{ fontSize: 19, color: C.textMuted, lineHeight: 1.76, marginBottom: 40, maxWidth: 560 }}
+          style={{ fontSize: "clamp(15px,2vw,19px)", color: C.textMuted, lineHeight: 1.7, marginBottom: "clamp(20px,4vw,40px)", maxWidth: 560 }}
         >
           La Fournée, c'est l'amour du pain au levain, des viennoiseries pur beurre et des pâtisseries
           de saison. Tout est fait maison chaque jour dès 4h du matin dans notre fournil ouvert sur la rue.
@@ -267,7 +270,7 @@ function Hero() {
 
         <motion.div
           initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.32 }}
-          style={{ display: "flex", gap: 14, flexWrap: "wrap", marginBottom: 52 }}
+          style={{ display: "flex", gap: 14, flexWrap: "wrap", marginBottom: "clamp(24px,5vw,52px)" }}
         >
           <motion.button
             style={{ background: C.accent, color: C.white, border: "none", borderRadius: 10, padding: "16px 34px", fontWeight: 700, fontSize: 17, cursor: "pointer", display: "flex", alignItems: "center", gap: 8, fontFamily: FONT_BODY }}
@@ -881,6 +884,9 @@ export default function Impact33() {
   }
 
 return (
+    // layout.tsx already renders a fixed Navbar above {children} — this page
+    // rendered a second fixed Navbar on top of it, causing the desktop nav
+    // overlap reported (in addition to the mobile CTA-below-fold fix above).
     <main style={{ background: C.bg, overflowX: "hidden" }}>
       <style>{`
         /* mobile: stack 2-col grids to single column (added by responsive fix) */
@@ -888,7 +894,6 @@ return (
           .imx-mobstack { grid-template-columns: 1fr !important; }
         }
       `}</style>
-      <Navbar />
       <Hero />
       <MarqueeSection />
 <MenuSection />

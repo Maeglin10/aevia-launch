@@ -290,7 +290,7 @@ export default function AetherSoundPage() {
              <Badge className="bg-[var(--brand,#c9a84c)]/10 text-[var(--brand,#c9a84c)] border border-[var(--brand,#c9a84c)]/30 text-[10px] font-bold uppercase tracking-[0.5em] mb-10 px-4 py-1.5 rounded-full">
                 Berlin, Germany // Established 1994
              </Badge>
-             <h1 className="text-8xl md:text-[14rem] font-black leading-[0.75] tracking-tighter mb-12 uppercase text-white italic">{c?.heroHeadline ?? <>
+             <h1 className="text-5xl sm:text-6xl md:text-[14rem] font-black leading-[0.9] md:leading-[0.75] tracking-tight md:tracking-tighter mb-12 uppercase text-white italic break-words">{c?.heroHeadline ?? <>
                The <br/> <span className="text-[var(--brand,#c9a84c)] not-italic">Silence.</span>
              </>}</h1>
              <p className="max-w-md text-xl text-white/30 leading-relaxed font-light mb-12 uppercase tracking-widest italic">{c?.heroSubline ?? fd?.tagline ?? <>

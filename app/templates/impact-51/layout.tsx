@@ -89,8 +89,10 @@ export default function Impact51Layout({
         </>
           )}</Link>
 
-        {/* Desktop Links */}
-        <div className="hidden md:flex items-center gap-8">
+        {/* Desktop Links — 6 links + "Sign in" + "Start free trial" don't fit
+            until lg (1024px); at md (768px, tablet) "Sign in" was wrapping
+            and crowding into the "Legal" link. */}
+        <div className="hidden lg:flex items-center gap-8">
           {NAV_LINKS.map((link) => (
             <Link
               key={link.label}
@@ -107,7 +109,7 @@ export default function Impact51Layout({
         </div>
 
         {/* Desktop Actions */}
-        <div className="hidden md:flex items-center gap-5">
+        <div className="hidden lg:flex items-center gap-5">
           <Link
             href="/templates/impact-51/contact"
             className="text-sm font-semibold text-[#6b7280] hover:text-[#0f0f0f] transition-colors"
@@ -125,7 +127,7 @@ export default function Impact51Layout({
         {/* Mobile Hamburger Button */}
         <button
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="p-2 md:hidden text-[#6b7280] hover:text-[#0f0f0f]"
+          className="p-2 lg:hidden text-[#6b7280] hover:text-[#0f0f0f]"
         >
           {mobileMenuOpen ? (
             <X className="w-6 h-6" />
@@ -143,7 +145,7 @@ export default function Impact51Layout({
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.25 }}
-            className="fixed inset-x-0 top-[70px] z-40 bg-white border-b border-[#e4e4e7] py-6 px-6 md:hidden shadow-lg"
+            className="fixed inset-x-0 top-[70px] z-40 bg-white border-b border-[#e4e4e7] py-6 px-6 lg:hidden shadow-lg"
           >
             <div className="flex flex-col gap-4">
               {NAV_LINKS.map((link) => (

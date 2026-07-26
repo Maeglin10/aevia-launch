@@ -63,7 +63,17 @@ export default function GastronomyLayout({ children }: { children: React.ReactNo
         @import url('https://fonts.googleapis.com/css2?family=Merriweather+Sans:ital,wght@0,300..800;1,300..800&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
       `}</style>
 
-      {/* NAVBAR */}
+      {/* NAVBAR — this layout was cloned from a different (gastronomy /
+          "Gabriel Renaud") template and still carries that branding + its
+          own fixed nav. The home page (page.tsx) is a distinct business
+          ("Terre Vivante") that already renders its own complete, correctly
+          branded fixed nav + footer. Rendering both stacked two fixed navs
+          with two different logos on top of each other, which is exactly
+          the "logo doubled / nav overlap garbled" bug reported at every
+          breakpoint. Subpages (menu, carte, chef, reservation, contact) have
+          no nav of their own and still need this one, so it's only
+          suppressed on the home route. */}
+      {!isOnHome && (
       <nav
         style={{
           position: "fixed",
@@ -153,16 +163,17 @@ export default function GastronomyLayout({ children }: { children: React.ReactNo
         <button
           type="button"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          style={{ background: "none", border: "none", cursor: "pointer", padding: 4, display: "none" }}
-          className="md:block"
+          style={{ background: "none", border: "none", cursor: "pointer", padding: 4 }}
+          className="flex md:hidden"
           aria-label="Menu"
         >
           {mobileMenuOpen ? <X color={logoColor} size={24} /> : <Menu color={logoColor} size={24} />}
         </button>
       </nav>
+      )}
 
       {/* Mobile drawer */}
-      {mobileMenuOpen && (
+      {!isOnHome && mobileMenuOpen && (
         <div
           style={{
             position: "fixed",
@@ -218,7 +229,9 @@ export default function GastronomyLayout({ children }: { children: React.ReactNo
       {/* Main Content Area */}
       <main style={{ flex: 1 }}>{children}</main>
 
-      {/* FOOTER */}
+      {/* FOOTER — same mismatched-branding reasoning as the nav above; the
+          home page has its own footer already. */}
+      {!isOnHome && (
       <footer style={{ backgroundColor: C.bgDark, padding: "5rem 2.5rem 2rem" }}>
         <div style={{ maxWidth: 1060, margin: "0 auto" }}>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "3rem", marginBottom: "4rem" }}>
@@ -286,6 +299,7 @@ export default function GastronomyLayout({ children }: { children: React.ReactNo
           </div>
         </div>
       </footer>
+      )}
     </div>
   );
 }

@@ -78,7 +78,7 @@ return (
     <div className="bg-[#0a0c10] text-[#a0a0a0]">
       <main>
         {/* ── HERO ──────────────────── */}
-        <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden py-20">
+        <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden py-10 md:py-20">
           <div className="absolute inset-0">
             <Image
               src={photo(0, "https://images.unsplash.com/photo-1614164185128-e4ec99c436d7?auto=format&fit=crop&q=80&w=2400")}
@@ -92,7 +92,7 @@ return (
 
           <div className="relative z-10 max-w-[1200px] mx-auto px-6 text-center">
             <Reveal>
-              <div className="flex items-center justify-center gap-8 mb-16 opacity-30">
+              <div className="flex items-center justify-center gap-8 mb-6 md:mb-16 opacity-30">
                 <div className="w-16 h-[1px] bg-[var(--brand,#c9a96e)]" />
                 <span className="text-[10px] font-bold uppercase tracking-[0.6em] text-white">
                   The Architecture of Time
@@ -101,26 +101,26 @@ return (
               </div>
             </Reveal>
             <Reveal delay={0.2} y={70}>
-              <h1 className="text-8xl md:text-[10rem] font-light tracking-tighter leading-[1.1] pb-6 text-white mb-16 uppercase italic">{c?.heroHeadline ?? <>
+              <h1 className="text-6xl md:text-8xl lg:text-[10rem] font-light tracking-tighter leading-[1.1] pb-4 md:pb-6 text-white mb-6 md:mb-16 uppercase italic">{c?.heroHeadline ?? <>
                 Silent <br /> <span className="font-bold not-italic">Caliber.</span>
               </>}</h1>
             </Reveal>
             <Reveal delay={0.4}>
-              <div className="flex flex-col items-center justify-center gap-16">
-                <p className="text-2xl text-white/40 font-light max-w-2xl leading-relaxed italic">{c?.heroSubline ?? fd?.tagline ?? <>
+              <div className="flex flex-col items-center justify-center gap-6 md:gap-16">
+                <p className="text-lg md:text-2xl text-white/40 font-light max-w-2xl leading-relaxed italic">{c?.heroSubline ?? fd?.tagline ?? <>
                   Crafting high-fidelity movements that beat with the rhythm of tradition and the precision of tomorrow.
                 </>}</p>
-                <div className="flex flex-wrap justify-center gap-12">
+                <div className="flex flex-wrap justify-center gap-4 md:gap-12">
                   <Link
                     href="/templates/impact-60/collections"
-                    className="px-16 py-6 border border-white/20 text-white font-bold uppercase tracking-widest text-[10px] hover:bg-white hover:text-black transition-all duration-700 italic shadow-[0_0_40px_rgba(255,255,255,0.05)]"
+                    className="px-8 py-4 md:px-16 md:py-6 border border-white/20 text-white font-bold uppercase tracking-widest text-[10px] hover:bg-white hover:text-black transition-all duration-700 italic shadow-[0_0_40px_rgba(255,255,255,0.05)]"
                     style={{ textDecoration: "none" }}
                   >
                     Explore Collections
                   </Link>
                   <Link
                     href="/templates/impact-60/movement"
-                    className="px-16 py-6 bg-[var(--brand,#c9a96e)] text-black font-bold uppercase tracking-widest text-[10px] hover:px-20 transition-all flex items-center gap-4"
+                    className="px-8 py-4 md:px-16 md:py-6 bg-[var(--brand,#c9a96e)] text-black font-bold uppercase tracking-widest text-[10px] hover:px-20 transition-all flex items-center gap-4"
                     style={{ textDecoration: "none" }}
                   >
                     <Play className="w-3 h-3 fill-current" /> Witness the Movement
@@ -130,7 +130,7 @@ return (
             </Reveal>
           </div>
 
-          <div className="absolute bottom-12 left-12 right-12 flex justify-between items-end text-[9px] font-bold uppercase tracking-[0.4em] text-white/10 italic">
+          <div className="absolute bottom-4 md:bottom-12 left-12 right-12 hidden md:flex justify-between items-end text-[9px] font-bold uppercase tracking-[0.4em] text-white/10 italic">
             <span>GENEVA / ZURICH / TOKYO / NEW YORK</span>
             <div className="flex gap-6 items-center">
               <Clock className="w-4 h-4 text-[var(--brand,#c9a96e)] animate-spin-slow" />

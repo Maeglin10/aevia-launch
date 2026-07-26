@@ -328,12 +328,12 @@ export default function BlockBasePage() {
       </AnimatePresence>
 
       {/* ── HERO SECTION ── */}
-      <section id="hero" className="relative h-dvh flex flex-col justify-center pt-32 md:pt-20">
+      <section id="hero" className="relative min-h-dvh flex flex-col justify-center pt-36 pb-10 md:pt-20">
         <div className="max-w-[1500px] mx-auto px-6 md:px-12 w-full">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
             <div className="lg:col-span-7">
               <Reveal>
-                <div className="flex items-center gap-4 mb-8">
+                <div className="flex items-center gap-4 mb-4 md:mb-8">
                   <div className="px-3 py-1 bg-[var(--brand,#00f2ff)]/10 border border-[var(--brand,#00f2ff)]/30 text-[var(--brand,#00f2ff)] text-[9px] font-bold uppercase tracking-widest">
                     SYSTEMS_NOMINAL
                   </div>
@@ -341,18 +341,18 @@ export default function BlockBasePage() {
                     v4.2.0-stable // LATENCY: 1.2ms
                   </div>
                 </div>
-                <h1 className="text-7xl md:text-9xl font-black leading-[0.85] tracking-tighter uppercase mb-10">{c?.heroHeadline ?? <>
+                <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-9xl font-black leading-[1.05] md:leading-[0.85] tracking-tighter uppercase mb-5 md:mb-10 break-words">{c?.heroHeadline ?? <>
                   Zero <br />{" "}
                   <span className="text-[var(--brand,#00f2ff)]">Knowledge.</span> <br />{" "}
                   Absolute <br />{" "}
                   <span className="text-white/20">Frictionless.</span>
                 </>}</h1>
-                <p className="max-w-xl text-lg text-white/40 leading-relaxed font-light mb-12 uppercase tracking-widest">{c?.heroSubline ?? fd?.tagline ?? <>
+                <p className="max-w-xl text-base md:text-lg text-white/40 leading-relaxed font-light mb-6 md:mb-12 uppercase tracking-widest">{c?.heroSubline ?? fd?.tagline ?? <>
                   High-performance indexing and indexer infrastructure for the
                   next generation of decentralized computation. Engineering the
                   backbone of zero-knowledge privacy.
                 </>}</p>
-                <div className="flex flex-col sm:flex-row gap-6">
+                <div className="flex flex-col sm:flex-row gap-3 md:gap-6">
                   <button className="px-10 py-5 bg-[var(--brand,#00f2ff)] text-black text-[10px] font-black uppercase tracking-[0.3em] hover:bg-white transition-all shadow-[0_0_40px_rgba(0,242,255,0.2)]">
                     Explore_The_SDK
                   </button>

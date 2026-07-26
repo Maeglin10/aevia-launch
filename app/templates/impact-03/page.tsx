@@ -112,6 +112,12 @@ const STORES = [
   { city: 'Tokyo', address: '5-4-1 Minami-Aoyama, Minato', hours: 'Daily 11–20' },
 ];
 
+/* Garment sizes offered on every product — a size must be chosen before a
+   piece can be added to the bag. */
+const SIZES = ['XS', 'S', 'M', 'L', 'XL'];
+
+type CartItem = { id: number; name: string; price: number; qty: number; size: string };
+
 /* ─────────────────────────────────────────────────────────────────────────────
    ACCENT COLOR SCROLL PALETTE
    Sections map: 0→hero, 1→collection, 2→gallery, 3→lookbook, 4→sustainability
@@ -331,10 +337,12 @@ function MagnifierCard({
   product,
   index,
   accentColor,
+  onAddToCart,
 }: {
   product: (typeof COLLECTION_DEMO)[0];
   index: number;
   accentColor: import('framer-motion').MotionValue<string>;
+  onAddToCart: (product: (typeof COLLECTION_DEMO)[0], size: string) => void;
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: '-60px' });
@@ -342,6 +350,7 @@ function MagnifierCard({
   const [hovered, setHovered] = useState(false);
   const [cursor, setCursor] = useState({ x: 0, y: 0 });
   const [panelPos, setPanelPos] = useState({ x: 0, y: 0 });
+  const [size, setSize] = useState<string | null>(null);
 
   const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
     if (!ref.current) return;
@@ -605,26 +614,70 @@ function MagnifierCard({
         </div>
       </div>
 
-      {/* Add to bag — slides up on hover */}
-      <motion.button
+      {/* Size selector — required before the piece can be added to the bag */}
+      <motion.div
         animate={{ y: hovered ? 0 : 8, opacity: hovered ? 1 : 0 }}
         transition={{ duration: 0.25 }}
         style={{
           marginTop: 12,
+          display: 'flex',
+          gap: 6,
+          pointerEvents: hovered ? 'auto' : 'none',
+        }}
+      >
+        {SIZES.map((s) => (
+          <button
+            key={s}
+            type="button"
+            aria-pressed={size === s}
+            aria-label={`Select size ${s}`}
+            onClick={() => setSize(s)}
+            style={{
+              flex: 1,
+              minWidth: 32,
+              minHeight: 32,
+              background: size === s ? '#0a0a0a' : 'transparent',
+              color: size === s ? '#fafafa' : '#0a0a0a',
+              border: `1px solid ${size === s ? '#0a0a0a' : 'rgba(10,10,10,0.25)'}`,
+              fontFamily: 'system-ui, sans-serif',
+              fontSize: 10,
+              letterSpacing: '0.05em',
+              cursor: 'pointer',
+              transition: 'background 0.2s, color 0.2s',
+            }}
+          >
+            {s}
+          </button>
+        ))}
+      </motion.div>
+
+      {/* Add to bag — slides up on hover, disabled until a size is chosen */}
+      <motion.button
+        animate={{ y: hovered ? 0 : 8, opacity: hovered ? 1 : 0 }}
+        transition={{ duration: 0.25 }}
+        disabled={!size}
+        aria-label={size ? `Add ${product.name} (size ${size}) to bag` : 'Select a size to add to bag'}
+        onClick={(e) => {
+          e.stopPropagation();
+          if (size) onAddToCart(product, size);
+        }}
+        style={{
+          marginTop: 8,
           width: '100%',
+          minHeight: 44,
           padding: '12px 0',
-          background: '#0a0a0a',
+          background: size ? '#0a0a0a' : 'rgba(10,10,10,0.3)',
           color: '#fafafa',
           fontFamily: 'system-ui, sans-serif',
           fontSize: 10,
           letterSpacing: '0.25em',
           textTransform: 'uppercase',
           border: 'none',
-          cursor: 'pointer',
+          cursor: size ? 'pointer' : 'not-allowed',
           pointerEvents: hovered ? 'auto' : 'none',
         }}
       >
-        Add to Bag
+        {size ? 'Add to Bag' : 'Select a size'}
       </motion.button>
     </motion.div>
   );
@@ -655,6 +708,411 @@ function Reveal({
     >
       {children}
     </motion.div>
+  );
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   CHECKOUT FIELD — real label/htmlFor + visible focus state
+───────────────────────────────────────────────────────────────────────────── */
+function CheckoutField({
+  id,
+  label,
+  type = 'text',
+  value,
+  onChange,
+  required = true,
+  autoComplete,
+}: {
+  id: string;
+  label: string;
+  type?: string;
+  value: string;
+  onChange: (v: string) => void;
+  required?: boolean;
+  autoComplete?: string;
+}) {
+  const [focused, setFocused] = useState(false);
+  return (
+    <div style={{ marginBottom: 20 }}>
+      <label
+        htmlFor={id}
+        style={{
+          fontSize: 9,
+          letterSpacing: '0.2em',
+          textTransform: 'uppercase',
+          color: 'rgba(10,10,10,0.45)',
+          marginBottom: 8,
+          display: 'block',
+          fontFamily: 'system-ui, sans-serif',
+        }}
+      >
+        {label}{required ? ' *' : ''}
+      </label>
+      <input
+        id={id}
+        name={id}
+        type={type}
+        required={required}
+        autoComplete={autoComplete}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        onFocus={() => setFocused(true)}
+        onBlur={() => setFocused(false)}
+        style={{
+          width: '100%',
+          boxSizing: 'border-box',
+          minHeight: 44,
+          padding: '14px 16px',
+          background: 'rgba(10,10,10,0.03)',
+          border: `1px solid ${focused ? '#0a0a0a' : 'rgba(10,10,10,0.1)'}`,
+          outline: 'none',
+          fontSize: 13,
+          fontFamily: 'system-ui, sans-serif',
+          color: '#0a0a0a',
+          transition: 'border-color 0.2s',
+        }}
+      />
+    </div>
+  );
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   CART DRAWER — bag → checkout contact form → confirmation
+───────────────────────────────────────────────────────────────────────────── */
+function CartDrawer({
+  isOpen,
+  onClose,
+  cart,
+  setCart,
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+  cart: CartItem[];
+  setCart: React.Dispatch<React.SetStateAction<CartItem[]>>;
+}) {
+  type Step = 'cart' | 'contact' | 'confirmed';
+  const [step, setStep] = useState<Step>('cart');
+  const [orderLoading, setOrderLoading] = useState(false);
+  const [orderSummary, setOrderSummary] = useState<{ items: CartItem[]; total: number } | null>(null);
+  const [contact, setContact] = useState({ name: '', email: '', address: '' });
+
+  const total = cart.reduce((sum, it) => sum + it.price * it.qty, 0);
+  const itemCount = cart.reduce((sum, it) => sum + it.qty, 0);
+
+  const removeItem = useCallback((id: number, size: string) => {
+    setCart((prev) => prev.filter((it) => !(it.id === id && it.size === size)));
+  }, [setCart]);
+
+  const handleClose = useCallback(() => {
+    onClose();
+    // Reset to the bag view after the close animation finishes so re-opening
+    // never resumes mid-checkout on a stale step.
+    setTimeout(() => setStep('cart'), 300);
+  }, [onClose]);
+
+  const handlePlaceOrder = useCallback((e: React.FormEvent) => {
+    e.preventDefault();
+    setOrderLoading(true);
+    setTimeout(() => {
+      setOrderLoading(false);
+      setOrderSummary({ items: cart, total });
+      setCart([]);
+      setStep('confirmed');
+    }, 2200);
+  }, [cart, total, setCart]);
+
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <React.Fragment>
+          {/* Backdrop */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={handleClose}
+            style={{
+              position: 'fixed',
+              inset: 0,
+              background: 'rgba(10,10,10,0.4)',
+              zIndex: 200,
+            }}
+          />
+
+          {/* Panel */}
+          <motion.div
+            role="dialog"
+            aria-modal="true"
+            aria-label="Shopping bag"
+            initial={{ x: '100%' }}
+            animate={{ x: 0 }}
+            exit={{ x: '100%' }}
+            transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+            style={{
+              position: 'fixed',
+              top: 0,
+              right: 0,
+              bottom: 0,
+              width: 'min(440px, 100%)',
+              background: '#fafafa',
+              zIndex: 201,
+              display: 'flex',
+              flexDirection: 'column',
+              boxShadow: '-24px 0 64px rgba(0,0,0,0.15)',
+              fontFamily: 'system-ui, sans-serif',
+            }}
+          >
+            {/* Header */}
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                padding: '24px 28px',
+                borderBottom: '1px solid rgba(10,10,10,0.08)',
+              }}
+            >
+              <div style={{ fontFamily: "'Georgia', serif", fontSize: 20, color: '#0a0a0a' }}>
+                {step === 'cart' && 'Your Bag'}
+                {step === 'contact' && 'Checkout'}
+                {step === 'confirmed' && 'Order Confirmed'}
+              </div>
+              <button
+                onClick={handleClose}
+                aria-label="Close bag"
+                style={{
+                  minWidth: 44,
+                  minHeight: 44,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  background: 'none',
+                  border: 'none',
+                  cursor: 'pointer',
+                  color: '#0a0a0a',
+                }}
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                  <path d="M18 6L6 18M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+
+            {/* Body */}
+            <div style={{ flex: 1, overflowY: 'auto', padding: '24px 28px' }}>
+              <AnimatePresence mode="wait">
+                {step === 'cart' && (
+                  <motion.div
+                    key="cart-step"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.25 }}
+                  >
+                    {cart.length === 0 ? (
+                      <div style={{ textAlign: 'center', padding: '60px 0', color: 'rgba(10,10,10,0.4)', fontSize: 13 }}>
+                        Your bag is empty.
+                      </div>
+                    ) : (
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+                        {cart.map((item) => (
+                          <div
+                            key={`${item.id}-${item.size}`}
+                            style={{
+                              display: 'flex',
+                              gap: 16,
+                              alignItems: 'center',
+                              borderBottom: '1px solid rgba(10,10,10,0.06)',
+                              paddingBottom: 20,
+                            }}
+                          >
+                            <div style={{ flex: 1 }}>
+                              <div style={{ fontFamily: "'Georgia', serif", fontSize: 14, color: '#0a0a0a', marginBottom: 4 }}>
+                                {item.name}
+                              </div>
+                              <div style={{ fontSize: 11, color: 'rgba(10,10,10,0.45)', letterSpacing: '0.05em' }}>
+                                Size {item.size} · Qty {item.qty}
+                              </div>
+                            </div>
+                            <div style={{ fontFamily: "'Georgia', serif", fontSize: 14, color: '#0a0a0a', whiteSpace: 'nowrap' }}>
+                              ${(item.price * item.qty).toLocaleString('en-US')}
+                            </div>
+                            <button
+                              onClick={() => removeItem(item.id, item.size)}
+                              aria-label={`Remove ${item.name}, size ${item.size}, from bag`}
+                              style={{
+                                minWidth: 44,
+                                minHeight: 44,
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                background: 'none',
+                                border: 'none',
+                                cursor: 'pointer',
+                                color: 'rgba(10,10,10,0.4)',
+                              }}
+                            >
+                              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                                <path d="M18 6L6 18M6 6l12 12" />
+                              </svg>
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </motion.div>
+                )}
+
+                {step === 'contact' && (
+                  <motion.form
+                    key="contact-step"
+                    id="i03-checkout-form"
+                    onSubmit={handlePlaceOrder}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.25 }}
+                  >
+                    <CheckoutField
+                      id="i03-checkout-name"
+                      label="Full name"
+                      value={contact.name}
+                      onChange={(v) => setContact((c) => ({ ...c, name: v }))}
+                      autoComplete="name"
+                    />
+                    <CheckoutField
+                      id="i03-checkout-email"
+                      label="Email"
+                      type="email"
+                      value={contact.email}
+                      onChange={(v) => setContact((c) => ({ ...c, email: v }))}
+                      autoComplete="email"
+                    />
+                    <CheckoutField
+                      id="i03-checkout-address"
+                      label="Shipping address"
+                      value={contact.address}
+                      onChange={(v) => setContact((c) => ({ ...c, address: v }))}
+                      autoComplete="street-address"
+                    />
+                  </motion.form>
+                )}
+
+                {step === 'confirmed' && orderSummary && (
+                  <motion.div
+                    key="confirmed-step"
+                    initial={{ opacity: 0, y: 12 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.4 }}
+                    style={{ textAlign: 'center', padding: '40px 0' }}
+                  >
+                    <div
+                      style={{
+                        width: 56,
+                        height: 56,
+                        borderRadius: '50%',
+                        background: '#0a0a0a',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        margin: '0 auto 24px',
+                      }}
+                    >
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fafafa" strokeWidth="2">
+                        <path d="M20 6L9 17l-5-5" />
+                      </svg>
+                    </div>
+                    <h3 style={{ fontFamily: "'Georgia', serif", fontSize: 22, fontWeight: 300, color: '#0a0a0a', marginBottom: 12 }}>
+                      Thank you{contact.name ? `, ${contact.name.split(' ')[0]}` : ''}.
+                    </h3>
+                    <p style={{ fontSize: 13, color: 'rgba(10,10,10,0.55)', lineHeight: 1.7 }}>
+                      Your order of {orderSummary.items.reduce((n, it) => n + it.qty, 0)} item
+                      {orderSummary.items.reduce((n, it) => n + it.qty, 0) > 1 ? 's' : ''} (${orderSummary.total.toLocaleString('en-US')}) has been received. A confirmation has been sent to {contact.email}.
+                    </p>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+
+            {/* Footer */}
+            {step === 'cart' && cart.length > 0 && (
+              <div style={{ padding: '24px 28px', borderTop: '1px solid rgba(10,10,10,0.08)' }}>
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    marginBottom: 20,
+                    fontFamily: "'Georgia', serif",
+                    fontSize: 16,
+                    color: '#0a0a0a',
+                  }}
+                >
+                  <span>Total ({itemCount} item{itemCount > 1 ? 's' : ''})</span>
+                  <span>${total.toLocaleString('en-US')}</span>
+                </div>
+                <button
+                  onClick={() => setStep('contact')}
+                  style={{
+                    width: '100%',
+                    minHeight: 44,
+                    padding: '16px',
+                    background: '#0a0a0a',
+                    color: '#fafafa',
+                    fontFamily: 'system-ui, sans-serif',
+                    fontSize: 10,
+                    letterSpacing: '0.25em',
+                    textTransform: 'uppercase',
+                    border: 'none',
+                    cursor: 'pointer',
+                  }}
+                >
+                  Checkout
+                </button>
+              </div>
+            )}
+
+            {step === 'contact' && (
+              <div style={{ padding: '24px 28px', borderTop: '1px solid rgba(10,10,10,0.08)' }}>
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    marginBottom: 20,
+                    fontFamily: "'Georgia', serif",
+                    fontSize: 16,
+                    color: '#0a0a0a',
+                  }}
+                >
+                  <span>Total</span>
+                  <span>${total.toLocaleString('en-US')}</span>
+                </div>
+                <button
+                  type="submit"
+                  form="i03-checkout-form"
+                  disabled={orderLoading}
+                  style={{
+                    width: '100%',
+                    minHeight: 44,
+                    padding: '16px',
+                    background: orderLoading ? 'rgba(10,10,10,0.5)' : '#0a0a0a',
+                    color: '#fafafa',
+                    fontFamily: 'system-ui, sans-serif',
+                    fontSize: 10,
+                    letterSpacing: '0.25em',
+                    textTransform: 'uppercase',
+                    border: 'none',
+                    cursor: orderLoading ? 'not-allowed' : 'pointer',
+                  }}
+                >
+                  {orderLoading ? 'Placing order…' : 'Place order'}
+                </button>
+              </div>
+            )}
+          </motion.div>
+        </React.Fragment>
+      )}
+    </AnimatePresence>
   );
 }
 
@@ -780,7 +1238,9 @@ export default function FashionEditorialTemplate() {
 
   /* ── Nav / UI state ── */
   const [menuOpen, setMenuOpen] = useState(false);
-  const [cartCount, setCartCount] = useState(0);
+  const [cart, setCart] = useState<CartItem[]>([]);
+  const [cartOpen, setCartOpen] = useState(false);
+  const cartCount = cart.reduce((sum, it) => sum + it.qty, 0);
   const [emailValue, setEmailValue] = useState('');
   const [submitted, setSubmitted] = useState(false);
 
@@ -797,8 +1257,17 @@ export default function FashionEditorialTemplate() {
     if (typeof window !== 'undefined') window.scrollTo({ top: 0, behavior: 'auto' });
   };
 
-  const handleAddToCart = useCallback(() => {
-    setCartCount((n) => n + 1);
+  const handleAddToCart = useCallback((product: any, size: string) => {
+    setCart((prev) => {
+      const idx = prev.findIndex((it) => it.id === product.id && it.size === size);
+      if (idx >= 0) {
+        const next = [...prev];
+        next[idx] = { ...next[idx], qty: next[idx].qty + 1 };
+        return next;
+      }
+      return [...prev, { id: product.id, name: product.name, price: product.price, qty: 1, size }];
+    });
+    setCartOpen(true);
   }, []);
 
   const scrollTo = useCallback((id: string) => {
@@ -846,9 +1315,18 @@ export default function FashionEditorialTemplate() {
           .an-scrolly-track-wrap { overflow-x: auto !important; -webkit-overflow-scrolling: touch; padding-left: 24px !important; padding-right: 24px; }
           .an-scrolly-track { transform: none !important; }
         }
+
+        /* mobile: fixed left-nav links + absolutely-centered wordmark collide
+           on narrow viewports (nav was desktop-only, no responsive treatment).
+           Hide the link row so the wordmark + cart icon have room to breathe. */
+        @media (max-width: 700px) {
+          .i03-nav { padding: 16px 20px !important; }
+          .i03-nav-links { display: none !important; }
+        }
       `}</style>
       {/* ─── NAVIGATION ─────────────────────────────────────────────────── */}
       <nav
+        className="i03-nav"
         style={{
           position: 'fixed',
           top: 0,
@@ -867,6 +1345,7 @@ export default function FashionEditorialTemplate() {
       >
         {/* Left links */}
         <div
+          className="i03-nav-links"
           style={{
             display: 'flex',
             gap: 40,
@@ -957,10 +1436,17 @@ export default function FashionEditorialTemplate() {
           >
             Stores
           </button>
-          {/* Cart icon */}
+          {/* Cart icon — opens the cart drawer */}
           <button
+            onClick={() => setCartOpen(true)}
+            aria-label={cartCount > 0 ? `Open bag, ${cartCount} item${cartCount > 1 ? 's' : ''}` : 'Open bag'}
             style={{
               position: 'relative',
+              minWidth: 44,
+              minHeight: 44,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
               background: 'none',
               border: 'none',
               cursor: 'pointer',
@@ -1273,6 +1759,7 @@ export default function FashionEditorialTemplate() {
               product={product}
               index={i}
               accentColor={accentColor}
+              onAddToCart={handleAddToCart}
             />
           ))}
         </div>
@@ -2196,6 +2683,9 @@ export default function FashionEditorialTemplate() {
       {page === 'cgv' && <LegalPage variant="cgv" accentColor={accentColor} />}
       {page === 'mentions' && <LegalPage variant="mentions" accentColor={accentColor} />}
 
+      {/* Cart drawer — line items + total → contact form → confirmation */}
+      <CartDrawer isOpen={cartOpen} onClose={() => setCartOpen(false)} cart={cart} setCart={setCart} />
+
       {/* ─────────────────────────────────────────────────────────────────────
           FOOTER
       ───────────────────────────────────────────────────────────────────── */}
@@ -2345,10 +2835,18 @@ function BoutiquePage({
 }: {
   selectedProduct: any | null;
   setSelectedProduct: (p: any | null) => void;
-  onAddToCart: () => void;
+  onAddToCart: (product: any, size: string) => void;
   accentColor: import('framer-motion').MotionValue<string>;
 }) {
   const COLLECTION = buildCollection();
+  const [size, setSize] = useState<string | null>(null);
+
+  // Reset the chosen size whenever a different product is opened so a stale
+  // selection from a previous piece can't slip into the next add-to-cart.
+  useEffect(() => {
+    setSize(null);
+  }, [selectedProduct?.id]);
+
   if (selectedProduct) {
     return (
       <div style={{ padding: '120px 64px 80px', maxWidth: 1000, margin: '0 auto', fontFamily: 'system-ui, sans-serif' }}>
@@ -2459,18 +2957,60 @@ function BoutiquePage({
               {selectedProduct.desc}
             </p>
 
+            {/* Size selector — required before this piece can be added to the bag */}
+            <div style={{ marginBottom: 24 }}>
+              <label
+                id="pdp-size-label"
+                style={{
+                  fontSize: 10,
+                  letterSpacing: '0.2em',
+                  textTransform: 'uppercase',
+                  color: 'rgba(10,10,10,0.45)',
+                  marginBottom: 12,
+                  display: 'block',
+                }}
+              >
+                Size {!size && '(required)'}
+              </label>
+              <div role="group" aria-labelledby="pdp-size-label" style={{ display: 'flex', gap: 8 }}>
+                {SIZES.map((s) => (
+                  <button
+                    key={s}
+                    type="button"
+                    aria-pressed={size === s}
+                    onClick={() => setSize(s)}
+                    style={{
+                      minWidth: 44,
+                      minHeight: 44,
+                      background: size === s ? '#0a0a0a' : 'transparent',
+                      color: size === s ? '#fafafa' : '#0a0a0a',
+                      border: `1px solid ${size === s ? '#0a0a0a' : 'rgba(10,10,10,0.25)'}`,
+                      fontFamily: 'system-ui, sans-serif',
+                      fontSize: 12,
+                      cursor: 'pointer',
+                      transition: 'background 0.2s, color 0.2s',
+                    }}
+                  >
+                    {s}
+                  </button>
+                ))}
+              </div>
+            </div>
+
             <button
-              onClick={onAddToCart}
+              onClick={() => size && onAddToCart(selectedProduct, size)}
+              disabled={!size}
               style={{
                 padding: '16px 48px',
-                background: '#0a0a0a',
+                minHeight: 44,
+                background: size ? '#0a0a0a' : 'rgba(10,10,10,0.3)',
                 color: '#fafafa',
                 fontFamily: 'system-ui, sans-serif',
                 fontSize: 10,
                 letterSpacing: '0.25em',
                 textTransform: 'uppercase',
                 border: 'none',
-                cursor: 'pointer',
+                cursor: size ? 'pointer' : 'not-allowed',
                 marginBottom: 24,
                 width: 'fit-content',
               }}

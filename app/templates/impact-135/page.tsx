@@ -1248,30 +1248,57 @@ export default function Impact135Page() {
           </MagneticButton>
         </div>
 
-        {/* Mobile hamburger */}
-        <button
-          className="sky-mobile-burger"
-          onClick={() => setMenuOpen((o) => !o)}
+        {/* Mobile CTA + hamburger */}
+        <div
+          className="sky-mobile-controls"
           style={{
             display: "none",
-            background: "none",
-            border: "none",
-            cursor: "pointer",
-            padding: 8,
+            alignItems: "center",
+            gap: 12,
           }}
         >
-          <div
+          <MagneticButton
+            onClick={() => scrollTo("pricing")}
             style={{
-              width: 22,
-              height: 2,
-              background: C.text,
-              marginBottom: 5,
+              padding: "7px 16px",
+              background: C.accent,
+              color: C.bg,
+              border: "none",
+              borderRadius: 8,
+              fontFamily: C.fontMono,
+              fontSize: 11,
+              fontWeight: 700,
+              cursor: "pointer",
+              letterSpacing: "0.08em",
+              whiteSpace: "nowrap",
             }}
-          />
-          <div style={{ width: 22, height: 2, background: C.text, marginBottom: 5 }} />
-          <div style={{ width: 16, height: 2, background: C.accent }} />
-        </button>
-        <style>{`@media (max-width: 900px){.sky-desktop-nav{display:none !important}.sky-mobile-burger{display:flex !important}}`}</style>
+          >
+            GET ACCESS
+          </MagneticButton>
+          <button
+            className="sky-mobile-burger"
+            aria-label="Toggle menu"
+            onClick={() => setMenuOpen((o) => !o)}
+            style={{
+              background: "none",
+              border: "none",
+              cursor: "pointer",
+              padding: 8,
+            }}
+          >
+            <div
+              style={{
+                width: 22,
+                height: 2,
+                background: C.text,
+                marginBottom: 5,
+              }}
+            />
+            <div style={{ width: 22, height: 2, background: C.text, marginBottom: 5 }} />
+            <div style={{ width: 16, height: 2, background: C.accent }} />
+          </button>
+        </div>
+        <style>{`@media (max-width: 900px){.sky-desktop-nav{display:none !important}.sky-mobile-controls{display:flex !important}}`}</style>
       </nav>
 
       {/* Mobile nav overlay */}

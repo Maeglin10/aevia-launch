@@ -74,8 +74,10 @@ export default function SwiftMoveLayout({ children }: { children: React.ReactNod
 
           <div style={{ flex: 1 }} />
 
-          {/* Desktop nav */}
-          <div style={{ gap: 24, alignItems: "center" }} className="hidden md:flex">
+          {/* Desktop nav — needs lg (1024px) before links + phone + CTA button
+              all fit on one row; at md (768px, tablet) they were overflowing
+              and wrapping into each other. */}
+          <div style={{ gap: 24, alignItems: "center" }} className="hidden lg:flex">
             {NAV_LINKS.map((link) => (
               <Link
                 key={link.href}
@@ -97,8 +99,11 @@ export default function SwiftMoveLayout({ children }: { children: React.ReactNod
           </div>
 
           {/* CTA */}
-          <div style={{ gap: 12, alignItems: "center" }} className="hidden md:flex">
-            <a href="tel:+33100000000" style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 14, fontWeight: 700, color: C.navy, textDecoration: "none" }}>
+          <div style={{ gap: 12, alignItems: "center" }} className="hidden lg:flex">
+            {/* the anchor had no nowrap/flexShrink guard, so under tight tablet
+                width it wrapped onto a second line and broke out of the 72px
+                nav row, overlapping the row below it */}
+            <a href="tel:+33100000000" style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 14, fontWeight: 700, color: C.navy, textDecoration: "none", whiteSpace: "nowrap", flexShrink: 0 }}>
               <Phone size={15} color={C.orange} />
               +33 1 XX XX XX XX
             </a>
@@ -112,12 +117,15 @@ export default function SwiftMoveLayout({ children }: { children: React.ReactNod
             </Link>
           </div>
 
-          {/* Mobile hamburger */}
+          {/* Mobile hamburger — was inline style={{display:"none"}} with a
+              className meant to re-enable it; inline styles always win over a
+              non-!important class, so this button never rendered at any
+              breakpoint. Now uses the class alone, matching the nav row above. */}
           <button
             type="button"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            style={{ display: "none", background: "none", border: "none", cursor: "pointer", padding: 4 }}
-            className="md:block"
+            style={{ background: "none", border: "none", cursor: "pointer", padding: 4 }}
+            className="flex lg:hidden"
             aria-label="Menu"
           >
             {mobileMenuOpen ? <X size={24} color={C.navy} /> : <Menu size={24} color={C.navy} />}

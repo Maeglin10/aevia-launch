@@ -558,7 +558,11 @@ function ModelCard({ model, index }: { model: ModelType; index: number }) {
             </div>
           </div>
           <button
-            style={{ background: model.accent, border: 'none', color: model.accent === C.blue ? C.bg : '#fff', padding: '12px 20px', fontWeight: 800, fontSize: '0.78rem', letterSpacing: '0.1em', textTransform: 'uppercase' as const, cursor: 'pointer', borderRadius: '2px', display: 'flex', alignItems: 'center', gap: '6px', transition: 'opacity 0.2s' }}
+            onClick={() => {
+              window.dispatchEvent(new CustomEvent('lumyx-reserve-model', { detail: model.name }));
+              document.getElementById('reserve')?.scrollIntoView({ behavior: 'smooth' });
+            }}
+            style={{ minHeight: 44, background: model.accent, border: 'none', color: model.accent === C.blue ? C.bg : '#fff', padding: '12px 20px', fontWeight: 800, fontSize: '0.78rem', letterSpacing: '0.1em', textTransform: 'uppercase' as const, cursor: 'pointer', borderRadius: '2px', display: 'flex', alignItems: 'center', gap: '6px', transition: 'opacity 0.2s' }}
             onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.opacity = '0.85'; }}
             onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.opacity = '1'; }}
           >
@@ -867,21 +871,39 @@ function Testimonials() {
    ════════════════════════════════════════════════════════════════════════════ */
 function ReserveForm() {
   const [email, setEmail] = useState('');
+  const [name, setName] = useState('');
+  const [phone, setPhone] = useState('');
+  const [model, setModel] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const ref = useRef<HTMLElement>(null);
   const inView = useInView(ref, { once: true, margin: '-80px' });
 
+  useEffect(() => {
+    const handler = (e: Event) => {
+      const detail = (e as CustomEvent<string>).detail;
+      if (detail) setModel(detail);
+    };
+    window.addEventListener('lumyx-reserve-model', handler);
+    return () => window.removeEventListener('lumyx-reserve-model', handler);
+  }, []);
+
   const handleSubmit = useCallback((e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!email) return;
+    if (!email || !name || !phone || !model) return;
     setLoading(true);
     const timer = setTimeout(() => {
       setLoading(false);
       setSubmitted(true);
     }, 1400);
     return () => clearTimeout(timer);
-  }, [email]);
+  }, [email, name, phone, model]);
+
+  const fieldStyle: React.CSSProperties = { flex: '1 1 280px', background: 'rgba(240,244,248,0.06)', border: `1px solid ${C.borderHi}`, color: C.white, padding: '16px 20px', fontSize: '1rem', borderRadius: '2px', outline: 'none', transition: 'border-color 0.2s', fontFamily: 'inherit' };
+  const focusHandlers = {
+    onFocus: (e: React.FocusEvent<HTMLInputElement | HTMLSelectElement>) => { e.target.style.borderColor = C.blue; },
+    onBlur: (e: React.FocusEvent<HTMLInputElement | HTMLSelectElement>) => { e.target.style.borderColor = C.borderHi; },
+  };
 
   return (
     <section
@@ -911,22 +933,74 @@ function ReserveForm() {
 
         <AnimatePresence mode="wait">
           {!submitted ? (
-            <motion.form key="form" initial={{ opacity: 1 }} exit={{ opacity: 0, y: -20 }} onSubmit={handleSubmit} style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap', justifyContent: 'center' }}>
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Votre adresse email"
-                required
-                aria-label="Adresse email"
-                style={{ flex: '1 1 280px', background: 'rgba(240,244,248,0.06)', border: `1px solid ${C.borderHi}`, color: C.white, padding: '16px 20px', fontSize: '1rem', borderRadius: '2px', outline: 'none', transition: 'border-color 0.2s', fontFamily: 'inherit' }}
-                onFocus={(e) => { (e.target as HTMLInputElement).style.borderColor = C.blue; }}
-                onBlur={(e) => { (e.target as HTMLInputElement).style.borderColor = C.borderHi; }}
-              />
+            <motion.form key="form" initial={{ opacity: 1 }} exit={{ opacity: 0, y: -20 }} onSubmit={handleSubmit} style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap', justifyContent: 'center', textAlign: 'left' }}>
+              <div style={{ flex: '1 1 280px' }}>
+                <label htmlFor="lx-model" style={{ display: 'block', fontSize: '0.7rem', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: C.muted, marginBottom: '0.4rem' }}>
+                  Modèle souhaité *
+                </label>
+                <select
+                  id="lx-model"
+                  value={model}
+                  onChange={(e) => setModel(e.target.value)}
+                  required
+                  {...focusHandlers}
+                  style={{ ...fieldStyle, width: '100%', cursor: 'pointer' }}
+                >
+                  <option value="">Choisir un modèle</option>
+                  {MODELS.map((m) => (
+                    <option key={m.name} value={m.name}>{m.name} — {m.price} €</option>
+                  ))}
+                </select>
+              </div>
+              <div style={{ flex: '1 1 280px' }}>
+                <label htmlFor="lx-name" style={{ display: 'block', fontSize: '0.7rem', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: C.muted, marginBottom: '0.4rem' }}>
+                  Nom complet *
+                </label>
+                <input
+                  id="lx-name"
+                  type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  placeholder="Camille Dubois"
+                  required
+                  {...focusHandlers}
+                  style={{ ...fieldStyle, width: '100%' }}
+                />
+              </div>
+              <div style={{ flex: '1 1 280px' }}>
+                <label htmlFor="lx-email" style={{ display: 'block', fontSize: '0.7rem', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: C.muted, marginBottom: '0.4rem' }}>
+                  Email *
+                </label>
+                <input
+                  id="lx-email"
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="camille@email.fr"
+                  required
+                  {...focusHandlers}
+                  style={{ ...fieldStyle, width: '100%' }}
+                />
+              </div>
+              <div style={{ flex: '1 1 280px' }}>
+                <label htmlFor="lx-phone" style={{ display: 'block', fontSize: '0.7rem', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: C.muted, marginBottom: '0.4rem' }}>
+                  Téléphone *
+                </label>
+                <input
+                  id="lx-phone"
+                  type="tel"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  placeholder="06 XX XX XX XX"
+                  required
+                  {...focusHandlers}
+                  style={{ ...fieldStyle, width: '100%' }}
+                />
+              </div>
               <button
                 type="submit"
                 disabled={loading}
-                style={{ background: loading ? C.borderHi : C.blue, border: 'none', color: loading ? C.muted : C.bg, padding: '16px 32px', fontWeight: 800, fontSize: '0.85rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, cursor: loading ? 'not-allowed' : 'pointer', borderRadius: '2px', display: 'flex', alignItems: 'center', gap: '8px', transition: 'all 0.2s', boxShadow: loading ? 'none' : `0 0 25px rgba(0,212,255,0.3)`, minWidth: '160px', justifyContent: 'center', fontFamily: 'inherit' }}
+                style={{ minHeight: 48, background: loading ? C.borderHi : C.blue, border: 'none', color: loading ? C.muted : C.bg, padding: '16px 32px', fontWeight: 800, fontSize: '0.85rem', letterSpacing: '0.12em', textTransform: 'uppercase' as const, cursor: loading ? 'not-allowed' : 'pointer', borderRadius: '2px', display: 'flex', alignItems: 'center', gap: '8px', transition: 'all 0.2s', boxShadow: loading ? 'none' : `0 0 25px rgba(0,212,255,0.3)`, minWidth: '160px', justifyContent: 'center', fontFamily: 'inherit', margin: '0 auto' }}
               >
                 {loading ? (
                   <motion.div
@@ -951,7 +1025,7 @@ function ReserveForm() {
               </div>
               <div style={{ fontSize: '1.3rem', fontWeight: 900 }}>Réservation confirmée</div>
               <div style={{ color: C.whiteOff, lineHeight: 1.6 }}>
-                Nous vous enverrons un email à <strong>{email}</strong>. Bienvenue dans la révolution Lumyx.
+                Merci {name}. Votre {model} est réservée. Nous vous enverrons un email à <strong>{email}</strong>. Bienvenue dans la révolution Lumyx.
               </div>
             </motion.div>
           )}

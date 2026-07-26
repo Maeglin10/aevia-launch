@@ -610,13 +610,22 @@ export default function Template({ session: initialSession }: { session?: any } 
       </AnimatePresence>
 
       {/* --- HERO SECTION --- */}
+      {/* Was minHeight:'100vh' with short text-only content, which left ~60%
+          of the viewport as blank canvas above/below on every breakpoint,
+          and — since the text column tops out at 600px inside a 1200px
+          container — the entire right half empty on desktop. Size the
+          section to its content instead of forcing full-viewport height,
+          and fill the desktop right column with a real stat card so it
+          doesn't read as unfinished even if the background photo is slow
+          to load. */}
       <section
         style={{
           position: "relative",
-          minHeight: "100vh",
+          minHeight: "auto",
           display: "flex",
           alignItems: "center",
-          paddingTop: "80px", // Account for fixed nav
+          paddingTop: "clamp(150px, 22vh, 220px)", // Account for fixed nav
+          paddingBottom: "clamp(90px, 14vh, 150px)",
           overflow: "hidden",
         }}
       >
@@ -629,7 +638,20 @@ export default function Template({ session: initialSession }: { session?: any } 
           <div style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0, background: `linear-gradient(to right, ${C.bg} 40%, transparent)` }} />
         </div>
 
-        <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 5%", position: "relative", zIndex: 1, width: "100%" }}>
+        <div
+          style={{
+            maxWidth: "1200px",
+            margin: "0 auto",
+            padding: "0 5%",
+            position: "relative",
+            zIndex: 1,
+            width: "100%",
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(min(320px, 100%), 1fr))",
+            gap: "3rem",
+            alignItems: "center",
+          }}
+        >
           <div style={{ maxWidth: "600px" }}>
             <Reveal>
               <Eyebrow text="Entretien Naturel" color={C.primaryDark} />
@@ -664,6 +686,67 @@ export default function Template({ session: initialSession }: { session?: any } 
             <Reveal delay={0.3} className="flex flex-col sm:flex-row gap-4">
               <Button C={C} href="#services">Découvrir nos services</Button>
               <Button C={C} variant="outline" href="#contact">Nous contacter</Button>
+            </Reveal>
+          </div>
+
+          {/* Desktop-only visual column: without this the right half of the
+              hero was empty (text column caps at 600px, container is
+              1200px). Reuses the same trust stats shown lower on the page
+              so there's no new copy to keep in sync. */}
+          <div className="hidden lg:flex" style={{ justifyContent: "flex-end" }}>
+            <Reveal direction="right" delay={0.2}>
+              <div
+                style={{
+                  backgroundColor: C.bgCard,
+                  borderRadius: "24px",
+                  padding: "36px",
+                  boxShadow: "0 30px 60px rgba(0,0,0,0.12)",
+                  maxWidth: "360px",
+                  position: "relative",
+                  overflow: "hidden",
+                }}
+              >
+                <div
+                  style={{
+                    position: "absolute",
+                    top: "-30px",
+                    right: "-30px",
+                    width: "140px",
+                    height: "140px",
+                    backgroundColor: C.primary,
+                    borderRadius: "50%",
+                    opacity: 0.12,
+                  }}
+                />
+                <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "24px", position: "relative" }}>
+                  <Leaf size={22} color={C.primary} />
+                  <span
+                    style={{
+                      fontFamily: SANS,
+                      fontSize: "14px",
+                      fontWeight: 600,
+                      color: C.primaryDark,
+                      textTransform: "uppercase",
+                      letterSpacing: "0.05em",
+                    }}
+                  >
+                    Engagement Écologique
+                  </span>
+                </div>
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "24px", position: "relative" }}>
+                  {[
+                    { value: "100%", label: "Produits naturels" },
+                    { value: "+500", label: "Clients satisfaits" },
+                    { value: "+2000", label: "Interventions" },
+                    { value: "Écolabel", label: "Certifié" },
+                  ].map((stat, i) => (
+                    <div key={i}>
+                      <div style={{ fontFamily: SERIF, fontSize: "28px", color: C.black, fontWeight: 500 }}>{stat.value}</div>
+                      <div style={{ fontFamily: SANS, fontSize: "13px", color: C.textMuted }}>{stat.label}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </Reveal>
           </div>
         </div>

@@ -382,7 +382,7 @@ function MarqueeStrip({
   );
 }
 
-function ServiceCard({ service }: { service: any }) {
+function ServiceCard({ service, onBook }: { service: any; onBook?: (name: string) => void }) {
   return (
     <SpotlightCard
       accentRgb="196,132,122"
@@ -470,6 +470,10 @@ function ServiceCard({ service }: { service: any }) {
           {service.description}
         </p>
         <div
+          role="button"
+          tabIndex={0}
+          onClick={() => onBook?.(service.title ?? service.name)}
+          onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onBook?.(service.title ?? service.name) } }}
           style={{
             display: "flex",
             alignItems: "center",
@@ -481,6 +485,7 @@ function ServiceCard({ service }: { service: any }) {
             color: C.rose,
             fontWeight: 600,
             cursor: "pointer",
+            minHeight: 44,
           }}
         >
           Réserver
@@ -594,7 +599,7 @@ function TestimonialCarousel({ items }: { items: any[] }) {
   );
 }
 
-function PackageCard({ pkg }: { pkg: (typeof PACKAGES)[0] }) {
+function PackageCard({ pkg, onBook }: { pkg: (typeof PACKAGES)[0]; onBook?: (name: string) => void }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 30 }}
@@ -702,8 +707,11 @@ function PackageCard({ pkg }: { pkg: (typeof PACKAGES)[0] }) {
         ))}
       </div>
       <button
+        type="button"
+        onClick={() => onBook?.(pkg.name)}
         style={{
           width: "100%",
+          minHeight: 44,
           padding: "14px 24px",
           background: pkg.highlight ? C.rose : "transparent",
           border: `1.5px solid ${pkg.highlight ? C.rose : C.dark}`,
@@ -723,6 +731,184 @@ function PackageCard({ pkg }: { pkg: (typeof PACKAGES)[0] }) {
   );
 }
 
+
+const BOOKING_TIME_SLOTS = ["9h00", "10h30", "12h00", "14h00", "15h30", "17h00", "18h30"];
+
+function BookingModal({
+  open,
+  onClose,
+  services,
+  initialService,
+}: {
+  open: boolean;
+  onClose: () => void;
+  services: { title?: string; name?: string }[];
+  initialService: string | null;
+}) {
+  const [service, setService] = useState("");
+  const [date, setDate] = useState("");
+  const [time, setTime] = useState("");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [sent, setSent] = useState(false);
+
+  useEffect(() => {
+    if (open) {
+      setService(initialService ?? "");
+      setDate(""); setTime(""); setName(""); setEmail(""); setPhone("");
+      setLoading(false); setSent(false);
+    }
+  }, [open, initialService]);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!service || !date || !time || !name || !phone) return;
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+      setSent(true);
+    }, 1400);
+  };
+
+  const inputCls: React.CSSProperties = {
+    width: "100%", padding: "12px 16px", border: `1px solid ${C.ivoryDark}`,
+    fontSize: 14, fontFamily: C.fontSans, outline: "none", color: C.text, background: "#fff",
+  };
+  const labelCls: React.CSSProperties = {
+    display: "block", fontSize: 11, fontWeight: 600, color: C.dark, fontFamily: C.fontSans,
+    marginBottom: 8, letterSpacing: "0.08em", textTransform: "uppercase",
+  };
+
+  return (
+    <AnimatePresence>
+      {open && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          onClick={onClose}
+          style={{
+            position: "fixed", inset: 0, zIndex: 200, display: "flex",
+            alignItems: "center", justifyContent: "center", padding: 16,
+            background: "rgba(26,20,18,0.65)",
+          }}
+        >
+          <motion.div
+            initial={{ opacity: 0, y: 24, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 16, scale: 0.98 }}
+            transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              position: "relative", width: "100%", maxWidth: 460, background: C.bg,
+              maxHeight: "90vh", overflowY: "auto",
+            }}
+          >
+            <button
+              onClick={onClose}
+              aria-label="Fermer"
+              style={{
+                position: "absolute", top: 16, right: 16, width: 44, height: 44,
+                display: "flex", alignItems: "center", justifyContent: "center",
+                background: "none", border: "none", color: C.textMuted, fontSize: 20, cursor: "pointer",
+              }}
+            >
+              ✕
+            </button>
+
+            <div style={{ padding: "40px 36px" }}>
+              {sent ? (
+                <div style={{ textAlign: "center", padding: "24px 0" }}>
+                  <div style={{
+                    width: 56, height: 56, borderRadius: "50%", border: `1px solid ${C.rose}`,
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                    margin: "0 auto 24px", fontSize: 20, color: C.rose,
+                  }}>✓</div>
+                  <h3 style={{ fontFamily: C.font, fontSize: 26, fontWeight: 500, color: C.dark, marginBottom: 12 }}>
+                    Rendez-vous demandé
+                  </h3>
+                  <p style={{ fontFamily: C.fontSans, fontSize: 14, color: C.textMuted, lineHeight: 1.7 }}>
+                    Merci {name}. « {service} » réservé le {date} à {time}. L'institut vous confirmera par email ou SMS sous peu.
+                  </p>
+                </div>
+              ) : (
+                <>
+                  <div style={{ fontFamily: C.fontSans, fontSize: 11, letterSpacing: "0.25em", textTransform: "uppercase", color: C.rose, marginBottom: 12, fontWeight: 600 }}>
+                    Réservation
+                  </div>
+                  <h3 style={{ fontFamily: C.font, fontSize: 28, fontWeight: 500, color: C.dark, marginBottom: 24 }}>
+                    Prendre rendez-vous
+                  </h3>
+
+                  <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 18 }}>
+                    <div>
+                      <label htmlFor="beauty-service" style={labelCls}>Soin souhaité *</label>
+                      <select id="beauty-service" required value={service} onChange={(e) => setService(e.target.value)} style={{ ...inputCls, cursor: "pointer" }}>
+                        <option value="">Choisir un soin</option>
+                        {services.map((s, i) => (
+                          <option key={i} value={s.title ?? s.name}>{s.title ?? s.name}</option>
+                        ))}
+                      </select>
+                    </div>
+                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>
+                      <div>
+                        <label htmlFor="beauty-date" style={labelCls}>Date *</label>
+                        <input id="beauty-date" type="date" required value={date} onChange={(e) => setDate(e.target.value)} style={inputCls} />
+                      </div>
+                      <div>
+                        <label htmlFor="beauty-time" style={labelCls}>Heure *</label>
+                        <select id="beauty-time" required value={time} onChange={(e) => setTime(e.target.value)} style={{ ...inputCls, cursor: "pointer" }}>
+                          <option value="">—</option>
+                          {BOOKING_TIME_SLOTS.map((t) => <option key={t} value={t}>{t}</option>)}
+                        </select>
+                      </div>
+                    </div>
+                    <div>
+                      <label htmlFor="beauty-name" style={labelCls}>Nom *</label>
+                      <input id="beauty-name" type="text" required value={name} onChange={(e) => setName(e.target.value)} style={inputCls} placeholder="Camille Rousseau" />
+                    </div>
+                    <div>
+                      <label htmlFor="beauty-phone" style={labelCls}>Téléphone *</label>
+                      <input id="beauty-phone" type="tel" required value={phone} onChange={(e) => setPhone(e.target.value)} style={inputCls} placeholder="06 XX XX XX XX" />
+                    </div>
+                    <div>
+                      <label htmlFor="beauty-email" style={labelCls}>Email</label>
+                      <input id="beauty-email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} style={inputCls} placeholder="camille@email.fr" />
+                    </div>
+                    <button
+                      type="submit"
+                      disabled={loading}
+                      style={{
+                        marginTop: 8, minHeight: 44, padding: "14px", background: C.rose, color: "#fff",
+                        border: "none", fontFamily: C.fontSans, fontSize: 12, fontWeight: 600,
+                        letterSpacing: "0.15em", textTransform: "uppercase",
+                        cursor: loading ? "not-allowed" : "pointer", opacity: loading ? 0.7 : 1,
+                        display: "flex", alignItems: "center", justifyContent: "center", gap: 10,
+                      }}
+                    >
+                      {loading ? (
+                        <>
+                          <motion.span
+                            animate={{ rotate: 360 }}
+                            transition={{ duration: 0.9, repeat: Infinity, ease: "linear" }}
+                            style={{ width: 14, height: 14, borderRadius: "50%", border: "2px solid rgba(255,255,255,0.4)", borderTopColor: "#fff", display: "inline-block" }}
+                          />
+                          Envoi en cours…
+                        </>
+                      ) : "Confirmer le rendez-vous"}
+                    </button>
+                  </form>
+                </>
+              )}
+            </div>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+}
 
 // Global state variables for subpage compatibility
 let fd: any = null;
@@ -797,6 +983,13 @@ export default function Impact198Page() {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
     setMenuOpen(false);
   };
+
+  const [bookingOpen, setBookingOpen] = useState(false);
+  const [bookingService, setBookingService] = useState<string | null>(null);
+  const openBooking = useCallback((service: string | null) => {
+    setBookingService(service);
+    setBookingOpen(true);
+  }, []);
 
   const navLinks = [
     { label: "Services", id: "services" },
@@ -903,7 +1096,7 @@ export default function Impact198Page() {
             </button>
           ))}
           <MagneticButton
-            onClick={() => scrollTo("booking")}
+            onClick={() => openBooking(null)}
             style={{
               background: C.rose,
               color: "#fff",
@@ -1132,7 +1325,7 @@ export default function Impact198Page() {
             style={{ display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap" }}
           >
             <MagneticButton
-              onClick={() => scrollTo("booking")}
+              onClick={() => openBooking(null)}
               style={{
                 background: C.dark,
                 color: "#fff",
@@ -1258,7 +1451,7 @@ export default function Impact198Page() {
             }}
           >
             {services.map((service: any, i: number) => (
-              <ServiceCard key={service.id ?? service.name ?? i} service={service} />
+              <ServiceCard key={service.id ?? service.name ?? i} service={service} onBook={openBooking} />
             ))}
           </div>
         </div>
@@ -1608,7 +1801,7 @@ export default function Impact198Page() {
             }}
           >
             {PACKAGES.map((pkg) => (
-              <PackageCard key={pkg.name} pkg={pkg} />
+              <PackageCard key={pkg.name} pkg={pkg} onBook={openBooking} />
             ))}
           </div>
         </div>
@@ -1695,6 +1888,7 @@ export default function Impact198Page() {
             style={{ display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap" }}
           >
             <MagneticButton
+              onClick={() => openBooking(null)}
               style={{
                 background: C.rose,
                 color: "#fff",
@@ -1712,6 +1906,7 @@ export default function Impact198Page() {
               Prendre rendez-vous
             </MagneticButton>
             <MagneticButton
+              onClick={() => { window.location.href = `tel:${fd?.phone ?? "0140234567"}` }}
               style={{
                 background: "transparent",
                 color: "rgba(255,255,255,0.7)",
@@ -1806,6 +2001,8 @@ export default function Impact198Page() {
           © 2025 Lumière Beauty · 12 Rue de Grenelle, Paris 7ème · Institut certifié bio
         </div>
       </footer>
+
+      <BookingModal open={bookingOpen} onClose={() => setBookingOpen(false)} services={services} initialService={bookingService} />
     </div>
   );
 }

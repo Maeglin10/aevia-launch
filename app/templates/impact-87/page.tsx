@@ -128,6 +128,14 @@ export default function IronClubPage() {
         @media (max-width: 768px) {
           .imx-mobstack { grid-template-columns: 1fr !important; }
         }
+
+        @media (max-width: 700px) {
+          .i87-hero { height: auto !important; min-height: 0 !important; padding-top: 110px !important; padding-bottom: 48px !important; }
+          .i87-hero-inner { padding: 0 24px 24px !important; }
+          .i87-hero-title { font-size: 42px !important; margin-bottom: 16px !important; }
+          .i87-hero-cta a { padding: 13px 24px !important; font-size: 14px !important; }
+          .i87-hero-scroll { display: none !important; }
+        }
       `}</style>
 
       {/* NAVBAR */}
@@ -291,6 +299,7 @@ export default function IronClubPage() {
       {/* HERO */}
       <section
         ref={heroRef}
+        className="i87-hero"
         style={{
           height: "115vh",
           minHeight: 900,
@@ -324,6 +333,7 @@ export default function IronClubPage() {
           }}
         />
         <motion.div
+          className="i87-hero-inner"
           style={{
             position: "relative",
             zIndex: 1,
@@ -356,6 +366,7 @@ export default function IronClubPage() {
             <span>●</span> Lyon 7e · CrossFit certifié
           </motion.div>
           <motion.h1
+            className="i87-hero-title"
             initial={{ opacity: 0, y: 28 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5, duration: 0.7 }}
@@ -389,6 +400,7 @@ export default function IronClubPage() {
             La salle de sport et CrossFit de référence à Lyon. Une communauté soudée, des coachs certifiés, des résultats qui parlent d&apos;eux-mêmes.
           </>}</motion.p>
           <motion.div
+            className="i87-hero-cta"
             initial={{ opacity: 0, y: 28 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.0, duration: 0.7 }}
@@ -435,6 +447,7 @@ export default function IronClubPage() {
         </motion.div>
         {/* Scroll indicator */}
         <div
+          className="i87-hero-scroll"
           style={{
             position: "absolute",
             bottom: 40,

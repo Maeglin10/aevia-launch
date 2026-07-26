@@ -103,7 +103,7 @@ return (
     <div className="bg-[#050005] text-[#d1d1d1] font-sans">
       <main>
         {/* ── HERO ──────────────────── */}
-        <section className="relative h-[85vh] flex items-center justify-center overflow-hidden">
+        <section className="relative min-h-[85vh] flex items-center justify-center overflow-hidden pt-28 pb-16 md:pt-16">
           <div className="absolute inset-0">
             <Image
               src={photo(0, "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&q=80&w=2400")}
@@ -117,23 +117,23 @@ return (
 
           <div className="relative z-10 max-w-[1200px] mx-auto px-6 text-center">
             <Reveal>
-              <div className="flex items-center justify-center gap-8 mb-12 opacity-30">
+              <div className="flex items-center justify-center gap-8 mb-6 md:mb-12 opacity-30">
                 <div className="w-16 h-[1px] bg-[var(--brand,#ff00ff)]" />
                 <span className="text-[10px] font-bold uppercase tracking-[0.6em] text-white">The Pulse of Nocturnal Elegance</span>
                 <div className="w-16 h-[1px] bg-[var(--brand,#ff00ff)]" />
               </div>
             </Reveal>
             <Reveal delay={0.2} y={70}>
-              <h1 className="text-8xl md:text-[14vw] font-light tracking-tighter leading-[1.15] text-white mb-16 uppercase italic pb-6">{c?.heroHeadline ?? <>
+              <h1 className="text-6xl md:text-[14vw] font-light tracking-tighter leading-[1.15] text-white mb-6 md:mb-16 uppercase italic pb-4 md:pb-6">{c?.heroHeadline ?? <>
                 Ethereal <br /> <span className="font-bold not-italic">Rhythm.</span>
               </>}</h1>
             </Reveal>
             <Reveal delay={0.4}>
-              <div className="flex flex-col items-center justify-center gap-16">
-                <p className="text-2xl text-white/40 font-light max-w-2xl leading-relaxed italic">{c?.heroSubline ?? fd?.tagline ?? <>
+              <div className="flex flex-col items-center justify-center gap-6 md:gap-16">
+                <p className="text-lg md:text-2xl text-white/40 font-light max-w-2xl leading-relaxed italic">{c?.heroSubline ?? fd?.tagline ?? <>
                   Where the light fades and the soul awakens. An immersive sanctuary for the world's most discerning nocturnal explorers.
                 </>}</p>
-                <div className="flex flex-wrap justify-center gap-10">
+                <div className="flex flex-wrap justify-center gap-4 md:gap-10">
                   <button
                     onClick={() => router.push("/templates/impact-70/experience")}
                     className="px-16 py-6 bg-white text-black font-bold uppercase tracking-widest text-[10px] rounded-full hover:px-20 transition-all duration-700 shadow-2xl shadow-[var(--brand,#ff00ff)]/20 cursor-pointer border-none"

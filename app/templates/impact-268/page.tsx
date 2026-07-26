@@ -600,6 +600,7 @@ function Hero() {
 
       {/* Titre parallaxe — bas gauche */}
       <motion.div
+        className="hero-content"
         style={{
           position: 'relative',
           zIndex: 2,
@@ -708,6 +709,11 @@ function Hero() {
           <ChevronDown size={18} color={C.accentLight} strokeWidth={1.4} />
         </motion.div>
       </motion.div>
+      <style>{`
+        @media (min-width: 768px) and (max-width: 1023px) {
+          .hero-content { justify-content: center !important; }
+        }
+      `}</style>
     </section>
   );
 }

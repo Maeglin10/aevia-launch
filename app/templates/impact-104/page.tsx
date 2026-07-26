@@ -104,6 +104,15 @@ export default function LumiereDoreePage() {
         @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500;600;700&display=swap');
         * { box-sizing: border-box; margin: 0; padding: 0; }
         html { scroll-behavior: smooth; }
+
+        @media (max-width: 700px) {
+          .i104-hero { height: auto !important; min-height: 0 !important; padding-top: 110px !important; padding-bottom: 40px !important; }
+          .i104-hero-inner { padding: 0 24px 24px !important; }
+          .i104-hero-title { font-size: 36px !important; margin-bottom: 16px !important; }
+          .i104-hero-cta a { padding: 13px 24px !important; font-size: 13px !important; }
+          .i104-hero-cta a:last-child { background: rgba(255,255,255,0.12) !important; border-color: rgba(255,255,255,0.7) !important; }
+          .i104-hero-scroll { display: none !important; }
+        }
       `}</style>
 
       {/* NAVBAR */}
@@ -270,6 +279,7 @@ export default function LumiereDoreePage() {
       {/* HERO */}
       <section
         ref={heroRef}
+        className="i104-hero"
         style={{
           height: "115vh",
           minHeight: 900,
@@ -303,6 +313,7 @@ export default function LumiereDoreePage() {
           }}
         />
         <motion.div
+          className="i104-hero-inner"
           style={{
             position: "relative",
             zIndex: 1,
@@ -334,6 +345,7 @@ export default function LumiereDoreePage() {
             Photographe mariage · Paris &amp; région
           </motion.div>
           <motion.h1
+            className="i104-hero-title"
             initial={{ opacity: 0, y: 28 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5, duration: 0.7 }}
@@ -368,6 +380,7 @@ export default function LumiereDoreePage() {
             Photographe de mariage basée à Paris, je capture vos émotions avec discrétion et sensibilité pour des souvenirs qui durent toute une vie.
           </>}</motion.p>
           <motion.div
+            className="i104-hero-cta"
             initial={{ opacity: 0, y: 28 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.0, duration: 0.7 }}
@@ -412,6 +425,7 @@ export default function LumiereDoreePage() {
         </motion.div>
         {/* scroll indicator */}
         <div
+          className="i104-hero-scroll"
           style={{
             position: "absolute",
             bottom: 40,

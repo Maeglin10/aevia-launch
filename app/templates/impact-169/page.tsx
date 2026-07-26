@@ -543,6 +543,15 @@ export default function ImpactFrequencePage() {
         @media (max-width: 768px) {
           .imx-mobstack { grid-template-columns: 1fr !important; }
         }
+        /* mobile hero fix: tighten vertical rhythm and drop the secondary excerpt so the CTA is visible without scrolling */
+        @media (max-width: 768px) {
+          .imx-hero169-col { padding: 32px 24px 24px !important; min-height: 0 !important; }
+          .imx-hero169-title { margin-bottom: 16px !important; font-size: clamp(30px, 8vw, 40px) !important; }
+          .imx-hero169-body { margin-bottom: 20px !important; }
+          .imx-hero169-body-secondary { display: none !important; }
+          .imx-hero169-footer { padding-top: 16px !important; flex-wrap: wrap !important; row-gap: 12px !important; }
+          .imx-hero169-footer-meta { display: none !important; }
+        }
       `}</style>
 
       {/* TOP BAR — newspaper date line */}
@@ -747,6 +756,7 @@ export default function ImpactFrequencePage() {
           transition={{ duration: 0.8 }}
         >
           <div
+            className="imx-hero169-col"
             style={{
               borderRight: `1px solid ${C.border}`,
               padding: "60px 64px 60px 64px",
@@ -787,6 +797,7 @@ export default function ImpactFrequencePage() {
             {/* Headline */}
             <div>
               <motion.h1
+                className="imx-hero169-title"
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.9, delay: 0.2 }}
@@ -804,7 +815,7 @@ export default function ImpactFrequencePage() {
               </>}</motion.h1>
 
               {/* Body columns */}
-              <div className="imx-mobstack"
+              <div className="imx-mobstack imx-hero169-body"
                 style={{
                   display: "grid",
                   gridTemplateColumns: "1fr 1fr",
@@ -825,6 +836,7 @@ export default function ImpactFrequencePage() {
                   {FEATURED_ARTICLE.subtitle.slice(0, 200)}
                 </>}</p>
                 <p
+                  className="imx-hero169-body-secondary"
                   style={{
                     fontFamily: C.serif,
                     fontSize: 17,
@@ -841,6 +853,7 @@ export default function ImpactFrequencePage() {
 
             {/* Footer */}
             <div
+              className="imx-hero169-footer"
               style={{
                 display: "flex",
                 gap: 24,
@@ -873,14 +886,14 @@ export default function ImpactFrequencePage() {
                   {FEATURED_ARTICLE.authorRole}
                 </div>
               </div>
-              <div style={{ display: "flex", gap: 16, alignItems: "center", marginLeft: "auto" }}>
-                <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
+              <div className="imx-hero169-footer-actions" style={{ display: "flex", gap: 16, alignItems: "center", marginLeft: "auto" }}>
+                <div className="imx-hero169-footer-meta" style={{ display: "flex", alignItems: "center", gap: 4 }}>
                   <Clock size={12} style={{ color: C.textMuted }} />
                   <span style={{ fontFamily: C.mono, fontSize: 11, color: C.textMuted }}>
                     {FEATURED_ARTICLE.readTime}
                   </span>
                 </div>
-                <span style={{ fontFamily: C.mono, fontSize: 11, color: C.textMuted }}>
+                <span className="imx-hero169-footer-meta" style={{ fontFamily: C.mono, fontSize: 11, color: C.textMuted }}>
                   {FEATURED_ARTICLE.reads} lectures
                 </span>
                 <motion.button

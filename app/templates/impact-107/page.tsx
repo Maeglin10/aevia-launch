@@ -205,7 +205,7 @@ export default function MeridianJourneyPage() {
 
       <main>
         {/* ── HERO ──────────────────────────── */}
-        <section id="hero" className="relative h-[120vh] min-h-[900px] flex items-end overflow-hidden">
+        <section id="hero" className="relative h-[100dvh] md:h-[120vh] min-h-[560px] md:min-h-[900px] flex items-end overflow-hidden">
           <motion.div style={{ y: heroY }} className="absolute inset-0">
             <Image src={photo(0, "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&q=80&w=2400")} alt="Mountains" fill className="object-cover opacity-70" priority />
             <div className="absolute inset-0 bg-gradient-to-t from-[#0d1210] via-[#0d1210]/30 to-transparent" />
@@ -227,6 +227,11 @@ export default function MeridianJourneyPage() {
               <p className="max-w-lg text-lg text-white/50 font-light leading-relaxed">{c?.heroSubline ?? fd?.tagline ?? <>
                 Guided expeditions to the world's most remote landscapes. Small teams, real challenge, permanent transformation.
               </>}</p>
+            </Reveal>
+            <Reveal delay={0.45}>
+              <button className="mt-8 px-8 py-4 bg-[var(--brand,#14b8a6)] text-black text-[10px] font-bold uppercase tracking-[0.2em] rounded-full hover:bg-white transition-colors duration-500">
+                {c?.ctaText ?? "Join Expedition"}
+              </button>
             </Reveal>
           </motion.div>
 
