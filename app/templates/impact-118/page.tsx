@@ -35,7 +35,7 @@ function ParallaxImg({ src, alt }: { src: string; alt: string }) {
 
 const COLLECTION_DEMO = [
   { name: "Horology One", series: "Precision Series", price: "€14,500", img: "https://images.unsplash.com/photo-1524592094714-0f0654e20314?auto=format&fit=crop&q=80&w=1200", desc: "Brushed titanium case with a 72-hour power reserve and sapphire crystal." },
-  { name: "Deep Sea", series: "Oceanic Series", price: "€18,200", img: "https://images.unsplash.com/photo-1547996160-81dfa63595aa?auto=format&fit=crop&q=80&w=1200", desc: "Professional diver's watch water resistant to 1000m with helium escape valve." },
+  { name: "Deep Sea", series: "Oceanic Series", price: "€18,200", img: "https://images.pexels.com/photos/209255/pexels-photo-209255.jpeg?auto=compress&cs=tinysrgb&w=1200", desc: "Professional diver's watch water resistant to 1000m with helium escape valve." },
   { name: "Lunar Phase", series: "Astral Series", price: "€22,900", img: "https://images.unsplash.com/photo-1524592094714-0f0654e20314?auto=format&fit=crop&q=80&w=1200", desc: "Perpetual moon phase complication with 18k rose gold hand-engraved dial." },
 ]
 
@@ -210,7 +210,7 @@ export default function ChronosLuxuryPage() {
             {/* ── HERO ──────────────────── */}
             <section id="hero" className="relative h-dvh flex items-center justify-center overflow-hidden pt-24 md:pt-0">
               <div className="absolute inset-0">
-                <Image src={photo(0, "https://images.unsplash.com/photo-1547996160-81dfa63595aa?auto=format&fit=crop&q=80&w=2400")} alt="Chronos Watch" fill className="object-cover opacity-40 scale-105" priority />
+                <Image src={photo(0, "https://images.pexels.com/photos/209255/pexels-photo-209255.jpeg?auto=compress&cs=tinysrgb&w=2400")} alt="Chronos Watch" fill className="object-cover opacity-40 scale-105" priority />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-transparent" />
                 <div className="absolute inset-0 bg-black/40" />
               </div>
@@ -488,9 +488,9 @@ function AtelierPage() {
 function CollectionPage({ goTo }: { goTo: (p: ActivePage) => void }) {
   const collectionList = [
     { name: "Horology One", series: "Precision Series", price: "€14,500", img: photo(3, "https://images.unsplash.com/photo-1524592094714-0f0654e20314?auto=format&fit=crop&q=80&w=1200"), calibre: "CH-01 Manual", power: "72 Hours", case: "Titanium Grade 5", water: "50m", desc: "Brushed titanium case with a 72-hour power reserve and sapphire crystal." },
-    { name: "Deep Sea", series: "Oceanic Series", price: "€18,200", img: photo(4, "https://images.unsplash.com/photo-1547996160-81dfa63595aa?auto=format&fit=crop&q=80&w=1200"), calibre: "CH-09 Auto", power: "60 Hours", case: "Stainless Steel 904L", water: "1000m", desc: "Professional diver's watch water resistant to 1000m with helium escape valve." },
+    { name: "Deep Sea", series: "Oceanic Series", price: "€18,200", img: photo(4, "https://images.pexels.com/photos/209255/pexels-photo-209255.jpeg?auto=compress&cs=tinysrgb&w=1200"), calibre: "CH-09 Auto", power: "60 Hours", case: "Stainless Steel 904L", water: "1000m", desc: "Professional diver's watch water resistant to 1000m with helium escape valve." },
     { name: "Lunar Phase", series: "Astral Series", price: "€22,900", img: photo(5, "https://images.unsplash.com/photo-1524592094714-0f0654e20314?auto=format&fit=crop&q=80&w=1200"), calibre: "CH-12 Lunar", power: "65 Hours", case: "18k Rose Gold", water: "30m", desc: "Perpetual moon phase complication with 18k rose gold hand-engraved dial." },
-    { name: "Tourbillon Prestige", series: "Grand Complication", price: "€85,000", img: photo(6, "https://images.unsplash.com/photo-1547996160-81dfa63595aa?auto=format&fit=crop&q=80&w=1200"), calibre: "CH-50 Tourbillon", power: "80 Hours", case: "Platinum 950", water: "30m", desc: "Flying tourbillon with manual winding, hand-beveled titanium cage, and power reserve indicator." }
+    { name: "Tourbillon Prestige", series: "Grand Complication", price: "€85,000", img: photo(6, "https://images.pexels.com/photos/209255/pexels-photo-209255.jpeg?auto=compress&cs=tinysrgb&w=1200"), calibre: "CH-50 Tourbillon", power: "80 Hours", case: "Platinum 950", water: "30m", desc: "Flying tourbillon with manual winding, hand-beveled titanium cage, and power reserve indicator." }
   ];
 
   return (
@@ -562,7 +562,7 @@ function CraftsmanshipPage() {
               num: "02",
               title: "Anglage & Decorative Finishing",
               desc: "Bridges, plates, and steel parts undergo meticulous hand-beveling (anglage). Using boxwood pegs and diamond paste, our craftsmen polish every internal angle until it reflects light flawlessly, creating a striking contrast with the circular-grained mainplate.",
-              img: photo(8, "https://images.unsplash.com/photo-1547996160-81dfa63595aa?auto=format&fit=crop&q=80&w=1200")
+              img: photo(8, "https://images.pexels.com/photos/209255/pexels-photo-209255.jpeg?auto=compress&cs=tinysrgb&w=1200")
             },
             {
               num: "03",
@@ -684,7 +684,7 @@ function InnovationPage() {
 
         <div className="mt-24 border border-white/5 p-12 bg-[#0c0c0c] flex flex-col md:flex-row items-center gap-12">
           <div className="w-full md:w-1/3 aspect-square relative">
-            <img src={photo(10, "https://images.unsplash.com/photo-1547996160-81dfa63595aa?auto=format&fit=crop&q=80&w=1200")} alt="Innovation Detail" className="w-full h-full object-cover" />
+            <img src={photo(10, "https://images.pexels.com/photos/209255/pexels-photo-209255.jpeg?auto=compress&cs=tinysrgb&w=1200")} alt="Innovation Detail" className="w-full h-full object-cover" />
           </div>
           <div className="w-full md:w-2/3">
             <h3 className="text-3xl font-extralight uppercase text-[var(--brand,#d4af37)] mb-6" style={{ fontFamily: "serif" }}>Dynamic Pressure Chambers</h3>
@@ -722,7 +722,7 @@ function JournalPage() {
       cat: "Engineering",
       date: "April 28, 2026",
       desc: "How our watches survive the decompression phase of professional saturation diving.",
-      img: photo(12, "https://images.unsplash.com/photo-1547996160-81dfa63595aa?auto=format&fit=crop&q=80&w=1200")
+      img: photo(12, "https://images.pexels.com/photos/209255/pexels-photo-209255.jpeg?auto=compress&cs=tinysrgb&w=1200")
     },
     {
       title: "Restoring a 1930 Perpetual Calendar",

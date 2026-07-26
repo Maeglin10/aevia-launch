@@ -29,7 +29,7 @@ const DESTINATIONS_DEMO = [
     days: "8 Days",
     desc: "Traverse the oldest desert in the world. Witness the towering red dunes of Sossusvlei and the surreal dead-tree valleys of Deadvlei.",
     image:
-      "https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?q=80&w=1600&auto=format&fit=crop",
+      "https://images.pexels.com/photos/18386168/pexels-photo-18386168.jpeg?auto=compress&cs=tinysrgb&w=1600",
     color: "var(--brand,#d97736)",
   },
   {
@@ -40,7 +40,7 @@ const DESTINATIONS_DEMO = [
     days: "10 Days",
     desc: "High-altitude salt flats, active geysers, and the clearest night skies on Earth. An alien landscape waiting to be explored.",
     image:
-      "https://images.unsplash.com/photo-1469334031218-e382a71b716b?q=80&w=1600&auto=format&fit=crop",
+      "https://images.pexels.com/photos/20873970/pexels-photo-20873970.jpeg?auto=compress&cs=tinysrgb&w=1600",
     color: "#b45309",
   },
   {
@@ -51,7 +51,7 @@ const DESTINATIONS_DEMO = [
     days: "6 Days",
     desc: "Fairy chimneys, underground cities, and dawn balloon flights over ancient volcanic valleys.",
     image:
-      "https://images.unsplash.com/photo-1527838832700-5059252407fa?q=80&w=1600&auto=format&fit=crop",
+      "https://images.pexels.com/photos/6173322/pexels-photo-6173322.jpeg?auto=compress&cs=tinysrgb&w=1600",
     color: "#c2410c",
   },
   {

@@ -167,7 +167,7 @@ export default function ThermotekChauffagePage() {
       {/* ── HERO ── */}
       <section id="hero" ref={heroRef} className="relative h-[110vh] min-h-[820px] flex items-end overflow-hidden">
         <motion.div style={{ y: heroY }} className="absolute inset-0">
-          <Image src={photo(0, "https://images.unsplash.com/photo-1585771724684-38269d6639fd?auto=format&fit=crop&q=85&w=2400")} alt="Chauffagiste intervention chaudière" fill className="object-cover" priority style={{ filter: "brightness(0.5)" }} />
+          <Image src={photo(0, "https://images.pexels.com/photos/7859953/pexels-photo-7859953.jpeg?auto=compress&cs=tinysrgb&w=2400")} alt="Chauffagiste intervention chaudière" fill className="object-cover" priority style={{ filter: "brightness(0.5)" }} />
           <div className="absolute inset-0 bg-gradient-to-t from-[#0a0906] via-[#0a0906]/45 to-transparent" />
           <div className="absolute inset-0 bg-gradient-to-r from-[#0a0906]/60 to-transparent" />
           <div className="absolute inset-0 bg-[var(--brand,#ea580c)]/5 mix-blend-overlay" />

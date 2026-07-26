@@ -77,7 +77,7 @@ const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 /* ── Photos Unsplash (IDs réels plomberie / habitat) ─────────────────────── */
 const PHOTO = {
   salleBain:
-    'https://images.unsplash.com/photo-1585771724684-38269d6639fd?q=80&w=1600&auto=format&fit=crop',
+    'https://images.pexels.com/photos/7173665/pexels-photo-7173665.jpeg?auto=compress&cs=tinysrgb&w=1600',
   plombier:
     'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?q=80&w=1600&auto=format&fit=crop',
   chaudiere:
@@ -89,7 +89,7 @@ const PHOTO = {
   salleBainDesign:
     'https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?q=80&w=1600&auto=format&fit=crop',
   heroWide:
-    'https://images.unsplash.com/photo-1585771724684-38269d6639fd?q=80&w=1600&auto=format&fit=crop',
+    'https://images.pexels.com/photos/7173665/pexels-photo-7173665.jpeg?auto=compress&cs=tinysrgb&w=1600',
 };
 
 /* ════════════════════════════════════════════════════════════════════════════

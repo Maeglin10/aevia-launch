@@ -66,12 +66,21 @@ const shadeColor = (color, percent) => {
 };
 
 // --- DEFAULT STYLES ---
-const DEFAULT_BRAND_COLOR = "var(--brand,#06b6d4)";
+// shadeColor() only understands plain "#rrggbb" hex — feeding it the
+// var(--brand,#hex) CSS expression (as used to happen here) makes it index
+// into the literal "var(--brand,#..." characters and emit a malformed hex
+// like "#0eff-f". That breaks the whole `background: linear-gradient(...)`
+// declaration parse in the browser, which silently drops it — combined with
+// `-webkit-text-fill-color: transparent` on .gradient-text-primary, every
+// second word of the hero title (and every gradient-text-primary heading
+// sitewide) rendered fully invisible. Keep a plain hex around for shading.
+const DEFAULT_BRAND_HEX = "#06b6d4";
+const DEFAULT_BRAND_COLOR = `var(--brand,${DEFAULT_BRAND_HEX})`;
 
 const C = {
   primary: DEFAULT_BRAND_COLOR,
-  primaryLight: shadeColor(DEFAULT_BRAND_COLOR, 40),
-  primaryDark: shadeColor(DEFAULT_BRAND_COLOR, -40),
+  primaryLight: shadeColor(DEFAULT_BRAND_HEX, 40),
+  primaryDark: shadeColor(DEFAULT_BRAND_HEX, -40),
   bg: "#0a0a0a", // Deep Void Dark fallback
   bgDeep: "#030712",
   bgCard: "#111827", // slightly lighter dark

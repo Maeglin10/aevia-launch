@@ -46,7 +46,7 @@ let brand: any = null;
 
 // ─── Verified Unsplash images ────────────────────────────────────────────────
 const IMG = {
-  hero:     'https://images.unsplash.com/photo-1558981403-c5f9899a28bc?q=90&w=2000&auto=format&fit=crop',
+  hero:     'https://images.pexels.com/photos/34534102/pexels-photo-34534102.jpeg?auto=compress&cs=tinysrgb&w=2000',
   city:     'https://images.unsplash.com/photo-1571068316344-75bc76f77890?q=85&w=1600&auto=format&fit=crop',
   ride:     'https://images.unsplash.com/photo-1591637333184-19aa84b3e01f?q=85&w=1600&auto=format&fit=crop',
   detail:   'https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?q=85&w=1600&auto=format&fit=crop',

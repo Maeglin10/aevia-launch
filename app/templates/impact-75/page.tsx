@@ -32,7 +32,7 @@ const HERO_PRODUCTS = [
     price: "€8 400",
     desc: "Boîtier grade 5 titane poli miroir. Mouvement mécanique automatique 72h de réserve. Verre saphir anti-reflets.",
     badge: "Édition Limitée — 150 pièces",
-    img: "https://images.unsplash.com/photo-1523170335258-f5ed11844a49?q=80&w=1200&auto=format&fit=crop",
+    img: "https://images.pexels.com/photos/12915488/pexels-photo-12915488.jpeg?auto=compress&cs=tinysrgb&w=1200",
     accent: "#0a0a0a",
   },
   {
@@ -42,7 +42,7 @@ const HERO_PRODUCTS = [
     price: "€12 900",
     desc: "Cadran en nacre rose naturelle. Complications : date, phases de lune. Bracelet alligator bordeaux cousu main.",
     badge: "New Season",
-    img: "https://images.unsplash.com/photo-1434493789847-2f02dc6ca35d?q=80&w=1200&auto=format&fit=crop",
+    img: "https://images.pexels.com/photos/1228517/pexels-photo-1228517.jpeg?auto=compress&cs=tinysrgb&w=1200",
     accent: "var(--brand,#8B0000)",
   },
   {
@@ -52,7 +52,7 @@ const HERO_PRODUCTS = [
     price: "€15 600",
     desc: "Fonction GMT double fuseau. Céramique haute pression noire absolue. Étanchéité 300m. Certifié COSC.",
     badge: "Best-Seller",
-    img: "https://images.unsplash.com/photo-1547996160-81dfa63595aa?q=80&w=1200&auto=format&fit=crop",
+    img: "https://images.pexels.com/photos/4484237/pexels-photo-4484237.jpeg?auto=compress&cs=tinysrgb&w=1200",
     accent: "#1a3a5c",
   },
 ];
@@ -63,7 +63,7 @@ const PRODUCTS = [
     name: "Helix Noir",
     price: "€8 400",
     isNew: false,
-    img: "https://images.unsplash.com/photo-1523170335258-f5ed11844a49?q=80&w=800&auto=format&fit=crop",
+    img: "https://images.pexels.com/photos/12915488/pexels-photo-12915488.jpeg?auto=compress&cs=tinysrgb&w=800",
     category: "Monochrome",
   },
   {
@@ -71,7 +71,7 @@ const PRODUCTS = [
     name: "Aurora S",
     price: "€12 900",
     isNew: true,
-    img: "https://images.unsplash.com/photo-1434493789847-2f02dc6ca35d?q=80&w=800&auto=format&fit=crop",
+    img: "https://images.pexels.com/photos/1228517/pexels-photo-1228517.jpeg?auto=compress&cs=tinysrgb&w=800",
     category: "Cadrans",
   },
   {
@@ -79,7 +79,7 @@ const PRODUCTS = [
     name: "Meridian GMT",
     price: "€15 600",
     isNew: false,
-    img: "https://images.unsplash.com/photo-1547996160-81dfa63595aa?q=80&w=800&auto=format&fit=crop",
+    img: "https://images.pexels.com/photos/4484237/pexels-photo-4484237.jpeg?auto=compress&cs=tinysrgb&w=800",
     category: "Exploration",
   },
   {
@@ -103,7 +103,7 @@ const PRODUCTS = [
     name: "Onyx Perpetual",
     price: "€24 500",
     isNew: false,
-    img: "https://images.unsplash.com/photo-1523170335258-f5ed11844a49?q=80&w=800&auto=format&fit=crop",
+    img: "https://images.pexels.com/photos/12915488/pexels-photo-12915488.jpeg?auto=compress&cs=tinysrgb&w=800",
     category: "Grande Complication",
   },
 ];
@@ -139,7 +139,7 @@ const BESTSELLERS = [
   {
     name: "Meridian GMT",
     price: "€15 600",
-    img: "https://images.unsplash.com/photo-1547996160-81dfa63595aa?q=80&w=800&auto=format&fit=crop",
+    img: "https://images.pexels.com/photos/4484237/pexels-photo-4484237.jpeg?auto=compress&cs=tinysrgb&w=800",
     specs: [
       { label: "Mouvement", val: "Automatique In-house" },
       { label: "Boîtier", val: "Titane grade 5, 42mm" },
@@ -151,7 +151,7 @@ const BESTSELLERS = [
   {
     name: "Aurora S",
     price: "€12 900",
-    img: "https://images.unsplash.com/photo-1434493789847-2f02dc6ca35d?q=80&w=800&auto=format&fit=crop",
+    img: "https://images.pexels.com/photos/1228517/pexels-photo-1228517.jpeg?auto=compress&cs=tinysrgb&w=800",
     specs: [
       { label: "Mouvement", val: "ETA 2892 modifié" },
       { label: "Cadran", val: "Nacre rose naturelle" },
@@ -163,7 +163,7 @@ const BESTSELLERS = [
   {
     name: "Onyx Perpetual",
     price: "€24 500",
-    img: "https://images.unsplash.com/photo-1523170335258-f5ed11844a49?q=80&w=800&auto=format&fit=crop",
+    img: "https://images.pexels.com/photos/12915488/pexels-photo-12915488.jpeg?auto=compress&cs=tinysrgb&w=800",
     specs: [
       { label: "Mouvement", val: "Calendrier Perpétuel maison" },
       { label: "Complications", val: "Quantième perpétuel, Chrono" },

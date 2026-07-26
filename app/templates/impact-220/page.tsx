@@ -54,7 +54,7 @@ const T = {
 
 // ─── Verified Unsplash Images ────────────────────────────────────────────────
 const IMGS = {
-  hero:        'https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=1600&auto=format&fit=crop',
+  hero:        'https://images.pexels.com/photos/34149486/pexels-photo-34149486.jpeg?auto=compress&cs=tinysrgb&w=1600',
   movement:    'https://images.unsplash.com/photo-1547996160-81dfa63595aa?q=80&w=1600&auto=format&fit=crop',
   dial:        'https://images.unsplash.com/photo-1524805444758-089113d48a6d?q=80&w=1600&auto=format&fit=crop',
   editorial1:  'https://images.unsplash.com/photo-1620625515032-6ed0c1790c75?q=80&w=1600&auto=format&fit=crop',

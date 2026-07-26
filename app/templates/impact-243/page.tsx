@@ -571,7 +571,7 @@ function Hero() {
         }}
       >
         <img
-          src={fd?.photoUrls?.[0] || photoUrl('1559757148-5c350d0d3c56', 2000)}
+          src={fd?.photoUrls?.[0] || "https://images.pexels.com/photos/8376221/pexels-photo-8376221.jpeg?auto=compress&cs=tinysrgb&w=2000"}
           alt="Consultation médicale avec le Dr. Beaumont"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />

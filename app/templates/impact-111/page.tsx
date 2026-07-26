@@ -213,7 +213,7 @@ export default function TerraArchitecturePage() {
                 </Reveal>
                 <Reveal delay={0.1} y={60}>
                   <h1 className="text-7xl md:text-[8rem] font-light tracking-tighter leading-[0.85] mb-12 uppercase">{c?.heroHeadline ?? <>
-                    Rooted <br/> In <span className="italic text-[var(--brand,#c4b5a2)] font-normal">Nature.</span>
+                    Rooted <br/> In <span className="italic text-[var(--brand,#6c6459)] font-normal">Nature.</span>
                   </>}</h1>
                 </Reveal>
                 <Reveal delay={0.3}>

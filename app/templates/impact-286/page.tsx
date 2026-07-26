@@ -63,7 +63,7 @@ const SANS = "'DM Sans', system-ui, sans-serif" as const;
 /* ── Photographie (URLs Unsplash pré-vérifiées) ─────────────────────────── */
 const PHOTO = {
   tribunal:
-    'https://images.unsplash.com/photo-1589829085413-56de8ae18c73?q=80&w=1600&auto=format&fit=crop',
+    'https://images.pexels.com/photos/21253838/pexels-photo-21253838.jpeg?auto=compress&cs=tinysrgb&w=1600',
   bureau:
     'https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=1600&auto=format&fit=crop',
   reunion:
@@ -73,7 +73,7 @@ const PHOTO = {
   contrat:
     'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=1600&auto=format&fit=crop',
   audience:
-    'https://images.unsplash.com/photo-1589829085413-56de8ae18c73?q=80&w=1600&auto=format&fit=crop',
+    'https://images.pexels.com/photos/37726678/pexels-photo-37726678.jpeg?auto=compress&cs=tinysrgb&w=1600',
 } as const;
 
 /* ── Easing partagé ──────────────────────────────────────────────────────── */

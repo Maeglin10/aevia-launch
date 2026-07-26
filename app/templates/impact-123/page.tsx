@@ -34,7 +34,7 @@ function ParallaxImg({ src, alt }: { src: string; alt: string }) {
 
 const MODELS_DEMO = [
   { name: "V1 Prototype", year: "2024", topSpeed: "380 km/h", power: "1,200 hp", img: "https://images.unsplash.com/photo-1592198084033-aade902d1aae?auto=format&fit=crop&q=80&w=1200" },
-  { name: "Iron Lung S", year: "2023", topSpeed: "420 km/h", power: "1,600 hp", img: "https://images.unsplash.com/photo-1614164185128-e4ec99c436d7?auto=format&fit=crop&q=80&w=1200" },
+  { name: "Iron Lung S", year: "2023", topSpeed: "420 km/h", power: "1,600 hp", img: "https://images.pexels.com/photos/26954166/pexels-photo-26954166.jpeg?auto=compress&cs=tinysrgb&w=1200" },
   { name: "Apex Track", year: "2024", topSpeed: "340 km/h", power: "900 hp", img: "https://images.unsplash.com/photo-1544636331-e26879cd4d9b?auto=format&fit=crop&q=80&w=1200" },
 ]
 
@@ -173,7 +173,7 @@ export default function VulcanMotorsPage() {
         {/* ── HERO ──────────────────── */}
         <section id="hero" className="relative h-dvh flex items-center pt-32 pb-20 overflow-hidden">
           <div className="absolute inset-0">
-            <Image src={photo(0, "https://images.unsplash.com/photo-1614164185128-e4ec99c436d7?auto=format&fit=crop&q=80&w=2400")} alt="Hypercar Detail" fill className="object-cover opacity-60 grayscale hover:grayscale-0 transition-all duration-1000" priority />
+            <Image src={photo(0, "https://images.pexels.com/photos/26954166/pexels-photo-26954166.jpeg?auto=compress&cs=tinysrgb&w=2400")} alt="Hypercar Detail" fill className="object-cover opacity-60 grayscale hover:grayscale-0 transition-all duration-1000" priority />
             <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/20 to-transparent" />
             <div className="absolute inset-0 bg-black/40" />
           </div>

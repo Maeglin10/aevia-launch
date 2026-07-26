@@ -301,7 +301,7 @@ export default function LedgerPage() {
       >
         <motion.div style={{ y: heroY, position: "absolute", inset: 0 }}>
           <img
-            src={photo(0, "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=1920&q=80")}
+            src={photo(0, "https://images.pexels.com/photos/6345286/pexels-photo-6345286.jpeg?auto=compress&cs=tinysrgb&w=1920")}
             alt="Cabinet Ledger & Associés Bordeaux"
             style={{ width: "100%", height: "100%", objectFit: "cover" }}
           />

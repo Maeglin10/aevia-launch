@@ -106,13 +106,13 @@ const SANS = "'DM Mono', monospace" as const;
 const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 const PHOTO = {
-  hero: "https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?q=80&w=1600&auto=format&fit=crop",
+  hero: "https://images.pexels.com/photos/5088473/pexels-photo-5088473.jpeg?auto=compress&cs=tinysrgb&w=1600",
   about: "https://images.unsplash.com/photo-1598257006458-087169a1f08d?q=80&w=1600&auto=format&fit=crop",
   special: "https://images.unsplash.com/photo-1611501275019-9b5cda994e8d?q=80&w=1600&auto=format&fit=crop",
   gallery1: "https://images.unsplash.com/photo-1598257006458-087169a1f08d?q=80&w=800&auto=format&fit=crop",
   gallery2: "https://images.unsplash.com/photo-1598257006458-087169a1f08d?q=80&w=800&auto=format&fit=crop",
   gallery3: "https://images.unsplash.com/photo-1611501275019-9b5cda994e8d?q=80&w=800&auto=format&fit=crop",
-  gallery4: "https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?q=80&w=800&auto=format&fit=crop"
+  gallery4: "https://images.pexels.com/photos/5088473/pexels-photo-5088473.jpeg?auto=compress&cs=tinysrgb&w=800"
 } as const;
 
 /* ── Primitives Reutilisables ─────────────────────────────────────────────── */

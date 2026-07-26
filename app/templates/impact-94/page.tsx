@@ -624,7 +624,7 @@ export default function Impact94Page() {
         {/* Parallax Image */}
         <motion.div className="absolute inset-0" style={{ y: heroY }}>
           <Image
-            src={photo(0, "https://images.unsplash.com/photo-1547887537-6158d64c35b3?w=1600&q=80")}
+            src={photo(0, "https://images.pexels.com/photos/17023112/pexels-photo-17023112.jpeg?auto=compress&cs=tinysrgb&w=1600")}
             alt="Bouquet de fleurs botanica"
             fill
             className="object-cover"

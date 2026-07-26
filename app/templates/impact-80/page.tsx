@@ -258,7 +258,7 @@ return (
             <Reveal delay={0.2} y={70}>
               <h1 className="text-7xl md:text-[10rem] font-light tracking-tighter leading-[1.15] text-[#1a1a1a] mb-16 uppercase pb-4">{c?.heroHeadline ?? <>
                 Pure <br />{" "}
-                <span className="font-bold italic opacity-10">Volume.</span>
+                <span className="font-bold italic opacity-50">Volume.</span>
               </>}</h1>
             </Reveal>
             <Reveal delay={0.4}>

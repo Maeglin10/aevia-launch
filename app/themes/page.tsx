@@ -8,6 +8,7 @@ import { ArrowRight, Sparkles, Search, Star } from "lucide-react";
 import { TEMPLATES_REGISTRY } from "@/lib/templates/registry";
 import { INDUSTRIES, SECTOR_TEMPLATES, TEMPLATE_CITY_LABELS, type IndustryInfo, type SectorInfo } from "@/lib/templates/sectors";
 import { TEMPLATE_PAGE_TYPE, type PageType } from "@/lib/templates/pageType";
+import { TEMPLATE_TIER, TIER_PRICE, type SiteTier } from "@/lib/templates/templateTier";
 import { TEMPLATE_I18N } from "@/lib/templates/registry-i18n";
 import { AeviaHeader } from "@/components/AeviaHeader";
 import { LegalFooter } from "@/components/LegalFooter";
@@ -58,6 +59,12 @@ const T = {
     allPageTypes: "Tous types",
     landing: "Page unique",
     fullsite: "Multi-pages",
+    tierFilter: "Gamme",
+    allTiers: "Toutes gammes",
+    tierLanding: "Landing",
+    tierEssentiel: "Essentiel",
+    tierPro: "Pro",
+    tierPremium: "Premium",
     filteredBy: "Filtré par :",
     seeAll: "Voir tous",
   },
@@ -88,6 +95,12 @@ const T = {
     allPageTypes: "All types",
     landing: "Single page",
     fullsite: "Multi-page",
+    tierFilter: "Tier",
+    allTiers: "All tiers",
+    tierLanding: "Landing",
+    tierEssentiel: "Essentiel",
+    tierPro: "Pro",
+    tierPremium: "Premium",
     filteredBy: "Filtered by:",
     seeAll: "See all",
   },
@@ -118,6 +131,12 @@ const T = {
     allPageTypes: "Todos los tipos",
     landing: "Página única",
     fullsite: "Multipágina",
+    tierFilter: "Gama",
+    allTiers: "Todas las gamas",
+    tierLanding: "Landing",
+    tierEssentiel: "Esencial",
+    tierPro: "Pro",
+    tierPremium: "Premium",
     filteredBy: "Filtrado por:",
     seeAll: "Ver todos",
   },
@@ -148,6 +167,12 @@ const T = {
     allPageTypes: "Alle Typen",
     landing: "Einzelseite",
     fullsite: "Mehrseitig",
+    tierFilter: "Stufe",
+    allTiers: "Alle Stufen",
+    tierLanding: "Landing",
+    tierEssentiel: "Essentiel",
+    tierPro: "Pro",
+    tierPremium: "Premium",
     filteredBy: "Gefiltert nach:",
     seeAll: "Alle anzeigen",
   },
@@ -178,6 +203,12 @@ const T = {
     allPageTypes: "Todos os tipos",
     landing: "Página única",
     fullsite: "Multipágina",
+    tierFilter: "Gama",
+    allTiers: "Todas as gamas",
+    tierLanding: "Landing",
+    tierEssentiel: "Essencial",
+    tierPro: "Pro",
+    tierPremium: "Premium",
     filteredBy: "Filtrado por:",
     seeAll: "Ver todos",
   },
@@ -226,6 +257,20 @@ const PAGETYPE_COLOR: Record<PageType, string> = {
   fullsite: "#f97316",
 };
 
+// ─── Tier (catalogue price range) filter colors ─────────────────────────────
+const TIER_COLOR: Record<SiteTier, string> = {
+  landing: "#94a3b8",
+  essentiel: "#38bdf8",
+  pro: "#dc2626",
+  premium: "#c9a96e",
+};
+const TIER_LABEL_KEY: Record<SiteTier, "tierLanding" | "tierEssentiel" | "tierPro" | "tierPremium"> = {
+  landing: "tierLanding",
+  essentiel: "tierEssentiel",
+  pro: "tierPro",
+  premium: "tierPremium",
+};
+
 // ─── Theme item type ──────────────────────────────────────────────────────────
 interface ThemeItem {
   id: string;
@@ -236,6 +281,7 @@ interface ThemeItem {
   source: "builder" | "impact";
   featured: boolean;
   pageType: PageType;
+  tier: SiteTier;
   specialtyId?: string;
   specialtyLabel?: string;
   specialtyEmoji?: string;
@@ -376,6 +422,8 @@ function ThemesContent() {
   const [selectedSpecialty, setSelectedSpecialty] = useState<string>("All");
   // ── Page-type filter state (landing vs. full site) ───────────────────────────
   const [pageTypeFilter, setPageTypeFilter] = useState<"All" | PageType>("All");
+  // ── Tier filter state (catalogue price range: landing/essentiel/pro/premium) ─
+  const [tierFilter, setTierFilter] = useState<"All" | SiteTier>("All");
 
   // Changing a filter re-renders the results grid with a different (often much
   // shorter) height. If the visitor was scrolled deep into a long grid, the
@@ -390,7 +438,7 @@ function ThemesContent() {
       return;
     }
     resultsTopRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-  }, [cat, selectedIndustry, selectedSpecialty, pageTypeFilter]);
+  }, [cat, selectedIndustry, selectedSpecialty, pageTypeFilter, tierFilter]);
 
   useEffect(() => {
     if (catParam) {
@@ -470,6 +518,7 @@ function ThemesContent() {
           source: "impact" as const,
           featured: FEATURED.has(tpl.id),
           pageType: TEMPLATE_PAGE_TYPE[tpl.id] ?? "landing",
+          tier: TEMPLATE_TIER[tpl.id] ?? "pro",
           specialtyId: specId,
           specialtyLabel: specialty ? getSpecialtyLabel(specialty) : undefined,
           specialtyEmoji: specialty?.emoji,
@@ -509,6 +558,12 @@ function ThemesContent() {
     return counts;
   }, [allThemes]);
 
+  const tierCounts = useMemo(() => {
+    const counts: Record<SiteTier, number> = { landing: 0, essentiel: 0, pro: 0, premium: 0 };
+    for (const tpl of allThemes) counts[tpl.tier]++;
+    return counts;
+  }, [allThemes]);
+
   // Reset specialty whenever the industry changes
   const selectIndustry = (indId: string) => {
     setSelectedIndustry(indId);
@@ -520,10 +575,11 @@ function ThemesContent() {
     setSelectedIndustry("All");
     setSelectedSpecialty("All");
     setPageTypeFilter("All");
+    setTierFilter("All");
     setSearch("");
   };
 
-  const hasActiveFilters = cat !== "All" || selectedIndustry !== "All" || selectedSpecialty !== "All" || pageTypeFilter !== "All" || !!search;
+  const hasActiveFilters = cat !== "All" || selectedIndustry !== "All" || selectedSpecialty !== "All" || pageTypeFilter !== "All" || tierFilter !== "All" || !!search;
 
   const filtered = useMemo(() => {
     const q = search.toLowerCase().trim();
@@ -536,6 +592,8 @@ function ThemesContent() {
       const specialtyOk = selectedSpecialty === "All" || tpl.specialtyId === selectedSpecialty;
       // Page-type filter
       const pageTypeOk = pageTypeFilter === "All" || tpl.pageType === pageTypeFilter;
+      // Tier (catalogue price range) filter
+      const tierOk = tierFilter === "All" || tpl.tier === tierFilter;
       // Locale-aware search across name/description/category/specialty/city
       let searchOk = true;
       if (q) {
@@ -546,9 +604,9 @@ function ThemesContent() {
         const inCity = (tpl.cityLabel ?? "").toLowerCase().includes(q);
         searchOk = inLabel || inDesc || inCat || inSpec || inCity;
       }
-      return catOk && industryOk && specialtyOk && pageTypeOk && searchOk;
+      return catOk && industryOk && specialtyOk && pageTypeOk && tierOk && searchOk;
     });
-  }, [allThemes, cat, selectedIndustry, selectedSpecialty, pageTypeFilter, search]);
+  }, [allThemes, cat, selectedIndustry, selectedSpecialty, pageTypeFilter, tierFilter, search]);
 
   const featured = useMemo(() => filtered.filter(tpl => tpl.featured), [filtered]);
   const rest     = useMemo(() => filtered.filter(tpl => !tpl.featured), [filtered]);
@@ -632,6 +690,20 @@ function ThemesContent() {
                 >
                   <span className="w-1.5 h-1.5 rounded-full bg-current" />
                   {pageTypeFilter === "landing" ? t.landing : t.fullsite}
+                </span>
+              )}
+
+              {tierFilter !== "All" && (
+                <span
+                  className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold border"
+                  style={{
+                    background: `${TIER_COLOR[tierFilter]}15`,
+                    borderColor: `${TIER_COLOR[tierFilter]}35`,
+                    color: TIER_COLOR[tierFilter],
+                  }}
+                >
+                  <span className="w-1.5 h-1.5 rounded-full bg-current" />
+                  {t[TIER_LABEL_KEY[tierFilter]]} — {TIER_PRICE[tierFilter]}€
                 </span>
               )}
 
@@ -841,6 +913,45 @@ function ThemesContent() {
               </div>
             </div>
 
+            {/* ── Tier filter (catalogue price range) ──────────────────────── */}
+            <div className="mt-6 pt-6 border-t border-white/5">
+              <span className="block text-[10px] font-bold text-white/40 uppercase tracking-widest mb-3 px-1">
+                {t.tierFilter}
+              </span>
+              <div className="flex flex-col gap-1.5">
+                {(["All", "landing", "essentiel", "pro", "premium"] as const).map(tr => {
+                  const active = tierFilter === tr;
+                  const color = tr === "All" ? "#dc2626" : TIER_COLOR[tr];
+                  const label = tr === "All" ? t.allTiers : t[TIER_LABEL_KEY[tr]];
+                  const count = tr === "All" ? allThemes.length : tierCounts[tr];
+                  return (
+                    <button
+                      key={tr}
+                      onClick={() => setTierFilter(tr)}
+                      className="flex items-center justify-between gap-2 px-3 py-2 rounded-lg text-xs font-medium transition-all duration-200 cursor-pointer"
+                      style={{
+                        background: active ? `${color}22` : "transparent",
+                        color: active ? "#fff" : "rgba(255,255,255,0.55)",
+                        border: active ? `1px solid ${color}55` : "1px solid transparent",
+                      }}
+                    >
+                      <span className="flex items-center gap-2">
+                        {label}
+                        {tr !== "All" && (
+                          <span className="text-[10px] font-mono tabular-nums opacity-60">
+                            {TIER_PRICE[tr]}€
+                          </span>
+                        )}
+                      </span>
+                      <span className="text-[10px] font-mono tabular-nums" style={{ color: active ? color : "rgba(255,255,255,0.3)" }}>
+                        {count}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
             <div className="mt-6 pt-6 border-t border-white/5">
               <Link
                 href="/configure"
@@ -864,7 +975,7 @@ function ThemesContent() {
             <AnimatePresence mode="wait">
               {featured.length > 0 && (
                 <motion.section
-                  key={`feat-${cat}-${selectedIndustry}-${selectedSpecialty}-${pageTypeFilter}`}
+                  key={`feat-${cat}-${selectedIndustry}-${selectedSpecialty}-${pageTypeFilter}-${tierFilter}`}
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
@@ -889,7 +1000,7 @@ function ThemesContent() {
             {/* Full grid */}
             <AnimatePresence mode="wait">
               <motion.section
-                key={`grid-${cat}-${selectedIndustry}-${selectedSpecialty}-${pageTypeFilter}-${search}`}
+                key={`grid-${cat}-${selectedIndustry}-${selectedSpecialty}-${pageTypeFilter}-${tierFilter}-${search}`}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}

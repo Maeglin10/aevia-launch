@@ -131,7 +131,15 @@ export default function Impact83Page() {
         }}
       >
         <motion.div
-          style={{ y: heroY, opacity: heroOpacity, scale: heroScale }}
+          // NOTE: opacity is intentionally NOT scroll-linked here. A style-bound
+          // MotionValue (e.g. heroOpacity from useTransform(scrollYProgress,...))
+          // on the same property as an animate={{opacity}} entrance animation
+          // permanently wins over the animate target — this previously locked
+          // the whole hero at opacity:0 on load (heroOpacity evaluated to 0 at
+          // the container's initial scroll progress, and never got a chance to
+          // fade in). y/scale keep their scroll-linked parallax; only opacity's
+          // entrance fade-in is kept.
+          style={{ y: heroY, scale: heroScale }}
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.2, ease: "easeOut" }}

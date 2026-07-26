@@ -25,6 +25,10 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: 'https',
+        hostname: 'images.pexels.com',
+      },
+      {
+        protocol: 'https',
         hostname: '*.public.blob.vercel-storage.com',
       },
     ],
@@ -57,7 +61,7 @@ const nextConfig: NextConfig = {
               scriptSrc,
               "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
               "font-src 'self' https://fonts.gstatic.com",
-              "img-src 'self' data: blob: https://images.unsplash.com https://picsum.photos https://*.public.blob.vercel-storage.com https://www.google-analytics.com https://www.googletagmanager.com https://www.transparenttextures.com",
+              "img-src 'self' data: blob: https://images.unsplash.com https://images.pexels.com https://picsum.photos https://*.public.blob.vercel-storage.com https://www.google-analytics.com https://www.googletagmanager.com https://www.transparenttextures.com",
               connectSrc,
               "frame-src 'self' https://js.stripe.com",
               "frame-ancestors 'none'",
@@ -80,7 +84,7 @@ const nextConfig: NextConfig = {
               scriptSrc,
               "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
               "font-src 'self' https://fonts.gstatic.com",
-              "img-src 'self' data: blob: https://images.unsplash.com https://picsum.photos https://*.public.blob.vercel-storage.com https://www.google-analytics.com https://www.googletagmanager.com https://www.transparenttextures.com",
+              "img-src 'self' data: blob: https://images.unsplash.com https://images.pexels.com https://picsum.photos https://*.public.blob.vercel-storage.com https://www.google-analytics.com https://www.googletagmanager.com https://www.transparenttextures.com",
               connectSrc,
               "frame-src 'self' https://js.stripe.com",
               "frame-ancestors 'self'",
