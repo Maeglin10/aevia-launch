@@ -373,10 +373,10 @@ export default function SkylineConciergePage() {
 
         <div className="relative z-10 max-w-[1400px] mx-auto px-6 md:px-12 w-full">
           <Reveal>
-            <Badge className="bg-[var(--brand,#c9a96e)]/10 text-[var(--brand,#c9a96e)] border border-[var(--brand,#c9a96e)]/20 text-[10px] font-bold uppercase tracking-[0.5em] mb-10 px-4 py-1.5 rounded-sm">
+            <Badge className="bg-[var(--brand,#c9a96e)]/10 text-[var(--brand,#c9a96e)] border border-[var(--brand,#c9a96e)]/20 text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.2em] sm:tracking-[0.5em] mb-10 px-4 py-1.5 rounded-sm whitespace-normal text-center max-w-full">
               Private Advisory // Global Access
             </Badge>
-            <h1 className="text-6xl md:text-[8rem] font-black leading-[0.85] tracking-tighter mb-10 uppercase">{c?.heroHeadline ?? <>
+            <h1 className="text-4xl sm:text-5xl md:text-[8rem] font-black leading-[0.95] sm:leading-[0.85] tracking-tighter mb-10 uppercase break-words">{c?.heroHeadline ?? <>
               The Standard of <br />{" "}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--brand,#c9a96e)] via-[#ffffff] to-[var(--brand,#c9a96e)]">
                 Absolute Luxury.
