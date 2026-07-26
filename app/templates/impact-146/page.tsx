@@ -231,7 +231,11 @@ export default function KuroOmakasePage() {
             </Reveal>
           </div>
           
-          <div className="absolute bottom-12 left-12 flex flex-col gap-2">
+          {/* hidden on mobile: the centered hero content (subline + 2 CTAs)
+              can extend down far enough on short viewports to overlap this
+              absolutely-positioned label, sitting right on top of the
+              "Witness the Ritual" button. */}
+          <div className="hidden sm:flex absolute bottom-12 left-12 flex-col gap-2">
              <div className="text-[9px] font-bold uppercase tracking-[0.4em] text-white/20">Seating I: 18:00</div>
              <div className="text-[9px] font-bold uppercase tracking-[0.4em] text-white/20">Seating II: 21:00</div>
           </div>
