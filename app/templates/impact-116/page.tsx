@@ -111,7 +111,7 @@ const PROCESS = [
 ]
 
 const REELTHUMB = [
-  "https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85",
+  "https://images.pexels.com/photos/11063289/pexels-photo-11063289.jpeg?auto=compress&cs=tinysrgb&w=1200",
   "https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=1200&auto=format&fit=crop",
   "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1200&auto=format&fit=crop",
   "https://images.unsplash.com/photo-1508739773434-c26b3d09e071?q=80&w=1200&auto=format&fit=crop",
@@ -344,7 +344,7 @@ export default function KineticStudio() {
           <h2 className="text-5xl font-light mb-12" style={{color: brand ?? 'var(--brand,#ff5500)' }}>Trusted By Top Brands</h2>
         </Reveal>
         <div className="flex justify-center gap-12 flex-wrap">
-          {["Nike", "Apple", "Google", "Netflix", "Spotify", "Adobe", "Meta", "Amazon"].map((brand, idx) => (
+          {["Vantage", "Orbital", "Meridian Labs", "Northwind", "Cascade", "Fathom", "Halcyon", "Ember & Co"].map((brand, idx) => (
             <Reveal key={idx} delay={idx * 0.05}>
               <p className="text-white/40 font-light">{brand}</p>
             </Reveal>
