@@ -757,6 +757,7 @@ function HeroSection() {
   return (
     <section id="hero"
       ref={ref}
+      className="imx133-hero"
       style={{
         position: "relative",
         minHeight: "100dvh",
@@ -767,6 +768,14 @@ function HeroSection() {
         background: C.bg,
       }}
     >
+      <style>{`
+        /* alignItems:center on a 6-line H1 hero overflows equally above and
+           below the 100dvh box on mobile, pushing the top line ("We") above
+           y:0 and under the fixed header. Give it a safe top floor instead. */
+        @media (max-width: 640px) {
+          .imx133-hero { align-items: flex-start !important; padding-top: 96px !important; }
+        }
+      `}</style>
       {/* Geometric background particles */}
       <div style={{ position: "absolute", inset: 0, pointerEvents: "none" }}>
         {particles.map((p) => (
