@@ -142,7 +142,7 @@ return (
         }
       `}</style>
       {/* ── Hero ───────────────────────────────────────────────────────── */}
-      <section style={{ minHeight: "calc(100vh - 60px)", display: "flex", flexDirection: "column", justifyContent: "center", padding: "3rem", position: "relative", overflow: "hidden" }}>
+      <section style={{ minHeight: "calc(100vh - 60px)", display: "flex", flexDirection: "column", justifyContent: "center", padding: "clamp(20px, 6vw, 48px)", position: "relative", overflow: "hidden" }}>
         {/* Glow effect */}
         <motion.div
           style={{
@@ -191,7 +191,7 @@ return (
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.5, delay: 1.2 }}
-                style={{ display: "flex", gap: "1rem" }}
+                style={{ display: "flex", flexWrap: "wrap", gap: "1rem" }}
               >
                 <MagneticButton
                   onClick={() => router.push("/templates/impact-72/films")}
