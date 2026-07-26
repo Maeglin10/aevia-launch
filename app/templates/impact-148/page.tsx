@@ -164,7 +164,7 @@ export default function NeonPulsePage() {
             <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-purple-600 via-pink-500 to-[var(--brand,#22d3ee)] flex items-center justify-center group-hover:rotate-[360deg] transition-transform duration-1000 shadow-[0_0_20px_rgba(147,51,234,0.5)]">
               <Zap className="w-5 h-5 text-white fill-current" />
             </div>
-            <span className="text-2xl font-black tracking-tighter uppercase italic">Neon<span className="text-[var(--brand,#22d3ee)]">Pulse</span></span>
+            <span className="text-lg sm:text-2xl font-black tracking-tighter uppercase italic whitespace-nowrap">Neon<span className="text-[var(--brand,#22d3ee)]">Pulse</span></span>
           </>
             )}</Link>
           <div className="hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-white/40">
@@ -186,7 +186,7 @@ export default function NeonPulsePage() {
             <button
               type="button"
               onClick={() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })}
-              className="px-8 py-3 min-h-[44px] bg-white text-black text-[10px] font-bold uppercase tracking-[0.2em] rounded-full hover:bg-[var(--brand,#22d3ee)] hover:text-black transition-all duration-500 shadow-[0_0_20px_rgba(255,255,255,0.2)] cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand,#22d3ee)] focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+              className="hidden sm:inline-flex px-4 sm:px-8 py-3 min-h-[44px] bg-white text-black text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.1em] sm:tracking-[0.2em] rounded-full hover:bg-[var(--brand,#22d3ee)] hover:text-black transition-all duration-500 shadow-[0_0_20px_rgba(255,255,255,0.2)] cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand,#22d3ee)] focus-visible:ring-offset-2 focus-visible:ring-offset-black whitespace-nowrap"
             >Explore Drops</button>
             <Sheet>
               <SheetTrigger className="lg:hidden p-2"><Menu className="w-6 h-6 text-white" /></SheetTrigger>
