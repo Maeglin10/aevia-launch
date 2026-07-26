@@ -77,7 +77,7 @@ export default function CarbonLayout({
             <Link href="/templates/impact-65/materials" className="hidden md:block text-[10px] font-bold uppercase tracking-widest text-white/40 hover:text-white transition-colors underline underline-offset-8 decoration-[#0070f3]/30">
               Engineer Portal
             </Link>
-            <Link href="/templates/impact-65/contact" className="px-10 py-3.5 bg-white text-black text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-[#0070f3] hover:text-white transition-all duration-500 italic">
+            <Link href="/templates/impact-65/contact" className="hidden sm:block px-10 py-3.5 bg-white text-black text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-[#0070f3] hover:text-white transition-all duration-500 italic">
               Get Quote
             </Link>
             <Sheet>

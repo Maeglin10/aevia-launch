@@ -139,7 +139,7 @@ return (
               <Sparkles className="w-3.5 h-3.5 text-[var(--brand,#c9b7a1)]" />
               L'Excellence du Soin Architectural
             </div>
-            <h1 className="text-7xl md:text-9xl lg:text-[11rem] font-light leading-[1.15] pb-4 tracking-tighter mb-12">{c?.heroHeadline ?? <>
+            <h1 className="text-5xl sm:text-6xl md:text-9xl lg:text-[11rem] font-light leading-[1.15] pb-4 tracking-tighter mb-12 break-words">{c?.heroHeadline ?? <>
               The Art of <br />{" "}
               <span className="italic font-normal text-[var(--brand,#c9b7a1)]">
                 Precision.
