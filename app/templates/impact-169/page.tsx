@@ -833,7 +833,9 @@ export default function ImpactFrequencePage() {
                     paddingTop: 18,
                   }}
                 >{c?.heroSubline ?? fd?.tagline ?? <>
-                  {FEATURED_ARTICLE.subtitle.slice(0, 200)}
+                  {FEATURED_ARTICLE.subtitle.length > 200
+                    ? FEATURED_ARTICLE.subtitle.slice(0, 200).replace(/\s+\S*$/, "") + "…"
+                    : FEATURED_ARTICLE.subtitle}
                 </>}</p>
                 <p
                   className="imx-hero169-body-secondary"
