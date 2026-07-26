@@ -630,6 +630,7 @@ return (
             scale: heroScale,
             position: "relative",
             overflow: "hidden",
+            minWidth: 0,
           }}
         >
           <div
@@ -720,8 +721,10 @@ return (
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",
-            padding: "120px 80px",
+            padding: "120px 24px",
+            minWidth: 0,
           }}
+          className="md:!px-20"
         >
           <motion.div
             initial={{ opacity: 0, y: 40 }}
