@@ -254,7 +254,7 @@ return (
               <Coffee className="w-3.5 h-3.5" />
               Specialty Grade // 90+ SCA Points
             </div>
-            <h1 className="text-6xl md:text-8xl lg:text-9xl font-black leading-[1.15] tracking-tighter mb-8 uppercase pb-4">{c?.heroHeadline ?? <>
+            <h1 className="text-4xl sm:text-5xl md:text-8xl lg:text-9xl font-black leading-[1.15] tracking-tighter mb-8 uppercase pb-4 break-words">{c?.heroHeadline ?? <>
               The Alchemy <br />{" "}
               <span className="text-[var(--brand,#7c2d12)] italic">of Extraction.</span>
             </>}</h1>

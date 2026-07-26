@@ -479,7 +479,7 @@ export default function BoulangerieNoirePage() {
               <Wheat className="w-3.5 h-3.5" />
               Ancestral Grains // Slow Fermentation
             </div>
-            <h1 className="text-6xl md:text-9xl lg:text-[11rem] font-black leading-[1.15] tracking-tighter mb-8 md:mb-12 uppercase pb-4">{c?.heroHeadline ?? <>
+            <h1 className="text-4xl sm:text-5xl md:text-9xl lg:text-[11rem] font-black leading-[1.15] tracking-tighter mb-8 md:mb-12 uppercase pb-4 break-words">{c?.heroHeadline ?? <>
               The Architecture <br />{" "}
               <span className="text-stone-800 italic">of Crust.</span>
             </>}</h1>
