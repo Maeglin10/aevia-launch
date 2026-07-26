@@ -1380,41 +1380,6 @@ return (
           >
             {/* Left text */}
             <div>
-              <motion.div
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3, duration: 0.6 }}
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: 8,
-                  background: C.terracottaSoft,
-                  border: `1px solid rgba(155,74,40,0.2)`,
-                  borderRadius: 100,
-                  padding: "6px 16px",
-                  marginBottom: 32,
-                }}
-              >
-                <div
-                  style={{
-                    width: 6,
-                    height: 6,
-                    borderRadius: "50%",
-                    background: C.terracotta,
-                  }}
-                />
-                <span
-                  style={{
-                    fontSize: "0.72rem",
-                    fontWeight: 600,
-                    color: C.terracotta,
-                    letterSpacing: "0.06em",
-                  }}
-                >
-                  Atelier fondé en 2016 · Beaune, Bourgogne
-                </span>
-              </motion.div>
-
               <motion.h1
                 initial={{ opacity: 0, y: 32 }}
                 animate={{ opacity: 1, y: 0 }}

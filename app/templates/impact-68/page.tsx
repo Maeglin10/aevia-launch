@@ -139,34 +139,6 @@ return (
           >
             {/* Left — headline */}
             <div>
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7, delay: 0.1 }}
-                style={{
-                  fontFamily: "'Space Grotesk', sans-serif",
-                  fontSize: "11px",
-                  fontWeight: 700,
-                  letterSpacing: "0.2em",
-                  color: C.accent,
-                  textTransform: "uppercase",
-                  marginBottom: "28px",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "12px",
-                }}
-              >
-                <span
-                  style={{
-                    display: "inline-block",
-                    width: "32px",
-                    height: "1px",
-                    background: C.accent,
-                  }}
-                />
-                Branding Studio · Paris
-              </motion.div>
-
               <motion.h1
                 initial={{ opacity: 0, y: 40 }}
                 animate={{ opacity: 1, y: 0 }}

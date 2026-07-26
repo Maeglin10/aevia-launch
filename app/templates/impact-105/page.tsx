@@ -3,7 +3,7 @@
 
 import React, {useRef, useState, useEffect} from 'react'
 import { motion, useScroll, useTransform, useInView } from "framer-motion"
-import { Phone, Mail, MapPin, Clock, Star, CheckCircle, ArrowRight, Leaf } from "lucide-react"
+import { Phone, Mail, MapPin, Clock, Star, CheckCircle, ArrowRight } from "lucide-react"
 
 // Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
 // used to derive companion shades from the client's brand color.
@@ -251,12 +251,6 @@ export default function AtelierBloomPage() {
         <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to right, ${C.accent}22 0%, transparent 60%)` }} />
 
         <motion.div className="i105-hero-inner" style={{ position: "relative", zIndex: 1, padding: "0 80px 90px", maxWidth: 780, y: heroTextY, opacity: heroOpacity }}>
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
-            style={{ display: "inline-flex", alignItems: "center", gap: 8, marginBottom: 28, background: "rgba(45,74,34,0.20)", border: "1px solid rgba(45,74,34,0.40)", borderRadius: 20, padding: "7px 18px" }}>
-            <Leaf size={12} color="var(--brand,#a8d498)" />
-            <span style={{color: brand ?? 'var(--brand,#a8d498)', fontSize: 12, fontWeight: 700, letterSpacing: 2, textTransform: "uppercase" }}>Fleuriste artisanale · Strasbourg</span>
-          </motion.div>
-
           <motion.h1 initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.9 }}
             style={{ fontFamily: FONT_SERIF, fontSize: "clamp(42px, 5.5vw, 72px)", fontWeight: 400, color: "#fff", lineHeight: 1.1, marginBottom: 24 }}>{c?.heroHeadline ?? <>
             La beauté du vivant,<br /><em>dans chaque bouquet.</em>

@@ -738,28 +738,6 @@ export default function TerreVivantePage() {
         <motion.div
           style={{ y: heroY, opacity: heroOpacity, textAlign: "center", maxWidth: 860, padding: "2rem 1.5rem", position: "relative", zIndex: 2 }}
         >
-          <motion.span
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            style={{
-              display: "inline-block",
-              backgroundColor: "rgba(240,192,64,0.12)",
-              border: `1px solid rgba(240,192,64,0.35)`,
-              color: C.accent,
-              padding: "0.35rem 1.1rem",
-              borderRadius: "2rem",
-              fontSize: "0.8rem",
-              fontWeight: 700,
-              letterSpacing: "0.12em",
-              textTransform: "uppercase",
-              marginBottom: "1.75rem",
-              fontFamily: C.bodyFont,
-            }}
-          >
-            Ferme biologique certifiée Écocert depuis 2008
-          </motion.span>
-
           <motion.h1
             initial={{ opacity: 0, y: 34 }}
             animate={{ opacity: 1, y: 0 }}

@@ -115,11 +115,6 @@ return (
         <div className="relative z-10 max-w-[1400px] mx-auto px-6 md:px-12 w-full">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-end">
             <div>
-              <Reveal>
-                <div className="inline-flex items-center gap-4 mb-12 px-6 py-2 bg-white/5 border border-white/10 text-white text-[10px] font-black uppercase tracking-[0.5em] italic">
-                  Performance Materials v9.4
-                </div>
-              </Reveal>
               <Reveal delay={0.1} y={100}>
                 <h1 className="text-7xl md:text-[14vw] font-black tracking-tighter leading-[1.15] pb-4 uppercase mb-16 italic text-white">{c?.heroHeadline ?? <>
                   Beyond <br /> <span className="text-white/10 not-italic italic">Steel.</span>

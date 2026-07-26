@@ -325,19 +325,6 @@ export default function AeviaKitchenPage() {
           style={{ y: heroTextY, opacity: heroOpacity }}
           className="relative z-10 max-w-[1400px] w-full mx-auto px-6 md:px-12 pb-28"
         >
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-          >
-            <div className="flex items-center gap-4 mb-7">
-              <div className="w-10 h-[1px] bg-[var(--brand,#c9a855)]" />
-              <div className="text-[9px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#c9a855)]">
-                Restaurant gastronomique · Paris 8ème
-              </div>
-            </div>
-          </motion.div>
-
           <motion.h1
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}

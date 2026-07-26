@@ -138,9 +138,6 @@ return (
 
         <div className="relative z-10 max-w-[1400px] mx-auto px-6 md:px-12 w-full">
           <Reveal>
-            <span className="text-[10px] md:text-[12px] uppercase tracking-[0.4em] font-bold text-[var(--brand,#3d7a5e)] mb-8 block font-sans">
-              Maximum 9 Participants · No Devices
-            </span>
             <h1 className="text-6xl md:text-8xl lg:text-[10rem] font-bold leading-[1.15] pb-4 tracking-tighter mb-12 uppercase font-serif">{c?.heroHeadline ?? <>
               Rest is <br />{" "}
               <span className="italic font-light">the work.</span>

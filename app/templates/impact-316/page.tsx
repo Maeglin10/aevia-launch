@@ -11,7 +11,6 @@ import {
 } from 'framer-motion';
 import {
   ArrowRight,
-  Award,
   Building2,
   Calendar,
   Check,
@@ -282,15 +281,6 @@ export default function Page() {
         </motion.div>
 
         <div style={{ position: 'relative', zIndex: 2, maxWidth: 900, margin: '0 auto', padding: '0 24px' }}>
-          <Reveal delay={0.1}>
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(217,119,6,0.15)', border: '1px solid rgba(217,119,6,0.3)', borderRadius: 2, padding: '6px 16px', marginBottom: 24 }}>
-              <Award size={12} color={C.primary} />
-              <span style={{ fontSize: 11, letterSpacing: '0.15em', textTransform: 'uppercase', color: C.primary, fontWeight: 600 }}>
-                ISO 14001 · Depuis 2008
-              </span>
-            </div>
-          </Reveal>
-
           <Reveal delay={0.25}>
             <h1 style={{ fontFamily: SERIF, fontSize: 'clamp(34px, 5.5vw, 72px)', lineHeight: 1.1, fontWeight: 700, color: C.white, marginBottom: 20 }}>
               {c?.heroHeadline ?? <>L'excellence au service<br />de vos espaces professionnels</>}

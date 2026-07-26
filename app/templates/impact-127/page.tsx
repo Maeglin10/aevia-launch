@@ -219,12 +219,6 @@ export default function PulseEventsPage() {
           </motion.div>
 
           <motion.div style={{ opacity: heroOpacity }} className="relative z-10 max-w-[1600px] mx-auto px-6 md:px-12 w-full">
-            <Reveal>
-              <div className="flex items-center gap-4 mb-8">
-                <motion.div className="w-3 h-3 rounded-full bg-[var(--brand,#ec4899)]" animate={{ scale: [1, 1.3, 1] }} transition={{ duration: 1, repeat: Infinity }} />
-                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#f472b6)]">Live Events — Tickets On Sale Now</span>
-              </div>
-            </Reveal>
             <Reveal delay={0.1} y={70}>
               <h1 className="text-7xl md:text-[8rem] lg:text-[11rem] font-black tracking-tighter leading-[0.8] mb-10 uppercase">{c?.heroHeadline ?? <>
                 Feel<br/>The <span className="text-[var(--brand,#ec4899)]">Pulse.</span>

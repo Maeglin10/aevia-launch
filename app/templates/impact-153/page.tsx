@@ -453,30 +453,6 @@ function ParallaxMountainHero() {
           maxWidth:       1100,
         }}
       >
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.3 }}
-          style={{
-            display:        "inline-flex",
-            alignItems:     "center",
-            gap:            12,
-            fontSize:       10,
-            fontFamily:     "'Inter', sans-serif",
-            fontWeight:     600,
-            letterSpacing:  "0.55em",
-            textTransform:  "uppercase",
-            color:          C.accent,
-            marginBottom:   40,
-            padding:        "8px 20px",
-            border:         `1px solid ${C.accentDim}`,
-            borderRadius:   2,
-          }}
-        >
-          <span style={{ width: 6, height: 6, borderRadius: "50%", background: C.accent, display: "block", flexShrink: 0 }} />
-          Expedition Logistics · Est. 2009
-        </motion.div>
-
         <motion.h1
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}

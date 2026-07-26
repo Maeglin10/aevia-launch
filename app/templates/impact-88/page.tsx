@@ -747,21 +747,6 @@ function Hero() {
         className="relative z-10 max-w-[1280px] mx-auto px-6 lg:px-10 pt-[80px] w-full"
       >
         <div className="max-w-[640px]">
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="inline-flex items-center gap-2 px-4 py-1.5 bg-[var(--brand,#ec4899)]/10 rounded-full mb-8"
-          >
-            <Sparkles className="w-3.5 h-3.5 text-[var(--brand,#ec4899)]" />
-            <span
-              className="text-[11px] font-[600] uppercase tracking-[0.3em] text-[var(--brand,#ec4899)]"
-              style={{ fontFamily: "'Inter', sans-serif" }}
-            >
-              Nail Atelier · Paris 9e
-            </span>
-          </motion.div>
-
           <h1
             className="text-[clamp(52px,8vw,96px)] font-[700] italic leading-[0.92] tracking-[-0.02em] text-[var(--brand-light,#831843)] mb-8"
             style={{ fontFamily: "'Playfair Display', serif" }}

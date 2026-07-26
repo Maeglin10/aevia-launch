@@ -129,17 +129,6 @@ return (
         </motion.div>
 
         <div style={{ position: "relative", zIndex: 1, maxWidth: "900px" }}>
-          <div style={{ overflow: "hidden", marginBottom: "1rem" }}>
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.4, delay: 0.3 }}
-              style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "0.7rem", letterSpacing: "0.35em", color: C.textDim, marginBottom: "1rem" }}
-            >
-              ARCHITECTES · PARIS · DEPUIS 2001
-            </motion.div>
-          </div>
-
           <div style={{ fontFamily: "'Archivo', sans-serif", fontSize: "clamp(2.5rem, 7vw, 6.5rem)", fontWeight: 900, lineHeight: 1.1, letterSpacing: "-0.04em", color: C.text }}>
             <TextReveal delay={0.3}>FORMES</TextReveal>
             <TextReveal delay={0.4} style={{ color: C.gold }}>ET</TextReveal>

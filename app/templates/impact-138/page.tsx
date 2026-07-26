@@ -255,12 +255,6 @@ export default function VisionClairePage() {
         <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to right, ${C.accent}20 0%, transparent 55%)` }} />
 
         <motion.div className="mb138-hero-text" style={{ position: "relative", zIndex: 1, padding: "0 80px 90px", maxWidth: 760, y: heroTextY, opacity: heroOpacity }}>
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
-            style={{ display: "inline-flex", alignItems: "center", gap: 8, marginBottom: 28, background: "rgba(14,165,233,0.15)", border: "1px solid rgba(14,165,233,0.35)", borderRadius: 20, padding: "7px 18px" }}>
-            <Eye size={12} color={C.cyan} />
-            <span style={{ color: C.cyan, fontSize: 12, fontWeight: 700, letterSpacing: 2, textTransform: "uppercase" }}>Opticien diplômé · Nantes</span>
-          </motion.div>
-
           <motion.h1 initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.9 }}
             style={{ fontSize: "clamp(40px, 5.5vw, 70px)", fontWeight: 900, color: "#fff", lineHeight: 1.05, marginBottom: 24 }}>{c?.heroHeadline ?? <>
             Bien voir le monde,<br /><span style={{ color: C.cyan }}>avec style.</span>

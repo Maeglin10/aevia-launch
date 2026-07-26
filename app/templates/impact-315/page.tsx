@@ -501,24 +501,6 @@ export default function Page() {
           padding: '0 24px',
           textAlign: 'center',
         }}>
-          <Reveal delay={0.1}>
-            <div style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 8,
-              background: `${C.primary}14`,
-              border: `1px solid ${C.primary}30`,
-              borderRadius: 30,
-              padding: '6px 16px',
-              marginBottom: 24,
-            }}>
-              <Sparkles size={12} color={C.primary} />
-              <span style={{ fontSize: 11, letterSpacing: '0.15em', textTransform: 'uppercase', color: C.primary, fontWeight: 600 }}>
-                Ménage · Repassage · Vitres
-              </span>
-            </div>
-          </Reveal>
-
           <Reveal delay={0.25}>
             <h1 style={{
               fontFamily: SERIF,

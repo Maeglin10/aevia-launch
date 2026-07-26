@@ -134,25 +134,6 @@ return (
         <motion.div
           style={{ y: heroY, opacity: heroOpacity, textAlign: "left", zIndex: 10, width: "100%", maxWidth: "1280px" }}
         >
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            style={{
-              fontSize: "0.58rem",
-              fontFamily: FONT_MONO,
-              fontWeight: 700,
-              letterSpacing: "0.4em",
-              color: C.red,
-              marginBottom: "clamp(1rem,3vw,2rem)",
-              display: "flex",
-              alignItems: "center",
-              gap: "0.8rem",
-            }}
-          >
-            CREATIVE ARCHITECTURE STUDIO &nbsp;//&nbsp; EST. 2019
-          </motion.div>
-
           <div style={{ marginBottom: "clamp(1rem,3vw,2rem)" }}>
             <HeroWordReveal />
           </div>

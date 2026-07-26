@@ -341,26 +341,6 @@ function BlueprintHero() {
 
       {/* Hero content */}
       <div style={{ position: 'relative', zIndex: 10, textAlign: 'center', padding: '0 24px', maxWidth: 900 }}>
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.6, duration: 0.8, ease: 'easeOut' }}
-          style={{
-            display: 'inline-block',
-            background: C.yellow,
-            color: C.bg,
-            fontSize: 11,
-            fontWeight: 700,
-            letterSpacing: '0.18em',
-            padding: '6px 18px',
-            marginBottom: 32,
-            fontFamily: FONT_BODY,
-            textTransform: 'uppercase',
-          }}
-        >
-          Depuis 1986 — Construire l&apos;essentiel
-        </motion.div>
-
         <motion.h1
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}

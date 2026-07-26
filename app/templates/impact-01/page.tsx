@@ -1175,45 +1175,6 @@ return (
             margin: "0 auto",
           }}
         >
-          {/* Eyebrow */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 10,
-              padding: "8px 20px",
-              borderRadius: 100,
-              border: `1px solid ${T.accentBorder}`,
-              background: T.accentDim,
-              marginBottom: 40,
-            }}
-          >
-            <span
-              style={{
-                width: 6,
-                height: 6,
-                borderRadius: "50%",
-                background: T.accent,
-                display: "inline-block",
-              }}
-            />
-            <span
-              style={{
-                fontFamily: FONT_BODY,
-                fontSize: "0.68rem",
-                fontWeight: 600,
-                textTransform: "uppercase",
-                letterSpacing: "0.22em",
-                color: T.accent,
-              }}
-            >
-              Premium Digital Agency
-            </span>
-          </motion.div>
-
           {/* Headline — slides up from bottom on load */}
           <div style={{ overflow: "hidden", paddingBottom: 16, marginBottom: -4 }}>
             <motion.h1

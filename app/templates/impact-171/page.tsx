@@ -370,12 +370,6 @@ const navLinks = ["Spécialités", "Médecins", "Protocoles", "Science", "Tarifs
         <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-12 items-center relative z-10">
           {/* Left */}
           <div>
-            <Reveal>
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-[var(--brand,#0891B2)]/10 rounded-full mb-6">
-                <div className="w-2 h-2 bg-[#22C55E] rounded-full animate-pulse" />
-                <span className="text-xs font-medium text-[var(--brand,#0891B2)] uppercase tracking-widest">Consultations disponibles</span>
-              </div>
-            </Reveal>
             <Reveal delay={0.1}>
               <h1 className="text-5xl md:text-6xl font-black leading-tight text-[#134E4A] mb-6" style={{ fontFamily: "'Figtree', sans-serif" }}>{c?.heroHeadline ?? <>
                 Votre Santé.<br />

@@ -207,11 +207,6 @@ export default function NeonPulsePage() {
         <section id="hero" className="max-w-[1400px] mx-auto px-6 md:px-12 mb-40">
            <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
               <div className="relative z-10">
-                <Reveal>
-                  <div className="inline-flex items-center gap-3 px-4 py-1.5 bg-white/5 border border-white/10 text-[var(--brand,#22d3ee)] text-[10px] font-bold uppercase tracking-[0.4em] mb-12 rounded-full backdrop-blur-md">
-                    <Sparkles className="w-4 h-4 animate-bounce" /> The Future of Digital Artifacts
-                  </div>
-                </Reveal>
                 <Reveal delay={0.1} y={80}>
                   <h1 className="text-7xl md:text-[10vw] font-black tracking-tighter leading-[0.8] uppercase mb-12 italic">{c?.heroHeadline ?? <>
                     Pulse <br/> <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 via-pink-500 to-[var(--brand,#22d3ee)]">The Void.</span>

@@ -2141,26 +2141,6 @@ export default function FlammeEtCoPage() {
               y: heroY,
             }}
           >
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '0.5rem',
-                background: `${C.accent}22`,
-                border: `1px solid ${C.border}`,
-                borderRadius: '20px',
-                padding: '0.4rem 1rem',
-                marginBottom: '1.75rem',
-              }}
-            >
-              <span style={{ color: C.accentLight, fontSize: '0.78rem', fontFamily: 'Inter, sans-serif', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
-                Spécialiste chauffage premium depuis 2008
-              </span>
-            </motion.div>
-
             <motion.h1
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}

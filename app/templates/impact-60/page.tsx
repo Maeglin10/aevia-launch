@@ -91,15 +91,6 @@ return (
           </div>
 
           <div className="relative z-10 max-w-[1200px] mx-auto px-6 text-center">
-            <Reveal>
-              <div className="flex items-center justify-center gap-8 mb-6 md:mb-16 opacity-30">
-                <div className="w-16 h-[1px] bg-[var(--brand,#c9a96e)]" />
-                <span className="text-[10px] font-bold uppercase tracking-[0.6em] text-white">
-                  The Architecture of Time
-                </span>
-                <div className="w-16 h-[1px] bg-[var(--brand,#c9a96e)]" />
-              </div>
-            </Reveal>
             <Reveal delay={0.2} y={70}>
               <h1 className="text-6xl md:text-8xl lg:text-[10rem] font-light tracking-tighter leading-[1.1] pb-4 md:pb-6 text-white mb-6 md:mb-16 uppercase italic">{c?.heroHeadline ?? <>
                 Silent <br /> <span className="font-bold not-italic">Caliber.</span>

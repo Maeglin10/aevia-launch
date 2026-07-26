@@ -120,12 +120,6 @@ export default function EchoChamberPage() {
             <EQBars />
           </motion.div>
 
-          <motion.span initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.1 }}
-            style={{ display: "inline-block", backgroundColor: `${C.accent}18`, border: `1px solid ${C.accent}44`, color: C.accent, padding: "0.3rem 1rem", borderRadius: "4px", fontSize: "0.75rem", fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", marginBottom: "1.5rem", fontFamily: C.bodyFont }}
-          >
-            Studio d'enregistrement professionnel — Paris
-          </motion.span>
-
           <motion.h1 initial={{ opacity: 0, y: 36 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.85, delay: 0.2 }}
             style={{ fontFamily: C.headingFont, fontSize: "clamp(4rem, 10vw, 9rem)", fontWeight: 400, color: C.white, lineHeight: 0.95, marginBottom: "1.5rem", letterSpacing: "0.04em" }}
           >{c?.heroHeadline ?? <>

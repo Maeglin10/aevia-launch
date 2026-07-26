@@ -171,13 +171,6 @@ export default function SecurFastPage() {
         </motion.div>
 
         <motion.div style={{ y: heroTextY, opacity: heroOpacity }} className="relative z-10 max-w-[1400px] w-full mx-auto px-6 md:px-12 pb-24">
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.7, delay: 0.3 }}>
-            <div className="flex items-center gap-3 mb-8">
-              <div className="w-2 h-2 rounded-full bg-[var(--brand,#2563eb)] animate-pulse" />
-              <span className="text-[9px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#2563eb)]/70">Serrurier agréé · Strasbourg & Bas-Rhin</span>
-            </div>
-          </motion.div>
-
           <motion.h1 initial={{ opacity: 0, y: 60 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.1, delay: 0.43, ease: [0.16, 1, 0.3, 1] }}
             className="text-5xl md:text-7xl lg:text-[88px] font-bold leading-[0.88] tracking-tight mb-7 text-[#f0f4ff]">{c?.heroHeadline ?? <>
             Bloqué dehors ?<br /><span className="text-[var(--brand,#2563eb)]">On arrive.</span>

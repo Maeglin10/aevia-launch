@@ -287,9 +287,6 @@ export default function AetherSoundPage() {
 
         <div className="relative z-10 max-w-[1600px] mx-auto px-6 md:px-12 w-full grid grid-cols-1 lg:grid-cols-2 items-center">
           <Reveal>
-             <Badge className="bg-[var(--brand,#c9a84c)]/10 text-[var(--brand,#c9a84c)] border border-[var(--brand,#c9a84c)]/30 text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.2em] sm:tracking-[0.5em] mb-10 px-4 py-1.5 rounded-full whitespace-normal text-center max-w-full">
-                Berlin, Germany // Established 1994
-             </Badge>
              <h1 className="text-5xl sm:text-6xl md:text-[14rem] font-black leading-[0.9] md:leading-[0.75] tracking-tight md:tracking-tighter mb-12 uppercase text-white italic break-words">{c?.heroHeadline ?? <>
                The <br/> <span className="text-[var(--brand,#c9a84c)] not-italic">Silence.</span>
              </>}</h1>

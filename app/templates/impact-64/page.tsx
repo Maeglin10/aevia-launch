@@ -141,16 +141,6 @@ return (
 
         <motion.div className="imx-mobstack" style={{ y: heroY, opacity: heroOpacity, maxWidth: "1400px", margin: "0 auto", width: "100%", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "4rem", alignItems: "center" }}>
           <div>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2, duration: 0.6 }}
-              style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem", background: "rgba(0,230,118,0.08)", border: `1px solid ${C.greenBorder}`, borderRadius: "4px", padding: "0.4rem 0.9rem", marginBottom: "2rem" }}
-            >
-              <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: C.green, boxShadow: `0 0 8px ${C.green}`, display: "inline-block" }} />
-              <span style={{ fontFamily: mono, fontSize: "0.68rem", color: C.green, letterSpacing: "0.12em" }}>PRIS ANSSI · NIS2 COMPLIANT · SOC ACTIF 24/7</span>
-            </motion.div>
-
             <motion.h1
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}

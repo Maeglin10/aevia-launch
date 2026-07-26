@@ -580,13 +580,6 @@ return (
         </svg>
 
         <motion.div style={{ position: "relative", zIndex: 10, maxWidth: 1320, margin: "0 auto", padding: "0 60px", width: "100%", opacity: heroOpacity }}>
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.2 }}>
-            <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(201,169,110,0.15)", border: "1px solid rgba(201,169,110,0.3)", borderRadius: 40, padding: "6px 16px", marginBottom: 36 }}>
-              <Gem size={12} color={C.accent} />
-              <span style={{ fontSize: 11, color: C.accent, fontFamily: "system-ui", letterSpacing: "0.14em", fontWeight: 500 }}>AGENCE VOYAGE LUXURY DEPUIS 2006</span>
-            </div>
-          </motion.div>
-
           <motion.h1
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}

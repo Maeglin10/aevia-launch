@@ -486,37 +486,6 @@ function Hero({ accentColor, particles }: { accentColor: string; particles: Part
       <motion.div
         style={{ y, opacity, position: 'relative', zIndex: 2, textAlign: 'center', padding: '0 24px' }}
       >
-        {/* Eyebrow */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: 8,
-            background: `${accentColor}15`,
-            border: `1px solid ${accentColor}40`,
-            padding: '6px 18px',
-            borderRadius: 50,
-            marginBottom: 32,
-          }}
-        >
-          <span style={{ fontSize: 14, color: accentColor }}>✦</span>
-          <span
-            style={{
-              fontSize: 11,
-              letterSpacing: '0.2em',
-              textTransform: 'uppercase',
-              color: accentColor,
-              fontWeight: 500,
-            }}
-          >
-            Studio de Nail Art Premium
-          </span>
-          <span style={{ fontSize: 14, color: accentColor }}>✦</span>
-        </motion.div>
-
         {/* Headline */}
         <motion.h1
           initial={{ opacity: 0, y: 30 }}

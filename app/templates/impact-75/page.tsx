@@ -7,7 +7,6 @@ import Image from "next/image";
 import Link from "next/link";
 import {
   Radio,
-  Terminal,
   Star,
   Shield,
   RotateCcw,
@@ -816,11 +815,6 @@ return (
         <div className="relative z-10 max-w-[1400px] mx-auto px-6 md:px-12 w-full text-center lg:text-left">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
             <div>
-              <Reveal>
-                <div className="inline-flex items-center gap-4 mb-5 md:mb-10 text-cyan-500 text-[10px] font-bold uppercase tracking-[0.5em] italic">
-                  <Terminal className="w-4 h-4" /> {currentHero.collection}
-                </div>
-              </Reveal>
               <Reveal delay={0.1} y={60}>
                 <h1 className="text-5xl md:text-8xl font-black tracking-tighter leading-[1.1] uppercase mb-6 italic text-white">{c?.heroHeadline ?? <>
                   {currentHero.name}

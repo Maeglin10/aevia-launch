@@ -358,10 +358,6 @@ return (
         <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to right, ${C.accent}10 0%, transparent 55%)` }} />
 
         <motion.div style={{ position: "relative", zIndex: 1, padding: "0 80px 90px", maxWidth: 780, y: heroTextY, opacity: heroOpacity }}>
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
-            style={{ display: "inline-flex", alignItems: "center", gap: 8, marginBottom: 28, background: "rgba(232,201,122,0.10)", border: `1px solid ${C.border}`, borderRadius: 20, padding: "7px 18px" }}>
-            <span style={{ color: C.accent, fontSize: 12, fontWeight: 700, letterSpacing: 2, textTransform: "uppercase" }}>Studio de tatouage · Paris 11e</span>
-          </motion.div>
           <motion.h1 initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.9 }}
             style={{ fontFamily: FONT, fontSize: "clamp(42px, 5.5vw, 74px)", fontWeight: 400, color: C.text, lineHeight: 1.05, marginBottom: 24 }}>{c?.heroHeadline ?? <>
             L'art sur peau,<br /><em style={{ color: C.accent }}>pour toujours.</em>

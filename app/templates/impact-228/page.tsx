@@ -3,7 +3,7 @@
 
 import React, {useRef, useState, useEffect} from 'react'
 import { motion, useScroll, useTransform, useInView } from "framer-motion"
-import { Flame, Phone, Mail, MapPin, Clock, Star, CheckCircle, AlertTriangle } from "lucide-react"
+import { Flame, Phone, Mail, MapPin, Clock, Star, CheckCircle } from "lucide-react"
 import { resolveList } from "@/lib/templates/resolveList"
 
 // Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
@@ -196,11 +196,6 @@ export default function AquaThermPage() {
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(10,6,0,0.93) 0%, rgba(10,6,0,0.42) 45%, rgba(10,6,0,0.08) 100%)" }} />
         <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to right, ${C.accent}18 0%, transparent 55%)` }} />
         <motion.div style={{ position: "relative", zIndex: 1, padding: "0 80px 90px", maxWidth: 760, y: heroTextY, opacity: heroOpacity }}>
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
-            style={{ display: "inline-flex", alignItems: "center", gap: 8, marginBottom: 28, background: "rgba(224,108,0,0.15)", border: "1px solid rgba(224,108,0,0.30)", borderRadius: 20, padding: "7px 18px" }}>
-            <AlertTriangle size={12} color={C.accent} />
-            <span style={{ color: C.accent, fontSize: 12, fontWeight: 700, letterSpacing: 2, textTransform: "uppercase" }}>Plombier chauffagiste RGE · Lille</span>
-          </motion.div>
           <motion.h1 initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.9 }}
             style={{ fontFamily: FONT, fontSize: "clamp(48px, 6vw, 82px)", letterSpacing: 1, color: "#fff", lineHeight: 0.95, marginBottom: 24 }}>{c?.heroHeadline ?? <>
             PANNE ?<br /><span style={{ color: C.accent }}>ON ARRIVE.</span>

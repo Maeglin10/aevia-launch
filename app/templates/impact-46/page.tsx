@@ -40,16 +40,6 @@ function HeroSection() {
             is what was pushing the paragraph past the right edge under
             overflow:hidden. */}
         <div style={{ minWidth: 0 }}>
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 32 }}
-          >
-            <div style={{ width: 40, height: 1, background: C.accent }} />
-            <span style={{ fontFamily: "'Source Sans Pro', system-ui", fontSize: 11, letterSpacing: "0.22em", textTransform: "uppercase" as const, color: C.accent, fontWeight: 600 }}>Corporate & Business Law — Paris</span>
-          </motion.div>
-
           <motion.h1
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}

@@ -304,38 +304,6 @@ function HeroSection() {
           opacity: titleOpacity,
         }}
       >
-        {/* Badge RGE */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.0, ease: EASE, delay: 0.05 }}
-          style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: 8,
-            background: 'rgba(45,90,61,0.55)',
-            border: '1px solid rgba(255,255,255,0.28)',
-            borderRadius: 40,
-            padding: '7px 18px',
-            marginBottom: 28,
-            backdropFilter: 'blur(8px)',
-          }}
-        >
-          <Award size={13} color="rgba(255,255,255,0.85)" strokeWidth={2} />
-          <span
-            style={{
-              fontFamily: SANS,
-              fontSize: 11,
-              letterSpacing: '0.30em',
-              textTransform: 'uppercase',
-              color: 'rgba(255,255,255,0.85)',
-              fontWeight: 700,
-            }}
-          >
-            Artisan RGE certifié · Rennes &amp; Ille-et-Vilaine
-          </span>
-        </motion.div>
-
         <motion.h1
           initial={{ opacity: 0, y: 44 }}
           animate={{ opacity: 1, y: 0 }}

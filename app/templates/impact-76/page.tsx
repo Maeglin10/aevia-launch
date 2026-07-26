@@ -5,7 +5,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import {useRef, useState, useEffect} from 'react';
 import Image from "next/image";
 import Link from "next/link";
-import { Compass, ArrowUpRight, Mail } from "lucide-react";
+import { ArrowUpRight, Mail } from "lucide-react";
 import { Reveal, MagneticBtn, Counter } from "./shared";
 
 const ARCHIVE_PROJECTS = [
@@ -250,10 +250,6 @@ return (
 
         <div className="relative z-10 max-w-[1400px] mx-auto px-6 md:px-12 w-full">
           <Reveal>
-            <div className="inline-flex items-center gap-3 px-4 py-2 bg-white/5 backdrop-blur-md rounded-none border border-white/10 text-white/40 text-[10px] font-bold uppercase tracking-widest mb-10 shadow-sm">
-              <Compass className="w-3.5 h-3.5" />
-              Structural Intelligence // Generative Design
-            </div>
             <h1 className="text-7xl md:text-9xl lg:text-[11rem] font-black leading-[1.15] tracking-tighter mb-12 uppercase pb-6">{c?.heroHeadline ?? <>
               Void & <br />{" "}
               <span className="text-stone-500 italic">Volume.</span>

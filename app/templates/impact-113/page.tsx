@@ -393,16 +393,6 @@ export default function NexusSaaSPage() {
           ========================================== */}
       <section id="hero" className="relative pt-40 pb-20 md:pt-52 md:pb-32 px-6 overflow-hidden">
         <div className="max-w-[1200px] mx-auto text-center relative z-10 flex flex-col items-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="mb-8 inline-flex items-center gap-3 px-4 py-2 rounded-full border border-[var(--brand,#8b5cf6)]/30 bg-[var(--brand,#8b5cf6)]/10 text-violet-300 text-xs font-semibold uppercase tracking-wider backdrop-blur-sm"
-          >
-            <span className="w-2 h-2 rounded-full bg-[var(--brand,#a78bfa)] animate-pulse" />{" "}
-            Introducing Nexus Edge 2.0
-          </motion.div>
-
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}

@@ -492,23 +492,6 @@ function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
         >
-          {/* Eyebrow */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.2, duration: 0.5 }}
-            style={{
-              display: 'inline-flex', alignItems: 'center', gap: 8,
-              background: `${C.accent}18`, border: `1px solid ${C.accent}40`,
-              borderRadius: 100, padding: '8px 18px', marginBottom: 28,
-            }}
-          >
-            <div style={{ width: 8, height: 8, borderRadius: '50%', background: C.success, boxShadow: `0 0 10px ${C.success}`, animation: 'status-pulse 2s infinite' }} />
-            <span style={{ fontFamily: C.fontBody, fontSize: 13, fontWeight: 600, color: C.accentLight, letterSpacing: '0.05em' }}>
-              Réseau actif · 340 véhicules en route
-            </span>
-          </motion.div>
-
           {/* H1 */}
           <motion.h1
             initial={{ opacity: 0, y: 30 }}

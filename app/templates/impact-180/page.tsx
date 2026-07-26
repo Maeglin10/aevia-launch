@@ -174,13 +174,6 @@ export default function ThermotekChauffagePage() {
         </motion.div>
 
         <motion.div style={{ y: heroTextY, opacity: heroOpacity }} className="relative z-10 max-w-[1400px] w-full mx-auto px-6 md:px-12 pb-28">
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.3 }}>
-            <div className="flex items-center gap-3 mb-7" style={{ fontFamily: "'Fira Code', monospace" }}>
-              <Flame className="w-4 h-4 text-[var(--brand,#ea580c)]" />
-              <span className="text-[9px] font-bold uppercase tracking-[0.45em] text-[var(--brand,#ea580c)]">Chauffagiste certifié RGE · Bordeaux Métropole</span>
-            </div>
-          </motion.div>
-
           <motion.h1 initial={{ opacity: 0, y: 55 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.1, delay: 0.48, ease: [0.16, 1, 0.3, 1] }}
             className="text-5xl md:text-7xl lg:text-8xl font-bold leading-[0.88] tracking-tight mb-9">{c?.heroHeadline ?? <>
             Votre confort<br />thermique,<br /><span className="text-[var(--brand,#ea580c)]">notre priorité.</span>

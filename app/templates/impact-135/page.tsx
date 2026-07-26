@@ -1386,46 +1386,6 @@ export default function Impact135Page() {
         />
 
         <motion.div style={{ y: heroY }} initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-          {/* Badge */}
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 8,
-              background: C.accentGlow,
-              border: `1px solid ${C.accent}30`,
-              borderRadius: 100,
-              padding: "6px 18px",
-              marginBottom: 40,
-            }}
-          >
-            <motion.span
-              animate={{ opacity: [1, 0.3, 1] }}
-              transition={{ repeat: Infinity, duration: 1.4 }}
-              style={{
-                width: 7,
-                height: 7,
-                background: C.accent,
-                borderRadius: "50%",
-                display: "inline-block",
-                boxShadow: `0 0 6px ${C.accent}`,
-              }}
-            />
-            <span
-              style={{
-                fontFamily: C.fontMono,
-                fontSize: 11,
-                color: C.accent,
-                letterSpacing: "0.15em",
-              }}
-            >
-              LIVE MARKET FEED · $2.8T PROCESSED/YEAR
-            </span>
-          </motion.div>
-
           {/* Headline */}
           <TextReveal immediate style={{ marginBottom: 8 }}>
             <h1

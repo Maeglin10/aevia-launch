@@ -741,41 +741,6 @@ return (
             opacity: heroOpacity,
           }}
         >
-          {/* Kicker */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.7, delay: 0.2 }}
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 12,
-              marginBottom: 36,
-            }}
-          >
-            <motion.span
-              animate={{ opacity: [1, 0.3, 1] }}
-              transition={{ duration: 1.4, repeat: Infinity }}
-              style={{
-                width: 8, height: 8, borderRadius: "50%",
-                background: C.red, display: "inline-block",
-              }}
-            />
-            <span style={{
-              fontFamily: C.sans, fontWeight: 700, fontSize: 11,
-              letterSpacing: "0.16em", textTransform: "uppercase",
-              color: C.red,
-            }}>
-              Breaking
-            </span>
-            <span style={{
-              fontFamily: C.sans, fontSize: 13,
-              color: "rgba(255,255,255,0.55)",
-            }}>
-              Issue 19 · Flagship Investigation
-            </span>
-          </motion.div>
-
           {/* TypewriterHeadline signature element */}
           <TypewriterHeadline />
 

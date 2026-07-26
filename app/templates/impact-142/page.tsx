@@ -218,12 +218,6 @@ export default function VerdantImpactPage() {
             <div className="absolute inset-0 bg-gradient-to-t from-[#f6faf4] via-[#f6faf4]/20 to-transparent" />
           </motion.div>
           <motion.div style={{ opacity: heroOpacity }} className="relative z-10 max-w-[1400px] w-full mx-auto px-6 md:px-12 pb-24">
-            <Reveal>
-              <div className="flex items-center gap-4 mb-6">
-                <div className="h-[1px] w-12 bg-emerald-600" />
-                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-emerald-600">Climate Action Platform</span>
-              </div>
-            </Reveal>
             <Reveal delay={0.15} y={60}>
               <h1 className="text-6xl md:text-8xl lg:text-[9rem] font-black tracking-tighter leading-[0.85] mb-8">{c?.heroHeadline ?? <>
                 Offset<br/>Your <span className="text-emerald-600">Impact.</span>

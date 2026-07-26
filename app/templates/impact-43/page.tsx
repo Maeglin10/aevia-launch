@@ -219,21 +219,6 @@ export default function SereneRetreatHome() {
             opacity: heroOpacity,
           }}
         >
-          <TextReveal delay={0.2}>
-            <div
-              style={{
-                fontFamily: C.fontSans,
-                fontSize: 11,
-                letterSpacing: "0.35em",
-                textTransform: "uppercase",
-                color: C.gold,
-                marginBottom: 20,
-              }}
-            >
-              Alpine Thermal Retreat
-            </div>
-          </TextReveal>
-
           <TextReveal delay={0.4}>
             <h1
               style={{

@@ -7,7 +7,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { ArrowRight, Sparkles, Heart, Search, Droplets, Zap, Flower2, Quote, Check, Star } from "lucide-react";
+import { ArrowRight, Heart, Search, Droplets, Zap, Flower2, Quote, Check, Star } from "lucide-react";
 import { SERVICES, REVIEWS, PROTOCOLS, Reveal, Counter, MagneticBtn } from "./shared";
 
 
@@ -135,10 +135,6 @@ return (
 
         <div className="relative z-10 max-w-[1400px] mx-auto px-6 md:px-12 w-full">
           <Reveal>
-            <div className="inline-flex items-center gap-3 px-4 py-2 bg-white/50 backdrop-blur rounded-full border border-[#1a1814]/10 text-[#1a1814]/60 text-[10px] font-bold uppercase tracking-widest mb-10 shadow-sm">
-              <Sparkles className="w-3.5 h-3.5 text-[var(--brand,#c9b7a1)]" />
-              L'Excellence du Soin Architectural
-            </div>
             <h1 className="text-5xl sm:text-6xl md:text-9xl lg:text-[11rem] font-light leading-[1.15] pb-4 tracking-tighter mb-12 break-words">{c?.heroHeadline ?? <>
               The Art of <br />{" "}
               <span className="italic font-normal text-[var(--brand,#c9b7a1)]">

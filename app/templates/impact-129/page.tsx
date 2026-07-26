@@ -231,11 +231,6 @@ export default function WaveFXPage() {
           </div>
 
           <div className="relative z-10 max-w-[1000px] mx-auto px-6 md:px-12 w-full text-center">
-            <Reveal>
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[var(--brand,#6366f1)]/20 bg-[var(--brand,#6366f1)]/10 text-[var(--brand,#818cf8)] text-[10px] font-bold uppercase tracking-widest mb-8">
-                <Star className="w-3 h-3 fill-current" /> v3.0 Released — Now with Streaming Support
-              </div>
-            </Reveal>
             <Reveal delay={0.1} y={60}>
               <h1 className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter leading-[0.9] mb-8">{c?.heroHeadline ?? <>
                 Data Pipelines<br/><span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--brand,#818cf8)] via-blue-300 to-[var(--brand,#6366f1)]">Without the Pain.</span>

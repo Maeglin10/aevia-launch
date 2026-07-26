@@ -358,9 +358,6 @@ function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
         >
-          <span style={pill}>
-            <Sparkles size={13} /> Nouveau : tableaux de bord IA
-          </span>
           <h1
             style={{
               fontSize: 'clamp(40px, 6vw, 68px)',

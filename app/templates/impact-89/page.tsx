@@ -829,30 +829,6 @@ return (
         <motion.div
           style={{ position: "relative", zIndex: 2, textAlign: "center", padding: "0 24px", opacity: heroOpacity }}
         >
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 10,
-              marginBottom: 40,
-              border: `1px solid ${C.borderAccent}`,
-              padding: "8px 20px",
-              background: C.accentLight,
-            }}
-          >
-            <div style={{ width: 6, height: 6, borderRadius: "50%", background: C.accent }} />
-            <span style={{
-              fontFamily: FONT_MONO,
-              fontSize: 11,
-              letterSpacing: 4,
-              textTransform: "uppercase",
-              color: C.accent,
-            }}>Studio Paris — Depuis 2010</span>
-          </motion.div>
-
           <motion.h1
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}

@@ -187,13 +187,6 @@ return (
         </motion.div>
 
         <motion.div style={{ y: heroTextY, opacity: heroOpacity }} className="relative z-10 max-w-[1400px] w-full mx-auto px-6 md:px-12 pb-28">
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.3 }}>
-            <div className="inline-flex items-center gap-3 px-4 py-2 border border-[var(--brand,#4d7c5f)]/40 bg-[var(--brand,#4d7c5f)]/10 mb-8">
-              <Paintbrush className="w-3.5 h-3.5 text-[#7db88f]" />
-              <span className="text-[9px] font-bold uppercase tracking-[0.4em] text-[#7db88f]">Pisciniste qualifié · Nord & Pas-de-Calais</span>
-            </div>
-          </motion.div>
-
           <motion.h1 initial={{ opacity: 0, y: 55 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.1, delay: 0.48, ease: [0.16, 1, 0.3, 1] }}
             className="text-5xl md:text-7xl lg:text-8xl font-bold leading-[0.9] tracking-tight mb-8 text-white">{c?.heroHeadline ?? <>
             La piscine<br />qui change <span className="text-[#7db88f]">tout.</span>

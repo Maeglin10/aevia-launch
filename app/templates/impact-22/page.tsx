@@ -247,11 +247,6 @@ return (
               <div className="absolute top-1/2 right-1/4 w-[400px] h-[400px] bg-[#8B5CF6]/8 rounded-full blur-3xl" />
             </div>
             <div className="max-w-6xl mx-auto w-full relative z-10 text-center">
-              <Reveal>
-                <div className="inline-flex items-center gap-2 bg-[var(--brand,#06B6D4)]/10 border border-[var(--brand,#06B6D4)]/20 text-[var(--brand,#06B6D4)] px-4 py-1.5 rounded-full text-xs font-semibold mb-8">
-                  <span className="w-2 h-2 bg-[var(--brand,#06B6D4)] rounded-full animate-pulse" /> Cloud AI Infrastructure — 12 régions mondiales
-                </div>
-              </Reveal>
               <Reveal delay={0.1}>
                 <h1 className="text-white text-4xl sm:text-5xl md:text-7xl font-bold leading-tight mb-6 break-words">{c?.heroHeadline ?? <>
                   L&apos;infrastructure IA<br className="hidden sm:inline" />{" "}

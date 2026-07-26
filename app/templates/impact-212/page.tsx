@@ -1050,23 +1050,6 @@ return (
         <motion.div style={{ y: heroY, opacity: heroOpacity, position: 'relative', zIndex: 2, width: '100%' }}>
           <div style={{ maxWidth: 1280, margin: '0 auto', padding: 'clamp(80px, 14vh, 120px) 1.5rem 5rem' }}>
 
-            {/* Badge */}
-            <motion.div
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              style={{
-                display: 'inline-flex', alignItems: 'center', gap: 8,
-                background: `${C.accent}18`, border: `1px solid ${C.accent}44`,
-                borderRadius: 50, padding: '6px 16px', marginBottom: 28,
-              }}
-            >
-              <span style={{ width: 8, height: 8, borderRadius: '50%', background: C.accent, animation: 'pulse-glow 2s infinite' }} />
-              <span style={{ color: C.accent, fontSize: 'clamp(10px, 1.5vw, 12.5px)', fontWeight: 600, letterSpacing: '0.08em' }}>
-                TECHNICIENS RGE CERTIFIÉS · RÉGION LYONNAISE
-              </span>
-            </motion.div>
-
             {/* H1 */}
             <motion.h1
               initial={{ opacity: 0, y: 30 }}

@@ -226,12 +226,6 @@ export default function KineticMarqueePage() {
         {/* ── HERO + MARQUEE ──── */}
         <section id="hero" className="relative min-h-dvh flex flex-col justify-center pt-32 pb-20 overflow-hidden">
           <motion.div style={{ opacity: heroOpacity }} className="max-w-[1600px] mx-auto px-6 md:px-12 w-full mb-20">
-            <Reveal>
-              <div className="flex items-center gap-4 mb-8">
-                <motion.div className="w-3 h-3 rounded-full bg-[var(--brand,#f97316)]" animate={{ scale: [1, 1.3, 1] }} transition={{ duration: 1.5, repeat: Infinity }} />
-                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#fb923c)]">Creative Agency — Open for Projects</span>
-              </div>
-            </Reveal>
             <Reveal delay={0.1} y={60}>
               <h1 className="text-7xl md:text-[8rem] lg:text-[11rem] font-black tracking-tighter leading-[0.8] mb-10 uppercase">{c?.heroHeadline ?? <>
                 We Make<br/>It <span className="text-[var(--brand,#f97316)] italic">Move.</span>

@@ -343,28 +343,6 @@ export default function IronClubPage() {
             opacity: heroOpacity,
           }}
         >
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3, duration: 0.6 }}
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 8,
-              background: C.accent,
-              color: C.white,
-              fontFamily: FONT,
-              fontWeight: 700,
-              fontSize: 13,
-              letterSpacing: 2,
-              textTransform: "uppercase",
-              padding: "6px 16px",
-              borderRadius: 3,
-              marginBottom: 24,
-            }}
-          >
-            <span>●</span> Lyon 7e · CrossFit certifié
-          </motion.div>
           <motion.h1
             className="i87-hero-title"
             initial={{ opacity: 0, y: 28 }}

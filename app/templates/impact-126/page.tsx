@@ -853,29 +853,6 @@ return (
             maxWidth: 920,
           }}
         >
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, delay: 0.1 }}
-            style={{
-              fontFamily: C.fontSans,
-              fontSize: 10,
-              fontWeight: 600,
-              letterSpacing: "0.4em",
-              textTransform: "uppercase",
-              color: C.gold,
-              marginBottom: 28,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: 16,
-            }}
-          >
-            <span style={{ display: "block", width: 32, height: 1, background: C.gold }} />
-            Ristorante · Roma, Trastevere
-            <span style={{ display: "block", width: 32, height: 1, background: C.gold }} />
-          </motion.div>
-
           <div style={{ overflow: "hidden", marginBottom: 12 }}>
             <motion.h1
               initial={{ y: "110%" }}

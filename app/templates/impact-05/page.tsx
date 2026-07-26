@@ -412,14 +412,6 @@ return (
         </div>
 
         <motion.div style={{ y: heroY, opacity: heroOpacity, x: smx, rotateY: smx }} className="relative z-10 text-center px-6 max-w-5xl mx-auto">
-          <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[var(--brand,#8b5cf6)]/30 bg-[var(--brand,#8b5cf6)]/10 mb-8 cursor-default"
-          >
-            <Sparkles className="w-3.5 h-3.5 text-[var(--brand,#a78bfa)]" />
-            <span className="text-[11px] font-semibold text-violet-300 uppercase tracking-wider">Now with AI-powered observability</span>
-            <Badge className="bg-emerald-500/20 text-emerald-400 border-emerald-500/30 text-[9px] ml-1">New</Badge>
-          </motion.div>
-
           <div className="overflow-hidden mb-3">
             <motion.h1 initial={{ y: "100%" }} animate={{ y: 0 }} transition={{ duration: 1, ease: [0.22, 1, 0.36, 1], delay: 0.5 }} className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tight leading-[0.88]">{c?.heroHeadline ?? <>
               Ship faster.

@@ -286,12 +286,6 @@ export default function PixelRepublicPage() {
         <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to right, ${C.accent}20 0%, transparent 55%)` }} />
 
         <motion.div className="imx25-hero-content md:!px-20" style={{ position: "relative", zIndex: 1, padding: "0 80px 90px", maxWidth: 780, y: heroTextY, opacity: heroOpacity }}>
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
-            style={{ display: "inline-flex", alignItems: "center", gap: 8, marginBottom: 28, background: "rgba(99,102,241,0.15)", border: "1px solid rgba(99,102,241,0.35)", borderRadius: 20, padding: "7px 18px" }}>
-            <Sparkles size={12} color={C.accent} />
-            <span style={{ color: C.accent, fontSize: 12, fontWeight: 600, letterSpacing: 2, textTransform: "uppercase", fontFamily: FONT }}>Agence digitale · Paris</span>
-          </motion.div>
-
           <motion.h1 initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.9 }}
             style={{ fontFamily: FONT, fontSize: "clamp(40px, 5.5vw, 72px)", fontWeight: 700, color: "#fff", lineHeight: 1.05, marginBottom: 24 }}>{c?.heroHeadline ?? <>
             Votre présence digitale,<br /><span style={{ background: `linear-gradient(135deg, ${C.accent}, ${C.violet2})`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>enfin à votre niveau.</span>

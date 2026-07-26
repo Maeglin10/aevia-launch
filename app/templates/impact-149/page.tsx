@@ -164,13 +164,6 @@ export default function AetherWellnessPage() {
           </div>
 
           <div className="relative z-10 max-w-[1200px] mx-auto px-6 text-center">
-            <Reveal>
-              <div className="flex items-center justify-center gap-6 mb-12 opacity-30">
-                 <div className="w-12 h-[1px] bg-black" />
-                 <span className="text-[10px] font-bold uppercase tracking-[0.6em] text-black">Find Your Center</span>
-                 <div className="w-12 h-[1px] bg-black" />
-              </div>
-            </Reveal>
             <Reveal delay={0.2} y={70}>
               <h1 className="text-7xl md:text-[10rem] font-light tracking-tighter leading-[0.85] text-[#1a1a1a] mb-12 uppercase" style={{ fontFamily: "serif" }}>{c?.heroHeadline ?? <>
                 Pure <br/> <span className="italic">Presence.</span>

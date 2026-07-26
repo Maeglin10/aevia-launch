@@ -136,14 +136,6 @@ return (
         </motion.div>
 
         <motion.div style={{ y: textY }} className="relative z-10 max-w-4xl mx-auto px-6 text-center text-white mt-10">
-          <Reveal>
-            <div className="flex items-center justify-center gap-4 mb-8">
-              <div className="h-px w-12 bg-[#C4A265]" />
-              <span className="text-xs uppercase tracking-[0.3em] text-[#C4A265] font-sans">Grand Cru Classé en 1855</span>
-              <div className="h-px w-12 bg-[#C4A265]" />
-            </div>
-          </Reveal>
-
           <Reveal delay={0.1}>
             <h1 className="text-6xl md:text-8xl lg:text-9xl font-serif font-light tracking-tighter mb-8 leading-[1.1] pb-3 drop-shadow-xl">{c?.heroHeadline ?? <>
               L'Âme de <br /> <span className="italic">Margaux.</span>

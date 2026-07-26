@@ -822,16 +822,6 @@ return (
           <div className="absolute inset-0 opacity-5" style={gridOverlay} />
         </div>
         <motion.div style={{ y: heroY }} className="max-w-6xl mx-auto px-6 relative w-full">
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6 }}
-            className="inline-flex items-center gap-2 border border-[var(--brand,#9B5CF6)]/40 text-[var(--brand,#9B5CF6)] text-xs tracking-widest uppercase px-4 py-2 rounded-full mb-8"
-            style={monoStyle}
-          >
-            <span className="w-2 h-2 bg-[var(--brand,#9B5CF6)] rounded-full animate-pulse" />
-            3D · AR · Real-time
-          </motion.div>
           <motion.h1
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}

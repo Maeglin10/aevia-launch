@@ -206,13 +206,6 @@ export default function KuroOmakasePage() {
           </div>
 
           <div className="relative z-10 max-w-[1200px] mx-auto px-6 text-center">
-            <Reveal>
-              <div className="flex items-center justify-center gap-6 mb-12 opacity-40">
-                 <div className="w-12 h-[1px] bg-white" />
-                 <span className="text-[10px] font-bold uppercase tracking-[0.6em] text-white">Tokyo — Ginza</span>
-                 <div className="w-12 h-[1px] bg-white" />
-              </div>
-            </Reveal>
             <Reveal delay={0.2} y={70}>
               <motion.h1 className="text-8xl md:text-[12rem] font-black tracking-tighter leading-[0.8] text-white mb-12 uppercase italic">{c?.heroHeadline ?? <>
                 Silent <br/> <span className="font-light not-italic">Craft.</span>

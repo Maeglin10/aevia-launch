@@ -127,32 +127,6 @@ return (
 
         <div style={{ maxWidth: 1200, margin: "0 auto", width: "100%", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "center" }} className="grid grid-cols-1 lg:grid-cols-2 imx-mobstack">
           <div>
-            <Reveal>
-              <div
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: 8,
-                  padding: "6px 12px",
-                  borderRadius: 100,
-                  background: "rgba(124,58,237,0.1)",
-                  border: "1px solid rgba(124,58,237,0.2)",
-                  marginBottom: 32,
-                }}
-              >
-                <span
-                  style={{fontSize: 11,
-                    fontWeight: 700,
-                    textTransform: "uppercase",
-                    letterSpacing: "0.05em",
-                    color: brand ?? 'var(--brand,#00ffd1)',
-                  }}
-                >
-                  Atelier v2.4 Release
-                </span>
-              </div>
-            </Reveal>
-
             <Reveal delay={0.1}>
               <h1
                 style={{

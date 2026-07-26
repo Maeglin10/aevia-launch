@@ -598,44 +598,6 @@ function HeroSection() {
           textAlign: "center",
         }}
       >
-        {/* Eyebrow */}
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          style={{
-            fontFamily: "'Inter', sans-serif",
-            fontSize: 11,
-            fontWeight: 500,
-            letterSpacing: "0.28em",
-            textTransform: "uppercase",
-            color: COLORS.bronze,
-            marginBottom: 56,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: 20,
-          }}
-        >
-          <span
-            style={{
-              display: "inline-block",
-              width: 48,
-              height: 1,
-              backgroundColor: COLORS.bronze,
-            }}
-          />
-          Est. 1897 — London, New York, Singapore
-          <span
-            style={{
-              display: "inline-block",
-              width: 48,
-              height: 1,
-              backgroundColor: COLORS.bronze,
-            }}
-          />
-        </motion.div>
-
         {/* Main headline — editorial word reveal */}
         <h1
           style={{

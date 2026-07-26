@@ -720,25 +720,6 @@ export default function PlumberDarkUrgent() {
 
         <div className="container" style={{ position: "relative", zIndex: 2 }}>
           <div style={{ maxWidth: "800px" }}>
-            <Reveal>
-              <div style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "0.5rem",
-                backgroundColor: "rgba(220, 38, 38, 0.1)",
-                border: `1px solid ${C.primary}`,
-                padding: "0.5rem 1rem",
-                borderRadius: "50px",
-                marginBottom: "2rem"
-              }}>
-                <div style={{ width: "10px", height: "10px", borderRadius: "50%", backgroundColor: C.primary, animation: "blink 1s infinite" }} />
-                <style dangerouslySetInnerHTML={{__html:`@keyframes blink { 50% { opacity: 0; } }`}}/>
-                <span style={{ fontFamily: SANS, fontWeight: 700, fontSize: "0.875rem", color: C.white, textTransform: "uppercase" }}>
-                  Techniciens disponibles actuellement
-                </span>
-              </div>
-            </Reveal>
-
             <Reveal delay={0.1}>
               <h1 className="title-huge" style={{ color: C.white, marginBottom: "1.5rem" }}>
                 {heroTitle}

@@ -466,9 +466,6 @@ function SplitRevealHero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
         >
-          <p style={{ color: C.emeraldGlow, fontSize: 13, letterSpacing: "0.2em", textTransform: "uppercase", fontFamily: "'DM Sans', system-ui, sans-serif", fontWeight: 600, marginBottom: 24 }}>
-            Studio de design — Genève
-          </p>
           <h1 style={{ fontSize: "clamp(48px, 5.5vw, 88px)", fontWeight: 700, lineHeight: 1.0, color: C.text, fontFamily: "'DM Sans', system-ui, sans-serif", marginBottom: 28, letterSpacing: "-0.03em" }}>
             Identités
             <br />

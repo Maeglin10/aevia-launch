@@ -5,7 +5,7 @@ import { motion, useScroll, useTransform, useInView } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Watch, ArrowUpRight, Mail } from "lucide-react";
+import { ArrowUpRight, Mail } from "lucide-react";
 import { Reveal, MagneticBtn, TiltCard, Counter } from "./shared";
 import { resolveList } from "@/lib/templates/resolveList";
 
@@ -243,17 +243,6 @@ export default function HorologsLuxePage() {
           style={{ y: heroTextY, opacity: heroOpacity }}
           className="relative z-10 max-w-[1400px] w-full mx-auto px-6 md:px-12 pb-28"
         >
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-          >
-            <div className="inline-flex items-center gap-3 px-4 py-2 bg-white/5 border border-white/10 text-stone-400 text-[9px] font-bold uppercase tracking-widest mb-10">
-              <Watch className="w-3 h-3" />
-              Swiss Haute Horlogerie · Manufacture Pieces · Since 1924
-            </div>
-          </motion.div>
-
           <motion.h1
             initial={{ opacity: 0, y: 60 }}
             animate={{ opacity: 1, y: 0 }}

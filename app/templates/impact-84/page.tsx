@@ -5,7 +5,7 @@ import React, {useRef, useState, useEffect} from 'react';
 import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Sparkles } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Reveal } from "./shared";
 import { resolveList } from "@/lib/templates/resolveList";
 
@@ -99,12 +99,6 @@ return (
           <div className="absolute inset-0 bg-gradient-to-r from-[#0C0C0A]/95 via-[#0C0C0A]/70 to-[#0C0C0A]/20" />
         </motion.div>
         <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 pt-24 pb-12 md:pt-32 md:pb-24 w-full flex flex-col justify-center">
-          <Reveal>
-            <div className="flex items-center gap-2 mb-4 md:mb-8">
-              <Sparkles className="w-4 h-4 text-[var(--brand)]" />
-              <span className="text-xs tracking-[0.3em] uppercase text-[var(--brand)]">Clinique d&apos;excellence médicale</span>
-            </div>
-          </Reveal>
           <Reveal delay={0.1}>
             <h1 className="text-4xl md:text-7xl font-light text-[#F0EBE0] leading-[1.2] mb-4 md:mb-8 max-w-3xl pb-2 md:pb-4" style={{ fontFamily: "'Bodoni Moda', serif" }}>{c?.heroHeadline ?? <>
               L&apos;art de la médecine<br />esthétique de <em>précision</em>

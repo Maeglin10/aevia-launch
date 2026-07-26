@@ -276,11 +276,6 @@ export default function LumiereYogaPage() {
         <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to right, ${C.accent}18 0%, transparent 55%)` }} />
 
         <motion.div style={{ position: "relative", zIndex: 1, padding: "0 clamp(24px, 6vw, 80px) 90px", maxWidth: 760, y: heroTextY, opacity: heroOpacity }}>
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
-            style={{ display: "inline-flex", alignItems: "center", gap: 10, marginBottom: 28, background: "rgba(107,143,113,0.18)", border: "1px solid rgba(107,143,113,0.4)", borderRadius: 20, padding: "7px 18px" }}>
-            <span style={{ color: C.accentLight, fontSize: 12, fontWeight: 600, letterSpacing: 3, textTransform: "uppercase" }}>Studio de yoga & méditation · Bordeaux</span>
-          </motion.div>
-
           <motion.h1 initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.9 }}
             style={{ fontFamily: FONT_SERIF, fontSize: "clamp(46px, 6vw, 82px)", fontWeight: 400, color: "#fff", lineHeight: 1.08, marginBottom: 24 }}>{c?.heroHeadline ?? <>
             Trouver l'équilibre,<br /><em style={{ color: C.accentLight }}>en soi et dans le monde.</em>

@@ -396,15 +396,6 @@ export default function Impact322() {
         </div>
 
         <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 w-full text-center">
-          <Reveal>
-            <span 
-              className="inline-block uppercase tracking-[0.3em] text-xs font-semibold mb-6 px-4 py-1 border"
-              style={{ color: C.primary, borderColor: 'rgba(197, 168, 128, 0.3)' }}
-            >
-              L'Art de Recevoir
-            </span>
-          </Reveal>
-          
           <Reveal delay={0.2}>
             <h1 
               style={{ fontFamily: SERIF, fontSize: 'clamp(40px, 8vw, 90px)', lineHeight: 1.1 }}

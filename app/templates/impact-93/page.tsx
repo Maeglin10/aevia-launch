@@ -19,7 +19,6 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Separator } from "@/components/ui/separator";
@@ -408,9 +407,6 @@ export default function VelocityJetsPage() {
 
         <div className="relative z-10 max-w-[1400px] mx-auto px-6 md:px-12 w-full">
           <Reveal>
-            <Badge className="bg-[var(--brand,#00f2ff)]/10 text-[var(--brand,#00f2ff)] border border-[var(--brand,#00f2ff)]/20 text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.2em] sm:tracking-[0.5em] mb-10 px-4 py-1.5 rounded-sm whitespace-normal text-center max-w-full">
-              Next-Generation Aviation // Mach 0.9+
-            </Badge>
             <h1 className="text-[clamp(2.5rem,6.5vw,8rem)] font-black italic leading-[0.9] tracking-tighter mb-10 uppercase break-words">{c?.heroHeadline ?? <>
               Redefining <br />{" "}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--brand,#00f2ff)] via-white to-[var(--brand,#00f2ff)]">

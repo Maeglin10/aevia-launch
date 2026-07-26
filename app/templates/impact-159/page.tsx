@@ -848,44 +848,6 @@ function HeroSection({
       <motion.div
         style={{ opacity, y, position: "relative", zIndex: 2, textAlign: "center", maxWidth: 1100 }}
       >
-        {/* Eyebrow */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.2 }}
-          style={{
-            display: "inline-flex",
-            alignItems: "center",
-            gap: 16,
-            padding: "6px 20px",
-            border: "1px solid rgba(192,132,252,0.25)",
-            background: "rgba(192,132,252,0.06)",
-            marginBottom: 48,
-          }}
-        >
-          <div
-            style={{
-              width: 6,
-              height: 6,
-              borderRadius: "50%",
-              background: "#86efac",
-              boxShadow: "0 0 8px #86efac",
-              animation: "cursor-blink 2s ease-in-out infinite",
-            }}
-          />
-          <span
-            className="inter-semi"
-            style={{
-              fontSize: 10,
-              letterSpacing: "0.5em",
-              textTransform: "uppercase",
-              color: "rgba(240,238,255,0.4)",
-            }}
-          >
-            Advanced Materials Laboratory · Collection 2026
-          </span>
-        </motion.div>
-
         {/* H1 */}
         <motion.h1
           initial={{ opacity: 0, y: 40 }}

@@ -348,25 +348,6 @@ function Hero() {
       <motion.div
         style={{ flex: 1, maxWidth: 580, position: "relative", zIndex: 2, y: textY, opacity: heroOpacity }}
       >
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7 }}
-          style={{
-            display: "inline-flex",
-            alignItems: "center",
-            gap: 8,
-            background: C.sageLight,
-            border: `1px solid ${C.sage}`,
-            borderRadius: 20,
-            padding: "7px 16px",
-            marginBottom: 28,
-          }}
-        >
-          <Leaf size={14} color={C.sage} />
-          <span style={{ color: C.sage, fontSize: 13, fontWeight: 600 }}>Studio certifié Yoga Alliance</span>
-        </motion.div>
-
         <motion.h1
           initial={{ opacity: 0, y: 36 }}
           animate={{ opacity: 1, y: 0 }}

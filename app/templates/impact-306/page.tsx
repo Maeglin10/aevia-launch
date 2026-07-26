@@ -34,7 +34,6 @@ import {
   Scissors,
   Shield,
   ShoppingBag,
-  Sparkles,
   Star,
   Sun,
   TrendingUp,
@@ -509,25 +508,6 @@ return (
           padding: '0 24px',
           textAlign: 'center'
         }}>
-          <Reveal delay={0.1}>
-            <div style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 8,
-              background: 'rgba(255,255,255,0.08)',
-              border: '1px solid rgba(255,255,255,0.2)',
-              borderRadius: 30,
-              padding: '6px 16px',
-              marginBottom: 24,
-              backdropFilter: 'blur(8px)'
-            }}>
-              <Sparkles size={12} color="#ffffff" />
-              <span style={{ fontSize: 11, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#ffffff', fontWeight: 600 }}>
-                Boulangerie artisanale · Montpellier
-              </span>
-            </div>
-          </Reveal>
-
           <Reveal delay={0.25}>
             <h1 style={{
               fontFamily: SERIF,

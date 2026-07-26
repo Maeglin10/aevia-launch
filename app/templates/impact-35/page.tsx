@@ -165,27 +165,6 @@ return (
           >
             {/* Left Column: Text & CTAs */}
             <div>
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6 }}
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: 8,
-                  background: `${C.accent}22`,
-                  border: `1px solid ${C.accent}44`,
-                  borderRadius: 30,
-                  padding: "6px 16px",
-                  marginBottom: 28,
-                }}
-              >
-                <Zap size={14} color={C.accent} />
-                <span style={{ color: C.accent, fontSize: 13, fontWeight: 600 }}>
-                  Ouvert — expansion niveau 3 terminée
-                </span>
-              </motion.div>
-
               <motion.h1
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}

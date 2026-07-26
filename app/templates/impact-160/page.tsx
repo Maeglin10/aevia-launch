@@ -249,9 +249,6 @@ return (
 
           <div className="relative z-10 text-center max-w-7xl">
              <Reveal>
-                <div className="inline-flex items-center gap-4 px-6 py-2 border border-white/10 bg-white/5 text-[10px] font-black uppercase tracking-[0.6em] text-white/40 mb-12 italic">
-                   <Signal className="w-3 h-3" /> Infra_Status: Solid_State // All_Nodes_Linked
-                </div>
                 <motion.h1 style={{ x: textX }} className="text-7xl md:text-[16vw] font-black tracking-tighter uppercase mb-16 leading-[0.75] italic mix-blend-difference">{c?.heroHeadline ?? <>
                    The <br/> <span className="text-white/5 italic">Monolith.</span>
                 </>}</motion.h1>

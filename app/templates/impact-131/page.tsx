@@ -1301,23 +1301,6 @@ export default function WineryTemplate() {
         <motion.div
           style={{ y: heroY, opacity: heroOpacity, textAlign: "center", position: "relative", zIndex: 2, padding: "0 24px" }}
         >
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            style={{
-              fontFamily: C.fontSans,
-              fontSize: 10,
-              fontWeight: 600,
-              letterSpacing: "0.3em",
-              textTransform: "uppercase",
-              color: C.gold,
-              marginBottom: 28,
-            }}
-          >
-            Bordeaux — Depuis 1892
-          </motion.p>
-
           <h1
             style={{
               fontFamily: C.fontSerif,

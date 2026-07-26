@@ -1560,34 +1560,6 @@ export default function AquaPrestigePage() {
         <motion.div
           style={{ y: heroParallax, position: 'relative', zIndex: 2, ...container, textAlign: 'center', paddingTop: '8rem', paddingBottom: '6rem' }}
         >
-          {/* Urgence Badge */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            style={{display: 'inline-flex',
-              alignItems: 'center',
-              gap: '0.5rem',
-              background: 'rgba(255,80,80,0.12)',
-              border: '1px solid rgba(255,80,80,0.3)',
-              color: brand ?? 'var(--brand,#ff6b6b)',
-              fontSize: '0.78rem',
-              fontWeight: 700,
-              letterSpacing: '0.12em',
-              textTransform: 'uppercase',
-              padding: '0.4rem 1rem',
-              borderRadius: '999px',
-              marginBottom: '2rem',
-            }}
-          >
-            <motion.span
-              animate={{ opacity: [1, 0.3, 1] }}
-              transition={{ repeat: Infinity, duration: 1.4 }}
-              style={{width: '6px', height: '6px', borderRadius: '50%', background: brand ?? 'var(--brand,#ff6b6b)', display: 'inline-block' }}
-            />
-            Disponible 24h/24 — Intervention en 30 min
-          </motion.div>
-
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}

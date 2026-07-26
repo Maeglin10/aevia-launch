@@ -728,20 +728,6 @@ return (
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.2 }}
           >
-            <div
-              style={{
-                fontFamily: FONT_BODY,
-                fontSize: 9,
-                letterSpacing: 5,
-                color: C.gold,
-                textTransform: "uppercase",
-                marginBottom: 40,
-                opacity: 0.8,
-              }}
-            >
-              Haute Joaillerie · Paris · Depuis 1947
-            </div>
-
             <h1
               style={{
                 fontFamily: FONT_HEADING,

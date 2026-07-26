@@ -159,32 +159,6 @@ return (
           >
             {/* Left: Copy */}
             <div>
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6 }}
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: 8,
-                  background: `${C.accent}22`,
-                  border: `1px solid ${C.accent}44`,
-                  borderRadius: 30,
-                  padding: "6px 16px",
-                  marginBottom: 28,
-                }}
-              >
-                <Award size={14} color="var(--brand,#60a5fa)" />
-                <span
-                  style={{color: brand ?? 'var(--brand,#60a5fa)',
-                    fontSize: 13,
-                    fontWeight: 600,
-                  }}
-                >
-                  2,400+ executive placements since 2007
-                </span>
-              </motion.div>
-
               <motion.h1
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}

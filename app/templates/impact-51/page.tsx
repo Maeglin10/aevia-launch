@@ -141,41 +141,6 @@ return (
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6 }}
         >
-          {/* Badge */}
-          <div style={{ display: "flex", justifyContent: "center", marginBottom: 24 }}>
-            <Reveal delay={0.05}>
-              <div
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: 7,
-                  background: T.accentLight,
-                  border: `1px solid ${T.accent}30`,
-                  borderRadius: 100,
-                  padding: "6px 14px",
-                }}
-              >
-                <div
-                  style={{
-                    width: 6,
-                    height: 6,
-                    borderRadius: "50%",
-                    background: T.accent,
-                  }}
-                />
-                <span
-                  style={{
-                    fontSize: 12,
-                    fontWeight: 600,
-                    color: T.accent,
-                    fontFamily: T.bodyFont,
-                  }}
-                >
-                  Trusted by 50,000+ teams worldwide
-                </span>
-              </div>
-            </Reveal>
-          </div>
 
           <div style={{ maxWidth: 840, margin: "0 auto", padding: "0 24px", textAlign: "center" }}>
             <Reveal delay={0.1}>

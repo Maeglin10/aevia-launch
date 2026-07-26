@@ -244,12 +244,6 @@ export default function EssentialSaaSPage() {
 
       {/* Hero */}
       <section id="hero" className="pt-28 pb-20 px-6 max-w-7xl mx-auto text-center">
-        <Reveal>
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#EEF2FF] rounded-full text-[var(--brand,#6366F1)] text-sm font-semibold mb-8">
-            <Zap className="w-3.5 h-3.5" />
-            Nouveau — Intégration IA disponible
-          </div>
-        </Reveal>
         <Reveal delay={0.1}>
           <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight leading-[1.05] mb-6 max-w-4xl mx-auto">{c?.heroHeadline ?? <>
             Gérez votre business<br />avec <span className="text-[var(--brand,#6366F1)]">clarté et vitesse</span>

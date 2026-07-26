@@ -189,12 +189,6 @@ export default function ApexFitnessPage() {
             <div className="absolute inset-0 bg-gradient-to-r from-[#0a0a0a] via-[#0a0a0a]/50 to-transparent" />
           </motion.div>
           <motion.div style={{ opacity: heroOpacity }} className="relative z-10 max-w-[1400px] mx-auto px-6 md:px-12 w-full">
-            <Reveal>
-              <div className="flex items-center gap-4 mb-8">
-                <Flame className="w-4 h-4 text-[var(--brand,#84cc16)]" />
-                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#a3e635)]">Performance Training Studio</span>
-              </div>
-            </Reveal>
             <Reveal delay={0.1} y={70}>
               <h1 className="text-7xl md:text-[8rem] lg:text-[11rem] font-black tracking-tighter leading-[0.8] uppercase mb-10">{c?.heroHeadline ?? <>
                 Train<br/><span className="text-[var(--brand,#84cc16)]">Harder.</span>

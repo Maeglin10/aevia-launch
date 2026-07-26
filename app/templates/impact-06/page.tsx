@@ -283,9 +283,6 @@ export default function NeuralisPage() {
 
         <div className="relative z-10 max-w-[1600px] mx-auto px-6 md:px-12 w-full grid grid-cols-1 lg:grid-cols-2 items-center gap-20">
           <Reveal>
-             <Badge className="bg-[var(--brand,#00f2ff)]/10 text-[var(--brand,#00f2ff)] border border-[var(--brand,#00f2ff)]/30 text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.2em] sm:tracking-[0.5em] mb-10 px-4 py-1.5 rounded-full whitespace-normal text-center max-w-full">
-                Bio-Synthetic Standard // Tier 01
-             </Badge>
              <h1 className="text-5xl sm:text-6xl md:text-[11rem] font-black leading-[0.9] md:leading-[0.8] tracking-tight md:tracking-tighter mb-12 uppercase text-white break-words">{c?.heroHeadline ?? <>
                Tame Your <br/> <span className="text-[var(--brand,#00f2ff)]">Biology.</span>
              </>}</h1>

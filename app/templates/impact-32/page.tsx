@@ -348,14 +348,6 @@ function Hero() {
 
       {/* Left text */}
       <motion.div style={{ flex: 1, maxWidth: 580, position: "relative", zIndex: 1, y: textY, opacity: textOpacity }}>
-        <motion.div
-          initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}
-          style={{ display: "inline-flex", alignItems: "center", gap: 8, background: C.white, border: `1px solid ${C.accent}`, borderRadius: 20, padding: "7px 16px", marginBottom: 24 }}
-        >
-          <Shield size={14} color={C.accent} />
-          <span style={{ color: C.accent, fontSize: 13, fontWeight: 700 }}>Clinique vétérinaire agréée CNOV</span>
-        </motion.div>
-
         <motion.h1
           initial={{ opacity: 0, y: 36 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.1 }}
           style={{ fontSize: "clamp(36px, 4vw, 58px)", fontWeight: 800, color: C.text, lineHeight: 1.1, letterSpacing: -1.5, marginBottom: 24 }}

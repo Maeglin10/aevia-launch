@@ -261,15 +261,6 @@ return (
               <div className="absolute bottom-1/4 right-1/4 w-72 h-72 bg-[#3B82F6]/10 rounded-full blur-3xl" />
             </div>
             <motion.div style={{ y: heroY }} className="max-w-6xl mx-auto px-6 relative">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6 }}
-                className="inline-flex items-center gap-2 bg-[var(--brand,#A3E635)]/10 border border-[var(--brand,#A3E635)]/20 text-[var(--brand,#A3E635)] text-sm font-medium px-4 py-2 rounded-full mb-8"
-              >
-                <Zap className="w-4 h-4" />
-                Applications open — Cohort W24
-              </motion.div>
               <motion.h1
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}

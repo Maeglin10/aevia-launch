@@ -292,18 +292,6 @@ function Hero() {
       <motion.div
         style={{ position: 'relative', zIndex: 2, maxWidth: '1200px', width: '100%', padding: '0 clamp(1.5rem, 5vw, 4rem)', y: contentY, opacity }}
       >
-        <motion.div
-          initial={{ opacity: 0, x: -30 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: C.blueDim, border: `1px solid rgba(0,212,255,0.3)`, borderRadius: '2px', padding: '6px 14px', marginBottom: '2rem' }}
-        >
-          <Zap size={12} color={C.blue} />
-          <span style={{ color: C.blue, fontSize: '0.7rem', fontWeight: 800, letterSpacing: '0.2em', textTransform: 'uppercase' as const }}>
-            Mobilité Électrique Premium
-          </span>
-        </motion.div>
-
         <motion.h1
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}

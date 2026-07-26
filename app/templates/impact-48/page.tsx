@@ -298,34 +298,6 @@ function HeroSection() {
       >
         {/* Left: copy */}
         <div>
-          <motion.div
-            initial={{ opacity: 0, y: -8 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.3 }}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: 14,
-              marginBottom: 40,
-            }}
-          >
-            <div
-              style={{ width: 48, height: 1, background: C.accent }}
-            />
-            <span
-              style={{
-                fontFamily: F.sans,
-                fontSize: 10,
-                letterSpacing: '0.3em',
-                textTransform: 'uppercase' as const,
-                color: C.accent,
-                fontWeight: 500,
-              }}
-            >
-              Architecture · Urbanism · Interior
-            </span>
-          </motion.div>
-
           <motion.h1
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
