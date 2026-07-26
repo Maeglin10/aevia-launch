@@ -658,16 +658,16 @@ export default function Impact173Page() {
           pointerEvents: "none",
         }} />
 
-        <div className="imx-hero173-wrap" style={{ position: "relative", zIndex: 2, padding: "120px 60px 80px", width: "100%", maxWidth: 1400, margin: "0 auto" }}>
+        <div className="imx-hero173-wrap" style={{ position: "relative", zIndex: 2, padding: "clamp(96px, 20vw, 120px) clamp(20px, 6vw, 60px) 80px", width: "100%", maxWidth: 1400, margin: "0 auto", boxSizing: "border-box" }}>
           <motion.div initial={{ opacity: 0, y: 60 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}>
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.2, duration: 0.6 }}
-              style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 40 }}
+              style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 40, flexWrap: "wrap" }}
             >
-              <div style={{ width: 40, height: 2, background: C.orange }} />
-              <div style={{ fontSize: 11, letterSpacing: 5, color: C.orange, textTransform: "uppercase", fontWeight: 600 }}>
+              <div style={{ width: 40, height: 2, background: C.orange, flexShrink: 0 }} />
+              <div style={{ fontSize: 11, letterSpacing: 2, color: C.orange, textTransform: "uppercase", fontWeight: 600, whiteSpace: "normal", maxWidth: 220 }}>
                 Depuis 1989 · Construire l'avenir
               </div>
             </motion.div>
