@@ -1519,7 +1519,8 @@ export default function LuxuryJewelryTemplate() {
               <div
                 style={{
                   display: "flex",
-                  gap: 40,
+                  flexWrap: "wrap",
+                  gap: "20px 32px",
                   marginTop: 60,
                   paddingTop: 32,
                   borderTop: "1px solid rgba(212,175,107,0.1)",
@@ -1530,7 +1531,7 @@ export default function LuxuryJewelryTemplate() {
                   { n: "4 200", l: "Pièces créées" },
                   { n: "GIA", l: "Certifiées" },
                 ].map(({ n, l }) => (
-                  <div key={l}>
+                  <div key={l} style={{ minWidth: 100 }}>
                     <p
                       style={{color: brand ?? 'var(--brand,#d4af6b)',
                         fontSize: 24,
