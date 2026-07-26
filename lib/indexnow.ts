@@ -7,7 +7,9 @@
 // verify ownership. Publishing the key in the client bundle is expected and
 // safe — it grants nothing beyond "may submit URLs for this host".
 
-export const INDEXNOW_KEY = "a3f9c2e1b7d84a6f9e0c1b2d3a4f5e6c";
+// Reuses the key file already deployed at /17ca5462…​.txt (added during the
+// 2026-07 SEO/GEO pass); this module adds the missing submission logic.
+export const INDEXNOW_KEY = "17ca5462cc3349d13e358162af0219f7";
 
 /**
  * Notify IndexNow (Bing) that the given URLs changed. Best-effort and
