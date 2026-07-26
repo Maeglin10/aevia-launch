@@ -271,14 +271,14 @@ return (
              </Reveal>
           </div>
 
-          <div className="absolute bottom-12 left-12 right-12 flex justify-between items-end">
-             <div className="flex gap-12">
-                <button className="px-12 py-6 bg-white text-black text-[10px] font-black uppercase tracking-widest hover:bg-white/80 transition-all shadow-2xl flex items-center gap-4 italic">
+          <div className="absolute bottom-6 md:bottom-12 left-6 md:left-12 right-6 md:right-12 flex flex-col md:flex-row justify-between items-stretch md:items-end gap-4">
+             <div className="flex flex-col sm:flex-row gap-4 md:gap-12">
+                <button className="px-6 md:px-12 py-4 md:py-6 bg-white text-black text-[10px] font-black uppercase tracking-widest hover:bg-white/80 transition-all shadow-2xl flex items-center justify-center gap-4 italic">
                    <Target className="w-4 h-4" /> Provision Node
                 </button>
-                <button 
+                <button
                   onClick={() => setIsTerminalOpen(!isTerminalOpen)}
-                  className="px-12 py-6 border border-white/10 text-white text-[10px] font-black uppercase tracking-widest hover:bg-white/5 transition-all flex items-center gap-4 italic"
+                  className="px-6 md:px-12 py-4 md:py-6 border border-white/10 text-white text-[10px] font-black uppercase tracking-widest hover:bg-white/5 transition-all flex items-center justify-center gap-4 italic"
                 >
                    <Terminal className="w-4 h-4" /> Access Console
                 </button>
@@ -601,8 +601,10 @@ function HUD_Overlay({ isTerminalOpen }: { isTerminalOpen: boolean }) {
        <div className="absolute bottom-12 left-12 w-20 h-20 border-b-2 border-l-2 border-white/10" />
        <div className="absolute bottom-12 right-12 w-20 h-20 border-b-2 border-r-2 border-white/10" />
 
-       {/* Top Status Bar */}
-       <div className="absolute top-12 left-1/2 -translate-x-1/2 flex items-center gap-20 bg-black/60 backdrop-blur-2xl px-12 py-4 border border-white/10 rounded-none">
+       {/* Top Status Bar — hidden below md: fixed-width, no wrap, huge
+           letter-spacing, designed for desktop only (unlike the Right
+           Rotation Info below, which already had a mobile hidden state). */}
+       <div className="hidden md:flex absolute top-12 left-1/2 -translate-x-1/2 items-center gap-20 bg-black/60 backdrop-blur-2xl px-12 py-4 border border-white/10 rounded-none">
           <div className="flex items-center gap-6 text-white">
              <div className="w-3 h-3 bg-white animate-pulse" />
              <span className="text-[10px] font-black uppercase tracking-[0.4em] italic leading-none">System_Link: IMMUTABLE // Shards: SYNCED</span>
