@@ -251,12 +251,22 @@ export default function LegrandPage() {
       </AnimatePresence>
 
       {/* Hero */}
-      <section id="hero" ref={heroRef} className="relative min-h-dvh overflow-hidden flex items-end">
+      <style>{`
+        /* items-end pins the kicker+H1+paragraph stack to the bottom of the
+           min-h-dvh section - on mobile the stack is tall enough to push its
+           own top above y:0, under the fixed header, despite the pt-32
+           inside the content wrapper. flex-start + explicit clearance fixes it. */
+        @media (max-width: 640px) {
+          .imx172-hero { align-items: flex-start !important; }
+          .imx172-hero-content { padding-top: 120px !important; }
+        }
+      `}</style>
+      <section id="hero" ref={heroRef} className="imx172-hero relative min-h-dvh overflow-hidden flex items-end">
         <motion.div className="absolute inset-0" style={{ y: heroY }}>
           <Image src={photo(0, "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=1600&q=85")} alt="Palais de justice" fill className="object-cover" />
           <div className="absolute inset-0 bg-gradient-to-t from-[#0E0A06] via-[#0E0A06]/60 to-transparent" />
         </motion.div>
-        <div className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-12 pb-24 pt-32">
+        <div className="imx172-hero-content relative z-10 w-full max-w-7xl mx-auto px-6 md:px-12 pb-24 pt-32">
           <Reveal>
             <p className="text-[var(--brand,#C9A855)] text-xs tracking-[0.3em] uppercase mb-8">Fondé en 1991 · Paris · Bruxelles · Luxembourg</p>
           </Reveal>
