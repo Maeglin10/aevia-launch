@@ -264,22 +264,28 @@ export default function PixelRepublicPage() {
           </motion.a>
         </div>
       )}
-      <style>{`@media (max-width: 900px) { #mb25-nav { display: none !important; } .mb25-burger { display: flex !important; } }`}</style>
+      <style>{`
+        @media (max-width: 900px) { #mb25-nav { display: none !important; } .mb25-burger { display: flex !important; } }
+        /* alignItems:flex-end pins the hero text block to the bottom of a
+           100dvh section — fine when the block is shorter than the viewport,
+           but on mobile the badge+3-line-h1+paragraph+2 CTAs together exceed
+           100dvh, so the whole block (and its badge) gets pushed above y:0,
+           under/behind the fixed header. flex-start + top clearance instead. */
+        @media (max-width: 640px) {
+          .imx25-hero { align-items: flex-start !important; height: auto !important; min-height: 100dvh !important; }
+          .imx25-hero-content { padding-top: 96px !important; padding-bottom: 48px !important; }
+        }
+      `}</style>
 
       {/* Hero */}
-      {/* height was 115vh + minHeight 900px with content pinned to the bottom
-          (alignItems: flex-end) — the section's own bottom edge sat 15vh below
-          the viewport fold, so the CTA buttons near that edge were never on
-          screen on load at any breakpoint. 100dvh keeps flex-end content
-          aligned with the actual visible viewport bottom. */}
-      <section ref={heroRef} style={{ height: "100dvh", minHeight: "560px", position: "relative", display: "flex", alignItems: "flex-end", overflow: "hidden" }}>
+      <section ref={heroRef} className="imx25-hero" style={{ height: "100dvh", minHeight: "560px", position: "relative", display: "flex", alignItems: "flex-end", overflow: "hidden" }}>
         <motion.div style={{ y: heroY, position: "absolute", inset: 0 }}>
           <img src={photo(0, "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=1920&q=80")} alt="Agence web Pixel Republic Paris" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
         </motion.div>
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(5,5,20,0.93) 0%, rgba(5,5,20,0.48) 45%, rgba(5,5,20,0.10) 100%)" }} />
         <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to right, ${C.accent}20 0%, transparent 55%)` }} />
 
-        <motion.div style={{ position: "relative", zIndex: 1, padding: "0 80px 90px", maxWidth: 780, y: heroTextY, opacity: heroOpacity }}>
+        <motion.div className="imx25-hero-content md:!px-20" style={{ position: "relative", zIndex: 1, padding: "0 80px 90px", maxWidth: 780, y: heroTextY, opacity: heroOpacity }}>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
             style={{ display: "inline-flex", alignItems: "center", gap: 8, marginBottom: 28, background: "rgba(99,102,241,0.15)", border: "1px solid rgba(99,102,241,0.35)", borderRadius: 20, padding: "7px 18px" }}>
             <Sparkles size={12} color={C.accent} />
