@@ -523,44 +523,6 @@ function Hero() {
       <motion.div
         style={{ y, opacity, position: 'relative', zIndex: 2, textAlign: 'center', padding: '120px 24px 80px', width: '100%', maxWidth: 960, margin: '0 auto' }}
       >
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: 10,
-            background: 'rgba(200,165,58,0.12)',
-            border: `1px solid rgba(200,165,58,0.3)`,
-            padding: '8px 20px',
-            marginBottom: 32,
-          }}
-        >
-          <span
-            style={{
-              width: 6,
-              height: 6,
-              borderRadius: '50%',
-              background: C.accent,
-              display: 'inline-block',
-              flexShrink: 0,
-            }}
-          />
-          <span
-            style={{
-              fontFamily: 'Inter, sans-serif',
-              fontSize: 12,
-              letterSpacing: 3,
-              textTransform: 'uppercase',
-              color: C.accent,
-              fontWeight: 500,
-            }}
-          >
-            Depuis 2002 · Lyon & Rhône-Alpes
-          </span>
-        </motion.div>
-
         <motion.h1
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}

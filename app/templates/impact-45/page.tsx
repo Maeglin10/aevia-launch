@@ -21,16 +21,6 @@ function HeroSection() {
 
       <motion.div style={{ y, opacity, position: "relative", zIndex: 2, maxWidth: 1200, margin: "0 auto", padding: "120px 24px 80px", width: "100%" }}>
         <div style={{ maxWidth: 720 }}>
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.7, delay: 0.2 }}
-            style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 32 }}
-          >
-            <div style={{ width: 40, height: 1, background: C.accent }} />
-            <span style={{ fontFamily: "'Barlow', system-ui", fontSize: 12, letterSpacing: "0.2em", textTransform: "uppercase", color: C.accent, fontWeight: 600 }}>Paris — Studio de Tatouage Premium</span>
-          </motion.div>
-
           <motion.h1
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}

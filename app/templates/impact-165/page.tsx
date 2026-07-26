@@ -279,12 +279,6 @@ export default function PulseAppPage() {
       <section id="hero" className="pt-32 pb-20 px-6 max-w-7xl mx-auto">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           <div>
-            <Reveal>
-              <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#EEF2FF] rounded-full text-[var(--brand,#6366F1)] text-sm font-semibold mb-8">
-                <Zap className="w-3.5 h-3.5" />
-                Nouveau — Analytics IA en bêta
-              </div>
-            </Reveal>
             <Reveal delay={0.1}>
               <h1 className="text-5xl md:text-6xl font-extrabold leading-[1.05] tracking-tight mb-6">{c?.heroHeadline ?? <>
                 L&apos;app qui fait<br />travailler votre<br /><span className="text-[var(--brand,#6366F1)]">équipe mieux</span>

@@ -188,12 +188,6 @@ export default function TorrefieCoffeePage() {
           </motion.div>
 
           <motion.div style={{ opacity: heroOpacity }} className="relative z-10 max-w-[1600px] mx-auto px-6 md:px-12">
-            <Reveal>
-              <div className="flex items-center gap-4 mb-8">
-                <Leaf className="w-4 h-4 text-[var(--brand,#6b3a24)]" />
-                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#6b3a24)]">Specialty Coffee Roasters — Est. 2016</span>
-              </div>
-            </Reveal>
             <Reveal delay={0.15} y={70}>
               <h1 className="text-6xl md:text-8xl lg:text-[9rem] font-light tracking-tighter leading-[0.85] mb-8" style={{ fontFamily: "Georgia, serif" }}>{c?.heroHeadline ?? <>
                 From Seed<br/>To <em className="text-[var(--brand,#6b3a24)]">Soul.</em>

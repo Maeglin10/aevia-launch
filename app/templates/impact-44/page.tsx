@@ -189,9 +189,6 @@ function HeroSection() {
           zIndex: 20,
           fontFamily: "'Courier New', monospace",
         }}>
-          <div style={{ fontSize: 11, color: C.textDim, letterSpacing: "0.5em", marginBottom: 16, textTransform: "uppercase" }}>
-            {fd?.businessName ?? "GHOST PROTOCOL ESPORTS"} — EST. 2019
-          </div>
           <h1
             className="glitch-text"
             data-text="ENTER THE VOID"

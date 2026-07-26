@@ -198,12 +198,6 @@ export default function AtelierInteriorPage() {
             <div className="absolute inset-0 bg-gradient-to-t from-[#f5f0eb] via-[#f5f0eb]/20 to-transparent" />
           </motion.div>
           <motion.div style={{ opacity: heroOpacity }} className="relative z-10 max-w-[1600px] w-full mx-auto px-6 md:px-12 pb-24">
-            <Reveal>
-              <div className="flex items-center gap-4 mb-6">
-                <div className="h-[1px] w-12 bg-[var(--brand,#8b7355)]" />
-                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#8b7355)]">Interior Design Studio</span>
-              </div>
-            </Reveal>
             <Reveal delay={0.15} y={70}>
               <h1 className="text-6xl md:text-8xl lg:text-[9rem] font-light tracking-tighter leading-[0.85] mb-8" style={{ fontFamily: "Georgia, serif" }}>{c?.heroHeadline ?? <>
                 Spaces<br/>That <em className="text-[var(--brand,#8b7355)]">Speak.</em>

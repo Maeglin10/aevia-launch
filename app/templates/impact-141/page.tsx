@@ -365,11 +365,6 @@ export default function SonicPlayerPage() {
               transition={{ duration: 0.6 }}
               className="text-center lg:text-left w-full"
             >
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-white/10 bg-white/5 text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-6">
-                <Radio className="w-3 h-3 text-red-500 animate-pulse" /> New
-                Release
-              </div>
-
               <h1 className="text-5xl md:text-7xl font-black tracking-tighter mb-2">{c?.heroHeadline ?? <>
                 {RELEASES[activeRelease].title}
               </>}</h1>

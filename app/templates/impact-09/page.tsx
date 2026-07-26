@@ -394,9 +394,6 @@ return (
 
                <div className="relative z-10 w-full max-w-7xl flex flex-col items-center text-center">
                   <Reveal>
-                     <div className="inline-flex items-center gap-4 px-6 py-3 border border-indigo-500/30 bg-indigo-500/5 text-[10px] font-black uppercase tracking-[0.5em] text-indigo-500 mb-8 md:mb-16 italic font-mono">
-                        <Rocket className="w-4 h-4 animate-bounce" /> Status: LAUNCH_WINDOW_OPEN // 00:04:12
-                     </div>
                      <motion.h1
                         style={{ scale: textScale }}
                         className="text-5xl sm:text-6xl md:text-[15vw] font-black tracking-tight md:tracking-tighter uppercase mb-8 md:mb-16 leading-[0.9] md:leading-[0.7] italic flex flex-col break-words"

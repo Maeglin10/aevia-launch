@@ -3,7 +3,7 @@
 
 import React, {useRef, useState, useEffect} from 'react'
 import { motion, useScroll, useTransform, useInView } from "framer-motion"
-import { Heart, Phone, Mail, MapPin, Clock, Star, CheckCircle, ArrowRight, Calendar } from "lucide-react"
+import { Phone, Mail, MapPin, Clock, Star, CheckCircle, ArrowRight, Calendar } from "lucide-react"
 
 // Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
 // used to derive companion shades from the client's brand color.
@@ -257,12 +257,6 @@ export default function CabinetMoreauPage() {
         <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to right, ${C.accent}18 0%, transparent 55%)` }} />
 
         <motion.div className="imx50-hero-content" style={{ position: "relative", zIndex: 1, padding: "0 clamp(24px,7vw,80px) clamp(40px,8vw,90px)", maxWidth: 760, y: heroTextY, opacity: heroOpacity }}>
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
-            style={{ display: "inline-flex", alignItems: "center", gap: 8, marginBottom: 28, background: "rgba(74,124,111,0.18)", border: "1px solid rgba(74,124,111,0.35)", borderRadius: 20, padding: "7px 18px" }}>
-            <Heart size={12} color="var(--brand,#9fd4c9)" />
-            <span style={{color: brand ?? 'var(--brand,#9fd4c9)', fontSize: 12, fontWeight: 700, letterSpacing: 2, textTransform: "uppercase" }}>Psychologue clinicienne · Montpellier</span>
-          </motion.div>
-
           <motion.h1 initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.9 }}
             style={{ fontFamily: FONT_SERIF, fontSize: "clamp(40px, 5.2vw, 68px)", fontWeight: 400, color: "#fff", lineHeight: 1.12, marginBottom: 24 }}>{c?.heroHeadline ?? <>
             Un espace pour se retrouver,<br /><em>à son propre rythme.</em>

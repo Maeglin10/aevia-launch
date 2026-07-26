@@ -268,11 +268,6 @@ export default function MorphStudioPage() {
             
             <div className="relative z-10">
               <Reveal>
-                <div className="flex items-center gap-3 mb-8">
-                  <div className="w-2 h-2 rounded-full bg-[var(--brand,#22d3ee)] animate-pulse" />
-                  <span className="text-xs font-bold uppercase tracking-[0.3em] text-[var(--brand,#22d3ee)]">{MANIFEST.hero.status}</span>
-                </div>
-                
                 <h1 className="text-6xl md:text-8xl lg:text-[7rem] font-black tracking-tighter leading-none text-white mb-8">{c?.heroHeadline ?? <>
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--brand,#22d3ee)] to-purple-500">
                     MORPH

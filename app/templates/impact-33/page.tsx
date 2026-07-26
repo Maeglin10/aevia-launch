@@ -244,14 +244,6 @@ function Hero() {
       <motion.div
         style={{ position: "relative", zIndex: 1, padding: "clamp(88px,20vw,120px) clamp(24px,7vw,80px) clamp(40px,8vw,80px)", maxWidth: 760, y: textY, opacity: textOpacity }}
       >
-        <motion.div
-          initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}
-          style={{ display: "inline-flex", alignItems: "center", gap: 8, background: C.accentLight, border: `1px solid ${C.accent}`, borderRadius: 20, padding: "7px 16px", marginBottom: "clamp(16px,4vw,28px)" }}
-        >
-          <Leaf size={14} color={C.accent} />
-          <span style={{ color: C.accent, fontSize: 13, fontWeight: 700 }}>Artisan boulanger depuis 1987 · Paris 11e</span>
-        </motion.div>
-
         <motion.h1
           initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.1 }}
           style={{ fontFamily: FONT_HEADING, fontSize: "clamp(36px, 5vw, 72px)", fontWeight: 700, color: C.text, lineHeight: 1.08, letterSpacing: -1.5, marginBottom: "clamp(14px,3vw,24px)" }}

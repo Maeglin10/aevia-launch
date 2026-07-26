@@ -229,12 +229,6 @@ return (
         <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to right, ${C.accent}20 0%, transparent 55%)` }} />
 
         <motion.div style={{ position: "relative", zIndex: 1, padding: "96px 24px 90px", maxWidth: 760, y: heroTextY, opacity: heroOpacity }} className="md:!px-20">
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
-            style={{ display: "inline-flex", alignItems: "center", gap: 8, marginBottom: 28, background: "rgba(245,158,11,0.15)", border: "1px solid rgba(245,158,11,0.35)", borderRadius: 20, padding: "7px 18px" }}>
-            <Shield size={12} color={C.accent} />
-            <span style={{ color: C.accent, fontSize: 12, fontWeight: 700, letterSpacing: 2, textTransform: "uppercase" }}>Pisciniste certifié — Toulouse</span>
-          </motion.div>
-
           <motion.h1 initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.9 }}
             style={{ fontSize: "clamp(40px, 5.5vw, 72px)", fontWeight: 800, color: "#fff", lineHeight: 1.05, marginBottom: 24 }}>{c?.heroHeadline ?? <>
             Votre piscine,<br /><span style={{ color: C.accent }}>sans mauvaise surprise.</span>

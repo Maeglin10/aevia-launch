@@ -570,12 +570,6 @@ export default function AuraWellnessPage() {
           className="relative z-10 h-full flex flex-col items-center justify-center text-center px-6"
           style={{ opacity: heroOpacity }}
         >
-          <Reveal>
-            <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm border border-white/30 rounded-full px-4 py-1.5 text-white text-xs tracking-widest uppercase mb-8">
-              <Leaf className="w-3 h-3" />
-              Sanctuary — Bordeaux
-            </div>
-          </Reveal>
           <Reveal delay={0.1}>
             <h1
               className="text-white text-6xl md:text-8xl leading-none mb-6"

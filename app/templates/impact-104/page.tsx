@@ -323,27 +323,6 @@ export default function LumiereDoreePage() {
             opacity: heroOpacity,
           }}
         >
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3, duration: 0.6 }}
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 10,
-              border: `1px solid rgba(201,168,124,0.6)`,
-              color: C.accent,
-              fontFamily: FONT_BODY,
-              fontWeight: 400,
-              fontSize: 13,
-              letterSpacing: 2,
-              textTransform: "uppercase",
-              padding: "7px 18px",
-              marginBottom: 28,
-            }}
-          >
-            Photographe mariage · Paris &amp; région
-          </motion.div>
           <motion.h1
             className="i104-hero-title"
             initial={{ opacity: 0, y: 28 }}

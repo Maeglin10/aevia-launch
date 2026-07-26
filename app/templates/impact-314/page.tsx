@@ -589,25 +589,6 @@ export default function Page({ session: initialSession }) {
 
           <div style={{ position: "relative", zIndex: 2, maxWidth: "1200px", margin: "0 auto", padding: "0 24px", width: "100%" }}>
             <div style={{ maxWidth: "800px" }}>
-              <Reveal>
-                <div style={{ 
-                  display: "inline-flex", 
-                  alignItems: "center", 
-                  gap: "8px", 
-                  backgroundColor: "rgba(255,255,255,0.1)",
-                  backdropFilter: "blur(4px)",
-                  padding: "8px 16px",
-                  borderRadius: "99px",
-                  marginBottom: "24px",
-                  border: "1px solid rgba(255,255,255,0.2)"
-                }}>
-                  <div style={{ width: "8px", height: "8px", borderRadius: "50%", backgroundColor: C.primary }} />
-                  <span style={{ color: C.white, fontFamily: SANS, fontSize: "14px", fontWeight: 500 }}>
-                    Intervention 24/7 sur toute la région
-                  </span>
-                </div>
-              </Reveal>
-
               <Reveal delay={0.1}>
                 <h1 style={{ 
                   fontFamily: SERIF, 

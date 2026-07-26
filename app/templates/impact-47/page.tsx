@@ -37,17 +37,6 @@ function HeroSection() {
       <div style={{ position: "absolute", inset: 0, background: `radial-gradient(ellipse at 70% 30%, rgba(244,143,177,0.3) 0%, transparent 60%), radial-gradient(ellipse at 30% 80%, rgba(136,14,79,0.08) 0%, transparent 50%)`, pointerEvents: "none" }} />
 
       <motion.div style={{ y, opacity, position: "relative", zIndex: 2, maxWidth: 1200, margin: "0 auto", padding: "120px 24px 80px", width: "100%", textAlign: "center" as const }}>
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.2 }}
-          style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 12, marginBottom: 28 }}
-        >
-          <Leaf size={14} color={C.sage} />
-          <span style={{ fontFamily: "'Poppins', system-ui", fontSize: 12, letterSpacing: "0.2em", textTransform: "uppercase" as const, color: C.sage, fontWeight: 500 }}>Artisan Florist · Paris, France</span>
-          <Leaf size={14} color={C.sage} />
-        </motion.div>
-
         <motion.h1
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}

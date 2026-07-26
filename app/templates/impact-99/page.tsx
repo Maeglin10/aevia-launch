@@ -1232,9 +1232,6 @@ export default function EmberGrillPage() {
 
             <div className="relative z-10 max-w-[1600px] mx-auto px-6 md:px-12 w-full">
               <Reveal>
-                <Badge className="bg-[var(--brand,#ff4d00)]/10 text-[var(--brand,#ff4d00)] border border-[var(--brand,#ff4d00)]/30 text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.2em] sm:tracking-[0.5em] mb-10 px-4 py-1.5 rounded-full whitespace-normal text-center max-w-full">
-                  Awarded Two Michelin Stars // 2024
-                </Badge>
                 <h1 className="text-[clamp(2.5rem,7vw,8.5rem)] font-black leading-[0.95] tracking-tighter mb-12 uppercase text-white italic break-words">{c?.heroHeadline ?? <>
                   Primitive <br />{" "}
                   <span className="text-[var(--brand,#ff4d00)] not-italic">Refinement.</span>

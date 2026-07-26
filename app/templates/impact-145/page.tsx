@@ -202,13 +202,6 @@ export default function ArcaneRealtyPage() {
           </div>
 
           <div className="relative z-10 max-w-[1200px] mx-auto px-6 text-center">
-            <Reveal>
-              <div className="flex items-center justify-center gap-4 mb-10">
-                 <div className="w-12 h-[1px] bg-white/30" />
-                 <span className="text-[10px] font-bold uppercase tracking-[0.6em] text-white/60">The Apex of Private Living</span>
-                 <div className="w-12 h-[1px] bg-white/30" />
-              </div>
-            </Reveal>
             <Reveal delay={0.2} y={70}>
               <h1 className="text-7xl md:text-8xl lg:text-[10rem] font-light tracking-tighter leading-[0.8] text-white mb-12 uppercase">{c?.heroHeadline ?? <>
                 Rare <br/> <span className="font-bold italic">Holdings.</span>

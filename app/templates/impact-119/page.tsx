@@ -3,7 +3,7 @@
 import { motion, useScroll, useTransform, useInView } from "framer-motion"
 import { useRef, useState, useEffect } from "react"
 import Link from "next/link"
-import { Cloud, ArrowRight, Menu, Shield, Zap, Globe, Cpu, Database, Server, ChevronRight, Activity, Terminal } from "lucide-react"
+import { Cloud, ArrowRight, Menu, Shield, Globe, Cpu, Database, Server, ChevronRight, Activity, Terminal } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { resolveList } from "@/lib/templates/resolveList";
 
@@ -153,11 +153,6 @@ return (
           <div className="relative z-10 max-w-[1200px] mx-auto px-6 md:px-12 w-full">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
               <div>
-                <Reveal>
-                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-blue-500/20 bg-blue-500/10 text-blue-400 text-[10px] font-bold uppercase tracking-widest mb-8">
-                    <Zap className="w-3 h-3" /> Next-Gen Cloud Platform
-                  </div>
-                </Reveal>
                 <Reveal delay={0.1} y={60}>
                   <h1 className="text-6xl md:text-8xl font-black tracking-tighter leading-[0.9] mb-8">{c?.heroHeadline ?? <>
                     Deploy<br/>Without<br/><span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-violet-400 to-blue-500">Limits.</span>

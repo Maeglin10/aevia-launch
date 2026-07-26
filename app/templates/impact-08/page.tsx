@@ -473,10 +473,7 @@ return (
 
               <div className="relative z-10 w-full max-w-7xl">
                  <Reveal>
-                    <div className="inline-flex items-center gap-4 px-6 py-2 border border-[var(--brand,#3b82f6)]/30 bg-[var(--brand,#3b82f6)]/5 text-[10px] font-black uppercase tracking-[0.5em] text-[var(--brand,#3b82f6)] mb-12 italic">
-                       Propulsion_Init // Thermal: NOMINAL // Flow: OPTIMAL
-                    </div>
-                    <motion.h1 
+                    <motion.h1
                       style={{ scale: heroScale }}
                       className="text-7xl md:text-[14vw] font-black tracking-tighter uppercase mb-12 leading-[0.7] italic flex flex-col"
                     >{c?.heroHeadline ?? <>

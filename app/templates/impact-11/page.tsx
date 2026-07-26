@@ -217,11 +217,6 @@ return (
         </motion.div>
         <div className="max-w-6xl mx-auto relative z-10">
           <div className="max-w-3xl">
-            <Reveal>
-              <div className="inline-flex items-center gap-2 bg-[var(--brand,#7C3AED)]/10 text-[var(--brand,#7C3AED)] px-4 py-1.5 rounded-full text-xs font-semibold mb-5 md:mb-8">
-                <Star className="w-3 h-3 fill-[var(--brand,#7C3AED)]" /> Plateforme #1 en France · 250k apprenants
-              </div>
-            </Reveal>
             <Reveal delay={0.1}>
               <h1 className="text-gray-900 text-4xl sm:text-5xl md:text-7xl font-bold leading-tight mb-4 md:mb-6">{c?.heroHeadline ?? <>
                 Apprenez les<br />

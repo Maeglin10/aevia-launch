@@ -459,23 +459,6 @@ export default function QBitLabsPage() {
           >
             {/* Left: copy */}
             <div>
-              <Reveal>
-                <div
-                  style={{
-                    display: "inline-block",
-                    fontSize: 11,
-                    fontFamily: "'IBM Plex Mono', 'Courier New', monospace",
-                    color: "var(--brand,#0f62fe)",
-                    letterSpacing: "0.12em",
-                    marginBottom: 24,
-                    background: "#edf5ff",
-                    padding: "4px 10px",
-                  }}
-                >
-                  // QUANTUM COMPUTING RESEARCH
-                </div>
-              </Reveal>
-
               <Reveal delay={0.05}>
                 <h1
                   style={{

@@ -430,27 +430,6 @@ function Hero() {
       <motion.div
         style={{ flex: 1, maxWidth: 580, position: "relative", zIndex: 1, y: textY, opacity: textOpacity }}
       >
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          style={{
-            display: "inline-flex",
-            alignItems: "center",
-            gap: 8,
-            background: C.accentLight,
-            border: `1px solid ${C.accent}`,
-            borderRadius: 20,
-            padding: "6px 16px",
-            marginBottom: 24,
-          }}
-        >
-          <Shield size={14} color={C.accent} />
-          <span style={{ color: C.accent, fontSize: 13, fontWeight: 600 }}>
-            Cabinet agréé ARS Île-de-France
-          </span>
-        </motion.div>
-
         <motion.h1
           initial={{ opacity: 0, y: 32 }}
           animate={{ opacity: 1, y: 0 }}

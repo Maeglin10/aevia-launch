@@ -211,11 +211,6 @@ export default function AstrumReachPage() {
           <div className="relative z-10 max-w-[1400px] mx-auto px-6 md:px-12 w-full">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
               <div>
-                <Reveal>
-                  <div className="inline-flex items-center gap-3 px-4 py-1.5 bg-[var(--brand,#06b6d4)]/5 border border-[var(--brand,#06b6d4)]/20 text-[var(--brand,#22d3ee)] text-[10px] font-bold uppercase tracking-[0.4em] mb-12">
-                    <Activity className="w-4 h-4 animate-pulse" /> Orbital Logistics System Active
-                  </div>
-                </Reveal>
                 <Reveal delay={0.1} y={60}>
                   <h1 className="text-6xl md:text-[9rem] font-light tracking-tighter leading-[0.8] uppercase mb-12">{c?.heroHeadline ?? <>
                     Infinite <br/> <span className="text-[var(--brand,#06b6d4)] font-bold">Horizon.</span>

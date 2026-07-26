@@ -512,17 +512,7 @@ export default function Impact324TicketStore({ session: initialSession }) {
         }} />
 
         <div style={{ position: "relative", zIndex: 2, maxWidth: 1400, margin: "0 auto", width: "100%", display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center" }}>
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 1, ease: EASE }}
-            style={{ display: "inline-flex", alignItems: "center", gap: "8px", padding: "8px 16px", backgroundColor: `${C.primary}20`, border: `1px solid ${C.primary}`, borderRadius: "30px", marginBottom: "32px", backdropFilter: "blur(4px)" }}
-          >
-            <Zap size={16} color={C.primary} />
-            <span style={{ color: C.white, fontSize: "12px", fontWeight: 600, letterSpacing: "1px", textTransform: "uppercase" }}>
-              Summer Season 2026
-            </span>
-          </motion.div>
-          
-          <motion.h1 
+          <motion.h1
             initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.2, ease: EASE }}
             style={{ fontFamily: SERIF, fontSize: "clamp(40px, 8vw, 90px)", fontWeight: 900, lineHeight: 1.1, margin: "0 0 24px 0", color: C.white, textTransform: "uppercase", letterSpacing: "-2px" }}
           >

@@ -100,15 +100,6 @@ return (
         </motion.div>
 
         <motion.div style={{ opacity: heroOpacity, position: "relative", zIndex: 1, textAlign: "center", maxWidth: 900, padding: "0 24px" }}>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 11, letterSpacing: "0.4em", color: C.moss, textTransform: "uppercase", marginBottom: 32 }}
-          >
-            Nature Photography · Fine Art Prints
-          </motion.p>
-
           <h1 style={{ fontSize: "clamp(52px, 9vw, 120px)", fontWeight: 900, lineHeight: 1.15, letterSpacing: "-0.03em", marginBottom: 40, color: C.cream, paddingBottom: "0.15em" }}>{c?.heroHeadline ?? <>
             <TextReveal text="Finding" delay={0.3} style={{ display: "block" }} />
             <TextReveal text="depth" delay={0.5} style={{ display: "block", color: C.amber }} />

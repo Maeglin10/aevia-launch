@@ -700,22 +700,6 @@ export default function Impact200Page() {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            {/* Label */}
-            <motion.div
-              className="flex items-center gap-3 mb-8"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-            >
-              <Heart className="w-4 h-4 text-[var(--brand,#DB2777)]" fill="currentColor" />
-              <span
-                className="text-[var(--brand,#DB2777)] text-sm tracking-[0.15em] font-light italic"
-                style={{ fontFamily: "'Cormorant Infant', serif" }}
-              >
-                Wedding Planner · Paris & France entière
-              </span>
-            </motion.div>
-
             {/* Script headline */}
             <motion.h1
               className="text-[clamp(3.5rem,8vw,7rem)] leading-[0.9] text-[#831843] mb-6"

@@ -115,10 +115,6 @@ return (
 
         <div className="relative z-10 max-w-[1400px] mx-auto px-6 md:px-12 w-full">
           <Reveal>
-            <div className="inline-flex items-center gap-3 px-4 py-2 bg-[var(--brand,#e11d48)]/10 rounded-none border border-[var(--brand,#e11d48)]/30 text-[var(--brand,#e11d48)] text-[10px] font-bold uppercase tracking-widest mb-10 shadow-sm">
-              <span className="w-2 h-2 bg-[var(--brand,#e11d48)] rounded-full animate-pulse" />
-              Live: Volumetric Stream 0x074F
-            </div>
             <h1 className="text-7xl md:text-9xl lg:text-[11rem] font-black leading-[1.15] tracking-tighter mb-12 uppercase italic pb-4">{c?.heroHeadline ?? <>
               Space <br /> <span className="text-[var(--brand,#e11d48)]">As Data.</span>
             </>}</h1>

@@ -333,14 +333,6 @@ export default function BlockBasePage() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
             <div className="lg:col-span-7">
               <Reveal>
-                <div className="flex items-center gap-4 mb-4 md:mb-8">
-                  <div className="px-3 py-1 bg-[var(--brand,#00f2ff)]/10 border border-[var(--brand,#00f2ff)]/30 text-[var(--brand,#00f2ff)] text-[9px] font-bold uppercase tracking-widest">
-                    SYSTEMS_NOMINAL
-                  </div>
-                  <div className="text-[9px] text-white/30 tracking-widest uppercase">
-                    v4.2.0-stable // LATENCY: 1.2ms
-                  </div>
-                </div>
                 <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-9xl font-black leading-[1.05] md:leading-[0.85] tracking-tighter uppercase mb-5 md:mb-10 break-words">{c?.heroHeadline ?? <>
                   Zero <br />{" "}
                   <span className="text-[var(--brand,#00f2ff)]">Knowledge.</span> <br />{" "}

@@ -123,11 +123,6 @@ export default function VanguardLegalPage() {
           <div className="max-w-[1400px] mx-auto px-6 md:px-12 w-full">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
               <div>
-                <Reveal>
-                  <div className="inline-flex items-center gap-4 mb-12 px-4 py-1.5 bg-[var(--brand,#00ff41)]/5 border border-[var(--brand,#00ff41)]/20 text-[var(--brand,#00ff41)] text-[10px] font-bold uppercase tracking-[0.4em]">
-                    <Activity className="w-4 h-4 animate-pulse" /> Active Defense Grid v8.0
-                  </div>
-                </Reveal>
                 <Reveal delay={0.1} y={100}>
                   <h1 className="text-6xl md:text-[10vw] font-black tracking-tighter leading-[0.8] uppercase mb-12 italic">{c?.heroHeadline ?? <>
                     Silent <br/> <span className="text-white/20 not-italic">Justice.</span>

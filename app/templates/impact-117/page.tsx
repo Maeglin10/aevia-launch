@@ -196,11 +196,6 @@ export default function VoltLogisticsPage() {
           <div className="relative z-10 max-w-[1400px] mx-auto px-6 md:px-12 w-full">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
               <div>
-                <Reveal>
-                  <div className="inline-flex items-center gap-3 px-4 py-1.5 bg-[var(--brand,#ffb400)]/10 border border-[var(--brand,#ffb400)]/20 text-[var(--brand,#ffb400)] text-[10px] font-bold uppercase tracking-[0.3em] mb-8">
-                    <span className="w-2 h-2 rounded-full bg-[var(--brand,#ffb400)] animate-pulse" /> Decarbonizing Global Supply Chains
-                  </div>
-                </Reveal>
                 <Reveal delay={0.1}>
                   <h1 className="text-7xl md:text-[9rem] font-black tracking-tighter leading-[0.8] uppercase italic mb-10">{c?.heroHeadline ?? <>
                     The Speed<br/>Of <span className="text-[var(--brand,#ffb400)]">Light.</span>

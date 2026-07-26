@@ -722,21 +722,6 @@ export default function AIHorizonsTemplate() {
         <div style={{ maxWidth: '1200px', margin: '0 auto', width: '100%', padding: '0 5%', position: 'relative', zIndex: 10 }}>
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
             
-            <Reveal y={30} delay={0.1}>
-              <div style={{ 
-                display: 'inline-flex', alignItems: 'center', gap: '8px', 
-                padding: '8px 16px', borderRadius: '30px', 
-                backgroundColor: 'rgba(6, 182, 212, 0.1)',
-                border: `1px solid rgba(6, 182, 212, 0.3)`,
-                marginBottom: '32px'
-              }}>
-                <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: C.primary, boxShadow: `0 0 10px ${C.primary}` }} />
-                <span style={{ fontFamily: SANS, fontSize: '13px', fontWeight: 600, color: C.primary, letterSpacing: '1px', textTransform: 'uppercase' }}>
-                  Édition 2026 Officielle
-                </span>
-              </div>
-            </Reveal>
-
             <Reveal y={40} delay={0.2}>
               <h1 className="title-display">
                 {heroTitle.split(' ').map((word, i) => (

@@ -19,7 +19,6 @@ import {
   CheckCircle,
   ArrowRight,
   ChevronRight,
-  Zap,
 } from "lucide-react";
 import {
   C,
@@ -164,15 +163,6 @@ return (
           style={{ opacity: heroOpacity }}
           className="relative z-10 max-w-5xl mx-auto px-6 text-center"
         >
-          <Reveal>
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-[#E0E7FF] shadow-sm mb-5 md:mb-8">
-              <Zap className="w-3.5 h-3.5 text-[var(--brand,#6366F1)]" />
-              <span className="text-xs font-semibold text-[var(--brand,#6366F1)]">
-                +2 000 nouveaux cours cette année
-              </span>
-            </div>
-          </Reveal>
-
           <Reveal delay={0.1}>
             <h1 className="text-4xl sm:text-5xl md:text-7xl font-extrabold leading-[1.1] md:leading-[1.05] tracking-tight mb-4 md:mb-6 break-words">{c?.heroHeadline ?? <>
               Apprenez ce que{" "}

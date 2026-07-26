@@ -147,7 +147,6 @@ return (
         }}
       >
         <motion.div style={{ y: heroY, opacity: heroOpacity, padding: "4rem 3rem 4rem clamp(2rem, 6vw, 6rem)" }}>
-          <SectionLabel>Horlogerie Genevoise</SectionLabel>
           <h1
             style={{
               fontFamily: "'Cormorant Garamond', serif",

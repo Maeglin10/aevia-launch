@@ -357,9 +357,6 @@ export default function HorizonYachtPage() {
 
         <div className="relative z-10 max-w-[1600px] mx-auto px-6 md:px-12 w-full grid grid-cols-1 lg:grid-cols-2 items-center">
           <Reveal>
-            <Badge className="bg-[var(--brand,#c5a059)]/10 text-[var(--brand,#c5a059)] border border-[var(--brand,#c5a059)]/30 text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.2em] sm:tracking-[0.5em] mb-10 px-4 py-1.5 rounded-full whitespace-normal text-center max-w-full">
-              Global Maritime Excellence // Est. 1988
-            </Badge>
             <h1 className="text-[clamp(2.75rem,7vw,9rem)] font-black leading-[0.95] tracking-tighter mb-12 uppercase text-white italic break-words">{c?.heroHeadline ?? <>
               Mastering <br />{" "}
               <span className="text-[var(--brand,#c5a059)] not-italic">The Deep.</span>

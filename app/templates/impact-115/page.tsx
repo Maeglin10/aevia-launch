@@ -931,44 +931,6 @@ export default function Impact115Page() {
             marginTop: 80,
           }}
         >
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 10,
-              border: `1px solid rgba(138,174,120,0.35)`,
-              borderRadius: 100,
-              padding: "7px 20px",
-              marginBottom: 40,
-              backdropFilter: "blur(8px)",
-            }}
-          >
-            <span
-              style={{
-                display: "inline-block",
-                width: 6,
-                height: 6,
-                borderRadius: "50%",
-                background: C.greenSoft,
-              }}
-            />
-            <span
-              style={{
-                fontFamily: C.fontSans,
-                fontSize: 10,
-                fontWeight: 500,
-                letterSpacing: "0.22em",
-                textTransform: "uppercase",
-                color: C.greenSoft,
-              }}
-            >
-              Biophilic Architecture Studio — Est. 2014
-            </span>
-          </motion.div>
-
           <TextReveal immediate>
             <h1
               style={{

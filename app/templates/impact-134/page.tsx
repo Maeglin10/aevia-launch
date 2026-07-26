@@ -1070,21 +1070,6 @@ function Hero() {
         className="relative z-[2] w-full lg:w-[45%] px-6 md:px-12 lg:pl-16 lg:pr-12 pt-28 pb-20 flex flex-col justify-center"
         style={{ y: yText }}
       >
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3, duration: 0.7 }}
-          className="flex items-center gap-3 mb-8"
-        >
-          <div className="h-[1px] w-10" style={{ backgroundColor: C.primary }} />
-          <span
-            className="text-[10px] tracking-[0.28em] uppercase"
-            style={{ fontFamily: "'Inter', sans-serif", color: C.primary, fontWeight: 500 }}
-          >
-            Soins d'exception · 100% vegan
-          </span>
-        </motion.div>
-
         <motion.h1
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}

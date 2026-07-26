@@ -208,11 +208,6 @@ export default function VulcanMotorsPage() {
           </div>
 
           <div className="relative z-10 max-w-[1400px] mx-auto px-6 md:px-12 w-full">
-            <Reveal>
-              <div className="inline-flex items-center gap-3 px-4 py-1.5 bg-red-600/10 border border-red-600/20 text-red-500 text-[10px] font-bold uppercase tracking-[0.3em] mb-12 italic">
-                <Gauge className="w-4 h-4" /> The Pinnacle of Mechanical Intent
-              </div>
-            </Reveal>
             <Reveal delay={0.1} y={60}>
               <h1 className="text-7xl md:text-[10rem] font-black tracking-tighter leading-[0.8] uppercase italic mb-12">{c?.heroHeadline ?? <>
                 Pure<br/>Kinetic<br/><span className="text-red-600">Soul.</span>

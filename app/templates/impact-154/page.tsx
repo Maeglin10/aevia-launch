@@ -556,9 +556,6 @@ return (
 
           <div className="relative z-10 text-center max-w-7xl px-8">
              <Reveal>
-                <div className="inline-flex items-center gap-4 px-4 py-1 border border-[var(--brand,#b4925e)]/30 bg-[var(--brand,#b4925e)]/5 text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#b4925e)] mb-6 md:mb-12 italic">
-                   Status // High_Security_Node: Zurich
-                </div>
                 <h1 className="text-5xl sm:text-6xl md:text-[14vw] font-light italic leading-[0.85] md:leading-[0.75] tracking-tighter uppercase mb-6 md:mb-16" style={{ fontFamily: "serif" }}>{c?.heroHeadline ?? <>
                    Heritage <br/> <span className="not-italic font-black text-white/5 italic">Eternalized.</span>
                 </>}</h1>

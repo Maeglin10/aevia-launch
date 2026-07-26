@@ -247,14 +247,6 @@ return (
       <section className="relative min-h-dvh flex items-center pt-32 pb-20 overflow-hidden">
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 w-full grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
           <div className="relative z-10">
-            <Reveal>
-              <div className="flex items-center gap-8 mb-12 opacity-20">
-                <div className="w-16 h-[1px] bg-black" />
-                <span className="text-[10px] font-bold uppercase tracking-[0.6em] text-black italic">
-                  Form Follows Light
-                </span>
-              </div>
-            </Reveal>
             <Reveal delay={0.2} y={70}>
               <h1 className="text-7xl md:text-[10rem] font-light tracking-tighter leading-[1.15] text-[#1a1a1a] mb-16 uppercase pb-4">{c?.heroHeadline ?? <>
                 Pure <br />{" "}

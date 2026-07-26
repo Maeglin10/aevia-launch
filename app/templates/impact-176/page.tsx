@@ -1425,45 +1425,6 @@ export default function Impact176Page() {
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8 }}
         >
-          {/* Badge */}
-          <motion.div
-            initial={{ opacity: 0, y: -16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 8,
-              background: C.accentGlow,
-              border: `1px solid ${C.accent}30`,
-              borderRadius: 100,
-              padding: "6px 18px",
-              marginBottom: 36,
-            }}
-          >
-            <motion.span
-              animate={{ opacity: [1, 0.3, 1] }}
-              transition={{ repeat: Infinity, duration: 1.5 }}
-              style={{
-                width: 7,
-                height: 7,
-                background: C.green,
-                borderRadius: "50%",
-                display: "inline-block",
-              }}
-            />
-            <span
-              style={{
-                fontFamily: C.fontMono,
-                fontSize: 11,
-                color: C.accentHi,
-                letterSpacing: "0.1em",
-              }}
-            >
-              Real-time data · 99.95% uptime SLA
-            </span>
-          </motion.div>
-
           <TextReveal immediate style={{ marginBottom: 8 }}>
             <h1
               style={{

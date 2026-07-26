@@ -265,11 +265,6 @@ export default function CabinetKinePage() {
         <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to right, ${C.accent}18 0%, transparent 55%)` }} />
 
         <motion.div className="imx-hero196-content" style={{ position: "relative", zIndex: 1, padding: "0 clamp(24px, 6vw, 80px) 90px", maxWidth: 780, y: heroTextY, opacity: heroOpacity }}>
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
-            style={{ display: "inline-flex", alignItems: "center", gap: 10, marginBottom: 28, background: "rgba(45,106,143,0.20)", border: "1px solid rgba(45,106,143,0.40)", borderRadius: 20, padding: "7px 18px" }}>
-            <span style={{ color: "#a8d4f0", fontSize: 12, fontWeight: 700, letterSpacing: 2, textTransform: "uppercase" }}>Cabinet de kinésithérapie · Nantes</span>
-          </motion.div>
-
           <motion.h1 initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.9 }}
             style={{ fontFamily: FONT_SERIF, fontSize: "clamp(42px, 5.5vw, 76px)", fontWeight: 300, color: "#fff", lineHeight: 1.1, marginBottom: 24 }}>{c?.heroHeadline ?? <>
             Retrouver le mouvement,<br /><em>retrouver la vie.</em>

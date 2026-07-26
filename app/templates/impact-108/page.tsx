@@ -332,29 +332,6 @@ export default function LedgerPage() {
             opacity: heroOpacity,
           }}
         >
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3, duration: 0.6 }}
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 8,
-              background: "rgba(26,158,111,0.2)",
-              border: "1px solid rgba(26,158,111,0.5)",
-              color: "var(--brand-light,#4ade80)",
-              fontFamily: FONT,
-              fontWeight: 600,
-              fontSize: 12,
-              letterSpacing: 2,
-              textTransform: "uppercase",
-              padding: "7px 16px",
-              borderRadius: 4,
-              marginBottom: 24,
-            }}
-          >
-            Expert-comptable · Bordeaux
-          </motion.div>
           <motion.h1
             initial={{ opacity: 0, y: 28 }}
             animate={{ opacity: 1, y: 0 }}

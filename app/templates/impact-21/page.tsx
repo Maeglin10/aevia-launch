@@ -356,11 +356,6 @@ return (
               </div>
             </motion.div>
             <div className="max-w-6xl mx-auto w-full relative z-10">
-              <Reveal>
-                <div className="inline-flex items-center gap-2 bg-[var(--brand,#F97316)]/10 text-[var(--brand,#F97316)] text-xs font-semibold px-4 py-1.5 rounded-full mb-8">
-                  Studio de design produit · Paris
-                </div>
-              </Reveal>
               <Reveal delay={0.1}>
                 <h1 className="text-gray-900 text-6xl md:text-8xl font-bold leading-none mb-8">{c?.heroHeadline ?? <>
                   Design<br />

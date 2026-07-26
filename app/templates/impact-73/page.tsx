@@ -250,12 +250,6 @@ export default function ConservatoireAccordPage() {
         <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to right, ${C.purple}18 0%, transparent 55%)` }} />
 
         <motion.div style={{ position: "relative", zIndex: 1, padding: "0 80px 90px", maxWidth: 760, y: heroTextY, opacity: heroOpacity }}>
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
-            style={{ display: "inline-flex", alignItems: "center", gap: 8, marginBottom: 28, background: "rgba(230,124,59,0.15)", border: "1px solid rgba(230,124,59,0.35)", borderRadius: 20, padding: "7px 18px" }}>
-            <Music size={12} color={C.amber} />
-            <span style={{ color: C.amber, fontSize: 12, fontWeight: 600, letterSpacing: 2, textTransform: "uppercase" }}>École de musique · Lyon 6e</span>
-          </motion.div>
-
           <motion.h1 initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.9 }}
             style={{ fontFamily: FONT, fontSize: "clamp(40px, 5.2vw, 68px)", fontWeight: 300, color: "#fff", lineHeight: 1.1, marginBottom: 24 }}>{c?.heroHeadline ?? <>
             La musique s'apprend<br /><em style={{ color: C.amber }}>avec passion et méthode.</em>

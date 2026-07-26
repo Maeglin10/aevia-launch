@@ -116,13 +116,6 @@ return (
           </div>
 
           <div className="relative z-10 max-w-[1200px] mx-auto px-6 text-center">
-            <Reveal>
-              <div className="flex items-center justify-center gap-8 mb-6 md:mb-12 opacity-30">
-                <div className="w-16 h-[1px] bg-[var(--brand,#ff00ff)]" />
-                <span className="text-[10px] font-bold uppercase tracking-[0.6em] text-white">The Pulse of Nocturnal Elegance</span>
-                <div className="w-16 h-[1px] bg-[var(--brand,#ff00ff)]" />
-              </div>
-            </Reveal>
             <Reveal delay={0.2} y={70}>
               <h1 className="text-6xl md:text-[14vw] font-light tracking-tighter leading-[1.15] text-white mb-6 md:mb-16 uppercase italic pb-4 md:pb-6">{c?.heroHeadline ?? <>
                 Ethereal <br /> <span className="font-bold not-italic">Rhythm.</span>

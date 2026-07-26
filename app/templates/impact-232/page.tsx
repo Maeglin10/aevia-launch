@@ -192,10 +192,6 @@ export default function VertNaturePage() {
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(6,14,2,0.92) 0%, rgba(6,14,2,0.38) 45%, rgba(6,14,2,0.06) 100%)" }} />
         <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to right, ${C.accent}14 0%, transparent 55%)` }} />
         <motion.div style={{ position: "relative", zIndex: 1, padding: "0 80px 90px", maxWidth: 760, y: heroTextY, opacity: heroOpacity }}>
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
-            style={{ display: "inline-flex", alignItems: "center", gap: 8, marginBottom: 28, background: "rgba(74,122,40,0.15)", border: "1px solid rgba(74,122,40,0.30)", borderRadius: 20, padding: "7px 18px" }}>
-            <span style={{ color: C.sand, fontSize: 12, fontWeight: 700, letterSpacing: 2, textTransform: "uppercase" }}>Paysagiste · Jardinier · Bordeaux Métropole</span>
-          </motion.div>
           <motion.h1 initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.9 }}
             style={{ fontFamily: FONT, fontSize: "clamp(40px, 5vw, 68px)", color: "#fff", lineHeight: 1.1, marginBottom: 24 }}>{c?.heroHeadline ?? <>
             Votre jardin,<br /><em style={{ color: C.sand }}>vivant et sans chimie.</em>

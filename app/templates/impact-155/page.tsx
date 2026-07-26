@@ -265,11 +265,6 @@ export default function PierreCoPage() {
         <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to right, ${C.accent}15 0%, transparent 55%)` }} />
 
         <motion.div style={{ position: "relative", zIndex: 1, padding: "0 clamp(24px, 6vw, 80px) 90px", maxWidth: 820, y: heroTextY, opacity: heroOpacity }}>
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
-            style={{ display: "inline-flex", alignItems: "center", gap: 10, marginBottom: 28, background: "rgba(212,168,83,0.15)", border: "1px solid rgba(212,168,83,0.35)", borderRadius: 20, padding: "7px 18px" }}>
-            <span style={{ color: C.accent, fontSize: 12, fontWeight: 700, letterSpacing: 2, textTransform: "uppercase" }}>Immobilier de prestige · Paris & IDF</span>
-          </motion.div>
-
           <motion.h1 initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.9 }}
             style={{ fontFamily: FONT_SERIF, fontSize: "clamp(46px, 6vw, 84px)", fontWeight: 400, color: "#fff", lineHeight: 1.05, letterSpacing: -0.5, marginBottom: 24 }}>{c?.heroHeadline ?? <>
             Votre bien,<br /><em style={{ color: C.accent }}>sa vraie valeur.</em>

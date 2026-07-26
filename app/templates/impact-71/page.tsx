@@ -93,10 +93,6 @@ return (
 
         <div className="relative z-10 max-w-[1400px] mx-auto px-6 md:px-12 w-full">
           <Reveal>
-            <div className="inline-flex items-center gap-3 px-4 py-2 bg-stone-100/50 backdrop-blur-md rounded-full border border-stone-200/50 text-stone-500 text-[10px] font-bold uppercase tracking-widest mb-10 shadow-sm">
-              <Leaf className="w-3.5 h-3.5 text-[var(--brand,#c9a84c)]" />
-              Silence is the Language of the Soul
-            </div>
             <h1 className="text-7xl md:text-9xl lg:text-[11rem] font-light leading-[1.15] tracking-tighter mb-12 uppercase italic text-[#33302c] pb-6">{c?.heroHeadline ?? <>
               Find Your <br />{" "}
               <span className="text-[var(--brand,#c9a84c)]">Stillness.</span>

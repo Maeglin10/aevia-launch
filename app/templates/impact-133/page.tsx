@@ -864,23 +864,6 @@ function HeroSection() {
           opacity,
         }}
       >
-        <motion.span
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          style={{
-            fontFamily: C.fontMono,
-            fontSize: 11,
-            letterSpacing: "0.28em",
-            textTransform: "uppercase",
-            color: C.violet,
-            display: "block",
-            marginBottom: 28,
-          }}
-        >
-          Speculative Architecture & Urban Design Studio — Est. 2019
-        </motion.span>
-
         <h1
           style={{
             fontFamily: C.fontSans,

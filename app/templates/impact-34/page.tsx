@@ -152,16 +152,6 @@ return (
         </motion.div>
 
         <motion.div style={{ opacity: heroOpacity }} className="relative z-10 max-w-6xl mx-auto px-6 text-center">
-          {/* Chip */}
-          <Reveal>
-            <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full border border-[var(--brand,#F97316)]/30 bg-[var(--brand,#F97316)]/10 mb-5 md:mb-10">
-              <Mic className="w-3.5 h-3.5 text-[var(--brand,#F97316)]" />
-              <span className="text-xs font-semibold text-[#FB923C]">
-                Trusted by 50,000+ podcasters worldwide
-              </span>
-            </div>
-          </Reveal>
-
           {/* Big EQ visualization */}
           <Reveal delay={0.05}>
             <div className="flex justify-center mb-4 md:mb-8">

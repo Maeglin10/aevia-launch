@@ -490,10 +490,6 @@ function RouteMapHero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
         >
-          <div className="n207-label" style={{ marginBottom: 24 }}>
-            Global Freight Intelligence
-          </div>
-
           <h1
             style={{
               fontFamily: T.font,

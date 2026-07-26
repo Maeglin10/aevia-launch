@@ -1368,33 +1368,6 @@ export default function Impact170Page() {
         >
           {/* Left: intro */}
           <div>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              style={{
-                fontFamily: C.font,
-                fontSize: 11,
-                color: C.green,
-                letterSpacing: "0.15em",
-                marginBottom: 24,
-                display: "flex",
-                alignItems: "center",
-                gap: 10,
-              }}
-            >
-              <span
-                style={{
-                  display: "inline-block",
-                  width: 8,
-                  height: 8,
-                  borderRadius: "50%",
-                  background: C.green,
-                  boxShadow: `0 0 8px ${C.green}`,
-                }}
-              />
-              Available for work — Remote / Paris
-            </motion.div>
 
             <TextReveal immediate>
               <h1

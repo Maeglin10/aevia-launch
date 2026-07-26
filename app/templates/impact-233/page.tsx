@@ -268,10 +268,6 @@ export default function CabinetOsteopathiePage() {
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(6,5,3,0.93) 0%, rgba(6,5,3,0.40) 45%, rgba(6,5,3,0.08) 100%)" }} />
         <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to right, ${C.accent}16 0%, transparent 55%)` }} />
         <motion.div style={{ position: "relative", zIndex: 1, padding: "0 80px 90px", maxWidth: 760, y: heroTextY, opacity: heroOpacity }}>
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
-            style={{ display: "inline-flex", alignItems: "center", gap: 8, marginBottom: 28, background: "rgba(45,107,138,0.15)", border: "1px solid rgba(45,107,138,0.30)", borderRadius: 20, padding: "7px 18px" }}>
-            <span style={{color: brand ?? 'var(--brand,#7ec8e0)', fontSize: 12, fontWeight: 700, letterSpacing: 2, textTransform: "uppercase" }}>Ostéopathe D.O. · Lyon 6e</span>
-          </motion.div>
           <motion.h1 initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.9 }}
             style={{ fontFamily: FONT, fontSize: "clamp(40px, 5vw, 68px)", color: "#fff", lineHeight: 1.1, marginBottom: 24 }}>{c?.heroHeadline ?? <>
             Retrouver l'équilibre<br /><em style={{color: brand ?? 'var(--brand,#7ec8e0)' }}>naturellement.</em>

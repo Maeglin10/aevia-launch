@@ -231,50 +231,6 @@ export default function Impact52Page() {
           style={{ y: parallaxY, opacity, textAlign: "center", zIndex: 10 }}
         >
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="imx52-kicker"
-            style={{
-              fontSize: "0.58rem",
-              fontFamily: F.mono,
-              fontWeight: 700,
-              letterSpacing: "0.4em",
-              color: `${C.CYAN}88`,
-              marginBottom: "2rem",
-              display: "flex",
-              flexWrap: "wrap",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: "0.8rem",
-              padding: "0 12px",
-              textAlign: "center",
-            }}
-          >
-            <span
-              style={{
-                display: "inline-block",
-                width: "6px",
-                height: "6px",
-                borderRadius: "50%",
-                background: C.CYAN,
-                boxShadow: `0 0 8px ${C.CYAN}`,
-              }}
-            />
-            <span style={{ whiteSpace: "normal" }}>CYBERPUNK_CREATIVE_STUDIO &nbsp;//&nbsp; EST. 2019</span>
-            <span
-              style={{
-                display: "inline-block",
-                width: "6px",
-                height: "6px",
-                borderRadius: "50%",
-                background: C.PINK,
-                boxShadow: `0 0 8px ${C.PINK}`,
-              }}
-            />
-          </motion.div>
-
-          <motion.div
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.4, ease: [0.23, 1, 0.32, 1] }}

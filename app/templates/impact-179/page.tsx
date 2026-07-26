@@ -219,13 +219,6 @@ export default function AquanovaPiscinesPage() {
         </motion.div>
 
         <motion.div style={{ y: heroTextY, opacity: heroOpacity }} className="relative z-10 max-w-[1400px] w-full mx-auto px-6 md:px-12 pb-28">
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.3 }}>
-            <div className="inline-flex items-center gap-3 px-4 py-2 bg-[var(--brand)]/20 backdrop-blur border border-[var(--brand)]/30 rounded mb-8">
-              <div className="w-2 h-2 bg-[var(--brand-light)] rounded-full animate-pulse" />
-              <span className="text-[9px] font-bold uppercase tracking-[0.4em] text-[var(--brand-light)]">Constructeur de piscines · Devis sous 48h</span>
-            </div>
-          </motion.div>
-
           <motion.h1 initial={{ opacity: 0, y: 55 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.1, delay: 0.48, ease: [0.16, 1, 0.3, 1] }}
             className="text-5xl md:text-7xl lg:text-8xl font-bold leading-[0.9] tracking-tight mb-8 text-white">{c?.heroHeadline ?? <>
             Votre piscine<br />sur-<span className="text-[var(--brand-light)]">mesure</span><br />à Lyon.

@@ -263,12 +263,6 @@ export default function StudioNomaPage() {
         <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to right, ${C.accent}18 0%, transparent 55%)` }} />
 
         <motion.div style={{ position: "relative", zIndex: 1, padding: "0 clamp(24px, 6vw, 80px) 90px", maxWidth: 820, y: heroTextY, opacity: heroOpacity }}>
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
-            style={{ display: "inline-flex", alignItems: "center", gap: 10, marginBottom: 28 }}>
-            <div style={{ width: 32, height: 1, background: C.accent }} />
-            <span style={{ color: C.accent, fontSize: 12, fontWeight: 600, letterSpacing: 3, textTransform: "uppercase", fontFamily: FONT_SANS }}>Architecture d'intérieur · Lyon</span>
-          </motion.div>
-
           <motion.h1 initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 1 }}
             style={{ fontFamily: FONT, fontSize: "clamp(52px, 7vw, 96px)", fontWeight: 300, color: "#fff", lineHeight: 1.0, letterSpacing: -1, marginBottom: 24 }}>{c?.heroHeadline ?? <>
             L'espace comme<br /><em style={{ color: C.accent }}>œuvre d'art.</em>

@@ -261,11 +261,6 @@ return (
                 <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-[#8B5CF6]/10 rounded-full blur-3xl" />
               </div>
               <div className="max-w-6xl mx-auto w-full relative z-10">
-                <Reveal className="text-center">
-                  <div className="inline-flex items-center gap-2 bg-[var(--brand,#3B82F6)]/10 border border-[var(--brand,#3B82F6)]/20 text-[#60A5FA] px-4 py-1.5 rounded-full text-xs font-semibold mb-5 md:mb-8">
-                    <TrendingUp className="w-3 h-3" /> +12 000 équipes nous font confiance
-                  </div>
-                </Reveal>
                 <Reveal delay={0.1} className="text-center">
                   <h1 className="text-white text-4xl sm:text-5xl md:text-7xl font-extrabold leading-tight mb-4 md:mb-6">{c?.heroHeadline ?? <>
                     Gérez tout votre travail<br />

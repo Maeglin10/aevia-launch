@@ -387,10 +387,6 @@ export default function WanderlustPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.2 }}
               >
-                <div className="flex items-center gap-3 text-amber-500 font-bold uppercase tracking-[0.3em] text-[10px] mb-6">
-                  <MapPin className="w-4 h-4" />{" "}
-                  {DESTINATIONS[activeDst].country}
-                </div>
                 <h1 className="text-6xl md:text-8xl lg:text-[7rem] font-bold tracking-tighter leading-[0.9] mb-6">{c?.heroHeadline ?? <>
                   {DESTINATIONS[activeDst].title}
                 </>}</h1>
