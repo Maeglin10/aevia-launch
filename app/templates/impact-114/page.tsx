@@ -687,7 +687,7 @@ export default function Impact114Page() {
               <>
                 <Leaf className="w-4 h-4 text-[#3d5a3e] group-hover:rotate-12 transition-transform" />
                 <span
-                  className="text-2xl tracking-[0.15em] text-[var(--brand,#2d1b0e)]"
+                  className="text-lg md:text-2xl tracking-[0.15em] text-[var(--brand,#2d1b0e)]"
                   style={{ fontFamily: "'Playfair Display', serif", fontStyle: "italic", fontWeight: 500 }}
                 >
                   TERRA
@@ -711,10 +711,10 @@ export default function Impact114Page() {
           </div>
 
           {/* CTA + Hamburger */}
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 md:gap-4">
             <Link
               href="#tirages"
-              className="flex items-center gap-2 px-3.5 py-2 md:px-5 md:py-2.5 bg-[var(--brand,#2d1b0e)] text-[#faf8f3] text-[10px] md:text-[11px] tracking-[0.2em] uppercase hover:bg-[#3d5a3e] transition-colors whitespace-nowrap"
+              className="flex items-center gap-1.5 px-2.5 py-1.5 md:px-5 md:py-2.5 bg-[var(--brand,#2d1b0e)] text-[#faf8f3] text-[9px] md:text-[11px] tracking-[0.1em] md:tracking-[0.2em] uppercase hover:bg-[#3d5a3e] transition-colors whitespace-nowrap"
               style={{ fontFamily: "'Source Serif 4', serif" }}
             >
               Voir les tirages
