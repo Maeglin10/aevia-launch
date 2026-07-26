@@ -292,7 +292,7 @@ export default function ChronicleEditorialPage() {
             <Link href="#subscribe" className="hidden md:block text-xs font-bold uppercase tracking-widest hover:text-[var(--brand,#d64000)] transition-colors">
               Subscribe
             </Link>
-            <Link href="#subscribe" className="bg-[var(--brand,#d64000)] text-white px-5 py-2.5 text-xs font-bold uppercase tracking-widest hover:bg-[#a33000] transition-colors">
+            <Link href="#subscribe" className="hidden sm:block bg-[var(--brand,#d64000)] text-white px-5 py-2.5 text-xs font-bold uppercase tracking-widest hover:bg-[#a33000] transition-colors">
               Support Us
             </Link>
           </div>
