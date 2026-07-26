@@ -1,4 +1,5 @@
 import type { SessionData } from './sessions'
+import { sectorGeoFor } from './geo/sectorGeo'
 
 // Maps free-text businessType to the most appropriate schema.org type
 const SCHEMA_TYPE_MAP: [RegExp, string][] = [
@@ -168,7 +169,37 @@ export function buildLocalBusinessSchema(session: SessionData): Record<string, u
     }
   }
 
+  // Sector keywords (pre-loaded per business type) merged with any the client
+  // typed — a further GEO signal that is populated the moment a niche is picked.
+  const geo = sectorGeoFor(bp?.niche)
+  const clientKeywords = (formData.businessType ?? '')
+    .split(/[,;]/)
+    .map((s) => s.trim())
+    .filter(Boolean)
+  const keywords = Array.from(new Set([...clientKeywords, ...geo.keywords]))
+  if (keywords.length) schema.keywords = keywords.join(', ')
+
   return schema
+}
+
+/**
+ * FAQPage JSON-LD for a session — one of the strongest GEO signals. Uses the
+ * client's own FAQ when captured (businessProfile.faq), otherwise the sector
+ * default so the page is answer-rich the moment a niche is chosen. Returns null
+ * only if there is genuinely nothing to emit.
+ */
+export function buildFaqSchemaForSession(
+  session: SessionData,
+): Record<string, unknown> | null {
+  const clientFaq = session.businessProfile?.faq
+    ?.filter((f) => f.q && f.a)
+    .map((f) => ({ question: f.q, answer: f.a }))
+  const sectorFaq = sectorGeoFor(session.businessProfile?.niche).faq.map((f) => ({
+    question: f.q,
+    answer: f.a,
+  }))
+  const faqs = clientFaq && clientFaq.length ? clientFaq : sectorFaq
+  return faqs.length ? buildFaqSchema(faqs) : null
 }
 
 export function buildFaqSchema(

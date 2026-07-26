@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
 import Script from "next/script";
 import { getSessionFromBlob } from "@/lib/sessions";
-import { buildLocalBusinessSchema } from "@/lib/seo";
+import { buildLocalBusinessSchema, buildFaqSchemaForSession } from "@/lib/seo";
 import GeneratedSite from "@/components/GeneratedSite";
 
 // Stable, branded delivery URL for a purchased site — no preview chrome
@@ -49,6 +49,8 @@ export default async function DeliveredSitePage({ params }: { params: Promise<{ 
 
   const localBusinessSchema = buildLocalBusinessSchema(session);
   const schemaJson = JSON.stringify(localBusinessSchema).replace(/</g, "\\u003c");
+  const faqSchema = buildFaqSchemaForSession(session);
+  const faqJson = faqSchema ? JSON.stringify(faqSchema).replace(/</g, "\\u003c") : null;
 
   const rawGa4 = session.formData.ga4Id;
   const ga4Id = rawGa4 && /^G-[A-Z0-9]{4,20}$/.test(rawGa4) ? rawGa4 : null;
@@ -56,6 +58,7 @@ export default async function DeliveredSitePage({ params }: { params: Promise<{ 
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: schemaJson }} />
+      {faqJson && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: faqJson }} />}
       {ga4Id && (
         <>
           <Script src={`https://www.googletagmanager.com/gtag/js?id=${ga4Id}`} strategy="afterInteractive" />
