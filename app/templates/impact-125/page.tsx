@@ -173,7 +173,7 @@ export default function AstrumReachPage() {
                 <div className="w-10 h-10 rounded-full bg-[var(--brand,#06b6d4)]/10 border border-[var(--brand,#06b6d4)]/30 flex items-center justify-center group-hover:bg-[var(--brand,#06b6d4)] transition-all duration-500">
                   <Rocket className="w-5 h-5 text-[var(--brand,#22d3ee)] group-hover:text-black" />
                 </div>
-                <span className="text-xl font-light tracking-[0.4em] uppercase">Astrum <span className="text-[var(--brand,#06b6d4)] font-bold">Reach</span></span>
+                <span className="text-base sm:text-xl font-light tracking-[0.15em] sm:tracking-[0.4em] uppercase whitespace-nowrap">Astrum <span className="text-[var(--brand,#06b6d4)] font-bold">Reach</span></span>
               </>
             )}
           </Link>
@@ -182,9 +182,9 @@ export default function AstrumReachPage() {
               <Link key={l} href="#hero" className="hover:text-[var(--brand,#22d3ee)] transition-colors">{l}</Link>
             ))}
           </div>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 sm:gap-4">
             <button className="hidden md:block px-6 py-2.5 text-white/40 text-[10px] font-bold uppercase tracking-widest hover:text-white transition-colors">Command Login</button>
-            <button className="px-8 py-3 bg-[var(--brand,#0891b2)] text-white text-[10px] font-bold uppercase tracking-[0.2em] rounded-sm hover:bg-[var(--brand,#22d3ee)] transition-all duration-500 shadow-[0_0_20px_rgba(6,182,212,0.3)]">Book Payload</button>
+            <button className="px-4 sm:px-8 py-2 sm:py-3 bg-[var(--brand,#0891b2)] text-white text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.1em] sm:tracking-[0.2em] rounded-sm hover:bg-[var(--brand,#22d3ee)] transition-all duration-500 shadow-[0_0_20px_rgba(6,182,212,0.3)] whitespace-nowrap">Book Payload</button>
             <Sheet>
               <SheetTrigger className="lg:hidden"><Menu className="w-6 h-6 text-white" /></SheetTrigger>
               <SheetContent side="right" className="bg-[#02040a] border-[var(--brand,#06b6d4)]/20 p-12 text-white">
