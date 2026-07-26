@@ -450,7 +450,10 @@ function ParallaxMountainHero() {
           zIndex:         10,
           textAlign:      "center",
           padding:        "0 24px",
+          width:          "100%",
           maxWidth:       1100,
+          margin:         "0 auto",
+          boxSizing:      "border-box",
         }}
       >
         <motion.h1
@@ -460,12 +463,13 @@ function ParallaxMountainHero() {
           style={{
             fontFamily:   "'Syne', sans-serif",
             fontWeight:   800,
-            fontSize:     "clamp(52px, 10vw, 130px)",
-            lineHeight:   0.88,
+            fontSize:     "clamp(36px, 10vw, 130px)",
+            lineHeight:   0.98,
             color:        C.text,
             marginBottom: 36,
             letterSpacing: "-0.03em",
             textTransform: "uppercase",
+            overflowWrap: "break-word",
           }}
         >
           The World's<br />
@@ -482,6 +486,7 @@ function ParallaxMountainHero() {
             fontWeight:   400,
             fontSize:     16,
             color:        C.textMuted,
+            width:        "100%",
             maxWidth:     540,
             margin:       "0 auto 48px",
             lineHeight:   1.7,
