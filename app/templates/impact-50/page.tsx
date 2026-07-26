@@ -235,24 +235,28 @@ export default function CabinetMoreauPage() {
           </motion.a>
         </div>
       )}
-      <style>{`@media (max-width: 900px) { #mb50-nav { display: none !important; } .mb50-burger { display: flex !important; } }`}</style>
+      <style>{`
+        @media (max-width: 900px) { #mb50-nav { display: none !important; } .mb50-burger { display: flex !important; } }
+        /* alignItems:flex-end plus clamp() padding wasn't enough on its own:
+           when the badge+h1+paragraph+CTAs stack is taller than the mobile
+           viewport, flex-end still pushes the whole block above y:0, hiding
+           the badge under the fixed nav regardless of padding values.
+           flex-start + real top clearance fixes it at the alignment level. */
+        @media (max-width: 640px) {
+          .imx50-hero { align-items: flex-start !important; height: auto !important; min-height: 100dvh !important; }
+          .imx50-hero-content { padding-top: 96px !important; }
+        }
+      `}</style>
 
-      {/* Hero — height was 115vh with a 900px minHeight floor, so on mobile
-          the section was fixed at 900px tall regardless of the ~667px
-          viewport. With content pinned to the bottom (alignItems: flex-end)
-          and 80px of horizontal padding forcing heavy text wrapping, the
-          badge (top of the content stack) got pushed up under the fixed nav
-          while the CTA buttons (bottom of the stack) landed below the fold.
-          100dvh keeps the section's bottom edge at the real viewport bottom,
-          and clamp() padding gives mobile text room to breathe. */}
-      <section ref={heroRef} style={{ height: "100dvh", minHeight: "560px", position: "relative", display: "flex", alignItems: "flex-end", overflow: "hidden" }}>
+      {/* Hero */}
+      <section ref={heroRef} className="imx50-hero" style={{ height: "100dvh", minHeight: "560px", position: "relative", display: "flex", alignItems: "flex-end", overflow: "hidden" }}>
         <motion.div style={{ y: heroY, position: "absolute", inset: 0 }}>
           <img src={photo(0, "https://images.pexels.com/photos/4672717/pexels-photo-4672717.jpeg?auto=compress&cs=tinysrgb&w=1920")} alt="Cabinet psychologue Laurence Moreau Montpellier" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
         </motion.div>
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(15,10,5,0.90) 0%, rgba(15,10,5,0.38) 45%, rgba(15,10,5,0.05) 100%)" }} />
         <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to right, ${C.accent}18 0%, transparent 55%)` }} />
 
-        <motion.div style={{ position: "relative", zIndex: 1, padding: "0 clamp(24px,7vw,80px) clamp(40px,8vw,90px)", maxWidth: 760, y: heroTextY, opacity: heroOpacity }}>
+        <motion.div className="imx50-hero-content" style={{ position: "relative", zIndex: 1, padding: "0 clamp(24px,7vw,80px) clamp(40px,8vw,90px)", maxWidth: 760, y: heroTextY, opacity: heroOpacity }}>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
             style={{ display: "inline-flex", alignItems: "center", gap: 8, marginBottom: 28, background: "rgba(74,124,111,0.18)", border: "1px solid rgba(74,124,111,0.35)", borderRadius: 20, padding: "7px 18px" }}>
             <Heart size={12} color="var(--brand,#9fd4c9)" />
