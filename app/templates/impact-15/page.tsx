@@ -228,7 +228,7 @@ return (
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(10,20,40,0.92) 0%, rgba(10,20,40,0.45) 45%, rgba(10,20,40,0.08) 100%)" }} />
         <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to right, ${C.accent}20 0%, transparent 55%)` }} />
 
-        <motion.div style={{ position: "relative", zIndex: 1, padding: "0 80px 90px", maxWidth: 760, y: heroTextY, opacity: heroOpacity }}>
+        <motion.div style={{ position: "relative", zIndex: 1, padding: "96px 24px 90px", maxWidth: 760, y: heroTextY, opacity: heroOpacity }} className="md:!px-20">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
             style={{ display: "inline-flex", alignItems: "center", gap: 8, marginBottom: 28, background: "rgba(245,158,11,0.15)", border: "1px solid rgba(245,158,11,0.35)", borderRadius: 20, padding: "7px 18px" }}>
             <Shield size={12} color={C.accent} />

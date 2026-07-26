@@ -281,7 +281,7 @@ export default function NoirCouturePage() {
               <motion.div className="relative overflow-hidden" style={{ y: heroY }}>
                 <Image src={photo(0, "https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=900&q=90")} alt={fd?.businessName ?? "Noir Couture"} fill className="object-cover" priority />
               </motion.div>
-              <div className="bg-black flex flex-col items-start justify-end p-12">
+              <div className="bg-black flex flex-col items-start justify-center md:justify-end p-8 md:p-12">
                 <motion.div style={{ opacity: heroOpacity }}>
                   <Reveal>
                     <p className="text-white/40 text-xs tracking-widest uppercase mb-4">Maison fondée en 1998</p>

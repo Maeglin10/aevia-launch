@@ -134,11 +134,14 @@ function FluidAeroVisualizer() {
                stroke="url(#aero-grad)" 
                strokeWidth="1" 
                fill="none"
-               animate={{ 
+               animate={{
                   d: `M -100 ${i * 50} Q ${mousePos.x} ${mousePos.y + (i - 10) * 20} 2000 ${i * 50}`,
                   opacity: [0.1, 0.3, 0.1]
                }}
-               transition={{ type: "spring", damping: 50, stiffness: 30 }}
+               transition={{
+                 d: { type: "spring", damping: 50, stiffness: 30 },
+                 opacity: { duration: 3, repeat: Infinity, ease: "easeInOut" },
+               } as any}
             />
           ))}
           {[...Array(50)].map((_, i) => (
