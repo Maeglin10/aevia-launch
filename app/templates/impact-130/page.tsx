@@ -416,7 +416,7 @@ function SplitRevealHero() {
         <motion.div
           style={{
             position: "absolute",
-            bottom: 32,
+            bottom: 56,
             left: 40,
             paddingTop: 24,
           }}
@@ -429,12 +429,13 @@ function SplitRevealHero() {
               exit={{ opacity: 0, y: -12 }}
               transition={{ duration: 0.4 }}
               style={{
-                color: `${C.white}90`,
+                color: C.white,
                 fontSize: 13,
                 letterSpacing: "0.15em",
                 textTransform: "uppercase",
                 fontFamily: "'DM Sans', system-ui, sans-serif",
                 fontWeight: 500,
+                textShadow: "0 1px 8px rgba(0,0,0,0.6)",
               }}
             >
               {slides[activeSlide].label}
