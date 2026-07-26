@@ -176,17 +176,27 @@ function TextReveal({
   children,
   delay = 0,
   style: externalStyle,
+  immediate = false,
 }: {
   children: React.ReactNode;
   delay?: number;
   style?: React.CSSProperties;
+  /** Above-the-fold usage: animate on mount instead of waiting for an
+   * IntersectionObserver "in view" event, which can fail to fire for
+   * elements that are already in the viewport at initial mount. */
+  immediate?: boolean;
 }) {
+  const revealProps = immediate
+    ? { animate: { y: "0%", opacity: 1 } }
+    : {
+        whileInView: { y: "0%", opacity: 1 },
+        viewport: { once: true, margin: "-40px" },
+      };
   return (
     <div style={{ overflow: "hidden", ...externalStyle }}>
       <motion.div
         initial={{ y: "110%", opacity: 0 }}
-        whileInView={{ y: "0%", opacity: 1 }}
-        viewport={{ once: true, margin: "-40px" }}
+        {...revealProps}
         transition={{ duration: 0.9, delay, ease: [0.76, 0, 0.24, 1] }}
       >
         {children}
@@ -864,7 +874,7 @@ export default function Impact175Page() {
             Agence d'Événementiel · Paris · Monte-Carlo
           </motion.div>
 
-          <TextReveal delay={0.5}>
+          <TextReveal immediate delay={0.5}>
             <h1
               style={{
                 fontFamily: C.font,
@@ -878,7 +888,7 @@ export default function Impact175Page() {
               Chaque instant
             </>}</h1>
           </TextReveal>
-          <TextReveal delay={0.65}>
+          <TextReveal immediate delay={0.65}>
             <h1
               style={{
                 fontFamily: C.font,

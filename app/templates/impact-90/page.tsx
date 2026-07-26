@@ -82,14 +82,28 @@ const WORKSHOPS = [
 const SPECIALTIES_DEMO = ["Levain Signature", "Seigle 40%", "Brioche feuilletée", "Fougasse Olive", "Tourte de Meule", "Épi de Blé"];
 
 /* ─── TextReveal ─────────────────────────────────────────────── */
-function TextReveal({ text, delay = 0, style = {} }: { text: string; delay?: number; style?: React.CSSProperties }) {
+function TextReveal({
+  text,
+  delay = 0,
+  style = {},
+  immediate = false,
+}: {
+  text: string;
+  delay?: number;
+  style?: React.CSSProperties;
+  /** Above-the-fold usage: animate on mount instead of waiting for an
+   * IntersectionObserver "in view" event, which can fail to fire for
+   * elements that are already in the viewport at initial mount. */
+  immediate?: boolean;
+}) {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-60px" });
+  const show = immediate || inView;
   return (
     <div ref={ref} style={{ overflow: "hidden", ...style }}>
       <motion.div
         initial={{ y: "110%" }}
-        animate={inView ? { y: 0 } : { y: "110%" }}
+        animate={show ? { y: 0 } : { y: "110%" }}
         transition={{ duration: 0.85, delay, ease: [0.16, 1, 0.3, 1] }}
       >
         {text}
@@ -758,9 +772,9 @@ export default function Page() {
           </motion.div>
 
           <h1 style={{ fontSize: "clamp(52px, 9vw, 112px)", fontWeight: 700, lineHeight: 0.92, letterSpacing: "-0.03em", marginBottom: 40, fontFamily: "'Playfair Display', serif" }}>{c?.heroHeadline ?? <>
-            <TextReveal text="Le pain" delay={0.3} style={{ display: "block", color: C.brown }} />
-            <TextReveal text="comme" delay={0.5} style={{ display: "block", fontStyle: "italic", color: C.terracotta }} />
-            <TextReveal text="il se doit." delay={0.7} style={{ display: "block", color: C.brown }} />
+            <TextReveal immediate text="Le pain" delay={0.3} style={{ display: "block", color: C.brown }} />
+            <TextReveal immediate text="comme" delay={0.5} style={{ display: "block", fontStyle: "italic", color: C.terracotta }} />
+            <TextReveal immediate text="il se doit." delay={0.7} style={{ display: "block", color: C.brown }} />
           </>}</h1>
 
           <motion.p

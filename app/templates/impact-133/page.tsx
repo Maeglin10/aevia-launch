@@ -172,13 +172,19 @@ function TextReveal({
   text,
   delay = 0,
   style = {},
+  immediate = false,
 }: {
   text: string;
   delay?: number;
   style?: React.CSSProperties;
+  /** Above-the-fold usage: animate on mount instead of waiting for an
+   * IntersectionObserver "in view" event, which can fail to fire for
+   * elements that are already in the viewport at initial mount. */
+  immediate?: boolean;
 }) {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-60px" });
+  const show = immediate || inView;
   const words = text.split(" ");
   return (
     <span
@@ -189,7 +195,7 @@ function TextReveal({
         <motion.span
           key={i}
           initial={{ opacity: 0, y: 28, filter: "blur(4px)" }}
-          animate={inView ? { opacity: 1, y: 0, filter: "blur(0px)" } : {}}
+          animate={show ? { opacity: 1, y: 0, filter: "blur(0px)" } : {}}
           transition={{
             duration: 0.65,
             delay: delay + i * 0.08,
@@ -886,15 +892,16 @@ function HeroSection() {
             marginBottom: 36,
           }}
         >
-          <TextReveal text="We Build" delay={0.1} />
+          <TextReveal immediate text="We Build" delay={0.1} />
           <br />
           <TextReveal
+            immediate
             text="The Future"
             delay={0.3}
             style={{ color: C.violet }}
           />
           <br />
-          <TextReveal text="Of Cities." delay={0.5} />
+          <TextReveal immediate text="Of Cities." delay={0.5} />
         </h1>
 
         <motion.p

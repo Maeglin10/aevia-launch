@@ -123,7 +123,7 @@ const INTERVENTIONS: Intervention[] = [
     body: 'Fuites détectées à la caméra, réfection de réseaux, sanitaires — intervention le jour même sur Lyon Métropole.',
   },
   {
-    img: ph('1585771724684-38269d6639fd'),
+    img: 'https://images.pexels.com/photos/7859953/pexels-photo-7859953.jpeg?auto=compress&cs=tinysrgb&w=1600',
     index: 'II',
     label: 'CHAUFFAGE',
     title: 'Chauffage',
@@ -1425,7 +1425,7 @@ function CertPanel() {
               }}
             >
               <img
-                src={fd?.photoUrls?.[1] || (ph('1585771724684-38269d6639fd') + '&w=900')}
+                src={fd?.photoUrls?.[1] || 'https://images.pexels.com/photos/7859953/pexels-photo-7859953.jpeg?auto=compress&cs=tinysrgb&w=900'}
                 alt="Technicien certifié RGE Aqua Confort Lyon"
                 loading="lazy"
                 style={{

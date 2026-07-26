@@ -74,7 +74,7 @@ const u = (id: string, w = 1600, q = 80): string =>
   `https://images.unsplash.com/photo-${id}?q=${q}&w=${w}&auto=format&fit=crop`;
 
 const IMG = {
-  hero: u('1542291026-7eec264c27ff', 2000, 85),
+  hero: 'https://images.pexels.com/photos/11324524/pexels-photo-11324524.jpeg?auto=compress&cs=tinysrgb&w=2000',
   seq1: u('1460353581641-37baddab0fa2'),
   seq2: u('1556906781-9a412961c28c'),
   seq3: u('1595950653106-6c9ebd614d3a'),

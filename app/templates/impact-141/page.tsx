@@ -27,7 +27,7 @@ const RELEASES = [
     year: "2024",
     duration: "4:23",
     image:
-      "https://images.unsplash.com/photo-1614613535308-eb5fbd3d2c17?q=80&w=1000&auto=format&fit=crop",
+      "https://images.pexels.com/photos/37269693/pexels-photo-37269693.jpeg?auto=compress&cs=tinysrgb&w=1000",
     color: "#a855f7", // Purple
   },
   {
@@ -615,7 +615,7 @@ export default function SonicPlayerPage() {
               className="relative rounded-2xl overflow-hidden group"
             >
               <Image
-                src={photo(1, "https://images.unsplash.com/photo-1614613535308-eb5fbd3d2c17?q=80&w=800&auto=format&fit=crop")}
+                src={photo(1, "https://images.pexels.com/photos/37269693/pexels-photo-37269693.jpeg?auto=compress&cs=tinysrgb&w=800")}
                 alt="Artist"
                 fill
                 className="object-cover group-hover:scale-105 transition-transform duration-700"

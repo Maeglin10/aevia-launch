@@ -70,7 +70,7 @@ const SANS = 'Raleway, system-ui, sans-serif' as const;
 /* ── Photos Unsplash ─────────────────────────────────────────────────────── */
 const PHOTO = {
   tribunal:
-    'https://images.unsplash.com/photo-1589829085413-56de8ae18c73?q=80&w=1600&auto=format&fit=crop',
+    'https://images.pexels.com/photos/21253838/pexels-photo-21253838.jpeg?auto=compress&cs=tinysrgb&w=1600',
   bureau:
     'https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=1600&auto=format&fit=crop',
   reunion:
@@ -462,7 +462,7 @@ function HeroSection() {
     background: `linear-gradient(
       to bottom,
       rgba(17,38,64,0.52) 0%,
-      rgba(17,38,64,0.30) 40%,
+      rgba(17,38,64,0.42) 40%,
       rgba(17,38,64,0.72) 80%,
       rgba(17,38,64,0.95) 100%
     )`,
@@ -565,7 +565,7 @@ function HeroSection() {
           }}
         >
           Votre droit défendu{' '}
-          <em style={{ color: C.gold, fontStyle: 'italic' }}>avec conviction</em>
+          <em style={{ color: C.white, fontStyle: 'italic' }}>avec conviction</em>
         </motion.h1>
 
         <motion.p

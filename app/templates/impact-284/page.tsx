@@ -69,9 +69,9 @@ const PHOTO = {
   dentiste:
     'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?q=80&w=1600&auto=format&fit=crop',
   cabinet:
-    'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?q=80&w=1600&auto=format&fit=crop',
+    'https://images.pexels.com/photos/305567/pexels-photo-305567.jpeg?auto=compress&cs=tinysrgb&w=1600',
   sourire:
-    'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?q=80&w=1600&auto=format&fit=crop',
+    'https://images.pexels.com/photos/16212691/pexels-photo-16212691.png?auto=compress&cs=tinysrgb&w=1600',
   traitement:
     'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?q=80&w=1600&auto=format&fit=crop',
   equipe:

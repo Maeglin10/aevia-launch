@@ -191,7 +191,7 @@ export default function AquaThermPage() {
 
       <section id="hero" ref={heroRef} style={{ height: "115vh", minHeight: "900px", position: "relative", display: "flex", alignItems: "flex-end", overflow: "hidden" }}>
         <motion.div style={{ y: heroY, position: "absolute", inset: 0 }}>
-          <img src={photo(0, "https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=1920&q=80")} alt="Plombier chauffagiste AquaTherm Lille" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+          <img src={photo(0, "https://images.pexels.com/photos/7937300/pexels-photo-7937300.jpeg?auto=compress&cs=tinysrgb&w=1920")} alt="Plombier chauffagiste AquaTherm Lille" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
         </motion.div>
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(10,6,0,0.93) 0%, rgba(10,6,0,0.42) 45%, rgba(10,6,0,0.08) 100%)" }} />
         <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to right, ${C.accent}18 0%, transparent 55%)` }} />

@@ -237,17 +237,27 @@ function TextReveal({
   children,
   delay = 0,
   style: externalStyle,
+  immediate = false,
 }: {
   children: React.ReactNode;
   delay?: number;
   style?: React.CSSProperties;
+  /** Above-the-fold usage: animate on mount instead of waiting for an
+   * IntersectionObserver "in view" event, which can fail to fire for
+   * elements that are already in the viewport at initial mount. */
+  immediate?: boolean;
 }) {
+  const revealProps = immediate
+    ? { animate: { y: "0%", opacity: 1 } }
+    : {
+        whileInView: { y: "0%", opacity: 1 },
+        viewport: { once: true, margin: "-40px" },
+      };
   return (
     <div style={{ overflow: "hidden", ...externalStyle }}>
       <motion.div
         initial={{ y: "110%", opacity: 0 }}
-        whileInView={{ y: "0%", opacity: 1 }}
-        viewport={{ once: true, margin: "-40px" }}
+        {...revealProps}
         transition={{ duration: 0.9, delay, ease: [0.76, 0, 0.24, 1] }}
       >
         {children}
@@ -1454,7 +1464,7 @@ export default function Impact176Page() {
             </span>
           </motion.div>
 
-          <TextReveal style={{ marginBottom: 8 }}>
+          <TextReveal immediate style={{ marginBottom: 8 }}>
             <h1
               style={{
                 fontSize: "clamp(44px, 5.5vw, 72px)",
@@ -1467,7 +1477,7 @@ export default function Impact176Page() {
               Your data.
             </>}</h1>
           </TextReveal>
-          <TextReveal delay={0.1} style={{ marginBottom: 8 }}>
+          <TextReveal immediate delay={0.1} style={{ marginBottom: 8 }}>
             <h1
               style={{
                 fontSize: "clamp(44px, 5.5vw, 72px)",
@@ -1480,7 +1490,7 @@ export default function Impact176Page() {
               Your decisions.
             </h1>
           </TextReveal>
-          <TextReveal delay={0.2} style={{ marginBottom: 36 }}>
+          <TextReveal immediate delay={0.2} style={{ marginBottom: 36 }}>
             <h1
               style={{
                 fontSize: "clamp(44px, 5.5vw, 72px)",

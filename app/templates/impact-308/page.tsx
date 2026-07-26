@@ -106,9 +106,9 @@ const SANS = "'Josefin Sans', sans-serif" as const;
 const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 const PHOTO = {
-  hero: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=1600&auto=format&fit=crop",
+  hero: "https://images.pexels.com/photos/7147645/pexels-photo-7147645.jpeg?auto=compress&cs=tinysrgb&w=1600",
   about: "https://images.unsplash.com/photo-1558603668-6570496b66f8?q=80&w=1600&auto=format&fit=crop",
-  special: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=1600&auto=format&fit=crop",
+  special: "https://images.pexels.com/photos/7147645/pexels-photo-7147645.jpeg?auto=compress&cs=tinysrgb&w=1600",
   gallery1: "https://images.unsplash.com/photo-1558603668-6570496b66f8?q=80&w=800&auto=format&fit=crop",
   gallery2: "https://images.unsplash.com/photo-1509319117193-57bab727e09d?q=80&w=800&auto=format&fit=crop",
   gallery3: "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=800&auto=format&fit=crop",

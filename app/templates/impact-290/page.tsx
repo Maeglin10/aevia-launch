@@ -73,7 +73,7 @@ const SANS = "'Mulish', system-ui, sans-serif" as const;
 /* ── Photos Unsplash ─────────────────────────────────────────────────────── */
 const PHOTO = {
   bathroom:
-    'https://images.unsplash.com/photo-1585771724684-38269d6639fd?q=80&w=1600&auto=format&fit=crop',
+    'https://images.pexels.com/photos/7173665/pexels-photo-7173665.jpeg?auto=compress&cs=tinysrgb&w=1600',
   pac:
     'https://images.unsplash.com/photo-1607472586893-edb57bdc0e39?q=80&w=1600&auto=format&fit=crop',
   artisan:

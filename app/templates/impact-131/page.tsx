@@ -191,16 +191,30 @@ function MagneticButton({
    TEXT REVEAL
    ========================================================================== */
 
-function TextReveal({ text, style, delay = 0 }: { text: string; style?: React.CSSProperties; delay?: number }) {
+function TextReveal({
+  text,
+  style,
+  delay = 0,
+  immediate = false,
+}: {
+  text: string;
+  style?: React.CSSProperties;
+  delay?: number;
+  /** Above-the-fold usage: animate on mount instead of waiting for an
+   * IntersectionObserver "in view" event, which can fail to fire for
+   * elements that are already in the viewport at initial mount. */
+  immediate?: boolean;
+}) {
   const ref = useRef<HTMLSpanElement>(null);
   const inView = useInView(ref, { once: true, margin: "-60px" });
+  const show = immediate || inView;
 
   return (
     <span ref={ref} style={{ display: "inline-block", overflow: "hidden", ...style }}>
       <motion.span
         style={{ display: "inline-block" }}
         initial={{ y: "110%", opacity: 0 }}
-        animate={inView ? { y: 0, opacity: 1 } : {}}
+        animate={show ? { y: 0, opacity: 1 } : {}}
         transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1], delay }}
       >
         {text}
@@ -925,9 +939,9 @@ export default function WineryTemplate() {
               letterSpacing: "-0.01em",
             }}
           >{c?.heroHeadline ?? <>
-            <TextReveal text="Château" delay={0.3} />
+            <TextReveal immediate text="Château" delay={0.3} />
             <br />
-            <TextReveal text="de Valroc" delay={0.5} style={{ color: C.burgundy }} />
+            <TextReveal immediate text="de Valroc" delay={0.5} style={{ color: C.burgundy }} />
           </>}</h1>
 
           <motion.p

@@ -121,7 +121,7 @@ const CREATIONS: Creation[] = [
     label: 'LA PÂTISSERIE',
     description:
       'Kouglof, tarte flambée sucrée, millefeuille vanille Bourbon — tradition alsacienne réinterprétée avec légèreté.',
-    imgId: '1546069901-ba9599a7e63c',
+    imgId: 'https://images.pexels.com/photos/29380149/pexels-photo-29380149.jpeg?auto=compress&cs=tinysrgb&w=1600',
   },
   {
     id: 'cafe',
@@ -604,7 +604,7 @@ function Hero() {
         }}
       >
         <img
-          src={fd?.photoUrls?.[0] || `https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=2000&auto=format&fit=crop`}
+          src={fd?.photoUrls?.[0] || `https://images.pexels.com/photos/8633662/pexels-photo-8633662.jpeg?auto=compress&cs=tinysrgb&w=2000`}
           alt="Fournil du Parlement — pains au levain en boulangerie artisanale"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
           priority-fetch="high"
@@ -826,7 +826,7 @@ function CreationLayer({
   return (
     <motion.div style={{ position: 'absolute', inset: 0, opacity }}>
       <motion.img
-        src={`https://images.unsplash.com/photo-${creation.imgId}?q=80&w=1600&auto=format&fit=crop`}
+        src={creation.imgId.startsWith('http') ? creation.imgId : `https://images.unsplash.com/photo-${creation.imgId}?q=80&w=1600&auto=format&fit=crop`}
         alt={creation.label}
         loading="lazy"
         style={{
@@ -1362,7 +1362,7 @@ function SourcingPanel() {
             }}
           >
             <img
-              src={fd?.photoUrls?.[1] || "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=900&auto=format&fit=crop"}
+              src={fd?.photoUrls?.[1] || "https://images.pexels.com/photos/8633662/pexels-photo-8633662.jpeg?auto=compress&cs=tinysrgb&w=900"}
               alt="Nos sourcing — ingrédients artisanaux au Fournil du Parlement"
               loading="lazy"
               style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
@@ -1695,7 +1695,7 @@ function ReservationForm() {
     <section style={sec} id="reservation">
       {/* Photo fantôme en fond */}
       <img
-        src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=2000&auto=format&fit=crop"
+        src="https://images.pexels.com/photos/8633662/pexels-photo-8633662.jpeg?auto=compress&cs=tinysrgb&w=2000"
         alt="Image de présentation"
         aria-hidden="true"
         loading="lazy"

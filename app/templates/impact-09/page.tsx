@@ -424,7 +424,7 @@ return (
                   className="absolute bottom-[-100px] left-1/2 -translate-x-1/2 w-[80vw] max-w-5xl opacity-40 mix-blend-screen pointer-events-none z-0"
                >
                   <img 
-                     src={photo(0, "https://images.unsplash.com/photo-1541185933-ef5d8ed016c2?w=1600&q=80")} 
+                     src={photo(0, "https://images.pexels.com/photos/7327336/pexels-photo-7327336.jpeg?auto=compress&cs=tinysrgb&w=1600")}
                      className="w-full h-auto grayscale transition-all duration-1000"
                      alt="Starship"
                   />
