@@ -339,7 +339,7 @@ export default function NovaSpacesPage() {
 
         <div className="relative z-10 max-w-[1600px] mx-auto px-6 md:px-12 w-full">
           <Reveal>
-            <Badge className="bg-black/5 text-black border border-black/10 text-[9px] font-bold uppercase tracking-[0.5em] mb-10 px-4 py-1.5 rounded-full">
+            <Badge className="bg-black/5 text-black border border-black/10 text-[8px] sm:text-[9px] font-bold uppercase tracking-[0.2em] sm:tracking-[0.5em] mb-10 px-4 py-1.5 rounded-full whitespace-normal text-center max-w-full">
               Global Architectural Collective // NYC - TOKYO
             </Badge>
             <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-[14rem] font-light leading-[0.95] lg:leading-[0.85] tracking-tighter mb-12 uppercase text-black break-words">{c?.heroHeadline ?? <>
