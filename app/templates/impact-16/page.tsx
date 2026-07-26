@@ -5,7 +5,7 @@ import { motion, useScroll, useTransform, AnimatePresence, useInView } from "fra
 import { useEffect, useRef, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { Menu, X, ArrowRight, Camera, Eye, Award, ChevronRight, MapPin, Mail, Tag, Star, Heart } from "lucide-react"
+import { Menu, X, ArrowRight, Camera, Eye, Award, ChevronRight, MapPin, Mail, Tag, Star, Heart, CheckCircle2, Loader2 } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { resolveList } from "@/lib/templates/resolveList"
 
@@ -397,6 +397,119 @@ function PortfolioPage({ activeCategory, setActiveCategory }: { activeCategory: 
   )
 }
 
+function QuoteModal({ service, onClose }: { service: string; onClose: () => void }) {
+  const [loading, setLoading] = useState(false)
+  const [sent, setSent] = useState(false)
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    setLoading(true)
+    setTimeout(() => {
+      setLoading(false)
+      setSent(true)
+    }, 1800)
+  }
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm"
+      onClick={onClose}
+    >
+      <motion.div
+        initial={{ opacity: 0, y: 24, scale: 0.98 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        exit={{ opacity: 0, y: 12, scale: 0.98 }}
+        transition={{ duration: 0.35, ease: [0.25, 0.1, 0.25, 1] }}
+        onClick={(e) => e.stopPropagation()}
+        className="w-full max-w-lg max-h-[90vh] overflow-y-auto bg-[#0e0b09] border border-[var(--brand,#C9A86C)]/20 rounded-3xl p-8 md:p-10 relative"
+      >
+        <button
+          onClick={onClose}
+          aria-label="Fermer"
+          className="absolute top-5 right-5 w-11 h-11 flex items-center justify-center rounded-full border border-white/10 text-white/60 hover:text-white hover:border-white/30 transition-colors cursor-pointer"
+        >
+          <X className="w-4 h-4" />
+        </button>
+
+        <AnimatePresence mode="wait">
+          {sent ? (
+            <motion.div
+              key="success"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="text-center py-10"
+            >
+              <motion.div
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ type: "spring", stiffness: 200, delay: 0.15 }}
+                className="w-16 h-16 mx-auto mb-6 rounded-full border border-[var(--brand,#C9A86C)]/40 flex items-center justify-center text-[var(--brand,#C9A86C)]"
+              >
+                <CheckCircle2 className="w-7 h-7" />
+              </motion.div>
+              <h3 className="text-2xl font-light text-white mb-3" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+                Demande envoyée
+              </h3>
+              <p className="text-white/50 text-sm font-sans leading-relaxed max-w-sm mx-auto">
+                Merci. Elena vous recontactera sous 48 heures avec un devis détaillé pour « {service} ».
+              </p>
+            </motion.div>
+          ) : (
+            <motion.form key="form" initial={{ opacity: 0 }} animate={{ opacity: 1 }} onSubmit={handleSubmit}>
+              <span className="text-[var(--brand,#C9A86C)] text-xs tracking-widest uppercase mb-2 block font-mono">Demande de devis</span>
+              <h3 className="text-2xl md:text-3xl font-light text-white mb-8" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{service}</h3>
+
+              <div className="grid sm:grid-cols-2 gap-5 mb-5">
+                <div>
+                  <label htmlFor="qm-name" className="block text-white/50 text-xs tracking-widest uppercase mb-2 font-mono">Nom complet</label>
+                  <input id="qm-name" name="name" type="text" required className="w-full bg-[#131008] border border-white/10 focus:border-[var(--brand,#C9A86C)] rounded-xl px-4 py-3 text-white text-sm outline-none transition-colors font-sans" placeholder="Camille Dubois" />
+                </div>
+                <div>
+                  <label htmlFor="qm-phone" className="block text-white/50 text-xs tracking-widest uppercase mb-2 font-mono">Téléphone</label>
+                  <input id="qm-phone" name="phone" type="tel" required className="w-full bg-[#131008] border border-white/10 focus:border-[var(--brand,#C9A86C)] rounded-xl px-4 py-3 text-white text-sm outline-none transition-colors font-sans" placeholder="06 12 34 56 78" />
+                </div>
+              </div>
+
+              <div className="mb-5">
+                <label htmlFor="qm-email" className="block text-white/50 text-xs tracking-widest uppercase mb-2 font-mono">E-mail</label>
+                <input id="qm-email" name="email" type="email" required className="w-full bg-[#131008] border border-white/10 focus:border-[var(--brand,#C9A86C)] rounded-xl px-4 py-3 text-white text-sm outline-none transition-colors font-sans" placeholder="vous@email.com" />
+              </div>
+
+              <div className="mb-5">
+                <label htmlFor="qm-date" className="block text-white/50 text-xs tracking-widest uppercase mb-2 font-mono">Date souhaitée de la prise de vue</label>
+                <input id="qm-date" name="date" type="date" required className="w-full bg-[#131008] border border-white/10 focus:border-[var(--brand,#C9A86C)] rounded-xl px-4 py-3 text-white text-sm outline-none transition-colors font-sans [color-scheme:dark]" />
+              </div>
+
+              <div className="mb-8">
+                <label htmlFor="qm-message" className="block text-white/50 text-xs tracking-widest uppercase mb-2 font-mono">Détails du projet (facultatif)</label>
+                <textarea id="qm-message" name="message" rows={3} className="w-full bg-[#131008] border border-white/10 focus:border-[var(--brand,#C9A86C)] rounded-xl px-4 py-3 text-white text-sm outline-none transition-colors font-sans resize-none" placeholder="Lieu, nombre de personnes, ambiance souhaitée…" />
+              </div>
+
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full min-h-[44px] py-4 bg-[var(--brand,#C9A86C)] disabled:opacity-60 disabled:cursor-not-allowed text-black text-xs tracking-widest uppercase rounded-xl hover:bg-[#B8975E] transition-colors flex items-center justify-center gap-2 font-mono cursor-pointer"
+              >
+                {loading ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    Envoi en cours…
+                  </>
+                ) : (
+                  "Envoyer ma demande"
+                )}
+              </button>
+            </motion.form>
+          )}
+        </AnimatePresence>
+      </motion.div>
+    </motion.div>
+  )
+}
+
 function ServicesPage({ goTo }: { goTo: (p: ActivePage) => void }) {
   const SERVICES = resolveList(
     bp?.services?.map((s: any, i: number) => ({
@@ -406,6 +519,7 @@ function ServicesPage({ goTo }: { goTo: (p: ActivePage) => void }) {
     })),
     SERVICES_DEMO
   )
+  const [quoteService, setQuoteService] = useState<string | null>(null)
   return (
     <section className="py-24 px-6 bg-[#0E0B08] border-t border-white/5">
       <div className="max-w-6xl mx-auto">
@@ -429,7 +543,7 @@ function ServicesPage({ goTo }: { goTo: (p: ActivePage) => void }) {
                   {s.desc} Comprend la sélection des clichés sur planche contact numérique, le travail d'étalonnage colorimétrique complet et la retouche fine des fichiers haute définition.
                 </p>
               </div>
-              <button onClick={() => goTo("propos")} className="w-full py-4 border border-[var(--brand,#C9A86C)]/30 hover:border-[var(--brand,#C9A86C)] text-[var(--brand,#C9A86C)] hover:text-black hover:bg-[var(--brand,#C9A86C)] rounded-xl text-xs tracking-widest uppercase transition-all font-mono">
+              <button onClick={() => setQuoteService(s.title)} className="w-full min-h-[44px] py-4 border border-[var(--brand,#C9A86C)]/30 hover:border-[var(--brand,#C9A86C)] text-[var(--brand,#C9A86C)] hover:text-black hover:bg-[var(--brand,#C9A86C)] rounded-xl text-xs tracking-widest uppercase transition-all font-mono cursor-pointer">
                 Demander un Devis
               </button>
             </div>
@@ -443,6 +557,11 @@ function ServicesPage({ goTo }: { goTo: (p: ActivePage) => void }) {
           </p>
         </div>
       </div>
+      <AnimatePresence>
+        {quoteService && (
+          <QuoteModal service={quoteService} onClose={() => setQuoteService(null)} />
+        )}
+      </AnimatePresence>
     </section>
   )
 }

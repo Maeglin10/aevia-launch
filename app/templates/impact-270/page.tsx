@@ -610,6 +610,7 @@ function Hero() {
 
       {/* Titre parallaxe */}
       <motion.div
+        className="hero-content"
         style={{
           position: 'relative',
           zIndex: 2,
@@ -670,6 +671,17 @@ function Hero() {
           Atelier de tatouage artistique et d&apos;illustration à Vieux-Lille.
           Sur rendez-vous uniquement.
         </motion.p>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1.1, ease: EASE, delay: 0.7 }}
+          style={{ marginTop: 'clamp(24px,3.5vw,40px)' }}
+        >
+          <a href="#reserver" style={{ textDecoration: 'none' }}>
+            <GreenButton filled>Prendre rendez-vous</GreenButton>
+          </a>
+        </motion.div>
       </motion.div>
 
       {/* Cue défilement */}
@@ -704,6 +716,11 @@ function Hero() {
           <ChevronDown size={18} color={C.accentLight} strokeWidth={1.5} />
         </motion.div>
       </motion.div>
+      <style>{`
+        @media (min-width: 768px) and (max-width: 1023px) {
+          .hero-content { justify-content: center !important; }
+        }
+      `}</style>
     </section>
   );
 }

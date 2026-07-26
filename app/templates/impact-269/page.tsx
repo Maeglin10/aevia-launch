@@ -588,7 +588,7 @@ function Hero() {
   };
 
   return (
-    <section id="hero" ref={ref} style={section}>
+    <section id="hero" ref={ref} style={section} className="hero-section">
       {/* Photo plein cadre */}
       <motion.div
         style={{
@@ -627,6 +627,7 @@ function Hero() {
 
       {/* Titre parallaxe — ancré bas-gauche */}
       <motion.div
+        className="hero-content"
         style={{
           position: 'absolute',
           bottom: 'clamp(60px, 10vh, 120px)',
@@ -728,6 +729,21 @@ function Hero() {
           <ChevronDown size={20} color={C.accentLight} strokeWidth={1.3} />
         </motion.div>
       </motion.div>
+      <style>{`
+        @media (min-width: 768px) and (max-width: 1023px) {
+          .hero-section { display: flex !important; align-items: center !important; }
+          .hero-content {
+            position: static !important;
+            bottom: auto !important;
+            left: auto !important;
+            right: auto !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
+            padding-left: clamp(24px, 6vw, 96px) !important;
+            padding-right: clamp(24px, 6vw, 96px) !important;
+          }
+        }
+      `}</style>
     </section>
   );
 }

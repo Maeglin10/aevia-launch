@@ -1,7 +1,7 @@
 "use client";
 // @ts-nocheck
 
-import {useRef, useState, useEffect} from 'react';
+import React, {useRef, useState, useEffect} from 'react';
 import {
   motion,
   useScroll,
@@ -26,6 +26,8 @@ import {
   Mail,
   Plus,
   Minus,
+  X,
+  Trash2,
 } from "lucide-react";
 
 /* ─── PALETTE ─────────────────────────────────────────────────── */
@@ -298,11 +300,20 @@ function StatItem({ val, label }: { val: string; label: string }) {
 }
 
 /* ─── PRODUCT CARD ───────────────────────────────────────────── */
-function ProductCard({ p, idx }: { p: (typeof PRODUCTS)[0]; idx: number }) {
+function ProductCard({
+  p,
+  idx,
+  onAdd,
+}: {
+  p: (typeof PRODUCTS)[0];
+  idx: number;
+  onAdd: (p: (typeof PRODUCTS)[0], qty: number) => void;
+}) {
   const [hovered, setHovered] = useState(false);
   const [cartAdded, setCartAdded] = useState(false);
 
   function handleCart() {
+    onAdd(p, 1);
     setCartAdded(true);
     setTimeout(() => setCartAdded(false), 2000);
   }
@@ -413,6 +424,7 @@ function ProductCard({ p, idx }: { p: (typeof PRODUCTS)[0]; idx: number }) {
               color: C.white,
               border: "none",
               padding: "10px 18px",
+              minHeight: 44,
               borderRadius: 3,
               cursor: "pointer",
               fontSize: "0.78rem",
@@ -507,6 +519,471 @@ function ProductCard({ p, idx }: { p: (typeof PRODUCTS)[0]; idx: number }) {
   );
 }
 
+/* ─── CART TYPES ──────────────────────────────────────────────── */
+type CartItem = {
+  id: string;
+  name: string;
+  price: number;
+  qty: number;
+  variant?: string;
+};
+
+/* ─── CART FORM FIELD ────────────────────────────────────────── */
+function CartField({
+  id,
+  label,
+  type = "text",
+  value,
+  onChange,
+  required = false,
+  as,
+}: {
+  id: string;
+  label: string;
+  type?: string;
+  value: string;
+  onChange: (v: string) => void;
+  required?: boolean;
+  as?: "textarea";
+}) {
+  const [focused, setFocused] = useState(false);
+  const baseStyle: React.CSSProperties = {
+    width: "100%",
+    background: C.cream,
+    border: `1.5px solid ${focused ? C.terracotta : C.border}`,
+    borderRadius: 6,
+    padding: "12px 14px",
+    fontSize: "0.88rem",
+    fontFamily: FONT,
+    color: C.text,
+    outline: "none",
+    boxShadow: focused ? `0 0 0 3px ${C.terracottaSoft}` : "none",
+    transition: "border-color 0.2s, box-shadow 0.2s",
+    resize: "none",
+  };
+  return (
+    <div style={{ marginBottom: 16 }}>
+      <label
+        htmlFor={id}
+        style={{
+          display: "block",
+          fontSize: "0.72rem",
+          fontWeight: 600,
+          color: C.muted,
+          letterSpacing: "0.06em",
+          textTransform: "uppercase",
+          marginBottom: 6,
+        }}
+      >
+        {label}
+        {required && <span style={{ color: C.terracotta }}> *</span>}
+      </label>
+      {as === "textarea" ? (
+        <textarea
+          id={id}
+          required={required}
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          onFocus={() => setFocused(true)}
+          onBlur={() => setFocused(false)}
+          rows={2}
+          style={baseStyle}
+        />
+      ) : (
+        <input
+          id={id}
+          type={type}
+          required={required}
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          onFocus={() => setFocused(true)}
+          onBlur={() => setFocused(false)}
+          style={baseStyle}
+        />
+      )}
+    </div>
+  );
+}
+
+/* ─── CART DRAWER ─────────────────────────────────────────────── */
+function CartDrawer({
+  open,
+  onClose,
+  items,
+  setItems,
+}: {
+  open: boolean;
+  onClose: () => void;
+  items: CartItem[];
+  setItems: React.Dispatch<React.SetStateAction<CartItem[]>>;
+}) {
+  const [step, setStep] = useState<"cart" | "checkout" | "success">("cart");
+  const [form, setForm] = useState({ name: "", email: "", address: "", phone: "" });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [orderNumber, setOrderNumber] = useState("");
+
+  const subtotal = items.reduce((s, i) => s + i.price * i.qty, 0);
+
+  function updateQty(id: string, delta: number) {
+    setItems((prev) =>
+      prev.map((i) => (i.id === id ? { ...i, qty: Math.max(1, i.qty + delta) } : i))
+    );
+  }
+  function removeItem(id: string) {
+    setItems((prev) => prev.filter((i) => i.id !== id));
+  }
+
+  function handleClose() {
+    onClose();
+    setTimeout(() => {
+      setStep("cart");
+      setForm({ name: "", email: "", address: "", phone: "" });
+      setError("");
+    }, 400);
+  }
+
+  function handleCheckout(e: React.FormEvent) {
+    e.preventDefault();
+    if (!form.name.trim() || !form.email.trim() || !form.address.trim()) {
+      setError("Merci de renseigner votre nom, e-mail et adresse de livraison.");
+      return;
+    }
+    setError("");
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+      setOrderNumber(`TG-${Math.floor(100000 + Math.random() * 900000)}`);
+      setItems([]);
+      setStep("success");
+    }, 1600);
+  }
+
+  return (
+    <AnimatePresence>
+      {open && (
+        <>
+          <motion.div
+            key="cart-backdrop"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={handleClose}
+            style={{
+              position: "fixed",
+              inset: 0,
+              background: "rgba(30,18,9,0.5)",
+              zIndex: 200,
+            }}
+          />
+          <motion.div
+            key="cart-drawer"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Panier"
+            initial={{ x: "100%" }}
+            animate={{ x: 0 }}
+            exit={{ x: "100%" }}
+            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+            style={{
+              position: "fixed",
+              top: 0,
+              right: 0,
+              bottom: 0,
+              width: "min(440px, 100vw)",
+              background: C.bg,
+              zIndex: 201,
+              display: "flex",
+              flexDirection: "column",
+              boxShadow: "-16px 0 48px rgba(44,24,16,0.18)",
+            }}
+          >
+            {/* Header */}
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                padding: "20px 24px",
+                borderBottom: `1px solid ${C.border}`,
+              }}
+            >
+              <div style={{ fontFamily: FONT, fontWeight: 800, fontSize: "1.1rem", color: C.text }}>
+                {step === "success" ? "Commande confirmée" : step === "checkout" ? "Livraison" : "Votre panier"}
+              </div>
+              <button
+                onClick={handleClose}
+                aria-label="Fermer le panier"
+                style={{
+                  width: 44,
+                  height: 44,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  background: "transparent",
+                  border: "none",
+                  cursor: "pointer",
+                  color: C.muted,
+                  borderRadius: 6,
+                }}
+              >
+                <X size={20} />
+              </button>
+            </div>
+
+            {/* Body */}
+            <div style={{ flex: 1, overflowY: "auto", padding: "24px" }}>
+              <AnimatePresence mode="wait">
+                {step === "success" ? (
+                  <motion.div
+                    key="success"
+                    initial={{ opacity: 0, y: 12 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    style={{ textAlign: "center", padding: "32px 8px" }}
+                  >
+                    <div
+                      style={{
+                        width: 64,
+                        height: 64,
+                        borderRadius: "50%",
+                        background: C.terracottaSoft,
+                        border: `1.5px solid ${C.terracotta}`,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        margin: "0 auto 20px",
+                      }}
+                    >
+                      <Check size={26} color={C.terracotta} />
+                    </div>
+                    <div style={{ fontFamily: FONT, fontWeight: 800, fontSize: "1.3rem", color: C.text, marginBottom: 8 }}>
+                      Merci{form.name ? `, ${form.name.split(" ")[0]}` : ""} !
+                    </div>
+                    <div style={{ fontSize: "0.85rem", color: C.muted, marginBottom: 20, lineHeight: 1.6 }}>
+                      Votre commande <strong style={{ color: C.terracotta }}>#{orderNumber}</strong> est enregistrée.
+                      Julie vous écrira à {form.email} sous 48h pour confirmer l'expédition.
+                    </div>
+                    <button
+                      onClick={handleClose}
+                      style={{
+                        background: C.terracotta,
+                        color: C.white,
+                        border: "none",
+                        borderRadius: 3,
+                        padding: "13px 28px",
+                        minHeight: 44,
+                        fontWeight: 700,
+                        fontSize: "0.85rem",
+                        fontFamily: FONT,
+                        cursor: "pointer",
+                        letterSpacing: "0.04em",
+                      }}
+                    >
+                      Continuer mes achats
+                    </button>
+                  </motion.div>
+                ) : step === "checkout" ? (
+                  <motion.form
+                    key="checkout"
+                    initial={{ opacity: 0, x: 16 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    onSubmit={handleCheckout}
+                  >
+                    <div
+                      style={{
+                        background: C.cream,
+                        border: `1px solid ${C.border}`,
+                        borderRadius: 6,
+                        padding: "14px 16px",
+                        marginBottom: 20,
+                        fontSize: "0.82rem",
+                        color: C.muted,
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <span>{items.reduce((s, i) => s + i.qty, 0)} article(s)</span>
+                      <strong style={{ color: C.text }}>{subtotal}€</strong>
+                    </div>
+
+                    <CartField id="cart-name" label="Nom complet" required value={form.name} onChange={(v) => setForm((f) => ({ ...f, name: v }))} />
+                    <CartField id="cart-email" label="E-mail" type="email" required value={form.email} onChange={(v) => setForm((f) => ({ ...f, email: v }))} />
+                    <CartField id="cart-address" label="Adresse de livraison" required as="textarea" value={form.address} onChange={(v) => setForm((f) => ({ ...f, address: v }))} />
+                    <CartField id="cart-phone" label="Téléphone (facultatif)" type="tel" value={form.phone} onChange={(v) => setForm((f) => ({ ...f, phone: v }))} />
+
+                    {error && (
+                      <div style={{ color: "#B02A0F", fontSize: "0.8rem", marginBottom: 14, fontWeight: 600 }}>
+                        {error}
+                      </div>
+                    )}
+
+                    <div style={{ display: "flex", gap: 10, marginTop: 8 }}>
+                      <button
+                        type="button"
+                        onClick={() => setStep("cart")}
+                        style={{
+                          flex: "0 0 auto",
+                          minHeight: 44,
+                          padding: "0 18px",
+                          background: "transparent",
+                          border: `1.5px solid ${C.border}`,
+                          borderRadius: 3,
+                          color: C.text,
+                          fontWeight: 600,
+                          fontSize: "0.82rem",
+                          fontFamily: FONT,
+                          cursor: "pointer",
+                        }}
+                      >
+                        Retour
+                      </button>
+                      <button
+                        type="submit"
+                        disabled={loading}
+                        style={{
+                          flex: 1,
+                          minHeight: 44,
+                          background: loading ? C.borderDark : C.terracotta,
+                          color: C.white,
+                          border: "none",
+                          borderRadius: 3,
+                          fontWeight: 700,
+                          fontSize: "0.85rem",
+                          fontFamily: FONT,
+                          cursor: loading ? "not-allowed" : "pointer",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          gap: 8,
+                          letterSpacing: "0.03em",
+                        }}
+                      >
+                        {loading ? (
+                          <>
+                            <motion.span
+                              animate={{ rotate: 360 }}
+                              transition={{ duration: 0.9, repeat: Infinity, ease: "linear" }}
+                              style={{
+                                width: 15,
+                                height: 15,
+                                borderRadius: "50%",
+                                border: `2px solid rgba(255,255,255,0.4)`,
+                                borderTopColor: C.white,
+                                display: "inline-block",
+                              }}
+                            />
+                            Validation…
+                          </>
+                        ) : (
+                          "Confirmer la commande"
+                        )}
+                      </button>
+                    </div>
+                  </motion.form>
+                ) : (
+                  <motion.div key="cart" initial={{ opacity: 0, x: -16 }} animate={{ opacity: 1, x: 0 }}>
+                    {items.length === 0 ? (
+                      <div style={{ textAlign: "center", padding: "48px 8px", color: C.muted }}>
+                        <ShoppingCart size={32} color={C.borderDark} style={{ marginBottom: 14 }} />
+                        <div style={{ fontSize: "0.9rem" }}>Votre panier est vide.</div>
+                      </div>
+                    ) : (
+                      items.map((item) => (
+                        <div
+                          key={item.id}
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "space-between",
+                            gap: 12,
+                            padding: "16px 0",
+                            borderBottom: `1px solid ${C.border}`,
+                          }}
+                        >
+                          <div style={{ flex: 1 }}>
+                            <div style={{ fontFamily: FONT, fontWeight: 700, fontSize: "0.88rem", color: C.text }}>
+                              {item.name}
+                            </div>
+                            <div style={{ fontSize: "0.78rem", color: C.muted, marginTop: 2 }}>{item.price}€ / pièce</div>
+                          </div>
+                          <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
+                            <button
+                              onClick={() => updateQty(item.id, -1)}
+                              aria-label={`Réduire la quantité de ${item.name}`}
+                              style={{
+                                width: 32, height: 32, display: "flex", alignItems: "center", justifyContent: "center",
+                                border: `1px solid ${C.border}`, background: C.cream, borderRadius: 4, cursor: "pointer", color: C.text,
+                              }}
+                            >
+                              <Minus size={13} />
+                            </button>
+                            <span style={{ minWidth: 22, textAlign: "center", fontSize: "0.85rem", fontWeight: 600 }}>{item.qty}</span>
+                            <button
+                              onClick={() => updateQty(item.id, 1)}
+                              aria-label={`Augmenter la quantité de ${item.name}`}
+                              style={{
+                                width: 32, height: 32, display: "flex", alignItems: "center", justifyContent: "center",
+                                border: `1px solid ${C.border}`, background: C.cream, borderRadius: 4, cursor: "pointer", color: C.text,
+                              }}
+                            >
+                              <Plus size={13} />
+                            </button>
+                          </div>
+                          <div style={{ fontWeight: 700, fontSize: "0.88rem", color: C.text, minWidth: 52, textAlign: "right" }}>
+                            {item.price * item.qty}€
+                          </div>
+                          <button
+                            onClick={() => removeItem(item.id)}
+                            aria-label={`Retirer ${item.name} du panier`}
+                            style={{
+                              width: 36, height: 36, display: "flex", alignItems: "center", justifyContent: "center",
+                              background: "transparent", border: "none", cursor: "pointer", color: C.muted, flexShrink: 0,
+                            }}
+                          >
+                            <Trash2 size={15} />
+                          </button>
+                        </div>
+                      ))
+                    )}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+
+            {/* Footer */}
+            {step === "cart" && items.length > 0 && (
+              <div style={{ padding: "20px 24px", borderTop: `1px solid ${C.border}` }}>
+                <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 16, fontSize: "0.95rem" }}>
+                  <span style={{ color: C.muted }}>Sous-total</span>
+                  <strong style={{ color: C.text, fontFamily: FONT }}>{subtotal}€</strong>
+                </div>
+                <button
+                  onClick={() => setStep("checkout")}
+                  style={{
+                    width: "100%",
+                    minHeight: 48,
+                    background: C.terracotta,
+                    color: C.white,
+                    border: "none",
+                    borderRadius: 3,
+                    fontWeight: 700,
+                    fontSize: "0.88rem",
+                    fontFamily: FONT,
+                    cursor: "pointer",
+                    letterSpacing: "0.04em",
+                  }}
+                >
+                  Commander
+                </button>
+              </div>
+            )}
+          </motion.div>
+        </>
+      )}
+    </AnimatePresence>
+  );
+}
+
 /* ─── MAIN COMPONENT ─────────────────────────────────────────── */
 
 // Global state variables for subpage compatibility
@@ -556,6 +1033,20 @@ export default function ArtisanMinimalPage() {
   const [testiDir, setTestiDir] = useState(1);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const [cartOpen, setCartOpen] = useState(false);
+
+  const cartCount = cartItems.reduce((s, i) => s + i.qty, 0);
+
+  function addToCart(p: (typeof PRODUCTS)[0], qty: number) {
+    setCartItems((prev) => {
+      const existing = prev.find((i) => i.id === p.id);
+      if (existing) {
+        return prev.map((i) => (i.id === p.id ? { ...i, qty: i.qty + qty } : i));
+      }
+      return [...prev, { id: p.id, name: p.name, price: p.price, qty }];
+    });
+  }
 
   const filtered = activeFilter === "Tout voir"
     ? PRODUCTS
@@ -724,6 +1215,7 @@ return (
           )}
         </Link>
 
+        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
         <div id="mb112-nav" style={{ display: "flex", alignItems: "center", gap: 32 }}>
           {NAV_LINKS.map((l) => (
             <a
@@ -765,6 +1257,50 @@ return (
         </div>
 
         <button
+          onClick={() => setCartOpen(true)}
+          aria-label={`Ouvrir le panier${cartCount > 0 ? ` (${cartCount} article${cartCount > 1 ? "s" : ""})` : ""}`}
+          style={{
+            position: "relative",
+            width: 44,
+            height: 44,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            background: "transparent",
+            border: `1.5px solid ${C.border}`,
+            borderRadius: 6,
+            cursor: "pointer",
+            color: C.text,
+            flexShrink: 0,
+          }}
+        >
+          <ShoppingCart size={18} />
+          {cartCount > 0 && (
+            <span
+              style={{
+                position: "absolute",
+                top: 2,
+                right: 2,
+                minWidth: 16,
+                height: 16,
+                padding: "0 3px",
+                borderRadius: 8,
+                background: C.terracotta,
+                color: C.white,
+                fontSize: "0.6rem",
+                fontWeight: 700,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                lineHeight: 1,
+              }}
+            >
+              {cartCount}
+            </span>
+          )}
+        </button>
+
+        <button
           className="mb112-burger"
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label="Menu"
@@ -774,6 +1310,7 @@ return (
           <span style={{ display: "block", width: 24, height: 1.5, background: C.text, transition: "all 0.3s", opacity: menuOpen ? 0 : 1 }} />
           <span style={{ display: "block", width: 24, height: 1.5, background: C.text, transition: "all 0.3s", transform: menuOpen ? "rotate(-45deg) translate(4.5px, -4.5px)" : "none" }} />
         </button>
+        </div>
       </motion.nav>
 
       {menuOpen && (
@@ -1232,7 +1769,7 @@ return (
           >
             <AnimatePresence>
               {filtered.map((p, i) => (
-                <ProductCard key={p.id} p={p} idx={i} />
+                <ProductCard key={p.id} p={p} idx={i} onAdd={addToCart} />
               ))}
             </AnimatePresence>
           </div>
@@ -2448,6 +2985,13 @@ return (
           </div>
         </div>
       </footer>
+
+      <CartDrawer
+        open={cartOpen}
+        onClose={() => setCartOpen(false)}
+        items={cartItems}
+        setItems={setCartItems}
+      />
     </div>
   );
 }

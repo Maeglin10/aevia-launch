@@ -229,7 +229,7 @@ return (
           ========================================== */}
       <section
         ref={heroRef}
-        className="relative w-full h-[85vh] flex flex-col justify-center overflow-hidden"
+        className="relative w-full min-h-[85vh] md:h-[80vh] flex flex-col justify-center overflow-hidden py-24 md:py-0"
       >
         <motion.div
           style={{ y: heroY, opacity: heroOpacity }}
@@ -254,11 +254,11 @@ return (
               <Coffee className="w-3.5 h-3.5" />
               Specialty Grade // 90+ SCA Points
             </div>
-            <h1 className="text-7xl md:text-9xl lg:text-[11rem] font-black leading-[1.15] tracking-tighter mb-12 uppercase pb-6">{c?.heroHeadline ?? <>
+            <h1 className="text-6xl md:text-8xl lg:text-9xl font-black leading-[1.15] tracking-tighter mb-8 uppercase pb-4">{c?.heroHeadline ?? <>
               The Alchemy <br />{" "}
               <span className="text-[var(--brand,#7c2d12)] italic">of Extraction.</span>
             </>}</h1>
-            <p className="max-w-xl text-lg md:text-xl text-white/20 leading-relaxed font-bold mb-12 uppercase tracking-tight italic">{c?.heroSubline ?? fd?.tagline ?? <>
+            <p className="max-w-xl text-lg md:text-xl text-white/20 leading-relaxed font-bold mb-8 uppercase tracking-tight italic">{c?.heroSubline ?? fd?.tagline ?? <>
               Precision-roasted molecular coffee. Sourced at origin. Analyzed in
               lab. Delivered in spectrum.
             </>}</p>

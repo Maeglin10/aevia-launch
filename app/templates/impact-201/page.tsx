@@ -298,10 +298,12 @@ function MagneticButton({
   children,
   style: externalStyle,
   onClick,
+  disabled,
 }: {
   children: React.ReactNode;
   style?: React.CSSProperties;
   onClick?: () => void;
+  disabled?: boolean;
 }) {
   const x = useMotionValue(0);
   const y = useMotionValue(0);
@@ -324,6 +326,7 @@ function MagneticButton({
   return (
     <motion.button
       ref={ref}
+      disabled={disabled}
       style={{ ...externalStyle, x: springX, y: springY }}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
@@ -729,6 +732,25 @@ export default function Impact201Page() {
   const [activeMenuIdx, setActiveMenuIdx] = useState(0);
   const [activeTestimonial, setActiveTestimonial] = useState(0);
 
+  const [quoteName, setQuoteName] = useState("");
+  const [quoteEmail, setQuoteEmail] = useState("");
+  const [quotePhone, setQuotePhone] = useState("");
+  const [quoteDate, setQuoteDate] = useState("");
+  const [quoteService, setQuoteService] = useState("");
+  const [quoteNotes, setQuoteNotes] = useState("");
+  const [quoteLoading, setQuoteLoading] = useState(false);
+  const [quoteSent, setQuoteSent] = useState(false);
+
+  const handleQuoteSubmit = useCallback((e: React.FormEvent) => {
+    e.preventDefault();
+    if (quoteLoading || !quoteName || !quoteEmail || !quotePhone || !quoteService) return;
+    setQuoteLoading(true);
+    setTimeout(() => {
+      setQuoteLoading(false);
+      setQuoteSent(true);
+    }, 1600);
+  }, [quoteLoading, quoteName, quoteEmail, quotePhone, quoteService]);
+
   const heroRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: heroRef,
@@ -758,6 +780,24 @@ return (
         /* mobile: stack 2-col grids to single column (added by responsive fix) */
         @media (max-width: 768px) {
           .imx-mobstack { grid-template-columns: 1fr !important; }
+        }
+        /* mobile hero fix: the floating stats widget was absolute-positioned over the
+           "Réserver une prestation" CTA — pull it into normal flow below the buttons. */
+        @media (max-width: 768px) {
+          .imx-hero201-section { flex-direction: column !important; padding: 100px 0 32px !important; }
+          .imx-hero201-text { width: 100% !important; }
+          .imx-hero201-stats {
+            position: static !important;
+            margin-top: 28px !important;
+            right: auto !important;
+            bottom: auto !important;
+            display: flex !important;
+            flex-direction: row !important;
+            flex-wrap: wrap !important;
+            gap: 20px !important;
+            padding: 20px 24px !important;
+          }
+          .imx-hero201-stats > div { margin-bottom: 0 !important; }
         }
       `}</style>
       <ScrollProgressBar />
@@ -990,6 +1030,7 @@ return (
       <section
         id="hero"
         ref={heroRef}
+        className="imx-hero201-section"
         style={{
           position: "relative",
           height: "100dvh",
@@ -1044,6 +1085,7 @@ return (
         />
 
         <motion.div
+          className="imx-hero201-text"
           style={{
             position: "relative",
             zIndex: 10,
@@ -1174,6 +1216,7 @@ return (
 
         {/* Floating stats card */}
         <motion.div
+          className="imx-hero201-stats"
           initial={{ opacity: 0, x: 40 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 1.0, duration: 0.8 }}
@@ -2313,133 +2356,224 @@ return (
                 background: C.card,
               }}
             >
-              <h3
-                style={{
-                  fontFamily: C.font,
-                  fontSize: 28,
-                  fontWeight: 300,
-                  fontStyle: "italic",
-                  color: C.cream,
-                  marginBottom: 32,
-                }}
-              >
-                Demander un devis
-              </h3>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: 16,
-                }}
-              >
-                {FORM_FIELDS.map((field) => (
-                  <input
-                    key={field.placeholder}
-                    type={field.type}
-                    placeholder={field.placeholder}
+              {quoteSent ? (
+                <div style={{ textAlign: "center", padding: "24px 0" }}>
+                  <div
                     style={{
-                      padding: "16px 20px",
-                      background: "rgba(255,255,255,0.03)",
-                      border: `1px solid ${C.border}`,
-                      borderRadius: 8,
-                      color: C.cream,
-                      fontFamily: C.fontSans,
-                      fontSize: 14,
-                      outline: "none",
-                      transition: "border-color 0.2s",
-                      width: "100%",
-                      boxSizing: "border-box" as const,
+                      width: 60, height: 60, borderRadius: "50%", border: `1px solid ${C.gold}`,
+                      display: "flex", alignItems: "center", justifyContent: "center",
+                      margin: "0 auto 24px", fontSize: 22, color: C.gold,
                     }}
-                    onFocus={(e) =>
-                      (e.currentTarget.style.borderColor = C.gold)
-                    }
-                    onBlur={(e) =>
-                      (e.currentTarget.style.borderColor = C.border)
-                    }
-                  />
-                ))}
-                <select
-                  style={{
-                    padding: "16px 20px",
-                    background: C.bgAlt,
-                    border: `1px solid ${C.border}`,
-                    borderRadius: 8,
-                    color: C.creamDim,
-                    fontFamily: C.fontSans,
-                    fontSize: 14,
-                    outline: "none",
-                    transition: "border-color 0.2s",
-                    width: "100%",
-                    boxSizing: "border-box" as const,
-                    cursor: "pointer",
-                  }}
-                  onFocus={(e) =>
-                    (e.currentTarget.style.borderColor = C.gold)
-                  }
-                  onBlur={(e) =>
-                    (e.currentTarget.style.borderColor = C.border)
-                  }
-                >
-                  <option value="">Type de prestation</option>
-                  <option>Dîner en amoureux</option>
-                  <option>Réception privée</option>
-                  <option>Brunch dominical</option>
-                  <option>Chef à domicile</option>
-                  <option>Événement professionnel</option>
-                </select>
-                <textarea
-                  placeholder="Nombre de convives, occasion, régimes alimentaires à prendre en compte..."
-                  rows={4}
-                  style={{
-                    padding: "16px 20px",
-                    background: "rgba(255,255,255,0.03)",
-                    border: `1px solid ${C.border}`,
-                    borderRadius: 8,
-                    color: C.cream,
-                    fontFamily: C.fontSans,
-                    fontSize: 14,
-                    outline: "none",
-                    transition: "border-color 0.2s",
-                    resize: "none" as const,
-                    width: "100%",
-                    boxSizing: "border-box" as const,
-                  }}
-                  onFocus={(e) =>
-                    (e.currentTarget.style.borderColor = C.gold)
-                  }
-                  onBlur={(e) =>
-                    (e.currentTarget.style.borderColor = C.border)
-                  }
-                />
-                <MagneticButton
-                  style={{
-                    width: "100%",
-                    padding: "18px",
-                    background: C.gold,
-                    color: C.bg,
-                    border: "none",
-                    borderRadius: 8,
-                    fontSize: 13,
-                    fontFamily: C.fontSans,
-                    fontWeight: 700,
-                    letterSpacing: "0.1em",
-                    cursor: "pointer",
-                    textTransform: "uppercase" as const,
-                  }}
-                >
-                  Envoyer ma demande
-                </MagneticButton>
-                <p
-                  style={{
-                    fontSize: 12,
-                    color: C.creamMuted,
-                    textAlign: "center",
-                    fontFamily: C.fontSans,
-                  }}
-                >
-                  Devis gratuit · Réponse sous 24h · Sans engagement
-                </p>
-              </div>
+                  >
+                    ✓
+                  </div>
+                  <h3
+                    style={{
+                      fontFamily: C.font, fontSize: 26, fontWeight: 300, fontStyle: "italic",
+                      color: C.cream, marginBottom: 12,
+                    }}
+                  >
+                    Demande envoyée
+                  </h3>
+                  <p style={{ fontSize: 14, color: C.creamDim, lineHeight: 1.8, fontFamily: C.fontSans }}>
+                    Merci {quoteName}. Votre demande pour « {quoteService} »{quoteDate ? ` le ${quoteDate}` : ""} a bien été reçue. Réponse personnalisée sous 24h à {quoteEmail}.
+                  </p>
+                </div>
+              ) : (
+                <>
+                  <h3
+                    style={{
+                      fontFamily: C.font,
+                      fontSize: 28,
+                      fontWeight: 300,
+                      fontStyle: "italic",
+                      color: C.cream,
+                      marginBottom: 32,
+                    }}
+                  >
+                    Demander un devis
+                  </h3>
+                  <form
+                    onSubmit={handleQuoteSubmit}
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: 16,
+                    }}
+                  >
+                    {([
+                      { id: "quote-name", label: "Votre prénom & nom", type: "text", value: quoteName, set: setQuoteName, required: true },
+                      { id: "quote-email", label: "Adresse email", type: "email", value: quoteEmail, set: setQuoteEmail, required: true },
+                      { id: "quote-phone", label: "Numéro de téléphone", type: "tel", value: quotePhone, set: setQuotePhone, required: true },
+                      { id: "quote-date", label: "Date souhaitée", type: "date", value: quoteDate, set: setQuoteDate, required: false },
+                    ] as const).map((field) => (
+                      <div key={field.id}>
+                        <label
+                          htmlFor={field.id}
+                          style={{
+                            position: "absolute", width: 1, height: 1, padding: 0, margin: -1,
+                            overflow: "hidden", clip: "rect(0,0,0,0)", whiteSpace: "nowrap", border: 0,
+                          }}
+                        >
+                          {field.label}
+                        </label>
+                        <input
+                          id={field.id}
+                          type={field.type}
+                          required={field.required}
+                          placeholder={field.label}
+                          value={field.value}
+                          onChange={(e) => field.set(e.target.value)}
+                          style={{
+                            padding: "16px 20px",
+                            background: "rgba(255,255,255,0.03)",
+                            border: `1px solid ${C.border}`,
+                            borderRadius: 8,
+                            color: C.cream,
+                            fontFamily: C.fontSans,
+                            fontSize: 14,
+                            outline: "none",
+                            transition: "border-color 0.2s",
+                            width: "100%",
+                            boxSizing: "border-box" as const,
+                          }}
+                          onFocus={(e) =>
+                            (e.currentTarget.style.borderColor = C.gold)
+                          }
+                          onBlur={(e) =>
+                            (e.currentTarget.style.borderColor = C.border)
+                          }
+                        />
+                      </div>
+                    ))}
+                    <div>
+                      <label
+                        htmlFor="quote-service"
+                        style={{
+                          position: "absolute", width: 1, height: 1, padding: 0, margin: -1,
+                          overflow: "hidden", clip: "rect(0,0,0,0)", whiteSpace: "nowrap", border: 0,
+                        }}
+                      >
+                        Type de prestation
+                      </label>
+                      <select
+                        id="quote-service"
+                        required
+                        value={quoteService}
+                        onChange={(e) => setQuoteService(e.target.value)}
+                        style={{
+                          padding: "16px 20px",
+                          background: C.bgAlt,
+                          border: `1px solid ${C.border}`,
+                          borderRadius: 8,
+                          color: quoteService ? C.cream : C.creamDim,
+                          fontFamily: C.fontSans,
+                          fontSize: 14,
+                          outline: "none",
+                          transition: "border-color 0.2s",
+                          width: "100%",
+                          boxSizing: "border-box" as const,
+                          cursor: "pointer",
+                        }}
+                        onFocus={(e) =>
+                          (e.currentTarget.style.borderColor = C.gold)
+                        }
+                        onBlur={(e) =>
+                          (e.currentTarget.style.borderColor = C.border)
+                        }
+                      >
+                        <option value="">Type de prestation</option>
+                        <option>Dîner en amoureux</option>
+                        <option>Réception privée</option>
+                        <option>Brunch dominical</option>
+                        <option>Chef à domicile</option>
+                        <option>Événement professionnel</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label
+                        htmlFor="quote-notes"
+                        style={{
+                          position: "absolute", width: 1, height: 1, padding: 0, margin: -1,
+                          overflow: "hidden", clip: "rect(0,0,0,0)", whiteSpace: "nowrap", border: 0,
+                        }}
+                      >
+                        Détails de la demande
+                      </label>
+                      <textarea
+                        id="quote-notes"
+                        placeholder="Nombre de convives, occasion, régimes alimentaires à prendre en compte..."
+                        rows={4}
+                        value={quoteNotes}
+                        onChange={(e) => setQuoteNotes(e.target.value)}
+                        style={{
+                          padding: "16px 20px",
+                          background: "rgba(255,255,255,0.03)",
+                          border: `1px solid ${C.border}`,
+                          borderRadius: 8,
+                          color: C.cream,
+                          fontFamily: C.fontSans,
+                          fontSize: 14,
+                          outline: "none",
+                          transition: "border-color 0.2s",
+                          resize: "none" as const,
+                          width: "100%",
+                          boxSizing: "border-box" as const,
+                        }}
+                        onFocus={(e) =>
+                          (e.currentTarget.style.borderColor = C.gold)
+                        }
+                        onBlur={(e) =>
+                          (e.currentTarget.style.borderColor = C.border)
+                        }
+                      />
+                    </div>
+                    <MagneticButton
+                      disabled={quoteLoading}
+                      style={{
+                        width: "100%",
+                        padding: "18px",
+                        background: C.gold,
+                        color: C.bg,
+                        border: "none",
+                        borderRadius: 8,
+                        fontSize: 13,
+                        fontFamily: C.fontSans,
+                        fontWeight: 700,
+                        letterSpacing: "0.1em",
+                        cursor: quoteLoading ? "not-allowed" : "pointer",
+                        opacity: quoteLoading ? 0.7 : 1,
+                        textTransform: "uppercase" as const,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        gap: 10,
+                      }}
+                    >
+                      {quoteLoading ? (
+                        <>
+                          <motion.span
+                            animate={{ rotate: 360 }}
+                            transition={{ duration: 0.9, repeat: Infinity, ease: "linear" }}
+                            style={{ width: 14, height: 14, borderRadius: "50%", border: `2px solid rgba(0,0,0,0.3)`, borderTopColor: C.bg, display: "inline-block" }}
+                          />
+                          Envoi en cours…
+                        </>
+                      ) : "Envoyer ma demande"}
+                    </MagneticButton>
+                    <p
+                      style={{
+                        fontSize: 12,
+                        color: C.creamMuted,
+                        textAlign: "center",
+                        fontFamily: C.fontSans,
+                      }}
+                    >
+                      Devis gratuit · Réponse sous 24h · Sans engagement
+                    </p>
+                  </form>
+                </>
+              )}
             </div>
           </motion.div>
         </div>

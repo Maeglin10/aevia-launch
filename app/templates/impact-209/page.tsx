@@ -1036,6 +1036,11 @@ export default function Page() {
   }, [])
 
   const navLinks = ['Services', 'Avant/Après', 'Équipe', 'Galerie', 'Réservation']
+  // Decorative hero scissor graphic — sized to scale down on small screens so it
+  // never grows tall enough to reach into the H1 below it (fixed by the responsive
+  // header-clip audit: the graphic used to be absolutely centered on top of the H1
+  // at every breakpoint).
+  const heroScissorBladeHeight = 'clamp(36px, 6vw, 110px)'
 
   return (
     <div style={{ background: BG, color: DARK, minHeight: '100dvh', overflowX: 'hidden' }}>
@@ -1122,6 +1127,7 @@ export default function Page() {
           position: 'relative',
           minHeight: '100dvh',
           display: 'flex',
+          flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
           overflow: 'hidden',
@@ -1144,8 +1150,11 @@ export default function Page() {
           />
         ))}
 
-        {/* Scissor animation container */}
-        <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: 10 }}>
+        {/* Scissor animation — sits in normal flow ABOVE the headline (not centered on
+            top of it) so it can never overlap the H1, at any breakpoint. Sized with
+            clamp() so it shrinks proportionally on mobile/tablet instead of staying a
+            fixed 320px tall graphic that swallowed the title. */}
+        <div style={{ position: 'relative', width: '50px', height: `calc(2 * ${heroScissorBladeHeight})`, margin: '0 auto 20px', zIndex: 6 }}>
           {/* Top blade */}
           <motion.div
             initial={{ rotateZ: -45 }}
@@ -1158,7 +1167,7 @@ export default function Page() {
               bottom: '50%',
               marginLeft: '-25px',
               width: '50px',
-              height: '160px',
+              height: heroScissorBladeHeight,
               background: `linear-gradient(180deg, ${GOLD_LIGHT} 0%, ${GOLD} 100%)`,
               borderRadius: '25px 25px 0 0',
               boxShadow: `0 -8px 30px rgba(184,150,90,0.3)`,
@@ -1177,7 +1186,7 @@ export default function Page() {
               top: '50%',
               marginLeft: '-25px',
               width: '50px',
-              height: '160px',
+              height: heroScissorBladeHeight,
               background: `linear-gradient(0deg, ${GOLD_LIGHT} 0%, ${GOLD} 100%)`,
               borderRadius: '0 0 25px 25px',
               boxShadow: `0 8px 30px rgba(184,150,90,0.3)`,

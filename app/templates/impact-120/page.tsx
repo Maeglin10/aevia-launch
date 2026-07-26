@@ -14,7 +14,7 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
 import { Progress } from "@/components/ui/progress"
 import { Separator } from "@/components/ui/separator"
-import { Sparkles, Droplets, Wind, Menu, X, ArrowRight, Flower2, Moon, Sun, Star, Gem, Feather, Heart, Eye, Palette, CheckCircle2, FlaskConical, Quote } from "lucide-react"
+import { Sparkles, Droplets, Wind, Menu, X, ArrowRight, Flower2, Moon, Sun, Star, Gem, Feather, Heart, Eye, Palette, CheckCircle2, FlaskConical, Quote, ShoppingBag, Plus, Minus, Trash2, Loader2 } from "lucide-react"
 
 // ─── UTILS & ANIMATION COMPONENTS ─────────────────────────────────────────────
 
@@ -75,6 +75,54 @@ function ParallaxText({ children, baseVelocity = 100 }: { children: React.ReactN
         <span className="block mr-8">{children} </span>
         <span className="block mr-8">{children} </span>
       </motion.div>
+    </div>
+  )
+}
+
+function CartField({
+  id,
+  label,
+  type = "text",
+  value,
+  onChange,
+  required = false,
+  textarea = false,
+}: {
+  id: string
+  label: string
+  type?: string
+  value: string
+  onChange: (v: string) => void
+  required?: boolean
+  textarea?: boolean
+}) {
+  const commonClass =
+    "w-full bg-white/5 border border-white/10 rounded-md px-4 py-3 text-sm text-white placeholder:text-zinc-600 outline-none focus:border-fuchsia-500 focus:ring-1 focus:ring-fuchsia-500 transition-colors"
+  return (
+    <div className="mb-5">
+      <label htmlFor={id} className="block text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-500 mb-2">
+        {label}
+        {required && <span className="text-fuchsia-400"> *</span>}
+      </label>
+      {textarea ? (
+        <textarea
+          id={id}
+          required={required}
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          rows={2}
+          className={commonClass}
+        />
+      ) : (
+        <input
+          id={id}
+          type={type}
+          required={required}
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          className={commonClass}
+        />
+      )}
     </div>
   )
 }
@@ -165,6 +213,13 @@ const MANIFEST = {
 
 // ─── MAIN PAGE ──────────────────────────────────────────────────────────────
 
+type CartItem = {
+  id: string
+  name: string
+  price: number
+  qty: number
+  variant?: string
+}
 
 // Global state variables for subpage compatibility
 let fd: any = null;
@@ -206,6 +261,99 @@ export default function EclatLuxuryPage() {
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const [scrolled, setScrolled] = useState(false);
+
+  // ─── Cart & Checkout ────────────────────────────────────────────────────
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const [cartOpen, setCartOpen] = useState(false);
+  const [checkoutStep, setCheckoutStep] = useState<"cart" | "checkout" | "success">("cart");
+  const [checkoutForm, setCheckoutForm] = useState({ name: "", email: "", address: "", phone: "" });
+  const [checkoutLoading, setCheckoutLoading] = useState(false);
+  const [checkoutError, setCheckoutError] = useState("");
+  const [orderNumber, setOrderNumber] = useState("");
+
+  const cartCount = cartItems.reduce((s, i) => s + i.qty, 0);
+  const cartSubtotal = cartItems.reduce((s, i) => s + i.price * i.qty, 0);
+
+  function addToCart(tier: (typeof MANIFEST.tiers)[0]) {
+    const id = tier.name.toLowerCase();
+    const priceNum = parseInt(tier.price.replace(/[^0-9]/g, ""), 10) || 0;
+    setCartItems((prev) => {
+      const existing = prev.find((i) => i.id === id);
+      if (existing) {
+        return prev.map((i) => (i.id === id ? { ...i, qty: i.qty + 1 } : i));
+      }
+      return [...prev, { id, name: tier.name, price: priceNum, qty: 1 }];
+    });
+    setCheckoutStep("cart");
+    setCartOpen(true);
+  }
+
+  function updateCartQty(id: string, delta: number) {
+    setCartItems((prev) => prev.map((i) => (i.id === id ? { ...i, qty: Math.max(1, i.qty + delta) } : i)));
+  }
+  function removeCartItem(id: string) {
+    setCartItems((prev) => prev.filter((i) => i.id !== id));
+  }
+
+  function handleCartOpenChange(open: boolean) {
+    setCartOpen(open);
+    if (!open) {
+      setTimeout(() => {
+        setCheckoutStep("cart");
+        setCheckoutForm({ name: "", email: "", address: "", phone: "" });
+        setCheckoutError("");
+      }, 300);
+    }
+  }
+
+  function handleCheckoutSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (!checkoutForm.name.trim() || !checkoutForm.email.trim() || !checkoutForm.address.trim()) {
+      setCheckoutError("Please provide your name, email and shipping address.");
+      return;
+    }
+    setCheckoutError("");
+    setCheckoutLoading(true);
+    setTimeout(() => {
+      setCheckoutLoading(false);
+      setOrderNumber(`ECL-${Math.floor(100000 + Math.random() * 900000)}`);
+      setCartItems([]);
+      setCheckoutStep("success");
+    }, 1600);
+  }
+
+  // ─── Registry Waitlist ──────────────────────────────────────────────────
+  const [registryOpen, setRegistryOpen] = useState(false);
+  const [registryForm, setRegistryForm] = useState({ name: "", email: "" });
+  const [registryLoading, setRegistryLoading] = useState(false);
+  const [registryError, setRegistryError] = useState("");
+  const [registrySent, setRegistrySent] = useState(false);
+
+  function handleRegistryOpenChange(open: boolean) {
+    setRegistryOpen(open);
+    if (!open) {
+      setTimeout(() => {
+        setRegistryForm({ name: "", email: "" });
+        setRegistryError("");
+        setRegistrySent(false);
+      }, 300);
+    }
+  }
+
+  function handleRegistrySubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (!registryForm.name.trim() || !registryForm.email.trim()) {
+      setRegistryError("Please enter your name and email.");
+      return;
+    }
+    setRegistryError("");
+    setRegistryLoading(true);
+    setTimeout(() => {
+      setRegistryLoading(false);
+      setRegistrySent(true);
+    }, 1400);
+  }
+
   const { scrollYProgress } = useScroll();
   const heroY = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
   const opacityFade = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
@@ -309,11 +457,23 @@ export default function EclatLuxuryPage() {
           </div>
 
           <div className="flex items-center gap-6">
-            <Link href="#boutique" className="hidden md:inline-flex items-center justify-center px-8 py-3 bg-white text-black text-xs font-bold uppercase tracking-[0.2em] hover:bg-fuchsia-100 transition-colors">
+            <Link href="#boutique" className="hidden md:inline-flex items-center justify-center px-8 py-3 bg-white text-black text-xs font-bold uppercase tracking-[0.2em] hover:bg-fuchsia-100 transition-colors cursor-pointer">
               Acquire
             </Link>
+            <button
+              onClick={() => setCartOpen(true)}
+              aria-label={`Open cart${cartCount > 0 ? ` (${cartCount} item${cartCount > 1 ? "s" : ""})` : ""}`}
+              className="relative w-11 h-11 flex items-center justify-center text-zinc-300 hover:text-white transition-colors cursor-pointer"
+            >
+              <ShoppingBag className="w-5 h-5" />
+              {cartCount > 0 && (
+                <span className="absolute top-1 right-1 min-w-[16px] h-4 px-1 rounded-full bg-fuchsia-500 text-white text-[9px] font-bold flex items-center justify-center leading-none">
+                  {cartCount}
+                </span>
+              )}
+            </button>
             <Sheet>
-              <SheetTrigger className="lg:hidden w-10 h-10 flex items-center justify-center text-zinc-300 hover:text-white transition-colors">
+              <SheetTrigger className="lg:hidden w-10 h-10 flex items-center justify-center text-zinc-300 hover:text-white transition-colors cursor-pointer">
                   <Menu className="w-6 h-6" />
                 </SheetTrigger>
               <SheetContent side="right" className="bg-[#050308] border-l border-white/10 p-12">
@@ -590,7 +750,10 @@ export default function EclatLuxuryPage() {
                       ))}
                     </ul>
 
-                    <button className={`w-full py-4 uppercase text-xs font-bold tracking-[0.2em] transition-colors ${tier.recommended ? 'bg-white text-black hover:bg-zinc-200' : 'bg-white/5 text-white hover:bg-white hover:text-black border border-white/10'}`}>
+                    <button
+                      onClick={() => (tier.name === "Bespoke" ? setRegistryOpen(true) : addToCart(tier))}
+                      className={`w-full py-4 uppercase text-xs font-bold tracking-[0.2em] transition-colors cursor-pointer ${tier.recommended ? 'bg-white text-black hover:bg-zinc-200' : 'bg-white/5 text-white hover:bg-white hover:text-black border border-white/10'}`}
+                    >
                       {tier.name === "Bespoke" ? "Request Inquiry" : "Add to Cart"}
                     </button>
                   </div>
@@ -668,7 +831,10 @@ export default function EclatLuxuryPage() {
               <p className="text-xl text-zinc-300 font-light italic mb-12 max-w-2xl mx-auto">
                 Join the exclusive Éclat registry. Limited editions and private commissions await.
               </p>
-              <button className="px-12 py-5 bg-white text-black text-xs font-bold uppercase tracking-[0.3em] hover:bg-fuchsia-100 transition-all hover:scale-105 active:scale-95">
+              <button
+                onClick={() => setRegistryOpen(true)}
+                className="px-12 py-5 bg-white text-black text-xs font-bold uppercase tracking-[0.3em] hover:bg-fuchsia-100 transition-all hover:scale-105 active:scale-95 cursor-pointer"
+              >
                 Join The Registry
               </button>
             </Reveal>
@@ -729,6 +895,202 @@ export default function EclatLuxuryPage() {
           </div>
         </div>
       </footer>
+
+      {/* ─── CART SHEET ────────────────────────────────────────────────── */}
+      <Sheet open={cartOpen} onOpenChange={handleCartOpenChange}>
+        <SheetContent
+          side="right"
+          aria-label="Shopping cart"
+          className="bg-[#050308] border-l border-white/10 p-0 w-full sm:max-w-md text-zinc-300"
+        >
+          <div className="flex flex-col h-full">
+            <div className="flex items-center justify-between px-8 py-6 border-b border-white/10">
+              <div className="text-lg font-light uppercase tracking-[0.2em] text-white" style={{ fontFamily: "Georgia, serif" }}>
+                {checkoutStep === "success" ? "Order Confirmed" : checkoutStep === "checkout" ? "Shipping" : "Your Cart"}
+              </div>
+            </div>
+
+            <div className="flex-1 overflow-y-auto px-8 py-8">
+              <AnimatePresence mode="wait">
+                {checkoutStep === "success" ? (
+                  <motion.div key="success" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="text-center py-10">
+                    <div className="w-16 h-16 rounded-full border border-fuchsia-500/50 bg-fuchsia-950/30 flex items-center justify-center mx-auto mb-6">
+                      <CheckCircle2 className="w-7 h-7 text-fuchsia-400" />
+                    </div>
+                    <div className="text-2xl text-white font-light uppercase tracking-widest mb-3" style={{ fontFamily: "Georgia, serif" }}>
+                      Merci{checkoutForm.name ? `, ${checkoutForm.name.split(" ")[0]}` : ""}
+                    </div>
+                    <p className="text-sm text-zinc-400 font-light italic leading-relaxed mb-6">
+                      Order <span className="text-fuchsia-400 not-italic font-bold">#{orderNumber}</span> is confirmed.
+                      A concierge will email {checkoutForm.email} within 48 hours to arrange white-glove delivery.
+                    </p>
+                    <button
+                      onClick={() => setCartOpen(false)}
+                      className="px-8 py-3 bg-white text-black text-xs font-bold uppercase tracking-[0.2em] hover:bg-fuchsia-100 transition-colors cursor-pointer"
+                      style={{ minHeight: 44 }}
+                    >
+                      Continue Browsing
+                    </button>
+                  </motion.div>
+                ) : checkoutStep === "checkout" ? (
+                  <motion.form key="checkout" initial={{ opacity: 0, x: 16 }} animate={{ opacity: 1, x: 0 }} onSubmit={handleCheckoutSubmit}>
+                    <div className="flex items-center justify-between bg-white/5 border border-white/10 rounded-md px-4 py-3 text-xs uppercase tracking-widest text-zinc-400 mb-6">
+                      <span>{cartCount} item{cartCount > 1 ? "s" : ""}</span>
+                      <span className="text-white font-bold">€{cartSubtotal}</span>
+                    </div>
+
+                    <CartField id="checkout-name" label="Full name" required value={checkoutForm.name} onChange={(v) => setCheckoutForm((f) => ({ ...f, name: v }))} />
+                    <CartField id="checkout-email" label="Email" type="email" required value={checkoutForm.email} onChange={(v) => setCheckoutForm((f) => ({ ...f, email: v }))} />
+                    <CartField id="checkout-address" label="Shipping address" required textarea value={checkoutForm.address} onChange={(v) => setCheckoutForm((f) => ({ ...f, address: v }))} />
+                    <CartField id="checkout-phone" label="Phone (optional)" type="tel" value={checkoutForm.phone} onChange={(v) => setCheckoutForm((f) => ({ ...f, phone: v }))} />
+
+                    {checkoutError && (
+                      <div className="text-xs text-fuchsia-400 font-bold uppercase tracking-widest mb-4">{checkoutError}</div>
+                    )}
+
+                    <div className="flex gap-3 mt-2">
+                      <button
+                        type="button"
+                        onClick={() => setCheckoutStep("cart")}
+                        className="px-5 border border-white/10 text-white text-xs font-bold uppercase tracking-widest hover:bg-white/5 transition-colors cursor-pointer"
+                        style={{ minHeight: 44 }}
+                      >
+                        Back
+                      </button>
+                      <button
+                        type="submit"
+                        disabled={checkoutLoading}
+                        className="flex-1 bg-white text-black text-xs font-bold uppercase tracking-[0.2em] hover:bg-fuchsia-100 transition-colors flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer"
+                        style={{ minHeight: 44 }}
+                      >
+                        {checkoutLoading ? (
+                          <>
+                            <Loader2 className="w-4 h-4 animate-spin" />
+                            Processing…
+                          </>
+                        ) : (
+                          "Confirm Order"
+                        )}
+                      </button>
+                    </div>
+                  </motion.form>
+                ) : (
+                  <motion.div key="cart" initial={{ opacity: 0, x: -16 }} animate={{ opacity: 1, x: 0 }}>
+                    {cartItems.length === 0 ? (
+                      <div className="text-center py-16 text-zinc-500">
+                        <ShoppingBag className="w-8 h-8 mx-auto mb-4 text-zinc-700" />
+                        <div className="text-sm uppercase tracking-widest">Your cart is empty.</div>
+                      </div>
+                    ) : (
+                      cartItems.map((item) => (
+                        <div key={item.id} className="flex items-center justify-between gap-3 py-5 border-b border-white/10">
+                          <div className="flex-1 min-w-0">
+                            <div className="text-white text-sm uppercase tracking-widest truncate" style={{ fontFamily: "Georgia, serif" }}>{item.name}</div>
+                            <div className="text-xs text-zinc-500 mt-1">€{item.price} each</div>
+                          </div>
+                          <div className="flex items-center gap-2 shrink-0">
+                            <button
+                              onClick={() => updateCartQty(item.id, -1)}
+                              aria-label={`Decrease quantity of ${item.name}`}
+                              className="w-8 h-8 flex items-center justify-center border border-white/10 hover:border-white/30 text-white cursor-pointer"
+                            >
+                              <Minus className="w-3.5 h-3.5" />
+                            </button>
+                            <span className="w-5 text-center text-sm text-white">{item.qty}</span>
+                            <button
+                              onClick={() => updateCartQty(item.id, 1)}
+                              aria-label={`Increase quantity of ${item.name}`}
+                              className="w-8 h-8 flex items-center justify-center border border-white/10 hover:border-white/30 text-white cursor-pointer"
+                            >
+                              <Plus className="w-3.5 h-3.5" />
+                            </button>
+                          </div>
+                          <div className="w-14 text-right text-sm text-white font-bold shrink-0">€{item.price * item.qty}</div>
+                          <button
+                            onClick={() => removeCartItem(item.id)}
+                            aria-label={`Remove ${item.name} from cart`}
+                            className="w-9 h-9 flex items-center justify-center text-zinc-500 hover:text-fuchsia-400 cursor-pointer shrink-0"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+                        </div>
+                      ))
+                    )}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+
+            {checkoutStep === "cart" && cartItems.length > 0 && (
+              <div className="px-8 py-6 border-t border-white/10">
+                <div className="flex items-center justify-between mb-4 text-sm">
+                  <span className="text-zinc-500 uppercase tracking-widest text-xs">Subtotal</span>
+                  <span className="text-white font-bold text-lg" style={{ fontFamily: "Georgia, serif" }}>€{cartSubtotal}</span>
+                </div>
+                <button
+                  onClick={() => setCheckoutStep("checkout")}
+                  className="w-full py-4 bg-white text-black text-xs font-bold uppercase tracking-[0.2em] hover:bg-fuchsia-100 transition-colors cursor-pointer"
+                  style={{ minHeight: 44 }}
+                >
+                  Checkout
+                </button>
+              </div>
+            )}
+          </div>
+        </SheetContent>
+      </Sheet>
+
+      {/* ─── REGISTRY WAITLIST DIALOG ──────────────────────────────────── */}
+      <Dialog open={registryOpen} onOpenChange={handleRegistryOpenChange}>
+        <DialogContent className="bg-[#0a0710] border border-white/10 text-zinc-300 sm:max-w-md p-8">
+          {registrySent ? (
+            <div className="text-center py-6">
+              <div className="w-16 h-16 rounded-full border border-fuchsia-500/50 bg-fuchsia-950/30 flex items-center justify-center mx-auto mb-6">
+                <CheckCircle2 className="w-7 h-7 text-fuchsia-400" />
+              </div>
+              <DialogTitle className="text-2xl text-white font-light uppercase tracking-widest mb-3 block" style={{ fontFamily: "Georgia, serif" }}>
+                You're on the list
+              </DialogTitle>
+              <p className="text-sm text-zinc-400 font-light italic leading-relaxed">
+                Welcome to the Éclat registry. We'll reach out to {registryForm.email} with early access to limited editions and private commissions.
+              </p>
+            </div>
+          ) : (
+            <>
+              <DialogHeader>
+                <DialogTitle className="text-2xl text-white font-light uppercase tracking-widest mb-2 block" style={{ fontFamily: "Georgia, serif" }}>
+                  Join The Registry
+                </DialogTitle>
+                <p className="text-sm text-zinc-500 font-light italic">
+                  Limited editions, private commissions and Bespoke inquiries begin here.
+                </p>
+              </DialogHeader>
+              <form onSubmit={handleRegistrySubmit} className="mt-4">
+                <CartField id="registry-name" label="Full name" required value={registryForm.name} onChange={(v) => setRegistryForm((f) => ({ ...f, name: v }))} />
+                <CartField id="registry-email" label="Email" type="email" required value={registryForm.email} onChange={(v) => setRegistryForm((f) => ({ ...f, email: v }))} />
+                {registryError && (
+                  <div className="text-xs text-fuchsia-400 font-bold uppercase tracking-widest mb-4">{registryError}</div>
+                )}
+                <button
+                  type="submit"
+                  disabled={registryLoading}
+                  className="w-full py-4 bg-white text-black text-xs font-bold uppercase tracking-[0.2em] hover:bg-fuchsia-100 transition-colors flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer mt-2"
+                  style={{ minHeight: 44 }}
+                >
+                  {registryLoading ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                      Submitting…
+                    </>
+                  ) : (
+                    "Join The Registry"
+                  )}
+                </button>
+              </form>
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

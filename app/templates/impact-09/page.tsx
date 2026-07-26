@@ -389,23 +389,23 @@ return (
         {page === "home" && (
           <>
             {/* 2. LAUNCH IGNITION (HERO / SPACEMAN STYLE) */}
-            <section id="hero" className="relative h-dvh flex flex-col justify-center items-center px-12 pt-32 overflow-hidden">
+            <section id="hero" className="relative min-h-dvh flex flex-col justify-center items-center px-6 md:px-12 pt-24 md:pt-32 overflow-hidden">
                <OrbitVisualizer />
-               
+
                <div className="relative z-10 w-full max-w-7xl flex flex-col items-center text-center">
                   <Reveal>
-                     <div className="inline-flex items-center gap-4 px-6 py-3 border border-indigo-500/30 bg-indigo-500/5 text-[10px] font-black uppercase tracking-[0.5em] text-indigo-500 mb-16 italic font-mono">
+                     <div className="inline-flex items-center gap-4 px-6 py-3 border border-indigo-500/30 bg-indigo-500/5 text-[10px] font-black uppercase tracking-[0.5em] text-indigo-500 mb-8 md:mb-16 italic font-mono">
                         <Rocket className="w-4 h-4 animate-bounce" /> Status: LAUNCH_WINDOW_OPEN // 00:04:12
                      </div>
-                     <motion.h1 
+                     <motion.h1
                         style={{ scale: textScale }}
-                        className="text-8xl md:text-[15vw] font-black tracking-tighter uppercase mb-16 leading-[0.7] italic flex flex-col"
+                        className="text-5xl sm:text-6xl md:text-[15vw] font-black tracking-tight md:tracking-tighter uppercase mb-8 md:mb-16 leading-[0.9] md:leading-[0.7] italic flex flex-col break-words"
                      >{c?.heroHeadline ?? <>
                         <span>Reach the</span>
                         <span className="text-transparent" style={{ WebkitTextStroke: "2px white" }}>Beyond.</span>
                      </>}</motion.h1>
-                     
-                     <div className="grid grid-cols-1 md:grid-cols-2 gap-24 items-end text-left max-w-5xl">
+
+                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-24 items-end text-left max-w-5xl">
                         <p className="text-lg md:text-xl text-white/40 leading-relaxed font-light italic uppercase tracking-widest">{c?.heroSubline ?? fd?.tagline ?? <>
                            Nous maîtrisons le transit orbital commercial. Conçu pour l'élite évolutive, notre service assure une sécurité absolue vers les destinations lointaines.
                         </>}</p>

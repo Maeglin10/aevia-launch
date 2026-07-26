@@ -210,7 +210,7 @@ export default function ArcaneRealtyPage() {
               </div>
             </Reveal>
             <Reveal delay={0.2} y={70}>
-              <h1 className="text-7xl md:text-[10rem] font-light tracking-tighter leading-[0.8] text-white mb-12 uppercase">{c?.heroHeadline ?? <>
+              <h1 className="text-7xl md:text-8xl lg:text-[10rem] font-light tracking-tighter leading-[0.8] text-white mb-12 uppercase">{c?.heroHeadline ?? <>
                 Rare <br/> <span className="font-bold italic">Holdings.</span>
               </>}</h1>
             </Reveal>

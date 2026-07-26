@@ -58,10 +58,10 @@ function ShopCard({ p, i, onOpen }: { p: typeof PRODUCTS[0]; i: number; onOpen: 
   );
 }
 
-function ProductDetail({ p, onBack, onAddToCart }: { p: typeof PRODUCTS[0]; onBack: () => void; onAddToCart: () => void }) {
+function ProductDetail({ p, onBack, onAddToCart }: { p: typeof PRODUCTS[0]; onBack: () => void; onAddToCart: (item: { id: string; name: string; price: number }) => void }) {
   const [activeColor, setActiveColor] = useState(0);
   const [added, setAdded] = useState(false);
-  const handleAdd = () => { onAddToCart(); setAdded(true); setTimeout(() => setAdded(false), 2000); };
+  const handleAdd = () => { onAddToCart({ id: p.name, name: p.name, price: p.price }); setAdded(true); setTimeout(() => setAdded(false), 2000); };
   return (
     <section style={{ background: C.bg, padding: "120px 24px 100px" }}>
       <div style={{ maxWidth: 1200, margin: "0 auto" }}>

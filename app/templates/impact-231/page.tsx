@@ -2,7 +2,7 @@
 // @ts-nocheck
 
 import React, {useRef, useState, useEffect} from 'react'
-import { motion, useScroll, useTransform, useInView } from "framer-motion"
+import { motion, AnimatePresence, useScroll, useTransform, useInView } from "framer-motion"
 import { Phone, Mail, MapPin, Clock, Star, CheckCircle, ArrowRight, Leaf } from "lucide-react"
 import { resolveList } from "@/lib/templates/resolveList"
 
@@ -58,6 +58,51 @@ function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: nu
   return <motion.div ref={ref} initial={{ opacity: 0, y: 28 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.65, delay, ease: [0.16, 1, 0.3, 1] }}>{children}</motion.div>
 }
 
+/** Booking form field — matches the page's card/input language (white surface, sage border, DM Sans). */
+function NJField({
+  label,
+  type = "text",
+  required = true,
+  children,
+}: {
+  label: string
+  type?: string
+  required?: boolean
+  children?: React.ReactNode
+}) {
+  const [focused, setFocused] = useState(false)
+  const isSelect = type === "select"
+  const fieldStyle: React.CSSProperties = {
+    width: "100%",
+    background: C.white,
+    border: `1.5px solid ${focused ? C.accent : C.border}`,
+    borderRadius: 8,
+    color: C.text,
+    fontFamily: FONT_BODY,
+    fontSize: 14.5,
+    padding: "13px 14px",
+    outline: "none",
+    boxShadow: focused ? `0 0 0 3px ${C.accent}22` : "none",
+    transition: "border-color 0.2s ease, box-shadow 0.2s ease",
+    cursor: isSelect ? "pointer" : "text",
+    appearance: isSelect ? ("none" as const) : undefined,
+  }
+  return (
+    <label style={{ display: "block", marginBottom: 18, textAlign: "left" }}>
+      <span style={{ display: "block", fontSize: 11.5, fontWeight: 700, letterSpacing: 1.2, textTransform: "uppercase", color: C.textMuted, marginBottom: 7 }}>
+        {label}{required && <span style={{ color: C.accent }}> *</span>}
+      </span>
+      {isSelect ? (
+        <select required={required} onFocus={() => setFocused(true)} onBlur={() => setFocused(false)} style={fieldStyle}>
+          {children}
+        </select>
+      ) : (
+        <input type={type} required={required} onFocus={() => setFocused(true)} onBlur={() => setFocused(false)} style={fieldStyle} />
+      )}
+    </label>
+  )
+}
+
 
 // Global state variables for subpage compatibility
 let fd: any = null;
@@ -107,6 +152,16 @@ export default function NutritherapiePage() {
   const heroRef = useRef<HTMLElement>(null)
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
+  const [bookingLoading, setBookingLoading] = useState(false)
+  const [bookingSent, setBookingSent] = useState(false)
+  const handleBookingSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    setBookingLoading(true)
+    setTimeout(() => {
+      setBookingLoading(false)
+      setBookingSent(true)
+    }, 1900)
+  }
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] })
   const heroY = useTransform(scrollYProgress, [0, 1], [0, 170])
   const heroTextY = useTransform(scrollYProgress, [0, 1], [0, -65])
@@ -145,7 +200,7 @@ return (
         <div id="mb231-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      {["Accompagnements", "Méthode", "Témoignages", "Contact"].map(l => (
             <a key={l} href={`#${l.toLowerCase()}`} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)", fontSize: 14, fontWeight: 500, textDecoration: "none" }}>{l}</a>
           ))}
-          <motion.a href={`tel:${fd?.phone ?? "+33456000000"}`} style={{ background: C.accent, color: C.white, borderRadius: 6, padding: "9px 22px", fontSize: 14, fontWeight: 600, textDecoration: "none" }} whileHover={{ background: C.accentDark }}>Prendre RDV</motion.a>
+          <motion.a href="#contact" style={{ background: C.accent, color: C.white, borderRadius: 6, padding: "9px 22px", fontSize: 14, fontWeight: 600, textDecoration: "none", cursor: "pointer" }} whileHover={{ background: C.accentDark }}>Prendre RDV</motion.a>
       </div>
         <button
           className="mb231-burger"
@@ -163,7 +218,7 @@ return (
           {["Accompagnements", "Méthode", "Témoignages", "Contact"].map(l => (
             <a key={l} href={`#${l.toLowerCase()}`} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)", fontSize: 14, fontWeight: 500, textDecoration: "none" }}>{l}</a>
           ))}
-          <motion.a href={`tel:${fd?.phone ?? "+33456000000"}`} style={{ background: C.accent, color: C.white, borderRadius: 6, padding: "9px 22px", fontSize: 14, fontWeight: 600, textDecoration: "none" }} whileHover={{ background: C.accentDark }}>Prendre RDV</motion.a>
+          <motion.a href="#contact" onClick={() => setMobileOpen(false)} style={{ background: C.accent, color: C.white, borderRadius: 6, padding: "9px 22px", fontSize: 14, fontWeight: 600, textDecoration: "none", cursor: "pointer" }} whileHover={{ background: C.accentDark }}>Prendre RDV</motion.a>
         </div>
       )}
       <style>{`@media (max-width: 900px) { #mb231-nav { display: none !important; } .mb231-burger { display: flex !important; } }`}</style>
@@ -188,7 +243,7 @@ return (
             Camille Renard, diététicienne-nutritionniste à Lyon. Un accompagnement individualisé pour votre poids, vos troubles digestifs, vos performances ou votre santé hormonale.
           </>}</motion.p>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.0 }} style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
-            <motion.a href={`tel:${fd?.phone ?? "+33456000000"}`} style={{ background: C.accent, color: C.white, borderRadius: 6, padding: "15px 32px", fontWeight: 600, fontSize: 15, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, boxShadow: `0 8px 32px ${C.accent}44` }} whileHover={{ scale: 1.03 }}>
+            <motion.a href="#contact" style={{ background: C.accent, color: C.white, borderRadius: 6, padding: "15px 32px", fontWeight: 600, fontSize: 15, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, boxShadow: `0 8px 32px ${C.accent}44`, cursor: "pointer" }} whileHover={{ scale: 1.03 }}>
               Prendre RDV <ArrowRight size={16} />
             </motion.a>
             <motion.a href="#accompagnements" style={{ background: "rgba(255,255,255,0.08)", color: "#fff", border: "1px solid rgba(255,255,255,0.22)", borderRadius: 6, padding: "13px 28px", fontWeight: 500, fontSize: 15, textDecoration: "none" }} whileHover={{ background: "rgba(255,255,255,0.14)" }}>
@@ -246,7 +301,7 @@ return (
                 <span style={{ fontSize: 15, color: C.textMuted, lineHeight: 1.65 }}>{e}</span>
               </div>
             ))}
-            <motion.a href={`tel:${fd?.phone ?? "+33456000000"}`} style={{ display: "inline-flex", alignItems: "center", gap: 8, marginTop: 28, background: C.accent, color: C.white, borderRadius: 6, padding: "13px 28px", fontWeight: 600, fontSize: 15, textDecoration: "none" }} whileHover={{ background: C.accentDark, scale: 1.02 }}>
+            <motion.a href="#contact" style={{ display: "inline-flex", alignItems: "center", gap: 8, marginTop: 28, background: C.accent, color: C.white, borderRadius: 6, padding: "13px 28px", fontWeight: 600, fontSize: 15, textDecoration: "none", cursor: "pointer" }} whileHover={{ background: C.accentDark, scale: 1.02 }}>
               Réserver ma 1ère consultation <ArrowRight size={16} />
             </motion.a>
           </div></Reveal>
@@ -277,13 +332,83 @@ return (
         <Reveal>
           <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Première consultation</span>
           <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 4vw, 52px)", color: C.text, margin: "14px 0 16px" }}>{c?.aboutTitle ?? fd?.businessName ?? <>Prêt·e à<br /><em>changer votre rapport à l'alimentation ?</em></>}</h2>
-          <p style={{ fontSize: 16, color: C.textMuted, maxWidth: 420, margin: "0 auto 36px", lineHeight: 1.7 }}>{c?.aboutText ?? <>Consultation de 1h (présentiel à Lyon ou téléconsultation). Prise en charge partielle par complémentaire santé possible.</>}</p>
-          <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
-            <motion.a href={`tel:${fd?.phone ?? "+33456000000"}`} style={{ background: C.accent, color: C.white, borderRadius: 6, padding: "15px 36px", fontWeight: 600, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ scale: 1.03 }}>
-              <Phone size={18} /> {fd?.phone ?? "04 56 00 00 00"}
+          <p style={{ fontSize: 16, color: C.textMuted, maxWidth: 460, margin: "0 auto 44px", lineHeight: 1.7 }}>{c?.aboutText ?? <>Consultation de 1h (présentiel à Lyon ou téléconsultation). Prise en charge partielle par complémentaire santé possible.</>}</p>
+        </Reveal>
+
+        <Reveal delay={0.1}>
+          <div style={{ maxWidth: 560, margin: "0 auto", background: C.white, borderRadius: 14, border: `1px solid ${C.border}`, boxShadow: C.shadowLg, padding: "40px 36px", textAlign: "left" }}>
+            <AnimatePresence mode="wait">
+              {bookingSent ? (
+                <motion.div key="success" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} style={{ textAlign: "center", padding: "24px 8px" }}>
+                  <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: "spring", stiffness: 220, delay: 0.15 }}
+                    style={{ width: 60, height: 60, borderRadius: "50%", background: C.accent, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 22px" }}>
+                    <CheckCircle size={30} color={C.white} />
+                  </motion.div>
+                  <h3 style={{ fontFamily: FONT, fontSize: 24, color: C.text, marginBottom: 12 }}>Demande envoyée</h3>
+                  <p style={{ fontSize: 15, color: C.textMuted, lineHeight: 1.7 }}>
+                    Merci ! Nous confirmons votre créneau par email ou téléphone sous 24h ouvrées. À très vite pour votre première consultation.
+                  </p>
+                </motion.div>
+              ) : (
+                <motion.form key="form" initial={{ opacity: 0 }} animate={{ opacity: 1 }} onSubmit={handleBookingSubmit}>
+                  <div className="imx-mobstack" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0 16px" }}>
+                    <NJField label="Nom complet" />
+                    <NJField label="Téléphone" type="tel" />
+                  </div>
+                  <NJField label="Adresse e-mail" type="email" />
+                  <NJField label="Type de consultation" type="select">
+                    <option value="">Choisir un accompagnement</option>
+                    {resolveList<any>(bp?.services, ACCOMPAGNEMENTS_DEMO).map((s: any, i: number) => (
+                      <option key={s.titre ?? s.name ?? i} value={s.titre ?? s.name}>{s.titre ?? s.name}</option>
+                    ))}
+                  </NJField>
+                  <div className="imx-mobstack" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0 16px" }}>
+                    <NJField label="Date souhaitée" type="date" />
+                    <NJField label="Heure" type="select">
+                      <option value="">—</option>
+                      {["09:00", "10:00", "11:00", "14:00", "15:00", "16:00", "17:00"].map(t => (
+                        <option key={t} value={t}>{t}</option>
+                      ))}
+                    </NJField>
+                  </div>
+                  <motion.button
+                    type="submit"
+                    disabled={bookingLoading}
+                    whileHover={bookingLoading ? {} : { scale: 1.02 }}
+                    whileTap={bookingLoading ? {} : { scale: 0.98 }}
+                    style={{
+                      width: "100%", minHeight: 50, marginTop: 8, background: bookingLoading ? C.accentDark : C.accent, color: C.white, border: "none", borderRadius: 8,
+                      fontFamily: FONT_BODY, fontWeight: 600, fontSize: 15, cursor: bookingLoading ? "not-allowed" : "pointer",
+                      display: "flex", alignItems: "center", justifyContent: "center", gap: 10,
+                    }}
+                  >
+                    {bookingLoading ? (
+                      <>
+                        <motion.span animate={{ rotate: 360 }} transition={{ duration: 0.9, repeat: Infinity, ease: "linear" }}
+                          style={{ width: 16, height: 16, borderRadius: "50%", border: `2px solid ${C.white}`, borderTopColor: "transparent", display: "inline-block" }} />
+                        Envoi en cours…
+                      </>
+                    ) : (
+                      <>Confirmer ma demande de RDV <ArrowRight size={16} /></>
+                    )}
+                  </motion.button>
+                  <p style={{ fontSize: 12, color: C.textMuted, textAlign: "center", marginTop: 14 }}>
+                    Les champs marqués * sont obligatoires. Aucune donnée bancaire n'est demandée à cette étape.
+                  </p>
+                </motion.form>
+              )}
+            </AnimatePresence>
+          </div>
+        </Reveal>
+
+        <Reveal delay={0.2}>
+          <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap", alignItems: "center", marginTop: 36 }}>
+            <span style={{ fontSize: 13, color: C.textMuted }}>Vous préférez nous joindre directement ?</span>
+            <motion.a href={`tel:${fd?.phone ?? "+33456000000"}`} style={{ background: "transparent", color: C.text, border: `1.5px solid ${C.border}`, borderRadius: 6, padding: "13px 20px", fontWeight: 600, fontSize: 14, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, cursor: "pointer" }} whileHover={{ borderColor: C.accent, color: C.accent }}>
+              <Phone size={15} /> {fd?.phone ?? "04 56 00 00 00"}
             </motion.a>
-            <motion.a href={`mailto:${fd?.email ?? "contact@nourrir-juste.fr"}`} style={{ background: "transparent", color: C.text, border: `2px solid ${C.accent}`, borderRadius: 6, padding: "13px 32px", fontWeight: 600, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ background: C.accent, color: C.white }}>
-              <Mail size={18} /> Écrire
+            <motion.a href={`mailto:${fd?.email ?? "contact@nourrir-juste.fr"}`} style={{ background: "transparent", color: C.text, border: `1.5px solid ${C.border}`, borderRadius: 6, padding: "13px 20px", fontWeight: 600, fontSize: 14, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, cursor: "pointer" }} whileHover={{ borderColor: C.accent, color: C.accent }}>
+              <Mail size={15} /> Écrire
             </motion.a>
           </div>
         </Reveal>

@@ -1,10 +1,10 @@
 "use client";
 // @ts-nocheck
-import { motion, useScroll, useTransform, useInView } from "framer-motion"
+import { motion, AnimatePresence, useScroll, useTransform, useInView } from "framer-motion"
 import { useRef, useState, useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { Zap, ArrowRight, Menu, Star, Activity, Cpu, Globe, Share2, Shield, ChevronRight, Layout, Box, Sparkles, Wallet } from "lucide-react"
+import { Zap, ArrowRight, Menu, Star, Activity, Cpu, Globe, Share2, Shield, ChevronRight, Layout, Box, Sparkles, Wallet, X, Check, Loader2 } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { resolveList } from "@/lib/templates/resolveList";
 
@@ -98,6 +98,48 @@ export default function NeonPulsePage() {
   const bp = session?.businessProfile;
   const drops = resolveList(bp?.services, DROPS_DEMO);
 
+  // ── Buy Now / Mint waitlist modal ──────────────────────────────────────────
+  // Real wallet connection / on-chain minting is out of scope for this pass —
+  // this is a reservation/waitlist form: `modalDrop` set (from a card's "Buy
+  // Now") pre-fills that item; null `modalDrop` (from "Start Collecting" /
+  // "Open Collector Portal") is the generic "Mint" flow with a collection
+  // picker.
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalDrop, setModalDrop] = useState<any>(null);
+  const [form, setForm] = useState({ name: "", email: "", quantity: "1", dropId: "" });
+  const [submitting, setSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+
+  const openModal = (drop: any = null) => {
+    setModalDrop(drop);
+    setForm({ name: "", email: "", quantity: "1", dropId: drop?.id ?? drop?.name ?? "" });
+    setSubmitting(false);
+    setSubmitted(false);
+    setModalOpen(true);
+  };
+  const closeModal = () => setModalOpen(false);
+
+  useEffect(() => {
+    if (!modalOpen) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") closeModal(); };
+    window.addEventListener("keydown", onKey);
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      document.body.style.overflow = prevOverflow;
+    };
+  }, [modalOpen]);
+
+  const handleReserveSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setSubmitting(true);
+    setTimeout(() => {
+      setSubmitting(false);
+      setSubmitted(true);
+    }, 1000);
+  };
+
   return (
     <div className="bg-[#050505] text-white font-sans min-h-dvh selection:bg-purple-500 selection:text-white overflow-x-hidden">
       
@@ -131,8 +173,21 @@ export default function NeonPulsePage() {
             ))}
           </div>
           <div className="flex items-center gap-6">
-            <button className="hidden md:block text-[10px] font-bold uppercase tracking-widest text-white/40 hover:text-white transition-colors">Connect Wallet</button>
-            <button className="px-8 py-3 bg-white text-black text-[10px] font-bold uppercase tracking-[0.2em] rounded-full hover:bg-[var(--brand,#22d3ee)] hover:text-black transition-all duration-500 shadow-[0_0_20px_rgba(255,255,255,0.2)]">Explore Drops</button>
+            <button
+              type="button"
+              aria-disabled="true"
+              onClick={(e) => e.preventDefault()}
+              title="Wallet connection coming soon"
+              className="hidden md:inline-flex items-center gap-2 min-h-[44px] px-2 text-[10px] font-bold uppercase tracking-widest text-white/25 cursor-not-allowed"
+            >
+              Connect Wallet
+              <span className="px-1.5 py-0.5 rounded-full border border-white/10 text-[7px] tracking-widest text-white/30">Soon</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })}
+              className="px-8 py-3 min-h-[44px] bg-white text-black text-[10px] font-bold uppercase tracking-[0.2em] rounded-full hover:bg-[var(--brand,#22d3ee)] hover:text-black transition-all duration-500 shadow-[0_0_20px_rgba(255,255,255,0.2)] cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand,#22d3ee)] focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+            >Explore Drops</button>
             <Sheet>
               <SheetTrigger className="lg:hidden p-2"><Menu className="w-6 h-6 text-white" /></SheetTrigger>
               <SheetContent side="right" className="bg-black border-white/5 p-12 text-white">
@@ -169,7 +224,11 @@ export default function NeonPulsePage() {
                 </Reveal>
                 <Reveal delay={0.4}>
                   <div className="flex flex-col sm:flex-row gap-8">
-                    <button className="px-14 py-6 bg-gradient-to-r from-purple-600 to-blue-600 text-white font-black uppercase tracking-widest text-[10px] rounded-full hover:scale-105 transition-all duration-500 shadow-2xl">
+                    <button
+                      type="button"
+                      onClick={() => openModal(null)}
+                      className="px-14 py-6 min-h-[44px] bg-gradient-to-r from-purple-600 to-blue-600 text-white font-black uppercase tracking-widest text-[10px] rounded-full hover:scale-105 transition-all duration-500 shadow-2xl cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+                    >
                        Start Collecting
                     </button>
                     <div className="flex items-center gap-4 group cursor-pointer">
@@ -248,7 +307,11 @@ export default function NeonPulsePage() {
                               <div className="text-xl font-black italic uppercase tracking-tighter">{drop.price}</div>
                            </div>
                          )}
-                         <button className="px-8 py-3 bg-white text-black text-[9px] font-black uppercase tracking-widest rounded-full hover:bg-[var(--brand,#22d3ee)] transition-all">Buy Now</button>
+                         <button
+                           type="button"
+                           onClick={() => openModal(drop)}
+                           className="px-8 py-3 min-h-[44px] bg-white text-black text-[9px] font-black uppercase tracking-widest rounded-full hover:bg-[var(--brand,#22d3ee)] transition-all cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand,#22d3ee)] focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+                         >Buy Now</button>
                       </div>
                    </div>
                 </Reveal>
@@ -390,10 +453,20 @@ export default function NeonPulsePage() {
                     PULSE <br/> THE FUTURE.
                  </h2>
                  <div className="flex flex-col sm:flex-row items-center justify-center gap-12">
-                    <button className="px-20 py-10 bg-black text-white font-black uppercase tracking-[0.3em] text-xs rounded-full hover:px-24 transition-all duration-700 italic shadow-[0_20px_50px_rgba(0,0,0,0.4)]">
+                    <button
+                      type="button"
+                      onClick={() => openModal(null)}
+                      className="px-20 py-10 min-h-[44px] bg-black text-white font-black uppercase tracking-[0.3em] text-xs rounded-full hover:px-24 transition-all duration-700 italic shadow-[0_20px_50px_rgba(0,0,0,0.4)] cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+                    >
                        Open Collector Portal
                     </button>
-                    <button className="px-20 py-10 border-4 border-black text-black font-black uppercase tracking-[0.3em] text-xs rounded-full hover:bg-black hover:text-white transition-all duration-700 italic">
+                    <button
+                      type="button"
+                      aria-disabled="true"
+                      onClick={(e) => e.preventDefault()}
+                      title="Creator applications coming soon"
+                      className="px-20 py-10 min-h-[44px] border-4 border-black/40 text-black/40 font-black uppercase tracking-[0.3em] text-xs rounded-full italic cursor-not-allowed"
+                    >
                        Apply As Creator
                     </button>
                  </div>
@@ -447,6 +520,140 @@ export default function NeonPulsePage() {
            </div>
         </div>
       </footer>
+
+      {/* ── BUY NOW / MINT WAITLIST MODAL ───────────
+          UI/UX-only reservation form — no wallet connection or on-chain
+          transaction. Preselects the drop when opened from a card's "Buy
+          Now"; otherwise (hero "Start Collecting" / "Open Collector
+          Portal") it's the generic mint waitlist with a collection picker. */}
+      <AnimatePresence>
+        {modalOpen && (
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6" role="dialog" aria-modal="true" aria-labelledby="reserve-modal-title">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="absolute inset-0 bg-black/80 backdrop-blur-sm"
+              onClick={closeModal}
+            />
+            <motion.div
+              initial={{ opacity: 0, y: 24, scale: 0.97 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 12, scale: 0.97 }}
+              transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+              className="relative w-full max-w-md bg-[#0a0a0c] border border-white/10 rounded-[2rem] p-8 sm:p-10 shadow-[0_30px_80px_rgba(0,0,0,0.6)] max-h-[90vh] overflow-y-auto"
+            >
+              <button
+                type="button"
+                onClick={closeModal}
+                aria-label="Close"
+                className="absolute top-4 right-4 w-11 h-11 flex items-center justify-center rounded-full text-white/40 hover:text-white hover:bg-white/5 transition-colors cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand,#22d3ee)]"
+              >
+                <X className="w-5 h-5" />
+              </button>
+
+              {submitted ? (
+                <div className="text-center py-6">
+                  <div className="w-16 h-16 rounded-full border border-[var(--brand,#22d3ee)] flex items-center justify-center mx-auto mb-6">
+                    <Check className="w-7 h-7 text-[var(--brand,#22d3ee)]" />
+                  </div>
+                  <h3 className="text-2xl font-black uppercase italic tracking-tighter mb-3">
+                    {modalDrop ? "Reservation Received" : "You're On The List"}
+                  </h3>
+                  <p className="text-sm text-white/40 font-light leading-relaxed mb-8">
+                    {modalDrop
+                      ? `We've reserved your spot for "${modalDrop.name}". Our team will confirm availability and next steps by email within 24h.`
+                      : "Thanks for joining the mint waitlist. We'll email you the mint window and gas estimate as soon as it opens."}
+                  </p>
+                  <button
+                    type="button"
+                    onClick={closeModal}
+                    className="px-8 py-3 min-h-[44px] bg-white text-black text-[10px] font-black uppercase tracking-widest rounded-full hover:bg-[var(--brand,#22d3ee)] transition-all cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand,#22d3ee)] focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+                  >
+                    Close
+                  </button>
+                </div>
+              ) : (
+                <form onSubmit={handleReserveSubmit}>
+                  <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#22d3ee)] block mb-3">
+                    {modalDrop ? "Buy Now" : "Mint Waitlist"}
+                  </span>
+                  <h3 id="reserve-modal-title" className="text-3xl font-black uppercase italic tracking-tighter mb-8 leading-tight">
+                    {modalDrop ? modalDrop.name : "Reserve Your Mint"}
+                  </h3>
+
+                  {!modalDrop && (
+                    <div className="mb-6">
+                      <label htmlFor="reserve-collection" className="block text-[9px] font-bold uppercase tracking-widest text-white/40 mb-2">Collection</label>
+                      <select
+                        id="reserve-collection"
+                        required
+                        value={form.dropId}
+                        onChange={(e) => setForm((f) => ({ ...f, dropId: e.target.value }))}
+                        className="w-full bg-white/[0.03] border border-white/10 rounded-xl px-4 py-3 min-h-[44px] text-sm text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand,#22d3ee)] cursor-pointer"
+                      >
+                        <option value="" disabled>Select a collection…</option>
+                        {drops.map((d: any) => (
+                          <option key={d.id ?? d.name} value={d.id ?? d.name}>{d.name}{d.price ? ` — ${d.price}` : ""}</option>
+                        ))}
+                      </select>
+                    </div>
+                  )}
+
+                  <div className="mb-6">
+                    <label htmlFor="reserve-name" className="block text-[9px] font-bold uppercase tracking-widest text-white/40 mb-2">Full name</label>
+                    <input
+                      id="reserve-name"
+                      type="text"
+                      required
+                      autoComplete="name"
+                      value={form.name}
+                      onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
+                      placeholder="Ada Lovelace"
+                      className="w-full bg-white/[0.03] border border-white/10 rounded-xl px-4 py-3 min-h-[44px] text-sm text-white placeholder:text-white/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand,#22d3ee)]"
+                    />
+                  </div>
+
+                  <div className="mb-6">
+                    <label htmlFor="reserve-email" className="block text-[9px] font-bold uppercase tracking-widest text-white/40 mb-2">Email</label>
+                    <input
+                      id="reserve-email"
+                      type="email"
+                      required
+                      autoComplete="email"
+                      value={form.email}
+                      onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
+                      placeholder="you@domain.com"
+                      className="w-full bg-white/[0.03] border border-white/10 rounded-xl px-4 py-3 min-h-[44px] text-sm text-white placeholder:text-white/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand,#22d3ee)]"
+                    />
+                  </div>
+
+                  <div className="mb-8">
+                    <label htmlFor="reserve-qty" className="block text-[9px] font-bold uppercase tracking-widest text-white/40 mb-2">Quantity</label>
+                    <select
+                      id="reserve-qty"
+                      value={form.quantity}
+                      onChange={(e) => setForm((f) => ({ ...f, quantity: e.target.value }))}
+                      className="w-full bg-white/[0.03] border border-white/10 rounded-xl px-4 py-3 min-h-[44px] text-sm text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand,#22d3ee)] cursor-pointer"
+                    >
+                      {[1, 2, 3, 4, 5].map((n) => (<option key={n} value={n}>{n}</option>))}
+                    </select>
+                  </div>
+
+                  <button
+                    type="submit"
+                    disabled={submitting}
+                    className={`w-full min-h-[44px] px-8 py-4 bg-white text-black text-[10px] font-black uppercase tracking-widest rounded-full transition-all flex items-center justify-center gap-3 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand,#22d3ee)] focus-visible:ring-offset-2 focus-visible:ring-offset-black ${submitting ? "opacity-60 cursor-not-allowed" : "hover:bg-[var(--brand,#22d3ee)] cursor-pointer"}`}
+                  >
+                    {submitting ? (<><Loader2 className="w-4 h-4 animate-spin" /> Submitting…</>) : (modalDrop ? "Confirm Reservation" : "Join Waitlist")}
+                  </button>
+                  <p className="text-[10px] text-white/20 text-center mt-4 font-light">No payment required now — this only secures your spot.</p>
+                </form>
+              )}
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </div>
   )
 }

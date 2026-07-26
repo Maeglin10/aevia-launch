@@ -145,8 +145,17 @@ const globalStyles = `
   @media (max-width: 700px) {
     .i14-dest-grid { grid-template-columns: 1fr !important; grid-template-rows: auto !important; }
     .i14-dest-span { grid-column: 1 / -1 !important; grid-row: auto !important; }
-    /* Mobile header fix: hide the desktop nav links so they can't overlap the logo */
+  }
+
+  /* Nav: the full link row (5 items + Enquire button) doesn't fit until ~900px —
+     at tablet width (768px) it was overflowing the fixed nav and clipping the
+     rightmost item. Below 900px we show the hamburger instead. The hamburger
+     itself was previously unconditional (rendered at every breakpoint,
+     overlapping the desktop link row) — now gated by .i14-mobile-menu-btn. */
+  .i14-mobile-menu-btn { display: none; }
+  @media (max-width: 900px) {
     .hidden-mobile { display: none !important; }
+    .i14-mobile-menu-btn { display: flex !important; }
   }
 `;
 
@@ -1101,11 +1110,14 @@ export default function HorizonMaritimePage() {
 
           {/* Mobile menu button */}
           <button
+            className="i14-mobile-menu-btn"
             style={{background: "none",
               border: "1px solid rgba(201,168,76,0.3)",
               padding: "0.5rem",
               cursor: "pointer",
               color: brand ?? 'var(--brand,#c9a84c)',
+              alignItems: "center",
+              justifyContent: "center",
             }}
             onClick={() => setMobileOpen(true)}
           >

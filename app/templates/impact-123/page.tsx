@@ -1,6 +1,6 @@
 "use client";
 // @ts-nocheck
-import { motion, useScroll, useTransform, useInView } from "framer-motion"
+import { motion, AnimatePresence, useScroll, useTransform, useInView } from "framer-motion"
 import { useRef, useState, useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
@@ -125,6 +125,35 @@ export default function VulcanMotorsPage() {
     return () => window.removeEventListener("scroll", h)
   }, []);
 
+  // ── Test session booking modal ──────────────────────────────────────────
+  const [bookingOpen, setBookingOpen] = useState(false)
+  const [bookingLoading, setBookingLoading] = useState(false)
+  const [bookingSent, setBookingSent] = useState(false)
+  const [bookingForm, setBookingForm] = useState({ model: "", date: "", name: "", email: "", phone: "" })
+
+  useEffect(() => {
+    if (!bookingOpen) return
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") closeBookingModal() }
+    window.addEventListener("keydown", onKey)
+    return () => window.removeEventListener("keydown", onKey)
+  }, [bookingOpen]);
+
+  function closeBookingModal() {
+    setBookingOpen(false)
+    setBookingLoading(false)
+    setBookingSent(false)
+    setBookingForm({ model: "", date: "", name: "", email: "", phone: "" })
+  }
+
+  function handleBookingSubmit(e: React.FormEvent) {
+    e.preventDefault()
+    setBookingLoading(true)
+    setTimeout(() => {
+      setBookingLoading(false)
+      setBookingSent(true)
+    }, 1000)
+  }
+
   return (
     <div className="bg-[#050505] text-white font-sans min-h-dvh selection:bg-[var(--brand,#ff3b30)] selection:text-white overflow-x-hidden">
       
@@ -143,7 +172,7 @@ export default function VulcanMotorsPage() {
                 <div className="w-10 h-10 bg-red-600 flex items-center justify-center -skew-x-12 group-hover:scale-110 transition-transform duration-500">
                   <Car className="w-6 h-6 text-black fill-current" />
                 </div>
-                <span className="text-2xl font-black tracking-tighter uppercase italic">Vulcan<span className="text-red-600">Motors</span></span>
+                <span className="text-lg sm:text-2xl font-black tracking-tighter uppercase italic whitespace-nowrap">Vulcan<span className="text-red-600">Motors</span></span>
               </>
             )}
           </Link>
@@ -152,9 +181,9 @@ export default function VulcanMotorsPage() {
               <Link key={l} href="#realisations" className="hover:text-red-500 transition-colors">{l}</Link>
             ))}
           </div>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 sm:gap-4 shrink-0">
             <button className="hidden md:block px-6 py-2.5 text-white/40 text-[10px] font-bold uppercase tracking-widest hover:text-white transition-colors">Owner Portal</button>
-            <button className="px-8 py-3 bg-red-600 text-white text-[10px] font-bold uppercase tracking-[0.2em] rounded-sm hover:bg-white hover:text-black transition-all duration-500 italic">Configure</button>
+            <button className="px-3.5 py-2 sm:px-8 sm:py-3 bg-red-600 text-white text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.2em] rounded-sm hover:bg-white hover:text-black transition-all duration-500 italic whitespace-nowrap shrink-0">Configure</button>
             <Sheet>
               <SheetTrigger className="lg:hidden"><Menu className="w-6 h-6 text-white" /></SheetTrigger>
               <SheetContent side="right" className="bg-black border-red-600/20 p-12 text-white">
@@ -380,7 +409,10 @@ export default function VulcanMotorsPage() {
                 Command<br/>Gravity.
               </h2>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-8">
-                <button className="px-16 py-6 bg-black text-white font-black uppercase tracking-[0.2em] text-[10px] hover:px-20 transition-all duration-700 italic">
+                <button
+                  onClick={() => setBookingOpen(true)}
+                  className="px-16 py-6 min-h-[44px] bg-black text-white font-black uppercase tracking-[0.2em] text-[10px] hover:px-20 transition-all duration-700 italic cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
+                >
                   Book A Test Session
                 </button>
                 <button className="px-16 py-6 border-2 border-black text-black font-black uppercase tracking-[0.2em] text-[10px] hover:bg-black hover:text-white transition-all duration-700 italic">
@@ -434,6 +466,151 @@ export default function VulcanMotorsPage() {
           </div>
         </div>
       </footer>
+
+      {/* ── TEST SESSION BOOKING MODAL ─────────── */}
+      <AnimatePresence>
+        {bookingOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[300] flex items-center justify-center p-4 md:p-8"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="booking-modal-title"
+          >
+            <div
+              className="absolute inset-0 bg-black/90 backdrop-blur-sm"
+              onClick={closeBookingModal}
+            />
+            <motion.div
+              initial={{ opacity: 0, y: 30, scale: 0.98 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 20, scale: 0.98 }}
+              transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+              className="relative w-full max-w-lg bg-[#0a0a0a] border border-red-600/20 max-h-[90vh] overflow-y-auto"
+            >
+              <button
+                type="button"
+                onClick={closeBookingModal}
+                aria-label="Close"
+                className="absolute top-2 right-2 w-11 h-11 flex items-center justify-center text-white/40 hover:text-white transition-colors cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-red-600"
+              >
+                <span className="text-2xl leading-none">&times;</span>
+              </button>
+
+              <div className="p-8 md:p-10">
+                {bookingSent ? (
+                  <div className="text-center py-10">
+                    <div className="w-16 h-16 bg-red-600 -skew-x-12 flex items-center justify-center mx-auto mb-8">
+                      <span className="text-black font-black text-2xl skew-x-6">&#10003;</span>
+                    </div>
+                    <h3 className="text-3xl font-black uppercase italic tracking-tight mb-4">Session Requested</h3>
+                    <p className="text-white/40 text-sm leading-relaxed mb-8">
+                      Our concierge team will contact you within 24 hours to confirm your track date and vehicle allocation.
+                    </p>
+                    <button
+                      type="button"
+                      onClick={closeBookingModal}
+                      className="px-10 py-4 min-h-[44px] bg-red-600 text-white text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-white hover:text-black transition-all duration-500 italic cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-red-600"
+                    >
+                      Close
+                    </button>
+                  </div>
+                ) : (
+                  <form onSubmit={handleBookingSubmit}>
+                    <div className="text-[10px] font-bold uppercase tracking-[0.3em] text-red-600 mb-3">Private Track Access</div>
+                    <h3 id="booking-modal-title" className="text-3xl md:text-4xl font-black uppercase italic tracking-tight mb-8">Book A Test<br />Session.</h3>
+
+                    <div className="space-y-6">
+                      <div>
+                        <label htmlFor="booking-model" className="block text-[10px] font-bold uppercase tracking-widest text-white/40 mb-2">Model</label>
+                        <select
+                          id="booking-model"
+                          required
+                          value={bookingForm.model}
+                          onChange={(e) => setBookingForm(f => ({ ...f, model: e.target.value }))}
+                          className="w-full bg-white/5 border border-white/10 px-4 py-3 text-sm text-white outline-none focus:border-red-600 focus-visible:ring-2 focus-visible:ring-red-600 transition-colors cursor-pointer"
+                        >
+                          <option value="" className="bg-black">Select a model</option>
+                          {MODELS.map((m: any) => (
+                            <option key={m.name} value={m.name} className="bg-black">{m.name}</option>
+                          ))}
+                        </select>
+                      </div>
+
+                      <div>
+                        <label htmlFor="booking-date" className="block text-[10px] font-bold uppercase tracking-widest text-white/40 mb-2">Preferred Date</label>
+                        <input
+                          id="booking-date"
+                          type="date"
+                          required
+                          value={bookingForm.date}
+                          onChange={(e) => setBookingForm(f => ({ ...f, date: e.target.value }))}
+                          className="w-full bg-white/5 border border-white/10 px-4 py-3 text-sm text-white outline-none focus:border-red-600 focus-visible:ring-2 focus-visible:ring-red-600 transition-colors"
+                        />
+                      </div>
+
+                      <div>
+                        <label htmlFor="booking-name" className="block text-[10px] font-bold uppercase tracking-widest text-white/40 mb-2">Full Name</label>
+                        <input
+                          id="booking-name"
+                          type="text"
+                          required
+                          value={bookingForm.name}
+                          onChange={(e) => setBookingForm(f => ({ ...f, name: e.target.value }))}
+                          placeholder="Jonathan Rhys"
+                          className="w-full bg-white/5 border border-white/10 px-4 py-3 text-sm text-white placeholder:text-white/20 outline-none focus:border-red-600 focus-visible:ring-2 focus-visible:ring-red-600 transition-colors"
+                        />
+                      </div>
+
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                          <label htmlFor="booking-email" className="block text-[10px] font-bold uppercase tracking-widest text-white/40 mb-2">Email</label>
+                          <input
+                            id="booking-email"
+                            type="email"
+                            required
+                            value={bookingForm.email}
+                            onChange={(e) => setBookingForm(f => ({ ...f, email: e.target.value }))}
+                            placeholder="you@email.com"
+                            className="w-full bg-white/5 border border-white/10 px-4 py-3 text-sm text-white placeholder:text-white/20 outline-none focus:border-red-600 focus-visible:ring-2 focus-visible:ring-red-600 transition-colors"
+                          />
+                        </div>
+                        <div>
+                          <label htmlFor="booking-phone" className="block text-[10px] font-bold uppercase tracking-widest text-white/40 mb-2">Phone</label>
+                          <input
+                            id="booking-phone"
+                            type="tel"
+                            required
+                            value={bookingForm.phone}
+                            onChange={(e) => setBookingForm(f => ({ ...f, phone: e.target.value }))}
+                            placeholder="+1 555 000 0000"
+                            className="w-full bg-white/5 border border-white/10 px-4 py-3 text-sm text-white placeholder:text-white/20 outline-none focus:border-red-600 focus-visible:ring-2 focus-visible:ring-red-600 transition-colors"
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    <button
+                      type="submit"
+                      disabled={bookingLoading}
+                      className="w-full mt-10 px-10 py-4 min-h-[44px] bg-red-600 text-white text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-white hover:text-black transition-all duration-500 italic disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-red-600 flex items-center justify-center gap-3"
+                    >
+                      {bookingLoading ? (
+                        <>
+                          <span className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
+                          Submitting...
+                        </>
+                      ) : "Confirm Request"}
+                    </button>
+                  </form>
+                )}
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   )
 }

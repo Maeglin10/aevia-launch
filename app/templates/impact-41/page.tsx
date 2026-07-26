@@ -3,6 +3,7 @@
 
 import React, { useRef, useState, useEffect } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
+import Link from 'next/link';
 import {
   SCENES,
   SVGMonogram,
@@ -239,6 +240,35 @@ return (
             >
               Collection Perpétuelle — 2026
             </div>
+          </motion.div>
+
+          {/* Real CTA — on mobile/tablet the nav's own CTA + links are hidden
+              behind the hamburger (layout.tsx, <900px), leaving this hero as
+              pure decoration with no actionable button. */}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 3.1, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <Link
+              href="/templates/impact-41/contact"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.6rem',
+                padding: '0.9rem 2.2rem',
+                border: `1px solid ${SCENES[0].accent}`,
+                color: SCENES[0].textPrimary,
+                fontFamily: 'monospace',
+                fontSize: '0.68rem',
+                letterSpacing: '0.3em',
+                textTransform: 'uppercase',
+                textDecoration: 'none',
+                minHeight: 44,
+              }}
+            >
+              Prendre Contact
+            </Link>
           </motion.div>
         </div>
 

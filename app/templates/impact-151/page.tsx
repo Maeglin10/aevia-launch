@@ -23,6 +23,7 @@ import {
   Lock, Key, BookOpen, PenTool
 } from "lucide-react"
 import { resolveList } from "@/lib/templates/resolveList"
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 
 /* ==========================================================================
    THE AETHELGARD DATASET (PREMIUM DENSITY)
@@ -215,16 +216,32 @@ return (
             )}</Link>
          </div>
 
-         <div className="flex items-center gap-12 pointer-events-auto">
+         <div className="flex items-center gap-3 sm:gap-6 lg:gap-12 pointer-events-auto">
             <div className="hidden lg:flex gap-10 text-[10px] font-black uppercase tracking-[0.4em] text-white/20">
                <Link href="#terroir" className="hover:text-white transition-colors">The Terroir</Link>
                <Link href="#cellar" className="hover:text-white transition-colors">The Cellar</Link>
                <Link href="#alchemist" className="hover:text-white transition-colors">The Alchemist</Link>
                <Link href="#circle" className="hover:text-white transition-colors">The Circle</Link>
             </div>
-            <button 
+            <Sheet>
+              <SheetTrigger className="lg:hidden w-10 h-10 sm:w-12 sm:h-12 border border-white/10 rounded-full flex items-center justify-center hover:bg-[var(--brand,#c4a661)] hover:text-white transition-all shadow-xl bg-black/40 backdrop-blur-xl shrink-0">
+                <Menu className="w-5 h-5" />
+              </SheetTrigger>
+              <SheetContent side="right" className="bg-[#0a0a0b] border-white/10 p-12">
+                <div className="flex flex-col gap-8 mt-16">
+                  {[["The Terroir", "#terroir"], ["The Cellar", "#cellar"], ["The Alchemist", "#alchemist"], ["The Circle", "#circle"]].map(([label, href]) => (
+                    <Link key={href} href={href} className="text-2xl font-light uppercase tracking-widest text-white hover:text-[var(--brand,#c4a661)] transition-colors">{label}</Link>
+                  ))}
+                  <Link href="#circle" className="mt-4 px-8 py-4 bg-[var(--brand,#c4a661)] text-black text-center text-[10px] font-black uppercase tracking-widest hover:bg-white transition-all">
+                    Join The Circle
+                  </Link>
+                </div>
+              </SheetContent>
+            </Sheet>
+            <button
               onClick={() => setMemberPortal(true)}
-              className="w-12 h-12 border border-white/10 rounded-full flex items-center justify-center hover:bg-[var(--brand,#c4a661)] hover:text-white transition-all shadow-xl bg-black/40 backdrop-blur-xl"
+              className="w-10 h-10 sm:w-12 sm:h-12 border border-white/10 rounded-full flex items-center justify-center hover:bg-[var(--brand,#c4a661)] hover:text-white transition-all shadow-xl bg-black/40 backdrop-blur-xl shrink-0"
+              aria-label="Member portal"
             >
                <Menu className="w-5 h-5" />
             </button>

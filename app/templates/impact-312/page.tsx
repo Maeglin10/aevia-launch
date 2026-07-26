@@ -137,20 +137,23 @@ const Eyebrow = ({ children, className = "" }: { children: React.ReactNode; clas
   </div>
 );
 
-const Button = ({ children, variant = "primary", onClick, href, className = "", icon = null }: any) => {
+const Button = ({ children, variant = "primary", onClick, href, className = "", icon = null, type = "button", disabled = false }: any) => {
   const isPrimary = variant === "primary";
-  const Element = href ? "a" : "button";
-  
+  const Element: any = href ? "a" : "button";
+
   return (
     <Element
       href={href}
       onClick={onClick}
+      type={href ? undefined : type}
+      disabled={href ? undefined : disabled}
       style={{
         display: "inline-flex",
         alignItems: "center",
         justifyContent: "center",
         gap: "0.5rem",
         padding: "1rem 2rem",
+        minHeight: 44,
         borderRadius: "0",
         backgroundColor: isPrimary ? C.primary : "transparent",
         color: isPrimary ? C.white : C.text,
@@ -158,12 +161,14 @@ const Button = ({ children, variant = "primary", onClick, href, className = "", 
         fontFamily: SANS,
         fontWeight: 600,
         fontSize: "1rem",
-        cursor: "pointer",
+        cursor: disabled ? "not-allowed" : "pointer",
+        opacity: disabled ? 0.6 : 1,
         textDecoration: "none",
         transition: "all 0.3s ease",
       }}
       className={`btn-hover ${className}`}
-      onMouseOver={(e) => {
+      onMouseOver={(e: any) => {
+        if (disabled) return;
         if (isPrimary) {
           e.currentTarget.style.backgroundColor = C.primaryDark;
           e.currentTarget.style.borderColor = C.primaryDark;
@@ -172,7 +177,8 @@ const Button = ({ children, variant = "primary", onClick, href, className = "", 
           e.currentTarget.style.color = C.white;
         }
       }}
-      onMouseOut={(e) => {
+      onMouseOut={(e: any) => {
+        if (disabled) return;
         if (isPrimary) {
           e.currentTarget.style.backgroundColor = C.primary;
           e.currentTarget.style.borderColor = C.primary;
@@ -196,6 +202,22 @@ export default function GarageMinimalistTemplate() {
   const [testimonials, setTestimonials] = useState<any[]>([]);
   const [services, setServices] = useState<any[]>([]);
   const [faqs, setFaqs] = useState<any[]>([]);
+
+  // Contact/appointment form state
+  const [contactForm, setContactForm] = useState({ firstName: "", lastName: "", email: "", phone: "", service: "", date: "", message: "" });
+  const [contactLoading, setContactLoading] = useState(false);
+  const [contactSent, setContactSent] = useState(false);
+  const updateContactForm = (field: string, value: string) =>
+    setContactForm((prev) => ({ ...prev, [field]: value }));
+  const handleContactSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!contactForm.firstName || !contactForm.email || !contactForm.phone || !contactForm.service) return;
+    setContactLoading(true);
+    setTimeout(() => {
+      setContactLoading(false);
+      setContactSent(true);
+    }, 1800);
+  };
   const [features, setFeatures] = useState<any[]>([]);
   const [stats, setStats] = useState<any[]>([]);
   const [gallery, setGallery] = useState<any[]>([]);
@@ -793,16 +815,92 @@ export default function GarageMinimalistTemplate() {
               </Reveal>
 
               <Reveal delay={0.2}>
-                <form onSubmit={e => e.preventDefault()}>
+                {contactSent ? (
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    style={{ textAlign: "center", padding: "2rem 0", border: "1px solid rgba(255,255,255,0.1)" }}
+                  >
+                    <div style={{ color: C.primary, marginBottom: "1rem" }}><CheckCircle2 size={48} style={{ margin: "0 auto" }} /></div>
+                    <h4 style={{ fontSize: "1.25rem", fontWeight: 800, color: C.white, marginBottom: "0.75rem" }}>Demande reçue !</h4>
+                    <p style={{ color: "#a1a1aa", fontSize: "0.95rem", lineHeight: 1.6 }}>
+                      Merci {contactForm.firstName}, votre demande de rendez-vous pour « {contactForm.service} »{contactForm.date ? ` le ${contactForm.date}` : ""} a bien été reçue. Nous vous recontactons au {contactForm.phone} pour confirmer.
+                    </p>
+                  </motion.div>
+                ) : (
+                <form onSubmit={handleContactSubmit}>
                   <div style={{ display: "flex", gap: "1rem" }}>
-                    <input type="text" placeholder="Nom" className="contact-input" style={{ backgroundColor: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", color: C.white }} />
-                    <input type="text" placeholder="Prénom" className="contact-input" style={{ backgroundColor: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", color: C.white }} />
+                    <input
+                      type="text"
+                      placeholder="Nom"
+                      required
+                      value={contactForm.lastName}
+                      onChange={(e) => updateContactForm("lastName", e.target.value)}
+                      className="contact-input"
+                      style={{ backgroundColor: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", color: C.white }}
+                    />
+                    <input
+                      type="text"
+                      placeholder="Prénom"
+                      required
+                      value={contactForm.firstName}
+                      onChange={(e) => updateContactForm("firstName", e.target.value)}
+                      className="contact-input"
+                      style={{ backgroundColor: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", color: C.white }}
+                    />
                   </div>
-                  <input type="email" placeholder="Email" className="contact-input" style={{ backgroundColor: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", color: C.white }} />
-                  <input type="tel" placeholder="Téléphone" className="contact-input" style={{ backgroundColor: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", color: C.white }} />
-                  <textarea placeholder="Décrivez votre besoin (Modèle de voiture, problème rencontré...)" className="contact-input" rows={4} style={{ backgroundColor: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", color: C.white, resize: "vertical" }}></textarea>
-                  <Button variant="primary" style={{ width: "100%" }}>Envoyer la demande</Button>
+                  <input
+                    type="email"
+                    placeholder="Email"
+                    required
+                    value={contactForm.email}
+                    onChange={(e) => updateContactForm("email", e.target.value)}
+                    className="contact-input"
+                    style={{ backgroundColor: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", color: C.white }}
+                  />
+                  <input
+                    type="tel"
+                    placeholder="Téléphone"
+                    required
+                    value={contactForm.phone}
+                    onChange={(e) => updateContactForm("phone", e.target.value)}
+                    className="contact-input"
+                    style={{ backgroundColor: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", color: C.white }}
+                  />
+                  <select
+                    required
+                    value={contactForm.service}
+                    onChange={(e) => updateContactForm("service", e.target.value)}
+                    className="contact-input"
+                    style={{ backgroundColor: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", color: contactForm.service ? C.white : "rgba(255,255,255,0.6)", cursor: "pointer" }}
+                  >
+                    <option value="" style={{ color: C.text }}>— Choisir un service —</option>
+                    {servicesResolved.map((s: any) => (
+                      <option key={s.title} value={s.title} style={{ color: C.text }}>{s.title}</option>
+                    ))}
+                  </select>
+                  <input
+                    type="date"
+                    placeholder="Date souhaitée"
+                    min={new Date().toISOString().split("T")[0]}
+                    value={contactForm.date}
+                    onChange={(e) => updateContactForm("date", e.target.value)}
+                    className="contact-input"
+                    style={{ backgroundColor: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", color: C.white, cursor: "pointer" }}
+                  />
+                  <textarea
+                    placeholder="Décrivez votre besoin (Modèle de voiture, problème rencontré...)"
+                    className="contact-input"
+                    rows={4}
+                    value={contactForm.message}
+                    onChange={(e) => updateContactForm("message", e.target.value)}
+                    style={{ backgroundColor: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", color: C.white, resize: "vertical" }}
+                  ></textarea>
+                  <Button type="submit" variant="primary" disabled={contactLoading} style={{ width: "100%" }}>
+                    {contactLoading ? "Envoi en cours…" : "Envoyer la demande"}
+                  </Button>
                 </form>
+                )}
               </Reveal>
             </div>
           </div>

@@ -255,27 +255,27 @@ return (
         {page === "home" && (
           <>
             {/* Hero */}
-            <section id="hero" className="relative min-h-dvh flex items-center pt-32 pb-20 px-6 overflow-hidden">
+            <section id="hero" className="relative min-h-dvh flex items-center pt-24 pb-12 md:pt-32 md:pb-20 px-6 overflow-hidden">
               <div className="absolute inset-0 pointer-events-none">
                 <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[var(--brand,#3B82F6)]/10 rounded-full blur-3xl" />
                 <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-[#8B5CF6]/10 rounded-full blur-3xl" />
               </div>
               <div className="max-w-6xl mx-auto w-full relative z-10">
                 <Reveal className="text-center">
-                  <div className="inline-flex items-center gap-2 bg-[var(--brand,#3B82F6)]/10 border border-[var(--brand,#3B82F6)]/20 text-[#60A5FA] px-4 py-1.5 rounded-full text-xs font-semibold mb-8">
+                  <div className="inline-flex items-center gap-2 bg-[var(--brand,#3B82F6)]/10 border border-[var(--brand,#3B82F6)]/20 text-[#60A5FA] px-4 py-1.5 rounded-full text-xs font-semibold mb-5 md:mb-8">
                     <TrendingUp className="w-3 h-3" /> +12 000 équipes nous font confiance
                   </div>
                 </Reveal>
                 <Reveal delay={0.1} className="text-center">
-                  <h1 className="text-white text-5xl md:text-7xl font-extrabold leading-tight mb-6">{c?.heroHeadline ?? <>
+                  <h1 className="text-white text-4xl sm:text-5xl md:text-7xl font-extrabold leading-tight mb-4 md:mb-6">{c?.heroHeadline ?? <>
                     Gérez tout votre travail<br />
                     <span className="bg-gradient-to-r from-[var(--brand,#3B82F6)] to-[#8B5CF6] bg-clip-text text-transparent">en un seul endroit</span>
                   </>}</h1>
                 </Reveal>
                 <Reveal delay={0.2} className="text-center">
-                  <p className="text-gray-400 text-xl max-w-2xl mx-auto mb-10">{c?.heroSubline ?? fd?.tagline ?? <>Projets, équipes, analytics, intégrations. Streamline centralise votre stack de productivité et automatise ce qui peut l'être.</>}</p>
+                  <p className="text-gray-400 text-base sm:text-xl max-w-2xl mx-auto mb-6 md:mb-10">{c?.heroSubline ?? fd?.tagline ?? <>Projets, équipes, analytics, intégrations. Streamline centralise votre stack de productivité et automatise ce qui peut l'être.</>}</p>
                 </Reveal>
-                <Reveal delay={0.3} className="flex flex-col sm:flex-row justify-center gap-4">
+                <Reveal delay={0.3} className="flex flex-col sm:flex-row justify-center gap-3 md:gap-4">
                   <button onClick={() => goTo("tarifs")} className="bg-[var(--brand,#3B82F6)] text-white font-bold px-8 py-4 rounded-xl hover:bg-[#2563EB] transition-colors cursor-pointer flex items-center justify-center gap-2">
                     Démarrer gratuitement <ArrowRight className="w-4 h-4" />
                   </button>
@@ -284,7 +284,7 @@ return (
                   </button>
                 </Reveal>
                 {/* Kanban mockup */}
-                <Reveal delay={0.4} className="mt-16">
+                <Reveal delay={0.4} className="mt-8 md:mt-16">
                   <div className="bg-[#161B27] border border-white/10 rounded-2xl p-6 overflow-hidden">
                     <div className="flex items-center gap-3 mb-6">
                       <div className="flex gap-1.5"><div className="w-3 h-3 rounded-full bg-red-500/70" /><div className="w-3 h-3 rounded-full bg-yellow-500/70" /><div className="w-3 h-3 rounded-full bg-green-500/70" /></div>

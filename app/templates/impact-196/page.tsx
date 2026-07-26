@@ -187,6 +187,13 @@ export default function CabinetKinePage() {
         @media (max-width: 768px) {
           .imx-mobstack { grid-template-columns: 1fr !important; }
         }
+        /* mobile hero fix: the hero was a fixed 115vh/min-900px box with content bottom-anchored —
+           on short phone viewports the CTA sat below the fold. Match the sibling medical templates
+           (186/188/190) by letting the section fit the actual viewport on mobile. */
+        @media (max-width: 768px) {
+          .imx-hero196-section { height: 100dvh !important; min-height: 0 !important; }
+          .imx-hero196-content { padding-bottom: 48px !important; }
+        }
       `}</style>
 
       {/* Navbar */}
@@ -250,14 +257,14 @@ export default function CabinetKinePage() {
       )}
 
       {/* Hero */}
-      <section ref={heroRef} style={{ height: "115vh", minHeight: "900px", position: "relative", display: "flex", alignItems: "flex-end", overflow: "hidden" }}>
+      <section ref={heroRef} className="imx-hero196-section" style={{ height: "115vh", minHeight: "900px", position: "relative", display: "flex", alignItems: "flex-end", overflow: "hidden" }}>
         <motion.div style={{ y: heroY, position: "absolute", inset: 0 }}>
           <img src={photo(0, "https://images.unsplash.com/photo-1559757175-5700dde675bc?w=1920&q=80")} alt="Cabinet kiné Mouvement Nantes" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
         </motion.div>
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(10,25,40,0.90) 0%, rgba(10,25,40,0.40) 45%, rgba(10,25,40,0.06) 100%)" }} />
         <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to right, ${C.accent}18 0%, transparent 55%)` }} />
 
-        <motion.div style={{ position: "relative", zIndex: 1, padding: "0 clamp(24px, 6vw, 80px) 90px", maxWidth: 780, y: heroTextY, opacity: heroOpacity }}>
+        <motion.div className="imx-hero196-content" style={{ position: "relative", zIndex: 1, padding: "0 clamp(24px, 6vw, 80px) 90px", maxWidth: 780, y: heroTextY, opacity: heroOpacity }}>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
             style={{ display: "inline-flex", alignItems: "center", gap: 10, marginBottom: 28, background: "rgba(45,106,143,0.20)", border: "1px solid rgba(45,106,143,0.40)", borderRadius: 20, padding: "7px 18px" }}>
             <span style={{ color: "#a8d4f0", fontSize: 12, fontWeight: 700, letterSpacing: 2, textTransform: "uppercase" }}>Cabinet de kinésithérapie · Nantes</span>

@@ -360,7 +360,7 @@ export default function HorizonYachtPage() {
             <Badge className="bg-[var(--brand,#c5a059)]/10 text-[var(--brand,#c5a059)] border border-[var(--brand,#c5a059)]/30 text-[10px] font-bold uppercase tracking-[0.5em] mb-10 px-4 py-1.5 rounded-full">
               Global Maritime Excellence // Est. 1988
             </Badge>
-            <h1 className="text-8xl md:text-[12rem] font-black leading-[0.8] tracking-tighter mb-12 uppercase text-white italic">{c?.heroHeadline ?? <>
+            <h1 className="text-[clamp(2.75rem,7vw,9rem)] font-black leading-[0.95] tracking-tighter mb-12 uppercase text-white italic break-words">{c?.heroHeadline ?? <>
               Mastering <br />{" "}
               <span className="text-[var(--brand,#c5a059)] not-italic">The Deep.</span>
             </>}</h1>

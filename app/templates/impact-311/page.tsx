@@ -166,13 +166,15 @@ const Eyebrow = ({ children, color = C.primary }: { children: React.ReactNode; c
   </motion.div>
 );
 
-const Button = ({ children, variant = 'primary', icon, onClick, className = '' }: any) => {
+const Button = ({ children, variant = 'primary', icon, onClick, className = '', type = 'button', disabled = false, style = {} }: any) => {
   const isPrimary = variant === 'primary';
-  
+
   return (
     <motion.button
-      whileHover={{ scale: 1.02, backgroundColor: isPrimary ? C.primaryLight : C.bgHover }}
-      whileTap={{ scale: 0.98 }}
+      type={type}
+      disabled={disabled}
+      whileHover={disabled ? {} : { scale: 1.02, backgroundColor: isPrimary ? C.primaryLight : C.bgHover }}
+      whileTap={disabled ? {} : { scale: 0.98 }}
       onClick={onClick}
       style={{
         display: 'inline-flex',
@@ -180,6 +182,7 @@ const Button = ({ children, variant = 'primary', icon, onClick, className = '' }
         justifyContent: 'center',
         gap: '0.75rem',
         padding: '1rem 2rem',
+        minHeight: 44,
         backgroundColor: isPrimary ? C.primary : 'transparent',
         color: isPrimary ? C.white : C.text,
         border: `1px solid ${isPrimary ? C.primary : C.border}`,
@@ -189,11 +192,13 @@ const Button = ({ children, variant = 'primary', icon, onClick, className = '' }
         fontWeight: 600,
         letterSpacing: '0.05em',
         textTransform: 'uppercase',
-        cursor: 'pointer',
+        cursor: disabled ? 'not-allowed' : 'pointer',
+        opacity: disabled ? 0.6 : 1,
         position: 'relative',
         overflow: 'hidden',
-        boxShadow: isPrimary ? `0 0 20px ${C.primary}40` : 'none',
-        transition: 'all 0.3s ease'
+        boxShadow: isPrimary && !disabled ? `0 0 20px ${C.primary}40` : 'none',
+        transition: 'all 0.3s ease',
+        ...style
       }}
       className={className}
     >
@@ -224,7 +229,24 @@ export default function AtelierPerformanceTemplate() {
   const [services, setServices] = useState<any[]>([]);
   const [testimonials, setTestimonials] = useState<any[]>([]);
   const [faqs, setFaqs] = useState<any[]>([]);
-  
+
+  // Devis form state
+  const [devisLoading, setDevisLoading] = useState(false);
+  const [devisSent, setDevisSent] = useState(false);
+  const [devisRecap, setDevisRecap] = useState<{ name: string; vehicle: string }>({ name: '', vehicle: '' });
+  const handleDevisSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const data = new FormData(e.currentTarget);
+    const name = String(data.get('fullName') || '');
+    const vehicle = String(data.get('vehicle') || '');
+    setDevisRecap({ name, vehicle });
+    setDevisLoading(true);
+    setTimeout(() => {
+      setDevisLoading(false);
+      setDevisSent(true);
+    }, 1800);
+  };
+
   // Theme State
   const [themeColor, setThemeColor] = useState(DEFAULT_BRAND_COLOR);
 
@@ -397,11 +419,29 @@ export default function AtelierPerformanceTemplate() {
         }
 
         .grid-bg {
-          background-image: 
+          background-image:
             linear-gradient(to right, ${C.border} 1px, transparent 1px),
             linear-gradient(to bottom, ${C.border} 1px, transparent 1px);
           background-size: 50px 50px;
           opacity: 0.2;
+        }
+
+        /* On short mobile viewports the hero's centered content can grow
+           taller than the 100vh section, leaving no clearance between the
+           CTA buttons and the section's bottom edge. The absolutely
+           positioned SCROLL indicator then lands on top of the primary
+           button. Hide it below the breakpoint and give the section extra
+           bottom padding so the secondary button isn't cramped against the
+           viewport edge. */
+        @media (max-width: 767px) {
+          .hero-scroll-indicator-311 {
+            /* Inline style sets display:flex on this element, which beats a
+               plain class rule — !important is required to actually hide it. */
+            display: none !important;
+          }
+          .hero-section-311 {
+            padding-bottom: 5rem;
+          }
         }
       `}} />
 
@@ -412,8 +452,8 @@ export default function AtelierPerformanceTemplate() {
       <main>
         
         {/* HERO SECTION */}
-        <section style={{ 
-          position: 'relative', 
+        <section className="hero-section-311" style={{
+          position: 'relative',
           minHeight: '100vh',
           display: 'flex',
           alignItems: 'center',
@@ -508,6 +548,7 @@ export default function AtelierPerformanceTemplate() {
           
           {/* Scroll Indicator */}
           <motion.div
+            className="hero-scroll-indicator-311"
             animate={{ y: [0, 10, 0] }}
             transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
             style={{
@@ -1032,15 +1073,31 @@ export default function AtelierPerformanceTemplate() {
                   <div style={{ position: 'absolute', bottom: '-1px', left: '-1px', width: '30px', height: '30px', borderBottom: `2px solid ${themeColor}`, borderLeft: `2px solid ${themeColor}` }} />
                   
                   <h3 style={{ fontFamily: SERIF, color: C.white, fontSize: '1.5rem', marginBottom: '2rem', textTransform: 'uppercase' }}>Demande de Devis</h3>
-                  
-                  <form onSubmit={(e) => { e.preventDefault(); alert("Formulaire envoyé (démo)"); }} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+
+                  {devisSent ? (
+                    <motion.div
+                      initial={{ opacity: 0, scale: 0.95 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      style={{ textAlign: 'center', padding: '1.5rem 0' }}
+                    >
+                      <div style={{ color: themeColor, marginBottom: '1rem' }}><CheckCircle2 size={48} style={{ margin: '0 auto' }} /></div>
+                      <h4 style={{ fontFamily: SERIF, color: C.white, fontSize: '1.25rem', marginBottom: '0.75rem', textTransform: 'uppercase' }}>Demande reçue !</h4>
+                      <p style={{ color: C.textMuted, fontSize: '0.95rem', lineHeight: 1.6 }}>
+                        Merci {devisRecap.name}, votre demande de devis pour {devisRecap.vehicle} a bien été enregistrée. Notre équipe vous recontacte très rapidement.
+                      </p>
+                    </motion.div>
+                  ) : (
+                  <form onSubmit={handleDevisSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
-                      <input 
-                        type="text" 
-                        placeholder="Nom complet" 
+                      <input
+                        type="text"
+                        name="fullName"
+                        placeholder="Nom complet"
                         required
                         style={{
                           width: '100%',
+                          minHeight: 44,
+                          boxSizing: 'border-box',
                           padding: '1rem',
                           backgroundColor: C.bgDeep,
                           border: `1px solid ${C.border}`,
@@ -1051,12 +1108,15 @@ export default function AtelierPerformanceTemplate() {
                         onFocus={(e) => e.target.style.borderColor = themeColor}
                         onBlur={(e) => e.target.style.borderColor = C.border}
                       />
-                      <input 
-                        type="email" 
-                        placeholder="Email" 
+                      <input
+                        type="email"
+                        name="email"
+                        placeholder="Email"
                         required
                         style={{
                           width: '100%',
+                          minHeight: 44,
+                          boxSizing: 'border-box',
                           padding: '1rem',
                           backgroundColor: C.bgDeep,
                           border: `1px solid ${C.border}`,
@@ -1068,13 +1128,16 @@ export default function AtelierPerformanceTemplate() {
                         onBlur={(e) => e.target.style.borderColor = C.border}
                       />
                     </div>
-                    
-                    <input 
-                      type="text" 
-                      placeholder="Véhicule (Marque, Modèle, Année, Motorisation)" 
+
+                    <input
+                      type="text"
+                      name="vehicle"
+                      placeholder="Véhicule (Marque, Modèle, Année, Motorisation)"
                       required
                       style={{
                         width: '100%',
+                        minHeight: 44,
+                        boxSizing: 'border-box',
                         padding: '1rem',
                         backgroundColor: C.bgDeep,
                         border: `1px solid ${C.border}`,
@@ -1085,9 +1148,10 @@ export default function AtelierPerformanceTemplate() {
                       onFocus={(e) => e.target.style.borderColor = themeColor}
                       onBlur={(e) => e.target.style.borderColor = C.border}
                     />
-                    
-                    <textarea 
-                      placeholder="Détails de votre demande (Reprogrammation, pièces, etc.)" 
+
+                    <textarea
+                      name="details"
+                      placeholder="Détails de votre demande (Reprogrammation, pièces, etc.)"
                       rows={4}
                       required
                       style={{
@@ -1103,9 +1167,12 @@ export default function AtelierPerformanceTemplate() {
                       onFocus={(e) => e.target.style.borderColor = themeColor}
                       onBlur={(e) => e.target.style.borderColor = C.border}
                     ></textarea>
-                    
-                    <Button variant="primary" style={{ width: '100%' }}>Envoyer la demande</Button>
+
+                    <Button type="submit" variant="primary" disabled={devisLoading} style={{ width: '100%' }}>
+                      {devisLoading ? 'Envoi en cours…' : 'Envoyer la demande'}
+                    </Button>
                   </form>
+                  )}
                 </div>
               </Reveal>
 

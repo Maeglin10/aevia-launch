@@ -1534,17 +1534,36 @@ function BookingSection({ accentColor }: { accentColor: string }) {
   const inView = useInView(ref, { once: true, margin: '-80px' });
   const [selectedSlot, setSelectedSlot] = useState<string | null>(null);
   const [confirmedSlot, setConfirmedSlot] = useState<string | null>(null);
+  const [contactName, setContactName] = useState('');
+  const [contactEmail, setContactEmail] = useState('');
+  const [contactPhone, setContactPhone] = useState('');
+  const [contactLoading, setContactLoading] = useState(false);
 
   const handleSlotClick = useCallback(
     (slot: Slot) => {
       if (slot.booked) return;
       setSelectedSlot(slot.id);
-      setTimeout(() => {
-        setConfirmedSlot(slot.id);
-      }, 600);
+      setConfirmedSlot(null);
     },
     []
   );
+
+  const handleContactSubmit = useCallback(
+    (e: React.FormEvent) => {
+      e.preventDefault();
+      if (!selectedSlot || !contactName || !contactEmail || !contactPhone) return;
+      setContactLoading(true);
+      setTimeout(() => {
+        setContactLoading(false);
+        setConfirmedSlot(selectedSlot);
+      }, 1200);
+    },
+    [selectedSlot, contactName, contactEmail, contactPhone]
+  );
+
+  const pendingSlot = selectedSlot && !confirmedSlot
+    ? SLOTS.find((s) => s.id === selectedSlot)
+    : null;
 
   return (
     <section
@@ -1700,6 +1719,133 @@ function BookingSection({ accentColor }: { accentColor: string }) {
         ))}
       </div>
 
+      {/* Contact capture — appears once a free slot is picked, before confirming */}
+      <AnimatePresence>
+        {pendingSlot && (
+          <motion.div
+            initial={{ opacity: 0, y: 20, scale: 0.97 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.97 }}
+            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+            style={{
+              marginTop: 40,
+              padding: '32px',
+              background: '#ffffff',
+              border: `1px solid ${accentColor}30`,
+              borderRadius: 16,
+              maxWidth: 480,
+              marginLeft: 'auto',
+              marginRight: 'auto',
+            }}
+          >
+            <div
+              style={{
+                fontFamily: 'Syne, sans-serif',
+                fontWeight: 700,
+                fontSize: 18,
+                color: brand ?? '#1a0a10',
+                marginBottom: 4,
+                textAlign: 'center',
+              }}
+            >
+              {pendingSlot.day} {pendingSlot.time}
+            </div>
+            <p style={{ fontSize: 13, color: 'var(--brand,#7a5060)', fontWeight: 300, textAlign: 'center', marginBottom: 24 }}>
+              Une dernière étape pour confirmer votre créneau.
+            </p>
+            <form onSubmit={handleContactSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+              <div>
+                <label htmlFor="nail-contact-name" style={{ display: 'block', fontSize: 11, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--brand,#7a5060)', marginBottom: 6 }}>
+                  Nom *
+                </label>
+                <input
+                  id="nail-contact-name"
+                  type="text"
+                  required
+                  value={contactName}
+                  onChange={(e) => setContactName(e.target.value)}
+                  placeholder="Camille Laurent"
+                  style={{
+                    width: '100%', padding: '12px 16px', borderRadius: 10,
+                    border: `1px solid ${accentColor}30`, fontSize: 14, outline: 'none',
+                    boxSizing: 'border-box', fontFamily: 'inherit', color: '#1a0a10',
+                  }}
+                />
+              </div>
+              <div>
+                <label htmlFor="nail-contact-email" style={{ display: 'block', fontSize: 11, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--brand,#7a5060)', marginBottom: 6 }}>
+                  Email *
+                </label>
+                <input
+                  id="nail-contact-email"
+                  type="email"
+                  required
+                  value={contactEmail}
+                  onChange={(e) => setContactEmail(e.target.value)}
+                  placeholder="camille@email.fr"
+                  style={{
+                    width: '100%', padding: '12px 16px', borderRadius: 10,
+                    border: `1px solid ${accentColor}30`, fontSize: 14, outline: 'none',
+                    boxSizing: 'border-box', fontFamily: 'inherit', color: '#1a0a10',
+                  }}
+                />
+              </div>
+              <div>
+                <label htmlFor="nail-contact-phone" style={{ display: 'block', fontSize: 11, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--brand,#7a5060)', marginBottom: 6 }}>
+                  Téléphone *
+                </label>
+                <input
+                  id="nail-contact-phone"
+                  type="tel"
+                  required
+                  value={contactPhone}
+                  onChange={(e) => setContactPhone(e.target.value)}
+                  placeholder="06 XX XX XX XX"
+                  style={{
+                    width: '100%', padding: '12px 16px', borderRadius: 10,
+                    border: `1px solid ${accentColor}30`, fontSize: 14, outline: 'none',
+                    boxSizing: 'border-box', fontFamily: 'inherit', color: '#1a0a10',
+                  }}
+                />
+              </div>
+              <button
+                type="submit"
+                disabled={contactLoading}
+                style={{
+                  minHeight: 44,
+                  marginTop: 8,
+                  padding: '14px',
+                  borderRadius: 10,
+                  border: 'none',
+                  background: accentColor,
+                  color: '#fff',
+                  fontSize: 13,
+                  fontWeight: 600,
+                  letterSpacing: '0.05em',
+                  cursor: contactLoading ? 'not-allowed' : 'pointer',
+                  opacity: contactLoading ? 0.7 : 1,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: 10,
+                }}
+              >
+                {contactLoading ? (
+                  <>
+                    <motion.span
+                      animate={{ rotate: 360 }}
+                      transition={{ duration: 0.9, repeat: Infinity, ease: 'linear' }}
+                      style={{ width: 14, height: 14, borderRadius: '50%', border: '2px solid rgba(255,255,255,0.4)', borderTopColor: '#fff', display: 'inline-block' }}
+                    />
+                    Confirmation…
+                  </>
+                ) : 'Confirmer ma réservation'}
+              </button>
+            </form>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Confirmation message */}
       <AnimatePresence>
         {confirmedSlot && (
@@ -1726,11 +1872,11 @@ function BookingSection({ accentColor }: { accentColor: string }) {
                 marginBottom: 8,
               }}
             >
-              ✦ Créneau sélectionné !
+              ✦ Créneau confirmé !
             </div>
             <p style={{ fontSize: 14, color: 'var(--brand,#7a5060)', fontWeight: 300 }}>
-              Votre demande de réservation a été enregistrée.
-              Nous vous confirmerons par email dans les 24h.
+              Merci {contactName || ''}, votre réservation est enregistrée.
+              Une confirmation vous sera envoyée à {contactEmail || 'votre adresse email'} sous 24h.
             </p>
           </motion.div>
         )}

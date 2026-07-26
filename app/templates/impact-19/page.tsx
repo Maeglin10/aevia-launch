@@ -255,7 +255,12 @@ return (
         {page === "home" && (
           <>
             {/* Hero */}
-            <section id="hero" ref={heroRef} className="relative h-dvh overflow-hidden flex items-center">
+            {/* h-dvh + overflow-hidden + items-center clips content symmetrically
+                top/bottom once it exceeds viewport height — the oversized serif
+                h1 wrapped to extra lines on mobile and pushed the CTA row past
+                the hidden bottom edge. min-h-dvh lets the section grow instead
+                of clipping, and the h1 is now sized to actually fit. */}
+            <section id="hero" ref={heroRef} className="relative min-h-dvh overflow-hidden flex items-center py-24 md:py-0">
               <motion.div className="absolute inset-0 pointer-events-none" style={{ y: heroY }}>
                 <Image src={photo(0, "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1600&q=85")} alt={fd?.businessName ?? "Summit Capital"} fill className="object-cover opacity-30" priority />
                 <div className="absolute inset-0 bg-gradient-to-br from-[#09090B] via-[#09090B]/80 to-[#09090B]" />
@@ -265,12 +270,12 @@ return (
                   <p className="text-[var(--brand,#C9A86C)] text-xs tracking-widest uppercase mb-6">Venture Capital — Paris · Berlin · Dubai</p>
                 </Reveal>
                 <Reveal delay={0.1}>
-                  <h1 className="text-white text-6xl md:text-8xl leading-none mb-8" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>{c?.heroHeadline ?? <>
+                  <h1 className="text-white text-4xl sm:text-5xl md:text-8xl leading-tight md:leading-none mb-4 md:mb-8 break-words" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>{c?.heroHeadline ?? <>
                     Financer les<br /><em>champions</em> de<br />demain
                   </>}</h1>
                 </Reveal>
                 <Reveal delay={0.2}>
-                  <p className="text-white/60 text-xl max-w-lg leading-relaxed mb-10">{c?.heroSubline ?? fd?.tagline ?? <>
+                  <p className="text-white/60 text-base sm:text-xl max-w-lg leading-relaxed mb-6 md:mb-10">{c?.heroSubline ?? fd?.tagline ?? <>
                     500M€ sous gestion. 47 participations actives. Un seul objectif : accompagner les entrepreneurs qui redéfinissent des marchés entiers.
                   </>}</p>
                 </Reveal>

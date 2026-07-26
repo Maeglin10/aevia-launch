@@ -1,11 +1,46 @@
 "use client";
 
-import React, { useState } from "react";
-import { CheckCircle } from "lucide-react";
+import React, { useCallback, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { CheckCircle, X } from "lucide-react";
 import { Reveal, PLANS } from "../shared";
+
+type Plan = (typeof PLANS)[number];
 
 export default function PricingPage() {
   const [billingAnnual, setBillingAnnual] = useState(false);
+
+  const [selectedPlan, setSelectedPlan] = useState<Plan | null>(null);
+  const [signupName, setSignupName] = useState("");
+  const [signupEmail, setSignupEmail] = useState("");
+  const [signupPhone, setSignupPhone] = useState("");
+  const [signupNote, setSignupNote] = useState("");
+  const [signupLoading, setSignupLoading] = useState(false);
+  const [signupSent, setSignupSent] = useState(false);
+
+  const openPlanModal = useCallback((plan: Plan) => {
+    setSelectedPlan(plan);
+    setSignupLoading(false);
+    setSignupSent(false);
+    setSignupName("");
+    setSignupEmail("");
+    setSignupPhone("");
+    setSignupNote("");
+  }, []);
+
+  const closePlanModal = useCallback(() => {
+    if (signupLoading) return;
+    setSelectedPlan(null);
+  }, [signupLoading]);
+
+  const handlePlanSignup = useCallback((e: React.FormEvent) => {
+    e.preventDefault();
+    setSignupLoading(true);
+    setTimeout(() => {
+      setSignupLoading(false);
+      setSignupSent(true);
+    }, 2000);
+  }, []);
 
   return (
     <main className="pt-40 pb-20 max-w-7xl mx-auto px-6">
@@ -115,7 +150,9 @@ export default function PricingPage() {
                 </div>
 
                 <button
-                  className={`w-full py-4 rounded-xl text-sm font-bold transition-colors ${
+                  type="button"
+                  onClick={() => openPlanModal(plan)}
+                  className={`w-full min-h-[44px] py-4 rounded-xl text-sm font-bold transition-colors cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#6366F1] focus-visible:ring-offset-2 ${
                     plan.highlight
                       ? "bg-[#6366F1] text-white hover:bg-[#4F46E5]"
                       : "bg-[#EEF2FF] text-[#6366F1] hover:bg-[#E0E7FF]"
@@ -128,6 +165,191 @@ export default function PricingPage() {
           );
         })}
       </div>
+
+      <AnimatePresence>
+        {selectedPlan && (
+          <motion.div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="plan-modal-title"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            onClick={closePlanModal}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-[#1E1B4B]/60 backdrop-blur-sm px-4"
+          >
+            <motion.div
+              initial={{ opacity: 0, y: 24, scale: 0.97 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 12, scale: 0.97 }}
+              transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+              onClick={(e) => e.stopPropagation()}
+              className="relative w-full max-w-md rounded-[2rem] bg-white p-8 md:p-10 shadow-2xl max-h-[90vh] overflow-y-auto"
+            >
+              <button
+                type="button"
+                onClick={closePlanModal}
+                disabled={signupLoading}
+                aria-label="Fermer"
+                className="absolute top-4 right-4 w-11 h-11 rounded-full flex items-center justify-center text-[#9CA3AF] hover:bg-[#F3F4F6] hover:text-[#1E1B4B] transition-colors cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#6366F1]"
+              >
+                <X className="w-5 h-5" />
+              </button>
+
+              <AnimatePresence mode="wait">
+                {signupSent ? (
+                  <motion.div
+                    key="success"
+                    initial={{ opacity: 0, y: 12 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="text-center py-8"
+                  >
+                    <motion.div
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      transition={{ type: "spring", stiffness: 240, delay: 0.15 }}
+                      className="w-16 h-16 rounded-full bg-[#10B981]/10 text-[#10B981] flex items-center justify-center mx-auto mb-6"
+                    >
+                      <CheckCircle className="w-8 h-8" />
+                    </motion.div>
+                    <h3 className="text-2xl font-extrabold text-[#1E1B4B] mb-3">
+                      Inscription confirmée
+                    </h3>
+                    <p className="text-sm text-[#6B7280] font-medium leading-relaxed">
+                      Vous êtes inscrit·e au plan <span className="font-bold text-[#1E1B4B]">{selectedPlan.name}</span> ({selectedPlan.price}{selectedPlan.period}). Un email de confirmation arrive dans votre boîte de réception sous quelques minutes.
+                    </p>
+                    <button
+                      type="button"
+                      onClick={closePlanModal}
+                      className="mt-8 w-full min-h-[44px] py-3.5 rounded-xl text-sm font-bold bg-[#EEF2FF] text-[#6366F1] hover:bg-[#E0E7FF] transition-colors cursor-pointer"
+                    >
+                      Fermer
+                    </button>
+                  </motion.div>
+                ) : (
+                  <motion.form
+                    key="form"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                    onSubmit={handlePlanSignup}
+                  >
+                    <span className="text-xs font-bold text-[#6366F1] uppercase tracking-widest block mb-2">
+                      Plan sélectionné
+                    </span>
+                    <h3 id="plan-modal-title" className="text-2xl font-extrabold text-[#1E1B4B] mb-1">
+                      {selectedPlan.name}
+                    </h3>
+                    <p className="text-sm text-[#6B7280] font-medium mb-6">
+                      {selectedPlan.price}{selectedPlan.period} · {selectedPlan.description}
+                    </p>
+
+                    <div className="space-y-5">
+                      <div>
+                        <label
+                          htmlFor="plan-signup-name"
+                          className="block text-xs font-bold text-[#1E1B4B] uppercase tracking-wider mb-2"
+                        >
+                          Nom complet
+                        </label>
+                        <input
+                          id="plan-signup-name"
+                          name="name"
+                          type="text"
+                          required
+                          value={signupName}
+                          onChange={(e) => setSignupName(e.target.value)}
+                          disabled={signupLoading}
+                          placeholder="Jean Dupont"
+                          className="w-full min-h-[44px] bg-[#F9FAFB] border border-[#E5E7EB] rounded-xl px-4 py-3.5 text-[#1E1B4B] text-sm focus:border-[#6366F1] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#6366F1] transition-colors disabled:opacity-50"
+                        />
+                      </div>
+                      <div>
+                        <label
+                          htmlFor="plan-signup-email"
+                          className="block text-xs font-bold text-[#1E1B4B] uppercase tracking-wider mb-2"
+                        >
+                          Email
+                        </label>
+                        <input
+                          id="plan-signup-email"
+                          name="email"
+                          type="email"
+                          required
+                          value={signupEmail}
+                          onChange={(e) => setSignupEmail(e.target.value)}
+                          disabled={signupLoading}
+                          placeholder="jean@example.com"
+                          className="w-full min-h-[44px] bg-[#F9FAFB] border border-[#E5E7EB] rounded-xl px-4 py-3.5 text-[#1E1B4B] text-sm focus:border-[#6366F1] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#6366F1] transition-colors disabled:opacity-50"
+                        />
+                      </div>
+                      <div>
+                        <label
+                          htmlFor="plan-signup-phone"
+                          className="block text-xs font-bold text-[#1E1B4B] uppercase tracking-wider mb-2"
+                        >
+                          Téléphone
+                        </label>
+                        <input
+                          id="plan-signup-phone"
+                          name="phone"
+                          type="tel"
+                          required
+                          value={signupPhone}
+                          onChange={(e) => setSignupPhone(e.target.value)}
+                          disabled={signupLoading}
+                          placeholder="06 12 34 56 78"
+                          className="w-full min-h-[44px] bg-[#F9FAFB] border border-[#E5E7EB] rounded-xl px-4 py-3.5 text-[#1E1B4B] text-sm focus:border-[#6366F1] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#6366F1] transition-colors disabled:opacity-50"
+                        />
+                      </div>
+                      <div>
+                        <label
+                          htmlFor="plan-signup-note"
+                          className="block text-xs font-bold text-[#1E1B4B] uppercase tracking-wider mb-2"
+                        >
+                          Pourquoi ce parcours vous intéresse ? (facultatif)
+                        </label>
+                        <textarea
+                          id="plan-signup-note"
+                          name="note"
+                          rows={3}
+                          value={signupNote}
+                          onChange={(e) => setSignupNote(e.target.value)}
+                          disabled={signupLoading}
+                          placeholder="Ex: monter en compétences sur la data..."
+                          className="w-full bg-[#F9FAFB] border border-[#E5E7EB] rounded-xl px-4 py-3.5 text-[#1E1B4B] text-sm focus:border-[#6366F1] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#6366F1] transition-colors disabled:opacity-50"
+                        />
+                      </div>
+                    </div>
+
+                    <button
+                      type="submit"
+                      disabled={signupLoading}
+                      className="mt-8 w-full min-h-[44px] py-4 rounded-xl text-sm font-bold bg-[#6366F1] text-white hover:bg-[#4F46E5] transition-colors cursor-pointer disabled:cursor-not-allowed disabled:opacity-60 flex items-center justify-center gap-3"
+                    >
+                      {signupLoading ? (
+                        <>
+                          <motion.span
+                            animate={{ rotate: 360 }}
+                            transition={{ duration: 0.8, repeat: Infinity, ease: "linear" }}
+                            className="w-4 h-4 rounded-full border-2 border-white/40 border-t-white inline-block"
+                          />
+                          Envoi en cours…
+                        </>
+                      ) : (
+                        selectedPlan.cta
+                      )}
+                    </button>
+                  </motion.form>
+                )}
+              </AnimatePresence>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </main>
   );
 }

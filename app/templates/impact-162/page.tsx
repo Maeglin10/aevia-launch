@@ -5,7 +5,7 @@ import React, { useState, useEffect, useRef } from "react"
 import { motion, AnimatePresence, useScroll, useTransform, useInView } from "framer-motion"
 import Image from "next/image"
 import Link from "next/link"
-import { Menu, X, ArrowRight, Coffee, Clock, MapPin, Phone, Mail, Star, Heart, ChevronRight } from "lucide-react"
+import { Menu, X, ArrowRight, Coffee, Clock, MapPin, Phone, Mail, Star, Heart, ChevronRight, Loader2, CheckCircle2 } from "lucide-react"
 import { resolveList } from "@/lib/templates/resolveList";
 
 const Instagram = ({ className = "w-4 h-4" }: { className?: string }) => (
@@ -116,6 +116,17 @@ export default function EssentialCafePage() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [activeCategory, setActiveCategory] = useState(0)
+  const [reservationLoading, setReservationLoading] = useState(false)
+  const [reservationSent, setReservationSent] = useState(false)
+
+  const handleReservationSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    setReservationLoading(true)
+    setTimeout(() => {
+      setReservationLoading(false)
+      setReservationSent(true)
+    }, 900)
+  }
   const { scrollYProgress } = useScroll()
   const heroRef = useRef<HTMLDivElement>(null)
   const { scrollYProgress: heroScroll } = useScroll({ target: heroRef, offset: ["start start", "end start"] })
@@ -494,46 +505,92 @@ return (
             </div>
             <Reveal delay={0.1}>
               <div className="bg-white p-8 border border-[#E8DED0]">
-                <p className="text-xs tracking-widest uppercase text-[#8A7560] mb-6">Réserver une table</p>
-                <form className="space-y-4" onSubmit={e => e.preventDefault()}>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {["Prénom", "Nom"].map(f => (
-                      <div key={f}>
-                        <label className="block text-xs text-[#8A7560] mb-2">{f}</label>
-                        <input className="w-full bg-transparent border border-[#D4C9B0] px-4 py-3 text-sm focus:outline-none focus:border-[var(--brand,#8B5E3C)] transition-colors" placeholder={f} />
-                      </div>
-                    ))}
-                  </div>
-                  <div>
-                    <label className="block text-xs text-[#8A7560] mb-2">Email</label>
-                    <input type="email" className="w-full bg-transparent border border-[#D4C9B0] px-4 py-3 text-sm focus:outline-none focus:border-[var(--brand,#8B5E3C)] transition-colors" placeholder="votre@email.fr" />
-                  </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-xs text-[#8A7560] mb-2">Date</label>
-                      <input type="date" className="w-full bg-transparent border border-[#D4C9B0] px-4 py-3 text-sm focus:outline-none focus:border-[var(--brand,#8B5E3C)] transition-colors" />
-                    </div>
-                    <div>
-                      <label className="block text-xs text-[#8A7560] mb-2">Heure</label>
-                      <select className="w-full bg-[#FDFAF5] border border-[#D4C9B0] px-4 py-3 text-sm focus:outline-none focus:border-[var(--brand,#8B5E3C)] transition-colors">
-                        {["9h00", "10h00", "11h00", "12h00", "13h00", "14h00", "17h00", "18h00"].map(h => <option key={h}>{h}</option>)}
-                      </select>
-                    </div>
-                  </div>
-                  <div>
-                    <label className="block text-xs text-[#8A7560] mb-2">Nombre de personnes</label>
-                    <select className="w-full bg-[#FDFAF5] border border-[#D4C9B0] px-4 py-3 text-sm focus:outline-none focus:border-[var(--brand,#8B5E3C)] transition-colors">
-                      {["1 personne", "2 personnes", "3 personnes", "4 personnes", "5+ personnes"].map(n => <option key={n}>{n}</option>)}
-                    </select>
-                  </div>
-                  <div>
-                    <label className="block text-xs text-[#8A7560] mb-2">Message (optionnel)</label>
-                    <textarea rows={3} className="w-full bg-transparent border border-[#D4C9B0] px-4 py-3 text-sm focus:outline-none focus:border-[var(--brand,#8B5E3C)] transition-colors resize-none" placeholder="Allergies, occasion particulière..." />
-                  </div>
-                  <button type="submit" className="w-full bg-[var(--brand,#8B5E3C)] text-white py-4 text-sm uppercase tracking-widest hover:bg-[#6B4830] transition-colors cursor-pointer">
-                    Confirmer la réservation
-                  </button>
-                </form>
+                <AnimatePresence mode="wait">
+                  {reservationSent ? (
+                    <motion.div
+                      key="reservation-confirmation"
+                      initial={{ opacity: 0, y: 12 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.4 }}
+                      className="py-10 text-center"
+                    >
+                      <motion.div
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        transition={{ type: "spring", stiffness: 200, delay: 0.15 }}
+                        className="w-14 h-14 rounded-full border border-[var(--brand,#8B5E3C)] flex items-center justify-center mx-auto mb-6"
+                      >
+                        <CheckCircle2 className="w-6 h-6 text-[var(--brand,#8B5E3C)]" />
+                      </motion.div>
+                      <h3 className="text-xl font-normal mb-3" style={{ fontFamily: "'Playfair Display', serif" }}>
+                        Réservation confirmée
+                      </h3>
+                      <p className="text-sm text-[#6B5A40] leading-relaxed mb-8 max-w-xs mx-auto">
+                        Merci ! Nous vous recontactons sous 24h par email ou téléphone pour confirmer votre table.
+                      </p>
+                      <button
+                        onClick={() => setReservationSent(false)}
+                        className="px-8 py-3 min-h-[44px] border border-[var(--brand,#8B5E3C)] text-[var(--brand,#8B5E3C)] text-sm uppercase tracking-widest hover:bg-[var(--brand,#8B5E3C)] hover:text-white transition-colors cursor-pointer"
+                      >
+                        Nouvelle réservation
+                      </button>
+                    </motion.div>
+                  ) : (
+                    <motion.div key="reservation-form" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.3 }}>
+                      <p className="text-xs tracking-widest uppercase text-[#8A7560] mb-6">Réserver une table</p>
+                      <form className="space-y-4" onSubmit={handleReservationSubmit}>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          {["Prénom", "Nom"].map(f => (
+                            <div key={f}>
+                              <label htmlFor={`reservation-${f}`} className="block text-xs text-[#8A7560] mb-2">{f}</label>
+                              <input id={`reservation-${f}`} required className="w-full bg-transparent border border-[#D4C9B0] px-4 py-3 text-sm focus:outline-none focus:border-[var(--brand,#8B5E3C)] transition-colors" placeholder={f} />
+                            </div>
+                          ))}
+                        </div>
+                        <div>
+                          <label htmlFor="reservation-email" className="block text-xs text-[#8A7560] mb-2">Email</label>
+                          <input id="reservation-email" type="email" required className="w-full bg-transparent border border-[#D4C9B0] px-4 py-3 text-sm focus:outline-none focus:border-[var(--brand,#8B5E3C)] transition-colors" placeholder="votre@email.fr" />
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <div>
+                            <label htmlFor="reservation-date" className="block text-xs text-[#8A7560] mb-2">Date</label>
+                            <input id="reservation-date" type="date" required className="w-full bg-transparent border border-[#D4C9B0] px-4 py-3 text-sm focus:outline-none focus:border-[var(--brand,#8B5E3C)] transition-colors" />
+                          </div>
+                          <div>
+                            <label htmlFor="reservation-time" className="block text-xs text-[#8A7560] mb-2">Heure</label>
+                            <select id="reservation-time" required className="w-full bg-[#FDFAF5] border border-[#D4C9B0] px-4 py-3 text-sm focus:outline-none focus:border-[var(--brand,#8B5E3C)] transition-colors cursor-pointer">
+                              {["9h00", "10h00", "11h00", "12h00", "13h00", "14h00", "17h00", "18h00"].map(h => <option key={h}>{h}</option>)}
+                            </select>
+                          </div>
+                        </div>
+                        <div>
+                          <label htmlFor="reservation-guests" className="block text-xs text-[#8A7560] mb-2">Nombre de personnes</label>
+                          <select id="reservation-guests" className="w-full bg-[#FDFAF5] border border-[#D4C9B0] px-4 py-3 text-sm focus:outline-none focus:border-[var(--brand,#8B5E3C)] transition-colors cursor-pointer">
+                            {["1 personne", "2 personnes", "3 personnes", "4 personnes", "5+ personnes"].map(n => <option key={n}>{n}</option>)}
+                          </select>
+                        </div>
+                        <div>
+                          <label htmlFor="reservation-message" className="block text-xs text-[#8A7560] mb-2">Message (optionnel)</label>
+                          <textarea id="reservation-message" rows={3} className="w-full bg-transparent border border-[#D4C9B0] px-4 py-3 text-sm focus:outline-none focus:border-[var(--brand,#8B5E3C)] transition-colors resize-none" placeholder="Allergies, occasion particulière..." />
+                        </div>
+                        <button
+                          type="submit"
+                          disabled={reservationLoading}
+                          className="w-full min-h-[44px] bg-[var(--brand,#8B5E3C)] text-white py-4 text-sm uppercase tracking-widest hover:bg-[#6B4830] transition-colors cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                        >
+                          {reservationLoading ? (
+                            <>
+                              <Loader2 className="w-4 h-4 animate-spin" />
+                              Envoi en cours…
+                            </>
+                          ) : (
+                            "Confirmer la réservation"
+                          )}
+                        </button>
+                      </form>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
             </Reveal>
           </div>

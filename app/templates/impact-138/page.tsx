@@ -241,14 +241,20 @@ export default function VisionClairePage() {
       <style>{`@media (max-width: 900px) { #mb138-nav { display: none !important; } .mb138-burger { display: flex !important; } }`}</style>
 
       {/* Hero */}
-      <section id="hero" ref={heroRef} style={{ height: "115vh", minHeight: "900px", position: "relative", display: "flex", alignItems: "flex-end", overflow: "hidden" }}>
+      <style>{`
+        @media (min-width: 600px) and (max-width: 1024px) {
+          .mb138-hero { height: auto !important; min-height: 100vh !important; align-items: center !important; }
+          .mb138-hero-text { padding: 120px 48px 60px !important; }
+        }
+      `}</style>
+      <section id="hero" ref={heroRef} className="mb138-hero" style={{ height: "115vh", minHeight: "900px", position: "relative", display: "flex", alignItems: "flex-end", overflow: "hidden" }}>
         <motion.div style={{ y: heroY, position: "absolute", inset: 0 }}>
           <img src={photo(0, "https://images.unsplash.com/photo-1574258495973-f010dfbb5371?w=1920&q=80")} alt="Opticien Vision Claire Nantes" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
         </motion.div>
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(5,18,40,0.92) 0%, rgba(5,18,40,0.42) 45%, rgba(5,18,40,0.08) 100%)" }} />
         <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to right, ${C.accent}20 0%, transparent 55%)` }} />
 
-        <motion.div style={{ position: "relative", zIndex: 1, padding: "0 80px 90px", maxWidth: 760, y: heroTextY, opacity: heroOpacity }}>
+        <motion.div className="mb138-hero-text" style={{ position: "relative", zIndex: 1, padding: "0 80px 90px", maxWidth: 760, y: heroTextY, opacity: heroOpacity }}>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
             style={{ display: "inline-flex", alignItems: "center", gap: 8, marginBottom: 28, background: "rgba(14,165,233,0.15)", border: "1px solid rgba(14,165,233,0.35)", borderRadius: 20, padding: "7px 18px" }}>
             <Eye size={12} color={C.cyan} />

@@ -218,6 +218,89 @@ function Button({
   );
 }
 
+/* Booking form field — bordered box style matching this template's existing
+   contact form, with a visible focus ring (the pre-existing inputs had none). */
+function FormField({
+  label,
+  required,
+  ...props
+}: {
+  label: string;
+  required?: boolean;
+} & React.InputHTMLAttributes<HTMLInputElement>) {
+  const [focused, setFocused] = useState(false);
+  return (
+    <div>
+      <label style={{ display: 'block', fontSize: 11, letterSpacing: '0.05em', textTransform: 'uppercase', color: C.textMuted, marginBottom: 8, fontWeight: 600 }}>
+        {label}{required && <span style={{ color: C.primary }}> *</span>}
+      </label>
+      <input
+        {...props}
+        onFocus={(e) => { setFocused(true); props.onFocus?.(e); }}
+        onBlur={(e) => { setFocused(false); props.onBlur?.(e); }}
+        style={{
+          width: '100%',
+          minHeight: 44,
+          boxSizing: 'border-box',
+          padding: '12px 16px',
+          background: C.bgCard,
+          border: focused ? `1.5px solid ${C.primary}` : `1px solid ${C.primary}1a`,
+          boxShadow: focused ? `0 0 0 3px ${C.primary}22` : 'none',
+          borderRadius: 2,
+          color: C.text,
+          fontFamily: SANS,
+          fontSize: 14,
+          outline: 'none',
+          transition: 'border-color 0.2s, box-shadow 0.2s',
+        }}
+      />
+    </div>
+  );
+}
+
+function FormSelect({
+  label,
+  required,
+  children,
+  ...props
+}: {
+  label: string;
+  required?: boolean;
+  children: React.ReactNode;
+} & React.SelectHTMLAttributes<HTMLSelectElement>) {
+  const [focused, setFocused] = useState(false);
+  return (
+    <div>
+      <label style={{ display: 'block', fontSize: 11, letterSpacing: '0.05em', textTransform: 'uppercase', color: C.textMuted, marginBottom: 8, fontWeight: 600 }}>
+        {label}{required && <span style={{ color: C.primary }}> *</span>}
+      </label>
+      <select
+        {...props}
+        onFocus={(e) => { setFocused(true); props.onFocus?.(e); }}
+        onBlur={(e) => { setFocused(false); props.onBlur?.(e); }}
+        style={{
+          width: '100%',
+          minHeight: 44,
+          boxSizing: 'border-box',
+          padding: '12px 16px',
+          background: C.bgCard,
+          border: focused ? `1.5px solid ${C.primary}` : `1px solid ${C.primary}1a`,
+          boxShadow: focused ? `0 0 0 3px ${C.primary}22` : 'none',
+          borderRadius: 2,
+          color: C.text,
+          fontFamily: SANS,
+          fontSize: 14,
+          outline: 'none',
+          cursor: 'pointer',
+          transition: 'border-color 0.2s, box-shadow 0.2s',
+        }}
+      >
+        {children}
+      </select>
+    </div>
+  );
+}
+
 /* ════════════════════════════════════════════════════════════════════════════
    MAIN PAGE COMPONENTS
    ════════════════════════════════════════════════════════════════════════════ */
@@ -284,7 +367,9 @@ export default function Page() {
   const [activeCategory, setActiveCategory] = useState("Tous");
   const [expandedFaq, setExpandedFaq] = useState<number | null>(null);
   const [formSubmitted, setFormSubmitted] = useState(false);
-  const [formData, setFormData] = useState({ name: '', email: '', phone: '', message: '' });
+  const [formLoading, setFormLoading] = useState(false);
+  const [selectedStyle, setSelectedStyle] = useState<string | null>(null);
+  const [formData, setFormData] = useState({ name: '', email: '', phone: '', style: '', date: '', time: '', message: '' });
 
   const heroRef = useRef<HTMLElement>(null);
   const { scrollYProgress: heroProgress } = useScroll({
@@ -309,14 +394,31 @@ export default function Page() {
     ? menuItemsAll
     : menuItemsAll.filter((item: any) => item.category === activeCategory);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (formData.name && formData.email) {
-      setFormSubmitted(true);
-    }
+  // Distinct style names for the booking form's style picker — sourced from
+  // the same catalog rendered above, so the form never drifts from the menu.
+  const styleOptions: string[] = Array.from(new Set(menuItemsAll.map((item: any) => item.name as string)));
+  const TIME_SLOTS = ["10:00", "11:30", "13:00", "14:30", "16:00", "17:30"];
+  const todayISO = new Date().toISOString().split('T')[0];
+
+  const selectStyleForBooking = (styleName: string) => {
+    setSelectedStyle(styleName);
+    setFormData((f) => ({ ...f, style: styleName }));
+    document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
   };
 
-  
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!formData.name || !formData.email || !formData.style || !formData.date || !formData.time) return;
+    setFormLoading(true);
+    // No real backend for this template — simulate a submission round-trip
+    // so the flow feels real (loading state → confirmation) without faking success instantly.
+    window.setTimeout(() => {
+      setFormLoading(false);
+      setFormSubmitted(true);
+    }, 1500 + Math.round(Math.random() * 700));
+  };
+
+
 
 return (
     <div style={{
@@ -825,66 +927,104 @@ return (
 
           {/* Menu Items list */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
-            {menuItemsFiltered.map((item, i) => (
-              <Reveal key={i} delay={i * 0.05}>
-                <div style={{
-                  paddingBottom: 24,
-                  borderBottom: `1px solid ${C.primary}12`,
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  gap: 20,
-                  alignItems: 'flex-start'
-                }}>
-                  <div style={{ flex: 1 }}>
+            {menuItemsFiltered.map((item, i) => {
+              const isSelected = selectedStyle === item.name;
+              return (
+                <Reveal key={i} delay={i * 0.05}>
+                  <div style={{
+                    paddingBottom: 24,
+                    borderBottom: `1px solid ${C.primary}12`,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: 16
+                  }}>
                     <div style={{
                       display: 'flex',
-                      alignItems: 'baseline',
-                      gap: 12,
-                      marginBottom: 6
+                      justifyContent: 'space-between',
+                      gap: 20,
+                      alignItems: 'flex-start'
                     }}>
-                      <h4 style={{
+                      <div style={{ flex: 1 }}>
+                        <div style={{
+                          display: 'flex',
+                          alignItems: 'baseline',
+                          gap: 12,
+                          marginBottom: 6,
+                          flexWrap: 'wrap'
+                        }}>
+                          <h4 style={{
+                            fontFamily: SERIF,
+                            fontSize: 18,
+                            fontWeight: 700,
+                            color: C.primary,
+                            margin: 0
+                          }}>
+                            {item.name}
+                          </h4>
+                          <span style={{
+                            background: `${C.primary}1a`,
+                            color: C.primary,
+                            fontSize: 10,
+                            fontWeight: 700,
+                            letterSpacing: '0.05em',
+                            textTransform: 'uppercase',
+                            padding: '2px 8px',
+                            borderRadius: 10
+                          }}>
+                            {item.category}
+                          </span>
+                        </div>
+                        <p style={{
+                          fontSize: 13.5,
+                          color: C.textMuted,
+                          margin: 0,
+                          lineHeight: 1.5
+                        }}>
+                          {item.desc}
+                        </p>
+                      </div>
+                      <div style={{
                         fontFamily: SERIF,
                         fontSize: 18,
                         fontWeight: 700,
-                        color: C.primary,
-                        margin: 0
+                        color: C.accent,
+                        whiteSpace: 'nowrap'
                       }}>
-                        {item.name}
-                      </h4>
-                      <span style={{
-                        background: `${C.primary}1a`,
-                        color: C.primary,
-                        fontSize: 10,
-                        fontWeight: 700,
-                        letterSpacing: '0.05em',
-                        textTransform: 'uppercase',
-                        padding: '2px 8px',
-                        borderRadius: 10
-                      }}>
-                        {item.category}
-                      </span>
+                        {item.price}
+                      </div>
                     </div>
-                    <p style={{
-                      fontSize: 13.5,
-                      color: C.textMuted,
-                      margin: 0,
-                      lineHeight: 1.5
-                    }}>
-                      {item.desc}
-                    </p>
+
+                    <button
+                      type="button"
+                      onClick={() => selectStyleForBooking(item.name)}
+                      aria-pressed={isSelected}
+                      style={{
+                        alignSelf: 'flex-start',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: 8,
+                        minHeight: 44,
+                        padding: '10px 18px',
+                        background: isSelected ? C.primary : 'transparent',
+                        color: isSelected ? C.white : C.primary,
+                        border: `1.5px solid ${C.primary}`,
+                        borderRadius: 2,
+                        fontFamily: SANS,
+                        fontSize: 11,
+                        fontWeight: 700,
+                        letterSpacing: '0.12em',
+                        textTransform: 'uppercase',
+                        cursor: 'pointer',
+                        transition: 'all 0.3s'
+                      }}
+                    >
+                      {isSelected ? <Check size={14} /> : null}
+                      {isSelected ? 'Style sélectionné pour le RDV' : 'Réserver ce style'}
+                    </button>
                   </div>
-                  <div style={{
-                    fontFamily: SERIF,
-                    fontSize: 18,
-                    fontWeight: 700,
-                    color: C.accent,
-                    whiteSpace: 'nowrap'
-                  }}>
-                    {item.price}
-                  </div>
-                </div>
-              </Reveal>
-            ))}
+                </Reveal>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -1163,61 +1303,124 @@ return (
                       style={{ textAlign: 'center', padding: '24px 0' }}
                     >
                       <div style={{ color: C.primary, marginBottom: 16 }}><CheckCircle size={48} style={{ margin: '0 auto' }} /></div>
-                      <h3 style={{ fontFamily: SERIF, fontSize: 22, color: C.primary, marginBottom: 8, fontWeight: 700 }}>Demande reçue !</h3>
-                      <p style={{ fontSize: 14, color: C.textMuted, lineHeight: 1.6 }}>
-                        Merci {formData.name}, nous avons bien reçu votre message et nous vous recontacterons très rapidement.
+                      <h3 style={{ fontFamily: SERIF, fontSize: 22, color: C.primary, marginBottom: 8, fontWeight: 700 }}>Demande de rendez-vous reçue !</h3>
+                      <p style={{ fontSize: 14, color: C.textMuted, lineHeight: 1.6, marginBottom: 20 }}>
+                        Merci {formData.name}, votre demande a bien été enregistrée. Nous vous recontactons sous 24h ouvrées pour confirmer votre créneau — aucun paiement ne vous est demandé à ce stade.
                       </p>
+                      <div style={{
+                        textAlign: 'left',
+                        background: C.bgCard,
+                        border: `1px solid ${C.primary}1a`,
+                        borderRadius: 2,
+                        padding: '20px 24px',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: 10
+                      }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12, fontSize: 13.5 }}>
+                          <span style={{ color: C.textMuted }}>Style</span>
+                          <span style={{ color: C.text, fontWeight: 700, textAlign: 'right' }}>{formData.style}</span>
+                        </div>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12, fontSize: 13.5 }}>
+                          <span style={{ color: C.textMuted }}>Date souhaitée</span>
+                          <span style={{ color: C.text, fontWeight: 700, textAlign: 'right' }}>
+                            {formData.date
+                              ? new Date(`${formData.date}T00:00:00`).toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })
+                              : '—'}
+                          </span>
+                        </div>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12, fontSize: 13.5 }}>
+                          <span style={{ color: C.textMuted }}>Créneau</span>
+                          <span style={{ color: C.text, fontWeight: 700, textAlign: 'right' }}>{formData.time}</span>
+                        </div>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12, fontSize: 13.5 }}>
+                          <span style={{ color: C.textMuted }}>Contact</span>
+                          <span style={{ color: C.text, fontWeight: 700, textAlign: 'right' }}>{formData.phone || formData.email}</span>
+                        </div>
+                      </div>
                     </motion.div>
                   ) : (
                     <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
-                      <div>
-                        <label style={{ display: 'block', fontSize: 11, letterSpacing: '0.05em', textTransform: 'uppercase', color: C.textMuted, marginBottom: 8, fontWeight: 600 }}>Nom Complet</label>
-                        <input
+                      <div style={{
+                        display: 'grid',
+                        gridTemplateColumns: 'repeat(auto-fit, minmax(min(160px, 100%), 1fr))',
+                        gap: 20
+                      }}>
+                        <FormField
+                          label="Nom Complet"
                           type="text"
                           required
                           value={formData.name}
                           onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                          style={{
-                            width: '100%',
-                            padding: '12px 16px',
-                            background: C.bgCard,
-                            border: `1px solid ${C.primary}1a`,
-                            borderRadius: 2,
-                            color: C.text,
-                            fontFamily: SANS,
-                            fontSize: 14,
-                            outline: 'none'
-                          }}
                         />
-                      </div>
-                      <div>
-                        <label style={{ display: 'block', fontSize: 11, letterSpacing: '0.05em', textTransform: 'uppercase', color: C.textMuted, marginBottom: 8, fontWeight: 600 }}>Adresse E-mail</label>
-                        <input
-                          type="email"
+                        <FormField
+                          label="Téléphone"
+                          type="tel"
                           required
-                          value={formData.email}
-                          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                          style={{
-                            width: '100%',
-                            padding: '12px 16px',
-                            background: C.bgCard,
-                            border: `1px solid ${C.primary}1a`,
-                            borderRadius: 2,
-                            color: C.text,
-                            fontFamily: SANS,
-                            fontSize: 14,
-                            outline: 'none'
-                          }}
+                          value={formData.phone}
+                          onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                         />
                       </div>
+
+                      <FormField
+                        label="Adresse E-mail"
+                        type="email"
+                        required
+                        value={formData.email}
+                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                      />
+
+                      <FormSelect
+                        label="Style de tatouage"
+                        required
+                        value={formData.style}
+                        onChange={(e) => {
+                          setFormData({ ...formData, style: e.target.value });
+                          setSelectedStyle(e.target.value || null);
+                        }}
+                      >
+                        <option value="">— Choisir un style —</option>
+                        {styleOptions.map((name) => (
+                          <option key={name} value={name}>{name}</option>
+                        ))}
+                        <option value="Autre / à discuter">Autre / à discuter en RDV</option>
+                      </FormSelect>
+
+                      <div style={{
+                        display: 'grid',
+                        gridTemplateColumns: 'repeat(auto-fit, minmax(min(160px, 100%), 1fr))',
+                        gap: 20
+                      }}>
+                        <FormField
+                          label="Date souhaitée"
+                          type="date"
+                          required
+                          min={todayISO}
+                          value={formData.date}
+                          onChange={(e) => setFormData({ ...formData, date: e.target.value })}
+                        />
+                        <FormSelect
+                          label="Créneau souhaité"
+                          required
+                          value={formData.time}
+                          onChange={(e) => setFormData({ ...formData, time: e.target.value })}
+                        >
+                          <option value="">— Choisir une heure —</option>
+                          {TIME_SLOTS.map((slot) => (
+                            <option key={slot} value={slot}>{slot}</option>
+                          ))}
+                        </FormSelect>
+                      </div>
+
                       <div>
-                        <label style={{ display: 'block', fontSize: 11, letterSpacing: '0.05em', textTransform: 'uppercase', color: C.textMuted, marginBottom: 8, fontWeight: 600 }}>Votre Message</label>
+                        <label style={{ display: 'block', fontSize: 11, letterSpacing: '0.05em', textTransform: 'uppercase', color: C.textMuted, marginBottom: 8, fontWeight: 600 }}>Précisions sur votre projet (facultatif)</label>
                         <textarea
                           rows={4}
                           value={formData.message}
                           onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                           style={{
                             width: '100%',
+                            boxSizing: 'border-box',
                             padding: '12px 16px',
                             background: C.bgCard,
                             border: `1px solid ${C.primary}1a`,
@@ -1230,7 +1433,56 @@ return (
                           }}
                         />
                       </div>
-                      <Button type="submit" filled>Prendre rendez-vous</Button>
+
+                      <p style={{ fontSize: 11.5, color: C.textMuted, margin: 0 }}>
+                        * Champs obligatoires
+                      </p>
+
+                      <button
+                        type="submit"
+                        disabled={formLoading}
+                        style={{
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          gap: 10,
+                          minHeight: 48,
+                          padding: '14px 28px',
+                          fontFamily: SANS,
+                          fontSize: 11.5,
+                          letterSpacing: '0.2em',
+                          textTransform: 'uppercase',
+                          fontWeight: 700,
+                          cursor: formLoading ? 'not-allowed' : 'pointer',
+                          border: `1.5px solid ${C.primary}`,
+                          background: formLoading ? C.primaryLight : C.primary,
+                          color: C.white,
+                          borderRadius: 2,
+                          opacity: formLoading ? 0.85 : 1,
+                          transition: 'all 0.3s'
+                        }}
+                      >
+                        {formLoading ? (
+                          <>
+                            <span style={{
+                              width: 14,
+                              height: 14,
+                              borderRadius: '50%',
+                              border: `2px solid ${C.white}66`,
+                              borderTopColor: C.white,
+                              animation: 'impact309-spin 0.8s linear infinite',
+                              display: 'inline-block'
+                            }} />
+                            Envoi en cours…
+                          </>
+                        ) : (
+                          <>
+                            Prendre rendez-vous
+                            <ArrowRight size={13} />
+                          </>
+                        )}
+                      </button>
+                      <style>{`@keyframes impact309-spin { to { transform: rotate(360deg); } }`}</style>
                     </form>
                   )}
                 </div>

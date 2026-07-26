@@ -267,7 +267,12 @@ export default function PixelRepublicPage() {
       <style>{`@media (max-width: 900px) { #mb25-nav { display: none !important; } .mb25-burger { display: flex !important; } }`}</style>
 
       {/* Hero */}
-      <section ref={heroRef} style={{ height: "115vh", minHeight: "900px", position: "relative", display: "flex", alignItems: "flex-end", overflow: "hidden" }}>
+      {/* height was 115vh + minHeight 900px with content pinned to the bottom
+          (alignItems: flex-end) — the section's own bottom edge sat 15vh below
+          the viewport fold, so the CTA buttons near that edge were never on
+          screen on load at any breakpoint. 100dvh keeps flex-end content
+          aligned with the actual visible viewport bottom. */}
+      <section ref={heroRef} style={{ height: "100dvh", minHeight: "560px", position: "relative", display: "flex", alignItems: "flex-end", overflow: "hidden" }}>
         <motion.div style={{ y: heroY, position: "absolute", inset: 0 }}>
           <img src={photo(0, "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=1920&q=80")} alt="Agence web Pixel Republic Paris" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
         </motion.div>

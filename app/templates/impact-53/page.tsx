@@ -144,7 +144,7 @@ return (
               fontWeight: 700,
               letterSpacing: "0.4em",
               color: C.red,
-              marginBottom: "2rem",
+              marginBottom: "clamp(1rem,3vw,2rem)",
               display: "flex",
               alignItems: "center",
               gap: "0.8rem",
@@ -153,7 +153,7 @@ return (
             CREATIVE ARCHITECTURE STUDIO &nbsp;//&nbsp; EST. 2019
           </motion.div>
 
-          <div style={{ marginBottom: "2rem" }}>
+          <div style={{ marginBottom: "clamp(1rem,3vw,2rem)" }}>
             <HeroWordReveal />
           </div>
 
@@ -167,7 +167,7 @@ return (
               letterSpacing: "0.08em",
               color: "rgba(255,255,255,0.45)",
               maxWidth: "500px",
-              margin: "0 0 3.5rem",
+              margin: "0 0 clamp(1.5rem,4vw,3.5rem)",
               lineHeight: 1.8,
             }}
           >{c?.aboutText ?? <>

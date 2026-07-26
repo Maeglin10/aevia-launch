@@ -1,10 +1,10 @@
 "use client";
 // @ts-nocheck
-import { motion, useScroll, useTransform, useInView } from "framer-motion"
-import { useRef, useState, useEffect } from "react"
+import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion"
+import { useRef, useState, useEffect, useCallback } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { Scissors, Star, Phone, MapPin, Clock, Calendar, Sparkles, Heart, ArrowRight, Menu } from "lucide-react"
+import { Scissors, Star, Phone, MapPin, Clock, Calendar, Sparkles, Heart, ArrowRight, Menu, X } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { resolveList } from "@/lib/templates/resolveList"
 
@@ -54,6 +54,152 @@ const TESTIMONIALS_DEMO = [
   { q: "Lissage brésilien impeccable. Résultat qui dure 4 mois, aucun problème aux repousses. Pour moi c'est devenu un rituel bi-annuel incontournable.", n: "Aïcha D.", l: "Neuilly-sur-Seine" },
 ]
 
+
+const SALON_TIME_SLOTS = ["9h00", "10h00", "11h00", "13h00", "14h00", "15h00", "16h00", "17h30"]
+
+function BookingModal({
+  open,
+  onClose,
+  services,
+  initialService,
+}: {
+  open: boolean
+  onClose: () => void
+  services: { title?: string; name?: string }[]
+  initialService: string | null
+}) {
+  const [service, setService] = useState("")
+  const [date, setDate] = useState("")
+  const [time, setTime] = useState("")
+  const [name, setName] = useState("")
+  const [email, setEmail] = useState("")
+  const [phone, setPhone] = useState("")
+  const [loading, setLoading] = useState(false)
+  const [sent, setSent] = useState(false)
+
+  useEffect(() => {
+    if (open) {
+      setService(initialService ?? "")
+      setDate(""); setTime(""); setName(""); setEmail(""); setPhone("")
+      setLoading(false); setSent(false)
+    }
+  }, [open, initialService])
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!service || !date || !time || !name || !phone) return
+    setLoading(true)
+    setTimeout(() => {
+      setLoading(false)
+      setSent(true)
+    }, 1400)
+  }
+
+  const inputCls = "w-full bg-white border border-[#f3ede6] px-4 py-3 text-sm text-[#1a1218] outline-none focus:border-[var(--brand,#c97b7b)] focus:ring-2 focus:ring-[var(--brand,#c97b7b)]/20 transition-colors"
+  const labelCls = "block text-[10px] font-bold uppercase tracking-widest text-[#1a1218]/40 mb-1.5"
+
+  return (
+    <AnimatePresence>
+      {open && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 z-[100] flex items-center justify-center p-4"
+          style={{ background: "rgba(26,18,24,0.68)" }}
+          onClick={onClose}
+        >
+          <motion.div
+            initial={{ opacity: 0, y: 24, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 16, scale: 0.98 }}
+            transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+            onClick={(e) => e.stopPropagation()}
+            className="relative w-full max-w-md bg-[#faf6f1] max-h-[90vh] overflow-y-auto"
+          >
+            <button
+              onClick={onClose}
+              aria-label="Fermer"
+              className="absolute top-4 right-4 w-11 h-11 flex items-center justify-center text-[#1a1218]/40 hover:text-[var(--brand,#c97b7b)] cursor-pointer"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            <div className="p-8 md:p-10">
+              {sent ? (
+                <div className="text-center py-10">
+                  <div className="w-14 h-14 rounded-full bg-[var(--brand,#c97b7b)]/10 flex items-center justify-center mx-auto mb-6 text-[var(--brand,#c97b7b)] text-xl">✓</div>
+                  <h3 className="text-2xl font-bold text-[#1a1218] mb-3" style={{ fontFamily: "'Bodoni Moda', Georgia, serif" }}>Rendez-vous demandé</h3>
+                  <p className="text-sm text-[#1a1218]/45 leading-relaxed">
+                    Merci {name}. « {service} » réservé le {date} à {time}. L'atelier vous confirmera par SMS.
+                  </p>
+                </div>
+              ) : (
+                <>
+                  <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#c97b7b)] mb-3">Réservation</div>
+                  <h3 className="text-2xl font-bold text-[#1a1218] mb-6" style={{ fontFamily: "'Bodoni Moda', Georgia, serif" }}>Prendre rendez-vous</h3>
+
+                  <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+                    <div>
+                      <label htmlFor="sal-service" className={labelCls}>Prestation *</label>
+                      <select id="sal-service" required value={service} onChange={(e) => setService(e.target.value)} className={inputCls + " cursor-pointer"}>
+                        <option value="">Choisir une prestation</option>
+                        {services.map((s, i) => (
+                          <option key={i} value={s.title ?? s.name}>{s.title ?? s.name}</option>
+                        ))}
+                      </select>
+                    </div>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <label htmlFor="sal-date" className={labelCls}>Date *</label>
+                        <input id="sal-date" type="date" required value={date} onChange={(e) => setDate(e.target.value)} className={inputCls} />
+                      </div>
+                      <div>
+                        <label htmlFor="sal-time" className={labelCls}>Heure *</label>
+                        <select id="sal-time" required value={time} onChange={(e) => setTime(e.target.value)} className={inputCls + " cursor-pointer"}>
+                          <option value="">—</option>
+                          {SALON_TIME_SLOTS.map((t) => <option key={t} value={t}>{t}</option>)}
+                        </select>
+                      </div>
+                    </div>
+                    <div>
+                      <label htmlFor="sal-name" className={labelCls}>Nom *</label>
+                      <input id="sal-name" type="text" required value={name} onChange={(e) => setName(e.target.value)} className={inputCls} placeholder="Sophie Martin" />
+                    </div>
+                    <div>
+                      <label htmlFor="sal-phone" className={labelCls}>Téléphone *</label>
+                      <input id="sal-phone" type="tel" required value={phone} onChange={(e) => setPhone(e.target.value)} className={inputCls} placeholder="06 XX XX XX XX" />
+                    </div>
+                    <div>
+                      <label htmlFor="sal-email" className={labelCls}>Email</label>
+                      <input id="sal-email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} className={inputCls} placeholder="sophie@email.fr" />
+                    </div>
+                    <button
+                      type="submit"
+                      disabled={loading}
+                      className="mt-2 min-h-[44px] px-8 py-3.5 bg-[var(--brand,#c97b7b)] text-white font-bold text-[10px] uppercase tracking-[0.25em] hover:bg-[#b56868] transition-colors disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer flex items-center justify-center gap-2"
+                    >
+                      {loading ? (
+                        <>
+                          <motion.span
+                            animate={{ rotate: 360 }}
+                            transition={{ duration: 0.9, repeat: Infinity, ease: "linear" }}
+                            className="w-3.5 h-3.5 border border-white/40 border-t-white rounded-full inline-block"
+                          />
+                          Envoi en cours…
+                        </>
+                      ) : "Confirmer le rendez-vous"}
+                    </button>
+                  </form>
+                </>
+              )}
+            </div>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  )
+}
 
 // Global state variables for subpage compatibility
 let fd: any = null;
@@ -113,6 +259,13 @@ export default function AtelierLeoniePage() {
     return () => window.removeEventListener("scroll", h)
   }, []);
 
+  const [bookingOpen, setBookingOpen] = useState(false)
+  const [bookingService, setBookingService] = useState<string | null>(null)
+  const openBooking = useCallback((service: string | null) => {
+    setBookingService(service)
+    setBookingOpen(true)
+  }, [])
+
   return (
     <div className="bg-[#faf6f1] text-[#1a1218] overflow-x-hidden" style={{ fontFamily: "'Lato', 'Inter', system-ui, sans-serif" }}>
       {/* ── NAVBAR ── */}
@@ -141,7 +294,7 @@ export default function AtelierLeoniePage() {
             <a href={`tel:${fd?.phone ?? "0145678901"}`} className="hidden md:flex items-center gap-2 text-[var(--brand,#c97b7b)] font-bold text-sm">
               <Phone className="w-4 h-4" /> {fd?.phone ?? "01 45 67 89 01"}
             </a>
-            <button className="hidden md:block px-5 py-2.5 bg-[var(--brand,#c97b7b)] text-white text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-[#b56868] transition-colors">
+            <button onClick={() => openBooking(null)} className="hidden md:block min-h-[44px] px-5 py-2.5 bg-[var(--brand,#c97b7b)] text-white text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-[#b56868] transition-colors cursor-pointer">
               Réserver
             </button>
             <Sheet>
@@ -194,7 +347,7 @@ export default function AtelierLeoniePage() {
           </>}</motion.p>
 
           <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 1.0 }} className="flex flex-wrap gap-4">
-            <button className="px-9 py-4 bg-[var(--brand,#c97b7b)] text-white font-bold text-[10px] uppercase tracking-[0.25em] hover:bg-[#b56868] transition-colors">{c?.ctaText ?? <>
+            <button onClick={() => openBooking(null)} className="min-h-[44px] px-9 py-4 bg-[var(--brand,#c97b7b)] text-white font-bold text-[10px] uppercase tracking-[0.25em] hover:bg-[#b56868] transition-colors cursor-pointer">{c?.ctaText ?? <>
               Prendre rendez-vous
             </>}</button>
             <a href={`tel:${fd?.phone ?? "0145678901"}`} className="flex items-center gap-3 px-9 py-4 border border-white/12 text-white/50 font-bold text-[10px] uppercase tracking-widest hover:border-[var(--brand,#c97b7b)]/40 hover:text-[#d4a5a5] transition-all">
@@ -244,7 +397,13 @@ export default function AtelierLeoniePage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             {services.map((p: any, i: number) => (
               <Reveal key={i} delay={i * 0.07}>
-                <div className="group p-8 bg-white border border-[#f3ede6] hover:border-[var(--brand,#c97b7b)]/25 hover:shadow-lg hover:shadow-[var(--brand,#c97b7b)]/5 transition-all duration-500 h-full">
+                <div
+                  role="button"
+                  tabIndex={0}
+                  onClick={() => openBooking(p.title ?? p.name)}
+                  onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openBooking(p.title ?? p.name) } }}
+                  className="group p-8 bg-white border border-[#f3ede6] hover:border-[var(--brand,#c97b7b)]/25 hover:shadow-lg hover:shadow-[var(--brand,#c97b7b)]/5 transition-all duration-500 h-full cursor-pointer"
+                >
                   <div className="flex items-start justify-between mb-4">
                     <h3 className="font-bold text-[#1a1218] group-hover:text-[var(--brand,#c97b7b)] transition-colors" style={{ fontFamily: "'Bodoni Moda', serif" }}>{p.title ?? p.name}</h3>
                     {p.price && <div className="text-sm font-bold text-[var(--brand,#c97b7b)] whitespace-nowrap ml-4">{p.price}</div>}
@@ -310,16 +469,18 @@ export default function AtelierLeoniePage() {
             </h2>
             <p className="text-white/30 mb-10 text-sm">Réservation en ligne 24h/24 · Paris 16e · Consultation capillaire offerte</p>
             <div className="flex flex-wrap gap-4 justify-center">
-              <button className="px-10 py-4 bg-[var(--brand,#c97b7b)] text-white font-bold text-[10px] uppercase tracking-[0.25em] hover:bg-[#b56868] transition-colors">
+              <button onClick={() => openBooking(null)} className="min-h-[44px] px-10 py-4 bg-[var(--brand,#c97b7b)] text-white font-bold text-[10px] uppercase tracking-[0.25em] hover:bg-[#b56868] transition-colors cursor-pointer">
                 Réserver maintenant
               </button>
-              <a href={`tel:${fd?.phone ?? "0145678901"}`} className="flex items-center gap-3 px-10 py-4 border border-white/12 text-white/40 font-bold text-[10px] uppercase tracking-widest hover:border-[var(--brand,#c97b7b)]/40 hover:text-[#d4a5a5] transition-all">
+              <a href={`tel:${fd?.phone ?? "0145678901"}`} className="min-h-[44px] flex items-center gap-3 px-10 py-4 border border-white/12 text-white/40 font-bold text-[10px] uppercase tracking-widest hover:border-[var(--brand,#c97b7b)]/40 hover:text-[#d4a5a5] transition-all cursor-pointer">
                 <Phone className="w-4 h-4" /> {fd?.phone ?? "01 45 67 89 01"}
               </a>
             </div>
           </div>
         </Reveal>
       </section>
+
+      <BookingModal open={bookingOpen} onClose={() => setBookingOpen(false)} services={services} initialService={bookingService} />
 
       {/* ── FOOTER ── */}
       <footer className="bg-[#110c10] pt-20 pb-10 px-6 border-t border-white/5">

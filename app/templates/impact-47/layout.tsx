@@ -3,15 +3,35 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, X, ShoppingBag, MapPin, Phone, Clock, MessageSquare } from "lucide-react";
+import { Menu, X, ShoppingBag, MapPin, Phone, Clock, MessageSquare, Trash2, Check, Loader2 } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 import { C, navLinks, CartProvider, useCart } from "./shared";
 
 function FloristLayoutContent({ children }: { children: React.ReactNode }) {
-  const { cartCount, cartOpen, setCartOpen } = useCart();
+  const { cartItems, cartCount, removeFromCart, cartOpen, setCartOpen } = useCart();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [checkoutOpen, setCheckoutOpen] = useState(false);
+  const [checkoutLoading, setCheckoutLoading] = useState(false);
+  const [checkoutSent, setCheckoutSent] = useState(false);
   const pathname = usePathname();
+
+  const cartTotal = cartItems.reduce((sum, i) => sum + i.price * i.qty, 0);
+
+  const closeCart = () => {
+    setCartOpen(false);
+    setCheckoutOpen(false);
+    setCheckoutSent(false);
+  };
+
+  const handleCheckoutSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setCheckoutLoading(true);
+    setTimeout(() => {
+      setCheckoutLoading(false);
+      setCheckoutSent(true);
+    }, 1800);
+  };
 
   const [__layoutSession, __setLayoutSession] = useState<any>(null);
   useEffect(() => {
@@ -260,7 +280,7 @@ function FloristLayoutContent({ children }: { children: React.ReactNode }) {
           <>
             <motion.div
               initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-              onClick={() => setCartOpen(false)}
+              onClick={closeCart}
               style={{ position: "fixed", inset: 0, background: "rgba(45,26,31,0.45)", zIndex: 200 }}
             />
             <motion.div
@@ -269,23 +289,98 @@ function FloristLayoutContent({ children }: { children: React.ReactNode }) {
               style={{ position: "fixed", top: 0, right: 0, bottom: 0, width: "min(420px, 90vw)", background: C.white, borderLeft: `1px solid ${C.border}`, zIndex: 201, display: "flex", flexDirection: "column" }}
             >
               <div style={{ padding: "24px 28px", borderBottom: `1px solid ${C.border}`, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                <div style={{ fontFamily: "'Libre Baskerville', Georgia, serif", fontSize: 20, color: C.accent, fontWeight: 700 }}>Votre panier ({cartCount})</div>
-                <button onClick={() => setCartOpen(false)} style={{ background: "none", border: "none", cursor: "pointer", color: C.textMuted }}><X size={20} /></button>
+                <div style={{ fontFamily: "'Libre Baskerville', Georgia, serif", fontSize: 20, color: C.accent, fontWeight: 700 }}>
+                  {checkoutOpen ? (checkoutSent ? "Commande confirmée" : "Vos coordonnées") : `Votre panier (${cartCount})`}
+                </div>
+                <button onClick={closeCart} aria-label="Fermer le panier" style={{ width: 44, height: 44, display: "flex", alignItems: "center", justifyContent: "center", background: "none", border: "none", cursor: "pointer", color: C.textMuted }}><X size={20} /></button>
               </div>
-              <div style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column", gap: 12, padding: 24 }}>
-                <ShoppingBag size={32} color={C.textDim} />
-                <p style={{ fontSize: 14, color: C.textMuted, fontFamily: "'Poppins', system-ui", textAlign: "center" as const }}>
-                  {cartCount === 0
-                    ? "Votre panier est vide pour le moment."
-                    : `${cartCount} article${cartCount > 1 ? "s" : ""} ajouté${cartCount > 1 ? "s" : ""} à votre panier.`}
-                </p>
-              </div>
-              <div style={{ padding: "24px 28px", borderTop: `1px solid ${C.border}` }}>
-                <button
-                  disabled={cartCount === 0}
-                  style={{ width: "100%", padding: "16px", background: cartCount === 0 ? C.textDim : C.accent, color: C.white, border: "none", fontSize: 13, fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase" as const, cursor: cartCount === 0 ? "not-allowed" : "pointer", fontFamily: "'Poppins', system-ui", borderRadius: 2 }}
-                >Passer commande</button>
-              </div>
+
+              {!checkoutOpen ? (
+                <>
+                  {cartItems.length === 0 ? (
+                    <div style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column", gap: 12, padding: 24 }}>
+                      <ShoppingBag size={32} color={C.textDim} />
+                      <p style={{ fontSize: 14, color: C.textMuted, fontFamily: "'Poppins', system-ui", textAlign: "center" as const }}>
+                        Votre panier est vide pour le moment.
+                      </p>
+                    </div>
+                  ) : (
+                    <div style={{ flex: 1, overflowY: "auto", padding: "20px 28px" }}>
+                      {cartItems.map(item => (
+                        <div key={item.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, padding: "14px 0", borderBottom: `1px solid ${C.border}` }}>
+                          <div style={{ flex: 1 }}>
+                            <div style={{ fontFamily: "'Poppins', system-ui", fontSize: 14, color: C.text, fontWeight: 600, marginBottom: 2 }}>{item.name}</div>
+                            <div style={{ fontFamily: "'Poppins', system-ui", fontSize: 12, color: C.textDim }}>Qté {item.qty} · {item.price} € / unité</div>
+                          </div>
+                          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                            <span style={{ fontFamily: "'Libre Baskerville', Georgia, serif", fontSize: 15, color: C.accent, fontWeight: 700 }}>{item.price * item.qty} €</span>
+                            <button
+                              onClick={() => removeFromCart(item.id)}
+                              aria-label={`Retirer ${item.name}`}
+                              style={{ width: 32, height: 32, display: "flex", alignItems: "center", justifyContent: "center", background: "none", border: "none", cursor: "pointer", color: C.textDim }}
+                            ><Trash2 size={15} /></button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  <div style={{ padding: "24px 28px", borderTop: `1px solid ${C.border}` }}>
+                    {cartItems.length > 0 && (
+                      <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 16, fontFamily: "'Poppins', system-ui" }}>
+                        <span style={{ fontSize: 14, color: C.textMuted }}>Total</span>
+                        <span style={{ fontSize: 18, fontWeight: 700, color: C.text }}>{cartTotal} €</span>
+                      </div>
+                    )}
+                    <button
+                      onClick={() => setCheckoutOpen(true)}
+                      disabled={cartItems.length === 0}
+                      style={{ width: "100%", minHeight: 44, padding: "16px", background: cartItems.length === 0 ? C.textDim : C.accent, color: C.white, border: "none", fontSize: 13, fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase" as const, cursor: cartItems.length === 0 ? "not-allowed" : "pointer", fontFamily: "'Poppins', system-ui", borderRadius: 2 }}
+                    >Passer commande</button>
+                  </div>
+                </>
+              ) : (
+                <div style={{ flex: 1, overflowY: "auto", padding: "24px 28px" }}>
+                  <AnimatePresence mode="wait">
+                    {checkoutSent ? (
+                      <motion.div key="success" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} style={{ textAlign: "center", padding: "24px 0" }}>
+                        <motion.div
+                          initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: "spring", stiffness: 200, delay: 0.15 }}
+                          style={{ width: 60, height: 60, borderRadius: "50%", background: C.rose ? `${C.rose}22` : "rgba(0,0,0,0.06)", color: C.accent, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 18px" }}
+                        ><Check size={26} /></motion.div>
+                        <p style={{ fontFamily: "'Poppins', system-ui", fontSize: 14, color: C.textMuted, lineHeight: 1.7 }}>
+                          Merci ! Votre commande de <strong style={{ color: C.text }}>{cartTotal} €</strong> a bien été enregistrée. Nous vous recontactons sous peu pour confirmer la livraison.
+                        </p>
+                      </motion.div>
+                    ) : (
+                      <motion.form key="form" initial={{ opacity: 0 }} animate={{ opacity: 1 }} onSubmit={handleCheckoutSubmit}>
+                        <div style={{ marginBottom: 16 }}>
+                          <label htmlFor="co-name" style={{ display: "block", fontFamily: "'Poppins', system-ui", fontSize: 11, color: C.textMuted, textTransform: "uppercase" as const, letterSpacing: "0.06em", marginBottom: 6 }}>Nom complet</label>
+                          <input id="co-name" name="name" type="text" required placeholder="Camille Dubois" style={{ width: "100%", boxSizing: "border-box", border: `1px solid ${C.border}`, padding: "12px 14px", fontSize: 14, fontFamily: "'Poppins', system-ui", outline: "none", color: C.text, borderRadius: 2 }} />
+                        </div>
+                        <div style={{ marginBottom: 16 }}>
+                          <label htmlFor="co-email" style={{ display: "block", fontFamily: "'Poppins', system-ui", fontSize: 11, color: C.textMuted, textTransform: "uppercase" as const, letterSpacing: "0.06em", marginBottom: 6 }}>E-mail</label>
+                          <input id="co-email" name="email" type="email" required placeholder="vous@email.com" style={{ width: "100%", boxSizing: "border-box", border: `1px solid ${C.border}`, padding: "12px 14px", fontSize: 14, fontFamily: "'Poppins', system-ui", outline: "none", color: C.text, borderRadius: 2 }} />
+                        </div>
+                        <div style={{ marginBottom: 16 }}>
+                          <label htmlFor="co-phone" style={{ display: "block", fontFamily: "'Poppins', system-ui", fontSize: 11, color: C.textMuted, textTransform: "uppercase" as const, letterSpacing: "0.06em", marginBottom: 6 }}>Téléphone</label>
+                          <input id="co-phone" name="phone" type="tel" required placeholder="06 12 34 56 78" style={{ width: "100%", boxSizing: "border-box", border: `1px solid ${C.border}`, padding: "12px 14px", fontSize: 14, fontFamily: "'Poppins', system-ui", outline: "none", color: C.text, borderRadius: 2 }} />
+                        </div>
+                        <div style={{ marginBottom: 24 }}>
+                          <label htmlFor="co-address" style={{ display: "block", fontFamily: "'Poppins', system-ui", fontSize: 11, color: C.textMuted, textTransform: "uppercase" as const, letterSpacing: "0.06em", marginBottom: 6 }}>Adresse de livraison</label>
+                          <input id="co-address" name="address" type="text" required placeholder="18 Rue du Marché, Paris 11e" style={{ width: "100%", boxSizing: "border-box", border: `1px solid ${C.border}`, padding: "12px 14px", fontSize: 14, fontFamily: "'Poppins', system-ui", outline: "none", color: C.text, borderRadius: 2 }} />
+                        </div>
+                        <button
+                          type="submit"
+                          disabled={checkoutLoading}
+                          style={{ width: "100%", minHeight: 44, padding: "16px", background: C.accent, color: C.white, border: "none", fontSize: 13, fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase" as const, cursor: checkoutLoading ? "not-allowed" : "pointer", fontFamily: "'Poppins', system-ui", borderRadius: 2, display: "flex", alignItems: "center", justifyContent: "center", gap: 8, opacity: checkoutLoading ? 0.75 : 1 }}
+                        >
+                          {checkoutLoading ? (<><Loader2 size={16} className="animate-spin" /> Envoi en cours…</>) : ("Confirmer la commande")}
+                        </button>
+                      </motion.form>
+                    )}
+                  </AnimatePresence>
+                </div>
+              )}
             </motion.div>
           </>
         )}

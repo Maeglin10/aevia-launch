@@ -1,10 +1,10 @@
 "use client";
 // @ts-nocheck
-import { motion, useScroll, useTransform, useInView } from "framer-motion"
-import { useRef, useState, useEffect } from "react"
+import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion"
+import { useRef, useState, useEffect, useCallback } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { Building2, MapPin, ArrowRight, Star, Phone, Mail, Search, Bed, Bath, Square, ChevronDown, Menu } from "lucide-react"
+import { Building2, MapPin, ArrowRight, Star, Phone, Mail, Search, Bed, Bath, Square, ChevronDown, Menu, X } from "lucide-react"
 import { resolveList } from "@/lib/templates/resolveList"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 
@@ -50,6 +50,165 @@ const SERVICES_DEMO = [
   { num: "03", title: "Accompagnement acheteurs", desc: "Sélection exclusive, visites accompagnées, négociation, suivi notarial. Une seule personne de confiance du début à la fin." },
   { num: "04", title: "Gestion locative", desc: "Mise en location, sélection locataires, états des lieux, gestion courante. Taux d'occupation moyen : 98,2%." },
 ]
+
+/* ── Contact / Inquiry Modal ─────────────────────────────────────────────── */
+function InquiryModal({
+  open,
+  subject,
+  onClose,
+  phone,
+}: {
+  open: boolean
+  subject: string | null
+  onClose: () => void
+  phone: string
+}) {
+  const [name, setName] = useState("")
+  const [email, setEmail] = useState("")
+  const [tel, setTel] = useState("")
+  const [message, setMessage] = useState("")
+  const [loading, setLoading] = useState(false)
+  const [sent, setSent] = useState(false)
+
+  useEffect(() => {
+    if (open) {
+      setName(""); setEmail(""); setTel(""); setMessage(""); setLoading(false); setSent(false)
+    }
+  }, [open, subject])
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!name || !email) return
+    setLoading(true)
+    setTimeout(() => {
+      setLoading(false)
+      setSent(true)
+    }, 1400)
+  }
+
+  return (
+    <AnimatePresence>
+      {open && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 z-[100] flex items-center justify-center p-4"
+          style={{ background: "rgba(17,24,42,0.72)" }}
+          onClick={onClose}
+        >
+          <motion.div
+            initial={{ opacity: 0, y: 24, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 16, scale: 0.98 }}
+            transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+            onClick={(e) => e.stopPropagation()}
+            className="relative w-full max-w-md bg-[#fefdfb] max-h-[90vh] overflow-y-auto"
+          >
+            <button
+              onClick={onClose}
+              aria-label="Fermer"
+              className="absolute top-4 right-4 w-11 h-11 flex items-center justify-center text-[#11182a]/50 hover:text-[#11182a] cursor-pointer"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            <div className="p-8 md:p-10">
+              {sent ? (
+                <div className="text-center py-10">
+                  <div className="w-14 h-14 rounded-full border border-[var(--brand,#b8944a)] flex items-center justify-center mx-auto mb-6 text-[var(--brand,#b8944a)] text-xl">✓</div>
+                  <h3 className="text-2xl font-bold text-[#11182a] mb-3" style={{ fontFamily: "'Libre Baskerville', Georgia, serif", fontStyle: "italic" }}>
+                    Demande envoyée
+                  </h3>
+                  <p className="text-sm text-[#11182a]/50 leading-relaxed">
+                    Merci {name || ""}. Un conseiller Alta Transactions vous recontactera sous 24h{subject ? ` au sujet de « ${subject} »` : ""}.
+                  </p>
+                </div>
+              ) : (
+                <>
+                  <div className="text-[9px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#b8944a)] mb-3">
+                    {subject ? "Bien sélectionné" : "Estimation gratuite"}
+                  </div>
+                  <h3 className="text-2xl font-bold text-[#11182a] mb-6" style={{ fontFamily: "'Libre Baskerville', Georgia, serif", fontStyle: "italic" }}>
+                    {subject ?? "Estimer mon bien"}
+                  </h3>
+
+                  <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+                    <div>
+                      <label htmlFor="inq-name" className="block text-[10px] font-bold uppercase tracking-widest text-[#11182a]/50 mb-1.5">Nom complet *</label>
+                      <input
+                        id="inq-name"
+                        type="text"
+                        required
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        className="w-full border border-[#11182a]/15 px-4 py-3 text-sm text-[#11182a] outline-none focus:border-[var(--brand,#b8944a)] focus:ring-2 focus:ring-[var(--brand,#b8944a)]/25 transition-colors"
+                        placeholder="Jean Dupont"
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="inq-email" className="block text-[10px] font-bold uppercase tracking-widest text-[#11182a]/50 mb-1.5">Email *</label>
+                      <input
+                        id="inq-email"
+                        type="email"
+                        required
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        className="w-full border border-[#11182a]/15 px-4 py-3 text-sm text-[#11182a] outline-none focus:border-[var(--brand,#b8944a)] focus:ring-2 focus:ring-[var(--brand,#b8944a)]/25 transition-colors"
+                        placeholder="jean.dupont@email.fr"
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="inq-tel" className="block text-[10px] font-bold uppercase tracking-widest text-[#11182a]/50 mb-1.5">Téléphone</label>
+                      <input
+                        id="inq-tel"
+                        type="tel"
+                        value={tel}
+                        onChange={(e) => setTel(e.target.value)}
+                        className="w-full border border-[#11182a]/15 px-4 py-3 text-sm text-[#11182a] outline-none focus:border-[var(--brand,#b8944a)] focus:ring-2 focus:ring-[var(--brand,#b8944a)]/25 transition-colors"
+                        placeholder="06 XX XX XX XX"
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="inq-msg" className="block text-[10px] font-bold uppercase tracking-widest text-[#11182a]/50 mb-1.5">Message (facultatif)</label>
+                      <textarea
+                        id="inq-msg"
+                        value={message}
+                        onChange={(e) => setMessage(e.target.value)}
+                        rows={3}
+                        className="w-full border border-[#11182a]/15 px-4 py-3 text-sm text-[#11182a] outline-none focus:border-[var(--brand,#b8944a)] focus:ring-2 focus:ring-[var(--brand,#b8944a)]/25 transition-colors resize-none"
+                        placeholder={subject ? "Précisez votre projet pour ce bien..." : "Décrivez votre bien (type, surface, ville)..."}
+                      />
+                    </div>
+                    <button
+                      type="submit"
+                      disabled={loading}
+                      className="mt-2 min-h-[44px] px-8 py-3.5 bg-[var(--brand,#b8944a)] text-white text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-[#cdab66] transition-colors duration-300 disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer flex items-center justify-center gap-2"
+                    >
+                      {loading ? (
+                        <>
+                          <motion.span
+                            animate={{ rotate: 360 }}
+                            transition={{ duration: 0.9, repeat: Infinity, ease: "linear" }}
+                            className="w-3.5 h-3.5 border border-white/40 border-t-white rounded-full inline-block"
+                          />
+                          Envoi en cours…
+                        </>
+                      ) : "Envoyer ma demande"}
+                    </button>
+                    <p className="text-[10px] text-[#11182a]/35 text-center mt-1">
+                      Ou appelez-nous directement au <a href={`tel:${phone}`} className="text-[var(--brand,#b8944a)] font-bold">{phone}</a>
+                    </p>
+                  </form>
+                </>
+              )}
+            </div>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  )
+}
 
 
 // Global state variables for subpage compatibility
@@ -142,6 +301,14 @@ export default function AltaTransactionsPage() {
     return () => window.removeEventListener("scroll", h)
   }, []);
 
+  const [modalOpen, setModalOpen] = useState(false)
+  const [modalSubject, setModalSubject] = useState<string | null>(null)
+  const openInquiry = useCallback((subject: string | null) => {
+    setModalSubject(subject)
+    setModalOpen(true)
+  }, [])
+  const phoneDisplay = fd?.phone ?? "01 44 87 65 43"
+
   return (
     <div className="bg-[#fefdfb] text-[#11182a] overflow-x-hidden" style={{ fontFamily: "'Inter', system-ui, sans-serif" }}>
       {/* ── NAVBAR ── */}
@@ -170,7 +337,7 @@ export default function AltaTransactionsPage() {
           </div>
           <div className="hidden md:flex items-center gap-4">
             <a href={`tel:${fd?.phone ?? "0144876543"}`} className="text-[10px] font-bold uppercase tracking-widest text-[var(--brand,#b8944a)]">{fd?.phone ?? "01 44 87 65 43"}</a>
-            <button className="px-6 py-2.5 bg-[var(--brand,#b8944a)] text-white text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-[#cdab66] transition-colors duration-300">
+            <button onClick={() => openInquiry(null)} className="min-h-[44px] px-6 py-2.5 bg-[var(--brand,#b8944a)] text-white text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-[#cdab66] transition-colors duration-300 cursor-pointer">
               Estimer mon bien
             </button>
           </div>
@@ -188,14 +355,14 @@ export default function AltaTransactionsPage() {
       </nav>
 
       {/* ── HERO ── */}
-      <section id="hero" ref={heroRef} className="relative h-[115vh] min-h-[900px] flex items-end overflow-hidden">
+      <section id="hero" ref={heroRef} className="relative h-[100dvh] min-h-0 md:h-[115vh] md:min-h-[900px] flex items-end overflow-hidden">
         <motion.div style={{ y: heroY }} className="absolute inset-0">
           <Image src={photo(0, "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=85&w=2400")} alt="Immobilier prestige Paris" fill className="object-cover" priority style={{ filter: "brightness(0.55)" }} />
           <div className="absolute inset-0 bg-gradient-to-t from-[#11182a] via-[#11182a]/35 to-transparent" />
           <div className="absolute inset-0 bg-gradient-to-r from-[#11182a]/60 to-transparent" />
         </motion.div>
 
-        <motion.div style={{ y: heroTextY, opacity: heroOpacity }} className="relative z-10 max-w-[1400px] w-full mx-auto px-6 md:px-12 pb-28">
+        <motion.div style={{ y: heroTextY, opacity: heroOpacity }} className="relative z-10 max-w-[1400px] w-full mx-auto px-6 md:px-12 pb-16 md:pb-28">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.3 }}>
             <div className="flex items-center gap-4 mb-6">
               <div className="w-10 h-[1px] bg-[var(--brand,#b8944a)]" />
@@ -216,10 +383,10 @@ export default function AltaTransactionsPage() {
           </>}</motion.p>
 
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 1.0 }} className="flex flex-wrap gap-4">
-            <button className="px-10 py-4 bg-[var(--brand,#b8944a)] text-white text-[10px] font-bold uppercase tracking-[0.25em] hover:bg-[#cdab66] transition-colors duration-300">{c?.ctaText ?? <>
+            <a href="#biens" className="min-h-[44px] flex items-center px-10 py-4 bg-[var(--brand,#b8944a)] text-white text-[10px] font-bold uppercase tracking-[0.25em] hover:bg-[#cdab66] transition-colors duration-300 cursor-pointer">{c?.ctaText ?? <>
               Voir nos biens
-            </>}</button>
-            <button className="px-10 py-4 border border-white/15 text-white text-[10px] font-bold uppercase tracking-[0.2em] hover:border-[var(--brand,#b8944a)]/50 hover:text-[var(--brand,#b8944a)] transition-all">
+            </>}</a>
+            <button onClick={() => openInquiry(null)} className="min-h-[44px] px-10 py-4 border border-white/15 text-white text-[10px] font-bold uppercase tracking-[0.2em] hover:border-[var(--brand,#b8944a)]/50 hover:text-[var(--brand,#b8944a)] transition-all cursor-pointer">
               Estimer gratuitement
             </button>
           </motion.div>
@@ -251,7 +418,7 @@ export default function AltaTransactionsPage() {
       </section>
 
       {/* ── BIENS EN VENTE ── */}
-      <section className="py-32 bg-[#fefdfb]">
+      <section id="biens" className="py-32 bg-[#fefdfb]">
         <div className="max-w-[1400px] mx-auto px-6 md:px-12">
           <Reveal>
             <div className="mb-16">
@@ -264,7 +431,13 @@ export default function AltaTransactionsPage() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {BIENS.map((b, i) => (
               <Reveal key={i} delay={i * 0.1}>
-                <div className="group cursor-pointer">
+                <div
+                  className="group cursor-pointer"
+                  role="button"
+                  tabIndex={0}
+                  onClick={() => openInquiry(b.title)}
+                  onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openInquiry(b.title) } }}
+                >
                   <div className="relative aspect-[4/3] overflow-hidden mb-6">
                     <ParallaxImg src={b.img} alt={b.title} />
                     <div className="absolute top-4 left-4 px-3 py-1.5 bg-[var(--brand,#b8944a)] text-white text-[9px] font-bold uppercase tracking-widest">{b.badge}</div>
@@ -284,7 +457,7 @@ export default function AltaTransactionsPage() {
           </div>
           <Reveal delay={0.2}>
             <div className="text-center mt-16">
-              <button className="inline-flex items-center gap-3 px-10 py-4 border border-[#11182a]/10 text-[10px] font-bold uppercase tracking-widest text-[#11182a] hover:bg-[#11182a] hover:text-white transition-all duration-500">
+              <button onClick={() => openInquiry(null)} className="min-h-[44px] inline-flex items-center gap-3 px-10 py-4 border border-[#11182a]/10 text-[10px] font-bold uppercase tracking-widest text-[#11182a] hover:bg-[#11182a] hover:text-white transition-all duration-500 cursor-pointer">
                 Voir toutes nos exclusivités <ArrowRight className="w-4 h-4" />
               </button>
             </div>
@@ -365,15 +538,17 @@ export default function AltaTransactionsPage() {
             Obtenez une estimation précise et confidentielle en moins de 48h. Sans engagement.
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
-            <button className="px-10 py-5 bg-[#11182a] text-white text-[10px] font-bold uppercase tracking-[0.25em] hover:bg-[var(--brand,#b8944a)] transition-colors duration-500">
+            <button onClick={() => openInquiry(null)} className="min-h-[44px] px-10 py-5 bg-[#11182a] text-white text-[10px] font-bold uppercase tracking-[0.25em] hover:bg-[var(--brand,#b8944a)] transition-colors duration-500 cursor-pointer">
               Demander une estimation
             </button>
-            <a href={`tel:${fd?.phone ?? "0144876543"}`} className="flex items-center gap-3 px-10 py-5 border border-[#11182a]/15 text-[#11182a] text-[10px] font-bold uppercase tracking-[0.2em] hover:border-[var(--brand,#b8944a)] transition-all">
+            <a href={`tel:${fd?.phone ?? "0144876543"}`} className="min-h-[44px] flex items-center gap-3 px-10 py-5 border border-[#11182a]/15 text-[#11182a] text-[10px] font-bold uppercase tracking-[0.2em] hover:border-[var(--brand,#b8944a)] transition-all cursor-pointer">
               <Phone className="w-4 h-4 text-[var(--brand,#b8944a)]" /> {fd?.phone ?? "01 44 87 65 43"}
             </a>
           </div>
         </Reveal>
       </section>
+
+      <InquiryModal open={modalOpen} subject={modalSubject} onClose={() => setModalOpen(false)} phone={phoneDisplay} />
 
       {/* ── FOOTER ── */}
       <footer className="bg-[#11182a] pt-24 pb-10 px-6 border-t border-white/5">

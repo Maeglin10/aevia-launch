@@ -34,8 +34,12 @@ function HeroSection() {
       <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 3, background: `linear-gradient(to right, transparent, ${C.accent}, transparent)` }} />
 
       <motion.div style={{ y, opacity, position: "relative", zIndex: 2, maxWidth: 1280, margin: "0 auto", padding: "100px 32px 80px", width: "100%", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "center" }} className="grid md:grid-cols-1 imx-mobstack">
-        {/* Left: headline */}
-        <div>
+        {/* Left: headline — minWidth:0 stops the unwrapped CTA button row
+            below from forcing this 1fr grid track (whose default min-width
+            is content-based, not 0) wider than the viewport on mobile, which
+            is what was pushing the paragraph past the right edge under
+            overflow:hidden. */}
+        <div style={{ minWidth: 0 }}>
           <motion.div
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
@@ -70,7 +74,7 @@ function HeroSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.9 }}
-            style={{ display: "flex", gap: 16 }}
+            style={{ display: "flex", gap: 16, flexWrap: "wrap" }}
           >
             <Link href="/templates/impact-46/contact" style={{ textDecoration: "none" }}>
               <button

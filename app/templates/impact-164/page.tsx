@@ -417,6 +417,17 @@ return (
         @media (max-width: 768px) {
           .imx-mobstack { grid-template-columns: 1fr !important; }
         }
+        /* mobile+tablet hero fix: shrink oversized display text so it doesn't eat the whole viewport */
+        @media (max-width: 1024px) {
+          .imx-hero164-title { font-size: clamp(40px, 10vw, 72px) !important; margin-bottom: 20px !important; }
+          .imx-hero164-left { padding: 40px 28px !important; }
+          .imx-hero164-right { padding: 32px 28px !important; }
+        }
+        /* mobile+tablet header fix: always show a CTA next to the hamburger, not just inside the open menu */
+        .mb164-mobile-cta { display: none; }
+        @media (max-width: 900px) {
+          .mb164-mobile-cta { display: inline-flex !important; }
+        }
       `}</style>
 
       {/* NAV */}
@@ -460,16 +471,25 @@ return (
             Call 30 min →
           </motion.button>
       </div>
-        <button
-          className="mb164-burger"
-          onClick={() => setMobileOpen(!mobileOpen)}
-          aria-label="Menu"
-          style={{ display: "none", flexDirection: "column", gap: 5, background: "none", border: "none", cursor: "pointer", padding: 4 }}
-        >
-          <span style={{ display: "block", width: 24, height: 1.5, background: "#fff", transition: "all 0.3s", transform: mobileOpen ? "rotate(45deg) translate(4.5px, 4.5px)" : "none" }} />
-          <span style={{ display: "block", width: 24, height: 1.5, background: "#fff", transition: "all 0.3s", opacity: mobileOpen ? 0 : 1 }} />
-          <span style={{ display: "block", width: 24, height: 1.5, background: "#fff", transition: "all 0.3s", transform: mobileOpen ? "rotate(-45deg) translate(4.5px, -4.5px)" : "none" }} />
-        </button>
+        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+          <a
+            href="#tarifs"
+            className="mb164-mobile-cta"
+            style={{ alignItems: "center", fontFamily: C.mono, fontSize: 10, letterSpacing: 1.5, textTransform: "uppercase", border: `1.5px solid ${C.white}`, background: "transparent", color: C.white, padding: "8px 14px", cursor: "pointer", textDecoration: "none", whiteSpace: "nowrap" }}
+          >
+            Call 30 min →
+          </a>
+          <button
+            className="mb164-burger"
+            onClick={() => setMobileOpen(!mobileOpen)}
+            aria-label="Menu"
+            style={{ display: "none", flexDirection: "column", gap: 5, background: "none", border: "none", cursor: "pointer", padding: 4 }}
+          >
+            <span style={{ display: "block", width: 24, height: 1.5, background: "#fff", transition: "all 0.3s", transform: mobileOpen ? "rotate(45deg) translate(4.5px, 4.5px)" : "none" }} />
+            <span style={{ display: "block", width: 24, height: 1.5, background: "#fff", transition: "all 0.3s", opacity: mobileOpen ? 0 : 1 }} />
+            <span style={{ display: "block", width: 24, height: 1.5, background: "#fff", transition: "all 0.3s", transform: mobileOpen ? "rotate(-45deg) translate(4.5px, -4.5px)" : "none" }} />
+          </button>
+        </div>
       </nav>
       {mobileOpen && (
         <div style={{ position: "fixed", top: 72, left: 0, right: 0, zIndex: 99, background: "rgba(255,255,255,0.98)", borderBottom: "1px solid #e5e5e5", padding: "24px 32px", display: "flex", flexDirection: "column", gap: 20, backdropFilter: "blur(12px)" }}>
@@ -502,13 +522,13 @@ return (
       {/* HERO — full viewport, split asymmetric */}
       <section className="imx-mobstack" id="hero" style={{ minHeight: "100dvh", paddingTop: 60, display: "grid", gridTemplateColumns: "1fr 1fr", borderBottom: `2px solid ${C.bgDark}` }}>
         {/* Left: oversized headline */}
-        <div style={{ borderRight: `2px solid ${C.bgDark}`, display: "flex", flexDirection: "column", justifyContent: "space-between", padding: "80px 64px" }}>
+        <div className="imx-hero164-left" style={{ borderRight: `2px solid ${C.bgDark}`, display: "flex", flexDirection: "column", justifyContent: "space-between", padding: "80px 64px" }}>
           <div style={{ fontFamily: C.mono, fontSize: 11, letterSpacing: 4, color: C.textMuted, textTransform: "uppercase" }}>
             Agence Créative Indépendante — Paris, depuis 2019
           </div>
 
           <motion.div style={{ scale: heroTextScale }}>
-            <div style={{ fontSize: "clamp(56px, 8vw, 120px)", fontWeight: 900, lineHeight: 0.9, letterSpacing: "-3px", marginBottom: 40 }}>
+            <div className="imx-hero164-title" style={{ fontSize: "clamp(56px, 8vw, 120px)", fontWeight: 900, lineHeight: 0.9, letterSpacing: "-3px", marginBottom: 40 }}>
               ON FAIT<br />
               <span style={{ color: "transparent", WebkitTextStroke: `2px ${C.bgDark}` }}>DES</span><br />
               CHOSES<br />
@@ -528,7 +548,7 @@ return (
         </div>
 
         {/* Right: interactive element + CTA */}
-        <div style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", padding: "80px 64px", background: C.bg }}>
+        <div className="imx-hero164-right" style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", padding: "80px 64px", background: C.bg }}>
           <div style={{ display: "flex", justifyContent: "flex-end" }}>
             {/* Animated brutalist block */}
             <motion.div

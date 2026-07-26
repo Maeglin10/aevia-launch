@@ -10,7 +10,7 @@ import {
   useSpring,
   AnimatePresence,
 } from "framer-motion";
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect, useCallback, useContext, createContext } from "react";
 import Link from "next/link";
 import { resolveList } from "@/lib/templates/resolveList";
 
@@ -129,6 +129,275 @@ function MagneticButton({ children, style = {}, onClick }: { children: React.Rea
       onMouseMove={onMove} onMouseLeave={() => { x.set(0); y.set(0); }} onClick={onClick}>
       {children}
     </motion.button>
+  );
+}
+
+/* ─── Booking Modal — "Réserver cet atelier" flow, opened from any workshop
+   CTA. Workshop is pre-filled/locked when opened from a specific workshop
+   card, or left blank (select) when opened from the general header CTA.
+   ─────────────────────────────────────────────────────────────── */
+type BookingOpenOptions = { workshopName?: string };
+const BookingModalContext = createContext<{ open: (opts?: BookingOpenOptions) => void }>({
+  open: () => {},
+});
+function useBookingModal() {
+  return useContext(BookingModalContext);
+}
+
+function BookingModalProvider({ children }: { children: React.ReactNode }) {
+  const [isOpen, setIsOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [sent, setSent] = useState(false);
+  const [workshopName, setWorkshopName] = useState("");
+  const [participants, setParticipants] = useState("");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+
+  const open = useCallback((opts?: BookingOpenOptions) => {
+    setWorkshopName(opts?.workshopName ?? "");
+    setParticipants("");
+    setSent(false);
+    setIsOpen(true);
+  }, []);
+
+  const close = useCallback(() => {
+    if (loading) return;
+    setIsOpen(false);
+  }, [loading]);
+
+  const resetAndClose = () => {
+    setIsOpen(false);
+    setSent(false);
+    setWorkshopName("");
+    setParticipants("");
+    setName("");
+    setEmail("");
+    setPhone("");
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+      setSent(true);
+    }, 1000);
+  };
+
+  const selectedWorkshop = WORKSHOPS.find((w) => w.name === workshopName);
+  const maxSpots = Math.max(1, Math.min(selectedWorkshop?.spots ?? 6, 6));
+
+  const inputStyle: React.CSSProperties = {
+    width: "100%",
+    background: C.bg,
+    border: `1px solid ${C.border}`,
+    borderRadius: 3,
+    padding: "12px",
+    fontFamily: "'Cabin', sans-serif",
+    fontSize: 14,
+    color: C.brown,
+    outline: "none",
+    minHeight: 44,
+    boxSizing: "border-box",
+  };
+  const labelStyle: React.CSSProperties = {
+    fontFamily: "'Cabin', sans-serif",
+    fontSize: 12,
+    fontWeight: 600,
+    color: C.brown,
+    display: "block",
+    marginBottom: 8,
+  };
+
+  return (
+    <BookingModalContext.Provider value={{ open }}>
+      {children}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            style={{ position: "fixed", inset: 0, zIndex: 200, display: "flex", alignItems: "center", justifyContent: "center", padding: 16 }}
+          >
+            <style>{`
+              .mlbk-field:focus { outline: none; border-color: ${C.amber} !important; box-shadow: 0 0 0 3px rgba(196,122,53,0.2); }
+            `}</style>
+            <motion.div
+              onClick={close}
+              aria-hidden="true"
+              style={{ position: "absolute", inset: 0, background: "rgba(42,21,8,0.6)", backdropFilter: "blur(3px)", cursor: "pointer" }}
+            />
+            <motion.div
+              initial={{ opacity: 0, y: 24, scale: 0.96 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 16, scale: 0.97 }}
+              transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+              role="dialog"
+              aria-modal="true"
+              aria-label="Réserver un atelier"
+              style={{ position: "relative", width: "100%", maxWidth: 520, maxHeight: "90vh", overflowY: "auto", background: C.bg, borderRadius: 6, border: `1px solid ${C.border}`, boxShadow: "0 24px 80px rgba(42,21,8,0.35)", padding: 36 }}
+            >
+              <button
+                onClick={close}
+                aria-label="Fermer"
+                style={{ position: "absolute", top: 8, right: 8, width: 44, height: 44, display: "flex", alignItems: "center", justifyContent: "center", background: "none", border: "none", borderRadius: 3, color: C.muted, cursor: "pointer", fontSize: 18 }}
+              >
+                ✕
+              </button>
+
+              {sent ? (
+                <div style={{ textAlign: "center", padding: "32px 0" }}>
+                  <div style={{ width: 48, height: 48, borderRadius: "50%", border: `2px solid ${C.amber}`, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 24px" }}>
+                    <span style={{ color: C.amber, fontSize: 20 }}>✓</span>
+                  </div>
+                  <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: 22, fontWeight: 600, color: C.brown, marginBottom: 12 }}>
+                    Réservation envoyée
+                  </h3>
+                  <p style={{ fontFamily: "'Cabin', sans-serif", fontSize: 14, color: C.muted, lineHeight: 1.7, marginBottom: 24, maxWidth: 340, marginInline: "auto" }}>
+                    Merci{name ? `, ${name.split(" ")[0]}` : ""} ! Votre demande{selectedWorkshop ? ` pour « ${selectedWorkshop.name} »` : ""} est bien enregistrée. Nous vous confirmerons votre place par email ou téléphone sous 24h.
+                  </p>
+                  <button
+                    onClick={resetAndClose}
+                    style={{ background: C.brown, color: C.bg, border: "none", padding: "12px 28px", borderRadius: 3, fontFamily: "'Cabin', sans-serif", fontSize: 12, fontWeight: 600, cursor: "pointer", textTransform: "uppercase", letterSpacing: "0.05em", minHeight: 44 }}
+                  >
+                    Fermer
+                  </button>
+                </div>
+              ) : (
+                <>
+                  <p style={{ fontFamily: "'Playfair Display', serif", fontSize: 11, letterSpacing: "0.3em", color: C.terracotta, textTransform: "uppercase", marginBottom: 12 }}>
+                    Réservation d&apos;atelier
+                  </p>
+                  <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: 26, fontWeight: 600, color: C.brown, marginBottom: 24, lineHeight: 1.15 }}>
+                    Réserver cet atelier
+                  </h3>
+
+                  <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 18 }}>
+                    <div>
+                      <label style={labelStyle} htmlFor="bk-workshop">Atelier</label>
+                      <select
+                        id="bk-workshop"
+                        required
+                        value={workshopName}
+                        onChange={(e) => { setWorkshopName(e.target.value); setParticipants(""); }}
+                        className="mlbk-field"
+                        style={{ ...inputStyle, cursor: "pointer" }}
+                      >
+                        <option value="">Sélectionnez un atelier</option>
+                        {WORKSHOPS.map((w) => (
+                          <option key={w.name} value={w.name}>{w.name} — {w.date} (€{w.price})</option>
+                        ))}
+                      </select>
+                    </div>
+
+                    {selectedWorkshop && (
+                      <div style={{ background: C.bgCard, border: `1px solid ${C.border}`, borderRadius: 3, padding: "10px 14px", fontFamily: "'Cabin', sans-serif", fontSize: 12, color: C.brown }}>
+                        Session : <strong>{selectedWorkshop.date}</strong> · {selectedWorkshop.spots} place{selectedWorkshop.spots > 1 ? "s" : ""} restante{selectedWorkshop.spots > 1 ? "s" : ""} · €{selectedWorkshop.price} / pers.
+                      </div>
+                    )}
+
+                    <div>
+                      <label style={labelStyle} htmlFor="bk-participants">Nombre de participants</label>
+                      <select
+                        id="bk-participants"
+                        required
+                        value={participants}
+                        onChange={(e) => setParticipants(e.target.value)}
+                        className="mlbk-field"
+                        style={{ ...inputStyle, cursor: "pointer" }}
+                      >
+                        <option value="">—</option>
+                        {Array.from({ length: maxSpots }, (_, i) => i + 1).map((n) => (
+                          <option key={n} value={n}>{n} {n === 1 ? "personne" : "personnes"}</option>
+                        ))}
+                      </select>
+                    </div>
+
+                    <div>
+                      <label style={labelStyle} htmlFor="bk-name">Nom complet</label>
+                      <input
+                        id="bk-name"
+                        type="text"
+                        required
+                        placeholder="Votre nom"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        className="mlbk-field"
+                        style={inputStyle}
+                      />
+                    </div>
+                    <div>
+                      <label style={labelStyle} htmlFor="bk-email">Email</label>
+                      <input
+                        id="bk-email"
+                        type="email"
+                        required
+                        placeholder="vous@email.com"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        className="mlbk-field"
+                        style={inputStyle}
+                      />
+                    </div>
+                    <div>
+                      <label style={labelStyle} htmlFor="bk-phone">Téléphone</label>
+                      <input
+                        id="bk-phone"
+                        type="tel"
+                        required
+                        placeholder="06 12 34 56 78"
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value)}
+                        className="mlbk-field"
+                        style={inputStyle}
+                      />
+                    </div>
+
+                    <button
+                      type="submit"
+                      disabled={loading}
+                      style={{
+                        background: loading ? `${C.brown}99` : C.brown,
+                        color: C.bg,
+                        border: "none",
+                        padding: "16px",
+                        borderRadius: 3,
+                        fontFamily: "'Cabin', sans-serif",
+                        fontSize: 13,
+                        fontWeight: 600,
+                        cursor: loading ? "not-allowed" : "pointer",
+                        textTransform: "uppercase",
+                        letterSpacing: "0.05em",
+                        minHeight: 44,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        gap: 10,
+                      }}
+                    >
+                      {loading ? (
+                        <>
+                          <motion.span
+                            animate={{ rotate: 360 }}
+                            transition={{ duration: 0.8, repeat: Infinity, ease: "linear" }}
+                            style={{ width: 14, height: 14, borderRadius: "50%", border: `2px solid ${C.bg}`, borderTopColor: "transparent", display: "inline-block" }}
+                          />
+                          Envoi en cours…
+                        </>
+                      ) : (
+                        "Confirmer la réservation"
+                      )}
+                    </button>
+                  </form>
+                </>
+              )}
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </BookingModalContext.Provider>
   );
 }
 
@@ -482,6 +751,81 @@ function FaqSection() {
   );
 }
 
+/* ─── WorkshopsSection ───────────────────────────────────────── */
+function WorkshopsSection() {
+  const { open } = useBookingModal();
+  return (
+    <section id="workshops" style={{ padding: "80px 0", background: C.brown }}>
+      <div style={{ maxWidth: 1100, margin: "0 auto", paddingInline: 40 }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 48 }}>
+          <div>
+            <p style={{ fontFamily: "'Playfair Display', serif", fontSize: 11, letterSpacing: "0.35em", color: C.amber, textTransform: "uppercase", marginBottom: 16 }}>Ateliers</p>
+            <h2 style={{ fontSize: "clamp(28px, 4vw, 44px)", fontWeight: 600, lineHeight: 1.1, color: C.bg, fontFamily: "'Playfair Display', serif" }}>
+              <TextReveal text="Apprenez à faire" />
+              <TextReveal text="votre pain." delay={0.15} style={{ fontStyle: "italic", color: C.amber }} />
+            </h2>
+          </div>
+          <MagneticButton style={{ fontFamily: "'Cabin', sans-serif", fontSize: 12, color: C.bg, background: C.amber, padding: "12px 28px", borderRadius: 3, letterSpacing: "0.08em", textTransform: "uppercase", fontWeight: 600 }} onClick={() => open()}>
+            Tous les Ateliers
+          </MagneticButton>
+        </div>
+
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20 }}>
+          {WORKSHOPS.map((w, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: i * 0.08 }}
+              style={{ padding: "28px", background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.10)", borderRadius: 6 }}
+              whileHover={{ background: "rgba(255,255,255,0.10)" }}
+            >
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 16 }}>
+                <span style={{ fontFamily: "'Cabin', sans-serif", fontSize: 11, color: C.amber, letterSpacing: "0.1em", textTransform: "uppercase", background: `${C.amber}20`, padding: "3px 10px", borderRadius: 2 }}>
+                  {w.spots} places
+                </span>
+                <span style={{ fontFamily: "'Playfair Display', serif", fontSize: 20, fontWeight: 600, color: C.bgWarm }}>€{w.price}</span>
+              </div>
+              <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: 17, fontWeight: 600, color: C.bg, marginBottom: 8, lineHeight: 1.3 }}>{w.name}</h3>
+              <p style={{ fontFamily: "'Cabin', sans-serif", fontSize: 12, color: "rgba(250,246,239,0.55)", marginBottom: 20 }}>{w.date}</p>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
+                <span style={{ fontFamily: "'Cabin', sans-serif", fontSize: 12, color: "rgba(250,246,239,0.45)" }}>3h · Matériaux inclus</span>
+              </div>
+              <button
+                onClick={() => open({ workshopName: w.name })}
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  background: "rgba(255,255,255,0.08)",
+                  border: `1px solid ${C.amber}55`,
+                  borderRadius: 3,
+                  padding: "10px 14px",
+                  minHeight: 44,
+                  cursor: "pointer",
+                  fontFamily: "'Cabin', sans-serif",
+                  fontSize: 12,
+                  color: C.bgWarm,
+                  letterSpacing: "0.05em",
+                  textTransform: "uppercase",
+                  fontWeight: 600,
+                }}
+              >
+                Réserver cet atelier
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={C.amber} strokeWidth="1.5">
+                  <path d="M7 17L17 7M17 7H7M17 7v10" />
+                </svg>
+              </button>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 /* ─── ContactSection ────────────────────────────────────────── */
 function ContactSection() {
   const [contactSubmitted, setContactSubmitted] = useState(false);
@@ -669,6 +1013,7 @@ export default function Page() {
   }, []);
 
   return (
+    <BookingModalProvider>
     <main style={{ background: C.bg, color: C.brown, minHeight: "100dvh", fontFamily: "'Cabin', sans-serif", overflowX: "hidden" }}>
       <style>{`
         /* mobile: stack 2-col grids to single column (added by responsive fix) */
@@ -907,51 +1252,7 @@ export default function Page() {
       </section>
 
       {/* ── Workshops ── */}
-      <section id="workshops" style={{ padding: "80px 0", background: C.brown }}>
-        <div style={{ maxWidth: 1100, margin: "0 auto", paddingInline: 40 }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 48 }}>
-            <div>
-              <p style={{ fontFamily: "'Playfair Display', serif", fontSize: 11, letterSpacing: "0.35em", color: C.amber, textTransform: "uppercase", marginBottom: 16 }}>Ateliers</p>
-              <h2 style={{ fontSize: "clamp(28px, 4vw, 44px)", fontWeight: 600, lineHeight: 1.1, color: C.bg, fontFamily: "'Playfair Display', serif" }}>
-                <TextReveal text="Apprenez à faire" />
-                <TextReveal text="votre pain." delay={0.15} style={{ fontStyle: "italic", color: C.amber }} />
-              </h2>
-            </div>
-            <MagneticButton style={{ fontFamily: "'Cabin', sans-serif", fontSize: 12, color: C.bg, background: C.amber, padding: "12px 28px", borderRadius: 3, letterSpacing: "0.08em", textTransform: "uppercase", fontWeight: 600 }}>
-              Tous les Ateliers
-            </MagneticButton>
-          </div>
-
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20 }}>
-            {WORKSHOPS.map((w, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.08 }}
-                style={{ padding: "28px", background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.10)", borderRadius: 6, cursor: "pointer" }}
-                whileHover={{ background: "rgba(255,255,255,0.10)" }}
-              >
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 16 }}>
-                  <span style={{ fontFamily: "'Cabin', sans-serif", fontSize: 11, color: C.amber, letterSpacing: "0.1em", textTransform: "uppercase", background: `${C.amber}20`, padding: "3px 10px", borderRadius: 2 }}>
-                    {w.spots} places
-                  </span>
-                  <span style={{ fontFamily: "'Playfair Display', serif", fontSize: 20, fontWeight: 600, color: C.bgWarm }}>€{w.price}</span>
-                </div>
-                <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: 17, fontWeight: 600, color: C.bg, marginBottom: 8, lineHeight: 1.3 }}>{w.name}</h3>
-                <p style={{ fontFamily: "'Cabin', sans-serif", fontSize: 12, color: "rgba(250,246,239,0.55)", marginBottom: 20 }}>{w.date}</p>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                  <span style={{ fontFamily: "'Cabin', sans-serif", fontSize: 12, color: "rgba(250,246,239,0.45)" }}>3h · Matériaux inclus</span>
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={C.amber} strokeWidth="1.5">
-                    <path d="M7 17L17 7M17 7H7M17 7v10" />
-                  </svg>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <WorkshopsSection />
 
       {/* ── Hours & Location ── */}
       <section style={{ padding: "80px 0", maxWidth: 1100, margin: "0 auto", paddingInline: 40 }}>
@@ -1027,5 +1328,6 @@ export default function Page() {
         </div>
       </footer>
     </main>
+    </BookingModalProvider>
   );
 }

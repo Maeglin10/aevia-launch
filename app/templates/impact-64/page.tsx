@@ -119,9 +119,14 @@ return (
         @media (max-width: 768px) {
           .imx-mobstack { grid-template-columns: 1fr !important; }
         }
+
+        @media (max-width: 700px) {
+          .i64-hero { min-height: auto !important; padding: 6.5rem 1.5rem 2.5rem !important; }
+          .i64-hero-terminal { display: none !important; }
+        }
       `}</style>
       {/* ── HERO ─────────────────────────────────────────────────────── */}
-      <section style={{ minHeight: "calc(100vh - 120px)", display: "flex", alignItems: "center", padding: "4rem 2.5rem 4rem", position: "relative", overflow: "hidden" }}>
+      <section className="i64-hero" style={{ minHeight: "calc(100vh - 120px)", display: "flex", alignItems: "flex-start", padding: "4rem 2.5rem 4rem", position: "relative", overflow: "hidden" }}>
         <div style={{
           position: "absolute", inset: 0,
           backgroundImage: `linear-gradient(rgba(0,230,118,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(0,230,118,0.04) 1px, transparent 1px)`,
@@ -150,7 +155,7 @@ return (
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.35, duration: 0.7 }}
-              style={{ fontFamily: mono, fontSize: "clamp(42px, 6vw, 88px)", fontWeight: 700, lineHeight: 1.15, paddingBottom: "0.15em", letterSpacing: "-0.02em", marginBottom: "1.75rem" }}
+              style={{ fontFamily: mono, fontSize: "clamp(34px, 6vw, 88px)", fontWeight: 700, lineHeight: 1.15, paddingBottom: "0.15em", letterSpacing: "-0.02em", marginBottom: "1.25rem" }}
             >{c?.heroHeadline ?? <>
               <span style={{ color: C.text }}>Votre infrastructure.</span>
               <br />
@@ -214,6 +219,7 @@ return (
           </div>
 
           <motion.div
+            className="i64-hero-terminal"
             initial={{ opacity: 0, x: 60 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.5, duration: 0.8 }}

@@ -436,6 +436,15 @@ export default function EssentialBlogPage() {
         }
         /* Mobile header fix: collapse the inline category nav on phones so it can't overlap the logo */
         @media (max-width: 900px){ .sky-desktop-nav{ display: none !important; } }
+        /* Mobile hero fix: drop decorative marquee + tighten vertical rhythm so the CTA is visible without scrolling */
+        @media (max-width: 768px) {
+          .imx-hero-marquee { display: none !important; }
+          .imx-hero-left { padding-top: 20px !important; }
+          .imx-hero-badge-row { margin-bottom: 14px !important; }
+          .imx-hero-title { margin-bottom: 12px !important; font-size: clamp(24px, 7vw, 34px) !important; }
+          .imx-hero-sub { margin-bottom: 16px !important; }
+          .imx-hero-meta { margin-bottom: 16px !important; }
+        }
       `}</style>
 
       {/* READING PROGRESS BAR */}
@@ -559,7 +568,7 @@ export default function EssentialBlogPage() {
       {/* HERO — NEWSPAPER STYLE */}
       <section id="hero" style={{ paddingTop: 58, background: C.bgDark, overflow: "hidden" }}>
         {/* Scrolling marquee headline */}
-        <div style={{ borderBottom: "1px solid rgba(255,255,255,0.06)", overflow: "hidden", paddingBottom: 0 }}>
+        <div className="imx-hero-marquee" style={{ borderBottom: "1px solid rgba(255,255,255,0.06)", overflow: "hidden", paddingBottom: 0 }}>
           <motion.div style={{ x: heroTitleX, display: "flex", alignItems: "center", gap: 0 }}>
             <div style={{
               fontSize: "clamp(72px, 11vw, 150px)", fontWeight: 900, lineHeight: 0.88,
@@ -576,13 +585,13 @@ export default function EssentialBlogPage() {
         <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 48px 0" }}>
           <div className="imx-mobstack" style={{ display: "grid", gridTemplateColumns: "1fr 420px", gap: 64, alignItems: "stretch", borderBottom: "1px solid rgba(255,255,255,0.08)", paddingBottom: 56 }}>
             {/* Left: article content */}
-            <div style={{ paddingTop: 48 }}>
+            <div className="imx-hero-left" style={{ paddingTop: 48 }}>
               <motion.div
                 initial={{ opacity: 0, y: 40 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
               >
-                <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 28 }}>
+                <div className="imx-hero-badge-row" style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 28 }}>
                   <div style={{ padding: "4px 12px", background: C.accent, fontSize: 10, fontFamily: C.sans, fontWeight: 800, letterSpacing: "0.12em", color: C.white }}>
                     {FEATURED_ARTICLE.cat}
                   </div>
@@ -590,17 +599,17 @@ export default function EssentialBlogPage() {
                     À LA UNE
                   </div>
                 </div>
-                <h1 style={{
+                <h1 className="imx-hero-title" style={{
                   fontFamily: C.serif, fontSize: "clamp(30px, 3.5vw, 52px)",
                   fontWeight: 700, lineHeight: 1.12, letterSpacing: "-0.02em",
                   color: C.bg, marginBottom: 24,
                 }}>{c?.heroHeadline ?? <>
                   {FEATURED_ARTICLE.title}
                 </>}</h1>
-                <p style={{ fontSize: 16, color: "rgba(250,250,250,0.55)", fontFamily: C.sans, lineHeight: 1.75, marginBottom: 32, maxWidth: 580 }}>{c?.heroSubline ?? fd?.tagline ?? <>
+                <p className="imx-hero-sub" style={{ fontSize: 16, color: "rgba(250,250,250,0.55)", fontFamily: C.sans, lineHeight: 1.75, marginBottom: 32, maxWidth: 580 }}>{c?.heroSubline ?? fd?.tagline ?? <>
                   {FEATURED_ARTICLE.excerpt}
                 </>}</p>
-                <div style={{ display: "flex", alignItems: "center", gap: 24, marginBottom: 36, flexWrap: "wrap" }}>
+                <div className="imx-hero-meta" style={{ display: "flex", alignItems: "center", gap: 24, marginBottom: 36, flexWrap: "wrap" }}>
                   <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                     <div style={{ width: 28, height: 28, background: C.accent, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11, fontWeight: 800, color: C.white }}>MD</div>
                     <span style={{ fontSize: 13, color: "rgba(250,250,250,0.5)", fontFamily: C.sans }}>{FEATURED_ARTICLE.author}</span>

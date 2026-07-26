@@ -4,7 +4,7 @@
 import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion"
 import { useRef, useState, useEffect } from "react"
 import Image from "next/image"
-import { ArrowRight, Heart, ChevronLeft, ChevronRight, Star, Leaf, Droplets, Wind } from "lucide-react"
+import { ArrowRight, Heart, ChevronLeft, ChevronRight, Star, Leaf, Droplets, Wind, ShoppingBag, X, Check } from "lucide-react"
 
 function useFonts() {
   useEffect(() => {
@@ -32,44 +32,63 @@ function Reveal({ children, className = "", delay = 0 }: { children: React.React
   )
 }
 
+// Each fragrance is sold in three bottle sizes, each at its own price — the
+// size is a required variant choice before a fragrance can be added to bag.
 const fragrances = [
   {
     name: "Nuit Absolue",
     desc: "Oud noir, rose de Turquie, ambre gris",
     family: "Oriental",
-    ml: "50ml",
-    price: "€285",
     img: "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=400&h=600&fit=crop&crop=center",
     notes: ["Oud", "Rose", "Ambre"],
+    sizes: [
+      { ml: "30ml", price: 215 },
+      { ml: "50ml", price: 285 },
+      { ml: "100ml", price: 395 },
+    ],
   },
   {
     name: "Aube Dorée",
     desc: "Bergamote italienne, jasmin sambac, santal blanc",
     family: "Floral",
-    ml: "50ml",
-    price: "€245",
     img: "https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=400&h=600&fit=crop&crop=center",
     notes: ["Bergamote", "Jasmin", "Santal"],
+    sizes: [
+      { ml: "30ml", price: 185 },
+      { ml: "50ml", price: 245 },
+      { ml: "100ml", price: 340 },
+    ],
   },
   {
     name: "Brume Sauvage",
     desc: "Cèdre de l'Atlas, vétiver fumé, mousse de chêne",
     family: "Boisé",
-    ml: "50ml",
-    price: "€265",
     img: "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=400&h=600&fit=crop&crop=center",
     notes: ["Cèdre", "Vétiver", "Mousse"],
+    sizes: [
+      { ml: "30ml", price: 200 },
+      { ml: "50ml", price: 265 },
+      { ml: "100ml", price: 365 },
+    ],
   },
   {
     name: "Lumière Claire",
     desc: "Fleur d'oranger, musc blanc, poivre rose",
     family: "Frais",
-    ml: "50ml",
-    price: "€225",
     img: "https://images.unsplash.com/photo-1557170334-a9632e77c6e4?w=400&h=600&fit=crop&crop=center",
     notes: ["Oranger", "Musc", "Poivre"],
+    sizes: [
+      { ml: "30ml", price: 170 },
+      { ml: "50ml", price: 225 },
+      { ml: "100ml", price: 310 },
+    ],
   },
 ]
+
+type CartItem = { id: string; name: string; price: number; qty: number; size: string };
+function formatEUR(n: number): string {
+  return `€${n.toLocaleString("fr-FR")}`;
+}
 
 const testimonials = [
   { text: "Un parfum qui raconte une histoire. Nuit Absolue est devenu mon identité olfactive.", name: "Camille R.", location: "Paris" },
@@ -165,6 +184,27 @@ export default function Impact26() {
   const [wishlist, setWishlist] = useState<Set<number>>(new Set())
   const [testimonialIdx, setTestimonialIdx] = useState(0)
   const [menuOpen, setMenuOpen] = useState(false)
+  const [cart, setCart] = useState<CartItem[]>([])
+  const [cartOpen, setCartOpen] = useState(false)
+  const cartCount = cart.reduce((sum, it) => sum + it.qty, 0)
+  const [homeSize, setHomeSize] = useState<string | null>(null)
+
+  // The size choice doesn't carry over when the featured fragrance changes.
+  useEffect(() => {
+    setHomeSize(null)
+  }, [activeFragrance])
+
+  const handleAddToCart = (item: { name: string }, sizeMl: string, price: number) => {
+    setCart((prev) => {
+      const idx = prev.findIndex((it) => it.id === item.name && it.size === sizeMl)
+      if (idx >= 0) {
+        const next = [...prev]
+        next[idx] = { ...next[idx], qty: next[idx].qty + 1 }
+        return next
+      }
+      return [...prev, { id: item.name, name: item.name, price, qty: 1, size: sizeMl }]
+    })
+  }
 
   useEffect(() => {
     const t = setInterval(() => setTestimonialIdx(i => (i + 1) % testimonials.length), 4000)
@@ -282,18 +322,48 @@ export default function Impact26() {
               Contact
             </button>
           </div>
-          <button
-            onClick={() => goTo("collection")}
-            className="hidden md:block border border-[var(--brand,#c9956a)]/50 text-[var(--brand,#c9956a)] text-xs tracking-widest uppercase px-6 py-2.5 hover:bg-[var(--brand,#c9956a)]/10 transition-colors cursor-pointer"
-            style={{ background: "none", fontFamily: "'Jost', sans-serif" }}
-          >
-            Commander
-          </button>
-          <button className="md:hidden p-2 cursor-pointer" onClick={() => setMenuOpen(!menuOpen)} aria-label="Menu" style={{ background: "none", border: "none" }}>
-            <div className="w-5 h-px bg-[#F5EDE8] mb-1.5" />
-            <div className="w-5 h-px bg-[#F5EDE8] mb-1.5" />
-            <div className="w-5 h-px bg-[#F5EDE8]" />
-          </button>
+          <div className="hidden md:flex items-center gap-3">
+            <button
+              onClick={() => goTo("collection")}
+              className="border border-[var(--brand,#c9956a)]/50 text-[var(--brand,#c9956a)] text-xs tracking-widest uppercase px-6 py-2.5 hover:bg-[var(--brand,#c9956a)]/10 transition-colors cursor-pointer"
+              style={{ background: "none", fontFamily: "'Jost', sans-serif" }}
+            >
+              Commander
+            </button>
+            <button
+              onClick={() => setCartOpen(true)}
+              aria-label={cartCount > 0 ? `Ouvrir le panier, ${cartCount} article${cartCount > 1 ? "s" : ""}` : "Ouvrir le panier"}
+              className="relative flex items-center justify-center text-[#F5EDE8] hover:text-[var(--brand,#c9956a)] transition-colors cursor-pointer"
+              style={{ background: "none", border: "none", minWidth: 44, minHeight: 44 }}
+            >
+              <ShoppingBag className="w-5 h-5" />
+              {cartCount > 0 && (
+                <span className="absolute top-1 right-1 bg-[var(--brand,#c9956a)] text-[#1A0F1E] text-[9px] w-4 h-4 rounded-full flex items-center justify-center font-bold">
+                  {cartCount}
+                </span>
+              )}
+            </button>
+          </div>
+          <div className="md:hidden flex items-center gap-1">
+            <button
+              onClick={() => setCartOpen(true)}
+              aria-label={cartCount > 0 ? `Ouvrir le panier, ${cartCount} article${cartCount > 1 ? "s" : ""}` : "Ouvrir le panier"}
+              className="relative flex items-center justify-center text-[#F5EDE8] cursor-pointer"
+              style={{ background: "none", border: "none", minWidth: 44, minHeight: 44 }}
+            >
+              <ShoppingBag className="w-5 h-5" />
+              {cartCount > 0 && (
+                <span className="absolute top-1 right-1 bg-[var(--brand,#c9956a)] text-[#1A0F1E] text-[9px] w-4 h-4 rounded-full flex items-center justify-center font-bold">
+                  {cartCount}
+                </span>
+              )}
+            </button>
+            <button className="cursor-pointer" onClick={() => setMenuOpen(!menuOpen)} aria-label="Menu" style={{ background: "none", border: "none", minWidth: 44, minHeight: 44, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
+              <div className="w-5 h-px bg-[#F5EDE8] mb-1.5" />
+              <div className="w-5 h-px bg-[#F5EDE8] mb-1.5" />
+              <div className="w-5 h-px bg-[#F5EDE8]" />
+            </button>
+          </div>
         </div>
         <AnimatePresence>
           {menuOpen && (
@@ -451,13 +521,41 @@ export default function Impact26() {
                     </span>
                   ))}
                 </div>
+                {/* Bottle size — required before this fragrance can be added to the bag */}
+                <div role="group" aria-label={`Choisir une contenance pour ${fragrances[activeFragrance].name}`} className="flex gap-3 mb-6">
+                  {fragrances[activeFragrance].sizes.map((s) => (
+                    <button
+                      key={s.ml}
+                      type="button"
+                      aria-pressed={homeSize === s.ml}
+                      onClick={() => setHomeSize(s.ml)}
+                      className={`text-xs tracking-widest uppercase px-4 py-2.5 border transition-colors cursor-pointer ${
+                        homeSize === s.ml
+                          ? "bg-[var(--brand,#c9956a)] text-[#1A0F1E] border-[var(--brand,#c9956a)]"
+                          : "border-[var(--brand,#c9956a)]/30 text-[var(--brand,#c9956a)] hover:border-[var(--brand,#c9956a)]/60"
+                      }`}
+                      style={{ minHeight: 44 }}
+                    >
+                      {s.ml}
+                    </button>
+                  ))}
+                </div>
                 <div className="flex items-center justify-between mb-8">
                   <div>
-                    <div className="text-3xl" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{fragrances[activeFragrance].price}</div>
-                    <div className="text-[#F5EDE8]/40 text-xs tracking-widest">{fragrances[activeFragrance].ml} · Eau de Parfum</div>
+                    <div className="text-3xl" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+                      {formatEUR((fragrances[activeFragrance].sizes.find((s) => s.ml === homeSize) ?? fragrances[activeFragrance].sizes[1]).price)}
+                    </div>
+                    <div className="text-[#F5EDE8]/40 text-xs tracking-widest">{homeSize ?? "Choisissez une contenance"} · Eau de Parfum</div>
                   </div>
-                  <button className="bg-[var(--brand,#c9956a)] text-[#1A0F1E] text-xs tracking-widest uppercase px-8 py-3 hover:bg-[var(--brand-light,#d9a57a)] transition-colors cursor-pointer">
-                    Ajouter au panier
+                  <button
+                    disabled={!homeSize}
+                    onClick={() => homeSize && handleAddToCart(fragrances[activeFragrance], homeSize, fragrances[activeFragrance].sizes.find((s) => s.ml === homeSize)!.price)}
+                    className={`text-xs tracking-widest uppercase px-8 py-3 transition-colors ${
+                      homeSize ? "bg-[var(--brand,#c9956a)] text-[#1A0F1E] hover:bg-[var(--brand-light,#d9a57a)] cursor-pointer" : "bg-[var(--brand,#c9956a)]/20 text-[#F5EDE8]/30 cursor-not-allowed"
+                    }`}
+                    style={{ border: "none", minHeight: 44 }}
+                  >
+                    {homeSize ? "Ajouter au panier" : "Choisir une contenance"}
                   </button>
                 </div>
                 {/* Thumbnails */}
@@ -637,6 +735,7 @@ export default function Impact26() {
           selectedProduct={selectedProduct}
           setSelectedProduct={setSelectedProduct}
           goTo={goTo}
+          onAddToCart={handleAddToCart}
         />
       )}
       {page === "maison" && <MaisonPage />}
@@ -645,6 +744,9 @@ export default function Impact26() {
       {page === "mentions" && <LegalPage variant="mentions" />}
       {page === "cgv" && <LegalPage variant="cgv" />}
       {page === "privacy" && <LegalPage variant="privacy" />}
+
+      {/* Cart drawer — line items + total → contact form → confirmation */}
+      <CartDrawer isOpen={cartOpen} onClose={() => setCartOpen(false)} cart={cart} setCart={setCart} />
 
       {/* Footer */}
       <footer className="border-t border-[var(--brand,#c9956a)]/10 py-12 px-6">
@@ -681,15 +783,296 @@ export default function Impact26() {
 // SUB-PAGE COMPONENTS
 // ─────────────────────────────────────────────────────────────────────────────
 
+// Checkout input — real label/htmlFor + visible focus state, matching the
+// dark-glass field styling already used on the contact form below.
+function CheckoutField({
+  id,
+  label,
+  type = "text",
+  value,
+  onChange,
+  required = true,
+  autoComplete,
+}: {
+  id: string;
+  label: string;
+  type?: string;
+  value: string;
+  onChange: (v: string) => void;
+  required?: boolean;
+  autoComplete?: string;
+}) {
+  const [focused, setFocused] = useState(false);
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 8, marginBottom: 20 }}>
+      <label htmlFor={id} style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: "0.1em", color: "#F5EDE8", opacity: 0.5 }}>
+        {label}{required ? " *" : ""}
+      </label>
+      <input
+        id={id}
+        name={id}
+        type={type}
+        required={required}
+        autoComplete={autoComplete}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        onFocus={() => setFocused(true)}
+        onBlur={() => setFocused(false)}
+        style={{
+          background: "rgba(255,255,255,0.02)",
+          border: `1px solid ${focused ? (brand ?? "var(--brand,#c9956a)") : "rgba(201, 149, 106, 0.2)"}`,
+          borderRadius: 2,
+          padding: "14px 16px",
+          minHeight: 44,
+          boxSizing: "border-box",
+          color: "#F5EDE8",
+          outline: "none",
+          fontFamily: "'Jost', sans-serif",
+          fontSize: 13,
+          transition: "border-color 0.2s",
+        }}
+      />
+    </div>
+  );
+}
+
+// Cart drawer — bag → checkout contact form → confirmation. Mounted at the
+// page root so it's reachable from any sub-page via the nav's bag icon.
+function CartDrawer({
+  isOpen,
+  onClose,
+  cart,
+  setCart,
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+  cart: CartItem[];
+  setCart: React.Dispatch<React.SetStateAction<CartItem[]>>;
+}) {
+  type Step = "cart" | "contact" | "confirmed";
+  const [step, setStep] = useState<Step>("cart");
+  const [orderLoading, setOrderLoading] = useState(false);
+  const [orderSummary, setOrderSummary] = useState<{ items: CartItem[]; total: number } | null>(null);
+  const [contact, setContact] = useState({ name: "", email: "", address: "" });
+
+  const total = cart.reduce((sum, it) => sum + it.price * it.qty, 0);
+  const itemCount = cart.reduce((sum, it) => sum + it.qty, 0);
+
+  const removeItem = (id: string, size: string) => {
+    setCart((prev) => prev.filter((it) => !(it.id === id && it.size === size)));
+  };
+
+  const handleClose = () => {
+    onClose();
+    // Reset to the bag view after the close animation finishes so re-opening
+    // never resumes mid-checkout on a stale step.
+    setTimeout(() => setStep("cart"), 300);
+  };
+
+  const handlePlaceOrder = (e: React.FormEvent) => {
+    e.preventDefault();
+    setOrderLoading(true);
+    setTimeout(() => {
+      setOrderLoading(false);
+      setOrderSummary({ items: cart, total });
+      setCart([]);
+      setStep("confirmed");
+    }, 2200);
+  };
+
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={handleClose}
+            style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.55)", zIndex: 200 }}
+          />
+          <motion.div
+            role="dialog"
+            aria-modal="true"
+            aria-label="Panier"
+            initial={{ x: "100%" }}
+            animate={{ x: 0 }}
+            exit={{ x: "100%" }}
+            transition={{ type: "spring", stiffness: 300, damping: 30 }}
+            style={{
+              position: "fixed",
+              top: 0,
+              right: 0,
+              bottom: 0,
+              width: "min(440px, 100%)",
+              background: "#1A0F1E",
+              borderLeft: "1px solid rgba(201, 149, 106, 0.15)",
+              zIndex: 201,
+              display: "flex",
+              flexDirection: "column",
+              fontFamily: "'Jost', sans-serif",
+            }}
+          >
+            {/* Header */}
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "24px 28px", borderBottom: "1px solid rgba(201, 149, 106, 0.15)" }}>
+              <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 24, fontWeight: 300, color: "#F5EDE8" }}>
+                {step === "cart" && "Votre Panier"}
+                {step === "contact" && "Finaliser la commande"}
+                {step === "confirmed" && "Commande Confirmée"}
+              </h2>
+              <button
+                onClick={handleClose}
+                aria-label="Fermer le panier"
+                style={{ background: "none", border: "none", color: "#F5EDE8", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", minWidth: 44, minHeight: 44 }}
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Body */}
+            <div style={{ flex: 1, overflowY: "auto", padding: "24px 28px" }}>
+              <AnimatePresence mode="wait">
+                {step === "cart" && (
+                  <motion.div key="cart-step" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.25 }}>
+                    {cart.length === 0 ? (
+                      <p style={{ textAlign: "center", padding: "60px 0", color: "#F5EDE8", opacity: 0.4, fontSize: 13 }}>Votre panier est vide.</p>
+                    ) : (
+                      <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+                        {cart.map((item) => (
+                          <div key={`${item.id}-${item.size}`} style={{ display: "flex", gap: 16, alignItems: "center", borderBottom: "1px solid rgba(201, 149, 106, 0.1)", paddingBottom: 20 }}>
+                            <div style={{ flex: 1 }}>
+                              <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 16, color: "#F5EDE8", marginBottom: 4 }}>{item.name}</div>
+                              <div style={{ fontSize: 11, color: "#F5EDE8", opacity: 0.45, letterSpacing: "0.05em" }}>
+                                {item.size} · Qté {item.qty}
+                              </div>
+                            </div>
+                            <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 15, color: "#F5EDE8", whiteSpace: "nowrap" }}>
+                              {formatEUR(item.price * item.qty)}
+                            </div>
+                            <button
+                              onClick={() => removeItem(item.id, item.size)}
+                              aria-label={`Retirer ${item.name}, ${item.size}, du panier`}
+                              style={{ background: "none", border: "none", color: "#F5EDE8", opacity: 0.4, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", minWidth: 44, minHeight: 44 }}
+                            >
+                              <X className="w-4 h-4" />
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </motion.div>
+                )}
+
+                {step === "contact" && (
+                  <motion.form
+                    key="contact-step"
+                    id="i26-checkout-form"
+                    onSubmit={handlePlaceOrder}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.25 }}
+                  >
+                    <CheckoutField id="i26-checkout-name" label="Nom complet" value={contact.name} onChange={(v) => setContact((c) => ({ ...c, name: v }))} autoComplete="name" />
+                    <CheckoutField id="i26-checkout-email" label="Email" type="email" value={contact.email} onChange={(v) => setContact((c) => ({ ...c, email: v }))} autoComplete="email" />
+                    <CheckoutField id="i26-checkout-address" label="Adresse de livraison" value={contact.address} onChange={(v) => setContact((c) => ({ ...c, address: v }))} autoComplete="street-address" />
+                  </motion.form>
+                )}
+
+                {step === "confirmed" && orderSummary && (
+                  <motion.div
+                    key="confirmed-step"
+                    initial={{ opacity: 0, y: 12 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.4 }}
+                    style={{ textAlign: "center", padding: "40px 0" }}
+                  >
+                    <div style={{ width: 56, height: 56, borderRadius: "50%", background: brand ?? "var(--brand,#c9956a)", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 24px" }}>
+                      <Check className="w-6 h-6" style={{ color: "#1A0F1E" }} />
+                    </div>
+                    <h3 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 24, fontWeight: 300, color: "#F5EDE8", marginBottom: 12 }}>
+                      Merci{contact.name ? `, ${contact.name.split(" ")[0]}` : ""}.
+                    </h3>
+                    <p style={{ fontSize: 13, color: "#F5EDE8", opacity: 0.6, lineHeight: 1.7 }}>
+                      Votre commande de {orderSummary.items.reduce((n, it) => n + it.qty, 0)} flacon
+                      {orderSummary.items.reduce((n, it) => n + it.qty, 0) > 1 ? "s" : ""} ({formatEUR(orderSummary.total)}) a bien été reçue. Une confirmation a été envoyée à {contact.email}.
+                    </p>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+
+            {/* Footer */}
+            {step === "cart" && cart.length > 0 && (
+              <div style={{ padding: "24px 28px", borderTop: "1px solid rgba(201, 149, 106, 0.15)" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 20, fontFamily: "'Cormorant Garamond', serif", fontSize: 18, color: "#F5EDE8" }}>
+                  <span>Total ({itemCount} article{itemCount > 1 ? "s" : ""})</span>
+                  <span>{formatEUR(total)}</span>
+                </div>
+                <button
+                  onClick={() => setStep("contact")}
+                  style={{ width: "100%", minHeight: 44, padding: "16px", background: brand ?? "var(--brand,#c9956a)", color: "#1A0F1E", fontFamily: "'Jost', sans-serif", fontSize: 10, letterSpacing: "0.25em", textTransform: "uppercase", border: "none", cursor: "pointer", fontWeight: 600 }}
+                >
+                  Commander
+                </button>
+              </div>
+            )}
+
+            {step === "contact" && (
+              <div style={{ padding: "24px 28px", borderTop: "1px solid rgba(201, 149, 106, 0.15)" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 20, fontFamily: "'Cormorant Garamond', serif", fontSize: 18, color: "#F5EDE8" }}>
+                  <span>Total</span>
+                  <span>{formatEUR(total)}</span>
+                </div>
+                <button
+                  type="submit"
+                  form="i26-checkout-form"
+                  disabled={orderLoading}
+                  style={{
+                    width: "100%",
+                    minHeight: 44,
+                    padding: "16px",
+                    background: orderLoading ? "rgba(201, 149, 106, 0.4)" : (brand ?? "var(--brand,#c9956a)"),
+                    color: "#1A0F1E",
+                    fontFamily: "'Jost', sans-serif",
+                    fontSize: 10,
+                    letterSpacing: "0.25em",
+                    textTransform: "uppercase",
+                    border: "none",
+                    cursor: orderLoading ? "not-allowed" : "pointer",
+                    fontWeight: 600,
+                  }}
+                >
+                  {orderLoading ? "Confirmation en cours…" : "Confirmer la commande"}
+                </button>
+              </div>
+            )}
+          </motion.div>
+        </>
+      )}
+    </AnimatePresence>
+  );
+}
+
 interface BoutiquePageProps {
   selectedProduct: any | null;
   setSelectedProduct: (p: any | null) => void;
   goTo: (p: any) => void;
+  onAddToCart: (item: { name: string }, sizeMl: string, price: number) => void;
 }
 
-function BoutiquePage({ selectedProduct, setSelectedProduct, goTo }: BoutiquePageProps) {
+function BoutiquePage({ selectedProduct, setSelectedProduct, goTo, onAddToCart }: BoutiquePageProps) {
   const [successMsg, setSuccessMsg] = useState(false);
+  const [size, setSize] = useState<string | null>(null);
   const products = fragrances;
+
+  // Reset the chosen bottle size whenever a different fragrance is opened so
+  // a stale selection can't slip into the next add-to-cart.
+  useEffect(() => {
+    setSize(null);
+    setSuccessMsg(false);
+  }, [selectedProduct?.name]);
 
   if (selectedProduct) {
     return (
@@ -753,17 +1136,14 @@ function BoutiquePage({ selectedProduct, setSelectedProduct, goTo }: BoutiquePag
               {selectedProduct.name}
             </h1>
             <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 24, color: "#F5EDE8", marginBottom: 24 }}>
-              {selectedProduct.price}
+              {formatEUR((selectedProduct.sizes.find((s: any) => s.ml === size) ?? selectedProduct.sizes[1]).price)}
             </div>
-            <p style={{ color: "#F5EDE8", opacity: 0.6, fontSize: 13, letterSpacing: "0.05em", marginBottom: 28 }}>
-              Contenance : {selectedProduct.ml} · Eau de Parfum
-            </p>
 
-            <p style={{ color: "#F5EDE8", opacity: 0.75, fontSize: 15, lineHeight: 1.8, marginBottom: 32, fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic" }}>
+            <p style={{ color: "#F5EDE8", opacity: 0.75, fontSize: 15, lineHeight: 1.8, marginBottom: 28, fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic" }}>
               {selectedProduct.desc}. Une composition unique issue des matières premières les plus nobles, sélectionnées avec un soin absolu pour une expérience sensorielle singulière et persistante.
             </p>
 
-            <div style={{ display: "flex", gap: 3, flexWrap: "wrap", marginBottom: 40 }}>
+            <div style={{ display: "flex", gap: 3, flexWrap: "wrap", marginBottom: 32 }}>
               {selectedProduct.notes.map((note: string) => (
                 <span key={note} className="border border-[var(--brand,#c9956a)]/30 text-[var(--brand,#c9956a)] text-[10px] tracking-widest uppercase px-3 py-1.5">
                   {note}
@@ -771,7 +1151,42 @@ function BoutiquePage({ selectedProduct, setSelectedProduct, goTo }: BoutiquePag
               ))}
             </div>
 
-            {successMsg ? (
+            {/* Bottle size — required before this fragrance can be added to the bag */}
+            <div style={{ marginBottom: 28 }}>
+              <label
+                id="pdp-size-label"
+                style={{ fontSize: 11, letterSpacing: "0.2em", textTransform: "uppercase", color: "#F5EDE8", opacity: 0.5, marginBottom: 12, display: "block" }}
+              >
+                Contenance {!size && "(requise)"}
+              </label>
+              <div role="group" aria-labelledby="pdp-size-label" style={{ display: "flex", gap: 10 }}>
+                {selectedProduct.sizes.map((s: any) => (
+                  <button
+                    key={s.ml}
+                    type="button"
+                    aria-pressed={size === s.ml}
+                    onClick={() => setSize(s.ml)}
+                    style={{
+                      minWidth: 64,
+                      minHeight: 44,
+                      padding: "0 16px",
+                      background: size === s.ml ? (brand ?? "var(--brand,#c9956a)") : "transparent",
+                      color: size === s.ml ? "#1A0F1E" : (brand ?? "var(--brand,#c9956a)"),
+                      border: `1px solid ${size === s.ml ? (brand ?? "var(--brand,#c9956a)") : "rgba(201, 149, 106, 0.35)"}`,
+                      fontFamily: "'Jost', sans-serif",
+                      fontSize: 12,
+                      letterSpacing: "0.05em",
+                      cursor: "pointer",
+                      transition: "background 0.2s, color 0.2s",
+                    }}
+                  >
+                    {s.ml}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {successMsg && (
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -787,25 +1202,33 @@ function BoutiquePage({ selectedProduct, setSelectedProduct, goTo }: BoutiquePag
               >
                 ✦ Ajouté au panier ✦
               </motion.div>
-            ) : (
-              <button
-                onClick={() => setSuccessMsg(true)}
-                style={{background: brand ?? 'var(--brand,#c9956a)',
-                  border: "none",
-                  color: "#1A0F1E",
-                  fontSize: 10,
-                  letterSpacing: "0.25em",
-                  textTransform: "uppercase",
-                  padding: "18px 40px",
-                  cursor: "pointer",
-                  fontWeight: 600,
-                  marginBottom: 32,
-                  width: "fit-content",
-                }}
-              >
-                Ajouter au panier
-              </button>
             )}
+            <button
+              disabled={!size}
+              onClick={() => {
+                if (!size) return;
+                const chosen = selectedProduct.sizes.find((s: any) => s.ml === size)!;
+                onAddToCart(selectedProduct, size, chosen.price);
+                setSuccessMsg(true);
+                setTimeout(() => setSuccessMsg(false), 2000);
+              }}
+              style={{background: size ? (brand ?? 'var(--brand,#c9956a)') : "rgba(201, 149, 106, 0.2)",
+                border: "none",
+                color: size ? "#1A0F1E" : "#F5EDE8",
+                opacity: size ? 1 : 0.35,
+                fontSize: 10,
+                letterSpacing: "0.25em",
+                textTransform: "uppercase",
+                padding: "18px 40px",
+                minHeight: 44,
+                cursor: size ? "pointer" : "not-allowed",
+                fontWeight: 600,
+                marginBottom: 32,
+                width: "fit-content",
+              }}
+            >
+              {size ? "Ajouter au panier" : "Choisir une contenance"}
+            </button>
 
             <div style={{ fontSize: 12, color: "#F5EDE8", opacity: 0.4, lineHeight: 1.8, borderTop: "1px solid rgba(201, 149, 106, 0.1)", paddingTop: 24 }}>
               • Livraison offerte à domicile sous 2 à 4 jours ouvrés<br />
@@ -869,7 +1292,9 @@ function BoutiquePage({ selectedProduct, setSelectedProduct, goTo }: BoutiquePag
               {product.name}
             </h3>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-              <span style={{ fontSize: 16, color: "#F5EDE8" }}>{product.price}</span>
+              <span style={{ fontSize: 16, color: "#F5EDE8" }}>
+                Dès {formatEUR(Math.min(...product.sizes.map((s: any) => s.price)))}
+              </span>
               <span style={{fontSize: 11, color: brand ?? 'var(--brand,#c9956a)', letterSpacing: "0.1em" }}>Découvrir →</span>
             </div>
           </div>

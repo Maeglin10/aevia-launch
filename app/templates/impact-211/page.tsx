@@ -546,7 +546,7 @@ export default function Impact211Page() {
             <>{fd?.businessName ?? "Maison Éclat"}</>
           )}</motion.div>
 
-          <nav style={{ display: "flex", gap: "2.5rem", alignItems: "center" }}>
+          <nav className="nav-211-inner" style={{ display: "flex", gap: "2.5rem", alignItems: "center" }}>
             {["Histoire", "Menu", "Terroir", "Chef", "Réservation"].map((item, i) => (
               <motion.a
                 key={item}
@@ -616,8 +616,14 @@ export default function Impact211Page() {
         )}
 
         <style>{`
-          @media (min-width: 800px) { .nav-link { display: block !important; } .nav-cta-211 { display: inline-flex !important; } }
-          @media (max-width: 799px) { .nav-cta-211 { display: none !important; } .mb211-burger { display: flex !important; } }
+          /* mobile/tablet header fix: the "Réserver" CTA used to be hidden below 800px, leaving only
+             the hamburger — keep it visible at every breakpoint, next to the hamburger on small screens. */
+          .nav-cta-211 { display: inline-flex !important; }
+          @media (min-width: 800px) { .nav-link { display: block !important; } }
+          @media (max-width: 799px) {
+            .mb211-burger { display: flex !important; }
+            .nav-211-inner { gap: 0.85rem !important; }
+          }
         `}</style>
       </motion.nav>
 

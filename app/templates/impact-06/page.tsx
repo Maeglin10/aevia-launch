@@ -275,7 +275,7 @@ export default function NeuralisPage() {
       </AnimatePresence>
 
       {/* ── HERO ── */}
-      <section id="hero" className="relative h-[100svh] flex items-center overflow-hidden pt-24 md:pt-0">
+      <section id="hero" className="relative h-[100svh] flex items-center overflow-hidden pt-36 md:pt-0">
         <div className="absolute inset-0">
           <Image src={photo(0, "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=1600&q=80")} alt="Cyber Grid" fill className="object-cover opacity-20 mix-blend-screen" priority />
           <div className="absolute inset-0 bg-gradient-to-b from-[#020204] via-transparent to-[#020204]" />
@@ -286,7 +286,7 @@ export default function NeuralisPage() {
              <Badge className="bg-[var(--brand,#00f2ff)]/10 text-[var(--brand,#00f2ff)] border border-[var(--brand,#00f2ff)]/30 text-[10px] font-bold uppercase tracking-[0.5em] mb-10 px-4 py-1.5 rounded-full">
                 Bio-Synthetic Standard // Tier 01
              </Badge>
-             <h1 className="text-8xl md:text-[11rem] font-black leading-[0.8] tracking-tighter mb-12 uppercase text-white">{c?.heroHeadline ?? <>
+             <h1 className="text-5xl sm:text-6xl md:text-[11rem] font-black leading-[0.9] md:leading-[0.8] tracking-tight md:tracking-tighter mb-12 uppercase text-white break-words">{c?.heroHeadline ?? <>
                Tame Your <br/> <span className="text-[var(--brand,#00f2ff)]">Biology.</span>
              </>}</h1>
              <p className="max-w-md text-xl text-white/40 leading-relaxed font-light mb-12 uppercase tracking-widest italic">{c?.heroSubline ?? fd?.tagline ?? <>

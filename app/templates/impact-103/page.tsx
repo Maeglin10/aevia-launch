@@ -201,28 +201,28 @@ export default function LuminaLawPage() {
 
       <main>
         {/* ── HERO ──────────────────── */}
-        <section id="hero" className="relative min-h-dvh flex items-center pt-32 pb-20 overflow-hidden">
+        <section id="hero" className="relative min-h-dvh flex items-center pt-24 pb-10 md:pt-32 md:pb-20 overflow-hidden">
           <div className="max-w-[1400px] mx-auto px-6 md:px-12 w-full">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-24 items-center">
               <div>
                 <Reveal>
-                  <div className="inline-flex items-center gap-4 mb-10">
+                  <div className="inline-flex items-center gap-4 mb-5 md:mb-10">
                      <div className="w-12 h-[2px] bg-[var(--brand,#1a365d)]" />
                      <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#1a365d)]">Elite Legal Counsel</span>
                   </div>
                 </Reveal>
                 <Reveal delay={0.1} y={60}>
-                  <h1 className="text-7xl md:text-[9rem] font-bold tracking-tighter leading-[0.8] text-[#1a1a1a] mb-12 uppercase" style={{ fontFamily: "serif" }}>{c?.heroHeadline ?? <>
+                  <h1 className="text-5xl sm:text-6xl md:text-[9rem] font-bold tracking-tighter leading-[0.95] md:leading-[0.8] text-[#1a1a1a] mb-6 md:mb-12 uppercase break-words" style={{ fontFamily: "serif" }}>{c?.heroHeadline ?? <>
                     Power <br/> <span className="text-[var(--brand,#1a365d)] font-light italic italic-none">In Truth.</span>
                   </>}</h1>
                 </Reveal>
                 <Reveal delay={0.3}>
-                  <p className="text-xl text-black/60 font-light max-w-lg leading-relaxed mb-12">{c?.heroSubline ?? fd?.tagline ?? <>
+                  <p className="text-base md:text-xl text-black/60 font-light max-w-lg leading-relaxed mb-6 md:mb-12">{c?.heroSubline ?? fd?.tagline ?? <>
                     Lumina Law is a high-stakes firm dedicated to complex litigation and corporate strategy. When the outcome defines your legacy, we are the standard.
                   </>}</p>
                 </Reveal>
                 <Reveal delay={0.4}>
-                  <div className="flex flex-col sm:flex-row gap-8">
+                  <div className="flex flex-col sm:flex-row gap-3 md:gap-8">
                     <button className="px-12 py-5 bg-[var(--brand,#1a365d)] text-white font-bold uppercase tracking-widest text-[10px] hover:bg-black transition-all duration-700">
                        Meet The Partners
                     </button>
@@ -232,9 +232,9 @@ export default function LuminaLawPage() {
                   </div>
                 </Reveal>
               </div>
-              
+
               <Reveal delay={0.5} y={0}>
-                 <div className="relative">
+                 <div className="relative hidden lg:block">
                     <div className="absolute -inset-10 bg-[var(--brand,#1a365d)]/5 blur-[100px] rounded-full" />
                     <div className="relative aspect-[4/5] bg-white border border-black/5 p-3 rounded-sm shadow-2xl">
                        <ParallaxImg src={photo(0, "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=1200")} alt="Law Office" />

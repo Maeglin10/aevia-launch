@@ -251,7 +251,7 @@ export default function VoltProPage() {
               </div>
             </Reveal>
             <Reveal delay={0.12} y={60}>
-              <h1 className="text-6xl md:text-8xl lg:text-[9rem] font-extrabold tracking-tighter leading-[0.85] uppercase mb-8">{c?.heroHeadline ?? <>
+              <h1 className="text-4xl sm:text-5xl md:text-8xl lg:text-[9rem] font-extrabold tracking-tighter leading-[0.85] uppercase mb-8 break-words">{c?.heroHeadline ?? <>
                 L'électricité<br />sans<br /><span className="text-[var(--brand,#facc15)]">compromis.</span>
               </>}</h1>
             </Reveal>

@@ -2,9 +2,9 @@
 // @ts-nocheck
 
 import React, {useRef, useState, useEffect} from 'react'
-import { motion, useScroll, useTransform, useInView } from "framer-motion"
+import { motion, AnimatePresence, useScroll, useTransform, useInView } from "framer-motion"
 import Link from "next/link"
-import { ArrowRight, MapPin, Mail, Phone, Clock, Star, Heart, Sun, Moon } from "lucide-react"
+import { ArrowRight, MapPin, Mail, Phone, Clock, Star, Heart, Sun, Moon, X, Check } from "lucide-react"
 import { resolveList } from "@/lib/templates/resolveList"
 
 // ─── Design tokens ────────────────────────────────────────────────────────────
@@ -159,12 +159,57 @@ export default function LumiereYogaPage() {
     return () => window.removeEventListener("scroll", h)
   }, []);
 
+  // ── Booking modal ──────────────────────────────────────────────────────────
+  // UI/UX-only booking form (no real scheduling backend yet) replacing the
+  // bare mailto: CTA. `bookingClass` set (from a class row's "Réserver ce
+  // cours") pre-fills that class; null (from the bottom "cours d'essai" CTA)
+  // is the generic flow with a class picker.
+  const [bookingOpen, setBookingOpen] = useState(false)
+  const [bookingClass, setBookingClass] = useState<any>(null)
+  const [bookingForm, setBookingForm] = useState({ name: "", email: "", phone: "", classId: "" })
+  const [bookingSubmitting, setBookingSubmitting] = useState(false)
+  const [bookingSubmitted, setBookingSubmitted] = useState(false)
+
+  const openBooking = (cls: any = null) => {
+    setBookingClass(cls)
+    setBookingForm({ name: "", email: "", phone: "", classId: cls?.nom ?? "" })
+    setBookingSubmitting(false)
+    setBookingSubmitted(false)
+    setBookingOpen(true)
+  }
+  const closeBooking = () => setBookingOpen(false)
+
+  useEffect(() => {
+    if (!bookingOpen) return
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") closeBooking() }
+    window.addEventListener("keydown", onKey)
+    const prevOverflow = document.body.style.overflow
+    document.body.style.overflow = "hidden"
+    return () => {
+      window.removeEventListener("keydown", onKey)
+      document.body.style.overflow = prevOverflow
+    }
+  }, [bookingOpen]);
+
+  const handleBookingSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    setBookingSubmitting(true)
+    setTimeout(() => {
+      setBookingSubmitting(false)
+      setBookingSubmitted(true)
+    }, 1000)
+  }
+
   return (
     <div style={{ background: C.bg, fontFamily: FONT, overflowX: "hidden" }}>
       <style jsx global>{`@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,500;1,400&display=swap');
         /* mobile: stack 2-col grids to single column (added by responsive fix) */
         @media (max-width: 768px) {
           .imx-mobstack { grid-template-columns: 1fr !important; }
+        }
+        .imx-focus:focus-visible {
+          outline: 2px solid var(--brand,#6b8f71);
+          outline-offset: 2px;
         }
       `}</style>
 
@@ -301,7 +346,20 @@ export default function LumiereYogaPage() {
                   <span><Clock size={11} style={{ display: "inline", marginRight: 4 }} />{c.duree}</span>
                   <span>{c.horaire}</span>
                 </div>
-                <p style={{ fontSize: 14, color: C.textMuted, lineHeight: 1.65 }}>{c.desc}</p>
+                <p style={{ fontSize: 14, color: C.textMuted, lineHeight: 1.65, marginBottom: 16 }}>{c.desc}</p>
+                <button
+                  type="button"
+                  onClick={() => openBooking(c)}
+                  className="imx-focus"
+                  style={{
+                    width: "100%", minHeight: 44, background: "transparent", border: "none",
+                    borderTop: `1px solid ${C.border}`, paddingTop: 14, marginTop: 2,
+                    display: "flex", alignItems: "center", justifyContent: "space-between",
+                    color: C.accent, fontFamily: FONT, fontSize: 13, fontWeight: 600, letterSpacing: 0.5, cursor: "pointer",
+                  }}
+                >
+                  Réserver ce cours <ArrowRight size={15} />
+                </button>
               </motion.div>
             </Reveal>
           ))}
@@ -366,9 +424,15 @@ export default function LumiereYogaPage() {
             Essayez n'importe quel cours sans engagement. Vous avez 30 jours pour vous décider après votre première séance.
           </>}</p>
           <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
-            <motion.a href={`mailto:${fd?.email ?? "contact@lumiereyoga.fr"}`} style={{ background: C.accent, color: C.white, borderRadius: 6, padding: "16px 36px", fontWeight: 600, fontSize: 15, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, letterSpacing: 0.5 }} whileHover={{ background: C.accentDark, scale: 1.03 }}>
+            <motion.button
+              type="button"
+              onClick={() => openBooking(null)}
+              className="imx-focus"
+              style={{ background: C.accent, color: C.white, borderRadius: 6, padding: "16px 36px", minHeight: 44, fontWeight: 600, fontSize: 15, border: "none", display: "flex", alignItems: "center", gap: 8, letterSpacing: 0.5, cursor: "pointer", fontFamily: FONT }}
+              whileHover={{ background: C.accentDark, scale: 1.03 }}
+            >
               <Mail size={18} /> Réserver mon cours d'essai
-            </motion.a>
+            </motion.button>
             <motion.a href={`tel:${fd?.phone ?? "+33556000000"}`} style={{ background: "transparent", color: C.text, border: `2px solid ${C.accentDark}`, borderRadius: 6, padding: "14px 30px", fontWeight: 600, fontSize: 15, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ background: C.accent, color: C.white, borderColor: C.accent }}>
               <Phone size={18} /> {fd?.phone ?? "05 56 00 00 00"}
             </motion.a>
@@ -396,6 +460,157 @@ export default function LumiereYogaPage() {
           <a href="#contact" style={{ color: "rgba(255,255,255,0.24)", fontSize: 12, textDecoration: "none" }}>{c?.ctaText ?? <>Mentions légales</>}</a>
         </div>
       </footer>
+
+      {/* ── BOOKING MODAL ────────────────────────────
+          UI/UX-only booking form — no real scheduling backend yet. Preselects
+          the class when opened from a class card's "Réserver ce cours";
+          otherwise (bottom "cours d'essai" CTA) it's the generic flow with a
+          class picker. */}
+      <AnimatePresence>
+        {bookingOpen && (
+          <div style={{ position: "fixed", inset: 0, zIndex: 200, display: "flex", alignItems: "center", justifyContent: "center", padding: 16 }} role="dialog" aria-modal="true" aria-labelledby="booking-modal-title">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={closeBooking}
+              style={{ position: "absolute", inset: 0, background: "rgba(20,28,18,0.55)", backdropFilter: "blur(6px)" }}
+            />
+            <motion.div
+              initial={{ opacity: 0, y: 24, scale: 0.97 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 12, scale: 0.97 }}
+              transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+              style={{ position: "relative", width: "100%", maxWidth: 480, background: C.white, borderRadius: 20, padding: "40px 36px", boxShadow: C.shadowLg, maxHeight: "90vh", overflowY: "auto", fontFamily: FONT }}
+            >
+              <button
+                type="button"
+                onClick={closeBooking}
+                aria-label="Fermer"
+                className="imx-focus"
+                style={{ position: "absolute", top: 16, right: 16, width: 44, height: 44, display: "flex", alignItems: "center", justifyContent: "center", borderRadius: "50%", background: "transparent", border: "none", color: C.textMuted, cursor: "pointer" }}
+              >
+                <X size={20} />
+              </button>
+
+              {bookingSubmitted ? (
+                <div style={{ textAlign: "center", padding: "12px 4px" }}>
+                  <div style={{ width: 64, height: 64, borderRadius: "50%", background: C.accentLight, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 24px" }}>
+                    <Check size={28} color={C.accentDark} />
+                  </div>
+                  <h3 style={{ fontFamily: FONT_SERIF, fontSize: 26, fontWeight: 400, color: C.text, marginBottom: 12 }}>Réservation envoyée</h3>
+                  <p style={{ fontSize: 14, color: C.textMuted, lineHeight: 1.7, marginBottom: 28 }}>
+                    {bookingClass
+                      ? `Votre demande pour "${bookingClass.nom}" (${bookingClass.horaire}) a bien été reçue.`
+                      : "Votre demande de cours d'essai a bien été reçue."} Sophie vous recontactera sous 24h pour confirmer votre place.
+                  </p>
+                  <button type="button" onClick={closeBooking} className="imx-focus" style={{ background: C.accent, color: C.white, borderRadius: 6, padding: "14px 32px", minHeight: 44, fontWeight: 600, fontSize: 14, border: "none", cursor: "pointer" }}>
+                    Fermer
+                  </button>
+                </div>
+              ) : (
+                <form onSubmit={handleBookingSubmit}>
+                  <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: 3, textTransform: "uppercase", color: C.accent }}>Réservation</span>
+                  <h3 id="booking-modal-title" style={{ fontFamily: FONT_SERIF, fontSize: 28, fontWeight: 400, color: C.text, margin: "8px 0 24px" }}>
+                    {bookingClass ? bookingClass.nom : "Réserver un cours"}
+                  </h3>
+
+                  {!bookingClass && (
+                    <div style={{ marginBottom: 20 }}>
+                      <label htmlFor="booking-class" style={{ display: "block", fontSize: 12, fontWeight: 600, color: C.text, marginBottom: 6 }}>Cours souhaité</label>
+                      <select
+                        id="booking-class"
+                        required
+                        value={bookingForm.classId}
+                        onChange={(e) => setBookingForm((f) => ({ ...f, classId: e.target.value }))}
+                        className="imx-focus"
+                        style={{ width: "100%", minHeight: 44, padding: "11px 14px", borderRadius: 8, border: `1px solid ${C.border}`, fontSize: 14, color: C.text, background: C.bg, cursor: "pointer" }}
+                      >
+                        <option value="" disabled>Choisir un cours…</option>
+                        {COURS.map((cl: any) => (
+                          <option key={cl.nom} value={cl.nom}>{cl.nom} — {cl.horaire}</option>
+                        ))}
+                      </select>
+                    </div>
+                  )}
+                  {bookingClass && (
+                    <div style={{ marginBottom: 20, padding: "12px 16px", background: C.accentLight, borderRadius: 8, fontSize: 13, color: C.accentDark, display: "flex", alignItems: "center", gap: 8 }}>
+                      <Clock size={14} /> {bookingClass.duree} · {bookingClass.horaire}
+                    </div>
+                  )}
+
+                  <div style={{ marginBottom: 20 }}>
+                    <label htmlFor="booking-name" style={{ display: "block", fontSize: 12, fontWeight: 600, color: C.text, marginBottom: 6 }}>Nom complet</label>
+                    <input
+                      id="booking-name"
+                      type="text"
+                      required
+                      autoComplete="name"
+                      value={bookingForm.name}
+                      onChange={(e) => setBookingForm((f) => ({ ...f, name: e.target.value }))}
+                      placeholder="Camille Rousseau"
+                      className="imx-focus"
+                      style={{ width: "100%", minHeight: 44, padding: "11px 14px", borderRadius: 8, border: `1px solid ${C.border}`, fontSize: 14, color: C.text, background: C.bg, boxSizing: "border-box" }}
+                    />
+                  </div>
+                  <div style={{ marginBottom: 20 }}>
+                    <label htmlFor="booking-email" style={{ display: "block", fontSize: 12, fontWeight: 600, color: C.text, marginBottom: 6 }}>Email</label>
+                    <input
+                      id="booking-email"
+                      type="email"
+                      required
+                      autoComplete="email"
+                      value={bookingForm.email}
+                      onChange={(e) => setBookingForm((f) => ({ ...f, email: e.target.value }))}
+                      placeholder="vous@email.fr"
+                      className="imx-focus"
+                      style={{ width: "100%", minHeight: 44, padding: "11px 14px", borderRadius: 8, border: `1px solid ${C.border}`, fontSize: 14, color: C.text, background: C.bg, boxSizing: "border-box" }}
+                    />
+                  </div>
+                  <div style={{ marginBottom: 28 }}>
+                    <label htmlFor="booking-phone" style={{ display: "block", fontSize: 12, fontWeight: 600, color: C.text, marginBottom: 6 }}>Téléphone</label>
+                    <input
+                      id="booking-phone"
+                      type="tel"
+                      required
+                      autoComplete="tel"
+                      value={bookingForm.phone}
+                      onChange={(e) => setBookingForm((f) => ({ ...f, phone: e.target.value }))}
+                      placeholder="06 12 34 56 78"
+                      className="imx-focus"
+                      style={{ width: "100%", minHeight: 44, padding: "11px 14px", borderRadius: 8, border: `1px solid ${C.border}`, fontSize: 14, color: C.text, background: C.bg, boxSizing: "border-box" }}
+                    />
+                  </div>
+
+                  <button
+                    type="submit"
+                    disabled={bookingSubmitting}
+                    className="imx-focus"
+                    style={{
+                      width: "100%", minHeight: 44, background: bookingSubmitting ? C.textMuted : C.accent, color: C.white,
+                      borderRadius: 6, padding: "15px 0", fontWeight: 600, fontSize: 15, border: "none",
+                      cursor: bookingSubmitting ? "not-allowed" : "pointer", display: "flex", alignItems: "center",
+                      justifyContent: "center", gap: 10, transition: "background 0.3s",
+                    }}
+                  >
+                    {bookingSubmitting ? (
+                      <>
+                        <motion.span
+                          animate={{ rotate: 360 }}
+                          transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                          style={{ width: 16, height: 16, borderRadius: "50%", border: `2px solid ${C.white}`, borderTopColor: "transparent", display: "inline-block" }}
+                        />
+                        Envoi en cours…
+                      </>
+                    ) : "Confirmer ma réservation"}
+                  </button>
+                  <p style={{ fontSize: 12, color: C.textMuted, textAlign: "center", marginTop: 14 }}>Aucun paiement requis maintenant — nous confirmons votre place par email.</p>
+                </form>
+              )}
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </div>
   )
 }

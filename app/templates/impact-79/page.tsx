@@ -454,7 +454,7 @@ export default function BoulangerieNoirePage() {
           ========================================== */}
       <section id="hero"
         ref={heroRef}
-        className="relative w-full h-[100svh] flex flex-col justify-center overflow-hidden"
+        className="relative w-full min-h-[100svh] flex flex-col justify-center overflow-hidden pt-28 pb-16 md:pt-24"
       >
         <motion.div
           style={{ y: heroY, opacity: heroOpacity }}
@@ -475,15 +475,15 @@ export default function BoulangerieNoirePage() {
 
         <div className="relative z-10 max-w-[1400px] mx-auto px-6 md:px-12 w-full">
           <Reveal>
-            <div className="inline-flex items-center gap-3 px-4 py-2 bg-stone-900/30 rounded-none border border-white/5 text-stone-400 text-[10px] font-bold uppercase tracking-widest mb-10 shadow-sm">
+            <div className="inline-flex items-center gap-3 px-4 py-2 bg-stone-900/30 rounded-none border border-white/5 text-stone-400 text-[10px] font-bold uppercase tracking-widest mb-5 md:mb-10 shadow-sm">
               <Wheat className="w-3.5 h-3.5" />
               Ancestral Grains // Slow Fermentation
             </div>
-            <h1 className="text-7xl md:text-9xl lg:text-[11rem] font-black leading-[1.15] tracking-tighter mb-12 uppercase pb-4">{c?.heroHeadline ?? <>
+            <h1 className="text-6xl md:text-9xl lg:text-[11rem] font-black leading-[1.15] tracking-tighter mb-8 md:mb-12 uppercase pb-4">{c?.heroHeadline ?? <>
               The Architecture <br />{" "}
               <span className="text-stone-800 italic">of Crust.</span>
             </>}</h1>
-            <p className="max-w-xl text-lg md:text-xl text-white/20 leading-relaxed font-bold mb-12 uppercase tracking-tight italic">{c?.heroSubline ?? fd?.tagline ?? <>
+            <p className="max-w-xl text-lg md:text-xl text-white/20 leading-relaxed font-bold mb-8 md:mb-12 uppercase tracking-tight italic">{c?.heroSubline ?? fd?.tagline ?? <>
               High-hydration molecular baking. Stone hearth methodology.
               Precision-engineered for the modern palate.
             </>}</p>

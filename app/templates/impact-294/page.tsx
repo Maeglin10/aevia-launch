@@ -172,42 +172,48 @@ function Button({
   onClick,
   filled = false,
   type = 'button',
+  disabled = false,
 }: {
   children: React.ReactNode;
   onClick?: () => void;
   filled?: boolean;
   type?: 'button' | 'submit';
+  disabled?: boolean;
 }) {
   const [hover, setHover] = useState(false);
   return (
     <button
       type={type}
       onClick={onClick}
+      disabled={disabled}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
       style={{
         display: 'inline-flex',
         alignItems: 'center',
+        justifyContent: 'center',
         gap: 10,
         padding: '14px 28px',
+        minHeight: 44,
         fontFamily: SANS,
         fontSize: 11.5,
         letterSpacing: '0.2em',
         textTransform: 'uppercase',
         fontWeight: 700,
-        cursor: 'pointer',
+        cursor: disabled ? 'not-allowed' : 'pointer',
+        opacity: disabled ? 0.55 : 1,
         border: `1.5px solid ${C.primary}`,
         background: filled ? C.primary : 'transparent',
         color: filled ? (C.white) : C.primary,
         borderRadius: 2,
-        transform: hover ? 'translateY(-2px)' : 'none',
-        boxShadow: hover && filled ? `0 6px 20px ${C.primary}33` : 'none',
+        transform: hover && !disabled ? 'translateY(-2px)' : 'none',
+        boxShadow: hover && filled && !disabled ? `0 6px 20px ${C.primary}33` : 'none',
         transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)'
       }}
     >
       {children}
       <ArrowRight size={13} style={{
-        transform: hover ? 'translateX(4px)' : 'none',
+        transform: hover && !disabled ? 'translateX(4px)' : 'none',
         transition: 'transform 0.4s ease'
       }} />
     </button>
@@ -282,7 +288,27 @@ export default function Page() {
   const [activeCategory, setActiveCategory] = useState("Tous");
   const [expandedFaq, setExpandedFaq] = useState<number | null>(null);
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const [formLoading, setFormLoading] = useState(false);
   const [formData, setFormData] = useState({ name: '', email: '', phone: '', message: '' });
+  const [orderItems, setOrderItems] = useState<{ name: string; price: string; qty: number }[]>([]);
+  const addToOrder = (item: { name: string; price: string }) => {
+    setOrderItems((prev) => {
+      const idx = prev.findIndex((i) => i.name === item.name);
+      if (idx >= 0) {
+        const next = [...prev];
+        next[idx] = { ...next[idx], qty: next[idx].qty + 1 };
+        return next;
+      }
+      return [...prev, { name: item.name, price: item.price, qty: 1 }];
+    });
+  };
+  const adjustOrderQty = (name: string, delta: number) => {
+    setOrderItems((prev) =>
+      prev
+        .map((i) => (i.name === name ? { ...i, qty: i.qty + delta } : i))
+        .filter((i) => i.qty > 0)
+    );
+  };
 
   const heroRef = useRef<HTMLElement>(null);
   const { scrollYProgress: heroProgress } = useScroll({
@@ -309,8 +335,12 @@ export default function Page() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (formData.name && formData.email) {
-      setFormSubmitted(true);
+    if (formData.name && formData.email && formData.phone && orderItems.length > 0) {
+      setFormLoading(true);
+      setTimeout(() => {
+        setFormLoading(false);
+        setFormSubmitted(true);
+      }, 1800);
     }
   };
 
@@ -874,14 +904,37 @@ return (
                       {item.desc}
                     </p>
                   </div>
-                  <div style={{
-                    fontFamily: SERIF,
-                    fontSize: 18,
-                    fontWeight: 700,
-                    color: C.accent,
-                    whiteSpace: 'nowrap'
-                  }}>
-                    {item.price}
+                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 10, flexShrink: 0 }}>
+                    <div style={{
+                      fontFamily: SERIF,
+                      fontSize: 18,
+                      fontWeight: 700,
+                      color: C.accent,
+                      whiteSpace: 'nowrap'
+                    }}>
+                      {item.price}
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => addToOrder({ name: item.name, price: item.price })}
+                      aria-label={`Ajouter ${item.name} à la commande`}
+                      style={{
+                        minHeight: 44,
+                        minWidth: 44,
+                        padding: '0 16px',
+                        borderRadius: 22,
+                        border: `1px solid ${C.primary}33`,
+                        background: 'transparent',
+                        color: C.primary,
+                        fontFamily: SANS,
+                        fontSize: 13,
+                        fontWeight: 700,
+                        cursor: 'pointer',
+                        whiteSpace: 'nowrap'
+                      }}
+                    >
+                      + Ajouter
+                    </button>
                   </div>
                 </div>
               </Reveal>
@@ -1162,22 +1215,51 @@ return (
                       style={{ textAlign: 'center', padding: '24px 0' }}
                     >
                       <div style={{ color: C.primary, marginBottom: 16 }}><CheckCircle size={48} style={{ margin: '0 auto' }} /></div>
-                      <h3 style={{ fontFamily: SERIF, fontSize: 22, color: C.primary, marginBottom: 8, fontWeight: 700 }}>Demande reçue !</h3>
-                      <p style={{ fontSize: 14, color: C.textMuted, lineHeight: 1.6 }}>
-                        Merci {formData.name}, nous avons bien reçu votre message et nous vous recontacterons très rapidement.
+                      <h3 style={{ fontFamily: SERIF, fontSize: 22, color: C.primary, marginBottom: 8, fontWeight: 700 }}>Commande reçue !</h3>
+                      <p style={{ fontSize: 14, color: C.textMuted, lineHeight: 1.6, marginBottom: 12 }}>
+                        Merci {formData.name}, votre commande a bien été enregistrée. Nous vous recontactons très rapidement au {formData.phone} pour confirmer.
                       </p>
+                      <div style={{ textAlign: 'left', background: C.bgCard, borderRadius: 4, padding: '14px 18px', fontSize: 13.5, color: C.text }}>
+                        {orderItems.map((i) => (
+                          <div key={i.name} style={{ display: 'flex', justifyContent: 'space-between', padding: '4px 0' }}>
+                            <span>{i.qty} × {i.name}</span>
+                            <span style={{ color: C.textMuted }}>{i.price}</span>
+                          </div>
+                        ))}
+                      </div>
                     </motion.div>
                   ) : (
                     <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
                       <div>
-                        <label style={{ display: 'block', fontSize: 11, letterSpacing: '0.05em', textTransform: 'uppercase', color: C.textMuted, marginBottom: 8, fontWeight: 600 }}>Nom Complet</label>
+                        <label style={{ display: 'block', fontSize: 11, letterSpacing: '0.05em', textTransform: 'uppercase', color: C.textMuted, marginBottom: 8, fontWeight: 600 }}>Votre commande {orderItems.length === 0 && <span style={{ color: C.accent, textTransform: 'none', fontWeight: 400 }}>&nbsp;— choisissez un plat dans la carte ci-dessus</span>}</label>
+                        {orderItems.length > 0 && (
+                          <div style={{ display: 'flex', flexDirection: 'column', gap: 8, background: C.bgCard, borderRadius: 4, padding: '10px 14px', border: `1px solid ${C.primary}1a` }}>
+                            {orderItems.map((i) => (
+                              <div key={i.name} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10, fontSize: 13.5 }}>
+                                <span style={{ color: C.text }}>{i.name}</span>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                                  <span style={{ color: C.textMuted }}>{i.price}</span>
+                                  <button type="button" onClick={() => adjustOrderQty(i.name, -1)} aria-label={`Retirer un ${i.name}`} style={{ minWidth: 28, minHeight: 28, borderRadius: '50%', border: `1px solid ${C.primary}33`, background: 'transparent', color: C.primary, cursor: 'pointer', fontSize: 14, lineHeight: 1 }}>−</button>
+                                  <span style={{ minWidth: 16, textAlign: 'center', fontWeight: 700 }}>{i.qty}</span>
+                                  <button type="button" onClick={() => adjustOrderQty(i.name, 1)} aria-label={`Ajouter un ${i.name}`} style={{ minWidth: 28, minHeight: 28, borderRadius: '50%', border: `1px solid ${C.primary}33`, background: 'transparent', color: C.primary, cursor: 'pointer', fontSize: 14, lineHeight: 1 }}>+</button>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                      <div>
+                        <label htmlFor="order-name" style={{ display: 'block', fontSize: 11, letterSpacing: '0.05em', textTransform: 'uppercase', color: C.textMuted, marginBottom: 8, fontWeight: 600 }}>Nom Complet</label>
                         <input
+                          id="order-name"
                           type="text"
                           required
                           value={formData.name}
                           onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                           style={{
                             width: '100%',
+                            minHeight: 44,
+                            boxSizing: 'border-box',
                             padding: '12px 16px',
                             background: C.bgCard,
                             border: `1px solid ${C.primary}1a`,
@@ -1190,14 +1272,17 @@ return (
                         />
                       </div>
                       <div>
-                        <label style={{ display: 'block', fontSize: 11, letterSpacing: '0.05em', textTransform: 'uppercase', color: C.textMuted, marginBottom: 8, fontWeight: 600 }}>Adresse E-mail</label>
+                        <label htmlFor="order-email" style={{ display: 'block', fontSize: 11, letterSpacing: '0.05em', textTransform: 'uppercase', color: C.textMuted, marginBottom: 8, fontWeight: 600 }}>Adresse E-mail</label>
                         <input
+                          id="order-email"
                           type="email"
                           required
                           value={formData.email}
                           onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                           style={{
                             width: '100%',
+                            minHeight: 44,
+                            boxSizing: 'border-box',
                             padding: '12px 16px',
                             background: C.bgCard,
                             border: `1px solid ${C.primary}1a`,
@@ -1210,9 +1295,33 @@ return (
                         />
                       </div>
                       <div>
-                        <label style={{ display: 'block', fontSize: 11, letterSpacing: '0.05em', textTransform: 'uppercase', color: C.textMuted, marginBottom: 8, fontWeight: 600 }}>Votre Message</label>
+                        <label htmlFor="order-phone" style={{ display: 'block', fontSize: 11, letterSpacing: '0.05em', textTransform: 'uppercase', color: C.textMuted, marginBottom: 8, fontWeight: 600 }}>Téléphone</label>
+                        <input
+                          id="order-phone"
+                          type="tel"
+                          required
+                          value={formData.phone}
+                          onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                          style={{
+                            width: '100%',
+                            minHeight: 44,
+                            boxSizing: 'border-box',
+                            padding: '12px 16px',
+                            background: C.bgCard,
+                            border: `1px solid ${C.primary}1a`,
+                            borderRadius: 2,
+                            color: C.text,
+                            fontFamily: SANS,
+                            fontSize: 14,
+                            outline: 'none'
+                          }}
+                        />
+                      </div>
+                      <div>
+                        <label htmlFor="order-message" style={{ display: 'block', fontSize: 11, letterSpacing: '0.05em', textTransform: 'uppercase', color: C.textMuted, marginBottom: 8, fontWeight: 600 }}>Message (facultatif)</label>
                         <textarea
-                          rows={4}
+                          id="order-message"
+                          rows={3}
                           value={formData.message}
                           onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                           style={{
@@ -1229,7 +1338,9 @@ return (
                           }}
                         />
                       </div>
-                      <Button type="submit" filled>Commander maintenant</Button>
+                      <Button type="submit" filled disabled={formLoading || orderItems.length === 0}>
+                        {formLoading ? 'Envoi en cours…' : 'Commander maintenant'}
+                      </Button>
                     </form>
                   )}
                 </div>

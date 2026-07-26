@@ -1,6 +1,6 @@
 "use client";
 // @ts-nocheck
-import { motion, useScroll, useTransform, useInView } from "framer-motion"
+import { motion, AnimatePresence, useScroll, useTransform, useInView } from "framer-motion"
 import { useRef, useState, useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
@@ -78,6 +78,35 @@ export default function KuroOmakasePage() {
     window.addEventListener("scroll", h)
     return () => window.removeEventListener("scroll", h)
   }, []);
+
+  // ── Reservation modal ────────────────────────────────────────────────
+  const [reservationOpen, setReservationOpen] = useState(false)
+  const [reservationLoading, setReservationLoading] = useState(false)
+  const [reservationSent, setReservationSent] = useState(false)
+  const [reservationForm, setReservationForm] = useState({ date: "", time: "", party: "2", name: "", email: "", phone: "" })
+
+  useEffect(() => {
+    if (!reservationOpen) return
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") closeReservationModal() }
+    window.addEventListener("keydown", onKey)
+    return () => window.removeEventListener("keydown", onKey)
+  }, [reservationOpen]);
+
+  function closeReservationModal() {
+    setReservationOpen(false)
+    setReservationLoading(false)
+    setReservationSent(false)
+    setReservationForm({ date: "", time: "", party: "2", name: "", email: "", phone: "" })
+  }
+
+  function handleReservationSubmit(e: React.FormEvent) {
+    e.preventDefault()
+    setReservationLoading(true)
+    setTimeout(() => {
+      setReservationLoading(false)
+      setReservationSent(true)
+    }, 1000)
+  }
 
   // Dynamic Services & Testimonials Mutation for Session Data
   useEffect(() => {
@@ -195,7 +224,10 @@ export default function KuroOmakasePage() {
                   An intimate 8-seat sanctuary dedicated to the seasonal purity of Edomae-style sushi. Leave the decision to the Chef.
                 </>}</p>
                 <div className="flex flex-wrap justify-center gap-10">
-                  <button className="px-16 py-6 bg-white text-black font-black uppercase tracking-widest text-[10px] hover:bg-transparent hover:text-white border border-white transition-all duration-700 italic">
+                  <button
+                    onClick={() => setReservationOpen(true)}
+                    className="px-16 py-6 min-h-[44px] bg-white text-black font-black uppercase tracking-widest text-[10px] hover:bg-transparent hover:text-white border border-white transition-all duration-700 italic cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
+                  >
                     Request Reservation
                   </button>
                   <button className="px-16 py-6 border border-white/20 text-white font-bold uppercase tracking-widest text-[10px] hover:bg-white/5 transition-all flex items-center gap-4">
@@ -367,7 +399,10 @@ export default function KuroOmakasePage() {
                     Reservations are released on the first of every month for the following 30 days. We look forward to your visit.
                  </p>
                  <div className="flex flex-col sm:flex-row items-center justify-center gap-12">
-                    <button className="px-16 py-8 bg-white text-black font-black uppercase text-[10px] tracking-[0.3em] hover:bg-transparent hover:text-white border border-white transition-all duration-700 italic shadow-[0_0_40px_rgba(255,255,255,0.1)]">
+                    <button
+                      onClick={() => setReservationOpen(true)}
+                      className="px-16 py-8 min-h-[44px] bg-white text-black font-black uppercase text-[10px] tracking-[0.3em] hover:bg-transparent hover:text-white border border-white transition-all duration-700 italic shadow-[0_0_40px_rgba(255,255,255,0.1)] cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
+                    >
                        Secure A Seat
                     </button>
                     <button className="px-16 py-8 border border-white/10 text-white/40 font-bold uppercase text-[10px] tracking-[0.3em] hover:text-white transition-all italic">
@@ -425,6 +460,166 @@ export default function KuroOmakasePage() {
            </div>
         </div>
       </footer>
+
+      {/* ── RESERVATION MODAL ─────────── */}
+      <AnimatePresence>
+        {reservationOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[300] flex items-center justify-center p-4 md:p-8"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="reservation-modal-title"
+          >
+            <div
+              className="absolute inset-0 bg-black/90 backdrop-blur-sm"
+              onClick={closeReservationModal}
+            />
+            <motion.div
+              initial={{ opacity: 0, y: 30, scale: 0.98 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 20, scale: 0.98 }}
+              transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+              className="relative w-full max-w-lg bg-[#0a0a0a] border border-white/10 max-h-[90vh] overflow-y-auto"
+            >
+              <button
+                type="button"
+                onClick={closeReservationModal}
+                aria-label="Close"
+                className="absolute top-2 right-2 w-11 h-11 flex items-center justify-center text-white/40 hover:text-white transition-colors cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
+              >
+                <span className="text-2xl leading-none">&times;</span>
+              </button>
+
+              <div className="p-8 md:p-12">
+                {reservationSent ? (
+                  <div className="text-center py-10">
+                    <div className="w-16 h-16 bg-white mx-auto mb-10 flex items-center justify-center">
+                      <span className="text-black font-black text-2xl">&#10003;</span>
+                    </div>
+                    <h3 className="text-3xl font-light uppercase tracking-widest text-white mb-6 italic">Reservation Requested</h3>
+                    <p className="text-white/40 text-sm leading-relaxed font-light italic mb-10">
+                      Seatings are confirmed by our maître d&apos; within 24 hours. Please watch your inbox — availability is limited to eight covers per service.
+                    </p>
+                    <button
+                      type="button"
+                      onClick={closeReservationModal}
+                      className="px-12 py-4 min-h-[44px] bg-white text-black font-black uppercase tracking-widest text-[10px] hover:bg-transparent hover:text-white border border-white transition-all duration-700 italic cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
+                    >
+                      Close
+                    </button>
+                  </div>
+                ) : (
+                  <form onSubmit={handleReservationSubmit}>
+                    <div className="text-[10px] font-bold uppercase tracking-[0.5em] text-white/30 mb-4">Tokyo — Ginza</div>
+                    <h3 id="reservation-modal-title" className="text-3xl md:text-4xl font-light uppercase tracking-widest text-white mb-10 italic">Reserve Your<br /><span className="font-black not-italic">Seat.</span></h3>
+
+                    <div className="space-y-6">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                          <label htmlFor="res-date" className="block text-[10px] font-bold uppercase tracking-widest text-white/40 mb-2">Date</label>
+                          <input
+                            id="res-date"
+                            type="date"
+                            required
+                            value={reservationForm.date}
+                            onChange={(e) => setReservationForm(f => ({ ...f, date: e.target.value }))}
+                            className="w-full bg-white/5 border border-white/10 px-4 py-3 text-sm text-white outline-none focus:border-white focus-visible:ring-2 focus-visible:ring-white transition-colors"
+                          />
+                        </div>
+                        <div>
+                          <label htmlFor="res-time" className="block text-[10px] font-bold uppercase tracking-widest text-white/40 mb-2">Seating</label>
+                          <select
+                            id="res-time"
+                            required
+                            value={reservationForm.time}
+                            onChange={(e) => setReservationForm(f => ({ ...f, time: e.target.value }))}
+                            className="w-full bg-white/5 border border-white/10 px-4 py-3 text-sm text-white outline-none focus:border-white focus-visible:ring-2 focus-visible:ring-white transition-colors cursor-pointer"
+                          >
+                            <option value="" className="bg-black">Select a seating</option>
+                            <option value="18:00" className="bg-black">Seating I — 18:00</option>
+                            <option value="21:00" className="bg-black">Seating II — 21:00</option>
+                          </select>
+                        </div>
+                      </div>
+
+                      <div>
+                        <label htmlFor="res-party" className="block text-[10px] font-bold uppercase tracking-widest text-white/40 mb-2">Party Size</label>
+                        <select
+                          id="res-party"
+                          required
+                          value={reservationForm.party}
+                          onChange={(e) => setReservationForm(f => ({ ...f, party: e.target.value }))}
+                          className="w-full bg-white/5 border border-white/10 px-4 py-3 text-sm text-white outline-none focus:border-white focus-visible:ring-2 focus-visible:ring-white transition-colors cursor-pointer"
+                        >
+                          {[1, 2, 3, 4, 5, 6, 7, 8].map(n => (
+                            <option key={n} value={n} className="bg-black">{n} {n === 1 ? "guest" : "guests"}</option>
+                          ))}
+                        </select>
+                      </div>
+
+                      <div>
+                        <label htmlFor="res-name" className="block text-[10px] font-bold uppercase tracking-widest text-white/40 mb-2">Full Name</label>
+                        <input
+                          id="res-name"
+                          type="text"
+                          required
+                          value={reservationForm.name}
+                          onChange={(e) => setReservationForm(f => ({ ...f, name: e.target.value }))}
+                          placeholder="Yuki Tanaka"
+                          className="w-full bg-white/5 border border-white/10 px-4 py-3 text-sm text-white placeholder:text-white/20 outline-none focus:border-white focus-visible:ring-2 focus-visible:ring-white transition-colors"
+                        />
+                      </div>
+
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                          <label htmlFor="res-email" className="block text-[10px] font-bold uppercase tracking-widest text-white/40 mb-2">Email</label>
+                          <input
+                            id="res-email"
+                            type="email"
+                            required
+                            value={reservationForm.email}
+                            onChange={(e) => setReservationForm(f => ({ ...f, email: e.target.value }))}
+                            placeholder="you@email.com"
+                            className="w-full bg-white/5 border border-white/10 px-4 py-3 text-sm text-white placeholder:text-white/20 outline-none focus:border-white focus-visible:ring-2 focus-visible:ring-white transition-colors"
+                          />
+                        </div>
+                        <div>
+                          <label htmlFor="res-phone" className="block text-[10px] font-bold uppercase tracking-widest text-white/40 mb-2">Phone</label>
+                          <input
+                            id="res-phone"
+                            type="tel"
+                            required
+                            value={reservationForm.phone}
+                            onChange={(e) => setReservationForm(f => ({ ...f, phone: e.target.value }))}
+                            placeholder="+81 90 0000 0000"
+                            className="w-full bg-white/5 border border-white/10 px-4 py-3 text-sm text-white placeholder:text-white/20 outline-none focus:border-white focus-visible:ring-2 focus-visible:ring-white transition-colors"
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    <button
+                      type="submit"
+                      disabled={reservationLoading}
+                      className="w-full mt-10 px-10 py-4 min-h-[44px] bg-white text-black text-[10px] font-black uppercase tracking-[0.3em] hover:bg-transparent hover:text-white border border-white transition-all duration-700 italic disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-white flex items-center justify-center gap-3"
+                    >
+                      {reservationLoading ? (
+                        <>
+                          <span className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
+                          Submitting...
+                        </>
+                      ) : "Confirm Reservation"}
+                    </button>
+                  </form>
+                )}
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   )
 }

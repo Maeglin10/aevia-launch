@@ -429,9 +429,18 @@ export function PageHero({ eyebrow, title, subtitle }: { eyebrow: string; title:
 }
 
 // ─── CART CONTEXT ────────────────────────────────────────────────────────────
+export interface CartItem {
+  id: string;
+  name: string;
+  price: number;
+  qty: number;
+}
+
 export interface CartContextType {
+  cartItems: CartItem[];
   cartCount: number;
-  addToCart: () => void;
+  addToCart: (item: { id: string; name: string; price: number }) => void;
+  removeFromCart: (id: string) => void;
   cartOpen: boolean;
   setCartOpen: (open: boolean) => void;
 }
@@ -445,12 +454,27 @@ export function useCart() {
 }
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
-  const [cartCount, setCartCount] = useState(0);
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [cartOpen, setCartOpen] = useState(false);
-  const addToCart = () => setCartCount(c => c + 1);
+
+  const addToCart = (item: { id: string; name: string; price: number }) => {
+    setCartItems(items => {
+      const existing = items.find(i => i.id === item.id);
+      if (existing) {
+        return items.map(i => (i.id === item.id ? { ...i, qty: i.qty + 1 } : i));
+      }
+      return [...items, { ...item, qty: 1 }];
+    });
+  };
+
+  const removeFromCart = (id: string) => {
+    setCartItems(items => items.filter(i => i.id !== id));
+  };
+
+  const cartCount = cartItems.reduce((sum, i) => sum + i.qty, 0);
 
   return (
-    <CartContext.Provider value={{ cartCount, addToCart, cartOpen, setCartOpen }}>
+    <CartContext.Provider value={{ cartItems, cartCount, addToCart, removeFromCart, cartOpen, setCartOpen }}>
       {children}
     </CartContext.Provider>
   );

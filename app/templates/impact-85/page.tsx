@@ -5,7 +5,7 @@ import React, { useState, useEffect, useRef } from "react"
 import { motion, AnimatePresence, useScroll, useTransform, useInView } from "framer-motion"
 import Image from "next/image"
 import Link from "next/link"
-import { Menu, X, ArrowRight, FlaskConical, Microscope, Leaf, Shield, Star, ChevronRight, Search, Mail, Phone, MapPin } from "lucide-react"
+import { Menu, X, ArrowRight, FlaskConical, Microscope, Leaf, Shield, Star, ChevronRight, Search, Mail, Phone, MapPin, ShoppingBag, Plus, Minus, Trash2, Check } from "lucide-react"
 import { resolveList } from "@/lib/templates/resolveList"
 
 function useFonts() {
@@ -62,6 +62,231 @@ const TEMOIGNAGES_DEMO = [
   { name: "Sophie T.", skin: "Peau mature, 52 ans", text: "La Cellulaire Crème a transformé la texture de ma peau. Ma dermatologue a demandé ce que j'utilisais. Elle commande maintenant pour sa clinique.", rating: 5 },
 ];
 
+
+/* ============================================================
+   CART / CHECKOUT — types & helpers
+   ============================================================ */
+
+type CartItem = {
+  key: string;
+  name: string;
+  tagline?: string;
+  volume?: string;
+  price: number;
+  qty: number;
+  image: string;
+};
+
+function parsePriceToNumber(price: string): number {
+  const digits = String(price).replace(/[^\d]/g, "");
+  return digits ? parseInt(digits, 10) : 0;
+}
+
+function formatEUR(n: number): string {
+  return new Intl.NumberFormat("fr-FR", {
+    style: "currency",
+    currency: "EUR",
+    maximumFractionDigits: 0,
+  }).format(n);
+}
+
+/* ── Cart drawer — line items, total, checkout, confirmation ──────────── */
+function CartDrawer({
+  open,
+  onClose,
+  cart,
+  onRemove,
+  step,
+  onStartCheckout,
+  loading,
+  onSubmitCheckout,
+  onReset,
+}: {
+  open: boolean;
+  onClose: () => void;
+  cart: CartItem[];
+  onRemove: (key: string) => void;
+  step: "cart" | "checkout" | "success";
+  onStartCheckout: () => void;
+  loading: boolean;
+  onSubmitCheckout: (e: React.FormEvent) => void;
+  onReset: () => void;
+}) {
+  const total = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+  const count = cart.reduce((sum, item) => sum + item.qty, 0);
+
+  return (
+    <AnimatePresence>
+      {open && (
+        <>
+          <motion.div
+            key="cart-overlay"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={onClose}
+            className="fixed inset-0 bg-[#1C1814]/60 z-[300]"
+          />
+          <motion.div
+            key="cart-panel"
+            initial={{ x: "100%" }}
+            animate={{ x: 0 }}
+            exit={{ x: "100%" }}
+            transition={{ type: "spring", stiffness: 300, damping: 32 }}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Panier"
+            className="fixed top-0 right-0 bottom-0 z-[310] w-full sm:w-[440px] bg-[#F8F6F2] flex flex-col"
+          >
+            <div className="flex items-center justify-between px-8 py-6 border-b border-[#E4DDD4]">
+              <h3 className="text-xl font-light" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+                {step === "checkout" ? "Livraison" : step === "success" ? "Commande" : `Panier (${count})`}
+              </h3>
+              <button
+                onClick={onClose}
+                aria-label="Fermer le panier"
+                className="w-11 h-11 flex items-center justify-center hover:bg-[#F0EBE0] transition-colors cursor-pointer border-none bg-transparent"
+              >
+                <X className="w-5 h-5 text-[#1C1814]" />
+              </button>
+            </div>
+
+            <div className="flex-1 overflow-y-auto px-8 py-8">
+              <AnimatePresence mode="wait">
+                {step === "success" ? (
+                  <motion.div
+                    key="success"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="text-center py-10"
+                  >
+                    <motion.div
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      transition={{ type: "spring", stiffness: 200, delay: 0.15 }}
+                      className="w-14 h-14 border flex items-center justify-center mx-auto mb-6"
+                      style={{ borderColor: "var(--brand,#8B7355)" }}
+                    >
+                      <Check className="w-6 h-6" style={{ color: "var(--brand,#8B7355)" }} />
+                    </motion.div>
+                    <h4 className="text-2xl font-light mb-3" style={{ fontFamily: "'Cormorant Garamond', serif" }}>Commande confirmée</h4>
+                    <p className="text-sm text-[#6B5A40] leading-relaxed mb-8">
+                      Merci pour votre commande. Notre équipe scientifique vous confirmera l&apos;expédition sous 24h.
+                    </p>
+                    <button
+                      onClick={onReset}
+                      className="w-full min-h-[44px] py-4 bg-[#1C1814] text-[#F8F6F2] text-xs tracking-widest uppercase hover:bg-[var(--brand,#8B7355)] transition-colors cursor-pointer border-none"
+                    >
+                      Fermer
+                    </button>
+                  </motion.div>
+                ) : step === "checkout" ? (
+                  <motion.form key="checkout" initial={{ opacity: 0 }} animate={{ opacity: 1 }} onSubmit={onSubmitCheckout} className="space-y-6 text-sm">
+                    <div>
+                      <label htmlFor="co-name" className="block text-xs uppercase tracking-wider text-[#8A7860] mb-2">Nom complet</label>
+                      <input
+                        id="co-name"
+                        name="name"
+                        type="text"
+                        required
+                        placeholder="Votre nom"
+                        className="w-full bg-transparent border-b border-[#D4C9B0] py-3 text-[#1C1814] outline-none focus:border-[var(--brand,#8B7355)] transition-colors"
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="co-email" className="block text-xs uppercase tracking-wider text-[#8A7860] mb-2">Email</label>
+                      <input
+                        id="co-email"
+                        name="email"
+                        type="email"
+                        required
+                        placeholder="vous@email.com"
+                        className="w-full bg-transparent border-b border-[#D4C9B0] py-3 text-[#1C1814] outline-none focus:border-[var(--brand,#8B7355)] transition-colors"
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="co-address" className="block text-xs uppercase tracking-wider text-[#8A7860] mb-2">Adresse de livraison</label>
+                      <textarea
+                        id="co-address"
+                        name="address"
+                        rows={3}
+                        required
+                        placeholder="12 rue de la Paix, 75002 Paris, France"
+                        className="w-full bg-transparent border-b border-[#D4C9B0] py-3 text-[#1C1814] outline-none focus:border-[var(--brand,#8B7355)] transition-colors resize-none"
+                      />
+                    </div>
+                    <div className="flex justify-between items-center pt-4 border-t border-[#E4DDD4]">
+                      <span className="text-xs uppercase tracking-wider text-[#8A7860]">Total</span>
+                      <span className="text-lg font-light" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{formatEUR(total)}</span>
+                    </div>
+                    <button
+                      type="submit"
+                      disabled={loading}
+                      className={`w-full min-h-[44px] flex items-center justify-center gap-3 py-4 text-[#F8F6F2] text-xs tracking-widest uppercase transition-colors border-none ${loading ? "bg-[#1C1814]/50 cursor-not-allowed" : "bg-[#1C1814] hover:bg-[var(--brand,#8B7355)] cursor-pointer"}`}
+                    >
+                      {loading ? (
+                        <>
+                          <motion.div
+                            animate={{ rotate: 360 }}
+                            transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                            className="w-4 h-4 rounded-full border-2 border-[#F8F6F2] border-t-transparent"
+                          />
+                          Traitement en cours…
+                        </>
+                      ) : (
+                        "Confirmer la commande"
+                      )}
+                    </button>
+                  </motion.form>
+                ) : (
+                  <motion.div key="cart-list" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+                    {cart.length === 0 ? (
+                      <p className="text-sm text-[#8A7860] text-center py-16">Votre panier est vide.</p>
+                    ) : (
+                      <>
+                        <div className="space-y-6 mb-8">
+                          {cart.map((item) => (
+                            <div key={item.key} className="flex gap-4 items-center">
+                              <div className="relative w-16 h-16 flex-shrink-0 bg-[#F0EBE0] overflow-hidden">
+                                <Image src={item.image} alt={item.name} fill className="object-cover" />
+                              </div>
+                              <div className="flex-1 min-w-0">
+                                <p className="text-sm font-medium text-[#1C1814] truncate">{item.name}</p>
+                                {item.volume && <p className="text-xs text-[#8A7860] mt-0.5">{item.volume}</p>}
+                                <p className="text-xs text-[#6B5A40] mt-1">{item.qty} × {formatEUR(item.price)}</p>
+                              </div>
+                              <button
+                                onClick={() => onRemove(item.key)}
+                                aria-label={`Retirer ${item.name} du panier`}
+                                className="w-11 h-11 flex items-center justify-center hover:bg-[#F0EBE0] transition-colors cursor-pointer border-none bg-transparent flex-shrink-0"
+                              >
+                                <Trash2 className="w-4 h-4 text-[#8A7860]" />
+                              </button>
+                            </div>
+                          ))}
+                        </div>
+                        <div className="flex justify-between items-center py-5 border-t border-[#E4DDD4] mb-6">
+                          <span className="text-xs uppercase tracking-wider text-[#8A7860]">Total</span>
+                          <span className="text-lg font-light" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{formatEUR(total)}</span>
+                        </div>
+                        <button
+                          onClick={onStartCheckout}
+                          className="w-full min-h-[44px] py-4 bg-[#1C1814] text-[#F8F6F2] text-xs tracking-widest uppercase hover:bg-[var(--brand,#8B7355)] transition-colors cursor-pointer border-none"
+                        >
+                          Passer la commande
+                        </button>
+                      </>
+                    )}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          </motion.div>
+        </>
+      )}
+    </AnimatePresence>
+  );
+}
 
 // Global state variables for subpage compatibility
 let fd: any = null;
@@ -137,6 +362,57 @@ export default function AetherLabsPage() {
   const [activeProduct, setActiveProduct] = useState(0)
   const [openFaq, setOpenFaq] = useState<number | null>(null)
   const [contactSubmitted, setContactSubmitted] = useState(false)
+
+  // Cart / checkout flow
+  const [productQty, setProductQty] = useState(1)
+  const [cart, setCart] = useState<CartItem[]>([])
+  const [cartOpen, setCartOpen] = useState(false)
+  const [checkoutStep, setCheckoutStep] = useState<"cart" | "checkout" | "success">("cart")
+  const [checkoutLoading, setCheckoutLoading] = useState(false)
+
+  useEffect(() => { setProductQty(1) }, [activeProduct])
+
+  const handleAddToCart = (product: any) => {
+    const key = product.id ?? product.name
+    const item: CartItem = {
+      key,
+      name: product.name,
+      tagline: product.tagline,
+      volume: product.volume,
+      price: parsePriceToNumber(product.price),
+      qty: productQty,
+      image: product.image ?? product.photoUrl ?? PRODUCTS_DEMO[0].image,
+    }
+    setCart((prev) => {
+      const existing = prev.find((p) => p.key === key)
+      if (existing) {
+        return prev.map((p) => (p.key === key ? { ...p, qty: p.qty + productQty } : p))
+      }
+      return [...prev, item]
+    })
+    setCartOpen(true)
+  }
+
+  const handleRemoveFromCart = (key: string) => {
+    setCart((prev) => prev.filter((p) => p.key !== key))
+  }
+
+  const handleSubmitCheckout = (e: React.FormEvent) => {
+    e.preventDefault()
+    setCheckoutLoading(true)
+    setTimeout(() => {
+      setCheckoutLoading(false)
+      setCheckoutStep("success")
+    }, 2200)
+  }
+
+  const handleResetCart = () => {
+    setCart([])
+    setCheckoutStep("cart")
+    setCartOpen(false)
+  }
+
+  const cartCount = cart.reduce((sum, item) => sum + item.qty, 0)
   const { scrollYProgress } = useScroll()
   const heroRef = useRef<HTMLDivElement>(null)
   const { scrollYProgress: heroScroll } = useScroll({ target: heroRef, offset: ["start start", "end start"] })
@@ -151,6 +427,35 @@ export default function AetherLabsPage() {
   return (
     <div className="min-h-dvh bg-[#F8F6F2] text-[#1C1814]" style={{ fontFamily: "'Inter', sans-serif" }}>
       <motion.div className="fixed top-0 left-0 h-[2px] bg-[var(--brand,#8B7355)] z-[1000] origin-left" style={{ scaleX: scrollYProgress }} />
+
+      {/* Floating cart trigger */}
+      <button
+        onClick={() => setCartOpen(true)}
+        aria-label={`Ouvrir le panier (${cartCount} article${cartCount > 1 ? "s" : ""})`}
+        className="fixed bottom-6 right-6 z-[290] w-14 h-14 flex items-center justify-center bg-[#1C1814] text-[#F8F6F2] rounded-full shadow-lg hover:bg-[var(--brand,#8B7355)] transition-colors cursor-pointer border-none"
+      >
+        <ShoppingBag className="w-5 h-5" />
+        {cartCount > 0 && (
+          <span className="absolute -top-1 -right-1 min-w-[20px] h-5 px-1 flex items-center justify-center bg-[#F8F6F2] text-[#1C1814] text-[10px] font-bold rounded-full border border-[#1C1814]">
+            {cartCount}
+          </span>
+        )}
+      </button>
+
+      <CartDrawer
+        open={cartOpen}
+        onClose={() => {
+          setCartOpen(false)
+          if (checkoutStep !== "success") setCheckoutStep("cart")
+        }}
+        cart={cart}
+        onRemove={handleRemoveFromCart}
+        step={checkoutStep}
+        onStartCheckout={() => setCheckoutStep("checkout")}
+        loading={checkoutLoading}
+        onSubmitCheckout={handleSubmitCheckout}
+        onReset={handleResetCart}
+      />
 
       {/* Nav */}
       <motion.nav
@@ -325,11 +630,37 @@ export default function AetherLabsPage() {
                     <div className="text-xs text-[#8A7860]">Prix TTC</div>
                   </div>
                 </div>
+                <div className="flex items-center gap-3 mb-5">
+                  <span className="text-xs uppercase tracking-wider text-[#8A7860]">Quantité</span>
+                  <div className="flex items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={() => setProductQty((q) => Math.max(1, q - 1))}
+                      aria-label="Diminuer la quantité"
+                      className="w-11 h-11 flex items-center justify-center border border-[#D4C9B0] hover:border-[#1C1814] transition-colors cursor-pointer"
+                    >
+                      <Minus className="w-3.5 h-3.5" />
+                    </button>
+                    <span className="w-6 text-center text-sm">{productQty}</span>
+                    <button
+                      type="button"
+                      onClick={() => setProductQty((q) => q + 1)}
+                      aria-label="Augmenter la quantité"
+                      className="w-11 h-11 flex items-center justify-center border border-[#D4C9B0] hover:border-[#1C1814] transition-colors cursor-pointer"
+                    >
+                      <Plus className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                </div>
                 <div className="flex gap-4">
-                  <button className="flex-1 py-4 bg-[#1C1814] text-[#F8F6F2] text-xs tracking-widests uppercase hover:bg-[var(--brand,#8B7355)] transition-colors cursor-pointer">
+                  <button
+                    onClick={() => handleAddToCart(current)}
+                    className="flex-1 min-h-[44px] flex items-center justify-center gap-2 py-4 bg-[#1C1814] text-[#F8F6F2] text-xs tracking-widests uppercase hover:bg-[var(--brand,#8B7355)] transition-colors cursor-pointer"
+                  >
+                    <ShoppingBag className="w-3.5 h-3.5" />
                     Ajouter au panier
                   </button>
-                  <button className="px-6 py-4 border border-[#E4DDD4] text-[#1C1814] text-xs tracking-widests uppercase hover:border-[#1C1814] transition-colors cursor-pointer">
+                  <button className="px-6 py-4 border border-[#E4DDD4] text-[#1C1814] text-xs tracking-widests uppercase hover:border-[#1C1814] transition-colors cursor-pointer min-h-[44px]">
                     Diagnostic peau
                   </button>
                 </div>

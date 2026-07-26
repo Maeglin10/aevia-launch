@@ -253,8 +253,8 @@ return (
                 </div>
               </Reveal>
               <Reveal delay={0.1}>
-                <h1 className="text-white text-5xl md:text-7xl font-bold leading-tight mb-6">{c?.heroHeadline ?? <>
-                  L&apos;infrastructure IA<br />
+                <h1 className="text-white text-4xl sm:text-5xl md:text-7xl font-bold leading-tight mb-6 break-words">{c?.heroHeadline ?? <>
+                  L&apos;infrastructure IA<br className="hidden sm:inline" />{" "}
                   <span className="bg-gradient-to-r from-[var(--brand,#06B6D4)] to-[#8B5CF6] bg-clip-text text-transparent">pour les builders sérieux</span>
                 </>}</h1>
               </Reveal>

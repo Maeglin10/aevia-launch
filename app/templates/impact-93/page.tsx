@@ -411,7 +411,7 @@ export default function VelocityJetsPage() {
             <Badge className="bg-[var(--brand,#00f2ff)]/10 text-[var(--brand,#00f2ff)] border border-[var(--brand,#00f2ff)]/20 text-[10px] font-bold uppercase tracking-[0.5em] mb-10 px-4 py-1.5 rounded-sm">
               Next-Generation Aviation // Mach 0.9+
             </Badge>
-            <h1 className="text-6xl md:text-[9rem] font-black italic leading-[0.8] tracking-tighter mb-10 uppercase">{c?.heroHeadline ?? <>
+            <h1 className="text-[clamp(2.5rem,6.5vw,8rem)] font-black italic leading-[0.9] tracking-tighter mb-10 uppercase break-words">{c?.heroHeadline ?? <>
               Redefining <br />{" "}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--brand,#00f2ff)] via-white to-[var(--brand,#00f2ff)]">
                 Air Superiority.

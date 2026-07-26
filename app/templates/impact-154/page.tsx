@@ -556,13 +556,13 @@ return (
 
           <div className="relative z-10 text-center max-w-7xl px-8">
              <Reveal>
-                <div className="inline-flex items-center gap-4 px-4 py-1 border border-[var(--brand,#b4925e)]/30 bg-[var(--brand,#b4925e)]/5 text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#b4925e)] mb-12 italic">
+                <div className="inline-flex items-center gap-4 px-4 py-1 border border-[var(--brand,#b4925e)]/30 bg-[var(--brand,#b4925e)]/5 text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#b4925e)] mb-6 md:mb-12 italic">
                    Status // High_Security_Node: Zurich
                 </div>
-                <h1 className="text-7xl md:text-[14vw] font-light italic leading-[0.75] tracking-tighter uppercase mb-16" style={{ fontFamily: "serif" }}>{c?.heroHeadline ?? <>
+                <h1 className="text-5xl sm:text-6xl md:text-[14vw] font-light italic leading-[0.85] md:leading-[0.75] tracking-tighter uppercase mb-6 md:mb-16" style={{ fontFamily: "serif" }}>{c?.heroHeadline ?? <>
                    Heritage <br/> <span className="not-italic font-black text-white/5 italic">Eternalized.</span>
                 </>}</h1>
-                <div className="grid md:grid-cols-3 gap-12 md:gap-24 text-left max-w-5xl mx-auto border-t border-white/10 pt-16">
+                <div className="grid md:grid-cols-3 gap-4 sm:gap-6 md:gap-24 text-left max-w-5xl mx-auto border-t border-white/10 pt-6 md:pt-16">
                    <div className="space-y-4">
                       <h3 className="text-[10px] font-black uppercase tracking-widest text-[var(--brand,#b4925e)]">The Mandate</h3>
                       <p className="text-[11px] text-white/30 leading-loose uppercase tracking-widest font-bold italic">{c?.heroSubline ?? fd?.tagline ?? <>
@@ -581,9 +581,9 @@ return (
              </Reveal>
           </div>
 
-          <div className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4">
+          <div className="absolute bottom-4 md:bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 md:gap-4">
              <span className="text-[8px] font-black uppercase tracking-[0.5em] text-white/20">Explore_The_Repository</span>
-             <div className="h-20 w-px bg-gradient-to-b from-[var(--brand,#b4925e)] to-transparent" />
+             <div className="h-8 md:h-20 w-px bg-gradient-to-b from-[var(--brand,#b4925e)] to-transparent" />
           </div>
         </section>
 

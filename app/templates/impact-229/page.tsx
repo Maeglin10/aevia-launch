@@ -2,7 +2,7 @@
 // @ts-nocheck
 
 import React, {useRef, useState, useEffect} from 'react'
-import { motion, useScroll, useTransform, useInView } from "framer-motion"
+import { motion, AnimatePresence, useScroll, useTransform, useInView } from "framer-motion"
 import { Sparkles, Phone, Mail, MapPin, Clock, Star, CheckCircle, ArrowRight, Heart } from "lucide-react"
 import { resolveList } from "@/lib/templates/resolveList";
 
@@ -58,6 +58,38 @@ function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: nu
   const ref = useRef(null)
   const inView = useInView(ref, { once: true, margin: "-60px" })
   return <motion.div ref={ref} initial={{ opacity: 0, y: 28 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.65, delay, ease: [0.16, 1, 0.3, 1] }}>{children}</motion.div>
+}
+
+// Labeled field used by the booking form — matches this template's own card
+// aesthetic (rounded inputs, C.border, C.accent focus ring) rather than
+// impact-211's floating-label pattern.
+function BookingField({
+  id, label, type = "text", required = true, children, value, onChange,
+}: {
+  id: string; label: string; type?: string; required?: boolean;
+  children?: React.ReactNode; value?: string;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
+}) {
+  const isSelect = type === "select"
+  const fieldStyle: React.CSSProperties = {
+    width: "100%", minHeight: 44, background: C.bg, border: `1px solid ${C.border}`,
+    borderRadius: 8, padding: "12px 14px", fontSize: 14, fontFamily: FONT_BODY,
+    color: C.text, outline: "none", boxSizing: "border-box",
+  }
+  return (
+    <div style={{ marginBottom: 20 }}>
+      <label htmlFor={id} style={{ display: "block", fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", color: C.textMuted, marginBottom: 8 }}>
+        {label}{required && <span style={{ color: C.accent }}> *</span>}
+      </label>
+      {isSelect ? (
+        <select id={id} name={id} required={required} value={value} onChange={onChange} className="imx229-field" style={{ ...fieldStyle, cursor: "pointer", appearance: "auto" }}>
+          {children}
+        </select>
+      ) : (
+        <input id={id} name={id} type={type} required={required} value={value} onChange={onChange} className="imx229-field" style={fieldStyle} />
+      )}
+    </div>
+  )
 }
 
 
@@ -116,6 +148,17 @@ export default function EclatSpaPage() {
   const heroRef = useRef<HTMLElement>(null)
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
+  const [bookingService, setBookingService] = useState("")
+  const [bookingLoading, setBookingLoading] = useState(false)
+  const [bookingSent, setBookingSent] = useState(false)
+  const handleBookingSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    setBookingLoading(true)
+    setTimeout(() => {
+      setBookingLoading(false)
+      setBookingSent(true)
+    }, 2000)
+  }
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] })
   const heroY = useTransform(scrollYProgress, [0, 1], [0, 170])
   const heroTextY = useTransform(scrollYProgress, [0, 1], [0, -65])
@@ -132,6 +175,9 @@ export default function EclatSpaPage() {
         @media (max-width: 768px) {
           .imx-mobstack { grid-template-columns: 1fr !important; }
         }
+        .imx229-field:focus { border-color: ${C.accent} !important; box-shadow: 0 0 0 3px ${C.accentLight}; }
+        .imx229-submit:disabled { cursor: not-allowed !important; opacity: 0.72; }
+        a, button, select { cursor: pointer; }
       `}</style>
 
       <motion.nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, height: 72, display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 64px", background: scrolled ? "rgba(253,248,245,0.97)" : "transparent", backdropFilter: scrolled ? "blur(12px)" : "none", borderBottom: scrolled ? `1px solid ${C.border}` : "none", transition: "all 0.4s ease" }}>
@@ -151,7 +197,7 @@ export default function EclatSpaPage() {
         <div id="mb229-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      {["Soins", "Forfaits", "Cadeaux", "Contact"].map(l => (
             <a key={l} href={`#${l.toLowerCase()}`} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)", fontSize: 14, fontWeight: 500, textDecoration: "none" }}>{l}</a>
           ))}
-          <motion.a href={`tel:${fd?.phone ?? "+33493000000"}`} style={{ background: C.accent, color: C.white, borderRadius: 8, padding: "9px 22px", fontSize: 14, fontWeight: 600, textDecoration: "none" }} whileHover={{ background: C.accentDark }}>Réserver</motion.a>
+          <motion.a href="#reservation" style={{ background: C.accent, color: C.white, borderRadius: 8, padding: "9px 22px", fontSize: 14, fontWeight: 600, textDecoration: "none", minHeight: 44, display: "inline-flex", alignItems: "center" }} whileHover={{ background: C.accentDark }}>Réserver</motion.a>
       </div>
         <button
           className="mb229-burger"
@@ -169,7 +215,7 @@ export default function EclatSpaPage() {
           {["Soins", "Forfaits", "Cadeaux", "Contact"].map(l => (
             <a key={l} href={`#${l.toLowerCase()}`} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)", fontSize: 14, fontWeight: 500, textDecoration: "none" }}>{l}</a>
           ))}
-          <motion.a href={`tel:${fd?.phone ?? "+33493000000"}`} style={{ background: C.accent, color: C.white, borderRadius: 8, padding: "9px 22px", fontSize: 14, fontWeight: 600, textDecoration: "none" }} whileHover={{ background: C.accentDark }}>Réserver</motion.a>
+          <motion.a href="#reservation" onClick={() => setMobileOpen(false)} style={{ background: C.accent, color: C.white, borderRadius: 8, padding: "9px 22px", fontSize: 14, fontWeight: 600, textDecoration: "none", minHeight: 44, display: "inline-flex", alignItems: "center", justifyContent: "center" }} whileHover={{ background: C.accentDark }}>Réserver</motion.a>
         </div>
       )}
       <style>{`@media (max-width: 900px) { #mb229-nav { display: none !important; } .mb229-burger { display: flex !important; } }`}</style>
@@ -195,7 +241,7 @@ export default function EclatSpaPage() {
             Institut de beauté et spa à Nice. Soins visage, massages, épilation, maquillage — des rituels de bien-être avec des produits biologiques et une expertise de 14 ans.
           </>}</motion.p>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.0 }} style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
-            <motion.a href={`tel:${fd?.phone ?? "+33493000000"}`} style={{ background: C.accent, color: C.white, borderRadius: 8, padding: "15px 32px", fontWeight: 600, fontSize: 15, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, boxShadow: `0 8px 32px ${C.accent}44` }} whileHover={{ scale: 1.03 }}>
+            <motion.a href="#reservation" style={{ background: C.accent, color: C.white, borderRadius: 8, padding: "15px 32px", fontWeight: 600, fontSize: 15, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, boxShadow: `0 8px 32px ${C.accent}44` }} whileHover={{ scale: 1.03 }}>
               <Phone size={18} /> Réserver un soin
             </motion.a>
             <motion.a href="#soins" style={{ background: "rgba(255,255,255,0.08)", color: "#fff", border: "1px solid rgba(255,255,255,0.22)", borderRadius: 8, padding: "13px 28px", fontWeight: 500, fontSize: 15, textDecoration: "none" }} whileHover={{ background: "rgba(255,255,255,0.14)" }}>
@@ -252,7 +298,7 @@ export default function EclatSpaPage() {
                 <span style={{ fontSize: 15, color: C.textMuted, lineHeight: 1.65 }}>{v}</span>
               </div>
             ))}
-            <motion.a href={`tel:${fd?.phone ?? "+33493000000"}`} style={{ display: "inline-flex", alignItems: "center", gap: 8, marginTop: 28, background: C.accent, color: C.white, borderRadius: 8, padding: "13px 28px", fontWeight: 600, fontSize: 15, textDecoration: "none" }} whileHover={{ background: C.accentDark, scale: 1.02 }}>
+            <motion.a href="#reservation" style={{ display: "inline-flex", alignItems: "center", gap: 8, marginTop: 28, background: C.accent, color: C.white, borderRadius: 8, padding: "13px 28px", fontWeight: 600, fontSize: 15, textDecoration: "none" }} whileHover={{ background: C.accentDark, scale: 1.02 }}>
               Réserver <ArrowRight size={16} />
             </motion.a>
           </div></Reveal>
@@ -279,6 +325,88 @@ export default function EclatSpaPage() {
             </Reveal>
           ))}
         </div>
+      </section>
+
+      <section id="reservation" style={{ padding: "100px 80px", background: C.bg }}>
+        <Reveal><div style={{ textAlign: "center", marginBottom: 52 }}>
+          <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Réservation</span>
+          <h2 style={{ fontFamily: FONT, fontSize: "clamp(30px, 4vw, 52px)", color: C.text, marginTop: 10, lineHeight: 1.15 }}>Réservez<br /><em>votre soin.</em></h2>
+          <p style={{ fontSize: 15, color: C.textMuted, maxWidth: 460, margin: "14px auto 0", lineHeight: 1.7 }}>Choisissez votre soin, une date et une heure. Notre équipe confirme votre rendez-vous sous 24h.</p>
+        </div></Reveal>
+
+        <Reveal delay={0.1}>
+          <div style={{ maxWidth: 640, margin: "0 auto", background: C.white, border: `1px solid ${C.border}`, borderRadius: 16, padding: "44px 40px", boxShadow: C.shadow }}>
+            <AnimatePresence mode="wait">
+              {bookingSent ? (
+                <motion.div key="booking-success" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} style={{ textAlign: "center", padding: "24px 8px" }}>
+                  <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: "spring", stiffness: 220, delay: 0.15 }}
+                    style={{ width: 60, height: 60, borderRadius: "50%", background: C.accentLight, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 20px" }}>
+                    <CheckCircle size={30} color={C.accent} />
+                  </motion.div>
+                  <h3 style={{ fontFamily: FONT, fontSize: 26, color: C.text, marginBottom: 12 }}>Demande reçue</h3>
+                  <p style={{ fontSize: 15, color: C.textMuted, lineHeight: 1.7, maxWidth: 400, margin: "0 auto" }}>
+                    Merci{bookingService ? <> pour votre demande concernant <strong style={{ color: C.text }}>{bookingService}</strong></> : ""}. Notre équipe vous recontacte sous 24h pour confirmer votre rendez-vous.
+                  </p>
+                </motion.div>
+              ) : (
+                <motion.form key="booking-form" initial={{ opacity: 0 }} animate={{ opacity: 1 }} onSubmit={handleBookingSubmit}>
+                  <div className="imx-mobstack" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0 24px" }}>
+                    <BookingField id="resv-name" label="Nom complet" />
+                    <BookingField id="resv-phone" label="Téléphone" type="tel" />
+                  </div>
+                  <BookingField id="resv-email" label="Adresse email" type="email" />
+                  <BookingField id="resv-service" label="Soin souhaité" type="select" value={bookingService} onChange={(e) => setBookingService(e.target.value)}>
+                    <option value="">Sélectionnez un soin</option>
+                    {soins.map((s: any, i: number) => {
+                      const name = s.titre ?? s.name ?? `Soin ${i + 1}`
+                      return <option key={name + i} value={name}>{name}</option>
+                    })}
+                  </BookingField>
+                  <div className="imx-mobstack" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0 24px" }}>
+                    <BookingField id="resv-date" label="Date souhaitée" type="date" />
+                    <BookingField id="resv-time" label="Heure" type="select">
+                      <option value="">—</option>
+                      {["9h00", "10h30", "12h00", "14h00", "15h30", "17h00", "18h30"].map(t => (
+                        <option key={t} value={t}>{t}</option>
+                      ))}
+                    </BookingField>
+                  </div>
+                  <BookingField id="resv-notes" label="Message (facultatif)" required={false} />
+
+                  <div style={{ textAlign: "center", marginTop: 28 }}>
+                    <motion.button
+                      type="submit"
+                      className="imx229-submit"
+                      disabled={bookingLoading}
+                      whileHover={bookingLoading ? {} : { background: C.accentDark }}
+                      whileTap={bookingLoading ? {} : { scale: 0.98 }}
+                      style={{
+                        background: C.accent, color: C.white, border: "none", borderRadius: 8,
+                        padding: "15px 40px", minHeight: 44, fontWeight: 600, fontSize: 15,
+                        fontFamily: FONT_BODY, cursor: bookingLoading ? "not-allowed" : "pointer",
+                        display: "inline-flex", alignItems: "center", gap: 10,
+                      }}
+                    >
+                      {bookingLoading ? (
+                        <>
+                          <motion.span animate={{ rotate: 360 }} transition={{ duration: 0.9, repeat: Infinity, ease: "linear" }}
+                            style={{ width: 15, height: 15, borderRadius: "50%", border: `2px solid ${C.white}`, borderTopColor: "transparent", display: "inline-block" }} />
+                          Envoi en cours…
+                        </>
+                      ) : (
+                        <>Demander une réservation</>
+                      )}
+                    </motion.button>
+                  </div>
+                  <p style={{ fontSize: 12, color: C.textMuted, textAlign: "center", marginTop: 18 }}>
+                    Vous pouvez aussi nous appeler directement au{" "}
+                    <a href={`tel:${fd?.phone ?? "+33493000000"}`} style={{ color: C.accent, fontWeight: 600, textDecoration: "none" }}>{fd?.phone ?? "04 93 00 00 00"}</a>.
+                  </p>
+                </motion.form>
+              )}
+            </AnimatePresence>
+          </div>
+        </Reveal>
       </section>
 
       <section id="contact" style={{ padding: "100px 80px", background: C.accentLight, textAlign: "center" }}>

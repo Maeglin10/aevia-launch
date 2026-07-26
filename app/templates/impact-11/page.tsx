@@ -170,16 +170,18 @@ return (
               </>
             )}
           </Link>
-          <div className="hidden md:flex items-center gap-8 text-gray-600 text-sm font-medium">
+          <div className="hidden lg:flex items-center gap-8 text-gray-600 text-sm font-medium">
             {["Cours", "Mentoring", "Certifications", "Entreprises", "Tarifs"].map(item => (
               <Link key={item} href="/templates/impact-11" className="hover:text-[var(--brand,#7C3AED)] transition-colors cursor-pointer">{item}</Link>
             ))}
           </div>
-          <div className="hidden md:flex items-center gap-3">
+          <div className="hidden lg:flex items-center gap-3">
             <button className="text-gray-700 text-sm px-4 py-2 hover:bg-gray-100 rounded-xl transition-colors cursor-pointer">Se connecter</button>
             <button className="bg-[var(--brand,#7C3AED)] text-white text-sm px-5 py-2.5 rounded-xl hover:bg-[#6D28D9] transition-colors cursor-pointer font-medium">Commencer</button>
           </div>
-          <button className="md:hidden text-gray-900 cursor-pointer" onClick={() => setMobileOpen(true)}><Menu className="w-5 h-5" /></button>
+          {/* nav links + auth buttons need lg (1024px) before they fit on one row without
+              clipping — tablet (768px) now falls back to the hamburger menu instead */}
+          <button className="lg:hidden text-gray-900 cursor-pointer" onClick={() => setMobileOpen(true)}><Menu className="w-5 h-5" /></button>
         </div>
       </nav>
 
@@ -208,7 +210,7 @@ return (
       </AnimatePresence>
 
       {/* Hero */}
-      <section ref={heroRef} className="relative min-h-dvh overflow-hidden bg-gradient-to-br from-[#F5F3FF] via-white to-[#EFF6FF] pt-32 pb-24 px-6">
+      <section ref={heroRef} className="relative min-h-dvh overflow-hidden bg-gradient-to-br from-[#F5F3FF] via-white to-[#EFF6FF] pt-24 pb-12 md:pt-32 md:pb-24 px-6">
         <motion.div className="absolute inset-0 pointer-events-none" style={{ y: heroY }}>
           <div className="absolute top-20 right-10 w-96 h-96 bg-[var(--brand,#7C3AED)]/8 rounded-full blur-3xl" />
           <div className="absolute bottom-20 left-10 w-80 h-80 bg-[#0EA5E9]/8 rounded-full blur-3xl" />
@@ -216,19 +218,19 @@ return (
         <div className="max-w-6xl mx-auto relative z-10">
           <div className="max-w-3xl">
             <Reveal>
-              <div className="inline-flex items-center gap-2 bg-[var(--brand,#7C3AED)]/10 text-[var(--brand,#7C3AED)] px-4 py-1.5 rounded-full text-xs font-semibold mb-8">
+              <div className="inline-flex items-center gap-2 bg-[var(--brand,#7C3AED)]/10 text-[var(--brand,#7C3AED)] px-4 py-1.5 rounded-full text-xs font-semibold mb-5 md:mb-8">
                 <Star className="w-3 h-3 fill-[var(--brand,#7C3AED)]" /> Plateforme #1 en France · 250k apprenants
               </div>
             </Reveal>
             <Reveal delay={0.1}>
-              <h1 className="text-gray-900 text-5xl md:text-7xl font-bold leading-tight mb-6">{c?.heroHeadline ?? <>
+              <h1 className="text-gray-900 text-4xl sm:text-5xl md:text-7xl font-bold leading-tight mb-4 md:mb-6">{c?.heroHeadline ?? <>
                 Apprenez les<br />
                 <span className="text-[var(--brand,#7C3AED)]">compétences</span><br />
                 de demain
               </>}</h1>
             </Reveal>
             <Reveal delay={0.2}>
-              <p className="text-gray-500 text-xl leading-relaxed mb-10 max-w-xl">{c?.heroSubline ?? fd?.tagline ?? <>
+              <p className="text-gray-500 text-base sm:text-xl leading-relaxed mb-6 md:mb-10 max-w-xl">{c?.heroSubline ?? fd?.tagline ?? <>
                 Des cours en ligne créés par des experts, des certifications reconnues, et un mentoring personnalisé pour accélérer votre carrière.
               </>}</p>
             </Reveal>
@@ -246,7 +248,7 @@ return (
               </div>
             </Reveal>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mt-16 max-w-md">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mt-8 md:mt-16 max-w-md">
             {[["250k+", "Apprenants actifs"], ["500+", "Cours disponibles"], ["92%", "Taux d'emploi"]].map(([n, l]) => (
               <Reveal key={l}>
                 <div className="text-center">

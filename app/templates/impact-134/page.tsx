@@ -420,10 +420,434 @@ function ScrollProgressBar() {
 }
 
 /* ==========================================================================
+   CART — context, field, drawer
+   ========================================================================== */
+type CartItem = {
+  id: string
+  name: string
+  price: number
+  qty: number
+  variant?: string
+}
+
+type CartContextValue = {
+  items: CartItem[]
+  addItem: (item: { id: string; name: string; price: number }, qty?: number) => void
+  updateQty: (id: string, delta: number) => void
+  removeItem: (id: string) => void
+  count: number
+  subtotal: number
+  open: boolean
+  setOpen: (v: boolean) => void
+}
+
+const CartContext = React.createContext<CartContextValue | null>(null)
+
+function useCart(): CartContextValue {
+  const ctx = React.useContext(CartContext)
+  if (!ctx) {
+    // Defensive fallback so a mis-nested component never crashes the page.
+    return {
+      items: [], addItem: () => {}, updateQty: () => {}, removeItem: () => {},
+      count: 0, subtotal: 0, open: false, setOpen: () => {},
+    }
+  }
+  return ctx
+}
+
+// Parses "89€" / "€89" / "89,00 €" style price strings into a plain number.
+function parsePrice(price: string): number {
+  const digits = price.replace(/[^0-9]/g, "")
+  return digits ? parseInt(digits, 10) : 0
+}
+
+function CartProvider({ children }: { children: React.ReactNode }) {
+  const [items, setItems] = useState<CartItem[]>([])
+  const [open, setOpen] = useState(false)
+
+  function addItem(item: { id: string; name: string; price: number }, qty: number = 1) {
+    setItems((prev) => {
+      const existing = prev.find((i) => i.id === item.id)
+      if (existing) {
+        return prev.map((i) => (i.id === item.id ? { ...i, qty: i.qty + qty } : i))
+      }
+      return [...prev, { id: item.id, name: item.name, price: item.price, qty }]
+    })
+    setOpen(true)
+  }
+  function updateQty(id: string, delta: number) {
+    setItems((prev) => prev.map((i) => (i.id === id ? { ...i, qty: Math.max(1, i.qty + delta) } : i)))
+  }
+  function removeItem(id: string) {
+    setItems((prev) => prev.filter((i) => i.id !== id))
+  }
+
+  const count = items.reduce((s, i) => s + i.qty, 0)
+  const subtotal = items.reduce((s, i) => s + i.price * i.qty, 0)
+
+  return (
+    <CartContext.Provider value={{ items, addItem, updateQty, removeItem, count, subtotal, open, setOpen }}>
+      {children}
+    </CartContext.Provider>
+  )
+}
+
+function CartField({
+  id,
+  label,
+  type = "text",
+  value,
+  onChange,
+  required = false,
+  textarea = false,
+}: {
+  id: string
+  label: string
+  type?: string
+  value: string
+  onChange: (v: string) => void
+  required?: boolean
+  textarea?: boolean
+}) {
+  const [focused, setFocused] = useState(false)
+  const fieldStyle: React.CSSProperties = {
+    width: "100%",
+    backgroundColor: C.white,
+    border: `1.5px solid ${focused ? C.primary : C.primaryBorder}`,
+    borderRadius: 14,
+    padding: "12px 16px",
+    fontFamily: "'Inter', sans-serif",
+    fontSize: 14,
+    color: C.text,
+    outline: "none",
+    boxShadow: focused ? `0 0 0 3px ${C.primaryDim}` : "none",
+    transition: "border-color 0.2s, box-shadow 0.2s",
+    resize: "none",
+  }
+  return (
+    <div style={{ marginBottom: 16 }}>
+      <label
+        htmlFor={id}
+        style={{
+          display: "block",
+          fontFamily: "'Inter', sans-serif",
+          fontSize: 11,
+          fontWeight: 500,
+          letterSpacing: "0.08em",
+          textTransform: "uppercase",
+          color: C.textMuted,
+          marginBottom: 6,
+        }}
+      >
+        {label}
+        {required && <span style={{ color: C.primary }}> *</span>}
+      </label>
+      {textarea ? (
+        <textarea
+          id={id}
+          required={required}
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          onFocus={() => setFocused(true)}
+          onBlur={() => setFocused(false)}
+          rows={2}
+          style={fieldStyle}
+        />
+      ) : (
+        <input
+          id={id}
+          type={type}
+          required={required}
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          onFocus={() => setFocused(true)}
+          onBlur={() => setFocused(false)}
+          style={fieldStyle}
+        />
+      )}
+    </div>
+  )
+}
+
+function CartDrawer() {
+  const { items, updateQty, removeItem, count, subtotal, open, setOpen } = useCart()
+  const [step, setStep] = useState<"cart" | "checkout" | "success">("cart")
+  const [form, setForm] = useState({ name: "", email: "", address: "", phone: "" })
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState("")
+  const [orderNumber, setOrderNumber] = useState("")
+
+  function handleClose() {
+    setOpen(false)
+    setTimeout(() => {
+      setStep("cart")
+      setForm({ name: "", email: "", address: "", phone: "" })
+      setError("")
+    }, 400)
+  }
+
+  function handleCheckout(e: React.FormEvent) {
+    e.preventDefault()
+    if (!form.name.trim() || !form.email.trim() || !form.address.trim()) {
+      setError("Merci de renseigner votre nom, e-mail et adresse de livraison.")
+      return
+    }
+    setError("")
+    setLoading(true)
+    setTimeout(() => {
+      setLoading(false)
+      setOrderNumber(`LUM-${Math.floor(100000 + Math.random() * 900000)}`)
+      items.forEach((i) => removeItem(i.id))
+      setStep("success")
+    }, 1600)
+  }
+
+  return (
+    <AnimatePresence>
+      {open && (
+        <>
+          <motion.div
+            key="cart-backdrop"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={handleClose}
+            style={{ position: "fixed", inset: 0, background: "rgba(131,24,67,0.35)", zIndex: 200 }}
+          />
+          <motion.div
+            key="cart-drawer"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Panier"
+            initial={{ x: "100%" }}
+            animate={{ x: 0 }}
+            exit={{ x: "100%" }}
+            transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+            style={{
+              position: "fixed", top: 0, right: 0, bottom: 0,
+              width: "min(440px, 100vw)",
+              backgroundColor: C.pink,
+              zIndex: 201,
+              display: "flex",
+              flexDirection: "column",
+              boxShadow: "-16px 0 48px rgba(131,24,67,0.18)",
+            }}
+          >
+            {/* Header */}
+            <div
+              style={{
+                display: "flex", alignItems: "center", justifyContent: "space-between",
+                padding: "22px 26px",
+                borderBottom: `1px solid ${C.primaryBorder}`,
+              }}
+            >
+              <div style={{ fontFamily: "'Playfair Display', serif", fontStyle: "italic", fontWeight: 600, fontSize: 22, color: C.text }}>
+                {step === "success" ? "Commande confirmée" : step === "checkout" ? "Livraison" : "Votre panier"}
+              </div>
+              <button
+                onClick={handleClose}
+                aria-label="Fermer le panier"
+                className="cursor-pointer"
+                style={{
+                  width: 44, height: 44, display: "flex", alignItems: "center", justifyContent: "center",
+                  background: "transparent", border: "none", color: C.textMuted, borderRadius: 12,
+                }}
+              >
+                <X size={20} />
+              </button>
+            </div>
+
+            {/* Body */}
+            <div style={{ flex: 1, overflowY: "auto", padding: "24px 26px" }}>
+              <AnimatePresence mode="wait">
+                {step === "success" ? (
+                  <motion.div key="success" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} style={{ textAlign: "center", padding: "28px 6px" }}>
+                    <div
+                      style={{
+                        width: 64, height: 64, borderRadius: "50%",
+                        backgroundColor: C.primaryDim, border: `1.5px solid ${C.primary}`,
+                        display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 20px",
+                      }}
+                    >
+                      <Heart size={26} color={C.primary} fill={C.primary} />
+                    </div>
+                    <div style={{ fontFamily: "'Playfair Display', serif", fontStyle: "italic", fontWeight: 600, fontSize: 24, color: C.text, marginBottom: 8 }}>
+                      Merci{form.name ? `, ${form.name.split(" ")[0]}` : ""} !
+                    </div>
+                    <div style={{ fontFamily: "'Inter', sans-serif", fontSize: 13, color: C.textMuted, marginBottom: 20, lineHeight: 1.6 }}>
+                      Votre commande <strong style={{ color: C.primary }}>#{orderNumber}</strong> est enregistrée.
+                      Un e-mail de confirmation arrive à {form.email} sous quelques minutes.
+                    </div>
+                    <button
+                      onClick={handleClose}
+                      className="cursor-pointer"
+                      style={{
+                        background: `linear-gradient(135deg, ${C.primary}, ${C.lavender})`,
+                        color: "#fff", border: "none", borderRadius: 999,
+                        padding: "13px 30px", minHeight: 44,
+                        fontFamily: "'Inter', sans-serif", fontWeight: 500, fontSize: 13,
+                        letterSpacing: "0.08em", textTransform: "uppercase",
+                      }}
+                    >
+                      Continuer mes achats
+                    </button>
+                  </motion.div>
+                ) : step === "checkout" ? (
+                  <motion.form key="checkout" initial={{ opacity: 0, x: 16 }} animate={{ opacity: 1, x: 0 }} onSubmit={handleCheckout}>
+                    <div
+                      style={{
+                        backgroundColor: C.white, border: `1px solid ${C.primaryBorder}`, borderRadius: 14,
+                        padding: "14px 18px", marginBottom: 20, fontFamily: "'Inter', sans-serif", fontSize: 13,
+                        color: C.textMuted, display: "flex", justifyContent: "space-between",
+                      }}
+                    >
+                      <span>{count} article{count > 1 ? "s" : ""}</span>
+                      <strong style={{ color: C.text }}>{subtotal}€</strong>
+                    </div>
+
+                    <CartField id="cart-name" label="Nom complet" required value={form.name} onChange={(v) => setForm((f) => ({ ...f, name: v }))} />
+                    <CartField id="cart-email" label="E-mail" type="email" required value={form.email} onChange={(v) => setForm((f) => ({ ...f, email: v }))} />
+                    <CartField id="cart-address" label="Adresse de livraison" required textarea value={form.address} onChange={(v) => setForm((f) => ({ ...f, address: v }))} />
+                    <CartField id="cart-phone" label="Téléphone (facultatif)" type="tel" value={form.phone} onChange={(v) => setForm((f) => ({ ...f, phone: v }))} />
+
+                    {error && (
+                      <div style={{ fontFamily: "'Inter', sans-serif", color: "#BE185D", fontSize: 12, marginBottom: 14, fontWeight: 600 }}>
+                        {error}
+                      </div>
+                    )}
+
+                    <div style={{ display: "flex", gap: 10, marginTop: 8 }}>
+                      <button
+                        type="button"
+                        onClick={() => setStep("cart")}
+                        className="cursor-pointer"
+                        style={{
+                          flex: "0 0 auto", minHeight: 44, padding: "0 20px",
+                          background: "transparent", border: `1.5px solid ${C.primaryBorder}`, borderRadius: 999,
+                          color: C.text, fontFamily: "'Inter', sans-serif", fontWeight: 500, fontSize: 12,
+                          letterSpacing: "0.06em", textTransform: "uppercase",
+                        }}
+                      >
+                        Retour
+                      </button>
+                      <button
+                        type="submit"
+                        disabled={loading}
+                        className="cursor-pointer"
+                        style={{
+                          flex: 1, minHeight: 44,
+                          background: loading ? C.textLight : `linear-gradient(135deg, ${C.primary}, ${C.lavender})`,
+                          color: "#fff", border: "none", borderRadius: 999,
+                          fontFamily: "'Inter', sans-serif", fontWeight: 500, fontSize: 12,
+                          letterSpacing: "0.08em", textTransform: "uppercase",
+                          cursor: loading ? "not-allowed" : "pointer",
+                          display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
+                        }}
+                      >
+                        {loading ? (
+                          <>
+                            <motion.span
+                              animate={{ rotate: 360 }}
+                              transition={{ duration: 0.9, repeat: Infinity, ease: "linear" }}
+                              style={{ width: 14, height: 14, borderRadius: "50%", border: "2px solid rgba(255,255,255,0.4)", borderTopColor: "#fff", display: "inline-block" }}
+                            />
+                            Validation…
+                          </>
+                        ) : (
+                          "Confirmer la commande"
+                        )}
+                      </button>
+                    </div>
+                  </motion.form>
+                ) : (
+                  <motion.div key="cart" initial={{ opacity: 0, x: -16 }} animate={{ opacity: 1, x: 0 }}>
+                    {items.length === 0 ? (
+                      <div style={{ textAlign: "center", padding: "48px 8px", color: C.textMuted, fontFamily: "'Inter', sans-serif" }}>
+                        <ShoppingBag size={32} color={C.textLight} style={{ marginBottom: 14 }} />
+                        <div style={{ fontSize: 14 }}>Votre panier est vide.</div>
+                      </div>
+                    ) : (
+                      items.map((item) => (
+                        <div key={item.id} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, padding: "16px 0", borderBottom: `1px solid ${C.primaryBorder}` }}>
+                          <div style={{ flex: 1, minWidth: 0 }}>
+                            <div style={{ fontFamily: "'Playfair Display', serif", fontStyle: "italic", fontWeight: 600, fontSize: 15, color: C.text }}>
+                              {item.name}
+                            </div>
+                            <div style={{ fontFamily: "'Inter', sans-serif", fontSize: 12, color: C.textMuted, marginTop: 2 }}>{item.price}€ / pièce</div>
+                          </div>
+                          <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
+                            <button
+                              onClick={() => updateQty(item.id, -1)}
+                              aria-label={`Réduire la quantité de ${item.name}`}
+                              className="cursor-pointer"
+                              style={{ width: 32, height: 32, display: "flex", alignItems: "center", justifyContent: "center", border: `1px solid ${C.primaryBorder}`, background: C.white, borderRadius: 999, color: C.text }}
+                            >
+                              <span style={{ fontSize: 16, lineHeight: 1 }}>−</span>
+                            </button>
+                            <span style={{ minWidth: 20, textAlign: "center", fontFamily: "'Inter', sans-serif", fontSize: 13, fontWeight: 600, color: C.text }}>{item.qty}</span>
+                            <button
+                              onClick={() => updateQty(item.id, 1)}
+                              aria-label={`Augmenter la quantité de ${item.name}`}
+                              className="cursor-pointer"
+                              style={{ width: 32, height: 32, display: "flex", alignItems: "center", justifyContent: "center", border: `1px solid ${C.primaryBorder}`, background: C.white, borderRadius: 999, color: C.text }}
+                            >
+                              <span style={{ fontSize: 14, lineHeight: 1 }}>+</span>
+                            </button>
+                          </div>
+                          <div style={{ fontFamily: "'Inter', sans-serif", fontWeight: 700, fontSize: 14, color: C.text, minWidth: 50, textAlign: "right" }}>
+                            {item.price * item.qty}€
+                          </div>
+                          <button
+                            onClick={() => removeItem(item.id)}
+                            aria-label={`Retirer ${item.name} du panier`}
+                            className="cursor-pointer"
+                            style={{ width: 36, height: 36, display: "flex", alignItems: "center", justifyContent: "center", background: "transparent", border: "none", color: C.textMuted, flexShrink: 0 }}
+                          >
+                            <X size={16} />
+                          </button>
+                        </div>
+                      ))
+                    )}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+
+            {/* Footer */}
+            {step === "cart" && items.length > 0 && (
+              <div style={{ padding: "20px 26px", borderTop: `1px solid ${C.primaryBorder}` }}>
+                <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 16, fontFamily: "'Inter', sans-serif", fontSize: 15 }}>
+                  <span style={{ color: C.textMuted }}>Sous-total</span>
+                  <strong style={{ color: C.text, fontFamily: "'Playfair Display', serif" }}>{subtotal}€</strong>
+                </div>
+                <button
+                  onClick={() => setStep("checkout")}
+                  className="cursor-pointer"
+                  style={{
+                    width: "100%", minHeight: 48,
+                    background: `linear-gradient(135deg, ${C.primary}, ${C.lavender})`,
+                    color: "#fff", border: "none", borderRadius: 999,
+                    fontFamily: "'Inter', sans-serif", fontWeight: 500, fontSize: 13,
+                    letterSpacing: "0.1em", textTransform: "uppercase",
+                  }}
+                >
+                  Commander
+                </button>
+              </div>
+            )}
+          </motion.div>
+        </>
+      )}
+    </AnimatePresence>
+  )
+}
+
+/* ==========================================================================
    NAVIGATION
    ========================================================================== */
 function Nav({ scrolled }: { scrolled: boolean }) {
   const [open, setOpen] = useState(false)
+  const { count: cartCount, setOpen: setCartOpen } = useCart()
 
   return (
     <>
@@ -499,8 +923,29 @@ function Nav({ scrolled }: { scrolled: boolean }) {
               <ShoppingBag size={13} />
             </Link>
             <button
+              onClick={() => setCartOpen(true)}
+              aria-label={`Ouvrir le panier${cartCount > 0 ? ` (${cartCount} article${cartCount > 1 ? "s" : ""})` : ""}`}
+              className="relative cursor-pointer transition-opacity hover:opacity-60"
+              style={{ width: 44, height: 44, display: "flex", alignItems: "center", justifyContent: "center" }}
+            >
+              <ShoppingBag size={20} color={C.text} />
+              {cartCount > 0 && (
+                <span
+                  style={{
+                    position: "absolute", top: 4, right: 4,
+                    minWidth: 16, height: 16, padding: "0 3px", borderRadius: 999,
+                    backgroundColor: C.primary, color: "#fff",
+                    fontFamily: "'Inter', sans-serif", fontSize: 9, fontWeight: 700,
+                    display: "flex", alignItems: "center", justifyContent: "center", lineHeight: 1,
+                  }}
+                >
+                  {cartCount}
+                </span>
+              )}
+            </button>
+            <button
               onClick={() => setOpen(true)}
-              className="lg:hidden p-2 transition-opacity hover:opacity-60"
+              className="lg:hidden p-2 transition-opacity hover:opacity-60 cursor-pointer"
               aria-label="Menu"
             >
               <Menu size={22} color={C.text} />
@@ -771,6 +1216,7 @@ function Hero() {
    ========================================================================== */
 function CollectionsSection() {
   const [hovered, setHovered] = useState<string | null>(null)
+  const { addItem } = useCart()
 
   return (
     <section id="collections" className="py-24 lg:py-32" style={{ backgroundColor: C.white }}>
@@ -843,14 +1289,18 @@ function CollectionsSection() {
                       className="absolute inset-0 flex items-end p-5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                       style={{ background: `linear-gradient(to top, ${C.text}E0 0%, transparent 55%)` }}
                     >
-                      <Link
-                        href="#sets"
-                        className="flex items-center gap-2 px-5 py-2.5 rounded-full text-[11px] tracking-[0.12em] uppercase w-full justify-center"
-                        style={{ backgroundColor: "#fff", color: C.text, fontFamily: "'Inter', sans-serif", fontWeight: 500 }}
+                      <button
+                        onClick={(e) => {
+                          e.preventDefault()
+                          e.stopPropagation()
+                          addItem({ id: product.id, name: product.name, price: parsePrice(product.price) })
+                        }}
+                        className="flex items-center gap-2 px-5 py-2.5 rounded-full text-[11px] tracking-[0.12em] uppercase w-full justify-center cursor-pointer"
+                        style={{ backgroundColor: "#fff", color: C.text, fontFamily: "'Inter', sans-serif", fontWeight: 500, minHeight: 44, border: "none" }}
                       >
                         <ShoppingBag size={13} />
                         Ajouter au panier
-                      </Link>
+                      </button>
                     </div>
                   </div>
 
@@ -1516,6 +1966,7 @@ function PressSection() {
    SETS / PRICING SECTION
    ========================================================================== */
 function SetsSection() {
+  const { addItem } = useCart()
   return (
     <section id="sets" className="py-24 lg:py-32" style={{ backgroundColor: C.pink }}>
       <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-16">
@@ -1651,7 +2102,8 @@ function SetsSection() {
 
                   {/* CTA */}
                   <button
-                    className="w-full py-4 rounded-full text-[12px] tracking-[0.14em] uppercase transition-all duration-300 hover:opacity-90 font-medium"
+                    onClick={() => addItem({ id: `set-${set.name.toLowerCase()}`, name: `Coffret ${set.name}`, price: parsePrice(set.price) })}
+                    className="w-full py-4 rounded-full text-[12px] tracking-[0.14em] uppercase transition-all duration-300 hover:opacity-90 font-medium cursor-pointer"
                     style={{
                       background: set.highlight
                         ? `linear-gradient(135deg, ${C.primary}, ${C.lavender})`
@@ -1659,6 +2111,7 @@ function SetsSection() {
                       border: set.highlight ? "none" : `1px solid ${C.primaryBorder}`,
                       color: set.highlight ? "#fff" : C.text,
                       fontFamily: "'Inter', sans-serif",
+                      minHeight: 44,
                     }}
                   >
                     {set.cta}
@@ -1954,19 +2407,22 @@ export default function Impact134Page() {
       });
     }
   }, [c]);return (
-    <div style={{ backgroundColor: C.pink, fontFamily: "'Inter', sans-serif" }}>
-      <ScrollProgressBar />
-      <Nav scrolled={scrolled} />
-      <Hero />
-      <Marquee />
-      <CollectionsSection />
-      <RituelsSection />
-      <IngredientsSection />
-      <AtelierSection />
-      <ReviewsSection />
-      <PressSection />
-      <SetsSection />
-      <Footer />
-    </div>
+    <CartProvider>
+      <div style={{ backgroundColor: C.pink, fontFamily: "'Inter', sans-serif" }}>
+        <ScrollProgressBar />
+        <Nav scrolled={scrolled} />
+        <Hero />
+        <Marquee />
+        <CollectionsSection />
+        <RituelsSection />
+        <IngredientsSection />
+        <AtelierSection />
+        <ReviewsSection />
+        <PressSection />
+        <SetsSection />
+        <Footer />
+        <CartDrawer />
+      </div>
+    </CartProvider>
   )
 }

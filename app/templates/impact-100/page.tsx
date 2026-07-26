@@ -342,7 +342,7 @@ export default function NovaSpacesPage() {
             <Badge className="bg-black/5 text-black border border-black/10 text-[9px] font-bold uppercase tracking-[0.5em] mb-10 px-4 py-1.5 rounded-full">
               Global Architectural Collective // NYC - TOKYO
             </Badge>
-            <h1 className="text-8xl md:text-[14rem] font-light leading-[0.85] tracking-tighter mb-12 uppercase text-black">{c?.heroHeadline ?? <>
+            <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-[14rem] font-light leading-[0.95] lg:leading-[0.85] tracking-tighter mb-12 uppercase text-black break-words">{c?.heroHeadline ?? <>
               The Silence <br />{" "}
               <span className="font-black italic">Of Space.</span>
             </>}</h1>

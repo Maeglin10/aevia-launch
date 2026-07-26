@@ -839,6 +839,14 @@ export default function ImpactEclatPage() {
         @media (max-width: 768px) {
           .imx-mobstack { grid-template-columns: 1fr !important; }
         }
+        /* mobile hero fix: content was bottom-anchored (align-items:flex-end) in a fixed-height,
+           overflow:hidden section — with full desktop padding the wrapped text grew taller than
+           the box and the H1 got clipped off above the visible area. Let the section grow with
+           its content and stop bottom-anchoring on small screens. */
+        @media (max-width: 768px) {
+          .imx-hero168-section { height: auto !important; min-height: 100vh !important; align-items: flex-start !important; padding-top: 120px !important; padding-bottom: 40px !important; }
+          .imx-hero168-content { padding: 0 24px 32px !important; max-width: 100% !important; }
+        }
       `}</style>
 
       {/* ANNOUNCEMENT BAR */}
@@ -1014,6 +1022,7 @@ export default function ImpactEclatPage() {
       <>
       {/* HERO — plein écran editorial dark */}
       <section id="hero"
+        className="imx-hero168-section"
         ref={heroRef}
         style={{
           position: "relative",
@@ -1127,6 +1136,7 @@ export default function ImpactEclatPage() {
 
         {/* Left content */}
         <motion.div
+          className="imx-hero168-content"
           style={{ y: heroY, opacity: heroOpacity, position: "relative", zIndex: 10, padding: "0 80px 80px", maxWidth: "62%" }}
         >
           <motion.div

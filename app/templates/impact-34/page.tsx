@@ -127,7 +127,7 @@ return (
       <section
         id="hero"
         ref={heroRef}
-        className="relative min-h-[115vh] flex flex-col justify-center items-center overflow-hidden pt-12 pb-20"
+        className="relative min-h-dvh flex flex-col justify-center items-center overflow-hidden pt-20 pb-10 md:pt-12 md:pb-20"
       >
         {/* Parallax BG */}
         <motion.div
@@ -154,7 +154,7 @@ return (
         <motion.div style={{ opacity: heroOpacity }} className="relative z-10 max-w-6xl mx-auto px-6 text-center">
           {/* Chip */}
           <Reveal>
-            <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full border border-[var(--brand,#F97316)]/30 bg-[var(--brand,#F97316)]/10 mb-10">
+            <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full border border-[var(--brand,#F97316)]/30 bg-[var(--brand,#F97316)]/10 mb-5 md:mb-10">
               <Mic className="w-3.5 h-3.5 text-[var(--brand,#F97316)]" />
               <span className="text-xs font-semibold text-[#FB923C]">
                 Trusted by 50,000+ podcasters worldwide
@@ -164,13 +164,13 @@ return (
 
           {/* Big EQ visualization */}
           <Reveal delay={0.05}>
-            <div className="flex justify-center mb-8">
+            <div className="flex justify-center mb-4 md:mb-8">
               <AnimatedEQ barCount={24} color={C.accent} height={90} />
             </div>
           </Reveal>
 
           <Reveal delay={0.1}>
-            <h1 className="text-5xl md:text-7xl lg:text-8xl font-black leading-[1.0] tracking-tight mb-6">{c?.heroHeadline ?? <>
+            <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black leading-[1.05] md:leading-[1.0] tracking-tight mb-4 md:mb-6 break-words">{c?.heroHeadline ?? <>
               Your Podcast.{" "}
               <span
                 className="inline-block"
@@ -186,7 +186,7 @@ return (
           </Reveal>
 
           <Reveal delay={0.2}>
-            <p className="text-lg md:text-xl text-[#94A3B8] max-w-2xl mx-auto leading-relaxed mb-10">{c?.heroSubline ?? fd?.tagline ?? <>
+            <p className="text-base md:text-xl text-[#94A3B8] max-w-2xl mx-auto leading-relaxed mb-6 md:mb-10">{c?.heroSubline ?? fd?.tagline ?? <>
               Host, distribute, and monetize your podcast on 15+ platforms — all from one
               dashboard. No tech skills required. Start in minutes.
             </>}</p>
@@ -194,7 +194,7 @@ return (
 
           {/* CTA buttons */}
           <Reveal delay={0.3}>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-14">
+            <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center mb-6 md:mb-14">
               <Link href="/templates/impact-34/pricing">
                 <motion.button
                   whileHover={{ scale: 1.03 }}

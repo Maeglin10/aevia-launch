@@ -175,7 +175,13 @@ export function HeroWordReveal() {
                 display: "block",
                 fontFamily: FONT_SYNE,
                 fontWeight: 800,
-                fontSize: "clamp(4.5rem, 16vw, 13rem)",
+                // was clamp(4.5rem,16vw,13rem) — a 72px floor forced "BREAK."
+                // wider than the mobile viewport and clipped it (each word's
+                // span has overflow:hidden for the reveal animation, and the
+                // section itself is overflow:hidden too); the 13rem (208px)
+                // ceiling also blew up desktop height enough to push the CTA
+                // below the fold.
+                fontSize: "clamp(2.75rem, 9vw, 7.5rem)",
                 letterSpacing: "-0.045em",
                 lineHeight: 0.88,
                 color: isAccent ? C.red : C.white,

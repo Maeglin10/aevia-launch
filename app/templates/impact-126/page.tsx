@@ -492,6 +492,23 @@ export default function ImpactRestaurantPage() {
   const [navScrolled, setNavScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [reservationOpen, setReservationOpen] = useState(false);
+  const [reservationLoading, setReservationLoading] = useState(false);
+  const [reservationSent, setReservationSent] = useState(false);
+
+  const closeReservation = useCallback(() => {
+    setReservationOpen(false);
+    setReservationLoading(false);
+    setReservationSent(false);
+  }, []);
+
+  const handleReservationSubmit = useCallback((e: React.FormEvent) => {
+    e.preventDefault();
+    setReservationLoading(true);
+    setTimeout(() => {
+      setReservationLoading(false);
+      setReservationSent(true);
+    }, 1000);
+  }, []);
 
   const { scrollY } = useScroll();
   const heroParallaxY = useTransform(scrollY, [0, 700], [0, 180]);
@@ -824,7 +841,7 @@ return (
         />
 
         {/* SVG pasta watermark */}
-        <img src={photo(1, "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=800&q=80")} alt="Portrait" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+        <img src={photo(1, "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=800&q=80")} alt="Portrait" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", zIndex: 0 }} />
 
         {/* Hero content */}
         <div
@@ -2025,7 +2042,7 @@ return (
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            onClick={() => setReservationOpen(false)}
+            onClick={closeReservation}
             style={{
               position: "fixed",
               inset: 0,
@@ -2058,11 +2075,17 @@ return (
             >
               {/* Close */}
               <button
-                onClick={() => setReservationOpen(false)}
+                onClick={closeReservation}
+                aria-label="Chiudi"
                 style={{
                   position: "absolute",
-                  top: 20,
-                  right: 20,
+                  top: 8,
+                  right: 8,
+                  width: 44,
+                  height: 44,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
                   background: "none",
                   border: "none",
                   color: C.muted,
@@ -2074,154 +2097,342 @@ return (
                 ×
               </button>
 
-              {/* Header */}
-              <div
-                style={{
-                  fontFamily: C.fontSans,
-                  fontSize: 10,
-                  fontWeight: 600,
-                  letterSpacing: "0.3em",
-                  textTransform: "uppercase",
-                  color: C.terracotta,
-                  marginBottom: 16,
-                }}
-              >
-                Prenotazione
-              </div>
-              <h3
-                style={{
-                  fontFamily: C.fontDisplay,
-                  fontSize: 32,
-                  fontWeight: 600,
-                  color: C.dark,
-                  letterSpacing: "-0.02em",
-                  marginBottom: 32,
-                  lineHeight: 1.1,
-                }}
-              >
-                Riserva il tuo tavolo
-              </h3>
+              <AnimatePresence mode="wait">
+                {reservationSent ? (
+                  <motion.div
+                    key="reservation-confirmation"
+                    initial={{ opacity: 0, y: 12 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4 }}
+                    style={{ textAlign: "center", padding: "12px 0 0" }}
+                  >
+                    <motion.div
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      transition={{ type: "spring", stiffness: 200, delay: 0.15 }}
+                      style={{
+                        width: 56,
+                        height: 56,
+                        borderRadius: "50%",
+                        border: `1px solid ${C.terracotta}`,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        margin: "0 auto 24px",
+                        fontSize: 22,
+                        color: C.terracotta,
+                      }}
+                    >
+                      ✓
+                    </motion.div>
+                    <h3
+                      style={{
+                        fontFamily: C.fontDisplay,
+                        fontSize: 28,
+                        fontWeight: 600,
+                        color: C.dark,
+                        letterSpacing: "-0.02em",
+                        marginBottom: 12,
+                        lineHeight: 1.1,
+                      }}
+                    >
+                      Prenotazione ricevuta
+                    </h3>
+                    <p
+                      style={{
+                        fontFamily: C.fontSans,
+                        fontSize: 14,
+                        fontWeight: 300,
+                        color: C.muted,
+                        lineHeight: 1.7,
+                        marginBottom: 28,
+                      }}
+                    >
+                      Grazie! Il nostro team confermerà il tuo tavolo entro 24 ore, via email o telefono.
+                    </p>
+                    <button
+                      onClick={closeReservation}
+                      style={{
+                        fontFamily: C.fontSans,
+                        fontSize: 11,
+                        fontWeight: 600,
+                        letterSpacing: "0.22em",
+                        textTransform: "uppercase",
+                        color: C.terracotta,
+                        background: "none",
+                        border: `1px solid ${C.terracotta}`,
+                        padding: "0 32px",
+                        minHeight: 44,
+                        cursor: "pointer",
+                        borderRadius: 2,
+                      }}
+                    >
+                      Chiudi
+                    </button>
+                  </motion.div>
+                ) : (
+                  <motion.div
+                    key="reservation-form"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    {/* Header */}
+                    <div
+                      style={{
+                        fontFamily: C.fontSans,
+                        fontSize: 10,
+                        fontWeight: 600,
+                        letterSpacing: "0.3em",
+                        textTransform: "uppercase",
+                        color: C.terracotta,
+                        marginBottom: 16,
+                      }}
+                    >
+                      Prenotazione
+                    </div>
+                    <h3
+                      style={{
+                        fontFamily: C.fontDisplay,
+                        fontSize: 32,
+                        fontWeight: 600,
+                        color: C.dark,
+                        letterSpacing: "-0.02em",
+                        marginBottom: 32,
+                        lineHeight: 1.1,
+                      }}
+                    >
+                      Riserva il tuo tavolo
+                    </h3>
 
-              <form
-                onSubmit={(e) => { e.preventDefault(); setReservationOpen(false); }}
-                style={{ display: "flex", flexDirection: "column", gap: 20 }}
-              >
-                <div className="imx-mobstack" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
-                  {[
-                    { label: "Data", type: "date" },
-                    { label: "Ora", type: "time" },
-                  ].map((f) => (
-                    <label key={f.label} style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-                      <span
+                    <form
+                      onSubmit={handleReservationSubmit}
+                      style={{ display: "flex", flexDirection: "column", gap: 20 }}
+                    >
+                      <div className="imx-mobstack" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+                        {[
+                          { label: "Data", type: "date" },
+                          { label: "Ora", type: "time" },
+                        ].map((f) => (
+                          <label key={f.label} style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                            <span
+                              style={{
+                                fontFamily: C.fontSans,
+                                fontSize: 9,
+                                fontWeight: 600,
+                                letterSpacing: "0.25em",
+                                textTransform: "uppercase",
+                                color: C.muted,
+                              }}
+                            >
+                              {f.label}
+                            </span>
+                            <input
+                              type={f.type}
+                              required
+                              onFocus={(e) => { e.target.style.borderColor = C.terracotta; }}
+                              onBlur={(e) => { e.target.style.borderColor = C.border; }}
+                              style={{
+                                fontFamily: C.fontSans,
+                                fontSize: 14,
+                                color: C.dark,
+                                background: C.bgCard,
+                                border: `1px solid ${C.border}`,
+                                borderRadius: 2,
+                                padding: "12px 14px",
+                                outline: "none",
+                                transition: "border-color 0.2s ease",
+                              }}
+                            />
+                          </label>
+                        ))}
+                      </div>
+
+                      <label style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                        <span
+                          style={{
+                            fontFamily: C.fontSans,
+                            fontSize: 9,
+                            fontWeight: 600,
+                            letterSpacing: "0.25em",
+                            textTransform: "uppercase",
+                            color: C.muted,
+                          }}
+                        >
+                          Numero di persone
+                        </span>
+                        <select
+                          onFocus={(e) => { e.target.style.borderColor = C.terracotta; }}
+                          onBlur={(e) => { e.target.style.borderColor = C.border; }}
+                          style={{
+                            fontFamily: C.fontSans,
+                            fontSize: 14,
+                            color: C.dark,
+                            background: C.bgCard,
+                            border: `1px solid ${C.border}`,
+                            borderRadius: 2,
+                            padding: "12px 14px",
+                            outline: "none",
+                            appearance: "none",
+                            transition: "border-color 0.2s ease",
+                          }}
+                        >
+                          {[2, 3, 4, 5, 6].map((n) => (
+                            <option key={n}>{n} {n === 1 ? "persona" : "persone"}</option>
+                          ))}
+                        </select>
+                      </label>
+
+                      <label style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                        <span
+                          style={{
+                            fontFamily: C.fontSans,
+                            fontSize: 9,
+                            fontWeight: 600,
+                            letterSpacing: "0.25em",
+                            textTransform: "uppercase",
+                            color: C.muted,
+                          }}
+                        >
+                          Nome
+                        </span>
+                        <input
+                          type="text"
+                          placeholder="Il tuo nome"
+                          required
+                          onFocus={(e) => { e.target.style.borderColor = C.terracotta; }}
+                          onBlur={(e) => { e.target.style.borderColor = C.border; }}
+                          style={{
+                            fontFamily: C.fontSans,
+                            fontSize: 14,
+                            color: C.dark,
+                            background: C.bgCard,
+                            border: `1px solid ${C.border}`,
+                            borderRadius: 2,
+                            padding: "12px 14px",
+                            outline: "none",
+                            transition: "border-color 0.2s ease",
+                          }}
+                        />
+                      </label>
+
+                      <div className="imx-mobstack" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+                        <label style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                          <span
+                            style={{
+                              fontFamily: C.fontSans,
+                              fontSize: 9,
+                              fontWeight: 600,
+                              letterSpacing: "0.25em",
+                              textTransform: "uppercase",
+                              color: C.muted,
+                            }}
+                          >
+                            Email
+                          </span>
+                          <input
+                            type="email"
+                            placeholder="tu@email.com"
+                            required
+                            onFocus={(e) => { e.target.style.borderColor = C.terracotta; }}
+                            onBlur={(e) => { e.target.style.borderColor = C.border; }}
+                            style={{
+                              fontFamily: C.fontSans,
+                              fontSize: 14,
+                              color: C.dark,
+                              background: C.bgCard,
+                              border: `1px solid ${C.border}`,
+                              borderRadius: 2,
+                              padding: "12px 14px",
+                              outline: "none",
+                              transition: "border-color 0.2s ease",
+                            }}
+                          />
+                        </label>
+
+                        <label style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                          <span
+                            style={{
+                              fontFamily: C.fontSans,
+                              fontSize: 9,
+                              fontWeight: 600,
+                              letterSpacing: "0.25em",
+                              textTransform: "uppercase",
+                              color: C.muted,
+                            }}
+                          >
+                            Telefono
+                          </span>
+                          <input
+                            type="tel"
+                            placeholder="+39 000 000 0000"
+                            required
+                            onFocus={(e) => { e.target.style.borderColor = C.terracotta; }}
+                            onBlur={(e) => { e.target.style.borderColor = C.border; }}
+                            style={{
+                              fontFamily: C.fontSans,
+                              fontSize: 14,
+                              color: C.dark,
+                              background: C.bgCard,
+                              border: `1px solid ${C.border}`,
+                              borderRadius: 2,
+                              padding: "12px 14px",
+                              outline: "none",
+                              transition: "border-color 0.2s ease",
+                            }}
+                          />
+                        </label>
+                      </div>
+
+                      <motion.button
+                        type="submit"
+                        disabled={reservationLoading}
+                        whileHover={reservationLoading ? {} : { opacity: 0.9 }}
+                        whileTap={reservationLoading ? {} : { scale: 0.98 }}
                         style={{
+                          marginTop: 8,
                           fontFamily: C.fontSans,
-                          fontSize: 9,
+                          fontSize: 11,
                           fontWeight: 600,
-                          letterSpacing: "0.25em",
+                          letterSpacing: "0.22em",
                           textTransform: "uppercase",
-                          color: C.muted,
+                          color: C.white,
+                          background: C.terracotta,
+                          border: "none",
+                          padding: "16px 0",
+                          minHeight: 44,
+                          cursor: reservationLoading ? "not-allowed" : "pointer",
+                          borderRadius: 2,
+                          width: "100%",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          gap: 10,
                         }}
                       >
-                        {f.label}
-                      </span>
-                      <input
-                        type={f.type}
-                        style={{
-                          fontFamily: C.fontSans,
-                          fontSize: 14,
-                          color: C.dark,
-                          background: C.bgCard,
-                          border: `1px solid ${C.border}`,
-                          borderRadius: 2,
-                          padding: "12px 14px",
-                          outline: "none",
-                        }}
-                      />
-                    </label>
-                  ))}
-                </div>
-
-                <label style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-                  <span
-                    style={{
-                      fontFamily: C.fontSans,
-                      fontSize: 9,
-                      fontWeight: 600,
-                      letterSpacing: "0.25em",
-                      textTransform: "uppercase",
-                      color: C.muted,
-                    }}
-                  >
-                    Numero di persone
-                  </span>
-                  <select
-                    style={{
-                      fontFamily: C.fontSans,
-                      fontSize: 14,
-                      color: C.dark,
-                      background: C.bgCard,
-                      border: `1px solid ${C.border}`,
-                      borderRadius: 2,
-                      padding: "12px 14px",
-                      outline: "none",
-                      appearance: "none",
-                    }}
-                  >
-                    {[2, 3, 4, 5, 6].map((n) => (
-                      <option key={n}>{n} {n === 1 ? "persona" : "persone"}</option>
-                    ))}
-                  </select>
-                </label>
-
-                <label style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-                  <span
-                    style={{
-                      fontFamily: C.fontSans,
-                      fontSize: 9,
-                      fontWeight: 600,
-                      letterSpacing: "0.25em",
-                      textTransform: "uppercase",
-                      color: C.muted,
-                    }}
-                  >
-                    Nome
-                  </span>
-                  <input
-                    type="text"
-                    placeholder="Il tuo nome"
-                    style={{
-                      fontFamily: C.fontSans,
-                      fontSize: 14,
-                      color: C.dark,
-                      background: C.bgCard,
-                      border: `1px solid ${C.border}`,
-                      borderRadius: 2,
-                      padding: "12px 14px",
-                      outline: "none",
-                    }}
-                  />
-                </label>
-
-                <MagneticButton
-                  style={{
-                    marginTop: 8,
-                    fontFamily: C.fontSans,
-                    fontSize: 11,
-                    fontWeight: 600,
-                    letterSpacing: "0.22em",
-                    textTransform: "uppercase",
-                    color: C.white,
-                    background: C.terracotta,
-                    border: "none",
-                    padding: "16px 0",
-                    cursor: "pointer",
-                    borderRadius: 2,
-                    width: "100%",
-                  }}
-                >
-                  Conferma Prenotazione
-                </MagneticButton>
-              </form>
+                        {reservationLoading ? (
+                          <>
+                            <motion.div
+                              animate={{ rotate: 360 }}
+                              transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                              style={{
+                                width: 14,
+                                height: 14,
+                                borderRadius: "50%",
+                                border: `1.5px solid ${C.white}`,
+                                borderTopColor: "transparent",
+                              }}
+                            />
+                            Invio in corso…
+                          </>
+                        ) : (
+                          "Conferma Prenotazione"
+                        )}
+                      </motion.button>
+                    </form>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </motion.div>
           </motion.div>
         )}

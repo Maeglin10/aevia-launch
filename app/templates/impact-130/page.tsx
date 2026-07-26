@@ -344,6 +344,7 @@ function SplitRevealHero() {
   return (
     <section id="hero"
       ref={containerRef}
+      className="mb130-hero"
       style={{
         position: "relative",
         height: "100dvh",
@@ -354,6 +355,7 @@ function SplitRevealHero() {
     >
       {/* LEFT — IMAGE */}
       <motion.div
+        className="mb130-hero-left"
         style={{
           x: leftX,
           width: "50%",
@@ -442,11 +444,12 @@ function SplitRevealHero() {
       </motion.div>
 
       {/* DIVIDER */}
-      <div style={{ position: "absolute", left: "50%", top: 0, bottom: 0, width: 1, background: C.emeraldBright, zIndex: 20, opacity: 0.4 }} />
-      <div style={{ position: "absolute", left: "calc(50% - 6px)", top: "50%", transform: "translateY(-50%)", width: 12, height: 12, background: C.emeraldGlow, borderRadius: "50%", zIndex: 21 }} />
+      <div className="mb130-hero-divider" style={{ position: "absolute", left: "50%", top: 0, bottom: 0, width: 1, background: C.emeraldBright, zIndex: 20, opacity: 0.4 }} />
+      <div className="mb130-hero-divider" style={{ position: "absolute", left: "calc(50% - 6px)", top: "50%", transform: "translateY(-50%)", width: 12, height: 12, background: C.emeraldGlow, borderRadius: "50%", zIndex: 21 }} />
 
       {/* RIGHT — CONTENT */}
       <motion.div
+        className="mb130-hero-right"
         style={{
           x: rightX,
           width: "50%",
@@ -475,7 +478,7 @@ function SplitRevealHero() {
             Verso est un studio de branding genevois. Nous créons des identités visuelles, des expériences digitales et des systèmes de communication pour des marques exigeantes.
           </p>
 
-          <div style={{ display: "flex", gap: 16 }}>
+          <div style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
             <button onClick={() => document.getElementById("contact")?.scrollIntoView({behavior:"smooth"})}
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
@@ -679,6 +682,14 @@ return (
         /* mobile: stack 2-col grids to single column (added by responsive fix) */
         @media (max-width: 768px) {
           .imx-mobstack { grid-template-columns: 1fr !important; }
+        }
+
+        /* mobile/tablet: stack the hero split-screen vertically instead of clipping the right column */
+        @media (max-width: 900px) {
+          .mb130-hero { flex-direction: column !important; height: auto !important; min-height: 100dvh; }
+          .mb130-hero-left { width: 100% !important; height: 46vh !important; min-height: 320px; }
+          .mb130-hero-right { width: 100% !important; padding: 40px 24px !important; }
+          .mb130-hero-divider { display: none !important; }
         }
       `}</style>
 
