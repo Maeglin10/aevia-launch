@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { saveSession, saveSessionToBlob, getSession, getSessionFromBlob, type FormData, type GeneratedContent } from "@/lib/sessions";
+import { submitToIndexNow } from "@/lib/indexnow";
 import { generateMockContent } from "@/lib/mockContent";
 import { generateWithFreeProviders, extractMenuItems } from "@/lib/llmProviders";
 import { generateLegalPages } from "@/lib/legal/generateLegalPages";
@@ -115,6 +116,13 @@ export async function POST(req: NextRequest) {
       console.error("[generate] Blob save failed, in-memory only:", blobErr);
       saveSession(sessionId, sessionData);
     }
+
+    // Ping Bing (IndexNow) so the freshly generated site gets crawled fast.
+    // Fire-and-forget — indexing must never delay or fail the response.
+    void submitToIndexNow([
+      `https://launch.aevia.services/preview/${sessionId}`,
+      `https://launch.aevia.services/site/${sessionId}`,
+    ]).catch(() => {});
 
     return NextResponse.json({
       success: true,
