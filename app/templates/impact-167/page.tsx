@@ -1081,9 +1081,13 @@ export default function Impact167Page() {
         @media (max-width: 768px) {
           .imx-mobstack { grid-template-columns: 1fr !important; }
         }
-        /* mobile hero fix: clear the fixed 80px nav so the logo never overlaps the H1 */
+        /* mobile hero fix: clear the fixed 80px nav so the kicker/H1 never
+           overlap it. A prior 120px-top attempt measured only ~41px of
+           real clearance (alignItems:center still centers content in the
+           remaining box rather than anchoring it below the padding), so
+           this switches to flex-start + a larger explicit top offset. */
         @media (max-width: 768px) {
-          .imx-hero167-left { padding: 120px 28px 48px !important; }
+          .imx-hero167-left { align-items: flex-start !important; padding: 140px 28px 48px !important; }
         }
       `}</style>
 
