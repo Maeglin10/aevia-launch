@@ -234,6 +234,7 @@ export default function Impact52Page() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}
+            className="imx52-kicker"
             style={{
               fontSize: "0.58rem",
               fontFamily: F.mono,
@@ -242,9 +243,12 @@ export default function Impact52Page() {
               color: `${C.CYAN}88`,
               marginBottom: "2rem",
               display: "flex",
+              flexWrap: "wrap",
               alignItems: "center",
               justifyContent: "center",
               gap: "0.8rem",
+              padding: "0 12px",
+              textAlign: "center",
             }}
           >
             <span
@@ -257,7 +261,7 @@ export default function Impact52Page() {
                 boxShadow: `0 0 8px ${C.CYAN}`,
               }}
             />
-            CYBERPUNK_CREATIVE_STUDIO &nbsp;//&nbsp; EST. 2019
+            <span style={{ whiteSpace: "normal" }}>CYBERPUNK_CREATIVE_STUDIO &nbsp;//&nbsp; EST. 2019</span>
             <span
               style={{
                 display: "inline-block",

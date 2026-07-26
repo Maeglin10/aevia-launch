@@ -198,7 +198,7 @@ export function DistortedTitle() {
       <motion.div style={{ skewX, skewY }}>
         <div style={{
           fontFamily: "'Syne', sans-serif",
-          fontSize: "clamp(4rem, 14vw, 14rem)",
+          fontSize: "clamp(2.4rem, 12vw, 14rem)",
           fontWeight: 800,
           color: C.text,
           lineHeight: 1.15,
@@ -210,7 +210,7 @@ export function DistortedTitle() {
         </div>
         <div style={{
           fontFamily: "'Syne', sans-serif",
-          fontSize: "clamp(4rem, 14vw, 14rem)",
+          fontSize: "clamp(2.4rem, 12vw, 14rem)",
           fontWeight: 800,
           color: "transparent",
           lineHeight: 1.15,

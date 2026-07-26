@@ -312,14 +312,16 @@ export default function SereneRetreatHome() {
           </motion.div>
         </motion.div>
 
-        {/* Scroll Indicator */}
+        {/* Scroll Indicator — hidden on mobile, where the centered hero
+            column (badge+h1+paragraph+2 CTAs) can run tall enough on short
+            viewports that this collides with the "Discover More" button. */}
         <div
+          className="hidden sm:flex"
           style={{
             position: "absolute",
             bottom: 40,
             left: "50%",
             transform: "translateX(-50%)",
-            display: "flex",
             flexDirection: "column",
             alignItems: "center",
             gap: 8,

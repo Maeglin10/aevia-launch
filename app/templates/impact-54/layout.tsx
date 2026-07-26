@@ -160,6 +160,7 @@ export default function Impact54Layout({
           </Link>
           <Link
             href="/templates/impact-54/contact"
+            className="hidden sm:inline-block"
             style={{
               background: "linear-gradient(135deg, #7c3aed, #5b21b6)",
               border: "none",
@@ -170,6 +171,7 @@ export default function Impact54Layout({
               borderRadius: 8,
               boxShadow: "0 0 20px rgba(124,58,237,0.4)",
               textDecoration: "none",
+              whiteSpace: "nowrap",
             }}
           >
             Get Early Access
