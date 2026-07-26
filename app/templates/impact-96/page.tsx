@@ -349,6 +349,7 @@ function FilmCounter() {
   }, []);
   return (
     <div
+      className="hidden md:flex"
       style={{
         position: "absolute",
         top: 32,
@@ -358,7 +359,6 @@ function FilmCounter() {
         color: C.amberLight,
         opacity: 0.7,
         letterSpacing: "0.1em",
-        display: "flex",
         flexDirection: "column",
         alignItems: "flex-end",
         gap: 4,
@@ -811,8 +811,10 @@ return (
         {/* Film counter — signature element */}
         <FilmCounter />
 
-        {/* Vertical side labels */}
+        {/* Vertical side label — hidden on mobile, where it sits at the
+            vertical center of the hero and collides with the title block. */}
         <div
+          className="hidden md:block"
           style={{
             position: "absolute",
             left: 24,
