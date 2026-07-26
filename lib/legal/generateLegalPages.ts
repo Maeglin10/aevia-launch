@@ -1,4 +1,5 @@
 import type { BusinessProfile, FormData } from "@/lib/sessions";
+import { cgvForArchetype, legalArchetypeForNiche } from "@/lib/legal/legalArchetypes";
 
 export interface LegalPages {
   mentionsLegales: string;
@@ -20,7 +21,7 @@ function clause(value: string | undefined, render: (v: string) => string): strin
 // these are boilerplate legal structures with fields substituted in. Mirrors
 // the hand-written maison-maria legal pages already shipped
 // (app/maison-maria/legal/*) for section structure and tone.
-export function generateLegalPages(fd: FormData, legal: Legal): LegalPages {
+export function generateLegalPages(fd: FormData, legal: Legal, niche?: string): LegalPages {
   const businessName = fd.businessName || "Cette entreprise";
   const email = fd.email || "";
   const legalForm = legal?.legalForm;
@@ -59,25 +60,14 @@ export function generateLegalPages(fd: FormData, legal: Legal): LegalPages {
     <p>Les présentes mentions légales sont régies par le droit français.</p>
   `.trim();
 
-  const cgv = `
-    <h2>1. Identification du vendeur</h2>
-    ${identity}
-
-    <h2>2. Prestations</h2>
-    <p>${businessName} propose à la vente les prestations et produits décrits sur le présent site. Les descriptions et prix affichés font foi au moment de la commande.</p>
-
-    <h2>3. Prix et modalités de paiement</h2>
-    <p>Les prix sont indiqués en euros, toutes taxes comprises le cas échéant. Le paiement s'effectue selon les modalités précisées lors de la commande ou de la prise de rendez-vous.</p>
-
-    <h2>4. Droit de rétractation</h2>
-    <p>Conformément à la législation en vigueur, un droit de rétractation peut s'appliquer selon la nature de la prestation commandée.</p>
-
-    <h2>5. Responsabilité</h2>
-    <p>${businessName} s'engage à exécuter ses prestations avec soin et diligence, sans garantie de résultat au-delà de ce qui est explicitement décrit.</p>
-
-    <h2>6. Droit applicable</h2>
-    <p>Les présentes conditions générales de vente sont soumises au droit français.</p>
-  `.trim();
+  // CGV is the one document whose clauses genuinely change by activity (right
+  // of withdrawal, deposit, delivery) — so it is generated per legal archetype
+  // derived from the business niche. Mentions/confidentialité/CGU below stay
+  // generic (they do not vary meaningfully by sector).
+  const cgv = cgvForArchetype(
+    legalArchetypeForNiche(niche, fd.businessType),
+    { name: businessName, identity },
+  );
 
   const confidentialite = `
     <h2>1. Responsable du traitement</h2>

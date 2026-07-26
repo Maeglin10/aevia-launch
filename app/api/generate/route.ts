@@ -89,7 +89,11 @@ export async function POST(req: NextRequest) {
     // Auto-generate legal pages (mentions légales, CGV…) from whatever legal
     // data the wizard's step 7 captured — no-op boilerplate if the client
     // left those fields empty, never blocks generation.
-    const legalPages = generateLegalPages(formData, existing?.businessProfile?.legal);
+    const legalPages = generateLegalPages(
+      formData,
+      existing?.businessProfile?.legal,
+      existing?.businessProfile?.niche,
+    );
     const sessionData = {
       id: sessionId,
       formData,
