@@ -218,7 +218,13 @@ export default function EclatSpaPage() {
           <motion.a href="#reservation" onClick={() => setMobileOpen(false)} style={{ background: C.accent, color: C.white, borderRadius: 8, padding: "9px 22px", fontSize: 14, fontWeight: 600, textDecoration: "none", minHeight: 44, display: "inline-flex", alignItems: "center", justifyContent: "center" }} whileHover={{ background: C.accentDark }}>Réserver</motion.a>
         </div>
       )}
-      <style>{`@media (max-width: 900px) { #mb229-nav { display: none !important; } .mb229-burger { display: flex !important; } }`}</style>
+      <style>{`
+        @media (max-width: 900px) { #mb229-nav { display: none !important; } .mb229-burger { display: flex !important; } }
+        @media (max-width: 640px) {
+          #hero { height: 100dvh !important; min-height: 100dvh !important; }
+          .mb229-hero-text { padding: 0 24px 40px !important; }
+        }
+      `}</style>
 
       <section id="hero" ref={heroRef} style={{ height: "115vh", minHeight: "900px", position: "relative", display: "flex", alignItems: "flex-end", overflow: "hidden" }}>
         <motion.div style={{ y: heroY, position: "absolute", inset: 0 }}>
@@ -226,7 +232,7 @@ export default function EclatSpaPage() {
         </motion.div>
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(10,4,2,0.92) 0%, rgba(10,4,2,0.36) 45%, rgba(10,4,2,0.06) 100%)" }} />
         <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to right, ${C.accent}15 0%, transparent 55%)` }} />
-        <motion.div style={{ position: "relative", zIndex: 1, padding: "0 80px 90px", maxWidth: 760, y: heroTextY, opacity: heroOpacity }}>
+        <motion.div className="mb229-hero-text" style={{ position: "relative", zIndex: 1, padding: "0 80px 90px", maxWidth: 760, y: heroTextY, opacity: heroOpacity }}>
           <motion.h1 initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.9 }}
             style={{ fontFamily: FONT, fontSize: "clamp(42px, 5.2vw, 70px)", fontWeight: 300, color: "#fff", lineHeight: 1.1, marginBottom: 24 }}>{c?.heroHeadline ?? <>
             Révélez votre éclat,<br /><em style={{ color: C.rose }}>corps et âme.</em>
