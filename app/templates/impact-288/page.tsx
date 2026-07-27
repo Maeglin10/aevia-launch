@@ -501,9 +501,12 @@ function HeroSection() {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          justifyContent: 'center',
+          // "safe center" falls back to start-alignment once the stack is taller
+          // than the hero; plain "center" overflowed past the top padding and put
+          // the eyebrow underneath the fixed nav.
+          justifyContent: 'safe center',
           textAlign: 'center',
-          padding: '80px 24px 24px',
+          padding: 'clamp(104px,15vh,140px) 24px 32px',
           y: titleY,
           opacity: titleOpacity,
         }}
@@ -627,13 +630,13 @@ function HeroSection() {
 
       {/* Cue de défilement */}
       <motion.div
+        className="hidden sm:flex"
         style={{
           position: 'absolute',
           bottom: 32,
           left: '50%',
           transform: 'translateX(-50%)',
           zIndex: 3,
-          display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
           gap: 8,

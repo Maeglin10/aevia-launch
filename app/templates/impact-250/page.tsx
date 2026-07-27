@@ -565,7 +565,7 @@ function Hero() {
           position: 'absolute',
           inset: 0,
           background:
-            'linear-gradient(to bottom, rgba(13,26,10,0.38) 0%, rgba(13,26,10,0.06) 36%, rgba(13,26,10,0.42) 68%, rgba(13,26,10,0.92) 100%)',
+            'linear-gradient(to bottom, rgba(13,26,10,0.58) 0%, rgba(13,26,10,0.58) 36%, rgba(13,26,10,0.62) 68%, rgba(13,26,10,0.94) 100%)',
         }}
       />
       {/* Voile radial */}
@@ -595,7 +595,9 @@ function Hero() {
         }}
       >
         <Reveal y={20}>
-          <Eyebrow color={C.accentLight} light>
+          {/* White, not accentLight (#c8dfc4): a pale green eyebrow on a green
+              garden photo has almost no contrast. */}
+          <Eyebrow color="#ffffff" light>
             Paysagiste · Nantes &amp; Loire-Atlantique
           </Eyebrow>
         </Reveal>
@@ -656,12 +658,12 @@ function Hero() {
 
       {/* Cue scroll */}
       <motion.div
+        className="hidden sm:flex"
         style={{
           position: 'absolute',
           bottom: 34,
           right: 'clamp(24px,5vw,64px)',
           zIndex: 3,
-          display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
           gap: 8,
