@@ -347,7 +347,7 @@ return (
       {page === 'home' && (
       <>
       {/* ── HERO ── */}
-      <section ref={heroRef} id="hero" className="relative h-dvh overflow-hidden flex items-center justify-center">
+      <section ref={heroRef} id="hero" className="relative h-dvh overflow-hidden flex [align-items:safe_center] justify-center pt-28 pb-12 sm:pt-32">
         <motion.div style={{ y: heroImgY }} className="absolute inset-0 z-0">
           <Image src={photo(0, "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&q=80")} fill className="object-cover" alt="L'Étoile dining room" priority />
           <div className="absolute inset-0 bg-gradient-to-t from-[#0c0a08] via-[#0c0a08]/50 to-[#0c0a08]/20" />
