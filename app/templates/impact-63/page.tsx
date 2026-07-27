@@ -8,7 +8,7 @@ import { C, StatNumber, SectionLabel, OrbitalComplication, HERITAGE, PRESS, AWAR
 import { AnimatePresence } from "framer-motion";
 import {
   useHeroSelector, GhostMark, Rise, SelectorRail,
-  heroSectionStyle, railResponsiveCSS, EASE_3, EASE_4, BEAT,
+  heroSectionStyle, railResponsiveCSS, alpha, EASE_3, EASE_4, BEAT,
 } from "@/lib/templates/hero-kit";
 
 function HeroWatch() {
@@ -43,7 +43,7 @@ function HeroWatch() {
           inset: 0,
           zIndex: 0,
           pointerEvents: "none",
-          background: `radial-gradient(58% 55% at 72% 46%, ${accent}2e 0%, transparent 62%)`,
+          background: `radial-gradient(58% 55% at 72% 46%, ${alpha(accent, 18)} 0%, transparent 62%)`,
         }}
       />
 

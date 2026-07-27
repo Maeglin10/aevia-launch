@@ -20,7 +20,7 @@ import {
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   useHeroSelector, HeroStage, Scrim, GhostMark, Rise, SelectorRail,
-  heroSectionStyle, railResponsiveCSS, EASE_3, EASE_4, BEAT,
+  heroSectionStyle, railResponsiveCSS, alpha, EASE_3, EASE_4, BEAT,
 } from "@/lib/templates/hero-kit";
 
 function HeroSection() {
@@ -126,7 +126,7 @@ function HeroSection() {
               </Link>
               <button
                 onClick={() => document.getElementById("practice")?.scrollIntoView({ behavior: "smooth" })}
-                style={{ background: "transparent", color: C.accent, border: `1px solid ${C.accent}66`, padding: "15px 30px", fontFamily: SANS, fontWeight: 400, fontSize: 12, letterSpacing: "0.12em", textTransform: "uppercase", cursor: "pointer", minHeight: 44 }}
+                style={{ background: "transparent", color: C.accent, border: `1px solid ${alpha(C.accent, 40)}`, padding: "15px 30px", fontFamily: SANS, fontWeight: 400, fontSize: 12, letterSpacing: "0.12em", textTransform: "uppercase", cursor: "pointer", minHeight: 44 }}
               >
                 Tous nos domaines
               </button>
