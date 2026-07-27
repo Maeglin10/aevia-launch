@@ -35,12 +35,12 @@ export const navLinks = [
 ];
 
 export const practiceAreas = [
-  { icon: Briefcase, title: "Corporate Law", desc: "Entity formation, governance, shareholder agreements, and ongoing corporate counsel for businesses at every stage." },
-  { icon: Scale, title: "Mergers & Acquisitions", desc: "Buy-side and sell-side M&A, due diligence, deal structuring, and post-merger integration support." },
-  { icon: Shield, title: "Intellectual Property", desc: "Patent strategy, trademark registration, licensing, and IP portfolio management for technology and creative enterprises." },
-  { icon: BookOpen, title: "Commercial Litigation", desc: "Business disputes, contract enforcement, shareholder conflicts, and complex commercial arbitration." },
-  { icon: Users, title: "Employment Law", desc: "Employment contracts, executive compensation, non-compete agreements, and workplace compliance programs." },
-  { icon: FileText, title: "Tax & Structuring", desc: "Corporate tax planning, transaction structuring, international tax strategy, and regulatory compliance." },
+  { icon: Briefcase, title: "Droit des sociétés", desc: "Constitution, gouvernance, pactes d'associés et conseil récurrent aux entreprises à chaque étape de leur croissance." },
+  { icon: Scale, title: "Fusions-acquisitions", desc: "Opérations à l'achat comme à la vente, due diligence, structuration et accompagnement post-acquisition." },
+  { icon: Shield, title: "Propriété intellectuelle", desc: "Stratégie brevets, dépôt de marques, licences et gestion de portefeuille pour les entreprises technologiques et créatives." },
+  { icon: BookOpen, title: "Contentieux commercial", desc: "Litiges entre entreprises, exécution des contrats et représentation devant les juridictions consulaires." },
+  { icon: Users, title: "Droit social", desc: "Contrats de travail, ruptures négociées, relations collectives et contentieux prud'homal." },
+  { icon: FileText, title: "Fiscalité & structuration", desc: "Optimisation de structure, opérations intragroupe et sécurisation fiscale des dirigeants." },
 ];
 
 export const attorneys = [
@@ -91,7 +91,7 @@ export const testimonials = [
     name: "Jean-Baptiste Moreau",
     title: "CEO, Lumière Technologies",
     rating: 5,
-    text: "Dumont & Associates guided us through a complex €220M acquisition in under three months. Their M&A team anticipated every issue before it became a problem. Exceptional.",
+    text: "Dumont & Associés guided us through a complex €220M acquisition in under three months. Their M&A team anticipated every issue before it became a problem. Exceptional.",
     matter: "Cross-border Acquisition",
   },
   {

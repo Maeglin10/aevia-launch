@@ -12,12 +12,12 @@ export default function About() {
       <PageHero
         eyebrow="Le cabinet"
         title="Un conseil d'exception, depuis 1998."
-        subtitle="Dumont & Associates est un cabinet d'avocats parisien fondé sur une conviction : le droit des affaires mérite la même exigence que les entreprises qu'il accompagne."
+        subtitle="Dumont & Associés est un cabinet d'avocats parisien fondé sur une conviction : le droit des affaires mérite la même exigence que les entreprises qu'il accompagne."
       />
       <section style={{ background: C.bg, padding: "100px 32px" }}>
         <div style={{ maxWidth: 760, margin: "0 auto" }}>
           {[
-            "Fondé en 1998 by Édouard Dumont après douze années passées au sein d'un cabinet international de premier plan, Dumont & Associates s'est imposé comme une boutique de référence en droit des affaires à Paris.",
+            "Fondé en 1998 by Édouard Dumont après douze années passées au sein d'un cabinet international de premier plan, Dumont & Associés s'est imposé comme une boutique de référence en droit des affaires à Paris.",
             "Notre modèle est celui d'un cabinet à taille humaine où chaque dossier est piloté par un associé. Cette proximité garantit à nos clients un interlocuteur senior à chaque étape, une réactivité sans équivalent et une parfaite confidentialité.",
             "En vingt-huit ans, nous avons conseillé plus de 340 entreprises clientes sur des opérations dont la valeur cumulée dépasse 4,2 milliards d'euros, avec un taux d'issues favorables de 97 % sur nos contentieux.",
           ].map((paraTxt, i) => (

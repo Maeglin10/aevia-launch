@@ -2,7 +2,7 @@
 // @ts-nocheck
 
 import React, {useRef, useState, useEffect} from 'react';
-import { motion, useScroll, useTransform, useInView } from "framer-motion";
+import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import {
   ArrowRight, Check, Star, ChevronDown, ChevronRight
@@ -18,99 +18,139 @@ import {
   ScaleSVG
 } from "./shared";
 import { resolveList } from "@/lib/templates/resolveList";
+import {
+  useHeroSelector, HeroStage, Scrim, GhostMark, Rise, SelectorRail,
+  heroSectionStyle, railResponsiveCSS, EASE_3, EASE_4, BEAT,
+} from "@/lib/templates/hero-kit";
 
 function HeroSection() {
-  const ref = useRef(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
-  const y = useTransform(scrollYProgress, [0, 1], [0, 160]);
-  const opacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
+  /* A law firm hero has to stay still. The promise never moves — that is the
+     gravitas. What moves is the *evidence*: picking a practice area re-lights
+     the stage and states what the firm actually does there. So the visitor
+     self-identifies their problem without the page losing its composure. */
+  const AREA_MEDIA = [
+    { img: "https://images.pexels.com/photos/273682/pexels-photo-273682.jpeg?auto=compress&cs=tinysrgb&w=2000", stat: "€2.4B", statLabel: "d’opérations conseillées" },
+    { img: "https://images.pexels.com/photos/9409685/pexels-photo-9409685.jpeg?auto=compress&cs=tinysrgb&w=2000", stat: "140+", statLabel: "opérations menées depuis 2009" },
+    { img: "https://images.pexels.com/photos/9409682/pexels-photo-9409682.jpeg?auto=compress&cs=tinysrgb&w=2000", stat: "900+", statLabel: "marques et brevets déposés" },
+    { img: "https://images.pexels.com/photos/159720/law-books-library-rows-of-books-159720.jpeg?auto=compress&cs=tinysrgb&w=2000", stat: "87%", statLabel: "réglés avant audience" },
+    { img: "https://images.pexels.com/photos/6077091/pexels-photo-6077091.jpeg?auto=compress&cs=tinysrgb&w=2000", stat: "24h", statLabel: "de délai sur les urgences" },
+  ];
+
+  const areas = resolveList(
+    bp?.services?.map((s: any, i: number) => ({
+      title: s.title ?? s.name,
+      desc: s.description ?? s.desc,
+    })),
+    practiceAreas_DEMO
+  ).slice(0, 5);
+
+  const { active, paused, pick, hold, reduce } = useHeroSelector(areas.length, 7000);
+  const area = areas[active % areas.length];
+  const media = AREA_MEDIA[active % AREA_MEDIA.length];
+
+  const SERIF = "'Playfair Display', Georgia, serif";
+  const SANS = "'Source Sans Pro', system-ui, sans-serif";
 
   return (
-    <section ref={ref} id="hero" style={{ position: "relative", minHeight: "100dvh", background: C.navy, display: "flex", alignItems: "center", overflow: "hidden" }}>
-      {/* Background pattern */}
-      <div style={{ position: "absolute", inset: 0, backgroundImage: `radial-gradient(circle at 80% 50%, rgba(184,149,42,0.06) 0%, transparent 60%), radial-gradient(circle at 20% 80%, rgba(184,149,42,0.04) 0%, transparent 40%)`, pointerEvents: "none" }} />
+    <section ref={undefined} id="hero" style={heroSectionStyle(C.navy, { bottomRail: true })}>
+      <HeroStage src={fd?.photoUrls?.[active] || media.img} alt={`${area.title} — ${fd?.businessName ?? "Dumont & Associés"}`} reduce={reduce} />
+      <Scrim color={C.navy} direction="left" strength="heavy" />
 
-      {/* Top gold line */}
-      <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 3, background: `linear-gradient(to right, transparent, ${C.accent}, transparent)` }} />
+      {/* Top gold line — kept from the original; it is the firm's signature. */}
+      <div aria-hidden style={{ position: "absolute", top: 0, left: 0, right: 0, height: 3, zIndex: 5, background: `linear-gradient(to right, transparent, ${C.accent}, transparent)` }} />
 
-      <motion.div style={{ y, opacity, position: "relative", zIndex: 2, maxWidth: 1280, margin: "0 auto", padding: "100px 32px 80px", width: "100%", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "center" }} className="grid md:grid-cols-1 imx-mobstack">
-        {/* Left: headline — minWidth:0 stops the unwrapped CTA button row
-            below from forcing this 1fr grid track (whose default min-width
-            is content-based, not 0) wider than the viewport on mobile, which
-            is what was pushing the paragraph past the right edge under
-            overflow:hidden. */}
-        <div style={{ minWidth: 0 }}>
+      <GhostMark color={C.accent} font={SERIF} side="right" opacity={0.06} size="clamp(150px, 26vw, 380px)">
+        {String(active + 1).padStart(2, "0")}
+      </GhostMark>
+
+      <div style={{ position: "relative", zIndex: 3, maxWidth: 1280, margin: "0 auto", width: "100%" }}>
+        <div style={{ maxWidth: 620, minWidth: 0 }}>
+          <Rise beat="first" style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 24 }}>
+            <span style={{ width: 40, height: 1, background: C.accent, display: "block" }} />
+            <span style={{ fontFamily: SANS, fontSize: 11, letterSpacing: "0.32em", textTransform: "uppercase", color: C.accent }}>
+              Paris · Cabinet d’affaires
+            </span>
+          </Rise>
+
+          {/* The promise. Deliberately static: it is the one thing that must not
+              flicker while the visitor browses. */}
           <motion.h1
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, delay: 0.4 }}
-            style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: "clamp(44px, 5vw, 72px)", fontWeight: 700, color: C.white, lineHeight: 1.1, margin: "0 0 28px" }}
-          >
-            Exceptional<br />
-            <span style={{ color: C.accent }}>Counsel</span> for<br />
-            Exceptional<br />Businesses.
-          </motion.h1>
+            initial={{ opacity: 0, rotateY: reduce ? 0 : -12, clipPath: "inset(0 100% 0 0)" }}
+            animate={{ opacity: 1, rotateY: 0, clipPath: "inset(0 0% 0 0)" }}
+            transition={{ duration: 0.9, ease: EASE_4 }}
+            style={{ fontFamily: SERIF, fontSize: "clamp(38px, 4.4vw, 62px)", fontWeight: 700, color: C.white, lineHeight: 1.06, margin: "0 0 22px", transformOrigin: "left center" }}
+          >{c?.heroHeadline ?? <>
+            Le droit,<br />
+            <span style={{ color: C.accent }}>à la hauteur</span><br />
+            de vos enjeux.
+          </>}</motion.h1>
 
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.7 }}
-            style={{ fontFamily: "'Source Sans Pro', system-ui", fontSize: 18, color: "rgba(255,255,255,0.65)", lineHeight: 1.7, maxWidth: 480, marginBottom: 48 }}
-          >
-            {fd?.businessName ?? "Dumont & Associates"} is a boutique Parisian law firm specialising in corporate law, M&A, IP, and commercial litigation. We partner with founders, boards, and executives who demand the highest standard of legal counsel.
-          </motion.p>
+            transition={{ duration: 0.6, ease: EASE_3, delay: BEAT.second }}
+            style={{ fontFamily: SANS, fontSize: 16, color: "rgba(255,255,255,0.66)", lineHeight: 1.7, maxWidth: 460, margin: "0 0 26px" }}
+          >{c?.heroSubline ?? fd?.tagline ?? <>
+            {fd?.businessName ?? "Dumont & Associés"} conseille dirigeants, fondateurs et conseils d’administration là où l’issue compte vraiment.
+          </>}</motion.p>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.9 }}
-            style={{ display: "flex", gap: 16, flexWrap: "wrap" }}
-          >
-            <Link href="/templates/impact-46/contact" style={{ textDecoration: "none" }}>
+          {/* The evidence panel — this is what the selector drives. */}
+          <div style={{ minHeight: 104, marginBottom: 26 }}>
+            <AnimatePresence mode="wait">
+              <motion.div key={active} style={{ borderLeft: `2px solid ${C.accent}`, paddingLeft: 20 }}>
+                <Rise beat="second" duration={0.45}>
+                  <div style={{ fontFamily: SERIF, fontSize: 22, color: C.white, marginBottom: 8 }}>{area.title}</div>
+                </Rise>
+                <Rise beat="second" duration={0.5}>
+                  <p style={{ fontFamily: SANS, fontSize: 15, lineHeight: 1.7, color: "rgba(255,255,255,0.58)", maxWidth: 440, margin: 0 }}>
+                    {area.desc}
+                  </p>
+                </Rise>
+              </motion.div>
+            </AnimatePresence>
+          </div>
+
+          <Rise beat="third" style={{ display: "flex", alignItems: "center", gap: 26, flexWrap: "wrap" }}>
+            <div style={{ display: "flex", alignItems: "baseline", gap: 8 }}>
+              <span style={{ fontFamily: SERIF, fontSize: 30, color: C.accent }}>{media.stat}</span>
+              <span style={{ fontFamily: SANS, fontSize: 10, letterSpacing: "0.18em", textTransform: "uppercase", color: "rgba(255,255,255,0.45)" }}>
+                {media.statLabel}
+              </span>
+            </div>
+            <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
+              <Link href="/templates/impact-46/contact" style={{ textDecoration: "none" }}>
+                <span style={{ display: "inline-flex", alignItems: "center", gap: 8, background: C.accent, color: C.navy, padding: "15px 30px", fontFamily: SANS, fontWeight: 700, fontSize: 12, letterSpacing: "0.12em", textTransform: "uppercase", minHeight: 44 }}>
+                  Consultation gratuite <ArrowRight size={15} />
+                </span>
+              </Link>
               <button
-                style={{ background: C.accent, color: C.white, padding: "16px 36px", fontSize: 13, letterSpacing: "0.1em", textTransform: "uppercase" as const, fontFamily: "'Source Sans Pro', system-ui", fontWeight: 700, display: "flex", alignItems: "center", gap: 8, border: "none", cursor: "pointer" }}
-                onMouseEnter={e => (e.currentTarget.style.background = C.accentHover)}
-                onMouseLeave={e => (e.currentTarget.style.background = C.accent)}
-              >Free Consultation <ArrowRight size={15} /></button>
-            </Link>
-            <button onClick={() => document.getElementById("practice")?.scrollIntoView({ behavior: "smooth" })}
-              style={{ border: `1px solid rgba(255,255,255,0.2)`, background: "transparent", cursor: "pointer", color: "rgba(255,255,255,0.7)", padding: "16px 36px", fontSize: 13, letterSpacing: "0.1em", textTransform: "uppercase" as const, fontFamily: "'Source Sans Pro', system-ui", fontWeight: 600 }}
-              onMouseEnter={e => { e.currentTarget.style.borderColor = C.accent; e.currentTarget.style.color = C.white; }}
-              onMouseLeave={e => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.2)"; e.currentTarget.style.color = "rgba(255,255,255,0.7)"; }}
-            >Practice Areas</button>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1.2, duration: 0.8 }}
-            style={{ display: "flex", gap: 48, marginTop: 64, paddingTop: 40, borderTop: `1px solid rgba(255,255,255,0.08)`, flexWrap: "wrap" }}
-          >
-            {caseResults.map((s) => (
-              <div key={s.label}>
-                <div style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: 26, fontWeight: 700, color: C.accent }}>{s.value}</div>
-                <div style={{ fontFamily: "'Source Sans Pro', system-ui", fontSize: 12, color: "rgba(255,255,255,0.45)", letterSpacing: "0.06em", marginTop: 4 }}>{s.label}</div>
-              </div>
-            ))}
-          </motion.div>
+                onClick={() => document.getElementById("practice")?.scrollIntoView({ behavior: "smooth" })}
+                style={{ background: "transparent", color: C.accent, border: `1px solid ${C.accent}66`, padding: "15px 30px", fontFamily: SANS, fontWeight: 400, fontSize: 12, letterSpacing: "0.12em", textTransform: "uppercase", cursor: "pointer", minHeight: 44 }}
+              >
+                Tous nos domaines
+              </button>
+            </div>
+          </Rise>
         </div>
+      </div>
 
-        {/* Right: Scale SVG */}
-        <motion.div
-          initial={{ opacity: 0, x: 40 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.9, delay: 0.5 }}
-          style={{ display: "flex", flexDirection: "column" as const, alignItems: "center", justifyContent: "center" }}
-        >
-          <div style={{ width: 280, opacity: 0.85 }}>
-            <ScaleSVG scrollProgress={scrollYProgress} />
-          </div>
-          <div style={{ marginTop: 32, padding: "24px 32px", border: `1px solid ${C.borderGold}`, background: "rgba(184,149,42,0.06)", textAlign: "center" as const }}>
-            <div style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: 15, color: C.accent, marginBottom: 6 }}>"Excellence. Discretion. Results."</div>
-            <div style={{ fontFamily: "'Source Sans Pro', system-ui", fontSize: 12, color: "rgba(255,255,255,0.4)", letterSpacing: "0.08em" }}>28 years in business law</div>
-          </div>
-        </motion.div>
-      </motion.div>
+      <SelectorRail
+        items={areas}
+        active={active}
+        onPick={pick}
+        onHold={hold}
+        accent={C.accent}
+        fg={C.white}
+        serif={SERIF}
+        sans={SANS}
+        paused={paused}
+        reduce={reduce}
+        bg={C.navy}
+        id="hero"
+        label={(a: any) => a.title}
+      />
+
+      <style>{railResponsiveCSS("hero", { titleClamp: "clamp(34px, 9.5vw, 46px)" })}</style>
     </section>
   );
 }
