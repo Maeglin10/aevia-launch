@@ -468,9 +468,10 @@ function HeroSection() {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          justifyContent: 'center',
+          justifyContent: 'safe center',
           textAlign: 'center',
-          padding: '0 clamp(20px,6vw,80px)',
+          // clears the fixed nav so the eyebrow can't ride under it
+          padding: 'clamp(96px,14vh,132px) clamp(20px,6vw,80px) clamp(56px,8vh,80px)',
           y: titleY,
           opacity: titleOpacity,
         }}

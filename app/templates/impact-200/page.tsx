@@ -674,7 +674,7 @@ export default function Impact200Page() {
       <section
         ref={heroRef}
         id="hero"
-        className="relative h-dvh min-h-[700px] flex items-center overflow-hidden"
+        className="relative h-dvh min-h-[700px] flex [align-items:safe_center] overflow-hidden pt-28 pb-12 sm:pt-32"
       >
         {/* Soft pink overlay base */}
         <div className="absolute inset-0 bg-gradient-to-br from-[#FDF2F8] via-[#FDF2F8]/80 to-[#FDF2F8]/60 z-10" />
