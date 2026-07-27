@@ -239,17 +239,23 @@ export default function ConservatoireAccordPage() {
           </motion.a>
         </div>
       )}
-      <style>{`@media (max-width: 900px) { #mb73-nav { display: none !important; } .mb73-mobile-actions { display: flex !important; } .mb73-burger { display: flex !important; } }`}</style>
+      <style>{`
+        @media (max-width: 900px) { #mb73-nav { display: none !important; } .mb73-mobile-actions { display: flex !important; } .mb73-burger { display: flex !important; } }
+        @media (max-width: 640px) {
+          #mb73-hero { height: 100dvh !important; min-height: 100dvh !important; }
+          .mb73-hero-text { padding: 0 24px 40px !important; }
+        }
+      `}</style>
 
       {/* Hero */}
-      <section ref={heroRef} style={{ height: "115vh", minHeight: "900px", position: "relative", display: "flex", alignItems: "flex-end", overflow: "hidden" }}>
+      <section id="mb73-hero" ref={heroRef} style={{ height: "115vh", minHeight: "900px", position: "relative", display: "flex", alignItems: "flex-end", overflow: "hidden" }}>
         <motion.div style={{ y: heroY, position: "absolute", inset: 0 }}>
           <img src={photo(0, "https://images.unsplash.com/photo-1520523839897-bd0b52f945a0?w=1920&q=80")} alt="Conservatoire Accord école de musique Lyon" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
         </motion.div>
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(8,3,22,0.93) 0%, rgba(8,3,22,0.42) 45%, rgba(8,3,22,0.08) 100%)" }} />
         <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to right, ${C.purple}18 0%, transparent 55%)` }} />
 
-        <motion.div style={{ position: "relative", zIndex: 1, padding: "0 80px 90px", maxWidth: 760, y: heroTextY, opacity: heroOpacity }}>
+        <motion.div className="mb73-hero-text" style={{ position: "relative", zIndex: 1, padding: "0 80px 90px", maxWidth: 760, y: heroTextY, opacity: heroOpacity }}>
           <motion.h1 initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.9 }}
             style={{ fontFamily: FONT, fontSize: "clamp(40px, 5.2vw, 68px)", fontWeight: 300, color: "#fff", lineHeight: 1.1, marginBottom: 24 }}>{c?.heroHeadline ?? <>
             La musique s'apprend<br /><em style={{ color: C.amber }}>avec passion et méthode.</em>

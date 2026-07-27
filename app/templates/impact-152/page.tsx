@@ -255,6 +255,7 @@ export default function StudioNomaPage() {
       )}
 
       {/* Hero */}
+      <style>{`@media (max-width: 640px) { #hero { height: 100dvh !important; min-height: 100dvh !important; } }`}</style>
       <section id="hero" ref={heroRef} style={{ height: "115vh", minHeight: "900px", position: "relative", display: "flex", alignItems: "flex-end", overflow: "hidden" }}>
         <motion.div style={{ y: heroY, position: "absolute", inset: 0 }}>
           <img src={photo(0, "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=1920&q=80")} alt="Intérieur Studio Noma" style={{ width: "100%", height: "100%", objectFit: "cover" }} />

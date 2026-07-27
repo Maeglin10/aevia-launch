@@ -238,7 +238,13 @@ export default function VisionClairePage() {
           </motion.a>
         </div>
       )}
-      <style>{`@media (max-width: 900px) { #mb138-nav { display: none !important; } .mb138-burger { display: flex !important; } }`}</style>
+      <style>{`
+        @media (max-width: 900px) { #mb138-nav { display: none !important; } .mb138-burger { display: flex !important; } }
+        @media (max-width: 640px) {
+          #hero { height: 100dvh !important; min-height: 100dvh !important; }
+          .mb138-hero-text { padding: 0 24px 40px !important; }
+        }
+      `}</style>
 
       {/* Hero */}
       <style>{`
