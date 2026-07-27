@@ -594,7 +594,7 @@ function Hero() {
         }}
       >
         <img
-          src={fd?.photoUrls?.[0] || img('1554224155-6726b3ff858f', 2000)}
+          src={fd?.photoUrls?.[0] || 'https://images.pexels.com/photos/7876088/pexels-photo-7876088.jpeg?auto=compress&cs=tinysrgb&w=2000'}
           alt="Cabinet d'avocats — bureau élégant à Toulouse"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
@@ -1318,7 +1318,7 @@ function ValuesPanel() {
             }}
           >
             <img
-              src={fd?.photoUrls?.[1] || img('1551135049-8a33b5883817', 900)}
+              src={fd?.photoUrls?.[1] || 'https://images.pexels.com/photos/8111826/pexels-photo-8111826.jpeg?auto=compress&cs=tinysrgb&w=900'}
               alt="Maître Voss — Tribunal de Commerce de Toulouse"
               loading="lazy"
               style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
