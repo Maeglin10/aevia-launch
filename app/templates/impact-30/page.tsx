@@ -23,6 +23,10 @@ import {
   ThumbsUp,
 } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
+import {
+  useHeroSelector, HeroStage, Rise, SelectorRail,
+  heroSectionStyle, railResponsiveCSS, EASE_3, EASE_4, BEAT,
+} from "@/lib/templates/hero-kit";
 
 // Hoisted above the design tokens: several templates read `brand` in a
 // module-level const — declaring it lower caused a TDZ ReferenceError (500).
@@ -380,173 +384,176 @@ function Navbar() {
 
 // ─── Hero ─────────────────────────────────────────────────────────────────────
 function Hero() {
-  const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
-  const textY = useTransform(scrollYProgress, [0, 1], [0, -90]);
-  const textOpacity = useTransform(scrollYProgress, [0, 0.65], [1, 0]);
+  /* A clinic hero should reassure, not dramatise — so this one stays on a light
+     ground and frames the photograph in a panel instead of going full-bleed
+     cinematic like the darker kit heroes. Picking a treatment swaps the panel,
+     the description and the price, which is the question a patient actually
+     arrives with ("what does this cost, and does it hurt"). */
+  const TREATMENT_MEDIA = [
+    { img: "https://images.pexels.com/photos/3762453/pexels-photo-3762453.jpeg?auto=compress&cs=tinysrgb&w=1600", meta: "1 séance · 90 min" },
+    { img: "https://images.pexels.com/photos/305567/pexels-photo-305567.jpeg?auto=compress&cs=tinysrgb&w=1600", meta: "Garantie 10 ans" },
+    { img: "https://images.pexels.com/photos/11887613/pexels-photo-11887613.jpeg?auto=compress&cs=tinysrgb&w=1600", meta: "6 à 18 mois" },
+    { img: "https://images.pexels.com/photos/12917374/pexels-photo-12917374.jpeg?auto=compress&cs=tinysrgb&w=1600", meta: "Dès 3 ans" },
+  ];
+
+  const treatments = resolveList(
+    bp?.services?.map((s: any, i: number) => ({
+      ...SERVICES_DEMO[i % SERVICES_DEMO.length],
+      title: s.title ?? s.name,
+      desc: s.description ?? s.desc,
+      price: s.price ?? SERVICES_DEMO[i % SERVICES_DEMO.length].price,
+    })),
+    SERVICES_DEMO
+  );
+
+  const { active, paused, pick, hold, reduce } = useHeroSelector(treatments.length, 7000);
+  const t = treatments[active % treatments.length];
+  const media = TREATMENT_MEDIA[active % TREATMENT_MEDIA.length];
 
   return (
     <section
-      ref={ref}
+      id="hero"
       style={{
-        minHeight: "100dvh",
-        background: `linear-gradient(140deg, ${C.bg} 0%, ${C.bgLight} 100%)`,
-        display: "flex",
-        alignItems: "center",
-        padding: "100px 80px 60px",
-        position: "relative",
-        overflow: "hidden",
+        ...heroSectionStyle(`linear-gradient(140deg, ${C.bg} 0%, ${C.bgLight} 100%)`, { bottomRail: true }),
         fontFamily: FONT,
       }}
     >
-      {/* Background circles */}
+      {/* Soft chromatic wash — the light-ground equivalent of a scrim. */}
       <div
+        aria-hidden
         style={{
           position: "absolute",
-          top: -120,
-          right: -120,
-          width: 640,
-          height: 640,
-          borderRadius: "50%",
-          background: `radial-gradient(circle, ${C.accentLight} 0%, transparent 68%)`,
-          opacity: 0.55,
+          inset: 0,
+          zIndex: 0,
           pointerEvents: "none",
-        }}
-      />
-      <div
-        style={{
-          position: "absolute",
-          bottom: -100,
-          left: -100,
-          width: 450,
-          height: 450,
-          borderRadius: "50%",
-          background: `radial-gradient(circle, ${C.bgLight} 0%, transparent 70%)`,
-          pointerEvents: "none",
+          background: `radial-gradient(70% 60% at 78% 30%, ${C.accentLight} 0%, transparent 60%)`,
         }}
       />
 
-      {/* Left column: text */}
-      <motion.div
-        style={{ flex: 1, maxWidth: 580, position: "relative", zIndex: 1, y: textY, opacity: textOpacity }}
-      >
-        <motion.h1
-          initial={{ opacity: 0, y: 32 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.1 }}
-          style={{
-            fontSize: "clamp(36px, 4vw, 58px)",
-            fontWeight: 800,
-            color: C.text,
-            lineHeight: 1.1,
-            letterSpacing: -1.5,
-            marginBottom: 24,
-          }}
-        >
-          Votre sourire,{" "}
-          <span style={{ color: C.accent }}>notre passion</span>
-        </motion.h1>
+      <div style={{ position: "relative", zIndex: 3, maxWidth: 1240, margin: "0 auto", width: "100%" }}>
+        <div className="imx30-split" style={{ display: "grid", gridTemplateColumns: "1fr 0.85fr", gap: "clamp(28px,4vw,64px)", alignItems: "center" }}>
+          {/* Copy */}
+          <div style={{ minWidth: 0 }}>
+            <Rise beat="first" style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 20 }}>
+              <span style={{ width: 36, height: 2, background: C.accent, display: "block" }} />
+              <span style={{ fontSize: 11, letterSpacing: "0.28em", textTransform: "uppercase", color: C.accent, fontWeight: 700 }}>
+                Cabinet dentaire · Bordeaux
+              </span>
+            </Rise>
 
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.2 }}
-          style={{
-            fontSize: 18,
-            color: C.textMuted,
-            lineHeight: 1.72,
-            marginBottom: 38,
-            maxWidth: 490,
-          }}
-        >
-          {fd?.businessName ?? "Smile Studio"} est le cabinet dentaire de référence à Paris 8e. Soins de pointe,
-          technologies dernière génération et équipe bienveillante pour des résultats
-          qui transforment votre vie.
-        </motion.p>
+            <motion.h1
+              initial={{ opacity: 0, rotateY: reduce ? 0 : -10, clipPath: "inset(0 100% 0 0)" }}
+              animate={{ opacity: 1, rotateY: 0, clipPath: "inset(0 0% 0 0)" }}
+              transition={{ duration: 0.85, ease: EASE_4 }}
+              style={{ fontSize: "clamp(36px, 4.4vw, 60px)", fontWeight: 800, color: C.text, lineHeight: 1.08, letterSpacing: "-0.02em", margin: "0 0 18px", transformOrigin: "left center" }}
+            >{c?.heroHeadline ?? <>
+              Votre sourire,<br /><span style={{ color: C.accent }}>notre passion</span>
+            </>}</motion.h1>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.3 }}
-          style={{ display: "flex", gap: 14, flexWrap: "wrap", marginBottom: 48 }}
-        >
-          <motion.button
-            style={{
-              background: C.accent,
-              color: C.white,
-              border: "none",
-              borderRadius: 10,
-              padding: "16px 32px",
-              fontWeight: 700,
-              fontSize: 16,
-              cursor: "pointer",
-              display: "flex",
-              alignItems: "center",
-              gap: 8,
-              fontFamily: FONT,
-            }}
-            whileHover={{ background: C.accentDark, scale: 1.04, y: -2 }}
-            whileTap={{ scale: 0.97 }}
-          >
-            <Calendar size={18} />
-            Prendre rendez-vous
-          </motion.button>
-          <motion.button
-            style={{
-              background: "transparent",
-              color: C.text,
-              border: `2px solid ${C.border}`,
-              borderRadius: 10,
-              padding: "14px 28px",
-              fontWeight: 600,
-              fontSize: 16,
-              cursor: "pointer",
-              display: "flex",
-              alignItems: "center",
-              gap: 8,
-              fontFamily: FONT,
-            }}
-            whileHover={{ borderColor: C.accent, color: C.accent, scale: 1.03 }}
-            whileTap={{ scale: 0.97 }}
-          >
-            Découvrir nos soins <ChevronRight size={18} />
-          </motion.button>
-        </motion.div>
+            <motion.p
+              initial={{ opacity: 0, y: 18 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.55, ease: EASE_3, delay: BEAT.second }}
+              style={{ fontSize: 16, color: C.textMuted, lineHeight: 1.75, maxWidth: 440, margin: "0 0 26px" }}
+            >{c?.heroSubline ?? fd?.tagline ?? <>
+              Soins conservateurs, esthétique et implantologie. Devis détaillé avant chaque acte, sans engagement.
+            </>}</motion.p>
 
-        {/* Quick stats */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.5 }}
-          style={{ display: "flex", gap: 36 }}
-        >
-          {[
-            { value: "15+", label: "Ans d'expertise" },
-            { value: "4.9★", label: "Note Google" },
-            { value: "12 000+", label: "Patients" },
-          ].map((s) => (
-            <div key={s.label}>
-              <div style={{ fontWeight: 900, fontSize: 22, color: C.text }}>{s.value}</div>
-              <div style={{ fontSize: 13, color: C.textMuted }}>{s.label}</div>
+            {/* What the selector drives */}
+            <div style={{ minHeight: 122, marginBottom: 20 }}>
+              <AnimatePresence mode="wait">
+                <motion.div key={active}>
+                  <Rise beat="second" duration={0.42}>
+                    <div style={{ display: "flex", alignItems: "baseline", gap: 12, flexWrap: "wrap", marginBottom: 10 }}>
+                      <span style={{ fontSize: 21, fontWeight: 700, color: C.text }}>{t.title}</span>
+                      {t.tag && (
+                        <span style={{ fontSize: 10, letterSpacing: "0.16em", textTransform: "uppercase", color: C.accentDark, background: C.accentLight, padding: "4px 10px", borderRadius: 999, fontWeight: 700 }}>
+                          {t.tag}
+                        </span>
+                      )}
+                    </div>
+                  </Rise>
+                  <Rise beat="second" duration={0.5}>
+                    <p style={{ fontSize: 15, lineHeight: 1.7, color: C.textMuted, maxWidth: 420, margin: "0 0 14px" }}>{t.desc}</p>
+                  </Rise>
+                  <Rise beat="third" duration={0.45}>
+                    <div style={{ display: "flex", alignItems: "baseline", gap: 14, flexWrap: "wrap" }}>
+                      <span style={{ fontSize: 20, fontWeight: 800, color: C.accent }}>{t.price}</span>
+                      <span style={{ fontSize: 11, letterSpacing: "0.14em", textTransform: "uppercase", color: C.textMuted }}>{media.meta}</span>
+                    </div>
+                  </Rise>
+                </motion.div>
+              </AnimatePresence>
             </div>
-          ))}
-        </motion.div>
-      </motion.div>
 
-      {/* Right column: tooth */}
-      <motion.div
-        style={{ flex: 1, display: "flex", justifyContent: "center", alignItems: "center" }}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.2 }}
-      >
-        <AnimatedTooth />
-      </motion.div>
+            <Rise beat="third" style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
+              <Link href="/templates/impact-30/soins" style={{ textDecoration: "none" }}>
+                <span style={{ display: "inline-flex", alignItems: "center", gap: 8, background: C.accent, color: C.white, padding: "15px 30px", borderRadius: 999, fontWeight: 700, fontSize: 13, letterSpacing: "0.04em", minHeight: 44, boxShadow: C.shadow }}>
+                  Prendre rendez-vous
+                </span>
+              </Link>
+              <Link href="/templates/impact-30/pricing" style={{ textDecoration: "none" }}>
+                <span style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "transparent", color: C.accentDark, border: `1px solid ${C.border}`, padding: "15px 30px", borderRadius: 999, fontWeight: 600, fontSize: 13, minHeight: 44 }}>
+                  Voir les tarifs
+                </span>
+              </Link>
+            </Rise>
+          </div>
+
+          {/* Framed photograph — panel, not full bleed. */}
+          <div className="imx30-frame" style={{ position: "relative", minWidth: 0 }}>
+            <div
+              style={{
+                position: "relative",
+                aspectRatio: "1/1",
+                borderRadius: 20,
+                overflow: "hidden",
+                boxShadow: C.shadowLg,
+                background: C.bgSection,
+              }}
+            >
+              <HeroStage
+                src={fd?.photoUrls?.[active] || media.img}
+                alt={`${t.title} — cabinet dentaire`}
+                reduce={reduce}
+                driftSeconds={18}
+              />
+              <div aria-hidden style={{ position: "absolute", inset: 0, zIndex: 2, background: `linear-gradient(to top, ${C.text}59 0%, transparent 45%)` }} />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <SelectorRail
+        items={treatments}
+        active={active}
+        onPick={pick}
+        onHold={hold}
+        accent={C.accent}
+        fg={C.text}
+        serif={FONT}
+        sans={FONT}
+        paused={paused}
+        reduce={reduce}
+        bg={C.bg}
+        id="hero"
+        label={(x: any) => x.title}
+        sublabel={(x: any) => x.price}
+      />
+
+      <style>{`
+        ${railResponsiveCSS("hero", { titleClamp: "clamp(30px, 8.5vw, 42px)" })}
+        /* the framed photo costs more than it earns once the copy column is
+           narrow — drop it rather than shrink both into uselessness */
+        @media (max-width: 900px) {
+          .imx30-split { grid-template-columns: 1fr !important; }
+          .imx30-frame { display: none !important; }
+        }
+      `}</style>
     </section>
   );
 }
 
-// ─── Services ─────────────────────────────────────────────────────────────────
 const SERVICES_DEMO = [
   {
     icon: <Smile size={28} color="var(--brand,#00b894)" />,
