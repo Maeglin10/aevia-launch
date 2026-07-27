@@ -348,7 +348,15 @@ return (
           </motion.button>
         </div>
       )}
-      <style>{`@media (max-width: 900px) { #mb226-nav { display: none !important; } .mb226-burger { display: flex !important; } }`}</style>
+      <style>{`
+        @media (max-width: 900px) { #mb226-nav { display: none !important; } .mb226-burger { display: flex !important; } }
+        /* Fixed 900px min-height + 80px side padding forced a huge content
+           stack that pushed the CTA far below the fold on mobile. */
+        @media (max-width: 640px) {
+          #hero { height: 100dvh !important; min-height: 100dvh !important; }
+          .mb226-hero-text { padding: 0 24px 40px !important; }
+        }
+      `}</style>
 
       <section id="hero" ref={heroRef} style={{ height: "115vh", minHeight: "900px", position: "relative", display: "flex", alignItems: "flex-end", overflow: "hidden" }}>
         <motion.div style={{ y: heroY, position: "absolute", inset: 0 }}>
@@ -357,7 +365,7 @@ return (
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(0,0,0,0.96) 0%, rgba(0,0,0,0.52) 45%, rgba(0,0,0,0.12) 100%)" }} />
         <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to right, ${C.accent}10 0%, transparent 55%)` }} />
 
-        <motion.div style={{ position: "relative", zIndex: 1, padding: "0 80px 90px", maxWidth: 780, y: heroTextY, opacity: heroOpacity }}>
+        <motion.div className="mb226-hero-text" style={{ position: "relative", zIndex: 1, padding: "0 80px 90px", maxWidth: 780, y: heroTextY, opacity: heroOpacity }}>
           <motion.h1 initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.9 }}
             style={{ fontFamily: FONT, fontSize: "clamp(42px, 5.5vw, 74px)", fontWeight: 400, color: C.text, lineHeight: 1.05, marginBottom: 24 }}>{c?.heroHeadline ?? <>
             L'art sur peau,<br /><em style={{ color: C.accent }}>pour toujours.</em>

@@ -187,7 +187,13 @@ export default function AquaThermPage() {
           </motion.a>
         </div>
       )}
-      <style>{`@media (max-width: 900px) { #mb228-nav { display: none !important; } .mb228-burger { display: flex !important; } }`}</style>
+      <style>{`
+        @media (max-width: 900px) { #mb228-nav { display: none !important; } .mb228-burger { display: flex !important; } }
+        @media (max-width: 640px) {
+          #hero { height: 100dvh !important; min-height: 100dvh !important; }
+          .mb228-hero-text { padding: 0 24px 40px !important; }
+        }
+      `}</style>
 
       <section id="hero" ref={heroRef} style={{ height: "115vh", minHeight: "900px", position: "relative", display: "flex", alignItems: "flex-end", overflow: "hidden" }}>
         <motion.div style={{ y: heroY, position: "absolute", inset: 0 }}>
@@ -195,7 +201,7 @@ export default function AquaThermPage() {
         </motion.div>
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(10,6,0,0.93) 0%, rgba(10,6,0,0.42) 45%, rgba(10,6,0,0.08) 100%)" }} />
         <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to right, ${C.accent}18 0%, transparent 55%)` }} />
-        <motion.div style={{ position: "relative", zIndex: 1, padding: "0 80px 90px", maxWidth: 760, y: heroTextY, opacity: heroOpacity }}>
+        <motion.div className="mb228-hero-text" style={{ position: "relative", zIndex: 1, padding: "0 80px 90px", maxWidth: 760, y: heroTextY, opacity: heroOpacity }}>
           <motion.h1 initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.9 }}
             style={{ fontFamily: FONT, fontSize: "clamp(48px, 6vw, 82px)", letterSpacing: 1, color: "#fff", lineHeight: 0.95, marginBottom: 24 }}>{c?.heroHeadline ?? <>
             PANNE ?<br /><span style={{ color: C.accent }}>ON ARRIVE.</span>
