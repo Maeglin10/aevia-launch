@@ -296,13 +296,14 @@ function BlueprintHero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.55, ease: EASE_3, delay: BEAT.second }}
+            className="hero-lede"
             style={{ fontFamily: FONT_BODY, fontSize: 16, color: `${C.cream}a6`, lineHeight: 1.7, maxWidth: 480, margin: "0 0 30px" }}
           >{c?.heroSubline ?? fd?.tagline ?? <>
             Gros œuvre, infrastructure et immobilier d’entreprise. 347 chantiers livrés, aucun litige de réception depuis 2011.
           </>}</motion.p>
 
           {/* The project sheet — this is what the rail drives. */}
-          <div style={{ minHeight: 150, marginBottom: 28 }}>
+          <div className="hero-detail" style={{ minHeight: 150, marginBottom: 28 }}>
             <AnimatePresence mode="wait">
               <motion.div key={active}>
                 <Rise beat="second" duration={0.42}>
@@ -315,7 +316,7 @@ function BlueprintHero() {
                 </Rise>
                 <Rise beat="second" duration={0.5}>
                   <div
-                    className="imx208-specs"
+                    className="imx208-specs hero-secondary"
                     style={{ display: "grid", gridTemplateColumns: "repeat(4, minmax(0,1fr))", gap: 1, background: `${C.cream}1f`, border: `1px solid ${C.cream}1f` }}
                   >
                     {specs.map((s) => (
