@@ -277,26 +277,6 @@ function Nav() {
 
   return (
     <>
-      
-        {/* Mobile hamburger */}
-        <button
-          onClick={() => setMobileOpen(!mobileOpen)}
-          className="r276-burger"
-          aria-label="Menu"
-          style={{
-            display: 'none',
-            flexDirection: 'column',
-            gap: 5,
-            background: 'none',
-            border: 'none',
-            cursor: 'pointer',
-            padding: 4,
-          }}
-        >
-          <span style={{ width: 22, height: 2, background: '#1a1a1a', borderRadius: 1, display: 'block', transition: 'transform 0.3s', transform: mobileOpen ? 'rotate(45deg) translate(0, 7px)' : 'none' }} />
-          <span style={{ width: 22, height: 2, background: '#1a1a1a', borderRadius: 1, display: 'block', opacity: mobileOpen ? 0 : 1, transition: 'opacity 0.3s' }} />
-          <span style={{ width: 22, height: 2, background: '#1a1a1a', borderRadius: 1, display: 'block', transition: 'transform 0.3s', transform: mobileOpen ? 'rotate(-45deg) translate(0, -7px)' : 'none' }} />
-        </button>
         <style>{`
         .r276-nav-links { display: flex; gap: 32px; }
         .r276-nav-link:hover { color: ${C.white} !important; }
@@ -348,6 +328,27 @@ function Nav() {
             Bilan Gratuit
           </button>
         </div>
+        {/* Mobile hamburger — must live inside the fixed nav, not before it,
+            or it renders in normal flow at the true page top and overlaps
+            the logo through the transparent unscrolled navbar. */}
+        <button
+          onClick={() => setMobileOpen(!mobileOpen)}
+          className="r276-burger"
+          aria-label="Menu"
+          style={{
+            display: 'none',
+            flexDirection: 'column',
+            gap: 5,
+            background: 'none',
+            border: 'none',
+            cursor: 'pointer',
+            padding: 4,
+          }}
+        >
+          <span style={{ width: 22, height: 2, background: C.white, borderRadius: 1, display: 'block', transition: 'transform 0.3s', transform: mobileOpen ? 'rotate(45deg) translate(0, 7px)' : 'none' }} />
+          <span style={{ width: 22, height: 2, background: C.white, borderRadius: 1, display: 'block', opacity: mobileOpen ? 0 : 1, transition: 'opacity 0.3s' }} />
+          <span style={{ width: 22, height: 2, background: C.white, borderRadius: 1, display: 'block', transition: 'transform 0.3s', transform: mobileOpen ? 'rotate(-45deg) translate(0, -7px)' : 'none' }} />
+        </button>
       </nav>
       {mobileOpen && (
         <div style={{
@@ -421,9 +422,22 @@ function HeroSection() {
           max-width: 480px;
         }
         .r276-hero-orange { color: ${C.orange}; }
+        /* Reserve the fixed navbar's height so the vertically-centred content
+           can never ride up underneath it when the stack is nearly viewport-tall. */
+        .r276-hero-inner { padding-top: 80px !important; }
+        .r276-hero-stats { margin-top: 36px !important; }
         @media (max-width: 860px) {
           .r276-hero-inner { padding: 0 24px !important; }
           .r276-hero-title { font-size: clamp(56px, 16vw, 80px) !important; }
+        }
+        /* The eyebrow + 3-line H1 + subline + CTAs + 3 stat blocks stack is
+           taller than a phone viewport, so justify-content:center pushed the
+           eyebrow above y:0 behind the fixed nav. Anchor to the top instead
+           and tighten the stats gap so everything still fits. */
+        @media (max-width: 640px) {
+          .r276-hero-inner { justify-content: flex-start !important; padding-top: 88px !important; }
+          .r276-hero-title { font-size: clamp(44px, 13vw, 62px) !important; }
+          .r276-hero-stats { margin-top: 28px !important; gap: 16px !important; }
         }
       `}</style>
       <section
@@ -563,6 +577,7 @@ function HeroSection() {
 
           {/* Badges */}
           <motion.div
+            className="r276-hero-stats"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, ease: EASE, delay: 0.9 }}
@@ -1332,7 +1347,10 @@ function MethodSection() {
         }
         @media (max-width: 860px) {
           .r276-method-wrap { grid-template-columns: 1fr !important; }
-          .r276-method-sticky { position: static !important; height: 55vw !important; }
+          /* Must stay a containing block: its photo, gradient and badge are all
+             position:absolute. "static" orphaned them to the viewport, so the
+             badge landed on top of the hero. Use relative, not static. */
+          .r276-method-sticky { position: relative !important; height: 55vw !important; }
           .r276-method-steps { padding: 48px 24px !important; }
         }
       `}</style>
