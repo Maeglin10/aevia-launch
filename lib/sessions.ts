@@ -108,6 +108,11 @@ export interface SessionData {
   generatedContent?: GeneratedContent;
   legalPages?: LegalPages;
   createdAt: Date;
+  // Number of times /api/generate has run for this session. Distributed
+  // rate-limit backstop for the LLM path: the in-memory IP limiter is
+  // per-serverless-instance (useless across Vercel's fleet), but this counter
+  // rides on the shared Blob session store, so it holds everywhere.
+  genCount?: number;
   // Aevia account this site belongs to, once linked (see app/api/webhook —
   // set from the Stripe checkout email at purchase time). Lets the site
   // itself look up whether its owner already has an active Inbox webchat
