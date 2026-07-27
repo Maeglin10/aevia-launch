@@ -111,7 +111,7 @@ const PHASES: Bread[] = [
     category: 'LES PAINS',
     description:
       "Seigle au miel des Landes, baguette à l'ancienne, pain aux noix du Périgord — le terroir de Gascogne dans chaque mie.",
-    imgId: '1509440159258-1c1c3e5f3f5b',
+    imgId: 'https://images.pexels.com/photos/31484077/pexels-photo-31484077.jpeg?auto=compress&cs=tinysrgb&w=1600',
   },
   {
     id: 'patisserie',
@@ -119,7 +119,7 @@ const PHASES: Bread[] = [
     category: 'LA PÂTISSERIE',
     description:
       "Canelé bordelais, tarte aux pruneaux d'Agen, mille-feuille à la crème légère — les classiques revisités avec précision.",
-    imgId: '1549931319-a545dcf3bc7b',
+    imgId: 'https://images.pexels.com/photos/7405059/pexels-photo-7405059.jpeg?auto=compress&cs=tinysrgb&w=1600',
   },
   {
     id: 'cafe',
@@ -127,7 +127,7 @@ const PHASES: Bread[] = [
     category: 'LE CAFÉ & BRUNCH',
     description:
       "Café d'Ethiopie en filtre, brunch du dimanche avec produits locaux, planches apéro — l'âme des Chartrons dans un verre.",
-    imgId: '1495474472359-6f5ea1e3c9a3',
+    imgId: 'https://images.pexels.com/photos/9120377/pexels-photo-9120377.jpeg?auto=compress&cs=tinysrgb&w=1600',
   },
 ];
 
@@ -167,7 +167,7 @@ const SPECIALTIES_DEMO: Specialty[] = [
 const EDIT_ROWS: EditRow[] = [
   {
     eyebrow: 'Nos valeurs',
-    imgId: '1509440159258-1c1c3e5f3f5b',
+    imgId: 'https://images.pexels.com/photos/31484077/pexels-photo-31484077.jpeg?auto=compress&cs=tinysrgb&w=1600',
     imgW: 800,
     title: 'Bordelais / ',
     titleItalic: 'de cœur.',
@@ -177,7 +177,7 @@ const EDIT_ROWS: EditRow[] = [
   },
   {
     eyebrow: 'Le lieu',
-    imgId: '1495474472359-6f5ea1e3c9a3',
+    imgId: 'https://images.pexels.com/photos/9120377/pexels-photo-9120377.jpeg?auto=compress&cs=tinysrgb&w=1600',
     imgW: 800,
     title: 'Chartrons, / ',
     titleItalic: 'depuis 2007.',
@@ -227,7 +227,7 @@ const TESTIMONIALS_DEMO: Testimonial[] = [
 
 /* ── URL helper ──────────────────────────────────────────────────────────── */
 function photo(id: string, w = 1600): string {
-  return `https://images.unsplash.com/photo-${id}?q=80&w=${w}&auto=format&fit=crop`;
+  return ((id).startsWith('http') ? (id) : `https://images.unsplash.com/photo-${id}?q=80&w=${w}&auto=format&fit=crop`);
 }
 
 /* ════════════════════════════════════════════════════════════════════════════
@@ -600,7 +600,7 @@ function Hero() {
         }}
       >
         <img
-          src={fd?.photoUrls?.[0] || photo('1509440159258-1c1c3e5f3f5b', 2000)}
+          src={fd?.photoUrls?.[0] || 'https://images.pexels.com/photos/31484077/pexels-photo-31484077.jpeg?auto=compress&cs=tinysrgb&w=2000'}
           alt="Devanture de la Boulangerie des Chartrons à Bordeaux"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
@@ -1330,7 +1330,7 @@ function CraftPanel() {
             }}
           >
             <img
-              src={fd?.photoUrls?.[1] || photo('1549931319-a545dcf3bc7b', 900)}
+              src={fd?.photoUrls?.[1] || 'https://images.pexels.com/photos/7405059/pexels-photo-7405059.jpeg?auto=compress&cs=tinysrgb&w=900'}
               alt="Pains artisanaux en cuisson au four à sole"
               loading="lazy"
               style={{
@@ -1642,7 +1642,7 @@ function OrderForm() {
     <section style={sec} id="commander">
       {/* Photo d'ambiance en fond */}
       <img
-        src={photo('1509440159258-1c1c3e5f3f5b', 1600)}
+        src={'https://images.pexels.com/photos/31484077/pexels-photo-31484077.jpeg?auto=compress&cs=tinysrgb&w=1600'}
         alt="Image de présentation"
         aria-hidden="true"
         loading="lazy"

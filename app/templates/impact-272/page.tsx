@@ -60,13 +60,13 @@ const SANS = "'Nunito', system-ui, sans-serif" as const;
 /* ── Photos Unsplash ──────────────────────────────────────────────────────── */
 const BASE = 'https://images.unsplash.com/photo-';
 const P = {
-  hero: `${BASE}1544367745-a81e18eb7be2?q=80&w=2000&auto=format&fit=crop`,
-  resp: `${BASE}1544367745-a81e18eb7be2?q=80&w=1600&auto=format&fit=crop`,
-  motor: `${BASE}1498804103-78838778a06b?q=80&w=1600&auto=format&fit=crop`,
-  postop: `${BASE}1506126613-423d21668e8b?q=80&w=1600&auto=format&fit=crop`,
-  editorial1: `${BASE}1544367745-a81e18eb7be2?q=80&w=800&auto=format&fit=crop`,
-  editorial2: `${BASE}1498804103-78838778a06b?q=80&w=800&auto=format&fit=crop`,
-  method: `${BASE}1506126613-423d21668e8b?q=80&w=900&auto=format&fit=crop`,
+  hero: `https://images.pexels.com/photos/7447003/pexels-photo-7447003.jpeg?auto=compress&cs=tinysrgb&w=2000`,
+  resp: `https://images.pexels.com/photos/7447003/pexels-photo-7447003.jpeg?auto=compress&cs=tinysrgb&w=1600`,
+  motor: `https://images.pexels.com/photos/18830315/pexels-photo-18830315.jpeg?auto=compress&cs=tinysrgb&w=1600`,
+  postop: `https://images.pexels.com/photos/7447001/pexels-photo-7447001.jpeg?auto=compress&cs=tinysrgb&w=1600`,
+  editorial1: `https://images.pexels.com/photos/7447003/pexels-photo-7447003.jpeg?auto=compress&cs=tinysrgb&w=800`,
+  editorial2: `https://images.pexels.com/photos/18830315/pexels-photo-18830315.jpeg?auto=compress&cs=tinysrgb&w=800`,
+  method: `https://images.pexels.com/photos/7447001/pexels-photo-7447001.jpeg?auto=compress&cs=tinysrgb&w=900`,
 } as const;
 
 /* ── Easing partagé ──────────────────────────────────────────────────────── */

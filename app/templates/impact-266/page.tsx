@@ -59,7 +59,7 @@ const SANS = "'Raleway', system-ui, sans-serif" as const;
 
 /* ── Photo URL helper ────────────────────────────────────────────────────── */
 const ph = (id: string) =>
-  `https://images.unsplash.com/photo-${id}?q=80&w=1600&auto=format&fit=crop`;
+  ((id).startsWith('http') ? (id) : `https://images.unsplash.com/photo-${id}?q=80&w=1600&auto=format&fit=crop`);
 
 /* ── Easing partagé ──────────────────────────────────────────────────────── */
 const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
@@ -109,14 +109,14 @@ interface ProcessStep {
 const PHASES: EventPhase[] = [
   {
     id: 'villa',
-    img: ph('1519225421783-bda591ac3db3'),
+    img: ph('https://images.pexels.com/photos/17023018/pexels-photo-17023018.jpeg?auto=compress&cs=tinysrgb&w=1600'),
     index: 'I',
     label: 'VILLA PRIVÉE',
     body: "Villas Belle Époque, bastides de Provence, domaines viticoles — des lieux d'exception pour des mariages inoubliables.",
   },
   {
     id: 'plage',
-    img: ph('1511285560929-f9bf7f036830'),
+    img: ph('https://images.pexels.com/photos/16120229/pexels-photo-16120229.jpeg?auto=compress&cs=tinysrgb&w=1600'),
     index: 'II',
     label: 'PLAGE & MER',
     body: "Cérémonie au coucher du soleil sur la Méditerranée, cocktail les pieds dans l'eau — l'azur comme décor absolu.",
@@ -1618,7 +1618,7 @@ function ContactForm() {
     >
       {/* Background image très atténuée */}
       <img
-        src={ph('1519225421783-bda591ac3db3')}
+        src={ph('https://images.pexels.com/photos/17023018/pexels-photo-17023018.jpeg?auto=compress&cs=tinysrgb&w=1600')}
         alt="Image de présentation"
         aria-hidden="true"
         loading="lazy"

@@ -85,16 +85,16 @@ const SANS = "'Roboto', sans-serif";
 const EASE = [0.16, 1, 0.3, 1];
 
 const PHOTO = {
-  hero: "https://images.unsplash.com/photo-1607472586893-edb57cb5b3e1?auto=format&fit=crop&q=80&w=2000",
+  hero: "https://images.pexels.com/photos/16509869/pexels-photo-16509869.jpeg?auto=compress&cs=tinysrgb&w=2000",
   worker1: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&q=80&w=1200",
   worker2: "https://images.unsplash.com/photo-1516216628859-9bccecab13ca?auto=format&fit=crop&q=80&w=1200",
-  tools: "https://images.unsplash.com/photo-1540103711724-14b434c4b6fc?auto=format&fit=crop&q=80&w=1200",
+  tools: "https://images.pexels.com/photos/18274115/pexels-photo-18274115.jpeg?auto=compress&cs=tinysrgb&w=1200",
   pipe: "https://images.unsplash.com/photo-1585704032915-c3400ca199e7?auto=format&fit=crop&q=80&w=1200",
   gallery: [
-    "https://images.unsplash.com/photo-1607472586893-edb57cb5b3e1?auto=format&fit=crop&q=80&w=800",
+    "https://images.pexels.com/photos/16509869/pexels-photo-16509869.jpeg?auto=compress&cs=tinysrgb&w=800",
     "https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&q=80&w=800",
     "https://images.unsplash.com/photo-1516216628859-9bccecab13ca?auto=format&fit=crop&q=80&w=800",
-    "https://images.unsplash.com/photo-1540103711724-14b434c4b6fc?auto=format&fit=crop&q=80&w=800",
+    "https://images.pexels.com/photos/18274115/pexels-photo-18274115.jpeg?auto=compress&cs=tinysrgb&w=800",
     "https://images.unsplash.com/photo-1585704032915-c3400ca199e7?auto=format&fit=crop&q=80&w=800",
     "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&q=80&w=800"
   ]

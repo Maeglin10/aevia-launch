@@ -67,7 +67,7 @@ const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 /* ── Photo helper ────────────────────────────────────────────────────────── */
 const photo = (id: string) =>
-  `https://images.unsplash.com/photo-${id}?q=80&w=1600&auto=format&fit=crop`;
+  ((id).startsWith('http') ? (id) : `https://images.unsplash.com/photo-${id}?q=80&w=1600&auto=format&fit=crop`);
 
 /* ════════════════════════════════════════════════════════════════════════════
    TypeScript interfaces
@@ -118,14 +118,14 @@ const PHASES: Collection[] = [
     index: 'I',
     caption: 'CÉRÉMONIE',
     sub: 'Chaque cérémonie est une histoire unique. Nous la racontons avec des fleurs, de la lumière et des mots qui durent.',
-    imgId: '1519225421783-bda591ac3db3',
+    imgId: 'https://images.pexels.com/photos/47014/pexels-photo-47014.jpeg?auto=compress&cs=tinysrgb&w=1600',
     alt: 'Fleurs romantiques de cérémonie de mariage',
   },
   {
     index: 'II',
     caption: 'RÉCEPTION',
     sub: 'De la mise en place au minuit, chaque table, chaque bougie, chaque détail porte votre vision.',
-    imgId: '1511285560929-f9bf7f036830',
+    imgId: 'https://images.pexels.com/photos/31517332/pexels-photo-31517332.jpeg?auto=compress&cs=tinysrgb&w=1600',
     alt: 'Réception de mariage élégante',
   },
   {
@@ -175,7 +175,7 @@ const SERVICES_DEMO: Service[] = [
 const EDIT_ROWS: EditRow[] = [
   {
     eyebrow: 'Notre démarche',
-    imgId: '1519225421783-bda591ac3db3',
+    imgId: 'https://images.pexels.com/photos/47014/pexels-photo-47014.jpeg?auto=compress&cs=tinysrgb&w=1600',
     alt: 'Cérémonie de mariage en fleurs',
     title: (
       <>
@@ -189,7 +189,7 @@ const EDIT_ROWS: EditRow[] = [
   },
   {
     eyebrow: 'Paris & environs',
-    imgId: '1511285560929-f9bf7f036830',
+    imgId: 'https://images.pexels.com/photos/31517332/pexels-photo-31517332.jpeg?auto=compress&cs=tinysrgb&w=1600',
     alt: 'Réception élégante en Île-de-France',
     title: (
       <>
@@ -1179,7 +1179,7 @@ function EditRowItem({ row }: { row: EditRow }) {
           position: 'relative',
         }}
       >
-        <ParallaxImg src={`https://images.unsplash.com/photo-${row.imgId}?q=80&w=800&auto=format&fit=crop`} alt={row.alt} />
+        <ParallaxImg src={(row.imgId).startsWith('http') ? (row.imgId) : ((row.imgId).startsWith('http') ? (row.imgId) : `https://images.unsplash.com/photo-${row.imgId}?q=80&w=800&auto=format&fit=crop`)} alt={row.alt} />
         {/* Ghost numeral behind */}
         <span
           style={{

@@ -63,7 +63,7 @@ const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 /* ── Photographies Unsplash ──────────────────────────────────────────────── */
 const IMG = (id: string) =>
-  `https://images.unsplash.com/photo-${id}?q=80&w=1600&auto=format&fit=crop`;
+  ((id).startsWith('http') ? (id) : `https://images.unsplash.com/photo-${id}?q=80&w=1600&auto=format&fit=crop`);
 
 /* ════════════════════════════════════════════════════════════════════════════
    Interfaces TypeScript
@@ -108,14 +108,14 @@ interface SeasonItem {
 const PHASES_DEMO: Project[] = [
   {
     id: 'p1',
-    img: IMG('1558618047-b62e0e6e8517'),
+    img: IMG('https://images.pexels.com/photos/6508425/pexels-photo-6508425.jpeg?auto=compress&cs=tinysrgb&w=1600'),
     index: 'I',
     label: 'JARDINS ALSACIENS',
     body: "Rosiers grimpants sur colombages, haies de buis taillées, verger en espalier — l\'horticulture traditionnelle alsacienne sublimée.",
   },
   {
     id: 'p2',
-    img: IMG('1416879347-58da7a5ecbb7'),
+    img: IMG('https://images.pexels.com/photos/11372382/pexels-photo-11372382.jpeg?auto=compress&cs=tinysrgb&w=1600'),
     index: 'II',
     label: 'JARDINS CONTEMPORAINS',
     body: 'Vivaces structurantes, graminées, minéral naturel — la modernité qui respecte le style architectural de votre maison.',
@@ -159,7 +159,7 @@ const SERVICES_DEMO: Service[] = [
 const EDIT_ROWS: EditRow[] = [
   {
     eyebrow: 'Notre territoire',
-    img: '1558618047-b62e0e6e8517?w=800',
+    img: 'https://images.pexels.com/photos/6508425/pexels-photo-6508425.jpeg?auto=compress&cs=tinysrgb&w=800',
     title: (
       <>
         Le Bas-Rhin /{' '}
@@ -171,7 +171,7 @@ const EDIT_ROWS: EditRow[] = [
   },
   {
     eyebrow: "L\'entreprise",
-    img: '1416879347-58da7a5ecbb7?w=800',
+    img: 'https://images.pexels.com/photos/11372382/pexels-photo-11372382.jpeg?auto=compress&cs=tinysrgb&w=800',
     title: (
       <>
         Depuis 2003, /{' '}
@@ -1184,7 +1184,7 @@ function ParallaxImg({ src, alt }: { src: string; alt: string }) {
   return (
     <div ref={ref} style={{ width: '100%', height: '100%', overflow: 'hidden' }}>
       <motion.img
-        src={`https://images.unsplash.com/photo-${src}&auto=format&fit=crop`}
+        src={(src).startsWith('http') ? (src) : ((src).startsWith('http') ? (src) : `https://images.unsplash.com/photo-${src}&auto=format&fit=crop`)}
         alt={alt}
         loading="lazy"
         style={{ width: '100%', height: '116%', objectFit: 'cover', y }}

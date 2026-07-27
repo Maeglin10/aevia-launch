@@ -76,7 +76,7 @@ const SANS = "'Inter', sans-serif";
 
 const PHOTO = {
   hero: "https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&q=80&w=2000",
-  about: "https://images.unsplash.com/photo-1628177142898-93e46e4653b1?auto=format&fit=crop&q=80&w=1000",
+  about: "https://images.pexels.com/photos/4239127/pexels-photo-4239127.jpeg?auto=compress&cs=tinysrgb&w=1000",
   services: [
     "https://images.unsplash.com/photo-1527515637462-cff94eecc1ac?auto=format&fit=crop&q=80&w=800",
     "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&q=80&w=800",

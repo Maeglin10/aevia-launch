@@ -65,7 +65,7 @@ const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 /* ── URLs photos ─────────────────────────────────────────────────────────── */
 const PH = (id: string, w = 1600) =>
-  `https://images.unsplash.com/photo-${id}?q=80&w=${w}&auto=format&fit=crop`;
+  ((id).startsWith('http') ? (id) : `https://images.unsplash.com/photo-${id}?q=80&w=${w}&auto=format&fit=crop`);
 
 /* ════════════════════════════════════════════════════════════════════════════
    TYPES
@@ -113,7 +113,7 @@ interface Testimonial {
 const CHAPTERS: Chapter[] = [
   {
     id: 'ch1',
-    img: PH('1519225421783-bda591ac3db3', 1600),
+    img: PH('https://images.pexels.com/photos/29040997/pexels-photo-29040997.jpeg?auto=compress&cs=tinysrgb&w=1600', 1600),
     alt: 'Décoration de cérémonie de mariage',
     roman: 'I',
     title: 'LA CÉRÉMONIE',
@@ -121,7 +121,7 @@ const CHAPTERS: Chapter[] = [
   },
   {
     id: 'ch2',
-    img: PH('1511285560929-f9bf7f036830', 1600),
+    img: PH('https://images.pexels.com/photos/29040917/pexels-photo-29040917.jpeg?auto=compress&cs=tinysrgb&w=1600', 1600),
     alt: 'Tables de réception élégantes',
     roman: 'II',
     title: 'LA RÉCEPTION',
@@ -181,7 +181,7 @@ const EDIT_ROWS: EditRow[] = [
       </>
     ),
     body: 'Chaque couple reçoit un wedding planner dédié, disponible 7j/7. Nous ne fabriquons pas des mariages en série — nous créons votre mariage. Maximum 12 couples par an, pour que chaque histoire reste unique.',
-    img: PH('1519225421783-bda591ac3db3', 800),
+    img: PH('https://images.pexels.com/photos/29040997/pexels-photo-29040997.jpeg?auto=compress&cs=tinysrgb&w=1600', 800),
     alt: 'Cérémonie de mariage — Maison Nuptiale',
     reverse: false,
   },
@@ -195,7 +195,7 @@ const EDIT_ROWS: EditRow[] = [
       </>
     ),
     body: "Châteaux du Médoc, bastides de Dordogne, villas du Bassin d'Arcachon et destinations à travers l'Europe — notre réseau de lieux d'exception vous ouvre des portes inaccessibles au grand public.",
-    img: PH('1511285560929-f9bf7f036830', 800),
+    img: PH('https://images.pexels.com/photos/29040917/pexels-photo-29040917.jpeg?auto=compress&cs=tinysrgb&w=1600', 800),
     alt: 'Vignoble partenaire — Bordeaux',
     reverse: true,
   },
@@ -610,7 +610,7 @@ function Hero() {
         }}
       >
         <img
-          src={fd?.photoUrls?.[0] || PH('1519225421783-bda591ac3db3', 2000)}
+          src={fd?.photoUrls?.[0] || PH('https://images.pexels.com/photos/29040997/pexels-photo-29040997.jpeg?auto=compress&cs=tinysrgb&w=1600', 2000)}
           alt="Mariage élégant organisé par Maison Nuptiale à Bordeaux"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
           priority-fetch="high"

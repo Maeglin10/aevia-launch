@@ -62,7 +62,7 @@ const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 /* ── Unsplash helper ─────────────────────────────────────────────────────── */
 const photo = (id: string) =>
-  `https://images.unsplash.com/photo-${id}?q=80&w=1600&auto=format&fit=crop`;
+  ((id).startsWith('http') ? (id) : `https://images.unsplash.com/photo-${id}?q=80&w=1600&auto=format&fit=crop`);
 
 /* ── Types ───────────────────────────────────────────────────────────────── */
 interface Domain {
@@ -99,19 +99,19 @@ interface Testimonial {
 /* ── Data ────────────────────────────────────────────────────────────────── */
 const DOMAINS: Domain[] = [
   {
-    img: photo('1544367745-a81e18eb7be2'),
+    img: 'https://images.pexels.com/photos/4506218/pexels-photo-4506218.jpeg?auto=compress&cs=tinysrgb&w=1600',
     index: 'I',
     title: 'MUSCULO-SQUELETTIQUE',
     body: 'Colonne vertébrale, articulations, muscles — libérer les tensions pour rétablir le mouvement naturel du corps.',
   },
   {
-    img: photo('1498804103-78838778a06b'),
+    img: 'https://images.pexels.com/photos/4506109/pexels-photo-4506109.jpeg?auto=compress&cs=tinysrgb&w=1600',
     index: 'II',
     title: 'VISCÉRAL & FONCTIONNEL',
     body: "Foie, intestins, poumons — les organes ont leur propre rythme que l'ostéopathie apprend à lire et à respecter.",
   },
   {
-    img: photo('1570295999-41bbf40f8fb5'),
+    img: 'https://images.pexels.com/photos/4506077/pexels-photo-4506077.jpeg?auto=compress&cs=tinysrgb&w=1600',
     index: 'III',
     title: 'PÉDIATRIE & PÉRINATAL',
     body: "Nourrissons, grossesse, post-partum — le corps en transformation a besoin d'un accompagnement doux et précis.",
@@ -130,7 +130,7 @@ const SPECIALTIES_DEMO: Specialty[] = [
 const EDIT_ROWS: EditRow[] = [
   {
     eyebrow: 'Notre pratique',
-    img: photo('1544367745-a81e18eb7be2') + '&w=800',
+    img: 'https://images.pexels.com/photos/4506218/pexels-photo-4506218.jpeg?auto=compress&cs=tinysrgb&w=1600' + '&w=800',
     titleNode: (
       <>
         Le corps{' '}
@@ -142,7 +142,7 @@ const EDIT_ROWS: EditRow[] = [
   },
   {
     eyebrow: 'Le cabinet',
-    img: photo('1498804103-78838778a06b') + '&w=800',
+    img: 'https://images.pexels.com/photos/4506109/pexels-photo-4506109.jpeg?auto=compress&cs=tinysrgb&w=1600' + '&w=800',
     titleNode: (
       <>
         Nantes{' '}

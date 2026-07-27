@@ -82,9 +82,9 @@ const SANS = "'Roboto', sans-serif";
 const EASE = [0.16, 1, 0.3, 1];
 
 const PHOTOS = {
-  hero: "https://images.unsplash.com/photo-1540039155732-d6749b93226a?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80",
+  hero: "https://images.pexels.com/photos/17527817/pexels-photo-17527817.jpeg?auto=compress&cs=tinysrgb&w=2000",
   about: "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
-  event1: "https://images.unsplash.com/photo-1470229722913-7c090be5c5b4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+  event1: "https://images.pexels.com/photos/27151463/pexels-photo-27151463.jpeg?auto=compress&cs=tinysrgb&w=800",
   event2: "https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
   event3: "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
   event4: "https://images.unsplash.com/photo-1524368535928-5b5e00ddc76b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",

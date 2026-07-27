@@ -77,12 +77,12 @@ const SERIF = "'Fraunces', serif";
 const SANS = "'Inter', sans-serif";
 
 const PHOTO = {
-  hero: "https://images.unsplash.com/photo-1584820927498-cafe4c239bf8?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80", // Clean bright room
-  about: "https://images.unsplash.com/photo-1628177142898-93e46e48da63?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80", // Eco products
+  hero: "https://images.pexels.com/photos/10268087/pexels-photo-10268087.jpeg?auto=compress&cs=tinysrgb&w=2000", // Clean bright room
+  about: "https://images.pexels.com/photos/10574049/pexels-photo-10574049.jpeg?auto=compress&cs=tinysrgb&w=1200", // Eco products
   services: [
     "https://images.unsplash.com/photo-1527515637462-cff94eecc1ac?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
     "https://images.unsplash.com/photo-1581578731548-c64695cc6952?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-    "https://images.unsplash.com/photo-1603712725038-e9334ae8ce0e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    "https://images.pexels.com/photos/10481134/pexels-photo-10481134.jpeg?auto=compress&cs=tinysrgb&w=800",
   ],
   gallery: [
     "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",

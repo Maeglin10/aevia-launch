@@ -91,7 +91,7 @@ interface PillarItem {
 
 /* ── Photo helper ────────────────────────────────────────────────────────── */
 const photo = (id: string, w = 1600) =>
-  `https://images.unsplash.com/photo-${id}?q=80&w=${w}&auto=format&fit=crop`;
+  ((id).startsWith('http') ? (id) : `https://images.unsplash.com/photo-${id}?q=80&w=${w}&auto=format&fit=crop`);
 
 /* ── Data ─────────────────────────────────────────────────────────────────── */
 const DOMAINS: Domain[] = [

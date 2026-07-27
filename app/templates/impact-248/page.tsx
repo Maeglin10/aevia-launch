@@ -108,7 +108,7 @@ const PHASES: Approach[] = [
     label: 'STRUCTURE',
     title: 'Structure',
     body: "Colonne vertébrale, bassin, membres — rétablir l'équilibre musculo-squelettique pour libérer les tensions.",
-    imgId: '1544367745-a81e18eb7be2',
+    imgId: 'https://images.pexels.com/photos/5794024/pexels-photo-5794024.jpeg?auto=compress&cs=tinysrgb&w=1600',
   },
   {
     id: 'visceral',
@@ -116,7 +116,7 @@ const PHASES: Approach[] = [
     label: 'VISCÉRAL',
     title: 'Viscéral',
     body: "Foie, intestins, diaphragme — les organes ont leur propre mobilité que l'ostéopathie sait écouter.",
-    imgId: '1498804103-78838778a06b',
+    imgId: 'https://images.pexels.com/photos/5473182/pexels-photo-5473182.jpeg?auto=compress&cs=tinysrgb&w=1600',
   },
   {
     id: 'cranien',
@@ -124,7 +124,7 @@ const PHASES: Approach[] = [
     label: 'CRÂNIEN',
     title: 'Crânien',
     body: 'Micro-mouvements du crâne et des méninges — approche douce pour nourrissons, migraineux et post-traumatismes.',
-    imgId: '1570295999-41bbf40f8fb5',
+    imgId: 'https://images.pexels.com/photos/4506110/pexels-photo-4506110.jpeg?auto=compress&cs=tinysrgb&w=1600',
   },
 ];
 
@@ -171,7 +171,7 @@ const EDIT_ROWS: EditRow[] = [
       </>
     ),
     body: "Chaque consultation est unique. Le corps est traité comme un système global — structure, viscères, crâne sont interdépendants. Nous n'imposons pas de protocole : nous écoutons, palpons, adaptons. Aucune séance ne ressemble à la précédente, parce qu'aucun patient ne ressemble à un autre.",
-    imgId: '1544367745-a81e18eb7be2',
+    imgId: 'https://images.pexels.com/photos/5794024/pexels-photo-5794024.jpeg?auto=compress&cs=tinysrgb&w=1600',
     alt: 'Ostéopathe en consultation, écoute du corps',
     reverse: false,
     numeralLabel: 'I',
@@ -185,7 +185,7 @@ const EDIT_ROWS: EditRow[] = [
       </>
     ),
     body: "Le cabinet est situé à deux pas des stations Oberkampf et République. Accessible aux personnes à mobilité réduite, le lieu est conçu pour la sérénité. La prise de rendez-vous en ligne est disponible 24h/24 — les premières disponibilités s'affichent en temps réel.",
-    imgId: '1498804103-78838778a06b',
+    imgId: 'https://images.pexels.com/photos/5473182/pexels-photo-5473182.jpeg?auto=compress&cs=tinysrgb&w=1600',
     alt: 'Cabinet ostéopathie Paris 11e, espace de soin lumineux',
     reverse: true,
     numeralLabel: 'II',
@@ -232,7 +232,7 @@ const TESTIMONIALS_DEMO: Testimonial[] = [
 
 /* ── Photo helper ─────────────────────────────────────────────────────────── */
 function photo(id: string, w = 1600) {
-  return `https://images.unsplash.com/photo-${id}?q=80&w=${w}&auto=format&fit=crop`;
+  return ((id).startsWith('http') ? (id) : `https://images.unsplash.com/photo-${id}?q=80&w=${w}&auto=format&fit=crop`);
 }
 
 /* ════════════════════════════════════════════════════════════════════════════
@@ -603,7 +603,7 @@ function Hero() {
         }}
       >
         <img
-          src={fd?.photoUrls?.[0] || photo('1544367745-a81e18eb7be2', 2000)}
+          src={fd?.photoUrls?.[0] || 'https://images.pexels.com/photos/5794024/pexels-photo-5794024.jpeg?auto=compress&cs=tinysrgb&w=2000'}
           alt="Soin ostéopathique — mains de l'ostéopathe sur le dos d'un patient"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
           priority-hint="high"
@@ -1363,7 +1363,7 @@ function PrinciplesPanel() {
             }}
           >
             <img
-              src={fd?.photoUrls?.[1] || photo('1570295999-41bbf40f8fb5', 900)}
+              src={fd?.photoUrls?.[1] || 'https://images.pexels.com/photos/4506110/pexels-photo-4506110.jpeg?auto=compress&cs=tinysrgb&w=900'}
               alt="Ostéopathie crânienne — soin délicat sur le crâne"
               loading="lazy"
               style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}

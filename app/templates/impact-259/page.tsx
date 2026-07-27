@@ -113,7 +113,7 @@ const CREATIONS: Creation[] = [
     label: 'LES PAINS',
     description:
       "Levain de seigle, semoule de blé dur, graines torréfiées maison — notre gamme s'inspire des terroirs alsacien et méditerranéen.",
-    imgId: '1509440159258-1c1c3e5f3f5b',
+    imgId: 'https://images.pexels.com/photos/32459865/pexels-photo-32459865.jpeg?auto=compress&cs=tinysrgb&w=1600',
   },
   {
     id: 'patisserie',
@@ -129,7 +129,7 @@ const CREATIONS: Creation[] = [
     label: 'LE CAFÉ',
     description:
       'Café de spécialité torréfié localement, brunch du samedi, lunch du mardi au vendredi — le carrefour du quartier.',
-    imgId: '1495474472359-6f5ea1e3c9a3',
+    imgId: 'https://images.pexels.com/photos/34164441/pexels-photo-34164441.jpeg?auto=compress&cs=tinysrgb&w=1600',
   },
 ];
 
@@ -175,7 +175,7 @@ const MENU_ITEMS_DEMO: MenuItem[] = [
 const EDIT_ROWS: EditRow[] = [
   {
     eyebrow: 'Notre ancrage',
-    imgId: '1509440159258-1c1c3e5f3f5b?w=800',
+    imgId: 'https://images.pexels.com/photos/32459865/pexels-photo-32459865.jpeg?auto=compress&cs=tinysrgb&w=800',
     title: (
       <>
         Strasbourg /{' '}
@@ -188,7 +188,7 @@ const EDIT_ROWS: EditRow[] = [
   },
   {
     eyebrow: "L'espace",
-    imgId: '1495474472359-6f5ea1e3c9a3?w=800',
+    imgId: 'https://images.pexels.com/photos/34164441/pexels-photo-34164441.jpeg?auto=compress&cs=tinysrgb&w=800',
     title: (
       <>
         50 couverts /{' '}
@@ -249,7 +249,7 @@ const TESTIMONIALS_DEMO: Testimonial[] = [
 
 /* ── Utilitaire photo ────────────────────────────────────────────────────── */
 const photo = (id: string) =>
-  `https://images.unsplash.com/photo-${id}&q=80&w=1600&auto=format&fit=crop`;
+  ((id).startsWith('http') ? (id) : `https://images.unsplash.com/photo-${id}&q=80&w=1600&auto=format&fit=crop`);
 
 /* ════════════════════════════════════════════════════════════════════════════
    Primitives
@@ -826,7 +826,7 @@ function CreationLayer({
   return (
     <motion.div style={{ position: 'absolute', inset: 0, opacity }}>
       <motion.img
-        src={creation.imgId.startsWith('http') ? creation.imgId : `https://images.unsplash.com/photo-${creation.imgId}?q=80&w=1600&auto=format&fit=crop`}
+        src={creation.imgId.startsWith('http') ? creation.imgId : ((creation.imgId).startsWith('http') ? (creation.imgId) : `https://images.unsplash.com/photo-${creation.imgId}?q=80&w=1600&auto=format&fit=crop`)}
         alt={creation.label}
         loading="lazy"
         style={{
@@ -1231,7 +1231,7 @@ function EditorialRow({ row }: { row: EditRow }) {
     <div className="fp-editrow" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'clamp(36px,6vw,90px)', alignItems: 'center' }}>
       <Reveal y={50} style={imgWrap}>
         <ParallaxImg
-          src={`https://images.unsplash.com/photo-${row.imgId}&q=80&w=1600&auto=format&fit=crop`}
+          src={(row.imgId).startsWith('http') ? (row.imgId) : ((row.imgId).startsWith('http') ? (row.imgId) : `https://images.unsplash.com/photo-${row.imgId}&q=80&w=1600&auto=format&fit=crop`)}
           alt={typeof row.title === 'string' ? row.title : row.eyebrow}
         />
       </Reveal>

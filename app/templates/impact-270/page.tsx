@@ -112,25 +112,25 @@ interface SafetyItem {
 
 const BASE = 'https://images.unsplash.com/photo-';
 const ph = (id: string, w = 1600) =>
-  `${BASE}${id}?q=80&w=${w}&auto=format&fit=crop`;
+  id.startsWith('http') ? id : `${BASE}${id}?q=80&w=${w}&auto=format&fit=crop`;
 
 const STYLES_DEMO: Style[] = [
   {
-    src: ph('1611501579-4d7dc8532cc1'),
+    src: ph('https://images.pexels.com/photos/7005675/pexels-photo-7005675.jpeg?auto=compress&cs=tinysrgb&w=1600'),
     alt: 'Tatouage nature et plumes',
     index: 'I',
     label: 'NATURE & PLUMES',
     desc: "Oiseaux en vol, plumes délicates, branches fleuries — l'encre noire qui capture la légèreté du vivant.",
   },
   {
-    src: ph('1547036967-23136a0f3b86'),
+    src: ph('https://images.pexels.com/photos/29547854/pexels-photo-29547854.jpeg?auto=compress&cs=tinysrgb&w=1600'),
     alt: 'Tatouage surréaliste',
     index: 'II',
     label: 'SURRÉALISME',
     desc: "Montres qui fondent, œils floraux, univers de Dalí transposés sur peau — l'imaginaire sans limites.",
   },
   {
-    src: ph('1567401893-56e3d64e7b2c'),
+    src: ph('https://images.pexels.com/photos/20531496/pexels-photo-20531496.jpeg?auto=compress&cs=tinysrgb&w=1600'),
     alt: 'Tatouage old school revisité',
     index: 'III',
     label: 'OLD SCHOOL REVISITÉ',
@@ -143,28 +143,28 @@ const ARTISTS_DEMO: Artist[] = [
     name: 'CLAIRE',
     specialty: 'Nature & illustration',
     badge: 'Nature & illustration',
-    img: ph('1611501579-4d7dc8532cc1', 800),
+    img: ph('https://images.pexels.com/photos/7005675/pexels-photo-7005675.jpeg?auto=compress&cs=tinysrgb&w=1600', 800),
     alt: 'Claire — artiste tatouage nature et illustration',
   },
   {
     name: 'HUGO',
     specialty: 'Surréalisme & dreamlike',
     badge: 'Surréalisme',
-    img: ph('1547036967-23136a0f3b86', 800),
+    img: ph('https://images.pexels.com/photos/29547854/pexels-photo-29547854.jpeg?auto=compress&cs=tinysrgb&w=1600', 800),
     alt: 'Hugo — artiste tatouage surréaliste',
   },
   {
     name: 'ANNA',
     specialty: 'Old school revisité',
     badge: 'Old school',
-    img: ph('1567401893-56e3d64e7b2c', 800),
+    img: ph('https://images.pexels.com/photos/20531496/pexels-photo-20531496.jpeg?auto=compress&cs=tinysrgb&w=1600', 800),
     alt: 'Anna — artiste tatouage old school revisité',
   },
   {
     name: 'THÉO',
     specialty: 'Script & lettering poétique',
     badge: 'Lettering',
-    img: ph('1611501579-4d7dc8532cc1', 800),
+    img: ph('https://images.pexels.com/photos/7005675/pexels-photo-7005675.jpeg?auto=compress&cs=tinysrgb&w=1600', 800),
     alt: 'Théo — artiste tatouage script et lettering',
   },
 ];
@@ -172,7 +172,7 @@ const ARTISTS_DEMO: Artist[] = [
 const EDIT_ROWS: EditRow[] = [
   {
     eyebrow: 'Notre univers',
-    img: ph('1611501579-4d7dc8532cc1', 800),
+    img: ph('https://images.pexels.com/photos/7005675/pexels-photo-7005675.jpeg?auto=compress&cs=tinysrgb&w=1600', 800),
     alt: 'Illustration et tatouage — Peau & Plume',
     numeral: '01',
     title: (
@@ -185,7 +185,7 @@ const EDIT_ROWS: EditRow[] = [
   },
   {
     eyebrow: 'Lille',
-    img: ph('1547036967-23136a0f3b86', 800),
+    img: ph('https://images.pexels.com/photos/29547854/pexels-photo-29547854.jpeg?auto=compress&cs=tinysrgb&w=1600', 800),
     alt: 'Atelier lumineux Peau & Plume — Vieux-Lille',
     numeral: '02',
     title: (
@@ -583,7 +583,7 @@ function Hero() {
         }}
       >
         <img
-          src={fd?.photoUrls?.[0] || ph('1611501579-4d7dc8532cc1', 2000)}
+          src={fd?.photoUrls?.[0] || ph('https://images.pexels.com/photos/7005675/pexels-photo-7005675.jpeg?auto=compress&cs=tinysrgb&w=1600', 2000)}
           alt="Tatouage nature et plumes — Peau & Plume Lille"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
@@ -1371,7 +1371,7 @@ function SafetyPanel() {
               }}
             >
               <img
-                src={fd?.photoUrls?.[1] || ph('1567401893-56e3d64e7b2c', 900)}
+                src={fd?.photoUrls?.[1] || ph('https://images.pexels.com/photos/20531496/pexels-photo-20531496.jpeg?auto=compress&cs=tinysrgb&w=1600', 900)}
                 alt="Hygiène irréprochable — Peau & Plume"
                 loading="lazy"
                 style={{
@@ -1672,7 +1672,7 @@ function BookingForm() {
     <section style={sec} id="reserver">
       {/* Fond fantôme */}
       <img
-        src={ph('1567401893-56e3d64e7b2c', 1200)}
+        src={ph('https://images.pexels.com/photos/20531496/pexels-photo-20531496.jpeg?auto=compress&cs=tinysrgb&w=1600', 1200)}
         alt="Image de présentation"
         aria-hidden="true"
         loading="lazy"
