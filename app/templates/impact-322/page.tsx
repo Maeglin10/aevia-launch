@@ -429,7 +429,7 @@ export default function Impact322() {
         <motion.div 
           animate={{ y: [0, 10, 0] }}
           transition={{ duration: 2, repeat: Infinity }}
-          className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
+          className="absolute bottom-12 left-1/2 -translate-x-1/2 hidden sm:flex flex-col items-center gap-2"
         >
           <span className="text-[10px] uppercase tracking-[0.2em]" style={{ color: C.textMuted }}>Scroll</span>
           <div className="w-[1px] h-12" style={{ backgroundColor: 'rgba(255,255,255,0.2)' }}>

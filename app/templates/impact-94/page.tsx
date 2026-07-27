@@ -696,7 +696,7 @@ export default function Impact94Page() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.8 }}
-          className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
+          className="absolute bottom-12 left-1/2 -translate-x-1/2 hidden sm:flex flex-col items-center gap-2"
         >
           <span className="text-[9px] uppercase tracking-[0.4em] text-[#FAFAF9]/60">Défiler</span>
           <motion.div

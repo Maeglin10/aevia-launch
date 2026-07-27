@@ -650,7 +650,8 @@ return (
         <motion.div
           animate={{ y: [0, 8, 0] }}
           transition={{ repeat: Infinity, duration: 2 }}
-          style={{ position: "absolute", bottom: 40, left: "50%", transform: "translateX(-50%)", zIndex: 10, display: "flex", flexDirection: "column", alignItems: "center", gap: 6 }}
+          className="hidden sm:flex"
+          style={{ position: "absolute", bottom: 40, left: "50%", transform: "translateX(-50%)", zIndex: 10, flexDirection: "column", alignItems: "center", gap: 6 }}
         >
           <span style={{ fontSize: 10, color: "rgba(255,255,255,0.35)", fontFamily: "system-ui", letterSpacing: "0.12em" }}>SCROLL</span>
           <ChevronDown size={16} color="rgba(255,255,255,0.35)" />

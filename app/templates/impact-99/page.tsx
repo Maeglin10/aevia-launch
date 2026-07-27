@@ -1256,7 +1256,7 @@ export default function EmberGrillPage() {
               </Reveal>
             </div>
 
-            <div className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4 text-white/20 animate-bounce">
+            <div className="absolute bottom-12 left-1/2 -translate-x-1/2 hidden sm:flex flex-col items-center gap-4 text-white/20 animate-bounce">
               <span className="text-[10px] font-bold uppercase tracking-widest">
                 Scroll
               </span>
