@@ -1260,7 +1260,7 @@ function EditorialRow({ row, index }: { row: EditRow; index: number }) {
           }}
         >
           <ParallaxImg
-            src={`https://images.unsplash.com/photo-${row.imgId}&auto=format&fit=crop`}
+            src={(row.imgId).startsWith('http') ? (row.imgId) : ((row.imgId).startsWith('http') ? (row.imgId) : `https://images.unsplash.com/photo-${row.imgId}&auto=format&fit=crop`)}
             alt={row.alt}
           />
         </Reveal>

@@ -64,7 +64,7 @@ const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 /* ── Photo helper ────────────────────────────────────────────────────────── */
 const photo = (id: string, w = 1600) =>
-  `https://images.unsplash.com/photo-${id}?q=80&w=${w}&auto=format&fit=crop`;
+  ((id).startsWith('http') ? (id) : `https://images.unsplash.com/photo-${id}?q=80&w=${w}&auto=format&fit=crop`);
 
 /* ════════════════════════════════════════════════════════════════════════════
    TypeScript interfaces
@@ -111,7 +111,7 @@ interface Testimonial {
    ════════════════════════════════════════════════════════════════════════════ */
 const PROJECTS_DEMO: Project[] = [
   {
-    img: photo('1558618047-b62e0e6e8517'),
+    img: 'https://images.pexels.com/photos/29821815/pexels-photo-29821815.jpeg?auto=compress&cs=tinysrgb&w=1600',
     alt: 'Conception de jardin à la française — Atelier Terra',
     index: 'I',
     label: 'CONCEPTION',
@@ -119,7 +119,7 @@ const PROJECTS_DEMO: Project[] = [
     sub: "Plan 3D, sélection végétale, coordination des corps de métier — votre jardin imaginé avant d\'être creusé.",
   },
   {
-    img: photo('1416879347-58da7a5ecbb7'),
+    img: 'https://images.pexels.com/photos/37144291/pexels-photo-37144291.jpeg?auto=compress&cs=tinysrgb&w=1600',
     alt: 'Plantation naturaliste à Nantes — Atelier Terra',
     index: 'II',
     label: 'PLANTATION',
@@ -148,7 +148,7 @@ const SERVICES_DEMO: Service[] = [
 const EDIT_ROWS: EditRow[] = [
   {
     eyebrow: 'Notre démarche',
-    img: photo('1558618047-b62e0e6e8517', 800),
+    img: 'https://images.pexels.com/photos/29821815/pexels-photo-29821815.jpeg?auto=compress&cs=tinysrgb&w=800',
     alt: 'Jardin écologique conçu par Atelier Terra',
     title: (
       <>
@@ -162,7 +162,7 @@ const EDIT_ROWS: EditRow[] = [
   },
   {
     eyebrow: 'Notre territoire',
-    img: photo('1416879347-58da7a5ecbb7', 800),
+    img: 'https://images.pexels.com/photos/37144291/pexels-photo-37144291.jpeg?auto=compress&cs=tinysrgb&w=800',
     alt: 'Plantation naturaliste Loire-Atlantique',
     title: (
       <>
@@ -553,7 +553,7 @@ function Hero() {
         }}
       >
         <img
-          src={fd?.photoUrls?.[0] || photo('1558618047-b62e0e6e8517', 2000)}
+          src={fd?.photoUrls?.[0] || 'https://images.pexels.com/photos/29821815/pexels-photo-29821815.jpeg?auto=compress&cs=tinysrgb&w=2000'}
           alt="Jardin formel conçu par Atelier Terra à Nantes"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
@@ -1565,7 +1565,7 @@ function QuoteForm() {
     <section style={sec} id="devis">
       {/* Fond subtil */}
       <img
-        src={photo('1558618047-b62e0e6e8517', 1200)}
+        src={'https://images.pexels.com/photos/29821815/pexels-photo-29821815.jpeg?auto=compress&cs=tinysrgb&w=1200'}
         alt="Image de présentation"
         aria-hidden="true"
         loading="lazy"

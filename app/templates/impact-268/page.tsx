@@ -66,7 +66,7 @@ function photo(id: string, w = 1600) {
   // Client-provided full URLs (e.g. uploaded realisation photos) pass through
   // untouched; only bare Unsplash id fragments get wrapped.
   if (id.startsWith('http')) return id;
-  return `https://images.unsplash.com/photo-${id}?q=80&w=${w}&auto=format&fit=crop`;
+  return ((id).startsWith('http') ? (id) : `https://images.unsplash.com/photo-${id}?q=80&w=${w}&auto=format&fit=crop`);
 }
 
 /* ════════════════════════════════════════════════════════════════════════════
@@ -112,13 +112,13 @@ interface DesignStep {
 
 const PHASES_DEMO: Project[] = [
   {
-    imgId: '1558618047-b62e0e6e8517',
+    imgId: 'https://images.pexels.com/photos/1190903/pexels-photo-1190903.jpeg?auto=compress&cs=tinysrgb&w=1600',
     index: 'I',
     title: 'JARDINS CONTEMPORAINS',
     sub: "Lignes épurées, végétaux structurants, minéral et vivant en dialogue — le jardin comme prolongement de l\'architecture.",
   },
   {
-    imgId: '1416879347-58da7a5ecbb7',
+    imgId: 'https://images.pexels.com/photos/37680757/pexels-photo-37680757.jpeg?auto=compress&cs=tinysrgb&w=1600',
     index: 'II',
     title: 'POTAGERS & JARDINS NOURRICIERS',
     sub: "Carrés surélevés, serre tunnel, composteur intégré — produire bio à 30min de Paris, c\'est possible.",
@@ -143,7 +143,7 @@ const SERVICES_DEMO: Service[] = [
 const EDIT_ROWS: EditRow[] = [
   {
     eyebrow: 'Notre approche',
-    imgId: '1558618047-b62e0e6e8517',
+    imgId: 'https://images.pexels.com/photos/1190903/pexels-photo-1190903.jpeg?auto=compress&cs=tinysrgb&w=1600',
     imgW: 800,
     reverse: false,
     titleLines: ['Chaque jardin', 'raconte une histoire.'],
@@ -151,7 +151,7 @@ const EDIT_ROWS: EditRow[] = [
   },
   {
     eyebrow: 'Île-de-France',
-    imgId: '1416879347-58da7a5ecbb7',
+    imgId: 'https://images.pexels.com/photos/37680757/pexels-photo-37680757.jpeg?auto=compress&cs=tinysrgb&w=1600',
     imgW: 800,
     reverse: true,
     titleLines: ['Paris &', 'petite couronne.'],
@@ -573,7 +573,7 @@ function Hero() {
         }}
       >
         <img
-          src={fd?.photoUrls?.[0] || photo('1558618047-b62e0e6e8517', 2000)}
+          src={fd?.photoUrls?.[0] || 'https://images.pexels.com/photos/1190903/pexels-photo-1190903.jpeg?auto=compress&cs=tinysrgb&w=2000'}
           alt="Jardin contemporain Vert Horizon Île-de-France"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
@@ -1601,7 +1601,7 @@ function QuoteForm() {
     <section style={sec} id="devis">
       {/* Photo décorative en filigrane */}
       <img
-        src={photo('1558618047-b62e0e6e8517', 1600)}
+        src={'https://images.pexels.com/photos/1190903/pexels-photo-1190903.jpeg?auto=compress&cs=tinysrgb&w=1600'}
         alt="Image de présentation"
         aria-hidden="true"
         loading="lazy"

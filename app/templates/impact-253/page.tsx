@@ -111,7 +111,7 @@ const PROTOCOLS: Protocol[] = [
     label: 'BLESSURES SPORTIVES',
     title: 'Blessures sportives',
     body: 'Entorses, déchirures musculaires, tendinites — protocoles de récupération validés par les staffs de ligue 1.',
-    imgId: '1544367745-a81e18eb7be2',
+    imgId: 'https://images.pexels.com/photos/20860607/pexels-photo-20860607.jpeg?auto=compress&cs=tinysrgb&w=1600',
   },
   {
     id: 'postop',
@@ -119,7 +119,7 @@ const PROTOCOLS: Protocol[] = [
     label: 'POST-OPÉRATOIRE',
     title: 'Post-opératoire',
     body: 'Ligament croisé, ménisque, épaule — rééducation progressive avec objectifs de reprise fixés dès J1.',
-    imgId: '1498804103-78838778a06b',
+    imgId: 'https://images.pexels.com/photos/20860622/pexels-photo-20860622.jpeg?auto=compress&cs=tinysrgb&w=1600',
   },
   {
     id: 'perf',
@@ -127,7 +127,7 @@ const PROTOCOLS: Protocol[] = [
     label: 'PERFORMANCE',
     title: 'Performance',
     body: 'Biomécanique de course, prévention des blessures, optimisation gestuelle — pour aller plus loin sans se blesser.',
-    imgId: '1506126613-423d21668e8b',
+    imgId: 'https://images.pexels.com/photos/20860616/pexels-photo-20860616.jpeg?auto=compress&cs=tinysrgb&w=1600',
   },
 ];
 
@@ -143,7 +143,7 @@ const SPECIALTIES_DEMO: Specialty[] = [
 const EDIT_ROWS: EditRow[] = [
   {
     eyebrow: 'Notre expertise',
-    imgId: '1544367745-a81e18eb7be2',
+    imgId: 'https://images.pexels.com/photos/20860607/pexels-photo-20860607.jpeg?auto=compress&cs=tinysrgb&w=1600',
     imgW: 800,
     reverse: false,
     romanNumeral: 'I',
@@ -156,7 +156,7 @@ const EDIT_ROWS: EditRow[] = [
   },
   {
     eyebrow: "L'équipement",
-    imgId: '1498804103-78838778a06b',
+    imgId: 'https://images.pexels.com/photos/20860622/pexels-photo-20860622.jpeg?auto=compress&cs=tinysrgb&w=1600',
     imgW: 800,
     reverse: true,
     romanNumeral: 'II',
@@ -209,7 +209,7 @@ const TESTIMONIALS_DEMO: Testimonial[] = [
 
 /* ── Photo helper ─────────────────────────────────────────────────────────── */
 function photo(id: string, w = 1600): string {
-  return `https://images.unsplash.com/photo-${id}?q=80&w=${w}&auto=format&fit=crop`;
+  return ((id).startsWith('http') ? (id) : `https://images.unsplash.com/photo-${id}?q=80&w=${w}&auto=format&fit=crop`);
 }
 
 /* ════════════════════════════════════════════════════════════════════════════
@@ -587,7 +587,7 @@ function Hero() {
         }}
       >
         <img
-          src={fd?.photoUrls?.[0] || photo('1544367745-a81e18eb7be2', 2000)}
+          src={fd?.photoUrls?.[0] || 'https://images.pexels.com/photos/20860607/pexels-photo-20860607.jpeg?auto=compress&cs=tinysrgb&w=2000'}
           alt="Kinésithérapeute du sport au travail"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
@@ -1353,7 +1353,7 @@ function MethodPanel() {
             }}
           >
             <img
-              src={fd?.photoUrls?.[1] || photo('1506126613-423d21668e8b', 900)}
+              src={fd?.photoUrls?.[1] || 'https://images.pexels.com/photos/20860616/pexels-photo-20860616.jpeg?auto=compress&cs=tinysrgb&w=900'}
               alt="Rééducation sportive — méthode KinéSport Élite"
               loading="lazy"
               style={{
@@ -1679,7 +1679,7 @@ function AppointmentForm() {
     <section style={sec} id="rdv">
       {/* Fond subtil */}
       <img
-        src={photo('1506126613-423d21668e8b')}
+        src={'https://images.pexels.com/photos/20860616/pexels-photo-20860616.jpeg?auto=compress&cs=tinysrgb&w=1600'}
         alt="Image de présentation"
         aria-hidden="true"
         loading="lazy"

@@ -138,7 +138,7 @@ const SERVICES_DEMO: Service[] = [
 const EDIT_ROWS: EditRow[] = [
   {
     eyebrow: 'Notre démarche',
-    imgId: '1558618047-b62e0e6e8517?w=800',
+    imgId: 'https://images.pexels.com/photos/4894653/pexels-photo-4894653.jpeg?auto=compress&cs=tinysrgb&w=800',
     title: (
       <>
         Le sol /{' '}
@@ -150,7 +150,7 @@ const EDIT_ROWS: EditRow[] = [
   },
   {
     eyebrow: 'Bordeaux & Gironde',
-    imgId: '1416879347-58da7a5ecbb7?w=800',
+    imgId: 'https://images.pexels.com/photos/16678645/pexels-photo-16678645.jpeg?auto=compress&cs=tinysrgb&w=800',
     title: (
       <>
         Racines /{' '}
@@ -1193,7 +1193,7 @@ function EditorialRow({ row, num }: { row: EditRow; num: string }) {
     <div style={wrap} className="jv-editrow">
       <Reveal y={52} style={imgWrap}>
         <ParallaxImg
-          src={`https://images.unsplash.com/photo-${row.imgId}&auto=format&fit=crop`}
+          src={(row.imgId).startsWith('http') ? (row.imgId) : ((row.imgId).startsWith('http') ? (row.imgId) : `https://images.unsplash.com/photo-${row.imgId}&auto=format&fit=crop`)}
           alt={row.eyebrow}
         />
       </Reveal>

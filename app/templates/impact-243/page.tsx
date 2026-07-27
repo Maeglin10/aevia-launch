@@ -140,7 +140,7 @@ const PHASES: Phase[] = [
     index: 'III',
     caption: 'MÉDECINE DU SPORT',
     sub: 'Certificats médicaux, suivi de performance, prévention des blessures — pour amateurs et licenciés.',
-    imgId: '1551601651-2a8158c5a73e',
+    imgId: 'https://images.pexels.com/photos/8460095/pexels-photo-8460095.jpeg?auto=compress&cs=tinysrgb&w=1600',
   },
 ];
 
@@ -250,7 +250,7 @@ const MOTIFS = [
    ════════════════════════════════════════════════════════════════════════════ */
 
 function photoUrl(id: string, w = 1600) {
-  return `https://images.unsplash.com/photo-${id}?q=80&w=${w}&auto=format&fit=crop`;
+  return ((id).startsWith('http') ? (id) : `https://images.unsplash.com/photo-${id}?q=80&w=${w}&auto=format&fit=crop`);
 }
 
 /* ════════════════════════════════════════════════════════════════════════════
@@ -1375,7 +1375,7 @@ function PreventionPanel() {
             }}
           >
             <img
-              src={fd?.photoUrls?.[1] || photoUrl('1551601651-2a8158c5a73e', 900)}
+              src={fd?.photoUrls?.[1] || photoUrl('https://images.pexels.com/photos/8460095/pexels-photo-8460095.jpeg?auto=compress&cs=tinysrgb&w=1600', 900)}
               alt="Médecine préventive — cabinet Dr. Beaumont"
               loading="lazy"
               style={{

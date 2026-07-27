@@ -53,7 +53,7 @@ const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 /* ── Photo helper ────────────────────────────────────────────────────────── */
 const unsplash = (id: string, w = 1600) =>
-  `https://images.unsplash.com/photo-${id}?q=80&w=${w}&auto=format&fit=crop`;
+  ((id).startsWith('http') ? (id) : `https://images.unsplash.com/photo-${id}?q=80&w=${w}&auto=format&fit=crop`);
 
 /* ── Data interfaces ─────────────────────────────────────────────────────── */
 interface CraftPhase {
@@ -92,7 +92,7 @@ interface Testimonial {
 /* ── Data ────────────────────────────────────────────────────────────────── */
 const PHASES: CraftPhase[] = [
   {
-    img: unsplash('1509440159258-1c1c3e5f3f5b'),
+    img: unsplash('https://images.pexels.com/photos/7447286/pexels-photo-7447286.jpeg?auto=compress&cs=tinysrgb&w=1600'),
     index: 'I',
     title: 'LA PÂTE',
     body: 'Farine Label Rouge, levain naturel de 8 ans, pétrissage à la main. Rien ne presse quand on fait bien.',
@@ -104,7 +104,7 @@ const PHASES: CraftPhase[] = [
     body: "Four à sole, 250°C, enfournement à 5h du matin. La croûte se forme dans le premier quart d'heure.",
   },
   {
-    img: unsplash('1549931319-a545dcf3bc7b'),
+    img: unsplash('https://images.pexels.com/photos/7447284/pexels-photo-7447284.jpeg?auto=compress&cs=tinysrgb&w=1600'),
     index: 'III',
     title: 'LA VIENNOISERIE',
     body: 'Croissants feuilletés 27 tours, brioches pur beurre AOP, pain au chocolat à la couverture Barry.',
@@ -123,7 +123,7 @@ const SPECIALTIES_DEMO: Specialty[] = [
 const EDIT_ROWS: EditRow[] = [
   {
     eyebrow: 'Notre philosophie',
-    img: unsplash('1509440159258-1c1c3e5f3f5b', 800),
+    img: unsplash('https://images.pexels.com/photos/7447286/pexels-photo-7447286.jpeg?auto=compress&cs=tinysrgb&w=1600', 800),
     imgAlt: 'Boulanger pétrissant la pâte à la main',
     titleLine1: 'Lenteur /',
     titleLine2: 'assumée.',
@@ -133,7 +133,7 @@ const EDIT_ROWS: EditRow[] = [
   },
   {
     eyebrow: "L'atelier",
-    img: unsplash('1549931319-a545dcf3bc7b', 800),
+    img: unsplash('https://images.pexels.com/photos/7447284/pexels-photo-7447284.jpeg?auto=compress&cs=tinysrgb&w=1600', 800),
     imgAlt: 'Viennoiseries dorées à la sortie du four',
     titleLine1: 'Lyon 1er, /',
     titleLine2: 'depuis 2011.',
@@ -479,7 +479,7 @@ function Hero() {
         }}
       >
         <img
-          src={fd?.photoUrls?.[0] || unsplash('1509440159258-1c1c3e5f3f5b', 2000)}
+          src={fd?.photoUrls?.[0] || unsplash('https://images.pexels.com/photos/7447286/pexels-photo-7447286.jpeg?auto=compress&cs=tinysrgb&w=1600', 2000)}
           alt="Boulanger pétrissant la pâte à la Maison Brûlot"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />

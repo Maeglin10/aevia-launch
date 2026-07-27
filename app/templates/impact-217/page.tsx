@@ -71,7 +71,7 @@ const FONT_STACK =
 
 /* ── Photography (15 pre-verified Unsplash URLs — DO NOT alter photo IDs) ──── */
 const u = (id: string, w = 1600, q = 80): string =>
-  `https://images.unsplash.com/photo-${id}?q=${q}&w=${w}&auto=format&fit=crop`;
+  ((id).startsWith('http') ? (id) : `https://images.unsplash.com/photo-${id}?q=${q}&w=${w}&auto=format&fit=crop`);
 
 const IMG = {
   hero: 'https://images.pexels.com/photos/11324524/pexels-photo-11324524.jpeg?auto=compress&cs=tinysrgb&w=2000',

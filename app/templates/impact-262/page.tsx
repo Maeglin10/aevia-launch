@@ -63,7 +63,7 @@ const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 /* ── Photo helper ────────────────────────────────────────────────────────── */
 function photo(id: string, w = 1600) {
-  return `https://images.unsplash.com/photo-${id}?q=80&w=${w}&auto=format&fit=crop`;
+  return ((id).startsWith('http') ? (id) : `https://images.unsplash.com/photo-${id}?q=80&w=${w}&auto=format&fit=crop`);
 }
 
 /* ════════════════════════════════════════════════════════════════════════════
@@ -116,21 +116,21 @@ const STYLES_DEMO: Style[] = [
     roman: 'I',
     label: 'ILLUSTRATION',
     body: 'Personnages, scènes narratives, univers manga & bande dessinée — chaque pièce raconte une histoire unique.',
-    imgId: '1611501579-4d7dc8532cc1',
+    imgId: 'https://images.pexels.com/photos/4125586/pexels-photo-4125586.jpeg?auto=compress&cs=tinysrgb&w=1600',
   },
   {
     num: '2',
     roman: 'II',
     label: 'NEO-TRADITIONNEL',
     body: 'Réinterprétation des codes old school avec palettes contemporaines et trait bold — intemporel et audacieux.',
-    imgId: '1567401893-56e3d64e7b2c',
+    imgId: 'https://images.pexels.com/photos/19669303/pexels-photo-19669303.jpeg?auto=compress&cs=tinysrgb&w=1600',
   },
   {
     num: '3',
     roman: 'III',
     label: 'BOTANICA & GRAVURE',
     body: 'Flore, faune, gravure sur bois transposée en encre — finesse extrême, compositions équilibrées.',
-    imgId: '1547036967-23136a0f3b86',
+    imgId: 'https://images.pexels.com/photos/4125581/pexels-photo-4125581.jpeg?auto=compress&cs=tinysrgb&w=1600',
   },
 ];
 
@@ -140,35 +140,35 @@ const ARTISTS_DEMO: Artist[] = [
     specialty: 'Illustration & manga',
     wait: '3 mois',
     bio: "9 ans d\'expérience, collections muséales et fanzines underground.",
-    imgId: '1611501579-4d7dc8532cc1',
+    imgId: 'https://images.pexels.com/photos/4125586/pexels-photo-4125586.jpeg?auto=compress&cs=tinysrgb&w=1600',
   },
   {
     name: 'THÉO',
     specialty: 'Neo-traditionnel & animaux',
     wait: '5 semaines',
     bio: 'Spécialiste couleur, influences tatami et botanique victorienne.',
-    imgId: '1567401893-56e3d64e7b2c',
+    imgId: 'https://images.pexels.com/photos/19669303/pexels-photo-19669303.jpeg?auto=compress&cs=tinysrgb&w=1600',
   },
   {
     name: 'JADE',
     specialty: 'Botanica & gravure',
     wait: '6 semaines',
     bio: 'Fineline expert, tracé au quart de millimètre, adepte du noir pur.',
-    imgId: '1547036967-23136a0f3b86',
+    imgId: 'https://images.pexels.com/photos/4125581/pexels-photo-4125581.jpeg?auto=compress&cs=tinysrgb&w=1600',
   },
   {
     name: 'MAX',
     specialty: 'Lettering & géométrie',
     wait: '4 semaines',
     bio: 'Typographie custom, design graphique, chaque lettre est une composition.',
-    imgId: '1611501579-4d7dc8532cc1',
+    imgId: 'https://images.pexels.com/photos/4125586/pexels-photo-4125586.jpeg?auto=compress&cs=tinysrgb&w=1600',
   },
 ];
 
 const EDIT_ROWS: EditRow[] = [
   {
     eyebrow: 'Notre ADN',
-    imgId: '1611501579-4d7dc8532cc1',
+    imgId: 'https://images.pexels.com/photos/4125586/pexels-photo-4125586.jpeg?auto=compress&cs=tinysrgb&w=1600',
     reverse: false,
     title: (
       <>
@@ -180,7 +180,7 @@ const EDIT_ROWS: EditRow[] = [
   },
   {
     eyebrow: 'Le studio',
-    imgId: '1547036967-23136a0f3b86',
+    imgId: 'https://images.pexels.com/photos/4125581/pexels-photo-4125581.jpeg?auto=compress&cs=tinysrgb&w=1600',
     reverse: true,
     title: (
       <>
@@ -583,7 +583,7 @@ function Hero() {
         }}
       >
         <img
-          src={fd?.photoUrls?.[0] || photo('1611501579-4d7dc8532cc1', 2000)}
+          src={fd?.photoUrls?.[0] || 'https://images.pexels.com/photos/4125586/pexels-photo-4125586.jpeg?auto=compress&cs=tinysrgb&w=2000'}
           alt="Studio Noir Absolu — Fine Art Tattoo Paris 3e"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
           priority-hint="high"
@@ -1409,7 +1409,7 @@ function SafetyPanel() {
             }}
           >
             <img
-              src={fd?.photoUrls?.[1] || photo('1567401893-56e3d64e7b2c', 900)}
+              src={fd?.photoUrls?.[1] || 'https://images.pexels.com/photos/19669303/pexels-photo-19669303.jpeg?auto=compress&cs=tinysrgb&w=900'}
               alt="Hygiène et protocoles — Studio Noir Absolu"
               loading="lazy"
               style={{
@@ -1724,7 +1724,7 @@ function BookingForm() {
     <section style={sec} id="reservation">
       {/* Texture de fond discrète */}
       <img
-        src={photo('1611501579-4d7dc8532cc1', 1200)}
+        src={'https://images.pexels.com/photos/4125586/pexels-photo-4125586.jpeg?auto=compress&cs=tinysrgb&w=1200'}
         alt="Image de présentation"
         aria-hidden="true"
         loading="lazy"

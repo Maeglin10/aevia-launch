@@ -782,7 +782,7 @@ interface Testi {
 }
 
 const AV = (id: string) =>
-  `https://images.unsplash.com/photo-${id}?q=80&w=160&h=160&auto=format&fit=crop&crop=faces`;
+  ((id).startsWith('http') ? (id) : `https://images.unsplash.com/photo-${id}?q=80&w=160&h=160&auto=format&fit=crop&crop=faces`);
 
 const TESTIS: Testi[] = [
   { name: 'Sophie Laurent', role: 'Head of Growth, Welly', hue: 'var(--brand,#6d4aff)', img: AV('1494790108377-be9c29b29330'), body: 'On a divisé par deux le temps passé sur le reporting. Les équipes adorent enfin leurs dashboards.' },

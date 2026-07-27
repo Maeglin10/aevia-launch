@@ -84,10 +84,10 @@ const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 const PHOTO = {
   hero: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?q=80&w=1600&auto=format&fit=crop",
   about: "https://images.unsplash.com/photo-1581578731548-c64695cc6952?q=80&w=1600&auto=format&fit=crop",
-  special: "https://images.unsplash.com/photo-1558618666-fcd25c85f82e?q=80&w=1600&auto=format&fit=crop",
+  special: "https://images.pexels.com/photos/29994840/pexels-photo-29994840.jpeg?auto=compress&cs=tinysrgb&w=1600",
   gallery1: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?q=80&w=800&auto=format&fit=crop",
   gallery2: "https://images.unsplash.com/photo-1581578731548-c64695cc6952?q=80&w=800&auto=format&fit=crop",
-  gallery3: "https://images.unsplash.com/photo-1558618666-fcd25c85f82e?q=80&w=800&auto=format&fit=crop",
+  gallery3: "https://images.pexels.com/photos/29994840/pexels-photo-29994840.jpeg?auto=compress&cs=tinysrgb&w=800",
   gallery4: "https://images.unsplash.com/photo-1527515637462-cff94eecc1ac?q=80&w=800&auto=format&fit=crop",
 } as const;
 

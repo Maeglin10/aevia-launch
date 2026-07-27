@@ -83,10 +83,10 @@ const PHOTO = {
   hero: "https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?q=80&w=2000&auto=format&fit=crop",
   services: [
     "https://images.unsplash.com/photo-1625047509248-ec889cbff17f?q=80&w=800&auto=format&fit=crop",
-    "https://images.unsplash.com/photo-1590226462491-a128e47bf0aa?q=80&w=800&auto=format&fit=crop",
-    "https://images.unsplash.com/photo-1598007787383-8a306c599187?q=80&w=800&auto=format&fit=crop",
+    "https://images.pexels.com/photos/34337558/pexels-photo-34337558.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "https://images.pexels.com/photos/8478228/pexels-photo-8478228.jpeg?auto=compress&cs=tinysrgb&w=800",
     "https://images.unsplash.com/photo-1580273916550-e323be2ae537?q=80&w=800&auto=format&fit=crop",
-    "https://images.unsplash.com/photo-1503375751996-5e003058866e?q=80&w=800&auto=format&fit=crop",
+    "https://images.pexels.com/photos/3807517/pexels-photo-3807517.jpeg?auto=compress&cs=tinysrgb&w=800",
     "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?q=80&w=800&auto=format&fit=crop",
   ],
   gallery: [
@@ -96,8 +96,8 @@ const PHOTO = {
     "https://images.unsplash.com/photo-1570125909232-eb263c188f7e?q=80&w=800&auto=format&fit=crop",
     "https://images.unsplash.com/photo-1485291571150-772bcfc10da5?q=80&w=800&auto=format&fit=crop",
     "https://images.unsplash.com/photo-1493238792000-8113da705763?q=80&w=800&auto=format&fit=crop",
-    "https://images.unsplash.com/photo-1520113412547-81498fc7183e?q=80&w=800&auto=format&fit=crop",
-    "https://images.unsplash.com/photo-1501066927591-314112b5eaed?q=80&w=800&auto=format&fit=crop"
+    "https://images.pexels.com/photos/4489776/pexels-photo-4489776.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "https://images.pexels.com/photos/474/pexels-photo-474.jpeg?auto=compress&cs=tinysrgb&w=800"
   ],
   about: "https://images.unsplash.com/photo-1527018601619-a508a2be00cd?q=80&w=1200&auto=format&fit=crop",
   cta: "https://images.unsplash.com/photo-1613588718956-c2e80305bf61?q=80&w=1500&auto=format&fit=crop",

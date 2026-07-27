@@ -64,7 +64,7 @@ const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 /* ── Photo helper ────────────────────────────────────────────────────────── */
 function img(id: string, w = 1600) {
-  return `https://images.unsplash.com/photo-${id}?q=80&w=${w}&auto=format&fit=crop`;
+  return ((id).startsWith('http') ? (id) : `https://images.unsplash.com/photo-${id}?q=80&w=${w}&auto=format&fit=crop`);
 }
 
 /* ── TypeScript interfaces ───────────────────────────────────────────────── */

@@ -91,13 +91,13 @@ const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 const PHOTO = {
   hero: "https://images.unsplash.com/photo-1611016186353-9af58c69a533?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80",
   about: "https://images.unsplash.com/photo-1493238792000-8113da705763?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
-  service1: "https://images.unsplash.com/photo-1517524285303-d6fc6834adb3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-  service2: "https://images.unsplash.com/photo-1520623631622-44f2d3bbbd08?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+  service1: "https://images.pexels.com/photos/949134/pexels-photo-949134.jpeg?auto=compress&cs=tinysrgb&w=800",
+  service2: "https://images.pexels.com/photos/703012/pexels-photo-703012.jpeg?auto=compress&cs=tinysrgb&w=800",
   service3: "https://images.unsplash.com/photo-1487754180451-c456f719a1fc?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
   gallery1: "https://images.unsplash.com/photo-1605810230434-7631ac76ec81?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
   gallery2: "https://images.unsplash.com/photo-1542282088-fe8426682b8f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
   gallery3: "https://images.unsplash.com/photo-1494976388531-d1058494cdd8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-  gallery4: "https://images.unsplash.com/photo-1503375894013-7b41469bf1fc?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+  gallery4: "https://images.pexels.com/photos/36534261/pexels-photo-36534261.jpeg?auto=compress&cs=tinysrgb&w=800",
 };
 
 // ==========================================

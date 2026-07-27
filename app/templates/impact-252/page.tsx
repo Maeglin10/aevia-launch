@@ -105,7 +105,7 @@ interface TechItem {
 const TREATMENTS_DEMO: Treatment[] = [
   {
     id: 'conservateurs',
-    imgId: '1598300402640-cf52ea77e6da',
+    imgId: 'https://images.pexels.com/photos/6473194/pexels-photo-6473194.jpeg?auto=compress&cs=tinysrgb&w=1600',
     index: 'I',
     label: 'SOINS CONSERVATEURS',
     description:
@@ -113,7 +113,7 @@ const TREATMENTS_DEMO: Treatment[] = [
   },
   {
     id: 'esthetique',
-    imgId: '1606811671440-28c0f2b8b3c4',
+    imgId: 'https://images.pexels.com/photos/7789678/pexels-photo-7789678.jpeg?auto=compress&cs=tinysrgb&w=1600',
     index: 'II',
     label: 'ESTHÉTIQUE',
     description:
@@ -121,7 +121,7 @@ const TREATMENTS_DEMO: Treatment[] = [
   },
   {
     id: 'implantologie',
-    imgId: '1588776814546-daab0f1cdc02',
+    imgId: 'https://images.pexels.com/photos/5355863/pexels-photo-5355863.jpeg?auto=compress&cs=tinysrgb&w=1600',
     index: 'III',
     label: 'IMPLANTOLOGIE',
     description:
@@ -141,7 +141,7 @@ const SPECIALTIES_DEMO: Specialty[] = [
 const EDIT_ROWS: EditRow[] = [
   {
     eyebrow: 'Notre approche',
-    imgId: '1598300402640-cf52ea77e6da',
+    imgId: 'https://images.pexels.com/photos/6473194/pexels-photo-6473194.jpeg?auto=compress&cs=tinysrgb&w=1600',
     reverse: false,
     titleLine1: 'Le sourire',
     titleLine2: 'sans compromis.',
@@ -149,7 +149,7 @@ const EDIT_ROWS: EditRow[] = [
   },
   {
     eyebrow: 'Technologie',
-    imgId: '1606811671440-28c0f2b8b3c4',
+    imgId: 'https://images.pexels.com/photos/7789678/pexels-photo-7789678.jpeg?auto=compress&cs=tinysrgb&w=1600',
     reverse: true,
     titleLine1: 'Radiologie 3D',
     titleLine2: '& CFAO.',
@@ -201,7 +201,7 @@ const TESTIMONIALS_DEMO: Testimonial[] = [
 
 /* ── Photo helper ────────────────────────────────────────────────────────── */
 function unsplash(id: string, w = 1600) {
-  return `https://images.unsplash.com/photo-${id}?q=80&w=${w}&auto=format&fit=crop`;
+  return ((id).startsWith('http') ? (id) : `https://images.unsplash.com/photo-${id}?q=80&w=${w}&auto=format&fit=crop`);
 }
 
 /* ════════════════════════════════════════════════════════════════════════════
@@ -570,7 +570,7 @@ function Hero() {
         }}
       >
         <img
-          src={fd?.photoUrls?.[0] || unsplash('1598300402640-cf52ea77e6da', 2000)}
+          src={fd?.photoUrls?.[0] || unsplash('https://images.pexels.com/photos/6473194/pexels-photo-6473194.jpeg?auto=compress&cs=tinysrgb&w=1600', 2000)}
           alt="Cabinet dentaire Smile & Co Lyon 6e"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
           priority-fetch="high"
@@ -1279,7 +1279,7 @@ function TechPanel() {
             }}
           >
             <img
-              src={unsplash('1588776814546-daab0f1cdc02', 900)}
+              src={unsplash('https://images.pexels.com/photos/5355863/pexels-photo-5355863.jpeg?auto=compress&cs=tinysrgb&w=1600', 900)}
               alt="Équipement technologique cabinet Smile & Co"
               loading="lazy"
               style={{
@@ -1559,7 +1559,7 @@ function AppointmentForm() {
     <section style={sec} id="rdv">
       {/* Fond subtil */}
       <img
-        src={unsplash('1598300402640-cf52ea77e6da', 1600)}
+        src={unsplash('https://images.pexels.com/photos/6473194/pexels-photo-6473194.jpeg?auto=compress&cs=tinysrgb&w=1600', 1600)}
         alt="Image de présentation"
         aria-hidden="true"
         loading="lazy"

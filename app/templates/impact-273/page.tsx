@@ -165,7 +165,7 @@ const CARE_CARDS_DEMO: Care[] = [
 const EDIT_ROWS: EditRow[] = [
   {
     eyebrow: 'Notre engagement',
-    imgId: '1598300402640-cf52ea77e6da?w=800',
+    imgId: 'https://images.pexels.com/photos/6502305/pexels-photo-6502305.jpeg?auto=compress&cs=tinysrgb&w=800',
     numeral: '01',
     title: (
       <>
@@ -178,7 +178,7 @@ const EDIT_ROWS: EditRow[] = [
   },
   {
     eyebrow: 'Strasbourg-Centre',
-    imgId: '1606811671440-28c0f2b8b3c4?w=800',
+    imgId: 'https://images.pexels.com/photos/7789668/pexels-photo-7789668.jpeg?auto=compress&cs=tinysrgb&w=800',
     numeral: '02',
     title: (
       <>
@@ -1208,7 +1208,7 @@ function EditRow({ row }: { row: EditRow }) {
 
       <Reveal y={50} style={imgWrap}>
         <ParallaxImg
-          src={`https://images.unsplash.com/photo-${row.imgId}&auto=format&fit=crop`}
+          src={(row.imgId).startsWith('http') ? (row.imgId) : ((row.imgId).startsWith('http') ? (row.imgId) : `https://images.unsplash.com/photo-${row.imgId}&auto=format&fit=crop`)}
           alt={`Cabinet Rosenfeld — ${row.eyebrow}`}
         />
       </Reveal>

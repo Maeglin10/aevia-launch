@@ -66,7 +66,7 @@ const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 /* ── Photo helper ────────────────────────────────────────────────────────── */
 const photo = (id: string) =>
-  `https://images.unsplash.com/photo-${id}?q=80&w=1600&auto=format&fit=crop`;
+  ((id).startsWith('http') ? (id) : `https://images.unsplash.com/photo-${id}?q=80&w=1600&auto=format&fit=crop`);
 
 /* ════════════════════════════════════════════════════════════════════════════
    TypeScript Interfaces
@@ -110,21 +110,21 @@ interface AtélierStep {
 
 const COLLECTIONS_DEMO: Collection[] = [
   {
-    img: photo('1483985985-e99f93b85d2a'),
+    img: 'https://images.pexels.com/photos/36731349/pexels-photo-36731349.jpeg?auto=compress&cs=tinysrgb&w=1600',
     index: 'I',
     label: 'ROBES DE SOIRÉE',
     caption:
       'Soie, organza, broderies main — chaque robe est pensée pour la femme qui la portera, pas pour un catalogue.',
   },
   {
-    img: photo('1515372931673-a36374d4af61'),
+    img: 'https://images.pexels.com/photos/9850074/pexels-photo-9850074.jpeg?auto=compress&cs=tinysrgb&w=1600',
     index: 'II',
     label: 'MARIÉES',
     caption:
       'Robe de mariée sur-mesure, ajustements en 5 essayages, finitions à la main — le vêtement le plus important de votre vie.',
   },
   {
-    img: photo('1469334031925-4650d4192253'),
+    img: 'https://images.pexels.com/photos/6461069/pexels-photo-6461069.jpeg?auto=compress&cs=tinysrgb&w=1600',
     index: 'III',
     label: 'TAILLEUR & COSTUME',
     caption:
@@ -144,7 +144,7 @@ const PIECES_DEMO: Piece[] = [
 const EDIT_ROWS: EditRow[] = [
   {
     eyebrow: 'Notre philosophie',
-    img: photo('1483985985-e99f93b85d2a') + '&w=800',
+    img: 'https://images.pexels.com/photos/36731349/pexels-photo-36731349.jpeg?auto=compress&cs=tinysrgb&w=1600' + '&w=800',
     title: (
       <>
         La coupe /{' '}
@@ -156,7 +156,7 @@ const EDIT_ROWS: EditRow[] = [
   },
   {
     eyebrow: "L'atelier",
-    img: photo('1515372931673-a36374d4af61') + '&w=800',
+    img: 'https://images.pexels.com/photos/9850074/pexels-photo-9850074.jpeg?auto=compress&cs=tinysrgb&w=1600' + '&w=800',
     title: (
       <>
         Le Panier, /{' '}

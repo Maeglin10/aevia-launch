@@ -70,7 +70,7 @@ const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 /* ── Photo helper ────────────────────────────────────────────────────────── */
 const ph = (id: string) =>
-  `https://images.unsplash.com/photo-${id}?q=80&w=1600&auto=format&fit=crop`;
+  ((id).startsWith('http') ? (id) : `https://images.unsplash.com/photo-${id}?q=80&w=1600&auto=format&fit=crop`);
 
 /* ════════════════════════════════════════════════════════════════════════════
    Typed interfaces
@@ -116,7 +116,7 @@ interface CertItem {
    ════════════════════════════════════════════════════════════════════════════ */
 const INTERVENTIONS: Intervention[] = [
   {
-    img: ph('1581578485-dea47a32cc3f'),
+    img: ph('https://images.pexels.com/photos/29226620/pexels-photo-29226620.jpeg?auto=compress&cs=tinysrgb&w=1600'),
     index: 'I',
     label: 'PLOMBERIE',
     title: 'Plomberie',
@@ -150,7 +150,7 @@ const SERVICES_DEMO: Service[] = [
 const EDIT_ROWS: EditRow[] = [
   {
     eyebrow: 'Notre engagement',
-    img: ph('1581578485-dea47a32cc3f') + '&w=800',
+    img: ph('https://images.pexels.com/photos/29226620/pexels-photo-29226620.jpeg?auto=compress&cs=tinysrgb&w=1600') + '&w=800',
     alt: 'Plombier Aqua Confort Lyon au travail',
     title: (
       <>
@@ -614,7 +614,7 @@ function Hero() {
         }}
       >
         <img
-          src={fd?.photoUrls?.[0] || (ph('1581578485-dea47a32cc3f') + '&w=2000')}
+          src={fd?.photoUrls?.[0] || (ph('https://images.pexels.com/photos/29226620/pexels-photo-29226620.jpeg?auto=compress&cs=tinysrgb&w=1600') + '&w=2000')}
           alt="Plombier Aqua Confort Lyon en intervention"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
           priority-hint="high"

@@ -109,16 +109,13 @@ const PHOTOS = {
   ],
   gallery: [
     "https://images.unsplash.com/photo-1505373877841-8d25f7d46678?q=80&w=2012&auto=format&fit=crop",
-    "https://images.unsplash.com/photo-1475721028070-20516140ee55?q=80&w=2070&auto=format&fit=crop",
+    "https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=2070",
     "https://images.unsplash.com/photo-1558008258-3256797b43f3?q=80&w=2069&auto=format&fit=crop",
     "https://images.unsplash.com/photo-1511578314322-379afb476865?q=80&w=2069&auto=format&fit=crop"
   ],
-  sponsors: [
-    "https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg",
-    "https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg",
-    "https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg",
-    "https://upload.wikimedia.org/wikipedia/commons/0/08/Cisco_logo_blue_2016.svg"
-  ]
+  // Fictional partners: real company marks can't be shown as sponsors of a
+  // demo event, and the Wikipedia SVGs they pointed at 404 anyway.
+  sponsors: ["Northbeam", "Kaleido Cloud", "Vantix", "Orbital Systems"]
 };
 
 
@@ -1056,8 +1053,19 @@ export default function AIHorizonsTemplate() {
             marginTop: '60px',
             opacity: 0.6
           }}>
-            {PHOTOS.sponsors.map((logo, i) => (
-              <img key={i} src={logo} alt="Sponsor Logo" style={{ height: '40px', filter: 'brightness(0) invert(1)' }} />
+            {PHOTOS.sponsors.map((name, i) => (
+              <span
+                key={i}
+                style={{
+                  fontSize: '22px',
+                  fontWeight: 700,
+                  letterSpacing: '0.04em',
+                  color: '#ffffff',
+                  whiteSpace: 'nowrap',
+                }}
+              >
+                {name}
+              </span>
             ))}
           </div>
           
