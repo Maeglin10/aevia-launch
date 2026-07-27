@@ -565,7 +565,7 @@ function Hero() {
         }}
       >
         <img
-          src={fd?.photoUrls?.[0] || `https://images.unsplash.com/photo-1478146896981-b80fe463b330?q=80&w=2000&auto=format&fit=crop`}
+          src={fd?.photoUrls?.[0] || `https://images.pexels.com/photos/16120230/pexels-photo-16120230.jpeg?auto=compress&cs=tinysrgb&w=2000`}
           alt="Villa Belle Époque sur la Côte d'Azur"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
@@ -577,7 +577,7 @@ function Hero() {
           position: 'absolute',
           inset: 0,
           background:
-            'linear-gradient(to bottom, rgba(14,12,8,0.36) 0%, rgba(14,12,8,0.06) 38%, rgba(14,12,8,0.46) 70%, rgba(14,12,8,0.92) 100%)',
+            'linear-gradient(to bottom, rgba(14,12,8,0.52) 0%, rgba(14,12,8,0.40) 38%, rgba(14,12,8,0.62) 70%, rgba(14,12,8,0.94) 100%)',
         }}
       />
       <div
