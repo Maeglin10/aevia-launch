@@ -601,7 +601,7 @@ function Hero() {
         }}
       >
         <img
-          src={fd?.photoUrls?.[0] || `https://images.unsplash.com/photo-1478146896981-b80fe463b330?q=80&w=2000&auto=format&fit=crop`}
+          src={fd?.photoUrls?.[0] || `https://images.pexels.com/photos/17241550/pexels-photo-17241550.jpeg?auto=compress&cs=tinysrgb&w=2000`}
           alt="Cérémonie de mariage romantique fleurie"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
@@ -613,7 +613,7 @@ function Hero() {
           position: 'absolute',
           inset: 0,
           background:
-            'linear-gradient(to bottom, rgba(26,15,10,0.52) 0%, rgba(26,15,10,0.08) 40%, rgba(26,15,10,0.52) 75%, rgba(26,15,10,0.82) 100%)',
+            'linear-gradient(to bottom, rgba(26,15,10,0.60) 0%, rgba(26,15,10,0.42) 40%, rgba(26,15,10,0.64) 75%, rgba(26,15,10,0.88) 100%)',
         }}
       />
       <div
