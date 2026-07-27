@@ -2,7 +2,7 @@
 // @ts-nocheck
 
 import React, {useRef, useState, useEffect} from 'react';
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, AnimatePresence, useReducedMotion } from "framer-motion";
 import { Globe, Star, Check } from "lucide-react";
 import Link from "next/link";
 import {
@@ -20,6 +20,460 @@ import {
 } from "./shared";
 import { resolveList } from "@/lib/templates/resolveList";
 
+
+/* ════════════════════════════════════════════════════════════════════════════
+   HERO — the wine list IS the hero.
+
+   Five wines; picking one re-composes the whole stage. Motion vocabulary is
+   deliberate (see docs/SLIDER_REVOLUTION_TEARDOWN.md):
+   - power3/power4 inOut easings, not easeOut — slow start, real acceleration,
+     settled landing. That is what reads as expensive.
+   - entrances land on a strict 0 / 300 / 500ms grid instead of scattered delays,
+     so the whole hero shares one rhythm.
+   - layers arrive through a perspective container (rotateY/Z), so they come from
+     depth rather than sliding up from the bottom.
+   - a very slow ambient drift runs underneath the fast entrances.
+   ════════════════════════════════════════════════════════════════════════════ */
+
+const EASE_3: [number, number, number, number] = [0.65, 0, 0.35, 1]; // power3.inOut
+const EASE_4: [number, number, number, number] = [0.76, 0, 0.24, 1]; // power4.inOut
+
+const WINES_DEMO = [
+  {
+    name: "Clos Ardent",
+    vintage: "2018",
+    region: "Saint-Émilion Grand Cru",
+    grape: "Merlot · Cabernet Franc",
+    note: "Cerise noire et cacao amer, une trame tannique serrée qui s'ouvre lentement. Le genre de bouteille qui impose le silence à table.",
+    glass: "14",
+    bottle: "78",
+    img: "https://images.pexels.com/photos/3820514/pexels-photo-3820514.jpeg?auto=compress&cs=tinysrgb&w=2000",
+  },
+  {
+    name: "Pierre Blanche",
+    vintage: "2021",
+    region: "Chablis Premier Cru",
+    grape: "Chardonnay",
+    note: "Tendu, salin, presque minéral. Une lame de citron confit sur un fond de craie — à boire face à des huîtres ou à personne.",
+    glass: "12",
+    bottle: "64",
+    img: "https://images.pexels.com/photos/11851422/pexels-photo-11851422.jpeg?auto=compress&cs=tinysrgb&w=2000",
+  },
+  {
+    name: "Nuit Rousse",
+    vintage: "2019",
+    region: "Côte-Rôtie",
+    grape: "Syrah · Viognier",
+    note: "Violette, poivre noir, lard fumé. Une syrah septentrionale qui garde de la retenue là où d'autres crient.",
+    glass: "18",
+    bottle: "96",
+    img: "https://images.pexels.com/photos/36826094/pexels-photo-36826094.jpeg?auto=compress&cs=tinysrgb&w=2000",
+  },
+  {
+    name: "Vent d'Ambre",
+    vintage: "2016",
+    region: "Jura — Vin Jaune",
+    grape: "Savagnin",
+    note: "Noix fraîche, curry doux, oxydation maîtrisée. Déroutant les dix premières secondes, inoubliable ensuite.",
+    glass: "22",
+    bottle: "128",
+    img: "https://images.pexels.com/photos/7372032/pexels-photo-7372032.jpeg?auto=compress&cs=tinysrgb&w=2000",
+  },
+  {
+    name: "Dernière Heure",
+    vintage: "2012",
+    region: "Champagne — Blanc de Noirs",
+    grape: "Pinot Noir",
+    note: "Brioche, pomme rôtie, une bulle si fine qu'elle disparaît. Notre bouteille de fin de service, celle qu'on ouvre pour rester.",
+    glass: "26",
+    bottle: "165",
+    img: "https://images.pexels.com/photos/30206422/pexels-photo-30206422.jpeg?auto=compress&cs=tinysrgb&w=2000",
+  },
+];
+
+function WineHero() {
+  const [active, setActive] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const reduce = useReducedMotion();
+
+  const wines = resolveList(
+    bp?.wines?.map((w: any, i: number) => ({
+      ...WINES_DEMO[i % WINES_DEMO.length],
+      name: w.name ?? WINES_DEMO[i % WINES_DEMO.length].name,
+      note: w.description ?? WINES_DEMO[i % WINES_DEMO.length].note,
+      glass: w.price ?? WINES_DEMO[i % WINES_DEMO.length].glass,
+      img: w.imageUrl ?? WINES_DEMO[i % WINES_DEMO.length].img,
+    })),
+    WINES_DEMO
+  );
+
+  const wine = wines[active % wines.length];
+
+  // Auto-advance, but never fight the visitor: any interaction pauses it.
+  useEffect(() => {
+    if (paused || reduce) return;
+    const t = setTimeout(() => setActive((i) => (i + 1) % wines.length), 7000);
+    return () => clearTimeout(t);
+  }, [active, paused, reduce, wines.length]);
+
+  const pick = (i: number) => {
+    setPaused(true);
+    setActive(i);
+  };
+
+  return (
+    <section
+      id="hero"
+      style={{
+        position: "relative",
+        minHeight: "100dvh",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "safe center",
+        overflow: "hidden",
+        background: C.burgundyDark,
+        // depth for every layer inside — this is what makes entrances read as 3D
+        perspective: "1400px",
+        padding: "clamp(104px,14vh,150px) clamp(20px,5vw,72px) clamp(140px,18vh,180px)",
+      }}
+    >
+      {/* ── Stage: photo cross-fade with a slow ambient drift ───────────────── */}
+      <AnimatePresence mode="sync">
+        <motion.div
+          key={wine.img}
+          initial={{ opacity: 0, scale: 1.14 }}
+          animate={{
+            opacity: 1,
+            scale: reduce ? 1.04 : [1.1, 1.02],
+          }}
+          exit={{ opacity: 0 }}
+          transition={{
+            opacity: { duration: 1.1, ease: EASE_3 },
+            scale: { duration: reduce ? 0 : 15, ease: "linear" },
+          }}
+          style={{ position: "absolute", inset: 0, zIndex: 0 }}
+        >
+          <img
+            src={fd?.photoUrls?.[active] || wine.img}
+            alt={`${wine.name} — ${wine.region}`}
+            style={{ width: "100%", height: "100%", objectFit: "cover" }}
+          />
+        </motion.div>
+      </AnimatePresence>
+
+      {/* Scrims: keep the copy legible whatever the photo does */}
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          zIndex: 1,
+          background: `linear-gradient(100deg, ${C.burgundyDark}fa 0%, ${C.burgundyDark}f0 34%, ${C.burgundyDark}a6 58%, ${C.burgundyDark}8c 78%, ${C.burgundyDark}e6 100%)`,
+        }}
+      />
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          zIndex: 1,
+          background: `radial-gradient(120% 90% at 20% 40%, transparent 30%, ${C.burgundyDark}b3 100%)`,
+        }}
+      />
+
+      {/* ── Ghost vintage numeral — the ambient layer ───────────────────────── */}
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={`v-${active}`}
+          aria-hidden
+          initial={{ opacity: 0, x: 60 }}
+          animate={{ opacity: 0.07, x: 0 }}
+          exit={{ opacity: 0, x: -40 }}
+          transition={{ duration: 1.4, ease: EASE_4 }}
+          style={{
+            position: "absolute",
+            right: "-2%",
+            top: "50%",
+            translateY: "-50%",
+            zIndex: 1,
+            fontFamily: SERIF,
+            fontSize: "clamp(180px, 34vw, 520px)",
+            lineHeight: 0.8,
+            color: C.gold,
+            pointerEvents: "none",
+            userSelect: "none",
+          }}
+        >
+          {wine.vintage}
+        </motion.div>
+      </AnimatePresence>
+
+      {/* ── Copy stack — everything lands on the 0 / 300 / 500ms grid ───────── */}
+      <div style={{ position: "relative", zIndex: 3, maxWidth: 1200, margin: "0 auto", width: "100%" }}>
+        <AnimatePresence mode="wait">
+          <motion.div key={`c-${active}`} style={{ maxWidth: 640 }}>
+            {/* 0ms — region line */}
+            <motion.div
+              initial={{ opacity: 0, y: 18 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10, transition: { duration: 0.22, ease: EASE_3 } }}
+              transition={{ duration: 0.22, ease: EASE_3, delay: 0 }}
+              style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 22 }}
+            >
+              <span style={{ width: 40, height: 1, background: C.gold, display: "block" }} />
+              <span
+                style={{
+                  fontFamily: SANS,
+                  fontSize: 11,
+                  letterSpacing: "0.32em",
+                  textTransform: "uppercase",
+                  color: C.gold,
+                }}
+              >
+                {wine.region}
+              </span>
+            </motion.div>
+
+            {/* 0ms — the name, wiped in through a clip mask + a touch of depth */}
+            <motion.h1
+              initial={{ opacity: 0, rotateY: reduce ? 0 : -14, clipPath: "inset(0 100% 0 0)" }}
+              animate={{ opacity: 1, rotateY: 0, clipPath: "inset(0 0% 0 0)" }}
+              exit={{ opacity: 0, rotateY: reduce ? 0 : 10, clipPath: "inset(0 0 0 100%)", transition: { duration: 0.28, ease: EASE_4 } }}
+              transition={{ duration: 0.75, ease: EASE_4 }}
+              style={{
+                fontFamily: SERIF,
+                fontSize: "clamp(46px, 7.5vw, 104px)",
+                fontWeight: 700,
+                lineHeight: 1.0,
+                color: C.cream,
+                margin: "0 0 8px",
+                transformOrigin: "left center",
+              }}
+            >
+              {active === 0 && c?.heroHeadline ? c.heroHeadline : wine.name}
+            </motion.h1>
+
+            {/* 300ms — grape + vintage */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10, transition: { duration: 0.22, ease: EASE_3 } }}
+              transition={{ duration: 0.45, ease: EASE_3, delay: 0.3 }}
+              style={{
+                fontFamily: SERIF,
+                fontStyle: "italic",
+                fontSize: "clamp(17px, 2vw, 23px)",
+                color: C.gold,
+                marginBottom: 26,
+              }}
+            >
+              {wine.grape} · {wine.vintage}
+            </motion.div>
+
+            {/* 300ms — tasting note */}
+            <motion.p
+              initial={{ opacity: 0, y: 22 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10, transition: { duration: 0.22, ease: EASE_3 } }}
+              transition={{ duration: 0.5, ease: EASE_3, delay: 0.3 }}
+              style={{
+                fontFamily: SANS,
+                fontSize: 16,
+                lineHeight: 1.85,
+                fontWeight: 300,
+                color: "rgba(253,246,236,0.74)",
+                maxWidth: 470,
+                marginBottom: 34,
+              }}
+            >
+              {active === 0 && (c?.heroSubline ?? fd?.tagline) ? (c.heroSubline ?? fd.tagline) : wine.note}
+            </motion.p>
+
+            {/* 500ms — price + CTAs */}
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10, transition: { duration: 0.22, ease: EASE_3 } }}
+              transition={{ duration: 0.5, ease: EASE_3, delay: 0.5 }}
+              style={{ display: "flex", alignItems: "center", gap: 26, flexWrap: "wrap" }}
+            >
+              <div style={{ display: "flex", alignItems: "baseline", gap: 6 }}>
+                <span style={{ fontFamily: SERIF, fontSize: 34, color: C.cream }}>{wine.glass}€</span>
+                <span
+                  style={{
+                    fontFamily: SANS,
+                    fontSize: 10,
+                    letterSpacing: "0.22em",
+                    textTransform: "uppercase",
+                    color: "rgba(253,246,236,0.5)",
+                  }}
+                >
+                  le verre · {wine.bottle}€ la bouteille
+                </span>
+              </div>
+
+              <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
+                <Link href="/templates/impact-37/reservation" style={{ textDecoration: "none" }}>
+                  <span
+                    style={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: 8,
+                      background: C.gold,
+                      color: C.burgundyDark,
+                      padding: "15px 30px",
+                      fontFamily: SANS,
+                      fontWeight: 700,
+                      fontSize: 12,
+                      letterSpacing: "0.12em",
+                      textTransform: "uppercase",
+                      minHeight: 44,
+                    }}
+                  >
+                    Réserver une table
+                  </span>
+                </Link>
+                <Link href="/templates/impact-37/carte" style={{ textDecoration: "none" }}>
+                  <span
+                    style={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: 8,
+                      background: "transparent",
+                      color: C.gold,
+                      border: `1px solid ${C.gold}66`,
+                      padding: "15px 30px",
+                      fontFamily: SANS,
+                      fontWeight: 400,
+                      fontSize: 12,
+                      letterSpacing: "0.12em",
+                      textTransform: "uppercase",
+                      minHeight: 44,
+                    }}
+                  >
+                    La carte complète
+                  </span>
+                </Link>
+              </div>
+            </motion.div>
+          </motion.div>
+        </AnimatePresence>
+      </div>
+
+      {/* ── The rail: this is the wine list, and it is the navigation ───────── */}
+      <div
+        style={{
+          position: "absolute",
+          left: 0,
+          right: 0,
+          bottom: 0,
+          zIndex: 4,
+          borderTop: `1px solid ${C.gold}26`,
+          background: `linear-gradient(to top, ${C.burgundyDark}f2, ${C.burgundyDark}00)`,
+        }}
+      >
+        <div
+          className="imx37-rail"
+          style={{
+            maxWidth: 1200,
+            margin: "0 auto",
+            display: "grid",
+            gridTemplateColumns: `repeat(${wines.length}, minmax(0,1fr))`,
+          }}
+        >
+          {wines.map((w: any, i: number) => {
+            const on = i === active;
+            return (
+              <button
+                key={w.name}
+                onClick={() => pick(i)}
+                onMouseEnter={() => setPaused(true)}
+                aria-label={`Voir ${w.name}`}
+                aria-current={on}
+                style={{
+                  position: "relative",
+                  border: "none",
+                  borderRight: i < wines.length - 1 ? `1px solid ${C.gold}1f` : "none",
+                  cursor: "pointer",
+                  textAlign: "left",
+                  padding: "20px clamp(10px,1.6vw,22px) 22px",
+                  minHeight: 44,
+                  transition: "background 600ms cubic-bezier(0.65,0,0.35,1)",
+                  background: on ? `${C.gold}14` : "transparent",
+                }}
+              >
+                <div
+                  style={{
+                    fontFamily: SANS,
+                    fontSize: 9,
+                    letterSpacing: "0.28em",
+                    color: on ? C.gold : "rgba(253,246,236,0.35)",
+                    marginBottom: 7,
+                    transition: "color 600ms",
+                  }}
+                >
+                  {String(i + 1).padStart(2, "0")}
+                </div>
+                <div
+                  className="imx37-railname"
+                  style={{
+                    fontFamily: SERIF,
+                    fontSize: "clamp(13px,1.5vw,18px)",
+                    lineHeight: 1.15,
+                    color: on ? C.cream : "rgba(253,246,236,0.52)",
+                    transition: "color 600ms",
+                  }}
+                >
+                  {w.name}
+                </div>
+                {/* progress underline — also the "which one am I on" signal */}
+                <motion.span
+                  initial={false}
+                  animate={{ scaleX: on ? 1 : 0 }}
+                  transition={{ duration: on && !paused && !reduce ? 7 : 0.5, ease: on && !paused && !reduce ? "linear" : EASE_3 }}
+                  style={{
+                    position: "absolute",
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    height: 2,
+                    background: C.gold,
+                    transformOrigin: "left center",
+                    display: "block",
+                  }}
+                />
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      <style>{`
+        /* Below 640px five columns would be unreadable, so the rail scrolls
+           horizontally instead of squeezing each wine into ~70px. */
+        @media (max-width: 640px) {
+          /* The rail is pinned to the section's bottom, so the section must not
+             outgrow the viewport or the rail falls below the fold (measured:
+             698px tall vs a 667px viewport before this). */
+          #hero {
+            padding-top: 88px !important;
+            padding-bottom: 96px !important;
+          }
+          #hero h1 { font-size: clamp(38px, 11vw, 52px) !important; }
+          .imx37-rail {
+            display: flex !important;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+          }
+          .imx37-rail > button {
+            flex: 0 0 46%;
+            scroll-snap-align: start;
+          }
+          .imx37-rail::-webkit-scrollbar { height: 0; }
+        }
+      `}</style>
+    </section>
+  );
+}
 
 // Global state variables for subpage compatibility
 let fd: any = null;
@@ -117,206 +571,8 @@ export default function ClosDuSoirPage() {
           .imx-mobstack { grid-template-columns: 1fr !important; }
         }
       `}</style>
-      {/* HERO — dark full-bleed */}
-      <section
-        ref={heroRef}
-        style={{
-          position: "relative",
-          minHeight: "100dvh",
-          display: "flex",
-          alignItems: "center",
-          background: C.burgundyDark,
-          overflow: "hidden",
-        }}
-      >
-        {/* Background texture */}
-        <div
-          style={{
-            position: "absolute",
-            inset: 0,
-            backgroundImage: `radial-gradient(${C.gold}08 1px, transparent 1px)`,
-            backgroundSize: "28px 28px",
-          }}
-        />
-
-        {/* Rose glow bottom */}
-        <div
-          style={{
-            position: "absolute",
-            bottom: "-10%",
-            left: "10%",
-            width: 500,
-            height: 500,
-            background: `radial-gradient(circle, ${C.burgundyLight}40 0%, transparent 65%)`,
-            borderRadius: "50%",
-            pointerEvents: "none",
-          }}
-        />
-
-        {/* Gold glow right */}
-        <div
-          style={{
-            position: "absolute",
-            top: "20%",
-            right: "-5%",
-            width: 400,
-            height: 400,
-            background: `radial-gradient(circle, ${C.gold}15 0%, transparent 65%)`,
-            borderRadius: "50%",
-            pointerEvents: "none",
-          }}
-        />
-
-        <div
-          style={{
-            position: "relative",
-            zIndex: 2,
-            maxWidth: 1200,
-            margin: "0 auto",
-            padding: "120px 5% 80px",
-            width: "100%",
-          }}
-        >
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "1fr auto",
-              gap: 80,
-              alignItems: "center",
-            }}
-            className="grid-cols-1 md:grid-cols-[1fr_auto] imx-mobstack"
-          >
-            {/* Left: Text */}
-            <motion.div style={{ y: heroTextY, opacity: heroOpacity }}>
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 1 }}
-                style={{
-                  fontFamily: SERIF,
-                  fontSize: 13,
-                  letterSpacing: "0.25em",
-                  textTransform: "uppercase",
-                  color: C.gold,
-                  marginBottom: 28,
-                }}
-              >
-                Paris 1er Arrondissement
-              </motion.div>
-
-              <motion.h1
-                initial={{ opacity: 0, y: 40 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1, delay: 0.15 }}
-                style={{
-                  fontFamily: SERIF,
-                  fontSize: "clamp(48px, 6vw, 86px)",
-                  fontWeight: 700,
-                  color: C.cream,
-                  lineHeight: 1.05,
-                  marginBottom: 28,
-                }}
-              >{c?.heroHeadline ?? <>
-                Where the evening
-                <br />
-                <span style={{ color: C.gold, fontStyle: "italic" }}>
-                  reveals itself
-                </span>
-              </>}</motion.h1>
-
-              <motion.p
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 1, delay: 0.3 }}
-                style={{fontSize: 17,
-                  color: brand ?? 'var(--brand,#c4a882)',
-                  lineHeight: 1.85,
-                  marginBottom: 44,
-                  maxWidth: 440,
-                  fontWeight: 300,
-                }}
-              >{c?.heroSubline ?? fd?.tagline ?? <>
-                A curated wine bar and sommelier experience in the heart of Paris. Intimate evenings, rare bottles, and the stories they carry.
-              </>}</motion.p>
-
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7, delay: 0.4 }}
-                style={{ display: "flex", gap: 16, flexWrap: "wrap" }}
-              >
-                <Link href="/templates/impact-37/carte" style={{ textDecoration: "none" }}>
-                  <button
-                    style={{
-                      display: "inline-flex",
-                      alignItems: "center",
-                      gap: 8,
-                      background: C.gold,
-                      color: C.burgundyDark,
-                      padding: "16px 32px",
-                      borderRadius: 2,
-                      fontWeight: 700,
-                      fontSize: 13,
-                      border: "none",
-                      cursor: "pointer",
-                      letterSpacing: "0.08em",
-                      textTransform: "uppercase",
-                      fontFamily: SANS,
-                    }}
-                  >
-                    Explore the Wine List
-                  </button>
-                </Link>
-                <Link href="/templates/impact-37/reservation" style={{ textDecoration: "none" }}>
-                  <button
-                    style={{
-                      display: "inline-flex",
-                      alignItems: "center",
-                      gap: 8,
-                      background: "transparent",
-                      color: C.gold,
-                      padding: "16px 32px",
-                      borderRadius: 2,
-                      fontWeight: 400,
-                      fontSize: 13,
-                      cursor: "pointer",
-                      border: `1px solid ${C.gold}60`,
-                      letterSpacing: "0.08em",
-                      textTransform: "uppercase",
-                      fontFamily: SANS,
-                    }}
-                  >
-                    Membership
-                  </button>
-                </Link>
-              </motion.div>
-            </motion.div>
-
-            {/* Right: Wine bottle with scroll-fill */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 1, delay: 0.4 }}
-              className="hidden md:block"
-            >
-              <WineBottleSVG fillProgress={wineBottleFill} />
-              <p
-                style={{
-                  textAlign: "center",
-                  marginTop: 16,
-                  fontSize: 12,
-                  color: C.gold,
-                  letterSpacing: "0.12em",
-                  textTransform: "uppercase",
-                  fontFamily: SERIF,
-                }}
-              >
-                Scroll to fill
-              </p>
-            </motion.div>
-          </div>
-        </div>
-      </section>
+      {/* HERO — the wine list is the hero (see WineHero above) */}
+      <WineHero />
 
       {/* WINE LIST BY REGION */}
       <section
