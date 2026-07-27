@@ -281,19 +281,29 @@ export function Wipe({
    viewport when the stack outgrows it, which is exactly how heroes end up
    hidden under a fixed navbar.
    ════════════════════════════════════════════════════════════════════════════ */
-export function heroSectionStyle(bg: string, opts?: { bottomRail?: boolean }): React.CSSProperties {
+export function heroSectionStyle(
+  bg: string,
+  opts?: { bottomRail?: boolean; topOffset?: number },
+): React.CSSProperties {
+  /* topOffset: some templates pad <main> to clear a fixed navbar, which pushes
+     the section down by that much. Without subtracting it a 100dvh hero ends
+     exactly one navbar-height below the fold, taking the bottom rail with it. */
+  const off = opts?.topOffset ?? 0;
   return {
     position: "relative",
-    minHeight: "100dvh",
+    minHeight: off ? `calc(100dvh - ${off}px)` : "100dvh",
     display: "flex",
     flexDirection: "column",
     justifyContent: "safe center",
     overflow: "hidden",
     background: bg,
     perspective: "1400px",
+    /* When <main> already pads for a fixed navbar, the hero must not reserve
+       that space a second time — doing so is what pushes the bottom rail off
+       screen even after the min-height is corrected. */
     padding: opts?.bottomRail
-      ? "clamp(104px,14vh,150px) clamp(20px,5vw,72px) clamp(140px,18vh,180px)"
-      : "clamp(104px,14vh,150px) clamp(20px,5vw,72px) clamp(72px,10vh,110px)",
+      ? `${off ? "clamp(52px,7vh,76px)" : "clamp(104px,14vh,150px)"} clamp(20px,5vw,72px) clamp(140px,18vh,180px)`
+      : `${off ? "clamp(52px,7vh,76px)" : "clamp(104px,14vh,150px)"} clamp(20px,5vw,72px) clamp(72px,10vh,110px)`,
   };
 }
 
@@ -472,7 +482,10 @@ export function SelectorRail({
 export function railResponsiveCSS(id: string, opts?: { titleClamp?: string }) {
   return `
     @media (max-width: 640px) {
-      #${id} { padding-top: 88px !important; padding-bottom: 96px !important; }
+      #${id} { padding-top: 76px !important; padding-bottom: 78px !important; }
+      /* the rail itself is ~78px of the 667px budget; trim it too */
+      .${id}-rail > button { padding: 11px 16px 13px !important; }
+      #${id} a > span, #${id} button[style*="uppercase"] { padding-top: 13px !important; padding-bottom: 13px !important; }
       #${id} h1 { font-size: ${opts?.titleClamp ?? "clamp(38px, 11vw, 52px)"} !important; }
       .${id}-rail {
         display: flex !important;
@@ -482,6 +495,16 @@ export function railResponsiveCSS(id: string, opts?: { titleClamp?: string }) {
       }
       .${id}-rail > button { flex: 0 0 46%; scroll-snap-align: start; }
       .${id}-rail::-webkit-scrollbar { height: 0; }
+
+      /* The block the selector swaps reserves a fixed min-height on desktop so
+         the CTAs don't jump between items. On a 667px viewport that reservation
+         is what pushes the hero past the fold, and the jump matters far less
+         because the rail is scrolled, not clicked in place. */
+      #${id} .hero-detail { min-height: 0 !important; margin-bottom: 12px !important; }
+      #${id} .hero-detail p { font-size: 14px !important; line-height: 1.6 !important; }
+      #${id} .hero-lede { font-size: 14px !important; line-height: 1.55 !important; margin-bottom: 14px !important; }
+      #${id} h1 { margin-bottom: 12px !important; }
+      #${id} .hero-secondary { display: none !important; }
     }
   `;
 }

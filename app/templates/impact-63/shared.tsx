@@ -34,7 +34,7 @@ export const COLLECTIONS = [
     case: "Or blanc 18K — Ø 40mm",
     water: "50m",
     accent: "#C9A96E",
-    image: "https://images.unsplash.com/photo-1523170335258-f5ed11844a49?w=800&q=80&fit=crop",
+    image: "https://images.pexels.com/photos/9639583/pexels-photo-9639583.jpeg?auto=compress&cs=tinysrgb&w=1200",
   },
   {
     id: "tourbillon",
@@ -47,7 +47,7 @@ export const COLLECTIONS = [
     case: "Platine 950 — Ø 42mm",
     water: "30m",
     accent: "#E8D5A3",
-    image: "https://images.unsplash.com/photo-1612817288484-6f916006741a?w=800&q=80&fit=crop",
+    image: "https://images.pexels.com/photos/31123762/pexels-photo-31123762.jpeg?auto=compress&cs=tinysrgb&w=1200",
   },
   {
     id: "marine",
@@ -60,7 +60,7 @@ export const COLLECTIONS = [
     case: "Acier 316L — Ø 42mm",
     water: "200m",
     accent: "#6B8FBF",
-    image: "https://images.unsplash.com/photo-1547996160-81dfa63595aa?w=800&q=80&fit=crop",
+    image: "https://images.pexels.com/photos/13645771/pexels-photo-13645771.jpeg?auto=compress&cs=tinysrgb&w=1200",
   },
   {
     id: "classique",
@@ -73,7 +73,7 @@ export const COLLECTIONS = [
     case: "Or rose 18K — Ø 33mm",
     water: "30m",
     accent: "#C9A96E",
-    image: "https://images.unsplash.com/photo-1587836374828-4dbafa94cf0e?w=800&q=80&fit=crop",
+    image: "https://images.pexels.com/photos/1034063/pexels-photo-1034063.jpeg?auto=compress&cs=tinysrgb&w=1200",
   },
   {
     id: "reserve",
@@ -86,7 +86,7 @@ export const COLLECTIONS = [
     case: "Acier 316L poli — Ø 38mm",
     water: "100m",
     accent: "#C9A96E",
-    image: "https://images.unsplash.com/photo-1612817288484-6f916006741a?w=800&q=80&fit=crop",
+    image: "https://images.pexels.com/photos/22032442/pexels-photo-22032442.jpeg?auto=compress&cs=tinysrgb&w=1200",
   },
   {
     id: "grand-complication",
@@ -99,7 +99,7 @@ export const COLLECTIONS = [
     case: "Or blanc 18K — Ø 44mm",
     water: "30m",
     accent: "#E8D5A3",
-    image: "https://images.unsplash.com/photo-1509048191080-d2984bad6ae5?w=800&q=80&fit=crop",
+    image: "https://images.pexels.com/photos/34182730/pexels-photo-34182730.jpeg?auto=compress&cs=tinysrgb&w=1200",
   },
 ];
 

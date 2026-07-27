@@ -454,13 +454,14 @@ function Hero() {
               initial={{ opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.55, ease: EASE_3, delay: BEAT.second }}
+              className="hero-lede"
               style={{ fontSize: 16, color: C.textMuted, lineHeight: 1.75, maxWidth: 440, margin: "0 0 26px" }}
             >{c?.heroSubline ?? fd?.tagline ?? <>
               Soins conservateurs, esthétique et implantologie. Devis détaillé avant chaque acte, sans engagement.
             </>}</motion.p>
 
             {/* What the selector drives */}
-            <div style={{ minHeight: 122, marginBottom: 20 }}>
+            <div className="hero-detail" style={{ minHeight: 122, marginBottom: 20 }}>
               <AnimatePresence mode="wait">
                 <motion.div key={active}>
                   <Rise beat="second" duration={0.42}>

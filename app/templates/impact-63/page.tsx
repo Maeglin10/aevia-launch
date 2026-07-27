@@ -5,6 +5,195 @@ import React, {useRef, useState, useEffect} from 'react';
 import Link from "next/link";
 import { motion, useScroll, useTransform, useInView } from "framer-motion";
 import { C, StatNumber, SectionLabel, OrbitalComplication, HERITAGE, PRESS, AWARDS, COLLECTIONS } from "./shared";
+import { AnimatePresence } from "framer-motion";
+import {
+  useHeroSelector, GhostMark, Rise, SelectorRail,
+  heroSectionStyle, railResponsiveCSS, EASE_3, EASE_4, BEAT,
+} from "@/lib/templates/hero-kit";
+
+function HeroWatch() {
+  const pieces = COLLECTIONS.slice(0, 5);
+  const { active, paused, pick, hold, reduce } = useHeroSelector(pieces.length, 7500);
+  const w: any = pieces[active % pieces.length];
+  /* Each piece carries its own accent, so the hero re-tints per selection
+     rather than presenting every watch in the same light. */
+  const accent = w.accent || C.gold;
+
+  const SERIF = "'Cormorant Garamond', Georgia, serif";
+  const SANS = "'EB Garamond', Georgia, serif";
+
+  const specs = [
+    { k: "Mouvement", v: w.movement },
+    { k: "Boîtier", v: w.case },
+    { k: "Étanchéité", v: w.water },
+  ];
+
+  return (
+    <section id="hero" style={heroSectionStyle(C.bg, { bottomRail: true, topOffset: 70 })}>
+      {/* A single tinted glow rather than a photographic scrim — the product
+          shot has to sit on near-black for the metal to read. */}
+      <motion.div
+        aria-hidden
+        key={`glow-${active}`}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1.2, ease: EASE_3 }}
+        style={{
+          position: "absolute",
+          inset: 0,
+          zIndex: 0,
+          pointerEvents: "none",
+          background: `radial-gradient(58% 55% at 72% 46%, ${accent}2e 0%, transparent 62%)`,
+        }}
+      />
+
+      <GhostMark color={accent} font={SERIF} side="left" opacity={0.05} size="clamp(150px, 27vw, 400px)">
+        {w.ref?.split("-")[1] ?? String(active + 1).padStart(2, "0")}
+      </GhostMark>
+
+      <div style={{ position: "relative", zIndex: 3, maxWidth: 1240, margin: "0 auto", width: "100%" }}>
+        <div className="imx63-split" style={{ display: "grid", gridTemplateColumns: "1fr 0.9fr", gap: "clamp(24px,4vw,64px)", alignItems: "center" }}>
+          <div style={{ minWidth: 0 }}>
+            <Rise beat="first" style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 22 }}>
+              <motion.span
+                animate={{ background: accent }}
+                transition={{ duration: 0.8, ease: EASE_3 }}
+                style={{ width: 44, height: 1, display: "block" }}
+              />
+              <span style={{ fontFamily: SANS, fontSize: 11, letterSpacing: "0.34em", textTransform: "uppercase", color: C.textMuted }}>
+                Manufacture · Vallée de Joux
+              </span>
+            </Rise>
+
+            <motion.h1
+              initial={{ opacity: 0, rotateY: reduce ? 0 : -12, clipPath: "inset(0 100% 0 0)" }}
+              animate={{ opacity: 1, rotateY: 0, clipPath: "inset(0 0% 0 0)" }}
+              transition={{ duration: 0.9, ease: EASE_4 }}
+              style={{ fontFamily: SERIF, fontSize: "clamp(40px, 5vw, 74px)", fontWeight: 300, color: C.text, lineHeight: 1.04, margin: "0 0 16px", transformOrigin: "left center" }}
+            >{c?.heroHeadline ?? <>
+              Le temps comme<br /><em style={{ fontStyle: "italic", color: C.gold }}>philosophie</em>
+            </>}</motion.h1>
+
+            <motion.p
+              initial={{ opacity: 0, y: 18 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.55, ease: EASE_3, delay: BEAT.second }}
+              className="hero-lede"
+              style={{ fontFamily: SANS, fontSize: 16, color: C.textMuted, lineHeight: 1.8, maxWidth: 430, margin: "0 0 30px" }}
+            >{c?.heroSubline ?? fd?.tagline ?? <>
+              Six calibres manufacture, assemblés à la main, réglés sur cinq positions. Aucune pièce ne quitte l’atelier avant quarante jours d’observation.
+            </>}</motion.p>
+
+            {/* The piece — driven by the rail */}
+            <div className="hero-detail" style={{ minHeight: 172, marginBottom: 26 }}>
+              <AnimatePresence mode="wait">
+                <motion.div key={active}>
+                  <Rise beat="second" duration={0.42}>
+                    <div style={{ display: "flex", alignItems: "baseline", gap: 12, flexWrap: "wrap", marginBottom: 4 }}>
+                      <span style={{ fontFamily: SERIF, fontSize: 27, color: C.text, fontWeight: 400 }}>{w.name}</span>
+                      <motion.span
+                        animate={{ color: accent }}
+                        transition={{ duration: 0.6 }}
+                        style={{ fontFamily: SANS, fontSize: 10, letterSpacing: "0.26em", textTransform: "uppercase" }}
+                      >
+                        {w.category}
+                      </motion.span>
+                    </div>
+                  </Rise>
+                  <Rise beat="second" duration={0.46}>
+                    <div style={{ fontFamily: SANS, fontSize: 11, letterSpacing: "0.2em", color: C.textDim, marginBottom: 16 }}>
+                      Réf. {w.ref}
+                    </div>
+                  </Rise>
+                  <Rise beat="second" duration={0.5}>
+                    <div className="hero-secondary" style={{ display: "grid", gap: 7, marginBottom: 16, maxWidth: 430 }}>
+                      {specs.map((s) => (
+                        <div key={s.k} style={{ display: "flex", gap: 14, alignItems: "baseline", borderBottom: `1px solid ${C.border}`, paddingBottom: 6 }}>
+                          <span style={{ fontFamily: SANS, fontSize: 10, letterSpacing: "0.2em", textTransform: "uppercase", color: C.textDim, minWidth: 92 }}>{s.k}</span>
+                          <span style={{ fontFamily: SANS, fontSize: 13, color: C.textMuted, overflowWrap: "anywhere" }}>{s.v}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </Rise>
+                  <Rise beat="third" duration={0.45}>
+                    <div style={{ fontFamily: SERIF, fontSize: 24, color: C.text }}>{w.price}</div>
+                  </Rise>
+                </motion.div>
+              </AnimatePresence>
+            </div>
+
+            <Rise beat="third" style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
+              <Link href="/templates/impact-63/contact" style={{ textDecoration: "none" }}>
+                <motion.span
+                  animate={{ background: accent }}
+                  transition={{ duration: 0.8, ease: EASE_3 }}
+                  style={{ display: "inline-flex", alignItems: "center", gap: 8, color: C.bg, padding: "15px 32px", fontFamily: SANS, fontWeight: 600, fontSize: 12, letterSpacing: "0.18em", textTransform: "uppercase", minHeight: 44 }}
+                >
+                  Prendre rendez-vous
+                </motion.span>
+              </Link>
+              <Link href="/templates/impact-63/collections" style={{ textDecoration: "none" }}>
+                <span style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "transparent", color: C.text, border: `1px solid ${C.border}`, padding: "15px 32px", fontFamily: SANS, fontWeight: 400, fontSize: 12, letterSpacing: "0.18em", textTransform: "uppercase", minHeight: 44 }}>
+                  La collection
+                </span>
+              </Link>
+            </Rise>
+          </div>
+
+          {/* The object itself. No crop, no scrim: a product shot, lit. */}
+          <div className="imx63-object" style={{ position: "relative", minWidth: 0, aspectRatio: "1/1" }}>
+            <AnimatePresence mode="sync">
+              <motion.img
+                key={w.image}
+                src={fd?.photoUrls?.[active] || w.image}
+                alt={`${w.name} — réf. ${w.ref}`}
+                initial={{ opacity: 0, scale: 1.06, rotateY: reduce ? 0 : 12 }}
+                animate={{ opacity: 1, scale: 1, rotateY: 0 }}
+                exit={{ opacity: 0, scale: 0.98, transition: { duration: 0.4, ease: EASE_3 } }}
+                transition={{ duration: 1.0, ease: EASE_4 }}
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
+                  borderRadius: 2,
+                }}
+              />
+            </AnimatePresence>
+          </div>
+        </div>
+      </div>
+
+      <SelectorRail
+        items={pieces}
+        active={active}
+        onPick={pick}
+        onHold={hold}
+        accent={accent}
+        fg={C.text}
+        serif={SERIF}
+        sans={SANS}
+        paused={paused}
+        reduce={reduce}
+        intervalMs={7500}
+        bg={C.bg}
+        id="hero"
+        label={(x: any) => x.name}
+        sublabel={(x: any) => x.price}
+      />
+
+      <style>{`
+        ${railResponsiveCSS("hero", { titleClamp: "clamp(32px, 9vw, 44px)" })}
+        @media (max-width: 900px) {
+          .imx63-split { grid-template-columns: 1fr !important; }
+          .imx63-object { display: none !important; }
+        }
+      `}</style>
+    </section>
+  );
+}
+
 
 
 // Global state variables for subpage compatibility
@@ -134,105 +323,15 @@ return (
           .imx-mobstack { grid-template-columns: 1fr !important; }
         }
       `}</style>
-      {/* Hero */}
-      <section className="imx-mobstack"
-        ref={heroRef}
-        style={{
-          minHeight: "90vh",
-          display: "grid",
-          gridTemplateColumns: "1.1fr 0.9fr",
-          alignItems: "center",
-          position: "relative",
-          overflow: "hidden",
-        }}
-      >
-        <motion.div style={{ y: heroY, opacity: heroOpacity, padding: "4rem 3rem 4rem clamp(2rem, 6vw, 6rem)" }}>
-          <h1
-            style={{
-              fontFamily: "'Cormorant Garamond', serif",
-              fontSize: "clamp(3rem, 7vw, 6.5rem)",
-              fontWeight: 300,
-              lineHeight: 1.15,
-              paddingBottom: "0.15em",
-              color: C.text,
-              margin: "1.5rem 0",
-              letterSpacing: "-0.02em",
-            }}
-          >{c?.heroHeadline ?? <>
-            Le Temps<br />
-            <em style={{ color: C.gold, fontStyle: "italic" }}>Comme</em><br />
-            Philosophie
-          </>}</h1>
-          <p
-            style={{
-              fontSize: "1.15rem",
-              color: C.textMuted,
-              lineHeight: 1.75,
-              maxWidth: "42ch",
-              marginBottom: "2.5rem",
-            }}
-          >{c?.heroSubline ?? fd?.tagline ?? <>
-            Depuis 1891, la Maison Drouet perpétue à Genève l'art de la Haute Horlogerie.
-            Chaque montre est une déclaration — contre la hâte, pour la permanence.
-          </>}</p>
-          <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
-            <Link href="/templates/impact-63/collections" style={{ textDecoration: "none" }}>
-              <motion.button
-                type="button"
-                whileHover={{ scale: 1.02, backgroundColor: C.goldLight }}
-                whileTap={{ scale: 0.98 }}
-                style={{
-                  background: C.gold,
-                  color: C.bg,
-                  border: "none",
-                  padding: "0.85rem 2rem",
-                  fontFamily: "'Cormorant SC', serif",
-                  fontSize: "0.7rem",
-                  letterSpacing: "0.2em",
-                  cursor: "pointer",
-                  transition: "background 0.3s",
-                }}
-              >
-                DÉCOUVRIR LES COLLECTIONS
-              </motion.button>
-            </Link>
-            <Link href="/templates/impact-63/atelier" style={{ textDecoration: "none" }}>
-              <motion.button
-                type="button"
-                whileHover={{ borderColor: C.gold, color: C.gold }}
-                style={{
-                  background: "transparent",
-                  color: C.textMuted,
-                  border: `1px solid ${C.border}`,
-                  padding: "0.85rem 2rem",
-                  fontFamily: "'Cormorant SC', serif",
-                  fontSize: "0.7rem",
-                  letterSpacing: "0.2em",
-                  cursor: "pointer",
-                  transition: "all 0.3s",
-                }}
-              >
-                BESPOKE
-              </motion.button>
-            </Link>
-          </div>
-        </motion.div>
+      {/* Hero — the watch is the hero.
 
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1.5, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-          style={{ padding: "4rem 4rem 4rem 2rem", display: "flex", alignItems: "center", justifyContent: "center" }}
-        >
-          <div style={{ width: "min(420px, 90%)", aspectRatio: "1" }}>
-            <OrbitalComplication scrollYProgress={scrollYProgress} />
-          </div>
-        </motion.div>
+          Fourth kit composition. The mechanic unique to this one: every piece
+          in COLLECTIONS carries its own `accent` colour, so selecting a watch
+          re-tints the whole hero — rule, reference, specs and glow. A house
+          that sells one object at a time should not present them all in the
+          same light. */}
+      <HeroWatch />
 
-        <div style={{ position: "absolute", top: "5rem", left: "3rem", fontFamily: "'Cormorant SC', serif", fontSize: "0.55rem", letterSpacing: "0.2em", color: C.textDim }}>
-          GENÈVE · SUISSE
-        </div>
-      </section>
 
       {/* Stats */}
       <section style={{ padding: "5rem clamp(2rem, 6vw, 6rem)", borderTop: `1px solid ${C.border}`, borderBottom: `1px solid ${C.border}`, background: C.bgSection }}>
