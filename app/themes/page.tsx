@@ -13,6 +13,7 @@ import { TEMPLATE_I18N } from "@/lib/templates/registry-i18n";
 import { AeviaHeader } from "@/components/AeviaHeader";
 import { LegalFooter } from "@/components/LegalFooter";
 import { useLang } from "@/lib/LangContext";
+import { themeRating, themeActive } from "@/lib/theme-stats";
 
 // ─── Quality filter ───────────────────────────────────────────────────────────
 // Only truly missing page.tsx files are hidden — everything else is shown for audit.
@@ -386,7 +387,7 @@ function ThumbCard({ item, index }: { item: ThemeItem; index: number }) {
               </div>
               <div className="flex items-center gap-1">
                 <Star className="w-2.5 h-2.5 text-yellow-500 fill-yellow-500" />
-                <span className="text-[9px] font-bold text-white/40">4.9</span>
+                <span className="text-[9px] font-bold text-white/40">{themeRating(item.id)}</span>
               </div>
             </div>
 
@@ -396,7 +397,7 @@ function ThumbCard({ item, index }: { item: ThemeItem; index: number }) {
             </p>
 
             <div className="mt-auto pt-3 border-t border-white/5 flex items-center justify-between">
-              <div className="text-[8px] font-bold text-white/20 uppercase tracking-widest">12k+ active</div>
+              <div className="text-[8px] font-bold text-white/20 uppercase tracking-widest">{themeActive(item.id)} active</div>
               <div className="w-8 h-8 rounded-full bg-white/5 border border-white/5 flex items-center justify-center group-hover:bg-white group-hover:text-black transition-all duration-500">
                 <ArrowRight className="w-3.5 h-3.5" />
               </div>
