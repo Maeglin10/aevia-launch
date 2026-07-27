@@ -102,6 +102,7 @@ function GlobalStyles() {
       /* Nav */
       .nav-desktop { display: flex !important; }
       .nav-burger  { display: none !important; }
+      .nav-cta     { display: inline-block !important; }
 
       /* Tracker */
       .tracker-row { display: flex; gap: 1.5rem; overflow-x: auto; padding-bottom: 8px; }
@@ -124,6 +125,7 @@ function GlobalStyles() {
       @media (max-width: 768px) {
         .nav-desktop { display: none !important; }
         .nav-burger  { display: flex !important; }
+        .nav-cta     { display: none !important; }
 
         .mf-grid-2 { grid-template-columns: 1fr; }
         .mf-grid-3 { grid-template-columns: 1fr 1fr; }
@@ -377,7 +379,7 @@ function Nav() {
 
             {/* CTA + burger */}
             <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-              <a href="#contact" style={{
+              <a href="#contact" className="nav-cta" style={{
                 background: `linear-gradient(135deg, ${C.accent}, ${C.accentDark})`,
                 color: '#fff', padding: '10px 22px', borderRadius: C.radius,
                 fontFamily: C.fontBody, fontWeight: 600, fontSize: 14,
