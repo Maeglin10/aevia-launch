@@ -232,17 +232,23 @@ export default function CabinetRenardPage() {
           </motion.a>
         </div>
       )}
-      <style>{`@media (max-width: 900px) { #mb55-nav { display: none !important; } .mb55-burger { display: flex !important; } }`}</style>
+      <style>{`
+        @media (max-width: 900px) { #mb55-nav { display: none !important; } .mb55-burger { display: flex !important; } }
+        @media (max-width: 640px) {
+          #mb55-hero { height: 100dvh !important; min-height: 100dvh !important; }
+          .mb55-hero-text { padding: 0 24px 40px !important; }
+        }
+      `}</style>
 
       {/* Hero */}
-      <section ref={heroRef} style={{ height: "115vh", minHeight: "900px", position: "relative", display: "flex", alignItems: "flex-end", overflow: "hidden" }}>
+      <section id="mb55-hero" ref={heroRef} style={{ height: "115vh", minHeight: "900px", position: "relative", display: "flex", alignItems: "flex-end", overflow: "hidden" }}>
         <motion.div style={{ y: heroY, position: "absolute", inset: 0 }}>
           <img src={photo(0, "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=1920&q=80")} alt="Cabinet avocat Maître Renard Paris" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
         </motion.div>
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(5,5,12,0.94) 0%, rgba(5,5,12,0.48) 45%, rgba(5,5,12,0.08) 100%)" }} />
         <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to right, ${C.gold}14 0%, transparent 55%)` }} />
 
-        <motion.div style={{ position: "relative", zIndex: 1, padding: "0 80px 90px", maxWidth: 760, y: heroTextY, opacity: heroOpacity }}>
+        <motion.div className="mb55-hero-text" style={{ position: "relative", zIndex: 1, padding: "0 80px 90px", maxWidth: 760, y: heroTextY, opacity: heroOpacity }}>
           <motion.h1 initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.9 }}
             style={{ fontFamily: FONT, fontSize: "clamp(40px, 5vw, 68px)", fontWeight: 300, color: "#fff", lineHeight: 1.1, marginBottom: 24 }}>{c?.heroHeadline ?? <>
             La justice mérite<br /><em style={{ color: C.gold }}>d'être défendue avec rigueur.</em>
