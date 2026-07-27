@@ -171,7 +171,7 @@ function Nav() {
           <a href="#cta" className="ns-nav" style={{ color: C.inkSoft, textDecoration: 'none', fontSize: 15, fontWeight: 600 }}>
             Connexion
           </a>
-          <a href="#cta" style={primaryBtn}>
+          <a href="#cta" className="ns-header-cta" style={primaryBtn}>
             Démarrer gratuitement
           </a>
           <button
@@ -1295,6 +1295,7 @@ return (
           .ns-nav { display: none !important; }
           .ns-burger { display: grid !important; }
           .ns-howline { display: none !important; }
+          .ns-header-cta { display: none !important; }
         }
       `}</style>
       <Nav />
