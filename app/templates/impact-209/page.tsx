@@ -1309,8 +1309,10 @@ export default function Page() {
           />
         </motion.div>
 
-        {/* Floating badge */}
+        {/* Floating badge — hidden below md: at top:50% it collides with the
+            centered H1 once the hero content stack gets tall on narrow screens. */}
         <motion.div
+          className="hidden lg:block"
           initial={{ opacity: 0, x: 40 }}
           animate={titleVisible ? { opacity: 1, x: 0 } : {}}
           transition={{ duration: 0.7, delay: 0.8 }}
