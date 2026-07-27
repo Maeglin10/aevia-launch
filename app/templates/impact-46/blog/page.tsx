@@ -34,7 +34,7 @@ export default function Blog() {
               <p key={i} style={{ fontFamily: "'Source Sans Pro', system-ui", fontSize: 17, color: C.textMuted, lineHeight: 1.85, marginBottom: 24 }}>{paraTxt}</p>
             ))}
             <div style={{ borderTop: `1px solid ${C.border}`, marginTop: 24, paddingTop: 24, fontFamily: "'Playfair Display', Georgia, serif", fontStyle: "italic", fontSize: 15, color: C.textMuted }}>
-              Article rédigé par l'équipe de Dumont & Associates. Ce contenu est fourni à titre informatif et ne constitue pas un conseil juridique.
+              Article rédigé par l'équipe de Dumont & Associés. Ce contenu est fourni à titre informatif et ne constitue pas un conseil juridique.
             </div>
           </div>
         </section>

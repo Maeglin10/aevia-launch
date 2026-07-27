@@ -94,7 +94,7 @@ export default function LawFirmLayout({ children }: { children: React.ReactNode 
                 <Scale size={18} color={C.accent} />
               </div>
               <div>
-                <div style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: 17, fontWeight: 700, color: C.white, letterSpacing: "0.04em" }}>Dumont & Associates</div>
+                <div style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: 17, fontWeight: 700, color: C.white, letterSpacing: "0.04em" }}>Dumont & Associés</div>
                 <div style={{ fontFamily: "'Source Sans Pro', system-ui", fontSize: 10, color: C.accent, letterSpacing: "0.16em", textTransform: "uppercase" as const }}>Avocats au Barreau de Paris</div>
               </div>
             </div></>
@@ -172,7 +172,7 @@ export default function LawFirmLayout({ children }: { children: React.ReactNode 
                     <Scale size={18} color={C.accent} />
                   </div>
                   <div>
-                    <div style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: 16, fontWeight: 700, color: C.white }}>Dumont & Associates</div>
+                    <div style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: 16, fontWeight: 700, color: C.white }}>Dumont & Associés</div>
                     <div style={{ fontFamily: "'Source Sans Pro', system-ui", fontSize: 10, color: C.accent, letterSpacing: "0.12em", textTransform: "uppercase" as const }}>Avocats au Barreau de Paris</div>
                   </div>
                 </div>
@@ -214,7 +214,7 @@ export default function LawFirmLayout({ children }: { children: React.ReactNode 
                 </div>
               ))}
             </div>
-            <p style={{ fontFamily: "'Source Sans Pro', system-ui", fontSize: 13, color: "rgba(255,255,255,0.25)", margin: 0 }}>© 2026 Dumont & Associates. Tous droits réservés. Barreau de Paris.</p>
+            <p style={{ fontFamily: "'Source Sans Pro', system-ui", fontSize: 13, color: "rgba(255,255,255,0.25)", margin: 0 }}>© 2026 Dumont & Associés. Tous droits réservés. Barreau de Paris.</p>
           </div>
         </div>
       </footer>
