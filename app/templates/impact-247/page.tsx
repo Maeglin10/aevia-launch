@@ -243,26 +243,6 @@ function Nav() {
 
   return (
     <>
-      
-        {/* Mobile hamburger */}
-        <button
-          onClick={() => setMobileOpen(!mobileOpen)}
-          className="vl-burger"
-          aria-label="Menu"
-          style={{
-            display: 'none',
-            flexDirection: 'column',
-            gap: 5,
-            background: 'none',
-            border: 'none',
-            cursor: 'pointer',
-            padding: 4,
-          }}
-        >
-          <span style={{ width: 22, height: 2, background: '#1a1a1a', borderRadius: 1, display: 'block', transition: 'transform 0.3s', transform: mobileOpen ? 'rotate(45deg) translate(0, 7px)' : 'none' }} />
-          <span style={{ width: 22, height: 2, background: '#1a1a1a', borderRadius: 1, display: 'block', opacity: mobileOpen ? 0 : 1, transition: 'opacity 0.3s' }} />
-          <span style={{ width: 22, height: 2, background: '#1a1a1a', borderRadius: 1, display: 'block', transition: 'transform 0.3s', transform: mobileOpen ? 'rotate(-45deg) translate(0, -7px)' : 'none' }} />
-        </button>
         <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap');
         @media (max-width: 860px){
@@ -303,6 +283,27 @@ function Nav() {
             <AccentButton small>Devis gratuit</AccentButton>
           </a>
         </div>
+        {/* Mobile hamburger — must live inside the fixed nav, not before it,
+            or it renders in normal flow at the true page top (y:0) and
+            clips/overlaps the logo through the transparent unscrolled navbar. */}
+        <button
+          onClick={() => setMobileOpen(!mobileOpen)}
+          className="vl-burger"
+          aria-label="Menu"
+          style={{
+            display: 'none',
+            flexDirection: 'column',
+            gap: 5,
+            background: 'none',
+            border: 'none',
+            cursor: 'pointer',
+            padding: 4,
+          }}
+        >
+          <span style={{ width: 22, height: 2, background: C.white, borderRadius: 1, display: 'block', transition: 'transform 0.3s', transform: mobileOpen ? 'rotate(45deg) translate(0, 7px)' : 'none' }} />
+          <span style={{ width: 22, height: 2, background: C.white, borderRadius: 1, display: 'block', opacity: mobileOpen ? 0 : 1, transition: 'opacity 0.3s' }} />
+          <span style={{ width: 22, height: 2, background: C.white, borderRadius: 1, display: 'block', transition: 'transform 0.3s', transform: mobileOpen ? 'rotate(-45deg) translate(0, -7px)' : 'none' }} />
+        </button>
       </nav>
       {mobileOpen && (
         <div style={{
