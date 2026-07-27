@@ -228,10 +228,18 @@ return (
             <h2 className="text-4xl font-light mb-20" style={{ fontFamily: "'Cormorant Garamond', serif" }}>Les maisons à la une</h2>
           </Reveal>
           <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-            {["Maison Margiela", "Saint Laurent", "Balenciaga", "Valentino", "Givenchy"].map((m, i) => (
+            {/* Fictional houses: this is a demo site, so it can't present real
+                fashion maisons as its featured clients. */}
+            {[
+              { name: "Maison Verel", img: 1066171 },
+              { name: "Atelier Sable", img: 33976561 },
+              { name: "Noir Vestiaire", img: 17393964 },
+              { name: "Céline Aubrac", img: 20437814 },
+              { name: "Studio Perrin", img: 35730966 },
+            ].map(({ name: m, img }, i) => (
               <Reveal key={m} delay={i * 0.07}>
                 <div className="relative aspect-[2/3] overflow-hidden group cursor-pointer">
-                  <Image src={photo(5 + i, `https://images.unsplash.com/photo-155861866${6 + i}-fcd25c85cd64?w=600&q=80`)} alt={m} fill className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700" />
+                  <Image src={photo(5 + i, `https://images.pexels.com/photos/${img}/pexels-photo-${img}.jpeg?auto=compress&cs=tinysrgb&w=600`)} alt={m} fill className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700" />
                   <div className="absolute inset-0 bg-[#0A0A08]/50 group-hover:bg-transparent transition-all duration-700" />
                   <div className="absolute bottom-0 left-0 right-0 p-4">
                     <span className="text-[9px] uppercase tracking-[0.3em] text-[var(--brand,#C9A86C)]">{m}</span>

@@ -326,6 +326,10 @@ return (
                     photo(5, "https://images.unsplash.com/photo-1579869847514-7c1a19d2d2ad?w=600&q=80"),
                     photo(6, "https://images.unsplash.com/photo-1570168007204-dfb528c6958f?w=600&q=80"),
                     photo(7, "https://images.unsplash.com/photo-1542332213-9b5a5a3fad35?w=600&q=80"),
+                    // portfolioItems has 8 entries; this list had only 6, so the
+                    // last two tiles resolved to undefined and rendered src="".
+                    photo(8, "https://images.pexels.com/photos/18349823/pexels-photo-18349823.jpeg?auto=compress&cs=tinysrgb&w=600"),
+                    photo(9, "https://images.pexels.com/photos/12548988/pexels-photo-12548988.jpeg?auto=compress&cs=tinysrgb&w=600"),
                   ][i]}
                   alt={item.title}
                   style={{ width: "100%", height: "100%", objectFit: "cover", filter: "grayscale(1) brightness(0.6)", transition: "all 0.5s" }}

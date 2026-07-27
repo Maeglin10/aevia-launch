@@ -108,7 +108,7 @@ const PROGRAMS_DEMO: Program[] = [
     number: '01',
     caption: 'COACHING PRIVÉ',
     sub: '1-on-1 avec votre coach. Bilan complet, programme sur mesure, ajusté chaque semaine selon vos résultats.',
-    img: `${PHOTO_BASE}1534438327489-9e9a11e32e26?q=80&w=1600&auto=format&fit=crop`,
+    img: 'https://images.pexels.com/photos/33846716/pexels-photo-33846716.jpeg?auto=compress&cs=tinysrgb&w=1600',
   },
   {
     id: 'hiit',
@@ -122,7 +122,7 @@ const PROGRAMS_DEMO: Program[] = [
     number: '03',
     caption: 'NUTRITION & LIFESTYLE',
     sub: 'Plan alimentaire intégré, suivi macros, sommeil et récupération. Le corps change quand la vie change.',
-    img: `${PHOTO_BASE}1541534741688-7079b500b2f9?q=80&w=1600&auto=format&fit=crop`,
+    img: 'https://images.pexels.com/photos/7444444/pexels-photo-7444444.jpeg?auto=compress&cs=tinysrgb&w=1600',
   },
 ];
 
@@ -163,7 +163,7 @@ const EDIT_ROWS: EditRow[] = [
   {
     eyebrow: 'Votre transformation',
     ghostNumber: '01',
-    img: `${PHOTO_BASE}1534438327489-9e9a11e32e26?q=80&w=800&auto=format&fit=crop`,
+    img: 'https://images.pexels.com/photos/33846716/pexels-photo-33846716.jpeg?auto=compress&cs=tinysrgb&w=800',
     imgAlt: 'Séance de coaching privé au Studio Athletic Lyon',
     title: (
       <>
@@ -584,7 +584,7 @@ function Hero() {
         }}
       >
         <img
-          src={fd?.photoUrls?.[0] || `${PHOTO_BASE}1534438327489-9e9a11e32e26?q=80&w=2000&auto=format&fit=crop`}
+          src={fd?.photoUrls?.[0] || 'https://images.pexels.com/photos/33846716/pexels-photo-33846716.jpeg?auto=compress&cs=tinysrgb&w=2000'}
           alt="Séance de coaching au Studio Athletic Lyon 6e"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
