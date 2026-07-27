@@ -604,13 +604,13 @@ function HeroSection() {
 
       {/* Indicateur de défilement */}
       <motion.div
+        className="hidden sm:flex"
         style={{
           position: 'absolute',
           bottom: 42,
           left: '50%',
           translateX: '-50%',
           zIndex: 5,
-          display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
           gap: 8,

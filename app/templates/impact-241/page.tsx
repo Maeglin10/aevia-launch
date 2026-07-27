@@ -694,12 +694,12 @@ function Hero() {
 
       {/* Cue défilement */}
       <motion.div
+        className="hidden sm:flex"
         style={{
           position: 'absolute',
           bottom: 32,
           right: 'clamp(24px,6vw,96px)',
           zIndex: 3,
-          display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
           gap: 9,

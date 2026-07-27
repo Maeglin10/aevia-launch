@@ -683,12 +683,12 @@ function Hero() {
 
       {/* Indice de défilement */}
       <motion.div
+        className="hidden sm:flex"
         style={{
           position: 'absolute',
           bottom: 34,
           right: 'clamp(24px,5vw,64px)',
           zIndex: 3,
-          display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
           gap: 8,

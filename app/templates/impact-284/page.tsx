@@ -587,13 +587,13 @@ function HeroSection() {
 
       {/* Cue de défilement */}
       <motion.div
+        className="hidden sm:flex"
         style={{
           position: 'absolute',
           bottom: 32,
           left: '50%',
           transform: 'translateX(-50%)',
           zIndex: 3,
-          display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
           gap: 9,

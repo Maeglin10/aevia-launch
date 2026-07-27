@@ -145,6 +145,7 @@ const TESTIMONIALS_DEMO = [
 function ScissorBlade({ top, initial, animate }: { top: boolean; initial: number; animate: number }) {
   return (
     <motion.div
+        className="hidden sm:flex"
       initial={{ rotateZ: initial, transformOrigin: top ? '50% 100%' : '50% 0%' }}
       animate={{ rotateZ: animate }}
       transition={{ duration: 1.2, ease: [0.34, 1.56, 0.64, 1] }}
