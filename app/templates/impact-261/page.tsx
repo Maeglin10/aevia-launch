@@ -287,11 +287,15 @@ function GreenButton({
   onClick,
   type = 'button',
   ghost = false,
+  onDark = false,
 }: {
   children: React.ReactNode;
   onClick?: () => void;
   type?: 'button' | 'submit';
   ghost?: boolean;
+  // Ghost styling defaults to the dark ink meant for light sections; on the
+  // photo hero that renders near-invisible, so those call sites opt into white.
+  onDark?: boolean;
 }) {
   const [hover, setHover] = useState(false);
   const base: React.CSSProperties = {
@@ -305,9 +309,15 @@ function GreenButton({
     textTransform: 'uppercase',
     fontWeight: 600,
     cursor: 'pointer',
-    border: `1.5px solid ${C.accent}`,
+    border: `1.5px solid ${ghost && onDark ? 'rgba(255,255,255,0.55)' : C.accent}`,
     background: ghost ? 'transparent' : hover ? C.accentDark : C.accent,
-    color: ghost ? (hover ? C.accent : C.textMuted) : C.white,
+    color: ghost
+      ? onDark
+        ? C.white
+        : hover
+          ? C.accent
+          : C.textMuted
+      : C.white,
     transition: 'all .45s cubic-bezier(.16,1,.3,1)',
     outline: 'none',
     transform: hover ? 'translateY(-2px)' : 'none',
@@ -653,7 +663,7 @@ function Hero() {
           style={{ display: 'flex', gap: 14, flexWrap: 'wrap' }}
         >
           <GreenButton>Premiers échanges</GreenButton>
-          <GreenButton ghost>Nos expertises</GreenButton>
+          <GreenButton ghost onDark>Nos expertises</GreenButton>
         </motion.div>
       </motion.div>
 

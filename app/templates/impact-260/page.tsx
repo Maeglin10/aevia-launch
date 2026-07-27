@@ -744,15 +744,16 @@ function Hero() {
         </motion.div>
       </motion.div>
 
-      {/* Indice scroll */}
+      {/* Indice scroll — hidden on phones: the hero CTA row sits low enough
+          that the centred cue lands on top of the "Nos services" button. */}
       <motion.div
+        className="hidden sm:flex"
         style={{
           position: 'absolute',
           bottom: 28,
           left: '50%',
           transform: 'translateX(-50%)',
           zIndex: 4,
-          display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
           gap: 8,

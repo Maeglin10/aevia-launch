@@ -679,15 +679,16 @@ function Hero() {
         </motion.div>
       </motion.div>
 
-      {/* Indice défilement */}
+      {/* Indice défilement — hidden on phones: the CTA wraps to two lines and
+          grows tall enough that the centred cue lands on top of it. */}
       <motion.div
+        className="hidden sm:flex"
         style={{
           position: 'absolute',
           bottom: 32,
           left: '50%',
           transform: 'translateX(-50%)',
           zIndex: 3,
-          display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
           gap: 10,
