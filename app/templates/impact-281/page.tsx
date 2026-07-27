@@ -490,9 +490,14 @@ function HeroSection() {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          justifyContent: 'center',
+          // "safe center" keeps the stack centred when it fits, but falls back to
+          // start-alignment when it's taller than the hero — plain "center" would
+          // overflow past the top padding and slide under the fixed nav.
+          justifyContent: 'safe center',
           textAlign: 'center',
-          padding: '0 clamp(24px,6vw,96px)',
+          // top: clears the fixed nav so the eyebrow can't ride under it.
+          // bottom: reserves the scroll cue's lane so the stats row can't sit on it.
+          padding: 'clamp(96px,14vh,132px) clamp(24px,6vw,96px) clamp(88px,17vh,160px)',
           y: titleY,
           opacity: titleOpacity,
         }}
@@ -555,13 +560,13 @@ function HeroSection() {
 
       {/* Indice de défilement */}
       <motion.div
+        className="hidden"
         style={{
           position: 'absolute',
           bottom: 36,
           left: '50%',
           transform: 'translateX(-50%)',
           zIndex: 3,
-          display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
           gap: 10,
