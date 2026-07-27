@@ -235,7 +235,7 @@ export default function MeridianJourneyPage() {
             </Reveal>
           </motion.div>
 
-          <div className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2">
+          <div className="absolute bottom-12 left-1/2 -translate-x-1/2 hidden sm:flex flex-col items-center gap-2">
             <span className="text-[8px] font-bold uppercase tracking-[0.4em] text-white/30">Scroll</span>
             <motion.div animate={{ y: [0, 8, 0] }} transition={{ repeat: Infinity, duration: 2 }}
               className="w-[1px] h-10 bg-gradient-to-b from-[var(--brand,#2dd4bf)]/60 to-transparent" />

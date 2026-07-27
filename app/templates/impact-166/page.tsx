@@ -1255,13 +1255,13 @@ return (
 
         {/* Scroll indicator */}
         <motion.div
+          className="hidden sm:flex"
           style={{
             position: "absolute",
             bottom: 40,
             left: "50%",
             transform: "translateX(-50%)",
             zIndex: 2,
-            display: "flex",
             flexDirection: "column",
             alignItems: "center",
             gap: 10,
