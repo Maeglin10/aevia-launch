@@ -8,8 +8,16 @@ import { generateLegalPages } from "@/lib/legal/generateLegalPages";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-// Simple in-memory rate limiter: max 5 generate requests per IP per minute
+// First-line in-memory rate limiter: max 5 generate requests per IP per minute.
+// NOTE: on serverless this Map is per-instance and cold-start-wiped, so it only
+// catches naive bursts hitting the same warm lambda. The real backstop is the
+// per-session generation cap below (rides the shared Blob store → distributed).
 const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
+
+// Hard cap on LLM generations per session, enforced against the persisted
+// session (survives cold starts, holds across instances). Stops a single
+// visitor — or a script reusing one session — from hammering the LLM path.
+const MAX_GENERATIONS_PER_SESSION = 5;
 
 function isRateLimited(ip: string): boolean {
   const now = Date.now();
@@ -54,6 +62,17 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "tagline too long" }, { status: 400 });
     }
 
+    // Distributed generation cap — load the persisted session first and refuse
+    // once it has generated too many times. Rides the shared Blob store, so it
+    // holds across serverless instances and cold starts (unlike the IP Map).
+    const existing = getSession(sessionId) ?? (await getSessionFromBlob(sessionId));
+    if ((existing?.genCount ?? 0) >= MAX_GENERATIONS_PER_SESSION) {
+      return NextResponse.json(
+        { error: "Generation limit reached for this session. Start a new site to continue." },
+        { status: 429 },
+      );
+    }
+
     // Provider chain: Gemini → Groq → mock (see lib/llmProviders.ts).
     // Anthropic is intentionally NOT in this chain so test traffic does not
     // burn paid credits. When a real paying client comes in we'll either
@@ -86,7 +105,7 @@ export async function POST(req: NextRequest) {
 
     // Save or update session — persist to Blob so the preview page (running
     // on another serverless instance) can read the generated content.
-    const existing = getSession(sessionId) ?? (await getSessionFromBlob(sessionId));
+    // (`existing` was already loaded above for the generation cap.)
     // Auto-generate legal pages (mentions légales, CGV…) from whatever legal
     // data the wizard's step 7 captured — no-op boilerplate if the client
     // left those fields empty, never blocks generation.
@@ -108,6 +127,7 @@ export async function POST(req: NextRequest) {
       legalPages,
       createdAt: existing?.createdAt ?? new Date(),
       accountId: existing?.accountId,
+      genCount: (existing?.genCount ?? 0) + 1,
     };
 
     try {
