@@ -13,6 +13,10 @@ import {
 } from 'framer-motion'
 import { TemplateIcon } from '@/components/TemplateIcon'
 import { resolveList } from "@/lib/templates/resolveList";
+import {
+  useHeroSelector, HeroStage, Scrim, GhostMark, Rise, SelectorRail,
+  heroSectionStyle, railResponsiveCSS, EASE_3, EASE_4, BEAT,
+} from "@/lib/templates/hero-kit";
 
 /* ==========================================================================
    DESIGN TOKENS
@@ -200,265 +204,178 @@ function useCounter(target: number, isActive: boolean, duration = 2000) {
    ========================================================================= */
 
 function BlueprintHero() {
-  const ref = useRef<HTMLDivElement>(null)
+  /* A construction firm sells precision, so the hero reads like a project
+     sheet: pick a project and the technical figures re-set. Different shape
+     from the other kit heroes on purpose — the copy column is a spec readout,
+     not a paragraph, and the blueprint grid stays layered over the photograph
+     because it is this template's signature. */
+  const PROJECT_MEDIA = [
+    "https://images.pexels.com/photos/37201905/pexels-photo-37201905.jpeg?auto=compress&cs=tinysrgb&w=2000",
+    "https://images.pexels.com/photos/14668116/pexels-photo-14668116.jpeg?auto=compress&cs=tinysrgb&w=2000",
+    "https://images.pexels.com/photos/9473066/pexels-photo-9473066.jpeg?auto=compress&cs=tinysrgb&w=2000",
+    "https://images.pexels.com/photos/19034547/pexels-photo-19034547.jpeg?auto=compress&cs=tinysrgb&w=2000",
+    "https://images.pexels.com/photos/31258538/pexels-photo-31258538.jpeg?auto=compress&cs=tinysrgb&w=2000",
+  ];
+
+  const projects = resolveList(
+    bp?.projects?.map((p: any, i: number) => ({
+      ...PROJECTS_DEMO[i % PROJECTS_DEMO.length],
+      name: p.name ?? p.title,
+      category: p.category ?? PROJECTS_DEMO[i % PROJECTS_DEMO.length].category,
+    })),
+    PROJECTS_DEMO
+  );
+
+  const { active, paused, pick, hold, reduce } = useHeroSelector(projects.length, 7000);
+  const p = projects[active % projects.length];
+
+  const specs = [
+    { k: "Livraison", v: p.year },
+    { k: "Surface", v: p.surface },
+    { k: p.floors > 0 ? "Niveaux" : "Portée", v: p.floors > 0 ? String(p.floors) : "—" },
+    { k: "Site", v: p.location },
+  ];
 
   return (
-    <section
-      ref={ref}
-      id="hero"
-      style={{
-        position: 'relative',
-        minHeight: '100dvh',
-        background: C.blueprint,
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        overflow: 'hidden',
-      }}
-    >
-      {/* Blueprint SVG background */}
-      <svg
+    <section id="hero" style={heroSectionStyle(C.blueprint, { bottomRail: true })}>
+      <HeroStage
+        src={fd?.photoUrls?.[active] || PROJECT_MEDIA[active % PROJECT_MEDIA.length]}
+        alt={`${p.name} — ${p.category}, ${p.location}`}
+        reduce={reduce}
+      />
+      <Scrim color={C.blueprint} direction="left" strength="heavy" />
+
+      {/* Blueprint grid, kept from the original hero and now laid over the
+          photograph rather than replacing it. */}
+      <div
+        aria-hidden
         style={{
-          position: 'absolute',
+          position: "absolute",
           inset: 0,
-          width: '100%',
-          height: '100%',
-          opacity: 0.35,
+          zIndex: 2,
+          opacity: 0.16,
+          pointerEvents: "none",
+          backgroundImage: `linear-gradient(${C.cream}2e 1px, transparent 1px), linear-gradient(90deg, ${C.cream}2e 1px, transparent 1px)`,
+          backgroundSize: "48px 48px",
         }}
-        viewBox="0 0 1440 900"
-        preserveAspectRatio="xMidYMid slice"
-        aria-hidden="true"
-      >
-        {/* Horizontal grid lines */}
-        {[60, 120, 180, 240, 300, 360, 420, 480, 540, 600, 660, 720, 780, 840].map((y, i) => (
-          <motion.line
-            key={`h-${y}`}
-            x1="0" y1={y} x2="1440" y2={y}
-            stroke="white"
-            strokeWidth="0.5"
-            strokeDasharray="1440"
-            initial={{ strokeDashoffset: 1440 }}
-            animate={{ strokeDashoffset: 0 }}
-            transition={{ duration: 1.2, delay: 0.3 + i * 0.04, ease: 'easeOut' }}
-          />
-        ))}
-        {/* Vertical grid lines */}
-        {[80, 160, 240, 320, 400, 480, 560, 640, 720, 800, 880, 960, 1040, 1120, 1200, 1280, 1360].map((x, i) => (
-          <motion.line
-            key={`v-${x}`}
-            x1={x} y1="0" x2={x} y2="900"
-            stroke="white"
-            strokeWidth="0.5"
-            strokeDasharray="900"
-            initial={{ strokeDashoffset: 900 }}
-            animate={{ strokeDashoffset: 0 }}
-            transition={{ duration: 1.2, delay: 0.3 + i * 0.04, ease: 'easeOut' }}
-          />
-        ))}
-        {/* Measurement arrows — horizontal */}
-        <motion.g
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.8, duration: 0.5 }}
-        >
-          <line x1="120" y1="820" x2="1320" y2="820" stroke="white" strokeWidth="1" />
-          <polygon points="120,815 120,825 105,820" fill="white" />
-          <polygon points="1320,815 1320,825 1335,820" fill="white" />
-          <text x="720" y="810" fill="white" fontSize="11" textAnchor="middle" fontFamily="monospace">72.00 m</text>
-        </motion.g>
-        {/* Measurement arrows — vertical */}
-        <motion.g
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.8, duration: 0.5 }}
-        >
-          <line x1="60" y1="100" x2="60" y2="800" stroke="white" strokeWidth="1" />
-          <polygon points="55,100 65,100 60,85" fill="white" />
-          <polygon points="55,800 65,800 60,815" fill="white" />
-          <text x="30" y="455" fill="white" fontSize="11" textAnchor="middle" fontFamily="monospace" transform="rotate(-90,30,455)">45.00 m</text>
-        </motion.g>
-        {/* Corner marks */}
-        {[
-          [120, 100], [1320, 100], [120, 800], [1320, 800]
-        ].map(([cx, cy], i) => (
-          <motion.g
-            key={`corner-${i}`}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.8, duration: 0.4 }}
-          >
-            <line x1={cx - 15} y1={cy} x2={cx + 15} y2={cy} stroke="white" strokeWidth="1.5" />
-            <line x1={cx} y1={cy - 15} x2={cx} y2={cy + 15} stroke="white" strokeWidth="1.5" />
-          </motion.g>
-        ))}
-        {/* Central building outline */}
-        <motion.rect
-          x="320" y="160" width="800" height="600"
-          fill="none"
-          stroke="white"
-          strokeWidth="2"
-          strokeDasharray="2800"
-          initial={{ strokeDashoffset: 2800 }}
-          animate={{ strokeDashoffset: 0 }}
-          transition={{ duration: 2, delay: 1.2, ease: 'easeInOut' }}
-        />
-        {/* Building floors lines */}
-        {[240, 320, 400, 480, 560, 640, 700].map((y, i) => (
-          <motion.line
-            key={`floor-${i}`}
-            x1="320" y1={y} x2="1120" y2={y}
-            stroke="white"
-            strokeWidth="0.8"
-            strokeDasharray="800"
-            initial={{ strokeDashoffset: 800 }}
-            animate={{ strokeDashoffset: 0 }}
-            transition={{ duration: 0.8, delay: 1.4 + i * 0.1, ease: 'easeOut' }}
-          />
-        ))}
-        {/* Center cross */}
-        <motion.g
-          initial={{ opacity: 0, scale: 0 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 1.8, duration: 0.5, type: 'spring' }}
-          style={{ transformOrigin: '720px 450px' }}
-        >
-          <circle cx="720" cy="450" r="40" fill="none" stroke={C.yellow} strokeWidth="1.5" />
-          <line x1="680" y1="450" x2="760" y2="450" stroke={C.yellow} strokeWidth="1" />
-          <line x1="720" y1="410" x2="720" y2="490" stroke={C.yellow} strokeWidth="1" />
-        </motion.g>
-        {/* Blueprint text labels */}
-        <motion.g
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.5, duration: 0.6 }}
-        >
-          <text x="325" y="185" fill="white" fontSize="10" fontFamily="monospace">PLAN R+7 — FAÇADE NORD</text>
-          <text x="325" y="775" fill="white" fontSize="10" fontFamily="monospace">ÉCHELLE 1:200 — REF: BTP-2024-208</text>
-          <text x="900" y="185" fill="white" fontSize="10" fontFamily="monospace" textAnchor="end">FERRETTI CONSTRUCTION</text>
-        </motion.g>
-      </svg>
+      />
 
-      {/* Hero content */}
-      <div style={{ position: 'relative', zIndex: 10, textAlign: 'center', padding: '0 24px', maxWidth: 900 }}>
-        <motion.h1
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.8, duration: 0.9, ease: 'easeOut' }}
-          style={{
-            fontFamily: FONT_HEADING,
-            fontWeight: 800,
-            fontSize: 'clamp(3rem, 8vw, 7rem)',
-            lineHeight: 1.0,
-            color: C.cream,
-            margin: '0 0 24px',
-            letterSpacing: '-0.02em',
-          }}
-        >
-          {fd?.businessName ? fd.businessName : <>FERRETTI<br /><span style={{ color: C.yellow }}>CONSTRUCTION</span></>}
-        </motion.h1>
+      <GhostMark color={C.yellow} font={FONT_HEADING} side="right" opacity={0.08} size="clamp(140px, 24vw, 340px)">
+        {String(active + 1).padStart(2, "0")}
+      </GhostMark>
 
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 2.1, duration: 0.7 }}
-          style={{
-            color: C.creamDim,
-            fontSize: 'clamp(1rem, 2vw, 1.2rem)',
-            lineHeight: 1.7,
-            maxWidth: 600,
-            margin: '0 auto 48px',
-            fontFamily: FONT_BODY,
-          }}
-        >
-          Gros œuvre, infrastructure et immobilier d&apos;entreprise.
-          Nous bâtissons les structures qui définissent les villes de demain.
-        </motion.p>
+      <div style={{ position: "relative", zIndex: 3, maxWidth: 1240, margin: "0 auto", width: "100%" }}>
+        <div style={{ maxWidth: 700, minWidth: 0 }}>
+          <Rise beat="first" style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 22 }}>
+            <span style={{ width: 40, height: 2, background: C.yellow, display: "block" }} />
+            <span style={{ fontFamily: FONT_BODY, fontSize: 11, letterSpacing: "0.3em", textTransform: "uppercase", color: C.yellow, fontWeight: 700 }}>
+              Ferretti Construction · Depuis 1986
+            </span>
+          </Rise>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 2.3, duration: 0.6 }}
-          style={{ display: 'flex', gap: 16, justifyContent: 'center', flexWrap: 'wrap' }}
-        >
-          <a
-            href="#contact"
+          <motion.h1
+            initial={{ opacity: 0, rotateY: reduce ? 0 : -12, clipPath: "inset(0 100% 0 0)" }}
+            animate={{ opacity: 1, rotateY: 0, clipPath: "inset(0 0% 0 0)" }}
+            transition={{ duration: 0.9, ease: EASE_4 }}
             style={{
-              display: 'inline-block',
-              background: C.yellow,
-              color: C.bg,
-              fontFamily: FONT_BODY,
-              fontWeight: 700,
-              fontSize: 15,
-              padding: '16px 36px',
-              letterSpacing: '0.05em',
-              textDecoration: 'none',
-              textTransform: 'uppercase',
-              transition: 'background 0.2s',
-            }}
-          >
-            Discuter de votre projet →
-          </a>
-          <a
-            href="#projects"
-            style={{
-              display: 'inline-block',
-              border: `2px solid ${C.cream}`,
+              fontFamily: FONT_HEADING,
+              fontSize: "clamp(38px, 5vw, 72px)",
+              fontWeight: 800,
               color: C.cream,
-              fontFamily: FONT_BODY,
-              fontWeight: 600,
-              fontSize: 15,
-              padding: '16px 36px',
-              letterSpacing: '0.05em',
-              textDecoration: 'none',
-              textTransform: 'uppercase',
-              transition: 'all 0.2s',
+              lineHeight: 0.98,
+              letterSpacing: "-0.02em",
+              textTransform: "uppercase",
+              margin: "0 0 20px",
+              transformOrigin: "left center",
             }}
-          >
-            Nos réalisations
-          </a>
-        </motion.div>
+          >{c?.heroHeadline ?? <>
+            Bâtir ce qui<br /><span style={{ color: C.yellow }}>tient debout</span>
+          </>}</motion.h1>
+
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.55, ease: EASE_3, delay: BEAT.second }}
+            style={{ fontFamily: FONT_BODY, fontSize: 16, color: `${C.cream}a6`, lineHeight: 1.7, maxWidth: 480, margin: "0 0 30px" }}
+          >{c?.heroSubline ?? fd?.tagline ?? <>
+            Gros œuvre, infrastructure et immobilier d’entreprise. 347 chantiers livrés, aucun litige de réception depuis 2011.
+          </>}</motion.p>
+
+          {/* The project sheet — this is what the rail drives. */}
+          <div style={{ minHeight: 150, marginBottom: 28 }}>
+            <AnimatePresence mode="wait">
+              <motion.div key={active}>
+                <Rise beat="second" duration={0.42}>
+                  <div style={{ display: "flex", alignItems: "baseline", gap: 12, flexWrap: "wrap", marginBottom: 16 }}>
+                    <span style={{ fontFamily: FONT_HEADING, fontSize: 24, fontWeight: 700, color: C.white }}>{p.name}</span>
+                    <span style={{ fontFamily: FONT_BODY, fontSize: 10, letterSpacing: "0.2em", textTransform: "uppercase", color: C.yellow }}>
+                      {p.category}
+                    </span>
+                  </div>
+                </Rise>
+                <Rise beat="second" duration={0.5}>
+                  <div
+                    className="imx208-specs"
+                    style={{ display: "grid", gridTemplateColumns: "repeat(4, minmax(0,1fr))", gap: 1, background: `${C.cream}1f`, border: `1px solid ${C.cream}1f` }}
+                  >
+                    {specs.map((s) => (
+                      <div key={s.k} style={{ background: `${C.blueprint}e6`, padding: "12px 14px", minWidth: 0 }}>
+                        <div style={{ fontFamily: FONT_BODY, fontSize: 9, letterSpacing: "0.2em", textTransform: "uppercase", color: `${C.cream}73`, marginBottom: 6 }}>
+                          {s.k}
+                        </div>
+                        <div style={{ fontFamily: FONT_HEADING, fontSize: 15, fontWeight: 700, color: C.cream, overflowWrap: "anywhere" }}>
+                          {s.v}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </Rise>
+              </motion.div>
+            </AnimatePresence>
+          </div>
+
+          <Rise beat="third" style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
+            <a href="#contact" style={{ textDecoration: "none" }}>
+              <span style={{ display: "inline-flex", alignItems: "center", gap: 8, background: C.yellow, color: C.bg, padding: "15px 30px", fontFamily: FONT_BODY, fontWeight: 800, fontSize: 12, letterSpacing: "0.12em", textTransform: "uppercase", minHeight: 44 }}>
+                Demander une étude
+              </span>
+            </a>
+            <a href="#realisations" style={{ textDecoration: "none" }}>
+              <span style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "transparent", color: C.yellow, border: `1px solid ${C.yellow}66`, padding: "15px 30px", fontFamily: FONT_BODY, fontWeight: 600, fontSize: 12, letterSpacing: "0.12em", textTransform: "uppercase", minHeight: 44 }}>
+                Toutes nos réalisations
+              </span>
+            </a>
+          </Rise>
+        </div>
       </div>
 
-      {/* Scroll indicator */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 2.6, duration: 0.5 }}
-        style={{
-          position: 'absolute',
-          bottom: 40,
-          left: '50%',
-          transform: 'translateX(-50%)',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          gap: 8,
-          color: C.creamDim,
-          fontFamily: FONT_BODY,
-          fontSize: 11,
-          letterSpacing: '0.1em',
-          textTransform: 'uppercase',
-        }}
-      >
-        <span>Défiler</span>
-        <motion.div
-          animate={{ y: [0, 8, 0] }}
-          transition={{ repeat: Infinity, duration: 1.5, ease: 'easeInOut' }}
-          style={{
-            width: 1,
-            height: 40,
-            background: `linear-gradient(to bottom, ${C.yellow}, transparent)`,
-          }}
-        />
-      </motion.div>
-    </section>
-  )
-}
+      <SelectorRail
+        items={projects}
+        active={active}
+        onPick={pick}
+        onHold={hold}
+        accent={C.yellow}
+        fg={C.cream}
+        serif={FONT_HEADING}
+        sans={FONT_BODY}
+        paused={paused}
+        reduce={reduce}
+        bg={C.blueprint}
+        id="hero"
+        label={(x: any) => x.name}
+        sublabel={(x: any) => x.location}
+      />
 
-/* ==========================================================================
-   SERVICES STRIP
-   ========================================================================= */
+      <style>{`
+        ${railResponsiveCSS("hero", { titleClamp: "clamp(32px, 9vw, 44px)" })}
+        /* four spec cells become unreadable below ~520px of column width */
+        @media (max-width: 760px) {
+          .imx208-specs { grid-template-columns: repeat(2, minmax(0,1fr)) !important; }
+        }
+      `}</style>
+    </section>
+  );
+}
 
 function ServicesSection() {
   const ref = useRef<HTMLDivElement>(null)
