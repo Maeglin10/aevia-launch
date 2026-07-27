@@ -31,6 +31,19 @@ import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 export const EASE_3: [number, number, number, number] = [0.65, 0, 0.35, 1]; // power3.inOut
 export const EASE_4: [number, number, number, number] = [0.76, 0, 0.24, 1]; // power4.inOut
 
+/* ════════════════════════════════════════════════════════════════════════════
+   alpha — fade a colour token safely.
+
+   Several templates define their accent as `var(--brand,#b8952a)` so a client
+   colour can override it. Appending hex alpha to that (`${C.accent}66`)
+   produces `var(--brand,#b8952a)66`, which is invalid CSS — the browser drops
+   the whole declaration, so borders and glows silently vanish. color-mix
+   composes correctly with var().
+   ════════════════════════════════════════════════════════════════════════════ */
+export function alpha(color: string, percent: number): string {
+  return `color-mix(in srgb, ${color} ${percent}%, transparent)`;
+}
+
 /* ── The beat grid. Three beats, nothing in between. ─────────────────────── */
 export const BEAT = { first: 0, second: 0.3, third: 0.5 } as const;
 export type Beat = keyof typeof BEAT;
@@ -485,7 +498,7 @@ export function railResponsiveCSS(id: string, opts?: { titleClamp?: string }) {
       #${id} { padding-top: 76px !important; padding-bottom: 78px !important; }
       /* the rail itself is ~78px of the 667px budget; trim it too */
       .${id}-rail > button { padding: 11px 16px 13px !important; }
-      #${id} a > span, #${id} button[style*="uppercase"] { padding-top: 13px !important; padding-bottom: 13px !important; }
+      #${id} a > span { padding-top: 13px !important; padding-bottom: 13px !important; }
       #${id} h1 { font-size: ${opts?.titleClamp ?? "clamp(38px, 11vw, 52px)"} !important; }
       .${id}-rail {
         display: flex !important;
@@ -500,9 +513,9 @@ export function railResponsiveCSS(id: string, opts?: { titleClamp?: string }) {
          the CTAs don't jump between items. On a 667px viewport that reservation
          is what pushes the hero past the fold, and the jump matters far less
          because the rail is scrolled, not clicked in place. */
-      #${id} .hero-detail { min-height: 0 !important; margin-bottom: 12px !important; }
+      #${id} .hero-detail { min-height: 0 !important; margin-bottom: 10px !important; }
       #${id} .hero-detail p { font-size: 14px !important; line-height: 1.6 !important; }
-      #${id} .hero-lede { font-size: 14px !important; line-height: 1.55 !important; margin-bottom: 14px !important; }
+      #${id} .hero-lede { font-size: 14px !important; line-height: 1.5 !important; margin-bottom: 12px !important; }
       #${id} h1 { margin-bottom: 12px !important; }
       #${id} .hero-secondary { display: none !important; }
     }
