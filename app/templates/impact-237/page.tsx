@@ -63,12 +63,12 @@ const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 /* ── Photos Unsplash ─────────────────────────────────────────────────────── */
 const PHOTO_BASE = 'https://images.unsplash.com/photo-';
 const P = {
-  clinic: `${PHOTO_BASE}1629909785548-a5e48e93e4ae?q=80&w=2000&auto=format&fit=crop`,
-  clinicMed: `${PHOTO_BASE}1629909785548-a5e48e93e4ae?q=80&w=1600&auto=format&fit=crop`,
-  clinicSm: `${PHOTO_BASE}1629909785548-a5e48e93e4ae?q=80&w=800&auto=format&fit=crop`,
+  clinic: 'https://images.pexels.com/photos/305567/pexels-photo-305567.jpeg?auto=compress&cs=tinysrgb&w=2000',
+  clinicMed: 'https://images.pexels.com/photos/305567/pexels-photo-305567.jpeg?auto=compress&cs=tinysrgb&w=1600',
+  clinicSm: 'https://images.pexels.com/photos/305567/pexels-photo-305567.jpeg?auto=compress&cs=tinysrgb&w=800',
   treatment: `${PHOTO_BASE}1606811971618-4486d14f3f99?q=80&w=1600&auto=format&fit=crop`,
   treatmentSm: `${PHOTO_BASE}1606811971618-4486d14f3f99?q=80&w=800&auto=format&fit=crop`,
-  implant: `${PHOTO_BASE}1581391549275-3b1e0f2d7aa4?q=80&w=1600&auto=format&fit=crop`,
+  implant: 'https://images.pexels.com/photos/6812453/pexels-photo-6812453.jpeg?auto=compress&cs=tinysrgb&w=1600',
 } as const;
 
 /* ════════════════════════════════════════════════════════════════════════════

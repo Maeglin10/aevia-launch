@@ -49,11 +49,11 @@ const SANS = "'Space Grotesk', system-ui, sans-serif" as const;
 /* ── Photos Unsplash ─────────────────────────────────────────────────────── */
 const BASE = 'https://images.unsplash.com/photo-';
 const PHOTO = {
-  electrical: `${BASE}1504328517-cf9d8d765e72?q=80&w=1600&auto=format&fit=crop`,
-  electricalHero: `${BASE}1504328517-cf9d8d765e72?q=80&w=2000&auto=format&fit=crop`,
-  electricalSm: `${BASE}1504328517-cf9d8d765e72?q=80&w=800&auto=format&fit=crop`,
-  smartHome: `${BASE}1484154133-338c7e4c5861?q=80&w=1600&auto=format&fit=crop`,
-  smartHomeSm: `${BASE}1484154133-338c7e4c5861?q=80&w=800&auto=format&fit=crop`,
+  electrical: 'https://images.pexels.com/photos/7937305/pexels-photo-7937305.jpeg?auto=compress&cs=tinysrgb&w=1600',
+  electricalHero: 'https://images.pexels.com/photos/7937305/pexels-photo-7937305.jpeg?auto=compress&cs=tinysrgb&w=2000',
+  electricalSm: 'https://images.pexels.com/photos/7937305/pexels-photo-7937305.jpeg?auto=compress&cs=tinysrgb&w=800',
+  smartHome: 'https://images.pexels.com/photos/32497160/pexels-photo-32497160.jpeg?auto=compress&cs=tinysrgb&w=1600',
+  smartHomeSm: 'https://images.pexels.com/photos/32497160/pexels-photo-32497160.jpeg?auto=compress&cs=tinysrgb&w=800',
   ev: `${BASE}1560472354-b33ff0c44a43?q=80&w=1600&auto=format&fit=crop`,
   evSm: `${BASE}1560472354-b33ff0c44a43?q=80&w=900&auto=format&fit=crop`,
 } as const;
