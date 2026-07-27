@@ -273,9 +273,16 @@ export default function Impact174Page() {
       </nav>
 
       {/* ── HERO — 50/50 split ─────────────────────────────────────────── */}
+      <style>{`
+        /* justify-center on a h-dvh section pushes tall mobile content
+           (kicker+H1+paragraph+CTAs+stats) above y:0 under the fixed nav. */
+        @media (max-width: 640px) {
+          .imx174-hero-left { justify-content: flex-start !important; padding-top: 100px !important; }
+        }
+      `}</style>
       <section id="hero" className="relative h-dvh flex overflow-hidden">
         {/* Left — text */}
-        <div className="relative z-10 w-full lg:w-1/2 flex flex-col justify-center px-10 md:px-16 bg-[#0a0a0a]">
+        <div className="imx174-hero-left relative z-10 w-full lg:w-1/2 flex flex-col justify-center px-10 md:px-16 bg-[#0a0a0a]">
           <Reveal>
             <span className="text-xs font-bold uppercase tracking-[0.5em] text-[var(--brand,#84cc16)] block mb-6">Paris · Hautes-Performances</span>
           </Reveal>
