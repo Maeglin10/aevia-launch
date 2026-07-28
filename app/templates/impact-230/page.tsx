@@ -191,7 +191,7 @@ export default function AtelierDuBoisPage() {
         }
       `}</style>
 
-      <section id="hero" ref={heroRef} style={{ height: "115vh", minHeight: "900px", position: "relative", display: "flex", alignItems: "flex-end", overflow: "hidden" }}>
+      <section id="hero" ref={heroRef} style={{ height: "100dvh", minHeight: "640px", position: "relative", display: "flex", alignItems: "flex-end", overflow: "hidden" }}>
         <motion.div style={{ y: heroY, position: "absolute", inset: 0 }}>
           <img src={photo(0, "https://images.unsplash.com/photo-1504148455328-c376907d081c?w=1920&q=80")} alt="Atelier menuisier ébéniste Bordeaux" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
         </motion.div>

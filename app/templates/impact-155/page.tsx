@@ -258,7 +258,7 @@ export default function PierreCoPage() {
 
       {/* Hero */}
       <style>{`@media (max-width: 640px) { #hero { height: 100dvh !important; min-height: 100dvh !important; } }`}</style>
-      <section id="hero" ref={heroRef} style={{ height: "115vh", minHeight: "900px", position: "relative", display: "flex", alignItems: "flex-end", overflow: "hidden" }}>
+      <section id="hero" ref={heroRef} style={{ height: "100dvh", minHeight: "640px", position: "relative", display: "flex", alignItems: "flex-end", overflow: "hidden" }}>
         <motion.div style={{ y: heroY, position: "absolute", inset: 0 }}>
           <img src={photo(0, "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=1920&q=80")} alt="Immobilier de prestige Pierre & Co" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
         </motion.div>

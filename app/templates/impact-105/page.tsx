@@ -243,7 +243,7 @@ export default function AtelierBloomPage() {
       @media (max-width: 700px) { #hero { height: auto !important; min-height: 0 !important; padding-top: 100px !important; padding-bottom: 32px !important; } #hero .i105-hero-inner { padding: 0 24px 24px !important; } }`}</style>
 
       {/* Hero */}
-      <section id="hero" ref={heroRef} style={{ height: "115vh", minHeight: "900px", position: "relative", display: "flex", alignItems: "flex-end", overflow: "hidden" }}>
+      <section id="hero" ref={heroRef} style={{ height: "100dvh", minHeight: "640px", position: "relative", display: "flex", alignItems: "flex-end", overflow: "hidden" }}>
         <motion.div style={{ y: heroY, position: "absolute", inset: 0 }}>
           <img src={photo(0, "https://images.unsplash.com/photo-1487530811176-3780de880c2d?w=1920&q=80")} alt="Atelier Bloom fleuriste Strasbourg" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
         </motion.div>

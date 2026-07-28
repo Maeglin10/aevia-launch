@@ -291,7 +291,7 @@ export default function LedgerPage() {
       <section
         ref={heroRef}
         style={{
-          height: "115vh",
+          height: "100dvh",
           minHeight: 900,
           position: "relative",
           display: "flex",

@@ -195,7 +195,7 @@ export default function AquaThermPage() {
         }
       `}</style>
 
-      <section id="hero" ref={heroRef} style={{ height: "115vh", minHeight: "900px", position: "relative", display: "flex", alignItems: "flex-end", overflow: "hidden" }}>
+      <section id="hero" ref={heroRef} style={{ height: "100dvh", minHeight: "640px", position: "relative", display: "flex", alignItems: "flex-end", overflow: "hidden" }}>
         <motion.div style={{ y: heroY, position: "absolute", inset: 0 }}>
           <img src={photo(0, "https://images.pexels.com/photos/7937300/pexels-photo-7937300.jpeg?auto=compress&cs=tinysrgb&w=1920")} alt="Plombier chauffagiste AquaTherm Lille" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
         </motion.div>

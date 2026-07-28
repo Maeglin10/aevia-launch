@@ -241,7 +241,7 @@ export default function CabinetRenardPage() {
       `}</style>
 
       {/* Hero */}
-      <section id="mb55-hero" ref={heroRef} style={{ height: "115vh", minHeight: "900px", position: "relative", display: "flex", alignItems: "flex-end", overflow: "hidden" }}>
+      <section id="mb55-hero" ref={heroRef} style={{ height: "100dvh", minHeight: "640px", position: "relative", display: "flex", alignItems: "flex-end", overflow: "hidden" }}>
         <motion.div style={{ y: heroY, position: "absolute", inset: 0 }}>
           <img src={photo(0, "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=1920&q=80")} alt="Cabinet avocat Maître Renard Paris" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
         </motion.div>
