@@ -8,6 +8,30 @@ import Link from "next/link";
 import { Menu, X, ArrowRight, Building2, ChevronRight, MapPin, Mail, Phone, Award, Layers, Users, Calendar, MessageSquare, ShieldCheck } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
 
+// Nav and footer links all pointed at the template root regardless of their
+// label, leaving the pages below unreachable. Labels come from .map() vars, so
+// they resolve through this table; anything unmapped stays on the homepage.
+const NAV_HREF: Record<string, string> = {
+  "Contact": "/templates/impact-17/contact",
+  "L'agence": "/templates/impact-17/agence",
+  "L'équipe": "/templates/impact-17/equipe",
+  "Mentions Légales": "/templates/impact-17/legal",
+  "Projets": "/templates/impact-17/projets",
+  "Services": "/templates/impact-17/services",
+  "agence": "/templates/impact-17/agence",
+  "contact": "/templates/impact-17/contact",
+  "equipe": "/templates/impact-17/equipe",
+  "legal": "/templates/impact-17/legal",
+  "projets": "/templates/impact-17/projets",
+  "services": "/templates/impact-17/services",
+  "Équipe": "/templates/impact-17/equipe",
+};
+const navHref = (label: unknown) =>
+  (typeof label === "string" && NAV_HREF[label]) || "/templates/impact-17";
+
+
+
+
 const useFonts = () => {
   useEffect(() => {
     if (document.getElementById("kp-fonts")) return;

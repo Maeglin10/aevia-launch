@@ -8,6 +8,29 @@ import Link from "next/link";
 import { Menu, X, ArrowRight, ChevronRight, Clock, MapPin, Phone, Mail, Award, Settings } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
 
+// Nav and footer links all pointed at the template root regardless of their
+// label, leaving the pages below unreachable. Labels come from .map() vars, so
+// they resolve through this table; anything unmapped stays on the homepage.
+const NAV_HREF: Record<string, string> = {
+  "La manufacture": "/templates/impact-13/manufacture",
+  "Maison": "/templates/impact-13/maison",
+  "Manufacture": "/templates/impact-13/manufacture",
+  "Manufacture LM-01": "/templates/impact-13/manufacture",
+  "Manufacture LM-07": "/templates/impact-13/manufacture",
+  "Manufacture LM-14": "/templates/impact-13/manufacture",
+  "Montres": "/templates/impact-13/montres",
+  "Mouvement manufacture": "/templates/impact-13/manufacture",
+  "Premier tourbillon maison breveté": "/templates/impact-13/maison",
+  "maison": "/templates/impact-13/maison",
+  "manufacture": "/templates/impact-13/manufacture",
+  "montres": "/templates/impact-13/montres",
+};
+const navHref = (label: unknown) =>
+  (typeof label === "string" && NAV_HREF[label]) || "/templates/impact-13";
+
+
+
+
 const useFonts = () => {
   useEffect(() => {
     if (document.getElementById("am-fonts")) return;
@@ -197,7 +220,7 @@ return (
               return (
                 <motion.div key={item} initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.07 }}>
                   <a
-                    href="/templates/impact-13"
+                    href={navHref(item)}
                     className="block text-white text-3xl mb-6 cursor-pointer text-decoration-none"
                     style={{ fontFamily: "'Libre Baskerville', serif" }}
                     onClick={(e) => { e.preventDefault(); setMobileOpen(false); goTo(target as any); }}
@@ -428,7 +451,7 @@ return (
                   return (
                     <li key={l}>
                       <a
-                        href="/templates/impact-13"
+                        href={navHref(l)}
                         onClick={clickHandler}
                         className="text-white/30 text-sm hover:text-[var(--brand,#B49A6A)] transition-colors cursor-pointer text-decoration-none"
                       >

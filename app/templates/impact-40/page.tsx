@@ -28,6 +28,20 @@ import {
 } from "lucide-react";
 import { TemplateIcon } from '@/components/TemplateIcon';
 
+// Nav and footer links all pointed at the template root regardless of their
+// label, leaving the pages below unreachable. Labels come from .map() vars, so
+// they resolve through this table; anything unmapped stays on the homepage.
+const NAV_HREF: Record<string, string> = {
+  "Confidentialité": "/templates/impact-40/legal",
+  "Contact": "/templates/impact-40/contact",
+  "Mentions légales": "/templates/impact-40/legal",
+};
+const navHref = (label: unknown) =>
+  (typeof label === "string" && NAV_HREF[label]) || "/templates/impact-40";
+
+
+
+
 // Hoisted above the design tokens: several templates read `brand` in a
 // module-level const — declaring it lower caused a TDZ ReferenceError (500).
 let brand: any = null;
@@ -1312,7 +1326,7 @@ export default function TerreVivantePage() {
                   {col.links.map((link) => (
                     <li key={link}>
                       <a
-                        href="/templates/impact-40"
+                        href={navHref(link)}
                         style={{ fontFamily: C.bodyFont, fontSize: "0.875rem", color: "rgba(253,249,238,0.45)", textDecoration: "none", transition: "color 0.2s" }}
                         onMouseEnter={(e) => ((e.target as HTMLElement).style.color = C.accent)}
                         onMouseLeave={(e) => ((e.target as HTMLElement).style.color = "rgba(253,249,238,0.45)")}
@@ -1342,7 +1356,7 @@ export default function TerreVivantePage() {
             </p>
             <div style={{ display: "flex", gap: "1.75rem" }}>
               {["Mentions légales", "Confidentialité", "CGV"].map((l) => (
-                <a key={l} href="/templates/impact-40" style={{ fontFamily: C.bodyFont, fontSize: "0.8rem", color: "rgba(253,249,238,0.3)", textDecoration: "none" }}>
+                <a key={l} href={navHref(l)} style={{ fontFamily: C.bodyFont, fontSize: "0.8rem", color: "rgba(253,249,238,0.3)", textDecoration: "none" }}>
                   {l}
                 </a>
               ))}

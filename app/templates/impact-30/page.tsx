@@ -1361,75 +1361,6 @@ function FAQ() {
 }
 
 // ─── Footer ───────────────────────────────────────────────────────────────────
-function Footer() {
-  return (
-    <footer
-      id="contact"
-      style={{ background: C.text, color: C.white, padding: "70px 80px 32px", fontFamily: FONT }}
-    >
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "2fr 1fr 1fr 1fr",
-          gap: 48,
-          marginBottom: 52,
-        }}
-      >
-        <div>
-          <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 22 }}>
-            <div style={{ width: 38, height: 38, background: C.accent, borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center" }}>
-              <Smile size={22} color={C.white} />
-            </div>
-            <span style={{ fontWeight: 800, fontSize: 20 }}>SmileStudio</span>
-          </div>
-          <p style={{ color: "rgba(255,255,255,0.58)", fontSize: 15, lineHeight: 1.65, marginBottom: 24 }}>
-            Cabinet dentaire d'excellence au cœur de Paris 8e. Soins de pointe, équipe bienveillante et résultats qui transforment votre sourire.
-          </p>
-          <div style={{ display: "flex", flexDirection: "column", gap: 11 }}>
-            {[
-              { icon: <Phone size={15} />, text: "01 42 56 78 90" },
-              { icon: <Mail size={15} />, text: "contact@smilestudio.paris" },
-              { icon: <MapPin size={15} />, text: "42 Av. des Champs-Élysées, 75008 Paris" },
-            ].map((item, i) => (
-              <div key={i} style={{ display: "flex", alignItems: "center", gap: 10, color: "rgba(255,255,255,0.62)", fontSize: 14 }}>
-                <span style={{ color: C.accent }}>{item.icon}</span>
-                {item.text}
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {[
-          { title: "Soins", links: ["Blanchiment", "Implants", "Orthodontie", "Pédiatrie", "Urgences"] },
-          { title: "Cabinet", links: ["Notre équipe", "Nos valeurs", "Tarifs", "Actualités"] },
-          { title: "Pratique", links: ["Rendez-vous", "Accès & plan", "Parking", "Accessibilité"] },
-        ].map((col) => (
-          <div key={col.title}>
-            <h4 style={{ fontSize: 13, fontWeight: 700, marginBottom: 20, color: C.white, textTransform: "uppercase", letterSpacing: 0.8 }}>
-              {col.title}
-            </h4>
-            <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-              {col.links.map((link) => (
-                <a key={link} href="/templates/impact-30" style={{ color: "rgba(255,255,255,0.55)", fontSize: 14, textDecoration: "none" }}>
-                  {link}
-                </a>
-              ))}
-            </div>
-          </div>
-        ))}
-      </div>
-
-      <div style={{ borderTop: "1px solid rgba(255,255,255,0.1)", paddingTop: 24, display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 12 }}>
-        <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 14 }}>© 2025 {fd?.businessName ?? "Smile Studio"}. Tous droits réservés.</p>
-        <div style={{ display: "flex", gap: 20 }}>
-          {["Mentions légales", "Confidentialité", "RGPD"].map((link) => (
-            <a key={link} href="/templates/impact-30" style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, textDecoration: "none" }}>{link}</a>
-          ))}
-        </div>
-      </div>
-    </footer>
-  );
-}
 
 // ─── Page Export ──────────────────────────────────────────────────────────────
 
@@ -1486,7 +1417,8 @@ return (
       <Team />
       <Pricing />
       <FAQ />
-      <Footer />
+      {/* layout.tsx renders the site footer; this page rendered a second one
+          on top of it, so the site showed two stacked footers. */}
     </main>
   );
 }
