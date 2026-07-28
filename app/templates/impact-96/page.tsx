@@ -66,6 +66,16 @@ const FONT_DISPLAY = "'Space Grotesk', sans-serif";
 
 /* ─── DATA ────────────────────────────────────────────────────── */
 const NAV_LINKS = ["Studio", "Productions", "Services", "Clients", "Contact"];
+// Every nav item used href="#n", a placeholder with no matching element, so
+// the desktop and mobile navs scrolled nowhere.
+const NAV_ANCHOR: Record<string, string> = {
+  Studio: "#studio",
+  Productions: "#productions",
+  Services: "#services",
+  Clients: "#clients",
+  Contact: "#contact",
+};
+const navAnchor = (l: string) => NAV_ANCHOR[l] ?? "#hero";
 
 const PROJECTS_DEMO = [
   {
@@ -633,7 +643,7 @@ return (
           {NAV_LINKS.map((l) => (
             <a
               key={l}
-              href="#n"
+              href={navAnchor(l)}
               className="sky-desktop-nav"
               style={{
                 color: C.muted,
@@ -742,7 +752,7 @@ return (
             {NAV_LINKS.map((l, i) => (
               <motion.a
                 key={l}
-                href="#n"
+                href={navAnchor(l)}
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: i * 0.07 }}
@@ -1248,7 +1258,7 @@ return (
       </section>
 
       {/* ── 5. SERVICES / TABS ───────────────────────────────────── */}
-      <section
+      <section id="services"
         style={{
           background: C.bgCard,
           borderTop: `1px solid ${C.border}`,
@@ -1566,7 +1576,7 @@ return (
       </section>
 
       {/* ── 7. TESTIMONIALS ─────────────────────────────────────── */}
-      <section
+      <section id="clients"
         style={{
           background: C.bgCard,
           borderBottom: `1px solid ${C.border}`,
@@ -1856,7 +1866,7 @@ return (
       </section>
 
       {/* ── 8. PRICING ──────────────────────────────────────────── */}
-      <section style={{ padding: "100px 0", background: C.bg }}>
+      <section id="studio" style={{ padding: "100px 0", background: C.bg }}>
         <div
           style={{
             maxWidth: 1200,
@@ -2547,7 +2557,7 @@ return (
                   {col.links.map((link) => (
                     <a
                       key={link}
-                      href="#n"
+                      href={navAnchor(link)}
                       style={{
                         fontSize: "0.82rem",
                         color: C.muted,

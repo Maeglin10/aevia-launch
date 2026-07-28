@@ -1048,7 +1048,6 @@ export default function Impact114Page() {
           <Reveal x={-40}>
             <div className="relative aspect-[3/4] overflow-hidden">
               <motion.div
-                style={{ y: aboutImgY }}
                 className="absolute inset-0"
                 style={{ top: "-60px", bottom: "-60px", left: 0, right: 0, y: aboutImgY }}
               >
@@ -1570,7 +1569,7 @@ export default function Impact114Page() {
             {[Globe, Mail].map((Icon, i) => (
               <a
                 key={i}
-                href="#n"
+                href={i === 0 ? "#hero" : "#contact"}
                 className="text-[var(--brand,#2d1b0e)]/25 hover:text-[#3d5a3e] transition-colors"
               >
                 <Icon className="w-4 h-4" />

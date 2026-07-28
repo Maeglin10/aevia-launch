@@ -550,7 +550,7 @@ export default function Template({ session: initialSession }: { session?: any } 
               {item}
             </a>
           ))}
-          <Button C={C} href="#devis" variant="primary">Demander un devis</Button>
+          <Button C={C} href="#contact" variant="primary">Demander un devis</Button>
         </div>
 
         {/* Mobile Nav Toggle */}
@@ -602,7 +602,7 @@ export default function Template({ session: initialSession }: { session?: any } 
                 {item}
               </a>
             ))}
-            <Button C={C} href="#devis" style={{ width: "100%", justifyContent: "center" }}>
+            <Button C={C} href="#contact" style={{ width: "100%", justifyContent: "center" }}>
               Demander un devis
             </Button>
           </motion.div>
