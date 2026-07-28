@@ -57,7 +57,7 @@ export default function BoutiquePage() {
                     <Link href="/templates/impact-33/reservation" style={{ textDecoration: "none" }}>
                       <motion.button
                         type="button"
-                        style={{ background: C.accent, color: C.white, border: "none", borderRadius: 8, padding: "8px 16px", fontWeight: 700, fontSize: 13, cursor: "pointer", fontFamily: FONT_BODY }}
+                        style={{ background: C.accent, color: C.white, border: "none", borderRadius: 8, padding: "12px 16px", minHeight: 44, boxSizing: "border-box", fontWeight: 700, fontSize: 13, cursor: "pointer", fontFamily: FONT_BODY }}
                         whileHover={{ background: C.accentDark, scale: 1.05 }}
                         whileTap={{ scale: 0.97 }}
                       >

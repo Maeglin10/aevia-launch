@@ -96,9 +96,12 @@ export default function TartesPage() {
                     position: "absolute",
                     top: 14,
                     left: 14,
-                    background: C.accent,
+                    // white on the accent measures 3.0:1 and on accentDark
+                    // 4.0:1 — both below AA for small text. The brown carries
+                    // the badge at 8:1 and still reads as the theme.
+                    background: C.brown,
                     color: "#fff",
-                    fontSize: 11,
+                    fontSize: 12,
                     fontWeight: 700,
                     letterSpacing: 0.6,
                     textTransform: "uppercase",
