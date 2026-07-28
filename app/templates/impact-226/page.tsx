@@ -358,7 +358,7 @@ return (
         }
       `}</style>
 
-      <section id="hero" ref={heroRef} style={{ height: "115vh", minHeight: "900px", position: "relative", display: "flex", alignItems: "flex-end", overflow: "hidden" }}>
+      <section id="hero" ref={heroRef} style={{ height: "100dvh", minHeight: "640px", position: "relative", display: "flex", alignItems: "flex-end", overflow: "hidden" }}>
         <motion.div style={{ y: heroY, position: "absolute", inset: 0 }}>
           <img src={photo(0, "https://images.unsplash.com/photo-1598371839696-5c5bb00bdc28?w=1920&q=80")} alt="Studio tatouage Encre Noire Paris" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
         </motion.div>

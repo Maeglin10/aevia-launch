@@ -281,7 +281,7 @@ export default function LumiereDoreePage() {
         ref={heroRef}
         className="i104-hero"
         style={{
-          height: "115vh",
+          height: "100dvh",
           minHeight: 900,
           position: "relative",
           display: "flex",

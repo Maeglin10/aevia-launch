@@ -257,7 +257,7 @@ export default function CabinetKinePage() {
       )}
 
       {/* Hero */}
-      <section ref={heroRef} className="imx-hero196-section" style={{ height: "115vh", minHeight: "900px", position: "relative", display: "flex", alignItems: "flex-end", overflow: "hidden" }}>
+      <section ref={heroRef} className="imx-hero196-section" style={{ height: "100dvh", minHeight: "640px", position: "relative", display: "flex", alignItems: "flex-end", overflow: "hidden" }}>
         <motion.div style={{ y: heroY, position: "absolute", inset: 0 }}>
           <img src={photo(0, "https://images.unsplash.com/photo-1559757175-5700dde675bc?w=1920&q=80")} alt="Cabinet kiné Mouvement Nantes" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
         </motion.div>

@@ -248,7 +248,7 @@ export default function ConservatoireAccordPage() {
       `}</style>
 
       {/* Hero */}
-      <section id="mb73-hero" ref={heroRef} style={{ height: "115vh", minHeight: "900px", position: "relative", display: "flex", alignItems: "flex-end", overflow: "hidden" }}>
+      <section id="mb73-hero" ref={heroRef} style={{ height: "100dvh", minHeight: "640px", position: "relative", display: "flex", alignItems: "flex-end", overflow: "hidden" }}>
         <motion.div style={{ y: heroY, position: "absolute", inset: 0 }}>
           <img src={photo(0, "https://images.unsplash.com/photo-1520523839897-bd0b52f945a0?w=1920&q=80")} alt="Conservatoire Accord école de musique Lyon" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
         </motion.div>

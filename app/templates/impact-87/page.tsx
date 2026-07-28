@@ -301,7 +301,7 @@ export default function IronClubPage() {
         ref={heroRef}
         className="i87-hero"
         style={{
-          height: "115vh",
+          height: "100dvh",
           minHeight: 900,
           position: "relative",
           display: "flex",
