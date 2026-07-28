@@ -116,7 +116,7 @@ export default function ZenSpaceLayout({
 
           <div className="flex items-center gap-8">
             <div className="hidden xl:flex flex-col items-end">
-              <span className="text-[9px] font-bold text-stone-300 uppercase tracking-widest">
+              <span className="text-[10px] font-bold text-stone-300 uppercase tracking-widest">
                 Morning Ritual
               </span>
               <span className="text-[11px] font-bold text-[#c9a84c] flex items-center gap-1">
@@ -306,7 +306,7 @@ export default function ZenSpaceLayout({
             </div>
           </div>
 
-          <div className="flex flex-col md:flex-row justify-between items-center gap-8 pt-10 border-t border-white/5 text-[9px] font-bold uppercase tracking-widest text-white/10">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-8 pt-10 border-t border-white/5 text-[10px] font-bold uppercase tracking-widest text-white/10">
             <div className="flex items-center gap-10">
               <span>
                 &copy; {new Date().getFullYear()} ZEN SPACE Wellness Ltd.
@@ -344,7 +344,7 @@ export default function ZenSpaceLayout({
               className="space-y-6"
             >
               <div className="space-y-2">
-                <label className="text-[9px] font-bold uppercase tracking-widest text-stone-400">Select Practice</label>
+                <label className="text-[10px] font-bold uppercase tracking-widest text-stone-400">Select Practice</label>
                 <select
                   value={selectedClass}
                   onChange={(e) => setSelectedClass(e.target.value)}
@@ -358,7 +358,7 @@ export default function ZenSpaceLayout({
               </div>
 
               <div className="space-y-2">
-                <label className="text-[9px] font-bold uppercase tracking-widest text-stone-400">Full Name</label>
+                <label className="text-[10px] font-bold uppercase tracking-widest text-stone-400">Full Name</label>
                 <input
                   type="text"
                   required
@@ -368,7 +368,7 @@ export default function ZenSpaceLayout({
               </div>
 
               <div className="space-y-2">
-                <label className="text-[9px] font-bold uppercase tracking-widest text-stone-400">Email Address</label>
+                <label className="text-[10px] font-bold uppercase tracking-widest text-stone-400">Email Address</label>
                 <input
                   type="email"
                   required

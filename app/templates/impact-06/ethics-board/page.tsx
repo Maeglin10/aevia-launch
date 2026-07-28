@@ -11,7 +11,7 @@ export default function Page() {
         <div className="max-w-[1600px] mx-auto px-6 md:px-12 flex items-center justify-between">
           <Link href="/templates/impact-06" className="group flex flex-col items-center">
              <span className="text-3xl font-black tracking-[-0.05em] uppercase leading-none">Neuralis</span>
-             <span className="text-[8px] font-bold uppercase tracking-[0.5em] text-[#00f2ff] -mt-1 ml-1">Augmentation Lab</span>
+             <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#00f2ff] -mt-1 ml-1">Augmentation Lab</span>
           </Link>
           <Link href="/templates/impact-06" className="flex items-center gap-3 text-[10px] font-bold uppercase tracking-widest text-white/60 hover:text-[#00f2ff] transition-colors">
             <ArrowLeft className="w-4 h-4" />
@@ -37,7 +37,7 @@ export default function Page() {
           </p>
           <div className="flex items-center justify-center gap-4">
              <div className="w-2 h-2 rounded-full bg-[#00f2ff] animate-pulse" />
-             <span className="text-[9px] font-bold uppercase tracking-[0.4em] text-[#00f2ff]">Sync in Progress</span>
+             <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#00f2ff]">Sync in Progress</span>
           </div>
         </motion.div>
       </main>

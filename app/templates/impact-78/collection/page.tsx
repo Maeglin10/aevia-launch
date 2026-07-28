@@ -44,7 +44,7 @@ export default function CollectionPage() {
                     />
                     <div className="absolute inset-0 bg-orange-900/10 mix-blend-overlay" />
                     <div className="absolute top-6 left-6">
-                      <Badge className="bg-orange-900 text-white border-none text-[8px] font-black tracking-widest uppercase px-3 py-1">
+                      <Badge className="bg-orange-900 text-white border-none text-[10px] font-black tracking-widest uppercase px-3 py-1">
                         {b.roast}_ROAST
                       </Badge>
                     </div>
@@ -59,14 +59,14 @@ export default function CollectionPage() {
                     {b.notes.map((n) => (
                       <span
                         key={n}
-                        className="text-[8px] font-black uppercase tracking-widest text-white/20 bg-white/[0.02] px-2 py-1 border border-white/5"
+                        className="text-[10px] font-black uppercase tracking-widest text-white/20 bg-white/[0.02] px-2 py-1 border border-white/5"
                       >
                         {n}
                       </span>
                     ))}
                   </div>
                 </div>
-                <button className="w-full py-4 border border-white/10 text-[9px] font-black uppercase tracking-widest text-stone-500 group-hover:bg-white group-hover:text-black transition-all">
+                <button className="w-full py-4 border border-white/10 text-[10px] font-black uppercase tracking-widest text-stone-500 group-hover:bg-white group-hover:text-black transition-all">
                   RESERVE_BAG
                 </button>
               </div>
@@ -133,7 +133,7 @@ export default function CollectionPage() {
                         key={i}
                         className="flex justify-between items-center border-b border-white/5 pb-4"
                       >
-                        <span className="text-[9px] font-bold text-white/20 uppercase tracking-widest">
+                        <span className="text-[10px] font-bold text-white/20 uppercase tracking-widest">
                           {spec.label}
                         </span>
                         <span className="text-[10px] font-black text-white uppercase italic">
@@ -146,7 +146,7 @@ export default function CollectionPage() {
                     {BEANS[activeBean].notes.map((n) => (
                       <Badge
                         key={n}
-                        className="bg-orange-900/20 text-orange-500 border-none text-[8px] font-black uppercase tracking-widest px-3 py-1"
+                        className="bg-orange-900/20 text-orange-500 border-none text-[10px] font-black uppercase tracking-widest px-3 py-1"
                       >
                         {n}
                       </Badge>

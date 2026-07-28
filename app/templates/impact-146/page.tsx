@@ -236,8 +236,8 @@ export default function KuroOmakasePage() {
               absolutely-positioned label, sitting right on top of the
               "Witness the Ritual" button. */}
           <div className="hidden sm:flex absolute bottom-12 left-12 flex-col gap-2">
-             <div className="text-[9px] font-bold uppercase tracking-[0.4em] text-white/20">Seating I: 18:00</div>
-             <div className="text-[9px] font-bold uppercase tracking-[0.4em] text-white/20">Seating II: 21:00</div>
+             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/20">Seating I: 18:00</div>
+             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/20">Seating II: 21:00</div>
           </div>
         </section>
 
@@ -335,7 +335,7 @@ export default function KuroOmakasePage() {
                        {[{ v: "21yr", l: "Training" }, { v: "3★", l: "Michelin" }, { v: "12", l: "Seasons" }].map(s => (
                           <div key={s.l} className="bg-[#050505] p-8 text-center">
                              <div className="text-3xl font-black text-white italic">{s.v}</div>
-                             <div className="text-[9px] font-bold uppercase tracking-widest text-white/25 mt-2">{s.l}</div>
+                             <div className="text-[10px] font-bold uppercase tracking-widest text-white/25 mt-2">{s.l}</div>
                           </div>
                        ))}
                     </div>
@@ -370,7 +370,7 @@ export default function KuroOmakasePage() {
                  ].map((m, i) => (
                     <Reveal key={i} delay={i * 0.1}>
                        <div className="border border-white/5 p-12 flex flex-col gap-6 hover:border-white/15 transition-colors duration-700">
-                          <div className="text-[9px] font-bold uppercase tracking-widest text-white/30">{m.courses}</div>
+                          <div className="text-[10px] font-bold uppercase tracking-widest text-white/30">{m.courses}</div>
                           <h3 className="text-2xl font-bold uppercase tracking-widest text-white italic">{m.tier}</h3>
                           <div className="text-4xl font-light text-white/60">{m.price}</div>
                           <p className="text-sm text-white/30 font-light leading-relaxed italic flex-1">{m.note}</p>

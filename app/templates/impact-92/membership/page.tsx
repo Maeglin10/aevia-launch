@@ -19,7 +19,7 @@ export default function Page() {
               <span className="text-xl font-black tracking-tighter uppercase leading-none">
                 Skyline
               </span>
-              <span className="text-[8px] font-bold uppercase tracking-[0.4em] text-[#c9a96e] -mt-1">
+              <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#c9a96e] -mt-1">
                 Concierge Group
               </span>
             </div>
@@ -60,7 +60,7 @@ export default function Page() {
 
       {/* ── FOOTER ── */}
       <footer className="bg-[#0a0a0a] py-12 px-6 md:px-12 border-t border-white/5">
-        <div className="max-w-[1400px] mx-auto flex flex-col md:flex-row justify-between items-center gap-8 text-[9px] font-bold uppercase tracking-widest text-white/10">
+        <div className="max-w-[1400px] mx-auto flex flex-col md:flex-row justify-between items-center gap-8 text-[10px] font-bold uppercase tracking-widest text-white/10">
           <div className="flex items-center gap-10">
             <span>
               &copy; {new Date().getFullYear()} SKYLINE CONCIERGE GROUP. ALL

@@ -187,7 +187,7 @@ export default function AetherWellnessPage() {
           </div>
           
           <div className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4">
-             <div className="text-[9px] font-bold uppercase tracking-[0.4em] text-black/20">The First Breath</div>
+             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-black/20">The First Breath</div>
              <div className="w-[1px] h-12 bg-gradient-to-b from-black/20 to-transparent" />
           </div>
         </section>
@@ -248,11 +248,11 @@ export default function AetherWellnessPage() {
                        <div className="grid grid-cols-1 md:grid-cols-2 gap-16 pt-12 border-t border-black/5">
                           <div>
                              <div className="text-4xl font-bold text-[#1a1a1a] mb-2 italic">12</div>
-                             <div className="text-[9px] font-bold uppercase tracking-widest text-black/30">Private Chambers</div>
+                             <div className="text-[10px] font-bold uppercase tracking-widest text-black/30">Private Chambers</div>
                           </div>
                           <div>
                              <div className="text-4xl font-bold text-[#1a1a1a] mb-2 italic">4</div>
-                             <div className="text-[9px] font-bold uppercase tracking-widest text-black/30">Thermal Springs</div>
+                             <div className="text-[10px] font-bold uppercase tracking-widest text-black/30">Thermal Springs</div>
                           </div>
                        </div>
                     </Reveal>
@@ -280,7 +280,7 @@ export default function AetherWellnessPage() {
                              <r.icon className="w-6 h-6 text-black/30 group-hover:text-white transition-colors" />
                           </div>
                           <div>
-                             <div className="text-[9px] font-bold uppercase tracking-widest text-black/30 mb-1">{r.duration} · {r.guests}</div>
+                             <div className="text-[10px] font-bold uppercase tracking-widest text-black/30 mb-1">{r.duration} · {r.guests}</div>
                              <h3 className="text-2xl font-bold uppercase tracking-widest text-[#1a1a1a] italic" style={{ fontFamily: "serif" }}>{r.name}</h3>
                              <div className="text-xl font-light text-black/40 mt-1">{r.price}</div>
                           </div>

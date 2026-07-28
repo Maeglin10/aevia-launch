@@ -434,7 +434,7 @@ function SkillBar({ skill, index }: { skill: (typeof SKILLS)[0]; index: number }
           <span
             style={{
               fontFamily: C.font,
-              fontSize: 9,
+              fontSize: 10,
               letterSpacing: "0.15em",
               textTransform: "uppercase",
               color: skill.color,
@@ -702,7 +702,7 @@ function ProjectCard({
             <span
               style={{
                 fontFamily: C.font,
-                fontSize: 9,
+                fontSize: 10,
                 letterSpacing: "0.2em",
                 textTransform: "uppercase",
                 color: project.color,
@@ -799,7 +799,7 @@ function ProjectCard({
                 key={t}
                 style={{
                   fontFamily: C.font,
-                  fontSize: 9,
+                  fontSize: 10,
                   color: C.muted,
                   background: C.subtle,
                   padding: "3px 8px",
@@ -885,7 +885,7 @@ function OssRow({
         <span
           style={{
             fontFamily: C.font,
-            fontSize: 9,
+            fontSize: 10,
             letterSpacing: "0.15em",
             textTransform: "uppercase",
             color: item.merged ? C.green : C.amber,

@@ -278,7 +278,7 @@ function Nav() {
   };
   const brandSub: React.CSSProperties = {
     fontFamily: SANS,
-    fontSize: 9.5,
+    fontSize: 10,
     letterSpacing: '0.28em',
     textTransform: 'uppercase',
     color: solid ? C.terra : 'rgba(248,244,237,0.75)',
@@ -573,7 +573,7 @@ function HeroSection() {
         <span
           style={{
             fontFamily: SANS,
-            fontSize: 9.5,
+            fontSize: 10,
             letterSpacing: '0.32em',
             textTransform: 'uppercase',
             color: 'rgba(248,244,237,0.65)',
@@ -1797,7 +1797,7 @@ function PediatricSection() {
                     <span
                       style={{
                         fontFamily: SANS,
-                        fontSize: 9.5,
+                        fontSize: 10,
                         letterSpacing: '0.18em',
                         textTransform: 'uppercase',
                         color: C.slate,
@@ -2381,7 +2381,7 @@ function FooterSection() {
           <div
             style={{
               fontFamily: SANS,
-              fontSize: 9.5,
+              fontSize: 10,
               letterSpacing: '0.26em',
               textTransform: 'uppercase',
               color: C.terra,
@@ -2419,7 +2419,7 @@ function FooterSection() {
             <span
               style={{
                 fontFamily: SANS,
-                fontSize: 9.5,
+                fontSize: 10,
                 letterSpacing: '0.20em',
                 textTransform: 'uppercase',
                 color: 'rgba(248,244,237,0.60)',

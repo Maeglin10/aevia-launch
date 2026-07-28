@@ -701,7 +701,7 @@ function Hero() {
         <span
           style={{
             fontFamily: SANS,
-            fontSize: 9.5,
+            fontSize: 10,
             letterSpacing: '0.32em',
             textTransform: 'uppercase',
             color: 'rgba(248,246,242,0.65)',
@@ -865,7 +865,7 @@ function StyleCaption({
         <div
           style={{
             fontFamily: SANS,
-            fontSize: 9.5,
+            fontSize: 10,
             letterSpacing: '0.48em',
             textTransform: 'uppercase',
             color: C.accentLight,
@@ -1088,7 +1088,7 @@ function ArtistCard({ a, i }: { a: Artist; i: number }) {
               top: 16,
               right: 16,
               fontFamily: SANS,
-              fontSize: 9.5,
+              fontSize: 10,
               letterSpacing: '0.20em',
               textTransform: 'uppercase',
               fontWeight: 700,
@@ -1117,7 +1117,7 @@ function ArtistCard({ a, i }: { a: Artist; i: number }) {
           <div
             style={{
               fontFamily: SANS,
-              fontSize: 9.5,
+              fontSize: 10,
               letterSpacing: '0.34em',
               textTransform: 'uppercase',
               fontWeight: 700,

@@ -851,7 +851,7 @@ export function DashboardMockup() {
                   />
                   <span
                     style={{
-                      fontSize: 7,
+                      fontSize: 10,
                       color: T.muted,
                       fontFamily: T.bodyFont,
                     }}

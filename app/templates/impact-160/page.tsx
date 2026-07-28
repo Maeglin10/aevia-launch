@@ -115,7 +115,7 @@ function BrutalistBlock({ title, value, icon: Icon }: { title: string, value: st
              {value}
           </div>
        </div>
-       <div className="relative z-10 mt-12 flex items-center gap-4 text-[8px] font-bold text-white/10 uppercase tracking-widest italic">
+       <div className="relative z-10 mt-12 flex items-center gap-4 text-[10px] font-bold text-white/10 uppercase tracking-widest italic">
           <Activity className="w-3 h-3 text-cyan-400" /> System_Nominal_Check_Passed
        </div>
     </div>
@@ -261,11 +261,11 @@ return (
                    </div>
                    <div className="flex flex-col justify-end">
                       <span className="text-6xl font-black tracking-tighter italic text-white/40 leading-none mb-2">99.9%</span>
-                      <span className="text-[9px] font-black uppercase tracking-[0.5em] text-white/20">Uptime Protocol</span>
+                      <span className="text-[10px] font-black uppercase tracking-[0.5em] text-white/20">Uptime Protocol</span>
                    </div>
                    <div className="flex flex-col justify-end">
                       <span className="text-6xl font-black tracking-tighter italic text-white/40 leading-none mb-2">∞_TB</span>
-                      <span className="text-[9px] font-black uppercase tracking-[0.5em] text-white/20">Expandable Storage</span>
+                      <span className="text-[10px] font-black uppercase tracking-[0.5em] text-white/20">Expandable Storage</span>
                    </div>
                 </div>
              </Reveal>
@@ -284,7 +284,7 @@ return (
                 </button>
              </div>
              <div className="text-right hidden md:block">
-                <span className="text-[8px] font-black uppercase tracking-[0.6em] text-white/10 italic">Scroll_Depth_To_Explore_Sub_Infrastructure</span>
+                <span className="text-[10px] font-black uppercase tracking-[0.6em] text-white/10 italic">Scroll_Depth_To_Explore_Sub_Infrastructure</span>
              </div>
           </div>
         </section>
@@ -313,7 +313,7 @@ return (
                             <div className="w-16 h-16 bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-white group-hover:text-black transition-all duration-500">
                                <Server className="w-8 h-8" />
                             </div>
-                            <span className="px-4 py-2 bg-white/5 text-white/40 text-[9px] font-black uppercase tracking-[0.3em]">{node.status}</span>
+                            <span className="px-4 py-2 bg-white/5 text-white/40 text-[10px] font-black uppercase tracking-[0.3em]">{node.status}</span>
                          </div>
                          
                          <h3 className="text-5xl font-black uppercase tracking-tighter mb-8 italic text-white group-hover:translate-x-4 transition-transform">{node.name}</h3>
@@ -367,7 +367,7 @@ return (
                             <div key={i} className="p-16 bg-[#0a0a0c] group hover:bg-white/[0.02] transition-all border-r border-b last:border-r-0 border-white/5">
                                <div className="text-[10px] font-black uppercase text-white/20 mb-6 tracking-[0.4em]">{metric.label}</div>
                                <div className="text-5xl font-black text-white italic mb-6 tracking-tighter group-hover:translate-x-2 transition-transform">{metric.value}</div>
-                               <div className="flex items-center gap-3 text-[9px] font-bold uppercase tracking-[0.3em] text-white/10 italic">
+                               <div className="flex items-center gap-3 text-[10px] font-bold uppercase tracking-[0.3em] text-white/10 italic">
                                   <Activity className="w-4 h-4 text-cyan-400" /> {metric.trend}
                                </div>
                             </div>

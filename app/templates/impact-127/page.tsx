@@ -312,7 +312,7 @@ export default function PulseEventsPage() {
                     <div className="absolute bottom-0 left-0 right-0 p-6">
                       <div className="flex items-center gap-2 mb-2">
                         <EqBars active={false} />
-                        <span className="text-[9px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#f472b6)]">{artist.genre}</span>
+                        <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#f472b6)]">{artist.genre}</span>
                       </div>
                       <h3 className="text-xl font-black tracking-tight mb-1">{artist.name}</h3>
                       <div className="flex items-center justify-between">

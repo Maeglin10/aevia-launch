@@ -431,7 +431,7 @@ function CompassRose() {
               style={{
                 position: "absolute",
                 fontFamily: "Montserrat, sans-serif",
-                fontSize: 9,
+                fontSize: 10,
                 fontWeight: 600,
                 color: "#c9a84c",
                 letterSpacing: 1,
@@ -683,7 +683,7 @@ function WaypointItem({
           <span
             style={{
               fontFamily: "Montserrat, sans-serif",
-              fontSize: 9,
+              fontSize: 10,
               color: "rgba(240,236,224,0.4)",
               letterSpacing: 1,
             }}
@@ -907,7 +907,7 @@ export default function HorizonMaritimePage() {
               <p
                 style={{
                   fontFamily: "Montserrat, sans-serif",
-                  fontSize: 8,
+                  fontSize: 10,
                   fontWeight: 500,
                   color: "#c9a84c",
                   letterSpacing: 4,
@@ -1357,7 +1357,7 @@ export default function HorizonMaritimePage() {
             gap: "0.5rem",
           }}
         >
-          <p style={{ fontFamily: "Montserrat, sans-serif", fontSize: 9, color: "rgba(240,236,224,0.4)", letterSpacing: 3, textTransform: "uppercase" }}>
+          <p style={{ fontFamily: "Montserrat, sans-serif", fontSize: 10, color: "rgba(240,236,224,0.4)", letterSpacing: 3, textTransform: "uppercase" }}>
             Scroll
           </p>
           <div style={{ animation: "scrollBounce 2s ease-in-out infinite" }}>
@@ -1392,7 +1392,7 @@ export default function HorizonMaritimePage() {
         <p
           style={{
             fontFamily: "Montserrat, sans-serif",
-            fontSize: 9,
+            fontSize: 10,
             color: "rgba(240,236,224,0.2)",
             letterSpacing: 2,
             textTransform: "uppercase",
@@ -1697,7 +1697,7 @@ export default function HorizonMaritimePage() {
                   }}
                 >
                   <p style={{ fontFamily: "Cormorant Garamond, Georgia, serif", fontSize: "1.4rem", fontWeight: 600, color: "#0d1b2a", lineHeight: 1 }}>28</p>
-                  <p style={{ fontFamily: "Montserrat, sans-serif", fontSize: 7, fontWeight: 600, color: "#0d1b2a", letterSpacing: 1, textTransform: "uppercase" }}>Years</p>
+                  <p style={{ fontFamily: "Montserrat, sans-serif", fontSize: 10, fontWeight: 600, color: "#0d1b2a", letterSpacing: 1, textTransform: "uppercase" }}>Years</p>
                 </div>
               </div>
             </Reveal>
@@ -1980,7 +1980,7 @@ export default function HorizonMaritimePage() {
                       style={{
                         display: "block",
                         fontFamily: "Montserrat, sans-serif",
-                        fontSize: 9,
+                        fontSize: 10,
                         fontWeight: 600,
                         color: "rgba(240,236,224,0.5)",
                         letterSpacing: 3,
@@ -2020,7 +2020,7 @@ export default function HorizonMaritimePage() {
                   style={{
                     display: "block",
                     fontFamily: "Montserrat, sans-serif",
-                    fontSize: 9,
+                    fontSize: 10,
                     fontWeight: 600,
                     color: "rgba(240,236,224,0.5)",
                     letterSpacing: 3,
@@ -2058,7 +2058,7 @@ export default function HorizonMaritimePage() {
                   style={{
                     display: "block",
                     fontFamily: "Montserrat, sans-serif",
-                    fontSize: 9,
+                    fontSize: 10,
                     fontWeight: 600,
                     color: "rgba(240,236,224,0.5)",
                     letterSpacing: 3,
@@ -2117,7 +2117,7 @@ export default function HorizonMaritimePage() {
               <p
                 style={{
                   fontFamily: "Montserrat, sans-serif",
-                  fontSize: 9,
+                  fontSize: 10,
                   color: "rgba(240,236,224,0.3)",
                   textAlign: "center",
                   marginTop: "1.25rem",
@@ -2183,11 +2183,11 @@ export default function HorizonMaritimePage() {
                 Crafting extraordinary maritime experiences since 1997. Monaco — Geneva — Singapore.
               </p>
               <div style={{ marginTop: "2rem", display: "flex", gap: "1rem" }}>
-                <a href="#contact" style={{ fontFamily: "Montserrat, sans-serif", fontSize: 9, color: "#c9a84c", letterSpacing: 2, textDecoration: "none" }}>
+                <a href="#contact" style={{ fontFamily: "Montserrat, sans-serif", fontSize: 10, color: "#c9a84c", letterSpacing: 2, textDecoration: "none" }}>
                   Instagram
                 </a>
                 <span style={{ color: "rgba(201,168,76,0.3)" }}>·</span>
-                <a href="#contact" style={{ fontFamily: "Montserrat, sans-serif", fontSize: 9, color: "#c9a84c", letterSpacing: 2, textDecoration: "none" }}>
+                <a href="#contact" style={{ fontFamily: "Montserrat, sans-serif", fontSize: 10, color: "#c9a84c", letterSpacing: 2, textDecoration: "none" }}>
                   LinkedIn
                 </a>
               </div>
@@ -2211,7 +2211,7 @@ export default function HorizonMaritimePage() {
                 <p
                   style={{
                     fontFamily: "Montserrat, sans-serif",
-                    fontSize: 9,
+                    fontSize: 10,
                     fontWeight: 600,
                     color: "#c9a84c",
                     letterSpacing: 4,
@@ -2309,7 +2309,7 @@ export default function HorizonMaritimePage() {
               gap: "1rem",
             }}
           >
-            <p style={{ fontFamily: "Montserrat, sans-serif", fontSize: 9, color: "rgba(240,236,224,0.25)", letterSpacing: 1 }}>
+            <p style={{ fontFamily: "Montserrat, sans-serif", fontSize: 10, color: "rgba(240,236,224,0.25)", letterSpacing: 1 }}>
               © 2026 Horizon Maritime Group S.A.M. · All rights reserved · Monaco
             </p>
             <div style={{ display: "flex", gap: "2rem" }}>
@@ -2318,7 +2318,7 @@ export default function HorizonMaritimePage() {
                   key={l}
                   href="/templates/impact-14"
                   onClick={(e) => { e.preventDefault(); goTo("legal"); }}
-                  style={{ fontFamily: "Montserrat, sans-serif", fontSize: 9, color: "rgba(240,236,224,0.25)", textDecoration: "none", letterSpacing: 1 }}
+                  style={{ fontFamily: "Montserrat, sans-serif", fontSize: 10, color: "rgba(240,236,224,0.25)", textDecoration: "none", letterSpacing: 1 }}
                 >
                   {l}
                 </a>
@@ -2477,7 +2477,7 @@ function FleetPage({ goTo }: { goTo: (p: ActivePage) => void }) {
                 />
                 <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(10,21,32,0.8), transparent)" }} />
                 <div style={{ position: "absolute", bottom: "1rem", left: "1.5rem", right: "1.5rem", display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
-                  <span style={{ fontFamily: "Montserrat, sans-serif", fontSize: 9, color: "#c9a84c", letterSpacing: 2, textTransform: "uppercase", fontWeight: 600 }}>
+                  <span style={{ fontFamily: "Montserrat, sans-serif", fontSize: 10, color: "#c9a84c", letterSpacing: 2, textTransform: "uppercase", fontWeight: 600 }}>
                     {yacht.type} yacht
                   </span>
                   <span style={{ fontFamily: "Cormorant Garamond, Georgia, serif", fontSize: "1.4rem", color: "#f0ece0" }}>
@@ -2498,19 +2498,19 @@ function FleetPage({ goTo }: { goTo: (p: ActivePage) => void }) {
                 {/* Specs */}
                 <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem", borderTop: "1px solid rgba(201,168,76,0.1)", paddingTop: "1.5rem", marginBottom: "1.5rem" }}>
                   <div>
-                    <p style={{ fontFamily: "Montserrat, sans-serif", fontSize: 8, color: "rgba(240,236,224,0.4)", letterSpacing: 1, textTransform: "uppercase", marginBottom: 2 }}>Guests / Cabins</p>
+                    <p style={{ fontFamily: "Montserrat, sans-serif", fontSize: 10, color: "rgba(240,236,224,0.4)", letterSpacing: 1, textTransform: "uppercase", marginBottom: 2 }}>Guests / Cabins</p>
                     <p style={{ fontFamily: "Montserrat, sans-serif", fontSize: 11, color: "#f0ece0", fontWeight: 500 }}>{yacht.guests} guests in {yacht.cabins} cabins</p>
                   </div>
                   <div>
-                    <p style={{ fontFamily: "Montserrat, sans-serif", fontSize: 8, color: "rgba(240,236,224,0.4)", letterSpacing: 1, textTransform: "uppercase", marginBottom: 2 }}>Crew</p>
+                    <p style={{ fontFamily: "Montserrat, sans-serif", fontSize: 10, color: "rgba(240,236,224,0.4)", letterSpacing: 1, textTransform: "uppercase", marginBottom: 2 }}>Crew</p>
                     <p style={{ fontFamily: "Montserrat, sans-serif", fontSize: 11, color: "#f0ece0", fontWeight: 500 }}>{yacht.crew} members</p>
                   </div>
                   <div>
-                    <p style={{ fontFamily: "Montserrat, sans-serif", fontSize: 8, color: "rgba(240,236,224,0.4)", letterSpacing: 1, textTransform: "uppercase", marginBottom: 2 }}>Cruising Speed</p>
+                    <p style={{ fontFamily: "Montserrat, sans-serif", fontSize: 10, color: "rgba(240,236,224,0.4)", letterSpacing: 1, textTransform: "uppercase", marginBottom: 2 }}>Cruising Speed</p>
                     <p style={{ fontFamily: "Montserrat, sans-serif", fontSize: 11, color: "#f0ece0", fontWeight: 500 }}>{yacht.speed}</p>
                   </div>
                   <div>
-                    <p style={{ fontFamily: "Montserrat, sans-serif", fontSize: 8, color: "rgba(240,236,224,0.4)", letterSpacing: 1, textTransform: "uppercase", marginBottom: 2 }}>Built / Refit</p>
+                    <p style={{ fontFamily: "Montserrat, sans-serif", fontSize: 10, color: "rgba(240,236,224,0.4)", letterSpacing: 1, textTransform: "uppercase", marginBottom: 2 }}>Built / Refit</p>
                     <p style={{ fontFamily: "Montserrat, sans-serif", fontSize: 11, color: "#f0ece0", fontWeight: 500 }}>{yacht.built}</p>
                   </div>
                 </div>
@@ -2518,14 +2518,14 @@ function FleetPage({ goTo }: { goTo: (p: ActivePage) => void }) {
                 {/* Price CTA */}
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: "auto" }}>
                   <div>
-                    <p style={{ fontFamily: "Montserrat, sans-serif", fontSize: 8, color: "rgba(240,236,224,0.4)", letterSpacing: 1, textTransform: "uppercase" }}>Weekly Rate</p>
+                    <p style={{ fontFamily: "Montserrat, sans-serif", fontSize: 10, color: "rgba(240,236,224,0.4)", letterSpacing: 1, textTransform: "uppercase" }}>Weekly Rate</p>
                     <p style={{ fontFamily: "Montserrat, sans-serif", fontSize: 13, color: "#c9a84c", fontWeight: 600 }}>from {yacht.price}</p>
                   </div>
                   <button
                     onClick={() => goTo("contact")}
                     style={{
                       fontFamily: "Montserrat, sans-serif",
-                      fontSize: 9,
+                      fontSize: 10,
                       fontWeight: 600,
                       color: "#0d1b2a",
                       background: "#c9a84c",
@@ -2640,7 +2640,7 @@ function DestinationsPage({ goTo }: { goTo: (p: ActivePage) => void }) {
                 backgroundPosition: "center",
               }}
             >
-              <span style={{ position: "absolute", top: "2rem", right: "2rem", fontFamily: "Montserrat, sans-serif", fontSize: 8, color: "#c9a84c", border: "1px solid rgba(201,168,76,0.3)", padding: "0.4rem 1rem", textTransform: "uppercase", letterSpacing: 2 }}>
+              <span style={{ position: "absolute", top: "2rem", right: "2rem", fontFamily: "Montserrat, sans-serif", fontSize: 10, color: "#c9a84c", border: "1px solid rgba(201,168,76,0.3)", padding: "0.4rem 1rem", textTransform: "uppercase", letterSpacing: 2 }}>
                 {dest.region}
               </span>
 
@@ -2654,11 +2654,11 @@ function DestinationsPage({ goTo }: { goTo: (p: ActivePage) => void }) {
 
                 <div style={{ display: "flex", justifyContent: "space-between", borderTop: "1px solid rgba(201,168,76,0.15)", paddingTop: "1rem", alignItems: "center" }}>
                   <div>
-                    <span style={{ display: "block", fontFamily: "Montserrat, sans-serif", fontSize: 7, color: "rgba(240,236,224,0.4)", textTransform: "uppercase", letterSpacing: 1 }}>Best Season</span>
+                    <span style={{ display: "block", fontFamily: "Montserrat, sans-serif", fontSize: 10, color: "rgba(240,236,224,0.4)", textTransform: "uppercase", letterSpacing: 1 }}>Best Season</span>
                     <span style={{ fontFamily: "Montserrat, sans-serif", fontSize: 11, color: "#f0ece0", fontWeight: 500 }}>{dest.bestTime}</span>
                   </div>
                   <div>
-                    <span style={{ display: "block", fontFamily: "Montserrat, sans-serif", fontSize: 7, color: "rgba(240,236,224,0.4)", textTransform: "uppercase", letterSpacing: 1 }}>Recommended Vessel</span>
+                    <span style={{ display: "block", fontFamily: "Montserrat, sans-serif", fontSize: 10, color: "rgba(240,236,224,0.4)", textTransform: "uppercase", letterSpacing: 1 }}>Recommended Vessel</span>
                     <span style={{ fontFamily: "Montserrat, sans-serif", fontSize: 11, color: "#c9a84c", fontWeight: 500 }}>{dest.yacht}</span>
                   </div>
                 </div>
@@ -2668,7 +2668,7 @@ function DestinationsPage({ goTo }: { goTo: (p: ActivePage) => void }) {
                   style={{
                     width: "100%",
                     fontFamily: "Montserrat, sans-serif",
-                    fontSize: 9,
+                    fontSize: 10,
                     fontWeight: 600,
                     color: "#0d1b2a",
                     background: "#c9a84c",
@@ -2871,26 +2871,26 @@ function ContactPage() {
             <form style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1.5rem" }}>
                 <div>
-                  <label style={{ display: "block", fontFamily: "Montserrat, sans-serif", fontSize: 9, color: "rgba(240,236,224,0.5)", textTransform: "uppercase", letterSpacing: 2, marginBottom: 6 }}>Full Name</label>
+                  <label style={{ display: "block", fontFamily: "Montserrat, sans-serif", fontSize: 10, color: "rgba(240,236,224,0.5)", textTransform: "uppercase", letterSpacing: 2, marginBottom: 6 }}>Full Name</label>
                   <input type="text" placeholder="Your name" style={{ width: "100%", background: "rgba(255,255,255,0.03)", border: "1px solid rgba(201,168,76,0.15)", padding: "0.75rem 1rem", fontFamily: "Montserrat, sans-serif", fontSize: 12, color: "#f0ece0", outline: "none" }} />
                 </div>
                 <div>
-                  <label style={{ display: "block", fontFamily: "Montserrat, sans-serif", fontSize: 9, color: "rgba(240,236,224,0.5)", textTransform: "uppercase", letterSpacing: 2, marginBottom: 6 }}>Email</label>
+                  <label style={{ display: "block", fontFamily: "Montserrat, sans-serif", fontSize: 10, color: "rgba(240,236,224,0.5)", textTransform: "uppercase", letterSpacing: 2, marginBottom: 6 }}>Email</label>
                   <input type="email" placeholder="your@email.com" style={{ width: "100%", background: "rgba(255,255,255,0.03)", border: "1px solid rgba(201,168,76,0.15)", padding: "0.75rem 1rem", fontFamily: "Montserrat, sans-serif", fontSize: 12, color: "#f0ece0", outline: "none" }} />
                 </div>
               </div>
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1.5rem" }}>
                 <div>
-                  <label style={{ display: "block", fontFamily: "Montserrat, sans-serif", fontSize: 9, color: "rgba(240,236,224,0.5)", textTransform: "uppercase", letterSpacing: 2, marginBottom: 6 }}>Destination</label>
+                  <label style={{ display: "block", fontFamily: "Montserrat, sans-serif", fontSize: 10, color: "rgba(240,236,224,0.5)", textTransform: "uppercase", letterSpacing: 2, marginBottom: 6 }}>Destination</label>
                   <input type="text" placeholder="e.g. Mediterranean" style={{ width: "100%", background: "rgba(255,255,255,0.03)", border: "1px solid rgba(201,168,76,0.15)", padding: "0.75rem 1rem", fontFamily: "Montserrat, sans-serif", fontSize: 12, color: "#f0ece0", outline: "none" }} />
                 </div>
                 <div>
-                  <label style={{ display: "block", fontFamily: "Montserrat, sans-serif", fontSize: 9, color: "rgba(240,236,224,0.5)", textTransform: "uppercase", letterSpacing: 2, marginBottom: 6 }}>Duration</label>
+                  <label style={{ display: "block", fontFamily: "Montserrat, sans-serif", fontSize: 10, color: "rgba(240,236,224,0.5)", textTransform: "uppercase", letterSpacing: 2, marginBottom: 6 }}>Duration</label>
                   <input type="text" placeholder="e.g. 7 nights" style={{ width: "100%", background: "rgba(255,255,255,0.03)", border: "1px solid rgba(201,168,76,0.15)", padding: "0.75rem 1rem", fontFamily: "Montserrat, sans-serif", fontSize: 12, color: "#f0ece0", outline: "none" }} />
                 </div>
               </div>
               <div>
-                <label style={{ display: "block", fontFamily: "Montserrat, sans-serif", fontSize: 9, color: "rgba(240,236,224,0.5)", textTransform: "uppercase", letterSpacing: 2, marginBottom: 6 }}>Additional Requirements</label>
+                <label style={{ display: "block", fontFamily: "Montserrat, sans-serif", fontSize: 10, color: "rgba(240,236,224,0.5)", textTransform: "uppercase", letterSpacing: 2, marginBottom: 6 }}>Additional Requirements</label>
                 <textarea rows={4} placeholder="Guest count, catering, activities..." style={{ width: "100%", background: "rgba(255,255,255,0.03)", border: "1px solid rgba(201,168,76,0.15)", padding: "0.75rem 1rem", fontFamily: "Montserrat, sans-serif", fontSize: 12, color: "#f0ece0", outline: "none", resize: "vertical" }} />
               </div>
               <button

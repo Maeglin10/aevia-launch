@@ -698,7 +698,7 @@ export default function Impact94Page() {
           transition={{ delay: 1.8 }}
           className="absolute bottom-12 left-1/2 -translate-x-1/2 hidden sm:flex flex-col items-center gap-2"
         >
-          <span className="text-[9px] uppercase tracking-[0.4em] text-[#FAFAF9]/60">Défiler</span>
+          <span className="text-[10px] uppercase tracking-[0.4em] text-[#FAFAF9]/60">Défiler</span>
           <motion.div
             className="w-px h-12 bg-[var(--brand,#CA8A04)]"
             animate={{ scaleY: [0, 1, 0] }}
@@ -752,11 +752,11 @@ export default function Impact94Page() {
                     className="object-cover transition-transform duration-700 group-hover:scale-110"
                   />
                   {/* Tag */}
-                  <div className="absolute top-4 left-4 bg-[var(--brand,#CA8A04)] text-white text-[9px] font-medium uppercase tracking-[0.3em] px-3 py-1">
+                  <div className="absolute top-4 left-4 bg-[var(--brand,#CA8A04)] text-white text-[10px] font-medium uppercase tracking-[0.3em] px-3 py-1">
                     {item.tag}
                   </div>
                   {/* Season badge */}
-                  <div className="absolute top-4 right-4 bg-[#0C0A09]/80 text-[var(--brand,#CA8A04)] text-[9px] font-medium uppercase tracking-[0.2em] px-3 py-1 backdrop-blur-sm">
+                  <div className="absolute top-4 right-4 bg-[#0C0A09]/80 text-[var(--brand,#CA8A04)] text-[10px] font-medium uppercase tracking-[0.2em] px-3 py-1 backdrop-blur-sm">
                     {item.season}
                   </div>
                 </div>
@@ -874,7 +874,7 @@ export default function Impact94Page() {
                 <p className="text-sm text-[#FAFAF9]/80 font-light leading-relaxed italic" style={{ fontFamily: "'Bodoni Moda', serif" }}>
                   {"“La fleur la plus parfaite est celle qui révèle l'âme de celui qui la contemple.”"}
                 </p>
-                <p className="mt-3 text-[9px] uppercase tracking-[0.3em] text-[var(--brand,#CA8A04)]">— Sophie Marchand, Fondatrice</p>
+                <p className="mt-3 text-[10px] uppercase tracking-[0.3em] text-[var(--brand,#CA8A04)]">— Sophie Marchand, Fondatrice</p>
               </div>
             </div>
           </Reveal>

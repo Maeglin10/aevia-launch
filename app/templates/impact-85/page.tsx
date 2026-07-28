@@ -473,7 +473,7 @@ export default function AetherLabsPage() {
             ) : (
               <>
                 <span className="text-xl font-light tracking-widest" style={{ fontFamily: "'Cormorant Garamond', serif", letterSpacing: "0.15em" }}>{fd?.businessName ?? "Aether Labs"}</span>
-                <span className="text-[9px] tracking-[0.2em] uppercase text-[var(--brand,#8B7355)]">Cosmétique scientifique</span>
+                <span className="text-[10px] tracking-[0.2em] uppercase text-[var(--brand,#8B7355)]">Cosmétique scientifique</span>
               </>
             )}
           </Link>

@@ -425,15 +425,15 @@ export default function ApexFitnessPage() {
               ) : (
                 <form onSubmit={(e) => { e.preventDefault(); setContactSubmitted(true); }} className="space-y-4 max-w-md mx-auto text-left">
                   <div>
-                    <label className="block text-[9px] font-bold uppercase tracking-widest text-white/50 mb-2">Name</label>
+                    <label className="block text-[10px] font-bold uppercase tracking-widest text-white/50 mb-2">Name</label>
                     <input required type="text" placeholder="Your Name" className="w-full px-5 py-3.5 bg-[#0d0d0d] border border-white/10 rounded-xl text-sm focus:outline-none focus:border-[var(--brand,#84cc16)] transition-colors text-white" />
                   </div>
                   <div>
-                    <label className="block text-[9px] font-bold uppercase tracking-widest text-white/50 mb-2">Email</label>
+                    <label className="block text-[10px] font-bold uppercase tracking-widest text-white/50 mb-2">Email</label>
                     <input required type="email" placeholder="you@example.com" className="w-full px-5 py-3.5 bg-[#0d0d0d] border border-white/10 rounded-xl text-sm focus:outline-none focus:border-[var(--brand,#84cc16)] transition-colors text-white" />
                   </div>
                   <div>
-                    <label className="block text-[9px] font-bold uppercase tracking-widest text-white/50 mb-2">Message</label>
+                    <label className="block text-[10px] font-bold uppercase tracking-widest text-white/50 mb-2">Message</label>
                     <textarea required rows={4} placeholder="Tell us about your training history and goals..." className="w-full px-5 py-3.5 bg-[#0d0d0d] border border-white/10 rounded-xl text-sm focus:outline-none focus:border-[var(--brand,#84cc16)] transition-colors text-white" />
                   </div>
                   <button type="submit" className="w-full py-4 bg-[var(--brand,#84cc16)] text-black font-bold rounded-full hover:bg-white transition-colors duration-300">

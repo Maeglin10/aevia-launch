@@ -54,7 +54,7 @@ export default function MembersPage() {
                 </h3>
 
                 <div className="space-y-2 text-left">
-                  <label className="text-[9px] font-bold uppercase tracking-widest text-white/30">Your Name</label>
+                  <label className="text-[10px] font-bold uppercase tracking-widest text-white/30">Your Name</label>
                   <input
                     type="text"
                     required
@@ -66,7 +66,7 @@ export default function MembersPage() {
                 </div>
 
                 <div className="space-y-2 text-left">
-                  <label className="text-[9px] font-bold uppercase tracking-widest text-white/30">Contact Email</label>
+                  <label className="text-[10px] font-bold uppercase tracking-widest text-white/30">Contact Email</label>
                   <input
                     type="email"
                     required
@@ -78,7 +78,7 @@ export default function MembersPage() {
                 </div>
 
                 <div className="space-y-2 text-left">
-                  <label className="text-[9px] font-bold uppercase tracking-widest text-white/30">Primary Node</label>
+                  <label className="text-[10px] font-bold uppercase tracking-widest text-white/30">Primary Node</label>
                   <select
                     value={formData.city}
                     onChange={(e) => setFormData({ ...formData, city: e.target.value })}
@@ -92,7 +92,7 @@ export default function MembersPage() {
                 </div>
 
                 <div className="space-y-2 text-left">
-                  <label className="text-[9px] font-bold uppercase tracking-widest text-white/30">Brief Statement of Intent</label>
+                  <label className="text-[10px] font-bold uppercase tracking-widest text-white/30">Brief Statement of Intent</label>
                   <textarea
                     rows={4}
                     value={formData.bio}
@@ -102,7 +102,7 @@ export default function MembersPage() {
                   />
                 </div>
 
-                <div className="pt-4 flex items-center gap-4 text-[9px] font-bold uppercase tracking-widest text-white/20 italic">
+                <div className="pt-4 flex items-center gap-4 text-[10px] font-bold uppercase tracking-widest text-white/20 italic">
                   <ShieldCheck className="w-4 h-4 text-[#ff00ff]" />
                   Secure Invitation Port Link
                 </div>

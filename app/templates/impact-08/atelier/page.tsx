@@ -90,7 +90,7 @@ function HUD_Telemetry() {
        <div className="flex flex-col items-end border-r-2 border-blue-500/30 pr-6 py-2">
           <div className="text-[10px] font-black tracking-widest text-blue-500 uppercase mb-2">Vulcan_System_V4.2</div>
           <div className="text-2xl font-mono text-white tracking-tighter">44.12.08</div>
-          <div className="text-[8px] font-bold text-white/30 uppercase mt-1">Modena // Italy</div>
+          <div className="text-[10px] font-bold text-white/30 uppercase mt-1">Modena // Italy</div>
        </div>
        <div className="space-y-4">
           {[1, 0.8, 1.2, 0.6].map((h, i) => (
@@ -124,7 +124,7 @@ export default function AtelierPage() {
       <nav className="fixed top-0 left-0 right-0 z-50 flex justify-between items-center px-8 py-6 border-b border-white/5 bg-black/80 backdrop-blur-md">
          <Link href="/templates/impact-08" className="flex flex-col cursor-pointer">
             <span className="text-2xl font-black tracking-[-0.05em] uppercase leading-none italic">Vulcan</span>
-            <span className="text-[8px] font-bold uppercase tracking-[0.5em] text-blue-500 -mt-1 ml-1">Motor Group Modena</span>
+            <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-blue-500 -mt-1 ml-1">Motor Group Modena</span>
          </Link>
          <div className="hidden md:flex gap-10 text-[10px] font-black uppercase tracking-widest text-white/40">
             {[
@@ -144,7 +144,7 @@ export default function AtelierPage() {
          </div>
          <div className="flex items-center gap-6">
             <div className="hidden sm:flex flex-col items-end mr-4">
-               <div className="text-[8px] font-black text-blue-500 uppercase tracking-widest">Active_Node</div>
+               <div className="text-[10px] font-black text-blue-500 uppercase tracking-widest">Active_Node</div>
                <div className="text-[10px] font-bold">Modena_01</div>
             </div>
             
@@ -200,7 +200,7 @@ export default function AtelierPage() {
                   {stages.map((stage, i) => (
                     <div key={i} className="relative">
                       <div className="absolute -left-[41px] top-1 w-5 h-5 rounded-full bg-black border border-blue-500 flex items-center justify-center">
-                         <span className="text-[9px] font-mono text-blue-500">{i+1}</span>
+                         <span className="text-[10px] font-mono text-blue-500">{i+1}</span>
                       </div>
                       <h4 className="text-lg font-black uppercase tracking-widest text-white mb-2">{stage.name}</h4>
                       <p className="text-xs text-white/40 leading-relaxed uppercase italic font-medium">{stage.details}</p>

@@ -132,7 +132,7 @@ export default function MethodPage() {
 
                   {/* Footer label */}
                   <div className="mt-8 pt-6 border-t border-black/5">
-                    <p className="text-[9px] uppercase tracking-[0.35em] text-[#3d7a5e] font-sans font-bold">
+                    <p className="text-[10px] uppercase tracking-[0.35em] text-[#3d7a5e] font-sans font-bold">
                       Pilier {i + 1} de la méthode
                     </p>
                   </div>

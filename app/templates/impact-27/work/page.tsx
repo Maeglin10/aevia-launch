@@ -321,7 +321,7 @@ function ProjectCard({
             {project.tech.slice(0, 2).map(t => (
               <span
                 key={t}
-                className="bg-black/60 backdrop-blur-sm text-white/80 text-[9px] font-semibold px-2.5 py-1 rounded-full border border-white/10"
+                className="bg-black/60 backdrop-blur-sm text-white/80 text-[10px] font-semibold px-2.5 py-1 rounded-full border border-white/10"
                 style={monoStyle}
               >
                 {t}

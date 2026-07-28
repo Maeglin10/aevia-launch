@@ -707,7 +707,7 @@ function Hero() {
         <span
           style={{
             fontFamily: FONT,
-            fontSize: 9.5,
+            fontSize: 10,
             letterSpacing: '0.3em',
             textTransform: 'uppercase',
             color: 'rgba(241,242,244,0.55)',

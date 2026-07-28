@@ -181,12 +181,12 @@ export default function NeonPulsePage() {
               className="hidden md:inline-flex items-center gap-2 min-h-[44px] px-2 text-[10px] font-bold uppercase tracking-widest text-white/25 cursor-not-allowed"
             >
               Connect Wallet
-              <span className="px-1.5 py-0.5 rounded-full border border-white/10 text-[7px] tracking-widest text-white/30">Soon</span>
+              <span className="px-1.5 py-0.5 rounded-full border border-white/10 text-[10px] tracking-widest text-white/30">Soon</span>
             </button>
             <button
               type="button"
               onClick={() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })}
-              className="hidden sm:inline-flex px-4 sm:px-8 py-3 min-h-[44px] bg-white text-black text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.1em] sm:tracking-[0.2em] rounded-full hover:bg-[var(--brand,#22d3ee)] hover:text-black transition-all duration-500 shadow-[0_0_20px_rgba(255,255,255,0.2)] cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand,#22d3ee)] focus-visible:ring-offset-2 focus-visible:ring-offset-black whitespace-nowrap"
+              className="hidden sm:inline-flex px-4 sm:px-8 py-3 min-h-[44px] bg-white text-black text-[10px] sm:text-[10px] font-bold uppercase tracking-[0.1em] sm:tracking-[0.2em] rounded-full hover:bg-[var(--brand,#22d3ee)] hover:text-black transition-all duration-500 shadow-[0_0_20px_rgba(255,255,255,0.2)] cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand,#22d3ee)] focus-visible:ring-offset-2 focus-visible:ring-offset-black whitespace-nowrap"
             >Explore Drops</button>
             <Sheet>
               <SheetTrigger className="lg:hidden p-2"><Menu className="w-6 h-6 text-white" /></SheetTrigger>
@@ -298,14 +298,14 @@ export default function NeonPulsePage() {
                       <div className="flex justify-between items-center px-6">
                          {drop.price && (
                            <div>
-                              <div className="text-[9px] font-bold uppercase tracking-widest text-white/30 mb-1">List Price</div>
+                              <div className="text-[10px] font-bold uppercase tracking-widest text-white/30 mb-1">List Price</div>
                               <div className="text-xl font-black italic uppercase tracking-tighter">{drop.price}</div>
                            </div>
                          )}
                          <button
                            type="button"
                            onClick={() => openModal(drop)}
-                           className="px-8 py-3 min-h-[44px] bg-white text-black text-[9px] font-black uppercase tracking-widest rounded-full hover:bg-[var(--brand,#22d3ee)] transition-all cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand,#22d3ee)] focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+                           className="px-8 py-3 min-h-[44px] bg-white text-black text-[10px] font-black uppercase tracking-widest rounded-full hover:bg-[var(--brand,#22d3ee)] transition-all cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand,#22d3ee)] focus-visible:ring-offset-2 focus-visible:ring-offset-black"
                          >Buy Now</button>
                       </div>
                    </div>
@@ -393,9 +393,9 @@ export default function NeonPulsePage() {
                              </div>
                              <div className="flex-1">
                                 <div className="flex flex-wrap items-center gap-4 mb-3">
-                                   <span className="text-[9px] font-bold uppercase tracking-widest text-white/30">{r.phase}</span>
-                                   <span className="text-[8px] font-black uppercase tracking-widest px-2 py-0.5 rounded border border-white/10 text-white/40">{r.status}</span>
-                                   <span className="text-[9px] font-mono text-white/20">{r.date}</span>
+                                   <span className="text-[10px] font-bold uppercase tracking-widest text-white/30">{r.phase}</span>
+                                   <span className="text-[10px] font-black uppercase tracking-widest px-2 py-0.5 rounded border border-white/10 text-white/40">{r.status}</span>
+                                   <span className="text-[10px] font-mono text-white/20">{r.date}</span>
                                 </div>
                                 <h3 className="text-2xl font-black uppercase tracking-tighter italic mb-3">{r.title}</h3>
                                 <p className="text-sm text-white/30 font-light leading-relaxed">{r.desc}</p>
@@ -431,7 +431,7 @@ export default function NeonPulsePage() {
                        <div className="bg-black p-10 text-center group hover:bg-white/[0.02] transition-colors duration-500">
                           <div className="text-4xl font-black italic mb-2 bg-gradient-to-r from-purple-400 via-pink-400 to-[var(--brand,#22d3ee)] bg-clip-text text-transparent">{s.v}</div>
                           <div className="text-[10px] font-bold uppercase tracking-widest text-white/25">{s.l}</div>
-                          <div className="text-[9px] text-white/15 tracking-wider mt-1">{s.sub}</div>
+                          <div className="text-[10px] text-white/15 tracking-wider mt-1">{s.sub}</div>
                        </div>
                     </Reveal>
                  ))}
@@ -579,7 +579,7 @@ export default function NeonPulsePage() {
 
                   {!modalDrop && (
                     <div className="mb-6">
-                      <label htmlFor="reserve-collection" className="block text-[9px] font-bold uppercase tracking-widest text-white/40 mb-2">Collection</label>
+                      <label htmlFor="reserve-collection" className="block text-[10px] font-bold uppercase tracking-widest text-white/40 mb-2">Collection</label>
                       <select
                         id="reserve-collection"
                         required
@@ -596,7 +596,7 @@ export default function NeonPulsePage() {
                   )}
 
                   <div className="mb-6">
-                    <label htmlFor="reserve-name" className="block text-[9px] font-bold uppercase tracking-widest text-white/40 mb-2">Full name</label>
+                    <label htmlFor="reserve-name" className="block text-[10px] font-bold uppercase tracking-widest text-white/40 mb-2">Full name</label>
                     <input
                       id="reserve-name"
                       type="text"
@@ -610,7 +610,7 @@ export default function NeonPulsePage() {
                   </div>
 
                   <div className="mb-6">
-                    <label htmlFor="reserve-email" className="block text-[9px] font-bold uppercase tracking-widest text-white/40 mb-2">Email</label>
+                    <label htmlFor="reserve-email" className="block text-[10px] font-bold uppercase tracking-widest text-white/40 mb-2">Email</label>
                     <input
                       id="reserve-email"
                       type="email"
@@ -624,7 +624,7 @@ export default function NeonPulsePage() {
                   </div>
 
                   <div className="mb-8">
-                    <label htmlFor="reserve-qty" className="block text-[9px] font-bold uppercase tracking-widest text-white/40 mb-2">Quantity</label>
+                    <label htmlFor="reserve-qty" className="block text-[10px] font-bold uppercase tracking-widest text-white/40 mb-2">Quantity</label>
                     <select
                       id="reserve-qty"
                       value={form.quantity}

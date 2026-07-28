@@ -165,7 +165,7 @@ export default function ChronosLuxuryPage() {
               </>
             )}
           </div>
-          <div className="hidden lg:flex gap-10 text-[9px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#d4af37)]/40">
+          <div className="hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#d4af37)]/40">
             {[
               { name: "The Atelier", page: "atelier" },
               { name: "Collection", page: "collection" },
@@ -178,8 +178,8 @@ export default function ChronosLuxuryPage() {
             ))}
           </div>
           <div className="flex items-center gap-8">
-            <button onClick={() => goTo("concierge")} className={`hidden md:block text-[9px] font-bold uppercase tracking-widest transition-colors ${page === "concierge" ? "text-[var(--brand,#d4af37)]" : "text-[var(--brand,#d4af37)]/60 hover:text-[var(--brand,#d4af37)]"}`}>Private Concierge</button>
-            <button onClick={() => goTo("collection")} className="px-8 py-3 border border-[var(--brand,#d4af37)] text-[var(--brand,#d4af37)] text-[9px] font-bold uppercase tracking-[0.3em] hover:bg-[var(--brand,#d4af37)] hover:text-black transition-all duration-700">Explore</button>
+            <button onClick={() => goTo("concierge")} className={`hidden md:block text-[10px] font-bold uppercase tracking-widest transition-colors ${page === "concierge" ? "text-[var(--brand,#d4af37)]" : "text-[var(--brand,#d4af37)]/60 hover:text-[var(--brand,#d4af37)]"}`}>Private Concierge</button>
+            <button onClick={() => goTo("collection")} className="px-8 py-3 border border-[var(--brand,#d4af37)] text-[var(--brand,#d4af37)] text-[10px] font-bold uppercase tracking-[0.3em] hover:bg-[var(--brand,#d4af37)] hover:text-black transition-all duration-700">Explore</button>
             <Sheet>
               <SheetTrigger className="lg:hidden"><Menu className="w-6 h-6 text-[var(--brand,#d4af37)]" /></SheetTrigger>
               <SheetContent side="right" className="bg-[#050505] border-[var(--brand,#d4af37)]/10 p-12 overflow-y-auto">
@@ -280,7 +280,7 @@ export default function ChronosLuxuryPage() {
                         </div>
                         <div className="flex justify-between items-start mb-4">
                           <div>
-                             <div className="text-[9px] font-bold uppercase tracking-[0.2em] text-[var(--brand,#d4af37)] mb-1">{c.series}</div>
+                             <div className="text-[10px] font-bold uppercase tracking-[0.2em] text-[var(--brand,#d4af37)] mb-1">{c.series}</div>
                              <h3 className="text-2xl font-light uppercase text-white tracking-widest">{c.name}</h3>
                           </div>
                           <div className="text-xl font-bold italic">{c.price}</div>
@@ -302,7 +302,7 @@ export default function ChronosLuxuryPage() {
                       <ParallaxImg src={photo(1, "https://images.unsplash.com/photo-1524592094714-0f0654e20314?auto=format&fit=crop&q=80&w=1200")} alt="Atelier Detail" />
                       <div className="absolute -bottom-12 -left-12 p-8 bg-[#050505] border border-white/5 w-64 hidden md:block">
                          <div className="text-3xl font-bold mb-2 text-white">100%</div>
-                         <div className="text-[9px] font-bold uppercase tracking-widest text-[var(--brand,#d4af37)]">In-House Calibre</div>
+                         <div className="text-[10px] font-bold uppercase tracking-widest text-[var(--brand,#d4af37)]">In-House Calibre</div>
                       </div>
                     </div>
                   </Reveal>
@@ -511,7 +511,7 @@ function CollectionPage({ goTo }: { goTo: (p: ActivePage) => void }) {
               </div>
               <div className="w-full md:w-1/2 flex flex-col h-full justify-between">
                 <div>
-                  <div className="text-[9px] font-bold uppercase tracking-[0.2em] text-[var(--brand,#d4af37)] mb-1">{c.series}</div>
+                  <div className="text-[10px] font-bold uppercase tracking-[0.2em] text-[var(--brand,#d4af37)] mb-1">{c.series}</div>
                   <h3 className="text-3xl font-light uppercase text-white tracking-wider mb-2">{c.name}</h3>
                   <div className="text-xl font-bold italic text-[var(--brand,#d4af37)] mb-4">{c.price}</div>
                   <p className="text-sm text-white/50 leading-relaxed font-light mb-6">{c.desc}</p>
@@ -694,11 +694,11 @@ function InnovationPage() {
             <div className="flex gap-12">
               <div>
                 <span className="text-2xl font-bold text-white block">125%</span>
-                <span className="text-[9px] font-bold uppercase tracking-widest text-[var(--brand,#d4af37)]">Safety Buffer</span>
+                <span className="text-[10px] font-bold uppercase tracking-widest text-[var(--brand,#d4af37)]">Safety Buffer</span>
               </div>
               <div>
                 <span className="text-2xl font-bold text-white block">100 Bar</span>
-                <span className="text-[9px] font-bold uppercase tracking-widest text-[var(--brand,#d4af37)]">Pressure Limit</span>
+                <span className="text-[10px] font-bold uppercase tracking-widest text-[var(--brand,#d4af37)]">Pressure Limit</span>
               </div>
             </div>
           </div>
@@ -752,13 +752,13 @@ function JournalPage() {
               <div className="aspect-[16/10] relative mb-6 overflow-hidden">
                 <img src={art.img} alt={art.title} className="w-full h-full object-cover" />
               </div>
-              <div className="flex justify-between items-center text-[9px] font-bold uppercase tracking-widest text-[var(--brand,#d4af37)] mb-4">
+              <div className="flex justify-between items-center text-[10px] font-bold uppercase tracking-widest text-[var(--brand,#d4af37)] mb-4">
                 <span>{art.cat}</span>
                 <span className="text-white/30">{art.date}</span>
               </div>
               <h3 className="text-xl font-light uppercase text-white mb-4 tracking-wide leading-snug" style={{ fontFamily: "serif" }}>{art.title}</h3>
               <p className="text-xs text-white/40 leading-relaxed mb-6 font-light">{art.desc}</p>
-              <span className="text-[9px] font-bold uppercase tracking-widest text-white hover:text-[var(--brand,#d4af37)] transition-colors flex items-center gap-2">
+              <span className="text-[10px] font-bold uppercase tracking-widest text-white hover:text-[var(--brand,#d4af37)] transition-colors flex items-center gap-2">
                 Read Article <ArrowRight className="w-3 h-3" />
               </span>
             </div>
@@ -786,18 +786,18 @@ function ConciergePage() {
         <form onSubmit={(e) => e.preventDefault()} className="space-y-8 border border-white/5 bg-[#080808] p-10 md:p-16">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div>
-              <label className="block text-[9px] font-bold uppercase tracking-widest text-[var(--brand,#d4af37)] mb-3">Full Name</label>
+              <label className="block text-[10px] font-bold uppercase tracking-widest text-[var(--brand,#d4af37)] mb-3">Full Name</label>
               <input type="text" placeholder="Your name" className="w-full bg-black/40 border border-white/10 px-4 py-3 text-sm focus:border-[var(--brand,#d4af37)] outline-none text-white transition-colors" />
             </div>
             <div>
-              <label className="block text-[9px] font-bold uppercase tracking-widest text-[var(--brand,#d4af37)] mb-3">Email Address</label>
+              <label className="block text-[10px] font-bold uppercase tracking-widest text-[var(--brand,#d4af37)] mb-3">Email Address</label>
               <input type="email" placeholder="name@domain.com" className="w-full bg-black/40 border border-white/10 px-4 py-3 text-sm focus:border-[var(--brand,#d4af37)] outline-none text-white transition-colors" />
             </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div>
-              <label className="block text-[9px] font-bold uppercase tracking-widest text-[var(--brand,#d4af37)] mb-3">Timepiece of Interest</label>
+              <label className="block text-[10px] font-bold uppercase tracking-widest text-[var(--brand,#d4af37)] mb-3">Timepiece of Interest</label>
               <select className="w-full bg-black/40 border border-[var(--brand,#d4af37)]/20 px-4 py-3 text-sm focus:border-[var(--brand,#d4af37)] outline-none text-[var(--brand,#d4af37)] transition-colors">
                 <option value="horology1">Horology One</option>
                 <option value="deepsea">Deep Sea</option>
@@ -807,7 +807,7 @@ function ConciergePage() {
               </select>
             </div>
             <div>
-              <label className="block text-[9px] font-bold uppercase tracking-widest text-[var(--brand,#d4af37)] mb-3">Request Type</label>
+              <label className="block text-[10px] font-bold uppercase tracking-widest text-[var(--brand,#d4af37)] mb-3">Request Type</label>
               <select className="w-full bg-black/40 border border-[var(--brand,#d4af37)]/20 px-4 py-3 text-sm focus:border-[var(--brand,#d4af37)] outline-none text-[var(--brand,#d4af37)] transition-colors">
                 <option value="viewing">Private Viewing (Geneva)</option>
                 <option value="purchase">Acquisition Request</option>
@@ -817,7 +817,7 @@ function ConciergePage() {
           </div>
 
           <div>
-            <label className="block text-[9px] font-bold uppercase tracking-widest text-[var(--brand,#d4af37)] mb-3">Additional Details</label>
+            <label className="block text-[10px] font-bold uppercase tracking-widest text-[var(--brand,#d4af37)] mb-3">Additional Details</label>
             <textarea rows={4} placeholder="Please describe any customization requests or preferred contact hours..." className="w-full bg-black/40 border border-white/10 px-4 py-3 text-sm focus:border-[var(--brand,#d4af37)] outline-none text-white transition-colors resize-none" />
           </div>
 
@@ -870,7 +870,7 @@ function SupportPage() {
                 <h3 className="text-lg font-bold uppercase tracking-widest text-white mb-4">{item.title}</h3>
                 <p className="text-sm text-white/40 leading-relaxed font-light mb-8">{item.desc}</p>
               </div>
-              <button className="text-[9px] font-bold uppercase tracking-widest text-[var(--brand,#d4af37)] hover:underline text-left">
+              <button className="text-[10px] font-bold uppercase tracking-widest text-[var(--brand,#d4af37)] hover:underline text-left">
                 Learn More
               </button>
             </div>

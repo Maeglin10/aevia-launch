@@ -101,12 +101,12 @@ export default function AnatomyPage() {
               {/* CALLOUTS */}
               <div className="absolute top-1/4 right-0 flex items-center gap-4">
                 <div className="w-12 h-[1px] bg-stone-600" />
-                <span className="text-[8px] font-black text-stone-500 uppercase tracking-widest">
+                <span className="text-[10px] font-black text-stone-500 uppercase tracking-widest">
                   Sapphire_Inlay
                 </span>
               </div>
               <div className="absolute bottom-1/4 left-0 flex items-center gap-4">
-                <span className="text-[8px] font-black text-stone-500 uppercase tracking-widest">
+                <span className="text-[10px] font-black text-stone-500 uppercase tracking-widest">
                   Titanium_Core
                 </span>
                 <div className="w-12 h-[1px] bg-stone-600" />

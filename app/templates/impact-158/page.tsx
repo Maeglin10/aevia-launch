@@ -320,11 +320,11 @@ export default function AtlasPage() {
           initial={{ opacity: 0, rotate: -5 }} animate={{ opacity: 1, rotate: -5 }} transition={{ delay: 0.8 }}>
           <div className="relative w-40 h-28 bg-[#FFF8EF] shadow-2xl rounded-sm overflow-hidden rotate-[-5deg]">
             <Image src={photo(0, "https://images.unsplash.com/photo-1545569341-9eb8b30979d9?w=200&q=70")} alt="postcard" fill className="object-cover" />
-            <div className="absolute bottom-1 left-2 text-[8px] text-[#2C1F0E] font-mono">Kyoto, JP — 11.2024</div>
+            <div className="absolute bottom-1 left-2 text-[10px] text-[#2C1F0E] font-mono">Kyoto, JP — 11.2024</div>
           </div>
           <div className="absolute -top-4 -right-4 w-36 h-24 bg-[#FFF8EF] shadow-xl rounded-sm overflow-hidden rotate-[8deg]">
             <Image src={photo(1, "https://images.unsplash.com/photo-1493246507139-91e8fad9978e?w=200&q=70")} alt="postcard" fill className="object-cover" />
-            <div className="absolute bottom-1 left-2 text-[8px] text-[#2C1F0E] font-mono">Todra, MA — 10.2024</div>
+            <div className="absolute bottom-1 left-2 text-[10px] text-[#2C1F0E] font-mono">Todra, MA — 10.2024</div>
           </div>
         </motion.div>
 

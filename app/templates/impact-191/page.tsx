@@ -137,7 +137,7 @@ export default function JardinsVivantsPage() {
                 <Leaf className="w-5 h-5 text-[var(--brand,#2d5a27)]" />
                 <div>
                   <div className="font-bold text-[#1e2a1c] text-sm leading-tight" style={{ fontFamily: "'Cardo', Georgia, serif" }}>Jardins Vivants</div>
-                  <div className="text-[8px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#2d5a27)]/50">Paysagiste · Annecy</div>
+                  <div className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#2d5a27)]/50">Paysagiste · Annecy</div>
                 </div>
               </>
             )}
@@ -179,7 +179,7 @@ export default function JardinsVivantsPage() {
           <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.3 }}>
             <div className="flex items-center gap-4 mb-8">
               <div className="w-8 h-[1px] bg-[#a8d5a0]/60" />
-              <span className="text-[9px] font-bold uppercase tracking-[0.45em] text-[#a8d5a0]">Paysagiste & espaces verts · Annecy & Haute-Savoie</span>
+              <span className="text-[10px] font-bold uppercase tracking-[0.45em] text-[#a8d5a0]">Paysagiste & espaces verts · Annecy & Haute-Savoie</span>
             </div>
           </motion.div>
 
@@ -229,7 +229,7 @@ export default function JardinsVivantsPage() {
             <Reveal key={i} delay={i * 0.07}>
               <div className="text-center p-5 bg-white rounded-xl shadow-sm">
                 <div className="text-2xl font-bold text-[var(--brand,#2d5a27)] mb-1">{s.v}</div>
-                <div className="text-[9px] font-bold uppercase tracking-widest text-[#1e2a1c]/35">{s.l}</div>
+                <div className="text-[10px] font-bold uppercase tracking-widest text-[#1e2a1c]/35">{s.l}</div>
               </div>
             </Reveal>
           ))}
@@ -344,14 +344,14 @@ export default function JardinsVivantsPage() {
             { t: "Contact", ls: ["04 50 12 34 56", "contact@jardins-vivants.fr", "Annecy & Haute-Savoie", "Lun-Sam 7h30-18h", "Devis gratuit 48h"] },
           ].map((col, i) => (
             <div key={i}>
-              <h4 className="text-[9px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#2d5a27)]/60 mb-5">{col.t}</h4>
+              <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#2d5a27)]/60 mb-5">{col.t}</h4>
               <ul className="space-y-2.5">
                 {col.ls.map(l => <li key={l}><Link href="#contact" className="text-white/20 text-sm hover:text-white transition-colors">{l}</Link></li>)}
               </ul>
             </div>
           ))}
         </div>
-        <div className="max-w-[1300px] mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between gap-3 text-[9px] font-bold uppercase tracking-widest text-white/10">
+        <div className="max-w-[1300px] mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between gap-3 text-[10px] font-bold uppercase tracking-widest text-white/10">
           <span>© 2026 Jardins Vivants · SIRET 456 789 012 00033 · Paysagiste qualifié · Annecy (74)</span>
           <span className="text-[var(--brand,#2d5a27)]/25">Paysagiste · Haute-Savoie</span>
         </div>

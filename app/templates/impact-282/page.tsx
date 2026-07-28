@@ -2613,7 +2613,7 @@ function FooterSection() {
               <div
                 style={{
                   fontFamily: SANS,
-                  fontSize: 9,
+                  fontSize: 10,
                   letterSpacing: '0.28em',
                   textTransform: 'uppercase',
                   color: C.wheat,

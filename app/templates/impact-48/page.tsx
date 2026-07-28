@@ -470,7 +470,7 @@ function HeroSection() {
             <span
               style={{
                 fontFamily: F.sans,
-                fontSize: 9,
+                fontSize: 10,
                 letterSpacing: '0.24em',
                 color: 'rgba(255,255,255,0.2)',
                 textTransform: 'uppercase' as const,
@@ -481,7 +481,7 @@ function HeroSection() {
             <span
               style={{
                 fontFamily: F.sans,
-                fontSize: 9,
+                fontSize: 10,
                 letterSpacing: '0.24em',
                 color: C.accent,
                 textTransform: 'uppercase' as const,
@@ -915,7 +915,7 @@ function ProjectsSection() {
                     <span
                       style={{
                         fontFamily: F.sans,
-                        fontSize: 9,
+                        fontSize: 10,
                         letterSpacing: '0.24em',
                         textTransform: 'uppercase' as const,
                         color: C.accent,
@@ -927,7 +927,7 @@ function ProjectsSection() {
                     <span
                       style={{
                         fontFamily: F.sans,
-                        fontSize: 9,
+                        fontSize: 10,
                         letterSpacing: '0.16em',
                         color: 'rgba(255,255,255,0.3)',
                       }}
@@ -1374,7 +1374,7 @@ function FloorPlanSection() {
             <span
               style={{
                 fontFamily: F.sans,
-                fontSize: 9,
+                fontSize: 10,
                 letterSpacing: '0.26em',
                 textTransform: 'uppercase' as const,
                 color: C.accent,
@@ -1399,7 +1399,7 @@ function FloorPlanSection() {
                 key={d}
                 style={{
                   fontFamily: F.sans,
-                  fontSize: 9,
+                  fontSize: 10,
                   letterSpacing: '0.2em',
                   color: 'rgba(15,15,15,0.2)',
                 }}
@@ -2054,7 +2054,7 @@ function TeamSection() {
             <span
               style={{
                 fontFamily: F.sans,
-                fontSize: 9,
+                fontSize: 10,
                 letterSpacing: '0.26em',
                 textTransform: 'uppercase' as const,
                 color: C.accent,
@@ -2207,7 +2207,7 @@ function TeamSection() {
                     <div
                       style={{
                         fontFamily: F.sans,
-                        fontSize: 9,
+                        fontSize: 10,
                         color: C.textDim,
                         letterSpacing: '0.12em',
                         textTransform: 'uppercase' as const,

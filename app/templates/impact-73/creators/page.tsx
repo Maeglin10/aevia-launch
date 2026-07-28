@@ -83,7 +83,7 @@ export default function CreatorsPage() {
                   <div className="text-[10px] font-bold text-rose-500 uppercase tracking-widest mb-4">
                     {c.sub} Subscribers
                   </div>
-                  <p className="text-[9px] text-white/20 uppercase tracking-widest font-bold leading-relaxed">
+                  <p className="text-[10px] text-white/20 uppercase tracking-widest font-bold leading-relaxed">
                     Partner Creator broadcasting live in 8K HDR.
                   </p>
                 </div>

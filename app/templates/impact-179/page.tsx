@@ -319,7 +319,7 @@ export default function AquanovaPiscinesPage() {
                 <div className="group cursor-pointer bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500">
                   <div className="relative aspect-[4/3] overflow-hidden">
                     <ParallaxImg src={r.img} alt={r.title} />
-                    <div className="absolute top-4 left-4 px-3 py-1.5 bg-[var(--brand)] text-white text-[9px] font-bold uppercase tracking-widest rounded">{r.tag}</div>
+                    <div className="absolute top-4 left-4 px-3 py-1.5 bg-[var(--brand)] text-white text-[10px] font-bold uppercase tracking-widest rounded">{r.tag}</div>
                   </div>
                   <div className="p-6">
                     <h3 className="font-bold text-[#0f172a] group-hover:text-[var(--brand)] transition-colors">{r.title}</h3>
@@ -416,14 +416,14 @@ export default function AquanovaPiscinesPage() {
             { t: "Contact", ls: ["04 78 98 76 54", "contact@aquanova.fr", "Zone Grand Lyon", "Étude 3D offerte", "Devis gratuit sous 48h"] },
           ].map((col, i) => (
             <div key={i}>
-              <h4 className="text-[9px] font-bold uppercase tracking-[0.3em] text-[var(--brand-light)] mb-5">{col.t}</h4>
+              <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand-light)] mb-5">{col.t}</h4>
               <ul className="space-y-2.5">
                 {col.ls.map(l => <li key={l}><Link href="#contact" className="text-white/25 text-sm hover:text-white transition-colors">{l}</Link></li>)}
               </ul>
             </div>
           ))}
         </div>
-        <div className="max-w-[1300px] mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between gap-4 text-[9px] font-bold uppercase tracking-widest text-white/15">
+        <div className="max-w-[1300px] mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between gap-4 text-[10px] font-bold uppercase tracking-widest text-white/15">
           <span>© 2026 {fd?.businessName ?? "AquaNova Piscines"} · SIRET 234 567 890 00056 · Garantie Décennale · Assurance RC Pro</span>
           <span className="text-[var(--brand-light)]/30">Pisciniste certifié · Grand Lyon</span>
         </div>

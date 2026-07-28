@@ -42,7 +42,7 @@ export default function ContactPage() {
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-8">
                   <div className="flex flex-col gap-2">
-                    <label className="text-[9px] font-bold uppercase tracking-[0.3em] text-white/50">YOUR NAME</label>
+                    <label className="text-[10px] font-bold uppercase tracking-[0.3em] text-white/50">YOUR NAME</label>
                     <input
                       required
                       type="text"
@@ -53,7 +53,7 @@ export default function ContactPage() {
                   </div>
 
                   <div className="flex flex-col gap-2">
-                    <label className="text-[9px] font-bold uppercase tracking-[0.3em] text-white/50">EMAIL ADDRESS</label>
+                    <label className="text-[10px] font-bold uppercase tracking-[0.3em] text-white/50">EMAIL ADDRESS</label>
                     <input
                       required
                       type="email"
@@ -64,7 +64,7 @@ export default function ContactPage() {
                   </div>
 
                   <div className="flex flex-col gap-2">
-                    <label className="text-[9px] font-bold uppercase tracking-[0.3em] text-white/50">PROJECT INDUSTRY</label>
+                    <label className="text-[10px] font-bold uppercase tracking-[0.3em] text-white/50">PROJECT INDUSTRY</label>
                     <select
                       value={form.project}
                       onChange={e => setForm({ ...form, project: e.target.value })}
@@ -78,7 +78,7 @@ export default function ContactPage() {
                   </div>
 
                   <div className="flex flex-col gap-2">
-                    <label className="text-[9px] font-bold uppercase tracking-[0.3em] text-white/50">STRUCTURAL SPECIFICATIONS / STRESS LIMITS</label>
+                    <label className="text-[10px] font-bold uppercase tracking-[0.3em] text-white/50">STRUCTURAL SPECIFICATIONS / STRESS LIMITS</label>
                     <textarea
                       rows={4}
                       value={form.spec}

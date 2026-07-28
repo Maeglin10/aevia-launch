@@ -213,7 +213,7 @@ export default function BatirSolidePage() {
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.3 }}>
             <div className="flex items-center gap-4 mb-6">
               <div className="w-10 h-[2px] bg-[var(--brand,#d4a96a)]" />
-              <span className="text-[9px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#d4a96a)]">Maçon & Gros Œuvre · Région PACA</span>
+              <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#d4a96a)]">Maçon & Gros Œuvre · Région PACA</span>
             </div>
           </motion.div>
 
@@ -299,7 +299,7 @@ export default function BatirSolidePage() {
                 <div className="group cursor-pointer">
                   <div className="relative aspect-[4/3] overflow-hidden mb-5">
                     <ParallaxImg src={r.img} alt={r.title} />
-                    <div className="absolute top-4 left-4 px-3 py-1.5 bg-[var(--brand,#d4a96a)] text-[#1a1008] text-[9px] font-black uppercase tracking-widest">{r.tag}</div>
+                    <div className="absolute top-4 left-4 px-3 py-1.5 bg-[var(--brand,#d4a96a)] text-[#1a1008] text-[10px] font-black uppercase tracking-widest">{r.tag}</div>
                     <div className="absolute inset-0 bg-[#1a1008]/0 group-hover:bg-[#1a1008]/20 transition-all duration-700" />
                   </div>
                   <h3 className="font-black text-white uppercase group-hover:text-[var(--brand,#d4a96a)] transition-colors">{r.title}</h3>
@@ -368,14 +368,14 @@ export default function BatirSolidePage() {
             { t: "Contact", ls: ["04 91 23 45 67", "devis@batirsolide.fr", "Marseille & PACA", "Lundi-Vendredi 7h-18h", "Devis gratuit 48h"] },
           ].map((col, i) => (
             <div key={i}>
-              <h4 className="text-[9px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#d4a96a)] mb-5">{col.t}</h4>
+              <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#d4a96a)] mb-5">{col.t}</h4>
               <ul className="space-y-2.5">
                 {col.ls.map(l => <li key={l}><Link href="#contact" className="text-white/25 text-sm hover:text-white transition-colors">{l}</Link></li>)}
               </ul>
             </div>
           ))}
         </div>
-        <div className="max-w-[1300px] mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between gap-4 text-[9px] font-bold uppercase tracking-widest text-white/15">
+        <div className="max-w-[1300px] mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between gap-4 text-[10px] font-bold uppercase tracking-widest text-white/15">
           <span>© 2026 Bâtir Solide · SIRET 567 890 123 00045 · Qualibat 3311 · Assurance Décennale SMABTP</span>
           <span className="text-[var(--brand,#d4a96a)]/30">Maçon certifié · Région PACA</span>
         </div>

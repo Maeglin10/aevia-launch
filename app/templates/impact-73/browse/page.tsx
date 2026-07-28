@@ -41,11 +41,11 @@ export default function BrowsePage() {
                     className="object-cover group-hover:scale-105 transition-transform duration-1000"
                   />
                   <div className="absolute top-4 left-4">
-                    <Badge className="bg-rose-600 text-white border-none text-[8px] font-black tracking-widest uppercase px-3 py-1 animate-pulse">
+                    <Badge className="bg-rose-600 text-white border-none text-[10px] font-black tracking-widest uppercase px-3 py-1 animate-pulse">
                       LIVE
                     </Badge>
                   </div>
-                  <div className="absolute bottom-4 right-4 text-[9px] font-black text-white/80 bg-black/50 backdrop-blur-md px-2 py-1 rounded">
+                  <div className="absolute bottom-4 right-4 text-[10px] font-black text-white/80 bg-black/50 backdrop-blur-md px-2 py-1 rounded">
                     {s.viewers} VIEWERS
                   </div>
                   <div className="absolute inset-0 bg-rose-600/10 mix-blend-overlay" />
@@ -64,7 +64,7 @@ export default function BrowsePage() {
                     {s.tags.map((t) => (
                       <span
                         key={t}
-                        className="text-[8px] font-black uppercase tracking-widest text-white/20 bg-white/[0.02] px-2 py-1 rounded border border-white/5"
+                        className="text-[10px] font-black uppercase tracking-widest text-white/20 bg-white/[0.02] px-2 py-1 rounded border border-white/5"
                       >
                         {t}
                       </span>

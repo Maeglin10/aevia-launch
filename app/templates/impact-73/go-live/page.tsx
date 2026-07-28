@@ -31,7 +31,7 @@ export default function GoLivePage() {
                 <Zap className="w-5 h-5 text-rose-500" />
                 <div>
                   <h4 className="text-white mb-1">Ultra-Low Latency</h4>
-                  <p className="text-[9px] font-normal leading-normal lowercase tracking-normal">
+                  <p className="text-[10px] font-normal leading-normal lowercase tracking-normal">
                     SRT protocol deployment yields sub-80ms glass-to-glass latency globally.
                   </p>
                 </div>
@@ -40,7 +40,7 @@ export default function GoLivePage() {
                 <Shield className="w-5 h-5 text-rose-500" />
                 <div>
                   <h4 className="text-white mb-1">Encrypted Ingest</h4>
-                  <p className="text-[9px] font-normal leading-normal lowercase tracking-normal">
+                  <p className="text-[10px] font-normal leading-normal lowercase tracking-normal">
                     Secure handshake utilizing DTLS encryption keys prevents stream hijacking.
                   </p>
                 </div>
@@ -60,7 +60,7 @@ export default function GoLivePage() {
                   className="space-y-6"
                 >
                   <div className="space-y-2">
-                    <label className="text-[9px] font-bold uppercase tracking-widest text-white/30">Stream Title</label>
+                    <label className="text-[10px] font-bold uppercase tracking-widest text-white/30">Stream Title</label>
                     <input
                       type="text"
                       required
@@ -70,7 +70,7 @@ export default function GoLivePage() {
                   </div>
 
                   <div className="space-y-2">
-                    <label className="text-[9px] font-bold uppercase tracking-widest text-white/30">Category / Tags</label>
+                    <label className="text-[10px] font-bold uppercase tracking-widest text-white/30">Category / Tags</label>
                     <select className="w-full bg-[#08080c] border border-white/5 rounded-lg px-4 py-3 text-xs outline-none focus:border-rose-500 transition-all text-white/60">
                       <option>Gaming</option>
                       <option>Tech & Coding</option>
@@ -80,7 +80,7 @@ export default function GoLivePage() {
                   </div>
 
                   <div className="space-y-2">
-                    <label className="text-[9px] font-bold uppercase tracking-widest text-white/30">Ingest Server Node</label>
+                    <label className="text-[10px] font-bold uppercase tracking-widest text-white/30">Ingest Server Node</label>
                     <select className="w-full bg-[#08080c] border border-white/5 rounded-lg px-4 py-3 text-xs outline-none focus:border-rose-500 transition-all text-white/60">
                       <option>Europe West (Paris) - RTMP</option>
                       <option>US East (Virginia) - SRT</option>
@@ -104,11 +104,11 @@ export default function GoLivePage() {
                   <h4 className="text-lg font-black uppercase text-white">Ingest Keys Active</h4>
                   <div className="p-4 bg-black border border-white/5 rounded-lg font-mono text-xs text-white/60 space-y-4">
                     <div>
-                      <span className="text-white/30 block text-[9px] uppercase tracking-widest mb-1">Server URL</span>
+                      <span className="text-white/30 block text-[10px] uppercase tracking-widest mb-1">Server URL</span>
                       srt://ingest.streamhub.aevia.io:4242
                     </div>
                     <div>
-                      <span className="text-white/30 block text-[9px] uppercase tracking-widest mb-1">Stream Key</span>
+                      <span className="text-white/30 block text-[10px] uppercase tracking-widest mb-1">Stream Key</span>
                       sh_live_8k_ff0192ea389bc72a01d
                     </div>
                   </div>

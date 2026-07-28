@@ -140,7 +140,7 @@ export default function WorksPage() {
               </button>
             ))}
           </div>
-          <div className="ml-auto text-[9px] font-bold uppercase tracking-widest text-black/10 italic">
+          <div className="ml-auto text-[10px] font-bold uppercase tracking-widest text-black/10 italic">
             {filtered.length} Project{filtered.length !== 1 ? "s" : ""}
           </div>
         </div>
@@ -171,16 +171,16 @@ export default function WorksPage() {
                         <Image src={item.img} alt={item.name} fill className={`object-cover transition-all duration-1000 ${hovered === i ? "grayscale-0" : "grayscale"}`} />
                       </div>
                       <div className="absolute top-4 left-4 z-20 flex gap-2">
-                        <span className="bg-white/80 backdrop-blur-sm px-3 py-1 text-[9px] font-bold uppercase tracking-widest text-black/40">{item.type}</span>
+                        <span className="bg-white/80 backdrop-blur-sm px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-black/40">{item.type}</span>
                         {item.status === "Under Construction" && (
-                          <span className="bg-black text-white px-3 py-1 text-[9px] font-bold uppercase tracking-widest">In Progress</span>
+                          <span className="bg-black text-white px-3 py-1 text-[10px] font-bold uppercase tracking-widest">In Progress</span>
                         )}
                       </div>
-                      <div className="absolute bottom-4 right-4 z-20 text-[9px] font-bold uppercase tracking-widest text-white/40">{item.area}</div>
+                      <div className="absolute bottom-4 right-4 z-20 text-[10px] font-bold uppercase tracking-widest text-white/40">{item.area}</div>
                     </div>
                     <div className="flex justify-between items-start mb-4">
                       <div>
-                        <div className="text-[9px] font-bold uppercase tracking-widest text-black/20 mb-2 italic">
+                        <div className="text-[10px] font-bold uppercase tracking-widest text-black/20 mb-2 italic">
                           {item.loc} · {item.year}
                         </div>
                         <h3 className="text-2xl md:text-3xl font-light uppercase tracking-tighter text-black italic group-hover:translate-x-2 transition-transform duration-700">

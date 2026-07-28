@@ -149,7 +149,7 @@ return (
                     <span className="text-[10px] font-black uppercase tracking-widest">Real-time Stress Audit</span>
                   </div>
                   <div className="text-4xl font-black italic text-white mb-2 tracking-tighter">98.4% NOMINAL</div>
-                  <div className="text-[9px] font-bold uppercase tracking-widest text-white/20 italic">Vibration Damping Active</div>
+                  <div className="text-[10px] font-bold uppercase tracking-widest text-white/20 italic">Vibration Damping Active</div>
                 </div>
               </div>
             </Reveal>

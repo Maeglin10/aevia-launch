@@ -534,7 +534,7 @@ function ProductRevealCard({
                   border: "1px solid rgba(212,175,107,0.3)",
                   borderRadius: 2,
                   color: "rgba(212,175,107,0.7)",
-                  fontSize: 9,
+                  fontSize: 10,
                   letterSpacing: "0.25em",
                   textTransform: "uppercase",
                   padding: "6px 14px",
@@ -823,7 +823,7 @@ function LookbookCard({
           <p
             style={{
               color: "rgba(212,175,107,0.5)",
-              fontSize: 9,
+              fontSize: 10,
               letterSpacing: "0.4em",
               textTransform: "uppercase",
               fontFamily: "Georgia, serif",
@@ -1125,7 +1125,7 @@ export default function LuxuryJewelryTemplate() {
                 border: "1px solid rgba(212,175,107,0.3)",
                 borderRadius: 2,
                 color: brand ?? 'var(--brand,#d4af6b)',
-                fontSize: 9,
+                fontSize: 10,
                 letterSpacing: "0.3em",
                 textTransform: "uppercase",
                 padding: "8px 20px",
@@ -1573,7 +1573,7 @@ export default function LuxuryJewelryTemplate() {
               <p
                 style={{
                   color: "rgba(212,175,107,0.4)",
-                  fontSize: 9,
+                  fontSize: 10,
                   letterSpacing: "0.35em",
                   textTransform: "uppercase",
                   fontFamily: "Georgia, serif",
@@ -1629,7 +1629,7 @@ export default function LuxuryJewelryTemplate() {
           <p
             style={{
               color: "rgba(212,175,107,0.4)",
-              fontSize: 9,
+              fontSize: 10,
               letterSpacing: "0.4em",
               textTransform: "uppercase",
               fontFamily: "Georgia, serif",
@@ -2149,7 +2149,7 @@ export default function LuxuryJewelryTemplate() {
                     <p
                       style={{
                         color: "rgba(212,175,107,0.5)",
-                        fontSize: 9,
+                        fontSize: 10,
                         letterSpacing: "0.4em",
                         textTransform: "uppercase",
                         fontFamily: "Georgia, serif",
@@ -2463,7 +2463,7 @@ export default function LuxuryJewelryTemplate() {
                         "linear-gradient(135deg, var(--brand,#d4af6b), #b8963a)",
                       border: "none",
                       color: "#0a0806",
-                      fontSize: 9,
+                      fontSize: 10,
                       letterSpacing: "0.3em",
                       textTransform: "uppercase",
                       padding: "18px 28px",
@@ -2623,7 +2623,7 @@ export default function LuxuryJewelryTemplate() {
                   <p
                     style={{
                       color: "rgba(212,175,107,0.5)",
-                      fontSize: 9,
+                      fontSize: 10,
                       letterSpacing: "0.4em",
                       textTransform: "uppercase",
                       fontFamily: "Georgia, serif",
@@ -3066,7 +3066,7 @@ function BoutiquePage({ selectedProduct, setSelectedProduct, goTo }: BoutiquePag
             </div>
             <p
               style={{color: brand ?? 'var(--brand,#d4af6b)',
-                fontSize: 9,
+                fontSize: 10,
                 letterSpacing: "0.25em",
                 textTransform: "uppercase",
                 marginBottom: 6,

@@ -392,7 +392,7 @@ return (
                 {s.icon}
                 <div className="text-left">
                   <div className="text-[11px] font-sans font-semibold text-[#f5efe6]/80">{s.label}</div>
-                  <div className="text-[9px] font-sans text-[#f5efe6]/30 uppercase tracking-wider">{s.sub}</div>
+                  <div className="text-[10px] font-sans text-[#f5efe6]/30 uppercase tracking-wider">{s.sub}</div>
                 </div>
               </motion.div>
             ))}
@@ -415,7 +415,7 @@ return (
                     {stat.icon}
                   </div>
                   <div className="text-2xl font-light text-amber-500 mb-1">{stat.value}</div>
-                  <div className="text-[9px] uppercase tracking-[0.25em] font-sans text-[#f5efe6]/30 font-semibold">{stat.label}</div>
+                  <div className="text-[10px] uppercase tracking-[0.25em] font-sans text-[#f5efe6]/30 font-semibold">{stat.label}</div>
                 </div>
               </Reveal>
             ))}
@@ -457,10 +457,10 @@ return (
                       <div className="flex-1">
                         <div className="flex flex-wrap items-center gap-3 mb-2">
                           <h3 className="text-xl md:text-2xl font-light group-hover:text-amber-400 transition-colors duration-200">{item.name}</h3>
-                          {item.tag && <Badge className="bg-amber-700/20 text-amber-400 border-amber-700/30 text-[8px] uppercase tracking-widest font-bold">{item.tag}</Badge>}
+                          {item.tag && <Badge className="bg-amber-700/20 text-amber-400 border-amber-700/30 text-[10px] uppercase tracking-widest font-bold">{item.tag}</Badge>}
                         </div>
                         <p className="text-sm font-sans text-[#f5efe6]/30 max-w-lg leading-relaxed">{item.desc}</p>
-                        {item.allergens && <p className="text-[9px] font-sans text-[#f5efe6]/15 uppercase tracking-wider mt-1">Contains: {item.allergens}</p>}
+                        {item.allergens && <p className="text-[10px] font-sans text-[#f5efe6]/15 uppercase tracking-wider mt-1">Contains: {item.allergens}</p>}
                       </div>
                       <div className="flex items-center gap-3 ml-8 shrink-0 pt-1">
                         <div className="hidden md:block h-px w-10 bg-white/5 group-hover:bg-amber-700/30 transition-colors duration-200" />
@@ -539,7 +539,7 @@ return (
               </div>
               <motion.div animate={{ y: [0, -8, 0] }} transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }} className="absolute -bottom-6 -right-6 bg-amber-700 text-white p-6 rounded-2xl shadow-2xl">
                 <div className="text-3xl font-light mb-1">★★</div>
-                <div className="text-[9px] uppercase tracking-widest font-sans font-bold opacity-80">Michelin<br />Stars</div>
+                <div className="text-[10px] uppercase tracking-widest font-sans font-bold opacity-80">Michelin<br />Stars</div>
               </motion.div>
             </div>
           </Reveal>
@@ -564,7 +564,7 @@ return (
               ].map((stat, i) => (
                 <div key={i} className="text-center">
                   <div className="text-2xl text-amber-500 mb-1">{stat.value}</div>
-                  <div className="text-[9px] uppercase tracking-wider font-sans text-[#f5efe6]/30 font-semibold">{stat.label}</div>
+                  <div className="text-[10px] uppercase tracking-wider font-sans text-[#f5efe6]/30 font-semibold">{stat.label}</div>
                 </div>
               ))}
             </div>
@@ -612,7 +612,7 @@ return (
                           <div className="text-sm font-sans font-semibold text-[#f5efe6]">{name}</div>
                           {(t.role ?? t.source) && <div className="text-[10px] font-sans text-[#f5efe6]/30">{t.role ?? t.source}</div>}
                         </div>
-                        {t.date && <div className="ml-auto text-[9px] font-sans text-[#f5efe6]/20 uppercase tracking-wider">{t.date}</div>}
+                        {t.date && <div className="ml-auto text-[10px] font-sans text-[#f5efe6]/20 uppercase tracking-wider">{t.date}</div>}
                       </div>
                     </CardContent>
                   </Card>
@@ -648,7 +648,7 @@ return (
               <Reveal key={i} delay={i * 0.1}>
                 <div className={`relative rounded-3xl p-8 border h-full flex flex-col transition-all duration-200 hover:-translate-y-1 ${plan.popular ? "border-amber-700/50 bg-amber-700/10 shadow-lg shadow-amber-900/20" : "border-white/5 bg-white/[0.02]"}`}>
                   {plan.popular && (
-                    <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 bg-amber-700 rounded-full text-[9px] uppercase tracking-wider font-bold font-sans">
+                    <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 bg-amber-700 rounded-full text-[10px] uppercase tracking-wider font-bold font-sans">
                       Recommended
                     </div>
                   )}
@@ -735,7 +735,7 @@ return (
                     <div className="w-12 h-12 mx-auto rounded-full bg-amber-700/10 flex items-center justify-center text-amber-600 mb-4 group-hover:bg-amber-700 group-hover:text-white transition-all duration-200 cursor-default">
                       {item.icon}
                     </div>
-                    <div className="text-[9px] uppercase tracking-[0.3em] font-sans text-[#f5efe6]/30 font-semibold mb-2">{item.label}</div>
+                    <div className="text-[10px] uppercase tracking-[0.3em] font-sans text-[#f5efe6]/30 font-semibold mb-2">{item.label}</div>
                     <div className="text-sm font-sans text-[#f5efe6]/55 whitespace-pre-line leading-relaxed">{item.value}</div>
                   </div>
                 </Reveal>
@@ -768,7 +768,7 @@ return (
             { title: "Legal", items: [{ label: "Mentions Légales", key: "mentions" as const }, { label: "Confidentialité", key: "privacy" as const }] },
           ].map(col => (
             <div key={col.title}>
-              <h4 className="text-[9px] font-sans font-bold text-[#f5efe6]/30 uppercase tracking-[0.3em] mb-5">{col.title}</h4>
+              <h4 className="text-[10px] font-sans font-bold text-[#f5efe6]/30 uppercase tracking-[0.3em] mb-5">{col.title}</h4>
               <ul className="space-y-3">
                 {col.items.map(item => (
                   <li key={item.label}>
@@ -786,7 +786,7 @@ return (
         </div>
         <Separator className="bg-white/5 mb-10" />
         <div className="flex flex-col md:flex-row justify-between items-center gap-6">
-          <span className="text-[9px] font-sans text-[#f5efe6]/15 uppercase tracking-wider">&copy; 2026 L&apos;Étoile Paris · All Rights Reserved</span>
+          <span className="text-[10px] font-sans text-[#f5efe6]/15 uppercase tracking-wider">&copy; 2026 L&apos;Étoile Paris · All Rights Reserved</span>
           <div className="flex gap-4">
             {[<Globe key="ig" className="w-4 h-4" />, <Globe key="fb" className="w-4 h-4" />, <Globe key="tw" className="w-4 h-4" />, <Mail key="mail" className="w-4 h-4" />].map((icon, i) => (
               <a key={i} href="#hero" className="w-9 h-9 rounded-full border border-white/10 flex items-center justify-center text-[#f5efe6]/30 hover:text-amber-500 hover:border-amber-600 transition-all duration-200 cursor-pointer">
@@ -794,7 +794,7 @@ return (
               </a>
             ))}
           </div>
-          <span className="text-[9px] font-sans text-[#f5efe6]/15 uppercase tracking-wider">Michelin ★★ · Paris, France</span>
+          <span className="text-[10px] font-sans text-[#f5efe6]/15 uppercase tracking-wider">Michelin ★★ · Paris, France</span>
         </div>
       </footer>
 
@@ -808,18 +808,18 @@ return (
           <form className="space-y-5">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="text-[9px] uppercase tracking-widest font-sans text-[#f5efe6]/30 font-semibold mb-1.5 block">Date</label>
+                <label className="text-[10px] uppercase tracking-widest font-sans text-[#f5efe6]/30 font-semibold mb-1.5 block">Date</label>
                 <input type="date" className="w-full bg-white/5 border border-white/10 px-4 py-3 text-sm font-sans focus:border-amber-600 focus:outline-none transition-all duration-200 rounded-lg text-[#f5efe6] cursor-pointer" />
               </div>
               <div>
-                <label className="text-[9px] uppercase tracking-widest font-sans text-[#f5efe6]/30 font-semibold mb-1.5 block">Time</label>
+                <label className="text-[10px] uppercase tracking-widest font-sans text-[#f5efe6]/30 font-semibold mb-1.5 block">Time</label>
                 <select className="w-full bg-white/5 border border-white/10 px-4 py-3 text-sm font-sans focus:border-amber-600 focus:outline-none transition-all duration-200 rounded-lg text-[#f5efe6] appearance-none cursor-pointer">
                   {["19:00", "19:30", "20:00", "20:30", "21:00", "21:30"].map(t => <option key={t} className="bg-[#1a1714]">{t}</option>)}
                 </select>
               </div>
             </div>
             <div>
-              <label className="text-[9px] uppercase tracking-widest font-sans text-[#f5efe6]/30 font-semibold mb-1.5 block">Guests</label>
+              <label className="text-[10px] uppercase tracking-widest font-sans text-[#f5efe6]/30 font-semibold mb-1.5 block">Guests</label>
               <div className="flex items-center gap-4">
                 <button type="button" onClick={() => setGuests(Math.max(1, guests - 1))} className="w-10 h-10 rounded-lg border border-white/10 flex items-center justify-center hover:border-amber-600 transition-all duration-200 cursor-pointer">−</button>
                 <span className="text-xl font-light w-8 text-center">{guests}</span>
@@ -828,15 +828,15 @@ return (
               </div>
             </div>
             <div>
-              <label className="text-[9px] uppercase tracking-widest font-sans text-[#f5efe6]/30 font-semibold mb-1.5 block">Full Name</label>
+              <label className="text-[10px] uppercase tracking-widest font-sans text-[#f5efe6]/30 font-semibold mb-1.5 block">Full Name</label>
               <input type="text" placeholder="Your full name" className="w-full bg-white/5 border border-white/10 px-4 py-3 text-sm font-sans placeholder:text-[#f5efe6]/15 focus:border-amber-600 focus:outline-none transition-all duration-200 rounded-lg" />
             </div>
             <div>
-              <label className="text-[9px] uppercase tracking-widest font-sans text-[#f5efe6]/30 font-semibold mb-1.5 block">Email</label>
+              <label className="text-[10px] uppercase tracking-widest font-sans text-[#f5efe6]/30 font-semibold mb-1.5 block">Email</label>
               <input type="email" placeholder="your@email.com" className="w-full bg-white/5 border border-white/10 px-4 py-3 text-sm font-sans placeholder:text-[#f5efe6]/15 focus:border-amber-600 focus:outline-none transition-all duration-200 rounded-lg" />
             </div>
             <div>
-              <label className="text-[9px] uppercase tracking-widest font-sans text-[#f5efe6]/30 font-semibold mb-1.5 block">Special Requests</label>
+              <label className="text-[10px] uppercase tracking-widest font-sans text-[#f5efe6]/30 font-semibold mb-1.5 block">Special Requests</label>
               <textarea placeholder="Allergies, dietary requirements, celebrations..." className="w-full bg-white/5 border border-white/10 px-4 py-3 text-sm font-sans placeholder:text-[#f5efe6]/15 focus:border-amber-600 focus:outline-none transition-all duration-200 rounded-lg h-20 resize-none" />
             </div>
             <button type="submit" className="w-full py-4 bg-amber-700 hover:bg-amber-600 text-[11px] uppercase tracking-[0.2em] font-sans font-bold transition-all duration-200 rounded-lg flex items-center justify-center gap-2 cursor-pointer">
@@ -884,10 +884,10 @@ function MenuPage() {
                   <div style={{ flex: 1 }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 8 }}>
                       <h3 className="text-xl font-light text-[#f5efe6]">{item.name}</h3>
-                      {item.tag && <span className="px-2 py-0.5 bg-amber-700/20 text-amber-400 border border-amber-700/30 text-[8px] uppercase tracking-widest font-bold font-sans rounded">{item.tag}</span>}
+                      {item.tag && <span className="px-2 py-0.5 bg-amber-700/20 text-amber-400 border border-amber-700/30 text-[10px] uppercase tracking-widest font-bold font-sans rounded">{item.tag}</span>}
                     </div>
                     <p className="text-sm font-sans text-[#f5efe6]/35 leading-relaxed">{item.desc}</p>
-                    {item.allergens && <p className="text-[9px] font-sans text-[#f5efe6]/15 uppercase tracking-wider mt-1">Contains: {item.allergens}</p>}
+                    {item.allergens && <p className="text-[10px] font-sans text-[#f5efe6]/15 uppercase tracking-wider mt-1">Contains: {item.allergens}</p>}
                   </div>
                   <div style={{ marginLeft: 32, fontSize: 20, color: 'text-amber-500', fontWeight: 300, alignSelf: 'center' }}>
                     <span className="text-amber-500">{hasRealMenu ? item.price : `${item.price}€`}</span>
@@ -924,18 +924,18 @@ function ReservationPage({ guests, setGuests }: { guests: number; setGuests: (n:
         <form onSubmit={(e) => { e.preventDefault(); setSubmitted(true); }} style={{ display: 'flex', flexDirection: 'column', gap: 24 }} className="bg-white/[0.02] border border-white/5 p-8 rounded-2xl">
           <div className="imx-mobstack" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
             <div>
-              <label style={{ fontSize: 9, letterSpacing: '0.2em', color: '#f5efe6/30', fontWeight: 600, marginBottom: 8, display: 'block' }} className="uppercase">Date</label>
+              <label style={{ fontSize: 10, letterSpacing: '0.2em', color: '#f5efe6/30', fontWeight: 600, marginBottom: 8, display: 'block' }} className="uppercase">Date</label>
               <input required type="date" style={{ width: '100%', border: '1px solid rgba(255,255,255,0.1)', padding: '12px', fontSize: 13, background: 'rgba(255,255,255,0.05)', color: '#f5efe6', outline: 'none' }} />
             </div>
             <div>
-              <label style={{ fontSize: 9, letterSpacing: '0.2em', color: '#f5efe6/30', fontWeight: 600, marginBottom: 8, display: 'block' }} className="uppercase">Time</label>
+              <label style={{ fontSize: 10, letterSpacing: '0.2em', color: '#f5efe6/30', fontWeight: 600, marginBottom: 8, display: 'block' }} className="uppercase">Time</label>
               <select style={{ width: '100%', border: '1px solid rgba(255,255,255,0.1)', padding: '12px', fontSize: 13, background: 'rgba(255,255,255,0.05)', color: '#f5efe6', outline: 'none' }}>
                 {["19:00", "19:30", "20:00", "20:30", "21:00", "21:30"].map(t => <option key={t} style={{ background: '#1a1714' }}>{t}</option>)}
               </select>
             </div>
           </div>
           <div>
-            <label style={{ fontSize: 9, letterSpacing: '0.2em', color: '#f5efe6/30', fontWeight: 600, marginBottom: 8, display: 'block' }} className="uppercase">Guests</label>
+            <label style={{ fontSize: 10, letterSpacing: '0.2em', color: '#f5efe6/30', fontWeight: 600, marginBottom: 8, display: 'block' }} className="uppercase">Guests</label>
             <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
               <button type="button" onClick={() => setGuests(Math.max(1, guests - 1))} style={{ width: 40, height: 40, border: '1px solid rgba(255,255,255,0.1)', background: 'transparent', color: '#f5efe6', cursor: 'pointer', borderRadius: 8 }}>−</button>
               <span style={{ fontSize: 20, width: 32, textAlign: 'center' }}>{guests}</span>
@@ -944,15 +944,15 @@ function ReservationPage({ guests, setGuests }: { guests: number; setGuests: (n:
             </div>
           </div>
           <div>
-            <label style={{ fontSize: 9, letterSpacing: '0.2em', color: '#f5efe6/30', fontWeight: 600, marginBottom: 8, display: 'block' }} className="uppercase">Full Name</label>
+            <label style={{ fontSize: 10, letterSpacing: '0.2em', color: '#f5efe6/30', fontWeight: 600, marginBottom: 8, display: 'block' }} className="uppercase">Full Name</label>
             <input required type="text" style={{ width: '100%', border: '1px solid rgba(255,255,255,0.1)', padding: '12px', fontSize: 13, background: 'rgba(255,255,255,0.05)', color: '#f5efe6', outline: 'none' }} />
           </div>
           <div>
-            <label style={{ fontSize: 9, letterSpacing: '0.2em', color: '#f5efe6/30', fontWeight: 600, marginBottom: 8, display: 'block' }} className="uppercase">Email</label>
+            <label style={{ fontSize: 10, letterSpacing: '0.2em', color: '#f5efe6/30', fontWeight: 600, marginBottom: 8, display: 'block' }} className="uppercase">Email</label>
             <input required type="email" style={{ width: '100%', border: '1px solid rgba(255,255,255,0.1)', padding: '12px', fontSize: 13, background: 'rgba(255,255,255,0.05)', color: '#f5efe6', outline: 'none' }} />
           </div>
           <div>
-            <label style={{ fontSize: 9, letterSpacing: '0.2em', color: '#f5efe6/30', fontWeight: 600, marginBottom: 8, display: 'block' }} className="uppercase">Special Requests</label>
+            <label style={{ fontSize: 10, letterSpacing: '0.2em', color: '#f5efe6/30', fontWeight: 600, marginBottom: 8, display: 'block' }} className="uppercase">Special Requests</label>
             <textarea style={{ width: '100%', border: '1px solid rgba(255,255,255,0.1)', padding: '12px', fontSize: 13, background: 'rgba(255,255,255,0.05)', color: '#f5efe6', outline: 'none', resize: 'none', height: 80 }} />
           </div>
           <button type="submit" style={{ width: '100%', padding: '16px', background: 'var(--brand,#b45014)', border: 'none', color: '#fff', fontSize: 11, fontWeight: 'bold', letterSpacing: '0.2em', cursor: 'pointer', borderRadius: 8 }} className="uppercase">
@@ -1021,15 +1021,15 @@ function ContactPage() {
       {!formSent ? (
         <form onSubmit={(e) => { e.preventDefault(); setFormSent(true); }} style={{ display: 'flex', flexDirection: 'column', gap: 24 }} className="bg-white/[0.02] border border-white/5 p-8 rounded-2xl">
           <div>
-            <label style={{ fontSize: 9, letterSpacing: '0.2em', color: '#f5efe6/30', fontWeight: 600, marginBottom: 8, display: 'block' }} className="uppercase">Name</label>
+            <label style={{ fontSize: 10, letterSpacing: '0.2em', color: '#f5efe6/30', fontWeight: 600, marginBottom: 8, display: 'block' }} className="uppercase">Name</label>
             <input required type="text" style={{ width: '100%', border: '1px solid rgba(255,255,255,0.1)', padding: '12px', fontSize: 13, background: 'rgba(255,255,255,0.05)', color: '#f5efe6', outline: 'none' }} />
           </div>
           <div>
-            <label style={{ fontSize: 9, letterSpacing: '0.2em', color: '#f5efe6/30', fontWeight: 600, marginBottom: 8, display: 'block' }} className="uppercase">Email</label>
+            <label style={{ fontSize: 10, letterSpacing: '0.2em', color: '#f5efe6/30', fontWeight: 600, marginBottom: 8, display: 'block' }} className="uppercase">Email</label>
             <input required type="email" style={{ width: '100%', border: '1px solid rgba(255,255,255,0.1)', padding: '12px', fontSize: 13, background: 'rgba(255,255,255,0.05)', color: '#f5efe6', outline: 'none' }} />
           </div>
           <div>
-            <label style={{ fontSize: 9, letterSpacing: '0.2em', color: '#f5efe6/30', fontWeight: 600, marginBottom: 8, display: 'block' }} className="uppercase">Message</label>
+            <label style={{ fontSize: 10, letterSpacing: '0.2em', color: '#f5efe6/30', fontWeight: 600, marginBottom: 8, display: 'block' }} className="uppercase">Message</label>
             <textarea required rows={5} style={{ width: '100%', border: '1px solid rgba(255,255,255,0.1)', padding: '12px', fontSize: 13, background: 'rgba(255,255,255,0.05)', color: '#f5efe6', outline: 'none', resize: 'none' }}></textarea>
           </div>
           <button type="submit" style={{ width: '100%', padding: '16px', background: 'var(--brand,#b45014)', border: 'none', color: '#fff', fontSize: 11, fontWeight: 'bold', letterSpacing: '0.2em', cursor: 'pointer', borderRadius: 8 }} className="uppercase">

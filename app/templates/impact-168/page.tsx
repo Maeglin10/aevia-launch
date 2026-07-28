@@ -1400,7 +1400,7 @@ export default function ImpactEclatPage() {
                   background: activeCollection === i ? col.accent : "rgba(255,255,255,0.06)",
                   color: activeCollection === i ? C.bg : C.muted,
                   padding: "4px 10px",
-                  fontSize: 9,
+                  fontSize: 10,
                   fontWeight: 700,
                   letterSpacing: 1.5,
                   textTransform: "uppercase",
@@ -2206,7 +2206,7 @@ export default function ImpactEclatPage() {
             <div key={i}>
               <div
                 style={{
-                  fontSize: 9,
+                  fontSize: 10,
                   fontWeight: 700,
                   letterSpacing: 3,
                   color: "#3D3D3D",

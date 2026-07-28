@@ -339,10 +339,10 @@ export default function TerraArchitecturePage() {
                     <div className="w-16 h-16 rounded-full bg-[#3d3a35]/5 flex items-center justify-center mb-6 group-hover:bg-[#3d3a35] transition-colors duration-500">
                       <span className="text-xl font-light text-[#3d3a35] group-hover:text-[#f2f0eb] transition-colors" style={{ fontFamily: "serif" }}>{m.name.split(" ").map(n => n[0]).join("")}</span>
                     </div>
-                    <div className="text-[9px] font-bold uppercase tracking-widest text-[var(--brand,#c4b5a2)] mb-1">{m.exp} · {m.spec}</div>
+                    <div className="text-[10px] font-bold uppercase tracking-widest text-[var(--brand,#c4b5a2)] mb-1">{m.exp} · {m.spec}</div>
                     <h3 className="text-xl font-bold text-[#3d3a35] mb-1">{m.name}</h3>
                     <p className="text-xs text-[#3d3a35]/40 uppercase tracking-wider mb-4">{m.role}</p>
-                    <div className="flex flex-wrap gap-2">{m.tags.map(t => <span key={t} className="text-[8px] font-bold uppercase tracking-widest px-2 py-1 border border-[#3d3a35]/10 text-[#3d3a35]/30">{t}</span>)}</div>
+                    <div className="flex flex-wrap gap-2">{m.tags.map(t => <span key={t} className="text-[10px] font-bold uppercase tracking-widest px-2 py-1 border border-[#3d3a35]/10 text-[#3d3a35]/30">{t}</span>)}</div>
                   </div>
                 </Reveal>
               ))}

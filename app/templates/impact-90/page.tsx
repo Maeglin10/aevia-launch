@@ -1044,7 +1044,7 @@ export default function Page() {
             </svg>
             <div>
               <p style={{ fontFamily: "'Playfair Display', serif", fontSize: 16, fontWeight: 700, color: C.brown, lineHeight: 1 }}>{fd?.businessName ?? "Maison Laval"}</p>
-              <p style={{ fontFamily: "'Cabin', sans-serif", fontSize: 9, color: C.muted, letterSpacing: "0.2em", textTransform: "uppercase" }}>Boulangerie Artisanale</p>
+              <p style={{ fontFamily: "'Cabin', sans-serif", fontSize: 10, color: C.muted, letterSpacing: "0.2em", textTransform: "uppercase" }}>Boulangerie Artisanale</p>
             </div>
           </div>
         )}

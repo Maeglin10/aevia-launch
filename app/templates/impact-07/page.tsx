@@ -241,7 +241,7 @@ export default function AetherSoundPage() {
             ) : (
               <>
              <span className="text-3xl font-black tracking-[0.1em] uppercase leading-none italic">Aether</span>
-             <span className="text-[8px] font-bold uppercase tracking-[0.6em] text-[var(--brand,#c9a84c)] -mt-1 ml-1">Sound Labs</span>
+             <span className="text-[10px] font-bold uppercase tracking-[0.6em] text-[var(--brand,#c9a84c)] -mt-1 ml-1">Sound Labs</span>
               </>
             )}
           </Link>
@@ -325,7 +325,7 @@ export default function AetherSoundPage() {
               {STATS.map((stat, i) => (
                 <Reveal key={i} delay={i * 0.1}>
                    <div className="text-center md:text-left">
-                      <div className="text-[9px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#c9a84c)] mb-2">{stat.label}</div>
+                      <div className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#c9a84c)] mb-2">{stat.label}</div>
                       <div className="text-5xl font-black italic text-white">{stat.value}</div>
                    </div>
                 </Reveal>
@@ -356,7 +356,7 @@ export default function AetherSoundPage() {
                        <div className="absolute inset-0 bg-black/50 group-hover:bg-transparent transition-colors duration-700" />
                        
                        <div className="absolute top-6 left-6">
-                          <Badge className="bg-black/60 backdrop-blur-md text-white border-white/10 text-[9px] font-bold uppercase tracking-widest px-3 py-1">
+                          <Badge className="bg-black/60 backdrop-blur-md text-white border-white/10 text-[10px] font-bold uppercase tracking-widest px-3 py-1">
                              {item.category}
                           </Badge>
                        </div>
@@ -407,7 +407,7 @@ export default function AetherSoundPage() {
                        </div>
                        <h3 className="text-3xl font-black uppercase italic mb-6 tracking-tighter text-white group-hover:translate-x-2 transition-transform">{s.title}</h3>
                        <p className="text-sm text-white/30 font-light leading-relaxed mb-12 flex-1 tracking-wide uppercase italic leading-loose">{s.desc}</p>
-                       <button className="flex items-center gap-4 text-[9px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#c9a84c)] group-hover:gap-6 transition-all">
+                       <button className="flex items-center gap-4 text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#c9a84c)] group-hover:gap-6 transition-all">
                           Read Whitepaper <ArrowRight className="w-4 h-4" />
                        </button>
                     </div>

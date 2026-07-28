@@ -174,7 +174,7 @@ function HUD_Telemetry() {
        <div className="flex flex-col items-end border-r-2 border-[var(--brand,#3b82f6)]/30 pr-6 py-2">
           <div className="text-[10px] font-black tracking-widest text-[var(--brand,#3b82f6)] uppercase mb-2">Vulcan_System_V4.2</div>
           <div className="text-2xl font-mono text-white tracking-tighter">44.12.08</div>
-          <div className="text-[8px] font-bold text-white/30 uppercase mt-1">Modena // Italy</div>
+          <div className="text-[10px] font-bold text-white/30 uppercase mt-1">Modena // Italy</div>
        </div>
        <div className="space-y-4">
           {[1, 0.8, 1.2, 0.6].map((h, i) => (
@@ -231,15 +231,15 @@ function VehicleCard({ vehicle, goTo }: { vehicle: any, goTo: (p: ActivePage) =>
              </p>
              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 border-t border-white/10 pt-8">
                 <div>
-                   <div className="text-[8px] text-white/20 uppercase mb-2">Top Speed</div>
+                   <div className="text-[10px] text-white/20 uppercase mb-2">Top Speed</div>
                    <div className="text-lg font-bold italic">{vehicle.topSpeed}</div>
                 </div>
                 <div>
-                   <div className="text-[8px] text-white/20 uppercase mb-2">Torque</div>
+                   <div className="text-[10px] text-white/20 uppercase mb-2">Torque</div>
                    <div className="text-lg font-bold italic">{vehicle.torque}</div>
                 </div>
                 <div>
-                   <div className="text-[8px] text-white/20 uppercase mb-2">0-100 km/h</div>
+                   <div className="text-[10px] text-white/20 uppercase mb-2">0-100 km/h</div>
                    <div className="text-lg font-bold italic">{vehicle.accel}</div>
                 </div>
              </div>
@@ -397,7 +397,7 @@ return (
             ) : (
               <>
             <span className="text-2xl font-black tracking-[-0.05em] uppercase leading-none italic">Vulcan</span>
-            <span className="text-[8px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#3b82f6)] -mt-1 ml-1">Motor Group Modena</span>
+            <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#3b82f6)] -mt-1 ml-1">Motor Group Modena</span>
               </>
             )}
          </div>
@@ -420,7 +420,7 @@ return (
          </div>
          <div className="flex items-center gap-6">
             <div className="hidden sm:flex flex-col items-end mr-4">
-               <div className="text-[8px] font-black text-[var(--brand,#3b82f6)] uppercase tracking-widest">Active_Node</div>
+               <div className="text-[10px] font-black text-[var(--brand,#3b82f6)] uppercase tracking-widest">Active_Node</div>
                <div className="text-[10px] font-bold">Modena_01</div>
             </div>
             
@@ -502,7 +502,7 @@ return (
                  <div className="flex gap-16">
                     {PERFORMANCE_METRICS.slice(0, 2).map((m, i) => (
                        <div key={i}>
-                          <div className="text-[8px] text-white/20 uppercase tracking-widest mb-2">{m.label}</div>
+                          <div className="text-[10px] text-white/20 uppercase tracking-widest mb-2">{m.label}</div>
                           <div className="text-2xl font-black italic">{m.value}</div>
                           <div className="w-32 h-[2px] bg-white/5 mt-2 overflow-hidden">
                              <motion.div 
@@ -888,7 +888,7 @@ function AtelierPage() {
               {stages.map((stage, i) => (
                 <div key={i} className="relative">
                   <div className="absolute -left-[41px] top-1 w-5 h-5 rounded-full bg-black border border-[var(--brand,#3b82f6)] flex items-center justify-center">
-                     <span className="text-[9px] font-mono text-[var(--brand,#3b82f6)]">{i+1}</span>
+                     <span className="text-[10px] font-mono text-[var(--brand,#3b82f6)]">{i+1}</span>
                   </div>
                   <h4 className="text-lg font-black uppercase tracking-widest text-white mb-2">{stage.name}</h4>
                   <p className="text-xs text-white/40 leading-relaxed uppercase italic font-medium">{stage.details}</p>

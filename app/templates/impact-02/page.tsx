@@ -393,7 +393,7 @@ export default function CreativePortfolioSPA() {
                     
                     <div className="absolute inset-0 p-8 flex flex-col justify-between opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-4 group-hover:translate-y-0">
                       <div className="flex justify-between items-start">
-                        <span className="px-4 py-1.5 rounded-full text-[9px] uppercase tracking-wider font-bold backdrop-blur-md border border-white/20 text-white">
+                        <span className="px-4 py-1.5 rounded-full text-[10px] uppercase tracking-wider font-bold backdrop-blur-md border border-white/20 text-white">
                           {project.category}
                         </span>
                         <div className="w-12 h-12 rounded-full bg-amber-400 text-black flex items-center justify-center scale-0 group-hover:scale-100 transition-transform duration-500 delay-100 shadow-xl">
@@ -465,7 +465,7 @@ export default function CreativePortfolioSPA() {
               <motion.div animate={{ y: [0, -15, 0] }} transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }} className="absolute -bottom-8 -right-8 w-32 h-32 rounded-full bg-amber-400 text-black flex items-center justify-center text-center shadow-[0_0_40px_rgba(251,191,36,0.3)] backdrop-blur-md">
                 <div>
                   <div className="text-4xl font-black leading-none tracking-tighter">15+</div>
-                  <div className="text-[9px] uppercase tracking-[0.2em] font-bold mt-1">Years</div>
+                  <div className="text-[10px] uppercase tracking-[0.2em] font-bold mt-1">Years</div>
                 </div>
               </motion.div>
             </div>

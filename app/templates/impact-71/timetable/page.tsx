@@ -51,14 +51,14 @@ export default function TimetablePage() {
                     {row.teacher}
                   </td>
                   <td className="py-8">
-                    <Badge className="bg-stone-100 text-stone-500 border-none text-[9px] uppercase tracking-widest px-3 py-1 font-black">
+                    <Badge className="bg-stone-100 text-stone-500 border-none text-[10px] uppercase tracking-widest px-3 py-1 font-black">
                       {row.type}
                     </Badge>
                   </td>
                   <td className="py-8 text-right">
                     <button
                       onClick={triggerBooking}
-                      className="text-[9px] font-black uppercase tracking-widest text-[#c9a84c] hover:text-[#33302c] transition-colors bg-transparent border-none cursor-pointer"
+                      className="text-[10px] font-black uppercase tracking-widest text-[#c9a84c] hover:text-[#33302c] transition-colors bg-transparent border-none cursor-pointer"
                     >
                       Reserve_Mat
                     </button>

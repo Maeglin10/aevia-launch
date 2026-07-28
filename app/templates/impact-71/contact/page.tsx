@@ -122,21 +122,21 @@ export default function ContactPage() {
               <div className="flex items-center gap-4 p-4 bg-white border border-stone-200/50 rounded-2xl">
                 <Mail className="w-5 h-5 text-[#c9a84c]" />
                 <div>
-                  <h4 className="text-[9px] text-stone-300">Direct Message</h4>
+                  <h4 className="text-[10px] text-stone-300">Direct Message</h4>
                   <a href="mailto:valentinmilliand@aevia.services" className="text-[#33302c] hover:text-[#c9a84c] transition-colors">valentinmilliand@aevia.services</a>
                 </div>
               </div>
               <div className="flex items-center gap-4 p-4 bg-white border border-stone-200/50 rounded-2xl">
                 <MapPin className="w-5 h-5 text-[#c9a84c]" />
                 <div>
-                  <h4 className="text-[9px] text-stone-300">HQ Address</h4>
+                  <h4 className="text-[10px] text-stone-300">HQ Address</h4>
                   <span className="text-[#33302c]">Bourg-en-Bresse, France</span>
                 </div>
               </div>
               <div className="flex items-center gap-4 p-4 bg-white border border-stone-200/50 rounded-2xl">
                 <Globe className="w-5 h-5 text-[#c9a84c]" />
                 <div>
-                  <h4 className="text-[9px] text-stone-300">Global Hubs</h4>
+                  <h4 className="text-[10px] text-stone-300">Global Hubs</h4>
                   <span className="text-[#33302c]">Geneva // Kyoto // London</span>
                 </div>
               </div>
@@ -153,7 +153,7 @@ export default function ContactPage() {
               <form onSubmit={(e) => { e.preventDefault(); setSubmitted(true); }} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
-                    <label className="text-[9px] font-bold uppercase tracking-widest text-stone-400">First Name</label>
+                    <label className="text-[10px] font-bold uppercase tracking-widest text-stone-400">First Name</label>
                     <input
                       type="text"
                       required
@@ -161,7 +161,7 @@ export default function ContactPage() {
                     />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-[9px] font-bold uppercase tracking-widest text-stone-400">Last Name</label>
+                    <label className="text-[10px] font-bold uppercase tracking-widest text-stone-400">Last Name</label>
                     <input
                       type="text"
                       required
@@ -170,7 +170,7 @@ export default function ContactPage() {
                   </div>
                 </div>
                 <div className="space-y-2">
-                  <label className="text-[9px] font-bold uppercase tracking-widest text-stone-400">Email Address</label>
+                  <label className="text-[10px] font-bold uppercase tracking-widest text-stone-400">Email Address</label>
                   <input
                     type="email"
                     required
@@ -178,7 +178,7 @@ export default function ContactPage() {
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-[9px] font-bold uppercase tracking-widest text-stone-400">Message</label>
+                  <label className="text-[10px] font-bold uppercase tracking-widest text-stone-400">Message</label>
                   <textarea
                     rows={4}
                     required

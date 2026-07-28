@@ -321,7 +321,7 @@ function BlueprintHero() {
                   >
                     {specs.map((s) => (
                       <div key={s.k} style={{ background: `${C.blueprint}e6`, padding: "12px 14px", minWidth: 0 }}>
-                        <div style={{ fontFamily: FONT_BODY, fontSize: 9, letterSpacing: "0.2em", textTransform: "uppercase", color: `${C.cream}73`, marginBottom: 6 }}>
+                        <div style={{ fontFamily: FONT_BODY, fontSize: 10, letterSpacing: "0.2em", textTransform: "uppercase", color: `${C.cream}73`, marginBottom: 6 }}>
                           {s.k}
                         </div>
                         <div style={{ fontFamily: FONT_HEADING, fontSize: 15, fontWeight: 700, color: C.cream, overflowWrap: "anywhere" }}>

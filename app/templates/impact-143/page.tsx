@@ -365,15 +365,15 @@ export default function AtelierInteriorPage() {
               ) : (
                 <form onSubmit={(e) => { e.preventDefault(); setContactSubmitted(true); }} className="space-y-4 max-w-md mx-auto text-left">
                   <div>
-                    <label className="block text-[9px] font-bold uppercase tracking-widest text-[#2a2520]/50 mb-2">Name</label>
+                    <label className="block text-[10px] font-bold uppercase tracking-widest text-[#2a2520]/50 mb-2">Name</label>
                     <input required type="text" placeholder="Your Name" className="w-full px-5 py-3.5 bg-white border border-[var(--brand,#8b7355)]/10 rounded-sm text-sm focus:outline-none focus:border-[var(--brand,#8b7355)] transition-colors text-[#2a2520]" />
                   </div>
                   <div>
-                    <label className="block text-[9px] font-bold uppercase tracking-widest text-[#2a2520]/50 mb-2">Email</label>
+                    <label className="block text-[10px] font-bold uppercase tracking-widest text-[#2a2520]/50 mb-2">Email</label>
                     <input required type="email" placeholder="you@example.com" className="w-full px-5 py-3.5 bg-white border border-[var(--brand,#8b7355)]/10 rounded-sm text-sm focus:outline-none focus:border-[var(--brand,#8b7355)] transition-colors text-[#2a2520]" />
                   </div>
                   <div>
-                    <label className="block text-[9px] font-bold uppercase tracking-widest text-[#2a2520]/50 mb-2">Message</label>
+                    <label className="block text-[10px] font-bold uppercase tracking-widest text-[#2a2520]/50 mb-2">Message</label>
                     <textarea required rows={4} placeholder="Tell us about your space and timeline..." className="w-full px-5 py-3.5 bg-white border border-[var(--brand,#8b7355)]/10 rounded-sm text-sm focus:outline-none focus:border-[var(--brand,#8b7355)] transition-colors text-[#2a2520]" />
                   </div>
                   <button type="submit" className="w-full py-4 bg-[#2a2520] text-[#f5f0eb] font-bold rounded-sm hover:bg-[var(--brand,#8b7355)] transition-colors duration-300">

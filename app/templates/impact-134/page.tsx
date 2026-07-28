@@ -935,7 +935,7 @@ function Nav({ scrolled }: { scrolled: boolean }) {
                     position: "absolute", top: 4, right: 4,
                     minWidth: 16, height: 16, padding: "0 3px", borderRadius: 999,
                     backgroundColor: C.primary, color: "#fff",
-                    fontFamily: "'Inter', sans-serif", fontSize: 9, fontWeight: 700,
+                    fontFamily: "'Inter', sans-serif", fontSize: 10, fontWeight: 700,
                     display: "flex", alignItems: "center", justifyContent: "center", lineHeight: 1,
                   }}
                 >

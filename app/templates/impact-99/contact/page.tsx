@@ -648,13 +648,13 @@ function BlogPage({
                   />
                   <div className="absolute inset-0 bg-[#050505]/40 group-hover:bg-transparent transition-colors duration-700" />
                   <div className="absolute top-6 left-6">
-                    <Badge className="bg-black/60 backdrop-blur-md text-white border-white/10 text-[9px] font-bold uppercase tracking-widest px-3 py-1">
+                    <Badge className="bg-black/60 backdrop-blur-md text-white border-white/10 text-[10px] font-bold uppercase tracking-widest px-3 py-1">
                       {p.category}
                     </Badge>
                   </div>
                 </div>
                 <div className="space-y-4">
-                  <span className="text-[9px] font-bold uppercase tracking-[0.3em] text-[#ff4d00]">
+                  <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#ff4d00]">
                     {p.date}
                   </span>
                   <h3 className="text-3xl font-black uppercase tracking-tighter text-white italic group-hover:text-[#ff4d00] transition-colors leading-none">
@@ -663,7 +663,7 @@ function BlogPage({
                   <p className="text-sm text-white/30 font-light leading-relaxed uppercase tracking-widest italic leading-loose">
                     {p.excerpt}
                   </p>
-                  <div className="flex items-center gap-3 text-[9px] font-bold uppercase tracking-[0.3em] text-[#ff4d00] group-hover:gap-5 transition-all pt-2">
+                  <div className="flex items-center gap-3 text-[10px] font-bold uppercase tracking-[0.3em] text-[#ff4d00] group-hover:gap-5 transition-all pt-2">
                     Lire l'article <ArrowRight className="w-4 h-4" />
                   </div>
                 </div>
@@ -1044,7 +1044,7 @@ export default function EmberGrillPage() {
             <span className="text-3xl font-black tracking-[-0.05em] uppercase leading-none italic text-white">
               Ember
             </span>
-            <span className="text-[8px] font-bold uppercase tracking-[0.5em] text-[#ff4d00] -mt-1 ml-1">
+            <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#ff4d00] -mt-1 ml-1">
               Grill & Cellar
             </span>
           </button>
@@ -1179,7 +1179,7 @@ export default function EmberGrillPage() {
                 {STATS.map((stat, i) => (
                   <Reveal key={i} delay={i * 0.1}>
                     <div className="text-center md:text-left">
-                      <div className="text-[9px] font-bold uppercase tracking-[0.3em] text-[#ff4d00] mb-2">
+                      <div className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#ff4d00] mb-2">
                         {stat.label}
                       </div>
                       <div className="text-5xl font-black italic text-white">
@@ -1233,7 +1233,7 @@ export default function EmberGrillPage() {
                         <div className="absolute inset-0 bg-[#050505]/40 group-hover:bg-transparent transition-colors duration-700" />
 
                         <div className="absolute top-6 left-6">
-                          <Badge className="bg-black/60 backdrop-blur-md text-white border-white/10 text-[9px] font-bold uppercase tracking-widest px-3 py-1">
+                          <Badge className="bg-black/60 backdrop-blur-md text-white border-white/10 text-[10px] font-bold uppercase tracking-widest px-3 py-1">
                             {item.category}
                           </Badge>
                         </div>
@@ -1308,7 +1308,7 @@ export default function EmberGrillPage() {
                       </p>
                       <button
                         onClick={() => goTo("about")}
-                        className="flex items-center gap-4 text-[9px] font-bold uppercase tracking-[0.3em] text-[#ff4d00] group-hover:gap-6 transition-all"
+                        className="flex items-center gap-4 text-[10px] font-bold uppercase tracking-[0.3em] text-[#ff4d00] group-hover:gap-6 transition-all"
                       >
                         Sourcing Integrity <ArrowRight className="w-4 h-4" />
                       </button>

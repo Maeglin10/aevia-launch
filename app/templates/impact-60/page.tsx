@@ -121,7 +121,7 @@ return (
             </Reveal>
           </div>
 
-          <div className="absolute bottom-4 md:bottom-12 left-12 right-12 hidden md:flex justify-between items-end text-[9px] font-bold uppercase tracking-[0.4em] text-white/10 italic">
+          <div className="absolute bottom-4 md:bottom-12 left-12 right-12 hidden md:flex justify-between items-end text-[10px] font-bold uppercase tracking-[0.4em] text-white/10 italic">
             <span>GENEVA / ZURICH / TOKYO / NEW YORK</span>
             <div className="flex gap-6 items-center">
               <Clock className="w-4 h-4 text-[var(--brand,#c9a96e)] animate-spin-slow" />
@@ -300,7 +300,7 @@ return (
                   {[{ v: "1/24", l: "Units" }, { v: "2,400h", l: "Assembly" }, { v: "47yr", l: "Crafting" }].map(s => (
                     <div key={s.l} className="bg-black p-8 text-center">
                       <div className="text-2xl font-black italic text-[var(--brand,#c9a96e)]">{s.v}</div>
-                      <div className="text-[9px] font-bold uppercase tracking-widest text-white/20 mt-1">{s.l}</div>
+                      <div className="text-[10px] font-bold uppercase tracking-widest text-white/20 mt-1">{s.l}</div>
                     </div>
                   ))}
                 </div>

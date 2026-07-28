@@ -36,20 +36,20 @@ export default function MonitoringPage() {
                         {t.type}
                       </span>
                     </div>
-                    <span className="text-[8px] font-bold text-white/20 uppercase">
+                    <span className="text-[10px] font-bold text-white/20 uppercase">
                       {t.timestamp}
                     </span>
                   </div>
                   <div className="flex justify-between items-end">
                     <div>
-                      <div className="text-[9px] font-black text-white/40 uppercase tracking-widest mb-1">
+                      <div className="text-[10px] font-black text-white/40 uppercase tracking-widest mb-1">
                         Source: {t.source}
                       </div>
                       <div className="text-[10px] font-black text-white uppercase italic">
                         Target: {t.target}
                       </div>
                     </div>
-                    <div className="text-[8px] font-black text-emerald-500 uppercase tracking-widest">
+                    <div className="text-[10px] font-black text-emerald-500 uppercase tracking-widest">
                       ID_{t.id}
                     </div>
                   </div>
@@ -111,7 +111,7 @@ export default function MonitoringPage() {
 
                 <div className="mt-12 flex justify-between items-end">
                   <div className="space-y-1">
-                    <span className="text-[9px] font-bold text-white/20 uppercase tracking-widest">
+                    <span className="text-[10px] font-bold text-white/20 uppercase tracking-widest">
                       Aggregate Daily Blocks
                     </span>
                     <div className="text-4xl font-black text-white italic tabular-nums">

@@ -70,7 +70,7 @@ export default function RetreatsPage() {
                     {/* Theme badge */}
                     <div className="absolute top-6 left-6">
                       <span
-                        className="px-4 py-1.5 text-white text-[9px] uppercase tracking-[0.35em] font-bold font-sans"
+                        className="px-4 py-1.5 text-white text-[10px] uppercase tracking-[0.35em] font-bold font-sans"
                         style={{ backgroundColor: themeColors[retreat.theme] || "#3d7a5e" }}
                       >
                         {retreat.theme}
@@ -106,7 +106,7 @@ export default function RetreatsPage() {
                             </span>
                           </div>
                         </div>
-                        <span className="text-[8px] uppercase tracking-[0.3em] text-[#3d7a5e] font-sans font-bold border border-[#3d7a5e]/30 px-3 py-1.5 hidden md:block">
+                        <span className="text-[10px] uppercase tracking-[0.3em] text-[#3d7a5e] font-sans font-bold border border-[#3d7a5e]/30 px-3 py-1.5 hidden md:block">
                           2026
                         </span>
                       </div>
@@ -145,7 +145,7 @@ export default function RetreatsPage() {
                       <div className="grid grid-cols-2 gap-4 mb-8">
                         {retreat.details.map(([label, value]) => (
                           <div key={label} className="border-l-2 border-[#3d7a5e]/20 pl-4">
-                            <p className="text-[9px] uppercase tracking-[0.3em] text-black/30 font-sans mb-1">
+                            <p className="text-[10px] uppercase tracking-[0.3em] text-black/30 font-sans mb-1">
                               {label}
                             </p>
                             <p
@@ -297,22 +297,22 @@ export default function RetreatsPage() {
               <table className="w-full text-sm font-sans">
                 <thead>
                   <tr className="border-b border-black/10">
-                    <th className="text-left py-4 pr-8 text-[9px] uppercase tracking-[0.35em] text-black/30 font-bold w-1/4">
+                    <th className="text-left py-4 pr-8 text-[10px] uppercase tracking-[0.35em] text-black/30 font-bold w-1/4">
                       Retraite
                     </th>
-                    <th className="text-left py-4 pr-8 text-[9px] uppercase tracking-[0.35em] text-black/30 font-bold">
+                    <th className="text-left py-4 pr-8 text-[10px] uppercase tracking-[0.35em] text-black/30 font-bold">
                       Paysage
                     </th>
-                    <th className="text-left py-4 pr-8 text-[9px] uppercase tracking-[0.35em] text-black/30 font-bold">
+                    <th className="text-left py-4 pr-8 text-[10px] uppercase tracking-[0.35em] text-black/30 font-bold">
                       Durée
                     </th>
-                    <th className="text-left py-4 pr-8 text-[9px] uppercase tracking-[0.35em] text-black/30 font-bold">
+                    <th className="text-left py-4 pr-8 text-[10px] uppercase tracking-[0.35em] text-black/30 font-bold">
                       Saison
                     </th>
-                    <th className="text-left py-4 pr-8 text-[9px] uppercase tracking-[0.35em] text-black/30 font-bold">
+                    <th className="text-left py-4 pr-8 text-[10px] uppercase tracking-[0.35em] text-black/30 font-bold">
                       Thème
                     </th>
-                    <th className="text-left py-4 text-[9px] uppercase tracking-[0.35em] text-black/30 font-bold">
+                    <th className="text-left py-4 text-[10px] uppercase tracking-[0.35em] text-black/30 font-bold">
                       Tarif
                     </th>
                   </tr>
@@ -333,7 +333,7 @@ export default function RetreatsPage() {
                       <td className="py-5 pr-8 text-black/50 text-xs">{retreat.duration}</td>
                       <td className="py-5 pr-8 text-black/50 text-xs">{retreat.season}</td>
                       <td className="py-5 pr-8">
-                        <span className="px-3 py-1 bg-[#3d7a5e]/10 text-[#3d7a5e] text-[9px] uppercase tracking-[0.25em] font-bold font-sans rounded-full">
+                        <span className="px-3 py-1 bg-[#3d7a5e]/10 text-[#3d7a5e] text-[10px] uppercase tracking-[0.25em] font-bold font-sans rounded-full">
                           {retreat.theme}
                         </span>
                       </td>

@@ -476,7 +476,7 @@ return (
                <Landmark className="w-7 h-7 md:w-8 md:h-8 text-[var(--brand,#b4925e)]" />
                IVORY<span className="text-[var(--brand,#b4925e)] font-black italic">.ARCHIVE</span>
             </span>
-            <span className="text-[8px] font-black tracking-[0.6em] text-white/20 uppercase italic hidden md:block">Elite Art Conservation & Private Registry</span>
+            <span className="text-[10px] font-black tracking-[0.6em] text-white/20 uppercase italic hidden md:block">Elite Art Conservation & Private Registry</span>
               </>
             )}
          </button>
@@ -579,7 +579,7 @@ return (
           </div>
 
           <div className="absolute bottom-4 md:bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 md:gap-4">
-             <span className="text-[8px] font-black uppercase tracking-[0.5em] text-white/20">Explore_The_Repository</span>
+             <span className="text-[10px] font-black uppercase tracking-[0.5em] text-white/20">Explore_The_Repository</span>
              <div className="h-8 md:h-20 w-px bg-gradient-to-b from-[var(--brand,#b4925e)] to-transparent" />
           </div>
         </section>
@@ -607,12 +607,12 @@ return (
                             />
                             <div className="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-colors" />
                             <div className="absolute top-6 left-6">
-                               <span className="px-3 py-1 bg-[var(--brand,#b4925e)] text-black text-[8px] font-black uppercase tracking-widest">{art.period}</span>
+                               <span className="px-3 py-1 bg-[var(--brand,#b4925e)] text-black text-[10px] font-black uppercase tracking-widest">{art.period}</span>
                             </div>
                          </div>
 
                          <h3 className="text-3xl font-light italic uppercase tracking-tighter text-white group-hover:text-[var(--brand,#b4925e)] transition-colors mb-6" style={{ fontFamily: "serif" }}>{art.title}</h3>
-                         <div className="flex justify-between items-center text-[9px] font-black text-white/20 uppercase tracking-widest mb-12">
+                         <div className="flex justify-between items-center text-[10px] font-black text-white/20 uppercase tracking-widest mb-12">
                             <span>ID: {art.id}</span>
                             <span className="text-[var(--brand,#b4925e)]">{art.status}</span>
                          </div>
@@ -622,9 +622,9 @@ return (
                          <div className="flex justify-between items-center border-t border-white/5 pt-8">
                             <div className="flex items-center gap-3">
                                <MapPin className="w-3 h-3 text-[var(--brand,#b4925e)]" />
-                               <span className="text-[8px] font-black uppercase tracking-widest text-white/30">{art.location}</span>
+                               <span className="text-[10px] font-black uppercase tracking-widest text-white/30">{art.location}</span>
                             </div>
-                            <span className="text-[9px] font-black uppercase tracking-widest text-[var(--brand,#b4925e)] flex items-center gap-2 group-hover:translate-x-2 transition-transform">
+                            <span className="text-[10px] font-black uppercase tracking-widest text-[var(--brand,#b4925e)] flex items-center gap-2 group-hover:translate-x-2 transition-transform">
                                Expertise Report <ChevronRight className="w-4 h-4" />
                             </span>
                          </div>
@@ -650,9 +650,9 @@ return (
                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-20">
                           {LAB_METRICS.map((metric, i) => (
                             <div key={i} className="p-8 bg-black border border-white/5 hover:border-[var(--brand,#b4925e)]/30 transition-all">
-                               <div className="text-[8px] font-black uppercase text-[var(--brand,#b4925e)] mb-2 tracking-[0.3em]">{metric.label}</div>
+                               <div className="text-[10px] font-black uppercase text-[var(--brand,#b4925e)] mb-2 tracking-[0.3em]">{metric.label}</div>
                                <div className="text-3xl font-light text-white mb-4 italic">{metric.value}</div>
-                               <div className="flex items-center gap-2 text-[8px] font-bold uppercase tracking-widest text-white/20 italic">
+                               <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-white/20 italic">
                                   <Activity className="w-3 h-3" /> {metric.status}
                                </div>
                             </div>
@@ -669,7 +669,7 @@ return (
                           <div className="absolute top-0 right-0 p-40 bg-[var(--brand,#b4925e)] opacity-[0.03] blur-[100px] rounded-full group-hover:opacity-[0.1] transition-opacity" />
                           <div className="flex justify-between items-start z-10">
                              <div className="flex flex-col gap-2">
-                                <span className="text-[8px] font-black text-white/20 uppercase tracking-widest">System_ID // ARCH-V4</span>
+                                <span className="text-[10px] font-black text-white/20 uppercase tracking-widest">System_ID // ARCH-V4</span>
                                 <span className="text-[10px] font-black text-white uppercase tracking-[0.4em]">Multi-Spectral_Scan</span>
                              </div>
                              <Microscope className="w-5 h-5 text-[var(--brand,#b4925e)]" />
@@ -682,7 +682,7 @@ return (
                                 </div>
                              </div>
                              <div className="text-center">
-                                <span className="text-[8px] font-black text-white/20 uppercase tracking-[0.5em] block mb-4 italic">Scan_Efficiency</span>
+                                <span className="text-[10px] font-black text-white/20 uppercase tracking-[0.5em] block mb-4 italic">Scan_Efficiency</span>
                                 <div className="text-4xl font-black italic text-[var(--brand,#b4925e)]">99.98% // SECURE</div>
                              </div>
                           </div>
@@ -767,16 +767,16 @@ return (
                  <form className="max-w-xl mx-auto space-y-12" onSubmit={e => e.preventDefault()}>
                     <div className="grid md:grid-cols-2 gap-8">
                        <div className="border-b border-black/10 py-4 text-left">
-                          <label className="text-[8px] font-black uppercase tracking-[0.4em] text-black/20 block mb-2">Surname</label>
+                          <label className="text-[10px] font-black uppercase tracking-[0.4em] text-black/20 block mb-2">Surname</label>
                           <input type="text" className="w-full bg-transparent outline-none text-xl font-light italic" placeholder="Sterling" />
                        </div>
                        <div className="border-b border-black/10 py-4 text-left">
-                          <label className="text-[8px] font-black uppercase tracking-[0.4em] text-black/20 block mb-2">Entity</label>
+                          <label className="text-[10px] font-black uppercase tracking-[0.4em] text-black/20 block mb-2">Entity</label>
                           <input type="text" className="w-full bg-transparent outline-none text-xl font-light italic" placeholder="Private Institution" />
                        </div>
                     </div>
                     <div className="border-b border-black/10 py-4 text-left">
-                       <label className="text-[8px] font-black uppercase tracking-[0.4em] text-black/20 block mb-2">Digital Signature</label>
+                       <label className="text-[10px] font-black uppercase tracking-[0.4em] text-black/20 block mb-2">Digital Signature</label>
                        <input type="email" className="w-full bg-transparent outline-none text-xl font-light italic" placeholder="alistair@sterling.ch" />
                     </div>
                     <button className="w-full py-6 bg-black text-white text-[10px] font-black uppercase tracking-widest hover:bg-[var(--brand,#b4925e)] transition-all shadow-2xl">
@@ -877,7 +877,7 @@ return (
               ))}
            </div>
 
-           <div className="max-w-[1600px] mx-auto border-t border-white/5 pt-12 flex flex-col md:flex-row justify-between items-center gap-12 text-[8px] font-black text-white/10 uppercase tracking-[0.4em] italic">
+           <div className="max-w-[1600px] mx-auto border-t border-white/5 pt-12 flex flex-col md:flex-row justify-between items-center gap-12 text-[10px] font-black text-white/10 uppercase tracking-[0.4em] italic">
               <span>© 2026 THE IVORY ARCHIVE FOUNDATION. // ALL_RIGHTS_RESERVED</span>
               <div className="flex gap-12">
                  <span>SECURITY: LVL_9</span>
@@ -959,11 +959,11 @@ function CollectionIndex({ onOpen }: { onOpen: (id: string) => void }) {
                           />
                           <div className="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-colors" />
                           <div className="absolute top-6 left-6">
-                             <span className="px-3 py-1 bg-[var(--brand,#b4925e)] text-black text-[8px] font-black uppercase tracking-widest">{art.period}</span>
+                             <span className="px-3 py-1 bg-[var(--brand,#b4925e)] text-black text-[10px] font-black uppercase tracking-widest">{art.period}</span>
                           </div>
                        </div>
                        <h3 className="text-3xl font-light italic uppercase tracking-tighter text-white group-hover:text-[var(--brand,#b4925e)] transition-colors mb-6" style={{ fontFamily: "serif" }}>{art.title}</h3>
-                       <div className="flex justify-between items-center text-[9px] font-black text-white/20 uppercase tracking-widest mb-12">
+                       <div className="flex justify-between items-center text-[10px] font-black text-white/20 uppercase tracking-widest mb-12">
                           <span>ID: {art.id}</span>
                           <span className="text-[var(--brand,#b4925e)]">{art.status}</span>
                        </div>
@@ -973,9 +973,9 @@ function CollectionIndex({ onOpen }: { onOpen: (id: string) => void }) {
                        <div className="flex justify-between items-center border-t border-white/5 pt-8">
                           <div className="flex items-center gap-3">
                              <MapPin className="w-3 h-3 text-[var(--brand,#b4925e)]" />
-                             <span className="text-[8px] font-black uppercase tracking-widest text-white/30">{art.location}</span>
+                             <span className="text-[10px] font-black uppercase tracking-widest text-white/30">{art.location}</span>
                           </div>
-                          <span className="text-[9px] font-black uppercase tracking-widest text-[var(--brand,#b4925e)] flex items-center gap-2 group-hover:translate-x-2 transition-transform">
+                          <span className="text-[10px] font-black uppercase tracking-widest text-[var(--brand,#b4925e)] flex items-center gap-2 group-hover:translate-x-2 transition-transform">
                              Expertise Report <ChevronRight className="w-4 h-4" />
                           </span>
                        </div>
@@ -1024,7 +1024,7 @@ function CollectionDetail({ id, onBack, onContact }: { id: string, onBack: () =>
                       className="object-cover grayscale group-hover:grayscale-0 transition-all duration-1000"
                    />
                    <div className="absolute top-6 left-6">
-                      <span className="px-3 py-1 bg-[var(--brand,#b4925e)] text-black text-[8px] font-black uppercase tracking-widest">{art.period}</span>
+                      <span className="px-3 py-1 bg-[var(--brand,#b4925e)] text-black text-[10px] font-black uppercase tracking-widest">{art.period}</span>
                    </div>
                 </div>
              </Reveal>
@@ -1046,7 +1046,7 @@ function CollectionDetail({ id, onBack, onContact }: { id: string, onBack: () =>
                      { label: "Dimensions", value: detail?.dimensions ?? "—" }
                    ].map((row, i) => (
                      <div key={i} className="bg-[#0c0c0e] p-6">
-                        <div className="text-[8px] font-black uppercase text-[var(--brand,#b4925e)] mb-2 tracking-[0.3em]">{row.label}</div>
+                        <div className="text-[10px] font-black uppercase text-[var(--brand,#b4925e)] mb-2 tracking-[0.3em]">{row.label}</div>
                         <div className="text-sm font-light text-white italic">{row.value}</div>
                      </div>
                    ))}
@@ -1063,7 +1063,7 @@ function CollectionDetail({ id, onBack, onContact }: { id: string, onBack: () =>
                 <div className="border-t border-white/5 pt-8 mb-12">
                    <div className="flex items-center gap-3 mb-2">
                       <ShieldCheck className="w-4 h-4 text-[var(--brand,#b4925e)]" />
-                      <span className="text-[9px] font-black uppercase tracking-widest text-white/30">Acquisition</span>
+                      <span className="text-[10px] font-black uppercase tracking-widest text-white/30">Acquisition</span>
                    </div>
                    <p className="text-[11px] text-white/40 uppercase tracking-[0.2em] font-bold italic">{detail?.acquisition ?? "Dossier confidentiel."}</p>
                 </div>
@@ -1110,18 +1110,18 @@ function JournalIndex({ onOpen }: { onOpen: (slug: string) => void }) {
                           />
                           <div className="absolute inset-0 bg-black/40 group-hover:bg-black/10 transition-colors" />
                           <div className="absolute top-6 left-6">
-                             <span className="px-3 py-1 bg-[var(--brand,#b4925e)] text-black text-[8px] font-black uppercase tracking-widest">{post.category}</span>
+                             <span className="px-3 py-1 bg-[var(--brand,#b4925e)] text-black text-[10px] font-black uppercase tracking-widest">{post.category}</span>
                           </div>
                        </div>
                        <div className="p-12 flex flex-col flex-1">
-                          <span className="text-[8px] font-black uppercase tracking-[0.4em] text-white/20 mb-6 italic">{post.date}</span>
+                          <span className="text-[10px] font-black uppercase tracking-[0.4em] text-white/20 mb-6 italic">{post.date}</span>
                           <h3 className="text-2xl md:text-3xl font-light italic uppercase tracking-tighter text-white group-hover:text-[var(--brand,#b4925e)] transition-colors mb-8 leading-tight" style={{ fontFamily: "serif" }}>
                              {post.title}
                           </h3>
                           <p className="text-[11px] text-white/40 leading-loose uppercase tracking-[0.2em] font-bold italic mb-8 flex-1">
                              {post.excerpt}
                           </p>
-                          <span className="text-[9px] font-black uppercase tracking-widest text-[var(--brand,#b4925e)] flex items-center gap-2 group-hover:translate-x-2 transition-transform">
+                          <span className="text-[10px] font-black uppercase tracking-widest text-[var(--brand,#b4925e)] flex items-center gap-2 group-hover:translate-x-2 transition-transform">
                              Lire l'article <ChevronRight className="w-4 h-4" />
                           </span>
                        </div>
@@ -1159,8 +1159,8 @@ function JournalArticle({ slug, onBack }: { slug: string, onBack: () => void }) 
           </button>
 
           <div className="flex items-center gap-6 mb-10">
-             <span className="px-3 py-1 bg-[var(--brand,#b4925e)] text-black text-[8px] font-black uppercase tracking-widest">{post.category}</span>
-             <span className="text-[9px] font-black uppercase tracking-[0.4em] text-white/20 italic">{post.date}</span>
+             <span className="px-3 py-1 bg-[var(--brand,#b4925e)] text-black text-[10px] font-black uppercase tracking-widest">{post.category}</span>
+             <span className="text-[10px] font-black uppercase tracking-[0.4em] text-white/20 italic">{post.date}</span>
           </div>
 
           <h1 className="text-4xl md:text-6xl font-light italic uppercase tracking-tighter text-white leading-[0.9] mb-16" style={{ fontFamily: "serif" }}>
@@ -1273,7 +1273,7 @@ function AboutPage({ onContact }: { onContact: () => void }) {
                     <div key={i} className="bg-black p-10 hover:bg-[#0c0c0e] transition-colors">
                        <Globe2 className="w-5 h-5 text-[var(--brand,#b4925e)] mb-6" />
                        <div className="text-2xl font-light italic uppercase tracking-tighter text-white mb-3" style={{ fontFamily: "serif" }}>{node.city}</div>
-                       <div className="text-[8px] font-black uppercase tracking-[0.3em] text-white/30 italic">{node.role}</div>
+                       <div className="text-[10px] font-black uppercase tracking-[0.3em] text-white/30 italic">{node.role}</div>
                     </div>
                   ))}
                </div>
@@ -1310,7 +1310,7 @@ function AboutPage({ onContact }: { onContact: () => void }) {
 function ContactPage() {
   const [sent, setSent] = useState(false)
   const inputClass = "w-full bg-transparent border-b border-white/10 py-4 text-base font-light italic text-white outline-none focus:border-[var(--brand,#b4925e)] transition-colors placeholder:text-white/20"
-  const labelClass = "text-[8px] font-black uppercase tracking-[0.4em] text-[var(--brand,#b4925e)] block mb-2"
+  const labelClass = "text-[10px] font-black uppercase tracking-[0.4em] text-[var(--brand,#b4925e)] block mb-2"
   return (
     <div>
       <PageHeader

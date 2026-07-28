@@ -570,7 +570,7 @@ function Hero() {
           transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
         />
         <span
-          className="text-[9px] tracking-[0.25em] uppercase"
+          className="text-[10px] tracking-[0.25em] uppercase"
           style={{ fontFamily: "'Montserrat', sans-serif", color: `${C.cream}60`, fontWeight: 400 }}
         >
           Défiler

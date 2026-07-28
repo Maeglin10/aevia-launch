@@ -148,7 +148,7 @@ export default function TableExceptionPage() {
             ) : (
               <>
                 <div className="font-bold tracking-wide text-[#1f1d1a] text-sm" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>Table d'Exception</div>
-                <div className="text-[8px] font-bold uppercase tracking-[0.35em] text-[var(--brand,#d4a853)]/60">Traiteur · Lyon & Rhône-Alpes</div>
+                <div className="text-[10px] font-bold uppercase tracking-[0.35em] text-[var(--brand,#d4a853)]/60">Traiteur · Lyon & Rhône-Alpes</div>
               </>
             )}
           </div>
@@ -189,7 +189,7 @@ export default function TableExceptionPage() {
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.7, delay: 0.3 }}>
             <div className="flex items-center gap-4 mb-8">
               <div className="w-10 h-[1px] bg-[var(--brand,#d4a853)]/60" />
-              <span className="text-[9px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#d4a853)]/65">Traiteur haut de gamme · Lyon & Rhône-Alpes</span>
+              <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#d4a853)]/65">Traiteur haut de gamme · Lyon & Rhône-Alpes</span>
             </div>
           </motion.div>
 
@@ -243,7 +243,7 @@ export default function TableExceptionPage() {
             <Reveal key={i} delay={i * 0.07}>
               <div className="text-center p-5 bg-white shadow-sm">
                 <div className="text-2xl font-bold text-[var(--brand,#d4a853)] mb-1" style={{ fontFamily: "'Playfair Display', serif" }}>{s.v}</div>
-                <div className="text-[9px] font-bold uppercase tracking-widest text-[#1f1d1a]/30">{s.l}</div>
+                <div className="text-[10px] font-bold uppercase tracking-widest text-[#1f1d1a]/30">{s.l}</div>
               </div>
             </Reveal>
           ))}
@@ -335,7 +335,7 @@ export default function TableExceptionPage() {
         <div className="max-w-[1300px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           <div>
             <div className="font-bold text-[#fefcf8] mb-1 text-sm" style={{ fontFamily: "'Playfair Display', serif" }}>Table d'Exception</div>
-            <div className="text-[8px] font-bold uppercase tracking-[0.35em] text-[var(--brand,#d4a853)]/40 mb-5">Traiteur · Lyon</div>
+            <div className="text-[10px] font-bold uppercase tracking-[0.35em] text-[var(--brand,#d4a853)]/40 mb-5">Traiteur · Lyon</div>
             <p className="text-[#fefcf8]/15 text-sm leading-relaxed">Traiteur haut de gamme à Lyon. Mariages, corporate, cocktails, plateaux. Chef et équipe sur place.</p>
           </div>
           {[
@@ -344,14 +344,14 @@ export default function TableExceptionPage() {
             { t: "Contact", ls: ["04 78 34 56 78", "contact@table-exception.fr", "Lyon & Rhône-Alpes", "Lun-Sam 8h-19h", "Devis sous 24h"] },
           ].map((col, i) => (
             <div key={i}>
-              <h4 className="text-[9px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#d4a853)]/35 mb-5">{col.t}</h4>
+              <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#d4a853)]/35 mb-5">{col.t}</h4>
               <ul className="space-y-2.5">
                 {col.ls.map(l => <li key={l}><Link href="#contact" className="text-[#fefcf8]/15 text-sm hover:text-[#fefcf8]/50 transition-colors">{l}</Link></li>)}
               </ul>
             </div>
           ))}
         </div>
-        <div className="max-w-[1300px] mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between gap-3 text-[9px] font-bold uppercase tracking-widest text-[#fefcf8]/8">
+        <div className="max-w-[1300px] mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between gap-3 text-[10px] font-bold uppercase tracking-widest text-[#fefcf8]/8">
           <span>© 2026 Table d'Exception · SIRET 789 012 345 00066 · Traiteur agréé · Lyon (69)</span>
           <span className="text-[var(--brand,#d4a853)]/15">L'art de recevoir</span>
         </div>

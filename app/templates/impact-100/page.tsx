@@ -253,14 +253,14 @@ export default function NovaSpacesPage() {
                 <span className="text-3xl font-light tracking-[0.3em] uppercase leading-none">
                   Nova
                 </span>
-                <span className="text-[7px] font-bold uppercase tracking-[0.8em] text-black/30 -mt-1 ml-1">
+                <span className="text-[10px] font-bold uppercase tracking-[0.8em] text-black/30 -mt-1 ml-1">
                   Spatial Design
                 </span>
               </>
             )}
           </Link>
 
-          <div className="hidden lg:flex items-center gap-12 text-[9px] font-bold uppercase tracking-[0.4em] text-black/40">
+          <div className="hidden lg:flex items-center gap-12 text-[10px] font-bold uppercase tracking-[0.4em] text-black/40">
             {["The_Work", "Atelier", "Method", "Bespoke", "Contact"].map(
               (link) => (
                 <Link
@@ -276,7 +276,7 @@ export default function NovaSpacesPage() {
 
           <div className="flex items-center gap-8">
             <button className="hidden md:flex items-center gap-3 group">
-              <span className="text-[9px] font-bold uppercase tracking-widest text-black/60 group-hover:text-black transition-colors">
+              <span className="text-[10px] font-bold uppercase tracking-widest text-black/60 group-hover:text-black transition-colors">
                 Start_Project
               </span>
               <div className="w-8 h-8 rounded-full border border-black/10 flex items-center justify-center text-black/40 group-hover:bg-black group-hover:text-white group-hover:border-black transition-all">
@@ -362,10 +362,10 @@ export default function NovaSpacesPage() {
         </div>
 
         <div className="absolute bottom-12 right-12 hidden lg:flex flex-col items-end gap-2 text-black/20">
-          <span className="text-[9px] font-bold uppercase tracking-[0.3em]">
+          <span className="text-[10px] font-bold uppercase tracking-[0.3em]">
             Vertical_Axis_Aligned
           </span>
-          <span className="text-[9px] font-bold uppercase tracking-[0.3em]">
+          <span className="text-[10px] font-bold uppercase tracking-[0.3em]">
             Spatial_Purity_Index_0.98
           </span>
         </div>
@@ -378,7 +378,7 @@ export default function NovaSpacesPage() {
             {STATS.map((stat, i) => (
               <Reveal key={i} delay={i * 0.1}>
                 <div className="text-center md:text-left">
-                  <div className="text-[9px] font-bold uppercase tracking-[0.3em] text-black/30 mb-2">
+                  <div className="text-[10px] font-bold uppercase tracking-[0.3em] text-black/30 mb-2">
                     {stat.label}
                   </div>
                   <div className="text-5xl font-light italic text-black">
@@ -431,7 +431,7 @@ export default function NovaSpacesPage() {
                     <div className="absolute inset-0 bg-[#f7f7f7]/30 group-hover:bg-transparent transition-colors duration-700" />
 
                     <div className="absolute top-6 left-6">
-                      <Badge className="bg-white/60 backdrop-blur-md text-black border-black/10 text-[9px] font-bold uppercase tracking-widest px-3 py-1">
+                      <Badge className="bg-white/60 backdrop-blur-md text-black border-black/10 text-[10px] font-bold uppercase tracking-widest px-3 py-1">
                         {item.category}
                       </Badge>
                     </div>
@@ -506,7 +506,7 @@ export default function NovaSpacesPage() {
                   <p className="text-sm text-black/40 font-light leading-relaxed mb-12 flex-1 tracking-wide uppercase italic leading-loose">
                     {s.desc}
                   </p>
-                  <button className="flex items-center gap-4 text-[9px] font-bold uppercase tracking-[0.3em] text-black/60 group-hover:text-black group-hover:gap-6 transition-all">
+                  <button className="flex items-center gap-4 text-[10px] font-bold uppercase tracking-[0.3em] text-black/60 group-hover:text-black group-hover:gap-6 transition-all">
                     Read Principle <ArrowRight className="w-4 h-4" />
                   </button>
                 </div>
@@ -571,7 +571,7 @@ export default function NovaSpacesPage() {
                   <h4 className="text-[10px] font-bold uppercase tracking-widest text-black">
                     {val.label}
                   </h4>
-                  <p className="text-[9px] font-light text-black/30 uppercase tracking-widest leading-loose">
+                  <p className="text-[10px] font-light text-black/30 uppercase tracking-widest leading-loose">
                     {val.desc}
                   </p>
                 </div>

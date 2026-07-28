@@ -815,7 +815,7 @@ export default function LumiereCliniquePage() {
             ) : (
               <>
                 <span className="text-xl tracking-widest font-light" style={{ fontFamily: "'Cormorant Garamond', serif", letterSpacing: "0.1em" }}>{fd?.businessName ?? "Lumière Clinic"}</span>
-                <span className="text-[9px] tracking-[0.25em] uppercase text-[var(--brand,#3A8080)]">Médecine esthétique médicale</span>
+                <span className="text-[10px] tracking-[0.25em] uppercase text-[var(--brand,#3A8080)]">Médecine esthétique médicale</span>
               </>
             )}
           </button>

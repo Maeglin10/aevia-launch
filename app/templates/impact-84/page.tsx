@@ -136,7 +136,7 @@ return (
                   <div className="text-[var(--brand)]/20 text-5xl font-light mb-6" style={{ fontFamily: "'Bodoni Moda', serif" }}>{p.num ?? String(i + 1).padStart(2, "0")}</div>
                   <h3 className="font-medium text-[#F0EBE0] text-lg mb-4" style={{ fontFamily: "'Bodoni Moda', serif" }}>{p.title ?? p.name}</h3>
                   <p className="text-[#6A6258] text-sm leading-relaxed mb-6">{p.desc ?? p.description}</p>
-                  <div className="flex gap-6 text-[9px] text-[var(--brand)]/60 uppercase tracking-widest border-t border-[#2A2820] pt-4">
+                  <div className="flex gap-6 text-[10px] text-[var(--brand)]/60 uppercase tracking-widest border-t border-[#2A2820] pt-4">
                     {p.duration && <span>Durée : {p.duration}</span>}
                     {p.duration && p.recovery && <span>|</span>}
                     {p.recovery && <span>Récupération : {p.recovery}</span>}
@@ -175,7 +175,7 @@ return (
                   {[{ v: "+2400", l: "Patients traités" }, { v: "14", l: "Points d'analyse" }, { v: "9 ans", l: "D'expertise" }].map((s, i) => (
                     <div key={i}>
                       <div className="text-2xl font-light text-[var(--brand)] mb-1" style={{ fontFamily: "'Bodoni Moda', serif" }}>{s.v}</div>
-                      <div className="text-[9px] uppercase tracking-widest text-[#6A6258]">{s.l}</div>
+                      <div className="text-[10px] uppercase tracking-widest text-[#6A6258]">{s.l}</div>
                     </div>
                   ))}
                 </div>
@@ -199,7 +199,7 @@ return (
                   <p className="text-[#8A8278] text-sm leading-relaxed mb-8 italic">&ldquo;{t.text}&rdquo;</p>
                   <div className="border-t border-[#2A2820] pt-6">
                     <p className="text-[#F0EBE0] font-medium text-sm">{t.name ?? t.author}</p>
-                    <p className="text-[9px] uppercase tracking-widest text-[var(--brand)] mt-1">{t.protocol ?? t.source ?? ""}</p>
+                    <p className="text-[10px] uppercase tracking-widest text-[var(--brand)] mt-1">{t.protocol ?? t.source ?? ""}</p>
                   </div>
                 </div>
               </Reveal>
@@ -224,7 +224,7 @@ return (
                   </div>
                   <div>
                     {(m.badge ?? m.credentials ?? m.exp) && (
-                      <p className="text-[9px] uppercase tracking-[0.3em] text-[var(--brand)] mb-1">{[m.badge ?? m.credentials, m.exp].filter(Boolean).join(" · ")}</p>
+                      <p className="text-[10px] uppercase tracking-[0.3em] text-[var(--brand)] mb-1">{[m.badge ?? m.credentials, m.exp].filter(Boolean).join(" · ")}</p>
                     )}
                     <h3 className="text-[#F0EBE0] font-medium" style={{ fontFamily: "'Bodoni Moda', serif" }}>{m.name}</h3>
                     <p className="text-[10px] uppercase tracking-widest text-[#6A6258] mt-0.5">{m.spec ?? m.specialty ?? m.role}</p>
@@ -241,7 +241,7 @@ return (
       <section className="py-24 bg-[var(--brand)]">
         <div className="max-w-3xl mx-auto px-6 text-center">
           <Reveal>
-            <p className="text-[9px] uppercase tracking-[0.5em] text-[#0C0C0A]/60 mb-6">Premier rendez-vous</p>
+            <p className="text-[10px] uppercase tracking-[0.5em] text-[#0C0C0A]/60 mb-6">Premier rendez-vous</p>
             <h2 className="text-4xl font-light text-[#0C0C0A] mb-8 leading-snug" style={{ fontFamily: "'Bodoni Moda', serif" }}>
               Commençons par<br /><em>vous écouter.</em>
             </h2>

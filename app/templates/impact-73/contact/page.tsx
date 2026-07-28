@@ -61,7 +61,7 @@ export default function ContactPage() {
                 >
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-2">
-                      <label className="text-[9px] font-bold uppercase tracking-widest text-white/30">First Name</label>
+                      <label className="text-[10px] font-bold uppercase tracking-widest text-white/30">First Name</label>
                       <input
                         type="text"
                         required
@@ -69,7 +69,7 @@ export default function ContactPage() {
                       />
                     </div>
                     <div className="space-y-2">
-                      <label className="text-[9px] font-bold uppercase tracking-widest text-white/30">Last Name</label>
+                      <label className="text-[10px] font-bold uppercase tracking-widest text-white/30">Last Name</label>
                       <input
                         type="text"
                         required
@@ -78,7 +78,7 @@ export default function ContactPage() {
                     </div>
                   </div>
                   <div className="space-y-2">
-                    <label className="text-[9px] font-bold uppercase tracking-widest text-white/30">Email Address</label>
+                    <label className="text-[10px] font-bold uppercase tracking-widest text-white/30">Email Address</label>
                     <input
                       type="email"
                       required
@@ -86,7 +86,7 @@ export default function ContactPage() {
                     />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-[9px] font-bold uppercase tracking-widest text-white/30">Message</label>
+                    <label className="text-[10px] font-bold uppercase tracking-widest text-white/30">Message</label>
                     <textarea
                       rows={4}
                       required

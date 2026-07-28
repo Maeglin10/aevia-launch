@@ -45,7 +45,7 @@ export default function AtelierPage() {
         <div className="mt-32 grid grid-cols-1 md:grid-cols-2 gap-16 border-t border-white/5 pt-20">
           <Reveal>
             <div className="space-y-6">
-              <span className="text-[9px] uppercase tracking-widest text-[#c9a96e]">Phase I</span>
+              <span className="text-[10px] uppercase tracking-widest text-[#c9a96e]">Phase I</span>
               <h4 className="text-lg font-bold uppercase text-white tracking-wider italic">Material Selection</h4>
               <p className="text-sm font-light text-white/30 leading-relaxed italic">
                 We source only conflict-free, certified surgical grade titanium, platinum-iridium alloys, and 18k ethical gold for all movements and cases.
@@ -55,7 +55,7 @@ export default function AtelierPage() {
 
           <Reveal delay={0.15}>
             <div className="space-y-6">
-              <span className="text-[9px] uppercase tracking-widest text-[#c9a96e]">Phase II</span>
+              <span className="text-[10px] uppercase tracking-widest text-[#c9a96e]">Phase II</span>
               <h4 className="text-lg font-bold uppercase text-white tracking-wider italic">Artisan Decoration</h4>
               <p className="text-sm font-light text-white/30 leading-relaxed italic">
                 Every plate and bridge undergoes Côte de Genève striping, perlage, and anglage. Each internal screw is flame-blued by eye to a perfect cobalt shade.

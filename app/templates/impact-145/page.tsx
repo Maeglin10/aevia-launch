@@ -225,8 +225,8 @@ export default function ArcaneRealtyPage() {
           </div>
           
           <div className="absolute bottom-12 left-12 right-12 flex justify-between items-end">
-            <div className="text-[9px] font-bold uppercase tracking-[0.4em] text-white/20 flex items-center gap-3"><MapPin className="w-3 h-3" /> GLOBAL ASSETS: 242</div>
-            <div className="text-[9px] font-bold uppercase tracking-[0.4em] text-white/20">ESTABLISHED 1992</div>
+            <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/20 flex items-center gap-3"><MapPin className="w-3 h-3" /> GLOBAL ASSETS: 242</div>
+            <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/20">ESTABLISHED 1992</div>
           </div>
         </section>
 
@@ -254,12 +254,12 @@ export default function ArcaneRealtyPage() {
                       <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-60" />
                       <div className="absolute top-8 left-8 flex items-center gap-2">
                          <div className="w-2 h-2 rounded-full bg-white animate-pulse" />
-                         <span className="text-[8px] font-bold uppercase tracking-widest text-white/60">Available</span>
+                         <span className="text-[10px] font-bold uppercase tracking-widest text-white/60">Available</span>
                       </div>
                     </div>
                     <div className="flex justify-between items-start">
                        <div>
-                          <div className="text-[9px] font-bold uppercase tracking-[0.2em] text-white/40 mb-2 italic flex items-center gap-2"><MapPin className="w-3 h-3" /> {p.loc}</div>
+                          <div className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/40 mb-2 italic flex items-center gap-2"><MapPin className="w-3 h-3" /> {p.loc}</div>
                           <h3 className="text-3xl font-bold uppercase tracking-widest text-white">{p.name}</h3>
                        </div>
                        <div className="text-xl font-light tracking-tighter text-white/60">{p.price}</div>
@@ -363,8 +363,8 @@ export default function ArcaneRealtyPage() {
                     <div className="aspect-[3/4] bg-white/[0.02] border border-white/5 mb-6 flex items-end p-8 group-hover:border-white/15 transition-colors duration-700 overflow-hidden relative">
                       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[6rem] font-black text-white/[0.03] uppercase">{a.name.split(" ").map((n: string) => n[0]).join("")}</div>
                       <div className="relative z-10">
-                        <div className="text-[8px] font-bold uppercase tracking-[0.3em] text-white/30 mb-1">{a.yrs}</div>
-                        {a.markets.map(m => <span key={m} className="text-[9px] font-mono text-white/20 mr-3">/{m}/</span>)}
+                        <div className="text-[10px] font-bold uppercase tracking-[0.3em] text-white/30 mb-1">{a.yrs}</div>
+                        {a.markets.map(m => <span key={m} className="text-[10px] font-mono text-white/20 mr-3">/{m}/</span>)}
                       </div>
                     </div>
                     <h3 className="text-lg font-bold uppercase tracking-widest text-white mb-1">{a.name}</h3>

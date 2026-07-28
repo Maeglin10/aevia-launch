@@ -270,7 +270,7 @@ export default function BoutiquePage() {
             >
               <ShoppingBag size={18} />
               {cart.length > 0 && (
-                <span style={{ position: 'absolute', top: 2, right: 2, width: 16, height: 16, borderRadius: '50%', background: '#0a0a0a', color: '#fafafa', fontSize: 9, fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{cart.reduce((s, i) => s + i.qty, 0)}</span>
+                <span style={{ position: 'absolute', top: 2, right: 2, width: 16, height: 16, borderRadius: '50%', background: '#0a0a0a', color: '#fafafa', fontSize: 10, fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{cart.reduce((s, i) => s + i.qty, 0)}</span>
               )}
             </button>
           </div>
@@ -456,7 +456,7 @@ export default function BoutiquePage() {
             >
               <ShoppingBag size={18} />
               {cart.length > 0 && (
-                <span style={{ position: 'absolute', top: 2, right: 2, width: 16, height: 16, borderRadius: '50%', background: '#0a0a0a', color: '#fafafa', fontSize: 9, fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{cart.reduce((s, i) => s + i.qty, 0)}</span>
+                <span style={{ position: 'absolute', top: 2, right: 2, width: 16, height: 16, borderRadius: '50%', background: '#0a0a0a', color: '#fafafa', fontSize: 10, fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{cart.reduce((s, i) => s + i.qty, 0)}</span>
               )}
             </button>
           </div>

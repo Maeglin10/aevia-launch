@@ -1166,7 +1166,7 @@ return (
                     border: `1px solid ${C.border}`,
                     padding: "4px 10px",
                     fontFamily: FONT_MONO,
-                    fontSize: 9,
+                    fontSize: 10,
                     letterSpacing: 2,
                     textTransform: "uppercase",
                     color: C.textMuted,

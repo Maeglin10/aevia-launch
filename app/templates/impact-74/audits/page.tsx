@@ -78,7 +78,7 @@ export default function AuditsPage() {
                       <h4 className="text-xs font-black uppercase text-white mb-1">
                         {log.event}
                       </h4>
-                      <span className="text-[9px] font-bold text-white/20 uppercase">
+                      <span className="text-[10px] font-bold text-white/20 uppercase">
                         Node: {log.node}
                       </span>
                     </div>
@@ -87,7 +87,7 @@ export default function AuditsPage() {
                     <div className="text-[10px] font-black text-emerald-500 uppercase tracking-widest mb-1">
                       {log.status}
                     </div>
-                    <span className="text-[9px] font-bold text-white/10 uppercase italic">
+                    <span className="text-[10px] font-bold text-white/10 uppercase italic">
                       Response: {log.latency}
                     </span>
                   </div>

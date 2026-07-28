@@ -237,8 +237,8 @@ export default function AetherSoundPage() {
           </div>
           
           <div className="absolute bottom-12 left-12 right-12 flex justify-between items-end">
-            <div className="text-[9px] font-bold uppercase tracking-[0.4em] text-white/20">Frequency Response: 2Hz — 45kHz</div>
-            <div className="text-[9px] font-bold uppercase tracking-[0.4em] text-white/20">THD: &lt;0.0001%</div>
+            <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/20">Frequency Response: 2Hz — 45kHz</div>
+            <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/20">THD: &lt;0.0001%</div>
           </div>
         </section>
 
@@ -307,7 +307,7 @@ export default function AetherSoundPage() {
                          <Speaker className="w-16 h-16 text-white/20" />
                       </div>
                       {/* Technical markings */}
-                      <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 px-3 py-1 bg-black border border-white/20 text-[8px] font-bold uppercase tracking-widest">Phase Align</div>
+                      <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 px-3 py-1 bg-black border border-white/20 text-[10px] font-bold uppercase tracking-widest">Phase Align</div>
                    </div>
                 </div>
               </Reveal>
@@ -392,7 +392,7 @@ export default function AetherSoundPage() {
                 <Reveal key={i} delay={i * 0.08}>
                   <div className="bg-black p-12 text-center hover:bg-white/[0.02] transition-colors">
                     <div className="text-3xl font-black italic text-white mb-2">{s.v}</div>
-                    <div className="text-[9px] font-bold uppercase tracking-widest text-white/20">{s.l}</div>
+                    <div className="text-[10px] font-bold uppercase tracking-widest text-white/20">{s.l}</div>
                   </div>
                 </Reveal>
               ))}

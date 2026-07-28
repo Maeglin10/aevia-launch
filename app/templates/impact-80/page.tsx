@@ -286,7 +286,7 @@ return (
           </Reveal>
         </div>
 
-        <div className="absolute bottom-12 left-12 right-12 flex justify-between items-end text-[9px] font-bold uppercase tracking-[0.4em] text-black/10 italic">
+        <div className="absolute bottom-12 left-12 right-12 flex justify-between items-end text-[10px] font-bold uppercase tracking-[0.4em] text-black/10 italic">
           <span>STRUCTURE / LIGHT / MATERIALITY / VOID</span>
           <span>EST. 2012</span>
         </div>
@@ -300,7 +300,7 @@ return (
               <Reveal key={i} delay={i * 0.08}>
                 <div className="px-8 py-6 text-center">
                   <div className="text-5xl md:text-6xl font-light text-white italic tracking-tighter mb-2">{s.val}</div>
-                  <div className="text-[9px] font-bold uppercase tracking-[0.4em] text-white/20 italic">{s.label}</div>
+                  <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/20 italic">{s.label}</div>
                 </div>
               </Reveal>
             ))}
@@ -338,16 +338,16 @@ return (
                   <div className="relative aspect-video overflow-hidden border border-black/5 p-1 bg-white shadow-xl shadow-black/[0.02] mb-8">
                     <ParallaxImg src={project.img} alt={project.name} />
                     <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-all duration-1000" />
-                    <div className="absolute top-4 right-4 bg-white/80 backdrop-blur-sm px-3 py-1 text-[9px] font-bold uppercase tracking-widest text-black/40">
+                    <div className="absolute top-4 right-4 bg-white/80 backdrop-blur-sm px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-black/40">
                       {project.type}
                     </div>
-                    <div className="absolute bottom-4 left-4 bg-white/80 backdrop-blur-sm px-3 py-1 text-[9px] font-bold uppercase tracking-widest text-black/40">
+                    <div className="absolute bottom-4 left-4 bg-white/80 backdrop-blur-sm px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-black/40">
                       {project.area} · {project.year}
                     </div>
                   </div>
                   <div className="flex justify-between items-start">
                     <div>
-                      <div className="text-[9px] font-bold uppercase tracking-widest text-black/20 mb-2 italic">
+                      <div className="text-[10px] font-bold uppercase tracking-widest text-black/20 mb-2 italic">
                         Location: {project.loc}
                       </div>
                       <h3 className="text-2xl font-bold uppercase tracking-tighter text-black italic group-hover:translate-x-2 transition-transform duration-700">
@@ -512,7 +512,7 @@ return (
                     <Image src={member.img} alt={member.name} fill className="object-cover" />
                     <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-all duration-1000" />
                   </div>
-                  <div className="text-[9px] font-bold uppercase tracking-widest text-black/20 italic mb-2">{member.role}</div>
+                  <div className="text-[10px] font-bold uppercase tracking-widest text-black/20 italic mb-2">{member.role}</div>
                   <h3 className="text-xl font-light uppercase tracking-tighter text-[#1a1a1a] italic mb-4">{member.name}</h3>
                   <p className="text-sm text-black/30 font-light leading-relaxed italic">{member.bio}</p>
                 </div>
@@ -555,7 +555,7 @@ return (
                       {award.title}
                     </h3>
                   </div>
-                  <span className="text-[9px] font-bold uppercase tracking-widest text-black/10 italic flex-shrink-0">
+                  <span className="text-[10px] font-bold uppercase tracking-widest text-black/10 italic flex-shrink-0">
                     {award.category}
                   </span>
                 </div>
@@ -581,11 +581,11 @@ return (
             {PRESS.map((item, i) => (
               <Reveal key={i} delay={i * 0.08}>
                 <div className="py-8 flex items-center gap-12 group cursor-pointer">
-                  <span className="text-[9px] font-bold uppercase tracking-widest text-black/10 italic w-28 flex-shrink-0">{item.pub}</span>
+                  <span className="text-[10px] font-bold uppercase tracking-widest text-black/10 italic w-28 flex-shrink-0">{item.pub}</span>
                   <div className="flex-1 text-lg font-light uppercase tracking-tighter text-[#1a1a1a]/40 italic group-hover:text-[#1a1a1a] transition-colors duration-500">
                     {item.title}
                   </div>
-                  <span className="text-[9px] font-bold uppercase tracking-widest text-black/10 italic flex-shrink-0">{item.year}</span>
+                  <span className="text-[10px] font-bold uppercase tracking-widest text-black/10 italic flex-shrink-0">{item.year}</span>
                   <ArrowUpRight className="w-4 h-4 text-black/10 group-hover:text-black transition-colors duration-500 flex-shrink-0" />
                 </div>
               </Reveal>

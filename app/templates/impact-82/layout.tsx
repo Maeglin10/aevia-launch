@@ -69,7 +69,7 @@ export default function BlueprintLayout({ children }: { children: React.ReactNod
             ) : (
               <>
             <span className="text-xl font-bold tracking-wide" style={{ fontFamily: "'Libre Baskerville', serif" }}>Blueprint</span>
-            <span className="text-[9px] tracking-[0.2em] uppercase text-[#C9A86C]">Développements Immobiliers</span>
+            <span className="text-[10px] tracking-[0.2em] uppercase text-[#C9A86C]">Développements Immobiliers</span>
               </>
             )}
           </Link>

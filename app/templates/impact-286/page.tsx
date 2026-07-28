@@ -2371,7 +2371,7 @@ function FooterSection() {
             <span
               style={{
                 fontFamily: SANS,
-                fontSize: 9.5,
+                fontSize: 10,
                 letterSpacing: '0.26em',
                 textTransform: 'uppercase',
                 color: C.gold,

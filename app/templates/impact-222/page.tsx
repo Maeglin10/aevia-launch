@@ -300,7 +300,7 @@ const Nav: React.FC = () => {
                   style={{
                     display: 'block',
                     fontFamily: C.font,
-                    fontSize: 9.5,
+                    fontSize: 10,
                     fontWeight: 600,
                     letterSpacing: '0.34em',
                     textTransform: 'uppercase',

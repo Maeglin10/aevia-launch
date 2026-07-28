@@ -43,7 +43,7 @@ export default function ContactPage() {
                   <div key={i} className="flex items-center gap-6 group pl-4 border-l border-white/5 hover:border-rose-600 transition-all">
                     {item.icon}
                     <div>
-                      <div className="text-[9px] font-bold uppercase tracking-widest text-white/20">{item.label}</div>
+                      <div className="text-[10px] font-bold uppercase tracking-widest text-white/20">{item.label}</div>
                       <div className="text-sm font-bold uppercase text-white/60 mt-1">{item.val}</div>
                     </div>
                   </div>
@@ -65,7 +65,7 @@ export default function ContactPage() {
                 </h3>
 
                 <div className="space-y-2">
-                  <label className="text-[9px] font-black uppercase tracking-widest text-white/30">
+                  <label className="text-[10px] font-black uppercase tracking-widest text-white/30">
                     Authentication_Name
                   </label>
                   <input
@@ -79,7 +79,7 @@ export default function ContactPage() {
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-[9px] font-black uppercase tracking-widest text-white/30">
+                  <label className="text-[10px] font-black uppercase tracking-widest text-white/30">
                     Routing_Email
                   </label>
                   <input
@@ -93,7 +93,7 @@ export default function ContactPage() {
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-[9px] font-black uppercase tracking-widest text-white/30">
+                  <label className="text-[10px] font-black uppercase tracking-widest text-white/30">
                     Target_Property_Title
                   </label>
                   <input
@@ -107,7 +107,7 @@ export default function ContactPage() {
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-[9px] font-black uppercase tracking-widest text-white/30">
+                  <label className="text-[10px] font-black uppercase tracking-widest text-white/30">
                     Special_Directives
                   </label>
                   <textarea
@@ -119,7 +119,7 @@ export default function ContactPage() {
                   />
                 </div>
 
-                <div className="pt-4 flex items-center gap-4 text-[9px] font-bold uppercase tracking-widest text-white/20 italic">
+                <div className="pt-4 flex items-center gap-4 text-[10px] font-bold uppercase tracking-widest text-white/20 italic">
                   <Shield className="w-4 h-4 text-rose-600" />
                   FIPS 140-2 Encrypted Submission
                 </div>

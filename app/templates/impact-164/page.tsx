@@ -645,7 +645,7 @@ return (
               <span style={{ fontSize: "clamp(16px, 2vw, 24px)", fontWeight: 700, letterSpacing: "-0.5px" }}>{s.name}</span>
               <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
                 {s.tags.map(t => (
-                  <span key={t} style={{ fontFamily: C.mono, fontSize: 9, letterSpacing: 2, padding: "3px 8px", border: `1px solid ${C.borderLight}`, color: C.textMuted, textTransform: "uppercase" }}>{t}</span>
+                  <span key={t} style={{ fontFamily: C.mono, fontSize: 10, letterSpacing: 2, padding: "3px 8px", border: `1px solid ${C.borderLight}`, color: C.textMuted, textTransform: "uppercase" }}>{t}</span>
                 ))}
               </div>
               <motion.span
@@ -962,7 +962,7 @@ return (
           { title: "Contact", links: ["Réserver un call", "hello@bureau.co", "+33 1 23 45 67 89", "Paris 75011"] },
         ].map((col, i) => (
           <div key={i} style={{ padding: "48px 44px", borderRight: i < 2 ? `1px solid ${C.borderLight}` : undefined }}>
-            <div style={{ fontFamily: C.mono, fontSize: 9, letterSpacing: 4, color: C.accent, marginBottom: 20, textTransform: "uppercase", fontWeight: 700 }}>{col.title}</div>
+            <div style={{ fontFamily: C.mono, fontSize: 10, letterSpacing: 4, color: C.accent, marginBottom: 20, textTransform: "uppercase", fontWeight: 700 }}>{col.title}</div>
             <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
               {col.links.map(l => (
                 <span key={l} style={{ fontFamily: C.mono, fontSize: 10, color: C.textMuted, letterSpacing: 1 }}>{l}</span>
@@ -972,8 +972,8 @@ return (
         ))}
       </footer>
       <div style={{ padding: "20px 44px", display: "flex", justifyContent: "space-between", background: C.bg }}>
-        <span style={{ fontFamily: C.mono, fontSize: 9, color: C.borderLight, letterSpacing: 2, textTransform: "uppercase" }}>© 2026 Bureau — Tous droits réservés</span>
-        <span style={{ fontFamily: C.mono, fontSize: 9, color: C.borderLight, letterSpacing: 2, textTransform: "uppercase" }}>Mentions légales · Confidentialité</span>
+        <span style={{ fontFamily: C.mono, fontSize: 10, color: C.borderLight, letterSpacing: 2, textTransform: "uppercase" }}>© 2026 Bureau — Tous droits réservés</span>
+        <span style={{ fontFamily: C.mono, fontSize: 10, color: C.borderLight, letterSpacing: 2, textTransform: "uppercase" }}>Mentions légales · Confidentialité</span>
       </div>
     </div>
   );

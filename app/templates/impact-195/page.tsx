@@ -161,7 +161,7 @@ export default function MaisonElisePage() {
             ) : (
               <>
                 <div className="font-bold tracking-[0.2em] text-[#1a1018] text-sm uppercase" style={{ fontFamily: "'Lora', Georgia, serif" }}>Maison Élise</div>
-                <div className="text-[8px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#c4a06a)]/60">Wedding Planner · Nice & Riviera</div>
+                <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#c4a06a)]/60">Wedding Planner · Nice & Riviera</div>
               </>
             )}
           </div>
@@ -201,7 +201,7 @@ export default function MaisonElisePage() {
 
         {/* Elegant vertical text */}
         <div className="absolute right-8 top-1/2 -translate-y-1/2 z-10 hidden xl:block">
-          <div className="text-[9px] font-bold uppercase tracking-[0.6em] text-[var(--brand,#c4a06a)]/25 writing-vertical" style={{ writingMode: "vertical-rl", transform: "rotate(180deg)" }}>
+          <div className="text-[10px] font-bold uppercase tracking-[0.6em] text-[var(--brand,#c4a06a)]/25 writing-vertical" style={{ writingMode: "vertical-rl", transform: "rotate(180deg)" }}>
             Nice · Cannes · Monaco · Riviera
           </div>
         </div>
@@ -210,7 +210,7 @@ export default function MaisonElisePage() {
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.7, delay: 0.3 }}>
             <div className="flex items-center gap-4 mb-10">
               <div className="w-12 h-[1px] bg-[var(--brand,#c4a06a)]/50" />
-              <span className="text-[9px] font-bold uppercase tracking-[0.55em] text-[var(--brand,#c4a06a)]/60">Wedding Planner & Events · Côte d'Azur</span>
+              <span className="text-[10px] font-bold uppercase tracking-[0.55em] text-[var(--brand,#c4a06a)]/60">Wedding Planner & Events · Côte d'Azur</span>
             </div>
           </motion.div>
 
@@ -257,7 +257,7 @@ export default function MaisonElisePage() {
             <Reveal key={i} delay={i * 0.07}>
               <div className="text-center p-5 bg-white">
                 <div className="text-2xl font-bold text-[var(--brand,#c4a06a)] mb-1" style={{ fontFamily: "'Lora', serif" }}>{s.v}</div>
-                <div className="text-[9px] font-bold uppercase tracking-widest text-[#1a1018]/30">{s.l}</div>
+                <div className="text-[10px] font-bold uppercase tracking-widest text-[#1a1018]/30">{s.l}</div>
               </div>
             </Reveal>
           ))}
@@ -368,7 +368,7 @@ export default function MaisonElisePage() {
         <div className="max-w-[1300px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           <div>
             <div className="font-bold text-[#fdfaf7] text-sm tracking-[0.18em] mb-1 uppercase" style={{ fontFamily: "'Lora', serif" }}>Maison Élise</div>
-            <div className="text-[8px] font-bold uppercase tracking-[0.35em] text-[var(--brand,#c4a06a)]/40 mb-5">Wedding Planner · Nice</div>
+            <div className="text-[10px] font-bold uppercase tracking-[0.35em] text-[var(--brand,#c4a06a)]/40 mb-5">Wedding Planner · Nice</div>
             <p className="text-[#fdfaf7]/15 text-sm leading-relaxed">Organisation mariages et événements sur la Côte d'Azur. Coordination, clé en main, floral, corporate.</p>
           </div>
           {[
@@ -377,14 +377,14 @@ export default function MaisonElisePage() {
             { t: "Contact", ls: ["04 93 56 78 90", "hello@maison-elise.fr", "Nice & Riviera", "France entière & étranger", "Consultation gratuite"] },
           ].map((col, i) => (
             <div key={i}>
-              <h4 className="text-[9px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#c4a06a)]/35 mb-5">{col.t}</h4>
+              <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#c4a06a)]/35 mb-5">{col.t}</h4>
               <ul className="space-y-2.5">
                 {col.ls.map(l => <li key={l}><Link href="#contact" className="text-[#fdfaf7]/15 text-sm hover:text-[#fdfaf7]/50 transition-colors">{l}</Link></li>)}
               </ul>
             </div>
           ))}
         </div>
-        <div className="max-w-[1300px] mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between gap-3 text-[9px] font-bold uppercase tracking-widest text-[#fdfaf7]/8">
+        <div className="max-w-[1300px] mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between gap-3 text-[10px] font-bold uppercase tracking-widest text-[#fdfaf7]/8">
           <span>© 2026 Maison Élise · SIRET 678 901 234 00055 · Nice (06)</span>
           <span className="text-[var(--brand,#c4a06a)]/18">Wedding Planner · Côte d'Azur</span>
         </div>

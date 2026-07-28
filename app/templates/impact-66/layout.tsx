@@ -300,7 +300,7 @@ export default function AtelierLayout({
             </div>
           </div>
 
-          <div className="flex flex-col md:flex-row justify-between items-center gap-8 pt-10 border-t border-white/5 text-[9px] font-bold uppercase tracking-widest text-white/10">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-8 pt-10 border-t border-white/5 text-[10px] font-bold uppercase tracking-widest text-white/10">
             <div className="flex items-center gap-10">
               <span>
                 &copy; {new Date().getFullYear()} L'Atelier de Beauté.
@@ -400,19 +400,19 @@ export default function AtelierLayout({
                   <TabsList className="grid w-full grid-cols-3 mb-10 bg-black/5 p-1 rounded-full border-none">
                     <TabsTrigger
                       value="service"
-                      className="rounded-full text-[9px] uppercase tracking-widest font-black data-[state=active]:bg-white cursor-pointer"
+                      className="rounded-full text-[10px] uppercase tracking-widest font-black data-[state=active]:bg-white cursor-pointer"
                     >
                       1. Service{selectedService ? " ✓" : ""}
                     </TabsTrigger>
                     <TabsTrigger
                       value="date"
-                      className="rounded-full text-[9px] uppercase tracking-widest font-black data-[state=active]:bg-white cursor-pointer"
+                      className="rounded-full text-[10px] uppercase tracking-widest font-black data-[state=active]:bg-white cursor-pointer"
                     >
                       2. Date{selectedDay && selectedTime ? " ✓" : ""}
                     </TabsTrigger>
                     <TabsTrigger
                       value="confirm"
-                      className="rounded-full text-[9px] uppercase tracking-widest font-black data-[state=active]:bg-white cursor-pointer"
+                      className="rounded-full text-[10px] uppercase tracking-widest font-black data-[state=active]:bg-white cursor-pointer"
                     >
                       3. Confirm
                     </TabsTrigger>
@@ -459,7 +459,7 @@ export default function AtelierLayout({
 
                   <TabsContent value="date" className="grid grid-cols-1 gap-8">
                     <div className="space-y-4">
-                      <label className="text-[9px] font-black uppercase tracking-widest text-[#1a1814]/30">
+                      <label className="text-[10px] font-black uppercase tracking-widest text-[#1a1814]/30">
                         Select Date
                       </label>
                       <div className="grid grid-cols-7 gap-2">
@@ -478,7 +478,7 @@ export default function AtelierLayout({
                       </div>
                     </div>
                     <div className="space-y-4">
-                      <label className="text-[9px] font-black uppercase tracking-widest text-[#1a1814]/30">
+                      <label className="text-[10px] font-black uppercase tracking-widest text-[#1a1814]/30">
                         Select Time
                       </label>
                       <div className="grid grid-cols-4 gap-3">
@@ -533,7 +533,7 @@ export default function AtelierLayout({
                         <div className="space-y-2">
                           <label
                             htmlFor="booking-name"
-                            className="text-[9px] font-black uppercase tracking-widest text-[#1a1814]/30 block"
+                            className="text-[10px] font-black uppercase tracking-widest text-[#1a1814]/30 block"
                           >
                             Nom complet
                           </label>
@@ -553,7 +553,7 @@ export default function AtelierLayout({
                           <div className="space-y-2">
                             <label
                               htmlFor="booking-email"
-                              className="text-[9px] font-black uppercase tracking-widest text-[#1a1814]/30 block"
+                              className="text-[10px] font-black uppercase tracking-widest text-[#1a1814]/30 block"
                             >
                               Email
                             </label>
@@ -572,7 +572,7 @@ export default function AtelierLayout({
                           <div className="space-y-2">
                             <label
                               htmlFor="booking-phone"
-                              className="text-[9px] font-black uppercase tracking-widest text-[#1a1814]/30 block"
+                              className="text-[10px] font-black uppercase tracking-widest text-[#1a1814]/30 block"
                             >
                               Téléphone
                             </label>

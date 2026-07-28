@@ -245,8 +245,8 @@ export default function VoltProPage() {
               <div className="flex items-center gap-4 mb-6">
                 <div className="w-1 h-12 bg-[var(--brand,#facc15)]" />
                 <div>
-                  <div className="text-[9px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#facc15)] mb-1" style={{ fontFamily: "'Space Mono', monospace" }}>Électricien certifié RGE · Île-de-France</div>
-                  <div className="text-[9px] font-bold uppercase tracking-[0.3em] text-white/30" style={{ fontFamily: "'Space Mono', monospace" }}>Particuliers & professionnels · Depuis 2009</div>
+                  <div className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#facc15)] mb-1" style={{ fontFamily: "'Space Mono', monospace" }}>Électricien certifié RGE · Île-de-France</div>
+                  <div className="text-[10px] font-bold uppercase tracking-[0.3em] text-white/30" style={{ fontFamily: "'Space Mono', monospace" }}>Particuliers & professionnels · Depuis 2009</div>
                 </div>
               </div>
             </Reveal>
@@ -273,7 +273,7 @@ export default function VoltProPage() {
           </motion.div>
 
           <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2">
-            <span className="text-[8px] font-bold uppercase tracking-[0.4em] text-white/20" style={{ fontFamily: "'Space Mono', monospace" }}>scroll</span>
+            <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/20" style={{ fontFamily: "'Space Mono', monospace" }}>scroll</span>
             <motion.div animate={{ y: [0, 6, 0] }} transition={{ repeat: Infinity, duration: 2 }}
               className="w-[1px] h-8 bg-gradient-to-b from-[var(--brand,#facc15)]/50 to-transparent" />
           </div>
@@ -367,7 +367,7 @@ export default function VoltProPage() {
                     <ParallaxImg src={r.img} alt={r.label} />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent group-hover:from-[var(--brand,#713f12)]/60 transition-all duration-700" />
                     <div className="absolute bottom-0 left-0 right-0 p-8">
-                      <div className="text-[9px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#facc15)] mb-2" style={{ fontFamily: "'Space Mono', monospace" }}>{r.tag}</div>
+                      <div className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#facc15)] mb-2" style={{ fontFamily: "'Space Mono', monospace" }}>{r.tag}</div>
                       <h3 className="text-lg font-extrabold uppercase tracking-tight text-white">{r.label}</h3>
                     </div>
                     <div className="absolute top-6 right-6 w-10 h-10 border border-[var(--brand,#facc15)]/0 group-hover:border-[var(--brand,#facc15)] flex items-center justify-center transition-all duration-500">
@@ -495,7 +495,7 @@ export default function VoltProPage() {
                 ].map((s, i) => (
                   <div key={i} className="w-32 h-32 border border-white/5 flex flex-col items-center justify-center gap-2 hover:border-[var(--brand,#facc15)]/20 transition-colors">
                     <div className="text-2xl font-extrabold text-[var(--brand,#facc15)]" style={{ fontFamily: "'Space Mono', monospace" }}>{s.v}</div>
-                    <div className="text-[9px] text-white/30 uppercase tracking-widest font-bold">{s.l}</div>
+                    <div className="text-[10px] text-white/30 uppercase tracking-widest font-bold">{s.l}</div>
                   </div>
                 ))}
               </div>
@@ -551,7 +551,7 @@ export default function VoltProPage() {
             { title: "Contact", links: ["Devis gratuit", "06 12 34 56 78", "contact@voltpro.fr", "Horaires : 8h–19h", "Urgences 24h/24"] },
           ].map((col, i) => (
             <div key={i}>
-              <h4 className="text-[9px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#facc15)] mb-6" style={{ fontFamily: "'Space Mono', monospace" }}>{col.title}</h4>
+              <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#facc15)] mb-6" style={{ fontFamily: "'Space Mono', monospace" }}>{col.title}</h4>
               <ul className="space-y-3">
                 {col.links.map((l, idx) => <li key={l}><Link href={col.title === 'Services' ? '#services' : col.title === 'Contact' ? '#contact' : '#hero'} className="text-sm text-white/25 hover:text-white transition-colors">{l}</Link></li>)}
               </ul>
@@ -559,8 +559,8 @@ export default function VoltProPage() {
           ))}
         </div>
         <div className="max-w-[1400px] mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between gap-4">
-          <span className="text-[9px] font-bold uppercase tracking-widest text-white/15" style={{ fontFamily: "'Space Mono', monospace" }}>© 2026 VoltPro Électricité · SIRET 123 456 789 00010 · RGE QualiPV · Qualifelec</span>
-          <span className="text-[9px] font-bold uppercase tracking-widest text-[var(--brand,#facc15)]/30" style={{ fontFamily: "'Space Mono', monospace" }}>Artisan électricien certifié · Île-de-France</span>
+          <span className="text-[10px] font-bold uppercase tracking-widest text-white/15" style={{ fontFamily: "'Space Mono', monospace" }}>© 2026 VoltPro Électricité · SIRET 123 456 789 00010 · RGE QualiPV · Qualifelec</span>
+          <span className="text-[10px] font-bold uppercase tracking-widest text-[var(--brand,#facc15)]/30" style={{ fontFamily: "'Space Mono', monospace" }}>Artisan électricien certifié · Île-de-France</span>
         </div>
       </footer>
     </div>

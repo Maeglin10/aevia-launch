@@ -73,24 +73,24 @@ export default function ContactPage() {
                 >
                   <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>
                     <div>
-                      <label style={{ fontFamily: FONT_LABEL, fontSize: 9, color: C.accent, textTransform: "uppercase", display: "block", marginBottom: 8 }}>Prénom</label>
+                      <label style={{ fontFamily: FONT_LABEL, fontSize: 10, color: C.accent, textTransform: "uppercase", display: "block", marginBottom: 8 }}>Prénom</label>
                       <input required type="text" style={{ width: "100%", background: C.bgCard, border: `1px solid ${C.border}`, color: C.text, padding: "12px 16px", outline: "none" }} />
                     </div>
                     <div>
-                      <label style={{ fontFamily: FONT_LABEL, fontSize: 9, color: C.accent, textTransform: "uppercase", display: "block", marginBottom: 8 }}>Nom</label>
+                      <label style={{ fontFamily: FONT_LABEL, fontSize: 10, color: C.accent, textTransform: "uppercase", display: "block", marginBottom: 8 }}>Nom</label>
                       <input required type="text" style={{ width: "100%", background: C.bgCard, border: `1px solid ${C.border}`, color: C.text, padding: "12px 16px", outline: "none" }} />
                     </div>
                   </div>
                   <div>
-                    <label style={{ fontFamily: FONT_LABEL, fontSize: 9, color: C.accent, textTransform: "uppercase", display: "block", marginBottom: 8 }}>Email</label>
+                    <label style={{ fontFamily: FONT_LABEL, fontSize: 10, color: C.accent, textTransform: "uppercase", display: "block", marginBottom: 8 }}>Email</label>
                     <input required type="email" style={{ width: "100%", background: C.bgCard, border: `1px solid ${C.border}`, color: C.text, padding: "12px 16px", outline: "none" }} />
                   </div>
                   <div>
-                    <label style={{ fontFamily: FONT_LABEL, fontSize: 9, color: C.accent, textTransform: "uppercase", display: "block", marginBottom: 8 }}>Téléphone</label>
+                    <label style={{ fontFamily: FONT_LABEL, fontSize: 10, color: C.accent, textTransform: "uppercase", display: "block", marginBottom: 8 }}>Téléphone</label>
                     <input required type="tel" style={{ width: "100%", background: C.bgCard, border: `1px solid ${C.border}`, color: C.text, padding: "12px 16px", outline: "none" }} />
                   </div>
                   <div>
-                    <label style={{ fontFamily: FONT_LABEL, fontSize: 9, color: C.accent, textTransform: "uppercase", display: "block", marginBottom: 8 }}>Collection souhaitée</label>
+                    <label style={{ fontFamily: FONT_LABEL, fontSize: 10, color: C.accent, textTransform: "uppercase", display: "block", marginBottom: 8 }}>Collection souhaitée</label>
                     <select style={{ width: "100%", background: C.bgCard, border: `1px solid ${C.border}`, color: C.text, padding: "12px 16px", outline: "none" }}>
                       <option>Haute Joaillerie</option>
                       <option>Horlogerie Fine</option>
@@ -98,7 +98,7 @@ export default function ContactPage() {
                     </select>
                   </div>
                   <div>
-                    <label style={{ fontFamily: FONT_LABEL, fontSize: 9, color: C.accent, textTransform: "uppercase", display: "block", marginBottom: 8 }}>Message / Notes</label>
+                    <label style={{ fontFamily: FONT_LABEL, fontSize: 10, color: C.accent, textTransform: "uppercase", display: "block", marginBottom: 8 }}>Message / Notes</label>
                     <textarea rows={4} style={{ width: "100%", background: C.bgCard, border: `1px solid ${C.border}`, color: C.text, padding: "12px 16px", outline: "none", resize: "none" }} />
                   </div>
                   <button

@@ -107,7 +107,7 @@ export default function ContactPage() {
                 <form onSubmit={handleSubmit} className="space-y-6 font-sans">
                   <div className="grid grid-cols-2 gap-6">
                     <div className="space-y-2">
-                      <label className="text-[9px] font-black uppercase tracking-widest text-[#f5efe0]/40">
+                      <label className="text-[10px] font-black uppercase tracking-widest text-[#f5efe0]/40">
                         FULL NAME
                       </label>
                       <input
@@ -120,7 +120,7 @@ export default function ContactPage() {
                       />
                     </div>
                     <div className="space-y-2">
-                      <label className="text-[9px] font-black uppercase tracking-widest text-[#f5efe0]/40">
+                      <label className="text-[10px] font-black uppercase tracking-widest text-[#f5efe0]/40">
                         EMAIL
                       </label>
                       <input
@@ -136,7 +136,7 @@ export default function ContactPage() {
 
                   <div className="grid grid-cols-2 gap-6">
                     <div className="space-y-2">
-                      <label className="text-[9px] font-black uppercase tracking-widest text-[#f5efe0]/40">
+                      <label className="text-[10px] font-black uppercase tracking-widest text-[#f5efe0]/40">
                         GUESTS COUNT
                       </label>
                       <input
@@ -149,7 +149,7 @@ export default function ContactPage() {
                       />
                     </div>
                     <div className="space-y-2">
-                      <label className="text-[9px] font-black uppercase tracking-widest text-[#f5efe0]/40">
+                      <label className="text-[10px] font-black uppercase tracking-widest text-[#f5efe0]/40">
                         PREFERRED TIME
                       </label>
                       <input
@@ -165,7 +165,7 @@ export default function ContactPage() {
                   <div className="space-y-2">
                     <label
                       htmlFor="reservation-date"
-                      className="text-[9px] font-black uppercase tracking-widest text-[#f5efe0]/40"
+                      className="text-[10px] font-black uppercase tracking-widest text-[#f5efe0]/40"
                     >
                       PREFERRED DATE
                     </label>
@@ -181,7 +181,7 @@ export default function ContactPage() {
                   </div>
 
                   <div className="space-y-2">
-                    <label className="text-[9px] font-black uppercase tracking-widest text-[#f5efe0]/40">
+                    <label className="text-[10px] font-black uppercase tracking-widest text-[#f5efe0]/40">
                       SPECIAL REQUESTS
                     </label>
                     <textarea

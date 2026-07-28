@@ -64,7 +64,7 @@ export default function ArchivePage() {
                   </h3>
                   <div className="flex gap-12 mb-10 pb-10 border-b border-white/5">
                     <div className="flex flex-col">
-                      <span className="text-[9px] font-bold text-white/10 uppercase tracking-widest mb-1">
+                      <span className="text-[10px] font-bold text-white/10 uppercase tracking-widest mb-1">
                         Location
                       </span>
                       <span className="text-[11px] font-black text-white uppercase">
@@ -72,7 +72,7 @@ export default function ArchivePage() {
                       </span>
                     </div>
                     <div className="flex flex-col">
-                      <span className="text-[9px] font-bold text-white/10 uppercase tracking-widest mb-1">
+                      <span className="text-[10px] font-bold text-white/10 uppercase tracking-widest mb-1">
                         Type
                       </span>
                       <span className="text-[11px] font-black text-white uppercase">
@@ -158,7 +158,7 @@ export default function ArchivePage() {
                         key={i}
                         className="flex justify-between items-center border-b border-white/5 pb-4"
                       >
-                        <span className="text-[9px] font-bold text-white/20 uppercase tracking-widest">
+                        <span className="text-[10px] font-bold text-white/20 uppercase tracking-widest">
                           {spec.label}
                         </span>
                         <span className="text-[10px] font-black text-white uppercase italic">

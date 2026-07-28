@@ -258,7 +258,7 @@ export default function ZenithWatchesPage() {
                 <span className="text-3xl font-black tracking-[0.2em] uppercase leading-none italic">
                   Zenith
                 </span>
-                <span className="text-[8px] font-bold uppercase tracking-[0.6em] text-[var(--brand,#d4af37)] -mt-1 ml-1">
+                <span className="text-[10px] font-bold uppercase tracking-[0.6em] text-[var(--brand,#d4af37)] -mt-1 ml-1">
                   Swiss Horology
                 </span>
               </>
@@ -405,7 +405,7 @@ export default function ZenithWatchesPage() {
             {STATS.map((stat, i) => (
               <Reveal key={i} delay={i * 0.1}>
                 <div className="text-center md:text-left">
-                  <div className="text-[9px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#d4af37)] mb-2">
+                  <div className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#d4af37)] mb-2">
                     {stat.label}
                   </div>
                   <div className="text-5xl font-black italic text-white">
@@ -458,7 +458,7 @@ export default function ZenithWatchesPage() {
                     <div className="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-colors duration-700" />
 
                     <div className="absolute top-6 left-6">
-                      <Badge className="bg-black/50 backdrop-blur-md text-white border-white/10 text-[9px] font-bold uppercase tracking-widest px-3 py-1">
+                      <Badge className="bg-black/50 backdrop-blur-md text-white border-white/10 text-[10px] font-bold uppercase tracking-widest px-3 py-1">
                         {item.category}
                       </Badge>
                     </div>
@@ -531,7 +531,7 @@ export default function ZenithWatchesPage() {
                   <p className="text-sm text-white/30 font-light leading-relaxed mb-12 flex-1 tracking-wide uppercase italic leading-loose">
                     {s.desc}
                   </p>
-                  <button className="flex items-center gap-4 text-[9px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#d4af37)] group-hover:gap-6 transition-all">
+                  <button className="flex items-center gap-4 text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#d4af37)] group-hover:gap-6 transition-all">
                     Read Case Study <ArrowRight className="w-4 h-4" />
                   </button>
                 </div>

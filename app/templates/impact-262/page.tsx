@@ -698,7 +698,7 @@ function Hero() {
         <span
           style={{
             fontFamily: SANS,
-            fontSize: 9.5,
+            fontSize: 10,
             letterSpacing: '0.40em',
             textTransform: 'uppercase',
             color: 'rgba(255,255,255,0.65)',
@@ -2100,7 +2100,7 @@ function Footer() {
                 key={tag}
                 style={{
                   fontFamily: SANS,
-                  fontSize: 9.5,
+                  fontSize: 10,
                   letterSpacing: '0.28em',
                   textTransform: 'uppercase',
                   color: C.accent,

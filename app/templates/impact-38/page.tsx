@@ -447,7 +447,7 @@ function ProductCard({ product, index }: { product: typeof ALL_PRODUCTS_DEMO[0];
             { label: "Torréfaction", val: product.roast },
           ].map((d) => (
             <div key={d.label} style={{ background: C.bgAlt, borderRadius: 6, padding: "5px 10px" }}>
-              <div style={{ fontSize: 9, color: C.textMuted, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em" }}>{d.label}</div>
+              <div style={{ fontSize: 10, color: C.textMuted, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em" }}>{d.label}</div>
               <div style={{ fontSize: 12, color: C.espresso, fontWeight: 600, marginTop: 2 }}>{d.val}</div>
             </div>
           ))}

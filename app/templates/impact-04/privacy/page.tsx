@@ -71,7 +71,7 @@ function Footer() {
           { title: "Legal", items: [{ label: "Mentions Légales", path: "/templates/impact-04/mentions" }, { label: "Confidentialité", path: "/templates/impact-04/privacy" }] },
         ].map(col => (
           <div key={col.title}>
-            <h4 className="text-[9px] font-sans font-bold text-[#f5efe6]/30 uppercase tracking-[0.3em] mb-5">{col.title}</h4>
+            <h4 className="text-[10px] font-sans font-bold text-[#f5efe6]/30 uppercase tracking-[0.3em] mb-5">{col.title}</h4>
             <ul className="space-y-3">
               {col.items.map(item => (
                 <li key={item.label}>
@@ -89,7 +89,7 @@ function Footer() {
       </div>
       <Separator className="bg-white/5 mb-10" />
       <div className="flex flex-col md:flex-row justify-between items-center gap-6">
-        <span className="text-[9px] font-sans text-[#f5efe6]/15 uppercase tracking-wider">&copy; 2026 L&apos;Étoile Paris · All Rights Reserved</span>
+        <span className="text-[10px] font-sans text-[#f5efe6]/15 uppercase tracking-wider">&copy; 2026 L&apos;Étoile Paris · All Rights Reserved</span>
         <div className="flex gap-4">
           {[<Globe key="ig" className="w-4 h-4" />, <Globe key="fb" className="w-4 h-4" />, <Globe key="tw" className="w-4 h-4" />, <Mail key="mail" className="w-4 h-4" />].map((icon, i) => (
             <a key={i} href="/templates/impact-04" className="w-9 h-9 rounded-full border border-white/10 flex items-center justify-center text-[#f5efe6]/30 hover:text-amber-500 hover:border-amber-600 transition-all duration-200 cursor-pointer">
@@ -97,7 +97,7 @@ function Footer() {
             </a>
           ))}
         </div>
-        <span className="text-[9px] font-sans text-[#f5efe6]/15 uppercase tracking-wider">Michelin ★★ · Paris, France</span>
+        <span className="text-[10px] font-sans text-[#f5efe6]/15 uppercase tracking-wider">Michelin ★★ · Paris, France</span>
       </div>
     </footer>
   )

@@ -403,7 +403,7 @@ function WineHero() {
                 <div
                   style={{
                     fontFamily: SANS,
-                    fontSize: 9,
+                    fontSize: 10,
                     letterSpacing: "0.28em",
                     color: on ? C.gold : "rgba(253,246,236,0.35)",
                     marginBottom: 7,
