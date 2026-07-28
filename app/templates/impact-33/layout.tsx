@@ -105,7 +105,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <Link href="/templates/impact-33/reservation" style={{ textDecoration: "none" }}>
             <motion.button
               type="button"
-              style={{ background: C.accent, color: C.white, border: "none", borderRadius: 8, padding: "10px 22px", fontWeight: 700, fontSize: 15, cursor: "pointer", fontFamily: FONT_BODY, display: "flex", alignItems: "center", gap: 7 }}
+              style={{ background: C.accent, color: C.white, border: "none", borderRadius: 8, padding: "12px 22px", minHeight: 44, boxSizing: "border-box", fontWeight: 700, fontSize: 15, cursor: "pointer", fontFamily: FONT_BODY, display: "flex", alignItems: "center", gap: 7 }}
               whileHover={{ background: C.accentDark, scale: 1.04 }}
               whileTap={{ scale: 0.97 }}
             >
@@ -229,7 +229,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               <h4 style={{ fontSize: 13, fontWeight: 700, marginBottom: 20, color: C.white, textTransform: "uppercase", letterSpacing: 0.8 }}>{col.title}</h4>
               <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                 {col.links.map((link) => (
-                  <Link key={link.label} href={link.href} style={{ color: "rgba(255,255,255,0.55)", fontSize: 14, textDecoration: "none" }}>
+                  <Link key={link.label} href={link.href} style={{ color: "rgba(255,255,255,0.62)", fontSize: 14, textDecoration: "none", display: "inline-flex", alignItems: "center", minHeight: 44 }}>
                     {link.label}
                   </Link>
                 ))}
@@ -243,9 +243,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             © 2026 La Fournée — Site réalisé par <Link href="/templates/impact-33/legal" style={{ color: "rgba(255,255,255,0.38)", textDecoration: "none" }}>Aevia WS</Link>
           </p>
           <div style={{ display: "flex", gap: 20 }}>
-            <Link href="/templates/impact-33/legal" style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, textDecoration: "none" }}>Mentions légales</Link>
-            <Link href="/templates/impact-33/legal" style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, textDecoration: "none" }}>Confidentialité</Link>
-            <Link href="/templates/impact-33/legal" style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, textDecoration: "none" }}>CGU</Link>
+            <Link href="/templates/impact-33/legal" style={{ color: "rgba(255,255,255,0.55)", fontSize: 13, textDecoration: "none", display: "inline-flex", alignItems: "center", minHeight: 44, padding: "0 10px" }}>Mentions légales</Link>
+            <Link href="/templates/impact-33/legal" style={{ color: "rgba(255,255,255,0.55)", fontSize: 13, textDecoration: "none", display: "inline-flex", alignItems: "center", minHeight: 44, padding: "0 10px" }}>Confidentialité</Link>
+            <Link href="/templates/impact-33/legal" style={{ color: "rgba(255,255,255,0.55)", fontSize: 13, textDecoration: "none", display: "inline-flex", alignItems: "center", minHeight: 44, padding: "0 10px" }}>CGU</Link>
           </div>
         </div>
       </footer>

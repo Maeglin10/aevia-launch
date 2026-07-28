@@ -114,86 +114,9 @@ function Marquee() {
   );
 }
 
-// ─── Navbar ───────────────────────────────────────────────────────────────────
-function Navbar() {
-  const [scrolled, setScrolled] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
-
-  useEffect(() => {
-    const handler = () => setScrolled(window.scrollY > 40);
-    window.addEventListener("scroll", handler);
-    return () => window.removeEventListener("scroll", handler);
-  }, []);
-
-  const links = ["Accueil", "Menu", "Notre histoire", "Boutique", "Contact"];
-
-  return (
-    <>
-      <motion.nav
-        style={{
-          position: "fixed", top: 0, left: 0, right: 0, zIndex: 100,
-          padding: "0 48px", height: 72,
-          display: "flex", alignItems: "center", justifyContent: "space-between",
-          background: scrolled ? "rgba(253,248,240,0.97)" : "transparent",
-          backdropFilter: scrolled ? "blur(12px)" : "none",
-          borderBottom: scrolled ? `1px solid ${C.border}` : "none",
-          boxShadow: scrolled ? C.shadow : "none",
-          transition: "all 0.3s ease", fontFamily: FONT_BODY,
-        }}
-      >
-        <motion.div style={{ display: "flex", alignItems: "center", gap: 10, cursor: "pointer" }} whileHover={{ scale: 1.03 }}>
-          {fd?.logoBase64 ? (
-            <img src={fd.logoBase64} alt={fd?.businessName ?? 'logo'} style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }} />
-          ) : (
-            <>
-              <div style={{ width: 40, height: 40, background: C.accent, borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                <TemplateIcon emoji="🥖" size={20} color="#fff" />
-              </div>
-              <div>
-                <div style={{ fontFamily: FONT_HEADING, fontWeight: 700, fontSize: 20, color: C.text, lineHeight: 1 }}>{fd?.businessName ?? "La Fournée"}</div>
-                <div style={{ fontSize: 10, color: C.textMuted, letterSpacing: 1.5, textTransform: "uppercase" }}>Artisan Boulanger</div>
-              </div>
-            </>
-          )}
-        </motion.div>
-
-        <div className="sky-desktop-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>
-          {links.map((link) => (
-            <motion.a key={link} href="/templates/impact-33" style={{ color: C.text, fontWeight: 400, fontSize: 16, textDecoration: "none", fontFamily: FONT_BODY }} whileHover={{ color: C.accent }} transition={{ duration: 0.15 }}>
-              {link}
-            </motion.a>
-          ))}
-          <motion.button
-            style={{ background: C.accent, color: C.white, border: "none", borderRadius: 8, padding: "10px 22px", fontWeight: 700, fontSize: 15, cursor: "pointer", fontFamily: FONT_BODY, display: "flex", alignItems: "center", gap: 7 }}
-            whileHover={{ background: C.accentDark, scale: 1.04 }}
-            whileTap={{ scale: 0.97 }}
-          >
-            <ShoppingBag size={16} />
-            Commander
-          </motion.button>
-        </div>
-
-        <motion.button className="sky-mobile-burger" onClick={() => setMenuOpen(!menuOpen)} style={{ display: "none", background: "none", border: "none", cursor: "pointer", color: C.text }} whileTap={{ scale: 0.9 }}>
-          {menuOpen ? <X size={24} /> : <Menu size={24} />}
-        </motion.button>
-        <style>{`@media (max-width: 900px){.sky-desktop-nav{display:none !important}.sky-mobile-burger{display:flex !important}}`}</style>
-      </motion.nav>
-
-      <AnimatePresence>
-        {menuOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}
-            style={{ position: "fixed", top: 72, left: 0, right: 0, zIndex: 99, background: C.bg, padding: "24px 48px", borderBottom: `1px solid ${C.border}`, boxShadow: C.shadow, fontFamily: FONT_BODY }}
-          >
-            {links.map((link) => (
-              <a key={link} href="/templates/impact-33" style={{ display: "block", padding: "12px 0", color: C.text, textDecoration: "none", borderBottom: `1px solid ${C.border}` }}>{link}</a>
-            ))}
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </>
-  );
-}
+// The Navbar that used to live here is gone: layout.tsx already renders a
+// fixed navbar above {children}, and this one duplicated it with every nav
+// link pointing at the homepage regardless of its label.
 
 // ─── Hero ─────────────────────────────────────────────────────────────────────
 function Hero() {
@@ -569,7 +492,7 @@ function ProductsShowcase() {
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
               <span style={{ fontFamily: FONT_HEADING, fontWeight: 700, color: C.accent, fontSize: 20 }}>{p.price}</span>
               <motion.button
-                style={{ background: C.accent, color: C.white, border: "none", borderRadius: 8, padding: "9px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer", fontFamily: FONT_BODY }}
+                style={{ background: C.accent, color: C.white, border: "none", borderRadius: 8, padding: "12px 18px", minHeight: 44, boxSizing: "border-box", fontWeight: 700, fontSize: 13, cursor: "pointer", fontFamily: FONT_BODY }}
                 whileHover={{ background: C.accentDark, scale: 1.05 }}
                 whileTap={{ scale: 0.97 }}
               >
@@ -783,56 +706,6 @@ function FAQ() {
 }
 
 // ─── Footer ───────────────────────────────────────────────────────────────────
-function Footer() {
-  return (
-    <footer style={{ background: C.brown, color: C.white, padding: "70px 80px 32px", fontFamily: FONT_BODY }}>
-      <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr 1fr", gap: 48, marginBottom: 52 }}>
-        <div>
-          <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 20 }}>
-            <div style={{ width: 40, height: 40, background: C.accent, borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center" }}><TemplateIcon emoji="🥖" size={20} color="#fff" /></div>
-            <div>
-              <div style={{ fontFamily: FONT_HEADING, fontWeight: 700, fontSize: 20 }}>{fd?.businessName ?? "La Fournée"}</div>
-              <div style={{ fontSize: 10, color: "rgba(255,255,255,0.5)", letterSpacing: 1.5, textTransform: "uppercase" }}>Artisan Boulanger</div>
-            </div>
-          </div>
-          <p style={{ color: "rgba(255,255,255,0.58)", fontSize: 15, lineHeight: 1.65, marginBottom: 24 }}>
-            Boulangerie artisanale au levain naturel depuis 1987. Chaque jour, nous pétrissons, façonnons et cuisons avec passion pour votre quartier.
-          </p>
-          <div style={{ display: "flex", flexDirection: "column", gap: 11 }}>
-            {[
-              { icon: <MapPin size={15} />, text: "42 Rue de la Roquette, 75011 Paris" },
-              { icon: <Phone size={15} />, text: "01 43 55 67 89" },
-              { icon: <Clock size={15} />, text: "Mar–Ven 7h–20h | Sam 7h–19h30 | Dim 7h–13h30" },
-            ].map((item, i) => (
-              <div key={i} style={{ display: "flex", alignItems: "center", gap: 10, color: "rgba(255,255,255,0.62)", fontSize: 14 }}>
-                <span style={{ color: C.accent }}>{item.icon}</span>
-                {item.text}
-              </div>
-            ))}
-          </div>
-        </div>
-        {[
-          { title: "Notre carte", links: ["Pains & Miches", "Viennoiseries", "Pâtisseries", "Café & Boissons"] },
-          { title: "Services", links: ["Commande en ligne", "Abonnements", "Commandes spéciales", "Livraison"] },
-          { title: "La boulangerie", links: ["Notre histoire", "Camille Girard", "Nos engagements", "Actualités"] },
-        ].map((col) => (
-          <div key={col.title}>
-            <h4 style={{ fontSize: 13, fontWeight: 700, marginBottom: 20, color: C.white, textTransform: "uppercase", letterSpacing: 0.8 }}>{col.title}</h4>
-            <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-              {col.links.map((link) => (<a key={link} href="/templates/impact-33" style={{ color: "rgba(255,255,255,0.55)", fontSize: 14, textDecoration: "none" }}>{link}</a>))}
-            </div>
-          </div>
-        ))}
-      </div>
-      <div style={{ borderTop: "1px solid rgba(255,255,255,0.1)", paddingTop: 24, display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 12 }}>
-        <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 14 }}>© 2025 {fd?.businessName ?? "La Fournée"} · Artisan Boulanger Paris. Tous droits réservés.</p>
-        <div style={{ display: "flex", gap: 20 }}>
-          {["Mentions légales", "Confidentialité", "CGV"].map((link) => (<a key={link} href="/templates/impact-33" style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, textDecoration: "none" }}>{link}</a>))}
-        </div>
-      </div>
-    </footer>
-  );
-}
 
 // ─── Page Export ──────────────────────────────────────────────────────────────
 
@@ -895,7 +768,8 @@ return (
       <Testimonials />
       <HorairesContact />
       <FAQ />
-      <Footer />
+      {/* layout.tsx renders the site footer; this page rendered a second one
+          whose every link pointed at the homepage and whose copyright read 2025. */}
     </main>
   );
 }
