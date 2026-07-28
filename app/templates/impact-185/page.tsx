@@ -75,7 +75,7 @@ function BookingModal({
   }
 
   const inputCls = "w-full bg-[#1e1c1a] border border-[var(--brand,#c9a84c)]/15 px-4 py-3 text-sm text-[#f5f0e8] outline-none focus:border-[var(--brand,#c9a84c)] focus:ring-2 focus:ring-[var(--brand,#c9a84c)]/25 transition-colors"
-  const labelCls = "block text-[9px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#c9a84c)]/60 mb-2"
+  const labelCls = "block text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#c9a84c)]/60 mb-2"
 
   return (
     <AnimatePresence>
@@ -116,7 +116,7 @@ function BookingModal({
                 </div>
               ) : (
                 <>
-                  <div className="text-[9px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#c9a84c)]/60 mb-3" style={{ fontFamily: "'DM Mono', monospace" }}>Réservation</div>
+                  <div className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#c9a84c)]/60 mb-3" style={{ fontFamily: "'DM Mono', monospace" }}>Réservation</div>
                   <h3 className="text-2xl font-bold text-[#f5f0e8] mb-6">Prendre rendez-vous</h3>
 
                   <form onSubmit={handleSubmit} className="flex flex-col gap-4">
@@ -360,7 +360,7 @@ export default function GentlemansCutPage() {
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, delay: 0.3 }}>
             <div className="flex items-center gap-4 mb-10">
               <div className="w-12 h-[1px] bg-[var(--brand,#c9a84c)]/60" />
-              <span className="text-[9px] font-bold uppercase tracking-[0.55em] text-[var(--brand,#c9a84c)]/70" style={{ fontFamily: "'DM Mono', monospace" }}>Barbier Traditionnel · Bordeaux</span>
+              <span className="text-[10px] font-bold uppercase tracking-[0.55em] text-[var(--brand,#c9a84c)]/70" style={{ fontFamily: "'DM Mono', monospace" }}>Barbier Traditionnel · Bordeaux</span>
             </div>
           </motion.div>
 
@@ -399,7 +399,7 @@ export default function GentlemansCutPage() {
           <p className="text-xl md:text-2xl text-[#f5f0e8]/25 italic leading-relaxed">
             "Un homme bien coiffé n'a pas besoin de se justifier."
           </p>
-          <div className="mt-4 text-[9px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#c9a84c)]/40" style={{ fontFamily: "'DM Mono', monospace" }}>— L'esprit Gentleman's Cut</div>
+          <div className="mt-4 text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#c9a84c)]/40" style={{ fontFamily: "'DM Mono', monospace" }}>— L'esprit Gentleman's Cut</div>
         </div>
       </div>
 
@@ -408,7 +408,7 @@ export default function GentlemansCutPage() {
         <div className="max-w-[1300px] mx-auto px-6 md:px-12">
           <Reveal>
             <div className="mb-16">
-              <div className="text-[9px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#c9a84c)]/60 mb-4" style={{ fontFamily: "'DM Mono', monospace" }}>— Nos prestations</div>
+              <div className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#c9a84c)]/60 mb-4" style={{ fontFamily: "'DM Mono', monospace" }}>— Nos prestations</div>
               <h2 className="text-4xl md:text-5xl font-bold text-[#f5f0e8]">Chaque service,<br /><span className="text-[var(--brand,#c9a84c)] italic">à la perfection.</span></h2>
             </div>
           </Reveal>
@@ -444,7 +444,7 @@ export default function GentlemansCutPage() {
           <Reveal>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
               <div>
-                <div className="text-[9px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#c9a84c)]/50 mb-5" style={{ fontFamily: "'DM Mono', monospace" }}>Réservation</div>
+                <div className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#c9a84c)]/50 mb-5" style={{ fontFamily: "'DM Mono', monospace" }}>Réservation</div>
                 <h2 className="text-4xl font-bold text-[#f5f0e8] mb-6">{c?.aboutTitle ?? fd?.businessName ?? <>Votre prochain<br /><span className="text-[var(--brand,#c9a84c)] italic">rendez-vous.</span></>}</h2>
                 <p className="text-sm text-[#f5f0e8]/25 leading-relaxed mb-8" style={{ fontFamily: "'DM Mono', monospace" }}>{c?.aboutText ?? <>
                   Réservez en ligne en moins de 2 minutes. Confirmation SMS immédiate. Annulation gratuite jusqu'à 2h avant.
@@ -475,7 +475,7 @@ export default function GentlemansCutPage() {
       <section className="py-28 bg-[#0a0908]">
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-16">
-            <div className="text-[9px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#c9a84c)]/50 mb-4" style={{ fontFamily: "'DM Mono', monospace" }}>— Ce qu'ils disent</div>
+            <div className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#c9a84c)]/50 mb-4" style={{ fontFamily: "'DM Mono', monospace" }}>— Ce qu'ils disent</div>
             <h2 className="text-4xl font-bold text-[#f5f0e8]">La parole <span className="italic text-[var(--brand,#c9a84c)]">des clients.</span></h2>
           </div></Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-[var(--brand,#c9a84c)]/8">
@@ -539,14 +539,14 @@ export default function GentlemansCutPage() {
             { t: "Adresse", ls: ["12 rue du Pas Saint-Georges", "33000 Bordeaux", "Mar-Sam 9h–19h", "05 56 78 90 12", "contact@gentlemanscut.fr"] },
           ].map((col, i) => (
             <div key={i}>
-              <h4 className="text-[9px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#c9a84c)]/50 mb-5" style={{ fontFamily: "'DM Mono', monospace" }}>{col.t}</h4>
+              <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#c9a84c)]/50 mb-5" style={{ fontFamily: "'DM Mono', monospace" }}>{col.t}</h4>
               <ul className="space-y-2.5">
                 {col.ls.map(l => <li key={l}><Link href="#contact" className="text-[#f5f0e8]/15 text-sm hover:text-[#f5f0e8]/50 transition-colors" style={{ fontFamily: "'DM Mono', monospace" }}>{l}</Link></li>)}
               </ul>
             </div>
           ))}
         </div>
-        <div className="max-w-[1300px] mx-auto pt-6 border-t border-[var(--brand,#c9a84c)]/6 flex flex-col md:flex-row justify-between gap-3 text-[9px] font-bold uppercase tracking-widest text-[#f5f0e8]/8" style={{ fontFamily: "'DM Mono', monospace" }}>
+        <div className="max-w-[1300px] mx-auto pt-6 border-t border-[var(--brand,#c9a84c)]/6 flex flex-col md:flex-row justify-between gap-3 text-[10px] font-bold uppercase tracking-widest text-[#f5f0e8]/8" style={{ fontFamily: "'DM Mono', monospace" }}>
           <span>© 2026 Gentleman's Cut · SIRET 890 123 456 00078 · Bordeaux</span>
           <span className="text-[var(--brand,#c9a84c)]/20">The Art of Grooming</span>
         </div>

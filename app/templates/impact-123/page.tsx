@@ -183,7 +183,7 @@ export default function VulcanMotorsPage() {
           </div>
           <div className="flex items-center gap-2 sm:gap-4 shrink-0">
             <button className="hidden md:block px-6 py-2.5 text-white/40 text-[10px] font-bold uppercase tracking-widest hover:text-white transition-colors">Owner Portal</button>
-            <button className="px-3.5 py-2 sm:px-8 sm:py-3 bg-red-600 text-white text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.2em] rounded-sm hover:bg-white hover:text-black transition-all duration-500 italic whitespace-nowrap shrink-0">Configure</button>
+            <button className="px-3.5 py-2 sm:px-8 sm:py-3 bg-red-600 text-white text-[10px] sm:text-[10px] font-bold uppercase tracking-[0.2em] rounded-sm hover:bg-white hover:text-black transition-all duration-500 italic whitespace-nowrap shrink-0">Configure</button>
             <Sheet>
               <SheetTrigger className="lg:hidden"><Menu className="w-6 h-6 text-white" /></SheetTrigger>
               <SheetContent side="right" className="bg-black border-red-600/20 p-12 text-white">
@@ -217,7 +217,7 @@ export default function VulcanMotorsPage() {
               <div className="grid grid-cols-2 md:grid-cols-4 gap-12 max-w-4xl border-t border-white/10 pt-12">
                 {SPECS.map((s, i) => (
                   <div key={i}>
-                    <div className="text-[9px] font-bold uppercase tracking-widest text-white/30 mb-2">{s.label}</div>
+                    <div className="text-[10px] font-bold uppercase tracking-widest text-white/30 mb-2">{s.label}</div>
                     <div className="text-3xl font-black italic">{s.value}</div>
                   </div>
                 ))}
@@ -297,11 +297,11 @@ export default function VulcanMotorsPage() {
                       <h3 className="text-4xl font-black italic uppercase mb-8">{m.name}</h3>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 border-t border-white/20 pt-8 opacity-0 group-hover:opacity-100 transition-all duration-700 translate-y-4 group-hover:translate-y-0">
                          <div>
-                            <div className="text-[8px] font-bold uppercase text-white/40 mb-1">Top Speed</div>
+                            <div className="text-[10px] font-bold uppercase text-white/40 mb-1">Top Speed</div>
                             <div className="text-xl font-bold italic uppercase">{m.topSpeed}</div>
                          </div>
                          <div>
-                            <div className="text-[8px] font-bold uppercase text-white/40 mb-1">Power</div>
+                            <div className="text-[10px] font-bold uppercase text-white/40 mb-1">Power</div>
                             <div className="text-xl font-bold italic uppercase">{m.power}</div>
                          </div>
                       </div>
@@ -335,7 +335,7 @@ export default function VulcanMotorsPage() {
                 <Reveal key={i} delay={i * 0.06}>
                   <div className="bg-[#050505] p-12 group hover:bg-red-600/5 transition-colors duration-500">
                     <div className="text-3xl md:text-4xl font-black italic text-white mb-3 group-hover:text-red-500 transition-colors">{s.value}</div>
-                    <div className="text-[9px] font-bold uppercase tracking-widest text-white/25">{s.label}</div>
+                    <div className="text-[10px] font-bold uppercase tracking-widest text-white/25">{s.label}</div>
                   </div>
                 </Reveal>
               ))}
@@ -343,14 +343,14 @@ export default function VulcanMotorsPage() {
             <Reveal delay={0.2}>
               <div className="mt-8 p-10 border border-red-600/10 flex flex-col md:flex-row items-center justify-between gap-8">
                 <div>
-                  <div className="text-[9px] font-bold uppercase tracking-widest text-red-600 mb-2">Production Run</div>
+                  <div className="text-[10px] font-bold uppercase tracking-widest text-red-600 mb-2">Production Run</div>
                   <div className="text-2xl font-black italic text-white">24 units per annum. Each hand-assembled.</div>
                 </div>
                 <div className="flex gap-12">
                   {[{ v: "24", l: "Units/year" }, { v: "1,800hr", l: "Assembly time" }, { v: "8yr", l: "Delivery wait" }].map(k => (
                     <div key={k.l} className="text-center">
                       <div className="text-2xl font-black italic text-red-500">{k.v}</div>
-                      <div className="text-[9px] font-bold uppercase tracking-widest text-white/20 mt-1">{k.l}</div>
+                      <div className="text-[10px] font-bold uppercase tracking-widest text-white/20 mt-1">{k.l}</div>
                     </div>
                   ))}
                 </div>

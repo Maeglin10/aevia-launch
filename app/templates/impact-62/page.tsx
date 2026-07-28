@@ -181,7 +181,7 @@ return (
           className="absolute bottom-10 right-12 hidden md:block"
         >
           <div className="flex flex-col items-end gap-3">
-            <span className="text-[9px] font-bold text-[#f5efe0]/20 uppercase tracking-[0.5em]">
+            <span className="text-[10px] font-bold text-[#f5efe0]/20 uppercase tracking-[0.5em]">
               Paris // Geneva // Tokyo
             </span>
             <div className="w-24 h-[1px] bg-[var(--brand,#b8860b)]/30" />
@@ -310,7 +310,7 @@ return (
                       <span className="block text-3xl font-light text-[var(--brand,#b8860b)]">
                         {pairing.wines}
                       </span>
-                      <span className="text-[9px] uppercase tracking-[0.4em] text-[#f5efe0]/30">
+                      <span className="text-[10px] uppercase tracking-[0.4em] text-[#f5efe0]/30">
                         références
                       </span>
                     </div>
@@ -383,7 +383,7 @@ return (
                       className="object-cover brightness-[0.45] group-hover:brightness-[0.6] group-hover:scale-105 transition-all duration-700"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-[#0f0d0b] via-transparent to-transparent" />
-                    <span className="absolute bottom-4 left-4 text-[9px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#b8860b)]">
+                    <span className="absolute bottom-4 left-4 text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#b8860b)]">
                       {artisan.loc}
                     </span>
                   </div>
@@ -509,7 +509,7 @@ return (
             <div className="mt-20 flex justify-center">
               <div className="flex flex-col items-center gap-3">
                 <div className="w-[1px] h-12 bg-[var(--brand,#b8860b)]/30" />
-                <span className="text-[9px] font-bold uppercase tracking-[0.5em] text-[#f5efe0]/20">
+                <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#f5efe0]/20">
                   Ouvert du mardi au samedi · Service 19h30 – 22h00
                 </span>
               </div>

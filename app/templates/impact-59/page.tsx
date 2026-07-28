@@ -163,7 +163,7 @@ return (
           className="absolute bottom-10 left-1/2 -translate-x-1/2 hidden md:block"
         >
           <div className="flex flex-col items-center gap-4">
-            <span className="text-[8px] uppercase tracking-[0.3em] text-black/30 font-sans">
+            <span className="text-[10px] uppercase tracking-[0.3em] text-black/30 font-sans">
               Descend into Stillness
             </span>
             <div className="w-[1px] h-16 bg-gradient-to-b from-black/20 to-transparent" />
@@ -209,7 +209,7 @@ return (
                       <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-[var(--brand,#3d7a5e)]/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10" />
                       {/* Theme badge */}
                       <div className="absolute top-4 left-4 z-20">
-                        <span className="px-3 py-1 bg-[#f8f5f0]/90 text-[#2a2a2a] text-[9px] uppercase tracking-[0.35em] font-bold font-sans">
+                        <span className="px-3 py-1 bg-[#f8f5f0]/90 text-[#2a2a2a] text-[10px] uppercase tracking-[0.35em] font-bold font-sans">
                           {retreat.theme}
                         </span>
                       </div>

@@ -714,7 +714,7 @@ export default function Impact114Page() {
           <div className="flex items-center gap-2 md:gap-4">
             <Link
               href="#tirages"
-              className="flex items-center gap-1.5 px-2.5 py-1.5 md:px-5 md:py-2.5 bg-[var(--brand,#2d1b0e)] text-[#faf8f3] text-[9px] md:text-[11px] tracking-[0.1em] md:tracking-[0.2em] uppercase hover:bg-[#3d5a3e] transition-colors whitespace-nowrap"
+              className="flex items-center gap-1.5 px-2.5 py-1.5 md:px-5 md:py-2.5 bg-[var(--brand,#2d1b0e)] text-[#faf8f3] text-[10px] md:text-[11px] tracking-[0.1em] md:tracking-[0.2em] uppercase hover:bg-[#3d5a3e] transition-colors whitespace-nowrap"
               style={{ fontFamily: "'Source Serif 4', serif" }}
             >
               Voir les tirages

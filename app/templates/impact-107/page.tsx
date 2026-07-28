@@ -236,7 +236,7 @@ export default function MeridianJourneyPage() {
           </motion.div>
 
           <div className="absolute bottom-12 left-1/2 -translate-x-1/2 hidden sm:flex flex-col items-center gap-2">
-            <span className="text-[8px] font-bold uppercase tracking-[0.4em] text-white/30">Scroll</span>
+            <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/30">Scroll</span>
             <motion.div animate={{ y: [0, 8, 0] }} transition={{ repeat: Infinity, duration: 2 }}
               className="w-[1px] h-10 bg-gradient-to-b from-[var(--brand,#2dd4bf)]/60 to-transparent" />
           </div>
@@ -381,14 +381,14 @@ export default function MeridianJourneyPage() {
                     <div className="aspect-[3/4] rounded-xl overflow-hidden bg-white/[0.02] border border-white/5 mb-6 flex items-end p-8 group-hover:border-[var(--brand,#14b8a6)]/20 transition-colors duration-500 relative">
                       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[5rem] font-black text-white/[0.03] uppercase">{g.name.split(" ").map(n => n[0]).join("")}</div>
                       <div className="relative z-10">
-                        <div className="text-[9px] font-mono text-[var(--brand,#2dd4bf)]/60 mb-1">{g.routes} routes led</div>
-                        <div className="text-[8px] font-bold uppercase tracking-widest text-white/20">{g.exp} field</div>
+                        <div className="text-[10px] font-mono text-[var(--brand,#2dd4bf)]/60 mb-1">{g.routes} routes led</div>
+                        <div className="text-[10px] font-bold uppercase tracking-widest text-white/20">{g.exp} field</div>
                       </div>
                     </div>
                     <div>
                       <h3 className="text-lg font-bold uppercase tracking-widest text-white mb-1">{g.name}</h3>
                       <p className="text-[10px] text-[var(--brand,#2dd4bf)] uppercase tracking-wider mb-2">{g.spec}</p>
-                      <div className="flex flex-wrap gap-2">{g.certs.map(c => <span key={c} className="text-[8px] font-bold uppercase tracking-widest px-2 py-1 border border-white/10 text-white/25">{c}</span>)}</div>
+                      <div className="flex flex-wrap gap-2">{g.certs.map(c => <span key={c} className="text-[10px] font-bold uppercase tracking-widest px-2 py-1 border border-white/10 text-white/25">{c}</span>)}</div>
                     </div>
                   </div>
                 </Reveal>

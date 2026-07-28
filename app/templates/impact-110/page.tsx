@@ -216,7 +216,7 @@ export default function OasisWellnessPage() {
             </Reveal>
           </div>
           
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1, duration: 2 }} className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4 text-[9px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#2c3e2d)]/30">
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1, duration: 2 }} className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4 text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#2c3e2d)]/30">
             Scroll to Breathe
             <motion.div animate={{ y: [0, 10, 0] }} transition={{ duration: 2, repeat: Infinity }} className="w-[1px] h-12 bg-[var(--brand,#2c3e2d)]/20" />
           </motion.div>
@@ -380,7 +380,7 @@ export default function OasisWellnessPage() {
                       <span className="text-[#faf9f6] font-bold text-lg">{p.initials}</span>
                     </div>
                     <h3 className="text-xl font-bold mb-2">{p.name}</h3>
-                    <div className="text-[9px] uppercase tracking-widest text-[var(--brand,#2c3e2d)]/50 font-bold mb-4">{p.role}</div>
+                    <div className="text-[10px] uppercase tracking-widest text-[var(--brand,#2c3e2d)]/50 font-bold mb-4">{p.role}</div>
                     <p className="text-sm text-[var(--brand,#2c3e2d)]/60 leading-relaxed font-light">{p.bio}</p>
                   </div>
                 </Reveal>
@@ -409,7 +409,7 @@ export default function OasisWellnessPage() {
                     <p className="text-[var(--brand,#2c3e2d)]/60 leading-relaxed font-light italic mb-8">"{t.quote}"</p>
                     <div>
                       <div className="font-bold text-sm text-[var(--brand,#2c3e2d)]">{t.author}</div>
-                      <div className="text-[9px] uppercase tracking-widest text-[var(--brand,#2c3e2d)]/50 font-bold mt-1">{t.plan}</div>
+                      <div className="text-[10px] uppercase tracking-widest text-[var(--brand,#2c3e2d)]/50 font-bold mt-1">{t.plan}</div>
                     </div>
                   </div>
                 </Reveal>
@@ -434,15 +434,15 @@ export default function OasisWellnessPage() {
               ) : (
                 <form onSubmit={(e) => { e.preventDefault(); setContactSubmitted(true); }} className="space-y-4 max-w-md mx-auto text-left">
                   <div>
-                    <label className="block text-[9px] font-bold uppercase tracking-widest text-[var(--brand,#2c3e2d)]/50 mb-2">Name</label>
+                    <label className="block text-[10px] font-bold uppercase tracking-widest text-[var(--brand,#2c3e2d)]/50 mb-2">Name</label>
                     <input required type="text" placeholder="Your Name" className="w-full px-5 py-3.5 bg-white border border-[var(--brand,#2c3e2d)]/10 rounded-full text-sm focus:outline-none focus:border-[var(--brand,#2c3e2d)] transition-all text-[var(--brand,#2c3e2d)]" />
                   </div>
                   <div>
-                    <label className="block text-[9px] font-bold uppercase tracking-widest text-[var(--brand,#2c3e2d)]/50 mb-2">Email</label>
+                    <label className="block text-[10px] font-bold uppercase tracking-widest text-[var(--brand,#2c3e2d)]/50 mb-2">Email</label>
                     <input required type="email" placeholder="you@example.com" className="w-full px-5 py-3.5 bg-white border border-[var(--brand,#2c3e2d)]/10 rounded-full text-sm focus:outline-none focus:border-[var(--brand,#2c3e2d)] transition-all text-[var(--brand,#2c3e2d)]" />
                   </div>
                   <div>
-                    <label className="block text-[9px] font-bold uppercase tracking-widest text-[var(--brand,#2c3e2d)]/50 mb-2">Message</label>
+                    <label className="block text-[10px] font-bold uppercase tracking-widest text-[var(--brand,#2c3e2d)]/50 mb-2">Message</label>
                     <textarea required rows={4} placeholder="Let us know your treatment preferences or membership questions..." className="w-full px-5 py-3.5 bg-white border border-[var(--brand,#2c3e2d)]/10 rounded-3xl text-sm focus:outline-none focus:border-[var(--brand,#2c3e2d)] transition-all text-[var(--brand,#2c3e2d)]" />
                   </div>
                   <button type="submit" className="w-full py-4 bg-[var(--brand,#2c3e2d)] text-[#faf9f6] font-bold rounded-full hover:bg-[#3d523e] transition-all duration-300">

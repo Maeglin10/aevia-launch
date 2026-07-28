@@ -286,7 +286,7 @@ export default function SkylineConciergePage() {
                   <span className="text-xl font-black tracking-tighter uppercase leading-none">
                     Skyline
                   </span>
-                  <span className="text-[8px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#c9a96e)] -mt-1">
+                  <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#c9a96e)] -mt-1">
                     Concierge Group
                   </span>
                 </div>
@@ -407,7 +407,7 @@ export default function SkylineConciergePage() {
             <div key={i} className="flex items-center gap-4 group">
               <div className="w-1 h-8 bg-[var(--brand,#c9a96e)]/20 group-hover:bg-[var(--brand,#c9a96e)] transition-all" />
               <div>
-                <div className="text-[8px] font-bold uppercase tracking-widest text-white/30">
+                <div className="text-[10px] font-bold uppercase tracking-widest text-white/30">
                   {stat.label}
                 </div>
                 <div className="text-lg font-black">{stat.value}</div>
@@ -450,7 +450,7 @@ export default function SkylineConciergePage() {
                   <p className="text-sm text-white/30 leading-relaxed font-light italic mb-8">
                     {s.desc}
                   </p>
-                  <button className="flex items-center gap-3 text-[9px] font-bold uppercase tracking-widest text-[var(--brand,#c9a96e)] group-hover:gap-5 transition-all">
+                  <button className="flex items-center gap-3 text-[10px] font-bold uppercase tracking-widest text-[var(--brand,#c9a96e)] group-hover:gap-5 transition-all">
                     Explore Capability <ArrowRight className="w-4 h-4" />
                   </button>
                 </div>
@@ -480,11 +480,11 @@ export default function SkylineConciergePage() {
             <div className="border-t border-white/10 pt-8 flex gap-8">
               <div>
                 <div className="text-2xl font-black text-[var(--brand,#c9a96e)]">CONFIDENTIAL</div>
-                <div className="text-[8px] font-bold uppercase tracking-widest text-white/30">OPERATIONAL RULE</div>
+                <div className="text-[10px] font-bold uppercase tracking-widest text-white/30">OPERATIONAL RULE</div>
               </div>
               <div>
                 <div className="text-2xl font-black text-white">ISO 27001</div>
-                <div className="text-[8px] font-bold uppercase tracking-widest text-white/30">INFORMATION SECURITY</div>
+                <div className="text-[10px] font-bold uppercase tracking-widest text-white/30">INFORMATION SECURITY</div>
               </div>
             </div>
           </Reveal>
@@ -500,7 +500,7 @@ export default function SkylineConciergePage() {
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
               <div className="absolute bottom-8 left-8 flex items-center gap-3">
                 <div className="w-2.5 h-2.5 rounded-full bg-[var(--brand,#c9a96e)] animate-pulse" />
-                <span className="text-[8px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#c9a96e)]">
+                <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#c9a96e)]">
                   SALON PRIVÉ // LONDON
                 </span>
               </div>
@@ -524,7 +524,7 @@ export default function SkylineConciergePage() {
                 </p>
               </div>
               <div className="flex gap-4">
-                <button className="px-8 py-4 bg-white/5 border border-white/10 text-white text-[9px] font-bold uppercase tracking-widest hover:bg-[var(--brand,#c9a96e)] hover:text-black transition-all">
+                <button className="px-8 py-4 bg-white/5 border border-white/10 text-white text-[10px] font-bold uppercase tracking-widest hover:bg-[var(--brand,#c9a96e)] hover:text-black transition-all">
                   Request_NDA
                 </button>
               </div>
@@ -576,7 +576,7 @@ export default function SkylineConciergePage() {
                               {item.features.map((f: any, j: number) => (
                                 <li
                                   key={j}
-                                  className="text-[8px] font-bold uppercase tracking-widest text-[var(--brand,#c9a96e)] flex items-center gap-2"
+                                  className="text-[10px] font-bold uppercase tracking-widest text-[var(--brand,#c9a96e)] flex items-center gap-2"
                                 >
                                   <div className="w-1 h-1 bg-[var(--brand,#c9a96e)] rounded-full" />
                                   {f}
@@ -585,14 +585,14 @@ export default function SkylineConciergePage() {
                             </ul>
                           )}
                           {item.status && (
-                            <div className="text-[8px] font-bold uppercase tracking-widest text-white/40">{item.status}</div>
+                            <div className="text-[10px] font-bold uppercase tracking-widest text-white/40">{item.status}</div>
                           )}
                         </motion.div>
                       )}
                     </AnimatePresence>
 
                     <div className="mt-8 flex justify-between items-center">
-                      <button className="px-6 py-3 bg-[var(--brand,#c9a96e)] text-black text-[9px] font-black uppercase tracking-widest">
+                      <button className="px-6 py-3 bg-[var(--brand,#c9a96e)] text-black text-[10px] font-black uppercase tracking-widest">
                         Inquire_Now
                       </button>
                       <Star className="w-4 h-4 text-white/20 group-hover:text-[var(--brand,#c9a96e)] transition-colors" />
@@ -634,7 +634,7 @@ export default function SkylineConciergePage() {
                       {t.author}
                     </span>
                     {(t.location ?? t.source) && (
-                      <span className="text-[8px] font-bold uppercase tracking-widest text-white/30">
+                      <span className="text-[10px] font-bold uppercase tracking-widest text-white/30">
                         {t.location ?? t.source}
                       </span>
                     )}
@@ -673,7 +673,7 @@ export default function SkylineConciergePage() {
                   <div className="text-3xl font-black uppercase tracking-tighter group-hover:text-white transition-colors">
                     {l.city}
                   </div>
-                  <div className="text-[9px] font-bold uppercase tracking-widest text-black/40">
+                  <div className="text-[10px] font-bold uppercase tracking-widest text-black/40">
                     {l.focus}
                   </div>
                 </div>
@@ -695,7 +695,7 @@ export default function SkylineConciergePage() {
                 </div>
               </div>
               <div className="absolute top-10 right-10 flex flex-col gap-2">
-                <span className="text-[8px] font-bold uppercase tracking-widest text-white/40">
+                <span className="text-[10px] font-bold uppercase tracking-widest text-white/40">
                   Secure_Node_Active
                 </span>
                 <div className="w-full h-[1px] bg-white/20" />
@@ -757,7 +757,7 @@ export default function SkylineConciergePage() {
                   <Mail className="w-5 h-5" />
                 </div>
                 <div>
-                  <div className="text-[8px] font-bold uppercase tracking-widest text-white/30">EMAIL DESK</div>
+                  <div className="text-[10px] font-bold uppercase tracking-widest text-white/30">EMAIL DESK</div>
                   <div className="text-sm font-bold">{fd?.email ?? "advisory@skylineconcierge.com"}</div>
                 </div>
               </div>
@@ -766,7 +766,7 @@ export default function SkylineConciergePage() {
                   <Phone className="w-5 h-5" />
                 </div>
                 <div>
-                  <div className="text-[8px] font-bold uppercase tracking-widest text-white/30">SECURE VOICE</div>
+                  <div className="text-[10px] font-bold uppercase tracking-widest text-white/30">SECURE VOICE</div>
                   <div className="text-sm font-bold">+377 97 97 XX XX (Monaco)</div>
                 </div>
               </div>
@@ -775,7 +775,7 @@ export default function SkylineConciergePage() {
                   <MapPin className="w-5 h-5" />
                 </div>
                 <div>
-                  <div className="text-[8px] font-bold uppercase tracking-widest text-white/30">PRINCIPAL OFFICE</div>
+                  <div className="text-[10px] font-bold uppercase tracking-widest text-white/30">PRINCIPAL OFFICE</div>
                   <div className="text-sm font-bold">Monte Carlo, Monaco</div>
                 </div>
               </div>
@@ -803,7 +803,7 @@ export default function SkylineConciergePage() {
                   className="space-y-6"
                 >
                   <div className="space-y-2">
-                    <label className="text-[8px] font-bold uppercase tracking-widest text-white/40">FULL NAME</label>
+                    <label className="text-[10px] font-bold uppercase tracking-widest text-white/40">FULL NAME</label>
                     <input
                       type="text"
                       required
@@ -813,7 +813,7 @@ export default function SkylineConciergePage() {
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                     <div className="space-y-2">
-                      <label className="text-[8px] font-bold uppercase tracking-widest text-white/40">SECURE EMAIL</label>
+                      <label className="text-[10px] font-bold uppercase tracking-widest text-white/40">SECURE EMAIL</label>
                       <input
                         type="email"
                         required
@@ -822,7 +822,7 @@ export default function SkylineConciergePage() {
                       />
                     </div>
                     <div className="space-y-2">
-                      <label className="text-[8px] font-bold uppercase tracking-widest text-white/40">PHONE NUMBER</label>
+                      <label className="text-[10px] font-bold uppercase tracking-widest text-white/40">PHONE NUMBER</label>
                       <input
                         type="tel"
                         className="w-full bg-black/60 border border-white/10 px-4 py-3 text-sm text-white focus:outline-none focus:border-[var(--brand,#c9a96e)] transition-colors rounded-sm"
@@ -831,7 +831,7 @@ export default function SkylineConciergePage() {
                     </div>
                   </div>
                   <div className="space-y-2">
-                    <label className="text-[8px] font-bold uppercase tracking-widest text-white/40">INQUIRY TYPE</label>
+                    <label className="text-[10px] font-bold uppercase tracking-widest text-white/40">INQUIRY TYPE</label>
                     <select
                       className="w-full bg-black border border-white/10 px-4 py-3 text-sm text-white/60 focus:outline-none focus:border-[var(--brand,#c9a96e)] transition-colors rounded-sm"
                     >
@@ -842,7 +842,7 @@ export default function SkylineConciergePage() {
                     </select>
                   </div>
                   <div className="space-y-2">
-                    <label className="text-[8px] font-bold uppercase tracking-widest text-white/40">SECURE TRANSMISSION</label>
+                    <label className="text-[10px] font-bold uppercase tracking-widest text-white/40">SECURE TRANSMISSION</label>
                     <textarea
                       required
                       rows={4}
@@ -852,7 +852,7 @@ export default function SkylineConciergePage() {
                   </div>
                   <button
                     type="submit"
-                    className="w-full py-4 bg-[var(--brand,#c9a96e)] text-black text-[9px] font-bold uppercase tracking-widest hover:bg-white transition-colors cursor-pointer"
+                    className="w-full py-4 bg-[var(--brand,#c9a96e)] text-black text-[10px] font-bold uppercase tracking-widest hover:bg-white transition-colors cursor-pointer"
                   >
                     SEND ENCRYPTED MESSAGE
                   </button>
@@ -876,7 +876,7 @@ export default function SkylineConciergePage() {
                   <span className="text-xl font-black tracking-tighter uppercase leading-none">
                     Skyline
                   </span>
-                  <span className="text-[8px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#c9a96e)] -mt-1">
+                  <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#c9a96e)] -mt-1">
                     Concierge Group
                   </span>
                 </div>
@@ -1019,7 +1019,7 @@ export default function SkylineConciergePage() {
           </div>
         </div>
 
-        <div className="max-w-[1400px] mx-auto pt-10 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8 text-[9px] font-bold uppercase tracking-widest text-white/10">
+        <div className="max-w-[1400px] mx-auto pt-10 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8 text-[10px] font-bold uppercase tracking-widest text-white/10">
           <div className="flex items-center gap-10">
             <span>
               &copy; {new Date().getFullYear()} SKYLINE CONCIERGE GROUP. ALL

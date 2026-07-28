@@ -65,7 +65,7 @@ export default function CypherClinicLayout({
             <span className="text-xl font-light tracking-[0.25em] uppercase" style={{ fontFamily: "'Bodoni Moda', serif" }}>
               Cypher Clinic
             </span>
-            <span className="text-[8px] tracking-[0.4em] uppercase text-[#C9A86C] mt-0.5">Médecine Esthétique & Lasers</span>
+            <span className="text-[10px] tracking-[0.4em] uppercase text-[#C9A86C] mt-0.5">Médecine Esthétique & Lasers</span>
           </>
             )}</Link>
           <div className="hidden md:flex items-center gap-10 text-xs tracking-[0.2em] uppercase text-[#8A8278]">

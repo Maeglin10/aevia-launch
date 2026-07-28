@@ -14,7 +14,7 @@ export default function Page() {
             <div className="w-8 h-8 rounded-full border border-black/10 flex items-center justify-center text-black/40 group-hover:bg-black group-hover:text-white group-hover:border-black transition-all">
               <ArrowLeft className="w-4 h-4" />
             </div>
-            <span className="text-[9px] font-bold uppercase tracking-widest text-black/60 group-hover:text-black transition-colors">
+            <span className="text-[10px] font-bold uppercase tracking-widest text-black/60 group-hover:text-black transition-colors">
               Return to Home
             </span>
           </Link>
@@ -23,7 +23,7 @@ export default function Page() {
             <span className="text-3xl font-light tracking-[0.3em] uppercase leading-none">
               Nova
             </span>
-            <span className="text-[7px] font-bold uppercase tracking-[0.8em] text-black/30 -mt-1 ml-1">
+            <span className="text-[10px] font-bold uppercase tracking-[0.8em] text-black/30 -mt-1 ml-1">
               Spatial Design
             </span>
           </div>

@@ -256,7 +256,7 @@ export default function VisionLayout({
             </div>
           </div>
 
-          <div className="flex flex-col md:flex-row justify-between items-center gap-8 pt-10 border-t border-white/5 text-[9px] font-bold uppercase tracking-widest text-white/10">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-8 pt-10 border-t border-white/5 text-[10px] font-bold uppercase tracking-widest text-white/10">
             <div className="flex items-center gap-10">
               <span>
                 &copy; {new Date().getFullYear()} Vision Real Estate SA.
@@ -294,7 +294,7 @@ export default function VisionLayout({
 
           <div className="space-y-6">
             <div className="space-y-2">
-              <label className="text-[9px] font-black uppercase tracking-widest text-white/30">
+              <label className="text-[10px] font-black uppercase tracking-widest text-white/30">
                 Authentication_Key
               </label>
               <input
@@ -304,7 +304,7 @@ export default function VisionLayout({
               />
             </div>
             <div className="space-y-2">
-              <label className="text-[9px] font-black uppercase tracking-widest text-white/30">
+              <label className="text-[10px] font-black uppercase tracking-widest text-white/30">
                 Target_Property
               </label>
               <select className="w-full bg-[#0a0a0a] border border-white/5 p-4 text-xs font-bold outline-none focus:border-rose-600 transition-all text-white uppercase tracking-widest">
@@ -313,7 +313,7 @@ export default function VisionLayout({
                 <option>Palm Jumeirah</option>
               </select>
             </div>
-            <div className="pt-4 flex items-center gap-4 text-[9px] font-bold uppercase tracking-widest text-white/20 italic">
+            <div className="pt-4 flex items-center gap-4 text-[10px] font-bold uppercase tracking-widest text-white/20 italic">
               <Shield className="w-4 h-4 text-rose-600" />
               Encrypted Stream Enabled
             </div>
@@ -323,7 +323,7 @@ export default function VisionLayout({
             >
               Initialize_Scan_Session
             </button>
-            <p className="text-[9px] text-center text-white/20 uppercase tracking-widest font-bold">
+            <p className="text-[10px] text-center text-white/20 uppercase tracking-widest font-bold">
               Node activation requires FIPS 140-2 verification.
             </p>
           </div>

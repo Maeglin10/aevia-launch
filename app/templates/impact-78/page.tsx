@@ -278,7 +278,7 @@ return (
           className="absolute bottom-10 left-12 hidden md:block"
         >
           <div className="flex flex-col items-start gap-3">
-            <span className="text-[9px] font-bold text-white/10 uppercase tracking-[0.5em]">
+            <span className="text-[10px] font-bold text-white/10 uppercase tracking-[0.5em]">
               AETHER_ROAST_OS // NODE_078
             </span>
             <div className="w-32 h-[1px] bg-[var(--brand,#7c2d12)]/40" />
@@ -316,7 +316,7 @@ return (
                       {work.tags.map((tag) => (
                         <span
                           key={tag}
-                          className="bg-[var(--brand,#7c2d12)]/30 border border-[var(--brand,#7c2d12)]/50 px-3 py-1 text-[9px] font-bold uppercase tracking-widest text-[var(--brand,#f97316)]/80"
+                          className="bg-[var(--brand,#7c2d12)]/30 border border-[var(--brand,#7c2d12)]/50 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-[var(--brand,#f97316)]/80"
                         >
                           {tag}
                         </span>
@@ -326,7 +326,7 @@ return (
                   <div className="p-8 border-t border-white/5">
                     <div className="flex justify-between items-start">
                       <div>
-                        <p className="text-[9px] font-bold text-white/20 uppercase tracking-[0.4em] mb-2">
+                        <p className="text-[10px] font-bold text-white/20 uppercase tracking-[0.4em] mb-2">
                           {work.client}
                         </p>
                         <h3 className="text-2xl font-black uppercase tracking-tighter text-white group-hover:text-[var(--brand,#f97316)] transition-colors">
@@ -361,7 +361,7 @@ return (
             {EXPERTISE.map((exp, i) => (
               <Reveal key={i} delay={i * 0.1}>
                 <div className="bg-[#100e0c] p-10 group hover:bg-[#0c0a09] transition-colors border-t-2 border-transparent hover:border-[var(--brand,#7c2d12)]">
-                  <span className="text-[9px] font-black text-[var(--brand,#7c2d12)]/50 uppercase tracking-[0.5em] mb-6 block">
+                  <span className="text-[10px] font-black text-[var(--brand,#7c2d12)]/50 uppercase tracking-[0.5em] mb-6 block">
                     {exp.code}
                   </span>
                   <h3 className="text-2xl font-black uppercase tracking-tighter text-white mb-6">
@@ -374,7 +374,7 @@ return (
                     {exp.items.map((item) => (
                       <li
                         key={item}
-                        className="flex items-center gap-3 text-[9px] font-bold uppercase tracking-widest text-white/20"
+                        className="flex items-center gap-3 text-[10px] font-bold uppercase tracking-widest text-white/20"
                       >
                         <div className="w-1 h-1 bg-[var(--brand,#7c2d12)] flex-shrink-0" />
                         {item}
@@ -434,7 +434,7 @@ return (
                   <div className="text-6xl md:text-7xl font-black tracking-tighter text-[var(--brand,#7c2d12)] mb-4 font-mono">
                     <Counter to={stat.value} suffix={stat.suffix} />
                   </div>
-                  <div className="text-[9px] font-bold uppercase tracking-[0.5em] text-white/20 italic">
+                  <div className="text-[10px] font-bold uppercase tracking-[0.5em] text-white/20 italic">
                     {stat.label}
                   </div>
                 </div>
@@ -470,7 +470,7 @@ return (
                     <p className="text-xs font-black uppercase tracking-widest text-white mb-1">
                       {t.name}
                     </p>
-                    <p className="text-[9px] font-bold uppercase tracking-widest text-[var(--brand,#7c2d12)]/60 italic">
+                    <p className="text-[10px] font-bold uppercase tracking-widest text-[var(--brand,#7c2d12)]/60 italic">
                       {t.role}
                     </p>
                   </div>
@@ -503,9 +503,9 @@ return (
                 ].map((a, i) => (
                   <Reveal key={i} delay={i * 0.06}>
                     <div className="py-5 flex items-center gap-8 group">
-                      <span className="text-[9px] font-black text-white/10 uppercase tracking-widest w-10 flex-shrink-0 font-mono">{a.year}</span>
+                      <span className="text-[10px] font-black text-white/10 uppercase tracking-widest w-10 flex-shrink-0 font-mono">{a.year}</span>
                       <div className="flex-1 text-sm font-black uppercase tracking-tighter text-white/40 italic group-hover:text-white/80 transition-colors">{a.title}</div>
-                      <span className="text-[9px] font-bold text-[var(--brand,#7c2d12)]/60 uppercase tracking-widest flex-shrink-0">{a.cat}</span>
+                      <span className="text-[10px] font-bold text-[var(--brand,#7c2d12)]/60 uppercase tracking-widest flex-shrink-0">{a.cat}</span>
                     </div>
                   </Reveal>
                 ))}
@@ -526,7 +526,7 @@ return (
                 ].map((p, i) => (
                   <Reveal key={i} delay={i * 0.06}>
                     <div className="py-5 flex items-start gap-8 group cursor-pointer">
-                      <span className="text-[9px] font-black text-[var(--brand,#7c2d12)]/50 uppercase tracking-widest w-20 flex-shrink-0 mt-0.5">{p.pub}</span>
+                      <span className="text-[10px] font-black text-[var(--brand,#7c2d12)]/50 uppercase tracking-widest w-20 flex-shrink-0 mt-0.5">{p.pub}</span>
                       <div className="flex-1 text-sm font-bold text-white/20 italic group-hover:text-white/60 transition-colors leading-snug">{p.title}</div>
                       <ArrowUpRight className="w-3 h-3 text-white/10 group-hover:text-[var(--brand,#7c2d12)] transition-colors flex-shrink-0 mt-1" />
                     </div>
@@ -545,7 +545,7 @@ return (
         <div className="max-w-[1400px] mx-auto px-6 md:px-12">
           <Reveal>
             <div className="flex flex-wrap items-center gap-x-16 gap-y-4">
-              <span className="text-[9px] font-bold text-white/10 uppercase tracking-[0.5em] flex-shrink-0">Trusted by</span>
+              <span className="text-[10px] font-bold text-white/10 uppercase tracking-[0.5em] flex-shrink-0">Trusted by</span>
               {["Nespresso Professional", "Starbucks Reserve", "Blue Bottle Coffee", "Intelligentsia", "La Marzocco", "Oatly", "Pact Coffee", "Matchless Coffee"].map((c) => (
                 <span key={c} className="text-base font-black uppercase tracking-tighter text-white/10 hover:text-[var(--brand,#7c2d12)]/60 transition-colors cursor-default italic">{c}</span>
               ))}
@@ -571,18 +571,18 @@ return (
             ].map((p, i) => (
               <Reveal key={i} delay={i * 0.1}>
                 <div className="bg-[#0c0a09] p-10 h-full flex flex-col group hover:bg-[#100e0c] transition-colors border-t-2 border-transparent hover:border-[var(--brand,#7c2d12)]">
-                  <span className="text-[9px] font-black text-[var(--brand,#7c2d12)]/50 uppercase tracking-[0.5em] mb-4 block">{p.tier}</span>
+                  <span className="text-[10px] font-black text-[var(--brand,#7c2d12)]/50 uppercase tracking-[0.5em] mb-4 block">{p.tier}</span>
                   <div className="text-3xl font-black text-[var(--brand,#7c2d12)] mb-2 tracking-tighter">{p.price}</div>
-                  <div className="text-[9px] font-bold text-white/20 uppercase tracking-widest mb-6">{p.duration}</div>
+                  <div className="text-[10px] font-bold text-white/20 uppercase tracking-widest mb-6">{p.duration}</div>
                   <p className="text-[10px] text-white/20 uppercase tracking-widest leading-relaxed font-bold italic mb-8">{p.desc}</p>
                   <ul className="space-y-2 flex-1 mb-8">
                     {p.scope.map((s) => (
-                      <li key={s} className="flex items-center gap-3 text-[9px] font-bold uppercase tracking-widest text-white/20">
+                      <li key={s} className="flex items-center gap-3 text-[10px] font-bold uppercase tracking-widest text-white/20">
                         <div className="w-1 h-1 bg-[var(--brand,#7c2d12)] flex-shrink-0" />{s}
                       </li>
                     ))}
                   </ul>
-                  <button className="w-full py-4 border border-white/10 text-white text-[9px] font-bold uppercase tracking-widest group-hover:bg-[var(--brand,#7c2d12)] group-hover:text-white transition-all">
+                  <button className="w-full py-4 border border-white/10 text-white text-[10px] font-bold uppercase tracking-widest group-hover:bg-[var(--brand,#7c2d12)] group-hover:text-white transition-all">
                     Discuss Brief
                   </button>
                 </div>

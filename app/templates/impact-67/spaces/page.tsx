@@ -80,7 +80,7 @@ export default function SpacesPage() {
                   <span className="text-[10px] font-black uppercase tracking-[0.5em] text-rose-600">
                     SCAN_SEQUENCE_ENABLED
                   </span>
-                  <span className="text-[9px] font-bold text-white/20 uppercase tracking-widest">
+                  <span className="text-[10px] font-bold text-white/20 uppercase tracking-widest">
                     Property ID: 0x074F_MK2
                   </span>
                 </div>

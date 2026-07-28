@@ -1060,7 +1060,7 @@ function ServiceCard({ s, i }: { s: any; i: number }) {
           style={{
             display: 'inline-block',
             fontFamily: SANS,
-            fontSize: 9.5,
+            fontSize: 10,
             letterSpacing: '0.32em',
             textTransform: 'uppercase',
             color: C.bgDark,

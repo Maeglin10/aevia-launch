@@ -361,7 +361,7 @@ export default function StudioPage() {
                     </div>
                     <div className="flex flex-wrap gap-1.5">
                       {member.tags.map(t => (
-                        <span key={t} className="text-[9px] border border-white/10 text-white/40 px-2.5 py-1 rounded-full" style={monoStyle}>
+                        <span key={t} className="text-[10px] border border-white/10 text-white/40 px-2.5 py-1 rounded-full" style={monoStyle}>
                           {t}
                         </span>
                       ))}

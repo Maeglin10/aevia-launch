@@ -168,7 +168,7 @@ return (
           className="absolute bottom-10 right-12 hidden md:block"
         >
           <div className="flex flex-col items-end gap-3">
-            <span className="text-[9px] font-bold text-[#1a1814]/20 uppercase tracking-[0.5em]">
+            <span className="text-[10px] font-bold text-[#1a1814]/20 uppercase tracking-[0.5em]">
               PARIS VIII // ATELIER PRIVÉ
             </span>
             <div className="w-24 h-[1px] bg-[var(--brand,#c9b7a1)]/40" />
@@ -218,7 +218,7 @@ return (
                     </div>
                   </div>
                   <div className="px-4 pb-4">
-                    <div className="text-[9px] uppercase tracking-[0.3em] text-[var(--brand,#c9b7a1)] font-black mb-2">
+                    <div className="text-[10px] uppercase tracking-[0.3em] text-[var(--brand,#c9b7a1)] font-black mb-2">
                       {item.tag}
                     </div>
                     <h3 className="text-xl font-light tracking-tight mb-2 group-hover:text-[#1a1814]/60 transition-colors">
@@ -228,7 +228,7 @@ return (
                       <span className="text-sm font-bold text-[#1a1814]">
                         {item.price}
                       </span>
-                      <span className="text-[9px] font-bold uppercase tracking-widest text-[#1a1814]/20 italic group-hover:text-[#1a1814] transition-colors">
+                      <span className="text-[10px] font-bold uppercase tracking-widest text-[#1a1814]/20 italic group-hover:text-[#1a1814] transition-colors">
                         Réserver →
                       </span>
                     </div>
@@ -351,7 +351,7 @@ return (
                     <h4 className="text-sm font-black uppercase tracking-widest">
                       Sophie Laurent
                     </h4>
-                    <span className="text-[9px] font-bold text-[var(--brand,#c9b7a1)] uppercase tracking-widest">
+                    <span className="text-[10px] font-bold text-[var(--brand,#c9b7a1)] uppercase tracking-widest">
                       Fondatrice & Head Artisan
                     </span>
                   </div>
@@ -424,7 +424,7 @@ return (
                   <h4 className="text-[10px] font-black uppercase tracking-widest mb-1">
                     {r.author}
                   </h4>
-                  <span className="text-[9px] font-bold text-[var(--brand,#c9b7a1)] uppercase tracking-widest">
+                  <span className="text-[10px] font-bold text-[var(--brand,#c9b7a1)] uppercase tracking-widest">
                     {r.role}
                   </span>
                 </div>

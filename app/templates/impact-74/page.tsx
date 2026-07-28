@@ -365,7 +365,7 @@ export default function AeviaKitchenPage() {
 
         {/* Scroll indicator */}
         <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 z-10">
-          <span className="text-[8px] font-bold uppercase tracking-[0.5em] text-white/20">scroll</span>
+          <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-white/20">scroll</span>
           <motion.div
             animate={{ y: [0, 8, 0] }}
             transition={{ repeat: Infinity, duration: 2.2 }}
@@ -521,7 +521,7 @@ export default function AeviaKitchenPage() {
                   ].map((s) => (
                     <div key={s.label}>
                       <div className="text-3xl font-bold text-[var(--brand,#c9a855)] mb-1">{s.val}</div>
-                      <div className="text-[9px] text-white/30 uppercase tracking-widest font-bold">
+                      <div className="text-[10px] text-white/30 uppercase tracking-widest font-bold">
                         {s.label}
                       </div>
                     </div>
@@ -594,7 +594,7 @@ export default function AeviaKitchenPage() {
                   }`}
                 >
                   {exp.highlight && (
-                    <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 bg-[var(--brand,#c9a855)] text-[#11182a] text-[9px] font-black uppercase tracking-widest rounded-full">
+                    <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 bg-[var(--brand,#c9a855)] text-[#11182a] text-[10px] font-black uppercase tracking-widest rounded-full">
                       Recommandé
                     </div>
                   )}
@@ -652,7 +652,7 @@ export default function AeviaKitchenPage() {
                         {exp.price}
                       </div>
                       <div
-                        className={`text-[9px] uppercase tracking-widest font-bold mt-0.5 ${
+                        className={`text-[10px] uppercase tracking-widest font-bold mt-0.5 ${
                           exp.highlight ? "text-white/30" : "text-[#11182a]/30"
                         }`}
                       >
@@ -661,7 +661,7 @@ export default function AeviaKitchenPage() {
                     </div>
                     <Link href="#reservation">
                       <button
-                        className={`flex items-center gap-2 px-5 py-3 rounded text-[9px] font-black uppercase tracking-widest cursor-pointer transition-all ${
+                        className={`flex items-center gap-2 px-5 py-3 rounded text-[10px] font-black uppercase tracking-widest cursor-pointer transition-all ${
                           exp.highlight
                             ? "bg-[var(--brand,#c9a855)] text-[#11182a] hover:bg-[#e0bf74] border-none"
                             : "border border-[var(--brand,#c9a855)]/40 text-[var(--brand,#c9a855)] hover:bg-[var(--brand,#c9a855)] hover:text-[#11182a]"
@@ -710,7 +710,7 @@ export default function AeviaKitchenPage() {
                   <div className="flex items-center justify-between pt-6 border-t border-[#11182a]/6">
                     <div>
                       <div className="font-bold text-[#11182a] text-sm">{review.author}</div>
-                      <div className="text-[9px] text-[#11182a]/30 uppercase tracking-widest font-bold mt-0.5">
+                      <div className="text-[10px] text-[#11182a]/30 uppercase tracking-widest font-bold mt-0.5">
                         {review.date} · {review.occasion}
                       </div>
                     </div>
@@ -821,7 +821,7 @@ export default function AeviaKitchenPage() {
                         {item.icon}
                       </div>
                       <div>
-                        <div className="text-[9px] text-white/30 uppercase tracking-widest font-bold mb-1">
+                        <div className="text-[10px] text-white/30 uppercase tracking-widest font-bold mb-1">
                           {item.title}
                         </div>
                         <div className="text-sm text-white/60 whitespace-pre-line">
@@ -860,7 +860,7 @@ export default function AeviaKitchenPage() {
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-[9px] text-white/30 uppercase tracking-widest font-bold mb-2">
+                        <label className="block text-[10px] text-white/30 uppercase tracking-widest font-bold mb-2">
                           Date
                         </label>
                         <input
@@ -872,7 +872,7 @@ export default function AeviaKitchenPage() {
                         />
                       </div>
                       <div>
-                        <label className="block text-[9px] text-white/30 uppercase tracking-widest font-bold mb-2">
+                        <label className="block text-[10px] text-white/30 uppercase tracking-widest font-bold mb-2">
                           Heure
                         </label>
                         <select
@@ -892,7 +892,7 @@ export default function AeviaKitchenPage() {
                     </div>
 
                     <div>
-                      <label className="block text-[9px] text-white/30 uppercase tracking-widest font-bold mb-2">
+                      <label className="block text-[10px] text-white/30 uppercase tracking-widest font-bold mb-2">
                         Nombre de convives
                       </label>
                       <select
@@ -911,7 +911,7 @@ export default function AeviaKitchenPage() {
                     </div>
 
                     <div>
-                      <label className="block text-[9px] text-white/30 uppercase tracking-widest font-bold mb-2">
+                      <label className="block text-[10px] text-white/30 uppercase tracking-widest font-bold mb-2">
                         Demandes particulières
                       </label>
                       <textarea

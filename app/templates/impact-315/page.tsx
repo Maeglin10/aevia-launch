@@ -794,7 +794,7 @@ export default function Page() {
                       right: -28,
                       background: C.primaryDark,
                       color: C.white,
-                      fontSize: 9,
+                      fontSize: 10,
                       fontWeight: 800,
                       letterSpacing: '0.15em',
                       textTransform: 'uppercase',

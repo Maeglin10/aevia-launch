@@ -215,7 +215,7 @@ export default function VanguardLegalPage() {
                     <div className="w-16 h-16 border border-[var(--brand,#00ff41)]/20 flex items-center justify-center mb-12 group-hover:bg-[var(--brand,#00ff41)] group-hover:text-black transition-all duration-700">
                       <item.icon className="w-6 h-6" />
                     </div>
-                    <div className="text-[9px] font-bold uppercase tracking-widest text-[var(--brand,#00ff41)]/40 mb-4 italic">Protocol: 0{i+1}</div>
+                    <div className="text-[10px] font-bold uppercase tracking-widest text-[var(--brand,#00ff41)]/40 mb-4 italic">Protocol: 0{i+1}</div>
                     <h3 className="text-3xl font-black uppercase mb-8 tracking-tighter italic">{item.t}</h3>
                     <p className="text-white/30 leading-relaxed text-sm font-light mb-12 italic">{item.d}</p>
                     <Link href="#hero" className="mt-auto flex items-center gap-4 text-[10px] font-bold uppercase tracking-widest group-hover:gap-8 transition-all">
@@ -265,7 +265,7 @@ export default function VanguardLegalPage() {
                           <div className="absolute top-1/4 right-1/4 w-3 h-3 bg-[var(--brand,#00ff41)] rounded-full shadow-[0_0_15px_#00ff41]" />
                           <div className="absolute bottom-1/3 left-1/4 w-2 h-2 bg-[var(--brand,#00ff41)] rounded-full shadow-[0_0_10px_#00ff41] opacity-50" />
                        </div>
-                       <div className="absolute bottom-10 left-10 text-[8px] font-mono text-[var(--brand,#00ff41)]/40 space-y-1">
+                       <div className="absolute bottom-10 left-10 text-[10px] font-mono text-[var(--brand,#00ff41)]/40 space-y-1">
                           <p>SCANNING_NODE: ZUG_ALPHA</p>
                           <p>STATUS: ACTIVE</p>
                           <p>SIGNAL_STRENGTH: 100%</p>

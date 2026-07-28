@@ -378,7 +378,7 @@ export default function WaveFXPage() {
                       <div className="text-xs text-[var(--brand,#818cf8)]/70 font-mono mb-1">@{m.gh}</div>
                       <div className="text-xs text-white/30">{m.role}</div>
                     </div>
-                    <div className="text-[9px] font-bold uppercase tracking-widest text-white/15 border-t border-white/5 pt-3">{m.focus}</div>
+                    <div className="text-[10px] font-bold uppercase tracking-widest text-white/15 border-t border-white/5 pt-3">{m.focus}</div>
                   </div>
                 </Reveal>
               ))}

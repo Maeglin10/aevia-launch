@@ -628,7 +628,7 @@ export default function QBitLabsPage() {
                       display: "flex",
                       justifyContent: "space-between",
                       marginTop: 4,
-                      fontSize: 9,
+                      fontSize: 10,
                       fontFamily: "'IBM Plex Mono', 'Courier New', monospace",
                       color: "#8d8d8d",
                     }}

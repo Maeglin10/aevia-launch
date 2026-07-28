@@ -308,7 +308,7 @@ export default function Impact83Page() {
                     <img src={item.img} alt={item.name} style={{ width: "100%", height: "100%", objectFit: "cover", filter: "saturate(0.6) brightness(0.9)", transition: "all 0.8s" }} onMouseEnter={e => { (e.target as HTMLImageElement).style.filter = "saturate(1) brightness(1)"; (e.target as HTMLImageElement).style.transform = "scale(1.05)"; }} onMouseLeave={e => { (e.target as HTMLImageElement).style.filter = "saturate(0.6) brightness(0.9)"; (e.target as HTMLImageElement).style.transform = "scale(1)"; }} />
                   </div>
                   <div style={{ padding: "1.5rem" }}>
-                    <p style={{ fontFamily: FONT_LABEL, fontSize: 9, letterSpacing: "0.3em", color: C.accent, textTransform: "uppercase", marginBottom: 8 }}>{item.cat}</p>
+                    <p style={{ fontFamily: FONT_LABEL, fontSize: 10, letterSpacing: "0.3em", color: C.accent, textTransform: "uppercase", marginBottom: 8 }}>{item.cat}</p>
                     <h3 style={{ fontFamily: FONT_HEADING, fontSize: "1.4rem", fontWeight: 300, color: C.text, marginBottom: 8 }}>{item.name}</h3>
                     <p style={{ fontFamily: FONT_LABEL, fontSize: 11, color: C.textMuted }}>{item.stone}</p>
                     <p style={{ fontFamily: FONT_HEADING, fontSize: "1.1rem", color: C.accentLight, marginTop: 12 }}>{item.price}</p>
@@ -397,7 +397,7 @@ export default function Impact83Page() {
                   <div style={{ borderTop: `1px solid ${C.border}`, paddingTop: "1.25rem" }}>
                     <div style={{ fontFamily: FONT_LABEL, fontWeight: 700, fontSize: 13, color: C.text }}>{t.name}</div>
                     <div style={{ fontFamily: FONT_LABEL, fontSize: 10, letterSpacing: "0.2em", textTransform: "uppercase", color: C.textMuted, marginTop: 4 }}>{t.role}</div>
-                    <div style={{ fontFamily: FONT_LABEL, fontSize: 9, letterSpacing: "0.15em", textTransform: "uppercase", color: C.accent, marginTop: 6 }}>{t.piece}</div>
+                    <div style={{ fontFamily: FONT_LABEL, fontSize: 10, letterSpacing: "0.15em", textTransform: "uppercase", color: C.accent, marginTop: 6 }}>{t.piece}</div>
                   </div>
                 </div>
               </Reveal>
@@ -424,7 +424,7 @@ export default function Impact83Page() {
                       {m.name.split(" ").map((n: string) => n[0]).join("")}
                     </span>
                   </div>
-                  <div style={{ fontFamily: FONT_LABEL, fontSize: 9, letterSpacing: "0.3em", textTransform: "uppercase", color: C.accent, marginBottom: 8 }}>{m.exp} d&apos;expérience</div>
+                  <div style={{ fontFamily: FONT_LABEL, fontSize: 10, letterSpacing: "0.3em", textTransform: "uppercase", color: C.accent, marginBottom: 8 }}>{m.exp} d&apos;expérience</div>
                   <h3 style={{ fontFamily: FONT_HEADING, fontSize: "1.3rem", fontWeight: 400, color: C.text, marginBottom: 4 }}>{m.name}</h3>
                   <p style={{ fontFamily: FONT_LABEL, fontSize: 11, letterSpacing: "0.1em", textTransform: "uppercase", color: C.textMuted, marginBottom: "1.25rem" }}>{m.role}</p>
                   <p style={{ fontFamily: FONT_BODY, fontSize: "0.9rem", color: C.textMuted, lineHeight: 1.7, fontStyle: "italic" }}>{m.bio}</p>

@@ -217,7 +217,7 @@ export default function SecurFastPage() {
             <Reveal key={i} delay={i * 0.07}>
               <div className="text-center py-3">
                 <div className="text-2xl font-bold text-[var(--brand,#2563eb)] mb-1">{s.v}</div>
-                <div className="text-[9px] font-bold uppercase tracking-widest text-[#f0f4ff]/20">{s.l}</div>
+                <div className="text-[10px] font-bold uppercase tracking-widest text-[#f0f4ff]/20">{s.l}</div>
               </div>
             </Reveal>
           ))}
@@ -229,7 +229,7 @@ export default function SecurFastPage() {
         <div className="max-w-[1300px] mx-auto px-6 md:px-12">
           <Reveal>
             <div className="mb-16">
-              <div className="text-[9px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#2563eb)]/55 mb-4">— Nos interventions</div>
+              <div className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#2563eb)]/55 mb-4">— Nos interventions</div>
               <h2 className="text-4xl md:text-5xl font-bold text-[#f0f4ff]">Sécurité & <span className="text-[var(--brand,#2563eb)]">sérénité.</span></h2>
             </div>
           </Reveal>
@@ -255,7 +255,7 @@ export default function SecurFastPage() {
       <section id="services" className="py-24 bg-[#111d30]">
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-14">
-            <div className="text-[9px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#2563eb)]/50 mb-4">— Avis clients</div>
+            <div className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#2563eb)]/50 mb-4">— Avis clients</div>
             <h2 className="text-4xl font-bold text-[#f0f4ff]">Ils ont pu <span className="text-[var(--brand,#2563eb)]">rentrer chez eux.</span></h2>
           </div></Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -311,14 +311,14 @@ export default function SecurFastPage() {
             { t: "Contact", ls: ["03 88 23 45 67", "contact@securfast.fr", "Strasbourg & 67", "24h/24 — 7j/7", "Devis gratuit"] },
           ].map((col, i) => (
             <div key={i}>
-              <h4 className="text-[9px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#2563eb)]/40 mb-5">{col.t}</h4>
+              <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#2563eb)]/40 mb-5">{col.t}</h4>
               <ul className="space-y-2.5">
                 {col.ls.map(l => <li key={l}><Link href="#contact" className="text-[#f0f4ff]/15 text-sm hover:text-[#f0f4ff]/50 transition-colors">{l}</Link></li>)}
               </ul>
             </div>
           ))}
         </div>
-        <div className="max-w-[1300px] mx-auto pt-6 border-t border-[#f0f4ff]/5 flex flex-col md:flex-row justify-between gap-3 text-[9px] font-bold uppercase tracking-widest text-[#f0f4ff]/8">
+        <div className="max-w-[1300px] mx-auto pt-6 border-t border-[#f0f4ff]/5 flex flex-col md:flex-row justify-between gap-3 text-[10px] font-bold uppercase tracking-widest text-[#f0f4ff]/8">
           <span>© 2026 SÉC'URFAST · SIRET 567 890 123 00044 · Agréé assurances · Strasbourg (67)</span>
           <span className="text-[var(--brand,#2563eb)]/20">Serrurier urgence · 24h/24</span>
         </div>

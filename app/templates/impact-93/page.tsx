@@ -321,7 +321,7 @@ export default function VelocityJetsPage() {
                   <span className="text-xl font-black tracking-tighter uppercase leading-none italic">
                     Velocity
                   </span>
-                  <span className="text-[8px] font-bold uppercase tracking-[0.6em] text-[var(--brand,#00f2ff)] -mt-1">
+                  <span className="text-[10px] font-bold uppercase tracking-[0.6em] text-[var(--brand,#00f2ff)] -mt-1">
                     Jet Charter
                   </span>
                 </div>
@@ -436,7 +436,7 @@ export default function VelocityJetsPage() {
         <div className="absolute bottom-12 right-12 hidden lg:flex flex-col items-end gap-6">
           {FLIGHT_LOGS.map((log, i) => (
             <div key={i} className="text-right">
-              <div className="text-[8px] font-bold uppercase tracking-widest text-white/30">
+              <div className="text-[10px] font-bold uppercase tracking-widest text-white/30">
                 {log.label}
               </div>
               <div className="text-2xl font-black text-white italic">
@@ -509,15 +509,15 @@ export default function VelocityJetsPage() {
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 pt-8 border-t border-white/10">
               <div>
                 <div className="text-2xl font-black text-[var(--brand,#00f2ff)] font-mono italic">04 HRS</div>
-                <div className="text-[8px] font-bold uppercase tracking-widest text-white/30">DISPATCH READY</div>
+                <div className="text-[10px] font-bold uppercase tracking-widest text-white/30">DISPATCH READY</div>
               </div>
               <div>
                 <div className="text-2xl font-black text-white font-mono italic">WYVERN</div>
-                <div className="text-[8px] font-bold uppercase tracking-widest text-white/30">SAFETY RATED</div>
+                <div className="text-[10px] font-bold uppercase tracking-widest text-white/30">SAFETY RATED</div>
               </div>
               <div>
                 <div className="text-2xl font-black text-white font-mono italic">2,800 +</div>
-                <div className="text-[8px] font-bold uppercase tracking-widest text-white/30">GLOBAL BUFFERS</div>
+                <div className="text-[10px] font-bold uppercase tracking-widest text-white/30">GLOBAL BUFFERS</div>
               </div>
             </div>
           </Reveal>
@@ -533,7 +533,7 @@ export default function VelocityJetsPage() {
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
               <div className="absolute bottom-8 left-8 flex items-center gap-3">
                 <div className="w-2.5 h-2.5 rounded-full bg-[var(--brand,#00f2ff)] animate-ping" />
-                <span className="text-[8px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#00f2ff)]">
+                <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#00f2ff)]">
                   HANGAR ALPHA // OPERATIONS ACTIVE
                 </span>
               </div>
@@ -556,7 +556,7 @@ export default function VelocityJetsPage() {
                 </p>
               </div>
               <div className="flex gap-4">
-                <button className="px-8 py-4 border border-white/10 text-white text-[9px] font-bold uppercase tracking-widest hover:border-[var(--brand,#00f2ff)] hover:text-[var(--brand,#00f2ff)] transition-all">
+                <button className="px-8 py-4 border border-white/10 text-white text-[10px] font-bold uppercase tracking-widest hover:border-[var(--brand,#00f2ff)] hover:text-[var(--brand,#00f2ff)] transition-all">
                   Download_Spec_Sheets
                 </button>
               </div>
@@ -597,7 +597,7 @@ export default function VelocityJetsPage() {
                         >
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
-                              <div className="text-[8px] font-bold uppercase tracking-widest text-white/30 mb-1">
+                              <div className="text-[10px] font-bold uppercase tracking-widest text-white/30 mb-1">
                                 Max_Speed
                               </div>
                               <div className="text-lg font-black text-white italic">
@@ -605,7 +605,7 @@ export default function VelocityJetsPage() {
                               </div>
                             </div>
                             <div>
-                              <div className="text-[8px] font-bold uppercase tracking-widest text-white/30 mb-1">
+                              <div className="text-[10px] font-bold uppercase tracking-widest text-white/30 mb-1">
                                 Range
                               </div>
                               <div className="text-lg font-black text-white italic">
@@ -613,7 +613,7 @@ export default function VelocityJetsPage() {
                               </div>
                             </div>
                             <div>
-                              <div className="text-[8px] font-bold uppercase tracking-widest text-white/30 mb-1">
+                              <div className="text-[10px] font-bold uppercase tracking-widest text-white/30 mb-1">
                                 Capacity
                               </div>
                               <div className="text-lg font-black text-white italic">
@@ -667,7 +667,7 @@ export default function VelocityJetsPage() {
                     <span className="text-[10px] font-bold uppercase tracking-widest text-[var(--brand,#00f2ff)]">
                       {t.author}
                     </span>
-                    <span className="text-[8px] font-bold uppercase tracking-widest text-white/30">
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-white/30">
                       {t.location}
                     </span>
                   </div>
@@ -718,7 +718,7 @@ export default function VelocityJetsPage() {
               <div className="relative z-10 h-full flex flex-col justify-between p-8">
                 <div className="flex justify-between items-start">
                   <div className="flex flex-col">
-                    <span className="text-[8px] font-bold uppercase tracking-widest text-[var(--brand,#00f2ff)]">
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-[var(--brand,#00f2ff)]">
                       Network_Feed_Live
                     </span>
                     <span className="text-[12px] font-black text-white/50 tracking-tighter font-mono italic">
@@ -810,7 +810,7 @@ export default function VelocityJetsPage() {
                   <Mail className="w-5 h-5" />
                 </div>
                 <div>
-                  <div className="text-[8px] font-bold uppercase tracking-widest text-white/30">OPERATIONS EMAIL</div>
+                  <div className="text-[10px] font-bold uppercase tracking-widest text-white/30">OPERATIONS EMAIL</div>
                   <div className="text-sm font-bold">{fd?.email ?? "ops@velocityjets.com"}</div>
                 </div>
               </div>
@@ -819,7 +819,7 @@ export default function VelocityJetsPage() {
                   <Phone className="w-5 h-5" />
                 </div>
                 <div>
-                  <div className="text-[8px] font-bold uppercase tracking-widest text-white/30">DISPATCH VOICE</div>
+                  <div className="text-[10px] font-bold uppercase tracking-widest text-white/30">DISPATCH VOICE</div>
                   <div className="text-sm font-bold">+1 (800) 555-FLIGHT</div>
                 </div>
               </div>
@@ -828,7 +828,7 @@ export default function VelocityJetsPage() {
                   <MapPin className="w-5 h-5" />
                 </div>
                 <div>
-                  <div className="text-[8px] font-bold uppercase tracking-widest text-white/30">PRINCIPAL HANGAR</div>
+                  <div className="text-[10px] font-bold uppercase tracking-widest text-white/30">PRINCIPAL HANGAR</div>
                   <div className="text-sm font-bold">Teterboro Airport (KTEB), NJ</div>
                 </div>
               </div>
@@ -857,7 +857,7 @@ export default function VelocityJetsPage() {
                 >
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                     <div className="space-y-2">
-                      <label className="text-[8px] font-bold uppercase tracking-widest text-white/40">DEPARTURE AIRPORT</label>
+                      <label className="text-[10px] font-bold uppercase tracking-widest text-white/40">DEPARTURE AIRPORT</label>
                       <input
                         type="text"
                         required
@@ -866,7 +866,7 @@ export default function VelocityJetsPage() {
                       />
                     </div>
                     <div className="space-y-2">
-                      <label className="text-[8px] font-bold uppercase tracking-widest text-white/40">ARRIVAL AIRPORT</label>
+                      <label className="text-[10px] font-bold uppercase tracking-widest text-white/40">ARRIVAL AIRPORT</label>
                       <input
                         type="text"
                         required
@@ -877,7 +877,7 @@ export default function VelocityJetsPage() {
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                     <div className="space-y-2">
-                      <label className="text-[8px] font-bold uppercase tracking-widest text-white/40">SECURE EMAIL</label>
+                      <label className="text-[10px] font-bold uppercase tracking-widest text-white/40">SECURE EMAIL</label>
                       <input
                         type="email"
                         required
@@ -886,7 +886,7 @@ export default function VelocityJetsPage() {
                       />
                     </div>
                     <div className="space-y-2">
-                      <label className="text-[8px] font-bold uppercase tracking-widest text-white/40">PHONE NUMBER</label>
+                      <label className="text-[10px] font-bold uppercase tracking-widest text-white/40">PHONE NUMBER</label>
                       <input
                         type="tel"
                         className="w-full bg-black/60 border border-white/10 px-4 py-3 text-sm text-white focus:outline-none focus:border-[var(--brand,#00f2ff)] transition-colors rounded-sm"
@@ -895,7 +895,7 @@ export default function VelocityJetsPage() {
                     </div>
                   </div>
                   <div className="space-y-2">
-                    <label className="text-[8px] font-bold uppercase tracking-widest text-white/40">AIRCRAFT CLASS</label>
+                    <label className="text-[10px] font-bold uppercase tracking-widest text-white/40">AIRCRAFT CLASS</label>
                     <select
                       className="w-full bg-black border border-white/10 px-4 py-3 text-sm text-white/60 focus:outline-none focus:border-[var(--brand,#00f2ff)] transition-colors rounded-sm"
                     >
@@ -905,7 +905,7 @@ export default function VelocityJetsPage() {
                     </select>
                   </div>
                   <div className="space-y-2">
-                    <label className="text-[8px] font-bold uppercase tracking-widest text-white/40">ADDITIONAL LOGISTICS</label>
+                    <label className="text-[10px] font-bold uppercase tracking-widest text-white/40">ADDITIONAL LOGISTICS</label>
                     <textarea
                       required
                       rows={3}
@@ -915,7 +915,7 @@ export default function VelocityJetsPage() {
                   </div>
                   <button
                     type="submit"
-                    className="w-full py-4 bg-[var(--brand,#00f2ff)] text-black text-[9px] font-bold uppercase tracking-widest hover:bg-white transition-colors cursor-pointer"
+                    className="w-full py-4 bg-[var(--brand,#00f2ff)] text-black text-[10px] font-bold uppercase tracking-widest hover:bg-white transition-colors cursor-pointer"
                   >
                     REQUEST INSTANT TELEMETRY
                   </button>
@@ -937,7 +937,7 @@ export default function VelocityJetsPage() {
                   <span className="text-2xl font-black tracking-tighter uppercase leading-none italic">
                     Velocity
                   </span>
-                  <span className="text-[9px] font-bold uppercase tracking-[0.6em] text-[var(--brand,#00f2ff)] -mt-1">
+                  <span className="text-[10px] font-bold uppercase tracking-[0.6em] text-[var(--brand,#00f2ff)] -mt-1">
                     Jet Charter
                   </span>
                 </div>
@@ -1080,7 +1080,7 @@ export default function VelocityJetsPage() {
           </div>
         </div>
 
-        <div className="max-w-[1400px] mx-auto pt-10 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8 text-[9px] font-bold uppercase tracking-widest text-white/10">
+        <div className="max-w-[1400px] mx-auto pt-10 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8 text-[10px] font-bold uppercase tracking-widest text-white/10">
           <div className="flex items-center gap-10">
             <span>
               &copy; {new Date().getFullYear()} VELOCITY AVIATION GROUP.

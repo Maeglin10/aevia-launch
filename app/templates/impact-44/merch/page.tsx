@@ -60,7 +60,7 @@ export default function MerchPage() {
                   position: 'absolute',
                   top: 16,
                   right: 16,
-                  fontSize: 9,
+                  fontSize: 10,
                   padding: '4px 8px',
                   background: C.red,
                   color: C.white,
@@ -97,7 +97,7 @@ export default function MerchPage() {
                   GP
                 </div>
               </div>
-              <div style={{ fontSize: 9, color: C.textDim, letterSpacing: '0.4em', marginBottom: 8 }}>{item.tag}</div>
+              <div style={{ fontSize: 10, color: C.textDim, letterSpacing: '0.4em', marginBottom: 8 }}>{item.tag}</div>
               <div style={{ fontSize: 13, color: C.white, letterSpacing: '0.1em', marginBottom: 16, fontWeight: 700 }}>{item.name}</div>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <span style={{ fontSize: 22, color: C.green, fontWeight: 900, textShadow: `0 0 10px ${C.green}` }}>

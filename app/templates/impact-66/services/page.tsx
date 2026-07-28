@@ -40,7 +40,7 @@ export default function ServicesPage() {
                 </div>
                 <div className="flex-grow flex flex-col justify-between h-full">
                   <div>
-                    <span className="text-[9px] uppercase tracking-[0.3em] text-[#c9b7a1] font-black block mb-2">
+                    <span className="text-[10px] uppercase tracking-[0.3em] text-[#c9b7a1] font-black block mb-2">
                       {item.tag}
                     </span>
                     <h3 className="text-2xl font-light tracking-tight mb-4">
@@ -56,7 +56,7 @@ export default function ServicesPage() {
                     </span>
                     <button
                       onClick={handleBook}
-                      className="px-6 py-2 bg-[#1a1814] text-white text-[9px] font-bold uppercase tracking-widest rounded-full hover:bg-[#c9b7a1] transition-all cursor-pointer border-none"
+                      className="px-6 py-2 bg-[#1a1814] text-white text-[10px] font-bold uppercase tracking-widest rounded-full hover:bg-[#c9b7a1] transition-all cursor-pointer border-none"
                     >
                       Réserver
                     </button>

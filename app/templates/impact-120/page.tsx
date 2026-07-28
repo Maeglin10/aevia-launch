@@ -467,7 +467,7 @@ export default function EclatLuxuryPage() {
             >
               <ShoppingBag className="w-5 h-5" />
               {cartCount > 0 && (
-                <span className="absolute top-1 right-1 min-w-[16px] h-4 px-1 rounded-full bg-fuchsia-500 text-white text-[9px] font-bold flex items-center justify-center leading-none">
+                <span className="absolute top-1 right-1 min-w-[16px] h-4 px-1 rounded-full bg-fuchsia-500 text-white text-[10px] font-bold flex items-center justify-center leading-none">
                   {cartCount}
                 </span>
               )}
@@ -731,7 +731,7 @@ export default function EclatLuxuryPage() {
                 <Reveal key={i} delay={i * 0.1}>
                   <div className={`relative h-full p-10 flex flex-col rounded-2xl border ${tier.recommended ? 'border-fuchsia-500/50 bg-fuchsia-950/10' : 'border-white/10 bg-[#0a0710]'} hover:border-white/30 transition-all duration-500`}>
                     {tier.recommended && (
-                      <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 bg-fuchsia-900 text-white text-[9px] font-black tracking-widest uppercase rounded-full">
+                      <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 bg-fuchsia-900 text-white text-[10px] font-black tracking-widest uppercase rounded-full">
                         Curator's Choice
                       </div>
                     )}

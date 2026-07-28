@@ -650,7 +650,7 @@ export default function EssentialBlogPage() {
                     cursor: "pointer",
                   }}
                 >
-                  <div style={{ display: "inline-block", padding: "2px 8px", background: "rgba(255,255,255,0.06)", fontSize: 9, fontFamily: C.sans, fontWeight: 700, letterSpacing: "0.1em", color: "rgba(250,250,250,0.4)", marginBottom: 8 }}>
+                  <div style={{ display: "inline-block", padding: "2px 8px", background: "rgba(255,255,255,0.06)", fontSize: 10, fontFamily: C.sans, fontWeight: 700, letterSpacing: "0.1em", color: "rgba(250,250,250,0.4)", marginBottom: 8 }}>
                     {a.cat}
                   </div>
                   <div style={{ fontFamily: C.serif, fontSize: 15, fontWeight: 600, color: "rgba(250,250,250,0.85)", lineHeight: 1.35, marginBottom: 6 }}>
@@ -786,7 +786,7 @@ export default function EssentialBlogPage() {
                   }}
                 >
                   <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 14 }}>
-                    <div style={{ padding: "2px 8px", background: C.bgDark, color: C.white, fontSize: 9, fontFamily: C.sans, fontWeight: 800, letterSpacing: "0.1em" }}>
+                    <div style={{ padding: "2px 8px", background: C.bgDark, color: C.white, fontSize: 10, fontFamily: C.sans, fontWeight: 800, letterSpacing: "0.1em" }}>
                       {article.cat}
                     </div>
                     <span style={{ fontSize: 11, color: C.textMuted }}><Clock size={10} style={{ display: "inline", marginRight: 3 }} />{article.readTime}</span>
@@ -920,7 +920,7 @@ export default function EssentialBlogPage() {
                     {String(i + 1).padStart(2, "0")}
                   </div>
                   <div>
-                    <div style={{ fontSize: 9, fontFamily: C.sans, fontWeight: 700, letterSpacing: "0.1em", color: C.accent, marginBottom: 4 }}>{a.cat}</div>
+                    <div style={{ fontSize: 10, fontFamily: C.sans, fontWeight: 700, letterSpacing: "0.1em", color: C.accent, marginBottom: 4 }}>{a.cat}</div>
                     <div style={{ fontSize: 12, fontFamily: C.serif, fontWeight: 600, color: C.text, lineHeight: 1.4 }}>{a.title}</div>
                   </div>
                 </motion.div>
@@ -1002,7 +1002,7 @@ export default function EssentialBlogPage() {
               <div style={{ display: "flex", gap: 16, marginTop: 32, alignItems: "center" }}>
                 <div style={{ display: "flex" }}>
                   {["MD", "SC", "TM", "CA"].map((init, i) => (
-                    <div key={i} style={{ width: 28, height: 28, background: ["var(--brand,#e63946)", "var(--brand-light,#7c3aed)", "#059669", "#D97706"][i], border: `2px solid ${C.bgDark}`, borderRadius: "50%", marginLeft: i > 0 ? -10 : 0, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 9, fontWeight: 800, color: C.white }}>
+                    <div key={i} style={{ width: 28, height: 28, background: ["var(--brand,#e63946)", "var(--brand-light,#7c3aed)", "#059669", "#D97706"][i], border: `2px solid ${C.bgDark}`, borderRadius: "50%", marginLeft: i > 0 ? -10 : 0, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 10, fontWeight: 800, color: C.white }}>
                       {init}
                     </div>
                   ))}
@@ -1108,7 +1108,7 @@ export default function EssentialBlogPage() {
                     <div style={{ position: "absolute", top: -2, left: 0, right: 0, height: 4, background: C.accent }} />
                   )}
                   {plan.featured && (
-                    <div style={{ position: "absolute", top: 16, right: 16, padding: "3px 10px", background: C.accent, fontSize: 9, fontFamily: C.sans, fontWeight: 800, letterSpacing: "0.1em", color: C.white }}>
+                    <div style={{ position: "absolute", top: 16, right: 16, padding: "3px 10px", background: C.accent, fontSize: 10, fontFamily: C.sans, fontWeight: 800, letterSpacing: "0.1em", color: C.white }}>
                       POPULAIRE
                     </div>
                   )}

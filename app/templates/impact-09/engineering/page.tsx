@@ -211,7 +211,7 @@ export default function AstrumReachPremiumEngineering() {
       <nav className="fixed top-0 left-0 right-0 z-50 flex justify-between items-center px-8 md:px-12 py-8 border-b border-white/5 bg-black/40 backdrop-blur-xl">
          <div onClick={() => goTo("home")} className="flex flex-col group cursor-pointer">
             <span className="text-3xl font-black tracking-[-0.05em] uppercase leading-none group-hover:text-indigo-400 transition-colors">Astrum.</span>
-            <span className="text-[8px] font-bold uppercase tracking-[0.6em] text-indigo-500 -mt-1 ml-1 font-mono">Reach Orbital Group</span>
+            <span className="text-[10px] font-bold uppercase tracking-[0.6em] text-indigo-500 -mt-1 ml-1 font-mono">Reach Orbital Group</span>
          </div>
          <div className="hidden lg:flex gap-12 text-[10px] font-black uppercase tracking-[0.4em] text-white/30 font-mono">
             {[
@@ -233,7 +233,7 @@ export default function AstrumReachPremiumEngineering() {
          </div>
          <div className="flex items-center gap-6">
             <div className="hidden sm:flex flex-col items-end font-mono">
-               <div className="text-[8px] font-black text-indigo-500 uppercase">Pressure_Stable</div>
+               <div className="text-[10px] font-black text-indigo-500 uppercase">Pressure_Stable</div>
                <div className="text-[10px] font-bold">1.2G Nominal</div>
             </div>
 
@@ -344,8 +344,8 @@ export default function AstrumReachPremiumEngineering() {
                            
                            <div className="relative z-10">
                               <div className="flex justify-between items-center mb-12">
-                                 <div className="text-[8px] font-black uppercase tracking-[0.5em] text-indigo-500 font-mono">{mission.id}</div>
-                                 <div className={`px-4 py-1 text-[8px] font-black uppercase tracking-widest border border-white/20 rounded-full font-mono ${mission.risk === 'Extreme' ? 'bg-red-500/20 text-red-400' : 'text-white/40'}`}>
+                                 <div className="text-[10px] font-black uppercase tracking-[0.5em] text-indigo-500 font-mono">{mission.id}</div>
+                                 <div className={`px-4 py-1 text-[10px] font-black uppercase tracking-widest border border-white/20 rounded-full font-mono ${mission.risk === 'Extreme' ? 'bg-red-500/20 text-red-400' : 'text-white/40'}`}>
                                     Risk: {mission.risk}
                                  </div>
                               </div>
@@ -391,7 +391,7 @@ export default function AstrumReachPremiumEngineering() {
                               <div key={i} className="p-10 border border-white/5 bg-white/[0.02] hover:border-indigo-500/50 transition-colors group cursor-pointer" onClick={() => goTo("engineering")}>
                                  <div className="text-[10px] font-black uppercase tracking-widest text-indigo-500 mb-4">{spec.label}</div>
                                  <div className="text-5xl font-black italic mb-4 tracking-tighter group-hover:scale-110 transition-transform origin-left text-white">{spec.value}</div>
-                                 <div className="text-[8px] font-bold uppercase tracking-[0.4em] text-white/20">{spec.detail}</div>
+                                 <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/20">{spec.detail}</div>
                               </div>
                            ))}
                         </div>
@@ -423,13 +423,13 @@ export default function AstrumReachPremiumEngineering() {
                            {/* Interactive Floating Tags */}
                            <motion.div 
                               animate={{ y: [0, -20, 0] }} transition={{ duration: 3, repeat: Infinity }}
-                              className="absolute top-20 right-20 px-4 py-2 border border-white/20 bg-black/80 backdrop-blur-md text-[8px] font-black uppercase font-mono"
+                              className="absolute top-20 right-20 px-4 py-2 border border-white/20 bg-black/80 backdrop-blur-md text-[10px] font-black uppercase font-mono"
                            >
                               Shield: 100%
                            </motion.div>
                            <motion.div 
                               animate={{ y: [0, 20, 0] }} transition={{ duration: 4, repeat: Infinity }}
-                              className="absolute bottom-20 left-20 px-4 py-2 border border-white/20 bg-black/80 backdrop-blur-md text-[8px] font-black uppercase font-mono"
+                              className="absolute bottom-20 left-20 px-4 py-2 border border-white/20 bg-black/80 backdrop-blur-md text-[10px] font-black uppercase font-mono"
                            >
                               Prop: Active
                            </motion.div>
@@ -699,7 +699,7 @@ function MaisonPage({ goTo }: { goTo: (p: ActivePage) => void }) {
               {steps.map((step, i) => (
                 <div key={i} className="relative">
                   <div className="absolute -left-[41px] top-1 w-5 h-5 rounded-full bg-black border border-indigo-500 flex items-center justify-center font-mono">
-                     <span className="text-[9px] text-indigo-500">{i+1}</span>
+                     <span className="text-[10px] text-indigo-500">{i+1}</span>
                   </div>
                   <h4 className="text-lg font-black uppercase tracking-widest text-white font-mono">{step.name}</h4>
                   <p className="text-xs text-white/40 leading-relaxed uppercase italic font-medium">{step.details}</p>

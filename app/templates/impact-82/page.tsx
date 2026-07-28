@@ -209,7 +209,7 @@ return (
                   <div className="relative aspect-video overflow-hidden mb-6">
                     <Image src={p.img ?? p.photoUrl ?? photo(1 + i, "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&q=85")} alt={p.title ?? p.name} fill className="object-cover group-hover:scale-105 transition-transform duration-700" />
                     <div className="absolute inset-0 bg-gradient-to-t from-[#1A1612]/60 to-transparent" />
-                    {(p.badge ?? p.status) && <span className="absolute top-4 left-4 px-3 py-1 bg-[var(--brand,#C9A86C)] text-[#1A1612] text-[9px] uppercase tracking-widest font-medium">{p.badge ?? p.status}</span>}
+                    {(p.badge ?? p.status) && <span className="absolute top-4 left-4 px-3 py-1 bg-[var(--brand,#C9A86C)] text-[#1A1612] text-[10px] uppercase tracking-widest font-medium">{p.badge ?? p.status}</span>}
                   </div>
                   <div>
                     {(p.loc ?? p.city ?? p.type) && <p className="text-xs text-[var(--brand,#C9A86C)] uppercase tracking-widest mb-2">{[p.loc ?? p.city, p.type].filter(Boolean).join(" · ")}</p>}
@@ -259,7 +259,7 @@ return (
       <section className="py-32 bg-[#F7F5F2] border-t border-[#2A2820]/10">
         <div className="max-w-6xl mx-auto px-6 md:px-12">
           <Reveal>
-            <p className="text-[9px] uppercase tracking-[0.5em] text-[var(--brand,#C9A86C)] mb-6">Ils nous font confiance</p>
+            <p className="text-[10px] uppercase tracking-[0.5em] text-[var(--brand,#C9A86C)] mb-6">Ils nous font confiance</p>
             <h2 className="text-4xl md:text-6xl font-light text-[#1A1612] mb-20 leading-snug" style={{ fontFamily: "'Libre Baskerville', serif" }}>
               La parole de <em>nos clients</em>.
             </h2>
@@ -272,7 +272,7 @@ return (
                   <p className="text-[#4A3F35] text-sm leading-relaxed italic flex-1">{t.quote}</p>
                   <div className="border-t border-[#2A2820]/10 pt-6 flex items-center justify-between">
                     <div className="text-sm font-bold text-[#1A1612]">{t.name}</div>
-                    {t.stats && <div className="text-[9px] uppercase tracking-widest text-[var(--brand,#C9A86C)] font-bold">{t.stats}</div>}
+                    {t.stats && <div className="text-[10px] uppercase tracking-widest text-[var(--brand,#C9A86C)] font-bold">{t.stats}</div>}
                   </div>
                 </div>
               </Reveal>

@@ -194,7 +194,7 @@ export default function BrilloNetPage() {
           <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.3 }}>
             <div className="flex items-center gap-3 mb-8">
               <div className="w-6 h-[1px] bg-[var(--brand,#0d9488)]" />
-              <span className="text-[9px] font-bold uppercase tracking-[0.4em] text-[#2dd4bf]">Ménage & Nettoyage Pro · Lyon Métropole</span>
+              <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#2dd4bf]">Ménage & Nettoyage Pro · Lyon Métropole</span>
             </div>
           </motion.div>
 
@@ -371,14 +371,14 @@ export default function BrilloNetPage() {
             { t: "Contact", ls: ["04 78 12 34 56", "contact@brillonet.fr", "Lyon Métropole", "7j/7 8h-20h", "Devis gratuit en 2h"] },
           ].map((col, i) => (
             <div key={i}>
-              <h4 className="text-[9px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#0d9488)] mb-5">{col.t}</h4>
+              <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#0d9488)] mb-5">{col.t}</h4>
               <ul className="space-y-2.5">
                 {col.ls.map(l => <li key={l}><Link href="#contact" className="text-white/20 text-sm hover:text-white transition-colors">{l}</Link></li>)}
               </ul>
             </div>
           ))}
         </div>
-        <div className="max-w-[1300px] mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between gap-3 text-[9px] font-bold uppercase tracking-widest text-white/10">
+        <div className="max-w-[1300px] mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between gap-3 text-[10px] font-bold uppercase tracking-widest text-white/10">
           <span>© 2026 BrilloNet · SIRET 789 012 345 00067 · RC Pro · Assurance décennale</span>
           <span className="text-[var(--brand,#0d9488)]/30">Ménage professionnel · Lyon</span>
         </div>

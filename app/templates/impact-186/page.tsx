@@ -268,7 +268,7 @@ export default function DrFontainePage() {
             ) : (
               <>
                 <div className="font-bold text-[#1a2332] text-sm leading-tight">Dr. Léa Fontaine</div>
-                <div className="text-[9px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#1d6fa4)]/60">Chirurgien-dentiste · Nantes</div>
+                <div className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#1d6fa4)]/60">Chirurgien-dentiste · Nantes</div>
               </>
             )}
           </div>
@@ -310,7 +310,7 @@ export default function DrFontainePage() {
           <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.3 }}>
             <div className="flex items-center gap-3 mb-8">
               <div className="w-8 h-[1px] bg-[var(--brand,#1d6fa4)]/60" />
-              <span className="text-[9px] font-bold uppercase tracking-[0.45em] text-[#7bc3f5]">Chirurgien-dentiste · Nantes Centre</span>
+              <span className="text-[10px] font-bold uppercase tracking-[0.45em] text-[#7bc3f5]">Chirurgien-dentiste · Nantes Centre</span>
             </div>
           </motion.div>
 
@@ -501,7 +501,7 @@ export default function DrFontainePage() {
         <div className="max-w-[1300px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           <div>
             <div className="font-bold text-white mb-1">Dr. Léa Fontaine</div>
-            <div className="text-[9px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#1d6fa4)]/60 mb-5">Chirurgien-dentiste · Nantes</div>
+            <div className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#1d6fa4)]/60 mb-5">Chirurgien-dentiste · Nantes</div>
             <p className="text-white/20 text-sm leading-relaxed">Cabinet dentaire moderne. Omnipratique, implants, esthétique, orthodontie. Urgences tous les matins.</p>
           </div>
           {[
@@ -510,14 +510,14 @@ export default function DrFontainePage() {
             { t: "Adresse", ls: ["14 rue Crébillon", "44000 Nantes", "Lun-Ven 8h30-19h", "Sam 8h30-13h", "02 40 56 78 90"] },
           ].map((col, i) => (
             <div key={i}>
-              <h4 className="text-[9px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#1d6fa4)]/60 mb-5">{col.t}</h4>
+              <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#1d6fa4)]/60 mb-5">{col.t}</h4>
               <ul className="space-y-2.5">
                 {col.ls.map(l => <li key={l}><Link href={col.t === "Soins" ? "#services" : col.t === "Cabinet" ? "#about" : "#contact"} className="text-white/20 text-sm hover:text-white transition-colors">{l}</Link></li>)}
               </ul>
             </div>
           ))}
         </div>
-        <div className="max-w-[1300px] mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between gap-3 text-[9px] font-bold uppercase tracking-widest text-white/10">
+        <div className="max-w-[1300px] mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between gap-3 text-[10px] font-bold uppercase tracking-widest text-white/10">
           <span>© 2026 Dr. Léa Fontaine · RPPS 10234567890 · Secteur 2 · Nantes (44)</span>
           <span className="text-[var(--brand,#1d6fa4)]/25">Cabinet dentaire · Nantes</span>
         </div>

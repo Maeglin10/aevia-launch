@@ -372,7 +372,7 @@ function MenuItem({
               <span
                 style={{
                   fontFamily: C.fontSans,
-                  fontSize: 9,
+                  fontSize: 10,
                   fontWeight: 600,
                   letterSpacing: "0.18em",
                   textTransform: "uppercase",
@@ -645,7 +645,7 @@ return (
                 <span
                   style={{
                     fontFamily: C.fontSans,
-                    fontSize: 9,
+                    fontSize: 10,
                     fontWeight: 500,
                     letterSpacing: "0.35em",
                     textTransform: "uppercase",
@@ -1342,7 +1342,7 @@ return (
                               key={tag}
                               style={{
                                 fontFamily: C.fontSans,
-                                fontSize: 9,
+                                fontSize: 10,
                                 fontWeight: 500,
                                 letterSpacing: "0.18em",
                                 textTransform: "uppercase",
@@ -1448,7 +1448,7 @@ return (
               <span
                 style={{
                   fontFamily: C.fontSans,
-                  fontSize: 9,
+                  fontSize: 10,
                   fontWeight: 600,
                   letterSpacing: "0.2em",
                   textTransform: "uppercase",
@@ -1841,7 +1841,7 @@ return (
                   <div
                     style={{
                       fontFamily: C.fontSans,
-                      fontSize: 9,
+                      fontSize: 10,
                       fontWeight: 600,
                       letterSpacing: "0.25em",
                       textTransform: "uppercase",
@@ -1905,7 +1905,7 @@ return (
               <div
                 style={{
                   fontFamily: C.fontSans,
-                  fontSize: 9,
+                  fontSize: 10,
                   fontWeight: 500,
                   letterSpacing: "0.35em",
                   textTransform: "uppercase",
@@ -1938,7 +1938,7 @@ return (
                   <div
                     style={{
                       fontFamily: C.fontSans,
-                      fontSize: 9,
+                      fontSize: 10,
                       fontWeight: 600,
                       letterSpacing: "0.3em",
                       textTransform: "uppercase",
@@ -2195,7 +2195,7 @@ return (
                             <span
                               style={{
                                 fontFamily: C.fontSans,
-                                fontSize: 9,
+                                fontSize: 10,
                                 fontWeight: 600,
                                 letterSpacing: "0.25em",
                                 textTransform: "uppercase",
@@ -2229,7 +2229,7 @@ return (
                         <span
                           style={{
                             fontFamily: C.fontSans,
-                            fontSize: 9,
+                            fontSize: 10,
                             fontWeight: 600,
                             letterSpacing: "0.25em",
                             textTransform: "uppercase",
@@ -2264,7 +2264,7 @@ return (
                         <span
                           style={{
                             fontFamily: C.fontSans,
-                            fontSize: 9,
+                            fontSize: 10,
                             fontWeight: 600,
                             letterSpacing: "0.25em",
                             textTransform: "uppercase",
@@ -2298,7 +2298,7 @@ return (
                           <span
                             style={{
                               fontFamily: C.fontSans,
-                              fontSize: 9,
+                              fontSize: 10,
                               fontWeight: 600,
                               letterSpacing: "0.25em",
                               textTransform: "uppercase",
@@ -2331,7 +2331,7 @@ return (
                           <span
                             style={{
                               fontFamily: C.fontSans,
-                              fontSize: 9,
+                              fontSize: 10,
                               fontWeight: 600,
                               letterSpacing: "0.25em",
                               textTransform: "uppercase",

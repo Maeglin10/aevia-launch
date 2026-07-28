@@ -311,7 +311,7 @@ function ArticleCard({ a, i }: { a: typeof ARTICLES[0]; i: number }) {
         <div style={{ display: "flex", gap: 10, alignItems: "center", marginBottom: 10 }}>
           <span
             style={{
-              fontSize: 9,
+              fontSize: 10,
               fontWeight: 700,
               letterSpacing: 2,
               textTransform: "uppercase",
@@ -327,7 +327,7 @@ function ArticleCard({ a, i }: { a: typeof ARTICLES[0]; i: number }) {
           {a.premium && (
             <span
               style={{
-                fontSize: 9,
+                fontSize: 10,
                 fontWeight: 700,
                 letterSpacing: 1.5,
                 color: C.red,
@@ -771,7 +771,7 @@ export default function ImpactFrequencePage() {
               <span
                 style={{
                   fontFamily: C.mono,
-                  fontSize: 9,
+                  fontSize: 10,
                   fontWeight: 700,
                   letterSpacing: 3,
                   color: "#fff",
@@ -1001,7 +1001,7 @@ export default function ImpactFrequencePage() {
                 <Play size={14} fill="#fff" stroke="none" />
               </div>
               <div>
-                <div style={{ fontFamily: C.mono, fontSize: 9, color: "rgba(255,255,255,0.4)", letterSpacing: 2, textTransform: "uppercase" }}>
+                <div style={{ fontFamily: C.mono, fontSize: 10, color: "rgba(255,255,255,0.4)", letterSpacing: 2, textTransform: "uppercase" }}>
                   Podcast · Épisode 047
                 </div>
                 <div style={{ fontFamily: C.sans, fontSize: 13, color: "#fff", fontWeight: 600, marginTop: 2 }}>
@@ -1925,7 +1925,7 @@ export default function ImpactFrequencePage() {
               <div
                 style={{
                   fontFamily: C.mono,
-                  fontSize: 9,
+                  fontSize: 10,
                   fontWeight: 700,
                   letterSpacing: 3,
                   color: "rgba(255,255,255,0.25)",

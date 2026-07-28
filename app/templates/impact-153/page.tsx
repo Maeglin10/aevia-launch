@@ -569,7 +569,7 @@ function ParallaxMountainHero() {
           gap:        8,
         }}
       >
-        <span style={{ fontFamily: "'Inter',sans-serif", fontSize: 9, letterSpacing: "0.4em", textTransform: "uppercase", color: C.textMuted }}>
+        <span style={{ fontFamily: "'Inter',sans-serif", fontSize: 10, letterSpacing: "0.4em", textTransform: "uppercase", color: C.textMuted }}>
           Scroll
         </span>
         <div style={{ width: 1, height: 40, background: `linear-gradient(to bottom, ${C.textMuted}, transparent)` }} />

@@ -148,7 +148,7 @@ return (
           className="absolute bottom-10 right-12 hidden md:block"
         >
           <div className="flex flex-col items-end gap-3 text-right">
-            <span className="text-[9px] font-bold text-white/10 uppercase tracking-[0.5em]">
+            <span className="text-[10px] font-bold text-white/10 uppercase tracking-[0.5em]">
               TETRAHEDRON // SCAN_MODE_EN
             </span>
             <div className="w-32 h-[1px] bg-[var(--brand,#e11d48)]/40" />
@@ -326,14 +326,14 @@ return (
                   <div className="relative aspect-video overflow-hidden">
                     <img src={p.photoUrl ?? p.img ?? photo(1 + i, PROPERTIES_DEMO[i % PROPERTIES_DEMO.length].imgFallback)} alt={p.name ?? p.title} className="w-full h-full object-cover brightness-50 grayscale group-hover:brightness-[0.7] group-hover:grayscale-0 transition-all duration-700" />
                     <div className="absolute inset-0 bg-gradient-to-t from-[#050505] to-transparent" />
-                    {p.id && <div className="absolute top-4 left-4 text-[9px] font-mono font-bold text-[var(--brand,#e11d48)] uppercase tracking-widest border border-[var(--brand,#e11d48)]/30 px-2 py-1">{p.id}</div>}
+                    {p.id && <div className="absolute top-4 left-4 text-[10px] font-mono font-bold text-[var(--brand,#e11d48)] uppercase tracking-widest border border-[var(--brand,#e11d48)]/30 px-2 py-1">{p.id}</div>}
                   </div>
                   <div className="p-8">
-                    <div className="flex justify-between text-[9px] font-mono text-white/20 uppercase tracking-widest mb-4">
+                    <div className="flex justify-between text-[10px] font-mono text-white/20 uppercase tracking-widest mb-4">
                       <span>{p.loc ?? p.city}</span><span>{p.type ?? p.status}</span>
                     </div>
                     <h3 className="text-xl font-black uppercase italic tracking-tight text-white mb-4">{p.name ?? p.title}</h3>
-                    <div className="flex gap-6 text-[9px] font-mono">
+                    <div className="flex gap-6 text-[10px] font-mono">
                       {(p.size ?? p.surface) && <span className="text-white/30">{p.size ?? `${p.surface} m²`}</span>}
                       {p.pts && <span className="text-[var(--brand,#e11d48)]">{p.pts}</span>}
                       {p.price && <span className="text-[var(--brand,#e11d48)]">{p.price}</span>}
@@ -363,7 +363,7 @@ return (
             {services.map((s: any, i: number) => (
               <Reveal key={s.code ?? s.title ?? s.name ?? i}>
                 <div className="bg-[#050505] p-12 group hover:bg-[var(--brand,#e11d48)]/5 transition-colors border border-white/5 hover:border-[var(--brand,#e11d48)]/20">
-                  {s.code && <div className="text-[9px] font-mono text-[var(--brand,#e11d48)]/60 uppercase tracking-[0.4em] mb-6">{s.code} //</div>}
+                  {s.code && <div className="text-[10px] font-mono text-[var(--brand,#e11d48)]/60 uppercase tracking-[0.4em] mb-6">{s.code} //</div>}
                   <h3 className="text-2xl font-black uppercase italic tracking-tight text-white mb-4">{s.title ?? s.name}</h3>
                   <p className="text-sm text-white/30 leading-relaxed font-mono mb-6">{s.desc ?? s.description}</p>
                   {(s.price || s.duration) && <div className="text-[var(--brand,#e11d48)] text-[10px] font-black uppercase tracking-widest">{s.price ?? s.duration}</div>}

@@ -341,7 +341,7 @@ export default function LuminaLawPage() {
                     <div className="aspect-[4/5] relative border border-black/5 p-4 bg-[#fafafa]">
                        <ParallaxImg src={photo(1, "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&q=80&w=1200")} alt="Legal Gavel" />
                        <div className="absolute -top-10 -right-10 w-40 h-40 bg-[var(--brand,#1a365d)] flex items-center justify-center text-white p-8 text-center rounded-sm shadow-2xl">
-                          <div className="text-[9px] font-bold uppercase tracking-[0.3em]">Established 1984</div>
+                          <div className="text-[10px] font-bold uppercase tracking-[0.3em]">Established 1984</div>
                        </div>
                     </div>
                  </Reveal>
@@ -401,7 +401,7 @@ export default function LuminaLawPage() {
                       <span className="text-white font-bold text-lg">{a.initials}</span>
                     </div>
                     <div>
-                      <div className="text-[9px] uppercase tracking-[0.3em] text-[var(--brand,#1a365d)]/40 mb-1">Called {a.called}</div>
+                      <div className="text-[10px] uppercase tracking-[0.3em] text-[var(--brand,#1a365d)]/40 mb-1">Called {a.called}</div>
                       <h3 className="font-bold text-[var(--brand,#1a365d)] text-lg leading-snug" style={{ fontFamily: "serif" }}>{a.name}</h3>
                       <p className="text-xs uppercase tracking-wider text-[#718096] mt-0.5">{a.title}</p>
                     </div>

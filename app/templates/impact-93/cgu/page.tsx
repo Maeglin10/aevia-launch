@@ -20,7 +20,7 @@ export default function CGU() {
               <span className="text-xl font-black tracking-tighter uppercase leading-none italic">
                 Velocity
               </span>
-              <span className="text-[8px] font-bold uppercase tracking-[0.6em] text-[#00f2ff] -mt-1">
+              <span className="text-[10px] font-bold uppercase tracking-[0.6em] text-[#00f2ff] -mt-1">
                 Jet Charter
               </span>
             </div>
@@ -84,7 +84,7 @@ export default function CGU() {
 
       {/* ── FOOTER ── */}
       <footer className="bg-[#050505] py-12 px-6 md:px-12 border-t border-white/5">
-        <div className="max-w-[1400px] mx-auto flex flex-col md:flex-row justify-between items-center gap-8 text-[9px] font-bold uppercase tracking-widest text-white/10">
+        <div className="max-w-[1400px] mx-auto flex flex-col md:flex-row justify-between items-center gap-8 text-[10px] font-bold uppercase tracking-widest text-white/10">
           <span>&copy; {new Date().getFullYear()} VELOCITY AVIATION GROUP.</span>
           <div className="flex gap-6">
             <span>ICAO_REGULATORY_SYNC</span>

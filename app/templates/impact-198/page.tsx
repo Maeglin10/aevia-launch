@@ -692,7 +692,7 @@ function PackageCard({ pkg, onBook }: { pkg: (typeof PACKAGES)[0]; onBook?: (nam
                 flexShrink: 0,
               }}
             >
-              <span style={{ fontSize: 8, color: pkg.highlight ? "#fff" : C.rose }}>✓</span>
+              <span style={{ fontSize: 10, color: pkg.highlight ? "#fff" : C.rose }}>✓</span>
             </div>
             <span
               style={{
@@ -1382,7 +1382,7 @@ export default function Impact198Page() {
           <div
             style={{
               fontFamily: C.fontSans,
-              fontSize: 9,
+              fontSize: 10,
               letterSpacing: "0.25em",
               textTransform: "uppercase",
               color: C.textMuted,

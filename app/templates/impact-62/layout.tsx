@@ -78,7 +78,7 @@ export default function SatoriLayout({
             />
           ) : (
             <>
-            <span className="text-[8px] md:text-[10px] font-bold uppercase tracking-[0.5em] text-[#b8860b] mb-1">
+            <span className="text-[10px] md:text-[10px] font-bold uppercase tracking-[0.5em] text-[#b8860b] mb-1">
               Restaurant
             </span>
             <span className="text-xl md:text-3xl font-light tracking-[0.3em] uppercase text-white">
@@ -228,7 +228,7 @@ export default function SatoriLayout({
             </div>
           </div>
 
-          <div className="flex flex-col md:flex-row justify-between items-center gap-8 pt-10 border-t border-white/5 text-[9px] font-bold uppercase tracking-widest text-white/10">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-8 pt-10 border-t border-white/5 text-[10px] font-bold uppercase tracking-widest text-white/10">
             <div className="flex items-center gap-10">
               <span>
                 &copy; {new Date().getFullYear()} Satori Gastronomy Group.
@@ -306,7 +306,7 @@ export default function SatoriLayout({
 
                     <form onSubmit={handleReserveSubmit} className="space-y-6">
                       <div className="space-y-2">
-                        <label htmlFor="rsv-name" className="text-[9px] font-black uppercase tracking-widest text-white/30">
+                        <label htmlFor="rsv-name" className="text-[10px] font-black uppercase tracking-widest text-white/30">
                           Guest_Name
                         </label>
                         <input
@@ -320,7 +320,7 @@ export default function SatoriLayout({
                       </div>
                       <div className="grid grid-cols-2 gap-6">
                         <div className="space-y-2">
-                          <label htmlFor="rsv-guests" className="text-[9px] font-black uppercase tracking-widest text-white/30">
+                          <label htmlFor="rsv-guests" className="text-[10px] font-black uppercase tracking-widest text-white/30">
                             Guest_Count
                           </label>
                           <input
@@ -334,7 +334,7 @@ export default function SatoriLayout({
                           />
                         </div>
                         <div className="space-y-2">
-                          <label htmlFor="rsv-date" className="text-[9px] font-black uppercase tracking-widest text-white/30">
+                          <label htmlFor="rsv-date" className="text-[10px] font-black uppercase tracking-widest text-white/30">
                             Service_Date
                           </label>
                           <input
@@ -347,7 +347,7 @@ export default function SatoriLayout({
                         </div>
                       </div>
                       <div className="space-y-2">
-                        <label htmlFor="rsv-time" className="text-[9px] font-black uppercase tracking-widest text-white/30">
+                        <label htmlFor="rsv-time" className="text-[10px] font-black uppercase tracking-widest text-white/30">
                           Service_Time
                         </label>
                         <input
@@ -359,7 +359,7 @@ export default function SatoriLayout({
                         />
                       </div>
                       <div className="space-y-2">
-                        <label htmlFor="rsv-email" className="text-[9px] font-black uppercase tracking-widest text-white/30">
+                        <label htmlFor="rsv-email" className="text-[10px] font-black uppercase tracking-widest text-white/30">
                           Authentication_Email
                         </label>
                         <input
@@ -372,7 +372,7 @@ export default function SatoriLayout({
                         />
                       </div>
                       <div className="space-y-2">
-                        <label htmlFor="rsv-notes" className="text-[9px] font-black uppercase tracking-widest text-white/30">
+                        <label htmlFor="rsv-notes" className="text-[10px] font-black uppercase tracking-widest text-white/30">
                           Special_Directives
                         </label>
                         <textarea
@@ -396,7 +396,7 @@ export default function SatoriLayout({
                           "Initialize_Request"
                         )}
                       </button>
-                      <p className="text-[9px] text-center text-white/20 uppercase tracking-widest font-bold">
+                      <p className="text-[10px] text-center text-white/20 uppercase tracking-widest font-bold">
                         Requests are processed within 24 business hours.
                       </p>
                     </form>

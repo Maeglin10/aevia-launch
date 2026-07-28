@@ -187,7 +187,7 @@ export default function MaxPerformancePage() {
         {/* Stats floating card */}
         <motion.div initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 1.3, duration: 0.8 }}
           className="absolute right-8 md:right-16 bottom-32 z-10 bg-[#0a0a0a]/80 backdrop-blur-sm border border-[var(--brand,#f97316)]/20 p-5 hidden lg:block">
-          <div className="text-[9px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#f97316)]/60 mb-3">En ce moment</div>
+          <div className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#f97316)]/60 mb-3">En ce moment</div>
           <div className="text-3xl font-black text-[var(--brand,#f97316)]" style={{ fontFamily: "'Anton', sans-serif" }}>143</div>
           <div className="text-[10px] text-[#f8f5f0]/30 mt-1">clients transformés en 2026</div>
         </motion.div>
@@ -196,7 +196,7 @@ export default function MaxPerformancePage() {
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.7, delay: 0.3 }}>
             <div className="flex items-center gap-4 mb-8">
               <div className="w-10 h-[2px] bg-[var(--brand,#f97316)]" />
-              <span className="text-[9px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#f97316)]/70">Coach sportif certifié · Paris & Online</span>
+              <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#f97316)]/70">Coach sportif certifié · Paris & Online</span>
             </div>
           </motion.div>
 
@@ -244,7 +244,7 @@ export default function MaxPerformancePage() {
             <Reveal key={i} delay={i * 0.07}>
               <div className="text-center py-4">
                 <div className="text-4xl font-black text-[var(--brand,#f97316)] mb-1" style={{ fontFamily: "'Anton', sans-serif" }}>{s.v}</div>
-                <div className="text-[9px] font-bold uppercase tracking-widest text-[#f8f5f0]/25">{s.l}</div>
+                <div className="text-[10px] font-bold uppercase tracking-widest text-[#f8f5f0]/25">{s.l}</div>
               </div>
             </Reveal>
           ))}
@@ -256,7 +256,7 @@ export default function MaxPerformancePage() {
         <div className="max-w-[1300px] mx-auto px-6 md:px-12">
           <Reveal>
             <div className="mb-16">
-              <div className="text-[9px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#f97316)]/60 mb-4">— Mes programmes</div>
+              <div className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#f97316)]/60 mb-4">— Mes programmes</div>
               <h2 className="font-black uppercase text-[#f8f5f0]" style={{ fontFamily: "'Anton', sans-serif", fontSize: "clamp(36px,4vw,56px)" }}>
                 Ce qu'on fait<br /><span className="text-[var(--brand,#f97316)]">ensemble.</span>
               </h2>
@@ -282,7 +282,7 @@ export default function MaxPerformancePage() {
       <section className="py-24 bg-[#1a1a1a]">
         <div className="max-w-[1100px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-14">
-            <div className="text-[9px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#f97316)]/50 mb-4">La méthode</div>
+            <div className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#f97316)]/50 mb-4">La méthode</div>
             <h2 className="font-black uppercase text-[#f8f5f0] text-4xl" style={{ fontFamily: "'Anton', sans-serif" }}>4 semaines <span className="text-[var(--brand,#f97316)]">pour tout changer.</span></h2>
           </div></Reveal>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
@@ -308,7 +308,7 @@ export default function MaxPerformancePage() {
       <section id="about" className="py-28 bg-[#0a0a0a]">
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-16">
-            <div className="text-[9px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#f97316)]/50 mb-4">— Résultats clients</div>
+            <div className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#f97316)]/50 mb-4">— Résultats clients</div>
             <h2 className="font-black uppercase text-[#f8f5f0] text-4xl" style={{ fontFamily: "'Anton', sans-serif" }}>Ils ont <span className="text-[var(--brand,#f97316)]">tout donné.</span></h2>
           </div></Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -367,14 +367,14 @@ export default function MaxPerformancePage() {
             { t: "Contact", ls: ["06 12 34 56 78", "max@maxperf.fr", "Paris 11e", "Online worldwide", "1ère séance offerte"] },
           ].map((col, i) => (
             <div key={i}>
-              <h4 className="text-[9px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#f97316)]/40 mb-5">{col.t}</h4>
+              <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#f97316)]/40 mb-5">{col.t}</h4>
               <ul className="space-y-2.5">
                 {col.ls.map(l => <li key={l}><Link href="#contact" className="text-[#f8f5f0]/15 text-sm hover:text-[#f8f5f0]/50 transition-colors">{l}</Link></li>)}
               </ul>
             </div>
           ))}
         </div>
-        <div className="max-w-[1300px] mx-auto pt-6 border-t border-[var(--brand,#f97316)]/6 flex flex-col md:flex-row justify-between gap-3 text-[9px] font-bold uppercase tracking-widest text-[#f8f5f0]/8">
+        <div className="max-w-[1300px] mx-auto pt-6 border-t border-[var(--brand,#f97316)]/6 flex flex-col md:flex-row justify-between gap-3 text-[10px] font-bold uppercase tracking-widest text-[#f8f5f0]/8">
           <span>© 2026 Max Performance · SIRET 123 456 789 00100 · BPJEPS AF · Paris</span>
           <span className="text-[var(--brand,#f97316)]/20">Stop Waiting. Start Performing.</span>
         </div>

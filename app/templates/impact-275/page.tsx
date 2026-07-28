@@ -282,7 +282,7 @@ function Nav() {
   };
   const sub: React.CSSProperties = {
     fontFamily: SANS,
-    fontSize: 9.5,
+    fontSize: 10,
     letterSpacing: '0.30em',
     color: C.gold,
     textTransform: 'uppercase',

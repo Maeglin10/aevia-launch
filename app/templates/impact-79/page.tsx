@@ -398,7 +398,7 @@ export default function BoulangerieNoirePage() {
 
           <div className="flex items-center gap-8">
             <div className="hidden xl:flex flex-col items-end">
-              <span className="text-[9px] font-bold text-white/10 uppercase tracking-widest">
+              <span className="text-[10px] font-bold text-white/10 uppercase tracking-widest">
                 Fresh Batch
               </span>
               <span className="text-[11px] font-black text-stone-500 flex items-center gap-1">
@@ -499,7 +499,7 @@ export default function BoulangerieNoirePage() {
           className="absolute bottom-10 left-12 hidden md:block"
         >
           <div className="flex flex-col items-start gap-3">
-            <span className="text-[9px] font-bold text-white/10 uppercase tracking-[0.5em]">
+            <span className="text-[10px] font-bold text-white/10 uppercase tracking-[0.5em]">
               BOULANGERIE_NOIRE_SYS // LOG_079
             </span>
             <div className="w-32 h-[1px] bg-stone-900" />
@@ -540,7 +540,7 @@ export default function BoulangerieNoirePage() {
                     />
                     <div className="absolute inset-0 bg-stone-900/10 mix-blend-overlay" />
                     <div className="absolute top-6 left-6">
-                      <Badge className="bg-stone-900 text-white border-none text-[8px] font-black tracking-widest uppercase px-3 py-1">
+                      <Badge className="bg-stone-900 text-white border-none text-[10px] font-black tracking-widest uppercase px-3 py-1">
                         {p.category}
                       </Badge>
                     </div>
@@ -555,7 +555,7 @@ export default function BoulangerieNoirePage() {
                     <span className="text-xl font-black text-white italic">
                       {p.price}
                     </span>
-                    <button className="text-[9px] font-black uppercase tracking-widest text-stone-500 group-hover:text-white transition-colors">
+                    <button className="text-[10px] font-black uppercase tracking-widest text-stone-500 group-hover:text-white transition-colors">
                       Add_To_Bag
                     </button>
                   </div>
@@ -862,7 +862,7 @@ export default function BoulangerieNoirePage() {
             </div>
           </div>
 
-          <div className="flex flex-col md:flex-row justify-between items-center gap-8 pt-10 border-t border-white/5 text-[9px] font-bold uppercase tracking-widest text-white/10">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-8 pt-10 border-t border-white/5 text-[10px] font-bold uppercase tracking-widest text-white/10">
             <div className="flex items-center gap-10">
               <span>
                 &copy; {new Date().getFullYear()} BOULANGERIE NOIRE Systems Ltd.
@@ -940,7 +940,7 @@ export default function BoulangerieNoirePage() {
                         key={i}
                         className="flex justify-between items-center border-b border-white/5 pb-4"
                       >
-                        <span className="text-[9px] font-bold text-white/20 uppercase tracking-widest">
+                        <span className="text-[10px] font-bold text-white/20 uppercase tracking-widest">
                           {spec.label}
                         </span>
                         <span className="text-[10px] font-black text-white uppercase italic">

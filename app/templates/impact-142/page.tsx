@@ -403,15 +403,15 @@ export default function VerdantImpactPage() {
               ) : (
                 <form onSubmit={(e) => { e.preventDefault(); setContactSubmitted(true); }} className="space-y-4 max-w-md mx-auto text-left">
                   <div>
-                    <label className="block text-[9px] font-bold uppercase tracking-widest text-[var(--brand,#1a2e1a)]/50 mb-2">Name</label>
+                    <label className="block text-[10px] font-bold uppercase tracking-widest text-[var(--brand,#1a2e1a)]/50 mb-2">Name</label>
                     <input required type="text" placeholder="John Doe" className="w-full px-5 py-3.5 bg-white border border-emerald-600/10 rounded-xl text-sm focus:outline-none focus:border-emerald-600 transition-colors text-[var(--brand,#1a2e1a)]" />
                   </div>
                   <div>
-                    <label className="block text-[9px] font-bold uppercase tracking-widest text-[var(--brand,#1a2e1a)]/50 mb-2">Email</label>
+                    <label className="block text-[10px] font-bold uppercase tracking-widest text-[var(--brand,#1a2e1a)]/50 mb-2">Email</label>
                     <input required type="email" placeholder="john@example.com" className="w-full px-5 py-3.5 bg-white border border-emerald-600/10 rounded-xl text-sm focus:outline-none focus:border-emerald-600 transition-colors text-[var(--brand,#1a2e1a)]" />
                   </div>
                   <div>
-                    <label className="block text-[9px] font-bold uppercase tracking-widest text-[var(--brand,#1a2e1a)]/50 mb-2">Message</label>
+                    <label className="block text-[10px] font-bold uppercase tracking-widest text-[var(--brand,#1a2e1a)]/50 mb-2">Message</label>
                     <textarea required rows={4} placeholder="How can we help your business offset carbon?" className="w-full px-5 py-3.5 bg-white border border-emerald-600/10 rounded-xl text-sm focus:outline-none focus:border-emerald-600 transition-colors text-[var(--brand,#1a2e1a)]" />
                   </div>
                   <button type="submit" className="w-full py-4 bg-emerald-600 text-white font-bold rounded-full hover:bg-emerald-700 transition-colors duration-300">

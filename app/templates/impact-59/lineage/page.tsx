@@ -125,7 +125,7 @@ export default function LineagePage() {
                       <p className="text-[10px] uppercase tracking-[0.35em] text-[#3d7a5e] font-sans font-bold px-4">
                         {guide.role}
                       </p>
-                      <p className="text-[9px] uppercase tracking-[0.2em] text-[#f8f5f0]/30 font-sans mt-2 px-6">
+                      <p className="text-[10px] uppercase tracking-[0.2em] text-[#f8f5f0]/30 font-sans mt-2 px-6">
                         {ext.background}
                       </p>
                     </div>
@@ -157,7 +157,7 @@ export default function LineagePage() {
                     {/* Formation & pratique */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
                       <div className="border-l-2 border-[#3d7a5e]/20 pl-4">
-                        <p className="text-[9px] uppercase tracking-[0.3em] text-black/30 font-sans mb-1">
+                        <p className="text-[10px] uppercase tracking-[0.3em] text-black/30 font-sans mb-1">
                           Formation
                         </p>
                         <p
@@ -168,7 +168,7 @@ export default function LineagePage() {
                         </p>
                       </div>
                       <div className="border-l-2 border-[#3d7a5e]/20 pl-4">
-                        <p className="text-[9px] uppercase tracking-[0.3em] text-black/30 font-sans mb-1">
+                        <p className="text-[10px] uppercase tracking-[0.3em] text-black/30 font-sans mb-1">
                           Domaine
                         </p>
                         <p
@@ -227,7 +227,7 @@ export default function LineagePage() {
                               >
                                 &ldquo;{ext.quote}&rdquo;
                               </blockquote>
-                              <p className="text-[9px] uppercase tracking-[0.3em] text-[#3d7a5e] font-sans font-bold mt-3">
+                              <p className="text-[10px] uppercase tracking-[0.3em] text-[#3d7a5e] font-sans font-bold mt-3">
                                 — {guide.name}
                               </p>
                             </div>
@@ -325,7 +325,7 @@ export default function LineagePage() {
                     &ldquo;{GUIDE_EXTENDED[i].quote}&rdquo;
                   </blockquote>
                   <p
-                    className="text-[9px] uppercase tracking-[0.3em] text-[#3d7a5e] font-sans font-bold"
+                    className="text-[10px] uppercase tracking-[0.3em] text-[#3d7a5e] font-sans font-bold"
                   >
                     {guide.name}
                   </p>

@@ -1190,7 +1190,7 @@ function ServiceCard({ service, i }: { service: Service; i: number }) {
             <span
               style={{
                 fontFamily: SANS,
-                fontSize: 9,
+                fontSize: 10,
                 fontWeight: 700,
                 letterSpacing: '0.22em',
                 textTransform: 'uppercase',

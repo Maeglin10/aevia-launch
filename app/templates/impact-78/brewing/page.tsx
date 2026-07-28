@@ -85,7 +85,7 @@ export default function BrewingPage() {
                   </div>
                   <div className="flex gap-12 text-right">
                     <div>
-                      <div className="text-[9px] font-bold text-white/10 uppercase mb-1 tracking-widest">
+                      <div className="text-[10px] font-bold text-white/10 uppercase mb-1 tracking-widest">
                         TEMP
                       </div>
                       <div className="text-sm font-black text-orange-900">
@@ -93,7 +93,7 @@ export default function BrewingPage() {
                       </div>
                     </div>
                     <div>
-                      <div className="text-[9px] font-bold text-white/10 uppercase mb-1 tracking-widest">
+                      <div className="text-[10px] font-bold text-white/10 uppercase mb-1 tracking-widest">
                         TIME
                       </div>
                       <div className="text-sm font-black text-orange-900">
@@ -101,7 +101,7 @@ export default function BrewingPage() {
                       </div>
                     </div>
                     <div>
-                      <div className="text-[9px] font-bold text-white/10 uppercase mb-1 tracking-widest">
+                      <div className="text-[10px] font-bold text-white/10 uppercase mb-1 tracking-widest">
                         RATIO
                       </div>
                       <div className="text-sm font-black text-orange-900">

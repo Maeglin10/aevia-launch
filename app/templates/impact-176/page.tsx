@@ -521,7 +521,7 @@ function DashboardMockup() {
             <div
               style={{
                 fontFamily: C.fontMono,
-                fontSize: 9,
+                fontSize: 10,
                 color: C.muted,
                 letterSpacing: "0.12em",
                 marginBottom: 6,
@@ -568,7 +568,7 @@ function DashboardMockup() {
         <div
           style={{
             fontFamily: C.fontMono,
-            fontSize: 9,
+            fontSize: 10,
             color: C.muted,
             letterSpacing: "0.12em",
             marginBottom: 12,
@@ -621,7 +621,7 @@ function DashboardMockup() {
               key={m}
               style={{
                 fontFamily: C.fontMono,
-                fontSize: 8,
+                fontSize: 10,
                 color: C.subdued,
               }}
             >
@@ -697,7 +697,7 @@ function FeatureCard({
           <div
             style={{
               fontFamily: C.fontMono,
-              fontSize: 9,
+              fontSize: 10,
               color: item.color,
               background: `${item.color}15`,
               border: `1px solid ${item.color}30`,
@@ -1749,7 +1749,7 @@ export default function Impact176Page() {
               <div
                 style={{
                   fontFamily: C.fontMono,
-                  fontSize: 9,
+                  fontSize: 10,
                   color: C.muted,
                   letterSpacing: "0.12em",
                   marginBottom: 4,

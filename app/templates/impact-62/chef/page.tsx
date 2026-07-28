@@ -39,7 +39,7 @@ export default function ChefPage() {
                     <div className="text-4xl font-light text-[#b8860b]">
                       <Counter to={stat.val} prefix={stat.prefix} />
                     </div>
-                    <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-white/20">
+                    <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/20">
                       {stat.label}
                     </span>
                   </div>

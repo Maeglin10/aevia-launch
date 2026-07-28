@@ -398,7 +398,7 @@ return (
             </>}</p>
             <div className="flex gap-4">
               {["github", "twitter", "discord"].map(s => (
-                <div key={s} className="w-10 h-10 rounded-lg bg-slate-900 border border-white/5 flex items-center justify-center hover:bg-slate-800 transition-colors cursor-pointer text-slate-400 hover:text-white uppercase text-[8px] font-bold tracking-widest">{s}</div>
+                <div key={s} className="w-10 h-10 rounded-lg bg-slate-900 border border-white/5 flex items-center justify-center hover:bg-slate-800 transition-colors cursor-pointer text-slate-400 hover:text-white uppercase text-[10px] font-bold tracking-widest">{s}</div>
               ))}
             </div>
           </div>

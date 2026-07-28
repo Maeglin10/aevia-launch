@@ -172,7 +172,7 @@ export default function Projects() {
                       <div
                         style={{
                           fontFamily: F.sans,
-                          fontSize: 9,
+                          fontSize: 10,
                           color: C.textDim,
                           letterSpacing: '0.14em',
                           textTransform: 'uppercase' as const,
@@ -315,7 +315,7 @@ export default function Projects() {
                     <span
                       style={{
                         fontFamily: F.sans,
-                        fontSize: 9,
+                        fontSize: 10,
                         letterSpacing: '0.24em',
                         textTransform: 'uppercase' as const,
                         color: C.accent,
@@ -327,7 +327,7 @@ export default function Projects() {
                     <span
                       style={{
                         fontFamily: F.sans,
-                        fontSize: 9,
+                        fontSize: 10,
                         letterSpacing: '0.16em',
                         color: 'rgba(255,255,255,0.3)',
                       }}

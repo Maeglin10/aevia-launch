@@ -281,7 +281,7 @@ export default function AtelierLeoniePage() {
             ) : (
               <>
                 <div className="font-bold text-[#1a1218] tracking-widest text-sm" style={{ fontFamily: "'Bodoni Moda', 'Georgia', serif" }}>ATELIER LÉONIE</div>
-                <div className="text-[8px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#c97b7b)]/60">Salon de coiffure · Paris 16e</div>
+                <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#c97b7b)]/60">Salon de coiffure · Paris 16e</div>
               </>
             )}
           </div>
@@ -328,7 +328,7 @@ export default function AtelierLeoniePage() {
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.7, delay: 0.3 }}>
             <div className="flex items-center gap-4 mb-8">
               <div className="w-8 h-[1px] bg-[var(--brand,#c97b7b)]/60" />
-              <span className="text-[9px] font-bold uppercase tracking-[0.45em] text-[#d4a5a5]">Salon de coiffure & atelier capillaire · Paris 16e</span>
+              <span className="text-[10px] font-bold uppercase tracking-[0.45em] text-[#d4a5a5]">Salon de coiffure & atelier capillaire · Paris 16e</span>
             </div>
           </motion.div>
 
@@ -487,7 +487,7 @@ export default function AtelierLeoniePage() {
         <div className="max-w-[1300px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           <div>
             <div className="font-bold text-white mb-1 text-sm" style={{ fontFamily: "'Bodoni Moda', serif" }}>Atelier Léonie</div>
-            <div className="text-[8px] font-bold uppercase tracking-[0.35em] text-[var(--brand,#c97b7b)]/40 mb-5">Salon · Paris 16e</div>
+            <div className="text-[10px] font-bold uppercase tracking-[0.35em] text-[var(--brand,#c97b7b)]/40 mb-5">Salon · Paris 16e</div>
             <p className="text-white/20 text-sm leading-relaxed">Salon de coiffure premium. Coupe, couleur, soins, extensions, coiffure de mariée. Produits Kérastase & Olaplex.</p>
           </div>
           {[
@@ -496,14 +496,14 @@ export default function AtelierLeoniePage() {
             { t: "Nous trouver", ls: ["38 av. Victor Hugo", "75016 Paris", "Mar-Sam 9h-19h", "01 45 67 89 01", "contact@atelier-leonie.fr"] },
           ].map((col, i) => (
             <div key={i}>
-              <h4 className="text-[9px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#c97b7b)]/40 mb-5">{col.t}</h4>
+              <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#c97b7b)]/40 mb-5">{col.t}</h4>
               <ul className="space-y-2.5">
                 {col.ls.map(l => <li key={l}><Link href="#contact" className="text-white/20 text-sm hover:text-white/60 transition-colors">{l}</Link></li>)}
               </ul>
             </div>
           ))}
         </div>
-        <div className="max-w-[1300px] mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between gap-3 text-[9px] font-bold uppercase tracking-widest text-white/8">
+        <div className="max-w-[1300px] mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between gap-3 text-[10px] font-bold uppercase tracking-widest text-white/8">
           <span>© 2026 Atelier Léonie · SIRET 234 567 890 00011 · Paris (75016)</span>
           <span className="text-[var(--brand,#c97b7b)]/20">L'art de la coiffure</span>
         </div>

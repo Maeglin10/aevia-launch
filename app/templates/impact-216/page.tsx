@@ -615,7 +615,7 @@ function ShipmentStep({ label, active, done }: { label: string; active: boolean;
       }}>
         {done ? '✓' : active ? '●' : ''}
       </div>
-      <span style={{ fontFamily: C.fontBody, fontSize: 9, color: done || active ? C.text : C.textMuted, fontWeight: done ? 600 : 400, textAlign: 'center', maxWidth: 52 }}>
+      <span style={{ fontFamily: C.fontBody, fontSize: 10, color: done || active ? C.text : C.textMuted, fontWeight: done ? 600 : 400, textAlign: 'center', maxWidth: 52 }}>
         {label}
       </span>
     </div>

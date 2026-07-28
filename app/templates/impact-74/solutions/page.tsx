@@ -28,7 +28,7 @@ export default function SolutionsPage() {
                     {node.desc}
                   </p>
                 </div>
-                <button className="text-[9px] font-black uppercase tracking-widest text-emerald-500 group-hover:text-white transition-colors flex items-center gap-2">
+                <button className="text-[10px] font-black uppercase tracking-widest text-emerald-500 group-hover:text-white transition-colors flex items-center gap-2">
                   View_Documentation <ArrowRight className="w-3 h-3" />
                 </button>
               </div>

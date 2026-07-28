@@ -597,7 +597,7 @@ function MarketCard({ item }: { item: (typeof MARKET_CARDS)[0] }) {
           <div
             style={{
               fontFamily: C.fontMono,
-              fontSize: 9,
+              fontSize: 10,
               color: C.muted,
               letterSpacing: "0.12em",
               marginBottom: 2,
@@ -619,7 +619,7 @@ function MarketCard({ item }: { item: (typeof MARKET_CARDS)[0] }) {
           <div
             style={{
               fontFamily: C.fontMono,
-              fontSize: 9,
+              fontSize: 10,
               color: C.muted,
               letterSpacing: "0.12em",
               marginBottom: 2,
@@ -1707,7 +1707,7 @@ export default function Impact135Page() {
                   <div
                     style={{
                       fontFamily: C.fontMono,
-                      fontSize: 9,
+                      fontSize: 10,
                       color: C.muted,
                       letterSpacing: "0.15em",
                       textTransform: "uppercase",

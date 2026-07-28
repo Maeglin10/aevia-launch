@@ -55,7 +55,7 @@ export default function ConstellationPage() {
                   </div>
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <span className="text-[8px] font-bold text-white/20 uppercase tracking-widest block mb-1">
+                      <span className="text-[10px] font-bold text-white/20 uppercase tracking-widest block mb-1">
                         Active Payloads
                       </span>
                       <span className="text-lg font-black text-white italic">
@@ -63,7 +63,7 @@ export default function ConstellationPage() {
                       </span>
                     </div>
                     <div>
-                      <span className="text-[8px] font-bold text-white/20 uppercase tracking-widest block mb-1">
+                      <span className="text-[10px] font-bold text-white/20 uppercase tracking-widest block mb-1">
                         Ping Latency
                       </span>
                       <span className="text-lg font-black text-white italic">
@@ -92,7 +92,7 @@ export default function ConstellationPage() {
                     REALTIME_CONSTELLATION_PASSAGE_MAP
                   </span>
                 </div>
-                <span className="text-[9px] font-bold text-cyan-500/40">
+                <span className="text-[10px] font-bold text-cyan-500/40">
                   SECURE UPLINK 01 // SAT_READY
                 </span>
               </div>

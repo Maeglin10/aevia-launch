@@ -320,14 +320,14 @@ export default function ThermotekChauffagePage() {
             { t: "Contact", ls: ["05 56 12 34 56", "contact@thermotek.fr", "Bordeaux Métropole", "Astreinte hiver 24h/24", "Devis gratuit 24h"] },
           ].map((col, i) => (
             <div key={i}>
-              <h4 className="text-[9px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#ea580c)] mb-5" style={{ fontFamily: "'Fira Code', monospace" }}>{col.t}</h4>
+              <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#ea580c)] mb-5" style={{ fontFamily: "'Fira Code', monospace" }}>{col.t}</h4>
               <ul className="space-y-2.5">
                 {col.ls.map(l => <li key={l}><Link href="#contact" className="text-white/25 text-sm hover:text-white transition-colors">{l}</Link></li>)}
               </ul>
             </div>
           ))}
         </div>
-        <div className="max-w-[1300px] mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between gap-4 text-[9px] font-bold uppercase tracking-widest text-white/15">
+        <div className="max-w-[1300px] mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between gap-4 text-[10px] font-bold uppercase tracking-widest text-white/15">
           <span>© 2026 Thermotek Chauffage · SIRET 345 678 901 00034 · RGE Qualibat · QualiPAC · Assurance Décennale</span>
           <span className="text-[var(--brand,#ea580c)]/30">Chauffagiste certifié · Bordeaux</span>
         </div>

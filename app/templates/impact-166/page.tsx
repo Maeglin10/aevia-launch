@@ -1272,7 +1272,7 @@ return (
           <div
             style={{
               fontFamily: C.fontSans,
-              fontSize: 9,
+              fontSize: 10,
               letterSpacing: "0.3em",
               textTransform: "uppercase",
               color: C.muted,

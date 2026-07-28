@@ -61,11 +61,11 @@ export default function HorlogeriePage() {
 
                 <div>
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "start", marginBottom: 20 }}>
-                    <span style={{ fontFamily: FONT_LABEL, fontSize: 9, letterSpacing: "0.25em", color: C.accent, textTransform: "uppercase" }}>
+                    <span style={{ fontFamily: FONT_LABEL, fontSize: 10, letterSpacing: "0.25em", color: C.accent, textTransform: "uppercase" }}>
                       {piece.subtitle}
                     </span>
                     {piece.limited && (
-                      <span style={{ fontFamily: FONT_LABEL, fontSize: 8, letterSpacing: "0.1em", color: C.white, background: C.ruby, padding: "2px 8px" }}>
+                      <span style={{ fontFamily: FONT_LABEL, fontSize: 10, letterSpacing: "0.1em", color: C.white, background: C.ruby, padding: "2px 8px" }}>
                         UNIQUE
                       </span>
                     )}

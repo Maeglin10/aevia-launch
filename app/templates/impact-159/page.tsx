@@ -544,7 +544,7 @@ function MaterialCard({
         <div>
           <p
             style={{
-              fontSize: 9,
+              fontSize: 10,
               fontFamily: "'Inter', sans-serif",
               fontWeight: 600,
               letterSpacing: "0.4em",
@@ -574,7 +574,7 @@ function MaterialCard({
         <div>
           <p
             style={{
-              fontSize: 9,
+              fontSize: 10,
               fontFamily: "'Inter', sans-serif",
               fontWeight: 600,
               letterSpacing: "0.4em",
@@ -619,7 +619,7 @@ function MaterialCard({
         >
           <span
             style={{
-              fontSize: 9,
+              fontSize: 10,
               fontFamily: "monospace",
               color: "rgba(240,238,255,0.15)",
               letterSpacing: "0.2em",
@@ -975,7 +975,7 @@ function HeroSection({
         <span
           className="inter-semi"
           style={{
-            fontSize: 9,
+            fontSize: 10,
             color: "rgba(240,238,255,0.2)",
             letterSpacing: "0.4em",
             textTransform: "uppercase",
@@ -1015,7 +1015,7 @@ function HeroSection({
         <span
           className="inter-semi"
           style={{
-            fontSize: 8,
+            fontSize: 10,
             color: "rgba(240,238,255,0.2)",
             letterSpacing: "0.5em",
             textTransform: "uppercase",
@@ -1079,7 +1079,7 @@ function StatsBand() {
             <span
               className="inter-semi"
               style={{
-                fontSize: 9,
+                fontSize: 10,
                 color: "rgba(240,238,255,0.25)",
                 letterSpacing: "0.35em",
                 textTransform: "uppercase",
@@ -1531,7 +1531,7 @@ function SpecDeepDive() {
                 <p
                   className="inter-semi"
                   style={{
-                    fontSize: 9,
+                    fontSize: 10,
                     letterSpacing: "0.4em",
                     color: "rgba(240,238,255,0.2)",
                     textTransform: "uppercase",
@@ -1578,7 +1578,7 @@ function SpecDeepDive() {
                     key={app}
                     className="inter-semi"
                     style={{
-                      fontSize: 9,
+                      fontSize: 10,
                       letterSpacing: "0.3em",
                       textTransform: "uppercase",
                       color: mat.statusColor,
@@ -1856,7 +1856,7 @@ function Footer() {
                   href="#hero"
                   className="inter-semi"
                   style={{
-                    fontSize: 9,
+                    fontSize: 10,
                     color: "rgba(240,238,255,0.2)",
                     textDecoration: "none",
                     letterSpacing: "0.3em",
@@ -1876,7 +1876,7 @@ function Footer() {
               <h4
                 className="inter-semi"
                 style={{
-                  fontSize: 9,
+                  fontSize: 10,
                   letterSpacing: "0.4em",
                   textTransform: "uppercase",
                   color: "rgba(240,238,255,0.2)",
@@ -1934,7 +1934,7 @@ function Footer() {
                 key={s}
                 className="inter-semi"
                 style={{
-                  fontSize: 9,
+                  fontSize: 10,
                   color: "rgba(240,238,255,0.1)",
                   letterSpacing: "0.35em",
                   textTransform: "uppercase",

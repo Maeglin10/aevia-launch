@@ -28,14 +28,14 @@ export default function ContactPage() {
                 <div className="flex gap-6 items-center pl-6 border-l border-white/5 hover:border-[#ff00ff] transition-all">
                   <Mail className="w-5 h-5 text-[#ff00ff] flex-shrink-0" />
                   <div>
-                    <div className="text-[9px] font-bold uppercase tracking-widest text-white/30">Secure Routing Address</div>
+                    <div className="text-[10px] font-bold uppercase tracking-widest text-white/30">Secure Routing Address</div>
                     <div className="text-sm font-bold text-white/70 mt-1">valentinmilliand@aevia.services</div>
                   </div>
                 </div>
                 <div className="flex gap-6 items-center pl-6 border-l border-white/5 hover:border-[#ff00ff] transition-all">
                   <Clock className="w-5 h-5 text-[#ff00ff] flex-shrink-0" />
                   <div>
-                    <div className="text-[9px] font-bold uppercase tracking-widest text-white/30">Node Availability</div>
+                    <div className="text-[10px] font-bold uppercase tracking-widest text-white/30">Node Availability</div>
                     <div className="text-sm font-bold text-white/70 mt-1">21:00 UTC - 06:00 UTC // 7 DAYS</div>
                   </div>
                 </div>
@@ -56,7 +56,7 @@ export default function ContactPage() {
                   <div key={i} className="p-6 bg-white/[0.01] border border-white/5 rounded-2xl hover:border-[#ff00ff]/30 transition-all text-left">
                     <MapPin className="w-5 h-5 text-[#ff00ff] mb-4" />
                     <div className="text-sm font-bold text-white uppercase">{node.city}</div>
-                    <div className="text-[9px] font-bold text-white/30 mt-2">{node.coord}</div>
+                    <div className="text-[10px] font-bold text-white/30 mt-2">{node.coord}</div>
                   </div>
                 ))}
               </div>

@@ -42,7 +42,7 @@ export default function Confidentialite() {
         <div className="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
           <Link href="/templates/impact-85" className="flex flex-col">
             <span className="text-xl font-light tracking-widest" style={{ fontFamily: "'Cormorant Garamond', serif", letterSpacing: "0.15em" }}>Aether Labs</span>
-            <span className="text-[9px] tracking-[0.2em] uppercase text-[#8B7355]">Cosmétique scientifique</span>
+            <span className="text-[10px] tracking-[0.2em] uppercase text-[#8B7355]">Cosmétique scientifique</span>
           </Link>
           <div className="hidden md:flex items-center gap-8 text-sm font-light text-[#6B5A40]">
             <Link href="/templates/impact-85" className="flex items-center gap-2 hover:text-[#1C1814] transition-colors">

@@ -211,7 +211,7 @@ return (
             ) : (
               <>
                <span className="text-3xl font-light tracking-[0.4em] uppercase text-white group-hover:text-[var(--brand,#c4a661)] transition-colors">AETHELGARD</span>
-               <span className="text-[8px] font-black tracking-[0.6em] text-[var(--brand,#c4a661)]/40 uppercase italic">The Estate & Spirits Group</span>
+               <span className="text-[10px] font-black tracking-[0.6em] text-[var(--brand,#c4a661)]/40 uppercase italic">The Estate & Spirits Group</span>
             </>
             )}</Link>
          </div>
@@ -364,7 +364,7 @@ return (
                             </div>
                             <div className="flex flex-wrap gap-4 mb-8">
                                {vin.notes.map(note => (
-                                 <span key={note} className="text-[8px] font-black uppercase tracking-widest text-white/20 border border-white/10 px-3 py-1">{note}</span>
+                                 <span key={note} className="text-[10px] font-black uppercase tracking-widest text-white/20 border border-white/10 px-3 py-1">{note}</span>
                                ))}
                             </div>
                             <div className="flex justify-between items-end border-t border-white/10 pt-8">
@@ -401,7 +401,7 @@ return (
                             { label: "Purity", value: "Non-Chill Filtered" }
                           ].map((stat, i) => (
                             <div key={i} className="border-b border-white/10 pb-6">
-                               <div className="text-[8px] font-black text-[var(--brand,#c4a661)] uppercase tracking-[0.4em] mb-2">{stat.label}</div>
+                               <div className="text-[10px] font-black text-[var(--brand,#c4a661)] uppercase tracking-[0.4em] mb-2">{stat.label}</div>
                                <div className="text-xl font-light text-white italic">{stat.value}</div>
                             </div>
                           ))}
@@ -440,16 +440,16 @@ return (
                  <form className="max-w-xl mx-auto space-y-12" onSubmit={e => e.preventDefault()}>
                     <div className="grid md:grid-cols-2 gap-8">
                        <div className="border-b border-black/10 py-4 text-left">
-                          <label className="text-[8px] font-black uppercase tracking-[0.4em] text-black/20 block mb-2">Surname</label>
+                          <label className="text-[10px] font-black uppercase tracking-[0.4em] text-black/20 block mb-2">Surname</label>
                           <input type="text" className="w-full bg-transparent outline-none text-xl font-light italic" placeholder="Sterling" />
                        </div>
                        <div className="border-b border-black/10 py-4 text-left">
-                          <label className="text-[8px] font-black uppercase tracking-[0.4em] text-black/20 block mb-2">Location</label>
+                          <label className="text-[10px] font-black uppercase tracking-[0.4em] text-black/20 block mb-2">Location</label>
                           <input type="text" className="w-full bg-transparent outline-none text-xl font-light italic" placeholder="London, UK" />
                        </div>
                     </div>
                     <div className="border-b border-black/10 py-4 text-left">
-                       <label className="text-[8px] font-black uppercase tracking-[0.4em] text-black/20 block mb-2">Digital Signature</label>
+                       <label className="text-[10px] font-black uppercase tracking-[0.4em] text-black/20 block mb-2">Digital Signature</label>
                        <input type="email" className="w-full bg-transparent outline-none text-xl font-light italic" placeholder="alistair@sterling.com" />
                     </div>
                     <button className="w-full py-6 bg-black text-white text-[10px] font-black uppercase tracking-widest hover:bg-[var(--brand,#c4a661)] transition-all shadow-2xl">
@@ -498,7 +498,7 @@ return (
               ))}
            </div>
 
-           <div className="max-w-[1600px] mx-auto border-t border-white/5 pt-12 flex flex-col md:flex-row justify-between items-center gap-12 text-[8px] font-black text-white/10 uppercase tracking-[0.4em] italic">
+           <div className="max-w-[1600px] mx-auto border-t border-white/5 pt-12 flex flex-col md:flex-row justify-between items-center gap-12 text-[10px] font-black text-white/10 uppercase tracking-[0.4em] italic">
               <span>© 2026 AETHELGARD ESTATE & SPIRITS GROUP SA. // ALL_RIGHTS_RESERVED</span>
               <div className="flex gap-12">
                  <span>BORDEAUX</span>
@@ -526,7 +526,7 @@ return (
                    <SectionTitle subtitle="Security // Handshake" title="The Portal." />
                    <div className="w-full space-y-8">
                       <div className="border-b border-white/10 pb-4">
-                         <label className="text-[8px] font-black uppercase tracking-[0.4em] text-white/20 block mb-2">Key Identifier</label>
+                         <label className="text-[10px] font-black uppercase tracking-[0.4em] text-white/20 block mb-2">Key Identifier</label>
                          <input type="text" className="w-full bg-transparent outline-none text-2xl font-light italic text-white" placeholder="AE-7402-X" />
                       </div>
                       <button className="w-full py-6 bg-[var(--brand,#c4a661)] text-black text-[10px] font-black uppercase tracking-widest hover:bg-white transition-all">

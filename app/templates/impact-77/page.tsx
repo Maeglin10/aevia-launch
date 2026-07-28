@@ -286,7 +286,7 @@ export default function HorologsLuxePage() {
 
         {/* Scroll indicator */}
         <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 z-10">
-          <span className="text-[8px] font-bold uppercase tracking-[0.5em] text-white/15">scroll</span>
+          <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-white/15">scroll</span>
           <motion.div
             animate={{ y: [0, 8, 0] }}
             transition={{ repeat: Infinity, duration: 2.2 }}
@@ -298,7 +298,7 @@ export default function HorologsLuxePage() {
           style={{ opacity: heroOpacity }}
           className="absolute bottom-10 left-12 hidden md:block z-10"
         >
-          <span className="text-[9px] font-bold text-white/10 uppercase tracking-[0.5em]">
+          <span className="text-[10px] font-bold text-white/10 uppercase tracking-[0.5em]">
             HOROLOGS · V.77 · SERIAL 2026
           </span>
         </motion.div>
@@ -351,7 +351,7 @@ export default function HorologsLuxePage() {
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                     <div className="absolute bottom-0 left-0 right-0 p-6 translate-y-4 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-500">
-                      <span className="text-[9px] font-bold text-white/50 uppercase tracking-widest block mb-1">
+                      <span className="text-[10px] font-bold text-white/50 uppercase tracking-widest block mb-1">
                         {photo.category}
                       </span>
                       <h3 className="text-base font-black uppercase tracking-tighter text-white">
@@ -382,7 +382,7 @@ export default function HorologsLuxePage() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
                 <div className="absolute bottom-8 left-8 right-8">
-                  <span className="text-[9px] font-bold text-white/30 uppercase tracking-[0.5em]">
+                  <span className="text-[10px] font-bold text-white/30 uppercase tracking-[0.5em]">
                     Established 1924 // Geneva, CH
                   </span>
                 </div>
@@ -421,7 +421,7 @@ export default function HorologsLuxePage() {
                       <div className="text-3xl font-black text-white font-mono mb-1">
                         <Counter to={stat.v} suffix={stat.s} />
                       </div>
-                      <div className="text-[9px] font-bold uppercase tracking-widest text-white/20 italic">
+                      <div className="text-[10px] font-bold uppercase tracking-widest text-white/20 italic">
                         {stat.label}
                       </div>
                     </div>
@@ -440,7 +440,7 @@ export default function HorologsLuxePage() {
         <div className="max-w-[1400px] mx-auto px-6 md:px-12">
           <Reveal>
             <div className="flex flex-wrap items-center justify-between gap-10">
-              <span className="text-[9px] font-bold text-white/10 uppercase tracking-[0.5em]">
+              <span className="text-[10px] font-bold text-white/10 uppercase tracking-[0.5em]">
                 Trusted by
               </span>
               {CLIENTS.map((client, i) => (
@@ -474,7 +474,7 @@ export default function HorologsLuxePage() {
             {SERVICES.map((svc, i) => (
               <Reveal key={i} delay={i * 0.08}>
                 <div className="bg-[#080808] p-10 group hover:bg-[#0a0a0a] transition-colors">
-                  <span className="text-[9px] font-black text-stone-600/50 uppercase tracking-[0.5em] mb-6 block">
+                  <span className="text-[10px] font-black text-stone-600/50 uppercase tracking-[0.5em] mb-6 block">
                     {svc.code}
                   </span>
                   <h3 className="text-2xl font-black uppercase tracking-tighter text-white mb-5">
@@ -483,7 +483,7 @@ export default function HorologsLuxePage() {
                   <p className="text-[11px] text-white/30 uppercase tracking-widest leading-relaxed font-bold italic">
                     {svc.desc}
                   </p>
-                  <div className="mt-8 flex items-center gap-3 text-[9px] font-bold uppercase tracking-[0.4em] text-stone-600/50 group-hover:text-stone-500 transition-colors">
+                  <div className="mt-8 flex items-center gap-3 text-[10px] font-bold uppercase tracking-[0.4em] text-stone-600/50 group-hover:text-stone-500 transition-colors">
                     Inquire <ArrowUpRight className="w-3 h-3" />
                   </div>
                 </div>
@@ -515,10 +515,10 @@ export default function HorologsLuxePage() {
                 ].map((ex, i) => (
                   <Reveal key={i} delay={i * 0.06}>
                     <div className="py-5 flex items-center gap-6 group">
-                      <span className="text-[9px] font-black text-white/10 uppercase tracking-widest w-10 flex-shrink-0 font-mono">{ex.year}</span>
+                      <span className="text-[10px] font-black text-white/10 uppercase tracking-widest w-10 flex-shrink-0 font-mono">{ex.year}</span>
                       <div className="flex-1">
                         <div className="text-sm font-black uppercase tracking-tighter text-white/40 italic group-hover:text-white/80 transition-colors">{ex.title}</div>
-                        <div className="text-[9px] font-bold text-white/15 uppercase tracking-widest mt-1">{ex.venue}</div>
+                        <div className="text-[10px] font-bold text-white/15 uppercase tracking-widest mt-1">{ex.venue}</div>
                       </div>
                       <ArrowUpRight className="w-3 h-3 text-white/10 group-hover:text-stone-500 transition-colors flex-shrink-0" />
                     </div>
@@ -542,9 +542,9 @@ export default function HorologsLuxePage() {
                 ].map((a, i) => (
                   <Reveal key={i} delay={i * 0.06}>
                     <div className="py-5 flex items-center gap-6 group">
-                      <span className="text-[9px] font-black text-white/10 uppercase tracking-widest w-10 flex-shrink-0 font-mono">{a.year}</span>
+                      <span className="text-[10px] font-black text-white/10 uppercase tracking-widest w-10 flex-shrink-0 font-mono">{a.year}</span>
                       <div className="flex-1 text-sm font-black uppercase tracking-tighter text-white/40 italic group-hover:text-white/80 transition-colors">{a.title}</div>
-                      <span className="text-[9px] font-bold text-stone-600/50 uppercase tracking-widest flex-shrink-0">{a.cat}</span>
+                      <span className="text-[10px] font-bold text-stone-600/50 uppercase tracking-widest flex-shrink-0">{a.cat}</span>
                     </div>
                   </Reveal>
                 ))}
@@ -575,7 +575,7 @@ export default function HorologsLuxePage() {
                   <p className="text-[11px] text-white/30 uppercase tracking-widest leading-relaxed font-bold italic flex-1 mb-8">"{t.quote}"</p>
                   <div className="pt-6 border-t border-white/5">
                     <p className="text-xs font-black uppercase tracking-widest text-white mb-1">{t.name}</p>
-                    <p className="text-[9px] font-bold uppercase tracking-widest text-stone-600/60 italic">{t.role}</p>
+                    <p className="text-[10px] font-bold uppercase tracking-widest text-stone-600/60 italic">{t.role}</p>
                   </div>
                 </div>
               </Reveal>
@@ -601,11 +601,11 @@ export default function HorologsLuxePage() {
             ].map((p, i) => (
               <Reveal key={i} delay={i * 0.1}>
                 <div className="bg-[#050505] p-10 group hover:bg-[#080808] transition-colors border-t-2 border-transparent hover:border-stone-600 h-full flex flex-col">
-                  <span className="text-[9px] font-black text-stone-600/50 uppercase tracking-[0.5em] mb-6 block">{p.tier}</span>
+                  <span className="text-[10px] font-black text-stone-600/50 uppercase tracking-[0.5em] mb-6 block">{p.tier}</span>
                   <div className="text-4xl font-black text-white tracking-tighter mb-2">{p.price}</div>
-                  <div className="text-[9px] font-bold text-white/20 uppercase tracking-widest mb-6">{p.size} · {p.edition}</div>
+                  <div className="text-[10px] font-bold text-white/20 uppercase tracking-widest mb-6">{p.size} · {p.edition}</div>
                   <p className="text-[10px] text-white/20 uppercase tracking-widest leading-relaxed font-bold italic flex-1 mb-8">{p.detail}</p>
-                  <button className="w-full py-4 border border-white/10 text-white text-[9px] font-bold uppercase tracking-widest group-hover:bg-white group-hover:text-black transition-all">
+                  <button className="w-full py-4 border border-white/10 text-white text-[10px] font-bold uppercase tracking-widest group-hover:bg-white group-hover:text-black transition-all">
                     Inquire
                   </button>
                 </div>

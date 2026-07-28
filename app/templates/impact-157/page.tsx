@@ -682,7 +682,7 @@ return (
             <div
               style={{
                 fontFamily: FONT_BODY,
-                fontSize: 9,
+                fontSize: 10,
                 letterSpacing: 3,
                 color: C.gold,
                 textTransform: "uppercase",
@@ -883,7 +883,7 @@ return (
             <div
               style={{
                 fontFamily: FONT_BODY,
-                fontSize: 9,
+                fontSize: 10,
                 letterSpacing: 5,
                 color: C.gold,
                 textTransform: "uppercase",
@@ -1035,7 +1035,7 @@ return (
                         background: C.gold,
                         color: C.bg,
                         padding: "4px 12px",
-                        fontSize: 9,
+                        fontSize: 10,
                         fontWeight: 700,
                         letterSpacing: 2,
                         textTransform: "uppercase",
@@ -1085,7 +1085,7 @@ return (
                 <div style={{ padding: "24px" }}>
                   <div
                     style={{
-                      fontSize: 9,
+                      fontSize: 10,
                       letterSpacing: 3,
                       color: C.gold,
                       textTransform: "uppercase",
@@ -1258,7 +1258,7 @@ return (
           >
             <div
               style={{
-                fontSize: 9,
+                fontSize: 10,
                 letterSpacing: 5,
                 color: C.gold,
                 textTransform: "uppercase",
@@ -1411,7 +1411,7 @@ return (
         >
           <div
             style={{
-              fontSize: 9,
+              fontSize: 10,
               letterSpacing: 5,
               color: C.gold,
               textTransform: "uppercase",
@@ -1523,7 +1523,7 @@ return (
         >
           <div
             style={{
-              fontSize: 9,
+              fontSize: 10,
               letterSpacing: 5,
               color: C.gold,
               textTransform: "uppercase",
@@ -1620,7 +1620,7 @@ return (
         >
           <div
             style={{
-              fontSize: 9,
+              fontSize: 10,
               letterSpacing: 5,
               color: C.gold,
               textTransform: "uppercase",
@@ -1745,7 +1745,7 @@ return (
           >
             <div
               style={{
-                fontSize: 9,
+                fontSize: 10,
                 letterSpacing: 5,
                 color: C.gold,
                 textTransform: "uppercase",
@@ -1879,7 +1879,7 @@ return (
           <div
             style={{
               fontFamily: FONT_BODY,
-              fontSize: 9,
+              fontSize: 10,
               letterSpacing: 5,
               color: C.gold,
               textTransform: "uppercase",
@@ -2050,7 +2050,7 @@ return (
             <div key={col.title}>
               <div
                 style={{
-                  fontSize: 9,
+                  fontSize: 10,
                   letterSpacing: 4,
                   color: C.gold,
                   textTransform: "uppercase",

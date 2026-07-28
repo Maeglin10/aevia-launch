@@ -133,7 +133,7 @@ export default function CliniqueBoisVertPage() {
                 </div>
                 <div>
                   <div className="font-bold text-[#2d2318] text-sm leading-tight" style={{ fontFamily: "'Lora', Georgia, serif" }}>Clinique du Bois Vert</div>
-                  <div className="text-[8px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#3a7d44)]/60">Vétérinaire · Toulouse</div>
+                  <div className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#3a7d44)]/60">Vétérinaire · Toulouse</div>
                 </div>
               </>
             )}
@@ -176,7 +176,7 @@ export default function CliniqueBoisVertPage() {
           <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.3 }}>
             <div className="flex items-center gap-3 mb-8">
               <div className="w-8 h-[1px] bg-[var(--brand,#3a7d44)]/70" />
-              <span className="text-[9px] font-bold uppercase tracking-[0.45em] text-[#6bbf78]">Clinique vétérinaire · Toulouse Rangueil</span>
+              <span className="text-[10px] font-bold uppercase tracking-[0.45em] text-[#6bbf78]">Clinique vétérinaire · Toulouse Rangueil</span>
             </div>
           </motion.div>
 
@@ -336,14 +336,14 @@ export default function CliniqueBoisVertPage() {
             { t: "Infos", ls: ["12 allée des Pins", "31400 Toulouse", "Lun-Sam 8h-20h", "Dim 9h-18h", "05 61 78 90 12"] },
           ].map((col, i) => (
             <div key={i}>
-              <h4 className="text-[9px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#3a7d44)]/60 mb-5">{col.t}</h4>
+              <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#3a7d44)]/60 mb-5">{col.t}</h4>
               <ul className="space-y-2.5">
                 {col.ls.map(l => <li key={l}><Link href={col.t === "Soins" ? "#services" : "#contact"} className="text-white/20 text-sm hover:text-white transition-colors">{l}</Link></li>)}
               </ul>
             </div>
           ))}
         </div>
-        <div className="max-w-[1300px] mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between gap-3 text-[9px] font-bold uppercase tracking-widest text-white/10">
+        <div className="max-w-[1300px] mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between gap-3 text-[10px] font-bold uppercase tracking-widest text-white/10">
           <span>© 2026 Clinique du Bois Vert · SIRET 012 345 678 00090 · Ordre National des Vétérinaires</span>
           <span className="text-[var(--brand,#3a7d44)]/25">Clinique vétérinaire · Toulouse</span>
         </div>

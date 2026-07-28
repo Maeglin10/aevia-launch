@@ -121,7 +121,7 @@ return (
           className="absolute bottom-10 right-12 hidden md:block"
         >
           <div className="flex flex-col items-end gap-3 text-right">
-            <span className="text-[9px] font-bold text-stone-300 uppercase tracking-[0.5em]">
+            <span className="text-[10px] font-bold text-stone-300 uppercase tracking-[0.5em]">
               GENEVA // KYOTO // LONDON
             </span>
             <div className="w-32 h-[1px] bg-[var(--brand,#c9a84c)]/40" />
@@ -252,7 +252,7 @@ return (
 
                   <div className="mt-12 flex justify-between items-end">
                     <div className="space-y-1">
-                      <span className="text-[9px] font-bold text-stone-300 uppercase tracking-widest">
+                      <span className="text-[10px] font-bold text-stone-300 uppercase tracking-widest">
                         Sanctuary Capacity
                       </span>
                       <div className="text-2xl font-black text-stone-500 italic">
@@ -261,7 +261,7 @@ return (
                     </div>
                     <div className="flex items-center gap-6">
                       <div className="flex flex-col items-end">
-                        <span className="text-[8px] font-bold text-[var(--brand,#c9a84c)] uppercase">
+                        <span className="text-[10px] font-bold text-[var(--brand,#c9a84c)] uppercase">
                           Certified
                         </span>
                         <span className="text-[10px] font-black uppercase text-stone-500">
@@ -304,7 +304,7 @@ return (
                   <div className="text-[var(--brand,#c9a84c)] mb-6">{p.icon}</div>
                   <h3 className="text-xl font-light uppercase tracking-wide text-[#33302c] mb-2 italic">{p.name}</h3>
                   {(p.duration || p.level) && (
-                  <div className="flex gap-4 text-[9px] font-bold uppercase tracking-widest text-stone-400 mb-5">
+                  <div className="flex gap-4 text-[10px] font-bold uppercase tracking-widest text-stone-400 mb-5">
                     {p.duration && <span>{p.duration}</span>}
                     {p.duration && p.level && <span className="text-[var(--brand,#c9a84c)]/60">·</span>}
                     {p.level && <span>{p.level}</span>}
@@ -347,7 +347,7 @@ return (
                   <p className="text-stone-500 leading-relaxed font-light italic text-sm flex-1">"{t.text}"</p>
                   <div>
                     <div className="text-[#33302c] font-medium text-sm">{t.name}</div>
-                    {t.role && <div className="text-[9px] uppercase tracking-widest text-stone-400 mt-1">{t.role}</div>}
+                    {t.role && <div className="text-[10px] uppercase tracking-widest text-stone-400 mt-1">{t.role}</div>}
                   </div>
                 </div>
               </Reveal>

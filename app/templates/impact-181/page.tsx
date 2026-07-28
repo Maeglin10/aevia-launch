@@ -219,7 +219,7 @@ export default function ToitPierrePiscinesPage() {
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.3 }}>
             <div className="flex items-center gap-4 mb-7">
               <div className="w-10 h-[2px] bg-[var(--brand,#b91c1c)]" />
-              <span className="text-[9px] font-bold uppercase tracking-[0.45em] text-[#fca5a5]">Pisciniste qualifié · Pays de la Loire</span>
+              <span className="text-[10px] font-bold uppercase tracking-[0.45em] text-[#fca5a5]">Pisciniste qualifié · Pays de la Loire</span>
             </div>
           </motion.div>
 
@@ -305,7 +305,7 @@ export default function ToitPierrePiscinesPage() {
                 <div className="group bg-white overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500">
                   <div className="relative aspect-[4/3] overflow-hidden">
                     <ParallaxImg src={r.img} alt={r.title} />
-                    <div className="absolute top-4 left-4 px-3 py-1.5 bg-[#374151] text-white text-[9px] font-bold uppercase tracking-widest">{r.tag}</div>
+                    <div className="absolute top-4 left-4 px-3 py-1.5 bg-[#374151] text-white text-[10px] font-bold uppercase tracking-widest">{r.tag}</div>
                   </div>
                   <div className="p-6 border-t border-slate-100">
                     <h3 className="font-bold text-[#1f2937] group-hover:text-[var(--brand,#b91c1c)] transition-colors">{r.title}</h3>
@@ -378,14 +378,14 @@ export default function ToitPierrePiscinesPage() {
             { t: "Contact", ls: ["02 40 12 34 56", "devis@toitpierre.fr", "Pays de la Loire", "Étude 3D offerte", "Devis gratuit sous 48h"] },
           ].map((col, i) => (
             <div key={i}>
-              <h4 className="text-[9px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#b91c1c)] mb-5">{col.t}</h4>
+              <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#b91c1c)] mb-5">{col.t}</h4>
               <ul className="space-y-2.5">
                 {col.ls.map(l => <li key={l}><Link href="#contact" className="text-white/25 text-sm hover:text-white transition-colors">{l}</Link></li>)}
               </ul>
             </div>
           ))}
         </div>
-        <div className="max-w-[1300px] mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between gap-4 text-[9px] font-bold uppercase tracking-widest text-white/15">
+        <div className="max-w-[1300px] mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between gap-4 text-[10px] font-bold uppercase tracking-widest text-white/15">
           <span>© 2026 {fd?.businessName ?? "Toit & Pierre Piscines"} · SIRET 456 789 012 00067 · Garantie Décennale · Assurance RC Pro</span>
           <span className="text-[var(--brand,#b91c1c)]/30">Pisciniste certifié · Pays de la Loire</span>
         </div>

@@ -29,7 +29,7 @@ export default function WorkPage() {
                   <span style={{
                     border: "1px solid #008F11",
                     color: "#008F11",
-                    fontSize: "9px",
+                    fontSize: "10px",
                     padding: "2px 8px",
                     letterSpacing: "0.14em",
                   }}>{mod.tag}</span>

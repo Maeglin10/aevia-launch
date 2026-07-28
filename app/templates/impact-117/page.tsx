@@ -171,7 +171,7 @@ export default function VoltLogisticsPage() {
           </div>
           <div className="flex items-center gap-2 sm:gap-4">
             <button className="hidden md:block px-6 py-2.5 text-white/60 text-[10px] font-bold uppercase tracking-widest hover:text-white transition-colors">Client Portal</button>
-            <button className="px-4 sm:px-8 py-2 sm:py-3 bg-white text-black text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.1em] sm:tracking-[0.2em] hover:bg-[var(--brand,#ffb400)] transition-all duration-500 whitespace-nowrap">Track Cargo</button>
+            <button className="px-4 sm:px-8 py-2 sm:py-3 bg-white text-black text-[10px] sm:text-[10px] font-bold uppercase tracking-[0.1em] sm:tracking-[0.2em] hover:bg-[var(--brand,#ffb400)] transition-all duration-500 whitespace-nowrap">Track Cargo</button>
             <Sheet>
               <SheetTrigger className="lg:hidden"><Menu className="w-6 h-6 text-white" /></SheetTrigger>
               <SheetContent side="right" className="bg-[#0a0a0a] border-white/5 p-12">
@@ -293,11 +293,11 @@ export default function VoltLogisticsPage() {
                       <h3 className="text-4xl font-black italic uppercase mb-6">{f.name}</h3>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 border-t border-white/20 pt-6">
                          <div>
-                            <div className="text-[8px] font-bold uppercase text-white/40 mb-1">Range</div>
+                            <div className="text-[10px] font-bold uppercase text-white/40 mb-1">Range</div>
                             <div className="text-lg font-bold italic uppercase">{f.range}</div>
                          </div>
                          <div>
-                            <div className="text-[8px] font-bold uppercase text-white/40 mb-1">Payload</div>
+                            <div className="text-[10px] font-bold uppercase text-white/40 mb-1">Payload</div>
                             <div className="text-lg font-bold italic uppercase">{f.payload}</div>
                          </div>
                       </div>

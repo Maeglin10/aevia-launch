@@ -104,7 +104,7 @@ function PlanComparisonTable({ billing }: { billing: "mensuel" | "bimestriel" })
               <th key={plan.name} style={{ padding: "16px 20px", textAlign: "center", fontFamily: SERIF, fontSize: 15, color: plan.highlight ? C.caramel : C.cream, fontWeight: 700 }}>
                 {plan.name}
                 {plan.badge && (
-                  <div style={{ fontSize: 9, fontWeight: 800, color: C.caramel, textTransform: "uppercase", letterSpacing: "0.08em", marginTop: 3 }}>
+                  <div style={{ fontSize: 10, fontWeight: 800, color: C.caramel, textTransform: "uppercase", letterSpacing: "0.08em", marginTop: 3 }}>
                     {plan.badge}
                   </div>
                 )}
@@ -309,7 +309,7 @@ export default function AbonnementPage() {
                         right: -8,
                         background: "#22c55e",
                         color: "#fff",
-                        fontSize: 9,
+                        fontSize: 10,
                         fontWeight: 800,
                         padding: "2px 6px",
                         borderRadius: 10,
@@ -519,7 +519,7 @@ export default function AbonnementPage() {
                           }}
                         >
                           {d.badge && (
-                            <span style={{ position: "absolute", top: -8, right: 8, background: C.caramel, color: C.white, fontSize: 9, fontWeight: 800, padding: "2px 7px", borderRadius: 10, textTransform: "uppercase" }}>
+                            <span style={{ position: "absolute", top: -8, right: 8, background: C.caramel, color: C.white, fontSize: 10, fontWeight: 800, padding: "2px 7px", borderRadius: 10, textTransform: "uppercase" }}>
                               {d.badge}
                             </span>
                           )}

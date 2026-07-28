@@ -1136,7 +1136,7 @@ function OfferCard({ offer, i }: { offer: Offer; i: number }) {
               top: 18,
               right: 18,
               fontFamily: SANS,
-              fontSize: 9,
+              fontSize: 10,
               fontWeight: 700,
               letterSpacing: '0.28em',
               textTransform: 'uppercase',
@@ -1192,7 +1192,7 @@ function OfferCard({ offer, i }: { offer: Offer; i: number }) {
               key={tag}
               style={{
                 fontFamily: SANS,
-                fontSize: 9,
+                fontSize: 10,
                 fontWeight: 600,
                 letterSpacing: '0.22em',
                 textTransform: 'uppercase',

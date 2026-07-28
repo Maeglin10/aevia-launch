@@ -307,7 +307,7 @@ function ProductVariantModal({
                 <p className="font-black text-[#0a0a0a] uppercase tracking-tight text-lg mb-1">{product.name}</p>
                 <p className="font-bold text-[#0a0a0a]/60 text-sm mb-6">{product.price}</p>
 
-                <label htmlFor="pv-strap" className="block text-[9px] font-black uppercase tracking-widest text-[#0a0a0a]/50 mb-2">
+                <label htmlFor="pv-strap" className="block text-[10px] font-black uppercase tracking-widest text-[#0a0a0a]/50 mb-2">
                   Bracelet
                 </label>
                 <select
@@ -324,7 +324,7 @@ function ProductVariantModal({
                   ))}
                 </select>
 
-                <label htmlFor="pv-size" className="block text-[9px] font-black uppercase tracking-widest text-[#0a0a0a]/50 mb-2">
+                <label htmlFor="pv-size" className="block text-[10px] font-black uppercase tracking-widest text-[#0a0a0a]/50 mb-2">
                   Taille du boîtier
                 </label>
                 <select
@@ -342,7 +342,7 @@ function ProductVariantModal({
                 </select>
 
                 <div className="flex items-center justify-between mb-6">
-                  <span className="text-[9px] font-black uppercase tracking-widest text-[#0a0a0a]/50">Quantité</span>
+                  <span className="text-[10px] font-black uppercase tracking-widest text-[#0a0a0a]/50">Quantité</span>
                   <div className="flex items-center gap-3">
                     <button
                       type="button"
@@ -366,7 +366,7 @@ function ProductVariantModal({
 
                 <button
                   type="submit"
-                  className="w-full min-h-[44px] flex items-center justify-center gap-3 px-8 py-4 bg-[#0a0a0a] text-white text-[9px] font-black uppercase tracking-widest rounded-lg hover:bg-[#333] transition-all cursor-pointer border-none"
+                  className="w-full min-h-[44px] flex items-center justify-center gap-3 px-8 py-4 bg-[#0a0a0a] text-white text-[10px] font-black uppercase tracking-widest rounded-lg hover:bg-[#333] transition-all cursor-pointer border-none"
                 >
                   <ShoppingBag className="w-4 h-4" />
                   Ajouter au panier
@@ -464,7 +464,7 @@ function CartDrawer({
                     </p>
                     <button
                       onClick={onReset}
-                      className="w-full min-h-[44px] px-8 py-4 bg-[#0a0a0a] text-white text-[9px] font-black uppercase tracking-widest rounded-lg hover:bg-[#333] transition-all cursor-pointer border-none"
+                      className="w-full min-h-[44px] px-8 py-4 bg-[#0a0a0a] text-white text-[10px] font-black uppercase tracking-widest rounded-lg hover:bg-[#333] transition-all cursor-pointer border-none"
                     >
                       Fermer
                     </button>
@@ -477,7 +477,7 @@ function CartDrawer({
                     onSubmit={onSubmitCheckout}
                   >
                     <div className="mb-5">
-                      <label htmlFor="co-name" className="block text-[9px] font-black uppercase tracking-widest text-[#0a0a0a]/50 mb-2">
+                      <label htmlFor="co-name" className="block text-[10px] font-black uppercase tracking-widest text-[#0a0a0a]/50 mb-2">
                         Nom complet
                       </label>
                       <input
@@ -490,7 +490,7 @@ function CartDrawer({
                       />
                     </div>
                     <div className="mb-5">
-                      <label htmlFor="co-email" className="block text-[9px] font-black uppercase tracking-widest text-[#0a0a0a]/50 mb-2">
+                      <label htmlFor="co-email" className="block text-[10px] font-black uppercase tracking-widest text-[#0a0a0a]/50 mb-2">
                         Email
                       </label>
                       <input
@@ -503,7 +503,7 @@ function CartDrawer({
                       />
                     </div>
                     <div className="mb-6">
-                      <label htmlFor="co-address" className="block text-[9px] font-black uppercase tracking-widest text-[#0a0a0a]/50 mb-2">
+                      <label htmlFor="co-address" className="block text-[10px] font-black uppercase tracking-widest text-[#0a0a0a]/50 mb-2">
                         Adresse de livraison
                       </label>
                       <textarea
@@ -516,13 +516,13 @@ function CartDrawer({
                       />
                     </div>
                     <div className="flex justify-between items-center mb-6 pt-4 border-t border-[#0a0a0a]/10">
-                      <span className="text-[9px] font-black uppercase tracking-widest text-[#0a0a0a]/50">Total</span>
+                      <span className="text-[10px] font-black uppercase tracking-widest text-[#0a0a0a]/50">Total</span>
                       <span className="font-black text-[#0a0a0a] text-lg">{formatEUR(total)}</span>
                     </div>
                     <button
                       type="submit"
                       disabled={loading}
-                      className={`w-full min-h-[44px] flex items-center justify-center gap-3 px-8 py-4 text-white text-[9px] font-black uppercase tracking-widest rounded-lg transition-all border-none ${loading ? "bg-[#0a0a0a]/50 cursor-not-allowed" : "bg-[#0a0a0a] hover:bg-[#333] cursor-pointer"}`}
+                      className={`w-full min-h-[44px] flex items-center justify-center gap-3 px-8 py-4 text-white text-[10px] font-black uppercase tracking-widest rounded-lg transition-all border-none ${loading ? "bg-[#0a0a0a]/50 cursor-not-allowed" : "bg-[#0a0a0a] hover:bg-[#333] cursor-pointer"}`}
                     >
                       {loading ? (
                         <>
@@ -566,12 +566,12 @@ function CartDrawer({
                           ))}
                         </div>
                         <div className="flex justify-between items-center py-5 border-t border-[#0a0a0a]/10 mb-6">
-                          <span className="text-[9px] font-black uppercase tracking-widest text-[#0a0a0a]/50">Total</span>
+                          <span className="text-[10px] font-black uppercase tracking-widest text-[#0a0a0a]/50">Total</span>
                           <span className="font-black text-[#0a0a0a] text-lg">{formatEUR(total)}</span>
                         </div>
                         <button
                           onClick={onStartCheckout}
-                          className="w-full min-h-[44px] px-8 py-4 bg-[#0a0a0a] text-white text-[9px] font-black uppercase tracking-widest rounded-lg hover:bg-[#333] transition-all cursor-pointer border-none"
+                          className="w-full min-h-[44px] px-8 py-4 bg-[#0a0a0a] text-white text-[10px] font-black uppercase tracking-widest rounded-lg hover:bg-[#333] transition-all cursor-pointer border-none"
                         >
                           Passer la commande
                         </button>
@@ -824,19 +824,19 @@ return (
                 <p className="text-white/30 text-sm leading-relaxed mb-6 max-w-md font-light">{c?.heroSubline ?? fd?.tagline ?? <>
                   {currentHero.desc}
                 </>}</p>
-                <div className="inline-block px-3 py-1.5 border border-white/10 text-[9px] text-white/40 uppercase tracking-widest font-bold rounded mb-10">
+                <div className="inline-block px-3 py-1.5 border border-white/10 text-[10px] text-white/40 uppercase tracking-widest font-bold rounded mb-10">
                   {currentHero.badge}
                 </div>
               </Reveal>
               <Reveal delay={0.3}>
                 <div className="flex flex-col sm:flex-row items-start sm:items-center gap-8">
                   <div>
-                    <div className="text-[9px] text-white/20 uppercase tracking-widest mb-1 font-bold">Prix</div>
+                    <div className="text-[10px] text-white/20 uppercase tracking-widest mb-1 font-bold">Prix</div>
                     <div className="text-4xl font-black text-white tracking-tighter">{currentHero.price}</div>
                   </div>
                   <button
                     onClick={() => setSelectedProduct({ id: currentHero.id, name: currentHero.name, price: currentHero.price, img: currentHero.img })}
-                    className="flex items-center gap-3 px-8 py-4 bg-white text-black text-[9px] font-black uppercase tracking-widest hover:bg-[#f0f0f0] transition-all cursor-pointer border-none rounded min-h-[44px]"
+                    className="flex items-center gap-3 px-8 py-4 bg-white text-black text-[10px] font-black uppercase tracking-widest hover:bg-[#f0f0f0] transition-all cursor-pointer border-none rounded min-h-[44px]"
                   >
                     <ShoppingBag className="w-4 h-4" />
                     Ajouter au panier
@@ -855,7 +855,7 @@ return (
                     fill
                     className="object-cover"
                   />
-                  <div className="absolute top-4 right-4 px-3 py-1.5 bg-white/10 backdrop-blur-sm rounded text-[9px] text-white font-bold uppercase tracking-widest border border-white/20">
+                  <div className="absolute top-4 right-4 px-3 py-1.5 bg-white/10 backdrop-blur-sm rounded text-[10px] text-white font-bold uppercase tracking-widest border border-white/20">
                     3D Rotate
                   </div>
                 </div>
@@ -907,7 +907,7 @@ return (
                 </h2>
               </div>
               <Link href="/templates/impact-75/telemetry">
-                <button className="text-[9px] font-black uppercase tracking-widest text-[#0a0a0a]/30 hover:text-[#0a0a0a] transition-colors cursor-pointer flex items-center gap-2 group">
+                <button className="text-[10px] font-black uppercase tracking-widest text-[#0a0a0a]/30 hover:text-[#0a0a0a] transition-colors cursor-pointer flex items-center gap-2 group">
                   Voir tout
                   <ChevronRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
                 </button>
@@ -927,7 +927,7 @@ return (
                       className="object-cover group-hover:scale-105 transition-transform duration-700"
                     />
                     {product.isNew && (
-                      <div className="absolute top-3 left-3 px-2.5 py-1 bg-[#0a0a0a] text-white text-[8px] font-black uppercase tracking-widest rounded">
+                      <div className="absolute top-3 left-3 px-2.5 py-1 bg-[#0a0a0a] text-white text-[10px] font-black uppercase tracking-widest rounded">
                         New
                       </div>
                     )}
@@ -935,7 +935,7 @@ return (
                     <div className="absolute bottom-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                       <button
                         onClick={() => setSelectedProduct({ id: product.id, name: product.name, price: product.price, img: product.img })}
-                        className="flex items-center gap-2 px-4 py-2.5 bg-[#0a0a0a] text-white text-[9px] font-black uppercase tracking-widest rounded hover:bg-[#333] transition-all cursor-pointer border-none min-h-[44px]"
+                        className="flex items-center gap-2 px-4 py-2.5 bg-[#0a0a0a] text-white text-[10px] font-black uppercase tracking-widest rounded hover:bg-[#333] transition-all cursor-pointer border-none min-h-[44px]"
                       >
                         <ShoppingBag className="w-3 h-3" />
                         Panier
@@ -944,7 +944,7 @@ return (
                   </div>
                   <div className="flex items-start justify-between">
                     <div>
-                      <p className="text-[9px] text-[#0a0a0a]/30 uppercase tracking-widest font-bold mb-1">
+                      <p className="text-[10px] text-[#0a0a0a]/30 uppercase tracking-widest font-bold mb-1">
                         {product.category}
                       </p>
                       <p className="font-black text-[#0a0a0a] text-sm uppercase tracking-tight">
@@ -989,7 +989,7 @@ return (
                     />
                   </div>
                   <div>
-                    <div className="text-[9px] text-white/20 uppercase tracking-widest font-bold mb-1">
+                    <div className="text-[10px] text-white/20 uppercase tracking-widest font-bold mb-1">
                       {mat.subtitle}
                     </div>
                     <h3 className="text-lg font-black uppercase tracking-tighter text-white mb-3 italic">
@@ -1042,7 +1042,7 @@ return (
                       <div className="space-y-3 mb-8">
                         {item.specs.map((spec) => (
                           <div key={spec.label} className="flex items-center justify-between py-2 border-b border-[#0a0a0a]/5">
-                            <span className="text-[9px] text-[#0a0a0a]/30 uppercase tracking-widest font-bold">
+                            <span className="text-[10px] text-[#0a0a0a]/30 uppercase tracking-widest font-bold">
                               {spec.label}
                             </span>
                             <span className="text-[10px] font-bold text-[#0a0a0a]">
@@ -1058,7 +1058,7 @@ return (
                       </div>
                       <button
                         onClick={() => setSelectedProduct({ id: i + 100, name: item.name, price: item.price, img: item.img })}
-                        className="flex items-center gap-2 px-6 py-3.5 bg-[#0a0a0a] text-white text-[9px] font-black uppercase tracking-widest rounded hover:bg-[#333] transition-all cursor-pointer border-none min-h-[44px]"
+                        className="flex items-center gap-2 px-6 py-3.5 bg-[#0a0a0a] text-white text-[10px] font-black uppercase tracking-widest rounded hover:bg-[#333] transition-all cursor-pointer border-none min-h-[44px]"
                       >
                         <ShoppingBag className="w-3.5 h-3.5" />
                         Ajouter au panier
@@ -1107,21 +1107,21 @@ return (
                     <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
                   ))}
                 </div>
-                <div className="text-[9px] text-white/30 uppercase tracking-widest font-bold">
+                <div className="text-[10px] text-white/30 uppercase tracking-widest font-bold">
                   Note moyenne
                 </div>
               </div>
               <div className="w-px h-16 bg-white/10 hidden md:block" />
               <div className="text-center">
                 <div className="text-5xl font-black text-white tracking-tighter mb-2">1 240</div>
-                <div className="text-[9px] text-white/30 uppercase tracking-widest font-bold mt-2">
+                <div className="text-[10px] text-white/30 uppercase tracking-widest font-bold mt-2">
                   Avis vérifiés
                 </div>
               </div>
               <div className="w-px h-16 bg-white/10 hidden md:block" />
               <div className="text-center">
                 <div className="text-5xl font-black text-white tracking-tighter mb-2">98%</div>
-                <div className="text-[9px] text-white/30 uppercase tracking-widest font-bold mt-2">
+                <div className="text-[10px] text-white/30 uppercase tracking-widest font-bold mt-2">
                   Clients satisfaits
                 </div>
               </div>
@@ -1210,7 +1210,7 @@ return (
                   <p className="text-sm text-white/60 leading-relaxed mb-6 italic">"{r.review}"</p>
                   <div className="border-t border-white/5 pt-4">
                     <p className="text-[10px] font-bold text-white uppercase tracking-widest mb-1">{r.name}</p>
-                    <p className="text-[9px] text-white/20 uppercase tracking-wide">{r.product} · {r.date}</p>
+                    <p className="text-[10px] text-white/20 uppercase tracking-wide">{r.product} · {r.date}</p>
                   </div>
                 </div>
               </Reveal>
@@ -1287,14 +1287,14 @@ return (
                 />
                 <button
                   type="submit"
-                  className="px-6 py-4 bg-white text-[#0a0a0a] text-[9px] font-black uppercase tracking-widest rounded hover:bg-[#f0f0f0] transition-all cursor-pointer border-none whitespace-nowrap"
+                  className="px-6 py-4 bg-white text-[#0a0a0a] text-[10px] font-black uppercase tracking-widest rounded hover:bg-[#f0f0f0] transition-all cursor-pointer border-none whitespace-nowrap"
                 >
                   S&apos;abonner
                 </button>
               </form>
             )}
 
-            <p className="mt-5 text-[9px] text-white/15 uppercase tracking-widest">
+            <p className="mt-5 text-[10px] text-white/15 uppercase tracking-widest">
               Données confidentielles · Désabonnement en un clic
             </p>
           </Reveal>

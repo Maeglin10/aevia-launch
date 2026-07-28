@@ -556,7 +556,7 @@ function MagnifierCard({
               background: '#0a0a0a',
               color: '#fafafa',
               fontFamily: 'system-ui, sans-serif',
-              fontSize: 9,
+              fontSize: 10,
               letterSpacing: '0.2em',
               textTransform: 'uppercase',
             }}
@@ -737,7 +737,7 @@ function CheckoutField({
       <label
         htmlFor={id}
         style={{
-          fontSize: 9,
+          fontSize: 10,
           letterSpacing: '0.2em',
           textTransform: 'uppercase',
           color: 'rgba(10,10,10,0.45)',
@@ -1472,7 +1472,7 @@ export default function FashionEditorialTemplate() {
                   background: '#0a0a0a',
                   color: '#fafafa',
                   fontFamily: 'system-ui, sans-serif',
-                  fontSize: 9,
+                  fontSize: 10,
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -1645,7 +1645,7 @@ export default function FashionEditorialTemplate() {
                   style={{
                     position: 'absolute',
                     fontFamily: 'system-ui, sans-serif',
-                    fontSize: 9,
+                    fontSize: 10,
                     letterSpacing: '0.1em',
                     color: 'rgba(10,10,10,0.3)',
                     transform: `rotate(${i * (360 / 15)}deg) translateY(-168px)`,
@@ -1680,7 +1680,7 @@ export default function FashionEditorialTemplate() {
             <span
               style={{
                 fontFamily: 'system-ui, sans-serif',
-                fontSize: 8,
+                fontSize: 10,
                 letterSpacing: '0.3em',
                 textTransform: 'uppercase',
                 color: 'rgba(10,10,10,0.3)',
@@ -1953,7 +1953,7 @@ export default function FashionEditorialTemplate() {
                           background: 'rgba(250,250,250,0.15)',
                           color: '#fafafa',
                           fontFamily: 'system-ui, sans-serif',
-                          fontSize: 9,
+                          fontSize: 10,
                           letterSpacing: '0.2em',
                           textTransform: 'uppercase',
                           backdropFilter: 'blur(8px)',
@@ -2032,7 +2032,7 @@ export default function FashionEditorialTemplate() {
             <div
               style={{
                 fontFamily: 'system-ui, sans-serif',
-                fontSize: 9,
+                fontSize: 10,
                 letterSpacing: '0.2em',
                 textTransform: 'uppercase',
                 color: 'rgba(10,10,10,0.3)',
@@ -2183,7 +2183,7 @@ export default function FashionEditorialTemplate() {
                     <div
                       style={{
                         fontFamily: 'system-ui, sans-serif',
-                        fontSize: 9,
+                        fontSize: 10,
                         letterSpacing: '0.25em',
                         textTransform: 'uppercase',
                         color: 'rgba(250,250,250,0.45)',
@@ -2745,7 +2745,7 @@ export default function FashionEditorialTemplate() {
                 <div
                   style={{
                     fontFamily: 'system-ui, sans-serif',
-                    fontSize: 9,
+                    fontSize: 10,
                     letterSpacing: '0.3em',
                     textTransform: 'uppercase',
                     color: 'rgba(250,250,250,0.3)',
@@ -3394,15 +3394,15 @@ function ContactPage({ accentColor }: { accentColor: import('framer-motion').Mot
       {!formSent ? (
         <form onSubmit={(e) => { e.preventDefault(); setFormSent(true); }} style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
           <div>
-            <label style={{ fontSize: 9, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(10,10,10,0.45)', marginBottom: 8, display: 'block' }}>Name</label>
+            <label style={{ fontSize: 10, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(10,10,10,0.45)', marginBottom: 8, display: 'block' }}>Name</label>
             <input required type="text" style={{ width: '100%', padding: '16px', background: 'rgba(10,10,10,0.03)', border: '1px solid rgba(10,10,10,0.1)', outline: 'none', fontSize: 13 }} />
           </div>
           <div>
-            <label style={{ fontSize: 9, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(10,10,10,0.45)', marginBottom: 8, display: 'block' }}>Email</label>
+            <label style={{ fontSize: 10, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(10,10,10,0.45)', marginBottom: 8, display: 'block' }}>Email</label>
             <input required type="email" style={{ width: '100%', padding: '16px', background: 'rgba(10,10,10,0.03)', border: '1px solid rgba(10,10,10,0.1)', outline: 'none', fontSize: 13 }} />
           </div>
           <div>
-            <label style={{ fontSize: 9, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(10,10,10,0.45)', marginBottom: 8, display: 'block' }}>Message</label>
+            <label style={{ fontSize: 10, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(10,10,10,0.45)', marginBottom: 8, display: 'block' }}>Message</label>
             <textarea required rows={5} style={{ width: '100%', padding: '16px', background: 'rgba(10,10,10,0.03)', border: '1px solid rgba(10,10,10,0.1)', outline: 'none', fontSize: 13, resize: 'none' }}></textarea>
           </div>
           <button type="submit" style={{ padding: '16px', background: '#0a0a0a', color: '#fafafa', border: 'none', fontSize: 10, letterSpacing: '0.25em', textTransform: 'uppercase', cursor: 'pointer', marginTop: 12 }}>

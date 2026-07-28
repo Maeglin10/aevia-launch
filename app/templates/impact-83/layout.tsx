@@ -120,7 +120,7 @@ export default function AureliusHeritageLayout({
           <span style={{ fontFamily: FONT_HEADING, fontSize: 22, fontWeight: 300, color: C.accent, letterSpacing: "0.12em" }}>
             AURELIUS
           </span>
-          <span style={{ fontFamily: FONT_LABEL, fontSize: 9, letterSpacing: "0.35em", color: C.textMuted, textTransform: "uppercase" }}>
+          <span style={{ fontFamily: FONT_LABEL, fontSize: 10, letterSpacing: "0.35em", color: C.textMuted, textTransform: "uppercase" }}>
             Heritage · Est. 1887
           </span>
             </>

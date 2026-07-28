@@ -144,7 +144,7 @@ return (
             </Reveal>
           </div>
 
-          <div className="absolute bottom-12 left-12 right-12 flex justify-between items-end text-[9px] font-bold uppercase tracking-[0.4em] text-white/10 italic">
+          <div className="absolute bottom-12 left-12 right-12 flex justify-between items-end text-[10px] font-bold uppercase tracking-[0.4em] text-white/10 italic">
             <span>BERLIN / IBIZA / TOKYO / MIAMI</span>
             <div className="flex gap-6">
               <Music className="w-4 h-4 text-[var(--brand,#ff00ff)] animate-pulse" />
@@ -393,7 +393,7 @@ return (
                       />
                       <div className="relative z-10">
                         <div
-                          className="text-[9px] font-bold tracking-[0.4em] uppercase mb-2 opacity-60"
+                          className="text-[10px] font-bold tracking-[0.4em] uppercase mb-2 opacity-60"
                           style={{ color: artist.accent }}
                         >
                           {artist.genre}

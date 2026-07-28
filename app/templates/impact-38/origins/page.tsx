@@ -65,12 +65,12 @@ export default function OriginsPage() {
                         { label: "Altitude", val: coffee.altitude },
                       ].map((d) => (
                         <div key={d.label} style={{ background: C.bgAlt, borderRadius: 8, padding: "8px 14px" }}>
-                          <div style={{ fontSize: 9, color: C.textMuted, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em" }}>{d.label}</div>
+                          <div style={{ fontSize: 10, color: C.textMuted, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em" }}>{d.label}</div>
                           <div style={{ fontSize: 13, color: C.espresso, fontWeight: 600, marginTop: 2 }}>{d.val}</div>
                         </div>
                       ))}
                       <div style={{ background: C.bgAlt, borderRadius: 8, padding: "8px 14px" }}>
-                        <div style={{ fontSize: 9, color: C.textMuted, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em" }}>Torréfaction</div>
+                        <div style={{ fontSize: 10, color: C.textMuted, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em" }}>Torréfaction</div>
                         <div style={{ fontSize: 13, fontWeight: 700, color: roastColor(coffee.roast), marginTop: 2 }}>{coffee.roast}</div>
                       </div>
                     </div>

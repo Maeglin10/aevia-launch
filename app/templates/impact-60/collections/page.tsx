@@ -34,7 +34,7 @@ export default function CollectionsPage() {
                     <div className="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-all duration-1000" />
                   </div>
                   <div className="px-2">
-                    <span className="text-[9px] font-bold uppercase tracking-widest text-[#c9a96e] block mb-2">
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-[#c9a96e] block mb-2">
                       Ref: 0{i + 1} // Limited Edition
                     </span>
                     <h3 className="text-3xl font-bold uppercase tracking-widest text-white mb-4">
@@ -48,12 +48,12 @@ export default function CollectionsPage() {
 
                 <div className="px-2 pt-6 border-t border-white/5 flex justify-between items-center">
                   <div className="flex flex-col">
-                    <span className="text-[9px] uppercase tracking-widest text-white/20">EST. PRICE</span>
+                    <span className="text-[10px] uppercase tracking-widest text-white/20">EST. PRICE</span>
                     <span className="text-xl font-bold text-white tracking-tighter italic mt-1">{item.price}</span>
                   </div>
                   <Link
                     href="/templates/impact-60/contact"
-                    className="px-6 py-3.5 bg-white text-black text-[9px] font-bold uppercase tracking-widest hover:bg-[#c9a96e] hover:text-black transition-all duration-700"
+                    className="px-6 py-3.5 bg-white text-black text-[10px] font-bold uppercase tracking-widest hover:bg-[#c9a96e] hover:text-black transition-all duration-700"
                     style={{ textDecoration: "none" }}
                   >
                     Request

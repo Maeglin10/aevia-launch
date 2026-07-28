@@ -301,7 +301,7 @@ function SuccessState() {
         ].map((step, i) => (
           <div key={i} className="flex items-start gap-3 mb-2.5 last:mb-0">
             <span
-              className="w-5 h-5 bg-[#9B5CF6]/15 text-[#9B5CF6] rounded-full flex items-center justify-center text-[9px] font-bold shrink-0 mt-0.5"
+              className="w-5 h-5 bg-[#9B5CF6]/15 text-[#9B5CF6] rounded-full flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5"
               style={monoStyle}
             >
               {i + 1}

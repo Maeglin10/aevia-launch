@@ -314,7 +314,7 @@ export default function StudioVersaPage() {
                       <ParallaxImg src={m.img} alt={m.name} />
                       <div className="absolute inset-0 bg-[var(--brand,#7c2d12)]/0 group-hover:bg-[var(--brand,#f97316)]/10 transition-colors duration-700" />
                       <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex gap-2">
-                        {m.tags.map(t => <span key={t} className="px-3 py-1 bg-[var(--brand,#f97316)] text-white text-[9px] font-bold uppercase tracking-widest rounded-full">{t}</span>)}
+                        {m.tags.map(t => <span key={t} className="px-3 py-1 bg-[var(--brand,#f97316)] text-white text-[10px] font-bold uppercase tracking-widest rounded-full">{t}</span>)}
                       </div>
                     </div>
                     <div className="border-l-2 border-[var(--brand,#f97316)]/20 pl-4">

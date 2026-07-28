@@ -15,7 +15,7 @@ export default function MaterialSciencePage() {
         <div className="max-w-[1600px] mx-auto px-6 md:px-12 flex items-center justify-between">
           <Link href="/templates/impact-07" className="group flex flex-col items-center">
              <span className="text-3xl font-black tracking-[0.1em] uppercase leading-none italic">Aether</span>
-             <span className="text-[8px] font-bold uppercase tracking-[0.6em] text-[#c9a84c] -mt-1 ml-1">Sound Labs</span>
+             <span className="text-[10px] font-bold uppercase tracking-[0.6em] text-[#c9a84c] -mt-1 ml-1">Sound Labs</span>
           </Link>
           
           <Link href="/templates/impact-07" className="flex items-center gap-3 group">

@@ -81,15 +81,15 @@ export default function ContactPage() {
             style={{ display: 'flex', flexDirection: 'column', gap: 24 }}
           >
             <div>
-              <label style={{ fontSize: 9, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(10,10,10,0.45)', marginBottom: 8, display: 'block' }}>Name</label>
+              <label style={{ fontSize: 10, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(10,10,10,0.45)', marginBottom: 8, display: 'block' }}>Name</label>
               <input required type="text" style={{ width: '100%', padding: '16px', background: 'rgba(10,10,10,0.03)', border: '1px solid rgba(10,10,10,0.1)', outline: 'none', fontSize: 13 }} />
             </div>
             <div>
-              <label style={{ fontSize: 9, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(10,10,10,0.45)', marginBottom: 8, display: 'block' }}>Email</label>
+              <label style={{ fontSize: 10, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(10,10,10,0.45)', marginBottom: 8, display: 'block' }}>Email</label>
               <input required type="email" style={{ width: '100%', padding: '16px', background: 'rgba(10,10,10,0.03)', border: '1px solid rgba(10,10,10,0.1)', outline: 'none', fontSize: 13 }} />
             </div>
             <div>
-              <label style={{ fontSize: 9, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(10,10,10,0.45)', marginBottom: 8, display: 'block' }}>Message</label>
+              <label style={{ fontSize: 10, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(10,10,10,0.45)', marginBottom: 8, display: 'block' }}>Message</label>
               <textarea required rows={5} style={{ width: '100%', padding: '16px', background: 'rgba(10,10,10,0.03)', border: '1px solid rgba(10,10,10,0.1)', outline: 'none', fontSize: 13, resize: 'none' }}></textarea>
             </div>
             <button type="submit" style={{ padding: '16px', background: '#0a0a0a', color: '#fafafa', border: 'none', fontSize: 10, letterSpacing: '0.25em', textTransform: 'uppercase', cursor: 'pointer', marginTop: 12 }}>

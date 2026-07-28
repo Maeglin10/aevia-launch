@@ -194,7 +194,7 @@ export default function Blog() {
                     <span
                       style={{
                         fontFamily: F.sans,
-                        fontSize: 9,
+                        fontSize: 10,
                         color: C.accent,
                         letterSpacing: '0.16em',
                         textTransform: 'uppercase' as const,

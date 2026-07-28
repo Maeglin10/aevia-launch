@@ -50,7 +50,7 @@ export default function WorkPage() {
           <div className="border border-[#00F5D4]/20 bg-[#0D1323] p-6 relative">
             <div className="absolute top-2 right-2 flex items-center gap-1.5">
               <div className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
-              <span className="text-[9px] text-[#475569] font-mono">LIVE_STAT</span>
+              <span className="text-[10px] text-[#475569] font-mono">LIVE_STAT</span>
             </div>
             <h3 className="font-bold text-lg text-[#00F5D4] mb-4">// System Overview</h3>
             <div className="space-y-4 text-xs font-mono text-[#94A3B8]">

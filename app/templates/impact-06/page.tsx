@@ -237,7 +237,7 @@ export default function NeuralisPage() {
              ) : (
                <>
                  <span className="text-3xl font-black tracking-[-0.05em] uppercase leading-none">{fd?.businessName ?? "Neuralis"}</span>
-                 <span className="text-[8px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#00f2ff)] -mt-1 ml-1">Augmentation Lab</span>
+                 <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#00f2ff)] -mt-1 ml-1">Augmentation Lab</span>
                </>
              )}
           </Link>
@@ -305,9 +305,9 @@ export default function NeuralisPage() {
                    <motion.div animate={{ rotate: 360 }} transition={{ duration: 30, repeat: Infinity, ease: "linear" }} className="absolute inset-0 border-t-2 border-[var(--brand,#00f2ff)] rounded-full opacity-40" />
                    <motion.div animate={{ rotate: -360 }} transition={{ duration: 20, repeat: Infinity, ease: "linear" }} className="absolute inset-10 border-b-2 border-white/20 rounded-full" />
                    <div className="text-center space-y-2">
-                      <span className="text-[9px] font-bold uppercase tracking-[0.5em] text-white/20 block">Neural_Sync</span>
+                      <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-white/20 block">Neural_Sync</span>
                       <span className="text-6xl font-black italic text-[var(--brand,#00f2ff)]">0.8ms</span>
-                      <span className="text-[8px] font-bold uppercase tracking-widest text-white/40 block">Latency Threshold</span>
+                      <span className="text-[10px] font-bold uppercase tracking-widest text-white/40 block">Latency Threshold</span>
                    </div>
                 </div>
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-40 h-40 bg-[var(--brand,#00f2ff)] rounded-full blur-[100px] opacity-10 animate-pulse" />
@@ -320,7 +320,7 @@ export default function NeuralisPage() {
               <span className="text-[10px] font-bold uppercase tracking-widest">Status: Nominal</span>
               <div className="w-12 h-[1px] bg-white/10" />
            </div>
-           <div className="flex gap-4 items-center font-mono text-[9px]">
+           <div className="flex gap-4 items-center font-mono text-[10px]">
               <span>//_X_COORD: 144.2</span>
               <span>//_Y_COORD: 092.1</span>
            </div>
@@ -334,7 +334,7 @@ export default function NeuralisPage() {
               {STATS.map((stat, i) => (
                 <Reveal key={i} delay={i * 0.1}>
                    <div className="text-center md:text-left">
-                      <div className="text-[9px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#00f2ff)] mb-2">{stat.label}</div>
+                      <div className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#00f2ff)] mb-2">{stat.label}</div>
                       <div className="text-5xl font-black italic text-white">{stat.value}</div>
                    </div>
                 </Reveal>
@@ -365,7 +365,7 @@ export default function NeuralisPage() {
                        <div className="absolute inset-0 bg-[#020204]/40 group-hover:bg-transparent transition-colors duration-700" />
                        
                        <div className="absolute top-6 left-6">
-                          <Badge className="bg-black/60 backdrop-blur-md text-white border-white/10 text-[9px] font-bold uppercase tracking-widest px-3 py-1">
+                          <Badge className="bg-black/60 backdrop-blur-md text-white border-white/10 text-[10px] font-bold uppercase tracking-widest px-3 py-1">
                              {item.category}
                           </Badge>
                        </div>
@@ -416,7 +416,7 @@ export default function NeuralisPage() {
                        </div>
                        <h3 className="text-3xl font-black uppercase italic mb-6 tracking-tighter text-white group-hover:translate-x-2 transition-transform">{s.title}</h3>
                        <p className="text-sm text-white/30 font-light leading-relaxed mb-12 flex-1 tracking-wide uppercase italic leading-loose">{s.desc}</p>
-                       <button className="flex items-center gap-4 text-[9px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#00f2ff)] group-hover:gap-6 transition-all">
+                       <button className="flex items-center gap-4 text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#00f2ff)] group-hover:gap-6 transition-all">
                           Sourcing Integrity <ArrowRight className="w-4 h-4" />
                        </button>
                     </div>
@@ -524,7 +524,7 @@ export default function NeuralisPage() {
                    { label: "Audits", val: "Real-Time" },
                  ].map((item, i) => (
                     <div key={i} className="space-y-2">
-                       <span className="text-[9px] font-bold uppercase tracking-[0.4em] text-white/20 block">{item.label}</span>
+                       <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/20 block">{item.label}</span>
                        <span className="text-sm font-black text-white uppercase tracking-widest block">{item.val}</span>
                     </div>
                  ))}
@@ -561,11 +561,11 @@ export default function NeuralisPage() {
                           <div className={`w-2 h-2 rounded-full ${node.status === "Nominal" ? "bg-green-500" : "bg-yellow-500"} animate-pulse`} />
                        </div>
                        <div className="space-y-4">
-                          <div className="flex justify-between text-[9px] font-bold uppercase tracking-widest text-white/20">
+                          <div className="flex justify-between text-[10px] font-bold uppercase tracking-widest text-white/20">
                              <span>Status</span>
                              <span className="text-white/40">{node.status}</span>
                           </div>
-                          <div className="flex justify-between text-[9px] font-bold uppercase tracking-widest text-white/20">
+                          <div className="flex justify-between text-[10px] font-bold uppercase tracking-widest text-white/20">
                              <span>Latency</span>
                              <span className="text-[var(--brand,#00f2ff)]">{node.latency}</span>
                           </div>
@@ -613,11 +613,11 @@ export default function NeuralisPage() {
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                        <div className="space-y-2">
-                          <span className="text-[9px] font-bold uppercase tracking-[0.4em] text-white/20">Audit Status</span>
+                          <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/20">Audit Status</span>
                           <span className="text-sm font-black text-[var(--brand,#00f2ff)] uppercase tracking-widest block">Clean // 2024</span>
                        </div>
                        <div className="space-y-2">
-                          <span className="text-[9px] font-bold uppercase tracking-[0.4em] text-white/20">Encryption</span>
+                          <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/20">Encryption</span>
                           <span>Quantum_Resistant</span>
                        </div>
                     </div>

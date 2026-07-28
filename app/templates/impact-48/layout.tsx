@@ -134,7 +134,7 @@ export default function ArchitectureLayout({ children }: { children: React.React
               <span
                 style={{
                   fontFamily: F.sans,
-                  fontSize: 9,
+                  fontSize: 10,
                   letterSpacing: '0.32em',
                   textTransform: 'uppercase' as const,
                   color: C.accent,
@@ -256,7 +256,7 @@ export default function ArchitectureLayout({ children }: { children: React.React
               <Link href="/templates/impact-48" style={{ textDecoration: "none" }}>
                 <div style={{ display: "flex", flexDirection: "column", gap: 1, marginBottom: 20 }}>
                   <span style={{ fontFamily: F.sans, fontSize: 15, fontWeight: 700, letterSpacing: "0.22em", textTransform: "uppercase" as const, color: C.white }}>ATELIER</span>
-                  <span style={{ fontFamily: F.sans, fontSize: 9, letterSpacing: "0.32em", textTransform: "uppercase" as const, color: C.accent }}>MOREAU · LEROY</span>
+                  <span style={{ fontFamily: F.sans, fontSize: 10, letterSpacing: "0.32em", textTransform: "uppercase" as const, color: C.accent }}>MOREAU · LEROY</span>
                 </div>
               </Link>
               <p style={{ fontFamily: F.sans, fontSize: 14, color: "rgba(255,255,255,0.45)", lineHeight: 1.7, maxWidth: 280, marginBottom: 24 }}>Studio d'architecture et d'urbanisme. Conception de bâtiments pérennes, sobres et généreux. Paris · Genève.</p>

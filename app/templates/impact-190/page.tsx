@@ -193,7 +193,7 @@ export default function AutoExpertPage() {
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.7, delay: 0.3 }}>
             <div className="flex items-center gap-4 mb-8">
               <div className="w-8 h-[2px] bg-[var(--brand,#dc2626)]" />
-              <span className="text-[9px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#dc2626)]/70">Garage & carrosserie · Rennes</span>
+              <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#dc2626)]/70">Garage & carrosserie · Rennes</span>
             </div>
           </motion.div>
 
@@ -243,7 +243,7 @@ export default function AutoExpertPage() {
             <Reveal key={i} delay={i * 0.07}>
               <div className="text-center py-4">
                 <div className="text-3xl font-bold text-[var(--brand,#dc2626)] mb-1">{s.v}</div>
-                <div className="text-[9px] font-bold uppercase tracking-widest text-[#f1f3f5]/20">{s.l}</div>
+                <div className="text-[10px] font-bold uppercase tracking-widest text-[#f1f3f5]/20">{s.l}</div>
               </div>
             </Reveal>
           ))}
@@ -255,7 +255,7 @@ export default function AutoExpertPage() {
         <div className="max-w-[1300px] mx-auto px-6 md:px-12">
           <Reveal>
             <div className="mb-16">
-              <div className="text-[9px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#dc2626)]/60 mb-4">— Nos expertises</div>
+              <div className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#dc2626)]/60 mb-4">— Nos expertises</div>
               <h2 className="text-4xl md:text-5xl font-bold text-[#f1f3f5]">Tout pour<br /><span className="text-[var(--brand,#dc2626)]">votre véhicule.</span></h2>
             </div>
           </Reveal>
@@ -297,7 +297,7 @@ export default function AutoExpertPage() {
       <section id="tarifs" className="py-28 bg-[#141820]">
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-14">
-            <div className="text-[9px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#dc2626)]/50 mb-4">— Avis clients</div>
+            <div className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#dc2626)]/50 mb-4">— Avis clients</div>
             <h2 className="text-4xl font-bold text-[#f1f3f5]">Ils nous <span className="text-[var(--brand,#dc2626)]">font confiance.</span></h2>
           </div></Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -327,7 +327,7 @@ export default function AutoExpertPage() {
       <section id="contact" className="py-24 bg-[#0e1117] border-t border-[var(--brand,#dc2626)]/10">
         <Reveal>
           <div className="max-w-xl mx-auto px-6 text-center">
-            <div className="text-[9px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#dc2626)]/40 mb-6">Intervention rapide</div>
+            <div className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#dc2626)]/40 mb-6">Intervention rapide</div>
             <h2 className="text-4xl md:text-5xl font-bold text-[#f1f3f5] mb-5">
               Un problème<br /><span className="text-[var(--brand,#dc2626)]">avec votre auto ?</span>
             </h2>
@@ -360,14 +360,14 @@ export default function AutoExpertPage() {
             { t: "Adresse", ls: ["45 zone Industrielle Nord", "35000 Rennes", "Lun-Ven 8h-18h30", "Sam 8h-17h", "02 99 34 56 78"] },
           ].map((col, i) => (
             <div key={i}>
-              <h4 className="text-[9px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#dc2626)]/40 mb-5">{col.t}</h4>
+              <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#dc2626)]/40 mb-5">{col.t}</h4>
               <ul className="space-y-2.5">
                 {col.ls.map(l => <li key={l}><Link href="#services" className="text-[#f1f3f5]/15 text-sm hover:text-[#f1f3f5]/50 transition-colors">{l}</Link></li>)}
               </ul>
             </div>
           ))}
         </div>
-        <div className="max-w-[1300px] mx-auto pt-6 border-t border-[#f1f3f5]/5 flex flex-col md:flex-row justify-between gap-3 text-[9px] font-bold uppercase tracking-widest text-[#f1f3f5]/8">
+        <div className="max-w-[1300px] mx-auto pt-6 border-t border-[#f1f3f5]/5 flex flex-col md:flex-row justify-between gap-3 text-[10px] font-bold uppercase tracking-widest text-[#f1f3f5]/8">
           <span>© 2026 AutoExpert Rennes · SIRET 345 678 901 00022 · FCA · Rennes (35)</span>
           <span className="text-[var(--brand,#dc2626)]/15">Garage multimarque Rennes</span>
         </div>

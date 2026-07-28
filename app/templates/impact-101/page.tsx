@@ -368,7 +368,7 @@ export default function BlockBasePage() {
                       <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/50" />
                       <div className="w-2.5 h-2.5 rounded-full bg-green-500/50" />
                     </div>
-                    <div className="text-[8px] font-bold text-white/20 uppercase tracking-widest">
+                    <div className="text-[10px] font-bold text-white/20 uppercase tracking-widest">
                       TELEMETRY_STREAM // LIVE
                     </div>
                   </div>
@@ -377,7 +377,7 @@ export default function BlockBasePage() {
                   <div className="space-y-10">
                     {BLOCK_MANIFESTS.telemetry.map((stat, i) => (
                       <div key={i}>
-                        <div className="flex justify-between text-[9px] font-bold uppercase tracking-widest mb-3">
+                        <div className="flex justify-between text-[10px] font-bold uppercase tracking-widest mb-3">
                           <span className="text-white/40">{stat.label}</span>
                           <span style={{ color: stat.color }}>{stat.val}%</span>
                         </div>
@@ -399,7 +399,7 @@ export default function BlockBasePage() {
                     {BLOCK_MANIFESTS.logs.map((log, i) => (
                       <div
                         key={i}
-                        className="flex justify-between items-center text-[8px] font-bold tracking-widest"
+                        className="flex justify-between items-center text-[10px] font-bold tracking-widest"
                       >
                         <div className="flex gap-4">
                           <span className="text-white/20">[{log.time}]</span>
@@ -471,7 +471,7 @@ export default function BlockBasePage() {
                     {prod.specs.map((spec, j) => (
                       <div
                         key={j}
-                        className="flex items-center gap-3 text-[9px] font-bold text-white/20 uppercase tracking-widest"
+                        className="flex items-center gap-3 text-[10px] font-bold text-white/20 uppercase tracking-widest"
                       >
                         <div className="w-1 h-1 bg-[var(--brand,#00f2ff)] rounded-full" />
                         {spec}
@@ -538,7 +538,7 @@ export default function BlockBasePage() {
 
             <Reveal delay={0.2}>
               <div className="relative aspect-video bg-[#0a0a0f] border border-white/5 rounded-2xl overflow-hidden p-8 group">
-                <div className="absolute top-6 left-6 text-[8px] font-bold text-white/20 tracking-widest uppercase">
+                <div className="absolute top-6 left-6 text-[10px] font-bold text-white/20 tracking-widest uppercase">
                   Global_Mesh_Traffic
                 </div>
                 {/* Simulated Data Points */}
@@ -572,7 +572,7 @@ export default function BlockBasePage() {
                     <div className="absolute top-[40%] left-[85%] w-1.5 h-1.5 bg-[var(--brand,#00f2ff)] rounded-full shadow-[0_0_10px_#00f2ff] animate-pulse" />
                   </div>
                 </div>
-                <div className="absolute bottom-6 left-6 right-6 flex justify-between items-center text-[8px] font-bold text-white/20 tracking-widest uppercase">
+                <div className="absolute bottom-6 left-6 right-6 flex justify-between items-center text-[10px] font-bold text-white/20 tracking-widest uppercase">
                   <div className="flex gap-8">
                     <span>TX_PROCESSED: 4.2B</span>
                     <span>ACTIVE_NODES: 14,209</span>
@@ -608,7 +608,7 @@ export default function BlockBasePage() {
                     <div className="text-[10px] font-black text-white mb-2">
                       {s.label}
                     </div>
-                    <div className="text-[9px] font-bold text-[var(--brand,#00f2ff)] tracking-[0.2em]">
+                    <div className="text-[10px] font-bold text-[var(--brand,#00f2ff)] tracking-[0.2em]">
                       {s.status}
                     </div>
                   </div>
@@ -677,7 +677,7 @@ export default function BlockBasePage() {
             </ul>
           </div>
         </div>
-        <div className="max-w-[1500px] mx-auto mt-24 pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-12 text-[9px] font-bold text-white/10 uppercase tracking-widest">
+        <div className="max-w-[1500px] mx-auto mt-24 pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-12 text-[10px] font-bold text-white/10 uppercase tracking-widest">
           <div className="flex items-center gap-8">
             <span>&copy; 2026 BLOCKBASE FOUNDATION. ALL RIGHTS RESERVED.</span>
             <div className="flex gap-8 hidden lg:flex">

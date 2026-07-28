@@ -1045,7 +1045,7 @@ export default function Impact115Page() {
           <span
             style={{
               fontFamily: C.fontSans,
-              fontSize: 9,
+              fontSize: 10,
               fontWeight: 500,
               letterSpacing: "0.3em",
               textTransform: "uppercase",
@@ -1968,7 +1968,7 @@ export default function Impact115Page() {
               <div
                 style={{
                   fontFamily: C.fontSans,
-                  fontSize: 9,
+                  fontSize: 10,
                   fontWeight: 700,
                   letterSpacing: "0.24em",
                   textTransform: "uppercase",
@@ -1999,7 +1999,7 @@ export default function Impact115Page() {
               <div
                 style={{
                   fontFamily: C.fontSans,
-                  fontSize: 9,
+                  fontSize: 10,
                   fontWeight: 700,
                   letterSpacing: "0.24em",
                   textTransform: "uppercase",
@@ -2033,7 +2033,7 @@ export default function Impact115Page() {
               <div
                 style={{
                   fontFamily: C.fontSans,
-                  fontSize: 9,
+                  fontSize: 10,
                   fontWeight: 700,
                   letterSpacing: "0.24em",
                   textTransform: "uppercase",
@@ -2227,7 +2227,7 @@ function ProjectCard({
             <span
               style={{
                 fontFamily: C.fontSans,
-                fontSize: 9,
+                fontSize: 10,
                 fontWeight: 600,
                 letterSpacing: "0.2em",
                 textTransform: "uppercase",

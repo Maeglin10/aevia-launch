@@ -51,7 +51,7 @@ export default function CollectionPage() {
                       {w.collection}
                     </span>
                   </div>
-                  <p className="text-[9px] text-white/30 leading-relaxed font-bold uppercase tracking-widest mb-6 italic">
+                  <p className="text-[10px] text-white/30 leading-relaxed font-bold uppercase tracking-widest mb-6 italic">
                     {w.desc}
                   </p>
                   <div className="flex justify-between items-end">
@@ -60,7 +60,7 @@ export default function CollectionPage() {
                     </span>
                     <button
                       onClick={() => setActiveWatch(i)}
-                      className="text-[9px] font-black uppercase tracking-widest text-stone-500 group-hover:text-white transition-colors"
+                      className="text-[10px] font-black uppercase tracking-widest text-stone-500 group-hover:text-white transition-colors"
                     >
                       Inquire_Now
                     </button>
@@ -133,7 +133,7 @@ export default function CollectionPage() {
                         key={i}
                         className="flex justify-between items-center border-b border-white/5 pb-4"
                       >
-                        <span className="text-[9px] font-bold text-white/20 uppercase tracking-widest">
+                        <span className="text-[10px] font-bold text-white/20 uppercase tracking-widest">
                           {spec.label}
                         </span>
                         <span className="text-[10px] font-black text-white uppercase italic">

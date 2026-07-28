@@ -98,7 +98,7 @@ export default function ContactPage() {
                 </div>
 
                 <div className="flex justify-between items-center pt-4 border-t border-white/5">
-                  <div className="flex items-center gap-2 text-[9px] font-bold text-white/20 uppercase tracking-widest">
+                  <div className="flex items-center gap-2 text-[10px] font-bold text-white/20 uppercase tracking-widest">
                     <Terminal className="w-3.5 h-3.5" /> PGP_KEY_ACTIVE
                   </div>
                   <MagneticBtn

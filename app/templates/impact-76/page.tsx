@@ -278,7 +278,7 @@ return (
           className="absolute bottom-10 left-12 hidden md:block"
         >
           <div className="flex flex-col items-start gap-3">
-            <span className="text-[9px] font-bold text-white/10 uppercase tracking-[0.5em]">
+            <span className="text-[10px] font-bold text-white/10 uppercase tracking-[0.5em]">
               AEVIA_STRUCTURA // CORE_SYS_076
             </span>
             <div className="w-32 h-[1px] bg-white/10" />
@@ -320,14 +320,14 @@ return (
                       className="object-cover brightness-60 grayscale-[0.4] group-hover:scale-105 group-hover:grayscale-0 transition-all duration-700"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0c] via-transparent to-transparent" />
-                    <div className="absolute top-4 right-4 bg-white/5 backdrop-blur-md border border-white/10 px-3 py-1 text-[9px] font-bold uppercase tracking-widest text-white/50">
+                    <div className="absolute top-4 right-4 bg-white/5 backdrop-blur-md border border-white/10 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-white/50">
                       {project.type}
                     </div>
                   </div>
                   <div className="p-8 border-t border-white/5">
                     <div className="flex justify-between items-start">
                       <div>
-                        <p className="text-[9px] font-bold text-white/20 uppercase tracking-[0.4em] mb-2">
+                        <p className="text-[10px] font-bold text-white/20 uppercase tracking-[0.4em] mb-2">
                           {project.location} · {project.year}
                         </p>
                         <h3 className="text-xl font-black uppercase tracking-tighter text-white group-hover:text-stone-400 transition-colors">
@@ -401,7 +401,7 @@ return (
             {SERVICES.map((svc, i) => (
               <Reveal key={i} delay={i * 0.1}>
                 <div className="bg-[#0a0a0c] p-10 group hover:bg-[#0e0e11] transition-colors border-t-2 border-transparent hover:border-stone-500">
-                  <span className="text-[9px] font-black text-stone-500/50 uppercase tracking-[0.5em] mb-6 block">
+                  <span className="text-[10px] font-black text-stone-500/50 uppercase tracking-[0.5em] mb-6 block">
                     {svc.code}
                   </span>
                   <h3 className="text-2xl font-black uppercase tracking-tighter text-white mb-6">
@@ -410,7 +410,7 @@ return (
                   <p className="text-[11px] text-white/30 uppercase tracking-widest leading-relaxed font-bold italic">
                     {svc.desc}
                   </p>
-                  <div className="mt-8 flex items-center gap-3 text-[9px] font-bold uppercase tracking-[0.4em] text-stone-500/50 group-hover:text-stone-500 transition-colors">
+                  <div className="mt-8 flex items-center gap-3 text-[10px] font-bold uppercase tracking-[0.4em] text-stone-500/50 group-hover:text-stone-500 transition-colors">
                     Learn More <ArrowUpRight className="w-3 h-3" />
                   </div>
                 </div>
@@ -432,7 +432,7 @@ return (
                   <div className="text-6xl md:text-7xl font-black tracking-tighter text-white mb-4 font-mono">
                     <Counter to={stat.value} suffix={stat.suffix} />
                   </div>
-                  <div className="text-[9px] font-bold uppercase tracking-[0.5em] text-white/20 italic">
+                  <div className="text-[10px] font-bold uppercase tracking-[0.5em] text-white/20 italic">
                     {stat.label}
                   </div>
                 </div>
@@ -470,7 +470,7 @@ return (
                     <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0c] via-transparent to-transparent" />
                   </div>
                   <div className="p-8 border-t border-white/5">
-                    <p className="text-[9px] font-bold text-stone-500/60 uppercase tracking-[0.4em] mb-2">
+                    <p className="text-[10px] font-bold text-stone-500/60 uppercase tracking-[0.4em] mb-2">
                       {member.role}
                     </p>
                     <h3 className="text-xl font-black uppercase tracking-tighter text-white mb-3">
@@ -539,9 +539,9 @@ return (
                 ].map((a, i) => (
                   <Reveal key={i} delay={i * 0.06}>
                     <div className="py-6 flex items-center gap-8 group">
-                      <span className="text-[9px] font-black text-white/10 uppercase tracking-widest w-10 flex-shrink-0 font-mono">{a.year}</span>
+                      <span className="text-[10px] font-black text-white/10 uppercase tracking-widest w-10 flex-shrink-0 font-mono">{a.year}</span>
                       <div className="flex-1 text-sm font-black uppercase tracking-tighter text-white/40 italic group-hover:text-white/80 transition-colors">{a.title}</div>
-                      <span className="text-[9px] font-bold text-stone-500/50 uppercase tracking-widest flex-shrink-0">{a.cat}</span>
+                      <span className="text-[10px] font-bold text-stone-500/50 uppercase tracking-widest flex-shrink-0">{a.cat}</span>
                     </div>
                   </Reveal>
                 ))}
@@ -562,7 +562,7 @@ return (
                 ].map((p, i) => (
                   <Reveal key={i} delay={i * 0.06}>
                     <div className="py-6 flex items-start gap-8 group cursor-pointer">
-                      <span className="text-[9px] font-black text-stone-500/50 uppercase tracking-widest w-20 flex-shrink-0 mt-0.5">{p.pub}</span>
+                      <span className="text-[10px] font-black text-stone-500/50 uppercase tracking-widest w-20 flex-shrink-0 mt-0.5">{p.pub}</span>
                       <div className="flex-1 text-sm font-bold text-white/20 italic group-hover:text-white/60 transition-colors leading-snug">{p.title}</div>
                       <ArrowUpRight className="w-3 h-3 text-white/10 group-hover:text-stone-500 transition-colors flex-shrink-0 mt-1" />
                     </div>
