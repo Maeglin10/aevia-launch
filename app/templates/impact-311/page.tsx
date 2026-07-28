@@ -976,7 +976,7 @@ export default function AtelierPerformanceTemplate() {
         </section>
 
         {/* FAQ SECTION */}
-        <section style={{ padding: '8rem 2rem', backgroundColor: C.bgDeep }}>
+        <section id="faq" style={{ padding: '8rem 2rem', backgroundColor: C.bgDeep }}>
           <div style={{ maxWidth: '800px', margin: '0 auto' }}>
             <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
               <Reveal>

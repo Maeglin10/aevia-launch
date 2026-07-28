@@ -553,17 +553,16 @@ function ParallaxMountainHero() {
 
       {/* Scroll indicator */}
       <motion.div
-        style={{ opacity }}
         animate={{ y: [0, 8, 0] }}
         transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
         aria-hidden
         style={{
+          opacity,
           position:   "absolute",
           bottom:     40,
           left:       "50%",
           transform:  "translateX(-50%)",
           zIndex:     10,
-          opacity:    0.4,
           display:    "flex",
           flexDirection: "column",
           alignItems: "center",

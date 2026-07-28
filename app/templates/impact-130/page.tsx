@@ -532,7 +532,7 @@ function SplitRevealHero() {
       </motion.div>
 
       {/* Scroll indicator */}
-      <motion.div style={{ opacity }} style={{ position: "absolute", bottom: 32, right: 40, display: "flex", flexDirection: "column", alignItems: "center", gap: 8 }}>
+      <motion.div style={{ opacity, position: "absolute", bottom: 32, right: 40, display: "flex", flexDirection: "column", alignItems: "center", gap: 8 }}>
         <span style={{ fontSize: 11, letterSpacing: "0.2em", color: C.textMuted, textTransform: "uppercase", fontFamily: "'DM Sans', system-ui, sans-serif", writingMode: "vertical-rl" }}>Scroll</span>
         <motion.div
           animate={{ y: [0, 8, 0] }}

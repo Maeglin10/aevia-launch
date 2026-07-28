@@ -240,7 +240,11 @@ fs.mkdirSync(OUT, { recursive: true });
 const report = { template: TPL, routes: [], generated: new Date().toISOString() };
 const allLinks = new Set();
 
-for (const route of routes()) {
+// HOME_ONLY trades depth for breadth: a first pass over all 315 themes at
+// full depth would take many hours, so the catalogue sweep checks each
+// homepage and the per-theme run then goes deep on the worst offenders.
+const ROUTE_LIST = process.env.HOME_ONLY ? [`/templates/${TPL}`] : routes();
+for (const route of ROUTE_LIST) {
   for (const bp of BREAKPOINTS) {
     const page = await b.newPage({ viewport: { width: bp.width, height: bp.height } });
     const consoleErrors = [];
@@ -281,6 +285,45 @@ for (const route of routes()) {
         }
       }
 
+      // Nav links are tested by CLICKING them, not by reading href. Many
+      // templates navigate client-side and leave href as a no-JS fallback, so
+      // judging them on href alone reports working navigation as broken.
+      if (route.split("/").length === 3 && bp.name === "desktop") {
+        const labels = await page.evaluate(() =>
+          [...document.querySelectorAll("nav a, header a")]
+            .map((a) => (a.textContent || "").trim())
+            // "Accueil"/"Home" correctly does nothing when you are already on
+            // the homepage, and tel:/mailto: links never change the page.
+            .filter((t) => t.length > 2 && t.length < 30)
+            .filter((t) => !/^(accueil|home|retour|logo)$/i.test(t))
+            .filter((t) => !/^[+\d][\d\s().-]{6,}$/.test(t) && !/@/.test(t))
+            .slice(0, 6));
+        for (const label of labels) {
+          const before = await page.evaluate(() => ({
+            h: (document.querySelector("h1,h2")?.textContent || "").trim(),
+            len: document.body.innerText.length, url: location.pathname }));
+          await page.evaluate((t) => {
+            const a = [...document.querySelectorAll("a,button")]
+              .find((x) => (x.textContent || "").trim() === t);
+            a && a.click();
+          }, label);
+          await page.waitForTimeout(1400);
+          const after = await page.evaluate(() => ({
+            h: (document.querySelector("h1,h2")?.textContent || "").trim(),
+            len: document.body.innerText.length, url: location.pathname,
+            y: Math.round(scrollY) }));
+          const moved = after.url !== before.url || after.h !== before.h ||
+                        Math.abs(after.len - before.len) > 60 || after.y > 120;
+          if (!moved) issues.push({ kind: "NAV_DEAD", label });
+          if (after.url !== before.url) {
+            await page.goto(BASE + route, { waitUntil: "networkidle", timeout: 40000 });
+            await page.waitForTimeout(900);
+          } else {
+            await page.evaluate(() => window.scrollTo(0, 0));
+          }
+        }
+      }
+
       if (resp && resp.status() >= 400) issues.push({ kind: "HTTP", status: resp.status() });
       consoleErrors.forEach((m) => issues.push({ kind: "JS_ERROR", m }));
 
@@ -312,6 +355,6 @@ fs.writeFileSync(`${OUT}/report.json`, JSON.stringify(report, null, 1));
 const counts = {};
 report.routes.forEach((r) => r.issues.forEach((i) => { counts[i.kind] = (counts[i.kind] || 0) + 1; }));
 console.log("\n──", TPL, "──");
-console.log("routes:", routes().length, "| dead links:", dead.length, dead.slice(0, 6));
+console.log("routes:", ROUTE_LIST.length, "| dead links:", dead.length, dead.slice(0, 6));
 console.log("issues:", Object.keys(counts).length ? counts : "none");
 await b.close();

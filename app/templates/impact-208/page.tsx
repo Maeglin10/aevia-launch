@@ -341,7 +341,7 @@ function BlueprintHero() {
                 Demander une étude
               </span>
             </a>
-            <a href="#realisations" style={{ textDecoration: "none" }}>
+            <a href="#projects" style={{ textDecoration: "none" }}>
               <span style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "transparent", color: C.yellow, border: `1px solid ${alpha(C.yellow, 40)}`, padding: "15px 30px", fontFamily: FONT_BODY, fontWeight: 600, fontSize: 12, letterSpacing: "0.12em", textTransform: "uppercase", minHeight: 44 }}>
                 Toutes nos réalisations
               </span>
