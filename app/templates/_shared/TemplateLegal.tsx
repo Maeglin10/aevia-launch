@@ -25,7 +25,11 @@ const DOCS: { key: keyof LegalPages; title: string }[] = [
   { key: "cgu", title: "Conditions Générales d’Utilisation" },
 ];
 
-export default function TemplateLegal() {
+/* `only` renders a single document. Footers across the catalogue link to
+   /legal/cgu, /legal/confidentialite and /legal/mentions-legales as separate
+   routes; those routes re-export this component with `only` set rather than
+   duplicating the legal copy three more times per template. */
+export default function TemplateLegal({ only }: { only?: keyof LegalPages } = {}) {
   const [legal, setLegal] = useState<LegalPages | null>(null);
   const [name, setName] = useState<string>("");
   const [loaded, setLoaded] = useState(false);
@@ -46,7 +50,9 @@ export default function TemplateLegal() {
       .finally(() => setLoaded(true));
   }, []);
 
-  const has = legal && DOCS.some((d) => legal[d.key]);
+  const docs = only ? DOCS.filter((d) => d.key === only) : DOCS;
+  const has = legal && docs.some((d) => legal[d.key]);
+  const heading = only ? (DOCS.find((d) => d.key === only)?.title ?? "Informations légales") : "Informations légales";
 
   return (
     <main
@@ -64,20 +70,24 @@ export default function TemplateLegal() {
           ← Retour au site
         </a>
         <h1 style={{ fontSize: 34, fontWeight: 800, margin: "16px 0 8px", letterSpacing: -0.5 }}>
-          Informations légales{name ? ` — ${name}` : ""}
+          {heading}{name ? ` — ${name}` : ""}
         </h1>
         <p style={{ color: "#6b7280", fontSize: 14, marginBottom: 40 }}>
-          Mentions légales, conditions de vente et d’utilisation, politique de confidentialité.
+          {only
+            ? "Document contractuel de l’établissement."
+            : "Mentions légales, conditions de vente et d’utilisation, politique de confidentialité."}
         </p>
 
         {!loaded && <p style={{ color: "#9ca3af" }}>Chargement…</p>}
 
         {loaded && has &&
-          DOCS.filter((d) => legal?.[d.key]).map((d) => (
+          docs.filter((d) => legal?.[d.key]).map((d) => (
             <section key={d.key} style={{ marginBottom: 48 }}>
-              <h2 style={{ fontSize: 24, fontWeight: 700, margin: "0 0 16px", borderBottom: "1px solid #e5e7eb", paddingBottom: 8 }}>
-                {d.title}
-              </h2>
+              {!only && (
+                <h2 style={{ fontSize: 24, fontWeight: 700, margin: "0 0 16px", borderBottom: "1px solid #e5e7eb", paddingBottom: 8 }}>
+                  {d.title}
+                </h2>
+              )}
               <div
                 style={{ fontSize: 15.5 }}
                 dangerouslySetInnerHTML={{ __html: legal![d.key] as string }}

@@ -6,14 +6,14 @@ import { ArrowLeft } from "lucide-react"
 
 export default function Page() {
   return (
-    <div className="bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] min-h-dvh text-[10px] font-sans selection:bg-white/10">
+    <div className="bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] min-h-dvh text-black/80 font-sans selection:bg-white/10">
       <header className="fixed top-0 left-0 right-0 z-50 px-8 py-6 bg-black/40 backdrop-blur-md border-b border-white/10">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <Link href="/templates/impact-160" className="flex items-center gap-2 text-xs tracking-widest uppercase hover:opacity-80 transition-opacity">
             <ArrowLeft className="w-4 h-4" />
             <span>Retour à l&apos;accueil</span>
           </Link>
-          <span className="text-sm font-semibold uppercase tracking-widest text-[8px]">IMPACT-160</span>
+          <span className="text-sm font-semibold uppercase tracking-widest text-[8px]">THE</span>
         </div>
       </header>
 
@@ -24,7 +24,7 @@ export default function Page() {
         <div className="space-y-8 text-sm leading-relaxed opacity-80 border-t border-white/10 pt-8">
           <section className="space-y-3">
             <h2 className="text-lg font-semibold text-[8px]">1. Éditeur du site</h2>
-            <p>Le site web est édité par la société exploitant le modèle IMPACT-160, société au capital social de 100 000 €, immatriculée au RCS sous le numéro 901 234 567.</p>
+            <p>Le site web est édité par THE, société au capital social de 100 000 €, immatriculée au RCS sous le numéro 901 234 567.</p>
           </section>
 
           <section className="space-y-3">
@@ -40,7 +40,7 @@ export default function Page() {
       </main>
 
       <footer className="border-t border-white/10 py-8 px-6 text-center text-xs opacity-40">
-        <p>&copy; 2026 IMPACT-160. Tous droits réservés.</p>
+        <p>&copy; 2026 THE. Tous droits réservés.</p>
       </footer>
     </div>
   )

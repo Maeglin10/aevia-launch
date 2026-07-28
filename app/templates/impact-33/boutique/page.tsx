@@ -44,7 +44,7 @@ export default function BoutiquePage() {
                 style={{ background: C.white, borderRadius: 18, overflow: "hidden", border: `1px solid ${C.border}`, boxShadow: C.shadow }}
               >
                 <img
-                  src={`https://images.unsplash.com/${item.img}?w=800&q=80&fit=crop`}
+                  src={/^https?:/.test(item.img) ? item.img : `https://images.unsplash.com/${item.img}?w=800&q=80&fit=crop`}
                   alt={item.name}
                   loading="lazy"
                   style={{ width: "100%", height: 180, objectFit: "cover" }}
