@@ -6,6 +6,19 @@ import { motion, useScroll, useTransform, useInView, AnimatePresence, useMotionV
 import { ShoppingBag, Heart, Search, User, ArrowRight, Check, Star, Package, RefreshCw, Leaf, Camera, X, ChevronLeft, ChevronRight, Truck } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
 
+// Nav and footer links all pointed at the template root regardless of their
+// label, leaving the pages below unreachable. Labels come from .map() vars, so
+// they resolve through this table; anything unmapped stays on the homepage.
+const NAV_HREF: Record<string, string> = {
+  "Mentions": "/templates/impact-168/legal/mentions-legales",
+  "mentions": "/templates/impact-168/legal/mentions-legales",
+};
+const navHref = (label: unknown) =>
+  (typeof label === "string" && NAV_HREF[label]) || "/templates/impact-168";
+
+
+
+
 // ─── Design Tokens ────────────────────────────────────────────────────────────
 // Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
 // used to derive companion shades from the client's brand color.

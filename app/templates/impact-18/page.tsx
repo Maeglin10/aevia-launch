@@ -7,6 +7,31 @@ import Image from "next/image";
 import Link from "next/link";
 import { Menu, X, ArrowRight, Zap, BarChart3, Users, CheckCircle, ChevronDown, Globe, Layers, Bell, Shield, Code2, TrendingUp, Cpu, Server, Lock, HelpCircle } from "lucide-react";
 
+// Nav and footer links all pointed at the template root regardless of their
+// label, leaving the pages below unreachable. Labels come from .map() vars, so
+// they resolve through this table; anything unmapped stays on the homepage.
+const NAV_HREF: Record<string, string> = {
+  "Blog": "/templates/impact-18/blog",
+  "Confidentialité": "/templates/impact-18/legal",
+  "Docs": "/templates/impact-18/docs",
+  "Intégration Salesforce": "/templates/impact-18/integrations",
+  "Intégrations": "/templates/impact-18/integrations",
+  "Intégrations basiques": "/templates/impact-18/integrations",
+  "Mentions Légales": "/templates/impact-18/legal",
+  "Tarifs": "/templates/impact-18/tarifs",
+  "blog": "/templates/impact-18/blog",
+  "docs": "/templates/impact-18/docs",
+  "features": "/templates/impact-18/features",
+  "integrations": "/templates/impact-18/integrations",
+  "legal": "/templates/impact-18/legal",
+  "tarifs": "/templates/impact-18/tarifs",
+};
+const navHref = (label: unknown) =>
+  (typeof label === "string" && NAV_HREF[label]) || "/templates/impact-18";
+
+
+
+
 const useFonts = () => {
   useEffect(() => {
     if (document.getElementById("sl-fonts")) return;

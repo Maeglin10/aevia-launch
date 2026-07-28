@@ -35,6 +35,20 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 
+// Nav and footer links all pointed at the template root regardless of their
+// label, leaving the pages below unreachable. Labels come from .map() vars, so
+// they resolve through this table; anything unmapped stays on the homepage.
+const NAV_HREF: Record<string, string> = {
+  "Cookies": "/templates/impact-276/legal/confidentialite",
+  "Mentions légales": "/templates/impact-276/legal/mentions-legales",
+  "Politique de confidentialité": "/templates/impact-276/legal/confidentialite",
+};
+const navHref = (label: unknown) =>
+  (typeof label === "string" && NAV_HREF[label]) || "/templates/impact-276";
+
+
+
+
 /* ════════════════════════════════════════════════════════════════════════════
    THOMAS LEBRUN COACH — Coach sportif & nutrition · Bordeaux Caudéran
    Template Skylaunch premium · style sport/impact · 'use client' · auto-suffisant.
@@ -3011,7 +3025,7 @@ function FooterSection() {
               {LINKS.map((l) => (
                 <a
                   key={l}
-                  href="/templates/impact-276"
+                  href={navHref(l)}
                   onClick={(e) => e.preventDefault()}
                   style={{
                     fontFamily: SANS,

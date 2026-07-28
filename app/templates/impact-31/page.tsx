@@ -959,62 +959,6 @@ function FAQ() {
 }
 
 // ─── Footer ───────────────────────────────────────────────────────────────────
-function Footer() {
-  return (
-    <footer style={{ background: C.text, color: C.white, padding: "70px 80px 32px", fontFamily: FONT_BODY }}>
-      <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr 1fr", gap: 48, marginBottom: 52 }}>
-        <div>
-          <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 20 }}>
-            <div style={{ width: 38, height: 38, background: C.accent, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>
-              <Leaf size={20} color={C.white} />
-            </div>
-            <span style={{ fontFamily: FONT_HEADING, fontWeight: 700, fontSize: 21 }}>{fd?.businessName ?? 'AnandaFlow'}</span>
-          </div>
-          <p style={{ color: "rgba(255,255,255,0.58)", fontSize: 15, lineHeight: 1.65, marginBottom: 24 }}>
-            Studio de yoga et méditation au cœur de Lyon. Un espace chaleureux pour trouver la paix intérieure et cultiver votre équilibre.
-          </p>
-          <div style={{ display: "flex", flexDirection: "column", gap: 11 }}>
-            {[
-              { icon: <Phone size={15} />, text: "04 72 34 56 78" },
-              { icon: <Mail size={15} />, text: "namaste@anandaflow.fr" },
-              { icon: <MapPin size={15} />, text: "18 Rue de la Paix, 69002 Lyon" },
-              { icon: <Clock size={15} />, text: "Lun–Ven 7h–21h | Week-end 8h–19h" },
-            ].map((item, i) => (
-              <div key={i} style={{ display: "flex", alignItems: "center", gap: 10, color: "rgba(255,255,255,0.62)", fontSize: 14 }}>
-                <span style={{ color: C.accent }}>{item.icon}</span>
-                {item.text}
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {[
-          { title: "Cours", links: ["Hatha Flow", "Vinyasa", "Yin Yoga", "Méditation", "Kundalini"] },
-          { title: "Studio", links: ["Notre histoire", "Professeurs", "Tarifs", "Blog", "Événements"] },
-          { title: "Pratique", links: ["Cours débutants", "Cours en ligne", "Retraites", "Ateliers"] },
-        ].map((col) => (
-          <div key={col.title}>
-            <h4 style={{ fontSize: 13, fontWeight: 700, marginBottom: 20, color: C.white, textTransform: "uppercase", letterSpacing: 0.8 }}>{col.title}</h4>
-            <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-              {col.links.map((link) => (
-                <a key={link} href="/templates/impact-31" style={{ color: "rgba(255,255,255,0.55)", fontSize: 14, textDecoration: "none" }}>{link}</a>
-              ))}
-            </div>
-          </div>
-        ))}
-      </div>
-
-      <div style={{ borderTop: "1px solid rgba(255,255,255,0.1)", paddingTop: 24, display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 12 }}>
-        <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 14 }}>© 2025 Ananda Flow. Tous droits réservés.</p>
-        <div style={{ display: "flex", gap: 20 }}>
-          {["Mentions légales", "Confidentialité", "CGV"].map((link) => (
-            <a key={link} href="/templates/impact-31" style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, textDecoration: "none" }}>{link}</a>
-          ))}
-        </div>
-      </div>
-    </footer>
-  );
-}
 
 // ─── Page Export ──────────────────────────────────────────────────────────────
 
@@ -1116,7 +1060,8 @@ return (
       <Testimonials />
       <Pricing />
       <FAQ />
-      <Footer />
+      {/* layout.tsx renders the site footer; this page rendered a second one
+          on top of it, so the site showed two stacked footers. */}
     </main>
   );
 }

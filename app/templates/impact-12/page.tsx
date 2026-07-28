@@ -8,6 +8,20 @@ import Link from "next/link";
 import { Menu, X, ArrowRight, ChevronRight, ShoppingBag, Check } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
 
+// Nav and footer links all pointed at the template root regardless of their
+// label, leaving the pages below unreachable. Labels come from .map() vars, so
+// they resolve through this table; anything unmapped stays on the homepage.
+const NAV_HREF: Record<string, string> = {
+  "Collections": "/templates/impact-12/collections",
+  "Nouvelle collection": "/templates/impact-12/collections",
+  "collections": "/templates/impact-12/collections",
+};
+const navHref = (label: unknown) =>
+  (typeof label === "string" && NAV_HREF[label]) || "/templates/impact-12";
+
+
+
+
 const Instagram = ({ className = "w-4 h-4" }: { className?: string }) => (
   <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5}>
     <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
@@ -260,7 +274,7 @@ export default function NoirCouturePage() {
               return (
                 <motion.div key={item} initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.07 }}>
                   <a
-                    href="/templates/impact-12"
+                    href={navHref(item)}
                     className="block text-white text-3xl font-light mb-6 cursor-pointer tracking-widest uppercase"
                     onClick={(e) => { e.preventDefault(); setMobileOpen(false); goTo(target as any); }}
                   >
@@ -473,7 +487,7 @@ export default function NoirCouturePage() {
                     return (
                       <li key={l}>
                         <a
-                          href="/templates/impact-12"
+                          href={navHref(l)}
                           onClick={clickHandler}
                           className="text-white/30 text-sm hover:text-white transition-colors cursor-pointer text-decoration-none"
                         >

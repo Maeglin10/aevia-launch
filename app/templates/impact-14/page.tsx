@@ -11,6 +11,29 @@ import {
 } from "framer-motion";
 import { useEffect, useRef, useState, useCallback } from "react";
 import Link from "next/link";
+
+// Nav and footer links all pointed at the template root regardless of their
+// label, leaving the pages below unreachable. Labels come from .map() vars, so
+// they resolve through this table; anything unmapped stays on the homepage.
+const NAV_HREF: Record<string, string> = {
+  "Contact": "/templates/impact-14/contact",
+  "Destinations": "/templates/impact-14/destinations",
+  "Experience": "/templates/impact-14/experience",
+  "Fleet": "/templates/impact-14/fleet",
+  "Legal Mentions": "/templates/impact-14/legal",
+  "Our Fleet": "/templates/impact-14/fleet",
+  "Preferred Destination": "/templates/impact-14/destinations",
+  "Private Destinations": "/templates/impact-14/destinations",
+  "contact": "/templates/impact-14/contact",
+  "destinations": "/templates/impact-14/destinations",
+  "experience": "/templates/impact-14/experience",
+  "fleet": "/templates/impact-14/fleet",
+};
+const navHref = (label: unknown) =>
+  (typeof label === "string" && NAV_HREF[label]) || "/templates/impact-14";
+
+
+
 import {
   Menu,
   X,
@@ -2359,7 +2382,7 @@ export default function HorizonMaritimePage() {
                     return (
                       <li key={link} style={{ marginBottom: "0.75rem" }}>
                         <a
-                          href="/templates/impact-14"
+                          href={navHref(link)}
                           onClick={onClickHandler}
                           style={{
                             fontFamily: "Montserrat, sans-serif",
@@ -2437,7 +2460,7 @@ export default function HorizonMaritimePage() {
               {["Privacy Policy", "Terms of Charter", "Cookie Policy", "Legal Mentions"].map((l) => (
                 <a
                   key={l}
-                  href="/templates/impact-14"
+                  href={navHref(l)}
                   onClick={(e) => { e.preventDefault(); goTo("legal"); }}
                   style={{ fontFamily: "Montserrat, sans-serif", fontSize: 9, color: "rgba(240,236,224,0.25)", textDecoration: "none", letterSpacing: 1 }}
                 >

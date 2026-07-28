@@ -7,6 +7,28 @@ import Image from "next/image";
 import Link from "next/link";
 import { BookOpen, Users, Star, Play, ChevronRight, Menu, X, ArrowRight, Clock, Award, BarChart2, Globe, CheckCircle } from "lucide-react";
 
+// Nav and footer links all pointed at the template root regardless of their
+// label, leaving the pages below unreachable. Labels come from .map() vars, so
+// they resolve through this table; anything unmapped stays on the homepage.
+const NAV_HREF: Record<string, string> = {
+  "50 cours inclus": "/templates/impact-11/cours",
+  "Blog": "/templates/impact-11/blog",
+  "Catalogue": "/templates/impact-11/cours",
+  "Communauté": "/templates/impact-11/communaute",
+  "Conditions": "/templates/impact-11/legal",
+  "Confidentialité": "/templates/impact-11/confidentialite",
+  "Cookies": "/templates/impact-11/confidentialite",
+  "Cours": "/templates/impact-11/cours",
+  "Forum communauté": "/templates/impact-11/communaute",
+  "Mentoring": "/templates/impact-11/mentoring",
+  "Mentoring mensuel": "/templates/impact-11/mentoring",
+  "Tarifs": "/templates/impact-11/tarifs",
+  "Tous les cours": "/templates/impact-11/cours",
+};
+const navHref = (label: unknown) =>
+  (typeof label === "string" && NAV_HREF[label]) || "/templates/impact-11";
+
+
 const useFonts = () => {
   useEffect(() => {
     if (document.getElementById("edu-fonts")) return;
@@ -172,7 +194,7 @@ return (
           </Link>
           <div className="hidden lg:flex items-center gap-8 text-gray-600 text-sm font-medium">
             {["Cours", "Mentoring", "Certifications", "Entreprises", "Tarifs"].map(item => (
-              <Link key={item} href="/templates/impact-11" className="hover:text-[var(--brand,#7C3AED)] transition-colors cursor-pointer">{item}</Link>
+              <Link key={item} href={navHref(item)} className="hover:text-[var(--brand,#7C3AED)] transition-colors cursor-pointer">{item}</Link>
             ))}
           </div>
           <div className="hidden lg:flex items-center gap-3">
@@ -202,7 +224,7 @@ return (
             </div>
             {["Cours", "Mentoring", "Certifications", "Entreprises", "Tarifs"].map((item, i) => (
               <motion.div key={item} initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.07 }}>
-                <Link href="/templates/impact-11" className="block text-gray-900 text-2xl font-semibold mb-6 cursor-pointer" onClick={() => setMobileOpen(false)}>{item}</Link>
+                <Link href={navHref(item)} className="block text-gray-900 text-2xl font-semibold mb-6 cursor-pointer" onClick={() => setMobileOpen(false)}>{item}</Link>
               </motion.div>
             ))}
           </motion.div>
@@ -406,7 +428,7 @@ return (
             <div key={col.title}>
               <h4 className="text-white font-semibold mb-4 text-sm">{col.title}</h4>
               <ul className="space-y-2">
-                {col.links.map(l => <li key={l}><Link href="/templates/impact-11" className="text-gray-400 text-sm hover:text-white transition-colors cursor-pointer">{l}</Link></li>)}
+                {col.links.map(l => <li key={l}><Link href={navHref(l)} className="text-gray-400 text-sm hover:text-white transition-colors cursor-pointer">{l}</Link></li>)}
               </ul>
             </div>
           ))}
