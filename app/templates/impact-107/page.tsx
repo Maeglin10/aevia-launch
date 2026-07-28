@@ -205,7 +205,7 @@ export default function MeridianJourneyPage() {
 
       <main>
         {/* ── HERO ──────────────────────────── */}
-        <section id="hero" className="relative h-[100dvh] md:h-[120vh] min-h-[560px] md:min-h-[900px] flex items-end overflow-hidden">
+        <section id="hero" className="relative h-[100dvh] md:h-[100dvh] min-h-[560px] md:min-h-[640px] flex items-end overflow-hidden">
           <motion.div style={{ y: heroY }} className="absolute inset-0">
             <Image src={photo(0, "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&q=80&w=2400")} alt="Mountains" fill className="object-cover opacity-70" priority />
             <div className="absolute inset-0 bg-gradient-to-t from-[#0d1210] via-[#0d1210]/30 to-transparent" />

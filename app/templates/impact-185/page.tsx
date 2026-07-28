@@ -339,7 +339,14 @@ export default function GentlemansCutPage() {
       </nav>
 
       {/* ── HERO ── */}
-      <section id="hero" ref={heroRef} className="relative h-[115vh] min-h-[900px] flex items-end overflow-hidden">
+      <style>{`
+        /* items-end overflows upward when the stack is taller than the hero,
+           sliding the eyebrow under the fixed navbar. */
+        @media (max-width: 640px) {
+          .imx185-hero { align-items: flex-start !important; padding-top: 104px !important; padding-bottom: 32px !important; }
+        }
+      `}</style>
+      <section id="hero" ref={heroRef} className="imx185-hero relative h-[100dvh] min-h-[640px] flex [align-items:safe_flex-end] overflow-hidden">
         <motion.div style={{ y: heroY }} className="absolute inset-0">
           <Image src={photo(0, "https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&q=88&w=2400")} alt="Barbier rasage traditionnel" fill className="object-cover object-top" priority style={{ filter: "brightness(0.35) contrast(1.05)" }} />
           <div className="absolute inset-0 bg-gradient-to-t from-[#0a0908] via-[#0a0908]/55 to-transparent" />

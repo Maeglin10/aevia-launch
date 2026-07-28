@@ -161,7 +161,7 @@ export default function SecurFastPage() {
       </div>
 
       {/* ── HERO ── */}
-      <section id="hero" ref={heroRef} className="relative h-[110vh] min-h-[820px] flex items-end overflow-hidden pt-16">
+      <section id="hero" ref={heroRef} className="relative h-[100dvh] min-h-[820px] flex items-end overflow-hidden pt-16">
         <motion.div style={{ y: heroY }} className="absolute inset-0">
           <Image src={photo(0, "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&q=85&w=2400")} alt="Serrurier professionnel sécurité" fill className="object-cover object-center" priority style={{ filter: "brightness(0.22) saturate(0.6)" }} />
           <div className="absolute inset-0 bg-gradient-to-t from-[#0d1524] via-[#0d1524]/60 to-transparent" />

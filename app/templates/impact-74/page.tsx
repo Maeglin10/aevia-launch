@@ -304,7 +304,7 @@ export default function AeviaKitchenPage() {
           ========================================== */}
       <section
         ref={heroRef}
-        className="relative w-full h-[115vh] min-h-[900px] flex items-end overflow-hidden"
+        className="relative w-full h-[100dvh] min-h-[640px] flex items-end overflow-hidden"
       >
         <motion.div
           style={{ y: heroY }}

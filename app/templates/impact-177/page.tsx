@@ -232,7 +232,14 @@ return (
       )}
 
       {/* ── HERO ── */}
-      <section id="hero" ref={heroRef} style={{ position: "relative", height: "110vh", minHeight: 900, overflow: "hidden", display: "flex", alignItems: "flex-end" }}>
+      <style>{`
+        /* items-end overflows upward when the stack is taller than the hero,
+           sliding the eyebrow under the fixed navbar. */
+        @media (max-width: 640px) {
+          .imx177-hero { align-items: flex-start !important; padding-top: 140px !important; padding-bottom: 32px !important; }
+        }
+      `}</style>
+      <section id="hero" ref={heroRef} className="imx177-hero" style={{ position: "relative", height: "100dvh", minHeight: 640, overflow: "hidden", display: "flex", alignItems: "safe flex-end" }}>
         <motion.div style={{ y: heroY, position: "absolute", inset: 0 }}>
           <Image src={photo(0, "https://images.unsplash.com/photo-1572331165267-854da2b10ccc?auto=format&fit=crop&q=85&w=2400")} alt="Piscine sur-mesure" fill className="object-cover" priority style={{ filter: "brightness(0.75)" }} />
           <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to top, ${C.dark} 0%, rgba(28,26,24,0.3) 50%, transparent 100%)` }} />

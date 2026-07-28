@@ -275,7 +275,7 @@ export default function Page() {
       </nav>
 
       {/* ════════ HERO ════════ */}
-      <section id="hero" ref={heroRef} style={{ position: 'relative', height: '110vh', minHeight: 650, display: 'flex', alignItems: 'flex-end', paddingBottom: '12vh', background: C.bgDeep, overflow: 'hidden' }}>
+      <section id="hero" ref={heroRef} style={{ position: 'relative', height: '100dvh', minHeight: 650, display: 'flex', alignItems: 'flex-end', paddingBottom: '12vh', background: C.bgDeep, overflow: 'hidden' }}>
         <motion.div style={{ position: 'absolute', inset: 0, scale: heroScale, y: heroY, opacity: heroOpacity }}>
           <img src={PHOTO.hero} alt="Chantier de nettoyage extrême" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
           <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, rgba(15,23,42,0.85) 100%)' }} />

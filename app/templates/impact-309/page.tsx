@@ -559,7 +559,7 @@ return (
         ref={heroRef}
         style={{
           position: 'relative',
-          height: '110vh',
+          height: '100dvh',
           minHeight: 650,
           display: 'flex',
           alignItems: 'flex-end',
