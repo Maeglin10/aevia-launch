@@ -134,7 +134,7 @@ export const BOUTIQUE_PRODUCTS = [
     title: "Gâteaux de saison",
     emoji: "🎂",
     items: [
-      { name: "Tarte Tatin", price: "4,80 €", desc: "Pommes caramélisées, pâte feuilletée inversée, crème fraîche artisanale.", img: "photo-1568051243851-f9b136146e97" },
+      { name: "Tarte Tatin", price: "4,80 €", desc: "Pommes caramélisées, pâte feuilletée inversée, crème fraîche artisanale.", img: "https://images.pexels.com/photos/10885311/pexels-photo-10885311.jpeg?auto=compress&cs=tinysrgb&w=900" },
       { name: "Mille-feuille vanille", price: "4,20 €", desc: "Feuilletage caramélisé 3 couches, crème diplomate vanille Bourbon.", img: "photo-1587248720327-8eb72564be1e" },
       { name: "Financier aux amandes", price: "2,50 €", desc: "Beurre noisette, amandes en poudre, texture moelleuse intense.", img: "photo-1571115177098-24ec42ed204d" },
       { name: "Opéra maison", price: "5,00 €", desc: "Biscuit joconde, ganache café, praliné, glacé au chocolat noir.", img: "photo-1578985545062-69928b1d9587" },
@@ -148,7 +148,7 @@ export const TARTES_DATA = [
     subtitle: "La classique revisitée",
     price: "4,80 € la part · 28 € entière",
     desc: "Née d'une erreur heureuse en 1889 à Lamotte-Beuvron, la Tarte Tatin est devenue l'un des desserts les plus emblématiques de France. Notre version est préparée avec des pommes Golden caramélisées au beurre demi-sel, posées sur une pâte feuilletée inversée que nous réalisons entièrement à la main. La cuisson à l'envers révèle des pommes confites, fondantes et légèrement acidulées. Servie tiède avec une cuillerée de crème fraîche normande.",
-    img: "photo-1568051243851-f9b136146e97",
+    img: "https://images.pexels.com/photos/10885311/pexels-photo-10885311.jpeg?auto=compress&cs=tinysrgb&w=900",
     badge: "Signature",
   },
   {
@@ -156,7 +156,7 @@ export const TARTES_DATA = [
     subtitle: "L'équilibre parfait",
     price: "4,50 € la part · 26 € entière",
     desc: "Cette tarte est le résultat de 30 années de perfectionnement. La crème citron est préparée avec des citrons jaunes de Menton, leur zeste râpé à la minute, et des œufs de plein air. La meringue italienne — réalisée au sirop de sucre chaud versé sur les blancs montés — garantit une texture soyeuse en surface et un cœur aérien. Légèrement flambée à la torche, dorée à souhait.",
-    img: "photo-1509440159596-0249088772ff",
+    img: "https://images.pexels.com/photos/16526016/pexels-photo-16526016.jpeg?auto=compress&cs=tinysrgb&w=900",
     badge: "Coup de cœur",
   },
   {
@@ -164,7 +164,7 @@ export const TARTES_DATA = [
     subtitle: "Selon l'arrivage du marché",
     price: "5,20 € la part · 32 € entière",
     desc: "Camille se rend chaque matin au marché des producteurs pour choisir les meilleurs fruits de saison. Sur un fond de tarte sablée au beurre noisette, elle dispose une crème d'amande légère puis une sélection de fruits : fraises Gariguette au printemps, pêches de vigne en été, figues et raisins muscat en automne. Chaque part est un tableau vivant des saisons.",
-    img: "photo-1488477181946-6428a0291777",
+    img: "https://images.pexels.com/photos/4748367/pexels-photo-4748367.jpeg?auto=compress&cs=tinysrgb&w=900",
     badge: "Saison",
   },
   {
@@ -172,7 +172,7 @@ export const TARTES_DATA = [
     subtitle: "L'automne en douceur",
     price: "4,70 € la part · 27 € entière",
     desc: "Notre tarte amandine revisite le grand classique franco-anglais. La crème frangipane est préparée avec des amandes de Provence concassées à la main, du beurre de qualité supérieure et une touche d'extrait d'amande amère. Les poires Williams sont pochées dans un sirop vanillé avant d'être disposées en rosace. Un dessert réconfortant, profond, d'une générosité rare.",
-    img: "photo-1519915028121-7d3463d20b13",
+    img: "https://images.pexels.com/photos/5252587/pexels-photo-5252587.jpeg?auto=compress&cs=tinysrgb&w=900",
     badge: "Automne",
   },
 ];

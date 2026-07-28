@@ -13,7 +13,7 @@ export default function Page() {
             <ArrowLeft className="w-4 h-4" />
             <span>Retour à l&apos;accueil</span>
           </Link>
-          <span className="text-sm font-semibold uppercase tracking-widest text-[#00ff41]">IMPACT-147</span>
+          <span className="text-sm font-semibold uppercase tracking-widest text-[#00ff41]">VANGUARD LEGAL</span>
         </div>
       </header>
 
@@ -24,7 +24,7 @@ export default function Page() {
         <div className="space-y-8 text-sm leading-relaxed opacity-80 border-t border-white/10 pt-8">
           <section className="space-y-3">
             <h2 className="text-lg font-semibold text-[#00ff41]">1. Éditeur du site</h2>
-            <p>Le site web est édité par la société exploitant le modèle IMPACT-147, société au capital social de 100 000 €, immatriculée au RCS sous le numéro 901 234 567.</p>
+            <p>Le site web est édité par VANGUARD LEGAL, société au capital social de 100 000 €, immatriculée au RCS sous le numéro 901 234 567.</p>
           </section>
 
           <section className="space-y-3">
@@ -40,7 +40,7 @@ export default function Page() {
       </main>
 
       <footer className="border-t border-white/10 py-8 px-6 text-center text-xs opacity-40">
-        <p>&copy; 2026 IMPACT-147. Tous droits réservés.</p>
+        <p>&copy; 2026 VANGUARD LEGAL. Tous droits réservés.</p>
       </footer>
     </div>
   )
