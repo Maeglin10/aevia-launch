@@ -355,7 +355,7 @@ export default function AltaTransactionsPage() {
       </nav>
 
       {/* ── HERO ── */}
-      <section id="hero" ref={heroRef} className="relative h-[100dvh] min-h-0 md:h-[115vh] md:min-h-[900px] flex items-end overflow-hidden">
+      <section id="hero" ref={heroRef} className="relative h-[100dvh] min-h-0 md:h-[100dvh] md:min-h-[640px] flex items-end overflow-hidden">
         <motion.div style={{ y: heroY }} className="absolute inset-0">
           <Image src={photo(0, "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=85&w=2400")} alt="Immobilier prestige Paris" fill className="object-cover" priority style={{ filter: "brightness(0.55)" }} />
           <div className="absolute inset-0 bg-gradient-to-t from-[#11182a] via-[#11182a]/35 to-transparent" />

@@ -178,7 +178,7 @@ export default function BrilloNetPage() {
       </nav>
 
       {/* ── HERO ── */}
-      <section id="hero" ref={heroRef} className="relative h-[110vh] min-h-[820px] flex items-end overflow-hidden">
+      <section id="hero" ref={heroRef} className="relative h-[100dvh] min-h-[820px] flex items-end overflow-hidden">
         <motion.div style={{ y: heroY }} className="absolute inset-0">
           <Image src={photo(0, "https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&q=85&w=2400")} alt="Nettoyage professionnel intérieur" fill className="object-cover" priority style={{ filter: "brightness(0.45)" }} />
           <div className="absolute inset-0 bg-gradient-to-t from-[#0a1e1e] via-[#0a1e1e]/40 to-transparent" />

@@ -192,7 +192,7 @@ export default function MaisonElisePage() {
             {/* Mobile menu placeholder */}
 
       {/* ── HERO ── */}
-      <section id="hero" ref={heroRef} className="relative h-[115vh] min-h-[900px] flex items-end overflow-hidden">
+      <section id="hero" ref={heroRef} className="relative h-[100dvh] min-h-[640px] flex [align-items:safe_flex-end] overflow-hidden pt-24 sm:pt-0">
         <motion.div style={{ y: heroY }} className="absolute inset-0">
           <Image src={photo(0, "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=88&w=2400")} alt="Mariage élégant décoration florale" fill className="object-cover object-center" priority style={{ filter: "brightness(0.38) saturate(0.85)" }} />
           <div className="absolute inset-0 bg-gradient-to-t from-[#100b0f] via-[#100b0f]/45 to-transparent" />
