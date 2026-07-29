@@ -1,5 +1,6 @@
 'use client';
 
+import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import {
   motion,
   useScroll,
@@ -2279,7 +2280,7 @@ function LegalPage({ variant }: { variant: 'mentions' | 'privacy' }) {
             <h2 style={{ ...sectionTitle, marginTop: 0 }}>Site publisher</h2>
             <p style={para}><span style={strong}>Aevia WS</span> — sole trader (auto-entrepreneur).</p>
             <p style={para}>Publication director: <span style={strong}>Valentin Milliand</span>.</p>
-            <p style={para}>SIREN: <span style={strong}>852 546 225</span> — RCS Bourg-en-Bresse.</p>
+            <p style={para}>SIREN: <span style={strong}><LegalIdentity /></span> — RCS Bourg-en-Bresse.</p>
             <p style={para}>Contact: <span style={strong}>valentinmilliand@aevia.services</span></p>
             <p style={para}>Registered office address provided on request at valentinmilliand@aevia.services.</p>
 

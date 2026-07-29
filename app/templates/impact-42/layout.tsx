@@ -1,5 +1,6 @@
 'use client';
 
+import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -250,7 +251,7 @@ export default function EchoChamberLayout({ children }: { children: React.ReactN
 
           <div style={{ borderTop: `1px solid ${C.border}`, paddingTop: "2rem", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "1rem" }}>
             <p style={{ fontFamily: C.bodyFont, fontSize: "0.78rem", color: C.textMuted }}>
-              © 2026 Echo Chamber — Aevia WS, SIREN 852 546 225
+              © 2026 Echo Chamber — Aevia WS, SIREN <LegalIdentity />
             </p>
             <div style={{ display: "flex", gap: "1.75rem" }}>
               <Link

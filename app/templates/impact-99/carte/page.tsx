@@ -1,5 +1,6 @@
 "use client";
 
+import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import {
   motion,
   useScroll,
@@ -959,7 +960,7 @@ function LegalPage({ variant }: { variant: "mentions" | "privacy" }) {
                 Valentin Milliand
               </LegalBlock>
               <LegalBlock title="Immatriculation">
-                SIREN 852 546 225 — RCS Bourg-en-Bresse
+                SIREN <LegalIdentity /> — RCS Bourg-en-Bresse
               </LegalBlock>
               <LegalBlock title="Contact">valentinmilliand@aevia.services</LegalBlock>
               <LegalBlock title="Siège social">

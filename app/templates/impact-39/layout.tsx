@@ -1,5 +1,6 @@
 "use client";
 
+import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -235,7 +236,7 @@ export default function SwiftMoveLayout({ children }: { children: React.ReactNod
           </div>
 
           <div style={{ borderTop: "1px solid rgba(255,255,255,0.07)", paddingTop: 32, display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 16 }}>
-            <p style={{ fontSize: 13, color: "#334155" }}>© 2025 Aevia WS — SIREN 852 546 225 — valentinmilliand@aevia.services</p>
+            <p style={{ fontSize: 13, color: "#334155" }}>© 2025 Aevia WS — SIREN <LegalIdentity /> — valentinmilliand@aevia.services</p>
             <div style={{ display: "flex", gap: 24 }}>
               <Link href="/templates/impact-39/legal" style={{ textDecoration: "none", fontSize: 13, color: "#334155" }}>
                 Mentions légales

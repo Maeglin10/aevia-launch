@@ -1,5 +1,6 @@
 "use client";
 
+import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -391,7 +392,7 @@ export default function GhostProtocolLayout({ children }: { children: React.Reac
               gap: 12,
             }}
           >
-            <span>© 2026 Aevia WS — SIREN 852 546 225. ALL RIGHTS RESERVED.</span>
+            <span>© 2026 Aevia WS — SIREN <LegalIdentity />. ALL RIGHTS RESERVED.</span>
             <div style={{ display: "flex", gap: 24 }}>
               <Link href="/templates/impact-44/legal" style={{ color: "inherit", textDecoration: "none" }}>LEGAL NOTICE</Link>
               <Link href="/templates/impact-44/legal" style={{ color: "inherit", textDecoration: "none" }}>PRIVACY</Link>

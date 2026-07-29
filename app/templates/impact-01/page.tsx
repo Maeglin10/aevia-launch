@@ -1,4 +1,5 @@
 "use client";
+import { LegalIdentity } from "@/app/templates/LegalIdentity";
 // @ts-nocheck
 
 import {
@@ -4178,7 +4179,7 @@ function LegalPage({ variant }: { variant: "mentions" | "privacy" }) {
               Publication director: <span style={strong}>Valentin Milliand</span>.
             </p>
             <p style={para}>
-              SIREN: <span style={strong}>852 546 225</span> — RCS Bourg-en-Bresse.
+              SIREN: <span style={strong}><LegalIdentity /></span> — RCS Bourg-en-Bresse.
             </p>
             <p style={para}>
               Contact: <span style={strong}>{fd?.email ?? "valentinmilliand@aevia.services"}</span>

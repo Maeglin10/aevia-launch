@@ -1,5 +1,6 @@
 "use client";
 
+import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -286,7 +287,7 @@ export default function SereneRetreatLayout({ children }: { children: React.Reac
             letterSpacing: "0.05em",
           }}
         >
-          © 2026 Aevia WS — SIREN 852 546 225. Tous droits réservés. Chartreuse Massif, France.
+          © 2026 Aevia WS — SIREN <LegalIdentity />. Tous droits réservés. Chartreuse Massif, France.
         </div>
         <div style={{ display: "flex", gap: 24 }}>
           <Link href="/templates/impact-43/legal" style={{ textDecoration: "none" }}>

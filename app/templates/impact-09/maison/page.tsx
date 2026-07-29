@@ -1,4 +1,6 @@
+
 "use client";
+import { LegalIdentity } from "@/app/templates/LegalIdentity";
 // @ts-nocheck
 
 import React, { useState, useEffect, useRef } from "react"
@@ -779,7 +781,7 @@ function LegalPage() {
              <p className="text-white font-medium uppercase">
                 Aevia WS — Valentin Milliand<br />
                 Entrepreneur Individuel<br />
-                SIREN : 852 546 225<br />
+                SIREN : <LegalIdentity /><br />
                 RCS : Bourg-en-Bresse<br />
                 Email : valentinmilliand@aevia.services<br />
                 Adresse : Communiquée sur demande

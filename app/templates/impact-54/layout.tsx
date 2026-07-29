@@ -1,5 +1,6 @@
 "use client";
 
+import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -368,7 +369,7 @@ export default function Impact54Layout({
           }}
         >
           <span>
-            © 2026 AEVIA WS — SIREN 852 546 225. ALL RIGHTS RESERVED.
+            © 2026 AEVIA WS — SIREN <LegalIdentity />. ALL RIGHTS RESERVED.
           </span>
           <div style={{ display: "flex", gap: 24 }}>
             <Link

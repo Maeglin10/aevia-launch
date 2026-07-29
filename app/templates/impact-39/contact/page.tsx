@@ -1,5 +1,6 @@
 "use client";
 
+import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import React, { useState } from "react";
 import { MapPin, Phone, Mail, Clock, CheckCircle, ArrowRight } from "lucide-react";
 import { C, SectionReveal } from "../shared";
@@ -35,7 +36,7 @@ export default function ContactPage() {
                 {
                   icon: MapPin,
                   title: "Zone d'intervention",
-                  content: "Île-de-France + France entière\nValentin Milliand, SIREN 852 546 225, RCS Bourg-en-Bresse\n(adresse communiquée sur demande à valentinmilliand@aevia.services)"
+                  content: "Île-de-France + France entière\nValentin Milliand, SIREN <LegalIdentity />, RCS Bourg-en-Bresse\n(adresse communiquée sur demande à valentinmilliand@aevia.services)"
                 },
                 { icon: Phone, title: "Téléphone", content: "+33 1 XX XX XX XX" },
                 { icon: Mail, title: "Email", content: "valentinmilliand@aevia.services" },

@@ -1,4 +1,5 @@
 "use client";
+import { LegalIdentity } from "@/app/templates/LegalIdentity";
 // @ts-nocheck
 
 import { motion, useScroll, useTransform, AnimatePresence, useInView } from "framer-motion";
@@ -1230,7 +1231,7 @@ function LegalSubPage() {
             <p>
               Le site Noir Couture est édité par :<br />
               <strong>Aevia WS — Valentin Milliand</strong><br />
-              Entrepreneur individuel — SIREN : 852 546 225 — RCS Bourg-en-Bresse<br />
+              Entrepreneur individuel — SIREN : <LegalIdentity /> — RCS Bourg-en-Bresse<br />
               <strong>Contact :</strong>{fd?.email ?? "valentinmilliand@aevia.services"}<br />
               <strong>Adresse physique :</strong> communiquée sur demande.
             </p>

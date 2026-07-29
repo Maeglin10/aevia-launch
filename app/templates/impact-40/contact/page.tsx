@@ -1,5 +1,6 @@
 "use client";
 
+import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import React from "react";
 import Link from "next/link";
 import { MapPin, Phone, Mail, Clock, Calendar } from "lucide-react";
@@ -31,7 +32,7 @@ export default function ContactPage() {
                   {
                     icon: <MapPin size={18} />,
                     label: "Adresse",
-                    value: "Valentin Milliand, SIREN 852 546 225, RCS Bourg-en-Bresse (adresse communiquée sur demande à valentinmilliand@aevia.services) — Beaujolais, France"
+                    value: "Valentin Milliand, SIREN <LegalIdentity />, RCS Bourg-en-Bresse (adresse communiquée sur demande à valentinmilliand@aevia.services) — Beaujolais, France"
                   },
                   { icon: <Phone size={18} />, label: "Téléphone", value: "+33 4 74 XX XX XX" },
                   { icon: <Mail size={18} />, label: "Email", value: "valentinmilliand@aevia.services" },

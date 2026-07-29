@@ -1,5 +1,6 @@
 "use client";
 
+import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -402,7 +403,7 @@ export default function ClosDuSoirLayout({ children }: { children: React.ReactNo
             }}
           >
             <p style={{ fontSize: 13, color: "#7a5c40" }}>
-              © 2026 Aevia WS — SIREN 852 546 225. Tous droits réservés.
+              © 2026 Aevia WS — SIREN <LegalIdentity />. Tous droits réservés.
             </p>
             <div style={{ display: "flex", gap: 24 }}>
               <Link href="/templates/impact-37/legal" style={{ fontSize: 13, color: "#7a5c40", textDecoration: "none" }}>Mentions Légales</Link>
