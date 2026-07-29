@@ -1353,7 +1353,7 @@ export default function Impact135Page() {
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
-          padding: "100px 48px 60px",
+          padding: "clamp(84px,12vh,100px) clamp(20px,5vw,48px) clamp(36px,6vh,60px)",
           position: "relative",
           overflow: "hidden",
           textAlign: "center",

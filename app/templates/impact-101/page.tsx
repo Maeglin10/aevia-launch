@@ -328,12 +328,12 @@ export default function BlockBasePage() {
       </AnimatePresence>
 
       {/* ── HERO SECTION ── */}
-      <section id="hero" className="relative min-h-dvh flex flex-col justify-center pt-36 pb-10 md:pt-20">
+      <section id="hero" className="relative min-h-dvh flex flex-col [justify-content:safe_center] pt-24 pb-8 md:pt-20 md:pb-10">
         <div className="max-w-[1500px] mx-auto px-6 md:px-12 w-full">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
             <div className="lg:col-span-7">
               <Reveal>
-                <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-9xl font-black leading-[1.05] md:leading-[0.85] tracking-tighter uppercase mb-5 md:mb-10 break-words">{c?.heroHeadline ?? <>
+                <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black leading-[1.05] md:leading-[0.9] tracking-tighter uppercase mb-5 md:mb-8 [overflow-wrap:normal] [word-break:normal] text-balance">{c?.heroHeadline ?? <>
                   Zero <br />{" "}
                   <span className="text-[var(--brand,#00f2ff)]">Knowledge.</span> <br />{" "}
                   Absolute <br />{" "}
