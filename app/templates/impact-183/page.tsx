@@ -49,6 +49,23 @@ const SERVICES_DEMO = [
   { icon: Paintbrush, title: "Entretien & hivernage", desc: "Contrat saisonnier, hivernage, remise en route, analyse et traitement de l'eau. Une piscine limpide sans souci." },
 ]
 
+// "Réalisations" and "Zone" were in the nav with nothing behind them.
+const CHANTIERS = [
+  { titre: "Piscine miroir 8×4", lieu: "Marcq-en-Barœul", an: "2025", note: "Débordement sur trois côtés, margelles pierre bleue, local technique enterré." },
+  { titre: "Rénovation complète", lieu: "Bondues", an: "2025", note: "Liner remplacé, filtration repensée, plage bois exotique reprise à neuf." },
+  { titre: "Couloir de nage 12×3", lieu: "Lambersart", an: "2024", note: "Nage à contre-courant, volet immergé, éclairage LED périmétrique." },
+  { titre: "Bassin familial 7×3,5", lieu: "Wasquehal", an: "2024", note: "Escalier d'angle, plage immergée, abri télescopique bas." },
+];
+
+const ZONES = [
+  { ville: "Lille", detail: "Métropole et première couronne" },
+  { ville: "Roubaix · Tourcoing", detail: "Intervention sous 48 h" },
+  { ville: "Villeneuve-d'Ascq", detail: "Entretien hebdomadaire possible" },
+  { ville: "Armentières", detail: "Devis déplacement offert" },
+  { ville: "Seclin · Douai", detail: "Sur rendez-vous" },
+  { ville: "Béthune", detail: "Chantiers neufs uniquement" },
+];
+
 const COULEURS = [
   { name: "Bleu Lagon", hex: "#2a9db5", desc: "Liner clair" },
   { name: "Gris Perle", hex: "#9aa7ab", desc: "Élégance contemporaine" },
@@ -257,7 +274,7 @@ return (
       </section>
 
       {/* ── PALETTE TENDANCES ── */}
-      <section className="py-20 bg-[#f5f5f0]">
+      <section id="couleurs" className="py-20 bg-[#f5f5f0]">
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
           <Reveal>
             <div className="mb-12">
@@ -285,7 +302,53 @@ return (
       </section>
 
       {/* ── TÉMOIGNAGES ── */}
-      <section id="tarifs" className="py-28 bg-white">
+      {/* ── RÉALISATIONS ── */}
+      <section id="realisations" className="py-28 bg-[#f5f5f0]">
+        <div className="max-w-[1200px] mx-auto px-6 md:px-12">
+          <Reveal><div className="mb-14">
+            <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#4d7c5f)] mb-4">Nos chantiers</div>
+            <h2 className="text-3xl md:text-4xl font-bold text-[#1a1a2e]">Ce que nous avons <span className="text-[var(--brand,#4d7c5f)]">construit.</span></h2>
+          </div></Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {CHANTIERS.map((c, i) => (
+              <Reveal key={c.titre} delay={i * 0.08}>
+                <div className="p-8 bg-white border border-[#e8e8e4] hover:border-[var(--brand,#4d7c5f)]/25 transition-colors h-full">
+                  <div className="flex items-baseline justify-between gap-4 mb-3 flex-wrap">
+                    <h3 className="text-xl font-bold text-[#1a1a2e]">{c.titre}</h3>
+                    <span className="text-[10px] font-bold uppercase tracking-[0.24em] text-[var(--brand,#4d7c5f)]">{c.an}</span>
+                  </div>
+                  <div className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#1a1a2e]/35 mb-4">
+                    <MapPin className="w-3 h-3 inline mr-1" />{c.lieu}
+                  </div>
+                  <p className="text-sm text-[#1a1a2e]/50 leading-relaxed" style={{ fontFamily: "'Nunito', sans-serif" }}>{c.note}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── ZONE ── */}
+      <section id="zone" className="py-28 bg-white">
+        <div className="max-w-[1200px] mx-auto px-6 md:px-12">
+          <Reveal><div className="mb-14">
+            <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#4d7c5f)] mb-4">Zone d’intervention</div>
+            <h2 className="text-3xl md:text-4xl font-bold text-[#1a1a2e]">Où nous <span className="text-[var(--brand,#4d7c5f)]">nous déplaçons.</span></h2>
+          </div></Reveal>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-[#e8e8e4] border border-[#e8e8e4]">
+            {ZONES.map((z, i) => (
+              <Reveal key={z.ville} delay={i * 0.05}>
+                <div className="bg-white p-7 h-full">
+                  <div className="font-bold text-[#1a1a2e] mb-2">{z.ville}</div>
+                  <p className="text-sm text-[#1a1a2e]/45" style={{ fontFamily: "'Nunito', sans-serif" }}>{z.detail}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="avis" className="py-28 bg-white">
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-16 text-center">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#4d7c5f)] mb-4">Avis clients</div>
