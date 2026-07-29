@@ -1,4 +1,6 @@
+
 "use client";
+import { LegalIdentity } from "@/app/templates/LegalIdentity";
 // @ts-nocheck
 
 import { motion, useScroll, useTransform, useInView, AnimatePresence, useMotionValue, useSpring } from "framer-motion"
@@ -1061,7 +1063,7 @@ function LegalPage({ variant }: { variant: 'mentions' | 'privacy' }) {
               <p>
                 Aevia WS — Valentin Milliand<br />
                 Entrepreneur individuel<br />
-                SIREN 852 546 225<br />
+                SIREN <LegalIdentity /><br />
                 RCS Bourg-en-Bresse<br />{fd?.email ?? "valentinmilliand@aevia.services"}</p>
             </div>
             <div>

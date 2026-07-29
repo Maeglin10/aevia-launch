@@ -1,4 +1,5 @@
 "use client";
+import { LegalIdentity } from "@/app/templates/LegalIdentity";
 // @ts-nocheck
 
 import { motion, useScroll, useTransform, AnimatePresence, useInView } from "framer-motion";
@@ -651,7 +652,7 @@ function LegalPage() {
             <p className="leading-relaxed font-sans text-sm text-gray-300">
               <strong>Aevia WS — Valentin Milliand</strong><br />
               Entrepreneur individuel<br />
-              SIREN : 852 546 225<br />
+              SIREN : <LegalIdentity /><br />
               RCS : Bourg-en-Bresse<br />
               Email : valentinmilliand@aevia.services<br />
               Adresse : Communiquée sur demande

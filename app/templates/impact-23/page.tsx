@@ -1,4 +1,5 @@
 "use client";
+import { LegalIdentity } from "@/app/templates/LegalIdentity";
 // @ts-nocheck
 
 import { motion, useScroll, useTransform, AnimatePresence, useInView } from "framer-motion";
@@ -950,7 +951,7 @@ export default function StudioPelikanPage() {
           <section id="contact" className="py-20 px-6 bg-[#150F09]">
             <div className="max-w-4xl mx-auto space-y-12">
               {[
-                { title: "Éditeur du site", content: "Aevia WS — Valentin Milliand, entrepreneur individuel.\nSIREN : 852 546 225 — RCS Bourg-en-Bresse." },
+                { title: "Éditeur du site", content: "Aevia WS — Valentin Milliand, entrepreneur individuel.\nSIREN : <LegalIdentity /> — RCS Bourg-en-Bresse." },
                 { title: "Contact", content: "contact@aevia.ws" },
                 { title: "Hébergement", content: "Vercel Inc., 340 S Lemon Ave #4133, Walnut, CA 91789, USA." },
                 { title: "Propriété intellectuelle", content: "L'ensemble des contenus (textes, images, code, design) est protégé. Toute reproduction non autorisée est interdite." },

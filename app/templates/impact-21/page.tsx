@@ -1,4 +1,5 @@
 "use client";
+import { LegalIdentity } from "@/app/templates/LegalIdentity";
 // @ts-nocheck
 
 import { motion, useScroll, useTransform, AnimatePresence, useInView } from "framer-motion";
@@ -1072,7 +1073,7 @@ return (
                     <h3 className="text-gray-900 text-lg font-bold mb-4">Éditeur du site</h3>
                     <p className="text-gray-600 leading-relaxed">
                       Aevia WS — Valentin Milliand, entrepreneur individuel.<br />
-                      SIREN : 852 546 225 — RCS Bourg-en-Bresse.<br />
+                      SIREN : <LegalIdentity /> — RCS Bourg-en-Bresse.<br />
                       Contact : <span className="text-[var(--brand,#F97316)]">{fd?.email ?? "contact@aevia.ws"}</span>
                     </p>
                   </div>

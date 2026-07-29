@@ -1,5 +1,6 @@
 "use client";
 
+import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import React, { useState } from "react";
 import { MapPin, Clock, Mail, Phone, ChevronDown, Users, Coffee, Calendar, CheckCircle, Star, ArrowRight, Truck, Award } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -242,7 +243,7 @@ export default function ContactPage() {
                   <h3 style={{ fontFamily: SERIF, fontSize: 16, fontWeight: 700, color: C.espresso, margin: 0 }}>Torréfaction & Showroom</h3>
                 </div>
                 <p style={{ fontSize: 14, color: C.textMuted, lineHeight: 1.75, fontWeight: 300, marginBottom: 10 }}>
-                  Valentin Milliand, SIREN 852 546 225<br />
+                  Valentin Milliand, SIREN <LegalIdentity /><br />
                   RCS Bourg-en-Bresse<br />
                   Adresse communiquée sur rendez-vous.
                 </p>

@@ -1,4 +1,5 @@
 "use client";
+import { LegalIdentity } from "@/app/templates/LegalIdentity";
 // @ts-nocheck
 
 import React, { useRef, useState, useEffect } from "react";
@@ -1469,7 +1470,7 @@ function LegalPage() {
             </h3>
             <p>
               <strong>Éditeur :</strong> Aevia WS — Valentin Milliand<br />
-              Entrepreneur individuel — SIREN 852 546 225 — RCS Bourg-en-Bresse<br />
+              Entrepreneur individuel — SIREN <LegalIdentity /> — RCS Bourg-en-Bresse<br />
               <strong>Contact :</strong>{fd?.email ?? "valentinmilliand@aevia.services"}<br />
               <strong>Hébergeur :</strong> Vercel Inc., 650 2nd St, San Francisco, CA 94107, USA.<br />
               <strong>Adresse physique :</strong> communiquée sur demande.

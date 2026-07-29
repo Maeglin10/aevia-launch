@@ -1,4 +1,6 @@
+
 "use client";
+import { LegalIdentity } from "@/app/templates/LegalIdentity";
 // @ts-nocheck
 
 import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion"
@@ -1166,7 +1168,7 @@ return (
                   <h2 className="text-2xl font-bold mb-6 text-[var(--brand,#A3E635)]">Site Publisher</h2>
                   <div className="space-y-3 text-white/60 text-sm leading-relaxed">
                     <p><strong className="text-white">Publisher:</strong> Aevia WS — Valentin Milliand, sole proprietor.</p>
-                    <p><strong className="text-white">SIREN:</strong> 852 546 225 — RCS Bourg-en-Bresse, France.</p>
+                    <p><strong className="text-white">SIREN:</strong> <LegalIdentity /> — RCS Bourg-en-Bresse, France.</p>
                     <p><strong className="text-white">Contact:</strong> <span className="text-[var(--brand,#A3E635)]">{fd?.email ?? "contact@aevia.ws"}</span></p>
                   </div>
                 </div>

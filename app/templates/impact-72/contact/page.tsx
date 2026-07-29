@@ -1,4 +1,5 @@
 "use client";
+import { LegalIdentity } from "@/app/templates/LegalIdentity";
 // @ts-nocheck
 
 import React, { useState } from "react";
@@ -35,7 +36,7 @@ export default function ContactPage() {
             <p style={{ fontSize: "0.85rem", color: C.textMuted, lineHeight: 1.6 }}>
               Email : <a href="mailto:valentinmilliand@aevia.services" style={{ color: C.text, textDecoration: "none" }}>valentinmilliand@aevia.services</a><br />
               HQ : Bourg-en-Bresse, France<br />
-              SPI N° 852 546 225
+              SPI N° <LegalIdentity />
             </p>
           </div>
         </div>

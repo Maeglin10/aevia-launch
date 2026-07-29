@@ -1,5 +1,6 @@
 "use client";
 
+import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -201,7 +202,7 @@ export default function TattooStudioLayout({ children }: { children: React.React
 
           <div style={{ borderTop: `1px solid ${C.border}`, paddingTop: 32, display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 16 }}>
             <p style={{ fontFamily: "'Barlow', system-ui", fontSize: 13, color: C.textDim, margin: 0 }}>
-              © 2026 Aevia WS — SIREN 852 546 225. Tous droits réservés.
+              © 2026 Aevia WS — SIREN <LegalIdentity />. Tous droits réservés.
             </p>
           </div>
         </div>

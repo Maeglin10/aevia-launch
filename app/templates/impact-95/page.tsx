@@ -1,4 +1,6 @@
+
 "use client";
+import { LegalIdentity } from "@/app/templates/LegalIdentity";
 // @ts-nocheck
 
 import React, { useState, useEffect, useRef } from "react"
@@ -973,7 +975,7 @@ export default function LumiereCliniquePage() {
             </div>
           </div>
           <div className="pt-8 border-t border-[#2A1E12] flex flex-col md:flex-row justify-between gap-4 text-xs">
-            <span>© 2025 Lumière Clinic — Aevia WS · SIREN 852 546 225 · Ordre National des Médecins</span>
+            <span>© 2025 Lumière Clinic — Aevia WS · SIREN <LegalIdentity /> · Ordre National des Médecins</span>
             <div className="flex gap-6">
               <Link href="#contact" className="hover:text-[#FAFAF8] transition-colors cursor-pointer">Mentions légales</Link>
               <Link href="#contact" className="hover:text-[#FAFAF8] transition-colors cursor-pointer">Confidentialité</Link>

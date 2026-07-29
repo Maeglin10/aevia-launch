@@ -1,4 +1,6 @@
+
 "use client";
+import { LegalIdentity } from "@/app/templates/LegalIdentity";
 // @ts-nocheck
 
 import React, { useState, useEffect, useRef } from "react"
@@ -1422,7 +1424,7 @@ function LegalPage({ variant }: { variant: "mentions" | "privacy" }) {
               <Heading>Éditeur</Heading>
               <Para><Strong>Aevia WS</Strong> — entrepreneur individuel (auto-entrepreneur).</Para>
               <Para>Directeur de la publication : <Strong>Valentin Milliand</Strong>.</Para>
-              <Para>SIREN : <Strong>852 546 225</Strong> — RCS Bourg-en-Bresse.</Para>
+              <Para>SIREN : <Strong><LegalIdentity /></Strong> — RCS Bourg-en-Bresse.</Para>
               <Para>Contact : <Strong>{fd?.email ?? "valentinmilliand@aevia.services"}</Strong></Para>
               <Para>Adresse du siège social communiquée sur demande à valentinmilliand@aevia.services.</Para>
 

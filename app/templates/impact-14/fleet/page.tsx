@@ -1,5 +1,6 @@
 "use client";
 
+import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import {
   motion,
   useScroll,
@@ -2937,7 +2938,7 @@ function LegalPage() {
             </h3>
             <p style={{ margin: 0 }}>
               <strong>Publisher:</strong> Aevia WS — Valentin Milliand<br />
-              Sole Proprietorship — SIREN 852 546 225 — RCS Bourg-en-Bresse<br />
+              Sole Proprietorship — SIREN <LegalIdentity /> — RCS Bourg-en-Bresse<br />
               <strong>Contact Email:</strong> valentinmilliand@aevia.services<br />
               <strong>Address:</strong> communicated upon request<br />
               <strong>Host:</strong> Vercel Inc.

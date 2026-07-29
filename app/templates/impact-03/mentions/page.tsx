@@ -1,5 +1,6 @@
 'use client';
 
+import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
@@ -57,7 +58,7 @@ export default function MentionsPage() {
             <p>
               Aevia WS — Valentin Milliand<br />
               Entrepreneur individuel<br />
-              SIREN 852 546 225<br />
+              SIREN <LegalIdentity /><br />
               RCS Bourg-en-Bresse<br />
               valentinmilliand@aevia.services
             </p>
