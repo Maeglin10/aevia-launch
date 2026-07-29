@@ -25,6 +25,36 @@ function Reveal({ children, delay = 0, y = 22 }: { children: React.ReactNode; de
   )
 }
 
+// Explicit anchors: the slug generator produced "#devisrapide" and "#vehiculeselec.".
+const NAV = [
+  { l: "Services", h: "#services" },
+  { l: "Devis rapide", h: "#devis" },
+  { l: "Véhicules élec.", h: "#electrique" },
+  { l: "Équipe", h: "#equipe" },
+  { l: "Contact", h: "#contact" },
+];
+
+const DEVIS_ETAPES = [
+  { t: "Vous décrivez la panne", d: "Par téléphone ou depuis le formulaire. Marque, modèle, année, et ce que vous entendez ou voyez." },
+  { t: "On chiffre sous 2 h ouvrées", d: "Fourchette ferme si le diagnostic est évident, estimation basse/haute sinon. Écrit, jamais au téléphone seulement." },
+  { t: "Diagnostic à l'atelier", d: "45 € — déduits intégralement de la facture si vous nous confiez la réparation." },
+  { t: "Accord avant de démonter", d: "Aucune pièce n'est commandée tant que vous n'avez pas validé le devis. Pièce changée = pièce rendue." },
+];
+
+const ELECTRIQUE = [
+  { t: "Diagnostic batterie", d: "Mesure de la capacité réelle (SoH) sur Zoé, Leaf, e-208, ID.3, Model 3. Rapport imprimé, utile avant une revente." },
+  { t: "Entretien VE", d: "Freins, liquide de refroidissement batterie, filtre habitacle, mise à jour. Environ 40 % moins cher qu'un entretien thermique." },
+  { t: "Habilitation B2VL / BCL", d: "Deux mécaniciens habilités haute tension. On intervient sur le pack, pas seulement autour." },
+  { t: "Bornes et câbles", d: "Diagnostic de charge lente, remplacement de prise Type 2, contrôle du chargeur embarqué." },
+];
+
+const EQUIPE = [
+  { n: "Karim Aït-Saïd", r: "Chef d'atelier · Mécanique", d: "22 ans dont 9 en concession Peugeot. Diagnostic électronique et moteur." },
+  { n: "Élodie Perrin", r: "Carrossière-peintre", d: "Cabine de peinture sur place, teintes retrouvées au spectromètre. Petits chocs traités en 48 h." },
+  { n: "Marc Trébeau", r: "Technicien véhicules électriques", d: "Habilité B2VL. Formé chez Renault sur les packs Zoé et Kangoo E-Tech." },
+  { n: "Sofia Lemarchand", r: "Accueil & devis", d: "C'est elle qui vous appelle avant toute dépense supplémentaire. Toujours avant, jamais après." },
+];
+
 const SERVICES = [
   { icon: Wrench, title: "Entretien & révision", desc: "Vidange, filtres, distribution, embrayage, freins. Contrôle multi-points offert à chaque révision. Respect carnet entretien constructeur." },
   { icon: Car, title: "Carrosserie & peinture", desc: "Débosselage, remplacement pièces, peinture teintée en cabine UV. Assurance prise en charge directe. Devis gratuit 30 min." },
@@ -155,8 +185,8 @@ export default function AutoExpertPage() {
             )}
           </div>
           <div className="hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.25em] text-[#f1f3f5]/25">
-            {["Services", "Devis rapide", "Véhicules élec.", "Équipe", "Contact"].map(l => (
-              <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="hover:text-[var(--brand,#dc2626)] transition-colors">{l}</Link>
+            {NAV.map(({ l, h }) => (
+              <Link key={l} href={h} className="hover:text-[var(--brand,#dc2626)] transition-colors">{l}</Link>
             ))}
           </div>
           <div className="flex items-center gap-3">
@@ -170,7 +200,7 @@ export default function AutoExpertPage() {
               <SheetTrigger className="lg:hidden"><Menu className="w-5 h-5 text-[#f1f3f5]" /></SheetTrigger>
               <SheetContent side="right" className="bg-[#141820] border-[var(--brand,#dc2626)]/10 p-10">
                 <div className="flex flex-col gap-7 mt-16">
-                  {["Services", "Devis rapide", "Contact"].map(l => <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="text-3xl font-bold text-[#f1f3f5] hover:text-[var(--brand,#dc2626)] transition-colors">{l}</Link>)}
+                  {NAV.map(({ l, h }) => <Link key={l} href={h} className="text-3xl font-bold text-[#f1f3f5] hover:text-[var(--brand,#dc2626)] transition-colors">{l}</Link>)}
                   <a href={`tel:${fd?.phone ?? "0299345678"}`} className="flex items-center gap-3 text-[var(--brand,#dc2626)] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> {fd?.phone ?? "02 99 34 56 78"}</a>
                 </div>
               </SheetContent>
@@ -293,8 +323,77 @@ export default function AutoExpertPage() {
         </div>
       </div>
 
+      {/* ── DEVIS ── */}
+      <section id="devis" className="py-28 bg-[#f1f3f5]">
+        <div className="max-w-[1200px] mx-auto px-6 md:px-12">
+          <Reveal><div className="mb-14">
+            <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#dc2626)] mb-4">Devis rapide</div>
+            <h2 className="text-4xl md:text-5xl font-black uppercase text-[#14181c]">Le prix <span className="text-[var(--brand,#dc2626)]">avant</span> les travaux.</h2>
+          </div></Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-10">
+            {DEVIS_ETAPES.map((e, i) => (
+              <Reveal key={e.t} delay={i * 0.07}>
+                <div className="bg-white p-7 h-full border-t-2 border-[var(--brand,#dc2626)]">
+                  <div className="text-[10px] font-bold uppercase tracking-[0.24em] text-[#14181c]/30 mb-3">Étape {i + 1}</div>
+                  <div className="font-black uppercase text-[#14181c] mb-3">{e.t}</div>
+                  <p className="text-sm text-[#14181c]/50 leading-relaxed">{e.d}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+          <Reveal>
+            <a href={`tel:${fd?.phone ?? "0299345678"}`} className="inline-flex items-center gap-3 px-9 py-4 bg-[var(--brand,#dc2626)] text-white font-bold text-[10px] uppercase tracking-[0.25em] hover:opacity-90 transition-opacity">
+              <Phone className="w-4 h-4" /> Demander un devis
+            </a>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ── VÉHICULES ÉLECTRIQUES ── */}
+      <section id="electrique" className="py-28 bg-[#14181c] text-[#f1f3f5]">
+        <div className="max-w-[1200px] mx-auto px-6 md:px-12">
+          <Reveal><div className="mb-14">
+            <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#dc2626)] mb-4">Véhicules électriques</div>
+            <h2 className="text-4xl md:text-5xl font-black uppercase">Oui, on touche <span className="text-[var(--brand,#dc2626)]">aux packs.</span></h2>
+          </div></Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-white/10 border border-white/10">
+            {ELECTRIQUE.map((e, i) => (
+              <Reveal key={e.t} delay={i * 0.07}>
+                <div className="bg-[#14181c] p-8 h-full">
+                  <div className="font-black uppercase mb-3 flex items-center gap-2">
+                    <Zap className="w-4 h-4 text-[var(--brand,#dc2626)]" />{e.t}
+                  </div>
+                  <p className="text-sm text-white/45 leading-relaxed">{e.d}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── ÉQUIPE ── */}
+      <section id="equipe" className="py-28 bg-white">
+        <div className="max-w-[1200px] mx-auto px-6 md:px-12">
+          <Reveal><div className="mb-14">
+            <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#dc2626)] mb-4">L'équipe</div>
+            <h2 className="text-4xl md:text-5xl font-black uppercase text-[#14181c]">Qui a les <span className="text-[var(--brand,#dc2626)]">mains dedans.</span></h2>
+          </div></Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            {EQUIPE.map((m, i) => (
+              <Reveal key={m.n} delay={i * 0.07}>
+                <div className="bg-[#f1f3f5] p-8 h-full">
+                  <div className="font-black uppercase text-[#14181c] mb-1">{m.n}</div>
+                  <div className="text-[10px] font-bold uppercase tracking-[0.24em] text-[var(--brand,#dc2626)] mb-4">{m.r}</div>
+                  <p className="text-sm text-[#14181c]/50 leading-relaxed">{m.d}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ── TÉMOIGNAGES ── */}
-      <section id="tarifs" className="py-28 bg-[#141820]">
+      <section id="avis" className="py-28 bg-[#141820]">
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-14">
             <div className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#dc2626)]/50 mb-4">— Avis clients</div>

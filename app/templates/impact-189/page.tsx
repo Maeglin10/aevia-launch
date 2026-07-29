@@ -39,6 +39,29 @@ function ParallaxImg({ src, alt }: { src: string; alt: string }) {
   )
 }
 
+// Explicit anchors: the generated slug turned "Équipe" into "#équipe" and the
+// ids sat on the wrong blocks.
+const NAV = [
+  { l: "Prestations", h: "#prestations" },
+  { l: "Tarifs", h: "#tarifs" },
+  { l: "Équipe", h: "#equipe" },
+  { l: "Galerie", h: "#galerie" },
+  { l: "Contact", h: "#contact" },
+];
+
+const TARIFS = [
+  { g: "Coupe", ls: [["Coupe & brushing", "58 €"], ["Coupe seule", "42 €"], ["Frange / retouche", "18 €"], ["Coupe enfant (-12 ans)", "29 €"]] },
+  { g: "Couleur", ls: [["Racines", "62 €"], ["Couleur complète", "88 €"], ["Balayage", "à partir de 135 €"], ["Patine / gloss", "45 €"]] },
+  { g: "Soin", ls: [["Rituel botanique", "38 €"], ["Kératine sans formol", "à partir de 180 €"], ["Diagnostic cuir chevelu", "offert"], ["Brushing seul", "34 €"]] },
+];
+
+const EQUIPE = [
+  { n: "Léonie Barbier", r: "Fondatrice · Coloriste", d: "Formée chez Christophe Robin. Balayage et corrections de couleur : c'est elle qu'on vient voir quand une couleur a mal tourné ailleurs." },
+  { n: "Inès Marchetti", r: "Styliste senior", d: "Coupes courtes et carrés graphiques. Douze ans de plateau et de collections, aujourd'hui uniquement en salon." },
+  { n: "Nour Benali", r: "Spécialiste cheveux texturés", d: "Boucles, frisés, crépus. Coupe à sec, méthode courbes, et un vrai diagnostic avant de toucher aux longueurs." },
+  { n: "Théo Rives", r: "Styliste · Cérémonie", d: "Chignons et attachés. Essai systématique avant un mariage, déplacement possible le jour J." },
+];
+
 const PRESTATIONS = [
   { title: "Coupe & brushing", price: "Dès 65€", desc: "Coupe sur mesure adaptée à votre morphologie, densité et mode de vie. Brushing professionnel ou coiffage naturel." },
   { title: "Couleur & balayage", price: "Dès 95€", desc: "Couleur pleine, balayage californien, mèches, ombré. Produits Kérastase & L'Oréal Professionnel. Bilan capillaire offert." },
@@ -286,8 +309,8 @@ export default function AtelierLeoniePage() {
             )}
           </div>
           <div className="hidden lg:flex gap-9 text-[10px] font-bold uppercase tracking-[0.22em] text-[#1a1218]/30">
-            {["Prestations", "Tarifs", "Équipe", "Galerie", "Contact"].map(l => (
-              <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="hover:text-[var(--brand,#c97b7b)] transition-colors">{l}</Link>
+            {NAV.map(({ l, h }) => (
+              <Link key={l} href={h} className="hover:text-[var(--brand,#c97b7b)] transition-colors">{l}</Link>
             ))}
           </div>
           <div className="flex items-center gap-3">
@@ -301,7 +324,7 @@ export default function AtelierLeoniePage() {
               <SheetTrigger className="lg:hidden"><Menu className="w-5 h-5" /></SheetTrigger>
               <SheetContent side="right" className="bg-[#faf6f1] border-slate-100 p-10">
                 <div className="flex flex-col gap-7 mt-16">
-                  {["Prestations", "Tarifs", "Contact"].map(l => <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="text-3xl font-bold text-[#1a1218] hover:text-[var(--brand,#c97b7b)] transition-colors" style={{ fontFamily: "'Bodoni Moda', serif" }}>{l}</Link>)}
+                  {NAV.map(({ l, h }) => <Link key={l} href={h} className="text-3xl font-bold text-[#1a1218] hover:text-[var(--brand,#c97b7b)] transition-colors" style={{ fontFamily: "'Bodoni Moda', serif" }}>{l}</Link>)}
                   <a href={`tel:${fd?.phone ?? "0145678901"}`} className="flex items-center gap-3 text-[var(--brand,#c97b7b)] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> {fd?.phone ?? "01 45 67 89 01"}</a>
                 </div>
               </SheetContent>
@@ -381,7 +404,7 @@ export default function AtelierLeoniePage() {
       </section>
 
       {/* ── PRESTATIONS ── */}
-      <section id="realisations" className="py-28 bg-[#faf6f1]">
+      <section id="prestations" className="py-28 bg-[#faf6f1]">
         <div className="max-w-[1300px] mx-auto px-6 md:px-12">
           <Reveal>
             <div className="mb-16 flex flex-col md:flex-row gap-8 justify-between items-end">
@@ -416,8 +439,62 @@ export default function AtelierLeoniePage() {
         </div>
       </section>
 
+      {/* ── TARIFS ── */}
+      <section id="tarifs" className="py-28 bg-[#f3ede6]">
+        <div className="max-w-[1200px] mx-auto px-6 md:px-12">
+          <Reveal><div className="mb-14">
+            <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#c97b7b)] mb-4">Tarifs</div>
+            <h2 className="text-4xl font-bold text-[#1a1218]" style={{ fontFamily: "'Bodoni Moda', serif" }}>Rien qui ne soit <span className="italic text-[var(--brand,#c97b7b)]">annoncé.</span></h2>
+          </div></Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+            {TARIFS.map((g, i) => (
+              <Reveal key={g.g} delay={i * 0.08}>
+                <div className="bg-white p-8 h-full">
+                  <div className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#c97b7b)] mb-6">{g.g}</div>
+                  <ul className="space-y-3">
+                    {g.ls.map(([a, p]) => (
+                      <li key={a} className="flex justify-between gap-4 text-sm">
+                        <span className="text-[#1a1218]/60">{a}</span>
+                        <span className="text-[#1a1218] font-medium shrink-0">{p}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+          <Reveal>
+            <p className="text-xs text-[#1a1218]/35 mt-6 leading-relaxed max-w-[70ch]">
+              Le prix d'une couleur dépend de la longueur et de la quantité de produit : ce qui est annoncé ici
+              couvre les cheveux jusqu'aux épaules. Au-delà, le supplément vous est donné avant de commencer, pas à la caisse.
+            </p>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ── ÉQUIPE ── */}
+      <section id="equipe" className="py-28 bg-white">
+        <div className="max-w-[1200px] mx-auto px-6 md:px-12">
+          <Reveal><div className="mb-14">
+            <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#c97b7b)] mb-4">L'équipe</div>
+            <h2 className="text-4xl font-bold text-[#1a1218]" style={{ fontFamily: "'Bodoni Moda', serif" }}>Huit paires de <span className="italic text-[var(--brand,#c97b7b)]">mains.</span></h2>
+          </div></Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            {EQUIPE.map((m, i) => (
+              <Reveal key={m.n} delay={i * 0.07}>
+                <div className="bg-[#faf6f1] p-8 h-full">
+                  <div className="text-xl font-bold text-[#1a1218] mb-1" style={{ fontFamily: "'Bodoni Moda', serif" }}>{m.n}</div>
+                  <div className="text-[10px] font-bold uppercase tracking-[0.24em] text-[var(--brand,#c97b7b)] mb-4">{m.r}</div>
+                  <p className="text-sm text-[#1a1218]/50 leading-relaxed">{m.d}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ── GALERIE RÉALISATIONS ── */}
-      <section className="py-20 bg-white">
+      <section id="galerie" className="py-20 bg-white">
         <div className="max-w-[1300px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-12">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#c97b7b)] mb-4">Réalisations</div>
@@ -434,7 +511,7 @@ export default function AtelierLeoniePage() {
       </section>
 
       {/* ── TÉMOIGNAGES ── */}
-      <section id="contact" className="py-28 bg-[#faf6f1]">
+      <section id="avis" className="py-28 bg-[#faf6f1]">
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-14 text-center">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#c97b7b)] mb-4">Avis clients</div>
@@ -460,7 +537,7 @@ export default function AtelierLeoniePage() {
       </section>
 
       {/* ── CTA ── */}
-      <section id="services" className="py-24 bg-[#1a1218] text-center">
+      <section id="contact" className="py-24 bg-[#1a1218] text-center">
         <Reveal>
           <div className="max-w-xl mx-auto px-6">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/25 mb-6">Votre prochain rendez-vous</div>

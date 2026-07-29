@@ -42,6 +42,32 @@ function ParallaxImg({ src, alt }: { src: string; alt: string }) {
 // Demo content — real data (businessProfile) replaces this wholesale via
 // resolveList when the client provided it; each field access below falls
 // back with `??` so the same JSX renders either shape.
+// Explicit anchors: the slug generator gave "#zone" no target and the ids
+// sat on the wrong blocks (#realisations was on the closing CTA).
+const NAV = [
+  { l: "Prestations", h: "#prestations" },
+  { l: "Réalisations", h: "#realisations" },
+  { l: "Devis", h: "#devis" },
+  { l: "Zone", h: "#zone" },
+  { l: "Contact", h: "#contact" },
+];
+
+const DEVIS_ETAPES = [
+  { t: "Visite sur le terrain", d: "Gratuite et sans engagement, sous huit jours. On regarde l'exposition, la nature du sol et l'accès aux engins." },
+  { t: "Plan et chiffrage", d: "Croquis coté, liste des végétaux avec leur nom latin, prix détaillé poste par poste. Rendu sous deux semaines." },
+  { t: "Deux allers-retours inclus", d: "Vous ajustez, on redessine. Sans supplément, jusqu'à ce que le projet corresponde à ce que vous voulez." },
+  { t: "Planning ferme", d: "Date de début, durée, et ce qui reste à votre charge (arrosage, évacuation). Écrit avant la signature." },
+];
+
+const ZONES = [
+  { v: "Annecy", d: "Et communes du lac : Veyrier, Menthon, Talloires, Sévrier" },
+  { v: "Annecy-le-Vieux · Cran-Gevrier", d: "Entretien hebdomadaire et création" },
+  { v: "La Roche-sur-Foron", d: "Création et élagage, sur planning" },
+  { v: "Rumilly · Alby", d: "Déplacement compris dans le devis" },
+  { v: "Thônes · Vallée de Manigod", d: "Terrains en pente, accès étudié au cas par cas" },
+  { v: "Genève et Pays de Gex", d: "Sur étude, à partir de 3 jours de chantier" },
+];
+
 const PRESTATIONS_DEMO = [
   { icon: Flower, title: "Création jardin", desc: "Étude, plan 3D, terrassement, plantations, dallage, éclairage, arrosage automatique. Conception sur mesure de A à Z, du 10m² au 2 hectares." },
   { icon: Scissors, title: "Entretien régulier", desc: "Tonte, taille des haies et arbustes, désherbage, arrosage. Passage hebdomadaire, bihebdomadaire ou mensuel selon saison et superficie." },
@@ -143,8 +169,8 @@ export default function JardinsVivantsPage() {
             )}
           </div>
           <div className="hidden lg:flex gap-9 text-[10px] font-bold uppercase tracking-[0.22em] text-[#1e2a1c]/30">
-            {["Prestations", "Réalisations", "Devis", "Zone", "Contact"].map(l => (
-              <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="hover:text-[var(--brand,#2d5a27)] transition-colors">{l}</Link>
+            {NAV.map(({ l, h }) => (
+              <Link key={l} href={h} className="hover:text-[var(--brand,#2d5a27)] transition-colors">{l}</Link>
             ))}
           </div>
           <div className="flex items-center gap-3">
@@ -158,7 +184,7 @@ export default function JardinsVivantsPage() {
               <SheetTrigger className="lg:hidden"><Menu className="w-5 h-5" /></SheetTrigger>
               <SheetContent side="right" className="bg-[#fafaf7] border-slate-100 p-10">
                 <div className="flex flex-col gap-7 mt-16">
-                  {["Prestations", "Réalisations", "Contact"].map(l => <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="text-3xl font-bold text-[#1e2a1c] hover:text-[var(--brand,#2d5a27)] transition-colors" style={{ fontFamily: "'Cardo', serif" }}>{l}</Link>)}
+                  {NAV.map(({ l, h }) => <Link key={l} href={h} className="text-3xl font-bold text-[#1e2a1c] hover:text-[var(--brand,#2d5a27)] transition-colors" style={{ fontFamily: "'Cardo', serif" }}>{l}</Link>)}
                   <a href={`tel:${fd?.phone ?? "0450123456"}`} className="flex items-center gap-3 text-[var(--brand,#2d5a27)] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> {fd?.phone ?? "04 50 12 34 56"}</a>
                 </div>
               </SheetContent>
@@ -237,7 +263,7 @@ export default function JardinsVivantsPage() {
       </section>
 
       {/* ── PRESTATIONS ── */}
-      <section id="services" className="py-28 bg-[#fafaf7]">
+      <section id="prestations" className="py-28 bg-[#fafaf7]">
         <div className="max-w-[1300px] mx-auto px-6 md:px-12">
           <Reveal>
             <div className="mb-16">
@@ -266,7 +292,7 @@ export default function JardinsVivantsPage() {
       </section>
 
       {/* ── RÉALISATIONS ── */}
-      <section className="py-20 bg-white">
+      <section id="realisations" className="py-20 bg-white">
         <div className="max-w-[1300px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-12">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#2d5a27)] mb-4">Portfolio</div>
@@ -282,8 +308,51 @@ export default function JardinsVivantsPage() {
         </div>
       </section>
 
+      {/* ── DEVIS ── */}
+      <section id="devis" className="py-28 bg-[#f2f5ef]">
+        <div className="max-w-[1200px] mx-auto px-6 md:px-12">
+          <Reveal><div className="mb-14">
+            <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#2d5a27)] mb-4">Devis</div>
+            <h2 className="text-4xl md:text-5xl font-bold text-[#1e2a1c]" style={{ fontFamily: "'Cardo', serif" }}>Comment on <span className="italic text-[var(--brand,#2d5a27)]">chiffre.</span></h2>
+          </div></Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            {DEVIS_ETAPES.map((e, i) => (
+              <Reveal key={e.t} delay={i * 0.07}>
+                <div className="bg-white p-8 h-full">
+                  <div className="text-[10px] font-bold uppercase tracking-[0.24em] text-[#1e2a1c]/30 mb-3">Étape {i + 1}</div>
+                  <div className="text-lg font-bold text-[#1e2a1c] mb-3" style={{ fontFamily: "'Cardo', serif" }}>{e.t}</div>
+                  <p className="text-sm text-[#1e2a1c]/50 leading-relaxed">{e.d}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── ZONE ── */}
+      <section id="zone" className="py-28 bg-[#1e2a1c] text-white">
+        <div className="max-w-[1200px] mx-auto px-6 md:px-12">
+          <Reveal><div className="mb-14">
+            <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#7cb342)] mb-4">Zone d'intervention</div>
+            <h2 className="text-4xl md:text-5xl font-bold" style={{ fontFamily: "'Cardo', serif" }}>Jusqu'où on <span className="italic text-[var(--brand,#7cb342)]">se déplace.</span></h2>
+          </div></Reveal>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-white/10 border border-white/10">
+            {ZONES.map((z, i) => (
+              <Reveal key={z.v} delay={i * 0.05}>
+                <div className="bg-[#1e2a1c] p-7 h-full">
+                  <div className="font-bold mb-2 flex items-center gap-2" style={{ fontFamily: "'Cardo', serif" }}>
+                    <MapPin className="w-4 h-4 text-[var(--brand,#7cb342)]" />{z.v}
+                  </div>
+                  <p className="text-sm text-white/40 leading-relaxed">{z.d}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ── TÉMOIGNAGES ── */}
-      <section id="contact" className="py-28 bg-[#fafaf7]">
+      <section id="avis" className="py-28 bg-[#fafaf7]">
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-14 text-center">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#2d5a27)] mb-4">Avis clients</div>
@@ -311,7 +380,7 @@ export default function JardinsVivantsPage() {
       </section>
 
       {/* ── CTA ── */}
-      <section id="realisations" className="py-24 bg-[var(--brand,#2d5a27)] text-center">
+      <section id="contact" className="py-24 bg-[var(--brand,#2d5a27)] text-center">
         <Reveal>
           <div className="max-w-xl mx-auto px-6">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/40 mb-6">Votre projet</div>

@@ -26,6 +26,31 @@ function Reveal({ children, delay = 0, y = 20 }: { children: React.ReactNode; de
   )
 }
 
+const NAV = [
+  { l: "Soins", h: "#soins" },
+  { l: "L'approche", h: "#approche" },
+  { l: "Tarifs", h: "#tarifs" },
+  { l: "Agenda", h: "#agenda" },
+  { l: "Contact", h: "#contact" },
+];
+
+const TARIFS = [
+  { a: "Consultation adulte", p: "60 €", n: "60 minutes, bilan et traitement compris." },
+  { a: "Nourrisson (0 — 2 ans)", p: "55 €", n: "45 minutes. Un parent reste présent toute la séance." },
+  { a: "Femme enceinte", p: "60 €", n: "Table adaptée à partir du 4e mois, positions latérales." },
+  { a: "Sportif · suivi de saison", p: "3 × 150 €", n: "Trois séances à utiliser dans l'année, transférables au sein d'un même club." },
+  { a: "Consultation à domicile", p: "80 €", n: "Montpellier intra-muros, sur justificatif d'immobilisation." },
+];
+
+const AGENDA = [
+  { j: "Lundi", h: "9h — 19h" },
+  { j: "Mardi", h: "9h — 19h" },
+  { j: "Mercredi", h: "9h — 13h" },
+  { j: "Jeudi", h: "11h — 20h" },
+  { j: "Vendredi", h: "9h — 18h" },
+  { j: "Samedi", h: "9h — 13h, un samedi sur deux" },
+];
+
 const PRISES_EN_CHARGE_DEMO = [
   { icon: Wind, title: "Douleurs du dos & lombalgies", desc: "Cervicalgie, dorsalgie, lombalgie, sciatique. Traitement manuel des restrictions de mobilité articulaire et musculaire. Soins adaptés aux douleurs chroniques et aiguës." },
   { icon: Heart, title: "Suivi grossesse & nourrissons", desc: "Accompagnement périnatal, préparation à l'accouchement, suivi post-partum. Traitement des coliques, régurgitations et troubles du sommeil chez le nourrisson." },
@@ -134,8 +159,8 @@ export default function OsteoGaiaPage() {
             )}
           </div>
           <div className="hidden lg:flex gap-9 text-[10px] font-bold uppercase tracking-[0.22em] text-[#3a2e28]/30">
-            {["Soins", "L'approche", "Tarifs", "Agenda", "Contact"].map(l => (
-              <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="hover:text-[var(--brand,#c26b4c)] transition-colors">{l}</Link>
+            {NAV.map(({ l, h }) => (
+              <Link key={l} href={h} className="hover:text-[var(--brand,#c26b4c)] transition-colors">{l}</Link>
             ))}
           </div>
           <div className="flex items-center gap-3">
@@ -149,7 +174,7 @@ export default function OsteoGaiaPage() {
               <SheetTrigger className="lg:hidden"><Menu className="w-5 h-5" /></SheetTrigger>
               <SheetContent side="right" className="bg-[#f5f0e8] border-slate-200 p-10">
                 <div className="flex flex-col gap-7 mt-16">
-                  {["Soins", "L'approche", "Contact"].map(l => <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="text-3xl font-bold text-[#3a2e28] hover:text-[var(--brand,#c26b4c)] transition-colors" style={{ fontFamily: "'Libre Baskerville', serif" }}>{l}</Link>)}
+                  {NAV.map(({ l, h }) => <Link key={l} href={h} className="text-3xl font-bold text-[#3a2e28] hover:text-[var(--brand,#c26b4c)] transition-colors" style={{ fontFamily: "'Libre Baskerville', serif" }}>{l}</Link>)}
                   <a href={`tel:${fd?.phone ?? "0467891234"}`} className="flex items-center gap-3 text-[var(--brand,#c26b4c)] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> {fd?.phone ?? "04 67 89 12 34"}</a>
                 </div>
               </SheetContent>
@@ -215,7 +240,7 @@ export default function OsteoGaiaPage() {
       </section>
 
       {/* ── SOINS ── */}
-      <section className="py-28 bg-[#f5f0e8]">
+      <section id="soins" className="py-28 bg-[#f5f0e8]">
         <div className="max-w-[1300px] mx-auto px-6 md:px-12">
           <Reveal>
             <div className="mb-16">
@@ -242,7 +267,7 @@ export default function OsteoGaiaPage() {
       </section>
 
       {/* ── L'APPROCHE ── */}
-      <section id="contact" className="py-24 bg-[#3a2e28] text-[#f5f0e8]">
+      <section id="approche" className="py-24 bg-[#3a2e28] text-[#f5f0e8]">
         <div className="max-w-[1100px] mx-auto px-6 md:px-12 grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
           <Reveal>
             <div>
@@ -271,8 +296,81 @@ export default function OsteoGaiaPage() {
         </div>
       </section>
 
+      {/* ── TARIFS ── */}
+      <section id="tarifs" className="py-28 bg-[#f5f0e8]">
+        <div className="max-w-[1000px] mx-auto px-6 md:px-12">
+          <Reveal><div className="mb-14">
+            <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#c26b4c)] mb-4">Tarifs</div>
+            <h2 className="text-4xl md:text-5xl font-bold text-[#3a2e28]" style={{ fontFamily: "'Libre Baskerville', serif" }}>Un prix, <span className="text-[var(--brand,#c26b4c)] italic">une séance.</span></h2>
+          </div></Reveal>
+          <div className="bg-white">
+            {TARIFS.map((t, i) => (
+              <Reveal key={t.a} delay={i * 0.05}>
+                <div className={`flex flex-wrap items-baseline justify-between gap-3 px-7 py-5 ${i ? "border-t border-[#ede6d9]" : ""}`}>
+                  <div className="min-w-0">
+                    <div className="font-bold text-[#3a2e28] text-sm" style={{ fontFamily: "'Libre Baskerville', serif" }}>{t.a}</div>
+                    <div className="text-xs text-[#3a2e28]/40 mt-0.5">{t.n}</div>
+                  </div>
+                  <div className="font-bold text-[var(--brand,#c26b4c)] text-sm shrink-0">{t.p}</div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+          <Reveal>
+            <p className="text-xs text-[#3a2e28]/40 mt-6 leading-relaxed max-w-[70ch]">
+              L'ostéopathie n'est pas prise en charge par l'Assurance Maladie. La plupart des mutuelles
+              remboursent entre 3 et 5 séances par an : une facture vous est remise à chaque consultation.
+              Paiement par carte, espèces ou virement.
+            </p>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ── AGENDA ── */}
+      <section id="agenda" className="py-28 bg-[#ede6d9]">
+        <div className="max-w-[1100px] mx-auto px-6 md:px-12">
+          <Reveal><div className="mb-14">
+            <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#c26b4c)] mb-4">Agenda</div>
+            <h2 className="text-4xl md:text-5xl font-bold text-[#3a2e28]" style={{ fontFamily: "'Libre Baskerville', serif" }}>Quand je <span className="text-[var(--brand,#c26b4c)] italic">consulte.</span></h2>
+          </div></Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <Reveal>
+              <div className="bg-white p-8 h-full">
+                <div className="font-bold text-[#3a2e28] mb-5 flex items-center gap-2" style={{ fontFamily: "'Libre Baskerville', serif" }}>
+                  <Clock className="w-4 h-4 text-[var(--brand,#c26b4c)]" />Horaires du cabinet
+                </div>
+                <div className="space-y-2 text-sm">
+                  {AGENDA.map((a) => (
+                    <div key={a.j} className="flex justify-between gap-4">
+                      <span className="text-[#3a2e28]/50">{a.j}</span>
+                      <span className="text-[#3a2e28] font-medium">{a.h}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </Reveal>
+            <Reveal delay={0.08}>
+              <div className="bg-white p-8 h-full">
+                <div className="font-bold text-[#3a2e28] mb-5 flex items-center gap-2" style={{ fontFamily: "'Libre Baskerville', serif" }}>
+                  <Calendar className="w-4 h-4 text-[var(--brand,#c26b4c)]" />Prendre rendez-vous
+                </div>
+                <p className="text-sm text-[#3a2e28]/50 leading-relaxed mb-4">
+                  Réservation en ligne 24h/24, ou par téléphone aux heures d'ouverture. Le délai moyen
+                  est de quatre jours ; deux créneaux sont gardés chaque matin pour les urgences
+                  (lumbago aigu, torticolis, nourrisson qui ne dort plus).
+                </p>
+                <p className="text-sm text-[#3a2e28]/50 leading-relaxed">
+                  Une annulation moins de 24 h avant le rendez-vous libère rarement le créneau :
+                  prévenez dès que possible, la séance reste due au-delà de deux oublis.
+                </p>
+              </div>
+            </Reveal>
+          </div>
+        </div>
+      </section>
+
       {/* ── TÉMOIGNAGES ── */}
-      <section className="py-28 bg-white">
+      <section id="avis" className="py-28 bg-white">
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-14 text-center">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#c26b4c)] mb-4">Patients</div>
@@ -298,7 +396,7 @@ export default function OsteoGaiaPage() {
       </section>
 
       {/* ── CTA ── */}
-      <section id="services" className="py-24 bg-[var(--brand,#c26b4c)] text-center">
+      <section id="contact" className="py-24 bg-[var(--brand,#c26b4c)] text-center">
         <Reveal>
           <div className="max-w-xl mx-auto px-6">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/40 mb-5">Rendez-vous</div>
