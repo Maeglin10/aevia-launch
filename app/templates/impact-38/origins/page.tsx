@@ -90,20 +90,18 @@ export default function OriginsPage() {
 
                     <div style={{ display: "flex", gap: 12, marginTop: "auto" }}>
                       <Link href="/templates/impact-38/abonnement" style={{ textDecoration: "none", flex: 1, display: "flex" }}>
-                        <button
-                          type="button"
+                        <span
                           style={{ display: "inline-flex", alignItems: "center", gap: 8, background: C.caramel, color: C.white, padding: "12px 20px", borderRadius: 8, fontWeight: 700, fontSize: 14, border: "none", cursor: "pointer", width: "100%", justifyContent: "center" }}
                         >
                           Ajouter au panier <ArrowRight size={15} />
-                        </button>
+                        </span>
                       </Link>
                       <Link href="/templates/impact-38/abonnement" style={{ textDecoration: "none", display: "flex" }}>
-                        <button
-                          type="button"
+                        <span
                           style={{ display: "inline-flex", alignItems: "center", gap: 8, background: C.caramelLight, color: C.caramel, padding: "12px 16px", borderRadius: 8, fontWeight: 600, fontSize: 13, border: "none", cursor: "pointer" }}
                         >
                           S'abonner
-                        </button>
+                        </span>
                       </Link>
                     </div>
                   </div>

@@ -47,11 +47,11 @@ export default function About() {
         <h2 style={{ fontFamily: SERIF, fontSize: "clamp(28px, 4vw, 44px)", color: C.accent, margin: "0 0 20px", fontWeight: 700 }}>Une création vous attend.</h2>
         <p style={{ fontFamily: SANS, fontSize: 16, color: C.textMuted, maxWidth: 460, margin: "0 auto 32px", lineHeight: 1.7 }}>Découvrez nos bouquets de saison et nos compositions sur mesure.</p>
         <Link href="/templates/impact-47/boutique" style={{ textDecoration: "none" }}>
-          <button
+          <span
             style={{ display: "inline-flex", alignItems: "center", gap: 8, background: C.accent, color: C.white, padding: "16px 36px", fontSize: 13, letterSpacing: "0.06em", textTransform: "uppercase" as const, fontFamily: SANS, fontWeight: 700, border: "none", borderRadius: 2, cursor: "pointer" }}
             onMouseEnter={e => (e.currentTarget.style.background = C.accentHover)}
             onMouseLeave={e => (e.currentTarget.style.background = C.accent)}
-          >Découvrir la boutique <ArrowRight size={15} /></button>
+          >Découvrir la boutique <ArrowRight size={15} /></span>
         </Link>
       </section>
     </div>

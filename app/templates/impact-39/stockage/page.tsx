@@ -72,12 +72,11 @@ export default function StockagePage() {
                   ))}
                 </div>
                 <Link href="/templates/impact-39/devis" style={{ textDecoration: "none" }}>
-                  <button
-                    type="button"
+                  <span
                     style={{ width: "100%", background: i === 1 ? C.orange : C.orangeLight, color: i === 1 ? C.white : C.orange, padding: "14px 24px", borderRadius: 10, fontWeight: 800, fontSize: 15, border: "none", cursor: "pointer", fontFamily: "'Manrope', system-ui" }}
                   >
                     Réserver
-                  </button>
+                  </span>
                 </Link>
               </div>
             </SectionReveal>

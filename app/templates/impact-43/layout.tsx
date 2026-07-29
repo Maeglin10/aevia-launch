@@ -291,7 +291,7 @@ export default function SereneRetreatLayout({ children }: { children: React.Reac
         </div>
         <div style={{ display: "flex", gap: 24 }}>
           <Link href="/templates/impact-43/legal" style={{ textDecoration: "none" }}>
-            <button
+            <span
               style={{
                 background: "none",
                 border: "none",
@@ -304,10 +304,10 @@ export default function SereneRetreatLayout({ children }: { children: React.Reac
               }}
             >
               Mentions Légales
-            </button>
+            </span>
           </Link>
           <Link href="/templates/impact-43/legal" style={{ textDecoration: "none" }}>
-            <button
+            <span
               style={{
                 background: "none",
                 border: "none",
@@ -320,10 +320,10 @@ export default function SereneRetreatLayout({ children }: { children: React.Reac
               }}
             >
               Confidentialité
-            </button>
+            </span>
           </Link>
           <Link href="/templates/impact-43/legal" style={{ textDecoration: "none" }}>
-            <button
+            <span
               style={{
                 background: "none",
                 border: "none",
@@ -336,10 +336,10 @@ export default function SereneRetreatLayout({ children }: { children: React.Reac
               }}
             >
               CGU
-            </button>
+            </span>
           </Link>
           <Link href="/templates/impact-43/contact" style={{ textDecoration: "none" }}>
-            <button
+            <span
               style={{
                 background: "none",
                 border: "none",
@@ -352,7 +352,7 @@ export default function SereneRetreatLayout({ children }: { children: React.Reac
               }}
             >
               Contact
-            </button>
+            </span>
           </Link>
         </div>
       </footer>

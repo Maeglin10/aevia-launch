@@ -463,7 +463,7 @@ function ProductCard({ product, index }: { product: typeof ALL_PRODUCTS_DEMO[0];
             <span style={{ fontSize: 12, color: C.textMuted, marginLeft: 4 }}>/ 250g</span>
           </div>
           <Link href="/templates/impact-38/abonnement" style={{ textDecoration: "none" }}>
-            <button type="button" style={{
+            <span style={{
               display: "inline-flex", alignItems: "center", gap: 6,
               background: hovered ? C.caramel : C.caramelLight,
               color: hovered ? C.white : C.caramel,
@@ -471,7 +471,7 @@ function ProductCard({ product, index }: { product: typeof ALL_PRODUCTS_DEMO[0];
               border: "none", cursor: "pointer", transition: "all 0.2s",
             }}>
               Commander <ArrowRight size={13} />
-            </button>
+            </span>
           </Link>
         </div>
       </div>
@@ -822,14 +822,14 @@ export default function OriginRoastPage() {
               <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.35 }}
                 style={{ display: "flex", gap: 16, flexWrap: "wrap", marginBottom: 52 }}>
                 <Link href="/templates/impact-38/abonnement" style={{ textDecoration: "none" }}>
-                  <button type="button" style={{ display: "inline-flex", alignItems: "center", gap: 8, background: C.caramel, color: C.espresso, padding: "16px 32px", borderRadius: 8, fontWeight: 700, fontSize: 16, border: "none", cursor: "pointer" }}>
+                  <span style={{ display: "inline-flex", alignItems: "center", gap: 8, background: C.caramel, color: C.espresso, padding: "16px 32px", borderRadius: 8, fontWeight: 700, fontSize: 16, border: "none", cursor: "pointer" }}>
                     S'abonner <ArrowRight size={18} />
-                  </button>
+                  </span>
                 </Link>
                 <Link href="/templates/impact-38/origins" style={{ textDecoration: "none" }}>
-                  <button type="button" style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "transparent", color: C.cream, padding: "16px 32px", borderRadius: 8, fontWeight: 600, fontSize: 16, border: "1.5px solid rgba(255,255,255,0.2)", cursor: "pointer" }}>
+                  <span style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "transparent", color: C.cream, padding: "16px 32px", borderRadius: 8, fontWeight: 600, fontSize: 16, border: "1.5px solid rgba(255,255,255,0.2)", cursor: "pointer" }}>
                     Explorer les origines
-                  </button>
+                  </span>
                 </Link>
               </motion.div>
               <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }}
@@ -969,9 +969,9 @@ export default function OriginRoastPage() {
           <SectionReveal delay={0.2}>
             <div style={{ textAlign: "center", marginTop: 52 }}>
               <Link href="/templates/impact-38/origins" style={{ textDecoration: "none" }}>
-                <button type="button" style={{ display: "inline-flex", alignItems: "center", gap: 8, background: C.caramel, color: C.white, padding: "15px 36px", borderRadius: 8, fontWeight: 700, fontSize: 15, border: "none", cursor: "pointer" }}>
+                <span style={{ display: "inline-flex", alignItems: "center", gap: 8, background: C.caramel, color: C.white, padding: "15px 36px", borderRadius: 8, fontWeight: 700, fontSize: 15, border: "none", cursor: "pointer" }}>
                   Voir le catalogue complet <ChevronRight size={16} />
-                </button>
+                </span>
               </Link>
             </div>
           </SectionReveal>
@@ -1120,9 +1120,9 @@ export default function OriginRoastPage() {
                     ))}
                   </div>
                   <Link href="/templates/impact-38/abonnement" style={{ textDecoration: "none" }}>
-                    <button type="button" style={{ display: "block", width: "100%", background: plan.highlight ? C.caramel : C.caramelLight, color: plan.highlight ? C.espresso : C.caramel, padding: "14px 24px", borderRadius: 8, fontWeight: 700, fontSize: 15, border: "none", cursor: "pointer" }}>
+                    <span style={{ display: "block", width: "100%", background: plan.highlight ? C.caramel : C.caramelLight, color: plan.highlight ? C.espresso : C.caramel, padding: "14px 24px", borderRadius: 8, fontWeight: 700, fontSize: 15, border: "none", cursor: "pointer" }}>
                       Choisir {plan.name}
-                    </button>
+                    </span>
                   </Link>
                 </div>
               </SectionReveal>
@@ -1204,9 +1204,9 @@ export default function OriginRoastPage() {
           <SectionReveal delay={0.2}>
             <div style={{ textAlign: "center", marginTop: 40 }}>
               <Link href="/templates/impact-38/origins" style={{ textDecoration: "none" }}>
-                <button type="button" style={{ display: "inline-flex", alignItems: "center", gap: 8, background: C.caramel, color: C.white, padding: "14px 32px", borderRadius: 8, fontWeight: 700, fontSize: 15, border: "none", cursor: "pointer" }}>
+                <span style={{ display: "inline-flex", alignItems: "center", gap: 8, background: C.caramel, color: C.white, padding: "14px 32px", borderRadius: 8, fontWeight: 700, fontSize: 15, border: "none", cursor: "pointer" }}>
                   Explorer toutes les origines <ChevronRight size={16} />
-                </button>
+                </span>
               </Link>
             </div>
           </SectionReveal>
@@ -1279,7 +1279,7 @@ export default function OriginRoastPage() {
                 </motion.button>
               </Link>
               <Link href="/templates/impact-38/contact" style={{ textDecoration: "none" }}>
-                <button type="button" style={{
+                <span style={{
                   display: "inline-flex",
                   alignItems: "center",
                   gap: 10,
@@ -1293,7 +1293,7 @@ export default function OriginRoastPage() {
                   cursor: "pointer",
                 }}>
                   Nous contacter
-                </button>
+                </span>
               </Link>
             </div>
           </SectionReveal>

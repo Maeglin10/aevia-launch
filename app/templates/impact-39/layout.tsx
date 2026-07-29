@@ -109,12 +109,11 @@ export default function SwiftMoveLayout({ children }: { children: React.ReactNod
               +33 1 XX XX XX XX
             </a>
             <Link href="/templates/impact-39/devis" style={{ textDecoration: "none" }}>
-              <button
-                type="button"
+              <span
                 style={{ background: C.orange, color: C.white, padding: "10px 22px", borderRadius: 8, fontWeight: 800, fontSize: 14, border: "none", cursor: "pointer", fontFamily: SANS }}
               >
                 Devis gratuit
-              </button>
+              </span>
             </Link>
           </div>
 

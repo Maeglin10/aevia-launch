@@ -131,7 +131,7 @@ export default function ClosDuSoirLayout({ children }: { children: React.ReactNo
           </div>
 
           <Link href="/templates/impact-37/reservation" style={{ textDecoration: "none" }} className="hidden md:block">
-            <button
+            <span
               style={{
                 marginLeft: 32,
                 background: "transparent",
@@ -148,7 +148,7 @@ export default function ClosDuSoirLayout({ children }: { children: React.ReactNo
               }}
             >
               Réserver
-            </button>
+            </span>
           </Link>
 
           {/* Hamburger Menu */}

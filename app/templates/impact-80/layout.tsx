@@ -98,9 +98,9 @@ export default function SymmetryStudioLayout({
               </span>
             </Link>
             <Link href={`${basePath}/contact`} className="hidden sm:block">
-              <button className="px-10 py-4 bg-black text-white text-[10px] font-bold uppercase tracking-[0.3em] hover:bg-transparent hover:text-black border border-transparent hover:border-black transition-all duration-700 shadow-xl shadow-black/5">
+              <span className="px-10 py-4 bg-black text-white text-[10px] font-bold uppercase tracking-[0.3em] hover:bg-transparent hover:text-black border border-transparent hover:border-black transition-all duration-700 shadow-xl shadow-black/5">
                 Initiate Project
-              </button>
+              </span>
             </Link>
             <Sheet open={menuOpen} onOpenChange={setMenuOpen}>
               <SheetTrigger className="lg:hidden p-2">

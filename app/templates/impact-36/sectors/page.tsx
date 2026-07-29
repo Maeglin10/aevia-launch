@@ -153,8 +153,7 @@ export default function SectorsPage() {
               Our recruiters have deep hands-on expertise in these industries and can find high-quality candidates immediately.
             </p>
             <Link href="/templates/impact-36/services#contact-form" style={{ textDecoration: "none" }}>
-              <button
-                type="button"
+              <span
                 style={{
                   display: "inline-flex",
                   alignItems: "center",
@@ -170,7 +169,7 @@ export default function SectorsPage() {
                 }}
               >
                 Start a Search <ArrowRight size={16} />
-              </button>
+              </span>
             </Link>
           </div>
         </SectionReveal>

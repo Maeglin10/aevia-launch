@@ -141,8 +141,7 @@ export default function GastronomyLayout({ children }: { children: React.ReactNo
             </Link>
           ))}
           <Link href="/templates/impact-40/reservation" style={{ textDecoration: "none" }}>
-            <button
-              type="button"
+            <span
               style={{
                 backgroundColor: C.bgDark,
                 color: C.accent,
@@ -156,7 +155,7 @@ export default function GastronomyLayout({ children }: { children: React.ReactNo
               }}
             >
               Réserver
-            </button>
+            </span>
           </Link>
         </div>
 

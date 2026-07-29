@@ -211,8 +211,7 @@ export default function SpacesPage() {
                     ))}
                   </div>
                   <Link href={space.href} style={{ textDecoration: "none", alignSelf: "flex-start" }}>
-                    <button
-                      type="button"
+                    <span
                       style={{
                         display: "inline-flex",
                         alignItems: "center",
@@ -228,7 +227,7 @@ export default function SpacesPage() {
                       }}
                     >
                       {space.cta} <ArrowRight size={16} />
-                    </button>
+                    </span>
                   </Link>
                 </div>
               </div>

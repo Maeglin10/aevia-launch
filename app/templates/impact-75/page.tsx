@@ -907,10 +907,10 @@ return (
                 </h2>
               </div>
               <Link href="/templates/impact-75/telemetry">
-                <button className="text-[10px] font-black uppercase tracking-widest text-[#0a0a0a]/30 hover:text-[#0a0a0a] transition-colors cursor-pointer flex items-center gap-2 group">
+                <span className="text-[10px] font-black uppercase tracking-widest text-[#0a0a0a]/30 hover:text-[#0a0a0a] transition-colors cursor-pointer flex items-center gap-2 group">
                   Voir tout
                   <ChevronRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
-                </button>
+                </span>
               </Link>
             </div>
           </Reveal>

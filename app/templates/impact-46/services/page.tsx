@@ -49,11 +49,11 @@ export default function Services() {
               <p style={{ fontFamily: "'Source Sans Pro', system-ui", fontSize: 16, color: "rgba(255,255,255,0.55)", margin: 0, maxWidth: 480 }}>Premier rendez-vous de 45 minutes offert pour évaluer votre situation et identifier la bonne équipe.</p>
             </div>
             <Link href="/templates/impact-46/contact" style={{ textDecoration: "none" }}>
-              <button
+              <span
                 style={{ background: C.accent, color: C.white, padding: "16px 36px", fontSize: 13, letterSpacing: "0.1em", textTransform: "uppercase" as const, fontFamily: "'Source Sans Pro', system-ui", fontWeight: 700, border: "none", cursor: "pointer", display: "flex", alignItems: "center", gap: 8 }}
                 onMouseEnter={e => (e.currentTarget.style.background = C.accentHover)}
                 onMouseLeave={e => (e.currentTarget.style.background = C.accent)}
-              >Nous contacter <ArrowRight size={15} /></button>
+              >Nous contacter <ArrowRight size={15} /></span>
             </Link>
           </div>
         </div>

@@ -127,7 +127,7 @@ export default function CavePage() {
                     {b.price} €
                   </div>
                   <Link href="/templates/impact-37/contact" style={{ textDecoration: "none" }}>
-                    <button
+                    <span
                       style={{
                         background: C.burgundy,
                         color: C.cream,
@@ -143,7 +143,7 @@ export default function CavePage() {
                       }}
                     >
                       Réserver en boutique
-                    </button>
+                    </span>
                   </Link>
                 </div>
               </div>

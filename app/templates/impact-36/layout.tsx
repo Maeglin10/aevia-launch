@@ -149,7 +149,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           {/* CTA Buttons */}
           <div style={{ gap: 12 }} className="hidden md:flex">
             <Link href="/templates/impact-36/services#contact-form" style={{ textDecoration: "none" }}>
-              <button
+              <span
                 style={{
                   background: "rgba(255,255,255,0.1)",
                   color: C.white,
@@ -162,10 +162,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 }}
               >
                 I'm a Candidate
-              </button>
+              </span>
             </Link>
             <Link href="/templates/impact-36/services#contact-form" style={{ textDecoration: "none" }}>
-              <button
+              <span
                 style={{
                   background: C.accent,
                   color: C.white,
@@ -178,7 +178,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 }}
               >
                 Hire Talent
-              </button>
+              </span>
             </Link>
           </div>
 

@@ -265,9 +265,9 @@ return (
                 </MagneticBtn>
               </Link>
               <Link href="/templates/impact-78/brewing">
-                <button className="px-12 py-5 border border-white/10 text-white text-[10px] font-bold uppercase tracking-[0.4em] rounded-none hover:bg-white hover:text-black transition-all cursor-pointer">
+                <span className="px-12 py-5 border border-white/10 text-white text-[10px] font-bold uppercase tracking-[0.4em] rounded-none hover:bg-white hover:text-black transition-all cursor-pointer">
                   Technical_Brew_Log
-                </button>
+                </span>
               </Link>
             </div>
           </Reveal>
@@ -617,9 +617,9 @@ return (
                 </MagneticBtn>
               </Link>
               <Link href="/templates/impact-78/collection">
-                <button className="px-16 py-6 border border-white/10 text-white text-[10px] font-bold uppercase tracking-[0.4em] rounded-none hover:bg-white hover:text-black transition-all cursor-pointer">
+                <span className="px-16 py-6 border border-white/10 text-white text-[10px] font-bold uppercase tracking-[0.4em] rounded-none hover:bg-white hover:text-black transition-all cursor-pointer">
                   View Work
-                </button>
+                </span>
               </Link>
             </div>
           </Reveal>

@@ -265,9 +265,9 @@ return (
                 </MagneticBtn>
               </Link>
               <Link href="/templates/impact-76/process">
-                <button className="px-12 py-5 border border-white/10 text-white text-[10px] font-bold uppercase tracking-[0.4em] rounded-none hover:bg-white hover:text-black transition-all cursor-pointer">
+                <span className="px-12 py-5 border border-white/10 text-white text-[10px] font-bold uppercase tracking-[0.4em] rounded-none hover:bg-white hover:text-black transition-all cursor-pointer">
                   Technical_Audit
-                </button>
+                </span>
               </Link>
             </div>
           </Reveal>
@@ -599,9 +599,9 @@ return (
                 </MagneticBtn>
               </Link>
               <Link href="/templates/impact-76/archive">
-                <button className="px-16 py-6 border border-white/10 text-white text-[10px] font-bold uppercase tracking-[0.4em] rounded-none hover:bg-white hover:text-black transition-all cursor-pointer">
+                <span className="px-16 py-6 border border-white/10 text-white text-[10px] font-bold uppercase tracking-[0.4em] rounded-none hover:bg-white hover:text-black transition-all cursor-pointer">
                   View Full Archive
-                </button>
+                </span>
               </Link>
             </div>
           </Reveal>

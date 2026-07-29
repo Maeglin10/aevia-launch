@@ -18,6 +18,19 @@ function Reveal({ children, delay = 0, y = 40 }: { children: React.ReactNode; de
   )
 }
 
+// A row-safe Reveal: <tbody> may only contain <tr>, so the animation has to
+// live on the row itself rather than on a wrapping <div>.
+function RevealRow({ children, delay = 0, className = "" }: { children: React.ReactNode; delay?: number; className?: string }) {
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, margin: "-80px" })
+  return (
+    <motion.tr ref={ref} className={className} initial={{ opacity: 0, y: 40 }} animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 1, delay, ease: [0.16, 1, 0.3, 1] }}>
+      {children}
+    </motion.tr>
+  )
+}
+
 function ParallaxImg({ src, alt }: { src: string; alt: string }) {
   const ref = useRef(null)
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] })
@@ -276,8 +289,7 @@ export default function AstrumReachPage() {
                 </thead>
                 <tbody className="text-sm font-light">
                   {MISSIONS.map((m, i) => (
-                    <Reveal key={i} delay={i * 0.1}>
-                      <tr className="border-b border-white/5 hover:bg-white/[0.02] transition-colors group">
+                    <RevealRow key={i} delay={i * 0.1} className="border-b border-white/5 hover:bg-white/[0.02] transition-colors group">
                         <td className="py-8 font-mono text-[var(--brand,#22d3ee)]">{m.id}</td>
                         <td className="py-8">{m.target}</td>
                         <td className="py-8 text-white/60">{m.payload}</td>
@@ -285,8 +297,7 @@ export default function AstrumReachPage() {
                            <span className="px-3 py-1 bg-white/5 border border-white/10 rounded-full text-[10px] uppercase font-bold tracking-widest">{m.type}</span>
                         </td>
                         <td className="py-8 text-right font-bold text-white group-hover:text-[var(--brand,#22d3ee)] transition-colors">{m.date}</td>
-                      </tr>
-                    </Reveal>
+                    </RevealRow>
                   ))}
                 </tbody>
               </table>

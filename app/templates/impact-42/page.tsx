@@ -137,20 +137,18 @@ export default function EchoChamberPage() {
             style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap" }}
           >
             <Link href="/templates/impact-42/booking" style={{ textDecoration: "none" }}>
-              <button
-                type="button"
+              <span
                 style={{ backgroundColor: C.accent, color: C.white, padding: "1rem 2.6rem", borderRadius: "6px", border: "none", cursor: "pointer", fontWeight: 700, fontFamily: C.bodyFont, fontSize: "0.95rem", display: "flex", alignItems: "center", gap: "0.5rem", boxShadow: `0 8px 30px ${C.accentGlow}`, letterSpacing: "0.03em" }}
               >
                 Réserver une session <ArrowRight size={16} />
-              </button>
+              </span>
             </Link>
             <Link href="/templates/impact-42/studios" style={{ textDecoration: "none" }}>
-              <button
-                type="button"
+              <span
                 style={{ border: `1px solid ${C.border}`, color: C.text, padding: "1rem 2.6rem", borderRadius: "6px", background: "none", cursor: "pointer", fontWeight: 600, fontFamily: C.bodyFont, fontSize: "0.95rem" }}
               >
                 Visiter les studios
-              </button>
+              </span>
             </Link>
           </motion.div>
 
@@ -212,11 +210,11 @@ export default function EchoChamberPage() {
                 </div>
                 <p style={{ fontFamily: C.bodyFont, fontSize: "0.95rem", color: C.textLight, lineHeight: 1.8, marginBottom: "2rem" }}>{homeStudios[activeStudio].desc}</p>
                 <Link href="/templates/impact-42/booking" style={{ textDecoration: "none" }}>
-                  <button type="button"
+                  <span
                     style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem", backgroundColor: homeStudios[activeStudio].color, color: C.white, padding: "0.8rem 1.8rem", borderRadius: "6px", border: "none", cursor: "pointer", fontWeight: 700, fontFamily: C.bodyFont, fontSize: "0.88rem", boxShadow: `0 4px 20px ${homeStudios[activeStudio].color}33` }}
                   >
                     <Calendar size={15} /> Réserver {homeStudios[activeStudio].name}
-                  </button>
+                  </span>
                 </Link>
               </div>
               <div className="imx-mobstack" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.75rem" }}>
@@ -345,12 +343,11 @@ export default function EchoChamberPage() {
                     ))}
                   </ul>
                   <Link href="/templates/impact-42/booking" style={{ textDecoration: "none" }}>
-                    <button
-                      type="button"
+                    <span
                       style={{ display: "block", width: "100%", textAlign: "center", backgroundColor: pkg.popular ? C.white : C.accent, color: pkg.popular ? C.accent : C.white, padding: "0.9rem", borderRadius: "8px", border: "none", cursor: "pointer", fontWeight: 700, fontFamily: C.bodyFont, fontSize: "0.9rem", letterSpacing: "0.03em" }}
                     >
                       Réserver cette session
-                    </button>
+                    </span>
                   </Link>
                 </div>
               </SectionReveal>

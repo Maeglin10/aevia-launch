@@ -553,16 +553,6 @@ export default function ClosDuSoirPage() {
 
   const FAQS = resolveList(bp?.faq, FAQS_DEMO);
 
-  const heroRef = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: heroRef,
-    offset: ["start start", "end start"],
-  });
-
-  const heroTextY = useTransform(scrollYProgress, [0, 1], ["0%", "25%"]);
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
-  const wineBottleFill = useTransform(scrollYProgress, [0, 1], [0, 1]);
-
   return (
     <div style={{ overflowX: "clip", background: C.bg }}>
       <style>{`
@@ -1092,7 +1082,7 @@ export default function ClosDuSoirPage() {
                       </div>
                       {!ev.sold && (
                         <Link href="/templates/impact-37/contact" style={{ textDecoration: "none" }}>
-                          <button
+                          <span
                             style={{
                               background: C.burgundy,
                               color: C.cream,
@@ -1108,7 +1098,7 @@ export default function ClosDuSoirPage() {
                             }}
                           >
                             Réserver
-                          </button>
+                          </span>
                         </Link>
                       )}
                     </div>
@@ -1396,7 +1386,7 @@ export default function ClosDuSoirPage() {
                     ))}
                   </div>
                   <Link href="/templates/impact-37/contact" style={{ textDecoration: "none" }}>
-                    <button
+                    <span
                       style={{
                         width: "100%",
                         display: "block",
@@ -1415,7 +1405,7 @@ export default function ClosDuSoirPage() {
                       }}
                     >
                       Rejoindre {tier.name}
-                    </button>
+                    </span>
                   </Link>
                 </div>
               </SectionReveal>

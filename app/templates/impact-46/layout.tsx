@@ -123,11 +123,11 @@ export default function LawFirmLayout({ children }: { children: React.ReactNode 
               );
             })}
             <Link href="/templates/impact-46/contact" style={{ textDecoration: "none" }}>
-              <button
+              <span
                 style={{ background: C.accent, color: C.white, padding: "10px 26px", fontSize: 12, letterSpacing: "0.1em", textTransform: "uppercase" as const, fontFamily: "'Source Sans Pro', system-ui", fontWeight: 700, border: "none", cursor: "pointer" }}
                 onMouseEnter={e => (e.currentTarget.style.background = C.accentHover)}
                 onMouseLeave={e => (e.currentTarget.style.background = C.accent)}
-              >Consultation gratuite</button>
+              >Consultation gratuite</span>
             </Link>
           </div>
 

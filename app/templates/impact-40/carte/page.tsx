@@ -173,8 +173,7 @@ export default function CartePage() {
         <SectionReveal delay={0.1}>
           <div style={{ textAlign: "center" }}>
             <Link href="/templates/impact-40/reservation" style={{ textDecoration: "none" }}>
-              <button
-                type="button"
+              <span
                 style={{
                   backgroundColor: C.bgDark,
                   color: C.accent,
@@ -191,7 +190,7 @@ export default function CartePage() {
                 }}
               >
                 Réserver une table <ArrowRight size={16} />
-              </button>
+              </span>
             </Link>
           </div>
         </SectionReveal>

@@ -108,9 +108,9 @@ return (
                 </MagneticBtn>
               </Link>
               <Link href="/templates/impact-71/contact" className="no-underline">
-                <button className="px-12 py-5 border border-stone-200 bg-transparent text-stone-400 text-[10px] font-bold uppercase tracking-[0.4em] rounded-full hover:bg-stone-50 transition-all cursor-pointer">
+                <span className="px-12 py-5 border border-stone-200 bg-transparent text-stone-400 text-[10px] font-bold uppercase tracking-[0.4em] rounded-full hover:bg-stone-50 transition-all cursor-pointer">
                   Our_Ethos
-                </button>
+                </span>
               </Link>
             </div>
           </Reveal>
@@ -367,14 +367,14 @@ return (
             </h3>
             <div className="flex flex-wrap justify-center gap-6">
               <Link href="/templates/impact-71/practices" className="no-underline">
-                <button className="px-10 py-4 bg-[#33302c] hover:bg-[var(--brand,#c9a84c)] text-white text-[10px] font-bold uppercase tracking-widest rounded-full cursor-pointer transition-all border-none">
+                <span className="px-10 py-4 bg-[#33302c] hover:bg-[var(--brand,#c9a84c)] text-white text-[10px] font-bold uppercase tracking-widest rounded-full cursor-pointer transition-all border-none">
                   View Practices
-                </button>
+                </span>
               </Link>
               <Link href="/templates/impact-71/timetable" className="no-underline">
-                <button className="px-10 py-4 border border-stone-200 bg-transparent text-stone-500 hover:bg-stone-50 text-[10px] font-bold uppercase tracking-widest rounded-full cursor-pointer transition-all">
+                <span className="px-10 py-4 border border-stone-200 bg-transparent text-stone-500 hover:bg-stone-50 text-[10px] font-bold uppercase tracking-widest rounded-full cursor-pointer transition-all">
                   Interactive Schedule
-                </button>
+                </span>
               </Link>
             </div>
           </Reveal>

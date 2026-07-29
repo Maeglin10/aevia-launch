@@ -212,9 +212,9 @@ export default function WorksPage() {
               <span className="font-bold opacity-10 not-italic">next.</span>
             </h2>
             <Link href="/templates/impact-80/contact">
-              <button className="px-16 py-6 bg-black text-white font-bold uppercase tracking-widest text-[10px] hover:px-20 transition-all duration-700 shadow-2xl italic">
+              <span className="px-16 py-6 bg-black text-white font-bold uppercase tracking-widest text-[10px] hover:px-20 transition-all duration-700 shadow-2xl italic">
                 Begin the Conversation
-              </button>
+              </span>
             </Link>
           </Reveal>
         </div>

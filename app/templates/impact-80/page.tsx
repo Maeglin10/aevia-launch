@@ -261,14 +261,14 @@ return (
                 </>}</p>
                 <div className="flex flex-wrap gap-12">
                   <Link href={`${basePath}/works`}>
-                    <button className="px-16 py-6 bg-black text-white font-bold uppercase tracking-widest text-[10px] hover:px-20 transition-all duration-700 shadow-2xl">
+                    <span className="px-16 py-6 bg-black text-white font-bold uppercase tracking-widest text-[10px] hover:px-20 transition-all duration-700 shadow-2xl">
                       Examine Portals
-                    </button>
+                    </span>
                   </Link>
                   <Link href={`${basePath}/identity`}>
-                    <button className="px-16 py-6 border border-black/10 text-black/30 font-bold uppercase tracking-widest text-[10px] hover:text-black transition-all flex items-center gap-4">
+                    <span className="px-16 py-6 border border-black/10 text-black/30 font-bold uppercase tracking-widest text-[10px] hover:text-black transition-all flex items-center gap-4">
                       <Compass className="w-4 h-4" /> View Map Of Silence
-                    </button>
+                    </span>
                   </Link>
                 </div>
               </div>
@@ -664,14 +664,14 @@ return (
           <Reveal delay={0.2}>
             <div className="flex flex-col sm:flex-row gap-8 justify-center">
               <Link href={`${basePath}/contact`}>
-                <button className="px-16 py-6 bg-white text-black font-bold uppercase tracking-widest text-[10px] hover:px-20 transition-all duration-700 shadow-2xl">
+                <span className="px-16 py-6 bg-white text-black font-bold uppercase tracking-widest text-[10px] hover:px-20 transition-all duration-700 shadow-2xl">
                   Initiate Project
-                </button>
+                </span>
               </Link>
               <Link href={`${basePath}/works`}>
-                <button className="px-16 py-6 border border-white/10 text-white/30 font-bold uppercase tracking-widest text-[10px] hover:text-white hover:border-white transition-all flex items-center gap-4">
+                <span className="px-16 py-6 border border-white/10 text-white/30 font-bold uppercase tracking-widest text-[10px] hover:text-white hover:border-white transition-all flex items-center gap-4">
                   <Compass className="w-4 h-4" /> View All Work
-                </button>
+                </span>
               </Link>
             </div>
           </Reveal>

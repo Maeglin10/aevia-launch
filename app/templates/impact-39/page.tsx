@@ -152,12 +152,11 @@ return (
               <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.35 }}
                 style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
                 <Link href="/templates/impact-39/devis" style={{ textDecoration: "none" }}>
-                  <button
-                    type="button"
+                  <span
                     style={{ display: "inline-flex", alignItems: "center", gap: 8, background: C.orange, color: C.white, padding: "16px 32px", borderRadius: 10, fontWeight: 800, fontSize: 16, border: "none", cursor: "pointer", fontFamily: "'Manrope', system-ui" }}
                   >
                     Devis gratuit <ArrowRight size={18} />
-                  </button>
+                  </span>
                 </Link>
                 <a href={`tel:${fd?.phone ?? "+33100000000"}`} style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "transparent", color: C.white, padding: "16px 32px", borderRadius: 10, fontWeight: 700, fontSize: 16, textDecoration: "none", border: "1.5px solid rgba(255,255,255,0.25)" }}>
                   <Phone size={16} /> Appeler
@@ -215,12 +214,11 @@ return (
                     </div>
                   </div>
                   <Link href="/templates/impact-39/devis" style={{ textDecoration: "none" }}>
-                    <button
-                      type="button"
+                    <span
                       style={{ width: "100%", background: C.orange, color: C.white, padding: "16px 24px", borderRadius: 10, fontWeight: 800, fontSize: 16, border: "none", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 8, fontFamily: "'Manrope', system-ui" }}
                     >
                       Obtenir mon devis <ArrowRight size={18} />
-                    </button>
+                    </span>
                   </Link>
                 </div>
                 <div style={{ display: "flex", alignItems: "center", gap: 8, marginTop: 16, justifyContent: "center" }}>
@@ -275,12 +273,11 @@ return (
           <SectionReveal delay={0.3}>
             <div style={{ textAlign: "center", marginTop: 40 }}>
               <Link href="/templates/impact-39/services" style={{ textDecoration: "none" }}>
-                <button
-                  type="button"
+                <span
                   style={{ display: "inline-flex", alignItems: "center", gap: 8, background: C.orangeLight, color: C.orange, padding: "14px 28px", borderRadius: 10, fontWeight: 800, fontSize: 15, border: "none", cursor: "pointer", fontFamily: "'Manrope', system-ui" }}
                 >
                   Voir tous nos services <ArrowRight size={16} />
-                </button>
+                </span>
               </Link>
             </div>
           </SectionReveal>
@@ -378,12 +375,11 @@ return (
                     ))}
                   </div>
                   <Link href="/templates/impact-39/devis" style={{ textDecoration: "none" }}>
-                    <button
-                      type="button"
+                    <span
                       style={{ width: "100%", background: plan.highlight ? C.orange : C.orangeLight, color: plan.highlight ? C.white : C.orange, padding: "14px 24px", borderRadius: 10, fontWeight: 800, fontSize: 15, border: "none", cursor: "pointer", fontFamily: "'Manrope', system-ui" }}
                     >
                       Demander un devis
-                    </button>
+                    </span>
                   </Link>
                 </div>
               </SectionReveal>

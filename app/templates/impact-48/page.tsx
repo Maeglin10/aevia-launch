@@ -1175,7 +1175,7 @@ function ProjectsSection() {
                     </div>
 
                     <Link href="/templates/impact-48/contact" style={{ textDecoration: "none" }}>
-                      <button
+                      <span
                         onClick={() => setSelectedId(null)}
                         style={{
                           width: '100%',
@@ -1195,7 +1195,7 @@ function ProjectsSection() {
                         onMouseLeave={(e) => (e.currentTarget.style.background = C.accent)}
                       >
                         Discuter du projet
-                      </button>
+                      </span>
                     </Link>
                   </div>
                 </motion.div>

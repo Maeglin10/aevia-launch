@@ -169,12 +169,12 @@ export default function FeaturesPage() {
                     {feature.desc}
                   </p>
                   <Link href="/templates/impact-34/pricing">
-                    <button
+                    <span
                       className="flex items-center gap-2 px-6 py-3 rounded-xl text-white text-sm font-bold transition-all hover:opacity-90"
                       style={{ backgroundColor: C.accent }}
                     >
                       Essayer gratuitement <ArrowRight className="w-4 h-4" />
-                    </button>
+                    </span>
                   </Link>
                 </div>
               </div>
@@ -197,12 +197,12 @@ export default function FeaturesPage() {
             Profitez de 14 jours d'essai gratuit sur la formule Creator. Aucune carte de crédit requise.
           </p>
           <Link href="/templates/impact-34/pricing">
-            <button
+            <span
               className="px-8 py-4 rounded-xl text-white text-base font-bold transition-all hover:opacity-90 shadow-lg shadow-orange-500/20"
               style={{ backgroundColor: C.accent }}
             >
               Créer mon compte gratuit
-            </button>
+            </span>
           </Link>
         </div>
       </Reveal>

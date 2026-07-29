@@ -58,12 +58,11 @@ export default function ServicesPage() {
                     ))}
                   </div>
                   <Link href="/templates/impact-39/devis" style={{ textDecoration: "none" }}>
-                    <button
-                      type="button"
+                    <span
                       style={{ display: "inline-flex", alignItems: "center", gap: 8, background: C.orange, color: C.white, padding: "14px 28px", borderRadius: 10, fontWeight: 800, fontSize: 15, border: "none", cursor: "pointer", fontFamily: "'Manrope', system-ui" }}
                     >
                       Demander un devis <ArrowRight size={16} />
-                    </button>
+                    </span>
                   </Link>
                 </div>
               </div>

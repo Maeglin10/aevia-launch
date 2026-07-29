@@ -280,8 +280,7 @@ export default function CommunityPage() {
               250 membres vous attendent. Venez travailler, créer des connexions et grandir ensemble.
             </p>
             <Link href="/templates/impact-35/pricing" style={{ textDecoration: "none" }}>
-              <button
-                type="button"
+              <span
                 style={{
                   display: "inline-flex",
                   alignItems: "center",
@@ -297,7 +296,7 @@ export default function CommunityPage() {
                 }}
               >
                 Voir les tarifs <ArrowRight size={18} />
-              </button>
+              </span>
             </Link>
           </div>
         </SectionReveal>
