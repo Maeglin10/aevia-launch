@@ -315,7 +315,7 @@ export default function NeuralisPage() {
           </div>
         </div>
 
-        <div className="absolute bottom-12 left-12 flex flex-col gap-4 text-white/10">
+        <div className="absolute bottom-12 left-12 hidden md:flex flex-col gap-4 text-white/10">
            <div className="flex gap-4 items-center">
               <span className="text-[10px] font-bold uppercase tracking-widest">Status: Nominal</span>
               <div className="w-12 h-[1px] bg-white/10" />

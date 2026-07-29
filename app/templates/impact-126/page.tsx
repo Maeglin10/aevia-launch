@@ -563,8 +563,10 @@ return (
             transition: "height 0.4s ease",
           }}
         >
-          {/* Left nav links */}
+          {/* Left nav links — hidden on phones, where they collide with the
+              absolutely-centred logo. The burger covers the same links. */}
           <div
+            className="imx126-navlinks"
             style={{
               display: "flex",
               gap: 36,
@@ -732,7 +734,8 @@ return (
             </MagneticButton>
         </div>
       )}
-      <style>{`@media (max-width: 900px) { #mb126-nav { display: none !important; } .mb126-burger { display: flex !important; } }
+      <style>{`
+        @media (max-width: 767px) { .imx126-navlinks { display: none !important; } }@media (max-width: 900px) { #mb126-nav { display: none !important; } .mb126-burger { display: flex !important; } }
         /* mobile: stack 2-col grids to single column (added by responsive fix) */
         @media (max-width: 768px) {
           .imx-mobstack { grid-template-columns: 1fr !important; }
