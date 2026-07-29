@@ -38,6 +38,27 @@ function ParallaxImg({ src, alt }: { src: string; alt: string }) {
   )
 }
 
+const NAV = [
+  { l: "Formules", h: "#formules" },
+  { l: "Portfolio", h: "#portfolio" },
+  { l: "L'équipe", h: "#equipe" },
+  { l: "Blog", h: "#blog" },
+  { l: "Contact", h: "#contact" },
+];
+
+const EQUIPE = [
+  { n: "Élise Roubaud", r: "Fondatrice · Cheffe de projet", d: "Quinze ans d'événementiel, dont sept en hôtellerie de luxe à Cannes. C'est elle qui tient le rétroplanning et parle aux prestataires." },
+  { n: "Camille Estève", r: "Coordination jour J", d: "Présente de 7 h au dernier invité. Elle a la liste, les numéros, les alliances de secours et le fil à coudre." },
+  { n: "Hugo Sarlat", r: "Direction artistique & scénographie", d: "Plans d'implantation, lumière, fleurs. Il dessine la salle vide avant de la remplir." },
+  { n: "Nadia Ferré", r: "Budget & contrats", d: "Elle relit chaque devis prestataire et vous dit quand une ligne n'a pas lieu d'être." },
+];
+
+const BLOG = [
+  { k: "Budget", d: "12 juin", t: "Ce que coûte vraiment un mariage de 120 personnes sur la Côte", e: "Le détail poste par poste d'un budget réel de 2025, sans arrondir ni oublier les frais de fin de soirée." },
+  { k: "Lieux", d: "28 mai", t: "Sept domaines entre Grasse et Saint-Paul, visités et notés", e: "Capacité réelle, plan B pluie, contraintes de bruit après 23 h et ce que chacun facture en supplément." },
+  { k: "Organisation", d: "4 avril", t: "Le rétroplanning à 12 mois, semaine par semaine", e: "Quand réserver quoi, dans quel ordre, et les deux décisions qu'il ne faut jamais repousser." },
+];
+
 const FORMULES = [
   { icon: Sparkles, title: "Coordination jour J", desc: "Gestion de votre mariage le jour même. Coordination prestataires, briefing équipes, timing, gestion imprévus. Vous profitez — on gère." },
   { icon: Gift, title: "Formule clé en main", desc: "De la recherche du lieu aux derniers confettis. Sélection prestataires, budget, déco, plan de table, animation. 100% serein." },
@@ -166,8 +187,8 @@ export default function MaisonElisePage() {
             )}
           </div>
           <div className="hidden lg:flex gap-9 text-[10px] font-bold uppercase tracking-[0.22em] text-[#1a1018]/28">
-            {["Formules", "Portfolio", "L'équipe", "Blog", "Contact"].map(l => (
-              <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="hover:text-[var(--brand,#c4a06a)] transition-colors">{l}</Link>
+            {NAV.map(({ l, h }) => (
+              <Link key={l} href={h} className="hover:text-[var(--brand,#c4a06a)] transition-colors">{l}</Link>
             ))}
           </div>
           <div className="flex items-center gap-3">
@@ -181,7 +202,7 @@ export default function MaisonElisePage() {
               <SheetTrigger className="lg:hidden"><Menu className="w-5 h-5" /></SheetTrigger>
               <SheetContent side="right" className="bg-[#fdfaf7] border-slate-100 p-10">
                 <div className="flex flex-col gap-7 mt-16">
-                  {["Formules", "Portfolio", "Contact"].map(l => <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="text-3xl font-bold text-[#1a1018] hover:text-[var(--brand,#c4a06a)] transition-colors" style={{ fontFamily: "'Lora', serif" }}>{l}</Link>)}
+                  {NAV.map(({ l, h }) => <Link key={l} href={h} className="text-3xl font-bold text-[#1a1018] hover:text-[var(--brand,#c4a06a)] transition-colors" style={{ fontFamily: "'Lora', serif" }}>{l}</Link>)}
                   <a href={`tel:${fd?.phone ?? "0493567890"}`} className="flex items-center gap-3 text-[var(--brand,#c4a06a)] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> {fd?.phone ?? "04 93 56 78 90"}</a>
                 </div>
               </SheetContent>
@@ -265,7 +286,7 @@ export default function MaisonElisePage() {
       </section>
 
       {/* ── FORMULES ── */}
-      <section className="py-28 bg-[#fdfaf7]">
+      <section id="formules" className="py-28 bg-[#fdfaf7]">
         <div className="max-w-[1300px] mx-auto px-6 md:px-12">
           <Reveal>
             <div className="mb-16">
@@ -292,7 +313,7 @@ export default function MaisonElisePage() {
       </section>
 
       {/* ── GALERIE ── */}
-      <section id="contact" className="py-20 bg-white">
+      <section id="portfolio" className="py-20 bg-white">
         <div className="max-w-[1300px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-12">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#c4a06a)] mb-4">Portfolio</div>
@@ -338,8 +359,50 @@ export default function MaisonElisePage() {
         </div>
       </section>
 
+      {/* ── ÉQUIPE ── */}
+      <section id="equipe" className="py-28 bg-[#fdfaf7]">
+        <div className="max-w-[1200px] mx-auto px-6 md:px-12">
+          <Reveal><div className="mb-14">
+            <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#c4a06a)] mb-4">L'équipe</div>
+            <h2 className="text-4xl md:text-5xl font-bold text-[#1a1018]" style={{ fontFamily: "'Lora', serif" }}>Quatre personnes, <span className="italic text-[var(--brand,#c4a06a)]">pas une agence.</span></h2>
+          </div></Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            {EQUIPE.map((m, i) => (
+              <Reveal key={m.n} delay={i * 0.07}>
+                <div className="bg-white p-8 h-full">
+                  <div className="text-xl font-bold text-[#1a1018] mb-1" style={{ fontFamily: "'Lora', serif" }}>{m.n}</div>
+                  <div className="text-[10px] font-bold uppercase tracking-[0.24em] text-[var(--brand,#c4a06a)] mb-4">{m.r}</div>
+                  <p className="text-sm text-[#1a1018]/50 leading-relaxed">{m.d}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── BLOG ── */}
+      <section id="blog" className="py-28 bg-white">
+        <div className="max-w-[1200px] mx-auto px-6 md:px-12">
+          <Reveal><div className="mb-14">
+            <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#c4a06a)] mb-4">Journal</div>
+            <h2 className="text-4xl md:text-5xl font-bold text-[#1a1018]" style={{ fontFamily: "'Lora', serif" }}>Ce qu'on aurait <span className="italic text-[var(--brand,#c4a06a)]">aimé lire.</span></h2>
+          </div></Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {BLOG.map((p, i) => (
+              <Reveal key={p.t} delay={i * 0.07}>
+                <article className="h-full flex flex-col">
+                  <div className="text-[10px] font-bold uppercase tracking-[0.24em] text-[var(--brand,#c4a06a)] mb-4">{p.k} · {p.d}</div>
+                  <h3 className="text-xl font-bold text-[#1a1018] mb-3 leading-snug" style={{ fontFamily: "'Lora', serif" }}>{p.t}</h3>
+                  <p className="text-sm text-[#1a1018]/50 leading-relaxed">{p.e}</p>
+                </article>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ── CTA ── */}
-      <section id="about" className="py-28 bg-[#1a1018] text-center">
+      <section id="contact" className="py-28 bg-[#1a1018] text-center">
         <Reveal>
           <div className="max-w-xl mx-auto px-6">
             <div className="flex items-center justify-center gap-4 mb-8">

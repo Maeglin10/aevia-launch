@@ -25,6 +25,23 @@ function Reveal({ children, delay = 0, y = 20 }: { children: React.ReactNode; de
   )
 }
 
+const NAV = [
+  { l: "Services", h: "#services" },
+  { l: "Tarifs", h: "#tarifs" },
+  { l: "Réservation", h: "#reservation" },
+  { l: "À propos", h: "#a-propos" },
+  { l: "Contact", h: "#contact" },
+];
+
+const TARIFS = [
+  { a: "Coupe homme", p: "29 €", n: "Shampooing, coupe aux ciseaux, coiffage. 40 minutes." },
+  { a: "Coupe & barbe", p: "45 €", n: "Le classique de la maison. Serviette chaude, rasoir droit, baume." },
+  { a: "Taille de barbe", p: "22 €", n: "Contours au rasoir, huile et baume. 25 minutes." },
+  { a: "Rasage traditionnel", p: "35 €", n: "Deux passages, serviette chaude, pierre d'alun. 35 minutes." },
+  { a: "Coupe enfant (-12 ans)", p: "20 €", n: "Sans rendez-vous le mercredi après-midi." },
+  { a: "Forfait marié", p: "80 €", n: "Essai deux semaines avant, prestation complète le jour J." },
+];
+
 const SERVICES = [
   { title: "Coupe classique", price: "28€", desc: "Coupe ciseau + tondeuse, finitions rasoir droite. Inclut consultation, shampoing, séchage et coiffage." },
   { title: "Rasage traditionnel", price: "35€", desc: "Rasoir droit à l'ancienne. Serviette chaude, mousse artisanale, baume après-rasage maison. 45 minutes de pure détente." },
@@ -314,8 +331,8 @@ export default function GentlemansCutPage() {
             )}
           </div>
           <div className="hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.25em] text-[#f5f0e8]/25" style={{ fontFamily: "'DM Mono', monospace" }}>
-            {["Services", "Tarifs", "Réservation", "À propos", "Contact"].map(l => (
-              <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="hover:text-[var(--brand,#c9a84c)] transition-colors">{l}</Link>
+            {NAV.map(({ l, h }) => (
+              <Link key={l} href={h} className="hover:text-[var(--brand,#c9a84c)] transition-colors">{l}</Link>
             ))}
           </div>
           <div className="flex items-center gap-3">
@@ -329,7 +346,7 @@ export default function GentlemansCutPage() {
               <SheetTrigger className="lg:hidden"><Menu className="w-5 h-5 text-[#f5f0e8]" /></SheetTrigger>
               <SheetContent side="right" className="bg-[#0f0e0c] border-[var(--brand,#c9a84c)]/10 p-10">
                 <div className="flex flex-col gap-7 mt-16">
-                  {["Services", "Tarifs", "Réservation"].map(l => <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="text-3xl font-bold text-[#f5f0e8] hover:text-[var(--brand,#c9a84c)] transition-colors">{l}</Link>)}
+                  {NAV.map(({ l, h }) => <Link key={l} href={h} className="text-3xl font-bold text-[#f5f0e8] hover:text-[var(--brand,#c9a84c)] transition-colors">{l}</Link>)}
                   <a href={`tel:${fd?.phone ?? "0556789012"}`} className="flex items-center gap-3 text-[var(--brand,#c9a84c)] font-bold text-lg mt-4"><Phone className="w-5 h-5" /> {fd?.phone ?? "05 56 78 90 12"}</a>
                 </div>
               </SheetContent>
@@ -438,8 +455,81 @@ export default function GentlemansCutPage() {
         </div>
       </section>
 
+      {/* ── TARIFS ── */}
+      <section id="tarifs" className="py-28 bg-[#0f0e0c]">
+        <div className="max-w-[1000px] mx-auto px-6 md:px-12">
+          <Reveal><div className="mb-16">
+            <div className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#c9a84c)]/50 mb-4" style={{ fontFamily: "'DM Mono', monospace" }}>— Tarifs</div>
+            <h2 className="text-4xl font-bold text-[#f5f0e8]">Affichés, <span className="italic text-[var(--brand,#c9a84c)]">jamais négociés.</span></h2>
+          </div></Reveal>
+          <div className="border border-[var(--brand,#c9a84c)]/12">
+            {TARIFS.map((t, i) => (
+              <Reveal key={t.a} delay={i * 0.05}>
+                <div className={`flex flex-wrap items-baseline justify-between gap-3 px-7 py-5 ${i ? "border-t border-[var(--brand,#c9a84c)]/12" : ""}`}>
+                  <div className="min-w-0">
+                    <div className="font-bold text-[#f5f0e8] text-sm">{t.a}</div>
+                    <div className="text-xs text-[#f5f0e8]/30 mt-0.5">{t.n}</div>
+                  </div>
+                  <div className="font-bold text-[var(--brand,#c9a84c)] text-sm shrink-0" style={{ fontFamily: "'DM Mono', monospace" }}>{t.p}</div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+          <Reveal>
+            <p className="text-xs text-[#f5f0e8]/25 mt-6 leading-relaxed max-w-[70ch]">
+              Espèces et carte acceptées, pas de supplément. Un retard de plus de quinze minutes libère
+              le créneau : on vous replace au premier trou de la journée, sans rancune.
+            </p>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ── À PROPOS ── */}
+      <section id="a-propos" className="py-28 bg-[#0a0908]">
+        <div className="max-w-[1100px] mx-auto px-6 md:px-12">
+          <Reveal><div className="mb-16">
+            <div className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#c9a84c)]/50 mb-4" style={{ fontFamily: "'DM Mono', monospace" }}>— La maison</div>
+            <h2 className="text-4xl font-bold text-[#f5f0e8]">Ouvert en 2009, <span className="italic text-[var(--brand,#c9a84c)]">jamais déménagé.</span></h2>
+          </div></Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+            <Reveal>
+              <div className="space-y-5 text-sm text-[#f5f0e8]/45 leading-relaxed">
+                <p>
+                  Trois fauteuils Belmont d'époque, un plancher qui grince et un miroir qu'on n'a jamais
+                  remplacé parce qu'il fait bien son travail. La boutique tient dans quarante mètres carrés
+                  rue Saint-Rémi, et c'est très bien ainsi.
+                </p>
+                <p>
+                  On coupe aux ciseaux, on rase au coupe-chou, on prend le temps. Une coupe dure quarante
+                  minutes parce qu'une coupe dure quarante minutes — pas parce qu'on facture le temps.
+                </p>
+                <p>
+                  Aucun produit n'est vendu à la caisse par obligation. Si vos cheveux n'ont besoin de rien,
+                  on vous le dira.
+                </p>
+              </div>
+            </Reveal>
+            <Reveal delay={0.1}>
+              <div className="border border-[var(--brand,#c9a84c)]/12 p-8 space-y-5">
+                {[
+                  ["2009", "Ouverture rue Saint-Rémi, un seul fauteuil."],
+                  ["2014", "Second fauteuil, arrivée de Malik au rasage."],
+                  ["2019", "Formation coupe-chou certifiée, agrément apprentissage."],
+                  ["2024", "Troisième fauteuil et ouverture le lundi."],
+                ].map(([y, t]) => (
+                  <div key={y} className="flex gap-6">
+                    <div className="text-[var(--brand,#c9a84c)] font-bold text-sm shrink-0 w-12" style={{ fontFamily: "'DM Mono', monospace" }}>{y}</div>
+                    <div className="text-sm text-[#f5f0e8]/45 leading-relaxed">{t}</div>
+                  </div>
+                ))}
+              </div>
+            </Reveal>
+          </div>
+        </div>
+      </section>
+
       {/* ── RÉSERVATION RAPIDE ── */}
-      <section id="contact" className="py-24 bg-[#1e1c1a]">
+      <section id="reservation" className="py-24 bg-[#1e1c1a]">
         <div className="max-w-[1100px] mx-auto px-6 md:px-12">
           <Reveal>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
@@ -472,7 +562,7 @@ export default function GentlemansCutPage() {
       </section>
 
       {/* ── TÉMOIGNAGES ── */}
-      <section className="py-28 bg-[#0a0908]">
+      <section id="avis" className="py-28 bg-[#0a0908]">
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-16">
             <div className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#c9a84c)]/50 mb-4" style={{ fontFamily: "'DM Mono', monospace" }}>— Ce qu'ils disent</div>
@@ -498,7 +588,7 @@ export default function GentlemansCutPage() {
       </section>
 
       {/* ── CTA ── */}
-      <section className="py-28 border-t border-[var(--brand,#c9a84c)]/12 bg-[#0f0e0c]">
+      <section id="contact" className="py-28 border-t border-[var(--brand,#c9a84c)]/12 bg-[#0f0e0c]">
         <Reveal>
           <div className="max-w-xl mx-auto px-6 text-center">
             <div className="flex items-center justify-center gap-4 mb-8">

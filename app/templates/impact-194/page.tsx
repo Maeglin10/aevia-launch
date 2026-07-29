@@ -25,6 +25,28 @@ function Reveal({ children, delay = 0, y = 22 }: { children: React.ReactNode; de
   )
 }
 
+const NAV = [
+  { l: "Formules", h: "#formules" },
+  { l: "Réalisations", h: "#realisations" },
+  { l: "Devis", h: "#devis" },
+  { l: "Menu", h: "#menu" },
+  { l: "Contact", h: "#contact" },
+];
+
+const REALISATIONS = [
+  { t: "Mariage · Domaine de Fontanes", n: "220 couverts", d: "Cocktail dînatoire dans les vignes, service à l'assiette sous chapiteau, brunch le lendemain. Trois cuisines montées sur place." },
+  { t: "Séminaire · Groupe Verdier", n: "410 couverts, 3 jours", d: "Petits-déjeuners, deux pauses par jour, déjeuners assis. Régimes déclarés à l'inscription, plateaux nominatifs." },
+  { t: "Inauguration · Musée des Confluences", n: "800 personnes debout", d: "Douze pièces salées, quatre sucrées, service en continu pendant quatre heures. Vaisselle consignée, zéro jetable." },
+  { t: "Dîner privé · Presqu'île", n: "14 couverts", d: "Menu en sept services dans l'appartement du client, chef et sommelier dédiés, cuisine laissée plus propre qu'à l'arrivée." },
+];
+
+const MENU = [
+  { g: "À l'apéritif", ls: ["Gougère au comté 24 mois", "Tartelette betterave-chèvre frais", "Cuillère de saumon gravlax à l'aneth", "Croustillant de volaille au curry doux"] },
+  { g: "Entrées", ls: ["Œuf parfait, crème de cresson, lard grillé", "Terrine de canard aux pistaches, chutney d'oignons", "Carpaccio de Saint-Jacques, agrumes et huile de noisette"] },
+  { g: "Plats", ls: ["Filet de bœuf Charolais, jus corsé, gratin dauphinois", "Dos de cabillaud, beurre blanc, légumes de saison", "Risotto d'épeautre aux champignons (option végétarienne)"] },
+  { g: "Desserts", ls: ["Tarte praliné-noisette", "Pavlova aux fruits rouges", "Chariot de mignardises", "Pièce montée sur demande"] },
+];
+
 const PRESTATIONS = [
   { icon: Users, title: "Cocktails & réceptions", desc: "Cocktail dînatoire, standing, mariage, gala. Buffets chauds et froids, bouchées minute, animations culinaires. De 20 à 800 personnes." },
   { icon: ChefHat, title: "Repas assis & gastronomique", desc: "Menu 3 ou 5 services, carte personnalisée, régimes spéciaux. Chef à domicile ou en salle. Vaisselle premium, personnel de service inclus." },
@@ -153,8 +175,8 @@ export default function TableExceptionPage() {
             )}
           </div>
           <div className="hidden lg:flex gap-9 text-[10px] font-bold uppercase tracking-[0.22em] text-[#1f1d1a]/28">
-            {["Formules", "Réalisations", "Devis", "Menu", "Contact"].map(l => (
-              <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="hover:text-[var(--brand,#d4a853)] transition-colors">{l}</Link>
+            {NAV.map(({ l, h }) => (
+              <Link key={l} href={h} className="hover:text-[var(--brand,#d4a853)] transition-colors">{l}</Link>
             ))}
           </div>
           <div className="flex items-center gap-3">
@@ -168,7 +190,7 @@ export default function TableExceptionPage() {
               <SheetTrigger className="lg:hidden"><Menu className="w-5 h-5" /></SheetTrigger>
               <SheetContent side="right" className="bg-[#fefcf8] border-slate-100 p-10">
                 <div className="flex flex-col gap-7 mt-16">
-                  {["Formules", "Réalisations", "Contact"].map(l => <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="text-3xl font-bold text-[#1f1d1a] hover:text-[var(--brand,#d4a853)] transition-colors" style={{ fontFamily: "'Playfair Display', serif" }}>{l}</Link>)}
+                  {NAV.map(({ l, h }) => <Link key={l} href={h} className="text-3xl font-bold text-[#1f1d1a] hover:text-[var(--brand,#d4a853)] transition-colors" style={{ fontFamily: "'Playfair Display', serif" }}>{l}</Link>)}
                   <a href={`tel:${fd?.phone ?? "0478345678"}`} className="flex items-center gap-3 text-[var(--brand,#d4a853)] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> {fd?.phone ?? "04 78 34 56 78"}</a>
                 </div>
               </SheetContent>
@@ -232,7 +254,7 @@ export default function TableExceptionPage() {
       </section>
 
       {/* ── STATS ── */}
-      <section id="services" className="py-12 bg-[#f7f0e3]">
+      <section className="py-12 bg-[#f7f0e3]">
         <div className="max-w-[1100px] mx-auto px-6 md:px-12 grid grid-cols-2 md:grid-cols-4 gap-6">
           {[
             { v: "16 ans", l: "D'expérience" },
@@ -277,8 +299,84 @@ export default function TableExceptionPage() {
         </div>
       </section>
 
+      {/* ── RÉALISATIONS ── */}
+      <section id="realisations" className="py-28 bg-[#f7f0e3]">
+        <div className="max-w-[1200px] mx-auto px-6 md:px-12">
+          <Reveal><div className="mb-14">
+            <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#d4a853)] mb-4">— Réalisations</div>
+            <h2 className="text-4xl md:text-5xl font-bold text-[#1f1d1a]" style={{ fontFamily: "'Playfair Display', serif" }}>Ce qu'on a <span className="italic text-[var(--brand,#d4a853)]">déjà servi.</span></h2>
+          </div></Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            {REALISATIONS.map((r, i) => (
+              <Reveal key={r.t} delay={i * 0.07}>
+                <div className="bg-white p-8 h-full">
+                  <div className="text-lg font-bold text-[#1f1d1a] mb-1" style={{ fontFamily: "'Playfair Display', serif" }}>{r.t}</div>
+                  <div className="text-[10px] font-bold uppercase tracking-[0.24em] text-[var(--brand,#d4a853)] mb-4">{r.n}</div>
+                  <p className="text-sm text-[#1f1d1a]/50 leading-relaxed">{r.d}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── MENU ── */}
+      <section id="menu" className="py-28 bg-white">
+        <div className="max-w-[1200px] mx-auto px-6 md:px-12">
+          <Reveal><div className="mb-14">
+            <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#d4a853)] mb-4">— La carte</div>
+            <h2 className="text-4xl md:text-5xl font-bold text-[#1f1d1a]" style={{ fontFamily: "'Playfair Display', serif" }}>Une base, <span className="italic text-[var(--brand,#d4a853)]">jamais un carcan.</span></h2>
+          </div></Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10">
+            {MENU.map((g, i) => (
+              <Reveal key={g.g} delay={i * 0.06}>
+                <div>
+                  <div className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#d4a853)] mb-5 pb-3 border-b border-[#1f1d1a]/10">{g.g}</div>
+                  <ul className="space-y-2.5">
+                    {g.ls.map((l) => <li key={l} className="text-sm text-[#1f1d1a]/55 leading-relaxed">{l}</li>)}
+                  </ul>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+          <Reveal>
+            <p className="text-xs text-[#1f1d1a]/35 mt-10 leading-relaxed max-w-[70ch]">
+              La carte change quatre fois par an, avec les arrivages. Allergies, régimes sans porc,
+              végétariens et véganes : dites-le au devis, pas la veille — les assiettes concernées sont
+              alors préparées séparément et signalées au service.
+            </p>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ── DEVIS ── */}
+      <section id="devis" className="py-28 bg-[#f7f0e3]">
+        <div className="max-w-[1200px] mx-auto px-6 md:px-12">
+          <Reveal><div className="mb-14">
+            <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#d4a853)] mb-4">— Devis</div>
+            <h2 className="text-4xl md:text-5xl font-bold text-[#1f1d1a]" style={{ fontFamily: "'Playfair Display', serif" }}>Du premier appel <span className="italic text-[var(--brand,#d4a853)]">au service.</span></h2>
+          </div></Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+            {[
+              { t: "L'appel", d: "Date, lieu, nombre de convives, budget par personne. Dix minutes suffisent pour savoir si nous sommes disponibles." },
+              { t: "La proposition", d: "Sous 72 h : menu, matériel, personnel et logistique, chiffrés ligne par ligne. Rien n'est forfaitaire au hasard." },
+              { t: "La dégustation", d: "Offerte à partir de 80 couverts, pour deux personnes. Vous goûtez avant de signer, jamais après." },
+              { t: "Le jour J", d: "Un maître d'hôtel référent, joignable pendant tout l'événement. Le devis signé est le montant facturé." },
+            ].map((e, i) => (
+              <Reveal key={e.t} delay={i * 0.07}>
+                <div className="bg-white p-7 h-full border-t-2 border-[var(--brand,#d4a853)]">
+                  <div className="text-[10px] font-bold uppercase tracking-[0.24em] text-[#1f1d1a]/30 mb-3">Étape {i + 1}</div>
+                  <div className="font-bold text-[#1f1d1a] mb-3" style={{ fontFamily: "'Playfair Display', serif" }}>{e.t}</div>
+                  <p className="text-sm text-[#1f1d1a]/50 leading-relaxed">{e.d}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ── TÉMOIGNAGES ── */}
-      <section className="py-24 bg-[#1f1d1a] text-[#fefcf8]">
+      <section id="avis" className="py-24 bg-[#1f1d1a] text-[#fefcf8]">
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-14">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#d4a853)]/55 mb-4">— Ce qu'ils disent</div>
