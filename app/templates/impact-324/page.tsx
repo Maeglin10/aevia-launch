@@ -490,7 +490,7 @@ export default function Impact324TicketStore({ session: initialSession }) {
       </AnimatePresence>
 
       {/* HERO SECTION */}
-      <section style={{
+      <section id="vip-packages" style={{
         position: "relative",
         minHeight: "100vh",
         display: "flex",

@@ -284,7 +284,7 @@ export default function PulseEventsPage() {
         </section>
 
         {/* ── ARTISTS ──────────────────── */}
-        <section className="py-32 bg-[#0c091a] border-t border-white/5">
+        <section id="artists" className="py-32 bg-[#0c091a] border-t border-white/5">
           <div className="max-w-[1200px] mx-auto px-6 md:px-12">
             <Reveal>
               <div className="flex justify-between items-end mb-16 border-b border-white/5 pb-8">

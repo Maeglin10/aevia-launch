@@ -253,7 +253,7 @@ export default function AtelierDuBoisPage() {
         </div>
       </section>
 
-      <section style={{ padding: "100px 80px", background: C.bgSection }}>
+      <section id="matériaux" style={{ padding: "100px 80px", background: C.bgSection }}>
         <div className="imx-mobstack" style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "center" }}>
           <Reveal><img src={photo(1, "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&q=80")} alt="Atelier bois massif artisan" style={{ width: "100%", borderRadius: 10, aspectRatio: "4/3", objectFit: "cover" }} /></Reveal>
           <Reveal delay={0.15}><div>

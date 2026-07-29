@@ -266,7 +266,7 @@ return (
             </section>
 
             {/* Portfolio Preview */}
-            <section className="py-24 px-6 bg-[#0A0806]">
+            <section id="portfolio" className="py-24 px-6 bg-[#0A0806]">
               <div className="max-w-6xl mx-auto">
                 <Reveal>
                   <div className="flex flex-col md:flex-row md:items-end justify-between mb-16">

@@ -251,7 +251,7 @@ export default function TableExceptionPage() {
       </section>
 
       {/* ── PRESTATIONS ── */}
-      <section className="py-28 bg-[#fefcf8]">
+      <section id="formules" className="py-28 bg-[#fefcf8]">
         <div className="max-w-[1300px] mx-auto px-6 md:px-12">
           <Reveal>
             <div className="mb-16">

@@ -431,7 +431,7 @@ return (
             </section>
 
             {/* 3. MISSION MANIFEST (HORIZONTAL SHOWCASE) */}
-            <section className="py-64 px-12 bg-[#050508] relative border-y border-white/5">
+            <section id="manifest" className="py-64 px-12 bg-[#050508] relative border-y border-white/5">
                <div className="max-w-7xl mx-auto mb-32 flex justify-between items-end">
                   <Reveal>
                      <div className="text-[10px] font-black uppercase tracking-[0.5em] text-indigo-500 mb-8 font-mono">Mission_Manifest</div>
