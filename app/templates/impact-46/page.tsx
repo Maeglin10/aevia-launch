@@ -429,9 +429,9 @@ function ConsultationSection() {
                 ))}
               </ul>
               <Link href="/templates/impact-46/contact" style={{ textDecoration: "none" }}>
-                <button
+                <span
                   style={{ width: "100%", textAlign: "center" as const, background: tier.featured ? C.white : "transparent", color: tier.featured ? C.accent : C.white, border: tier.featured ? "none" : `1px solid rgba(255,255,255,0.2)`, padding: "14px 24px", fontSize: 12, letterSpacing: "0.1em", textTransform: "uppercase" as const, textDecoration: "none", fontFamily: "'Source Sans Pro', system-ui", fontWeight: 700, cursor: "pointer" }}
-                >{tier.cta}</button>
+                >{tier.cta}</span>
               </Link>
             </motion.div>
           ))}

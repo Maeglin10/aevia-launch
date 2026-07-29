@@ -148,7 +148,7 @@ export default function AureliusHeritageLayout({
             );
           })}
           <Link href={`${basePath}/contact`}>
-            <button
+            <span
               style={{
                 fontFamily: FONT_LABEL,
                 fontSize: 10,
@@ -162,7 +162,7 @@ export default function AureliusHeritageLayout({
               }}
             >
               Rendez-vous privé
-            </button>
+            </span>
           </Link>
       </div>
         <button
@@ -199,7 +199,7 @@ export default function AureliusHeritageLayout({
             );
           })}
           <Link href={`${basePath}/contact`}>
-            <button
+            <span
               style={{
                 fontFamily: FONT_LABEL,
                 fontSize: 10,
@@ -213,7 +213,7 @@ export default function AureliusHeritageLayout({
               }}
             >
               Rendez-vous privé
-            </button>
+            </span>
           </Link>
         </div>
       )}

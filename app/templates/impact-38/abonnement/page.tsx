@@ -624,14 +624,14 @@ export default function AbonnementPage() {
                 </p>
                 <div style={{ display: "flex", gap: 12, justifyContent: "center" }}>
                   <Link href="/templates/impact-38/" style={{ textDecoration: "none" }}>
-                    <button type="button" style={{ background: C.caramelLight, color: C.caramel, padding: "12px 24px", borderRadius: 8, fontWeight: 700, fontSize: 14, border: "none", cursor: "pointer" }}>
+                    <span style={{ background: C.caramelLight, color: C.caramel, padding: "12px 24px", borderRadius: 8, fontWeight: 700, fontSize: 14, border: "none", cursor: "pointer" }}>
                       Retour à l'accueil
-                    </button>
+                    </span>
                   </Link>
                   <Link href="/templates/impact-38/workshops" style={{ textDecoration: "none" }}>
-                    <button type="button" style={{ background: C.espresso, color: C.cream, padding: "12px 24px", borderRadius: 8, fontWeight: 700, fontSize: 14, border: "none", cursor: "pointer" }}>
+                    <span style={{ background: C.espresso, color: C.cream, padding: "12px 24px", borderRadius: 8, fontWeight: 700, fontSize: 14, border: "none", cursor: "pointer" }}>
                       Voir nos ateliers
-                    </button>
+                    </span>
                   </Link>
                 </div>
               </motion.div>

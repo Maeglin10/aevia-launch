@@ -282,9 +282,9 @@ export default function AeviaKitchenPage() {
             <span className="block w-[22px] h-[2px] bg-current rounded-sm transition-transform duration-300" style={{ transform: mobileOpen ? 'rotate(-45deg) translate(0, -7px)' : 'none' }} />
           </button>
           <Link href="#reservation">
-            <button className="hidden md:block px-7 py-3 bg-[var(--brand,#c9a855)] text-[#11182a] text-[10px] font-bold uppercase tracking-[0.25em] hover:bg-white transition-colors duration-300">
+            <span className="hidden md:block px-7 py-3 bg-[var(--brand,#c9a855)] text-[#11182a] text-[10px] font-bold uppercase tracking-[0.25em] hover:bg-white transition-colors duration-300">
               Réserver
-            </button>
+            </span>
           </Link>
         </div>
       </nav>
@@ -351,14 +351,14 @@ export default function AeviaKitchenPage() {
             className="flex flex-col sm:flex-row gap-4"
           >
             <Link href="#reservation">
-              <button className="px-10 py-4 bg-[var(--brand,#c9a855)] text-[#11182a] text-[10px] font-bold uppercase tracking-[0.3em] hover:bg-[#e0bf74] transition-all shadow-lg shadow-[var(--brand,#c9a855)]/20">
+              <span className="px-10 py-4 bg-[var(--brand,#c9a855)] text-[#11182a] text-[10px] font-bold uppercase tracking-[0.3em] hover:bg-[#e0bf74] transition-all shadow-lg shadow-[var(--brand,#c9a855)]/20">
                 Réserver une table
-              </button>
+              </span>
             </Link>
             <Link href="#menus">
-              <button className="px-10 py-4 border border-white/20 text-white text-[10px] font-bold uppercase tracking-[0.3em] hover:border-[var(--brand,#c9a855)]/50 hover:text-[var(--brand,#c9a855)] transition-all">
+              <span className="px-10 py-4 border border-white/20 text-white text-[10px] font-bold uppercase tracking-[0.3em] hover:border-[var(--brand,#c9a855)]/50 hover:text-[var(--brand,#c9a855)] transition-all">
                 Découvrir les menus
-              </button>
+              </span>
             </Link>
           </motion.div>
         </motion.div>
@@ -660,7 +660,7 @@ export default function AeviaKitchenPage() {
                       </div>
                     </div>
                     <Link href="#reservation">
-                      <button
+                      <span
                         className={`flex items-center gap-2 px-5 py-3 rounded text-[10px] font-black uppercase tracking-widest cursor-pointer transition-all ${
                           exp.highlight
                             ? "bg-[var(--brand,#c9a855)] text-[#11182a] hover:bg-[#e0bf74] border-none"
@@ -669,7 +669,7 @@ export default function AeviaKitchenPage() {
                       >
                         Réserver
                         <ChevronRight className="w-3 h-3" />
-                      </button>
+                      </span>
                     </Link>
                   </div>
                 </div>

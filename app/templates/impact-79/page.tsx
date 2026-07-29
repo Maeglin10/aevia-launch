@@ -276,8 +276,6 @@ export default function BoulangerieNoirePage() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeItem, setActiveItem] = useState<number | null>(null);
 
-  const horizontalRef = useRef(null);
-  const { scrollXProgress } = useScroll({ target: horizontalRef });
 
   const heroRef = useRef(null);
   const { scrollYProgress } = useScroll({

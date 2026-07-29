@@ -201,8 +201,7 @@ return (
                 style={{ display: "flex", gap: 16, flexWrap: "wrap" }}
               >
                 <Link href="/templates/impact-35/pricing" style={{ textDecoration: "none" }}>
-                  <button
-                    type="button"
+                  <span
                     style={{
                       display: "inline-flex",
                       alignItems: "center",
@@ -218,11 +217,10 @@ return (
                     }}
                   >
                     Day Pass — 25€ <ArrowRight size={18} />
-                  </button>
+                  </span>
                 </Link>
                 <Link href="/templates/impact-35/spaces" style={{ textDecoration: "none" }}>
-                  <button
-                    type="button"
+                  <span
                     style={{
                       display: "inline-flex",
                       alignItems: "center",
@@ -238,7 +236,7 @@ return (
                     }}
                   >
                     Nos espaces
-                  </button>
+                  </span>
                 </Link>
               </motion.div>
 
@@ -378,8 +376,7 @@ return (
                       <span style={{ fontSize: 13, color: C.textMuted }}>/{space.perDay ? "jour" : "mois"}</span>
                     </div>
                     <Link href="/templates/impact-35/pricing" style={{ textDecoration: "none" }}>
-                      <button
-                        type="button"
+                      <span
                         style={{
                           display: "inline-flex",
                           alignItems: "center",
@@ -395,7 +392,7 @@ return (
                         }}
                       >
                         Voir les formules <ArrowRight size={14} />
-                      </button>
+                      </span>
                     </Link>
                   </div>
                 </div>
@@ -568,8 +565,7 @@ return (
             </>}</p>
             <div style={{ display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap" }}>
               <Link href="/templates/impact-35/pricing" style={{ textDecoration: "none" }}>
-                <button
-                  type="button"
+                <span
                   style={{
                     background: C.slate,
                     color: C.white,
@@ -582,11 +578,10 @@ return (
                   }}
                 >
                   Découvrir les Tarifs
-                </button>
+                </span>
               </Link>
               <Link href="/templates/impact-35/pricing#visite" style={{ textDecoration: "none" }}>
-                <button
-                  type="button"
+                <span
                   style={{
                     background: C.accent,
                     color: C.white,
@@ -599,7 +594,7 @@ return (
                   }}
                 >
                   Planifier une visite
-                </button>
+                </span>
               </Link>
             </div>
           </SectionReveal>

@@ -169,7 +169,7 @@ export default function Services() {
               </p>
             </div>
             <Link href="/templates/impact-48/contact" style={{ textDecoration: "none" }}>
-              <button
+              <span
                 style={{
                   background: C.accent,
                   color: C.bgDark,
@@ -187,7 +187,7 @@ export default function Services() {
                 onMouseLeave={(e) => (e.currentTarget.style.background = C.accent)}
               >
                 Nous contacter
-              </button>
+              </span>
             </Link>
           </div>
         </div>

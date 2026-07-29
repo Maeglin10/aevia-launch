@@ -2595,7 +2595,7 @@ function NutritionSection() {
           .r276-nutri-photo { height: 280px !important; }
         }
       `}</style>
-      <section
+      <section ref={ref}
         style={{
           background: C.steel,
           padding: '100px 0',

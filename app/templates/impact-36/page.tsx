@@ -207,8 +207,7 @@ return (
                 style={{ display: "flex", gap: 16, flexWrap: "wrap" }}
               >
                 <Link href="/templates/impact-36/services#contact-form" style={{ textDecoration: "none" }}>
-                  <button
-                    type="button"
+                  <span
                     style={{
                       display: "inline-flex",
                       alignItems: "center",
@@ -224,11 +223,10 @@ return (
                     }}
                   >
                     Hire Executive Talent <ArrowRight size={18} />
-                  </button>
+                  </span>
                 </Link>
                 <Link href="/templates/impact-36/services#contact-form" style={{ textDecoration: "none" }}>
-                  <button
-                    type="button"
+                  <span
                     style={{
                       display: "inline-flex",
                       alignItems: "center",
@@ -244,7 +242,7 @@ return (
                     }}
                   >
                     I'm a Candidate
-                  </button>
+                  </span>
                 </Link>
               </motion.div>
             </div>
@@ -429,8 +427,7 @@ return (
                     {service.desc}
                   </p>
                   <Link href="/templates/impact-36/services" style={{ textDecoration: "none" }}>
-                    <button
-                      type="button"
+                    <span
                       style={{
                         display: "inline-flex",
                         alignItems: "center",
@@ -445,7 +442,7 @@ return (
                       }}
                     >
                       Learn more <ArrowRight size={14} />
-                    </button>
+                    </span>
                   </Link>
                 </div>
               </SectionReveal>
@@ -553,8 +550,7 @@ return (
 
           <div style={{ textAlign: "center", marginTop: 48 }}>
             <Link href="/templates/impact-36/results" style={{ textDecoration: "none" }}>
-              <button
-                type="button"
+              <span
                 style={{
                   background: C.accent,
                   color: C.white,
@@ -567,7 +563,7 @@ return (
                 }}
               >
                 View all case studies
-              </button>
+              </span>
             </Link>
           </div>
         </div>
@@ -664,8 +660,7 @@ return (
             </div>
             <div style={{ marginTop: 40 }}>
               <Link href="/templates/impact-36/sectors" style={{ textDecoration: "none" }}>
-                <button
-                  type="button"
+                <span
                   style={{
                     background: C.accent,
                     color: C.white,
@@ -678,7 +673,7 @@ return (
                   }}
                 >
                   Explore all industries
-                </button>
+                </span>
               </Link>
             </div>
           </SectionReveal>

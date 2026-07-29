@@ -48,7 +48,7 @@ function HeroSection() {
             style={{ display: "flex", gap: 16, flexWrap: "wrap" }}
           >
             <Link href="/templates/impact-45/booking" style={{ textDecoration: "none" }}>
-              <button
+              <span
                 style={{
                   background: C.accent,
                   color: C.white,
@@ -68,10 +68,10 @@ function HeroSection() {
                 onMouseLeave={e => (e.currentTarget.style.background = C.accent)}
               >
                 Book Consultation <ArrowRight size={16} />
-              </button>
+              </span>
             </Link>
             <Link href="/templates/impact-45/portfolio" style={{ textDecoration: "none" }}>
-              <button
+              <span
                 style={{
                   border: `1px solid ${C.border}`,
                   color: C.textMuted,
@@ -88,7 +88,7 @@ function HeroSection() {
                 onMouseLeave={e => { e.currentTarget.style.borderColor = C.border; e.currentTarget.style.color = C.textMuted; }}
               >
                 View Portfolio
-              </button>
+              </span>
             </Link>
           </motion.div>
 
@@ -277,13 +277,13 @@ return (
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", paddingTop: 24, borderTop: `1px solid ${C.border}` }}>
                     <span style={{ fontFamily: "'Barlow', system-ui", fontSize: 12, color: C.textMuted }}>Wait: {artist.bookingLead}</span>
                     <Link href="/templates/impact-45/booking" style={{ textDecoration: "none" }}>
-                      <button
+                      <span
                         style={{ background: "transparent", border: `1px solid ${C.border}`, color: C.textMuted, padding: "10px 24px", fontSize: 11, letterSpacing: "0.1em", textTransform: "uppercase", fontFamily: "'Barlow', system-ui", fontWeight: 600, cursor: "pointer" }}
                         onMouseEnter={e => { e.currentTarget.style.borderColor = C.accent; e.currentTarget.style.color = C.white; }}
                         onMouseLeave={e => { e.currentTarget.style.borderColor = C.border; e.currentTarget.style.color = C.textMuted; }}
                       >
                         Book {artist.name.split(" ")[0]} →
-                      </button>
+                      </span>
                     </Link>
                   </div>
                 </div>
@@ -379,12 +379,12 @@ return (
             Ready to secure your spot with Mara or Théo? Request your consultation session today.
           </p>
           <Link href="/templates/impact-45/booking" style={{ textDecoration: "none" }}>
-            <button style={{ background: C.accent, color: C.white, border: "none", padding: "18px 48px", fontSize: 13, letterSpacing: "0.12em", textTransform: "uppercase", fontFamily: "'Barlow', system-ui", fontWeight: 700, cursor: "pointer" }}
+            <span style={{ background: C.accent, color: C.white, border: "none", padding: "18px 48px", fontSize: 13, letterSpacing: "0.12em", textTransform: "uppercase", fontFamily: "'Barlow', system-ui", fontWeight: 700, cursor: "pointer" }}
               onMouseEnter={e => (e.currentTarget.style.background = C.accentHover)}
               onMouseLeave={e => (e.currentTarget.style.background = C.accent)}
             >
               Request Appointment
-            </button>
+            </span>
           </Link>
         </div>
       </section>

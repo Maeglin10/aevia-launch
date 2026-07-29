@@ -116,7 +116,10 @@ export default function Impact52Page() {
   const heroWord = bizWords ? bizWords[0] : "PARTICLE";
   const heroWord2 = bizWords ? (bizWords.slice(1).join(" ") || bizWords[0]) : "FIELD";
   const glitchedWord =
-    tick % 40 < 3
+    // tick is 0 on the first render, so without the guard Math.random() runs
+    // during SSR and again during hydration and the two disagree — a
+    // guaranteed hydration mismatch. The glitch starts once the interval fires.
+    tick > 0 && tick % 40 < 3
       ? heroWord
           .split("")
           .map((ch: string) =>

@@ -197,7 +197,7 @@ export default function Projects() {
                 </div>
 
                 <Link href="/templates/impact-48/contact" style={{ textDecoration: "none" }}>
-                  <button
+                  <span
                     style={{
                       marginTop: 32,
                       width: '100%',
@@ -217,7 +217,7 @@ export default function Projects() {
                     onMouseLeave={(e) => (e.currentTarget.style.background = C.accent)}
                   >
                     Discuter d'un projet similaire
-                  </button>
+                  </span>
                 </Link>
               </div>
             </div>

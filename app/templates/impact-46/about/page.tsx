@@ -90,11 +90,11 @@ export default function About() {
           </div>
           <div style={{ textAlign: "center" as const, marginTop: 56 }}>
             <Link href="/templates/impact-46/contact" style={{ textDecoration: "none" }}>
-              <button
+              <span
                 style={{ background: C.accent, color: C.white, padding: "16px 40px", fontSize: 13, letterSpacing: "0.1em", textTransform: "uppercase" as const, fontFamily: "'Source Sans Pro', system-ui", fontWeight: 700, border: "none", cursor: "pointer", display: "inline-flex", alignItems: "center", gap: 8 }}
                 onMouseEnter={e => (e.currentTarget.style.background = C.accentHover)}
                 onMouseLeave={e => (e.currentTarget.style.background = C.accent)}
-              >Prendre rendez-vous <ArrowRight size={15} /></button>
+              >Prendre rendez-vous <ArrowRight size={15} /></span>
             </Link>
           </div>
         </div>

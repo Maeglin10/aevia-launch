@@ -71,10 +71,10 @@ export default function ProtocolesPage() {
                   ))}
                 </div>
                 <Link href={`${basePath}/rdv`}>
-                  <button type="button"
+                  <span
                     className="inline-flex items-center gap-2 px-6 py-3 border border-[#C9A86C] text-[#C9A86C] text-xs uppercase tracking-widest hover:bg-[#C9A86C] hover:text-[#0C0C0A] transition-all duration-300 cursor-pointer">
                     Prendre rendez-vous <ArrowRight className="w-3.5 h-3.5" />
-                  </button>
+                  </span>
                 </Link>
               </motion.div>
             </AnimatePresence>

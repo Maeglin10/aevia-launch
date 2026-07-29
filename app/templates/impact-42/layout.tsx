@@ -120,12 +120,11 @@ export default function EchoChamberLayout({ children }: { children: React.ReactN
             );
           })}
           <Link href="/templates/impact-42/booking" style={{ textDecoration: "none" }}>
-            <button
-              type="button"
+            <span
               style={{ backgroundColor: C.accent, color: C.white, padding: "0.55rem 1.4rem", borderRadius: "6px", border: "none", cursor: "pointer", fontSize: "0.87rem", fontWeight: 700, fontFamily: C.bodyFont, boxShadow: `0 4px 16px ${C.accentGlow}` }}
             >
               Réserver
-            </button>
+            </span>
           </Link>
         </div>
 

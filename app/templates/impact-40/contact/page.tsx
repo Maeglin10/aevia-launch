@@ -124,8 +124,7 @@ export default function ContactPage() {
         <SectionReveal delay={0.15}>
           <div style={{ textAlign: "center" }}>
             <Link href="/templates/impact-40/reservation" style={{ textDecoration: "none" }}>
-              <button
-                type="button"
+              <span
                 style={{
                   backgroundColor: C.bgDark,
                   color: C.accent,
@@ -142,7 +141,7 @@ export default function ContactPage() {
                 }}
               >
                 Réserver une table <Calendar size={16} />
-              </button>
+              </span>
             </Link>
           </div>
         </SectionReveal>

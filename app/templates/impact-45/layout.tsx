@@ -91,7 +91,7 @@ export default function TattooStudioLayout({ children }: { children: React.React
               );
             })}
             <Link href="/templates/impact-45/booking" style={{ textDecoration: "none" }}>
-              <button
+              <span
                 style={{
                   background: C.accent,
                   color: C.white,
@@ -107,7 +107,7 @@ export default function TattooStudioLayout({ children }: { children: React.React
                 }}
                 onMouseEnter={e => (e.currentTarget.style.background = C.accentHover)}
                 onMouseLeave={e => (e.currentTarget.style.background = C.accent)}
-              >Book Now</button>
+              >Book Now</span>
             </Link>
           </div>
 

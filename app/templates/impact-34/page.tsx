@@ -338,12 +338,12 @@ return (
                 ))}
               </ul>
               <Link href="/templates/impact-34/analytics">
-                <button
+                <span
                   className="flex items-center gap-2 px-7 py-3.5 rounded-xl text-white text-sm font-bold transition-all hover:opacity-90"
                   style={{ backgroundColor: C.accent }}
                 >
                   Explore Analytics <ArrowRight className="w-4 h-4" />
-                </button>
+                </span>
               </Link>
             </Reveal>
 

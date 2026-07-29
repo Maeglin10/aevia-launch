@@ -272,14 +272,14 @@ export default function HorologsLuxePage() {
             className="flex flex-col sm:flex-row gap-6"
           >
             <Link href="/templates/impact-77/collection">
-              <button className="px-12 py-5 bg-white text-black text-[10px] font-bold uppercase tracking-[0.4em] hover:bg-stone-200 transition-all">
+              <span className="px-12 py-5 bg-white text-black text-[10px] font-bold uppercase tracking-[0.4em] hover:bg-stone-200 transition-all">
                 Browse Archive
-              </button>
+              </span>
             </Link>
             <Link href="/templates/impact-77/boutique">
-              <button className="px-12 py-5 border border-white/10 text-white text-[10px] font-bold uppercase tracking-[0.4em] hover:bg-white hover:text-black transition-all">
+              <span className="px-12 py-5 border border-white/10 text-white text-[10px] font-bold uppercase tracking-[0.4em] hover:bg-white hover:text-black transition-all">
                 View Manifesto
-              </button>
+              </span>
             </Link>
           </motion.div>
         </motion.div>

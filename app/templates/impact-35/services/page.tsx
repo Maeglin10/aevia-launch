@@ -196,8 +196,7 @@ export default function ServicesPage() {
               </p>
             </div>
             <Link href="/templates/impact-35/pricing" style={{ textDecoration: "none" }}>
-              <button
-                type="button"
+              <span
                 style={{
                   background: C.accent,
                   color: C.white,
@@ -211,7 +210,7 @@ export default function ServicesPage() {
                 }}
               >
                 Voir les tarifs
-              </button>
+              </span>
             </Link>
           </div>
         </SectionReveal>

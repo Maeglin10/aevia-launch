@@ -111,8 +111,7 @@ export default function ResultsPage() {
               Get in touch with our executive search team to secure high-caliber leaders today.
             </p>
             <Link href="/templates/impact-36/services#contact-form" style={{ textDecoration: "none" }}>
-              <button
-                type="button"
+              <span
                 style={{
                   display: "inline-flex",
                   alignItems: "center",
@@ -128,7 +127,7 @@ export default function ResultsPage() {
                 }}
               >
                 Hire Apex Talent <ArrowRight size={16} />
-              </button>
+              </span>
             </Link>
           </div>
         </SectionReveal>

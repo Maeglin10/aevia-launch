@@ -109,10 +109,10 @@ export default function ResultatsPage() {
 
         <div className="text-center mt-14">
           <Link href={`${basePath}/rdv`}>
-            <button type="button"
+            <span
               className="inline-flex items-center gap-3 px-8 py-4 border border-[#C9A86C] text-[#C9A86C] text-sm uppercase tracking-widest hover:bg-[#C9A86C] hover:text-[#0C0C0A] transition-all duration-300 cursor-pointer">
               Prendre rendez-vous <ArrowRight className="w-4 h-4" />
-            </button>
+            </span>
           </Link>
         </div>
       </div>

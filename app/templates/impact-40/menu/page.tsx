@@ -207,8 +207,7 @@ export default function MenuPage() {
               Tous nos menus sont élaborés avec des produits frais du terroir local. Nous adaptons nos compositions selon les arrivages. Allergies et régimes alimentaires : merci de nous prévenir à la réservation.
             </p>
             <Link href="/templates/impact-40/reservation" style={{ textDecoration: "none" }}>
-              <button
-                type="button"
+              <span
                 style={{
                   backgroundColor: C.bgDark,
                   color: C.accent,
@@ -225,7 +224,7 @@ export default function MenuPage() {
                 }}
               >
                 Réserver une table <ArrowRight size={16} />
-              </button>
+              </span>
             </Link>
           </div>
         </SectionReveal>

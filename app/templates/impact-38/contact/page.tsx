@@ -717,14 +717,14 @@ export default function ContactPage() {
           </p>
           <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
             <Link href="/templates/impact-38/abonnement" style={{ textDecoration: "none" }}>
-              <button type="button" style={{ display: "inline-flex", alignItems: "center", gap: 8, background: C.caramel, color: C.espresso, padding: "14px 32px", borderRadius: 8, fontWeight: 700, fontSize: 15, border: "none", cursor: "pointer" }}>
+              <span style={{ display: "inline-flex", alignItems: "center", gap: 8, background: C.caramel, color: C.espresso, padding: "14px 32px", borderRadius: 8, fontWeight: 700, fontSize: 15, border: "none", cursor: "pointer" }}>
                 Voir les abonnements <ArrowRight size={16} />
-              </button>
+              </span>
             </Link>
             <Link href="/templates/impact-38/workshops" style={{ textDecoration: "none" }}>
-              <button type="button" style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "transparent", color: C.cream, padding: "14px 32px", borderRadius: 8, fontWeight: 600, fontSize: 15, border: "1.5px solid rgba(255,255,255,0.2)", cursor: "pointer" }}>
+              <span style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "transparent", color: C.cream, padding: "14px 32px", borderRadius: 8, fontWeight: 600, fontSize: 15, border: "1.5px solid rgba(255,255,255,0.2)", cursor: "pointer" }}>
                 Voir les ateliers
-              </button>
+              </span>
             </Link>
           </div>
         </SectionReveal>

@@ -97,12 +97,11 @@ export default function OriginRoastLayout({ children }: { children: React.ReactN
           </div>
 
           <Link href="/templates/impact-38/abonnement" style={{ textDecoration: "none" }} className="hidden md:block">
-            <button
-              type="button"
+            <span
               style={{ background: C.caramel, color: C.espresso, padding: "10px 22px", borderRadius: 8, fontWeight: 700, fontSize: 14, border: "none", cursor: "pointer" }}
             >
               S'abonner
-            </button>
+            </span>
           </Link>
 
           {/* Mobile hamburger */}

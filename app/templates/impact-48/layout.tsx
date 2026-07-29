@@ -190,7 +190,7 @@ export default function ArchitectureLayout({ children }: { children: React.React
               );
             })}
             <Link href="/templates/impact-48/contact" style={{ textDecoration: "none" }}>
-              <button
+              <span
                 style={{
                   fontFamily: F.sans,
                   fontSize: 11,
@@ -213,7 +213,7 @@ export default function ArchitectureLayout({ children }: { children: React.React
                 }}
               >
                 New Enquiry
-              </button>
+              </span>
             </Link>
           </div>
 

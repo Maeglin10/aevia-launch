@@ -237,7 +237,7 @@ export default function Impact83Page() {
               style={{ display: "flex", gap: 20, justifyContent: "center", flexWrap: "wrap" }}
             >
               <Link href={`${basePath}/collections`} style={{ textDecoration: "none" }}>
-                <button
+                <span
                   style={{
                     display: "inline-flex",
                     alignItems: "center",
@@ -254,10 +254,10 @@ export default function Impact83Page() {
                   }}
                 >
                   Découvrir les Collections <ArrowRight size={14} />
-                </button>
+                </span>
               </Link>
               <Link href={`${basePath}/sur-mesure`} style={{ textDecoration: "none" }}>
-                <button
+                <span
                   style={{
                     display: "inline-flex",
                     alignItems: "center",
@@ -275,7 +275,7 @@ export default function Impact83Page() {
                   }}
                 >
                   Sur Mesure <Gem size={14} />
-                </button>
+                </span>
               </Link>
             </motion.div>
           </div>
@@ -447,9 +447,9 @@ export default function Impact83Page() {
               Nos ateliers créent des pièces sur-mesure en collaboration directe avec vous. De l&apos;esquisse à la livraison, comptez 6 à 16 semaines selon la complexité. Chaque pièce sur-mesure est accompagnée d&apos;un certificat gemmologique indépendant.
             </p>
             <Link href={`${basePath}/sur-mesure`} style={{ textDecoration: "none" }}>
-              <button style={{ display: "inline-flex", alignItems: "center", gap: 12, background: C.bg, color: C.accent, border: "none", padding: "18px 48px", fontFamily: FONT_LABEL, fontSize: 11, letterSpacing: "0.25em", textTransform: "uppercase", cursor: "pointer" }}>
+              <span style={{ display: "inline-flex", alignItems: "center", gap: 12, background: C.bg, color: C.accent, border: "none", padding: "18px 48px", fontFamily: FONT_LABEL, fontSize: 11, letterSpacing: "0.25em", textTransform: "uppercase", cursor: "pointer" }}>
                 Débuter votre création <ArrowRight size={14} />
-              </button>
+              </span>
             </Link>
           </Reveal>
         </div>

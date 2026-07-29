@@ -94,20 +94,18 @@ export default function OrbitAILayout({
             </div>
             <div className="flex items-center gap-8">
               <Link href="/templates/impact-75/telemetry">
-                <button className="hidden md:block text-[10px] font-bold uppercase tracking-widest text-white/20 hover:text-white transition-colors underline underline-offset-8 decoration-cyan-500/30">
+                <span className="hidden md:block text-[10px] font-bold uppercase tracking-widest text-white/20 hover:text-white transition-colors underline underline-offset-8 decoration-cyan-500/30">
                   Network Status
-                </button>
+                </span>
               </Link>
               <Link href="/templates/impact-75/contact">
-                <button className="px-10 py-3.5 border border-cyan-500/40 text-cyan-500 text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-cyan-500 hover:text-black transition-all duration-500">
+                <span className="px-10 py-3.5 border border-cyan-500/40 text-cyan-500 text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-cyan-500 hover:text-black transition-all duration-500">
                   Initiate Uplink
-                </button>
+                </span>
               </Link>
               <Sheet>
-                <SheetTrigger asChild>
-                  <button className="lg:hidden p-2">
-                    <Menu className="w-6 h-6 text-white" />
-                  </button>
+                <SheetTrigger className="lg:hidden p-2" aria-label="Menu">
+                  <Menu className="w-6 h-6 text-white" />
                 </SheetTrigger>
                 <SheetContent
                   side="right"

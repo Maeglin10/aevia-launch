@@ -300,7 +300,7 @@ export default function About() {
 
           <div style={{ textAlign: 'center' as const, marginTop: 64 }}>
             <Link href="/templates/impact-48/contact" style={{ textDecoration: "none" }}>
-              <button
+              <span
                 style={{
                   background: C.accent,
                   color: C.bgDark,
@@ -318,7 +318,7 @@ export default function About() {
                 onMouseLeave={(e) => (e.currentTarget.style.background = C.accent)}
               >
                 Rencontrer l'atelier
-              </button>
+              </span>
             </Link>
           </div>
         </div>

@@ -249,16 +249,7 @@ export default function MaisonDrouetHome() {
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const containerRef = useRef<HTMLDivElement>(null);
-  const heroRef = useRef<HTMLDivElement>(null);
-
   const { scrollYProgress } = useScroll({ target: containerRef });
-  const { scrollYProgress: heroScroll } = useScroll({
-    target: heroRef,
-    offset: ["start start", "end start"],
-  });
-
-  const heroY = useTransform(heroScroll, [0, 1], ["0%", "25%"]);
-  const heroOpacity = useTransform(heroScroll, [0, 0.8], [1, 0]);
 
   
   // Dynamic Services & Testimonials Mutation for Session Data
