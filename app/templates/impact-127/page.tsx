@@ -41,11 +41,42 @@ function EqBars({ active = false }: { active?: boolean }) {
 
 const EVENTS = [
   { title: "NEON PULSE", artist: "Nova Collective", date: "May 24, 2026", time: "21:00", venue: "Warehouse IX", city: "Berlin", img: "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?auto=format&fit=crop&q=80&w=1200", price: "€45", status: "On Sale", genre: "Electronic" },
-  { title: "MIDNIGHT CRESCENDO", artist: "The Archivists", date: "Jun 7, 2026", time: "20:00", venue: "Royal Albert Hall", city: "London", img: "https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?auto=format&fit=crop&q=80&w=1200", price: "£65", status: "Selling Fast", genre: "Orchestral" },
-  { title: "BASS COMMUNION", artist: "Drift Engine", date: "Jun 21, 2026", time: "23:00", venue: "Fabric", city: "London", img: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&q=80&w=1200", price: "£35", status: "On Sale", genre: "Techno" },
-  { title: "AURORA SESSIONS", artist: "Pale Waves", date: "Jul 5, 2026", time: "19:30", venue: "Olympia", city: "Paris", img: "https://images.unsplash.com/photo-1501386761578-eac5c94b800a?auto=format&fit=crop&q=80&w=1200", price: "€55", status: "Limited", genre: "Indie" },
+  { title: "MIDNIGHT CRESCENDO", artist: "The Archivists", date: "Jun 7, 2026", time: "20:00", venue: "Hall Meridian", city: "London", img: "https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?auto=format&fit=crop&q=80&w=1200", price: "£65", status: "Selling Fast", genre: "Orchestral" },
+  { title: "BASS COMMUNION", artist: "Drift Engine", date: "Jun 21, 2026", time: "23:00", venue: "Sublevel", city: "London", img: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&q=80&w=1200", price: "£35", status: "On Sale", genre: "Techno" },
+  { title: "AURORA SESSIONS", artist: "Halcyon Drift", date: "Jul 5, 2026", time: "19:30", venue: "Le Ratio", city: "Paris", img: "https://images.unsplash.com/photo-1501386761578-eac5c94b800a?auto=format&fit=crop&q=80&w=1200", price: "€55", status: "Limited", genre: "Indie" },
 ]
 
+
+// Venues, FAQ and press were linked from the nav and the footer but no such
+// sections existed, so those items scrolled nowhere.
+const VENUES = [
+  { name: "Warehouse IX", city: "Berlin", capacity: "2 400", type: "Industrial", note: "Former turbine hall, 14m ceilings, a sound system built for low end." },
+  { name: "Hall Meridian", city: "London", capacity: "5 200", type: "Concert hall", note: "Nineteenth-century acoustics, restored in 2019. Our seated programme lives here." },
+  { name: "Sublevel", city: "London", capacity: "1 600", type: "Club", note: "Three rooms, no phones on the floor. Late licence until 08:00." },
+  { name: "Le Ratio", city: "Paris", capacity: "3 100", type: "Theatre", note: "Balcony horseshoe, velvet and gilt. Indie bills that deserve the room." },
+];
+
+const FAQS = [
+  { q: "When do tickets go on sale?", a: "Members get a 48-hour window before general release. Sign up and you will get the code by email the morning it opens." },
+  { q: "Can I transfer my ticket?", a: "Yes, up to 24 hours before doors, from your account. Transfers are free — we would rather you pass it on than leave a seat empty." },
+  { q: "What is your refund policy?", a: "Full refund if an event is cancelled or rescheduled to a date you cannot make. Otherwise tickets are transferable rather than refundable." },
+  { q: "Are the venues accessible?", a: "Every venue we programme has step-free access to the floor and accessible toilets. See the accessibility note below for the detail per room." },
+];
+
+const PRESS = [
+  { quote: "The most consistently interesting bookings in Europe right now.", outlet: "Frequency Review" },
+  { quote: "They treat a 1,600-capacity club with the care most promoters reserve for arenas.", outlet: "Nightshift Quarterly" },
+  { quote: "A rare promoter that programmes for the room rather than the spreadsheet.", outlet: "The Low End" },
+];
+
+const NAV_ANCHOR: Record<string, string> = {
+  Events: "#events",
+  Artists: "#artists",
+  Venues: "#venues",
+  About: "#about",
+  Tickets: "#events",
+};
+const navAnchor = (l: string) => NAV_ANCHOR[l] ?? "#hero";
 
 // Global state variables for subpage compatibility
 let fd: any = null;
@@ -188,7 +219,7 @@ export default function PulseEventsPage() {
           </Link>
           <div className="hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-white/40">
             {["Events", "Artists", "Venues", "About"].map(l => (
-              <Link key={l} href="#about" className="hover:text-[var(--brand,#f472b6)] transition-colors">{l}</Link>
+              <Link key={l} href={navAnchor(l)} className="hover:text-[var(--brand,#f472b6)] transition-colors">{l}</Link>
             ))}
           </div>
           <div className="flex items-center gap-4">
@@ -200,7 +231,7 @@ export default function PulseEventsPage() {
               <SheetContent side="right" className="bg-[#08050a] border-[var(--brand,#ec4899)]/10 p-12">
                 <div className="flex flex-col gap-8 mt-16">
                   {["Events", "Artists", "Venues", "Tickets"].map(l => (
-                    <Link key={l} href="#about" className="text-3xl font-light uppercase tracking-widest hover:text-[var(--brand,#f472b6)] transition-colors">{l}</Link>
+                    <Link key={l} href={navAnchor(l)} className="text-3xl font-light uppercase tracking-widest hover:text-[var(--brand,#f472b6)] transition-colors">{l}</Link>
                   ))}
                 </div>
               </SheetContent>
@@ -238,7 +269,7 @@ export default function PulseEventsPage() {
         </section>
 
         {/* ── EVENTS LIST ──────────────── */}
-        <section className="py-32 bg-[#08050a]">
+        <section id="events" className="py-32 bg-[#08050a]">
           <div className="max-w-[1200px] mx-auto px-6 md:px-12">
             <Reveal>
               <div className="flex justify-between items-end mb-16 border-b border-white/5 pb-8">
@@ -297,7 +328,7 @@ export default function PulseEventsPage() {
                 { name: "Nova Collective", genre: "Electronic", origin: "Berlin", img: photo(1, "https://images.unsplash.com/photo-1493676304819-0d7a8d026dcf?w=600&q=80"), events: 3, followers: "182K" },
                 { name: "The Archivists", genre: "Orchestral", origin: "London", img: photo(2, "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=600&q=80"), events: 2, followers: "94K" },
                 { name: "Drift Engine", genre: "Techno", origin: "London", img: photo(3, "https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?w=600&q=80"), events: 4, followers: "312K" },
-                { name: "Pale Waves", genre: "Indie", origin: "Manchester", img: photo(4, "https://images.unsplash.com/photo-1501386761578-eac5c94b800a?w=600&q=80"), events: 2, followers: "280K" },
+                { name: "Halcyon Drift", genre: "Indie", origin: "Manchester", img: photo(4, "https://images.unsplash.com/photo-1501386761578-eac5c94b800a?w=600&q=80"), events: 2, followers: "280K" },
               ].map((artist, i) => (
                 <Reveal key={artist.name} delay={i * 0.08}>
                   <motion.div
@@ -381,6 +412,95 @@ export default function PulseEventsPage() {
           </div>
         </section>
 
+        {/* ── VENUES ───────────────────── */}
+        <section id="venues" className="py-32 bg-[#08050a] border-t border-white/5">
+          <div className="max-w-[1200px] mx-auto px-6 md:px-12">
+            <Reveal>
+              <div className="flex justify-between items-end mb-16 border-b border-white/5 pb-8 gap-6 flex-wrap">
+                <h2 className="text-4xl md:text-5xl font-black tracking-tighter uppercase">The <span className="text-[var(--brand,#ec4899)]">Venues</span></h2>
+                <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-white/30">Four rooms, four reasons</span>
+              </div>
+            </Reveal>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-white/5">
+              {VENUES.map((v, i) => (
+                <Reveal key={v.name} delay={i * 0.06}>
+                  <div className="bg-[#0c091a] p-8 h-full flex flex-col">
+                    <div className="flex items-baseline justify-between gap-4 mb-3">
+                      <h3 className="text-2xl font-black tracking-tight uppercase">{v.name}</h3>
+                      <span className="text-[10px] font-bold uppercase tracking-[0.24em] text-[var(--brand,#f472b6)] shrink-0">{v.type}</span>
+                    </div>
+                    <div className="flex gap-6 text-[11px] font-bold uppercase tracking-[0.2em] text-white/30 mb-5">
+                      <span>{v.city}</span>
+                      <span>Cap. {v.capacity}</span>
+                    </div>
+                    <p className="text-sm text-white/45 leading-relaxed">{v.note}</p>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── FAQ ──────────────────────── */}
+        <section id="faq" className="py-32 bg-[#0c091a] border-t border-white/5">
+          <div className="max-w-[900px] mx-auto px-6 md:px-12">
+            <Reveal>
+              <h2 className="text-4xl md:text-5xl font-black tracking-tighter uppercase mb-16 border-b border-white/5 pb-8">Before <span className="text-[var(--brand,#ec4899)]">You Go</span></h2>
+            </Reveal>
+            <div className="divide-y divide-white/5">
+              {FAQS.map((f, i) => (
+                <Reveal key={f.q} delay={i * 0.05}>
+                  <details className="group py-6">
+                    <summary className="flex items-start justify-between gap-6 cursor-pointer list-none min-h-[44px]">
+                      <span className="text-lg font-bold tracking-tight">{f.q}</span>
+                      <span aria-hidden className="text-[var(--brand,#f472b6)] text-2xl leading-none shrink-0 transition-transform group-open:rotate-45">+</span>
+                    </summary>
+                    <p className="mt-4 text-sm text-white/45 leading-relaxed max-w-[70ch]">{f.a}</p>
+                  </details>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── PRESS ────────────────────── */}
+        <section id="press" className="py-32 bg-[#08050a] border-t border-white/5">
+          <div className="max-w-[1200px] mx-auto px-6 md:px-12">
+            <Reveal>
+              <h2 className="text-4xl md:text-5xl font-black tracking-tighter uppercase mb-16 border-b border-white/5 pb-8">In <span className="text-[var(--brand,#ec4899)]">Print</span></h2>
+            </Reveal>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-white/5">
+              {PRESS.map((p, i) => (
+                <Reveal key={p.outlet} delay={i * 0.07}>
+                  <figure className="bg-[#0c091a] p-8 h-full flex flex-col justify-between">
+                    <blockquote className="text-lg leading-relaxed text-white/70">“{p.quote}”</blockquote>
+                    <figcaption className="mt-6 text-[10px] font-bold uppercase tracking-[0.28em] text-[var(--brand,#f472b6)]">{p.outlet}</figcaption>
+                  </figure>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── ACCESSIBILITY ────────────── */}
+        <section id="accessibility" className="py-24 bg-[#0c091a] border-t border-white/5">
+          <div className="max-w-[900px] mx-auto px-6 md:px-12">
+            <Reveal>
+              <h2 className="text-2xl md:text-3xl font-black tracking-tighter uppercase mb-6">Accessibility</h2>
+              <p className="text-sm text-white/45 leading-relaxed max-w-[70ch] mb-4">
+                Every room we programme has step-free access to the floor, accessible toilets and a
+                dedicated viewing area. Companion tickets are free — book the standard ticket and email
+                us, we will add the second at no cost.
+              </p>
+              <p className="text-sm text-white/45 leading-relaxed max-w-[70ch]">
+                Warehouse IX and Sublevel are standing rooms with limited seating on request. Hall
+                Meridian and Le Ratio are fully seated. Tell us what you need when you book and we will
+                confirm the specifics for that room.
+              </p>
+            </Reveal>
+          </div>
+        </section>
+
         {/* ── CTA ────────────────────── */}
         <section id="contact" className="relative h-[70vh] flex items-center justify-center overflow-hidden">
           <div className="absolute inset-0">
@@ -413,14 +533,29 @@ export default function PulseEventsPage() {
             <p className="text-sm text-white/30 leading-relaxed">Curated live music experiences in iconic venues worldwide.</p>
           </div>
           {[
-            { title: "Discover", links: ["All Events", "By Genre", "By City", "Artists"] },
-            { title: "Info", links: ["About", "FAQ", "Accessibility", "Press"] },
-            { title: "Follow", links: ["Camera", "MessageSquare", "Spotify", "YouTube"] },
+            { title: "Discover", links: [
+              { label: "All Events", href: "#events" },
+              { label: "By Genre", href: "#events" },
+              { label: "By City", href: "#venues" },
+              { label: "Artists", href: "#artists" },
+            ] },
+            { title: "Info", links: [
+              { label: "About", href: "#about" },
+              { label: "FAQ", href: "#faq" },
+              { label: "Accessibility", href: "#accessibility" },
+              { label: "Press", href: "#press" },
+            ] },
+            { title: "Follow", links: [
+              { label: "Instagram", href: "https://instagram.com" },
+              { label: "Spotify", href: "https://spotify.com" },
+              { label: "YouTube", href: "https://youtube.com" },
+              { label: "Bandcamp", href: "https://bandcamp.com" },
+            ] },
           ].map((col, i) => (
             <div key={i}>
               <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#f472b6)] mb-6">{col.title}</h4>
               <ul className="space-y-3 text-sm text-white/30">
-                {col.links.map(l => <li key={l}><Link href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="hover:text-white transition-colors">{l}</Link></li>)}
+                {col.links.map(l => <li key={l.label}><Link href={l.href} className="hover:text-white transition-colors">{l.label}</Link></li>)}
               </ul>
             </div>
           ))}

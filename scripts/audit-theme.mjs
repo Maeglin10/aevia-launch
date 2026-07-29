@@ -315,6 +315,9 @@ for (const route of ROUTE_LIST) {
             .filter((t) => t.length > 2 && t.length < 30)
             .filter((t) => !/^(accueil|home|retour|logo)$/i.test(t))
             .filter((t) => !/^[+\d][\d\s().-]{6,}$/.test(t) && !/@/.test(t))
+            // the brand mark links to #hero; clicking it at the top of the page
+            // is correctly a no-op, same as an "Accueil" item
+            .filter((t, i, arr) => !(i === 0 && arr.length > 1))
             .slice(0, 6));
         for (const label of labels) {
           const before = await page.evaluate(() => ({
