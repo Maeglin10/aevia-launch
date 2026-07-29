@@ -47,6 +47,39 @@ const CAPABILITIES_DEMO = [
 ]
 
 
+// Journal, Careers, Press and Newsletter were all linked from the header or the
+// footer while no such sections existed.
+const JOURNAL = [
+  { kind: "Process", date: "Mar 2026", title: "Designing for the second read", excerpt: "Most identity work is judged in three seconds and lived with for three years. We build for the second one." },
+  { kind: "Case note", date: "Feb 2026", title: "What we cut from Meridian", excerpt: "The rebrand shipped with a third of what we designed. Here is what came out and why the work is better for it." },
+  { kind: "Craft", date: "Jan 2026", title: "Type at small sizes", excerpt: "A wordmark that survives a favicon is a different problem from one that survives a billboard. Both matter." },
+];
+
+const CAREERS = [
+  { role: "Senior Designer — Identity", place: "Paris / hybrid", note: "Five years plus. You lead the mark, we handle the rest." },
+  { role: "Motion Designer", place: "Remote (EU)", note: "You have opinions about easing curves. So do we." },
+  { role: "Design Intern — Autumn", place: "Paris", note: "Six months, paid, real projects. We do not do coffee runs." },
+];
+
+const PRESS = [
+  { quote: "A studio that still argues about kerning, and it shows in the work.", outlet: "Counterform" },
+  { quote: "Their identity work reads as inevitable, which is the hardest thing to fake.", outlet: "Atelier Review" },
+  { quote: "Quietly one of the most disciplined practices working in Europe.", outlet: "Broadsheet Design" },
+];
+
+const NAV_ANCHOR: Record<string, string> = {
+  Work: "#work",
+  Capabilities: "#capabilities",
+  Team: "#team",
+  Journal: "#journal",
+  Awards: "#awards",
+  Contact: "#contact",
+  Careers: "#careers",
+  Press: "#press",
+  Newsletter: "#newsletter",
+};
+const navAnchor = (l: string) => NAV_ANCHOR[l] ?? "#hero";
+
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
@@ -164,7 +197,7 @@ export default function StudioVersaPage() {
           </Link>
           <div className="hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-[#1a1a1a]/40">
             {["Work", "Capabilities", "Team", "Journal"].map(l => (
-              <Link key={l} href="#equipe" className="hover:text-[var(--brand,#f97316)] transition-colors">{l}</Link>
+              <Link key={l} href={navAnchor(l)} className="hover:text-[var(--brand,#f97316)] transition-colors">{l}</Link>
             ))}
           </div>
           <div className="flex items-center gap-6">
@@ -176,7 +209,7 @@ export default function StudioVersaPage() {
               <SheetContent side="right" className="bg-[#faf5f0] p-12">
                 <div className="flex flex-col gap-8 mt-16">
                   {["Work", "Capabilities", "Team", "Contact"].map(l => (
-                    <Link key={l} href="#equipe" className="text-3xl font-light uppercase tracking-widest hover:text-[var(--brand,#f97316)] transition-colors">{l}</Link>
+                    <Link key={l} href={navAnchor(l)} className="text-3xl font-light uppercase tracking-widest hover:text-[var(--brand,#f97316)] transition-colors">{l}</Link>
                   ))}
                 </div>
               </SheetContent>
@@ -228,7 +261,7 @@ export default function StudioVersaPage() {
         </section>
 
         {/* ── WORK ──────────────────── */}
-        <section id="realisations" className="py-32 bg-[#faf5f0]">
+        <section id="work" className="py-32 bg-[#faf5f0]">
           <div className="max-w-[1600px] mx-auto px-6 md:px-12">
             <Reveal>
               <div className="flex justify-between items-end mb-20">
@@ -264,7 +297,7 @@ export default function StudioVersaPage() {
         </section>
 
         {/* ── CAPABILITIES ──────────── */}
-        <section id="equipe" className="py-32 bg-[#1a1a1a] text-white">
+        <section id="capabilities" className="py-32 bg-[#1a1a1a] text-white">
           <div className="max-w-[1200px] mx-auto px-6 md:px-12">
             <Reveal>
               <div className="text-center mb-24">
@@ -293,7 +326,7 @@ export default function StudioVersaPage() {
         </section>
 
         {/* ── TEAM ──────────────────── */}
-        <section id="work" className="py-32 bg-[#faf5f0]">
+        <section id="team" className="py-32 bg-[#faf5f0]">
           <div className="max-w-[1600px] mx-auto px-6 md:px-12">
             <Reveal>
               <div className="mb-20">
@@ -330,13 +363,13 @@ export default function StudioVersaPage() {
         </section>
 
         {/* ── CLIENTS & AWARDS ──────────── */}
-        <section className="py-24 bg-[#1a1a1a] text-white">
+        <section id="awards" className="py-24 bg-[#1a1a1a] text-white">
           <div className="max-w-[1600px] mx-auto px-6 md:px-12">
             <Reveal>
               <div className="flex flex-wrap items-center justify-between gap-8 mb-16">
                 <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#fb923c)]">Trusted By</span>
                 <div className="flex flex-wrap gap-6">
-                  {["Awwwards SOTD", "CSS Design Award", "FWA of the Day", "Cannes Lions Bronze"].map(a => (
+                  {["Site of the Day ×4", "Type Directors Prize", "Editorial Design Gold", "Interaction Honour"].map(a => (
                     <span key={a} className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-[var(--brand,#fb923c)]">
                       <Award className="w-3 h-3" /> {a}
                     </span>
@@ -357,6 +390,110 @@ export default function StudioVersaPage() {
         </section>
 
         {/* ── CTA ─────────────────── */}
+        {/* ── JOURNAL ──────────────────── */}
+        <section id="journal" className="py-32 bg-[#faf5f0]">
+          <div className="max-w-[1600px] mx-auto px-6 md:px-12">
+            <Reveal>
+              <div className="flex flex-wrap items-end justify-between gap-6 mb-16 border-b border-black/10 pb-8">
+                <h2 className="text-4xl md:text-6xl font-bold tracking-tighter">Journal.</h2>
+                <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-black/40">Notes from the studio</span>
+              </div>
+            </Reveal>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+              {JOURNAL.map((p, i) => (
+                <Reveal key={p.title} delay={i * 0.07}>
+                  <article className="h-full flex flex-col">
+                    <div className="text-[10px] font-bold uppercase tracking-[0.28em] text-[var(--brand,#fb923c)] mb-4">{p.kind} · {p.date}</div>
+                    <h3 className="text-2xl font-bold tracking-tight mb-3 leading-snug">{p.title}</h3>
+                    <p className="text-sm text-black/50 leading-relaxed">{p.excerpt}</p>
+                  </article>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── CAREERS ──────────────────── */}
+        <section id="careers" className="py-32 bg-[#1a1a1a] text-white">
+          <div className="max-w-[1600px] mx-auto px-6 md:px-12">
+            <Reveal>
+              <div className="flex flex-wrap items-end justify-between gap-6 mb-16 border-b border-white/10 pb-8">
+                <h2 className="text-4xl md:text-6xl font-bold tracking-tighter">Careers.</h2>
+                <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-white/40">We hire slowly, on purpose</span>
+              </div>
+            </Reveal>
+            <div className="divide-y divide-white/10">
+              {CAREERS.map((r, i) => (
+                <Reveal key={r.role} delay={i * 0.06}>
+                  <div className="py-7 flex flex-wrap items-baseline justify-between gap-4">
+                    <div className="min-w-0">
+                      <h3 className="text-xl md:text-2xl font-bold tracking-tight">{r.role}</h3>
+                      <p className="text-sm text-white/40 mt-1">{r.note}</p>
+                    </div>
+                    <div className="flex items-center gap-6 shrink-0">
+                      <span className="text-[10px] font-bold uppercase tracking-[0.24em] text-white/40">{r.place}</span>
+                      <a href="#contact" className="inline-flex items-center min-h-[44px] px-5 border border-[var(--brand,#fb923c)] text-[var(--brand,#fb923c)] text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-[var(--brand,#fb923c)] hover:text-[#1a1a1a] transition-colors">
+                        Apply
+                      </a>
+                    </div>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── PRESS ────────────────────── */}
+        <section id="press" className="py-32 bg-[#faf5f0]">
+          <div className="max-w-[1600px] mx-auto px-6 md:px-12">
+            <Reveal>
+              <h2 className="text-4xl md:text-6xl font-bold tracking-tighter mb-16 border-b border-black/10 pb-8">Press.</h2>
+            </Reveal>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+              {PRESS.map((p, i) => (
+                <Reveal key={p.outlet} delay={i * 0.07}>
+                  <figure className="h-full flex flex-col justify-between border-t-2 border-[var(--brand,#fb923c)] pt-6">
+                    <blockquote className="text-lg leading-relaxed text-black/70">“{p.quote}”</blockquote>
+                    <figcaption className="mt-6 text-[10px] font-bold uppercase tracking-[0.28em] text-black/40">{p.outlet}</figcaption>
+                  </figure>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── NEWSLETTER ───────────────── */}
+        <section id="newsletter" className="py-24 bg-[#1a1a1a] text-white">
+          <div className="max-w-[900px] mx-auto px-6 md:px-12 text-center">
+            <Reveal>
+              <h2 className="text-3xl md:text-4xl font-bold tracking-tighter mb-4">Six emails a year. No more.</h2>
+              <p className="text-sm text-white/45 leading-relaxed max-w-[60ch] mx-auto mb-8">
+                What we shipped, what we learned, and the occasional thing we got wrong.
+                No campaigns, no drip sequence, unsubscribe in one click.
+              </p>
+              <form
+                onSubmit={(e) => e.preventDefault()}
+                className="flex flex-wrap gap-3 justify-center max-w-[520px] mx-auto"
+              >
+                <label htmlFor="nl-email" className="sr-only">Email address</label>
+                <input
+                  id="nl-email"
+                  type="email"
+                  required
+                  placeholder="you@studio.com"
+                  className="flex-1 min-w-[220px] min-h-[44px] px-4 bg-transparent border border-white/20 text-white placeholder:text-white/30 text-sm focus:outline-none focus:border-[var(--brand,#fb923c)]"
+                />
+                <button
+                  type="submit"
+                  className="min-h-[44px] px-7 bg-[var(--brand,#fb923c)] text-[#1a1a1a] text-[10px] font-bold uppercase tracking-[0.2em] hover:opacity-90 transition-opacity"
+                >
+                  Subscribe
+                </button>
+              </form>
+            </Reveal>
+          </div>
+        </section>
+
         <section id="contact" className="py-32 bg-[#faf5f0]">
           <div className="max-w-[800px] mx-auto px-6 text-center">
             <Reveal>
@@ -385,14 +522,23 @@ export default function StudioVersaPage() {
             <p className="text-sm text-white/30 leading-relaxed">Multidisciplinary creative studio for ambitious brands.</p>
           </div>
           {[
-            { title: "Studio", links: ["Work", "Capabilities", "Awards", "Team"] },
-            { title: "Connect", links: ["Contact", "Careers", "Press", "Newsletter"] },
-            { title: "Social", links: ["Camera", "Behance", "Dribbble", "LinkedIn"] },
+            { title: "Studio", links: [
+              { label: "Work", href: "#work" }, { label: "Capabilities", href: "#capabilities" },
+              { label: "Awards", href: "#awards" }, { label: "Team", href: "#team" },
+            ] },
+            { title: "Connect", links: [
+              { label: "Contact", href: "#contact" }, { label: "Careers", href: "#careers" },
+              { label: "Press", href: "#press" }, { label: "Newsletter", href: "#newsletter" },
+            ] },
+            { title: "Social", links: [
+              { label: "Instagram", href: "https://instagram.com" }, { label: "Behance", href: "https://behance.net" },
+              { label: "Dribbble", href: "https://dribbble.com" }, { label: "LinkedIn", href: "https://linkedin.com" },
+            ] },
           ].map((col, i) => (
             <div key={i}>
               <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#fb923c)] mb-6">{col.title}</h4>
               <ul className="space-y-3 text-sm text-white/30">
-                {col.links.map(l => <li key={l}><Link href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="hover:text-white transition-colors">{l}</Link></li>)}
+                {col.links.map(l => <li key={l.label}><Link href={l.href} className="hover:text-white transition-colors">{l.label}</Link></li>)}
               </ul>
             </div>
           ))}
