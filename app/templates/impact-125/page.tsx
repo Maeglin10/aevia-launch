@@ -267,7 +267,7 @@ export default function AstrumReachPage() {
         </section>
 
         {/* ── MISSIONS TABLE ────────── */}
-        <section className="py-32 bg-[#02040a] border-y border-white/5">
+        <section id="missions" className="py-32 bg-[#02040a] border-y border-white/5">
           <div className="max-w-[1400px] mx-auto px-6 md:px-12">
             <Reveal>
               <div className="mb-20">

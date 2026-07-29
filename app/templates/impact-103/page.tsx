@@ -280,7 +280,7 @@ export default function LuminaLawPage() {
         </section>
 
         {/* ── PARTNERS ──────────────── */}
-        <section className="py-40 bg-[#fafafa]">
+        <section id="partners" className="py-40 bg-[#fafafa]">
           <div className="max-w-[1400px] mx-auto px-6 md:px-12">
             <Reveal>
               <div className="flex flex-col lg:flex-row items-end justify-between mb-32 gap-8 border-b border-black/5 pb-12">
