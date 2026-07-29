@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, X, Shield, MessageSquare, Sparkles, ChevronDown, ExternalLink, Globe, User, LogOut } from "lucide-react";
+import { Menu, X, ChevronDown, ExternalLink, Globe, User, LogOut } from "lucide-react";
 import { useLang, LOCALE_META, type Locale } from "@/lib/LangContext";
 
 // ── Logo ──────────────────────────────────────────────────────────────────────
@@ -133,9 +133,9 @@ function AeviaAccountButton() {
 
 // ── Products ──────────────────────────────────────────────────────────────────
 const allProducts = [
-  { name: "AeviaSecurity", href: "https://security.aevia.services", descKey: "descSecurity", icon: Shield,        current: false },
-  { name: "AeviaLaunch",   href: "/",                                descKey: "descLaunch",   icon: Sparkles,      current: true  },
-  { name: "AeviaInbox",    href: "https://inbox.aevia.services",     descKey: "descInbox",    icon: MessageSquare, current: false },
+  { name: "AeviaSecurity", href: "https://security.aevia.services", descKey: "descSecurity", current: false },
+  { name: "AeviaLaunch",   href: "/",                                descKey: "descLaunch",   current: true  },
+  { name: "AeviaInbox",    href: "https://inbox.aevia.services",     descKey: "descInbox",    current: false },
 ] as const;
 
 const HEADER_T = {
@@ -187,11 +187,9 @@ export function AeviaHeader() {
               <div className="absolute left-0 top-full pt-2 w-80" onClick={() => setDropdownOpen(false)}>
                 <div className="bg-zinc-900 border border-zinc-800 rounded-xl shadow-xl shadow-black/40 overflow-hidden p-2 flex flex-col gap-1">
                   {allProducts.map((p) => {
-                    const Icon = p.icon;
                     return p.current ? (
-                      <div key={p.name} className="flex gap-3 items-start p-2.5 rounded-lg bg-red-500/10 ring-1 ring-red-500/20">
-                        <Icon className="w-5 h-5 text-red-400 shrink-0 mt-0.5" />
-                        <div className="flex-1 min-w-0">
+                      <div key={p.name} className="block p-2.5 rounded-lg bg-red-500/10 ring-1 ring-red-500/20">
+                        <div className="min-w-0">
                           <div className="flex items-center gap-2 mb-0.5">
                             <span className="font-semibold text-white text-sm">{p.name}</span>
                             <span className="bg-red-500/20 text-red-300 text-[10px] px-1.5 py-0.5 rounded-full font-medium">{t.current}</span>
@@ -205,10 +203,9 @@ export function AeviaHeader() {
                         href={p.href}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex gap-3 items-start p-2.5 rounded-lg hover:bg-zinc-800/60 transition-colors group"
+                        className="block p-2.5 rounded-lg hover:bg-zinc-800/60 transition-colors group"
                       >
-                        <Icon className="w-5 h-5 text-red-400 shrink-0 mt-0.5" />
-                        <div className="flex-1 min-w-0">
+                        <div className="min-w-0">
                           <div className="flex items-center gap-2 mb-0.5">
                             <span className="font-semibold text-white text-sm group-hover:text-red-300 transition-colors">{p.name}</span>
                             <ExternalLink className="w-3 h-3 text-zinc-600 group-hover:text-zinc-400 transition-colors" />
