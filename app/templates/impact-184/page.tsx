@@ -25,6 +25,30 @@ function Reveal({ children, delay = 0, y = 24 }: { children: React.ReactNode; de
   )
 }
 
+const NAV = [
+  { l: "Services", h: "#services" },
+  { l: "Tarifs", h: "#tarifs" },
+  { l: "Zone", h: "#zone" },
+  { l: "Avis", h: "#avis" },
+  { l: "Contact", h: "#contact" },
+];
+
+const TARIFS = [
+  { f: "Ponctuel", p: "28 €/h", n: "Grand ménage, remise en état, après travaux. Minimum 3 heures." },
+  { f: "Hebdomadaire", p: "23 €/h", n: "Même intervenante chaque semaine, créneau fixe. La formule la plus demandée." },
+  { f: "Bi-mensuel", p: "25 €/h", n: "Un passage toutes les deux semaines, 3 heures minimum." },
+  { f: "Bureaux & locaux", p: "sur devis", n: "Passage avant 8h ou après 19h, produits et consommables inclus." },
+];
+
+const ZONES = [
+  { v: "Lyon 1er — 9e", d: "Tous arrondissements, sans supplément" },
+  { v: "Villeurbanne", d: "Sans supplément" },
+  { v: "Caluire · Rillieux", d: "Sans supplément" },
+  { v: "Écully · Tassin · Sainte-Foy", d: "Sans supplément" },
+  { v: "Bron · Vénissieux · Saint-Priest", d: "Supplément déplacement 6 €" },
+  { v: "Reste du Rhône", d: "Sur étude, à partir de 4 h par passage" },
+];
+
 const SERVICES = [
   { icon: Home, title: "Ménage domicile", desc: "Passage régulier hebdomadaire ou bihebdomadaire. Dépoussiérage, aspiration, nettoyage sols, sanitaires, cuisine. Produits écologiques certifiés." },
   { icon: Building, title: "Nettoyage bureaux", desc: "Locaux professionnels, open spaces, salles de réunion, sanitaires. Intervention en soirée ou week-end pour ne pas perturber l'activité." },
@@ -153,8 +177,8 @@ export default function BrilloNetPage() {
             )}
           </div>
           <div className={`hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.22em] ${scrolled ? "text-[#1c2b2b]/30" : "text-white/70"}`}>
-            {["Services", "Tarifs", "Zone", "Avis", "Contact"].map(l => (
-              <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="hover:text-[var(--brand,#0d9488)] transition-colors">{l}</Link>
+            {NAV.map(({ l, h }) => (
+              <Link key={l} href={h} className="hover:text-[var(--brand,#0d9488)] transition-colors">{l}</Link>
             ))}
           </div>
           <div className="flex items-center gap-3">
@@ -168,7 +192,7 @@ export default function BrilloNetPage() {
               <SheetTrigger className="lg:hidden"><Menu className="w-5 h-5" /></SheetTrigger>
               <SheetContent side="right" className="bg-white border-slate-100 p-10">
                 <div className="flex flex-col gap-7 mt-16">
-                  {["Services", "Tarifs", "Contact"].map(l => <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className={`text-3xl font-bold ${scrolled ? "text-[#1c2b2b]" : "text-white"} hover:text-[var(--brand,#0d9488)] transition-colors`}>{l}</Link>)}
+                  {NAV.map(({ l, h }) => <Link key={l} href={h} className={`text-3xl font-bold ${scrolled ? "text-[#1c2b2b]" : "text-white"} hover:text-[var(--brand,#0d9488)] transition-colors`}>{l}</Link>)}
                   <a href={`tel:${fd?.phone ?? "0478123456"}`} className="flex items-center gap-3 text-[var(--brand,#0d9488)] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> {fd?.phone ?? "04 78 12 34 56"}</a>
                 </div>
               </SheetContent>
@@ -252,7 +276,7 @@ export default function BrilloNetPage() {
       </section>
 
       {/* ── SERVICES ── */}
-      <section className="py-28 bg-white">
+      <section id="services" className="py-28 bg-white">
         <div className="max-w-[1300px] mx-auto px-6 md:px-12">
           <Reveal>
             <div className="mb-16 flex flex-col md:flex-row md:items-end gap-8 justify-between">
@@ -281,8 +305,63 @@ export default function BrilloNetPage() {
         </div>
       </section>
 
+      {/* ── TARIFS ── */}
+      <section id="tarifs" className="py-28 bg-white">
+        <div className="max-w-[1200px] mx-auto px-6 md:px-12">
+          <Reveal><div className="mb-14">
+            <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#0d9488)] mb-4">Tarifs</div>
+            <h2 className="text-4xl md:text-5xl font-bold text-[#1c2b2b]">Le prix à l'heure, <span className="text-[var(--brand,#0d9488)]">tout compris.</span></h2>
+          </div></Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
+            {TARIFS.map((t, i) => (
+              <Reveal key={t.f} delay={i * 0.07}>
+                <div className="bg-[#f0fafa] p-8 h-full">
+                  <div className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#0d9488)] mb-4">{t.f}</div>
+                  <div className="text-3xl font-bold text-[#1c2b2b] mb-4">{t.p}</div>
+                  <p className="text-sm text-[#1c2b2b]/50 leading-relaxed">{t.n}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+          <Reveal>
+            <div className="bg-[#f0fafa] p-8">
+              <div className="font-bold text-[#1c2b2b] mb-3 flex items-center gap-2">
+                <CheckCircle className="w-4 h-4 text-[var(--brand,#0d9488)]" />Ce qui est déjà dedans
+              </div>
+              <p className="text-sm text-[#1c2b2b]/50 leading-relaxed max-w-[80ch]">
+                Produits écolabellisés, matériel, aspirateur, déplacement et assurance responsabilité
+                civile. Vous ne fournissez rien. Les prix affichés sont nets : le crédit d'impôt de 50 %
+                pour les services à la personne ramène l'heure hebdomadaire à 11,50 €.
+              </p>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ── ZONE ── */}
+      <section id="zone" className="py-28 bg-[#1c2b2b] text-white">
+        <div className="max-w-[1200px] mx-auto px-6 md:px-12">
+          <Reveal><div className="mb-14">
+            <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#0d9488)] mb-4">Zone d'intervention</div>
+            <h2 className="text-4xl md:text-5xl font-bold">Où l'on <span className="text-[var(--brand,#0d9488)]">se déplace.</span></h2>
+          </div></Reveal>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-white/10 border border-white/10">
+            {ZONES.map((z, i) => (
+              <Reveal key={z.v} delay={i * 0.05}>
+                <div className="bg-[#1c2b2b] p-7 h-full">
+                  <div className="font-bold mb-2 flex items-center gap-2">
+                    <MapPin className="w-4 h-4 text-[var(--brand,#0d9488)]" />{z.v}
+                  </div>
+                  <p className="text-sm text-white/40">{z.d}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ── COMMENT ÇA MARCHE ── */}
-      <section id="contact" className="py-24 bg-[#f0fafa]">
+      <section id="process" className="py-24 bg-[#f0fafa]">
         <div className="max-w-[1100px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-14 text-center">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#0d9488)] mb-4">Simple comme bonjour</div>
@@ -308,7 +387,7 @@ export default function BrilloNetPage() {
       </section>
 
       {/* ── TÉMOIGNAGES ── */}
-      <section id="about" className="py-28 bg-white">
+      <section id="avis" className="py-28 bg-white">
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-16 text-center">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#0d9488)] mb-4">Ce qu'ils disent</div>
@@ -338,7 +417,7 @@ export default function BrilloNetPage() {
       </section>
 
       {/* ── CTA ── */}
-      <section id="services" className="py-28 bg-[var(--brand,#0d9488)]">
+      <section id="contact" className="py-28 bg-[var(--brand,#0d9488)]">
         <Reveal>
           <div className="max-w-2xl mx-auto px-6 text-center">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/45 mb-6">Premier passage</div>

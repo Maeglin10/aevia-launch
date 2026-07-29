@@ -26,6 +26,23 @@ function Reveal({ children, delay = 0, y = 20 }: { children: React.ReactNode; de
   )
 }
 
+const NAV = [
+  { l: "Soins", h: "#soins" },
+  { l: "L'équipe", h: "#equipe" },
+  { l: "Urgences", h: "#urgences" },
+  { l: "Tarifs", h: "#tarifs" },
+  { l: "Contact", h: "#contact" },
+];
+
+const TARIFS = [
+  { a: "Consultation & bilan", p: "23 €", n: "Base Sécurité sociale, remboursée à 70 %." },
+  { a: "Détartrage", p: "28,92 €", n: "Tarif conventionné, une à deux fois par an." },
+  { a: "Carie (une face)", p: "26,97 €", n: "Composite teinte dent, sans amalgame." },
+  { a: "Couronne céramo-métallique", p: "500 €", n: "Plafonnée par la réforme 100 % Santé. Reste à charge nul en panier 1." },
+  { a: "Implant unitaire", p: "à partir de 1 100 €", n: "Hors couronne. Non remboursé par l'Assurance Maladie, devis obligatoire." },
+  { a: "Blanchiment ambulatoire", p: "350 €", n: "Gouttières sur mesure, deux séances de contrôle incluses." },
+];
+
 const SOINS_DEMO = [
   { icon: Smile, title: "Soins conservateurs", desc: "Détartrage, traitement de caries, obturations composite teintées. Matériaux sans mercure, résultat esthétique invisible." },
   { icon: Heart, title: "Prothèses & couronnes", desc: "Couronnes céramique, bridges, prothèses amovibles. Fabrication sur mesure, teintes naturelles, ajustement précis." },
@@ -273,8 +290,8 @@ export default function DrFontainePage() {
             )}
           </div>
           <div className="hidden lg:flex gap-9 text-[10px] font-bold uppercase tracking-[0.2em] text-[#1a2332]/30">
-            {["Soins", "L'équipe", "Urgences", "Tarifs", "Contact"].map(l => (
-              <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="hover:text-[var(--brand,#1d6fa4)] transition-colors">{l}</Link>
+            {NAV.map(({ l, h }) => (
+              <Link key={l} href={h} className="hover:text-[var(--brand,#1d6fa4)] transition-colors">{l}</Link>
             ))}
           </div>
           <div className="flex items-center gap-3">
@@ -288,7 +305,7 @@ export default function DrFontainePage() {
               <SheetTrigger className="lg:hidden"><Menu className="w-5 h-5" /></SheetTrigger>
               <SheetContent side="right" className="bg-white border-slate-100 p-10">
                 <div className="flex flex-col gap-7 mt-16">
-                  {["Soins", "L'équipe", "Urgences", "Contact"].map(l => <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="text-3xl font-bold text-[#1a2332] hover:text-[var(--brand,#1d6fa4)] transition-colors">{l}</Link>)}
+                  {NAV.map(({ l, h }) => <Link key={l} href={h} className="text-3xl font-bold text-[#1a2332] hover:text-[var(--brand,#1d6fa4)] transition-colors">{l}</Link>)}
                   <a href={`tel:${fd?.phone ?? "0240567890"}`} className="flex items-center gap-3 text-[var(--brand,#1d6fa4)] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> {fd?.phone ?? "02 40 56 78 90"}</a>
                 </div>
               </SheetContent>
@@ -392,7 +409,7 @@ export default function DrFontainePage() {
       </section>
 
       {/* ── URGENCES ── */}
-      <section id="about" className="py-16 bg-[var(--brand,#1d6fa4)]">
+      <section id="urgences" className="py-16 bg-[var(--brand,#1d6fa4)]">
         <div className="max-w-[1100px] mx-auto px-6 md:px-12 flex flex-col md:flex-row items-center justify-between gap-6">
           <div>
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/50 mb-3">Urgences dentaires</div>
@@ -410,7 +427,7 @@ export default function DrFontainePage() {
       </section>
 
       {/* ── L'ÉQUIPE ── */}
-      <section id="contact" className="py-28 bg-white">
+      <section id="equipe" className="py-28 bg-white">
         <div className="max-w-[1100px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-14">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#1d6fa4)] mb-4">L'équipe soignante</div>
@@ -442,7 +459,7 @@ export default function DrFontainePage() {
       </section>
 
       {/* ── TÉMOIGNAGES ── */}
-      <section className="py-24 bg-[#f5faff]">
+      <section id="avis" className="py-24 bg-[#f5faff]">
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-14 text-center">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#1d6fa4)] mb-4">Avis patients</div>
@@ -475,8 +492,38 @@ export default function DrFontainePage() {
         </div>
       </section>
 
+      {/* ── TARIFS ── */}
+      <section id="tarifs" className="py-28 bg-[#f2f7fb]">
+        <div className="max-w-[1000px] mx-auto px-6 md:px-12">
+          <Reveal><div className="mb-14">
+            <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#1d6fa4)] mb-4">Tarifs</div>
+            <h2 className="text-4xl md:text-5xl font-bold text-[#1a2332]">Ce que ça <span className="text-[var(--brand,#1d6fa4)]">coûte vraiment.</span></h2>
+          </div></Reveal>
+          <div className="bg-white">
+            {TARIFS.map((t, i) => (
+              <Reveal key={t.a} delay={i * 0.05}>
+                <div className={`flex flex-wrap items-baseline justify-between gap-3 px-7 py-5 ${i ? "border-t border-[#f2f7fb]" : ""}`}>
+                  <div className="min-w-0">
+                    <div className="font-bold text-[#1a2332] text-sm">{t.a}</div>
+                    <div className="text-xs text-[#1a2332]/40 mt-0.5">{t.n}</div>
+                  </div>
+                  <div className="font-bold text-[var(--brand,#1d6fa4)] text-sm shrink-0">{t.p}</div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+          <Reveal>
+            <p className="text-xs text-[#1a2332]/40 mt-6 leading-relaxed max-w-[70ch]">
+              Cabinet conventionné secteur 1, carte Vitale et tiers payant acceptés. Tout acte
+              dépassant 70 € fait l'objet d'un devis écrit, à transmettre à votre mutuelle avant
+              d'accepter. Nous vous disons systématiquement s'il existe une option prise en charge à 100 %.
+            </p>
+          </Reveal>
+        </div>
+      </section>
+
       {/* ── CTA ── */}
-      <section id="services" className="py-24 bg-[#1a2332] text-center">
+      <section id="contact" className="py-24 bg-[#1a2332] text-center">
         <Reveal>
           <div className="max-w-xl mx-auto px-6">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/30 mb-6">Prendre soin de vous</div>
@@ -505,17 +552,36 @@ export default function DrFontainePage() {
             <p className="text-white/20 text-sm leading-relaxed">Cabinet dentaire moderne. Omnipratique, implants, esthétique, orthodontie. Urgences tous les matins.</p>
           </div>
           {[
-            { t: "Soins", ls: ["Soins conservateurs", "Implantologie", "Esthétique dentaire", "Orthodontie adulte", "Urgences dentaires"] },
-            { t: "Cabinet", ls: ["L'équipe", "Équipement 3D", "Tarifs & devis", "Avis patients", "Accessibilité PMR"] },
-            { t: "Adresse", ls: ["14 rue Crébillon", "44000 Nantes", "Lun-Ven 8h30-19h", "Sam 8h30-13h", "02 40 56 78 90"] },
+            { t: "Soins", ls: [
+              { l: "Soins conservateurs", h: "#soins" }, { l: "Implantologie", h: "#soins" },
+              { l: "Esthétique dentaire", h: "#soins" }, { l: "Orthodontie adulte", h: "#soins" },
+              { l: "Urgences dentaires", h: "#urgences" },
+            ] },
+            { t: "Cabinet", ls: [
+              { l: "L'équipe", h: "#equipe" }, { l: "Équipement 3D", h: "#soins" },
+              { l: "Tarifs & devis", h: "#tarifs" }, { l: "Avis patients", h: "#avis" },
+              { l: "Accessibilité PMR", h: "#contact" },
+            ] },
           ].map((col, i) => (
             <div key={i}>
               <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#1d6fa4)]/60 mb-5">{col.t}</h4>
               <ul className="space-y-2.5">
-                {col.ls.map(l => <li key={l}><Link href={col.t === "Soins" ? "#services" : col.t === "Cabinet" ? "#about" : "#contact"} className="text-white/20 text-sm hover:text-white transition-colors">{l}</Link></li>)}
+                {col.ls.map(({ l, h }) => <li key={l}><Link href={h} className="text-white/20 text-sm hover:text-white transition-colors">{l}</Link></li>)}
               </ul>
             </div>
           ))}
+          {/* Address and phone were links to #contact. The address is text now,
+              and the phone number dials. */}
+          <div>
+            <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#1d6fa4)]/60 mb-5">Adresse</h4>
+            <address className="not-italic text-white/20 text-sm leading-relaxed space-y-2.5">
+              <div>14 rue Crébillon<br />44000 Nantes</div>
+              <div>Lun — Ven 8h30 — 19h<br />Sam 8h30 — 13h</div>
+              <a href={`tel:${fd?.phone ?? "0240567890"}`} className="inline-flex items-center gap-2 hover:text-white transition-colors">
+                <Phone className="w-3.5 h-3.5" />{fd?.phone ?? "02 40 56 78 90"}
+              </a>
+            </address>
+          </div>
         </div>
         <div className="max-w-[1300px] mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between gap-3 text-[10px] font-bold uppercase tracking-widest text-white/10">
           <span>© 2026 Dr. Léa Fontaine · RPPS 10234567890 · Secteur 2 · Nantes (44)</span>
