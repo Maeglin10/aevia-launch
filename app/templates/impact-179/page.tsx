@@ -177,28 +177,28 @@ export default function AquanovaPiscinesPage() {
                 <div className="w-8 h-8 bg-[var(--brand)] flex items-center justify-center rounded">
                   <Droplets className="w-4 h-4 text-white" />
                 </div>
-                <span className="text-lg font-bold tracking-tight text-[#0f172a]">{fd?.businessName ?? <>AquaNova <span className="text-[var(--brand)]">Piscines</span></>}</span>
+                <span className={`text-lg font-bold tracking-tight ${scrolled ? "text-[#0f172a]" : "text-white"}`}>{fd?.businessName ?? <>AquaNova <span className={scrolled ? "text-[var(--brand)]" : "text-[#7dd3fc]"}>Piscines</span></>}</span>
               </>
             )}
           </div>
-          <div className="hidden lg:flex gap-9 text-[10px] font-bold uppercase tracking-[0.2em] text-[#0f172a]/40">
+          <div className={`hidden lg:flex gap-9 text-[10px] font-bold uppercase tracking-[0.2em] ${scrolled ? "text-[#0f172a]/40" : "text-white/70"}`}>
             {["Services", "Réalisations", "Tarifs", "Zone intervention", "Contact"].map(l => (
               <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="hover:text-[var(--brand)] transition-colors">{l}</Link>
             ))}
           </div>
           <div className="flex items-center gap-3">
-            <a href={`tel:${fd?.phone ?? "0478987654"}`} className="hidden md:flex items-center gap-2 text-[var(--brand)] font-bold text-sm">
+            <a href={`tel:${fd?.phone ?? "0478987654"}`} className={`hidden md:flex items-center gap-2 font-bold text-sm ${scrolled ? "text-[var(--brand)]" : "text-white"}`}>
               <Phone className="w-4 h-4" /> {fd?.phone ?? "04 78 98 76 54"}
             </a>
             <button className="hidden md:block px-5 py-2.5 bg-[var(--brand)] text-white text-[10px] font-bold uppercase tracking-[0.2em] rounded hover:bg-[#0284c7] transition-colors">
               Devis Gratuit
             </button>
             <Sheet>
-              <SheetTrigger className="lg:hidden"><Menu className="w-5 h-5 text-[#0f172a]" /></SheetTrigger>
+              <SheetTrigger className="lg:hidden"><Menu className={`w-5 h-5 ${scrolled ? "text-[#0f172a]" : "text-white"}`} /></SheetTrigger>
               <SheetContent side="right" className="bg-white border-slate-100 p-10">
                 <div className="flex flex-col gap-7 mt-16">
                   {["Services", "Réalisations", "Contact"].map(l => (
-                    <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="text-3xl font-bold text-[#0f172a] hover:text-[var(--brand)] transition-colors">{l}</Link>
+                    <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className={`text-3xl font-bold ${scrolled ? "text-[#0f172a]" : "text-white"} hover:text-[var(--brand)] transition-colors`}>{l}</Link>
                   ))}
                   <a href={`tel:${fd?.phone ?? "0478987654"}`} className="flex items-center gap-3 text-[var(--brand)] font-bold text-xl mt-4">
                     <Phone className="w-5 h-5" /> {fd?.phone ?? "04 78 98 76 54"}

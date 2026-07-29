@@ -215,6 +215,22 @@ const srgb = (c) => { c /= 255; return c <= 0.03928 ? c / 12.92 : Math.pow((c + 
 const lum = ([r, g, b]) => 0.2126 * srgb(r) + 0.7152 * srgb(g) + 0.0722 * srgb(b);
 const parseRGB = (c) => (c.match(/[\d.]+/g) || []).slice(0, 3).map(Number);
 
+/** Any CSS colour -> [r,g,b], via a 1x1 canvas so oklab/oklch/hsl all work. */
+const toRGB = async (page, colors) => page.evaluate((cols) => {
+  const cv = document.createElement("canvas");
+  cv.width = cv.height = 1;
+  const ctx = cv.getContext("2d", { willReadFrequently: true });
+  return cols.map((c) => {
+    ctx.clearRect(0, 0, 1, 1);
+    ctx.fillStyle = "#000";
+    ctx.fillStyle = c;
+    ctx.fillRect(0, 0, 1, 1);
+    const d = ctx.getImageData(0, 0, 1, 1).data;
+    return [d[0], d[1], d[2]];
+  });
+}, colors);
+
+
 /**
  * The background a glyph sits on is the *light* part of its box when the text
  * is dark, and the *dark* part when the text is light — averaging the whole box
@@ -269,8 +285,10 @@ for (const route of ROUTE_LIST) {
       if (cands.length) {
         const buf = await page.screenshot();
         const img = sharp(buf);
-        for (const c of cands) {
-          const fg = parseRGB(c.color);
+        const fgs = await toRGB(page, cands.map((c) => c.color));
+        for (let ci = 0; ci < cands.length; ci++) {
+          const c = cands[ci];
+          const fg = fgs[ci];
           if (fg.length < 3 || c.box.w < 4 || c.box.h < 4) continue;
           const textIsLight = lum(fg) > 0.5;
           let bg;
