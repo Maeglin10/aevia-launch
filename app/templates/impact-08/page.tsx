@@ -625,7 +625,7 @@ return (
             </section>
 
             {/* 5. THE ATELIER (EDITORIAL LAYOUT) */}
-            <section className="py-48 px-8 md:px-24">
+            <section id="atelier" className="py-48 px-8 md:px-24">
                <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-24 items-center">
                   <div className="lg:col-span-5">
                      <Reveal>

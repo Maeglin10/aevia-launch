@@ -315,7 +315,7 @@ export default function CabinetRenardPage() {
       </section>
 
       {/* Engagements */}
-      <section style={{ padding: "100px 80px", background: C.bgSection }}>
+      <section id="honoraires" style={{ padding: "100px 80px", background: C.bgSection }}>
         <div className="imx-mobstack" style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "center" }}>
           <Reveal>
             <img src={photo(1, "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?w=800&q=80")} alt="Cabinet juridique Paris" style={{ width: "100%", borderRadius: 4, aspectRatio: "4/3", objectFit: "cover" }} />

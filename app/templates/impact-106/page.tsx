@@ -293,7 +293,7 @@ export default function StudioVersaPage() {
         </section>
 
         {/* ── TEAM ──────────────────── */}
-        <section className="py-32 bg-[#faf5f0]">
+        <section id="work" className="py-32 bg-[#faf5f0]">
           <div className="max-w-[1600px] mx-auto px-6 md:px-12">
             <Reveal>
               <div className="mb-20">

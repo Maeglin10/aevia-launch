@@ -515,7 +515,7 @@ export default function Impact325SeminarHub({ session: initialSession }) {
       </AnimatePresence>
 
       {/* HERO SECTION */}
-      <section style={{
+      <section id="corporate" style={{
         position: "relative",
         minHeight: "100vh",
         display: "flex",

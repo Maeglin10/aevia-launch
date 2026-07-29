@@ -252,7 +252,7 @@ export default function MaxPerformancePage() {
       </section>
 
       {/* ── PROGRAMMES ── */}
-      <section className="py-28 bg-[#0a0a0a]">
+      <section id="programmes" className="py-28 bg-[#0a0a0a]">
         <div className="max-w-[1300px] mx-auto px-6 md:px-12">
           <Reveal>
             <div className="mb-16">

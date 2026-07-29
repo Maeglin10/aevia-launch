@@ -1200,7 +1200,7 @@ function GearScrollSection() {
   const x = useTransform(scrollYProgress, [0.05, 0.85], ["10%", "-55%"])
 
   return (
-    <section
+    <section id="gear"
       style={{
         background: C.bg,
         padding:    "140px 0",

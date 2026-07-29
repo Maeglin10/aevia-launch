@@ -825,7 +825,7 @@ export default function AtelierPerformanceTemplate() {
         </section>
 
         {/* GALLERY / REALIZATIONS */}
-        <section style={{ padding: '8rem 2rem', backgroundColor: C.bg }}>
+        <section id="réalisations" style={{ padding: '8rem 2rem', backgroundColor: C.bg }}>
           <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '4rem', flexWrap: 'wrap', gap: '2rem' }}>
               <div style={{ maxWidth: '600px' }}>

@@ -361,7 +361,7 @@ export default function DrFontainePage() {
       </section>
 
       {/* ── SOINS ── */}
-      <section className="py-28 bg-white">
+      <section id="soins" className="py-28 bg-white">
         <div className="max-w-[1300px] mx-auto px-6 md:px-12">
           <Reveal>
             <div className="mb-16">

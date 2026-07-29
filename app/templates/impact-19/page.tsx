@@ -306,7 +306,7 @@ return (
             </section>
 
             {/* Investment theses Preview */}
-            <section className="py-24 px-6 bg-[#0F0F11]">
+            <section id="theses" className="py-24 px-6 bg-[#0F0F11]">
               <div className="max-w-6xl mx-auto">
                 <Reveal>
                   <div className="flex flex-col md:flex-row md:items-end justify-between mb-12">

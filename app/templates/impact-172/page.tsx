@@ -480,7 +480,7 @@ export default function LegrandPage() {
       </section>
 
       {/* Publications */}
-      <section className="py-24 bg-[#F9F6F0]">
+      <section id="publications" className="py-24 bg-[#F9F6F0]">
         <div className="max-w-7xl mx-auto px-6 md:px-12">
           <Reveal>
             <p className="text-xs tracking-[0.25em] uppercase text-[var(--brand,#C9A855)] mb-4">Actualités & Publications</p>
