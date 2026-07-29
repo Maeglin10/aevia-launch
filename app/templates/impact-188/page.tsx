@@ -26,6 +26,32 @@ function Reveal({ children, delay = 0, y = 20 }: { children: React.ReactNode; de
   )
 }
 
+// Explicit label -> anchor. The generated slug produced "#l'equipe" and
+// "#noustrouver", neither of which existed on the page.
+const NAV = [
+  { l: "Soins", h: "#soins" },
+  { l: "L'équipe", h: "#equipe" },
+  { l: "Urgences", h: "#urgences" },
+  { l: "Tarifs", h: "#tarifs" },
+  { l: "Nous trouver", h: "#nous-trouver" },
+];
+
+const EQUIPE = [
+  { n: "Dr. Camille Ferrand", r: "Vétérinaire · Médecine interne", d: "Diplômée de l'ENVT en 2004. Suit les maladies chroniques : rein, thyroïde, diabète félin." },
+  { n: "Dr. Yann Delorme", r: "Vétérinaire · Chirurgie", d: "Orthopédie et tissus mous. Opère sur place, du lundi au vendredi, avec suivi post-op à la clinique." },
+  { n: "Dr. Salomé Kaci", r: "Vétérinaire · NAC & félins", d: "Lapins, rongeurs, oiseaux. Consultation féline en salle séparée, sans chiens dans la même attente." },
+  { n: "Marion Vasseur", r: "Auxiliaire spécialisée", d: "Accueil, soins infirmiers, hospitalisation. C'est elle qui vous rappelle après une intervention." },
+];
+
+const TARIFS = [
+  { a: "Consultation généraliste", p: "42 €", n: "Chien, chat, NAC. 25 minutes." },
+  { a: "Consultation d'urgence", p: "78 €", n: "Sans rendez-vous, 7j/7 (majoration nuit : +35 €)." },
+  { a: "Vaccination annuelle", p: "à partir de 58 €", n: "Consultation incluse. Rappel envoyé par SMS." },
+  { a: "Stérilisation chatte", p: "155 €", n: "Anesthésie, chirurgie, analgésie et retrait des points." },
+  { a: "Détartrage", p: "à partir de 190 €", n: "Sous anesthésie, bilan sanguin préalable inclus." },
+  { a: "Bilan sanguin complet", p: "89 €", n: "Résultats sous 20 minutes, analyseur sur place." },
+];
+
 const SOINS_DEMO = [
   { icon: Stethoscope, title: "Consultations & bilans", desc: "Consultations de routine, bilans de santé annuels, suivi des maladies chroniques. Écoute, examen clinique approfondi, diagnostic précis." },
   { icon: Shield, title: "Vaccinations & prévention", desc: "Protocoles vaccinaux chats et chiens selon les recommandations WSAVA. Antiparasitaires, rappels, carnets de santé à jour." },
@@ -139,8 +165,8 @@ export default function CliniqueBoisVertPage() {
             )}
           </div>
           <div className="hidden lg:flex gap-9 text-[10px] font-bold uppercase tracking-[0.2em] text-[#2d2318]/30">
-            {["Soins", "L'équipe", "Urgences", "Tarifs", "Nous trouver"].map(l => (
-              <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="hover:text-[var(--brand,#3a7d44)] transition-colors">{l}</Link>
+            {NAV.map(({ l, h }) => (
+              <Link key={l} href={h} className="hover:text-[var(--brand,#3a7d44)] transition-colors">{l}</Link>
             ))}
           </div>
           <div className="flex items-center gap-3">
@@ -154,7 +180,7 @@ export default function CliniqueBoisVertPage() {
               <SheetTrigger className="lg:hidden"><Menu className="w-5 h-5" /></SheetTrigger>
               <SheetContent side="right" className="bg-[#fdfaf6] border-slate-100 p-10">
                 <div className="flex flex-col gap-7 mt-16">
-                  {["Soins", "L'équipe", "Urgences"].map(l => <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="text-3xl font-bold text-[#2d2318] hover:text-[var(--brand,#3a7d44)] transition-colors" style={{ fontFamily: "'Lora', serif" }}>{l}</Link>)}
+                  {NAV.map(({ l, h }) => <Link key={l} href={h} className="text-3xl font-bold text-[#2d2318] hover:text-[var(--brand,#3a7d44)] transition-colors" style={{ fontFamily: "'Lora', serif" }}>{l}</Link>)}
                   <a href={`tel:${fd?.phone ?? "0561789012"}`} className="flex items-center gap-3 text-[var(--brand,#3a7d44)] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> {fd?.phone ?? "05 61 78 90 12"}</a>
                 </div>
               </SheetContent>
@@ -274,7 +300,7 @@ export default function CliniqueBoisVertPage() {
       </section>
 
       {/* ── TÉMOIGNAGES ── */}
-      <section id="services" className="py-28 bg-white">
+      <section id="avis" className="py-28 bg-white">
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-14 text-center">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#3a7d44)] mb-4">Ils nous font confiance</div>
@@ -295,6 +321,130 @@ export default function CliniqueBoisVertPage() {
                 </div>
               </Reveal>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── ÉQUIPE ── */}
+      <section id="equipe" className="py-28 bg-[#fdfaf6]">
+        <div className="max-w-[1200px] mx-auto px-6 md:px-12">
+          <Reveal><div className="mb-14 text-center">
+            <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#3a7d44)] mb-4">L'équipe</div>
+            <h2 className="text-4xl font-bold text-[#2d2318]" style={{ fontFamily: "'Lora', serif" }}>Ceux qui <span className="text-[var(--brand,#3a7d44)]">vous reçoivent.</span></h2>
+          </div></Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            {EQUIPE.map((m, i) => (
+              <Reveal key={m.n} delay={i * 0.08}>
+                <div className="p-8 rounded-2xl bg-white border border-[#e8f5eb] h-full">
+                  <div className="font-bold text-[#2d2318] text-lg mb-1" style={{ fontFamily: "'Lora', serif" }}>{m.n}</div>
+                  <div className="text-[10px] font-bold uppercase tracking-[0.24em] text-[var(--brand,#3a7d44)] mb-4">{m.r}</div>
+                  <p className="text-sm text-[#2d2318]/45 leading-relaxed">{m.d}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── URGENCES ── */}
+      <section id="urgences" className="py-28 bg-[#1a2a1c] text-white">
+        <div className="max-w-[1100px] mx-auto px-6 md:px-12">
+          <Reveal><div className="mb-12">
+            <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#3a7d44)] mb-4">Urgences</div>
+            <h2 className="text-4xl font-bold" style={{ fontFamily: "'Lora', serif" }}>Un souci <span className="text-[var(--brand,#3a7d44)]">maintenant ?</span></h2>
+          </div></Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-10">
+            {[
+              { t: "Appelez d'abord", d: "On vous dit en deux minutes si c'est une urgence vraie et si vous devez partir tout de suite." },
+              { t: "7j/7, jour et nuit", d: "Un vétérinaire de garde répond en dehors des heures d'ouverture. Ligne directe, pas de répondeur." },
+              { t: "Ce qui compte", d: "Convulsions, difficulté à respirer, ventre dur, ingestion de toxique, incapacité à uriner : venez sans attendre." },
+            ].map((c, i) => (
+              <Reveal key={c.t} delay={i * 0.08}>
+                <div className="p-8 rounded-2xl bg-white/5 border border-white/10 h-full">
+                  <div className="font-bold mb-3 flex items-center gap-2" style={{ fontFamily: "'Lora', serif" }}>
+                    <Shield className="w-4 h-4 text-[var(--brand,#3a7d44)]" />{c.t}
+                  </div>
+                  <p className="text-sm text-white/45 leading-relaxed">{c.d}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+          <Reveal>
+            <a href={`tel:${fd?.phone ?? "0561789012"}`} className="inline-flex items-center gap-3 px-9 py-4 bg-[var(--brand,#3a7d44)] text-white font-bold text-[10px] uppercase tracking-[0.25em] rounded-xl hover:opacity-90 transition-opacity">
+              <Phone className="w-4 h-4" /> Ligne d'urgence · {fd?.phone ?? "05 61 78 90 12"}
+            </a>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ── TARIFS ── */}
+      <section id="tarifs" className="py-28 bg-white">
+        <div className="max-w-[1000px] mx-auto px-6 md:px-12">
+          <Reveal><div className="mb-14 text-center">
+            <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#3a7d44)] mb-4">Tarifs</div>
+            <h2 className="text-4xl font-bold text-[#2d2318]" style={{ fontFamily: "'Lora', serif" }}>Les prix, <span className="text-[var(--brand,#3a7d44)]">annoncés.</span></h2>
+          </div></Reveal>
+          <div className="rounded-2xl border border-[#e8f5eb] overflow-hidden">
+            {TARIFS.map((t, i) => (
+              <Reveal key={t.a} delay={i * 0.05}>
+                <div className={`flex flex-wrap items-baseline justify-between gap-3 px-7 py-5 ${i % 2 ? "bg-[#fdfaf6]" : "bg-white"}`}>
+                  <div className="min-w-0">
+                    <div className="font-bold text-[#2d2318] text-sm" style={{ fontFamily: "'Lora', serif" }}>{t.a}</div>
+                    <div className="text-xs text-[#2d2318]/40 mt-0.5">{t.n}</div>
+                  </div>
+                  <div className="font-bold text-[var(--brand,#3a7d44)] text-sm shrink-0">{t.p}</div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+          <Reveal>
+            <p className="text-xs text-[#2d2318]/35 mt-6 text-center leading-relaxed">
+              Un devis écrit vous est remis avant toute intervention chirurgicale. Facilités de paiement possibles, à demander à l'accueil.
+            </p>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ── NOUS TROUVER ── */}
+      <section id="nous-trouver" className="py-28 bg-[#e8f5eb]">
+        <div className="max-w-[1100px] mx-auto px-6 md:px-12">
+          <Reveal><div className="mb-14 text-center">
+            <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#3a7d44)] mb-4">Nous trouver</div>
+            <h2 className="text-4xl font-bold text-[#2d2318]" style={{ fontFamily: "'Lora', serif" }}>Où et <span className="text-[var(--brand,#3a7d44)]">quand.</span></h2>
+          </div></Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <Reveal>
+              <div className="p-8 rounded-2xl bg-white h-full">
+                <div className="font-bold text-[#2d2318] mb-4 flex items-center gap-2" style={{ fontFamily: "'Lora', serif" }}>
+                  <MapPin className="w-4 h-4 text-[var(--brand,#3a7d44)]" />Adresse
+                </div>
+                <p className="text-sm text-[#2d2318]/45 leading-relaxed">
+                  {fd?.address ?? "12 allée des Pins, 31400 Toulouse"}<br />
+                  Métro Faculté de Pharmacie (ligne B), 6 minutes à pied.<br />
+                  Parking gratuit devant la clinique, 6 places.<br />
+                  Entrée de plain-pied, accessible aux fauteuils.
+                </p>
+              </div>
+            </Reveal>
+            <Reveal delay={0.08}>
+              <div className="p-8 rounded-2xl bg-white h-full">
+                <div className="font-bold text-[#2d2318] mb-4 flex items-center gap-2" style={{ fontFamily: "'Lora', serif" }}>
+                  <Clock className="w-4 h-4 text-[var(--brand,#3a7d44)]" />Horaires
+                </div>
+                <div className="text-sm text-[#2d2318]/45 leading-relaxed space-y-1">
+                  {[
+                    ["Lundi — vendredi", "8h30 — 19h30"],
+                    ["Samedi", "9h — 17h"],
+                    ["Dimanche", "Urgences uniquement"],
+                    ["Jours fériés", "Urgences uniquement"],
+                  ].map(([d, h]) => (
+                    <div key={d} className="flex justify-between gap-4">
+                      <span>{d}</span><span className="text-[#2d2318]/70 font-medium">{h}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </Reveal>
           </div>
         </div>
       </section>
@@ -331,17 +481,36 @@ export default function CliniqueBoisVertPage() {
             <p className="text-white/20 text-sm leading-relaxed">Vétérinaire à Toulouse. Consultations, chirurgie, urgences 7j/7. Chats, chiens, NAC.</p>
           </div>
           {[
-            { t: "Soins", ls: ["Consultations & bilans", "Vaccinations", "Chirurgie", "Toilettage", "Urgences", "Imagerie & analyses"] },
-            { t: "Cabinet", ls: ["L'équipe", "Nos équipements", "Tarifs", "Avis clients", "Accès & parkings"] },
-            { t: "Infos", ls: ["12 allée des Pins", "31400 Toulouse", "Lun-Sam 8h-20h", "Dim 9h-18h", "05 61 78 90 12"] },
+            { t: "Soins", ls: [
+              { l: "Consultations & bilans", h: "#soins" }, { l: "Vaccinations", h: "#soins" },
+              { l: "Chirurgie", h: "#soins" }, { l: "Toilettage", h: "#soins" },
+              { l: "Urgences", h: "#urgences" }, { l: "Imagerie & analyses", h: "#soins" },
+            ] },
+            { t: "Cabinet", ls: [
+              { l: "L'équipe", h: "#equipe" }, { l: "Nos équipements", h: "#soins" },
+              { l: "Tarifs", h: "#tarifs" }, { l: "Avis clients", h: "#avis" },
+              { l: "Accès & parkings", h: "#nous-trouver" },
+            ] },
           ].map((col, i) => (
             <div key={i}>
               <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#3a7d44)]/60 mb-5">{col.t}</h4>
               <ul className="space-y-2.5">
-                {col.ls.map(l => <li key={l}><Link href={col.t === "Soins" ? "#services" : "#contact"} className="text-white/20 text-sm hover:text-white transition-colors">{l}</Link></li>)}
+                {col.ls.map(({ l, h }) => <li key={l}><Link href={h} className="text-white/20 text-sm hover:text-white transition-colors">{l}</Link></li>)}
               </ul>
             </div>
           ))}
+          {/* Infos was a list of links: the address scrolled to the contact block
+              and the phone number did not dial. Address is text, phone dials. */}
+          <div>
+            <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#3a7d44)]/60 mb-5">Infos</h4>
+            <address className="not-italic text-white/20 text-sm leading-relaxed space-y-2.5">
+              <div>12 allée des Pins<br />31400 Toulouse</div>
+              <div>Lun — Sam 8h30 — 19h30<br />Dim : urgences</div>
+              <a href={`tel:${fd?.phone ?? "0561789012"}`} className="inline-flex items-center gap-2 hover:text-white transition-colors">
+                <Phone className="w-3.5 h-3.5" />{fd?.phone ?? "05 61 78 90 12"}
+              </a>
+            </address>
+          </div>
         </div>
         <div className="max-w-[1300px] mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between gap-3 text-[10px] font-bold uppercase tracking-widest text-white/10">
           <span>© 2026 Clinique du Bois Vert · SIRET 012 345 678 00090 · Ordre National des Vétérinaires</span>

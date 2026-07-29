@@ -48,6 +48,23 @@ const SERVICES_DEMO = [
   { icon: ShieldCheck, title: "Réparation fissurations", desc: "Diagnostic des fissures, injection de résines, armatures, reprise en sous-œuvre. Rapport d'expertise fourni." },
 ]
 
+// "Matériaux" and "Zone" were in the nav with nothing behind them.
+const MATERIAUX = [
+  { nom: "Béton armé C35/45", usage: "Fondations, dalles, murs porteurs", note: "Livré par centrale locale, contrôle de résistance à 28 jours sur chaque coulée." },
+  { nom: "Ossature bois douglas", usage: "Charpente, extensions, surélévations", note: "Classe 3 naturelle, sans traitement chimique. Séché en séchoir avant taille." },
+  { nom: "Pierre de Bourgogne", usage: "Parements, seuils, dallages", note: "Extraite à moins de 200 km. Chaque banc est choisi sur carrière, pas sur catalogue." },
+  { nom: "Isolation fibre de bois", usage: "Murs, toiture, planchers", note: "Déphasage 12 h contre 4 h pour la laine minérale. Confort d'été sans climatisation." },
+];
+
+const ZONES = [
+  { ville: "Nantes", detail: "Agglomération et première couronne" },
+  { ville: "Saint-Nazaire", detail: "Chantiers neufs et extensions" },
+  { ville: "Vannes · Redon", detail: "Sur étude, déplacement au devis" },
+  { ville: "Cholet · Ancenis", detail: "Gros œuvre uniquement" },
+  { ville: "La Baule", detail: "Rénovation lourde et surélévation" },
+  { ville: "Angers", detail: "Nous consulter selon la période" },
+];
+
 const REALISATIONS_DEMO = [
   { title: "Extension 45 m² · Villa provençale", tag: "Extension gros œuvre", img: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&q=80&w=1200" },
   { title: "Ravalement ITE · Immeuble R+4", tag: "Isolation thermique extérieure", img: "https://images.unsplash.com/photo-1581244277943-fe4a9c777189?auto=format&fit=crop&q=80&w=1200" },
@@ -262,7 +279,7 @@ export default function BatirSolidePage() {
       </section>
 
       {/* ── SERVICES ── */}
-      <section id="services" className="py-28 bg-[#faf7f2]">
+      <section id="savoir-faire" className="py-28 bg-[#faf7f2]">
         <div className="max-w-[1300px] mx-auto px-6 md:px-12">
           <Reveal>
             <div className="mb-16">
@@ -287,7 +304,7 @@ export default function BatirSolidePage() {
       </section>
 
       {/* ── RÉALISATIONS ── */}
-      <section className="py-28 bg-[#1a1008]">
+      <section id="chantiers" className="py-28 bg-[#1a1008]">
         <div className="max-w-[1400px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-16">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#d4a96a)] mb-4">Portfolio chantiers</div>
@@ -311,7 +328,54 @@ export default function BatirSolidePage() {
       </section>
 
       {/* ── TÉMOIGNAGES ── */}
-      <section id="about" className="py-28 bg-[#faf7f2]">
+      {/* ── MATÉRIAUX ── */}
+      <section id="materiaux" className="py-28 bg-[#faf7f2]">
+        <div className="max-w-[1300px] mx-auto px-6 md:px-12">
+          <Reveal>
+            <div className="mb-16">
+              <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#5c3317] mb-4">Matériaux</div>
+              <h2 className="text-4xl md:text-6xl font-black uppercase text-[#1a1008]">Ce qu'on <span className="text-[#5c3317]">met dedans.</span></h2>
+            </div>
+          </Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-[#1a1008]/10 border border-[#1a1008]/10">
+            {MATERIAUX.map((m, i) => (
+              <Reveal key={m.nom} delay={i * 0.07}>
+                <div className="bg-[#faf7f2] p-8 h-full">
+                  <h3 className="text-xl font-black uppercase text-[#1a1008] mb-2">{m.nom}</h3>
+                  <div className="text-[10px] font-bold uppercase tracking-[0.24em] text-[#5c3317] mb-4">{m.usage}</div>
+                  <p className="text-sm text-[#1a1008]/55 leading-relaxed">{m.note}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── ZONE ── */}
+      <section id="zone" className="py-28 bg-[#1a1008] text-white">
+        <div className="max-w-[1300px] mx-auto px-6 md:px-12">
+          <Reveal>
+            <div className="mb-16">
+              <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#d4a96a)] mb-4">Zone d'intervention</div>
+              <h2 className="text-4xl md:text-6xl font-black uppercase">Où l'on <span className="text-[var(--brand,#d4a96a)]">se déplace.</span></h2>
+            </div>
+          </Reveal>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-white/10 border border-white/10">
+            {ZONES.map((z, i) => (
+              <Reveal key={z.ville} delay={i * 0.05}>
+                <div className="bg-[#1a1008] p-7 h-full">
+                  <div className="font-black uppercase mb-2 flex items-center gap-2">
+                    <MapPin className="w-4 h-4 text-[var(--brand,#d4a96a)]" />{z.ville}
+                  </div>
+                  <p className="text-sm text-white/45">{z.detail}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="avis" className="py-28 bg-[#faf7f2]">
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-16 text-center">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#5c3317] mb-4">Avis clients</div>
@@ -337,7 +401,7 @@ export default function BatirSolidePage() {
       </section>
 
       {/* ── CTA ── */}
-      <section id="realisations" className="py-32 bg-[#2d1f0e] text-center">
+      <section id="contact" className="py-32 bg-[#2d1f0e] text-center">
         <Reveal>
           <div className="max-w-xl mx-auto px-6">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#d4a96a)] mb-6">Votre projet</div>

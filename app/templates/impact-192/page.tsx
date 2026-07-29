@@ -29,6 +29,32 @@ function Reveal({ children, delay = 0, y = 20 }: { children: React.ReactNode; de
 // Demo content — real data (businessProfile) replaces this wholesale via
 // resolveList when the client provided it; each field access below falls
 // back with `??` so the same JSX renders either shape.
+const NAV = [
+  { l: "Services", h: "#services" },
+  { l: "Urgences", h: "#urgences" },
+  { l: "Tarifs", h: "#tarifs" },
+  { l: "Zone", h: "#zone" },
+  { l: "Contact", h: "#contact" },
+];
+
+const TARIFS = [
+  { a: "Ouverture de porte claquée", p: "89 €", n: "Jour ouvré, 8h — 20h. Sans dégât dans 9 cas sur 10." },
+  { a: "Ouverture de porte fermée à clé", p: "à partir de 149 €", n: "Selon la serrure. Le prix vous est donné sur place, avant de commencer." },
+  { a: "Majoration nuit / dimanche / férié", p: "+ 60 €", n: "20h — 8h. Annoncée au téléphone, jamais découverte sur la facture." },
+  { a: "Changement de cylindre", p: "à partir de 120 €", n: "Pose comprise, cylindre européen 5 clés. Marques A2P sur devis." },
+  { a: "Serrure multipoints", p: "sur devis", n: "Devis écrit gratuit, déplacement compris." },
+  { a: "Déplacement sans intervention", p: "45 €", n: "Si vous renoncez après notre arrivée. Rien de plus." },
+];
+
+const ZONES = [
+  { v: "Strasbourg", d: "Centre, Neudorf, Krutenau, Robertsau — 20 min" },
+  { v: "Schiltigheim · Bischheim", d: "25 min en moyenne" },
+  { v: "Illkirch · Ostwald", d: "25 min en moyenne" },
+  { v: "Haguenau · Saverne", d: "45 min, majoration déplacement 25 €" },
+  { v: "Sélestat · Obernai", d: "45 min, majoration déplacement 25 €" },
+  { v: "Reste du Bas-Rhin", d: "Sur appel, délai annoncé avant de partir" },
+];
+
 const SERVICES_DEMO = [
   { icon: AlertTriangle, title: "Urgence & dépannage 24h/24", desc: "Porte claquée, serrure bloquée, intrusion. Intervention sous 30 min sur Strasbourg. Astreinte 7j/7 nuits et jours fériés inclus." },
   { icon: Lock, title: "Changement & installation serrure", desc: "Pose serrure 3 points, blindée, connectée. Toutes marques : Vachette, Fichet, Mul-T-Lock, Abus. Devis transparent avant travaux." },
@@ -127,8 +153,8 @@ export default function SecurFastPage() {
             )}
           </div>
           <div className="hidden lg:flex gap-9 text-[10px] font-bold uppercase tracking-[0.22em] text-[#f0f4ff]/25">
-            {["Services", "Urgences", "Tarifs", "Zone", "Contact"].map(l => (
-              <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="hover:text-[var(--brand,#2563eb)] transition-colors">{l}</Link>
+            {NAV.map(({ l, h }) => (
+              <Link key={l} href={h} className="hover:text-[var(--brand,#2563eb)] transition-colors">{l}</Link>
             ))}
           </div>
           <div className="flex items-center gap-3">
@@ -142,7 +168,7 @@ export default function SecurFastPage() {
               <SheetTrigger className="lg:hidden"><Menu className="w-5 h-5 text-[#f0f4ff]" /></SheetTrigger>
               <SheetContent side="right" className="bg-[#111d30] border-[var(--brand,#2563eb)]/10 p-10">
                 <div className="flex flex-col gap-7 mt-16">
-                  {["Services", "Urgences", "Contact"].map(l => <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="text-3xl font-bold text-[#f0f4ff] hover:text-[var(--brand,#2563eb)] transition-colors">{l}</Link>)}
+                  {NAV.map(({ l, h }) => <Link key={l} href={h} className="text-3xl font-bold text-[#f0f4ff] hover:text-[var(--brand,#2563eb)] transition-colors">{l}</Link>)}
                   <a href={`tel:${fd?.phone ?? "0388234567"}`} className="flex items-center gap-3 text-[var(--brand,#2563eb)] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> {fd?.phone ?? "03 88 23 45 67"}</a>
                 </div>
               </SheetContent>
@@ -225,7 +251,7 @@ export default function SecurFastPage() {
       </section>
 
       {/* ── SERVICES ── */}
-      <section className="py-28 bg-[#0d1524]">
+      <section id="services" className="py-28 bg-[#0d1524]">
         <div className="max-w-[1300px] mx-auto px-6 md:px-12">
           <Reveal>
             <div className="mb-16">
@@ -251,8 +277,84 @@ export default function SecurFastPage() {
         </div>
       </section>
 
+      {/* ── URGENCES ── */}
+      <section id="urgences" className="py-28 bg-[#111d30]">
+        <div className="max-w-[1200px] mx-auto px-6 md:px-12">
+          <Reveal><div className="mb-14">
+            <div className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#2563eb)]/55 mb-4">— Urgences</div>
+            <h2 className="text-4xl md:text-5xl font-bold text-[#f0f4ff]">Dehors, <span className="text-[var(--brand,#2563eb)]">à 2 h du matin.</span></h2>
+          </div></Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10">
+            {[
+              { t: "Appelez, ne forcez pas", d: "Une porte forcée coûte le double : cylindre, garniture, parfois le bloc. Deux minutes au téléphone évitent ça." },
+              { t: "30 minutes sur Strasbourg", d: "Un serrurier de garde, pas un centre d'appel. Vous savez qui vient et en combien de temps avant de raccrocher." },
+              { t: "Le prix avant l'outil", d: "Le montant est annoncé sur place, à la porte, avant la première manipulation. Vous pouvez dire non." },
+            ].map((c, i) => (
+              <Reveal key={c.t} delay={i * 0.08}>
+                <div className="p-8 border border-[#f0f4ff]/5 h-full">
+                  <div className="font-bold text-[#f0f4ff] mb-3 flex items-center gap-2">
+                    <AlertTriangle className="w-4 h-4 text-[var(--brand,#2563eb)]" />{c.t}
+                  </div>
+                  <p className="text-sm text-[#f0f4ff]/35 leading-relaxed">{c.d}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+          <Reveal>
+            <a href={`tel:${fd?.phone ?? "0388234567"}`} className="inline-flex items-center gap-3 px-9 py-4 bg-[var(--brand,#2563eb)] text-white font-bold text-[10px] uppercase tracking-[0.25em] hover:opacity-90 transition-opacity">
+              <Phone className="w-4 h-4" /> Ligne d'urgence · {fd?.phone ?? "03 88 23 45 67"}
+            </a>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ── TARIFS ── */}
+      <section id="tarifs" className="py-28 bg-[#0d1524]">
+        <div className="max-w-[1000px] mx-auto px-6 md:px-12">
+          <Reveal><div className="mb-14">
+            <div className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#2563eb)]/55 mb-4">— Tarifs</div>
+            <h2 className="text-4xl md:text-5xl font-bold text-[#f0f4ff]">Écrits <span className="text-[var(--brand,#2563eb)]">noir sur blanc.</span></h2>
+          </div></Reveal>
+          <div className="border border-[#f0f4ff]/8">
+            {TARIFS.map((t, i) => (
+              <Reveal key={t.a} delay={i * 0.05}>
+                <div className={`flex flex-wrap items-baseline justify-between gap-3 px-7 py-5 ${i ? "border-t border-[#f0f4ff]/8" : ""}`}>
+                  <div className="min-w-0">
+                    <div className="font-bold text-[#f0f4ff] text-sm">{t.a}</div>
+                    <div className="text-xs text-[#f0f4ff]/30 mt-0.5">{t.n}</div>
+                  </div>
+                  <div className="font-bold text-[var(--brand,#2563eb)] text-sm shrink-0">{t.p}</div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── ZONE ── */}
+      <section id="zone" className="py-28 bg-[#111d30]">
+        <div className="max-w-[1200px] mx-auto px-6 md:px-12">
+          <Reveal><div className="mb-14">
+            <div className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#2563eb)]/55 mb-4">— Zone d'intervention</div>
+            <h2 className="text-4xl md:text-5xl font-bold text-[#f0f4ff]">Où l'on <span className="text-[var(--brand,#2563eb)]">arrive vite.</span></h2>
+          </div></Reveal>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {ZONES.map((z, i) => (
+              <Reveal key={z.v} delay={i * 0.05}>
+                <div className="p-7 border border-[#f0f4ff]/5 h-full">
+                  <div className="font-bold text-[#f0f4ff] mb-2 flex items-center gap-2">
+                    <MapPin className="w-4 h-4 text-[var(--brand,#2563eb)]" />{z.v}
+                  </div>
+                  <p className="text-sm text-[#f0f4ff]/35">{z.d}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ── TÉMOIGNAGES ── */}
-      <section id="services" className="py-24 bg-[#111d30]">
+      <section id="avis" className="py-24 bg-[#111d30]">
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-14">
             <div className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#2563eb)]/50 mb-4">— Avis clients</div>
@@ -280,7 +382,7 @@ export default function SecurFastPage() {
       </section>
 
       {/* ── CTA ── */}
-      <section id="tarifs" className="py-24 bg-[var(--brand,#2563eb)] text-center">
+      <section id="contact" className="py-24 bg-[var(--brand,#2563eb)] text-center">
         <Reveal>
           <div className="max-w-xl mx-auto px-6">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/40 mb-5">Urgence · 24h/24 · 7j/7</div>
@@ -299,7 +401,7 @@ export default function SecurFastPage() {
       </section>
 
       {/* ── FOOTER ── */}
-      <footer id="contact" className="bg-[#070d18] pt-16 pb-8 px-6 border-t border-[var(--brand,#2563eb)]/8">
+      <footer className="bg-[#070d18] pt-16 pb-8 px-6 border-t border-[var(--brand,#2563eb)]/8">
         <div className="max-w-[1300px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           <div>
             <div className="flex items-center gap-2.5 mb-5"><Lock className="w-4 h-4 text-[var(--brand,#2563eb)]" /><span className="font-bold text-[#f0f4ff] text-sm">SÉC'URFAST</span></div>
