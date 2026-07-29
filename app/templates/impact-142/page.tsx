@@ -212,7 +212,7 @@ export default function VerdantImpactPage() {
 
       <main>
         {/* ── HERO ────────── */}
-        <section id="hero" className="relative h-[100dvh] min-h-[800px] flex items-end overflow-hidden">
+        <section id="hero" className="relative h-[100dvh] min-h-[640px] flex items-end overflow-hidden">
           <motion.div style={{ y: heroY }} className="absolute inset-0">
             <Image src={photo(0, "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&q=80&w=2400")} alt="Forest" fill className="object-cover" priority />
             <div className="absolute inset-0 bg-gradient-to-t from-[#f6faf4] via-[#f6faf4]/20 to-transparent" />

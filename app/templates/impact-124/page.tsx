@@ -263,7 +263,7 @@ export default function MorphStudioPage() {
 
       <main className="relative z-10">
         {/* ─── HERO ──────────────────────────────────────────────────────── */}
-        <section id="hero" className="relative h-dvh min-h-[800px] flex items-center pt-20">
+        <section id="hero" className="relative h-dvh min-h-[640px] flex items-center pt-20">
           <div className="max-w-[1600px] mx-auto px-6 md:px-12 w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             
             <div className="relative z-10">

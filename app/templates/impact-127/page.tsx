@@ -211,7 +211,7 @@ export default function PulseEventsPage() {
 
       <main>
         {/* ── HERO ─────────────────────── */}
-        <section id="hero" className="relative h-[110vh] min-h-[800px] flex items-center overflow-hidden">
+        <section id="hero" className="relative h-[110vh] min-h-[640px] flex items-center overflow-hidden">
           <motion.div style={{ y: heroY }} className="absolute inset-0">
             <Image src={photo(0, "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?auto=format&fit=crop&q=80&w=2400")} alt="Concert" fill className="object-cover opacity-50" priority />
             <div className="absolute inset-0 bg-gradient-to-r from-[#08050a] via-[#08050a]/40 to-transparent" />

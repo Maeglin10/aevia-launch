@@ -685,8 +685,8 @@ return (
         /* mobile/tablet: stack the hero split-screen vertically instead of clipping the right column */
         @media (max-width: 900px) {
           .mb130-hero { flex-direction: column !important; height: auto !important; min-height: 100dvh; }
-          .mb130-hero-left { width: 100% !important; height: 46vh !important; min-height: 320px; }
-          .mb130-hero-right { width: 100% !important; padding: 40px 24px !important; }
+          .mb130-hero-left { width: 100% !important; height: 30vh !important; min-height: 190px; }
+          .mb130-hero-right { width: 100% !important; padding: 28px 24px 32px !important; }
           .mb130-hero-divider { display: none !important; }
         }
       `}</style>

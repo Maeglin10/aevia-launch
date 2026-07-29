@@ -492,7 +492,7 @@ export default function EclatLuxuryPage() {
 
       <main className="relative z-10">
         {/* ─── HERO ──────────────────────────────────────────────────────── */}
-        <section id="hero" className="relative h-[100vh] min-h-[800px] flex items-center justify-center overflow-hidden">
+        <section id="hero" className="relative h-[100vh] min-h-[640px] flex items-center justify-center overflow-hidden">
           <motion.div style={{ y: heroY, opacity: opacityFade, scale: scaleDown }} className="absolute inset-0 flex items-center justify-center">
             {/* Massive Abstract Bottle / Orb shape */}
             <div className="relative w-[300px] h-[500px] md:w-[400px] md:h-[600px]">

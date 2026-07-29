@@ -180,7 +180,7 @@ export default function AutoExpertPage() {
       </nav>
 
       {/* ── HERO ── */}
-      <section id="hero" ref={heroRef} className="relative h-[100dvh] min-h-[820px] flex items-end overflow-hidden">
+      <section id="hero" ref={heroRef} className="relative h-[100dvh] min-h-[640px] flex items-end overflow-hidden">
         <motion.div style={{ y: heroY }} className="absolute inset-0">
           <Image src={photo(0, "https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?auto=format&fit=crop&q=88&w=2400")} alt="Garage automobile moderne" fill className="object-cover object-center" priority style={{ filter: "brightness(0.3) saturate(0.7)" }} />
           <div className="absolute inset-0 bg-gradient-to-t from-[#0e1117] via-[#0e1117]/55 to-transparent" />

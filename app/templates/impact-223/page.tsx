@@ -229,7 +229,7 @@ export default function VoltProPage() {
 
       <main>
         {/* ── HERO ── */}
-        <section id="hero" className="relative h-[100dvh] min-h-[800px] flex items-end overflow-hidden">
+        <section id="hero" className="relative h-[100dvh] min-h-[640px] flex items-end overflow-hidden">
           <motion.div style={{ y: heroY }} className="absolute inset-0">
             <Image
               src={photo(0, "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&q=85&w=2400")}

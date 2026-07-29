@@ -201,7 +201,7 @@ export default function TerraArchitecturePage() {
 
       <main>
         {/* ── HERO ──────────────────── */}
-        <section id="hero" className="relative min-h-dvh flex items-center pt-32 pb-20 overflow-hidden">
+        <section id="hero" className="relative min-h-dvh flex [align-items:safe_center] pt-24 md:pt-32 pb-10 md:pb-20 overflow-hidden">
           <div className="max-w-[1400px] mx-auto px-6 md:px-12 w-full">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
               <div>
@@ -212,7 +212,7 @@ export default function TerraArchitecturePage() {
                   </div>
                 </Reveal>
                 <Reveal delay={0.1} y={60}>
-                  <h1 className="text-7xl md:text-[8rem] font-light tracking-tighter leading-[0.85] mb-12 uppercase">{c?.heroHeadline ?? <>
+                  <h1 className="text-[3rem] sm:text-7xl md:text-[8rem] font-light tracking-tighter leading-[0.85] mb-6 md:mb-12 uppercase">{c?.heroHeadline ?? <>
                     Rooted <br/> In <span className="italic text-[var(--brand,#6c6459)] font-normal">Nature.</span>
                   </>}</h1>
                 </Reveal>

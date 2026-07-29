@@ -154,7 +154,7 @@ export default function HavenEstatesPage() {
 
       <main>
         {/* ── HERO ────────────────────────── */}
-        <section id="hero" className="relative h-[100dvh] min-h-[800px] flex items-end overflow-hidden">
+        <section id="hero" className="relative h-[100dvh] min-h-[640px] flex items-end overflow-hidden">
           <motion.div style={{ y: heroY }} className="absolute inset-0">
             <Image src={photo(0, "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&q=80&w=2400")} alt="Estate" fill className="object-cover" priority />
             <div className="absolute inset-0 bg-gradient-to-t from-[#faf9f6] via-[#faf9f6]/20 to-transparent" />

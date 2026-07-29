@@ -184,7 +184,7 @@ export default function OasisWellnessPage() {
 
       <main>
         {/* ── HERO ──────────────────── */}
-        <section id="hero" className="relative h-[110vh] min-h-[800px] flex items-center justify-center overflow-hidden">
+        <section id="hero" className="relative h-[110vh] min-h-[640px] flex items-center justify-center overflow-hidden">
           <div className="absolute inset-0">
             <Image src={photo(0, "https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&q=80&w=2400")} alt="Spa Background" fill className="object-cover" priority />
             <div className="absolute inset-0 bg-gradient-to-b from-[#faf9f6]/20 via-transparent to-[#faf9f6]" />
