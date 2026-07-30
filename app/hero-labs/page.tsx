@@ -33,24 +33,69 @@ import { EASE_3, EASE_4, alpha } from "@/lib/templates/hero-kit";
 const U = (id: string, w = 1600) =>
   `https://images.unsplash.com/${id}?auto=format&fit=crop&q=80&w=${w}`;
 
+/** Portrait crop, for a product that has to stand upright in a narrow column. */
+const UP = (id: string) =>
+  `https://images.unsplash.com/${id}?auto=format&fit=crop&q=85&w=620&h=1240`;
+
 /* ─────────────────────────────────────────────────────────────────────────────
    1 · CAVE / BAR À VIN — for impact-37
-   From v01 (OakGrove). Three devices: the title set wide and passing *behind*
-   the bottle, the held empty beat between exit and entrance, and a circular
-   label that says something rather than decorating.
+   From v01 (OakGrove). Three devices: the wordmark split around the bottle so
+   the product sits *inside* the type without eating a single letter, the held
+   empty beat between exit and entrance, and a circular label that says
+   something rather than decorating.
+
+   The bottles are photographs, and a photograph carries its own background.
+   Rather than fight that with blend modes, the arch is a real frame that clips
+   them: it reads as a deliberate niche instead of a failed cut-out, and a
+   client can drop any bottle shot straight in.
    ──────────────────────────────────────────────────────────────────────────── */
 const WINES = [
-  { name: "CLOS MERIDIEN", year: "2019", grape: "Syrah", place: "Côte-Rôtie", bg: U("photo-1506377247377-2a5b3b417ebb") },
-  { name: "PIERRE BLANCHE", year: "2021", grape: "Chardonnay", place: "Meursault", bg: U("photo-1474722883778-792e7990302f") },
-  { name: "TERRE ROUGE", year: "2018", grape: "Grenache", place: "Gigondas", bg: U("photo-1510812431401-41d2bd2722f3") },
+  {
+    left: "CLOS",
+    right: "MERIDIEN",
+    year: "2019",
+    grape: "Syrah",
+    place: "Côte-Rôtie",
+    bg: U("photo-1506377247377-2a5b3b417ebb"),
+    bottle: UP("photo-1598866971869-22782ffd918e"),
+  },
+  {
+    left: "PIERRE",
+    right: "BLANCHE",
+    year: "2021",
+    grape: "Chardonnay",
+    place: "Meursault",
+    bg: U("photo-1474722883778-792e7990302f"),
+    bottle: UP("photo-1775144313163-9361d25189c1"),
+  },
+  {
+    left: "TERRE",
+    right: "ROUGE",
+    year: "2018",
+    grape: "Grenache",
+    place: "Gigondas",
+    bg: U("photo-1510812431401-41d2bd2722f3"),
+    bottle: UP("photo-1781942610266-4013e9b78af0"),
+  },
 ];
+
+/** Width of the gap the wordmark leaves for the bottle, and of the bottle itself. */
+const BOTTLE_W = "clamp(130px, 17vw, 250px)";
 
 function WineHero() {
   const { i, next, prev } = useSlides(WINES.length, DWELL.slow);
   const w = WINES[i];
+  const word: React.CSSProperties = {
+    fontFamily: "Georgia, serif",
+    fontSize: "clamp(22px, 5.4vw, 78px)",
+    letterSpacing: "clamp(0.1em, 0.28vw, 0.28em)",
+    lineHeight: 1.1,
+    fontWeight: 400,
+    whiteSpace: "nowrap",
+  };
   return (
     <section className="lab-hero relative min-h-[620px] overflow-hidden bg-[#0d0a08] text-[#f0e9dd]">
-      <AnchoredBackdrop images={WINES.map((x) => x.bg)} index={i} overlay={0.74} />
+      <AnchoredBackdrop images={WINES.map((x) => x.bg)} index={i} overlay={0.76} blur={3} />
 
       <div className="relative z-10 h-full flex flex-col">
         <div className="pt-10 text-center">
@@ -63,137 +108,54 @@ function WineHero() {
         </div>
 
         <div className="relative flex-1 grid place-items-center">
-          {/* the hairline arch, drawn behind everything */}
+          {/* The bottle is a photograph, and a photograph has a background.
+              Rather than fight that with blend modes, the arch becomes a real
+              frame and clips it — which reads as a deliberate device instead of
+              a failed cut-out, and lets any client photo drop straight in. */}
           <div
-            aria-hidden
-            className="absolute left-1/2 -translate-x-1/2"
+            className="absolute left-1/2 -translate-x-1/2 overflow-hidden"
             style={{
-              width: "min(30vw, 300px)",
-              height: "min(58vh, 540px)",
-              border: `1px solid ${alpha("#f0e9dd", 18)}`,
-              borderRadius: "50% 50% 0 0 / 26% 26% 0 0",
-              bottom: "11%",
+              zIndex: 2,
+              width: BOTTLE_W,
+              height: "clamp(300px, 54vh, 540px)",
+              bottom: "10%",
+              borderRadius: "50% 50% 3px 3px / 26% 26% 3px 3px",
+              border: `1px solid ${alpha("#f0e9dd", 22)}`,
+              boxShadow: "0 40px 90px rgba(0,0,0,0.6)",
             }}
-          />
-
-          {/* layer 1: the wordmark, wide-tracked, occluded by the bottle */}
-          <div className="absolute inset-x-0 grid place-items-center" style={{ zIndex: 1 }}>
-            <BlurThrough index={i} amount={10}>
-              <h1
-                className="text-center px-4 md:whitespace-nowrap"
+          >
+            <HeldSwap index={i} tilt={8}>
+              <div
                 style={{
-                  fontFamily: "Georgia, serif",
-                  fontSize: "clamp(24px, 6.4vw, 92px)",
-                  letterSpacing: "clamp(0.12em, 0.34vw, 0.34em)",
-                  textIndent: "0.2em",
-                  lineHeight: 1.15,
-                  fontWeight: 400,
+                  width: "100%",
+                  height: "clamp(300px, 54vh, 540px)",
+                  backgroundImage: `url(${w.bottle})`,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
                 }}
-              >
-                {w.name}
-              </h1>
-            </BlurThrough>
+                role="img"
+                aria-label={`${w.left} ${w.right} ${w.year}`}
+              />
+            </HeldSwap>
+            <div
+              aria-hidden
+              className="absolute inset-0"
+              style={{
+                background:
+                  "linear-gradient(to bottom, rgba(0,0,0,0.35) 0%, transparent 26%, transparent 62%, rgba(0,0,0,0.55) 100%)",
+              }}
+            />
           </div>
 
-          {/* layer 2: the bottle, over the middle letters */}
-          <div className="absolute left-1/2 -translate-x-1/2" style={{ zIndex: 2, bottom: "13%" }}>
-            <HeldSwap index={i}>
-              <div style={{ display: "grid", justifyItems: "center" }}>
-                <div
-                  style={{
-                    width: "clamp(80px, 9.5vw, 128px)",
-                    height: "clamp(280px, 46vh, 470px)",
-                    position: "relative",
-                    filter: "drop-shadow(0 34px 60px rgba(0,0,0,0.75))",
-                  }}
-                >
-                  {/* neck */}
-                  <div
-                    style={{
-                      position: "absolute",
-                      left: "50%",
-                      transform: "translateX(-50%)",
-                      top: 0,
-                      width: "26%",
-                      height: "30%",
-                      borderRadius: "6px 6px 0 0",
-                      background: "linear-gradient(96deg,#1b2a20 0%,#4d6b52 34%,#2a3d2f 60%,#131d16 100%)",
-                    }}
-                  />
-                  {/* capsule */}
-                  <div
-                    style={{
-                      position: "absolute",
-                      left: "50%",
-                      transform: "translateX(-50%)",
-                      top: 0,
-                      width: "28%",
-                      height: "11%",
-                      borderRadius: "5px 5px 2px 2px",
-                      background: "linear-gradient(96deg,#5a1f22 0%,#8d3a36 40%,#41161a 100%)",
-                    }}
-                  />
-                  {/* shoulder + body */}
-                  <div
-                    style={{
-                      position: "absolute",
-                      inset: "26% 0 0 0",
-                      borderRadius: "46% 46% 7px 7px / 22% 22% 7px 7px",
-                      background: "linear-gradient(96deg,#16241a 0%,#41603f 26%,#6d8f63 40%,#24371f 68%,#101a12 100%)",
-                    }}
-                  />
-                  {/* glass highlight */}
-                  <div
-                    aria-hidden
-                    style={{
-                      position: "absolute",
-                      left: "22%",
-                      top: "30%",
-                      width: "7%",
-                      height: "56%",
-                      borderRadius: 99,
-                      background: "linear-gradient(180deg,rgba(255,255,255,0.42),rgba(255,255,255,0))",
-                    }}
-                  />
-                  {/* label */}
-                  <div
-                    style={{
-                      position: "absolute",
-                      inset: "48% 7% 15% 7%",
-                      background: "#f2ebda",
-                      borderRadius: 2,
-                      display: "grid",
-                      placeItems: "center",
-                      color: "#231a12",
-                      fontFamily: "Georgia, serif",
-                      textAlign: "center",
-                      padding: 8,
-                      boxShadow: "inset 0 0 0 1px rgba(0,0,0,0.08)",
-                    }}
-                  >
-                    <div>
-                      <div style={{ fontSize: 9, letterSpacing: "0.24em", opacity: 0.6 }}>{w.year}</div>
-                      <div style={{ fontSize: 11, marginTop: 5, lineHeight: 1.25 }}>{w.place}</div>
-                      <div style={{ fontSize: 8.5, marginTop: 3, letterSpacing: "0.18em", opacity: 0.55, textTransform: "uppercase" }}>
-                        {w.grape}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                {/* plinth */}
-                <div
-                  aria-hidden
-                  style={{
-                    width: "clamp(140px, 17vw, 210px)",
-                    height: "clamp(18px, 2.4vh, 30px)",
-                    marginTop: -4,
-                    borderRadius: "3px 3px 5px 5px",
-                    background: "linear-gradient(180deg,#9a7a4e,#5d4629)",
-                    boxShadow: "0 22px 40px rgba(0,0,0,0.6)",
-                  }}
-                />
-              </div>
-            </HeldSwap>
+          {/* the wordmark, split so the frame lands in its own gap */}
+          <div className="absolute inset-x-0 grid place-items-center px-4" style={{ zIndex: 3 }}>
+            <BlurThrough index={i} amount={10}>
+              <h1 className="flex items-baseline justify-center" style={{ textAlign: "center" }}>
+                <span style={word}>{w.left}</span>
+                <span aria-hidden style={{ display: "inline-block", width: BOTTLE_W }} />
+                <span style={word}>{w.right}</span>
+              </h1>
+            </BlurThrough>
           </div>
 
           <CircularLabel
@@ -206,16 +168,28 @@ function WineHero() {
           />
         </div>
 
-        <div className="pb-9 px-6 md:px-12 flex items-end justify-between gap-6">
-          <SlideIndex i={i} total={WINES.length} className="text-[11px] font-medium opacity-70" />
+        <div className="pb-9 px-5 md:px-12 flex flex-wrap items-end justify-between gap-x-3 gap-y-4 md:gap-6">
+          <div>
+            <SlideIndex i={i} total={WINES.length} className="text-[11px] font-medium opacity-70" />
+            <BlurThrough index={i} amount={6}>
+              <div className="mt-2 text-[11px] leading-snug opacity-55 whitespace-nowrap" style={{ fontFamily: "Georgia, serif" }}>
+                {w.place} · {w.grape} · {w.year}
+              </div>
+            </BlurThrough>
+          </div>
           <a
             href="#carte"
-            className="min-h-[44px] px-8 grid place-items-center border text-[10px] uppercase tracking-[0.28em] transition-colors hover:bg-[#f0e9dd] hover:text-[#0d0a08]"
+            className="min-h-[44px] px-5 md:px-8 grid place-items-center border text-[10px] uppercase tracking-[0.2em] md:tracking-[0.28em] whitespace-nowrap transition-colors hover:bg-[#f0e9dd] hover:text-[#0d0a08]"
             style={{ borderColor: alpha("#f0e9dd", 35) }}
           >
             Voir la carte
           </a>
-          <HairlineArrows onPrev={prev} onNext={next} color={alpha("#f0e9dd", 70)} />
+          <HairlineArrows
+            onPrev={prev}
+            onNext={next}
+            color={alpha("#f0e9dd", 70)}
+            className="ml-auto shrink-0"
+          />
         </div>
       </div>
     </section>
