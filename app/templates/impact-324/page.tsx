@@ -194,6 +194,21 @@ function Eyebrow({ text }) {
 
 // --- MOCK DATA ---
 
+// "About" and "Contact" were both in the navigation with no section behind them.
+const ABOUT_STATS = [
+  { t: "Since 2011", d: "Started as a 200-capacity room above a bar in Lille. Same three people still book every act on the calendar." },
+  { t: "No dynamic pricing", d: "The price printed on the announcement is the price at checkout, on the day, for the last seat as for the first." },
+  { t: "Artists paid on the night", d: "Settlement in the dressing room, before the load-out. Support acts included, no thirty-day terms." },
+  { t: "Rooms we run ourselves", d: "Four venues, all owned or on long leases. Nothing is subcontracted to a promoter we have not worked with for years." },
+];
+
+const CONTACT_LINES = [
+  { t: "Box office", d: "Wednesday to Saturday, 14:00 — 19:00, at the venue. Cash and card, no booking fee in person." },
+  { t: "Groups of ten or more", d: "Written quote within one working day, with a held allocation for seven days." },
+  { t: "Accessibility", d: "Step-free access to every floor, companion ticket free. Tell us at booking and we confirm the specifics for that room." },
+  { t: "Press & artist enquiries", d: "One inbox, read by a person. Demos welcome; we answer all of them, eventually." },
+];
+
 const MOCK_EVENTS = [
   { id: "e1", title: "Midnight Neon Tour", artist: "Syntax Error", date: "2026-08-15", time: "21:00", venue: "The Grand Arena, Paris", price: 45, image: PHOTOS.event1, category: "Electronic" },
   { id: "e2", title: "Acoustic Sessions", artist: "Elena Rossi", date: "2026-08-20", time: "19:30", venue: "Intimate Hall, Lyon", price: 35, image: PHOTOS.event2, category: "Acoustic" },
@@ -728,6 +743,45 @@ export default function Impact324TicketStore({ session: initialSession }) {
       </section>
 
       {/* NEWSLETTER */}
+      {/* ABOUT */}
+      <section id="about" style={{ padding: "100px 4%", backgroundColor: C.bgCard }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+          <div style={{ marginBottom: 56 }}>
+            <div style={{ fontFamily: SANS, fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.primary, marginBottom: 12 }}>About</div>
+            <h2 style={{ fontFamily: SERIF, fontSize: "clamp(30px, 4vw, 48px)", fontWeight: 800, color: C.text, lineHeight: 1.1 }}>Who puts the shows on</h2>
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(260px, 100%), 1fr))", gap: 20 }}>
+            {ABOUT_STATS.map((a) => (
+              <div key={a.t} style={{ backgroundColor: C.bgDeep, border: `1px solid ${C.bgCard}`, borderRadius: 14, padding: "28px 26px", height: "100%" }}>
+                <h3 style={{ fontFamily: SERIF, fontSize: 18, fontWeight: 700, color: C.text, marginBottom: 10 }}>{a.t}</h3>
+                <p style={{ fontFamily: SANS, fontSize: 14, color: C.textMuted, lineHeight: 1.75 }}>{a.d}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CONTACT */}
+      <section id="contact" style={{ padding: "100px 4%", backgroundColor: C.bgDeep }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+          <div style={{ marginBottom: 56 }}>
+            <div style={{ fontFamily: SANS, fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.primary, marginBottom: 12 }}>Contact</div>
+            <h2 style={{ fontFamily: SERIF, fontSize: "clamp(30px, 4vw, 48px)", fontWeight: 800, color: C.text, lineHeight: 1.1 }}>Reaching a human</h2>
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(260px, 100%), 1fr))", gap: 20, marginBottom: 32 }}>
+            {CONTACT_LINES.map((c) => (
+              <div key={c.t} style={{ backgroundColor: C.bgCard, borderRadius: 14, padding: "28px 26px", height: "100%" }}>
+                <h3 style={{ fontFamily: SERIF, fontSize: 18, fontWeight: 700, color: C.text, marginBottom: 10 }}>{c.t}</h3>
+                <p style={{ fontFamily: SANS, fontSize: 14, color: C.textMuted, lineHeight: 1.75 }}>{c.d}</p>
+              </div>
+            ))}
+          </div>
+          <a href="mailto:box.office@example.com" style={{ display: "inline-flex", alignItems: "center", gap: 10, backgroundColor: C.primary, color: C.white, borderRadius: 10, padding: "14px 30px", fontFamily: SANS, fontSize: 14, fontWeight: 700, textDecoration: "none", letterSpacing: 1, textTransform: "uppercase" }}>
+            Email the box office
+          </a>
+        </div>
+      </section>
+
       <section style={{ padding: "80px 4%", backgroundColor: C.primary, position: "relative", overflow: "hidden" }}>
         <div style={{ position: "absolute", inset: 0, backgroundImage: `radial-gradient(circle at center, rgba(255,255,255,0.2) 0%, transparent 70%)` }} />
         <div style={{ maxWidth: 800, margin: "0 auto", textAlign: "center", position: "relative", zIndex: 1 }}>

@@ -8,6 +8,14 @@ import { Zap, ArrowRight, Menu, Star, Activity, Cpu, Globe, Share2, Shield, Chev
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { resolveList } from "@/lib/templates/resolveList";
 
+const SOCIALS = [
+  { l: "Discord", h: "https://discord.com" },
+  { l: "Telegram", h: "https://t.me" },
+  { l: "GitHub", h: "https://github.com" },
+  { l: "Mirror", h: "https://mirror.xyz" },
+];
+
+
 function Reveal({ children, delay = 0, y = 30 }: { children: React.ReactNode; delay?: number; y?: number }) {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: "-80px" })
@@ -484,8 +492,8 @@ export default function NeonPulsePage() {
                  "The pulse is the rhythm of decentralized creation. Own the artifact, own the future."
               </p>
               <div className="flex gap-10">
-                 {["Discord", "MessageSquare", "GitHub", "Lens"].map(s => (
-                   <Link key={s} href={ s === "LinkedIn" || s === "Linkedin" ? "https://linkedin.com" : s === "Contact" || s === "contact" ? "#contact" : `#${s.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="text-[10px] font-bold uppercase tracking-widest text-white/20 hover:text-[var(--brand,#22d3ee)] transition-colors italic">{s}</Link>
+                 {SOCIALS.map(s => (
+                   <Link key={s.l} href={s.h} target="_blank" rel="noopener noreferrer" className="text-[10px] font-bold uppercase tracking-widest text-white/20 hover:text-[var(--brand,#22d3ee)] transition-colors italic">{s.l}</Link>
                  ))}
               </div>
            </div>

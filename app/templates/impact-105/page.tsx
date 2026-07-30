@@ -41,6 +41,31 @@ const STATS = [
   { value: "48h", label: "Délai bouquets sur mesure" },
 ]
 
+
+const NAV = [
+  { l: "Créations", h: "#creations" },
+  { l: "Mariage", h: "#mariage" },
+  { l: "Entreprises", h: "#entreprises" },
+  { l: "Contact", h: "#contact" },
+];
+const MARIAGE = [
+  { t: "Rendez-vous découverte", d: "Une heure à l'atelier, sans frais. On regarde vos photos, la robe, le lieu, et on écarte tout de suite ce qui ne tiendra pas en juillet." },
+  { t: "Bouquet de mariée", d: "Trois esquisses, une maquette grandeur nature à J-30. Bouquet de lancer offert à partir de 180 € de commande." },
+  { t: "Cérémonie & réception", d: "Arche, allée, chemins de table, plan de table fleuri. Installation le matin même, démontage la nuit ou au petit matin." },
+  { t: "Fleurs de saison uniquement", d: "Pas de pivoine en octobre. On travaille avec deux producteurs alsaciens et un maraîcher fleuriste à 30 km." },
+  { t: "Devis en trois lignes", d: "Un prix global, une liste des postes, une date limite de modification. Aucun supplément ajouté après." },
+  { t: "Le jour J", d: "Une personne de l'atelier reste jusqu'à la fin du vin d'honneur, pour rafraîchir et redresser ce qui a bougé." },
+];
+
+const ENTREPRISES = [
+  { t: "Abonnement hebdomadaire", p: "à partir de 65 € / semaine", d: "Une composition livrée et remplacée chaque semaine, vase inclus et lavé à chaque passage." },
+  { t: "Accueil & réception", p: "sur devis", d: "Grande pièce pour hall d'immeuble ou comptoir d'hôtel. Format et hauteur étudiés sur place." },
+  { t: "Événements d'entreprise", p: "sur devis", d: "Inaugurations, séminaires, remises de prix. Installation en dehors des heures d'ouverture." },
+  { t: "Cadeaux clients", p: "à partir de 28 € l'unité", d: "Bouquets identiques, livrés le même jour sur plusieurs adresses, avec votre carte." },
+  { t: "Facturation mensuelle", p: "—", d: "Une facture par mois, virement à 30 jours. Bon de commande accepté." },
+  { t: "Livraison sur Strasbourg", p: "incluse", d: "Comprise dans l'abonnement en centre-ville, à la Krutenau et à la Robertsau. Hors zone, 12 € par passage." },
+];
+
 const CREATIONS = [
   { titre: "Bouquets & compositions", desc: "Bouquets de fleurs fraîches de saison, compositions table, centres de table et décorations personnalisées pour toutes occasions.", tag: "Frais" },
   { titre: "Mariage & cérémonie", desc: "Bouquet de mariée, boutonnières, décoration de salle et de cérémonie. Consultation offerte pour chaque projet mariage.", tag: "Mariage" },
@@ -206,8 +231,8 @@ export default function AtelierBloomPage() {
             <span style={{ fontFamily: FONT_SERIF, fontSize: 22, color: scrolled ? C.peach : "rgba(255,255,255,0.85)" }}> Bloom</span>
           </div>
         )}
-        <div id="mb105-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      {["Créations", "Mariage", "Entreprises", "Contact"].map(l => (
-            <a key={l} href={`#${l.toLowerCase()}`} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)", fontSize: 14, fontWeight: 600, textDecoration: "none" }}>{l}</a>
+        <div id="mb105-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      {NAV.map(({ l, h }) => (
+            <a key={l} href={h} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)", fontSize: 14, fontWeight: 600, textDecoration: "none" }}>{l}</a>
           ))}
           <motion.a href={`tel:${fd?.phone ?? "+33388000000"}`} style={{ background: C.accent, color: C.white, borderRadius: 8, padding: "9px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none" }} whileHover={{ background: "#1e3318" }}>
             Commander
@@ -231,8 +256,8 @@ export default function AtelierBloomPage() {
       </motion.nav>
       {mobileOpen && (
         <div style={{ position: "fixed", top: 72, left: 0, right: 0, zIndex: 99, background: "rgba(255,255,255,0.98)", borderBottom: "1px solid #e5e5e5", padding: "24px 32px", display: "flex", flexDirection: "column", gap: 20, backdropFilter: "blur(12px)" }}>
-          {["Créations", "Mariage", "Entreprises", "Contact"].map(l => (
-            <a key={l} href={`#${l.toLowerCase()}`} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)", fontSize: 14, fontWeight: 600, textDecoration: "none" }}>{l}</a>
+          {NAV.map(({ l, h }) => (
+            <a key={l} href={h} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)", fontSize: 14, fontWeight: 600, textDecoration: "none" }}>{l}</a>
           ))}
           <motion.a href={`tel:${fd?.phone ?? "+33388000000"}`} style={{ background: C.accent, color: C.white, borderRadius: 8, padding: "9px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none" }} whileHover={{ background: "#1e3318" }}>
             Commander
@@ -262,7 +287,7 @@ export default function AtelierBloomPage() {
           </>}</motion.p>
 
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.0 }} style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
-            <motion.a href="#créations" style={{ background: C.accent, color: C.white, borderRadius: 8, padding: "15px 32px", fontWeight: 700, fontSize: 15, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, boxShadow: `0 8px 32px ${C.accent}55` }} whileHover={{ scale: 1.03 }}>
+            <motion.a href="#creations" style={{ background: C.accent, color: C.white, borderRadius: 8, padding: "15px 32px", fontWeight: 700, fontSize: 15, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, boxShadow: `0 8px 32px ${C.accent}55` }} whileHover={{ scale: 1.03 }}>
               Voir les créations <ArrowRight size={16} />
             </motion.a>
             <motion.a href={`tel:${fd?.phone ?? "+33388000000"}`} style={{ background: "rgba(255,255,255,0.10)", color: "#fff", border: "1px solid rgba(255,255,255,0.28)", borderRadius: 8, padding: "13px 28px", fontWeight: 600, fontSize: 15, textDecoration: "none", backdropFilter: "blur(8px)", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ background: "rgba(255,255,255,0.18)" }}>
@@ -294,7 +319,7 @@ export default function AtelierBloomPage() {
       </section>
 
       {/* Créations */}
-      <section id="créations" style={{ padding: "110px 80px", background: C.bg }}>
+      <section id="creations" style={{ padding: "110px 80px", background: C.bg }}>
         <Reveal>
           <div style={{ marginBottom: 60 }}>
             <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.peach }}>Nos créations</span>
@@ -367,6 +392,49 @@ export default function AtelierBloomPage() {
       </section>
 
       {/* CTA */}
+      <section id="mariage" style={{ padding: "110px 80px", background: C.bgSection }}>
+        <Reveal>
+          <div style={{ marginBottom: 60 }}>
+            <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.peach }}>Mariage</span>
+            <h2 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(30px, 4vw, 52px)", color: C.text, marginTop: 10, lineHeight: 1.15 }}>
+              Une seule journée, <em>et rien qui fane</em>.
+            </h2>
+          </div>
+        </Reveal>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: 20, maxWidth: 1200, margin: "0 auto" }}>
+          {MARIAGE.map((m, i) => (
+            <Reveal key={m.t} delay={i * 0.06}>
+              <motion.div whileHover={{ y: -5, boxShadow: C.shadowLg }} style={{ background: C.white, borderRadius: 14, padding: "26px 24px", border: `1px solid ${C.border}`, boxShadow: C.shadow, height: "100%" }}>
+                <h3 style={{ fontFamily: FONT_SERIF, fontSize: 19, color: C.text, marginBottom: 10 }}>{m.t}</h3>
+                <p style={{ fontSize: 14, color: C.textMuted, lineHeight: 1.7 }}>{m.d}</p>
+              </motion.div>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
+      <section id="entreprises" style={{ padding: "110px 80px", background: C.white }}>
+        <Reveal>
+          <div style={{ marginBottom: 60 }}>
+            <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.peach }}>Entreprises</span>
+            <h2 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(30px, 4vw, 52px)", color: C.text, marginTop: 10, lineHeight: 1.15 }}>
+              Des fleurs au bureau, <em>sans y penser</em>.
+            </h2>
+          </div>
+        </Reveal>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: 20, maxWidth: 1200, margin: "0 auto" }}>
+          {ENTREPRISES.map((e, i) => (
+            <Reveal key={e.t} delay={i * 0.06}>
+              <motion.div whileHover={{ y: -5, boxShadow: C.shadowLg }} style={{ background: C.bg, borderRadius: 14, padding: "26px 24px", border: `1px solid ${C.border}`, boxShadow: C.shadow, height: "100%" }}>
+                <h3 style={{ fontFamily: FONT_SERIF, fontSize: 19, color: C.text }}>{e.t}</h3>
+                <div style={{ fontSize: 13, fontWeight: 700, color: C.accent, margin: "6px 0 12px" }}>{e.p}</div>
+                <p style={{ fontSize: 14, color: C.textMuted, lineHeight: 1.7 }}>{e.d}</p>
+              </motion.div>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
       <section id="contact" style={{ padding: "100px 80px", background: C.peachLight, textAlign: "center" }}>
         <Reveal>
           <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.peach }}>Commander</span>

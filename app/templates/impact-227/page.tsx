@@ -44,6 +44,29 @@ const STATS = [
   { value: "45 min", label: "Prestation signature" },
 ]
 
+
+const NAV = [
+  { l: "Prestations", h: "#prestations" },
+  { l: "Tarifs", h: "#tarifs" },
+  { l: "L'équipe", h: "#equipe" },
+  { l: "Contact", h: "#contact" },
+];
+const TARIFS = [
+  { a: "Coupe classique", p: "26 €", n: "Tondeuse et ciseaux, shampoing et coiffage compris. 30 minutes." },
+  { a: "Coupe + barbe", p: "38 €", n: "Le rendez-vous le plus demandé. Serviette chaude, huile, baume. 45 minutes." },
+  { a: "Rasage à l'ancienne", p: "30 €", n: "Coupe-chou, deux passages, serviette chaude avant et après. 35 minutes." },
+  { a: "Taille de barbe", p: "20 €", n: "Contours au rasoir, longueur travaillée aux ciseaux. 25 minutes." },
+  { a: "Coupe enfant (- 12 ans)", p: "18 €", n: "Rehausseur sur le fauteuil, et le droit de bouger un peu." },
+  { a: "Forfait père & fils", p: "40 €", n: "Deux coupes à la suite, sur le même créneau." },
+];
+
+const EQUIPE = [
+  { n: "Vincent Cazals", r: "Fondateur · Barbier", d: "Formé chez un maître barbier de Barcelone. Vingt ans de coupe-chou, et il aiguise encore ses lames lui-même." },
+  { n: "Rachid Berrada", r: "Barbier · Dégradés", d: "Le fade, la transition invisible, les contours au rasoir. C'est lui qu'on demande pour les coupes courtes." },
+  { n: "Louis Tessier", r: "Coiffeur · Cheveux longs", d: "Coupes aux ciseaux, boucles, entretien des cheveux mi-longs. Vient du milieu de la coiffure femme." },
+  { n: "Enzo Marchisio", r: "Barbier junior", d: "En troisième année d'apprentissage. Tarif réduit de 5 € sur ses créneaux, annoncé à la réservation." },
+];
+
 const PRESTATIONS_DEMO = [
   { titre: "Coupe homme classique", desc: "Ciseaux ou tondeuse, dégradé américain ou anglais, finition rasoir. Shampooing + coupe + styling — 35€.", tag: "Coupe" },
   { titre: "Rasage traditionnel", desc: "Rasage lame droite avec préparation serviettes chaudes, huile, mousse artisanale. Soin de peau inclus. Un rituel d'exception — 45€.", tag: "Rasage" },
@@ -339,8 +362,8 @@ return (
             </>
           )}
         </div>
-        <div id="mb227-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      {["Prestations", "Tarifs", "L'équipe", "Contact"].map(l => (
-            <a key={l} href={`#${l.toLowerCase()}`} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)", fontSize: 14, fontWeight: 500, textDecoration: "none" }}>{l}</a>
+        <div id="mb227-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      {NAV.map(({ l, h }) => (
+            <a key={l} href={h} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)", fontSize: 14, fontWeight: 500, textDecoration: "none" }}>{l}</a>
           ))}
           <motion.button onClick={() => openBooking(null)} style={{ background: C.accent, color: C.white, border: "none", borderRadius: 6, padding: "9px 22px", fontSize: 14, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 6, minHeight: 44 }} whileHover={{ background: "var(--brand,#704f0a)" }}>
             <Calendar size={14} /> Réserver
@@ -359,8 +382,8 @@ return (
       </motion.nav>
       {mobileOpen && (
         <div style={{ position: "fixed", top: 72, left: 0, right: 0, zIndex: 99, background: "rgba(255,255,255,0.98)", borderBottom: "1px solid #e5e5e5", padding: "24px 32px", display: "flex", flexDirection: "column", gap: 20, backdropFilter: "blur(12px)" }}>
-          {["Prestations", "Tarifs", "L'équipe", "Contact"].map(l => (
-            <a key={l} href={`#${l.toLowerCase()}`} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)", fontSize: 14, fontWeight: 500, textDecoration: "none" }}>{l}</a>
+          {NAV.map(({ l, h }) => (
+            <a key={l} href={h} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)", fontSize: 14, fontWeight: 500, textDecoration: "none" }}>{l}</a>
           ))}
           <motion.button onClick={() => openBooking(null)} style={{ background: C.accent, color: C.white, border: "none", borderRadius: 6, padding: "9px 22px", fontSize: 14, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 6, minHeight: 44 }} whileHover={{ background: "var(--brand,#704f0a)" }}>
             <Calendar size={14} /> Réserver
@@ -479,6 +502,44 @@ return (
                   {a.detail && <div style={{ color: C.accentLight, fontSize: 12, marginTop: 4 }}>{a.detail}</div>}
                 </div>
               </div>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
+      <section id="tarifs" style={{ padding: "100px 80px", background: C.white }}>
+        <Reveal><div style={{ marginBottom: 56 }}>
+          <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Tarifs</span>
+          <h2 style={{ fontFamily: FONT, fontSize: "clamp(30px, 4vw, 52px)", color: C.text, marginTop: 10, lineHeight: 1.15 }}>Un prix par prestation,<br /><em>et rien au-dessus.</em></h2>
+        </div></Reveal>
+        <div style={{ maxWidth: 900, margin: "0 auto", background: C.bg, borderRadius: 10, border: `1px solid ${C.border}`, boxShadow: C.shadow, overflow: "hidden" }}>
+          {TARIFS.map((t, i) => (
+            <Reveal key={t.a} delay={i * 0.05}>
+              <div style={{ display: "flex", flexWrap: "wrap", alignItems: "baseline", justifyContent: "space-between", gap: 12, padding: "20px 28px", borderTop: i ? `1px solid ${C.border}` : "none" }}>
+                <div style={{ minWidth: 0 }}>
+                  <div style={{ fontSize: 15, fontWeight: 700, color: C.text }}>{t.a}</div>
+                  <div style={{ fontSize: 13, color: C.textMuted, marginTop: 3 }}>{t.n}</div>
+                </div>
+                <div style={{ fontSize: 15, fontWeight: 700, color: C.accent, flexShrink: 0 }}>{t.p}</div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
+      <section id="equipe" style={{ padding: "100px 80px", background: C.bgSection }}>
+        <Reveal><div style={{ marginBottom: 56 }}>
+          <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>L&apos;équipe</span>
+          <h2 style={{ fontFamily: FONT, fontSize: "clamp(30px, 4vw, 52px)", color: C.text, marginTop: 10, lineHeight: 1.15 }}>Quatre fauteuils,<br /><em>quatre mains différentes.</em></h2>
+        </div></Reveal>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: 18, maxWidth: 1200, margin: "0 auto" }}>
+          {EQUIPE.map((m, i) => (
+            <Reveal key={m.n} delay={i * 0.06}>
+              <motion.div whileHover={{ y: -5, boxShadow: C.shadowLg }} style={{ background: C.white, borderRadius: 10, padding: "26px 24px", border: `1px solid ${C.border}`, boxShadow: C.shadow, height: "100%" }}>
+                <h3 style={{ fontFamily: FONT, fontSize: 18, color: C.text }}>{m.n}</h3>
+                <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: 1.5, textTransform: "uppercase", color: C.accent, margin: "8px 0 14px" }}>{m.r}</div>
+                <p style={{ fontSize: 14, color: C.textMuted, lineHeight: 1.7 }}>{m.d}</p>
+              </motion.div>
             </Reveal>
           ))}
         </div>

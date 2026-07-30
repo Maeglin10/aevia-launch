@@ -39,6 +39,22 @@ const STATS = [
   { value: "48h", label: "Premier entretien" },
 ]
 
+
+const NAV = [
+  { l: "Domaines", h: "#domaines" },
+  { l: "L'équipe", h: "#equipe" },
+  { l: "Honoraires", h: "#honoraires" },
+  { l: "Contact", h: "#contact" },
+];
+const EQUIPE = [
+  { n: "Maître Hélène Renard", r: "Associée fondatrice · Droit social", d: "Barreau de Paris depuis 2001. Licenciements, ruptures conventionnelles, contentieux prud'homal. Plaide elle-même ses dossiers." },
+  { n: "Maître Antoine Vasseur", r: "Associé · Droit des affaires", d: "Cessions, pactes d'associés, litiges commerciaux. Ancien juriste d'un groupe coté, passé au barreau en 2009." },
+  { n: "Maître Claire Boutin", r: "Collaboratrice · Droit de la famille", d: "Divorces, résidence des enfants, successions conflictuelles. Formée à la médiation familiale." },
+  { n: "Maître Samir Haddad", r: "Collaborateur · Droit pénal des affaires", d: "Enquêtes préliminaires, abus de biens sociaux, garde à vue. Astreinte assurée le week-end." },
+  { n: "Nadia Lefort", r: "Juriste · Veille et rédaction", d: "Contrats, conclusions, recherches. Le travail de fond derrière chaque audience." },
+  { n: "Pauline Aubry", r: "Responsable du cabinet", d: "Rendez-vous, dossiers, relations avec les greffes. Votre interlocutrice entre deux échéances." },
+];
+
 const DOMAINES = [
   { titre: "Droit des affaires & commercial", desc: "Création d'entreprise, rédaction de contrats, litiges commerciaux, contentieux entre associés, recouvrement de créances. Conseil aux PME et ETI.", tag: "Affaires" },
   { titre: "Droit du travail", desc: "Rupture conventionnelle, licenciement abusif, harcèlement, discrimination. Assistance salarié et employeur devant le Conseil de Prud'hommes.", tag: "Travail" },
@@ -204,8 +220,8 @@ export default function CabinetRenardPage() {
             <span style={{ fontSize: 13, color: scrolled ? C.textMuted : "rgba(255,255,255,0.65)", marginLeft: 6 }}>& Associés</span>
           </div>
         )}
-        <div id="mb55-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      {["Domaines", "L'équipe", "Honoraires", "Contact"].map(l => (
-            <a key={l} href={`#${l.toLowerCase().replace(/'/g, "").replace(/é/g, "e")}`} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)", fontSize: 14, fontWeight: 600, textDecoration: "none" }}>{l}</a>
+        <div id="mb55-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      {NAV.map(({ l, h }) => (
+            <a key={l} href={h} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)", fontSize: 14, fontWeight: 600, textDecoration: "none" }}>{l}</a>
           ))}
           <motion.a href={`tel:${fd?.phone ?? "+33144000001"}`} style={{ background: C.gold, color: C.text, borderRadius: 4, padding: "9px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none" }} whileHover={{ background: "var(--brand,#b8952e)" }}>
             Consultation
@@ -224,8 +240,8 @@ export default function CabinetRenardPage() {
       </motion.nav>
       {mobileOpen && (
         <div style={{ position: "fixed", top: 72, left: 0, right: 0, zIndex: 99, background: "rgba(255,255,255,0.98)", borderBottom: "1px solid #e5e5e5", padding: "24px 32px", display: "flex", flexDirection: "column", gap: 20, backdropFilter: "blur(12px)" }}>
-          {["Domaines", "L'équipe", "Honoraires", "Contact"].map(l => (
-            <a key={l} href={`#${l.toLowerCase().replace(/'/g, "").replace(/é/g, "e")}`} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)", fontSize: 14, fontWeight: 600, textDecoration: "none" }}>{l}</a>
+          {NAV.map(({ l, h }) => (
+            <a key={l} href={h} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)", fontSize: 14, fontWeight: 600, textDecoration: "none" }}>{l}</a>
           ))}
           <motion.a href={`tel:${fd?.phone ?? "+33144000001"}`} style={{ background: C.gold, color: C.text, borderRadius: 4, padding: "9px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none" }} whileHover={{ background: "var(--brand,#b8952e)" }}>
             Consultation
@@ -315,6 +331,29 @@ export default function CabinetRenardPage() {
       </section>
 
       {/* Engagements */}
+      {/* L'équipe */}
+      <section id="equipe" style={{ padding: "110px 80px", background: C.white }}>
+        <Reveal>
+          <div style={{ marginBottom: 60 }}>
+            <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.gold }}>L&apos;équipe</span>
+            <h2 style={{ fontFamily: FONT, fontSize: "clamp(30px, 4vw, 52px)", color: C.text, marginTop: 10, lineHeight: 1.15 }}>
+              Six personnes,<br />et aucune sous-traitance.
+            </h2>
+          </div>
+        </Reveal>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: 20, maxWidth: 1200, margin: "0 auto" }}>
+          {EQUIPE.map((m, i) => (
+            <Reveal key={m.n} delay={i * 0.06}>
+              <div style={{ background: C.bg, padding: "26px 24px", border: `1px solid ${C.border}`, height: "100%" }}>
+                <h3 style={{ fontFamily: FONT, fontSize: 18, color: C.text }}>{m.n}</h3>
+                <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: 1.5, textTransform: "uppercase", color: C.gold, margin: "8px 0 14px" }}>{m.r}</div>
+                <p style={{ fontSize: 14, color: C.textMuted, lineHeight: 1.7 }}>{m.d}</p>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
       <section id="honoraires" style={{ padding: "100px 80px", background: C.bgSection }}>
         <div className="imx-mobstack" style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "center" }}>
           <Reveal>

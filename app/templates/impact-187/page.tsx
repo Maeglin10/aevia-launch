@@ -25,6 +25,21 @@ function Reveal({ children, delay = 0, y = 22 }: { children: React.ReactNode; de
   )
 }
 
+const NAV = [
+  { l: "Programmes", h: "#programmes" },
+  { l: "Méthode", h: "#methode" },
+  { l: "Résultats", h: "#resultats" },
+  { l: "Tarifs", h: "#tarifs" },
+  { l: "Contact", h: "#contact" },
+];
+
+const TARIFS = [
+  { f: "Séance à l'unité", p: "65 €", n: "Une heure en solo. Aucun engagement, valable un an." },
+  { f: "Carnet de 10", p: "550 €", n: "55 € la séance. Transférable à un proche, non remboursable." },
+  { f: "Suivi mensuel", p: "320 €/mois", n: "Deux séances par semaine, programme écrit, ajustements toutes les trois semaines." },
+  { f: "Duo", p: "45 €/personne", n: "À deux, même niveau souhaitable. Créneaux du soir uniquement." },
+];
+
 const PROGRAMMES = [
   { icon: Target, title: "Coaching privatif", desc: "Séances 1-on-1, 60 ou 90 minutes. Programme sur mesure selon vos objectifs : perte de poids, prise de masse, endurance, rééducation." },
   { icon: Zap, title: "Bootcamp intensif", desc: "Séances groupe de 4 max, HIIT, circuits training, cardio-renforcement. L'efficacité du collectif avec le suivi du coaching individuel." },
@@ -150,8 +165,8 @@ export default function MaxPerformancePage() {
             )}
           </div>
           <div className="hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.25em] text-[#f8f5f0]/25">
-            {["Programmes", "Méthode", "Résultats", "Tarifs", "Contact"].map(l => (
-              <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="hover:text-[var(--brand,#f97316)] transition-colors">{l}</Link>
+            {NAV.map(({ l, h }) => (
+              <Link key={l} href={h} className="hover:text-[var(--brand,#f97316)] transition-colors">{l}</Link>
             ))}
           </div>
           <div className="flex items-center gap-3">
@@ -165,7 +180,7 @@ export default function MaxPerformancePage() {
               <SheetTrigger className="lg:hidden"><Menu className="w-5 h-5 text-[#f8f5f0]" /></SheetTrigger>
               <SheetContent side="right" className="bg-[#111] border-[var(--brand,#f97316)]/10 p-10">
                 <div className="flex flex-col gap-7 mt-16">
-                  {["Programmes", "Méthode", "Contact"].map(l => <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="text-3xl font-black uppercase text-[#f8f5f0] hover:text-[var(--brand,#f97316)] transition-colors" style={{ fontFamily: "'Anton', sans-serif" }}>{l}</Link>)}
+                  {NAV.map(({ l, h }) => <Link key={l} href={h} className="text-3xl font-black uppercase text-[#f8f5f0] hover:text-[var(--brand,#f97316)] transition-colors" style={{ fontFamily: "'Anton', sans-serif" }}>{l}</Link>)}
                   <a href={`tel:${fd?.phone ?? "0612345678"}`} className="flex items-center gap-3 text-[var(--brand,#f97316)] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> {fd?.phone ?? "06 12 34 56 78"}</a>
                 </div>
               </SheetContent>
@@ -279,7 +294,7 @@ export default function MaxPerformancePage() {
       </section>
 
       {/* ── MÉTHODE ── */}
-      <section className="py-24 bg-[#1a1a1a]">
+      <section id="methode" className="py-24 bg-[#1a1a1a]">
         <div className="max-w-[1100px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-14">
             <div className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#f97316)]/50 mb-4">La méthode</div>
@@ -305,7 +320,7 @@ export default function MaxPerformancePage() {
       </section>
 
       {/* ── TEMOIGNAGES ── */}
-      <section id="about" className="py-28 bg-[#0a0a0a]">
+      <section id="resultats" className="py-28 bg-[#0a0a0a]">
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-16">
             <div className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#f97316)]/50 mb-4">— Résultats clients</div>
@@ -331,6 +346,39 @@ export default function MaxPerformancePage() {
               </Reveal>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* ── TARIFS ── */}
+      <section id="tarifs" className="py-28 bg-[#1a1a1a]">
+        <div className="max-w-[1200px] mx-auto px-6 md:px-12">
+          <Reveal><div className="mb-16">
+            <div className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#f97316)]/50 mb-4">— Tarifs</div>
+            <h2 className="font-black uppercase text-[#f8f5f0] text-4xl" style={{ fontFamily: "'Anton', sans-serif" }}>Pas de <span className="text-[var(--brand,#f97316)]">frais cachés.</span></h2>
+          </div></Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+            {TARIFS.map((t, i) => (
+              <Reveal key={t.f} delay={i * 0.07}>
+                <div className="bg-[#0a0a0a] p-8 h-full border-t-2 border-[var(--brand,#f97316)]">
+                  <div className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#f97316)] mb-4">{t.f}</div>
+                  <div className="font-black uppercase text-[#f8f5f0] text-3xl mb-4" style={{ fontFamily: "'Anton', sans-serif" }}>{t.p}</div>
+                  <p className="text-sm text-[#f8f5f0]/35 leading-relaxed">{t.n}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+          <Reveal>
+            <div className="bg-[#0a0a0a] p-8">
+              <div className="font-black uppercase text-[#f8f5f0] mb-3 flex items-center gap-2">
+                <CheckCircle className="w-4 h-4 text-[var(--brand,#f97316)]" />Ce qui est compris
+              </div>
+              <p className="text-sm text-[#f8f5f0]/35 leading-relaxed max-w-[80ch]">
+                Bilan de départ, programme écrit, corrections techniques et accès à la salle une heure
+                avant et après ta séance. Aucun complément alimentaire n'est vendu ici. La première
+                séance est gratuite et sans suite obligatoire : si le courant ne passe pas, tu ne dois rien.
+              </p>
+            </div>
+          </Reveal>
         </div>
       </section>
 

@@ -1310,7 +1310,7 @@ function ProcessSection() {
   const stickyRef = useRef<HTMLDivElement>(null);
 
   return (
-    <section
+    <section id="process"
       style={{
         background: C.white,
         padding: 'clamp(80px,12vw,160px) clamp(24px,6vw,80px)',

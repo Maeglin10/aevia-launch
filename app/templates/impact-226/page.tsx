@@ -41,6 +41,31 @@ const STATS = [
   { value: "3 artistes", label: "Styles variés" },
 ]
 
+
+const NAV = [
+  { l: "Styles", h: "#styles" },
+  { l: "Galerie", h: "#galerie" },
+  { l: "Tarifs", h: "#tarifs" },
+  { l: "Contact", h: "#contact" },
+];
+const GALERIE = [
+  { t: "Dos complet réalisme", s: "Noir & gris", d: "Neuf séances de quatre heures, étalées sur onze mois. Cicatrisation contrôlée entre chaque passage." },
+  { t: "Avant-bras japonais", s: "Irezumi", d: "Vague, carpe et pivoine, en une pièce continue du coude au poignet. Tracé validé au calque avant la première aiguille." },
+  { t: "Fine line florale", s: "Fine line", d: "Aiguille 3RL, encre noire diluée. Le style le plus demandé, et le plus difficile à faire vieillir correctement." },
+  { t: "Couverture de cicatrice", s: "Camouflage", d: "Travail sur tissu cicatriciel : moins d'encre, plus de séances, et un test sur 2 cm² six semaines avant." },
+  { t: "Lettrage colonne vertébrale", s: "Lettering", d: "Typographie dessinée à la main, jamais une police d'ordinateur. Placement ajusté debout, pas assis." },
+  { t: "Reprise de vieux tatouage", s: "Cover-up", d: "Ce qui est possible et ce qui ne l'est pas, dit franchement au premier rendez-vous. Parfois la réponse est un détatouage d'abord." },
+];
+
+const TARIFS = [
+  { a: "Minimum boutique", p: "80 €", n: "En dessous, le temps de préparation et de stérilisation coûte plus que la pièce." },
+  { a: "Petite pièce (moins de 8 cm)", p: "80 — 150 €", n: "Une séance, dessin compris. Devis ferme donné au rendez-vous." },
+  { a: "Demi-journée (3 h)", p: "330 €", n: "Le format le plus économique pour une pièce moyenne." },
+  { a: "Journée (6 h)", p: "600 €", n: "Deux pauses incluses. Prévoyez de manger avant, pas pendant." },
+  { a: "Acompte de réservation", p: "60 €", n: "Déduit du total. Non remboursable en cas d'annulation à moins de 48 h." },
+  { a: "Retouche à 3 mois", p: "offerte", n: "Une fois, sur la même pièce, si la cicatrisation a été suivie." },
+];
+
 const STYLES_DEMO = [
   { titre: "Blackwork & fine line", desc: "Traits fins, géométrie, mandala, ornements. Technique maîtrisée pour des tracés chirurgicaux durables sur toutes carnations.", tag: "Blackwork" },
   { titre: "Réalisme noir & gris", desc: "Portraits, animaux, nature. Travail d'ombres et de lumières pour un rendu photographique sur peau. Spécialité de l'atelier.", tag: "Réalisme" },
@@ -320,8 +345,8 @@ return (
             <>Encre <span style={{ fontStyle: "italic" }}>Noire</span></>
           )}
         </div>
-        <div id="mb226-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      {["Styles", "Galerie", "Tarifs", "Contact"].map(l => (
-            <a key={l} href={`#${l.toLowerCase()}`} style={{ color: C.textMuted, fontSize: 14, fontWeight: 500, textDecoration: "none" }}>{l}</a>
+        <div id="mb226-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      {NAV.map(({ l, h }) => (
+            <a key={l} href={h} style={{ color: C.textMuted, fontSize: 14, fontWeight: 500, textDecoration: "none" }}>{l}</a>
           ))}
           <motion.button onClick={() => openConsult(null)} style={{ background: C.accent, color: "#0d0d0d", border: "none", borderRadius: 4, padding: "9px 22px", fontSize: 14, fontWeight: 700, cursor: "pointer", minHeight: 44 }} whileHover={{ background: C.accentDark }}>
             Réserver
@@ -340,8 +365,8 @@ return (
       </motion.nav>
       {mobileOpen && (
         <div style={{ position: "fixed", top: 72, left: 0, right: 0, zIndex: 99, background: "rgba(255,255,255,0.98)", borderBottom: "1px solid #e5e5e5", padding: "24px 32px", display: "flex", flexDirection: "column", gap: 20, backdropFilter: "blur(12px)" }}>
-          {["Styles", "Galerie", "Tarifs", "Contact"].map(l => (
-            <a key={l} href={`#${l.toLowerCase()}`} style={{ color: C.textMuted, fontSize: 14, fontWeight: 500, textDecoration: "none" }}>{l}</a>
+          {NAV.map(({ l, h }) => (
+            <a key={l} href={h} style={{ color: C.textMuted, fontSize: 14, fontWeight: 500, textDecoration: "none" }}>{l}</a>
           ))}
           <motion.button onClick={() => openConsult(null)} style={{ background: C.accent, color: "#0d0d0d", border: "none", borderRadius: 4, padding: "9px 22px", fontSize: 14, fontWeight: 700, cursor: "pointer", minHeight: 44 }} whileHover={{ background: C.accentDark }}>
             Réserver
@@ -468,6 +493,44 @@ return (
                   <div style={{ fontWeight: 600, color: C.text, fontSize: 14 }}>{a.auteur ?? a.author}</div>
                   {(a.detail ?? a.source) && <div style={{ color: C.accent, fontSize: 12, marginTop: 4 }}>{a.detail ?? a.source}</div>}
                 </div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
+      <section id="galerie" style={{ padding: "100px 80px", background: C.bg }}>
+        <Reveal><div style={{ marginBottom: 56 }}>
+          <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Galerie</span>
+          <h2 style={{ fontFamily: FONT, fontSize: "clamp(30px, 4vw, 52px)", color: C.text, marginTop: 10, lineHeight: 1.15 }}>Des pièces<br /><em>portées tous les jours.</em></h2>
+        </div></Reveal>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: 18, maxWidth: 1200, margin: "0 auto" }}>
+          {GALERIE.map((g, i) => (
+            <Reveal key={g.t} delay={i * 0.06}>
+              <motion.div whileHover={{ y: -5, boxShadow: C.shadowLg }} style={{ background: C.bgSection, borderRadius: 10, padding: "26px 24px", border: `1px solid ${C.border}`, boxShadow: C.shadow, height: "100%" }}>
+                <span style={{ background: C.accentLight, color: C.accent, borderRadius: 20, padding: "4px 12px", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>{g.s}</span>
+                <h3 style={{ fontFamily: FONT, fontSize: 18, color: C.text, margin: "14px 0 10px" }}>{g.t}</h3>
+                <p style={{ fontSize: 14, color: C.textMuted, lineHeight: 1.7 }}>{g.d}</p>
+              </motion.div>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
+      <section id="tarifs" style={{ padding: "100px 80px", background: C.bgSection }}>
+        <Reveal><div style={{ marginBottom: 56 }}>
+          <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Tarifs</span>
+          <h2 style={{ fontFamily: FONT, fontSize: "clamp(30px, 4vw, 52px)", color: C.text, marginTop: 10, lineHeight: 1.15 }}>Le prix se dit<br /><em>avant, pas après.</em></h2>
+        </div></Reveal>
+        <div style={{ maxWidth: 900, margin: "0 auto", background: C.bg, borderRadius: 10, border: `1px solid ${C.border}`, boxShadow: C.shadow, overflow: "hidden" }}>
+          {TARIFS.map((t, i) => (
+            <Reveal key={t.a} delay={i * 0.05}>
+              <div style={{ display: "flex", flexWrap: "wrap", alignItems: "baseline", justifyContent: "space-between", gap: 12, padding: "20px 28px", borderTop: i ? `1px solid ${C.border}` : "none" }}>
+                <div style={{ minWidth: 0 }}>
+                  <div style={{ fontSize: 15, fontWeight: 700, color: C.text }}>{t.a}</div>
+                  <div style={{ fontSize: 13, color: C.textMuted, marginTop: 3 }}>{t.n}</div>
+                </div>
+                <div style={{ fontSize: 15, fontWeight: 700, color: C.accent, flexShrink: 0 }}>{t.p}</div>
               </div>
             </Reveal>
           ))}

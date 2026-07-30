@@ -61,6 +61,20 @@ const PROJETS = [
   { titre: "Boutique concept store", lieu: "Part-Dieu", surface: "95 m²", style: "Retail design", tag: "Commercial", img: "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&q=80" },
 ]
 
+
+const NAV = [
+  { l: "Projets", h: "#projets" },
+  { l: "Services", h: "#services" },
+  { l: "Atelier", h: "#atelier" },
+  { l: "Contact", h: "#contact" },
+];
+const ATELIER = [
+  { t: "Le lieu", d: "Un ancien atelier de serrurerie de 180 m² rue de la Villette, à Lyon, gardé tel quel : verrière d'origine, sol béton, murs blanchis. On y dessine, on y maquette, et on y reçoit." },
+  { t: "La maquette avant l'écran", d: "Chaque projet passe par du carton plume et du contreplaqué à l'échelle. On voit en trois minutes ce qu'un rendu 3D met trois jours à cacher." },
+  { t: "Les matériaux sous la main", d: "Une murothèque de 400 échantillons : chêne, laiton, terrazzo, lin, zellige. Vous touchez avant de choisir, on ne travaille pas sur nuancier imprimé." },
+  { t: "Les artisans qu'on appelle", d: "Six ateliers partenaires en Île-de-France, les mêmes depuis six ans. Ébéniste, métallier, tapissier, staffeur. Aucun appel d'offres au moins-disant." },
+];
+
 const SERVICES = [
   { titre: "Conseil & Conception", desc: "De l'esquisse au dossier complet : plan, élévations, matériaux, mobilier. Chaque détail est pensé avant la première vis.", emoji: "✏️" },
   { titre: "Suivi de chantier", desc: "Coordination des artisans, contrôle qualité à chaque étape, livraison clé en main sans surprise de budget.", emoji: "🏗️" },
@@ -224,8 +238,8 @@ export default function StudioNomaPage() {
             <><span style={{ fontFamily: FONT, fontSize: 22, fontWeight: 600, color: scrolled ? C.text : "#fff", letterSpacing: 1 }}>Studio <em>Noma</em></span></>
           )}
         <div style={{ gap: 32, alignItems: "center" }} className="hidden md:flex">
-          {["Projets", "Services", "Atelier", "Contact"].map(l => (
-            <a key={l} href={`#${l.toLowerCase()}`} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.75)", fontSize: 14, fontWeight: 500, textDecoration: "none", transition: "color 0.2s", fontFamily: FONT_SANS }}>{l}</a>
+          {NAV.map(({ l, h }) => (
+            <a key={l} href={h} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.75)", fontSize: 14, fontWeight: 500, textDecoration: "none", transition: "color 0.2s", fontFamily: FONT_SANS }}>{l}</a>
           ))}
           <motion.a href="#contact" style={{ background: C.accent, color: C.white, borderRadius: 6, padding: "9px 22px", fontSize: 14, fontWeight: 600, textDecoration: "none", fontFamily: FONT_SANS }} whileHover={{ background: C.accentDark }}>
             Consultation gratuite
@@ -245,8 +259,8 @@ export default function StudioNomaPage() {
       
       {mobileOpen && (
         <div style={{ position: "fixed", top: 72, left: 0, right: 0, zIndex: 99, background: "rgba(255,255,255,0.97)", borderBottom: "1px solid #e5e5e5", padding: "24px 32px", display: "flex", flexDirection: "column", gap: 20, backdropFilter: "blur(12px)" }}>
-          {["Projets", "Services", "Atelier", "Contact"].map(l => (
-            <a key={l} href={`#${l.toLowerCase()}`} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.75)", fontSize: 14, fontWeight: 500, textDecoration: "none", transition: "color 0.2s", fontFamily: FONT_SANS }}>{l}</a>
+          {NAV.map(({ l, h }) => (
+            <a key={l} href={h} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.75)", fontSize: 14, fontWeight: 500, textDecoration: "none", transition: "color 0.2s", fontFamily: FONT_SANS }}>{l}</a>
           ))}
           <motion.a href="#contact" style={{ background: C.accent, color: C.white, borderRadius: 6, padding: "9px 22px", fontSize: 14, fontWeight: 600, textDecoration: "none", fontFamily: FONT_SANS }} whileHover={{ background: C.accentDark }}>
             Consultation gratuite
@@ -384,6 +398,25 @@ export default function StudioNomaPage() {
       </section>
 
       {/* CTA */}
+      <section id="atelier" style={{ padding: "100px 80px", background: C.white }}>
+        <Reveal>
+          <div style={{ textAlign: "center", marginBottom: 60 }}>
+            <span style={{ fontSize: 12, fontWeight: 600, letterSpacing: 4, textTransform: "uppercase", color: C.accent, fontFamily: FONT_SANS }}>L&apos;atelier</span>
+            <h2 style={{ fontFamily: FONT, fontSize: "clamp(32px, 3.5vw, 52px)", fontWeight: 300, color: C.text, marginTop: 12 }}>Où les projets <em>prennent forme</em>.</h2>
+          </div>
+        </Reveal>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(280px, 100%), 1fr))", gap: 28, maxWidth: 1000, margin: "0 auto" }}>
+          {ATELIER.map((a, i) => (
+            <Reveal key={a.t} delay={i * 0.08}>
+              <div style={{ background: C.bgSection, borderRadius: 16, padding: "36px 32px", boxShadow: C.shadow, border: `1px solid ${C.border}`, height: "100%" }}>
+                <h3 style={{ fontFamily: FONT, fontSize: 22, fontWeight: 400, color: C.text, marginBottom: 12 }}>{a.t}</h3>
+                <p style={{ fontSize: 14, color: C.textMuted, lineHeight: 1.8, fontFamily: FONT_SANS }}>{a.d}</p>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
       <section id="contact" style={{ padding: "110px 80px", background: C.accentLight, textAlign: "center" }}>
         <Reveal>
           <span style={{ fontSize: 12, fontWeight: 600, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark, fontFamily: FONT_SANS }}>Démarrons ensemble</span>

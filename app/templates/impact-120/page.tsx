@@ -129,6 +129,15 @@ function CartField({
 
 // ─── DATA MANIFESTS ─────────────────────────────────────────────────────────
 
+// "Bespoke" was in both navigations and named a pricing tier, but no section
+// of the page ever explained it.
+const BESPOKE = [
+  { n: "01", t: "The interview", d: "Four hours in Grasse, with no fragrance in the room. We talk about places, materials and memory — never about notes. Most clients arrive expecting a questionnaire." },
+  { n: "02", t: "The first three trials", d: "Six weeks later, three directions on blotters. You live with them for a month. Nothing is decided in the atelier; it is decided on your skin, in your weather." },
+  { n: "03", t: "Refinement", d: "Between four and eleven revisions, typically over nine months. The formula moves by fractions of a percent. You are copied on every version." },
+  { n: "04", t: "The vault", d: "The final formula is registered under your name and held for life. A refill can be produced at any point, at any volume, without repeating the work." },
+];
+
 const MANIFEST = {
   hero: {
     title: "Éclat",
@@ -712,6 +721,42 @@ export default function EclatLuxuryPage() {
                 ))}
               </div>
             </div>
+          </div>
+        </section>
+
+        {/* ─── BESPOKE ───────────────────────────────────────────────────── */}
+        <section id="bespoke" className="py-40 bg-black relative border-y border-white/5">
+          <div className="max-w-[1600px] mx-auto px-6 md:px-12">
+            <Reveal>
+              <div className="mb-24 max-w-2xl">
+                <div className="text-[10px] text-fuchsia-500 font-black tracking-[0.3em] mb-6">BESPOKE</div>
+                <h2 className="text-5xl md:text-7xl font-light text-white tracking-tight uppercase mb-8" style={{ fontFamily: "Georgia, serif" }}>
+                  A fragrance <span className="italic text-zinc-500">that exists once</span>
+                </h2>
+                <p className="text-zinc-400 text-lg tracking-wide italic font-light leading-relaxed">
+                  Two commissions are accepted each year. The work takes between twelve and eighteen months, and we
+                  have declined more of them than we have taken.
+                </p>
+              </div>
+            </Reveal>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-20">
+              {BESPOKE.map((b, i) => (
+                <Reveal key={b.n} direction="up" delay={i * 0.08}>
+                  <div className="relative pl-12 border-l border-white/10 group">
+                    <div className="absolute top-0 left-0 w-[1px] h-0 bg-fuchsia-500 group-hover:h-full transition-all duration-1000 ease-out" />
+                    <div className="text-[10px] text-fuchsia-500 font-black tracking-[0.3em] mb-4">STEP {b.n}</div>
+                    <h3 className="text-3xl text-white uppercase tracking-widest mb-6" style={{ fontFamily: "Georgia, serif" }}>{b.t}</h3>
+                    <p className="text-zinc-400 leading-relaxed font-light">{b.d}</p>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+            <Reveal>
+              <p className="text-xs text-zinc-600 mt-24 max-w-2xl leading-relaxed font-light tracking-wide">
+                Commissions begin at €15,000, settled in three instalments across the work. Should no direction
+                satisfy you by the third trial, the engagement ends and the second instalment is not called.
+              </p>
+            </Reveal>
           </div>
         </section>
 

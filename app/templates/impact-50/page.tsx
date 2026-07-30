@@ -42,6 +42,22 @@ const STATS = [
   { value: "48h", label: "Premier rendez-vous" },
 ]
 
+
+const NAV = [
+  { l: "Accompagnements", h: "#accompagnements" },
+  { l: "Approche", h: "#approche" },
+  { l: "Tarifs", h: "#tarifs" },
+  { l: "Contact", h: "#contact" },
+];
+const SEANCES = [
+  { n: "Première rencontre", p: "0 €", d: "Vingt minutes au téléphone, pour savoir si le courant passe et si je suis la bonne personne. Sans engagement." },
+  { n: "Séance individuelle", p: "65 €", d: "50 minutes, au cabinet ou en visio. Réglable par carte, chèque ou virement le jour même." },
+  { n: "Forfait 5 séances", p: "300 €", d: "Valable un an, sans obligation de rythme. Un accompagnement se construit rarement en une fois." },
+  { n: "Séance de couple", p: "90 €", d: "1 h 15. Les deux personnes présentes, toujours — c'est la condition du travail." },
+  { n: "Suivi adolescent", p: "60 €", d: "45 minutes. Un point avec les parents tous les trois mois, avec l'accord de l'adolescent." },
+  { n: "Supervision de professionnels", p: "95 €", d: "1 h, en individuel ou en petit groupe. Sur rendez-vous, en journée." },
+];
+
 const ACCOMPAGNEMENTS = [
   { titre: "Anxiété & troubles du stress", desc: "Prise en charge des troubles anxieux généralisés, phobies, TOC, stress post-traumatique et crises de panique. Protocoles TCC et EMDR.", tag: "Anxiété" },
   { titre: "Dépression & burnout", desc: "Accompagnement des épisodes dépressifs, épuisement professionnel et crises existentielles. Thérapie centrée sur la personne et activation comportementale.", tag: "Dépression" },
@@ -207,8 +223,8 @@ export default function CabinetMoreauPage() {
             <span style={{ fontSize: 13, color: scrolled ? C.textMuted : "rgba(255,255,255,0.65)", marginLeft: 8 }}>Psychologue clinicienne</span>
           </div>
         )}
-        <div id="mb50-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      {["Accompagnements", "Approche", "Tarifs", "Contact"].map(l => (
-            <a key={l} href={`#${l.toLowerCase()}`} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)", fontSize: 14, fontWeight: 600, textDecoration: "none" }}>{l}</a>
+        <div id="mb50-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      {NAV.map(({ l, h }) => (
+            <a key={l} href={h} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)", fontSize: 14, fontWeight: 600, textDecoration: "none" }}>{l}</a>
           ))}
           <motion.a href={`tel:${fd?.phone ?? "+33434000000"}`} style={{ background: C.accent, color: C.white, borderRadius: 8, padding: "9px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", display: "flex", alignItems: "center", gap: 6 }} whileHover={{ background: C.accentDark }}>
             <Calendar size={14} /> Prendre RDV
@@ -227,8 +243,8 @@ export default function CabinetMoreauPage() {
       </motion.nav>
       {mobileOpen && (
         <div style={{ position: "fixed", top: 72, left: 0, right: 0, zIndex: 99, background: "rgba(255,255,255,0.98)", borderBottom: "1px solid #e5e5e5", padding: "24px 32px", display: "flex", flexDirection: "column", gap: 20, backdropFilter: "blur(12px)" }}>
-          {["Accompagnements", "Approche", "Tarifs", "Contact"].map(l => (
-            <a key={l} href={`#${l.toLowerCase()}`} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)", fontSize: 14, fontWeight: 600, textDecoration: "none" }}>{l}</a>
+          {NAV.map(({ l, h }) => (
+            <a key={l} href={h} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)", fontSize: 14, fontWeight: 600, textDecoration: "none" }}>{l}</a>
           ))}
           <motion.a href={`tel:${fd?.phone ?? "+33434000000"}`} style={{ background: C.accent, color: C.white, borderRadius: 8, padding: "9px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", display: "flex", alignItems: "center", gap: 6 }} whileHover={{ background: C.accentDark }}>
             <Calendar size={14} /> Prendre RDV
@@ -346,6 +362,35 @@ export default function CabinetMoreauPage() {
             </motion.a>
           </Reveal>
         </div>
+      </section>
+
+      {/* Tarifs */}
+      <section id="tarifs" style={{ padding: "110px 80px", background: C.bg }}>
+        <Reveal>
+          <div style={{ marginBottom: 60 }}>
+            <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Tarifs</span>
+            <h2 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(30px, 4vw, 52px)", color: C.text, marginTop: 10, lineHeight: 1.15 }}>
+              Le prix est dit<br /><em>avant de commencer.</em>
+            </h2>
+          </div>
+        </Reveal>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: 20, maxWidth: 1200, margin: "0 auto" }}>
+          {SEANCES.map((s, i) => (
+            <Reveal key={s.n} delay={i * 0.06}>
+              <motion.div whileHover={{ y: -5, boxShadow: C.shadowLg }} style={{ background: C.white, borderRadius: 14, padding: "26px 24px", border: `1px solid ${C.border}`, boxShadow: C.shadow, height: "100%" }}>
+                <h3 style={{ fontFamily: FONT_SERIF, fontSize: 18, color: C.text }}>{s.n}</h3>
+                <div style={{ fontSize: 22, fontWeight: 700, color: C.accent, margin: "8px 0 14px" }}>{s.p}</div>
+                <p style={{ fontSize: 14, color: C.textMuted, lineHeight: 1.7 }}>{s.d}</p>
+              </motion.div>
+            </Reveal>
+          ))}
+        </div>
+        <Reveal>
+          <p style={{ maxWidth: 1200, margin: "22px auto 0", fontSize: 13, color: C.textMuted, lineHeight: 1.7 }}>
+            Les séances ne sont pas remboursées par l&apos;Assurance maladie. Beaucoup de mutuelles prennent en charge
+            quatre à huit séances par an : une facture vous est remise à chaque fois, sans avoir à la demander.
+          </p>
+        </Reveal>
       </section>
 
       {/* Témoignages */}

@@ -30,6 +30,14 @@ function Reveal({ children, delay = 0, y = 40 }: { children: React.ReactNode; de
   )
 }
 
+// "À propos" slugged to "#a-propos"; the section it means is id="apropos".
+const NAV = [
+  { l: "Articles", h: "#articles" },
+  { l: "Destinations", h: "#destinations" },
+  { l: "À propos", h: "#apropos" },
+  { l: "Newsletter", h: "#newsletter" },
+];
+
 const ARTICLES = [
   {
     id: 1,
@@ -264,9 +272,8 @@ export default function AtlasPage() {
             )}
           </Link>
           <div className="hidden md:flex items-center gap-8 text-sm text-[#6B5A40]">
-            {["Articles", "Destinations", "À propos", "Newsletter"].map(l => {
-              const cleaned = l.toLowerCase().replace(" ", "-").replace("à", "a");
-              return <Link key={l} href={`#${cleaned}`} className="hover:text-[#2C1F0E] transition-colors duration-200">{l}</Link>;
+            {NAV.map(({ l, h }) => {
+              return <Link key={l} href={h} className="hover:text-[#2C1F0E] transition-colors duration-200">{l}</Link>;
             })}
             <button className="relative">
               <Search className="w-5 h-5 text-[#6B5A40] hover:text-[#2C1F0E] transition-colors cursor-pointer" />
@@ -541,8 +548,8 @@ export default function AtlasPage() {
             </div>
             <div>
               <p className="text-[#F5F0E8] text-xs tracking-widest uppercase mb-5">Navigation</p>
-              {["Articles", "Destinations", "À propos", "Newsletter"].map(l => (
-                <Link key={l} href={`#${l.toLowerCase().replace(" ", "-").replace("à", "a")}`} className="block text-sm hover:text-[#F5F0E8] mb-3 transition-colors cursor-pointer">{l}</Link>
+              {NAV.map(({ l, h }) => (
+                <Link key={l} href={h} className="block text-sm hover:text-[#F5F0E8] mb-3 transition-colors cursor-pointer">{l}</Link>
               ))}
             </div>
             <div>

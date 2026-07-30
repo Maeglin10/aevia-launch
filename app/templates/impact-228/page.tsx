@@ -30,6 +30,28 @@ const FONT_BODY = "'Work Sans', system-ui, sans-serif"
 
 const STATS = [{ value: "16 ans", label: "D'expérience" }, { value: "5 000+", label: "Interventions" }, { value: "1h", label: "Délai urgence" }, { value: "24h/7j", label: "Disponibilité" }]
 
+
+const NAV = [
+  { l: "Services", h: "#services" },
+  { l: "Urgence", h: "#urgence" },
+  { l: "Entretien", h: "#entretien" },
+  { l: "Contact", h: "#contact" },
+];
+const URGENCE = [
+  { t: "Fuite d'eau", d: "Arrivée en moins d'une heure sur Lille et la métropole. On coupe, on sèche, on répare — dans cet ordre." },
+  { t: "Panne de chaudière", d: "Gaz ou fioul, toutes marques. Pièces courantes dans le camion : circulateur, vase, sonde, carte d'allumage." },
+  { t: "Plus d'eau chaude", d: "Diagnostic en trente minutes : résistance, thermostat, anode ou groupe de sécurité. Le devis est donné avant de démonter." },
+  { t: "Canalisation bouchée", d: "Furet, hydrocureur et caméra si nécessaire. On vous montre l'image avant de proposer un remplacement." },
+];
+
+const ENTRETIEN = [
+  { a: "Visite annuelle chaudière gaz", p: "119 €", n: "Obligatoire. Nettoyage, réglage, mesure de combustion, attestation remise sur place." },
+  { a: "Contrat Sérénité", p: "16 € / mois", n: "Visite annuelle, dépannage prioritaire sous 4 h, main-d'œuvre incluse." },
+  { a: "Entretien pompe à chaleur", p: "149 €", n: "Contrôle du circuit frigorifique, pression, filtres, unité extérieure." },
+  { a: "Détartrage chauffe-eau", p: "à partir de 139 €", n: "Recommandé tous les trois ans en eau dure. Anode contrôlée, remplacée si besoin." },
+  { a: "Contrôle de l'installation gaz", p: "95 €", n: "Certificat de conformité pour une vente ou une mise en location." },
+];
+
 const SERVICES_DEMO = [
   { titre: "Plomberie générale", desc: "Fuite, canalisation bouchée, remplacement de chauffe-eau, robinetterie, WC. Devis gratuit et transparence sur les tarifs avant intervention.", tag: "Plomberie" },
   { titre: "Installation chauffage", desc: "Chaudière gaz, pompe à chaleur, plancher chauffant, radiateurs. Marques Bosch, Viessmann, Atlantic — SAV assuré.", tag: "Chauffage" },
@@ -159,8 +181,8 @@ export default function AquaThermPage() {
             </>
           )}
         </div>
-        <div id="mb228-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      {["Services", "Urgence", "Entretien", "Contact"].map(l => (
-            <a key={l} href={`#${l.toLowerCase()}`} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)", fontSize: 14, fontWeight: 500, textDecoration: "none" }}>{l}</a>
+        <div id="mb228-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      {NAV.map(({ l, h }) => (
+            <a key={l} href={h} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)", fontSize: 14, fontWeight: 500, textDecoration: "none" }}>{l}</a>
           ))}
           <motion.a href={`tel:${fd?.phone ?? "+33320000000"}`} style={{ background: C.accent, color: C.white, borderRadius: 6, padding: "9px 22px", fontSize: 14, fontWeight: 600, textDecoration: "none", display: "flex", alignItems: "center", gap: 6 }} whileHover={{ background: C.accentDark }}>
             <Phone size={14} /> Urgence 24h/24
@@ -179,8 +201,8 @@ export default function AquaThermPage() {
       </motion.nav>
       {mobileOpen && (
         <div style={{ position: "fixed", top: 72, left: 0, right: 0, zIndex: 99, background: "rgba(255,255,255,0.98)", borderBottom: "1px solid #e5e5e5", padding: "24px 32px", display: "flex", flexDirection: "column", gap: 20, backdropFilter: "blur(12px)" }}>
-          {["Services", "Urgence", "Entretien", "Contact"].map(l => (
-            <a key={l} href={`#${l.toLowerCase()}`} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)", fontSize: 14, fontWeight: 500, textDecoration: "none" }}>{l}</a>
+          {NAV.map(({ l, h }) => (
+            <a key={l} href={h} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)", fontSize: 14, fontWeight: 500, textDecoration: "none" }}>{l}</a>
           ))}
           <motion.a href={`tel:${fd?.phone ?? "+33320000000"}`} style={{ background: C.accent, color: C.white, borderRadius: 6, padding: "9px 22px", fontSize: 14, fontWeight: 600, textDecoration: "none", display: "flex", alignItems: "center", gap: 6 }} whileHover={{ background: C.accentDark }}>
             <Phone size={14} /> Urgence 24h/24
@@ -290,6 +312,50 @@ export default function AquaThermPage() {
                   <div style={{ fontWeight: 600, color: "#fff", fontSize: 14 }}>{a.auteur}</div>
                   <div style={{ color: C.accent, fontSize: 12, marginTop: 4 }}>{a.detail}</div>
                 </div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
+      <section id="urgence" style={{ padding: "100px 80px", background: C.bgDark }}>
+        <Reveal><div style={{ marginBottom: 56 }}>
+          <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Urgence</span>
+          <h2 style={{ fontFamily: FONT, fontSize: "clamp(32px, 4.5vw, 56px)", color: C.white, marginTop: 10, lineHeight: 1.05, textTransform: "uppercase" }}>Un problème maintenant ?</h2>
+        </div></Reveal>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(280px, 100%), 1fr))", gap: 18, maxWidth: 1200, margin: "0 auto 32px" }}>
+          {URGENCE.map((u, i) => (
+            <Reveal key={u.t} delay={i * 0.07}>
+              <div style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.10)", borderRadius: 10, padding: "26px 24px", height: "100%" }}>
+                <h3 style={{ fontFamily: FONT, fontSize: 22, color: C.white, textTransform: "uppercase", letterSpacing: 1 }}>{u.t}</h3>
+                <p style={{ fontSize: 14, color: "rgba(255,255,255,0.45)", lineHeight: 1.7, marginTop: 10 }}>{u.d}</p>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+        <Reveal>
+          <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+            <a href={`tel:${fd?.phone ?? "+33320000000"}`} style={{ display: "inline-flex", alignItems: "center", gap: 10, background: C.accent, color: C.white, borderRadius: 8, padding: "14px 30px", fontSize: 14, fontWeight: 700, textDecoration: "none", letterSpacing: 1, textTransform: "uppercase" }}>
+              <Phone size={16} /> Appeler maintenant
+            </a>
+          </div>
+        </Reveal>
+      </section>
+
+      <section id="entretien" style={{ padding: "100px 80px", background: C.bgSection }}>
+        <Reveal><div style={{ marginBottom: 56 }}>
+          <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Entretien</span>
+          <h2 style={{ fontFamily: FONT, fontSize: "clamp(32px, 4.5vw, 56px)", color: C.text, marginTop: 10, lineHeight: 1.05, textTransform: "uppercase" }}>Ce qui évite l&apos;urgence</h2>
+        </div></Reveal>
+        <div style={{ maxWidth: 900, margin: "0 auto", background: C.white, borderRadius: 10, border: `1px solid ${C.border}`, boxShadow: C.shadow, overflow: "hidden" }}>
+          {ENTRETIEN.map((t, i) => (
+            <Reveal key={t.a} delay={i * 0.05}>
+              <div style={{ display: "flex", flexWrap: "wrap", alignItems: "baseline", justifyContent: "space-between", gap: 12, padding: "20px 28px", borderTop: i ? `1px solid ${C.border}` : "none" }}>
+                <div style={{ minWidth: 0 }}>
+                  <div style={{ fontSize: 15, fontWeight: 700, color: C.text }}>{t.a}</div>
+                  <div style={{ fontSize: 13, color: C.textMuted, marginTop: 3 }}>{t.n}</div>
+                </div>
+                <div style={{ fontSize: 15, fontWeight: 700, color: C.accent, flexShrink: 0 }}>{t.p}</div>
               </div>
             </Reveal>
           ))}

@@ -286,7 +286,7 @@ export default function Impact322() {
     { label: "Accueil", href: "#hero" },
     { label: "L'Agence", href: "#about" },
     { label: "Expertises", href: "#services" },
-    { label: "Réalisations", href: "#gallery" },
+    { label: "Réalisations", href: "#portfolio" },
     { label: "Contact", href: "#contact" },
   ];
 
