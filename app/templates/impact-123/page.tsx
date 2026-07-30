@@ -8,6 +8,14 @@ import { Car, ArrowRight, Menu, Zap, Gauge, Shield, Settings, Timer, ChevronRigh
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { resolveList } from "@/lib/templates/resolveList"
 
+const SOCIALS = [
+  { l: "Instagram", h: "https://instagram.com" },
+  { l: "YouTube", h: "https://youtube.com" },
+  { l: "LinkedIn", h: "https://linkedin.com" },
+  { l: "Facebook", h: "https://facebook.com" },
+];
+
+
 function Reveal({ children, delay = 0, y = 40 }: { children: React.ReactNode; delay?: number; y?: number }) {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: "-80px" })
@@ -433,8 +441,8 @@ export default function VulcanMotorsPage() {
               Restoring the past, defining the future. Vulcan Motors is an atelier dedicated to the preservation and evolution of the hypercar.
             </>}</p>
             <div className="flex gap-8">
-               {["Camera", "YouTube", "LinkedIn", "Registry"].map(s => (
-                 <Link key={s} href={ s === "LinkedIn" || s === "Linkedin" ? "https://linkedin.com" : s === "Contact" || s === "contact" ? "#contact" : `#${s.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="text-[10px] font-bold uppercase tracking-widest text-white/20 hover:text-red-600 transition-colors">{s}</Link>
+               {SOCIALS.map(s => (
+                 <Link key={s.l} href={s.h} target="_blank" rel="noopener noreferrer" className="text-[10px] font-bold uppercase tracking-widest text-white/20 hover:text-red-600 transition-colors">{s.l}</Link>
                ))}
             </div>
           </div>

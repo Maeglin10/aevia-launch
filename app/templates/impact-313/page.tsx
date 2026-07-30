@@ -37,6 +37,14 @@ import {
 } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
 
+const NAV = [
+  { l: "Services", h: "#services" },
+  { l: "Avantages", h: "#avantages" },
+  { l: "Réalisations", h: "#realisations" },
+  { l: "Avis", h: "#avis" },
+];
+
+
 // Helper: Shade Color
 function shadeColor(color, percent) {
   let R = parseInt(color.substring(1, 3), 16);
@@ -563,8 +571,8 @@ export default function PlumberDarkUrgent() {
 
           {/* Desktop Nav */}
           <nav className="mobile-hide" style={{ display: "flex", gap: "2rem", alignItems: "center" }}>
-            {["Services", "Avantages", "Réalisations", "Avis"].map((item) => (
-              <a key={item} href={`#${item.toLowerCase()}`} style={{
+            {NAV.map((item) => (
+              <a key={item.l} href={item.h} style={{
                 fontFamily: SANS,
                 fontSize: "0.875rem",
                 fontWeight: 600,
@@ -576,7 +584,7 @@ export default function PlumberDarkUrgent() {
               onMouseOver={e => e.target.style.color = C.primary}
               onMouseOut={e => e.target.style.color = C.text}
               >
-                {item}
+                {item.l}
               </a>
             ))}
             
@@ -646,8 +654,8 @@ export default function PlumberDarkUrgent() {
               gap: "1.5rem"
             }}
           >
-             {["Services", "Avantages", "Réalisations", "Avis"].map((item) => (
-              <a key={item} href={`#${item.toLowerCase()}`} 
+             {NAV.map((item) => (
+              <a key={item.l} href={item.h} 
                 onClick={() => setMobileMenuOpen(false)}
                 style={{
                   fontFamily: SANS,
@@ -660,7 +668,7 @@ export default function PlumberDarkUrgent() {
                   paddingBottom: "0.5rem"
                 }}
               >
-                {item}
+                {item.l}
               </a>
             ))}
             <a href={`tel:${businessPhone}`} style={{

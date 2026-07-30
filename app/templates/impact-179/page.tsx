@@ -39,6 +39,32 @@ function ParallaxImg({ src, alt }: { src: string; alt: string }) {
   )
 }
 
+const NAV = [
+  { l: "Services", h: "#services" },
+  { l: "Réalisations", h: "#realisations" },
+  { l: "Tarifs", h: "#tarifs" },
+  { l: "Zone intervention", h: "#zone" },
+  { l: "Contact", h: "#contact" },
+];
+
+const TARIFS = [
+  { a: "Déplacement & diagnostic", p: "65 €", n: "Déduit de la facture si les travaux nous sont confiés." },
+  { a: "Fuite apparente", p: "à partir de 130 €", n: "Recherche, réparation et mise en eau. Une heure sur place en moyenne." },
+  { a: "Recherche de fuite non destructive", p: "290 €", n: "Caméra thermique, gaz traceur, corrélateur. Rapport photo pour l'assurance." },
+  { a: "Débouchage canalisation", p: "à partir de 180 €", n: "Furet ou haute pression selon l'obstruction. Passage caméra inclus au-delà de 250 €." },
+  { a: "Remplacement chauffe-eau 200 L", p: "à partir de 890 €", n: "Appareil, pose, évacuation de l'ancien et mise en service." },
+  { a: "Majoration nuit, dimanche, férié", p: "+ 90 €", n: "Annoncée au téléphone avant de partir." },
+];
+
+const ZONES = [
+  { v: "Lyon 1er — 9e", d: "Intervention sous 2 h en urgence" },
+  { v: "Villeurbanne · Vaulx-en-Velin", d: "Sous 2 h" },
+  { v: "Caluire · Rillieux", d: "Sous 3 h" },
+  { v: "Écully · Tassin · Francheville", d: "Sous 3 h" },
+  { v: "Vénissieux · Saint-Priest · Bron", d: "Sous 3 h" },
+  { v: "Reste du Rhône", d: "Sur rendez-vous, hors urgence" },
+];
+
 const SERVICE_ICONS = [Droplets, Wrench, ShieldCheck, Droplets, Wrench, ShieldCheck]
 const SERVICES_DEMO = [
   { icon: Droplets, title: "Construction de piscine sur-mesure", desc: "Piscine enterrée béton ou coque polyester, forme libre ou classique. Étude de sol, terrassement, structure, étanchéité et margelles — clé en main." },
@@ -182,8 +208,8 @@ export default function AquanovaPiscinesPage() {
             )}
           </div>
           <div className={`hidden lg:flex gap-9 text-[10px] font-bold uppercase tracking-[0.2em] ${scrolled ? "text-[#0f172a]/40" : "text-white/70"}`}>
-            {["Services", "Réalisations", "Tarifs", "Zone intervention", "Contact"].map(l => (
-              <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="hover:text-[var(--brand)] transition-colors">{l}</Link>
+            {NAV.map(({ l, h }) => (
+              <Link key={l} href={h} className="hover:text-[var(--brand)] transition-colors">{l}</Link>
             ))}
           </div>
           <div className="flex items-center gap-3">
@@ -197,8 +223,8 @@ export default function AquanovaPiscinesPage() {
               <SheetTrigger className="lg:hidden"><Menu className={`w-5 h-5 ${scrolled ? "text-[#0f172a]" : "text-white"}`} /></SheetTrigger>
               <SheetContent side="right" className="bg-white border-slate-100 p-10">
                 <div className="flex flex-col gap-7 mt-16">
-                  {["Services", "Réalisations", "Contact"].map(l => (
-                    <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className={`text-3xl font-bold ${scrolled ? "text-[#0f172a]" : "text-white"} hover:text-[var(--brand)] transition-colors`}>{l}</Link>
+                  {NAV.map(({ l, h }) => (
+                    <Link key={l} href={h} className="text-3xl font-bold text-[#0f172a] hover:text-[var(--brand)] transition-colors">{l}</Link>
                   ))}
                   <a href={`tel:${fd?.phone ?? "0478987654"}`} className="flex items-center gap-3 text-[var(--brand)] font-bold text-xl mt-4">
                     <Phone className="w-5 h-5" /> {fd?.phone ?? "04 78 98 76 54"}
@@ -331,8 +357,60 @@ export default function AquanovaPiscinesPage() {
         </div>
       </section>
 
-      {/* ── TÉMOIGNAGES ── */}
+      {/* ── TARIFS ── */}
       <section id="tarifs" className="py-28 bg-white">
+        <div className="max-w-[1000px] mx-auto px-6 md:px-12">
+          <Reveal><div className="mb-14">
+            <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand)] mb-4">Tarifs</div>
+            <h2 className="text-4xl md:text-5xl font-bold text-[#0f172a]">Le prix <span className="text-[var(--brand)]">avant l'outil.</span></h2>
+          </div></Reveal>
+          <div className="border border-slate-100">
+            {TARIFS.map((t, i) => (
+              <Reveal key={t.a} delay={i * 0.05}>
+                <div className={`flex flex-wrap items-baseline justify-between gap-3 px-7 py-5 ${i ? "border-t border-slate-100" : ""}`}>
+                  <div className="min-w-0">
+                    <div className="font-bold text-[#0f172a] text-sm">{t.a}</div>
+                    <div className="text-xs text-[#0f172a]/40 mt-0.5">{t.n}</div>
+                  </div>
+                  <div className="font-bold text-[var(--brand)] text-sm shrink-0">{t.p}</div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+          <Reveal>
+            <p className="text-xs text-[#0f172a]/40 mt-6 leading-relaxed max-w-[70ch]">
+              Montants TTC, pièces comprises sauf mention contraire. Rien n'est engagé sans votre accord :
+              le devis est signé sur place, sur tablette, et vous en recevez une copie par courriel avant
+              que nous commencions.
+            </p>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ── ZONE ── */}
+      <section id="zone" className="py-28 bg-[#0f172a] text-white">
+        <div className="max-w-[1200px] mx-auto px-6 md:px-12">
+          <Reveal><div className="mb-14">
+            <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand)] mb-4">Zone d'intervention</div>
+            <h2 className="text-4xl md:text-5xl font-bold">Et en <span className="text-[var(--brand)]">combien de temps.</span></h2>
+          </div></Reveal>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-white/10 border border-white/10">
+            {ZONES.map((z, i) => (
+              <Reveal key={z.v} delay={i * 0.05}>
+                <div className="bg-[#0f172a] p-7 h-full">
+                  <div className="font-bold mb-2 flex items-center gap-2">
+                    <MapPin className="w-4 h-4 text-[var(--brand)]" />{z.v}
+                  </div>
+                  <p className="text-sm text-white/40">{z.d}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── TÉMOIGNAGES ── */}
+      <section id="avis" className="py-28 bg-white">
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
           <Reveal>
             <div className="mb-16 text-center">

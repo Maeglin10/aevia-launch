@@ -7,6 +7,22 @@ import Image from "next/image"
 import Link from "next/link"
 import { Menu, X, ArrowRight, Check, Star, Zap, BarChart2, Shield, Users, Clock, Globe, ChevronRight, Play, Sparkles } from "lucide-react"
 
+const DOCS = [
+  { t: "Démarrer en 10 minutes", d: "Installation, premier projet, première automatisation. Le parcours que suivent 80 % des nouveaux comptes." },
+  { t: "Référence API", d: "REST et webhooks, avec les schémas de chaque payload et un bac à sable pour tester sans clé de production." },
+  { t: "Intégrations", d: "Slack, Notion, Linear, GitHub, Google Workspace. Chaque connecteur a sa page, ses limites de débit et ses champs mappés." },
+  { t: "Import de données", d: "CSV, Airtable, Trello, Asana. L'import est réversible pendant sept jours : rien n'est écrasé sans confirmation." },
+  { t: "Sécurité & conformité", d: "SSO SAML, journal d'audit, hébergement européen, sous-traitants listés. Le DPA est téléchargeable sans le demander." },
+  { t: "Journal des versions", d: "Ce qui change à chaque release, y compris ce qui casse. Les dépréciations sont annoncées trois mois à l'avance." },
+];
+
+const BLOG = [
+  { t: "Pourquoi nous avons supprimé les notifications par défaut", k: "Produit", d: "Trois mois de données : les équipes qui recevaient moins d'alertes répondaient plus vite. On a retiré la fonctionnalité qu'on venait de construire." },
+  { t: "Le coût réel d'un tableau de bord temps réel", k: "Ingénierie", d: "Passer de 30 secondes à 1 seconde de latence a multiplié notre facture par onze. Ce qu'on a gardé, et ce qu'on a abandonné." },
+  { t: "Comment nous facturons, et pourquoi", k: "Entreprise", d: "Pas de prix par siège. Le raisonnement complet, avec les chiffres qui nous ont fait changer d'avis en 2025." },
+];
+
+
 function useFonts() {
   useEffect(() => {
     const id = "fonts-essential-saas"
@@ -194,8 +210,8 @@ export default function EssentialSaaSPage() {
             )}
           </div>
           <div className="hidden md:flex items-center gap-8 text-sm font-medium text-slate-600">
-            {["Fonctionnalités", "Tarifs", "Docs", "Blog"].map(l => (
-              <Link key={l} href={`#${l.toLowerCase()}`} className="hover:text-[var(--brand,#6366F1)] transition-colors">{l}</Link>
+            {[{ l: "Fonctionnalités", h: "#fonctionnalites" }, { l: "Tarifs", h: "#tarifs" }, { l: "Docs", h: "#docs" }, { l: "Blog", h: "#blog" }].map(({ l, h }) => (
+              <Link key={l} href={h} className="hover:text-[var(--brand,#6366F1)] transition-colors">{l}</Link>
             ))}
             <Link href="#tarifs" className="text-[var(--brand,#6366F1)]">Connexion</Link>
             <Link href="#tarifs" className="px-5 py-2.5 bg-[var(--brand,#6366F1)] text-white rounded-xl font-semibold hover:bg-[#4F46E5] transition-colors cursor-pointer">
@@ -324,7 +340,7 @@ export default function EssentialSaaSPage() {
       </section>
 
       {/* Features */}
-      <section id="fonctionnalités" className="py-28 bg-[#F8F9FF]">
+      <section id="fonctionnalites" className="py-28 bg-[#F8F9FF]">
         <div className="max-w-7xl mx-auto px-6 md:px-12">
           <div className="text-center mb-16">
             <Reveal>
@@ -502,6 +518,53 @@ export default function EssentialSaaSPage() {
       </section>
 
       {/* CTA */}
+      {/* Docs — the nav offered it with nothing behind it */}
+      <section id="docs" className="py-28 bg-slate-50">
+        <div className="max-w-7xl mx-auto px-6 md:px-12">
+          <div className="mb-14">
+            <Reveal>
+              <p className="text-[var(--brand,#6366F1)] font-semibold text-sm mb-3">Documentation</p>
+              <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4">Tout est écrit</h2>
+              <p className="text-slate-500 text-lg max-w-[60ch]">Pas de support payant pour obtenir une réponse qui devrait être publique.</p>
+            </Reveal>
+          </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {DOCS.map((d, i) => (
+              <Reveal key={d.t} delay={i * 0.06}>
+                <div className="h-full p-7 rounded-2xl border border-slate-200 bg-white hover:border-[var(--brand,#6366F1)] transition-colors">
+                  <h3 className="font-bold text-lg mb-2">{d.t}</h3>
+                  <p className="text-sm text-slate-500 leading-relaxed">{d.d}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Blog */}
+      <section id="blog" className="py-28 bg-white">
+        <div className="max-w-7xl mx-auto px-6 md:px-12">
+          <div className="mb-14">
+            <Reveal>
+              <p className="text-[var(--brand,#6366F1)] font-semibold text-sm mb-3">Blog</p>
+              <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4">Ce qu&apos;on apprend en construisant</h2>
+              <p className="text-slate-500 text-lg max-w-[60ch]">Trois à quatre articles par an. Quand on n&apos;a rien à dire, on ne publie pas.</p>
+            </Reveal>
+          </div>
+          <div className="grid md:grid-cols-3 gap-6">
+            {BLOG.map((b, i) => (
+              <Reveal key={b.t} delay={i * 0.08}>
+                <article className="h-full p-7 rounded-2xl border border-slate-200 bg-white flex flex-col">
+                  <span className="text-[11px] font-bold uppercase tracking-[0.18em] text-[var(--brand,#6366F1)] mb-3">{b.k}</span>
+                  <h3 className="font-bold text-lg mb-3 leading-snug">{b.t}</h3>
+                  <p className="text-sm text-slate-500 leading-relaxed">{b.d}</p>
+                </article>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <section id="contact" className="py-24 bg-[var(--brand,#6366F1)] text-white text-center px-6">
         <Reveal>
           <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-6">Prêt à simplifier votre workflow ?</h2>
@@ -533,7 +596,7 @@ export default function EssentialSaaSPage() {
           <div className="pt-8 border-t border-slate-800 flex flex-col md:flex-row justify-between gap-4 text-xs">
             <span>© 2024 {fd?.businessName ?? "Flowbase"} · Tous droits réservés</span>
             <div className="flex gap-6">
-              {["Confidentialité", "CGU", "Cookies"].map(l => <Link key={l} href="#fonctionnalités" className="hover:text-white transition-colors cursor-pointer">{l}</Link>)}
+              {[{ l: "Confidentialité", h: "/templates/impact-161/legal" }, { l: "CGU", h: "/templates/impact-161/legal" }, { l: "Cookies", h: "/templates/impact-161/legal" }].map(({ l, h }) => <Link key={l} href={h} className="hover:text-white transition-colors cursor-pointer">{l}</Link>)}
             </div>
           </div>
         </div>

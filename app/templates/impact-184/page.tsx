@@ -192,7 +192,7 @@ export default function BrilloNetPage() {
               <SheetTrigger className="lg:hidden"><Menu className="w-5 h-5" /></SheetTrigger>
               <SheetContent side="right" className="bg-white border-slate-100 p-10">
                 <div className="flex flex-col gap-7 mt-16">
-                  {NAV.map(({ l, h }) => <Link key={l} href={h} className={`text-3xl font-bold ${scrolled ? "text-[#1c2b2b]" : "text-white"} hover:text-[var(--brand,#0d9488)] transition-colors`}>{l}</Link>)}
+                  {NAV.map(({ l, h }) => <Link key={l} href={h} className="text-3xl font-bold text-[#1c2b2b] hover:text-[var(--brand,#0d9488)] transition-colors">{l}</Link>)}
                   <a href={`tel:${fd?.phone ?? "0478123456"}`} className="flex items-center gap-3 text-[var(--brand,#0d9488)] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> {fd?.phone ?? "04 78 12 34 56"}</a>
                 </div>
               </SheetContent>

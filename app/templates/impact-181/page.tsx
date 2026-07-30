@@ -39,6 +39,32 @@ function ParallaxImg({ src, alt }: { src: string; alt: string }) {
   )
 }
 
+const NAV = [
+  { l: "Prestations", h: "#prestations" },
+  { l: "Réalisations", h: "#realisations" },
+  { l: "Matériaux", h: "#materiaux" },
+  { l: "Zone d'intervention", h: "#zone" },
+  { l: "Contact", h: "#contact" },
+];
+
+const MATERIAUX = [
+  { n: "Coque polyester monobloc", u: "Bassins 6 à 10 m", d: "Posée en trois jours, gelcoat garanti dix ans. La forme est figée : ce qu'on voit au catalogue est ce qu'on aura." },
+  { n: "Béton projeté", u: "Formes libres, débordement", d: "Structure ferraillée coulée sur place. Aucune limite de forme ni de profondeur, quatre à six semaines de chantier." },
+  { n: "Panneaux acier galvanisé", u: "Bassins rectangulaires", d: "Le meilleur rapport durée/prix sur des formes simples. Liner 75/100e changé tous les douze à quinze ans." },
+  { n: "Liner armé 150/100e", u: "Rénovation et neuf", d: "Soudé sur place, garanti dix ans. C'est ce qu'on pose quand un bassin fuit sans qu'on sache où." },
+  { n: "Margelles pierre reconstituée", u: "Plages et abords", d: "Antidérapantes classées R11, teintes stables au soleil. Posées sur plots ou scellées selon le support." },
+  { n: "Filtration à billes de verre", u: "Toutes installations", d: "Filtre plus fin que le sable, moins de lavages, 30 % d'eau économisée chaque saison." },
+];
+
+const ZONES = [
+  { v: "Nantes et périphérie", d: "Création, rénovation et entretien" },
+  { v: "Saint-Nazaire · La Baule", d: "Chantiers côtiers, contraintes de vent étudiées" },
+  { v: "Angers · Cholet", d: "Création et rénovation, hors entretien hebdomadaire" },
+  { v: "Vannes · Redon", d: "Sur étude, à partir d'un bassin complet" },
+  { v: "La Roche-sur-Yon", d: "Création uniquement" },
+  { v: "Le Mans · Laval", d: "Nous consulter selon la saison" },
+];
+
 const SERVICE_ICONS = [Home, Wrench, Wind, AlertTriangle, ShieldCheck, Home]
 const SERVICES_DEMO = [
   { icon: Home, title: "Construction de piscine", desc: "Piscine enterrée béton, coque polyester ou bloc à bancher. Terrassement, structure, étanchéité, margelles et plage — de l'étude au remplissage." },
@@ -182,8 +208,8 @@ export default function ToitPierrePiscinesPage() {
             )}
           </div>
           <div className="hidden lg:flex gap-9 text-[10px] font-bold uppercase tracking-[0.22em] text-[#1f2937]/40">
-            {["Prestations", "Réalisations", "Matériaux", "Zone d'intervention", "Contact"].map(l => (
-              <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="hover:text-[var(--brand,#b91c1c)] transition-colors">{l}</Link>
+            {NAV.map(({ l, h }) => (
+              <Link key={l} href={h} className="hover:text-[var(--brand,#b91c1c)] transition-colors">{l}</Link>
             ))}
           </div>
           <div className="flex items-center gap-3">
@@ -197,7 +223,7 @@ export default function ToitPierrePiscinesPage() {
               <SheetTrigger className="lg:hidden"><Menu className="w-5 h-5 text-[#1f2937]" /></SheetTrigger>
               <SheetContent side="right" className="bg-[#f9f8f6] border-slate-200 p-10">
                 <div className="flex flex-col gap-7 mt-16">
-                  {["Prestations", "Réalisations", "Contact"].map(l => <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="text-3xl font-bold text-[#1f2937] hover:text-[var(--brand,#b91c1c)] transition-colors">{l}</Link>)}
+                  {NAV.map(({ l, h }) => <Link key={l} href={h} className="text-3xl font-bold text-[#1f2937] hover:text-[var(--brand,#b91c1c)] transition-colors">{l}</Link>)}
                   <a href={`tel:${fd?.phone ?? "0240123456"}`} className="flex items-center gap-3 text-[var(--brand,#b91c1c)] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> {fd?.phone ?? "02 40 12 34 56"}</a>
                 </div>
               </SheetContent>
@@ -268,7 +294,7 @@ export default function ToitPierrePiscinesPage() {
       </section>
 
       {/* ── SERVICES ── */}
-      <section id="services" className="py-28 bg-[#f9f8f6]">
+      <section id="prestations" className="py-28 bg-[#f9f8f6]">
         <div className="max-w-[1300px] mx-auto px-6 md:px-12">
           <Reveal>
             <div className="mb-16">
@@ -293,7 +319,7 @@ export default function ToitPierrePiscinesPage() {
       </section>
 
       {/* ── RÉALISATIONS ── */}
-      <section className="py-28 bg-slate-50">
+      <section id="realisations" className="py-28 bg-slate-50">
         <div className="max-w-[1400px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-16">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#b91c1c)] mb-4">Portfolio</div>
@@ -343,8 +369,55 @@ export default function ToitPierrePiscinesPage() {
         </div>
       </section>
 
+      {/* ── MATÉRIAUX ── */}
+      <section id="materiaux" className="py-28 bg-white">
+        <div className="max-w-[1300px] mx-auto px-6 md:px-12">
+          <Reveal>
+            <div className="mb-16">
+              <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#b91c1c)] mb-4">Matériaux</div>
+              <h2 className="text-4xl md:text-5xl font-bold text-[#1f2937]">Ce qu&apos;on <span className="text-[#374151]">construit avec.</span></h2>
+            </div>
+          </Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {MATERIAUX.map((m, i) => (
+              <Reveal key={m.n} delay={i * 0.06}>
+                <div className="bg-[#f9f8f6] border border-slate-200 p-7 h-full">
+                  <h3 className="text-lg font-bold text-[#1f2937] mb-1">{m.n}</h3>
+                  <div className="text-[10px] font-bold uppercase tracking-[0.24em] text-[var(--brand,#b91c1c)] mb-4">{m.u}</div>
+                  <p className="text-sm text-slate-500 leading-relaxed">{m.d}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── ZONE ── */}
+      <section id="zone" className="py-28 bg-[#f9f8f6]">
+        <div className="max-w-[1300px] mx-auto px-6 md:px-12">
+          <Reveal>
+            <div className="mb-16">
+              <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#b91c1c)] mb-4">Zone d&apos;intervention</div>
+              <h2 className="text-4xl md:text-5xl font-bold text-[#1f2937]">Jusqu&apos;où <span className="text-[#374151]">on va.</span></h2>
+            </div>
+          </Reveal>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-slate-200 border border-slate-200">
+            {ZONES.map((z, i) => (
+              <Reveal key={z.v} delay={i * 0.05}>
+                <div className="bg-white p-7 h-full">
+                  <div className="font-bold text-[#1f2937] mb-2 flex items-center gap-2">
+                    <MapPin className="w-4 h-4 text-[var(--brand,#b91c1c)]" />{z.v}
+                  </div>
+                  <p className="text-sm text-slate-500 leading-relaxed">{z.d}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ── CTA ── */}
-      <section id="realisations" className="py-32 bg-[#1f2937] text-center">
+      <section id="projet" className="py-32 bg-[#1f2937] text-center">
         <Reveal>
           <div className="max-w-xl mx-auto px-6">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#b91c1c)] mb-6">Votre projet</div>

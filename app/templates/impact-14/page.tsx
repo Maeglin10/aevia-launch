@@ -2331,11 +2331,11 @@ export default function HorizonMaritimePage() {
                 Crafting extraordinary maritime experiences since 1997. Monaco — Geneva — Singapore.
               </p>
               <div style={{ marginTop: "2rem", display: "flex", gap: "1rem" }}>
-                <a href="#contact" style={{fontFamily: "Montserrat, sans-serif", fontSize: 10, color: brand ?? 'var(--brand,#c9a84c)', letterSpacing: 2, textDecoration: "none" }}>
+                <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" style={{fontFamily: "Montserrat, sans-serif", fontSize: 10, color: brand ?? 'var(--brand,#c9a84c)', letterSpacing: 2, textDecoration: "none" }}>
                   Instagram
                 </a>
                 <span style={{ color: "rgba(201,168,76,0.3)" }}>·</span>
-                <a href="#contact" style={{fontFamily: "Montserrat, sans-serif", fontSize: 10, color: brand ?? 'var(--brand,#c9a84c)', letterSpacing: 2, textDecoration: "none" }}>
+                <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" style={{fontFamily: "Montserrat, sans-serif", fontSize: 10, color: brand ?? 'var(--brand,#c9a84c)', letterSpacing: 2, textDecoration: "none" }}>
                   LinkedIn
                 </a>
               </div>
@@ -3064,7 +3064,7 @@ function ContactPage() {
 
 function LegalPage() {
   return (
-    <section id="contact" style={{ background: "#0a1520", padding: "10rem 2rem 6rem", minHeight: "100dvh" }}>
+    <section id="legal" style={{ background: "#0a1520", padding: "10rem 2rem 6rem", minHeight: "100dvh" }}>
       <div style={{ maxWidth: 800, margin: "0 auto", fontFamily: "Montserrat, sans-serif" }}>
         <h1 style={{ fontFamily: "Cormorant Garamond, Georgia, serif", fontSize: "3rem", fontWeight: 300, color: "#f0ece0", borderBottom: "1px solid rgba(201,168,76,0.2)", paddingBottom: "1.5rem", marginBottom: "2.5rem" }}>
           Legal Mentions & Terms

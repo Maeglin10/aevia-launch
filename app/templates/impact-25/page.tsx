@@ -41,6 +41,20 @@ const STATS = [
   { value: "30j", label: "Délai MVP moyen" },
 ]
 
+
+const NAV = [
+  { l: "Services", h: "#services" },
+  { l: "Réalisations", h: "#realisations" },
+  { l: "Tarifs", h: "#tarifs" },
+  { l: "Contact", h: "#contact" },
+];
+const OFFRES = [
+  { n: "Site vitrine", p: "à partir de 2 400 €", d: "Cinq à huit pages, rédaction comprise, mise en ligne et formation à la prise en main. Livré en 4 semaines." },
+  { n: "E-commerce", p: "à partir de 6 800 €", d: "Catalogue, paiement, transporteurs, e-mails transactionnels. Migration d'un catalogue existant possible." },
+  { n: "Refonte", p: "sur devis", d: "Audit d'abord : trafic, positions, conversion. On ne refait que ce qui coûte de l'argent aujourd'hui." },
+  { n: "Accompagnement mensuel", p: "590 € / mois", d: "Corrections, contenus, suivi des positions, rapport mensuel commenté. Sans engagement de durée." },
+];
+
 const SERVICES = [
   { titre: "Sites web & landing pages", desc: "Conception et développement de sites vitrines, e-commerce et landing pages haute conversion. Next.js, Webflow ou sur mesure selon vos besoins.", tag: "Web" },
   { titre: "Identité visuelle & branding", desc: "Logo, charte graphique, guide de marque. Nous créons une identité cohérente qui parle à vos cibles et vous distingue de vos concurrents.", tag: "Brand" },
@@ -236,8 +250,8 @@ export default function PixelRepublicPage() {
             </>
           )}
         </div>
-        <div id="mb25-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      {["Services", "Réalisations", "Tarifs", "Contact"].map(l => (
-            <a key={l} href={`#${l.toLowerCase()}`} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)", fontSize: 14, fontWeight: 500, textDecoration: "none" }}>{l}</a>
+        <div id="mb25-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      {NAV.map(({ l, h }) => (
+            <a key={l} href={h} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)", fontSize: 14, fontWeight: 500, textDecoration: "none" }}>{l}</a>
           ))}
           <motion.a href="#contact" style={{ background: C.accent, color: C.white, borderRadius: 8, padding: "9px 22px", fontSize: 14, fontWeight: 600, textDecoration: "none", fontFamily: FONT }} whileHover={{ background: C.accentDark }}>
             Démarrer un projet
@@ -256,8 +270,8 @@ export default function PixelRepublicPage() {
       </motion.nav>
       {mobileOpen && (
         <div style={{ position: "fixed", top: 72, left: 0, right: 0, zIndex: 99, background: "rgba(255,255,255,0.98)", borderBottom: "1px solid #e5e5e5", padding: "24px 32px", display: "flex", flexDirection: "column", gap: 20, backdropFilter: "blur(12px)" }}>
-          {["Services", "Réalisations", "Tarifs", "Contact"].map(l => (
-            <a key={l} href={`#${l.toLowerCase()}`} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)", fontSize: 14, fontWeight: 500, textDecoration: "none" }}>{l}</a>
+          {NAV.map(({ l, h }) => (
+            <a key={l} href={h} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)", fontSize: 14, fontWeight: 500, textDecoration: "none" }}>{l}</a>
           ))}
           <motion.a href="#contact" style={{ background: C.accent, color: C.white, borderRadius: 8, padding: "9px 22px", fontSize: 14, fontWeight: 600, textDecoration: "none", fontFamily: FONT }} whileHover={{ background: C.accentDark }}>
             Démarrer un projet
@@ -300,7 +314,7 @@ export default function PixelRepublicPage() {
             <motion.a href="#contact" style={{ background: C.accent, color: C.white, borderRadius: 8, padding: "15px 32px", fontWeight: 700, fontSize: 15, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, boxShadow: `0 8px 32px ${C.accent}44`, fontFamily: FONT }} whileHover={{ background: C.accentDark, scale: 1.03 }}>
               Démarrer un projet <ArrowRight size={16} />
             </motion.a>
-            <motion.a href="#réalisations" style={{ background: "rgba(255,255,255,0.08)", color: "#fff", border: "1px solid rgba(255,255,255,0.20)", borderRadius: 8, padding: "13px 28px", fontWeight: 500, fontSize: 15, textDecoration: "none", backdropFilter: "blur(8px)" }} whileHover={{ background: "rgba(255,255,255,0.14)" }}>
+            <motion.a href="#realisations" style={{ background: "rgba(255,255,255,0.08)", color: "#fff", border: "1px solid rgba(255,255,255,0.20)", borderRadius: 8, padding: "13px 28px", fontWeight: 500, fontSize: 15, textDecoration: "none", backdropFilter: "blur(8px)" }} whileHover={{ background: "rgba(255,255,255,0.14)" }}>
               Voir nos réalisations
             </motion.a>
           </motion.div>
@@ -352,7 +366,7 @@ export default function PixelRepublicPage() {
       </section>
 
       {/* Réalisations */}
-      <section id="réalisations" style={{ padding: "100px 80px", background: C.bgSection }}>
+      <section id="realisations" style={{ padding: "100px 80px", background: C.bgSection }}>
         <Reveal>
           <div style={{ marginBottom: 52 }}>
             <span style={{ fontSize: 12, fontWeight: 600, letterSpacing: 4, textTransform: "uppercase", color: C.accent, fontFamily: FONT }}>Réalisations</span>
@@ -428,6 +442,35 @@ export default function PixelRepublicPage() {
       </section>
 
       {/* CTA */}
+      {/* Tarifs */}
+      <section id="tarifs" style={{ padding: "110px 80px", background: C.white }}>
+        <Reveal>
+          <div style={{ marginBottom: 60 }}>
+            <span style={{ fontSize: 12, fontWeight: 600, letterSpacing: 4, textTransform: "uppercase", color: C.accent, fontFamily: FONT }}>Tarifs</span>
+            <h2 style={{ fontFamily: FONT, fontSize: "clamp(30px, 4vw, 52px)", fontWeight: 700, color: C.text, marginTop: 10, lineHeight: 1.1 }}>
+              Ce que ça coûte,<br />avant le premier rendez-vous.
+            </h2>
+          </div>
+        </Reveal>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(280px, 100%), 1fr))", gap: 20, maxWidth: 1200, margin: "0 auto" }}>
+          {OFFRES.map((o, i) => (
+            <Reveal key={o.n} delay={i * 0.07}>
+              <motion.div whileHover={{ y: -5, boxShadow: C.shadowLg }} style={{ background: C.bg, borderRadius: 14, padding: "28px 24px", border: `1px solid ${C.border}`, boxShadow: C.shadow, height: "100%" }}>
+                <h3 style={{ fontFamily: FONT, fontSize: 17, fontWeight: 700, color: C.text }}>{o.n}</h3>
+                <div style={{ fontFamily: FONT, fontSize: 22, fontWeight: 700, color: C.accent, margin: "8px 0 14px" }}>{o.p}</div>
+                <p style={{ fontSize: 14, color: C.textMuted, lineHeight: 1.7 }}>{o.d}</p>
+              </motion.div>
+            </Reveal>
+          ))}
+        </div>
+        <Reveal>
+          <p style={{ maxWidth: 1200, margin: "22px auto 0", fontSize: 13, color: C.textMuted, lineHeight: 1.7 }}>
+            Le devis est ferme : ce qui n&apos;y figure pas ne vous est pas facturé. Hébergement et nom de domaine
+            restent à votre nom, chez votre prestataire — on ne prend pas vos accès en otage.
+          </p>
+        </Reveal>
+      </section>
+
       <section id="contact" style={{ padding: "100px 80px", background: C.accentLight, textAlign: "center" }}>
         <Reveal>
           <div style={{ display: "inline-flex", alignItems: "center", gap: 8, marginBottom: 20, background: "rgba(99,102,241,0.10)", border: "1px solid rgba(99,102,241,0.25)", borderRadius: 20, padding: "6px 16px" }}>

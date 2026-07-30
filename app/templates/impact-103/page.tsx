@@ -31,6 +31,29 @@ function ParallaxImg({ src, alt }: { src: string; alt: string }) {
   )
 }
 
+// Every nav item pointed at #services, including "Partners" while a #partners
+// section existed. Two of the four had no section at all.
+const NAV = [
+  { l: "Expertise", h: "#services" },
+  { l: "Partners", h: "#partners" },
+  { l: "Insights", h: "#insights" },
+  { l: "Case Studies", h: "#cases" },
+];
+
+const INSIGHTS = [
+  { k: "Corporate", t: "The earn-out clause that survives a downturn", d: "Three quarters of the disputes we see on acquisitions start in the same paragraph. What we now insist on drafting differently." },
+  { k: "Litigation", t: "Why we settle more cases than we try", d: "A 98% trial record is only meaningful next to the cases that never reached a courtroom. The arithmetic, in full." },
+  { k: "Regulatory", t: "DORA: what actually changed in January", d: "Financial entities operating in the EU now answer for their ICT suppliers. The obligations that carry real penalties." },
+  { k: "Cross-border", t: "Enforcing an English judgment after Brexit", d: "The Hague 2019 route, its exclusions, and where a fresh action in the local court is still faster." },
+];
+
+const CASES = [
+  { s: "Corporate", t: "€2.1bn cross-border consolidation", d: "Fourteen jurisdictions, eleven months, one regulator holding it up until the last week. Closed without a price adjustment." },
+  { s: "Litigation", t: "Shareholder claim dismissed at first instance", d: "A €340m derivative action against a listed board. Struck out on standing before the merits were ever argued." },
+  { s: "Restructuring", t: "Scheme of arrangement, 1,900 creditors", d: "Court-sanctioned in under six months, with 94% approval in the largest class." },
+  { s: "Regulatory", t: "Dawn raid to closed file in nine months", d: "A competition authority inspection across three offices. No fine, no commitments, no publication." },
+];
+
 const EXPERTISE = [
   { icon: Gavel, title: "High-Stakes Litigation", desc: "Aggressive representation in complex civil and criminal proceedings with a track record of landmark victories." },
   { icon: Briefcase, title: "Strategic M&A", desc: "Navigating multi-billion dollar transactions with surgical precision and cross-border expertise." },
@@ -178,8 +201,8 @@ export default function LuminaLawPage() {
             )}
           </Link>
           <div className="hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-black/40">
-            {["Expertise", "Partners", "Insights", "Case Studies"].map(l => (
-              <Link key={l} href="#services" className="hover:text-[var(--brand,#1a365d)] transition-colors">{l}</Link>
+            {NAV.map(({ l, h }) => (
+              <Link key={l} href={h} className="hover:text-[var(--brand,#1a365d)] transition-colors">{l}</Link>
             ))}
           </div>
           <div className="flex items-center gap-4">
@@ -189,8 +212,8 @@ export default function LuminaLawPage() {
               <SheetTrigger className="lg:hidden"><Menu className="w-6 h-6 text-black" /></SheetTrigger>
               <SheetContent side="right" className="bg-white border-black/5 p-12 text-black">
                 <div className="flex flex-col gap-8 mt-16 text-left">
-                  {["Expertise", "Partners", "Insights", "Contact"].map(l => (
-                    <Link key={l} href="#services" className="text-3xl font-bold tracking-tighter hover:text-[var(--brand,#1a365d)] transition-colors">{l}</Link>
+                  {[...NAV, { l: "Contact", h: "#contact" }].map(({ l, h }) => (
+                    <Link key={l} href={h} className="text-3xl font-bold tracking-tighter hover:text-[var(--brand,#1a365d)] transition-colors">{l}</Link>
                   ))}
                 </div>
               </SheetContent>
@@ -414,6 +437,60 @@ export default function LuminaLawPage() {
         </section>
 
         {/* ── CTA ───────────────────── */}
+        {/* INSIGHTS */}
+        <section id="insights" className="py-40 bg-[#f7f7f5]">
+          <div className="max-w-[1400px] mx-auto px-6 md:px-12">
+            <Reveal>
+              <div className="mb-20 border-b border-black/10 pb-10">
+                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#1a365d)] block mb-5">Insights</span>
+                <h2 className="text-5xl md:text-7xl font-bold uppercase text-[#1a1a1a]" style={{ fontFamily: "serif" }}>What We <span className="italic font-light text-[var(--brand,#1a365d)]">Publish.</span></h2>
+              </div>
+            </Reveal>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-black/10 border border-black/10">
+              {INSIGHTS.map((n, i) => (
+                <Reveal key={n.t} delay={i * 0.06}>
+                  <article className="bg-[#f7f7f5] p-10 h-full">
+                    <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#1a365d)]">{n.k}</span>
+                    <h3 className="text-2xl font-bold text-[#1a1a1a] mt-4 mb-4 leading-snug" style={{ fontFamily: "serif" }}>{n.t}</h3>
+                    <p className="text-sm text-black/45 leading-relaxed">{n.d}</p>
+                  </article>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* CASE STUDIES */}
+        <section id="cases" className="py-40 bg-white">
+          <div className="max-w-[1400px] mx-auto px-6 md:px-12">
+            <Reveal>
+              <div className="mb-20 border-b border-black/10 pb-10">
+                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#1a365d)] block mb-5">Case Studies</span>
+                <h2 className="text-5xl md:text-7xl font-bold uppercase text-[#1a1a1a]" style={{ fontFamily: "serif" }}>What We <span className="italic font-light text-[var(--brand,#1a365d)]">Closed.</span></h2>
+              </div>
+            </Reveal>
+            <div className="divide-y divide-black/10 border-y border-black/10">
+              {CASES.map((c, i) => (
+                <Reveal key={c.t} delay={i * 0.06}>
+                  <div className="py-10 grid grid-cols-1 md:grid-cols-[180px_1fr] gap-8">
+                    <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#1a365d)] pt-2">{c.s}</span>
+                    <div>
+                      <h3 className="text-2xl md:text-3xl font-bold text-[#1a1a1a] mb-3" style={{ fontFamily: "serif" }}>{c.t}</h3>
+                      <p className="text-sm text-black/45 leading-relaxed max-w-[75ch]">{c.d}</p>
+                    </div>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+            <Reveal>
+              <p className="text-xs text-black/30 mt-10 max-w-[75ch] leading-relaxed">
+                Matters are described in outline only. Named parties, figures and jurisdictions are altered or omitted
+                wherever the engagement or its settlement remains confidential.
+              </p>
+            </Reveal>
+          </div>
+        </section>
+
         <section id="contact" className="py-40 bg-[var(--brand,#1a365d)] text-white text-center">
           <div className="max-w-4xl mx-auto px-6">
             <Reveal>
@@ -450,8 +527,8 @@ export default function LuminaLawPage() {
               "The law is a shield for the righteous and a sword for the strategic. We provide both."
             </p>
             <div className="flex gap-10">
-               {["LinkedIn", "Journal", "Archive", "Contact"].map(s => (
-                 <Link key={s} href={ s === "LinkedIn" || s === "Linkedin" ? "https://linkedin.com" : s === "Contact" || s === "contact" ? "#contact" : `#${s.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="text-[10px] font-bold uppercase tracking-widest text-black/30 hover:text-[var(--brand,#1a365d)] transition-colors">{s}</Link>
+               {[{ l: "LinkedIn", h: "https://linkedin.com" }, { l: "Journal", h: "#insights" }, { l: "Archive", h: "#cases" }, { l: "Contact", h: "#contact" }].map(s => (
+                 <Link key={s.l} href={s.h} className="text-[10px] font-bold uppercase tracking-widest text-black/30 hover:text-[var(--brand,#1a365d)] transition-colors">{s.l}</Link>
                ))}
             </div>
           </div>

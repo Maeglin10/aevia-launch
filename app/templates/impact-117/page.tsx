@@ -7,6 +7,14 @@ import Link from "next/link"
 import { Truck, ArrowRight, Menu, Zap, Globe, Shield, BarChart3, Clock, Package, MapPin, Gauge, MoveRight } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 
+const SOCIALS = [
+  { l: "LinkedIn", h: "https://linkedin.com" },
+  { l: "X", h: "https://x.com" },
+  { l: "Vimeo", h: "https://vimeo.com" },
+  { l: "GitHub", h: "https://github.com" },
+];
+
+
 function Reveal({ children, delay = 0, y = 40 }: { children: React.ReactNode; delay?: number; y?: number }) {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: "-80px" })
@@ -404,8 +412,8 @@ export default function VoltLogisticsPage() {
               Engineering the next generation of autonomous, zero-emission logistics for a world that never stops moving.
             </>}</p>
             <div className="flex gap-6">
-               {["LinkedIn", "X", "Vimeo", "GitHub"].map(s => (
-                 <Link key={s} href={ s === "LinkedIn" || s === "Linkedin" ? "https://linkedin.com" : s === "Contact" || s === "contact" ? "#contact" : `#${s.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="text-[10px] font-bold uppercase tracking-widest text-white/30 hover:text-[var(--brand,#ffb400)] transition-colors">{s}</Link>
+               {SOCIALS.map(s => (
+                 <Link key={s.l} href={s.h} target="_blank" rel="noopener noreferrer" className="text-[10px] font-bold uppercase tracking-widest text-white/30 hover:text-[var(--brand,#ffb400)] transition-colors">{s.l}</Link>
                ))}
             </div>
           </div>

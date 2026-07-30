@@ -7,6 +7,14 @@ import Link from "next/link"
 import { Rocket, ArrowRight, Menu, Globe, Shield, Satellite, Zap, Radio, ChevronRight, Activity, Cpu, Box } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 
+const SOCIALS = [
+  { l: "LinkedIn", h: "https://linkedin.com" },
+  { l: "YouTube", h: "https://youtube.com" },
+  { l: "GitHub", h: "https://github.com" },
+  { l: "X", h: "https://x.com" },
+];
+
+
 function Reveal({ children, delay = 0, y = 40 }: { children: React.ReactNode; delay?: number; y?: number }) {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: "-80px" })
@@ -441,8 +449,8 @@ export default function AstrumReachPage() {
               Empowering the next century of space travel through sustainable, reliable, and frequent orbital access.
             </p>
             <div className="flex gap-8">
-               {["Mission Control", "YouTube", "GitHub", "MessageSquare"].map(s => (
-                 <Link key={s} href={ s === "LinkedIn" || s === "Linkedin" ? "https://linkedin.com" : s === "Contact" || s === "contact" ? "#contact" : `#${s.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="text-[10px] font-bold uppercase tracking-widest text-white/20 hover:text-[var(--brand,#22d3ee)] transition-colors">{s}</Link>
+               {SOCIALS.map(s => (
+                 <Link key={s.l} href={s.h} target="_blank" rel="noopener noreferrer" className="text-[10px] font-bold uppercase tracking-widest text-white/20 hover:text-[var(--brand,#22d3ee)] transition-colors">{s.l}</Link>
                ))}
             </div>
           </div>

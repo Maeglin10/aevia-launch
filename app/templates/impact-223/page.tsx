@@ -39,6 +39,14 @@ function ParallaxImg({ src, alt }: { src: string; alt: string }) {
   )
 }
 
+// "À propos" was in both navigations with no section behind it.
+const APROPOS = [
+  { k: "2009", t: "Deux électriciens, un utilitaire", d: "Karim Sadaoui et Bruno Vermeil se rencontrent sur un chantier de Nanterre. Ils partent à deux, avec un Kangoo et un fichier client vide." },
+  { k: "2014", t: "Qualification RGE", d: "Obtention de la mention RGE, qui ouvre les aides à la rénovation à nos clients. Première embauche la même année." },
+  { k: "2019", t: "L'atelier de Gennevilliers", d: "Un local à nous : stock de câble, tableaux préparés à l'avance, un dépannage qui ne dépend plus des horaires d'un grossiste." },
+  { k: "Aujourd'hui", t: "Onze personnes, un seul métier", d: "Neuf électriciens, deux à l'atelier. Aucune sous-traitance : celui qui vient chez vous est salarié, et il revient si quelque chose ne va pas." },
+];
+
 const SERVICES_DEMO = [
   { icon: Zap, title: "Installation électrique", desc: "Tableaux de distribution, câblage neuf, mise aux normes NF C 15-100. Habitat individuel et collectif." },
   { icon: ShieldCheck, title: "Mise en conformité", desc: "Diagnostic CONSUEL, rapport de vérification, levée des réserves. Attestations pour vente ou location." },
@@ -405,7 +413,37 @@ export default function VoltProPage() {
         </section>
 
         {/* ── TÉMOIGNAGES ── */}
-        <section id="tarifs" className="py-32 bg-[#05070a] border-t border-white/5">
+        {/* À PROPOS */}
+        <section id="apropos" className="py-32 border-t border-white/5">
+          <div className="max-w-[1200px] mx-auto px-6 md:px-12">
+            <Reveal>
+              <div className="mb-20">
+                <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#facc15)] block mb-4" style={{ fontFamily: "'Space Mono', monospace" }}>// À propos</span>
+                <h2 className="text-5xl md:text-7xl font-extrabold tracking-tighter uppercase">Qui on <span className="text-[var(--brand,#facc15)]">est.</span></h2>
+              </div>
+            </Reveal>
+            <Reveal>
+              <p className="max-w-[70ch] text-white/45 leading-relaxed mb-16">
+                On ne fait que de l&apos;électricité. Pas de plomberie, pas de peinture, pas de &laquo;&nbsp;tous corps
+                d&apos;état&nbsp;&raquo;. C&apos;est le seul moyen qu&apos;on connaisse de savoir vraiment ce qu&apos;on fait
+                quand on ouvre un tableau qui a trente ans.
+              </p>
+            </Reveal>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px bg-white/5">
+              {APROPOS.map((a, i) => (
+                <Reveal key={a.k} delay={i * 0.07}>
+                  <div className="bg-[#05070a] p-8 h-full">
+                    <div className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#facc15)] mb-4" style={{ fontFamily: "'Space Mono', monospace" }}>{a.k}</div>
+                    <h3 className="text-lg font-extrabold uppercase tracking-tight mb-3">{a.t}</h3>
+                    <p className="text-sm text-white/40 leading-relaxed">{a.d}</p>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section id="avis" className="py-32 bg-[#05070a] border-t border-white/5">
           <div className="max-w-[1400px] mx-auto px-6 md:px-12">
             <Reveal>
               <div className="mb-20">

@@ -30,6 +30,22 @@ const FONT_BODY = "'Cabin', system-ui, sans-serif"
 
 const STATS = [{ value: "20 ans", label: "D'ébénisterie" }, { value: "600+", label: "Pièces créées" }, { value: "100%", label: "Bois sourcé France" }, { value: "3 ans", label: "Garantie pièces" }]
 
+
+const NAV = [
+  { l: "Savoir-faire", h: "#savoir-faire" },
+  { l: "Réalisations", h: "#realisations" },
+  { l: "Matériaux", h: "#materiaux" },
+  { l: "Contact", h: "#contact" },
+];
+const REALISATIONS = [
+  { t: "Table de ferme 3,20 m", m: "Noyer massif", d: "Plateau d'une seule pièce, piètement en trapèze assemblé à tenon-mortaise. Douze couverts, aucune vis apparente." },
+  { t: "Bibliothèque murale sur mesure", m: "Chêne clair", d: "5,80 m de long, 2,70 m sous plafond, montée sur place en trois jours. Échelle coulissante en frêne." },
+  { t: "Cuisine complète", m: "Frêne olivier & hêtre", d: "Caissons, façades et plan de travail. Évier sous plan, ferrures allemandes garanties à vie." },
+  { t: "Escalier deux quarts tournant", m: "Chêne massif", d: "Limon crémaillère, quinze marches, garde-corps à barreaux. Calculé selon la formule de Blondel." },
+  { t: "Secrétaire Louis-Philippe restauré", m: "Acajou de Cuba", d: "Placage refait à la colle d'os, serrure d'origine remontée, finition à la gomme-laque au tampon." },
+  { t: "Fenêtres à petits bois", m: "Chêne & double vitrage", d: "Six ouvrants pour une longère du XVIIIe. Profils relevés sur les menuiseries d'origine." },
+];
+
 const SAVOIR_FAIRE_DEMO = [
   { titre: "Mobilier sur mesure", desc: "Tables, bibliothèques, lits, armoires — chaque pièce est dessinée et fabriquée selon vos dimensions exactes, vos essences préférées et votre style.", tag: "Mobilier" },
   { titre: "Cuisine & dressing", desc: "Agencement sur mesure en bois massif. Bois de noyer, chêne, hêtre, frêne. Caissons, façades, plans de travail — du sur-mesure vrai, pas du semi-fini.", tag: "Agencement" },
@@ -159,8 +175,8 @@ export default function AtelierDuBoisPage() {
             </>
           )}
         </div>
-        <div id="mb230-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      {["Savoir-faire", "Réalisations", "Matériaux", "Contact"].map(l => (
-            <a key={l} href={`#${l.toLowerCase()}`} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)", fontSize: 14, fontWeight: 500, textDecoration: "none" }}>{l}</a>
+        <div id="mb230-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      {NAV.map(({ l, h }) => (
+            <a key={l} href={h} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)", fontSize: 14, fontWeight: 500, textDecoration: "none" }}>{l}</a>
           ))}
           <motion.a href={`tel:${fd?.phone ?? "+33556000000"}`} style={{ background: C.accent, color: C.white, borderRadius: 6, padding: "9px 22px", fontSize: 14, fontWeight: 600, textDecoration: "none" }} whileHover={{ background: C.accentDark }}>Demander un devis</motion.a>
       </div>
@@ -177,8 +193,8 @@ export default function AtelierDuBoisPage() {
       </motion.nav>
       {mobileOpen && (
         <div style={{ position: "fixed", top: 72, left: 0, right: 0, zIndex: 99, background: "rgba(255,255,255,0.98)", borderBottom: "1px solid #e5e5e5", padding: "24px 32px", display: "flex", flexDirection: "column", gap: 20, backdropFilter: "blur(12px)" }}>
-          {["Savoir-faire", "Réalisations", "Matériaux", "Contact"].map(l => (
-            <a key={l} href={`#${l.toLowerCase()}`} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)", fontSize: 14, fontWeight: 500, textDecoration: "none" }}>{l}</a>
+          {NAV.map(({ l, h }) => (
+            <a key={l} href={h} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)", fontSize: 14, fontWeight: 500, textDecoration: "none" }}>{l}</a>
           ))}
           <motion.a href={`tel:${fd?.phone ?? "+33556000000"}`} style={{ background: C.accent, color: C.white, borderRadius: 6, padding: "9px 22px", fontSize: 14, fontWeight: 600, textDecoration: "none" }} whileHover={{ background: C.accentDark }}>Demander un devis</motion.a>
         </div>
@@ -253,7 +269,25 @@ export default function AtelierDuBoisPage() {
         </div>
       </section>
 
-      <section id="matériaux" style={{ padding: "100px 80px", background: C.bgSection }}>
+      <section id="realisations" style={{ padding: "100px 80px", background: C.white }}>
+        <Reveal><div style={{ marginBottom: 56 }}>
+          <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Réalisations</span>
+          <h2 style={{ fontFamily: FONT, fontSize: "clamp(30px, 4vw, 52px)", color: C.text, marginTop: 10, lineHeight: 1.15 }}>Des pièces sorties<br /><em>de cet atelier.</em></h2>
+        </div></Reveal>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: 18, maxWidth: 1200, margin: "0 auto" }}>
+          {REALISATIONS.map((r, i) => (
+            <Reveal key={r.t} delay={i * 0.06}>
+              <motion.div whileHover={{ y: -5, boxShadow: C.shadowLg }} style={{ background: C.bg, borderRadius: 10, padding: "26px 24px", border: `1px solid ${C.border}`, boxShadow: C.shadow, height: "100%" }}>
+                <span style={{ background: C.accentLight, color: C.accent, borderRadius: 20, padding: "4px 12px", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>{r.m}</span>
+                <h3 style={{ fontFamily: FONT, fontSize: 18, color: C.text, margin: "14px 0 10px" }}>{r.t}</h3>
+                <p style={{ fontSize: 14, color: C.textMuted, lineHeight: 1.7 }}>{r.d}</p>
+              </motion.div>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
+      <section id="materiaux" style={{ padding: "100px 80px", background: C.bgSection }}>
         <div className="imx-mobstack" style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "center" }}>
           <Reveal><img src={photo(1, "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&q=80")} alt="Atelier bois massif artisan" style={{ width: "100%", borderRadius: 10, aspectRatio: "4/3", objectFit: "cover" }} /></Reveal>
           <Reveal delay={0.15}><div>

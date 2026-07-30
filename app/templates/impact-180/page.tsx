@@ -39,6 +39,37 @@ function ParallaxImg({ src, alt }: { src: string; alt: string }) {
   )
 }
 
+const NAV = [
+  { l: "Services", h: "#services" },
+  { l: "Réalisations", h: "#realisations" },
+  { l: "Contrats", h: "#contrats" },
+  { l: "Zone", h: "#zone" },
+  { l: "Contact", h: "#contact" },
+];
+
+const REALISATIONS = [
+  { t: "Copropriété · 84 lots, Villeurbanne", n: "Chaufferie gaz condensation", d: "Remplacement de deux chaudières de 1998 par une cascade de trois modules. Coupure de trois jours, en juin, avec production d'eau chaude maintenue." },
+  { t: "Maison 1962 · Sainte-Foy", n: "Pompe à chaleur air/eau", d: "Dépose d'une chaudière fioul, PAC 11 kW et remplacement de six radiateurs. Facture de chauffage divisée par 2,4 sur la première saison." },
+  { t: "Restaurant · Lyon 2e", n: "Production ECS renforcée", d: "Ballon 500 L et bouclage sanitaire pour un service en continu. Posé de nuit pour ne pas fermer la salle." },
+  { t: "Atelier · Corbas", n: "Aérothermes gaz", d: "800 m² à chauffer sans reprendre le réseau existant. Quatre aérothermes suspendus, régulation par zone." },
+];
+
+const CONTRATS = [
+  { f: "Essentiel", p: "179 €/an", n: "Une visite annuelle, réglage complet, attestation d'entretien. Obligatoire pour les chaudières gaz." },
+  { f: "Sérénité", p: "289 €/an", n: "L'Essentiel, plus le dépannage sans frais de déplacement et la main-d'œuvre comprise." },
+  { f: "Sérénité +", p: "419 €/an", n: "Le précédent, pièces d'usure comprises et intervention garantie sous 24 h en période de chauffe." },
+  { f: "Copropriétés", p: "sur devis", n: "Chaufferie collective, télésurveillance, astreinte week-end et rapport annuel au syndic." },
+];
+
+const ZONES = [
+  { v: "Lyon et Villeurbanne", d: "Entretien et dépannage, sous 24 h en hiver" },
+  { v: "Ouest lyonnais", d: "Écully, Tassin, Craponne, Francheville" },
+  { v: "Est lyonnais", d: "Bron, Vénissieux, Saint-Priest, Décines" },
+  { v: "Nord", d: "Caluire, Rillieux, Neuville, Genay" },
+  { v: "Sud", d: "Oullins, Pierre-Bénite, Vernaison, Givors" },
+  { v: "Reste du Rhône et Ain sud", d: "Installation uniquement, sur planning" },
+];
+
 const SERVICES_DEMO = [
   { icon: Flame, title: "Installation chaudière", desc: "Chaudière gaz, fioul, condensation, micro-cogénération. Toutes marques. Mise en service et formation à l'utilisation incluses." },
   { icon: Thermometer, title: "Pompe à chaleur (PAC)", desc: "PAC air-air, air-eau, géothermique. Dossier CEE et aides MaPrimeRénov' gérés par nos soins. Garantie 5 ans." },
@@ -140,8 +171,8 @@ export default function ThermotekChauffagePage() {
             )}
           </div>
           <div className="hidden lg:flex gap-9 text-[10px] font-bold uppercase tracking-[0.22em] text-white/35">
-            {["Services", "Réalisations", "Contrats", "Zone", "Contact"].map(l => (
-              <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="hover:text-[var(--brand,#ea580c)] transition-colors">{l}</Link>
+            {NAV.map(({ l, h }) => (
+              <Link key={l} href={h} className="hover:text-[var(--brand,#ea580c)] transition-colors">{l}</Link>
             ))}
           </div>
           <div className="flex items-center gap-3">
@@ -155,7 +186,7 @@ export default function ThermotekChauffagePage() {
               <SheetTrigger className="lg:hidden"><Menu className="w-5 h-5" /></SheetTrigger>
               <SheetContent side="right" className="bg-[#0a0906] border-[var(--brand,#ea580c)]/10 p-10">
                 <div className="flex flex-col gap-7 mt-16">
-                  {["Services", "Contact"].map(l => <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="text-3xl font-bold hover:text-[var(--brand,#ea580c)] transition-colors">{l}</Link>)}
+                  {NAV.map(({ l, h }) => <Link key={l} href={h} className="text-3xl font-bold hover:text-[var(--brand,#ea580c)] transition-colors">{l}</Link>)}
                   <a href={`tel:${fd?.phone ?? "0556123456"}`} className="flex items-center gap-3 text-[var(--brand,#ea580c)] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> {fd?.phone ?? "05 56 12 34 56"}</a>
                 </div>
               </SheetContent>
@@ -230,7 +261,7 @@ export default function ThermotekChauffagePage() {
       </section>
 
       {/* ── SERVICES ── */}
-      <section className="py-28">
+      <section id="services" className="py-28">
         <div className="max-w-[1300px] mx-auto px-6 md:px-12">
           <Reveal>
             <div className="mb-16">
@@ -259,8 +290,79 @@ export default function ThermotekChauffagePage() {
         </div>
       </section>
 
+      {/* ── RÉALISATIONS ── */}
+      <section id="realisations" className="py-28 border-t border-white/5">
+        <div className="max-w-[1200px] mx-auto px-6 md:px-12">
+          <Reveal><div className="mb-16">
+            <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#ea580c)] mb-4" style={{ fontFamily: "'Fira Code', monospace" }}>// Réalisations</div>
+            <h2 className="text-4xl md:text-5xl font-bold">Des chantiers <span className="text-[var(--brand,#ea580c)]">terminés.</span></h2>
+          </div></Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-white/5 border border-white/5">
+            {REALISATIONS.map((r, i) => (
+              <Reveal key={r.t} delay={i * 0.07}>
+                <div className="bg-[#0a0710] p-8 h-full">
+                  <h3 className="text-lg font-bold mb-1">{r.t}</h3>
+                  <div className="text-[10px] font-bold uppercase tracking-[0.24em] text-[var(--brand,#ea580c)] mb-4" style={{ fontFamily: "'Fira Code', monospace" }}>{r.n}</div>
+                  <p className="text-sm text-white/40 leading-relaxed">{r.d}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── CONTRATS ── */}
+      <section id="contrats" className="py-28 bg-[#06040a] border-t border-white/5">
+        <div className="max-w-[1200px] mx-auto px-6 md:px-12">
+          <Reveal><div className="mb-16">
+            <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#ea580c)] mb-4" style={{ fontFamily: "'Fira Code', monospace" }}>// Contrats d'entretien</div>
+            <h2 className="text-4xl md:text-5xl font-bold">Une visite par an, <span className="text-[var(--brand,#ea580c)]">au minimum.</span></h2>
+          </div></Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            {CONTRATS.map((c, i) => (
+              <Reveal key={c.f} delay={i * 0.07}>
+                <div className="border border-white/8 p-8 h-full">
+                  <div className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#ea580c)] mb-4" style={{ fontFamily: "'Fira Code', monospace" }}>{c.f}</div>
+                  <div className="text-3xl font-bold mb-4">{c.p}</div>
+                  <p className="text-sm text-white/40 leading-relaxed">{c.n}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+          <Reveal>
+            <p className="text-xs text-white/30 leading-relaxed max-w-[80ch]">
+              L'entretien annuel d'une chaudière gaz est obligatoire depuis 2009 et conditionne la prise
+              en charge par votre assurance en cas de sinistre. Nous vous rappelons chaque année, à la date
+              de la dernière visite. Résiliable à tout moment après la première année, sans motif.
+            </p>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ── ZONE ── */}
+      <section id="zone" className="py-28 border-t border-white/5">
+        <div className="max-w-[1200px] mx-auto px-6 md:px-12">
+          <Reveal><div className="mb-16">
+            <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#ea580c)] mb-4" style={{ fontFamily: "'Fira Code', monospace" }}>// Zone d'intervention</div>
+            <h2 className="text-4xl md:text-5xl font-bold">Où l'on <span className="text-[var(--brand,#ea580c)]">se déplace.</span></h2>
+          </div></Reveal>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-white/5 border border-white/5">
+            {ZONES.map((z, i) => (
+              <Reveal key={z.v} delay={i * 0.05}>
+                <div className="bg-[#0a0710] p-7 h-full">
+                  <div className="font-bold mb-2 flex items-center gap-2">
+                    <MapPin className="w-4 h-4 text-[var(--brand,#ea580c)]" />{z.v}
+                  </div>
+                  <p className="text-sm text-white/40">{z.d}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ── TÉMOIGNAGES ── */}
-      <section id="services" className="py-28 bg-[#06040a] border-t border-white/5">
+      <section id="avis" className="py-28 bg-[#06040a] border-t border-white/5">
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
           <Reveal><div className="mb-16">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#ea580c)] mb-4" style={{ fontFamily: "'Fira Code', monospace" }}>// Avis clients</div>

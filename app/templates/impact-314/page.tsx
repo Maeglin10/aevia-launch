@@ -28,6 +28,15 @@ import {
   Minus
 } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
+
+const NAV = [
+  { l: "Services", h: "#services" },
+  { l: "À Propos", h: "#apropos" },
+  { l: "Réalisations", h: "#realisations" },
+  { l: "Avis", h: "#avis" },
+  { l: "Contact", h: "#contact" },
+];
+
 const Facebook = ({ size = 24, color = 'currentColor', ...p }: any) => (<svg xmlns='http://www.w3.org/2000/svg' width={size} height={size} viewBox='0 0 24 24' fill='none' stroke={color} strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' {...p}><circle cx='12' cy='12' r='10'/></svg>);
 const Twitter = ({ size = 24, color = 'currentColor', ...p }: any) => (<svg xmlns='http://www.w3.org/2000/svg' width={size} height={size} viewBox='0 0 24 24' fill='none' stroke={color} strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' {...p}><circle cx='12' cy='12' r='10'/></svg>);
 
@@ -478,10 +487,10 @@ export default function Page({ session: initialSession }) {
 
           {/* Desktop Nav */}
           <nav style={{ display: "none", alignItems: "center", gap: "32px", '@media (min-width: 768px)': { display: "flex" } }}>
-            {["Services", "À Propos", "Réalisations", "Avis", "Contact"].map((item) => (
+            {NAV.map((item) => (
               <a 
-                key={item}
-                href={`#${item.toLowerCase().normalize("NFD").replace(/[\\u0300-\\u036f]/g, "")}`}
+                key={item.l}
+                href={item.h}
                 style={{
                   fontFamily: SANS,
                   fontWeight: 500,
@@ -493,7 +502,7 @@ export default function Page({ session: initialSession }) {
                 onMouseEnter={e => e.currentTarget.style.opacity = 0.7}
                 onMouseLeave={e => e.currentTarget.style.opacity = 1}
               >
-                {item}
+                {item.l}
               </a>
             ))}
             <Button variant="primary" C={C} href="#contact" style={{ padding: "10px 24px" }}>
@@ -541,10 +550,10 @@ export default function Page({ session: initialSession }) {
               gap: "24px"
             }}
           >
-            {["Services", "À Propos", "Réalisations", "Avis", "Contact"].map((item) => (
+            {NAV.map((item) => (
               <a 
-                key={item}
-                href={`#${item.toLowerCase().normalize("NFD").replace(/[\\u0300-\\u036f]/g, "")}`}
+                key={item.l}
+                href={item.h}
                 onClick={() => setMobileMenuOpen(false)}
                 style={{
                   fontFamily: SERIF,
@@ -554,7 +563,7 @@ export default function Page({ session: initialSession }) {
                   textDecoration: "none"
                 }}
               >
-                {item}
+                {item.l}
               </a>
             ))}
             <Button variant="primary" C={C} href="#contact" onClick={() => setMobileMenuOpen(false)} style={{ marginTop: "24px" }}>
@@ -1049,7 +1058,7 @@ export default function Page({ session: initialSession }) {
               <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "12px" }}>
                 {["Dépannage", "Chauffage", "Climatisation", "Création de salle de bain"].map((item, i) => (
                   <li key={i}>
-                    <a href="#" style={{ color: "var(--brand,#94a3b8)", textDecoration: "none", fontFamily: SANS, transition: "color 0.2s" }} onMouseEnter={e => e.currentTarget.style.color = C.primary} onMouseLeave={e => e.currentTarget.style.color = "var(--brand,#94a3b8)"}>
+                    <a href="#services" style={{ color: "var(--brand,#94a3b8)", textDecoration: "none", fontFamily: SANS, transition: "color 0.2s" }} onMouseEnter={e => e.currentTarget.style.color = C.primary} onMouseLeave={e => e.currentTarget.style.color = "var(--brand,#94a3b8)"}>
                       {item}
                     </a>
                   </li>
@@ -1060,10 +1069,10 @@ export default function Page({ session: initialSession }) {
             <div>
               <h4 style={{ fontFamily: SERIF, fontWeight: 600, fontSize: "18px", marginBottom: "24px" }}>Entreprise</h4>
               <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "12px" }}>
-                {["À Propos", "Réalisations", "Avis Clients", "Contact"].map((item, i) => (
-                  <li key={i}>
-                    <a href="#" style={{ color: "var(--brand,#94a3b8)", textDecoration: "none", fontFamily: SANS, transition: "color 0.2s" }} onMouseEnter={e => e.currentTarget.style.color = C.primary} onMouseLeave={e => e.currentTarget.style.color = "var(--brand,#94a3b8)"}>
-                      {item}
+                {[{ l: "À Propos", h: "#apropos" }, { l: "Réalisations", h: "#realisations" }, { l: "Avis Clients", h: "#avis" }, { l: "Contact", h: "#contact" }].map((item) => (
+                  <li key={item.l}>
+                    <a href={item.h} style={{ color: "var(--brand,#94a3b8)", textDecoration: "none", fontFamily: SANS, transition: "color 0.2s" }} onMouseEnter={e => e.currentTarget.style.color = C.primary} onMouseLeave={e => e.currentTarget.style.color = "var(--brand,#94a3b8)"}>
+                      {item.l}
                     </a>
                   </li>
                 ))}

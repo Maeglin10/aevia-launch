@@ -45,6 +45,31 @@ const STATS = [
   { value: "15+", label: "Cours par semaine" },
 ]
 
+
+const NAV = [
+  { l: "Cours", h: "#cours" },
+  { l: "Planning", h: "#planning" },
+  { l: "Tarifs", h: "#tarifs" },
+  { l: "Contact", h: "#contact" },
+];
+const PLANNING = [
+  { j: "Lundi", c: [["7 h 00", "Vinyasa réveil · 60 min"], ["12 h 30", "Hatha doux · 45 min"], ["19 h 00", "Yin · 75 min"]] },
+  { j: "Mardi", c: [["9 h 30", "Prénatal · 60 min"], ["18 h 00", "Vinyasa · 75 min"], ["20 h 00", "Méditation · 30 min"]] },
+  { j: "Mercredi", c: [["7 h 00", "Ashtanga Mysore · 90 min"], ["12 h 30", "Yoga sur chaise · 45 min"], ["19 h 00", "Hatha · 75 min"]] },
+  { j: "Jeudi", c: [["9 h 30", "Doux seniors · 60 min"], ["18 h 00", "Vinyasa intermédiaire · 75 min"], ["20 h 00", "Yin & sons · 75 min"]] },
+  { j: "Vendredi", c: [["7 h 00", "Vinyasa réveil · 60 min"], ["12 h 30", "Respiration · 45 min"], ["18 h 30", "Restauratif · 75 min"]] },
+  { j: "Samedi", c: [["9 h 00", "Hatha tous niveaux · 90 min"], ["11 h 00", "Atelier mensuel · 2 h"]] },
+];
+
+const TARIFS = [
+  { a: "Cours à l'unité", p: "18 €", n: "Tapis et matériel prêtés. Premier cours à 10 €." },
+  { a: "Carnet de 10 cours", p: "155 €", n: "Valable un an, transmissible à une autre personne." },
+  { a: "Illimité mensuel", p: "89 € / mois", n: "Tous les cours, tous les jours. Résiliable avec un mois de préavis." },
+  { a: "Illimité annuel", p: "890 € / an", n: "Deux mois offerts, réglable en trois fois sans frais." },
+  { a: "Tarif réduit", p: "-25 %", n: "Étudiants, demandeurs d'emploi, plus de 65 ans. Sur justificatif." },
+  { a: "Atelier du samedi", p: "35 €", n: "Deux heures sur un thème. Inclus dans l'abonnement illimité." },
+];
+
 const COURS_DEMO = [
   { nom: "Vinyasa Flow", niveau: "Tous niveaux", duree: "60 min", horaire: "Lun · Mar · Jeu 7h30", desc: "Enchaînement fluide de postures synchronisées avec la respiration. Renforce et libère.", icon: <Sun size={20} color={C.accent} /> },
   { nom: "Yin Yoga", niveau: "Tous niveaux", duree: "75 min", horaire: "Mer · Ven 18h30", desc: "Postures tenues en profondeur pour relâcher les fascias et cultiver l'introspection.", icon: <Moon size={20} color={C.accent} /> },
@@ -237,8 +262,8 @@ export default function LumiereYogaPage() {
           )}
         </div>
         <div style={{ gap: 32, alignItems: "center" }} className="hidden md:flex">
-          {["Cours", "Planning", "Tarifs", "Contact"].map(l => (
-            <a key={l} href={`#${l.toLowerCase()}`} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.72)", fontSize: 13, fontWeight: 500, textDecoration: "none", letterSpacing: 1, textTransform: "uppercase" }}>{l}</a>
+          {NAV.map(({ l, h }) => (
+            <a key={l} href={h} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.72)", fontSize: 13, fontWeight: 500, textDecoration: "none", letterSpacing: 1, textTransform: "uppercase" }}>{l}</a>
           ))}
           <motion.a href="#tarifs" style={{ background: C.accent, color: C.white, borderRadius: 6, padding: "9px 22px", fontSize: 13, fontWeight: 600, textDecoration: "none", letterSpacing: 0.5, textTransform: "uppercase" }} whileHover={{ background: C.accentDark }}>
             Essai gratuit
@@ -258,8 +283,8 @@ export default function LumiereYogaPage() {
       
       {mobileOpen && (
         <div style={{ position: "fixed", top: 72, left: 0, right: 0, zIndex: 99, background: "rgba(255,255,255,0.97)", borderBottom: "1px solid #e5e5e5", padding: "24px 32px", display: "flex", flexDirection: "column", gap: 20, backdropFilter: "blur(12px)" }}>
-          {["Cours", "Planning", "Tarifs", "Contact"].map(l => (
-            <a key={l} href={`#${l.toLowerCase()}`} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.72)", fontSize: 13, fontWeight: 500, textDecoration: "none", letterSpacing: 1, textTransform: "uppercase" }}>{l}</a>
+          {NAV.map(({ l, h }) => (
+            <a key={l} href={h} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.72)", fontSize: 13, fontWeight: 500, textDecoration: "none", letterSpacing: 1, textTransform: "uppercase" }}>{l}</a>
           ))}
           <motion.a href="#tarifs" style={{ background: C.accent, color: C.white, borderRadius: 6, padding: "9px 22px", fontSize: 13, fontWeight: 600, textDecoration: "none", letterSpacing: 0.5, textTransform: "uppercase" }} whileHover={{ background: C.accentDark }}>
             Essai gratuit
@@ -388,7 +413,41 @@ export default function LumiereYogaPage() {
       </section>
 
       {/* Témoignages */}
-      <section id="contact" style={{ padding: "100px 80px", background: C.bgDark }}>
+      <section id="planning" style={{ padding: "110px 80px", background: C.bgSection }}>
+        <Reveal>
+          <div style={{ marginBottom: 64 }}>
+            <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Planning</span>
+            <h2 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(32px, 4vw, 54px)", fontWeight: 400, color: C.text, marginTop: 12, lineHeight: 1.1 }}>
+              La semaine, <em>heure par heure</em>.
+            </h2>
+          </div>
+        </Reveal>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(280px, 100%), 1fr))", gap: 20, maxWidth: 1200, margin: "0 auto" }}>
+          {PLANNING.map((d, i) => (
+            <Reveal key={d.j} delay={i * 0.05}>
+              <div style={{ background: C.white, borderRadius: 14, padding: "26px 24px", border: `1px solid ${C.border}`, boxShadow: C.shadow, height: "100%" }}>
+                <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: 3, textTransform: "uppercase", color: C.accent, marginBottom: 16 }}>{d.j}</div>
+                <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: 12 }}>
+                  {d.c.map(([h, n]) => (
+                    <li key={h} style={{ display: "flex", gap: 12, alignItems: "baseline" }}>
+                      <span style={{ fontSize: 13, fontWeight: 700, color: C.text, minWidth: 62 }}>{h}</span>
+                      <span style={{ fontSize: 14, color: C.textMuted, lineHeight: 1.6 }}>{n}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+        <Reveal>
+          <p style={{ maxWidth: 1200, margin: "22px auto 0", fontSize: 13, color: C.textMuted, lineHeight: 1.7 }}>
+            Le dimanche, le studio est fermé. Les places sont limitées à quatorze personnes&nbsp;: la réservation
+            se fait en ligne jusqu&apos;à deux heures avant le cours, et l&apos;annulation reste libre jusque-là.
+          </p>
+        </Reveal>
+      </section>
+
+      <section id="avis" style={{ padding: "100px 80px", background: C.bgDark }}>
         <Reveal>
           <div style={{ textAlign: "center", marginBottom: 52 }}>
             <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Ce qu'ils vivent</span>
@@ -412,7 +471,31 @@ export default function LumiereYogaPage() {
       </section>
 
       {/* CTA */}
-      <section id="tarifs" style={{ padding: "110px 80px", background: C.accentLight, textAlign: "center" }}>
+      <section id="tarifs" style={{ padding: "110px 80px", background: C.bg }}>
+        <Reveal>
+          <div style={{ marginBottom: 64 }}>
+            <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Tarifs</span>
+            <h2 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(32px, 4vw, 54px)", fontWeight: 400, color: C.text, marginTop: 12, lineHeight: 1.1 }}>
+              Sans frais d&apos;inscription, <em>ni engagement</em>.
+            </h2>
+          </div>
+        </Reveal>
+        <div style={{ maxWidth: 900, margin: "0 auto", background: C.white, borderRadius: 14, border: `1px solid ${C.border}`, boxShadow: C.shadow, overflow: "hidden" }}>
+          {TARIFS.map((t, i) => (
+            <Reveal key={t.a} delay={i * 0.05}>
+              <div style={{ display: "flex", flexWrap: "wrap", alignItems: "baseline", justifyContent: "space-between", gap: 12, padding: "20px 28px", borderTop: i ? `1px solid ${C.border}` : "none" }}>
+                <div style={{ minWidth: 0 }}>
+                  <div style={{ fontSize: 15, fontWeight: 700, color: C.text }}>{t.a}</div>
+                  <div style={{ fontSize: 13, color: C.textMuted, marginTop: 3 }}>{t.n}</div>
+                </div>
+                <div style={{ fontSize: 15, fontWeight: 700, color: C.accent, flexShrink: 0 }}>{t.p}</div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
+      <section id="contact" style={{ padding: "110px 80px", background: C.accentLight, textAlign: "center" }}>
         <Reveal>
           <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>Rejoignez le studio</span>
           <h2 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(32px, 4vw, 58px)", fontWeight: 400, color: C.text, margin: "16px 0 18px" }}>{c?.aboutTitle ?? fd?.businessName ?? <>Votre premier cours est <em>offert</em>.</>}</h2>

@@ -41,6 +41,31 @@ const STATS = [
   { value: "1h", label: "Examen de vue complet" },
 ]
 
+
+const NAV = [
+  { l: "Offres", h: "#offres" },
+  { l: "Bilan visuel", h: "#bilan-visuel" },
+  { l: "Lentilles", h: "#lentilles" },
+  { l: "Contact", h: "#contact" },
+];
+const BILAN = [
+  { t: "Ce qu'on mesure", d: "Acuité de loin et de près, réfraction objective à l'auto-réfractomètre, vision binoculaire, pression oculaire au souffle d'air, et un fond d'œil rétinographié." },
+  { t: "Combien de temps", d: "Trente minutes. On ne dilate pas la pupille sauf demande de l'ophtalmologiste : vous repartez en conduisant." },
+  { t: "Sans ordonnance", d: "Depuis 2016, un opticien peut renouveler et adapter une correction jusqu'à cinq ans après l'ordonnance (trois ans avant 42 ans, un an avant 16 ans)." },
+  { t: "Ce qu'on ne fait pas", d: "Aucun diagnostic médical. Si le rétinographe montre quelque chose, on vous adresse à un ophtalmologiste avec les clichés — et on vous le dit franchement." },
+  { t: "Le compte rendu", d: "Un PDF envoyé le jour même, avec vos mesures et les images de fond d'œil. Il est à vous, transmissible à n'importe quel praticien." },
+  { t: "Le prix", d: "Gratuit avec une commande d'équipement, 25 € sinon. Aucun remboursement Sécurité sociale sur cet examen." },
+];
+
+const LENTILLES = [
+  { a: "Adaptation première pose", p: "45 €", n: "Essai, mesures cornéennes, apprentissage de la pose et du retrait. Deux séances comprises." },
+  { a: "Journalières · boîte de 90", p: "à partir de 42 €", n: "Silicone hydrogel. La solution la plus sûre pour un port occasionnel." },
+  { a: "Mensuelles · boîte de 6", p: "à partir de 29 €", n: "Prévoir un produit d'entretien, environ 9 € par mois." },
+  { a: "Toriques (astigmatisme)", p: "à partir de 48 €", n: "Axe et cylindre vérifiés à chaque renouvellement." },
+  { a: "Multifocales (presbytie)", p: "à partir de 65 €", n: "Adaptation en trois essais en moyenne. Échange gratuit si la vision de près ne convient pas." },
+  { a: "Contrôle annuel", p: "offert", n: "Obligatoire pour renouveler. Vérification de la cornée à la lampe à fente." },
+];
+
 const OFFRES = [
   { titre: "Lunettes de vue", desc: "Plus de 400 montures sélectionnées : grandes marques (Ray-Ban, Lindberg, Persol) et créateurs indépendants. Verres haute définition, anti-lumière bleue, amincis.", tag: "Vue" },
   { titre: "Lentilles de contact", desc: "Journalières, mensuelles, toriques, multifocales. Adaptation par nos opticiens diplômés avec suivi à 1 mois. Commande en ligne disponible.", tag: "Lentilles" },
@@ -210,8 +235,8 @@ export default function VisionClairePage() {
             </>
           )}
         </div>
-        <div id="mb138-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      {["Offres", "Bilan visuel", "Lentilles", "Contact"].map(l => (
-            <a key={l} href={`#${l.toLowerCase().replace(" ", "-")}`} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)", fontSize: 14, fontWeight: 700, textDecoration: "none" }}>{l}</a>
+        <div id="mb138-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      {NAV.map(({ l, h }) => (
+            <a key={l} href={h} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)", fontSize: 14, fontWeight: 700, textDecoration: "none" }}>{l}</a>
           ))}
           <motion.a href={`tel:${fd?.phone ?? "+33240000001"}`} style={{ background: C.accent, color: C.white, borderRadius: 8, padding: "9px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none" }} whileHover={{ background: C.accentDark }}>
             Prendre RDV
@@ -230,8 +255,8 @@ export default function VisionClairePage() {
       </motion.nav>
       {mobileOpen && (
         <div style={{ position: "fixed", top: 72, left: 0, right: 0, zIndex: 99, background: "rgba(255,255,255,0.98)", borderBottom: "1px solid #e5e5e5", padding: "24px 32px", display: "flex", flexDirection: "column", gap: 20, backdropFilter: "blur(12px)" }}>
-          {["Offres", "Bilan visuel", "Lentilles", "Contact"].map(l => (
-            <a key={l} href={`#${l.toLowerCase().replace(" ", "-")}`} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)", fontSize: 14, fontWeight: 700, textDecoration: "none" }}>{l}</a>
+          {NAV.map(({ l, h }) => (
+            <a key={l} href={h} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)", fontSize: 14, fontWeight: 700, textDecoration: "none" }}>{l}</a>
           ))}
           <motion.a href={`tel:${fd?.phone ?? "+33240000001"}`} style={{ background: C.accent, color: C.white, borderRadius: 8, padding: "9px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none" }} whileHover={{ background: C.accentDark }}>
             Prendre RDV
@@ -290,7 +315,7 @@ export default function VisionClairePage() {
       </section>
 
       {/* Stats */}
-      <section id="tarifs" style={{ background: C.accent, padding: "0 80px" }}>
+      <section style={{ background: C.accent, padding: "0 80px" }}>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", maxWidth: 1100, margin: "0 auto" }}>
           {STATS.map((s, i) => (
             <Reveal key={s.label} delay={i * 0.08}>
@@ -377,6 +402,53 @@ export default function VisionClairePage() {
       </section>
 
       {/* CTA */}
+      {/* Bilan visuel */}
+      <section id="bilan-visuel" style={{ padding: "110px 80px", background: C.white }}>
+        <Reveal>
+          <div style={{ marginBottom: 60 }}>
+            <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.cyan }}>Bilan visuel</span>
+            <h2 style={{ fontSize: "clamp(30px, 4vw, 52px)", fontWeight: 800, color: C.text, marginTop: 10, lineHeight: 1.1 }}>
+              Trente minutes,<br />et vous savez où vous en êtes.
+            </h2>
+          </div>
+        </Reveal>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: 20, maxWidth: 1200, margin: "0 auto" }}>
+          {BILAN.map((b, i) => (
+            <Reveal key={b.t} delay={i * 0.06}>
+              <motion.div whileHover={{ y: -5, boxShadow: C.shadowLg }} style={{ background: C.bg, borderRadius: 14, padding: "26px 24px", border: `1px solid ${C.border}`, boxShadow: C.shadow, height: "100%" }}>
+                <h3 style={{ fontSize: 17, fontWeight: 800, color: C.text, marginBottom: 10 }}>{b.t}</h3>
+                <p style={{ fontSize: 14, color: C.textMuted, lineHeight: 1.7 }}>{b.d}</p>
+              </motion.div>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
+      {/* Lentilles */}
+      <section id="lentilles" style={{ padding: "110px 80px", background: C.bgSection }}>
+        <Reveal>
+          <div style={{ marginBottom: 60 }}>
+            <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.cyan }}>Lentilles</span>
+            <h2 style={{ fontSize: "clamp(30px, 4vw, 52px)", fontWeight: 800, color: C.text, marginTop: 10, lineHeight: 1.1 }}>
+              Adaptées ici,<br />pas commandées sur catalogue.
+            </h2>
+          </div>
+        </Reveal>
+        <div style={{ maxWidth: 900, margin: "0 auto", background: C.white, borderRadius: 14, border: `1px solid ${C.border}`, boxShadow: C.shadow, overflow: "hidden" }}>
+          {LENTILLES.map((t, i) => (
+            <Reveal key={t.a} delay={i * 0.05}>
+              <div style={{ display: "flex", flexWrap: "wrap", alignItems: "baseline", justifyContent: "space-between", gap: 12, padding: "20px 28px", borderTop: i ? `1px solid ${C.border}` : "none" }}>
+                <div style={{ minWidth: 0 }}>
+                  <div style={{ fontSize: 15, fontWeight: 700, color: C.text }}>{t.a}</div>
+                  <div style={{ fontSize: 13, color: C.textMuted, marginTop: 3 }}>{t.n}</div>
+                </div>
+                <div style={{ fontSize: 15, fontWeight: 700, color: C.cyan, flexShrink: 0 }}>{t.p}</div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
       <section id="contact" style={{ padding: "100px 80px", background: C.cyanLight, textAlign: "center" }}>
         <Reveal>
           <span style={{fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: brand ?? 'var(--brand,#0369a1)' }}>Prise en charge</span>

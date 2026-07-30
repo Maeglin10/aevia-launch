@@ -33,6 +33,32 @@ let C: Record<string, string> = {
   shadowLg: "0 16px 48px rgba(15,28,46,0.13)",
 };const FONT = "'Outfit', system-ui, sans-serif"
 
+// `#${l.toLowerCase()}` produced "#réalisations", an id no browser was going to find.
+const NAV = [
+  { l: "Services", h: "#services" },
+  { l: "Réalisations", h: "#realisations" },
+  { l: "Tarifs", h: "#tarifs" },
+  { l: "Contact", h: "#contact" },
+];
+
+const CHANTIERS = [
+  { t: "Piscine miroir 9 × 4 m", v: "Balma", d: "Béton armé, débordement sur trois côtés, local technique enterré. Livrée en 11 semaines, terrasse comprise." },
+  { t: "Rénovation complète", v: "Colomiers", d: "Bassin de 1994 : liner remplacé par du carrelage, filtration et hydraulique refaits, éclairage LED." },
+  { t: "Couloir de nage 12 m", v: "Castanet-Tolosan", d: "Nage à contre-courant, volet immergé, chauffage par pompe à chaleur. Terrain en pente, soutènement inclus." },
+  { t: "Piscine familiale 8 × 4 m", v: "Tournefeuille", d: "Escalier d'angle, plage en pierre reconstituée, abri bas télescopique. Le chantier le plus fréquent." },
+  { t: "Spa de nage encastré", v: "Ramonville", d: "Installation sur dalle existante, raccordement électrique dédié, mise en service et formation à l'entretien." },
+  { t: "Sécurisation & mise aux normes", v: "Toulouse Nord", d: "Barrière NF P90-306 et alarme immergée sur un bassin hérité. Attestation de conformité remise au propriétaire." },
+];
+
+const TARIFS = [
+  { a: "Piscine coque polyester posée", p: "à partir de 18 500 €", n: "Terrassement, pose, filtration, mise en eau. 7 × 3,5 m." },
+  { a: "Piscine béton armé sur mesure", p: "à partir de 32 000 €", n: "Étude, plan, gros œuvre, revêtement. Délai moyen 10 à 14 semaines." },
+  { a: "Rénovation de bassin", p: "à partir de 9 000 €", n: "Diagnostic gratuit. Le prix dépend de l'état de la structure." },
+  { a: "Contrat d'entretien annuel", p: "890 € / an", n: "Ouverture, 8 passages, hivernage, produits inclus." },
+  { a: "Dépannage filtration", p: "95 € l'intervention", n: "Déplacement et première heure. Pièces en sus, sur devis." },
+  { a: "Mise aux normes sécurité", p: "à partir de 1 400 €", n: "Barrière, alarme ou volet. Attestation de conformité fournie." },
+];
+
 const STATS = [
   { value: "18 ans", label: "D'expérience" },
   { value: "2 400+", label: "Chantiers réalisés" },
@@ -185,8 +211,8 @@ return (
             </>
           )}
         </div>
-        <div id="mb15-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      {["Services", "Réalisations", "Tarifs", "Contact"].map(l => (
-            <a key={l} href={`#${l.toLowerCase()}`} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)", fontSize: 14, fontWeight: 600, textDecoration: "none" }}>{l}</a>
+        <div id="mb15-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      {NAV.map(({ l, h }) => (
+            <a key={l} href={h} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)", fontSize: 14, fontWeight: 600, textDecoration: "none" }}>{l}</a>
           ))}
           <motion.a href={`tel:${fd?.phone ?? "+33561000000"}`} style={{ background: C.accent, color: C.dark, borderRadius: 8, padding: "9px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", display: "flex", alignItems: "center", gap: 6 }} whileHover={{ background: C.accentDark }}>
             <Phone size={14} /> Urgence 24h/24
@@ -205,8 +231,8 @@ return (
       </motion.nav>
       {mobileOpen && (
         <div style={{ position: "fixed", top: 72, left: 0, right: 0, zIndex: 99, background: "rgba(255,255,255,0.98)", borderBottom: "1px solid #e5e5e5", padding: "24px 32px", display: "flex", flexDirection: "column", gap: 20, backdropFilter: "blur(12px)" }}>
-          {["Services", "Réalisations", "Tarifs", "Contact"].map(l => (
-            <a key={l} href={`#${l.toLowerCase()}`} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)", fontSize: 14, fontWeight: 600, textDecoration: "none" }}>{l}</a>
+          {NAV.map(({ l, h }) => (
+            <a key={l} href={h} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)", fontSize: 14, fontWeight: 600, textDecoration: "none" }}>{l}</a>
           ))}
           <motion.a href={`tel:${fd?.phone ?? "+33561000000"}`} style={{ background: C.accent, color: C.dark, borderRadius: 8, padding: "9px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", display: "flex", alignItems: "center", gap: 6 }} whileHover={{ background: C.accentDark }}>
             <Phone size={14} /> Urgence 24h/24
@@ -292,6 +318,60 @@ return (
             </Reveal>
           ))}
         </div>
+      </section>
+
+      {/* Réalisations */}
+      <section id="realisations" style={{ padding: "110px 80px", background: C.white }}>
+        <Reveal>
+          <div style={{ marginBottom: 60 }}>
+            <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Réalisations</span>
+            <h2 style={{ fontSize: "clamp(30px, 4vw, 52px)", fontWeight: 800, color: C.text, marginTop: 10, lineHeight: 1.1 }}>
+              Des chantiers finis,<br />pas des images de catalogue.
+            </h2>
+          </div>
+        </Reveal>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: 20, maxWidth: 1200, margin: "0 auto" }}>
+          {CHANTIERS.map((c, i) => (
+            <Reveal key={c.t} delay={i * 0.06}>
+              <motion.div whileHover={{ y: -5, boxShadow: C.shadowLg }} style={{ background: C.bg, borderRadius: 14, padding: "26px 24px", border: `1px solid ${C.border}`, boxShadow: C.shadow, height: "100%" }}>
+                <span style={{ background: C.accentLight, color: C.accentDark, borderRadius: 20, padding: "4px 12px", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>{c.v}</span>
+                <h3 style={{ fontSize: 17, fontWeight: 700, color: C.text, margin: "14px 0 10px" }}>{c.t}</h3>
+                <p style={{ fontSize: 14, color: C.textMuted, lineHeight: 1.7 }}>{c.d}</p>
+              </motion.div>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
+      {/* Tarifs */}
+      <section id="tarifs" style={{ padding: "110px 80px", background: C.bgSection }}>
+        <Reveal>
+          <div style={{ marginBottom: 60 }}>
+            <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Tarifs</span>
+            <h2 style={{ fontSize: "clamp(30px, 4vw, 52px)", fontWeight: 800, color: C.text, marginTop: 10, lineHeight: 1.1 }}>
+              Les ordres de grandeur,<br />donnés avant la visite.
+            </h2>
+          </div>
+        </Reveal>
+        <div style={{ maxWidth: 900, margin: "0 auto", background: C.white, borderRadius: 14, border: `1px solid ${C.border}`, boxShadow: C.shadow, overflow: "hidden" }}>
+          {TARIFS.map((t, i) => (
+            <Reveal key={t.a} delay={i * 0.05}>
+              <div style={{ display: "flex", flexWrap: "wrap", alignItems: "baseline", justifyContent: "space-between", gap: 12, padding: "20px 28px", borderTop: i ? `1px solid ${C.border}` : "none" }}>
+                <div style={{ minWidth: 0 }}>
+                  <div style={{ fontSize: 15, fontWeight: 700, color: C.text }}>{t.a}</div>
+                  <div style={{ fontSize: 13, color: C.textMuted, marginTop: 3 }}>{t.n}</div>
+                </div>
+                <div style={{ fontSize: 15, fontWeight: 700, color: C.accentDark, flexShrink: 0 }}>{t.p}</div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+        <Reveal>
+          <p style={{ maxWidth: 900, margin: "20px auto 0", fontSize: 13, color: C.textMuted, lineHeight: 1.7 }}>
+            Ces montants couvrent un terrain accessible et plat. Un accès étroit, une nappe phréatique haute ou un
+            terrain en pente changent le prix : c&apos;est la visite qui le dit, et elle est gratuite.
+          </p>
+        </Reveal>
       </section>
 
       {/* Atouts */}

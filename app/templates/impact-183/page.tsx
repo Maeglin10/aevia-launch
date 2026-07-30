@@ -39,6 +39,14 @@ function ParallaxImg({ src, alt }: { src: string; alt: string }) {
   )
 }
 
+const NAV = [
+  { l: "Services", h: "#services" },
+  { l: "Réalisations", h: "#realisations" },
+  { l: "Couleurs", h: "#couleurs" },
+  { l: "Zone", h: "#zone" },
+  { l: "Contact", h: "#contact" },
+];
+
 const SERVICE_ICONS = [Paintbrush, Layers, Brush, Sparkles, Shield, Paintbrush]
 const SERVICES_DEMO = [
   { icon: Paintbrush, title: "Construction de piscine", desc: "Piscine enterrée béton, coque ou bloc à bancher. Terrassement, structure, étanchéité, margelles et plage. De l'étude 3D à la mise en eau." },
@@ -171,8 +179,8 @@ return (
             )}
           </div>
           <div className={`hidden lg:flex gap-9 text-[10px] font-bold uppercase tracking-[0.22em] ${scrolled ? "text-[#1a1a2e]/35" : "text-white/70"}`}>
-            {["Services", "Réalisations", "Couleurs", "Zone", "Contact"].map(l => (
-              <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="hover:text-[var(--brand,#4d7c5f)] transition-colors">{l}</Link>
+            {NAV.map(({ l, h }) => (
+              <Link key={l} href={h} className="hover:text-[var(--brand,#4d7c5f)] transition-colors">{l}</Link>
             ))}
           </div>
           <div className="flex items-center gap-3">
@@ -186,7 +194,7 @@ return (
               <SheetTrigger className="lg:hidden"><Menu className={`w-5 h-5 ${scrolled ? "text-[#1a1a2e]" : "text-white"}`} /></SheetTrigger>
               <SheetContent side="right" className="bg-white border-slate-100 p-10">
                 <div className="flex flex-col gap-7 mt-16">
-                  {["Services", "Réalisations", "Contact"].map(l => <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className={`text-3xl font-bold ${scrolled ? "text-[#1a1a2e]" : "text-white"} hover:text-[var(--brand,#4d7c5f)] transition-colors`}>{l}</Link>)}
+                  {NAV.map(({ l, h }) => <Link key={l} href={h} className="text-3xl font-bold text-[#1a1a2e] hover:text-[var(--brand,#4d7c5f)] transition-colors">{l}</Link>)}
                   <a href={`tel:${fd?.phone ?? "0320456789"}`} className="flex items-center gap-3 text-[var(--brand,#4d7c5f)] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> {fd?.phone ?? "03 20 45 67 89"}</a>
                 </div>
               </SheetContent>

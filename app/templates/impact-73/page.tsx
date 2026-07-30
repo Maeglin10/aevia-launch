@@ -41,6 +41,31 @@ const STATS = [
   { value: "4 ans", label: "Âge minimum" },
 ]
 
+
+const NAV = [
+  { l: "Cours", h: "#cours" },
+  { l: "Professeurs", h: "#professeurs" },
+  { l: "Tarifs", h: "#tarifs" },
+  { l: "Contact", h: "#contact" },
+];
+const PROFESSEURS = [
+  { n: "Marta Oliveira", r: "Piano · Direction pédagogique", d: "Prix du CNSMD de Lyon. Enseigne aux débutants comme aux candidats au concours d'entrée." },
+  { n: "Youssef Benhima", r: "Guitare classique & flamenco", d: "Formé à Séville. Cours en français, espagnol et arabe. Prépare aussi les examens de fin de cycle." },
+  { n: "Élisabeth Fournel", r: "Violon · Formation musicale", d: "Trente ans d'orchestre. Méthode Suzuki pour les plus jeunes, lecture à vue à partir du deuxième cycle." },
+  { n: "Damien Roux", r: "Batterie & percussions", d: "Studio et scène. Travaille au métronome dès la première séance, et personne n'en est jamais mort." },
+  { n: "Claire Ngo", r: "Chant · Technique vocale", d: "Lyrique et musiques actuelles. Bilan vocal offert avant l'inscription, pour choisir le bon répertoire." },
+  { n: "Paul Vidal", r: "Éveil musical (4-6 ans)", d: "Séances de 40 minutes, en groupe de six au maximum. Sans instrument imposé la première année." },
+];
+
+const TARIFS = [
+  { a: "Cours individuel 30 min", p: "48 € / mois", n: "Une séance hebdomadaire, 32 semaines sur l'année scolaire." },
+  { a: "Cours individuel 45 min", p: "68 € / mois", n: "Le format le plus courant à partir du deuxième cycle." },
+  { a: "Cours individuel 1 h", p: "89 € / mois", n: "Préparation aux examens et concours d'entrée." },
+  { a: "Éveil musical (4-6 ans)", p: "32 € / mois", n: "40 minutes en groupe de six, le mercredi ou le samedi." },
+  { a: "Formation musicale", p: "26 € / mois", n: "Obligatoire à partir du premier cycle, incluse dans le forfait famille." },
+  { a: "Forfait famille (2e inscrit)", p: "-20 %", n: "Appliqué automatiquement sur le tarif le moins élevé." },
+];
+
 const COURS = [
   { titre: "Piano classique & contemporain", desc: "Initiation à la maîtrise, de 4 ans à l'adulte. Préparation aux concours et examens du conservatoire. Méthode Suzuki disponible pour les plus jeunes.", tag: "Piano" },
   { titre: "Guitare acoustique & électrique", desc: "Classique, folk, rock, jazz — nous adaptons l'enseignement à votre univers musical. Cours individuels et en petits groupes à partir de 6 ans.", tag: "Guitare" },
@@ -206,8 +231,8 @@ export default function ConservatoireAccordPage() {
             <span style={{ fontFamily: FONT, fontSize: 18, fontStyle: "italic", color: scrolled ? C.text : "#fff" }}>Conservatoire<span style={{ color: C.amber }}> Accord</span></span>
           </div>
         )}
-        <div id="mb73-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      {["Cours", "Professeurs", "Tarifs", "Contact"].map(l => (
-            <a key={l} href={`#${l.toLowerCase()}`} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)", fontSize: 14, fontWeight: 500, textDecoration: "none" }}>{l}</a>
+        <div id="mb73-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      {NAV.map(({ l, h }) => (
+            <a key={l} href={h} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)", fontSize: 14, fontWeight: 500, textDecoration: "none" }}>{l}</a>
           ))}
           <motion.a href="#contact" style={{ background: C.amber, color: C.white, borderRadius: 8, padding: "9px 22px", fontSize: 14, fontWeight: 600, textDecoration: "none", display: "flex", alignItems: "center", gap: 6 }} whileHover={{ background: "var(--brand,#d06a2e)" }}>
             <Guitar size={14} /> S'inscrire
@@ -231,8 +256,8 @@ export default function ConservatoireAccordPage() {
       </motion.nav>
       {mobileOpen && (
         <div style={{ position: "fixed", top: 72, left: 0, right: 0, zIndex: 99, background: "rgba(255,255,255,0.98)", borderBottom: "1px solid #e5e5e5", padding: "24px 32px", display: "flex", flexDirection: "column", gap: 20, backdropFilter: "blur(12px)" }}>
-          {["Cours", "Professeurs", "Tarifs", "Contact"].map(l => (
-            <a key={l} href={`#${l.toLowerCase()}`} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)", fontSize: 14, fontWeight: 500, textDecoration: "none" }}>{l}</a>
+          {NAV.map(({ l, h }) => (
+            <a key={l} href={h} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)", fontSize: 14, fontWeight: 500, textDecoration: "none" }}>{l}</a>
           ))}
           <motion.a href="#contact" style={{ background: C.amber, color: C.white, borderRadius: 8, padding: "9px 22px", fontSize: 14, fontWeight: 600, textDecoration: "none", display: "flex", alignItems: "center", gap: 6 }} whileHover={{ background: "var(--brand,#d06a2e)" }}>
             <Guitar size={14} /> S'inscrire
@@ -321,6 +346,29 @@ export default function ConservatoireAccordPage() {
         </div>
       </section>
 
+      {/* Professeurs */}
+      <section id="professeurs" style={{ padding: "110px 80px", background: C.white }}>
+        <Reveal>
+          <div style={{ marginBottom: 60 }}>
+            <span style={{ fontSize: 12, fontWeight: 600, letterSpacing: 4, textTransform: "uppercase", color: C.amber }}>Professeurs</span>
+            <h2 style={{ fontFamily: FONT, fontSize: "clamp(30px, 4vw, 52px)", fontWeight: 700, color: C.text, marginTop: 10, lineHeight: 1.1 }}>
+              Ceux qui vous<br />mettront les mains dessus.
+            </h2>
+          </div>
+        </Reveal>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: 20, maxWidth: 1200, margin: "0 auto" }}>
+          {PROFESSEURS.map((m, i) => (
+            <Reveal key={m.n} delay={i * 0.06}>
+              <motion.div whileHover={{ y: -5, boxShadow: C.shadowLg }} style={{ background: C.bg, borderRadius: 14, padding: "26px 24px", border: `1px solid ${C.border}`, boxShadow: C.shadow, height: "100%" }}>
+                <h3 style={{ fontFamily: FONT, fontSize: 18, fontWeight: 700, color: C.text }}>{m.n}</h3>
+                <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: 1.5, textTransform: "uppercase", color: C.amber, margin: "8px 0 14px" }}>{m.r}</div>
+                <p style={{ fontSize: 14, color: C.textMuted, lineHeight: 1.7 }}>{m.d}</p>
+              </motion.div>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
       {/* Points forts */}
       <section style={{ padding: "100px 80px", background: C.bgSection }}>
         <div className="imx-mobstack" style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "center" }}>
@@ -345,6 +393,37 @@ export default function ConservatoireAccordPage() {
             <img src={photo(1, "https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=800&q=80")} alt="Cours de musique enfant Lyon" style={{ width: "100%", borderRadius: 16, aspectRatio: "4/3", objectFit: "cover" }} />
           </Reveal>
         </div>
+      </section>
+
+      {/* Tarifs */}
+      <section id="tarifs" style={{ padding: "110px 80px", background: C.bg }}>
+        <Reveal>
+          <div style={{ marginBottom: 60 }}>
+            <span style={{ fontSize: 12, fontWeight: 600, letterSpacing: 4, textTransform: "uppercase", color: C.amber }}>Tarifs</span>
+            <h2 style={{ fontFamily: FONT, fontSize: "clamp(30px, 4vw, 52px)", fontWeight: 700, color: C.text, marginTop: 10, lineHeight: 1.1 }}>
+              Un prix par mois,<br />pas de frais qui tombent après.
+            </h2>
+          </div>
+        </Reveal>
+        <div style={{ maxWidth: 900, margin: "0 auto", background: C.white, borderRadius: 14, border: `1px solid ${C.border}`, boxShadow: C.shadow, overflow: "hidden" }}>
+          {TARIFS.map((t, i) => (
+            <Reveal key={t.a} delay={i * 0.05}>
+              <div style={{ display: "flex", flexWrap: "wrap", alignItems: "baseline", justifyContent: "space-between", gap: 12, padding: "20px 28px", borderTop: i ? `1px solid ${C.border}` : "none" }}>
+                <div style={{ minWidth: 0 }}>
+                  <div style={{ fontSize: 15, fontWeight: 600, color: C.text }}>{t.a}</div>
+                  <div style={{ fontSize: 13, color: C.textMuted, marginTop: 3 }}>{t.n}</div>
+                </div>
+                <div style={{ fontSize: 15, fontWeight: 700, color: C.amber, flexShrink: 0 }}>{t.p}</div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+        <Reveal>
+          <p style={{ maxWidth: 900, margin: "20px auto 0", fontSize: 13, color: C.textMuted, lineHeight: 1.7 }}>
+            L&apos;adhésion annuelle est de 35 € par famille, prélevée une seule fois. Location d&apos;instrument possible
+            à partir de 14 € par mois, assurance comprise.
+          </p>
+        </Reveal>
       </section>
 
       {/* Témoignages */}

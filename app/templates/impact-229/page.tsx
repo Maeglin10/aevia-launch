@@ -32,6 +32,29 @@ const FONT_BODY = "'Karla', system-ui, sans-serif"
 
 const STATS = [{ value: "14 ans", label: "D'expertise beauté" }, { value: "3 200+", label: "Soins réalisés" }, { value: "4.9★", label: "Avis Google" }, { value: "90 min", label: "Soin signature" }]
 
+
+const NAV = [
+  { l: "Soins", h: "#soins" },
+  { l: "Forfaits", h: "#forfaits" },
+  { l: "Cadeaux", h: "#cadeaux" },
+  { l: "Contact", h: "#contact" },
+];
+const FORFAITS = [
+  { n: "Échappée · 1 h 30", p: "95 €", d: "Un gommage au sel de Guérande, puis un modelage du dos aux huiles chaudes. Le format d'après-travail." },
+  { n: "Parenthèse · 2 h 30", p: "165 €", d: "Soin du visage complet, modelage corps intégral, accès au hammam avant la séance. Thé et repos inclus." },
+  { n: "Journée Éclat · 4 h", p: "265 €", d: "Hammam, gommage, enveloppement, modelage 90 minutes, soin du visage, déjeuner léger sur place." },
+  { n: "Duo · 1 h 30", p: "185 €", d: "Deux praticiennes, une cabine double. Le seul forfait qu'on ne peut pas réserver à moins de 72 h." },
+  { n: "Abonnement Rituel", p: "89 € / mois", d: "Un soin de 60 minutes par mois, reportable une fois. Sans engagement au-delà de trois mois." },
+  { n: "Future maman · 1 h", p: "78 €", d: "À partir du quatrième mois, sur table adaptée. Huiles sans huiles essentielles." },
+];
+
+const CADEAUX = [
+  { t: "Carte cadeau en montant libre", d: "À partir de 40 €, sans montant maximum. Valable dix-huit mois sur tous les soins et les produits." },
+  { t: "Carte cadeau par soin", d: "Vous choisissez le soin, la personne choisit sa date. Si elle préfère autre chose, elle échange sans frais." },
+  { t: "Coffret découverte", d: "Une carte cadeau et trois produits de la gamme, dans un étui en carton recyclé. 68 €." },
+  { t: "Remise immédiate", d: "Imprimée et présentée en boutique, ou envoyée en PDF dans les cinq minutes. Aucun frais d'envoi." },
+];
+
 const SOINS_DEMO = [
   { titre: "Soins visage sur mesure", desc: "Nettoyage en profondeur, exfoliation, masque, sérum, hydratation. Protocole personnalisé après diagnostic de peau — 60 à 90 min.", tag: "Visage" },
   { titre: "Massage corps & modelage", desc: "Relaxant suédois, drainant lymphatique, modelage amincissant. Huiles végétales et essentielles biologiques. Dès 60 min.", tag: "Corps" },
@@ -194,8 +217,8 @@ export default function EclatSpaPage() {
             <>Éclat <span style={{ color: scrolled ? C.gold : "rgba(255,255,255,0.7)" }}>Spa</span></>
           )}
         </div>
-        <div id="mb229-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      {["Soins", "Forfaits", "Cadeaux", "Contact"].map(l => (
-            <a key={l} href={`#${l.toLowerCase()}`} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)", fontSize: 14, fontWeight: 500, textDecoration: "none" }}>{l}</a>
+        <div id="mb229-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      {NAV.map(({ l, h }) => (
+            <a key={l} href={h} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)", fontSize: 14, fontWeight: 500, textDecoration: "none" }}>{l}</a>
           ))}
           <motion.a href="#reservation" style={{ background: C.accent, color: C.white, borderRadius: 8, padding: "9px 22px", fontSize: 14, fontWeight: 600, textDecoration: "none", minHeight: 44, display: "inline-flex", alignItems: "center" }} whileHover={{ background: C.accentDark }}>Réserver</motion.a>
       </div>
@@ -212,8 +235,8 @@ export default function EclatSpaPage() {
       </motion.nav>
       {mobileOpen && (
         <div style={{ position: "fixed", top: 72, left: 0, right: 0, zIndex: 99, background: "rgba(255,255,255,0.98)", borderBottom: "1px solid #e5e5e5", padding: "24px 32px", display: "flex", flexDirection: "column", gap: 20, backdropFilter: "blur(12px)" }}>
-          {["Soins", "Forfaits", "Cadeaux", "Contact"].map(l => (
-            <a key={l} href={`#${l.toLowerCase()}`} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)", fontSize: 14, fontWeight: 500, textDecoration: "none" }}>{l}</a>
+          {NAV.map(({ l, h }) => (
+            <a key={l} href={h} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)", fontSize: 14, fontWeight: 500, textDecoration: "none" }}>{l}</a>
           ))}
           <motion.a href="#reservation" onClick={() => setMobileOpen(false)} style={{ background: C.accent, color: C.white, borderRadius: 8, padding: "9px 22px", fontSize: 14, fontWeight: 600, textDecoration: "none", minHeight: 44, display: "inline-flex", alignItems: "center", justifyContent: "center" }} whileHover={{ background: C.accentDark }}>Réserver</motion.a>
         </div>
@@ -322,6 +345,41 @@ export default function EclatSpaPage() {
                   <div style={{ fontWeight: 600, color: "#fff", fontSize: 14 }}>{a.auteur ?? a.author}</div>
                   <div style={{ color: C.rose, fontSize: 12, marginTop: 4 }}>{a.detail ?? a.source ?? ""}</div>
                 </div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
+      <section id="forfaits" style={{ padding: "100px 80px", background: C.white }}>
+        <Reveal><div style={{ marginBottom: 56, textAlign: "center" }}>
+          <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Forfaits</span>
+          <h2 style={{ fontFamily: FONT, fontSize: "clamp(30px, 4vw, 52px)", color: C.text, marginTop: 10, lineHeight: 1.15 }}>Le temps que vous<br /><em>voulez vous accorder.</em></h2>
+        </div></Reveal>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: 18, maxWidth: 1200, margin: "0 auto" }}>
+          {FORFAITS.map((f, i) => (
+            <Reveal key={f.n} delay={i * 0.06}>
+              <motion.div whileHover={{ y: -5, boxShadow: C.shadowLg }} style={{ background: C.bg, borderRadius: 14, padding: "28px 26px", border: `1px solid ${C.border}`, boxShadow: C.shadow, height: "100%" }}>
+                <h3 style={{ fontFamily: FONT, fontSize: 21, color: C.text }}>{f.n}</h3>
+                <div style={{ fontSize: 24, fontWeight: 700, color: C.accent, margin: "6px 0 14px" }}>{f.p}</div>
+                <p style={{ fontSize: 14, color: C.textMuted, lineHeight: 1.7 }}>{f.d}</p>
+              </motion.div>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
+      <section id="cadeaux" style={{ padding: "100px 80px", background: C.bgSection }}>
+        <Reveal><div style={{ marginBottom: 56, textAlign: "center" }}>
+          <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Cadeaux</span>
+          <h2 style={{ fontFamily: FONT, fontSize: "clamp(30px, 4vw, 52px)", color: C.text, marginTop: 10, lineHeight: 1.15 }}>Offrir du temps,<br /><em>pas un objet de plus.</em></h2>
+        </div></Reveal>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(280px, 100%), 1fr))", gap: 18, maxWidth: 1200, margin: "0 auto" }}>
+          {CADEAUX.map((c, i) => (
+            <Reveal key={c.t} delay={i * 0.07}>
+              <div style={{ background: C.white, borderRadius: 14, padding: "26px 24px", border: `1px solid ${C.border}`, boxShadow: C.shadow, height: "100%" }}>
+                <h3 style={{ fontFamily: FONT, fontSize: 19, color: C.text, marginBottom: 10 }}>{c.t}</h3>
+                <p style={{ fontSize: 14, color: C.textMuted, lineHeight: 1.7 }}>{c.d}</p>
               </div>
             </Reveal>
           ))}

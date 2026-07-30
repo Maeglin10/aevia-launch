@@ -7,6 +7,37 @@ import { Shield, ArrowRight, Menu, Lock, Zap, Activity, Cpu, Globe, Terminal, Ch
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { resolveList } from "@/lib/templates/resolveList"
 
+// Every navigation entry pointed at #hero, and the mobile sheet carried a
+// different set of labels again. Two of the four had no section at all.
+const NAV = [
+  { l: "Offense", h: "#offense" },
+  { l: "Intelligence", h: "#intelligence" },
+  { l: "Global Nodes", h: "#nodes" },
+  { l: "Archive", h: "#archive" },
+];
+
+const INTELLIGENCE = [
+  { k: "SIGNALS", t: "Continuous exposure mapping", d: "Every asset you own, and the ones you forgot: expired subdomains, orphaned S3 buckets, staging hosts still answering on port 443." },
+  { k: "HUMAN", t: "Adversary tracking", d: "We follow twenty-two groups by tooling and tradecraft, not by press release. When one changes loader, our clients hear about it that week." },
+  { k: "LEAKS", t: "Credential surfacing", d: "Combolists, stealer logs and paste sites, matched against your domains. Median time from appearance to your inbox: four hours." },
+  { k: "SUPPLY", t: "Third-party watch", d: "Your vendors' breaches become yours. We monitor the ones that hold your data, and we tell you before their disclosure does." },
+];
+
+const ARCHIVE = [
+  { y: "2025", t: "Lateral path missed for two years", d: "A read-only service account with domain-wide delegation. Found in week one of an engagement that had already passed three audits." },
+  { y: "2025", t: "Ransomware negotiation, no payment", d: "Recovery from immutable backups in 61 hours. The full timeline, published with the client's consent." },
+  { y: "2024", t: "Supply-chain compromise, contained", d: "A build agent poisoned upstream. Detected on artefact hash drift, four days before the release window." },
+  { y: "2024", t: "Insider exfiltration", d: "38 GB staged over nine weeks through a sanctioned file-sharing tool. Behavioural baseline caught the schedule, not the volume." },
+];
+
+const SOCIALS = [
+  { l: "GitHub", h: "https://github.com" },
+  { l: "X", h: "https://x.com" },
+  { l: "Signal", h: "https://signal.me" },
+  { l: "LinkedIn", h: "https://linkedin.com" },
+];
+
+
 function Reveal({ children, delay = 0, y = 30 }: { children: React.ReactNode; delay?: number; y?: number }) {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: "-80px" })
@@ -94,8 +125,8 @@ export default function VanguardLegalPage() {
           </>
             )}</Link>
           <div className="hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-white/30">
-            {["Offense", "Intelligence", "Global Nodes", "Archive"].map(l => (
-              <Link key={l} href="#hero" className="hover:text-[var(--brand,#00ff41)] transition-colors">{l}</Link>
+            {NAV.map(({ l, h }) => (
+              <Link key={l} href={h} className="hover:text-[var(--brand,#00ff41)] transition-colors">{l}</Link>
             ))}
           </div>
           <div className="flex items-center gap-6">
@@ -105,8 +136,8 @@ export default function VanguardLegalPage() {
               <SheetTrigger className="lg:hidden p-2"><Menu className="w-6 h-6 text-white" /></SheetTrigger>
               <SheetContent side="right" className="bg-[#02040a] border-white/5 p-12 text-white font-mono">
                 <div className="flex flex-col gap-8 mt-16 text-left">
-                  {["Offense", "Network", "Protocol", "Contact"].map(l => (
-                    <Link key={l} href="#contact" className="text-3xl font-bold uppercase tracking-tighter hover:text-[var(--brand,#00ff41)] transition-all italic">{l}</Link>
+                  {NAV.map(({ l, h }) => (
+                    <Link key={l} href={h} className="text-3xl font-bold uppercase tracking-tighter hover:text-[var(--brand,#00ff41)] transition-all italic">{l}</Link>
                   ))}
                 </div>
               </SheetContent>
@@ -192,7 +223,7 @@ export default function VanguardLegalPage() {
         </section>
 
         {/* ── THE OFFENSE ────────────── */}
-        <section className="py-40 bg-[#02040a]">
+        <section id="offense" className="py-40 bg-[#02040a]">
           <div className="max-w-[1400px] mx-auto px-6 md:px-12">
             <Reveal>
               <div className="flex flex-col md:flex-row items-end justify-between mb-32 gap-8 border-b border-white/5 pb-16">
@@ -229,7 +260,7 @@ export default function VanguardLegalPage() {
         </section>
 
         {/* ── INTELLIGENCE ──────────── */}
-        <section className="py-40 bg-black relative">
+        <section id="nodes" className="py-40 bg-black relative">
            <div className="max-w-[1400px] mx-auto px-6 md:px-12">
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-32 items-center">
                  <div>
@@ -277,7 +308,61 @@ export default function VanguardLegalPage() {
         </section>
 
         {/* ── TESTIMONIALS ──────────── */}
-        <section id="contact" className="py-40 bg-[#02040a] border-t border-[var(--brand,#00ff41)]/10">
+        {/* INTELLIGENCE */}
+        <section id="intelligence" className="py-40 bg-black border-t border-white/5">
+          <div className="max-w-[1400px] mx-auto px-6 md:px-12">
+            <Reveal>
+              <div className="mb-32 border-b border-white/5 pb-16 max-w-3xl">
+                <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#00ff41)] block mb-6">Intelligence</span>
+                <h2 className="text-6xl md:text-[7vw] font-black uppercase tracking-tighter text-white leading-none italic">Know First. <br/> <span className="font-light not-italic opacity-20">Act Early.</span></h2>
+              </div>
+            </Reveal>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-white/5 border border-white/5">
+              {INTELLIGENCE.map((n, i) => (
+                <Reveal key={n.t} delay={i * 0.06}>
+                  <div className="bg-black p-10 h-full font-mono">
+                    <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#00ff41)] mb-5">// {n.k}</div>
+                    <h3 className="text-2xl font-black uppercase tracking-tight text-white mb-4 italic">{n.t}</h3>
+                    <p className="text-sm text-white/35 leading-relaxed">{n.d}</p>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ARCHIVE */}
+        <section id="archive" className="py-40 bg-[#02040a] border-t border-white/5">
+          <div className="max-w-[1400px] mx-auto px-6 md:px-12">
+            <Reveal>
+              <div className="mb-32 border-b border-white/5 pb-16 max-w-3xl">
+                <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#00ff41)] block mb-6">Archive</span>
+                <h2 className="text-6xl md:text-[7vw] font-black uppercase tracking-tighter text-white leading-none italic">Case <br/> <span className="font-light not-italic opacity-20">Files.</span></h2>
+              </div>
+            </Reveal>
+            <div className="divide-y divide-white/5 border-y border-white/5 font-mono">
+              {ARCHIVE.map((a, i) => (
+                <Reveal key={a.t} delay={i * 0.06}>
+                  <div className="py-10 grid grid-cols-1 md:grid-cols-[140px_1fr] gap-8">
+                    <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#00ff41)] pt-2">{a.y}</span>
+                    <div>
+                      <h3 className="text-2xl md:text-3xl font-black uppercase tracking-tight text-white mb-3 italic">{a.t}</h3>
+                      <p className="text-sm text-white/35 leading-relaxed max-w-[75ch]">{a.d}</p>
+                    </div>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+            <Reveal>
+              <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-white/15 mt-14 max-w-[75ch] leading-loose">
+                Engagements are summarised with the client&apos;s written consent. Sectors, figures and dates are
+                generalised wherever disclosure would identify the party.
+              </p>
+            </Reveal>
+          </div>
+        </section>
+
+        <section id="reports" className="py-40 bg-[#02040a] border-t border-[var(--brand,#00ff41)]/10">
           <div className="max-w-6xl mx-auto px-6 md:px-12 font-mono">
             <Reveal>
               <p className="text-[10px] uppercase tracking-[0.5em] text-[var(--brand,#00ff41)]/40 mb-6">// verified operators</p>
@@ -374,8 +459,8 @@ export default function VanguardLegalPage() {
                  "Conflict is inevitable. Neutralization is an choice. We are the choice of the prepared."
               </p>
               <div className="flex gap-10">
-                 {["GitHub", "Archive", "Signal", "Contact"].map(s => (
-                   <Link key={s} href={ s === "LinkedIn" || s === "Linkedin" ? "https://linkedin.com" : s === "Contact" || s === "contact" ? "#contact" : `#${s.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="text-[10px] font-bold uppercase tracking-widest text-white/20 hover:text-[var(--brand,#00ff41)] transition-colors underline underline-offset-8 decoration-[var(--brand,#00ff41)]/10">{s}</Link>
+                 {SOCIALS.map(s => (
+                   <Link key={s.l} href={s.h} target="_blank" rel="noopener noreferrer" className="text-[10px] font-bold uppercase tracking-widest text-white/20 hover:text-[var(--brand,#00ff41)] transition-colors underline underline-offset-8 decoration-[var(--brand,#00ff41)]/10">{s.l}</Link>
                  ))}
               </div>
            </div>
@@ -400,8 +485,8 @@ export default function VanguardLegalPage() {
         <div className="max-w-[1400px] mx-auto flex flex-col md:row justify-between items-center gap-8 border-t border-white/5 pt-12 text-[10px] font-bold uppercase tracking-[0.4em] text-white/10 italic">
            <span>© 2026 VANGUARD STRATEGIC LEGAL DEFENSE. CONNECTION ENCRYPTED.</span>
            <div className="flex gap-12">
-              <Link href="#contact" className="hover:text-[var(--brand,#00ff41)] transition-all">SYSTEM_STATUS: NOMINAL</Link>
-              <Link href="#contact" className="hover:text-[var(--brand,#00ff41)] transition-all">PRIVACY_PROTOCOL_ENABLED</Link>
+              <span>SYSTEM_STATUS: NOMINAL</span>
+              <Link href="/templates/impact-147/legal" className="hover:text-[var(--brand,#00ff41)] transition-all">PRIVACY_PROTOCOL_ENABLED</Link>
            </div>
         </div>
       </footer>
