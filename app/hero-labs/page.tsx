@@ -57,7 +57,7 @@ const WINES = [
     grape: "Syrah",
     place: "Côte-Rôtie",
     bg: U("photo-1506377247377-2a5b3b417ebb"),
-    bottle: UP("photo-1598866971869-22782ffd918e"),
+    bottle: UP("photo-1545608508-78f351665a1c"),
   },
   {
     left: "PIERRE",
@@ -66,7 +66,7 @@ const WINES = [
     grape: "Chardonnay",
     place: "Meursault",
     bg: U("photo-1474722883778-792e7990302f"),
-    bottle: UP("photo-1775144313163-9361d25189c1"),
+    bottle: UP("photo-1598866971869-22782ffd918e"),
   },
   {
     left: "TERRE",
@@ -75,12 +75,14 @@ const WINES = [
     grape: "Grenache",
     place: "Gigondas",
     bg: U("photo-1510812431401-41d2bd2722f3"),
-    bottle: UP("photo-1781942610266-4013e9b78af0"),
+    bottle: UP("photo-1714377676631-bef738815d62"),
   },
 ];
 
 /** Width of the gap the wordmark leaves for the bottle, and of the bottle itself. */
 const BOTTLE_W = "clamp(130px, 17vw, 250px)";
+/** Breathing room so no letter kisses the frame's edge. */
+const GUTTER = "clamp(0px, 1.8vw, 30px)";
 
 function WineHero() {
   const { i, next, prev } = useSlides(WINES.length, DWELL.slow);
@@ -94,7 +96,10 @@ function WineHero() {
     whiteSpace: "nowrap",
   };
   return (
-    <section className="lab-hero relative min-h-[620px] overflow-hidden bg-[#0d0a08] text-[#f0e9dd]">
+    <section
+      className="lab-hero relative min-h-[620px] overflow-hidden bg-[#0d0a08] text-[#f0e9dd]"
+      style={{ ["--bottle-w" as string]: BOTTLE_W }}
+    >
       <AnchoredBackdrop images={WINES.map((x) => x.bg)} index={i} overlay={0.76} blur={3} />
 
       <div className="relative z-10 h-full flex flex-col">
@@ -147,13 +152,16 @@ function WineHero() {
             />
           </div>
 
-          {/* the wordmark, split so the frame lands in its own gap */}
-          <div className="absolute inset-x-0 grid place-items-center px-4" style={{ zIndex: 3 }}>
+          {/* The wordmark straddles the frame on a wide screen. On a phone the
+              two halves cannot both clear a 130px frame — "MERIDIEN" alone
+              needs more than the column it would get — so there the title
+              becomes one centred line sitting above the frame instead. */}
+          <div className="wine-title-slot absolute inset-x-0 px-4" style={{ zIndex: 3 }}>
             <BlurThrough index={i} amount={10}>
-              <h1 className="flex items-baseline justify-center" style={{ textAlign: "center" }}>
-                <span style={word}>{w.left}</span>
-                <span aria-hidden style={{ display: "inline-block", width: BOTTLE_W }} />
-                <span style={word}>{w.right}</span>
+              <h1 className="wine-title">
+                <span style={{ ...word, justifySelf: "end", paddingRight: GUTTER }}>{w.left}</span>
+                <span aria-hidden className="wine-title-gap" />
+                <span style={{ ...word, justifySelf: "start", paddingLeft: GUTTER }}>{w.right}</span>
               </h1>
             </BlurThrough>
           </div>
@@ -750,6 +758,17 @@ export default function HeroLabs() {
         @media (min-width:768px){.lab-hero{height:calc(100svh - 88px)}}
         /* Four columns on a phone gives 80px tiles; stack instead, and let the
            grid placement on each tile be ignored by flex. */
+        /* Wine title: one centred line above the frame on a phone, split
+           around it from md up. */
+        .wine-title-slot{top:6%;display:grid;place-items:center}
+        .wine-title{display:flex;justify-content:center;align-items:baseline;text-align:center;gap:.34em}
+        .wine-title-gap{display:none}
+        @media (min-width:768px){
+          .wine-title-slot{top:auto;bottom:auto;place-items:center;inset-block:0}
+          .wine-title{display:grid;grid-template-columns:minmax(0,1fr) var(--bottle-w) minmax(0,1fr);
+            align-items:center;width:100%;gap:0}
+          .wine-title-gap{display:block}
+        }
         .lab-bento{display:flex;flex-direction:column;overflow-y:auto}
         .lab-bento > *{flex:0 0 auto;min-height:clamp(120px,22svh,200px)}
         @media (min-width:768px){
