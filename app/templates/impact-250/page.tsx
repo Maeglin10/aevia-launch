@@ -2035,7 +2035,7 @@ export default function Page() {
     background: C.bg,
     color: C.ink,
     fontFamily: SERIF,
-    overflowX: 'hidden',
+    overflowX: 'clip',
     WebkitFontSmoothing: 'antialiased',
   };
 

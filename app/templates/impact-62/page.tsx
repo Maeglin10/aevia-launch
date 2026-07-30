@@ -151,7 +151,7 @@ return (
 
         <div className="relative z-10 max-w-[1400px] mx-auto px-6 md:px-12 w-full">
           <Reveal>
-            <h1 className="text-5xl sm:text-6xl md:text-9xl lg:text-[11rem] font-light leading-[1.15] pb-4 tracking-tighter mb-12 uppercase text-white break-words">{c?.heroHeadline ?? <>
+            <h1 className="text-5xl sm:text-6xl md:text-9xl lg:text-[9rem] xl:text-[11rem] font-light leading-[1.15] pb-4 tracking-tighter mb-12 uppercase text-white break-words">{c?.heroHeadline ?? <>
               Surrender <br />{" "}
               <span className="italic font-normal text-[var(--brand,#b8860b)]">
                 to fire.

@@ -2101,7 +2101,7 @@ return (
         background: C.bg,
         color: C.ink,
         fontFamily: SERIF,
-        overflowX: 'hidden',
+        overflowX: 'clip',
         WebkitFontSmoothing: 'antialiased',
         MozOsxFontSmoothing: 'grayscale',
       }}

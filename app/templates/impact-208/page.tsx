@@ -1993,7 +1993,7 @@ export default function Page() {
   }
 
 return (
-    <main style={{ background: C.bg, overflowX: 'hidden' }}>
+    <main style={{ background: C.bg, overflowX: 'clip' }}>
       <style>{`
         /* mobile: stack 2-col grids to single column (added by responsive fix) */
         @media (max-width: 768px) {

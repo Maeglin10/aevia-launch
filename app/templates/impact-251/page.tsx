@@ -2271,7 +2271,7 @@ return (
           background: C.bg,
           color: C.ink,
           fontFamily: SANS,
-          overflowX: 'hidden',
+          overflowX: 'clip',
           WebkitFontSmoothing: 'antialiased',
           MozOsxFontSmoothing: 'grayscale',
         }}

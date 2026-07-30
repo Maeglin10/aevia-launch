@@ -2802,7 +2802,7 @@ export default function Impact282Page() {
     background: C.brownDeep,
     color: C.cream,
     fontFamily: SERIF,
-    overflowX: 'hidden',
+    overflowX: 'clip',
     WebkitFontSmoothing: 'antialiased',
     MozOsxFontSmoothing: 'grayscale',
   };

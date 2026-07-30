@@ -3299,7 +3299,7 @@ return (
       style={{
         fontFamily: SANS,
         background: C.ivory,
-        overflowX: 'hidden',
+        overflowX: 'clip',
         margin: 0,
         padding: 0,
       }}

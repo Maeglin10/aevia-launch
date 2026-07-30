@@ -222,7 +222,8 @@ export function MarqueeBelt() {
       const vel = velocityFactor.get();
       const delta = -0.04 * dt * (vel || 1);
       let next = baseX.get() + delta;
-      const charWidth = 100;
+      // width:max-content + 2 copies -> -50% = exactly one copy
+      const charWidth = 50;
       if (next < -charWidth) next = 0;
       if (next > 0) next = -charWidth;
       baseX.set(next);
@@ -252,16 +253,17 @@ export function MarqueeBelt() {
           x,
           display: "flex",
           whiteSpace: "nowrap",
-          width: "200%",
+          width: "max-content",
         }}
       >
         {[0, 1].map((copy) => (
           <div
             key={copy}
             style={{
-              width: "50%",
+              flexShrink: 0,
               display: "flex",
               alignItems: "center",
+              paddingRight: "0.5em",
             }}
           >
             <span

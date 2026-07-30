@@ -2589,7 +2589,7 @@ export default function ImpactSneakerPage() {
         color: C.white,
         fontFamily: FONT_STACK,
         WebkitFontSmoothing: 'antialiased',
-        overflowX: 'hidden',
+        overflowX: 'clip',
       }}
     >
       {/* Scoped responsive + hover styles */}

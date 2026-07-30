@@ -2113,7 +2113,7 @@ export default function Page() {
     background: C.bgDark,
     color: C.ink,
     fontFamily: SERIF,
-    overflowX: 'hidden',
+    overflowX: 'clip',
     WebkitFontSmoothing: 'antialiased',
     MozOsxFontSmoothing: 'grayscale',
   };

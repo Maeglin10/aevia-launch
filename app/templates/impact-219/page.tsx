@@ -62,7 +62,7 @@ const pageStyle: React.CSSProperties = {
   background: C.bg,
   color: C.ink,
   fontFamily: C.font,
-  overflowX: 'hidden',
+  overflowX: 'clip',
   WebkitFontSmoothing: 'antialiased',
 };
 

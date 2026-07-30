@@ -97,7 +97,7 @@ const PHOTO = {
     "https://images.unsplash.com/photo-1485291571150-772bcfc10da5?q=80&w=800&auto=format&fit=crop",
     "https://images.unsplash.com/photo-1493238792000-8113da705763?q=80&w=800&auto=format&fit=crop",
     "https://images.pexels.com/photos/4489776/pexels-photo-4489776.jpeg?auto=compress&cs=tinysrgb&w=800",
-    "https://images.pexels.com/photos/474/pexels-photo-474.jpeg?auto=compress&cs=tinysrgb&w=800"
+    "https://images.pexels.com/photos/4489749/pexels-photo-4489749.jpeg?auto=compress&cs=tinysrgb&w=800"
   ],
   about: "https://images.unsplash.com/photo-1527018601619-a508a2be00cd?q=80&w=1200&auto=format&fit=crop",
   cta: "https://images.unsplash.com/photo-1613588718956-c2e80305bf61?q=80&w=1500&auto=format&fit=crop",

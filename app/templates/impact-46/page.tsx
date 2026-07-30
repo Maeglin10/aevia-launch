@@ -32,7 +32,7 @@ function HeroSection() {
     { img: "https://images.pexels.com/photos/273682/pexels-photo-273682.jpeg?auto=compress&cs=tinysrgb&w=2000", stat: "€2.4B", statLabel: "d’opérations conseillées" },
     { img: "https://images.pexels.com/photos/9409685/pexels-photo-9409685.jpeg?auto=compress&cs=tinysrgb&w=2000", stat: "140+", statLabel: "opérations menées depuis 2009" },
     { img: "https://images.pexels.com/photos/9409682/pexels-photo-9409682.jpeg?auto=compress&cs=tinysrgb&w=2000", stat: "900+", statLabel: "marques et brevets déposés" },
-    { img: "https://images.pexels.com/photos/159720/law-books-library-rows-of-books-159720.jpeg?auto=compress&cs=tinysrgb&w=2000", stat: "87%", statLabel: "réglés avant audience" },
+    { img: "https://images.pexels.com/photos/5668473/pexels-photo-5668473.jpeg?auto=compress&cs=tinysrgb&w=2000", stat: "87%", statLabel: "réglés avant audience" },
     { img: "https://images.pexels.com/photos/6077091/pexels-photo-6077091.jpeg?auto=compress&cs=tinysrgb&w=2000", stat: "24h", statLabel: "de délai sur les urgences" },
   ];
 

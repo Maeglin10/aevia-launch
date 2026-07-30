@@ -3113,7 +3113,7 @@ return (
       id="hero"
       style={{
         background: C.white,
-        overflowX: 'hidden',
+        overflowX: 'clip',
         fontFamily: SANS,
       }}
     >

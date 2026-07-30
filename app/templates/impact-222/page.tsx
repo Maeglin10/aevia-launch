@@ -2474,7 +2474,7 @@ return (
         background: C.bg,
         color: C.text,
         fontFamily: C.font,
-        overflowX: 'hidden',
+        overflowX: 'clip',
         WebkitFontSmoothing: 'antialiased',
       }}
     >

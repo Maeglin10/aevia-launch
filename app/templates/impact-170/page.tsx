@@ -1068,7 +1068,7 @@ export default function Impact170Page() {
         color: C.text,
         fontFamily: C.fontSans,
         minHeight: "100dvh",
-        overflowX: "hidden",
+        overflowX: "clip",
       }}
     >
       {/* Scroll progress bar */}

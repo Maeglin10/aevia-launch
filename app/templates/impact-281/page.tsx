@@ -2608,7 +2608,7 @@ export default function Impact281Page() {
     background: C.black,
     color: C.champagne,
     fontFamily: SERIF,
-    overflowX: 'hidden',
+    overflowX: 'clip',
     WebkitFontSmoothing: 'antialiased',
     MozOsxFontSmoothing: 'grayscale',
   };

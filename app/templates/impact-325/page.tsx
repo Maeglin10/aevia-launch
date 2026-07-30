@@ -704,9 +704,13 @@ export default function Impact325SeminarHub({ session: initialSession }) {
 
       {/* FOOTER */}
       <footer style={{ backgroundColor: C.text, color: C.white, padding: "80px 4% 40px" }}>
+        {/* auto-fit resolves to a single column on a phone, and the brand
+            cell's "span 2" then conjures an implicit second one — 435px of
+            track inside a 359px footer, so the link columns ran off-screen */}
+        <style>{`@media (max-width: 768px) { .i325-foot-brand { grid-column: auto !important; } }`}</style>
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "40px", marginBottom: "60px" }}>
-            <div style={{ gridColumn: "span 2" }}>
+            <div className="i325-foot-brand" style={{ gridColumn: "span 2" }}>
               <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "24px" }}>
                 <Building color={C.accent} size={28} />
                 <h2 style={{ fontFamily: SERIF, fontSize: "22px", fontWeight: 700, margin: 0, color: C.white }}>

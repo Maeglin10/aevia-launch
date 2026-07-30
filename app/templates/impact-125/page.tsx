@@ -320,7 +320,7 @@ export default function AstrumReachPage() {
               <div className="flex flex-col md:flex-row items-end justify-between mb-24 gap-8">
                 <div className="max-w-2xl">
                   <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#06b6d4)] block mb-4">The Fleet</span>
-                  <h2 className="text-6xl md:text-8xl font-light uppercase tracking-tighter italic leading-none">Space <span className="text-white/20">Infrastructure.</span></h2>
+                  <h2 className="text-4xl md:text-8xl font-light uppercase tracking-tighter italic leading-none">Space <span className="text-white/20">Infrastructure.</span></h2>
                 </div>
                 <div className="flex gap-4">
                    <div className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center hover:bg-white hover:text-black transition-all cursor-pointer"><ArrowRight className="w-5 h-5 rotate-180" /></div>

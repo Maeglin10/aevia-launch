@@ -2176,7 +2176,7 @@ export default function Page() {
     background: C.burgundyDeep,
     color: C.cream,
     fontFamily: SERIF,
-    overflowX: 'hidden',
+    overflowX: 'clip',
     WebkitFontSmoothing: 'antialiased',
   };
 return (

@@ -104,25 +104,25 @@ export function CookieBanner() {
           <div className="mx-auto max-w-4xl bg-zinc-900 border border-zinc-700 rounded-2xl shadow-2xl shadow-black/50 overflow-hidden">
 
             {mode === "banner" ? (
-              <div className="px-5 py-4 flex flex-col sm:flex-row sm:items-center gap-4">
-                <p className="flex-1 text-zinc-300 text-sm leading-relaxed">
+              <div className="px-4 py-3 sm:px-5 sm:py-4 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
+                <p className="flex-1 text-zinc-400 text-xs sm:text-sm leading-snug sm:leading-relaxed">
                   {t.text}{" "}
                   <a href="https://aevia.services/fr/legal/cookies" target="_blank" rel="noopener noreferrer"
                     className="text-red-400 hover:text-red-300 underline underline-offset-2 transition-colors">
                     {t.more}
                   </a>
                 </p>
-                <div className="flex flex-wrap gap-2 shrink-0">
+                <div className="flex gap-1.5 sm:gap-2 shrink-0">
                   <button onClick={() => save({ analytics: false, marketing: false })}
-                    className="px-4 py-2 rounded-full border border-zinc-600 text-zinc-300 hover:text-white hover:border-zinc-400 text-sm font-medium transition-colors">
+                    className="px-3 py-1.5 sm:px-4 sm:py-2 rounded-full border border-zinc-600 text-zinc-300 hover:text-white hover:border-zinc-400 text-xs sm:text-sm font-medium transition-colors">
                     {t.reject}
                   </button>
                   <button onClick={() => setMode("customize")}
-                    className="px-4 py-2 rounded-full border border-red-500/40 text-red-400 hover:bg-red-500/10 text-sm font-medium transition-colors">
+                    className="px-3 py-1.5 sm:px-4 sm:py-2 rounded-full border border-red-500/40 text-red-400 hover:bg-red-500/10 text-xs sm:text-sm font-medium transition-colors">
                     {t.customize}
                   </button>
                   <button onClick={() => save({ analytics: true, marketing: true })}
-                    className="px-4 py-2 rounded-full bg-red-600 hover:bg-red-500 text-white text-sm font-semibold transition-colors">
+                    className="px-3 py-1.5 sm:px-4 sm:py-2 rounded-full bg-red-600 hover:bg-red-500 text-white text-xs sm:text-sm font-semibold transition-colors">
                     {t.accept}
                   </button>
                 </div>

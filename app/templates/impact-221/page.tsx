@@ -86,7 +86,7 @@ const pageStyle: React.CSSProperties = {
   background: C.bg,
   color: C.white,
   fontFamily: "'Inter', 'Helvetica Neue', Arial, sans-serif",
-  overflowX: 'hidden',
+  overflowX: 'clip',
 };
 
 // ─── clamp helper ────────────────────────────────────────────────────────────

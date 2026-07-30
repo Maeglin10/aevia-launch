@@ -2589,7 +2589,7 @@ export default function Impact286Page() {
     background: C.bordeauxDeep,
     color: C.beige,
     fontFamily: SERIF,
-    overflowX: 'hidden',
+    overflowX: 'clip',
     WebkitFontSmoothing: 'antialiased',
     MozOsxFontSmoothing: 'grayscale',
   };

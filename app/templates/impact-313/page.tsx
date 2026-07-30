@@ -437,7 +437,7 @@ export default function PlumberDarkUrgent() {
       color: C.text,
       fontFamily: SANS,
       minHeight: "100vh",
-      overflowX: "hidden",
+      overflowX: "clip",
       position: "relative"
     }}>
       {/* GLOBAL STYLES */}
@@ -477,6 +477,8 @@ export default function PlumberDarkUrgent() {
         }
       `}} />
 
+      {/* FIXED ZONE: banner + header always visible at top */}
+      <div style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100 }}>
       {/* URGENT BANNER */}
       <div style={{
         backgroundColor: C.primary,
@@ -486,8 +488,6 @@ export default function PlumberDarkUrgent() {
         fontFamily: SANS,
         fontSize: "0.875rem",
         fontWeight: 600,
-        position: "relative",
-        zIndex: 100,
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
@@ -507,11 +507,8 @@ export default function PlumberDarkUrgent() {
 
       {/* HEADER */}
       <header style={{
-        position: "sticky",
-        top: 0,
-        left: 0,
+        position: "relative",
         width: "100%",
-        zIndex: 99,
         backgroundColor: isScrolled ? `rgba(5, 7, 12, 0.95)` : "transparent",
         backdropFilter: isScrolled ? "blur(10px)" : "none",
         borderBottom: isScrolled ? `1px solid rgba(255,255,255,0.05)` : "1px solid transparent",
@@ -631,6 +628,7 @@ export default function PlumberDarkUrgent() {
           </button>
         </div>
       </header>
+      </div>{/* end sticky zone */}
 
       {/* Mobile Menu */}
       <AnimatePresence>
@@ -642,7 +640,7 @@ export default function PlumberDarkUrgent() {
             transition={{ duration: 0.3 }}
             style={{
               position: "fixed",
-              top: "80px",
+              top: "116px",
               left: 0,
               width: "100%",
               backgroundColor: C.bgDeep,
@@ -692,6 +690,9 @@ export default function PlumberDarkUrgent() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Spacer for fixed header zone (banner ~37px + header ~81px) */}
+      <div aria-hidden="true" style={{ height: "118px" }} />
 
       {/* HERO SECTION */}
       <section style={{

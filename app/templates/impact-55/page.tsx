@@ -196,6 +196,9 @@ export default function CabinetRenardPage() {
         /* mobile: stack 2-col grids to single column (added by responsive fix) */
         @media (max-width: 768px) {
           .imx-mobstack { grid-template-columns: 1fr !important; }
+          /* stats: 4 colonnes trop serrées sur mobile -> 2x2 */
+          .imx-stats { grid-template-columns: 1fr 1fr !important; row-gap: 8px; }
+          .imx-stats > * > div { border-right: none !important; }
         }
       `}</style>
 
@@ -295,7 +298,7 @@ export default function CabinetRenardPage() {
 
       {/* Stats */}
       <section style={{ background: C.accent, padding: "0 80px" }}>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", maxWidth: 1100, margin: "0 auto" }}>
+        <div className="imx-stats" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", maxWidth: 1100, margin: "0 auto" }}>
           {STATS.map((s, i) => (
             <Reveal key={s.label} delay={i * 0.08}>
               <div style={{ padding: "30px 0", textAlign: "center", borderRight: i < 3 ? `1px solid ${C.gold}28` : "none" }}>

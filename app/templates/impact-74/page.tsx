@@ -363,8 +363,8 @@ export default function AeviaKitchenPage() {
           </motion.div>
         </motion.div>
 
-        {/* Scroll indicator */}
-        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 z-10">
+        {/* Scroll indicator — hidden on mobile (overlapped the stacked CTAs) */}
+        <div className="hidden md:flex absolute bottom-10 left-1/2 -translate-x-1/2 flex-col items-center gap-2 z-10">
           <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-white/20">scroll</span>
           <motion.div
             animate={{ y: [0, 8, 0] }}

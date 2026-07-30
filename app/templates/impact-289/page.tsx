@@ -2623,7 +2623,7 @@ export default function Impact289Page() {
     background: C.blueDeep,
     color: C.ink,
     fontFamily: SANS,
-    overflowX: 'hidden',
+    overflowX: 'clip',
     WebkitFontSmoothing: 'antialiased',
     MozOsxFontSmoothing: 'grayscale',
   };

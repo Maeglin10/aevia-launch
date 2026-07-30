@@ -100,7 +100,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           >
             BRUTCO
           </Link>
-          <div className="flex gap-8 text-xs font-bold uppercase tracking-widest text-white/40">
+          {/* six links x gap-8 with no wrap ran past the right edge on a phone */}
+          <div className="flex flex-wrap justify-center gap-x-5 gap-y-2 md:gap-8 text-xs font-bold uppercase tracking-widest text-white/40">
             <Link href="/templates/impact-28/work" className="hover:text-white transition-colors cursor-pointer">Work</Link>
             <Link href="/templates/impact-28/services" className="hover:text-white transition-colors cursor-pointer">Services</Link>
             <Link href="/templates/impact-28/studio" className="hover:text-white transition-colors cursor-pointer">Studio</Link>

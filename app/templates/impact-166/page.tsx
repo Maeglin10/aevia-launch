@@ -878,7 +878,7 @@ return (
         color: C.text,
         fontFamily: C.fontSans,
         minHeight: "100dvh",
-        overflowX: "hidden",
+        overflowX: "clip",
       }}
     >
       <style>{`

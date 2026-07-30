@@ -2172,7 +2172,7 @@ export default function Page() {
     background: C.bg,
     color: C.white,
     fontFamily: FONT,
-    overflowX: 'hidden',
+    overflowX: 'clip',
     WebkitFontSmoothing: 'antialiased',
     MozOsxFontSmoothing: 'grayscale',
   };

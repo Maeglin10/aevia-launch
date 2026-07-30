@@ -137,7 +137,7 @@ return (
       style={{
         backgroundColor: SCENES[0].bg,
         color: SCENES[0].textPrimary,
-        overflowX: 'hidden',
+        overflowX: 'clip',
       }}
     >
       {/* ── HERO — SVG Monogram ──────────────────────────────────────────────── */}

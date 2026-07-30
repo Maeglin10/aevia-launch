@@ -340,7 +340,7 @@ return (
           background: C.bg,
           color: C.white,
           minHeight: "100dvh",
-          overflowX: "hidden",
+          overflowX: "clip",
         }}
       >
         <HeroSection />
