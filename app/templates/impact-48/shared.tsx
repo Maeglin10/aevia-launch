@@ -67,9 +67,12 @@ export const globalCss = `
   }
 
   @media (max-width: 900px) {
-    .two-col { grid-template-columns: 1fr !important; }
-    .three-col { grid-template-columns: 1fr !important; }
-    .four-col { grid-template-columns: 1fr 1fr !important; }
+    .two-col { grid-template-columns: minmax(0,1fr) !important; }
+    .three-col { grid-template-columns: minmax(0,1fr) !important; }
+    /* a rigid "1fr 1fr" here overrode the auto-fit the markup asks for, and
+       two tracks that cannot shrink below their own min-content (244+286px)
+       ran off a 390px screen — the last two stats were never visible */
+    .four-col { grid-template-columns: repeat(auto-fit, minmax(min(150px, 100%), 1fr)) !important; }
   }
 `;
 

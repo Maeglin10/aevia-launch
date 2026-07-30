@@ -527,7 +527,7 @@ return (
         background: C.bg,
         color: C.dark,
         minHeight: "100dvh",
-        overflowX: "hidden",
+        overflowX: "clip",
       }}
     >
       {/* ============================================================

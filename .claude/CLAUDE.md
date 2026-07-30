@@ -36,6 +36,26 @@ Thèmes multi-page : 01, 10, 37, 46, 47, 86, 99, 154, 168, 192, 215, 154
 - Images : `images.unsplash.com/photo-ID?w=800&q=80` + `loading="lazy"` (JAMAIS `source.unsplash.com`)
 - `overflowX: "clip"` sur le wrapper racine (pas `"hidden"` → casse sticky)
 
+## Responsive mobile — correctifs globaux dans `app/templates/layout.tsx`
+Deux règles y couvrent les 315 templates d'un coup (plutôt que 315 éditions) : tap targets 44px, et **repli des grilles inline**.
+
+**Grilles inline** — une piste `1fr` ne descend jamais sous son `min-content` : à 390px la rangée dépasse le viewport et les colonnes de queue sont **rognées** par l'`overflow-x` de la page (stats, cartes services, colonnes de footer qui disparaissent). La règle cible les styles inline via `[style*="…"]`, à partir d'une **liste générée** des littéraux `gridTemplateColumns` du repo :
+```bash
+grep -rhoE "gridTemplateColumns:\s*['\"][^'\"]+['\"]" app/templates/ | sort -u
+```
+- ≥4 pistes → `repeat(auto-fit, minmax(min(150px,100%), 1fr))` · 3 pistes et footers → `minmax(0,1fr)`
+- **Ordre important** : une valeur à 4 pistes matche aussi les sélecteurs 2 pistes par sous-chaîne → la règle `auto-fit` doit rester énoncée **en dernier**.
+- **Si tu ajoutes un nouveau patron de grille inline, régénère la liste**, sinon il ne sera pas couvert.
+
+> ⚠️ Grep en guillemets doubles seuls = la moitié du repo manquée (apostrophes). Erreur commise 2×. Toujours `['\"]`.
+
+## Vérifier le responsive : mesurer, pas regarder
+Une capture ne montre pas ce qui est rogné — le contenu coupé ressemble à un cadrage voulu. Mesurer le DOM : enfant dont `getBoundingClientRect().right` dépasse la boîte parente ou le viewport.
+Faux positifs à filtrer : animations d'entrée Framer Motion (transform actif tant que non vu), éléments inline repliés (rectangle-union), overlays `fixed` et slides de carrousel (débordent volontairement).
+
+> Un seul balayage Playwright à la fois — 3 en parallèle saturent la RAM (next-server à 14 Go) et produisent des timeouts pris à tort pour des défauts.
+> Turbopack ne recharge pas les éditions dans le conteneur distant : **redémarrer le serveur** avant de vérifier, sinon on teste l'ancien code.
+
 ## registry.ts — hors sync pour ids > ~190
 Toujours vérifier le vrai contenu : `grep "export default function" app/templates/impact-XX/page.tsx`
 

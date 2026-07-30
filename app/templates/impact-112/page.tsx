@@ -1130,6 +1130,10 @@ return (
         /* mobile: stack 2-col grids to single column (added by responsive fix) */
         @media (max-width: 768px) {
           .imx-mobstack { grid-template-columns: 1fr !important; }
+          /* floating badges sit at right:-2% / left:-4% of the hero image —
+             at 390px that hangs them off the viewport edge and the text is cut */
+          .i112-badge-r { right: 2% !important; }
+          .i112-badge-l { left: 2% !important; }
         }
       `}</style>
 
@@ -1550,6 +1554,7 @@ return (
 
               {/* Floating info cards */}
               <motion.div
+                className="i112-badge-r"
                 animate={{ y: [-6, 6, -6] }}
                 transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
                 style={{
@@ -1585,6 +1590,7 @@ return (
               </motion.div>
 
               <motion.div
+                className="i112-badge-l"
                 animate={{ y: [6, -6, 6] }}
                 transition={{
                   duration: 3.5,

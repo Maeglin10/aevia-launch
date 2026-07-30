@@ -1861,7 +1861,7 @@ export default function AtlierMargueriteVossPage() {
         fontFamily: SANS,
         background: C.paper,
         color: C.anthracite,
-        overflowX: 'hidden',
+        overflowX: 'clip',
       }}
     >
       <Nav />

@@ -2857,7 +2857,7 @@ function Impact278Page() {
     background: C.dark,
     color: C.dark,
     fontFamily: SANS,
-    overflowX: 'hidden',
+    overflowX: 'clip',
     WebkitFontSmoothing: 'antialiased',
     MozOsxFontSmoothing: 'grayscale',
   };

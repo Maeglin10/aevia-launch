@@ -422,7 +422,10 @@ return (
                   className="py-10 group cursor-pointer -mx-6 px-6 hover:bg-white/60 transition-colors"
                   onClick={() => setOpenService(openService === i ? null : i)}
                 >
-                  <div className="grid grid-cols-12 gap-8 items-start">
+                  {/* gap-8 across 12 tracks is 11x32px of gutter — more than a
+                      390px screen has to give, so every track collapsed to 0
+                      and the row spilled off the edge */}
+                  <div className="grid grid-cols-12 gap-2 md:gap-8 items-start">
                     <div className="col-span-1 text-[10px] font-bold text-black/10 italic uppercase tracking-widest pt-1">
                       {svc.num}
                     </div>

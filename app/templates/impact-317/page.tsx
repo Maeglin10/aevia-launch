@@ -543,12 +543,14 @@ export default function TemplatePage({ session: initialSession }: { session?: an
               <Reveal delay={0.4}>
                 <div style={{ marginTop: "40px", display: "flex", alignItems: "center", gap: "16px" }}>
                   <div style={{ display: "flex", margin: "0 -8px" }}>
-                    {[1,2,3,4].map(i => (
-                      <div key={i} style={{
+                    {["ML", "JD", "AF", "PR"].map((ini, i) => (
+                      <div key={ini} style={{
                         width: "40px", height: "40px", borderRadius: "50%", border: `3px solid ${C.bg}`,
-                        backgroundImage: `url(https://i.pravatar.cc/100?img=${i+10})`, backgroundSize: "cover",
-                        marginLeft: i !== 1 ? "-15px" : 0, zIndex: 10 - i
-                      }} />
+                        background: C.primaryDark, color: C.white,
+                        display: "grid", placeItems: "center",
+                        fontFamily: SANS, fontSize: "13px", fontWeight: 700, letterSpacing: "0.02em",
+                        marginLeft: i !== 0 ? "-15px" : 0, zIndex: 10 - i
+                      }}>{ini}</div>
                     ))}
                   </div>
                   <div>
@@ -978,7 +980,9 @@ export default function TemplatePage({ session: initialSession }: { session?: an
                     "{testi.text}"
                   </p>
                   <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
-                    <div style={{ width: "50px", height: "50px", borderRadius: "50%", backgroundColor: C.bgDeep, backgroundImage: `url(https://i.pravatar.cc/150?img=${i+20})`, backgroundSize: "cover" }} />
+                    <div style={{ width: "50px", height: "50px", borderRadius: "50%", background: C.primaryDark, color: C.white, display: "grid", placeItems: "center", fontFamily: SANS, fontSize: "16px", fontWeight: 700 }}>
+                      {testi.name.split(" ").map((w: string) => w[0]).slice(0, 2).join("")}
+                    </div>
                     <div>
                       <div style={{ fontFamily: SERIF, fontSize: "18px", fontWeight: 700, color: C.text }}>{testi.name}</div>
                       <div style={{ fontFamily: SANS, fontSize: "14px", color: C.textMuted }}>{testi.role}</div>

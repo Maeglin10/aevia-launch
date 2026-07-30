@@ -430,7 +430,7 @@ export default function Page({ session: initialSession }) {
   );
 
   return (
-    <div style={{ backgroundColor: C.bg, color: C.text, fontFamily: SANS, overflowX: "hidden" }}>
+    <div style={{ backgroundColor: C.bg, color: C.text, fontFamily: SANS, overflowX: "clip" }}>
       {/* HEADER / NAVBAR */}
       <header
         style={{

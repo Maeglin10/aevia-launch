@@ -2812,8 +2812,15 @@ export default function FlammeEtCoPage() {
           style={{
             position: 'fixed',
             bottom: '1.25rem',
-            left: '50%',
-            transform: 'translateX(-50%)',
+            // Centred with auto margins rather than translateX(-50%): this is a
+            // motion component, so framer-motion owns `transform` and its own
+            // y-animation replaced the centring offset — the bar sat at the
+            // midpoint of the screen and ran 71px past the right edge.
+            left: 0,
+            right: 0,
+            marginInline: 'auto',
+            width: 'fit-content',
+            maxWidth: 'calc(100% - 2rem)',
             zIndex: 90,
             display: 'flex',
             gap: '0.75rem',
@@ -2823,7 +2830,6 @@ export default function FlammeEtCoPage() {
             padding: '0.7rem 1.25rem',
             backdropFilter: 'blur(16px)',
             boxShadow: '0 8px 32px rgba(0,0,0,0.6)',
-            maxWidth: 'calc(100vw - 2rem)',
           }}
         >
           <motion.a

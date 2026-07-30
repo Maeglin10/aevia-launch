@@ -167,7 +167,7 @@ const OFFERS_DEMO: Offer[] = [
 const EDIT_ROWS: EditRow[] = [
   {
     eyebrow: 'Notre philosophie',
-    imgId: '1554224155-8d04cb38fc7?w=800',
+    imgId: '1454165804606-c3d57bc86b40?w=800',
     alt: 'Expert comptable en consultation',
     title: (
       <>
@@ -2270,7 +2270,7 @@ return (
         background: C.bg,
         color: C.ink,
         fontFamily: FONT,
-        overflowX: 'hidden',
+        overflowX: 'clip',
         WebkitFontSmoothing: 'antialiased',
         MozOsxFontSmoothing: 'grayscale',
       }}

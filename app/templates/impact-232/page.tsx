@@ -139,6 +139,9 @@ export default function VertNaturePage() {
         /* mobile: stack 2-col grids to single column (added by responsive fix) */
         @media (max-width: 768px) {
           .imx-mobstack { grid-template-columns: 1fr !important; }
+          /* stats: 4 colonnes trop serrées/tronquées sur mobile -> 2x2 */
+          .imx-stats { grid-template-columns: 1fr 1fr !important; row-gap: 8px; }
+          .imx-stats > * > div { border-right: none !important; }
         }
       `}</style>
 
@@ -223,7 +226,7 @@ export default function VertNaturePage() {
       </section>
 
       <section style={{ background: C.bgDark, padding: "0 80px" }}>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", maxWidth: 1100, margin: "0 auto" }}>
+        <div className="imx-stats" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", maxWidth: 1100, margin: "0 auto" }}>
           {STATS.map((s, i) => (
             <Reveal key={s.label} delay={i * 0.08}>
               <div style={{ padding: "28px 0", textAlign: "center", borderRight: i < 3 ? "1px solid rgba(255,255,255,0.07)" : "none" }}>

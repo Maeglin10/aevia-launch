@@ -650,6 +650,9 @@ return (
         /* mobile: stack 2-col grids to single column (added by responsive fix) */
         @media (max-width: 768px) {
           .imx-mobstack { grid-template-columns: 1fr !important; }
+          /* artist rows: the trailing "auto" column pushed the row past 390px */
+          .i89-artist-row { grid-template-columns: 56px 1fr !important; gap: 20px !important; padding: 32px 24px !important; }
+          .i89-artist-row > :last-child { grid-column: 1 / -1; }
         }
       `}</style>
 
@@ -1207,6 +1210,7 @@ return (
                 transition={{ delay: i * 0.15, duration: 0.7 }}
                 onMouseEnter={() => setHoveredArtist(i)}
                 onMouseLeave={() => setHoveredArtist(null)}
+                className="i89-artist-row"
                 style={{
                   display: "grid",
                   gridTemplateColumns: "80px 1fr auto",

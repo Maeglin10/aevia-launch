@@ -2597,7 +2597,7 @@ export default function Impact279Page() {
     background: C.forestDeep,
     color: C.linen,
     fontFamily: SERIF,
-    overflowX: 'hidden',
+    overflowX: 'clip',
     WebkitFontSmoothing: 'antialiased',
     MozOsxFontSmoothing: 'grayscale',
   };

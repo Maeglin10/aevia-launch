@@ -1301,6 +1301,12 @@ export default function FashionEditorialTemplate() {
           .i03-timeline { grid-template-columns: 1fr !important; }
           .i03-timeline-line { display: none !important; }
         }
+        /* Two store cards still need 2x183px of min-content, more than the
+           262px the section's 64px padding leaves on a phone — the second
+           column ran off the screen. One per row below that. */
+        @media (max-width: 560px) {
+          .i03-grid-4 { grid-template-columns: 1fr !important; }
+        }
       
         /* mobile: stack 2-col grids to single column (added by responsive fix) */
         @media (max-width: 768px) {
@@ -1321,8 +1327,9 @@ export default function FashionEditorialTemplate() {
            on narrow viewports (nav was desktop-only, no responsive treatment).
            Hide the link row so the wordmark + cart icon have room to breathe. */
         @media (max-width: 700px) {
-          .i03-nav { padding: 16px 20px !important; }
+          .i03-nav { padding: 16px 20px !important; justify-content: flex-end !important; }
           .i03-nav-links { display: none !important; }
+          .i03-nav-stores { display: none !important; }
         }
       `}</style>
       {/* ─── NAVIGATION ─────────────────────────────────────────────────── */}
@@ -1416,6 +1423,7 @@ export default function FashionEditorialTemplate() {
         {/* Right */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 32 }}>
           <button
+            className="i03-nav-stores"
             onClick={() => {
               if (page !== 'home') {
                 goTo('home');

@@ -289,7 +289,8 @@ export default function SereneRetreatLayout({ children }: { children: React.Reac
         >
           © 2026 Aevia WS — SIREN <LegalIdentity />. Tous droits réservés. Chartreuse Massif, France.
         </div>
-        <div style={{ display: "flex", gap: 24 }}>
+        {/* legal links ran off the right edge on a phone without wrapping */}
+        <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 24 }}>
           <Link href="/templates/impact-43/legal" style={{ textDecoration: "none" }}>
             <span
               style={{

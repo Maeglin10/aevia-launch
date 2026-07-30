@@ -2192,7 +2192,7 @@ export default function Page() {
     background: C.bg,
     color: C.white,
     fontFamily: BODY,
-    overflowX: 'hidden',
+    overflowX: 'clip',
     WebkitFontSmoothing: 'antialiased',
     MozOsxFontSmoothing: 'grayscale',
   };

@@ -96,3 +96,40 @@ Thèmes livrés : 168 (Éclat/fashion), 46 (Dumont/law), 192 (Quantum/tech), 215
 **Erreurs commises :**
 - L'absence de compilation globale de validation à la fin du batch précédent avait laissé passer des erreurs de structure JSX complexes sur Pelikan et Zero to One. Le passage systématique de `tsc` et `npm run build` a permis de les éradiquer.
 
+
+---
+
+## 2026-07-30 — Session #5 : Audit visuel mobile des 315 templates impact
+
+**Fait :** `c674586` `fefc66f` `a1e7547` `fbd7c03` `945669d` `65f9121` `8f7ee9a` `38f0bf1` `976845b` `d829f57`
+- Audit un par un des 315 templates impact, desktop (1280×900) + mobile (390×844), avec scroll complet pour déclencher le lazy loading.
+- **Défaut systémique corrigé** : les grilles écrites en style inline ne se replient jamais sur mobile → colonnes de queue rognées. Des stats entières disparaissaient (« 98% » et « 12 » sur impact-108, « 48h » sur impact-50, « 4.9 »/« 100% » sur impact-104), ainsi que des cartes services, témoignages et colonnes de footer. Correctif unique dans `app/templates/layout.tsx`, couvrant ~200 grilles.
+- Correctifs ciblés : chevauchements hint/CTA (03, 08, 20, 40, 74, 77), stats 4 colonnes tronquées (15 templates), marquee illisible (53), onglets services compressés (116), badges hors cadre (112), grille 12 colonnes à gouttières impossibles (80), flèches de carrousel hors écran (`components/ui/carousel.tsx`, 9 templates), liens légaux sans retour à la ligne (28, 43), boutons d'envoi chassés par un input (81, 134), barre d'action fixe décentrée (215), footer `span 2` (325), `.four-col` rigide (48).
+- **Validation finale : 315/315 sans anomalie** sur deux balayages automatisés complets.
+
+**Comment :**
+- **Mesure DOM plutôt que l'œil.** Les captures ne montrent pas ce qui est rogné : le contenu coupé par l'`overflow-x` de la page ressemble à une mise en page voulue. Deux détecteurs Playwright écrits pour mesurer objectivement :
+  - `sweep-clip.js` — enfants de grille dont le bord droit dépasse la boîte de la grille ou le viewport.
+  - `detect-overlap.js` — éléments hors écran + chevauchements de texte/contrôles.
+- **Cause racine** : une piste `1fr` ne peut pas descendre sous son `min-content` (son mot le plus long). À 390 px la rangée devient plus large que le viewport et les colonnes de queue sont rognées. Trois approches essayées avant la bonne :
+  1. forcer 2 colonnes → insuffisant, certaines grilles débordaient encore (padding de section trop généreux : 2×115 px pour un mot de 180 px sur impact-50) ;
+  2. `minmax(0,1fr)` → ne déborde plus mais coupe les mots en plein milieu (« Rembo/ursé ») ;
+  3. **retenu** : `repeat(auto-fit, minmax(min(150px,100%), 1fr))` pour les grilles ≥4 pistes — tombe à 1 colonne quand 2 pistes lisibles ne rentrent pas ; `minmax(0,1fr)` pour les 3 pistes et footers.
+- **Liste de sélecteurs générée**, pas écrite à la main : extraite des 131 littéraux `gridTemplateColumns` réellement présents dans `app/templates`. Un `[style*="…"]` sur le style inline sérialisé par React permet d'atteindre toutes les grilles sans toucher aux 315 fichiers — même argument que le fix des tap targets déjà présent dans ce layout. **Ordre important** : une valeur à 4 pistes matche aussi les sélecteurs 2 pistes par sous-chaîne, donc la règle `auto-fit` est énoncée en dernier pour l'emporter.
+- Régression desktop vérifiée à chaque étape (impact-50, 57, 80, 108, 122) : inchangé.
+
+**Pourquoi :**
+- Demande utilisateur : « tu regardes TOUS les thèmes avec les images chargées donc avec un scroll effectué au besoin, que tout s'affiche rien ne dépasse et qu'il ne manque aucune section ».
+- Ces templates sont livrés à des clients : une stat invisible ou un bouton hors écran sur téléphone est un défaut livré, pas cosmétique.
+
+**Erreurs commises :**
+- **Validé des templates trop vite à l'œil.** impact-87, 89 et 104 marqués « ✓ » sur capture alors que leurs colonnes 3 et 4 étaient en fait rognées — le rendu tronqué passait pour un cadrage voulu. Corrigé après avoir écrit le détecteur DOM. Leçon : pour « rien ne dépasse », mesurer, ne pas regarder.
+- **Grep en guillemets doubles uniquement** (déjà commis session #3 avec `overflowX`, répété ici) : ma première liste de sélecteurs ratait la moitié des patrons, écrits en apostrophes → grilles encore rognées sur impact-52, 57, 58, 68, 102, 150. Fix : extraction régénérée avec `['\"]`. **À vérifier systématiquement dans ce repo.**
+- **Trois balayages Playwright en parallèle ont saturé la RAM** (next-server à 14,4 Go / 88 %), provoquant une cascade de timeouts prise à tort pour des défauts de templates. Fix : un seul balayage à la fois, pré-chauffage des routes par `curl` avant les captures.
+- **Faux positifs du détecteur, à connaître si on le réutilise** : les animations d'entrée Framer Motion laissent les éléments à un offset translaté tant qu'ils ne sont pas vus (6 templates flaggés à tort) ; les éléments inline repliés sur plusieurs lignes renvoient un rectangle-union qui chevauche naturellement leurs voisins ; les overlays fixes et les slides de carrousel débordent volontairement. Les trois sont désormais filtrés.
+- **Turbopack ne recharge pas les éditions dans ce conteneur** (filesystem lent) : un redémarrage du serveur est nécessaire après chaque modification pour vérifier — sinon on teste l'ancien code et on conclut à tort.
+
+**Limites connues (non résolues) :**
+- **Images non vérifiables ici** : le proxy de l'environnement bloque `images.unsplash.com` (403), Chromium compris. Vérification statique faite à la place — les 315 templates utilisent le format `images.unsplash.com/photo-ID?w=…&q=…`, aucun `source.unsplash.com`. Le rendu réel (cadrage, contraste texte/image, hero bien visible) reste à contrôler en prod.
+- **Compromis assumé** : sur les sections à fort padding, les stats passent en 1 colonne sur téléphone plutôt qu'en 2×2, pour éviter les coupures de mot.
+- **Non déployé** : `push GitHub ≠ live`. `launch.aevia.services` est également bloqué depuis ce conteneur, donc un déploiement n'aurait pas pu être vérifié par `curl`.

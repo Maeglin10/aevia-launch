@@ -2158,7 +2158,9 @@ function Footer() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="votre@email.fr"
-                className="flex-1 px-5 py-3.5 rounded-full text-[13px] outline-none"
+                /* flex-1 will not shrink past an email input's intrinsic
+                   width, which pushed the submit button off the right edge */
+                className="flex-1 min-w-0 px-5 py-3.5 rounded-full text-[13px] outline-none"
                 style={{
                   border: `1px solid ${C.primaryBorder}`,
                   backgroundColor: C.white,

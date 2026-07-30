@@ -787,7 +787,7 @@ function StatsBar() {
 // PREVIOUSLY: a scroll-driven horizontal rail. The section was `${100 + N*60}vh`
 // tall (≈280vh) with a `position: sticky` inner column whose horizontal
 // transform (`x`) was tied to vertical scroll progress over that height. The
-// root page wrapper sets `overflowX: 'hidden'`, which turns an ancestor into a
+// root page wrapper sets `overflowX: 'clip'`, which turns an ancestor into a
 // scroll container and BREAKS `position: sticky` on descendants. With sticky
 // dead, the 280vh section rendered as one huge empty gap and the rail never
 // advanced — rooms were unbrowsable. Rewritten as a clean responsive grid

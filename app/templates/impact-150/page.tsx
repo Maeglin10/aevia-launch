@@ -2163,7 +2163,7 @@ export default function LegalFirmTemplate() {
           backgroundColor: COLORS.cream,
           color: COLORS.ink,
           minHeight: "100dvh",
-          overflowX: "hidden",
+          overflowX: "clip",
         }}
       >
         <Navigation />

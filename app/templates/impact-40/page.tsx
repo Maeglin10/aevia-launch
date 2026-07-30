@@ -656,7 +656,9 @@ export default function TerreVivantePage() {
         >
           {menuOpen ? <X color={scrolled ? C.bgDark : C.bg} size={24} /> : <Menu color={scrolled ? C.bgDark : C.bg} size={24} />}
         </button>
-        <style>{`@media (max-width: 900px){.sky-desktop-nav{display:none !important}.sky-mobile-burger{display:flex !important}}`}</style>
+        <style>{`@media (max-width: 900px){.sky-desktop-nav{display:none !important}.sky-mobile-burger{display:flex !important}}
+        /* mobile : la plante décorative absolue chevauche les stats du hero */
+        @media (max-width: 768px){.tv-plant{display:none !important}}`}</style>
       </motion.nav>
 
       {/* Mobile drawer */}
@@ -847,7 +849,7 @@ export default function TerreVivantePage() {
         </motion.div>
 
         {/* Animated plant */}
-        <div style={{ position: "absolute", right: "5%", bottom: "8%", zIndex: 3 }}>
+        <div className="tv-plant" style={{ position: "absolute", right: "5%", bottom: "8%", zIndex: 3 }}>
           <GrowingPlant progress={plantProgress} />
         </div>
 

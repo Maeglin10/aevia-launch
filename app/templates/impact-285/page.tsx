@@ -2762,7 +2762,7 @@ function Impact285Page() {
     background: C.linen,
     color: C.ink,
     fontFamily: SERIF,
-    overflowX: 'hidden',
+    overflowX: 'clip',
     WebkitFontSmoothing: 'antialiased',
     MozOsxFontSmoothing: 'grayscale',
   };

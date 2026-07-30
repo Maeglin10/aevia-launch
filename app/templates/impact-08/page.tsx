@@ -463,7 +463,7 @@ return (
         {page === "home" && (
           <>
             {/* 2. AERODYNAMIC IGNITION (HERO) */}
-            <section id="hero" className="relative h-dvh flex flex-col justify-center items-center px-8 md:px-24 overflow-hidden pt-20">
+            <section id="hero" className="relative min-h-dvh flex flex-col justify-center items-center px-8 md:px-24 overflow-hidden pt-28 pb-8 md:pt-20 md:pb-0">
               <FluidAeroVisualizer />
               
               <motion.div 
@@ -500,7 +500,7 @@ return (
               </div>
 
               {/* Bottom HUD Bar */}
-              <div className="absolute bottom-12 left-12 right-12 flex justify-between items-end border-t border-white/5 pt-12">
+              <div className="relative z-10 w-full mt-16 md:mt-0 md:w-auto md:absolute md:bottom-12 md:left-12 md:right-12 flex flex-wrap gap-8 justify-between items-end border-t border-white/5 pt-8 md:pt-12">
                  <div className="flex gap-16">
                     {PERFORMANCE_METRICS.slice(0, 2).map((m, i) => (
                        <div key={i}>

@@ -1172,7 +1172,7 @@ export default function LuxuryJewelryTemplate() {
         /* the hero was vertically centered within 100dvh with no allowance for
            the 72px fixed nav — on short mobile viewports the centered content
            starts above the nav's bottom edge, tucking the eyebrow + H1 under it. */
-        .i20-hero{height:auto !important;min-height:100dvh !important;padding-top:112px !important;align-items:flex-start !important;}
+        .i20-hero{height:auto !important;min-height:100dvh !important;padding-top:112px !important;padding-bottom:120px !important;align-items:flex-start !important;}
       }`}</style>
 
       {/* Mobile Menu */}

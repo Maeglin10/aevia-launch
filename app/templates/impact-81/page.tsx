@@ -324,8 +324,10 @@ return (
             </h2>
             <p className="text-[#0A0A08]/60 mb-10 text-sm">Les défilés, les éditoriaux, les tendances — avant tout le monde. 40 000 lecteurs. Sans publicité.</p>
             <div className="flex gap-3 max-w-md mx-auto">
-              <input type="email" placeholder="votre@email.com" className="flex-1 px-5 py-3 bg-[#0A0A08]/10 border border-[#0A0A08]/20 text-[#0A0A08] placeholder-[#0A0A08]/30 text-sm focus:outline-none focus:border-[#0A0A08]/50 transition-colors" />
-              <button className="px-8 py-3 bg-[#0A0A08] text-[var(--brand,#C9A86C)] text-[10px] uppercase tracking-widest font-medium hover:bg-[#0A0A08]/80 transition-colors cursor-pointer">
+              {/* flex-1 alone will not go below an email input's intrinsic
+                  width, so the submit button was pushed off the right edge */}
+              <input type="email" placeholder="votre@email.com" className="flex-1 min-w-0 px-5 py-3 bg-[#0A0A08]/10 border border-[#0A0A08]/20 text-[#0A0A08] placeholder-[#0A0A08]/30 text-sm focus:outline-none focus:border-[#0A0A08]/50 transition-colors" />
+              <button className="shrink-0 px-5 sm:px-8 py-3 bg-[#0A0A08] text-[var(--brand,#C9A86C)] text-[10px] uppercase tracking-widest font-medium hover:bg-[#0A0A08]/80 transition-colors cursor-pointer">
                 S'abonner
               </button>
             </div>

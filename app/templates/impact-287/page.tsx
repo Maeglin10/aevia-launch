@@ -3162,7 +3162,7 @@ export default function Impact287Page() {
     background: C.paper,
     color: C.ink,
     fontFamily: SANS,
-    overflowX: 'hidden',
+    overflowX: 'clip',
     WebkitFontSmoothing: 'antialiased',
     MozOsxFontSmoothing: 'grayscale',
   };

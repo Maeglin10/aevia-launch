@@ -2723,7 +2723,7 @@ export default function Impact277Page() {
     background: C.dark,
     color: C.white,
     fontFamily: SANS,
-    overflowX: 'hidden',
+    overflowX: 'clip',
     WebkitFontSmoothing: 'antialiased',
     MozOsxFontSmoothing: 'grayscale',
   };

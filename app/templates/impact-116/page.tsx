@@ -246,9 +246,12 @@ export default function KineticStudio() {
           <h2 className="text-5xl font-light mb-12" style={{color: brand ?? 'var(--brand,#ff5500)' }}>Our Services</h2>
         </Reveal>
         <Tabs defaultValue={SERVICES[0]?.name} className="w-full">
-          <TabsList className="grid w-full grid-cols-6 bg-[#1a1a2e] border border-[var(--brand,#ff5500)]/20">
+          {/* six fixed columns squeezed the labels into ~60px on a phone and
+              they overlapped into an unreadable block — reflow to 2 columns
+              and let the labels wrap instead of collapsing */}
+          <TabsList className="grid w-full h-auto grid-cols-2 sm:grid-cols-3 md:grid-cols-6 bg-[#1a1a2e] border border-[var(--brand,#ff5500)]/20">
             {SERVICES.map((svc) => (
-              <TabsTrigger key={svc.name} value={svc.name} className="data-[state=active]:bg-[var(--brand,#ff5500)] data-[state=active]:text-black text-xs">
+              <TabsTrigger key={svc.name} value={svc.name} className="data-[state=active]:bg-[var(--brand,#ff5500)] data-[state=active]:text-black text-xs whitespace-normal text-center py-2 h-auto">
                 {svc.name}
               </TabsTrigger>
             ))}
