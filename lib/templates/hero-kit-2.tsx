@@ -79,12 +79,15 @@ export function AnchoredBackdrop({
   images,
   index,
   overlay = 0.55,
+  blur = 0,
   className = "",
 }: {
   images: string[];
   index: number;
   /** 0-1. Dark scrim strength over the photograph. */
   overlay?: number;
+  /** Pixels of blur. Use it when a product has to sit in front of the photo. */
+  blur?: number;
   className?: string;
 }) {
   const reduce = useReducedMotion();
@@ -98,7 +101,12 @@ export function AnchoredBackdrop({
         <motion.div
           key={index}
           className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: `url(${images[index % images.length]})` }}
+          style={{
+            backgroundImage: `url(${images[index % images.length]})`,
+            filter: blur ? `blur(${blur}px)` : undefined,
+            // blur samples past the edge, so grow the layer to hide the seam
+            inset: blur ? -blur * 2 : 0,
+          }}
           initial={reduce ? { opacity: 0 } : { opacity: 0, scale: 1.06 }}
           animate={reduce ? { opacity: 1 } : { opacity: 1, scale: 1 }}
           exit={reduce ? { opacity: 0 } : { opacity: 0, scale: 1.02 }}
