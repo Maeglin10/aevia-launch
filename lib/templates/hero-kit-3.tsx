@@ -881,3 +881,167 @@ export function DriftShadow({
     />
   );
 }
+
+/* ════════════════════════════════════════════════════════════════════════════
+   ArcSwap — v01 (oakgrove-wine-slider-template), trajectoire réelle.
+
+   La première lecture, faite sur des images à 12 im/s sur 1,4 s, avait manqué
+   le mouvement : la bouteille ne monte pas et ne descend pas, **elle balance**.
+   Sur une fenêtre de 2,4 s à 8 im/s on voit la trajectoire entière — elle
+   bascule vers la droite en tournant jusqu'à près de soixante degrés, sort par
+   la droite, et la suivante entre par la gauche couchée puis se redresse.
+
+   C'est une rotation autour d'un pivot bas et décalé, pas une translation. Le
+   pied de la bouteille reste presque immobile pendant que le col décrit un arc.
+
+   Pour : bouteille, flacon, bouquet, pièce montée — tout objet qui a un pied.
+   ════════════════════════════════════════════════════════════════════════════ */
+export function ArcSwap({
+  children,
+  index,
+  className = "",
+  /** Amplitude de l'arc, en degrés. L'original va jusqu'à 55-60. */
+  sweep = 52,
+  /** Temps de scène vide entre la sortie et l'entrée. */
+  hold = 0.42,
+}: {
+  children: React.ReactNode;
+  index: string | number;
+  className?: string;
+  sweep?: number;
+  hold?: number;
+}) {
+  const reduce = useReducedMotion();
+  return (
+    <AnimatePresence mode="wait" initial={false}>
+      <motion.div
+        key={index}
+        className={className}
+        // le pivot est au pied : c'est lui qui transforme la rotation en balancier
+        style={{ transformOrigin: "50% 92%", willChange: "transform" }}
+        initial={reduce ? { opacity: 0 } : { rotate: -sweep, x: "-46%", y: "6%", opacity: 0 }}
+        animate={reduce ? { opacity: 1 } : { rotate: 0, x: "0%", y: "0%", opacity: 1 }}
+        exit={
+          reduce
+            ? { opacity: 0, transition: { duration: 0.15 } }
+            : {
+                rotate: sweep,
+                x: "46%",
+                y: "6%",
+                opacity: 0,
+                transition: { duration: 0.62, ease: [0.55, 0, 0.85, 0.3] },
+              }
+        }
+        transition={{
+          duration: reduce ? 0.2 : 0.9,
+          ease: [0.16, 0.9, 0.3, 1],
+          delay: reduce ? 0 : hold,
+        }}
+      >
+        {children}
+      </motion.div>
+    </AnimatePresence>
+  );
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+   PushBlur — v17 (smart-living-one-pager-v3).
+
+   Correction d'une erreur de la première lecture : ce template ne dissout pas
+   son fond derrière un titre fixe. **Toute la composition part sur le côté**,
+   photographie et titre ensemble, avec un flou directionnel pendant le
+   déplacement — sur deux images consécutives on lit deux fois le titre, l'un
+   qui sort à droite, l'autre qui entre par la gauche.
+
+   Le flou est ce qui rend la poussée crédible : sans lui, c'est un carrousel.
+
+   Pour : immobilier, promotion, architecture, automobile.
+   ════════════════════════════════════════════════════════════════════════════ */
+export function PushBlur({
+  children,
+  index,
+  className = "",
+  style,
+  /** Pixels de flou horizontal au plus fort du déplacement. */
+  amount = 14,
+}: {
+  children: React.ReactNode;
+  index: string | number;
+  className?: string;
+  style?: React.CSSProperties;
+  amount?: number;
+}) {
+  const reduce = useReducedMotion();
+  return (
+    <div className={className} style={{ position: "relative", overflow: "hidden", ...style }}>
+      <AnimatePresence mode="popLayout" initial={false}>
+        <motion.div
+          key={index}
+          style={{ position: "absolute", inset: 0, willChange: "transform, filter" }}
+          initial={
+            reduce ? { opacity: 0 } : { x: "-100%", filter: `blur(${amount}px)` }
+          }
+          animate={reduce ? { opacity: 1 } : { x: "0%", filter: "blur(0px)" }}
+          exit={
+            reduce
+              ? { opacity: 0, transition: { duration: 0.2 } }
+              : {
+                  x: "100%",
+                  filter: `blur(${amount}px)`,
+                  transition: { duration: 0.85, ease: EASE_4 },
+                }
+          }
+          transition={{ duration: reduce ? 0.2 : 0.85, ease: EASE_4 }}
+        >
+          {children}
+        </motion.div>
+      </AnimatePresence>
+    </div>
+  );
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+   ScrollSpin — v04 (from-sketch-to-product-slider-template).
+
+   Le produit tourne pendant qu'on défile. Sur l'enregistrement la chaussure
+   passe de la pointe à droite à presque horizontale sur la longueur du héros :
+   ce n'est pas une boucle automatique, c'est le défilement qui l'entraîne.
+
+   Se combine avec DifferentialExit : la rotation sur l'objet, les vitesses
+   différentes sur les plans.
+
+   Pour : produit, artisanat, automobile, e-commerce.
+   ════════════════════════════════════════════════════════════════════════════ */
+export function ScrollSpin({
+  children,
+  degrees = 34,
+  className = "",
+  style,
+}: {
+  children: React.ReactNode;
+  /** Rotation totale sur la hauteur du héros. */
+  degrees?: number;
+  className?: string;
+  style?: React.CSSProperties;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const reduce = useReducedMotion();
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
+  const rotate = useTransform(scrollYProgress, [0, 1], [0, degrees]);
+  const scale = useTransform(scrollYProgress, [0, 1], [1, 0.88]);
+  return (
+    <motion.div
+      ref={ref}
+      className={className}
+      style={{
+        rotate: reduce ? 0 : rotate,
+        scale: reduce ? 1 : scale,
+        transformOrigin: "50% 50%",
+        willChange: "transform",
+        ...style,
+      }}
+    >
+      {children}
+    </motion.div>
+  );
+}
