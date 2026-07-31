@@ -12,6 +12,16 @@ import {
 import { TemplateIcon } from '@/components/TemplateIcon'
 import { MapPin } from 'lucide-react'
 import { resolveList } from "@/lib/templates/resolveList";
+import { DWELL, useSlides, BlurThrough, Retint, SlideIndex, HairlineArrows } from '@/lib/templates/hero-kit-2';
+
+/* No photography ships with this template, so the craft itself rotates:
+   the gold line of the headline blurs out and in per service (BlurThrough),
+   and the plaque under the CTAs re-tints to match (Retint). */
+const HERO_SERVICES = [
+  { word: 'CHEVEU', name: 'Coupe & Brushing', tint: 'rgba(43,34,24,0.92)' },
+  { word: 'COULEUR', name: 'Coloration végétale', tint: 'rgba(64,42,26,0.92)' },
+  { word: 'BALAYAGE', name: 'Balayage & Mèches', tint: 'rgba(55,45,28,0.92)' },
+];
 
 // Hoisted above the design tokens: several templates read `brand` in a
 // module-level const — declaring it lower caused a TDZ ReferenceError (500).
@@ -1016,6 +1026,7 @@ export default function Page() {
   const temoignages = resolveList(bp?.reputation?.featuredReviews, TESTIMONIALS_DEMO);
 
   const [scissorOpen, setScissorOpen] = useState(false)
+  const { i: heroI, next: heroNext, prev: heroPrev } = useSlides(HERO_SERVICES.length, DWELL.normal);
   const [titleVisible, setTitleVisible] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
@@ -1242,7 +1253,9 @@ export default function Page() {
                 letterSpacing: '0.1em',
               }}
             >
-              CHEVEU
+              <BlurThrough index={heroI} amount={12}>
+                <span style={{ display: 'block' }}>{HERO_SERVICES[heroI].word}</span>
+              </BlurThrough>
             </h1>
           </motion.div>
 
@@ -1295,19 +1308,23 @@ export default function Page() {
           </motion.div>
         </div>
 
-        {/* Scroll indicator */}
+        {/* Plaque Retint : la prestation en cours, teintée — remplace le cue */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={titleVisible ? { opacity: 1 } : {}}
           transition={{ duration: 0.6, delay: 1.2 }}
-          style={{ position: 'absolute', bottom: '40px', left: '50%', transform: 'translateX(-50%)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}
+          style={{ position: 'absolute', bottom: '28px', left: '50%', transform: 'translateX(-50%)', zIndex: 6, width: 'min(92vw, 560px)' }}
         >
-          <span style={{ ...bodyFont, fontSize: '10px', color: GRAY_MID, letterSpacing: '0.15em', textTransform: 'uppercase' }}>Défiler</span>
-          <motion.div
-            animate={{ y: [0, 8, 0] }}
-            transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
-            style={{ width: '1px', height: '32px', background: `linear-gradient(180deg, ${GOLD}, transparent)` }}
-          />
+          <Retint
+            color={HERO_SERVICES[heroI].tint}
+            style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 16, flexWrap: 'wrap', padding: '12px 22px', border: '1px solid rgba(184,150,90,0.35)' }}
+          >
+            <SlideIndex i={heroI} total={HERO_SERVICES.length} variant="fraction" className="" color="rgba(255,255,255,0.6)" />
+            <BlurThrough index={heroI} amount={8}>
+              <span style={{ ...bodyFont, fontSize: 13, color: '#fff', letterSpacing: '0.08em' }}>{HERO_SERVICES[heroI].name}</span>
+            </BlurThrough>
+            <HairlineArrows onPrev={heroPrev} onNext={heroNext} color="rgba(255,255,255,0.7)" labels={{ prev: 'Prestation précédente', next: 'Prestation suivante' }} />
+          </Retint>
         </motion.div>
 
         {/* Floating badge — hidden below md: at top:50% it collides with the
