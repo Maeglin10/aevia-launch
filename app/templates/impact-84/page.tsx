@@ -8,6 +8,15 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { Reveal } from "./shared";
 import { resolveList } from "@/lib/templates/resolveList";
+import {
+  DWELL,
+  useSlides,
+  AnchoredBackdrop,
+  BlurThrough,
+  Retint,
+  SlideIndex,
+  HairlineArrows,
+} from "@/lib/templates/hero-kit-2";
 
 // ─── Demo content — real data (businessProfile) replaces these wholesale via
 // resolveList when the client provided it; each field access below falls
@@ -32,6 +41,24 @@ const MEDECINS_DEMO = [
   { name: "Dr. Kenji Nakamura", spec: "Médecine esthétique faciale", exp: "14 ans", bio: "Formé à l'Académie de médecine esthétique de Paris. Spécialiste des techniques d'injection ultra-précises et de la morphologie faciale.", badge: "Certifié AME" },
   { name: "Dr. Sophie Bellamy", spec: "Laser & Régénération cutanée", exp: "9 ans", bio: "Docteure en dermatologie, IDRM Lausanne. Experte des protocoles laser CO₂ et PRP pour les cicatrices et le vieillissement cutané.", badge: "Dermatologie" },
   { name: "Dr. Malik Osei", spec: "Corps & Médecine anti-âge", exp: "11 ans", bio: "Médecin du sport reconverti en esthétique corporelle. Approche globale alliant nutrition, hormonal et intervention pour des résultats durables.", badge: "Anti-âge" },
+];
+
+/* Château + Retint: the headline holds still while the photograph dissolves
+   between the clinic's two verified views, and the caption plaque re-tints
+   itself with each frame. Both images were already in this file. */
+const HERO_VIEWS = [
+  {
+    k: "Médecine faciale",
+    d: "Injections ultra-précises, résultats invisibles — la morphologie d'abord.",
+    tint: "#1c1712",
+    img: "https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=1600&q=85&fit=crop",
+  },
+  {
+    k: "Médecine régénérative",
+    d: "PRP, polynucléotides, bio-stimulateurs — la régénération avant la correction.",
+    tint: "#151a17",
+    img: "https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=1600&q=85",
+  },
 ];
 
 // Global state variables for subpage compatibility
@@ -75,6 +102,7 @@ export default function CypherClinicPage() {
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const heroRef = useRef<HTMLDivElement>(null);
+  const { i: heroI, next: heroNext, prev: heroPrev } = useSlides(HERO_VIEWS.length, DWELL.slow);
   const { scrollYProgress: heroScroll } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
   const heroImgY = useTransform(heroScroll, [0, 1], ["0%", "30%"]);
   const basePath = "/templates/impact-84";
@@ -95,7 +123,11 @@ return (
       {/* Hero */}
       <section ref={heroRef} className="relative min-h-[90vh] overflow-hidden flex items-center">
         <motion.div className="absolute inset-0" style={{ y: heroImgY }}>
-          <Image src={photo(0, "https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=1600&q=85&fit=crop")} alt={fd?.businessName ?? "Cypher Clinic"} fill className="object-cover" />
+          <AnchoredBackdrop
+            images={HERO_VIEWS.map((v, n) => fd?.photoUrls?.[n] || v.img)}
+            index={heroI}
+            overlay={0}
+          />
           <div className="absolute inset-0 bg-gradient-to-r from-[#0C0C0A]/95 via-[#0C0C0A]/70 to-[#0C0C0A]/20" />
         </motion.div>
         <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 pt-24 pb-12 md:pt-32 md:pb-24 w-full flex flex-col justify-center">
@@ -118,6 +150,29 @@ return (
             </div>
           </Reveal>
         </div>
+
+        {/* Plaque Retint : l'expertise en cours, la teinte prise dans la photo.
+            md+ seulement — sur téléphone elle partagerait le coin avec les CTA. */}
+        <Retint
+          color={HERO_VIEWS[heroI].tint}
+          className="hidden md:block absolute bottom-10 right-10 z-10 border border-[#2A2820]"
+          style={{ padding: "22px 26px", maxWidth: 320 }}
+        >
+          <SlideIndex i={heroI} total={HERO_VIEWS.length} variant="fraction" className="text-[13px] text-[#8A8278] mb-3" />
+          <BlurThrough index={heroI} amount={9}>
+            <div className="text-[#F0EBE0] text-lg" style={{ fontFamily: "'Bodoni Moda', serif" }}>
+              {HERO_VIEWS[heroI].k}
+            </div>
+            <p className="mt-2 text-[13px] leading-relaxed text-[#8A8278]">{HERO_VIEWS[heroI].d}</p>
+          </BlurThrough>
+          <HairlineArrows
+            onPrev={heroPrev}
+            onNext={heroNext}
+            color="rgba(240,235,224,0.6)"
+            className="mt-3 -ml-3"
+            labels={{ prev: "Expertise précédente", next: "Expertise suivante" }}
+          />
+        </Retint>
       </section>
 
       {/* ── PROTOCOLES */}
