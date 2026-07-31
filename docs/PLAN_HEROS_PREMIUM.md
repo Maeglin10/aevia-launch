@@ -38,7 +38,7 @@ grep -l "PortalZoom\|CrossPush\|MosaicPush" app/templates/*/page.tsx
 ```
 
 Si la mécanique envisagée est déjà utilisée par un thème du même métier, en
-prendre une autre. Il y en a vingt-deux.
+prendre une autre. Il y en a vingt-cinq.
 
 ## Le catalogue complet
 
@@ -55,10 +55,12 @@ l'écrit, et sur quels métiers il tient. **À lire avant de choisir.**
 
 Démonstrations complètes, adressables par ancre :
 
+- **`/video-labs`** — un onglet par enregistrement, un geste montré seul, chacun
+  sur un métier différent de celui de la vidéo. **La référence.**
 - `/hero-labs` — `#wine` `#law` `#bakery` `#chateau` `#event` `#tailor`
 - `/hero-labs-2` — `#portal` `#gym` `#ink` `#dental` `#coffee` `#couture` `#club` `#process`
 
-## Les vingt-deux gestes
+## Les vingt-cinq gestes
 
 ### Signature — un seul par thème
 
