@@ -717,3 +717,167 @@ export function CrossFigure({
     />
   );
 }
+
+/* ════════════════════════════════════════════════════════════════════════════
+   ComposeIn — v15 (food-presentation-template-slider).
+
+   La scène commence vide. Une surface, une ombre qui dérive, et rien d'autre
+   pendant une seconde et demie. Puis les éléments arrivent un par un, chacun
+   depuis son propre bord : le titre se dévoile de gauche à droite, la ligne
+   manuscrite apparaît dessous, une carte entre par la gauche, un aplat de
+   couleur par la droite, la photographie du produit en dernier.
+
+   Ce n'est pas un slider : c'est une composition qui se monte devant vous.
+   Le vide initial fait tout le travail — sans lui, l'arrivée n'est qu'un
+   chargement de page.
+
+   Pour : restaurant, pâtisserie, traiteur, épicerie fine.
+   ════════════════════════════════════════════════════════════════════════════ */
+export function ComposeIn({
+  index,
+  items,
+  className = "",
+  style,
+  /** Temps de scène vide avant la première arrivée. */
+  hold = 1.4,
+  /** Écart entre deux arrivées. */
+  beat = 0.16,
+}: {
+  index: string | number;
+  items: {
+    node: React.ReactNode;
+    /** Le bord d'où l'élément entre. */
+    from: "left" | "right" | "top" | "bottom" | "none";
+    style?: React.CSSProperties;
+  }[];
+  className?: string;
+  style?: React.CSSProperties;
+  hold?: number;
+  beat?: number;
+}) {
+  const reduce = useReducedMotion();
+  const offset = (from: string) => {
+    switch (from) {
+      case "left": return { x: "-16%", opacity: 0 };
+      case "right": return { x: "16%", opacity: 0 };
+      case "top": return { y: "-14%", opacity: 0 };
+      case "bottom": return { y: "14%", opacity: 0 };
+      default: return { opacity: 0 };
+    }
+  };
+  return (
+    <div className={className} style={style}>
+      {items.map((it, n) => (
+        <AnimatePresence mode="wait" key={n}>
+          <motion.div
+            key={`${index}-${n}`}
+            style={{ ...it.style, willChange: "transform, opacity" }}
+            initial={reduce ? { opacity: 0 } : offset(it.from)}
+            animate={reduce ? { opacity: 1 } : { x: 0, y: 0, opacity: 1 }}
+            exit={
+              reduce
+                ? { opacity: 0, transition: { duration: 0.15 } }
+                : { ...offset(it.from), transition: { duration: 0.4, ease: EASE_3, delay: n * 0.04 } }
+            }
+            transition={{
+              duration: reduce ? 0.2 : 0.82,
+              ease: EASE_4,
+              delay: reduce ? 0 : hold + n * beat,
+            }}
+          >
+            {it.node}
+          </motion.div>
+        </AnimatePresence>
+      ))}
+    </div>
+  );
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+   WipeReveal — v15.
+
+   Le titre ne monte pas, il se dévoile de gauche à droite comme si on tirait
+   un rideau. Sur l'original on lit « P », puis « Panna Co », puis le mot
+   entier — le tracé se découvre au lieu d'apparaître.
+
+   Se marie avec ComposeIn : c'est le premier élément à arriver.
+   ════════════════════════════════════════════════════════════════════════════ */
+export function WipeReveal({
+  children,
+  index,
+  delay = 0,
+  duration = 0.95,
+  className = "",
+  style,
+}: {
+  children: React.ReactNode;
+  index: string | number;
+  delay?: number;
+  duration?: number;
+  className?: string;
+  style?: React.CSSProperties;
+}) {
+  const reduce = useReducedMotion();
+  return (
+    <AnimatePresence mode="wait" initial={false}>
+      <motion.span
+        key={index}
+        className={className}
+        style={{ display: "block", willChange: "clip-path", ...style }}
+        initial={reduce ? { opacity: 0 } : { clipPath: "inset(0 100% 0 0)" }}
+        animate={reduce ? { opacity: 1 } : { clipPath: "inset(0 0% 0 0)" }}
+        exit={
+          reduce
+            ? { opacity: 0, transition: { duration: 0.15 } }
+            : { clipPath: "inset(0 0 0 100%)", transition: { duration: 0.45, ease: EASE_3 } }
+        }
+        transition={{ duration: reduce ? 0.2 : duration, ease: EASE_4, delay: reduce ? 0 : delay }}
+      >
+        {children}
+      </motion.span>
+    </AnimatePresence>
+  );
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+   DriftShadow — v15.
+
+   L'ombre portée qui traverse lentement la surface, seule chose vivante
+   pendant que la scène est encore vide. Vingt-huit secondes pour un aller :
+   on ne la voit pas bouger, on sent seulement que la lumière change.
+
+   Sans elle, une scène vide est une page qui n'a pas fini de charger.
+   ════════════════════════════════════════════════════════════════════════════ */
+export function DriftShadow({
+  seconds = 28,
+  opacity = 0.16,
+  angle = -22,
+  className = "",
+}: {
+  seconds?: number;
+  opacity?: number;
+  angle?: number;
+  className?: string;
+}) {
+  const reduce = useReducedMotion();
+  if (reduce) return null;
+  return (
+    <motion.div
+      className={className}
+      aria-hidden
+      style={{
+        position: "absolute",
+        inset: "-30%",
+        pointerEvents: "none",
+        background: `repeating-linear-gradient(${angle}deg,
+          rgba(0,0,0,${opacity}) 0px, rgba(0,0,0,${opacity}) 90px,
+          transparent 90px, transparent 240px)`,
+        filter: "blur(26px)",
+        willChange: "transform",
+      }}
+      initial={{ x: "-12%" }}
+      animate={{ x: "12%" }}
+      transition={{ duration: seconds, ease: "easeInOut", repeat: Infinity, repeatType: "reverse" }}
+    />
+  );
+}
