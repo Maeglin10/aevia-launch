@@ -15,6 +15,16 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 import { Progress } from "@/components/ui/progress"
 import { Separator } from "@/components/ui/separator"
 import { Sparkles, Droplets, Wind, Menu, X, ArrowRight, Flower2, Moon, Sun, Star, Gem, Feather, Heart, Eye, Palette, CheckCircle2, FlaskConical, Quote, ShoppingBag, Plus, Minus, Trash2, Loader2 } from "lucide-react"
+import { DWELL, useSlides, HeldSwap, BlurThrough, CircularLabel, SlideIndex, HairlineArrows } from "@/lib/templates/hero-kit-2";
+
+/* The template's hero was already an abstract CSS bottle — no photography to
+   verify. HeldSwap exchanges the whole orb, re-tinted per fragrance (exit,
+   held emptiness, entry), under the anchored wordmark. */
+const HERO_SCENTS = [
+  { name: "Nocturne // 01", glow: "rgba(112,26,117,0.25)", accent: "#e879f9", note: "oud assam · black fig · vetiver" },
+  { name: "Soleil // 02", glow: "rgba(146,95,20,0.25)", accent: "#fbbf24", note: "rose de mai · bergamote · amber" },
+  { name: "Aether // 03", glow: "rgba(21,94,117,0.25)", accent: "#67e8f9", note: "iris pallida · ozone · white musk" },
+];
 
 // ─── UTILS & ANIMATION COMPONENTS ─────────────────────────────────────────────
 
@@ -365,6 +375,7 @@ export default function EclatLuxuryPage() {
 
   const { scrollYProgress } = useScroll();
   const heroY = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
+  const { i: heroI, next: heroNext, prev: heroPrev } = useSlides(HERO_SCENTS.length, DWELL.slow);
   const opacityFade = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
   const scaleDown = useTransform(scrollYProgress, [0, 0.5], [1, 0.8]);
 
@@ -503,12 +514,14 @@ export default function EclatLuxuryPage() {
         {/* ─── HERO ──────────────────────────────────────────────────────── */}
         <section id="hero" className="relative h-[100vh] min-h-[640px] flex items-center justify-center overflow-hidden">
           <motion.div style={{ y: heroY, opacity: opacityFade, scale: scaleDown }} className="absolute inset-0 flex items-center justify-center">
-            {/* Massive Abstract Bottle / Orb shape */}
-            <div className="relative w-[300px] h-[500px] md:w-[400px] md:h-[600px]">
-              <div className="absolute inset-0 rounded-[100px] border border-white/5 bg-gradient-to-b from-white/[0.02] to-transparent backdrop-blur-[2px] shadow-[0_0_100px_rgba(255,255,255,0.02)]" />
-              <div className="absolute top-[20%] left-1/2 -translate-x-1/2 w-[80%] h-[60%] bg-fuchsia-900/20 blur-[80px] mix-blend-lighten rounded-full animate-pulse" />
-              <div className="absolute top-[-50px] left-1/2 -translate-x-1/2 w-16 h-20 bg-white/5 backdrop-blur-md border border-white/10 rounded-t-lg" />
-            </div>
+            {/* Massive Abstract Bottle / Orb shape — swapped whole, per scent */}
+            <HeldSwap index={heroI} tilt={6}>
+              <div className="relative w-[300px] h-[500px] md:w-[400px] md:h-[600px]">
+                <div className="absolute inset-0 rounded-[100px] border border-white/5 bg-gradient-to-b from-white/[0.02] to-transparent backdrop-blur-[2px] shadow-[0_0_100px_rgba(255,255,255,0.02)]" />
+                <div className="absolute top-[20%] left-1/2 -translate-x-1/2 w-[80%] h-[60%] blur-[80px] mix-blend-lighten rounded-full animate-pulse" style={{ background: HERO_SCENTS[heroI].glow }} />
+                <div className="absolute top-[-50px] left-1/2 -translate-x-1/2 w-16 h-20 bg-white/5 backdrop-blur-md border border-white/10 rounded-t-lg" />
+              </div>
+            </HeldSwap>
           </motion.div>
 
           <div className="relative z-10 text-center w-full max-w-[1200px] mx-auto px-6">
@@ -546,10 +559,27 @@ export default function EclatLuxuryPage() {
 
           <motion.div 
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.5, duration: 1 }}
-            className="absolute bottom-12 left-0 right-0 flex justify-center"
+            className="absolute bottom-10 left-0 right-0 z-20 flex justify-center"
           >
-            <div className="w-[1px] h-24 bg-gradient-to-b from-white/30 to-transparent" />
+            <div className="flex items-center gap-5 flex-wrap justify-center px-6">
+              <SlideIndex i={heroI} total={HERO_SCENTS.length} variant="fraction" className="text-[13px] text-zinc-500" />
+              <BlurThrough index={heroI} amount={9}>
+                <span className="text-sm text-zinc-300" style={{ fontFamily: "Georgia, serif" }}>
+                  {HERO_SCENTS[heroI].name}
+                  <span className="italic text-zinc-500"> — {HERO_SCENTS[heroI].note}</span>
+                </span>
+              </BlurThrough>
+              <HairlineArrows onPrev={heroPrev} onNext={heroNext} color="rgba(255,255,255,0.6)" labels={{ prev: "Previous scent", next: "Next scent" }} />
+            </div>
           </motion.div>
+
+          <CircularLabel
+            text="grasse · haute parfumerie · grasse · haute parfumerie · "
+            className="hidden md:block absolute right-[6%] top-[14%] z-20"
+            size={112}
+            color="rgba(232,121,249,0.4)"
+            seconds={30}
+          />
         </section>
 
         {/* ─── METRICS BAR ───────────────────────────────────────────────── */}

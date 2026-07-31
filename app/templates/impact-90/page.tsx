@@ -13,6 +13,16 @@ import {
 import React, { useRef, useState, useEffect, useCallback, useContext, createContext } from "react";
 import Link from "next/link";
 import { resolveList } from "@/lib/templates/resolveList";
+import { DWELL, useSlides, AnchoredBackdrop, BlurThrough, SlideIndex, HairlineArrows } from "@/lib/templates/hero-kit-2";
+
+/* Split screen from the bakery lab: the oven's output on the left, one loaf
+   at a time, swatches tinted like the crust they select. Photographs are the
+   lab's four verified bread images; names and prices are this bakery's own. */
+const HERO_BREADS = [
+  { name: "Miche au Levain", price: "8.50", c: "#8a6234", img: "https://images.unsplash.com/photo-1585478259715-1c093a7b70d3?auto=format&fit=crop&q=80&w=1600" },
+  { name: "Pain de Seigle", price: "6.90", c: "#6b4423", img: "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&q=80&w=1600" },
+  { name: "Brioche Feuilletée", price: "3.80", c: "#d9ae6c", img: "https://images.unsplash.com/photo-1509365465985-25d11c17e812?auto=format&fit=crop&q=80&w=1600" },
+];
 
 /* ─── Design Tokens ─────────────────────────────────────────── */
 // Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
@@ -1003,6 +1013,7 @@ export default function Page() {
   const heroRef = useRef(null);
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
   const heroY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
+  const { i: heroI, go: heroGo, next: heroNext, prev: heroPrev } = useSlides(HERO_BREADS.length, DWELL.normal);
   const heroOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
 
   useEffect(() => {
@@ -1084,7 +1095,32 @@ export default function Page() {
       )}
 
       {/* ── Hero ── */}
-      <section ref={heroRef} style={{ minHeight: "100dvh", display: "flex", alignItems: "center", justifyContent: "center", position: "relative", paddingTop: 64, overflow: "hidden", background: C.bgWarm }}>
+      <section ref={heroRef} className="i90-hero" style={{ minHeight: "100dvh", display: "grid", gridTemplateColumns: "minmax(0,1fr) minmax(0,1.1fr)", alignItems: "stretch", position: "relative", paddingTop: 64, overflow: "hidden", background: C.bgWarm }}>
+        {/* the loaf, shown — with its own crust-tinted swatches */}
+        <div className="i90-hero-photo" style={{ position: "relative", overflow: "hidden", minHeight: "38svh" }}>
+          <AnchoredBackdrop images={HERO_BREADS.map((b) => b.img)} index={heroI} overlay={0.08} />
+          <div aria-hidden style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(46,26,10,0.45), transparent 40%)" }} />
+          <div style={{ position: "absolute", left: 0, right: 0, bottom: 0, padding: "18px 22px", zIndex: 5, display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: 12, flexWrap: "wrap" }}>
+            <BlurThrough index={heroI} amount={8}>
+              <div style={{ color: "#fff" }}>
+                <div style={{ fontFamily: "'Playfair Display', serif", fontSize: 21 }}>{HERO_BREADS[heroI].name}</div>
+                <div style={{ fontFamily: "'Cabin', sans-serif", fontSize: 12, opacity: 0.75 }}>{HERO_BREADS[heroI].price} € · cuit ce matin</div>
+              </div>
+            </BlurThrough>
+            <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+              {HERO_BREADS.map((b, n) => (
+                <button key={b.name} type="button" onClick={() => heroGo(n)} aria-label={b.name} aria-current={n === heroI}
+                  style={{ width: 44, height: 44, background: "none", border: "none", padding: 0, display: "grid", placeItems: "center", cursor: "pointer" }}>
+                  <motion.span style={{ display: "block", borderRadius: "50%", background: b.c, boxShadow: "0 2px 8px rgba(0,0,0,0.3)" }}
+                    animate={{ width: n === heroI ? 24 : 15, height: n === heroI ? 24 : 15, opacity: n === heroI ? 1 : 0.5 }}
+                    transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }} />
+                </button>
+              ))}
+              <HairlineArrows onPrev={heroPrev} onNext={heroNext} color="rgba(255,255,255,0.85)" labels={{ prev: "Pain précédent", next: "Pain suivant" }} />
+            </div>
+          </div>
+        </div>
+        <div style={{ position: "relative", display: "flex", alignItems: "center", justifyContent: "center" }}>
         {/* Warm ambient */}
         <motion.div style={{ y: heroY, position: "absolute", inset: 0 }}>
           <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse 80% 60% at 50% 35%, rgba(196,122,53,0.12) 0%, transparent 65%)" }} />
@@ -1156,6 +1192,8 @@ export default function Page() {
             <span style={{ fontFamily: "'Cabin', sans-serif", fontSize: 13, color: C.brown, fontWeight: 500 }}>Ouvert aujourd'hui · 7h00–19h30</span>
           </motion.div>
         </motion.div>
+        </div>
+        <style>{`@media (max-width: 900px) { .i90-hero { grid-template-columns: minmax(0,1fr) !important; } .i90-hero-photo { min-height: 34svh !important; } }`}</style>
       </section>
 
       {/* ── Marquee ── */}
