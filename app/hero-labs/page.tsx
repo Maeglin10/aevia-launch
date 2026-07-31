@@ -532,7 +532,7 @@ const EVENTS = [
     claim: "Trois jours,\nune halle,\nquatre mille personnes.",
     tint: "#3b1f2b",
     accent: "#e0725f",
-    imgs: [U("photo-1492684223066-81342ee5ff30"), U("photo-1511578314322-379afb476865"), U("photo-1470229722913-7ea0d582d8fb"), U("photo-1505236858219-8359eb29e329")],
+    imgs: [U("photo-1492684223066-81342ee5ff30"), U("photo-1511578314322-379afb476865"), U("photo-1533174072545-7a4b6ad7a6c3"), U("photo-1505236858219-8359eb29e329")],
   },
   {
     city: "Annecy",
@@ -647,7 +647,7 @@ function EventHero() {
    ──────────────────────────────────────────────────────────────────────────── */
 const PIECES = [
   { lines: ["Coupé", "sur vous"], k: "Costume trois pièces", tint: "#2c2320", accent: "#c9a227", img: U("photo-1594938298603-c8148c4dae35") },
-  { lines: ["Repris", "à la main"], k: "Retouche & reprise", tint: "#1f2a2e", accent: "#7fb2b8", img: U("photo-1521572163474-6864f9cf17ab") },
+  { lines: ["Repris", "à la main"], k: "Retouche & reprise", tint: "#1f2a2e", accent: "#7fb2b8", img: U("photo-1603394151492-5e9b974b090b") },
   { lines: ["Refait", "à neuf"], k: "Restauration", tint: "#33212b", accent: "#d98c9a", img: U("photo-1490114538077-0a7f8cb49891") },
 ];
 
