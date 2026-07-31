@@ -1045,3 +1045,165 @@ export function ScrollSpin({
     </motion.div>
   );
 }
+
+/* ════════════════════════════════════════════════════════════════════════════
+   InvertSweep — v14 (modern-web-agency-website-template).
+
+   Toute la page s'inverse : le fond passe du noir au blanc et le texte du
+   blanc au noir, pendant qu'une forme fluide monte par le bas. Ce n'est pas
+   une section qui succède à une autre, c'est la même page qui bascule.
+
+   Piloté par le défilement. La forme fluide est un dégradé conique animé —
+   pas de canvas, pas de bibliothèque.
+
+   Pour : agence, studio, portfolio, marque — tout ce qui vend un point de vue.
+   ════════════════════════════════════════════════════════════════════════════ */
+export function InvertSweep({
+  children,
+  dark = "#0a0a0b",
+  light = "#f4f2ee",
+  textDark = "#f4f2ee",
+  textLight = "#0a0a0b",
+  accent = "#6b4ef5",
+  className = "",
+}: {
+  children: (invert: number) => React.ReactNode;
+  dark?: string;
+  light?: string;
+  textDark?: string;
+  textLight?: string;
+  accent?: string;
+  className?: string;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const reduce = useReducedMotion();
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
+  const [t, setT] = useState(0);
+  useEffect(() => scrollYProgress.on("change", setT), [scrollYProgress]);
+  const p = reduce ? 0 : t;
+  const mix = (a: string, b: string) => `color-mix(in srgb, ${b} ${Math.round(p * 100)}%, ${a})`;
+  return (
+    <div
+      ref={ref}
+      className={className}
+      style={{
+        position: "relative",
+        background: mix(dark, light),
+        color: mix(textDark, textLight),
+        transition: "background 120ms linear, color 120ms linear",
+        overflow: "hidden",
+      }}
+    >
+      {/* la forme fluide qui monte pendant la bascule */}
+      <motion.div
+        aria-hidden
+        style={{
+          position: "absolute",
+          left: "50%",
+          bottom: `${-40 + p * 55}%`,
+          width: "min(90vw, 900px)",
+          height: "min(90vw, 900px)",
+          transform: "translateX(-50%)",
+          borderRadius: "50%",
+          background: `conic-gradient(from ${p * 220}deg, ${accent}, #f5a24e, #4ef5c1, ${accent})`,
+          filter: "blur(90px)",
+          opacity: 0.42 + p * 0.2,
+          pointerEvents: "none",
+        }}
+      />
+      <div style={{ position: "relative", zIndex: 1 }}>{children(p)}</div>
+    </div>
+  );
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+   ParticleOrb — v06 (wordpress-hero-image).
+
+   Une sphère de poussière dorée qui tourne lentement derrière le titre. Sur
+   l'enregistrement, le titre et la sphère se séparent au défilement : elle
+   reste, il monte.
+
+   Écrit en canvas plutôt qu'en SVG : sept cents points redessinés à chaque
+   image coûtent moins cher qu'autant de nœuds dans le DOM. S'arrête net si
+   l'utilisateur demande moins d'animation.
+
+   Pour : éditorial, culture, spiritualité, luxe discret — un héros sans photo
+   qui ne soit pas une page vide.
+   ════════════════════════════════════════════════════════════════════════════ */
+export function ParticleOrb({
+  count = 700,
+  color = "#d9b45e",
+  seconds = 44,
+  className = "",
+  style,
+}: {
+  count?: number;
+  color?: string;
+  /** Durée d'un tour complet. */
+  seconds?: number;
+  className?: string;
+  style?: React.CSSProperties;
+}) {
+  const ref = useRef<HTMLCanvasElement>(null);
+  const reduce = useReducedMotion();
+
+  useEffect(() => {
+    const cv = ref.current;
+    if (!cv) return;
+    const ctx = cv.getContext("2d");
+    if (!ctx) return;
+
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const resize = () => {
+      const r = cv.getBoundingClientRect();
+      cv.width = r.width * dpr;
+      cv.height = r.height * dpr;
+    };
+    resize();
+    window.addEventListener("resize", resize);
+
+    // points répartis uniformément sur une sphère (spirale de Fibonacci)
+    const pts = Array.from({ length: count }, (_, n) => {
+      const y = 1 - (n / (count - 1)) * 2;
+      const r = Math.sqrt(1 - y * y);
+      const th = Math.PI * (3 - Math.sqrt(5)) * n;
+      return { x: Math.cos(th) * r, y, z: Math.sin(th) * r };
+    });
+
+    let raf = 0;
+    const t0 = performance.now();
+    const draw = (now: number) => {
+      const a = ((now - t0) / (seconds * 1000)) * Math.PI * 2;
+      const w = cv.width, h = cv.height;
+      const rad = Math.min(w, h) * 0.38;
+      ctx.clearRect(0, 0, w, h);
+      const cos = Math.cos(a), sin = Math.sin(a);
+      for (const p of pts) {
+        const x = p.x * cos - p.z * sin;
+        const z = p.x * sin + p.z * cos;
+        // les points du fond sont plus petits et plus pâles : c'est ce qui
+        // donne le volume, il n'y a pas de projection perspective ici
+        const depth = (z + 1) / 2;
+        ctx.globalAlpha = 0.15 + depth * 0.75;
+        ctx.beginPath();
+        ctx.arc(w / 2 + x * rad, h / 2 + p.y * rad, (0.5 + depth * 1.6) * dpr, 0, Math.PI * 2);
+        ctx.fillStyle = color;
+        ctx.fill();
+      }
+      raf = requestAnimationFrame(draw);
+    };
+
+    if (!reduce) raf = requestAnimationFrame(draw);
+    else {
+      // une image fixe plutôt que rien : la composition reste lisible
+      draw(t0);
+      cancelAnimationFrame(raf);
+    }
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener("resize", resize);
+    };
+  }, [count, color, seconds, reduce]);
+
+  return <canvas ref={ref} aria-hidden className={className} style={{ display: "block", ...style }} />;
+}
