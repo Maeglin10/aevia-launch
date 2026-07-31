@@ -12,6 +12,7 @@ import {
 import { TemplateIcon } from '@/components/TemplateIcon'
 import { CheckCircle2 } from 'lucide-react'
 import { resolveList } from "@/lib/templates/resolveList";
+import { DWELL, useSlides, GhostSolid, BlurThrough, SlideIndex, HairlineArrows } from '@/lib/templates/hero-kit-2';
 
 /* ─────────────────────────────────────────────
    DESIGN TOKENS
@@ -27,6 +28,15 @@ function shadeColor(hex: string, percent: number): string {
   const b = Math.max(0, Math.min(255, (num & 0x0000ff) + amt));
   return `#${(0x1000000 + r * 0x10000 + g * 0x100 + b).toString(16).slice(1)}`;
 }
+
+/* GhostSolid from the kit — the one mechanic that needs no photograph, and
+   this template ships none. The outline line rotates through the trades the
+   page actually sells; the solid line holds still. */
+const HERO_TRADES = [
+  { ghost: 'Maçonnerie', d: "Gros oeuvre, murs porteurs, fondations — le métier d'origine de la maison." },
+  { ghost: 'Ravalement', d: 'Façades et isolation thermique par l\'extérieur, échafaudage compris.' },
+  { ghost: 'Extensions', d: "Surélévations et agrandissements, du permis à la réception." },
+];
 
 let C: Record<string, string> = {
   bg: '#0b0d0a',
@@ -486,6 +496,7 @@ function Nav() {
 ───────────────────────────────────────────── */
 function Hero() {
   const ref = useRef<HTMLElement>(null)
+  const { i, next, prev } = useSlides(HERO_TRADES.length, DWELL.normal)
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] })
   const y = useTransform(scrollYProgress, [0, 1], ['0%', '30%'])
   const opacity = useTransform(scrollYProgress, [0, 0.7], [1, 0])
@@ -539,10 +550,9 @@ function Hero() {
             textTransform: 'uppercase',
           }}
         >
-          Bâtir l'exception,{' '}
-          <span style={{ color: C.accent, display: 'block' }}>
-            pierre après pierre
-          </span>
+          <BlurThrough index={i} amount={10}>
+            <GhostSolid ghost={HERO_TRADES[i].ghost} solid="pierre après pierre" accent={C.accent} strokeWidth={1.5} />
+          </BlurThrough>
         </motion.h1>
 
         <motion.p
@@ -628,21 +638,20 @@ function Hero() {
           </a>
         </motion.div>
 
-        {/* Scroll indicator */}
+        {/* Trade line: which outline word is up, and the hands to change it */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.4 }}
-          style={{ marginTop: 80, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}
+          style={{ marginTop: 64, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 18, flexWrap: 'wrap' }}
         >
-          <span style={{ fontSize: 10, letterSpacing: 3, color: C.textMuted, textTransform: 'uppercase' }}>
-            Défiler
-          </span>
-          <motion.div
-            animate={{ y: [0, 8, 0] }}
-            transition={{ repeat: Infinity, duration: 1.8, ease: 'easeInOut' }}
-            style={{ width: 1, height: 40, background: `linear-gradient(to bottom, ${C.accent}, transparent)` }}
-          />
+          <SlideIndex i={i} total={HERO_TRADES.length} variant="fraction" className="" color={C.textMuted} />
+          <BlurThrough index={i} amount={8}>
+            <span style={{ fontFamily: 'Inter, sans-serif', fontSize: 13, color: C.textMuted, maxWidth: '52ch', display: 'inline-block' }}>
+              {HERO_TRADES[i].d}
+            </span>
+          </BlurThrough>
+          <HairlineArrows onPrev={prev} onNext={next} color={C.textMuted} labels={{ prev: 'Métier précédent', next: 'Métier suivant' }} />
         </motion.div>
       </motion.div>
     </section>
