@@ -10,8 +10,15 @@ import {
   MotionValue,
   useMotionValue,
 } from 'framer-motion';
-import { ArrowRight, ChevronDown, Leaf, MapPin } from 'lucide-react';
+import { ArrowRight, Leaf, MapPin } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
+import {
+  DWELL,
+  useSlides,
+  AnchoredBackdrop,
+  BlurThrough,
+  HairlineArrows,
+} from '@/lib/templates/hero-kit-2';
 
 /* ════════════════════════════════════════════════════════════════════════════
    OSTÉO RÉPUBLIQUE — Cabinet d'Ostéopathie · Paris 11e
@@ -571,6 +578,11 @@ function NavLink({ label, href }: { label: string; href: string }) {
    ════════════════════════════════════════════════════════════════════════════ */
 function Hero() {
   const ref = useRef<HTMLElement>(null);
+  // Château mechanic: the headline never moves, only the photograph dissolves
+  // through the three axes the page already teaches (I·II·III), on the slow
+  // beat that suits a practice. One static photo was the only thing separating
+  // this hero from the ones that sell.
+  const { i, next, prev } = useSlides(PHASES.length, DWELL.slow);
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ['start start', 'end start'],
@@ -580,7 +592,6 @@ function Hero() {
   const imgY = useTransform(scrollYProgress, [0, 1], ['0%', '14%']);
   const titleY = useTransform(scrollYProgress, [0, 1], ['0%', '-44%']);
   const titleOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
-  const cueOpacity = useTransform(scrollYProgress, [0, 0.18], [1, 0]);
 
   const section: React.CSSProperties = {
     position: 'relative',
@@ -602,11 +613,10 @@ function Hero() {
           y: imgY,
         }}
       >
-        <img
-          src={fd?.photoUrls?.[0] || 'https://images.pexels.com/photos/5794024/pexels-photo-5794024.jpeg?auto=compress&cs=tinysrgb&w=2000'}
-          alt="Soin ostéopathique — mains de l'ostéopathe sur le dos d'un patient"
-          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-          priority-hint="high"
+        <AnchoredBackdrop
+          images={PHASES.map((p, n) => fd?.photoUrls?.[n] || p.imgId)}
+          index={i}
+          overlay={0}
         />
       </motion.div>
 
@@ -746,39 +756,69 @@ function Hero() {
         </motion.div>
       </motion.div>
 
-      {/* Indice défilement */}
-      <motion.div
+      {/* Bandeau de slide — l'axe en cours, numéroté, qui se dissout avec la
+          photo. Les flèches à droite ; le cue de défilement du milieu a cédé
+          sa place pour ne rien chevaucher sur mobile. */}
+      <div
         style={{
           position: 'absolute',
-          bottom: 32,
-          left: '50%',
-          transform: 'translateX(-50%)',
+          insetInline: 0,
+          bottom: 0,
           zIndex: 3,
           display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          gap: 10,
-          opacity: cueOpacity,
+          alignItems: 'flex-end',
+          justifyContent: 'space-between',
+          gap: 24,
+          padding: 'clamp(20px,3vw,40px) clamp(20px,4vw,56px)',
         }}
       >
-        <span
-          style={{
-            fontFamily: SANS,
-            fontSize: 10,
-            letterSpacing: '0.38em',
-            textTransform: 'uppercase',
-            color: 'rgba(255,255,255,0.62)',
-          }}
-        >
-          Découvrir
-        </span>
-        <motion.div
-          animate={{ y: [0, 8, 0] }}
-          transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut' }}
-        >
-          <ChevronDown size={18} color={C.accentLight} strokeWidth={1.4} />
-        </motion.div>
-      </motion.div>
+        <div style={{ display: 'flex', alignItems: 'flex-start', gap: 18, maxWidth: '58ch' }}>
+          <span
+            aria-hidden
+            style={{
+              fontFamily: SERIF,
+              fontSize: 'clamp(26px,3vw,34px)',
+              lineHeight: 1,
+              color: 'rgba(255,255,255,0.5)',
+              fontStyle: 'italic',
+            }}
+          >
+            {PHASES[i].index}
+          </span>
+          <BlurThrough index={i} amount={9}>
+            <div
+              style={{
+                fontFamily: SANS,
+                fontSize: 10,
+                letterSpacing: '0.34em',
+                textTransform: 'uppercase',
+                color: C.accentLight,
+              }}
+            >
+              {PHASES[i].label}
+            </div>
+            <p
+              style={{
+                fontFamily: SANS,
+                fontWeight: 300,
+                fontSize: 13,
+                lineHeight: 1.65,
+                color: 'rgba(255,255,255,0.66)',
+                margin: '7px 0 0',
+                maxWidth: '52ch',
+              }}
+            >
+              {PHASES[i].body}
+            </p>
+          </BlurThrough>
+        </div>
+        <HairlineArrows
+          onPrev={prev}
+          onNext={next}
+          color="rgba(255,255,255,0.75)"
+          labels={{ prev: 'Axe précédent', next: 'Axe suivant' }}
+        />
+      </div>
     </section>
   );
 }
