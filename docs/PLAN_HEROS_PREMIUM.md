@@ -40,6 +40,12 @@ grep -l "PortalZoom\|CrossPush\|MosaicPush" app/templates/*/page.tsx
 Si la mécanique envisagée est déjà utilisée par un thème du même métier, en
 prendre une autre. Il y en a vingt-deux.
 
+## Le catalogue complet
+
+[CATALOGUE_GESTES.md](CATALOGUE_GESTES.md) tient les vingt-cinq gestes : d'où
+vient chacun, ce qu'il fait exactement, comment il a été mesuré, quel composant
+l'écrit, et sur quels métiers il tient. **À lire avant de choisir.**
+
 ## Les deux kits
 
 - `lib/templates/hero-kit-2.tsx` — la première série, tirée de la première
@@ -75,6 +81,12 @@ Démonstrations complètes, adressables par ancre :
 | `GhostSolid` | 2 | Ligne en contour contre ligne pleine, même corps | Sport, garage, chantier |
 | `AnchoredBackdrop` | 2 | Le titre ne bouge pas, seule la photo se dissout | **À réserver** : c'est le plus discret, il est déjà sur 8 thèmes |
 | `BlurThrough` | 2 | Un libellé se floute en sortie et en entrée | **Saturé** : 15 thèmes sur 18. Ne plus l'utiliser comme signature |
+| `ArcSwap` | 3 | L'objet balance : rotation de 52° autour d'un pivot au pied | Bouteille, flacon, bouquet — tout objet qui a un pied |
+| `PushBlur` | 3 | Toute la composition part sur le côté, avec un flou directionnel | Immobilier, promotion, automobile |
+| `ScrollSpin` | 3 | Le produit tourne au défilement | Produit, artisanat, e-commerce |
+| `ComposeIn` | 3 | La scène reste vide 1,4 s, puis chaque élément arrive de son bord | Restaurant, pâtisserie, traiteur, fleuriste |
+| `ParticleOrb` | 3 | Une sphère de 700 points en canvas | Éditorial, culture, luxe discret — un héros sans photo |
+| `InvertSweep` | 3 | Toute la page s'inverse au défilement | Agence, studio, portfolio |
 
 ### Accessoires — réutilisables librement
 
