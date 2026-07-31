@@ -6,6 +6,15 @@ import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion"
 import Link from "next/link";
 import { ArrowRight, ChevronDown, Gem } from "lucide-react";
 import { C, FONT_HEADING, FONT_BODY, FONT_LABEL, GemStoneSVG, Reveal, STATS, TESTIMONIALS, TEAM } from "./shared";
+import { DWELL, useSlides, LineMask, Retint, BlurThrough, SlideIndex, HairlineArrows } from "@/lib/templates/hero-kit-2";
+
+/* LineMask + Retint: the two headline lines slide out under a horizontal
+   mask, one house craft at a time, the gem and the plaque tint follow. */
+const HERO_CRAFTS = [
+  { l1: "L'Art du", l2: "Temps Précieux", gem: "sapphire", tint: "rgba(26,34,52,0.9)", piece: "Heritage Tourbillon", stone: "Rubis de Birmanie" },
+  { l1: "L'Éclat des", l2: "Pierres Rares", gem: "diamond", tint: "rgba(38,32,22,0.9)", piece: "Constellation Noir", stone: "Diamant noir 8 ct" },
+  { l1: "L'Alliance", l2: "sur-mesure", gem: "ruby", tint: "rgba(46,22,28,0.9)", piece: "Eternité Rose", stone: "Diamant rose 3 ct" },
+];
 import { resolveList } from "@/lib/templates/resolveList";
 
 
@@ -95,19 +104,10 @@ export default function Impact83Page() {
   const heroOpacity = useTransform(scrollYProgress, [0, 0.25], [1, 0]);
   const heroScale = useTransform(scrollYProgress, [0, 0.3], [1, 1.08]);
 
-  const [heroGem, setHeroGem] = useState<string>("diamond");
+  const { i: heroI, next: heroNext, prev: heroPrev } = useSlides(HERO_CRAFTS.length, DWELL.slow);
+  // the gem follows the craft instead of spinning on its own clock
+  const heroGem = HERO_CRAFTS[heroI].gem;
   const basePath = "/templates/impact-83";
-
-  // Rotate hero gem
-  useEffect(() => {
-    const gems = ["diamond", "ruby", "sapphire", "emerald", "amethyst"];
-    let i = 0;
-    const timer = setInterval(() => {
-      i = (i + 1) % gems.length;
-      setHeroGem(gems[i]);
-    }, 3500);
-    return () => clearInterval(timer);
-  }, []);
 
   return (
     <div ref={containerRef}>
@@ -192,9 +192,7 @@ export default function Impact83Page() {
                 color: C.text,
                 marginBottom: 8,
               }}
-            >{c?.heroHeadline ?? <>
-              L&apos;Art du
-            </>}</motion.h1>
+            >{c?.heroHeadline ?? <LineMask lines={[HERO_CRAFTS[heroI].l1]} index={heroI} />}</motion.h1>
             <motion.h1
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
@@ -209,7 +207,7 @@ export default function Impact83Page() {
                 marginBottom: 40,
               }}
             >
-              Temps Précieux
+              <LineMask lines={[HERO_CRAFTS[heroI].l2]} index={heroI} />
             </motion.h1>
 
             <motion.p
@@ -278,6 +276,20 @@ export default function Impact83Page() {
                 </span>
               </Link>
             </motion.div>
+
+            <Retint
+              color={HERO_CRAFTS[heroI].tint}
+              style={{ margin: "40px auto 0", maxWidth: 460, padding: "16px 26px", display: "flex", alignItems: "center", justifyContent: "center", gap: 16, flexWrap: "wrap", border: "1px solid rgba(201,168,108,0.25)" }}
+            >
+              <SlideIndex i={heroI} total={HERO_CRAFTS.length} variant="fraction" className="" color="rgba(255,255,255,0.55)" />
+              <BlurThrough index={heroI} amount={8}>
+                <span style={{ fontFamily: FONT_HEADING, fontSize: 16, color: "#fff" }}>
+                  {HERO_CRAFTS[heroI].piece}
+                  <span style={{ color: "rgba(255,255,255,0.55)", fontStyle: "italic" }}> · {HERO_CRAFTS[heroI].stone}</span>
+                </span>
+              </BlurThrough>
+              <HairlineArrows onPrev={heroPrev} onNext={heroNext} color="rgba(255,255,255,0.65)" labels={{ prev: "Pièce précédente", next: "Pièce suivante" }} />
+            </Retint>
           </div>
         </motion.div>
 
