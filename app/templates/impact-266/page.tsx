@@ -10,8 +10,9 @@ import {
   MotionValue,
   useMotionValue,
 } from 'framer-motion';
-import { ArrowRight, ChevronDown, Diamond, MapPin } from 'lucide-react';
+import { ArrowRight, Diamond, MapPin } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
+import { DWELL, useSlides, AnchoredBackdrop, BlurThrough, HairlineArrows } from '@/lib/templates/hero-kit-2';
 
 /* ════════════════════════════════════════════════════════════════════════════
    VILLA ÉMERAUDE EVENTS — Wedding Planner & Événements Luxe · Nice & Côte d'Azur
@@ -532,6 +533,10 @@ function NavLink({ label, href }: { label: string; href: string }) {
    ════════════════════════════════════════════════════════════════════════════ */
 function Hero() {
   const ref = useRef<HTMLElement>(null);
+  // Château mechanic with the next-venue thumbnail: the headline holds, the
+  // venue dissolves behind it on the slow beat (I Villa · II Plage · III…).
+  const { i, go, next, prev } = useSlides(PHASES.length, DWELL.slow);
+  const nextPhase = PHASES[(i + 1) % PHASES.length];
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ['start start', 'end start'],
@@ -541,7 +546,6 @@ function Hero() {
   const imgY = useTransform(scrollYProgress, [0, 1], ['0%', '16%']);
   const titleY = useTransform(scrollYProgress, [0, 1], ['0%', '-42%']);
   const titleOpacity = useTransform(scrollYProgress, [0, 0.65], [1, 0]);
-  const cueOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
 
   return (
     <section
@@ -564,10 +568,10 @@ function Hero() {
           y: imgY,
         }}
       >
-        <img
-          src={fd?.photoUrls?.[0] || `https://images.pexels.com/photos/16120230/pexels-photo-16120230.jpeg?auto=compress&cs=tinysrgb&w=2000`}
-          alt="Villa Belle Époque sur la Côte d'Azur"
-          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+        <AnchoredBackdrop
+          images={PHASES.map((p, n) => fd?.photoUrls?.[n] || p.img)}
+          index={i}
+          overlay={0}
         />
       </motion.div>
 
@@ -687,38 +691,52 @@ function Hero() {
       </motion.div>
 
       {/* Scroll cue */}
-      <motion.div
+      {/* Bandeau de slide : le lieu en cours, la vignette du suivant, les
+          flèches — le cue central a cédé sa place. */}
+      <div
         style={{
           position: 'absolute',
-          bottom: 32,
-          left: '50%',
-          transform: 'translateX(-50%)',
+          insetInline: 0,
+          bottom: 0,
           zIndex: 3,
           display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          gap: 8,
-          opacity: cueOpacity,
+          alignItems: 'flex-end',
+          justifyContent: 'space-between',
+          gap: 20,
+          padding: 'clamp(18px,3vw,38px) clamp(18px,4vw,54px)',
         }}
       >
-        <span
-          style={{
-            fontFamily: SANS,
-            fontSize: 10,
-            letterSpacing: '0.32em',
-            textTransform: 'uppercase',
-            color: 'rgba(255,255,255,0.66)',
-          }}
-        >
-          Découvrir
-        </span>
-        <motion.div
-          animate={{ y: [0, 9, 0] }}
-          transition={{ duration: 2.2, repeat: Infinity, ease: 'easeInOut' }}
-        >
-          <ChevronDown size={18} color={C.accentLight} strokeWidth={1.3} />
-        </motion.div>
-      </motion.div>
+        <div style={{ display: 'flex', alignItems: 'flex-start', gap: 16, maxWidth: '56ch' }}>
+          <span aria-hidden style={{ fontFamily: SERIF, fontSize: 'clamp(24px,3vw,32px)', lineHeight: 1, color: 'rgba(255,255,255,0.5)', fontStyle: 'italic' }}>
+            {PHASES[i].index}
+          </span>
+          <BlurThrough index={i} amount={9}>
+            <div style={{ fontFamily: SANS, fontSize: 10, letterSpacing: '0.34em', textTransform: 'uppercase', color: C.accentLight }}>
+              {PHASES[i].label}
+            </div>
+            <p style={{ fontFamily: SANS, fontWeight: 300, fontSize: 13, lineHeight: 1.6, color: 'rgba(255,255,255,0.66)', margin: '6px 0 0', maxWidth: '50ch' }}>
+              {PHASES[i].body}
+            </p>
+          </BlurThrough>
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+          <button
+            type="button"
+            onClick={() => go(i + 1)}
+            aria-label={`Lieu suivant : ${nextPhase.label}`}
+            className="i266-thumb"
+            style={{ position: 'relative', width: 88, height: 58, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.25)', padding: 0, cursor: 'pointer', background: 'none' }}
+          >
+            <span style={{ position: 'absolute', inset: 0, backgroundImage: `url(${nextPhase.img})`, backgroundSize: 'cover', backgroundPosition: 'center' }} />
+            <span style={{ position: 'absolute', inset: 0, background: 'rgba(14,12,8,0.35)' }} />
+            <span style={{ position: 'absolute', insetInline: 0, bottom: 0, padding: '2px 0', fontFamily: SANS, fontSize: 8, letterSpacing: '0.22em', textTransform: 'uppercase', color: '#fff', background: 'rgba(14,12,8,0.55)', textAlign: 'center' }}>
+              Suivant
+            </span>
+          </button>
+          <HairlineArrows onPrev={prev} onNext={next} color="rgba(255,255,255,0.75)" labels={{ prev: 'Lieu précédent', next: 'Lieu suivant' }} />
+        </div>
+      </div>
+      <style>{`@media (max-width: 640px) { .i266-thumb { display: none !important; } }`}</style>
     </section>
   );
 }

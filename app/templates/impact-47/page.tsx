@@ -8,6 +8,16 @@ import {
   ArrowRight, Check, Leaf, Sun, Snowflake, Wind, Heart, Gift, Briefcase, Camera, ChevronDown, Star
 } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
+import { DWELL, useSlides, HeldSwap, BlurThrough, SlideIndex, HairlineArrows } from "@/lib/templates/hero-kit-2";
+
+/* HeldSwap on the bouquet: exit, half a beat of held emptiness, entry — the
+   wine-lab swap, in a round medallion instead of an arch. Images and names
+   come from the shop's own collections (verified at the merge). */
+const HERO_BOUQUETS = [
+  { name: "Jardin de Printemps", price: "€65", img: "https://images.unsplash.com/photo-1523693916903-027d144a2b7d?w=900&h=900&fit=crop&q=80" },
+  { name: "Blossom Drift", price: "€85", img: "https://images.unsplash.com/photo-1487530811176-3780de880c2d?w=900&h=900&fit=crop&q=80" },
+  { name: "Dried Luxe", price: "€90", img: "https://images.unsplash.com/photo-1583228858294-6745cb25969e?w=900&h=900&fit=crop&q=80" },
+];
 import {
   C,
   seasons,
@@ -25,6 +35,7 @@ function HeroSection() {
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
   const y = useTransform(scrollYProgress, [0, 1], [0, 160]);
   const opacity = useTransform(scrollYProgress, [0, 0.65], [1, 0]);
+  const { i: heroI, next: heroNext, prev: heroPrev } = useSlides(HERO_BOUQUETS.length, DWELL.normal);
 
   return (
     <section ref={ref} id="hero" style={{ position: "relative", minHeight: "100dvh", background: C.bgPink, display: "flex", alignItems: "center", overflow: "hidden" }}>
@@ -36,7 +47,8 @@ function HeroSection() {
       {/* Soft gradient background */}
       <div style={{ position: "absolute", inset: 0, background: `radial-gradient(ellipse at 70% 30%, rgba(244,143,177,0.3) 0%, transparent 60%), radial-gradient(ellipse at 30% 80%, rgba(136,14,79,0.08) 0%, transparent 50%)`, pointerEvents: "none" }} />
 
-      <motion.div style={{ y, opacity, position: "relative", zIndex: 2, maxWidth: 1200, margin: "0 auto", padding: "120px 24px 80px", width: "100%", textAlign: "center" as const }}>
+      <motion.div className="i47-hero-grid" style={{ y, opacity, position: "relative", zIndex: 2, maxWidth: 1200, margin: "0 auto", padding: "120px 24px 80px", width: "100%", display: "grid", gridTemplateColumns: "minmax(0,1.15fr) minmax(0,1fr)", gap: "clamp(2rem,5vw,4rem)", alignItems: "center", textAlign: "left" as const }}>
+        <div>
         <motion.h1
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
@@ -51,7 +63,7 @@ function HeroSection() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.7 }}
-          style={{ fontFamily: "'Poppins', system-ui", fontSize: 18, color: C.textMuted, lineHeight: 1.7, maxWidth: 520, margin: "0 auto 48px" }}
+          style={{ fontFamily: "'Poppins', system-ui", fontSize: 18, color: C.textMuted, lineHeight: 1.7, maxWidth: 520, margin: "0 0 48px" }}
         >
           Hand-crafted seasonal arrangements, botanical bouquet subscriptions, and wedding floral direction from our Parisian studio.
         </motion.p>
@@ -60,7 +72,7 @@ function HeroSection() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.9 }}
-          style={{ display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap" as const }}
+          style={{ display: "flex", gap: 16, justifyContent: "flex-start", flexWrap: "wrap" as const }}
         >
           <button onClick={() => document.getElementById("subscribe")?.scrollIntoView({ behavior: "smooth" })}
             style={{ background: C.accent, color: C.white, border: "none", cursor: "pointer", padding: "16px 40px", fontSize: 13, letterSpacing: "0.08em", textTransform: "uppercase" as const, textDecoration: "none", fontFamily: "'Poppins', system-ui", fontWeight: 700, display: "flex", alignItems: "center", gap: 8 }}
@@ -78,7 +90,7 @@ function HeroSection() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.2 }}
-          style={{ display: "flex", gap: 48, justifyContent: "center", marginTop: 72, flexWrap: "wrap" as const }}
+          style={{ display: "flex", gap: 40, justifyContent: "flex-start", marginTop: 64, flexWrap: "wrap" as const }}
         >
           {[
             { val: "12 ans", label: "d'expérience" },
@@ -92,7 +104,54 @@ function HeroSection() {
             </div>
           ))}
         </motion.div>
+        </div>
+
+        {/* the bouquet medallion, held and swapped */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.96 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.9, delay: 0.6 }}
+          style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 18 }}
+        >
+          <div
+            style={{
+              width: "clamp(240px, 30vw, 420px)",
+              height: "clamp(240px, 30vw, 420px)",
+              borderRadius: "50%",
+              overflow: "hidden",
+              border: `1.5px solid ${C.borderAccent}`,
+              boxShadow: "0 30px 70px rgba(136,14,79,0.18)",
+              background: C.white,
+            }}
+          >
+            <HeldSwap index={heroI} tilt={10}>
+              <div
+                style={{
+                  width: "clamp(240px, 30vw, 420px)",
+                  height: "clamp(240px, 30vw, 420px)",
+                  backgroundImage: `url(${HERO_BOUQUETS[heroI].img})`,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                }}
+                role="img"
+                aria-label={HERO_BOUQUETS[heroI].name}
+              />
+            </HeldSwap>
+          </div>
+          <div style={{ display: "flex", alignItems: "center", gap: 14, flexWrap: "wrap", justifyContent: "center" }}>
+            <SlideIndex i={heroI} total={HERO_BOUQUETS.length} variant="fraction" className="" color={C.textMuted} />
+            <BlurThrough index={heroI} amount={8}>
+              <span style={{ fontFamily: "'Libre Baskerville', Georgia, serif", fontSize: 17, color: C.text }}>
+                {HERO_BOUQUETS[heroI].name} <span style={{ color: C.accent }}>{HERO_BOUQUETS[heroI].price}</span>
+              </span>
+            </BlurThrough>
+            <HairlineArrows onPrev={heroPrev} onNext={heroNext} color={C.accent} labels={{ prev: "Previous bouquet", next: "Next bouquet" }} />
+          </div>
+        </motion.div>
       </motion.div>
+
+      {/* single column under lg; the medallion follows the copy */}
+      <style>{`@media (max-width: 1023px) { .i47-hero-grid { grid-template-columns: minmax(0,1fr) !important; } }`}</style>
     </section>
   );
 }

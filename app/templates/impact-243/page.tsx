@@ -12,7 +12,6 @@ import {
 } from 'framer-motion';
 import {
   ArrowRight,
-  ChevronDown,
   Heart,
   MapPin,
   Quote,
@@ -20,6 +19,13 @@ import {
   Mail,
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
+import {
+  DWELL,
+  useSlides,
+  AnchoredBackdrop,
+  BlurThrough,
+  HairlineArrows,
+} from '@/lib/templates/hero-kit-2';
 
 /* ════════════════════════════════════════════════════════════════════════════
    DR. ÉLODIE BEAUMONT — Cabinet médecine générale & préventive · Strasbourg
@@ -539,6 +545,10 @@ function NavLink({ label, href }: { label: string; href: string }) {
    ════════════════════════════════════════════════════════════════════════════ */
 function Hero() {
   const ref = useRef<HTMLElement>(null);
+  // Château mechanic: the headline never moves, only the photograph dissolves
+  // through the three practices the page already teaches (I·II·III), on the
+  // slow beat that suits a doctor's waiting room.
+  const { i, next, prev } = useSlides(PHASES.length, DWELL.slow);
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ['start start', 'end start'],
@@ -548,7 +558,6 @@ function Hero() {
   const imgY = useTransform(scrollYProgress, [0, 1], ['0%', '14%']);
   const titleY = useTransform(scrollYProgress, [0, 1], ['0%', '-44%']);
   const titleOpacity = useTransform(scrollYProgress, [0, 0.72], [1, 0]);
-  const cueOpacity = useTransform(scrollYProgress, [0, 0.18], [1, 0]);
 
   const section: React.CSSProperties = {
     position: 'relative',
@@ -570,10 +579,10 @@ function Hero() {
           y: imgY,
         }}
       >
-        <img
-          src={fd?.photoUrls?.[0] || "https://images.pexels.com/photos/8376221/pexels-photo-8376221.jpeg?auto=compress&cs=tinysrgb&w=2000"}
-          alt="Consultation médicale avec le Dr. Beaumont"
-          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+        <AnchoredBackdrop
+          images={PHASES.map((p, n) => fd?.photoUrls?.[n] || photoUrl(p.imgId, 2000))}
+          index={i}
+          overlay={0}
         />
       </motion.div>
 
@@ -682,38 +691,69 @@ function Hero() {
       </motion.div>
 
       {/* Cue de défilement */}
-      <motion.div
+      {/* Bandeau de slide — la pratique en cours, numérotée, qui se dissout
+          avec la photo. Les flèches à droite ; le cue central a cédé sa place
+          pour ne rien chevaucher sur mobile. */}
+      <div
         style={{
           position: 'absolute',
-          bottom: 34,
-          left: '50%',
-          transform: 'translateX(-50%)',
+          insetInline: 0,
+          bottom: 0,
           zIndex: 3,
           display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          gap: 10,
-          opacity: cueOpacity,
+          alignItems: 'flex-end',
+          justifyContent: 'space-between',
+          gap: 24,
+          padding: 'clamp(20px,3vw,40px) clamp(20px,4vw,56px)',
         }}
       >
-        <span
-          style={{
-            fontFamily: SANS,
-            fontSize: 10,
-            letterSpacing: '0.32em',
-            textTransform: 'uppercase',
-            color: 'rgba(255,255,255,0.60)',
-          }}
-        >
-          Découvrir
-        </span>
-        <motion.div
-          animate={{ y: [0, 9, 0] }}
-          transition={{ duration: 2.2, repeat: Infinity, ease: 'easeInOut' }}
-        >
-          <ChevronDown size={20} color={C.accentLight} strokeWidth={1.4} />
-        </motion.div>
-      </motion.div>
+        <div style={{ display: 'flex', alignItems: 'flex-start', gap: 18, maxWidth: '58ch' }}>
+          <span
+            aria-hidden
+            style={{
+              fontFamily: SERIF,
+              fontSize: 'clamp(26px,3vw,34px)',
+              lineHeight: 1,
+              color: 'rgba(255,255,255,0.5)',
+              fontStyle: 'italic',
+            }}
+          >
+            {PHASES[i].index}
+          </span>
+          <BlurThrough index={i} amount={9}>
+            <div
+              style={{
+                fontFamily: SANS,
+                fontSize: 10,
+                letterSpacing: '0.34em',
+                textTransform: 'uppercase',
+                color: C.accentLight,
+              }}
+            >
+              {PHASES[i].caption}
+            </div>
+            <p
+              style={{
+                fontFamily: SANS,
+                fontWeight: 300,
+                fontSize: 13,
+                lineHeight: 1.65,
+                color: 'rgba(255,255,255,0.66)',
+                margin: '7px 0 0',
+                maxWidth: '52ch',
+              }}
+            >
+              {PHASES[i].sub}
+            </p>
+          </BlurThrough>
+        </div>
+        <HairlineArrows
+          onPrev={prev}
+          onNext={next}
+          color="rgba(255,255,255,0.75)"
+          labels={{ prev: 'Pratique précédente', next: 'Pratique suivante' }}
+        />
+      </div>
     </section>
   );
 }

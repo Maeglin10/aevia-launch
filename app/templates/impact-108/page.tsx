@@ -5,6 +5,23 @@ import React, { useRef, useState, useEffect } from "react";
 import Link from "next/link";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { C, FONT, FONT_BODY, STATS, MISSIONS, TEMOIGNAGES, Reveal } from "./shared";
+import { DWELL, useSlides, AnchoredBackdrop, WordFlight, SlideIndex, HairlineArrows } from "@/lib/templates/hero-kit-2";
+
+/* WordFlight from the law lab: the headline assembles word by word, one
+   mission at a time, while the photograph dissolves behind it. Both images
+   were already in this file and verified at the merge. */
+const HERO_MISSIONS = [
+  {
+    k: "Expertise comptable",
+    t: "La comptabilité, un outil de croissance",
+    img: "https://images.pexels.com/photos/6345286/pexels-photo-6345286.jpeg?auto=compress&cs=tinysrgb&w=1920",
+  },
+  {
+    k: "Conseil & pilotage",
+    t: "Des chiffres qui éclairent vos décisions",
+    img: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=1920&q=80",
+  },
+];
 
 
 // Global state variables for subpage compatibility
@@ -51,6 +68,7 @@ export default function LedgerPage() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
+  const { i: heroI, next: heroNext, prev: heroPrev } = useSlides(HERO_MISSIONS.length, DWELL.normal);
   const heroY = useTransform(scrollYProgress, [0, 1], [0, 170]);
   const heroTextY = useTransform(scrollYProgress, [0, 1], [0, -65]);
   const heroOpacity = useTransform(scrollYProgress, [0, 0.65], [1, 0]);
@@ -300,10 +318,10 @@ export default function LedgerPage() {
         }}
       >
         <motion.div style={{ y: heroY, position: "absolute", inset: 0 }}>
-          <img
-            src={photo(0, "https://images.pexels.com/photos/6345286/pexels-photo-6345286.jpeg?auto=compress&cs=tinysrgb&w=1920")}
-            alt="Cabinet Ledger & Associés Bordeaux"
-            style={{ width: "100%", height: "100%", objectFit: "cover" }}
+          <AnchoredBackdrop
+            images={HERO_MISSIONS.map((m, n) => fd?.photoUrls?.[n] || m.img)}
+            index={heroI}
+            overlay={0}
           />
         </motion.div>
         {/* gradient sombre */}
@@ -345,10 +363,12 @@ export default function LedgerPage() {
               letterSpacing: -0.5,
               marginBottom: 24,
             }}
-          >{c?.heroHeadline ?? <>
-            La comptabilité,<br />
-            <span style={{color: brand ?? 'var(--brand,#93c5fd)' }}>un outil de croissance</span>
-          </>}</motion.h1>
+          >
+            <span style={{ display: "block", fontSize: 12, fontWeight: 600, letterSpacing: "0.3em", textTransform: "uppercase", color: brand ?? 'var(--brand,#93c5fd)', marginBottom: 18 }}>
+              {HERO_MISSIONS[heroI].k}
+            </span>
+            <WordFlight text={c?.heroHeadline ?? HERO_MISSIONS[heroI].t} keyed={heroI} />
+          </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 28 }}
             animate={{ opacity: 1, y: 0 }}
@@ -407,26 +427,21 @@ export default function LedgerPage() {
             </a>
           </motion.div>
         </motion.div>
-        {/* scroll indicator */}
+        {/* slide index + arrows — the scroll cue's spot, but earning it */}
         <div
           style={{
             position: "absolute",
             bottom: 40,
-            left: "50%",
-            transform: "translateX(-50%)",
+            right: "clamp(20px,4vw,80px)",
+            zIndex: 2,
             display: "flex",
-            flexDirection: "column",
             alignItems: "center",
-            gap: 8,
-            color: "rgba(255,255,255,0.35)",
+            gap: 12,
+            color: "rgba(255,255,255,0.55)",
           }}
         >
-          <span style={{ fontFamily: FONT, fontSize: 10, letterSpacing: 3, textTransform: "uppercase", fontWeight: 600 }}>Scroll</span>
-          <motion.div
-            animate={{ y: [0, 8, 0] }}
-            transition={{ duration: 1.5, repeat: Infinity }}
-            style={{ width: 1, height: 40, background: "rgba(147,197,253,0.4)" }}
-          />
+          <SlideIndex i={heroI} total={HERO_MISSIONS.length} variant="fraction" className="" color="rgba(255,255,255,0.6)" />
+          <HairlineArrows onPrev={heroPrev} onNext={heroNext} color="rgba(255,255,255,0.65)" labels={{ prev: "Mission précédente", next: "Mission suivante" }} />
         </div>
       </section>
 
