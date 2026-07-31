@@ -13,6 +13,36 @@ import {
 } from "framer-motion";
 import { TemplateIcon } from '@/components/TemplateIcon';
 import { resolveList } from "@/lib/templates/resolveList";
+import { DWELL, useSlides, HeldSwap, BlurThrough, CircularLabel, SlideIndex, HairlineArrows } from "@/lib/templates/hero-kit-2";
+
+/* The wine-lab arch, recoloured to the domain's cream and burgundy: the
+   bottle swaps inside a real clipped frame (exit, half a beat of held
+   emptiness, entry), the wordmark splits around it from md up. Bottle
+   photographs come from the lab, verified at the merge; the copy is the
+   domain's own cuvées. */
+const HERO_CUVEES = [
+  {
+    left: "CHÂTEAU",
+    right: "DE VALROC",
+    name: "Cuvée Prestige",
+    meta: "AOC Bordeaux Grand Cru · 2020",
+    bottle: "https://images.unsplash.com/photo-1545608508-78f351665a1c?auto=format&fit=crop&q=85&w=620&h=1240",
+  },
+  {
+    left: "CHÂTEAU",
+    right: "DE VALROC",
+    name: "Cuvée Réserve",
+    meta: "AOC Bordeaux · 2021",
+    bottle: "https://images.unsplash.com/photo-1598866971869-22782ffd918e?auto=format&fit=crop&q=85&w=620&h=1240",
+  },
+  {
+    left: "CHÂTEAU",
+    right: "DE VALROC",
+    name: "Blanc de Grâce",
+    meta: "Bordeaux Blanc · 2022",
+    bottle: "https://images.unsplash.com/photo-1714377676631-bef738815d62?auto=format&fit=crop&q=85&w=620&h=1240",
+  },
+];
 
 /* ==========================================================================
    DESIGN TOKENS
@@ -1002,6 +1032,7 @@ export default function WineryTemplate() {
 
   const { scrollYProgress } = useScroll();
   const heroY = useTransform(scrollYProgress, [0, 0.25], [0, -60]);
+  const { i: heroI, next: heroNext, prev: heroPrev } = useSlides(HERO_CUVEES.length, DWELL.slow);
   const heroOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
 
   const heroRef = useRef<HTMLDivElement>(null);
@@ -1298,46 +1329,96 @@ export default function WineryTemplate() {
           </svg>
         </div>
 
+        <style>{`
+          /* one centred line above the arch on a phone; split around it from md up */
+          .i131-title-slot { top: 4%; display: grid; place-items: center; }
+          .i131-title { display: flex; justify-content: center; align-items: baseline; gap: 0.3em; }
+          .i131-title-gap { display: none; }
+          .i131-circular { display: none; }
+          @media (min-width: 768px) {
+            .i131-title-slot { top: auto; bottom: auto; inset-block: 0; place-items: center; }
+            .i131-title { display: grid; grid-template-columns: minmax(0,1fr) clamp(150px,17vw,240px) minmax(0,1fr); align-items: center; width: 100%; gap: 0; }
+            .i131-title-gap { display: block; }
+            .i131-circular { display: block; }
+          }
+        `}</style>
         <motion.div
-          style={{ y: heroY, opacity: heroOpacity, textAlign: "center", position: "relative", zIndex: 2, padding: "0 24px" }}
+          className="i131-hero-wrap"
+          style={{ y: heroY, opacity: heroOpacity, textAlign: "center", position: "relative", zIndex: 2, padding: "0 24px", width: "100%", maxWidth: 1280, margin: "0 auto", display: "flex", flexDirection: "column", alignItems: "center" }}
         >
-          <h1
-            style={{
-              fontFamily: C.fontSerif,
-              fontSize: "clamp(52px, 9vw, 120px)",
-              fontWeight: 700,
-              color: C.dark,
-              lineHeight: 1,
-              marginBottom: 16,
-              letterSpacing: "-0.01em",
-            }}
-          >{c?.heroHeadline ?? <>
-            <TextReveal immediate text="Château" delay={0.3} />
-            <br />
-            <TextReveal immediate text="de Valroc" delay={0.5} style={{ color: C.burgundy }} />
-          </>}</h1>
-
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 1, delay: 0.9 }}
-            style={{
-              fontFamily: C.fontSerif,
-              fontSize: "clamp(18px, 2.5vw, 28px)",
-              fontStyle: "italic",
-              color: C.muted,
-              marginBottom: 56,
-            }}
-          >{c?.heroSubline ?? fd?.tagline ?? <>
-            Le Terroir Révélé
-          </>}</motion.p>
+            transition={{ duration: 1, delay: 0.4 }}
+            style={{ fontFamily: C.fontSerif, fontSize: "clamp(16px, 2vw, 22px)", fontStyle: "italic", color: C.muted, marginBottom: 12 }}
+          >{c?.heroSubline ?? fd?.tagline ?? "Le Terroir Révélé"}</motion.p>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 1.1 }}
-            style={{ display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap" }}
-          >
+          {/* arch + split wordmark */}
+          <div className="i131-arch-zone" style={{ position: "relative", width: "100%", display: "grid", placeItems: "center", minHeight: "clamp(340px, 52vh, 560px)" }}>
+            <div
+              className="i131-arch"
+              style={{
+                position: "relative",
+                zIndex: 2,
+                width: "clamp(150px, 17vw, 240px)",
+                height: "clamp(300px, 48vh, 520px)",
+                overflow: "hidden",
+                borderRadius: "50% 50% 3px 3px / 26% 26% 3px 3px",
+                border: `1px solid ${C.border}`,
+                boxShadow: "0 40px 90px rgba(30,18,8,0.28)",
+                background: C.bgCard,
+              }}
+            >
+              <HeldSwap index={heroI} tilt={8}>
+                <div
+                  style={{
+                    width: "100%",
+                    height: "clamp(300px, 48vh, 520px)",
+                    backgroundImage: `url(${HERO_CUVEES[heroI].bottle})`,
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                  }}
+                  role="img"
+                  aria-label={HERO_CUVEES[heroI].name}
+                />
+              </HeldSwap>
+            </div>
+
+            <div className="i131-title-slot" style={{ position: "absolute", insetInline: 0, zIndex: 3, pointerEvents: "none" }}>
+              <h1 className="i131-title" style={{ margin: 0 }}>
+                <span style={{ fontFamily: C.fontSerif, fontWeight: 700, color: C.dark, fontSize: "clamp(30px, 5.4vw, 92px)", lineHeight: 1, letterSpacing: "0.04em", justifySelf: "end", paddingRight: "clamp(0px,1.8vw,28px)" }}>
+                  {c?.heroHeadline ?? HERO_CUVEES[heroI].left}
+                </span>
+                <span aria-hidden className="i131-title-gap" />
+                <span style={{ fontFamily: C.fontSerif, fontWeight: 700, color: C.burgundy, fontSize: "clamp(30px, 5.4vw, 92px)", lineHeight: 1, letterSpacing: "0.04em", justifySelf: "start", paddingLeft: "clamp(0px,1.8vw,28px)" }}>
+                  {HERO_CUVEES[heroI].right}
+                </span>
+              </h1>
+            </div>
+
+            <CircularLabel
+              text="dégustation au domaine · dégustation au domaine · "
+              className="i131-circular"
+              style={{ position: "absolute", right: "6%", top: "2%" }}
+              size={110}
+              color="rgba(122,37,53,0.55)"
+              seconds={28}
+            />
+          </div>
+
+          {/* cuvée line + hands */}
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 18, flexWrap: "wrap", marginTop: 18, marginBottom: 34 }}>
+            <SlideIndex i={heroI} total={HERO_CUVEES.length} variant="fraction" className="" color={C.muted} />
+            <BlurThrough index={heroI} amount={8}>
+              <span style={{ fontFamily: C.fontSerif, fontSize: 17, color: C.dark }}>
+                {HERO_CUVEES[heroI].name}
+                <span style={{ color: C.muted, fontStyle: "italic" }}> — {HERO_CUVEES[heroI].meta}</span>
+              </span>
+            </BlurThrough>
+            <HairlineArrows onPrev={heroPrev} onNext={heroNext} color={C.burgundy} labels={{ prev: "Cuvée précédente", next: "Cuvée suivante" }} />
+          </div>
+
+          <div style={{ display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap" }}>
             <MagneticButton
               style={{
                 background: C.burgundy,
@@ -1368,26 +1449,7 @@ export default function WineryTemplate() {
             >
               Visiter le domaine
             </MagneticButton>
-          </motion.div>
-        </motion.div>
-
-        {/* Scroll indicator */}
-        <motion.div
-          style={{ position: "absolute", bottom: 40, left: "50%", translateX: "-50%" }}
-          animate={{ y: [0, 8, 0] }}
-          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-        >
-          <svg width={20} height={32} viewBox="0 0 20 32" fill="none">
-            <rect x={1} y={1} width={18} height={30} rx={9} stroke={C.muted} strokeWidth={1.5} />
-            <motion.circle
-              cx={10}
-              cy={9}
-              r={3}
-              fill={C.burgundy}
-              animate={{ cy: [9, 18, 9] }}
-              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-            />
-          </svg>
+          </div>
         </motion.div>
       </section>
 
