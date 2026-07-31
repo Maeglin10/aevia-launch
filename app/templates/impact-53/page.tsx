@@ -17,12 +17,82 @@ import {
   SectionLabel,
   SectionHeading,
 } from "./shared";
+import { DWELL, useSlides, BentoCascade, SlideIndex, HairlineArrows } from "@/lib/templates/hero-kit-2";
+
+/* BentoCascade in a template that ships zero photography: the tiles are
+   typographic — discipline, index, a red verb — in the studio's own
+   black/white/red. The cascade empties and refills them per discipline. */
+const HERO_DISCIPLINES = [
+  { verb: "BREAK.", field: "BRAND\nIDENTITY", mono: "research / naming / systems", n: "01" },
+  { verb: "BUILD.", field: "DIGITAL\nPRODUCT", mono: "web / app / commerce", n: "02" },
+  { verb: "SHIP.", field: "MOTION &\nFRONT-END", mono: "webgl / rive / belts", n: "03" },
+];
 
 
 // Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
+function HeroBento({ i }: { i: number }) {
+  const d = HERO_DISCIPLINES[i];
+  const cell = (bg: string, color: string, pad = "1.1rem") => ({
+    background: bg, color, padding: pad, height: "100%", display: "flex",
+    flexDirection: "column" as const, justifyContent: "flex-end" as const,
+  });
+  return (
+    <BentoCascade
+      index={i}
+      style={{
+        display: "grid",
+        gridTemplateColumns: "repeat(3, minmax(0,1fr))",
+        gridTemplateRows: "repeat(3, minmax(72px, 1fr))",
+        gap: "6px",
+        width: "100%",
+        maxWidth: 440,
+        aspectRatio: "1 / 1",
+      }}
+      tiles={[
+        {
+          area: { gridColumn: "1 / span 2", gridRow: "1 / span 2" },
+          node: (
+            <div style={cell("rgba(255,255,255,0.06)", C.white, "1.3rem")}>
+              <span style={{ fontFamily: FONT_SYNE, fontWeight: 800, fontSize: "clamp(1.6rem,2.6vw,2.4rem)", lineHeight: 0.95, whiteSpace: "pre-line", letterSpacing: "-0.03em" }}>
+                {d.field}
+              </span>
+            </div>
+          ),
+        },
+        {
+          area: { gridColumn: "3", gridRow: "1" },
+          node: (
+            <div style={cell("transparent", "rgba(255,255,255,0.35)")}>
+              <span style={{ fontFamily: FONT_MONO, fontSize: "1.6rem" }}>{d.n}</span>
+            </div>
+          ),
+        },
+        {
+          area: { gridColumn: "3", gridRow: "2 / span 2" },
+          node: (
+            <div style={{ ...cell(C.red, "#000"), justifyContent: "center" }}>
+              <span style={{ fontFamily: FONT_SYNE, fontWeight: 800, fontSize: "clamp(1rem,1.6vw,1.4rem)", letterSpacing: "-0.02em", writingMode: "vertical-rl" }}>
+                {d.verb}
+              </span>
+            </div>
+          ),
+        },
+        {
+          area: { gridColumn: "1 / span 2", gridRow: "3" },
+          node: (
+            <div style={{ ...cell("transparent", "rgba(255,255,255,0.45)"), border: "1px solid rgba(255,255,255,0.14)" }}>
+              <span style={{ fontFamily: FONT_MONO, fontSize: "0.72rem", letterSpacing: "0.08em" }}>{d.mono}</span>
+            </div>
+          ),
+        },
+      ]}
+    />
+  );
+}
+
 export default function Impact53Page() {
   const [session, setSession] = useState<{
     formData?: {
@@ -55,6 +125,7 @@ export default function Impact53Page() {
 
   const containerRef = useRef<HTMLDivElement>(null);
   const heroRef = useRef<HTMLDivElement>(null);
+  const { i: heroI, next: heroNext, prev: heroPrev } = useSlides(HERO_DISCIPLINES.length, DWELL.normal);
 
   const { scrollYProgress } = useScroll({ target: heroRef });
   const heroY = useTransform(scrollYProgress, [0, 1], [0, 200]);
@@ -132,8 +203,10 @@ return (
         }}
       >
         <motion.div
-          style={{ y: heroY, opacity: heroOpacity, textAlign: "left", zIndex: 10, width: "100%", maxWidth: "1280px" }}
+          className="i53-hero-grid"
+          style={{ y: heroY, opacity: heroOpacity, textAlign: "left", zIndex: 10, width: "100%", maxWidth: "1280px", display: "grid", gridTemplateColumns: "minmax(0,1.2fr) minmax(0,1fr)", gap: "clamp(2rem,5vw,5rem)", alignItems: "center" }}
         >
+          <div>
           <div style={{ marginBottom: "clamp(1rem,3vw,2rem)" }}>
             <HeroWordReveal />
           </div>
@@ -163,7 +236,29 @@ return (
           >
             <MagneticCTA />
           </motion.div>
+          </div>
+
+          {/* the cascading bento, with its own hands */}
+          <motion.div
+            className="i53-hero-bento"
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.25, duration: 0.7 }}
+            style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: "0.9rem" }}
+          >
+            <HeroBento i={heroI} />
+            <div style={{ display: "flex", alignItems: "center", gap: "0.8rem" }}>
+              <SlideIndex i={heroI} total={HERO_DISCIPLINES.length} variant="fraction" className="" color="rgba(255,255,255,0.5)" />
+              <HairlineArrows onPrev={heroPrev} onNext={heroNext} color="rgba(255,255,255,0.6)" labels={{ prev: "Previous discipline", next: "Next discipline" }} />
+            </div>
+          </motion.div>
         </motion.div>
+
+        {/* two columns collapse under lg; the bento follows the title */}
+        <style>{`@media (max-width: 1023px) {
+          .i53-hero-grid { grid-template-columns: minmax(0,1fr) !important; }
+          .i53-hero-bento { align-items: flex-start !important; }
+        }`}</style>
       </section>
 
       {/* ── ROTATING MARQUEE BELT ────────────────────────────────────────── */}

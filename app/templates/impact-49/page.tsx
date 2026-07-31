@@ -7,6 +7,12 @@ import {
   useScroll,
   useTransform,
 } from "framer-motion";
+import { useSlides, HeldSwap } from "@/lib/templates/hero-kit-2";
+
+/* No verified imagery exists for this template and a photo backdrop is not
+   the platform's voice anyway — instead the subject rotates inside the
+   headline on the kit's held-emptiness beat. */
+const HERO_SUBJECTS = ["vous voulez", "le design", "le code", "la data", "les langues"];
 import Link from "next/link";
 import {
   Search,
@@ -68,6 +74,7 @@ export default function Impact49Page() {
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const [searchQuery, setSearchQuery] = useState("");
+  const { i: heroI } = useSlides(HERO_SUBJECTS.length, 3400);
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const [activePath, setActivePath] = useState("sp1");
 
@@ -166,8 +173,10 @@ return (
           <Reveal delay={0.1}>
             <h1 className="text-4xl sm:text-5xl md:text-7xl font-extrabold leading-[1.1] md:leading-[1.05] tracking-tight mb-4 md:mb-6 break-words">{c?.heroHeadline ?? <>
               Apprenez ce que{" "}
-              <span className="relative">
-                <span className="text-[var(--brand,#6366F1)]">vous voulez</span>
+              <span className="relative inline-block align-bottom" style={{ minWidth: "5.2em" }}>
+                <HeldSwap index={heroI} tilt={5} className="inline-block">
+                  <span className="text-[var(--brand,#6366F1)] whitespace-nowrap">{HERO_SUBJECTS[heroI]}</span>
+                </HeldSwap>
                 <motion.div
                   initial={{ scaleX: 0 }}
                   animate={{ scaleX: 1 }}

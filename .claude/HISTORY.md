@@ -133,3 +133,30 @@ Thèmes livrés : 168 (Éclat/fashion), 46 (Dumont/law), 192 (Quantum/tech), 215
 - **Images non vérifiables ici** : le proxy de l'environnement bloque `images.unsplash.com` (403), Chromium compris. Vérification statique faite à la place — les 315 templates utilisent le format `images.unsplash.com/photo-ID?w=…&q=…`, aucun `source.unsplash.com`. Le rendu réel (cadrage, contraste texte/image, hero bien visible) reste à contrôler en prod.
 - **Compromis assumé** : sur les sections à fort padding, les stats passent en 1 colonne sur téléphone plutôt qu'en 2×2, pour éviter les coupures de mot.
 - **Non déployé** : `push GitHub ≠ live`. `launch.aevia.services` est également bloqué depuis ce conteneur, donc un déploiement n'aurait pas pu être vérifié par `curl`.
+
+---
+
+## 2026-07-31 — Session #6 : Pose des héros premium (lots 1 et 2 du plan)
+
+**Fait :** `e3404e16` `7aea78a8` `242e0c95` `cc488c2c` `1ffcbe61` (+ docs)
+- **Lot 1 (les six qui rapportent le plus)** : impact-149 (spa, split bakery + pastilles), impact-147 (cyber-légal, WordFlight + ExpandFrame, faux terminal retiré), impact-248 / impact-243 (ostéo / médecin, château sur les trois axes que chaque page enseigne déjà), impact-50 (psy, château 2 vues dwell slow), impact-84 (clinique, château + plaque Retint).
+- **Lot 2 (le plus faible de chaque métier)** : impact-213 (GhostSolid, sans photo), impact-53 (BentoCascade typographique), impact-108 (WordFlight comptable), impact-47 (HeldSwap bouquet en médaillon), impact-90 (split bakery, pains du catalogue), impact-120 (HeldSwap sur l'orbe CSS reteinte par parfum), impact-83 (LineMask + Retint, gemme synchronisée), impact-266 (château + vignette lieu suivant), impact-49 (matière tournante en HeldSwap dans le titre), impact-309 (BlurThrough plein cadre par style d'encre), impact-209 (BlurThrough + Retint par prestation), impact-131 (l'arche du lab vin, recolorée crème/bordeaux).
+- Contrôles : tsc à la ligne de base (1942) après chaque groupe, `npm run build` vert, captures 1440×900 et 390×844 des 18 héros examinées, ancres des CTA vérifiées.
+
+**Comment :**
+- Mécaniques importées de `lib/templates/hero-kit-2.tsx` uniquement — timings intouchés (T.single 0.7s, DWELL.slow 5.6s, stagger 55ms). Textes réécrits dans la voix de chaque thème, jamais celui des labs ; slides construites sur les données DÉJÀ présentes dans chaque template (cuvées, pains, axes de soin, missions).
+- **Images : aucune URL nouvelle.** Le proxy de cet environnement bloque unsplash/pexels, donc uniquement des URLs déjà présentes dans le repo et vérifiées au merge précédent (pour les bouteilles du 131 : paramètres d'URL identiques au lab). Templates sans photo → mécaniques sans photo (GhostSolid, bento typographique, orbe CSS, mot tournant) plutôt que des images posées à l'aveugle.
+- Édition par scripts python (chaînes exactes), tsc après chaque groupe, commit tous les 3-4 thèmes.
+
+**Pourquoi :** go utilisateur sur `docs/PLAN_HEROS_PREMIUM.md` — poser les mécaniques mesurées sur Slider Revolution sur les thèmes que l'audit de vendabilité désigne.
+
+**Erreurs commises :**
+- **Insertion regex au milieu d'un import multi-lignes** (impact-49) : `^import .*$` matche aussi la ligne `import {` seule → 5 erreurs de syntaxe. Fix : ancrer sur `} from "framer-motion";`. Leçon : pour insérer après les imports, ancrer sur la fin d'un bloc connu, pas sur « le dernier import ».
+- **Hook dupliqué** (impact-84) : le tour interrompu avait déjà appliqué une partie du patch ; le relancer a inséré useSlides deux fois (+6 erreurs tsc). Vérifier l'état du fichier avant de rejouer un patch après interruption.
+- **Splice trop large** (impact-131) : le remplacement du bloc titre a emporté les CTA — récupérés depuis `git show HEAD:`. Sur un gros bloc, préférer plusieurs remplacements étroits.
+- **Le tableau de l'audit hérite du registre menteur** : impact-109 « conseil » est un site audio, impact-169 « restaurant » un magazine, impact-72 « garage » un SaaS. Vérifié chaque cible restante avant d'y toucher (grep métier) ; mécanique posée sur le vrai plus faible avéré quand il était connu (108 pour le conseil), sinon non traité et documenté.
+
+**Restes à faire :**
+- impact-169 (restaurant) et impact-72 (garage) : cibles réelles à re-déterminer en refaisant le scoring sur les pages, pas le registre.
+- Lot 3 (reconversion des 49 templates SaaS) : chantier de contenu distinct, non entamé.
+- Vérification du rendu photo réel en prod (proxy bloquant ici), et déploiement Vercel manuel.

@@ -43,6 +43,16 @@ import {
   Zap,
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
+import { DWELL, useSlides, BlurThrough, SlideIndex, HairlineArrows } from '@/lib/templates/hero-kit-2';
+
+/* BlurThrough full-frame: the photograph gaussian-blurs out and the next
+   blurs in, one style of ink at a time. The three photos were already in
+   this file (hero / about / special), verified at the merge. */
+const HERO_STYLES = [
+  { k: 'Fineline', d: 'Traits fins, précision millimétrée', img: 'https://images.pexels.com/photos/5088473/pexels-photo-5088473.jpeg?auto=compress&cs=tinysrgb&w=1600' },
+  { k: 'Aquarelle', d: 'Couleurs diluées, contours libres', img: 'https://images.unsplash.com/photo-1542727365-19732a80dcfd?q=80&w=1600&auto=format&fit=crop' },
+  { k: 'Botanique', d: 'Fleurs et feuillages sur mesure', img: 'https://images.unsplash.com/photo-1611501275019-9b5cda994e8d?q=80&w=1600&auto=format&fit=crop' },
+];
 
 // Hoisted above the design tokens: several templates read `brand` in a
 // module-level const — declaring it lower caused a TDZ ReferenceError (500).
@@ -106,10 +116,10 @@ const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 const PHOTO = {
   hero: "https://images.pexels.com/photos/5088473/pexels-photo-5088473.jpeg?auto=compress&cs=tinysrgb&w=1600",
-  about: "https://images.unsplash.com/photo-1598257006458-087169a1f08d?q=80&w=1600&auto=format&fit=crop",
+  about: "https://images.unsplash.com/photo-1542727365-19732a80dcfd?q=80&w=1600&auto=format&fit=crop",
   special: "https://images.unsplash.com/photo-1611501275019-9b5cda994e8d?q=80&w=1600&auto=format&fit=crop",
-  gallery1: "https://images.unsplash.com/photo-1598257006458-087169a1f08d?q=80&w=800&auto=format&fit=crop",
-  gallery2: "https://images.unsplash.com/photo-1598257006458-087169a1f08d?q=80&w=800&auto=format&fit=crop",
+  gallery1: "https://images.unsplash.com/photo-1542727365-19732a80dcfd?q=80&w=800&auto=format&fit=crop",
+  gallery2: "https://images.unsplash.com/photo-1542727365-19732a80dcfd?q=80&w=800&auto=format&fit=crop",
   gallery3: "https://images.unsplash.com/photo-1611501275019-9b5cda994e8d?q=80&w=800&auto=format&fit=crop",
   gallery4: "https://images.pexels.com/photos/5088473/pexels-photo-5088473.jpeg?auto=compress&cs=tinysrgb&w=800"
 } as const;
@@ -376,6 +386,7 @@ export default function Page() {
     offset: ['start start', 'end start'],
   });
   const heroScale = useTransform(heroProgress, [0, 1], [1, 1.08]);
+  const { i: heroI, next: heroNext, prev: heroPrev } = useSlides(HERO_STYLES.length, DWELL.slow);
   const heroY = useTransform(heroProgress, [0, 1], ['0%', '8%']);
   const heroOpacity = useTransform(heroProgress, [0, 0.8], [1, 0]);
 
@@ -575,11 +586,14 @@ return (
           y: heroY,
           opacity: heroOpacity
         }}>
-          <img 
-            src={PHOTO.hero} 
-            alt="Hero image showing Encre Délicate core business" 
-            style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
-          />
+          <BlurThrough index={heroI} amount={14} className="i309-blur-frame">
+            <img
+              src={fd?.photoUrls?.[heroI] || HERO_STYLES[heroI].img}
+              alt={`Style ${HERO_STYLES[heroI].k} — Encre Délicate`}
+              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+            />
+          </BlurThrough>
+          <style>{`.i309-blur-frame { position: absolute; inset: 0; } .i309-blur-frame > * { height: 100%; }`}</style>
           <div style={{
             position: 'absolute',
             inset: 0,
@@ -645,6 +659,19 @@ return (
                   Portfolio
                 </button>
               </a>
+            </div>
+          </Reveal>
+
+          <Reveal delay={0.7}>
+            <div style={{ marginTop: 28, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 16, flexWrap: 'wrap' }}>
+              <SlideIndex i={heroI} total={HERO_STYLES.length} variant="fraction" className="" color="rgba(255,255,255,0.6)" />
+              <BlurThrough index={heroI} amount={8}>
+                <span style={{ fontFamily: SERIF, fontSize: 16, color: '#fff' }}>
+                  {HERO_STYLES[heroI].k}
+                  <span style={{ color: 'rgba(255,255,255,0.6)', fontStyle: 'italic' }}> — {HERO_STYLES[heroI].d}</span>
+                </span>
+              </BlurThrough>
+              <HairlineArrows onPrev={heroPrev} onNext={heroNext} color="rgba(255,255,255,0.7)" labels={{ prev: 'Style précédent', next: 'Style suivant' }} />
             </div>
           </Reveal>
         </div>

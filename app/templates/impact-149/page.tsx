@@ -7,6 +7,143 @@ import Link from "next/link"
 import { Wind, ArrowRight, Menu, Star, Heart, Sun, Waves, Flower2, Moon, ChevronRight, Play, Sparkles } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { resolveList } from "@/lib/templates/resolveList"
+import {
+  DWELL,
+  useSlides,
+  AnchoredBackdrop,
+  BlurThrough,
+  SlideIndex,
+  HairlineArrows,
+} from "@/lib/templates/hero-kit-2"
+
+/* The hero carried no photography at all — a blurred circle behind centred
+   type — which is what made a €11,200 retreat look like a free template.
+   Split screen from the bakery lab: the sanctuary is shown, one retreat at a
+   time, and the swatches let a visitor choose rather than wait. */
+const HERO_SLIDES = [
+  {
+    n: "Elemental",
+    d: "Forest bathing, breathwork, cold immersion. Three days to reset at cellular level.",
+    meta: "3 days · from €2,400",
+    c: "#7d8f7a",
+    img: "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=1400&q=80",
+  },
+  {
+    n: "Deep Stillness",
+    d: "Full sensory withdrawal, never more than four guests. Built for people who cannot switch off alone.",
+    meta: "7 days · from €5,800",
+    c: "#5a6b7d",
+    img: "https://images.unsplash.com/photo-1545205597-3d9d02c29597?w=1400&q=80",
+  },
+  {
+    n: "Inner Spring",
+    d: "The complete Aether passage. Private chef, personalised ceremony, two months of follow-up.",
+    meta: "14 days · from €11,200",
+    c: "#9a8778",
+    img: "https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=1400&q=80",
+  },
+]
+
+function AetherHero({ headline, subline }: { headline?: React.ReactNode; subline?: React.ReactNode }) {
+  const { i, go, next, prev } = useSlides(HERO_SLIDES.length, DWELL.slow)
+  const s = HERO_SLIDES[i]
+  return (
+    <section id="hero" className="relative min-h-[92svh] md:min-h-dvh overflow-hidden bg-[#faf9f6] text-[#1a1a1a]">
+      <div className="h-full grid md:grid-cols-2 min-h-[92svh] md:min-h-dvh">
+        {/* the photograph half */}
+        <div className="relative overflow-hidden min-h-[42svh] md:min-h-0 order-1 md:order-none">
+          <AnchoredBackdrop images={HERO_SLIDES.map((x) => x.img)} index={i} overlay={0.14} />
+          {/* the site nav is dark type over this half — a cream veil, not a
+              dark scrim, keeps it readable over any photograph */}
+          <div
+            aria-hidden
+            className="absolute inset-x-0 top-0 h-44 z-[5]"
+            style={{ background: "linear-gradient(to bottom, rgba(250,249,246,0.92), rgba(250,249,246,0))" }}
+          />
+          <div
+            className="absolute left-4 bottom-8 z-10 text-[10px] uppercase tracking-[0.3em] text-white/70 hidden md:block"
+            style={{ writingMode: "vertical-rl", transform: "rotate(180deg)" }}
+          >
+            Switzerland · Iceland · Japan
+          </div>
+        </div>
+
+        {/* the type half */}
+        <div className="relative flex flex-col justify-center px-6 md:px-14 py-16 md:py-20 pt-28 md:pt-20">
+          <SlideIndex i={i} total={HERO_SLIDES.length} variant="fraction" className="text-[15px] mb-8 text-black/40" />
+          <h1
+            className="uppercase"
+            style={{
+              fontFamily: "serif",
+              fontSize: "clamp(40px, 5.4vw, 84px)",
+              lineHeight: 0.92,
+              fontWeight: 300,
+              letterSpacing: "-0.02em",
+            }}
+          >
+            {headline ?? (
+              <>
+                Pure <br />
+                <span className="italic lowercase">presence.</span>
+              </>
+            )}
+          </h1>
+          <p className="mt-7 max-w-[46ch] text-[15px] leading-relaxed text-black/45 italic">
+            {subline ?? "A high-fidelity sanctuary for physical and spiritual restoration, on the rhythm of the self."}
+          </p>
+
+          <BlurThrough index={i} amount={10}>
+            <div className="mt-9 pt-7 border-t border-black/10">
+              <div className="text-[10px] font-bold uppercase tracking-[0.34em] text-black/30">
+                {s.meta}
+              </div>
+              <div className="mt-2.5" style={{ fontFamily: "serif", fontSize: 26, fontWeight: 300 }}>
+                {s.n}
+              </div>
+              <p className="mt-2 max-w-[46ch] text-sm leading-relaxed text-black/45">{s.d}</p>
+            </div>
+          </BlurThrough>
+
+          <a
+            href="#contact"
+            className="mt-9 self-start min-h-[46px] px-10 grid place-items-center rounded-full text-[10px] font-bold uppercase tracking-[0.28em] text-white transition-colors"
+            style={{ background: s.c }}
+          >
+            Enquire
+          </a>
+
+          <div className="mt-9 flex items-center justify-between gap-6">
+            <div className="flex gap-2">
+              {HERO_SLIDES.map((x, n) => (
+                <button
+                  key={x.n}
+                  type="button"
+                  onClick={() => go(n)}
+                  aria-label={x.n}
+                  aria-current={n === i}
+                  className="grid place-items-center cursor-pointer"
+                  style={{ width: 44, height: 44, background: "none", border: "none", padding: 0 }}
+                >
+                  <motion.span
+                    className="block rounded-full"
+                    style={{ background: x.c }}
+                    animate={{
+                      width: n === i ? 26 : 16,
+                      height: n === i ? 26 : 16,
+                      opacity: n === i ? 1 : 0.35,
+                    }}
+                    transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
+                  />
+                </button>
+              ))}
+            </div>
+            <HairlineArrows onPrev={prev} onNext={next} color="#1a1a1a" className="opacity-50" />
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
 
 function Reveal({ children, delay = 0, y = 30 }: { children: React.ReactNode; delay?: number; y?: number }) {
   const ref = useRef(null)
@@ -18,17 +155,6 @@ function Reveal({ children, delay = 0, y = 30 }: { children: React.ReactNode; de
     </motion.div>
   )
 }
-
-function BreathingCircle() {
-  return (
-    <motion.div 
-      animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.6, 0.3] }}
-      transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-      className="w-[600px] h-[600px] bg-blue-100/30 rounded-full blur-[100px]"
-    />
-  )
-}
-
 
 const RETREATS_DEMO = [
   { name: "Elemental", duration: "3 days", guests: "Solo or couple", price: "€2,400", icon: Sun, desc: "Forest bathing, breathwork, cold immersion. A reset at cellular level.", includes: ["Daily thermal circuit", "2 treatments", "Plant-based cuisine"] },
@@ -158,39 +284,7 @@ export default function AetherWellnessPage() {
 
       <main>
         {/* ── HERO ──────────────────── */}
-        <section id="hero" className="relative h-dvh flex items-center justify-center overflow-hidden pt-24 md:pt-0">
-          <div className="absolute inset-0 flex items-center justify-center">
-             <BreathingCircle />
-          </div>
-
-          <div className="relative z-10 max-w-[1200px] mx-auto px-6 text-center">
-            <Reveal delay={0.2} y={70}>
-              <h1 className="text-7xl md:text-[10rem] font-light tracking-tighter leading-[0.85] text-[#1a1a1a] mb-12 uppercase" style={{ fontFamily: "serif" }}>{c?.heroHeadline ?? <>
-                Pure <br/> <span className="italic">Presence.</span>
-              </>}</h1>
-            </Reveal>
-            <Reveal delay={0.4}>
-              <div className="flex flex-col items-center justify-center gap-12">
-                <p className="text-xl text-black/40 font-light max-w-xl leading-relaxed italic">{c?.heroSubline ?? fd?.tagline ?? <>
-                  A high-fidelity sanctuary for spiritual and physical restoration. Reconnect with the rhythm of the self through artisanal wellness.
-                </>}</p>
-                <div className="flex flex-wrap justify-center gap-10">
-                  <button className="px-16 py-6 bg-[#1a1a1a] text-white font-bold uppercase tracking-widest text-[10px] rounded-full hover:px-20 transition-all duration-700">
-                    Discover The Sanctuary
-                  </button>
-                  <button className="px-16 py-6 border border-black/10 text-black/60 font-bold uppercase tracking-widest text-[10px] hover:bg-black/5 transition-all flex items-center gap-4 rounded-full">
-                    <Play className="w-3 h-3 fill-current" /> The Experience
-                  </button>
-                </div>
-              </div>
-            </Reveal>
-          </div>
-          
-          <div className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4">
-             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-black/20">The First Breath</div>
-             <div className="w-[1px] h-12 bg-gradient-to-b from-black/20 to-transparent" />
-          </div>
-        </section>
+        <AetherHero headline={c?.heroHeadline} subline={c?.heroSubline ?? fd?.tagline} />
 
         {/* ── PILLARS ───────────────── */}
         <section className="py-40 bg-white border-y border-black/5">

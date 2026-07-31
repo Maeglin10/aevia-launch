@@ -4,6 +4,14 @@
 import React, {useRef, useState, useEffect} from 'react'
 import { motion, useScroll, useTransform, useInView } from "framer-motion"
 import { Phone, Mail, MapPin, Clock, Star, CheckCircle, ArrowRight, Calendar } from "lucide-react"
+import {
+  DWELL,
+  useSlides,
+  AnchoredBackdrop,
+  BlurThrough,
+  SlideIndex,
+  HairlineArrows,
+} from "@/lib/templates/hero-kit-2"
 
 // Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
 // used to derive companion shades from the client's brand color.
@@ -80,6 +88,23 @@ const AVIS = [
   { texte: "Ma fille de 15 ans traversait une période très difficile. L'approche avec les adolescents est remarquable — elle repart de chaque séance avec quelque chose de concret. Merci.", auteur: "Famille Martin", detail: "Thérapie adolescente" },
 ]
 
+/* Château mechanic, two views: the practice, then the practitioner. Both
+   photographs were already in this file and verified at the merge — no third
+   image was risked unseen. The headline never moves; only the photograph
+   dissolves, on the slow beat that suits the room. */
+const HERO_VIEWS = [
+  {
+    k: "Le cabinet",
+    d: "Une pièce calme au coeur de Montpellier, pensée pour que la parole puisse se poser.",
+    img: "https://images.pexels.com/photos/4672717/pexels-photo-4672717.jpeg?auto=compress&cs=tinysrgb&w=1920",
+  },
+  {
+    k: "La praticienne",
+    d: "Psychologue clinicienne, formée aux thérapies fondées sur les preuves — TCC, EMDR, pleine conscience.",
+    img: "https://images.pexels.com/photos/3958409/pexels-photo-3958409.jpeg?auto=compress&cs=tinysrgb&w=1920",
+  },
+]
+
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const ref = useRef(null)
   const inView = useInView(ref, { once: true, margin: "-60px" })
@@ -134,6 +159,7 @@ export default function CabinetMoreauPage() {
   }
 
   const heroRef = useRef<HTMLElement>(null)
+  const { i: heroI, next: heroNext, prev: heroPrev } = useSlides(HERO_VIEWS.length, DWELL.slow)
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] })
@@ -264,13 +290,20 @@ export default function CabinetMoreauPage() {
         @media (max-width: 640px) {
           .imx50-hero { align-items: flex-start !important; height: auto !important; min-height: 100dvh !important; }
           .imx50-hero-content { padding-top: 96px !important; }
+          /* the slide band shares the top-right corner with the headline on a
+             phone — the dissolve still plays, the caption yields */
+          .imx50-slideband { display: none !important; }
         }
       `}</style>
 
       {/* Hero */}
       <section ref={heroRef} className="imx50-hero" style={{ height: "100dvh", minHeight: "560px", position: "relative", display: "flex", alignItems: "flex-end", overflow: "hidden" }}>
         <motion.div style={{ y: heroY, position: "absolute", inset: 0 }}>
-          <img src={photo(0, "https://images.pexels.com/photos/4672717/pexels-photo-4672717.jpeg?auto=compress&cs=tinysrgb&w=1920")} alt="Cabinet psychologue Laurence Moreau Montpellier" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+          <AnchoredBackdrop
+            images={HERO_VIEWS.map((v, n) => fd?.photoUrls?.[n] || v.img)}
+            index={heroI}
+            overlay={0}
+          />
         </motion.div>
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(15,10,5,0.90) 0%, rgba(15,10,5,0.38) 45%, rgba(15,10,5,0.05) 100%)" }} />
         <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to right, ${C.accent}18 0%, transparent 55%)` }} />
@@ -296,12 +329,20 @@ export default function CabinetMoreauPage() {
           </motion.div>
         </motion.div>
 
-        <motion.div animate={{ y: [0, 8, 0] }} transition={{ duration: 1.5, repeat: Infinity }}
-          style={{ position: "absolute", bottom: 32, left: "50%", transform: "translateX(-50%)", zIndex: 2 }}>
-          <div style={{ width: 24, height: 36, border: "2px solid rgba(255,255,255,0.35)", borderRadius: 12, display: "flex", justifyContent: "center", paddingTop: 6 }}>
-            <motion.div animate={{ y: [0, 10, 0] }} transition={{ duration: 1.5, repeat: Infinity }} style={{width: 6, height: 6, borderRadius: "50%", background: brand ?? 'var(--brand,#9fd4c9)' }} />
-          </div>
-        </motion.div>
+        {/* Bandeau de slide : la vue en cours + flèches. Posé en haut à
+            droite pour ne pas toucher au contenu bas-aligné du hero. */}
+        <div className="imx50-slideband" style={{ position: "absolute", top: 96, right: "clamp(20px,4vw,56px)", zIndex: 2, display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 10, textAlign: "right" }}>
+          <SlideIndex i={heroI} total={HERO_VIEWS.length} variant="fraction" className="" color="rgba(255,255,255,0.75)" />
+          <BlurThrough index={heroI} amount={9}>
+            <div style={{ fontSize: 11, letterSpacing: "0.3em", textTransform: "uppercase", color: "rgba(255,255,255,0.8)", fontWeight: 600 }}>
+              {HERO_VIEWS[heroI].k}
+            </div>
+            <p style={{ fontSize: 12.5, lineHeight: 1.6, color: "rgba(255,255,255,0.55)", maxWidth: "34ch", margin: "6px 0 0" }}>
+              {HERO_VIEWS[heroI].d}
+            </p>
+          </BlurThrough>
+          <HairlineArrows onPrev={heroPrev} onNext={heroNext} color="rgba(255,255,255,0.7)" labels={{ prev: "Vue précédente", next: "Vue suivante" }} />
+        </div>
       </section>
 
       {/* Stats */}

@@ -6,6 +6,98 @@ import Link from "next/link"
 import { Shield, ArrowRight, Menu, Lock, Zap, Activity, Cpu, Globe, Terminal, ChevronRight, Eye, Radar } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { resolveList } from "@/lib/templates/resolveList"
+import {
+  DWELL,
+  useSlides,
+  WordFlight,
+  ExpandFrame,
+  SlideIndex,
+  HairlineArrows,
+} from "@/lib/templates/hero-kit-2"
+
+/* The old hero was a fake terminal typing to itself — a gadget, and the one
+   part of the page that looked free. WordFlight + ExpandFrame from the law
+   lab instead: the headline assembles word by word, one practice at a time,
+   in the firm's own voice. */
+const HERO_CASES = [
+  {
+    k: "Asset Recovery",
+    t: "Silent justice, executed across twelve jurisdictions",
+    img: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=1400&q=80",
+  },
+  {
+    k: "Cyber-Legal Defense",
+    t: "Breaches end in courtrooms, not in headlines",
+    img: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=1400&q=80",
+  },
+  {
+    k: "Intelligence",
+    t: "We watch the adversary so counsel moves first",
+    img: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=1400&q=80",
+  },
+]
+
+function VanguardHero({ headline, subline }: { headline?: string; subline?: React.ReactNode }) {
+  const { i, next, prev } = useSlides(HERO_CASES.length, DWELL.normal)
+  const s = HERO_CASES[i]
+  return (
+    <section id="hero" className="relative min-h-dvh overflow-hidden bg-black text-white">
+      <div className="min-h-dvh grid lg:grid-cols-[1.05fr_1fr]">
+        <div className="relative z-10 flex flex-col justify-center px-6 md:px-14 pt-32 pb-16 lg:py-20">
+          <motion.div
+            key={`k-${i}`}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+            className="text-[10px] font-bold uppercase tracking-[0.42em] mb-8 text-[var(--brand,#00ff41)]"
+          >
+            {s.k}
+          </motion.div>
+
+          <h1
+            className="max-w-[16ch] font-black uppercase italic tracking-tighter"
+            style={{ fontSize: "clamp(30px, 4.6vw, 66px)", lineHeight: 1.04 }}
+          >
+            <WordFlight text={headline ?? s.t} keyed={i} />
+          </h1>
+
+          <motion.p
+            key={`p-${i}`}
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: 0.34 }}
+            className="mt-8 max-w-[52ch] text-[15px] leading-relaxed text-white/40 uppercase italic font-light"
+          >
+            {subline ?? "Global asset recovery and cyber-legal defense for the ultra-high-net-worth. We don't just protect; we neutralize."}
+          </motion.p>
+
+          <div className="mt-11 flex flex-wrap items-center gap-6">
+            <a
+              href="#offense"
+              className="min-h-[46px] px-9 grid place-items-center bg-white text-black font-black uppercase tracking-widest text-[10px] hover:bg-[var(--brand,#00ff41)] transition-all duration-700"
+            >
+              Request Strategy Brief
+            </a>
+            <SlideIndex i={i} total={HERO_CASES.length} variant="fraction" className="text-[13px] text-white/50" />
+          </div>
+        </div>
+
+        <div className="relative min-h-[38svh]">
+          <ExpandFrame src={s.img} alt="" index={i} className="h-full w-full" />
+          {/* seam gradient, so the type column never touches a bright pixel */}
+          <div className="absolute inset-0 bg-gradient-to-r from-black via-transparent to-transparent lg:block hidden" />
+          <div className="absolute inset-0 bg-black/35" aria-hidden />
+          <HairlineArrows
+            onPrev={prev}
+            onNext={next}
+            color="rgba(255,255,255,0.8)"
+            className="absolute bottom-6 right-6 z-10"
+          />
+        </div>
+      </div>
+    </section>
+  )
+}
 
 // Every navigation entry pointed at #hero, and the mobile sheet carried a
 // different set of labels again. Two of the four had no section at all.
@@ -150,79 +242,8 @@ export default function VanguardLegalPage() {
         <GridBackground />
         
         {/* ── HERO ──────────────────── */}
-        <section id="hero" className="relative min-h-dvh flex items-center pt-32 pb-20">
-          <div className="max-w-[1400px] mx-auto px-6 md:px-12 w-full">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
-              <div>
-                <Reveal delay={0.1} y={100}>
-                  <h1 className="text-6xl md:text-[10vw] font-black tracking-tighter leading-[0.8] uppercase mb-12 italic">{c?.heroHeadline ?? <>
-                    Silent <br/> <span className="text-white/20 not-italic">Justice.</span>
-                  </>}</h1>
-                </Reveal>
-                <Reveal delay={0.3}>
-                  <p className="text-xl text-white/40 font-light max-w-lg leading-relaxed mb-12 uppercase italic">{c?.heroSubline ?? fd?.tagline ?? <>
-                    Specializing in global asset recovery and cyber-legal defense for the ultra-high-net-worth. We don't just protect; we neutralize.
-                  </>}</p>
-                </Reveal>
-                <Reveal delay={0.4}>
-                  <div className="flex flex-col sm:flex-row gap-8">
-                    <button className="px-12 py-5 bg-white text-black font-black uppercase tracking-widest text-[10px] hover:bg-[var(--brand,#00ff41)] transition-all duration-700">
-                       Request Strategy Brief
-                    </button>
-                    <div className="text-[10px] font-bold uppercase tracking-widest text-white/40 flex items-center gap-4 group cursor-pointer">
-                       <Radar className="w-5 h-5 text-[var(--brand,#00ff41)]" /> View Threat Map <ArrowRight className="w-4 h-4 group-hover:translate-x-2 transition-all" />
-                    </div>
-                  </div>
-                </Reveal>
-              </div>
-              
-              <Reveal delay={0.5} y={0}>
-                 <div className="relative p-1 bg-gradient-to-br from-[var(--brand,#00ff41)]/20 to-transparent rounded-sm">
-                    <div className="bg-black/80 backdrop-blur-xl rounded-sm p-12 border border-white/5 relative overflow-hidden">
-                       <div className="flex justify-between mb-12 opacity-30 text-[10px]">
-                          <span>TERMINAL_SESSION: VANGUARD_001</span>
-                          <span className="flex items-center gap-2"><div className="w-2 h-2 rounded-full bg-[var(--brand,#00ff41)] animate-pulse" /> ONLINE</span>
-                       </div>
-                       <div className="space-y-6 mb-12 font-mono text-xs leading-relaxed text-[var(--brand,#00ff41)]/60">
-                          <p>&gt; scan initialized...</p>
-                          <p>&gt; identifying leak vectors...</p>
-                          <p className="text-white">&gt; 12 global nodes synchronized.</p>
-                          <p>&gt; defense protocol: ALPHA_ZERO active.</p>
-                       </div>
-                       <div className="h-40 border border-[var(--brand,#00ff41)]/10 flex items-center justify-center relative group">
-                          <div className="absolute inset-0 flex items-center justify-center opacity-[0.05]">
-                             <Shield className="w-32 h-32" />
-                          </div>
-                          <div className="text-[10px] font-bold uppercase tracking-[0.5em] text-white/60 animate-pulse">Monitoring...</div>
-                       </div>
-                    </div>
-                 </div>
-              </Reveal>
-            </div>
-          </div>
-        </section>
+        <VanguardHero headline={c?.heroHeadline} subline={c?.heroSubline ?? fd?.tagline} />
 
-        {/* ── STATS TICKER ──────────── */}
-        <section className="py-8 bg-[var(--brand,#00ff41)] text-black overflow-hidden flex items-center">
-           <motion.div 
-             animate={{ x: ["0%", "-50%"] }} 
-             transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-             className="flex gap-20 whitespace-nowrap text-3xl font-black uppercase italic"
-           >
-              {Array.from({ length: 8 }).map((_, i) => (
-                <div key={i} className="flex items-center gap-10">
-                   <span>Asset Recovery</span>
-                   <Lock className="w-8 h-8" />
-                   <span>Cyber Defense</span>
-                   <Lock className="w-8 h-8" />
-                   <span>Global Surveillance</span>
-                   <Lock className="w-8 h-8" />
-                </div>
-              ))}
-           </motion.div>
-        </section>
-
-        {/* ── THE OFFENSE ────────────── */}
         <section id="offense" className="py-40 bg-[#02040a]">
           <div className="max-w-[1400px] mx-auto px-6 md:px-12">
             <Reveal>
