@@ -3111,4 +3111,14 @@ export const TEMPLATES_REGISTRY: TemplateMetadata[] = [
     tier: "Premium",
     sections: 12,
   },
+  {
+    id: "impact-326",
+    name: "Vasseur & Delmas Notaires",
+    description: "Étude notariale premium — domaines d'intervention en balancier ArcSwap, émoluments réglementés, esthétique ivoire et laiton.",
+    category: "Finance",
+    style: "Light",
+    tags: ["Notaire", "Juridique", "Étude", "Premium"],
+    tier: "Premium",
+    sections: 8,
+  },
 ];
