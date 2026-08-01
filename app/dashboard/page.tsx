@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
-import { useRouter } from "next/navigation";
 
 // Launch CMS site list — moved here from the Inbox frontend (it never
 // belonged there, it is a Launch feature). Talks to the same Aevia
@@ -22,8 +21,22 @@ interface UserSite {
 const INBOX_ORIGIN =
   process.env.NEXT_PUBLIC_AEVIA_INBOX_URL || "https://inbox.aevia.services";
 
+// Aevia IDP (same SSO entry point as components/AeviaHeader.tsx). There is no
+// local /login route — connexion happens through the IDP's Google OAuth, which
+// returns to /auth/callback and then to `aevia_return_to`.
+const IDP_URL =
+  process.env.NEXT_PUBLIC_AEVIA_IDP_URL ||
+  "https://skybot-inbox-production.up.railway.app";
+
+/** Kick off the Aevia SSO login, returning to the current page afterwards. */
+function startLogin() {
+  if (typeof window === "undefined") return;
+  sessionStorage.setItem("aevia_return_to", window.location.pathname);
+  window.location.href =
+    `${IDP_URL}/api/v1/auth/google?return_to=${encodeURIComponent(window.location.origin)}`;
+}
+
 export default function DashboardPage() {
-  const router = useRouter();
   const [sites, setSites] = useState<UserSite[]>([]);
   const [loading, setLoading] = useState(true);
   const [creating, setCreating] = useState(false);
@@ -35,7 +48,7 @@ export default function DashboardPage() {
     try {
       const res = await fetch("/api/idp/user-sites", { credentials: "include" });
       if (res.status === 401) {
-        router.push("/login?next=/dashboard");
+        startLogin();
         return;
       }
       if (!res.ok) throw new Error(`Erreur serveur (${res.status})`);
@@ -46,7 +59,7 @@ export default function DashboardPage() {
     } finally {
       setLoading(false);
     }
-  }, [router]);
+  }, []);
 
   useEffect(() => {
     void loadSites();
