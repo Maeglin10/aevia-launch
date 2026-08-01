@@ -217,7 +217,7 @@ export default function LignesEtBoisPage() {
       )}
 
       {/* ── HERO — ExpandFrame plein cadre ──────────────────────────────── */}
-      <section id="hero" style={{ height: "100dvh", minHeight: 640, position: "relative", display: "flex", alignItems: "flex-end", overflow: "hidden" }}>
+      <section id="hero" style={{ height: "100dvh", minHeight: 640, position: "relative", display: "flex", alignItems: "flex-end", overflow: "hidden", background: C.bgDark }}>
         {/* Le plan qui devient la pièce : le projet courant se déploie depuis
             un cadre resserré jusqu'au plein écran. ExpandFrame code sa position
             en inline (relative) : on l'étire via un wrapper absolu, jamais en

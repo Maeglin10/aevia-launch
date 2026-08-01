@@ -164,7 +164,7 @@ export default function DuoPeinturesPage() {
       <InvertSweep dark={C.bgDark} light={C.bg} textDark="#f4f2ee" textLight={C.text} accent={C.accent} className="">
         {(invert) => (
           <div className="i362-hero" style={{ minHeight: "100dvh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", textAlign: "center", padding: "140px 24px 80px" }}>
-            <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Peinture & rénovation · Orléans</span>
+            <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: "inherit", opacity: 0.7 }}>Peinture & rénovation · Orléans</span>
             <h1 style={{ fontFamily: FONT, fontSize: "clamp(36px, 5.4vw, 68px)", lineHeight: 1.08, margin: "18px 0 20px", maxWidth: 820 }}>
               {c?.heroHeadline ?? (<>Avant, après :<br /><em style={{ color: C.accent }}>c'est tout notre métier.</em></>)}
             </h1>
