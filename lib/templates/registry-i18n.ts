@@ -1902,4 +1902,10 @@ export const TEMPLATE_I18N: Record<string, Record<'en' | 'es' | 'de' | 'pt', Tem
     de: { name: "B2B Seminar Hub", description: "E-Commerce-Ticketing-Website für B2B-Seminare/Konferenzen mit Anmeldungen, Paketen, Warenkorb und hellem Corporate-Stil." },
     pt: { name: "B2B Seminar Hub", description: "Site de e-commerce de venda de ingressos para seminários/conferências B2B com inscrições, pacotes, carrinho e estilo corporativo claro." },
   },
+  "impact-326": {
+    en: { name: "Vasseur & Delmas Notaries", description: "Premium notary office site — practice areas on an ArcSwap pendulum, state-regulated fees, ivory and brass aesthetic." },
+    es: { name: "Vasseur & Delmas Notarios", description: "Sitio premium de notaría — áreas de práctica en péndulo ArcSwap, aranceles regulados por el Estado, estética marfil y latón." },
+    de: { name: "Vasseur & Delmas Notare", description: "Premium-Website für ein Notariat — Tätigkeitsbereiche im ArcSwap-Pendel, staatlich geregelte Gebühren, Elfenbein-Messing-Ästhetik." },
+    pt: { name: "Vasseur & Delmas Notários", description: "Site premium de cartório notarial — áreas de atuação em pêndulo ArcSwap, emolumentos regulados pelo Estado, estética marfim e latão." },
+  },
 };

@@ -52,6 +52,7 @@ export const INDUSTRIES: IndustryInfo[] = [
     specialties: [
       { id: 'avocat',    label: 'Avocat',           labels: { en: 'Lawyer',      es: 'Abogado',   de: 'Anwalt',        pt: 'Advogado'    }, emoji: '⚖️', accentColor: '#1a3a5c' },
       { id: 'comptable', label: 'Expert-comptable', labels: { en: 'Accountant',  es: 'Contable',  de: 'Steuerberater', pt: 'Contabilista'}, emoji: '📊', accentColor: '#1c3f6e' },
+      { id: 'notaire',   label: 'Notaire',          labels: { en: 'Notary',      es: 'Notario',   de: 'Notar',         pt: 'Notário'     }, emoji: '📜', accentColor: '#8a6d3f' },
     ],
   },
   {
