@@ -44,7 +44,7 @@ préprod — je le signale plutôt que de le supposer « fait ») :
 | Contrôle | Résultat | Vérifié par |
 |---|---|---|
 | `npm run build` | ✅ exit 0 | build complet |
-| `tsc --noEmit` | ✅ 0 erreur | commande |
+| `tsc --noEmit` | ⚠️ **0 hors `app/templates`, mais 1942 erreurs dans les templates** (voir D6) | commande |
 | `vitest` | ✅ 20/20 | commande |
 | Routes clés (14) | ✅ 200 (sauf cas ci-dessous) | curl |
 | Templates `impact-01…315` | ✅ **315/315 → 200** | curl (boucle complète) |
@@ -53,6 +53,17 @@ préprod — je le signale plutôt que de le supposer « fait ») :
 | Erreurs JS console (échantillon) | ✅ aucune sauf `/checkout` (env) | Playwright |
 
 **Défauts trouvés :**
+
+- **⚠️ Correction de la ligne de base tsc (le premier « 0 erreur » était
+  trompeur).** Le vrai chiffre est **1942 erreurs TypeScript**, toutes dans
+  `app/templates/**`, **doublement masquées** : `tsconfig.json` **exclut
+  `app/templates`** *et* `next.config.ts:13` porte `typescript:
+  { ignoreBuildErrors: true }`. Mon premier `tsc` tournait avant tout build
+  (templates exclus → 0) ; dès que `.next/types` existe, les validateurs de
+  routes générés par Next ré-importent les pages et les 1942 erreurs
+  apparaissent. Le code hors-templates (lib, components, api, pages) est **100 %
+  propre (0 erreur)**. Runtime OK (JS ignore les types), mais **le filet de
+  sécurité de types est éteint sur tout le catalogue** → voir D6.
 
 - **`/login` n'existe pas (404) alors que le dashboard y redirige.**
   `app/dashboard/page.tsx:38` fait `router.push("/login?next=/dashboard")` sur un
@@ -161,8 +172,8 @@ préprod — je le signale plutôt que de le supposer « fait ») :
 
 **Défauts trouvés :**
 
-- **Secret commité : `FUNNEL_ADMIN_TOKEN`.** La valeur
-  `fnl_8918b1d36ab8924058f502befdb2b57c` est écrite en clair dans
+- **Secret commité : `FUNNEL_ADMIN_TOKEN`.** La valeur (préfixe `fnl_…`, rédigée
+  ici) était écrite en clair dans
   `.claude/CLAUDE.md:65` (fichier **suivi par git**). C'est exactement le token
   qui protège `GET /api/funnel` (stats). Si la variable d'env de prod porte cette
   même valeur, **les stats du funnel sont de fait publiques** pour quiconque lit
@@ -227,6 +238,7 @@ préprod — je le signale plutôt que de le supposer « fait ») :
 | D3 | `app/api/webhook/route.ts:53-59` | Table `SITE_PRICES` locale au webhook divergente de `lib/pricing.ts` (landing 599 vs 399) — n'affecte que l'e-mail admin, mais piège pour la maintenance. Source unique. | 1 h |
 | D4 | `tests/` | Couverture fine (4 fichiers, 0 test sur les routes API/checkout/webhook). Ajouter des tests sur le paiement et l'idempotence. | 1–2 j |
 | D5 | Balayage responsive | Seulement 16/315 pages mesurées. Industrialiser le balayage overflow + contraste. | 1 j |
+| D6 | `tsconfig.json` (`exclude: app/templates`) + `next.config.ts:13` (`ignoreBuildErrors`) | **1942 erreurs TS** dans les templates, doublement masquées → aucun filet de types sur le catalogue ; une régression de type passe en prod sans alerte. Réactiver le check par lots (par ex. `impact-3xx` d'abord) et retirer l'exclude à terme. | 2–4 j |
 
 ---
 
