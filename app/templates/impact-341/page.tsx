@@ -1,0 +1,373 @@
+"use client";
+// @ts-nocheck
+
+import React, { useState, useRef, useEffect } from "react";
+import { motion, useInView } from "framer-motion";
+import { ArrowRight, Car, CheckCircle, Clock, GraduationCap, Mail, MapPin, Phone, Star } from "lucide-react";
+import { resolveList } from "@/lib/templates/resolveList";
+import { LegalIdentity } from "@/app/templates/LegalIdentity";
+import { DWELL, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
+import { TrackingCollapse } from "@/lib/templates/hero-kit-3";
+
+/* Auto-école, 1re variante, pédagogie anti-stress. Signature : TrackingCollapse — le mot d'apprentissage dont l'interlettrage se resserre, comme une trajectoire qui se précise. Sans photographie. */
+
+let C: Record<string, string> = {
+  bg: "#f6f9fb",
+  bgSection: "#e9f0f5",
+  bgDark: "#12222e",
+  text: "#132029",
+  textMuted: "#54646e",
+  accent: "var(--brand,#20648c)",
+  accentDark: "#194e6d",
+  accentLight: "#dbeaf3",
+  hi: "#8cc0dd",
+  white: "#ffffff",
+  border: "#d9e4ea",
+};
+const FONT = "system-ui, -apple-system, 'Segoe UI', sans-serif";
+const FONT_BODY = FONT;
+
+const NAV = [{"l": "Formations", "h": "#services"}, {"l": "La méthode", "h": "#methode"}, {"l": "Formules", "h": "#tarifs"}, {"l": "Contact", "h": "#contact"}];
+const HERO = [{"k": "Permis B", "word": "sereinement.", "sub": "La boîte manuelle, sans les sueurs froides."}, {"k": "Conduite accompagnée", "word": "tôt.", "sub": "Dès 15 ans — 74 % de réussite nationale, la nôtre : 85 %."}, {"k": "Boîte automatique", "word": "simplement.", "sub": "13 h de minimum légal, examen identique."}];
+
+const SERVICES_DEMO = [{"titre": "Code de la route", "desc": "Salle connectée + application illimitée, séances thématiques animées par un moniteur — pas seulement des QCM en boucle.", "tag": "Code"}, {"titre": "Permis B manuel", "desc": "20 h de minimum légal, évaluation de départ offerte pour estimer VOTRE volume réel. Livret numérique suivi à chaque leçon.", "tag": "Permis B"}, {"titre": "Conduite accompagnée (AAC)", "desc": "Dès 15 ans : formation initiale, rendez-vous pédagogiques inclus, assurance guidée pour les parents.", "tag": "AAC"}, {"titre": "Boîte automatique", "desc": "13 h de minimum légal, passerelle possible vers la manuelle après 3 mois. Idéal reprise de confiance.", "tag": "Automatique"}, {"titre": "Perfectionnement & post-permis", "desc": "Autoroute, nuit, pluie, créneaux : des heures ciblées pour les jeunes permis — et la formation post-permis qui réduit la période probatoire.", "tag": "Post-permis"}, {"titre": "Financements", "desc": "CPF (permis B éligible), permis à 1 €/jour pour les 15-25 ans, paiement en 4 fois sans frais au secrétariat.", "tag": "Financement"}];
+const METHODE = [{"n": "01", "t": "Évaluation honnête", "d": "45 minutes offertes pour estimer votre volume d'heures réel — écrit sur le contrat, pas révisé à la hausse en cours de route."}, {"n": "02", "t": "Un moniteur référent", "d": "Le même moniteur vous suit ; les étapes du livret sont validées ensemble, jamais subies."}, {"n": "03", "t": "Simulateur d'examen", "d": "Deux passages blancs dans les conditions réelles, sur les parcours d'examen de Toulouse."}, {"n": "04", "t": "Présentation quand c'est prêt", "d": "On ne présente pas pour libérer un créneau : on présente quand les compétences sont validées. C'est ça, 78 %."}];
+const ENGAGEMENT = ["Agrément préfectoral E 26 031 0042 0 — moniteurs titulaires du Titre Pro ECSR", "Label « qualité des formations au sein des écoles de conduite » : taux de réussite affichés", "Contrat écrit : volume estimé, prix des heures supplémentaires identique au forfait", "Éligible CPF et permis à 1 €/jour — dossiers montés par le secrétariat"];
+const TARIFS = [{"a": "Code (salle + appli illimitées)", "p": "290 €", "n": "Jusqu'à réussite, séances thématiques avec moniteur incluses."}, {"a": "Forfait 20 h — permis B", "p": "1 390 €", "n": "Évaluation offerte, livret numérique, 2 examens blancs, présentation incluse."}, {"a": "Conduite accompagnée (AAC)", "p": "1 490 €", "n": "Formation initiale + 2 rendez-vous pédagogiques obligatoires inclus."}, {"a": "Heure supplémentaire", "p": "46 €", "n": "Le même prix qu'au forfait — comparez, c'est rare."}];
+const AVIS_DEMO = [{"texte": "Deux échecs dans une autre auto-école, la boule au ventre à chaque leçon. Ici, mon moniteur n'a jamais élevé la voix. Permis au premier passage avec eux.", "auteur": "Léa G., 24 ans", "detail": "Reprise après échecs"}, {"texte": "Mon fils en conduite accompagnée : les deux rendez-vous pédagogiques nous ont appris, à nous parents, comment accompagner sans crisper. Reçu à 18 ans et 2 semaines.", "auteur": "Père d'Enzo, AAC", "detail": "Conduite accompagnée"}, {"texte": "Dossier CPF monté par le secrétariat en dix minutes. L'évaluation avait dit 28 h : il m'en a fallu 28. Personne n'a essayé de m'en vendre 40.", "auteur": "Karim T., 31 ans", "detail": "Permis B — CPF"}];
+const STATS = [{"value": "78 %", "label": "Réussite au 1er passage (B)"}, {"value": "12", "label": "Moniteurs diplômés d'État"}, {"value": "6", "label": "Voitures de moins de 3 ans"}, {"value": "0 €", "label": "Frais de dossier cachés"}];
+
+function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-60px" });
+  return (
+    <motion.div ref={ref} initial={{ opacity: 0, y: 26 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.6, delay, ease: [0.16, 1, 0.3, 1] }}>
+      {children}
+    </motion.div>
+  );
+}
+
+let fd: any = null;
+let c: any = null;
+let bp: any = null;
+let brand: any = null;
+function photo(i: number, fallback: string): string {
+  return fd?.photoUrls?.[i] || fallback;
+}
+
+export default function ConduiteZeroStressPage() {
+  const [session, setSession] = useState<any>(null);
+
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(setSession)
+      .catch(() => {});
+  }, []);
+
+
+  fd = session?.formData;
+  c = session?.generatedContent;
+  bp = session?.businessProfile;
+  brand = fd?.brandColor ?? null;
+  if (brand) {
+    C = { ...C, accent: brand };
+  }
+
+  const SERVICES = resolveList(
+    bp?.services?.map((s: any, n: number) => ({
+      titre: s.title ?? SERVICES_DEMO[n % SERVICES_DEMO.length].titre,
+      desc: s.description ?? SERVICES_DEMO[n % SERVICES_DEMO.length].desc,
+      tag: SERVICES_DEMO[n % SERVICES_DEMO.length].tag,
+    })),
+    SERVICES_DEMO
+  );
+  const AVIS = resolveList(
+    bp?.reputation?.featuredReviews?.map((r: any, n: number) => ({
+      texte: r.text ?? AVIS_DEMO[n % AVIS_DEMO.length].texte,
+      auteur: r.name ?? AVIS_DEMO[n % AVIS_DEMO.length].auteur,
+      detail: r.location ?? AVIS_DEMO[n % AVIS_DEMO.length].detail,
+    })),
+    AVIS_DEMO
+  );
+
+  const [scrolled, setScrolled] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const { i, next, prev } = useSlides(HERO.length, DWELL.normal);
+  const S = HERO[i];
+
+
+  useEffect(() => {
+    const h = () => setScrolled(window.scrollY > 50);
+    window.addEventListener("scroll", h);
+    return () => window.removeEventListener("scroll", h);
+  }, []);
+
+  const phone = fd?.phone ?? "05 61 00 00 00";
+  const telHref = `tel:${fd?.phone ?? "+33561000000"}`;
+  const mail = fd?.email ?? "inscription@conduite-zero-stress.fr";
+
+  return (
+    <div style={{ background: C.bg, color: C.text, fontFamily: FONT_BODY, overflowX: "clip" }}>
+      <style>{`
+        @media (max-width: 900px) { #i341-nav { display: none !important; } .i341-burger { display: flex !important; } }
+        @media (max-width: 860px) {
+          .i341-hero { grid-template-columns: 1fr !important; padding: 118px 24px 46px !important; gap: 34px !important; }
+          .i341-card { max-width: 380px; margin: 0 auto; width: 100%; }
+          .i341-split { grid-template-columns: 1fr !important; }
+          .i341-stats { grid-template-columns: 1fr 1fr !important; row-gap: 8px; }
+          .i341-stats .i341-statcell { border-right: none !important; }
+          .i341-pad { padding-left: 24px !important; padding-right: 24px !important; }
+          .i341-herotext { padding: 0 24px 44px !important; }
+        }
+      `}</style>
+
+      {/* ── NAV ─────────────────────────────────────────────────────────── */}
+      <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, height: 72, display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 48px", background: scrolled ? C.bg : "transparent", backdropFilter: scrolled ? "blur(12px)" : "none", borderBottom: `1px solid ${scrolled ? C.border : "transparent"}`, transition: "all 0.4s ease" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 10, minWidth: 0 }}>
+          {fd?.logoBase64 ? (
+            <img src={fd.logoBase64} alt={fd?.businessName ?? "logo"} style={{ height: 30, maxWidth: 160, objectFit: "contain", display: "block" }} />
+          ) : (
+            <>
+              <Car size={18} color={C.accent} style={{ flexShrink: 0 }} />
+              <span style={{ fontFamily: FONT, fontSize: 18, color: C.text, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{fd?.businessName ?? "Conduite Zéro Stress"}</span>
+              
+            </>
+          )}
+        </div>
+        <div id="i341-nav" style={{ display: "flex", gap: 24, alignItems: "center" }}>
+          {NAV.map(({ l, h }) => (
+            <a key={l} href={h} style={{ color: C.textMuted, fontSize: 14, fontWeight: 500, textDecoration: "none", padding: "12px 4px" }}>{l}</a>
+          ))}
+          <motion.a href="tel:+33561000000" style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
+            Évaluation offerte
+          </motion.a>
+        </div>
+        <button className="i341-burger" onClick={() => setMobileOpen(!mobileOpen)} aria-label="Menu" style={{ display: "none", flexDirection: "column", justifyContent: "center", gap: 5, background: "none", border: "none", cursor: "pointer", padding: 10, minWidth: 44, minHeight: 44 }}>
+          <span style={{ display: "block", width: 24, height: 1.5, background: C.text, transition: "all 0.3s", transform: mobileOpen ? "rotate(45deg) translate(4.5px, 4.5px)" : "none" }} />
+          <span style={{ display: "block", width: 24, height: 1.5, background: C.text, transition: "all 0.3s", opacity: mobileOpen ? 0 : 1 }} />
+          <span style={{ display: "block", width: 24, height: 1.5, background: C.text, transition: "all 0.3s", transform: mobileOpen ? "rotate(-45deg) translate(4.5px, -4.5px)" : "none" }} />
+        </button>
+      </nav>
+      {mobileOpen && (
+        <div style={{ position: "fixed", top: 72, left: 0, right: 0, zIndex: 99, background: C.bg, borderBottom: `1px solid ${C.border}`, padding: "20px 28px", display: "flex", flexDirection: "column", gap: 4 }}>
+          {NAV.map(({ l, h }) => (
+            <a key={l} href={h} onClick={() => setMobileOpen(false)} style={{ color: C.text, fontSize: 16, fontWeight: 500, textDecoration: "none", padding: "12px 0" }}>{l}</a>
+          ))}
+          <a href="tel:+33561000000" style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Évaluation offerte</a>
+        </div>
+      )}
+
+      {/* ── HERO ────────────────────────────────────────────────────────── */}
+
+      <section className="i341-hero" style={{ minHeight: "100dvh", display: "flex", flexDirection: "column", justifyContent: "center", padding: "140px 64px 70px", maxWidth: 1080, margin: "0 auto" }}>
+        <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>Auto-école · Toulouse</span>
+        <h1 style={{ fontFamily: FONT, fontSize: "clamp(34px, 5vw, 62px)", color: C.text, lineHeight: 1.1, margin: "18px 0 8px" }}>Apprendre à conduire,<br /><TrackingCollapse word={S.word} index={i} from="0.34em" to="0.04em" style={{ color: C.accentDark }} /></h1>
+        <p style={{ fontSize: 16.5, color: C.textMuted, lineHeight: 1.75, maxWidth: 560, margin: "14px 0 32px" }}>
+          {c?.heroSubline ?? fd?.tagline ?? "Des moniteurs diplômés qui ne crient jamais, des voitures récentes, et une méthode par étapes validées. 78 % de réussite au premier passage — affiché, parce que c'est vérifiable."}
+        </p>
+        <div style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
+          <motion.a href={telHref} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "15px 30px", fontWeight: 700, fontSize: 15, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9 }} whileHover={{ scale: 1.02 }}>
+            S'inscrire ou se renseigner <ArrowRight size={16} />
+          </motion.a>
+          <motion.a href="#tarifs" style={{ background: C.white, color: C.text, border: `1px solid ${C.border}`, borderRadius: 8, padding: "14px 26px", fontWeight: 500, fontSize: 15, textDecoration: "none" }} whileHover={{ borderColor: C.accent }}>
+            Nos formules
+          </motion.a>
+        </div>
+        <div style={{ display: "flex", alignItems: "center", gap: 18, marginTop: 44, flexWrap: "wrap" }}>
+          <SlideIndex i={i} total={HERO.length} variant="fraction" color={C.textMuted} className="" />
+          <span style={{ fontSize: 13.5, color: C.textMuted }}><strong style={{ color: C.text, fontWeight: 700 }}>{S.k}</strong> — {S.sub}</span>
+          <HairlineArrows onPrev={prev} onNext={next} color={C.text} className="" />
+        </div>
+      </section>
+
+      {/* ── STATS ───────────────────────────────────────────────────────── */}
+      <section style={{ background: C.bgDark }}>
+        <div className="i341-stats i341-pad" style={{ display: "grid", gridTemplateColumns: "repeat(4, minmax(0,1fr))", maxWidth: 1100, margin: "0 auto", padding: "0 32px" }}>
+          {STATS.map((s, idx) => (
+            <Reveal key={s.label} delay={idx * 0.08}>
+              <div className="i341-statcell" style={{ padding: "30px 8px", textAlign: "center", borderRight: idx < 3 ? "1px solid rgba(255,255,255,0.08)" : "none" }}>
+                <div style={{ fontFamily: FONT, fontSize: 32, color: C.hi, lineHeight: 1 }}>{s.value}</div>
+                <div style={{ fontSize: 13, color: "rgba(255,255,255,0.45)", marginTop: 7 }}>{s.label}</div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
+
+      {/* ── SERVICES ────────────────────────────────────────────────────── */}
+      <section id="services" className="i341-pad" style={{ padding: "96px 64px", background: C.bgSection }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+          <Reveal>
+            <div style={{ marginBottom: 50 }}>
+              <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>Formations</span>
+              <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 3.8vw, 46px)", color: C.text, marginTop: 10, lineHeight: 1.14 }}>
+                Du code au permis,<br /><em>par étapes validées.</em>
+              </h2>
+            </div>
+          </Reveal>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(290px, 100%), 1fr))", gap: 18 }}>
+            {SERVICES.map((s, idx) => (
+              <Reveal key={s.titre} delay={idx * 0.06}>
+                <motion.div whileHover={{ y: -5 }} style={{ background: C.white, borderRadius: 12, padding: "26px 24px", border: `1px solid ${C.border}`, height: "100%" }}>
+                  <span style={{ background: C.accentLight, color: C.accentDark, borderRadius: 999, padding: "4px 12px", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>{s.tag}</span>
+                  <h3 style={{ fontFamily: FONT, fontSize: 18.5, color: C.text, margin: "15px 0 10px" }}>{s.titre}</h3>
+                  <p style={{ fontSize: 14, color: C.textMuted, lineHeight: 1.7 }}>{s.desc}</p>
+                </motion.div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── MÉTHODE / INFOS ─────────────────────────────────────────────── */}
+      <section id="methode" className="i341-pad" style={{ padding: "96px 64px", background: C.bg }}>
+        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+          <Reveal>
+            <div style={{ marginBottom: 50 }}>
+              <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>La méthode</span>
+              <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 3.8vw, 46px)", color: C.text, marginTop: 10, lineHeight: 1.14 }}>
+                Le stress ne fait pas<br /><em>de meilleurs conducteurs.</em>
+              </h2>
+            </div>
+          </Reveal>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(240px, 100%), 1fr))", gap: 18 }}>
+            {METHODE.map((m, idx) => (
+              <Reveal key={m.n} delay={idx * 0.08}>
+                <div style={{ background: C.white, border: `1px solid ${C.border}`, borderRadius: 12, padding: "26px 24px", height: "100%" }}>
+                  <div style={{ fontFamily: FONT, fontSize: 28, color: C.accentDark, marginBottom: 12 }}>{m.n}</div>
+                  <h3 style={{ fontSize: 16.5, fontWeight: 700, color: C.text, marginBottom: 9 }}>{m.t}</h3>
+                  <p style={{ fontSize: 14, color: C.textMuted, lineHeight: 1.7 }}>{m.d}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── ENGAGEMENTS ─────────────────────────────────────────────────── */}
+      <section id="engagements" className="i341-pad" style={{ padding: "96px 64px", background: C.bgSection }}>
+        <div className="i341-split" style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "minmax(0,1fr) minmax(0,1fr)", gap: 64, alignItems: "center" }}>
+          <Reveal>
+            <div style={{ borderRadius: 12, border: `1px solid ${C.border}`, background: C.accentLight, aspectRatio: "4/3", display: "flex", alignItems: "center", justifyContent: "center" }}><GraduationCap size={80} color={C.accentDark} strokeWidth={1.1} /></div>
+          </Reveal>
+          <Reveal delay={0.15}>
+            <div>
+              <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>Nos engagements</span>
+              <h2 style={{ fontFamily: FONT, fontSize: "clamp(26px, 3vw, 40px)", color: C.text, margin: "12px 0 26px", lineHeight: 1.18 }}>
+                Une auto-école<br /><em>qui affiche tout.</em>
+              </h2>
+              {ENGAGEMENT.map((e, idx) => (
+                <div key={idx} style={{ display: "flex", gap: 12, marginBottom: 14 }}>
+                  <CheckCircle size={17} color={C.accent} style={{ flexShrink: 0, marginTop: 2 }} />
+                  <span style={{ fontSize: 15, color: C.textMuted, lineHeight: 1.65 }}>{e}</span>
+                </div>
+              ))}
+              <motion.a href={telHref} style={{ display: "inline-flex", alignItems: "center", gap: 8, marginTop: 24, background: C.accentDark, color: "#fff", borderRadius: 8, padding: "14px 28px", fontWeight: 700, fontSize: 15, textDecoration: "none" }} whileHover={{ scale: 1.02 }}>
+                Nous appeler <ArrowRight size={16} />
+              </motion.a>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ── TARIFS ──────────────────────────────────────────────────────── */}
+      <section id="tarifs" className="i341-pad" style={{ padding: "96px 64px", background: C.bg }}>
+        <div style={{ maxWidth: 1000, margin: "0 auto" }}>
+          <Reveal>
+            <div style={{ textAlign: "center", marginBottom: 16 }}>
+              <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>Formules</span>
+              <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 3.5vw, 44px)", color: C.text, marginTop: 10 }}>Des forfaits <em>sans piège.</em></h2>
+              <p style={{ fontSize: 15, color: C.textMuted, maxWidth: 560, margin: "14px auto 0", lineHeight: 1.7 }}>L'heure supplémentaire est au même prix que l'heure du forfait — c'est écrit au contrat. Frais de présentation à l'examen inclus.</p>
+            </div>
+          </Reveal>
+          <div style={{ marginTop: 38 }}>
+            {TARIFS.map((tt, idx) => (
+              <Reveal key={tt.a} delay={idx * 0.06}>
+                <div style={{ display: "flex", flexWrap: "wrap", gap: 8, justifyContent: "space-between", alignItems: "baseline", background: C.white, border: `1px solid ${C.border}`, borderRadius: 12, padding: "20px 24px", marginBottom: 12 }}>
+                  <div style={{ minWidth: 0 }}>
+                    <div style={{ fontFamily: FONT, fontSize: 17.5, color: C.text }}>{tt.a}</div>
+                    <div style={{ fontSize: 13.5, color: C.textMuted, marginTop: 5, lineHeight: 1.6 }}>{tt.n}</div>
+                  </div>
+                  <div style={{ fontFamily: FONT, fontSize: 19, color: C.accentDark, whiteSpace: "nowrap" }}>{tt.p}</div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── AVIS ────────────────────────────────────────────────────────── */}
+      <section className="i341-pad" style={{ padding: "96px 64px", background: C.bgDark }}>
+        <Reveal>
+          <div style={{ textAlign: "center", marginBottom: 48 }}>
+            <h2 style={{ fontFamily: FONT, fontSize: "clamp(26px, 3.4vw, 42px)", color: "#fff" }}>Permis en poche, <em style={{ color: C.hi }}>calme gardé</em>.</h2>
+          </div>
+        </Reveal>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(290px, 100%), 1fr))", gap: 18, maxWidth: 1100, margin: "0 auto" }}>
+          {AVIS.map((a, idx) => (
+            <Reveal key={a.auteur} delay={idx * 0.1}>
+              <div style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.10)", borderRadius: 12, padding: "26px 24px", height: "100%" }}>
+                <div style={{ display: "flex", gap: 3, marginBottom: 12 }}>
+                  {[...Array(5)].map((_, j) => <Star key={j} size={13} fill={C.hi} color={C.hi} />)}
+                </div>
+                <p style={{ fontFamily: FONT, fontSize: 15, fontStyle: "italic", color: "rgba(255,255,255,0.82)", lineHeight: 1.7, marginBottom: 18 }}>"{a.texte}"</p>
+                <div style={{ borderTop: "1px solid rgba(255,255,255,0.09)", paddingTop: 14 }}>
+                  <div style={{ fontWeight: 700, color: "#fff", fontSize: 14 }}>{a.auteur}</div>
+                  <div style={{ color: C.hi, fontSize: 12, marginTop: 4 }}>{a.detail}</div>
+                </div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
+      {/* ── CONTACT ─────────────────────────────────────────────────────── */}
+      <section id="contact" className="i341-pad" style={{ padding: "96px 64px", background: C.accentLight, textAlign: "center" }}>
+        <Reveal>
+          <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>Évaluation offerte</span>
+          <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 4vw, 48px)", color: C.text, margin: "14px 0 16px" }}>
+            45 minutes pour savoir<br /><em>combien d'heures il VOUS faut.</em>
+          </h2>
+          <p style={{ fontSize: 16, color: C.textMuted, maxWidth: 460, margin: "0 auto 36px", lineHeight: 1.7 }}>Évaluation de départ offerte, en voiture, avec un moniteur diplômé. Le chiffre est écrit au contrat.</p>
+          <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
+            <motion.a href={telHref} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "16px 36px", fontWeight: 700, fontSize: 16, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9 }} whileHover={{ scale: 1.03 }}>
+              <Phone size={18} /> {phone}
+            </motion.a>
+            <motion.a href={`mailto:${mail}`} style={{ background: "transparent", color: C.text, border: `2px solid ${C.accent}`, borderRadius: 8, padding: "14px 32px", fontWeight: 700, fontSize: 16, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9 }} whileHover={{ background: C.accent, color: "#fff" }}>
+              <Mail size={18} /> Nous écrire
+            </motion.a>
+          </div>
+        </Reveal>
+      </section>
+
+      {/* ── FOOTER ──────────────────────────────────────────────────────── */}
+      <footer className="i341-pad" style={{ background: C.bgDark, padding: "44px 64px 22px" }}>
+        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 28, marginBottom: 30 }}>
+            <div>
+              <div style={{ fontFamily: FONT, fontSize: 18, color: C.hi, marginBottom: 8 }}>{fd?.businessName ?? "Conduite Zéro Stress"}</div>
+              <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, lineHeight: 1.7 }}>Auto-école agréée · Toulouse<br />Agrément préfectoral E 26 031 0042 0 — Label qualité des formations</p>
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+              {[{ icon: <MapPin size={13} />, t: "Toulouse, Haute-Garonne" }, { icon: <Phone size={13} />, t: phone }, { icon: <Clock size={13} />, t: "Lun–Ven 10h–19h · Sam 9h–17h" }].map((item, idx) => (
+                <div key={idx} style={{ display: "flex", gap: 10, color: "rgba(255,255,255,0.42)", fontSize: 13, alignItems: "center" }}>
+                  <span style={{ color: C.hi }}>{item.icon}</span>{item.t}
+                </div>
+              ))}
+            </div>
+          </div>
+          <div style={{ borderTop: "1px solid rgba(255,255,255,0.09)", paddingTop: 14, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 8 }}>
+            <span style={{ color: "rgba(255,255,255,0.25)", fontSize: 12 }}>
+              © 2026 {fd?.businessName ?? "Conduite Zéro Stress"} — Site réalisé par Aevia WS · SIREN <LegalIdentity />
+            </span>
+            <span style={{ color: "rgba(255,255,255,0.25)", fontSize: 12 }}>Mentions légales : éditeur Aevia WS · hébergement Vercel Inc.</span>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+}
