@@ -564,7 +564,7 @@ function OnboardingContent() {
     <div className="font-aevia-body min-h-screen bg-[#080808] text-white flex flex-col">
       {/* Header */}
       <div className="flex items-center justify-between px-6 py-5 border-b border-white/5">
-        <span className="font-black text-lg tracking-tight">skylaunch</span>
+        <span className="font-black text-lg tracking-tight">Aevia Launch</span>
         <div className="flex items-center gap-2">
           <div className="hidden md:flex items-center gap-2">
           {STEPS.map((label, i) => (
