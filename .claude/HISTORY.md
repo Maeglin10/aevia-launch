@@ -160,3 +160,38 @@ Thèmes livrés : 168 (Éclat/fashion), 46 (Dumont/law), 192 (Quantum/tech), 215
 - impact-169 (restaurant) et impact-72 (garage) : cibles réelles à re-déterminer en refaisant le scoring sur les pages, pas le registre.
 - Lot 3 (reconversion des 49 templates SaaS) : chantier de contenu distinct, non entamé.
 - Vérification du rendu photo réel en prod (proxy bloquant ici), et déploiement Vercel manuel.
+
+---
+
+## 2026-07-31 — Session #7 : Audit produit + premiers correctifs vérifiés
+
+**Fait :**
+- **Rapport d'audit** (`63dce8c`) : `docs/AUDIT_PRODUIT_2026-07-31.md`, les 6 axes de `docs/PROMPT_AUDIT_PRODUIT.md`, sans correctif (lecture d'abord).
+- **8 correctifs, un commit par sujet, chacun vérifié :**
+  - `afb1d8e` fix(dashboard) : `/login` (404) → vraie init SSO Google (aevia_return_to + IDP), le parcours de connexion CMS était cassé. Vérifié : 0 réf `/login` dans le HTML rendu.
+  - `3c0d2bf` fix(cron) : `preview-reminder` fail-**closed** — 503 si `CRON_SECRET` absent (avant : ouvert à tous → spam de la liste des previews). Vérifié runtime : 503.
+  - `a092277` fix(idp) : rejet de la traversée `..` dans le proxy + garde-fou « URL sous IDP_BASE ». Vérifié runtime : `/api/idp/auth/../../secret` → 404.
+  - `800fabe` fix(upload) : rate-limit 20/min par IP + extension dérivée du MIME (plus du nom client). Vérifié runtime : 400 sans fichier, 429 après 20.
+  - `7a32bf7` fix(onboarding) : « skylaunch » → « Aevia Launch » (règle no-sky / branding).
+  - `67e0d32` chore(security) : token `FUNNEL_ADMIN` (fnl_…) sorti de `.claude/CLAUDE.md` → pointeur env + note de rotation.
+  - `10d4532` chore(deps) : `npm audit fix` — 6 vulns → 2, Next 16.2.10 → 16.2.12. Vérifié : build exit 0, vitest 20/20.
+  - `9ff34df` docs(audit) : correction de la ligne de base tsc + rédaction du token dans le rapport.
+
+**Comment :**
+- Mesuré, pas jugé à l'œil : `build` (exit 0), `vitest` (20/20), balayage `curl` (315/315 templates + thèmes + locales → 200), Playwright localhost pour overflow@390 (aucun sur 16 pages) et erreurs JS. Chaque correctif de route revérifié en `next start` réel (codes HTTP ci-dessus).
+- Périmètre volontairement restreint aux corrections **sûres et vérifiables ici**. Déférés et documentés dans le rapport (décision métier ou test externe requis) : PII en Blob public (B3), facture Stripe conforme (B4), domaine e-mail aevia.io↔aevia.services (V3), promesse « 2h » (V6), vérification des images (réseau bloqué) et paiement bout-en-bout (pas de clés Stripe).
+
+**Pourquoi :** go utilisateur après lecture du rapport (« un commit par sujet, avec mesure avant/après »).
+
+**Erreurs commises :**
+- **Ligne de base tsc annoncée à « 0 » à tort.** Mon premier `tsc` tournait *avant* tout build : `tsconfig` exclut `app/templates`, donc 0. Une fois `.next/types` généré, les validateurs de routes ré-importent les pages et **1942 erreurs** apparaissent (toutes dans les templates, doublement masquées par l'`exclude` + `ignoreBuildErrors: true`). **La valeur 1942 est déjà écrite dans ce HISTORY (sessions #5/#6)** — j'aurais dû la recouper avant d'écrire « 0 ». Corrigé dans le rapport (Axe 1 + D6). Hors-templates : réellement 0.
+- **`next build` exit 0 ≠ types propres** : `ignoreBuildErrors: true` masque tout. Ne jamais conclure « types OK » depuis un build vert sur ce repo — passer par `tsc` *après* un build.
+- **Sous-shells `next start` détachés → confusion de ports** (serveurs sur 3210/3211 non tués, curl sur 3212 en 000). Fix : tout tuer (`pkill -9 next-server`) puis un seul serveur sur un port neuf avant de mesurer.
+- **Le token que j'auditais s'est retrouvé en clair dans mon propre rapport** (je l'avais cité en entier) — rédigé a posteriori. Ne pas recopier un secret dans le livrable d'audit.
+
+**Restes à faire (non corrigés, décision/verif requise) :**
+- B3 PII Blob public, B4 facture conforme, V3 unification domaine e-mail, V6 promesse « 2h » : voir les trois listes du rapport.
+- **Rotation effective** du token funnel (Vercel/env) — il reste dans l'historique git.
+- Rejouer hors conteneur : chargement + sujet des images, et paiement Stripe bout-en-bout.
+- Next reste en 16.2.12 (2 high non couvertes sans bump preview cassant) — à traiter séparément.
+- **Non déployé** : push GitHub ≠ live ; déploiement Vercel manuel non effectué.
