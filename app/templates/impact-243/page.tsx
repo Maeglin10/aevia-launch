@@ -22,10 +22,10 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   DWELL,
   useSlides,
-  AnchoredBackdrop,
   BlurThrough,
   HairlineArrows,
 } from '@/lib/templates/hero-kit-2';
+import { PortalZoom } from '@/lib/templates/hero-kit-3';
 
 /* ════════════════════════════════════════════════════════════════════════════
    DR. ÉLODIE BEAUMONT — Cabinet médecine générale & préventive · Strasbourg
@@ -545,9 +545,9 @@ function NavLink({ label, href }: { label: string; href: string }) {
    ════════════════════════════════════════════════════════════════════════════ */
 function Hero() {
   const ref = useRef<HTMLElement>(null);
-  // Château mechanic: the headline never moves, only the photograph dissolves
-  // through the three practices the page already teaches (I·II·III), on the
-  // slow beat that suits a doctor's waiting room.
+  // PortalZoom (v18): the next practice is already visible through a
+  // doorway-shaped threshold — the cabinet's entrance — and the transition
+  // walks through it. Slow beat, as suits a doctor's waiting room.
   const { i, next, prev } = useSlides(PHASES.length, DWELL.slow);
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -579,10 +579,11 @@ function Hero() {
           y: imgY,
         }}
       >
-        <AnchoredBackdrop
+        <PortalZoom
           images={PHASES.map((p, n) => fd?.photoUrls?.[n] || photoUrl(p.imgId, 2000))}
           index={i}
           overlay={0}
+          portal="inset(24% 40% 0% 40% round 50% 50% 0 0 / 34% 34% 0 0)"
         />
       </motion.div>
 

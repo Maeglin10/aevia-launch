@@ -8,6 +8,17 @@ import {
   useTransform,
 } from "framer-motion";
 import { useSlides, HeldSwap } from "@/lib/templates/hero-kit-2";
+import { StickyProgress } from "@/lib/templates/hero-kit-3";
+
+/* StickyProgress — the "expensive" section from the two most polished
+   recordings: the title stays pinned while the learner's path reveals
+   step by step on scroll. */
+const PARCOURS = [
+  { n: "01", title: "Choisir son cours", body: "Un catalogue filtré par métier et par niveau, des extraits gratuits sur chaque cours — on sait ce qu'on achète avant de payer." },
+  { n: "02", title: "Apprendre à son rythme", body: "Des leçons de dix minutes, reprises là où on s'est arrêté, sur téléphone comme sur ordinateur. À vie, pas par abonnement." },
+  { n: "03", title: "Pratiquer sur projets", body: "Chaque module se termine par un projet corrigé par un mentor — pas un QCM. C'est le projet qui va dans le portfolio." },
+  { n: "04", title: "Certifier et montrer", body: "Un certificat vérifiable en un lien, relié aux projets rendus. Les recruteurs voient le travail, pas juste le titre." },
+];
 
 /* No verified imagery exists for this template and a photo backdrop is not
    the platform's voice anyway — instead the subject rotates inside the
@@ -222,6 +233,41 @@ return (
           ===================================================================== */}
       <section className="py-8 bg-white border-y border-[#E0E7FF] overflow-hidden">
         <MarqueeStrip items={MARQUEE_ITEMS} />
+      </section>
+
+      {/* =====================================================================
+          3bis. LE PARCOURS — StickyProgress
+          ===================================================================== */}
+      <section className="py-24 px-6 bg-white">
+        <div className="max-w-7xl mx-auto">
+          <StickyProgress
+            steps={PARCOURS}
+            className="grid md:grid-cols-[0.85fr_1.15fr] gap-10"
+            renderTitle={(active) => (
+              <div>
+                <span className="text-xs font-bold text-[var(--brand,#6366F1)] uppercase tracking-widest block mb-4">
+                  Comment ça marche
+                </span>
+                <h2 className="text-3xl md:text-5xl font-extrabold text-[#1E1B4B] leading-tight">
+                  Quatre étapes,
+                  <br />
+                  <span className="text-[var(--brand,#6366F1)]">du premier clic au portfolio.</span>
+                </h2>
+                <div className="mt-8 flex gap-2">
+                  {PARCOURS.map((st, n) => (
+                    <motion.span
+                      key={st.n}
+                      className="block h-[3px] rounded-full"
+                      animate={{ width: n === active ? 44 : 18, opacity: n === active ? 1 : 0.25 }}
+                      transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+                      style={{ background: "var(--brand,#6366F1)" }}
+                    />
+                  ))}
+                </div>
+              </div>
+            )}
+          />
+        </div>
       </section>
 
       {/* =====================================================================

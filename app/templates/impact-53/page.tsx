@@ -18,6 +18,7 @@ import {
   SectionHeading,
 } from "./shared";
 import { DWELL, useSlides, BentoCascade, SlideIndex, HairlineArrows } from "@/lib/templates/hero-kit-2";
+import { DifferentialExit } from "@/lib/templates/hero-kit-3";
 
 /* BentoCascade in a template that ships zero photography: the tiles are
    typographic — discipline, index, a red verb — in the studio's own
@@ -207,9 +208,13 @@ return (
           style={{ y: heroY, opacity: heroOpacity, textAlign: "left", zIndex: 10, width: "100%", maxWidth: "1280px", display: "grid", gridTemplateColumns: "minmax(0,1.2fr) minmax(0,1fr)", gap: "clamp(2rem,5vw,5rem)", alignItems: "center" }}
         >
           <div>
+          {/* three planes, three scroll speeds (v04): the depth is what makes
+              the page feel deep, not a drop shadow */}
+          <DifferentialExit depth={0.15}>
           <div style={{ marginBottom: "clamp(1rem,3vw,2rem)" }}>
             <HeroWordReveal />
           </div>
+          </DifferentialExit>
 
           <motion.p
             initial={{ opacity: 0 }}
@@ -246,7 +251,9 @@ return (
             transition={{ delay: 1.25, duration: 0.7 }}
             style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: "0.9rem" }}
           >
+            <DifferentialExit depth={0.85}>
             <HeroBento i={heroI} />
+            </DifferentialExit>
             <div style={{ display: "flex", alignItems: "center", gap: "0.8rem" }}>
               <SlideIndex i={heroI} total={HERO_DISCIPLINES.length} variant="fraction" className="" color="rgba(255,255,255,0.5)" />
               <HairlineArrows onPrev={heroPrev} onNext={heroNext} color="rgba(255,255,255,0.6)" labels={{ prev: "Previous discipline", next: "Next discipline" }} />

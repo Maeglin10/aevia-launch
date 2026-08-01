@@ -12,6 +12,7 @@ import {
   SlideIndex,
   HairlineArrows,
 } from "@/lib/templates/hero-kit-2"
+import { PanelRise } from "@/lib/templates/hero-kit-3"
 
 // Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
 // used to derive companion shades from the client's brand color.
@@ -345,7 +346,9 @@ export default function CabinetMoreauPage() {
         </div>
       </section>
 
-      {/* Stats */}
+      {/* Stats — PanelRise (v03): the hero's headline never leaves, this
+          section climbs over it like a shutter as you scroll */}
+      <PanelRise>
       <section style={{ background: C.accent, padding: "0 80px" }}>
         <div className="imx-stats" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", maxWidth: 1100, margin: "0 auto" }}>
           {STATS.map((s, i) => (
@@ -358,6 +361,7 @@ export default function CabinetMoreauPage() {
           ))}
         </div>
       </section>
+      </PanelRise>
 
       {/* Accompagnements */}
       <section id="accompagnements" style={{ padding: "110px 80px", background: C.bg }}>

@@ -15,6 +15,7 @@ import {
   SlideIndex,
   HairlineArrows,
 } from "@/lib/templates/hero-kit-2"
+import { TrackingCollapse } from "@/lib/templates/hero-kit-3"
 
 /* The hero carried no photography at all — a blurred circle behind centred
    type — which is what made a €11,200 retreat look like a free template.
@@ -97,9 +98,9 @@ function AetherHero({ headline, subline }: { headline?: React.ReactNode; subline
               <div className="text-[10px] font-bold uppercase tracking-[0.34em] text-black/30">
                 {s.meta}
               </div>
-              <div className="mt-2.5" style={{ fontFamily: "serif", fontSize: 26, fontWeight: 300 }}>
-                {s.n}
-              </div>
+              {/* the treatment's name is the signature: its tracking spreads
+                  as it leaves and settles as it arrives (v12) */}
+              <TrackingCollapse word={s.n} index={i} from="0.34em" to="0.02em" className="mt-2.5" style={{ fontFamily: "serif", fontSize: 26, fontWeight: 300 }} />
               <p className="mt-2 max-w-[46ch] text-sm leading-relaxed text-black/45">{s.d}</p>
             </div>
           </BlurThrough>
