@@ -164,7 +164,7 @@ export default function AquaVertPressingPage() {
       <InvertSweep dark={C.bgDark} light={C.bg} textDark="#f4f2ee" textLight={C.text} accent={C.accent} className="">
         {(invert) => (
           <div className="i344-hero" style={{ minHeight: "100dvh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", textAlign: "center", padding: "140px 24px 80px" }}>
-            <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Pressing écologique · Strasbourg</span>
+            <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: "inherit", opacity: 0.7 }}>Pressing écologique · Strasbourg</span>
             <h1 style={{ fontFamily: FONT, fontSize: "clamp(36px, 5.4vw, 68px)", lineHeight: 1.08, margin: "18px 0 20px", maxWidth: 820 }}>
               {c?.heroHeadline ?? (<>Le propre qui ne pollue<br /><em style={{ color: C.accent }}>ni vos fibres, ni la ville.</em></>)}
             </h1>

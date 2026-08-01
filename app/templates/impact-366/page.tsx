@@ -162,7 +162,7 @@ export default function PotagerEstuairePage() {
 
       {/* ── HERO ────────────────────────────────────────────────────────── */}
 
-      <section id="hero" style={{ height: "100dvh", minHeight: 640, position: "relative", display: "flex", alignItems: "flex-end", overflow: "hidden" }}>
+      <section id="hero" style={{ height: "100dvh", minHeight: 640, position: "relative", display: "flex", alignItems: "flex-end", overflow: "hidden", background: C.bgDark }}>
         <CrossPush images={HERO.map((s) => s.img)} index={i} overlay={0.5} />
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(8,8,10,0.92) 0%, rgba(8,8,10,0.40) 46%, rgba(8,8,10,0.10) 100%)", pointerEvents: "none" }} />
         <div className="i366-herotext" style={{ position: "relative", zIndex: 1, padding: "0 72px 76px", maxWidth: 860 }}>

@@ -103,7 +103,7 @@ export default function SoinsEstuairePage() {
   const S = HERO[i];
 
   const tiles = S.tiles.map(({ icon: Icon, t: tt, d, bg, fg }, n) => ({
-    from: (n === 0 ? 'left' : n === 1 ? 'right' : 'bottom') as const,
+    from: (n === 0 ? "left" : n === 1 ? "right" : "bottom") as "left" | "right" | "bottom",
     node: (
       <div style={{ background: bg, color: fg, borderRadius: 14, padding: "20px 22px", height: "100%", display: "flex", gap: 16, alignItems: "flex-start" }}>
         <Icon size={22} style={{ flexShrink: 0, marginTop: 2 }} />
