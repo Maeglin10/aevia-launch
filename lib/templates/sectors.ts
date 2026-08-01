@@ -28,6 +28,7 @@ export const INDUSTRIES: IndustryInfo[] = [
       { id: 'osteo',    label: 'Ostéopathe',       labels: { en: 'Osteopath',       es: 'Osteópata',     de: 'Osteopath',         pt: 'Osteopata'      }, emoji: '🙌', accentColor: '#2a4a35' },
       { id: 'veterinaire', label: 'Vétérinaire',  labels: { en: 'Veterinarian',    es: 'Veterinario',   de: 'Tierarzt',          pt: 'Veterinário'    }, emoji: '🐾', accentColor: '#3a6b52' },
       { id: 'pharmacie',   label: 'Pharmacie',    labels: { en: 'Pharmacy',        es: 'Farmacia',      de: 'Apotheke',          pt: 'Farmácia'       }, emoji: '💊', accentColor: '#1a7a52' },
+      { id: 'opticien',    label: 'Opticien',     labels: { en: 'Optician',        es: 'Óptica',        de: 'Optiker',           pt: 'Ótica'          }, emoji: '👓', accentColor: '#1d7a72' },
     ],
   },
   {
@@ -45,6 +46,7 @@ export const INDUSTRIES: IndustryInfo[] = [
       { id: 'btp_construction', label: 'BTP / Construction générale', labels: { en: 'Construction Company', es: 'Empresa de construcción', de: 'Bauunternehmen', pt: 'Empresa de construção' }, emoji: '🏗️', accentColor: '#5c4a2e' },
       { id: 'pompes_funebres', label: 'Pompes funèbres', labels: { en: 'Funeral Home', es: 'Funeraria', de: 'Bestattungsinstitut', pt: 'Funerária' }, emoji: '🕊️', accentColor: '#5a6b5d' },
       { id: 'demenageur',      label: 'Déménageur',      labels: { en: 'Moving Company', es: 'Mudanzas', de: 'Umzugsunternehmen', pt: 'Mudanças' }, emoji: '📦', accentColor: '#f2760a' },
+      { id: 'serrurier',       label: 'Serrurier',       labels: { en: 'Locksmith', es: 'Cerrajero', de: 'Schlüsseldienst', pt: 'Serralheiro' }, emoji: '🔐', accentColor: '#4e9fd4' },
     ],
   },
   {
