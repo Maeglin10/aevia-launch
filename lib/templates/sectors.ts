@@ -33,6 +33,7 @@ export const INDUSTRIES: IndustryInfo[] = [
       { id: 'infirmier',       label: 'Infirmier libéral', labels: { en: 'Home Nurse', es: 'Enfermería a domicilio', de: 'Ambulante Pflege', pt: 'Enfermagem domiciliar' }, emoji: '💉', accentColor: '#125c3d' },
       { id: 'laboratoire',     label: 'Laboratoire d\'analyses', labels: { en: 'Medical Laboratory', es: 'Laboratorio médico', de: 'Medizinisches Labor', pt: 'Laboratório médico' }, emoji: '🔬', accentColor: '#22396b' },
       { id: 'podologue',       label: 'Podologue', labels: { en: 'Podiatrist', es: 'Podólogo', de: 'Podologe', pt: 'Podólogo' }, emoji: '🦶', accentColor: '#135e57' },
+      { id: 'sage_femme',      label: 'Sage-femme', labels: { en: 'Midwife', es: 'Matrona', de: 'Hebamme', pt: 'Parteira' }, emoji: '🤱', accentColor: '#7d3b3a' },
     ],
   },
   {
@@ -53,6 +54,7 @@ export const INDUSTRIES: IndustryInfo[] = [
       { id: 'serrurier',       label: 'Serrurier',       labels: { en: 'Locksmith', es: 'Cerrajero', de: 'Schlüsseldienst', pt: 'Serralheiro' }, emoji: '🔐', accentColor: '#4e9fd4' },
       { id: 'auto_ecole',      label: 'Auto-école',      labels: { en: 'Driving School', es: 'Autoescuela', de: 'Fahrschule', pt: 'Autoescola' }, emoji: '🚘', accentColor: '#20648c' },
       { id: 'pressing',        label: 'Pressing / Blanchisserie', labels: { en: 'Dry Cleaner', es: 'Tintorería', de: 'Reinigung', pt: 'Lavanderia' }, emoji: '👔', accentColor: '#6d4a8a' },
+      { id: 'securite',        label: 'Sécurité privée', labels: { en: 'Private Security', es: 'Seguridad privada', de: 'Sicherheitsdienst', pt: 'Segurança privada' }, emoji: '🛡️', accentColor: '#12222e' },
       { id: 'formation',       label: 'Centre de formation',  labels: { en: 'Training Centre', es: 'Centro de formación', de: 'Weiterbildungszentrum', pt: 'Centro de formação' }, emoji: '🎓', accentColor: '#22396b' },
       { id: 'controle_technique', label: 'Contrôle technique', labels: { en: 'Vehicle Inspection', es: 'ITV', de: 'Fahrzeugprüfung', pt: 'Inspeção veicular' }, emoji: '🚦', accentColor: '#194e6d' },
       { id: 'couvreur',        label: 'Couvreur-zingueur',    labels: { en: 'Roofer', es: 'Techador', de: 'Dachdecker', pt: 'Telhadista' }, emoji: '🏠', accentColor: '#33261a' },
@@ -84,6 +86,7 @@ export const INDUSTRIES: IndustryInfo[] = [
       { id: 'boulangerie',        label: 'Boulangerie',         labels: { en: 'Bakery',       es: 'Panadería',           de: 'Bäckerei',        pt: 'Padaria'             }, emoji: '🥖', accentColor: '#5c3a1e' },
       { id: 'cafe_bar',           label: 'Café / Bar à vin',    labels: { en: 'Café / Wine Bar', es: 'Café / Bar de vinos', de: 'Café / Weinbar', pt: 'Café / Bar de vinhos' }, emoji: '☕', accentColor: '#6b4226' },
       { id: 'commerce_bouche', label: 'Boucherie / Fromagerie', labels: { en: 'Butcher / Cheese Shop', es: 'Carnicería / Quesería', de: 'Metzgerei / Käserei', pt: 'Açougue / Queijaria' }, emoji: '🧀', accentColor: '#7d3b3a' },
+      { id: 'producteur',      label: 'Producteur fermier', labels: { en: 'Farm Producer', es: 'Productor agrícola', de: 'Hoferzeuger', pt: 'Produtor rural' }, emoji: '🥕', accentColor: '#465e3a' },
     ],
   },
   {
@@ -118,6 +121,7 @@ export const INDUSTRIES: IndustryInfo[] = [
     emoji: '💍',
     specialties: [
       { id: 'mariage', label: 'Wedding Planner', labels: { en: 'Wedding Planner', es: 'Wedding Planner', de: 'Hochzeitsplaner', pt: 'Wedding Planner' }, emoji: '💍', accentColor: '#6b8f71' },
+      { id: 'salle_reception', label: 'Salle de réception', labels: { en: 'Event Venue', es: 'Salón de eventos', de: 'Eventlocation', pt: 'Salão de eventos' }, emoji: '🏛️', accentColor: '#8a6d3f' },
     ],
   },
   {

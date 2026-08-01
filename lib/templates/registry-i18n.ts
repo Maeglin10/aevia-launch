@@ -2136,4 +2136,46 @@ export const TEMPLATE_I18N: Record<string, Record<'en' | 'es' | 'de' | 'pt', Tem
     de: { name: "Allure & Appui", description: "Podologin-Website, 2. Variante, sanfter Ton — der Schritt in LineMask-Zeilen, schmerzfreie Fußpflege, dünne Einlagen, Hausbesuche donnerstags." },
     pt: { name: "Allure & Appui", description: "Site de podóloga, 2.ª variante, tom suave — a passada em linhas LineMask, podologia sem dor, palmilhas finas, visitas domiciliares às quintas." },
   },
+  "impact-365": {
+    en: { name: "Ferme des Quatre Vents", description: "Organic farm shop site — the weekly basket lands with HeldSwap, AB certification, direct sales, no-commitment weekly baskets." },
+    es: { name: "Ferme des Quatre Vents", description: "Sitio de granja ecológica — la cesta semanal se posa con HeldSwap, certificación AB, venta directa, cestas sin permanencia." },
+    de: { name: "Ferme des Quatre Vents", description: "Bio-Hofladen-Website — der Wochenkorb landet per HeldSwap, AB-Zertifizierung, Direktverkauf, Körbe ohne Abo-Bindung." },
+    pt: { name: "Ferme des Quatre Vents", description: "Site de fazenda orgânica — a cesta semanal pousa com HeldSwap, certificação AB, venda direta, cestas sem fidelização." },
+  },
+  "impact-366": {
+    en: { name: "Le Potager de l'Estuaire", description: "Organic CSA farm site, 2nd variant — seasons sweep past with CrossPush full-bleed, seasonal contracts, open books." },
+    es: { name: "Le Potager de l'Estuaire", description: "Sitio de huerta ecológica AMAP, 2.ª variante — las estaciones desfilan con CrossPush a pantalla completa, contratos de temporada, cuentas abiertas." },
+    de: { name: "Le Potager de l'Estuaire", description: "Website für Bio-Solawi, 2. Variante — die Jahreszeiten ziehen per CrossPush vollflächig vorbei, Saisonverträge, offene Bücher." },
+    pt: { name: "Le Potager de l'Estuaire", description: "Site de horta orgânica AMAP, 2.ª variante — as estações desfilam com CrossPush em tela cheia, contratos de temporada, contas abertas." },
+  },
+  "impact-367": {
+    en: { name: "Cabinet Naissances", description: "Midwife practice site — a breathing ParticleOrb halo, full insured follow-up, home postpartum visits, preventive gynaecology." },
+    es: { name: "Cabinet Naissances", description: "Sitio de matrona — un halo ParticleOrb que respira, seguimiento convencionado completo, visitas posparto a domicilio, ginecología preventiva." },
+    de: { name: "Cabinet Naissances", description: "Hebammen-Website — ein atmender ParticleOrb-Halo, komplette Kassenbetreuung, Wochenbett-Hausbesuche, Vorsorge-Gynäkologie." },
+    pt: { name: "Cabinet Naissances", description: "Site de parteira — um halo ParticleOrb que respira, acompanhamento convencionado completo, visitas pós-parto em casa, ginecologia preventiva." },
+  },
+  "impact-368": {
+    en: { name: "Neuf Mois & Vous", description: "Midwife group practice site, 2nd variant — bands rise with PanelRise, evening slots, same-day lactation urgencies, shared records." },
+    es: { name: "Neuf Mois & Vous", description: "Sitio de consulta de matronas, 2.ª variante — franjas en PanelRise, horarios de tarde, urgencias de lactancia el mismo día, historial compartido." },
+    de: { name: "Neuf Mois & Vous", description: "Website für Hebammen-Gemeinschaftspraxis, 2. Variante — Bänder per PanelRise, Abendtermine, Stillnotfälle am selben Tag, geteilte Akte." },
+    pt: { name: "Neuf Mois & Vous", description: "Site de consultório de parteiras, 2.ª variante — faixas em PanelRise, horários noturnos, urgências de amamentação no mesmo dia, prontuário compartilhado." },
+  },
+  "impact-369": {
+    en: { name: "Domaine des Charmilles", description: "Wedding venue site — the gate opens with PortalZoom, 220 seats, 12 rooms, certified premises, one event at a time." },
+    es: { name: "Domaine des Charmilles", description: "Sitio de finca de eventos — el portal se abre con PortalZoom, 220 comensales, 12 habitaciones, local homologado, un solo evento a la vez." },
+    de: { name: "Domaine des Charmilles", description: "Website für Event-Domäne — das Tor öffnet sich per PortalZoom, 220 Plätze, 12 Zimmer, geprüfte Räumlichkeiten, ein Event zur Zeit." },
+    pt: { name: "Domaine des Charmilles", description: "Site de domínio de eventos — o portão se abre com PortalZoom, 220 lugares, 12 quartos, espaço vistoriado, um evento por vez." },
+  },
+  "impact-370": {
+    en: { name: "Halle 1897", description: "Industrial event hall site, 2nd variant — the frame expands from plan to hall with ExpandFrame, 600 m² glass roof, built-in tech, house stage manager." },
+    es: { name: "Halle 1897", description: "Sitio de nave de eventos, 2.ª variante — el encuadre se abre del plano a la nave con ExpandFrame, 600 m² bajo cristalera, técnica integrada, regidor incluido." },
+    de: { name: "Halle 1897", description: "Website für Industrie-Eventhalle, 2. Variante — der Rahmen öffnet sich per ExpandFrame vom Plan zur Halle, 600 m² Glasdach, integrierte Technik, Hausregisseur." },
+    pt: { name: "Halle 1897", description: "Site de galpão de eventos, 2.ª variante — o quadro se expande da planta ao salão com ExpandFrame, 600 m² sob claraboia, técnica integrada, régisseur da casa." },
+  },
+  "impact-371": {
+    en: { name: "Sentinelle Sud", description: "Private security site — presence materialises with GhostSolid, CNAPS licence displayed, carded employed agents, electronic logbook." },
+    es: { name: "Sentinelle Sud", description: "Sitio de seguridad privada — la presencia se materializa con GhostSolid, licencia CNAPS visible, agentes asalariados con carné, parte electrónico." },
+    de: { name: "Sentinelle Sud", description: "Website für privaten Sicherheitsdienst — Präsenz materialisiert sich per GhostSolid, CNAPS-Lizenz sichtbar, festangestellte Kräfte mit Ausweis, elektronisches Wachbuch." },
+    pt: { name: "Sentinelle Sud", description: "Site de segurança privada — a presença se materializa com GhostSolid, licença CNAPS exibida, agentes contratados com carteira, livro de ocorrências eletrônico." },
+  },
 };
