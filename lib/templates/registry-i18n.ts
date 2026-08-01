@@ -1914,4 +1914,10 @@ export const TEMPLATE_I18N: Record<string, Record<'en' | 'es' | 'de' | 'pt', Tem
     de: { name: "Lignes & Bois Küchen", description: "Website für Küchenstudio / Einbaumöbel nach Maß — jedes Projekt entfaltet sich vom Plan zum Raum per ExpandFrame, Festpreisangebot, Vier-Schritte-Methode." },
     pt: { name: "Lignes & Bois Cozinhas", description: "Site de cozinhas / mobiliário sob medida — cada projeto se expande da planta ao ambiente com ExpandFrame, orçamento fechado, método em quatro etapas." },
   },
+  "impact-328": {
+    en: { name: "Maison Estève Funeral Home", description: "Funeral home & pre-planning site — HeldSwap at the kit's slowest pace, prefectoral licence, regulated itemised quotes, sober tone." },
+    es: { name: "Maison Estève Funeraria", description: "Sitio de funeraria y previsión — HeldSwap al ritmo más lento del kit, habilitación prefectoral, presupuesto regulado detallado, tono sobrio." },
+    de: { name: "Maison Estève Bestattungen", description: "Website für Bestattungsinstitut & Vorsorge — HeldSwap im langsamsten Rhythmus des Kits, präfektorale Zulassung, regulierte Kostenvoranschläge, nüchterner Ton." },
+    pt: { name: "Maison Estève Funerária", description: "Site de funerária e previdência — HeldSwap no ritmo mais lento do kit, habilitação prefeitoral, orçamento regulamentado detalhado, tom sóbrio." },
+  },
 };

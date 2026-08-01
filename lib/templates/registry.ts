@@ -3131,4 +3131,14 @@ export const TEMPLATES_REGISTRY: TemplateMetadata[] = [
     tier: "Premium",
     sections: 9,
   },
+  {
+    id: "impact-328",
+    name: "Maison Estève Funéraire",
+    description: "Pompes funèbres & prévoyance — HeldSwap au rythme le plus lent du kit, habilitation préfectorale, devis-type réglementé, ton sobre.",
+    category: "Services",
+    style: "Light",
+    tags: ["Pompes funèbres", "Prévoyance", "Funéraire", "Sobre"],
+    tier: "Premium",
+    sections: 8,
+  },
 ];
