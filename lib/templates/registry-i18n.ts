@@ -1932,4 +1932,40 @@ export const TEMPLATE_I18N: Record<string, Record<'en' | 'es' | 'de' | 'pt', Tem
     de: { name: "Pharmacie du Parc", description: "Website für Apotheke / Parapharmazie — das Regal erscheint Reihe für Reihe per MosaicPush, Rezept-Click&Collect, Impfungen, Apothekengrün." },
     pt: { name: "Pharmacie du Parc", description: "Site de farmácia / parafarmácia — as prateleiras chegam fila a fila com MosaicPush, click & collect de receitas, vacinação, verde de farmácia." },
   },
+  "impact-331": {
+    en: { name: "Regard Nord Opticiens", description: "Optician site, 2nd variant — frames swing in with ArcSwap, 100% Santé offer, on-site eye exams, third-party payment." },
+    es: { name: "Regard Nord Opticiens", description: "Sitio de óptica, 2.ª variante — las monturas entran en péndulo ArcSwap, oferta 100% Santé, examen visual en tienda, pago directo." },
+    de: { name: "Regard Nord Opticiens", description: "Optiker-Website, 2. Variante — Fassungen schwingen per ArcSwap ein, 100%-Santé-Angebot, Sehtest vor Ort, Direktabrechnung." },
+    pt: { name: "Regard Nord Opticiens", description: "Site de ótica, 2.ª variante — as armações entram em pêndulo ArcSwap, oferta 100% Santé, exame de vista na loja, pagamento direto." },
+  },
+  "impact-332": {
+    en: { name: "Faubourg Serrures", description: "Locksmith site, 2nd variant, planned security — armor materialises with GhostSolid, A2P certifications, firm quotes, photo-free." },
+    es: { name: "Faubourg Serrures", description: "Sitio de cerrajería, 2.ª variante, seguridad planificada — el blindaje se materializa con GhostSolid, certificaciones A2P, presupuesto cerrado, sin fotos." },
+    de: { name: "Faubourg Serrures", description: "Schlüsseldienst-Website, 2. Variante, geplante Sicherheit — die Panzerung materialisiert sich per GhostSolid, A2P-Zertifizierung, Festpreis, ohne Fotos." },
+    pt: { name: "Faubourg Serrures", description: "Site de serralheiro, 2.ª variante, segurança planejada — a blindagem se materializa com GhostSolid, certificações A2P, orçamento fechado, sem fotos." },
+  },
+  "impact-333": {
+    en: { name: "Étude du Canal Notaires", description: "Notary site, 2nd variant, dark urban style — clauses assemble in WordFlight, state-regulated fees, annotated draft deeds." },
+    es: { name: "Étude du Canal Notaires", description: "Sitio de notaría, 2.ª variante, estilo urbano oscuro — las cláusulas se ensamblan con WordFlight, aranceles regulados, proyectos de escritura comentados." },
+    de: { name: "Étude du Canal Notaires", description: "Notariats-Website, 2. Variante, dunkler urbaner Stil — Klauseln fügen sich per WordFlight zusammen, staatlich geregelte Gebühren, kommentierte Urkundenentwürfe." },
+    pt: { name: "Étude du Canal Notaires", description: "Site de cartório, 2.ª variante, estilo urbano escuro — as cláusulas se montam com WordFlight, emolumentos regulados, minutas comentadas." },
+  },
+  "impact-334": {
+    en: { name: "Studio Culina", description: "Kitchen studio site, 2nd variant — fronts drop in with PanelDrop, 2-hour design workshop, firm quotes, ten-year installation warranty." },
+    es: { name: "Studio Culina", description: "Sitio de estudio de cocinas, 2.ª variante — los frentes descienden con PanelDrop, taller de diseño de 2 h, presupuesto cerrado, garantía decenal." },
+    de: { name: "Studio Culina", description: "Küchenstudio-Website, 2. Variante — Fronten senken sich per PanelDrop, 2-Stunden-Planungsworkshop, Festpreis, zehnjährige Montagegarantie." },
+    pt: { name: "Studio Culina", description: "Site de estúdio de cozinhas, 2.ª variante — as frentes descem com PanelDrop, oficina de projeto de 2 h, orçamento fechado, garantia decenal." },
+  },
+  "impact-335": {
+    en: { name: "Rives Blanches Funéraire", description: "Funeral home site, 2nd variant, coastal and luminous — bands rise with PanelRise, prefectoral licence, regulated itemised quotes." },
+    es: { name: "Rives Blanches Funéraire", description: "Sitio de funeraria, 2.ª variante, costera y luminosa — las franjas se elevan con PanelRise, habilitación prefectoral, presupuesto regulado." },
+    de: { name: "Rives Blanches Funéraire", description: "Bestattungs-Website, 2. Variante, küstennah und hell — Bänder steigen per PanelRise auf, präfektorale Zulassung, regulierte Kostenvoranschläge." },
+    pt: { name: "Rives Blanches Funéraire", description: "Site de funerária, 2.ª variante, costeira e luminosa — as faixas sobem com PanelRise, habilitação prefeitoral, orçamento regulamentado." },
+  },
+  "impact-336": {
+    en: { name: "Pharmacie de l'Horloge", description: "Pharmacy site, 2nd variant — the prescription journey as a pinned StickyProgress, compounding lab, vaccination, direct billing." },
+    es: { name: "Pharmacie de l'Horloge", description: "Sitio de farmacia, 2.ª variante — el recorrido de la receta en StickyProgress fijado, laboratorio de fórmulas, vacunación, pago directo." },
+    de: { name: "Pharmacie de l'Horloge", description: "Apotheken-Website, 2. Variante — der Rezeptweg als angeheftetes StickyProgress, Rezeptur, Impfungen, Direktabrechnung." },
+    pt: { name: "Pharmacie de l'Horloge", description: "Site de farmácia, 2.ª variante — o percurso da receita em StickyProgress fixado, manipulação, vacinação, pagamento direto." },
+  },
 };
