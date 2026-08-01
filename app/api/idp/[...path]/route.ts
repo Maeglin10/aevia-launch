@@ -17,12 +17,25 @@ const IDP_BASE =
   "https://skybot-inbox-production.up.railway.app/api/v1";
 
 async function proxy(req: NextRequest, path: string): Promise<NextResponse> {
+  // Reject any path-traversal segment BEFORE the allowlist check. Otherwise a
+  // path like "/auth/../../admin" passes startsWith("/auth/") yet, once the
+  // upstream URL is built by string concat, `new URL` normalises the ".." and
+  // climbs above IDP_BASE's /api/v1 prefix — defeating the allowlist and
+  // reaching backend endpoints that were never meant to be proxied.
+  if (path.split("/").includes("..")) {
+    return NextResponse.json({ error: "Not found" }, { status: 404 });
+  }
   if (!ALLOWED_PREFIXES.some((p) => path.startsWith(p))) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
 
   const url = new URL(req.url);
   const upstream = new URL(`${IDP_BASE}${path}${url.search}`);
+  // Defense in depth: even after the ".." guard, ensure the resolved URL never
+  // escapes the intended IDP base (host + path prefix).
+  if (!upstream.href.startsWith(IDP_BASE + "/") && upstream.href !== IDP_BASE) {
+    return NextResponse.json({ error: "Not found" }, { status: 404 });
+  }
 
   const headers = new Headers();
   req.headers.forEach((v, k) => {
