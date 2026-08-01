@@ -2094,4 +2094,46 @@ export const TEMPLATE_I18N: Record<string, Record<'en' | 'es' | 'de' | 'pt', Tem
     de: { name: "Axis Bio", description: "Labor-Website — Ergebnisse präzisieren sich per TrackingCollapse, COFRAC-ISO-15189-Akkreditierung, Ergebnisse am selben Tag, erreichbare Biologen." },
     pt: { name: "Axis Bio", description: "Site de laboratório médico — o resultado se precisa com TrackingCollapse, acreditação COFRAC ISO 15189, resultados no mesmo dia, biologistas acessíveis." },
   },
+  "impact-358": {
+    en: { name: "BioVallée Analyses", description: "Medical lab site, 2nd variant, rural multi-site — benches arrive with MosaicPush, tracked cold-chain shuttle, COFRAC, village rounds." },
+    es: { name: "BioVallée Analyses", description: "Sitio de laboratorio, 2.ª variante, rural multisede — las mesas llegan con MosaicPush, lanzadera refrigerada trazada, COFRAC, rondas por pueblos." },
+    de: { name: "BioVallée Analyses", description: "Labor-Website, 2. Variante, ländlich mehrstandortig — Arbeitsplätze per MosaicPush, dokumentierte Kühlkette, COFRAC, Dorf-Touren." },
+    pt: { name: "BioVallée Analyses", description: "Site de laboratório, 2.ª variante, rural multissítio — as bancadas chegam com MosaicPush, transporte refrigerado rastreado, COFRAC, rondas rurais." },
+  },
+  "impact-359": {
+    en: { name: "Locamat", description: "Equipment rental site — the fleet unfolds with BentoCascade, statutory inspections current, hands-on briefing, deposit released on return." },
+    es: { name: "Locamat", description: "Sitio de alquiler de maquinaria — el parque se despliega con BentoCascade, inspecciones al día, instrucción en depósito, fianza liberada al devolver." },
+    de: { name: "Locamat", description: "Website für Maschinenverleih — der Park entfaltet sich per BentoCascade, Prüfungen aktuell, Einweisung im Depot, Kaution bei Rückgabe frei." },
+    pt: { name: "Locamat", description: "Site de aluguel de equipamentos — o parque se desdobra com BentoCascade, inspeções em dia, instrução no depósito, caução liberada na devolução." },
+  },
+  "impact-360": {
+    en: { name: "Atlantique Matériels", description: "Event equipment rental site, 2nd variant — cards sweep by with PushBlur, tents up at D-2, dishes returned dirty, event-night hotline." },
+    es: { name: "Atlantique Matériels", description: "Sitio de alquiler para eventos, 2.ª variante — las tarjetas pasan con PushBlur, carpas montadas a D-2, vajilla devuelta sucia, línea directa la noche del evento." },
+    de: { name: "Atlantique Matériels", description: "Website für Event-Verleih, 2. Variante — Karten ziehen per PushBlur vorbei, Zelte an T-2, Geschirr schmutzig zurück, Event-Hotline." },
+    pt: { name: "Atlantique Matériels", description: "Site de aluguel para eventos, 2.ª variante — os cartões passam com PushBlur, tendas montadas em D-2, louça devolvida suja, plantão na noite do evento." },
+  },
+  "impact-361": {
+    en: { name: "L'Atelier des Teintes", description: "Decorative painter site — colour revealed with WipeReveal, at-home colour consulting, lime plasters and panoramics, ten-year warranty." },
+    es: { name: "L'Atelier des Teintes", description: "Sitio de pintor decorador — el color se revela con WipeReveal, asesoría de color a domicilio, cales y panorámicos, garantía decenal." },
+    de: { name: "L'Atelier des Teintes", description: "Website für Maler & Dekorateur — Farbe per WipeReveal enthüllt, Farbberatung zu Hause, Kalkputze und Panoramen, zehnjährige Garantie." },
+    pt: { name: "L'Atelier des Teintes", description: "Site de pintor decorador — a cor revelada com WipeReveal, consultoria de cor em casa, cal e panorâmicos, garantia decenal." },
+  },
+  "impact-362": {
+    en: { name: "Duo Peintures", description: "Painter site, 2nd variant, father-daughter duo — before/after flips with InvertSweep, site logbook, rental flat packages, dates kept." },
+    es: { name: "Duo Peintures", description: "Sitio de pintor, 2.ª variante, dúo padre-hija — el antes/después bascula con InvertSweep, cuaderno de obra, tarifas para alquileres, plazos cumplidos." },
+    de: { name: "Duo Peintures", description: "Maler-Website, 2. Variante, Vater-Tochter-Duo — Vorher/Nachher kippt per InvertSweep, Bautagebuch, Mietwohnungs-Pauschalen, Termine gehalten." },
+    pt: { name: "Duo Peintures", description: "Site de pintor, 2.ª variante, dupla pai-filha — o antes/depois vira com InvertSweep, caderno de obra, pacotes para aluguéis, prazos cumpridos." },
+  },
+  "impact-363": {
+    en: { name: "Cabinet Podo'Marche", description: "Podiatrist site — the insole builds layer by layer with MosaicPush, pressure platform, in-house fabrication, professional register." },
+    es: { name: "Cabinet Podo'Marche", description: "Sitio de podólogo — la plantilla se construye capa a capa con MosaicPush, plataforma de presiones, fabricación propia, colegiación." },
+    de: { name: "Cabinet Podo'Marche", description: "Podologen-Website — die Einlage baut sich per MosaicPush Schicht für Schicht, Druckmessplatte, Fertigung in der Praxis, Kammerregistrierung." },
+    pt: { name: "Cabinet Podo'Marche", description: "Site de podólogo — a palmilha se constrói camada a camada com MosaicPush, plataforma de pressão, fabricação própria, registro na Ordem." },
+  },
+  "impact-364": {
+    en: { name: "Allure & Appui", description: "Podiatrist site, 2nd variant, gentle tone — the stride in LineMask lines, painless chiropody, slim insoles, Thursday home visits." },
+    es: { name: "Allure & Appui", description: "Sitio de podóloga, 2.ª variante, tono suave — la zancada en líneas LineMask, quiropodia sin dolor, plantillas finas, visitas a domicilio los jueves." },
+    de: { name: "Allure & Appui", description: "Podologin-Website, 2. Variante, sanfter Ton — der Schritt in LineMask-Zeilen, schmerzfreie Fußpflege, dünne Einlagen, Hausbesuche donnerstags." },
+    pt: { name: "Allure & Appui", description: "Site de podóloga, 2.ª variante, tom suave — a passada em linhas LineMask, podologia sem dor, palmilhas finas, visitas domiciliares às quintas." },
+  },
 };
