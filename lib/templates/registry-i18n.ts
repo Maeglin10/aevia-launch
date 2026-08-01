@@ -1908,4 +1908,10 @@ export const TEMPLATE_I18N: Record<string, Record<'en' | 'es' | 'de' | 'pt', Tem
     de: { name: "Vasseur & Delmas Notare", description: "Premium-Website für ein Notariat — Tätigkeitsbereiche im ArcSwap-Pendel, staatlich geregelte Gebühren, Elfenbein-Messing-Ästhetik." },
     pt: { name: "Vasseur & Delmas Notários", description: "Site premium de cartório notarial — áreas de atuação em pêndulo ArcSwap, emolumentos regulados pelo Estado, estética marfim e latão." },
   },
+  "impact-327": {
+    en: { name: "Lignes & Bois Kitchens", description: "Kitchen designer / custom fitting site — each project expands from plan to room with ExpandFrame, fixed quotes, four-step method." },
+    es: { name: "Lignes & Bois Cocinas", description: "Sitio de cocinista / amueblamiento a medida — cada proyecto se despliega del plano a la habitación con ExpandFrame, presupuesto cerrado, método en cuatro pasos." },
+    de: { name: "Lignes & Bois Küchen", description: "Website für Küchenstudio / Einbaumöbel nach Maß — jedes Projekt entfaltet sich vom Plan zum Raum per ExpandFrame, Festpreisangebot, Vier-Schritte-Methode." },
+    pt: { name: "Lignes & Bois Cozinhas", description: "Site de cozinhas / mobiliário sob medida — cada projeto se expande da planta ao ambiente com ExpandFrame, orçamento fechado, método em quatro etapas." },
+  },
 };

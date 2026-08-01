@@ -3121,4 +3121,14 @@ export const TEMPLATES_REGISTRY: TemplateMetadata[] = [
     tier: "Premium",
     sections: 8,
   },
+  {
+    id: "impact-327",
+    name: "Lignes & Bois Cuisines",
+    description: "Cuisiniste / agencement sur mesure — chaque projet se déploie du plan à la pièce en ExpandFrame, devis ferme, méthode en quatre étapes.",
+    category: "Services",
+    style: "Light",
+    tags: ["Cuisiniste", "Agencement", "Artisan", "Sur mesure"],
+    tier: "Premium",
+    sections: 9,
+  },
 ];

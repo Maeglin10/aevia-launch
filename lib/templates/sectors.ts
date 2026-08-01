@@ -120,6 +120,7 @@ export const INDUSTRIES: IndustryInfo[] = [
       { id: 'agent_immobilier',    label: 'Agence immobilière',    labels: { en: 'Real Estate Agency', es: 'Inmobiliaria',              de: 'Immobilienmakler', pt: 'Agência imobiliária' }, emoji: '🏠', accentColor: '#1c2e4a' },
       { id: 'architecte',          label: 'Architecte',            labels: { en: 'Architecture Firm',  es: 'Estudio de arquitectura',   de: 'Architekturbüro',  pt: 'Atelier de arquitetura' }, emoji: '📐', accentColor: '#44576b' },
       { id: 'decorateur_interieur', label: "Décorateur d'intérieur", labels: { en: 'Interior Designer', es: 'Diseño de interiores',     de: 'Innenarchitekt',   pt: 'Designer de interiores' }, emoji: '🛋️', accentColor: '#8a6a4f' },
+      { id: 'cuisiniste',          label: 'Cuisiniste / Agenceur', labels: { en: 'Kitchen Designer',  es: 'Cocinista / Amueblamiento', de: 'Küchenstudio',     pt: 'Cozinhas por medida' }, emoji: '🍳', accentColor: '#a4552e' },
     ],
   },
   {
