@@ -30,6 +30,8 @@ export const INDUSTRIES: IndustryInfo[] = [
       { id: 'pharmacie',   label: 'Pharmacie',    labels: { en: 'Pharmacy',        es: 'Farmacia',      de: 'Apotheke',          pt: 'Farmácia'       }, emoji: '💊', accentColor: '#1a7a52' },
       { id: 'opticien',    label: 'Opticien',     labels: { en: 'Optician',        es: 'Óptica',        de: 'Optiker',           pt: 'Ótica'          }, emoji: '👓', accentColor: '#1d7a72' },
       { id: 'audioprothesiste', label: 'Audioprothésiste', labels: { en: 'Hearing Specialist', es: 'Audioprótesis', de: 'Hörakustiker', pt: 'Audioprotesista' }, emoji: '👂', accentColor: '#8a6a2f' },
+      { id: 'infirmier',       label: 'Infirmier libéral', labels: { en: 'Home Nurse', es: 'Enfermería a domicilio', de: 'Ambulante Pflege', pt: 'Enfermagem domiciliar' }, emoji: '💉', accentColor: '#125c3d' },
+      { id: 'laboratoire',     label: 'Laboratoire d\'analyses', labels: { en: 'Medical Laboratory', es: 'Laboratorio médico', de: 'Medizinisches Labor', pt: 'Laboratório médico' }, emoji: '🔬', accentColor: '#22396b' },
     ],
   },
   {
@@ -52,6 +54,8 @@ export const INDUSTRIES: IndustryInfo[] = [
       { id: 'pressing',        label: 'Pressing / Blanchisserie', labels: { en: 'Dry Cleaner', es: 'Tintorería', de: 'Reinigung', pt: 'Lavanderia' }, emoji: '👔', accentColor: '#6d4a8a' },
       { id: 'formation',       label: 'Centre de formation',  labels: { en: 'Training Centre', es: 'Centro de formación', de: 'Weiterbildungszentrum', pt: 'Centro de formação' }, emoji: '🎓', accentColor: '#22396b' },
       { id: 'controle_technique', label: 'Contrôle technique', labels: { en: 'Vehicle Inspection', es: 'ITV', de: 'Fahrzeugprüfung', pt: 'Inspeção veicular' }, emoji: '🚦', accentColor: '#194e6d' },
+      { id: 'couvreur',        label: 'Couvreur-zingueur',    labels: { en: 'Roofer', es: 'Techador', de: 'Dachdecker', pt: 'Telhadista' }, emoji: '🏠', accentColor: '#33261a' },
+      { id: 'creche',          label: 'Crèche / Garde d\'enfants', labels: { en: 'Nursery / Childcare', es: 'Guardería', de: 'Kita / Kinderbetreuung', pt: 'Creche' }, emoji: '🧸', accentColor: '#a2504f' },
     ],
   },
   {
