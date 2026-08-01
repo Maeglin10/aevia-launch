@@ -50,6 +50,8 @@ export const INDUSTRIES: IndustryInfo[] = [
       { id: 'serrurier',       label: 'Serrurier',       labels: { en: 'Locksmith', es: 'Cerrajero', de: 'Schlüsseldienst', pt: 'Serralheiro' }, emoji: '🔐', accentColor: '#4e9fd4' },
       { id: 'auto_ecole',      label: 'Auto-école',      labels: { en: 'Driving School', es: 'Autoescuela', de: 'Fahrschule', pt: 'Autoescola' }, emoji: '🚘', accentColor: '#20648c' },
       { id: 'pressing',        label: 'Pressing / Blanchisserie', labels: { en: 'Dry Cleaner', es: 'Tintorería', de: 'Reinigung', pt: 'Lavanderia' }, emoji: '👔', accentColor: '#6d4a8a' },
+      { id: 'formation',       label: 'Centre de formation',  labels: { en: 'Training Centre', es: 'Centro de formación', de: 'Weiterbildungszentrum', pt: 'Centro de formação' }, emoji: '🎓', accentColor: '#22396b' },
+      { id: 'controle_technique', label: 'Contrôle technique', labels: { en: 'Vehicle Inspection', es: 'ITV', de: 'Fahrzeugprüfung', pt: 'Inspeção veicular' }, emoji: '🚦', accentColor: '#194e6d' },
     ],
   },
   {
@@ -74,6 +76,7 @@ export const INDUSTRIES: IndustryInfo[] = [
       { id: 'restauration_rapide', label: 'Fast-food / Snack',  labels: { en: 'Fast Food',    es: 'Comida rápida',       de: 'Fast Food',       pt: 'Fast food'           }, emoji: '🍔', accentColor: '#b33a00' },
       { id: 'boulangerie',        label: 'Boulangerie',         labels: { en: 'Bakery',       es: 'Panadería',           de: 'Bäckerei',        pt: 'Padaria'             }, emoji: '🥖', accentColor: '#5c3a1e' },
       { id: 'cafe_bar',           label: 'Café / Bar à vin',    labels: { en: 'Café / Wine Bar', es: 'Café / Bar de vinos', de: 'Café / Weinbar', pt: 'Café / Bar de vinhos' }, emoji: '☕', accentColor: '#6b4226' },
+      { id: 'commerce_bouche', label: 'Boucherie / Fromagerie', labels: { en: 'Butcher / Cheese Shop', es: 'Carnicería / Quesería', de: 'Metzgerei / Käserei', pt: 'Açougue / Queijaria' }, emoji: '🧀', accentColor: '#7d3b3a' },
     ],
   },
   {

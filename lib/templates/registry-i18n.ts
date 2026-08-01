@@ -2010,4 +2010,46 @@ export const TEMPLATE_I18N: Record<string, Record<'en' | 'es' | 'de' | 'pt', Tem
     de: { name: "Blanc Net Pressing", description: "Reinigungs-Website — Sauberkeit per WipeReveal enthüllt, lösungsmittelfreie Nassreinigung, Pflegekarte pro Stück, 24-h-Service." },
     pt: { name: "Blanc Net Pressing", description: "Site de lavanderia — o limpo revelado com WipeReveal, limpeza úmida sem solventes, ficha de cuidado por peça, entrega em 24 h." },
   },
+  "impact-344": {
+    en: { name: "Aqua Vert Pressing", description: "Eco dry-cleaner site, 2nd variant — before/after flips with InvertSweep on scroll, Ecolabel wet cleaning, bike pickup rounds." },
+    es: { name: "Aqua Vert Pressing", description: "Sitio de tintorería ecológica, 2.ª variante — el antes/después bascula con InvertSweep al hacer scroll, limpieza húmeda Ecolabel, recogida en bici." },
+    de: { name: "Aqua Vert Pressing", description: "Öko-Reinigungs-Website, 2. Variante — Vorher/Nachher kippt per InvertSweep beim Scrollen, Ecolabel-Nassreinigung, Abholung per Rad." },
+    pt: { name: "Aqua Vert Pressing", description: "Site de lavanderia ecológica, 2.ª variante — o antes/depois vira com InvertSweep no scroll, limpeza úmida Ecolabel, coleta de bicicleta." },
+  },
+  "impact-345": {
+    en: { name: "Maison Bertin", description: "Butcher shop site — cuts placed with HeldSwap, named farms, visible dry-aging room, house charcuterie." },
+    es: { name: "Maison Bertin", description: "Sitio de carnicería — las piezas se posan con HeldSwap, ganaderías con nombre, cámara de maduración visible, charcutería casera." },
+    de: { name: "Maison Bertin", description: "Metzgerei-Website — Stücke per HeldSwap aufgelegt, benannte Höfe, sichtbare Reifekammer, hausgemachte Charcuterie." },
+    pt: { name: "Maison Bertin", description: "Site de açougue — as peças pousam com HeldSwap, criadores nomeados, câmara de maturação visível, charcutaria da casa." },
+  },
+  "impact-346": {
+    en: { name: "La Halle aux Fromages", description: "Cheesemonger site — the counter arrives with MosaicPush, on-site aging cellar, farm-direct AOP cheeses, composed platters." },
+    es: { name: "La Halle aux Fromages", description: "Sitio de quesería-afinador — el mostrador llega con MosaicPush, cueva de afinado propia, AOP directo de granjas, tablas compuestas." },
+    de: { name: "La Halle aux Fromages", description: "Käserei-Website — die Theke erscheint per MosaicPush, eigener Reifekeller, AOP direkt vom Hof, zusammengestellte Platten." },
+    pt: { name: "La Halle aux Fromages", description: "Site de queijaria-afinador — a bancada chega com MosaicPush, cave de afinação própria, AOP direto das fazendas, tábuas compostas." },
+  },
+  "impact-347": {
+    en: { name: "Prisme Formation", description: "Training centre site — the programme unrolls with LineScroll, Qualiopi certification, TOSA/LILATE exams, CPF/OPCO funding." },
+    es: { name: "Prisme Formation", description: "Sitio de centro de formación — el programa se despliega con LineScroll, certificación Qualiopi, exámenes TOSA/LILATE, financiación CPF/OPCO." },
+    de: { name: "Prisme Formation", description: "Website für Weiterbildungszentrum — das Programm entrollt sich per LineScroll, Qualiopi-Zertifizierung, TOSA/LILATE, CPF/OPCO-Förderung." },
+    pt: { name: "Prisme Formation", description: "Site de centro de formação — o programa se desenrola com LineScroll, certificação Qualiopi, exames TOSA/LILATE, financiamento CPF/OPCO." },
+  },
+  "impact-348": {
+    en: { name: "Alma Compétences", description: "Career-change training centre site — modules cascade with BentoCascade, RNCP state titles, real workshops, published job-placement rates." },
+    es: { name: "Alma Compétences", description: "Sitio de centro de reconversión — los módulos caen con BentoCascade, títulos RNCP, talleres reales, tasas de inserción publicadas." },
+    de: { name: "Alma Compétences", description: "Website für Umschulungszentrum — Module fallen per BentoCascade, staatliche RNCP-Titel, echte Werkstätten, veröffentlichte Vermittlungsquoten." },
+    pt: { name: "Alma Compétences", description: "Site de centro de reconversão — os módulos caem com BentoCascade, títulos RNCP, oficinas reais, taxas de inserção publicadas." },
+  },
+  "impact-349": {
+    en: { name: "Contrôle Rhodanien", description: "Vehicle inspection centre site — the chassis materialises with GhostSolid, prefectoral approval, 133 points explained, zero upselling." },
+    es: { name: "Contrôle Rhodanien", description: "Sitio de centro de ITV — el chasis se materializa con GhostSolid, homologación prefectoral, 133 puntos explicados, cero venta forzada." },
+    de: { name: "Contrôle Rhodanien", description: "Website für Prüfzentrum — das Chassis materialisiert sich per GhostSolid, präfektorale Zulassung, 133 erklärte Prüfpunkte, kein Verkaufsdruck." },
+    pt: { name: "Contrôle Rhodanien", description: "Site de centro de inspeção veicular — o chassi se materializa com GhostSolid, aprovação prefeitoral, 133 pontos explicados, zero venda forçada." },
+  },
+  "impact-350": {
+    en: { name: "CT de la Lumière", description: "Vehicle inspection site, 2nd variant, family-friendly — report lines reveal with LineMask, evening slots, jargon-free lexicon, 10-min recheck." },
+    es: { name: "CT de la Lumière", description: "Sitio de ITV, 2.ª variante, familiar — las líneas del informe se revelan con LineMask, turnos de tarde, léxico sin jerga, contravisita de 10 min." },
+    de: { name: "CT de la Lumière", description: "Prüfzentrum-Website, 2. Variante, familienfreundlich — Berichtszeilen per LineMask enthüllt, Abendtermine, Lexikon ohne Fachjargon, 10-Minuten-Nachprüfung." },
+    pt: { name: "CT de la Lumière", description: "Site de inspeção veicular, 2.ª variante, familiar — as linhas do laudo se revelam com LineMask, horários noturnos, léxico sem jargão, revisão em 10 min." },
+  },
 };
