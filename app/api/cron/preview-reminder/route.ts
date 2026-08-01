@@ -77,14 +77,18 @@ export async function GET(req: NextRequest) {
   }
 
   // Vercel Cron sends Authorization: Bearer $CRON_SECRET automatically when
-  // CRON_SECRET is set as a project env var. Reject anything else so this
-  // route can't be used to spam the entire unpaid-preview list on demand.
+  // CRON_SECRET is set as a project env var. This route sends reminder emails
+  // to the entire unpaid-preview list, so it must be fail-CLOSED: if the secret
+  // isn't configured at all, refuse rather than run wide open (previously a
+  // missing CRON_SECRET left the endpoint unauthenticated — anyone could spam
+  // the whole list on demand).
   const cronSecret = process.env.CRON_SECRET;
-  if (cronSecret) {
-    const auth = req.headers.get("authorization");
-    if (auth !== `Bearer ${cronSecret}`) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
+  if (!cronSecret) {
+    return NextResponse.json({ error: "CRON_SECRET not configured" }, { status: 503 });
+  }
+  const auth = req.headers.get("authorization");
+  if (auth !== `Bearer ${cronSecret}`) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? "https://launch.aevia.services";

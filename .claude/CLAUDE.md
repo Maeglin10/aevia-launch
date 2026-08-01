@@ -62,7 +62,10 @@ Toujours vérifier le vrai contenu : `grep "export default function" app/templat
 ## Funnel analytics
 - `lib/funnel.ts` → `recordFunnelStep()` + `getFunnelStats()`
 - API : `app/api/funnel/route.ts` (POST fire-and-forget, GET protégé par `FUNNEL_ADMIN_TOKEN`)
-- Token : `fnl_8918b1d36ab8924058f502befdb2b57c`
+- Token : **jamais en clair dans le dépôt** — variable d'env Vercel `FUNNEL_ADMIN_TOKEN`
+  (la récupérer via le dashboard Vercel ou `vercel env pull`). ⚠️ L'ancienne valeur
+  était commitée ici : elle doit être **rotée** dans Stripe/Vercel car elle reste
+  lisible dans l'historique git.
 
 ## Fichiers clés
 - `components/StepForm.tsx` — wizard principal (multi-étapes)
