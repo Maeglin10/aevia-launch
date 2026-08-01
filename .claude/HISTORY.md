@@ -163,6 +163,32 @@ Thèmes livrés : 168 (Éclat/fashion), 46 (Dumont/law), 192 (Quantum/tech), 215
 
 ---
 
+## 2026-08-01 — Session #7 : Redistribution des signatures (tableau d'allocation révisé)
+
+**Fait :** `626fce00` `cd6fd796` (+ correctifs de vérification)
+- **Groupe A (photos, hero-kit-3)** : impact-309 → CrossPush plein cadre (ex-BlurThrough), impact-243 → PortalZoom porte (`inset … round`), impact-266 → PortalZoom arche (vignette « lieu suivant » conservée).
+- **Groupe B** : impact-248 / impact-84 → MosaicPush plein cadre (3 et 2 tuiles, la dominante = axe courant), impact-209 → TrackingCollapse sur le mot de la prestation, impact-149 → TrackingCollapse sur le nom du soin.
+- **Groupe C** : impact-90 → PanelDrop (rideau droit, bloc pain + prix + description FR dans le rideau), impact-213 → HardCutRebuild sur titre et métier + FixedRail gauche (masqué <700px), impact-83 → LineScroll (ex-LineMask), impact-53 → DifferentialExit (0.15 sur le mot, 0.85 sur le bento), impact-49 → section StickyProgress « 3bis. LE PARCOURS » (4 étapes, barres animées), impact-50 → PanelRise sur le bandeau stats.
+- **Vérification visuelle des 13** : captures 1440×900 + 390×844 toutes examinées, puis sections sous la ligne de flottaison (StickyProgress 49, PanelRise 50) capturées séparément. tsc à 1942 après chaque groupe.
+
+**Comment :**
+- Règle du catalogue appliquée : une signature par thème, jamais deux thèmes du même métier avec la même ; les accessoires (SlideIndex, HairlineArrows, Retint) restent libres. AnchoredBackdrop retiré des trois thèmes qui le partageaient, BlurThrough retiré partout comme signature.
+- Aucune URL d'image nouvelle (proxy bloquant) ; thèmes sans photo → gestes sans photo.
+
+**Pourquoi :** demande utilisateur d'appliquer la doc révisée (`CATALOGUE_GESTES.md` + tableau d'allocation de `PLAN_HEROS_PREMIUM.md` + teardown 2) : chaque métier à >3 thèmes doit finir avec ≥3 signatures distinctes.
+
+**Erreurs commises (et trouvées par la vérification, pas par la relecture du code) :**
+- **`html,body { overflow-x: hidden }` (globals.css, posé en session #5) cassait TOUS les `position: sticky` du site** : `hidden` force `overflow-y: auto` → body devient un conteneur de défilement qui ne défile jamais, et chaque sticky se colle à lui, donc jamais. Découvert parce que le StickyProgress de l'impact-49 défilait avec la page. Fix : `overflow-x: clip` (même filet anti-scroll horizontal, pas de conteneur de défilement). C'est la règle du wrapper racine (« clip, pas hidden ») qui s'appliquait aussi au niveau body.
+- **SlideIndex « flat » dans un FixedRail de 49px** : « 01 — 03 » (~70px) se replie et se colle au bord gauche de l'écran, le « 0 » au ras du pixel 0. Fix : wrapper `textAlign:center` + fontSize 12 dans impact-213.
+- **Faux positif re-confirmé** : le premier scan DOM d'impact-49 signalait +22 à +46px de débordement mobile sur des conteneurs centrés — transforms d'entrée Framer Motion, pas un vrai débordement (`scrollWidth` = 390). Toujours re-mesurer après scroll complet + filtre `transform !== none`.
+- **Localisateur de section trop lâche** : `/LE PARCOURS/i` a matché la section préexistante « Parcours guidés » — capture du mauvais bloc. Ancrer sur un texte propre à la nouvelle section (« Choisir son cours »).
+
+**Restes à faire :**
+- impact-169 / impact-72 : cibles réelles à re-scorer (registre menteur), non traités.
+- Rendu photo réel + comportement sticky à contrôler en prod après déploiement Vercel manuel (`clip` touche tout le site — vérifier 2-3 templates à nav sticky en prod).
+
+---
+
 ## 2026-07-31 — Session #7 : Audit produit + premiers correctifs vérifiés
 
 **Fait :**

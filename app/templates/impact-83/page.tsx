@@ -6,10 +6,12 @@ import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion"
 import Link from "next/link";
 import { ArrowRight, ChevronDown, Gem } from "lucide-react";
 import { C, FONT_HEADING, FONT_BODY, FONT_LABEL, GemStoneSVG, Reveal, STATS, TESTIMONIALS, TEAM } from "./shared";
-import { DWELL, useSlides, LineMask, Retint, BlurThrough, SlideIndex, HairlineArrows } from "@/lib/templates/hero-kit-2";
+import { DWELL, useSlides, Retint, BlurThrough, SlideIndex, HairlineArrows } from "@/lib/templates/hero-kit-2";
+import { LineScroll } from "@/lib/templates/hero-kit-3";
 
-/* LineMask + Retint: the two headline lines slide out under a horizontal
-   mask, one house craft at a time, the gem and the plaque tint follow. */
+/* LineScroll + Retint (v13, suits): the headline lines roll from edge to
+   edge under their masks — the tail of the outgoing line is briefly read
+   with the head of the incoming one. Gem and plaque tint follow. */
 const HERO_CRAFTS = [
   { l1: "L'Art du", l2: "Temps Précieux", gem: "sapphire", tint: "rgba(26,34,52,0.9)", piece: "Heritage Tourbillon", stone: "Rubis de Birmanie" },
   { l1: "L'Éclat des", l2: "Pierres Rares", gem: "diamond", tint: "rgba(38,32,22,0.9)", piece: "Constellation Noir", stone: "Diamant noir 8 ct" },
@@ -192,7 +194,7 @@ export default function Impact83Page() {
                 color: C.text,
                 marginBottom: 8,
               }}
-            >{c?.heroHeadline ?? <LineMask lines={[HERO_CRAFTS[heroI].l1]} index={heroI} />}</motion.h1>
+            >{c?.heroHeadline ?? <LineScroll lines={[HERO_CRAFTS[heroI].l1]} index={heroI} />}</motion.h1>
             <motion.h1
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
@@ -207,7 +209,7 @@ export default function Impact83Page() {
                 marginBottom: 40,
               }}
             >
-              <LineMask lines={[HERO_CRAFTS[heroI].l2]} index={heroI} />
+              <LineScroll lines={[HERO_CRAFTS[heroI].l2]} index={heroI} />
             </motion.h1>
 
             <motion.p

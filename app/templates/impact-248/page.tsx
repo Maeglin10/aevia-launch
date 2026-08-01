@@ -15,10 +15,10 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   DWELL,
   useSlides,
-  AnchoredBackdrop,
   BlurThrough,
   HairlineArrows,
 } from '@/lib/templates/hero-kit-2';
+import { MosaicPush } from '@/lib/templates/hero-kit-3';
 
 /* ════════════════════════════════════════════════════════════════════════════
    OSTÉO RÉPUBLIQUE — Cabinet d'Ostéopathie · Paris 11e
@@ -578,10 +578,10 @@ function NavLink({ label, href }: { label: string; href: string }) {
    ════════════════════════════════════════════════════════════════════════════ */
 function Hero() {
   const ref = useRef<HTMLElement>(null);
-  // Château mechanic: the headline never moves, only the photograph dissolves
-  // through the three axes the page already teaches (I·II·III), on the slow
-  // beat that suits a practice. One static photo was the only thing separating
-  // this hero from the ones that sell.
+  // MosaicPush (v10, dental): a mosaic of unequal tiles pushes out to the
+  // right, tile by tile, and the next axis pushes in from the left — the
+  // current axis takes the dominant tile. The template's own veils keep the
+  // anchored headline readable over it.
   const { i, next, prev } = useSlides(PHASES.length, DWELL.slow);
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -613,10 +613,18 @@ function Hero() {
           y: imgY,
         }}
       >
-        <AnchoredBackdrop
-          images={PHASES.map((p, n) => fd?.photoUrls?.[n] || p.imgId)}
+        <MosaicPush
           index={i}
-          overlay={0}
+          className=""
+          style={{ position: 'absolute', inset: 0, display: 'grid', gap: 4, gridTemplateColumns: 'repeat(3, 1fr)', gridTemplateRows: 'repeat(2, 1fr)' }}
+          tiles={[
+            { area: { gridColumn: '1 / span 2', gridRow: '1 / span 2' },
+              node: <div style={{ width: '100%', height: '100%', backgroundImage: `url(${fd?.photoUrls?.[i] || PHASES[i].imgId})`, backgroundSize: 'cover', backgroundPosition: 'center' }} /> },
+            { area: { gridColumn: '3', gridRow: '1' },
+              node: <div style={{ width: '100%', height: '100%', backgroundImage: `url(${fd?.photoUrls?.[(i + 1) % PHASES.length] || PHASES[(i + 1) % PHASES.length].imgId})`, backgroundSize: 'cover', backgroundPosition: 'center' }} /> },
+            { area: { gridColumn: '3', gridRow: '2' },
+              node: <div style={{ width: '100%', height: '100%', backgroundImage: `url(${fd?.photoUrls?.[(i + 2) % PHASES.length] || PHASES[(i + 2) % PHASES.length].imgId})`, backgroundSize: 'cover', backgroundPosition: 'center' }} /> },
+          ]}
         />
       </motion.div>
 
