@@ -32,6 +32,7 @@ export const INDUSTRIES: IndustryInfo[] = [
       { id: 'audioprothesiste', label: 'Audioprothésiste', labels: { en: 'Hearing Specialist', es: 'Audioprótesis', de: 'Hörakustiker', pt: 'Audioprotesista' }, emoji: '👂', accentColor: '#8a6a2f' },
       { id: 'infirmier',       label: 'Infirmier libéral', labels: { en: 'Home Nurse', es: 'Enfermería a domicilio', de: 'Ambulante Pflege', pt: 'Enfermagem domiciliar' }, emoji: '💉', accentColor: '#125c3d' },
       { id: 'laboratoire',     label: 'Laboratoire d\'analyses', labels: { en: 'Medical Laboratory', es: 'Laboratorio médico', de: 'Medizinisches Labor', pt: 'Laboratório médico' }, emoji: '🔬', accentColor: '#22396b' },
+      { id: 'podologue',       label: 'Podologue', labels: { en: 'Podiatrist', es: 'Podólogo', de: 'Podologe', pt: 'Podólogo' }, emoji: '🦶', accentColor: '#135e57' },
     ],
   },
   {
@@ -56,6 +57,8 @@ export const INDUSTRIES: IndustryInfo[] = [
       { id: 'controle_technique', label: 'Contrôle technique', labels: { en: 'Vehicle Inspection', es: 'ITV', de: 'Fahrzeugprüfung', pt: 'Inspeção veicular' }, emoji: '🚦', accentColor: '#194e6d' },
       { id: 'couvreur',        label: 'Couvreur-zingueur',    labels: { en: 'Roofer', es: 'Techador', de: 'Dachdecker', pt: 'Telhadista' }, emoji: '🏠', accentColor: '#33261a' },
       { id: 'creche',          label: 'Crèche / Garde d\'enfants', labels: { en: 'Nursery / Childcare', es: 'Guardería', de: 'Kita / Kinderbetreuung', pt: 'Creche' }, emoji: '🧸', accentColor: '#a2504f' },
+      { id: 'location_materiel', label: 'Location de matériel', labels: { en: 'Equipment Rental', es: 'Alquiler de maquinaria', de: 'Maschinenverleih', pt: 'Aluguel de equipamentos' }, emoji: '🚜', accentColor: '#f2760a' },
+      { id: 'peintre',         label: 'Peintre en bâtiment', labels: { en: 'Painter', es: 'Pintor', de: 'Maler', pt: 'Pintor' }, emoji: '🎨', accentColor: '#a4552e' },
     ],
   },
   {
