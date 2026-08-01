@@ -11,12 +11,12 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   DWELL,
   useSlides,
-  AnchoredBackdrop,
   BlurThrough,
   Retint,
   SlideIndex,
   HairlineArrows,
 } from "@/lib/templates/hero-kit-2";
+import { MosaicPush } from "@/lib/templates/hero-kit-3";
 
 // ─── Demo content — real data (businessProfile) replaces these wholesale via
 // resolveList when the client provided it; each field access below falls
@@ -43,9 +43,9 @@ const MEDECINS_DEMO = [
   { name: "Dr. Malik Osei", spec: "Corps & Médecine anti-âge", exp: "11 ans", bio: "Médecin du sport reconverti en esthétique corporelle. Approche globale alliant nutrition, hormonal et intervention pour des résultats durables.", badge: "Anti-âge" },
 ];
 
-/* Château + Retint: the headline holds still while the photograph dissolves
-   between the clinic's two verified views, and the caption plaque re-tints
-   itself with each frame. Both images were already in this file. */
+/* MosaicPush + Retint: the clinic's two verified views push out tile by
+   tile to the right and rebuild from the left — the dominant tile carries
+   the current view. The caption plaque still re-tints with each frame. */
 const HERO_VIEWS = [
   {
     k: "Médecine faciale",
@@ -123,10 +123,16 @@ return (
       {/* Hero */}
       <section ref={heroRef} className="relative min-h-[90vh] overflow-hidden flex items-center">
         <motion.div className="absolute inset-0" style={{ y: heroImgY }}>
-          <AnchoredBackdrop
-            images={HERO_VIEWS.map((v, n) => fd?.photoUrls?.[n] || v.img)}
+          <MosaicPush
             index={heroI}
-            overlay={0}
+            className=""
+            style={{ position: "absolute", inset: 0, display: "grid", gap: 3, gridTemplateColumns: "repeat(3, 1fr)", gridTemplateRows: "repeat(2, 1fr)" }}
+            tiles={[
+              { area: { gridColumn: "1 / span 2", gridRow: "1 / span 2" },
+                node: <div style={{ width: "100%", height: "100%", backgroundImage: `url(${fd?.photoUrls?.[heroI] || HERO_VIEWS[heroI].img})`, backgroundSize: "cover", backgroundPosition: "center" }} /> },
+              { area: { gridColumn: "3", gridRow: "1 / span 2" },
+                node: <div style={{ width: "100%", height: "100%", backgroundImage: `url(${fd?.photoUrls?.[(heroI + 1) % HERO_VIEWS.length] || HERO_VIEWS[(heroI + 1) % HERO_VIEWS.length].img})`, backgroundSize: "cover", backgroundPosition: "center" }} /> },
+            ]}
           />
           <div className="absolute inset-0 bg-gradient-to-r from-[#0C0C0A]/95 via-[#0C0C0A]/70 to-[#0C0C0A]/20" />
         </motion.div>
