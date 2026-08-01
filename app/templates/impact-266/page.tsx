@@ -12,7 +12,8 @@ import {
 } from 'framer-motion';
 import { ArrowRight, Diamond, MapPin } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
-import { DWELL, useSlides, AnchoredBackdrop, BlurThrough, HairlineArrows } from '@/lib/templates/hero-kit-2';
+import { DWELL, useSlides, BlurThrough, HairlineArrows } from '@/lib/templates/hero-kit-2';
+import { PortalZoom } from '@/lib/templates/hero-kit-3';
 
 /* ════════════════════════════════════════════════════════════════════════════
    VILLA ÉMERAUDE EVENTS — Wedding Planner & Événements Luxe · Nice & Côte d'Azur
@@ -533,8 +534,9 @@ function NavLink({ label, href }: { label: string; href: string }) {
    ════════════════════════════════════════════════════════════════════════════ */
 function Hero() {
   const ref = useRef<HTMLElement>(null);
-  // Château mechanic with the next-venue thumbnail: the headline holds, the
-  // venue dissolves behind it on the slow beat (I Villa · II Plage · III…).
+  // PortalZoom (v18): the next venue is already visible through an
+  // arch-shaped threshold and the transition steps through it — a wedding
+  // is an entrance. The next-venue thumbnail stays as the invitation.
   const { i, go, next, prev } = useSlides(PHASES.length, DWELL.slow);
   const nextPhase = PHASES[(i + 1) % PHASES.length];
   const { scrollYProgress } = useScroll({
@@ -568,7 +570,7 @@ function Hero() {
           y: imgY,
         }}
       >
-        <AnchoredBackdrop
+        <PortalZoom
           images={PHASES.map((p, n) => fd?.photoUrls?.[n] || p.img)}
           index={i}
           overlay={0}

@@ -13,10 +13,12 @@ import { TemplateIcon } from '@/components/TemplateIcon'
 import { MapPin } from 'lucide-react'
 import { resolveList } from "@/lib/templates/resolveList";
 import { DWELL, useSlides, BlurThrough, Retint, SlideIndex, HairlineArrows } from '@/lib/templates/hero-kit-2';
+import { TrackingCollapse } from '@/lib/templates/hero-kit-3';
 
 /* No photography ships with this template, so the craft itself rotates:
-   the gold line of the headline blurs out and in per service (BlurThrough),
-   and the plaque under the CTAs re-tints to match (Retint). */
+   the gold word's letter-spacing spreads apart as it leaves and the next
+   arrives wide then settles (TrackingCollapse, v12 — the hair-salon
+   recording itself), while the plaque re-tints to match (Retint). */
 const HERO_SERVICES = [
   { word: 'CHEVEU', name: 'Coupe & Brushing', tint: 'rgba(43,34,24,0.92)' },
   { word: 'COULEUR', name: 'Coloration végétale', tint: 'rgba(64,42,26,0.92)' },
@@ -1253,9 +1255,7 @@ export default function Page() {
                 letterSpacing: '0.1em',
               }}
             >
-              <BlurThrough index={heroI} amount={12}>
-                <span style={{ display: 'block' }}>{HERO_SERVICES[heroI].word}</span>
-              </BlurThrough>
+              <TrackingCollapse word={HERO_SERVICES[heroI].word} index={heroI} from="0.42em" to="0.1em" />
             </h1>
           </motion.div>
 

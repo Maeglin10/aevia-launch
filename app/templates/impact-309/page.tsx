@@ -44,10 +44,12 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import { DWELL, useSlides, BlurThrough, SlideIndex, HairlineArrows } from '@/lib/templates/hero-kit-2';
+import { CrossPush } from '@/lib/templates/hero-kit-3';
 
-/* BlurThrough full-frame: the photograph gaussian-blurs out and the next
-   blurs in, one style of ink at a time. The three photos were already in
-   this file (hero / about / special), verified at the merge. */
+/* CrossPush (v07, the tattoo recording itself): the outgoing photograph
+   slides left while the next arrives from the right — two passing shots,
+   both subjects on screen for an instant, no fade. The three photos were
+   already in this file (hero / about / special), verified at the merge. */
 const HERO_STYLES = [
   { k: 'Fineline', d: 'Traits fins, précision millimétrée', img: 'https://images.pexels.com/photos/5088473/pexels-photo-5088473.jpeg?auto=compress&cs=tinysrgb&w=1600' },
   { k: 'Aquarelle', d: 'Couleurs diluées, contours libres', img: 'https://images.unsplash.com/photo-1542727365-19732a80dcfd?q=80&w=1600&auto=format&fit=crop' },
@@ -586,14 +588,11 @@ return (
           y: heroY,
           opacity: heroOpacity
         }}>
-          <BlurThrough index={heroI} amount={14} className="i309-blur-frame">
-            <img
-              src={fd?.photoUrls?.[heroI] || HERO_STYLES[heroI].img}
-              alt={`Style ${HERO_STYLES[heroI].k} — Encre Délicate`}
-              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-            />
-          </BlurThrough>
-          <style>{`.i309-blur-frame { position: absolute; inset: 0; } .i309-blur-frame > * { height: 100%; }`}</style>
+          <CrossPush
+            images={HERO_STYLES.map((st, n) => fd?.photoUrls?.[n] || st.img)}
+            index={heroI}
+            overlay={0}
+          />
           <div style={{
             position: 'absolute',
             inset: 0,
