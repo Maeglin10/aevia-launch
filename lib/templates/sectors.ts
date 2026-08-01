@@ -27,6 +27,7 @@ export const INDUSTRIES: IndustryInfo[] = [
       { id: 'kine',     label: 'Kinésithérapeute', labels: { en: 'Physiotherapist', es: 'Fisioterapeuta', de: 'Physiotherapeut',  pt: 'Fisioterapeuta' }, emoji: '🏃', accentColor: '#1a5f7a' },
       { id: 'osteo',    label: 'Ostéopathe',       labels: { en: 'Osteopath',       es: 'Osteópata',     de: 'Osteopath',         pt: 'Osteopata'      }, emoji: '🙌', accentColor: '#2a4a35' },
       { id: 'veterinaire', label: 'Vétérinaire',  labels: { en: 'Veterinarian',    es: 'Veterinario',   de: 'Tierarzt',          pt: 'Veterinário'    }, emoji: '🐾', accentColor: '#3a6b52' },
+      { id: 'pharmacie',   label: 'Pharmacie',    labels: { en: 'Pharmacy',        es: 'Farmacia',      de: 'Apotheke',          pt: 'Farmácia'       }, emoji: '💊', accentColor: '#1a7a52' },
     ],
   },
   {

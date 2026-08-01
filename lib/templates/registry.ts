@@ -3151,4 +3151,14 @@ export const TEMPLATES_REGISTRY: TemplateMetadata[] = [
     tier: "Premium",
     sections: 8,
   },
+  {
+    id: "impact-330",
+    name: "Pharmacie du Parc",
+    description: "Pharmacie / parapharmacie — le rayonnage arrive rayon par rayon en MosaicPush, click & collect d'ordonnance, vaccination, vert officinal.",
+    category: "Health",
+    style: "Light",
+    tags: ["Pharmacie", "Officine", "Santé", "Ordonnance"],
+    tier: "Premium",
+    sections: 8,
+  },
 ];

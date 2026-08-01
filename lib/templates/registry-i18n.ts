@@ -1926,4 +1926,10 @@ export const TEMPLATE_I18N: Record<string, Record<'en' | 'es' | 'de' | 'pt', Tem
     de: { name: "Cap Déménagements", description: "Website für Umzugsunternehmen — Pakete per HardCutRebuild hart geschnitten und wiederaufgebaut, typografischer Hero ohne Fotos, Transportregister." },
     pt: { name: "Cap Déménagements", description: "Site de empresa de mudanças — fórmulas cortadas e reconstruídas com HardCutRebuild, hero tipográfico sem fotos, registro de transportadores." },
   },
+  "impact-330": {
+    en: { name: "Pharmacie du Parc", description: "Pharmacy / parapharmacy site — shelving arrives row by row with MosaicPush, prescription click & collect, vaccination, pharmacy green." },
+    es: { name: "Pharmacie du Parc", description: "Sitio de farmacia / parafarmacia — el lineal llega estante a estante con MosaicPush, click & collect de recetas, vacunación, verde de oficina de farmacia." },
+    de: { name: "Pharmacie du Parc", description: "Website für Apotheke / Parapharmazie — das Regal erscheint Reihe für Reihe per MosaicPush, Rezept-Click&Collect, Impfungen, Apothekengrün." },
+    pt: { name: "Pharmacie du Parc", description: "Site de farmácia / parafarmácia — as prateleiras chegam fila a fila com MosaicPush, click & collect de receitas, vacinação, verde de farmácia." },
+  },
 };
