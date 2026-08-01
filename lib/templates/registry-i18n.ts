@@ -1968,4 +1968,46 @@ export const TEMPLATE_I18N: Record<string, Record<'en' | 'es' | 'de' | 'pt', Tem
     de: { name: "Pharmacie de l'Horloge", description: "Apotheken-Website, 2. Variante — der Rezeptweg als angeheftetes StickyProgress, Rezeptur, Impfungen, Direktabrechnung." },
     pt: { name: "Pharmacie de l'Horloge", description: "Site de farmácia, 2.ª variante — o percurso da receita em StickyProgress fixado, manipulação, vacinação, pagamento direto." },
   },
+  "impact-337": {
+    en: { name: "Cap Assurances", description: "Insurance broker site — coverages assemble with ComposeIn, ORIAS/ACPR credentials, 48-hour comparative study, claims advocacy." },
+    es: { name: "Cap Assurances", description: "Sitio de correduría de seguros — las garantías se ensamblan con ComposeIn, registro ORIAS/ACPR, estudio comparativo en 48 h, defensa en siniestros." },
+    de: { name: "Cap Assurances", description: "Website für Versicherungsmakler — Deckungen fügen sich per ComposeIn zusammen, ORIAS/ACPR, Vergleichsstudie in 48 h, Schadenbegleitung." },
+    pt: { name: "Cap Assurances", description: "Site de corretora de seguros — as coberturas se montam com ComposeIn, registro ORIAS/ACPR, estudo comparativo em 48 h, defesa em sinistros." },
+  },
+  "impact-338": {
+    en: { name: "Boréal Courtage", description: "Corporate insurance broker site — risk grid in BentoCascade, risk mapping, market placement, major-claims unit." },
+    es: { name: "Boréal Courtage", description: "Sitio de correduría de seguros de empresa — matriz de riesgos en BentoCascade, cartografía, colocación en mercado, célula de siniestros." },
+    de: { name: "Boréal Courtage", description: "Website für Industrieversicherungsmakler — Risikoraster per BentoCascade, Risikokartierung, Marktplatzierung, Großschaden-Team." },
+    pt: { name: "Boréal Courtage", description: "Site de corretora de seguros empresariais — grade de riscos em BentoCascade, mapeamento, colocação em mercado, célula de sinistros." },
+  },
+  "impact-339": {
+    en: { name: "Maison de l'Audition", description: "Hearing-aid specialist site — sound as a ParticleOrb halo, free hearing test, 30-day trial, 100% Santé class I first." },
+    es: { name: "Maison de l'Audition", description: "Sitio de audioprótesis — el sonido como halo ParticleOrb, prueba auditiva gratuita, ensayo de 30 días, clase I 100% Santé primero." },
+    de: { name: "Maison de l'Audition", description: "Website für Hörakustiker — Klang als ParticleOrb-Halo, kostenloser Hörtest, 30-Tage-Probetragen, 100%-Santé-Klasse-I zuerst." },
+    pt: { name: "Maison de l'Audition", description: "Site de audioprotesista — o som como halo ParticleOrb, teste auditivo gratuito, ensaio de 30 dias, classe I 100% Santé primeiro." },
+  },
+  "impact-340": {
+    en: { name: "Octave Audition", description: "Hearing centre site, 2nd variant, tech-driven — words return in WordFlight, in-vivo measurement, environment booth, 30-day trial." },
+    es: { name: "Octave Audition", description: "Sitio de centro auditivo, 2.ª variante, tecnológico — las palabras vuelven con WordFlight, medición in-vivo, cabina de entornos, prueba de 30 días." },
+    de: { name: "Octave Audition", description: "Hörzentrum-Website, 2. Variante, technologiegetrieben — Wörter kehren per WordFlight zurück, In-vivo-Messung, Umgebungskabine, 30-Tage-Test." },
+    pt: { name: "Octave Audition", description: "Site de centro auditivo, 2.ª variante, tecnológico — as palavras voltam com WordFlight, medição in-vivo, cabine de ambientes, teste de 30 dias." },
+  },
+  "impact-341": {
+    en: { name: "Conduite Zéro Stress", description: "Driving school site — the trajectory tightens with TrackingCollapse, prefectoral licence, published pass rates, CPF financing." },
+    es: { name: "Conduite Zéro Stress", description: "Sitio de autoescuela — la trayectoria se ajusta con TrackingCollapse, licencia prefectoral, tasas de aprobado publicadas, financiación CPF." },
+    de: { name: "Conduite Zéro Stress", description: "Fahrschul-Website — die Spur zieht sich per TrackingCollapse zusammen, präfektorale Zulassung, veröffentlichte Bestehensquoten, CPF-Finanzierung." },
+    pt: { name: "Conduite Zéro Stress", description: "Site de autoescola — a trajetória se ajusta com TrackingCollapse, licença prefeitoral, taxas de aprovação publicadas, financiamento CPF." },
+  },
+  "impact-342": {
+    en: { name: "Permis Cap Sud", description: "Driving school site, 2nd variant, direct urban tone — stall and restart with HardCutRebuild, simulator hours, filmed mock exams, CPF." },
+    es: { name: "Permis Cap Sud", description: "Sitio de autoescuela, 2.ª variante, tono urbano directo — calar y arrancar con HardCutRebuild, simulador, exámenes simulados filmados, CPF." },
+    de: { name: "Permis Cap Sud", description: "Fahrschul-Website, 2. Variante, direkter urbaner Ton — abwürgen und neu starten per HardCutRebuild, Simulator, gefilmte Probeprüfungen, CPF." },
+    pt: { name: "Permis Cap Sud", description: "Site de autoescola, 2.ª variante, tom urbano direto — morrer e arrancar com HardCutRebuild, simulador, exames simulados filmados, CPF." },
+  },
+  "impact-343": {
+    en: { name: "Blanc Net Pressing", description: "Dry-cleaner site — cleanliness revealed with WipeReveal, solvent-free wet cleaning, per-garment care sheet, 24-hour turnaround." },
+    es: { name: "Blanc Net Pressing", description: "Sitio de tintorería — lo limpio se revela con WipeReveal, limpieza húmeda sin percloroetileno, ficha de cuidado por prenda, entrega en 24 h." },
+    de: { name: "Blanc Net Pressing", description: "Reinigungs-Website — Sauberkeit per WipeReveal enthüllt, lösungsmittelfreie Nassreinigung, Pflegekarte pro Stück, 24-h-Service." },
+    pt: { name: "Blanc Net Pressing", description: "Site de lavanderia — o limpo revelado com WipeReveal, limpeza úmida sem solventes, ficha de cuidado por peça, entrega em 24 h." },
+  },
 };

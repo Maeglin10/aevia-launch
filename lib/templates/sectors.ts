@@ -29,6 +29,7 @@ export const INDUSTRIES: IndustryInfo[] = [
       { id: 'veterinaire', label: 'Vétérinaire',  labels: { en: 'Veterinarian',    es: 'Veterinario',   de: 'Tierarzt',          pt: 'Veterinário'    }, emoji: '🐾', accentColor: '#3a6b52' },
       { id: 'pharmacie',   label: 'Pharmacie',    labels: { en: 'Pharmacy',        es: 'Farmacia',      de: 'Apotheke',          pt: 'Farmácia'       }, emoji: '💊', accentColor: '#1a7a52' },
       { id: 'opticien',    label: 'Opticien',     labels: { en: 'Optician',        es: 'Óptica',        de: 'Optiker',           pt: 'Ótica'          }, emoji: '👓', accentColor: '#1d7a72' },
+      { id: 'audioprothesiste', label: 'Audioprothésiste', labels: { en: 'Hearing Specialist', es: 'Audioprótesis', de: 'Hörakustiker', pt: 'Audioprotesista' }, emoji: '👂', accentColor: '#8a6a2f' },
     ],
   },
   {
@@ -47,6 +48,8 @@ export const INDUSTRIES: IndustryInfo[] = [
       { id: 'pompes_funebres', label: 'Pompes funèbres', labels: { en: 'Funeral Home', es: 'Funeraria', de: 'Bestattungsinstitut', pt: 'Funerária' }, emoji: '🕊️', accentColor: '#5a6b5d' },
       { id: 'demenageur',      label: 'Déménageur',      labels: { en: 'Moving Company', es: 'Mudanzas', de: 'Umzugsunternehmen', pt: 'Mudanças' }, emoji: '📦', accentColor: '#f2760a' },
       { id: 'serrurier',       label: 'Serrurier',       labels: { en: 'Locksmith', es: 'Cerrajero', de: 'Schlüsseldienst', pt: 'Serralheiro' }, emoji: '🔐', accentColor: '#4e9fd4' },
+      { id: 'auto_ecole',      label: 'Auto-école',      labels: { en: 'Driving School', es: 'Autoescuela', de: 'Fahrschule', pt: 'Autoescola' }, emoji: '🚘', accentColor: '#20648c' },
+      { id: 'pressing',        label: 'Pressing / Blanchisserie', labels: { en: 'Dry Cleaner', es: 'Tintorería', de: 'Reinigung', pt: 'Lavanderia' }, emoji: '👔', accentColor: '#6d4a8a' },
     ],
   },
   {
@@ -58,6 +61,7 @@ export const INDUSTRIES: IndustryInfo[] = [
       { id: 'avocat',    label: 'Avocat',           labels: { en: 'Lawyer',      es: 'Abogado',   de: 'Anwalt',        pt: 'Advogado'    }, emoji: '⚖️', accentColor: '#1a3a5c' },
       { id: 'comptable', label: 'Expert-comptable', labels: { en: 'Accountant',  es: 'Contable',  de: 'Steuerberater', pt: 'Contabilista'}, emoji: '📊', accentColor: '#1c3f6e' },
       { id: 'notaire',   label: 'Notaire',          labels: { en: 'Notary',      es: 'Notario',   de: 'Notar',         pt: 'Notário'     }, emoji: '📜', accentColor: '#8a6d3f' },
+      { id: 'assurance', label: 'Assurance / Courtier', labels: { en: 'Insurance Broker', es: 'Seguros / Corredor', de: 'Versicherungsmakler', pt: 'Seguros / Corretor' }, emoji: '🛡️', accentColor: '#2c4a8a' },
     ],
   },
   {
