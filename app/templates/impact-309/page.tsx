@@ -577,7 +577,9 @@ return (
           display: 'flex',
           alignItems: 'flex-end',
           paddingBottom: '12vh',
-          background: C.bgDeep,
+          /* Fond de repli sombre : sans photo (réseau lent, image 404), il ne
+             reste que le dégradé — le titre blanc doit rester lisible. */
+          background: C.text,
           overflow: 'hidden'
         }}
       >
