@@ -1920,4 +1920,10 @@ export const TEMPLATE_I18N: Record<string, Record<'en' | 'es' | 'de' | 'pt', Tem
     de: { name: "Maison Estève Bestattungen", description: "Website für Bestattungsinstitut & Vorsorge — HeldSwap im langsamsten Rhythmus des Kits, präfektorale Zulassung, regulierte Kostenvoranschläge, nüchterner Ton." },
     pt: { name: "Maison Estève Funerária", description: "Site de funerária e previdência — HeldSwap no ritmo mais lento do kit, habilitação prefeitoral, orçamento regulamentado detalhado, tom sóbrio." },
   },
+  "impact-329": {
+    en: { name: "Cap Déménagements", description: "Professional mover site — packages hard-cut and rebuilt with HardCutRebuild, photo-free typographic hero, transport registry credentials." },
+    es: { name: "Cap Déménagements", description: "Sitio de empresa de mudanzas — fórmulas cortadas y reconstruidas con HardCutRebuild, hero tipográfico sin fotos, registro de transportistas." },
+    de: { name: "Cap Déménagements", description: "Website für Umzugsunternehmen — Pakete per HardCutRebuild hart geschnitten und wiederaufgebaut, typografischer Hero ohne Fotos, Transportregister." },
+    pt: { name: "Cap Déménagements", description: "Site de empresa de mudanças — fórmulas cortadas e reconstruídas com HardCutRebuild, hero tipográfico sem fotos, registro de transportadores." },
+  },
 };

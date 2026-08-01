@@ -3141,4 +3141,14 @@ export const TEMPLATES_REGISTRY: TemplateMetadata[] = [
     tier: "Premium",
     sections: 8,
   },
+  {
+    id: "impact-329",
+    name: "Cap Déménagements",
+    description: "Déménageur professionnel — formules coupées net et remontées en HardCutRebuild, hero typographique sans photo, registre des transporteurs.",
+    category: "Services",
+    style: "Dark",
+    tags: ["Déménageur", "Transport", "Devis", "Formules"],
+    tier: "Premium",
+    sections: 8,
+  },
 ];
