@@ -2178,4 +2178,46 @@ export const TEMPLATE_I18N: Record<string, Record<'en' | 'es' | 'de' | 'pt', Tem
     de: { name: "Sentinelle Sud", description: "Website für privaten Sicherheitsdienst — Präsenz materialisiert sich per GhostSolid, CNAPS-Lizenz sichtbar, festangestellte Kräfte mit Ausweis, elektronisches Wachbuch." },
     pt: { name: "Sentinelle Sud", description: "Site de segurança privada — a presença se materializa com GhostSolid, licença CNAPS exibida, agentes contratados com carteira, livro de ocorrências eletrônico." },
   },
+  "impact-372": {
+    en: { name: "Horizon Protection", description: "Private security site, 2nd variant, retail and residential — vigilance tightens with TrackingCollapse, CNAPS licence, employed agents." },
+    es: { name: "Horizon Protection", description: "Sitio de seguridad privada, 2.ª variante, comercios y residencial — la vigilancia se ajusta con TrackingCollapse, licencia CNAPS, agentes asalariados." },
+    de: { name: "Horizon Protection", description: "Website für Sicherheitsdienst, 2. Variante, Handel und Wohnanlagen — Wachsamkeit strafft sich per TrackingCollapse, CNAPS-Lizenz, festangestellte Kräfte." },
+    pt: { name: "Horizon Protection", description: "Site de segurança privada, 2.ª variante, comércio e residencial — a vigilância se ajusta com TrackingCollapse, licença CNAPS, agentes contratados." },
+  },
+  "impact-373": {
+    en: { name: "Riviera Chauffeur", description: "Premium chauffeur site — rides hard-cut and rebuilt with HardCutRebuild, VTC registry, fixed fares, flight tracking, day hire." },
+    es: { name: "Riviera Chauffeur", description: "Sitio de chófer VTC premium — la carrera corta y se recompone con HardCutRebuild, registro VTC, precios cerrados, seguimiento de vuelos." },
+    de: { name: "Riviera Chauffeur", description: "Website für Premium-Chauffeur — Fahrten schneiden und bauen sich per HardCutRebuild, VTC-Register, Festpreise, Flugverfolgung, Tagesmiete." },
+    pt: { name: "Riviera Chauffeur", description: "Site de motorista VTC premium — a corrida corta e remonta com HardCutRebuild, registro VTC, preços fechados, rastreamento de voos." },
+  },
+  "impact-374": {
+    en: { name: "Cap Chauffeur", description: "Everyday chauffeur site, 2nd variant — the road in two-speed DifferentialExit, insured medical transport, weekly plans, arrival texts." },
+    es: { name: "Cap Chauffeur", description: "Sitio de VTC cotidiano, 2.ª variante — la carretera en DifferentialExit a dos velocidades, transporte médico convenido, abonos, SMS de llegada." },
+    de: { name: "Cap Chauffeur", description: "Website für Alltags-Chauffeur, 2. Variante — die Straße im zweistufigen DifferentialExit, Krankenfahrten mit Kassenabrechnung, Abos, Ankunfts-SMS." },
+    pt: { name: "Cap Chauffeur", description: "Site de motorista do dia a dia, 2.ª variante — a estrada em DifferentialExit de duas velocidades, transporte médico convencionado, assinaturas, SMS de chegada." },
+  },
+  "impact-375": {
+    en: { name: "Miroiterie du Port", description: "Glazier site — sharp/blur sweep with PushBlur, 7/7 emergencies at standard rates, on-site glass workshop." },
+    es: { name: "Miroiterie du Port", description: "Sitio de cristalero — barrido nítido/borroso con PushBlur, urgencias 7/7 a tarifa normal, taller de vidrio propio." },
+    de: { name: "Miroiterie du Port", description: "Glaser-Website — Scharf/Unscharf-Zug per PushBlur, Notdienst 7/7 zum Normaltarif, eigene Glaswerkstatt." },
+    pt: { name: "Miroiterie du Port", description: "Site de vidraceiro — varrido nítido/desfocado com PushBlur, urgências 7/7 na tarifa normal, oficina de vidro própria." },
+  },
+  "impact-376": {
+    en: { name: "Verre & Lumière", description: "Architectural glass site, 2nd variant — light line by line with LineScroll, steel-framed glazing, engineered railings, 3D before signing." },
+    es: { name: "Verre & Lumière", description: "Sitio de cristalería de agenciamiento, 2.ª variante — la luz línea a línea con LineScroll, verrières, barandillas calculadas, 3D antes de firmar." },
+    de: { name: "Verre & Lumière", description: "Website für Glasbau, 2. Variante — Licht Zeile für Zeile per LineScroll, Atelierverglasungen, berechnete Geländer, 3D vor Unterschrift." },
+    pt: { name: "Verre & Lumière", description: "Site de vidraçaria de agenciamento, 2.ª variante — a luz linha a linha com LineScroll, verrières, guarda-corpos calculados, 3D antes de assinar." },
+  },
+  "impact-377": {
+    en: { name: "Studio Gamme", description: "Modern music school site, 2nd variant — sound approaches with ScrollGrow, song-first lessons, band workshops, quarterly stage." },
+    es: { name: "Studio Gamme", description: "Sitio de escuela de músicas actuales, 2.ª variante — el sonido se acerca con ScrollGrow, clases por canciones, talleres de grupo, escenario trimestral." },
+    de: { name: "Studio Gamme", description: "Website für Musikschule, 2. Variante — der Sound nähert sich per ScrollGrow, Songs-first-Unterricht, Band-Workshops, Quartalsbühne." },
+    pt: { name: "Studio Gamme", description: "Site de escola de músicas atuais, 2.ª variante — o som se aproxima com ScrollGrow, aulas pelas músicas, oficinas de banda, palco trimestral." },
+  },
+  "impact-378": {
+    en: { name: "Cap Horizon Patrimoine", description: "Wealth management site, 2nd variant — the wealth journey as pinned StickyProgress, AMF-regulated CIF, open architecture, written fees." },
+    es: { name: "Cap Horizon Patrimoine", description: "Sitio de gestión patrimonial, 2.ª variante — el recorrido patrimonial en StickyProgress fijado, CIF regulado AMF, arquitectura abierta, honorarios escritos." },
+    de: { name: "Cap Horizon Patrimoine", description: "Website für Vermögensverwaltung, 2. Variante — der Vermögensweg als angeheftetes StickyProgress, AMF-regulierter CIF, offene Architektur, schriftliche Honorare." },
+    pt: { name: "Cap Horizon Patrimoine", description: "Site de gestão patrimonial, 2.ª variante — o percurso patrimonial em StickyProgress fixado, CIF regulado pela AMF, arquitetura aberta, honorários escritos." },
+  },
 };
