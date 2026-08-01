@@ -2052,4 +2052,46 @@ export const TEMPLATE_I18N: Record<string, Record<'en' | 'es' | 'de' | 'pt', Tem
     de: { name: "CT de la Lumière", description: "Prüfzentrum-Website, 2. Variante, familienfreundlich — Berichtszeilen per LineMask enthüllt, Abendtermine, Lexikon ohne Fachjargon, 10-Minuten-Nachprüfung." },
     pt: { name: "CT de la Lumière", description: "Site de inspeção veicular, 2.ª variante, familiar — as linhas do laudo se revelam com LineMask, horários noturnos, léxico sem jargão, revisão em 10 min." },
   },
+  "impact-351": {
+    en: { name: "Toits de Loire", description: "Roofer site — the roof strips and rebuilds with HardCutRebuild, Anjou slate, ten-year warranty, 24-hour emergency tarping." },
+    es: { name: "Toits de Loire", description: "Sitio de techador — el tejado se desmonta y remonta con HardCutRebuild, pizarra de Anjou, garantía decenal, lona de urgencia en 24 h." },
+    de: { name: "Toits de Loire", description: "Dachdecker-Website — das Dach wird per HardCutRebuild abgedeckt und neu aufgebaut, Anjou-Schiefer, zehnjährige Garantie, 24-h-Notabdeckung." },
+    pt: { name: "Toits de Loire", description: "Site de telhadista — o telhado desmonta e remonta com HardCutRebuild, ardósia de Anjou, garantia decenal, lona de emergência em 24 h." },
+  },
+  "impact-352": {
+    en: { name: "Zinc & Ardoise", description: "Heritage roofer site, 2nd variant — the roof approaches with ScrollGrow, Norman old buildings, ABF files, roof logbook." },
+    es: { name: "Zinc & Ardoise", description: "Sitio de techador patrimonial, 2.ª variante — el tejado se acerca con ScrollGrow, edificios antiguos normandos, expedientes ABF, cuaderno de tejado." },
+    de: { name: "Zinc & Ardoise", description: "Website für Denkmal-Dachdecker, 2. Variante — das Dach nähert sich per ScrollGrow, normannische Altbauten, ABF-Dossiers, Dachbuch." },
+    pt: { name: "Zinc & Ardoise", description: "Site de telhadista patrimonial, 2.ª variante — o telhado se aproxima com ScrollGrow, construções antigas normandas, dossiês ABF, caderno do telhado." },
+  },
+  "impact-353": {
+    en: { name: "Les Petits Cairns", description: "Micro-nursery site — blocks assemble with ComposeIn, PMI licence, outdoor pedagogy, on-site organic meals, CAF aid simulation." },
+    es: { name: "Les Petits Cairns", description: "Sitio de microguardería — los bloques se ensamblan con ComposeIn, licencia PMI, pedagogía al aire libre, comidas bio in situ, simulación de ayudas." },
+    de: { name: "Les Petits Cairns", description: "Website für Mikro-Kita — Bausteine fügen sich per ComposeIn, PMI-Zulassung, Draußen-Pädagogik, Bio-Küche im Haus, Beihilfe-Simulation." },
+    pt: { name: "Les Petits Cairns", description: "Site de micro-creche — os blocos se montam com ComposeIn, licença PMI, pedagogia ao ar livre, refeições bio no local, simulação de auxílios." },
+  },
+  "impact-354": {
+    en: { name: "Le Nid Douillet", description: "Parent-run nursery site, 2nd variant — the card grows with ScrollGrow, CAF income-based pricing, parental governance, inclusion." },
+    es: { name: "Le Nid Douillet", description: "Sitio de guardería asociativa, 2.ª variante — la tarjeta crece con ScrollGrow, tarifas CAF según ingresos, gestión parental, inclusión." },
+    de: { name: "Le Nid Douillet", description: "Website für Elterninitiativ-Kita, 2. Variante — die Karte wächst per ScrollGrow, einkommensbasierte CAF-Tarife, Elternverwaltung, Inklusion." },
+    pt: { name: "Le Nid Douillet", description: "Site de creche associativa, 2.ª variante — o cartão cresce com ScrollGrow, tarifas CAF por renda, gestão parental, inclusão." },
+  },
+  "impact-355": {
+    en: { name: "Cabinet des Tilleuls", description: "Home-nursing practice site — bands rise with PanelRise, CPAM-registered nurses, daily rounds 7/7, shared care records." },
+    es: { name: "Cabinet des Tilleuls", description: "Sitio de enfermería a domicilio — las franjas se elevan con PanelRise, convenio CPAM, rondas 7/7, historial de cuidados compartido." },
+    de: { name: "Cabinet des Tilleuls", description: "Website für ambulante Pflegepraxis — Bänder steigen per PanelRise, CPAM-Kassenzulassung, tägliche Touren 7/7, geteilte Pflegeakte." },
+    pt: { name: "Cabinet des Tilleuls", description: "Site de enfermagem domiciliar — as faixas sobem com PanelRise, convênio CPAM, rondas 7/7, prontuário de cuidados compartilhado." },
+  },
+  "impact-356": {
+    en: { name: "Soins de l'Estuaire", description: "Nursing practice site, 2nd variant — the day's round composes with ComposeIn, human secretariat, family app, wound-care diploma." },
+    es: { name: "Soins de l'Estuaire", description: "Sitio de enfermería, 2.ª variante — la ronda se compone con ComposeIn, secretariado humano, app para familias, diplomado en heridas." },
+    de: { name: "Soins de l'Estuaire", description: "Pflegepraxis-Website, 2. Variante — die Tour komponiert sich per ComposeIn, menschliches Sekretariat, Familien-App, Wund-Diplom." },
+    pt: { name: "Soins de l'Estuaire", description: "Site de enfermagem, 2.ª variante — a ronda se compõe com ComposeIn, secretariado humano, app das famílias, diploma em feridas." },
+  },
+  "impact-357": {
+    en: { name: "Axis Bio", description: "Medical laboratory site — results sharpen with TrackingCollapse, COFRAC ISO 15189 accreditation, same-day results, reachable biologists." },
+    es: { name: "Axis Bio", description: "Sitio de laboratorio médico — el resultado se precisa con TrackingCollapse, acreditación COFRAC ISO 15189, resultados el mismo día, biólogos accesibles." },
+    de: { name: "Axis Bio", description: "Labor-Website — Ergebnisse präzisieren sich per TrackingCollapse, COFRAC-ISO-15189-Akkreditierung, Ergebnisse am selben Tag, erreichbare Biologen." },
+    pt: { name: "Axis Bio", description: "Site de laboratório médico — o resultado se precisa com TrackingCollapse, acreditação COFRAC ISO 15189, resultados no mesmo dia, biologistas acessíveis." },
+  },
 };
