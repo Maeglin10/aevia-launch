@@ -43,6 +43,7 @@ export const INDUSTRIES: IndustryInfo[] = [
       { id: 'garage_auto', label: 'Garage automobile', labels: { en: 'Auto Garage', es: 'Taller mecánico', de: 'Autowerkstatt', pt: 'Oficina automóvel' }, emoji: '🚗', accentColor: '#33261a' },
       { id: 'btp_construction', label: 'BTP / Construction générale', labels: { en: 'Construction Company', es: 'Empresa de construcción', de: 'Bauunternehmen', pt: 'Empresa de construção' }, emoji: '🏗️', accentColor: '#5c4a2e' },
       { id: 'pompes_funebres', label: 'Pompes funèbres', labels: { en: 'Funeral Home', es: 'Funeraria', de: 'Bestattungsinstitut', pt: 'Funerária' }, emoji: '🕊️', accentColor: '#5a6b5d' },
+      { id: 'demenageur',      label: 'Déménageur',      labels: { en: 'Moving Company', es: 'Mudanzas', de: 'Umzugsunternehmen', pt: 'Mudanças' }, emoji: '📦', accentColor: '#f2760a' },
     ],
   },
   {
