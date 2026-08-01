@@ -221,3 +221,49 @@ Thèmes livrés : 168 (Éclat/fashion), 46 (Dumont/law), 192 (Quantum/tech), 215
 - Rejouer hors conteneur : chargement + sujet des images, et paiement Stripe bout-en-bout.
 - Next reste en 16.2.12 (2 high non couvertes sans bump preview cassant) — à traiter séparément.
 - **Non déployé** : push GitHub ≠ live ; déploiement Vercel manuel non effectué.
+
+---
+
+## 2026-08-01 — Session #8 : Cinq thèmes premium sur niches manquantes
+
+**Fait :** `b78342ec` `75f5bbbd` `262a01ec` `258a5d65` `1e9d756a` + correctifs/rapport
+- impact-326 notaire (ArcSwap plaque), impact-327 cuisiniste (ExpandFrame),
+  impact-328 pompes funèbres (HeldSwap + DWELL.slow), impact-329 déménageur
+  (HardCutRebuild sans photo), impact-330 pharmacie (MosaicPush tuiles CSS).
+- Registre + i18n en/es/de/pt + 5 specialties dans sectors.ts.
+- Vérif : build 0, balayage mesuré 1440×900 + 390×844 sur `next start`
+  (jamais dev), captures toutes regardées, tsc 1942 → 1942 à chaque étape.
+- Rapport : `docs/THEMES_PREMIUM_2026-08-01.md`.
+
+**Comment :** un thème = structure du donneur + le geste assigné et lui seul ;
+accessoires (SlideIndex, HairlineArrows) libres ; aucune URL d'image nouvelle
+(proxy) ; métiers sans image vérifiable → héros sans photo (précédent 213).
+
+**Pourquoi :** exécution de `docs/PROMPT_THEMES_PREMIUM.md` sur l'analyse
+`docs/NICHES_MANQUANTES_2026-08-01.md` (demande utilisateur).
+
+**Erreurs commises / découvertes :**
+- **Deux « niches à zéro thème » existaient déjà** : impact-138 est un
+  opticien complet (étiqueté « Prism Analytics/Tech ») et impact-192 un
+  serrurier 24h/24 (étiqueté « Lumina Beauty/E-Commerce »). L'analyse des
+  niches héritait du registre menteur. Remplacés par notaire et déménageur
+  (liste d'alternatives du prompt), en le disant. Leçon déjà connue,
+  reconfirmée : **toujours vérifier le contenu des pages, jamais le registre.**
+- **Kickers 326 à 4,15:1** (#8a6d3f à 12px sur ivoire) — attrapés par la
+  mesure, pas à l'œil ; passés à accentDark (6,05:1) + rebuild + re-mesure.
+- **Faux positifs de l'analyseur de contraste** : il ignore l'alpha
+  (blanc sur rgba(255,255,255,0.04) → « blanc sur blanc ») et textContent
+  fusionne les mots autour d'un `<br/>` (« pharmacie,au-delà »). Recalcul
+  manuel avant de « corriger » quoi que ce soit.
+- **Capture pendant le temps mort du geste** : hero 329 mobile « vide » —
+  c'était la coupe volontaire du HardCutRebuild ; re-capturer après
+  stabilisation avant de conclure à un défaut.
+- **EADDRINUSE au restart de next start** : l'ancien next-server survit au
+  pkill du shell sandboxé mais sert les bundles relus depuis .next — la
+  re-mesure post-rebuild reste valide ; vérifier quel process tient le port.
+
+**Restes à faire :**
+- Corriger les entrées registre de impact-138 et impact-192 (+ resync global
+  du registre au-delà de ~190).
+- Sujets des 11 photos réutilisées à contrôler en prod (proxy bloquant ici).
+- Déploiement Vercel manuel puis curl de vérification.

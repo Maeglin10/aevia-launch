@@ -216,7 +216,7 @@ export default function EtudeNotarialePage() {
       {/* ── HERO — ArcSwap sur la plaque de l'étude ─────────────────────── */}
       <section className="i326-hero" style={{ minHeight: "100dvh", display: "grid", gridTemplateColumns: "minmax(0,1.1fr) minmax(0,0.9fr)", gap: 56, alignItems: "center", padding: "140px 64px 70px", maxWidth: 1280, margin: "0 auto" }}>
         <div>
-          <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }} style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>
+          <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }} style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>
             Étude notariale · Bordeaux
           </motion.span>
           <motion.h1 initial={{ opacity: 0, y: 34 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35, duration: 0.85, ease: [0.16, 1, 0.3, 1] }} style={{ fontFamily: FONT, fontSize: "clamp(34px, 4.6vw, 62px)", color: C.text, lineHeight: 1.12, margin: "18px 0 22px" }}>
@@ -248,7 +248,7 @@ export default function EtudeNotarialePage() {
             <div style={{ background: C.white, border: `1px solid ${C.border}`, borderRadius: 4, overflow: "hidden", boxShadow: C.shadowLg }}>
               <img src={photo(i, dom.img)} alt={dom.alt} loading="lazy" style={{ width: "100%", aspectRatio: "4/3", objectFit: "cover", display: "block" }} />
               <div style={{ padding: "22px 24px 24px", borderTop: `3px solid ${C.accent}` }}>
-                <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: 3, textTransform: "uppercase", color: C.accent, marginBottom: 8 }}>{dom.k}</div>
+                <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: 3, textTransform: "uppercase", color: C.accentDark, marginBottom: 8 }}>{dom.k}</div>
                 <div style={{ fontFamily: FONT, fontSize: 19, color: C.text, lineHeight: 1.35 }}>{dom.line}</div>
               </div>
             </div>
@@ -275,7 +275,7 @@ export default function EtudeNotarialePage() {
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
           <Reveal>
             <div style={{ marginBottom: 52 }}>
-              <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Domaines d'intervention</span>
+              <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>Domaines d'intervention</span>
               <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 3.8vw, 48px)", color: C.text, marginTop: 10, lineHeight: 1.15 }}>
                 Quatre domaines,<br /><em>une même exigence.</em>
               </h2>
@@ -303,7 +303,7 @@ export default function EtudeNotarialePage() {
           </Reveal>
           <Reveal delay={0.15}>
             <div>
-              <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>L'étude</span>
+              <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>L'étude</span>
               <h2 style={{ fontFamily: FONT, fontSize: "clamp(26px, 3vw, 42px)", color: C.text, margin: "12px 0 26px", lineHeight: 1.2 }}>
                 Un officier public<br /><em>à votre service.</em>
               </h2>
@@ -326,7 +326,7 @@ export default function EtudeNotarialePage() {
         <div style={{ maxWidth: 1000, margin: "0 auto" }}>
           <Reveal>
             <div style={{ textAlign: "center", marginBottom: 18 }}>
-              <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Tarifs</span>
+              <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>Tarifs</span>
               <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 3.5vw, 46px)", color: C.text, marginTop: 10 }}>Des émoluments <em>réglementés.</em></h2>
               <p style={{ fontSize: 15, color: C.textMuted, maxWidth: 560, margin: "14px auto 0", lineHeight: 1.7 }}>
                 La rémunération du notaire est fixée par l'État (barème national) : pour un même acte, l'émolument est identique dans toute la France. Hors débours, droits et taxes collectés pour le Trésor public.
