@@ -42,6 +42,7 @@ export const INDUSTRIES: IndustryInfo[] = [
       { id: 'menage',      label: 'Ménage / Nettoyage', labels: { en: 'Cleaning Service', es: 'Limpieza', de: 'Reinigungsservice', pt: 'Limpeza' }, emoji: '🧹', accentColor: '#0e7c86' },
       { id: 'garage_auto', label: 'Garage automobile', labels: { en: 'Auto Garage', es: 'Taller mecánico', de: 'Autowerkstatt', pt: 'Oficina automóvel' }, emoji: '🚗', accentColor: '#33261a' },
       { id: 'btp_construction', label: 'BTP / Construction générale', labels: { en: 'Construction Company', es: 'Empresa de construcción', de: 'Bauunternehmen', pt: 'Empresa de construção' }, emoji: '🏗️', accentColor: '#5c4a2e' },
+      { id: 'pompes_funebres', label: 'Pompes funèbres', labels: { en: 'Funeral Home', es: 'Funeraria', de: 'Bestattungsinstitut', pt: 'Funerária' }, emoji: '🕊️', accentColor: '#5a6b5d' },
     ],
   },
   {
