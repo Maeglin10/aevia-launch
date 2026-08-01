@@ -61,6 +61,8 @@ export const INDUSTRIES: IndustryInfo[] = [
       { id: 'creche',          label: 'Crèche / Garde d\'enfants', labels: { en: 'Nursery / Childcare', es: 'Guardería', de: 'Kita / Kinderbetreuung', pt: 'Creche' }, emoji: '🧸', accentColor: '#a2504f' },
       { id: 'location_materiel', label: 'Location de matériel', labels: { en: 'Equipment Rental', es: 'Alquiler de maquinaria', de: 'Maschinenverleih', pt: 'Aluguel de equipamentos' }, emoji: '🚜', accentColor: '#f2760a' },
       { id: 'peintre',         label: 'Peintre en bâtiment', labels: { en: 'Painter', es: 'Pintor', de: 'Maler', pt: 'Pintor' }, emoji: '🎨', accentColor: '#a4552e' },
+      { id: 'vtc',             label: 'VTC / Chauffeur privé', labels: { en: 'Private Driver', es: 'VTC / Chófer', de: 'Chauffeurservice', pt: 'Motorista privado' }, emoji: '🚕', accentColor: '#0b0d11' },
+      { id: 'vitrier',         label: 'Vitrier / Miroiterie', labels: { en: 'Glazier', es: 'Cristalero', de: 'Glaser', pt: 'Vidraceiro' }, emoji: '🪟', accentColor: '#194e6d' },
     ],
   },
   {
@@ -73,6 +75,7 @@ export const INDUSTRIES: IndustryInfo[] = [
       { id: 'comptable', label: 'Expert-comptable', labels: { en: 'Accountant',  es: 'Contable',  de: 'Steuerberater', pt: 'Contabilista'}, emoji: '📊', accentColor: '#1c3f6e' },
       { id: 'notaire',   label: 'Notaire',          labels: { en: 'Notary',      es: 'Notario',   de: 'Notar',         pt: 'Notário'     }, emoji: '📜', accentColor: '#8a6d3f' },
       { id: 'assurance', label: 'Assurance / Courtier', labels: { en: 'Insurance Broker', es: 'Seguros / Corredor', de: 'Versicherungsmakler', pt: 'Seguros / Corretor' }, emoji: '🛡️', accentColor: '#2c4a8a' },
+      { id: 'gestion_patrimoine', label: 'Gestion de patrimoine', labels: { en: 'Wealth Management', es: 'Gestión patrimonial', de: 'Vermögensverwaltung', pt: 'Gestão patrimonial' }, emoji: '📈', accentColor: '#6d5530' },
     ],
   },
   {
@@ -111,6 +114,7 @@ export const INDUSTRIES: IndustryInfo[] = [
       { id: 'fleuriste',   label: 'Fleuriste',   labels: { en: 'Florist',      es: 'Floristería', de: 'Blumenladen', pt: 'Florista' }, emoji: '💐', accentColor: '#c25b7c' },
       { id: 'bijouterie',  label: 'Bijouterie & Horlogerie', labels: { en: 'Jeweler & Watchmaker', es: 'Joyería y Relojería', de: 'Juwelier & Uhrmacher', pt: 'Joalharia & Relojoaria' }, emoji: '💎', accentColor: '#7a6320' },
       { id: 'studio_creatif', label: 'Studio créatif / Audiovisuel', labels: { en: 'Creative / Production Studio', es: 'Estudio creativo / Audiovisual', de: 'Kreativ- / Produktionsstudio', pt: 'Estúdio criativo / Audiovisual' }, emoji: '🎬', accentColor: '#3a2a4a' },
+      { id: 'ecole_musique',  label: 'École de musique', labels: { en: 'Music School', es: 'Escuela de música', de: 'Musikschule', pt: 'Escola de música' }, emoji: '🎵', accentColor: '#54386b' },
       { id: 'boutique_mode', label: 'Boutique Mode / Prêt-à-porter', labels: { en: 'Fashion Boutique', es: 'Boutique de moda', de: 'Modeboutique', pt: 'Boutique de moda' }, emoji: '👗', accentColor: '#8a3a4a' },
     ],
   },
