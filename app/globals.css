@@ -152,9 +152,11 @@
   }
 }
 /* Safety net: a single overflowing element (long brand name, rigid grid…)
-   must never give the whole site a horizontal scroll on mobile. */
+   must never give the whole site a horizontal scroll on mobile.
+   `clip`, not `hidden`: hidden turns body into a scroll container and
+   silently disables every viewport-relative position:sticky on the site. */
 html,
 body {
-  overflow-x: hidden;
+  overflow-x: clip;
   max-width: 100vw;
 }

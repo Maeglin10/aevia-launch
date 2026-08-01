@@ -524,7 +524,9 @@ function Hero() {
 
       {/* the axis that never moves while everything else cuts */}
       <FixedRail color={C.accent} side="left" className="i213-rail">
-        <SlideIndex i={i} total={HERO_TRADES.length} variant="flat" className="" color="#0b0d0a" />
+        <div style={{ textAlign: "center", fontSize: 12, fontWeight: 700 }}>
+          <SlideIndex i={i} total={HERO_TRADES.length} variant="flat" className="" color="#0b0d0a" />
+        </div>
       </FixedRail>
       <style>{`@media (max-width: 700px) { .i213-rail { display: none !important; } }`}</style>
 
