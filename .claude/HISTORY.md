@@ -267,3 +267,64 @@ accessoires (SlideIndex, HairlineArrows) libres ; aucune URL d'image nouvelle
   du registre au-delà de ~190).
 - Sujets des 11 photos réutilisées à contrôler en prod (proxy bloquant ici).
 - Déploiement Vercel manuel puis curl de vérification.
+
+---
+
+## 2026-08-01 — Session #9 : 53 thèmes, toutes les niches à 2 variantes minimum
+
+**Fait :** `a2a2980c` `56819312` `63ce8f30` `eb236177` `e7d441df` `02ac9bb3` `f34ccda0` `aed37972` `ca1db822` + rapport
+- impact-331 → 383 : 53 thèmes en 8 lots, 24 nouvelles specialties dans
+  `sectors.ts`, 53 entrées registre + 53×4 traductions.
+- Rapport complet : `docs/THEMES_NICHES_2026-08-01.md`.
+- Contrôles : build exit 0, balayage mesuré 106 pages (53 × 2 tailles)
+  **images bloquées**, tsc 1942 → 1942 après chaque lot.
+
+**Comment :**
+- **Générateur** (`scratchpad/gen/gen.py`) : le squelette validé des 5 premium
+  paramétré par un bloc de données métier par thème. Le générateur ne fabrique
+  que la structure ; tout le contenu (services, tarifs, avis, mentions
+  réglementaires) est écrit thème par thème. Six archétypes de héros couvrent
+  les 53, chacun câblé sur le geste demandé. Aucune animation nouvelle.
+- Deux variantes par niche = deux villes, deux positionnements, deux gestes.
+- 45 thèmes sur 53 sans aucune photographie (proxy bloquant : on n'invente
+  pas d'URL) — tuiles CSS, typographie, pictogrammes.
+
+**Pourquoi :** demande utilisateur « go pour les 53 » après le décompte des
+niches sous 2 variantes, avec la consigne explicite : *« même si les images
+chargent pas, veille à ce que tout soit bon en responsive et sur PC on mettra
+les photos »* → d'où le balayage images bloquées.
+
+**Erreurs commises (toutes trouvées par la mesure, aucune à l'œil) :**
+- **Le décompte de départ était faux dans les deux sens.** La doc des niches
+  s'appuie sur `registry.ts`, qui ment. Refait par grep plein texte : véto,
+  pisciniste et déménageur n'avaient besoin de rien (déjà ≥2) ; infirmier,
+  audioprothésiste et couvreur étaient à 0 et non à 1-2. Leçon re-confirmée
+  pour la 4e fois : **vérifier le contenu des pages, jamais le registre.**
+- **Héros plein cadre sans fond de repli** (327, 366, 369, 370, + 309 des
+  séries précédentes) : la section comptait sur la photo pour son fond ; sans
+  image, texte blanc sur fond de page clair (1,88:1 mesuré, 1,09:1 sur 309).
+  Fix : `background: C.bgDark` sur la section — invisible quand la photo charge.
+- **Kicker accent dans InvertSweep** (344, 362) : le geste bascule clair↔sombre,
+  aucune couleur d'accent ne contraste sur les deux (2,75:1). Fix : hériter la
+  couleur pilotée par le composant.
+- **`as const` sur un ternaire** (337, 353, 356) : TS1355 puis TS2322, **non
+  masqués par `@ts-nocheck`** — d'où la ligne de base de 1942. Fix : cast
+  explicite vers l'union littérale.
+- **Analyseur aveugle à `color(srgb …)`** : Chromium sérialise certaines
+  couleurs en canaux 0-1 ; l'analyseur les lisait en 0-255 et inventait des
+  ratios. Corrigé dans le script — à reprendre pour les prochaines campagnes.
+- **Serveur périmé = mesures fantômes** : `next start` relancé sur un port déjà
+  tenu échoue en silence (EADDRINUSE) ; l'ancien serveur continue de répondre
+  avec des chunks JS qui n'existent plus → 500, hydratation cassée, et
+  `noCtaAboveFold` faux sur 8 thèmes. Toujours vérifier quel process tient le
+  port, ou changer de port.
+- **`tsc` lancé depuis le scratchpad** retourne 0 erreur (pas de tsconfig) —
+  faux négatif dangereux. Toujours mesurer depuis la racine du dépôt.
+
+**Restes à faire :**
+- Corriger le registre : impact-138 (opticien), 192 (serrurier), 39
+  (déménageur), 188 (vétérinaire), et resync global au-delà de l'id ~190.
+- `components/CookieBanner.tsx` + lien « Skip to main content » : contraste
+  faible, global et préexistant sur les 315 templates. À traiter une fois.
+- Sujets des images réutilisées à contrôler en prod (proxy bloquant ici).
+- Déploiement Vercel manuel puis curl de vérification.
