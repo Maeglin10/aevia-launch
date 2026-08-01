@@ -63,6 +63,8 @@ export const INDUSTRIES: IndustryInfo[] = [
       { id: 'peintre',         label: 'Peintre en bâtiment', labels: { en: 'Painter', es: 'Pintor', de: 'Maler', pt: 'Pintor' }, emoji: '🎨', accentColor: '#a4552e' },
       { id: 'vtc',             label: 'VTC / Chauffeur privé', labels: { en: 'Private Driver', es: 'VTC / Chófer', de: 'Chauffeurservice', pt: 'Motorista privado' }, emoji: '🚕', accentColor: '#0b0d11' },
       { id: 'vitrier',         label: 'Vitrier / Miroiterie', labels: { en: 'Glazier', es: 'Cristalero', de: 'Glaser', pt: 'Vidraceiro' }, emoji: '🪟', accentColor: '#194e6d' },
+      { id: 'menuisier',       label: 'Menuisier / Ébéniste', labels: { en: 'Carpenter / Cabinetmaker', es: 'Carpintero / Ebanista', de: 'Schreiner / Tischler', pt: 'Marceneiro' }, emoji: '🪵', accentColor: '#6b5124' },
+      { id: 'toiletteur',      label: 'Toiletteur / Pension animale', labels: { en: 'Pet Groomer / Boarding', es: 'Peluquería canina / Residencia', de: 'Hundesalon / Tierpension', pt: 'Banho e tosa / Hospedagem' }, emoji: '🐕', accentColor: '#135e57' },
     ],
   },
   {
@@ -73,6 +75,7 @@ export const INDUSTRIES: IndustryInfo[] = [
     specialties: [
       { id: 'avocat',    label: 'Avocat',           labels: { en: 'Lawyer',      es: 'Abogado',   de: 'Anwalt',        pt: 'Advogado'    }, emoji: '⚖️', accentColor: '#1a3a5c' },
       { id: 'comptable', label: 'Expert-comptable', labels: { en: 'Accountant',  es: 'Contable',  de: 'Steuerberater', pt: 'Contabilista'}, emoji: '📊', accentColor: '#1c3f6e' },
+      { id: 'recrutement', label: 'Cabinet de recrutement', labels: { en: 'Recruitment Firm', es: 'Consultora de selección', de: 'Personalberatung', pt: 'Consultoria de recrutamento' }, emoji: '🤝', accentColor: '#22396b' },
       { id: 'notaire',   label: 'Notaire',          labels: { en: 'Notary',      es: 'Notario',   de: 'Notar',         pt: 'Notário'     }, emoji: '📜', accentColor: '#8a6d3f' },
       { id: 'assurance', label: 'Assurance / Courtier', labels: { en: 'Insurance Broker', es: 'Seguros / Corredor', de: 'Versicherungsmakler', pt: 'Seguros / Corretor' }, emoji: '🛡️', accentColor: '#2c4a8a' },
       { id: 'gestion_patrimoine', label: 'Gestion de patrimoine', labels: { en: 'Wealth Management', es: 'Gestión patrimonial', de: 'Vermögensverwaltung', pt: 'Gestão patrimonial' }, emoji: '📈', accentColor: '#6d5530' },
@@ -88,6 +91,8 @@ export const INDUSTRIES: IndustryInfo[] = [
       { id: 'restauration_rapide', label: 'Fast-food / Snack',  labels: { en: 'Fast Food',    es: 'Comida rápida',       de: 'Fast Food',       pt: 'Fast food'           }, emoji: '🍔', accentColor: '#b33a00' },
       { id: 'boulangerie',        label: 'Boulangerie',         labels: { en: 'Bakery',       es: 'Panadería',           de: 'Bäckerei',        pt: 'Padaria'             }, emoji: '🥖', accentColor: '#5c3a1e' },
       { id: 'cafe_bar',           label: 'Café / Bar à vin',    labels: { en: 'Café / Wine Bar', es: 'Café / Bar de vinos', de: 'Café / Weinbar', pt: 'Café / Bar de vinhos' }, emoji: '☕', accentColor: '#6b4226' },
+      { id: 'brasserie',          label: 'Brasserie artisanale', labels: { en: 'Craft Brewery', es: 'Cervecería artesanal', de: 'Craft-Brauerei', pt: 'Cervejaria artesanal' }, emoji: '🍺', accentColor: '#d99a2b' },
+      { id: 'caviste',            label: 'Caviste', labels: { en: 'Wine Merchant', es: 'Bodega / Vinoteca', de: 'Weinhandlung', pt: 'Loja de vinhos' }, emoji: '🍷', accentColor: '#d46a72' },
       { id: 'commerce_bouche', label: 'Boucherie / Fromagerie', labels: { en: 'Butcher / Cheese Shop', es: 'Carnicería / Quesería', de: 'Metzgerei / Käserei', pt: 'Açougue / Queijaria' }, emoji: '🧀', accentColor: '#7d3b3a' },
       { id: 'producteur',      label: 'Producteur fermier', labels: { en: 'Farm Producer', es: 'Productor agrícola', de: 'Hoferzeuger', pt: 'Produtor rural' }, emoji: '🥕', accentColor: '#465e3a' },
     ],
