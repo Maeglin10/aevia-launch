@@ -1,0 +1,392 @@
+"use client";
+// @ts-nocheck
+
+import React, { useState, useRef, useEffect } from "react";
+import { motion, useInView } from "framer-motion";
+import { ArrowRight, CheckCircle, Clock, Home, Mail, MapPin, PawPrint, Phone, Scissors, Star } from "lucide-react";
+import { resolveList } from "@/lib/templates/resolveList";
+import { LegalIdentity } from "@/app/templates/LegalIdentity";
+import { DWELL, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
+import { PushBlur } from "@/lib/templates/hero-kit-3";
+
+/* Toiletteur canin-félin & pension, 2e variante de la niche. Signature : PushBlur — la carte qui file, l'animal qui passe en courant. Carte CSS sans photo. */
+
+let C: Record<string, string> = {
+  bg: "#f6fafa",
+  bgSection: "#e9f2f1",
+  bgDark: "#0f2523",
+  text: "#122120",
+  textMuted: "#546b68",
+  accent: "var(--brand,#1d7a72)",
+  accentDark: "#135e57",
+  accentLight: "#d9ecea",
+  hi: "#7fc7bd",
+  white: "#ffffff",
+  border: "#d8e5e3",
+};
+const FONT = "system-ui, -apple-system, 'Segoe UI', sans-serif";
+const FONT_BODY = FONT;
+
+const NAV = [{"l": "Prestations", "h": "#services"}, {"l": "Notre approche", "h": "#methode"}, {"l": "Tarifs", "h": "#tarifs"}, {"l": "Contact", "h": "#contact"}];
+const HERO = [{"k": "Toilettage complet", "line": "Un seul animal à la fois, jamais de cage d'attente.", "sub": "Bain, séchage main, coupe aux ciseaux ou tondeuse."}, {"k": "Chiens anxieux", "line": "Le rendez-vous long, pour ceux que ça effraie.", "sub": "Séances d'habituation gratuites avant le premier toilettage."}, {"k": "Pension familiale", "line": "Six places, dans la maison — pas dans un chenil.", "sub": "Photos quotidiennes, sorties à la Loire, rythme respecté."}];
+
+const SERVICES_DEMO = [{"titre": "Toilettage complet", "desc": "Brossage, bain adapté à la peau, séchage à la main, coupe aux ciseaux ou à la tondeuse selon la race, soins des oreilles et griffes.", "tag": "Complet"}, {"titre": "Chiens anxieux ou âgés", "desc": "Rendez-vous longs, pauses autorisées, séances d'habituation gratuites : certains chiens ont besoin de trois visites avant la première coupe. C'est normal.", "tag": "Douceur"}, {"titre": "Chats", "desc": "Toilettage félin par une toiletteuse formée : démêlage, coupe sanitaire, bains médicaux. Sans contention brutale, sans sédation.", "tag": "Chats"}, {"titre": "Soins spécifiques", "desc": "Shampooings antiparasitaires ou dermatologiques sur conseil vétérinaire, épilation des races à poil dur, entretien des cordés.", "tag": "Soins"}, {"titre": "Pension familiale", "desc": "Six places dans notre maison avec jardin clos : votre animal vit avec nous, pas dans un box. Sorties quotidiennes au bord de Loire.", "tag": "Pension"}, {"titre": "Garde à la journée", "desc": "Pour les journées trop longues : accueil de 8 h à 19 h, jeux, sieste, retour fatigué et heureux.", "tag": "Journée"}];
+const METHODE = [{"n": "01", "t": "On prend le temps", "d": "Un seul animal à la fois au salon : pas d'aboiements, pas d'attente en cage, pas de stress d'ambiance."}, {"n": "02", "t": "On respecte les refus", "d": "Si un chien dit non, on s'arrête et on recommence un autre jour. Aucune contention musclée, jamais."}, {"n": "03", "t": "On adapte les produits", "d": "Peaux sensibles, allergies, animaux âgés : les shampooings sont choisis pour la peau, pas pour le parfum."}, {"n": "04", "t": "On raconte la séance", "d": "Ce qui s'est bien passé, ce qui a coincé, ce qu'il faut travailler à la maison entre deux visites."}];
+const ENGAGEMENT = ["Toiletteuse diplômée (CTM toilettage canin-félin), formation continue comportement", "Pension déclarée en préfecture (DDPP), certificat de capacité animaux domestiques", "Aucune sédation, aucune contention forcée — si l'animal refuse, on arrête", "Vaccins à jour exigés pour la pension : protection de tous les pensionnaires"];
+const TARIFS = [{"a": "Toilettage petit chien (< 10 kg)", "p": "dès 42 €", "n": "Bain, séchage main, coupe, oreilles et griffes."}, {"a": "Toilettage grand chien (> 25 kg)", "p": "dès 68 €", "n": "Comptez 2 h 30 : on ne bâcle pas les grands gabarits."}, {"a": "Toilettage chat", "p": "dès 55 €", "n": "Sans sédation, par une toiletteuse formée au félin."}, {"a": "Pension (nuitée)", "p": "24 €", "n": "Repas, sorties, photos quotidiennes. Dégressif dès 7 nuits."}];
+const AVIS_DEMO = [{"texte": "Mon bouvier bernois terrorisé par les salons a eu droit à trois visites d'habituation gratuites avant sa première coupe. Aujourd'hui il tire sur la laisse pour entrer. Merci mille fois.", "auteur": "Propriétaire de Gustave", "detail": "Chien anxieux"}, {"texte": "Deux semaines de pension pendant nos vacances : deux photos par jour, des nouvelles vraies, et un chat qui n'a pas boudé au retour — du jamais vu.", "auteur": "Famille Bouchet", "detail": "Pension familiale"}, {"texte": "Toiletteuse qui explique ce qu'elle fait et comment brosser à la maison. Mon caniche n'a plus jamais eu de nœuds depuis ses conseils. C'est du vrai conseil, pas de la vente.", "auteur": "Maryse P.", "detail": "Toilettage régulier"}];
+const STATS = [{"value": "1", "label": "Animal à la fois au salon"}, {"value": "0", "label": "Cage d'attente, jamais"}, {"value": "6", "label": "Places en pension familiale"}, {"value": "2/jour", "label": "Photos envoyées aux propriétaires"}];
+
+function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-60px" });
+  return (
+    <motion.div ref={ref} initial={{ opacity: 0, y: 26 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.6, delay, ease: [0.16, 1, 0.3, 1] }}>
+      {children}
+    </motion.div>
+  );
+}
+
+let fd: any = null;
+let c: any = null;
+let bp: any = null;
+let brand: any = null;
+function photo(i: number, fallback: string): string {
+  return fd?.photoUrls?.[i] || fallback;
+}
+
+export default function PoilsEtCompagniePage() {
+  const [session, setSession] = useState<any>(null);
+
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("session");
+    if (!id) return;
+    fetch(`/api/sessions?id=${id}`)
+      .then((r) => r.json())
+      .then(setSession)
+      .catch(() => {});
+  }, []);
+
+
+  fd = session?.formData;
+  c = session?.generatedContent;
+  bp = session?.businessProfile;
+  brand = fd?.brandColor ?? null;
+  if (brand) {
+    C = { ...C, accent: brand };
+  }
+
+  const SERVICES = resolveList(
+    bp?.services?.map((s: any, n: number) => ({
+      titre: s.title ?? SERVICES_DEMO[n % SERVICES_DEMO.length].titre,
+      desc: s.description ?? SERVICES_DEMO[n % SERVICES_DEMO.length].desc,
+      tag: SERVICES_DEMO[n % SERVICES_DEMO.length].tag,
+    })),
+    SERVICES_DEMO
+  );
+  const AVIS = resolveList(
+    bp?.reputation?.featuredReviews?.map((r: any, n: number) => ({
+      texte: r.text ?? AVIS_DEMO[n % AVIS_DEMO.length].texte,
+      auteur: r.name ?? AVIS_DEMO[n % AVIS_DEMO.length].auteur,
+      detail: r.location ?? AVIS_DEMO[n % AVIS_DEMO.length].detail,
+    })),
+    AVIS_DEMO
+  );
+
+  const [scrolled, setScrolled] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const { i, next, prev } = useSlides(HERO.length, DWELL.normal);
+  const S = HERO[i];
+
+
+  useEffect(() => {
+    const h = () => setScrolled(window.scrollY > 50);
+    window.addEventListener("scroll", h);
+    return () => window.removeEventListener("scroll", h);
+  }, []);
+
+  const phone = fd?.phone ?? "02 41 00 00 01";
+  const telHref = `tel:${fd?.phone ?? "+33241000001"}`;
+  const mail = fd?.email ?? "rdv@poils-et-compagnie.fr";
+
+  return (
+    <div style={{ background: C.bg, color: C.text, fontFamily: FONT_BODY, overflowX: "clip" }}>
+      <style>{`
+        @media (max-width: 900px) { #i383-nav { display: none !important; } .i383-burger { display: flex !important; } }
+        @media (max-width: 860px) {
+          .i383-hero { grid-template-columns: 1fr !important; padding: 118px 24px 46px !important; gap: 34px !important; }
+          .i383-card { max-width: 380px; margin: 0 auto; width: 100%; }
+          .i383-split { grid-template-columns: 1fr !important; }
+          .i383-stats { grid-template-columns: 1fr 1fr !important; row-gap: 8px; }
+          .i383-stats .i383-statcell { border-right: none !important; }
+          .i383-pad { padding-left: 24px !important; padding-right: 24px !important; }
+          .i383-herotext { padding: 0 24px 44px !important; }
+        }
+      `}</style>
+
+      {/* ── NAV ─────────────────────────────────────────────────────────── */}
+      <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, height: 72, display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 48px", background: scrolled ? C.bg : "transparent", backdropFilter: scrolled ? "blur(12px)" : "none", borderBottom: `1px solid ${scrolled ? C.border : "transparent"}`, transition: "all 0.4s ease" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 10, minWidth: 0 }}>
+          {fd?.logoBase64 ? (
+            <img src={fd.logoBase64} alt={fd?.businessName ?? "logo"} style={{ height: 30, maxWidth: 160, objectFit: "contain", display: "block" }} />
+          ) : (
+            <>
+              <PawPrint size={18} color={C.accent} style={{ flexShrink: 0 }} />
+              <span style={{ fontFamily: FONT, fontSize: 18, color: C.text, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{fd?.businessName ?? "Poils & Compagnie"}</span>
+              
+            </>
+          )}
+        </div>
+        <div id="i383-nav" style={{ display: "flex", gap: 24, alignItems: "center" }}>
+          {NAV.map(({ l, h }) => (
+            <a key={l} href={h} style={{ color: C.textMuted, fontSize: 14, fontWeight: 500, textDecoration: "none", padding: "12px 4px" }}>{l}</a>
+          ))}
+          <motion.a href="tel:+33241000001" style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
+            Prendre RDV
+          </motion.a>
+        </div>
+        <button className="i383-burger" onClick={() => setMobileOpen(!mobileOpen)} aria-label="Menu" style={{ display: "none", flexDirection: "column", justifyContent: "center", gap: 5, background: "none", border: "none", cursor: "pointer", padding: 10, minWidth: 44, minHeight: 44 }}>
+          <span style={{ display: "block", width: 24, height: 1.5, background: C.text, transition: "all 0.3s", transform: mobileOpen ? "rotate(45deg) translate(4.5px, 4.5px)" : "none" }} />
+          <span style={{ display: "block", width: 24, height: 1.5, background: C.text, transition: "all 0.3s", opacity: mobileOpen ? 0 : 1 }} />
+          <span style={{ display: "block", width: 24, height: 1.5, background: C.text, transition: "all 0.3s", transform: mobileOpen ? "rotate(-45deg) translate(4.5px, -4.5px)" : "none" }} />
+        </button>
+      </nav>
+      {mobileOpen && (
+        <div style={{ position: "fixed", top: 72, left: 0, right: 0, zIndex: 99, background: C.bg, borderBottom: `1px solid ${C.border}`, padding: "20px 28px", display: "flex", flexDirection: "column", gap: 4 }}>
+          {NAV.map(({ l, h }) => (
+            <a key={l} href={h} onClick={() => setMobileOpen(false)} style={{ color: C.text, fontSize: 16, fontWeight: 500, textDecoration: "none", padding: "12px 0" }}>{l}</a>
+          ))}
+          <a href="tel:+33241000001" style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Prendre RDV</a>
+        </div>
+      )}
+
+      {/* ── HERO ────────────────────────────────────────────────────────── */}
+<section className="i383-hero" style={{ minHeight: "100dvh", display: "grid", gridTemplateColumns: "minmax(0,1.08fr) minmax(0,0.92fr)", gap: 56, alignItems: "center", padding: "140px 64px 70px", maxWidth: 1260, margin: "0 auto" }}>
+        <div>
+          <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }} style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>
+            Toilettage & pension · Angers
+          </motion.span>
+          <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35, duration: 0.85, ease: [0.16, 1, 0.3, 1] }} style={{ fontFamily: FONT, fontSize: "clamp(34px, 4.6vw, 60px)", color: C.text, lineHeight: 1.1, margin: "18px 0 20px" }}>
+            {c?.heroHeadline ?? (<>Votre chien ressort beau.<br /><em style={{ color: C.accentDark }}>Et surtout, détendu.</em></>)}
+          </motion.h1>
+          <motion.p initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.55 }} style={{ fontSize: 16.5, color: C.textMuted, lineHeight: 1.75, maxWidth: 480, marginBottom: 32 }}>
+            {c?.heroSubline ?? fd?.tagline ?? "Un salon sans cage d'attente, un seul animal à la fois, des produits adaptés à la peau : le toilettage pensé pour l'animal avant la photo. Et une pension familiale de six places quand vous partez."}
+          </motion.p>
+          <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.72 }} style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
+            <motion.a href={telHref} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "15px 30px", fontWeight: 700, fontSize: 15, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9 }} whileHover={{ scale: 1.02 }}>
+              Prendre rendez-vous <ArrowRight size={16} />
+            </motion.a>
+            <motion.a href="#services" style={{ background: C.white, color: C.text, border: `1px solid ${C.border}`, borderRadius: 8, padding: "14px 26px", fontWeight: 500, fontSize: 15, textDecoration: "none" }} whileHover={{ borderColor: C.accent }}>
+              Nos prestations
+            </motion.a>
+          </motion.div>
+          
+          <div style={{ display: "flex", alignItems: "center", gap: 18, marginTop: 42, flexWrap: "wrap" }}>
+            <SlideIndex i={i} total={HERO.length} variant="fraction" color={C.textMuted} className="" />
+            <span style={{ fontSize: 13.5, color: C.textMuted }}>
+              <strong style={{ color: C.text, fontWeight: 700 }}>{S.k}</strong> — {S.sub}
+            </span>
+            <HairlineArrows onPrev={prev} onNext={next} color={C.text} className="" />
+          </div>
+        </div>
+        <div className="i383-card">
+          <PushBlur index={i} amount={16}>
+            <div style={{ background: C.white, border: `1px solid ${C.border}`, borderRadius: 10, overflow: "hidden", boxShadow: "0 18px 52px rgba(0,0,0,0.18)" }}>
+              <div style={{ aspectRatio: "4/3", display: "flex", alignItems: "center", justifyContent: "center", background: C.accentLight }}><PawPrint size={64} color={C.accentDark} strokeWidth={1.2} /></div>
+              <div style={{ padding: "22px 24px 24px", borderTop: `3px solid ${C.accent}` }}>
+                <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: 3, textTransform: "uppercase", color: C.accentDark, marginBottom: 8 }}>{S.k}</div>
+                <div style={{ fontFamily: FONT, fontSize: 19, color: C.text, lineHeight: 1.35 }}>{S.line}</div>
+              </div>
+            </div>
+          </PushBlur>
+        </div>
+      </section>
+
+      {/* ── STATS ───────────────────────────────────────────────────────── */}
+      <section style={{ background: C.bgDark }}>
+        <div className="i383-stats i383-pad" style={{ display: "grid", gridTemplateColumns: "repeat(4, minmax(0,1fr))", maxWidth: 1100, margin: "0 auto", padding: "0 32px" }}>
+          {STATS.map((s, idx) => (
+            <Reveal key={s.label} delay={idx * 0.08}>
+              <div className="i383-statcell" style={{ padding: "30px 8px", textAlign: "center", borderRight: idx < 3 ? "1px solid rgba(255,255,255,0.08)" : "none" }}>
+                <div style={{ fontFamily: FONT, fontSize: 32, color: C.hi, lineHeight: 1 }}>{s.value}</div>
+                <div style={{ fontSize: 13, color: "rgba(255,255,255,0.45)", marginTop: 7 }}>{s.label}</div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
+
+      {/* ── SERVICES ────────────────────────────────────────────────────── */}
+      <section id="services" className="i383-pad" style={{ padding: "96px 64px", background: C.bgSection }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+          <Reveal>
+            <div style={{ marginBottom: 50 }}>
+              <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>Prestations</span>
+              <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 3.8vw, 46px)", color: C.text, marginTop: 10, lineHeight: 1.14 }}>
+                Le toilettage,<br /><em>au rythme de l'animal.</em>
+              </h2>
+            </div>
+          </Reveal>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(290px, 100%), 1fr))", gap: 18 }}>
+            {SERVICES.map((s, idx) => (
+              <Reveal key={s.titre} delay={idx * 0.06}>
+                <motion.div whileHover={{ y: -5 }} style={{ background: C.white, borderRadius: 12, padding: "26px 24px", border: `1px solid ${C.border}`, height: "100%" }}>
+                  <span style={{ background: C.accentLight, color: C.accentDark, borderRadius: 999, padding: "4px 12px", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>{s.tag}</span>
+                  <h3 style={{ fontFamily: FONT, fontSize: 18.5, color: C.text, margin: "15px 0 10px" }}>{s.titre}</h3>
+                  <p style={{ fontSize: 14, color: C.textMuted, lineHeight: 1.7 }}>{s.desc}</p>
+                </motion.div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── MÉTHODE / INFOS ─────────────────────────────────────────────── */}
+      <section id="methode" className="i383-pad" style={{ padding: "96px 64px", background: C.bg }}>
+        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+          <Reveal>
+            <div style={{ marginBottom: 50 }}>
+              <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>Notre approche</span>
+              <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 3.8vw, 46px)", color: C.text, marginTop: 10, lineHeight: 1.14 }}>
+                Un animal détendu<br /><em>est un animal bien toiletté.</em>
+              </h2>
+            </div>
+          </Reveal>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(240px, 100%), 1fr))", gap: 18 }}>
+            {METHODE.map((m, idx) => (
+              <Reveal key={m.n} delay={idx * 0.08}>
+                <div style={{ background: C.white, border: `1px solid ${C.border}`, borderRadius: 12, padding: "26px 24px", height: "100%" }}>
+                  <div style={{ fontFamily: FONT, fontSize: 28, color: C.accentDark, marginBottom: 12 }}>{m.n}</div>
+                  <h3 style={{ fontSize: 16.5, fontWeight: 700, color: C.text, marginBottom: 9 }}>{m.t}</h3>
+                  <p style={{ fontSize: 14, color: C.textMuted, lineHeight: 1.7 }}>{m.d}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── ENGAGEMENTS ─────────────────────────────────────────────────── */}
+      <section id="engagements" className="i383-pad" style={{ padding: "96px 64px", background: C.bgSection }}>
+        <div className="i383-split" style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "minmax(0,1fr) minmax(0,1fr)", gap: 64, alignItems: "center" }}>
+          <Reveal>
+            <div style={{ borderRadius: 12, border: `1px solid ${C.border}`, background: C.accentLight, aspectRatio: "4/3", display: "flex", alignItems: "center", justifyContent: "center" }}><Home size={80} color={C.accentDark} strokeWidth={1.1} /></div>
+          </Reveal>
+          <Reveal delay={0.15}>
+            <div>
+              <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>Nos engagements</span>
+              <h2 style={{ fontFamily: FONT, fontSize: "clamp(26px, 3vw, 40px)", color: C.text, margin: "12px 0 26px", lineHeight: 1.18 }}>
+                Le bien-être<br /><em>avant l'esthétique.</em>
+              </h2>
+              {ENGAGEMENT.map((e, idx) => (
+                <div key={idx} style={{ display: "flex", gap: 12, marginBottom: 14 }}>
+                  <CheckCircle size={17} color={C.accent} style={{ flexShrink: 0, marginTop: 2 }} />
+                  <span style={{ fontSize: 15, color: C.textMuted, lineHeight: 1.65 }}>{e}</span>
+                </div>
+              ))}
+              <motion.a href={telHref} style={{ display: "inline-flex", alignItems: "center", gap: 8, marginTop: 24, background: C.accentDark, color: "#fff", borderRadius: 8, padding: "14px 28px", fontWeight: 700, fontSize: 15, textDecoration: "none" }} whileHover={{ scale: 1.02 }}>
+                Nous appeler <ArrowRight size={16} />
+              </motion.a>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ── TARIFS ──────────────────────────────────────────────────────── */}
+      <section id="tarifs" className="i383-pad" style={{ padding: "96px 64px", background: C.bg }}>
+        <div style={{ maxWidth: 1000, margin: "0 auto" }}>
+          <Reveal>
+            <div style={{ textAlign: "center", marginBottom: 16 }}>
+              <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>Tarifs</span>
+              <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 3.5vw, 44px)", color: C.text, marginTop: 10 }}>Selon la race, <em>annoncés avant.</em></h2>
+              <p style={{ fontSize: 15, color: C.textMuted, maxWidth: 560, margin: "14px auto 0", lineHeight: 1.7 }}>Le prix dépend de la taille, du poil et de son état. Un forfait démêlage s'ajoute si le poil est très emmêlé — annoncé avant de commencer, jamais découvert à la caisse.</p>
+            </div>
+          </Reveal>
+          <div style={{ marginTop: 38 }}>
+            {TARIFS.map((tt, idx) => (
+              <Reveal key={tt.a} delay={idx * 0.06}>
+                <div style={{ display: "flex", flexWrap: "wrap", gap: 8, justifyContent: "space-between", alignItems: "baseline", background: C.white, border: `1px solid ${C.border}`, borderRadius: 12, padding: "20px 24px", marginBottom: 12 }}>
+                  <div style={{ minWidth: 0 }}>
+                    <div style={{ fontFamily: FONT, fontSize: 17.5, color: C.text }}>{tt.a}</div>
+                    <div style={{ fontSize: 13.5, color: C.textMuted, marginTop: 5, lineHeight: 1.6 }}>{tt.n}</div>
+                  </div>
+                  <div style={{ fontFamily: FONT, fontSize: 19, color: C.accentDark, whiteSpace: "nowrap" }}>{tt.p}</div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── AVIS ────────────────────────────────────────────────────────── */}
+      <section className="i383-pad" style={{ padding: "96px 64px", background: C.bgDark }}>
+        <Reveal>
+          <div style={{ textAlign: "center", marginBottom: 48 }}>
+            <h2 style={{ fontFamily: FONT, fontSize: "clamp(26px, 3.4vw, 42px)", color: "#fff" }}>Des animaux <em style={{ color: C.hi }}>qui reviennent contents</em>.</h2>
+          </div>
+        </Reveal>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(290px, 100%), 1fr))", gap: 18, maxWidth: 1100, margin: "0 auto" }}>
+          {AVIS.map((a, idx) => (
+            <Reveal key={a.auteur} delay={idx * 0.1}>
+              <div style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.10)", borderRadius: 12, padding: "26px 24px", height: "100%" }}>
+                <div style={{ display: "flex", gap: 3, marginBottom: 12 }}>
+                  {[...Array(5)].map((_, j) => <Star key={j} size={13} fill={C.hi} color={C.hi} />)}
+                </div>
+                <p style={{ fontFamily: FONT, fontSize: 15, fontStyle: "italic", color: "rgba(255,255,255,0.82)", lineHeight: 1.7, marginBottom: 18 }}>"{a.texte}"</p>
+                <div style={{ borderTop: "1px solid rgba(255,255,255,0.09)", paddingTop: 14 }}>
+                  <div style={{ fontWeight: 700, color: "#fff", fontSize: 14 }}>{a.auteur}</div>
+                  <div style={{ color: C.hi, fontSize: 12, marginTop: 4 }}>{a.detail}</div>
+                </div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
+      {/* ── CONTACT ─────────────────────────────────────────────────────── */}
+      <section id="contact" className="i383-pad" style={{ padding: "96px 64px", background: C.accentLight, textAlign: "center" }}>
+        <Reveal>
+          <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>Prenez rendez-vous</span>
+          <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 4vw, 48px)", color: C.text, margin: "14px 0 16px" }}>
+            Un seul animal à la fois,<br /><em>alors les places sont comptées.</em>
+          </h2>
+          <p style={{ fontSize: 16, color: C.textMuted, maxWidth: 460, margin: "0 auto 36px", lineHeight: 1.7 }}>Rendez-vous par téléphone du mardi au samedi. Pension : réservez tôt pour les vacances scolaires, six places partent vite.</p>
+          <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
+            <motion.a href={telHref} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "16px 36px", fontWeight: 700, fontSize: 16, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9 }} whileHover={{ scale: 1.03 }}>
+              <Phone size={18} /> {phone}
+            </motion.a>
+            <motion.a href={`mailto:${mail}`} style={{ background: "transparent", color: C.text, border: `2px solid ${C.accent}`, borderRadius: 8, padding: "14px 32px", fontWeight: 700, fontSize: 16, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9 }} whileHover={{ background: C.accent, color: "#fff" }}>
+              <Mail size={18} /> Nous écrire
+            </motion.a>
+          </div>
+        </Reveal>
+      </section>
+
+      {/* ── FOOTER ──────────────────────────────────────────────────────── */}
+      <footer className="i383-pad" style={{ background: C.bgDark, padding: "44px 64px 22px" }}>
+        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 28, marginBottom: 30 }}>
+            <div>
+              <div style={{ fontFamily: FONT, fontSize: 18, color: C.hi, marginBottom: 8 }}>{fd?.businessName ?? "Poils & Compagnie"}</div>
+              <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, lineHeight: 1.7 }}>Salon de toilettage & pension familiale · Angers<br />Toiletteuse diplômée — pension déclarée DDPP</p>
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+              {[{ icon: <MapPin size={13} />, t: "Angers, Maine-et-Loire" }, { icon: <Phone size={13} />, t: phone }, { icon: <Clock size={13} />, t: "Mar–Sam 9h–18h30 · pension 7j/7 sur réservation" }].map((item, idx) => (
+                <div key={idx} style={{ display: "flex", gap: 10, color: "rgba(255,255,255,0.42)", fontSize: 13, alignItems: "center" }}>
+                  <span style={{ color: C.hi }}>{item.icon}</span>{item.t}
+                </div>
+              ))}
+            </div>
+          </div>
+          <div style={{ borderTop: "1px solid rgba(255,255,255,0.09)", paddingTop: 14, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 8 }}>
+            <span style={{ color: "rgba(255,255,255,0.25)", fontSize: 12 }}>
+              © 2026 {fd?.businessName ?? "Poils & Compagnie"} — Site réalisé par Aevia WS · SIREN <LegalIdentity />
+            </span>
+            <span style={{ color: "rgba(255,255,255,0.25)", fontSize: 12 }}>Mentions légales : éditeur Aevia WS · hébergement Vercel Inc.</span>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+}

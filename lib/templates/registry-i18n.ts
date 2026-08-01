@@ -2220,4 +2220,34 @@ export const TEMPLATE_I18N: Record<string, Record<'en' | 'es' | 'de' | 'pt', Tem
     de: { name: "Cap Horizon Patrimoine", description: "Website für Vermögensverwaltung, 2. Variante — der Vermögensweg als angeheftetes StickyProgress, AMF-regulierter CIF, offene Architektur, schriftliche Honorare." },
     pt: { name: "Cap Horizon Patrimoine", description: "Site de gestão patrimonial, 2.ª variante — o percurso patrimonial em StickyProgress fixado, CIF regulado pela AMF, arquitetura aberta, honorários escritos." },
   },
+  "impact-379": {
+    en: { name: "Établi Moreau", description: "Cabinetmaker site, 2nd variant — pieces swing in with ArcSwap, traditional joinery, hide-glue restoration, regional master craftsman." },
+    es: { name: "Établi Moreau", description: "Sitio de ebanista, 2.ª variante — las piezas entran en péndulo ArcSwap, ensambles tradicionales, restauración con cola de huesos, maestro artesano." },
+    de: { name: "Établi Moreau", description: "Kunsttischler-Website, 2. Variante — Stücke schwingen per ArcSwap ein, traditionelle Verbindungen, Restaurierung mit Knochenleim, Meisterbetrieb." },
+    pt: { name: "Établi Moreau", description: "Site de marceneiro de arte, 2.ª variante — as peças entram em pêndulo ArcSwap, encaixes tradicionais, restauração com cola de ossos, mestre artesão." },
+  },
+  "impact-380": {
+    en: { name: "Brasserie du Houblon Franc", description: "Craft brewery site — the head rises with PanelRise, four core beers, unfiltered and unpasteurised, taproom and kegs for bars." },
+    es: { name: "Brasserie du Houblon Franc", description: "Sitio de cervecería artesanal — la espuma sube con PanelRise, cuatro cervezas fijas, sin filtrar ni pasteurizar, taproom y barriles." },
+    de: { name: "Brasserie du Houblon Franc", description: "Website für Craft-Brauerei — die Schaumkrone steigt per PanelRise, vier Kernbiere, unfiltriert und unpasteurisiert, Taproom und Fässer." },
+    pt: { name: "Brasserie du Houblon Franc", description: "Site de cervejaria artesanal — a espuma sobe com PanelRise, quatro cervejas fixas, sem filtragem nem pasteurização, taproom e barris." },
+  },
+  "impact-381": {
+    en: { name: "La Cave des Terroirs", description: "Independent wine merchant site — the bottle lands with HeldSwap, 400 tasted references, direct-from-estate buying, monthly tastings." },
+    es: { name: "La Cave des Terroirs", description: "Sitio de bodega independiente — la botella se posa con HeldSwap, 400 referencias catadas, compra directa en bodega, catas mensuales." },
+    de: { name: "La Cave des Terroirs", description: "Website für unabhängige Weinhandlung — die Flasche landet per HeldSwap, 400 verkostete Weine, Direkteinkauf beim Winzer, monatliche Verkostungen." },
+    pt: { name: "La Cave des Terroirs", description: "Site de loja de vinhos independente — a garrafa pousa com HeldSwap, 400 referências provadas, compra direta nas vinícolas, degustações mensais." },
+  },
+  "impact-382": {
+    en: { name: "Trajectoires RH", description: "Recruitment firm site — the profile assembles with WordFlight, 12-month guarantee, three argued candidates, feedback to every applicant." },
+    es: { name: "Trajectoires RH", description: "Sitio de consultora de selección — el perfil se ensambla con WordFlight, garantía de 12 meses, tres candidatos argumentados, respuesta a todos." },
+    de: { name: "Trajectoires RH", description: "Website für Personalberatung — das Profil fügt sich per WordFlight, 12 Monate Garantie, drei begründete Kandidaten, Feedback an alle." },
+    pt: { name: "Trajectoires RH", description: "Site de consultoria de recrutamento — o perfil se monta com WordFlight, garantia de 12 meses, três candidatos argumentados, retorno a todos." },
+  },
+  "impact-383": {
+    en: { name: "Poils & Compagnie", description: "Pet grooming and boarding site — cards sweep with PushBlur, one animal at a time, no forced restraint, licensed home boarding." },
+    es: { name: "Poils & Compagnie", description: "Sitio de peluquería canina y residencia — las tarjetas pasan con PushBlur, un animal a la vez, sin contención forzada, residencia declarada." },
+    de: { name: "Poils & Compagnie", description: "Website für Hundesalon und Tierpension — Karten ziehen per PushBlur vorbei, ein Tier zur Zeit, kein Zwang, angemeldete Familienpension." },
+    pt: { name: "Poils & Compagnie", description: "Site de banho e tosa com hospedagem — os cartões passam com PushBlur, um animal por vez, sem contenção forçada, hospedagem licenciada." },
+  },
 };
