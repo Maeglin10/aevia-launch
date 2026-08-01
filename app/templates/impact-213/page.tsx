@@ -12,7 +12,8 @@ import {
 import { TemplateIcon } from '@/components/TemplateIcon'
 import { CheckCircle2 } from 'lucide-react'
 import { resolveList } from "@/lib/templates/resolveList";
-import { DWELL, useSlides, GhostSolid, BlurThrough, SlideIndex, HairlineArrows } from '@/lib/templates/hero-kit-2';
+import { DWELL, useSlides, GhostSolid, SlideIndex, HairlineArrows } from '@/lib/templates/hero-kit-2';
+import { HardCutRebuild, FixedRail } from '@/lib/templates/hero-kit-3';
 
 /* ─────────────────────────────────────────────
    DESIGN TOKENS
@@ -29,9 +30,12 @@ function shadeColor(hex: string, percent: number): string {
   return `#${(0x1000000 + r * 0x10000 + g * 0x100 + b).toString(16).slice(1)}`;
 }
 
-/* GhostSolid from the kit — the one mechanic that needs no photograph, and
-   this template ships none. The outline line rotates through the trades the
-   page actually sells; the solid line holds still. */
+/* HardCutRebuild + FixedRail (v16, fitness): no photograph ships with this
+   template, so the cut is carried by the type — everything vanishes at once
+   (0.12s, no fade), a beat of nothing, then title, subline and trade line
+   rebuild staggered. The gold rail never moves: it is what makes the cut
+   read as editing rather than as a glitch. The GhostSolid lockup stays as
+   the title's form, not as the signature. */
 const HERO_TRADES = [
   { ghost: 'Maçonnerie', d: "Gros oeuvre, murs porteurs, fondations — le métier d'origine de la maison." },
   { ghost: 'Ravalement', d: 'Façades et isolation thermique par l\'extérieur, échafaudage compris.' },
@@ -518,6 +522,12 @@ function Hero() {
       {/* Blueprint Grid Background */}
       <BlueprintGrid />
 
+      {/* the axis that never moves while everything else cuts */}
+      <FixedRail color={C.accent} side="left" className="i213-rail">
+        <SlideIndex i={i} total={HERO_TRADES.length} variant="flat" className="" color="#0b0d0a" />
+      </FixedRail>
+      <style>{`@media (max-width: 700px) { .i213-rail { display: none !important; } }`}</style>
+
       {/* Diagonal accent stripe */}
       <div
         style={{
@@ -550,9 +560,11 @@ function Hero() {
             textTransform: 'uppercase',
           }}
         >
-          <BlurThrough index={i} amount={10}>
-            <GhostSolid ghost={HERO_TRADES[i].ghost} solid="pierre après pierre" accent={C.accent} strokeWidth={1.5} />
-          </BlurThrough>
+          <HardCutRebuild index={i} stagger={0.09}>
+            {[
+              <GhostSolid key="lockup" ghost={HERO_TRADES[i].ghost} solid="pierre après pierre" accent={C.accent} strokeWidth={1.5} />,
+            ]}
+          </HardCutRebuild>
         </motion.h1>
 
         <motion.p
@@ -645,12 +657,13 @@ function Hero() {
           transition={{ delay: 1.4 }}
           style={{ marginTop: 64, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 18, flexWrap: 'wrap' }}
         >
-          <SlideIndex i={i} total={HERO_TRADES.length} variant="fraction" className="" color={C.textMuted} />
-          <BlurThrough index={i} amount={8}>
-            <span style={{ fontFamily: 'Inter, sans-serif', fontSize: 13, color: C.textMuted, maxWidth: '52ch', display: 'inline-block' }}>
-              {HERO_TRADES[i].d}
-            </span>
-          </BlurThrough>
+          <HardCutRebuild index={i} stagger={0.11} className="i213-cutline">
+            {[
+              <span key="d" style={{ fontFamily: 'Inter, sans-serif', fontSize: 13, color: C.textMuted, maxWidth: '52ch', display: 'inline-block' }}>
+                {HERO_TRADES[i].d}
+              </span>,
+            ]}
+          </HardCutRebuild>
           <HairlineArrows onPrev={prev} onNext={next} color={C.textMuted} labels={{ prev: 'Métier précédent', next: 'Métier suivant' }} />
         </motion.div>
       </motion.div>

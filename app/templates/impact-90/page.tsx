@@ -13,15 +13,17 @@ import {
 import React, { useRef, useState, useEffect, useCallback, useContext, createContext } from "react";
 import Link from "next/link";
 import { resolveList } from "@/lib/templates/resolveList";
-import { DWELL, useSlides, AnchoredBackdrop, BlurThrough, SlideIndex, HairlineArrows } from "@/lib/templates/hero-kit-2";
+import { DWELL, useSlides, AnchoredBackdrop, SlideIndex, HairlineArrows } from "@/lib/templates/hero-kit-2";
+import { PanelDrop } from "@/lib/templates/hero-kit-3";
 
-/* Split screen from the bakery lab: the oven's output on the left, one loaf
-   at a time, swatches tinted like the crust they select. Photographs are the
-   lab's four verified bread images; names and prices are this bakery's own. */
+/* PanelDrop (v02, the split-screen recording): the whole text panel drops
+   like a curtain, contents included, while the photograph changes behind.
+   Photographs were verified at the merge; names, prices and copy are this
+   bakery's own. */
 const HERO_BREADS = [
-  { name: "Miche au Levain", price: "8.50", c: "#8a6234", img: "https://images.unsplash.com/photo-1549931319-a545dcf3bc73?auto=format&fit=crop&q=80&w=1600" },
-  { name: "Pain de Seigle", price: "6.90", c: "#6b4423", img: "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&q=80&w=1600" },
-  { name: "Brioche Feuilletée", price: "3.80", c: "#d9ae6c", img: "https://images.unsplash.com/photo-1509365465985-25d11c17e812?auto=format&fit=crop&q=80&w=1600" },
+  { name: "Miche au Levain", price: "8.50", c: "#8a6234", d: "Fermentation de 24 h, farine T65 moulue sur meule, mie ouverte, croûte caramélisée.", img: "https://images.unsplash.com/photo-1549931319-a545dcf3bc73?auto=format&fit=crop&q=80&w=1600" },
+  { name: "Pain de Seigle", price: "6.90", c: "#6b4423", d: "40 % de seigle sombre, légère acidité, mie dense et moelleuse. Le mardi, jeudi et samedi.", img: "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&q=80&w=1600" },
+  { name: "Brioche Feuilletée", price: "3.80", c: "#d9ae6c", d: "Beurre AOP, six tours, deux jours de repos au froid. Le week-end uniquement.", img: "https://images.unsplash.com/photo-1509365465985-25d11c17e812?auto=format&fit=crop&q=80&w=1600" },
 ];
 
 /* ─── Design Tokens ─────────────────────────────────────────── */
@@ -1100,13 +1102,7 @@ export default function Page() {
         <div className="i90-hero-photo" style={{ position: "relative", overflow: "hidden", minHeight: "38svh" }}>
           <AnchoredBackdrop images={HERO_BREADS.map((b) => b.img)} index={heroI} overlay={0.08} />
           <div aria-hidden style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(46,26,10,0.45), transparent 40%)" }} />
-          <div style={{ position: "absolute", left: 0, right: 0, bottom: 0, padding: "18px 22px", zIndex: 5, display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: 12, flexWrap: "wrap" }}>
-            <BlurThrough index={heroI} amount={8}>
-              <div style={{ color: "#fff" }}>
-                <div style={{ fontFamily: "'Playfair Display', serif", fontSize: 21 }}>{HERO_BREADS[heroI].name}</div>
-                <div style={{ fontFamily: "'Cabin', sans-serif", fontSize: 12, opacity: 0.75 }}>{HERO_BREADS[heroI].price} € · cuit ce matin</div>
-              </div>
-            </BlurThrough>
+          <div style={{ position: "absolute", left: 0, right: 0, bottom: 0, padding: "18px 22px", zIndex: 5, display: "flex", alignItems: "flex-end", justifyContent: "flex-end", gap: 12, flexWrap: "wrap" }}>
             <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
               {HERO_BREADS.map((b, n) => (
                 <button key={b.name} type="button" onClick={() => heroGo(n)} aria-label={b.name} aria-current={n === heroI}
@@ -1120,7 +1116,7 @@ export default function Page() {
             </div>
           </div>
         </div>
-        <div style={{ position: "relative", display: "flex", alignItems: "center", justifyContent: "center" }}>
+        <PanelDrop index={heroI} className="" style={{ position: "relative", display: "flex", alignItems: "center", justifyContent: "center", background: C.bgWarm }}>
         {/* Warm ambient */}
         <motion.div style={{ y: heroY, position: "absolute", inset: 0 }}>
           <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse 80% 60% at 50% 35%, rgba(196,122,53,0.12) 0%, transparent 65%)" }} />
@@ -1181,18 +1177,19 @@ export default function Page() {
             </MagneticButton>
           </motion.div>
 
-          {/* Opening hours pill */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1.6 }}
-            style={{ marginTop: 48, display: "inline-flex", alignItems: "center", gap: 12, background: C.bg, border: `1px solid ${C.border}`, borderRadius: 40, padding: "10px 24px" }}
-          >
-            <div style={{ width: 7, height: 7, borderRadius: "50%", background: "#4CAF50" }} />
-            <span style={{ fontFamily: "'Cabin', sans-serif", fontSize: 13, color: C.brown, fontWeight: 500 }}>Ouvert aujourd'hui · 7h00–19h30</span>
-          </motion.div>
+          {/* the loaf of the moment — it rides the curtain */}
+          <div style={{ marginTop: 44, display: "inline-flex", flexDirection: "column", alignItems: "center", gap: 6, borderTop: `1px solid ${C.border}`, paddingTop: 22 }}>
+            <SlideIndex i={heroI} total={HERO_BREADS.length} variant="fraction" className="" color={C.muted} />
+            <div style={{ fontFamily: "'Playfair Display', serif", fontSize: 24, color: C.brown }}>
+              {HERO_BREADS[heroI].name}
+              <span style={{ color: C.terracotta }}> · {HERO_BREADS[heroI].price} €</span>
+            </div>
+            <p style={{ fontFamily: "'Cabin', sans-serif", fontSize: 13, color: C.muted, maxWidth: "46ch", margin: 0, lineHeight: 1.6 }}>
+              {HERO_BREADS[heroI].d}
+            </p>
+          </div>
         </motion.div>
-        </div>
+        </PanelDrop>
         <style>{`@media (max-width: 900px) { .i90-hero { grid-template-columns: minmax(0,1fr) !important; } .i90-hero-photo { min-height: 34svh !important; } }`}</style>
       </section>
 
