@@ -45,13 +45,13 @@ const HERO_PROJETS = [
   {
     k: "Cuisine chêne & laque",
     sub: "Îlot central, façades sans poignée, plan de travail céramique.",
-    img: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=1920&q=80",
+    img: "https://images.pexels.com/photos/6920452/pexels-photo-6920452.jpeg?auto=compress&cs=tinysrgb&w=1600",
     alt: "Plan de travail et façades bois d'une cuisine sur mesure",
   },
   {
     k: "De l'atelier à la pièce",
     sub: "Caissons et façades fabriqués en France, ajustés au millimètre.",
-    img: "https://images.unsplash.com/photo-1504148455328-c376907d081c?w=1920&q=80",
+    img: "https://images.pexels.com/photos/7546654/pexels-photo-7546654.jpeg?auto=compress&cs=tinysrgb&w=1600",
     alt: "Atelier de fabrication des caissons et façades",
   },
   {
@@ -322,7 +322,7 @@ export default function LignesEtBoisPage() {
       <section className="i327-pad" style={{ padding: "100px 64px", background: C.bg }}>
         <div className="i327-split" style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "minmax(0,1fr) minmax(0,1fr)", gap: 64, alignItems: "center" }}>
           <Reveal>
-            <img src={photo(3, "https://images.unsplash.com/photo-1504148455328-c376907d081c?w=800&q=80")} alt="Menuisier ajustant une façade à l'atelier" loading="lazy" style={{ width: "100%", borderRadius: 10, aspectRatio: "4/3", objectFit: "cover" }} />
+            <img src={photo(3, "https://images.pexels.com/photos/7546654/pexels-photo-7546654.jpeg?auto=compress&cs=tinysrgb&w=1600")} alt="Menuisier ajustant une façade à l'atelier" loading="lazy" style={{ width: "100%", borderRadius: 10, aspectRatio: "4/3", objectFit: "cover" }} />
           </Reveal>
           <Reveal delay={0.15}>
             <div>
