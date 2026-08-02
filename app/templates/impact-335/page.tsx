@@ -189,7 +189,7 @@ export default function RivesBlanchesPage() {
           </motion.div>
           
         </div>
-        <div className="i335-card"><img src={photo(0, "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=900&q=80")} alt="Jardin paisible en bord de mer" loading="lazy" style={{ width: "100%", borderRadius: 10, aspectRatio: "4/3.2", objectFit: "cover" }} /></div>
+        <div className="i335-card"><img src={photo(0, "https://images.pexels.com/photos/8865105/pexels-photo-8865105.jpeg?auto=compress&cs=tinysrgb&w=1600")} alt="Lys blancs déposés sur la pierre" loading="lazy" style={{ width: "100%", borderRadius: 10, aspectRatio: "4/3.2", objectFit: "cover" }} /></div>
       </section>
 
       {/* ── STATS ───────────────────────────────────────────────────────── */}
@@ -261,7 +261,7 @@ export default function RivesBlanchesPage() {
       <section id="engagements" className="i335-pad" style={{ padding: "96px 64px", background: C.bgSection }}>
         <div className="i335-split" style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "minmax(0,1fr) minmax(0,1fr)", gap: 64, alignItems: "center" }}>
           <Reveal>
-            <img src={photo(3, "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80")} alt="Horizon marin au matin" loading="lazy" style={{ width: "100%", borderRadius: 10, aspectRatio: "4/3", objectFit: "cover" }} />
+            <img src={photo(3, "https://images.pexels.com/photos/32846096/pexels-photo-32846096.jpeg?auto=compress&cs=tinysrgb&w=1600")} alt="Horizon marin au matin" loading="lazy" style={{ width: "100%", borderRadius: 10, aspectRatio: "4/3", objectFit: "cover" }} />
           </Reveal>
           <Reveal delay={0.15}>
             <div>
