@@ -76,27 +76,71 @@ export default function ToitsDeLoirePage() {
     C = { ...C, accent: brand };
   }
 
+  /*
+    Les services venaient uniquement de `bp` (businessProfile), rempli par les
+    seules niches pilotes. Pour tout le reste, `bp` est vide et la page servait
+    les services de démonstration — un couvreur lyonnais lisait ceux d'un
+    couvreur d'Angers. On lit donc aussi `c.services`, que la génération
+    produit pour chaque client.
+  */
+  const CLIENT_SERVICES = bp?.services ?? c?.services;
   const SERVICES = resolveList(
-    bp?.services?.map((s: any, n: number) => ({
+    CLIENT_SERVICES?.map((s: any, n: number) => ({
       titre: s.title ?? SERVICES_DEMO[n % SERVICES_DEMO.length].titre,
-      desc: s.description ?? SERVICES_DEMO[n % SERVICES_DEMO.length].desc,
+      desc: s.description ?? s.desc ?? SERVICES_DEMO[n % SERVICES_DEMO.length].desc,
       tag: SERVICES_DEMO[n % SERVICES_DEMO.length].tag,
     })),
     SERVICES_DEMO
   );
+  const CLIENT_AVIS = bp?.reputation?.featuredReviews ?? c?.testimonials;
   const AVIS = resolveList(
-    bp?.reputation?.featuredReviews?.map((r: any, n: number) => ({
+    CLIENT_AVIS?.map((r: any, n: number) => ({
       texte: r.text ?? AVIS_DEMO[n % AVIS_DEMO.length].texte,
       auteur: r.name ?? AVIS_DEMO[n % AVIS_DEMO.length].auteur,
-      detail: r.location ?? AVIS_DEMO[n % AVIS_DEMO.length].detail,
+      detail: r.location ?? r.role ?? AVIS_DEMO[n % AVIS_DEMO.length].detail,
     })),
     AVIS_DEMO
   );
 
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const { i, next, prev } = useSlides(HERO.length, DWELL.normal);
-  const S = HERO[i];
+  /*
+    Le hero affichait toujours les trois accroches de démonstration. La première
+    diapositive porte désormais le titre généré pour le client ; les suivantes
+    gardent celles du thème, qui montrent d'autres facettes du métier. Si la
+    génération n'a rien produit, on retombe sur la démo — mais alors c'est un
+    repli, pas le cas normal.
+  */
+  const HERO_SLIDES = c?.heroHeadline
+    ? [
+        {
+          k: (CLIENT_SERVICES?.[0]?.title as string) ?? HERO[0].k,
+          line: c.heroHeadline as string,
+          sub: (c.heroSubline as string) ?? HERO[0].sub,
+        },
+        // Les diapositives suivantes viennent des services du client, pas du
+        // thème : garder « L'ARDOISE, POSÉE AU CROCHET » et « Ardoise d'Anjou »
+        // sur le site d'un couvreur lyonnais, c'est laisser la démonstration
+        // parler à sa place.
+        // `k` sert de sur-titre au-dessus du `line` : y remettre le même mot
+        // l'affichait deux fois. On y met la promesse du métier, pas le titre.
+        ...(CLIENT_SERVICES ?? []).slice(1, 3).map((sv: any) => ({
+          k: HERO[0].k,
+          line: ((sv.title as string) ?? "").toUpperCase(),
+          sub: (sv.description as string) ?? (sv.desc as string) ?? "",
+        })),
+      ]
+    : HERO;
+  /*
+    La photo tourne avec la diapositive. On ne met une image que si le client en
+    a fourni : afficher une photo de stock à la place de la sienne serait pire
+    que de n'en afficher aucune.
+  */
+  const HERO_IMG: string | null = fd?.photoUrls?.length
+    ? fd.photoUrls[0]
+    : null;
+  const { i, next, prev } = useSlides(HERO_SLIDES.length, DWELL.normal);
+  const S = HERO_SLIDES[i];
 
 
   useEffect(() => {
@@ -162,8 +206,18 @@ export default function ToitsDeLoirePage() {
 
       {/* ── HERO ────────────────────────────────────────────────────────── */}
 
-      <section className="i351-hero" style={{ minHeight: "100dvh", display: "flex", flexDirection: "column", justifyContent: "center", padding: "140px 64px 70px", maxWidth: 1080, margin: "0 auto" }}>
-        <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Couvreur-zingueur · Angers</span>
+      {/*
+        Le hero n'avait aucune image : la photo du client n'apparaissait nulle
+        part au-dessus de la ligne de flottaison, et le geste d'animation
+        n'animait que du texte. Deux colonnes sur grand écran, une seule en
+        dessous de 900 px — la media query .i351-hero le prévoyait déjà.
+      */}
+      <section className="i351-hero" style={{ minHeight: "100dvh", display: "grid", gridTemplateColumns: HERO_IMG ? "minmax(0,1.05fr) minmax(0,0.95fr)" : "1fr", gap: 56, alignItems: "center", padding: "140px 64px 70px", maxWidth: 1180, margin: "0 auto" }}>
+        <div>
+        <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>
+          {/* Angers était écrit en dur : la ville du thème survivait à celle du client. */}
+          Couvreur-zingueur{fd?.city ? ` · ${fd.city}` : " · Angers"}
+        </span>
         <HardCutRebuild index={i} stagger={0.09}>
               {[
                 <div key="k" style={{ fontSize: 13, fontWeight: 700, letterSpacing: 3, textTransform: "uppercase", color: C.accent, marginBottom: 12 }}>{S.k}</div>,
@@ -183,10 +237,30 @@ export default function ToitsDeLoirePage() {
           </motion.a>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 18, marginTop: 44, flexWrap: "wrap" }}>
-          <SlideIndex i={i} total={HERO.length} variant="fraction" color={C.textMuted} className="" />
+          <SlideIndex i={i} total={HERO_SLIDES.length} variant="fraction" color={C.textMuted} className="" />
           <span style={{ fontSize: 13.5, color: C.textMuted }}><strong style={{ color: C.text, fontWeight: 700 }}>{S.k}</strong> — {S.sub}</span>
           <HairlineArrows onPrev={prev} onNext={next} color={C.text} className="" />
         </div>
+        </div>
+
+        {/* Pas de ratio imposé sur la boîte : entre elle et l'image, le wrapper
+            du geste n'a pas de hauteur, donc `height:100%` ne résolvait à rien
+            et une bande vide restait sous la photo. L'image donne sa hauteur. */}
+        {HERO_IMG && (
+          <div style={{ borderRadius: 12, border: `1px solid ${C.border}`, overflow: "hidden" }}>
+            <HardCutRebuild index={i} stagger={0.09}>
+              {[
+                <img
+                  key="img"
+                  src={HERO_IMG}
+                  alt={`${fd?.businessName ?? "Chantier"} — ${S.k}`}
+                  loading="eager"
+                  style={{ width: "100%", height: "auto", aspectRatio: "4/3", objectFit: "cover", display: "block" }}
+                />,
+              ]}
+            </HardCutRebuild>
+          </div>
+        )}
       </section>
 
       {/* ── STATS ───────────────────────────────────────────────────────── */}
