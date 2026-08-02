@@ -10,6 +10,7 @@ import {
   priceIn, formatPrice, isCurrency, type Currency,
 } from "@/lib/pricing";
 import { useLang, LOCALE_META, type Locale } from "@/lib/LangContext";
+import { INDUSTRIES as CATALOG_INDUSTRIES } from "@/lib/templates/sectors";
 
 function OnboardingLangSwitcher() {
   const { locale, setLocale } = useLang();
@@ -86,11 +87,18 @@ const INITIAL: BriefData = {
 
 const STEPS = ["Votre entreprise", "Vos visuels", "Votre contenu"];
 
-const INDUSTRIES = [
-  "Restaurant / Food", "Hôtel / Tourisme", "Mode / Beauté", "Santé / Bien-être",
-  "Immobilier", "Construction / BTP", "Tech / SaaS", "Conseil / Coaching",
-  "E-commerce", "Art / Design", "Événementiel", "ONG / Association", "Autre",
-];
+/*
+  Le secteur vient de la taxonomie du catalogue, plus d'une liste tenue à part.
+  Les treize entrées codées ici auparavant ne couvraient rien de ce que le
+  catalogue sait faire : un notaire, un opticien, une pharmacie ou un VTC
+  n'avaient d'autre choix que « Autre », alors que des thèmes existent pour
+  chacun. La même source alimente la galerie et SECTOR_TEMPLATES, donc ce que
+  le client déclare ici correspond exactement à ce qu'on peut lui livrer.
+*/
+const SECTOR_GROUPS = CATALOG_INDUSTRIES.map((ind) => ({
+  label: ind.label,
+  options: ind.specialties.map((sp) => sp.label),
+}));
 
 // ─── Upload helper ─────────────────────────────────────────────────────────────
 
@@ -203,7 +211,14 @@ function Step1({ data, onChange }: { data: BriefData; onChange: (d: Partial<Brie
           className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-red-500 transition-colors text-sm appearance-none cursor-pointer"
         >
           <option value="" className="bg-gray-900">Choisir un secteur...</option>
-          {INDUSTRIES.map((i) => <option key={i} value={i} className="bg-gray-900">{i}</option>)}
+          {SECTOR_GROUPS.map((g) => (
+            <optgroup key={g.label} label={g.label} className="bg-gray-900">
+              {g.options.map((o) => (
+                <option key={o} value={o} className="bg-gray-900">{o}</option>
+              ))}
+            </optgroup>
+          ))}
+          <option value="Autre" className="bg-gray-900">Autre</option>
         </select>
       </Field>
       <Field label="Tagline / Accroche">
