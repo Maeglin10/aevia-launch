@@ -181,7 +181,7 @@ export default function PharmacieHorlogePage() {
           </motion.div>
           
         </div>
-        <div className="i336-card"><div style={{ borderRadius: 12, border: `1px solid ${C.border}`, background: C.accentLight, aspectRatio: "4/3.2", display: "flex", alignItems: "center", justifyContent: "center" }}><Cross size={72} color={C.accentDark} strokeWidth={1.1} /></div></div>
+        <div className="i336-card"><div style={{ borderRadius: 12, border: `1px solid ${C.border}`, background: C.accentLight, aspectRatio: "4/3.2", justifyContent: "center" , overflow: "hidden" }}><img src="https://images.pexels.com/photos/8657373/pexels-photo-8657373.jpeg?auto=compress&cs=tinysrgb&w=1400" alt="Comptoir de la pharmacie" loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} /></div></div>
       </section>
 
       {/* ── STATS ───────────────────────────────────────────────────────── */}

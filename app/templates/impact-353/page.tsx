@@ -277,7 +277,7 @@ export default function PetitsCairnsPage() {
       <section id="engagements" className="i353-pad" style={{ padding: "96px 64px", background: C.bgSection }}>
         <div className="i353-split" style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "minmax(0,1fr) minmax(0,1fr)", gap: 64, alignItems: "center" }}>
           <Reveal>
-            <div style={{ borderRadius: 12, border: `1px solid ${C.border}`, background: C.accentLight, aspectRatio: "4/3", display: "flex", alignItems: "center", justifyContent: "center" }}><Baby size={80} color={C.accentDark} strokeWidth={1.1} /></div>
+            <div style={{ borderRadius: 12, border: `1px solid ${C.border}`, background: C.accentLight, aspectRatio: "4/3", justifyContent: "center" , overflow: "hidden" }}><img src="https://images.pexels.com/photos/8422255/pexels-photo-8422255.jpeg?auto=compress&cs=tinysrgb&w=1400" alt="Temps de jeu à la micro-crèche" loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} /></div>
           </Reveal>
           <Reveal delay={0.15}>
             <div>

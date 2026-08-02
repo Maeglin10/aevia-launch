@@ -181,7 +181,7 @@ export default function CapChauffeurPage() {
           </motion.div>
           
         </div></DifferentialExit>
-        <div className="i374-card"><DifferentialExit depth={0.85}><div style={{ borderRadius: 12, border: `1px solid ${C.border}`, background: C.accentLight, aspectRatio: "4/3.2", display: "flex", alignItems: "center", justifyContent: "center" }}><Car size={72} color={C.accentDark} strokeWidth={1.1} /></div></DifferentialExit></div>
+        <div className="i374-card"><DifferentialExit depth={0.85}><div style={{ borderRadius: 12, border: `1px solid ${C.border}`, background: C.accentLight, aspectRatio: "4/3.2", justifyContent: "center" , overflow: "hidden" }}><img src="https://images.pexels.com/photos/11790230/pexels-photo-11790230.jpeg?auto=compress&cs=tinysrgb&w=1400" alt="Habitacle prêt pour la course" loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} /></div></DifferentialExit></div>
       </section>
 
       {/* ── STATS ───────────────────────────────────────────────────────── */}

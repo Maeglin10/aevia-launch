@@ -246,7 +246,7 @@ export default function ControleRhodanienPage() {
       <section id="engagements" className="i349-pad" style={{ padding: "96px 64px", background: C.bgSection }}>
         <div className="i349-split" style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "minmax(0,1fr) minmax(0,1fr)", gap: 64, alignItems: "center" }}>
           <Reveal>
-            <div style={{ borderRadius: 12, border: `1px solid ${C.border}`, background: C.accentLight, aspectRatio: "4/3", display: "flex", alignItems: "center", justifyContent: "center" }}><Gauge size={80} color={C.accent} strokeWidth={1.1} /></div>
+            <div style={{ borderRadius: 12, border: `1px solid ${C.border}`, background: C.accentLight, aspectRatio: "4/3", justifyContent: "center" , overflow: "hidden" }}><img src="https://images.pexels.com/photos/8985518/pexels-photo-8985518.jpeg?auto=compress&cs=tinysrgb&w=1400" alt="Véhicule sur le pont de contrôle" loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} /></div>
           </Reveal>
           <Reveal delay={0.15}>
             <div>
