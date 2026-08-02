@@ -694,24 +694,37 @@ export async function POST(req: NextRequest) {
         linkedin:       liMatch?.[1]    ?? undefined,
       };
 
+      /*
+        Génération du contenu — Gemini.
+        ────────────────────────────────
+        Ce bloc appelait Claude derrière un `if (apiKey)`. Or ANTHROPIC_API_KEY
+        vaut la chaîne vide en production : la condition était fausse, la
+        génération entièrement sautée, et generateMockContent servait un texte
+        générique. Un couvreur payait 899 € pour un site annonçant « Conseil &
+        accompagnement, Mise en œuvre, Suivi & support » — mesuré le 2026-08-02
+        sur une session réelle.
+
+        On passe à Gemini, dont la clé est déjà provisionnée et valide ici, avec
+        le modèle 2.5-flash (les variantes 2.0 sont en dépassement de quota sur
+        ce projet). Le repli générique reste, mais il n'est plus le chemin par
+        défaut : il ne s'atteint que si l'appel échoue vraiment.
+      */
       let generatedContent: GeneratedContent;
-      const apiKey = process.env.ANTHROPIC_API_KEY;
-      if (apiKey) {
-        try {
-          const Anthropic = (await import("@anthropic-ai/sdk")).default;
-          const client = new Anthropic({ apiKey });
-          const services = (() => {
-            try { return JSON.parse(brief.services ?? "[]") as { name: string; description?: string }[]; }
-            catch { return []; }
-          })();
-          const prompt = `Tu es un copywriter professionnel. Génère le contenu d'un site web en français pour cette entreprise:
+      const geminiKey = process.env.GEMINI_API_KEY?.trim();
+      const services = (() => {
+        try { return JSON.parse(brief.services ?? "[]") as { name: string; description?: string }[]; }
+        catch { return []; }
+      })();
+      const prompt = `Tu es un copywriter professionnel. Génère le contenu d'un site web en français pour cette entreprise:
 - Nom: ${formData.businessName}
 - Type: ${siteType}
 - Accroche: ${formData.tagline}
 - Description: ${formData.mainService}
-- Services: ${services.map((s: { name: string; description?: string }) => s.name).join(", ")}
+- Services: ${services.map((s: { name: string; description?: string }) => `${s.name}${s.description ? ` (${s.description})` : ""}`).join(" ; ")}
 - Cible: ${formData.targetAudience}
 - Secteur: ${brief.industry ?? siteType}
+
+Écris pour CE métier précisément : reprends ses services tels quels, emploie son vocabulaire, cite ses garanties. Ne produis jamais de formules passe-partout du type « Conseil & accompagnement » ou « Mise en œuvre ».
 
 Génère du JSON avec exactement ces champs:
 {
@@ -723,22 +736,49 @@ Génère du JSON avec exactement ces champs:
   "testimonials": [{"name":"...","role":"...","text":"...","rating":5},{"name":"...","role":"...","text":"...","rating":5},{"name":"...","role":"...","text":"...","rating":5}],
   "ctaText": "...",
   "metaTitle": "Titre SEO 50-60 chars axé sur le SEO local avec la ville",
-  "metaDescription": "Méta description SEO 140-160 chars axée sur la qualité des prestations, le SEO local et la connexion Google Search Console & Analytics native"
+  "metaDescription": "Méta description SEO 140-160 chars axée sur la qualité des prestations et le SEO local"
 }
 Retourne uniquement du JSON valide, sans markdown.`;
 
-          const msg = await client.messages.create({
-            model: "claude-haiku-4-5-20251001",
-            max_tokens: 1024,
-            messages: [{ role: "user", content: prompt }],
-          });
-          const text = msg.content[0].type === "text" ? msg.content[0].text : "";
+      if (geminiKey) {
+        try {
+          const res = await fetch(
+            `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${geminiKey}`,
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                contents: [{ parts: [{ text: prompt }] }],
+                generationConfig: { responseMimeType: "application/json", maxOutputTokens: 2048 },
+              }),
+            },
+          );
+          if (!res.ok) throw new Error(`Gemini HTTP ${res.status}: ${(await res.text()).slice(0, 200)}`);
+          const data = (await res.json()) as {
+            candidates?: { content?: { parts?: { text?: string }[] } }[];
+          };
+          const text = data.candidates?.[0]?.content?.parts?.[0]?.text ?? "";
+          if (!text.trim()) throw new Error("Gemini a renvoyé une réponse vide");
           generatedContent = JSON.parse(text) as GeneratedContent;
+          console.log(`[webhook] contenu généré par Gemini pour ${formData.businessName}`);
         } catch (err) {
-          console.error("[webhook] Claude generation failed, using mock:", err);
+          // Le repli reste, mais il est signalé : un contenu générique livré à
+          // un client payant est un incident, pas un fonctionnement normal.
+          console.error("[webhook] génération Gemini échouée, repli générique:", err);
           generatedContent = generateMockContent(formData);
+          if (resend) {
+            void resend.emails
+              .send({
+                from: process.env.RESEND_FROM_EMAIL ?? "AeviaLaunch <noreply@aevia.io>",
+                to: [process.env.ADMIN_EMAIL ?? "v.milliand@gmail.com"],
+                subject: `[AeviaLaunch] ⚠️ Contenu générique livré — ${formData.businessName}`,
+                text: `La génération IA a échoué, le site part avec le contenu de repli.\n\nErreur : ${err instanceof Error ? err.message : String(err)}`,
+              })
+              .catch(() => undefined);
+          }
         }
       } else {
+        console.error("[webhook] GEMINI_API_KEY absente — contenu générique");
         generatedContent = generateMockContent(formData);
       }
 
