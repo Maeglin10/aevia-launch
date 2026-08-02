@@ -259,7 +259,7 @@ export default function AllureAppuiPage() {
       <section id="engagements" className="i364-pad" style={{ padding: "96px 64px", background: C.bgSection }}>
         <div className="i364-split" style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "minmax(0,1fr) minmax(0,1fr)", gap: 64, alignItems: "center" }}>
           <Reveal>
-            <div style={{ borderRadius: 12, border: `1px solid ${C.border}`, background: C.accentLight, aspectRatio: "4/3", display: "flex", alignItems: "center", justifyContent: "center" }}><HandHeart size={80} color={C.accentDark} strokeWidth={1.1} /></div>
+            <div style={{ borderRadius: 12, border: `1px solid ${C.border}`, background: C.accentLight, aspectRatio: "4/3", justifyContent: "center" , overflow: "hidden" }}><img src="https://images.pexels.com/photos/9146381/pexels-photo-9146381.jpeg?auto=compress&cs=tinysrgb&w=1400" alt="Séance de soin du pied" loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} /></div>
           </Reveal>
           <Reveal delay={0.15}>
             <div>

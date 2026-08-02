@@ -181,7 +181,7 @@ export default function NeufMoisPage() {
           </motion.div>
           
         </div>
-        <div className="i368-card"><div style={{ borderRadius: 12, border: `1px solid ${C.border}`, background: C.accentLight, aspectRatio: "4/3.2", display: "flex", alignItems: "center", justifyContent: "center" }}><CalendarHeart size={72} color={C.accentDark} strokeWidth={1.1} /></div></div>
+        <div className="i368-card"><div style={{ borderRadius: 12, border: `1px solid ${C.border}`, background: C.accentLight, aspectRatio: "4/3.2", justifyContent: "center" , overflow: "hidden" }}><img src="https://images.pexels.com/photos/7108415/pexels-photo-7108415.jpeg?auto=compress&cs=tinysrgb&w=1400" alt="Échographie de contrôle" loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} /></div></div>
       </section>
 
       {/* ── STATS ───────────────────────────────────────────────────────── */}

@@ -199,7 +199,7 @@ export default function MaisonBertinPage() {
         <div className="i345-card">
           <HeldSwap index={i} tilt={9}>
             <div style={{ background: C.white, border: `1px solid ${C.border}`, borderRadius: 10, overflow: "hidden", boxShadow: "0 18px 52px rgba(0,0,0,0.18)" }}>
-              <div style={{ aspectRatio: "4/3", display: "flex", alignItems: "center", justifyContent: "center", background: C.accentLight }}><Beef size={64} color={C.accent} strokeWidth={1.2} /></div>
+              <div style={{ aspectRatio: "4/3", background: C.accentLight , overflow: "hidden" }}><img src="https://images.pexels.com/photos/35023463/pexels-photo-35023463.jpeg?auto=compress&cs=tinysrgb&w=1400" alt="Vitrine de la boucherie" loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} /></div>
               <div style={{ padding: "22px 24px 24px", borderTop: `3px solid ${C.accent}` }}>
                 <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: 3, textTransform: "uppercase", color: C.accent, marginBottom: 8 }}>{S.k}</div>
                 <div style={{ fontFamily: FONT, fontSize: 19, color: C.text, lineHeight: 1.35 }}>{S.line}</div>

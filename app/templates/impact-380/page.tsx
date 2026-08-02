@@ -181,7 +181,7 @@ export default function BrasserieHoublonPage() {
           </motion.div>
           
         </div>
-        <div className="i380-card"><div style={{ borderRadius: 12, border: `1px solid ${C.border}`, background: C.accentLight, aspectRatio: "4/3.2", display: "flex", alignItems: "center", justifyContent: "center" }}><Beer size={72} color={C.accent} strokeWidth={1.1} /></div></div>
+        <div className="i380-card"><div style={{ borderRadius: 12, border: `1px solid ${C.border}`, background: C.accentLight, aspectRatio: "4/3.2", justifyContent: "center" , overflow: "hidden" }}><img src="https://images.pexels.com/photos/1267348/pexels-photo-1267348.jpeg?auto=compress&cs=tinysrgb&w=1400" alt="Brasseur devant les cuves" loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} /></div></div>
       </section>
 
       {/* ── STATS ───────────────────────────────────────────────────────── */}

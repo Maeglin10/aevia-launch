@@ -974,6 +974,18 @@ export function PushBlur({
   const reduce = useReducedMotion();
   return (
     <div className={className} style={{ position: "relative", overflow: "hidden", ...style }}>
+      {/*
+        Le panneau animé est en `position:absolute`, donc il ne pousse aucune
+        hauteur. Sans ce gabarit, le conteneur retombe à 0 px et son
+        `overflow:hidden` masque tout : la carte existe, se charge, et reste
+        invisible. Mesuré sur impact-360, 375 et 383, dont le hero était vide.
+        On garde donc une copie hors flux visuel — invisible, non lue par les
+        lecteurs d'écran, non cliquable — dont le seul rôle est de donner sa
+        taille à la boîte.
+      */}
+      <div style={{ visibility: "hidden", pointerEvents: "none" }} aria-hidden="true">
+        {children}
+      </div>
       <AnimatePresence mode="popLayout" initial={false}>
         <motion.div
           key={index}
