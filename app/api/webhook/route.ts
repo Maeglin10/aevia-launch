@@ -749,17 +749,38 @@ Retourne uniquement du JSON valide, sans markdown.`;
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({
                 contents: [{ parts: [{ text: prompt }] }],
-                generationConfig: { responseMimeType: "application/json", maxOutputTokens: 2048 },
+                generationConfig: {
+                  responseMimeType: "application/json",
+                  // 2.5-flash spends part of its output budget on reasoning
+                  // tokens. At 2048 it ran out mid-object and returned
+                  // truncated JSON — finishReason MAX_TOKENS, and JSON.parse
+                  // failed at "Expected double-quoted property name". Giving it
+                  // room and turning reasoning off returns STOP and valid JSON.
+                  maxOutputTokens: 8192,
+                  thinkingConfig: { thinkingBudget: 0 },
+                },
               }),
             },
           );
           if (!res.ok) throw new Error(`Gemini HTTP ${res.status}: ${(await res.text()).slice(0, 200)}`);
           const data = (await res.json()) as {
-            candidates?: { content?: { parts?: { text?: string }[] } }[];
+            candidates?: {
+              finishReason?: string;
+              content?: { parts?: { text?: string }[] };
+            }[];
           };
-          const text = data.candidates?.[0]?.content?.parts?.[0]?.text ?? "";
+          const candidate = data.candidates?.[0];
+          const text = candidate?.content?.parts?.[0]?.text ?? "";
           if (!text.trim()) throw new Error("Gemini a renvoyé une réponse vide");
-          generatedContent = JSON.parse(text) as GeneratedContent;
+          if (candidate?.finishReason && candidate.finishReason !== "STOP") {
+            // Anything else means the answer was cut short; parsing it would
+            // fail anyway, and this names the cause in the alert.
+            throw new Error(`Gemini interrompu : finishReason=${candidate.finishReason}`);
+          }
+          // Belt and braces: the model occasionally wraps JSON in a fence
+          // despite responseMimeType.
+          const cleaned = text.trim().replace(/^```(?:json)?\s*/i, "").replace(/```$/, "");
+          generatedContent = JSON.parse(cleaned) as GeneratedContent;
           console.log(`[webhook] contenu généré par Gemini pour ${formData.businessName}`);
         } catch (err) {
           // Le repli reste, mais il est signalé : un contenu générique livré à
