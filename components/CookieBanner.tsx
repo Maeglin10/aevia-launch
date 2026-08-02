@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLang } from "@/lib/LangContext";
 
@@ -79,9 +79,37 @@ export function CookieBanner() {
   const [analytics, setAnalytics] = useState(false);
   const [marketing, setMarketing] = useState(false);
 
+  const shellRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     if (!localStorage.getItem(CONSENT_KEY)) setVisible(true);
   }, []);
+
+  /*
+    Le bandeau est en `fixed bottom-0` : il se pose SUR la page. Sur le wizard,
+    il recouvrait le bouton « Continuer » — le client ne pouvait pas avancer
+    dans le tunnel payant tant qu'il n'avait pas répondu. On réserve donc sa
+    hauteur en bas du document tant qu'il est affiché, et on la rend au clic.
+  */
+  useEffect(() => {
+    if (!visible) {
+      document.body.style.paddingBottom = "";
+      return;
+    }
+    const apply = () => {
+      const h = shellRef.current?.offsetHeight ?? 0;
+      document.body.style.paddingBottom = h ? `${h}px` : "";
+    };
+    apply();
+    const ro = new ResizeObserver(apply);
+    if (shellRef.current) ro.observe(shellRef.current);
+    window.addEventListener("resize", apply);
+    return () => {
+      ro.disconnect();
+      window.removeEventListener("resize", apply);
+      document.body.style.paddingBottom = "";
+    };
+  }, [visible, mode]);
 
   const save = (prefs: { analytics: boolean; marketing: boolean }) => {
     localStorage.setItem(CONSENT_KEY, JSON.stringify({ essential: true, ...prefs, ts: Date.now() }));
@@ -99,9 +127,11 @@ export function CookieBanner() {
           transition={{ type: "spring", stiffness: 260, damping: 28 }}
           role="dialog"
           aria-label="Cookie consent"
-          className="fixed bottom-0 left-0 right-0 z-50 p-4 sm:p-6"
+          // pointer-events-none sur la bande : seule la carte visible doit
+          // intercepter les clics, pas les marges transparentes autour d'elle.
+          className="fixed bottom-0 left-0 right-0 z-50 p-4 sm:p-6 pointer-events-none"
         >
-          <div className="mx-auto max-w-4xl bg-zinc-900 border border-zinc-700 rounded-2xl shadow-2xl shadow-black/50 overflow-hidden">
+          <div ref={shellRef} className="pointer-events-auto mx-auto max-w-4xl bg-zinc-900 border border-zinc-700 rounded-2xl shadow-2xl shadow-black/50 overflow-hidden">
 
             {mode === "banner" ? (
               <div className="px-4 py-3 sm:px-5 sm:py-4 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
