@@ -215,6 +215,45 @@ export const SECTOR_TEMPLATES: Record<string, string[]> = {
   // construction content exists in the catalog but is thin. Below the
   // 5-minimum on purpose rather than padding with unrelated templates.
   btp_construction:    ['impact-173', 'impact-208', 'impact-213'],
+
+  // Les 34 métiers ouverts par la série impact-326→383 (1er août 2026).
+  // Sans ces lignes, les thèmes existent mais aucun secteur n'y mène :
+  // la galerie et le formulaire n'ont rien à proposer à un notaire,
+  // un opticien ou une pharmacie. Ordre : le plus abouti d'abord.
+  assurance:            ['impact-337', 'impact-338'],
+  audioprothesiste:     ['impact-339', 'impact-340'],
+  auto_ecole:           ['impact-341', 'impact-342'],
+  brasserie:            ['impact-380'],
+  caviste:              ['impact-381'],
+  commerce_bouche:      ['impact-345', 'impact-346'],
+  controle_technique:   ['impact-349', 'impact-350'],
+  couvreur:             ['impact-351', 'impact-352'],
+  creche:               ['impact-353', 'impact-354'],
+  cuisiniste:           ['impact-327', 'impact-334'],
+  demenageur:           ['impact-329'],
+  ecole_musique:        ['impact-377'],
+  formation:            ['impact-347', 'impact-348'],
+  gestion_patrimoine:   ['impact-378'],
+  infirmier:            ['impact-355', 'impact-356'],
+  laboratoire:          ['impact-357', 'impact-358'],
+  location_materiel:    ['impact-359', 'impact-360'],
+  menuisier:            ['impact-230', 'impact-379'],
+  notaire:              ['impact-326', 'impact-333'],
+  opticien:             ['impact-138', 'impact-331'],
+  peintre:              ['impact-361', 'impact-362'],
+  pharmacie:            ['impact-330', 'impact-336'],
+  podologue:            ['impact-363', 'impact-364'],
+  pompes_funebres:      ['impact-328', 'impact-335'],
+  pressing:             ['impact-343', 'impact-344'],
+  producteur:           ['impact-365', 'impact-366'],
+  recrutement:          ['impact-36', 'impact-382'],
+  sage_femme:           ['impact-367', 'impact-368'],
+  salle_reception:      ['impact-369', 'impact-370'],
+  securite:             ['impact-371', 'impact-372'],
+  serrurier:            ['impact-192', 'impact-332'],
+  toiletteur:           ['impact-227', 'impact-383'],
+  vitrier:              ['impact-375', 'impact-376'],
+  vtc:                  ['impact-373', 'impact-374'],
 };
 
 /** Short display name per template for the step-2 card. */
