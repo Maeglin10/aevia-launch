@@ -105,20 +105,21 @@ export default function CookiesPage() {
                 2.2 Cookies analytiques et de mesure d&apos;audience
               </h3>
               <span className="text-xs text-sky-700 bg-sky-50 ring-1 ring-sky-200 px-2 py-0.5 rounded-full shrink-0">
-                Sans consentement (Plausible)
+                Consentement requis
               </span>
             </div>
             <p className="text-sm leading-relaxed text-zinc-700 mb-3">
-              AeviaLaunch utilise <strong className="text-zinc-900">Plausible Analytics</strong>,
-              un outil de mesure d&apos;audience respectueux de la vie privée qui :
+              AeviaLaunch utilise <strong className="text-zinc-900">Google Analytics 4</strong>
+              (Google Ireland Ltd). Ces cookies ne sont déposés qu&apos;après votre acceptation
+              explicite du bandeau :
             </p>
             <ul className="list-disc list-inside text-sm text-zinc-700 space-y-1 mb-3 ml-2">
-              <li>Ne dépose <strong className="text-zinc-900">aucun cookie</strong></li>
-              <li>Ne collecte pas d&apos;adresses IP complètes</li>
-              <li>Ne suit pas les utilisateurs d&apos;un site à l&apos;autre</li>
-              <li>Fonctionne avec des données <strong className="text-zinc-900">100% anonymisées</strong></li>
-              <li>Héberge les données en Europe (Allemagne)</li>
-              <li>Est conforme au RGPD sans bandeau de consentement selon la CNIL</li>
+              <li>Cookies déposés : <strong className="text-zinc-900">_ga</strong> et <strong className="text-zinc-900">_ga_*</strong>, durée 13 mois</li>
+              <li>Finalité : mesure d&apos;audience (pages vues, provenance, appareil)</li>
+              <li>Anonymisation d&apos;IP activée</li>
+              <li>Responsable : Google Ireland Ltd ; traitement possible hors UE par Google LLC (Data Privacy Framework)</li>
+              <li><strong className="text-zinc-900">Si vous refusez, le tag n&apos;est pas chargé du tout</strong> — aucun cookie, aucune donnée transmise</li>
+              <li>Vous pouvez revenir sur votre choix en effaçant les données du site dans votre navigateur</li>
             </ul>
           </div>
 
@@ -222,9 +223,10 @@ export default function CookiesPage() {
                 Cookies exemptés de consentement (Article 82 de la loi Informatique et Libertés)
               </p>
               <p className="text-zinc-700 leading-relaxed">
-                Les cookies strictement nécessaires et les outils de mesure d&apos;audience utilisant
-                des données anonymisées (Plausible) sont exemptés de consentement préalable selon
-                les lignes directrices de la CNIL du 17 septembre 2020.
+                Seuls les cookies strictement nécessaires au service (authentification, session,
+                sécurité) sont exemptés de consentement préalable, conformément aux lignes directrices
+                de la CNIL du 17 septembre 2020. Google Analytics 4 ne bénéficie pas de cette exemption :
+                il n&apos;est chargé qu&apos;après votre acceptation.
               </p>
             </div>
             <div className="bg-amber-50 border border-amber-200 rounded-xl p-5">

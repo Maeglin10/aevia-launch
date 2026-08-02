@@ -8,7 +8,7 @@ const CONSENT_KEY = "aevia-cookie-consent";
 
 const T = {
   fr: {
-    text: "Nous utilisons des cookies fonctionnels pour améliorer votre expérience. Aucun cookie de tracking sans votre accord.",
+    text: "Les cookies d'authentification et de sécurité sont nécessaires au service. Nous aimerions aussi mesurer l'audience avec Google Analytics 4 — il ne se charge que si vous acceptez, et refuser n'enlève rien au produit.",
     more: "En savoir plus", accept: "Tout accepter", reject: "Tout refuser", customize: "Personnaliser",
     title: "Mes préférences cookies",
     essential: "Essentiels", essential_desc: "Nécessaires au fonctionnement du site (session, sécurité).",

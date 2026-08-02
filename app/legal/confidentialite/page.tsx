@@ -71,7 +71,7 @@ export default function ConfidentialitePage() {
             <li>Pages visitées, durée de session, actions effectuées</li>
             <li>Données d&apos;étapes de création de site (formulaires complétés)</li>
             <li>Logs techniques (erreurs, performances)</li>
-            <li>Statistiques d&apos;usage via Plausible Analytics (anonymisées)</li>
+            <li>Statistiques d&apos;usage via Google Analytics 4, uniquement si vous acceptez les cookies de mesure</li>
           </ul>
         </section>
 
@@ -223,13 +223,17 @@ export default function ConfidentialitePage() {
 
             <div className="border border-zinc-200 rounded-xl p-5 bg-zinc-50">
               <div className="flex items-start justify-between mb-2">
-                <p className="font-semibold text-zinc-900">Plausible Analytics</p>
+                <p className="font-semibold text-zinc-900">Google Analytics 4 — Google Ireland Ltd</p>
                 <span className="text-xs text-zinc-600 bg-zinc-200 px-2 py-0.5 rounded-full">Statistiques</span>
               </div>
               <p className="text-zinc-700 leading-relaxed">
-                Mesure d&apos;audience respectueuse de la vie privée. Plausible ne dépose pas de cookies,
-                ne collecte pas d&apos;adresses IP complètes et ne suit pas les utilisateurs. Les données
-                sont hébergées en Europe (UE).
+                Mesure d&apos;audience. Le tag n&apos;est chargé qu&apos;après votre acceptation explicite
+                du bandeau : si vous refusez, aucun cookie de mesure n&apos;est déposé et rien n&apos;est
+                transmis à Google. Si vous acceptez, les cookies <code>_ga</code> et <code>_ga_*</code>
+                sont posés pour 13 mois et les données peuvent être traitées hors de l&apos;Union
+                européenne par Google LLC, sur la base du Data Privacy Framework. L&apos;anonymisation
+                d&apos;IP est activée. Vous pouvez revenir sur votre choix à tout moment en effaçant les
+                données du site dans votre navigateur.
               </p>
             </div>
 
