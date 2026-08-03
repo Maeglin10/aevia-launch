@@ -40,7 +40,8 @@ const SERVICES_DEMO = [{"titre": "Lunettes de vue", "desc": "Montures acétate, 
 const METHODE = [{"n": "01", "t": "On écoute d'abord", "d": "Votre usage, vos écrans, votre conduite de nuit. La monture vient après le mode de vie, pas l'inverse."}, {"n": "02", "t": "Examen ou ordonnance", "d": "Examen de vue sur place si votre ordonnance date, dans le cadre légal du renouvellement."}, {"n": "03", "t": "Essais francs", "d": "On vous dit quand une monture ne vous va pas. Photos d'essayage envoyées pour décider à tête reposée."}, {"n": "04", "t": "Montage & suivi", "d": "Montage atelier, ajustage au visage, retouches gratuites à vie. Tiers payant mutuelle directement appliqué."}];
 const ENGAGEMENT_DEMO = ["Opticiens diplômés d'État (BTS Opticien-Lunetier) présents à chaque ouverture", "Offre 100 % Santé : un vrai choix de montures sans reste à charge, pas un fond de tiroir", "Devis normalisé remis avant toute commande — panier moyen affiché en vitrine", "Tiers payant Sécurité sociale et mutuelles : vous n'avancez pas les frais"];
 let ENGAGEMENT = ENGAGEMENT_DEMO;
-const TARIFS = [{"a": "Équipement 100 % Santé", "p": "0 € de reste à charge", "n": "Monture classe A + verres classe A, garantis deux ans. Un vrai choix de 35 modèles."}, {"a": "Monture + verres unifocaux", "p": "dès 149 €", "n": "Verres français durcis anti-reflets inclus. Amincissement selon correction."}, {"a": "Monture + verres progressifs", "p": "dès 349 €", "n": "Adaptation garantie : verres refaits sans frais si la vision de près ne convient pas."}, {"a": "Lentilles d'essai", "p": "offertes", "n": "Première adaptation et rendez-vous de contrôle à un mois inclus."}];
+const TARIFS_DEMO = [{"a": "Équipement 100 % Santé", "p": "0 € de reste à charge", "n": "Monture classe A + verres classe A, garantis deux ans. Un vrai choix de 35 modèles."}, {"a": "Monture + verres unifocaux", "p": "dès 149 €", "n": "Verres français durcis anti-reflets inclus. Amincissement selon correction."}, {"a": "Monture + verres progressifs", "p": "dès 349 €", "n": "Adaptation garantie : verres refaits sans frais si la vision de près ne convient pas."}, {"a": "Lentilles d'essai", "p": "offertes", "n": "Première adaptation et rendez-vous de contrôle à un mois inclus."}];
+let TARIFS = TARIFS_DEMO;
 const AVIS_DEMO = [{"texte": "Premier opticien qui m'a déconseillé une monture plus chère parce qu'elle n'allait pas à mon visage. Les progressifs réglés en un seul essai.", "auteur": "Martine L.", "detail": "Verres progressifs"}, {"texte": "Examen de vue sérieux, renouvellement fait sur place sans repasser par l'ophtalmo — six mois d'attente économisés. Lunettes prêtes en une heure.", "auteur": "Karim B.", "detail": "Renouvellement + montage express"}, {"texte": "Ma fille a cassé ses lunettes deux fois cette année. Remplacées deux fois sous garantie, sans discussion, ajustées en cinq minutes.", "auteur": "Aurélie D.", "detail": "Équipement enfant"}];
 const STATS_DEMO = [{"value": "300+", "label": "Montures en boutique"}, {"value": "0 €", "label": "Reste à charge 100 % Santé"}, {"value": "1 h", "label": "Montage express sur stock"}, {"value": "2 ans", "label": "Garantie casse monture"}];
 let STATS = STATS_DEMO;
@@ -83,6 +84,10 @@ export default function RegardNordPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TARIFS = resolveList(
+    clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
+    TARIFS_DEMO,
+  );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;
@@ -155,7 +160,7 @@ export default function RegardNordPage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} style={{ color: C.textMuted, fontSize: 14, fontWeight: 500, textDecoration: "none", padding: "12px 4px" }}>{l}</a>
           ))}
-          <motion.a href="tel:+33320000000" style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
+          <motion.a href={`tel:${fd?.phone ?? "+33320000000"}`} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
             Prendre rendez-vous
           </motion.a>
         </div>
@@ -170,7 +175,7 @@ export default function RegardNordPage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} onClick={() => setMobileOpen(false)} style={{ color: C.text, fontSize: 16, fontWeight: 500, textDecoration: "none", padding: "12px 0" }}>{l}</a>
           ))}
-          <a href="tel:+33320000000" style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Prendre rendez-vous</a>
+          <a href={`tel:${fd?.phone ?? "+33320000000"}`} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Prendre rendez-vous</a>
         </div>
       )}
 

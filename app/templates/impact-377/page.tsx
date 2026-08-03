@@ -40,7 +40,8 @@ const SERVICES_DEMO = [{"titre": "Guitare & basse", "desc": "Électrique, acoust
 const METHODE = [{"n": "01", "t": "Le cours d'essai", "d": "30 minutes avec le professeur de votre instrument : niveau réel, envies réelles, plan proposé."}, {"n": "02", "t": "Vos morceaux au programme", "d": "Le solfège existe, mais il arrive par les morceaux — jamais avant eux."}, {"n": "03", "t": "Le groupe dès que possible", "d": "Au 3e mois, un atelier collectif : jouer avec d'autres change tout, surtout les progrès."}, {"n": "04", "t": "La scène du trimestre", "d": "Un vrai concert, du vrai son, un public : l'objectif qui structure les trois mois."}];
 const ENGAGEMENT_DEMO = ["Professeurs diplômés (DEM, MIMA) et musiciens en activité — ils tournent, ils enregistrent", "Studios insonorisés, backline fourni : venez les mains dans les poches", "Sans engagement annuel : l'abonnement se suspend ou s'arrête au mois", "La scène trimestrielle est incluse — son, lumières et trac compris"];
 let ENGAGEMENT = ENGAGEMENT_DEMO;
-const TARIFS = [{"a": "Cours individuel 30 min/sem.", "p": "89 €/mois", "n": "Instrument au choix, professeur attitré."}, {"a": "Cours individuel 45 min/sem.", "p": "119 €/mois", "n": "Le format de la progression rapide, atelier de groupe inclus."}, {"a": "Atelier MAO (2 h/sem.)", "p": "79 €/mois", "n": "En binôme sur nos stations, projets personnels encouragés."}, {"a": "Cours d'essai", "p": "offert", "n": "30 minutes avec le prof de votre instrument, sans engagement."}];
+const TARIFS_DEMO = [{"a": "Cours individuel 30 min/sem.", "p": "89 €/mois", "n": "Instrument au choix, professeur attitré."}, {"a": "Cours individuel 45 min/sem.", "p": "119 €/mois", "n": "Le format de la progression rapide, atelier de groupe inclus."}, {"a": "Atelier MAO (2 h/sem.)", "p": "79 €/mois", "n": "En binôme sur nos stations, projets personnels encouragés."}, {"a": "Cours d'essai", "p": "offert", "n": "30 minutes avec le prof de votre instrument, sans engagement."}];
+let TARIFS = TARIFS_DEMO;
 const AVIS_DEMO = [{"texte": "Vingt ans que je disais « un jour, la guitare ». Huit mois ici : je joue six morceaux, j'ai fait la scène de décembre devant mes enfants médusés. La méthode par les morceaux, ça marche.", "auteur": "Franck, 43 ans", "detail": "Guitare débutant"}, {"texte": "Ma fille de 13 ans vit pour son atelier du mercredi : son groupe a joué en mars, elle bosse sa batterie sans qu'on le demande. Du jamais vu pour les devoirs.", "auteur": "Parent d'élève", "detail": "Batterie + atelier"}, {"texte": "Le studio MAO m'a fait passer de « j'ai des idées » à « j'ai un EP ». Prof exigeant, matos sérieux, mix final au casque de studio. Objectif atteint.", "auteur": "Sofian, 26 ans", "detail": "MAO / production"}];
 const STATS_DEMO = [{"value": "9", "label": "Professeurs diplômés en poste"}, {"value": "4", "label": "Studios insonorisés + MAO"}, {"value": "3 mois", "label": "Avant votre premier atelier de groupe"}, {"value": "1", "label": "Scène chaque trimestre"}];
 let STATS = STATS_DEMO;
@@ -83,6 +84,10 @@ export default function StudioGammePage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TARIFS = resolveList(
+    clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
+    TARIFS_DEMO,
+  );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;
@@ -154,7 +159,7 @@ export default function StudioGammePage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} style={{ color: C.textMuted, fontSize: 14, fontWeight: 500, textDecoration: "none", padding: "12px 4px" }}>{l}</a>
           ))}
-          <motion.a href="tel:+33472000001" style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
+          <motion.a href={`tel:${fd?.phone ?? "+33472000001"}`} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
             Cours d'essai offert
           </motion.a>
         </div>
@@ -169,7 +174,7 @@ export default function StudioGammePage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} onClick={() => setMobileOpen(false)} style={{ color: C.text, fontSize: 16, fontWeight: 500, textDecoration: "none", padding: "12px 0" }}>{l}</a>
           ))}
-          <a href="tel:+33472000001" style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Cours d'essai offert</a>
+          <a href={`tel:${fd?.phone ?? "+33472000001"}`} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Cours d'essai offert</a>
         </div>
       )}
 

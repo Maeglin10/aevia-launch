@@ -1953,7 +1953,7 @@ return (
               }}
             >
               <a
-                href="mailto:hello@impact.studio"
+                href={`mailto:${fd?.email ?? "hello@impact.studio"}`}
                 style={{
                   display: "inline-flex",
                   alignItems: "center",

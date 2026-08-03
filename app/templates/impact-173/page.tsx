@@ -291,7 +291,7 @@ const TESTIMONIALS_DEMO = [
   },
 ];
 
-const FORMULES = [
+const FORMULES_DEMO = [
   {
     name: "Assistance MOA",
     sub: "AMO & Conseil",
@@ -339,6 +339,7 @@ const FORMULES = [
     cta: "En savoir plus",
   },
 ];
+let FORMULES = FORMULES_DEMO;
 
 const FAQS_DEMO = [
   {
@@ -431,6 +432,10 @@ export default function Impact173Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  FORMULES = resolveList(
+    clientServices(sessionData)?.map((s, i) => ({ ...FORMULES_DEMO[i % FORMULES_DEMO.length], name: s.title, price: s.price ?? FORMULES_DEMO[i % FORMULES_DEMO.length].price })),
+    FORMULES_DEMO,
+  );
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, orange: brand };

@@ -31,6 +31,7 @@ import {
 } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientServices,
   clientStats,
 } from "@/lib/templates/clientContent";
 
@@ -217,7 +218,7 @@ const TESTIMONIALS_DEMO = [
   },
 ];
 
-const PRICING = [
+const PRICING_DEMO = [
   {
     name: "Contenu Digital",
     price: "à partir de 15 000€",
@@ -265,6 +266,7 @@ const PRICING = [
     hot: false,
   },
 ];
+let PRICING = PRICING_DEMO;
 
 const FAQS_DEMO = [
   {
@@ -499,6 +501,10 @@ export default function UrbanPulsePage() {
   }, []);
 
   fd = session?.formData;
+  PRICING = resolveList(
+    clientServices(session)?.map((s, i) => ({ ...PRICING_DEMO[i % PRICING_DEMO.length], name: s.title, price: s.price ?? PRICING_DEMO[i % PRICING_DEMO.length].price, desc: s.desc || PRICING_DEMO[i % PRICING_DEMO.length].desc })),
+    PRICING_DEMO,
+  );
   STATS = resolveList(clientStats(session), STATS_DEMO);
   c = session?.generatedContent;
   bp = bpLocal;

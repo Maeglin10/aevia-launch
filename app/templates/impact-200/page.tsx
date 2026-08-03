@@ -255,7 +255,7 @@ const GALLERY_ITEMS_DEMO = [
   },
 ]
 
-const PACKAGES = [
+const PACKAGES_DEMO = [
   {
     name: "Essentiel",
     price: "2 990€",
@@ -306,6 +306,7 @@ const PACKAGES = [
     cta: "Sur mesure — Nous contacter",
   },
 ]
+let PACKAGES = PACKAGES_DEMO;
 
 const STEPS = [
   {
@@ -464,6 +465,10 @@ export default function Impact200Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  PACKAGES = resolveList(
+    clientServices(sessionData)?.map((s, i) => ({ ...PACKAGES_DEMO[i % PACKAGES_DEMO.length], name: s.title, price: s.price ?? PACKAGES_DEMO[i % PACKAGES_DEMO.length].price, desc: s.desc || PACKAGES_DEMO[i % PACKAGES_DEMO.length].desc })),
+    PACKAGES_DEMO,
+  );
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const SERVICES = resolveList(

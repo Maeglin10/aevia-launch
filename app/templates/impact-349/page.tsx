@@ -39,7 +39,8 @@ const SERVICES_DEMO = [{"titre": "Contrôle technique périodique", "desc": "Les
 const METHODE = [{"n": "01", "t": "RDV en ligne ou par téléphone", "d": "Créneaux du lundi au samedi midi, rappel SMS la veille, dépôt des clés possible dès 7 h 45."}, {"n": "02", "t": "Le contrôle, visible", "d": "La baie vitrée donne sur les lignes : regardez votre véhicule passer les bancs, un café à la main."}, {"n": "03", "t": "Le rapport, expliqué", "d": "Chaque défaillance montrée sur le véhicule quand c'est possible, mineure/majeure/critique clairement distinguées."}, {"n": "04", "t": "La suite, sans pression", "d": "Nous ne vendons aucune réparation. Vous réparez où vous voulez, la contre-visite est incluse deux mois."}];
 const ENGAGEMENT_DEMO = ["Centre agréé par la préfecture de la Drôme (S 026 X 042), contrôleurs agréés individuellement", "Indépendance totale : la loi nous interdit la réparation, nous ne recommandons aucun garage", "Prix affichés en salle d'attente et en ligne — le même pour tout le monde", "Équipements calibrés et vérifiés selon le référentiel OTC en vigueur"];
 let ENGAGEMENT = ENGAGEMENT_DEMO;
-const TARIFS = [{"a": "Contrôle technique VL essence/diesel", "p": "79 €", "n": "133 points, rapport expliqué, contre-visite incluse 2 mois."}, {"a": "Véhicule électrique ou hybride", "p": "85 €", "n": "Points haute tension inclus, contrôleur habilité."}, {"a": "Deux-roues motorisé", "p": "60 €", "n": "Ligne dédiée, contrôle réglementaire complet."}, {"a": "Contrôle volontaire avant achat", "p": "59 €", "n": "Même banc, rapport détaillé, sans enregistrement officiel."}];
+const TARIFS_DEMO = [{"a": "Contrôle technique VL essence/diesel", "p": "79 €", "n": "133 points, rapport expliqué, contre-visite incluse 2 mois."}, {"a": "Véhicule électrique ou hybride", "p": "85 €", "n": "Points haute tension inclus, contrôleur habilité."}, {"a": "Deux-roues motorisé", "p": "60 €", "n": "Ligne dédiée, contrôle réglementaire complet."}, {"a": "Contrôle volontaire avant achat", "p": "59 €", "n": "Même banc, rapport détaillé, sans enregistrement officiel."}];
+let TARIFS = TARIFS_DEMO;
 const AVIS_DEMO = [{"texte": "Défaillance majeure sur le freinage : le contrôleur m'a montré la pièce sous le pont, expliqué le risque, et ne m'a orienté vers personne. Réparé chez mon garagiste, contre-visite en dix minutes.", "auteur": "Marielle P.", "detail": "Contrôle + contre-visite"}, {"texte": "Contrôle volontaire avant d'acheter une occasion : 340 € de frais cachés détectés, prix renégocié d'autant. Les 59 € les plus rentables de l'année.", "auteur": "Hugo D.", "detail": "Contrôle avant achat"}, {"texte": "Camping-car passé sans stress, ligne adaptée, contrôleur qui connaît les porteurs. RDV pris en ligne la veille pour le samedi matin.", "auteur": "Jean-Luc et Françoise", "detail": "Camping-car"}];
 const STATS_DEMO = [{"value": "45 min", "label": "Contrôle complet, montre en main"}, {"value": "133", "label": "Points de contrôle réglementaires"}, {"value": "0", "label": "Réparation vendue — jamais"}, {"value": "2 mois", "label": "Pour la contre-visite incluse"}];
 let STATS = STATS_DEMO;
@@ -82,6 +83,10 @@ export default function ControleRhodanienPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TARIFS = resolveList(
+    clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
+    TARIFS_DEMO,
+  );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;
@@ -153,7 +158,7 @@ export default function ControleRhodanienPage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} style={{ color: C.textMuted, fontSize: 14, fontWeight: 500, textDecoration: "none", padding: "12px 4px" }}>{l}</a>
           ))}
-          <motion.a href="tel:+33475000000" style={{ background: C.accent, color: "#101010", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
+          <motion.a href={`tel:${fd?.phone ?? "+33475000000"}`} style={{ background: C.accent, color: "#101010", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
             RDV en 2 min
           </motion.a>
         </div>
@@ -168,7 +173,7 @@ export default function ControleRhodanienPage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} onClick={() => setMobileOpen(false)} style={{ color: C.text, fontSize: 16, fontWeight: 500, textDecoration: "none", padding: "12px 0" }}>{l}</a>
           ))}
-          <a href="tel:+33475000000" style={{ background: C.accent, color: "#101010", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>RDV en 2 min</a>
+          <a href={`tel:${fd?.phone ?? "+33475000000"}`} style={{ background: C.accent, color: "#101010", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>RDV en 2 min</a>
         </div>
       )}
 

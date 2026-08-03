@@ -7,6 +7,7 @@ import Link from "next/link"
 import { Droplets, ShieldCheck, Phone, Clock, Star, MapPin, ArrowRight, CheckCircle, Wrench, Award, Menu } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { resolveList } from "@/lib/templates/resolveList"
+import { clientServices } from "@/lib/templates/clientContent";
 
 /* ═══════════════════════════════════════════════════════════════════════════
    AQUANOVA PISCINES — Pisciniste / Constructeur de piscines (Lyon)
@@ -47,7 +48,7 @@ const NAV = [
   { l: "Contact", h: "#contact" },
 ];
 
-const TARIFS = [
+const TARIFS_DEMO = [
   { a: "Déplacement & diagnostic", p: "65 €", n: "Déduit de la facture si les travaux nous sont confiés." },
   { a: "Fuite apparente", p: "à partir de 130 €", n: "Recherche, réparation et mise en eau. Une heure sur place en moyenne." },
   { a: "Recherche de fuite non destructive", p: "290 €", n: "Caméra thermique, gaz traceur, corrélateur. Rapport photo pour l'assurance." },
@@ -55,6 +56,7 @@ const TARIFS = [
   { a: "Remplacement chauffe-eau 200 L", p: "à partir de 890 €", n: "Appareil, pose, évacuation de l'ancien et mise en service." },
   { a: "Majoration nuit, dimanche, férié", p: "+ 90 €", n: "Annoncée au téléphone avant de partir." },
 ];
+let TARIFS = TARIFS_DEMO;
 
 const ZONES = [
   { v: "Lyon 1er — 9e", d: "Intervention sous 2 h en urgence" },
@@ -151,6 +153,10 @@ export default function AquanovaPiscinesPage() {
   }, []);
 
   fd = session?.formData;
+  TARIFS = resolveList(
+    clientServices(session)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
+    TARIFS_DEMO,
+  );
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;

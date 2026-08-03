@@ -39,7 +39,8 @@ const SERVICES_DEMO = [{"titre": "Bœuf de Charolles", "desc": "Carcasses entiè
 const METHODE = [{"n": "01", "t": "Acheter en carcasse", "d": "Nous choisissons les bêtes entières chez quatre éleveurs partenaires — pas au catalogue d'un grossiste."}, {"n": "02", "t": "Maturer sur place", "d": "La cave vitrée fait le travail du temps : 21 à 45 jours selon les pièces, à l'œil et au toucher."}, {"n": "03", "t": "Couper devant vous", "d": "La découpe se fait à la demande : épaisseur, parage, barde. Dites comment vous cuisinez, on coupe pour ça."}, {"n": "04", "t": "Conseiller la cuisson", "d": "Chaque pièce part avec son conseil : température, repos, sauce. La viande se respecte jusqu'à l'assiette."}];
 const ENGAGEMENT_DEMO = ["Origine née-élevée-abattue affichée pour chaque viande, à l'étal et sur le ticket", "Quatre élevages partenaires, tous à moins de 90 km, visitables sur demande", "Laboratoire de transformation attenant, contrôles sanitaires HACCP quotidiens", "Le dimanche midi, on garde vos commandes au frais jusqu'à 12h30 précises"];
 let ENGAGEMENT = ENGAGEMENT_DEMO;
-const TARIFS = [{"a": "Côte de bœuf maturée 30 j", "p": "39,90 €/kg", "n": "Charolais de Sombernon, coupée à l'épaisseur demandée."}, {"a": "Saucisses du jour", "p": "12,90 €/kg", "n": "Faites le matin au labo : nature, herbes, ou chorizo doux."}, {"a": "Poulet fermier jaune", "p": "9,90 €/kg", "n": "Landes Label Rouge, prêt à cuire, abats offerts sur demande."}, {"a": "Plat traiteur du jour", "p": "9,50 €/part", "n": "Bourguignon, blanquette ou mijoté de saison, en bocal consigné."}];
+const TARIFS_DEMO = [{"a": "Côte de bœuf maturée 30 j", "p": "39,90 €/kg", "n": "Charolais de Sombernon, coupée à l'épaisseur demandée."}, {"a": "Saucisses du jour", "p": "12,90 €/kg", "n": "Faites le matin au labo : nature, herbes, ou chorizo doux."}, {"a": "Poulet fermier jaune", "p": "9,90 €/kg", "n": "Landes Label Rouge, prêt à cuire, abats offerts sur demande."}, {"a": "Plat traiteur du jour", "p": "9,50 €/part", "n": "Bourguignon, blanquette ou mijoté de saison, en bocal consigné."}];
+let TARIFS = TARIFS_DEMO;
 const AVIS_DEMO = [{"texte": "La côte de bœuf des grandes occasions vient d'ici depuis vingt ans. Le patron connaît l'éleveur, la bête et notre four. On ne mange pas de la viande, on mange la sienne.", "auteur": "Bernard C.", "detail": "Client depuis 2004"}, {"texte": "Le pâté en croûte du samedi est une institution familiale. Commandé le mardi, sinon il n'y en a plus — c'est bon signe.", "auteur": "Famille Morel", "detail": "Charcuterie maison"}, {"texte": "J'ai demandé une découpe spéciale pour un bœuf Wellington : conseils de cuisson inclus, filet paré au millimètre. Réussi du premier coup grâce à eux.", "auteur": "Antoine G.", "detail": "Découpe sur mesure"}];
 const STATS_DEMO = [{"value": "34 km", "label": "L'élevage le plus loin"}, {"value": "30 j", "label": "De maturation sur os"}, {"value": "1962", "label": "La maison, aux halles depuis"}, {"value": "100 %", "label": "Viandes nées et élevées en France"}];
 let STATS = STATS_DEMO;
@@ -90,6 +91,10 @@ export default function MaisonBertinPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TARIFS = resolveList(
+    clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
+    TARIFS_DEMO,
+  );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;
@@ -162,7 +167,7 @@ export default function MaisonBertinPage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} style={{ color: C.textMuted, fontSize: 14, fontWeight: 500, textDecoration: "none", padding: "12px 4px" }}>{l}</a>
           ))}
-          <motion.a href="tel:+33380000000" style={{ background: C.accent, color: "#101010", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
+          <motion.a href={`tel:${fd?.phone ?? "+33380000000"}`} style={{ background: C.accent, color: "#101010", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
             Commander
           </motion.a>
         </div>
@@ -177,7 +182,7 @@ export default function MaisonBertinPage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} onClick={() => setMobileOpen(false)} style={{ color: C.text, fontSize: 16, fontWeight: 500, textDecoration: "none", padding: "12px 0" }}>{l}</a>
           ))}
-          <a href="tel:+33380000000" style={{ background: C.accent, color: "#101010", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Commander</a>
+          <a href={`tel:${fd?.phone ?? "+33380000000"}`} style={{ background: C.accent, color: "#101010", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Commander</a>
         </div>
       )}
 

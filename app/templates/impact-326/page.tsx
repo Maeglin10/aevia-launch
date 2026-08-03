@@ -89,12 +89,13 @@ let ENGAGEMENT = ENGAGEMENT_DEMO;
 
 /* Émoluments : barème national fixé par arrêté (art. A444 du code de commerce).
    Les montants cités sont les émoluments d'actes courants, hors débours et taxes. */
-const TARIFS = [
+const TARIFS_DEMO = [
   { a: "Acte de notoriété (succession)", p: "57,69 € HT", n: "Émolument fixe national — identique dans toute la France." },
   { a: "Donation entre époux", p: "115,39 € HT", n: "Émolument fixe, hors droits d'enregistrement éventuels." },
   { a: "PACS (convention par acte notarié)", p: "101,41 € HT", n: "Enregistrement et formalités inclus dans nos formalités courantes." },
   { a: "Vente immobilière", p: "barème proportionnel", n: "Émoluments dégressifs par tranches, fixés par l'État. Simulation chiffrée remise avant tout engagement." },
 ];
+let TARIFS = TARIFS_DEMO;
 
 const AVIS_DEMO = [
   { texte: "Succession de mon père réglée en cinq mois, avec une déclaration fiscale limpide. Chaque étape nous a été expliquée avant d'être engagée, sans jargon.", auteur: "Hélène D.", detail: "Règlement de succession" },
@@ -139,6 +140,10 @@ export default function EtudeNotarialePage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TARIFS = resolveList(
+    clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
+    TARIFS_DEMO,
+  );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;

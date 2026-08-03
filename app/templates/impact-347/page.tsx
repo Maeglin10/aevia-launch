@@ -40,7 +40,8 @@ const SERVICES_DEMO = [{"titre": "Bureautique & Excel", "desc": "Excel, Word, Po
 const METHODE = [{"n": "01", "t": "Positionnement", "d": "Test de niveau et entretien de besoins avant l'inscription. Si la formation ne vous sert pas, on vous le dit."}, {"n": "02", "t": "Convention & financement", "d": "Dossier CPF ou OPCO monté par nos soins, convention conforme, convocations sous 48 h."}, {"n": "03", "t": "Formation active", "d": "Groupes de 8 maximum, cas réels, formateur praticien. Émargement et supports remis au fil de l'eau."}, {"n": "04", "t": "Certification & suivi à froid", "d": "Passage de la certification, enquête à chaud puis à 3 mois — les résultats sont publiés, c'est Qualiopi."}];
 const ENGAGEMENT_DEMO = ["Certification Qualiopi (actions de formation) — audit de surveillance passé en 2025", "Numéro de déclaration d'activité 11 75 61234 75, éligible CPF et financements OPCO", "Taux de satisfaction et de réussite publiés, formation par formation", "Accessibilité handicap : référent dédié, parcours et supports adaptables"];
 let ENGAGEMENT = ENGAGEMENT_DEMO;
-const TARIFS = [{"a": "Excel — parcours complet (21 h)", "p": "1 190 €", "n": "Certification TOSA incluse. Éligible CPF : reste à charge souvent nul."}, {"a": "Management — 4 jours", "p": "1 890 €", "n": "Financement OPCO entreprise, déjeuners inclus."}, {"a": "Anglais pro — 30 h", "p": "1 590 €", "n": "Groupes de 6, évaluation LILATE incluse, éligible CPF."}, {"a": "Intra-entreprise (jour)", "p": "dès 1 500 €", "n": "Jusqu'à 8 participants, programme sur mesure, partout en France."}];
+const TARIFS_DEMO = [{"a": "Excel — parcours complet (21 h)", "p": "1 190 €", "n": "Certification TOSA incluse. Éligible CPF : reste à charge souvent nul."}, {"a": "Management — 4 jours", "p": "1 890 €", "n": "Financement OPCO entreprise, déjeuners inclus."}, {"a": "Anglais pro — 30 h", "p": "1 590 €", "n": "Groupes de 6, évaluation LILATE incluse, éligible CPF."}, {"a": "Intra-entreprise (jour)", "p": "dès 1 500 €", "n": "Jusqu'à 8 participants, programme sur mesure, partout en France."}];
+let TARIFS = TARIFS_DEMO;
 const AVIS_DEMO = [{"texte": "Le test de positionnement m'a évité de payer trois jours pour ce que je savais déjà : parcours ajusté à 14 h au lieu de 21. Sérieux rare, TOSA 890/1000.", "auteur": "Sonia D.", "detail": "Excel avancé — CPF"}, {"texte": "Devenu manager sans formation, j'improvisais. Les journées espacées permettent d'essayer entre les sessions et de revenir avec ses ratés. Ça change tout.", "auteur": "Mathieu R.", "detail": "Management d'équipe"}, {"texte": "Notre OPCO a tout pris en charge, dossier monté par leur équipe. Six commerciaux formés à l'anglais téléphonique, résultats mesurés au LILATE.", "auteur": "DRH, PME e-commerce", "detail": "Intra langues"}];
 const STATS_DEMO = [{"value": "Qualiopi", "label": "Certifié depuis 2021"}, {"value": "4 200+", "label": "Stagiaires formés"}, {"value": "94 %", "label": "De satisfaction (enquêtes à froid)"}, {"value": "87 %", "label": "De réussite aux certifications"}];
 let STATS = STATS_DEMO;
@@ -83,6 +84,10 @@ export default function PrismeFormationPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TARIFS = resolveList(
+    clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
+    TARIFS_DEMO,
+  );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;
@@ -155,7 +160,7 @@ export default function PrismeFormationPage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} style={{ color: C.textMuted, fontSize: 14, fontWeight: 500, textDecoration: "none", padding: "12px 4px" }}>{l}</a>
           ))}
-          <motion.a href="tel:+33143000000" style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
+          <motion.a href={`tel:${fd?.phone ?? "+33143000000"}`} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
             Dossier CPF
           </motion.a>
         </div>
@@ -170,7 +175,7 @@ export default function PrismeFormationPage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} onClick={() => setMobileOpen(false)} style={{ color: C.text, fontSize: 16, fontWeight: 500, textDecoration: "none", padding: "12px 0" }}>{l}</a>
           ))}
-          <a href="tel:+33143000000" style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Dossier CPF</a>
+          <a href={`tel:${fd?.phone ?? "+33143000000"}`} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Dossier CPF</a>
         </div>
       )}
 

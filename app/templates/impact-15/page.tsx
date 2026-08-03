@@ -5,7 +5,10 @@ import React, {useRef, useState, useEffect} from 'react'
 import { motion, useScroll, useTransform, useInView } from "framer-motion"
 import { Zap, Phone, Mail, MapPin, Clock, CheckCircle, Star, ArrowRight, Shield, Wrench, Lightbulb } from "lucide-react"
 import { resolveList } from "@/lib/templates/resolveList"
-import { clientStats } from "@/lib/templates/clientContent";
+import {
+  clientServices,
+  clientStats,
+} from "@/lib/templates/clientContent";
 
 // Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
 // used to derive light/dark shades from the client's brand color.
@@ -51,7 +54,7 @@ const CHANTIERS = [
   { t: "Sécurisation & mise aux normes", v: "Toulouse Nord", d: "Barrière NF P90-306 et alarme immergée sur un bassin hérité. Attestation de conformité remise au propriétaire." },
 ];
 
-const TARIFS = [
+const TARIFS_DEMO = [
   { a: "Piscine coque polyester posée", p: "à partir de 18 500 €", n: "Terrassement, pose, filtration, mise en eau. 7 × 3,5 m." },
   { a: "Piscine béton armé sur mesure", p: "à partir de 32 000 €", n: "Étude, plan, gros œuvre, revêtement. Délai moyen 10 à 14 semaines." },
   { a: "Rénovation de bassin", p: "à partir de 9 000 €", n: "Diagnostic gratuit. Le prix dépend de l'état de la structure." },
@@ -59,6 +62,7 @@ const TARIFS = [
   { a: "Dépannage filtration", p: "95 € l'intervention", n: "Déplacement et première heure. Pièces en sus, sur devis." },
   { a: "Mise aux normes sécurité", p: "à partir de 1 400 €", n: "Barrière, alarme ou volet. Attestation de conformité fournie." },
 ];
+let TARIFS = TARIFS_DEMO;
 
 const STATS_DEMO = [
   { value: "18 ans", label: "D'expérience" },
@@ -158,6 +162,10 @@ export default function VoltPiscinesPage() {
   }, []);
 
   fd = session?.formData;
+  TARIFS = resolveList(
+    clientServices(session)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
+    TARIFS_DEMO,
+  );
   STATS = resolveList(clientStats(session), STATS_DEMO);
   c = session?.generatedContent;
   bp = bpLocal;

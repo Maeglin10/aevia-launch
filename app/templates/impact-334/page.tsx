@@ -40,7 +40,8 @@ const SERVICES_DEMO = [{"titre": "Cuisine complète", "desc": "Conception, fabri
 const METHODE = [{"n": "01", "t": "Atelier conception — 2 h", "d": "Au studio, autour des cuisines témoins. Vos habitudes, vos appareils, votre budget réel — avant tout dessin."}, {"n": "02", "t": "Relevé laser & plans", "d": "Relevé millimétré chez vous, plans techniques et perspectives réalistes. Trois révisions incluses."}, {"n": "03", "t": "Devis ferme signé", "d": "Poste par poste, électroménager compris. Aucun avenant surprise : l'imprévu est à notre charge."}, {"n": "04", "t": "Pose et réception", "d": "Deux jours de pose en moyenne, protection des sols, réception signée pièce par pièce avec liste de réserves à zéro."}];
 const ENGAGEMENT_DEMO = ["Devis ferme et définitif — l'imprévu de chantier est à notre charge", "Garantie décennale sur la pose, 10 ans sur les caissons, quincaillerie à vie", "Un seul interlocuteur du premier rendez-vous à la levée des réserves", "Showroom sur rendez-vous : deux heures pour vous, jamais de vente debout"];
 let ENGAGEMENT = ENGAGEMENT_DEMO;
-const TARIFS = [{"a": "Cuisine linéaire posée", "p": "dès 7 900 €", "n": "Façades stratifiées, plan compact, électroménager en sus selon sélection."}, {"a": "Cuisine avec îlot", "p": "dès 12 900 €", "n": "Plan céramique, éclairage sous meubles, prises affleurantes incluses."}, {"a": "Dressing assorti", "p": "dès 2 900 €", "n": "Toute hauteur, intérieurs modulables, portes assorties aux façades cuisine."}, {"a": "Atelier conception 2 h", "p": "offert", "n": "Déduit à la commande. Plans remis même si le projet ne se fait pas chez nous."}];
+const TARIFS_DEMO = [{"a": "Cuisine linéaire posée", "p": "dès 7 900 €", "n": "Façades stratifiées, plan compact, électroménager en sus selon sélection."}, {"a": "Cuisine avec îlot", "p": "dès 12 900 €", "n": "Plan céramique, éclairage sous meubles, prises affleurantes incluses."}, {"a": "Dressing assorti", "p": "dès 2 900 €", "n": "Toute hauteur, intérieurs modulables, portes assorties aux façades cuisine."}, {"a": "Atelier conception 2 h", "p": "offert", "n": "Déduit à la commande. Plans remis même si le projet ne se fait pas chez nous."}];
+let TARIFS = TARIFS_DEMO;
 const AVIS_DEMO = [{"texte": "L'atelier de deux heures au studio vaut tous les rendez-vous de cuisinistes classiques. On a parlé petits-déjeuners avant de parler façades. Le résultat est exactement notre maison.", "auteur": "Claire & Julien V.", "detail": "Cuisine îlot, Annecy-le-Vieux"}, {"texte": "Mur de 1927 pas droit du tout : le plan céramique a été gabarié sur place, l'ajustement est invisible. Deux jours de pose, zéro réserve à la réception.", "auteur": "Hélène B.", "detail": "Rénovation complète"}, {"texte": "Le devis ferme n'a pas bougé alors qu'un caisson a dû être refabriqué. Studio sérieux, poseurs soigneux, SAV réactif sur un charnière un an après.", "auteur": "Famille Roche", "detail": "Cuisine + buanderie"}];
 const STATS_DEMO = [{"value": "180+", "label": "Cuisines livrées"}, {"value": "3", "label": "Cuisines témoins au studio"}, {"value": "2 j", "label": "De pose en moyenne"}, {"value": "10 ans", "label": "Garantie caissons & pose"}];
 let STATS = STATS_DEMO;
@@ -91,6 +92,10 @@ export default function StudioCulinaPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TARIFS = resolveList(
+    clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
+    TARIFS_DEMO,
+  );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;
@@ -163,7 +168,7 @@ export default function StudioCulinaPage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} style={{ color: C.textMuted, fontSize: 14, fontWeight: 500, textDecoration: "none", padding: "12px 4px" }}>{l}</a>
           ))}
-          <motion.a href="tel:+33450000000" style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
+          <motion.a href={`tel:${fd?.phone ?? "+33450000000"}`} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
             Atelier conception
           </motion.a>
         </div>
@@ -178,7 +183,7 @@ export default function StudioCulinaPage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} onClick={() => setMobileOpen(false)} style={{ color: C.text, fontSize: 16, fontWeight: 500, textDecoration: "none", padding: "12px 0" }}>{l}</a>
           ))}
-          <a href="tel:+33450000000" style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Atelier conception</a>
+          <a href={`tel:${fd?.phone ?? "+33450000000"}`} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Atelier conception</a>
         </div>
       )}
 

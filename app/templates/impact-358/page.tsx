@@ -44,7 +44,8 @@ const SERVICES_DEMO = [{"titre": "Bilans de routine", "desc": "NFS, iono, lipide
 const METHODE = [{"n": "01", "t": "Prélever près de chez vous", "d": "Trois sites et des tournées : personne ne fait 40 minutes de route pour une prise de sang."}, {"n": "02", "t": "Transporter sous contrôle", "d": "Navette réfrigérée toutes les deux heures, température loggée — la qualité commence dans le coffre."}, {"n": "03", "t": "Analyser au plateau", "d": "Automates mutualisés, contrôles COFRAC quotidiens, biologistes présents physiquement."}, {"n": "04", "t": "Rendre, et expliquer", "d": "En ligne avant 17 h 30, urgences téléphonées, rappel du biologiste quand il le faut."}];
 const ENGAGEMENT_DEMO = ["Accréditation COFRAC ISO 15189 — la même exigence que les grands centres urbains", "Cinq biologistes médicaux, présents sur les sites, joignables par les prescripteurs", "Chaîne du froid tracée du prélèvement à l'automate, enregistrements conservés", "Urgences biologiques téléphonées au médecin dans l'heure, 6j/7"];
 let ENGAGEMENT = ENGAGEMENT_DEMO;
-const TARIFS = [{"a": "Bilan prescrit", "p": "tiers payant", "n": "Carte Vitale + mutuelle, zéro avance sur les trois sites."}, {"a": "Prélèvement à domicile", "p": "pris en charge", "n": "Sur prescription, dans les communes des tournées affichées."}, {"a": "Panel allergènes (prescrit)", "p": "tiers payant", "n": "Résultats commentés, transmis à l'allergologue."}, {"a": "Bilan sportif sans ordonnance", "p": "dès 32 €", "n": "Tarif nomenclature affiché au guichet et en ligne."}];
+const TARIFS_DEMO = [{"a": "Bilan prescrit", "p": "tiers payant", "n": "Carte Vitale + mutuelle, zéro avance sur les trois sites."}, {"a": "Prélèvement à domicile", "p": "pris en charge", "n": "Sur prescription, dans les communes des tournées affichées."}, {"a": "Panel allergènes (prescrit)", "p": "tiers payant", "n": "Résultats commentés, transmis à l'allergologue."}, {"a": "Bilan sportif sans ordonnance", "p": "dès 32 €", "n": "Tarif nomenclature affiché au guichet et en ligne."}];
+let TARIFS = TARIFS_DEMO;
 const AVIS_DEMO = [{"texte": "INR toutes les trois semaines depuis des années : la préleveuse de la tournée connaît mes veines et mon café. Le résultat est chez le médecin avant midi.", "auteur": "Marcel D., Pernes", "detail": "Tournée des villages"}, {"texte": "Ma fille de 4 ans est ressortie avec son diplôme du courage et sans larmes. La crème conseillée la veille au téléphone a tout changé.", "auteur": "Maman de Lila", "detail": "Prélèvement pédiatrique"}, {"texte": "Notre EHPAD travaille avec BioVallée : circuits fiables, urgences vraiment téléphonées, biologiste joignable. Un partenaire, pas un prestataire.", "auteur": "Médecin coordonnateur", "detail": "Convention EHPAD"}];
 const STATS_DEMO = [{"value": "3", "label": "Sites + tournées à domicile"}, {"value": "2 h", "label": "Entre chaque navette réfrigérée"}, {"value": "17h30", "label": "Résultats du jour en ligne"}, {"value": "5", "label": "Biologistes médicaux"}];
 let STATS = STATS_DEMO;
@@ -87,6 +88,10 @@ export default function BioValleePage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TARIFS = resolveList(
+    clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
+    TARIFS_DEMO,
+  );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;

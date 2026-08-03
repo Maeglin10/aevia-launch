@@ -39,7 +39,8 @@ const SERVICES_DEMO = [{"titre": "Ventes immobilières", "desc": "De l'avant-con
 const METHODE = [{"n": "01", "t": "Écoute et pièces", "d": "Un premier échange pour cerner la situation, une liste de pièces claire — et une seule fois."}, {"n": "02", "t": "Projet d'acte commenté", "d": "Le projet vous est envoyé avant le rendez-vous, annoté en langage courant. Vous arrivez en connaissant votre dossier."}, {"n": "03", "t": "Signature expliquée", "d": "Chaque clause relue à voix haute, chaque question posée a sa réponse avant le stylo."}, {"n": "04", "t": "Suites assurées", "d": "Publicité foncière, enregistrement, attestations : l'étude suit le dossier jusqu'au dernier document."}];
 const ENGAGEMENT_DEMO = ["Notaires nommés par le garde des Sceaux — nos actes ont force exécutoire", "Membres de la Chambre des notaires d'Ille-et-Vilaine, inspection annuelle", "Émoluments réglementés : pour un même acte, le même prix partout en France", "Secret professionnel absolu, y compris entre membres d'une même famille"];
 let ENGAGEMENT = ENGAGEMENT_DEMO;
-const TARIFS = [{"a": "Acte de notoriété", "p": "57,69 € HT", "n": "Émolument fixe national, identique dans toute la France."}, {"a": "Donation entre époux", "p": "115,39 € HT", "n": "Émolument fixe, hors droits d'enregistrement éventuels."}, {"a": "Testament authentique", "p": "113,19 € HT", "n": "Reçu par deux notaires ou un notaire et deux témoins, inscrit au fichier central."}, {"a": "Vente immobilière", "p": "barème proportionnel", "n": "Émoluments dégressifs par tranches. Simulation chiffrée remise avant l'avant-contrat."}];
+const TARIFS_DEMO = [{"a": "Acte de notoriété", "p": "57,69 € HT", "n": "Émolument fixe national, identique dans toute la France."}, {"a": "Donation entre époux", "p": "115,39 € HT", "n": "Émolument fixe, hors droits d'enregistrement éventuels."}, {"a": "Testament authentique", "p": "113,19 € HT", "n": "Reçu par deux notaires ou un notaire et deux témoins, inscrit au fichier central."}, {"a": "Vente immobilière", "p": "barème proportionnel", "n": "Émoluments dégressifs par tranches. Simulation chiffrée remise avant l'avant-contrat."}];
+let TARIFS = TARIFS_DEMO;
 const AVIS_DEMO = [{"texte": "Succession réglée en quatre mois avec une sœur à l'étranger. Visio pour les rendez-vous, procurations gérées par l'étude, déclaration déposée dans les délais.", "auteur": "François T.", "detail": "Succession internationale"}, {"texte": "Le projet d'acte annoté reçu une semaine avant la signature change tout : on a posé nos questions par écrit, la signature a duré quarante minutes au lieu de deux heures.", "auteur": "Élodie & Marc P.", "detail": "Achat immobilier"}, {"texte": "Cession de mes parts préparée avec mon expert-comptable et l'étude en direct. Fiscalité anticipée, calendrier tenu.", "auteur": "Gaëlle M.", "detail": "Cession de parts"}];
 const STATS_DEMO = [{"value": "3", "label": "Notaires et 6 collaborateurs"}, {"value": "900+", "label": "Actes reçus par an"}, {"value": "48 h", "label": "Réponse écrite garantie"}, {"value": "7 j", "label": "Premier rendez-vous"}];
 let STATS = STATS_DEMO;
@@ -82,6 +83,10 @@ export default function EtudeDuCanalPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TARIFS = resolveList(
+    clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
+    TARIFS_DEMO,
+  );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;
@@ -154,7 +159,7 @@ export default function EtudeDuCanalPage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} style={{ color: C.textMuted, fontSize: 14, fontWeight: 500, textDecoration: "none", padding: "12px 4px" }}>{l}</a>
           ))}
-          <motion.a href="tel:+33299000000" style={{ background: C.accent, color: "#101010", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
+          <motion.a href={`tel:${fd?.phone ?? "+33299000000"}`} style={{ background: C.accent, color: "#101010", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
             Prendre rendez-vous
           </motion.a>
         </div>
@@ -169,7 +174,7 @@ export default function EtudeDuCanalPage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} onClick={() => setMobileOpen(false)} style={{ color: C.text, fontSize: 16, fontWeight: 500, textDecoration: "none", padding: "12px 0" }}>{l}</a>
           ))}
-          <a href="tel:+33299000000" style={{ background: C.accent, color: "#101010", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Prendre rendez-vous</a>
+          <a href={`tel:${fd?.phone ?? "+33299000000"}`} style={{ background: C.accent, color: "#101010", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Prendre rendez-vous</a>
         </div>
       )}
 

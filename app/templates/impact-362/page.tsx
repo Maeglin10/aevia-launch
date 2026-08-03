@@ -40,7 +40,8 @@ const SERVICES_DEMO = [{"titre": "Appartements locatifs", "desc": "Remise en bla
 const METHODE = [{"n": "01", "t": "Visite et devis en 48 h", "d": "Métré, état des supports, contraintes d'accès. Le devis détaille tout, y compris ce qu'on ne fera pas."}, {"n": "02", "t": "Dates bloquées, tenues", "d": "Le chantier commence à la date écrite. Si un imprévu décale, vous le savez une semaine avant — pas la veille."}, {"n": "03", "t": "Le carnet de chantier", "d": "Chaque jour : ce qui est fait, ce qui reste, photo à l'appui. Posé sur le chantier, consultable par tous."}, {"n": "04", "t": "Réception et retouches", "d": "Tour complet ensemble, retouches immédiates, garanties et factures remises le jour même."}];
 const ENGAGEMENT_DEMO = ["Garantie décennale et RC pro à jour, attestations jointes à chaque devis", "Jamais de sous-traitance ni d'intérim : ceux qui devisent sont ceux qui peignent", "Date de début écrite au devis, pénalité offerte si on la manque de notre fait", "Chantier aspiré et rangé chaque soir — la poussière ne fait pas partie du devis"];
 let ENGAGEMENT = ENGAGEMENT_DEMO;
-const TARIFS = [{"a": "Remise en blanc (pièce 12 m²)", "p": "490 € forfait", "n": "Murs + plafond + plinthes, blanc satiné lessivable."}, {"a": "Murs & plafonds sur mesure", "p": "26–34 €/m²", "n": "Selon supports, teintes au choix sans supplément."}, {"a": "Cage d'escalier (par étage)", "p": "dès 890 €", "n": "Échafaudage, murs, plafonds, rampe — praticable chaque soir."}, {"a": "Plafond après dégât des eaux", "p": "dès 390 €", "n": "Traitement, sous-couche isolante, raccord invisible."}];
+const TARIFS_DEMO = [{"a": "Remise en blanc (pièce 12 m²)", "p": "490 € forfait", "n": "Murs + plafond + plinthes, blanc satiné lessivable."}, {"a": "Murs & plafonds sur mesure", "p": "26–34 €/m²", "n": "Selon supports, teintes au choix sans supplément."}, {"a": "Cage d'escalier (par étage)", "p": "dès 890 €", "n": "Échafaudage, murs, plafonds, rampe — praticable chaque soir."}, {"a": "Plafond après dégât des eaux", "p": "dès 390 €", "n": "Traitement, sous-couche isolante, raccord invisible."}];
+let TARIFS = TARIFS_DEMO;
 const AVIS_DEMO = [{"texte": "Trois appartements locatifs remis en blanc en trois semaines, photos avant/après envoyées à chaque fin. Mes locations repartent plus vite et je ne visite même plus les chantiers.", "auteur": "Propriétaire bailleur", "detail": "Remises en blanc"}, {"texte": "La cage d'escalier de notre copro repoussée depuis cinq ans : faite en huit jours, immeuble praticable tous les soirs. Le carnet de chantier posé dans le hall a mis tout le monde d'accord.", "auteur": "Conseil syndical, Orléans centre", "detail": "Copropriété"}, {"texte": "Un père et une fille qui bossent en silence, protègent tout, et laissent la maison plus propre que trouvée. Le devis n'a pas bougé d'un euro.", "auteur": "Régine M.", "detail": "Maison familiale"}];
 const STATS_DEMO = [{"value": "2", "label": "Compagnons — et pas d'intérim"}, {"value": "48 h", "label": "Devis après visite"}, {"value": "850+", "label": "Chantiers depuis 1998"}, {"value": "J+0", "label": "Chantier aspiré chaque soir"}];
 let STATS = STATS_DEMO;
@@ -83,6 +84,10 @@ export default function DuoPeinturesPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TARIFS = resolveList(
+    clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
+    TARIFS_DEMO,
+  );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;
@@ -154,7 +159,7 @@ export default function DuoPeinturesPage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} style={{ color: C.textMuted, fontSize: 14, fontWeight: 500, textDecoration: "none", padding: "12px 4px" }}>{l}</a>
           ))}
-          <motion.a href="tel:+33238000000" style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
+          <motion.a href={`tel:${fd?.phone ?? "+33238000000"}`} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
             Devis sous 48 h
           </motion.a>
         </div>
@@ -169,7 +174,7 @@ export default function DuoPeinturesPage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} onClick={() => setMobileOpen(false)} style={{ color: C.text, fontSize: 16, fontWeight: 500, textDecoration: "none", padding: "12px 0" }}>{l}</a>
           ))}
-          <a href="tel:+33238000000" style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Devis sous 48 h</a>
+          <a href={`tel:${fd?.phone ?? "+33238000000"}`} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Devis sous 48 h</a>
         </div>
       )}
 

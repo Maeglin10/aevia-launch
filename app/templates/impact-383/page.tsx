@@ -40,7 +40,8 @@ const SERVICES_DEMO = [{"titre": "Toilettage complet", "desc": "Brossage, bain a
 const METHODE = [{"n": "01", "t": "On prend le temps", "d": "Un seul animal à la fois au salon : pas d'aboiements, pas d'attente en cage, pas de stress d'ambiance."}, {"n": "02", "t": "On respecte les refus", "d": "Si un chien dit non, on s'arrête et on recommence un autre jour. Aucune contention musclée, jamais."}, {"n": "03", "t": "On adapte les produits", "d": "Peaux sensibles, allergies, animaux âgés : les shampooings sont choisis pour la peau, pas pour le parfum."}, {"n": "04", "t": "On raconte la séance", "d": "Ce qui s'est bien passé, ce qui a coincé, ce qu'il faut travailler à la maison entre deux visites."}];
 const ENGAGEMENT_DEMO = ["Toiletteuse diplômée (CTM toilettage canin-félin), formation continue comportement", "Pension déclarée en préfecture (DDPP), certificat de capacité animaux domestiques", "Aucune sédation, aucune contention forcée — si l'animal refuse, on arrête", "Vaccins à jour exigés pour la pension : protection de tous les pensionnaires"];
 let ENGAGEMENT = ENGAGEMENT_DEMO;
-const TARIFS = [{"a": "Toilettage petit chien (< 10 kg)", "p": "dès 42 €", "n": "Bain, séchage main, coupe, oreilles et griffes."}, {"a": "Toilettage grand chien (> 25 kg)", "p": "dès 68 €", "n": "Comptez 2 h 30 : on ne bâcle pas les grands gabarits."}, {"a": "Toilettage chat", "p": "dès 55 €", "n": "Sans sédation, par une toiletteuse formée au félin."}, {"a": "Pension (nuitée)", "p": "24 €", "n": "Repas, sorties, photos quotidiennes. Dégressif dès 7 nuits."}];
+const TARIFS_DEMO = [{"a": "Toilettage petit chien (< 10 kg)", "p": "dès 42 €", "n": "Bain, séchage main, coupe, oreilles et griffes."}, {"a": "Toilettage grand chien (> 25 kg)", "p": "dès 68 €", "n": "Comptez 2 h 30 : on ne bâcle pas les grands gabarits."}, {"a": "Toilettage chat", "p": "dès 55 €", "n": "Sans sédation, par une toiletteuse formée au félin."}, {"a": "Pension (nuitée)", "p": "24 €", "n": "Repas, sorties, photos quotidiennes. Dégressif dès 7 nuits."}];
+let TARIFS = TARIFS_DEMO;
 const AVIS_DEMO = [{"texte": "Mon bouvier bernois terrorisé par les salons a eu droit à trois visites d'habituation gratuites avant sa première coupe. Aujourd'hui il tire sur la laisse pour entrer. Merci mille fois.", "auteur": "Propriétaire de Gustave", "detail": "Chien anxieux"}, {"texte": "Deux semaines de pension pendant nos vacances : deux photos par jour, des nouvelles vraies, et un chat qui n'a pas boudé au retour — du jamais vu.", "auteur": "Famille Bouchet", "detail": "Pension familiale"}, {"texte": "Toiletteuse qui explique ce qu'elle fait et comment brosser à la maison. Mon caniche n'a plus jamais eu de nœuds depuis ses conseils. C'est du vrai conseil, pas de la vente.", "auteur": "Maryse P.", "detail": "Toilettage régulier"}];
 const STATS_DEMO = [{"value": "1", "label": "Animal à la fois au salon"}, {"value": "0", "label": "Cage d'attente, jamais"}, {"value": "6", "label": "Places en pension familiale"}, {"value": "2/jour", "label": "Photos envoyées aux propriétaires"}];
 let STATS = STATS_DEMO;
@@ -83,6 +84,10 @@ export default function PoilsEtCompagniePage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TARIFS = resolveList(
+    clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
+    TARIFS_DEMO,
+  );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;
@@ -155,7 +160,7 @@ export default function PoilsEtCompagniePage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} style={{ color: C.textMuted, fontSize: 14, fontWeight: 500, textDecoration: "none", padding: "12px 4px" }}>{l}</a>
           ))}
-          <motion.a href="tel:+33241000001" style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
+          <motion.a href={`tel:${fd?.phone ?? "+33241000001"}`} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
             Prendre RDV
           </motion.a>
         </div>
@@ -170,7 +175,7 @@ export default function PoilsEtCompagniePage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} onClick={() => setMobileOpen(false)} style={{ color: C.text, fontSize: 16, fontWeight: 500, textDecoration: "none", padding: "12px 0" }}>{l}</a>
           ))}
-          <a href="tel:+33241000001" style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Prendre RDV</a>
+          <a href={`tel:${fd?.phone ?? "+33241000001"}`} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Prendre RDV</a>
         </div>
       )}
 

@@ -39,7 +39,8 @@ const SERVICES_DEMO = [{"titre": "Légumes de saison", "desc": "Quarante variét
 const METHODE = [{"n": "01", "t": "Un sol vivant", "d": "Rotations longues, engrais verts, compost de la ferme : le sol est notre premier outil de travail."}, {"n": "02", "t": "Cueilli à maturité", "d": "La récolte se fait pour le lendemain, pas pour tenir une semaine de camion. Ça change le goût, vraiment."}, {"n": "03", "t": "Vendu en direct", "d": "Boutique à la ferme, marché de Cahors le samedi, paniers réservés : aucun intermédiaire, prix décidés ici."}, {"n": "04", "t": "Contrôlé chaque année", "d": "Certification AB par organisme agréé, contrôles annuels — le logo se mérite, il ne se déclare pas."}];
 const ENGAGEMENT_DEMO = ["Certification Agriculture Biologique (AB), contrôles annuels d'organisme agréé", "Vente directe uniquement : ce qui est sur l'étal a poussé ici, point", "Prix affichés à l'année, décidés par la ferme — pas par un cours mondial", "La ferme se visite : premier samedi du mois, et sur demande pour les écoles"];
 let ENGAGEMENT = ENGAGEMENT_DEMO;
-const TARIFS = [{"a": "Panier petit (2 pers.)", "p": "14 €", "n": "5-6 légumes de la semaine + la recette du légume oublié."}, {"a": "Panier grand (4-5 pers.)", "p": "24 €", "n": "8-10 légumes, de quoi tenir la semaine sans supermarché."}, {"a": "Œufs plein air (×6)", "p": "2,80 €", "n": "Ramassés du matin, boîtes consignées reprises."}, {"a": "Poulet fermier (~1,8 kg)", "p": "12,90 €/kg", "n": "Sur commande avant mercredi, retrait vendredi."}];
+const TARIFS_DEMO = [{"a": "Panier petit (2 pers.)", "p": "14 €", "n": "5-6 légumes de la semaine + la recette du légume oublié."}, {"a": "Panier grand (4-5 pers.)", "p": "24 €", "n": "8-10 légumes, de quoi tenir la semaine sans supermarché."}, {"a": "Œufs plein air (×6)", "p": "2,80 €", "n": "Ramassés du matin, boîtes consignées reprises."}, {"a": "Poulet fermier (~1,8 kg)", "p": "12,90 €/kg", "n": "Sur commande avant mercredi, retrait vendredi."}];
+let TARIFS = TARIFS_DEMO;
 const AVIS_DEMO = [{"texte": "Deux ans de panier hebdomadaire : on a réappris à cuisiner avec les saisons, les enfants reconnaissent les légumes, et le goût des tomates d'août ne se compare à rien.", "auteur": "Famille Delmas", "detail": "Panier grand"}, {"texte": "La visite du premier samedi vaut tous les discours : on voit les poules, le compost, les rangs. Depuis, le prix des œufs me paraît même trop bas.", "auteur": "Nathalie C.", "detail": "Visite + cliente marché"}, {"texte": "Poulet de 110 jours commandé pour un dimanche de famille : mes parents ont retrouvé « le goût du poulet d'avant ». Tout est dit.", "auteur": "Julien F.", "detail": "Volaille fermière"}];
 const STATS_DEMO = [{"value": "AB", "label": "Certifiée agriculture biologique"}, {"value": "2 ha", "label": "De maraîchage diversifié"}, {"value": "250", "label": "Poules de plein air"}, {"value": "0 km", "label": "Entre le champ et la boutique"}];
 let STATS = STATS_DEMO;
@@ -90,6 +91,10 @@ export default function QuatreVentsPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TARIFS = resolveList(
+    clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
+    TARIFS_DEMO,
+  );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;
@@ -162,7 +167,7 @@ export default function QuatreVentsPage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} style={{ color: C.textMuted, fontSize: 14, fontWeight: 500, textDecoration: "none", padding: "12px 4px" }}>{l}</a>
           ))}
-          <motion.a href="tel:+33565000000" style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
+          <motion.a href={`tel:${fd?.phone ?? "+33565000000"}`} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
             Panier de la semaine
           </motion.a>
         </div>
@@ -177,7 +182,7 @@ export default function QuatreVentsPage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} onClick={() => setMobileOpen(false)} style={{ color: C.text, fontSize: 16, fontWeight: 500, textDecoration: "none", padding: "12px 0" }}>{l}</a>
           ))}
-          <a href="tel:+33565000000" style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Panier de la semaine</a>
+          <a href={`tel:${fd?.phone ?? "+33565000000"}`} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Panier de la semaine</a>
         </div>
       )}
 

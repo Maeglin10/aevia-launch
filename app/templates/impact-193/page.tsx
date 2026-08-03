@@ -38,13 +38,14 @@ const NAV = [
   { l: "Contact", h: "#contact" },
 ];
 
-const TARIFS = [
+const TARIFS_DEMO = [
   { a: "Consultation adulte", p: "60 €", n: "60 minutes, bilan et traitement compris." },
   { a: "Nourrisson (0 — 2 ans)", p: "55 €", n: "45 minutes. Un parent reste présent toute la séance." },
   { a: "Femme enceinte", p: "60 €", n: "Table adaptée à partir du 4e mois, positions latérales." },
   { a: "Sportif · suivi de saison", p: "3 × 150 €", n: "Trois séances à utiliser dans l'année, transférables au sein d'un même club." },
   { a: "Consultation à domicile", p: "80 €", n: "Montpellier intra-muros, sur justificatif d'immobilisation." },
 ];
+let TARIFS = TARIFS_DEMO;
 
 const AGENDA = [
   { j: "Lundi", h: "9h — 19h" },
@@ -115,6 +116,10 @@ export default function OsteoGaiaPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TARIFS = resolveList(
+    clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
+    TARIFS_DEMO,
+  );
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const PRISES_EN_CHARGE = resolveList(

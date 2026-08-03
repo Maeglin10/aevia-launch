@@ -39,7 +39,8 @@ const SERVICES_DEMO = [{"titre": "Les vins de Loire", "desc": "Soixante référe
 const METHODE = [{"n": "01", "t": "On goûte tout", "d": "Aucune bouteille n'entre en cave sans avoir été goûtée par nous — souvent au domaine, avec celui qui l'a faite."}, {"n": "02", "t": "On demande le plat", "d": "« Un rouge à 15 € » ne veut rien dire. Dites-nous ce que vous mangez, avec qui, et le conseil devient utile."}, {"n": "03", "t": "On assume les non", "d": "Si votre budget ne permet pas ce que vous cherchez, on le dit et on propose autre chose plutôt que de vendre une déception."}, {"n": "04", "t": "On suit la bouteille", "d": "Revenez nous dire. C'est comme ça que la sélection s'ajuste — et que le conseil suivant sera meilleur."}];
 const ENGAGEMENT_DEMO = ["80 % des vins achetés en direct au domaine : le vigneron est payé correctement", "Chaque bouteille de la cave a été goûtée par l'équipe avant d'être référencée", "Conseil sans supplément, quel que soit le budget — y compris à 8 €", "L'abus d'alcool est dangereux pour la santé : à consommer avec modération"];
 let ENGAGEMENT = ENGAGEMENT_DEMO;
-const TARIFS = [{"a": "Le vin de la semaine", "p": "dès 8,50 €", "n": "Une découverte chaque semaine, goûtée et défendue par l'équipe."}, {"a": "Loire — cœur de gamme", "p": "12–25 €", "n": "Vouvray, Chinon, Bourgueil : le meilleur rapport plaisir/prix de la cave."}, {"a": "Champagne de vigneron", "p": "dès 26 €", "n": "Récoltant-manipulant, brut nature ou extra-brut."}, {"a": "Dégustation mensuelle", "p": "12 €", "n": "Avec le vigneron, le 3e jeudi. Déduits dès 3 bouteilles emportées."}];
+const TARIFS_DEMO = [{"a": "Le vin de la semaine", "p": "dès 8,50 €", "n": "Une découverte chaque semaine, goûtée et défendue par l'équipe."}, {"a": "Loire — cœur de gamme", "p": "12–25 €", "n": "Vouvray, Chinon, Bourgueil : le meilleur rapport plaisir/prix de la cave."}, {"a": "Champagne de vigneron", "p": "dès 26 €", "n": "Récoltant-manipulant, brut nature ou extra-brut."}, {"a": "Dégustation mensuelle", "p": "12 €", "n": "Avec le vigneron, le 3e jeudi. Déduits dès 3 bouteilles emportées."}];
+let TARIFS = TARIFS_DEMO;
 const AVIS_DEMO = [{"texte": "J'arrive avec mon menu, je repars avec trois bouteilles qui vont ensemble et l'ordre de service. Aucun caviste ne m'avait jamais demandé ce que j'allais manger.", "auteur": "Bertrand M.", "detail": "Conseil accords"}, {"texte": "Il m'a déconseillé la bouteille à 45 € que je voulais offrir et proposé un Chinon à 19 € « qui fera plus plaisir ». Mon beau-père en a recommandé six.", "auteur": "Julie T.", "detail": "Cadeau"}, {"texte": "Les dégustations du jeudi ont changé ma façon de boire : rencontrer les vignerons, comprendre les millésimes. Douze euros la meilleure école du vin de Tours.", "auteur": "Habituée des dégustations", "detail": "Dégustation mensuelle"}];
 const STATS_DEMO = [{"value": "400", "label": "Références en cave"}, {"value": "60", "label": "Vins de Loire"}, {"value": "80 %", "label": "Achetés en direct au domaine"}, {"value": "1/mois", "label": "Dégustation avec un vigneron"}];
 let STATS = STATS_DEMO;
@@ -82,6 +83,10 @@ export default function CaveDesTerroirsPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TARIFS = resolveList(
+    clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
+    TARIFS_DEMO,
+  );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;
@@ -154,7 +159,7 @@ export default function CaveDesTerroirsPage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} style={{ color: C.textMuted, fontSize: 14, fontWeight: 500, textDecoration: "none", padding: "12px 4px" }}>{l}</a>
           ))}
-          <motion.a href="tel:+33247000002" style={{ background: C.accent, color: "#101010", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
+          <motion.a href={`tel:${fd?.phone ?? "+33247000002"}`} style={{ background: C.accent, color: "#101010", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
             Nous appeler
           </motion.a>
         </div>
@@ -169,7 +174,7 @@ export default function CaveDesTerroirsPage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} onClick={() => setMobileOpen(false)} style={{ color: C.text, fontSize: 16, fontWeight: 500, textDecoration: "none", padding: "12px 0" }}>{l}</a>
           ))}
-          <a href="tel:+33247000002" style={{ background: C.accent, color: "#101010", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Nous appeler</a>
+          <a href={`tel:${fd?.phone ?? "+33247000002"}`} style={{ background: C.accent, color: "#101010", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Nous appeler</a>
         </div>
       )}
 

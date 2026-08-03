@@ -40,7 +40,8 @@ const SERVICES_DEMO = [{"titre": "Organisation d'obsèques", "desc": "Inhumation
 const METHODE = [{"n": "01", "t": "Une voix, pas un standard", "d": "À toute heure, quelqu'un de la maison répond, se déplace et prend le relais immédiatement."}, {"n": "02", "t": "Le devis avant tout", "d": "Devis-type réglementé, gratuit, distinguant l'obligatoire de l'optionnel. Vous décidez à tête reposée."}, {"n": "03", "t": "Une cérémonie fidèle", "d": "Textes, musiques, gestes : préparés avec la famille, à son rythme, jamais standardisés."}, {"n": "04", "t": "L'après, aussi", "d": "Remise du dossier complet, aide aux démarches restantes, et une présence si vous en avez besoin."}];
 const ENGAGEMENT_DEMO = ["Habilitation préfectorale n° 26-06-0287 — Préfecture des Alpes-Maritimes", "Devis-type conforme à l'arrêté du 23 août 2010, remis avant tout engagement", "Prix affichés en agence et consultables — aucune prestation imposée", "Toutes confessions et convictions respectées, cérémonies civiles incluses"];
 let ENGAGEMENT = ENGAGEMENT_DEMO;
-const TARIFS = [{"a": "Obsèques avec crémation", "p": "dès 2 990 €", "n": "Cercueil, transport, démarches et redevance de crémation inclus."}, {"a": "Obsèques avec inhumation", "p": "dès 3 400 €", "n": "Hors concession, dont le tarif dépend de la commune. Détail poste par poste."}, {"a": "Contrat de prévoyance", "p": "dès 35 €/mois", "n": "Capital garanti, volontés consignées, souscription en agence ou à domicile."}, {"a": "Entretien de sépulture", "p": "dès 95 €/an", "n": "Nettoyage et fleurissement à la Toussaint, photo transmise après chaque passage."}];
+const TARIFS_DEMO = [{"a": "Obsèques avec crémation", "p": "dès 2 990 €", "n": "Cercueil, transport, démarches et redevance de crémation inclus."}, {"a": "Obsèques avec inhumation", "p": "dès 3 400 €", "n": "Hors concession, dont le tarif dépend de la commune. Détail poste par poste."}, {"a": "Contrat de prévoyance", "p": "dès 35 €/mois", "n": "Capital garanti, volontés consignées, souscription en agence ou à domicile."}, {"a": "Entretien de sépulture", "p": "dès 95 €/an", "n": "Nettoyage et fleurissement à la Toussaint, photo transmise après chaque passage."}];
+let TARIFS = TARIFS_DEMO;
 const AVIS_DEMO = [{"texte": "Reçus un dimanche soir, sans aucune précipitation. Chaque choix avait son prix en face, personne n'a poussé vers le haut. La cérémonie ressemblait à notre mère.", "auteur": "Famille S.", "detail": "Obsèques et cérémonie"}, {"texte": "Les salons de recueillement clairs, face au jardin, ont changé ces trois jours. On pouvait venir à toute heure, rester longtemps, être tranquilles.", "auteur": "Paul et Anne G.", "detail": "Chambre funéraire"}, {"texte": "J'ai signé ma prévoyance ici après avoir comparé trois maisons : la seule qui m'a remis le devis-type complet sans que je le demande.", "auteur": "Josette M.", "detail": "Contrat de prévoyance"}];
 const STATS_DEMO = [{"value": "24h/24", "label": "Une voix qui répond"}, {"value": "3", "label": "Salons de recueillement"}, {"value": "1892", "label": "Maison fondée à Nice"}, {"value": "0 €", "label": "Le devis, toujours"}];
 let STATS = STATS_DEMO;
@@ -91,6 +92,10 @@ export default function RivesBlanchesPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TARIFS = resolveList(
+    clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
+    TARIFS_DEMO,
+  );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;
@@ -162,7 +167,7 @@ export default function RivesBlanchesPage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} style={{ color: C.textMuted, fontSize: 14, fontWeight: 500, textDecoration: "none", padding: "12px 4px" }}>{l}</a>
           ))}
-          <motion.a href="tel:+33493000000" style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
+          <motion.a href={`tel:${fd?.phone ?? "+33493000000"}`} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
             Nous joindre
           </motion.a>
         </div>
@@ -177,7 +182,7 @@ export default function RivesBlanchesPage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} onClick={() => setMobileOpen(false)} style={{ color: C.text, fontSize: 16, fontWeight: 500, textDecoration: "none", padding: "12px 0" }}>{l}</a>
           ))}
-          <a href="tel:+33493000000" style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Nous joindre</a>
+          <a href={`tel:${fd?.phone ?? "+33493000000"}`} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Nous joindre</a>
         </div>
       )}
 

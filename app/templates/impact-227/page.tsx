@@ -57,7 +57,7 @@ const NAV = [
   { l: "L'équipe", h: "#equipe" },
   { l: "Contact", h: "#contact" },
 ];
-const TARIFS = [
+const TARIFS_DEMO = [
   { a: "Coupe classique", p: "26 €", n: "Tondeuse et ciseaux, shampoing et coiffage compris. 30 minutes." },
   { a: "Coupe + barbe", p: "38 €", n: "Le rendez-vous le plus demandé. Serviette chaude, huile, baume. 45 minutes." },
   { a: "Rasage à l'ancienne", p: "30 €", n: "Coupe-chou, deux passages, serviette chaude avant et après. 35 minutes." },
@@ -65,6 +65,7 @@ const TARIFS = [
   { a: "Coupe enfant (- 12 ans)", p: "18 €", n: "Rehausseur sur le fauteuil, et le droit de bouger un peu." },
   { a: "Forfait père & fils", p: "40 €", n: "Deux coupes à la suite, sur le même créneau." },
 ];
+let TARIFS = TARIFS_DEMO;
 
 const EQUIPE = [
   { n: "Vincent Cazals", r: "Fondateur · Barbier", d: "Formé chez un maître barbier de Barcelone. Vingt ans de coupe-chou, et il aiguise encore ses lames lui-même." },
@@ -306,6 +307,10 @@ export default function LeBarberClubPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TARIFS = resolveList(
+    clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
+    TARIFS_DEMO,
+  );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   brand = fd?.brandColor ?? null; // null = keep template's original color
 

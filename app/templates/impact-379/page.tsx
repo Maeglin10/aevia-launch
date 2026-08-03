@@ -40,7 +40,8 @@ const SERVICES_DEMO = [{"titre": "Mobilier sur mesure", "desc": "Tables, bibliot
 const METHODE = [{"n": "01", "t": "Le dessin, ensemble", "d": "Croquis, essences, proportions : la pièce se décide sur papier, à l'échelle, avant qu'une planche ne soit coupée."}, {"n": "02", "t": "Le bois choisi", "d": "Grumes sélectionnées chez nos scieurs du Jura, séchées deux ans minimum. Vous voyez la planche de votre plateau."}, {"n": "03", "t": "L'assemblage", "d": "Tenon-mortaise, queues d'aronde, chevilles : les liaisons qui traversent les siècles, faites à la main."}, {"n": "04", "t": "La finition & la livraison", "d": "Huile dure, cire ou vernis au tampon selon l'usage. Livraison et pose par nos soins, jamais par transporteur."}];
 const ENGAGEMENT_DEMO = ["Bois massif français certifié PEFC — aucun aggloméré, médium ou placage industriel", "Assemblages traditionnels : la pièce se démonte et se répare dans cinquante ans", "Atelier visitable : venez voir votre meuble en cours, l'établi est ouvert", "Garantie 5 ans sur les assemblages, conseils d'entretien remis avec chaque pièce"];
 let ENGAGEMENT = ENGAGEMENT_DEMO;
-const TARIFS = [{"a": "Table massive (2,20 m)", "p": "dès 3 400 €", "n": "Plateau chêne ou frêne, piètement assemblé, finition huilée."}, {"a": "Bibliothèque sur mesure (ml)", "p": "dès 950 €", "n": "Toute hauteur, montants massifs, étagères non fléchissantes."}, {"a": "Restauration de meuble ancien", "p": "dès 600 €", "n": "Après diagnostic ; devis ferme avant toute intervention."}, {"a": "Diagnostic / expertise", "p": "90 €", "n": "À l'atelier ou sur photos détaillées, déduit si restauration."}];
+const TARIFS_DEMO = [{"a": "Table massive (2,20 m)", "p": "dès 3 400 €", "n": "Plateau chêne ou frêne, piètement assemblé, finition huilée."}, {"a": "Bibliothèque sur mesure (ml)", "p": "dès 950 €", "n": "Toute hauteur, montants massifs, étagères non fléchissantes."}, {"a": "Restauration de meuble ancien", "p": "dès 600 €", "n": "Après diagnostic ; devis ferme avant toute intervention."}, {"a": "Diagnostic / expertise", "p": "90 €", "n": "À l'atelier ou sur photos détaillées, déduit si restauration."}];
+let TARIFS = TARIFS_DEMO;
 const AVIS_DEMO = [{"texte": "Table de 2,40 m en noyer pour douze : six mois d'attente, une vie de service. On a choisi la planche à l'atelier, vu l'assemblage se monter. Rien à voir avec un achat de meuble.", "auteur": "Famille Perrin", "detail": "Table sur mesure"}, {"texte": "Secrétaire Empire de ma grand-mère restauré : placage refait à la colle d'os, serrure d'origine remontée. Impossible de voir où le travail a été fait. Un artisan rare.", "auteur": "Béatrice L.", "detail": "Restauration"}, {"texte": "Il m'a dit que mon buffet ne valait pas les 1 200 € de restauration et m'a conseillé un simple nettoyage à 90 €. Cette honnêteté-là m'a fait revenir pour une commande de bibliothèque.", "auteur": "Michel D.", "detail": "Expertise puis commande"}];
 const STATS_DEMO = [{"value": "2022", "label": "Meilleur Ouvrier régional"}, {"value": "0", "label": "Vis apparente sur nos assemblages"}, {"value": "PEFC", "label": "Bois français tracé"}, {"value": "100 ans", "label": "L'horizon d'une pièce d'atelier"}];
 let STATS = STATS_DEMO;
@@ -91,6 +92,10 @@ export default function EtabliMoreauPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TARIFS = resolveList(
+    clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
+    TARIFS_DEMO,
+  );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;
@@ -163,7 +168,7 @@ export default function EtabliMoreauPage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} style={{ color: C.textMuted, fontSize: 14, fontWeight: 500, textDecoration: "none", padding: "12px 4px" }}>{l}</a>
           ))}
-          <motion.a href="tel:+33381000001" style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
+          <motion.a href={`tel:${fd?.phone ?? "+33381000001"}`} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
             Visiter l'atelier
           </motion.a>
         </div>
@@ -178,7 +183,7 @@ export default function EtabliMoreauPage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} onClick={() => setMobileOpen(false)} style={{ color: C.text, fontSize: 16, fontWeight: 500, textDecoration: "none", padding: "12px 0" }}>{l}</a>
           ))}
-          <a href="tel:+33381000001" style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Visiter l'atelier</a>
+          <a href={`tel:${fd?.phone ?? "+33381000001"}`} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Visiter l'atelier</a>
         </div>
       )}
 

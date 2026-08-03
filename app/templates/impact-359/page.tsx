@@ -43,7 +43,8 @@ const SERVICES_DEMO = [{"titre": "Terrassement & compactage", "desc": "Mini-pell
 const METHODE = [{"n": "01", "t": "Réserver au téléphone", "d": "On vérifie le calibre avec vous, la machine est bloquée à votre nom, caution annoncée d'avance."}, {"n": "02", "t": "Prise en main au dépôt", "d": "Démarrage, sécurités, gestes de base : dix minutes qui évitent la panne du samedi midi."}, {"n": "03", "t": "Le chantier chez vous", "d": "Carburant fourni au départ (plein/plein), assistance téléphonique aux heures d'ouverture."}, {"n": "04", "t": "Retour vérifié ensemble", "d": "État contradictoire au retour, caution levée immédiatement — pas de retenue surprise à J+15."}];
 const ENGAGEMENT_DEMO = ["Vérifications générales périodiques (VGP) à jour, registres consultables au comptoir", "Révision et nettoyage entre chaque location — une machine sale ne repart pas", "EPI de base fournis avec chaque machine à risque (casque, lunettes, gants)", "Caution transparente : montant affiché, levée au retour après état contradictoire"];
 let ENGAGEMENT = ENGAGEMENT_DEMO;
-const TARIFS = [{"a": "Mini-pelle 1,8 t", "p": "180 €/jour", "n": "Godets 30/60 cm inclus, remorque +30 €/jour, permis BE requis."}, {"a": "Broyeur de branches (8 cm)", "p": "95 €/jour", "n": "EPI fournis, sacs de collecte disponibles."}, {"a": "Échafaudage roulant 8 m", "p": "65 €/jour", "n": "Complet avec garde-corps et stabilisateurs, montage expliqué."}, {"a": "Plaque vibrante 90 kg", "p": "45 €/jour", "n": "Dégressif : 3 jours = 2,5 ; semaine = 4 jours."}];
+const TARIFS_DEMO = [{"a": "Mini-pelle 1,8 t", "p": "180 €/jour", "n": "Godets 30/60 cm inclus, remorque +30 €/jour, permis BE requis."}, {"a": "Broyeur de branches (8 cm)", "p": "95 €/jour", "n": "EPI fournis, sacs de collecte disponibles."}, {"a": "Échafaudage roulant 8 m", "p": "65 €/jour", "n": "Complet avec garde-corps et stabilisateurs, montage expliqué."}, {"a": "Plaque vibrante 90 kg", "p": "45 €/jour", "n": "Dégressif : 3 jours = 2,5 ; semaine = 4 jours."}];
+let TARIFS = TARIFS_DEMO;
 const AVIS_DEMO = [{"texte": "Mini-pelle réservée le jeudi, livrée le samedi 7h30 posée dans le jardin, reprise le lundi. La piscine est creusée, le dos est intact, la caution levée au retour du camion.", "auteur": "Fabrice N.", "detail": "Particulier — terrassement"}, {"texte": "Artisan, je loue chez eux ce que je n'amortis pas : carotteuse, groupe, échafaudage. Les machines démarrent, les VGP sont à jour, la facture mensuelle est propre.", "auteur": "SARL Maçonnerie Grandidier", "detail": "Compte pro"}, {"texte": "On m'a déconseillé la grosse tarière « qui fait peur » pour un modèle une personne, moitié prix. Vingt trous de clôture plus tard : ils avaient raison.", "auteur": "Sylvain P.", "detail": "Conseil de calibre"}];
 const STATS_DEMO = [{"value": "400+", "label": "Références au parc"}, {"value": "VGP", "label": "Contrôles réglementaires à jour"}, {"value": "7h", "label": "Retrait dès l'ouverture"}, {"value": "J+1", "label": "Livraison sur chantier"}];
 let STATS = STATS_DEMO;
@@ -86,6 +87,10 @@ export default function LocamatPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TARIFS = resolveList(
+    clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
+    TARIFS_DEMO,
+  );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;
@@ -170,7 +175,7 @@ export default function LocamatPage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} style={{ color: C.textMuted, fontSize: 14, fontWeight: 500, textDecoration: "none", padding: "12px 4px" }}>{l}</a>
           ))}
-          <motion.a href="tel:+33383000000" style={{ background: C.accent, color: "#101010", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
+          <motion.a href={`tel:${fd?.phone ?? "+33383000000"}`} style={{ background: C.accent, color: "#101010", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
             Réserver
           </motion.a>
         </div>
@@ -185,7 +190,7 @@ export default function LocamatPage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} onClick={() => setMobileOpen(false)} style={{ color: C.text, fontSize: 16, fontWeight: 500, textDecoration: "none", padding: "12px 0" }}>{l}</a>
           ))}
-          <a href="tel:+33383000000" style={{ background: C.accent, color: "#101010", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Réserver</a>
+          <a href={`tel:${fd?.phone ?? "+33383000000"}`} style={{ background: C.accent, color: "#101010", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Réserver</a>
         </div>
       )}
 

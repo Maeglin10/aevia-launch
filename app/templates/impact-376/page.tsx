@@ -40,7 +40,8 @@ const SERVICES_DEMO = [{"titre": "Verrières d'atelier", "desc": "Acier fin ou a
 const METHODE = [{"n": "01", "t": "Faisabilité & calculs", "d": "Charges, normes (DTU 39, NF P01-012), supports : on valide la technique avant d'esquisser."}, {"n": "02", "t": "Modélisation 3D", "d": "L'ouvrage dans votre espace, aux cotes réelles : vous voyez la lumière avant de signer."}, {"n": "03", "t": "Fabrication pilotée", "d": "Verres et profils commandés aux façonniers agréés, contrôle qualité à réception, stockage sécurisé."}, {"n": "04", "t": "Pose millimétrée", "d": "Équipes propres, calage optique, joints parfaits : la réception se fait à la lumière rasante."}];
 const ENGAGEMENT_DEMO = ["Notes de calcul fournies pour chaque ouvrage structurel — pas de verre « au jugé »", "Garantie décennale, verres certifiés, DTU 39 respecté et documenté", "Un interlocuteur unique du premier trait à la réception", "Showroom sur rendez-vous : touchez les verres, comparez les profils"];
 let ENGAGEMENT = ENGAGEMENT_DEMO;
-const TARIFS = [{"a": "Verrière d'atelier (ml)", "p": "dès 900 €", "n": "Acier fin, vitrage clair, pose et finitions comprises."}, {"a": "Garde-corps verre (ml)", "p": "dès 650 €", "n": "Feuilleté trempé calculé, profil encastré aluminium."}, {"a": "Cloison toute hauteur (m²)", "p": "dès 320 €", "n": "Vitrage 10 mm, châssis discret, porte en option."}, {"a": "Étude + modélisation 3D", "p": "490 €", "n": "Note de calcul incluse, déduite à la commande."}];
+const TARIFS_DEMO = [{"a": "Verrière d'atelier (ml)", "p": "dès 900 €", "n": "Acier fin, vitrage clair, pose et finitions comprises."}, {"a": "Garde-corps verre (ml)", "p": "dès 650 €", "n": "Feuilleté trempé calculé, profil encastré aluminium."}, {"a": "Cloison toute hauteur (m²)", "p": "dès 320 €", "n": "Vitrage 10 mm, châssis discret, porte en option."}, {"a": "Étude + modélisation 3D", "p": "490 €", "n": "Note de calcul incluse, déduite à la commande."}];
+let TARIFS = TARIFS_DEMO;
 const AVIS_DEMO = [{"texte": "La verrière entre cuisine et séjour a doublé la lumière du rez-de-chaussée. Modélisée en 3D d'abord, posée en une journée, joints parfaits. Un travail d'orfèvre.", "auteur": "Maison particulière, Colmar", "detail": "Verrière d'atelier"}, {"texte": "En tant qu'architecte, je cherche des miroitiers qui calculent : notes de calcul propres, réservations anticipées, pose coordonnée sans friction. Verre & Lumière est sur tous mes projets.", "auteur": "Architecte DPLG, Mulhouse", "detail": "Partenariat architecte"}, {"texte": "Garde-corps de mezzanine sans un montant : le vide est apprivoisé, le séjour respire. Les visiteurs demandent toujours qui l'a fait.", "auteur": "Loft réhabilité, Sélestat", "detail": "Garde-corps verre"}];
 const STATS_DEMO = [{"value": "120+", "label": "Projets d'architectes livrés"}, {"value": "DTU 39", "label": "Calculs et conformité vitrage"}, {"value": "10 ans", "label": "Décennale sur les ouvrages"}, {"value": "3D", "label": "Chaque projet modélisé avant"}];
 let STATS = STATS_DEMO;
@@ -83,6 +84,10 @@ export default function VerreEtLumierePage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TARIFS = resolveList(
+    clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
+    TARIFS_DEMO,
+  );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;
@@ -155,7 +160,7 @@ export default function VerreEtLumierePage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} style={{ color: C.textMuted, fontSize: 14, fontWeight: 500, textDecoration: "none", padding: "12px 4px" }}>{l}</a>
           ))}
-          <motion.a href="tel:+33389000000" style={{ background: C.accent, color: "#101010", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
+          <motion.a href={`tel:${fd?.phone ?? "+33389000000"}`} style={{ background: C.accent, color: "#101010", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
             Projet sur mesure
           </motion.a>
         </div>
@@ -170,7 +175,7 @@ export default function VerreEtLumierePage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} onClick={() => setMobileOpen(false)} style={{ color: C.text, fontSize: 16, fontWeight: 500, textDecoration: "none", padding: "12px 0" }}>{l}</a>
           ))}
-          <a href="tel:+33389000000" style={{ background: C.accent, color: "#101010", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Projet sur mesure</a>
+          <a href={`tel:${fd?.phone ?? "+33389000000"}`} style={{ background: C.accent, color: "#101010", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Projet sur mesure</a>
         </div>
       )}
 

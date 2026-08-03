@@ -77,12 +77,13 @@ const ENGAGEMENT_DEMO = [
 ];
 let ENGAGEMENT = ENGAGEMENT_DEMO;
 
-const TARIFS = [
+const TARIFS_DEMO = [
   { a: "Obsèques avec crémation", p: "dès 2 890 €", n: "Cercueil chêne, transport, démarches, redevance de crémation incluse. Devis-type détaillé remis avant toute signature." },
   { a: "Obsèques avec inhumation", p: "dès 3 200 €", n: "Hors concession funéraire, dont le prix dépend de la commune. Le devis distingue prestations obligatoires et optionnelles." },
   { a: "Contrat de prévoyance", p: "dès 32 €/mois", n: "Capital garanti, volontés consignées. Souscription possible à tout âge, à l'agence ou à domicile." },
   { a: "Entretien de sépulture", p: "dès 90 €/an", n: "Nettoyage, fleurissement à la Toussaint, photo envoyée après chaque passage." },
 ];
+let TARIFS = TARIFS_DEMO;
 
 const AVIS_DEMO = [
   { texte: "Nous avons été reçus le soir même, sans précipitation. Chaque choix nous a été expliqué avec le prix en face. Personne n'a cherché à nous vendre quoi que ce soit de plus.", auteur: "Famille M.", detail: "Obsèques d'un père" },
@@ -136,6 +137,10 @@ export default function MaisonEstevePage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TARIFS = resolveList(
+    clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
+    TARIFS_DEMO,
+  );
   ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;
   if (brand) {

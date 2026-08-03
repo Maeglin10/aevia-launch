@@ -40,7 +40,8 @@ const SERVICES_DEMO = [{"titre": "Transport médical assis (TAP)", "desc": "Dial
 const METHODE = [{"n": "01", "t": "On cale vos trajets", "d": "Un appel pour poser les habitudes : jours, heures, adresses, particularités. Tout est écrit."}, {"n": "02", "t": "Confirmation la veille", "d": "SMS la veille au soir avec l'heure et le chauffeur. Pas de doute au réveil."}, {"n": "03", "t": "Le trajet, soigné", "d": "Ponctualité, aide à la montée, conduite souple : les habitués choisissent leur musique — ou le silence."}, {"n": "04", "t": "La facturation simple", "d": "Tiers payant pour le médical conventionné, facture mensuelle pour les abonnés, reçu immédiat sinon."}];
 const ENGAGEMENT_DEMO = ["Carte professionnelle VTC, entreprise au registre REVTC, assurance transport de personnes", "Conventionné transport assis (TAP) : le médical sur prescription, sans avance de frais", "Chauffeurs stables : vos trajets réguliers gardent le même visage", "SMS de confirmation la veille et d'arrivée à destination pour les proches qui s'inquiètent"];
 let ENGAGEMENT = ENGAGEMENT_DEMO;
-const TARIFS = [{"a": "Transport médical assis (TAP)", "p": "conventionné", "n": "Sur prescription médicale de transport — tiers payant, zéro avance."}, {"a": "Trajet en ville", "p": "dès 12 €", "n": "Prix ferme annoncé à la réservation, attente raisonnable incluse."}, {"a": "Abonnement hebdo (4 trajets)", "p": "dès 44 €/sem.", "n": "Mêmes trajets, même chauffeur, facturé au mois."}, {"a": "Gare de Rennes (départ 6h-8h)", "p": "18 €", "n": "Prise en charge à domicile, dépose au plus près du quai."}];
+const TARIFS_DEMO = [{"a": "Transport médical assis (TAP)", "p": "conventionné", "n": "Sur prescription médicale de transport — tiers payant, zéro avance."}, {"a": "Trajet en ville", "p": "dès 12 €", "n": "Prix ferme annoncé à la réservation, attente raisonnable incluse."}, {"a": "Abonnement hebdo (4 trajets)", "p": "dès 44 €/sem.", "n": "Mêmes trajets, même chauffeur, facturé au mois."}, {"a": "Gare de Rennes (départ 6h-8h)", "p": "18 €", "n": "Prise en charge à domicile, dépose au plus près du quai."}];
+let TARIFS = TARIFS_DEMO;
 const AVIS_DEMO = [{"texte": "Trois dialyses par semaine depuis un an : toujours à l'heure, toujours le même chauffeur, la prescription gérée avec la CPAM sans que je m'en occupe. Ce service tient ma semaine debout.", "auteur": "Gérard L., 71 ans", "detail": "Transport médical TAP"}, {"texte": "Ma fille va au conservatoire le mercredi avec Cap Chauffeur depuis deux ans. SMS au départ, SMS à l'arrivée : je travaille tranquille, elle est autonome en sécurité.", "auteur": "Maman de Jeanne, 11 ans", "detail": "Abonnement famille"}, {"texte": "TGV de 6h38 tous les lundis : le chauffeur sonne à 6h05, le café est encore chaud à Montparnasse. La régularité parfaite, sans y penser.", "auteur": "Consultant rennais", "detail": "Abonnement gare"}];
 const STATS_DEMO = [{"value": "TAP", "label": "Transport médical assis conventionné"}, {"value": "6h", "label": "Premières prises en charge"}, {"value": "180+", "label": "Abonnés réguliers"}, {"value": "100 %", "label": "De courses confirmées la veille"}];
 let STATS = STATS_DEMO;
@@ -83,6 +84,10 @@ export default function CapChauffeurPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TARIFS = resolveList(
+    clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
+    TARIFS_DEMO,
+  );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;
@@ -154,7 +159,7 @@ export default function CapChauffeurPage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} style={{ color: C.textMuted, fontSize: 14, fontWeight: 500, textDecoration: "none", padding: "12px 4px" }}>{l}</a>
           ))}
-          <motion.a href="tel:+33299000001" style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
+          <motion.a href={`tel:${fd?.phone ?? "+33299000001"}`} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
             Réserver
           </motion.a>
         </div>
@@ -169,7 +174,7 @@ export default function CapChauffeurPage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} onClick={() => setMobileOpen(false)} style={{ color: C.text, fontSize: 16, fontWeight: 500, textDecoration: "none", padding: "12px 0" }}>{l}</a>
           ))}
-          <a href="tel:+33299000001" style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Réserver</a>
+          <a href={`tel:${fd?.phone ?? "+33299000001"}`} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Réserver</a>
         </div>
       )}
 

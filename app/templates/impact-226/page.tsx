@@ -63,7 +63,7 @@ const GALERIE = [
   { t: "Reprise de vieux tatouage", s: "Cover-up", d: "Ce qui est possible et ce qui ne l'est pas, dit franchement au premier rendez-vous. Parfois la réponse est un détatouage d'abord." },
 ];
 
-const TARIFS = [
+const TARIFS_DEMO = [
   { a: "Minimum boutique", p: "80 €", n: "En dessous, le temps de préparation et de stérilisation coûte plus que la pièce." },
   { a: "Petite pièce (moins de 8 cm)", p: "80 — 150 €", n: "Une séance, dessin compris. Devis ferme donné au rendez-vous." },
   { a: "Demi-journée (3 h)", p: "330 €", n: "Le format le plus économique pour une pièce moyenne." },
@@ -71,6 +71,7 @@ const TARIFS = [
   { a: "Acompte de réservation", p: "60 €", n: "Déduit du total. Non remboursable en cas d'annulation à moins de 48 h." },
   { a: "Retouche à 3 mois", p: "offerte", n: "Une fois, sur la même pièce, si la cicatrisation a été suivie." },
 ];
+let TARIFS = TARIFS_DEMO;
 
 const STYLES_DEMO = [
   { titre: "Blackwork & fine line", desc: "Traits fins, géométrie, mandala, ornements. Technique maîtrisée pour des tracés chirurgicaux durables sur toutes carnations.", tag: "Blackwork" },
@@ -298,6 +299,10 @@ export default function EncreNoirePage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TARIFS = resolveList(
+    clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
+    TARIFS_DEMO,
+  );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {

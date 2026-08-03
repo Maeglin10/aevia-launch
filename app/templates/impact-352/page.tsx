@@ -40,7 +40,8 @@ const SERVICES_DEMO = [{"titre": "Toitures de bâti ancien", "desc": "Ardoise cl
 const METHODE = [{"n": "01", "t": "Relevé de l'existant", "d": "Photos, calepinage, sondages : le toit est documenté avant qu'une seule ardoise ne bouge."}, {"n": "02", "t": "Dossier et autorisations", "d": "Déclaration préalable, dossier ABF si secteur protégé : nous préparons, vous signez."}, {"n": "03", "t": "Chantier à l'ancienne", "d": "Matériaux sourcés (ardoise d'Angers, zinc naturel), gestes traditionnels, compagnons formés au bâti ancien."}, {"n": "04", "t": "Carnet de toiture remis", "d": "Photos avant/pendant/après, matériaux utilisés, conseils d'entretien : le carnet suit la maison."}];
 const ENGAGEMENT_DEMO = ["Qualibat 3231 « patrimoine bâti » — au-delà de la couverture courante", "Garantie décennale, assurance spécifique monuments et bâtiments classés", "Matériaux d'origine française sourcés et documentés sur facture", "Un compagnon référent par chantier, joignable directement"];
 let ENGAGEMENT = ENGAGEMENT_DEMO;
-const TARIFS = [{"a": "Restauration ardoise clouée", "p": "180–260 €/m²", "n": "Dépose soignée, tri des ardoises réutilisables, pose au clou cuivre."}, {"a": "Épi de faîtage restauré", "p": "dès 480 €", "n": "Repose comprise ; création au modèle sur devis."}, {"a": "Lucarne normande restaurée", "p": "dès 3 200 €", "n": "Couverture, joues et membrons, fenêtre en option."}, {"a": "Diagnostic patrimonial complet", "p": "390 €", "n": "Rapport photo et plan d'entretien sur 10 ans, déduit si chantier."}];
+const TARIFS_DEMO = [{"a": "Restauration ardoise clouée", "p": "180–260 €/m²", "n": "Dépose soignée, tri des ardoises réutilisables, pose au clou cuivre."}, {"a": "Épi de faîtage restauré", "p": "dès 480 €", "n": "Repose comprise ; création au modèle sur devis."}, {"a": "Lucarne normande restaurée", "p": "dès 3 200 €", "n": "Couverture, joues et membrons, fenêtre en option."}, {"a": "Diagnostic patrimonial complet", "p": "390 €", "n": "Rapport photo et plan d'entretien sur 10 ans, déduit si chantier."}];
+let TARIFS = TARIFS_DEMO;
 const AVIS_DEMO = [{"texte": "Notre maison à pans de bois du XVIIe attendait des mains comme celles-ci : l'ABF a validé le dossier sans réserve, le toit est magnifique et juste.", "auteur": "M. et Mme d'Argentré", "detail": "Restauration complète — secteur sauvegardé"}, {"texte": "L'épi de faîtage de la longère refait au modèle exact de l'ancien, photos à l'appui. Le carnet de toiture remis en fin de chantier est une idée précieuse.", "auteur": "Isabelle V.", "detail": "Zinguerie d'ornement"}, {"texte": "Diagnostic honnête : rien d'urgent, un plan d'entretien sur dix ans, et 390 € au lieu du chantier à 60 000 qu'un autre voulait nous vendre.", "auteur": "Antoine R.", "detail": "Diagnostic patrimonial"}];
 const STATS_DEMO = [{"value": "XVIIe", "label": "Le plus ancien toit restauré"}, {"value": "3231", "label": "Qualibat patrimoine bâti"}, {"value": "60+", "label": "Bâtiments classés ou inscrits couverts"}, {"value": "10 ans", "label": "Décennale sur chaque chantier"}];
 let STATS = STATS_DEMO;
@@ -83,6 +84,10 @@ export default function ZincEtArdoisePage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TARIFS = resolveList(
+    clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
+    TARIFS_DEMO,
+  );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;
@@ -154,7 +159,7 @@ export default function ZincEtArdoisePage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} style={{ color: C.textMuted, fontSize: 14, fontWeight: 500, textDecoration: "none", padding: "12px 4px" }}>{l}</a>
           ))}
-          <motion.a href="tel:+33235000000" style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
+          <motion.a href={`tel:${fd?.phone ?? "+33235000000"}`} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
             Diagnostic patrimoine
           </motion.a>
         </div>
@@ -169,7 +174,7 @@ export default function ZincEtArdoisePage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} onClick={() => setMobileOpen(false)} style={{ color: C.text, fontSize: 16, fontWeight: 500, textDecoration: "none", padding: "12px 0" }}>{l}</a>
           ))}
-          <a href="tel:+33235000000" style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Diagnostic patrimoine</a>
+          <a href={`tel:${fd?.phone ?? "+33235000000"}`} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Diagnostic patrimoine</a>
         </div>
       )}
 

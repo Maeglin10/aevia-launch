@@ -93,12 +93,13 @@ const ENGAGEMENT_DEMO = [
 ];
 let ENGAGEMENT = ENGAGEMENT_DEMO;
 
-const TARIFS = [
+const TARIFS_DEMO = [
   { a: "Cuisine complète posée", p: "dès 8 900 €", n: "Caissons, façades, plan de travail, pose et raccordements. Électroménager en sus selon votre sélection." },
   { a: "Dressing sur mesure", p: "dès 2 400 €", n: "Toute hauteur, aménagements intérieurs et pose comprise." },
   { a: "Bibliothèque / meuble TV", p: "dès 1 900 €", n: "Sur mesure au millimètre, dans l'essence de votre choix." },
   { a: "Étude & plans 3D", p: "offerte", n: "Déduite intégralement à la commande. Facturée 290 € si le projet ne se fait pas — remboursée si vous commandez." },
 ];
+let TARIFS = TARIFS_DEMO;
 
 const AVIS_DEMO = [
   { texte: "Le devis ferme change tout : pas une ligne n'a bougé entre la signature et la facture. La cuisine a été posée en deux jours et demi, plan céramique ajusté au millimètre autour d'un mur qui n'était pas droit.", auteur: "Camille & Hugo T.", detail: "Cuisine îlot, Lyon 6e" },
@@ -143,6 +144,10 @@ export default function LignesEtBoisPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TARIFS = resolveList(
+    clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
+    TARIFS_DEMO,
+  );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;

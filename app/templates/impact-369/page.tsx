@@ -40,7 +40,8 @@ const SERVICES_DEMO = [{"titre": "La grande salle", "desc": "320 m² de tuffeau 
 const METHODE = [{"n": "01", "t": "La visite", "d": "Une heure trente, aux heures où VOTRE événement vivra : la lumière du parc à 18 h ne se raconte pas."}, {"n": "02", "t": "L'option posée", "d": "Date bloquée gratuitement 15 jours, devis détaillé espace par espace — pas de forfait opaque."}, {"n": "03", "t": "La préparation cadrée", "d": "Deux rendez-vous techniques, plan d'implantation, fiche prestataires : tout est écrit avant le jour J."}, {"n": "04", "t": "Le jour, orchestré", "d": "L'intendante gère les arrivées, le timing, les imprévus. Le domaine est à vous jusqu'au lendemain 15 h."}];
 const ENGAGEMENT_DEMO = ["ERP de 5e catégorie contrôlé : commission de sécurité, accessibilité PMR", "Un seul événement à la fois — jamais deux mariages qui s'entendent chanter", "Sonorisation extérieure limitée à 22 h, salle insonorisée jusqu'à l'aube : les voisins et la fête coexistent", "Assurance RC organisateur exigée et vérifiée — protection de tous"];
 let ENGAGEMENT = ENGAGEMENT_DEMO;
-const TARIFS = [{"a": "Mariage — samedi haute saison", "p": "6 900 €", "n": "Du vendredi 14 h au dimanche 15 h : salle, parc, chambres, intendante."}, {"a": "Mariage — vendredi ou hors saison", "p": "4 900 €", "n": "Mêmes prestations, dates d'octobre à avril ou vendredis d'été."}, {"a": "Séminaire journée (< 80 pers.)", "p": "1 900 €", "n": "Salle plénière, 2 salles annexes, parc, café d'accueil compris."}, {"a": "Grande tablée familiale (< 60)", "p": "2 400 €", "n": "Anniversaires, noces d'or : la salle des dépendances et la terrasse."}];
+const TARIFS_DEMO = [{"a": "Mariage — samedi haute saison", "p": "6 900 €", "n": "Du vendredi 14 h au dimanche 15 h : salle, parc, chambres, intendante."}, {"a": "Mariage — vendredi ou hors saison", "p": "4 900 €", "n": "Mêmes prestations, dates d'octobre à avril ou vendredis d'été."}, {"a": "Séminaire journée (< 80 pers.)", "p": "1 900 €", "n": "Salle plénière, 2 salles annexes, parc, café d'accueil compris."}, {"a": "Grande tablée familiale (< 60)", "p": "2 400 €", "n": "Anniversaires, noces d'or : la salle des dépendances et la terrasse."}];
+let TARIFS = TARIFS_DEMO;
 const AVIS_DEMO = [{"texte": "Le domaine entier à nous du vendredi au dimanche : la cérémonie sous les charmes, la fête jusqu'à 4 h sans un voisin fâché, le brunch en peignoir. Exactement le mariage qu'on voulait.", "auteur": "Camille & Antoine", "detail": "Mariage — juin 2026"}, {"texte": "L'intendante du jour J vaut de l'or : un prestataire en retard, une averse surprise — nous n'avons rien su de tout ça avant le lendemain.", "auteur": "Les mariés de septembre", "detail": "Coordination jour J"}, {"texte": "Séminaire stratégique de deux jours : équipes logées sur place, sessions dans les dépendances, soirée au parc. Le cadre a fait la moitié du travail de cohésion.", "auteur": "DG, scale-up tourangelle", "detail": "Séminaire résidentiel"}];
 const STATS_DEMO = [{"value": "220", "label": "Convives assis en salle"}, {"value": "4 ha", "label": "De parc clos"}, {"value": "12", "label": "Chambres sur place"}, {"value": "1", "label": "Seul événement à la fois"}];
 let STATS = STATS_DEMO;
@@ -83,6 +84,10 @@ export default function DomaineCharmillesPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TARIFS = resolveList(
+    clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
+    TARIFS_DEMO,
+  );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;
@@ -155,7 +160,7 @@ export default function DomaineCharmillesPage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} style={{ color: C.textMuted, fontSize: 14, fontWeight: 500, textDecoration: "none", padding: "12px 4px" }}>{l}</a>
           ))}
-          <motion.a href="tel:+33247000001" style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
+          <motion.a href={`tel:${fd?.phone ?? "+33247000001"}`} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
             Réserver une visite
           </motion.a>
         </div>
@@ -170,7 +175,7 @@ export default function DomaineCharmillesPage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} onClick={() => setMobileOpen(false)} style={{ color: C.text, fontSize: 16, fontWeight: 500, textDecoration: "none", padding: "12px 0" }}>{l}</a>
           ))}
-          <a href="tel:+33247000001" style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Réserver une visite</a>
+          <a href={`tel:${fd?.phone ?? "+33247000001"}`} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Réserver une visite</a>
         </div>
       )}
 

@@ -40,7 +40,8 @@ const SERVICES_DEMO = [{"titre": "Code de la route", "desc": "Salle connectée +
 const METHODE = [{"n": "01", "t": "Évaluation honnête", "d": "45 minutes offertes pour estimer votre volume d'heures réel — écrit sur le contrat, pas révisé à la hausse en cours de route."}, {"n": "02", "t": "Un moniteur référent", "d": "Le même moniteur vous suit ; les étapes du livret sont validées ensemble, jamais subies."}, {"n": "03", "t": "Simulateur d'examen", "d": "Deux passages blancs dans les conditions réelles, sur les parcours d'examen de Toulouse."}, {"n": "04", "t": "Présentation quand c'est prêt", "d": "On ne présente pas pour libérer un créneau : on présente quand les compétences sont validées. C'est ça, 78 %."}];
 const ENGAGEMENT_DEMO = ["Agrément préfectoral E 26 031 0042 0 — moniteurs titulaires du Titre Pro ECSR", "Label « qualité des formations au sein des écoles de conduite » : taux de réussite affichés", "Contrat écrit : volume estimé, prix des heures supplémentaires identique au forfait", "Éligible CPF et permis à 1 €/jour — dossiers montés par le secrétariat"];
 let ENGAGEMENT = ENGAGEMENT_DEMO;
-const TARIFS = [{"a": "Code (salle + appli illimitées)", "p": "290 €", "n": "Jusqu'à réussite, séances thématiques avec moniteur incluses."}, {"a": "Forfait 20 h — permis B", "p": "1 390 €", "n": "Évaluation offerte, livret numérique, 2 examens blancs, présentation incluse."}, {"a": "Conduite accompagnée (AAC)", "p": "1 490 €", "n": "Formation initiale + 2 rendez-vous pédagogiques obligatoires inclus."}, {"a": "Heure supplémentaire", "p": "46 €", "n": "Le même prix qu'au forfait — comparez, c'est rare."}];
+const TARIFS_DEMO = [{"a": "Code (salle + appli illimitées)", "p": "290 €", "n": "Jusqu'à réussite, séances thématiques avec moniteur incluses."}, {"a": "Forfait 20 h — permis B", "p": "1 390 €", "n": "Évaluation offerte, livret numérique, 2 examens blancs, présentation incluse."}, {"a": "Conduite accompagnée (AAC)", "p": "1 490 €", "n": "Formation initiale + 2 rendez-vous pédagogiques obligatoires inclus."}, {"a": "Heure supplémentaire", "p": "46 €", "n": "Le même prix qu'au forfait — comparez, c'est rare."}];
+let TARIFS = TARIFS_DEMO;
 const AVIS_DEMO = [{"texte": "Deux échecs dans une autre auto-école, la boule au ventre à chaque leçon. Ici, mon moniteur n'a jamais élevé la voix. Permis au premier passage avec eux.", "auteur": "Léa G., 24 ans", "detail": "Reprise après échecs"}, {"texte": "Mon fils en conduite accompagnée : les deux rendez-vous pédagogiques nous ont appris, à nous parents, comment accompagner sans crisper. Reçu à 18 ans et 2 semaines.", "auteur": "Père d'Enzo, AAC", "detail": "Conduite accompagnée"}, {"texte": "Dossier CPF monté par le secrétariat en dix minutes. L'évaluation avait dit 28 h : il m'en a fallu 28. Personne n'a essayé de m'en vendre 40.", "auteur": "Karim T., 31 ans", "detail": "Permis B — CPF"}];
 const STATS_DEMO = [{"value": "78 %", "label": "Réussite au 1er passage (B)"}, {"value": "12", "label": "Moniteurs diplômés d'État"}, {"value": "6", "label": "Voitures de moins de 3 ans"}, {"value": "0 €", "label": "Frais de dossier cachés"}];
 let STATS = STATS_DEMO;
@@ -83,6 +84,10 @@ export default function ConduiteZeroStressPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TARIFS = resolveList(
+    clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
+    TARIFS_DEMO,
+  );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;
@@ -155,7 +160,7 @@ export default function ConduiteZeroStressPage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} style={{ color: C.textMuted, fontSize: 14, fontWeight: 500, textDecoration: "none", padding: "12px 4px" }}>{l}</a>
           ))}
-          <motion.a href="tel:+33561000000" style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
+          <motion.a href={`tel:${fd?.phone ?? "+33561000000"}`} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
             Évaluation offerte
           </motion.a>
         </div>
@@ -170,7 +175,7 @@ export default function ConduiteZeroStressPage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} onClick={() => setMobileOpen(false)} style={{ color: C.text, fontSize: 16, fontWeight: 500, textDecoration: "none", padding: "12px 0" }}>{l}</a>
           ))}
-          <a href="tel:+33561000000" style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Évaluation offerte</a>
+          <a href={`tel:${fd?.phone ?? "+33561000000"}`} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Évaluation offerte</a>
         </div>
       )}
 

@@ -40,7 +40,8 @@ const SERVICES_DEMO = [{"titre": "Ordonnances & renouvellements", "desc": "Prép
 const METHODE = [{"n": "01", "t": "Horaires étendus", "d": "Lun–Sam 8h30–19h30 sans interruption, sous l'horloge de la Grande Rue."}, {"n": "02", "t": "Comptoir ordonnances", "d": "File dédiée aux ordonnances préparées : moins de cinq minutes, mesuré chaque mois."}, {"n": "03", "t": "Accès et parking", "d": "Arrêt de tram à 50 m, parking Saint-Pierre gratuit 30 minutes avec validation."}, {"n": "04", "t": "Garde et urgences", "d": "En dehors de nos horaires, composez le 3237 pour la pharmacie de garde, le 15 pour le SAMU."}];
 const ENGAGEMENT_DEMO = ["Inscrite à l'Ordre national des pharmaciens — licence n° 25#002214", "Un pharmacien diplômé d'État présent à chaque heure d'ouverture", "Tiers payant carte Vitale + mutuelle : aucune avance de frais", "Secret professionnel au comptoir : un espace de confidentialité dédié"];
 let ENGAGEMENT = ENGAGEMENT_DEMO;
-const TARIFS = [{"a": "Vaccination grippe", "p": "prise en charge", "n": "Sur bon de l'Assurance Maladie pour les publics éligibles ; sinon vaccin + injection au tarif affiché."}, {"a": "Entretien pharmaceutique", "p": "remboursé", "n": "Asthme, AVK, anticancéreux oraux : pris en charge à 100 % par l'Assurance Maladie."}, {"a": "Location lit médicalisé", "p": "tarif LPP", "n": "Tiers payant intégral sur ordonnance, livraison et installation comprises."}, {"a": "Test angine (TROD)", "p": "pris en charge", "n": "Sur orientation ou sans ordonnance selon votre situation — résultat en 10 minutes."}];
+const TARIFS_DEMO = [{"a": "Vaccination grippe", "p": "prise en charge", "n": "Sur bon de l'Assurance Maladie pour les publics éligibles ; sinon vaccin + injection au tarif affiché."}, {"a": "Entretien pharmaceutique", "p": "remboursé", "n": "Asthme, AVK, anticancéreux oraux : pris en charge à 100 % par l'Assurance Maladie."}, {"a": "Location lit médicalisé", "p": "tarif LPP", "n": "Tiers payant intégral sur ordonnance, livraison et installation comprises."}, {"a": "Test angine (TROD)", "p": "pris en charge", "n": "Sur orientation ou sans ordonnance selon votre situation — résultat en 10 minutes."}];
+let TARIFS = TARIFS_DEMO;
 const AVIS_DEMO = [{"texte": "Le traitement de mon père fait onze lignes. Je l'envoie par mail, tout est prêt, vérifié, et la pharmacienne m'a signalé une interaction que l'hôpital avait ratée.", "auteur": "Sylvie R.", "detail": "Renouvellement chronique"}, {"texte": "Vaccinée un samedi matin en cinq minutes, rappel dTP vérifié au passage. C'est exactement ce qu'on attend d'une pharmacie de quartier.", "auteur": "Inès K.", "detail": "Vaccination"}, {"texte": "Lit médicalisé livré et installé en 24 h pour mon mari, tiers payant complet, explications posées. Merci pour l'humanité.", "auteur": "Colette D.", "detail": "Matériel médical"}];
 const STATS_DEMO = [{"value": "2 h", "label": "Ordonnance préparée"}, {"value": "6 j/7", "label": "Sans interruption"}, {"value": "0 €", "label": "D'avance de frais"}, {"value": "5", "label": "Pharmaciens diplômés"}];
 let STATS = STATS_DEMO;
@@ -83,6 +84,10 @@ export default function PharmacieHorlogePage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TARIFS = resolveList(
+    clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
+    TARIFS_DEMO,
+  );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;
@@ -154,7 +159,7 @@ export default function PharmacieHorlogePage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} style={{ color: C.textMuted, fontSize: 14, fontWeight: 500, textDecoration: "none", padding: "12px 4px" }}>{l}</a>
           ))}
-          <motion.a href="mailto:ordonnances@pharmacie-horloge.fr" style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
+          <motion.a href={`mailto:${fd?.email ?? "ordonnances@pharmacie-horloge.fr"}`} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
             Envoyer mon ordonnance
           </motion.a>
         </div>
@@ -169,7 +174,7 @@ export default function PharmacieHorlogePage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} onClick={() => setMobileOpen(false)} style={{ color: C.text, fontSize: 16, fontWeight: 500, textDecoration: "none", padding: "12px 0" }}>{l}</a>
           ))}
-          <a href="mailto:ordonnances@pharmacie-horloge.fr" style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Envoyer mon ordonnance</a>
+          <a href={`mailto:${fd?.email ?? "ordonnances@pharmacie-horloge.fr"}`} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Envoyer mon ordonnance</a>
         </div>
       )}
 
