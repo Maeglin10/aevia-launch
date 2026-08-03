@@ -1,4 +1,5 @@
 "use client";
+import { tr } from "@/lib/templates/uiStrings";
 // @ts-nocheck
 
 import React, { useState, useEffect } from "react"
@@ -400,7 +401,7 @@ return (
                         padding: 0,
                       }}
                     >
-                      Learn more <ArrowRight size={14} />
+                      {tr({ formData: fd }, "Learn more")} <ArrowRight size={14} />
                     </span>
                   </Link>
                 </div>

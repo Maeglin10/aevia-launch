@@ -1,4 +1,5 @@
 "use client";
+import { tr } from "@/lib/templates/uiStrings";
 // @ts-nocheck
 
 import React, { useRef, useState, useEffect } from 'react';
@@ -401,7 +402,7 @@ export default function Page() {
           </a>
 
           <div style={{ gap: 28, alignItems: 'center' }} className="hidden md:flex">
-            <a href="#services" style={{ textDecoration: 'none', color: C.text, fontSize: 13, letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 500 }}>Services</a>
+            <a href="#services" style={{ textDecoration: 'none', color: C.text, fontSize: 13, letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 500 }}>{tr(sessionData, "Services")}</a>
             <a href="#formules" style={{ textDecoration: 'none', color: C.text, fontSize: 13, letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 500 }}>Formules</a>
             <a href="#avis" style={{ textDecoration: 'none', color: C.text, fontSize: 13, letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 500 }}>Avis</a>
             <a href="#contact" style={{ textDecoration: 'none' }}>
@@ -442,7 +443,7 @@ export default function Page() {
               className="md:hidden"
             >
               <div style={{ display: 'flex', flexDirection: 'column', gap: 20, padding: 24 }}>
-                <a href="#services" onClick={() => setMobileMenuOpen(false)} style={{ textDecoration: 'none', color: C.text, fontSize: 14, textTransform: 'uppercase', fontWeight: 600 }}>Services</a>
+                <a href="#services" onClick={() => setMobileMenuOpen(false)} style={{ textDecoration: 'none', color: C.text, fontSize: 14, textTransform: 'uppercase', fontWeight: 600 }}>{tr(sessionData, "Services")}</a>
                 <a href="#formules" onClick={() => setMobileMenuOpen(false)} style={{ textDecoration: 'none', color: C.text, fontSize: 14, textTransform: 'uppercase', fontWeight: 600 }}>Formules</a>
                 <a href="#avis" onClick={() => setMobileMenuOpen(false)} style={{ textDecoration: 'none', color: C.text, fontSize: 14, textTransform: 'uppercase', fontWeight: 600 }}>Avis</a>
                 <a href="#contact" onClick={() => setMobileMenuOpen(false)} style={{ textDecoration: 'none' }}>
@@ -1361,7 +1362,7 @@ export default function Page() {
             <div>
               <h5 style={{ fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', color: C.primary, marginBottom: 16, fontWeight: 700 }}>Navigation</h5>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-                <a href="#services" style={{ textDecoration: 'none', color: 'inherit' }}>Services</a>
+                <a href="#services" style={{ textDecoration: 'none', color: 'inherit' }}>{tr(sessionData, "Services")}</a>
                 <a href="#formules" style={{ textDecoration: 'none', color: 'inherit' }}>Formules</a>
                 <a href="#avis" style={{ textDecoration: 'none', color: 'inherit' }}>Avis clients</a>
                 <a href="#contact" style={{ textDecoration: 'none', color: 'inherit' }}>Réservation</a>

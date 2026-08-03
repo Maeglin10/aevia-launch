@@ -1,4 +1,5 @@
 "use client";
+import { tr } from "@/lib/templates/uiStrings";
 // @ts-nocheck
 import { motion, useScroll, useTransform, useInView, AnimatePresence, useSpring, useMotionValue } from "framer-motion"
 import { useState, useRef, useEffect } from "react"
@@ -548,7 +549,7 @@ export default function MorphStudioPage() {
               <li><Link href="#contact" className="hover:text-white transition-colors">Transmission</Link></li>
               <li><Link href="#contact" className="hover:text-white transition-colors">Careers</Link></li>
               <li><Link href="#contact" className="hover:text-white transition-colors">Privacy</Link></li>
-              <li><Link href="#contact" className="hover:text-white transition-colors">Terms</Link></li>
+              <li><Link href="#contact" className="hover:text-white transition-colors">{tr(sessionData, "Terms")}</Link></li>
             </ul>
           </div>
         </div>

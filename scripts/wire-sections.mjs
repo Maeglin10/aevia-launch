@@ -151,8 +151,10 @@ for (const id of fs.readdirSync(ROOT).filter((d) => d.startsWith("impact-"))) {
       un import multiligne commence par une ligne qui ressemble à un import
       complet, et s'y insérer coupe la déclaration en deux.
     */
-    const dir = /^("use client";|'use client';)\n/.exec(src);
-    const at = dir ? dir[0].length : 0;
+    // La directive n'est pas toujours le premier caractère du fichier : certains
+    // thèmes ont une ligne vide ou un commentaire avant elle. On la cherche.
+    const dir = /(^|\n)\s*("use client";|'use client';)[^\n]*\n/.exec(src);
+    const at = dir ? dir.index + dir[0].length : 0;
     src =
       src.slice(0, at) +
       `import { resolveList } from "@/lib/templates/resolveList";\n` +

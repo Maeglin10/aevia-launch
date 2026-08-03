@@ -1,4 +1,5 @@
 "use client";
+import { tr } from "@/lib/templates/uiStrings";
 // @ts-nocheck
 import { motion, useScroll, useTransform, useInView, AnimatePresence, useMotionValue, useSpring } from "framer-motion"
 import { useState, useRef, useEffect } from "react"
@@ -251,7 +252,7 @@ export default function KineticStudio() {
 
       <section id="hero" className="py-24 px-6 md:px-12">
         <Reveal>
-          <h2 className="text-5xl font-light mb-12" style={{color: brand ?? 'var(--brand,#ff5500)' }}>Our Services</h2>
+          <h2 className="text-5xl font-light mb-12" style={{color: brand ?? 'var(--brand,#ff5500)' }}>{tr(sessionData, "Our Services")}</h2>
         </Reveal>
         <Tabs defaultValue={SERVICES[0]?.name} className="w-full">
           {/* six fixed columns squeezed the labels into ~60px on a phone and
@@ -410,7 +411,7 @@ export default function KineticStudio() {
 
       <section className="py-24 px-6 md:px-12">
         <Reveal>
-          <h2 className="text-5xl font-light mb-12" style={{color: brand ?? 'var(--brand,#ff5500)' }}>{c?.aboutTitle ?? fd?.businessName ?? <>Testimonials</>}</h2>
+          <h2 className="text-5xl font-light mb-12" style={{color: brand ?? 'var(--brand,#ff5500)' }}>{c?.aboutTitle ?? fd?.businessName ?? <>{tr(sessionData, "Testimonials")}</>}</h2>
         </Reveal>
         <Carousel className="w-full max-w-4xl mx-auto">
           <CarouselContent>
@@ -643,7 +644,7 @@ export default function KineticStudio() {
 
       <section id="get-in-touch" className="py-24 px-6 md:px-12 bg-[#1a1a2e]">
         <Reveal>
-          <h2 className="text-5xl font-light mb-12" style={{color: brand ?? 'var(--brand,#ff5500)' }}>Get In Touch</h2>
+          <h2 className="text-5xl font-light mb-12" style={{color: brand ?? 'var(--brand,#ff5500)' }}>{tr(sessionData, "Get In Touch")}</h2>
         </Reveal>
         <div className="max-w-2xl mx-auto text-center">
           <p className="text-lg text-white/70 mb-8">Let's collaborate on your next project. Reach out to discuss your creative vision.</p>
@@ -671,7 +672,7 @@ export default function KineticStudio() {
         <div className="text-center">
           <p className="text-lg text-white/70 mb-8">Bring your brand story to life with cutting-edge motion design and animation</p>
           <MagneticBtn className="px-12 py-4 rounded-lg font-light text-black transition-colors" style={{backgroundColor: brand ?? 'var(--brand,#ff5500)' }}>
-            Get in Touch
+            {tr(sessionData, "Get in Touch")}
           </MagneticBtn>
         </div>
       </section>

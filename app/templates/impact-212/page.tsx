@@ -1,4 +1,5 @@
 "use client";
+import { tr } from "@/lib/templates/uiStrings";
 // @ts-nocheck
 
 import { useRef, useState, useEffect } from 'react';
@@ -1646,7 +1647,7 @@ return (
             {/* Services */}
             <div>
               <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 16, fontWeight: 700, color: C.white, marginBottom: '1.25rem', letterSpacing: '0.04em' }}>
-                Services
+                {tr(sessionData, "Services")}
               </div>
               {['Chaudières gaz & fuel', 'Pompes à chaleur', 'Climatisation', 'Plancher chauffant', 'Entretien annuel', 'Urgences 24/7'].map(s => (
                 <div key={s} style={{ marginBottom: 9 }}>

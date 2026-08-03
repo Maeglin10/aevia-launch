@@ -1,4 +1,5 @@
 "use client";
+import { tr } from "@/lib/templates/uiStrings";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 // @ts-nocheck
 
@@ -2115,7 +2116,7 @@ function ServicesPage({ goTo }: { goTo: (p: HotelPage) => void }) {
               onClick={() => goTo('contact')}
               style={{ fontFamily: SANS, fontSize: '0.7rem', letterSpacing: '0.18em', textTransform: 'uppercase', background: DARK, color: CREAM, border: 'none', padding: '1rem 2.5rem', cursor: 'pointer', flexShrink: 0 }}
             >
-              Contact Us
+              {tr(sessionData, "Contact Us")}
             </button>
           </div>
         </div>

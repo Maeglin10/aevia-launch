@@ -1,4 +1,5 @@
 "use client";
+import { tr } from "@/lib/templates/uiStrings";
 // @ts-nocheck
 
 import React, {useRef, useState, useEffect} from 'react';
@@ -280,7 +281,7 @@ return (
         <div style={{ maxWidth: "1280px", margin: "0 auto" }}>
           <div style={{ marginBottom: "5rem" }}>
             <SectionLabel>WHAT WE DO</SectionLabel>
-            <SectionHeading>SERVICES</SectionHeading>
+            <SectionHeading>{tr({ formData: fd }, "SERVICES")}</SectionHeading>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(320px, 100%), 1fr))", gap: "2px", background: C.dim }}>
             {[

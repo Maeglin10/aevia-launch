@@ -1,4 +1,5 @@
 "use client";
+import { tr } from "@/lib/templates/uiStrings";
 // @ts-nocheck
 import { motion, useScroll, useTransform, useInView } from "framer-motion"
 import { useRef, useState, useEffect } from "react"
@@ -395,7 +396,7 @@ export default function ApexFitnessPage() {
           <div className="max-w-[1200px] mx-auto px-6 md:px-12">
             <Reveal>
               <div className="text-center mb-24">
-                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#a3e635)] block mb-4">Reviews</span>
+                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#a3e635)] block mb-4">{tr(sessionData, "Reviews")}</span>
                 <h2 className="text-5xl md:text-6xl font-black tracking-tighter uppercase">What Our Members <span className="text-[var(--brand,#84cc16)]">Say.</span></h2>
               </div>
             </Reveal>

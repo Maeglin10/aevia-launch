@@ -1,4 +1,5 @@
 "use client";
+import { tr } from "@/lib/templates/uiStrings";
 // @ts-nocheck
 
 import React, { useState, useEffect, useRef, useCallback, useContext, createContext } from "react"
@@ -965,7 +966,7 @@ function ServicesSection() {
               className="text-[11px] font-[600] uppercase tracking-[0.35em] text-[var(--brand,#ec4899)] mb-4"
               style={{ fontFamily: "'Inter', sans-serif" }}
             >
-              Services
+              {tr(sessionData, "Services")}
             </p>
             <h2
               className="text-[clamp(36px,5vw,64px)] font-[700] italic text-[var(--brand-light,#831843)] leading-[1.05]"

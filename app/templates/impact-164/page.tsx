@@ -1,4 +1,5 @@
 "use client";
+import { tr } from "@/lib/templates/uiStrings";
 import { resolveList } from "@/lib/templates/resolveList";
 // @ts-nocheck
 
@@ -604,7 +605,7 @@ return (
       <section id="services" style={{ borderBottom: `2px solid ${C.bgDark}` }}>
         <div style={{ padding: "80px 64px 40px", display: "flex", justifyContent: "space-between", alignItems: "flex-end", borderBottom: `2px solid ${C.bgDark}` }}>
           <div style={{ fontSize: "clamp(36px, 5.5vw, 72px)", fontWeight: 900, letterSpacing: "-2px", lineHeight: 1 }}>
-            SERVICES
+            {tr({ formData: fd }, "SERVICES")}
           </div>
           <div style={{ fontFamily: C.mono, fontSize: 10, letterSpacing: 4, color: C.textMuted, textTransform: "uppercase" }}>
             06 DISCIPLINES
@@ -823,7 +824,7 @@ return (
       {/* PRICING */}
       <section ref={pricingRef} id="tarifs" style={{ borderBottom: `2px solid ${C.bgDark}`, background: C.bg }}>
         <div style={{ padding: "80px 64px 60px", display: "flex", justifyContent: "space-between", alignItems: "flex-end", borderBottom: `2px solid ${C.bgDark}` }}>
-          <div style={{ fontSize: "clamp(36px, 5.5vw, 72px)", fontWeight: 900, letterSpacing: "-2px" }}>PRICING</div>
+          <div style={{ fontSize: "clamp(36px, 5.5vw, 72px)", fontWeight: 900, letterSpacing: "-2px" }}>{tr({ formData: fd }, "PRICING")}</div>
           <div style={{ fontFamily: C.mono, fontSize: 10, letterSpacing: 3, color: C.textMuted, textTransform: "uppercase" }}>TRANSPARENT · FIXE · SANS SURPRISE</div>
         </div>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", borderBottom: `2px solid ${C.bgDark}` }}>

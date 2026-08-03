@@ -1,4 +1,5 @@
 "use client";
+import { tr } from "@/lib/templates/uiStrings";
 // @ts-nocheck
 
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion"
@@ -327,9 +328,9 @@ return (
           <Reveal className="mb-12">
             <div className="text-[var(--brand,#00F5D4)] text-xs mb-2"><span className="text-[#475569]">// </span>what_i_do</div>
             <div className="flex items-end justify-between flex-wrap gap-4">
-              <h2 className="font-bold text-3xl md:text-4xl">Services</h2>
+              <h2 className="font-bold text-3xl md:text-4xl">{tr({ formData: fd }, "Services")}</h2>
               <Link href="/templates/impact-29/contact" className="text-xs font-bold text-[var(--brand,#00F5D4)] hover:underline flex items-center gap-1 cursor-pointer">
-                Get a quote <ArrowRight className="w-3.5 h-3.5" />
+                {tr({ formData: fd }, "Get a quote")} <ArrowRight className="w-3.5 h-3.5" />
               </Link>
             </div>
           </Reveal>

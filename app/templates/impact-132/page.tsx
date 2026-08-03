@@ -1,4 +1,5 @@
 "use client";
+import { tr } from "@/lib/templates/uiStrings";
 // @ts-nocheck
 
 import { motion, useScroll, useTransform, useInView, AnimatePresence, useMotionValue, useSpring } from "framer-motion"
@@ -635,7 +636,7 @@ return (
               letterSpacing: "0.06em",
               textTransform: "uppercase",
             }}>
-              Subscribe
+              {tr({ formData: fd }, "Subscribe")}
             </MagneticButton>
           </div>
 

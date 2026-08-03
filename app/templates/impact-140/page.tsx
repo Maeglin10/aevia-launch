@@ -1,4 +1,5 @@
 "use client";
+import { tr } from "@/lib/templates/uiStrings";
 // @ts-nocheck
 
 import React, { useState, useEffect, useRef } from "react";
@@ -297,7 +298,7 @@ export default function WanderlustPage() {
               Journal
             </Link>
             <Link href="#apropos" className="hover:text-amber-500 transition-colors">
-              About
+              {tr(sessionData, "About")}
             </Link>
           </div>
 
@@ -346,7 +347,7 @@ export default function WanderlustPage() {
                 Journal
               </Link>
               <Link href="#apropos" onClick={() => setMenuOpen(false)}>
-                About Us
+                {tr(sessionData, "About Us")}
               </Link>
             </div>
             <div className="mt-auto mb-8">
@@ -752,7 +753,7 @@ export default function WanderlustPage() {
                     href="#contact"
                     className="hover:text-amber-500 transition-colors"
                   >
-                    Our Story
+                    {tr(sessionData, "Our Story")}
                   </Link>
                 </li>
                 <li>
@@ -776,7 +777,7 @@ export default function WanderlustPage() {
                     href="#contact"
                     className="hover:text-amber-500 transition-colors"
                   >
-                    Contact Us
+                    {tr(sessionData, "Contact Us")}
                   </Link>
                 </li>
               </ul>
@@ -800,7 +801,7 @@ export default function WanderlustPage() {
                   type="submit"
                   className="border-b border-stone-700 px-4 py-3 text-[10px] uppercase tracking-widest font-bold hover:text-amber-500 text-stone-500 transition-colors"
                 >
-                  Subscribe
+                  {tr(sessionData, "Subscribe")}
                 </button>
               </form>
             </div>
@@ -813,7 +814,7 @@ export default function WanderlustPage() {
             </span>
             <div className="flex gap-6">
               <Link href="#contact" className="hover:text-white transition-colors">
-                Privacy Policy
+                {tr(sessionData, "Privacy Policy")}
               </Link>
               <Link href="#contact" className="hover:text-white transition-colors">
                 Terms of Booking

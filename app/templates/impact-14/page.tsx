@@ -1,4 +1,5 @@
 "use client";
+import { tr } from "@/lib/templates/uiStrings";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 // @ts-nocheck
 
@@ -2911,7 +2912,7 @@ function ContactPage() {
           <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "1rem", marginBottom: "1rem" }}>
             <div style={{width: 32, height: 1, background: brand ?? 'var(--brand,#c9a84c)' }} />
             <p style={{fontFamily: "Montserrat, sans-serif", fontSize: 10, color: brand ?? 'var(--brand,#c9a84c)', letterSpacing: 4, textTransform: "uppercase" }}>
-              Get In Touch
+              {tr({ formData: fd }, "Get In Touch")}
             </p>
             <div style={{width: 32, height: 1, background: brand ?? 'var(--brand,#c9a84c)' }} />
           </div>

@@ -1,4 +1,5 @@
 "use client";
+import { tr } from "@/lib/templates/uiStrings";
 // @ts-nocheck
 
 import { motion, useScroll, useTransform, AnimatePresence, useMotionValue, useSpring } from "framer-motion"
@@ -316,7 +317,7 @@ function ServicesSection() {
       <div className="max-w-6xl mx-auto">
         <Reveal className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
           <div>
-            <Label>Services</Label>
+            <Label>{tr({ formData: fd }, "Services")}</Label>
             <h2 className="text-4xl md:text-5xl font-bold">What we build</h2>
           </div>
           <Link

@@ -1,4 +1,5 @@
 "use client";
+import { tr } from "@/lib/templates/uiStrings";
 // @ts-nocheck
 
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion"
@@ -305,7 +306,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto">
           <Reveal className="mb-16">
             <h2 className="font-black text-5xl md:text-7xl uppercase" style={{ fontFamily: "'Barlow Condensed', sans-serif" }}>
-              SERVICES
+              {tr(sessionData, "SERVICES")}
             </h2>
           </Reveal>
           <div className="space-y-0">

@@ -1,4 +1,5 @@
 "use client";
+import { tr } from "@/lib/templates/uiStrings";
 // @ts-nocheck
 
 import React, { useRef, useState, useEffect } from 'react';
@@ -529,7 +530,7 @@ return (
                   margin: 0,
                 }}
               >
-                SERVICES
+                {tr({ formData: fd }, "SERVICES")}
               </h2>
             </div>
           </Reveal>

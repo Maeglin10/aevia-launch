@@ -1,4 +1,5 @@
 "use client";
+import { tr } from "@/lib/templates/uiStrings";
 // @ts-nocheck
 
 import { useState, useRef, useEffect, useCallback } from 'react';
@@ -2696,7 +2697,7 @@ export default function FlammeEtCoPage() {
               {/* Column 3 — Services */}
               <div>
                 <h4 style={{ color: C.text, fontFamily: 'Playfair Display, serif', fontSize: '1rem', fontWeight: 700, marginBottom: '1.25rem' }}>
-                  Services
+                  {tr(sessionData, "Services")}
                 </h4>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
                   {['Devis en ligne', 'Installation à domicile', 'Entretien annuel', 'SAV & dépannage', 'Reprise ancienne cheminée', 'Financement 3×', 'Guide d\'achat', 'Configurateur'].map(svc => (

@@ -1,4 +1,5 @@
 "use client";
+import { tr } from "@/lib/templates/uiStrings";
 import { resolveList } from "@/lib/templates/resolveList";
 // @ts-nocheck
 
@@ -388,7 +389,7 @@ return (
                     {svc.desc}
                   </p>
                   <div className="mt-8 flex items-center gap-3 text-[10px] font-bold uppercase tracking-[0.4em] text-stone-500/50 group-hover:text-stone-500 transition-colors">
-                    Learn More <ArrowUpRight className="w-3 h-3" />
+                    {tr({ formData: fd }, "Learn More")} <ArrowUpRight className="w-3 h-3" />
                   </div>
                 </div>
               </Reveal>

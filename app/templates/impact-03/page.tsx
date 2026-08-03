@@ -1,4 +1,5 @@
 "use client";
+import { tr } from "@/lib/templates/uiStrings";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 // @ts-nocheck
 
@@ -2126,7 +2127,7 @@ export default function FashionEditorialTemplate() {
                 cursor: 'pointer',
               }}
             >
-              View all
+              {tr(sessionData, "View all")}
             </button>
           </div>
         </Reveal>
@@ -2631,7 +2632,7 @@ export default function FashionEditorialTemplate() {
                   whiteSpace: 'nowrap',
                 }}
               >
-                Subscribe
+                {tr(sessionData, "Subscribe")}
               </button>
             </div>
           ) : (
@@ -3345,7 +3346,7 @@ function AboutPage({ accentColor }: { accentColor: import('framer-motion').Motio
             marginBottom: 16,
           }}
         >
-          Our Story
+          {tr(sessionData, "Our Story")}
         </h1>
         <p
           style={{
@@ -3393,7 +3394,7 @@ function ContactPage({ accentColor }: { accentColor: import('framer-motion').Mot
             marginBottom: 16,
           }}
         >
-          Contact Us
+          {tr(sessionData, "Contact Us")}
         </h1>
         <p
           style={{

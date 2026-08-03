@@ -1,4 +1,5 @@
 "use client";
+import { tr } from "@/lib/templates/uiStrings";
 // @ts-nocheck
 
 import React, { useState, useEffect, useRef } from "react";
@@ -804,7 +805,7 @@ export default function SonicPlayerPage() {
             </span>
             <div className="flex gap-6">
               <Link href="#contact" className="hover:text-white transition-colors">
-                Privacy Policy
+                {tr({ formData: fd }, "Privacy Policy")}
               </Link>
               <Link href="#contact" className="hover:text-white transition-colors">
                 Terms of Use

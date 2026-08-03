@@ -1,4 +1,5 @@
 "use client";
+import { tr } from "@/lib/templates/uiStrings";
 import { resolveList } from "@/lib/templates/resolveList";
 // @ts-nocheck
 
@@ -614,7 +615,7 @@ return (
         <div className="max-w-6xl mx-auto">
           <Reveal>
             <div className="text-center mb-16">
-              <span className="text-[var(--brand,#a78bfa)] text-[11px] uppercase tracking-[0.3em] font-bold mb-4 block">Testimonials</span>
+              <span className="text-[var(--brand,#a78bfa)] text-[11px] uppercase tracking-[0.3em] font-bold mb-4 block">{tr({ formData: fd }, "Testimonials")}</span>
               <h2 className="text-4xl md:text-6xl font-black tracking-tight">
                 Loved by <span className="bg-gradient-to-r from-[var(--brand,#a78bfa)] to-fuchsia-400 bg-clip-text text-transparent">builders</span>
               </h2>
@@ -663,7 +664,7 @@ return (
         <div className="max-w-6xl mx-auto">
           <Reveal>
             <div className="text-center mb-16">
-              <span className="text-[var(--brand,#a78bfa)] text-[11px] uppercase tracking-[0.3em] font-bold mb-4 block">Pricing</span>
+              <span className="text-[var(--brand,#a78bfa)] text-[11px] uppercase tracking-[0.3em] font-bold mb-4 block">{tr({ formData: fd }, "Pricing")}</span>
               <h2 className="text-4xl md:text-6xl font-black tracking-tight mb-6">
                 Start free, <span className="text-zinc-500">scale infinitely.</span>
               </h2>

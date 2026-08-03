@@ -1,4 +1,5 @@
 "use client";
+import { tr } from "@/lib/templates/uiStrings";
 // @ts-nocheck
 
 import React, { useState, useRef, useEffect } from "react";
@@ -314,7 +315,7 @@ export default function CapDemenagementsPage() {
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
           <Reveal>
             <div style={{ marginBottom: 52 }}>
-              <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Services</span>
+              <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>{tr(sessionData, "Services")}</span>
               <h2 style={{ fontSize: "clamp(28px, 3.8vw, 48px)", fontWeight: 900, letterSpacing: -1, marginTop: 10, lineHeight: 1.1 }}>
                 Tout ce qui roule,<br />porte et protège.
               </h2>

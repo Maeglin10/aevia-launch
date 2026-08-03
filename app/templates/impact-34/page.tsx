@@ -1,4 +1,5 @@
 "use client";
+import { tr } from "@/lib/templates/uiStrings";
 // @ts-nocheck
 
 import React, {useRef, useState, useEffect} from 'react'
@@ -248,7 +249,7 @@ return (
                         className="flex items-center gap-1.5 text-xs font-semibold"
                         style={{ color: feature.color }}
                       >
-                        Learn more <ChevronRight className="w-3.5 h-3.5" />
+                        {tr({ formData: fd }, "Learn more")} <ChevronRight className="w-3.5 h-3.5" />
                       </div>
                     </motion.div>
                   </Link>

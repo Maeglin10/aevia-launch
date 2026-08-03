@@ -1,4 +1,5 @@
 "use client";
+import { tr } from "@/lib/templates/uiStrings";
 // @ts-nocheck
 
 import { useEffect, useRef, useState, useCallback } from 'react';
@@ -2484,7 +2485,7 @@ export default function AquaPrestigePage() {
                   marginBottom: '1.25rem',
                 }}
               >
-                Services
+                {tr(sessionData, "Services")}
               </h4>
               <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
                 {SERVICES.map((s) => (

@@ -1,4 +1,5 @@
 "use client";
+import { tr } from "@/lib/templates/uiStrings";
 // @ts-nocheck
 
 import React, {useRef, useState, useEffect} from 'react';
@@ -247,7 +248,7 @@ function AttorneysSection() {
         >
           <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 16 }}>
             <div style={{ width: 32, height: 1, background: C.accent }} />
-            <span style={{ fontFamily: "'Source Sans Pro', system-ui", fontSize: 11, letterSpacing: "0.2em", textTransform: "uppercase" as const, color: C.accent }}>Our Team</span>
+            <span style={{ fontFamily: "'Source Sans Pro', system-ui", fontSize: 11, letterSpacing: "0.2em", textTransform: "uppercase" as const, color: C.accent }}>{tr(sessionData, "Our Team")}</span>
           </div>
           <h2 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: "clamp(36px, 4vw, 56px)", color: C.white, margin: "0 0 16px", fontWeight: 700 }}>The Partners</h2>
           <p style={{ fontFamily: "'Source Sans Pro', system-ui", fontSize: 17, color: "rgba(255,255,255,0.55)", maxWidth: 480 }}>Three partners. Combined track record exceeding €6 billion in advised transactions and 500+ cases.</p>

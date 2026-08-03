@@ -1,4 +1,5 @@
 "use client";
+import { tr } from "@/lib/templates/uiStrings";
 // @ts-nocheck
 import { motion, useScroll, useTransform, useInView, AnimatePresence, useMotionValue, useSpring } from "framer-motion"
 import { useState, useRef, useEffect } from "react"
@@ -398,7 +399,7 @@ export default function FolioStudioPage() {
             <Reveal>
               <div className="flex items-center justify-between mb-24 border-b border-zinc-200 pb-8">
                 <h2 className="text-4xl md:text-5xl font-medium tracking-tight">Expertise</h2>
-                <span className="text-sm font-bold uppercase tracking-widest text-zinc-400">Services</span>
+                <span className="text-sm font-bold uppercase tracking-widest text-zinc-400">{tr({ formData: fd }, "Services")}</span>
               </div>
             </Reveal>
 
@@ -599,7 +600,7 @@ export default function FolioStudioPage() {
               <div className="flex justify-center mb-24">
                 <Magnetic strength={0.3}>
                   <Link href={`mailto:${fd?.email ?? "hello@foliostudio.com"}`} className="group flex items-center justify-center w-40 h-40 md:w-48 md:h-48 bg-white text-zinc-900 rounded-full text-xl font-medium hover:scale-110 transition-transform duration-500 shadow-2xl">
-                    Get in touch
+                    {tr({ formData: fd }, "Get in touch")}
                   </Link>
                 </Magnetic>
               </div>
@@ -641,7 +642,7 @@ export default function FolioStudioPage() {
               <div>© 2026 Folio Studio. All rights reserved.</div>
               <div className="flex gap-6 mt-4 md:mt-0">
                 <Link href="#contact" className="hover:text-white transition-colors">Privacy</Link>
-                <Link href="#contact" className="hover:text-white transition-colors">Terms</Link>
+                <Link href="#contact" className="hover:text-white transition-colors">{tr({ formData: fd }, "Terms")}</Link>
               </div>
             </div>
           </div>

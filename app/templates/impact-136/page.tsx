@@ -1,4 +1,5 @@
 "use client";
+import { tr } from "@/lib/templates/uiStrings";
 import { resolveList } from "@/lib/templates/resolveList";
 // @ts-nocheck
 
@@ -740,7 +741,7 @@ export default function TextRevealPage() {
                   type="submit"
                   className="border-b border-zinc-800 px-4 py-3 text-[10px] uppercase tracking-widest font-bold hover:text-white text-zinc-500 transition-colors"
                 >
-                  Subscribe
+                  {tr({ formData: fd }, "Subscribe")}
                 </button>
               </form>
             </div>
@@ -753,7 +754,7 @@ export default function TextRevealPage() {
             </span>
             <div className="flex gap-6">
               <Link href="#contact" className="hover:text-white transition-colors">
-                Privacy Policy
+                {tr({ formData: fd }, "Privacy Policy")}
               </Link>
               <Link href="#contact" className="hover:text-white transition-colors">
                 Terms of Service

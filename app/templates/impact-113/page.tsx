@@ -1,4 +1,5 @@
 "use client";
+import { tr } from "@/lib/templates/uiStrings";
 import { resolveList } from "@/lib/templates/resolveList";
 // @ts-nocheck
 
@@ -296,7 +297,7 @@ export default function NexusSaaSPage() {
               Docs
             </Link>
             <Link href="#tarifs" className="hover:text-white transition-colors">
-              Pricing
+              {tr({ formData: fd }, "Pricing")}
             </Link>
             <Link href="#tarifs" className="hover:text-white transition-colors">
               Blog
@@ -349,7 +350,7 @@ export default function NexusSaaSPage() {
                 Docs
               </Link>
               <Link href="#tarifs" onClick={() => setMenuOpen(false)}>
-                Pricing
+                {tr({ formData: fd }, "Pricing")}
               </Link>
             </div>
             <div className="mt-12 pt-8 border-t border-white/10 flex flex-col gap-4">
@@ -907,7 +908,7 @@ export default function NexusSaaSPage() {
                 </li>
                 <li>
                   <a href="#tarifs" className="hover:text-white transition-colors">
-                    Pricing
+                    {tr({ formData: fd }, "Pricing")}
                   </a>
                 </li>
                 <li>
@@ -959,7 +960,7 @@ export default function NexusSaaSPage() {
               <ul className="space-y-4 text-sm text-white/50">
                 <li>
                   <a href="#apropos" className="hover:text-white transition-colors">
-                    About Us
+                    {tr({ formData: fd }, "About Us")}
                   </a>
                 </li>
                 <li>
@@ -990,7 +991,7 @@ export default function NexusSaaSPage() {
               <ul className="space-y-4 text-sm text-white/50">
                 <li>
                   <a href="#contact" className="hover:text-white transition-colors">
-                    Privacy Policy
+                    {tr({ formData: fd }, "Privacy Policy")}
                   </a>
                 </li>
                 <li>

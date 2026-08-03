@@ -1,4 +1,5 @@
 "use client";
+import { tr } from "@/lib/templates/uiStrings";
 // @ts-nocheck
 import { motion, useScroll, useTransform, useInView } from "framer-motion"
 import { useRef, useState, useEffect } from "react"
@@ -258,7 +259,7 @@ export default function LuminaLawPage() {
                     <h3 className="text-2xl font-bold mb-6 uppercase tracking-tight" style={{ fontFamily: "serif" }}>{e.title}</h3>
                     <p className="text-black/40 leading-relaxed text-sm font-light mb-10">{e.desc}</p>
                     <Link href="#hero" className="flex items-center gap-3 text-[10px] font-bold uppercase tracking-widest text-[var(--brand,#1a365d)] group-hover:gap-6 transition-all">
-                       Learn More <ChevronRight className="w-4 h-4" />
+                       {tr({ formData: fd }, "Learn More")} <ChevronRight className="w-4 h-4" />
                     </Link>
                   </div>
                 </Reveal>
@@ -371,7 +372,7 @@ export default function LuminaLawPage() {
         <section id="equipe" className="py-40 bg-white border-t border-black/5">
           <div className="max-w-6xl mx-auto px-6 md:px-12">
             <Reveal>
-              <p className="text-[10px] uppercase tracking-[0.5em] text-[var(--brand,#1a365d)]/40 mb-6">Our Team</p>
+              <p className="text-[10px] uppercase tracking-[0.5em] text-[var(--brand,#1a365d)]/40 mb-6">{tr({ formData: fd }, "Our Team")}</p>
               <h2 className="text-4xl md:text-6xl font-bold text-[var(--brand,#1a365d)] mb-20 leading-tight" style={{ fontFamily: "serif" }}>
                 Senior <em className="font-light">Partners.</em>
               </h2>

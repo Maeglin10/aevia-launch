@@ -1,4 +1,5 @@
 "use client";
+import { tr } from "@/lib/templates/uiStrings";
 import { resolveList } from "@/lib/templates/resolveList";
 // @ts-nocheck
 
@@ -1467,7 +1468,7 @@ export default function Impact115Page() {
                 marginBottom: 72,
               }}
             >
-              Services
+              {tr({ formData: fd }, "Services")}
             </h2>
           </TextReveal>
 

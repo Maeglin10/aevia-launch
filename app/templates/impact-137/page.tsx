@@ -1,4 +1,5 @@
 "use client";
+import { tr } from "@/lib/templates/uiStrings";
 // @ts-nocheck
 import { motion, useScroll, useTransform, useInView } from "framer-motion"
 import { useRef, useState, useEffect } from "react"
@@ -322,7 +323,7 @@ export default function TorrefieCoffeePage() {
           <div className="max-w-[1200px] mx-auto px-6 md:px-12">
             <Reveal>
               <div className="text-center mb-20">
-                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#6b3a24)] block mb-4">Subscribe</span>
+                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#6b3a24)] block mb-4">{tr({ formData: fd }, "Subscribe")}</span>
                 <h2 className="text-5xl md:text-6xl font-light tracking-tighter" style={{ fontFamily: "Georgia, serif" }}>
                   Your <em className="text-[var(--brand,#6b3a24)]">Plan.</em>
                 </h2>

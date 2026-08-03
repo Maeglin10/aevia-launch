@@ -2,6 +2,13 @@ import { put, list } from "@vercel/blob";
 import type { LegalPages } from "@/lib/legal/generateLegalPages";
 
 export interface FormData {
+  /*
+    La langue dans laquelle le client a rempli le wizard.
+    Sans elle, un thème dont la démonstration est en anglais — 73 sur 373 — reste
+    en anglais sur le site d'une entreprise française, y compris pour les
+    libellés de navigation que le client ne peut pas modifier lui-même.
+  */
+  locale?: string;
   // Step 1
   businessName: string;
   businessType: string;

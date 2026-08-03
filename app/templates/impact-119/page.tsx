@@ -1,4 +1,5 @@
 "use client";
+import { tr } from "@/lib/templates/uiStrings";
 // @ts-nocheck
 import { motion, useScroll, useTransform, useInView } from "framer-motion"
 import { useRef, useState, useEffect } from "react"
@@ -135,7 +136,7 @@ return (
           </div>
           <div className="flex items-center gap-4">
             <button className="hidden md:block px-6 py-2.5 text-white/60 text-[10px] font-bold uppercase tracking-widest hover:text-white transition-colors">Log In</button>
-            <button className="px-4 py-2 md:px-6 md:py-2.5 bg-blue-600 text-white text-[10px] font-bold uppercase tracking-widest rounded-lg hover:bg-blue-500 transition-all shadow-[0_0_20px_rgba(37,99,235,0.3)] whitespace-nowrap">Get Started</button>
+            <button className="px-4 py-2 md:px-6 md:py-2.5 bg-blue-600 text-white text-[10px] font-bold uppercase tracking-widest rounded-lg hover:bg-blue-500 transition-all shadow-[0_0_20px_rgba(37,99,235,0.3)] whitespace-nowrap">{tr(sessionData, "Get Started")}</button>
             <Sheet>
               <SheetTrigger className="lg:hidden"><Menu className="w-6 h-6 text-white" /></SheetTrigger>
               <SheetContent side="right" className="bg-[#020617] border-blue-500/10 p-12">
@@ -251,7 +252,7 @@ return (
                     <h3 className="text-2xl font-bold mb-4">{n.title}</h3>
                     <p className="text-slate-400 leading-relaxed text-sm mb-8">{n.desc}</p>
                     <Link href="#hero" className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-blue-400 group-hover:gap-4 transition-all">
-                      Learn More <ArrowRight className="w-4 h-4" />
+                      {tr(sessionData, "Learn More")} <ArrowRight className="w-4 h-4" />
                     </Link>
                   </div>
                 </Reveal>
@@ -335,7 +336,7 @@ return (
         <section id="tarifs" className="py-40 bg-slate-950 border-t border-white/5">
           <div className="max-w-6xl mx-auto px-6 md:px-12">
             <Reveal>
-              <p className="text-[10px] uppercase tracking-[0.5em] text-blue-400/50 mb-6">Pricing</p>
+              <p className="text-[10px] uppercase tracking-[0.5em] text-blue-400/50 mb-6">{tr(sessionData, "Pricing")}</p>
               <h2 className="text-4xl md:text-7xl font-bold text-white mb-6 leading-tight tracking-tight">
                 Simple, <span className="text-white/20 font-light">predictable.</span>
               </h2>
@@ -362,7 +363,7 @@ return (
                       ))}
                     </ul>
                     <div className={`text-[10px] uppercase tracking-widest font-bold py-3 px-6 text-center border ${p.highlight ? "border-white text-white hover:bg-white hover:text-blue-600" : "border-blue-500/30 text-blue-400 hover:border-blue-400"} transition-colors cursor-pointer`}>
-                      Get started
+                      {tr(sessionData, "Get started")}
                     </div>
                   </div>
                 </Reveal>
@@ -428,7 +429,7 @@ return (
         <div className="max-w-[1400px] mx-auto pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6 text-[10px] font-bold uppercase tracking-widest text-slate-600">
           <span>© 2026 NEBULA CLOUD TECHNOLOGIES INC.</span>
           <div className="flex gap-8">
-            <Link href="#contact" className="hover:text-white transition-colors">Privacy Policy</Link>
+            <Link href="#contact" className="hover:text-white transition-colors">{tr(sessionData, "Privacy Policy")}</Link>
             <Link href="#contact" className="hover:text-white transition-colors">Terms of Service</Link>
             <Link href="#contact" className="hover:text-white transition-colors">SLA Status</Link>
           </div>

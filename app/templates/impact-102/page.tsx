@@ -1,4 +1,5 @@
 "use client";
+import { tr } from "@/lib/templates/uiStrings";
 // @ts-nocheck
 import { motion, useInView } from "framer-motion"
 import { useRef, useState, useEffect } from "react"
@@ -775,7 +776,7 @@ export default function QBitLabsPage() {
                           (e.currentTarget.style.textDecoration = "none")
                         }
                       >
-                        Learn more <ArrowRight style={{ width: 12, height: 12 }} />
+                        {tr({ formData: fd }, "Learn more")} <ArrowRight style={{ width: 12, height: 12 }} />
                       </Link>
                     </div>
                   </Reveal>

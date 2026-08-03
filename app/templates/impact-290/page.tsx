@@ -1,4 +1,5 @@
 "use client";
+import { tr } from "@/lib/templates/uiStrings";
 // @ts-nocheck
 
 import React, {useRef, useState, useEffect} from 'react';
@@ -2702,7 +2703,7 @@ function FooterSection() {
                 marginBottom: 22,
               }}
             >
-              Services
+              {tr(sessionData, "Services")}
             </div>
             <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
               {links.map((l) => (
