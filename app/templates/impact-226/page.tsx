@@ -8,6 +8,7 @@ import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientReviews,
   clientServices,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 // Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
@@ -38,12 +39,13 @@ let C: Record<string, string> = {
 };const FONT = "'DM Serif Display', Georgia, serif"
 const FONT_BODY = "'DM Sans', system-ui, sans-serif"
 
-const STATS = [
+const STATS_DEMO = [
   { value: "9 ans", label: "De pratique" },
   { value: "4 200+", label: "Tatouages réalisés" },
   { value: "4.9★", label: "Google" },
   { value: "3 artistes", label: "Styles variés" },
 ]
+let STATS = STATS_DEMO;
 
 
 const NAV = [
@@ -296,6 +298,7 @@ export default function EncreNoirePage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, accent: brand };

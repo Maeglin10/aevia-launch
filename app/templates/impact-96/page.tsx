@@ -30,6 +30,9 @@ import {
   Star,
 } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
+import {
+  clientStats,
+} from "@/lib/templates/clientContent";
 
 /* ─── COLOUR PALETTE ─────────────────────────────────────────── */
 // Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
@@ -171,12 +174,13 @@ const SERVICES_DEMO = [
   },
 ];
 
-const STATS = [
+const STATS_DEMO = [
   { val: "2009", label: "Fondé à Paris" },
   { val: "280+", label: "Productions livrées" },
   { val: "22", label: "Festivals internationaux" },
   { val: "94%", label: "Clients fidèles" },
 ];
+let STATS = STATS_DEMO;
 
 const TESTIMONIALS_DEMO = [
   {
@@ -495,6 +499,7 @@ export default function UrbanPulsePage() {
   }, []);
 
   fd = session?.formData;
+  STATS = resolveList(clientStats(session), STATS_DEMO);
   c = session?.generatedContent;
   bp = bpLocal;
   brand = fd?.brandColor ?? null; // null = keep template's original color

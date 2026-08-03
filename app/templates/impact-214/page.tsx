@@ -16,6 +16,7 @@ import {
   clientFaq,
   clientReviews,
   clientServices,
+  clientStats,
   clientTeam,
 } from "@/lib/templates/clientContent";
 
@@ -62,12 +63,13 @@ const NAV_LINKS = [
   { label: 'Contact', href: '#contact' },
 ];
 
-const STATS = [
+const STATS_DEMO = [
   { value: 2100, suffix: '+', label: 'Interventions réalisées', icon: '🔧' },
   { value: 15, suffix: ' ans', label: "D'expérience", icon: '⭐' },
   { value: 24, suffix: '/7', label: 'Urgence disponible', icon: '🚨' },
   { value: 30, suffix: ' min', label: 'Délai moyen d\'arrivée', icon: '⚡' },
 ];
+let STATS = STATS_DEMO;
 
 const SERVICES_DEMO = [
   {
@@ -1107,6 +1109,7 @@ export default function AquaPrestigePage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, accent: brand, accentLight: shadeColor(brand, 25), accentDark: shadeColor(brand, -20) };

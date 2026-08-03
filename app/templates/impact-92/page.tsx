@@ -29,6 +29,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientFaq,
   clientReviews,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 /* ==========================================================================
@@ -122,12 +123,13 @@ const SERVICES = [
   },
 ];
 
-const STATS = [
+const STATS_DEMO = [
   { label: "Assets Managed", value: "$4.2B+" },
   { label: "Off-Market Deals", value: "94%" },
   { label: "Global Offices", value: "12" },
   { label: "Client Satisfaction", value: "NPS 98" },
 ];
+let STATS = STATS_DEMO;
 
 const NAV_LINKS = [
   { label: "Estates", href: "#estates" },
@@ -254,6 +256,7 @@ export default function SkylineConciergePage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const [scrolled, setScrolled] = useState(false);

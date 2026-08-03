@@ -9,8 +9,10 @@ import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { DWELL, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
 import { MosaicPush } from "@/lib/templates/hero-kit-3";
 import {
+  clientCertifications,
   clientReviews,
   clientServices,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 /* Fromagerie-crèmerie, 2e variante commerce de bouche. Signature : MosaicPush — l'étal qui arrive rayon par rayon. Tuiles CSS sans photo. */
@@ -40,10 +42,12 @@ const HERO = [
 
 const SERVICES_DEMO = [{"titre": "Fromages d'alpage", "desc": "Beaufort, Abondance, Comté : sélectionnés meule par meule, affinés en cave jusqu'à leur pic — pas jusqu'à la date limite.", "tag": "Alpage"}, {"titre": "Chèvres et brebis", "desc": "Fermiers de Savoie et d'ailleurs, au rythme des saisons de lactation. On vous dit quand c'est le moment, et quand ce ne l'est plus.", "tag": "Saison"}, {"titre": "Crèmerie crue", "desc": "Beurre baratté sur place le mercredi, crème crue, faisselles et yaourts fermiers en pots consignés.", "tag": "Crèmerie"}, {"titre": "Plateaux composés", "desc": "Pour 4 à 40 personnes : équilibrés par famille et par force, étiquetés, avec l'ordre de dégustation conseillé.", "tag": "Plateaux"}, {"titre": "Raclette & fondue", "desc": "Machines prêtées, fromages coupés à la roue, mélange fondue de la maison pesé au gramme. La Savoie sans vaisselle cassée.", "tag": "Savoie"}, {"titre": "Accords & cave", "desc": "Vins de Savoie et jurassiens choisis pour l'étal : on compose l'accord avec le plateau, au verre près.", "tag": "Accords"}];
 const METHODE = [{"n": "01", "t": "Acheter jeune, aux fermes", "d": "Quatorze fermes partenaires. Les fromages arrivent jeunes, à leur meilleur potentiel."}, {"n": "02", "t": "Affiner en cave voûtée", "d": "Brossage, retournes, frottage au vin blanc pour certains : chaque famille a son geste et son hygrométrie."}, {"n": "03", "t": "Goûter chaque semaine", "d": "On sonde, on goûte, on décide : à l'étal cette semaine, ou encore quinze jours de cave."}, {"n": "04", "t": "Vendre au bon moment", "d": "Un fromage se vend à son pic. S'il l'a passé, il finit en fondue maison — jamais sur l'étal."}];
-const ENGAGEMENT = ["Achat en direct aux fermes, prix rémunérateurs négociés à l'année", "Lait cru défendu et expliqué — femmes enceintes conseillées sans détour", "Cave d'affinage sur place, visite le samedi matin sur simple demande", "Étiquetage complet : ferme, lait, affinage — pas seulement « fromage de montagne »"];
+const ENGAGEMENT_DEMO = ["Achat en direct aux fermes, prix rémunérateurs négociés à l'année", "Lait cru défendu et expliqué — femmes enceintes conseillées sans détour", "Cave d'affinage sur place, visite le samedi matin sur simple demande", "Étiquetage complet : ferme, lait, affinage — pas seulement « fromage de montagne »"];
+let ENGAGEMENT = ENGAGEMENT_DEMO;
 const TARIFS = [{"a": "Plateau découverte (4-6 pers.)", "p": "34 €", "n": "Cinq fromages, cinq familles, fiche de dégustation incluse."}, {"a": "Plateau grande tablée (10-12 pers.)", "p": "72 €", "n": "Huit fromages dont un d'exception, pain aux noix offert."}, {"a": "Kit raclette complet (par pers.)", "p": "8,90 €", "n": "Trois fromages à racler, machine prêtée, charcuterie en option."}, {"a": "Mélange fondue de la maison", "p": "24,90 €/kg", "n": "Beaufort, Comté, Emmental de Savoie — proportions secrètes, résultat garanti."}];
 const AVIS_DEMO = [{"texte": "Le Beaufort d'alpage vendu ici n'a rien à voir avec ce que j'achetais avant. On m'a expliqué le chalet, l'été, la cave. On goûte tout avant d'acheter.", "auteur": "Claire N.", "detail": "Cliente du samedi"}, {"texte": "Plateau de mariage pour 80 : livré à l'heure, magnifique, avec les étiquettes et l'ordre de dégustation. Les invités en parlent encore.", "auteur": "Élise & Romain", "detail": "Plateau événement"}, {"texte": "Ils m'ont déconseillé un chèvre « pas à son mieux cette semaine » et fait goûter autre chose. Des commerçants qui refusent de vendre : rare.", "auteur": "Marc T.", "detail": "Habitué du mercredi"}];
-const STATS = [{"value": "120+", "label": "Fromages à l'étal"}, {"value": "9", "label": "AOP de Savoie et d'ailleurs"}, {"value": "14", "label": "Fermes en direct"}, {"value": "1", "label": "Cave voûtée d'affinage"}];
+const STATS_DEMO = [{"value": "120+", "label": "Fromages à l'étal"}, {"value": "9", "label": "AOP de Savoie et d'ailleurs"}, {"value": "14", "label": "Fermes en direct"}, {"value": "1", "label": "Cave voûtée d'affinage"}];
+let STATS = STATS_DEMO;
 
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const ref = useRef(null);
@@ -91,6 +95,8 @@ export default function HalleAuxFromagesPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  STATS = resolveList(clientStats(sessionData), STATS_DEMO);
+  ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;
   if (brand) {
     C = { ...C, accent: brand };

@@ -9,8 +9,10 @@ import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { DWELL, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
 import { HardCutRebuild } from "@/lib/templates/hero-kit-3";
 import {
+  clientCertifications,
   clientReviews,
   clientServices,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 /* Chauffeur VTC premium, 1re variante. Signature : HardCutRebuild — la course coupée net puis remontée, comme un départ immédiat. Sans photographie. */
@@ -36,10 +38,12 @@ const HERO = [{"k": "Aéroport", "line": "NICE CÔTE D'AZUR, SANS COURIR.", "sub
 
 const SERVICES_DEMO = [{"titre": "Transferts aéroport", "desc": "Nice, Cannes-Mandelieu, Toulon-Hyères : vol suivi, 45 minutes d'attente incluses, accueil pancarte en salle d'arrivée.", "tag": "Aéroport"}, {"titre": "Gares & liaisons ville", "desc": "Nice-Ville, Antibes, Monaco : la correspondance sans stress, bagages portés, siège enfant sur demande.", "tag": "Gares"}, {"titre": "Mise à disposition", "desc": "À l'heure ou à la journée : rendez-vous professionnels enchaînés, shopping, visites — le chauffeur attend, vous vivez.", "tag": "Journée"}, {"titre": "Événements & mariages", "desc": "Cortèges coordonnés, navettes invités, retour des noctambules à 4 h : le transport de votre événement, planifié.", "tag": "Événements"}, {"titre": "Trajets longue distance", "desc": "Milan, Gênes, Lyon, Genève : le confort d'une berline plutôt que trois correspondances. Prix ferme avant départ.", "tag": "Longue distance"}, {"titre": "Entreprises & conciergeries", "desc": "Facturation mensuelle, chauffeurs référents, discrétion contractuelle : le partenaire transport de vos clients exigeants.", "tag": "Pro"}];
 const METHODE = [{"n": "01", "t": "Réservez, recevez le prix", "d": "SMS, appel ou mail : itinéraire confirmé avec le prix ferme — celui-là, pas un autre."}, {"n": "02", "t": "Le chauffeur vous attend", "d": "En place 10 minutes avant, vol ou train suivi en temps réel : le retard n'est jamais votre problème."}, {"n": "03", "t": "La course, soignée", "d": "Berline hybride récente, eau fraîche, chargeurs, silence si vous préférez — dites-le, c'est votre trajet."}, {"n": "04", "t": "La facture, immédiate", "d": "Reçue par mail à la dépose, notes de frais simplifiées pour les pros."}];
-const ENGAGEMENT = ["Chauffeur titulaire de la carte professionnelle VTC, entreprise inscrite au registre REVTC", "Assurance transport de personnes à titre onéreux — pas une assurance auto classique", "Prix ferme annoncé avant la course : aucune majoration nuit, pluie ou aéroport", "Berline hybride entretenue, contrôlée, nettoyée entre chaque course"];
+const ENGAGEMENT_DEMO = ["Chauffeur titulaire de la carte professionnelle VTC, entreprise inscrite au registre REVTC", "Assurance transport de personnes à titre onéreux — pas une assurance auto classique", "Prix ferme annoncé avant la course : aucune majoration nuit, pluie ou aéroport", "Berline hybride entretenue, contrôlée, nettoyée entre chaque course"];
+let ENGAGEMENT = ENGAGEMENT_DEMO;
 const TARIFS = [{"a": "Aéroport Nice ↔ centre-ville", "p": "45 €", "n": "Prix ferme, attente 45 min et suivi du vol inclus."}, {"a": "Nice ↔ Monaco", "p": "90 €", "n": "Berline, péages compris, retour de soirée au même prix."}, {"a": "Mise à disposition (heure)", "p": "75 €", "n": "Minimum 2 h, kilométrage local inclus."}, {"a": "Journée complète (10 h)", "p": "590 €", "n": "Jusqu'à 300 km, chauffeur dédié, eau et presse à bord."}];
 const AVIS_DEMO = [{"texte": "Vol retardé de deux heures : le chauffeur était là au débarquement, pancarte à la main, sourire compris. Aucun supplément, comme annoncé. C'est devenu mon réflexe à chaque déplacement.", "auteur": "Consultant, Paris–Nice hebdo", "detail": "Transferts aéroport"}, {"texte": "Mariage à Èze : trois voitures coordonnées, les grands-parents déposés en douceur, les fêtards ramenés à 4 h. Une organisation militaire, une ambiance détendue.", "auteur": "Élodie & Marc", "detail": "Cortège de mariage"}, {"texte": "Mise à disposition pour ma tournée commerciale trimestrielle : sept rendez-vous, zéro parking, des dossiers relus entre chaque. La journée la plus rentable du trimestre.", "auteur": "Directrice commerciale", "detail": "Journée pro"}];
-const STATS = [{"value": "REVTC", "label": "Inscrit au registre des VTC"}, {"value": "0 €", "label": "De majoration surprise"}, {"value": "24h/24", "label": "Réservation, 7j/7"}, {"value": "45 min", "label": "D'attente aéroport incluse"}];
+const STATS_DEMO = [{"value": "REVTC", "label": "Inscrit au registre des VTC"}, {"value": "0 €", "label": "De majoration surprise"}, {"value": "24h/24", "label": "Réservation, 7j/7"}, {"value": "45 min", "label": "D'attente aéroport incluse"}];
+let STATS = STATS_DEMO;
 
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const ref = useRef(null);
@@ -79,6 +83,8 @@ export default function RivieraChauffeurPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  STATS = resolveList(clientStats(sessionData), STATS_DEMO);
+  ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;
   if (brand) {
     C = { ...C, accent: brand };

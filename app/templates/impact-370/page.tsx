@@ -8,8 +8,10 @@ import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { DWELL, ExpandFrame, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
 import {
+  clientCertifications,
   clientReviews,
   clientServices,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 /* Salle de réception urbaine, 2e variante, halle industrielle. Signature : ExpandFrame — le cadre qui s'ouvre du plan à la halle. Images repo (salle, intérieurs). */
@@ -35,10 +37,12 @@ const HERO = [{"k": "La nef", "sub": "600 m² sous verrière, 12 m sous ferme m�
 
 const SERVICES_DEMO = [{"titre": "La nef sous verrière", "desc": "600 m² modulables, sol béton lissé, murs de brique : le décor est déjà là. Gradins, scène et mobilier disponibles sur place.", "tag": "Nef"}, {"titre": "Technique intégrée", "desc": "Son 20 kW calibré, lumières scéniques, vidéoprojection 10 000 lumens, régisseur de la maison inclus dès 100 personnes.", "tag": "Technique"}, {"titre": "Le studio & la cour", "desc": "200 m² attenants pour cocktail ou backstage, cour de brique pour les pauses et les photos de nuit.", "tag": "Annexes"}, {"titre": "Mariages urbains", "desc": "Cérémonie sous la verrière, dîner dans la nef, DJ jusqu'à 4 h : l'insonorisation d'une ancienne usine a du bon.", "tag": "Mariage"}, {"titre": "Entreprises & lancements", "desc": "Keynotes, salons internes, soirées annuelles : accès camions, wifi fibre, loges — et Lille à 15 minutes.", "tag": "Corporate"}, {"titre": "Tournages & shootings", "desc": "La brique 1897 à la journée : plateaux, clips, mode. Fiche technique complète envoyée sur demande.", "tag": "Image"}];
 const METHODE = [{"n": "01", "t": "Visite technique", "d": "Avec notre régisseur : implantation, flux, accès camions, puissance — les vraies questions dès le premier jour."}, {"n": "02", "t": "Devis modulaire", "d": "La halle, la technique, le personnel : trois blocs chiffrés séparément. Vous ne payez pas ce que vous n'utilisez pas."}, {"n": "03", "t": "Fiche technique validée", "d": "Plan d'implantation signé, prestataires briefés par nos soins, run de la journée écrit heure par heure."}, {"n": "04", "t": "Régie le jour J", "d": "Notre régisseur reste : le son, la lumière et les imprévus sont son problème, pas le vôtre."}];
-const ENGAGEMENT = ["ERP type L contrôlé : commission de sécurité, capacités affichées et respectées", "Insonorisation d'usine : fêtes jusqu'à 4 h sans conflit de voisinage", "Accessibilité PMR complète, parkings à 200 m, métro à 6 minutes", "Régisseur de la maison obligatoire dès 100 personnes — c'est lui qui connaît la machine"];
+const ENGAGEMENT_DEMO = ["ERP type L contrôlé : commission de sécurité, capacités affichées et respectées", "Insonorisation d'usine : fêtes jusqu'à 4 h sans conflit de voisinage", "Accessibilité PMR complète, parkings à 200 m, métro à 6 minutes", "Régisseur de la maison obligatoire dès 100 personnes — c'est lui qui connaît la machine"];
+let ENGAGEMENT = ENGAGEMENT_DEMO;
 const TARIFS = [{"a": "La nef — soirée (18h-4h)", "p": "3 400 €", "n": "600 m², son et lumières de base, régisseur inclus."}, {"a": "Nef + studio + cour — week-end", "p": "5 900 €", "n": "Du samedi 9 h au dimanche 15 h, mariages et galas."}, {"a": "Journée corporate (8h-20h)", "p": "2 600 €", "n": "Plénière jusqu'à 250 assis, vidéoprojection, wifi fibre, loges."}, {"a": "Journée tournage", "p": "1 500 €", "n": "Plateau nu, accès camion, électricité 63 A, fiche technique fournie."}];
 const AVIS_DEMO = [{"texte": "Mariage de 180 personnes sous la verrière : la cérémonie à la lumière du soir, le dîner dans la nef, le DJ jusqu'à 4 h. Le régisseur a géré une panne de traiteur sans que personne ne s'en aperçoive.", "auteur": "Lisa & Karim", "detail": "Mariage urbain"}, {"texte": "Lancement produit devant 300 invités : accès camions impeccable, son calibré, keynote au cordeau. Le lieu a fait le buzz autant que le produit.", "auteur": "Dir. marketing, marque lilloise", "detail": "Lancement produit"}, {"texte": "Trois jours de tournage : électricité stable, régisseur qui connaît chaque recoin, brique magnifique à l'image. On revient au printemps.", "auteur": "Prod. audiovisuelle parisienne", "detail": "Tournage"}];
-const STATS = [{"value": "600 m²", "label": "Sous la verrière"}, {"value": "400", "label": "Debout · 250 assis"}, {"value": "1897", "label": "La halle, textile d'origine"}, {"value": "20 kW", "label": "De son installé, calibré"}];
+const STATS_DEMO = [{"value": "600 m²", "label": "Sous la verrière"}, {"value": "400", "label": "Debout · 250 assis"}, {"value": "1897", "label": "La halle, textile d'origine"}, {"value": "20 kW", "label": "De son installé, calibré"}];
+let STATS = STATS_DEMO;
 
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const ref = useRef(null);
@@ -78,6 +82,8 @@ export default function Halle1897Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  STATS = resolveList(clientStats(sessionData), STATS_DEMO);
+  ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;
   if (brand) {
     C = { ...C, accent: brand };

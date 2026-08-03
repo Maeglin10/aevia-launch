@@ -9,8 +9,10 @@ import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { DWELL, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
 import { PortalZoom } from "@/lib/templates/hero-kit-3";
 import {
+  clientCertifications,
   clientReviews,
   clientServices,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 /* Salle de réception / domaine de mariage, 1re variante. Signature : PortalZoom — le portail qui s'ouvre sur le domaine. Images repo (cérémonie, salle, nature). */
@@ -36,10 +38,12 @@ const HERO = [{"k": "La grande salle", "sub": "220 convives assis, pierre appare
 
 const SERVICES_DEMO = [{"titre": "La grande salle", "desc": "320 m² de tuffeau et de chêne, 220 couverts, office traiteur professionnel attenant, sono et lumières installées.", "tag": "Salle"}, {"titre": "Le parc & la cérémonie", "desc": "Cérémonie laïque sous l'allée de charmes, cocktail sur la terrasse ouest au couchant, plan B pluie prévu et beau.", "tag": "Parc"}, {"titre": "L'hébergement", "desc": "12 chambres (26 couchages) dans la longère et les dépendances : les proches restent, le brunch du lendemain a lieu ici.", "tag": "Nuits"}, {"titre": "Séminaires & journées d'équipe", "desc": "En semaine : salle plénière lumineuse, sous-commissions dans les dépendances, parc pour les formats qui respirent.", "tag": "Entreprise"}, {"titre": "Traiteurs : libres ou conseillés", "desc": "Cuisine professionnelle aux normes pour le traiteur de votre choix — ou notre liste de cinq maisons éprouvées.", "tag": "Traiteur"}, {"titre": "Coordination du jour J", "desc": "Notre intendante orchestre prestataires et timing le jour même : vous êtes invités chez vous.", "tag": "Jour J"}];
 const METHODE = [{"n": "01", "t": "La visite", "d": "Une heure trente, aux heures où VOTRE événement vivra : la lumière du parc à 18 h ne se raconte pas."}, {"n": "02", "t": "L'option posée", "d": "Date bloquée gratuitement 15 jours, devis détaillé espace par espace — pas de forfait opaque."}, {"n": "03", "t": "La préparation cadrée", "d": "Deux rendez-vous techniques, plan d'implantation, fiche prestataires : tout est écrit avant le jour J."}, {"n": "04", "t": "Le jour, orchestré", "d": "L'intendante gère les arrivées, le timing, les imprévus. Le domaine est à vous jusqu'au lendemain 15 h."}];
-const ENGAGEMENT = ["ERP de 5e catégorie contrôlé : commission de sécurité, accessibilité PMR", "Un seul événement à la fois — jamais deux mariages qui s'entendent chanter", "Sonorisation extérieure limitée à 22 h, salle insonorisée jusqu'à l'aube : les voisins et la fête coexistent", "Assurance RC organisateur exigée et vérifiée — protection de tous"];
+const ENGAGEMENT_DEMO = ["ERP de 5e catégorie contrôlé : commission de sécurité, accessibilité PMR", "Un seul événement à la fois — jamais deux mariages qui s'entendent chanter", "Sonorisation extérieure limitée à 22 h, salle insonorisée jusqu'à l'aube : les voisins et la fête coexistent", "Assurance RC organisateur exigée et vérifiée — protection de tous"];
+let ENGAGEMENT = ENGAGEMENT_DEMO;
 const TARIFS = [{"a": "Mariage — samedi haute saison", "p": "6 900 €", "n": "Du vendredi 14 h au dimanche 15 h : salle, parc, chambres, intendante."}, {"a": "Mariage — vendredi ou hors saison", "p": "4 900 €", "n": "Mêmes prestations, dates d'octobre à avril ou vendredis d'été."}, {"a": "Séminaire journée (< 80 pers.)", "p": "1 900 €", "n": "Salle plénière, 2 salles annexes, parc, café d'accueil compris."}, {"a": "Grande tablée familiale (< 60)", "p": "2 400 €", "n": "Anniversaires, noces d'or : la salle des dépendances et la terrasse."}];
 const AVIS_DEMO = [{"texte": "Le domaine entier à nous du vendredi au dimanche : la cérémonie sous les charmes, la fête jusqu'à 4 h sans un voisin fâché, le brunch en peignoir. Exactement le mariage qu'on voulait.", "auteur": "Camille & Antoine", "detail": "Mariage — juin 2026"}, {"texte": "L'intendante du jour J vaut de l'or : un prestataire en retard, une averse surprise — nous n'avons rien su de tout ça avant le lendemain.", "auteur": "Les mariés de septembre", "detail": "Coordination jour J"}, {"texte": "Séminaire stratégique de deux jours : équipes logées sur place, sessions dans les dépendances, soirée au parc. Le cadre a fait la moitié du travail de cohésion.", "auteur": "DG, scale-up tourangelle", "detail": "Séminaire résidentiel"}];
-const STATS = [{"value": "220", "label": "Convives assis en salle"}, {"value": "4 ha", "label": "De parc clos"}, {"value": "12", "label": "Chambres sur place"}, {"value": "1", "label": "Seul événement à la fois"}];
+const STATS_DEMO = [{"value": "220", "label": "Convives assis en salle"}, {"value": "4 ha", "label": "De parc clos"}, {"value": "12", "label": "Chambres sur place"}, {"value": "1", "label": "Seul événement à la fois"}];
+let STATS = STATS_DEMO;
 
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const ref = useRef(null);
@@ -79,6 +83,8 @@ export default function DomaineCharmillesPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  STATS = resolveList(clientStats(sessionData), STATS_DEMO);
+  ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;
   if (brand) {
     C = { ...C, accent: brand };

@@ -31,6 +31,7 @@ import {
   clientFaq,
   clientReviews,
   clientServices,
+  clientStats,
   clientTeam,
 } from "@/lib/templates/clientContent";
 
@@ -722,12 +723,13 @@ function Services() {
 }
 
 // ─── Stats ────────────────────────────────────────────────────────────────────
-const STATS = [
+const STATS_DEMO = [
   { value: "12 000+", label: "Patients satisfaits", icon: <Users size={24} color="#fff" /> },
   { value: "4.9 / 5", label: "Note moyenne Google", icon: <Star size={24} color="#fff" /> },
   { value: "15 ans", label: "D'expérience", icon: <Award size={24} color="#fff" /> },
   { value: "98 %", label: "Taux de satisfaction", icon: <ThumbsUp size={24} color="#fff" /> },
 ];
+let STATS = STATS_DEMO;
 
 function Stats() {
   const ref = useRef<HTMLElement>(null);
@@ -1408,6 +1410,7 @@ export default function Impact30() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, accent: brand, accentLight: shadeColor(brand, 25), accentDark: shadeColor(brand, -20) };

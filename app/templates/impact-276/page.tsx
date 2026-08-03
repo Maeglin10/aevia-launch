@@ -37,6 +37,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientReviews,
   clientServices,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 // Nav and footer links all pointed at the template root regardless of their
@@ -2158,12 +2159,13 @@ function BilanFormSection() {
 /* ════════════════════════════════════════════════════════════════════════════
    7 · StatsSection — 4 chiffres clés
    ════════════════════════════════════════════════════════════════════════════ */
-const STATS = [
+const STATS_DEMO = [
   { value: '8', unit: 'ans', label: 'de coaching professionnel', icon: Award },
   { value: '+300', unit: '', label: 'clients transformés', icon: Users },
   { value: '-12kg', unit: '', label: 'perte moyenne en 4 mois', icon: TrendingUp },
   { value: '98%', unit: '', label: 'taux de satisfaction', icon: Heart },
 ];
+let STATS = STATS_DEMO;
 
 function StatsSection() {
   return (
@@ -3148,6 +3150,7 @@ function Impact276Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, orange: brand };

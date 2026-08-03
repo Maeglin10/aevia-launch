@@ -29,6 +29,7 @@ import "../premium.css";
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientServices,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 /* ==========================================================================
@@ -88,12 +89,13 @@ const DESTINATIONS_DEMO = [
   },
 ];
 
-const STATS = [
+const STATS_DEMO = [
   { label: "Global Charter Ports", value: "140+" },
   { label: "Vessels in Management", value: "85" },
   { label: "Crew Members", value: "1.2k" },
   { label: "Client Satisfaction", value: "99.8%" },
 ];
+let STATS = STATS_DEMO;
 
 /* ==========================================================================
    UTILITY COMPONENTS
@@ -229,6 +231,7 @@ export default function HorizonYachtPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const DESTINATIONS = resolveList(

@@ -9,8 +9,10 @@ import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { DWELL, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
 import { TrackingCollapse } from "@/lib/templates/hero-kit-3";
 import {
+  clientCertifications,
   clientReviews,
   clientServices,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 /* Auto-école, 1re variante, pédagogie anti-stress. Signature : TrackingCollapse — le mot d'apprentissage dont l'interlettrage se resserre, comme une trajectoire qui se précise. Sans photographie. */
@@ -36,10 +38,12 @@ const HERO = [{"k": "Permis B", "word": "sereinement.", "sub": "La boîte manuel
 
 const SERVICES_DEMO = [{"titre": "Code de la route", "desc": "Salle connectée + application illimitée, séances thématiques animées par un moniteur — pas seulement des QCM en boucle.", "tag": "Code"}, {"titre": "Permis B manuel", "desc": "20 h de minimum légal, évaluation de départ offerte pour estimer VOTRE volume réel. Livret numérique suivi à chaque leçon.", "tag": "Permis B"}, {"titre": "Conduite accompagnée (AAC)", "desc": "Dès 15 ans : formation initiale, rendez-vous pédagogiques inclus, assurance guidée pour les parents.", "tag": "AAC"}, {"titre": "Boîte automatique", "desc": "13 h de minimum légal, passerelle possible vers la manuelle après 3 mois. Idéal reprise de confiance.", "tag": "Automatique"}, {"titre": "Perfectionnement & post-permis", "desc": "Autoroute, nuit, pluie, créneaux : des heures ciblées pour les jeunes permis — et la formation post-permis qui réduit la période probatoire.", "tag": "Post-permis"}, {"titre": "Financements", "desc": "CPF (permis B éligible), permis à 1 €/jour pour les 15-25 ans, paiement en 4 fois sans frais au secrétariat.", "tag": "Financement"}];
 const METHODE = [{"n": "01", "t": "Évaluation honnête", "d": "45 minutes offertes pour estimer votre volume d'heures réel — écrit sur le contrat, pas révisé à la hausse en cours de route."}, {"n": "02", "t": "Un moniteur référent", "d": "Le même moniteur vous suit ; les étapes du livret sont validées ensemble, jamais subies."}, {"n": "03", "t": "Simulateur d'examen", "d": "Deux passages blancs dans les conditions réelles, sur les parcours d'examen de Toulouse."}, {"n": "04", "t": "Présentation quand c'est prêt", "d": "On ne présente pas pour libérer un créneau : on présente quand les compétences sont validées. C'est ça, 78 %."}];
-const ENGAGEMENT = ["Agrément préfectoral E 26 031 0042 0 — moniteurs titulaires du Titre Pro ECSR", "Label « qualité des formations au sein des écoles de conduite » : taux de réussite affichés", "Contrat écrit : volume estimé, prix des heures supplémentaires identique au forfait", "Éligible CPF et permis à 1 €/jour — dossiers montés par le secrétariat"];
+const ENGAGEMENT_DEMO = ["Agrément préfectoral E 26 031 0042 0 — moniteurs titulaires du Titre Pro ECSR", "Label « qualité des formations au sein des écoles de conduite » : taux de réussite affichés", "Contrat écrit : volume estimé, prix des heures supplémentaires identique au forfait", "Éligible CPF et permis à 1 €/jour — dossiers montés par le secrétariat"];
+let ENGAGEMENT = ENGAGEMENT_DEMO;
 const TARIFS = [{"a": "Code (salle + appli illimitées)", "p": "290 €", "n": "Jusqu'à réussite, séances thématiques avec moniteur incluses."}, {"a": "Forfait 20 h — permis B", "p": "1 390 €", "n": "Évaluation offerte, livret numérique, 2 examens blancs, présentation incluse."}, {"a": "Conduite accompagnée (AAC)", "p": "1 490 €", "n": "Formation initiale + 2 rendez-vous pédagogiques obligatoires inclus."}, {"a": "Heure supplémentaire", "p": "46 €", "n": "Le même prix qu'au forfait — comparez, c'est rare."}];
 const AVIS_DEMO = [{"texte": "Deux échecs dans une autre auto-école, la boule au ventre à chaque leçon. Ici, mon moniteur n'a jamais élevé la voix. Permis au premier passage avec eux.", "auteur": "Léa G., 24 ans", "detail": "Reprise après échecs"}, {"texte": "Mon fils en conduite accompagnée : les deux rendez-vous pédagogiques nous ont appris, à nous parents, comment accompagner sans crisper. Reçu à 18 ans et 2 semaines.", "auteur": "Père d'Enzo, AAC", "detail": "Conduite accompagnée"}, {"texte": "Dossier CPF monté par le secrétariat en dix minutes. L'évaluation avait dit 28 h : il m'en a fallu 28. Personne n'a essayé de m'en vendre 40.", "auteur": "Karim T., 31 ans", "detail": "Permis B — CPF"}];
-const STATS = [{"value": "78 %", "label": "Réussite au 1er passage (B)"}, {"value": "12", "label": "Moniteurs diplômés d'État"}, {"value": "6", "label": "Voitures de moins de 3 ans"}, {"value": "0 €", "label": "Frais de dossier cachés"}];
+const STATS_DEMO = [{"value": "78 %", "label": "Réussite au 1er passage (B)"}, {"value": "12", "label": "Moniteurs diplômés d'État"}, {"value": "6", "label": "Voitures de moins de 3 ans"}, {"value": "0 €", "label": "Frais de dossier cachés"}];
+let STATS = STATS_DEMO;
 
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const ref = useRef(null);
@@ -79,6 +83,8 @@ export default function ConduiteZeroStressPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  STATS = resolveList(clientStats(sessionData), STATS_DEMO);
+  ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;
   if (brand) {
     C = { ...C, accent: brand };

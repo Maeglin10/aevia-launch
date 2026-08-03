@@ -32,9 +32,11 @@ import {
 } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientCertifications,
   clientFaq,
   clientReviews,
   clientServices,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 // Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
@@ -130,12 +132,13 @@ const COLLECTIONS_DEMO = [
   },
 ];
 
-const STATS = [
+const STATS_DEMO = [
   { value: "1947", label: "Fondée en", suffix: "" },
   { value: "18K+", label: "Pièces créées", suffix: "" },
   { value: "GIA", label: "Certifié", suffix: "" },
   { value: "67", label: "Pays livrés", suffix: "" },
 ];
+let STATS = STATS_DEMO;
 
 const TESTIMONIALS_DEMO = [
   {
@@ -182,7 +185,7 @@ const TESTIMONIALS_DEMO = [
   },
 ];
 
-const CERTIFICATIONS = [
+const CERTIFICATIONS_DEMO = [
   {
     name: "GIA Certified",
     desc: "Gemological Institute of America",
@@ -204,6 +207,7 @@ const CERTIFICATIONS = [
     detail: "Le métal des solitaires prestige",
   },
 ];
+let CERTIFICATIONS = CERTIFICATIONS_DEMO;
 
 const SERVICES = [
   {
@@ -411,6 +415,8 @@ export default function Impact157Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  STATS = resolveList(clientStats(sessionData), STATS_DEMO);
+  CERTIFICATIONS = resolveList(clientCertifications(sessionData), CERTIFICATIONS_DEMO);
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, gold: brand };

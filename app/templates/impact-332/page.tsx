@@ -8,8 +8,10 @@ import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { GhostSolid } from "@/lib/templates/hero-kit-2";
 import {
+  clientCertifications,
   clientReviews,
   clientServices,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 /* Serrurier, 2e variante (la 1re est impact-192, urgence). Celle-ci vend la serrurerie de sécurité posée à froid : blindage, A2P, coffres. Signature : GhostSolid — le contour du blindage qui devient matière. Sans photographie. */
@@ -35,10 +37,12 @@ const HERO = [];
 
 const SERVICES_DEMO = [{"titre": "Porte blindée certifiée", "desc": "Blocs-portes certifiés BP1 à BP3, posés sans casser votre encadrement. Isolation phonique et thermique comprises dans le bloc.", "tag": "Blindage"}, {"titre": "Serrure A2P 1 à 3 étoiles", "desc": "Multipoints certifiées A2P — le référentiel que votre assureur reconnaît. Pose en remplacement sans abîmer la porte.", "tag": "A2P"}, {"titre": "Blindage de porte existante", "desc": "Votre porte conservée, habillée d'acier et équipée d'une multipoints. L'alternative économique au bloc-porte complet.", "tag": "Blindage"}, {"titre": "Coffres-forts", "desc": "Coffres à emmurer ou à poser, certifiés EN 1143-1. Conseil sur la classe selon la valeur à protéger, pose discrète.", "tag": "Coffres"}, {"titre": "Contrôle d'accès", "desc": "Cylindres sur organigramme, clés protégées à carte de propriété, béquilles à code pour locaux professionnels.", "tag": "Accès"}, {"titre": "Après effraction", "desc": "Remise en sécurité propre après un cambriolage : constat photo pour l'assurance, remplacement à niveau certifié, pas de bricolage.", "tag": "Assurance"}];
 const METHODE = [{"n": "01", "t": "Étude sur place gratuite", "d": "État de la porte, de l'encadrement, des accès secondaires. On chiffre ce qui est utile, pas ce qui se vend."}, {"n": "02", "t": "Devis ferme sous 48 h", "d": "Matériel certifié détaillé référence par référence. Le devis signé est le prix payé, déplacement compris."}, {"n": "03", "t": "Pose par serruriers salariés", "d": "Jamais sous-traitée. Une porte blindée se pose en une demi-journée, chantier propre, gravats évacués."}, {"n": "04", "t": "Certificats remis", "d": "Certificats A2P et factures conformes pour votre assureur — ils conditionnent souvent votre indemnisation."}];
-const ENGAGEMENT = ["Installateurs agréés A2P — matériel certifié CNPP uniquement", "Devis écrit et gratuit avant toute intervention, conformément à l'arrêté du 24 janvier 2017", "Assurance décennale sur les poses, RC professionnelle à jour", "Aucun démarchage, aucune urgence inventée : nos prix ne doublent pas la nuit"];
+const ENGAGEMENT_DEMO = ["Installateurs agréés A2P — matériel certifié CNPP uniquement", "Devis écrit et gratuit avant toute intervention, conformément à l'arrêté du 24 janvier 2017", "Assurance décennale sur les poses, RC professionnelle à jour", "Aucun démarchage, aucune urgence inventée : nos prix ne doublent pas la nuit"];
+let ENGAGEMENT = ENGAGEMENT_DEMO;
 const TARIFS = [{"a": "Serrure multipoints A2P*", "p": "dès 690 € posée", "n": "Trois points certifiés, cylindre débrayable, clés protégées."}, {"a": "Blindage de porte existante", "p": "dès 1 490 €", "n": "Tôle acier, cornières anti-pinces, multipoints A2P incluse."}, {"a": "Bloc-porte blindé BP1", "p": "dès 2 900 €", "n": "Porte, huisserie et serrure certifiées ensemble — ce que demandent les assurances."}, {"a": "Coffre-fort posé", "p": "sur devis", "n": "Selon classe EN 1143-1 et support. Conseil discret, à l'étude ou chez vous."}];
 const AVIS_DEMO = [{"texte": "Après un cambriolage, ils ont remis la porte en sécurité proprement et fourni tous les certificats pour l'assurance. Remboursement sans discussion grâce au dossier.", "auteur": "Nadia R.", "detail": "Remise en sécurité + A2P**"}, {"texte": "Étude honnête : on venait pour une porte blindée, ils nous ont montré qu'un blindage de l'existante suffisait. 1 400 € d'économisés.", "auteur": "Thomas V.", "detail": "Blindage de porte"}, {"texte": "Cylindres sur organigramme pour nos trois commerces. Une seule clé pour moi, des accès limités pour les équipes. Posé un dimanche pour ne pas fermer.", "auteur": "SARL Le Comptoir", "detail": "Organigramme pro"}];
-const STATS = [{"value": "A2P", "label": "Serrures certifiées posées"}, {"value": "1 400+", "label": "Portes sécurisées"}, {"value": "10 ans", "label": "Garantie décennale pose"}, {"value": "48 h", "label": "Étude puis devis ferme"}];
+const STATS_DEMO = [{"value": "A2P", "label": "Serrures certifiées posées"}, {"value": "1 400+", "label": "Portes sécurisées"}, {"value": "10 ans", "label": "Garantie décennale pose"}, {"value": "48 h", "label": "Étude puis devis ferme"}];
+let STATS = STATS_DEMO;
 
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const ref = useRef(null);
@@ -78,6 +82,8 @@ export default function FaubourgSerruresPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  STATS = resolveList(clientStats(sessionData), STATS_DEMO);
+  ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;
   if (brand) {
     C = { ...C, accent: brand };

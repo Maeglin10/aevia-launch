@@ -9,8 +9,10 @@ import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { DWELL, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
 import { CrossPush } from "@/lib/templates/hero-kit-3";
 import {
+  clientCertifications,
   clientReviews,
   clientServices,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 /* Producteur fermier, 2e variante, maraîchage moderne et AMAP. Signature : CrossPush — les saisons du champ qui se poussent plein cadre. Images nature/jardin déjà présentes dans le repo. */
@@ -36,10 +38,12 @@ const HERO = [{"k": "Printemps", "sub": "Semis, plants, premières bottes — le
 
 const SERVICES_DEMO = [{"titre": "Paniers AMAP", "desc": "Un contrat de saison (6 mois), un panier chaque mardi : vous partagez la récolte — l'abondance de juillet comme la sobriété de février.", "tag": "AMAP"}, {"titre": "Marché des Lices", "desc": "Le samedi matin : l'étal complet, pour ceux qui préfèrent choisir. Les amapiens y ont leurs habitudes aussi.", "tag": "Marché"}, {"titre": "Légumes de plein champ", "desc": "Pommes de terre, courges, oignons : les gros volumes d'hiver, stockés à la ferme, vendus au cageot pour les conserves familiales.", "tag": "Stock"}, {"titre": "Plants de printemps", "desc": "En avril-mai : nos plants de tomates, courgettes et aromatiques, ceux-là mêmes que nous plantons — pas des invendus de jardinerie.", "tag": "Plants"}, {"titre": "Chantiers participatifs", "desc": "Plantation de printemps, récolte des courges : les amapiens qui veulent mettre les mains viennent — jamais obligatoire, toujours joyeux.", "tag": "Participatif"}, {"titre": "Écoles & visites", "desc": "Les classes de Vannes viennent voir pousser ce qu'elles mangent à la cantine — on livre aussi deux cantines de la ville.", "tag": "Pédagogie"}];
 const METHODE = [{"n": "01", "t": "Un engagement de saison", "d": "Six mois de paniers payés d'avance : la trésorerie qui permet de semer sans emprunter."}, {"n": "02", "t": "La récolte partagée", "d": "Le panier suit le champ : généreux l'été, plus sobre l'hiver. C'est le principe — et le calendrier est publié."}, {"n": "03", "t": "La distribution ensemble", "d": "Le mardi soir à la ferme : chacun compose son panier sur la table de tri, l'équipe raconte la semaine du champ."}, {"n": "04", "t": "Les comptes ouverts", "d": "Une réunion par saison : les prix, les investissements, les galères. Les amapiens savent ce qu'ils financent."}];
-const ENGAGEMENT = ["Certification AB — contrôles annuels, dérogations : zéro", "Tout ce qui est vendu a poussé sur nos 3 hectares — pas de revente négoce", "Prix de saison publiés et stables, décidés en réunion d'AMAP", "Deux cantines scolaires de Vannes livrées en légumes de saison"];
+const ENGAGEMENT_DEMO = ["Certification AB — contrôles annuels, dérogations : zéro", "Tout ce qui est vendu a poussé sur nos 3 hectares — pas de revente négoce", "Prix de saison publiés et stables, décidés en réunion d'AMAP", "Deux cantines scolaires de Vannes livrées en légumes de saison"];
+let ENGAGEMENT = ENGAGEMENT_DEMO;
 const TARIFS = [{"a": "Contrat AMAP — panier solo", "p": "12 €/semaine", "n": "Sur 6 mois : l'équivalent de 4-5 légumes chaque mardi."}, {"a": "Contrat AMAP — panier famille", "p": "21 €/semaine", "n": "8-10 légumes, calendrier de récoltes publié à la signature."}, {"a": "Cageot d'hiver (10 kg)", "p": "18 €", "n": "Pommes de terre, courges, oignons — pour les caves et les conserves."}, {"a": "Plants de printemps", "p": "dès 1,50 €", "n": "Tomates anciennes, courgettes, basilic — en avril-mai à la ferme."}];
 const AVIS_DEMO = [{"texte": "Quatrième saison d'AMAP : le mardi soir est devenu un rendez-vous, les enfants connaissent les maraîchers par leur prénom, et on mange mieux pour moins cher qu'au supermarché bio.", "auteur": "Famille Le Goff", "detail": "Panier famille"}, {"texte": "La réunion des comptes m'a bluffée : tout est sur la table, les prix, le tracteur à remplacer, les ratés de l'année. On ne consomme pas, on participe.", "auteur": "Anne-Sophie M.", "detail": "Amapienne depuis 2024"}, {"texte": "Le chantier courges d'octobre avec les enfants : une matinée dans la boue, cent kilos rentrés, soupe offerte. Ils en parlent encore.", "auteur": "Pierre-Yves D.", "detail": "Chantier participatif"}];
-const STATS = [{"value": "100", "label": "Familles en AMAP"}, {"value": "3 ha", "label": "En agriculture biologique"}, {"value": "45+", "label": "Variétés sur l'année"}, {"value": "2", "label": "Distributions par semaine"}];
+const STATS_DEMO = [{"value": "100", "label": "Familles en AMAP"}, {"value": "3 ha", "label": "En agriculture biologique"}, {"value": "45+", "label": "Variétés sur l'année"}, {"value": "2", "label": "Distributions par semaine"}];
+let STATS = STATS_DEMO;
 
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const ref = useRef(null);
@@ -79,6 +83,8 @@ export default function PotagerEstuairePage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  STATS = resolveList(clientStats(sessionData), STATS_DEMO);
+  ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;
   if (brand) {
     C = { ...C, accent: brand };

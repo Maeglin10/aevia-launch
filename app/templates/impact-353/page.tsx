@@ -9,8 +9,10 @@ import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { DWELL, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
 import { ComposeIn } from "@/lib/templates/hero-kit-3";
 import {
+  clientCertifications,
   clientReviews,
   clientServices,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 /* Micro-crèche, 1re variante. Signature : ComposeIn — les blocs qui s'assemblent comme des jeux de construction. Tuiles CSS sans photo. */
@@ -40,10 +42,12 @@ const HERO = [
 
 const SERVICES_DEMO = [{"titre": "Accueil régulier", "desc": "De 2 mois ½ à 3 ans, contrats de 1 à 5 jours par semaine. Adaptation progressive sur deux semaines, à votre rythme et au sien.", "tag": "Régulier"}, {"titre": "Accueil occasionnel", "desc": "Quelques heures ou une journée quand une place se libère — pour souffler, un rendez-vous, ou commencer en douceur.", "tag": "Occasionnel"}, {"titre": "Pédagogie du dehors", "desc": "Jardin quotidien, sorties au parc Paul-Mistral, semaine à la ferme au printemps. Les enfants rentrent sales et contents : c'est le but.", "tag": "Nature"}, {"titre": "Repas bio sur place", "desc": "Une cuisinière dédiée, menus validés par une diététicienne, allergies gérées avec PAI. Le menu de la semaine est affiché et envoyé.", "tag": "Cuisine"}, {"titre": "Lien aux familles", "desc": "Transmissions du soir en face à face, application photos sobre (privée), café des parents chaque premier vendredi.", "tag": "Familles"}, {"titre": "Passerelle école", "desc": "La dernière année prépare en douceur : autonomie, groupe, visite de l'école du quartier au troisième trimestre.", "tag": "3 ans"}];
 const METHODE = [{"n": "01", "t": "Arrivées échelonnées", "d": "7h30-9h30 : chaque enfant est accueilli individuellement, transmission du matin avec le parent."}, {"n": "02", "t": "Jardin & activités", "d": "Dehors chaque matin, ateliers libres ensuite. Les siestes ne sont jamais réveillées."}, {"n": "03", "t": "Repas ensemble", "d": "Cuisinés sur place, servis à table dès que l'enfant s'assoit — les grands aident à mettre le couvert."}, {"n": "04", "t": "Transmissions du soir", "d": "Ce qu'il a mangé, dormi, découvert : cinq vraies minutes par famille, pas un tableau à la porte."}];
-const ENGAGEMENT = ["Agrément PMI de l'Isère — 12 places, locaux et taux d'encadrement contrôlés", "Équipe 100 % diplômée (EJE, auxiliaires de puériculture, CAP AEPE), stable depuis l'ouverture", "Analyse de pratiques mensuelle avec une psychologue extérieure", "Éligible CMG de la CAF : le vrai reste à charge est souvent proche d'une crèche municipale"];
+const ENGAGEMENT_DEMO = ["Agrément PMI de l'Isère — 12 places, locaux et taux d'encadrement contrôlés", "Équipe 100 % diplômée (EJE, auxiliaires de puériculture, CAP AEPE), stable depuis l'ouverture", "Analyse de pratiques mensuelle avec une psychologue extérieure", "Éligible CMG de la CAF : le vrai reste à charge est souvent proche d'une crèche municipale"];
+let ENGAGEMENT = ENGAGEMENT_DEMO;
 const TARIFS = [{"a": "Journée (contrat régulier)", "p": "dès 68 €", "n": "Avant CMG. Repas bio, couches et produits de soin inclus."}, {"a": "Semaine 5 jours", "p": "dès 310 €", "n": "Avant aides — reste à charge simulé lors de la visite."}, {"a": "Accueil occasionnel (demi-journée)", "p": "38 €", "n": "Selon places disponibles, repas inclus."}, {"a": "Frais d'inscription", "p": "0 €", "n": "La visite, le dossier et l'adaptation ne se facturent pas."}];
 const AVIS_DEMO = [{"texte": "Notre fille rentre avec de la terre sous les ongles et des histoires plein la tête. L'équipe n'a pas bougé en trois ans — ça dit tout de cette maison.", "auteur": "Parents de Léonie, 2 ans ½", "detail": "Accueil régulier"}, {"texte": "L'adaptation en deux semaines, à son rythme, sans forcer : notre fils de 4 mois s'est posé tout seul. Les transmissions du soir sont un vrai moment.", "auteur": "Camille & Hugo", "detail": "Entrée en crèche"}, {"texte": "La simulation CMG faite à la visite nous a surpris : 12 € par jour de reste à charge réel. On croyait la micro-crèche inaccessible.", "auteur": "Parents de Nino", "detail": "Tarifs & CAF"}];
-const STATS = [{"value": "12", "label": "Places — pas une de plus"}, {"value": "1:3", "label": "Adulte pour 3 bébés"}, {"value": "100 %", "label": "Équipe diplômée petite enfance"}, {"value": "0", "label": "Écran, nulle part"}];
+const STATS_DEMO = [{"value": "12", "label": "Places — pas une de plus"}, {"value": "1:3", "label": "Adulte pour 3 bébés"}, {"value": "100 %", "label": "Équipe diplômée petite enfance"}, {"value": "0", "label": "Écran, nulle part"}];
+let STATS = STATS_DEMO;
 
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const ref = useRef(null);
@@ -83,6 +87,8 @@ export default function PetitsCairnsPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  STATS = resolveList(clientStats(sessionData), STATS_DEMO);
+  ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;
   if (brand) {
     C = { ...C, accent: brand };

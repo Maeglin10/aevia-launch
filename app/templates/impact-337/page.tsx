@@ -9,8 +9,10 @@ import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { DWELL, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
 import { ComposeIn } from "@/lib/templates/hero-kit-3";
 import {
+  clientCertifications,
   clientReviews,
   clientServices,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 /* Courtier en assurance, 1re variante. Signature : ComposeIn — les garanties arrivent une à une et s'assemblent en couverture complète. Sans photographie. */
@@ -40,10 +42,12 @@ const HERO = [
 
 const SERVICES_DEMO = [{"titre": "Auto & deux-roues", "desc": "Du tiers étendu au tous risques, bonus 50 défendu, résiliés et malussés étudiés. La bonne formule, pas la plus chère.", "tag": "Auto"}, {"titre": "Habitation", "desc": "Propriétaire, locataire, PNO : capitaux mobiliers estimés avec vous, objets de valeur déclarés correctement — c'est ce qui fait payer les sinistres.", "tag": "Habitation"}, {"titre": "Santé & prévoyance", "desc": "Complémentaire santé lisible, prévoyance qui maintient le revenu en cas d'arrêt. Analyse de vos contrats actuels offerte.", "tag": "Santé"}, {"titre": "Emprunteur", "desc": "Changez d'assurance de prêt à tout moment (loi Lemoine) : à garanties équivalentes, souvent des milliers d'euros économisés.", "tag": "Crédit"}, {"titre": "Professionnels & TNS", "desc": "RC pro, décennale, multirisque, mutuelle et retraite Madelin : un seul dossier pour tout le risque de l'entreprise.", "tag": "Pro"}, {"titre": "Gestion de sinistre", "desc": "Déclaration, expertise, contre-expertise si besoin : nous portons le dossier face à la compagnie jusqu'à l'indemnisation.", "tag": "Sinistre"}];
 const METHODE = [{"n": "01", "t": "Bilan de l'existant", "d": "Vos contrats actuels relus ligne à ligne : doublons, trous de garantie, franchises oubliées."}, {"n": "02", "t": "Étude comparative écrite", "d": "Vingt compagnies interrogées, trois propositions argumentées, remises sous 48 h avec nos recommandations."}, {"n": "03", "t": "Souscription sans rupture", "d": "Résiliations gérées par nos soins, aucune journée sans couverture, cartes vertes et attestations immédiates."}, {"n": "04", "t": "Revue annuelle", "d": "Chaque année, on vérifie que vos contrats suivent votre vie : déménagement, naissance, nouveau véhicule, nouvelle activité."}];
-const ENGAGEMENT = ["Immatriculés à l'ORIAS (n° 26 004 512), contrôlés par l'ACPR", "Devoir de conseil formalisé : nos recommandations sont écrites et motivées", "Rémunération transparente : commissions affichées, honoraires annoncés avant mission", "Aucun engagement d'exclusivité avec une compagnie — c'est votre intérêt qui arbitre"];
+const ENGAGEMENT_DEMO = ["Immatriculés à l'ORIAS (n° 26 004 512), contrôlés par l'ACPR", "Devoir de conseil formalisé : nos recommandations sont écrites et motivées", "Rémunération transparente : commissions affichées, honoraires annoncés avant mission", "Aucun engagement d'exclusivité avec une compagnie — c'est votre intérêt qui arbitre"];
+let ENGAGEMENT = ENGAGEMENT_DEMO;
 const TARIFS = [{"a": "Bilan assurantiel particulier", "p": "gratuit", "n": "Relecture de vos contrats et étude comparative écrite, sans engagement."}, {"a": "Audit assurances entreprise", "p": "dès 390 €", "n": "Cartographie des risques, rapport écrit, déduit si vous nous confiez les contrats."}, {"a": "Assurance emprunteur", "p": "économie moyenne 6 400 €", "n": "Sur la durée du prêt, à garanties équivalentes (loi Lemoine)."}, {"a": "Accompagnement sinistre", "p": "inclus", "n": "Pour tous nos clients, jusqu'à l'indemnisation. C'est le métier."}];
 const AVIS_DEMO = [{"texte": "Dégât des eaux important : le courtier a géré la déclaration, l'expert, la contre-expertise. Indemnisation doublée par rapport à la première proposition de la compagnie.", "auteur": "Yann & Morgane L.", "detail": "Sinistre habitation"}, {"texte": "Ils ont repris nos cinq contrats : deux doublons supprimés, une garantie perte d'exploitation ajoutée — qu'on n'avait pas et qui nous aurait coûté l'entreprise.", "auteur": "Menuiserie Kerbrat", "detail": "Audit entreprise"}, {"texte": "Assurance de prêt renégociée en trois semaines : 41 € de moins par mois, mêmes garanties, banque prévenue par leurs soins.", "auteur": "Simon G.", "detail": "Emprunteur — loi Lemoine"}];
-const STATS = [{"value": "20", "label": "Compagnies comparées"}, {"value": "1 900+", "label": "Foyers et pros assurés"}, {"value": "-23 %", "label": "Économie moyenne à garanties égales"}, {"value": "48 h", "label": "Étude comparative rendue"}];
+const STATS_DEMO = [{"value": "20", "label": "Compagnies comparées"}, {"value": "1 900+", "label": "Foyers et pros assurés"}, {"value": "-23 %", "label": "Économie moyenne à garanties égales"}, {"value": "48 h", "label": "Étude comparative rendue"}];
+let STATS = STATS_DEMO;
 
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const ref = useRef(null);
@@ -83,6 +87,8 @@ export default function CapAssurancesPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  STATS = resolveList(clientStats(sessionData), STATS_DEMO);
+  ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;
   if (brand) {
     C = { ...C, accent: brand };

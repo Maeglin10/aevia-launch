@@ -5,13 +5,22 @@ import type { GeneratedContent, FormData, SessionData, BusinessProfile } from "@
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-// Simple in-memory rate limiter: max 30 session requests per IP per minute
+// Simple in-memory rate limiter: max 30 session requests per IP per minute.
+//
+// Relevable par SESSIONS_RATE_LIMIT, uniquement pour l'audit local des thèmes :
+// scripts/theme-audit.mjs consomme trois requêtes par thème, soit plus de mille
+// pour balayer le catalogue. À 30 par minute, les thèmes audités après la
+// dixième minute paraissaient n'afficher aucune donnée client — c'est la mesure
+// qui échouait, pas le câblage, et le diagnostic a failli partir de travers.
+// La valeur par défaut reste 30 : la production ne change pas.
 const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
+
+const MAX_REQUESTS = Number(process.env.SESSIONS_RATE_LIMIT) || 30;
 
 function isRateLimited(ip: string): boolean {
   const now = Date.now();
   const window = 60_000; // 1 minute
-  const maxRequests = 30;
+  const maxRequests = MAX_REQUESTS;
   const entry = rateLimitMap.get(ip);
   if (!entry || now > entry.resetAt) {
     rateLimitMap.set(ip, { count: 1, resetAt: now + window });

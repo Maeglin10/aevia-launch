@@ -8,6 +8,7 @@ import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientReviews,
   clientServices,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 // Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
@@ -32,7 +33,8 @@ let C: Record<string, string> = {
 };const FONT = "'DM Serif Display', Georgia, serif"
 const FONT_BODY = "'DM Sans', system-ui, sans-serif"
 
-const STATS = [{ value: "8 ans", label: "D'expérience" }, { value: "1 200+", label: "Patients suivis" }, { value: "92%", label: "Objectifs atteints" }, { value: "RDV 48h", label: "Délai moyen" }]
+const STATS_DEMO = [{ value: "8 ans", label: "D'expérience" }, { value: "1 200+", label: "Patients suivis" }, { value: "92%", label: "Objectifs atteints" }, { value: "RDV 48h", label: "Délai moyen" }]
+let STATS = STATS_DEMO;
 
 const ACCOMPAGNEMENTS_DEMO = [
   { titre: "Perte de poids durable", desc: "Pas de régime restrictif — un rééquilibrage alimentaire adapté à votre mode de vie. Méthode progressive, sans frustration, avec un suivi régulier.", tag: "Poids" },
@@ -152,6 +154,7 @@ export default function NutritherapiePage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, accent: brand };

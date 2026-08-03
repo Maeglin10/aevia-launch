@@ -8,6 +8,7 @@ import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientReviews,
   clientServices,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 
@@ -41,12 +42,13 @@ let C: Record<string, string> = {
 const FONT = "'Playfair Display', Georgia, serif"
 const FONT_BODY = "'Raleway', system-ui, sans-serif"
 
-const STATS = [
+const STATS_DEMO = [
   { value: "11 ans", label: "D'expertise" },
   { value: "6", label: "Barbiers certifiés" },
   { value: "4.9★", label: "Avis Google" },
   { value: "45 min", label: "Prestation signature" },
 ]
+let STATS = STATS_DEMO;
 
 
 const NAV = [
@@ -304,6 +306,7 @@ export default function LeBarberClubPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   if (brand) {

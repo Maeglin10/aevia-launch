@@ -8,8 +8,10 @@ import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { BentoCascade, DWELL, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
 import {
+  clientCertifications,
   clientReviews,
   clientServices,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 /* Centre de formation, 2e variante, orientée reconversion et métiers manuels. Signature : BentoCascade — les modules du parcours qui tombent en cascade. Sans photographie. */
@@ -39,10 +41,12 @@ const HERO = [
 
 const SERVICES_DEMO = [{"titre": "CAP Cuisine (8 mois)", "desc": "En cuisine pédagogique professionnelle, avec 8 semaines de stage en restaurant. Le CAP en candidat libre, préparé sérieusement.", "tag": "Cuisine"}, {"titre": "Titre Pro Menuisier fabricant", "desc": "Niveau 3 RNCP, dans un atelier de 400 m². Les projets des stagiaires équipent des associations locales — du réel, jusqu'au client.", "tag": "Bois"}, {"titre": "Développeur web et web mobile", "desc": "Titre RNCP niveau 5 en 9 mois. Front, back, bases de données, projet final soutenu devant un jury de développeurs en poste.", "tag": "Code"}, {"titre": "Boulanger (Titre Pro)", "desc": "Fournil sur place, levains menés chaque nuit de formation, épreuves blanches en conditions d'examen réelles.", "tag": "Fournil"}, {"titre": "Bilan de compétences", "desc": "24 h sur 8 semaines pour choisir la reconversion — avant d'y engager un an de votre vie. Éligible CPF.", "tag": "Bilan"}, {"titre": "Accompagnement emploi", "desc": "CV métier, réseau d'entreprises partenaires, préparation aux entretiens : le titre est un moyen, l'emploi est le but.", "tag": "Emploi"}];
 const METHODE = [{"n": "01", "t": "Réunion d'info & entretien", "d": "Chaque mois. On parle métier réel, salaires réels, difficultés réelles — pas de brochure enchantée."}, {"n": "02", "t": "Financement bouclé avant", "d": "CPF, Transitions Pro, France Travail, Région : le dossier est monté et accepté avant le premier jour."}, {"n": "03", "t": "Atelier + stage", "d": "Les gestes en atelier dès la première semaine, 6 à 8 semaines de stage placées par l'école."}, {"n": "04", "t": "Titre + placement", "d": "Épreuves RNCP, puis six mois de suivi emploi. Nos taux d'insertion sont publiés parcours par parcours."}];
-const ENGAGEMENT = ["Certification Qualiopi, NDA 75 33 12987 33 — audits publiés", "Titres professionnels RNCP reconnus par l'État (niveaux 3 à 5)", "Taux d'insertion à 6 mois publiés par parcours, réunions d'info mensuelles", "Promotion limitée à 12 : un formateur voit réellement chaque geste"];
+const ENGAGEMENT_DEMO = ["Certification Qualiopi, NDA 75 33 12987 33 — audits publiés", "Titres professionnels RNCP reconnus par l'État (niveaux 3 à 5)", "Taux d'insertion à 6 mois publiés par parcours, réunions d'info mensuelles", "Promotion limitée à 12 : un formateur voit réellement chaque geste"];
+let ENGAGEMENT = ENGAGEMENT_DEMO;
 const TARIFS = [{"a": "CAP Cuisine — 8 mois", "p": "7 900 €", "n": "Finançable Transitions Pro / CPF / France Travail. Tenues et couteaux fournis."}, {"a": "Titre Pro Menuisier — 7 mois", "p": "8 400 €", "n": "EPI et consommables inclus, projets réels clients."}, {"a": "Développeur web — 9 mois", "p": "8 900 €", "n": "Portable prêté, alternance possible dès le 3e mois."}, {"a": "Bilan de compétences — 24 h", "p": "1 800 €", "n": "Éligible CPF, en présentiel ou visio, restitution écrite."}];
 const AVIS_DEMO = [{"texte": "Contrôleur de gestion pendant douze ans, menuisier depuis dix-huit mois. L'atelier réel fait toute la différence : au premier jour en entreprise, je savais tenir mon poste.", "auteur": "Damien F., 41 ans", "detail": "Titre Pro Menuisier"}, {"texte": "Le CAP Cuisine en promotion de 12, c'est un vrai restaurant d'application, pas une salle de classe. Embauchée par mon maître de stage avant même l'examen.", "auteur": "Nora B., 33 ans", "detail": "CAP Cuisine"}, {"texte": "Transitions Pro a financé la totalité, salaire maintenu. Le dossier faisait peur, l'école l'a monté avec moi en trois rendez-vous.", "auteur": "Sébastien L., 38 ans", "detail": "Développeur web"}];
-const STATS = [{"value": "82 %", "label": "En emploi 6 mois après le titre"}, {"value": "12", "label": "Stagiaires max par promotion"}, {"value": "400 m²", "label": "D'ateliers réels"}, {"value": "RNCP", "label": "Titres reconnus par l'État"}];
+const STATS_DEMO = [{"value": "82 %", "label": "En emploi 6 mois après le titre"}, {"value": "12", "label": "Stagiaires max par promotion"}, {"value": "400 m²", "label": "D'ateliers réels"}, {"value": "RNCP", "label": "Titres reconnus par l'État"}];
+let STATS = STATS_DEMO;
 
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const ref = useRef(null);
@@ -82,6 +86,8 @@ export default function AlmaCompetencesPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  STATS = resolveList(clientStats(sessionData), STATS_DEMO);
+  ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;
   if (brand) {
     C = { ...C, accent: brand };

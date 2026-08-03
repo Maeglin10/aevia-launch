@@ -23,6 +23,7 @@ import {
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientReviews,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 // Hoisted above the design tokens: several templates read `brand` in a
@@ -292,7 +293,7 @@ const SUBSCRIPTION_HIGHLIGHTS = [
   { icon: TrendingUp, title: "Économies progressives", desc: "Plus votre abonnement dure, plus vous bénéficiez de remises et d'accès prioritaire aux lots rares." },
 ];
 
-const IMPACT_STATS = [
+const IMPACT_STATS_DEMO = [
   { value: "47", label: "Fermes partenaires", icon: Leaf },
   { value: "18", label: "Pays d'origine", icon: Globe },
   { value: "32k+", label: "Sacs torréfiés", icon: Coffee },
@@ -300,6 +301,7 @@ const IMPACT_STATS = [
   { value: "€0.18", label: "Prime par kg vs marché", icon: TrendingUp },
   { value: "97%", label: "Abonnés satisfaits", icon: Heart },
 ];
+let IMPACT_STATS = IMPACT_STATS_DEMO;
 
 // ─── Sub-components ────────────────────────────────────────────────────────────
 
@@ -761,6 +763,7 @@ export default function OriginRoastPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  IMPACT_STATS = resolveList(clientStats(sessionData), IMPACT_STATS_DEMO);
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   // Products ← bp.menu (real business products) else demo. Decorative fields

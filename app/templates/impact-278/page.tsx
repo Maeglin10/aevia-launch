@@ -29,6 +29,7 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientCertifications,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -2109,7 +2110,7 @@ type Certification = {
   benefit: string;
 };
 
-const CERTIFICATIONS: Certification[] = [
+const CERTIFICATIONS_DEMO: Certification[] = [
   {
     icon: <Award size={32} strokeWidth={1.5} />,
     label: 'RGE',
@@ -2139,6 +2140,7 @@ const CERTIFICATIONS: Certification[] = [
     benefit: 'Protection 10 ans',
   },
 ];
+let CERTIFICATIONS = CERTIFICATIONS_DEMO;
 
 function CertifCard({ c, i }: { c: Certification; i: number }) {
   const [hover, setHover] = useState(false);
@@ -2843,6 +2845,7 @@ function Impact278Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  CERTIFICATIONS = resolveList(clientCertifications(sessionData), CERTIFICATIONS_DEMO);
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, brick: brand, brickLight: shadeColor(brand, 25) };

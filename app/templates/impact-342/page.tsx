@@ -9,8 +9,10 @@ import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { DWELL, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
 import { HardCutRebuild } from "@/lib/templates/hero-kit-3";
 import {
+  clientCertifications,
   clientReviews,
   clientServices,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 /* Auto-école, 2e variante, urbaine et directe, public jeune. Signature : HardCutRebuild — on cale, coupure nette, on redémarre pièce par pièce. Sans photographie. */
@@ -36,10 +38,12 @@ const HERO = [{"k": "Permis B", "line": "TU CALES ? ON REPART.", "sub": "La boî
 
 const SERVICES_DEMO = [{"titre": "Code accéléré", "desc": "Stage de 3 jours + accès illimité à l'application. Séances de correction en direct avec moniteur, pas un écran qui débite.", "tag": "Code"}, {"titre": "Permis B", "desc": "Créneaux 7h-21h et le samedi. Moniteur référent, livret numérique, points bloquants traités au simulateur avant la voiture.", "tag": "Conduite"}, {"titre": "Simulateur nouvelle génération", "desc": "Premières heures et situations à risque (pluie, nuit, autoroute) travaillées au simulateur — comptabilisées dans le forfait, deux fois moins chères.", "tag": "Simu"}, {"titre": "Conduite supervisée", "desc": "Après 18 ans : réduis le coût entre deux présentations en conduisant avec un proche, cadré par nous.", "tag": "Supervisée"}, {"titre": "Stage dernière ligne droite", "desc": "6 h sur les parcours d'examen de Montpellier la semaine du passage, examen blanc filmé et débriefé.", "tag": "Examen"}, {"titre": "CPF & financements", "desc": "Permis B éligible CPF, permis à 1 €/jour pour les 15-25 ans, mission locale acceptée. On monte le dossier avec toi.", "tag": "Financement"}];
 const METHODE = [{"n": "01", "t": "Éval de départ offerte", "d": "45 min en voiture. Ton volume d'heures estimé est écrit au contrat — et on s'y tient."}, {"n": "02", "t": "Résa en ligne 24h/24", "d": "Tes créneaux depuis ton téléphone, annulation gratuite 48 h avant, liste d'attente automatique."}, {"n": "03", "t": "Simulateur + voiture", "d": "Le simulateur déblaye les bases et les situations à risque ; la voiture sert à progresser, pas à répéter."}, {"n": "04", "t": "Examens blancs filmés", "d": "Deux passages blancs filmés et débriefés image par image. Le jour J, tu l'as déjà vécu."}];
-const ENGAGEMENT = ["Agrément préfectoral E 26 034 0118 0, moniteurs diplômés Titre Pro ECSR", "Taux de réussite affichés en vitrine et en ligne, mis à jour chaque trimestre", "Heure supplémentaire au prix du forfait, écrit au contrat", "Frais de transfert de dossier : 0 € — tu restes parce que ça marche, pas parce que c'est cher de partir"];
+const ENGAGEMENT_DEMO = ["Agrément préfectoral E 26 034 0118 0, moniteurs diplômés Titre Pro ECSR", "Taux de réussite affichés en vitrine et en ligne, mis à jour chaque trimestre", "Heure supplémentaire au prix du forfait, écrit au contrat", "Frais de transfert de dossier : 0 € — tu restes parce que ça marche, pas parce que c'est cher de partir"];
+let ENGAGEMENT = ENGAGEMENT_DEMO;
 const TARIFS = [{"a": "Code intensif (3 jours + appli)", "p": "330 €", "n": "Jusqu'à réussite, examen en centre partenaire à 30 € en sus (tarif d'État)."}, {"a": "Forfait 20 h mixte simu/voiture", "p": "1 290 €", "n": "6 h simulateur + 14 h voiture, examens blancs filmés inclus."}, {"a": "Forfait 20 h tout voiture", "p": "1 450 €", "n": "Créneaux soir et samedi sans supplément."}, {"a": "Heure supplémentaire", "p": "45 €", "n": "Identique au tarif forfait, réservable à l'unité en ligne."}];
 const AVIS_DEMO = [{"texte": "Le simulateur m'a évité de griller 6 heures de voiture à apprendre l'embrayage. Permis en 4 mois en bossant à côté, créneaux du samedi nickel.", "auteur": "Inès B., 22 ans", "detail": "Forfait mixte"}, {"texte": "L'examen blanc filmé, ça pique — mais le jour J j'avais déjà corrigé mes deux défauts. Reçue, 29/31.", "auteur": "Manon F., 19 ans", "detail": "Stage dernière ligne droite"}, {"texte": "Code en 3 semaines en sortant du lycée, permis avant la fac. Résa en ligne à minuit depuis mon lit : c'est comme ça que ça devrait marcher partout.", "auteur": "Adam R., 18 ans", "detail": "Code intensif + B"}];
-const STATS = [{"value": "75 %", "label": "Réussite 1er passage"}, {"value": "7 j/7", "label": "Réservation en ligne 24h/24"}, {"value": "3 sem.", "label": "Pour le code en intensif"}, {"value": "4×", "label": "Paiement sans frais"}];
+const STATS_DEMO = [{"value": "75 %", "label": "Réussite 1er passage"}, {"value": "7 j/7", "label": "Réservation en ligne 24h/24"}, {"value": "3 sem.", "label": "Pour le code en intensif"}, {"value": "4×", "label": "Paiement sans frais"}];
+let STATS = STATS_DEMO;
 
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const ref = useRef(null);
@@ -79,6 +83,8 @@ export default function PermisCapSudPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  STATS = resolveList(clientStats(sessionData), STATS_DEMO);
+  ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;
   if (brand) {
     C = { ...C, accent: brand };

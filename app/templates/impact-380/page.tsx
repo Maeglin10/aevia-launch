@@ -9,8 +9,10 @@ import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { DWELL, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
 import { PanelRise } from "@/lib/templates/hero-kit-3";
 import {
+  clientCertifications,
   clientReviews,
   clientServices,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 /* Brasserie artisanale, 2e variante de la niche. Signature : PanelRise — le bandeau qui s'élève, la mousse qui monte dans le verre. Sans photographie. */
@@ -36,10 +38,12 @@ const HERO = [];
 
 const SERVICES_DEMO = [{"titre": "La Blonde de Soif", "desc": "4,8 % — maltée, sèche, désaltérante. Celle qu'on sert aux sceptiques et qu'ils finissent par commander en fût.", "tag": "Blonde"}, {"titre": "L'IPA du Beffroi", "desc": "6,2 % — houblons américains et néo-zélandais, amertume franche, agrumes et résine. Notre best-seller au taproom.", "tag": "IPA"}, {"titre": "La Brune d'Hiver", "desc": "7 % — malts torréfiés, café et chocolat noir, longueur en bouche. Brassée de septembre à mars uniquement.", "tag": "Brune"}, {"titre": "La Blanche du Canal", "desc": "4,5 % — froment lillois, coriandre, zeste d'orange amère. La terrasse d'été en bouteille.", "tag": "Blanche"}, {"titre": "Les saisonnières", "desc": "Tous les deux mois : bière de garde, stout au café d'un torréfacteur voisin, sour aux fruits de saison. Quand c'est fini, c'est fini.", "tag": "Éphémère"}, {"titre": "Fûts pour bars & événements", "desc": "Fûts 20 et 30 L, tireuses prêtées, livraison sur Lille : bars, mariages, comités d'entreprise.", "tag": "CHR"}];
 const METHODE = [{"n": "01", "t": "Le malt d'à côté", "d": "Orges de Flandre maltées à 30 km : la matière première voyage moins que nos bouteilles."}, {"n": "02", "t": "Le brassin de 20 hL", "d": "Petits volumes, brassage tous les mardis : on peut se permettre d'arrêter une recette qui ne nous plaît plus."}, {"n": "03", "t": "Fermentation lente", "d": "Trois semaines minimum, garde à froid : le temps que le brasseur industriel n'a pas et que le goût réclame."}, {"n": "04", "t": "Ni filtrée ni pasteurisée", "d": "La bière reste vivante, un léger dépôt est normal — c'est la preuve, pas le défaut."}];
-const ENGAGEMENT = ["Brasserie indépendante : aucun groupe au capital, aucune bière brassée pour d'autres", "Malts d'orge de Flandre, houblons tracés, aucun additif ni arôme", "Bières non filtrées, non pasteurisées — DLUO courte, goût long", "Consigne bouteilles et fûts : rapportez, on reprend, on relave"];
+const ENGAGEMENT_DEMO = ["Brasserie indépendante : aucun groupe au capital, aucune bière brassée pour d'autres", "Malts d'orge de Flandre, houblons tracés, aucun additif ni arôme", "Bières non filtrées, non pasteurisées — DLUO courte, goût long", "Consigne bouteilles et fûts : rapportez, on reprend, on relave"];
+let ENGAGEMENT = ENGAGEMENT_DEMO;
 const TARIFS = [{"a": "Bouteille 33 cl (boutique)", "p": "3,20 €", "n": "Consigne 0,20 € rendue au retour."}, {"a": "Caisse de 12 (assortie)", "p": "34 €", "n": "Composez avec les permanentes et la saisonnière du moment."}, {"a": "Fût 20 L + tireuse prêtée", "p": "145 €", "n": "Caution tireuse, livraison sur Lille comprise."}, {"a": "Visite-dégustation (1 h 30)", "p": "12 €", "n": "Cuves, brassin en cours, 4 dégustations. Le samedi à 15 h."}];
 const AVIS_DEMO = [{"texte": "L'IPA du Beffroi est devenue la bière officielle de nos vendredis. Le taproom au pied des cuves, avec le brasseur qui passe expliquer le brassin en cours : c'est ça, boire local.", "auteur": "Habitué du taproom", "detail": "Taproom"}, {"texte": "Fûts et tireuse pour notre mariage de 120 personnes : livrés, installés, repris le lundi. La blanche a fait l'unanimité, même chez les non-buveurs de bière.", "auteur": "Marion & Cédric", "detail": "Fûts événement"}, {"texte": "La visite du samedi avec dégustation vaut largement les 12 €. On a compris pourquoi une bière artisanale coûte ce qu'elle coûte — et on l'achète sans broncher depuis.", "auteur": "Groupe d'amis lillois", "detail": "Visite-dégustation"}];
-const STATS = [{"value": "4", "label": "Bières permanentes"}, {"value": "1 200 hL", "label": "Brassés par an — pas un de plus"}, {"value": "0", "label": "Filtration, pasteurisation, additif"}, {"value": "30 km", "label": "Rayon des orges maltées"}];
+const STATS_DEMO = [{"value": "4", "label": "Bières permanentes"}, {"value": "1 200 hL", "label": "Brassés par an — pas un de plus"}, {"value": "0", "label": "Filtration, pasteurisation, additif"}, {"value": "30 km", "label": "Rayon des orges maltées"}];
+let STATS = STATS_DEMO;
 
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const ref = useRef(null);
@@ -79,6 +83,8 @@ export default function BrasserieHoublonPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  STATS = resolveList(clientStats(sessionData), STATS_DEMO);
+  ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;
   if (brand) {
     C = { ...C, accent: brand };

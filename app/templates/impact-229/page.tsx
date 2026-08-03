@@ -8,6 +8,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientReviews,
   clientServices,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 // Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
@@ -34,7 +35,8 @@ let C: Record<string, string> = {
 const FONT = "'Cormorant Garamond', Georgia, serif"
 const FONT_BODY = "'Karla', system-ui, sans-serif"
 
-const STATS = [{ value: "14 ans", label: "D'expertise beauté" }, { value: "3 200+", label: "Soins réalisés" }, { value: "4.9★", label: "Avis Google" }, { value: "90 min", label: "Soin signature" }]
+const STATS_DEMO = [{ value: "14 ans", label: "D'expertise beauté" }, { value: "3 200+", label: "Soins réalisés" }, { value: "4.9★", label: "Avis Google" }, { value: "90 min", label: "Soin signature" }]
+let STATS = STATS_DEMO;
 
 
 const NAV = [
@@ -157,6 +159,7 @@ export default function EclatSpaPage() {
   }, []);
 
   fd = session?.formData;
+  STATS = resolveList(clientStats(session), STATS_DEMO);
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {

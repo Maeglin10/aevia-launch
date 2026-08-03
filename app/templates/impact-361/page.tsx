@@ -9,8 +9,10 @@ import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { DWELL, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
 import { WipeReveal } from "@/lib/templates/hero-kit-3";
 import {
+  clientCertifications,
   clientReviews,
   clientServices,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 /* Peintre en bâtiment, 1re variante décoration. Signature : WipeReveal — la couleur révélée d'un passage de rouleau. Carte CSS sans photo. */
@@ -36,10 +38,12 @@ const HERO = [{"k": "Terracotta de Nîmes", "line": "La teinte qui réchauffe un
 
 const SERVICES_DEMO = [{"titre": "Peinture intérieure", "desc": "Murs, plafonds, boiseries : préparation soignée (rebouchage, ponçage, sous-couche), finitions mates profondes ou satinées lessivables.", "tag": "Intérieur"}, {"titre": "Conseil couleur", "desc": "Une décoratrice à domicile, des échantillons A4 posés sur VOS murs, regardés à VOTRE lumière — le nuancier ment, la lumière non.", "tag": "Couleur"}, {"titre": "Enduits décoratifs", "desc": "Chaux ferrée, tadelakt, béton ciré mural : les matières qui donnent aux murs une profondeur que la peinture seule n'a pas.", "tag": "Matière"}, {"titre": "Papiers peints", "desc": "Panoramiques, intissés, raccords complexes : posés au plomb et au millimètre. On répare aussi les catastrophes des week-ends de motivation.", "tag": "Papier"}, {"titre": "Façades & extérieurs", "desc": "Ravalement, chaux sur pierre, volets et ferronneries : la façade nîmoise traitée dans les règles, échafaudage déclaré compris.", "tag": "Façade"}, {"titre": "Peintures saines", "desc": "Gammes A+ faibles émissions, peintures dépolluantes pour chambres d'enfant, chantier ventilé et aspiré chaque soir.", "tag": "Santé"}];
 const METHODE = [{"n": "01", "t": "Visite & devis en 48 h", "d": "Surfaces mesurées, supports sondés, teintes discutées. Devis détaillé par pièce et par couche."}, {"n": "02", "t": "Échantillons sur vos murs", "d": "Deux ou trois teintes posées en A2, regardées matin et soir. On décide ensuite, pas avant."}, {"n": "03", "t": "Protection totale", "d": "Sols bâchés, meubles housés, prises démontées. Le chantier est aspiré chaque soir — vous vivez chez vous."}, {"n": "04", "t": "Réception à la lumière", "d": "Chaque mur inspecté en lumière rasante avec vous. Les reprises se font tout de suite, pas « la semaine prochaine »."}];
-const ENGAGEMENT = ["Garantie décennale et RC professionnelle — attestations jointes au devis", "Devis détaillé par pièce, par support et par couche : comparable ligne à ligne", "Chantier bâché, aspiré chaque soir, habitable pendant les travaux", "Peintures classées A+ par défaut, fiches techniques fournies"];
+const ENGAGEMENT_DEMO = ["Garantie décennale et RC professionnelle — attestations jointes au devis", "Devis détaillé par pièce, par support et par couche : comparable ligne à ligne", "Chantier bâché, aspiré chaque soir, habitable pendant les travaux", "Peintures classées A+ par défaut, fiches techniques fournies"];
+let ENGAGEMENT = ENGAGEMENT_DEMO;
 const TARIFS = [{"a": "Murs & plafonds (2 couches)", "p": "28–38 €/m²", "n": "Selon état du support, peinture A+ comprise."}, {"a": "Chaux ferrée / tadelakt", "p": "dès 90 €/m²", "n": "Matière, passes multiples et cire de finition comprises."}, {"a": "Pose papier peint panoramique", "p": "dès 45 €/m²", "n": "Lé simple dès 25 €/m², raccords complexes sur devis."}, {"a": "Conseil couleur à domicile", "p": "120 €", "n": "Une heure trente + planche de teintes, déduit si chantier."}];
 const AVIS_DEMO = [{"texte": "Le conseil couleur a tout changé : la teinte que j'avais choisie sur nuancier aurait été une erreur. Celle posée est parfaite du matin au soir. Chantier impeccable, appartement habitable tout du long.", "auteur": "Émilie R.", "detail": "Salon + conseil couleur"}, {"texte": "Chaux ferrée dans la salle de bain : une matière magnifique, des artisans qui aiment visiblement leur métier. La lumière rasante de la réception ne pardonne rien — il n'y avait rien à reprendre.", "auteur": "Marc & Sofia", "detail": "Enduits décoratifs"}, {"texte": "Panoramique de 4 lés posé sans un raccord visible dans la chambre. Ils ont même corrigé un mur pas droit à l'enduit avant. Du travail d'atelier.", "auteur": "Julie C.", "detail": "Papier peint panoramique"}];
-const STATS = [{"value": "500+", "label": "Pièces transformées"}, {"value": "48 h", "label": "Devis après visite"}, {"value": "10 ans", "label": "Garantie décennale"}, {"value": "A+", "label": "Peintures faibles émissions"}];
+const STATS_DEMO = [{"value": "500+", "label": "Pièces transformées"}, {"value": "48 h", "label": "Devis après visite"}, {"value": "10 ans", "label": "Garantie décennale"}, {"value": "A+", "label": "Peintures faibles émissions"}];
+let STATS = STATS_DEMO;
 
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const ref = useRef(null);
@@ -79,6 +83,8 @@ export default function AtelierTeintesPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  STATS = resolveList(clientStats(sessionData), STATS_DEMO);
+  ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;
   if (brand) {
     C = { ...C, accent: brand };

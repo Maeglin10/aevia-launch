@@ -38,6 +38,7 @@ import {
   clientFaq,
   clientReviews,
   clientServices,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 const Facebook = ({ className = "w-4 h-4" }: { className?: string }) => (
@@ -164,12 +165,13 @@ const ATELIER_STEPS = [
   },
 ]
 
-const STATS = [
+const STATS_DEMO = [
   { value: "15 ans", label: "d'expertise florale" },
   { value: "2000+", label: "créations réalisées" },
   { value: "98%", label: "de clients fidèles" },
   { value: "45", label: "producteurs partenaires" },
 ]
+let STATS = STATS_DEMO;
 
 const TESTIMONIALS_DEMO = [
   {
@@ -429,6 +431,7 @@ export default function Impact94Page() {
   fd = session?.formData;
   bp = session?.businessProfile;
   sessionData = session;
+  STATS = resolveList(clientStats(sessionData), STATS_DEMO);
 
   const ARRANGEMENTS = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({

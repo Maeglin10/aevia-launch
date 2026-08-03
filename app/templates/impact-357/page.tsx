@@ -9,8 +9,10 @@ import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { DWELL, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
 import { TrackingCollapse } from "@/lib/templates/hero-kit-3";
 import {
+  clientCertifications,
   clientReviews,
   clientServices,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 /* Laboratoire de biologie médicale, 1re variante. Signature : TrackingCollapse — le mot qui se resserre, comme un résultat qui se précise. Sans photo. */
@@ -36,10 +38,12 @@ const HERO = [{"k": "Résultats du jour", "word": "précis.", "sub": "Bilan sang
 
 const SERVICES_DEMO = [{"titre": "Biologie de routine", "desc": "NFS, glycémie, cholestérol, bilan hépatique et rénal : prélevés le matin, validés par un biologiste, en ligne le jour même.", "tag": "Routine"}, {"titre": "Prélèvements à domicile", "desc": "Infirmiers préleveurs du laboratoire en tournée chaque matin : mêmes tubes, même traçabilité, pour les patients qui ne se déplacent pas.", "tag": "Domicile"}, {"titre": "Suivi de grossesse", "desc": "Toxoplasmose, HT21, glycosurie : le calendrier complet suivi site par site, résultats transmis à votre sage-femme ou gynécologue.", "tag": "Maternité"}, {"titre": "Microbiologie", "desc": "ECBU, coprocultures, prélèvements de gorge : cultures et antibiogrammes rendus avec commentaires du biologiste.", "tag": "Microbio"}, {"titre": "Dépistage IST", "desc": "Sans ordonnance pour le VIH (et sur ordonnance pour le reste), en toute confidentialité. Résultats sécurisés, biologiste disponible.", "tag": "Dépistage"}, {"titre": "Bilans entreprise & sport", "desc": "Médecine du travail, licences sportives, check-up : conventions entreprises et créneaux dédiés du samedi.", "tag": "Prévention"}];
 const METHODE = [{"n": "01", "t": "Venir, sans rendez-vous", "d": "Dès 7 h en semaine. Patients à jeun servis en premier — le café d'après est mérité."}, {"n": "02", "t": "Être prélevé par un pro", "d": "Préleveurs diplômés, identitovigilance systématique : deux identifiants vérifiés, tubes étiquetés devant vous."}, {"n": "03", "t": "Résultats sécurisés", "d": "Serveur en ligne le jour même, envoi automatique à votre médecin. Rien ne part par mail simple."}, {"n": "04", "t": "Un biologiste répond", "d": "Résultat inhabituel ? Un biologiste médical vous rappelle et explique — c'est son métier, pas une option."}];
-const ENGAGEMENT = ["Accréditation COFRAC ISO 15189 sur la totalité de l'activité — vérifiable en ligne", "Biologistes médicaux (pharmaciens et médecins) présents sur chaque site", "Identitovigilance systématique et traçabilité complète de chaque tube", "Urgences biologiques téléphonées au prescripteur dans l'heure, 6j/7"];
+const ENGAGEMENT_DEMO = ["Accréditation COFRAC ISO 15189 sur la totalité de l'activité — vérifiable en ligne", "Biologistes médicaux (pharmaciens et médecins) présents sur chaque site", "Identitovigilance systématique et traçabilité complète de chaque tube", "Urgences biologiques téléphonées au prescripteur dans l'heure, 6j/7"];
+let ENGAGEMENT = ENGAGEMENT_DEMO;
 const TARIFS = [{"a": "Bilan prescrit", "p": "tiers payant", "n": "Carte Vitale + mutuelle : vous ne payez rien au guichet."}, {"a": "Prélèvement à domicile", "p": "pris en charge", "n": "Sur prescription avec mention, dans la zone des tournées."}, {"a": "Dépistage VIH sans ordonnance", "p": "pris en charge", "n": "Dispositif national : confidentiel et sans frais."}, {"a": "Bilan sport / entreprise", "p": "dès 35 €", "n": "Hors nomenclature : tarif affiché avant le prélèvement."}];
 const AVIS_DEMO = [{"texte": "Prélevée à 7h10, résultats à 15h40, et un rappel du biologiste pour un point de vigilance transmis dans la foulée à mon médecin. Voilà à quoi sert un labo de quartier.", "auteur": "Hélène J.", "detail": "Bilan de routine"}, {"texte": "Le passage à domicile pour ma mère de 92 ans, chaque premier mardi : même préleveuse, mêmes gestes, zéro stress. Les résultats arrivent chez le médecin sans qu'on y pense.", "auteur": "Fils de Mme W.", "detail": "Prélèvements à domicile"}, {"texte": "Suivi de grossesse complet ici : le calendrier était géré pour moi, chaque examen expliqué. On se sent suivie, pas traitée à la chaîne.", "auteur": "Manon D.", "detail": "Suivi maternité"}];
-const STATS = [{"value": "< 15 min", "label": "D'attente moyenne le matin"}, {"value": "17 h", "label": "Résultats du jour en ligne"}, {"value": "COFRAC", "label": "Accrédité ISO 15189"}, {"value": "4", "label": "Biologistes médicaux"}];
+const STATS_DEMO = [{"value": "< 15 min", "label": "D'attente moyenne le matin"}, {"value": "17 h", "label": "Résultats du jour en ligne"}, {"value": "COFRAC", "label": "Accrédité ISO 15189"}, {"value": "4", "label": "Biologistes médicaux"}];
+let STATS = STATS_DEMO;
 
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const ref = useRef(null);
@@ -79,6 +83,8 @@ export default function AxisBioPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  STATS = resolveList(clientStats(sessionData), STATS_DEMO);
+  ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;
   if (brand) {
     C = { ...C, accent: brand };

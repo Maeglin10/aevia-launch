@@ -9,8 +9,10 @@ import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { DWELL, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
 import { ScrollGrow } from "@/lib/templates/hero-kit-3";
 import {
+  clientCertifications,
   clientReviews,
   clientServices,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 /* Couvreur-zingueur, 2e variante, patrimoniale et normande. Signature : ScrollGrow — la carte-toit qui grossit doucement au défilement, comme un toit qu'on approche depuis la rue. Carte CSS sans photo. */
@@ -36,10 +38,12 @@ const HERO = [{"k": "Patrimoine couvert", "line": "Chaque toit ancien a son dess
 
 const SERVICES_DEMO = [{"titre": "Toitures de bâti ancien", "desc": "Ardoise clouée sur volige, tuile plate de pays, essente de châtaignier : le matériau et la pose d'origine, documentés avant travaux.", "tag": "Patrimoine"}, {"titre": "Monuments & ABF", "desc": "Chantiers en secteur protégé : dossiers Architectes des Bâtiments de France préparés par nos soins, prescriptions respectées à la lettre.", "tag": "ABF"}, {"titre": "Zinguerie d'ornement", "desc": "Épis de faîtage, membrons, lucarnes à croupe : façonnés à l'atelier de Rouen, au modèle de l'existant.", "tag": "Ornement"}, {"titre": "Charpente ancienne", "desc": "Reprises d'about, greffes de bois anciens, traitement : notre charpentier travaille au rythme du bâti, pas du planning.", "tag": "Charpente"}, {"titre": "Lucarnes & ouvertures", "desc": "Restauration de lucarnes normandes, création dans le style : jacobine, capucine, œil-de-bœuf.", "tag": "Lucarnes"}, {"titre": "Diagnostic patrimonial", "desc": "État sanitaire complet de la couverture et de la charpente, rapport photo, priorités chiffrées sur dix ans.", "tag": "Diagnostic"}];
 const METHODE = [{"n": "01", "t": "Relevé de l'existant", "d": "Photos, calepinage, sondages : le toit est documenté avant qu'une seule ardoise ne bouge."}, {"n": "02", "t": "Dossier et autorisations", "d": "Déclaration préalable, dossier ABF si secteur protégé : nous préparons, vous signez."}, {"n": "03", "t": "Chantier à l'ancienne", "d": "Matériaux sourcés (ardoise d'Angers, zinc naturel), gestes traditionnels, compagnons formés au bâti ancien."}, {"n": "04", "t": "Carnet de toiture remis", "d": "Photos avant/pendant/après, matériaux utilisés, conseils d'entretien : le carnet suit la maison."}];
-const ENGAGEMENT = ["Qualibat 3231 « patrimoine bâti » — au-delà de la couverture courante", "Garantie décennale, assurance spécifique monuments et bâtiments classés", "Matériaux d'origine française sourcés et documentés sur facture", "Un compagnon référent par chantier, joignable directement"];
+const ENGAGEMENT_DEMO = ["Qualibat 3231 « patrimoine bâti » — au-delà de la couverture courante", "Garantie décennale, assurance spécifique monuments et bâtiments classés", "Matériaux d'origine française sourcés et documentés sur facture", "Un compagnon référent par chantier, joignable directement"];
+let ENGAGEMENT = ENGAGEMENT_DEMO;
 const TARIFS = [{"a": "Restauration ardoise clouée", "p": "180–260 €/m²", "n": "Dépose soignée, tri des ardoises réutilisables, pose au clou cuivre."}, {"a": "Épi de faîtage restauré", "p": "dès 480 €", "n": "Repose comprise ; création au modèle sur devis."}, {"a": "Lucarne normande restaurée", "p": "dès 3 200 €", "n": "Couverture, joues et membrons, fenêtre en option."}, {"a": "Diagnostic patrimonial complet", "p": "390 €", "n": "Rapport photo et plan d'entretien sur 10 ans, déduit si chantier."}];
 const AVIS_DEMO = [{"texte": "Notre maison à pans de bois du XVIIe attendait des mains comme celles-ci : l'ABF a validé le dossier sans réserve, le toit est magnifique et juste.", "auteur": "M. et Mme d'Argentré", "detail": "Restauration complète — secteur sauvegardé"}, {"texte": "L'épi de faîtage de la longère refait au modèle exact de l'ancien, photos à l'appui. Le carnet de toiture remis en fin de chantier est une idée précieuse.", "auteur": "Isabelle V.", "detail": "Zinguerie d'ornement"}, {"texte": "Diagnostic honnête : rien d'urgent, un plan d'entretien sur dix ans, et 390 € au lieu du chantier à 60 000 qu'un autre voulait nous vendre.", "auteur": "Antoine R.", "detail": "Diagnostic patrimonial"}];
-const STATS = [{"value": "XVIIe", "label": "Le plus ancien toit restauré"}, {"value": "3231", "label": "Qualibat patrimoine bâti"}, {"value": "60+", "label": "Bâtiments classés ou inscrits couverts"}, {"value": "10 ans", "label": "Décennale sur chaque chantier"}];
+const STATS_DEMO = [{"value": "XVIIe", "label": "Le plus ancien toit restauré"}, {"value": "3231", "label": "Qualibat patrimoine bâti"}, {"value": "60+", "label": "Bâtiments classés ou inscrits couverts"}, {"value": "10 ans", "label": "Décennale sur chaque chantier"}];
+let STATS = STATS_DEMO;
 
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const ref = useRef(null);
@@ -79,6 +83,8 @@ export default function ZincEtArdoisePage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  STATS = resolveList(clientStats(sessionData), STATS_DEMO);
+  ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;
   if (brand) {
     C = { ...C, accent: brand };

@@ -8,8 +8,10 @@ import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { DWELL, HairlineArrows, SlideIndex, WordFlight, useSlides } from "@/lib/templates/hero-kit-2";
 import {
+  clientCertifications,
   clientReviews,
   clientServices,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 /* Cabinet de recrutement, 2e variante de la niche. Signature : WordFlight — les mots du poste qui s'assemblent en vol, comme un profil qui se dessine. Sans photographie. */
@@ -35,10 +37,12 @@ const HERO = [{"k": "Cadres & techniciens", "line": "Le bon profil existe. Encor
 
 const SERVICES_DEMO = [{"titre": "Recrutement cadres & techniciens", "desc": "Sourcing multicanal, approche directe, entretiens structurés : trois candidats présentés avec un rapport d'évaluation par profil.", "tag": "Cadres"}, {"titre": "Chasse de dirigeants", "desc": "Missions confidentielles, cartographie du marché, approche des candidats en poste : les meilleurs ne répondent pas aux annonces.", "tag": "Executive"}, {"titre": "Métiers industriels & techniques", "desc": "Bureau d'études, méthodes, maintenance, qualité : nos consultants viennent de l'industrie et parlent le langage de vos ateliers.", "tag": "Industrie"}, {"titre": "Évaluation & assessment", "desc": "Tests de personnalité débriefés, mises en situation, prise de références réelle : décider sur des faits, pas sur une bonne impression.", "tag": "Évaluation"}, {"titre": "Conseil RH pour PME", "desc": "Fiches de poste, grilles de rémunération, parcours d'intégration : ce qui fait qu'un bon recrutement le reste au bout d'un an.", "tag": "Conseil"}, {"titre": "Accompagnement candidats", "desc": "Gratuit et confidentiel pour les candidats : conseil de carrière, préparation d'entretien, retour argumenté même en cas de refus.", "tag": "Candidats"}];
 const METHODE = [{"n": "01", "t": "Immersion chez vous", "d": "Une demi-journée sur site : l'équipe, l'ambiance, le vrai contenu du poste. Une fiche de poste ne dit jamais tout."}, {"n": "02", "t": "Sourcing et approche directe", "d": "Annonces ciblées ET chasse : les meilleurs candidats sont en poste et ne cherchent pas."}, {"n": "03", "t": "Trois candidats, argumentés", "d": "Chacun rencontré en entretien approfondi, évalué, avec ses forces ET ses risques écrits noir sur blanc."}, {"n": "04", "t": "Suivi d'intégration", "d": "Points à 1, 3 et 6 mois avec vous et le candidat : la garantie 12 mois n'est pas qu'une clause."}];
-const ENGAGEMENT = ["Garantie 12 mois : si le candidat part ou ne convient pas, nous recommençons sans honoraires", "Trois candidats présentés maximum — sinon c'est que nous n'avons pas fait notre travail de tri", "Chaque candidat rencontré physiquement ou en visio approfondie, jamais présenté sur dossier", "Retour argumenté à 100 % des candidats reçus, y compris les non retenus"];
+const ENGAGEMENT_DEMO = ["Garantie 12 mois : si le candidat part ou ne convient pas, nous recommençons sans honoraires", "Trois candidats présentés maximum — sinon c'est que nous n'avons pas fait notre travail de tri", "Chaque candidat rencontré physiquement ou en visio approfondie, jamais présenté sur dossier", "Retour argumenté à 100 % des candidats reçus, y compris les non retenus"];
+let ENGAGEMENT = ENGAGEMENT_DEMO;
 const TARIFS = [{"a": "Recrutement cadre / technicien", "p": "18 % du salaire annuel", "n": "Garantie 12 mois incluse, trois candidats présentés."}, {"a": "Chasse de dirigeant", "p": "22 % du salaire annuel", "n": "Cartographie de marché et confidentialité renforcée comprises."}, {"a": "Évaluation seule (candidat identifié)", "p": "dès 1 200 €", "n": "Tests, entretien approfondi, prise de références, rapport écrit."}, {"a": "Conseil RH (jour)", "p": "dès 950 €", "n": "Fiches de poste, grilles de rémunération, parcours d'intégration."}];
 const AVIS_DEMO = [{"texte": "Trois candidats présentés, trois profils pertinents, un recruté qui est toujours là trois ans après et dirige maintenant le bureau d'études. La demi-journée d'immersion faisait la différence.", "auteur": "DG, PME industrielle (85 sal.)", "detail": "Recrutement cadre"}, {"texte": "Notre premier recrutement avec eux a échoué au bout de quatre mois — pour des raisons personnelles du candidat. Ils ont refait la mission gratuitement, sans discuter. La garantie est réelle.", "auteur": "DRH, groupe agroalimentaire", "detail": "Garantie 12 mois"}, {"texte": "Candidate non retenue chez leur client, j'ai eu un retour de 20 minutes au téléphone avec des conseils concrets. Six mois plus tard ils m'ont replacée ailleurs. Ça ne s'oublie pas.", "auteur": "Responsable qualité", "detail": "Côté candidat"}];
-const STATS = [{"value": "12 mois", "label": "De garantie sur chaque recrutement"}, {"value": "3", "label": "Candidats présentés, pas trente"}, {"value": "42 j", "label": "Délai moyen de recrutement"}, {"value": "91 %", "label": "Encore en poste à un an"}];
+const STATS_DEMO = [{"value": "12 mois", "label": "De garantie sur chaque recrutement"}, {"value": "3", "label": "Candidats présentés, pas trente"}, {"value": "42 j", "label": "Délai moyen de recrutement"}, {"value": "91 %", "label": "Encore en poste à un an"}];
+let STATS = STATS_DEMO;
 
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const ref = useRef(null);
@@ -78,6 +82,8 @@ export default function TrajectoiresRhPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  STATS = resolveList(clientStats(sessionData), STATS_DEMO);
+  ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;
   if (brand) {
     C = { ...C, accent: brand };

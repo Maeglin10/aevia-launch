@@ -9,8 +9,10 @@ import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { DWELL, useSlides, SlideIndex, HairlineArrows } from "@/lib/templates/hero-kit-2";
 import { ExpandFrame } from "@/lib/templates/hero-kit-2";
 import {
+  clientCertifications,
   clientReviews,
   clientServices,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 /* Cuisiniste / agencement sur mesure — donneur : impact-230 (Atelier du Bois).
@@ -29,12 +31,13 @@ let C: Record<string, string> = {
 const FONT = "'Libre Baskerville', Georgia, serif";
 const FONT_BODY = "'Cabin', system-ui, sans-serif";
 
-const STATS = [
+const STATS_DEMO = [
   { value: "240+", label: "Cuisines posées" },
   { value: "10 ans", label: "Garantie caissons" },
   { value: "2-3 j", label: "De pose chez vous" },
   { value: "0 €", label: "L'étude 3D, déduite" },
 ];
+let STATS = STATS_DEMO;
 
 const NAV = [
   { l: "Prestations", h: "#prestations" },
@@ -82,12 +85,13 @@ const METHODE = [
   { n: "04", t: "Pose en 2-3 jours", d: "Nos menuisiers salariés posent, raccordent et ajustent. Vous cuisinez le soir du dernier jour." },
 ];
 
-const ENGAGEMENT = [
+const ENGAGEMENT_DEMO = [
   "Devis ferme et définitif — aucun supplément découvert en cours de chantier",
   "Garantie 10 ans sur les caissons, quincaillerie garantie à vie",
   "RC professionnelle et garantie décennale sur la pose",
   "Showroom sur rendez-vous : touchez les façades avant de choisir",
 ];
+let ENGAGEMENT = ENGAGEMENT_DEMO;
 
 const TARIFS = [
   { a: "Cuisine complète posée", p: "dès 8 900 €", n: "Caissons, façades, plan de travail, pose et raccordements. Électroménager en sus selon votre sélection." },
@@ -139,6 +143,8 @@ export default function LignesEtBoisPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  STATS = resolveList(clientStats(sessionData), STATS_DEMO);
+  ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;
   if (brand) {
     C = { ...C, accent: brand };

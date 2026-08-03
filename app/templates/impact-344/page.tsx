@@ -9,8 +9,10 @@ import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { DWELL, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
 import { InvertSweep } from "@/lib/templates/hero-kit-3";
 import {
+  clientCertifications,
   clientReviews,
   clientServices,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 /* Pressing, 2e variante, écologique et de quartier. Signature : InvertSweep — le défilement bascule la page du sombre au clair, l'avant/après du nettoyage. Sans photographie. */
@@ -36,10 +38,12 @@ const HERO = [];
 
 const SERVICES_DEMO = [{"titre": "Aquanettoyage", "desc": "Programmes doux par fibre, essorage contrôlé, détergents Écolabel européen. Vos laines ne feutrent pas, vos couleurs restent.", "tag": "Éco"}, {"titre": "Costumes & vestes", "desc": "Nettoyage à l'eau puis apprêt vapeur sur mannequin. Le tombé retrouvé sans odeur de solvant.", "tag": "Ville"}, {"titre": "Pièces délicates", "desc": "Soie, cachemire, viscose : traitées à la main, séchées à plat, rendues sous housse en coton réutilisable.", "tag": "Délicat"}, {"titre": "Couettes & rideaux", "desc": "Machines grand volume, séchage complet mesuré à la sonde — pas de moisissure surprise dans trois mois.", "tag": "Maison"}, {"titre": "Collecte & livraison à vélo", "desc": "Deux tournées par jour dans le quartier : on collecte à votre porte, on livre au créneau choisi. Zéro voiture.", "tag": "Vélo"}, {"titre": "Abonnement pressing", "desc": "Forfait mensuel familles et actifs : chemises, tailleurs et urgences du dimanche soir compris. Sans engagement.", "tag": "Abonnement"}];
 const METHODE = [{"n": "01", "t": "Vous réservez un créneau", "d": "Par téléphone ou au comptoir. La tournée du matin collecte avant 9 h 30, celle du soir avant 18 h 30."}, {"n": "02", "t": "Sac consigné, fiche par pièce", "d": "Un sac réutilisable consigné, chaque vêtement examiné et noté à l'atelier."}, {"n": "03", "t": "Atelier dans la boutique", "d": "Tout se fait sur place, derrière la vitrine — venez voir, ça sent la vapeur, pas le solvant."}, {"n": "04", "t": "Livré au créneau choisi", "d": "Sous 48 h à vélo-cargo, ou en boutique dès le lendemain 17 h."}];
-const ENGAGEMENT = ["Zéro perchloroéthylène ni solvant chloré — aquanettoyage exclusivement", "Détergents Écolabel européen, doses pilotées par la machine", "Cintres consignés et réutilisés, housses coton lavables au lieu du plastique", "Pièce abîmée par notre fait = indemnisée au barème IFTH, sans discussion"];
+const ENGAGEMENT_DEMO = ["Zéro perchloroéthylène ni solvant chloré — aquanettoyage exclusivement", "Détergents Écolabel européen, doses pilotées par la machine", "Cintres consignés et réutilisés, housses coton lavables au lieu du plastique", "Pièce abîmée par notre fait = indemnisée au barème IFTH, sans discussion"];
+let ENGAGEMENT = ENGAGEMENT_DEMO;
 const TARIFS = [{"a": "Chemise", "p": "4,50 €", "n": "Lavée, repassée main, sur cintre consigné ou pliée."}, {"a": "Costume 2 pièces", "p": "18,90 €", "n": "Aquanettoyage + apprêt mannequin, rendu 48 h."}, {"a": "Couette 2 places", "p": "23,90 €", "n": "Séchage sonde, housse coton offerte."}, {"a": "Abonnement actif (8 pièces/mois)", "p": "49 €/mois", "n": "Report des pièces non utilisées, sans engagement."}];
 const AVIS_DEMO = [{"texte": "La collecte à vélo avant le bureau, la livraison le jeudi soir : je n'ai littéralement plus à y penser. Et mes pulls ne sentent plus le produit chimique.", "auteur": "Julie W.", "detail": "Abonnement actif"}, {"texte": "Couette de bébé nettoyée impeccable, rendue dans une housse en coton avec la fiche du programme utilisé. C'est ce genre de détail qui fait confiance.", "auteur": "Léna & Tom", "detail": "Linge de maison"}, {"texte": "Je croyais que « écologique » voulait dire « moins efficace ». Ma veste en lin tachée d'huile dit le contraire. Bravo et merci.", "auteur": "Pascal H.", "detail": "Détachage difficile"}];
-const STATS = [{"value": "100 %", "label": "Aquanettoyage à l'eau"}, {"value": "0", "label": "Solvant chloré depuis l'ouverture"}, {"value": "2×/j", "label": "Tournées de livraison à vélo"}, {"value": "92 %", "label": "De cintres réutilisés"}];
+const STATS_DEMO = [{"value": "100 %", "label": "Aquanettoyage à l'eau"}, {"value": "0", "label": "Solvant chloré depuis l'ouverture"}, {"value": "2×/j", "label": "Tournées de livraison à vélo"}, {"value": "92 %", "label": "De cintres réutilisés"}];
+let STATS = STATS_DEMO;
 
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const ref = useRef(null);
@@ -79,6 +83,8 @@ export default function AquaVertPressingPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  STATS = resolveList(clientStats(sessionData), STATS_DEMO);
+  ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;
   if (brand) {
     C = { ...C, accent: brand };

@@ -26,6 +26,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientReviews,
   clientServices,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 /* ════════════════════════════════════════════════════════════════════════════
@@ -1850,12 +1851,13 @@ function ConsultationFormSection() {
    ════════════════════════════════════════════════════════════════════════════ */
 type Stat = { valeur: string; label: string };
 
-const STATS: Stat[] = [
+const STATS_DEMO: Stat[] = [
   { valeur: '12 ans', label: "d'expérience en droit social" },
   { valeur: '+400', label: 'dossiers traités avec succès' },
   { valeur: '92%', label: 'de règlements amiables' },
   { valeur: '3', label: 'spécialités reconnues' },
 ];
+let STATS = STATS_DEMO;
 
 function StatCard({ s, i }: { s: Stat; i: number }) {
   return (
@@ -2588,6 +2590,7 @@ export default function Impact286Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, gold: brand, goldLight: shadeColor(brand, 25) };

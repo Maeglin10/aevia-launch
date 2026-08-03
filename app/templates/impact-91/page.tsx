@@ -35,6 +35,7 @@ import {
 import {
   clientReviews,
   clientServices,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 /* ==========================================================================
@@ -140,12 +141,13 @@ const BESPOKE_STEPS = [
   { step: "04", label: "Livraison", desc: "La pièce vous est remise dans un écrin sur mesure, accompagnée d'un certificat d'authenticité et d'une garantie à vie." },
 ]
 
-const STATS = [
+const STATS_DEMO = [
   { value: "47", unit: "ans", label: "d'expertise" },
   { value: "12", unit: "", label: "orfèvres maîtres" },
   { value: "3 400", unit: "", label: "pièces créées" },
   { value: "100%", unit: "", label: "métaux certifiés" },
 ]
+let STATS = STATS_DEMO;
 
 const TESTIMONIALS_DEMO = [
   {
@@ -1798,6 +1800,7 @@ export default function Impact91Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   if (brand) {

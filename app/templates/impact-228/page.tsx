@@ -6,8 +6,10 @@ import { motion, useScroll, useTransform, useInView } from "framer-motion"
 import { Flame, Phone, Mail, MapPin, Clock, Star, CheckCircle } from "lucide-react"
 import { resolveList } from "@/lib/templates/resolveList"
 import {
+  clientCertifications,
   clientReviews,
   clientServices,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 // Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
@@ -32,7 +34,8 @@ let C: Record<string, string> = {
 };const FONT = "'Bebas Neue', system-ui, sans-serif"
 const FONT_BODY = "'Work Sans', system-ui, sans-serif"
 
-const STATS = [{ value: "16 ans", label: "D'expérience" }, { value: "5 000+", label: "Interventions" }, { value: "1h", label: "Délai urgence" }, { value: "24h/7j", label: "Disponibilité" }]
+const STATS_DEMO = [{ value: "16 ans", label: "D'expérience" }, { value: "5 000+", label: "Interventions" }, { value: "1h", label: "Délai urgence" }, { value: "24h/7j", label: "Disponibilité" }]
+let STATS = STATS_DEMO;
 
 
 const NAV = [
@@ -65,12 +68,13 @@ const SERVICES_DEMO = [
   { titre: "Isolation & rénovation", desc: "Remplacement de tuyauteries vétustes, isolation des conduites, mise aux normes gaz. Accompagnement pour les aides à la rénovation.", tag: "Rénovation" },
 ]
 
-const GARANTIES = [
+const GARANTIES_DEMO = [
   "Artisan RGE (Reconnu Garant de l'Environnement) — éligibilité aides MaPrimeRénov",
   "Garantie pièces et main d'œuvre 2 ans",
   "Devis détaillé avant chaque intervention, aucun surplus",
   "Certification Qualigaz pour les installations gaz",
 ]
+let GARANTIES = GARANTIES_DEMO;
 
 const AVIS_DEMO = [
   { texte: "Fuite d'eau sous évier un dimanche matin. Appelé à 9h, technicien là à 10h15. Réparation nickel, tarif week-end clairement annoncé à l'avance. Vraiment professionnel.", auteur: "Martine D.", detail: "Urgence plomberie" },
@@ -129,6 +133,8 @@ export default function AquaThermPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  STATS = resolveList(clientStats(sessionData), STATS_DEMO);
+  GARANTIES = resolveList(clientCertifications(sessionData), GARANTIES_DEMO);
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, accent: brand };

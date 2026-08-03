@@ -25,6 +25,9 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Separator } from "@/components/ui/separator";
 import { Compass, Layout, Maximize, Ruler, Sparkles, Globe, Mail, MapPin, ChevronRight, ArrowRight, X, Menu, Box, Home, Layers, PencilLine, Focus, Frame, Monitor, Share2, Lock, Search, ShoppingBag } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
+import {
+  clientStats,
+} from "@/lib/templates/clientContent";
 
 import "../premium.css";
 
@@ -77,12 +80,13 @@ const PHILOSOPHY = [
   },
 ];
 
-const STATS = [
+const STATS_DEMO = [
   { label: "Spaces Transformed", value: "140+" },
   { label: "Design Awards", value: "24" },
   { label: "Material Partnerships", value: "85" },
   { label: "Client Retention", value: "98%" },
 ];
+let STATS = STATS_DEMO;
 
 /* ==========================================================================
    UTILITY COMPONENTS
@@ -214,6 +218,7 @@ export default function NovaSpacesPage() {
   });
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  STATS = resolveList(clientStats(session), STATS_DEMO);
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const PROJECTS = resolveList(

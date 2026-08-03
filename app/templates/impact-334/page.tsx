@@ -9,8 +9,10 @@ import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { DWELL, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
 import { PanelDrop } from "@/lib/templates/hero-kit-3";
 import {
+  clientCertifications,
   clientReviews,
   clientServices,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 /* Cuisiniste, 2e variante (la 1re est impact-327, ExpandFrame). Celle-ci est un studio-showroom montagne. Signature : PanelDrop — le panneau qui descend comme une façade qu'on pose. */
@@ -36,10 +38,12 @@ const HERO = [{"k": "Façades chêne brossé", "line": "Le bois qui se patine av
 
 const SERVICES_DEMO = [{"titre": "Cuisine complète", "desc": "Conception, fabrication européenne, pose par nos équipes. Charnières et coulisses garanties à vie, façades au choix du studio.", "tag": "Cuisine"}, {"titre": "Îlots & plans", "desc": "Céramique, granit, quartz, bois massif. Découpes ajustées sur place au gabarit — même sur murs qui ne sont pas droits.", "tag": "Plans"}, {"titre": "Électroménager intégré", "desc": "Sélection multi-marques au prix du web, intégrée au projet et livrée-posée avec la cuisine. SAV assuré par le studio.", "tag": "Équipement"}, {"titre": "Dressing & rangements", "desc": "Chambres, entrées, sous-pentes : les mêmes façades et finitions que votre cuisine, pour une maison cohérente.", "tag": "Rangement"}, {"titre": "Buanderie & arrière-cuisine", "desc": "La pièce qui rend la cuisine belle : tout ce qui déborde trouve sa place, plomberie et électricité coordonnées.", "tag": "Annexe"}, {"titre": "Rénovation coordonnée", "desc": "Sols, crédences, éclairage, peinture : nos artisans partenaires interviennent dans le même calendrier, sous notre coordination.", "tag": "Travaux"}];
 const METHODE = [{"n": "01", "t": "Atelier conception — 2 h", "d": "Au studio, autour des cuisines témoins. Vos habitudes, vos appareils, votre budget réel — avant tout dessin."}, {"n": "02", "t": "Relevé laser & plans", "d": "Relevé millimétré chez vous, plans techniques et perspectives réalistes. Trois révisions incluses."}, {"n": "03", "t": "Devis ferme signé", "d": "Poste par poste, électroménager compris. Aucun avenant surprise : l'imprévu est à notre charge."}, {"n": "04", "t": "Pose et réception", "d": "Deux jours de pose en moyenne, protection des sols, réception signée pièce par pièce avec liste de réserves à zéro."}];
-const ENGAGEMENT = ["Devis ferme et définitif — l'imprévu de chantier est à notre charge", "Garantie décennale sur la pose, 10 ans sur les caissons, quincaillerie à vie", "Un seul interlocuteur du premier rendez-vous à la levée des réserves", "Showroom sur rendez-vous : deux heures pour vous, jamais de vente debout"];
+const ENGAGEMENT_DEMO = ["Devis ferme et définitif — l'imprévu de chantier est à notre charge", "Garantie décennale sur la pose, 10 ans sur les caissons, quincaillerie à vie", "Un seul interlocuteur du premier rendez-vous à la levée des réserves", "Showroom sur rendez-vous : deux heures pour vous, jamais de vente debout"];
+let ENGAGEMENT = ENGAGEMENT_DEMO;
 const TARIFS = [{"a": "Cuisine linéaire posée", "p": "dès 7 900 €", "n": "Façades stratifiées, plan compact, électroménager en sus selon sélection."}, {"a": "Cuisine avec îlot", "p": "dès 12 900 €", "n": "Plan céramique, éclairage sous meubles, prises affleurantes incluses."}, {"a": "Dressing assorti", "p": "dès 2 900 €", "n": "Toute hauteur, intérieurs modulables, portes assorties aux façades cuisine."}, {"a": "Atelier conception 2 h", "p": "offert", "n": "Déduit à la commande. Plans remis même si le projet ne se fait pas chez nous."}];
 const AVIS_DEMO = [{"texte": "L'atelier de deux heures au studio vaut tous les rendez-vous de cuisinistes classiques. On a parlé petits-déjeuners avant de parler façades. Le résultat est exactement notre maison.", "auteur": "Claire & Julien V.", "detail": "Cuisine îlot, Annecy-le-Vieux"}, {"texte": "Mur de 1927 pas droit du tout : le plan céramique a été gabarié sur place, l'ajustement est invisible. Deux jours de pose, zéro réserve à la réception.", "auteur": "Hélène B.", "detail": "Rénovation complète"}, {"texte": "Le devis ferme n'a pas bougé alors qu'un caisson a dû être refabriqué. Studio sérieux, poseurs soigneux, SAV réactif sur un charnière un an après.", "auteur": "Famille Roche", "detail": "Cuisine + buanderie"}];
-const STATS = [{"value": "180+", "label": "Cuisines livrées"}, {"value": "3", "label": "Cuisines témoins au studio"}, {"value": "2 j", "label": "De pose en moyenne"}, {"value": "10 ans", "label": "Garantie caissons & pose"}];
+const STATS_DEMO = [{"value": "180+", "label": "Cuisines livrées"}, {"value": "3", "label": "Cuisines témoins au studio"}, {"value": "2 j", "label": "De pose en moyenne"}, {"value": "10 ans", "label": "Garantie caissons & pose"}];
+let STATS = STATS_DEMO;
 
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const ref = useRef(null);
@@ -87,6 +91,8 @@ export default function StudioCulinaPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  STATS = resolveList(clientStats(sessionData), STATS_DEMO);
+  ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;
   if (brand) {
     C = { ...C, accent: brand };
