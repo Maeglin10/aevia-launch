@@ -909,7 +909,7 @@ export default function Impact175Page() {
                 marginBottom: 32,
               }}
             >
-              devient légende
+              {c?.heroHeadline ?? "devient légende"}
             </h1>
           </TextReveal>
 

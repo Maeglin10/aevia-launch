@@ -1166,7 +1166,7 @@ return (
                 marginBottom: 40,
               }}
             >
-              dans votre maison.
+              {c?.heroHeadline ?? "dans votre maison."}
             </h1>
           </TextReveal>
 

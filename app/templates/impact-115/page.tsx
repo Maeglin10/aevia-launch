@@ -940,7 +940,7 @@ export default function Impact115Page() {
                 marginBottom: 36,
               }}
             >
-              that breathes.
+              {c?.heroHeadline ?? "that breathes."}
             </h1>
           </TextReveal>
 

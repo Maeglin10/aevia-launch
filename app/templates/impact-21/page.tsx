@@ -1025,7 +1025,7 @@ return (
           <section className="pt-32 pb-16 px-6 bg-[#F8F4F0]">
             <div className="max-w-4xl mx-auto">
               <Reveal>
-                <h1 className="text-gray-900 text-4xl md:text-5xl font-bold leading-none mb-6">Mentions légales</h1>
+                <h1 className="text-gray-900 text-4xl md:text-5xl font-bold leading-none mb-6">{c?.heroHeadline ?? "Mentions légales"}</h1>
               </Reveal>
             </div>
           </section>

@@ -3027,7 +3027,7 @@ function LegalPage() {
     <section id="legal" style={{ background: "#0a1520", padding: "10rem 2rem 6rem", minHeight: "100dvh" }}>
       <div style={{ maxWidth: 800, margin: "0 auto", fontFamily: "Montserrat, sans-serif" }}>
         <h1 style={{ fontFamily: "Cormorant Garamond, Georgia, serif", fontSize: "3rem", fontWeight: 300, color: "#f0ece0", borderBottom: "1px solid rgba(201,168,76,0.2)", paddingBottom: "1.5rem", marginBottom: "2.5rem" }}>
-          Legal Mentions & Terms
+          {c?.heroHeadline ?? "Legal Mentions & Terms"}
         </h1>
 
         <div style={{ display: "flex", flexDirection: "column", gap: "2.5rem", fontSize: "0.9rem", color: "rgba(240,236,224,0.7)", lineHeight: 1.8, fontWeight: 300 }}>

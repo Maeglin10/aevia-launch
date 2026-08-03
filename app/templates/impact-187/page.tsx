@@ -180,10 +180,10 @@ export default function MaxPerformancePage() {
               STOP
             </>}</h1>
             <h1 className="font-black uppercase leading-none tracking-tight mb-2 text-[var(--brand,#f97316)]" style={{ fontFamily: "'Anton', impact, sans-serif", fontSize: "clamp(64px,10vw,120px)" }}>
-              WAITING.
+              {c?.heroHeadline ?? "WAITING."}
             </h1>
             <h1 className="font-black uppercase leading-none tracking-tight mb-10 text-[#f8f5f0]/20" style={{ fontFamily: "'Anton', impact, sans-serif", fontSize: "clamp(32px,4.5vw,56px)" }}>
-              Start performing.
+              {c?.heroHeadline ?? "Start performing."}
             </h1>
           </motion.div>
 

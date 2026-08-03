@@ -179,13 +179,26 @@ for (const id of ids) {
       // Chargée mais jamais peinte : une image dont un ancêtre proche s'est
       // effondré à moins de 2 px. C'est le seul contrôle qui attrape un hero
       // vide, puisque l'image répond 200 et que naturalWidth est correct.
+      /*
+        Chargée mais jamais peinte : un ancêtre proche s'est effondré à moins de
+        2 px alors que la section qui le contient, elle, occupe la page. C'est la
+        signature du défaut PushBlur — un panneau en position absolue dans un
+        conteneur sans hauteur, dont l'overflow:hidden masquait tout.
+
+        Le contrôle naïf — « un ancêtre est à zéro » — signalait cinq thèmes qui
+        n'avaient rien : ce sont des thèmes multi-pages, et une page inactive est
+        entièrement à zéro, images comprises. On exige donc que l'effondrement
+        soit local : au moins un ancêtre plus haut doit avoir une taille.
+      */
       const invisibles = [...document.querySelectorAll("img")]
         .filter((img) => img.naturalWidth > 0)
         .filter((img) => {
           let e = img;
-          for (let k = 0; k < 6 && e; k++) {
+          let effondre = false;
+          for (let k = 0; k < 10 && e && e !== document.body; k++) {
             const b = e.getBoundingClientRect();
-            if (b.height < 2 || b.width < 2) return true;
+            if (b.height < 2 || b.width < 2) effondre = true;
+            else if (effondre) return true; // un parent visible au-dessus : local
             e = e.parentElement;
           }
           return false;

@@ -419,7 +419,7 @@ function FeaturesPage() {
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16">
           <span className="text-[var(--brand,#3B82F6)] text-sm font-semibold mb-3 block">Fonctionnalités</span>
-          <h1 className="text-4xl md:text-6xl font-bold mb-6">Une plateforme puissante</h1>
+          <h1 className="text-4xl md:text-6xl font-bold mb-6">{c?.heroHeadline ?? "Une plateforme puissante"}</h1>
           <p className="max-w-xl mx-auto text-gray-400 text-sm leading-relaxed">
             Éliminez le travail répétitif grâce à des tableaux de bord interactifs, des intégrations fluides et un moteur d'automatisation no-code.
           </p>
@@ -460,7 +460,7 @@ function IntegrationsPage() {
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-20">
           <span className="text-[#8B5CF6] text-sm font-semibold mb-3 block">Connecteurs</span>
-          <h1 className="text-4xl md:text-6xl font-bold mb-6">Intégrations natives</h1>
+          <h1 className="text-4xl md:text-6xl font-bold mb-6">{c?.heroHeadline ?? "Intégrations natives"}</h1>
           <p className="max-w-xl mx-auto text-gray-400 text-sm leading-relaxed">
             Connectez toute votre stack en 2 clics. Plus de 350 outils sont déjà supportés pour synchroniser vos données instantanément.
           </p>
@@ -492,7 +492,7 @@ function TarifsPage({ billingAnnual, setBillingAnnual }: { billingAnnual: boolea
       <div className="max-w-5xl mx-auto">
         <div className="text-center mb-12">
           <span className="text-[var(--brand,#3B82F6)] text-sm font-semibold mb-3 block">Tarification</span>
-          <h1 className="text-4xl md:text-6xl font-bold mb-6">Simple et transparent</h1>
+          <h1 className="text-4xl md:text-6xl font-bold mb-6">{c?.heroHeadline ?? "Simple et transparent"}</h1>
           <div className="flex items-center justify-center gap-3 mt-6">
             <button onClick={() => setBillingAnnual(false)} className={`text-sm px-4 py-2 rounded-lg transition-colors cursor-pointer ${!billingAnnual ? "bg-white/10 text-white" : "text-gray-500"}`}>Mensuel</button>
             <button onClick={() => setBillingAnnual(true)} className={`text-sm px-4 py-2 rounded-lg transition-colors cursor-pointer ${billingAnnual ? "bg-white/10 text-white" : "text-gray-500"}`}>Annuel <span className="text-[#10B981] text-xs font-bold ml-1">-20%</span></button>
@@ -533,7 +533,7 @@ function DocsPage() {
       <div className="max-w-4xl mx-auto">
         <div className="mb-12">
           <span className="text-[var(--brand,#3B82F6)] text-sm font-semibold mb-3 block">Développeurs</span>
-          <h1 className="text-4xl md:text-5xl font-bold mb-6">Documentation API</h1>
+          <h1 className="text-4xl md:text-5xl font-bold mb-6">{c?.heroHeadline ?? "Documentation API"}</h1>
           <p className="text-gray-400 text-sm leading-relaxed">
             Consultez nos guides techniques pour authentifier vos requêtes, écouter nos webhooks et automatiser la création de tâches.
           </p>
@@ -577,7 +577,7 @@ function BlogPage() {
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-16">
           <span className="text-[#8B5CF6] text-sm font-semibold mb-3 block">Journal</span>
-          <h1 className="text-4xl md:text-5xl font-bold mb-6">Blog de productivité</h1>
+          <h1 className="text-4xl md:text-5xl font-bold mb-6">{c?.heroHeadline ?? "Blog de productivité"}</h1>
           <p className="max-w-xl mx-auto text-gray-400 text-sm leading-relaxed">
             Retrouvez nos conseils d'organisation, nos actualités logicielles et les retours d'expérience de nos scale-ups partenaires.
           </p>
@@ -603,7 +603,7 @@ function LegalPage() {
       <div className="max-w-3xl mx-auto space-y-12">
         <div>
           <span className="text-[var(--brand,#3B82F6)] text-[10px] uppercase tracking-widest mb-3 block font-bold">Sécurité & Conformité</span>
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-8">Mentions Légales</h1>
+          <h1 className="text-4xl md:text-5xl font-bold text-white mb-8">{c?.heroHeadline ?? "Mentions Légales"}</h1>
         </div>
 
         <div className="border border-white/10 bg-[#161B27] p-8 rounded-2xl space-y-6">

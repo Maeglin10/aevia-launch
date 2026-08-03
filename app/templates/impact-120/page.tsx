@@ -925,7 +925,7 @@ export default function EclatLuxuryPage() {
           
           <div className="w-full mt-20 text-center overflow-hidden">
             <h1 className="text-[15vw] leading-none font-light text-white/[0.02] tracking-tighter" style={{ fontFamily: "Georgia, serif" }}>
-              ÉCLAT
+              {c?.heroHeadline ?? "ÉCLAT"}
             </h1>
           </div>
         </div>

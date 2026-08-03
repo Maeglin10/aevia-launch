@@ -926,7 +926,7 @@ function LegalPage() {
       <div className="max-w-3xl mx-auto space-y-16">
         <div>
           <span className="text-[10px] font-black text-[var(--brand,#3b82f6)] uppercase tracking-widest mb-4 block">Vulcan_Compliance</span>
-          <h1 className="text-4xl md:text-6xl font-black uppercase tracking-tighter italic text-white mb-12">Mentions Légales</h1>
+          <h1 className="text-4xl md:text-6xl font-black uppercase tracking-tighter italic text-white mb-12">{c?.heroHeadline ?? "Mentions Légales"}</h1>
         </div>
 
         <div className="border border-white/10 bg-zinc-950 p-10 space-y-6">

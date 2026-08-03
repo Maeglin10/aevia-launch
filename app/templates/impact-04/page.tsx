@@ -1076,7 +1076,7 @@ function LegalPage({ variant }: { variant: 'mentions' | 'privacy' }) {
     <div style={{ padding: '120px 24px 100px', maxWidth: 800, margin: '0 auto', fontFamily: 'system-ui, sans-serif', color: 'rgba(245,239,230,0.6)' }}>
       {variant === 'mentions' ? (
         <>
-          <h1 style={{ fontFamily: "'Georgia', serif", fontSize: 36, fontWeight: 300, color: '#f5efe6', marginBottom: 40 }}>Mentions Légales</h1>
+          <h1 style={{ fontFamily: "'Georgia', serif", fontSize: 36, fontWeight: 300, color: '#f5efe6', marginBottom: 40 }}>{c?.heroHeadline ?? "Mentions Légales"}</h1>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 32, fontSize: 14, lineHeight: 1.8 }}>
             <div>
               <h2 style={{ fontFamily: "'Georgia', serif", fontSize: 18, fontWeight: 300, color: 'rgb(217, 119, 6)', marginBottom: 12 }} className="text-amber-500">Éditeur</h2>
@@ -1102,7 +1102,7 @@ function LegalPage({ variant }: { variant: 'mentions' | 'privacy' }) {
         </>
       ) : (
         <>
-          <h1 style={{ fontFamily: "'Georgia', serif", fontSize: 36, fontWeight: 300, color: '#f5efe6', marginBottom: 40 }}>Politique de Confidentialité</h1>
+          <h1 style={{ fontFamily: "'Georgia', serif", fontSize: 36, fontWeight: 300, color: '#f5efe6', marginBottom: 40 }}>{c?.heroHeadline ?? "Politique de Confidentialité"}</h1>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 32, fontSize: 14, lineHeight: 1.8 }}>
             <div>
               <h2 style={{ fontFamily: "'Georgia', serif", fontSize: 18, fontWeight: 300, color: 'rgb(217, 119, 6)', marginBottom: 12 }} className="text-amber-500">1. Données collectées</h2>

@@ -453,7 +453,7 @@ function ProjetsPage({ activeFilter, setActiveFilter, filtered }: { activeFilter
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16">
           <span className="text-[var(--brand,#C46A3E)] text-xs tracking-widest uppercase mb-4 block">Notre catalogue</span>
-          <h1 className="text-5xl md:text-7xl font-light mb-6 text-[#1A1510]" style={{ fontFamily: "'Libre Baskerville', serif" }}>Nos Réalisations</h1>
+          <h1 className="text-5xl md:text-7xl font-light mb-6 text-[#1A1510]" style={{ fontFamily: "'Libre Baskerville', serif" }}>{c?.heroHeadline ?? "Nos Réalisations"}</h1>
           <p className="max-w-xl mx-auto text-[#1A1510]/60 text-sm leading-relaxed mb-10">
             Découvrez nos réalisations architecturales à travers la France. Chaque ouvrage répond à une étude bioclimatique minutieuse et intègre des matériaux biosourcés.
           </p>
@@ -525,7 +525,7 @@ function ServicesPage({ goTo }: { goTo: (p: ActivePage) => void }) {
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16">
           <span className="text-[var(--brand,#C46A3E)] text-xs tracking-widest uppercase mb-4 block">Notre Expertise</span>
-          <h1 className="text-5xl md:text-7xl font-light mb-6 text-[#1A1510]" style={{ fontFamily: "'Libre Baskerville', serif" }}>Services & Processus</h1>
+          <h1 className="text-5xl md:text-7xl font-light mb-6 text-[#1A1510]" style={{ fontFamily: "'Libre Baskerville', serif" }}>{c?.heroHeadline ?? "Services & Processus"}</h1>
           <p className="max-w-xl mx-auto text-[#1A1510]/60 text-sm leading-relaxed">
             De la première esquisse à la livraison définitive, nous pilotons chaque projet avec la même exigence de rigueur technique et d'élégance environnementale.
           </p>
@@ -628,7 +628,7 @@ function EquipePage() {
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16">
           <span className="text-[var(--brand,#C46A3E)] text-xs tracking-widest uppercase mb-4 block">Notre ADN</span>
-          <h1 className="text-5xl md:text-7xl font-light mb-6 text-[#1A1510]" style={{ fontFamily: "'Libre Baskerville', serif" }}>L'Équipe</h1>
+          <h1 className="text-5xl md:text-7xl font-light mb-6 text-[#1A1510]" style={{ fontFamily: "'Libre Baskerville', serif" }}>{c?.heroHeadline ?? "L'Équipe"}</h1>
           <p className="max-w-xl mx-auto text-[#1A1510]/60 text-sm leading-relaxed">
             Une synergie de talents complémentaires : architectes, ingénieurs thermiciens et conducteurs de chantiers animés par la même passion environnementale.
           </p>
@@ -658,7 +658,7 @@ function ContactPage() {
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-16">
           <span className="text-[var(--brand,#C46A3E)] text-xs tracking-widest uppercase mb-4 block">Contact</span>
-          <h1 className="text-5xl md:text-7xl font-light mb-6 text-[#1A1510]" style={{ fontFamily: "'Libre Baskerville', serif" }}>Parlons de votre projet</h1>
+          <h1 className="text-5xl md:text-7xl font-light mb-6 text-[#1A1510]" style={{ fontFamily: "'Libre Baskerville', serif" }}>{c?.heroHeadline ?? "Parlons de votre projet"}</h1>
           <p className="max-w-xl mx-auto text-[#1A1510]/60 text-sm leading-relaxed">
             Vous avez un projet résidentiel, public ou mixte ? Remplissez ce formulaire et un de nos architectes vous recontactera sous 48 heures.
           </p>
@@ -717,7 +717,7 @@ function LegalPage() {
       <div className="max-w-3xl mx-auto space-y-12">
         <div>
           <span className="text-[var(--brand,#C46A3E)] text-[10px] uppercase tracking-widest mb-3 block font-bold">Réglementation</span>
-          <h1 className="text-4xl md:text-5xl font-light uppercase text-[#1A1510] mb-8" style={{ fontFamily: "'Libre Baskerville', serif" }}>Mentions Légales</h1>
+          <h1 className="text-4xl md:text-5xl font-light uppercase text-[#1A1510] mb-8" style={{ fontFamily: "'Libre Baskerville', serif" }}>{c?.heroHeadline ?? "Mentions Légales"}</h1>
         </div>
 
         <div className="border border-[var(--brand,#C46A3E)]/20 bg-[#F5F2ED]/50 p-8 rounded-2xl space-y-6">
