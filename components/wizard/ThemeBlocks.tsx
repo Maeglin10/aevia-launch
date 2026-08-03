@@ -1,6 +1,7 @@
 "use client";
 
-import { Plus, X } from "lucide-react";
+import { useState } from "react";
+import { ChevronDown, Plus, X } from "lucide-react";
 import type { BusinessProfile } from "@/lib/sessions";
 import { blocksForTheme, type ContentBlock } from "@/lib/templates/capabilities";
 import { copyFor } from "@/lib/wizard/lexicon";
@@ -72,20 +73,57 @@ function Repeater<T>({
   );
 }
 
+/**
+ * Une section repliée par défaut.
+ *
+ * L'étape « Votre offre » faisait 1856 px et treize champs une fois tous les
+ * blocs du thème dépliés — près de deux écrans avant d'atteindre « Continuer ».
+ * Un formulaire de cette longueur se fait abandonner ou remplir à la va-vite,
+ * et c'est exactement ce qu'on essaie d'éviter.
+ *
+ * Le pli montre combien d'entrées sont déjà remplies, pour que le client sache
+ * ce qu'il a fait sans avoir à ouvrir, et il s'ouvre tout seul dès qu'il y a
+ * quelque chose dedans — on ne cache jamais une donnée déjà saisie.
+ */
 function Section({
   title,
   hint,
+  rempli,
   children,
 }: {
   title: string;
   hint: string;
+  /** Nombre d'entrées renseignées, affiché sur le pli. */
+  rempli: number;
   children: React.ReactNode;
 }) {
+  const [ouvert, setOuvert] = useState(rempli > 0);
   return (
-    <div className="space-y-2">
-      <p className={labelCls}>{title}</p>
-      <p className="text-xs text-zinc-500">{hint}</p>
-      {children}
+    <div className="rounded-xl border border-zinc-800">
+      <button
+        type="button"
+        onClick={() => setOuvert((v) => !v)}
+        aria-expanded={ouvert}
+        className="flex w-full items-center gap-3 px-3 py-3 text-left"
+      >
+        <ChevronDown
+          size={16}
+          className={`shrink-0 text-zinc-500 transition-transform ${ouvert ? "" : "-rotate-90"}`}
+        />
+        <span className="min-w-0 flex-1">
+          <span className={`${labelCls} block`}>{title}</span>
+          {!ouvert && <span className="mt-0.5 block truncate text-xs text-zinc-500">{hint}</span>}
+        </span>
+        <span className="shrink-0 text-xs text-zinc-500">
+          {rempli > 0 ? `${rempli} renseigné${rempli > 1 ? "s" : ""}` : "facultatif"}
+        </span>
+      </button>
+      {ouvert && (
+        <div className="space-y-2 px-3 pb-3">
+          <p className="text-xs text-zinc-500">{hint}</p>
+          {children}
+        </div>
+      )}
     </div>
   );
 }
@@ -117,9 +155,10 @@ export function ThemeBlocks({
   if (blocks.length <= 1) return null;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-3">
       {has("avis") && (
         <Section
+          rempli={reviews.filter((r) => r.text?.trim()).length}
           title={say("avis").label!}
           hint={`${say("avis").hint} Laissez vide si vous n'en avez pas encore : le thème gardera ses exemples et nous vous le rappellerons.`}
         >
@@ -159,7 +198,11 @@ export function ThemeBlocks({
       )}
 
       {has("chiffres") && (
-        <Section title={say("chiffres").label!} hint={say("chiffres").hint!}>
+        <Section
+          rempli={stats.filter((x) => x.value?.trim()).length}
+          title={say("chiffres").label!}
+          hint={say("chiffres").hint!}
+        >
           <Repeater
             rows={stats}
             empty={{ value: "", label: "" }}
@@ -187,7 +230,11 @@ export function ThemeBlocks({
       )}
 
       {has("engagements") && (
-        <Section title={say("engagements").label!} hint={say("engagements").hint!}>
+        <Section
+          rempli={certs.filter(Boolean).length}
+          title={say("engagements").label!}
+          hint={say("engagements").hint!}
+        >
           <Repeater
             rows={certs.map((c) => ({ v: c }))}
             empty={{ v: "" }}
@@ -206,7 +253,11 @@ export function ThemeBlocks({
       )}
 
       {has("faq") && (
-        <Section title={say("faq").label!} hint={say("faq").hint!}>
+        <Section
+          rempli={faq.filter((f) => f.q?.trim()).length}
+          title={say("faq").label!}
+          hint={say("faq").hint!}
+        >
           <Repeater
             rows={faq}
             empty={{ q: "", a: "" }}
@@ -233,7 +284,11 @@ export function ThemeBlocks({
       )}
 
       {has("equipe") && (
-        <Section title={say("equipe").label!} hint={say("equipe").hint!}>
+        <Section
+          rempli={team.filter((m) => m.name?.trim()).length}
+          title={say("equipe").label!}
+          hint={say("equipe").hint!}
+        >
           <Repeater
             rows={team}
             empty={{ name: "", role: "" }}
@@ -260,7 +315,11 @@ export function ThemeBlocks({
       )}
 
       {has("zones") && (
-        <Section title={say("zones").label!} hint={say("zones").hint!}>
+        <Section
+          rempli={(profile.geo?.serviceAreas ?? []).length}
+          title={say("zones").label!}
+          hint={say("zones").hint!}
+        >
           <input
             className={`${input} w-full`}
             value={profile.geo?.serviceAreas?.join(", ") ?? ""}
