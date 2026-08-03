@@ -47,6 +47,7 @@ import { DWELL, useSlides, BlurThrough, SlideIndex, HairlineArrows } from '@/lib
 import { CrossPush } from '@/lib/templates/hero-kit-3';
 import {
   clientFaq,
+  clientPhotos,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -55,11 +56,12 @@ import {
    slides left while the next arrives from the right — two passing shots,
    both subjects on screen for an instant, no fade. The three photos were
    already in this file (hero / about / special), verified at the merge. */
-const HERO_STYLES = [
+const HERO_STYLES_DEMO = [
   { k: 'Fineline', d: 'Traits fins, précision millimétrée', img: 'https://images.pexels.com/photos/5088473/pexels-photo-5088473.jpeg?auto=compress&cs=tinysrgb&w=1600' },
   { k: 'Aquarelle', d: 'Couleurs diluées, contours libres', img: 'https://images.unsplash.com/photo-1542727365-19732a80dcfd?q=80&w=1600&auto=format&fit=crop' },
   { k: 'Botanique', d: 'Fleurs et feuillages sur mesure', img: 'https://images.unsplash.com/photo-1611501275019-9b5cda994e8d?q=80&w=1600&auto=format&fit=crop' },
 ];
+let HERO_STYLES = HERO_STYLES_DEMO;
 
 // Hoisted above the design tokens: several templates read `brand` in a
 // module-level const — declaring it lower caused a TDZ ReferenceError (500).
@@ -378,6 +380,10 @@ export default function Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  HERO_STYLES = HERO_STYLES_DEMO.map((row, i) => ({
+    ...row,
+    img: clientPhotos(sessionData)[0 + i] || row.img,
+  }));
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, primary: brand, primaryLight: shadeColor(brand, 25), primaryDark: shadeColor(brand, -20) };

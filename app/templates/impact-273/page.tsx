@@ -22,6 +22,7 @@ import {
 } from 'lucide-react';
 import { resolveList } from '@/lib/templates/resolveList';
 import {
+  clientPhotos,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -109,7 +110,7 @@ interface TechItem {
 }
 
 /* ── Data ───────────────────────────────────────────────────────────────── */
-const PHASES: Treatment[] = [
+const PHASES_DEMO: Treatment[] = [
   {
     id: 'preventif',
     src: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?q=80&w=1600&auto=format&fit=crop',
@@ -132,6 +133,7 @@ const PHASES: Treatment[] = [
     body: 'Implants Nobel Biocare, all-on-4, bridge implanto-porté — retrouver une dentition complète sans compromis.',
   },
 ];
+let PHASES = PHASES_DEMO;
 
 const CARE_CARDS_DEMO: Care[] = [
   {
@@ -2159,6 +2161,10 @@ export default function Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  PHASES = PHASES_DEMO.map((row, i) => ({
+    ...row,
+    src: clientPhotos(sessionData)[0 + i] || row.src,
+  }));
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   if (brand) {

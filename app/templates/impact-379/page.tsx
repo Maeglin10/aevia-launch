@@ -10,6 +10,7 @@ import { DWELL, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/he
 import { ArcSwap } from "@/lib/templates/hero-kit-3";
 import {
   clientCertifications,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientStats,
@@ -34,7 +35,8 @@ const FONT = "'Libre Baskerville', Georgia, serif";
 const FONT_BODY = "'Cabin', system-ui, sans-serif";
 
 const NAV = [{"l": "Savoir-faire", "h": "#services"}, {"l": "L'atelier", "h": "#methode"}, {"l": "Repères", "h": "#tarifs"}, {"l": "Contact", "h": "#contact"}];
-const HERO = [{"k": "Mobilier contemporain", "line": "Le meuble dessiné pour votre mur, pas pour un catalogue.", "sub": "Noyer, frêne olivier, chêne de pays — massif uniquement.", "img": "https://images.pexels.com/photos/6790966/pexels-photo-6790966.jpeg?auto=compress&cs=tinysrgb&w=1600", "alt": "Ébéniste au travail dans son atelier"}, {"k": "Restauration", "line": "Rendre à un meuble ce que le temps lui a pris.", "sub": "Placages, colle d'os, vernis au tampon, serrures d'origine.", "img": "https://images.pexels.com/photos/34471533/pexels-photo-34471533.jpeg?auto=compress&cs=tinysrgb&w=1600", "alt": "Établi et outils de l'ébéniste"}, {"k": "Marqueterie", "line": "Le dessin fait de bois, pièce par pièce.", "sub": "Motifs contemporains ou reprises de modèles anciens.", "img": "https://images.pexels.com/photos/5974327/pexels-photo-5974327.jpeg?auto=compress&cs=tinysrgb&w=1600", "alt": "Rabot à main sur une pièce de bois massif"}];
+const HERO_DEMO = [{"k": "Mobilier contemporain", "line": "Le meuble dessiné pour votre mur, pas pour un catalogue.", "sub": "Noyer, frêne olivier, chêne de pays — massif uniquement.", "img": "https://images.pexels.com/photos/6790966/pexels-photo-6790966.jpeg?auto=compress&cs=tinysrgb&w=1600", "alt": "Ébéniste au travail dans son atelier"}, {"k": "Restauration", "line": "Rendre à un meuble ce que le temps lui a pris.", "sub": "Placages, colle d'os, vernis au tampon, serrures d'origine.", "img": "https://images.pexels.com/photos/34471533/pexels-photo-34471533.jpeg?auto=compress&cs=tinysrgb&w=1600", "alt": "Établi et outils de l'ébéniste"}, {"k": "Marqueterie", "line": "Le dessin fait de bois, pièce par pièce.", "sub": "Motifs contemporains ou reprises de modèles anciens.", "img": "https://images.pexels.com/photos/5974327/pexels-photo-5974327.jpeg?auto=compress&cs=tinysrgb&w=1600", "alt": "Rabot à main sur une pièce de bois massif"}];
+let HERO = HERO_DEMO;
 
 const SERVICES_DEMO = [{"titre": "Mobilier sur mesure", "desc": "Tables, bibliothèques, bureaux, lits : dessinés avec vous, assemblés à tenon-mortaise et queues d'aronde. Aucun panneau de particules ne franchit la porte.", "tag": "Sur mesure"}, {"titre": "Restauration de mobilier ancien", "desc": "Placages refaits à la colle d'os, finitions à la gomme-laque au tampon, ferrures d'époque remontées : la restauration qui respecte le meuble, pas qui le maquille.", "tag": "Restauration"}, {"titre": "Marqueterie & placage", "desc": "Motifs contemporains ou reprises de modèles Louis-Philippe : essences choisies pour leur veine, découpées à la scie à chantourner.", "tag": "Marqueterie"}, {"titre": "Escaliers & pièces d'agencement", "desc": "Limons, garde-corps, habillages : les grandes pièces de menuiserie qui structurent une maison, calculées et posées.", "tag": "Agencement"}, {"titre": "Pièces d'exception", "desc": "Cabinets, secrétaires, meubles d'apparat : les commandes qui prennent six mois et se transmettent ensuite.", "tag": "Exception"}, {"titre": "Conseil & expertise", "desc": "Estimer un meuble de famille, dire s'il vaut une restauration : un avis d'ébéniste avant de dépenser — parfois pour vous dire non.", "tag": "Conseil"}];
 const METHODE = [{"n": "01", "t": "Le dessin, ensemble", "d": "Croquis, essences, proportions : la pièce se décide sur papier, à l'échelle, avant qu'une planche ne soit coupée."}, {"n": "02", "t": "Le bois choisi", "d": "Grumes sélectionnées chez nos scieurs du Jura, séchées deux ans minimum. Vous voyez la planche de votre plateau."}, {"n": "03", "t": "L'assemblage", "d": "Tenon-mortaise, queues d'aronde, chevilles : les liaisons qui traversent les siècles, faites à la main."}, {"n": "04", "t": "La finition & la livraison", "d": "Huile dure, cire ou vernis au tampon selon l'usage. Livraison et pose par nos soins, jamais par transporteur."}];
@@ -92,6 +94,10 @@ export default function EtabliMoreauPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  HERO = HERO_DEMO.map((row, i) => ({
+    ...row,
+    img: clientPhotos(sessionData)[0 + i] || row.img,
+  }));
   TARIFS = resolveList(
     clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
     TARIFS_DEMO,

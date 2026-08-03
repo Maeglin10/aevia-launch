@@ -19,6 +19,7 @@ import { Separator } from "@/components/ui/separator"
 import { Menu, X, ArrowRight, Check, ChevronDown, Zap, Shield, Globe, BarChart3, Users, Star, Play, Layers, Code2, Rocket, TrendingUp, Clock, MessageSquare, Sparkles, Terminal, GitBranch, Database, Cpu, Lock, ArrowUpRight } from "lucide-react"
 import {
   clientFaq,
+  clientPhotos,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -42,7 +43,7 @@ const STATS = [
   { value: "SOC 2", label: "Certified", sub: "Type II + ISO 27001" },
 ]
 
-const FEATURE_TABS = [
+const FEATURE_TABS_DEMO = [
   {
     id: "performance",
     label: "Performance",
@@ -92,6 +93,7 @@ const FEATURE_TABS = [
     img: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=800&q=80",
   },
 ]
+let FEATURE_TABS = FEATURE_TABS_DEMO;
 
 const TESTIMONIALS_DEMO = [
   {
@@ -211,7 +213,7 @@ const FAQS_DEMO = [
 ]
 let FAQS = FAQS_DEMO;
 
-const LOGOS = [
+const LOGOS_DEMO = [
   { name: "Vercel", img: "https://images.unsplash.com/photo-1611162616305-c69b3fa7fbe0?w=120&q=80" },
   { name: "Stripe", img: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=120&q=80" },
   { name: "Notion", img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=120&q=80" },
@@ -219,6 +221,7 @@ const LOGOS = [
   { name: "Globe", img: "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=120&q=80" },
   { name: "GitHub", img: "https://images.unsplash.com/photo-1618401471353-b98afee0b2eb?w=120&q=80" },
 ]
+let LOGOS = LOGOS_DEMO;
 
 
 // Global state variables for subpage compatibility
@@ -257,6 +260,14 @@ export default function NovaPlatformSaaS() {
   }, []);
 
   fd = session?.formData;
+  FEATURE_TABS = FEATURE_TABS_DEMO.map((row, i) => ({
+    ...row,
+    img: clientPhotos(session)[0 + i] || row.img,
+  }));
+  LOGOS = LOGOS_DEMO.map((row, i) => ({
+    ...row,
+    img: clientPhotos(session)[3 + i] || row.img,
+  }));
   TESTIMONIALS = resolveList(
     clientReviews(session)?.map((r, i) => ({ ...TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length], name: r.author, text: r.text })),
     TESTIMONIALS_DEMO,

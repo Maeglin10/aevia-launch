@@ -9,6 +9,7 @@ import { ShieldCheck, ChevronRight, Star, MapPin, Clock, Car, Check } from "luci
 import { Reveal, MagneticBtn } from "./shared";
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientPhotos,
   clientReviews,
 } from "@/lib/templates/clientContent";
 
@@ -85,7 +86,7 @@ function buildSeasonalMenus(items: { name: string; price: string; description?: 
   }));
 }
 
-const GALLERY_PHOTOS = [
+const GALLERY_PHOTOS_DEMO = [
   {
     src: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=1200&auto=format&fit=crop",
     alt: "Salle principale de restaurant gastronomique",
@@ -112,6 +113,7 @@ const GALLERY_PHOTOS = [
     className: "col-span-1 row-span-1",
   },
 ];
+let GALLERY_PHOTOS = GALLERY_PHOTOS_DEMO;
 
 const EXPERIENCES = [
   {
@@ -231,6 +233,10 @@ export default function AeviaKitchenPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  GALLERY_PHOTOS = GALLERY_PHOTOS_DEMO.map((row, i) => ({
+    ...row,
+    src: clientPhotos(sessionData)[0 + i] || row.src,
+  }));
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const hasRealMenu = !!(bp?.menu && bp.menu.length > 0);

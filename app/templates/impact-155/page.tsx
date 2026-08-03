@@ -7,6 +7,7 @@ import { motion, useScroll, useTransform, useInView } from "framer-motion"
 import Link from "next/link"
 import { ArrowRight, MapPin, Mail, Phone, BedDouble, Bath, Maximize, Star, TrendingUp } from "lucide-react"
 import {
+  clientPhotos,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -48,7 +49,7 @@ const STATS = [
   { value: "20 ans", label: "D'expertise" },
 ]
 
-const BIENS = [
+const BIENS_DEMO = [
   { titre: "Appartement de standing", lieu: "Paris 16e", prix: "1 480 000 €", surface: "145 m²", pieces: 5, bains: 2, tag: "Exclusivité", img: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&q=80" },
   { titre: "Maison familiale", lieu: "Neuilly-sur-Seine", prix: "2 250 000 €", surface: "280 m²", pieces: 7, bains: 3, tag: "Coup de cœur", img: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&q=80" },
   { titre: "Penthouse vue Eiffel", lieu: "Paris 7e", prix: "3 900 000 €", surface: "210 m²", pieces: 5, bains: 3, tag: "Prestige", img: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&q=80" },
@@ -56,6 +57,7 @@ const BIENS = [
   { titre: "Loft design", lieu: "Paris 11e", prix: "890 000 €", surface: "120 m²", pieces: 3, bains: 2, tag: "Atypique", img: "https://images.unsplash.com/photo-1502005229762-cf1b2da7c5d6?w=800&q=80" },
   { titre: "Résidence Belle Époque", lieu: "Paris 8e", prix: "2 650 000 €", surface: "195 m²", pieces: 6, bains: 3, tag: "Haussmannien", img: "https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=800&q=80" },
 ]
+let BIENS = BIENS_DEMO;
 
 const SERVICES_DEMO = [
   { titre: "Estimation gratuite", desc: "Évaluation précise de votre bien en 48h, basée sur notre analyse du marché local et notre expertise de 20 ans.", icon: <TrendingUp size={22} color={C.accent} /> },
@@ -119,6 +121,10 @@ export default function PierreCoPage() {
   }, []);
 
   fd = session?.formData;
+  BIENS = BIENS_DEMO.map((row, i) => ({
+    ...row,
+    img: clientPhotos(session)[0 + i] || row.img,
+  }));
   SERVICES = resolveList(
     clientServices(session)?.map((s, i) => ({ ...SERVICES_DEMO[i % SERVICES_DEMO.length], titre: s.title })),
     SERVICES_DEMO,

@@ -7,6 +7,7 @@ import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion"
 import { C, FONT, FONT_BODY, STATS, MISSIONS, TEMOIGNAGES, Reveal } from "./shared";
 import { DWELL, useSlides, AnchoredBackdrop, WordFlight, SlideIndex, HairlineArrows } from "@/lib/templates/hero-kit-2";
 import {
+  clientPhotos,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -14,7 +15,7 @@ import {
 /* WordFlight from the law lab: the headline assembles word by word, one
    mission at a time, while the photograph dissolves behind it. Both images
    were already in this file and verified at the merge. */
-const HERO_MISSIONS = [
+const HERO_MISSIONS_DEMO = [
   {
     k: "Expertise comptable",
     t: "La comptabilité, un outil de croissance",
@@ -26,6 +27,7 @@ const HERO_MISSIONS = [
     img: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=1920&q=80",
   },
 ];
+let HERO_MISSIONS = HERO_MISSIONS_DEMO;
 
 
 // Global state variables for subpage compatibility
@@ -64,6 +66,10 @@ export default function LedgerPage() {
   }, []);
 
   fd = session?.formData;
+  HERO_MISSIONS = HERO_MISSIONS_DEMO.map((row, i) => ({
+    ...row,
+    img: clientPhotos(session)[0 + i] || row.img,
+  }));
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 

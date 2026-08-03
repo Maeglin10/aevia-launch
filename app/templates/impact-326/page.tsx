@@ -10,6 +10,7 @@ import { DWELL, useSlides, SlideIndex, HairlineArrows } from "@/lib/templates/he
 import { ArcSwap } from "@/lib/templates/hero-kit-3";
 import {
   clientCertifications,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientStats,
@@ -48,7 +49,7 @@ const NAV = [
 
 /* Les trois faces de la plaque du hero. Photos : uniquement des URLs déjà
    présentes dans le repo et vérifiées (cabinets juridiques / documents). */
-const HERO_DOMAINES = [
+const HERO_DOMAINES_DEMO = [
   {
     k: "Immobilier",
     line: "L'acte authentique qui sécurise la vente.",
@@ -71,6 +72,7 @@ const HERO_DOMAINES = [
     alt: "Bibliothèque juridique du bureau des notaires",
   },
 ];
+let HERO_DOMAINES = HERO_DOMAINES_DEMO;
 
 const DOMAINES_DEMO = [
   { titre: "Immobilier", desc: "Avant-contrat, vente, VEFA, servitudes, prêt hypothécaire. Nous vérifions urbanisme, diagnostics et origine de propriété avant que vous n'engagiez votre signature.", tag: "Acte authentique" },
@@ -140,6 +142,10 @@ export default function EtudeNotarialePage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  HERO_DOMAINES = HERO_DOMAINES_DEMO.map((row, i) => ({
+    ...row,
+    img: clientPhotos(sessionData)[0 + i] || row.img,
+  }));
   TARIFS = resolveList(
     clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
     TARIFS_DEMO,

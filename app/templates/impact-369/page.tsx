@@ -10,6 +10,7 @@ import { DWELL, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/he
 import { PortalZoom } from "@/lib/templates/hero-kit-3";
 import {
   clientCertifications,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientStats,
@@ -34,7 +35,8 @@ const FONT = "Georgia, 'Times New Roman', serif";
 const FONT_BODY = "system-ui, -apple-system, sans-serif";
 
 const NAV = [{"l": "Les espaces", "h": "#services"}, {"l": "Votre événement", "h": "#methode"}, {"l": "Formules", "h": "#tarifs"}, {"l": "Contact", "h": "#contact"}];
-const HERO = [{"k": "La grande salle", "sub": "220 convives assis, pierre apparente et poutres de chêne.", "img": "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1920&q=80", "alt": "La grande salle dressée pour un dîner"}, {"k": "La cérémonie au parc", "sub": "L'allée de charmes, l'arche, et quatre hectares pour les photos.", "img": "https://images.unsplash.com/photo-1519741497674-611481863552?w=1920&q=80", "alt": "Cérémonie dressée dans le parc"}, {"k": "Les lendemains", "sub": "12 chambres sur place — le brunch se fait en peignoir.", "img": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&q=80", "alt": "Le parc au matin"}];
+const HERO_DEMO = [{"k": "La grande salle", "sub": "220 convives assis, pierre apparente et poutres de chêne.", "img": "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1920&q=80", "alt": "La grande salle dressée pour un dîner"}, {"k": "La cérémonie au parc", "sub": "L'allée de charmes, l'arche, et quatre hectares pour les photos.", "img": "https://images.unsplash.com/photo-1519741497674-611481863552?w=1920&q=80", "alt": "Cérémonie dressée dans le parc"}, {"k": "Les lendemains", "sub": "12 chambres sur place — le brunch se fait en peignoir.", "img": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&q=80", "alt": "Le parc au matin"}];
+let HERO = HERO_DEMO;
 
 const SERVICES_DEMO = [{"titre": "La grande salle", "desc": "320 m² de tuffeau et de chêne, 220 couverts, office traiteur professionnel attenant, sono et lumières installées.", "tag": "Salle"}, {"titre": "Le parc & la cérémonie", "desc": "Cérémonie laïque sous l'allée de charmes, cocktail sur la terrasse ouest au couchant, plan B pluie prévu et beau.", "tag": "Parc"}, {"titre": "L'hébergement", "desc": "12 chambres (26 couchages) dans la longère et les dépendances : les proches restent, le brunch du lendemain a lieu ici.", "tag": "Nuits"}, {"titre": "Séminaires & journées d'équipe", "desc": "En semaine : salle plénière lumineuse, sous-commissions dans les dépendances, parc pour les formats qui respirent.", "tag": "Entreprise"}, {"titre": "Traiteurs : libres ou conseillés", "desc": "Cuisine professionnelle aux normes pour le traiteur de votre choix — ou notre liste de cinq maisons éprouvées.", "tag": "Traiteur"}, {"titre": "Coordination du jour J", "desc": "Notre intendante orchestre prestataires et timing le jour même : vous êtes invités chez vous.", "tag": "Jour J"}];
 const METHODE = [{"n": "01", "t": "La visite", "d": "Une heure trente, aux heures où VOTRE événement vivra : la lumière du parc à 18 h ne se raconte pas."}, {"n": "02", "t": "L'option posée", "d": "Date bloquée gratuitement 15 jours, devis détaillé espace par espace — pas de forfait opaque."}, {"n": "03", "t": "La préparation cadrée", "d": "Deux rendez-vous techniques, plan d'implantation, fiche prestataires : tout est écrit avant le jour J."}, {"n": "04", "t": "Le jour, orchestré", "d": "L'intendante gère les arrivées, le timing, les imprévus. Le domaine est à vous jusqu'au lendemain 15 h."}];
@@ -84,6 +86,10 @@ export default function DomaineCharmillesPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  HERO = HERO_DEMO.map((row, i) => ({
+    ...row,
+    img: clientPhotos(sessionData)[0 + i] || row.img,
+  }));
   TARIFS = resolveList(
     clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
     TARIFS_DEMO,

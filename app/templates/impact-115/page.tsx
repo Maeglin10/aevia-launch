@@ -18,6 +18,7 @@ import {
   AnimatePresence,
 } from "framer-motion";
 import {
+  clientPhotos,
   clientReviews,
   clientServices,
   clientTeam,
@@ -57,7 +58,7 @@ let C: Record<string, string> = {
    DATA
    ========================================================================== */
 
-const PROJECTS = [
+const PROJECTS_DEMO = [
   {
     id: "p1",
     title: "Verdant Canopy",
@@ -104,6 +105,7 @@ const PROJECTS = [
     image: "https://images.unsplash.com/photo-1518005020951-eccb494ad742?q=80&w=1400&auto=format&fit=crop",
   },
 ];
+let PROJECTS = PROJECTS_DEMO;
 
 const MARQUEE_ITEMS = [
   "Verdant Canopy — Singapore",
@@ -577,6 +579,10 @@ export default function Impact115Page() {
   }, []);
 
   fd = session?.formData;
+  PROJECTS = PROJECTS_DEMO.map((row, i) => ({
+    ...row,
+    image: clientPhotos(session)[0 + i] || row.image,
+  }));
   SERVICES = resolveList(
     clientServices(session)?.map((s, i) => ({ ...SERVICES_DEMO[i % SERVICES_DEMO.length], title: s.title })),
     SERVICES_DEMO,

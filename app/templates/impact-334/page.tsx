@@ -10,6 +10,7 @@ import { DWELL, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/he
 import { PanelDrop } from "@/lib/templates/hero-kit-3";
 import {
   clientCertifications,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientStats,
@@ -34,7 +35,8 @@ const FONT = "'Libre Baskerville', Georgia, serif";
 const FONT_BODY = "'Cabin', system-ui, sans-serif";
 
 const NAV = [{"l": "Prestations", "h": "#services"}, {"l": "La méthode", "h": "#methode"}, {"l": "Tarifs", "h": "#tarifs"}, {"l": "Contact", "h": "#contact"}];
-const HERO = [{"k": "Façades chêne brossé", "line": "Le bois qui se patine avec la maison.", "sub": "Massif ou plaqué, huilé à cœur.", "img": "https://images.pexels.com/photos/7546654/pexels-photo-7546654.jpeg?auto=compress&cs=tinysrgb&w=1600", "alt": "Façades bois et plan de travail"}, {"k": "Îlot central", "line": "Le point de gravité de la maison.", "sub": "Plans céramique, granit ou bois de bout.", "img": "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800&q=80", "alt": "Pièce à vivre avec agencement sur mesure"}, {"k": "De l'atelier au mur", "line": "Chaque caisson ajusté avant de partir.", "sub": "Contrôle qualité en atelier, pose en 2 jours.", "img": "https://images.pexels.com/photos/6969818/pexels-photo-6969818.jpeg?auto=compress&cs=tinysrgb&w=1600", "alt": "Atelier de fabrication des caissons"}];
+const HERO_DEMO = [{"k": "Façades chêne brossé", "line": "Le bois qui se patine avec la maison.", "sub": "Massif ou plaqué, huilé à cœur.", "img": "https://images.pexels.com/photos/7546654/pexels-photo-7546654.jpeg?auto=compress&cs=tinysrgb&w=1600", "alt": "Façades bois et plan de travail"}, {"k": "Îlot central", "line": "Le point de gravité de la maison.", "sub": "Plans céramique, granit ou bois de bout.", "img": "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800&q=80", "alt": "Pièce à vivre avec agencement sur mesure"}, {"k": "De l'atelier au mur", "line": "Chaque caisson ajusté avant de partir.", "sub": "Contrôle qualité en atelier, pose en 2 jours.", "img": "https://images.pexels.com/photos/6969818/pexels-photo-6969818.jpeg?auto=compress&cs=tinysrgb&w=1600", "alt": "Atelier de fabrication des caissons"}];
+let HERO = HERO_DEMO;
 
 const SERVICES_DEMO = [{"titre": "Cuisine complète", "desc": "Conception, fabrication européenne, pose par nos équipes. Charnières et coulisses garanties à vie, façades au choix du studio.", "tag": "Cuisine"}, {"titre": "Îlots & plans", "desc": "Céramique, granit, quartz, bois massif. Découpes ajustées sur place au gabarit — même sur murs qui ne sont pas droits.", "tag": "Plans"}, {"titre": "Électroménager intégré", "desc": "Sélection multi-marques au prix du web, intégrée au projet et livrée-posée avec la cuisine. SAV assuré par le studio.", "tag": "Équipement"}, {"titre": "Dressing & rangements", "desc": "Chambres, entrées, sous-pentes : les mêmes façades et finitions que votre cuisine, pour une maison cohérente.", "tag": "Rangement"}, {"titre": "Buanderie & arrière-cuisine", "desc": "La pièce qui rend la cuisine belle : tout ce qui déborde trouve sa place, plomberie et électricité coordonnées.", "tag": "Annexe"}, {"titre": "Rénovation coordonnée", "desc": "Sols, crédences, éclairage, peinture : nos artisans partenaires interviennent dans le même calendrier, sous notre coordination.", "tag": "Travaux"}];
 const METHODE = [{"n": "01", "t": "Atelier conception — 2 h", "d": "Au studio, autour des cuisines témoins. Vos habitudes, vos appareils, votre budget réel — avant tout dessin."}, {"n": "02", "t": "Relevé laser & plans", "d": "Relevé millimétré chez vous, plans techniques et perspectives réalistes. Trois révisions incluses."}, {"n": "03", "t": "Devis ferme signé", "d": "Poste par poste, électroménager compris. Aucun avenant surprise : l'imprévu est à notre charge."}, {"n": "04", "t": "Pose et réception", "d": "Deux jours de pose en moyenne, protection des sols, réception signée pièce par pièce avec liste de réserves à zéro."}];
@@ -92,6 +94,10 @@ export default function StudioCulinaPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  HERO = HERO_DEMO.map((row, i) => ({
+    ...row,
+    img: clientPhotos(sessionData)[0 + i] || row.img,
+  }));
   TARIFS = resolveList(
     clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
     TARIFS_DEMO,

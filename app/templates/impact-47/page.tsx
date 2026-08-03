@@ -13,11 +13,12 @@ import { DWELL, useSlides, HeldSwap, BlurThrough, SlideIndex, HairlineArrows } f
 /* HeldSwap on the bouquet: exit, half a beat of held emptiness, entry — the
    wine-lab swap, in a round medallion instead of an arch. Images and names
    come from the shop's own collections (verified at the merge). */
-const HERO_BOUQUETS = [
+const HERO_BOUQUETS_DEMO = [
   { name: "Jardin de Printemps", price: "€65", img: "https://images.unsplash.com/photo-1523693916903-027d144a2b7d?w=900&h=900&fit=crop&q=80" },
   { name: "Blossom Drift", price: "€85", img: "https://images.unsplash.com/photo-1487530811176-3780de880c2d?w=900&h=900&fit=crop&q=80" },
   { name: "Dried Luxe", price: "€90", img: "https://images.unsplash.com/photo-1583228858294-6745cb25969e?w=900&h=900&fit=crop&q=80" },
 ];
+let HERO_BOUQUETS = HERO_BOUQUETS_DEMO;
 import {
   C,
   seasons,
@@ -31,6 +32,7 @@ import {
 } from "./shared";
 import {
   clientFaq,
+  clientPhotos,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -585,6 +587,10 @@ export default function FloristHome() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  HERO_BOUQUETS = HERO_BOUQUETS_DEMO.map((row, i) => ({
+    ...row,
+    img: clientPhotos(sessionData)[0 + i] || row.img,
+  }));
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
 return (

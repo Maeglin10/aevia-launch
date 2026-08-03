@@ -7,6 +7,7 @@ import Link from "next/link"
 import { MapPin, ArrowRight, Menu, Star, Shield, Key, Home, Building2, Map, ChevronRight, Maximize2, MoveRight } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
+  clientPhotos,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -35,11 +36,12 @@ function ParallaxImg({ src, alt }: { src: string; alt: string }) {
   )
 }
 
-const PROPERTIES = [
+const PROPERTIES_DEMO = [
   { name: "The Obsidian Penthouse", loc: "New York, NY", price: "$24,500,000", img: "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&q=80&w=1200" },
   { name: "Azure Cliff Villa", loc: "Santorini, GR", price: "$12,800,000", img: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=1200" },
   { name: "Veridian Estate", loc: "Kyoto, JP", price: "$18,200,000", img: "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&q=80&w=1200" },
 ]
+let PROPERTIES = PROPERTIES_DEMO;
 
 
 // Global state variables for subpage compatibility
@@ -78,6 +80,10 @@ export default function ArcaneRealtyPage() {
   }, []);
 
   fd = session?.formData;
+  PROPERTIES = PROPERTIES_DEMO.map((row, i) => ({
+    ...row,
+    img: clientPhotos(session)[0 + i] || row.img,
+  }));
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;

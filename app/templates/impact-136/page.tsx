@@ -17,6 +17,7 @@ import { ArrowRight, ArrowUpRight, Play, Maximize, X, Globe, ArrowDown, Sparkles
 
 import "../premium.css";
 import {
+  clientPhotos,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -25,7 +26,7 @@ import {
    DATA STRUCTURES
    ========================================================================== */
 
-const WORKS = [
+const WORKS_DEMO = [
   {
     id: "01",
     client: "Aura Skincare",
@@ -63,6 +64,7 @@ const WORKS = [
       "https://images.unsplash.com/photo-1469334031218-e382a71b716b?q=80&w=1200&auto=format&fit=crop",
   },
 ];
+let WORKS = WORKS_DEMO;
 
 const SERVICES_DEMO = [
   {
@@ -214,6 +216,10 @@ export default function TextRevealPage() {
   }, []);
 
   fd = session?.formData;
+  WORKS = WORKS_DEMO.map((row, i) => ({
+    ...row,
+    image: clientPhotos(session)[0 + i] || row.image,
+  }));
   SERVICES = resolveList(
     clientServices(session)?.map((s, i) => ({ ...SERVICES_DEMO[i % SERVICES_DEMO.length], title: s.title })),
     SERVICES_DEMO,

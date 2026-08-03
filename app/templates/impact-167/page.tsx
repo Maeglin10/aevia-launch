@@ -14,6 +14,7 @@ import {
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientAreas,
+  clientPhotos,
   clientReviews,
   clientStats,
 } from "@/lib/templates/clientContent";
@@ -100,7 +101,7 @@ const STATS_DEMO = [
 ];
 let STATS = STATS_DEMO;
 
-const NEIGHBORHOODS = [
+const NEIGHBORHOODS_DEMO = [
   {
     name: "Saint-Germain",
     arrondissement: "VIe",
@@ -130,6 +131,7 @@ const NEIGHBORHOODS = [
     image: "https://images.unsplash.com/photo-1431274172761-fca41d930114?q=80&w=1400&auto=format&fit=crop",
   },
 ];
+let NEIGHBORHOODS = NEIGHBORHOODS_DEMO;
 
 const PROCESS_STEPS = [
   {
@@ -806,6 +808,10 @@ export default function Impact167Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  NEIGHBORHOODS = NEIGHBORHOODS_DEMO.map((row, i) => ({
+    ...row,
+    image: clientPhotos(sessionData)[0 + i] || row.image,
+  }));
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {

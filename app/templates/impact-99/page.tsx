@@ -1,4 +1,5 @@
 "use client";
+import { clientPhotos } from "@/lib/templates/clientContent";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 // @ts-nocheck
 
@@ -64,7 +65,7 @@ const NAV_PAGES: { key: EmberPage; label: string }[] = [
    DATA STRUCTURES
    ========================================================================= */
 
-const MENU_HIGHLIGHTS = [
+const MENU_HIGHLIGHTS_DEMO = [
   {
     id: 1,
     name: "Dry-Aged Wagyu",
@@ -90,6 +91,7 @@ const MENU_HIGHLIGHTS = [
     img: "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=1200&q=80",
   },
 ];
+let MENU_HIGHLIGHTS = MENU_HIGHLIGHTS_DEMO;
 
 const PHILOSOPHY = [
   {
@@ -194,7 +196,7 @@ function buildCarteSections(items: { name: string; price: string; description?: 
 
 /* ── BLOG — mock FR articles ─────────────────────────────────────────────── */
 
-const BLOG_POSTS = [
+const BLOG_POSTS_DEMO = [
   {
     slug: "art-maturation",
     title: "L'Art de la Maturation à Sec",
@@ -238,6 +240,7 @@ const BLOG_POSTS = [
     ],
   },
 ];
+let BLOG_POSTS = BLOG_POSTS_DEMO;
 
 /* ==========================================================================
    UTILITY COMPONENTS
@@ -1094,6 +1097,14 @@ export default function EmberGrillPage() {
   });
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  MENU_HIGHLIGHTS = MENU_HIGHLIGHTS_DEMO.map((row, i) => ({
+    ...row,
+    img: clientPhotos(session)[0 + i] || row.img,
+  }));
+  BLOG_POSTS = BLOG_POSTS_DEMO.map((row, i) => ({
+    ...row,
+    img: clientPhotos(session)[3 + i] || row.img,
+  }));
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const [page, setPage] = useState<EmberPage>("home");

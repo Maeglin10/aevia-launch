@@ -10,6 +10,7 @@ import { DWELL, useSlides, SlideIndex, HairlineArrows } from "@/lib/templates/he
 import { ExpandFrame } from "@/lib/templates/hero-kit-2";
 import {
   clientCertifications,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientStats,
@@ -48,7 +49,7 @@ const NAV = [
 
 /* Trois projets pour le hero. Photos : URLs déjà présentes dans le repo
    (atelier bois du donneur, intérieur design) — sujets à contrôler en prod. */
-const HERO_PROJETS = [
+const HERO_PROJETS_DEMO = [
   {
     k: "Cuisine chêne & laque",
     sub: "Îlot central, façades sans poignée, plan de travail céramique.",
@@ -68,6 +69,7 @@ const HERO_PROJETS = [
     alt: "Intérieur aménagé avec rangements sur mesure",
   },
 ];
+let HERO_PROJETS = HERO_PROJETS_DEMO;
 
 const PRESTATIONS_DEMO = [
   { titre: "Cuisine sur mesure", desc: "Conception, fabrication et pose. Caissons 19 mm, façades bois, laque ou stratifié, quincaillerie Blum garantie à vie. Électroménager intégré au projet.", tag: "Cuisine" },
@@ -144,6 +146,10 @@ export default function LignesEtBoisPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  HERO_PROJETS = HERO_PROJETS_DEMO.map((row, i) => ({
+    ...row,
+    img: clientPhotos(sessionData)[0 + i] || row.img,
+  }));
   TARIFS = resolveList(
     clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
     TARIFS_DEMO,

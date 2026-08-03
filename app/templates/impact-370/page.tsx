@@ -9,6 +9,7 @@ import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { DWELL, ExpandFrame, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
 import {
   clientCertifications,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientStats,
@@ -33,7 +34,8 @@ const FONT = "system-ui, -apple-system, 'Segoe UI', sans-serif";
 const FONT_BODY = FONT;
 
 const NAV = [{"l": "La halle", "h": "#services"}, {"l": "Votre événement", "h": "#methode"}, {"l": "Tarifs", "h": "#tarifs"}, {"l": "Contact", "h": "#contact"}];
-const HERO = [{"k": "La nef", "sub": "600 m² sous verrière, 12 m sous ferme métallique.", "img": "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1920&q=80", "alt": "La nef dressée pour un dîner de gala"}, {"k": "Le studio", "sub": "200 m² attenants : cocktails, backstage ou plateau photo.", "img": "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=1920&q=80", "alt": "Le studio attenant aménagé"}, {"k": "La cour", "sub": "La brique, la nuit, les guirlandes : le spot photo de Roubaix.", "img": "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=1920&q=80", "alt": "La cour intérieure éclairée"}];
+const HERO_DEMO = [{"k": "La nef", "sub": "600 m² sous verrière, 12 m sous ferme métallique.", "img": "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1920&q=80", "alt": "La nef dressée pour un dîner de gala"}, {"k": "Le studio", "sub": "200 m² attenants : cocktails, backstage ou plateau photo.", "img": "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=1920&q=80", "alt": "Le studio attenant aménagé"}, {"k": "La cour", "sub": "La brique, la nuit, les guirlandes : le spot photo de Roubaix.", "img": "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=1920&q=80", "alt": "La cour intérieure éclairée"}];
+let HERO = HERO_DEMO;
 
 const SERVICES_DEMO = [{"titre": "La nef sous verrière", "desc": "600 m² modulables, sol béton lissé, murs de brique : le décor est déjà là. Gradins, scène et mobilier disponibles sur place.", "tag": "Nef"}, {"titre": "Technique intégrée", "desc": "Son 20 kW calibré, lumières scéniques, vidéoprojection 10 000 lumens, régisseur de la maison inclus dès 100 personnes.", "tag": "Technique"}, {"titre": "Le studio & la cour", "desc": "200 m² attenants pour cocktail ou backstage, cour de brique pour les pauses et les photos de nuit.", "tag": "Annexes"}, {"titre": "Mariages urbains", "desc": "Cérémonie sous la verrière, dîner dans la nef, DJ jusqu'à 4 h : l'insonorisation d'une ancienne usine a du bon.", "tag": "Mariage"}, {"titre": "Entreprises & lancements", "desc": "Keynotes, salons internes, soirées annuelles : accès camions, wifi fibre, loges — et Lille à 15 minutes.", "tag": "Corporate"}, {"titre": "Tournages & shootings", "desc": "La brique 1897 à la journée : plateaux, clips, mode. Fiche technique complète envoyée sur demande.", "tag": "Image"}];
 const METHODE = [{"n": "01", "t": "Visite technique", "d": "Avec notre régisseur : implantation, flux, accès camions, puissance — les vraies questions dès le premier jour."}, {"n": "02", "t": "Devis modulaire", "d": "La halle, la technique, le personnel : trois blocs chiffrés séparément. Vous ne payez pas ce que vous n'utilisez pas."}, {"n": "03", "t": "Fiche technique validée", "d": "Plan d'implantation signé, prestataires briefés par nos soins, run de la journée écrit heure par heure."}, {"n": "04", "t": "Régie le jour J", "d": "Notre régisseur reste : le son, la lumière et les imprévus sont son problème, pas le vôtre."}];
@@ -83,6 +85,10 @@ export default function Halle1897Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  HERO = HERO_DEMO.map((row, i) => ({
+    ...row,
+    img: clientPhotos(sessionData)[0 + i] || row.img,
+  }));
   TARIFS = resolveList(
     clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
     TARIFS_DEMO,

@@ -23,6 +23,7 @@ import {
 } from "lucide-react";
 import { Reveal, GridBackground } from "./shared";
 import {
+  clientPhotos,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -31,7 +32,7 @@ import {
    DATA
    ============================================================ */
 
-const HERO_PRODUCTS = [
+const HERO_PRODUCTS_DEMO = [
   {
     id: 1,
     name: "Helix Noir",
@@ -63,6 +64,7 @@ const HERO_PRODUCTS = [
     accent: "#1a3a5c",
   },
 ];
+let HERO_PRODUCTS = HERO_PRODUCTS_DEMO;
 
 const PRODUCTS = [
   {
@@ -115,7 +117,7 @@ const PRODUCTS = [
   },
 ];
 
-const MATERIALS = [
+const MATERIALS_DEMO = [
   {
     name: "Swiss Movement",
     subtitle: "ETA 2824-2 / In-house",
@@ -141,8 +143,9 @@ const MATERIALS = [
     img: "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?q=80&w=800&auto=format&fit=crop",
   },
 ];
+let MATERIALS = MATERIALS_DEMO;
 
-const BESTSELLERS = [
+const BESTSELLERS_DEMO = [
   {
     name: "Meridian GMT",
     price: "€15 600",
@@ -180,6 +183,7 @@ const BESTSELLERS = [
     ],
   },
 ];
+let BESTSELLERS = BESTSELLERS_DEMO;
 
 const PUBLICATIONS = [
   "Le Monde",
@@ -623,6 +627,18 @@ export default function OrbitAIPage() {
   }, []);
 
   fd = session?.formData;
+  HERO_PRODUCTS = HERO_PRODUCTS_DEMO.map((row, i) => ({
+    ...row,
+    img: clientPhotos(session)[0 + i] || row.img,
+  }));
+  MATERIALS = MATERIALS_DEMO.map((row, i) => ({
+    ...row,
+    img: clientPhotos(session)[3 + i] || row.img,
+  }));
+  BESTSELLERS = BESTSELLERS_DEMO.map((row, i) => ({
+    ...row,
+    img: clientPhotos(session)[7 + i] || row.img,
+  }));
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;

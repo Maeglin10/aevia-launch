@@ -9,6 +9,7 @@ import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { DWELL, useSlides, SlideIndex, HeldSwap } from "@/lib/templates/hero-kit-2";
 import {
   clientCertifications,
+  clientPhotos,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -39,7 +40,7 @@ const NAV = [
 
 /* Trois temps de l'accompagnement, tenus lentement dans le hero.
    Photos : URLs déjà présentes dans le repo (nature, fleurs). */
-const HERO_TEMPS = [
+const HERO_TEMPS_DEMO = [
   {
     k: "Obsèques",
     line: "Organiser des obsèques justes, à l'image de la personne.",
@@ -59,6 +60,7 @@ const HERO_TEMPS = [
     alt: "Massif de fleurs en pleine lumière",
   },
 ];
+let HERO_TEMPS = HERO_TEMPS_DEMO;
 
 const SERVICES_DEMO = [
   { titre: "Organisation d'obsèques", desc: "Inhumation ou crémation. Un interlocuteur unique organise tout : cercueil, transport, cérémonie, mise en relation avec le cimetière ou le crématorium.", tag: "24h/24" },
@@ -137,6 +139,10 @@ export default function MaisonEstevePage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  HERO_TEMPS = HERO_TEMPS_DEMO.map((row, i) => ({
+    ...row,
+    img: clientPhotos(sessionData)[0 + i] || row.img,
+  }));
   TARIFS = resolveList(
     clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
     TARIFS_DEMO,

@@ -39,6 +39,7 @@ import {
 } from "lucide-react";
 import {
   clientFaq,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientTeam,
@@ -75,7 +76,7 @@ let C: Record<string, string> = {
   gold: "#b8994a",
 };
 
-const PROJECTS = [
+const PROJECTS_DEMO = [
   {
     id: "01",
     title: "Folio Maison",
@@ -143,6 +144,7 @@ const PROJECTS = [
     color: C.gold,
   },
 ];
+let PROJECTS = PROJECTS_DEMO;
 
 const SERVICES = [
   {
@@ -589,6 +591,10 @@ export default function Impact130Page() {
   }, []);
 
   fd = session?.formData;
+  PROJECTS = PROJECTS_DEMO.map((row, i) => ({
+    ...row,
+    image: clientPhotos(session)[0 + i] || row.image,
+  }));
   TESTIMONIALS = resolveList(
     clientReviews(session)?.map((r, i) => ({ ...TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length], name: r.author, text: r.text })),
     TESTIMONIALS_DEMO,

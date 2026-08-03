@@ -6,6 +6,7 @@ import React, {useRef, useState, useEffect} from 'react'
 import { motion, useScroll, useTransform, useInView } from "framer-motion"
 import { Code2, Phone, Mail, MapPin, Star, CheckCircle, ArrowRight, Layers, Sparkles, Globe } from "lucide-react"
 import {
+  clientPhotos,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -70,11 +71,12 @@ const SERVICES_DEMO = [
 ]
 let SERVICES = SERVICES_DEMO;
 
-const REALISATIONS = [
+const REALISATIONS_DEMO = [
   { client: "MaisonDéco Paris", sector: "E-commerce", desc: "Refonte UX + boutique Shopify. +68% de taux de conversion en 3 mois.", img: "https://images.unsplash.com/photo-1555421689-491a97ff2040?w=600&q=80" },
   { client: "Cabinet Forêt & Associés", sector: "Juridique", desc: "Site vitrine + SEO local. Page 1 sur 8 requêtes cibles en 4 mois.", img: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=600&q=80" },
   { client: "Startup Finly", sector: "FinTech", desc: "MVP SaaS de 0 à prod en 6 semaines. Levée de fonds facilités par la démo.", img: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=80" },
 ]
+let REALISATIONS = REALISATIONS_DEMO;
 
 const ATOUTS = [
   "Interlocuteur unique de la stratégie à la livraison",
@@ -137,6 +139,10 @@ export default function PixelRepublicPage() {
   }, []);
 
   fd = session?.formData;
+  REALISATIONS = REALISATIONS_DEMO.map((row, i) => ({
+    ...row,
+    img: clientPhotos(session)[0 + i] || row.img,
+  }));
   SERVICES = resolveList(
     clientServices(session)?.map((s, i) => ({ ...SERVICES_DEMO[i % SERVICES_DEMO.length], titre: s.title })),
     SERVICES_DEMO,

@@ -7,6 +7,7 @@ import Link from "next/link"
 import { Rocket, ArrowRight, Menu, Globe, Shield, Satellite, Zap, Radio, ChevronRight, Activity, Cpu, Box } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
+  clientPhotos,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -62,11 +63,12 @@ const MISSIONS = [
   { id: "AR-106", target: "Mars Alpha", payload: "Human Habitat", type: "Exploration", date: "Nov 28" },
 ]
 
-const FLEET = [
+const FLEET_DEMO = [
   { name: "Atlas Heavy", capacity: "150 Tons", orbit: "LEO / Lunar", img: "https://images.unsplash.com/photo-1517976487492-5750f3195933?auto=format&fit=crop&q=80&w=1200" },
   { name: "Nebula One", capacity: "12 Crew", orbit: "LEO / ISS", img: "https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&q=80&w=1200" },
   { name: "Orbiter X", capacity: "Science Lab", orbit: "Deep Space", img: "https://images.unsplash.com/photo-1454789548928-9efd52dc4031?auto=format&fit=crop&q=80&w=1200" },
 ]
+let FLEET = FLEET_DEMO;
 
 
 // Global state variables for subpage compatibility
@@ -105,6 +107,10 @@ export default function AstrumReachPage() {
   }, []);
 
   fd = session?.formData;
+  FLEET = FLEET_DEMO.map((row, i) => ({
+    ...row,
+    img: clientPhotos(session)[0 + i] || row.img,
+  }));
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;

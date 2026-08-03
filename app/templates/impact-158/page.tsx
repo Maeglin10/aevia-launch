@@ -7,6 +7,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { Menu, X, ArrowRight, MapPin, Calendar, Clock, ChevronRight, Search, Globe, Wind } from "lucide-react"
 import {
+  clientPhotos,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -42,7 +43,7 @@ const NAV = [
   { l: "Newsletter", h: "#newsletter" },
 ];
 
-const ARTICLES = [
+const ARTICLES_DEMO = [
   {
     id: 1,
     region: "Asie du Sud-Est",
@@ -110,8 +111,9 @@ const ARTICLES = [
     tag: "Patrimoine",
   },
 ]
+let ARTICLES = ARTICLES_DEMO;
 
-const DESTINATIONS = [
+const DESTINATIONS_DEMO = [
   { name: "Japon", articles: 12, image: "https://images.unsplash.com/photo-1480796927426-f609979314bd?w=400&q=80" },
   { name: "Pérou", articles: 8, image: "https://images.unsplash.com/photo-1580502304784-8985b7eb7260?w=400&q=80" },
   { name: "Islande", articles: 6, image: "https://images.unsplash.com/photo-1504893524553-b855bce32c67?w=400&q=80" },
@@ -119,6 +121,7 @@ const DESTINATIONS = [
   { name: "Éthiopie", articles: 5, image: "https://images.unsplash.com/photo-1493246507139-91e8fad9978e?w=400&q=80" },
   { name: "Australie", articles: 7, image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&q=80" },
 ]
+let DESTINATIONS = DESTINATIONS_DEMO;
 
 const REGIONS = ["Toutes", "Asie", "Afrique", "Europe", "Amériques", "Océanie"]
 
@@ -159,6 +162,14 @@ export default function AtlasPage() {
   }, []);
 
   fd = session?.formData;
+  ARTICLES = ARTICLES_DEMO.map((row, i) => ({
+    ...row,
+    image: clientPhotos(session)[0 + i] || row.image,
+  }));
+  DESTINATIONS = DESTINATIONS_DEMO.map((row, i) => ({
+    ...row,
+    image: clientPhotos(session)[6 + i] || row.image,
+  }));
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;

@@ -15,6 +15,7 @@ import {
 } from "@/lib/templates/hero-kit-2"
 import { PanelRise } from "@/lib/templates/hero-kit-3"
 import {
+  clientPhotos,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -99,7 +100,7 @@ let AVIS = AVIS_DEMO;
    photographs were already in this file and verified at the merge — no third
    image was risked unseen. The headline never moves; only the photograph
    dissolves, on the slow beat that suits the room. */
-const HERO_VIEWS = [
+const HERO_VIEWS_DEMO = [
   {
     k: "Le cabinet",
     d: "Une pièce calme au coeur de Montpellier, pensée pour que la parole puisse se poser.",
@@ -111,6 +112,7 @@ const HERO_VIEWS = [
     img: "https://images.pexels.com/photos/3958409/pexels-photo-3958409.jpeg?auto=compress&cs=tinysrgb&w=1920",
   },
 ]
+let HERO_VIEWS = HERO_VIEWS_DEMO;
 
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const ref = useRef(null)
@@ -159,6 +161,10 @@ export default function CabinetMoreauPage() {
   }, []);
 
   fd = session?.formData;
+  HERO_VIEWS = HERO_VIEWS_DEMO.map((row, i) => ({
+    ...row,
+    img: clientPhotos(session)[0 + i] || row.img,
+  }));
   AVIS = resolveList(
     clientReviews(session)?.map((r, i) => ({ ...AVIS_DEMO[i % AVIS_DEMO.length], texte: r.text, auteur: r.author })),
     AVIS_DEMO,

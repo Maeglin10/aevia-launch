@@ -13,6 +13,7 @@ import {
 import { ArrowRight, ChevronDown, Heart, MapPin } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientPhotos,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -145,7 +146,7 @@ const PIECES_DEMO: Piece[] = [
   { title: 'Broderie & personnalisation', sub: "Fil d\'or · Soie · Main" },
 ];
 
-const EDIT_ROWS: EditRow[] = [
+const EDIT_ROWS_DEMO: EditRow[] = [
   {
     eyebrow: 'Notre philosophie',
     img: 'https://images.pexels.com/photos/36731349/pexels-photo-36731349.jpeg?auto=compress&cs=tinysrgb&w=1600' + '&w=800',
@@ -171,6 +172,7 @@ const EDIT_ROWS: EditRow[] = [
     reverse: true,
   },
 ];
+let EDIT_ROWS = EDIT_ROWS_DEMO;
 
 const ATELIER_STEPS: AtélierStep[] = [
   {
@@ -2106,6 +2108,10 @@ export default function Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  EDIT_ROWS = EDIT_ROWS_DEMO.map((row, i) => ({
+    ...row,
+    img: clientPhotos(sessionData)[0 + i] || row.img,
+  }));
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, accent: brand, accentLight: shadeColor(brand, 25), accentDark: shadeColor(brand, -20) };

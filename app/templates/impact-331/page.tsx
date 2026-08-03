@@ -10,6 +10,7 @@ import { DWELL, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/he
 import { ArcSwap } from "@/lib/templates/hero-kit-3";
 import {
   clientCertifications,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientStats,
@@ -34,7 +35,8 @@ const FONT = "system-ui, -apple-system, 'Segoe UI', sans-serif";
 const FONT_BODY = FONT;
 
 const NAV = [{"l": "Services", "h": "#services"}, {"l": "La méthode", "h": "#methode"}, {"l": "Tarifs", "h": "#tarifs"}, {"l": "Contact", "h": "#contact"}];
-const HERO = [{"k": "Lunettes de vue", "line": "La monture essayée, ajustée, assumée.", "sub": "300 modèles, créateurs indépendants inclus.", "img": "https://images.unsplash.com/photo-1516826957135-700dedea698c?w=800&q=80", "alt": "Conseil monture à la boutique"}, {"k": "Examen de vue", "line": "Votre correction vérifiée sur place.", "sub": "Renouvellement d'ordonnance dans le cadre légal.", "img": "https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=800&q=80", "alt": "Salle d'examen de vue"}, {"k": "Solaires", "line": "Protéger, sans renoncer au style.", "sub": "Verres polarisants, UV 400 certifié.", "img": "https://images.unsplash.com/photo-1574258495973-f010dfbb5371?w=800&q=80", "alt": "Présentoir de montures solaires"}];
+const HERO_DEMO = [{"k": "Lunettes de vue", "line": "La monture essayée, ajustée, assumée.", "sub": "300 modèles, créateurs indépendants inclus.", "img": "https://images.unsplash.com/photo-1516826957135-700dedea698c?w=800&q=80", "alt": "Conseil monture à la boutique"}, {"k": "Examen de vue", "line": "Votre correction vérifiée sur place.", "sub": "Renouvellement d'ordonnance dans le cadre légal.", "img": "https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=800&q=80", "alt": "Salle d'examen de vue"}, {"k": "Solaires", "line": "Protéger, sans renoncer au style.", "sub": "Verres polarisants, UV 400 certifié.", "img": "https://images.unsplash.com/photo-1574258495973-f010dfbb5371?w=800&q=80", "alt": "Présentoir de montures solaires"}];
+let HERO = HERO_DEMO;
 
 const SERVICES_DEMO = [{"titre": "Lunettes de vue", "desc": "Montures acétate, métal, titane. Créateurs français et indépendants, du classique au plus affirmé — jamais deux fois la même vitrine.", "tag": "Vue"}, {"titre": "Examen de vue", "desc": "Réfraction complète en salle dédiée. Depuis 2016, l'opticien peut adapter votre correction jusqu'à 5 ans après l'ordonnance.", "tag": "Examen"}, {"titre": "Verres & montage atelier", "desc": "Verres français amincis, anti-reflets, lumière bleue. Montage et ajustage dans notre atelier, retouches gratuites à vie.", "tag": "Atelier"}, {"titre": "Lentilles de contact", "desc": "Adaptation par opticien diplômé, essai encadré, suivi à un mois. Journalières, mensuelles, toriques et multifocales.", "tag": "Lentilles"}, {"titre": "Basse vision", "desc": "Aides visuelles pour DMLA et malvoyance : loupes électroniques, éclairages, filtres. Essais à domicile possibles.", "tag": "Basse vision"}, {"titre": "Enfants", "desc": "Montures indestructibles garanties, verres adaptés au traitement de l'amblyopie, contrôles de croissance tous les six mois.", "tag": "Enfants"}];
 const METHODE = [{"n": "01", "t": "On écoute d'abord", "d": "Votre usage, vos écrans, votre conduite de nuit. La monture vient après le mode de vie, pas l'inverse."}, {"n": "02", "t": "Examen ou ordonnance", "d": "Examen de vue sur place si votre ordonnance date, dans le cadre légal du renouvellement."}, {"n": "03", "t": "Essais francs", "d": "On vous dit quand une monture ne vous va pas. Photos d'essayage envoyées pour décider à tête reposée."}, {"n": "04", "t": "Montage & suivi", "d": "Montage atelier, ajustage au visage, retouches gratuites à vie. Tiers payant mutuelle directement appliqué."}];
@@ -84,6 +86,10 @@ export default function RegardNordPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  HERO = HERO_DEMO.map((row, i) => ({
+    ...row,
+    img: clientPhotos(sessionData)[0 + i] || row.img,
+  }));
   TARIFS = resolveList(
     clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
     TARIFS_DEMO,

@@ -10,12 +10,13 @@ import { Compass, ArrowUpRight, Plus, Minus } from "lucide-react";
 import { Reveal, ParallaxImg } from "./shared";
 import {
   clientFaq,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientTeam,
 } from "@/lib/templates/clientContent";
 
-const PROJECTS = [
+const PROJECTS_DEMO = [
   {
     name: "The Obsidian Villa",
     loc: "Malibu, CA",
@@ -49,6 +50,7 @@ const PROJECTS = [
     img: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=1200&auto=format&fit=crop",
   },
 ];
+let PROJECTS = PROJECTS_DEMO;
 
 const SERVICES = [
   {
@@ -177,6 +179,10 @@ export default function SymmetryStudioPage() {
   }, []);
 
   fd = session?.formData;
+  PROJECTS = PROJECTS_DEMO.map((row, i) => ({
+    ...row,
+    img: clientPhotos(session)[0 + i] || row.img,
+  }));
   FAQS = resolveList(
     clientFaq(session)?.map((r, i) => ({ ...FAQS_DEMO[i % FAQS_DEMO.length], q: r.q, a: r.a })),
     FAQS_DEMO,

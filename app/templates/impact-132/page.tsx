@@ -4,6 +4,7 @@
 import { motion, useScroll, useTransform, useInView, AnimatePresence, useMotionValue, useSpring } from "framer-motion"
 import React, { useState, useRef, useEffect, useCallback } from "react"
 import {
+  clientPhotos,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -63,7 +64,7 @@ const FEATURED = {
   img: "https://images.unsplash.com/photo-1677442135703-1787eea5ce01?w=1600&q=85",
 }
 
-const ARTICLES = [
+const ARTICLES_DEMO = [
   {
     id: 1,
     title: "Why Global Supply Chains Are Rewiring Toward Regional Hubs",
@@ -120,8 +121,9 @@ const ARTICLES = [
     size: "medium",
   },
 ]
+let ARTICLES = ARTICLES_DEMO;
 
-const EDITORS_PICKS = [
+const EDITORS_PICKS_DEMO = [
   {
     id: 1,
     title: "The Loneliness Economy and What It Tells Us About Late Capitalism",
@@ -147,6 +149,7 @@ const EDITORS_PICKS = [
     img: "https://images.unsplash.com/photo-1565372195458-9de0b320ef04?w=600&q=80",
   },
 ]
+let EDITORS_PICKS = EDITORS_PICKS_DEMO;
 
 // ─── TypewriterHeadline ───────────────────────────────────────────────────────
 function TypewriterHeadline() {
@@ -442,6 +445,14 @@ export default function Impact132() {
   }, []);
 
   fd = session?.formData;
+  ARTICLES = ARTICLES_DEMO.map((row, i) => ({
+    ...row,
+    img: clientPhotos(session)[0 + i] || row.img,
+  }));
+  EDITORS_PICKS = EDITORS_PICKS_DEMO.map((row, i) => ({
+    ...row,
+    img: clientPhotos(session)[5 + i] || row.img,
+  }));
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;

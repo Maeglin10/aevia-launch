@@ -37,6 +37,7 @@ import {
 } from "lucide-react";
 import {
   clientFaq,
+  clientPhotos,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -86,7 +87,7 @@ const NAV_LINKS = [
 
 const STYLE_FILTERS = ["All", "Réaliste", "Géométrique", "Old School", "Japonais", "Blackwork", "Fine Line"];
 
-const PORTFOLIO = [
+const PORTFOLIO_DEMO = [
   {
     id: 1,
     title: "Koi Dragon Sleeve",
@@ -168,6 +169,7 @@ const PORTFOLIO = [
     year: "2025",
   },
 ];
+let PORTFOLIO = PORTFOLIO_DEMO;
 
 const ARTISTS = [
   {
@@ -545,6 +547,10 @@ export default function Impact89Page() {
   }, []);
 
   fd = session?.formData;
+  PORTFOLIO = PORTFOLIO_DEMO.map((row, i) => ({
+    ...row,
+    img: clientPhotos(session)[0 + i] || row.img,
+  }));
   FAQS = resolveList(
     clientFaq(session)?.map((r, i) => ({ ...FAQS_DEMO[i % FAQS_DEMO.length], q: r.q, a: r.a })),
     FAQS_DEMO,

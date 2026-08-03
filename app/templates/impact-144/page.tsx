@@ -8,6 +8,7 @@ import Link from "next/link"
 import { Sparkles, ArrowRight, Menu, Star, Layers, Eye, Zap, Megaphone, PenTool, Award, Users, ChevronRight, ArrowUpRight } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
+  clientPhotos,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -41,12 +42,13 @@ function Marquee({ children, reverse = false }: { children: React.ReactNode; rev
 const WORDS_1 = ["DESIGN", "MOTION", "IDENTITY", "STRATEGY", "CONTENT", "DIGITAL", "BRAND"]
 const WORDS_2 = ["CREATE", "LAUNCH", "SCALE", "DISRUPT", "CONVERT", "ENGAGE", "GROW"]
 
-const WORK = [
+const WORK_DEMO = [
   { title: "Neon Drift", client: "Pulse Gaming", type: "Brand Launch", img: "https://images.unsplash.com/photo-1538481199705-c710c4e965fc?q=80&w=1200&auto=format&fit=crop" },
   { title: "Apex Protocol", client: "Velos Finance", type: "Web3 Campaign", img: "https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&q=80&w=1200" },
   { title: "Silk Thread", client: "Maison Versa", type: "Motion Design", img: "https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&q=80&w=1200" },
   { title: "Gravity Shift", client: "Prism Analytics", type: "Product Campaign", img: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=1200" },
 ]
+let WORK = WORK_DEMO;
 
 const SERVICES_DEMO = [
   { icon: PenTool, title: "Brand Identity", desc: "Name, logo, visual system, and tone of voice. A complete brand from scratch." },
@@ -99,6 +101,10 @@ export default function KineticMarqueePage() {
   }, []);
 
   fd = session?.formData;
+  WORK = WORK_DEMO.map((row, i) => ({
+    ...row,
+    img: clientPhotos(session)[0 + i] || row.img,
+  }));
   SERVICES = resolveList(
     clientServices(session)?.map((s, i) => ({ ...SERVICES_DEMO[i % SERVICES_DEMO.length], title: s.title })),
     SERVICES_DEMO,

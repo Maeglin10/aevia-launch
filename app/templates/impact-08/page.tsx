@@ -34,6 +34,7 @@ import {
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
+  clientPhotos,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -42,7 +43,7 @@ import {
    VULCAN MOTOR GROUP DATASET (ULTRA DENSITY)
    ========================================================================= */
 
-const FLEET = [
+const FLEET_DEMO = [
   {
     id: "vul-ty-01",
     name: "Tyrant GT",
@@ -80,6 +81,7 @@ const FLEET = [
     color: "#10b981"
   }
 ]
+let FLEET = FLEET_DEMO;
 
 const PERFORMANCE_METRICS = [
   { label: "Aero Efficiency", value: "0.24 Cd", trend: "Optimal", percent: 92 },
@@ -302,6 +304,10 @@ export default function VulcanMotorPremium() {
   }, []);
 
   fd = session?.formData;
+  FLEET = FLEET_DEMO.map((row, i) => ({
+    ...row,
+    img: clientPhotos(session)[0 + i] || row.img,
+  }));
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;

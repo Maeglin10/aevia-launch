@@ -9,6 +9,7 @@ import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { DWELL, HairlineArrows, HeldSwap, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
 import {
   clientCertifications,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientStats,
@@ -33,7 +34,8 @@ const FONT = "'Libre Baskerville', Georgia, serif";
 const FONT_BODY = "'Cabin', system-ui, sans-serif";
 
 const NAV = [{"l": "Nos produits", "h": "#services"}, {"l": "La ferme", "h": "#methode"}, {"l": "Paniers & prix", "h": "#tarifs"}, {"l": "Contact", "h": "#contact"}];
-const HERO = [{"k": "Le panier de la semaine", "line": "Composé mardi, cueilli jeudi, retiré vendredi.", "sub": "Légumes du moment, jamais les mêmes deux semaines de suite.", "img": "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&q=80", "alt": "Légumes du jardin en permaculture"}, {"k": "Le jardin", "line": "Deux hectares menés en bio, sans raccourci.", "sub": "Certification AB, sol vivant, rotations longues.", "img": "https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?w=800&q=80", "alt": "Travail au jardin de la ferme"}, {"k": "Les saisons", "line": "En juin les fraises, en janvier les poireaux.", "sub": "On ne force rien — c'est le principe.", "img": "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=800&q=80", "alt": "Rangs de culture à la belle saison"}];
+const HERO_DEMO = [{"k": "Le panier de la semaine", "line": "Composé mardi, cueilli jeudi, retiré vendredi.", "sub": "Légumes du moment, jamais les mêmes deux semaines de suite.", "img": "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&q=80", "alt": "Légumes du jardin en permaculture"}, {"k": "Le jardin", "line": "Deux hectares menés en bio, sans raccourci.", "sub": "Certification AB, sol vivant, rotations longues.", "img": "https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?w=800&q=80", "alt": "Travail au jardin de la ferme"}, {"k": "Les saisons", "line": "En juin les fraises, en janvier les poireaux.", "sub": "On ne force rien — c'est le principe.", "img": "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=800&q=80", "alt": "Rangs de culture à la belle saison"}];
+let HERO = HERO_DEMO;
 
 const SERVICES_DEMO = [{"titre": "Légumes de saison", "desc": "Quarante variétés sur l'année, cueillies la veille ou le matin de la vente. La tomate d'août et le panais de janvier — jamais l'inverse.", "tag": "Maraîchage"}, {"titre": "Œufs de plein air", "desc": "250 poules sur parcours herbeux, nourries au grain local complété par ce que la ferme produit. Ramassés chaque matin.", "tag": "Œufs"}, {"titre": "Volailles fermières", "desc": "Poulets élevés 110 jours minimum, en plein air, abattus en abattoir de proximité. Sur commande, retrait le vendredi.", "tag": "Volaille"}, {"titre": "Paniers hebdomadaires", "desc": "Petit (2 pers.) ou grand (4-5 pers.) : la récolte de la semaine, une recette pour le légume oublié, sans engagement.", "tag": "Paniers"}, {"titre": "Conserves de la ferme", "desc": "Coulis, ratatouille, soupes d'hiver : l'été mis en bocaux dans notre atelier agréé, pour les mois sans.", "tag": "Bocaux"}, {"titre": "Visites & œufs de vacances", "desc": "La ferme se visite le premier samedi du mois. Les enfants ramassent les œufs, les parents comprennent les prix.", "tag": "Visites"}];
 const METHODE = [{"n": "01", "t": "Un sol vivant", "d": "Rotations longues, engrais verts, compost de la ferme : le sol est notre premier outil de travail."}, {"n": "02", "t": "Cueilli à maturité", "d": "La récolte se fait pour le lendemain, pas pour tenir une semaine de camion. Ça change le goût, vraiment."}, {"n": "03", "t": "Vendu en direct", "d": "Boutique à la ferme, marché de Cahors le samedi, paniers réservés : aucun intermédiaire, prix décidés ici."}, {"n": "04", "t": "Contrôlé chaque année", "d": "Certification AB par organisme agréé, contrôles annuels — le logo se mérite, il ne se déclare pas."}];
@@ -91,6 +93,10 @@ export default function QuatreVentsPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  HERO = HERO_DEMO.map((row, i) => ({
+    ...row,
+    img: clientPhotos(sessionData)[0 + i] || row.img,
+  }));
   TARIFS = resolveList(
     clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
     TARIFS_DEMO,

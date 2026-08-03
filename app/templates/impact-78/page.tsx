@@ -9,11 +9,12 @@ import Link from "next/link";
 import { ArrowUpRight, Quote } from "lucide-react";
 import { Reveal, MagneticBtn, Counter } from "./shared";
 import {
+  clientPhotos,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
 
-const WORK_REEL = [
+const WORK_REEL_DEMO = [
   {
     id: 1,
     title: "VOID_BREW",
@@ -43,6 +44,7 @@ const WORK_REEL = [
     img: "https://images.unsplash.com/photo-1442512595331-e89e73853f31?q=80&w=800&auto=format&fit=crop",
   },
 ];
+let WORK_REEL = WORK_REEL_DEMO;
 
 const EXPERTISE = [
   {
@@ -151,6 +153,10 @@ export default function AetherRoasteryPage() {
   }, []);
 
   fd = session?.formData;
+  WORK_REEL = WORK_REEL_DEMO.map((row, i) => ({
+    ...row,
+    img: clientPhotos(session)[0 + i] || row.img,
+  }));
   TESTIMONIALS = resolveList(
     clientReviews(session)?.map((r, i) => ({ ...TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length], quote: r.text, name: r.author })),
     TESTIMONIALS_DEMO,
