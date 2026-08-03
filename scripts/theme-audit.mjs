@@ -140,6 +140,17 @@ await ctx.addInitScript(() => {
   } catch {}
 });
 
+function ligne(t) {
+  if (t.erreur) return `${t.id}  ERREUR  ${t.erreur}`;
+  const flags = [
+    t.absents.length ? `absents: ${t.absents.join(",")}` : "tous les témoins vus",
+    t.debordement ? "DÉBORDEMENT" : "",
+    t.invisibles?.length ? `invisibles: ${t.invisibles.join(",")}` : "",
+    t.cassees?.length ? `cassées: ${t.cassees.join(",")}` : "",
+  ].filter(Boolean);
+  return `${t.id}  ${flags.join("  |  ")}`;
+}
+
 const report = [];
 for (const id of ids) {
   const page = await ctx.newPage();
@@ -194,24 +205,20 @@ for (const id of ids) {
     const absents = Object.entries(r.vu)
       .filter(([, ok]) => !ok)
       .map(([k]) => k);
-    report.push({ id, absents, ...r, vu: undefined });
+    const row = { id, absents, ...r, vu: undefined };
+    report.push(row);
+    // Écrire au fil de l'eau : un balayage de 373 thèmes dure une demi-heure, et
+    // n'imprimer qu'à la fin fait perdre tout le travail au moindre incident.
+    console.log(ligne(row));
   } catch (e) {
-    report.push({ id, erreur: String(e).slice(0, 140) });
+    const row = { id, erreur: String(e).slice(0, 140) };
+    report.push(row);
+    console.log(ligne(row));
   }
   await page.close();
 }
 await browser.close();
 
-for (const t of report) {
-  if (t.erreur) {
-    console.log(`${t.id}  ERREUR  ${t.erreur}`);
-    continue;
-  }
-  const flags = [
-    t.absents.length ? `absents: ${t.absents.join(",")}` : "tous les témoins vus",
-    t.debordement ? "DÉBORDEMENT" : "",
-    t.invisibles.length ? `invisibles: ${t.invisibles.join(",")}` : "",
-    t.cassees.length ? `cassées: ${t.cassees.join(",")}` : "",
-  ].filter(Boolean);
-  console.log(`${t.id}  ${flags.join("  |  ")}`);
-}
+const ko = report.filter((t) => t.erreur || t.absents?.length).length;
+console.log(`\n${report.length} thèmes mesurés, ${report.length - ko} sans aucun manque`);
+
