@@ -588,7 +588,7 @@ function Hero() {
         }}
       >
         <img
-          src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=2000&auto=format&fit=crop"
+          src={photo(0, "https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=2000&auto=format&fit=crop")}
           alt="Cabinet expert-comptable Marchand & Partners Nantes"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
@@ -1392,7 +1392,7 @@ function ExpertisePanel() {
               }}
             >
               <img
-                src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=900&auto=format&fit=crop"
+                src={photo(1, "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=900&auto=format&fit=crop")}
                 alt="Cabinet Marchand & Partners — expertise et proximité"
                 loading="lazy"
                 style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
@@ -2208,6 +2208,9 @@ function FooterLink({ label, href }: { label: string; href: string }) {
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
+function photo(i: number, fallback: string): string {
+  return fd?.photoUrls?.[i] || fallback;
+}
 // La session complète, pour lib/templates/clientContent : même portée
 // que fd/c/bp, pour les sous-composants qui n'ont pas de props.
 let sessionData: any = null;

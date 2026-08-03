@@ -14,6 +14,7 @@ import { TEMPLATES_REGISTRY } from "@/lib/templates/registry";
 import { NICHE_ARCHETYPE, SANTE_NICHES } from "@/lib/wizard/archetypes";
 import { ServicesCatalogue } from "@/components/wizard/ServicesCatalogue";
 import { ThemeBlocks } from "@/components/wizard/ThemeBlocks";
+import { PhotoSlotsField } from "@/components/wizard/PhotoSlotsField";
 import { copyFor } from "@/lib/wizard/lexicon";
 import { ServiceRdvStep } from "@/components/wizard/steps/ServiceRdvStep";
 import { FoodStep } from "@/components/wizard/steps/FoodStep";
@@ -339,6 +340,23 @@ export function StepForm() {
   const set = <K extends keyof FormState>(k: K, v: FormState[K]) => setForm((f) => ({ ...f, [k]: v }));
 
   const [uploading, setUploading] = useState(false);
+
+  /** Téléverse un fichier et rend son URL, ou "" en cas d'échec. */
+  const uploadFile = async (file: File): Promise<string> => {
+    setUploading(true);
+    try {
+      const body = new FormData();
+      body.append("file", file);
+      const res = await fetch("/api/upload", { method: "POST", body });
+      if (!res.ok) return "";
+      const { url } = (await res.json()) as { url: string };
+      return url;
+    } catch {
+      return "";
+    } finally {
+      setUploading(false);
+    }
+  };
 
   const handleUpload = async (file: File, target: "logo" | "photo") => {
     setUploading(true);
@@ -1007,39 +1025,22 @@ export function StepForm() {
                 )}
               </Field>
 
-              {/* Photos */}
+              {/*
+                Une photo par emplacement du thème, à la place exacte où il la
+                lit. La grille plate d'avant en acceptait six sans ordre : le
+                thème n'en affichait qu'une, `photoUrls[0]`, et le reste du site
+                gardait les images de la démonstration.
+              */}
               <Field label={t.fPhotos}>
                 <p className="text-zinc-500 text-xs mb-3">{t.fPhotosHint}</p>
-                <div className="grid grid-cols-3 gap-2">
-                  {form.photoUrls.map((url, i) => (
-                    <div key={url} className="relative group aspect-square rounded-lg overflow-hidden border border-zinc-700">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={url} alt={`photo ${i + 1}`} className="w-full h-full object-cover" />
-                      <button
-                        type="button"
-                        onClick={() => setForm((f) => ({ ...f, photoUrls: f.photoUrls.filter((_, j) => j !== i) }))}
-                        className="absolute top-1 right-1 bg-black/60 rounded-full p-0.5 opacity-0 group-hover:opacity-100 transition-opacity"
-                      >
-                        <X className="w-3 h-3 text-white" />
-                      </button>
-                    </div>
-                  ))}
-                  {form.photoUrls.length < 6 && (
-                    <label className="aspect-square flex flex-col items-center justify-center gap-1 border-2 border-dashed border-zinc-700 rounded-lg cursor-pointer hover:border-red-500 transition-colors">
-                      {uploading ? <Loader2 className="w-5 h-5 animate-spin text-red-400" /> : <Plus className="w-5 h-5 text-zinc-500" />}
-                      <span className="text-xs text-zinc-500">{t.fPhotosAdd}</span>
-                      <input
-                        type="file"
-                        accept="image/png,image/jpeg,image/webp"
-                        className="sr-only"
-                        onChange={(e) => {
-                          const f = e.target.files?.[0];
-                          if (f) handleUpload(f, "photo");
-                        }}
-                      />
-                    </label>
-                  )}
-                </div>
+                <PhotoSlotsField
+                  templateId={form.template}
+                  photoUrls={form.photoUrls}
+                  onChange={(next) => set("photoUrls", next)}
+                  onUpload={uploadFile}
+                  uploading={uploading}
+                  emptyLabel={t.fPhotosAdd}
+                />
               </Field>
             </>
           )}

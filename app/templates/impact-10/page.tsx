@@ -604,7 +604,7 @@ function HeroSection() {
         style={{
           position: 'absolute',
           inset: '-10%',
-          backgroundImage: 'url(https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=1800&q=90)',
+          backgroundImage: `url(${photo(0, "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=1800&q=90")})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center 30%',
           y: bgY,
@@ -1209,7 +1209,7 @@ function DiningSection() {
           top: '5rem',
           width: '45vw',
           height: '80%',
-          backgroundImage: 'url(https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1200&q=85)',
+          backgroundImage: `url(${photo(1, "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1200&q=85")})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           y: bgY,
@@ -1281,7 +1281,7 @@ function DiningSection() {
             <div
               style={{
                 height: '560px',
-                backgroundImage: 'url(https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1000&q=85)',
+                backgroundImage: `url(${photo(2, "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1000&q=85")})`,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
                 position: 'relative',
@@ -1364,7 +1364,7 @@ function LocationSection() {
               <div
                 style={{
                   height: '340px',
-                  backgroundImage: 'url(https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=1000&q=85)',
+                  backgroundImage: `url(${photo(3, "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=1000&q=85")})`,
                   backgroundSize: 'cover',
                   backgroundPosition: 'center',
                   position: 'relative',
@@ -1499,7 +1499,7 @@ function BookingCTA() {
         style={{
           position: 'absolute',
           inset: '-15%',
-          backgroundImage: 'url(https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=1600&q=85)',
+          backgroundImage: `url(${photo(4, "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=1600&q=85")})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           y: bgY,
@@ -2416,6 +2416,9 @@ function LegalPage({ variant }: { variant: 'mentions' | 'privacy' }) {
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
+function photo(i: number, fallback: string): string {
+  return fd?.photoUrls?.[i] || fallback;
+}
 // La session complète, pour lib/templates/clientContent : même portée
 // que fd/c/bp, pour les sous-composants qui n'ont pas de props.
 let sessionData: any = null;

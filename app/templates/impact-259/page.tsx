@@ -1698,7 +1698,7 @@ function ReservationForm() {
     <section style={sec} id="reservation">
       {/* Photo fantôme en fond */}
       <img
-        src="https://images.pexels.com/photos/8633662/pexels-photo-8633662.jpeg?auto=compress&cs=tinysrgb&w=2000"
+        src={clientPhoto(0, "https://images.pexels.com/photos/8633662/pexels-photo-8633662.jpeg?auto=compress&cs=tinysrgb&w=2000")}
         alt="Image de présentation"
         aria-hidden="true"
         loading="lazy"
@@ -2153,6 +2153,11 @@ function Footer() {
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
+// Ce thème avait déjà un `photo(id)` qui construit une URL Unsplash : on ne
+// réutilise pas le nom, on en prend un autre.
+function clientPhoto(i: number, fallback: string): string {
+  return fd?.photoUrls?.[i] || fallback;
+}
 // La session complète, pour lib/templates/clientContent : même portée
 // que fd/c/bp, pour les sous-composants qui n'ont pas de props.
 let sessionData: any = null;

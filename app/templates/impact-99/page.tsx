@@ -726,7 +726,7 @@ function AboutPage({ goTo }: { goTo: (p: EmberPage) => void }) {
           <Reveal>
             <div className="relative aspect-square rounded-sm overflow-hidden group border border-white/5">
               <Image
-                src="https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=1200&q=80"
+                src={photo(0, "https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=1200&q=80")}
                 alt="Le Chef au feu"
                 fill
                 className="object-cover group-hover:scale-110 transition-all duration-[2s] contrast-125 grayscale hover:grayscale-0"

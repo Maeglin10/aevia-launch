@@ -355,6 +355,9 @@ function StatItem({
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
+function photo(i: number, fallback: string): string {
+  return fd?.photoUrls?.[i] || fallback;
+}
 // La session complète, pour lib/templates/clientContent : même portée
 // que fd/c/bp, pour les sous-composants qui n'ont pas de props.
 let sessionData: any = null;
@@ -646,7 +649,7 @@ return (
             style={{
               position: "absolute",
               inset: 0,
-              background: `url(https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=900&q=80) center/cover no-repeat`,
+              background: `url(${photo(0, "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=900&q=80")}) center/cover no-repeat`,
             }}
           />
           <div
@@ -1866,7 +1869,7 @@ return (
           style={{
             position: "absolute",
             inset: 0,
-            background: `url(https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=1600&q=80) center/cover no-repeat`,
+            background: `url(${photo(1, "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=1600&q=80")}) center/cover no-repeat`,
             opacity: 0.08,
           }}
         />
