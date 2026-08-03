@@ -19,8 +19,22 @@
  * d'entrées que la démonstration, on boucle sur cette dernière — mieux vaut
  * répéter une icône que n'en avoir aucune.
  */
+const isPlainObject = (v: unknown): v is object =>
+  typeof v === "object" && v !== null && !Array.isArray(v) && !("$$typeof" in (v as object));
+
 export function resolveList<T>(real: readonly unknown[] | undefined, demo: T[]): T[] {
   if (!real || real.length === 0) return demo;
   if (demo.length === 0) return real as unknown as T[];
-  return real.map((row, i) => ({ ...demo[i % demo.length], ...(row as object) }) as T);
+  return real.map((row, i) => {
+    const base = demo[i % demo.length];
+    /*
+      La fusion ne vaut que pour des objets. Plusieurs sections sont des tableaux
+      de chaînes — ENGAGEMENT, les certifications, les zones — et étaler une
+      chaîne la transforme en objet indexé par caractère : « Décennale » devient
+      { 0: "D", 1: "é", … }. Le premier correctif faisait exactement cela et a
+      cassé plus de sections qu'il n'en réparait.
+    */
+    if (!isPlainObject(row) || !isPlainObject(base)) return row as T;
+    return { ...base, ...row } as T;
+  });
 }
