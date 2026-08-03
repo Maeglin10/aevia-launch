@@ -8,6 +8,7 @@ import { Building2, MapPin, ArrowRight, Star, Phone, Mail, Search, Bed, Bath, Sq
 import { resolveList } from "@/lib/templates/resolveList"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
+  clientCity,
   clientName,
   clientReviews,
   clientServices,
@@ -583,7 +584,7 @@ export default function AltaTransactionsPage() {
           ))}
         </div>
         <div className="max-w-[1400px] mx-auto pt-8 border-t border-white/5 flex justify-between text-[10px] font-bold uppercase tracking-widest text-white/15">
-          <span>© 2026 Alta Transactions · SIRET 456 789 123 00078 · Carte professionnelle T/G/S n°C</span>
+          <span>© 2026 Alta Transactions · SIRET 456 789 123 00078 · Carte professionnelle T/G/S n°C{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <span className="text-[var(--brand,#b8944a)]/30">Immobilier de prestige Paris</span>
         </div>
       </footer>

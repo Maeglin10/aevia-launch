@@ -6,6 +6,7 @@ import { motion, useScroll, useTransform, useInView, AnimatePresence } from "fra
 import { Phone, Mail, MapPin, Clock, Star, CheckCircle, ArrowRight, Camera, X } from "lucide-react"
 import { resolveList } from "@/lib/templates/resolveList"
 import {
+  clientCity,
   clientReviews,
   clientServices,
   clientStats,
@@ -593,7 +594,7 @@ return (
           </div>
         </div>
         <div style={{ borderTop: `1px solid ${C.border}`, paddingTop: 16, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 10 }}>
-          <span style={{ color: "rgba(245,240,232,0.18)", fontSize: 12 }}>© 2026 Encre Noire Studio — Site par Aevia WS</span>
+          <span style={{ color: "rgba(245,240,232,0.18)", fontSize: 12 }}>© 2026 Encre Noire Studio — Site par Aevia WS{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <a href="#contact" style={{ color: "rgba(245,240,232,0.18)", fontSize: 12, textDecoration: "none" }}>{c?.ctaText ?? <>Mentions légales</>}</a>
         </div>
       </footer>

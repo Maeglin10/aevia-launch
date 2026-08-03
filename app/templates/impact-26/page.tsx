@@ -735,7 +735,7 @@ export default function Impact26() {
               </button>
             ))}
           </div>
-          <p className="text-[#F5EDE8]/20 text-xs tracking-widest">© 2026 Éther Parfums, Paris</p>
+          <p className="text-[#F5EDE8]/20 text-xs tracking-widest">© 2026 Éther Parfums, Paris{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</p>
         </div>
       </footer>
     </div>

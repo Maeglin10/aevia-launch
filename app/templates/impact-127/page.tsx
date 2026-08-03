@@ -8,6 +8,7 @@ import Link from "next/link"
 import { Music, ArrowRight, Menu, Star, Calendar, Clock, MapPin, Ticket, Users, Heart, ChevronRight, Volume2 } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
+  clientCity,
   clientFaq,
   clientPhotos,
   clientReviews,
@@ -533,7 +534,7 @@ export default function PulseEventsPage() {
           ))}
         </div>
         <div className="max-w-[1200px] mx-auto pt-8 border-t border-white/5 text-[10px] font-bold uppercase tracking-widest text-white/20 flex justify-between">
-          <span>© 2026 PULSE EVENTS.</span>
+          <span>© 2026 PULSE EVENTS.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
           <span>FEEL THE FREQUENCY.</span>
         </div>
       </footer>

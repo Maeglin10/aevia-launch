@@ -895,7 +895,7 @@ const navLinks = ["Spécialités", "Médecins", "Protocoles", "Science", "Tarifs
             ))}
           </div>
           <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-white/40">
-            <span>© 2026 Vitalité Médical — Tous droits réservés</span>
+            <span>© 2026 Vitalité Médical — Tous droits réservés{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
             <div className="flex gap-6">
               <span className="hover:text-white/70 cursor-pointer">Mentions légales</span>
               <span className="hover:text-white/70 cursor-pointer">RGPD</span>

@@ -8,6 +8,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Menu, X, ArrowRight, Zap, BarChart3, Users, CheckCircle, ChevronDown, Globe, Layers, Bell, Shield, Code2, TrendingUp, Cpu, Server, Lock, HelpCircle } from "lucide-react";
 import {
+  clientCity,
   clientName,
   clientReviews,
   clientServices,
@@ -401,7 +402,7 @@ return (
           ))}
         </div>
         <div className="max-w-6xl mx-auto border-t border-white/5 pt-8 flex justify-between text-xs text-gray-600">
-          <span>© 2026 Streamline. Tous droits réservés.</span>
+          <span>© 2026 Streamline. Tous droits réservés.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
           <span>Made in 🇫🇷 Paris</span>
         </div>
       </footer>

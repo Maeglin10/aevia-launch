@@ -7,6 +7,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { BookOpen, Users, Star, Play, ChevronRight, Menu, X, ArrowRight, Clock, Award, BarChart2, Globe, CheckCircle } from "lucide-react";
 import {
+  clientCity,
   clientName,
   clientReviews,
   clientServices,
@@ -394,7 +395,7 @@ return (
           ))}
         </div>
         <div className="max-w-6xl mx-auto border-t border-gray-800 pt-8 flex justify-between items-center text-xs text-gray-500">
-          <span>© 2026 EduPath. Tous droits réservés.</span>
+          <span>© 2026 EduPath. Tous droits réservés.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
           <span>Fait avec amour à Paris</span>
         </div>
       </footer>

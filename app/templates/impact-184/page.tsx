@@ -430,7 +430,7 @@ export default function BrilloNetPage() {
           ))}
         </div>
         <div className="max-w-[1300px] mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between gap-3 text-[10px] font-bold uppercase tracking-widest text-white/10">
-          <span>© 2026 BrilloNet · SIRET 789 012 345 00067 · RC Pro · Assurance décennale</span>
+          <span>© 2026 BrilloNet · SIRET 789 012 345 00067 · RC Pro · Assurance décennale{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
           <span className="text-[var(--brand,#0d9488)]/30">Ménage professionnel · {clientCity({ formData: fd }) ?? "Lyon"}</span>
         </div>
       </footer>

@@ -598,7 +598,7 @@ export default function LegrandPage() {
             ))}
           </div>
           <div className="text-xs">
-            <p>© 2024 Legrand & Associés · Tous droits réservés</p>
+            <p>© 2024 Legrand & Associés · Tous droits réservés{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</p>
             <p className="mt-1">Barreau de Paris · SIRET 382 912 847 00025</p>
           </div>
         </div>

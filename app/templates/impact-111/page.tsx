@@ -8,6 +8,7 @@ import Link from "next/link"
 import { Ruler, ArrowRight, Menu, Star, MapPin, TreePine, Shovel, Layers, Mountain, ChevronRight, Globe, Wind } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
+  clientCity,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -393,7 +394,7 @@ export default function TerraArchitecturePage() {
         </div>
         
         <div className="max-w-[1400px] mx-auto pt-12 border-t border-[#3d3a35]/5 flex flex-col md:row justify-between items-center gap-6 text-[10px] font-bold uppercase tracking-widest text-[#3d3a35]/30">
-          <span>© 2026 TERRA ARCHITECTURE STUDIO. BUILT WITH EARTH.</span>
+          <span>© 2026 TERRA ARCHITECTURE STUDIO. BUILT WITH EARTH.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
           <div className="flex gap-10">
              <Link href="#contact" className="hover:text-[#3d3a35] transition-colors flex items-center gap-2"><Globe className="w-3 h-3" /> BASED IN COPENHAGEN</Link>
              <Link href="#contact" className="hover:text-[#3d3a35] transition-colors flex items-center gap-2"><MapPin className="w-3 h-3" /> PARIS · TOKYO</Link>

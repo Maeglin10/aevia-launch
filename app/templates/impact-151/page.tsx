@@ -25,6 +25,7 @@ import {
 import { resolveList } from "@/lib/templates/resolveList"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
+  clientCity,
   clientName,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -507,7 +508,7 @@ return (
            </div>
 
            <div className="max-w-[1600px] mx-auto border-t border-white/5 pt-12 flex flex-col md:flex-row justify-between items-center gap-12 text-[10px] font-black text-white/10 uppercase tracking-[0.4em] italic">
-              <span>© 2026 AETHELGARD ESTATE & SPIRITS GROUP SA. // ALL_RIGHTS_RESERVED</span>
+              <span>© 2026 AETHELGARD ESTATE & SPIRITS GROUP SA. // ALL_RIGHTS_RESERVED{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
               <div className="flex gap-12">
                  <span>BORDEAUX</span>
                  <span>TUSCANY</span>

@@ -9,6 +9,7 @@ import { PenTool, ArrowRight, Menu, Star, Layers, Eye, Palette, Zap, Award, User
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { resolveList } from "@/lib/templates/resolveList"
 import {
+  clientCity,
   clientServices,
 } from "@/lib/templates/clientContent";
 
@@ -552,7 +553,7 @@ export default function StudioVersaPage() {
           ))}
         </div>
         <div className="max-w-[1200px] mx-auto pt-8 border-t border-white/10 text-[10px] font-bold uppercase tracking-widest text-white/20 flex justify-between">
-          <span>© 2026 STUDIO VERSA.</span>
+          <span>© 2026 STUDIO VERSA.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <span>DESIGN WITH INTENT.</span>
         </div>
       </footer>

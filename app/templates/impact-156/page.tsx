@@ -7,6 +7,7 @@ import Link from "next/link"
 import { ArrowRight, MapPin, Mail, Phone, Clock, Star, Heart, Sun, Moon, X, Check } from "lucide-react"
 import { resolveList } from "@/lib/templates/resolveList"
 import {
+  clientCity,
   clientReviews,
   clientServices,
   clientStats,
@@ -551,7 +552,7 @@ export default function LumiereYogaPage() {
           </div>
         </div>
         <div style={{ borderTop: "1px solid rgba(255,255,255,0.07)", paddingTop: 18, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 12 }}>
-          <span style={{ color: "rgba(255,255,255,0.24)", fontSize: 12 }}>© 2026 Lumière Yoga Studio — Site réalisé par Aevia WS</span>
+          <span style={{ color: "rgba(255,255,255,0.24)", fontSize: 12 }}>© 2026 Lumière Yoga Studio — Site réalisé par Aevia WS{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <a href="#contact" style={{ color: "rgba(255,255,255,0.24)", fontSize: 12, textDecoration: "none" }}>{c?.ctaText ?? <>Mentions légales</>}</a>
         </div>
       </footer>

@@ -8,6 +8,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Menu, X, ArrowRight, TrendingUp, BarChart3, Globe, Users, ChevronRight, Building2, DollarSign, Award, Mail, Phone, Calendar, Send } from "lucide-react";
 import {
+  clientCity,
   clientName,
   clientReviews,
   clientServices,
@@ -312,7 +313,7 @@ return (
             <a href="/templates/impact-19" onClick={(e) => { e.preventDefault(); goTo("legal"); }} className="hover:text-[var(--brand,#C9A86C)] transition-colors">Mentions légales</a>
             <a href="/templates/impact-19" onClick={(e) => { e.preventDefault(); goTo("legal"); }} className="hover:text-[var(--brand,#C9A86C)] transition-colors">Confidentialité</a>
           </div>
-          <span>© 2026 Summit Capital. Tous droits réservés.</span>
+          <span>© 2026 Summit Capital. Tous droits réservés.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
         </div>
       </footer>
     </div>

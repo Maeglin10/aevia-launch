@@ -7,6 +7,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { Menu, X, ArrowRight, MapPin, Calendar, Clock, ChevronRight, Search, Globe, Wind } from "lucide-react"
 import {
+  clientCity,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -530,7 +531,7 @@ export default function AtlasPage() {
             </div>
           </div>
           <div className="pt-8 border-t border-[#2C1F0E] flex flex-col md:flex-row justify-between gap-4 text-xs">
-            <span>© 2024 Atlas · Journal de voyage · Tous droits réservés</span>
+            <span>© 2024 Atlas · Journal de voyage · Tous droits réservés{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
             <div className="flex gap-6">
               {["Mentions légales", "Politique de confidentialité"].map(l => (
                 <Link key={l} href="#articles" className="hover:text-[#F5F0E8] transition-colors cursor-pointer">{l}</Link>

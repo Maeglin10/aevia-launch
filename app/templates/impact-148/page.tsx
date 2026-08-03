@@ -8,6 +8,7 @@ import { Zap, ArrowRight, Menu, Star, Activity, Cpu, Globe, Share2, Shield, Chev
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientCity,
   clientServices,
 } from "@/lib/templates/clientContent";
 
@@ -519,7 +520,7 @@ export default function NeonPulsePage() {
            ))}
         </div>
         <div className="max-w-[1400px] mx-auto flex flex-col md:row justify-between items-center gap-8 border-t border-white/5 pt-12 text-[10px] font-bold uppercase tracking-[0.4em] text-white/10 italic">
-           <span>© 2026 NEON PULSE PROTOCOL. OWN THE VOID.</span>
+           <span>© 2026 NEON PULSE PROTOCOL. OWN THE VOID.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
            <div className="flex gap-12">
               <Link href="#contact" className="hover:text-[var(--brand,#22d3ee)] transition-all">SYSTEM: ONLINE</Link>
               <Link href="#contact" className="hover:text-[var(--brand,#22d3ee)] transition-all">PULSE: STABLE</Link>

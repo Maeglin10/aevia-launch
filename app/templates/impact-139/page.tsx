@@ -9,6 +9,7 @@ import { Dumbbell, ArrowRight, Menu, Star, MapPin, Clock, Users, Flame, ChevronR
 import { resolveList } from "@/lib/templates/resolveList"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
+  clientCity,
   clientReviews,
   clientServices,
   clientTeam,
@@ -490,7 +491,7 @@ export default function ApexFitnessPage() {
           ))}
         </div>
         <div className="max-w-[1200px] mx-auto pt-8 border-t border-white/5 text-[10px] font-bold uppercase tracking-widest text-white/20 flex flex-col sm:flex-row justify-between gap-4">
-          <span>© 2026 APEX FITNESS. TRAIN HARDER.</span>
+          <span>© 2026 APEX FITNESS. TRAIN HARDER.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <div className="flex gap-6">
             <Link href="#contact" className="hover:text-white transition-colors">Mentions légales</Link>
             <Link href="#contact" className="hover:text-white transition-colors">Confidentialité</Link>

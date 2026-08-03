@@ -8,6 +8,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { Menu, X, ArrowRight, Check, Star, Zap, BarChart2, Shield, Users, Clock, Globe, ChevronRight, Play, Sparkles } from "lucide-react"
 import {
+  clientCity,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -564,7 +565,7 @@ export default function EssentialSaaSPage() {
             ))}
           </div>
           <div className="pt-8 border-t border-slate-800 flex flex-col md:flex-row justify-between gap-4 text-xs">
-            <span>© 2024 {fd?.businessName ?? "Flowbase"} · Tous droits réservés</span>
+            <span>© 2024 {fd?.businessName ?? "Flowbase"} · Tous droits réservés{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
             <div className="flex gap-6">
               {[{ l: "Confidentialité", h: "/templates/impact-161/legal" }, { l: "CGU", h: "/templates/impact-161/legal" }, { l: "Cookies", h: "/templates/impact-161/legal" }].map(({ l, h }) => <Link key={l} href={h} className="hover:text-white transition-colors cursor-pointer">{l}</Link>)}
             </div>
