@@ -10,6 +10,7 @@ import { DWELL, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/he
 import { ParticleOrb } from "@/lib/templates/hero-kit-3";
 import {
   clientCertifications,
+  clientCity,
   clientReviews,
   clientServices,
   clientStats,
@@ -191,7 +192,7 @@ export default function MaisonAuditionPage() {
       <section className="i339-hero" style={{ minHeight: "100dvh", position: "relative", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", textAlign: "center", padding: "140px 24px 80px", overflow: "hidden" }}>
         <ParticleOrb color={C.hi} count={620} seconds={46} className="" style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", width: "min(70vw, 620px)", aspectRatio: "1", opacity: 0.55, pointerEvents: "none" }} />
         <div style={{ position: "relative", zIndex: 1, maxWidth: 780 }}>
-          <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>Audioprothésistes · Tours</span>
+          <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>Audioprothésistes · {clientCity(sessionData) ?? "Tours"}</span>
           <h1 style={{ fontFamily: FONT, fontSize: "clamp(36px, 5.2vw, 66px)", color: C.text, lineHeight: 1.1, margin: "18px 0 20px" }}>
             {c?.heroHeadline ?? (<>Réentendre les voix,<br /><em style={{ color: C.accentDark }}>pas seulement le bruit.</em></>)}
           </h1>
@@ -376,7 +377,7 @@ export default function MaisonAuditionPage() {
           <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 28, marginBottom: 30 }}>
             <div>
               <div style={{ fontFamily: FONT, fontSize: 18, color: C.hi, marginBottom: 8 }}>{fd?.businessName ?? "Maison de l'Audition"}</div>
-              <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, lineHeight: 1.7 }}>Audioprothésistes diplômés d'État · Tours<br />Centre agréé 100 % Santé, tiers payant</p>
+              <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, lineHeight: 1.7 }}>Audioprothésistes diplômés d'État · {clientCity(sessionData) ?? "Tours"}<br />Centre agréé 100 % Santé, tiers payant</p>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
               {[{ icon: <MapPin size={13} />, t: "Tours, Indre-et-Loire" }, { icon: <Phone size={13} />, t: phone }, { icon: <Clock size={13} />, t: "Lun–Ven 9h–18h30 · Sam 9h–13h" }].map((item, idx) => (

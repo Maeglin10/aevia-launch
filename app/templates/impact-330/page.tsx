@@ -10,6 +10,7 @@ import { DWELL, useSlides, SlideIndex, HairlineArrows } from "@/lib/templates/he
 import { MosaicPush } from "@/lib/templates/hero-kit-3";
 import {
   clientCertifications,
+  clientCity,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -411,12 +412,12 @@ export default function PharmacieDuParcPage() {
             <div>
               <div style={{ fontWeight: 800, fontSize: 17, color: "#fff", marginBottom: 8 }}>{fd?.businessName ?? "Pharmacie du Parc"}</div>
               <p style={{ color: "rgba(255,255,255,0.40)", fontSize: 13, lineHeight: 1.7 }}>
-                Pharmacie d'officine · Lille<br />
+                Pharmacie d'officine · {clientCity(sessionData) ?? "Lille"}<br />
                 Ordre national des pharmaciens — licence n° 59#004512
               </p>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-              {[{ icon: <MapPin size={13} />, t: "Quartier du Parc, Lille" }, { icon: <Phone size={13} />, t: phone }, { icon: <Clock size={13} />, t: "Lun–Sam 8h30–19h30 · Garde : 3237" }].map((item, idx) => (
+              {[{ icon: <MapPin size={13} />, t: `Quartier du Parc, ${clientCity(sessionData) ?? "Lille"}` }, { icon: <Phone size={13} />, t: phone }, { icon: <Clock size={13} />, t: "Lun–Sam 8h30–19h30 · Garde : 3237" }].map((item, idx) => (
                 <div key={idx} style={{ display: "flex", gap: 10, color: "rgba(255,255,255,0.45)", fontSize: 13, alignItems: "center" }}>
                   <span style={{ color: C.mint }}>{item.icon}</span>{item.t}
                 </div>

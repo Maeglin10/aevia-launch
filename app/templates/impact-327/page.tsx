@@ -10,6 +10,7 @@ import { DWELL, useSlides, SlideIndex, HairlineArrows } from "@/lib/templates/he
 import { ExpandFrame } from "@/lib/templates/hero-kit-2";
 import {
   clientCertifications,
+  clientCity,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -253,7 +254,7 @@ export default function LignesEtBoisPage() {
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(12,7,2,0.92) 0%, rgba(12,7,2,0.38) 46%, rgba(12,7,2,0.10) 100%)", pointerEvents: "none" }} />
         <div className="i327-herotext" style={{ position: "relative", zIndex: 1, padding: "0 72px 76px", maxWidth: 860 }}>
           <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }} style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.oak }}>
-            Cuisines & agencement sur mesure · Lyon
+            Cuisines & agencement sur mesure · {clientCity(sessionData) ?? "Lyon"}
           </motion.span>
           <motion.h1 initial={{ opacity: 0, y: 44 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.45, duration: 0.9, ease: [0.16, 1, 0.3, 1] }} style={{ fontFamily: FONT, fontSize: "clamp(36px, 5vw, 64px)", color: "#fff", lineHeight: 1.12, margin: "16px 0 20px" }}>
             {c?.heroHeadline ?? (<>Du plan 3D<br /><em style={{ color: C.oak }}>à la pièce à vivre.</em></>)}
@@ -447,7 +448,7 @@ export default function LignesEtBoisPage() {
             <div>
               <div style={{ fontFamily: FONT, fontSize: 18, fontStyle: "italic", color: C.oak, marginBottom: 8 }}>{fd?.businessName ?? "Lignes & Bois"}</div>
               <p style={{ color: "rgba(255,255,255,0.32)", fontSize: 13, lineHeight: 1.7 }}>
-                Cuisiniste · Agencement sur mesure · Lyon<br />Fabrication française, pose par menuisiers salariés
+                Cuisiniste · Agencement sur mesure · {clientCity(sessionData) ?? "Lyon"}<br />Fabrication française, pose par menuisiers salariés
               </p>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>

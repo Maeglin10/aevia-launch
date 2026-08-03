@@ -43,6 +43,7 @@ import {
   Zap,
 } from 'lucide-react';
 import {
+  clientCity,
   clientFaq,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -948,7 +949,7 @@ return (
                 {[...Array(5)].map((_, i) => <Star key={i} size={14} fill={C.primary} color={C.primary} />)}
               </div>
               <div style={{ fontFamily: SANS, fontSize: 12, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: C.primary }}>
-                Marie Lauret · Bordeaux
+                Marie Lauret · {clientCity(sessionData) ?? "Bordeaux"}
               </div>
             </div>
           </Reveal>

@@ -8,6 +8,7 @@ import { useRef, useState, useEffect } from "react"
 import Image from "next/image"
 import { ArrowRight, Heart, ChevronLeft, ChevronRight, Star, Leaf, Droplets, Wind, ShoppingBag, X, Check } from "lucide-react"
 import {
+  clientCity,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -379,7 +380,7 @@ export default function Impact26() {
             transition={{ duration: 0.8 }}
             className="text-[var(--brand,#c9956a)] text-xs tracking-[0.4em] uppercase mb-6"
           >
-            Parfumerie de Niche · Paris
+            Parfumerie de Niche · {clientCity({ formData: fd }) ?? "Paris"}
           </motion.div>
           <motion.h1
             initial={{ opacity: 0, y: 40 }}

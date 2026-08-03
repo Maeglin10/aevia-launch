@@ -11,6 +11,7 @@ import { DWELL, useSlides, SlideIndex, HairlineArrows } from "@/lib/templates/he
 import { HardCutRebuild } from "@/lib/templates/hero-kit-3";
 import {
   clientCertifications,
+  clientCity,
   clientReviews,
   clientServices,
   clientStats,
@@ -426,7 +427,7 @@ export default function CapDemenagementsPage() {
             <div>
               <div style={{ fontWeight: 800, fontSize: 17, marginBottom: 8 }}>{fd?.businessName ?? "Cap Déménagements"}</div>
               <p style={{ color: C.textMuted, fontSize: 13, lineHeight: 1.7 }}>
-                Déménageur professionnel · Nantes<br />Registre des transporteurs — DREAL Pays de la Loire
+                Déménageur professionnel · {clientCity(sessionData) ?? "Nantes"}<br />Registre des transporteurs — DREAL Pays de la Loire
               </p>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>

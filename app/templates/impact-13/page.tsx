@@ -10,6 +10,7 @@ import { Menu, X, ArrowRight, ChevronRight, Clock, MapPin, Phone, Mail, Award, S
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientAddress,
+  clientCity,
   clientServices,
 } from "@/lib/templates/clientContent";
 
@@ -744,7 +745,7 @@ function ContactSubPage() {
           <div className="md:col-span-5 space-y-8 text-sm text-white/60">
             <div className="space-y-2">
               <h3 className="text-[var(--brand,#B49A6A)] text-xs tracking-widest uppercase">Showroom Vendôme</h3>
-              <p>{clientAddress(sessionData) ?? "18 Place Vendôme, 75001 Paris"}</p>
+              <p>{clientAddress(sessionData) ?? `18 Place Vendôme, 75001 ${clientCity(sessionData) ?? "Paris"}`}</p>
             </div>
             <div className="space-y-2">
               <h3 className="text-[var(--brand,#B49A6A)] text-xs tracking-widest uppercase">Manufacture Suisse</h3>

@@ -7,6 +7,7 @@ import Link from "next/link"
 import { Zap, Target, TrendingUp, Timer, Users, Star, Phone, MapPin, ArrowRight, CheckCircle, Dumbbell, Menu } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
+  clientCity,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -382,7 +383,7 @@ export default function MaxPerformancePage() {
           ))}
         </div>
         <div className="max-w-[1300px] mx-auto pt-6 border-t border-[var(--brand,#f97316)]/6 flex flex-col md:flex-row justify-between gap-3 text-[10px] font-bold uppercase tracking-widest text-[#f8f5f0]/8">
-          <span>© 2026 Max Performance · SIRET 123 456 789 00100 · BPJEPS AF · Paris</span>
+          <span>© 2026 Max Performance · SIRET 123 456 789 00100 · BPJEPS AF · {clientCity({ formData: fd }) ?? "Paris"}</span>
           <span className="text-[var(--brand,#f97316)]/20">Stop Waiting. Start Performing.</span>
         </div>
       </footer>

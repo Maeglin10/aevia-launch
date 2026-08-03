@@ -11,6 +11,7 @@ import { Menu, X, ArrowRight, Camera, Eye, Award, ChevronRight, MapPin, Mail, Ta
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { resolveList } from "@/lib/templates/resolveList"
 import {
+  clientCity,
   clientServices,
 } from "@/lib/templates/clientContent";
 
@@ -253,7 +254,7 @@ return (
               <motion.div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-6" style={{ opacity: heroOpacity }}>
                 <Reveal>
                   <div className="flex items-center gap-2 text-[var(--brand,#C9A86C)] text-xs tracking-widest uppercase mb-8">
-                    <Camera className="w-4 h-4" /> Photographe · Paris
+                    <Camera className="w-4 h-4" /> Photographe · {clientCity(sessionData) ?? "Paris"}
                   </div>
                 </Reveal>
                 <Reveal delay={0.1}>

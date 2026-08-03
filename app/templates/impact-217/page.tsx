@@ -29,6 +29,7 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientCity,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -2438,7 +2439,7 @@ function SneakerCartDrawer({
                   </div>
                   <div>
                     <label htmlFor="sk-address" style={labelStyle}>Shipping address *</label>
-                    <input id="sk-address" type="text" required value={address} onChange={(e) => setAddress(e.target.value)} placeholder="12 Rue de la Paix, 75002 Paris" style={inputStyle} />
+                    <input id="sk-address" type="text" required value={address} onChange={(e) => setAddress(e.target.value)} placeholder={`12 Rue de la Paix, 75002 ${clientCity(sessionData) ?? "Paris"}`} style={inputStyle} />
                   </div>
                   <button
                     type="submit"

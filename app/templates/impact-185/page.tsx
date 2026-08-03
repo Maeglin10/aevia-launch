@@ -8,6 +8,7 @@ import Link from "next/link"
 import { Scissors, Star, Phone, MapPin, Clock, ChevronRight, Shield, Calendar, Menu, X } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
+  clientCity,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -342,7 +343,7 @@ export default function GentlemansCutPage() {
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, delay: 0.3 }}>
             <div className="flex items-center gap-4 mb-10">
               <div className="w-12 h-[1px] bg-[var(--brand,#c9a84c)]/60" />
-              <span className="text-[10px] font-bold uppercase tracking-[0.55em] text-[var(--brand,#c9a84c)]/70" style={{ fontFamily: "'DM Mono', monospace" }}>Barbier Traditionnel · Bordeaux</span>
+              <span className="text-[10px] font-bold uppercase tracking-[0.55em] text-[var(--brand,#c9a84c)]/70" style={{ fontFamily: "'DM Mono', monospace" }}>Barbier Traditionnel · {clientCity({ formData: fd }) ?? "Bordeaux"}</span>
             </div>
           </motion.div>
 
@@ -507,7 +508,7 @@ export default function GentlemansCutPage() {
                 <div className="space-y-4">
                   {[
                     { icon: Clock, t: "Mar-Sam · 9h–19h" },
-                    { icon: MapPin, t: "12 rue du Pas Saint-Georges, 33000 Bordeaux" },
+                    { icon: MapPin, t: `12 rue du Pas Saint-Georges, 33000 ${clientCity({ formData: fd }) ?? "Bordeaux"}` },
                     { icon: Calendar, t: "Résa en ligne ou 05 56 78 90 12" },
                   ].map((item, i) => (
                     <div key={i} className="flex items-center gap-4">
@@ -602,7 +603,7 @@ export default function GentlemansCutPage() {
           ))}
         </div>
         <div className="max-w-[1300px] mx-auto pt-6 border-t border-[var(--brand,#c9a84c)]/6 flex flex-col md:flex-row justify-between gap-3 text-[10px] font-bold uppercase tracking-widest text-[#f5f0e8]/8" style={{ fontFamily: "'DM Mono', monospace" }}>
-          <span>© 2026 Gentleman's Cut · SIRET 890 123 456 00078 · Bordeaux</span>
+          <span>© 2026 Gentleman's Cut · SIRET 890 123 456 00078 · {clientCity({ formData: fd }) ?? "Bordeaux"}</span>
           <span className="text-[var(--brand,#c9a84c)]/20">The Art of Grooming</span>
         </div>
       </footer>

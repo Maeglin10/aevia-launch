@@ -35,6 +35,7 @@ import {
 import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientAddress,
+  clientCity,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -1346,7 +1347,7 @@ export default function Impact200Page() {
                   {
                     icon: <MapPin className="w-5 h-5" />,
                     label: "Notre Studio",
-                    value: "18 Avenue Montaigne, 75008 Paris",
+                    value: `18 Avenue Montaigne, 75008 ${clientCity(sessionData) ?? "Paris"}`,
                     sub: "Métro Franklin D. Roosevelt",
                   },
                   {

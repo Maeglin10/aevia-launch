@@ -10,6 +10,7 @@ import { DWELL, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/he
 import { ParticleOrb } from "@/lib/templates/hero-kit-3";
 import {
   clientCertifications,
+  clientCity,
   clientReviews,
   clientServices,
   clientStats,
@@ -191,7 +192,7 @@ export default function CabinetNaissancesPage() {
       <section className="i367-hero" style={{ minHeight: "100dvh", position: "relative", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", textAlign: "center", padding: "140px 24px 80px", overflow: "hidden" }}>
         <ParticleOrb color={C.hi} count={620} seconds={46} className="" style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", width: "min(70vw, 620px)", aspectRatio: "1", opacity: 0.55, pointerEvents: "none" }} />
         <div style={{ position: "relative", zIndex: 1, maxWidth: 780 }}>
-          <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>Sage-femme · Aix-en-Provence</span>
+          <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>Sage-femme · {clientCity(sessionData) ?? "Aix-en-Provence"}</span>
           <h1 style={{ fontFamily: FONT, fontSize: "clamp(36px, 5.2vw, 66px)", color: C.text, lineHeight: 1.1, margin: "18px 0 20px" }}>
             {c?.heroHeadline ?? (<>Neuf mois, une naissance,<br /><em style={{ color: C.accentDark }}>et tout ce qui vient après.</em></>)}
           </h1>
@@ -376,7 +377,7 @@ export default function CabinetNaissancesPage() {
           <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 28, marginBottom: 30 }}>
             <div>
               <div style={{ fontFamily: FONT, fontSize: 18, color: C.hi, marginBottom: 8 }}>{fd?.businessName ?? "Cabinet Naissances"}</div>
-              <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, lineHeight: 1.7 }}>Sage-femme libérale · Aix-en-Provence<br />Conventionnée CPAM — Ordre des sages-femmes, n° RPPS affiché</p>
+              <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, lineHeight: 1.7 }}>Sage-femme libérale · {clientCity(sessionData) ?? "Aix-en-Provence"}<br />Conventionnée CPAM — Ordre des sages-femmes, n° RPPS affiché</p>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
               {[{ icon: <MapPin size={13} />, t: "Aix-en-Provence, Bouches-du-Rhône" }, { icon: <Phone size={13} />, t: phone }, { icon: <Clock size={13} />, t: "Lun–Ven 8h30–19h · urgences patientèle 7j/7" }].map((item, idx) => (

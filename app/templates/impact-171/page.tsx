@@ -13,6 +13,7 @@ import {
 import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientAddress,
+  clientCity,
   clientReviews,
   clientServices,
   clientTeam,
@@ -745,7 +746,7 @@ const navLinks = ["Spécialités", "Médecins", "Protocoles", "Science", "Tarifs
                   </div>
                   <div>
                     <p className="font-bold text-[#134E4A]" style={{ fontFamily: "'Figtree', sans-serif" }}>Adresse</p>
-                    <p className="text-[#134E4A]/60 text-sm">{clientAddress(sessionData) ?? "14 rue de Rivoli, 75004 Paris"}</p>
+                    <p className="text-[#134E4A]/60 text-sm">{clientAddress(sessionData) ?? `14 rue de Rivoli, 75004 ${clientCity(sessionData) ?? "Paris"}`}</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-4">

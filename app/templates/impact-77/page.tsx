@@ -1,4 +1,5 @@
 "use client";
+import { clientCity } from "@/lib/templates/clientContent";
 // @ts-nocheck
 
 import { motion, useScroll, useTransform, useInView } from "framer-motion";
@@ -507,7 +508,7 @@ export default function HorologsLuxePage() {
               <div className="divide-y divide-white/5">
                 {[
                   { year: "2025", title: "Duration & Void", venue: "Foam Amsterdam" },
-                  { year: "2024", title: "Calibration Series", venue: "Galerie Perrotin, Paris" },
+                  { year: "2024", title: "Calibration Series", venue: `Galerie Perrotin, ${clientCity({ formData: fd }) ?? "Paris"}` },
                   { year: "2024", title: "Meridian Light", venue: "ICP New York" },
                   { year: "2023", title: "Alpine Grammar", venue: "C/O Berlin" },
                   { year: "2022", title: "The Silent Hour", venue: "Musée de l'Élysée, Lausanne" },

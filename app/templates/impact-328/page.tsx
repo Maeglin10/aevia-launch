@@ -9,6 +9,7 @@ import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { DWELL, useSlides, SlideIndex, HeldSwap } from "@/lib/templates/hero-kit-2";
 import {
   clientCertifications,
+  clientCity,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -243,7 +244,7 @@ export default function MaisonEstevePage() {
       <section className="i328-hero" style={{ minHeight: "calc(100dvh - 111px)", display: "grid", gridTemplateColumns: "minmax(0,1.05fr) minmax(0,0.95fr)", gap: 60, alignItems: "center", padding: "70px 64px 60px", maxWidth: 1240, margin: "0 auto" }}>
         <div>
           <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2, duration: 0.8 }} style={{ fontSize: 12, fontWeight: 600, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>
-            Pompes funèbres & prévoyance · Toulouse
+            Pompes funèbres & prévoyance · {clientCity(sessionData) ?? "Toulouse"}
           </motion.span>
           <motion.h1 initial={{ opacity: 0, y: 26 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35, duration: 1.0, ease: [0.16, 1, 0.3, 1] }} style={{ fontFamily: FONT, fontSize: "clamp(36px, 4.8vw, 64px)", fontWeight: 400, color: C.text, lineHeight: 1.12, margin: "18px 0 22px" }}>
             {c?.heroHeadline ?? (<>Accompagner,<br /><em style={{ color: C.accent }}>avec calme et clarté.</em></>)}
@@ -411,7 +412,7 @@ export default function MaisonEstevePage() {
             <div>
               <div style={{ fontFamily: FONT, fontSize: 20, color: C.gold, marginBottom: 8 }}>{fd?.businessName ?? "Maison Estève"}</div>
               <p style={{ color: "rgba(255,255,255,0.35)", fontSize: 13, lineHeight: 1.7 }}>
-                Pompes funèbres & prévoyance · Toulouse<br />
+                Pompes funèbres & prévoyance · {clientCity(sessionData) ?? "Toulouse"}<br />
                 Habilitation préfectorale n° 26-31-0142
               </p>
             </div>

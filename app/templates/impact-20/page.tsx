@@ -14,6 +14,7 @@ import { useEffect, useRef, useState, useCallback } from "react";
 import Link from "next/link";
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientCity,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -3722,7 +3723,7 @@ function ContactPage() {
                 bottom: 20,
               }}
             >
-              Place Vendôme · Paris
+              Place Vendôme · {clientCity(sessionData) ?? "Paris"}
             </span>
           </div>
         </div>

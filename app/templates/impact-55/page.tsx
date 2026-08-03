@@ -6,6 +6,7 @@ import React, {useRef, useState, useEffect} from 'react'
 import { motion, useScroll, useTransform, useInView } from "framer-motion"
 import { Phone, Mail, MapPin, Clock, Star, CheckCircle, ArrowRight, Shield } from "lucide-react"
 import {
+  clientCity,
   clientReviews,
   clientServices,
   clientTeam,
@@ -401,7 +402,7 @@ export default function CabinetRenardPage() {
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: 32, marginBottom: 36 }}>
           <div>
             <div style={{ fontFamily: FONT, fontSize: 18, fontStyle: "italic", fontWeight: 300, color: C.gold, marginBottom: 8 }}>Maître Renard & Associés</div>
-            <p style={{ color: "rgba(255,255,255,0.35)", fontSize: 13, lineHeight: 1.6 }}>Cabinet d'avocats · Paris<br />Barreau de Paris</p>
+            <p style={{ color: "rgba(255,255,255,0.35)", fontSize: 13, lineHeight: 1.6 }}>Cabinet d'avocats · {clientCity({ formData: fd }) ?? "Paris"}<br />Barreau de Paris</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
             {[{ icon: <MapPin size={13} />, t: "Paris, Île-de-France" }, { icon: <Phone size={13} />, t: "01 44 00 00 01" }, { icon: <Clock size={13} />, t: "Lun–Ven 9h–18h" }].map((item, i) => (

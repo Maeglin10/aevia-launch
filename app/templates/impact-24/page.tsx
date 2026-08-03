@@ -9,6 +9,7 @@ import { useRef, useState, useEffect } from "react"
 import Image from "next/image"
 import { ArrowRight, Zap, Users, TrendingUp, Globe, CheckCircle, ChevronDown, Rocket, Star, Clock, Briefcase, Target, BookOpen, Award, Calendar, MapPin, Mail, Shield } from "lucide-react"
 import {
+  clientCity,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -434,7 +435,7 @@ return (
                         </div>
                         <div>
                           <div className="font-semibold text-sm">Next Demo Day</div>
-                          <div className="text-[var(--brand,#A3E635)] text-xs">March 14, 2027 · Paris</div>
+                          <div className="text-[var(--brand,#A3E635)] text-xs">March 14, 2027 · {clientCity({ formData: fd }) ?? "Paris"}</div>
                         </div>
                         <div className="ml-auto text-xs text-white/40">500 attendees</div>
                       </div>

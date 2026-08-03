@@ -31,6 +31,7 @@ import {
 } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientCity,
   clientServices,
   clientStats,
 } from "@/lib/templates/clientContent";
@@ -636,7 +637,7 @@ return (
                     marginTop: 2,
                   }}
                 >
-                  Studio Cinéma · Paris
+                  Studio Cinéma · {clientCity({ formData: fd }) ?? "Paris"}
                 </div>
               </div>
             </div>
@@ -2367,7 +2368,7 @@ return (
               }}
             >
               {[
-                { icon: MapPin, label: "12 rue Oberkampf, 75011 Paris" },
+                { icon: MapPin, label: `12 rue Oberkampf, 75011 ${clientCity({ formData: fd }) ?? "Paris"}` },
                 { icon: Phone, label: "+33 1 48 XX XX XX" },
                 { icon: Mail, label: "contact@urbanpulse.fr" },
               ].map(({ icon: Icon, label }) => (
@@ -2460,7 +2461,7 @@ return (
                       textTransform: "uppercase",
                     }}
                   >
-                    Studio Cinéma · Paris
+                    Studio Cinéma · {clientCity({ formData: fd }) ?? "Paris"}
                   </div>
                 </div>
               </div>

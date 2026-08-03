@@ -10,6 +10,7 @@ import { DWELL, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/he
 import { InvertSweep } from "@/lib/templates/hero-kit-3";
 import {
   clientCertifications,
+  clientCity,
   clientReviews,
   clientServices,
   clientStats,
@@ -183,7 +184,7 @@ export default function DuoPeinturesPage() {
       <InvertSweep dark={C.bgDark} light={C.bg} textDark="#f4f2ee" textLight={C.text} accent={C.accent} className="">
         {(invert) => (
           <div className="i362-hero" style={{ minHeight: "100dvh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", textAlign: "center", padding: "140px 24px 80px" }}>
-            <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: "inherit", opacity: 0.7 }}>Peinture & rénovation · Orléans</span>
+            <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: "inherit", opacity: 0.7 }}>Peinture & rénovation · {clientCity(sessionData) ?? "Orléans"}</span>
             <h1 style={{ fontFamily: FONT, fontSize: "clamp(36px, 5.4vw, 68px)", lineHeight: 1.08, margin: "18px 0 20px", maxWidth: 820 }}>
               {c?.heroHeadline ?? (<>Avant, après :<br /><em style={{ color: C.accent }}>c'est tout notre métier.</em></>)}
             </h1>
@@ -366,7 +367,7 @@ export default function DuoPeinturesPage() {
           <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 28, marginBottom: 30 }}>
             <div>
               <div style={{ fontFamily: FONT, fontSize: 18, color: C.hi, marginBottom: 8 }}>{fd?.businessName ?? "Duo Peintures"}</div>
-              <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, lineHeight: 1.7 }}>Entreprise de peinture · Orléans<br />Décennale — deux compagnons, un carnet de chantier tenu</p>
+              <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, lineHeight: 1.7 }}>Entreprise de peinture · {clientCity(sessionData) ?? "Orléans"}<br />Décennale — deux compagnons, un carnet de chantier tenu</p>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
               {[{ icon: <MapPin size={13} />, t: "Orléans, Loiret" }, { icon: <Phone size={13} />, t: phone }, { icon: <Clock size={13} />, t: "Lun–Ven 7h30–18h" }].map((item, idx) => (

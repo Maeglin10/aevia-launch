@@ -13,6 +13,7 @@ import {
 import { ArrowRight, ChevronDown, Heart, Leaf, MapPin } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientCity,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -679,7 +680,7 @@ function Hero() {
       >
         <Reveal y={18}>
           <Eyebrow color={C.accentLight} align="center" dark>
-            Médecin Généraliste &amp; Médecine Fonctionnelle · Bordeaux
+            Médecin Généraliste &amp; Médecine Fonctionnelle · {clientCity(sessionData) ?? "Bordeaux"}
           </Eyebrow>
         </Reveal>
 

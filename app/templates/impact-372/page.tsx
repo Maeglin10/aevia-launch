@@ -11,6 +11,7 @@ import { DWELL, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/he
 import { TrackingCollapse } from "@/lib/templates/hero-kit-3";
 import {
   clientCertifications,
+  clientCity,
   clientReviews,
   clientServices,
   clientStats,
@@ -183,7 +184,7 @@ export default function HorizonProtectionPage() {
       {/* ── HERO ────────────────────────────────────────────────────────── */}
 
       <section className="i372-hero" style={{ minHeight: "100dvh", display: "flex", flexDirection: "column", justifyContent: "center", padding: "140px 64px 70px", maxWidth: 1080, margin: "0 auto" }}>
-        <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>Sécurité privée · Toulouse</span>
+        <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>Sécurité privée · {clientCity(sessionData) ?? "Toulouse"}</span>
         <h1 style={{ fontFamily: FONT, fontSize: "clamp(34px, 5vw, 62px)", color: C.text, lineHeight: 1.1, margin: "18px 0 8px" }}>Une présence<br /><TrackingCollapse word={S.word} index={i} from="0.34em" to="0.04em" style={{ color: C.accentDark }} /></h1>
         <p style={{ fontSize: 16.5, color: C.textMuted, lineHeight: 1.75, maxWidth: 560, margin: "14px 0 32px" }}>
           {c?.heroSubline ?? fd?.tagline ?? "Commerces de centre-ville, résidences, événements privés : des agents formés à la relation autant qu'à la vigilance. La sécurité qui rassure vos clients au lieu de les inquiéter."}
@@ -370,7 +371,7 @@ export default function HorizonProtectionPage() {
           <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 28, marginBottom: 30 }}>
             <div>
               <div style={{ fontFamily: FONT, fontSize: 18, color: C.hi, marginBottom: 8 }}>{fd?.businessName ?? "Horizon Protection"}</div>
-              <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, lineHeight: 1.7 }}>Sécurité privée · Toulouse<br />Autorisation CNAPS AUT-031-2126-02-20-20260045678 — agents cartés</p>
+              <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, lineHeight: 1.7 }}>Sécurité privée · {clientCity(sessionData) ?? "Toulouse"}<br />Autorisation CNAPS AUT-031-2126-02-20-20260045678 — agents cartés</p>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
               {[{ icon: <MapPin size={13} />, t: "Toulouse, Haute-Garonne" }, { icon: <Phone size={13} />, t: phone }, { icon: <Clock size={13} />, t: "PC 24h/24 · bureaux Lun–Ven 9h–18h" }].map((item, idx) => (

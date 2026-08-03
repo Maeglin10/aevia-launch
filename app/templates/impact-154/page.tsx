@@ -27,6 +27,7 @@ import {
   UserCheck, Globe2, AlertCircle, Mail, Check
 } from "lucide-react"
 import {
+  clientCity,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -1182,7 +1183,7 @@ function AboutPage({ onContact }: { onContact: () => void }) {
   ]
   const NODES = [
     { city: "Zurich", role: "High-Security Vault" },
-    { city: "Paris", role: "Exhibition Annex" },
+    { city: (clientCity({ formData: fd }) ?? "Paris"), role: "Exhibition Annex" },
     { city: "London", role: "Conservation Lab" },
     { city: "Tokyo", role: "Private Node" }
   ]
