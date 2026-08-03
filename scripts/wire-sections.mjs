@@ -55,11 +55,17 @@ const GROUPS = [
   },
   {
     helper: "clientReviews",
-    names: ["TESTIMONIALS", "AVIS", "REVIEWS"],
+    names: ["TESTIMONIALS", "AVIS", "REVIEWS", "TEMOIGNAGES", "TEMOIGNAGE", "PRESS"],
     keys: [
       { match: ["name", "role", "text"], project: () => `name: r.author, text: r.text` },
       { match: ["texte", "auteur"], project: () => `texte: r.text, auteur: r.author` },
       { match: ["quote", "name"], project: () => `quote: r.text, name: r.author` },
+      { match: ["quote", "author"], project: () => `quote: r.text, author: r.author` },
+      { match: ["quote", "auteur"], project: () => `quote: r.text, auteur: r.author` },
+      { match: ["texte", "detail"], project: () => `texte: r.text, detail: r.detail ?? ""` },
+      { match: ["text", "name"], project: () => `text: r.text, name: r.author` },
+      { match: ["text", "author"], project: () => `text: r.text, author: r.author` },
+      { match: ["avis", "nom"], project: () => `avis: r.text, nom: r.author` },
     ],
   },
   {

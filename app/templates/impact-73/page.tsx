@@ -1,4 +1,5 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
 // @ts-nocheck
 
 import React, {useRef, useState, useEffect} from 'react'
@@ -86,11 +87,12 @@ const POINTS_FORTS = [
   "Prêt de partitions et accès aux salles de répétition",
 ]
 
-const TEMOIGNAGES = [
+const TEMOIGNAGES_DEMO = [
   { texte: "Ma fille de 7 ans fait du piano depuis 2 ans. La progression est spectaculaire et surtout elle ADORE aller en cours — ce qui dit tout de la qualité des professeurs. Merci à l'équipe.", auteur: "Nathalie B.", detail: "Piano enfant, 7 ans" },
   { texte: "J'ai repris la guitare à 45 ans après 20 ans d'arrêt. Cours parfaitement adapté à mon niveau et à mes disponibilités. Je rejoue enfin des morceaux que je croyais perdus.", auteur: "Luc D.", detail: "Guitare adulte" },
   { texte: "Mon fils prépare son entrée au conservatoire. Les profs connaissent parfaitement les attentes des jurys — il a été admis du premier coup. Merci infiniment.", auteur: "Famille Girard", detail: "Préparation conservatoire" },
 ]
+let TEMOIGNAGES = TEMOIGNAGES_DEMO;
 
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const ref = useRef(null)
@@ -139,6 +141,10 @@ export default function ConservatoireAccordPage() {
   }, []);
 
   fd = session?.formData;
+  TEMOIGNAGES = resolveList(
+    clientReviews(session)?.map((r, i) => ({ ...TEMOIGNAGES_DEMO[i % TEMOIGNAGES_DEMO.length], texte: r.text, auteur: r.author })),
+    TEMOIGNAGES_DEMO,
+  );
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {

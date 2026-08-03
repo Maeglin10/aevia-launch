@@ -1,4 +1,5 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
 // @ts-nocheck
 
 import React, { useState, useEffect, useRef, useCallback } from "react"
@@ -257,7 +258,7 @@ const INGREDIENTS = [
   },
 ]
 
-const REVIEWS = [
+const REVIEWS_DEMO = [
   {
     text: "Le Sérum Éclat a complètement transformé mon teint en 3 semaines. Mes taches de grossesse ont nettement diminué. Je recommande les yeux fermés.",
     author: "Camille D.",
@@ -291,6 +292,7 @@ const REVIEWS = [
     stars: 5,
   },
 ]
+let REVIEWS = REVIEWS_DEMO;
 
 const PRESS_ITEMS = [
   { name: "Vogue France", issue: "Beauté Naturelle 2025", quote: "Lumière redéfinit le luxe skincare accessible." },
@@ -2336,6 +2338,10 @@ export default function Impact134Page() {
   }, []);
 
   fd = session?.formData;
+  REVIEWS = resolveList(
+    clientReviews(session)?.map((r, i) => ({ ...REVIEWS_DEMO[i % REVIEWS_DEMO.length], text: r.text, author: r.author })),
+    REVIEWS_DEMO,
+  );
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {

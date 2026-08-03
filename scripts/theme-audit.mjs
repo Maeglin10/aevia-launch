@@ -142,6 +142,7 @@ await ctx.addInitScript(() => {
 
 function ligne(t) {
   if (t.erreur) return `${t.id}  ERREUR  ${t.erreur}`;
+  if (t.plantee) return `${t.id}  PAGE PLANTÉE`;
   const flags = [
     t.absents.length ? `absents: ${t.absents.join(",")}` : "tous les témoins vus",
     t.debordement ? "DÉBORDEMENT" : "",
@@ -193,7 +194,15 @@ for (const id of ids) {
       const cassees = [...document.querySelectorAll("img")]
         .filter((img) => img.complete && img.naturalWidth === 0)
         .map((img) => (img.currentSrc || img.src).split("/").pop().slice(0, 40));
+      /*
+        Une page qui plante rend « This page couldn't load » et rien d'autre. Sans
+        ce contrôle, l'audit la rapporte comme « aucune donnée client affichée »,
+        ce qui envoie chercher un câblage manquant là où il y a une exception —
+        l'erreur React #130 a coûté une journée pour cette raison.
+      */
+      const plantee = /couldn.t load|Application error|Unhandled Runtime/i.test(text);
       return {
+        plantee,
         vu,
         debordement: document.documentElement.scrollWidth > window.innerWidth + 1,
         invisibles,

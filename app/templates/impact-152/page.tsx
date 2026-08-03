@@ -89,11 +89,12 @@ const SERVICES_DEMO = [
 ]
 let SERVICES = SERVICES_DEMO;
 
-const TEMOIGNAGES = [
+const TEMOIGNAGES_DEMO = [
   { texte: "Clémence a transformé notre appartement en un espace où il fait vraiment bon vivre. Son sens du détail et sa rigueur sont bluffants — et le budget a été parfaitement respecté.", auteur: "Marie & Thomas L.", projet: "Appartement 160 m², Lyon 2e" },
   { texte: "Nous avions peur de perdre le caractère de notre maison ancienne. Le Studio Noma a su magnifier les volumes tout en apportant la modernité qu'on cherchait. Résultat magistral.", auteur: "Édouard V.", projet: "Maison de maître, Villeurbanne" },
   { texte: "Un accompagnement de A à Z, professionnel et chaleureux. Notre boutique est maintenant l'une des plus belles de la galerie. Les ventes ont bondi de 40% depuis l'ouverture.", auteur: "Sophie K.", projet: "Concept store, Part-Dieu" },
 ]
+let TEMOIGNAGES = TEMOIGNAGES_DEMO;
 
 // ─── Components ───────────────────────────────────────────────────────────────
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
@@ -138,6 +139,10 @@ export default function StudioNomaPage() {
   }, []);
 
   fd = session?.formData;
+  TEMOIGNAGES = resolveList(
+    clientReviews(session)?.map((r, i) => ({ ...TEMOIGNAGES_DEMO[i % TEMOIGNAGES_DEMO.length], texte: r.text, auteur: r.author })),
+    TEMOIGNAGES_DEMO,
+  );
   PROJETS = PROJETS_DEMO.map((row, i) => ({
     ...row,
     img: clientPhotos(session)[0 + i] || row.img,

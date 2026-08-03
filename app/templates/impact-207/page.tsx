@@ -1,4 +1,5 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
 import { tr } from "@/lib/templates/uiStrings";
 // @ts-nocheck
 import React, { useState, useEffect, useRef, useCallback } from "react"
@@ -1481,7 +1482,7 @@ function DeliveryTimeline() {
 /* --------------------------------------------------------------------------
    TESTIMONIALS
    -------------------------------------------------------------------------- */
-const TESTIMONIALS = [
+const TESTIMONIALS_DEMO = [
   {
     quote:
       "NexusFreight cut our cross-border transit times by 35%. The customs pre-clearance alone saves us two days on every EU shipment.",
@@ -1507,6 +1508,7 @@ const TESTIMONIALS = [
     country: "🇸🇬",
   },
 ]
+let TESTIMONIALS = TESTIMONIALS_DEMO;
 
 function TestimonialsSection() {
   return (
@@ -2143,6 +2145,10 @@ export default function Impact207() {
   }, []);
 
   fd = session?.formData;
+  TESTIMONIALS = resolveList(
+    clientReviews(session)?.map((r, i) => ({ ...TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length], quote: r.text, author: r.author })),
+    TESTIMONIALS_DEMO,
+  );
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 

@@ -58,11 +58,12 @@ const SERVICES_DEMO = [
 ]
 let SERVICES = SERVICES_DEMO;
 
-const TESTIMONIALS = [
+const TESTIMONIALS_DEMO = [
   { text: "Kinetic doesn't just design — they ignite. Our rebrand generated a 400% increase in social engagement within the first month.", author: "Maya Chen", role: "VP Marketing, Pulse Gaming" },
   { text: "The website they built is an experience. Our bounce rate dropped to 8% and conversions tripled.", author: "Thomas Engström", role: "CEO, Prism Analytics" },
   { text: "Working with Kinetic felt like having the best creative team in-house. Except they're actually good.", author: "Sarah Laurent", role: "Founder, Maison Versa" },
 ]
+let TESTIMONIALS = TESTIMONIALS_DEMO;
 
 
 // Global state variables for subpage compatibility
@@ -101,6 +102,10 @@ export default function KineticMarqueePage() {
   }, []);
 
   fd = session?.formData;
+  TESTIMONIALS = resolveList(
+    clientReviews(session)?.map((r, i) => ({ ...TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length], text: r.text, author: r.author })),
+    TESTIMONIALS_DEMO,
+  );
   WORK = WORK_DEMO.map((row, i) => ({
     ...row,
     img: clientPhotos(session)[0 + i] || row.img,
