@@ -1129,7 +1129,7 @@ return (
                   <div className="space-y-3 text-white/60 text-sm leading-relaxed">
                     <p><strong className="text-white">Publisher:</strong> Aevia WS — Valentin Milliand, sole proprietor.</p>
                     <p><strong className="text-white">SIREN:</strong> <LegalIdentity /> — RCS Bourg-en-Bresse, France.</p>
-                    <p><strong className="text-white">Contact:</strong> <span className="text-[var(--brand,#A3E635)]">{fd?.email ?? "contact@aevia.ws"}</span></p>
+                    <p><strong className="text-white">Contact:</strong> <span className="text-[var(--brand,#A3E635)]">{fd?.email ?? "contact@exemple.fr"}</span></p>
                   </div>
                 </div>
 
@@ -1152,7 +1152,7 @@ return (
                   <div className="space-y-3 text-white/60 text-sm leading-relaxed">
                     <p>No personal data is collected without explicit consent. This site is fully GDPR compliant.</p>
                     <p>When you voluntarily submit your email address through the application form, it is used solely for the purpose of processing your application and communicating regarding program updates. Your data is never sold, shared with third parties for marketing purposes, or used beyond its stated purpose.</p>
-                    <p>You have the right to access, modify, or delete your personal data at any time by contacting us at <span className="text-[var(--brand,#A3E635)]">{fd?.email ?? "contact@aevia.ws"}</span>.</p>
+                    <p>You have the right to access, modify, or delete your personal data at any time by contacting us at <span className="text-[var(--brand,#A3E635)]">{fd?.email ?? "contact@exemple.fr"}</span>.</p>
                   </div>
                 </div>
 

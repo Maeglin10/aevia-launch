@@ -54,7 +54,7 @@ export default function ContactPage() {
                     75008 Paris, France
                   </p>
                   <p className="text-xs text-[#1a1814]/40 mt-1 italic">
-                    Adresse physique communiquée sur simple demande à valentinmilliand@aevia.services.
+                    Adresse physique communiquée sur simple demande à contact@exemple.fr.
                   </p>
                 </div>
               </div>
@@ -87,7 +87,7 @@ export default function ContactPage() {
                 <div>
                   <h4 className="text-xs font-black uppercase tracking-widest text-[#1a1814]/40 mb-2">Email</h4>
                   <p className="text-lg font-light text-[#1a1814]">
-                    valentinmilliand@aevia.services
+                    contact@exemple.fr
                   </p>
                 </div>
               </div>

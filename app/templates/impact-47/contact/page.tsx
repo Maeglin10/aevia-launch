@@ -23,7 +23,7 @@ export default function Contact() {
         <div style={{ maxWidth: 1000, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(280px, 100%), 1fr))", gap: "clamp(32px, 5vw, 64px)" }}>
           <div>
             {[
-              { Icon: Mail, label: "Email", value: "valentinmilliand@aevia.services" },
+              { Icon: Mail, label: "Email", value: "contact@exemple.fr" },
               { Icon: Phone, label: "Téléphone", value: "+33 1 43 00 00 00" },
               { Icon: MapPin, label: "Atelier", value: "18 Rue du Marché, Paris 11e" },
               { Icon: Clock, label: "Horaires", value: "Mar – Sam · 9h – 19h" },

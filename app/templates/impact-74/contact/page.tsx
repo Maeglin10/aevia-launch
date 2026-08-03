@@ -68,7 +68,7 @@ export default function ContactPage() {
                     <input
                       required
                       type="email"
-                      placeholder="e.g. valentinmilliand@aevia.services"
+                      placeholder="e.g. contact@exemple.fr"
                       className="w-full bg-white/[0.02] border border-white/5 rounded-none px-6 py-4 text-xs font-bold outline-none focus:border-emerald-600 text-white transition-all uppercase tracking-widest"
                     />
                   </div>

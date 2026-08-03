@@ -1543,7 +1543,7 @@ function LegalPage({ variant }: { variant: "mentions" | "cgv" | "privacy" }) {
               SIREN : <LegalIdentity /><br />
               RCS : Bourg-en-Bresse<br />
               Adresse : communiquée sur demande<br />
-              E-mail : valentinmilliand@aevia.services
+              E-mail : contact@exemple.fr
             </p>
           </div>
           <div>
@@ -1636,7 +1636,7 @@ function LegalPage({ variant }: { variant: "mentions" | "cgv" | "privacy" }) {
         <div>
           <h3 style={{color: brand ?? 'var(--brand,#c9956a)', fontSize: 16, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 8 }}>Vos droits</h3>
           <p>
-            Vous disposez d'un droit d'accès, de modification et d'effacement de vos données personnelles en contactant notre service client à : valentinmilliand@aevia.services.
+            Vous disposez d'un droit d'accès, de modification et d'effacement de vos données personnelles en contactant notre service client à : contact@exemple.fr.
           </p>
         </div>
       </div>

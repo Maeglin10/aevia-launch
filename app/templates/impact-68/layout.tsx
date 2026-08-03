@@ -431,7 +431,7 @@ export default function OrbitLayout({
             © {new Date().getFullYear()} Orbit Studio. All rights reserved.
           </p>
           <p style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "12px", color: C.textMuted }}>
-            Paris · valentinmilliand@aevia.services · +33 1 XX XX XX XX
+            Paris · contact@exemple.fr · +33 1 XX XX XX XX
           </p>
         </div>
       </footer>

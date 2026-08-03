@@ -2219,7 +2219,7 @@ function Footer({ goTo }: { goTo: (p: AgencyPage) => void }) {
           <div style={colTitle}>Connect</div>
           <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
             <a
-              href={`mailto:${fd?.email ?? "valentinmilliand@aevia.services"}`}
+              href={`mailto:${fd?.email ?? "contact@exemple.fr"}`}
               style={{
                 fontFamily: FONT_BODY,
                 fontSize: "0.85rem",
@@ -2229,7 +2229,7 @@ function Footer({ goTo }: { goTo: (p: AgencyPage) => void }) {
               }}
               onMouseEnter={(e) => (e.currentTarget.style.color = T.text)}
               onMouseLeave={(e) => (e.currentTarget.style.color = T.muted)}
-            >{fd?.email ?? "valentinmilliand@aevia.services"}</a>
+            >{fd?.email ?? "contact@exemple.fr"}</a>
             <a
               href="https://www.linkedin.com"
               target="_blank"
@@ -3925,7 +3925,7 @@ function ContactPage() {
           {/* Info */}
           <div>
             {[
-              { icon: <Mail size={18} />, label: "Email", value: "valentinmilliand@aevia.services" },
+              { icon: <Mail size={18} />, label: "Email", value: "contact@exemple.fr" },
               { icon: <MapPin size={18} />, label: "Studio", value: "Paris, France" },
               {
                 icon: <Phone size={18} />,
@@ -4165,10 +4165,10 @@ function LegalPage({ variant }: { variant: "mentions" | "privacy" }) {
               SIREN: <span style={strong}><LegalIdentity /></span> — RCS Bourg-en-Bresse.
             </p>
             <p style={para}>
-              Contact: <span style={strong}>{fd?.email ?? "valentinmilliand@aevia.services"}</span>
+              Contact: <span style={strong}>{fd?.email ?? "contact@exemple.fr"}</span>
             </p>
             <p style={para}>
-              Registered office address available on request at valentinmilliand@aevia.services.
+              Registered office address available on request at contact@exemple.fr.
             </p>
 
             <h2 style={sectionTitle}>VAT</h2>
@@ -4210,7 +4210,7 @@ function LegalPage({ variant }: { variant: "mentions" | "privacy" }) {
           <p style={para}>
             The controller of personal data is{" "}
             <span style={strong}>Aevia WS</span>, the site publisher. For any question,
-            write to <span style={strong}>{fd?.email ?? "valentinmilliand@aevia.services"}</span>.
+            write to <span style={strong}>{fd?.email ?? "contact@exemple.fr"}</span>.
           </p>
 
           <h2 style={sectionTitle}>Data collected</h2>
@@ -4238,7 +4238,7 @@ function LegalPage({ variant }: { variant: "mentions" | "privacy" }) {
           <p style={para}>
             Under the GDPR, you have the right to access, rectify, erase, port, and object
             to the processing of your data. To exercise these rights, write to
-            valentinmilliand@aevia.services.
+            contact@exemple.fr.
           </p>
 
           <h2 style={sectionTitle}>Cookies</h2>

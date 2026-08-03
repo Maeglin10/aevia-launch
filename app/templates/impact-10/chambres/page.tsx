@@ -2345,7 +2345,7 @@ function LegalPage({ variant }: { variant: 'mentions' | 'privacy' }) {
           <h2 style={sectionTitle}>Your rights</h2>
           <p style={para}>
             In accordance with the GDPR, you have the right to access, rectify, erase, port and object to the processing of
-            your data. To exercise these rights, write to valentinmilliand@aevia.services.
+            your data. To exercise these rights, write to contact@exemple.fr.
           </p>
 
           <h2 style={sectionTitle}>Cookies</h2>

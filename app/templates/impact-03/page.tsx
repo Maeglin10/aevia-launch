@@ -3452,7 +3452,7 @@ function LegalPage({ variant, accentColor }: { variant: 'cgv' | 'mentions'; acce
                 Aevia WS — Valentin Milliand<br />
                 Entrepreneur individuel<br />
                 SIREN <LegalIdentity /><br />
-                RCS Bourg-en-Bresse<br />{fd?.email ?? "valentinmilliand@aevia.services"}</p>
+                RCS Bourg-en-Bresse<br />{fd?.email ?? "contact@exemple.fr"}</p>
             </div>
             <div>
               <h2 style={{ fontFamily: "'Georgia', serif", fontSize: 18, fontWeight: 300, color: '#0a0a0a', marginBottom: 12 }}>Hébergeur</h2>
