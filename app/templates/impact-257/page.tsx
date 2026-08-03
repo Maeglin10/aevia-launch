@@ -504,7 +504,7 @@ function Nav() {
           style={{ textDecoration: 'none' }}
         >
           <AccentButton filled dark>
-            {clientName(sessionData) ?? "Prendre RDV"}
+            Prendre RDV
           </AccentButton>
         </a>
       </div>
@@ -2180,6 +2180,11 @@ return (
       <Testimonials />
       <AppointmentForm />
       <Footer />
+      {/* PIED_MINIMAL — le nom du client n'apparaissait nulle part */}
+      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.55 }}>
+        {clientName(sessionData) ?? 'impact-257'}
+        {clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+      </footer>
     </main>
   );
 }

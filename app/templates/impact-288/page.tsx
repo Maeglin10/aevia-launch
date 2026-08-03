@@ -32,6 +32,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientAddress,
   clientCertifications,
+  clientCity,
   clientName,
   clientReviews,
   clientServices,
@@ -327,7 +328,7 @@ function Nav() {
       </div>
       <div className="r288-navcta">
         <a href="#devis" style={{ textDecoration: 'none' }}>
-          <GreenButton filled small>{clientName(sessionData) ?? "Devis gratuit"}</GreenButton>
+          <GreenButton filled small>Devis gratuit</GreenButton>
         </a>
       </div>
       
@@ -3205,6 +3206,11 @@ export default function Impact288Page() {
       <SolaireSection />
       <CertifSection />
       <FooterSection />
+      {/* PIED_MINIMAL — le nom du client n'apparaissait nulle part */}
+      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.55 }}>
+        {clientName(sessionData) ?? 'impact-288'}
+        {clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+      </footer>
     </main>
   );
 }
