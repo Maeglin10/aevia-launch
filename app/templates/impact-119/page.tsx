@@ -10,6 +10,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientReviews,
+  clientServices,
   clientStats,
 } from "@/lib/templates/clientContent";
 
@@ -35,11 +36,13 @@ function Reveal({ children, delay = 0, y = 40 }: { children: React.ReactNode; de
   )
 }
 
-const NODES = [
+const NODES_DEMO = [
   { title: "Edge Compute", desc: "120+ global regions with <5ms latency to end-users.", icon: Cpu, color: "var(--brand,#3b82f6)" },
   { title: "Object Storage", desc: "S3-compatible, multi-region replication with 11 nines of durability.", icon: Database, color: "#8b5cf6" },
   { title: "Managed K8s", desc: "Auto-scaling clusters with built-in service mesh and observability.", icon: Server, color: "#ec4899" },
 ]
+let NODES = NODES_DEMO;
+
 
 const STATS_DEMO = [
   { value: "99.999%", label: "Uptime SLA" },
@@ -82,6 +85,14 @@ export default function NebulaCloudPage() {
   }, []);
 
   fd = session?.formData;
+
+  NODES = resolveList(
+
+    clientServices(sessionData ?? session)?.map((sv: any, i: number) => ({ ...NODES_DEMO[i % NODES_DEMO.length], title: sv.title, desc: sv.desc || NODES_DEMO[i % NODES_DEMO.length].desc })),
+
+    NODES_DEMO,
+
+  );
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
