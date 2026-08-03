@@ -1,6 +1,7 @@
 "use client";
 import {
   clientCity,
+  clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
 // @ts-nocheck
@@ -17,6 +18,16 @@ import { resolveList } from "@/lib/templates/resolveList";
 // déclarées ici pour que tout le fichier puisse s'y référer.
 // Global state variables for subpage compatibility
 let fd: any = null;
+
+// Les avis, jusqu'ici écrits dans le rendu :
+// le client pouvait les saisir, le thème ne les lisait pas.
+const AVIS_INLINE_SOURCE = [
+  { quote: "Luca's ability to extract the essential from a scene is unlike anything we have encountered. His Vogue campaign doubled our newsstand numbers.", name: "Claire Deschamps", role: "Art Director, Vogue Paris" },
+              { quote: "Working with Luca on the Wallpaper* architecture series was a revelation. He sees in geometry where others see in light.", name: "Tony Chambers", role: "Editorial Director, Wallpaper*" },
+              { quote: "The Dior campaign we produced together remains the most-shared in our history. His eye for temporal precision is extraordinary.", name: "Olivier Bialobos", role: "CMO, Dior Parfums" }
+];
+let AVIS_INLINE = AVIS_INLINE_SOURCE;
+
 let c: any = null;
 let bp: any = null;
 let brand: any = null;
@@ -181,6 +192,20 @@ export default function HorologsLuxePage() {
   }, []);
 
   fd = session?.formData;
+
+  AVIS_INLINE = resolveList(
+
+    clientReviews(session)?.map((r: any, i: number) => ({
+
+      ...AVIS_INLINE_SOURCE[i % AVIS_INLINE_SOURCE.length],
+
+      quote: r.text, name: r.author,
+
+    })),
+
+    AVIS_INLINE_SOURCE,
+
+  );
   SERVICES_DEMO = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
     SERVICES_SOURCE,
@@ -576,11 +601,7 @@ export default function HorologsLuxePage() {
             <h2 className="text-5xl md:text-6xl font-black uppercase tracking-tighter italic text-white mb-20 leading-[1.1] pb-2">They said.</h2>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-white/5">
-            {[
-              { quote: "Luca's ability to extract the essential from a scene is unlike anything we have encountered. His Vogue campaign doubled our newsstand numbers.", name: "Claire Deschamps", role: "Art Director, Vogue Paris" },
-              { quote: "Working with Luca on the Wallpaper* architecture series was a revelation. He sees in geometry where others see in light.", name: "Tony Chambers", role: "Editorial Director, Wallpaper*" },
-              { quote: "The Dior campaign we produced together remains the most-shared in our history. His eye for temporal precision is extraordinary.", name: "Olivier Bialobos", role: "CMO, Dior Parfums" },
-            ].map((t, i) => (
+            {AVIS_INLINE.map((t, i) => (
               <Reveal key={i} delay={i * 0.1}>
                 <div className="bg-[#080808] p-10 h-full flex flex-col">
                   <div className="w-8 h-[1px] bg-stone-600 mb-8" />
