@@ -112,7 +112,7 @@ const PAST_EVENTS_DEMO = [
   { title: "Gala Prestige Awards", location: "Paris, France", year: "2023", img: "photo-1492684223066-81342ee5ff30", guests: "600" },
 ];
 
-const SERVICES_DEMO = [
+const SERVICES_SOURCE = [
   {
     icon: "✦",
     title: "Conception Créative",
@@ -134,6 +134,7 @@ const SERVICES_DEMO = [
     description: "Floraux extraordinaires, mobilier exclusif, éclairages architecturaux, installations artistiques.",
   },
 ];
+let SERVICES_DEMO = SERVICES_SOURCE;
 
 const CLIENT_LOGOS = [
   "Hermès", "LVMH", "Cartier", "Dior", "Chanel", "Moët Hennessy",
@@ -148,7 +149,7 @@ const PROCESS = [
   { step: "05", title: "Le Grand Soir", description: "Notre équipe est présente du début à la fin. Vous profitez, nous orchestrons." },
 ];
 
-const TESTIMONIALS_DEMO = [
+const TESTIMONIALS_SOURCE = [
   {
     text: "Confluence a transformé notre gala annuel en un moment légendaire. Chaque détail témoignait d'une maîtrise et d'une élégance rares.",
     author: "François de B.",
@@ -168,6 +169,7 @@ const TESTIMONIALS_DEMO = [
     rating: 5,
   },
 ];
+let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 const MARQUEE_ITEMS = [
   "Événements sur Mesure",
@@ -516,6 +518,14 @@ export default function Impact175Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  SERVICES_DEMO = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
+    SERVICES_SOURCE,
+  );
+  TESTIMONIALS_DEMO = resolveList(
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], author: r.author, text: r.text })),
+    TESTIMONIALS_SOURCE,
+  );
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, champagne: brand };

@@ -148,7 +148,7 @@ const PHASES_DEMO: Project[] = [
   },
 ];
 
-const SERVICES_DEMO: Service[] = [
+const SERVICES_SOURCE: Service[] = [
   { label: 'Conception paysagère', desc: 'Étude de site, relevé topographique, plan masse et palette végétale adaptée à votre micro-climat.' },
   { label: 'Jardin contemporain', desc: 'Architecture minérale et végétale, sélection de graminées et vivaces structurantes, esprit zen urbain.' },
   { label: 'Potager biologique', desc: 'Carrés potagers surélevés, buttes en lasagne, composteur intégré, sélection variétale ancienne.' },
@@ -156,6 +156,7 @@ const SERVICES_DEMO: Service[] = [
   { label: 'Entretien mensuel', desc: 'Contrat annuel : taille, désherbage, fertilisation organique, bilan photographique saisonnier.' },
   { label: 'Espaces verts copropriété', desc: 'Diagnostic, plan de gestion différenciée, éco-pâturage, plaidoyer auprès des syndics.' },
 ];
+let SERVICES_DEMO = SERVICES_SOURCE;
 
 const EDIT_ROWS: EditRow[] = [
   {
@@ -199,7 +200,7 @@ const DESIGN_STEPS: DesignStep[] = [
   },
 ];
 
-const TESTIMONIALS_DEMO: Testimonial[] = [
+const TESTIMONIALS_SOURCE: Testimonial[] = [
   {
     quote: "J\'avais une cour bétonnée de 40 m² à Neuilly — un no man\'s land gris. Vert Horizon l\'a transformée en jardin japonais luxuriant. Les voisins me demandent leur contact sans arrêt.",
     name: 'Sophie M.',
@@ -211,6 +212,7 @@ const TESTIMONIALS_DEMO: Testimonial[] = [
     role: 'Gestionnaire de copropriété, Paris 15e',
   },
 ];
+let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 /* ════════════════════════════════════════════════════════════════════════════
    Primitives
@@ -2117,6 +2119,14 @@ export default function Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  SERVICES_DEMO = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], label: s.title })),
+    SERVICES_SOURCE,
+  );
+  TESTIMONIALS_DEMO = resolveList(
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
+    TESTIMONIALS_SOURCE,
+  );
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, accent: brand, accentLight: shadeColor(brand, 25), accentDark: shadeColor(brand, -20) };

@@ -82,7 +82,7 @@ const LENTILLES = [
   { a: "Contrôle annuel", p: "offert", n: "Obligatoire pour renouveler. Vérification de la cornée à la lampe à fente." },
 ];
 
-const OFFRES_DEMO = [
+const OFFRES_SOURCE = [
   { titre: "Lunettes de vue", desc: "Plus de 400 montures sélectionnées : grandes marques (Ray-Ban, Lindberg, Persol) et créateurs indépendants. Verres haute définition, anti-lumière bleue, amincis.", tag: "Vue" },
   { titre: "Lentilles de contact", desc: "Journalières, mensuelles, toriques, multifocales. Adaptation par nos opticiens diplômés avec suivi à 1 mois. Commande en ligne disponible.", tag: "Lentilles" },
   { titre: "Examen de vue", desc: "Bilan visuel complet avec équipements de pointe (topographe, fond d'œil). Résultats immédiats et prescription remise en main propre.", tag: "Bilan" },
@@ -90,6 +90,7 @@ const OFFRES_DEMO = [
   { titre: "Basse vision", desc: "Matériel spécialisé pour patients malvoyants : loupes électroniques, systèmes d'agrandissement, filtres chromiques. Prise en charge 100% Sécu.", tag: "Santé" },
   { titre: "Réparations express", desc: "Remplacement de vis, ressoudage, changement de plaquettes — réparations en 15 minutes en boutique pour la plupart des marques.", tag: "SAV" },
 ]
+let OFFRES_DEMO = OFFRES_SOURCE;
 let OFFRES = OFFRES_DEMO;
 
 const ENGAGEMENTS_DEMO = [
@@ -100,11 +101,12 @@ const ENGAGEMENTS_DEMO = [
 ]
 let ENGAGEMENTS = ENGAGEMENTS_DEMO;
 
-const AVIS_DEMO = [
+const AVIS_SOURCE = [
   { texte: "Examen de vue très complet avec des explications claires. J'avais peur de devoir attendre longtemps pour mes lunettes, elles étaient prêtes en 5 jours. Qualité irréprochable.", auteur: "Nicolas P.", detail: "Lunettes progressives" },
   { texte: "Enfin un opticien qui prend le temps ! 45 minutes de bilan, conseils vraiment personnalisés pour mes lentilles. Et le tiers payant fonctionne parfaitement avec ma mutuelle.", auteur: "Hélène T.", detail: "Adaptation lentilles" },
   { texte: "Mon fils de 8 ans avait besoin de ses premières lunettes. L'accueil a été parfait, il est reparti avec des montures qui lui font vraiment envie de les porter. Merci !", auteur: "Famille Bertrand", detail: "Optique enfant" },
 ]
+let AVIS_DEMO = AVIS_SOURCE;
 let AVIS = AVIS_DEMO;
 
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
@@ -150,6 +152,14 @@ export default function VisionClairePage() {
   }, []);
 
   fd = session?.formData;
+  OFFRES_DEMO = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...OFFRES_SOURCE[i % OFFRES_SOURCE.length], titre: s.title })),
+    OFFRES_SOURCE,
+  );
+  AVIS_DEMO = resolveList(
+    clientReviews(session)?.map((r: any, i: number) => ({ ...AVIS_SOURCE[i % AVIS_SOURCE.length], auteur: r.author, texte: r.text })),
+    AVIS_SOURCE,
+  );
   STATS = resolveList(clientStats(session), STATS_DEMO);
   ENGAGEMENTS = resolveList(clientCertifications(session), ENGAGEMENTS_DEMO);
   OFFRES = resolveList(

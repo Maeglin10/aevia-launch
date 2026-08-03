@@ -171,7 +171,7 @@ const AUTHORS = [
   },
 ];
 
-const TESTIMONIALS_DEMO = [
+const TESTIMONIALS_SOURCE = [
   {
     name: "Claire Dupont",
     role: "CMO, Spendr",
@@ -215,6 +215,7 @@ const TESTIMONIALS_DEMO = [
     avatar: "JB",
   },
 ];
+let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 let TESTIMONIALS = TESTIMONIALS_DEMO;
 
 const PLANS = [
@@ -359,6 +360,10 @@ export default function EssentialBlogPage() {
   }, []);
 
   fd = session?.formData;
+  TESTIMONIALS_DEMO = resolveList(
+    clientReviews(session)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, text: r.text })),
+    TESTIMONIALS_SOURCE,
+  );
   STATS = resolveList(clientStats(session), STATS_DEMO);
   TESTIMONIALS = resolveList(
     clientReviews(session)?.map((r, i) => ({ ...TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length], name: r.author, text: r.text })),

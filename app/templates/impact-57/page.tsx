@@ -509,7 +509,7 @@ function ProcessSection() {
 }
 
 // ── Section 6: Testimonials ──────────────────────────────────────────────────
-const TESTIMONIALS_DEMO = [
+const TESTIMONIALS_SOURCE = [
   {
     quote: "MASK_UNIT a transformé notre identité visuelle en arme stratégique.",
     name: "Sophie Martin",
@@ -526,6 +526,7 @@ const TESTIMONIALS_DEMO = [
     title: "VP Marketing, Dior Beauty",
   },
 ];
+let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 let TESTIMONIALS = TESTIMONIALS_DEMO;
 
 function TestimonialsSection() {
@@ -920,6 +921,10 @@ export default function MaskUnitHome() {
   }, []);
 
   fd = session?.formData;
+  TESTIMONIALS_DEMO = resolveList(
+    clientReviews(session)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
+    TESTIMONIALS_SOURCE,
+  );
   TESTIMONIALS = resolveList(
     clientReviews(session)?.map((r, i) => ({ ...TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length], quote: r.text, name: r.author })),
     TESTIMONIALS_DEMO,

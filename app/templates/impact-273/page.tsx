@@ -1,4 +1,5 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
 // @ts-nocheck
 
 import React, {useRef, useState, useEffect} from 'react';
@@ -20,7 +21,6 @@ import {
   Clock,
   Shield,
 } from 'lucide-react';
-import { resolveList } from '@/lib/templates/resolveList';
 import {
   clientAddress,
   clientCity,
@@ -233,7 +233,7 @@ const TECH_ITEMS: TechItem[] = [
   },
 ];
 
-const TESTIMONIALS_DEMO: Testimonial[] = [
+const TESTIMONIALS_SOURCE: Testimonial[] = [
   {
     quote:
       "J'avais une phobie du dentiste depuis 15 ans. Le protocole MEOPA du Dr Rosenfeld a tout changé. Je viens maintenant tous les 6 mois sans appréhension. Une équipe qui écoute vraiment.",
@@ -247,6 +247,7 @@ const TESTIMONIALS_DEMO: Testimonial[] = [
     role: 'Patient · Schiltigheim',
   },
 ];
+let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 /* ════════════════════════════════════════════════════════════════════════════
    Primitives partagées
@@ -2166,6 +2167,10 @@ export default function Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TESTIMONIALS_DEMO = resolveList(
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
+    TESTIMONIALS_SOURCE,
+  );
   PHASES = PHASES_DEMO.map((row, i) => ({
     ...row,
     src: clientPhotos(sessionData)[0 + i] || row.src,

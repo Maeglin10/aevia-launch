@@ -1262,7 +1262,7 @@ function PracticeSection() {
    ════════════════════════════════════════════════════════════════════════════ */
 type Testimonial = { quote?: string; name?: string; context?: string; text?: string; author?: string; source?: string };
 
-const TESTIMONIALS_DEMO: Testimonial[] = [
+const TESTIMONIALS_SOURCE: Testimonial[] = [
   {
     quote:
       'Le Dr. Renard m\'a diagnostiqué un diabète de type 2 que je n\'avais pas vu venir. Grâce à son suivi rigoureux et ses conseils, j\'ai totalement modifié mes habitudes. Un an plus tard, mes glycémies sont normales. Je lui dois vraiment beaucoup.',
@@ -1282,6 +1282,7 @@ const TESTIMONIALS_DEMO: Testimonial[] = [
     context: 'Patient suivi en médecine du sport',
   },
 ];
+let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 function TestimonialsSection() {
   const sec: React.CSSProperties = {
@@ -2736,6 +2737,10 @@ export default function Impact274Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TESTIMONIALS_DEMO = resolveList(
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
+    TESTIMONIALS_SOURCE,
+  );
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, sage: brand };

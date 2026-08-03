@@ -90,11 +90,12 @@ const ENGAGEMENTS_DEMO = [
 ]
 let ENGAGEMENTS = ENGAGEMENTS_DEMO;
 
-const AVIS_DEMO = [
+const AVIS_SOURCE = [
   { texte: "Maître Renard a géré un litige commercial complexe avec une rigueur impressionnante. Gain de cause en première instance. Communication impeccable tout au long de la procédure.", auteur: "Pierre V.", detail: "Litige commercial B2B" },
   { texte: "Licenciement abusif après 12 ans dans l'entreprise. Maître Renard m'a accompagnée patiemment et obtenu une indemnisation bien supérieure à ce que j'espérais.", auteur: "Sandra M.", detail: "Droit du travail, CDI" },
   { texte: "Divorce difficile après 15 ans. Maître Renard a su rester humain tout en défendant mes intérêts avec fermeté. L'accord amiable final est bien au-delà de mes attentes.", auteur: "François D.", detail: "Droit de la famille" },
 ]
+let AVIS_DEMO = AVIS_SOURCE;
 let AVIS = AVIS_DEMO;
 
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
@@ -140,6 +141,10 @@ export default function CabinetRenardPage() {
   }, []);
 
   fd = session?.formData;
+  AVIS_DEMO = resolveList(
+    clientReviews(session)?.map((r: any, i: number) => ({ ...AVIS_SOURCE[i % AVIS_SOURCE.length], auteur: r.author, texte: r.text })),
+    AVIS_SOURCE,
+  );
   STATS = resolveList(clientStats(session), STATS_DEMO);
   ENGAGEMENTS = resolveList(clientCertifications(session), ENGAGEMENTS_DEMO);
   AVIS = resolveList(

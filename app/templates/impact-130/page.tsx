@@ -236,7 +236,7 @@ const STATS_DEMO = [
 ];
 let STATS = STATS_DEMO;
 
-const TESTIMONIALS_DEMO = [
+const TESTIMONIALS_SOURCE = [
   {
     name: "Mathieu Rosset",
     role: "CEO, Folio Maison",
@@ -270,6 +270,7 @@ const TESTIMONIALS_DEMO = [
     text: "Concevoir une expo pour 200K visiteurs avec un budget muséal serré — ils ont relevé le défi avec une élégance remarquable.",
   },
 ];
+let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 let TESTIMONIALS = TESTIMONIALS_DEMO;
 
 const TEAM_DEMO = [
@@ -598,6 +599,10 @@ export default function Impact130Page() {
   }, []);
 
   fd = session?.formData;
+  TESTIMONIALS_DEMO = resolveList(
+    clientReviews(session)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, text: r.text })),
+    TESTIMONIALS_SOURCE,
+  );
   STATS = resolveList(clientStats(session), STATS_DEMO);
   PROJECTS = PROJECTS_DEMO.map((row, i) => ({
     ...row,

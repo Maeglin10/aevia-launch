@@ -1286,7 +1286,7 @@ type Testimonial = {
   stars: number;
 };
 
-const TESTIMONIALS_DEMO: Testimonial[] = [
+const TESTIMONIALS_SOURCE: Testimonial[] = [
   {
     quote:
       "Maison Céleste a réalisé ma robe de mariée. Du premier essayage à la livraison, chaque détail a été pensé avec une attention que je n'avais jamais rencontrée. Je n'ai jamais été aussi belle de ma vie.",
@@ -1312,6 +1312,7 @@ const TESTIMONIALS_DEMO: Testimonial[] = [
     stars: 5,
   },
 ];
+let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 function TestimonialCard({ t, i }: { t: Testimonial; i: number }) {
   return (
@@ -2612,6 +2613,10 @@ export default function Impact281Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TESTIMONIALS_DEMO = resolveList(
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
+    TESTIMONIALS_SOURCE,
+  );
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, gold: brand, goldLight: shadeColor(brand, 25) };

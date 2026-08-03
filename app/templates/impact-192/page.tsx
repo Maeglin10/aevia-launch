@@ -71,7 +71,7 @@ const ZONES_DEMO = [
 ];
 let ZONES = ZONES_DEMO;
 
-const SERVICES_DEMO = [
+const SERVICES_SOURCE = [
   { icon: AlertTriangle, title: "Urgence & dépannage 24h/24", desc: "Porte claquée, serrure bloquée, intrusion. Intervention sous 30 min sur Strasbourg. Astreinte 7j/7 nuits et jours fériés inclus." },
   { icon: Lock, title: "Changement & installation serrure", desc: "Pose serrure 3 points, blindée, connectée. Toutes marques : Vachette, Fichet, Mul-T-Lock, Abus. Devis transparent avant travaux." },
   { icon: Home, title: "Porte blindée & renforcée", desc: "Fourniture et pose de portes blindées Fichet, Mottura, Fichet Bauche. Conforme norme NF A2P. Financement disponible." },
@@ -79,6 +79,7 @@ const SERVICES_DEMO = [
   { icon: Key, title: "Reproduction & trousseau", desc: "Reproduction clés plates, cylindres, badges, télécommandes de garage. Gravure sur mesure. Clés en double livrées sous 24h." },
   { icon: Wrench, title: "Coffre-fort & sécurité", desc: "Fourniture, scellement et ouverture de coffres-forts. Gamme domestique et professionnelle. Expertise assurance incluse." },
 ]
+let SERVICES_DEMO = SERVICES_SOURCE;
 
 const TEMOIGNAGES_DEMO = [
   { q: "Porte claquée à 23h30 avec mes clés à l'intérieur. Arrivée en 25 minutes, ouverture en 10 minutes, porte intacte, facture correcte. Merci pour ce service pro et rapide.", n: "Émilie T.", l: "Strasbourg Hautepierre" },
@@ -120,6 +121,10 @@ export default function SecurFastPage() {
   }, []);
 
   fd = session?.formData;
+  SERVICES_DEMO = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
+    SERVICES_SOURCE,
+  );
   ZONES = resolveList(
     clientAreas(session)?.map((z, i) => ({ ...ZONES_DEMO[i % ZONES_DEMO.length], v: z })),
     ZONES_DEMO,

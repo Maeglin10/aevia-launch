@@ -151,7 +151,7 @@ const PHILOSOPHY = [
   },
 ];
 
-const SERVICES_DEMO = [
+const SERVICES_SOURCE = [
   {
     title: "Architectural Design",
     desc: "Full-spectrum design from conceptual sketches to construction documentation. We use parametric modelling to test thousands of environmental scenarios before a single brick is laid.",
@@ -173,6 +173,7 @@ const SERVICES_DEMO = [
     desc: "Architecture does not end at the facade. We design the soil, the water table, the micro-climate, and the habitat corridors that make a building truly alive.",
   },
 ];
+let SERVICES_DEMO = SERVICES_SOURCE;
 let SERVICES = SERVICES_DEMO;
 
 const AWARDS = [
@@ -586,6 +587,10 @@ export default function Impact115Page() {
   }, []);
 
   fd = session?.formData;
+  SERVICES_DEMO = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
+    SERVICES_SOURCE,
+  );
   STATS = resolveList(clientStats(session), STATS_DEMO);
   PROJECTS = PROJECTS_DEMO.map((row, i) => ({
     ...row,

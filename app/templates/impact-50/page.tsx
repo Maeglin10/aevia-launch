@@ -99,11 +99,12 @@ const APPROCHE = [
   "Remboursement partiel par de nombreuses mutuelles",
 ]
 
-const AVIS_DEMO = [
+const AVIS_SOURCE = [
   { texte: "J'hésitais à consulter depuis longtemps. Laurence m'a mise à l'aise dès la première séance. En 4 mois, ma relation à l'anxiété a complètement changé. Je regrette seulement de ne pas y être allée plus tôt.", auteur: "Camille R.", detail: "Suivi anxiété, 34 ans" },
   { texte: "Burn-out sévère après 8 ans dans la finance. Mon médecin m'a orienté vers Mme Moreau. La progression est lente mais réelle. Je récupère des ressources que je pensais avoir perdues.", auteur: "Vincent L.", detail: "Burnout professionnel, 42 ans" },
   { texte: "Ma fille de 15 ans traversait une période très difficile. L'approche avec les adolescents est remarquable — elle repart de chaque séance avec quelque chose de concret. Merci.", auteur: "Famille Martin", detail: "Thérapie adolescente" },
 ]
+let AVIS_DEMO = AVIS_SOURCE;
 let AVIS = AVIS_DEMO;
 
 /* Château mechanic, two views: the practice, then the practitioner. Both
@@ -167,6 +168,10 @@ export default function CabinetMoreauPage() {
   }, []);
 
   fd = session?.formData;
+  AVIS_DEMO = resolveList(
+    clientReviews(session)?.map((r: any, i: number) => ({ ...AVIS_SOURCE[i % AVIS_SOURCE.length], auteur: r.author, texte: r.text })),
+    AVIS_SOURCE,
+  );
   STATS = resolveList(clientStats(session), STATS_DEMO);
   HERO_VIEWS = HERO_VIEWS_DEMO.map((row, i) => ({
     ...row,

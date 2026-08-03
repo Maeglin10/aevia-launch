@@ -20,7 +20,7 @@ let c: any = null;
 let brand: any = null;
 
 // ── Testimonials data ──────────────────────────────────────────────────────
-const TESTIMONIALS_DEMO = [
+const TESTIMONIALS_SOURCE = [
   {
     quote:
       "Chaque bouchée racontait une histoire que je n'aurais jamais imaginé pouvoir goûter. Le pigeon en deux services restera gravé dans ma mémoire pour des années.",
@@ -43,6 +43,7 @@ const TESTIMONIALS_DEMO = [
     role: "Tables privées",
   },
 ];
+let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 let TESTIMONIALS = TESTIMONIALS_DEMO;
 
 
@@ -78,6 +79,10 @@ export default function SatoriHomePage() {
   }, []);
 
   fd = session?.formData;
+  TESTIMONIALS_DEMO = resolveList(
+    clientReviews(session)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], author: r.author, quote: r.text })),
+    TESTIMONIALS_SOURCE,
+  );
   TESTIMONIALS = resolveList(
     clientReviews(session)?.map((r, i) => ({ ...TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length], quote: r.text, author: r.author })),
     TESTIMONIALS_DEMO,

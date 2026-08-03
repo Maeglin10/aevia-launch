@@ -181,11 +181,12 @@ const RETREATS_DEMO = [
   { name: "Inner Spring", duration: "14 days", guests: "Solo only", price: "€11,200", icon: Flower2, desc: "The complete Aether experience. Curated for transformational depth.", includes: ["Personalised ceremony", "Private chef", "6 modalities daily", "Post-retreat coaching", "2-month follow-up"] },
 ]
 
-const TESTIMONIALS_DEMO = [
+const TESTIMONIALS_SOURCE = [
   { quote: "I arrived carrying three years of accumulated burnout. After seven days at Aether, I remembered what it felt like to be in my body.", name: "Dr. Léa Fontaine", role: `Surgeon, ${clientCity(sessionData) ?? "Lyon"}` },
   { quote: "Nothing digital, nothing performative. Just the sound of water and the smell of cedar. It changed my entire relationship with stillness.", name: "M. Okafor", role: "Founder, London" },
   { quote: "The Deep Stillness retreat recalibrated my nervous system in ways I didn't know were possible. I sleep differently now.", name: "Y. Sato", role: "Artist, Tokyo" },
 ]
+let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
@@ -223,6 +224,10 @@ export default function AetherWellnessPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TESTIMONIALS_DEMO = resolveList(
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
+    TESTIMONIALS_SOURCE,
+  );
   HERO_SLIDES = HERO_SLIDES_DEMO.map((row, i) => ({
     ...row,
     img: clientPhotos(sessionData)[0 + i] || row.img,

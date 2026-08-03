@@ -86,7 +86,7 @@ const STATS_DEMO = [
 ];
 let STATS = STATS_DEMO;
 
-const SERVICES_DEMO = [
+const SERVICES_SOURCE = [
   {
     icon: '💧',
     title: 'Dépannage Fuite',
@@ -124,6 +124,7 @@ const SERVICES_DEMO = [
     badge: 'Certifié RGE',
   },
 ];
+let SERVICES_DEMO = SERVICES_SOURCE;
 
 const PROCESS_STEPS = [
   {
@@ -197,7 +198,7 @@ const TEAM_DEMO = [
   },
 ];
 
-const TESTIMONIALS_DEMO = [
+const TESTIMONIALS_SOURCE = [
   {
     name: 'Isabelle M.',
     city: 'Paris 11e',
@@ -241,6 +242,7 @@ const TESTIMONIALS_DEMO = [
     service: 'VMC Installation',
   },
 ];
+let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 const FAQ_ITEMS_DEMO = [
   {
@@ -1116,6 +1118,14 @@ export default function AquaPrestigePage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  SERVICES_DEMO = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
+    SERVICES_SOURCE,
+  );
+  TESTIMONIALS_DEMO = resolveList(
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, text: r.text })),
+    TESTIMONIALS_SOURCE,
+  );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {

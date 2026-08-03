@@ -70,7 +70,7 @@ const CADEAUX = [
   { t: "Remise immédiate", d: "Imprimée et présentée en boutique, ou envoyée en PDF dans les cinq minutes. Aucun frais d'envoi." },
 ];
 
-const SOINS_DEMO = [
+const SOINS_SOURCE = [
   { titre: "Soins visage sur mesure", desc: "Nettoyage en profondeur, exfoliation, masque, sérum, hydratation. Protocole personnalisé après diagnostic de peau — 60 à 90 min.", tag: "Visage" },
   { titre: "Massage corps & modelage", desc: "Relaxant suédois, drainant lymphatique, modelage amincissant. Huiles végétales et essentielles biologiques. Dès 60 min.", tag: "Corps" },
   { titre: "Épilation & soins intimes", desc: "Épilation cire tiède ou orientale, soins post-épilation. Résultats durables et confort maximal. Zones corps et visage.", tag: "Épilation" },
@@ -78,6 +78,7 @@ const SOINS_DEMO = [
   { titre: "Maquillage & ongles", desc: "Semi-permanent mains et pieds, nail art, pose gel. Maquillage occasion : mariage, soirée, shooting photo — sur RDV.", tag: "Beauté" },
   { titre: "Rituel spa & détente", desc: "Forfaits duo ou individuel : enveloppement corps, gommage, bain aromatique, massage. Idéal pour offrir ou se ressourcer.", tag: "Spa" },
 ]
+let SOINS_DEMO = SOINS_SOURCE;
 
 const VALEURS = [
   "Produits biologiques et naturels : Nuxe, L'Occitane, Phytomer",
@@ -86,11 +87,12 @@ const VALEURS = [
   "Formation continue annuelle de toute l'équipe",
 ]
 
-const AVIS_DEMO = [
+const AVIS_SOURCE = [
   { texte: "Le soin visage hydratant a complètement transformé ma peau en 6 semaines. L'esthéticienne a pris le temps d'analyser ma peau et adapté le protocole. Je n'avais jamais vécu ça ailleurs.", auteur: "Emma G.", detail: "Soin visage sur mesure" },
   { texte: "Massage drainant avant mon mariage : résultat visible en une séance. Corps léger, jambes désenflées, peau lumineuse. J'avais le corps de mes rêves le jour J. Merci !", auteur: "Sophie B.", detail: "Forfait mariage" },
   { texte: "Ritual spa duo avec ma meilleure amie pour notre anniversaire. Accueil aux petits soins, ambiance cocooning, soins au top. On a passé l'après-midi dans un vrai état de lévitation.", auteur: "Clara & Inès", detail: "Rituel spa duo" },
 ]
+let AVIS_DEMO = AVIS_SOURCE;
 
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const ref = useRef(null)
@@ -164,6 +166,14 @@ export default function EclatSpaPage() {
   }, []);
 
   fd = session?.formData;
+  SOINS_DEMO = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...SOINS_SOURCE[i % SOINS_SOURCE.length], titre: s.title })),
+    SOINS_SOURCE,
+  );
+  AVIS_DEMO = resolveList(
+    clientReviews(session)?.map((r: any, i: number) => ({ ...AVIS_SOURCE[i % AVIS_SOURCE.length], auteur: r.author, texte: r.text })),
+    AVIS_SOURCE,
+  );
   STATS = resolveList(clientStats(session), STATS_DEMO);
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color

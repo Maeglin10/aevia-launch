@@ -63,7 +63,7 @@ const APROPOS = [
   { k: "Aujourd'hui", t: "Onze personnes, un seul métier", d: "Neuf électriciens, deux à l'atelier. Aucune sous-traitance : celui qui vient chez vous est salarié, et il revient si quelque chose ne va pas." },
 ];
 
-const SERVICES_DEMO = [
+const SERVICES_SOURCE = [
   { icon: Zap, title: "Installation électrique", desc: "Tableaux de distribution, câblage neuf, mise aux normes NF C 15-100. Habitat individuel et collectif." },
   { icon: ShieldCheck, title: "Mise en conformité", desc: "Diagnostic CONSUEL, rapport de vérification, levée des réserves. Attestations pour vente ou location." },
   { icon: Wrench, title: "Dépannage 7j/7", desc: "Disjoncteur sauté, panne totale, court-circuit. Intervention sous 2h dans un rayon de 30 km." },
@@ -71,6 +71,7 @@ const SERVICES_DEMO = [
   { icon: ShieldCheck, title: "Éclairage intérieur/extérieur", desc: "LED basse consommation, spots encastrés, éclairage de sécurité, illumination de façade et terrasse." },
   { icon: Wrench, title: "Chantiers neufs & rénovation", desc: "Accompagnement complet de la conception au CONSUEL. Plans, devis gratuit sous 24h, suivi chantier." },
 ]
+let SERVICES_DEMO = SERVICES_SOURCE;
 
 const REALIZATIONS_DEMO = [
   { label: "Villa contemporaine · 280 m²", tag: "Installation complète", img: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&q=80&w=1200" },
@@ -140,6 +141,10 @@ export default function VoltProPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  SERVICES_DEMO = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
+    SERVICES_SOURCE,
+  );
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const SERVICES = resolveList(

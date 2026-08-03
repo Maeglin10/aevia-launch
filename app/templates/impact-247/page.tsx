@@ -919,7 +919,7 @@ interface Service {
   description: string;
 }
 
-const SERVICES_DEMO: Service[] = [
+const SERVICES_SOURCE: Service[] = [
   {
     icon: '⚡',
     title: 'Mise aux normes NF C 15-100',
@@ -951,6 +951,7 @@ const SERVICES_DEMO: Service[] = [
     description: 'Intervention rapide à Toulouse et agglomération — coupure, court-circuit, panne générale.',
   },
 ];
+let SERVICES_DEMO = SERVICES_SOURCE;
 
 function ServiceCard({ s, i }: { s: Service; i: number }) {
   const [hover, setHover] = useState(false);
@@ -1453,7 +1454,7 @@ interface Testimonial {
   detail: string;
 }
 
-const TESTIMONIALS_DEMO: Testimonial[] = [
+const TESTIMONIALS_SOURCE: Testimonial[] = [
   {
     quote:
       "Rénovation électrique complète de notre maison de 180 m² + installation domotique Somfy. Coordination parfaite, délais tenus à la journée. L\'attestation CONSUEL reçue en 48h après la fin du chantier.",
@@ -1469,6 +1470,7 @@ const TESTIMONIALS_DEMO: Testimonial[] = [
     detail: 'Dépannage urgence + LED',
   },
 ];
+let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 function TestimonialCard({ t, i }: { t: Testimonial; i: number }) {
   const card: React.CSSProperties = {
@@ -2103,6 +2105,14 @@ export default function Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  SERVICES_DEMO = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
+    SERVICES_SOURCE,
+  );
+  TESTIMONIALS_DEMO = resolveList(
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
+    TESTIMONIALS_SOURCE,
+  );
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const root: React.CSSProperties = {

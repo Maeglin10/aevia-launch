@@ -80,7 +80,7 @@ const HERO_UNIVERS = [
   },
 ];
 
-const SERVICES_DEMO = [
+const SERVICES_SOURCE = [
   { titre: "Ordonnances & renouvellement", desc: "Envoyez la photo de votre ordonnance : elle vous attend, préparée et vérifiée. Renouvellement des traitements chroniques dans le cadre légal.", tag: "Click & collect" },
   { titre: "Vaccination à l'officine", desc: "Grippe, COVID-19 et rappels du calendrier vaccinal, par nos pharmaciens formés. Sans rendez-vous, traçé dans votre carnet.", tag: "Prévention" },
   { titre: "Tests rapides (TROD)", desc: "Angine, glycémie, tension artérielle. Résultat en quelques minutes, orientation vers le médecin quand c'est nécessaire.", tag: "Dépistage" },
@@ -88,6 +88,7 @@ const SERVICES_DEMO = [
   { titre: "Matériel médical & location", desc: "Cannes, béquilles, lits médicalisés, tire-lait. Vente et location au tarif LPP, tiers payant sur ordonnance.", tag: "Location" },
   { titre: "Parapharmacie & dermo-conseil", desc: "Dermo-cosmétique, nutrition, aromathérapie : des conseils de pharmaciens diplômés, pas un simple libre-service.", tag: "Conseil" },
 ];
+let SERVICES_DEMO = SERVICES_SOURCE;
 
 const ENGAGEMENT_DEMO = [
   "Pharmacie inscrite à l'Ordre national des pharmaciens — licence n° 59#004512",
@@ -104,11 +105,12 @@ const INFOS = [
   { t: "Garde & urgences", d: "En dehors des horaires : 3237 pour la pharmacie de garde, 15 pour le SAMU." },
 ];
 
-const AVIS_DEMO = [
+const AVIS_SOURCE = [
   { texte: "J'envoie l'ordonnance de ma mère par mail le matin, tout est prêt à midi, tiers payant compris. Pour un traitement de 12 lignes, ça change la vie.", auteur: "Sandrine P.", detail: "Renouvellement chronique" },
   { texte: "Vaccinée contre la grippe un samedi en cinq minutes, sans rendez-vous. La pharmacienne a vérifié mes rappels au passage — le tétanos datait de 12 ans.", auteur: "Marie-Claude B.", detail: "Vaccination" },
   { texte: "Location d'un lit médicalisé pour mon père en 24 h, livré et installé. On nous a expliqué la prise en charge, on n'a rien avancé.", auteur: "Éric D.", detail: "Matériel médical" },
 ];
+let AVIS_DEMO = AVIS_SOURCE;
 
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const ref = useRef(null);
@@ -137,6 +139,14 @@ export default function PharmacieDuParcPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  SERVICES_DEMO = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], titre: s.title })),
+    SERVICES_SOURCE,
+  );
+  AVIS_DEMO = resolveList(
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...AVIS_SOURCE[i % AVIS_SOURCE.length], auteur: r.author, texte: r.text })),
+    AVIS_SOURCE,
+  );
   ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;
   if (brand) {

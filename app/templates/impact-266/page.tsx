@@ -149,7 +149,7 @@ const PHASES: EventPhase[] = [
   },
 ];
 
-const SERVICES_DEMO: Service[] = [
+const SERVICES_SOURCE: Service[] = [
   {
     title: 'Organisation complète',
     description: 'De la vision à la réalité — nous gérons chaque étape de votre mariage, de la recherche du lieu au dernier bouton de fleur.',
@@ -181,6 +181,7 @@ const SERVICES_DEMO: Service[] = [
     icon: '◇',
   },
 ];
+let SERVICES_DEMO = SERVICES_SOURCE;
 
 const EDIT_ROWS_DEMO: EditRow[] = [
   {
@@ -232,7 +233,7 @@ const PROCESS_STEPS: ProcessStep[] = [
   },
 ];
 
-const TESTIMONIALS_DEMO: Testimonial[] = [
+const TESTIMONIALS_SOURCE: Testimonial[] = [
   {
     quote:
       "Un couple franco-américain, 80 invités venus de 12 pays différents, dans une villa Belle Époque à Cannes. Villa Émeraude a tout orchestré avec une fluidité remarquable. Nos invités américains parlent encore de ce mariage comme du plus beau qu'ils aient jamais vu.",
@@ -246,6 +247,7 @@ const TESTIMONIALS_DEMO: Testimonial[] = [
     role: "Renouvellement de vœux · Cap d'Antibes",
   },
 ];
+let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 // Live arrays — reassigned from the client's BusinessProfile in Page(), read by
 // the module-level sub-components. Fall back to demo when no client data.
@@ -2214,6 +2216,14 @@ export default function Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  SERVICES_DEMO = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
+    SERVICES_SOURCE,
+  );
+  TESTIMONIALS_DEMO = resolveList(
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
+    TESTIMONIALS_SOURCE,
+  );
   EDIT_ROWS = EDIT_ROWS_DEMO.map((row, i) => ({
     ...row,
     img: clientPhotos(sessionData)[0 + i] || row.img,

@@ -57,7 +57,7 @@ let C: Record<string, string> = {
 // Demo content — real data (businessProfile) replaces this wholesale via
 // resolveList when the client provided it; each field access below falls
 // back with `??` so the same JSX renders either shape.
-const SERVICES_DEMO = [
+const SERVICES_SOURCE = [
   {
     id: 1,
     title: "Soin Visage Signature",
@@ -113,6 +113,7 @@ const SERVICES_DEMO = [
     tag: "Tendance",
   },
 ];
+let SERVICES_DEMO = SERVICES_SOURCE;
 
 const INGREDIENTS = [
   { name: "Rose de Damas", origin: "Bulgarie", benefit: "Éclat & Hydratation", img: "photo-1608248597279-f99d160bfcbc" },
@@ -152,7 +153,7 @@ const TEAM_DEMO = [
   },
 ];
 
-const TESTIMONIALS_DEMO = [
+const TESTIMONIALS_SOURCE = [
   {
     text: "Un moment hors du temps. Le soin visage signature a transformé ma peau en une seule séance. Camille est une véritable artiste du soin.",
     author: "Léa M.",
@@ -178,6 +179,7 @@ const TESTIMONIALS_DEMO = [
     rating: 5,
   },
 ];
+let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 const PACKAGES_DEMO = [
   {
@@ -958,6 +960,14 @@ export default function Impact198Page() {
   }, []);
 
   fd = session?.formData;
+  SERVICES_DEMO = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
+    SERVICES_SOURCE,
+  );
+  TESTIMONIALS_DEMO = resolveList(
+    clientReviews(session)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], author: r.author, text: r.text })),
+    TESTIMONIALS_SOURCE,
+  );
   PACKAGES = resolveList(
     clientServices(session)?.map((s, i) => ({ ...PACKAGES_DEMO[i % PACKAGES_DEMO.length], name: s.title, price: s.price ?? PACKAGES_DEMO[i % PACKAGES_DEMO.length].price })),
     PACKAGES_DEMO,

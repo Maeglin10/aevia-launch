@@ -106,7 +106,7 @@ const FEATURE_TABS_DEMO = [
 ]
 let FEATURE_TABS = FEATURE_TABS_DEMO;
 
-const TESTIMONIALS_DEMO = [
+const TESTIMONIALS_SOURCE = [
   {
     name: "Sarah Chen",
     role: "CTO, Flowmatic",
@@ -153,6 +153,7 @@ const TESTIMONIALS_DEMO = [
     metricColor: "pink",
   },
 ]
+let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 let TESTIMONIALS = TESTIMONIALS_DEMO;
 
 const PRICING = [
@@ -267,6 +268,10 @@ export default function NovaPlatformSaaS() {
   }, []);
 
   fd = session?.formData;
+  TESTIMONIALS_DEMO = resolveList(
+    clientReviews(session)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, text: r.text })),
+    TESTIMONIALS_SOURCE,
+  );
   STATS = resolveList(clientStats(session), STATS_DEMO);
   FEATURE_TABS = FEATURE_TABS_DEMO.map((row, i) => ({
     ...row,

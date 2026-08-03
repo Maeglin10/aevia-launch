@@ -81,7 +81,7 @@ const EQUIPE_DEMO = [
 ];
 let EQUIPE = EQUIPE_DEMO;
 
-const PRESTATIONS_DEMO = [
+const PRESTATIONS_SOURCE = [
   { title: "Coupe & brushing", price: "Dès 65€", desc: "Coupe sur mesure adaptée à votre morphologie, densité et mode de vie. Brushing professionnel ou coiffage naturel." },
   { title: "Couleur & balayage", price: "Dès 95€", desc: "Couleur pleine, balayage californien, mèches, ombré. Produits Kérastase & L'Oréal Professionnel. Bilan capillaire offert." },
   { title: "Traitement & soin", price: "Dès 45€", desc: "Soins Olaplex, masques kératine, lissage brésilien, soins anti-chute. Résultat visible dès la première séance." },
@@ -89,6 +89,7 @@ const PRESTATIONS_DEMO = [
   { title: "Extensions", price: "Dès 250€", desc: "Extensions kératine, bandes, clips. Volume, longueur, densité. Pose personnalisée, entretien et dépose assurés." },
   { title: "Consultation capillaire", price: "Offerte", desc: "Diagnostic état de la fibre, rythme colorimétrique, soins adaptés. En amont de chaque nouveau service, sur demande." },
 ]
+let PRESTATIONS_DEMO = PRESTATIONS_SOURCE;
 let PRESTATIONS = PRESTATIONS_DEMO;
 
 const TESTIMONIALS_DEMO = [
@@ -280,6 +281,10 @@ export default function AtelierLeoniePage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  PRESTATIONS_DEMO = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...PRESTATIONS_SOURCE[i % PRESTATIONS_SOURCE.length], title: s.title })),
+    PRESTATIONS_SOURCE,
+  );
   PRESTATIONS = resolveList(
     clientServices(sessionData)?.map((s, i) => ({ ...PRESTATIONS_DEMO[i % PRESTATIONS_DEMO.length], title: s.title })),
     PRESTATIONS_DEMO,

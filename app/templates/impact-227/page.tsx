@@ -89,7 +89,7 @@ const EQUIPE_DEMO = [
 ];
 let EQUIPE = EQUIPE_DEMO;
 
-const PRESTATIONS_DEMO = [
+const PRESTATIONS_SOURCE = [
   { titre: "Coupe homme classique", desc: "Ciseaux ou tondeuse, dégradé américain ou anglais, finition rasoir. Shampooing + coupe + styling — 35€.", tag: "Coupe" },
   { titre: "Rasage traditionnel", desc: "Rasage lame droite avec préparation serviettes chaudes, huile, mousse artisanale. Soin de peau inclus. Un rituel d'exception — 45€.", tag: "Rasage" },
   { titre: "Barbe taillée & modelée", desc: "Définition du contour, dégradé de longueurs, finition à la cire. Du bouc au beard full — 25€.", tag: "Barbe" },
@@ -97,6 +97,7 @@ const PRESTATIONS_DEMO = [
   { titre: "Soin cuir chevelu", desc: "Traitement anti-chute, hydratation profonde ou purifiant selon type de cuir chevelu. En complément ou seul — 30€.", tag: "Soin" },
   { titre: "Colorimétrie & grisonnants", desc: "Couvrage des blancs, reflets, balayage discret pour hommes. Naturel ou audacieux selon votre style — sur devis.", tag: "Couleur" },
 ]
+let PRESTATIONS_DEMO = PRESTATIONS_SOURCE;
 
 const VALEURS = [
   "Produits 100% naturels : Kevin Murphy, Baxter of California",
@@ -105,11 +106,12 @@ const VALEURS = [
   "Carte fidélité : 10e coupe offerte",
 ]
 
-const AVIS_DEMO = [
+const AVIS_SOURCE = [
   { texte: "Le meilleur rasage de ma vie. Serviettes chaudes, mousse artisanale, lame droite, soin après. J'y vais chaque mois et je ressors à chaque fois comme une star. Un endroit à part.", auteur: "Antoine R.", detail: "Rasage traditionnel" },
   { texte: "Cherchais un barbier qui maîtrise le dégradé peau sans faire de bourrelets. Premier essai et c'est exactement ce que je voulais. Prix honnête, ambiance cool. Mon nouveau QG.", auteur: "Kévin L.", detail: "Coupe dégradé" },
   { texte: "Mon fils de 8 ans avait peur du coiffeur. Ici, ils ont été patients, fun, et il est reparti en disant 'trop bien'. C'est devenu un moment père-fils qu'il attend avec impatience.", auteur: "Famille Morel", detail: "Coupe enfant" },
 ]
+let AVIS_DEMO = AVIS_SOURCE;
 
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const ref = useRef(null)
@@ -314,6 +316,14 @@ export default function LeBarberClubPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  PRESTATIONS_DEMO = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...PRESTATIONS_SOURCE[i % PRESTATIONS_SOURCE.length], titre: s.title })),
+    PRESTATIONS_SOURCE,
+  );
+  AVIS_DEMO = resolveList(
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...AVIS_SOURCE[i % AVIS_SOURCE.length], auteur: r.author, texte: r.text })),
+    AVIS_SOURCE,
+  );
   EQUIPE = resolveList(
     clientTeam(sessionData)?.map((m, i) => ({ ...EQUIPE_DEMO[i % EQUIPE_DEMO.length], n: m.name, r: m.role })),
     EQUIPE_DEMO,

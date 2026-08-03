@@ -82,12 +82,13 @@ const PROJECTS_DEMO = [
   { title: "Couloir de nage Croix-Rousse", city: "Lyon 4ème", surface: "12 × 2,5 m", style: "Contemporain", img: "https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&q=80&w=1200" },
 ]
 
-const SERVICES_DEMO = [
+const SERVICES_SOURCE = [
   { num: "01", title: "Construction sur-mesure", desc: "De l'étude 3D à la mise en eau — terrassement, structure béton ou coque, étanchéité, margelles et plage. Un bassin livré clé en main." },
   { num: "02", title: "Conception & étude 3D", desc: "Session pour définir la forme, le revêtement, la plage et l'intégration paysagère de votre piscine. Plan 3D et devis détaillé." },
   { num: "03", title: "Rénovation de bassin", desc: "Liner, margelles, étanchéité, filtration — on redonne vie à une piscine existante avec un impact maximum." },
   { num: "04", title: "Aménagement & pool house", desc: "Plage immergée, terrasse, éclairage LED et pool house — nous concevons un espace baignade qui vous ressemble." },
 ]
+let SERVICES_DEMO = SERVICES_SOURCE;
 
 
 // Client-uploaded photo at index i, falling back to the template's stock
@@ -155,6 +156,10 @@ export default function MaelleDumasPiscinesPage() {
   }, []);
 
   fd = session?.formData;
+  SERVICES_DEMO = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
+    SERVICES_SOURCE,
+  );
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;

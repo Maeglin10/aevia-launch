@@ -59,7 +59,7 @@ function Reveal({ children, delay = 0, y = 30 }: { children: React.ReactNode; de
   )
 }
 
-const FEATURES_DEMO = [
+const FEATURES_SOURCE = [
   { icon: BarChart2, title: "Analytics avancés", desc: "Tableaux de bord en temps réel avec métriques personnalisables. Exportez vos données en un clic." },
   { icon: Shield, title: "Sécurité enterprise", desc: "Chiffrement AES-256, SSO, 2FA et conformité SOC2. Vos données sont protégées par défaut." },
   { icon: Users, title: "Collaboration d'équipe", desc: "Invitez votre équipe, gérez les rôles et permissions. Travaillez ensemble en temps réel." },
@@ -67,6 +67,7 @@ const FEATURES_DEMO = [
   { icon: Globe, title: "API complète", desc: "API REST et GraphQL documentée. SDKs disponibles pour Python, JavaScript, Ruby et Go." },
   { icon: Clock, title: "Support 24/7", desc: "Équipe de support dédiée, disponible à tout moment. Temps de réponse moyen : 2 heures." },
 ]
+let FEATURES_DEMO = FEATURES_SOURCE;
 let FEATURES = FEATURES_DEMO;
 
 const PRICING = [
@@ -99,11 +100,12 @@ const PRICING = [
   },
 ]
 
-const TESTIMONIALS_DEMO = [
+const TESTIMONIALS_SOURCE = [
   { name: "Alice Dupont", role: "CTO — StartupX", text: "On a migré en 2 jours. L'API est propre, la doc claire. On n'a jamais regardé en arrière.", avatar: "AD" },
   { name: "Thomas Leroy", role: "CEO — Agence Nova", text: "Nos clients adorent les dashboards partagés. Ça a changé notre façon de livrer des projets.", avatar: "TL" },
   { name: "Camille Martin", role: "Product Manager", text: "Les automations nous ont économisé 15h par semaine. En 3 mois, le ROI était déjà là.", avatar: "CM" },
 ]
+let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 let TESTIMONIALS = TESTIMONIALS_DEMO;
 
 
@@ -134,6 +136,14 @@ export default function EssentialSaaSPage() {
   }, []);
 
   fd = session?.formData;
+  FEATURES_DEMO = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...FEATURES_SOURCE[i % FEATURES_SOURCE.length], title: s.title })),
+    FEATURES_SOURCE,
+  );
+  TESTIMONIALS_DEMO = resolveList(
+    clientReviews(session)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, text: r.text })),
+    TESTIMONIALS_SOURCE,
+  );
   FEATURES = resolveList(
     clientServices(session)?.map((s, i) => ({ ...FEATURES_DEMO[i % FEATURES_DEMO.length], title: s.title })),
     FEATURES_DEMO,

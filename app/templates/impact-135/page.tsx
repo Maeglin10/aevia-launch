@@ -81,7 +81,7 @@ const PORTFOLIO_DATA = [
   { label: "Oct", val: 110 },{ label: "Nov", val: 98 }, { label: "Dec", val: 128 },
 ];
 
-const FEATURES_DEMO = [
+const FEATURES_SOURCE = [
   {
     icon: "⚡",
     title: "Sub-millisecond execution",
@@ -119,9 +119,10 @@ const FEATURES_DEMO = [
     badge: "Multi-channel",
   },
 ];
+let FEATURES_DEMO = FEATURES_SOURCE;
 let FEATURES = FEATURES_DEMO;
 
-const TESTIMONIALS_DEMO = [
+const TESTIMONIALS_SOURCE = [
   {
     name: "Marcus Chen",
     role: "Prop Trader — 8yr experience",
@@ -144,6 +145,7 @@ const TESTIMONIALS_DEMO = [
     avatar: "AO",
   },
 ];
+let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 let TESTIMONIALS = TESTIMONIALS_DEMO;
 
 const PLANS = [
@@ -1031,6 +1033,14 @@ export default function Impact135Page() {
   }, []);
 
   fd = session?.formData;
+  FEATURES_DEMO = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...FEATURES_SOURCE[i % FEATURES_SOURCE.length], title: s.title })),
+    FEATURES_SOURCE,
+  );
+  TESTIMONIALS_DEMO = resolveList(
+    clientReviews(session)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
+    TESTIMONIALS_SOURCE,
+  );
   STATS = resolveList(clientStats(session), STATS_DEMO);
   FEATURES = resolveList(
     clientServices(session)?.map((s, i) => ({ ...FEATURES_DEMO[i % FEATURES_DEMO.length], title: s.title })),

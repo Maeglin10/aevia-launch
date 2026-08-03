@@ -46,13 +46,15 @@ const FONT_BODY = FONT;
 const NAV = [{"l": "Contrôles", "h": "#services"}, {"l": "Le déroulé", "h": "#methode"}, {"l": "Tarifs", "h": "#tarifs"}, {"l": "Contact", "h": "#contact"}];
 const HERO = [{"k": "Périodique", "lines": ["Le contrôle expliqué", "avec des mots simples."], "sub": "133 points, un rapport traduit du jargon."}, {"k": "Sans stress", "lines": ["Créneaux du soir,", "espace enfants, vrai café."], "sub": "Jusqu'à 19 h, samedi compris."}, {"k": "Contre-visite", "lines": ["Revenez réparé,", "repartez validé."], "sub": "Incluse 2 mois, dix minutes chrono."}];
 
-const SERVICES_DEMO = [{"titre": "Contrôle périodique VL", "desc": "Les 133 points réglementaires au banc, rapport remis avec un lexique en français courant — « jeu dans la biellette » enfin traduit.", "tag": "Voiture"}, {"titre": "Contre-visite en 10 min", "desc": "Incluse deux mois. Passage prioritaire sans rendez-vous en semaine avant 10 h.", "tag": "Incluse"}, {"titre": "Électriques & hybrides", "desc": "Contrôleurs habilités, points haute tension au référentiel. Les Zoé, Model 3 et Kona passent ici tous les jours.", "tag": "VE"}, {"titre": "Utilitaires ≤ 3,5 t", "desc": "Artisans : déposez à 8 h, récupérez à 9 h, repartez travailler. Facture pro immédiate.", "tag": "Pro"}, {"titre": "Motos & scooters", "desc": "Ligne deux-roues dédiée, contrôleur motard — qui sait ce qu'est une transmission par cardan.", "tag": "Moto"}, {"titre": "Véhicules de collection", "desc": "Créneau calme du samedi matin, manipulation aux gants, passage tous les 5 ans pour les cartes grises collection.", "tag": "Collection"}];
+const SERVICES_SOURCE = [{"titre": "Contrôle périodique VL", "desc": "Les 133 points réglementaires au banc, rapport remis avec un lexique en français courant — « jeu dans la biellette » enfin traduit.", "tag": "Voiture"}, {"titre": "Contre-visite en 10 min", "desc": "Incluse deux mois. Passage prioritaire sans rendez-vous en semaine avant 10 h.", "tag": "Incluse"}, {"titre": "Électriques & hybrides", "desc": "Contrôleurs habilités, points haute tension au référentiel. Les Zoé, Model 3 et Kona passent ici tous les jours.", "tag": "VE"}, {"titre": "Utilitaires ≤ 3,5 t", "desc": "Artisans : déposez à 8 h, récupérez à 9 h, repartez travailler. Facture pro immédiate.", "tag": "Pro"}, {"titre": "Motos & scooters", "desc": "Ligne deux-roues dédiée, contrôleur motard — qui sait ce qu'est une transmission par cardan.", "tag": "Moto"}, {"titre": "Véhicules de collection", "desc": "Créneau calme du samedi matin, manipulation aux gants, passage tous les 5 ans pour les cartes grises collection.", "tag": "Collection"}];
+let SERVICES_DEMO = SERVICES_SOURCE;
 const METHODE = [{"n": "01", "t": "Réservation en 2 minutes", "d": "En ligne ou par téléphone. Rappel SMS la veille avec les documents à apporter — carte grise, c'est tout."}, {"n": "02", "t": "45 minutes, en direct", "d": "Suivez le contrôle depuis la baie vitrée ou l'appli : chaque étape cochée en temps réel."}, {"n": "03", "t": "Le débrief traduit", "d": "Le contrôleur vous montre, explique la gravité réelle, et remet le lexique. Pas de jargon, pas de terreur."}, {"n": "04", "t": "Rappel avant échéance", "d": "SMS deux mois avant votre prochain contrôle. Une chose de moins à retenir pendant deux ans."}];
 const ENGAGEMENT_DEMO = ["Agrément préfectoral S 069 X 118, contrôleurs agréés en formation continue", "Indépendance légale : aucune réparation vendue, aucun garage recommandé", "Prix affichés, identiques pour tous, week-end sans majoration", "Espace enfants, café offert, wifi — parce que 45 minutes, c'est long à 4 ans"];
 let ENGAGEMENT = ENGAGEMENT_DEMO;
 const TARIFS_DEMO = [{"a": "Contrôle périodique VL", "p": "82 €", "n": "Essence, diesel, GPL — rapport avec lexique traduit."}, {"a": "Électrique / hybride", "p": "86 €", "n": "Points haute tension, contrôleur habilité."}, {"a": "Deux-roues", "p": "62 €", "n": "Ligne dédiée, contrôleur motard."}, {"a": "Collection (tous les 5 ans)", "p": "95 €", "n": "Créneau calme du samedi matin, manipulation soignée."}];
 let TARIFS = TARIFS_DEMO;
-const AVIS_DEMO = [{"texte": "Créneau à 18h30 après le travail, contrôle suivi sur l'appli, débrief clair : ma « défaillance mineure » n'était pas la fin du monde, juste une ampoule. Merci pour la pédagogie.", "auteur": "Amélie R.", "detail": "Contrôle du soir"}, {"texte": "Avec deux enfants en bas âge, l'espace jeux change tout. 45 minutes passées sans cris, contrôle nickel, rappel SMS reçu pour dans deux ans.", "auteur": "Thomas B.", "detail": "Famille, samedi matin"}, {"texte": "Ma 4L de collection contrôlée aux gants, par un contrôleur qui a pris le temps. On sent le respect de la mécanique ancienne.", "auteur": "Gérard L.", "detail": "Véhicule de collection"}];
+const AVIS_SOURCE = [{"texte": "Créneau à 18h30 après le travail, contrôle suivi sur l'appli, débrief clair : ma « défaillance mineure » n'était pas la fin du monde, juste une ampoule. Merci pour la pédagogie.", "auteur": "Amélie R.", "detail": "Contrôle du soir"}, {"texte": "Avec deux enfants en bas âge, l'espace jeux change tout. 45 minutes passées sans cris, contrôle nickel, rappel SMS reçu pour dans deux ans.", "auteur": "Thomas B.", "detail": "Famille, samedi matin"}, {"texte": "Ma 4L de collection contrôlée aux gants, par un contrôleur qui a pris le temps. On sent le respect de la mécanique ancienne.", "auteur": "Gérard L.", "detail": "Véhicule de collection"}];
+let AVIS_DEMO = AVIS_SOURCE;
 const STATS_DEMO = [{"value": "19 h", "label": "Dernier créneau du soir"}, {"value": "45 min", "label": "Contrôle complet"}, {"value": "4,9/5", "label": "Sur 1 200 avis vérifiés"}, {"value": "10 min", "label": "La contre-visite"}];
 let STATS = STATS_DEMO;
 
@@ -87,6 +89,14 @@ export default function CTLumierePage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  SERVICES_DEMO = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], titre: s.title })),
+    SERVICES_SOURCE,
+  );
+  AVIS_DEMO = resolveList(
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...AVIS_SOURCE[i % AVIS_SOURCE.length], auteur: r.author, texte: r.text })),
+    AVIS_SOURCE,
+  );
   TARIFS = resolveList(
     clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
     TARIFS_DEMO,

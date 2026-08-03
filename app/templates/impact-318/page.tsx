@@ -157,11 +157,12 @@ const SERVICES_DEMO = [
   { icon: <Shield size={28} />, title: "Débarras & Curage", desc: "Vidage complet de locaux, caves, greniers, appartements. Tri, recyclage et évacuation en déchetterie." },
 ];
 
-const TESTIMONIALS_DEMO = [
+const TESTIMONIALS_SOURCE = [
   { name: "Guillaume M.", role: "Chef de chantier, BTP Provence", text: "Après un chantier de 6 mois, l'équipe a livré un immeuble impeccable en 48h. Rapport qualité-prix imbattable. Partenariat reconduit.", rating: 5 },
   { name: "Isabelle K.", role: "Expert d'assurance, AXA", text: "Intervention rapide et professionnelle après un dégât des eaux. Le rapport d'intervention détaillé facilite le traitement du sinistre.", rating: 5 },
   { name: "Romain T.", role: "Directeur usine, Agroalimentaire", text: "Désinfection mensuelle de nos locaux de production. Protocole rigoureux, traçabilité parfaite, aucune non-conformité depuis 2 ans.", rating: 5 },
 ];
+let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 export default function Page() {
   const [session, setSession] = useState<{
@@ -209,6 +210,10 @@ export default function Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TESTIMONIALS_DEMO = resolveList(
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, text: r.text })),
+    TESTIMONIALS_SOURCE,
+  );
   brand = fd?.brandColor ?? null;
   if (brand) {
     C = { ...C, primary: brand, primaryLight: shadeColor(brand, 25), primaryDark: shadeColor(brand, -20) };

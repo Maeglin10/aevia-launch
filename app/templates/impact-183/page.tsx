@@ -62,7 +62,7 @@ const NAV = [
 ];
 
 const SERVICE_ICONS = [Paintbrush, Layers, Brush, Sparkles, Shield, Paintbrush]
-const SERVICES_DEMO = [
+const SERVICES_SOURCE = [
   { icon: Paintbrush, title: "Construction de piscine", desc: "Piscine enterrée béton, coque ou bloc à bancher. Terrassement, structure, étanchéité, margelles et plage. De l'étude 3D à la mise en eau." },
   { icon: Layers, title: "Revêtement & finitions", desc: "Liner armé, membrane PVC, carrelage, mosaïque ou béton ciré. Choix de teintes et de matières pour un bassin à votre image." },
   { icon: Brush, title: "Rénovation de piscine", desc: "Réfection d'étanchéité, changement de liner, remise à neuf des margelles et de la plage. Redonnez vie à votre bassin." },
@@ -70,6 +70,7 @@ const SERVICES_DEMO = [
   { icon: Shield, title: "Sécurité & traitement", desc: "Barrières, volets, alarmes aux normes NF P90. Filtration, électrolyse au sel et régulation automatique du pH." },
   { icon: Paintbrush, title: "Entretien & hivernage", desc: "Contrat saisonnier, hivernage, remise en route, analyse et traitement de l'eau. Une piscine limpide sans souci." },
 ]
+let SERVICES_DEMO = SERVICES_SOURCE;
 
 // "Réalisations" and "Zone" were in the nav with nothing behind them.
 const CHANTIERS = [
@@ -152,6 +153,10 @@ export default function CouleursCOPiscinesPage() {
   }, []);
 
   fd = session?.formData;
+  SERVICES_DEMO = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
+    SERVICES_SOURCE,
+  );
   ZONES = resolveList(
     clientAreas(session)?.map((z, i) => ({ ...ZONES_DEMO[i % ZONES_DEMO.length], ville: z })),
     ZONES_DEMO,

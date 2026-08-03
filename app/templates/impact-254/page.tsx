@@ -137,7 +137,7 @@ const DOMAINS: Domain[] = [
   },
 ];
 
-const SERVICES_DEMO: Service[] = [
+const SERVICES_SOURCE: Service[] = [
   {
     title: 'Tenue comptable',
     desc: 'Saisie, lettrage, rapprochements bancaires et révision mensuelle. Vos comptes toujours à jour.',
@@ -163,6 +163,7 @@ const SERVICES_DEMO: Service[] = [
     desc: "Valorisation, structuration de la cession, accompagnement vendeur et acheteur jusqu'à la signature.",
   },
 ];
+let SERVICES_DEMO = SERVICES_SOURCE;
 
 const EDIT_ROWS: EditRow[] = [
   {
@@ -216,7 +217,7 @@ const EXPERTISE: ExpertiseItem[] = [
   },
 ];
 
-const TESTIMONIALS_DEMO: Testimonial[] = [
+const TESTIMONIALS_SOURCE: Testimonial[] = [
   {
     quote:
       'Nous avons confié notre comptabilité à Vaillant lors de notre Série A. En six mois, ils ont restructuré nos process, formé notre CFO et nous ont servi de co-pilote financier tout au long de la levée. Un partenaire stratégique, pas un prestataire.',
@@ -230,6 +231,7 @@ const TESTIMONIALS_DEMO: Testimonial[] = [
     role: 'Dirigeant · Groupe restauration, 8 établissements',
   },
 ];
+let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 /* ════════════════════════════════════════════════════════════════════════════
    Primitives partagées
@@ -2097,6 +2099,14 @@ export default function Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  SERVICES_DEMO = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
+    SERVICES_SOURCE,
+  );
+  TESTIMONIALS_DEMO = resolveList(
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
+    TESTIMONIALS_SOURCE,
+  );
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   if (brand) {

@@ -88,7 +88,7 @@ const FONT_BODY = "'Inter', system-ui, sans-serif";
 
 // ─── DATA ─────────────────────────────────────────────────────────────────────
 
-const COLLECTIONS_DEMO = [
+const COLLECTIONS_SOURCE = [
   {
     name: "Éternité",
     category: "Bagues",
@@ -144,6 +144,7 @@ const COLLECTIONS_DEMO = [
     pieces: 7,
   },
 ];
+let COLLECTIONS_DEMO = COLLECTIONS_SOURCE;
 
 const STATS_DEMO = [
   { value: "1947", label: "Fondée en", suffix: "" },
@@ -153,7 +154,7 @@ const STATS_DEMO = [
 ];
 let STATS = STATS_DEMO;
 
-const TESTIMONIALS_DEMO = [
+const TESTIMONIALS_SOURCE = [
   {
     name: "Isabelle Moreau",
     location: "Paris, 8ème",
@@ -197,6 +198,7 @@ const TESTIMONIALS_DEMO = [
     purchase: "Alliances sur-mesure — Platine 950 avec gravure",
   },
 ];
+let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 const CERTIFICATIONS_DEMO = [
   {
@@ -222,7 +224,7 @@ const CERTIFICATIONS_DEMO = [
 ];
 let CERTIFICATIONS = CERTIFICATIONS_DEMO;
 
-const SERVICES_DEMO = [
+const SERVICES_SOURCE = [
   {
     icon: Gem,
     title: "Gravure personnalisée",
@@ -244,6 +246,7 @@ const SERVICES_DEMO = [
     desc: "Certificat GIA, évaluation pour assurance incluse. Documentation complète pour chaque pièce.",
   },
 ];
+let SERVICES_DEMO = SERVICES_SOURCE;
 let SERVICES = SERVICES_DEMO;
 
 const FAQS_DEMO = [
@@ -421,6 +424,18 @@ export default function Impact157Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  SERVICES_DEMO = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
+    SERVICES_SOURCE,
+  );
+  COLLECTIONS_DEMO = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...COLLECTIONS_SOURCE[i % COLLECTIONS_SOURCE.length], name: s.title })),
+    COLLECTIONS_SOURCE,
+  );
+  TESTIMONIALS_DEMO = resolveList(
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, text: r.text })),
+    TESTIMONIALS_SOURCE,
+  );
   SERVICES = resolveList(
     clientServices(sessionData)?.map((s, i) => ({ ...SERVICES_DEMO[i % SERVICES_DEMO.length], title: s.title })),
     SERVICES_DEMO,

@@ -104,11 +104,12 @@ const APPROCHE = [
   { titre: "Petits groupes", desc: "Maximum 12 élèves par cours pour un suivi individualisé et des ajustements personnalisés à chaque pratique." },
 ]
 
-const TEMOIGNAGES_DEMO = [
+const TEMOIGNAGES_SOURCE = [
   { texte: "Depuis que j'ai rejoint Lumière Yoga, ma relation avec mon corps a complètement changé. Les cours de Sophie sont à la fois exigeants et bienveillants. Un équilibre rare.", auteur: "Camille R.", detail: "Pratiquante depuis 2 ans, Vinyasa & Yin" },
   { texte: "Le yoga prénatal m'a accompagnée tout au long de ma grossesse. Sophie connaît parfaitement les besoins des futures mamans. Je me sentais entre de bonnes mains à chaque séance.", auteur: "Julie M.", detail: "Yoga prénatal, grossesse 2024" },
   { texte: "J'ai commencé sans aucune expérience. En 6 mois, je touche le sol avec les mains, mon dos ne me fait plus souffrir et je dors enfin bien. Le studio est un vrai sanctuaire.", auteur: "Marc P.", detail: "Pratiquant débutant, Yoga Restauratif" },
 ]
+let TEMOIGNAGES_DEMO = TEMOIGNAGES_SOURCE;
 
 // ─── Components ───────────────────────────────────────────────────────────────
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
@@ -159,6 +160,10 @@ export default function LumiereYogaPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TEMOIGNAGES_DEMO = resolveList(
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TEMOIGNAGES_SOURCE[i % TEMOIGNAGES_SOURCE.length], auteur: r.author, texte: r.text })),
+    TEMOIGNAGES_SOURCE,
+  );
   TARIFS = resolveList(
     clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
     TARIFS_DEMO,

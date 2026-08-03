@@ -224,7 +224,7 @@ const CERTS: CertItem[] = [
   },
 ];
 
-const TESTIMONIALS_DEMO: Testimonial[] = [
+const TESTIMONIALS_SOURCE: Testimonial[] = [
   {
     quote:
       "Nous avons remplacé notre vieille chaudière et installé une pompe à chaleur air/eau. Aqua Confort a géré MaPrimeRénov' de A à Z — 65 % financés, et on économise 800 € par an sur nos factures. Équipe sérieuse, délais tenus.",
@@ -238,6 +238,7 @@ const TESTIMONIALS_DEMO: Testimonial[] = [
     role: 'Propriétaire bailleur · Villeurbanne',
   },
 ];
+let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 /* ════════════════════════════════════════════════════════════════════════════
    Primitives
@@ -2295,6 +2296,10 @@ export default function Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TESTIMONIALS_DEMO = resolveList(
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
+    TESTIMONIALS_SOURCE,
+  );
   INTERVENTIONS = INTERVENTIONS_DEMO.map((row, i) => ({
     ...row,
     img: clientPhotos(sessionData)[0 + i] || row.img,

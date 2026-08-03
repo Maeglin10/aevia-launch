@@ -106,7 +106,7 @@ const STATS_DEMO = [
 ];
 let STATS = STATS_DEMO;
 
-const TESTIMONIALS_DEMO = [
+const TESTIMONIALS_SOURCE = [
   {
     quote: "Aether transformed our visual identity into something we are genuinely proud to put in front of the world. The attention to craft is unreal.",
     name: "Mia Chen",
@@ -123,6 +123,7 @@ const TESTIMONIALS_DEMO = [
     role: "Founder, Intelligentsia",
   },
 ];
+let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 let TESTIMONIALS = TESTIMONIALS_DEMO;
 
 
@@ -158,6 +159,10 @@ export default function AetherRoasteryPage() {
   }, []);
 
   fd = session?.formData;
+  TESTIMONIALS_DEMO = resolveList(
+    clientReviews(session)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
+    TESTIMONIALS_SOURCE,
+  );
   STATS = resolveList(clientStats(session), STATS_DEMO);
   WORK_REEL = WORK_REEL_DEMO.map((row, i) => ({
     ...row,

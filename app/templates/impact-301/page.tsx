@@ -128,12 +128,13 @@ const PHOTO = {
   gallery4: "https://images.unsplash.com/photo-1557804506-669a67965ba0?q=80&w=800&auto=format&fit=crop"
 } as const;
 
-const SERVICES_DEMO = [
+const SERVICES_SOURCE = [
   {"name": "Création de Société & Statuts", "category": "Sociétés", "desc": "Accompagnement complet, choix de la structure, rédaction des statuts.", "price": "1 200 €"},
   {"name": "Accompagnement Levée de Fonds", "category": "Startups", "desc": "Négociation de la term sheet, rédaction du pacte d'actionnaires.", "price": "Sur Devis"},
   {"name": "Audit de Conformité RGPD", "category": "Contrats", "desc": "Mise en conformité des sites web, contrats et traitements de données.", "price": "800 €"},
   {"name": "Rédaction de Contrats Commerciaux", "category": "Contrats", "desc": "Conditions générales, contrats de prestation de services, baux commerciaux.", "price": "500 €"}
 ];
+let SERVICES_DEMO = SERVICES_SOURCE;
 
 const FAQ_DEMO = [
   {"q":"Quels sont vos modes de facturation ?","a":"Nous facturons soit au forfait pour les opérations standardisées (création, contrats), soit au temps passé (taux horaire de 220€ HT) pour le conseil et la négociation."},
@@ -298,6 +299,10 @@ export default function Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  SERVICES_DEMO = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], name: s.title })),
+    SERVICES_SOURCE,
+  );
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, primary: brand, primaryLight: shadeColor(brand, 25), primaryDark: shadeColor(brand, -20) };

@@ -101,7 +101,7 @@ const GRID_PHOTOS_DEMO = [
 
 const CATEGORIES = ["All", "Landscape", "Portrait", "Architecture", "Commercial"];
 
-const SERVICES_DEMO = [
+const SERVICES_SOURCE = [
   {
     code: "SVC_01",
     title: "Editorial",
@@ -123,6 +123,7 @@ const SERVICES_DEMO = [
     desc: "Limited-edition archival prints on museum-grade paper. Each piece signed and numbered.",
   },
 ];
+let SERVICES_DEMO = SERVICES_SOURCE;
 
 const CLIENTS = ["Vogue", "Wallpaper*", "Dezeen", "Monocle", "Dior"];
 
@@ -180,6 +181,10 @@ export default function HorologsLuxePage() {
   }, []);
 
   fd = session?.formData;
+  SERVICES_DEMO = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
+    SERVICES_SOURCE,
+  );
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;

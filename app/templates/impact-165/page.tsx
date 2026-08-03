@@ -121,12 +121,13 @@ const PRICING = [
   },
 ]
 
-const TESTIMONIALS_DEMO = [
+const TESTIMONIALS_SOURCE = [
   { name: "Mathieu Garnier", role: "CEO — Flowly", text: "En 3 semaines, Pulse a remplacé 4 outils différents. Notre équipe gagne 2h par jour.", rating: 5, avatar: "MG" },
   { name: "Laura Bertrand", role: "Head of Ops — Nimble", text: "Les analytics temps réel ont transformé notre façon de prendre des décisions. On voit tout, instantanément.", rating: 5, avatar: "LB" },
   { name: "Antoine Perrin", role: "CTO — DataBrick", text: "L'API est propre, la doc est excellente, l'intégration nous a pris 2 jours. Rare pour ce type d'outil.", rating: 5, avatar: "AP" },
   { name: "Camille Dumont", role: "Product — Kynda", text: "La collaboration contextuelle est une révélation. Fini les mails, fini les Slack perdus.", rating: 5, avatar: "CD" },
 ]
+let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 let TESTIMONIALS = TESTIMONIALS_DEMO;
 
 
@@ -157,6 +158,10 @@ export default function PulseAppPage() {
   }, []);
 
   fd = session?.formData;
+  TESTIMONIALS_DEMO = resolveList(
+    clientReviews(session)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, text: r.text })),
+    TESTIMONIALS_SOURCE,
+  );
   TESTIMONIALS = resolveList(
     clientReviews(session)?.map((r, i) => ({ ...TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length], name: r.author, text: r.text })),
     TESTIMONIALS_DEMO,

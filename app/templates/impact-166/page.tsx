@@ -139,7 +139,7 @@ const SERVICES_DEMO = [
   },
 ];
 
-const TESTIMONIALS_DEMO = [
+const TESTIMONIALS_SOURCE = [
   {
     quote: "Iris a capturé en une fraction de seconde ce qu'on avait mis cinq ans à construire. Notre campagne a généré un ROI ×4 par rapport aux visuels précédents.",
     name: "Julien Bernard",
@@ -156,6 +156,7 @@ const TESTIMONIALS_DEMO = [
     role: "Mariés, Château de Vaux, juin 2024",
   },
 ];
+let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 const NAV_LINKS = [
   { label: "Séries", id: "series" },
@@ -821,6 +822,10 @@ export default function Impact166Page() {
   }, []);
 
   fd = session?.formData;
+  TESTIMONIALS_DEMO = resolveList(
+    clientReviews(session)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
+    TESTIMONIALS_SOURCE,
+  );
   c = session?.generatedContent;
   bp = bpLocal;
   brand = fd?.brandColor ?? null; // null = keep template's original color

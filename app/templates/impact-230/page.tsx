@@ -83,11 +83,12 @@ const ENGAGEMENT_DEMO = [
 ]
 let ENGAGEMENT = ENGAGEMENT_DEMO;
 
-const AVIS_DEMO = [
+const AVIS_SOURCE = [
   { texte: "Une table en chêne massif sur mesure pour notre salle à manger. Lassé du mobilier suédois, j'ai voulu quelque chose qui dure. 3 ans après, c'est la plus belle pièce de notre maison.", auteur: "Thomas & Claire R.", detail: "Table chêne sur mesure" },
   { texte: "Restauration d'un secrétaire Louis XVI de ma grand-mère. Travail remarquable de minutie — vous ne pouvez pas distinguer les zones restaurées des originales. Un vrai artiste.", auteur: "Geneviève P.", detail: "Restauration meuble ancien" },
   { texte: "Escalier en noyer avec garde-corps forgé. On a eu peur que ça dure 6 mois. Livré à la semaine près comme promis. C'est la première chose que nos invités voient et ils en restent bouche bée.", auteur: "Famille Blanc", detail: "Escalier noyer" },
 ]
+let AVIS_DEMO = AVIS_SOURCE;
 
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const ref = useRef(null)
@@ -132,6 +133,10 @@ export default function AtelierDuBoisPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  AVIS_DEMO = resolveList(
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...AVIS_SOURCE[i % AVIS_SOURCE.length], auteur: r.author, texte: r.text })),
+    AVIS_SOURCE,
+  );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null; // null = keep template's original color

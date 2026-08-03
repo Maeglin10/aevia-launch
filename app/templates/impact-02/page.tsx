@@ -43,7 +43,7 @@ const PROJECTS_DEMO = [
 
 const CATEGORIES = ["All", "Photography", "Street", "Architecture", "Fashion", "Landscape", "Portrait"];
 
-const SERVICES_DEMO = [
+const SERVICES_SOURCE = [
   {
     id: "01",
     title: "Editorial Photography",
@@ -73,6 +73,7 @@ const SERVICES_DEMO = [
     bgImage: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=800&auto=format&fit=crop",
   },
 ];
+let SERVICES_DEMO = SERVICES_SOURCE;
 
 const PROCESS = [
   { phase: "01 / Discovery", title: "Concept & Strategy", desc: "We begin by understanding your vision, target audience, and the core message. We develop moodboards, lighting plans, and a comprehensive shoot strategy to ensure alignment." },
@@ -81,11 +82,12 @@ const PROCESS = [
   { phase: "04 / Post-Production", title: "Retouching & Delivery", desc: "Meticulous color grading, compositing, and high-end retouching to polish the final assets, delivered in all necessary formats for print and digital." },
 ];
 
-const TESTIMONIALS_DEMO = [
+const TESTIMONIALS_SOURCE = [
   { name: "Sarah Jenkins", role: "Creative Director, Vogue", text: "Elena doesn't just take photographs; she crafts cinematic narratives. Her ability to command light and direct talent is unparalleled in the industry today." },
   { name: "Marcus Thorne", role: "Founder, Thorne Architecture", text: "She captured our brutalist structures with a sensitivity we didn't know was possible. The resulting images completely redefined our portfolio presentation." },
   { name: "Claire Dubois", role: "CMO, Maison Lumière", text: "Working with Elena elevated our campaign to fine art. Her pre-production planning is exhaustive, and her execution on set is flawlessly calm and decisive." },
 ];
+let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 const FAQS_DEMO = [
   { question: "Are you available for international travel?", answer: "Yes. While based between Paris and Tokyo, I frequently travel globally for campaigns and editorial assignments. Travel fees are calculated based on the project scope." },
@@ -210,6 +212,14 @@ export default function CreativePortfolioSPA() {
   }, []);
 
   fd = session?.formData;
+  SERVICES_DEMO = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
+    SERVICES_SOURCE,
+  );
+  TESTIMONIALS_DEMO = resolveList(
+    clientReviews(session)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, text: r.text })),
+    TESTIMONIALS_SOURCE,
+  );
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;

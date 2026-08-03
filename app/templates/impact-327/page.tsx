@@ -82,7 +82,7 @@ const HERO_PROJETS_DEMO = [
 ];
 let HERO_PROJETS = HERO_PROJETS_DEMO;
 
-const PRESTATIONS_DEMO = [
+const PRESTATIONS_SOURCE = [
   { titre: "Cuisine sur mesure", desc: "Conception, fabrication et pose. Caissons 19 mm, façades bois, laque ou stratifié, quincaillerie Blum garantie à vie. Électroménager intégré au projet.", tag: "Cuisine" },
   { titre: "Dressing & placards", desc: "Sous pente, toute hauteur, portes coulissantes ou battantes. Chaque centimètre exploité, éclairage LED intégré sur demande.", tag: "Rangement" },
   { titre: "Bibliothèques & meubles TV", desc: "Agencement du séjour dans les mêmes essences que votre cuisine, pour une maison qui parle d'une seule voix.", tag: "Séjour" },
@@ -90,6 +90,7 @@ const PRESTATIONS_DEMO = [
   { titre: "Conception 3D", desc: "Relevé au laser chez vous, plans 3D photoréalistes, trois allers-retours de modification inclus. L'étude est déduite à la commande.", tag: "Étude" },
   { titre: "Pose par nos menuisiers", desc: "Pose par nos menuisiers salariés — jamais sous-traitée. Chantier protégé, gravats évacués, cuisine opérationnelle sous trois jours.", tag: "Pose" },
 ];
+let PRESTATIONS_DEMO = PRESTATIONS_SOURCE;
 
 const METHODE = [
   { n: "01", t: "Relevé & écoute", d: "Chez vous, au laser. On parle habitudes de cuisine, rangements, circulation — avant de parler meubles." },
@@ -114,11 +115,12 @@ const TARIFS_DEMO = [
 ];
 let TARIFS = TARIFS_DEMO;
 
-const AVIS_DEMO = [
+const AVIS_SOURCE = [
   { texte: "Le devis ferme change tout : pas une ligne n'a bougé entre la signature et la facture. La cuisine a été posée en deux jours et demi, plan céramique ajusté au millimètre autour d'un mur qui n'était pas droit.", auteur: "Camille & Hugo T.", detail: "Cuisine îlot, Lyon 6e" },
   { texte: "Troisième cuisiniste consulté, le seul qui a parlé de notre façon de cuisiner avant de parler catalogue. Le dressing assorti posé six mois plus tard est parfait.", auteur: "Nathalie B.", detail: "Cuisine + dressing" },
   { texte: "Un caisson est arrivé rayé — remplacé sous huit jours sans discussion, le poseur est revenu un samedi. C'est là qu'on juge une maison sérieuse.", auteur: "Famille Roussel", detail: "Agencement complet" },
 ];
+let AVIS_DEMO = AVIS_SOURCE;
 
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const ref = useRef(null);
@@ -150,6 +152,14 @@ export default function LignesEtBoisPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  PRESTATIONS_DEMO = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...PRESTATIONS_SOURCE[i % PRESTATIONS_SOURCE.length], titre: s.title })),
+    PRESTATIONS_SOURCE,
+  );
+  AVIS_DEMO = resolveList(
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...AVIS_SOURCE[i % AVIS_SOURCE.length], auteur: r.author, texte: r.text })),
+    AVIS_SOURCE,
+  );
   HERO_PROJETS = HERO_PROJETS_DEMO.map((row, i) => ({
     ...row,
     img: clientPhotos(sessionData)[0 + i] || row.img,

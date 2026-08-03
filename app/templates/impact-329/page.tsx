@@ -72,7 +72,7 @@ const HERO_FORMULES = [
   },
 ];
 
-const SERVICES_DEMO = [
+const SERVICES_SOURCE = [
   { titre: "Déménagement particuliers", desc: "Du studio à la maison familiale, dans toute la France. Camions capitonnés, sangles, couvertures et équipe formée au portage lourd.", tag: "Particuliers" },
   { titre: "Monte-meubles", desc: "Étages sans ascenseur, cages d'escalier étroites, pianos : monte-meubles jusqu'au 8e étage, opérateur certifié inclus.", tag: "Technique" },
   { titre: "Garde-meubles sécurisé", desc: "Box individuels de 3 à 30 m³, accès sur rendez-vous, site alarmé et assuré. Au mois, sans engagement de durée.", tag: "Stockage" },
@@ -80,6 +80,7 @@ const SERVICES_DEMO = [
   { titre: "Emballage professionnel", desc: "Vaisselle, verrerie, œuvres et écrans emballés par nos équipes avec bulle, croisillons et caisses renforcées.", tag: "Fragile" },
   { titre: "Cartons & fournitures", desc: "Packs de cartons livrés à domicile avant le jour J, repris gratuitement après. Adhésif, housses matelas, penderies.", tag: "Fournitures" },
 ];
+let SERVICES_DEMO = SERVICES_SOURCE;
 
 const METHODE = [
   { n: "01", t: "Visite & devis en 45 min", d: "À domicile ou en visio. Volume calculé pièce par pièce, devis ferme remis sous 24 h — c'est lui qui fait foi." },
@@ -104,11 +105,12 @@ const STATS_DEMO = [
 ];
 let STATS = STATS_DEMO;
 
-const AVIS_DEMO = [
+const AVIS_SOURCE = [
   { texte: "Formule clé en main pour un T4 avec piano. Le monte-meubles était en place à 8h, le piano remonté au salon à 14h, et pas une rayure sur les murs — ni les leurs, ni les nôtres.", auteur: "Sophie & Marc D.", detail: "Nantes → Rennes, clé en main" },
   { texte: "Le devis n'a pas bougé d'un euro alors qu'on avait sous-estimé la cave. L'équipe a absorbé la différence sans commentaire. C'est rare et ça mérite d'être écrit.", auteur: "Antoine G.", detail: "T2, formule éco" },
   { texte: "Transfert de nos bureaux un samedi : le lundi matin, chaque poste était remonté, branché, étiqueté. Aucune heure d'activité perdue.", auteur: "Cabinet Ligeria", detail: "Transfert d'entreprise" },
 ];
+let AVIS_DEMO = AVIS_SOURCE;
 
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const ref = useRef(null);
@@ -137,6 +139,14 @@ export default function CapDemenagementsPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  SERVICES_DEMO = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], titre: s.title })),
+    SERVICES_SOURCE,
+  );
+  AVIS_DEMO = resolveList(
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...AVIS_SOURCE[i % AVIS_SOURCE.length], auteur: r.author, texte: r.text })),
+    AVIS_SOURCE,
+  );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;

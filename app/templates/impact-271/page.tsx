@@ -147,7 +147,7 @@ const PHASES_DEMO: Project[] = [
   },
 ];
 
-const SERVICES_DEMO: Service[] = [
+const SERVICES_SOURCE: Service[] = [
   {
     name: 'Création jardin',
     description: "Conception et réalisation complète, de l\'étude du terrain à la plantation finale.",
@@ -173,6 +173,7 @@ const SERVICES_DEMO: Service[] = [
     description: "Installation de systèmes goutte-à-goutte et asperseurs programmables pour économiser l\'eau.",
   },
 ];
+let SERVICES_DEMO = SERVICES_SOURCE;
 
 const EDIT_ROWS_DEMO: EditRow[] = [
   {
@@ -221,7 +222,7 @@ const SEASONS: SeasonItem[] = [
   },
 ];
 
-const TESTIMONIALS_DEMO: Testimonial[] = [
+const TESTIMONIALS_SOURCE: Testimonial[] = [
   {
     quote:
       "Nous rêvions d\'un jardin de rosiers comme on en voyait autrefois dans les fermes alsaciennes. L\'équipe a planté 45 variétés en respectant nos envies et le terrain. Notre jardin a même remporté le prix du plus beau jardin fleuri de la commune l\'année suivante.",
@@ -235,6 +236,7 @@ const TESTIMONIALS_DEMO: Testimonial[] = [
     role: 'Restaurateur · Strasbourg',
   },
 ];
+let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 /* ════════════════════════════════════════════════════════════════════════════
    Primitives partagées
@@ -2155,6 +2157,14 @@ export default function Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  SERVICES_DEMO = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], name: s.title })),
+    SERVICES_SOURCE,
+  );
+  TESTIMONIALS_DEMO = resolveList(
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
+    TESTIMONIALS_SOURCE,
+  );
   EDIT_ROWS = EDIT_ROWS_DEMO.map((row, i) => ({
     ...row,
     img: clientPhotos(sessionData)[0 + i] || row.img,

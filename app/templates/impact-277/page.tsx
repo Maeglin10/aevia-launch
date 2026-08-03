@@ -1377,7 +1377,7 @@ function ProcessSection() {
    ════════════════════════════════════════════════════════════════════════════ */
 type Testimonial = { quote: string; name: string; job: string; travaux: string };
 
-const TESTIMONIALS_DEMO: Testimonial[] = [
+const TESTIMONIALS_SOURCE: Testimonial[] = [
   {
     quote:
       'Intervention rapide après une panne de tableau. M. Dumont a tout réparé en 2 heures, proprement, avec un devis respecté à l’euro. Je recommande sans hésiter à tous mes voisins du 11e.',
@@ -1400,6 +1400,7 @@ const TESTIMONIALS_DEMO: Testimonial[] = [
     travaux: 'Domotique complète + borne IRVE',
   },
 ];
+let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 function TestimonialCard({ t, i }: { t: Testimonial; i: number }) {
   const card: React.CSSProperties = {
@@ -2729,6 +2730,10 @@ export default function Impact277Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TESTIMONIALS_DEMO = resolveList(
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
+    TESTIMONIALS_SOURCE,
+  );
   CERTIFICATIONS = resolveList(clientCertifications(sessionData), CERTIFICATIONS_DEMO);
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {

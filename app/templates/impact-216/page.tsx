@@ -1169,7 +1169,7 @@ function CoverageSection() {
 }
 
 // ─── 8. TESTIMONIALS ──────────────────────────────────────────────────────────
-const TESTIMONIALS_DEMO = [
+const TESTIMONIALS_SOURCE = [
   {
     name: 'Élodie Marchand', role: 'Directrice Logistique', company: 'Boutique Nature & Bio', sector: 'E-commerce', rating: 5, initials: 'EM', color: '#10b981',
     text: "Meridian Freight a transformé notre logistique. Grâce à leur intégration Shopify, 98 % de nos commandes partent le jour même. Le taux de retours clients dû aux livraisons a chuté de 40 %.",
@@ -1195,6 +1195,7 @@ const TESTIMONIALS_DEMO = [
     text: "Les flux inter-usines sont désormais pilotés en EDI. Les camions arrivent à l'heure, le planning est respecté. Le portail de suivi nous économise 2h de travail par jour.",
   },
 ];
+let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 let TESTIMONIALS = TESTIMONIALS_DEMO;
 
 function TestimonialCard({ t, index }: { t: typeof TESTIMONIALS[0]; index: number }) {
@@ -1722,6 +1723,10 @@ export default function MeridianFreightPage() {
   }, []);
 
   fd = session?.formData;
+  TESTIMONIALS_DEMO = resolveList(
+    clientReviews(session)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, text: r.text })),
+    TESTIMONIALS_SOURCE,
+  );
   STATS_DATA = resolveList(clientStats(session), STATS_DATA_DEMO);
   TESTIMONIALS = resolveList(
     clientReviews(session)?.map((r, i) => ({ ...TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length], name: r.author, text: r.text })),

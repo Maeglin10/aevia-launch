@@ -155,7 +155,7 @@ const EXPERIENCES = [
   },
 ];
 
-const REVIEWS_DEMO = [
+const REVIEWS_SOURCE = [
   {
     text: "Une expérience sensorielle complète. Le ris de veau aux morilles est d'une précision d'exécution rarissime. Service impeccable, cave exceptionnelle.",
     author: "M. Bertrand L.",
@@ -178,6 +178,7 @@ const REVIEWS_DEMO = [
     occasion: "Déjeuner d'été",
   },
 ];
+let REVIEWS_DEMO = REVIEWS_SOURCE;
 
 const TIME_SLOTS = ["12h00", "12h30", "14h00", "14h30", "19h30", "20h00", "21h00", "21h30"];
 const GUEST_OPTIONS = ["1 personne", "2 personnes", "3 personnes", "4 personnes", "5 personnes", "6+ personnes"];
@@ -237,6 +238,10 @@ export default function AeviaKitchenPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  REVIEWS_DEMO = resolveList(
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...REVIEWS_SOURCE[i % REVIEWS_SOURCE.length], author: r.author, text: r.text })),
+    REVIEWS_SOURCE,
+  );
   GALLERY_PHOTOS = GALLERY_PHOTOS_DEMO.map((row, i) => ({
     ...row,
     src: clientPhotos(sessionData)[0 + i] || row.src,

@@ -105,7 +105,7 @@ const STATS_DEMO = [
 ]
 let STATS = STATS_DEMO;
 
-const TESTIMONIALS_DEMO = [
+const TESTIMONIALS_SOURCE = [
   {
     name: "Pierre Manchon",
     role: "Michelin Inspector (Retired)",
@@ -147,6 +147,7 @@ const TESTIMONIALS_DEMO = [
     date: "November 2025",
   },
 ]
+let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 const PRICING_DEMO = [
   {
@@ -264,6 +265,10 @@ export default function LEtoileRestaurant() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TESTIMONIALS_DEMO = resolveList(
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, text: r.text })),
+    TESTIMONIALS_SOURCE,
+  );
   PRICING = resolveList(
     clientServices(sessionData)?.map((s, i) => ({ ...PRICING_DEMO[i % PRICING_DEMO.length], name: s.title, price: s.price ?? PRICING_DEMO[i % PRICING_DEMO.length].price, desc: s.desc || PRICING_DEMO[i % PRICING_DEMO.length].desc })),
     PRICING_DEMO,

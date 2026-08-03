@@ -48,11 +48,12 @@ const FLEET_DEMO = [
 ]
 let FLEET = FLEET_DEMO;
 
-const FEATURES_DEMO = [
+const FEATURES_SOURCE = [
   { icon: Gauge, title: "Hyper-Efficiency", desc: "AI-optimized routing that reduces energy consumption by 24% per mile." },
   { icon: Shield, title: "Proof of Transit", desc: "Blockchain-verified delivery milestones with real-time biometric scanning." },
   { icon: Globe, title: "Zero Emission", desc: "100% renewable energy fleet with carbon-neutral operation guaranteed." },
 ]
+let FEATURES_DEMO = FEATURES_SOURCE;
 let FEATURES = FEATURES_DEMO;
 
 
@@ -88,6 +89,10 @@ export default function VoltLogisticsPage() {
   }, []);
 
   fd = session?.formData;
+  FEATURES_DEMO = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...FEATURES_SOURCE[i % FEATURES_SOURCE.length], title: s.title })),
+    FEATURES_SOURCE,
+  );
   FLEET = FLEET_DEMO.map((row, i) => ({
     ...row,
     img: clientPhotos(session)[0 + i] || row.img,

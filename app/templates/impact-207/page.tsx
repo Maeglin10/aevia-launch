@@ -1491,7 +1491,7 @@ function DeliveryTimeline() {
 /* --------------------------------------------------------------------------
    TESTIMONIALS
    -------------------------------------------------------------------------- */
-const TESTIMONIALS_DEMO = [
+const TESTIMONIALS_SOURCE = [
   {
     quote:
       "NexusFreight cut our cross-border transit times by 35%. The customs pre-clearance alone saves us two days on every EU shipment.",
@@ -1517,6 +1517,7 @@ const TESTIMONIALS_DEMO = [
     country: "🇸🇬",
   },
 ]
+let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 let TESTIMONIALS = TESTIMONIALS_DEMO;
 
 function TestimonialsSection() {
@@ -2150,6 +2151,10 @@ export default function Impact207() {
   }, []);
 
   fd = session?.formData;
+  TESTIMONIALS_DEMO = resolveList(
+    clientReviews(session)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], author: r.author, quote: r.text })),
+    TESTIMONIALS_SOURCE,
+  );
   TESTIMONIALS = resolveList(
     clientReviews(session)?.map((r, i) => ({ ...TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length], quote: r.text, author: r.author })),
     TESTIMONIALS_DEMO,

@@ -76,7 +76,7 @@ const ANNOUNCEMENTS = [
   "Retours gratuits 30 jours · Emballage cadeau offert · Matières certifiées GOTS",
 ];
 
-const COLLECTIONS = [
+const COLLECTIONS_SOURCE = [
   {
     id: "ete",
     name: "Été Brûlant",
@@ -114,6 +114,7 @@ const COLLECTIONS = [
     accent: "#7A9BB0",
   },
 ];
+let COLLECTIONS = COLLECTIONS_SOURCE;
 
 const PRODUCTS_DEMO = [
   {
@@ -222,7 +223,7 @@ const PRODUCTS_DEMO = [
   },
 ];
 
-const TESTIMONIALS_DEMO = [
+const TESTIMONIALS_SOURCE = [
   {
     quote: "La qualité est incomparable. J'ai la Robe Lin depuis 2 ans — elle est toujours parfaite après chaque lavage. C'est exactement ce que j'attendais d'une marque éthique.",
     name: "Pauline M.",
@@ -272,6 +273,7 @@ const TESTIMONIALS_DEMO = [
     verified: true,
   },
 ];
+let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 const LOYALTY_TIERS = [
   {
@@ -797,6 +799,14 @@ export default function ImpactEclatPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  COLLECTIONS = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...COLLECTIONS_SOURCE[i % COLLECTIONS_SOURCE.length], name: s.title })),
+    COLLECTIONS_SOURCE,
+  );
+  TESTIMONIALS_DEMO = resolveList(
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
+    TESTIMONIALS_SOURCE,
+  );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {

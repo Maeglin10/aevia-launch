@@ -106,7 +106,7 @@ const EXPERIENCES_DEMO = [
   },
 ];
 
-const REVIEWS_DEMO = [
+const REVIEWS_SOURCE = [
   {
     text: "The Atacama expedition changed the way I see the world. The logistics were flawless, allowing us to just focus on the overwhelming beauty of the landscape.",
     author: "Marcus T.",
@@ -123,6 +123,7 @@ const REVIEWS_DEMO = [
     role: "Entrepreneur",
   },
 ];
+let REVIEWS_DEMO = REVIEWS_SOURCE;
 
 /* ==========================================================================
    UTILITY COMPONENTS
@@ -211,6 +212,10 @@ export default function WanderlustPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  REVIEWS_DEMO = resolveList(
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...REVIEWS_SOURCE[i % REVIEWS_SOURCE.length], author: r.author, text: r.text })),
+    REVIEWS_SOURCE,
+  );
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const DESTINATIONS = resolveList(

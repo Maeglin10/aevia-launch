@@ -65,7 +65,7 @@ let C: Record<string, string> = {
 };
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
-const FEATURES_DEMO = [
+const FEATURES_SOURCE = [
   {
     icon: "⚡",
     title: "Real-time dashboards",
@@ -109,6 +109,7 @@ const FEATURES_DEMO = [
     color: "#f43f5e",
   },
 ];
+let FEATURES_DEMO = FEATURES_SOURCE;
 let FEATURES = FEATURES_DEMO;
 
 const INTEGRATIONS = [
@@ -116,7 +117,7 @@ const INTEGRATIONS = [
   "BigQuery", "Slack", "Notion", "Intercom", "Shopify", "Segment", "Mixpanel",
 ];
 
-const TESTIMONIALS_DEMO = [
+const TESTIMONIALS_SOURCE = [
   {
     quote:
       "We replaced 4 tools with Metric. Fewer reporting meetings, more decisions based on real data. Our whole ops team lives in this dashboard now.",
@@ -145,6 +146,7 @@ const TESTIMONIALS_DEMO = [
     avatar: "SK",
   },
 ];
+let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 let TESTIMONIALS = TESTIMONIALS_DEMO;
 
 const PLANS = [
@@ -1133,6 +1135,14 @@ export default function Impact176Page() {
   }, []);
 
   fd = session?.formData;
+  FEATURES_DEMO = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...FEATURES_SOURCE[i % FEATURES_SOURCE.length], title: s.title })),
+    FEATURES_SOURCE,
+  );
+  TESTIMONIALS_DEMO = resolveList(
+    clientReviews(session)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
+    TESTIMONIALS_SOURCE,
+  );
   STATS = resolveList(clientStats(session), STATS_DEMO);
   FEATURES = resolveList(
     clientServices(session)?.map((s, i) => ({ ...FEATURES_DEMO[i % FEATURES_DEMO.length], title: s.title })),

@@ -44,11 +44,12 @@ const PROTOCOLES_DEMO = [
   { num: "06", title: "Programmes Sur-Mesure", desc: "Après bilan photo-morphologique complet par notre équipe médicale, nous élaborons un protocole global sur 3 à 6 mois adapté à vos objectifs spécifiques.", duration: "Sur devis", recovery: "Variable" },
 ];
 
-const TEMOIGNAGES_DEMO = [
+const TEMOIGNAGES_SOURCE = [
   { name: "Sophia T.", protocol: "Médecine faciale", text: "Pour la première fois depuis des années, je me regarde dans le miroir avec plaisir. Le Dr Nakamura a compris exactement ce que je voulais — pas plus, pas moins. Le résultat est d'une discrétion absolue." },
   { name: "Claire B.", protocol: "Laser CO₂ fractionnel", text: "Après 2 séances, mes cicatrices d'acné ont pratiquement disparu. L'équipe m'a accompagnée avec une vraie attention médicale, pas commerciale. Cypher Clinic est la meilleure décision que j'ai prise pour ma peau." },
   { name: "Marc D.", protocol: "Programme sur-mesure", text: "Je m'attendais à des résultats modestes. Ce que j'ai obtenu en 4 mois dépasse tout ce que j'aurais pu imaginer. Le protocole était vraiment pensé pour mon visage spécifiquement — j'ai senti la différence." },
 ];
+let TEMOIGNAGES_DEMO = TEMOIGNAGES_SOURCE;
 
 const MEDECINS_DEMO = [
   { name: "Dr. Kenji Nakamura", spec: "Médecine esthétique faciale", exp: "14 ans", bio: "Formé à l'Académie de médecine esthétique de Paris. Spécialiste des techniques d'injection ultra-précises et de la morphologie faciale.", badge: "Certifié AME" },
@@ -108,6 +109,10 @@ export default function CypherClinicPage() {
   }, []);
 
   fd = session?.formData;
+  TEMOIGNAGES_DEMO = resolveList(
+    clientReviews(session)?.map((r: any, i: number) => ({ ...TEMOIGNAGES_SOURCE[i % TEMOIGNAGES_SOURCE.length], name: r.author, text: r.text })),
+    TEMOIGNAGES_SOURCE,
+  );
   HERO_VIEWS = HERO_VIEWS_DEMO.map((row, i) => ({
     ...row,
     img: clientPhotos(session)[0 + i] || row.img,

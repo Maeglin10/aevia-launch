@@ -164,7 +164,7 @@ const STATS_DEMO = [
 ]
 let STATS = STATS_DEMO;
 
-const TESTIMONIALS_DEMO = [
+const TESTIMONIALS_SOURCE = [
   {
     quote: "Aurelia a créé la bague de fiançailles de mes rêves. Chaque détail dépasse ce que j'avais imaginé. Une maison d'exception.",
     author: "Isabelle M.",
@@ -194,6 +194,7 @@ const TESTIMONIALS_DEMO = [
     rating: 5,
   },
 ]
+let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 const PRESS_DEMO = [
   { name: "Vogue Bijoux", issue: "Numéro Collector 2024", quote: "La maison parisienne qui réinvente l'orfèvrerie contemporaine." },
@@ -1808,6 +1809,10 @@ export default function Impact91Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TESTIMONIALS_DEMO = resolveList(
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], author: r.author, quote: r.text })),
+    TESTIMONIALS_SOURCE,
+  );
   PRESS = resolveList(
     clientReviews(sessionData)?.map((r, i) => ({ ...PRESS_DEMO[i % PRESS_DEMO.length], quote: r.text, name: r.author })),
     PRESS_DEMO,

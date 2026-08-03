@@ -33,7 +33,7 @@ let brand: any = null;
    DATA STRUCTURES
    ========================================================================== */
 
-const FEATURES_DEMO = [
+const FEATURES_SOURCE = [
   {
     icon: <Zap className="w-5 h-5" />,
     title: "Real-time Processing",
@@ -65,6 +65,7 @@ const FEATURES_DEMO = [
     desc: "Identity-aware access controls for every microservice. Assume breach mentality built into the core infrastructure.",
   },
 ];
+let FEATURES_DEMO = FEATURES_SOURCE;
 let FEATURES = FEATURES_DEMO;
 
 const PRICING = [
@@ -114,7 +115,7 @@ const PRICING = [
   },
 ];
 
-const TESTIMONIALS_DEMO = [
+const TESTIMONIALS_SOURCE = [
   {
     name: "David Chen",
     role: "CTO, FinTech Global",
@@ -131,6 +132,7 @@ const TESTIMONIALS_DEMO = [
     text: "We process over 2 billion events daily. Before Nexus, we needed a team of 5 DevOps engineers just to keep the lights on. Now, it just runs automatically.",
   },
 ];
+let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 let TESTIMONIALS = TESTIMONIALS_DEMO;
 
 const INTEGRATIONS = [
@@ -232,6 +234,14 @@ export default function NexusSaaSPage() {
   }, []);
 
   fd = session?.formData;
+  FEATURES_DEMO = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...FEATURES_SOURCE[i % FEATURES_SOURCE.length], title: s.title })),
+    FEATURES_SOURCE,
+  );
+  TESTIMONIALS_DEMO = resolveList(
+    clientReviews(session)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, text: r.text })),
+    TESTIMONIALS_SOURCE,
+  );
   FEATURES = resolveList(
     clientServices(session)?.map((s, i) => ({ ...FEATURES_DEMO[i % FEATURES_DEMO.length], title: s.title })),
     FEATURES_DEMO,

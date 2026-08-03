@@ -73,7 +73,7 @@ const TARIFS_DEMO = [
 ];
 let TARIFS = TARIFS_DEMO;
 
-const SOINS_DEMO = [
+const SOINS_SOURCE = [
   { icon: Stethoscope, title: "Consultations & bilans", desc: "Consultations de routine, bilans de santé annuels, suivi des maladies chroniques. Écoute, examen clinique approfondi, diagnostic précis." },
   { icon: Shield, title: "Vaccinations & prévention", desc: "Protocoles vaccinaux chats et chiens selon les recommandations WSAVA. Antiparasitaires, rappels, carnets de santé à jour." },
   { icon: Heart, title: "Chirurgie", desc: "Stérilisation, chirurgie des tissus mous, orthopédie. Bloc opératoire équipé, monitoring anesthésique, réveil accompagné." },
@@ -81,6 +81,7 @@ const SOINS_DEMO = [
   { icon: Dog, title: "Médecine d'urgence", desc: "Prise en charge urgences 7j/7 jusqu'à 20h. Trauma, intoxication, difficultés respiratoires — vous êtes toujours reçus." },
   { icon: Cat, title: "Imagerie & analyses", desc: "Radio numérique, échographie en cabinet. Analyses sanguines et urinaires en labo partenaire avec résultats sous 2h–24h." },
 ]
+let SOINS_DEMO = SOINS_SOURCE;
 
 
 // Client-uploaded photo at index i, falling back to the template's stock
@@ -119,6 +120,10 @@ export default function CliniqueBoisVertPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  SOINS_DEMO = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...SOINS_SOURCE[i % SOINS_SOURCE.length], title: s.title })),
+    SOINS_SOURCE,
+  );
   EQUIPE = resolveList(
     clientTeam(sessionData)?.map((m, i) => ({ ...EQUIPE_DEMO[i % EQUIPE_DEMO.length], n: m.name, r: m.role })),
     EQUIPE_DEMO,

@@ -56,7 +56,7 @@ const TARIFS_DEMO = [
 ];
 let TARIFS = TARIFS_DEMO;
 
-const SERVICES_DEMO = [
+const SERVICES_SOURCE = [
   { title: "Coupe classique", price: "28€", desc: "Coupe ciseau + tondeuse, finitions rasoir droite. Inclut consultation, shampoing, séchage et coiffage." },
   { title: "Rasage traditionnel", price: "35€", desc: "Rasoir droit à l'ancienne. Serviette chaude, mousse artisanale, baume après-rasage maison. 45 minutes de pure détente." },
   { title: "Combo barbe + coupe", price: "55€", desc: "La formule complète. Coupe sur mesure + taille et soin de barbe. Le must pour repartir à 100%." },
@@ -64,6 +64,7 @@ const SERVICES_DEMO = [
   { title: "Color & gris", price: "45€", desc: "Coloration naturelle ou couvrance des cheveux blancs. Teinte personnalisée, respect de la matière." },
   { title: "Soin cuir chevelu", price: "30€", desc: "Gommage + masque nourrissant. Idéal cuirs chevelu secs, desquamation ou chute de cheveux. En add-on ou seul." },
 ]
+let SERVICES_DEMO = SERVICES_SOURCE;
 let SERVICES = SERVICES_DEMO;
 
 const TIME_SLOTS = ["9h00", "10h00", "11h00", "14h00", "15h00", "16h00", "17h00", "18h00"]
@@ -253,6 +254,10 @@ export default function GentlemansCutPage() {
   }, []);
 
   fd = session?.formData;
+  SERVICES_DEMO = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
+    SERVICES_SOURCE,
+  );
   TARIFS = resolveList(
     clientServices(session)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
     TARIFS_DEMO,

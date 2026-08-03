@@ -138,7 +138,7 @@ const amenities = [
   { icon: <Heart className="w-6 h-6" />, label: "Meditation Loft", desc: "Soundproofed Tibetan singing bowls" },
 ];
 
-const TESTIMONIALS_DEMO = [
+const TESTIMONIALS_SOURCE = [
   {
     name: "Isabelle M.",
     role: "Photographe",
@@ -161,6 +161,7 @@ const TESTIMONIALS_DEMO = [
     ritual: "Radiance Renewal",
   },
 ];
+let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 const botanicals = [
   { name: "Centella Asiatica", origin: "Sri Lanka", benefit: "Régénération cellulaire", icon: "🌿" },
@@ -402,6 +403,10 @@ export default function AuraWellnessPage() {
   }, []);
 
   fd = session?.formData;
+  TESTIMONIALS_DEMO = resolveList(
+    clientReviews(session)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, text: r.text })),
+    TESTIMONIALS_SOURCE,
+  );
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;

@@ -135,7 +135,7 @@ const DOMAINS: Domain[] = [
   },
 ];
 
-const SERVICES_DEMO: Service[] = [
+const SERVICES_SOURCE: Service[] = [
   {
     label: 'Tenue comptable',
     desc: 'Saisie, révision et clôture des comptes dans les délais impartis.',
@@ -161,6 +161,7 @@ const SERVICES_DEMO: Service[] = [
     desc: 'Valorisation, audit, négociation et accompagnement à la cession.',
   },
 ];
+let SERVICES_DEMO = SERVICES_SOURCE;
 
 const EDIT_ROWS: EditRow[] = [
   {
@@ -217,7 +218,7 @@ const PILLARS: PillarItem[] = [
   },
 ];
 
-const TESTIMONIALS_DEMO: Testimonial[] = [
+const TESTIMONIALS_SOURCE: Testimonial[] = [
   {
     quote:
       "J'ai lancé mon e-commerce à zéro et franchi les 2 M€ en deux ans. Axiom a structuré la comptabilité, la paie et la fiscalité dès le premier jour. Je n'aurais pas grandi aussi vite sans eux.",
@@ -231,6 +232,7 @@ const TESTIMONIALS_DEMO: Testimonial[] = [
     role: 'Restaurateur · Groupe Monceau, Gironde',
   },
 ];
+let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 /* ── Easing partagé ──────────────────────────────────────────────────────── */
 const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
@@ -2133,6 +2135,14 @@ export default function Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  SERVICES_DEMO = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], label: s.title })),
+    SERVICES_SOURCE,
+  );
+  TESTIMONIALS_DEMO = resolveList(
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
+    TESTIMONIALS_SOURCE,
+  );
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   if (brand) {

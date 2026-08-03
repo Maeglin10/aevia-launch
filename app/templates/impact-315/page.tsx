@@ -245,11 +245,12 @@ const SERVICES_DEMO = [
   { icon: <Leaf size={28} />, title: "Formule Éco", desc: "Produits 100% bio-dégradables et éco-certifiés. Respect de votre intérieur et de l'environnement." },
 ];
 
-const TESTIMONIALS_DEMO = [
+const TESTIMONIALS_SOURCE = [
   { name: "Sophie L.", role: "Paris 15e", text: "Un service impeccable ! L'intervenante est ponctuelle, soigneuse et très professionnelle. Mon appartement n'a jamais été aussi propre.", rating: 5 },
   { name: "Marc D.", role: "Boulogne-Billancourt", text: "Abonnement ménage bi-mensuel depuis 6 mois. Fiabilité totale, qualité constante. Je recommande sans hésiter.", rating: 5 },
   { name: "Émilie R.", role: "Neuilly-sur-Seine", text: "Grand nettoyage après travaux : résultat bluffant. L'équipe a redonné vie à tout l'appartement en une journée.", rating: 5 },
 ];
+let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 const PLANS = [
   { name: "Essentiel", price: "49", unit: "/passage", features: ["2h de ménage", "Cuisine & sanitaires", "Aspiration & lavage sols", "Produits fournis"], popular: false },
@@ -307,6 +308,10 @@ export default function Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TESTIMONIALS_DEMO = resolveList(
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, text: r.text })),
+    TESTIMONIALS_SOURCE,
+  );
   brand = fd?.brandColor ?? null;
   if (brand) {
     C = { ...C, primary: brand, primaryLight: shadeColor(brand, 25), primaryDark: shadeColor(brand, -20) };

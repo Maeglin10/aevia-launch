@@ -259,7 +259,7 @@ const TEAM_DEMO = [
   },
 ];
 
-const TESTIMONIALS_DEMO = [
+const TESTIMONIALS_SOURCE = [
   {
     quote: "Livré 3 semaines avant le délai contractuel. 84 logements, zéro malfaçon à la réception. Du jamais-vu sur un chantier de cette envergure.",
     name: "Laurent Duchamp",
@@ -303,6 +303,7 @@ const TESTIMONIALS_DEMO = [
     stars: 5,
   },
 ];
+let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 const FORMULES_DEMO = [
   {
@@ -437,6 +438,10 @@ export default function Impact173Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TESTIMONIALS_DEMO = resolveList(
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
+    TESTIMONIALS_SOURCE,
+  );
   FORMULES = resolveList(
     clientServices(sessionData)?.map((s, i) => ({ ...FORMULES_DEMO[i % FORMULES_DEMO.length], name: s.title, price: s.price ?? FORMULES_DEMO[i % FORMULES_DEMO.length].price })),
     FORMULES_DEMO,

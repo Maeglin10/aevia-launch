@@ -50,7 +50,7 @@ const FONT_BODY = "'Lato', system-ui, sans-serif"
 const STATS_DEMO = [{ value: "15 ans", label: "D'expertise" }, { value: "350+", label: "Jardins réalisés" }, { value: "0", label: "Pesticides" }, { value: "94%", label: "Clients satisfaits" }]
 let STATS = STATS_DEMO;
 
-const PRESTATIONS_DEMO = [
+const PRESTATIONS_SOURCE = [
   { titre: "Création de jardins", desc: "Conception et aménagement complet de votre jardin. Plan 3D, choix des essences, terrassement, plantation, arrosage automatique — clé en main.", tag: "Création" },
   { titre: "Potagers & jardins comestibles", desc: "Potager en carré, jardin comestible intégré au paysage, permaculture. Sélection variétale locale, formation à l'entretien incluse.", tag: "Potager" },
   { titre: "Terrasses & espaces minéraux", desc: "Dallage, pavage, terrasse bois ou composite, allées gravillonnées. Intégration harmonieuse entre végétal et minéral.", tag: "Terrasse" },
@@ -58,6 +58,7 @@ const PRESTATIONS_DEMO = [
   { titre: "Toitures & murs végétalisés", desc: "Green walls, toitures végétalisées, jardinières sur mesure pour espaces urbains et terrasses d'immeubles.", tag: "Végétalisation" },
   { titre: "Clôtures & haies", desc: "Haies mellifères et écrans végétaux, clôtures bois et métal. Sélection d'essences locales à croissance rapide.", tag: "Clôtures" },
 ]
+let PRESTATIONS_DEMO = PRESTATIONS_SOURCE;
 
 const ENGAGEMENTS_DEMO = [
   "Zéro pesticide, zéro herbicide de synthèse — méthodes alternatives uniquement",
@@ -67,11 +68,12 @@ const ENGAGEMENTS_DEMO = [
 ]
 let ENGAGEMENTS = ENGAGEMENTS_DEMO;
 
-const AVIS_DEMO = [
+const AVIS_SOURCE = [
   { texte: "Notre jardin de 800 m² complètement repensé : potager intégré, zone naturalisée, terrasse en lames de chêne. C'est devenu le plus bel endroit de la maison. On y passe tous nos week-ends.", auteur: "Famille Dupont", detail: "Création jardin + terrasse · Mérignac" },
   { texte: "Haie de 40 mètres plantée en janvier, déjà impénétrable en juillet. Sélection d'essences parfaite pour notre exposition. Plus aucun vis-à-vis avec les voisins.", auteur: "Jean-Paul M.", detail: "Haie mellifère · Bordeaux" },
   { texte: "Contrat d'entretien depuis 2 ans. Ponctuels, propres, et ils comprennent vraiment ce qu'on veut. Ils ont même introduit des plantes aromatiques entre nos rosiers sans qu'on le demande.", auteur: "Isabelle & Robert K.", detail: "Entretien annuel · Pessac" },
 ]
+let AVIS_DEMO = AVIS_SOURCE;
 
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const ref = useRef(null)
@@ -116,6 +118,14 @@ export default function VertNaturePage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  PRESTATIONS_DEMO = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...PRESTATIONS_SOURCE[i % PRESTATIONS_SOURCE.length], titre: s.title })),
+    PRESTATIONS_SOURCE,
+  );
+  AVIS_DEMO = resolveList(
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...AVIS_SOURCE[i % AVIS_SOURCE.length], auteur: r.author, texte: r.text })),
+    AVIS_SOURCE,
+  );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   ENGAGEMENTS = resolveList(clientCertifications(sessionData), ENGAGEMENTS_DEMO);
   brand = fd?.brandColor ?? null; // null = keep template's original color

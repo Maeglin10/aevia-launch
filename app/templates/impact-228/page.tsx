@@ -72,7 +72,7 @@ const ENTRETIEN = [
   { a: "Contrôle de l'installation gaz", p: "95 €", n: "Certificat de conformité pour une vente ou une mise en location." },
 ];
 
-const SERVICES_DEMO = [
+const SERVICES_SOURCE = [
   { titre: "Plomberie générale", desc: "Fuite, canalisation bouchée, remplacement de chauffe-eau, robinetterie, WC. Devis gratuit et transparence sur les tarifs avant intervention.", tag: "Plomberie" },
   { titre: "Installation chauffage", desc: "Chaudière gaz, pompe à chaleur, plancher chauffant, radiateurs. Marques Bosch, Viessmann, Atlantic — SAV assuré.", tag: "Chauffage" },
   { titre: "Dépannage urgence", desc: "Fuite d'eau active, chauffe-eau en panne, chauffage hors service en hiver. Intervention en moins d'1h sur Lille et métropole.", tag: "Urgence" },
@@ -80,6 +80,7 @@ const SERVICES_DEMO = [
   { titre: "Entretien chaudière", desc: "Contrat annuel ou intervention ponctuelle. Nettoyage, réglage, vérification de sécurité et attestation d'entretien réglementaire.", tag: "Entretien" },
   { titre: "Isolation & rénovation", desc: "Remplacement de tuyauteries vétustes, isolation des conduites, mise aux normes gaz. Accompagnement pour les aides à la rénovation.", tag: "Rénovation" },
 ]
+let SERVICES_DEMO = SERVICES_SOURCE;
 
 const GARANTIES_DEMO = [
   "Artisan RGE (Reconnu Garant de l'Environnement) — éligibilité aides MaPrimeRénov",
@@ -89,11 +90,12 @@ const GARANTIES_DEMO = [
 ]
 let GARANTIES = GARANTIES_DEMO;
 
-const AVIS_DEMO = [
+const AVIS_SOURCE = [
   { texte: "Fuite d'eau sous évier un dimanche matin. Appelé à 9h, technicien là à 10h15. Réparation nickel, tarif week-end clairement annoncé à l'avance. Vraiment professionnel.", auteur: "Martine D.", detail: "Urgence plomberie" },
   { texte: "Installation d'une pompe à chaleur complète. Bilan thermique offert, dossier MaPrimeRénov géré par eux, travaux propres en 2 jours. Économies sur facture immédiates.", auteur: "Famille Leclercq", detail: "PAC air/eau" },
   { texte: "Contrat d'entretien chaudière depuis 3 ans. Ponctuel, sérieux, ils signalent les pièces à prévoir avant la panne. C'est exactement ce qu'on attend d'un professionnel.", auteur: "Pierre M.", detail: "Contrat entretien" },
 ]
+let AVIS_DEMO = AVIS_SOURCE;
 
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const ref = useRef(null)
@@ -138,6 +140,14 @@ export default function AquaThermPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  SERVICES_DEMO = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], titre: s.title })),
+    SERVICES_SOURCE,
+  );
+  AVIS_DEMO = resolveList(
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...AVIS_SOURCE[i % AVIS_SOURCE.length], auteur: r.author, texte: r.text })),
+    AVIS_SOURCE,
+  );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   GARANTIES = resolveList(clientCertifications(sessionData), GARANTIES_DEMO);
   brand = fd?.brandColor ?? null; // null = keep template's original color

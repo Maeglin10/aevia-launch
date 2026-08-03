@@ -173,7 +173,7 @@ function Marquee({ items, speed = 40 }: { items: string[]; speed?: number }) {
 
 /* --- Data ------------------------------------------------------------------ */
 
-const SERVICES_DEMO = [
+const SERVICES_SOURCE = [
   {
     title: "Coordination Complète",
     subtitle: "De A à Z",
@@ -217,6 +217,7 @@ const SERVICES_DEMO = [
     image: "https://images.unsplash.com/photo-1525772764200-be829a350797?w=600&q=80",
   },
 ]
+let SERVICES_DEMO = SERVICES_SOURCE;
 
 const GALLERY_ITEMS_DEMO = [
   {
@@ -471,6 +472,10 @@ export default function Impact200Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  SERVICES_DEMO = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
+    SERVICES_SOURCE,
+  );
   PACKAGES = resolveList(
     clientServices(sessionData)?.map((s, i) => ({ ...PACKAGES_DEMO[i % PACKAGES_DEMO.length], name: s.title, price: s.price ?? PACKAGES_DEMO[i % PACKAGES_DEMO.length].price, desc: s.desc || PACKAGES_DEMO[i % PACKAGES_DEMO.length].desc })),
     PACKAGES_DEMO,

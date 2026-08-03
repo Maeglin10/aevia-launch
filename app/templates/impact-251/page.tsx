@@ -153,7 +153,7 @@ const CHAPTERS: Chapter[] = [
   },
 ];
 
-const SERVICES_DEMO: Service[] = [
+const SERVICES_SOURCE: Service[] = [
   {
     title: 'Organisation complète',
     desc: 'De la première esquisse à la dernière danse — nous orchestrons chaque détail pour vous.',
@@ -185,6 +185,7 @@ const SERVICES_DEMO: Service[] = [
     icon: '✦',
   },
 ];
+let SERVICES_DEMO = SERVICES_SOURCE;
 
 const EDIT_ROWS: EditRow[] = [
   {
@@ -240,7 +241,7 @@ const PROCESS: ProcessStep[] = [
   },
 ];
 
-const TESTIMONIALS_DEMO: Testimonial[] = [
+const TESTIMONIALS_SOURCE: Testimonial[] = [
   {
     quote:
       "Notre mariage dans un château du Médoc, 120 invités, a été d'une fluidité absolue. L'équipe de Maison Nuptiale a tout géré avec une élégance et un calme remarquables. Chaque détail était exactement comme nous l'avions rêvé — souvent mieux.",
@@ -254,6 +255,7 @@ const TESTIMONIALS_DEMO: Testimonial[] = [
     role: 'Réception jardin · 20 invités',
   },
 ];
+let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 // Live arrays — reassigned from the client's BusinessProfile in Page(), read by
 // the module-level sub-components. Fall back to demo when no client data.
@@ -2222,6 +2224,14 @@ export default function Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  SERVICES_DEMO = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
+    SERVICES_SOURCE,
+  );
+  TESTIMONIALS_DEMO = resolveList(
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
+    TESTIMONIALS_SOURCE,
+  );
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, accent: brand, accentLight: shadeColor(brand, 25), accentDark: shadeColor(brand, -20) };

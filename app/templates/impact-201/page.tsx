@@ -226,7 +226,7 @@ const SAVOIR_FAIRE_DEMO = [
 ];
 let SAVOIR_FAIRE = SAVOIR_FAIRE_DEMO;
 
-const TESTIMONIALS_DEMO = [
+const TESTIMONIALS_SOURCE = [
   {
     name: "Isabelle & Frédéric M.",
     role: "Dîner anniversaire",
@@ -258,6 +258,7 @@ const TESTIMONIALS_DEMO = [
     initials: "TL",
   },
 ];
+let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 const FORM_FIELDS = [
   { placeholder: "Votre prénom & nom", type: "text" },
@@ -731,6 +732,10 @@ export default function Impact201Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TESTIMONIALS_DEMO = resolveList(
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, text: r.text })),
+    TESTIMONIALS_SOURCE,
+  );
   SAVOIR_FAIRE = resolveList(
     clientServices(sessionData)?.map((s, i) => ({ ...SAVOIR_FAIRE_DEMO[i % SAVOIR_FAIRE_DEMO.length], title: s.title })),
     SAVOIR_FAIRE_DEMO,

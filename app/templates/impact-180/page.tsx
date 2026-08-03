@@ -85,7 +85,7 @@ const ZONES_DEMO = [
 ];
 let ZONES = ZONES_DEMO;
 
-const SERVICES_DEMO = [
+const SERVICES_SOURCE = [
   { icon: Flame, title: "Installation chaudière", desc: "Chaudière gaz, fioul, condensation, micro-cogénération. Toutes marques. Mise en service et formation à l'utilisation incluses." },
   { icon: Thermometer, title: "Pompe à chaleur (PAC)", desc: "PAC air-air, air-eau, géothermique. Dossier CEE et aides MaPrimeRénov' gérés par nos soins. Garantie 5 ans." },
   { icon: Wrench, title: "Entretien & révision", desc: "Contrat d'entretien annuel (obligatoire pour les chaudières gaz). Rapport de combustion, nettoyage, diagnostic." },
@@ -93,6 +93,7 @@ const SERVICES_DEMO = [
   { icon: Shield, title: "Plancher chauffant", desc: "Pose de plancher chauffant hydraulique sur dalle neuve ou rénovation. Conception de la régulation par pièce." },
   { icon: Flame, title: "VMC & ventilation", desc: "VMC simple et double flux, DRV, traitement de l'air. Bilan aéraulique, pose, entretien. Labels QualAir et RGE." },
 ]
+let SERVICES_DEMO = SERVICES_SOURCE;
 
 // Testimonials — hoisted from an inline JSX array literal so resolveList can
 // swap in clientReviews(session) when the client provided real
@@ -137,6 +138,10 @@ export default function ThermotekChauffagePage() {
   }, []);
 
   fd = session?.formData;
+  SERVICES_DEMO = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
+    SERVICES_SOURCE,
+  );
   ZONES = resolveList(
     clientAreas(session)?.map((z, i) => ({ ...ZONES_DEMO[i % ZONES_DEMO.length], v: z })),
     ZONES_DEMO,

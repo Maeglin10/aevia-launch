@@ -58,19 +58,21 @@ const WORK_DEMO = [
 ]
 let WORK = WORK_DEMO;
 
-const SERVICES_DEMO = [
+const SERVICES_SOURCE = [
   { icon: PenTool, title: "Brand Identity", desc: "Name, logo, visual system, and tone of voice. A complete brand from scratch." },
   { icon: Layers, title: "Web Experiences", desc: "Immersive websites that convert attention into action." },
   { icon: Megaphone, title: "Campaign Design", desc: "Multi-channel campaigns that amplify your message." },
   { icon: Zap, title: "Motion Design", desc: "Animated content that stops the scroll." },
 ]
+let SERVICES_DEMO = SERVICES_SOURCE;
 let SERVICES = SERVICES_DEMO;
 
-const TESTIMONIALS_DEMO = [
+const TESTIMONIALS_SOURCE = [
   { text: "Kinetic doesn't just design — they ignite. Our rebrand generated a 400% increase in social engagement within the first month.", author: "Maya Chen", role: "VP Marketing, Pulse Gaming" },
   { text: "The website they built is an experience. Our bounce rate dropped to 8% and conversions tripled.", author: "Thomas Engström", role: "CEO, Prism Analytics" },
   { text: "Working with Kinetic felt like having the best creative team in-house. Except they're actually good.", author: "Sarah Laurent", role: "Founder, Maison Versa" },
 ]
+let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 let TESTIMONIALS = TESTIMONIALS_DEMO;
 
 
@@ -106,6 +108,14 @@ export default function KineticMarqueePage() {
   }, []);
 
   fd = session?.formData;
+  SERVICES_DEMO = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
+    SERVICES_SOURCE,
+  );
+  TESTIMONIALS_DEMO = resolveList(
+    clientReviews(session)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], author: r.author, text: r.text })),
+    TESTIMONIALS_SOURCE,
+  );
   TESTIMONIALS = resolveList(
     clientReviews(session)?.map((r, i) => ({ ...TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length], text: r.text, author: r.author })),
     TESTIMONIALS_DEMO,

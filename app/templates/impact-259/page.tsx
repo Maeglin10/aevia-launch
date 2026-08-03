@@ -248,7 +248,7 @@ const SOURCING: SourcingStep[] = [
   },
 ];
 
-const TESTIMONIALS_DEMO: Testimonial[] = [
+const TESTIMONIALS_SOURCE: Testimonial[] = [
   {
     quote:
       "Je viens chaque mardi pour le lunch depuis deux ans. La soupe à l'oignon est la meilleure de tout Strasbourg — et le pain qui l'accompagne vaut à lui seul le déplacement.",
@@ -262,6 +262,7 @@ const TESTIMONIALS_DEMO: Testimonial[] = [
     role: 'Directeur associé · Cabinet RH Strasbourg',
   },
 ];
+let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 /* ── Utilitaire photo ────────────────────────────────────────────────────── */
 const photo = (id: string) =>
@@ -2198,6 +2199,10 @@ export default function Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TESTIMONIALS_DEMO = resolveList(
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
+    TESTIMONIALS_SOURCE,
+  );
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   if (brand) {

@@ -1449,7 +1449,7 @@ function ProcessSection() {
 /* ════════════════════════════════════════════════════════════════════════════
    5 · TESTIMONIALS SECTION — 3 avis clients avec étoiles
    ════════════════════════════════════════════════════════════════════════════ */
-const TESTIMONIALS_DEMO = [
+const TESTIMONIALS_SOURCE = [
   {
     name: 'Sophie M.',
     city: 'Nantes (44000)',
@@ -1472,6 +1472,7 @@ const TESTIMONIALS_DEMO = [
     stars: 5,
   },
 ];
+let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 function TestimonialCard({ t, i }: { t: (typeof TESTIMONIALS_DEMO)[number]; i: number }) {
   return (
@@ -3132,6 +3133,10 @@ export default function Impact288Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TESTIMONIALS_DEMO = resolveList(
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, text: r.text })),
+    TESTIMONIALS_SOURCE,
+  );
   CERTIFS = resolveList(clientCertifications(sessionData), CERTIFS_DEMO);
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {

@@ -1246,7 +1246,7 @@ type Testi = {
   suivi: string;
 };
 
-const TESTIMONIALS_DEMO: Testi[] = [
+const TESTIMONIALS_SOURCE: Testi[] = [
   {
     quote:
       'Souffrant de lombalgies chroniques depuis trois ans, j\'avais perdu espoir après plusieurs kinés. Dès la deuxième séance, la douleur a régressé de moitié. Après quatre consultations, je peux de nouveau courir. Approche sérieuse, écoute parfaite.',
@@ -1269,6 +1269,7 @@ const TESTIMONIALS_DEMO: Testi[] = [
     suivi: 'Suivi mensuel depuis 4 mois',
   },
 ];
+let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 function TestimonialsSection() {
   const TESTIMONIALS = resolveList(
@@ -2607,6 +2608,10 @@ export default function Impact291Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TESTIMONIALS_DEMO = resolveList(
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
+    TESTIMONIALS_SOURCE,
+  );
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, terra: brand, terraLight: shadeColor(brand, 25), terraDark: shadeColor(brand, -20) };

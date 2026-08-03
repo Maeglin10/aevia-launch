@@ -61,12 +61,13 @@ function CodeBlock({ code, lang = "typescript" }: { code: string; lang?: string 
   )
 }
 
-const FEATURES_DEMO = [
+const FEATURES_SOURCE = [
   { icon: Cpu, title: "Zero-Copy Transforms", desc: "Process data streams without memory allocation overhead. 10x faster than alternatives." },
   { icon: Boxes, title: "Plugin Architecture", desc: "Extend the core with typed plugins. Community-maintained registry with 200+ packages." },
   { icon: GitBranch, title: "Built-in Versioning", desc: "Track every schema change with automatic migration generation and rollback." },
   { icon: Terminal, title: "CLI First", desc: "Full control from your terminal. Scriptable, composable, and CI/CD-friendly." },
 ]
+let FEATURES_DEMO = FEATURES_SOURCE;
 let FEATURES = FEATURES_DEMO;
 
 const STATS_DEMO = [
@@ -130,6 +131,10 @@ export default function WaveFXPage() {
   }, []);
 
   fd = session?.formData;
+  FEATURES_DEMO = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...FEATURES_SOURCE[i % FEATURES_SOURCE.length], title: s.title })),
+    FEATURES_SOURCE,
+  );
   STATS = resolveList(clientStats(session), STATS_DEMO);
   FEATURES = resolveList(
     clientServices(session)?.map((s, i) => ({ ...FEATURES_DEMO[i % FEATURES_DEMO.length], title: s.title })),
