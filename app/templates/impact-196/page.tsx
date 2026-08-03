@@ -64,11 +64,12 @@ const APPROCHE = [
   "Coordination avec médecins, chirurgiens et autres soignants",
 ]
 
-const TEMOIGNAGES = [
+const TEMOIGNAGES_DEMO = [
   { texte: "Après mon opération du genou, j'avais peur de ne plus courir. L'équipe du cabinet m'a accompagné pas à pas. 4 mois après, j'ai terminé mon premier 10 km. Merci infiniment.", auteur: "Thomas B.", detail: "Rééducation LCA, 34 ans" },
   { texte: "Une prise en charge sérieuse et très humaine. Mon lumbago chronique qui durait depuis 3 ans a considérablement diminué en 8 séances. La qualité d'écoute est remarquable.", auteur: "Isabelle M.", detail: "Lombalgie chronique, 52 ans" },
   { texte: "Mon fils de 7 ans avait des troubles de la marche. Le suivi en pédiatrie a été exceptionnel — ils l'ont mis à l'aise immédiatement. Les progrès sont visibles chaque semaine.", auteur: "Famille Gautier", detail: "Rééducation motrice pédiatrique" },
 ]
+let TEMOIGNAGES = TEMOIGNAGES_DEMO;
 
 // ─── Components ───────────────────────────────────────────────────────────────
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
@@ -119,6 +120,10 @@ export default function CabinetKinePage() {
   }, []);
 
   fd = session?.formData;
+  TEMOIGNAGES = resolveList(
+    clientReviews(session)?.map((r, i) => ({ ...TEMOIGNAGES_DEMO[i % TEMOIGNAGES_DEMO.length], texte: r.text, auteur: r.author })),
+    TEMOIGNAGES_DEMO,
+  );
   SPECIALITES = resolveList(
     clientServices(session)?.map((s, i) => ({ ...SPECIALITES_DEMO[i % SPECIALITES_DEMO.length], titre: s.title })),
     SPECIALITES_DEMO,

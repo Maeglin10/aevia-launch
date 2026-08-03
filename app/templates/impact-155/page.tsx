@@ -66,11 +66,12 @@ const SERVICES_DEMO = [
 ]
 let SERVICES = SERVICES_DEMO;
 
-const TEMOIGNAGES = [
+const TEMOIGNAGES_DEMO = [
   { texte: "Notre appartement parisien a été vendu en 18 jours au prix demandé. L'équipe Pierre & Co a géré tout le processus avec un professionnalisme remarquable. Je recommande sans hésiter.", auteur: "Catherine B.", detail: "Vente appartement 145 m², Paris 16e" },
   { texte: "Recherche longue et minutieuse, mais l'équipe ne s'est jamais découragée. Ils ont finalement trouvé notre maison de rêve à Neuilly — exactement ce que nous cherchions et dans notre budget.", auteur: "Famille Morin", detail: "Achat maison 280 m², Neuilly-sur-Seine" },
   { texte: "Honnêteté et transparence du début à la fin. Pas de surprises, pas de pression. Pierre & Co m'a conseillé au mieux de mes intérêts et pas des leurs. C'est rare dans ce métier.", auteur: "Jean-François A.", detail: "Achat + revente simultanés, Paris 7e" },
 ]
+let TEMOIGNAGES = TEMOIGNAGES_DEMO;
 
 // ─── Components ───────────────────────────────────────────────────────────────
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
@@ -121,6 +122,10 @@ export default function PierreCoPage() {
   }, []);
 
   fd = session?.formData;
+  TEMOIGNAGES = resolveList(
+    clientReviews(session)?.map((r, i) => ({ ...TEMOIGNAGES_DEMO[i % TEMOIGNAGES_DEMO.length], texte: r.text, auteur: r.author })),
+    TEMOIGNAGES_DEMO,
+  );
   BIENS = BIENS_DEMO.map((row, i) => ({
     ...row,
     img: clientPhotos(session)[0 + i] || row.img,

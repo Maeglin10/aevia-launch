@@ -138,12 +138,13 @@ const TECH_STACK = [
   { name: "Unreal Engine 5", sub: "Real-time render" },
 ];
 
-const PRESS = [
+const PRESS_DEMO = [
   { name: "Dezeen", quote: "The most ambitious practice of the decade." },
   { name: "Wallpaper*", quote: "Rewriting what architecture can be." },
   { name: "Monocle", quote: "A studio operating ten years ahead of its peers." },
   { name: "Azure", quote: "Form, data, and ethics in perfect tension." },
 ];
+let PRESS = PRESS_DEMO;
 
 const MARQUEE_ITEMS = [
   "Neo-Tokyo Spire",
@@ -2214,6 +2215,10 @@ export default function Impact133Page() {
   }, []);
 
   fd = session?.formData;
+  PRESS = resolveList(
+    clientReviews(session)?.map((r, i) => ({ ...PRESS_DEMO[i % PRESS_DEMO.length], quote: r.text, name: r.author })),
+    PRESS_DEMO,
+  );
   SERVICES = resolveList(
     clientServices(session)?.map((s, i) => ({ ...SERVICES_DEMO[i % SERVICES_DEMO.length], label: s.title, desc: s.desc })),
     SERVICES_DEMO,

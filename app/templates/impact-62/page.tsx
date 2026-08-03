@@ -1,4 +1,5 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
 // @ts-nocheck
 
 import React, {useRef, useState, useEffect} from 'react';
@@ -12,7 +13,7 @@ import {
 } from "@/lib/templates/clientContent";
 
 // ── Testimonials data ──────────────────────────────────────────────────────
-const TESTIMONIALS = [
+const TESTIMONIALS_DEMO = [
   {
     quote:
       "Chaque bouchée racontait une histoire que je n'aurais jamais imaginé pouvoir goûter. Le pigeon en deux services restera gravé dans ma mémoire pour des années.",
@@ -35,6 +36,7 @@ const TESTIMONIALS = [
     role: "Tables privées",
   },
 ];
+let TESTIMONIALS = TESTIMONIALS_DEMO;
 
 
 // Global state variables for subpage compatibility
@@ -73,6 +75,10 @@ export default function SatoriHomePage() {
   }, []);
 
   fd = session?.formData;
+  TESTIMONIALS = resolveList(
+    clientReviews(session)?.map((r, i) => ({ ...TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length], quote: r.text, author: r.author })),
+    TESTIMONIALS_DEMO,
+  );
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 

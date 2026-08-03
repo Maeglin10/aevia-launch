@@ -182,13 +182,14 @@ const TESTIMONIALS_DEMO = [
   },
 ]
 
-const PRESS = [
+const PRESS_DEMO = [
   { name: "Vogue Bijoux", issue: "Numéro Collector 2024", quote: "La maison parisienne qui réinvente l'orfèvrerie contemporaine." },
   { name: "Le Figaro", issue: "Arts & Styles", quote: "Aurelia, gardienne vivante du savoir-faire artisanal français." },
   { name: "L'Express Styles", issue: "Luxe & Création", quote: "Quand l'or devient sculpture : les pièces uniques d'Aurelia." },
   { name: "Elle France", issue: "Spécial Bijoux", quote: "Le bespoke à la française par excellence, place Vendôme." },
   { name: "Harper's Bazaar", issue: "Fine Jewelry Edit", quote: "Aurelia's atelier produces heirlooms, not merely jewellery." },
 ]
+let PRESS = PRESS_DEMO;
 
 const MARQUEE_ITEMS = [
   "Or 18K",
@@ -1802,6 +1803,10 @@ export default function Impact91Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  PRESS = resolveList(
+    clientReviews(sessionData)?.map((r, i) => ({ ...PRESS_DEMO[i % PRESS_DEMO.length], quote: r.text, name: r.author })),
+    PRESS_DEMO,
+  );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   brand = fd?.brandColor ?? null; // null = keep template's original color
 

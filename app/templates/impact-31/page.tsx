@@ -738,11 +738,12 @@ function Teachers() {
 }
 
 // ─── Testimonials ─────────────────────────────────────────────────────────────
-const TESTIMONIALS = [
+const TESTIMONIALS_DEMO = [
   { name: "Céline F.", text: "Ananda Flow a complètement transformé ma relation au stress. Les cours de Sophie sont une parenthèse de paix dans mes journées chargées.", stars: 5, practice: "Yin & Méditation" },
   { name: "Romain G.", text: "J'ai commencé le yoga sans aucune souplesse. Lucas est incroyablement patient et pédagogue. En 6 mois, je ne me reconnais plus.", stars: 5, practice: "Vinyasa Power" },
   { name: "Naomi L.", text: "Le Kundalini d'Amara m'a ouvert des portes intérieures que je ne soupçonnais pas. Une expérience profondément transformatrice.", stars: 5, practice: "Kundalini" },
 ];
+let TESTIMONIALS = TESTIMONIALS_DEMO;
 
 function Testimonials() {
   const ref = useRef<HTMLElement>(null);
@@ -1000,6 +1001,10 @@ export default function Impact31() {
   }, []);
 
   fd = session?.formData;
+  TESTIMONIALS = resolveList(
+    clientReviews(session)?.map((r, i) => ({ ...TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length], text: r.text, name: r.author })),
+    TESTIMONIALS_DEMO,
+  );
   FAQS = resolveList(
     clientFaq(session)?.map((r, i) => ({ ...FAQS_DEMO[i % FAQS_DEMO.length], q: r.q, a: r.a })),
     FAQS_DEMO,
