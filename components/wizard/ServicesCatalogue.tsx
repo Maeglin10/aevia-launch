@@ -27,12 +27,16 @@ export function ServicesCatalogue({
   label = "Vos prestations et leurs tarifs",
   hint = "Ce que vous vendez, tel que vous le diriez à un client. Le tarif peut être un montant, une fourchette ou « sur devis ».",
   namePlaceholder = "Nom de la prestation",
+  pricePlaceholder = "Tarif",
+  descPlaceholder = "Description courte (optionnel)",
 }: {
   services: ServiceEntry[];
   onChange: (next: ServiceEntry[]) => void;
   label?: string;
   hint?: string;
   namePlaceholder?: string;
+  pricePlaceholder?: string;
+  descPlaceholder?: string;
 }) {
   const input =
     "bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-sm text-white placeholder:text-zinc-500 focus:outline-none focus:border-red-500 transition-colors";
@@ -69,7 +73,7 @@ export function ServicesCatalogue({
                 className={`${input} w-28 shrink-0`}
                 value={s.price ?? ""}
                 onChange={(e) => update(i, "price", e.target.value)}
-                placeholder="Tarif"
+                placeholder={pricePlaceholder}
                 aria-label={`Tarif de la prestation ${i + 1}`}
               />
               {rows.length > 1 && (
@@ -87,7 +91,7 @@ export function ServicesCatalogue({
               className={`${input} w-full`}
               value={s.description ?? ""}
               onChange={(e) => update(i, "description", e.target.value)}
-              placeholder="Description courte (optionnel)"
+              placeholder={descPlaceholder}
               aria-label={`Description de la prestation ${i + 1}`}
             />
           </div>

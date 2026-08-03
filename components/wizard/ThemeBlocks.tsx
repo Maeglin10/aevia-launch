@@ -3,6 +3,7 @@
 import { Plus, X } from "lucide-react";
 import type { BusinessProfile } from "@/lib/sessions";
 import { blocksForTheme, type ContentBlock } from "@/lib/templates/capabilities";
+import { copyFor } from "@/lib/wizard/lexicon";
 
 /**
  * Les questions que le thème choisi rend nécessaires.
@@ -91,14 +92,18 @@ function Section({
 
 export function ThemeBlocks({
   templateId,
+  sector,
   profile,
   onChange,
 }: {
   templateId: string | undefined;
+  /** Le métier choisi à l'étape 1 : il donne son vocabulaire à chaque bloc. */
+  sector: string | undefined;
   profile: BusinessProfile;
   onChange: (next: BusinessProfile) => void;
 }) {
   const blocks = blocksForTheme(templateId);
+  const say = (b: ContentBlock) => copyFor(sector, b);
   const has = (b: ContentBlock) => blocks.includes(b);
   const patch = (p: Partial<BusinessProfile>) => onChange({ ...profile, ...p });
 
@@ -115,8 +120,8 @@ export function ThemeBlocks({
     <div className="space-y-6">
       {has("avis") && (
         <Section
-          title="Vos avis clients"
-          hint="Des avis réels, tels qu'ils vous ont été laissés. Ils passent devant tout texte généré. Laissez vide si vous n'en avez pas encore : le thème gardera ses exemples et nous vous le rappellerons."
+          title={say("avis").label!}
+          hint={`${say("avis").hint} Laissez vide si vous n'en avez pas encore : le thème gardera ses exemples et nous vous le rappellerons.`}
         >
           <Repeater
             rows={reviews}
@@ -131,20 +136,20 @@ export function ThemeBlocks({
                   className={input}
                   value={r.text}
                   onChange={(e) => set({ text: e.target.value })}
-                  placeholder="Ce que le client a écrit"
+                  placeholder={say("avis").ph?.text}
                 />
                 <div className="flex gap-2">
                   <input
                     className={`${input} flex-1 min-w-0`}
                     value={r.author}
                     onChange={(e) => set({ author: e.target.value })}
-                    placeholder="Prénom, nom"
+                    placeholder={say("avis").ph?.author}
                   />
                   <input
                     className={`${input} w-44 shrink-0`}
                     value={r.source ?? ""}
                     onChange={(e) => set({ source: e.target.value })}
-                    placeholder="Ville ou plateforme"
+                    placeholder={say("avis").ph?.source}
                   />
                 </div>
               </>
@@ -154,10 +159,7 @@ export function ThemeBlocks({
       )}
 
       {has("chiffres") && (
-        <Section
-          title="Vos chiffres clés"
-          hint="Ce qui rassure en un coup d'œil : années d'expérience, chantiers livrés, clients suivis."
-        >
+        <Section title={say("chiffres").label!} hint={say("chiffres").hint!}>
           <Repeater
             rows={stats}
             empty={{ value: "", label: "" }}
@@ -170,13 +172,13 @@ export function ThemeBlocks({
                   className={`${input} w-32 shrink-0`}
                   value={s.value}
                   onChange={(e) => set({ value: e.target.value })}
-                  placeholder="30 ans"
+                  placeholder={say("chiffres").ph?.value}
                 />
                 <input
                   className={`${input} flex-1 min-w-0`}
                   value={s.label}
                   onChange={(e) => set({ label: e.target.value })}
-                  placeholder="d'expérience"
+                  placeholder={say("chiffres").ph?.label}
                 />
               </div>
             )}
@@ -185,10 +187,7 @@ export function ThemeBlocks({
       )}
 
       {has("engagements") && (
-        <Section
-          title="Vos garanties et certifications"
-          hint="Décennale, Qualibat, RGE, label, assurance — ce que vous pouvez prouver."
-        >
+        <Section title={say("engagements").label!} hint={say("engagements").hint!}>
           <Repeater
             rows={certs.map((c) => ({ v: c }))}
             empty={{ v: "" }}
@@ -199,7 +198,7 @@ export function ThemeBlocks({
                 className={input}
                 value={c.v}
                 onChange={(e) => set({ v: e.target.value })}
-                placeholder="Garantie décennale"
+                placeholder={say("engagements").ph?.item}
               />
             )}
           />
@@ -207,10 +206,7 @@ export function ThemeBlocks({
       )}
 
       {has("faq") && (
-        <Section
-          title="Questions fréquentes"
-          hint="Ce qu'on vous demande au téléphone à chaque fois. Y répondre ici vous fait gagner des appels."
-        >
+        <Section title={say("faq").label!} hint={say("faq").hint!}>
           <Repeater
             rows={faq}
             empty={{ q: "", a: "" }}
@@ -222,13 +218,13 @@ export function ThemeBlocks({
                   className={input}
                   value={f.q}
                   onChange={(e) => set({ q: e.target.value })}
-                  placeholder="La question"
+                  placeholder={say("faq").ph?.q}
                 />
                 <input
                   className={input}
                   value={f.a}
                   onChange={(e) => set({ a: e.target.value })}
-                  placeholder="Votre réponse"
+                  placeholder={say("faq").ph?.a}
                 />
               </>
             )}
@@ -237,7 +233,7 @@ export function ThemeBlocks({
       )}
 
       {has("equipe") && (
-        <Section title="Votre équipe" hint="Qui le client aura en face de lui.">
+        <Section title={say("equipe").label!} hint={say("equipe").hint!}>
           <Repeater
             rows={team}
             empty={{ name: "", role: "" }}
@@ -249,13 +245,13 @@ export function ThemeBlocks({
                   className={`${input} flex-1 min-w-0`}
                   value={m.name}
                   onChange={(e) => set({ name: e.target.value })}
-                  placeholder="Prénom, nom"
+                  placeholder={say("equipe").ph?.name}
                 />
                 <input
                   className={`${input} flex-1 min-w-0`}
                   value={m.role}
                   onChange={(e) => set({ role: e.target.value })}
-                  placeholder="Rôle"
+                  placeholder={say("equipe").ph?.role}
                 />
               </div>
             )}
@@ -264,10 +260,7 @@ export function ThemeBlocks({
       )}
 
       {has("zones") && (
-        <Section
-          title="Votre zone d'intervention"
-          hint="Les communes ou le rayon que vous couvrez. Ce thème l'affiche."
-        >
+        <Section title={say("zones").label!} hint={say("zones").hint!}>
           <input
             className={`${input} w-full`}
             value={profile.geo?.serviceAreas?.join(", ") ?? ""}
@@ -282,7 +275,7 @@ export function ThemeBlocks({
                 },
               })
             }
-            placeholder="Lyon, Villeurbanne, Caluire, Rhône sud"
+            placeholder={say("zones").ph?.areas}
           />
         </Section>
       )}
