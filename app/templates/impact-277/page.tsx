@@ -2734,7 +2734,13 @@ export default function Impact277Page() {
     clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
     TESTIMONIALS_SOURCE,
   );
-  CERTIFICATIONS = resolveList(clientCertifications(sessionData), CERTIFICATIONS_DEMO);
+  CERTIFICATIONS = resolveList(
+    clientCertifications(sessionData)?.map((texte: string, i: number) => ({
+      ...CERTIFICATIONS_DEMO[i % CERTIFICATIONS_DEMO.length],
+      title: texte,
+    })),
+    CERTIFICATIONS_DEMO,
+  );
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, yellow: brand, yellowLight: shadeColor(brand, 25) };

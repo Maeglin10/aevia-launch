@@ -441,7 +441,13 @@ export default function Impact157Page() {
     SERVICES_DEMO,
   );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
-  CERTIFICATIONS = resolveList(clientCertifications(sessionData), CERTIFICATIONS_DEMO);
+  CERTIFICATIONS = resolveList(
+    clientCertifications(sessionData)?.map((texte: string, i: number) => ({
+      ...CERTIFICATIONS_DEMO[i % CERTIFICATIONS_DEMO.length],
+      name: texte,
+    })),
+    CERTIFICATIONS_DEMO,
+  );
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, gold: brand };

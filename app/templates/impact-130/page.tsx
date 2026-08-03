@@ -569,6 +569,34 @@ function SplitRevealHero() {
 }
 
 
+/*
+  Une carte par chiffre, dans son propre composant.
+
+  Les hooks vivaient dans le corps du `.map` : leur nombre suivait donc la
+  longueur de STATS, qui change au moment où la session arrive — quatre chiffres
+  de démonstration au premier rendu, ceux du client au second. React lève alors
+  l'erreur #300 et la page entière ne s'affiche plus. Un composant par élément
+  donne à chacun ses propres hooks, en nombre fixe.
+*/
+function StatCard({ stat, i }: { stat: any; i: number }) {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true });
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 30 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.6, delay: i * 0.12 }}
+      style={{ textAlign: "center" }}
+    >
+      <div style={{ fontSize: "clamp(48px, 4vw, 72px)", fontWeight: 700, color: C.emeraldGlow, letterSpacing: "-0.03em", lineHeight: 1 }}>
+        <Counter target={stat.value} suffix={stat.suffix} />
+      </div>
+      <div style={{ fontSize: 14, color: C.textMuted, marginTop: 12, letterSpacing: "0.03em" }}>{stat.label}</div>
+    </motion.div>
+  );
+}
+
 export default function Impact130Page() {
   // Mobile menu state — was mistakenly declared inside Counter (different
   // component), leaving it undefined here and 500ing every SSR render.
@@ -787,25 +815,9 @@ return (
       <section ref={statsRef} id="stats" style={{ padding: "100px 80px", background: C.bgAlt, borderTop: `1px solid ${C.border}` }}>
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 48 }}>
-            {STATS.map((stat, i) => {
-              const ref = useRef(null);
-              const inView = useInView(ref, { once: true });
-              return (
-                <motion.div
-                  key={i}
-                  ref={ref}
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={inView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ duration: 0.6, delay: i * 0.12 }}
-                  style={{ textAlign: "center" }}
-                >
-                  <div style={{ fontSize: "clamp(48px, 4vw, 72px)", fontWeight: 700, color: C.emeraldGlow, letterSpacing: "-0.03em", lineHeight: 1 }}>
-                    <Counter target={stat.value} suffix={stat.suffix} />
-                  </div>
-                  <div style={{ fontSize: 14, color: C.textMuted, marginTop: 12, letterSpacing: "0.03em" }}>{stat.label}</div>
-                </motion.div>
-              );
-            })}
+            {STATS.map((stat, i) => (
+              <StatCard key={i} stat={stat} i={i} />
+            ))}
           </div>
         </div>
       </section>
