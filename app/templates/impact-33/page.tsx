@@ -29,6 +29,7 @@ import {
   clientFaq,
   clientName,
   clientReviews,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -38,6 +39,14 @@ import {
 let brand: any = null;
 // Global state variables for subpage compatibility
 let fd: any = null;
+
+// Les chiffres clés, jusqu'ici écrits dans le rendu : le client pouvait les
+// saisir, le thème ne les lisait pas.
+const STATS_INLINE_SOURCE = [
+  { value: "37 ans", label: "De savoir-faire" }, { value: "4.9★", label: "Google Avis" }, { value: "100%", label: "Fait maison" }
+];
+let STATS_INLINE = STATS_INLINE_SOURCE;
+
 let c: any = null;
 let bp: any = null;
 // La session complète, pour lib/templates/clientContent : même portée
@@ -220,7 +229,7 @@ function Hero() {
         </motion.div>
 
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }} style={{ display: "flex", gap: 36 }}>
-          {[{ value: "37 ans", label: "De savoir-faire" }, { value: "4.9★", label: "Google Avis" }, { value: "100%", label: "Fait maison" }].map((s) => (
+          {STATS_INLINE.map((s) => (
             <div key={s.label}>
               <div style={{ fontFamily: FONT_HEADING, fontWeight: 700, fontSize: 24, color: C.accent }}>{s.value}</div>
               <div style={{ fontSize: 13, color: C.textMuted }}>{s.label}</div>
@@ -754,6 +763,22 @@ export default function Impact33() {
   }, []);
 
   fd = session?.formData;
+
+  STATS_INLINE = resolveList(
+
+    clientStats(sessionData)?.map((s: any, i: number) => ({
+
+      ...STATS_INLINE_SOURCE[i % STATS_INLINE_SOURCE.length],
+
+      value: s.value,
+
+      label: s.label,
+
+    })),
+
+    STATS_INLINE_SOURCE,
+
+  );
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;

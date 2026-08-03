@@ -2,6 +2,7 @@
 import {
   clientCity,
   clientName,
+  clientStats,
 } from "@/lib/templates/clientContent";
 import { tr } from "@/lib/templates/uiStrings";
 // @ts-nocheck
@@ -16,6 +17,17 @@ import { resolveList } from "@/lib/templates/resolveList";
 // déclarées ici pour que tout le fichier puisse s'y référer.
 // Global state variables for subpage compatibility
 let fd: any = null;
+
+// Les chiffres clés, jusqu'ici écrits dans le rendu : le client pouvait les
+// saisir, le thème ne les lisait pas.
+const STATS_INLINE_SOURCE = [
+  { label: "Years active", val: 12, suffix: "" },
+              { label: "Countries", val: 34, suffix: "+" },
+              { label: "Limited prints", val: 280, suffix: "" },
+              { label: "Exhibitions", val: 24, suffix: "" }
+];
+let STATS_INLINE = STATS_INLINE_SOURCE;
+
 let c: any = null;
 let bp: any = null;
 let brand: any = null;
@@ -63,6 +75,22 @@ export default function LeaHomePage() {
   }, []);
 
   fd = session?.formData;
+
+  STATS_INLINE = resolveList(
+
+    clientStats(session)?.map((s: any, i: number) => ({
+
+      ...STATS_INLINE_SOURCE[i % STATS_INLINE_SOURCE.length],
+
+      val: s.value,
+
+      label: s.label,
+
+    })),
+
+    STATS_INLINE_SOURCE,
+
+  );
   c = session?.generatedContent;
   bp = bpLocal;
   brand = fd?.brandColor ?? null; // null = keep template's original color
@@ -171,12 +199,7 @@ return (
             </>}</p>
           </div>
           <div className="imx-mobstack" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
-            {[
-              { label: "Years active", val: 12, suffix: "" },
-              { label: "Countries", val: 34, suffix: "+" },
-              { label: "Limited prints", val: 280, suffix: "" },
-              { label: "Exhibitions", val: 24, suffix: "" },
-            ].map(stat => (
+            {STATS_INLINE.map(stat => (
               <div key={stat.label} style={{ padding: "24px", background: C.bgCard, borderRadius: 4, border: `1px solid ${C.border}`, textAlign: "left" }}>
                 <p style={{ fontFamily: "'Archivo', sans-serif", fontSize: 36, fontWeight: 900, color: C.amber, letterSpacing: "-0.03em", lineHeight: 1 }}>
                   <CountUp target={stat.val} suffix={stat.suffix} />
