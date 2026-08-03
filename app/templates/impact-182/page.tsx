@@ -57,7 +57,7 @@ function ParallaxImg({ src, alt }: { src: string; alt: string }) {
   )
 }
 
-const SERVICES_DEMO = [
+const SERVICES_SOURCE = [
   { icon: Hammer, title: "Gros œuvre & fondations", desc: "Terrassement, fouilles, fondations, chaînages, dalles, poteaux. Construction de maisons individuelles, extensions, garages." },
   { icon: Ruler, title: "Extension & surélévation", desc: "Agrandissement de votre maison, pièce supplémentaire, véranda maçonnée, surélévation de toiture. Études de faisabilité incluses." },
   { icon: HardHat, title: "Ravalement de façade", desc: "Enduit monocouche, crépis, peinture minérale, ITE (isolation thermique par l'extérieur). Travaux en grande hauteur." },
@@ -65,6 +65,7 @@ const SERVICES_DEMO = [
   { icon: Ruler, title: "Dallage & terrassement", desc: "Terrassement général, voirie, dallage béton, fondations pour abris et piscines. Engins de chantier disponibles." },
   { icon: ShieldCheck, title: "Réparation fissurations", desc: "Diagnostic des fissures, injection de résines, armatures, reprise en sous-œuvre. Rapport d'expertise fourni." },
 ]
+let SERVICES_DEMO = SERVICES_SOURCE;
 
 // "Matériaux" and "Zone" were in the nav with nothing behind them.
 const MATERIAUX = [
@@ -145,6 +146,10 @@ export default function BatirSolidePage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  SERVICES_DEMO = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
+    SERVICES_SOURCE,
+  );
   ZONES = resolveList(
     clientAreas(sessionData)?.map((z, i) => ({ ...ZONES_DEMO[i % ZONES_DEMO.length], ville: z })),
     ZONES_DEMO,

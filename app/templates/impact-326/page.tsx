@@ -110,11 +110,12 @@ const TARIFS_DEMO = [
 ];
 let TARIFS = TARIFS_DEMO;
 
-const AVIS_DEMO = [
+const AVIS_SOURCE = [
   { texte: "Succession de mon père réglée en cinq mois, avec une déclaration fiscale limpide. Chaque étape nous a été expliquée avant d'être engagée, sans jargon.", auteur: "Hélène D.", detail: "Règlement de succession" },
   { texte: "Achat de notre première maison. L'étude a repéré une servitude non déclarée dans le compromis et l'a fait corriger avant signature. C'est exactement ce qu'on attend d'un notaire.", auteur: "Julien & Sarah M.", detail: "Vente immobilière" },
   { texte: "Cession de mon fonds de commerce préparée en parallèle du bail. Calendrier tenu à la semaine près, et un conseil fiscal qui m'a évité une erreur coûteuse.", auteur: "Patrick L.", detail: "Cession de fonds" },
 ];
+let AVIS_DEMO = AVIS_SOURCE;
 
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const ref = useRef(null);
@@ -146,6 +147,10 @@ export default function EtudeNotarialePage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  AVIS_DEMO = resolveList(
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...AVIS_SOURCE[i % AVIS_SOURCE.length], auteur: r.author, texte: r.text })),
+    AVIS_SOURCE,
+  );
   HERO_DOMAINES = HERO_DOMAINES_DEMO.map((row, i) => ({
     ...row,
     img: clientPhotos(sessionData)[0 + i] || row.img,

@@ -1587,7 +1587,7 @@ function Heritage() {
 
 // ─── TESTIMONIALS ─────────────────────────────────────────────────────────────
 
-const TESTIMONIALS_DEMO = [
+const TESTIMONIALS_SOURCE = [
   {
     quote: "Ma Perpétuelle Hora Viva accompagne chaque décision importante de ma vie depuis vingt-deux ans. Ce n\'est pas une montre — c\'est un compagnon silencieux et fidèle.",
     author: 'Henri de Vauclaire',
@@ -1601,6 +1601,7 @@ const TESTIMONIALS_DEMO = [
     stars: 5,
   },
 ];
+let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 function Testimonials() {
   const TESTIMONIALS = resolveList(
@@ -2385,6 +2386,10 @@ export default function HoraVivaPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TESTIMONIALS_DEMO = resolveList(
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], author: r.author, quote: r.text })),
+    TESTIMONIALS_SOURCE,
+  );
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   // Inject global CSS once

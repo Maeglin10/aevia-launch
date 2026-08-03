@@ -47,7 +47,7 @@ let brand: any = null;
    DATA STRUCTURES
    ========================================================================= */
 
-const COLLECTIONS_DEMO = [
+const COLLECTIONS_SOURCE = [
   {
     id: 1,
     name: "Astra Chrono",
@@ -73,6 +73,7 @@ const COLLECTIONS_DEMO = [
     img: "https://images.unsplash.com/photo-1547996160-81dfa63595aa?w=1200&q=80",
   },
 ];
+let COLLECTIONS_DEMO = COLLECTIONS_SOURCE;
 
 const CRAFTSMANSHIP = [
   {
@@ -226,6 +227,10 @@ export default function ZenithWatchesPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  COLLECTIONS_DEMO = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...COLLECTIONS_SOURCE[i % COLLECTIONS_SOURCE.length], name: s.title })),
+    COLLECTIONS_SOURCE,
+  );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   brand = fd?.brandColor ?? null; // null = keep template's original color
 

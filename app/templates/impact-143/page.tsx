@@ -54,18 +54,20 @@ const PROJECTS_DEMO = [
   { title: "Bureau Lumière", type: "Commercial", img: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=1200", desc: "Biophilic office redesign for a tech company prioritizing employee wellbeing." },
 ]
 
-const SERVICES_DEMO = [
+const SERVICES_SOURCE = [
   { icon: Palette, title: "Concept & Mood", desc: "Material palettes, mood boards, and spatial concepts tailored to your lifestyle." },
   { icon: Ruler, title: "Space Planning", desc: "Functional layouts that flow naturally, maximizing light, movement, and comfort." },
   { icon: Lightbulb, title: "Lighting Design", desc: "Layered lighting schemes that transform atmosphere from morning to evening." },
   { icon: Layers, title: "Furniture Curation", desc: "Sourcing and commissioning bespoke pieces from artisan workshops worldwide." },
 ]
+let SERVICES_DEMO = SERVICES_SOURCE;
 
-const TESTIMONIALS_DEMO = [
+const TESTIMONIALS_SOURCE = [
   { text: "Atelier transformed our home into something that feels like us, but elevated. Every detail was considered.", author: "Victoria & James R.", project: "Villa Serena" },
   { text: "The attention to material quality is extraordinary. They source things you didn't know existed.", author: "Marc Dubois", project: "Maison Noire" },
   { text: "A masterful understanding of light and space. Our workspace redesign has drastically improved our team productivity and focus.", author: "Elena R.", project: "Bureau Lumière" },
 ]
+let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 
 // Client-uploaded photo at index i, falling back to the template's stock
@@ -122,6 +124,14 @@ export default function AtelierInteriorPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  SERVICES_DEMO = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
+    SERVICES_SOURCE,
+  );
+  TESTIMONIALS_DEMO = resolveList(
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], author: r.author, text: r.text })),
+    TESTIMONIALS_SOURCE,
+  );
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const PROJECTS = resolveList(

@@ -82,7 +82,7 @@ const STATS_DEMO = [
 ]
 let STATS = STATS_DEMO;
 
-const SERVICES_DEMO = [
+const SERVICES_SOURCE = [
   { titre: "Construction de piscine", desc: "Piscine enterrée béton, coque ou bloc à bancher. Terrassement, structure, étanchéité, margelles et plage. De l'étude 3D à la mise en eau.", tag: "Construction" },
   { titre: "Rénovation de bassin", desc: "Changement de liner, réfection d'étanchéité, remise à neuf des margelles et de la filtration. Une seconde vie pour votre piscine.", tag: "Rénovation" },
   { titre: "Local technique & filtration", desc: "Pompes, filtres à sable, électrolyse au sel, régulation automatique du pH. Une eau limpide toute l'année, sans effort.", tag: "Technique" },
@@ -90,6 +90,7 @@ const SERVICES_DEMO = [
   { titre: "Éclairage & domotique piscine", desc: "Projecteurs LED, commande à distance, chauffage et pilotage connecté du bassin. Confort et ambiance à toute heure.", tag: "Domotique" },
   { titre: "Entretien & hivernage", desc: "Contrat saisonnier, hivernage, remise en route, nettoyage et traitement de l'eau. Profitez, on s'occupe du reste.", tag: "Entretien" },
 ]
+let SERVICES_DEMO = SERVICES_SOURCE;
 
 const ATOUTS = [
   "Pisciniste certifié, membre de la FPP",
@@ -98,11 +99,12 @@ const ATOUTS = [
   "Intervention d'urgence 7j/7 en moins de 2h",
 ]
 
-const AVIS_DEMO = [
+const AVIS_SOURCE = [
   { texte: "Construction de notre piscine béton livrée dans les délais, chantier propre et équipe à l'écoute. Le résultat dépasse toutes nos attentes. Un vrai savoir-faire.", auteur: "Marc D.", detail: `Construction, ${clientCity({ formData: fd }) ?? "Toulouse"}` },
   { texte: "Rénovation complète de notre bassin des années 90 : nouveau liner, margelles et filtration au sel. On profite enfin d'une eau parfaite. Bravo !", auteur: "Christine M.", detail: "Rénovation, Colomiers" },
   { texte: "Local technique refait avec régulation automatique et éclairage LED. Conseils pertinents, finitions impeccables, délai tenu à la journée près.", auteur: "Famille Aubert", detail: "Local technique, Blagnac" },
 ]
+let AVIS_DEMO = AVIS_SOURCE;
 
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const ref = useRef(null)
@@ -167,6 +169,14 @@ export default function VoltPiscinesPage() {
   }, []);
 
   fd = session?.formData;
+  SERVICES_DEMO = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], titre: s.title })),
+    SERVICES_SOURCE,
+  );
+  AVIS_DEMO = resolveList(
+    clientReviews(session)?.map((r: any, i: number) => ({ ...AVIS_SOURCE[i % AVIS_SOURCE.length], auteur: r.author, texte: r.text })),
+    AVIS_SOURCE,
+  );
   TARIFS = resolveList(
     clientServices(session)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
     TARIFS_DEMO,

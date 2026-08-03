@@ -250,7 +250,7 @@ const APPROACH_ITEMS: ApproachItem[] = [
   },
 ];
 
-const TESTIMONIALS_DEMO: Testimonial[] = [
+const TESTIMONIALS_SOURCE: Testimonial[] = [
   {
     quote:
       'Cinq ans de fatigue inexpliquée, trois spécialistes, aucune réponse. En deux consultations, le Dr. Moulin a identifié une hypothyroïdie fonctionnelle couplée à une dysbiose intestinale. Six mois plus tard, je me sens enfin vivante.',
@@ -264,6 +264,7 @@ const TESTIMONIALS_DEMO: Testimonial[] = [
     role: 'Dirigeant · Bordeaux',
   },
 ];
+let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 /* ════════════════════════════════════════════════════════════════════════════
    Primitives partagées
@@ -2127,6 +2128,10 @@ export default function Page() {
   fd = session?.formData;
   bp = session?.businessProfile;
   sessionData = session;
+  TESTIMONIALS_DEMO = resolveList(
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
+    TESTIMONIALS_SOURCE,
+  );
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;

@@ -1,5 +1,6 @@
 
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 // @ts-nocheck
 
@@ -45,7 +46,7 @@ let brand: any = null;
    IVORY ARCHIVE DATASET (ULTRA DENSITY)
    ========================================================================== */
 
-const COLLECTIONS_DEMO = [
+const COLLECTIONS_SOURCE = [
   {
     id: "art-01",
     title: "The Renaissance Veil",
@@ -74,6 +75,7 @@ const COLLECTIONS_DEMO = [
     image: "https://images.unsplash.com/photo-1582555172866-f73bb12a2ab3?q=80&w=1200&auto=format&fit=crop"
   }
 ]
+let COLLECTIONS_DEMO = COLLECTIONS_SOURCE;
 let COLLECTIONS = COLLECTIONS_DEMO;
 
 const PROVENANCE_LOGS = [
@@ -383,6 +385,10 @@ export default function IvoryArchivePremium() {
   }, []);
 
   fd = session?.formData;
+  COLLECTIONS_DEMO = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...COLLECTIONS_SOURCE[i % COLLECTIONS_SOURCE.length], title: s.title })),
+    COLLECTIONS_SOURCE,
+  );
   COLLECTIONS = COLLECTIONS_DEMO.map((row, i) => ({
     ...row,
     image: clientPhotos(session)[0 + i] || row.image,

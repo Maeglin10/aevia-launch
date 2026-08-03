@@ -66,11 +66,12 @@ const APPROCHE = [
   "Collaboration avec votre médecin, kiné et autres professionnels de santé",
 ]
 
-const AVIS_DEMO = [
+const AVIS_SOURCE = [
   { texte: "Lombalgie chronique depuis 8 ans, invalidante certains jours. Après 3 séances d'ostéo, je peux travailler sans douleur. C'est la première fois depuis des années. Je m'en veux de ne pas être venu plus tôt.", auteur: "Marc B.", detail: "Lombalgie chronique · 3 séances" },
   { texte: "Mon bébé de 6 semaines pleurait constamment, refusait de tourner la tête à droite. Après une seule séance, il s'est endormi dans mes bras. Une magie que je ne comprends pas mais qui marche.", auteur: "Amélie F.", detail: "Nourrisson · Torticolis" },
   { texte: "Migraines hebdomadaires depuis la fac. Un ami m'a poussée à essayer. 6 séances sur 3 mois et je n'ai eu qu'une seule migraine depuis. Je suis bluffée.", auteur: "Laura M.", detail: "Migraines · Suivi 3 mois" },
 ]
+let AVIS_DEMO = AVIS_SOURCE;
 
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const ref = useRef(null)
@@ -180,6 +181,10 @@ export default function CabinetOsteopathiePage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  AVIS_DEMO = resolveList(
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...AVIS_SOURCE[i % AVIS_SOURCE.length], auteur: r.author, texte: r.text })),
+    AVIS_SOURCE,
+  );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {

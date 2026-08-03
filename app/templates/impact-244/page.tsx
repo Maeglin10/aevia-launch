@@ -154,7 +154,7 @@ const PHASES: Collection[] = [
 ];
 
 /** 6 cartes de services */
-const SERVICES_DEMO: Service[] = [
+const SERVICES_SOURCE: Service[] = [
   {
     num: '01',
     title: 'Wedding Planner Intégral',
@@ -186,6 +186,7 @@ const SERVICES_DEMO: Service[] = [
     desc: 'Fiançailles, anniversaires, dîners de gala : nous orchestrons chaque célébration avec la même exigence.',
   },
 ];
+let SERVICES_DEMO = SERVICES_SOURCE;
 
 /** 2 rangées éditoriales */
 const EDIT_ROWS: EditRow[] = [
@@ -244,7 +245,7 @@ const FLORAL_ITEMS: FlowerItem[] = [
 ];
 
 /** 2 témoignages de couples */
-const TESTIMONIALS_DEMO: Testimonial[] = [
+const TESTIMONIALS_SOURCE: Testimonial[] = [
   {
     quote:
       "Atelier Céleste a transformé notre mariage au Château de Vaux-le-Vicomte en quelque chose d'absolument magique. Leur obsession du détail — chaque fleur, chaque bougie, chaque ruban — était visible. Nous vivions pleinement notre journée pendant qu'ils veillaient sur tout.",
@@ -258,6 +259,7 @@ const TESTIMONIALS_DEMO: Testimonial[] = [
     role: "Mariage en destination · Côte d'Azur",
   },
 ];
+let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 // Live arrays — reassigned from the client's BusinessProfile in Page(), read by
 // the module-level ServiceCards/Testimonials sub-components. Fall back to demo.
@@ -2067,6 +2069,14 @@ export default function Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  SERVICES_DEMO = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
+    SERVICES_SOURCE,
+  );
+  TESTIMONIALS_DEMO = resolveList(
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
+    TESTIMONIALS_SOURCE,
+  );
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   if (brand) {

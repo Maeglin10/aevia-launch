@@ -129,7 +129,7 @@ const PORTFOLIO_ITEMS = [
   { id: 9, category: "Seasonal", title: "Hiver Nacré",        desc: "Nacre & paillettes fines",     accent: "#C084FC", img: "photo-1604654894610-df63bc536371" },
 ]
 
-const SERVICES_DEMO = [
+const SERVICES_SOURCE = [
   { id: 1, name: "Pose Gel Couleur",    price: "45€",  duration: "60 min",  desc: "Application longue tenue avec finition brillante ou mate. Tient 3 semaines sans éclats." },
   { id: 2, name: "Nail Art Complet",    price: "85€",  duration: "90 min",  desc: "Création sur-mesure : aquarelle, géométrie, 3D, floraux. Consultation design incluse." },
   { id: 3, name: "French Manucure",     price: "35€",  duration: "45 min",  desc: "La French classique ou revisitée avec notre signature pointe couleur." },
@@ -137,6 +137,7 @@ const SERVICES_DEMO = [
   { id: 5, name: "Extensions Résine",   price: "75€",  duration: "90 min",  desc: "Extensions légères et naturelles, sculpteées à la forme de votre choix." },
   { id: 6, name: "Dépose + Soin",       price: "40€",  duration: "45 min",  desc: "Dépose soignée du produit + bain nourrissant + évaluation santé de l'ongle." },
 ]
+let SERVICES_DEMO = SERVICES_SOURCE;
 
 const ARTISTS_DEMO = [
   {
@@ -191,12 +192,13 @@ const BRANDS = [
   { name: "Gelish",       detail: "Gel premium UV/LED" },
 ]
 
-const TESTIMONIALS_DEMO = [
+const TESTIMONIALS_SOURCE = [
   { name: "Marie-Claire B.", avatar: "M", stars: 5, service: "Nail Art Complet", quote: "Un véritable atelier d'art sur mes ongles. Sophie a recréé exactement ce que j'avais en tête. Je n'irai jamais ailleurs." },
   { name: "Juliette P.",     avatar: "J", stars: 5, service: "Pose Gel Couleur", quote: "3 semaines plus tard, pas une seule petite éclat. La qualité est incomparable à tout ce que j'ai connu." },
   { name: "Océane R.",       avatar: "O", stars: 5, service: "Soin Japonais",    quote: "Mes ongles naturels n'ont jamais été aussi forts. Le soin japonais est un must absolu !" },
   { name: "Camille T.",      avatar: "C", stars: 5, service: "Extensions Résine","quote": "Extensions ultra-légères, forme parfaite. Tout le monde me demande si c'est mes vrais ongles." },
 ]
+let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 const FULL_PRICES = [
   {
@@ -1877,6 +1879,14 @@ export default function Impact88Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  SERVICES_DEMO = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], name: s.title })),
+    SERVICES_SOURCE,
+  );
+  TESTIMONIALS_DEMO = resolveList(
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
+    TESTIMONIALS_SOURCE,
+  );
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, primary: brand, primaryLight: shadeColor(brand, 25), primaryDark: shadeColor(brand, -20) };

@@ -63,7 +63,7 @@ const TARIFS_DEMO = [
 ];
 let TARIFS = TARIFS_DEMO;
 
-const SOINS_DEMO = [
+const SOINS_SOURCE = [
   { icon: Smile, title: "Soins conservateurs", desc: "Détartrage, traitement de caries, obturations composite teintées. Matériaux sans mercure, résultat esthétique invisible." },
   { icon: Heart, title: "Prothèses & couronnes", desc: "Couronnes céramique, bridges, prothèses amovibles. Fabrication sur mesure, teintes naturelles, ajustement précis." },
   { icon: Star, title: "Esthétique dentaire", desc: "Blanchiment LED, facettes porcelaine, correction sourire. Résultat naturel garanti. Simulateur sourire en consultation." },
@@ -71,6 +71,7 @@ const SOINS_DEMO = [
   { icon: CheckCircle, title: "Orthodontie adulte", desc: "Aligneurs transparents Invisalign® ou bagues céramiques. Traitement discret, résultat durable, consultation sans engagement." },
   { icon: Clock, title: "Urgences dentaires", desc: "Créneaux réservés urgences chaque matin dès 8h30. Douleur, fracture, dent cassée — on vous prend en charge le jour même." },
 ]
+let SOINS_DEMO = SOINS_SOURCE;
 
 
 const RDV_TIME_SLOTS = ["8h30", "9h30", "10h30", "11h30", "14h00", "15h00", "16h00", "17h30"]
@@ -255,6 +256,10 @@ export default function DrFontainePage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  SOINS_DEMO = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...SOINS_SOURCE[i % SOINS_SOURCE.length], title: s.title })),
+    SOINS_SOURCE,
+  );
   TARIFS = resolveList(
     clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
     TARIFS_DEMO,

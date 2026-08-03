@@ -1,4 +1,5 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
 // @ts-nocheck
 
 import React, {
@@ -19,7 +20,6 @@ import {
   useMotionTemplate,
 } from 'framer-motion';
 import { TemplateIcon } from '@/components/TemplateIcon';
-import { resolveList } from '@/lib/templates/resolveList';
 import {
   clientCity,
   clientName,
@@ -94,7 +94,7 @@ const PALETTE_COLORS: PaletteColor[] = [
   { name: 'black', hex: '#1A0A10', label: 'Noir' },
 ];
 
-const SERVICES_DEMO: Service[] = [
+const SERVICES_SOURCE: Service[] = [
   {
     id: 'gel',
     icon: 'nail',
@@ -144,6 +144,7 @@ const SERVICES_DEMO: Service[] = [
     tag: 'Luxe',
   },
 ];
+let SERVICES_DEMO = SERVICES_SOURCE;
 
 const DAYS = ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'];
 const TIMES = ['10:00', '11:30', '13:00', '14:30', '16:00', '17:30'];
@@ -1874,7 +1875,7 @@ function BookingSection({ accentColor }: { accentColor: string }) {
    COMPONENT: TESTIMONIALS
    ========================================================================== */
 
-const TESTIMONIALS_DEMO = [
+const TESTIMONIALS_SOURCE = [
   {
     name: 'Camille L.',
     text: "Je reviens depuis 3 ans — the nail art quality is simply unmatched in Paris. Chaque pose est un chef-d'œuvre.",
@@ -1894,6 +1895,7 @@ const TESTIMONIALS_DEMO = [
     service: 'Pose Gel',
   },
 ];
+let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 function TestimonialsSection({ accentColor }: { accentColor: string }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -2251,6 +2253,14 @@ export default function NailStudioTemplate() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  SERVICES_DEMO = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], name: s.title })),
+    SERVICES_SOURCE,
+  );
+  TESTIMONIALS_DEMO = resolveList(
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, text: r.text })),
+    TESTIMONIALS_SOURCE,
+  );
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const [particles] = useState<Particle[]>(() => generateParticles());

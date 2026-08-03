@@ -1415,11 +1415,12 @@ function LocationSection() {
 }
 
 // ─── Testimonials ─────────────────────────────────────────────────────────────
-const TESTIMONIALS_DEMO = [
+const TESTIMONIALS_SOURCE = [
   { name: 'Sophie R.', origin: 'Paris', text: 'An experience that redefined our expectations of hospitality. Every detail, every gesture — flawless.', stars: 5 },
   { name: 'James W.', origin: 'London', text: 'The Grand Palais is beyond comparison. The suite views, the silence, the staff — we return every autumn.', stars: 5 },
   { name: 'Hana T.', origin: 'Tokyo', text: 'The most extraordinary stay of our lives. Nothing prepares you for the quiet perfection of this place.', stars: 5 },
 ];
+let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 function TestimonialsSection() {
   const TESTIMONIALS = resolveList(
@@ -2483,6 +2484,10 @@ export default function GrandPalaisPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TESTIMONIALS_DEMO = resolveList(
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, text: r.text })),
+    TESTIMONIALS_SOURCE,
+  );
   ROOMS_FULL = ROOMS_FULL_DEMO.map((row, i) => ({
     ...row,
     img: clientPhotos(sessionData)[0 + i] || row.img,

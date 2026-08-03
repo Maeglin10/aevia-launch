@@ -71,7 +71,7 @@ const EQUIPE_DEMO = [
 ];
 let EQUIPE = EQUIPE_DEMO;
 
-const SERVICES_DEMO = [
+const SERVICES_SOURCE = [
   { icon: Wrench, title: "Entretien & révision", desc: "Vidange, filtres, distribution, embrayage, freins. Contrôle multi-points offert à chaque révision. Respect carnet entretien constructeur." },
   { icon: Car, title: "Carrosserie & peinture", desc: "Débosselage, remplacement pièces, peinture teintée en cabine UV. Assurance prise en charge directe. Devis gratuit 30 min." },
   { icon: Settings, title: "Diagnostic électronique", desc: "Valise OBD dernière génération, tous constructeurs. Lecture et effacement codes erreur, mise à jour logiciels, diagnostic complet." },
@@ -79,6 +79,7 @@ const SERVICES_DEMO = [
   { icon: Shield, title: "Contrôle technique", desc: "Contre-visite rapide, mise en conformité avant CT, préparation complète. Partenaire Sécuritest sur place. Sans rendez-vous pour vérification rapide." },
   { icon: AlertTriangle, title: "Dépannage & remorquage", desc: "Intervention 7j/7 en Ille-et-Vilaine. Crevaison, panne, accident. Dépanneuse disponible sous 45 min. Convoyage vers atelier inclus." },
 ]
+let SERVICES_DEMO = SERVICES_SOURCE;
 let SERVICES = SERVICES_DEMO;
 
 
@@ -114,6 +115,10 @@ export default function AutoExpertPage() {
   }, []);
 
   fd = session?.formData;
+  SERVICES_DEMO = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
+    SERVICES_SOURCE,
+  );
   SERVICES = resolveList(
     clientServices(session)?.map((s, i) => ({ ...SERVICES_DEMO[i % SERVICES_DEMO.length], title: s.title })),
     SERVICES_DEMO,

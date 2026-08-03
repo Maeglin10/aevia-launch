@@ -101,11 +101,12 @@ const PROCESS = [
   "Retouche gratuite incluse dans les 3 mois",
 ]
 
-const AVIS_DEMO = [
+const AVIS_SOURCE = [
   { texte: "Je cherchais depuis des mois un artiste capable de faire un réalisme de portrait de mon chien. Le résultat dépasse tout ce que j'imaginais. Une fidélité de dingue. Je reviendrai.", auteur: "Lucie V.", detail: "Réalisme portrait, cuisse" },
   { texte: "Cover-up d'un vieux tatouage raté que je cachais depuis 10 ans. Ils ont transformé ça en quelque chose de magnifique. Merci ! Je ne pouvais plus rêver d'un meilleur résultat.", auteur: "Kevin M.", detail: "Cover-up japonais, bras" },
   { texte: "Fine line fleuri sur la clavicule. Propre, précis, soigné. L'accueil est top, le studio est beau, et on est bien guidé sur les soins après. Je recommande à 100%.", auteur: "Chloé B.", detail: "Fine line floral, clavicule" },
 ]
+let AVIS_DEMO = AVIS_SOURCE;
 
 function ConsultationModal({
   open,
@@ -303,6 +304,10 @@ export default function EncreNoirePage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  AVIS_DEMO = resolveList(
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...AVIS_SOURCE[i % AVIS_SOURCE.length], auteur: r.author, texte: r.text })),
+    AVIS_SOURCE,
+  );
   TARIFS = resolveList(
     clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
     TARIFS_DEMO,

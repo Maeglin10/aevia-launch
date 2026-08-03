@@ -31,12 +31,13 @@ const PROPERTIES_DEMO = [
   { id: "PRJ-0018", name: "Villa Antibes", loc: "Côte d'Azur", type: "Prestige", size: "820 m²", pts: "6.1B pts", imgFallback: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&q=80" },
 ];
 
-const SERVICES_DEMO = [
+const SERVICES_SOURCE = [
   { code: "01", title: "Residential", price: "À partir de 2 400€", desc: "Scan complet appartements et maisons. Modèle 3D HD, plan de coupe, visite virtuelle haute résolution." },
   { code: "02", title: "Commercial", price: "Sur devis", desc: "Digitisation de bureaux, commerces et hôtels. Intégration BIM et livrables IFC/RVT pour promoteurs." },
   { code: "03", title: "Heritage & Museum", price: "Sur devis", desc: "Archivage de patrimoine architectural. Précision archéologique sub-millimétrique, livrables Matterport + nuage de points." },
   { code: "04", title: "Development Pipeline", price: "Abonnement mensuel", desc: "Suivi chantier en temps réel, comparaison BIM vs. As-built, rapport d'avancement automatisé." },
 ];
+let SERVICES_DEMO = SERVICES_SOURCE;
 
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
@@ -74,6 +75,10 @@ export default function VisionHomePage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  SERVICES_DEMO = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
+    SERVICES_SOURCE,
+  );
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const properties: any[] = resolveList(bp?.listings, PROPERTIES_DEMO);

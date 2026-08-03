@@ -80,7 +80,7 @@ interface Stylist {
 }
 
 // ─── Data ──────────────────────────────────────────────────────────────────────
-const SERVICES_DEMO: Service[] = [
+const SERVICES_SOURCE: Service[] = [
   {
     name: 'Coupe & Brushing',
     nameEn: 'Cut & Blowdry',
@@ -117,6 +117,7 @@ const SERVICES_DEMO: Service[] = [
     duration: '45 min',
   },
 ]
+let SERVICES_DEMO = SERVICES_SOURCE;
 let SERVICES = SERVICES_DEMO;
 
 const STYLISTS: Stylist[] = [
@@ -159,11 +160,12 @@ const BOOKING_STEPS = ['Service', 'Date & Heure', 'Styliste', 'Confirmation']
 // Testimonials — hoisted from an inline JSX array literal so resolveList can
 // swap in clientReviews(session) when the client provided real
 // reviews.
-const TESTIMONIALS_DEMO = [
+const TESTIMONIALS_SOURCE = [
   { name: 'Sophie M.', text: 'Le meilleur balayage que j\'aie jamais eu. Camille a su exactement ce que je voulais sans que j\'aie à l\'expliquer deux fois. Je reviens depuis 4 ans.', rating: 5 },
   { name: 'Clara R.', text: 'L\'ambiance est feutrée et luxueuse, le café offert, et Hugo m\'a donné une coupe qui a changé ma vie. Je ne vais nulle part ailleurs.', rating: 5 },
   { name: 'Amira K.', text: 'Yasmine est une magicienne. Mon lissage tient 6 mois et mes cheveux sont en meilleure santé qu\'avant le traitement. Incroyable.', rating: 5 },
 ]
+let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 // ─── Sub-components ────────────────────────────────────────────────────────────
 
@@ -1025,6 +1027,14 @@ export default function Page() {
   }, []);
 
   fd = session?.formData;
+  SERVICES_DEMO = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], name: s.title })),
+    SERVICES_SOURCE,
+  );
+  TESTIMONIALS_DEMO = resolveList(
+    clientReviews(session)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, text: r.text })),
+    TESTIMONIALS_SOURCE,
+  );
   SERVICES = resolveList(
     clientServices(session)?.map((s, i) => ({ ...SERVICES_DEMO[i % SERVICES_DEMO.length], name: s.title })),
     SERVICES_DEMO,

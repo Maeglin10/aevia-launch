@@ -1,4 +1,5 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
 // @ts-nocheck
 import { motion, useScroll, useTransform, useInView } from "framer-motion"
 import { useRef, useState, useEffect } from "react"
@@ -43,11 +44,12 @@ function ParallaxImg({ src, alt }: { src: string; alt: string }) {
   )
 }
 
-const TREATMENTS = [
+const TREATMENTS_SOURCE = [
   { title: "Celestial Stone Massage", duration: "90 min", price: "$210", desc: "Heated volcanic stones and essential oils to release deep muscular tension.", icon: Flame },
   { title: "Botanical Facial", duration: "60 min", price: "$145", desc: "Organic enzymes and cold-pressed floral extracts to restore skin radiance.", icon: Flower2 },
   { title: "Hydro-Oxygen Flow", duration: "75 min", price: "$180", desc: "A combination of mineral baths and high-pressure oxygen therapy.", icon: Droplets },
 ]
+let TREATMENTS = TREATMENTS_SOURCE;
 
 const PHILOSOPHY = [
   { icon: Wind, title: "Mindfulness", text: "Quiet the external noise to hear your inner voice." },
@@ -88,6 +90,10 @@ export default function OasisWellnessPage() {
   }, []);
 
   fd = session?.formData;
+  TREATMENTS = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...TREATMENTS_SOURCE[i % TREATMENTS_SOURCE.length], title: s.title })),
+    TREATMENTS_SOURCE,
+  );
   c = session?.generatedContent;
   brand = fd?.brandColor ?? null; // null = keep template's original color
 

@@ -226,7 +226,7 @@ const CRAFT_STEPS: CraftStep[] = [
   },
 ];
 
-const TESTIMONIALS_DEMO: Testimonial[] = [
+const TESTIMONIALS_SOURCE: Testimonial[] = [
   {
     quote:
       "Je passais devant leur vitrine chaque matin en allant chez le fromager d'à côté. Un jour j'ai poussé la porte. Maintenant le brunch du dimanche aux Chartrons est un rituel que rien ne déplace — ni voyage, ni rhume, ni mauvais temps.",
@@ -240,6 +240,7 @@ const TESTIMONIALS_DEMO: Testimonial[] = [
     role: "Organisateur d'événements · Bordeaux",
   },
 ];
+let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 /* ── URL helper ──────────────────────────────────────────────────────────── */
 function photo(id: string, w = 1600): string {
@@ -2194,6 +2195,10 @@ export default function Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TESTIMONIALS_DEMO = resolveList(
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
+    TESTIMONIALS_SOURCE,
+  );
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   if (brand) {

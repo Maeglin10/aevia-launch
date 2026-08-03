@@ -48,13 +48,15 @@ const FONT_BODY = FONT;
 const NAV = [{"l": "Cours", "h": "#services"}, {"l": "La pédagogie", "h": "#methode"}, {"l": "Tarifs", "h": "#tarifs"}, {"l": "Contact", "h": "#contact"}];
 const HERO = [{"k": "La scène du trimestre", "line": "Trois mois de travail, un vrai concert.", "sub": ""}];
 
-const SERVICES_DEMO = [{"titre": "Guitare & basse", "desc": "Électrique, acoustique, du premier riff aux impros : les morceaux que VOUS choisissez servent de programme, la technique s'y glisse.", "tag": "Cordes"}, {"titre": "Batterie & percussions", "desc": "Studios insonorisés, kits acoustiques et électroniques : frapper fort sans fâcher personne, groove d'abord.", "tag": "Batterie"}, {"titre": "Chant", "desc": "Technique vocale, micro, scène : du timide de la douche au chanteur de groupe, sans jamais formater les voix.", "tag": "Chant"}, {"titre": "Piano & claviers", "desc": "Classique si vous voulez, mais aussi synthés, nappes et claviers de groupe : le piano qui sert la musique d'aujourd'hui.", "tag": "Claviers"}, {"titre": "MAO & production", "desc": "Ableton, enregistrement, mixage : produire ses morceaux dans notre studio MAO, du beat au master.", "tag": "MAO"}, {"titre": "Ateliers de groupe", "desc": "Dès le 3e mois : jouer ensemble, monter un set, préparer la scène trimestrielle. C'est là que la musique prend.", "tag": "Groupe"}];
+const SERVICES_SOURCE = [{"titre": "Guitare & basse", "desc": "Électrique, acoustique, du premier riff aux impros : les morceaux que VOUS choisissez servent de programme, la technique s'y glisse.", "tag": "Cordes"}, {"titre": "Batterie & percussions", "desc": "Studios insonorisés, kits acoustiques et électroniques : frapper fort sans fâcher personne, groove d'abord.", "tag": "Batterie"}, {"titre": "Chant", "desc": "Technique vocale, micro, scène : du timide de la douche au chanteur de groupe, sans jamais formater les voix.", "tag": "Chant"}, {"titre": "Piano & claviers", "desc": "Classique si vous voulez, mais aussi synthés, nappes et claviers de groupe : le piano qui sert la musique d'aujourd'hui.", "tag": "Claviers"}, {"titre": "MAO & production", "desc": "Ableton, enregistrement, mixage : produire ses morceaux dans notre studio MAO, du beat au master.", "tag": "MAO"}, {"titre": "Ateliers de groupe", "desc": "Dès le 3e mois : jouer ensemble, monter un set, préparer la scène trimestrielle. C'est là que la musique prend.", "tag": "Groupe"}];
+let SERVICES_DEMO = SERVICES_SOURCE;
 const METHODE = [{"n": "01", "t": "Le cours d'essai", "d": "30 minutes avec le professeur de votre instrument : niveau réel, envies réelles, plan proposé."}, {"n": "02", "t": "Vos morceaux au programme", "d": "Le solfège existe, mais il arrive par les morceaux — jamais avant eux."}, {"n": "03", "t": "Le groupe dès que possible", "d": "Au 3e mois, un atelier collectif : jouer avec d'autres change tout, surtout les progrès."}, {"n": "04", "t": "La scène du trimestre", "d": "Un vrai concert, du vrai son, un public : l'objectif qui structure les trois mois."}];
 const ENGAGEMENT_DEMO = ["Professeurs diplômés (DEM, MIMA) et musiciens en activité — ils tournent, ils enregistrent", "Studios insonorisés, backline fourni : venez les mains dans les poches", "Sans engagement annuel : l'abonnement se suspend ou s'arrête au mois", "La scène trimestrielle est incluse — son, lumières et trac compris"];
 let ENGAGEMENT = ENGAGEMENT_DEMO;
 const TARIFS_DEMO = [{"a": "Cours individuel 30 min/sem.", "p": "89 €/mois", "n": "Instrument au choix, professeur attitré."}, {"a": "Cours individuel 45 min/sem.", "p": "119 €/mois", "n": "Le format de la progression rapide, atelier de groupe inclus."}, {"a": "Atelier MAO (2 h/sem.)", "p": "79 €/mois", "n": "En binôme sur nos stations, projets personnels encouragés."}, {"a": "Cours d'essai", "p": "offert", "n": "30 minutes avec le prof de votre instrument, sans engagement."}];
 let TARIFS = TARIFS_DEMO;
-const AVIS_DEMO = [{"texte": "Vingt ans que je disais « un jour, la guitare ». Huit mois ici : je joue six morceaux, j'ai fait la scène de décembre devant mes enfants médusés. La méthode par les morceaux, ça marche.", "auteur": "Franck, 43 ans", "detail": "Guitare débutant"}, {"texte": "Ma fille de 13 ans vit pour son atelier du mercredi : son groupe a joué en mars, elle bosse sa batterie sans qu'on le demande. Du jamais vu pour les devoirs.", "auteur": "Parent d'élève", "detail": "Batterie + atelier"}, {"texte": "Le studio MAO m'a fait passer de « j'ai des idées » à « j'ai un EP ». Prof exigeant, matos sérieux, mix final au casque de studio. Objectif atteint.", "auteur": "Sofian, 26 ans", "detail": "MAO / production"}];
+const AVIS_SOURCE = [{"texte": "Vingt ans que je disais « un jour, la guitare ». Huit mois ici : je joue six morceaux, j'ai fait la scène de décembre devant mes enfants médusés. La méthode par les morceaux, ça marche.", "auteur": "Franck, 43 ans", "detail": "Guitare débutant"}, {"texte": "Ma fille de 13 ans vit pour son atelier du mercredi : son groupe a joué en mars, elle bosse sa batterie sans qu'on le demande. Du jamais vu pour les devoirs.", "auteur": "Parent d'élève", "detail": "Batterie + atelier"}, {"texte": "Le studio MAO m'a fait passer de « j'ai des idées » à « j'ai un EP ». Prof exigeant, matos sérieux, mix final au casque de studio. Objectif atteint.", "auteur": "Sofian, 26 ans", "detail": "MAO / production"}];
+let AVIS_DEMO = AVIS_SOURCE;
 const STATS_DEMO = [{"value": "9", "label": "Professeurs diplômés en poste"}, {"value": "4", "label": "Studios insonorisés + MAO"}, {"value": "3 mois", "label": "Avant votre premier atelier de groupe"}, {"value": "1", "label": "Scène chaque trimestre"}];
 let STATS = STATS_DEMO;
 
@@ -89,6 +91,14 @@ export default function StudioGammePage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  SERVICES_DEMO = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], titre: s.title })),
+    SERVICES_SOURCE,
+  );
+  AVIS_DEMO = resolveList(
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...AVIS_SOURCE[i % AVIS_SOURCE.length], auteur: r.author, texte: r.text })),
+    AVIS_SOURCE,
+  );
   TARIFS = resolveList(
     clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
     TARIFS_DEMO,

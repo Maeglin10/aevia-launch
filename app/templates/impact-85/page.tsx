@@ -70,11 +70,12 @@ const FAQS_DEMO = [
   { q: "Quelle est votre politique de livraison et de retour ?", a: "Nous livrons en France sous 48h (offerte dès 80 €). Si un produit ne convient pas à votre peau, vous disposez de 14 jours pour le retourner gratuitement et obtenir un remboursement complet." }
 ];
 
-const TEMOIGNAGES_DEMO = [
+const TEMOIGNAGES_SOURCE = [
   { name: "Claire M.", skin: "Peau mixte, 38 ans", text: "Le Luminos Sérum a effacé mes taches de grossesse en 6 semaines. J'ai essayé des dizaines de produits. Aucun n'avait été aussi précis.", rating: 5 },
   { name: "Anaïs B.", skin: "Peau sensible, 29 ans", text: "Le Bakuchiol était ma seule option rétinol-free. Les résultats en 4 semaines ont dépassé mes attentes. Et aucune irritation.", rating: 5 },
   { name: "Sophie T.", skin: "Peau mature, 52 ans", text: "La Cellulaire Crème a transformé la texture de ma peau. Ma dermatologue a demandé ce que j'utilisais. Elle commande maintenant pour sa clinique.", rating: 5 },
 ];
+let TEMOIGNAGES_DEMO = TEMOIGNAGES_SOURCE;
 
 
 /* ============================================================
@@ -335,6 +336,10 @@ export default function AetherLabsPage() {
   }, []);
 
   fd = session?.formData;
+  TEMOIGNAGES_DEMO = resolveList(
+    clientReviews(session)?.map((r: any, i: number) => ({ ...TEMOIGNAGES_SOURCE[i % TEMOIGNAGES_SOURCE.length], name: r.author, text: r.text })),
+    TEMOIGNAGES_SOURCE,
+  );
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;

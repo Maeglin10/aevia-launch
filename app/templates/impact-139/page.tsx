@@ -57,12 +57,13 @@ const PROGRAMS_DEMO = [
   { title: "RECOVER", type: "Mobility", duration: "30 min", level: "All Levels", desc: "Active recovery with guided stretching and foam rolling protocols.", img: "https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&q=80&w=800" },
 ]
 
-const FEATURES_DEMO = [
+const FEATURES_SOURCE = [
   { icon: Target, title: "Personal Programming", desc: "Every member gets a custom training plan based on their goals and baseline assessment." },
   { icon: Flame, title: "Heart Rate Zones", desc: "Live biometric tracking during every session. Train smarter, not just harder." },
   { icon: Trophy, title: "Progress Tracking", desc: "Monthly body composition scans, strength benchmarks, and recovery metrics." },
   { icon: Users, title: "Community Driven", desc: "Small classes of 12 max. You're not a number — you're part of a tribe." },
 ]
+let FEATURES_DEMO = FEATURES_SOURCE;
 let FEATURES = FEATURES_DEMO;
 
 const PLANS = [
@@ -126,6 +127,10 @@ export default function ApexFitnessPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  FEATURES_DEMO = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...FEATURES_SOURCE[i % FEATURES_SOURCE.length], title: s.title })),
+    FEATURES_SOURCE,
+  );
   FEATURES = resolveList(
     clientServices(sessionData)?.map((s, i) => ({ ...FEATURES_DEMO[i % FEATURES_DEMO.length], title: s.title })),
     FEATURES_DEMO,

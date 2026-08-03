@@ -158,7 +158,7 @@ const PHASES: Phase[] = [
   },
 ];
 
-const TREATMENTS_DEMO: Treatment[] = [
+const TREATMENTS_SOURCE: Treatment[] = [
   {
     label: 'Bilan & Détartrage',
     tag: 'Prévention',
@@ -196,6 +196,7 @@ const TREATMENTS_DEMO: Treatment[] = [
     icon: '◁',
   },
 ];
+let TREATMENTS_DEMO = TREATMENTS_SOURCE;
 
 const EDIT_ROWS: EditRow[] = [
   {
@@ -251,7 +252,7 @@ const SPECS: Spec[] = [
   },
 ];
 
-const REVIEWS_DEMO: Review[] = [
+const REVIEWS_SOURCE: Review[] = [
   {
     quote:
       "J'avais une phobie du dentiste depuis 20 ans. La première consultation avec le Dr Sorrento a tout changé. Zéro douleur, équipe rassurante, résultat parfait. Je ne savais pas que ça pouvait être aussi simple.",
@@ -271,6 +272,7 @@ const REVIEWS_DEMO: Review[] = [
     role: 'Implantologie · Antibes',
   },
 ];
+let REVIEWS_DEMO = REVIEWS_SOURCE;
 
 /* ════════════════════════════════════════════════════════════════════════════
    Primitives
@@ -2229,6 +2231,14 @@ export default function Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TREATMENTS_DEMO = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...TREATMENTS_SOURCE[i % TREATMENTS_SOURCE.length], label: s.title })),
+    TREATMENTS_SOURCE,
+  );
+  REVIEWS_DEMO = resolveList(
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...REVIEWS_SOURCE[i % REVIEWS_SOURCE.length], name: r.author, quote: r.text })),
+    REVIEWS_SOURCE,
+  );
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, accent: brand, accentLight: shadeColor(brand, 25), accentDark: shadeColor(brand, -20) };

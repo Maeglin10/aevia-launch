@@ -82,7 +82,7 @@ const ZONES_DEMO = [
 let ZONES = ZONES_DEMO;
 
 const SERVICE_ICONS = [Droplets, Wrench, ShieldCheck, Droplets, Wrench, ShieldCheck]
-const SERVICES_DEMO = [
+const SERVICES_SOURCE = [
   { icon: Droplets, title: "Construction de piscine sur-mesure", desc: "Piscine enterrée béton ou coque polyester, forme libre ou classique. Étude de sol, terrassement, structure, étanchéité et margelles — clé en main." },
   { icon: Wrench, title: "Rénovation de piscine", desc: "Réfection d'étanchéité, changement de liner, remise à neuf des margelles et du système de filtration. Redonnez vie à votre bassin." },
   { icon: ShieldCheck, title: "Sécurité & conformité", desc: "Barrières, volets immergés, alarmes et abris conformes à la norme NF P90. Protégez votre famille en toute tranquillité." },
@@ -90,6 +90,7 @@ const SERVICES_DEMO = [
   { icon: Wrench, title: "Entretien & hivernage", desc: "Contrat d'entretien saisonnier, mise en hivernage, remise en route au printemps. Nettoyage, analyse de l'eau, traitement." },
   { icon: ShieldCheck, title: "Devis gratuit sous 48h", desc: "Étude personnalisée avec plan 3D et estimation détaillée, sans engagement. Travaux garantis, décennale incluse." },
 ]
+let SERVICES_DEMO = SERVICES_SOURCE;
 
 const REALISATIONS_DEMO = [
   { title: "Piscine miroir 10×4 m · Villa", tag: "Béton sur-mesure", img: "https://images.unsplash.com/photo-1572331165267-854da2b10ccc?auto=format&fit=crop&q=80&w=1200" },
@@ -162,6 +163,10 @@ export default function AquanovaPiscinesPage() {
   }, []);
 
   fd = session?.formData;
+  SERVICES_DEMO = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
+    SERVICES_SOURCE,
+  );
   ZONES = resolveList(
     clientAreas(session)?.map((z, i) => ({ ...ZONES_DEMO[i % ZONES_DEMO.length], v: z })),
     ZONES_DEMO,

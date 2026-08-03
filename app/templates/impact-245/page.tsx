@@ -165,7 +165,7 @@ const PROCESS_STEPS: CraftStep[] = [
   { num: '04', body: 'Cuisson sur sole réfractaire, vapeur naturelle' },
 ];
 
-const TESTIMONIALS_DEMO: Testimonial[] = [
+const TESTIMONIALS_SOURCE: Testimonial[] = [
   {
     quote:
       "J'ai déménagé dans le 6e il y a deux ans, mais le samedi matin je traverse Lyon pour venir chercher mon pain. Ce levain, c'est une addiction honnête.",
@@ -179,6 +179,7 @@ const TESTIMONIALS_DEMO: Testimonial[] = [
     role: 'Chef restaurateur · Lyon 2e',
   },
 ];
+let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 /* ════════════════════════════════════════════════════════════════════════════
    Primitives partagées
@@ -2161,6 +2162,10 @@ export default function Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TESTIMONIALS_DEMO = resolveList(
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
+    TESTIMONIALS_SOURCE,
+  );
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
 return (

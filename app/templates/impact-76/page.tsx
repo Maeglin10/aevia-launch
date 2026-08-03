@@ -68,7 +68,7 @@ const ARCHIVE_PROJECTS_DEMO = [
 ];
 let ARCHIVE_PROJECTS = ARCHIVE_PROJECTS_DEMO;
 
-const SERVICES_DEMO = [
+const SERVICES_SOURCE = [
   {
     code: "SVC_01",
     title: "Residential Architecture",
@@ -85,6 +85,7 @@ const SERVICES_DEMO = [
     desc: "Museums, civic institutions, and cultural pavilions that reconfigure the relationship between community and built space.",
   },
 ];
+let SERVICES_DEMO = SERVICES_SOURCE;
 let SERVICES = SERVICES_DEMO;
 
 const STATS_DEMO = [
@@ -150,6 +151,10 @@ export default function StructuraArchPage() {
   }, []);
 
   fd = session?.formData;
+  SERVICES_DEMO = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
+    SERVICES_SOURCE,
+  );
   STATS = resolveList(clientStats(session), STATS_DEMO);
   ARCHIVE_PROJECTS = ARCHIVE_PROJECTS_DEMO.map((row, i) => ({
     ...row,

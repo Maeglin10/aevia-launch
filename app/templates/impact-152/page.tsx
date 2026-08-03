@@ -91,18 +91,20 @@ const ATELIER = [
   { t: "Les artisans qu'on appelle", d: "Six ateliers partenaires en Île-de-France, les mêmes depuis six ans. Ébéniste, métallier, tapissier, staffeur. Aucun appel d'offres au moins-disant." },
 ];
 
-const SERVICES_DEMO = [
+const SERVICES_SOURCE = [
   { titre: "Conseil & Conception", desc: "De l'esquisse au dossier complet : plan, élévations, matériaux, mobilier. Chaque détail est pensé avant la première vis.", emoji: "✏️" },
   { titre: "Suivi de chantier", desc: "Coordination des artisans, contrôle qualité à chaque étape, livraison clé en main sans surprise de budget.", emoji: "🏗️" },
   { titre: "Décoration complète", desc: "Sélection de mobilier, luminaires, textiles et œuvres d'art. Une cohérence visuelle de la première pièce à la dernière.", emoji: "🪑" },
 ]
+let SERVICES_DEMO = SERVICES_SOURCE;
 let SERVICES = SERVICES_DEMO;
 
-const TEMOIGNAGES_DEMO = [
+const TEMOIGNAGES_SOURCE = [
   { texte: "Clémence a transformé notre appartement en un espace où il fait vraiment bon vivre. Son sens du détail et sa rigueur sont bluffants — et le budget a été parfaitement respecté.", auteur: "Marie & Thomas L.", projet: "Appartement 160 m², Lyon 2e" },
   { texte: "Nous avions peur de perdre le caractère de notre maison ancienne. Le Studio Noma a su magnifier les volumes tout en apportant la modernité qu'on cherchait. Résultat magistral.", auteur: "Édouard V.", projet: `Maison de maître, ${clientCity({ formData: fd }) ?? "Villeurbanne"}` },
   { texte: "Un accompagnement de A à Z, professionnel et chaleureux. Notre boutique est maintenant l'une des plus belles de la galerie. Les ventes ont bondi de 40% depuis l'ouverture.", auteur: "Sophie K.", projet: "Concept store, Part-Dieu" },
 ]
+let TEMOIGNAGES_DEMO = TEMOIGNAGES_SOURCE;
 let TEMOIGNAGES = TEMOIGNAGES_DEMO;
 
 // ─── Components ───────────────────────────────────────────────────────────────
@@ -145,6 +147,14 @@ export default function StudioNomaPage() {
   }, []);
 
   fd = session?.formData;
+  SERVICES_DEMO = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], titre: s.title })),
+    SERVICES_SOURCE,
+  );
+  TEMOIGNAGES_DEMO = resolveList(
+    clientReviews(session)?.map((r: any, i: number) => ({ ...TEMOIGNAGES_SOURCE[i % TEMOIGNAGES_SOURCE.length], auteur: r.author, texte: r.text })),
+    TEMOIGNAGES_SOURCE,
+  );
   STATS = resolveList(clientStats(session), STATS_DEMO);
   TEMOIGNAGES = resolveList(
     clientReviews(session)?.map((r, i) => ({ ...TEMOIGNAGES_DEMO[i % TEMOIGNAGES_DEMO.length], texte: r.text, auteur: r.author })),

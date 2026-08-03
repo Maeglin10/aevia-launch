@@ -245,7 +245,7 @@ const PREVENTION_ITEMS: PreventionItem[] = [
   },
 ];
 
-const TESTIMONIALS_DEMO: Testimonial[] = [
+const TESTIMONIALS_SOURCE: Testimonial[] = [
   {
     quote:
       "Hypertendu depuis cinq ans, je changeais de médecin tous les deux ans faute de suivi. Avec le Dr. Beaumont, pour la première fois, je me sens vraiment écouté. Mon traitement est enfin ajusté, ma tension est stable. C'est ça, un médecin traitant.",
@@ -259,6 +259,7 @@ const TESTIMONIALS_DEMO: Testimonial[] = [
     situation: 'Coureuse suivie en médecine du sport',
   },
 ];
+let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 const MOTIFS = [
   'Consultation générale',
@@ -2264,6 +2265,10 @@ export default function Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TESTIMONIALS_DEMO = resolveList(
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
+    TESTIMONIALS_SOURCE,
+  );
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   if (brand) {

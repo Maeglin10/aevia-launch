@@ -1513,7 +1513,7 @@ type Testimonial = {
   resultLabel: string;
 };
 
-const TESTIMONIALS_DEMO: Testimonial[] = [
+const TESTIMONIALS_SOURCE: Testimonial[] = [
   {
     quote:
       'En 3 mois avec Thomas, j&apos;ai perdu 12 kg sans jamais me sentir à court d&apos;énergie. Les séances outdoor me donnaient envie de me lever le matin. La Prom&apos; des Anglais, c&apos;est devenu mon terrain de jeu.',
@@ -1539,6 +1539,7 @@ const TESTIMONIALS_DEMO: Testimonial[] = [
     resultLabel: 'marathon de Nice',
   },
 ];
+let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 function TransformationSection() {
   const TESTIMONIALS = resolveList<Testimonial>(
@@ -3166,6 +3167,10 @@ export default function Impact287Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TESTIMONIALS_DEMO = resolveList(
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
+    TESTIMONIALS_SOURCE,
+  );
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, coral: brand, coralLight: shadeColor(brand, 25) };

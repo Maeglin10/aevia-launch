@@ -143,7 +143,7 @@ const PROJECTS_DEMO: Project[] = [
   },
 ];
 
-const SERVICES_DEMO: Service[] = [
+const SERVICES_SOURCE: Service[] = [
   { icon: '⬡', title: 'Conception 3D', desc: 'Plans en perspective, rendu photoréaliste et visite virtuelle avant la première pelletée de terre.' },
   { icon: '⬡', title: 'Jardin naturel', desc: "Jardins en harmonie avec l\'écosystème local, plantations mellifères, zéro pesticide de synthèse." },
   { icon: '⬡', title: 'Potager biologique', desc: 'Buttes lasagne, association de cultures, bâches de paillage biodégradables, autonomie alimentaire.' },
@@ -151,6 +151,7 @@ const SERVICES_DEMO: Service[] = [
   { icon: '⬡', title: 'Entretien annuel', desc: "Contrats d\'entretien personnalisés : taille raisonnée, fertilisation organique, bilan saisonnier." },
   { icon: '⬡', title: "Jardins d\'eau", desc: 'Mares écologiques, bassins naturels, noues et rigoles de phytoépuration adaptés à votre terrain.' },
 ];
+let SERVICES_DEMO = SERVICES_SOURCE;
 
 const EDIT_ROWS: EditRow[] = [
   {
@@ -202,7 +203,7 @@ const ECO_ITEMS: EcoItem[] = [
   },
 ];
 
-const TESTIMONIALS_DEMO: Testimonial[] = [
+const TESTIMONIALS_SOURCE: Testimonial[] = [
   {
     quote:
       "Nous avions une cour bétonnée sans âme. Aujourd\'hui c\'est une forêt comestible de 80 m². Dès le quatrième mois, nous récoltions herbes aromatiques, fraises et courgettes. L\'équipe de Jardins Vivants a transformé notre regard sur notre extérieur.",
@@ -216,6 +217,7 @@ const TESTIMONIALS_DEMO: Testimonial[] = [
     role: 'Propriétaire · Château viticole, Saint-Émilion',
   },
 ];
+let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 /* ════════════════════════════════════════════════════════════════════════════
    Primitives
@@ -2204,6 +2206,14 @@ export default function Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  SERVICES_DEMO = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
+    SERVICES_SOURCE,
+  );
+  TESTIMONIALS_DEMO = resolveList(
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
+    TESTIMONIALS_SOURCE,
+  );
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, accent: brand, accentLight: shadeColor(brand, 25), accentDark: shadeColor(brand, -20) };

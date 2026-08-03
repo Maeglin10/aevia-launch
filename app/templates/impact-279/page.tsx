@@ -1301,7 +1301,7 @@ type Testimonial = {
   stars: number;
 };
 
-const TESTIMONIALS_DEMO: Testimonial[] = [
+const TESTIMONIALS_SOURCE: Testimonial[] = [
   {
     quote:
       'J&apos;avais une lombalgie chronique depuis trois ans. En deux séances, le Dr Soler a identifié une restriction que personne n&apos;avait vue. Après quatre séances, je n&apos;ai plus de douleurs quotidiennes. Un praticien exceptionnel.',
@@ -1324,6 +1324,7 @@ const TESTIMONIALS_DEMO: Testimonial[] = [
     stars: 5,
   },
 ];
+let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 function TestimonialsSection() {
   const TESTIMONIALS = resolveList(
@@ -2602,6 +2603,10 @@ export default function Impact279Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TESTIMONIALS_DEMO = resolveList(
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
+    TESTIMONIALS_SOURCE,
+  );
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, terra: brand, terraLight: shadeColor(brand, 25), terraDark: shadeColor(brand, -20) };

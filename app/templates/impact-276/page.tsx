@@ -1557,7 +1557,7 @@ function MethodSection() {
 /* ════════════════════════════════════════════════════════════════════════════
    5 · TransformationSection — 3 témoignages avec résultats chiffrés
    ════════════════════════════════════════════════════════════════════════════ */
-const TESTIMONIALS_DEMO = [
+const TESTIMONIALS_SOURCE = [
   {
     name: 'Margaux D.',
     age: 34,
@@ -1586,6 +1586,7 @@ const TESTIMONIALS_DEMO = [
     quote: "Je voulais courir mon premier semi-marathon. Thomas m'a préparé physiquement et mentalement. Résultat : 1h52 au finish et aucune blessure. Son plan était parfaitement adapté à mon niveau.",
   },
 ];
+let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 function TransformationSection() {
   const TESTIMONIALS = resolveList(
@@ -3154,6 +3155,10 @@ function Impact276Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TESTIMONIALS_DEMO = resolveList(
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
+    TESTIMONIALS_SOURCE,
+  );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {

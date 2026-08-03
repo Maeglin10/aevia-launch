@@ -80,7 +80,7 @@ const LISTINGS_DEMO = [
   },
 ];
 
-const TESTIMONIALS_DEMO = [
+const TESTIMONIALS_SOURCE = [
   {
     quote: "Skyline managed the off-market acquisition of our alpine estate and the security logistics for our family office within 48 hours. Absolute excellence.",
     author: "Family Office Principal",
@@ -97,6 +97,7 @@ const TESTIMONIALS_DEMO = [
     location: "London",
   },
 ];
+let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 const FAQ_DEMO = [
   {
@@ -117,7 +118,7 @@ const FAQ_DEMO = [
   },
 ];
 
-const SERVICES_DEMO = [
+const SERVICES_SOURCE = [
   {
     title: "Asset Acquisition",
     desc: "Off-market access to the world's most exclusive real estate, yachts, and private aviation.",
@@ -134,6 +135,7 @@ const SERVICES_DEMO = [
     icon: ShieldCheck,
   },
 ];
+let SERVICES_DEMO = SERVICES_SOURCE;
 let SERVICES = SERVICES_DEMO;
 
 const STATS_DEMO = [
@@ -261,6 +263,14 @@ export default function SkylineConciergePage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  SERVICES_DEMO = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
+    SERVICES_SOURCE,
+  );
+  TESTIMONIALS_DEMO = resolveList(
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], author: r.author, quote: r.text })),
+    TESTIMONIALS_SOURCE,
+  );
   SERVICES = resolveList(
     clientServices(sessionData)?.map((s, i) => ({ ...SERVICES_DEMO[i % SERVICES_DEMO.length], title: s.title })),
     SERVICES_DEMO,

@@ -321,7 +321,7 @@ const PROCESS = [
   },
 ];
 
-const TESTIMONIALS_DEMO = [
+const TESTIMONIALS_SOURCE = [
   {
     name: "Maxime L.",
     city: "Paris 11e",
@@ -365,6 +365,7 @@ const TESTIMONIALS_DEMO = [
     text: "Mes deux roses old school sont parfaites. James maîtrise les couleurs comme personne — après 18 mois, elles brillent encore. Son accueil est chaleureux, l'expérience était incroyable.",
   },
 ];
+let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 let TESTIMONIALS = TESTIMONIALS_DEMO;
 
 const FAQS_DEMO = [
@@ -555,6 +556,10 @@ export default function Impact89Page() {
   }, []);
 
   fd = session?.formData;
+  TESTIMONIALS_DEMO = resolveList(
+    clientReviews(session)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, text: r.text })),
+    TESTIMONIALS_SOURCE,
+  );
   STATS = resolveList(clientStats(session), STATS_DEMO);
   TESTIMONIALS = resolveList(
     clientReviews(session)?.map((r, i) => ({ ...TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length], text: r.text, name: r.author })),

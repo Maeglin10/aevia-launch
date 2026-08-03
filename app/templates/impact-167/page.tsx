@@ -168,11 +168,12 @@ const PROCESS_STEPS = [
   },
 ];
 
-const TESTIMONIALS_DEMO = [
+const TESTIMONIALS_SOURCE = [
   { quote: "Rive Gauche found us our apartment in four weeks. Three off-market viewings, one offer. They know this city in a way that takes decades to learn.", author: "Edward & Caroline H.", origin: "London" },
   { quote: "I had worked with three agencies before. This was different from the first meeting. They asked questions no one had asked.", author: "Mathieu L.", origin: "Paris" },
   { quote: "The negotiation they conducted on our behalf saved us €180,000. Quietly, professionally, without drama.", author: "Ingrid S.", origin: "Stockholm" },
 ];
+let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 const MARQUEE_ITEMS_DEMO = [
   "Saint-Germain",
@@ -812,6 +813,10 @@ export default function Impact167Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TESTIMONIALS_DEMO = resolveList(
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], author: r.author, quote: r.text })),
+    TESTIMONIALS_SOURCE,
+  );
   NEIGHBORHOODS = NEIGHBORHOODS_DEMO.map((row, i) => ({
     ...row,
     image: clientPhotos(sessionData)[0 + i] || row.image,

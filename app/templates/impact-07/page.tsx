@@ -1,4 +1,5 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
 // @ts-nocheck
 
 import { motion, useScroll, useTransform, useInView, AnimatePresence, useMotionValue, useSpring } from "framer-motion"
@@ -30,7 +31,7 @@ let brand: any = null;
    DATA STRUCTURES
    ========================================================================= */
 
-const COLLECTIONS_DEMO = [
+const COLLECTIONS_SOURCE = [
   { 
     id: 1, 
     name: "Aether One", 
@@ -56,6 +57,7 @@ const COLLECTIONS_DEMO = [
     img: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=1200&q=80"
   },
 ];
+let COLLECTIONS_DEMO = COLLECTIONS_SOURCE;
 let COLLECTIONS = COLLECTIONS_DEMO;
 
 const ENGINEERING = [
@@ -155,6 +157,10 @@ export default function AetherSoundPage() {
   }, []);
 
   fd = session?.formData;
+  COLLECTIONS_DEMO = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...COLLECTIONS_SOURCE[i % COLLECTIONS_SOURCE.length], name: s.title })),
+    COLLECTIONS_SOURCE,
+  );
   COLLECTIONS = COLLECTIONS_DEMO.map((row, i) => ({
     ...row,
     img: clientPhotos(session)[0 + i] || row.img,

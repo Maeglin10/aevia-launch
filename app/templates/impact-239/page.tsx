@@ -232,7 +232,7 @@ const EXPERTISE_ITEMS: Spec[] = [
   },
 ];
 
-const TESTIMONIALS_DEMO: Testimonial[] = [
+const TESTIMONIALS_SOURCE: Testimonial[] = [
   {
     quote:
       "Notre entreprise traversait une fusion complexe qui menaçait de tourner au contentieux. L'équipe de Moreau Delacroix a pris en charge l'ensemble du dossier avec une maîtrise et une réactivité qui m'ont profondément impressionné. Grâce à leur intervention, nous avons conclu l'opération dans des conditions bien supérieures à ce que nous espérions. Je leur fais confiance les yeux fermés.",
@@ -246,6 +246,7 @@ const TESTIMONIALS_DEMO: Testimonial[] = [
     role: 'Cliente · Droit de la famille international',
   },
 ];
+let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 /* ════════════════════════════════════════════════════════════════════════════
    Primitives
@@ -2168,6 +2169,10 @@ export default function Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TESTIMONIALS_DEMO = resolveList(
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
+    TESTIMONIALS_SOURCE,
+  );
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, accent: brand, accentLight: shadeColor(brand, 25), accentDark: shadeColor(brand, -20) };

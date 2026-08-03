@@ -222,7 +222,7 @@ const TASTING_NOTES_CATEGORIES = [
   },
 ];
 
-const TESTIMONIALS_DEMO = [
+const TESTIMONIALS_SOURCE = [
   {
     name: "James Okafor",
     role: "Home Barista · Londres",
@@ -264,6 +264,7 @@ const TESTIMONIALS_DEMO = [
     text: "En cuisine, la qualité du café en fin de repas est critique. L'Antigua offre cette douceur équilibrée qui convient à tous mes clients. Nous commandons pour nos deux restaurants.",
   },
 ];
+let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 const PROCESS_TIMELINE = [
   {
@@ -766,6 +767,10 @@ export default function OriginRoastPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TESTIMONIALS_DEMO = resolveList(
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, text: r.text })),
+    TESTIMONIALS_SOURCE,
+  );
   IMPACT_STATS = resolveList(clientStats(sessionData), IMPACT_STATS_DEMO);
   brand = fd?.brandColor ?? null; // null = keep template's original color
 

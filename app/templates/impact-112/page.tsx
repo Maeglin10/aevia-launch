@@ -80,7 +80,7 @@ const FONT = "'DM Sans', sans-serif";
 /* ─── DATA ────────────────────────────────────────────────────── */
 const NAV_LINKS = ["Boutique", "Collections", "Atelier", "Philosophie", "Contact"];
 
-const PRODUCTS = [
+const PRODUCTS_SOURCE = [
   {
     id: "p1",
     name: "Bol Wabi-Sabi",
@@ -154,6 +154,7 @@ const PRODUCTS = [
     gradient: "linear-gradient(135deg, #D4A070 0%, #9B5020 100%)",
   },
 ];
+let PRODUCTS = PRODUCTS_SOURCE;
 
 const COLLECTIONS = ["Tout voir", "Céramique", "Art de la table", "Jardin"];
 
@@ -1028,6 +1029,10 @@ export default function ArtisanMinimalPage() {
   }, []);
 
   fd = session?.formData;
+  PRODUCTS = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...PRODUCTS_SOURCE[i % PRODUCTS_SOURCE.length], name: s.title })),
+    PRODUCTS_SOURCE,
+  );
   FAQS = resolveList(
     clientFaq(session)?.map((r, i) => ({ ...FAQS_DEMO[i % FAQS_DEMO.length], q: r.q, a: r.a })),
     FAQS_DEMO,

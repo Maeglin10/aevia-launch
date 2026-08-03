@@ -239,7 +239,7 @@ const PRINCIPLES: PrincipleItem[] = [
   },
 ];
 
-const TESTIMONIALS_DEMO: Testimonial[] = [
+const TESTIMONIALS_SOURCE: Testimonial[] = [
   {
     quote:
       "Dix ans de douleurs lombaires chroniques. Trois séances et je gère maintenant de façon autonome, avec les conseils posturaux donnés en fin de consultation. Je n'aurais pas cru que c'était possible.",
@@ -253,6 +253,7 @@ const TESTIMONIALS_DEMO: Testimonial[] = [
     context: 'Parents · Nourrisson, coliques',
   },
 ];
+let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 /* ── Photo helper ─────────────────────────────────────────────────────────── */
 function photo(id: string, w = 1600) {
@@ -2205,6 +2206,10 @@ export default function Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TESTIMONIALS_DEMO = resolveList(
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
+    TESTIMONIALS_SOURCE,
+  );
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   if (brand) {

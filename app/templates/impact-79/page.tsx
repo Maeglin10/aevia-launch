@@ -1,4 +1,5 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
 // @ts-nocheck
 
 import {
@@ -59,7 +60,7 @@ let brand: any = null;
    DATA STRUCTURES
    ========================================================================= */
 
-const PRODUCTS_DEMO = [
+const PRODUCTS_SOURCE = [
   {
     id: 1,
     name: "THE_VOID_LOAF",
@@ -93,6 +94,7 @@ const PRODUCTS_DEMO = [
     img: "https://images.unsplash.com/photo-1519915028121-7d3463d20b13?w=800&q=80",
   },
 ];
+let PRODUCTS_DEMO = PRODUCTS_SOURCE;
 let PRODUCTS = PRODUCTS_DEMO;
 
 const TECHNIQUE = [
@@ -260,6 +262,10 @@ export default function BoulangerieNoirePage() {
   }, []);
 
   fd = session?.formData;
+  PRODUCTS_DEMO = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...PRODUCTS_SOURCE[i % PRODUCTS_SOURCE.length], name: s.title })),
+    PRODUCTS_SOURCE,
+  );
   PRODUCTS = PRODUCTS_DEMO.map((row, i) => ({
     ...row,
     img: clientPhotos(session)[0 + i] || row.img,

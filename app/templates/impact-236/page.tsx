@@ -146,7 +146,7 @@ const PHASES: Phase[] = [
 ];
 
 /* ── Services (6) ─────────────────────────────────────────────────────────── */
-const SERVICES_DEMO: Service[] = [
+const SERVICES_SOURCE: Service[] = [
   {
     num: '01',
     title: 'Installation électrique',
@@ -178,6 +178,7 @@ const SERVICES_DEMO: Service[] = [
     desc: 'Installation de bornes de recharge pour véhicules électriques, agréées IRVE P1/P2/P3, avec subvention ADVENIR.',
   },
 ];
+let SERVICES_DEMO = SERVICES_SOURCE;
 
 /* ── Editorial rows (2) ───────────────────────────────────────────────────── */
 const EDIT_ROWS: EditRow[] = [
@@ -224,7 +225,7 @@ const SPECS: Spec[] = [
 ];
 
 /* ── Reviews (3) ─────────────────────────────────────────────────────────── */
-const REVIEWS_DEMO: Review[] = [
+const REVIEWS_SOURCE: Review[] = [
   {
     quote:
       'Tableau électrique entièrement refait en une journée, câblage impeccable et nettoyage du chantier inclus. Je recommande sans hésiter.',
@@ -247,6 +248,7 @@ const REVIEWS_DEMO: Review[] = [
     city: 'Saint-Germain-en-Laye (78)',
   },
 ];
+let REVIEWS_DEMO = REVIEWS_SOURCE;
 
 /* ── Marquee items ────────────────────────────────────────────────────────── */
 const MARQUEE_ITEMS = [
@@ -2175,6 +2177,14 @@ export default function Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  SERVICES_DEMO = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
+    SERVICES_SOURCE,
+  );
+  REVIEWS_DEMO = resolveList(
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...REVIEWS_SOURCE[i % REVIEWS_SOURCE.length], name: r.author, quote: r.text })),
+    REVIEWS_SOURCE,
+  );
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, accent: brand };

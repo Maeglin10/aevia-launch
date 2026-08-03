@@ -83,7 +83,7 @@ const ZONES_DEMO = [
 ];
 let ZONES = ZONES_DEMO;
 
-const PRESTATIONS_DEMO = [
+const PRESTATIONS_SOURCE = [
   { icon: Flower, title: "Création jardin", desc: "Étude, plan 3D, terrassement, plantations, dallage, éclairage, arrosage automatique. Conception sur mesure de A à Z, du 10m² au 2 hectares." },
   { icon: Scissors, title: "Entretien régulier", desc: "Tonte, taille des haies et arbustes, désherbage, arrosage. Passage hebdomadaire, bihebdomadaire ou mensuel selon saison et superficie." },
   { icon: Trees, title: "Élagage & abattage", desc: "Élagage raisonné, recépage, abattage contrôlé de grands arbres. Matériel nacelle jusqu'à 28m. Broyage et évacuation des déchets végétaux." },
@@ -91,6 +91,7 @@ const PRESTATIONS_DEMO = [
   { icon: Droplets, title: "Arrosage automatique", desc: "Études, installation et maintenance. Goutte-à-goutte, asperseurs, drip line, commande connectée. Économie d'eau jusqu'à 60% vs arrosage manuel." },
   { icon: Sun, title: "Massifs & vivaces", desc: "Composition massifs 4 saisons, rocailles, prairie fleurie, plantes locales et résistantes. Entretien minimal garanti, floraison continue d'avril à octobre." },
 ]
+let PRESTATIONS_DEMO = PRESTATIONS_SOURCE;
 
 const TEMOIGNAGES_DEMO = [
   { q: "Notre terrain en friche transformé en jardin à la française en 3 semaines. Plan proposé en 48h, devis clair, exécution irréprochable. On est bluffés.", n: "Marie-Claire & Paul G.", l: "Annecy-le-Vieux" },
@@ -132,6 +133,10 @@ export default function JardinsVivantsPage() {
   }, []);
 
   fd = session?.formData;
+  PRESTATIONS_DEMO = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...PRESTATIONS_SOURCE[i % PRESTATIONS_SOURCE.length], title: s.title })),
+    PRESTATIONS_SOURCE,
+  );
   ZONES = resolveList(
     clientAreas(session)?.map((z, i) => ({ ...ZONES_DEMO[i % ZONES_DEMO.length], v: z })),
     ZONES_DEMO,

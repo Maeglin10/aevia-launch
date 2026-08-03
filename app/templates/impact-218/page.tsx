@@ -1588,7 +1588,7 @@ function CellarExperience() {
    ════════════════════════════════════════════════════════════════════════════ */
 type Testimonial = { quote: string; name: string; role: string };
 
-const TESTIMONIALS_DEMO: Testimonial[] = [
+const TESTIMONIALS_SOURCE: Testimonial[] = [
   {
     quote:
       'Je suis l’allocation du Domaine Miroir depuis huit ans. Aucun millésime ne ressemble au précédent, et pourtant chacun porte la même signature de droiture. C’est une cave que l’on garde.',
@@ -1602,6 +1602,7 @@ const TESTIMONIALS_DEMO: Testimonial[] = [
     role: `Chef sommelier · Maison Étoilée, ${clientCity(sessionData) ?? "Lyon"}`,
   },
 ];
+let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 function Testimonials() {
   const TESTIMONIALS = resolveList(
@@ -2179,6 +2180,10 @@ export default function Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TESTIMONIALS_DEMO = resolveList(
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
+    TESTIMONIALS_SOURCE,
+  );
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, gold: brand, goldLight: shadeColor(brand, 25) };

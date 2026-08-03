@@ -73,7 +73,7 @@ const HERO_TEMPS_DEMO = [
 ];
 let HERO_TEMPS = HERO_TEMPS_DEMO;
 
-const SERVICES_DEMO = [
+const SERVICES_SOURCE = [
   { titre: "Organisation d'obsèques", desc: "Inhumation ou crémation. Un interlocuteur unique organise tout : cercueil, transport, cérémonie, mise en relation avec le cimetière ou le crématorium.", tag: "24h/24" },
   { titre: "Démarches administratives", desc: "Déclaration de décès, état civil, caisses de retraite, banques, notaire : nous préparons et suivons jusqu'à vingt courriers et dossiers pour vous.", tag: "Inclus" },
   { titre: "Chambre funéraire", desc: "Salons de recueillement privés, accessibles à la famille 7j/7 de 8h à 20h, en dehors de toute contrainte horaire d'hôpital.", tag: "Recueillement" },
@@ -81,6 +81,7 @@ const SERVICES_DEMO = [
   { titre: "Marbrerie & monuments", desc: "Création, restauration et entretien de monuments. Gravures, porcelaine, jardinières — devis clair avant toute intervention.", tag: "Marbrerie" },
   { titre: "Contrats de prévoyance", desc: "Vos volontés écrites et financées à l'avance, capital garanti. Mensualisable, modifiable, et opposable le moment venu.", tag: "Prévoyance" },
 ];
+let SERVICES_DEMO = SERVICES_SOURCE;
 
 const ENGAGEMENT_DEMO = [
   "Habilitation préfectorale n° 26-31-0142 — Préfecture de la Haute-Garonne",
@@ -98,11 +99,12 @@ const TARIFS_DEMO = [
 ];
 let TARIFS = TARIFS_DEMO;
 
-const AVIS_DEMO = [
+const AVIS_SOURCE = [
   { texte: "Nous avons été reçus le soir même, sans précipitation. Chaque choix nous a été expliqué avec le prix en face. Personne n'a cherché à nous vendre quoi que ce soit de plus.", auteur: "Famille M.", detail: "Obsèques d'un père" },
   { texte: "La cérémonie laïque préparée avec le maître de cérémonie ressemblait vraiment à ma sœur. Les textes, la musique, tout était juste. Merci pour cette dignité.", auteur: "Claire V.", detail: "Cérémonie personnalisée" },
   { texte: "J'ai souscrit un contrat de prévoyance après le décès de mon mari, pour que mes enfants n'aient jamais à traverser ce que j'ai traversé. Tout est écrit, tout est financé.", auteur: "Jeanne R.", detail: "Contrat de prévoyance" },
 ];
+let AVIS_DEMO = AVIS_SOURCE;
 
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const ref = useRef(null);
@@ -143,6 +145,14 @@ export default function MaisonEstevePage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  SERVICES_DEMO = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], titre: s.title })),
+    SERVICES_SOURCE,
+  );
+  AVIS_DEMO = resolveList(
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...AVIS_SOURCE[i % AVIS_SOURCE.length], auteur: r.author, texte: r.text })),
+    AVIS_SOURCE,
+  );
   HERO_TEMPS = HERO_TEMPS_DEMO.map((row, i) => ({
     ...row,
     img: clientPhotos(sessionData)[0 + i] || row.img,

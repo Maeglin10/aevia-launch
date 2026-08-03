@@ -33,7 +33,7 @@ let brand: any = null;
    DATA STRUCTURES
    ========================================================================= */
 
-const PRODUCTS_DEMO = [
+const PRODUCTS_SOURCE = [
   { 
     id: 1, 
     name: "Neural Link V2", 
@@ -59,6 +59,7 @@ const PRODUCTS_DEMO = [
     img: "https://images.unsplash.com/photo-1535223289827-42f1e9919769?w=1200&q=80"
   },
 ];
+let PRODUCTS_DEMO = PRODUCTS_SOURCE;
 let PRODUCTS = PRODUCTS_DEMO;
 
 const INNOVATIONS_DEMO = [
@@ -160,6 +161,10 @@ export default function NeuralisPage() {
   }, []);
 
   fd = session?.formData;
+  PRODUCTS_DEMO = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...PRODUCTS_SOURCE[i % PRODUCTS_SOURCE.length], name: s.title })),
+    PRODUCTS_SOURCE,
+  );
   STATS = resolveList(clientStats(session), STATS_DEMO);
   INNOVATIONS = resolveList(
     clientServices(session)?.map((s, i) => ({ ...INNOVATIONS_DEMO[i % INNOVATIONS_DEMO.length], title: s.title })),

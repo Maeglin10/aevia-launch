@@ -268,7 +268,7 @@ const TECH_SPECS: TechSpec[] = [
 ];
 
 /* ── Témoignages ─────────────────────────────────────────────────────────── */
-const TESTIMONIALS_DEMO: Testimonial[] = [
+const TESTIMONIALS_SOURCE: Testimonial[] = [
   {
     quote:
       "Rupture de canalisation un dimanche soir, eau dans le couloir. Ils ont débarqué en 40 minutes, tout réparé avant minuit. Tarif annoncé à l'avance, respecté à l'euro. Je n'appelle plus que ThermoFix.",
@@ -284,6 +284,7 @@ const TESTIMONIALS_DEMO: Testimonial[] = [
     stars: 5,
   },
 ];
+let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 /* ════════════════════════════════════════════════════════════════════════════
    Primitives
@@ -2395,6 +2396,10 @@ export default function Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TESTIMONIALS_DEMO = resolveList(
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], author: r.author, quote: r.text })),
+    TESTIMONIALS_SOURCE,
+  );
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, accent: brand };

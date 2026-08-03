@@ -64,11 +64,12 @@ const METHODE = [
   "Disponibilité entre séances par messagerie pour vos questions",
 ]
 
-const AVIS_DEMO = [
+const AVIS_SOURCE = [
   { texte: "6 mois de suivi pour perdre 14 kg. C'est la première fois que je tiens dans le temps — aucune frustration, aucun yo-yo. La méthode est vraiment différente de tout ce que j'avais essayé.", auteur: "Marie L.", detail: "Perte de poids · 6 mois de suivi" },
   { texte: "Suivi pour SIBO et côlon irritable après 3 ans de galère. En 4 mois, mes symptômes ont diminué de 80%. Enfin quelqu'un qui a compris ce que j'avais.", auteur: "Antoine D.", detail: "Troubles digestifs · SIBO" },
   { texte: "Préparation marathon avec plan nutritionnel sur mesure. J'ai battu mon record de 8 minutes. Le travail sur la récupération et les glucides était exceptionnel.", auteur: "Sarah K.", detail: "Nutrition sportive · Marathon" },
 ]
+let AVIS_DEMO = AVIS_SOURCE;
 
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const ref = useRef(null)
@@ -158,6 +159,10 @@ export default function NutritherapiePage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  AVIS_DEMO = resolveList(
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...AVIS_SOURCE[i % AVIS_SOURCE.length], auteur: r.author, texte: r.text })),
+    AVIS_SOURCE,
+  );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {

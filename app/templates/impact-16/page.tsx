@@ -66,12 +66,13 @@ const WORKS_DEMO = [
   { title: "Le Temps Suspendu", category: "Portrait", src: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=600&q=80", year: "2023" },
 ]
 
-const SERVICES_DEMO = [
+const SERVICES_SOURCE = [
   { title: "Portraits & Éditorial", desc: "Portraits intimes et éditoriaux pour magazines, agences et particuliers. Studio ou extérieur.", from: "600€" },
   { title: "Campagnes Mode", desc: "Direction artistique et photographie pour collections et lookbooks. Équipe complète sur demande.", from: "2 400€" },
   { title: "Reportage Événementiel", desc: "Mariage, lancement produit, conférence. Documentation professionnelle haute définition.", from: "900€" },
   { title: "Architecture & Intérieur", desc: "Valorisation de projets architecturaux et d'espaces de vie. Post-production cinématographique.", from: "1 200€" },
 ]
+let SERVICES_DEMO = SERVICES_SOURCE;
 
 const AWARDS = [
   { name: "World Photography Awards", year: "2025", category: "Portrait" },
@@ -149,6 +150,10 @@ export default function ObscuraPage() {
   c = session?.generatedContent;
   bp = bpLocal;
   sessionData = session;
+  SERVICES_DEMO = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
+    SERVICES_SOURCE,
+  );
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   useFonts()

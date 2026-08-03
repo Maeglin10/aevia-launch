@@ -174,7 +174,7 @@ const TEAM_DEMO = [
   },
 ]
 
-const SERVICES_DEMO = [
+const SERVICES_SOURCE = [
   {
     icon: '⬜',
     title: 'Gros Œuvre',
@@ -196,6 +196,7 @@ const SERVICES_DEMO = [
     desc: 'Pilotage complet du projet, coordination des corps d\'état, suivi qualité et respect des délais.',
   },
 ]
+let SERVICES_DEMO = SERVICES_SOURCE;
 
 /* ==========================================================================
    UTILITY HOOKS
@@ -2002,6 +2003,10 @@ export default function Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  SERVICES_DEMO = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
+    SERVICES_SOURCE,
+  );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {

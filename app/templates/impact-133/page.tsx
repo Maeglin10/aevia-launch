@@ -114,7 +114,7 @@ const PROJECTS = [
   },
 ];
 
-const SERVICES_DEMO = [
+const SERVICES_SOURCE = [
   {
     label: "Parametric Design",
     desc: "Algorithm-generated form-finding that balances structural integrity with environmental performance. Every curve is computed, never arbitrary.",
@@ -136,6 +136,7 @@ const SERVICES_DEMO = [
     num: "04",
   },
 ];
+let SERVICES_DEMO = SERVICES_SOURCE;
 let SERVICES = SERVICES_DEMO;
 
 const TECH_STACK = [
@@ -2218,6 +2219,10 @@ export default function Impact133Page() {
   }, []);
 
   fd = session?.formData;
+  SERVICES_DEMO = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], label: s.title })),
+    SERVICES_SOURCE,
+  );
   PRESS = resolveList(
     clientReviews(session)?.map((r, i) => ({ ...PRESS_DEMO[i % PRESS_DEMO.length], quote: r.text, name: r.author })),
     PRESS_DEMO,

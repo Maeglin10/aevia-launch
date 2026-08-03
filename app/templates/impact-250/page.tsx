@@ -154,7 +154,7 @@ const PROJECTS_DEMO: Project[] = [
   },
 ];
 
-const SERVICES_DEMO: Service[] = [
+const SERVICES_SOURCE: Service[] = [
   { title: 'Création de jardin', desc: 'Conception sur-mesure, plan 3D et réalisation complète — de la terre nue au jardin abouti.', icon: '🌿' },
   { title: 'Aménagement terrasse', desc: 'Dallage naturel, bois exotique, pergolas et mobilier extérieur choisis avec vous.', icon: '🪨' },
   { title: 'Entretien & tonte', desc: 'Forfaits saisonniers, taille raisonnée, désherbage naturel. Votre jardin toujours au meilleur.', icon: '✂️' },
@@ -162,6 +162,7 @@ const SERVICES_DEMO: Service[] = [
   { title: 'Bassin & piscine naturelle', desc: "Bassin de baignade biologique, piscine naturelle, mare ornementale — l\'eau vivante chez vous.", icon: '💧' },
   { title: 'Éclairage extérieur', desc: 'Ambiances LED basse consommation, guirlandes, spots encastrés — le jardin habité la nuit.', icon: '✨' },
 ];
+let SERVICES_DEMO = SERVICES_SOURCE;
 
 const EDIT_ROWS_DEMO: EditRow[] = [
   {
@@ -218,7 +219,7 @@ const PHILOSOPHY: PhilosophyItem[] = [
   },
 ];
 
-const TESTIMONIALS_DEMO: Testimonial[] = [
+const TESTIMONIALS_SOURCE: Testimonial[] = [
   {
     quote: "En trois mois, Atelier Terra a transformé 800 m² de béton nu en un jardin luxuriant que je n\'aurais jamais osé imaginer. Leur patience et leur vision ont été remarquables du premier plan jusqu\'à la dernière plante.",
     name: 'Isabelle Moreau',
@@ -230,6 +231,7 @@ const TESTIMONIALS_DEMO: Testimonial[] = [
     role: `Gérant · Restaurant Les Jardins de Loire, ${clientCity(sessionData) ?? "Nantes"}`,
   },
 ];
+let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 /* ════════════════════════════════════════════════════════════════════════════
    Primitives partagés
@@ -2036,6 +2038,14 @@ export default function Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  SERVICES_DEMO = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
+    SERVICES_SOURCE,
+  );
+  TESTIMONIALS_DEMO = resolveList(
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
+    TESTIMONIALS_SOURCE,
+  );
   EDIT_ROWS = EDIT_ROWS_DEMO.map((row, i) => ({
     ...row,
     img: clientPhotos(sessionData)[0 + i] || row.img,

@@ -143,7 +143,7 @@ const PRACTICES: Practice[] = [
   },
 ];
 
-const SERVICES_DEMO: Service[] = [
+const SERVICES_SOURCE: Service[] = [
   { title: 'Droit des sociétés', desc: "Création, cession, fusion, pactes d\'associés et gouvernance." },
   { title: 'Contentieux commercial', desc: 'Litiges contractuels, impayés, résolution amiable et judiciaire.' },
   { title: 'Droit du travail', desc: 'Licenciements, accords collectifs, négociation, conseil RH.' },
@@ -151,6 +151,7 @@ const SERVICES_DEMO: Service[] = [
   { title: 'Droit immobilier', desc: 'Baux commerciaux, VEFA, litiges entre propriétaires et locataires.' },
   { title: 'Médiation & arbitrage', desc: 'Résolution alternative des conflits pour éviter les délais judiciaires.' },
 ];
+let SERVICES_DEMO = SERVICES_SOURCE;
 
 const EDIT_ROWS: EditRow[] = [
   {
@@ -204,7 +205,7 @@ const VALUES: ValueItem[] = [
   },
 ];
 
-const TESTIMONIALS_DEMO: Testimonial[] = [
+const TESTIMONIALS_SOURCE: Testimonial[] = [
   {
     quote:
       "Nous avons subi une résiliation abusive de notre contrat distributeur après 12 ans de relation. Maître Voss a construit un dossier implacable. L\'affaire a été tranchée en notre faveur en appel — 180 000 € récupérés. Une avocate qui ne lâche rien.",
@@ -218,6 +219,7 @@ const TESTIMONIALS_DEMO: Testimonial[] = [
     role: `Directrice générale — chaîne de restauration, ${clientCity(sessionData) ?? "Toulouse"}`,
   },
 ];
+let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 /* ════════════════════════════════════════════════════════════════════════════
    Primitives
@@ -2089,6 +2091,14 @@ export default function Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  SERVICES_DEMO = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
+    SERVICES_SOURCE,
+  );
+  TESTIMONIALS_DEMO = resolveList(
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
+    TESTIMONIALS_SOURCE,
+  );
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   if (brand) {

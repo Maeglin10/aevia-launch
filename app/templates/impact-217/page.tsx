@@ -312,7 +312,7 @@ interface Review {
   text: string;
 }
 
-const REVIEWS_DEMO: Review[] = [
+const REVIEWS_SOURCE: Review[] = [
   {
     name: 'Marcus T.',
     handle: '@marcusruns',
@@ -332,6 +332,7 @@ const REVIEWS_DEMO: Review[] = [
     text: 'Copped the Vol. 02 drop in seconds. Build quality crushes brands twice the price. Shipping was fast too.',
   },
 ];
+let REVIEWS_DEMO = REVIEWS_SOURCE;
 
 /* ════════════════════════════════════════════════════════════════════════════
    NAV — transparent over hero → solid on scroll
@@ -2556,6 +2557,10 @@ export default function ImpactSneakerPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  REVIEWS_DEMO = resolveList(
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...REVIEWS_SOURCE[i % REVIEWS_SOURCE.length], name: r.author, text: r.text })),
+    REVIEWS_SOURCE,
+  );
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   if (brand) {

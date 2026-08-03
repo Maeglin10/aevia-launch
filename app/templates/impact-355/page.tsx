@@ -48,13 +48,15 @@ const FONT_BODY = FONT;
 const NAV = [{"l": "Soins", "h": "#services"}, {"l": "À domicile", "h": "#methode"}, {"l": "Prise en charge", "h": "#tarifs"}, {"l": "Contact", "h": "#contact"}];
 const HERO = [];
 
-const SERVICES_DEMO = [{"titre": "Prises de sang", "desc": "À domicile dès 6h30 (à jeun sans attendre midi) ou au cabinet sans rendez-vous de 7h à 9h. Résultats via votre laboratoire habituel.", "tag": "Prélèvements"}, {"titre": "Pansements & plaies", "desc": "Post-opératoires, ulcères, brûlures : protocoles suivis avec photos sécurisées transmises au médecin quand la plaie évolue.", "tag": "Plaies"}, {"titre": "Injections & perfusions", "desc": "Antibiothérapie, anticoagulants, chimiothérapie à domicile en lien avec l'hôpital : le retour à la maison, sécurisé.", "tag": "Perfusions"}, {"titre": "Soins chroniques & dépendance", "desc": "Diabète, piluliers, nursing : des passages réguliers aux mêmes heures, par les mêmes visages. La routine qui rassure.", "tag": "Chronique"}, {"titre": "Soins palliatifs", "desc": "En coordination avec l'HAD et les équipes mobiles : rester chez soi, entouré, jusqu'au bout si c'est le choix de la famille.", "tag": "Palliatif"}, {"titre": "Vaccins & dépistages", "desc": "Grippe, COVID, TROD angine : au cabinet ou à domicile, tracés dans votre dossier.", "tag": "Prévention"}];
+const SERVICES_SOURCE = [{"titre": "Prises de sang", "desc": "À domicile dès 6h30 (à jeun sans attendre midi) ou au cabinet sans rendez-vous de 7h à 9h. Résultats via votre laboratoire habituel.", "tag": "Prélèvements"}, {"titre": "Pansements & plaies", "desc": "Post-opératoires, ulcères, brûlures : protocoles suivis avec photos sécurisées transmises au médecin quand la plaie évolue.", "tag": "Plaies"}, {"titre": "Injections & perfusions", "desc": "Antibiothérapie, anticoagulants, chimiothérapie à domicile en lien avec l'hôpital : le retour à la maison, sécurisé.", "tag": "Perfusions"}, {"titre": "Soins chroniques & dépendance", "desc": "Diabète, piluliers, nursing : des passages réguliers aux mêmes heures, par les mêmes visages. La routine qui rassure.", "tag": "Chronique"}, {"titre": "Soins palliatifs", "desc": "En coordination avec l'HAD et les équipes mobiles : rester chez soi, entouré, jusqu'au bout si c'est le choix de la famille.", "tag": "Palliatif"}, {"titre": "Vaccins & dépistages", "desc": "Grippe, COVID, TROD angine : au cabinet ou à domicile, tracés dans votre dossier.", "tag": "Prévention"}];
+let SERVICES_DEMO = SERVICES_SOURCE;
 const METHODE = [{"n": "01", "t": "Ordonnance transmise", "d": "Par photo, mail ou papier : nous vérifions la cotation et prévenons votre médecin si quelque chose manque."}, {"n": "02", "t": "Passage planifié", "d": "Un créneau fiable, les mêmes infirmiers, prévenance par SMS si la tournée glisse de plus de 20 minutes."}, {"n": "03", "t": "Soin tracé", "d": "Chaque acte noté au dossier de soins, partagé entre nous quatre — pas de « c'était qui hier ? »."}, {"n": "04", "t": "Coordination", "d": "Médecin, kiné, pharmacie, HAD : nous parlons aux autres soignants, vous n'avez pas à porter les messages."}];
 const ENGAGEMENT_DEMO = ["Infirmiers diplômés d'État, inscrits à l'Ordre national — n° RPPS affichés au cabinet", "Conventionnés CPAM secteur 1 : tarifs de la nomenclature, tiers payant systématique", "Dossier de soins partagé et sécurisé entre les quatre infirmiers du cabinet", "Zone d'intervention claire : Limoges et première couronne, annoncée avant d'accepter"];
 let ENGAGEMENT = ENGAGEMENT_DEMO;
 const TARIFS_DEMO = [{"a": "Prise de sang à domicile", "p": "tiers payant", "n": "Sur ordonnance : AMI + indemnité de déplacement, sans avance de frais."}, {"a": "Pansement complexe", "p": "tiers payant", "n": "Coté selon la NGAP, protocole suivi et transmis au prescripteur."}, {"a": "Passage quotidien chronique", "p": "tiers payant", "n": "Diabète, piluliers, nursing : pris en charge sur prescription."}, {"a": "Vaccin au cabinet (sans RDV)", "p": "selon nomenclature", "n": "Grippe : apportez le vaccin et votre bon, l'injection est prise en charge."}];
 let TARIFS = TARIFS_DEMO;
-const AVIS_DEMO = [{"texte": "Perfusions d'antibiotiques après une hospitalisation : passage deux fois par jour, à l'heure, les mêmes visages. La coordination avec l'hôpital était parfaite.", "auteur": "René B., 74 ans", "detail": "Retour d'hospitalisation"}, {"texte": "Ma mère diabétique voit la même infirmière chaque matin depuis deux ans. Ce lien-là fait autant que l'insuline.", "auteur": "Fille de Mme T.", "detail": "Soins chroniques"}, {"texte": "Prise de sang à 6h45 à domicile avant le travail : le laboratoire avait les tubes à 8h. Efficace, aimable, remboursé.", "auteur": "Karima L.", "detail": "Prélèvement à jeun"}];
+const AVIS_SOURCE = [{"texte": "Perfusions d'antibiotiques après une hospitalisation : passage deux fois par jour, à l'heure, les mêmes visages. La coordination avec l'hôpital était parfaite.", "auteur": "René B., 74 ans", "detail": "Retour d'hospitalisation"}, {"texte": "Ma mère diabétique voit la même infirmière chaque matin depuis deux ans. Ce lien-là fait autant que l'insuline.", "auteur": "Fille de Mme T.", "detail": "Soins chroniques"}, {"texte": "Prise de sang à 6h45 à domicile avant le travail : le laboratoire avait les tubes à 8h. Efficace, aimable, remboursé.", "auteur": "Karima L.", "detail": "Prélèvement à jeun"}];
+let AVIS_DEMO = AVIS_SOURCE;
 const STATS_DEMO = [{"value": "4", "label": "Infirmiers D.E. conventionnés"}, {"value": "7j/7", "label": "Pour les soins quotidiens"}, {"value": "6h30", "label": "Première tournée (à jeun compris)"}, {"value": "100 %", "label": "Tiers payant sur ordonnance"}];
 let STATS = STATS_DEMO;
 
@@ -89,6 +91,14 @@ export default function TilleulsIdelPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  SERVICES_DEMO = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], titre: s.title })),
+    SERVICES_SOURCE,
+  );
+  AVIS_DEMO = resolveList(
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...AVIS_SOURCE[i % AVIS_SOURCE.length], auteur: r.author, texte: r.text })),
+    AVIS_SOURCE,
+  );
   TARIFS = resolveList(
     clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
     TARIFS_DEMO,

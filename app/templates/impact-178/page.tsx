@@ -61,12 +61,13 @@ const BIENS_DEMO = [
   { type: "Penthouse", title: "Duplex vue panoramique", loc: "Paris 16ème", price: "4 800 000 €", surface: 220, pieces: 7, chambres: 4, sdb: 3, img: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&q=80&w=1200", badge: "Coup de cœur" },
 ]
 
-const SERVICES_DEMO = [
+const SERVICES_SOURCE = [
   { num: "01", title: "Estimation gratuite", desc: "Évaluation précise de votre bien basée sur 15 ans de données de marché et une analyse comparative approfondie." },
   { num: "02", title: "Marketing premium", desc: "Photos professionnel, visite virtuelle 3D, diffusion sur 40+ portails, newsletter auprès de 2 000 acquéreurs qualifiés." },
   { num: "03", title: "Accompagnement acheteurs", desc: "Sélection exclusive, visites accompagnées, négociation, suivi notarial. Une seule personne de confiance du début à la fin." },
   { num: "04", title: "Gestion locative", desc: "Mise en location, sélection locataires, états des lieux, gestion courante. Taux d'occupation moyen : 98,2%." },
 ]
+let SERVICES_DEMO = SERVICES_SOURCE;
 
 /* ── Contact / Inquiry Modal ─────────────────────────────────────────────── */
 function InquiryModal({
@@ -282,6 +283,10 @@ export default function AltaTransactionsPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  SERVICES_DEMO = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
+    SERVICES_SOURCE,
+  );
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const BIENS = resolveList(

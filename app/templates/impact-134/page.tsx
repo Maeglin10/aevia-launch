@@ -91,7 +91,7 @@ const NAV_LINKS = [
   { label: "Presse", href: "#presse" },
 ]
 
-const PRODUCTS = [
+const PRODUCTS_SOURCE = [
   {
     id: "serum",
     name: "Sérum Éclat",
@@ -177,6 +177,7 @@ const PRODUCTS = [
     icon: Sun,
   },
 ]
+let PRODUCTS = PRODUCTS_SOURCE;
 
 const RITUELS = [
   {
@@ -266,7 +267,7 @@ const INGREDIENTS = [
   },
 ]
 
-const REVIEWS_DEMO = [
+const REVIEWS_SOURCE = [
   {
     text: "Le Sérum Éclat a complètement transformé mon teint en 3 semaines. Mes taches de grossesse ont nettement diminué. Je recommande les yeux fermés.",
     author: "Camille D.",
@@ -300,6 +301,7 @@ const REVIEWS_DEMO = [
     stars: 5,
   },
 ]
+let REVIEWS_DEMO = REVIEWS_SOURCE;
 let REVIEWS = REVIEWS_DEMO;
 
 const PRESS_ITEMS = [
@@ -2342,6 +2344,14 @@ export default function Impact134Page() {
   }, []);
 
   fd = session?.formData;
+  PRODUCTS = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...PRODUCTS_SOURCE[i % PRODUCTS_SOURCE.length], name: s.title })),
+    PRODUCTS_SOURCE,
+  );
+  REVIEWS_DEMO = resolveList(
+    clientReviews(session)?.map((r: any, i: number) => ({ ...REVIEWS_SOURCE[i % REVIEWS_SOURCE.length], author: r.author, text: r.text })),
+    REVIEWS_SOURCE,
+  );
   REVIEWS = resolveList(
     clientReviews(session)?.map((r, i) => ({ ...REVIEWS_DEMO[i % REVIEWS_DEMO.length], text: r.text, author: r.author })),
     REVIEWS_DEMO,

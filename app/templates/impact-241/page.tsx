@@ -1,4 +1,5 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
 // @ts-nocheck
 
 import React, {useRef, useState, useEffect} from 'react';
@@ -17,7 +18,6 @@ import {
   MapPin,
   Quote,
 } from 'lucide-react';
-import { resolveList } from '@/lib/templates/resolveList';
 import {
   clientCity,
   clientReviews,
@@ -158,7 +158,7 @@ const PROPERTIES: Property[] = [
   },
 ];
 
-const SERVICES_DEMO: Service[] = [
+const SERVICES_SOURCE: Service[] = [
   {
     title: 'Estimation gratuite',
     desc: 'Évaluation précise de votre bien en 48h, fondée sur 2 000+ transactions et les données du marché bordelais en temps réel.',
@@ -190,6 +190,7 @@ const SERVICES_DEMO: Service[] = [
     badge: 'Conseil',
   },
 ];
+let SERVICES_DEMO = SERVICES_SOURCE;
 
 const EDIT_ROWS: EditRow[] = [
   {
@@ -249,7 +250,7 @@ const EXPERTISE_ITEMS: ExpertiseItem[] = [
   },
 ];
 
-const TESTIMONIALS_DEMO: Testimonial[] = [
+const TESTIMONIALS_SOURCE: Testimonial[] = [
   {
     quote:
       "Nous avions mis notre appartement des Chartrons en vente deux fois sans succès avec d'autres agences. Clé de Voûte l'a vendu en 8 jours, au-dessus de notre prix de réserve. Leur méthode est radicalement différente : photos de qualité studio, acheteurs ciblés, négociation sans concession. Nous ne saurions recommander personne d'autre.",
@@ -263,6 +264,7 @@ const TESTIMONIALS_DEMO: Testimonial[] = [
     role: 'Investisseur privé · Bordeaux & Lyon',
   },
 ];
+let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 /* ════════════════════════════════════════════════════════════════════════════
    Primitives
@@ -2169,6 +2171,14 @@ export default function Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  SERVICES_DEMO = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
+    SERVICES_SOURCE,
+  );
+  TESTIMONIALS_DEMO = resolveList(
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
+    TESTIMONIALS_SOURCE,
+  );
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, accent: brand, accentLight: shadeColor(brand, 25), accentDark: shadeColor(brand, -20) };

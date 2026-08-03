@@ -239,7 +239,7 @@ const SAFETY_ITEMS: SafetyItem[] = [
   },
 ];
 
-const TESTIMONIALS_DEMO: Testimonial[] = [
+const TESTIMONIALS_SOURCE: Testimonial[] = [
   {
     quote:
       "Je suis historienne de l'art et je voulais une pièce inspirée de Magritte. L'interprétation d'Hugo a dépassé la référence — il a construit quelque chose d'entièrement neuf qui respire le surréalisme sans en copier les codes. Un tatouage que j'explique à chaque vernissage.",
@@ -253,6 +253,7 @@ const TESTIMONIALS_DEMO: Testimonial[] = [
     role: 'Voyageur & photographe · Dublin',
   },
 ];
+let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 /* ════════════════════════════════════════════════════════════════════════════
    Primitives
@@ -2159,6 +2160,10 @@ export default function Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TESTIMONIALS_DEMO = resolveList(
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
+    TESTIMONIALS_SOURCE,
+  );
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, accent: brand, accentLight: shadeColor(brand, 25), accentDark: shadeColor(brand, -20) };

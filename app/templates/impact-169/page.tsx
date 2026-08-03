@@ -172,7 +172,7 @@ const AUTHORS = [
   },
 ];
 
-const TESTIMONIALS_DEMO = [
+const TESTIMONIALS_SOURCE = [
   {
     quote: "Fréquence est la seule newsletter que j'ouvre en premier le lundi matin. Pas de superflu, des idées qui tiennent et qui transforment ma manière de penser le business.",
     name: "Alexandre M.",
@@ -198,6 +198,7 @@ const TESTIMONIALS_DEMO = [
     stars: 5,
   },
 ];
+let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 let TESTIMONIALS = TESTIMONIALS_DEMO;
 
 const PLANS = [
@@ -457,6 +458,10 @@ export default function ImpactFrequencePage() {
   }, []);
 
   fd = session?.formData;
+  TESTIMONIALS_DEMO = resolveList(
+    clientReviews(session)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
+    TESTIMONIALS_SOURCE,
+  );
   STATS = resolveList(clientStats(session), STATS_DEMO);
   TESTIMONIALS = resolveList(
     clientReviews(session)?.map((r, i) => ({ ...TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length], quote: r.text, name: r.author })),

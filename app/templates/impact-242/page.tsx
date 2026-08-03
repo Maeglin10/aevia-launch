@@ -237,7 +237,7 @@ const EXPERTISE_ITEMS: ExpertiseItem[] = [
   },
 ];
 
-const TESTIMONIALS_DEMO: Testimonial[] = [
+const TESTIMONIALS_SOURCE: Testimonial[] = [
   {
     quote:
       "Depuis que je travaille avec Marchand & Partners, j'ai récupéré 3 heures par semaine et découvert plus de 4 000 € de déductions que j'ignorais. Leur approche proactive a complètement changé ma façon de piloter mon activité.",
@@ -253,6 +253,7 @@ const TESTIMONIALS_DEMO: Testimonial[] = [
     company: `SARL — Commerce de détail, ${clientCity(sessionData) ?? "Nantes"}`,
   },
 ];
+let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 /* ════════════════════════════════════════════════════════════════════════════
    Primitives partagées
@@ -2271,6 +2272,10 @@ export default function Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TESTIMONIALS_DEMO = resolveList(
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
+    TESTIMONIALS_SOURCE,
+  );
   PHASES = PHASES_DEMO.map((row, i) => ({
     ...row,
     img: clientPhotos(sessionData)[0 + i] || row.img,

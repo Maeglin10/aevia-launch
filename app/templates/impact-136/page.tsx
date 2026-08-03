@@ -75,7 +75,7 @@ const WORKS_DEMO = [
 ];
 let WORKS = WORKS_DEMO;
 
-const SERVICES_DEMO = [
+const SERVICES_SOURCE = [
   {
     title: "Digital Platforms",
     desc: "We build flagship websites and web applications that serve as the digital epicenter of your brand. Focusing on conversion, performance, and aesthetic dominance.",
@@ -97,6 +97,7 @@ const SERVICES_DEMO = [
     icon: <Command />,
   },
 ];
+let SERVICES_DEMO = SERVICES_SOURCE;
 let SERVICES = SERVICES_DEMO;
 
 const PROCESS = [
@@ -221,6 +222,10 @@ export default function TextRevealPage() {
   }, []);
 
   fd = session?.formData;
+  SERVICES_DEMO = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
+    SERVICES_SOURCE,
+  );
   WORKS = WORKS_DEMO.map((row, i) => ({
     ...row,
     image: clientPhotos(session)[0 + i] || row.image,

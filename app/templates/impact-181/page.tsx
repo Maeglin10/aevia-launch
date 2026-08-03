@@ -81,7 +81,7 @@ const ZONES_DEMO = [
 let ZONES = ZONES_DEMO;
 
 const SERVICE_ICONS = [Home, Wrench, Wind, AlertTriangle, ShieldCheck, Home]
-const SERVICES_DEMO = [
+const SERVICES_SOURCE = [
   { icon: Home, title: "Construction de piscine", desc: "Piscine enterrée béton, coque polyester ou bloc à bancher. Terrassement, structure, étanchéité, margelles et plage — de l'étude au remplissage." },
   { icon: Wrench, title: "Rénovation de bassin", desc: "Changement de liner, réfection d'étanchéité, remise à neuf des margelles et de la filtration. Redonnez une seconde vie à votre piscine." },
   { icon: Wind, title: "Couverture & abri", desc: "Volets immergés, bâches à barres, abris bas ou hauts. Protection thermique, sécurité et propreté du bassin toute l'année." },
@@ -89,6 +89,7 @@ const SERVICES_DEMO = [
   { icon: ShieldCheck, title: "Sécurité aux normes", desc: "Barrières, alarmes immergées et abris conformes à la loi NF P90. Mise en conformité de votre installation existante." },
   { icon: Home, title: "Entretien & hivernage", desc: "Contrat saisonnier, mise en hivernage, remise en route, traitement de l'eau et nettoyage. Une eau limpide sans effort." },
 ]
+let SERVICES_DEMO = SERVICES_SOURCE;
 
 const REALISATIONS_DEMO = [
   { title: "Piscine béton 9×4 m · Villa", tag: "Construction sur-mesure", img: "https://images.unsplash.com/photo-1572331165267-854da2b10ccc?auto=format&fit=crop&q=80&w=1200" },
@@ -161,6 +162,10 @@ export default function ToitPierrePiscinesPage() {
   }, []);
 
   fd = session?.formData;
+  SERVICES_DEMO = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
+    SERVICES_SOURCE,
+  );
   ZONES = resolveList(
     clientAreas(session)?.map((z, i) => ({ ...ZONES_DEMO[i % ZONES_DEMO.length], v: z })),
     ZONES_DEMO,

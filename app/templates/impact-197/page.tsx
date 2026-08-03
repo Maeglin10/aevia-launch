@@ -135,7 +135,7 @@ const STATS_DEMO = [
 ];
 let STATS = STATS_DEMO;
 
-const TESTIMONIALS_DEMO = [
+const TESTIMONIALS_SOURCE = [
   {
     name: "Hélène & Bertrand Favre",
     origin: "Lyon",
@@ -185,6 +185,7 @@ const TESTIMONIALS_DEMO = [
     avatar: "AR",
   },
 ];
+let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 const SERVICES_DETAIL_DEMO = [
   { icon: Compass, title: "Conception sur mesure", desc: "Chaque itinéraire est créé de zéro selon vos désirs, votre rythme et vos passions. Aucun voyage n'est jamais identique." },
@@ -410,6 +411,10 @@ export default function EvasionDoree() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TESTIMONIALS_DEMO = resolveList(
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, text: r.text })),
+    TESTIMONIALS_SOURCE,
+  );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {

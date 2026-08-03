@@ -1,4 +1,5 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
 // @ts-nocheck
 
 import React, { useRef, useState, useEffect } from 'react';
@@ -21,7 +22,6 @@ import {
   Search,
   ChevronDown,
 } from 'lucide-react';
-import { resolveList } from '@/lib/templates/resolveList';
 import {
   clientCity,
   clientName,
@@ -1699,7 +1699,7 @@ type Testimonial = {
   role: string;
 };
 
-const TESTIMONIALS_DEMO: Testimonial[] = [
+const TESTIMONIALS_SOURCE: Testimonial[] = [
   {
     quote:
       "Solis a compris en un rendez-vous ce que d'autres n'avaient pas saisi en six mois. L'acquisition de notre résidence à Saint-Rémy s'est faite avec une fluidité et une discrétion remarquables.",
@@ -1713,6 +1713,7 @@ const TESTIMONIALS_DEMO: Testimonial[] = [
     role: 'Architecte DPLG, Atelier Théron',
   },
 ];
+let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 const Testimonials: React.FC = () => (
   <Section id="avis" style={{ background: C.bgSoft }}>
@@ -2470,6 +2471,10 @@ export default function ImpactTemplate(): React.ReactElement {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TESTIMONIALS_DEMO = resolveList(
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
+    TESTIMONIALS_SOURCE,
+  );
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   if (brand) {

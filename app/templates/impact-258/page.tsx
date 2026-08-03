@@ -209,7 +209,7 @@ const ATELIER_STEPS: AtélierStep[] = [
   },
 ];
 
-const TESTIMONIALS_DEMO: Testimonial[] = [
+const TESTIMONIALS_SOURCE: Testimonial[] = [
   {
     quote:
       "Ma robe de mariée a été confectionnée ici, en cinq essayages d'une patience extraordinaire. L'atelier a capturé quelque chose que je n'aurais su décrire — une présence que je n'avais jamais eue dans un vêtement.",
@@ -223,6 +223,7 @@ const TESTIMONIALS_DEMO: Testimonial[] = [
     role: 'Directrice générale · Aix-en-Provence',
   },
 ];
+let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 const PIECE_TYPES_DEMO = [
   'Robe de mariée',
@@ -2113,6 +2114,10 @@ export default function Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TESTIMONIALS_DEMO = resolveList(
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
+    TESTIMONIALS_SOURCE,
+  );
   EDIT_ROWS = EDIT_ROWS_DEMO.map((row, i) => ({
     ...row,
     img: clientPhotos(sessionData)[0 + i] || row.img,

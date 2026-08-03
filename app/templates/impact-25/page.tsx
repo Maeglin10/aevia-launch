@@ -71,7 +71,7 @@ const OFFRES = [
   { n: "Accompagnement mensuel", p: "590 € / mois", d: "Corrections, contenus, suivi des positions, rapport mensuel commenté. Sans engagement de durée." },
 ];
 
-const SERVICES_DEMO = [
+const SERVICES_SOURCE = [
   { titre: "Sites web & landing pages", desc: "Conception et développement de sites vitrines, e-commerce et landing pages haute conversion. Next.js, Webflow ou sur mesure selon vos besoins.", tag: "Web" },
   { titre: "Identité visuelle & branding", desc: "Logo, charte graphique, guide de marque. Nous créons une identité cohérente qui parle à vos cibles et vous distingue de vos concurrents.", tag: "Brand" },
   { titre: "Applications web & SaaS", desc: "Développement d'applications métier, dashboards, outils internes et produits SaaS. Full-stack React/Node, architecture évolutive.", tag: "App" },
@@ -79,6 +79,7 @@ const SERVICES_DEMO = [
   { titre: "Campagnes Meta & Google Ads", desc: "Création et pilotage de campagnes publicitaires payantes. Ciblage précis, A/B testing créatifs, reporting transparent chaque semaine.", tag: "Ads" },
   { titre: "Maintenance & évolution", desc: "Support réactif, mises à jour de sécurité, évolutions fonctionnelles. Contrats mensuels à partir de 290€/mois pour sécuriser votre actif digital.", tag: "Support" },
 ]
+let SERVICES_DEMO = SERVICES_SOURCE;
 let SERVICES = SERVICES_DEMO;
 
 const REALISATIONS_DEMO = [
@@ -95,11 +96,12 @@ const ATOUTS = [
   "Reporting mensuel chiffré et actionnable",
 ]
 
-const AVIS_DEMO = [
+const AVIS_SOURCE = [
   { texte: "Pixel Republic a transformé notre site en véritable machine à leads. En 6 mois, nos demandes de devis ont doublé. L'équipe est réactive, créative et vraiment à l'écoute.", auteur: "Sébastien K.", detail: "Directeur, SolarPlus" },
   { texte: "Nous avions un budget serré et un délai court pour notre MVP. Résultat livré en 28 jours, zéro bug en prod, et nos utilisateurs adorent l'interface. Bluffant.", auteur: "Léa M.", detail: "CEO, Trackly" },
   { texte: "Refonte complète en 3 mois — branding, site, SEO. Premier retour sur investissement en moins de 6 mois. On ne change pas d'agence.", auteur: "Famille Dupont", detail: "Propriétaire, L'Atelier Dupont" },
 ]
+let AVIS_DEMO = AVIS_SOURCE;
 let AVIS = AVIS_DEMO;
 
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
@@ -145,6 +147,14 @@ export default function PixelRepublicPage() {
   }, []);
 
   fd = session?.formData;
+  SERVICES_DEMO = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], titre: s.title })),
+    SERVICES_SOURCE,
+  );
+  AVIS_DEMO = resolveList(
+    clientReviews(session)?.map((r: any, i: number) => ({ ...AVIS_SOURCE[i % AVIS_SOURCE.length], auteur: r.author, texte: r.text })),
+    AVIS_SOURCE,
+  );
   STATS = resolveList(clientStats(session), STATS_DEMO);
   REALISATIONS = REALISATIONS_DEMO.map((row, i) => ({
     ...row,

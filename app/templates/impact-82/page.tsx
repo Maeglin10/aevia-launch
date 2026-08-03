@@ -41,11 +41,12 @@ const EQUIPE_DEMO = [
   { name: "Sophie Leroux", role: "Directrice Commerciale", bio: "Spécialiste résidentiel de prestige. A lancé 18 programmes depuis 2015, avec un taux de vente VEFA de 94%.", img: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=600&q=80" },
 ];
 
-const AVIS_DEMO = [
+const AVIS_SOURCE = [
   { quote: "Nous avons acquis un appartement sur plan dans la Résidence Ithaque. Accompagnement irréprochable de la réservation à la livraison. La qualité de finition dépasse ce qui était promis.", name: "Arnaud M.", stats: "Résidentiel · Paris 16e" },
   { quote: "En tant qu'investisseur institutionnel, j'ai financé deux opérations avec Blueprint. Montage financier solide, transparence totale, rendements au rendez-vous. Un partenaire de confiance.", name: "Sarah K.", stats: "Investisseur · 2 programmes" },
   { quote: "La collectivité nous a confié une opération mixte complexe. Blueprint a tenu les délais et le budget sur un projet de 8 500 m². Rare et remarquable dans ce secteur.", name: "Claude B.", stats: "Collectivité · Bureaux" },
 ];
+let AVIS_DEMO = AVIS_SOURCE;
 
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
@@ -83,6 +84,10 @@ export default function BlueprintPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  AVIS_DEMO = resolveList(
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...AVIS_SOURCE[i % AVIS_SOURCE.length], name: r.author, quote: r.text })),
+    AVIS_SOURCE,
+  );
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const heroRef = useRef<HTMLDivElement>(null)

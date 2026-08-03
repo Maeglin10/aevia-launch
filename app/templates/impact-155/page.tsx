@@ -70,18 +70,20 @@ const BIENS_DEMO = [
 ]
 let BIENS = BIENS_DEMO;
 
-const SERVICES_DEMO = [
+const SERVICES_SOURCE = [
   { titre: "Estimation gratuite", desc: "Évaluation précise de votre bien en 48h, basée sur notre analyse du marché local et notre expertise de 20 ans.", icon: <TrendingUp size={22} color={C.accent} /> },
   { titre: "Mise en valeur", desc: "Home staging, photos professionnelles, visites virtuelles 3D. Votre bien présenté sous son meilleur jour dès le premier regard.", icon: <Maximize size={22} color={C.accent} /> },
   { titre: "Accompagnement complet", desc: "De la première visite jusqu'à la signature chez le notaire, notre équipe gère chaque étape pour une transaction sereine.", icon: <Star size={22} color={C.accent} /> },
 ]
+let SERVICES_DEMO = SERVICES_SOURCE;
 let SERVICES = SERVICES_DEMO;
 
-const TEMOIGNAGES_DEMO = [
+const TEMOIGNAGES_SOURCE = [
   { texte: "Notre appartement parisien a été vendu en 18 jours au prix demandé. L'équipe Pierre & Co a géré tout le processus avec un professionnalisme remarquable. Je recommande sans hésiter.", auteur: "Catherine B.", detail: "Vente appartement 145 m², Paris 16e" },
   { texte: "Recherche longue et minutieuse, mais l'équipe ne s'est jamais découragée. Ils ont finalement trouvé notre maison de rêve à Neuilly — exactement ce que nous cherchions et dans notre budget.", auteur: "Famille Morin", detail: "Achat maison 280 m², Neuilly-sur-Seine" },
   { texte: "Honnêteté et transparence du début à la fin. Pas de surprises, pas de pression. Pierre & Co m'a conseillé au mieux de mes intérêts et pas des leurs. C'est rare dans ce métier.", auteur: "Jean-François A.", detail: "Achat + revente simultanés, Paris 7e" },
 ]
+let TEMOIGNAGES_DEMO = TEMOIGNAGES_SOURCE;
 let TEMOIGNAGES = TEMOIGNAGES_DEMO;
 
 // ─── Components ───────────────────────────────────────────────────────────────
@@ -129,6 +131,14 @@ export default function PierreCoPage() {
   }, []);
 
   fd = session?.formData;
+  SERVICES_DEMO = resolveList(
+    clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], titre: s.title })),
+    SERVICES_SOURCE,
+  );
+  TEMOIGNAGES_DEMO = resolveList(
+    clientReviews(session)?.map((r: any, i: number) => ({ ...TEMOIGNAGES_SOURCE[i % TEMOIGNAGES_SOURCE.length], auteur: r.author, texte: r.text })),
+    TEMOIGNAGES_SOURCE,
+  );
   STATS = resolveList(clientStats(session), STATS_DEMO);
   TEMOIGNAGES = resolveList(
     clientReviews(session)?.map((r, i) => ({ ...TEMOIGNAGES_DEMO[i % TEMOIGNAGES_DEMO.length], texte: r.text, auteur: r.author })),

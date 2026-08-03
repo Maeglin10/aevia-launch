@@ -238,7 +238,7 @@ const METHOD_ITEMS: Spec[] = [
   },
 ];
 
-const REVIEWS_DEMO: Review[] = [
+const REVIEWS_SOURCE: Review[] = [
   {
     quote: "Après mon opération du genou, j'avais très peur de ne jamais récupérer pleinement. L'équipe m'a suivi avec une rigueur et une bienveillance exemplaires. En 8 semaines, j'ai retrouvé 95 % de mes capacités.",
     name: 'Sophie L.',
@@ -255,6 +255,7 @@ const REVIEWS_DEMO: Review[] = [
     role: 'Patiente · Lombalgie chronique',
   },
 ];
+let REVIEWS_DEMO = REVIEWS_SOURCE;
 
 /* ════════════════════════════════════════════════════════════════════════════
    Primitives partagées
@@ -2253,6 +2254,10 @@ export default function Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  REVIEWS_DEMO = resolveList(
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...REVIEWS_SOURCE[i % REVIEWS_SOURCE.length], name: r.author, quote: r.text })),
+    REVIEWS_SOURCE,
+  );
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, accent: brand, accentLight: shadeColor(brand, 25), accentDark: shadeColor(brand, -20) };

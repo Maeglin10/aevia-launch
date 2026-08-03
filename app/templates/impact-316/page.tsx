@@ -157,11 +157,12 @@ const SERVICES_DEMO = [
   { icon: <ClipboardCheck size={28} />, title: "Audit & Qualité", desc: "Contrôles qualité réguliers, reporting mensuel, interlocuteur dédié. Certification ISO 14001." },
 ];
 
-const TESTIMONIALS_DEMO = [
+const TESTIMONIALS_SOURCE = [
   { name: "Laurent P.", role: "Directeur Général, TechCorp Paris", text: "Pro-Nettoyage assure l'entretien de nos 2 000 m² de bureaux depuis 3 ans. Fiabilité exemplaire, équipes discrètes et résultats constants.", rating: 5 },
   { name: "Nathalie F.", role: "Syndic, Résidence Les Érables", text: "Les parties communes n'ont jamais été aussi propres. Les résidents sont unanimes. Le reporting mensuel est un vrai plus.", rating: 5 },
   { name: "Stéphane R.", role: "DRH, Cabinet Juridique Bordeaux", text: "Passage quotidien impeccable, équipe stable et professionnelle. Notre cabinet a un standing irréprochable grâce à leur travail.", rating: 5 },
 ];
+let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 export default function Page() {
   const [session, setSession] = useState<{
@@ -209,6 +210,10 @@ export default function Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TESTIMONIALS_DEMO = resolveList(
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, text: r.text })),
+    TESTIMONIALS_SOURCE,
+  );
   brand = fd?.brandColor ?? null;
   if (brand) {
     C = { ...C, primary: brand, primaryLight: shadeColor(brand, 25), primaryDark: shadeColor(brand, -20) };
