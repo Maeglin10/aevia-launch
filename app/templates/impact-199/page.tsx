@@ -33,6 +33,7 @@ import {
 import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientAddress,
+  clientCity,
   clientFaq,
   clientServices,
   clientTeam,
@@ -1254,7 +1255,7 @@ export default function Impact199Page() {
                   {
                     icon: <MapPin className="w-5 h-5" />,
                     label: "Adresse",
-                    value: "42 Rue Oberkampf, 75011 Paris",
+                    value: `42 Rue Oberkampf, 75011 ${clientCity(sessionData) ?? "Paris"}`,
                     sub: "Métro Oberkampf (Ligne 5 & 9)",
                   },
                   {

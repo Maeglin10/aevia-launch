@@ -21,6 +21,7 @@ import { Separator } from "@/components/ui/separator"
 import { Menu, X, Clock, MapPin, Phone, Mail, Star, ChevronDown, ArrowRight, Leaf, Flame, Wine, Utensils, CalendarDays, Users, Camera, Award, Globe, CheckCircle2 } from "lucide-react"
 import { resolveList } from "@/lib/templates/resolveList"
 import {
+  clientCity,
   clientFaq,
   clientReviews,
   clientServices,
@@ -378,7 +379,7 @@ return (
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4, duration: 0.8 }}>
             <div className="flex items-center justify-center gap-4 mb-8">
               <div className="h-px w-16 bg-amber-700/60" />
-              <span className="text-[10px] uppercase tracking-[0.5em] text-amber-500 font-sans font-semibold">Fine Dining · 8e Arrondissement · Paris</span>
+              <span className="text-[10px] uppercase tracking-[0.5em] text-amber-500 font-sans font-semibold">Fine Dining · 8e Arrondissement · {clientCity(sessionData) ?? "Paris"}</span>
               <div className="h-px w-16 bg-amber-700/60" />
             </div>
           </motion.div>
@@ -746,7 +747,7 @@ return (
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 mt-20 pt-16 border-t border-white/5">
               {[
-                { icon: <MapPin className="w-5 h-5" />, label: "Location", value: "42 Rue du Faubourg\nSaint-Honoré, 75008 Paris" },
+                { icon: <MapPin className="w-5 h-5" />, label: "Location", value: `42 Rue du Faubourg\nSaint-Honoré, 75008 ${clientCity(sessionData) ?? "Paris"}` },
                 { icon: <Clock className="w-5 h-5" />, label: "Hours", value: "Tue–Sat: 19:00–23:00\nSun: 12:00–15:00" },
                 { icon: <Phone className="w-5 h-5" />, label: "Contact", value: "+33 1 42 65 15 16\nreserve@letoile.paris" },
               ].map((item, i) => (

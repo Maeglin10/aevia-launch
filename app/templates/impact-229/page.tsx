@@ -6,6 +6,7 @@ import { motion, AnimatePresence, useScroll, useTransform, useInView } from "fra
 import { Sparkles, Phone, Mail, MapPin, Clock, Star, CheckCircle, ArrowRight, Heart } from "lucide-react"
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientCity,
   clientReviews,
   clientServices,
   clientStats,
@@ -497,7 +498,7 @@ export default function EclatSpaPage() {
         <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 28, marginBottom: 32 }}>
           <div>
             <div style={{ fontFamily: FONT, fontSize: 20, fontStyle: "italic", color: C.rose, marginBottom: 8 }}>Éclat Spa</div>
-            <p style={{ color: "rgba(255,255,255,0.30)", fontSize: 13, lineHeight: 1.6 }}>Institut beauté & spa · Nice<br />Mar–Sam 9h–19h</p>
+            <p style={{ color: "rgba(255,255,255,0.30)", fontSize: 13, lineHeight: 1.6 }}>Institut beauté & spa · {clientCity({ formData: fd }) ?? "Nice"}<br />Mar–Sam 9h–19h</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
             {[{ icon: <MapPin size={13} />, t: "Nice, Alpes-Maritimes" }, { icon: <Phone size={13} />, t: "04 93 00 00 00" }, { icon: <Clock size={13} />, t: "Mar–Sam 9h–19h" }].map((item, i) => (

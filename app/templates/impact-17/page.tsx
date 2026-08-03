@@ -10,6 +10,7 @@ import Link from "next/link";
 import { Menu, X, ArrowRight, Building2, ChevronRight, MapPin, Mail, Phone, Award, Layers, Users, Calendar, MessageSquare, ShieldCheck } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientCity,
   clientServices,
   clientTeam,
 } from "@/lib/templates/clientContent";
@@ -292,7 +293,7 @@ return (
               <motion.div className="relative z-10 h-full flex items-end pb-20 px-6" style={{ opacity: heroOpacity }}>
                 <div className="max-w-6xl mx-auto w-full">
                   <Reveal>
-                    <p className="text-[var(--brand,#C46A3E)] text-xs tracking-widest uppercase mb-4">Agence d'architecture · Paris</p>
+                    <p className="text-[var(--brand,#C46A3E)] text-xs tracking-widest uppercase mb-4">Agence d'architecture · {clientCity(sessionData) ?? "Paris"}</p>
                   </Reveal>
                   <Reveal delay={0.1}>
                     <h1 className="text-white text-7xl md:text-9xl leading-none mb-6" style={{ fontFamily: "'Libre Baskerville', serif", fontWeight: 400 }}>{c?.heroHeadline ?? <>{fd?.businessName ?? "Kéops"}</>}</h1>

@@ -1,4 +1,5 @@
 "use client";
+import { clientCity } from "@/lib/templates/clientContent";
 // @ts-nocheck
 import { motion, useScroll, useTransform, useInView } from "framer-motion"
 import { useRef, useState, useEffect } from "react"
@@ -250,7 +251,7 @@ return (
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}>
             <div style={{ display: "flex", alignItems: "center", gap: "1rem", marginBottom: "1.5rem" }}>
               <div style={{ width: 40, height: 1, background: C.terra }} />
-              <span style={{ fontFamily: C.sans, fontSize: "0.65rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.35em", color: C.terra }}>Pisciniste · Lyon</span>
+              <span style={{ fontFamily: C.sans, fontSize: "0.65rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.35em", color: C.terra }}>Pisciniste · {clientCity({ formData: fd }) ?? "Lyon"}</span>
             </div>
           </motion.div>
 

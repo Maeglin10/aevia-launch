@@ -38,6 +38,7 @@ import {
 import { TemplateIcon } from '@/components/TemplateIcon';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientCity,
   clientFaq,
   clientReviews,
   clientServices,
@@ -1067,7 +1068,7 @@ export default function AuraWellnessPage() {
             <div className="bg-[#EDE9E2] rounded-3xl border border-[#D8D0C4] p-8 md:p-10 h-full">
               <p className="text-[var(--brand,#7C9E87)] text-xs tracking-widest uppercase mb-3">Coordonnées</p>
               <h3 className="text-[#2C2820] text-2xl mb-8" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
-                Aura Wellness — Bordeaux
+                Aura Wellness — {clientCity({ formData: fd }) ?? "Bordeaux"}
               </h3>
               <ul className="space-y-5 text-sm text-[#6B5E52]">
                 <li className="flex items-start gap-3">

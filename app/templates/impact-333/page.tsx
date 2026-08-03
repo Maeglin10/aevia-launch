@@ -9,6 +9,7 @@ import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { DWELL, HairlineArrows, SlideIndex, WordFlight, useSlides } from "@/lib/templates/hero-kit-2";
 import {
   clientCertifications,
+  clientCity,
   clientReviews,
   clientServices,
   clientStats,
@@ -181,7 +182,7 @@ export default function EtudeDuCanalPage() {
       {/* ── HERO ────────────────────────────────────────────────────────── */}
 
       <section className="i333-hero" style={{ minHeight: "100dvh", display: "flex", flexDirection: "column", justifyContent: "center", padding: "140px 64px 70px", maxWidth: 1080, margin: "0 auto" }}>
-        <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Étude notariale · Rennes</span>
+        <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Étude notariale · {clientCity(sessionData) ?? "Rennes"}</span>
         <h1 style={{ fontFamily: FONT, fontSize: "clamp(34px, 5vw, 64px)", color: C.text, lineHeight: 1.12, margin: "18px 0 8px", minHeight: "2.3em" }}><WordFlight text={S.line} keyed={i} className="" /></h1>
         <p style={{ fontSize: 16.5, color: C.textMuted, lineHeight: 1.75, maxWidth: 560, margin: "14px 0 32px" }}>
           {c?.heroSubline ?? fd?.tagline ?? "Une étude jeune, des actes anciens comme le droit : vente, donation, succession, société. Chaque clause expliquée avant d'être signée, au tarif réglementé national."}
@@ -368,7 +369,7 @@ export default function EtudeDuCanalPage() {
           <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 28, marginBottom: 30 }}>
             <div>
               <div style={{ fontFamily: FONT, fontSize: 18, color: C.hi, marginBottom: 8 }}>{fd?.businessName ?? "Étude du Canal"}</div>
-              <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, lineHeight: 1.7 }}>Officiers publics et ministériels · Rennes<br />Chambre des notaires d'Ille-et-Vilaine</p>
+              <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, lineHeight: 1.7 }}>Officiers publics et ministériels · {clientCity(sessionData) ?? "Rennes"}<br />Chambre des notaires d'Ille-et-Vilaine</p>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
               {[{ icon: <MapPin size={13} />, t: "Rennes, Ille-et-Vilaine" }, { icon: <Phone size={13} />, t: phone }, { icon: <Clock size={13} />, t: "Lun–Ven 9h–18h30, sam. matin sur RDV" }].map((item, idx) => (

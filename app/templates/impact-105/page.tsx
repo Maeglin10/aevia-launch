@@ -6,6 +6,7 @@ import React, {useRef, useState, useEffect} from 'react'
 import { motion, useScroll, useTransform, useInView } from "framer-motion"
 import { Phone, Mail, MapPin, Clock, Star, CheckCircle, ArrowRight } from "lucide-react"
 import {
+  clientCity,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -425,7 +426,7 @@ export default function AtelierBloomPage() {
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: 32, marginBottom: 36 }}>
           <div>
             <div style={{fontFamily: FONT_SERIF, fontSize: 20, fontStyle: "italic", color: brand ?? 'var(--brand,#a8d498)', marginBottom: 8 }}>Atelier Bloom</div>
-            <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, lineHeight: 1.6 }}>Fleuriste artisanale · Strasbourg<br />Lun–Sam 9h–19h</p>
+            <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, lineHeight: 1.6 }}>Fleuriste artisanale · {clientCity({ formData: fd }) ?? "Strasbourg"}<br />Lun–Sam 9h–19h</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
             {[{ icon: <MapPin size={13} />, t: "Strasbourg, Bas-Rhin" }, { icon: <Phone size={13} />, t: "03 88 00 00 00" }, { icon: <Clock size={13} />, t: "Lun–Sam 9h–19h" }].map((item, i) => (

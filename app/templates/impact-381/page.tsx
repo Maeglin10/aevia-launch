@@ -9,6 +9,7 @@ import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { DWELL, HairlineArrows, HeldSwap, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
 import {
   clientCertifications,
+  clientCity,
   clientReviews,
   clientServices,
   clientStats,
@@ -182,7 +183,7 @@ export default function CaveDesTerroirsPage() {
 <section className="i381-hero" style={{ minHeight: "100dvh", display: "grid", gridTemplateColumns: "minmax(0,1.08fr) minmax(0,0.92fr)", gap: 56, alignItems: "center", padding: "140px 64px 70px", maxWidth: 1260, margin: "0 auto" }}>
         <div>
           <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }} style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>
-            Caviste indépendant · Tours
+            Caviste indépendant · {clientCity(sessionData) ?? "Tours"}
           </motion.span>
           <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35, duration: 0.85, ease: [0.16, 1, 0.3, 1] }} style={{ fontFamily: FONT, fontSize: "clamp(34px, 4.6vw, 60px)", color: C.text, lineHeight: 1.1, margin: "18px 0 20px" }}>
             {c?.heroHeadline ?? (<>Des vins qu'on a bus<br /><em style={{ color: C.accent }}>avant de vous les vendre.</em></>)}
@@ -387,7 +388,7 @@ export default function CaveDesTerroirsPage() {
           <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 28, marginBottom: 30 }}>
             <div>
               <div style={{ fontFamily: FONT, fontSize: 18, color: C.hi, marginBottom: 8 }}>{fd?.businessName ?? "La Cave des Terroirs"}</div>
-              <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, lineHeight: 1.7 }}>Caviste indépendant · Tours<br />400 références en direct des domaines — dégustations mensuelles</p>
+              <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, lineHeight: 1.7 }}>Caviste indépendant · {clientCity(sessionData) ?? "Tours"}<br />400 références en direct des domaines — dégustations mensuelles</p>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
               {[{ icon: <MapPin size={13} />, t: "Tours, Indre-et-Loire" }, { icon: <Phone size={13} />, t: phone }, { icon: <Clock size={13} />, t: "Mar–Sam 10h–13h / 15h–20h · Dim 10h–13h" }].map((item, idx) => (

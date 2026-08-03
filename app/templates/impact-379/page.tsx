@@ -10,6 +10,7 @@ import { DWELL, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/he
 import { ArcSwap } from "@/lib/templates/hero-kit-3";
 import {
   clientCertifications,
+  clientCity,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -197,7 +198,7 @@ export default function EtabliMoreauPage() {
 <section className="i379-hero" style={{ minHeight: "100dvh", display: "grid", gridTemplateColumns: "minmax(0,1.08fr) minmax(0,0.92fr)", gap: 56, alignItems: "center", padding: "140px 64px 70px", maxWidth: 1260, margin: "0 auto" }}>
         <div>
           <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }} style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>
-            Ébéniste d'art · Besançon
+            Ébéniste d'art · {clientCity(sessionData) ?? "Besançon"}
           </motion.span>
           <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35, duration: 0.85, ease: [0.16, 1, 0.3, 1] }} style={{ fontFamily: FONT, fontSize: "clamp(34px, 4.6vw, 60px)", color: C.text, lineHeight: 1.1, margin: "18px 0 20px" }}>
             {c?.heroHeadline ?? (<>Une pièce unique,<br /><em style={{ color: C.accentDark }}>pensée pour durer cent ans.</em></>)}
@@ -402,7 +403,7 @@ export default function EtabliMoreauPage() {
           <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 28, marginBottom: 30 }}>
             <div>
               <div style={{ fontFamily: FONT, fontSize: 18, color: C.hi, marginBottom: 8 }}>{fd?.businessName ?? "Établi Moreau"}</div>
-              <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, lineHeight: 1.7 }}>Ébénisterie d'art & restauration · Besançon<br />Meilleur Ouvrier régional 2022 — bois français PEFC</p>
+              <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, lineHeight: 1.7 }}>Ébénisterie d'art & restauration · {clientCity(sessionData) ?? "Besançon"}<br />Meilleur Ouvrier régional 2022 — bois français PEFC</p>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
               {[{ icon: <MapPin size={13} />, t: "Besançon, Doubs" }, { icon: <Phone size={13} />, t: phone }, { icon: <Clock size={13} />, t: "Atelier Lun–Ven 8h–18h · visites sur RDV" }].map((item, idx) => (

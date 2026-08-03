@@ -9,6 +9,7 @@ import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { GhostSolid } from "@/lib/templates/hero-kit-2";
 import {
   clientCertifications,
+  clientCity,
   clientReviews,
   clientServices,
   clientStats,
@@ -180,7 +181,7 @@ export default function FaubourgSerruresPage() {
       {/* ── HERO ────────────────────────────────────────────────────────── */}
 
       <section className="i332-hero" style={{ minHeight: "100dvh", display: "flex", flexDirection: "column", justifyContent: "center", padding: "140px 64px 70px", maxWidth: 1080, margin: "0 auto" }}>
-        <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Serrurerie de sécurité · Marseille</span>
+        <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Serrurerie de sécurité · {clientCity(sessionData) ?? "Marseille"}</span>
         <div style={{ margin: "18px 0 8px" }}><GhostSolid ghost="VOTRE PORTE" solid="BLINDÉE." accent={C.accent} className="" /></div>
         <p style={{ fontSize: 16.5, color: C.textMuted, lineHeight: 1.75, maxWidth: 560, margin: "14px 0 32px" }}>
           {c?.heroSubline ?? fd?.tagline ?? "Pas de dépannage à 3 h du matin ici : du blindage pensé à froid. Portes blindées, serrures A2P, coffres — étudiés, posés, garantis par des serruriers salariés."}
@@ -363,7 +364,7 @@ export default function FaubourgSerruresPage() {
           <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 28, marginBottom: 30 }}>
             <div>
               <div style={{ fontFamily: FONT, fontSize: 18, color: C.hi, marginBottom: 8 }}>{fd?.businessName ?? "Faubourg Serrures"}</div>
-              <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, lineHeight: 1.7 }}>Serrurerie de sécurité · Marseille<br />Installateur agréé A2P, assurance décennale</p>
+              <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, lineHeight: 1.7 }}>Serrurerie de sécurité · {clientCity(sessionData) ?? "Marseille"}<br />Installateur agréé A2P, assurance décennale</p>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
               {[{ icon: <MapPin size={13} />, t: "Marseille, Bouches-du-Rhône" }, { icon: <Phone size={13} />, t: phone }, { icon: <Clock size={13} />, t: "Lun–Ven 8h30–18h30 · Sam 9h–13h" }].map((item, idx) => (

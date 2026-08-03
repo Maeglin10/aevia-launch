@@ -10,6 +10,7 @@ import { DWELL, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/he
 import { PanelRise } from "@/lib/templates/hero-kit-3";
 import {
   clientCertifications,
+  clientCity,
   clientReviews,
   clientServices,
   clientStats,
@@ -182,7 +183,7 @@ export default function TilleulsIdelPage() {
 <section className="i355-hero" style={{ minHeight: "100dvh", display: "grid", gridTemplateColumns: "minmax(0,1.08fr) minmax(0,0.92fr)", gap: 56, alignItems: "center", padding: "140px 64px 70px", maxWidth: 1260, margin: "0 auto" }}>
         <div>
           <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }} style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>
-            Infirmiers à domicile · Limoges
+            Infirmiers à domicile · {clientCity(sessionData) ?? "Limoges"}
           </motion.span>
           <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35, duration: 0.85, ease: [0.16, 1, 0.3, 1] }} style={{ fontFamily: FONT, fontSize: "clamp(34px, 4.6vw, 60px)", color: C.text, lineHeight: 1.1, margin: "18px 0 20px" }}>
             {c?.heroHeadline ?? (<>Le soin qui vient<br /><em style={{ color: C.accentDark }}>jusqu'à votre porte.</em></>)}
@@ -370,7 +371,7 @@ export default function TilleulsIdelPage() {
           <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 28, marginBottom: 30 }}>
             <div>
               <div style={{ fontFamily: FONT, fontSize: 18, color: C.hi, marginBottom: 8 }}>{fd?.businessName ?? "Cabinet des Tilleuls"}</div>
-              <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, lineHeight: 1.7 }}>Cabinet d'infirmiers libéraux · Limoges<br />Conventionnés CPAM — Ordre national des infirmiers</p>
+              <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, lineHeight: 1.7 }}>Cabinet d'infirmiers libéraux · {clientCity(sessionData) ?? "Limoges"}<br />Conventionnés CPAM — Ordre national des infirmiers</p>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
               {[{ icon: <MapPin size={13} />, t: "Limoges, Haute-Vienne" }, { icon: <Phone size={13} />, t: phone }, { icon: <Clock size={13} />, t: "Tournées 6h30–20h · 7j/7 pour les soins qui l'exigent" }].map((item, idx) => (

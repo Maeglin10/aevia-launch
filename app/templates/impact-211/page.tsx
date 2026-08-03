@@ -1,4 +1,5 @@
 "use client";
+import { clientCity } from "@/lib/templates/clientContent";
 // @ts-nocheck
 import React, { useState, useEffect, useRef, useCallback } from "react"
 import {
@@ -856,7 +857,7 @@ export default function Impact211Page() {
             marginBottom: "0.5rem",
           }}>{c?.heroSubline ?? fd?.tagline ?? <>{fd?.businessName ?? "Maison Éclat"}</>}</p>
           <p style={{ ...eyebrowStyle, textAlign: "center", marginBottom: "2rem" }}>
-            7ème arrondissement · Paris
+            7ème arrondissement · {clientCity({ formData: fd }) ?? "Paris"}
           </p>
           <motion.div
             animate={{ y: [0, 8, 0] }}
@@ -1655,7 +1656,7 @@ export default function Impact211Page() {
                 {[
                   { label: "Réservations", value: "+33 1 42 61 XX XX" },
                   { label: "Email", value: "table@maisoneclat.fr" },
-                  { label: "Adresse", value: "14 rue de Varenne, 75007 Paris" },
+                  { label: "Adresse", value: `14 rue de Varenne, 75007 ${clientCity({ formData: fd }) ?? "Paris"}` },
                 ].map((item) => (
                   <div key={item.label}>
                     <div style={{ fontFamily: font.sans, fontSize: "0.65rem", fontWeight: 400, letterSpacing: "0.15em", textTransform: "uppercase", color: C.gold, marginBottom: "0.2rem" }}>{item.label}</div>
@@ -1750,7 +1751,7 @@ export default function Impact211Page() {
                 opacity: 0.4,
                 letterSpacing: "0.15em",
               }}>
-                Maison Éclat · Paris
+                Maison Éclat · {clientCity({ formData: fd }) ?? "Paris"}
               </span>
             </div>
           </div>

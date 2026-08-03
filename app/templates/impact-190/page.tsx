@@ -8,6 +8,7 @@ import Link from "next/link"
 import { Wrench, Car, Settings, Zap, Shield, Clock, Star, Phone, MapPin, CheckCircle, AlertTriangle, Menu } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
+  clientCity,
   clientReviews,
   clientServices,
   clientTeam,
@@ -194,7 +195,7 @@ export default function AutoExpertPage() {
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.7, delay: 0.3 }}>
             <div className="flex items-center gap-4 mb-8">
               <div className="w-8 h-[2px] bg-[var(--brand,#dc2626)]" />
-              <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#dc2626)]/70">Garage & carrosserie · Rennes</span>
+              <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#dc2626)]/70">Garage & carrosserie · {clientCity({ formData: fd }) ?? "Rennes"}</span>
             </div>
           </motion.div>
 

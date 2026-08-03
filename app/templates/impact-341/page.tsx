@@ -10,6 +10,7 @@ import { DWELL, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/he
 import { TrackingCollapse } from "@/lib/templates/hero-kit-3";
 import {
   clientCertifications,
+  clientCity,
   clientReviews,
   clientServices,
   clientStats,
@@ -182,7 +183,7 @@ export default function ConduiteZeroStressPage() {
       {/* ── HERO ────────────────────────────────────────────────────────── */}
 
       <section className="i341-hero" style={{ minHeight: "100dvh", display: "flex", flexDirection: "column", justifyContent: "center", padding: "140px 64px 70px", maxWidth: 1080, margin: "0 auto" }}>
-        <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>Auto-école · Toulouse</span>
+        <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>Auto-école · {clientCity(sessionData) ?? "Toulouse"}</span>
         <h1 style={{ fontFamily: FONT, fontSize: "clamp(34px, 5vw, 62px)", color: C.text, lineHeight: 1.1, margin: "18px 0 8px" }}>Apprendre à conduire,<br /><TrackingCollapse word={S.word} index={i} from="0.34em" to="0.04em" style={{ color: C.accentDark }} /></h1>
         <p style={{ fontSize: 16.5, color: C.textMuted, lineHeight: 1.75, maxWidth: 560, margin: "14px 0 32px" }}>
           {c?.heroSubline ?? fd?.tagline ?? "Des moniteurs diplômés qui ne crient jamais, des voitures récentes, et une méthode par étapes validées. 78 % de réussite au premier passage — affiché, parce que c'est vérifiable."}
@@ -369,7 +370,7 @@ export default function ConduiteZeroStressPage() {
           <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 28, marginBottom: 30 }}>
             <div>
               <div style={{ fontFamily: FONT, fontSize: 18, color: C.hi, marginBottom: 8 }}>{fd?.businessName ?? "Conduite Zéro Stress"}</div>
-              <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, lineHeight: 1.7 }}>Auto-école agréée · Toulouse<br />Agrément préfectoral E 26 031 0042 0 — Label qualité des formations</p>
+              <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, lineHeight: 1.7 }}>Auto-école agréée · {clientCity(sessionData) ?? "Toulouse"}<br />Agrément préfectoral E 26 031 0042 0 — Label qualité des formations</p>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
               {[{ icon: <MapPin size={13} />, t: "Toulouse, Haute-Garonne" }, { icon: <Phone size={13} />, t: phone }, { icon: <Clock size={13} />, t: "Lun–Ven 10h–19h · Sam 9h–17h" }].map((item, idx) => (

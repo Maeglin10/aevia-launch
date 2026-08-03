@@ -1,5 +1,8 @@
 "use client";
-import { clientAddress } from "@/lib/templates/clientContent";
+import {
+  clientAddress,
+  clientCity,
+} from "@/lib/templates/clientContent";
 import { tr } from "@/lib/templates/uiStrings";
 // @ts-nocheck
 
@@ -670,7 +673,7 @@ export default function CreativePortfolioSPA() {
             <div>
               <h4 className="text-white font-medium mb-6 uppercase tracking-wider text-xs">Studio</h4>
               <ul className="space-y-4 text-white/50 text-sm">
-                <li><a href="#contact" className="hover:text-amber-400 transition-colors">{clientAddress({ businessProfile: bp }) ?? "12 Rue de Paradis, Paris"}</a></li>
+                <li><a href="#contact" className="hover:text-amber-400 transition-colors">{clientAddress({ businessProfile: bp }) ?? `12 Rue de Paradis, ${clientCity({ formData: fd }) ?? "Paris"}`}</a></li>
                 <li><a href="#contact" className="hover:text-amber-400 transition-colors">Aoyama, Minato City, Tokyo</a></li>
                 <li><a href={`tel:${fd?.phone ?? "+33145678900"}`} className="hover:text-amber-400 transition-colors">+33 (0) 1 45 67 89 00</a></li>
               </ul>

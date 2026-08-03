@@ -9,6 +9,7 @@ import Image from "next/image";
 import { Menu, X, ArrowRight, Film, Camera, ChevronRight, Award, Globe, Users, Play, Clock, Clapperboard, Sparkles, MonitorPlay, PenLine, Video, Layers, Star, MapPin, Mail } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientCity,
   clientServices,
 } from "@/lib/templates/clientContent";
 
@@ -299,7 +300,7 @@ export default function StudioPelikanPage() {
             <motion.div className="relative z-10 h-full flex flex-col justify-end pb-20 px-6" style={{ opacity: heroOpacity }}>
               <div className="max-w-6xl mx-auto w-full">
                 <Reveal>
-                  <p className="text-[var(--brand,#C9A05A)] text-xs tracking-widest uppercase mb-4">Société de production · Paris</p>
+                  <p className="text-[var(--brand,#C9A05A)] text-xs tracking-widest uppercase mb-4">Société de production · {clientCity(sessionData) ?? "Paris"}</p>
                 </Reveal>
                 <Reveal delay={0.1}>
                   <h1 className="text-white text-7xl md:text-9xl leading-none mb-6" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>{c?.heroHeadline ?? <>
@@ -991,7 +992,7 @@ export default function StudioPelikanPage() {
       {/* Footer */}
       <footer className="bg-[#090704] border-t border-white/5 py-12 px-6">
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-white/20">
-          <button onClick={() => goTo("home")} className="text-[var(--brand,#C9A05A)] text-lg cursor-pointer" style={{ fontFamily: "'Cormorant Garamond', serif" }}>Studio Pelikan · Paris</button>
+          <button onClick={() => goTo("home")} className="text-[var(--brand,#C9A05A)] text-lg cursor-pointer" style={{ fontFamily: "'Cormorant Garamond', serif" }}>Studio Pelikan · {clientCity(sessionData) ?? "Paris"}</button>
           <div className="flex gap-8">
             <button onClick={() => goTo("films")} className="hover:text-[var(--brand,#C9A05A)] transition-colors cursor-pointer">Films</button>
             <button onClick={() => goTo("legal")} className="hover:text-[var(--brand,#C9A05A)] transition-colors cursor-pointer">Mentions légales</button>

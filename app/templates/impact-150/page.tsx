@@ -19,6 +19,7 @@ import {
   animate,
 } from "framer-motion"
 import {
+  clientCity,
   clientReviews,
   clientServices,
   clientTeam,
@@ -1679,7 +1680,7 @@ const OFFICES = [
   { city: "Singapore", role: "Asia-Pacific Centre", est: "Est. 1982" },
   { city: "Zurich", role: "Swiss Office", est: "Est. 2003" },
   { city: "Dubai", role: "MENA Practice", est: "Est. 2011" },
-  { city: "Paris", role: "Continental Europe", est: "Est. 1971" },
+  { city: (clientCity(sessionData) ?? "Paris"), role: "Continental Europe", est: "Est. 1971" },
 ]
 
 function OfficesSection() {

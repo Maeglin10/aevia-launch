@@ -14,6 +14,7 @@ import {
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientAreas,
+  clientCity,
   clientPhotos,
   clientReviews,
   clientStats,
@@ -1213,7 +1214,7 @@ export default function Impact167Page() {
                   marginBottom: 24,
                 }}
               >
-                Immobilier de Prestige — Paris
+                Immobilier de Prestige — {clientCity(sessionData) ?? "Paris"}
               </div>
             </TextReveal>
 

@@ -9,6 +9,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientAddress,
+  clientCity,
   clientReviews,
   clientServices,
   clientTeam,
@@ -179,7 +180,7 @@ export default function CliniqueBoisVertPage() {
                 </div>
                 <div>
                   <div className="font-bold text-[#2d2318] text-sm leading-tight" style={{ fontFamily: "'Lora', Georgia, serif" }}>Clinique du Bois Vert</div>
-                  <div className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#3a7d44)]/60">Vétérinaire · Toulouse</div>
+                  <div className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#3a7d44)]/60">Vétérinaire · {clientCity(sessionData) ?? "Toulouse"}</div>
                 </div>
               </>
             )}
@@ -439,7 +440,7 @@ export default function CliniqueBoisVertPage() {
                   <MapPin className="w-4 h-4 text-[var(--brand,#3a7d44)]" />Adresse
                 </div>
                 <p className="text-sm text-[#2d2318]/45 leading-relaxed">
-                  {fd?.address ?? "12 allée des Pins, 31400 Toulouse"}<br />
+                  {fd?.address ?? `12 allée des Pins, 31400 ${clientCity(sessionData) ?? "Toulouse"}`}<br />
                   Métro Faculté de Pharmacie (ligne B), 6 minutes à pied.<br />
                   Parking gratuit devant la clinique, 6 places.<br />
                   Entrée de plain-pied, accessible aux fauteuils.
@@ -534,7 +535,7 @@ export default function CliniqueBoisVertPage() {
         </div>
         <div className="max-w-[1300px] mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between gap-3 text-[10px] font-bold uppercase tracking-widest text-white/10">
           <span>© 2026 Clinique du Bois Vert · SIRET 012 345 678 00090 · Ordre National des Vétérinaires</span>
-          <span className="text-[var(--brand,#3a7d44)]/25">Clinique vétérinaire · Toulouse</span>
+          <span className="text-[var(--brand,#3a7d44)]/25">Clinique vétérinaire · {clientCity(sessionData) ?? "Toulouse"}</span>
         </div>
       </footer>
     </div>

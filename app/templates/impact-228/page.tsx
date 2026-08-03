@@ -7,6 +7,7 @@ import { Flame, Phone, Mail, MapPin, Clock, Star, CheckCircle } from "lucide-rea
 import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientCertifications,
+  clientCity,
   clientReviews,
   clientServices,
   clientStats,
@@ -398,7 +399,7 @@ export default function AquaThermPage() {
         <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 28, marginBottom: 32 }}>
           <div>
             <div style={{ fontFamily: FONT, fontSize: 22, letterSpacing: 1, color: C.accent, marginBottom: 8 }}>AquaTherm</div>
-            <p style={{ color: "rgba(255,255,255,0.30)", fontSize: 13, lineHeight: 1.6 }}>Plombier chauffagiste RGE · Lille<br />Urgences 24h/24 · 7j/7</p>
+            <p style={{ color: "rgba(255,255,255,0.30)", fontSize: 13, lineHeight: 1.6 }}>Plombier chauffagiste RGE · {clientCity(sessionData) ?? "Lille"}<br />Urgences 24h/24 · 7j/7</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
             {[{ icon: <MapPin size={13} />, t: "Lille, Nord" }, { icon: <Phone size={13} />, t: "03 20 00 00 00" }, { icon: <Clock size={13} />, t: "Urgences 24h/24" }].map((item, i) => (

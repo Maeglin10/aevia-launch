@@ -10,6 +10,7 @@ import { DWELL, useSlides, SlideIndex, HairlineArrows } from "@/lib/templates/he
 import { ArcSwap } from "@/lib/templates/hero-kit-3";
 import {
   clientCertifications,
+  clientCity,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -242,7 +243,7 @@ export default function EtudeNotarialePage() {
       <section className="i326-hero" style={{ minHeight: "100dvh", display: "grid", gridTemplateColumns: "minmax(0,1.1fr) minmax(0,0.9fr)", gap: 56, alignItems: "center", padding: "140px 64px 70px", maxWidth: 1280, margin: "0 auto" }}>
         <div>
           <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }} style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>
-            Étude notariale · Bordeaux
+            Étude notariale · {clientCity(sessionData) ?? "Bordeaux"}
           </motion.span>
           <motion.h1 initial={{ opacity: 0, y: 34 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35, duration: 0.85, ease: [0.16, 1, 0.3, 1] }} style={{ fontFamily: FONT, fontSize: "clamp(34px, 4.6vw, 62px)", color: C.text, lineHeight: 1.12, margin: "18px 0 22px" }}>
             {c?.heroHeadline ?? (<>Un acte qui engage,<br /><em style={{ color: C.accent }}>un conseil qui protège.</em></>)}
@@ -429,7 +430,7 @@ export default function EtudeNotarialePage() {
             <div>
               <div style={{ fontFamily: FONT, fontSize: 18, color: "#cfb37a", marginBottom: 8 }}>{fd?.businessName ?? "Vasseur & Delmas"} — Notaires associés</div>
               <p style={{ color: "rgba(255,255,255,0.35)", fontSize: 13, lineHeight: 1.7 }}>
-                Officiers publics et ministériels · Bordeaux<br />Membres de la Chambre des notaires de la Gironde
+                Officiers publics et ministériels · {clientCity(sessionData) ?? "Bordeaux"}<br />Membres de la Chambre des notaires de la Gironde
               </p>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>

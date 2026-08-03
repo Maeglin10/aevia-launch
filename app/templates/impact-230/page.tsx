@@ -7,6 +7,7 @@ import { Phone, Mail, MapPin, Clock, Star, CheckCircle, ArrowRight, Hammer } fro
 import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientCertifications,
+  clientCity,
   clientReviews,
   clientServices,
   clientStats,
@@ -363,7 +364,7 @@ export default function AtelierDuBoisPage() {
         <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 28, marginBottom: 32 }}>
           <div>
             <div style={{ fontFamily: FONT, fontSize: 18, fontStyle: "italic", color: C.sand, marginBottom: 8 }}>Atelier du Bois</div>
-            <p style={{ color: "rgba(255,255,255,0.30)", fontSize: 13, lineHeight: 1.6 }}>Menuisier · Ébéniste · Bordeaux<br />Lun–Ven 8h–18h</p>
+            <p style={{ color: "rgba(255,255,255,0.30)", fontSize: 13, lineHeight: 1.6 }}>Menuisier · Ébéniste · {clientCity(sessionData) ?? "Bordeaux"}<br />Lun–Ven 8h–18h</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
             {[{ icon: <MapPin size={13} />, t: "Bordeaux, Gironde" }, { icon: <Phone size={13} />, t: "05 56 00 00 00" }, { icon: <Clock size={13} />, t: "Lun–Ven 8h–18h" }].map((item, i) => (

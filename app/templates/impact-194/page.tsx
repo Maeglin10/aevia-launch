@@ -8,6 +8,7 @@ import Link from "next/link"
 import { ChefHat, Star, Phone, MapPin, Clock, CheckCircle, Utensils, Wine, Users, Truck, Gift, Camera, Menu } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
+  clientCity,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -398,7 +399,7 @@ export default function TableExceptionPage() {
         <div className="max-w-[1300px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           <div>
             <div className="font-bold text-[#fefcf8] mb-1 text-sm" style={{ fontFamily: "'Playfair Display', serif" }}>Table d'Exception</div>
-            <div className="text-[10px] font-bold uppercase tracking-[0.35em] text-[var(--brand,#d4a853)]/40 mb-5">Traiteur · Lyon</div>
+            <div className="text-[10px] font-bold uppercase tracking-[0.35em] text-[var(--brand,#d4a853)]/40 mb-5">Traiteur · {clientCity({ formData: fd }) ?? "Lyon"}</div>
             <p className="text-[#fefcf8]/15 text-sm leading-relaxed">Traiteur haut de gamme à Lyon. Mariages, corporate, cocktails, plateaux. Chef et équipe sur place.</p>
           </div>
           {[

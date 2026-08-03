@@ -36,6 +36,7 @@ import {
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientAddress,
+  clientCity,
   clientFaq,
   clientReviews,
   clientServices,
@@ -658,7 +659,7 @@ export default function Impact94Page() {
             transition={{ duration: 2, ease: [0.16, 1, 0.3, 1] }}
             className="text-[10px] font-medium uppercase text-[var(--brand,#CA8A04)] tracking-[0.5em] block mb-8"
           >
-            Atelier floral de luxe — Paris
+            Atelier floral de luxe — {clientCity(sessionData) ?? "Paris"}
           </motion.span>
 
           <motion.h1
@@ -1116,7 +1117,7 @@ export default function Impact94Page() {
                   </div>
                   <div>
                     <div className="text-sm font-medium text-[#0C0A09]">Atelier</div>
-                    <div className="text-sm text-[#0C0A09]/60">{clientAddress(sessionData) ?? "12, rue des Fleurs, 75004 Paris"}</div>
+                    <div className="text-sm text-[#0C0A09]/60">{clientAddress(sessionData) ?? `12, rue des Fleurs, 75004 ${clientCity(sessionData) ?? "Paris"}`}</div>
                   </div>
                 </div>
                 <div className="flex items-center gap-4">
