@@ -1219,7 +1219,7 @@ function BoutiquePage({ selectedProduct, setSelectedProduct, goTo, onAddToCart }
       <div style={{ textAlign: "center", marginBottom: 80 }}>
         <p style={{color: brand ?? 'var(--brand,#c9956a)', fontSize: 11, letterSpacing: "0.4em", textTransform: "uppercase", marginBottom: 16 }}>Collection 2026</p>
         <h1 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 56, fontWeight: 300, color: "#F5EDE8", marginBottom: 20 }}>
-          La Collection Éther
+          {c?.heroHeadline ?? "La Collection Éther"}
         </h1>
         <p style={{ color: "#F5EDE8", opacity: 0.6, fontSize: 15, maxWidth: 500, margin: "0 auto", lineHeight: 1.6 }}>
           Découvrez nos créations olfactives d'exception, formulées à partir de matières premières rares et précieuses.
@@ -1284,7 +1284,7 @@ function MaisonPage() {
       <div style={{ textAlign: "center", marginBottom: 72 }}>
         <p style={{color: brand ?? 'var(--brand,#c9956a)', fontSize: 11, letterSpacing: "0.4em", textTransform: "uppercase", marginBottom: 16 }}>Notre Histoire</p>
         <h1 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 56, fontWeight: 300, color: "#F5EDE8", marginBottom: 20 }}>
-          La Maison Éther
+          {c?.heroHeadline ?? "La Maison Éther"}
         </h1>
         <div style={{width: 48, height: 1, background: brand ?? 'var(--brand,#c9956a)', margin: "0 auto" }} />
       </div>
@@ -1324,7 +1324,7 @@ function SavoirFairePage() {
       <div style={{ textAlign: "center", marginBottom: 72 }}>
         <p style={{color: brand ?? 'var(--brand,#c9956a)', fontSize: 11, letterSpacing: "0.4em", textTransform: "uppercase", marginBottom: 16 }}>Savoir-Faire</p>
         <h1 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 56, fontWeight: 300, color: "#F5EDE8", marginBottom: 20 }}>
-          Le Processus de Création
+          {c?.heroHeadline ?? "Le Processus de Création"}
         </h1>
         <div style={{width: 48, height: 1, background: brand ?? 'var(--brand,#c9956a)', margin: "0 auto" }} />
       </div>
@@ -1398,7 +1398,7 @@ function ContactPage() {
       <div style={{ textAlign: "center", marginBottom: 72 }}>
         <p style={{color: brand ?? 'var(--brand,#c9956a)', fontSize: 11, letterSpacing: "0.4em", textTransform: "uppercase", marginBottom: 16 }}>Prendre Contact</p>
         <h1 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 56, fontWeight: 300, color: "#F5EDE8", marginBottom: 20 }}>
-          Nous Écrire
+          {c?.heroHeadline ?? "Nous Écrire"}
         </h1>
         <div style={{width: 48, height: 1, background: brand ?? 'var(--brand,#c9956a)', margin: "0 auto" }} />
       </div>
@@ -1535,7 +1535,7 @@ function LegalPage({ variant }: { variant: "mentions" | "cgv" | "privacy" }) {
           lineHeight: 1.8,
         }}
       >
-        <h1 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 40, fontWeight: 300, color: "#F5EDE8", marginBottom: 40 }}>Mentions Légales</h1>
+        <h1 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 40, fontWeight: 300, color: "#F5EDE8", marginBottom: 40 }}>{c?.heroHeadline ?? "Mentions Légales"}</h1>
         <div style={{ display: "flex", flexDirection: "column", gap: 32, color: "#F5EDE8", opacity: 0.8 }}>
           <div>
             <h3 style={{color: brand ?? 'var(--brand,#c9956a)', fontSize: 16, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 8 }}>Éditeur du site</h3>
@@ -1582,7 +1582,7 @@ function LegalPage({ variant }: { variant: "mentions" | "cgv" | "privacy" }) {
           lineHeight: 1.8,
         }}
       >
-        <h1 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 40, fontWeight: 300, color: "#F5EDE8", marginBottom: 40 }}>Conditions Générales de Vente</h1>
+        <h1 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 40, fontWeight: 300, color: "#F5EDE8", marginBottom: 40 }}>{c?.heroHeadline ?? "Conditions Générales de Vente"}</h1>
         <div style={{ display: "flex", flexDirection: "column", gap: 32, color: "#F5EDE8", opacity: 0.8 }}>
           <div>
             <h3 style={{color: brand ?? 'var(--brand,#c9956a)', fontSize: 16, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 8 }}>1. Commandes</h3>
@@ -1621,7 +1621,7 @@ function LegalPage({ variant }: { variant: "mentions" | "cgv" | "privacy" }) {
         lineHeight: 1.8,
       }}
     >
-      <h1 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 40, fontWeight: 300, color: "#F5EDE8", marginBottom: 40 }}>Politique de Confidentialité</h1>
+      <h1 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 40, fontWeight: 300, color: "#F5EDE8", marginBottom: 40 }}>{c?.heroHeadline ?? "Politique de Confidentialité"}</h1>
       <div style={{ display: "flex", flexDirection: "column", gap: 32, color: "#F5EDE8", opacity: 0.8 }}>
         <div>
           <h3 style={{color: brand ?? 'var(--brand,#c9956a)', fontSize: 16, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 8 }}>Données personnelles</h3>

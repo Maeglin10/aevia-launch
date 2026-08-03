@@ -329,7 +329,7 @@ function ThesesPage() {
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16">
           <span className="text-[var(--brand,#C9A86C)] text-xs tracking-widest uppercase mb-4 block">Manifeste</span>
-          <h1 className="text-5xl md:text-7xl font-light mb-6 text-white" style={{ fontFamily: "'Cormorant Garamond', serif" }}>Thèses d'investissement</h1>
+          <h1 className="text-5xl md:text-7xl font-light mb-6 text-white" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{c?.heroHeadline ?? "Thèses d'investissement"}</h1>
           <p className="max-w-xl mx-auto text-white/60 text-sm leading-relaxed">
             Nous investissons dès le stade Seed / Série A dans des projets technologiques à fort impact avec un ticket moyen allant de 2M€ à 15M€.
           </p>
@@ -360,7 +360,7 @@ function PortefeuillePage({ activeFilter, setActiveFilter, filtered }: { activeF
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16">
           <span className="text-[var(--brand,#C9A86C)] text-xs tracking-widest uppercase mb-4 block">Partenaires</span>
-          <h1 className="text-5xl md:text-7xl font-light mb-6 text-white" style={{ fontFamily: "'Cormorant Garamond', serif" }}>Notre Portefeuille</h1>
+          <h1 className="text-5xl md:text-7xl font-light mb-6 text-white" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{c?.heroHeadline ?? "Notre Portefeuille"}</h1>
           <p className="max-w-xl mx-auto text-white/60 text-sm leading-relaxed mb-10">
             Découvrez les scale-ups et licornes que nous accompagnons activement sur les marchés européens et internationaux.
           </p>
@@ -415,7 +415,7 @@ function EquipePage() {
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16">
           <span className="text-[var(--brand,#C9A86C)] text-xs tracking-widest uppercase mb-4 block">Gouvernance</span>
-          <h1 className="text-5xl md:text-7xl font-light mb-6 text-white" style={{ fontFamily: "'Cormorant Garamond', serif" }}>L'Équipe</h1>
+          <h1 className="text-5xl md:text-7xl font-light mb-6 text-white" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{c?.heroHeadline ?? "L'Équipe"}</h1>
           <p className="max-w-xl mx-auto text-white/60 text-sm leading-relaxed">
             Des investisseurs expérimentés et anciens entrepreneurs au service de la croissance de votre startup.
           </p>
@@ -463,7 +463,7 @@ function BlogPage() {
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-16">
           <span className="text-[var(--brand,#C9A86C)] text-xs tracking-widest uppercase mb-4 block">Actualités</span>
-          <h1 className="text-5xl md:text-7xl font-light mb-6 text-white" style={{ fontFamily: "'Cormorant Garamond', serif" }}>Notes de Recherche</h1>
+          <h1 className="text-5xl md:text-7xl font-light mb-6 text-white" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{c?.heroHeadline ?? "Notes de Recherche"}</h1>
           <p className="max-w-xl mx-auto text-white/60 text-sm leading-relaxed">
             Nos réflexions sur le capital-risque, l'analyse sectorielle profonde et la macroéconomie des scale-ups.
           </p>
@@ -489,7 +489,7 @@ function ContactPage() {
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-16">
           <span className="text-[var(--brand,#C9A86C)] text-xs tracking-widest uppercase mb-4 block">Pitch deck</span>
-          <h1 className="text-5xl md:text-7xl font-light mb-6 text-white" style={{ fontFamily: "'Cormorant Garamond', serif" }}>Proposer mon projet</h1>
+          <h1 className="text-5xl md:text-7xl font-light mb-6 text-white" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{c?.heroHeadline ?? "Proposer mon projet"}</h1>
           <p className="max-w-xl mx-auto text-white/60 text-sm leading-relaxed">
             Nous lisons tous les dossiers soumis sous 72h. Partagez votre deck d'investissement avec notre équipe opérationnelle.
           </p>
@@ -541,7 +541,7 @@ function LegalPage() {
       <div className="max-w-3xl mx-auto space-y-12">
         <div>
           <span className="text-[var(--brand,#C9A86C)] text-[10px] uppercase tracking-widest mb-3 block font-bold">Sécurité financière</span>
-          <h1 className="text-4xl md:text-5xl font-light uppercase text-white mb-8" style={{ fontFamily: "'Cormorant Garamond', serif" }}>Mentions Légales</h1>
+          <h1 className="text-4xl md:text-5xl font-light uppercase text-white mb-8" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{c?.heroHeadline ?? "Mentions Légales"}</h1>
         </div>
 
         <div className="border border-[var(--brand,#C9A86C)]/20 bg-[#141416] p-8 rounded-2xl space-y-6">

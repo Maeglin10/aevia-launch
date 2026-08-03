@@ -361,7 +361,7 @@ function PortfolioPage({ activeCategory, setActiveCategory }: { activeCategory: 
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16">
           <span className="text-[var(--brand,#C9A86C)] text-xs tracking-widest uppercase mb-4 block font-mono">Galerie</span>
-          <h1 className="text-5xl md:text-7xl font-light leading-none mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>Portfolio</h1>
+          <h1 className="text-5xl md:text-7xl font-light leading-none mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{c?.heroHeadline ?? "Portfolio"}</h1>
           <p className="max-w-xl mx-auto text-white/50 text-sm font-sans font-light mb-10">
             Parcourez nos séries photographiques argentiques et numériques. Chaque cliché témoigne d'une recherche sur l'ombre, la géométrie des espaces et la sincérité du sujet.
           </p>
@@ -536,7 +536,7 @@ function ServicesPage({ goTo }: { goTo: (p: ActivePage) => void }) {
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-20">
           <span className="text-[var(--brand,#C9A86C)] text-xs tracking-widest uppercase mb-4 block font-mono">Prestations</span>
-          <h1 className="text-5xl md:text-7xl font-light leading-none mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>Services & Tarifs</h1>
+          <h1 className="text-5xl md:text-7xl font-light leading-none mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{c?.heroHeadline ?? "Services & Tarifs"}</h1>
           <p className="max-w-xl mx-auto text-white/50 text-sm font-sans font-light">
             Une approche sur mesure pour chaque projet photographique, de la direction artistique préliminaire au tirage d'exposition.
           </p>
@@ -643,7 +643,7 @@ function LegalPage() {
       <div className="max-w-3xl mx-auto space-y-16">
         <div>
           <span className="text-[var(--brand,#C9A86C)] text-[10px] uppercase tracking-widest mb-4 block">Compliance</span>
-          <h1 className="text-4xl md:text-6xl font-light uppercase text-white mb-12" style={{ fontFamily: "'Cormorant Garamond', serif" }}>Mentions Légales</h1>
+          <h1 className="text-4xl md:text-6xl font-light uppercase text-white mb-12" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{c?.heroHeadline ?? "Mentions Légales"}</h1>
         </div>
 
         <div className="border border-[var(--brand,#C9A86C)]/20 bg-[#0E0B08] p-10 space-y-6">

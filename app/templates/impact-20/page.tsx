@@ -3010,7 +3010,7 @@ function BoutiquePage({ selectedProduct, setSelectedProduct, goTo }: BoutiquePag
             marginBottom: 24,
           }}
         >
-          La Collection Élence
+          {c?.heroHeadline ?? "La Collection Élence"}
         </h1>
         <p
           style={{
@@ -3164,7 +3164,7 @@ function AtelierPage() {
             marginBottom: 24,
           }}
         >
-          L'Atelier Place Vendôme
+          {c?.heroHeadline ?? "L'Atelier Place Vendôme"}
         </h1>
         <div
           style={{
@@ -3260,7 +3260,7 @@ function SavoirFairePage() {
             marginBottom: 24,
           }}
         >
-          Le Savoir-Faire Élara
+          {c?.heroHeadline ?? "Le Savoir-Faire Élara"}
         </h1>
         <div
           style={{
@@ -3379,7 +3379,7 @@ function LookbookPage() {
             marginBottom: 24,
           }}
         >
-          Le Lookbook
+          {c?.heroHeadline ?? "Le Lookbook"}
         </h1>
         <div
           style={{
@@ -3515,7 +3515,7 @@ function ContactPage() {
             marginBottom: 24,
           }}
         >
-          Contactez la Maison
+          {c?.heroHeadline ?? "Contactez la Maison"}
         </h1>
         <div
           style={{
@@ -3748,7 +3748,7 @@ function LegalPage({ variant }: { variant: "mentions" | "cgv" | "privacy" }) {
           lineHeight: 1.8,
         }}
       >
-        <h1 style={{ color: "#f0ece0", fontSize: 36, fontStyle: "italic", marginBottom: 40, fontWeight: 400 }}>Mentions Légales</h1>
+        <h1 style={{ color: "#f0ece0", fontSize: 36, fontStyle: "italic", marginBottom: 40, fontWeight: 400 }}>{c?.heroHeadline ?? "Mentions Légales"}</h1>
         <div style={{ display: "flex", flexDirection: "column", gap: 32, color: "rgba(240,236,224,0.75)" }}>
           <div>
             <h3 style={{color: brand ?? 'var(--brand,#d4af6b)', fontSize: 18, fontStyle: "italic", marginBottom: 12, fontWeight: 400 }}>Éditeur du site</h3>
@@ -3796,7 +3796,7 @@ function LegalPage({ variant }: { variant: "mentions" | "cgv" | "privacy" }) {
           lineHeight: 1.8,
         }}
       >
-        <h1 style={{ color: "#f0ece0", fontSize: 36, fontStyle: "italic", marginBottom: 40, fontWeight: 400 }}>Conditions Générales de Vente</h1>
+        <h1 style={{ color: "#f0ece0", fontSize: 36, fontStyle: "italic", marginBottom: 40, fontWeight: 400 }}>{c?.heroHeadline ?? "Conditions Générales de Vente"}</h1>
         <div style={{ display: "flex", flexDirection: "column", gap: 32, color: "rgba(240,236,224,0.75)" }}>
           <div>
             <h3 style={{color: brand ?? 'var(--brand,#d4af6b)', fontSize: 18, fontStyle: "italic", marginBottom: 12, fontWeight: 400 }}>1. Objet</h3>
@@ -3841,7 +3841,7 @@ function LegalPage({ variant }: { variant: "mentions" | "cgv" | "privacy" }) {
         lineHeight: 1.8,
       }}
     >
-      <h1 style={{ color: "#f0ece0", fontSize: 36, fontStyle: "italic", marginBottom: 40, fontWeight: 400 }}>Politique de Confidentialité</h1>
+      <h1 style={{ color: "#f0ece0", fontSize: 36, fontStyle: "italic", marginBottom: 40, fontWeight: 400 }}>{c?.heroHeadline ?? "Politique de Confidentialité"}</h1>
       <div style={{ display: "flex", flexDirection: "column", gap: 32, color: "rgba(240,236,224,0.75)" }}>
         <div>
           <h3 style={{color: brand ?? 'var(--brand,#d4af6b)', fontSize: 18, fontStyle: "italic", marginBottom: 12, fontWeight: 400 }}>Collecte des données</h3>

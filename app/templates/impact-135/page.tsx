@@ -1382,7 +1382,7 @@ export default function Impact135Page() {
                 fontFamily: C.font,
               }}
             >
-              for Elite Traders.
+              {c?.heroHeadline ?? "for Elite Traders."}
             </h1>
           </TextReveal>
 

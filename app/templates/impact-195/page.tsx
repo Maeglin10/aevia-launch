@@ -209,7 +209,7 @@ export default function MaisonElisePage() {
           </motion.div>
           <motion.div initial={{ opacity: 0, y: 65 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.2, delay: 0.55, ease: [0.16, 1, 0.3, 1] }}>
             <h1 className="font-bold italic leading-[0.88] tracking-tight mb-10 text-[var(--brand,#c4a06a)]" style={{ fontFamily: "'Lora', Georgia, serif", fontSize: "clamp(52px,7.5vw,96px)" }}>
-              jour en mémoire.
+              {c?.heroHeadline ?? "jour en mémoire."}
             </h1>
           </motion.div>
 

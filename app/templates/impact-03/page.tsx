@@ -3064,7 +3064,7 @@ function BoutiquePage({
             marginBottom: 16,
           }}
         >
-          The Boutique
+          {c?.heroHeadline ?? "The Boutique"}
         </h1>
         <p
           style={{
@@ -3257,7 +3257,7 @@ function BlogPage({
             marginBottom: 16,
           }}
         >
-          The Notebook
+          {c?.heroHeadline ?? "The Notebook"}
         </h1>
         <p
           style={{
@@ -3444,7 +3444,7 @@ function LegalPage({ variant, accentColor }: { variant: 'cgv' | 'mentions'; acce
     <div style={{ padding: '120px 64px 100px', maxWidth: 800, margin: '0 auto', fontFamily: 'system-ui, sans-serif' }}>
       {variant === 'mentions' ? (
         <>
-          <h1 style={{ fontFamily: "'Georgia', serif", fontSize: 36, fontWeight: 300, letterSpacing: '-0.02em', color: '#0a0a0a', marginBottom: 40 }}>Mentions Légales</h1>
+          <h1 style={{ fontFamily: "'Georgia', serif", fontSize: 36, fontWeight: 300, letterSpacing: '-0.02em', color: '#0a0a0a', marginBottom: 40 }}>{c?.heroHeadline ?? "Mentions Légales"}</h1>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 32, fontSize: 14, lineHeight: 1.8, color: 'rgba(10,10,10,0.65)' }}>
             <div>
               <h2 style={{ fontFamily: "'Georgia', serif", fontSize: 18, fontWeight: 300, color: '#0a0a0a', marginBottom: 12 }}>Éditeur</h2>
@@ -3470,7 +3470,7 @@ function LegalPage({ variant, accentColor }: { variant: 'cgv' | 'mentions'; acce
         </>
       ) : (
         <>
-          <h1 style={{ fontFamily: "'Georgia', serif", fontSize: 36, fontWeight: 300, letterSpacing: '-0.02em', color: '#0a0a0a', marginBottom: 40 }}>Conditions Générales de Vente</h1>
+          <h1 style={{ fontFamily: "'Georgia', serif", fontSize: 36, fontWeight: 300, letterSpacing: '-0.02em', color: '#0a0a0a', marginBottom: 40 }}>{c?.heroHeadline ?? "Conditions Générales de Vente"}</h1>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 32, fontSize: 14, lineHeight: 1.8, color: 'rgba(10,10,10,0.65)' }}>
             <div>
               <h2 style={{ fontFamily: "'Georgia', serif", fontSize: 18, fontWeight: 300, color: '#0a0a0a', marginBottom: 12 }}>1. Objet</h2>

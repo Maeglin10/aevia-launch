@@ -548,7 +548,7 @@ export default function ChronicleEditorialPage() {
         <div className="max-w-[1400px] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 lg:gap-8 mb-24">
           <div className="lg:col-span-2">
             <h1 className="text-4xl font-black uppercase tracking-tighter text-[#fcfaf7] mb-6" style={{ fontFamily: "Georgia, serif" }}>
-              Chronicle.
+              {c?.heroHeadline ?? "Chronicle."}
             </h1>
             <p className="max-w-sm text-sm font-serif italic leading-relaxed mb-8">
               A journal of politics, culture, and science. Truth without compromise. Clarity without condescension.

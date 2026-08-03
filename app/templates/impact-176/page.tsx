@@ -1426,7 +1426,7 @@ export default function Impact176Page() {
                 color: C.accent,
               }}
             >
-              Your decisions.
+              {c?.heroHeadline ?? "Your decisions."}
             </h1>
           </TextReveal>
           <TextReveal immediate delay={0.2} style={{ marginBottom: 36 }}>
@@ -1439,7 +1439,7 @@ export default function Impact176Page() {
                 color: C.text,
               }}
             >
-              Your advantage.
+              {c?.heroHeadline ?? "Your advantage."}
             </h1>
           </TextReveal>
 

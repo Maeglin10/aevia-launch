@@ -1309,7 +1309,7 @@ export default function Impact198Page() {
                 marginBottom: 28,
               }}
             >
-              à votre service
+              {c?.heroHeadline ?? "à votre service"}
             </h1>
           </TextReveal>
 

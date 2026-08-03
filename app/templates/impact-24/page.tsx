@@ -552,7 +552,7 @@ return (
           <div className="max-w-6xl mx-auto">
             <Reveal>
               <p className="text-[var(--brand,#A3E635)] text-sm font-semibold tracking-widest uppercase mb-4">Portfolio</p>
-              <h1 className="text-5xl md:text-7xl font-bold mb-4">Companies we&apos;ve backed</h1>
+              <h1 className="text-5xl md:text-7xl font-bold mb-4">{c?.heroHeadline ?? "Companies we&apos;ve backed"}</h1>
               <p className="text-white/50 text-lg max-w-3xl mb-6 leading-relaxed">120+ startups across AI, fintech, health, climate, and developer tools. Here are some of the teams we&apos;re proudest to partner with.</p>
             </Reveal>
 
@@ -691,7 +691,7 @@ return (
           <div className="max-w-6xl mx-auto">
             <Reveal>
               <p className="text-[var(--brand,#A3E635)] text-sm font-semibold tracking-widest uppercase mb-4">The Program</p>
-              <h1 className="text-5xl md:text-7xl font-bold mb-4">12 weeks that change everything.</h1>
+              <h1 className="text-5xl md:text-7xl font-bold mb-4">{c?.heroHeadline ?? "12 weeks that change everything."}</h1>
               <p className="text-white/50 text-lg max-w-3xl mb-16 leading-relaxed">Our accelerator is structured around three phases — Foundation, Build, and Scale. Each week has specific deliverables, workshops, and office hours designed to move you forward faster than you thought possible.</p>
             </Reveal>
 
@@ -867,7 +867,7 @@ return (
           <div className="max-w-6xl mx-auto">
             <Reveal>
               <p className="text-[var(--brand,#A3E635)] text-sm font-semibold tracking-widest uppercase mb-4">Mentors</p>
-              <h1 className="text-5xl md:text-7xl font-bold mb-4">Learn from operators, not observers.</h1>
+              <h1 className="text-5xl md:text-7xl font-bold mb-4">{c?.heroHeadline ?? "Learn from operators, not observers."}</h1>
               <p className="text-white/50 text-lg max-w-3xl mb-16 leading-relaxed">Our mentors have built, scaled, and invested in companies worth billions. They&apos;ve lived through the problems you&apos;re facing — and they&apos;re here every week to help you solve them.</p>
             </Reveal>
 
@@ -1057,7 +1057,7 @@ return (
               <div className="inline-flex items-center gap-2 bg-[var(--brand,#A3E635)]/10 border border-[var(--brand,#A3E635)]/20 text-[var(--brand,#A3E635)] text-sm font-medium px-4 py-2 rounded-full mb-6">
                 <Rocket className="w-4 h-4" /> Cohort W24 — Applications Open
               </div>
-              <h1 className="text-4xl md:text-5xl font-bold mb-4">Start your application</h1>
+              <h1 className="text-4xl md:text-5xl font-bold mb-4">{c?.heroHeadline ?? "Start your application"}</h1>
               <p className="text-white/50 text-sm max-w-md mx-auto">
                 Apply to the Zero to One 12-week accelerator. We invest €500K and help you scale. Takes ~15 minutes to complete.
               </p>
@@ -1120,7 +1120,7 @@ return (
                 <div className="w-10 h-10 bg-[var(--brand,#A3E635)]/10 text-[var(--brand,#A3E635)] rounded-xl flex items-center justify-center">
                   <Shield className="w-5 h-5" />
                 </div>
-                <h1 className="text-4xl md:text-5xl font-bold">Legal Notice & Privacy</h1>
+                <h1 className="text-4xl md:text-5xl font-bold">{c?.heroHeadline ?? "Legal Notice & Privacy"}</h1>
               </div>
             </Reveal>
 
