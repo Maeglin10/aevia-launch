@@ -319,6 +319,68 @@ const FALLBACK_FAQS = [
 ];
 
 // Main Template Component
+/*
+  Un panneau par question, dans son propre composant.
+
+  Le useState vivait dans le corps du `.map` : son nombre suivait la longueur de
+  la liste, qui change au moment où la session arrive — les questions de
+  démonstration au premier rendu, celles du client au second. React lève alors
+  l'erreur #300 et la page entière disparaît.
+*/
+function FaqPanel({ faq, idx }: { faq: any; idx: number }) {
+  const [isOpen, setIsOpen] = useState(false);
+  return (
+                    <Reveal key={idx} delay={idx * 0.1}>
+                      <div 
+                        style={{
+                          backgroundColor: C.bgCard,
+                          border: `1px solid rgba(255,255,255,0.05)`,
+                          borderRadius: "4px",
+                          overflow: "hidden"
+                        }}
+                      >
+                        <button
+                          onClick={() => setIsOpen(!isOpen)}
+                          style={{
+                            width: "100%",
+                            padding: "1.5rem",
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                            background: "none",
+                            border: "none",
+                            color: C.white,
+                            fontFamily: SANS,
+                            fontWeight: 600,
+                            fontSize: "1rem",
+                            textAlign: "left",
+                            cursor: "pointer"
+                          }}
+                        >
+                          {faq.question}
+                          <motion.div animate={{ rotate: isOpen ? 180 : 0 }}>
+                            <ChevronDown size={20} color={C.primary} />
+                          </motion.div>
+                        </button>
+                        <AnimatePresence>
+                          {isOpen && (
+                            <motion.div
+                              initial={{ height: 0, opacity: 0 }}
+                              animate={{ height: "auto", opacity: 1 }}
+                              exit={{ height: 0, opacity: 0 }}
+                              style={{ overflow: "hidden" }}
+                            >
+                              <div style={{ padding: "0 1.5rem 1.5rem 1.5rem", color: C.textMuted, fontFamily: SANS, lineHeight: 1.6 }}>
+                                {faq.answer}
+                              </div>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      </div>
+                    </Reveal>
+                  );
+}
+
 export default function PlumberDarkUrgent() {
   const [session, setSession] = useState(null);
   const [C, setC] = useState(DEFAULT_C);
@@ -1123,59 +1185,9 @@ export default function PlumberDarkUrgent() {
             
             <div>
               <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-                {resolvedFaqs.map((faq, idx) => {
-                  const [isOpen, setIsOpen] = useState(false);
-                  return (
-                    <Reveal key={idx} delay={idx * 0.1}>
-                      <div 
-                        style={{
-                          backgroundColor: C.bgCard,
-                          border: `1px solid rgba(255,255,255,0.05)`,
-                          borderRadius: "4px",
-                          overflow: "hidden"
-                        }}
-                      >
-                        <button
-                          onClick={() => setIsOpen(!isOpen)}
-                          style={{
-                            width: "100%",
-                            padding: "1.5rem",
-                            display: "flex",
-                            justifyContent: "space-between",
-                            alignItems: "center",
-                            background: "none",
-                            border: "none",
-                            color: C.white,
-                            fontFamily: SANS,
-                            fontWeight: 600,
-                            fontSize: "1rem",
-                            textAlign: "left",
-                            cursor: "pointer"
-                          }}
-                        >
-                          {faq.question}
-                          <motion.div animate={{ rotate: isOpen ? 180 : 0 }}>
-                            <ChevronDown size={20} color={C.primary} />
-                          </motion.div>
-                        </button>
-                        <AnimatePresence>
-                          {isOpen && (
-                            <motion.div
-                              initial={{ height: 0, opacity: 0 }}
-                              animate={{ height: "auto", opacity: 1 }}
-                              exit={{ height: 0, opacity: 0 }}
-                              style={{ overflow: "hidden" }}
-                            >
-                              <div style={{ padding: "0 1.5rem 1.5rem 1.5rem", color: C.textMuted, fontFamily: SANS, lineHeight: 1.6 }}>
-                                {faq.answer}
-                              </div>
-                            </motion.div>
-                          )}
-                        </AnimatePresence>
-                      </div>
-                    </Reveal>
-                  );
-                })}
+                {resolvedFaqs.map((faq, idx) => (
+                  <FaqPanel key={idx} faq={faq} idx={idx} />
+                ))}
               </div>
             </div>
           </div>

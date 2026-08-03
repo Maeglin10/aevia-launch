@@ -3137,7 +3137,13 @@ export default function Impact288Page() {
     clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, text: r.text })),
     TESTIMONIALS_SOURCE,
   );
-  CERTIFS = resolveList(clientCertifications(sessionData), CERTIFS_DEMO);
+  CERTIFS = resolveList(
+    clientCertifications(sessionData)?.map((texte: string, i: number) => ({
+      ...CERTIFS_DEMO[i % CERTIFS_DEMO.length],
+      name: texte,
+    })),
+    CERTIFS_DEMO,
+  );
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, green: brand, greenLight: shadeColor(brand, 25) };

@@ -2850,7 +2850,7 @@ function Impact278Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
-  CERTIFICATIONS = resolveList(clientCertifications(sessionData), CERTIFICATIONS_DEMO);
+  CERTIFICATIONS = CERTIFICATIONS_DEMO;
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, brick: brand, brickLight: shadeColor(brand, 25) };
