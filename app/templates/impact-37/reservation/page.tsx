@@ -242,7 +242,7 @@ export default function ReservationPage() {
                     color: "#c4a882",
                   }}
                 >
-                  <Mail size={16} color={C.gold} /> valentinmilliand@aevia.services
+                  <Mail size={16} color={C.gold} /> contact@exemple.fr
                 </div>
                 <div
                   style={{

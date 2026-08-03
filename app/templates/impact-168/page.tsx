@@ -3172,7 +3172,7 @@ function ContactPage() {
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(280px, 100%), 1fr))", gap: "clamp(32px, 5vw, 64px)", maxWidth: 1000, margin: "0 auto" }}>
           <div>
             {[
-              { label: "Email", value: "valentinmilliand@aevia.services" },
+              { label: "Email", value: "contact@exemple.fr" },
               { label: "Téléphone", value: "+33 4 91 00 00 00" },
               { label: "Ville", value: "Marseille, France" },
               { label: "Horaires", value: "Lun – Ven · 9h – 18h" },
@@ -3273,8 +3273,8 @@ function LegalPage({ variant }: { variant: "cgv" | "mentions" }) {
             </p>
             <p style={para}>Directeur de la publication : <strong style={{ color: C.cream }}>Valentin Milliand</strong>.</p>
             <p style={para}>SIREN : <strong style={{ color: C.cream }}><LegalIdentity /></strong> — RCS Bourg-en-Bresse.</p>
-            <p style={para}>Contact : <strong style={{ color: C.cream }}>{fd?.email ?? "valentinmilliand@aevia.services"}</strong></p>
-            <p style={para}>Adresse du siège social communiquée sur demande à valentinmilliand@aevia.services.</p>
+            <p style={para}>Contact : <strong style={{ color: C.cream }}>{fd?.email ?? "contact@exemple.fr"}</strong></p>
+            <p style={para}>Adresse du siège social communiquée sur demande à contact@exemple.fr.</p>
 
             <h2 style={sectionTitle}>TVA</h2>
             <p style={para}>TVA non applicable, art. 293 B du CGI.</p>
@@ -3294,7 +3294,7 @@ function LegalPage({ variant }: { variant: "cgv" | "mentions" }) {
             <h2 style={sectionTitle}>Données personnelles</h2>
             <p style={para}>
               Conformément au RGPD, vous disposez d'un droit d'accès, de rectification et de suppression des données vous
-              concernant. Pour exercer ce droit, écrivez à valentinmilliand@aevia.services.
+              concernant. Pour exercer ce droit, écrivez à contact@exemple.fr.
             </p>
           </div>
         </section>

@@ -43,7 +43,7 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <h3 className="font-semibold text-sm">Email support</h3>
-                    <p className="text-xs text-white/40">contact@aevia.ws</p>
+                    <p className="text-xs text-white/40">contact@exemple.fr</p>
                   </div>
                 </div>
 

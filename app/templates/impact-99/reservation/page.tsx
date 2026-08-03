@@ -551,7 +551,7 @@ function ReservationPage() {
                   <Phone className="w-5 h-5 text-[#ff4d00]" /> 01 23 45 67 89
                 </div>
                 <div className="flex items-center gap-4 text-white/40 text-[11px] font-bold uppercase tracking-widest">
-                  <Mail className="w-5 h-5 text-[#ff4d00]" /> valentinmilliand@aevia.services
+                  <Mail className="w-5 h-5 text-[#ff4d00]" /> contact@exemple.fr
                 </div>
                 <div className="flex items-center gap-4 text-white/40 text-[11px] font-bold uppercase tracking-widest">
                   <MapPin className="w-5 h-5 text-[#ff4d00]" /> Adresse communiquée
@@ -798,7 +798,7 @@ function ContactPage() {
                     </span>
                   </div>
                   <p className="text-sm text-white/40 font-light uppercase tracking-widest italic leading-loose">
-                    Adresse communiquée sur demande à valentinmilliand@aevia.services
+                    Adresse communiquée sur demande à contact@exemple.fr
                   </p>
                 </div>
                 <Separator className="bg-white/5" />
@@ -822,7 +822,7 @@ function ContactPage() {
                     </span>
                   </div>
                   <p className="text-sm text-white/40 font-light uppercase tracking-widest italic">
-                    valentinmilliand@aevia.services
+                    contact@exemple.fr
                   </p>
                 </div>
               </div>
@@ -966,7 +966,7 @@ function LegalPage({ variant }: { variant: "mentions" | "privacy" }) {
               <LegalBlock title="Vos droits">
                 Conformément au RGPD, vous disposez d'un droit d'accès, de
                 rectification, d'effacement et d'opposition sur vos données. Pour
-                l'exercer, écrivez à valentinmilliand@aevia.services.
+                l'exercer, écrivez à contact@exemple.fr.
               </LegalBlock>
               <LegalBlock title="Cookies">
                 Ce site n'utilise que des cookies strictement nécessaires à son

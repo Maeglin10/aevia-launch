@@ -180,7 +180,7 @@ export default function LawFirmLayout({ children }: { children: React.ReactNode 
               <p style={{ fontFamily: "'Source Sans Pro', system-ui", fontSize: 14, color: "rgba(255,255,255,0.4)", lineHeight: 1.7, maxWidth: 280, marginBottom: 24 }}>Cabinet d'avocats spécialisé en droit des sociétés, fusions-acquisitions, propriété intellectuelle et contentieux commercial. Paris, France.</p>
               <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                 <MessageSquare size={14} color={C.accent} />
-                <span style={{ fontFamily: "'Source Sans Pro', system-ui", fontSize: 13, color: "rgba(255,255,255,0.4)" }}>valentinmilliand@aevia.services</span>
+                <span style={{ fontFamily: "'Source Sans Pro', system-ui", fontSize: 13, color: "rgba(255,255,255,0.4)" }}>contact@exemple.fr</span>
               </div>
             </div>
 
@@ -205,7 +205,7 @@ export default function LawFirmLayout({ children }: { children: React.ReactNode 
           <div style={{ borderTop: `1px solid ${C.borderDark}`, paddingTop: 32, display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap" as const, gap: 16 }}>
             <div style={{ display: "flex", gap: 24, flexWrap: "wrap" as const }}>
               {[
-                { Icon: Mail, text: "valentinmilliand@aevia.services" },
+                { Icon: Mail, text: "contact@exemple.fr" },
                 { Icon: Clock, text: "Lun–Ven, 9h–19h" },
               ].map(({ Icon, text }) => (
                 <div key={text} style={{ display: "flex", alignItems: "center", gap: 8 }}>

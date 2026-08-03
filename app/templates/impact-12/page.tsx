@@ -1239,7 +1239,7 @@ function LegalSubPage() {
               Le site Noir Couture est édité par :<br />
               <strong>Aevia WS — Valentin Milliand</strong><br />
               Entrepreneur individuel — SIREN : <LegalIdentity /> — RCS Bourg-en-Bresse<br />
-              <strong>Contact :</strong>{fd?.email ?? "valentinmilliand@aevia.services"}<br />
+              <strong>Contact :</strong>{fd?.email ?? "contact@exemple.fr"}<br />
               <strong>Adresse physique :</strong> communiquée sur demande.
             </p>
           </div>
@@ -1264,7 +1264,7 @@ function LegalSubPage() {
           <div>
             <h3 className="text-black font-semibold text-base mb-2">Données personnelles</h3>
             <p>
-              Conformément à la réglementation sur la protection des données personnelles (RGPD), vous disposez d'un droit d'accès, de rectification et d'opposition aux données vous concernant. Vous pouvez exercer ce droit en nous écrivant à valentinmilliand@aevia.services.
+              Conformément à la réglementation sur la protection des données personnelles (RGPD), vous disposez d'un droit d'accès, de rectification et d'opposition aux données vous concernant. Vous pouvez exercer ce droit en nous écrivant à contact@exemple.fr.
             </p>
           </div>
         </div>

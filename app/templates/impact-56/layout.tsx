@@ -244,7 +244,7 @@ export default function ChateauVestigeLayout({
                   <Phone className="w-5 h-5 text-[#C4A265]" /> +33 (0)5 56 00 00 00
                 </li>
                 <li className="flex items-center gap-4 text-sm">
-                  <Mail className="w-5 h-5 text-[#C4A265]" /> valentinmilliand@aevia.services
+                  <Mail className="w-5 h-5 text-[#C4A265]" /> contact@exemple.fr
                 </li>
               </ul>
             </div>

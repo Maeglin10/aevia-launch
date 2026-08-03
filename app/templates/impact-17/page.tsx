@@ -726,7 +726,7 @@ function LegalPage() {
               Entrepreneur individuel<br />
               SIREN : <LegalIdentity /><br />
               RCS : Bourg-en-Bresse<br />
-              Email : valentinmilliand@aevia.services<br />
+              Email : contact@exemple.fr<br />
               Adresse : Communiquée sur demande
             </p>
           </div>

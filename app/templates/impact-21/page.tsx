@@ -1033,7 +1033,7 @@ return (
                     <p className="text-gray-600 leading-relaxed">
                       Aevia WS — Valentin Milliand, entrepreneur individuel.<br />
                       SIREN : <LegalIdentity /> — RCS Bourg-en-Bresse.<br />
-                      Contact : <span className="text-[var(--brand,#F97316)]">{fd?.email ?? "contact@aevia.ws"}</span>
+                      Contact : <span className="text-[var(--brand,#F97316)]">{fd?.email ?? "contact@exemple.fr"}</span>
                     </p>
                   </div>
 

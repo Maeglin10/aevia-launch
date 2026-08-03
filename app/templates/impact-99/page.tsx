@@ -586,7 +586,7 @@ function ReservationPage() {
                   <Phone className="w-5 h-5 text-[var(--brand,#ff4d00)]" /> {fd?.phone ?? "01 23 45 67 89"}
                 </div>
                 <div className="flex items-center gap-4 text-white/40 text-[11px] font-bold uppercase tracking-widest">
-                  <Mail className="w-5 h-5 text-[var(--brand,#ff4d00)]" />{fd?.email ?? "valentinmilliand@aevia.services"}</div>
+                  <Mail className="w-5 h-5 text-[var(--brand,#ff4d00)]" />{fd?.email ?? "contact@exemple.fr"}</div>
                 <div className="flex items-center gap-4 text-white/40 text-[11px] font-bold uppercase tracking-widest">
                   <MapPin className="w-5 h-5 text-[var(--brand,#ff4d00)]" /> Adresse communiquée
                   sur demande
@@ -832,7 +832,7 @@ function ContactPage() {
                     </span>
                   </div>
                   <p className="text-sm text-white/40 font-light uppercase tracking-widest italic leading-loose">
-                    Adresse communiquée sur demande à valentinmilliand@aevia.services
+                    Adresse communiquée sur demande à contact@exemple.fr
                   </p>
                 </div>
                 <Separator className="bg-white/5" />
@@ -855,7 +855,7 @@ function ContactPage() {
                       Email
                     </span>
                   </div>
-                  <p className="text-sm text-white/40 font-light uppercase tracking-widest italic">{fd?.email ?? "valentinmilliand@aevia.services"}</p>
+                  <p className="text-sm text-white/40 font-light uppercase tracking-widest italic">{fd?.email ?? "contact@exemple.fr"}</p>
                 </div>
               </div>
             </div>
@@ -966,9 +966,9 @@ function LegalPage({ variant }: { variant: "mentions" | "privacy" }) {
               <LegalBlock title="Immatriculation">
                 SIREN <LegalIdentity /> — RCS Bourg-en-Bresse
               </LegalBlock>
-              <LegalBlock title="Contact">{fd?.email ?? "valentinmilliand@aevia.services"}</LegalBlock>
+              <LegalBlock title="Contact">{fd?.email ?? "contact@exemple.fr"}</LegalBlock>
               <LegalBlock title="Siège social">
-                Adresse du siège social communiquée sur demande à valentinmilliand@aevia.services
+                Adresse du siège social communiquée sur demande à contact@exemple.fr
               </LegalBlock>
               <LegalBlock title="TVA">
                 TVA non applicable, art. 293 B du CGI
@@ -982,7 +982,7 @@ function LegalPage({ variant }: { variant: "mentions" | "privacy" }) {
               <LegalBlock title="Responsable du traitement">
                 Aevia WS, représentée par Valentin Milliand, est responsable du
                 traitement des données collectées sur ce site. Contact :
-                valentinmilliand@aevia.services.
+                contact@exemple.fr.
               </LegalBlock>
               <LegalBlock title="Données collectées">
                 Les informations transmises via les formulaires de réservation et de
@@ -998,7 +998,7 @@ function LegalPage({ variant }: { variant: "mentions" | "privacy" }) {
               <LegalBlock title="Vos droits">
                 Conformément au RGPD, vous disposez d'un droit d'accès, de
                 rectification, d'effacement et d'opposition sur vos données. Pour
-                l'exercer, écrivez à valentinmilliand@aevia.services.
+                l'exercer, écrivez à contact@exemple.fr.
               </LegalBlock>
               <LegalBlock title="Cookies">
                 Ce site n'utilise que des cookies strictement nécessaires à son

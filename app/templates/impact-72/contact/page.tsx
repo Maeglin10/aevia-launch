@@ -34,7 +34,7 @@ export default function ContactPage() {
               COORDONNÉES
             </div>
             <p style={{ fontSize: "0.85rem", color: C.textMuted, lineHeight: 1.6 }}>
-              Email : <a href="mailto:valentinmilliand@aevia.services" style={{ color: C.text, textDecoration: "none" }}>valentinmilliand@aevia.services</a><br />
+              Email : <a href="mailto:contact@exemple.fr" style={{ color: C.text, textDecoration: "none" }}>contact@exemple.fr</a><br />
               HQ : Bourg-en-Bresse, France<br />
               SPI N° <LegalIdentity />
             </p>
