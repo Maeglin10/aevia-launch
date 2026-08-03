@@ -9,6 +9,7 @@ import { ArrowRight, Building, Users, TrendingUp, Award } from "lucide-react"
 import { Reveal } from "./shared"
 import { resolveList } from "@/lib/templates/resolveList"
 import {
+  clientCity,
   clientName,
   clientReviews,
   clientTeam,
@@ -319,6 +320,11 @@ return (
           </Reveal>
         </div>
       </section>
+      {/* PIED_MINIMAL — ce thème n'affichait pas la ville du client */}
+      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.55 }}>
+        {clientName(sessionData) ?? "impact-82"}
+        {clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+      </footer>
     </div>
   )
 }

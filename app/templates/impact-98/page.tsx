@@ -28,6 +28,8 @@ import { resolveList } from "@/lib/templates/resolveList";
 
 import "../premium.css";
 import {
+  clientCity,
+  clientName,
   clientServices,
   clientStats,
 } from "@/lib/templates/clientContent";
@@ -759,6 +761,11 @@ export default function ZenithWatchesPage() {
         ::-webkit-scrollbar{width:4px;background:#050505}
         ::-webkit-scrollbar-thumb{background:#d4af37}
       `}</style>
+      {/* PIED_MINIMAL — ce thème n'affichait pas la ville du client */}
+      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.55 }}>
+        {clientName(sessionData) ?? "impact-98"}
+        {clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+      </footer>
     </div>
   );
 }

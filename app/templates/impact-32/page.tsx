@@ -26,6 +26,7 @@ import {
 import { resolveList } from "@/lib/templates/resolveList";
 import { TemplateIcon } from '@/components/TemplateIcon';
 import {
+  clientCity,
   clientFaq,
   clientName,
   clientReviews,
@@ -838,6 +839,11 @@ return (
       <FAQ />
       {/* layout.tsx renders the site footer; this page rendered a second one
           on top of it, so the site showed two stacked footers. */}
+      {/* PIED_MINIMAL — ce thème n'affichait pas la ville du client */}
+      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.55 }}>
+        {clientName(sessionData) ?? "impact-32"}
+        {clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+      </footer>
     </main>
   );
 }

@@ -27,7 +27,9 @@ import { Plane, Globe, Clock, ShieldCheck, Zap, Mail, Phone, ChevronRight, Arrow
 import "../premium.css";
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientCity,
   clientFaq,
+  clientName,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -1125,6 +1127,11 @@ export default function VelocityJetsPage() {
         ::-webkit-scrollbar{width:4px;background:#050505}
         ::-webkit-scrollbar-thumb{background:#00f2ff}
       `}</style>
+      {/* PIED_MINIMAL — ce thème n'affichait pas la ville du client */}
+      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.55 }}>
+        {clientName(sessionData) ?? "impact-93"}
+        {clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+      </footer>
     </div>
   );
 }

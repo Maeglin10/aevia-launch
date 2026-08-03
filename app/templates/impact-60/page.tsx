@@ -8,6 +8,8 @@ import { Play, Settings, Shield, Clock } from "lucide-react";
 import { Reveal, ParallaxImg, MODELS } from "./shared";
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientCity,
+  clientName,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -365,6 +367,11 @@ return (
           </div>
         </section>
       </main>
+      {/* PIED_MINIMAL — ce thème n'affichait pas la ville du client */}
+      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.55 }}>
+        {clientName(sessionData) ?? "impact-60"}
+        {clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+      </footer>
     </div>
   );
 }

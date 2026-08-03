@@ -13,6 +13,8 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { STATS, FEATURES, TESTIMONIALS, FAQS, Reveal } from "./shared";
 import {
+  clientCity,
+  clientName,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -331,6 +333,11 @@ return (
           </div>
         </Reveal>
       </section>
+      {/* PIED_MINIMAL — ce thème n'affichait pas la ville du client */}
+      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.55 }}>
+        {clientName({ formData: fd }) ?? "impact-56"}
+        {clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
+      </footer>
     </div>
   );
 }

@@ -9,6 +9,8 @@ import { Music, Sparkles, Disc, Heart, MapPin, Play } from "lucide-react";
 import { motion } from "framer-motion";
 import { Reveal, EVENTS, ParallaxImg } from "./shared";
 import {
+  clientCity,
+  clientName,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -459,6 +461,11 @@ return (
           </div>
         </section>
       </main>
+      {/* PIED_MINIMAL — ce thème n'affichait pas la ville du client */}
+      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.55 }}>
+        {clientName({ formData: fd }) ?? "impact-70"}
+        {clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
+      </footer>
     </div>
   );
 }

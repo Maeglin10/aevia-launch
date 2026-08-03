@@ -19,6 +19,7 @@ import { Progress } from "@/components/ui/progress"
 import { Separator } from "@/components/ui/separator"
 import { Menu, X, ArrowRight, Check, ChevronDown, Zap, Shield, Globe, BarChart3, Users, Star, Play, Layers, Code2, Rocket, TrendingUp, Clock, MessageSquare, Sparkles, Terminal, GitBranch, Database, Cpu, Lock, ArrowUpRight } from "lucide-react"
 import {
+  clientCity,
   clientFaq,
   clientName,
   clientPhotos,
@@ -857,6 +858,16 @@ return (
           <p className="text-xs text-zinc-600 text-center">No sign-up required · Full product walkthrough</p>
         </DialogContent>
       </Dialog>
+
+      {/* PIED_MINIMAL — ce thème n'affichait pas la ville du client */}
+
+      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.55 }}>
+
+        {clientName({ formData: fd }) ?? "impact-05"}
+
+        {clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
+
+      </footer>
 
     </div>
   )

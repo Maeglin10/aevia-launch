@@ -17,6 +17,8 @@ import { ArrowRight, MapPin, Compass, Calendar, Users, Star, ArrowLeft, Globe, S
 import "../premium.css";
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientCity,
+  clientName,
   clientReviews,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -830,6 +832,11 @@ export default function WanderlustPage() {
             </div>
           </div>
         </div>
+      </footer>
+      {/* PIED_MINIMAL — ce thème n'affichait pas la ville du client */}
+      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.55 }}>
+        {clientName(sessionData) ?? "impact-140"}
+        {clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
       </footer>
     </div>
   );

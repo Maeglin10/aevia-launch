@@ -26,6 +26,8 @@ import { Separator } from "@/components/ui/separator";
 import { Compass, Layout, Maximize, Ruler, Sparkles, Globe, Mail, MapPin, ChevronRight, ArrowRight, X, Menu, Box, Home, Layers, PencilLine, Focus, Frame, Monitor, Share2, Lock, Search, ShoppingBag } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientCity,
+  clientName,
   clientStats,
 } from "@/lib/templates/clientContent";
 
@@ -728,6 +730,11 @@ export default function NovaSpacesPage() {
         ::-webkit-scrollbar{width:4px;background:#f7f7f7}
         ::-webkit-scrollbar-thumb{background:#1a1a1a}
       `}</style>
+      {/* PIED_MINIMAL — ce thème n'affichait pas la ville du client */}
+      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.55 }}>
+        {clientName({ formData: fd }) ?? "impact-100"}
+        {clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
+      </footer>
     </div>
   );
 }

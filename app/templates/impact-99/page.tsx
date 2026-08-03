@@ -1,5 +1,9 @@
 "use client";
-import { clientPhotos } from "@/lib/templates/clientContent";
+import {
+  clientCity,
+  clientName,
+  clientPhotos,
+} from "@/lib/templates/clientContent";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 // @ts-nocheck
 
@@ -1641,6 +1645,11 @@ export default function EmberGrillPage() {
         ::-webkit-scrollbar{width:4px;background:#050505}
         ::-webkit-scrollbar-thumb{background:#ff4d00}
       `}</style>
+      {/* PIED_MINIMAL — ce thème n'affichait pas la ville du client */}
+      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.55 }}>
+        {clientName({ formData: fd }) ?? "impact-99"}
+        {clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
+      </footer>
     </div>
   );
 }
