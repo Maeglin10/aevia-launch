@@ -11,6 +11,7 @@ import {
   clientCity,
   clientReviews,
   clientServices,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -68,12 +69,13 @@ const FEATURES_DEMO = [
 ]
 let FEATURES = FEATURES_DEMO;
 
-const STATS = [
+const STATS_DEMO = [
   { value: "14K", label: "GitHub Stars" },
   { value: "2.3M", label: "Weekly Downloads" },
   { value: "450+", label: "Contributors" },
   { value: "99.8%", label: "Test Coverage" },
 ]
+let STATS = STATS_DEMO;
 
 const INSTALL_CODE = `npm install wavefx
 
@@ -128,6 +130,7 @@ export default function WaveFXPage() {
   }, []);
 
   fd = session?.formData;
+  STATS = resolveList(clientStats(session), STATS_DEMO);
   FEATURES = resolveList(
     clientServices(session)?.map((s, i) => ({ ...FEATURES_DEMO[i % FEATURES_DEMO.length], title: s.title })),
     FEATURES_DEMO,

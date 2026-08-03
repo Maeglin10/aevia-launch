@@ -19,6 +19,7 @@ import {
   clientPhotos,
   clientReviews,
   clientServices,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -58,12 +59,13 @@ let C: Record<string, string> = {
 const FONT = "'Nunito', system-ui, sans-serif"
 const FONT_SERIF = "'Lora', Georgia, serif"
 
-const STATS = [
+const STATS_DEMO = [
   { value: "15 ans", label: "De pratique clinique" },
   { value: "800+", label: "Patients accompagnés" },
   { value: "Remboursé", label: "Complémentaires santé" },
   { value: "48h", label: "Premier rendez-vous" },
 ]
+let STATS = STATS_DEMO;
 
 
 const NAV = [
@@ -165,6 +167,7 @@ export default function CabinetMoreauPage() {
   }, []);
 
   fd = session?.formData;
+  STATS = resolveList(clientStats(session), STATS_DEMO);
   HERO_VIEWS = HERO_VIEWS_DEMO.map((row, i) => ({
     ...row,
     img: clientPhotos(session)[0 + i] || row.img,

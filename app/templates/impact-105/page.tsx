@@ -10,6 +10,7 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -48,12 +49,13 @@ let C: Record<string, string> = {
 const FONT = "'Mulish', system-ui, sans-serif"
 const FONT_SERIF = "'Playfair Display', Georgia, serif"
 
-const STATS = [
+const STATS_DEMO = [
   { value: "12 ans", label: "De passion florale" },
   { value: "800+", label: "Mariages fleuris" },
   { value: "4.9★", label: "Avis Google" },
   { value: "48h", label: "Délai bouquets sur mesure" },
 ]
+let STATS = STATS_DEMO;
 
 
 const NAV = [
@@ -146,6 +148,7 @@ export default function AtelierBloomPage() {
   }, []);
 
   fd = session?.formData;
+  STATS = resolveList(clientStats(session), STATS_DEMO);
   AVIS = resolveList(
     clientReviews(session)?.map((r, i) => ({ ...AVIS_DEMO[i % AVIS_DEMO.length], texte: r.text, auteur: r.author })),
     AVIS_DEMO,

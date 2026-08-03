@@ -44,6 +44,7 @@ import {
   clientPhotos,
   clientReviews,
   clientServices,
+  clientStats,
   clientTeam,
 } from "@/lib/templates/clientContent";
 
@@ -227,12 +228,13 @@ const PROCESS = [
   },
 ];
 
-const STATS = [
+const STATS_DEMO = [
   { value: 180, suffix: "+", label: "Projets livrés" },
   { value: 12, suffix: " ans", label: "D'expérience" },
   { value: 94, suffix: "%", label: "Clients fidèles" },
   { value: 3, suffix: " awards", label: "Red Dot, ADC, Awwwards" },
 ];
+let STATS = STATS_DEMO;
 
 const TESTIMONIALS_DEMO = [
   {
@@ -596,6 +598,7 @@ export default function Impact130Page() {
   }, []);
 
   fd = session?.formData;
+  STATS = resolveList(clientStats(session), STATS_DEMO);
   PROJECTS = PROJECTS_DEMO.map((row, i) => ({
     ...row,
     image: clientPhotos(session)[0 + i] || row.image,

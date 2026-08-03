@@ -24,6 +24,7 @@ import {
   clientPhotos,
   clientReviews,
   clientServices,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -43,7 +44,7 @@ function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: nu
   )
 }
 
-const STATS = [
+const STATS_DEMO = [
   { value: "14,200+", label: "Companies", sub: "across 89 countries" },
   { value: "99.99%", label: "Uptime SLA", sub: "12-month average" },
   { value: "42ms", label: "Avg Latency", sub: "global edge network" },
@@ -51,6 +52,7 @@ const STATS = [
   { value: "$2.4B", label: "Data Processed", sub: "monthly transaction volume" },
   { value: "SOC 2", label: "Certified", sub: "Type II + ISO 27001" },
 ]
+let STATS = STATS_DEMO;
 
 const FEATURE_TABS_DEMO = [
   {
@@ -265,6 +267,7 @@ export default function NovaPlatformSaaS() {
   }, []);
 
   fd = session?.formData;
+  STATS = resolveList(clientStats(session), STATS_DEMO);
   FEATURE_TABS = FEATURE_TABS_DEMO.map((row, i) => ({
     ...row,
     img: clientPhotos(session)[0 + i] || row.img,

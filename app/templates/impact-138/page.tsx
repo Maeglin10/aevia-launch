@@ -6,9 +6,11 @@ import React, {useRef, useState, useEffect} from 'react'
 import { motion, useScroll, useTransform, useInView } from "framer-motion"
 import { Eye, Phone, Mail, MapPin, Clock, Star, CheckCircle, ArrowRight } from "lucide-react"
 import {
+  clientCertifications,
   clientCity,
   clientReviews,
   clientServices,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -47,12 +49,13 @@ let C: Record<string, string> = {
 };
 const FONT = "'Nunito', system-ui, sans-serif"
 
-const STATS = [
+const STATS_DEMO = [
   { value: "20 ans", label: "D'expertise optique" },
   { value: "3 500+", label: "Clients équipés" },
   { value: "4.8★", label: "Avis Google" },
   { value: "1h", label: "Examen de vue complet" },
 ]
+let STATS = STATS_DEMO;
 
 
 const NAV = [
@@ -89,12 +92,13 @@ const OFFRES_DEMO = [
 ]
 let OFFRES = OFFRES_DEMO;
 
-const ENGAGEMENTS = [
+const ENGAGEMENTS_DEMO = [
   "Opticiens diplômés DSCVO sur tous nos créneaux",
   "Tiers-payant intégral avec toutes les mutuelles",
   "Délai de commande lunettes : 5 à 7 jours ouvrés",
   "Garantie 2 ans sur montures et verres",
 ]
+let ENGAGEMENTS = ENGAGEMENTS_DEMO;
 
 const AVIS_DEMO = [
   { texte: "Examen de vue très complet avec des explications claires. J'avais peur de devoir attendre longtemps pour mes lunettes, elles étaient prêtes en 5 jours. Qualité irréprochable.", auteur: "Nicolas P.", detail: "Lunettes progressives" },
@@ -146,6 +150,8 @@ export default function VisionClairePage() {
   }, []);
 
   fd = session?.formData;
+  STATS = resolveList(clientStats(session), STATS_DEMO);
+  ENGAGEMENTS = resolveList(clientCertifications(session), ENGAGEMENTS_DEMO);
   OFFRES = resolveList(
     clientServices(session)?.map((s, i) => ({ ...OFFRES_DEMO[i % OFFRES_DEMO.length], titre: s.title })),
     OFFRES_DEMO,

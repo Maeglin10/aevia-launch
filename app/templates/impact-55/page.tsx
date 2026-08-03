@@ -6,9 +6,11 @@ import React, {useRef, useState, useEffect} from 'react'
 import { motion, useScroll, useTransform, useInView } from "framer-motion"
 import { Phone, Mail, MapPin, Clock, Star, CheckCircle, ArrowRight, Shield } from "lucide-react"
 import {
+  clientCertifications,
   clientCity,
   clientReviews,
   clientServices,
+  clientStats,
   clientTeam,
 } from "@/lib/templates/clientContent";
 
@@ -46,12 +48,13 @@ let C: Record<string, string> = {
 };const FONT = "'Source Serif 4', Georgia, serif"
 const FONT_BODY = "'Source Sans 3', system-ui, sans-serif"
 
-const STATS = [
+const STATS_DEMO = [
   { value: "22 ans", label: "D'exercice au barreau" },
   { value: "1 200+", label: "Dossiers traités" },
   { value: "94%", label: "Taux de succès" },
   { value: "48h", label: "Premier entretien" },
 ]
+let STATS = STATS_DEMO;
 
 
 const NAV = [
@@ -79,12 +82,13 @@ const DOMAINES = [
   { titre: "Protection des données (RGPD)", desc: "Mise en conformité RGPD, rédaction de politiques de confidentialité, DPO externalisé, accompagnement en cas de violations.", tag: "RGPD" },
 ]
 
-const ENGAGEMENTS = [
+const ENGAGEMENTS_DEMO = [
   "Membre du Barreau de Paris depuis 2002",
   "Devis honoraires transparents avant tout engagement",
   "Convention d'honoraires systématique et détaillée",
   "Aide juridictionnelle acceptée sous conditions",
 ]
+let ENGAGEMENTS = ENGAGEMENTS_DEMO;
 
 const AVIS_DEMO = [
   { texte: "Maître Renard a géré un litige commercial complexe avec une rigueur impressionnante. Gain de cause en première instance. Communication impeccable tout au long de la procédure.", auteur: "Pierre V.", detail: "Litige commercial B2B" },
@@ -136,6 +140,8 @@ export default function CabinetRenardPage() {
   }, []);
 
   fd = session?.formData;
+  STATS = resolveList(clientStats(session), STATS_DEMO);
+  ENGAGEMENTS = resolveList(clientCertifications(session), ENGAGEMENTS_DEMO);
   AVIS = resolveList(
     clientReviews(session)?.map((r, i) => ({ ...AVIS_DEMO[i % AVIS_DEMO.length], texte: r.text, auteur: r.author })),
     AVIS_DEMO,

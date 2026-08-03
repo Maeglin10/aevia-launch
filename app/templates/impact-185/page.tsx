@@ -46,7 +46,7 @@ const NAV = [
   { l: "Contact", h: "#contact" },
 ];
 
-const TARIFS = [
+const TARIFS_DEMO = [
   { a: "Coupe homme", p: "29 €", n: "Shampooing, coupe aux ciseaux, coiffage. 40 minutes." },
   { a: "Coupe & barbe", p: "45 €", n: "Le classique de la maison. Serviette chaude, rasoir droit, baume." },
   { a: "Taille de barbe", p: "22 €", n: "Contours au rasoir, huile et baume. 25 minutes." },
@@ -54,6 +54,7 @@ const TARIFS = [
   { a: "Coupe enfant (-12 ans)", p: "20 €", n: "Sans rendez-vous le mercredi après-midi." },
   { a: "Forfait marié", p: "80 €", n: "Essai deux semaines avant, prestation complète le jour J." },
 ];
+let TARIFS = TARIFS_DEMO;
 
 const SERVICES_DEMO = [
   { title: "Coupe classique", price: "28€", desc: "Coupe ciseau + tondeuse, finitions rasoir droite. Inclut consultation, shampoing, séchage et coiffage." },
@@ -252,6 +253,10 @@ export default function GentlemansCutPage() {
   }, []);
 
   fd = session?.formData;
+  TARIFS = resolveList(
+    clientServices(session)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
+    TARIFS_DEMO,
+  );
   SERVICES = resolveList(
     clientServices(session)?.map((s, i) => ({ ...SERVICES_DEMO[i % SERVICES_DEMO.length], title: s.title })),
     SERVICES_DEMO,

@@ -12,6 +12,7 @@ import {
   clientPhotos,
   clientReviews,
   clientServices,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -51,12 +52,13 @@ let C: Record<string, string> = {
 const FONT_SERIF = "'Playfair Display', Georgia, serif"
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
-const STATS = [
+const STATS_DEMO = [
   { value: "850+", label: "Biens vendus" },
   { value: "98%", label: "Satisfaction clients" },
   { value: "42j", label: "Délai moyen de vente" },
   { value: "20 ans", label: "D'expertise" },
 ]
+let STATS = STATS_DEMO;
 
 const BIENS_DEMO = [
   { titre: "Appartement de standing", lieu: "Paris 16e", prix: "1 480 000 €", surface: "145 m²", pieces: 5, bains: 2, tag: "Exclusivité", img: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&q=80" },
@@ -127,6 +129,7 @@ export default function PierreCoPage() {
   }, []);
 
   fd = session?.formData;
+  STATS = resolveList(clientStats(session), STATS_DEMO);
   TEMOIGNAGES = resolveList(
     clientReviews(session)?.map((r, i) => ({ ...TEMOIGNAGES_DEMO[i % TEMOIGNAGES_DEMO.length], texte: r.text, auteur: r.author })),
     TEMOIGNAGES_DEMO,

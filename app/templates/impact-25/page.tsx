@@ -10,6 +10,7 @@ import {
   clientPhotos,
   clientReviews,
   clientServices,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -48,12 +49,13 @@ let C: Record<string, string> = {
 };const FONT = "'Space Grotesk', system-ui, sans-serif"
 const FONT_BODY = "'Inter', system-ui, sans-serif"
 
-const STATS = [
+const STATS_DEMO = [
   { value: "8 ans", label: "D'expertise digitale" },
   { value: "140+", label: "Projets livrés" },
   { value: "4.9★", label: "Note clients" },
   { value: "30j", label: "Délai MVP moyen" },
 ]
+let STATS = STATS_DEMO;
 
 
 const NAV = [
@@ -143,6 +145,7 @@ export default function PixelRepublicPage() {
   }, []);
 
   fd = session?.formData;
+  STATS = resolveList(clientStats(session), STATS_DEMO);
   REALISATIONS = REALISATIONS_DEMO.map((row, i) => ({
     ...row,
     img: clientPhotos(session)[0 + i] || row.img,

@@ -42,6 +42,7 @@ import {
   clientPhotos,
   clientReviews,
   clientServices,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -219,12 +220,13 @@ const ARTISTS = [
   },
 ];
 
-const STATS = [
+const STATS_DEMO = [
   { value: 2560, label: "Pièces réalisées", suffix: "+" },
   { value: 14, label: "Années d'excellence", suffix: "" },
   { value: 98, label: "Satisfaction client", suffix: "%" },
   { value: 3, label: "Artistes certifiés", suffix: "" },
 ];
+let STATS = STATS_DEMO;
 
 const STYLE_GUIDE = [
   {
@@ -553,6 +555,7 @@ export default function Impact89Page() {
   }, []);
 
   fd = session?.formData;
+  STATS = resolveList(clientStats(session), STATS_DEMO);
   TESTIMONIALS = resolveList(
     clientReviews(session)?.map((r, i) => ({ ...TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length], text: r.text, name: r.author })),
     TESTIMONIALS_DEMO,

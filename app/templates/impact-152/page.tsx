@@ -11,6 +11,7 @@ import {
   clientPhotos,
   clientReviews,
   clientServices,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -58,12 +59,13 @@ const FONT = "'Cormorant Garamond', Georgia, serif"
 const FONT_SANS = "'DM Sans', system-ui, sans-serif"
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
-const STATS = [
+const STATS_DEMO = [
   { value: "130+", label: "Projets livrés" },
   { value: "12 ans", label: "D'expérience" },
   { value: "4.9★", label: "Note clients" },
   { value: "8", label: "Prix de design" },
 ]
+let STATS = STATS_DEMO;
 
 const PROJETS_DEMO = [
   { titre: "Villa contemporaine", lieu: "Lyon 5e", surface: "220 m²", style: "Minimaliste", tag: "Résidentiel", img: "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?w=800&q=80" },
@@ -143,6 +145,7 @@ export default function StudioNomaPage() {
   }, []);
 
   fd = session?.formData;
+  STATS = resolveList(clientStats(session), STATS_DEMO);
   TEMOIGNAGES = resolveList(
     clientReviews(session)?.map((r, i) => ({ ...TEMOIGNAGES_DEMO[i % TEMOIGNAGES_DEMO.length], texte: r.text, auteur: r.author })),
     TEMOIGNAGES_DEMO,

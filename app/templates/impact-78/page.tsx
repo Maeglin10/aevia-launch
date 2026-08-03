@@ -12,6 +12,7 @@ import {
   clientPhotos,
   clientReviews,
   clientServices,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -97,12 +98,13 @@ const PROCESS_STEPS = [
   },
 ];
 
-const STATS = [
+const STATS_DEMO = [
   { value: 86, suffix: "", label: "Projets livrés" },
   { value: 34, suffix: "", label: "Clients actifs" },
   { value: 9, suffix: "", label: "Prix créatifs" },
   { value: 6, suffix: " ans", label: "D'existence" },
 ];
+let STATS = STATS_DEMO;
 
 const TESTIMONIALS_DEMO = [
   {
@@ -156,6 +158,7 @@ export default function AetherRoasteryPage() {
   }, []);
 
   fd = session?.formData;
+  STATS = resolveList(clientStats(session), STATS_DEMO);
   WORK_REEL = WORK_REEL_DEMO.map((row, i) => ({
     ...row,
     img: clientPhotos(session)[0 + i] || row.img,

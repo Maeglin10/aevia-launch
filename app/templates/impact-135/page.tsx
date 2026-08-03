@@ -9,6 +9,7 @@ import {
   clientCity,
   clientReviews,
   clientServices,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -197,12 +198,13 @@ const PLANS = [
   },
 ];
 
-const STATS = [
+const STATS_DEMO = [
   { val: "$2.8T", label: "Volume processed/year" },
   { val: "0.28ms", label: "Avg execution latency" },
   { val: "99.99%", label: "Platform uptime" },
   { val: "48K+", label: "Active traders" },
 ];
+let STATS = STATS_DEMO;
 
 const NAV_LINKS = ["Markets", "Strategies", "Pricing", "Docs", "Traders"];
 
@@ -1029,6 +1031,7 @@ export default function Impact135Page() {
   }, []);
 
   fd = session?.formData;
+  STATS = resolveList(clientStats(session), STATS_DEMO);
   FEATURES = resolveList(
     clientServices(session)?.map((s, i) => ({ ...FEATURES_DEMO[i % FEATURES_DEMO.length], title: s.title })),
     FEATURES_DEMO,
